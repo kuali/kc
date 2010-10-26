@@ -64,6 +64,7 @@ import org.kuali.kra.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.service.AwardDirectFandADistributionService;
 import org.kuali.kra.service.AwardReportsService;
@@ -934,6 +935,7 @@ public class AwardAction extends BudgetParentActionBase {
      */
     public ActionForward specialReview(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) {
+        ((AwardForm) form).getSpecialReviewHelper().prepareView();
         return mapping.findForward(Constants.MAPPING_AWARD_SPECIAL_REVIEW_PAGE);
     }
 

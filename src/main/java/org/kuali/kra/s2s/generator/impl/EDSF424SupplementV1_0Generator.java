@@ -23,13 +23,17 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.globalLibraryV10.YesNoDataType;
 import gov.grants.apply.system.globalLibraryV10.YesNoNotApplicableDataType;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.Organization;
+import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 /**
@@ -91,8 +95,8 @@ public class EDSF424SupplementV1_0Generator extends
 				.getApplicantOrganization().getOrganization();
 		for (ProposalSpecialReview specialReview : pdDoc
 				.getDevelopmentProposal().getPropSpecialReviews()) {
-			if (specialReview.getSpecialReviewCode() != null
-					&& specialReview.getSpecialReviewCode().equals(
+			if (specialReview.getSpecialReviewTypeCode() != null
+					&& specialReview.getSpecialReviewTypeCode().equals(
 							SPECIAL_REVIEW_CODE)) {
 				edsf424Supplement.setIsHumanResearch(YesNoDataType.YES);
 				if (specialReview.getApprovalTypeCode() != null
@@ -104,11 +108,14 @@ public class EDSF424SupplementV1_0Generator extends
 							.newInstance();
 					exemptionsNumber
 							.setIsHumanResearchExempt(YesNoDataType.YES);
-					if (specialReview.getExemptNumbers() != null
-							&& specialReview.getExemptNumbers().size() > 0) {
+					if (specialReview.getSpecialReviewExemptions() != null
+							&& specialReview.getSpecialReviewExemptions().size() > 0) {
+					    List<String> exemptionTypeCodes = new ArrayList<String>();
+					    for (SpecialReviewExemption exemption : specialReview.getSpecialReviewExemptions()) {
+					        exemptionTypeCodes.add(exemption.getExemptionTypeCode());
+					    }
 						exemptionsNumber.setStringValue(s2sUtilService
-						        .convertStringListToString(specialReview
-										.getExemptNumbers()));
+						        .convertStringListToString(exemptionTypeCodes));
 					}
 					edsf424Supplement.setExemptionsNumber(exemptionsNumber);
 				} else {

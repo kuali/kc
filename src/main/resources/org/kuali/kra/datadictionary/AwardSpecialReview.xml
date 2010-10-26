@@ -16,10 +16,10 @@
  */
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 	<bean id="AwardSpecialReview" parent="AwardSpecialReview-parentBean" />
 	<bean id="AwardSpecialReview-parentBean" abstract="true" parent="BusinessObjectEntry">
@@ -36,7 +36,7 @@
 			<list>
 				<ref bean="AwardSpecialReview-awardSpecialReviewId" />
 				<ref bean="AwardSpecialReview-specialReviewNumber" />
-				<ref bean="AwardSpecialReview-specialReviewCode" />
+				<ref bean="AwardSpecialReview-specialReviewTypeCode" />
 				<ref bean="AwardSpecialReview-approvalTypeCode" />
 				<ref bean="AwardSpecialReview-protocolNumber" />
 				<ref bean="AwardSpecialReview-applicationDate" />
@@ -62,44 +62,41 @@
 		</property>
 		<property name="control" >
 			<bean parent="TextControlDefinition"
-				p:size="10" />
+				  p:size="10" />
 		</property>
 		<property name="summary" value="Award Special Review Id" />
 		<property name="description" value="Award Special Review Id" />
 	</bean>
 
 	<bean id="AwardSpecialReview-specialReviewNumber" parent="AwardSpecialReview-specialReviewNumber-parentBean" />
-	<bean id="AwardSpecialReview-specialReviewNumber-parentBean" abstract="true" parent="SpecialReviewReference-specialReviewNumber-parentBean">
-	</bean>
-	<bean id="AwardSpecialReview-specialReviewCode" parent="AwardSpecialReview-specialReviewCode-parentBean" />
-	<bean id="AwardSpecialReview-specialReviewCode-parentBean" abstract="true" parent="SpecialReviewReference-specialReviewCode">
-	</bean>
+	<bean id="AwardSpecialReview-specialReviewNumber-parentBean" abstract="true" parent="SpecialReview-specialReviewNumber-parentBean" />
+	
+	<bean id="AwardSpecialReview-specialReviewTypeCode" parent="AwardSpecialReview-specialReviewTypeCode-parentBean" />
+	<bean id="AwardSpecialReview-specialReviewTypeCode-parentBean" abstract="true" parent="SpecialReview-specialReviewTypeCode" />
+	
 	<bean id="AwardSpecialReview-approvalTypeCode" parent="AwardSpecialReview-approvalTypeCode-parentBean" />
-	<bean id="AwardSpecialReview-approvalTypeCode-parentBean" abstract="true" parent="SpecialReviewReference-approvalTypeCode" />
+	<bean id="AwardSpecialReview-approvalTypeCode-parentBean" abstract="true" parent="SpecialReview-approvalTypeCode" />
 
 	<bean id="AwardSpecialReview-protocolNumber" parent="AwardSpecialReview-protocolNumber-parentBean" />
-	<bean id="AwardSpecialReview-protocolNumber-parentBean" abstract="true" parent="SpecialReviewReference-protocolNumber" />
+	<bean id="AwardSpecialReview-protocolNumber-parentBean" abstract="true" parent="SpecialReview-protocolNumber" />
 
 	<bean id="AwardSpecialReview-applicationDate" parent="AwardSpecialReview-applicationDate-parentBean" />
-	<bean id="AwardSpecialReview-applicationDate-parentBean" abstract="true" parent="SpecialReviewReference-applicationDate" />
+	<bean id="AwardSpecialReview-applicationDate-parentBean" abstract="true" parent="SpecialReview-applicationDate" />
 
 	<bean id="AwardSpecialReview-approvalDate" parent="AwardSpecialReview-approvalDate-parentBean" />
-	<bean id="AwardSpecialReview-approvalDate-parentBean" abstract="true" parent="SpecialReviewReference-approvalDate" />
+	<bean id="AwardSpecialReview-approvalDate-parentBean" abstract="true" parent="SpecialReview-approvalDate" />
 
 	<bean id="AwardSpecialReview-expirationDate" parent="AwardSpecialReview-expirationDate-parentBean" />
-	<bean id="AwardSpecialReview-expirationDate-parentBean" abstract="true" parent="SpecialReviewReference-expirationDate" />
+	<bean id="AwardSpecialReview-expirationDate-parentBean" abstract="true" parent="SpecialReview-expirationDate" />
 
 	<bean id="AwardSpecialReview-comments" parent="AwardSpecialReview-comments-parentBean" />
-	<bean id="AwardSpecialReview-comments-parentBean" abstract="true" parent="SpecialReviewReference-comments" />
-
-	<bean id="AwardSpecialReview-specialReviewExemptions" parent="AwardSpecialReview-specialReviewExemptions-parentBean" />
-	<bean id="AwardSpecialReview-specialReviewExemptions-parentBean" abstract="true" parent="SpecialReviewReference-specialReviewExemptions" />
+	<bean id="AwardSpecialReview-comments-parentBean" abstract="true" parent="SpecialReview-comments" />
 	
 	<bean id="AwardSpecialReview-versionNumber" parent="AwardSpecialReview-versionNumber-parentBean" />
-	<bean id="AwardSpecialReview-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-	</bean>
+	<bean id="AwardSpecialReview-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber" />
 
 	<!-- Business Object Inquiry Definition -->
+	
 	<bean id="AwardSpecialReview-inquiryDefinition" parent="AwardSpecialReview-inquiryDefinition-parentBean" />
 	<bean id="AwardSpecialReview-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 		<property name="title" value="Award Special Review Id" />
@@ -111,24 +108,24 @@
 					<property name="inquiryFields" >
 						<list>
 							<bean parent="FieldDefinition"
-								p:attributeName="awardSpecialReviewId" 
-								p:forceInquiry="true" />
+								  p:attributeName="awardSpecialReviewId" 
+								  p:forceInquiry="true" />
 							<bean parent="FieldDefinition"
-								p:attributeName="specialReviewNumber" />
+								  p:attributeName="specialReviewNumber" />
 							<bean parent="FieldDefinition"
-								p:attributeName="specialReviewCode" />
+								  p:attributeName="specialReviewTypeCode" />
 							<bean parent="FieldDefinition"
-								p:attributeName="approvalTypeCode" />
+								  p:attributeName="approvalTypeCode" />
 							<bean parent="FieldDefinition"
-								p:attributeName="protocolNumber" />
+								  p:attributeName="protocolNumber" />
 							<bean parent="FieldDefinition"
-								p:attributeName="applicationDate" />
+								  p:attributeName="applicationDate" />
 							<bean parent="FieldDefinition"
-								p:attributeName="approvalDate" />
+								  p:attributeName="approvalDate" />
 							<bean parent="FieldDefinition"
-								p:attributeName="expirationDate" />
+								  p:attributeName="expirationDate" />
 							<bean parent="FieldDefinition"
-								p:attributeName="comments" />
+								  p:attributeName="comments" />
 						</list>
 					</property>
 				</bean>
@@ -137,11 +134,11 @@
 	</bean>
 
 	<!-- Business Object Lookup Definition -->
+	
 	<bean id="AwardSpecialReview-lookupDefinition" parent="AwardSpecialReview-lookupDefinition-parentBean" />
 	<bean id="AwardSpecialReview-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Award Special Review Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
 		<property name="defaultSort" >
 			<bean parent="SortDefinition" >
 		</bean>
@@ -149,48 +146,49 @@
 		<property name="lookupFields" >
 			<list>
 				<bean parent="FieldDefinition"
-					p:attributeName="awardSpecialReviewId" 
-					p:forceInquiry="true" />
+					  p:attributeName="awardSpecialReviewId" 
+					  p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
-					p:attributeName="specialReviewNumber" />
+					  p:attributeName="specialReviewNumber" />
 				<bean parent="FieldDefinition"
-					p:attributeName="specialReviewCode" />
+					  p:attributeName="specialReviewTypeCode" />
 				<bean parent="FieldDefinition"
-					p:attributeName="approvalTypeCode" />
+					  p:attributeName="approvalTypeCode" />
 				<bean parent="FieldDefinition"
-					p:attributeName="protocolNumber" />
+					  p:attributeName="protocolNumber" />
 				<bean parent="FieldDefinition"
-					p:attributeName="applicationDate" />
+					  p:attributeName="applicationDate" />
 				<bean parent="FieldDefinition"
-					p:attributeName="approvalDate" />
+					  p:attributeName="approvalDate" />
 				<bean parent="FieldDefinition"
-					p:attributeName="expirationDate" />
+					  p:attributeName="expirationDate" />
 				<bean parent="FieldDefinition"
-					p:attributeName="comments" />
+					  p:attributeName="comments" />
 			</list>
 		</property>
 		<property name="resultFields" >
 			<list>
 				<bean parent="FieldDefinition"
-					p:attributeName="awardSpecialReviewId" 
-					p:forceInquiry="true" />
+					  p:attributeName="awardSpecialReviewId" 
+					  p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
-					p:attributeName="specialReviewNumber" />
+					  p:attributeName="specialReviewNumber" />
 				<bean parent="FieldDefinition"
-					p:attributeName="specialReviewCode" />
+					  p:attributeName="specialReviewTypeCode" />
 				<bean parent="FieldDefinition"
-					p:attributeName="approvalTypeCode" />
+					  p:attributeName="approvalTypeCode" />
 				<bean parent="FieldDefinition"
-					p:attributeName="protocolNumber" />
+					  p:attributeName="protocolNumber" />
 				<bean parent="FieldDefinition"
-					p:attributeName="applicationDate" />
+					  p:attributeName="applicationDate" />
 				<bean parent="FieldDefinition"
-					p:attributeName="approvalDate" />
+					  p:attributeName="approvalDate" />
 				<bean parent="FieldDefinition"
-					p:attributeName="expirationDate" />
+					  p:attributeName="expirationDate" />
 				<bean parent="FieldDefinition"
-					p:attributeName="comments" />
+					  p:attributeName="comments" />
 			</list>
 		</property>
 	</bean>
+	
 </beans>

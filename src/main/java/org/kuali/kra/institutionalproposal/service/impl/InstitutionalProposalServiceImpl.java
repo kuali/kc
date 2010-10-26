@@ -42,18 +42,18 @@ import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocumen
 import org.kuali.kra.institutionalproposal.exception.InstitutionalProposalCreationException;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReview;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReviewExemption;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalVersioningService;
+import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
+import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReviewExemption;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonCreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
-import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
+import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -479,12 +479,12 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         ipSpecialReview.setComments(dpSpecialReview.getComments());
         ipSpecialReview.setExpirationDate(dpSpecialReview.getExpirationDate());
         ipSpecialReview.setProtocolNumber(dpSpecialReview.getProtocolNumber());
-        ipSpecialReview.setSpecialReview(dpSpecialReview.getSpecialReview());
-        ipSpecialReview.setSpecialReviewApprovalType(dpSpecialReview.getSpecialReviewApprovalType());
-        ipSpecialReview.setSpecialReviewCode(dpSpecialReview.getSpecialReviewCode());
+        ipSpecialReview.setSpecialReviewType(dpSpecialReview.getSpecialReviewType());
+        ipSpecialReview.setApprovalType(dpSpecialReview.getApprovalType());
+        ipSpecialReview.setSpecialReviewTypeCode(dpSpecialReview.getSpecialReviewTypeCode());
         ipSpecialReview.setSpecialReviewNumber(dpSpecialReview.getSpecialReviewNumber());
         ipSpecialReview.setValidSpecialReviewApproval(dpSpecialReview.getValidSpecialReviewApproval());
-        for (String dpExempt : dpSpecialReview.getExemptNumbers()) {
+        for (String dpExempt : dpSpecialReview.getExemptionTypeCodes()) {
             InstitutionalProposalSpecialReviewExemption newIpSpecialReviewExemption = ipSpecialReview.createSpecialReviewExemption(dpExempt);
             ipSpecialReview.getSpecialReviewExemptions().add(newIpSpecialReviewExemption);
         }

@@ -15,8 +15,6 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="readOnly" value="${KualiForm.editingMode['viewOnly']}" scope="request" />
-
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="institutionalProposalSpecialReview"
@@ -29,10 +27,15 @@
   	
 <div align="right"><kul:help documentTypeName="InstitutionalProposalDocument" pageName="Special Review" /></div>
 
-
-<kra-ip:institutionalProposalSpecialReview />
-
-<kul:panelFooter />	
+<div id="workarea">
+	<kra-specialreview:specialReviewPage attributes="${DataDictionary.InstitutionalProposalSpecialReview.attributes}"
+	                                     exemptionAttributes="${DataDictionary.InstitutionalProposalSpecialReviewExemption.attributes}"
+	                                     collectionReference="${KualiForm.document.institutionalProposal.specialReviews}"
+	                                     collectionProperty="document.institutionalProposalList[0].specialReviews"
+	                                     action="institutionalProposalSpecialReview" />
+	
+	<kul:panelFooter />
+</div>
 
 <kul:documentControls transactionalDocument="false" suppressRoutingControls="true" suppressCancelButton="true"/>
 <script language="javascript" src="scripts/kuali_application.js"></script>

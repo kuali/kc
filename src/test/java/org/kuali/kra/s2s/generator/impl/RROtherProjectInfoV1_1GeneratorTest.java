@@ -28,9 +28,9 @@ import org.kuali.kra.bo.Organization;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
-import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.s2s.generator.S2STestBase;
 import org.kuali.kra.s2s.generator.util.S2STestUtils;
 
@@ -52,7 +52,7 @@ public class RROtherProjectInfoV1_1GeneratorTest extends S2STestBase<RROtherProj
 
         ProposalSpecialReview specialReview = new ProposalSpecialReview();
         specialReview.setSpecialReviewNumber(1);
-        specialReview.setSpecialReviewCode("1");
+        specialReview.setSpecialReviewTypeCode("1");
         specialReview.setComments("E1,E2,E3");
         specialReview.setApprovalTypeCode("4");
         specialReview.setApplicationDate(new Date(0));
@@ -60,7 +60,7 @@ public class RROtherProjectInfoV1_1GeneratorTest extends S2STestBase<RROtherProj
         organization.setHumanSubAssurance("Human");
         ProposalSpecialReview specialReview1 = new ProposalSpecialReview();
         specialReview1.setSpecialReviewNumber(2);
-        specialReview1.setSpecialReviewCode("2");
+        specialReview1.setSpecialReviewTypeCode("2");
         specialReview1.setApplicationDate(new Date(0));
         specialReview1.setApprovalTypeCode("4");
         Organization organization1 = new Organization();

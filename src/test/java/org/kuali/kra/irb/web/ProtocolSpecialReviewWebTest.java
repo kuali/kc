@@ -52,14 +52,16 @@ public class ProtocolSpecialReviewWebTest extends ProtocolWebTestBase {
     private static final String EXEMPTION_TYPE_E1_CODE = "1";
     private static final String EXEMPTION_TYPE_E1_NAME = "E1";
     
-    private static final String SPECIAL_REVIEW_CODE_FIELD = "specialReviewHelper.newSpecialReview.specialReviewCode";
-    private static final String APPROVAL_TYPE_CODE_FIELD = "specialReviewHelper.newSpecialReview.approvalTypeCode";
-    private static final String PROTOCOL_NUMBER_FIELD = "specialReviewHelper.newSpecialReview.protocolNumber";
-    private static final String APPLICATION_DATE_FIELD = "specialReviewHelper.newSpecialReview.applicationDate";
-    private static final String APPROVAL_DATE_FIELD = "specialReviewHelper.newSpecialReview.approvalDate";
-    private static final String EXPIRATION_DATE_FIELD = "specialReviewHelper.newSpecialReview.expirationDate";
-    private static final String EXEMPTION_TYPE_CODE_FIELD = "specialReviewHelper.newSpecialReview.exemptionTypeCodes";
-    private static final String COMMENTS_FIELD = "specialReviewHelper.newSpecialReview.comments";
+    private static final String NEW_SPECIAL_REVIEW_TYPE_CODE_FIELD = "specialReviewHelper.newSpecialReview.specialReviewTypeCode";
+    private static final String NEW_APPROVAL_TYPE_CODE_FIELD = "specialReviewHelper.newSpecialReview.approvalTypeCode";
+    private static final String NEW_PROTOCOL_NUMBER_FIELD = "specialReviewHelper.newSpecialReview.protocolNumber";
+    private static final String NEW_APPLICATION_DATE_FIELD = "specialReviewHelper.newSpecialReview.applicationDate";
+    private static final String NEW_APPROVAL_DATE_FIELD = "specialReviewHelper.newSpecialReview.approvalDate";
+    private static final String NEW_EXPIRATION_DATE_FIELD = "specialReviewHelper.newSpecialReview.expirationDate";
+    private static final String NEW_EXEMPTION_TYPE_CODES_FIELD = "specialReviewHelper.newSpecialReview.exemptionTypeCodes";
+    private static final String NEW_COMMENTS_FIELD = "specialReviewHelper.newSpecialReview.comments";
+    
+    private static final String EXEMPTION_TYPE_CODES_FIELD = "document.protocolList[0].specialReviews[0].exemptionTypeCodes";
     
     private static final String METHODTOCALL_ADDSPECIALREVIEW = "methodToCall.addSpecialReview.anchorSpecialReview";
     private static final String METHODCOCALL_DELETESPECIALREVIEW = "methodToCall.deleteSpecialReview.line0.anchor0";
@@ -185,22 +187,22 @@ public class ProtocolSpecialReviewWebTest extends ProtocolWebTestBase {
     }
     
     private void setApprovedSpecialReviewFields(HtmlPage page) {
-        setFieldValue(page, SPECIAL_REVIEW_CODE_FIELD, SPECIAL_REVIEW_TYPE_HUMAN_SUBJECTS_CODE);
-        setFieldValue(page, APPROVAL_TYPE_CODE_FIELD, APPROVAL_TYPE_APPROVED_CODE);
-        setFieldValue(page, PROTOCOL_NUMBER_FIELD, PROTOCOL_NUMBER);
-        setFieldValue(page, APPLICATION_DATE_FIELD, APPLICATION_DATE);
-        setFieldValue(page, APPROVAL_DATE_FIELD, APPROVAL_DATE);
-        setFieldValue(page, EXPIRATION_DATE_FIELD, EXPIRATION_DATE);
-        setFieldValue(page, COMMENTS_FIELD, COMMENTS);
+        setFieldValue(page, NEW_SPECIAL_REVIEW_TYPE_CODE_FIELD, SPECIAL_REVIEW_TYPE_HUMAN_SUBJECTS_CODE);
+        setFieldValue(page, NEW_APPROVAL_TYPE_CODE_FIELD, APPROVAL_TYPE_APPROVED_CODE);
+        setFieldValue(page, NEW_PROTOCOL_NUMBER_FIELD, PROTOCOL_NUMBER);
+        setFieldValue(page, NEW_APPLICATION_DATE_FIELD, APPLICATION_DATE);
+        setFieldValue(page, NEW_APPROVAL_DATE_FIELD, APPROVAL_DATE);
+        setFieldValue(page, NEW_EXPIRATION_DATE_FIELD, EXPIRATION_DATE);
+        setFieldValue(page, NEW_COMMENTS_FIELD, COMMENTS);
     }
     
     private void setExemptSpecialReviewFields(HtmlPage page) {
-        setFieldValue(page, SPECIAL_REVIEW_CODE_FIELD, SPECIAL_REVIEW_TYPE_HUMAN_SUBJECTS_CODE);
-        setFieldValue(page, APPROVAL_TYPE_CODE_FIELD, APPROVAL_TYPE_EXEMPT_CODE);
-        setFieldValue(page, APPLICATION_DATE_FIELD, APPLICATION_DATE);
-        setFieldValue(page, EXPIRATION_DATE_FIELD, EXPIRATION_DATE);
-        setFieldValue(page, EXEMPTION_TYPE_CODE_FIELD, EXEMPTION_TYPE_E1_CODE);
-        setFieldValue(page, COMMENTS_FIELD, COMMENTS);
+        setFieldValue(page, NEW_SPECIAL_REVIEW_TYPE_CODE_FIELD, SPECIAL_REVIEW_TYPE_HUMAN_SUBJECTS_CODE);
+        setFieldValue(page, NEW_APPROVAL_TYPE_CODE_FIELD, APPROVAL_TYPE_EXEMPT_CODE);
+        setFieldValue(page, NEW_APPLICATION_DATE_FIELD, APPLICATION_DATE);
+        setFieldValue(page, NEW_EXPIRATION_DATE_FIELD, EXPIRATION_DATE);
+        setFieldValue(page, NEW_EXEMPTION_TYPE_CODES_FIELD, EXEMPTION_TYPE_E1_CODE);
+        setFieldValue(page, NEW_COMMENTS_FIELD, COMMENTS);
     }
     
     private void checkTable(HtmlPage page, List<Review> reviews, int startRow) {
@@ -248,7 +250,7 @@ public class ProtocolSpecialReviewWebTest extends ProtocolWebTestBase {
     private void assertSelectedValues(HtmlTableRow row, int cellIndex, List<String> expectedValues) {
         HtmlTableCell cell = row.getCell(cellIndex);
         HtmlSelect element 
-            = (HtmlSelect) HtmlUnitUtil.getElementByName((HtmlPage) cell.getPage(), "document.protocolList[0].specialReview[0].exemptionTypeCodes");
+            = (HtmlSelect) HtmlUnitUtil.getElementByName((HtmlPage) cell.getPage(), EXEMPTION_TYPE_CODES_FIELD);
         List<HtmlOption> selectedOptions = element.getSelectedOptions();
         for (String expectedValue : expectedValues) {
             assertSelected(selectedOptions, expectedValue);

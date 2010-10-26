@@ -15,8 +15,6 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="readOnly" value="${not KualiForm.editingMode['modifyProposal']}" scope="request" /> 
-
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="proposalDevelopmentSpecialReview"
@@ -27,9 +25,18 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="specialReview">
   	
-  	<div align="right"><kul:help documentTypeName="ProposalDevelopmentDocument" pageName="Special Review" /></div>
+<div align="right"><kul:help documentTypeName="ProposalDevelopmentDocument" pageName="Special Review" /></div>
 
-<kra-pd:proposalDevelopmentSpecialReview /> 
+<div id="workarea">
+	<kra-specialreview:specialReviewPage attributes="${DataDictionary.ProposalSpecialReview.attributes}"
+	                                     exemptionAttributes="${DataDictionary.ProposalSpecialReviewExemption.attributes}"
+	                                     collectionReference="${KualiForm.document.developmentProposal.propSpecialReviews}"
+	                                     collectionProperty="document.developmentProposalList[0].propSpecialReviews"
+	                                     action="proposalDevelopmentSpecialReview" />
+	
+	<kul:panelFooter />
+</div>
+
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true" />
 <script language="javascript" src="scripts/kuali_application.js"></script>
 

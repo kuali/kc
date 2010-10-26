@@ -550,9 +550,9 @@ public class PrintingTestUtils {
 		award.setApprovedEquipmentItems(approvedEquipmentItems);
 		AwardSpecialReview awardSpecialReview = new AwardSpecialReview();
 		awardSpecialReview.setAwardSpecialReviewId(2L);
-		awardSpecialReview.setAward(award);
+		awardSpecialReview.setSequenceOwner(award);
 		awardSpecialReview.setUpdateUser("quick start");
-		awardSpecialReview.setSpecialReviewCode("2");
+		awardSpecialReview.setSpecialReviewTypeCode("2");
 		awardSpecialReview.setApprovalTypeCode("2");
 		List<AwardSpecialReview> specialReviews = new ArrayList<AwardSpecialReview>();
 		specialReviews.add(awardSpecialReview);
@@ -958,9 +958,9 @@ public class PrintingTestUtils {
 		award.setApprovedEquipmentItems(approvedEquipmentItems);
 		AwardSpecialReview awardSpecialReview = new AwardSpecialReview();
 		awardSpecialReview.setAwardSpecialReviewId(2L);
-		awardSpecialReview.setAward(award);
+		awardSpecialReview.setSequenceOwner(award);
 		awardSpecialReview.setUpdateUser("quick start");
-		awardSpecialReview.setSpecialReviewCode("2");
+		awardSpecialReview.setSpecialReviewTypeCode("2");
 		awardSpecialReview.setApprovalTypeCode("2");
 		List<AwardSpecialReview> specialReviews = new ArrayList<AwardSpecialReview>();
 		specialReviews.add(awardSpecialReview);

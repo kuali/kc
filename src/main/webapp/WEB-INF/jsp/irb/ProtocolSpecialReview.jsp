@@ -15,8 +15,6 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="readOnly" value="${!KualiForm.specialReviewHelper.modifySpecialReview}" scope="request" />
-
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="protocolSpecialReview"
@@ -29,7 +27,16 @@
 
 <div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="Special Review" /></div>
 
-<kra-irb:protocolSpecialReview /> 
+<div id="workarea">
+	<kra-specialreview:specialReviewPage attributes="${DataDictionary.ProtocolSpecialReview.attributes}"
+	                                     exemptionAttributes="${DataDictionary.ProtocolSpecialReviewExemption.attributes}"
+	                                     collectionReference="${KualiForm.document.protocol.specialReviews}"
+	                                     collectionProperty="document.protocolList[0].specialReviews"
+	                                     action="protocolSpecialReview" />
+	
+	<kul:panelFooter />
+</div>
+
 <kul:documentControls transactionalDocument="false" suppressRoutingControls="true" />
 
 </kul:documentPage>

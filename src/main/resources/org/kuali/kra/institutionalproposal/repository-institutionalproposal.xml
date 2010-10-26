@@ -129,7 +129,7 @@
 		<collection-descriptor name="awardFundingProposals" proxy="true" element-class-ref="org.kuali.kra.award.home.fundingproposal.AwardFundingProposal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="proposalId"/>
 		</collection-descriptor>
-		<collection-descriptor name="specialReviews" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+		<collection-descriptor name="specialReviews" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="proposalId"/>
 		</collection-descriptor>
 		<!--
@@ -440,13 +440,11 @@
 		</reference-descriptor>
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReview" table="PROPOSAL_SPECIAL_REVIEW">
+	<class-descriptor class="org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview" table="PROPOSAL_SPECIAL_REVIEW">
 		<field-descriptor name="proposalSpecialReviewId" column="PROPOSAL_SPECIAL_REVIEW_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROPOSAL_SPECIAL_REVIEW_ID"/>
 		<field-descriptor name="proposalId" column="PROPOSAL_ID" jdbc-type="INTEGER" access="anonymous"/>
-		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
-		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="specialReviewNumber" column="SPECIAL_REVIEW_NUMBER" jdbc-type="INTEGER" />
-		<field-descriptor name="specialReviewCode" column="SPECIAL_REVIEW_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="specialReviewTypeCode" column="SPECIAL_REVIEW_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="approvalTypeCode" column="APPROVAL_TYPE_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="applicationDate" column="APPLICATION_DATE" jdbc-type="DATE" />
@@ -457,40 +455,39 @@
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="specialReviewApprovalType" class-ref="org.kuali.kra.bo.SpecialReviewApprovalType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="approvalTypeCode"/>
-		</reference-descriptor>
-		<reference-descriptor name="specialReview" class-ref="org.kuali.kra.bo.SpecialReview" auto-retrieve="false" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="specialReviewCode"/>
-		</reference-descriptor>
-		<reference-descriptor name="institutionalProposal" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="proposalId"/>
-		</reference-descriptor>
-		<reference-descriptor name="validSpecialReviewApproval" class-ref="org.kuali.kra.bo.ValidSpecialReviewApproval" auto-retrieve="true" auto-update="none" auto-delete="none">
-			<foreignkey field-ref="approvalTypeCode"/>
-			<foreignkey field-ref="specialReviewCode"/>
-		</reference-descriptor>
-		<collection-descriptor name="specialReviewExemptions" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReviewExemption" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
-			<inverse-foreignkey field-ref="institutionalProposalSpecialReviewId"/>
-		</collection-descriptor> 
+		<collection-descriptor name="specialReviewExemptions" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReviewExemption" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+            <inverse-foreignkey field-ref="proposalSpecialReviewId"/>
+        </collection-descriptor> 
+        <reference-descriptor name="sequenceOwner" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="proposalId"/>
+        </reference-descriptor>
+        <reference-descriptor name="specialReviewType" class-ref="org.kuali.kra.bo.SpecialReviewType" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="specialReviewTypeCode"/>
+        </reference-descriptor>
+        <reference-descriptor name="approvalType" class-ref="org.kuali.kra.bo.SpecialReviewApprovalType" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="approvalTypeCode"/>
+        </reference-descriptor>
+        <reference-descriptor name="validSpecialReviewApproval" class-ref="org.kuali.kra.bo.ValidSpecialReviewApproval" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="specialReviewTypeCode"/>
+            <foreignkey field-ref="approvalTypeCode"/>
+        </reference-descriptor>
 	</class-descriptor>	
 	
 	
-	<class-descriptor class="org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReviewExemption" table="PROPOSAL_EXEMPT_NUMBER">
-		<field-descriptor name="institutionalProposalSpecialReviewExemptionId" column="PROPOSAL_EXEMPT_NUMBER_ID" jdbc-type="BIGINT" primarykey="true" 
-			autoincrement="true" sequence-name="SEQ_PROPOSAL_EXEMPT_NUMBER_ID"/>
-		<field-descriptor name="institutionalProposalSpecialReviewId" column="PROPOSAL_SPECIAL_REVIEW_ID" jdbc-type="BIGINT" access="anonymous"/>
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	<class-descriptor class="org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReviewExemption" table="PROPOSAL_EXEMPT_NUMBER">
+		<field-descriptor name="proposalSpecialReviewExemptionId" column="PROPOSAL_EXEMPT_NUMBER_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROPOSAL_EXEMPT_NUMBER_ID"/>
+		<field-descriptor name="proposalSpecialReviewId" column="PROPOSAL_SPECIAL_REVIEW_ID" jdbc-type="BIGINT" access="anonymous"/>
 		<field-descriptor name="exemptionTypeCode" column="EXEMPTION_TYPE_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<reference-descriptor name="institutionalProposalSpecialReview" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReview" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="institutionalProposalSpecialReviewId"/>
-		</reference-descriptor>
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<reference-descriptor name="exemptionType" class-ref="org.kuali.kra.bo.ExemptionType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="exemptionTypeCode"/>
 		</reference-descriptor>
+		<reference-descriptor name="institutionalProposalSpecialReview" class-ref="org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="proposalSpecialReviewId"/>
+        </reference-descriptor>
 	</class-descriptor>	
 
 	<class-descriptor class="org.kuali.kra.institutionalproposal.ProposalStatus" table="PROPOSAL_STATUS">
