@@ -382,15 +382,15 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
             }
             if(specialReview.getApprovalTypeCode()!=null){
                 protocolSpecialReviewType.setApprovalTypeCode(Integer.parseInt(specialReview.getApprovalTypeCode()));
-                protocolSpecialReviewType.setApprovalTypeDesc(specialReview.getSpecialReviewApprovalType().getDescription());
+                protocolSpecialReviewType.setApprovalTypeDesc(specialReview.getApprovalType().getDescription());
             }
             protocolSpecialReviewType.setComments(specialReview.getComments());
             protocolSpecialReviewType.setProtocolNumber(specialReview.getProtocolNumber());
             protocolSpecialReviewType.setSequenceNumber(specialReview.getSequenceNumber());
             protocolSpecialReviewType.setSpRevProtocolNumber(specialReview.getProtocolNumber());
-            if(specialReview.getSpecialReviewCode()!=null){
-                protocolSpecialReviewType.setSpecialReviewCode(Integer.parseInt(specialReview.getSpecialReviewCode()));
-                protocolSpecialReviewType.setSpecialReviewDesc(specialReview.getSpecialReview().getDescription());
+            if(specialReview.getSpecialReviewTypeCode()!=null){
+                protocolSpecialReviewType.setSpecialReviewCode(Integer.parseInt(specialReview.getSpecialReviewTypeCode()));
+                protocolSpecialReviewType.setSpecialReviewDesc(specialReview.getSpecialReviewType().getDescription());
             }
             protocolSpecialReviewType.setSpecialReviewNumber(specialReview.getSpecialReviewNumber());
             protocolSpecialReviewType.setUpdateUser(specialReview.getUpdateUser());

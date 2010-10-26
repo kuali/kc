@@ -40,7 +40,7 @@ public class ValidSpecialReviewApprovalMaintenanceRuleTest extends MaintenanceRu
     public void testBothInvalid() throws Exception {
         ValidSpecialReviewApproval specialReviewApproval = (ValidSpecialReviewApproval)maintDoc.getDocumentBusinessObject();
         specialReviewApproval.setApprovalTypeCode("-9999");
-        specialReviewApproval.setSpecialReviewCode("-9999");
+        specialReviewApproval.setSpecialReviewTypeCode("-9999");
         boolean valid = rule.processCustomRouteDocumentBusinessRules(maintDoc);
         assertFalse(valid);
         assertEquals(2, GlobalVariables.getErrorMap().getErrorCount());
@@ -53,7 +53,7 @@ public class ValidSpecialReviewApprovalMaintenanceRuleTest extends MaintenanceRu
     public void testInvalidReviewCode() throws Exception {
         ValidSpecialReviewApproval specialReviewApproval = (ValidSpecialReviewApproval)maintDoc.getDocumentBusinessObject();
         specialReviewApproval.setApprovalTypeCode("2");
-        specialReviewApproval.setSpecialReviewCode("-9999");
+        specialReviewApproval.setSpecialReviewTypeCode("-9999");
         boolean valid = rule.processCustomRouteDocumentBusinessRules(maintDoc);
         assertFalse(valid);
         assertEquals(1, GlobalVariables.getErrorMap().getErrorCount());
@@ -65,7 +65,7 @@ public class ValidSpecialReviewApprovalMaintenanceRuleTest extends MaintenanceRu
     public void testInvalidApprovalCode() throws Exception {
         ValidSpecialReviewApproval specialReviewApproval = (ValidSpecialReviewApproval)maintDoc.getDocumentBusinessObject();
         specialReviewApproval.setApprovalTypeCode("-9999");
-        specialReviewApproval.setSpecialReviewCode("1");
+        specialReviewApproval.setSpecialReviewTypeCode("1");
         boolean valid = rule.processCustomRouteDocumentBusinessRules(maintDoc);
         assertFalse(valid);
         assertEquals(1, GlobalVariables.getErrorMap().getErrorCount());
@@ -77,7 +77,7 @@ public class ValidSpecialReviewApprovalMaintenanceRuleTest extends MaintenanceRu
     public void testBothValid() throws Exception {
         ValidSpecialReviewApproval specialReviewApproval = (ValidSpecialReviewApproval)maintDoc.getDocumentBusinessObject();
         specialReviewApproval.setApprovalTypeCode("4");
-        specialReviewApproval.setSpecialReviewCode("1");
+        specialReviewApproval.setSpecialReviewTypeCode("1");
         boolean valid = rule.processCustomRouteDocumentBusinessRules(maintDoc);
         assertTrue(valid);
         assertEquals(0, GlobalVariables.getErrorMap().getErrorCount());

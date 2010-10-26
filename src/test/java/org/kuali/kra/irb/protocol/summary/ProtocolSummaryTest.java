@@ -28,8 +28,9 @@ import org.kuali.kra.bo.ExemptionType;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.ResearchArea;
-import org.kuali.kra.bo.SpecialReview;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
+import org.kuali.kra.bo.SpecialReviewType;
+import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolStatus;
@@ -122,7 +123,7 @@ public class ProtocolSummaryTest extends KcUnitTestBase {
     private ParticipantType participantType;
     private Organization organization;
     private ProtocolOrganizationType organizationType;
-    private SpecialReview mySpecialReview;
+    private SpecialReviewType mySpecialReviewType;
     private Date specialReviewApplicationDate;
     private SpecialReviewApprovalType specialReviewApprovalType;
     private List<ProtocolSpecialReviewExemption> specialReviewExemptions;
@@ -159,8 +160,8 @@ public class ProtocolSummaryTest extends KcUnitTestBase {
         organization.setOrganizationName(ORGANIZATION_NAME);
         organization.setHumanSubAssurance(ORGANIZATION_FWA_NUMBER);
         
-        mySpecialReview = new SpecialReview();
-        mySpecialReview.setDescription(SPECIAL_REVIEW_DESCRIPTION);
+        mySpecialReviewType = new SpecialReviewType();
+        mySpecialReviewType.setDescription(SPECIAL_REVIEW_DESCRIPTION);
         
         specialReviewApplicationDate = new Date(System.currentTimeMillis() - (2 * TEN_DAYS));
         
@@ -391,8 +392,8 @@ public class ProtocolSummaryTest extends KcUnitTestBase {
         specialReview.setExpirationDate(expirationDate);
         specialReview.setProtocolNumber(PROTOCOL_NUMBER);
         specialReview.setComments(COMMENT);
-        specialReview.setSpecialReview(mySpecialReview);
-        specialReview.setSpecialReviewApprovalType(specialReviewApprovalType);
+        specialReview.setSpecialReviewType(mySpecialReviewType);
+        specialReview.setApprovalType(specialReviewApprovalType);
         specialReview.setSpecialReviewExemptions(specialReviewExemptions);
         protocol.getSpecialReviews().add(specialReview);
         

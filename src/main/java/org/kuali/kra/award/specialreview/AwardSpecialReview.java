@@ -20,58 +20,63 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.AbstractSpecialReview;
+import org.kuali.kra.common.specialreview.bo.SpecialReview;
+
 /**
- * 
- * This class represents AwardSpecialReview BO
+ * Defines the Award Special Review.
  */
-public class AwardSpecialReview extends AbstractSpecialReview<AwardSpecialReviewExemption> implements SequenceAssociate<Award> { 
-	//TODO: awardnumber, sequencenumber to be added
-	/**
-     * Comment for <code>serialVersionUID</code>
-     */
-    private static final long serialVersionUID = -3791915283913486492L;
-    private Long awardSpecialReviewId; 
-	private Award award; 
+public class AwardSpecialReview extends SpecialReview<AwardSpecialReviewExemption> implements SequenceAssociate<Award> { 
 
-	public AwardSpecialReview() { 
-        super();
-    } 
+    private static final long serialVersionUID = -414391670637651376L;
+    
+    private Long awardSpecialReviewId;
+    private Long awardId;
+    
+    private Award sequenceOwner;
 
-	public Award getAward() {
-		return award;
-	}
-
-	public void setAward(Award award) {
-		this.award = award;
-	}
-
-	@SuppressWarnings("unchecked")
-    @Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = super.toStringMapper();
-		return hashMap;
-	}
-
-    /**
-     * Gets the awardSpecialReviewId attribute. 
-     * @return Returns the awardSpecialReviewId.
-     */
     public Long getAwardSpecialReviewId() {
         return awardSpecialReviewId;
     }
 
-    /**
-     * Sets the awardSpecialReviewId attribute value.
-     * @param awardSpecialReviewId The awardSpecialReviewId to set.
-     */
     public void setAwardSpecialReviewId(Long awardSpecialReviewId) {
         this.awardSpecialReviewId = awardSpecialReviewId;
     }
 
+    public Long getAwardId() {
+        return awardId;
+    }
+
+    public void setAwardId(Long awardId) {
+        this.awardId = awardId;
+    }
+
+    public Award getSequenceOwner() {
+        return sequenceOwner;
+    }
+
+    public void setSequenceOwner(Award sequenceOwner) {
+        this.sequenceOwner = sequenceOwner;
+    }
+
+    public Integer getSequenceNumber() {
+        return sequenceOwner != null ? sequenceOwner.getSequenceNumber() : null;
+    }
+    
     /**
-     * It creates new AwardSpecialReviewExemption instance
-     * @see org.kuali.kra.bo.AbstractSpecialReview#newSpecialReviewExemption(java.lang.String)
+     * {@inheritDoc}
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
+    public void resetPersistenceState() {
+        awardSpecialReviewId = null;
+        for (AwardSpecialReviewExemption exemption : getSpecialReviewExemptions()) {
+            exemption.setAwardSpecialReviewExemptionId(null);
+            exemption.setAwardSpecialReviewId(null);
+        }
+    }
+    
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.common.specialreview.bo.SpecialReview#createSpecialReviewExemption(java.lang.String)
      */
     @Override
     public AwardSpecialReviewExemption createSpecialReviewExemption(String exemptionTypeCode) {
@@ -81,77 +86,50 @@ public class AwardSpecialReview extends AbstractSpecialReview<AwardSpecialReview
         return awardSpecialReviewExemption;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
+    @Override 
+    protected LinkedHashMap<String, Object> toStringMapper() {
+        LinkedHashMap<String, Object> propMap = super.toStringMapper();
+        propMap.put("awardSpecialReviewId", getAwardSpecialReviewId());
+        propMap.put("awardId", getAwardId());
+        return propMap;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((award == null) ? 0 : award.hashCode());
+        result = prime * result + ((awardId == null) ? 0 : awardId.hashCode());
         result = prime * result + ((awardSpecialReviewId == null) ? 0 : awardSpecialReviewId.hashCode());
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (!super.equals(obj))
+        }
+        if (!super.equals(obj)) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         AwardSpecialReview other = (AwardSpecialReview) obj;
-        if (award == null) {
-            if (other.award != null)
+        if (awardId == null) {
+            if (other.awardId != null) {
                 return false;
-        }
-        else if (!award.equals(other.award))
+            }
+        } else if (!awardId.equals(other.awardId)) {
             return false;
+        }
         if (awardSpecialReviewId == null) {
-            if (other.awardSpecialReviewId != null)
+            if (other.awardSpecialReviewId != null) {
                 return false;
-        }
-        else if (!awardSpecialReviewId.equals(other.awardSpecialReviewId))
+            }
+        } else if (!awardSpecialReviewId.equals(other.awardSpecialReviewId)) {
             return false;
+        }
         return true;
     }
 
-    @Override
-    public Long getSpecialReviewId() {
-        return awardSpecialReviewId;
-    }
-
-    /**
-     * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
-     */
-    public Award getSequenceOwner() {
-        return getAward();
-    }
-
-    /**
-     * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
-     */
-    public void setSequenceOwner(Award newlyVersionedOwner) {
-        setAward(newlyVersionedOwner);
-    }
-
-    /**
-     * @see org.kuali.kra.Sequenceable#getSequenceNumber()
-     */
-    public Integer getSequenceNumber() {
-        return award != null ? award.getSequenceNumber() : null;
-    }
-    
-    /**
-     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
-     */
-    public void resetPersistenceState() {
-        this.awardSpecialReviewId = null;
-    }
-
-	
 }

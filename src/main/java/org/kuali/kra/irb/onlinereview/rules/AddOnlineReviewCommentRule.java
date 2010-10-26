@@ -15,11 +15,7 @@
  */
 package org.kuali.kra.irb.onlinereview.rules;
 
-import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.onlinereview.event.AddProtocolOnlineReviewCommentEvent;
-import org.kuali.kra.meeting.CommitteeScheduleMinute;
-import org.kuali.kra.rule.event.AddSpecialReviewEvent;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.rule.BusinessRule;
 
 public interface AddOnlineReviewCommentRule extends BusinessRule  {

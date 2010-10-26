@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalCustomDataAuditRule;
@@ -34,8 +35,8 @@ import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalSaveC
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceKeyword;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReview;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
+import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
@@ -55,6 +56,7 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
     
     public static final boolean VALIDATION_REQUIRED = true;
     public static final boolean CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME = false;
+    private static final String SAVE_SPECIAL_REVIEW_FIELD = "document.institutionalProposalList[0].specialReviews";
     
     /**
      * 
@@ -251,23 +253,10 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
      * @return valid Does the validation pass
      */
     private boolean processSpecialReviewBusinessRule(Document document) {
-        boolean valid = true;
         InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
-
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-
-        int i = 0;
-
-        for (InstitutionalProposalSpecialReview propSpecialReview : institutionalProposalDocument.getInstitutionalProposal().getSpecialReviews()) {
-            errorMap.addToErrorPath("institutionalProposal.specialReview[" + i + "]");
-            InstitutionalProposalSpecialReviewRule specialReviewRule = new InstitutionalProposalSpecialReviewRule();
-            valid &= specialReviewRule.processValidSpecialReviewBusinessRules(propSpecialReview, "documentExemptNumbers[" + i + "]");
-            valid &= specialReviewRule.processProposalSpecialReviewBusinessRules(propSpecialReview);
-            
-            errorMap.removeFromErrorPath("institutionalProposal.specialReview[" + i + "]");
-            i++;
-        }
-        return valid;
+        List<InstitutionalProposalSpecialReview> specialReviews = institutionalProposalDocument.getInstitutionalProposal().getSpecialReviews();
+        return processRules(
+                new SaveSpecialReviewEvent<InstitutionalProposalSpecialReview>(SAVE_SPECIAL_REVIEW_FIELD, institutionalProposalDocument, specialReviews));
     }
     
     /**

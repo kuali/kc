@@ -58,7 +58,7 @@ import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.Approved
 import org.kuali.kra.award.permissions.PermissionsHelper;
 import org.kuali.kra.award.printing.AwardTransactionSelectorBean;
 import org.kuali.kra.award.printing.AwardPrintNotice;
-import org.kuali.kra.award.specialreview.AwardSpecialReview;
+import org.kuali.kra.award.specialreview.SpecialReviewHelper;
 import org.kuali.kra.award.web.struts.action.SponsorTermFormHelper;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.budget.BudgetDecimal;
@@ -112,8 +112,6 @@ public class AwardForm extends BudgetVersionFormBase
     
     private String prevAwardNumber;
     private String prevRootAwardNumber;
-    
-    private AwardSpecialReview newSpecialReview;
 
     private AwardComment newAwardCostShareComment;
     
@@ -146,6 +144,7 @@ public class AwardForm extends BudgetVersionFormBase
     private boolean awardInMultipleNodeHierarchy;
     private CustomDataHelper customDataHelper = new CustomDataHelper(this);
     private PermissionsHelper permissionsHelper;
+    private SpecialReviewHelper specialReviewHelper;
     private AwardCreditSplitBean awardCreditSplitBean;
     private Map<String, AwardHierarchy> awardHierarchyNodes;
     private String awardNumberInputTemp;//This is temporary till the GUI mock is ready for award hierarchy
@@ -205,7 +204,6 @@ public class AwardForm extends BudgetVersionFormBase
         //newAwardCostShare = new AwardCostShare();
         newAwardFandaRate = new AwardFandaRate(); 
         //setNewSponsorTerms(new ArrayList<SponsorTerm>());
-        newSpecialReview = new AwardSpecialReview();
         awardCommentHistoryByType = new ArrayList<AwardComment>();
         costShareFormHelper = new CostShareFormHelper(this);
         centralAdminContactsBean = new AwardCentralAdminContactsBean(this);
@@ -224,6 +222,7 @@ public class AwardForm extends BudgetVersionFormBase
         //directFandADistributionFormHelper = new DirectFandADistributionFormHelper(this);
         //awardDirectFandADistributionBean = new AwardDirectFandADistributionBean(this);
         setPermissionsHelper(new PermissionsHelper(this));
+        setSpecialReviewHelper(new SpecialReviewHelper(this));
         //sponsorTermTypes = new ArrayList<KeyLabelPair>();
         awardCreditSplitBean = new AwardCreditSplitBean(this);
         awardReportingBean = new AwardReportingBean(this);
@@ -366,22 +365,6 @@ public class AwardForm extends BudgetVersionFormBase
     @Override
     public void setLookupResultsSequenceNumber(String lookupResultsSequenceNumber) {
         this.lookupResultsSequenceNumber = lookupResultsSequenceNumber;
-    }
-
-    /**
-     * Gets the newSpecialReview attribute.
-     * @return Returns the newSpecialReview.
-     */
-    public AwardSpecialReview getNewSpecialReview() {
-        return newSpecialReview;
-    }
-
-    /**
-     * Sets the newSpecialReview attribute value.
-     * @param newSpecialReview The newSpecialReview to set.
-     */
-    public void setNewSpecialReview(AwardSpecialReview newSpecialReview) {
-        this.newSpecialReview = newSpecialReview;
     }
 
     /**
@@ -544,6 +527,22 @@ public class AwardForm extends BudgetVersionFormBase
 
     public void setDetailsAndDatesFormHelper(DetailsAndDatesFormHelper detailsAndDatesFormHelper) {
         this.detailsAndDatesFormHelper = detailsAndDatesFormHelper;
+    }
+    
+    /**
+     * Gets the Special Review Helper.
+     * @return the Special Review Helper
+     */
+    public SpecialReviewHelper getSpecialReviewHelper() {
+        return specialReviewHelper;
+    }
+    
+    /**
+     * Sets the Special Review Helper.
+     * @param specialReviewHelper the Special Review Helper
+     */
+    public void setSpecialReviewHelper(SpecialReviewHelper specialReviewHelper) {
+        this.specialReviewHelper = specialReviewHelper;
     }
 
     /**

@@ -38,10 +38,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.Organization;
+import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
-import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 /**
@@ -218,8 +219,8 @@ public class RROtherProjectInfoV1_1Generator extends RROtherProjectInfoBaseGener
         rrOtherProjectInfo.setHumanSubjectsIndicator(YesNoDataType.N_NO);
         rrOtherProjectInfo.setVertebrateAnimalsIndicator(YesNoDataType.N_NO);
         for (ProposalSpecialReview proposalSpecialReview : pdDoc.getDevelopmentProposal().getPropSpecialReviews()) {
-            if (proposalSpecialReview.getSpecialReviewCode() != null) {
-                switch (Integer.parseInt(proposalSpecialReview.getSpecialReviewCode())) {
+            if (proposalSpecialReview.getSpecialReviewTypeCode() != null) {
+                switch (Integer.parseInt(proposalSpecialReview.getSpecialReviewTypeCode())) {
                     case HUMAN_SUBJECT_SUPPLEMENT:
                         HumanSubjectsSupplement humanSubjectsSupplement = getHumanSubjectsIndicator(
 								rrOtherProjectInfo, proposalSpecialReview);
@@ -274,13 +275,12 @@ public class RROtherProjectInfoV1_1Generator extends RROtherProjectInfoBaseGener
 		        .newInstance();
 		if (proposalSpecialReview.getApprovalTypeCode() != null) {
 		    if (Integer.parseInt(proposalSpecialReview.getApprovalTypeCode()) == APPROVAL_TYPE_EXCEMPT) {
-		        if (proposalSpecialReview.getExemptNumbers() != null) {
+		        if (proposalSpecialReview.getSpecialReviewExemptions() != null) {
 		        	List<HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum> exemptionNumberList = new ArrayList<HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum>();
 					HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum exemptionNumberEnum = null;
-		        	for (String exemptNumber : proposalSpecialReview
-							.getExemptNumbers()) {
+		        	for (SpecialReviewExemption exemption : proposalSpecialReview.getSpecialReviewExemptions()) {
 						exemptionNumberEnum = HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum
-								.forInt(Integer.parseInt(exemptNumber));
+								.forInt(Integer.parseInt(exemption.getExemptionTypeCode()));
 						exemptionNumberList.add(exemptionNumberEnum);
 					}
 					exemptionNumbers

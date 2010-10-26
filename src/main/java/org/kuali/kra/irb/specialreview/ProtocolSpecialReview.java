@@ -19,58 +19,61 @@ package org.kuali.kra.irb.specialreview;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.SequenceAssociate;
-import org.kuali.kra.bo.AbstractSpecialReview;
+import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.irb.Protocol;
 
 /**
- * This class represents ProtocolSpecialReview BO.
+ * Defines a Special Review for a Protocol.
  */
-@SuppressWarnings("serial")
-public class ProtocolSpecialReview extends AbstractSpecialReview<ProtocolSpecialReviewExemption> implements SequenceAssociate<Protocol> { 
+public class ProtocolSpecialReview extends SpecialReview<ProtocolSpecialReviewExemption> implements SequenceAssociate<Protocol> { 
 
-    private Long protocolSpecialReviewId; 
-    private Protocol protocol; 
+    private static final long serialVersionUID = -9010537404528653558L;
+    
+    private Long protocolSpecialReviewId;
+    private Long protocolId;
+    
+    private Protocol sequenceOwner;
 
-    public ProtocolSpecialReview() { 
-        super();
-    } 
-
-    public Protocol getProtocol() {
-        return protocol;
-    }
-
-    public void setProtocol(Protocol protocol) {
-        this.protocol = protocol;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override 
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap map = super.toStringMapper();
-        map.put("protocolSpecialReviewId", getProtocolSpecialReviewId());
-        return map;
-    }
-
-    /**
-     * Gets the protocolSpecialReviewId attribute. 
-     * @return Returns the protocolSpecialReviewId.
-     */
     public Long getProtocolSpecialReviewId() {
         return protocolSpecialReviewId;
     }
 
-    /**
-     * Sets the protocolSpecialReviewId attribute value.
-     * @param protocolSpecialReviewId The protocolSpecialReviewId to set.
-     */
     public void setProtocolSpecialReviewId(Long protocolSpecialReviewId) {
         this.protocolSpecialReviewId = protocolSpecialReviewId;
     }
 
+    public Long getProtocolId() {
+        return protocolId;
+    }
+
+    public void setProtocolId(Long protocolId) {
+        this.protocolId = protocolId;
+    }
+    
+    public Protocol getSequenceOwner() {
+        return sequenceOwner;
+    }
+
+    public void setSequenceOwner(Protocol sequenceOwner) {
+        this.sequenceOwner = sequenceOwner;
+    }
+
+    public Integer getSequenceNumber() {
+        return sequenceOwner != null ? sequenceOwner.getSequenceNumber() : null;
+    }
+    
     /**
-     * It creates new ProtocolSpecialReviewExemption instance.
-     * @see org.kuali.kra.bo.AbstractSpecialReview#newSpecialReviewExemption(java.lang.String)
+     * {@inheritDoc}
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
      */
+    public void resetPersistenceState() {
+        protocolSpecialReviewId = null;
+        for (ProtocolSpecialReviewExemption exemption : getSpecialReviewExemptions()) {
+            exemption.setProtocolSpecialReviewExemptionId(null);
+            exemption.setProtocolSpecialReviewId(null);
+        }
+    }
+
     @Override
     public ProtocolSpecialReviewExemption createSpecialReviewExemption(String exemptionTypeCode) {
         ProtocolSpecialReviewExemption protocolSpecialReviewExemption = new ProtocolSpecialReviewExemption();
@@ -78,83 +81,50 @@ public class ProtocolSpecialReview extends AbstractSpecialReview<ProtocolSpecial
         protocolSpecialReviewExemption.setProtocolSpecialReview(this);
         return protocolSpecialReviewExemption;
     }
+    
+    @Override 
+    protected LinkedHashMap<String, Object> toStringMapper() {
+        LinkedHashMap<String, Object> propMap = super.toStringMapper();
+        propMap.put("protocolId", getProtocolId());
+        return propMap;
+    }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((protocol == null) ? 0 : protocol.hashCode());
+        result = prime * result + ((protocolId == null) ? 0 : protocolId.hashCode());
         result = prime * result + ((protocolSpecialReviewId == null) ? 0 : protocolSpecialReviewId.hashCode());
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (!super.equals(obj))
+        }
+        if (!super.equals(obj)) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         ProtocolSpecialReview other = (ProtocolSpecialReview) obj;
-        if (protocol == null) {
-            if (other.protocol != null)
+        if (protocolId == null) {
+            if (other.protocolId != null) {
                 return false;
-        }
-        else if (!protocol.equals(other.protocol))
+            }
+        } else if (!protocolId.equals(other.protocolId)) {
             return false;
+        }
         if (protocolSpecialReviewId == null) {
-            if (other.protocolSpecialReviewId != null)
+            if (other.protocolSpecialReviewId != null) {
                 return false;
-        }
-        else if (!protocolSpecialReviewId.equals(other.protocolSpecialReviewId))
+            }
+        } else if (!protocolSpecialReviewId.equals(other.protocolSpecialReviewId)) {
             return false;
+        }
         return true;
     }
 
-    public void init(Protocol protocol) {
-        this.protocolSpecialReviewId = null;
-        this.protocol = protocol;
-        this.setProtocolNumber(protocol.getProtocolNumber());
-        this.setVersionNumber(null);
-        for (ProtocolSpecialReviewExemption exemption : this.getSpecialReviewExemptions()) {
-            exemption.setProtocolSpecialReview(this);
-            exemption.setProtocolSpecialReviewExemptionId(null);
-            exemption.setVersionNumber(null);
-        }
-    }
-
-    @Override
-    public Long getSpecialReviewId() {
-        return protocolSpecialReviewId;
-    }
-    
-    /** {@inheritDoc} */
-    public Protocol getSequenceOwner() {
-        return this.getProtocol();
-    }
-
-    /** {@inheritDoc} */
-    public void setSequenceOwner(Protocol newlyVersionedOwner) {
-        this.setProtocol(newlyVersionedOwner);   
-    }
-
-    public Integer getSequenceNumber() {
-        return protocol != null ? protocol.getSequenceNumber() : null;
-    }
-
-    public void resetPersistenceState() {
-        this.protocolSpecialReviewId = null;
-        for (ProtocolSpecialReviewExemption exemption : this.getSpecialReviewExemptions()) {
-            exemption.setProtocolSpecialReview(this);
-            exemption.setProtocolSpecialReviewExemptionId(null);
-            exemption.setVersionNumber(null);
-        }
-    }
 }

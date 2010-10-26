@@ -46,6 +46,8 @@ import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
+import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
+import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReviewExemption;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
@@ -968,7 +970,6 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         managedLists.add(units);
         managedLists.add(degrees);
         managedLists.add(getProposalSites());
-        managedLists.add(getPropSpecialReviews());
 
         List<CongressionalDistrict> congressionalDistricts = new ArrayList<CongressionalDistrict>();
         for (ProposalSite proposalSite: getProposalSites()) {
@@ -976,12 +977,12 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         }
         managedLists.add(congressionalDistricts);
         
-        List<ProposalExemptNumber> proposalExemptNumbers = new ArrayList<ProposalExemptNumber>();
-
-        for (ProposalSpecialReview review : getPropSpecialReviews()) {
-            proposalExemptNumbers.addAll(review.getProposalExemptNumbers());
+        List<ProposalSpecialReviewExemption> specialReviewExemptions = new ArrayList<ProposalSpecialReviewExemption>();
+        for (ProposalSpecialReview specialReview : getPropSpecialReviews()) {
+            specialReviewExemptions.addAll(specialReview.getSpecialReviewExemptions());
         }
-        managedLists.add(proposalExemptNumbers);
+        managedLists.add(specialReviewExemptions);
+        managedLists.add(getPropSpecialReviews());
 
         managedLists.add(getProposalPersons());
         managedLists.add(getPropScienceKeywords());

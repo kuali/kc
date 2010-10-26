@@ -16,10 +16,10 @@
  */
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 	<bean id="ProtocolSpecialReview" parent="ProtocolSpecialReview-parentBean" />
 	<bean id="ProtocolSpecialReview-parentBean" abstract="true" parent="BusinessObjectEntry">
@@ -39,7 +39,7 @@
 			<list>
 				<ref bean="ProtocolSpecialReview-protocolSpecialReviewId" />
 				<ref bean="ProtocolSpecialReview-specialReviewNumber" />
-				<ref bean="ProtocolSpecialReview-specialReviewCode" />
+				<ref bean="ProtocolSpecialReview-specialReviewTypeCode" />
 				<ref bean="ProtocolSpecialReview-approvalTypeCode" />
 				<ref bean="ProtocolSpecialReview-protocolNumber" />
 				<ref bean="ProtocolSpecialReview-applicationDate" />
@@ -65,98 +65,70 @@
 		</property>
 		<property name="control" >
 			<bean parent="TextControlDefinition"
-				p:size="10" />
+				  p:size="10" />
 		</property>
 		<property name="summary" value="Protocol Special Review Id" />
 		<property name="description" value="Protocol Special Review Id" />
 	</bean>
 
 	<bean id="ProtocolSpecialReview-specialReviewNumber" parent="ProtocolSpecialReview-specialReviewNumber-parentBean" />
-	<bean id="ProtocolSpecialReview-specialReviewNumber-parentBean" abstract="true" parent="SpecialReviewReference-specialReviewNumber-parentBean">
-	</bean>
+	<bean id="ProtocolSpecialReview-specialReviewNumber-parentBean" abstract="true" parent="SpecialReview-specialReviewNumber-parentBean" />
 
-	<bean id="ProtocolSpecialReview-specialReviewCode" parent="ProtocolSpecialReview-specialReviewCode-parentBean" />
-	<bean id="ProtocolSpecialReview-specialReviewCode-parentBean" abstract="true" parent="SpecialReviewReference-specialReviewCode" />
+	<bean id="ProtocolSpecialReview-specialReviewTypeCode" parent="ProtocolSpecialReview-specialReviewTypeCode-parentBean" />
+	<bean id="ProtocolSpecialReview-specialReviewTypeCode-parentBean" abstract="true" parent="SpecialReview-specialReviewTypeCode" />
 	
 	<bean id="ProtocolSpecialReview-approvalTypeCode" parent="ProtocolSpecialReview-approvalTypeCode-parentBean" />
-	<bean id="ProtocolSpecialReview-approvalTypeCode-parentBean" abstract="true" parent="SpecialReviewReference-approvalTypeCode" />
+	<bean id="ProtocolSpecialReview-approvalTypeCode-parentBean" abstract="true" parent="SpecialReview-approvalTypeCode" />
 	
 	<bean id="ProtocolSpecialReview-protocolNumber" parent="ProtocolSpecialReview-protocolNumber-parentBean" />
-	<bean id="ProtocolSpecialReview-protocolNumber-parentBean" abstract="true" parent="SpecialReviewReference-protocolNumber" />
+	<bean id="ProtocolSpecialReview-protocolNumber-parentBean" abstract="true" parent="SpecialReview-protocolNumber" />
 	
-	<bean id="ProtocolSpecialReview-applicationDate" parent="ProtocolSpecialReview-applicationDate-parentBean" />
-	<bean id="ProtocolSpecialReview-applicationDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
-		<property name="name" value="applicationDate" />
-		<property name="label" value="Application Date" />
-		<property name="shortLabel" value="Application Date" />
-		<property name="summary" value="Application Date" />
-		<property name="description" value="Application Date" />
-	</bean>
+    <bean id="ProtocolSpecialReview-applicationDate" parent="ProtocolSpecialReview-applicationDate-parentBean" />
+    <bean id="ProtocolSpecialReview-applicationDate-parentBean" abstract="true" parent="SpecialReview-applicationDate" />
 
-	<bean id="ProtocolSpecialReview-approvalDate" parent="ProtocolSpecialReview-approvalDate-parentBean" />
-	<bean id="ProtocolSpecialReview-approvalDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
-		<property name="name" value="approvalDate" />
-		<property name="label" value="Approval Date" />
-		<property name="shortLabel" value="Approval Date" />
-		<property name="summary" value="Approval Date" />
-		<property name="description" value="Approval Date" />
-	</bean>
-	
+    <bean id="ProtocolSpecialReview-approvalDate" parent="ProtocolSpecialReview-approvalDate-parentBean" />
+    <bean id="ProtocolSpecialReview-approvalDate-parentBean" abstract="true" parent="SpecialReview-approvalDate" />
+
     <bean id="ProtocolSpecialReview-expirationDate" parent="ProtocolSpecialReview-expirationDate-parentBean" />
-	<bean id="ProtocolSpecialReview-expirationDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
-		<property name="name" value="expirationDate" />
-		<property name="label" value="Expiration Date" />
-		<property name="shortLabel" value="Expiration Date" />
-		<property name="summary" value="Expiration Date" />
-		<property name="description" value="Expiration Date" />
-	</bean>
-	
-	<bean id="ProtocolSpecialReview-comments" parent="ProtocolSpecialReview-comments-parentBean" />
-	<bean id="ProtocolSpecialReview-comments-parentBean" abstract="true" parent="SpecialReviewReference-comments">
-		<!-- over ride the control elements -->
-		<property name="control" >
-			<bean parent="TextareaControlDefinition"
-            p:rows="2"
-            p:cols="150" />
-		</property>
-	</bean>
-	
-	<bean id="ProtocolSpecialReview-specialReviewExemptions" parent="ProtocolSpecialReview-specialReviewExemptions-parentBean" />
-	<bean id="ProtocolSpecialReview-specialReviewExemptions-parentBean" abstract="true" parent="SpecialReviewReference-specialReviewExemptions" />
-	
-	<bean id="ProtocolSpecialReview-versionNumber" parent="ProtocolSpecialReview-versionNumber-parentBean" />
-	<bean id="ProtocolSpecialReview-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber" />
+    <bean id="ProtocolSpecialReview-expirationDate-parentBean" abstract="true" parent="SpecialReview-expirationDate" />
+
+    <bean id="ProtocolSpecialReview-comments" parent="ProtocolSpecialReview-comments-parentBean" />
+    <bean id="ProtocolSpecialReview-comments-parentBean" abstract="true" parent="SpecialReview-comments" />
+    
+    <bean id="ProtocolSpecialReview-versionNumber" parent="ProtocolSpecialReview-versionNumber-parentBean" />
+    <bean id="ProtocolSpecialReview-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber" />
 
 	<!-- Business Object Inquiry Definition -->
+	
 	<bean id="ProtocolSpecialReview-inquiryDefinition" parent="ProtocolSpecialReview-inquiryDefinition-parentBean" />
 	<bean id="ProtocolSpecialReview-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-		<property name="title" value="Protocol Special Review Id" />
+		<property name="title" value="Protocol Special Review" />
 		<property name="inquirySections" >
 			<list>
 				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Protocol Special Review Id" />
+					<property name="title" value="Protocol Special Review" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list>
 							<bean parent="FieldDefinition"
-								p:attributeName="protocolSpecialReviewId" 
-								p:forceInquiry="true" />
+								  p:attributeName="protocolSpecialReviewId" 
+								  p:forceInquiry="true" />
 							<bean parent="FieldDefinition"
-								p:attributeName="specialReviewNumber" />
+								  p:attributeName="specialReviewNumber" />
 							<bean parent="FieldDefinition"
-								p:attributeName="specialReviewCode" />
+								  p:attributeName="specialReviewTypeCode" />
 							<bean parent="FieldDefinition"
-								p:attributeName="approvalTypeCode" />
+								  p:attributeName="approvalTypeCode" />
 							<bean parent="FieldDefinition"
-								p:attributeName="protocolNumber" />
+								  p:attributeName="protocolNumber" />
 							<bean parent="FieldDefinition"
-								p:attributeName="applicationDate" />
+								  p:attributeName="applicationDate" />
 							<bean parent="FieldDefinition"
-								p:attributeName="approvalDate" />
+								  p:attributeName="approvalDate" />
 						    <bean parent="FieldDefinition"
-								p:attributeName="expirationDate" />
+								  p:attributeName="expirationDate" />
 							<bean parent="FieldDefinition"
-								p:attributeName="comments" />
+								  p:attributeName="comments" />
 						</list>
 					</property>
 				</bean>
@@ -165,60 +137,60 @@
 	</bean>
 
 	<!-- Business Object Lookup Definition -->
+	
 	<bean id="ProtocolSpecialReview-lookupDefinition" parent="ProtocolSpecialReview-lookupDefinition-parentBean" />
 	<bean id="ProtocolSpecialReview-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Protocol Special Review Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
 		<property name="defaultSort" >
-			<bean parent="SortDefinition" >
-		</bean>
+			<bean parent="SortDefinition" />
 		</property>
 		<property name="lookupFields" >
 			<list>
 				<bean parent="FieldDefinition"
-					p:attributeName="protocolSpecialReviewId" 
-					p:forceInquiry="true" />
+					  p:attributeName="protocolSpecialReviewId" 
+					  p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
-					p:attributeName="specialReviewNumber" />
+					  p:attributeName="specialReviewNumber" />
 				<bean parent="FieldDefinition"
-					p:attributeName="specialReviewCode" />
+					  p:attributeName="specialReviewTypeCode" />
 				<bean parent="FieldDefinition"
-					p:attributeName="approvalTypeCode" />
+					  p:attributeName="approvalTypeCode" />
 				<bean parent="FieldDefinition"
-					p:attributeName="protocolNumber" />
+					  p:attributeName="protocolNumber" />
 				<bean parent="FieldDefinition"
-					p:attributeName="applicationDate" />
+					  p:attributeName="applicationDate" />
 				<bean parent="FieldDefinition"
-					p:attributeName="approvalDate" />
+					  p:attributeName="approvalDate" />
 			    <bean parent="FieldDefinition"
-					p:attributeName="expirationDate" />
+					  p:attributeName="expirationDate" />
 				<bean parent="FieldDefinition"
-					p:attributeName="comments" />
+					  p:attributeName="comments" />
 			</list>
 		</property>
 		<property name="resultFields" >
 			<list>
 				<bean parent="FieldDefinition"
-					p:attributeName="protocolSpecialReviewId" 
-					p:forceInquiry="true" />
+					  p:attributeName="protocolSpecialReviewId" 
+					  p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
-					p:attributeName="specialReviewNumber" />
+					  p:attributeName="specialReviewNumber" />
 				<bean parent="FieldDefinition"
-					p:attributeName="specialReviewCode" />
+					  p:attributeName="specialReviewTypeCode" />
 				<bean parent="FieldDefinition"
-					p:attributeName="approvalTypeCode" />
+					  p:attributeName="approvalTypeCode" />
 				<bean parent="FieldDefinition"
-					p:attributeName="protocolNumber" />
+					  p:attributeName="protocolNumber" />
 				<bean parent="FieldDefinition"
-					p:attributeName="applicationDate" />
+					  p:attributeName="applicationDate" />
 				<bean parent="FieldDefinition"
-					p:attributeName="approvalDate" />
+					  p:attributeName="approvalDate" />
 				<bean parent="FieldDefinition"
-					p:attributeName="expirationDate" />
+					  p:attributeName="expirationDate" />
 				<bean parent="FieldDefinition"
-					p:attributeName="comments" />
+					  p:attributeName="comments" />
 			</list>
 		</property>
 	</bean>
+	
 </beans>

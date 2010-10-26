@@ -24,14 +24,15 @@ import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCusto
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalNotepad;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReview;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReviewExemption;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
+import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
+import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReviewExemption;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 
-public class InstitutionalProposalVersioningTest {
+public class InstitutionalProposalVersioningTest extends KcUnitTestBase {
     
     private VersioningService versioningService;
     
@@ -78,7 +79,7 @@ public class InstitutionalProposalVersioningTest {
         InstitutionalProposalSpecialReview ipSpecialReview = new InstitutionalProposalSpecialReview();
         ipSpecialReview.setProposalSpecialReviewId(new Long(1));
         InstitutionalProposalSpecialReviewExemption ipSpecialReviewExemption = ipSpecialReview.createSpecialReviewExemption("1");
-        ipSpecialReviewExemption.setInstitutionalProposalSpecialReviewExemptionId(new Long(1));
+        ipSpecialReviewExemption.setProposalSpecialReviewExemptionId(new Long(1));
         ipSpecialReview.getSpecialReviewExemptions().add(ipSpecialReviewExemption);
         institutionalProposal.addSpecialReview(ipSpecialReview);
         Assert.assertTrue(institutionalProposal.getSpecialReviews().get(0).getSequenceNumber().equals(1));
@@ -112,11 +113,11 @@ public class InstitutionalProposalVersioningTest {
         Assert.assertNull(newIpVersion.getKeywords().get(0).getProposalScienceKeywordId());
         Assert.assertTrue(newIpVersion.getKeywords().get(0).getSequenceNumber().equals(2));
         
-        Assert.assertNull(newIpVersion.getSpecialReviews().get(0).getSpecialReviewId());
+        Assert.assertNull(newIpVersion.getSpecialReviews().get(0).getProposalSpecialReviewId());
         Assert.assertTrue(newIpVersion.getSpecialReviews().get(0).getSequenceNumber().equals(2));
         
-        Assert.assertNull(newIpVersion.getSpecialReviews().get(0).getSpecialReviewId());
-        Assert.assertNull(newIpVersion.getSpecialReviews().get(0).getSpecialReviewExemptions().get(0).getInstitutionalProposalSpecialReviewExemptionId());
+        Assert.assertNull(newIpVersion.getSpecialReviews().get(0).getProposalSpecialReviewId());
+        Assert.assertNull(newIpVersion.getSpecialReviews().get(0).getSpecialReviewExemptions().get(0).getProposalSpecialReviewExemptionId());
         
     }
     

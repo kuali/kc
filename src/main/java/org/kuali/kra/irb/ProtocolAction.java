@@ -115,8 +115,16 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         return mapping.findForward("noteAndAttachment");
     }
     
+    /**
+     * This method gets called upon navigation to Special Review tab.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
     public ActionForward specialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        ((ProtocolForm)form).getSpecialReviewHelper().prepareView();
+        ((ProtocolForm) form).getSpecialReviewHelper().prepareView();
         return mapping.findForward("specialReview");
     }
     
