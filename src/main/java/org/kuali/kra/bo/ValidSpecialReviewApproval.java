@@ -25,6 +25,7 @@ public class ValidSpecialReviewApproval extends KraPersistableBusinessObjectBase
 
     private static final long serialVersionUID = 2223133021712448327L;
     
+    private Long validSpecialReviewApprovalId;
     private String specialReviewTypeCode;
     private String approvalTypeCode;
     private boolean protocolNumberFlag;
@@ -35,6 +36,14 @@ public class ValidSpecialReviewApproval extends KraPersistableBusinessObjectBase
     private SpecialReviewType specialReviewType;
     private SpecialReviewApprovalType specialReviewApprovalType;
     
+    public Long getValidSpecialReviewApprovalId() {
+        return validSpecialReviewApprovalId;
+    }
+    
+    public void setValidSpecialReviewApprovalId(Long validSpecialReviewApprovalId) {
+        this.validSpecialReviewApprovalId = validSpecialReviewApprovalId;
+    }
+    
     public String getSpecialReviewTypeCode() {
         return specialReviewTypeCode;
     }
@@ -43,20 +52,20 @@ public class ValidSpecialReviewApproval extends KraPersistableBusinessObjectBase
         this.specialReviewTypeCode = specialReviewTypeCode;
     }
     
-    public boolean isProtocolNumberFlag() {
-        return protocolNumberFlag;
-    }
-
-    public void setProtocolNumberFlag(boolean protocolNumberFlag) {
-        this.protocolNumberFlag = protocolNumberFlag;
-    }
-
     public String getApprovalTypeCode() {
         return approvalTypeCode;
     }
 
     public void setApprovalTypeCode(String approvalTypeCode) {
         this.approvalTypeCode = approvalTypeCode;
+    }
+    
+    public boolean isProtocolNumberFlag() {
+        return protocolNumberFlag;
+    }
+
+    public void setProtocolNumberFlag(boolean protocolNumberFlag) {
+        this.protocolNumberFlag = protocolNumberFlag;
     }
 
     public boolean isApplicationDateFlag() {
@@ -102,6 +111,7 @@ public class ValidSpecialReviewApproval extends KraPersistableBusinessObjectBase
     @Override 
     protected LinkedHashMap<?, ?> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
+        hashMap.put("validSpecialReviewApprovalId", getValidSpecialReviewApprovalId());
         hashMap.put("specialReviewTypeCode", getSpecialReviewTypeCode());
         hashMap.put("approvalTypeCode", getApprovalTypeCode());
         hashMap.put("applicationDateFlag", isApplicationDateFlag());
