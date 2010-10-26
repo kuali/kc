@@ -31,12 +31,11 @@
 	    <property name="lookupDefinition" >
             <ref bean="ValidSpecialReviewApproval-lookupDefinition" />
 	    </property>
-<!-- This attribute is still needed for proper inquiry, but we currently do not have a key for it.
-     Uncomment when the key is added to the database, and make other appropriate changes to this DD file.
-    <property name="titleAttribute" value="validSpecialReviewApprovalId" />
--->
+        <property name="titleAttribute" value="validSpecialReviewApprovalId" />
+
         <property name="attributes" >
 			<list>
+			    <ref bean="ValidSpecialReviewApproval-validSpecialReviewApprovalId" />
 				<ref bean="ValidSpecialReviewApproval-specialReviewTypeCode" />
 				<ref bean="ValidSpecialReviewApproval-approvalTypeCode" />
 				<ref bean="ValidSpecialReviewApproval-applicationDateFlag" />
@@ -49,9 +48,27 @@
     </bean>
 
     <!-- Attribute Definitions -->
+    
+    <bean id="ValidSpecialReviewApproval-validSpecialReviewApprovalId" parent="ValidSpecialReviewApproval-validSpecialReviewApprovalId-parentBean" />
+    <bean id="ValidSpecialReviewApproval-validSpecialReviewApprovalId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="validSpecialReviewApprovalId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Valid Special Review Approval Id" />
+        <property name="shortLabel" value="Valid Special Review Approval Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                  p:size="10" />
+        </property>
+        <property name="summary" value="Valid Special Review Approval Id" />
+        <property name="description" value="Valid Special Review Approval Id" />
+    </bean>
 
     <bean id="ValidSpecialReviewApproval-specialReviewTypeCode" parent="ValidSpecialReviewApproval-specialReviewTypeCode-parentBean" />
-    <bean id="ValidSpecialReviewApproval-specialReviewTypeCode-parentBean" abstract="true" parent="SpecialReview-specialReviewTypeCode"/>
+    <bean id="ValidSpecialReviewApproval-specialReviewTypeCode-parentBean" abstract="true" parent="SpecialReviewType-specialReviewTypeCode"/>
     
     <bean id="ValidSpecialReviewApproval-approvalTypeCode" parent="ValidSpecialReviewApproval-approvalTypeCode-parentBean" />
     <bean id="ValidSpecialReviewApproval-approvalTypeCode-parentBean" abstract="true" parent="SpecialReviewApprovalType-approvalTypeCode" />
@@ -107,9 +124,11 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list>
+						    <bean parent="FieldDefinition"
+                                  p:attributeName="validSpecialReviewApprovalId" 
+                                  p:forceInquiry="true" />
 							<bean parent="FieldDefinition"
-							      p:attributeName="specialReviewTypeCode"
-							      p:forceInquiry="true" />
+							      p:attributeName="specialReviewTypeCode" />
 							<bean parent="FieldDefinition"
 							      p:attributeName="approvalTypeCode" />
 							<bean parent="FieldDefinition"
@@ -138,6 +157,9 @@
 	    </property>
 	    <property name="lookupFields" >
 			<list>
+                <bean parent="FieldDefinition"
+                      p:attributeName="validSpecialReviewApprovalId" 
+                      p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
 				      p:attributeName="specialReviewTypeCode" />
 				<bean parent="FieldDefinition"
@@ -154,6 +176,9 @@
 	    </property>
 	    <property name="resultFields" >
 			<list>
+			    <bean parent="FieldDefinition"
+                      p:attributeName="validSpecialReviewApprovalId" 
+                      p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
 				      p:attributeName="specialReviewTypeCode"
 				      p:forceInquiry="true" />

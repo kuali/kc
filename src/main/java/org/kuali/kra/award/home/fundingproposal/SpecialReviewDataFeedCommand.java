@@ -86,14 +86,13 @@ class SpecialReviewDataFeedCommand extends ProposalDataFeedCommandBase {
         copiedSpecialReview.setSpecialReviewType(ipSpecialReview.getSpecialReviewType());
         copiedSpecialReview.setApprovalType(ipSpecialReview.getApprovalType());
         copiedSpecialReview.setSpecialReviewTypeCode(ipSpecialReview.getSpecialReviewTypeCode());
-        for(InstitutionalProposalSpecialReviewExemption ipExempt: ipSpecialReview.getSpecialReviewExemptions()) {
+        for (InstitutionalProposalSpecialReviewExemption ipExempt : ipSpecialReview.getSpecialReviewExemptions()) {
             if (StringUtils.isNotBlank(ipExempt.getExemptionTypeCode())) {
                 AwardSpecialReviewExemption newAwardExempt = copiedSpecialReview.createSpecialReviewExemption(ipExempt.getExemptionTypeCode());
                 copiedSpecialReview.getSpecialReviewExemptions().add(newAwardExempt);
             }
         }
         copiedSpecialReview.setSpecialReviewNumber(ipSpecialReview.getSpecialReviewNumber());
-        copiedSpecialReview.setValidSpecialReviewApproval(ipSpecialReview.getValidSpecialReviewApproval());
         
         return copiedSpecialReview;
     }
