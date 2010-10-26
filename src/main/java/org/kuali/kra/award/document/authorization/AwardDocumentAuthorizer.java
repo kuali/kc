@@ -33,11 +33,16 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.AwardTaskNames;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kew.web.session.UserSession;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.bo.DocumentHeader;
@@ -121,28 +126,28 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         AwardDocument awardDocument = (AwardDocument) document;
         Award award = awardDocument.getAward();
         boolean hasPermission = false;
-        
-        String status = document.getDocumentHeader().getWorkflowDocument().getStatusDisplayValue();
-        if (status.equalsIgnoreCase("processed") || status.equalsIgnoreCase("final")) {
+        String status = document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
+        // if document is in processed or final state
+        if (status.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_PROCESSED_CD) 
+                || status.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_FINAL_CD)) {
             String awardAccountParameter = getParameterService().getParameterValue("KC-AWARD", "D", "AWARD_CREATE_ACCOUNT");
+            // if the integration parameter is ON
             if (awardAccountParameter.equalsIgnoreCase("ON")) {
-                List<AwardUnitContact> contacts = award.getAwardUnitContacts();
-                String ospAdmin = "";
-                for (AwardUnitContact contact : contacts) {
-                    // Finding the OSP admin
-                    if (contact.getUnitAdministratorTypeCode().equals("2")) {
-                        ospAdmin = contact.getPerson().getIdentifier();
-                    }
-                }
+                IdentityManagementService identityManagementService 
+                    = KraServiceLocator.getService(IdentityManagementService.class);
+                AttributeSet set = new AttributeSet();
+                set.put("documentTypeName", "AwardDocument");
+                set.put("documentAction", "Create award account");
+                // if the user has permission.
+                hasPermission = identityManagementService.hasPermission(
+                            UserSession.getAuthenticatedUser().getPrincipalId(), "KC-AWARD", "Create Award Account",set
+                );
                 // only the OSP admin can create a financial account
-                if (user.getPrincipalId().equals(ospAdmin)) {
+                // if account has already been created, anyone can see it
+                if (award.getFinancialAccountDocumentNumber() != null) {
                     hasPermission = true;
-                } else {
-                    // if the financial account has been created, anyone can view it
-                    if (award.getFinancialAccountDocumentNumber() != null) {
-                        hasPermission = true;
-                    }
                 }
+                
             }
         }
         return hasPermission;
