@@ -467,10 +467,6 @@
         <reference-descriptor name="approvalType" class-ref="org.kuali.kra.bo.SpecialReviewApprovalType" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="approvalTypeCode"/>
         </reference-descriptor>
-        <reference-descriptor name="validSpecialReviewApproval" class-ref="org.kuali.kra.bo.ValidSpecialReviewApproval" auto-retrieve="true" auto-update="none" auto-delete="none">
-            <foreignkey field-ref="specialReviewTypeCode"/>
-            <foreignkey field-ref="approvalTypeCode"/>
-        </reference-descriptor>
 	</class-descriptor>	
 	
 	

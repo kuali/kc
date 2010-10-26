@@ -25,7 +25,6 @@ import org.apache.ojb.broker.PersistenceBroker;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.SpecialReviewType;
-import org.kuali.kra.bo.ValidSpecialReviewApproval;
 
 /**
  * Defines the base class for the Special Review business object for all modules.
@@ -46,8 +45,6 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kr
     
     private SpecialReviewType specialReviewType;
     private SpecialReviewApprovalType approvalType;
-    
-    private ValidSpecialReviewApproval validSpecialReviewApproval;
     
     // Struts 1 does not like having objects in multiselect boxes, so these two fields are a hack to make this work nicely with Struts.
     //
@@ -144,14 +141,6 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kr
 
     public void setApprovalType(SpecialReviewApprovalType approvalType) {
         this.approvalType = approvalType;
-    }
-    
-    public ValidSpecialReviewApproval getValidSpecialReviewApproval() {
-        return validSpecialReviewApproval;
-    }
-
-    public void setValidSpecialReviewApproval(ValidSpecialReviewApproval validSpecialReviewApproval) {
-        this.validSpecialReviewApproval = validSpecialReviewApproval;
     }
     
     public List<String> getExemptionTypeCodes() {

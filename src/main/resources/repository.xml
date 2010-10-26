@@ -1323,10 +1323,6 @@
         <reference-descriptor name="approvalType" class-ref="org.kuali.kra.bo.SpecialReviewApprovalType" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="approvalTypeCode"/>
         </reference-descriptor>
-        <reference-descriptor name="validSpecialReviewApproval" class-ref="org.kuali.kra.bo.ValidSpecialReviewApproval" auto-retrieve="true" auto-update="none" auto-delete="none">
-            <foreignkey field-ref="specialReviewTypeCode"/>
-            <foreignkey field-ref="approvalTypeCode"/>
-        </reference-descriptor>
 	</class-descriptor>
 	
     <class-descriptor class="org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReviewExemption" table="EPS_PROP_EXEMPT_NUMBER">
@@ -1366,8 +1362,9 @@
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kra.bo.ValidSpecialReviewApproval" table="VALID_SP_REV_APPROVAL">
-	    <field-descriptor name="specialReviewTypeCode" column="SPECIAL_REVIEW_CODE" jdbc-type="VARCHAR" primarykey="true"/>
-		<field-descriptor name="approvalTypeCode" column="APPROVAL_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
+	    <field-descriptor name="validSpecialReviewApprovalId" column="VALID_SP_REV_APPROVAL_ID" jdbc-type="BIGINT" primarykey="true" />
+	    <field-descriptor name="specialReviewTypeCode" column="SPECIAL_REVIEW_CODE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="approvalTypeCode" column="APPROVAL_TYPE_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="applicationDateFlag" column="APPLICATION_DATE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="approvalDateFlag" column="APPROVAL_DATE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="exemptNumberFlag" column="EXEMPT_NUMBER_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
