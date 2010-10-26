@@ -46,7 +46,7 @@ public class AwardCreateAccountRule {
     /**
      * This method validates the data required to create an award account.
      * @param award
-     * @return 
+     * @return rulePassed
      */
     public boolean processAwardCreateAccountRules(Award award) {
         boolean rulePassed = true;
@@ -174,7 +174,7 @@ public class AwardCreateAccountRule {
      * @param award
      * @return
      */
-    public boolean isValidEffectiveDate(Award award) {
+    private boolean isValidEffectiveDate(Award award) {
         if (award.getBeginDate() == null) {
             GlobalVariables.getMessageMap().putError(AWARD_EFFECTIVE_DATE_NOT_SPECIFIED, 
                                                     KeyConstants.AWARD_NO_VALID_EFFECTIVE_DATE);
@@ -189,7 +189,7 @@ public class AwardCreateAccountRule {
      * @param award
      * @return
      */
-    public boolean isValidExpenseGuidelineText(Award award) { 
+    private boolean isValidExpenseGuidelineText(Award award) { 
         if (award.getAwardId() == null) {
             GlobalVariables.getMessageMap().putError(AWARD_ID_NOT_SPECIFIED, 
                                                     KeyConstants.AWARD_ID_NOT_SPECIFIED);
@@ -204,7 +204,7 @@ public class AwardCreateAccountRule {
      * @param award
      * @return
      */
-    public boolean isValidExpirationDate(Award award) {
+    private boolean isValidExpirationDate(Award award) {
         if (award.getProjectEndDate() == null) {
             GlobalVariables.getMessageMap().putError(AWARD_END_DATE_NOT_SPECIFIED, 
                                                     KeyConstants.AWARD_END_DATE_NOT_SPECIFIED);
