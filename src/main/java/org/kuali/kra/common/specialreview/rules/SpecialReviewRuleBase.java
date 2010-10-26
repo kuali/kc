@@ -15,7 +15,10 @@
  */
 package org.kuali.kra.common.specialreview.rules;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.ValidSpecialReviewApproval;
@@ -126,17 +129,18 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
      * @param errorPath The error path
      * @return true if the specialReview is valid, false otherwise
      */
+    @SuppressWarnings("unchecked")
     private boolean validateSpecialReviewApprovalFields(T specialReview, String errorPath) {
         boolean isValid = true;
         
-        if (StringUtils.isNotBlank(specialReview.getApprovalTypeCode()) && StringUtils.isNotBlank(specialReview.getSpecialReviewTypeCode())) {
-            if (specialReview.getValidSpecialReviewApproval() == null) {
-                specialReview.refreshReferenceObject("validSpecialReviewApproval");
-            }
-            ValidSpecialReviewApproval validSpecialReviewApproval = specialReview.getValidSpecialReviewApproval();
-            
-            if (validSpecialReviewApproval != null) {
-                isValid = validateApprovalFields(validSpecialReviewApproval, specialReview, errorPath);
+        if (StringUtils.isNotBlank(specialReview.getSpecialReviewTypeCode()) && StringUtils.isNotBlank(specialReview.getApprovalTypeCode())) {
+            Map<String, String> fieldValues = new HashMap<String, String>();
+            fieldValues.put("specialReviewTypeCode", specialReview.getSpecialReviewTypeCode());
+            fieldValues.put("approvalTypeCode", specialReview.getApprovalTypeCode());
+            Collection<ValidSpecialReviewApproval> validApprovals = getBusinessObjectService().findMatching(ValidSpecialReviewApproval.class, fieldValues);
+
+            for (ValidSpecialReviewApproval validApproval : validApprovals) {
+                isValid &= validateApprovalFields(validApproval, specialReview, errorPath);
             }
         }
         

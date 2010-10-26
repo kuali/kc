@@ -19,7 +19,14 @@ import java.sql.Date;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,10 +37,12 @@ import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
 import org.kuali.kra.common.specialreview.rule.AddSpecialReviewRule;
 import org.kuali.kra.common.specialreview.rule.event.AddSpecialReviewEvent;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -61,11 +70,14 @@ public abstract class AddSpecialReviewRuleTestBase<T extends SpecialReview<? ext
     private static final String EXPIRATION_DATE_FIELD = "expirationDate";
     private static final String EXEMPTION_TYPE_CODE_FIELD = "exemptionTypeCodes";
     
+    private static final String SPECIAL_REVIEW_TYPE_DESCRIPTION_HUMAN_SUBJECTS = "Human Subjects";
+    
+    private static final String APPROVAL_TYPE_DESCRIPTION_APPROVED = "Approved";
+    private static final String APPROVAL_TYPE_DESCRIPTION_EXEMPT = "Exempt";
+    
+    private Mockery context;
     private AddSpecialReviewRule<T> rule;
     private DateFormat dateFormat;
-    
-    private SpecialReviewType humanSubjectsSpecialReviewType;
-    private SpecialReviewApprovalType approvedSpecialReviewApprovalType;
     
     /**
      * Returns the document specific to the SpecialReview type being tested.
@@ -83,19 +95,19 @@ public abstract class AddSpecialReviewRuleTestBase<T extends SpecialReview<? ext
     @Before
     public void setUp() throws Exception {
         super.setUp();
+        context = new JUnit4Mockery() {{
+            setImposteriser(ClassImposteriser.INSTANCE);
+        }};
         rule = new AddSpecialReviewRule<T>();
         dateFormat = DateFormat.getDateInstance();
-        humanSubjectsSpecialReviewType = getBusinessObjectService().findBySinglePrimaryKey(SpecialReviewType.class, SPECIAL_REVIEW_TYPE_CODE_HUMAN_SUBJECTS);
-        approvedSpecialReviewApprovalType = getBusinessObjectService().findBySinglePrimaryKey(SpecialReviewApprovalType.class, APPROVAL_TYPE_CODE_APPROVED);
     }
 
     @After
     public void tearDown() throws Exception {
         super.tearDown();
+        context = null;
         rule = null;
         dateFormat = null;
-        humanSubjectsSpecialReviewType = null;
-        approvedSpecialReviewApprovalType = null;
     }
 
     /**
@@ -115,6 +127,7 @@ public abstract class AddSpecialReviewRuleTestBase<T extends SpecialReview<? ext
         newSpecialReview.setApprovalDate(new Date(dateFormat.parse("Aug 21, 2007").getTime()));
         AddSpecialReviewEvent<T> addSpecialReviewEvent = new AddSpecialReviewEvent<T>(document, newSpecialReview);
         
+        rule.setBusinessObjectService(getBusinessObjectService(SPECIAL_REVIEW_TYPE_CODE_HUMAN_SUBJECTS, APPROVAL_TYPE_CODE_APPROVED, true, false, false, false));
         assertTrue(rule.processRules(addSpecialReviewEvent));
     }
 
@@ -136,6 +149,7 @@ public abstract class AddSpecialReviewRuleTestBase<T extends SpecialReview<? ext
         newSpecialReview.setApprovalDate(new Date(dateFormat.parse("Aug 21, 2007").getTime()));
         AddSpecialReviewEvent<T> addSpecialReviewEvent = new AddSpecialReviewEvent<T>(document, newSpecialReview);
         
+        rule.setBusinessObjectService(getBusinessObjectService(SPECIAL_REVIEW_TYPE_CODE_HUMAN_SUBJECTS, null, false, false, false, false));
         assertFalse(rule.processRules(addSpecialReviewEvent));
         assertError(APPROVAL_TYPE_CODE_FIELD, KeyConstants.ERROR_REQUIRED);
     }
@@ -158,6 +172,7 @@ public abstract class AddSpecialReviewRuleTestBase<T extends SpecialReview<? ext
         newSpecialReview.setApprovalDate(new Date(dateFormat.parse("Aug 21, 2007").getTime()));
         AddSpecialReviewEvent<T> addSpecialReviewEvent = new AddSpecialReviewEvent<T>(document, newSpecialReview);
         
+        rule.setBusinessObjectService(getBusinessObjectService(null, APPROVAL_TYPE_CODE_APPROVED, false, false, false, false));
         assertFalse(rule.processRules(addSpecialReviewEvent));
         assertError(SPECIAL_REVIEW_TYPE_CODE_FIELD, KeyConstants.ERROR_REQUIRED);
     }
@@ -178,6 +193,7 @@ public abstract class AddSpecialReviewRuleTestBase<T extends SpecialReview<? ext
         newSpecialReview.setApprovalDate(new Date(dateFormat.parse("Aug 21, 2007").getTime()));
         AddSpecialReviewEvent<T> addSpecialReviewEvent = new AddSpecialReviewEvent<T>(document, newSpecialReview);
         
+        rule.setBusinessObjectService(getBusinessObjectService(SPECIAL_REVIEW_TYPE_CODE_HUMAN_SUBJECTS, APPROVAL_TYPE_CODE_EXEMPT, false, false, false, true));
         assertFalse(rule.processRules(addSpecialReviewEvent));
         assertError(NEW_SPECIAL_REVIEW + DOT + APPROVAL_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_EMPTY_FOR_NOT_APPROVED);
     }
@@ -200,6 +216,7 @@ public abstract class AddSpecialReviewRuleTestBase<T extends SpecialReview<? ext
         newSpecialReview.setApprovalDate(new Date(dateFormat.parse("Aug 21, 2007").getTime()));
         AddSpecialReviewEvent<T> addProposalSpecialReviewEvent = new AddSpecialReviewEvent<T>(document, newSpecialReview);
         
+        rule.setBusinessObjectService(getBusinessObjectService(SPECIAL_REVIEW_TYPE_CODE_HUMAN_SUBJECTS, APPROVAL_TYPE_CODE_APPROVED, true, false, false, false));
         assertFalse(rule.processRules(addProposalSpecialReviewEvent));
         assertError(NEW_SPECIAL_REVIEW + DOT + APPROVAL_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_DATE_SAME_OR_LATER);
     }
@@ -222,6 +239,7 @@ public abstract class AddSpecialReviewRuleTestBase<T extends SpecialReview<? ext
         newSpecialReview.setExpirationDate(new Date(dateFormat.parse("Aug 21, 2007").getTime()));
         AddSpecialReviewEvent<T> addProposalSpecialReviewEvent = new AddSpecialReviewEvent<T>(document, newSpecialReview);
         
+        rule.setBusinessObjectService(getBusinessObjectService(SPECIAL_REVIEW_TYPE_CODE_HUMAN_SUBJECTS, APPROVAL_TYPE_CODE_APPROVED, true, false, false, false));
         assertFalse(rule.processRules(addProposalSpecialReviewEvent));
         assertError(NEW_SPECIAL_REVIEW + DOT + EXPIRATION_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_DATE_LATER);
     }
@@ -244,6 +262,7 @@ public abstract class AddSpecialReviewRuleTestBase<T extends SpecialReview<? ext
         newSpecialReview.setExpirationDate(new Date(dateFormat.parse("Aug 21, 2007").getTime()));
         AddSpecialReviewEvent<T> addProposalSpecialReviewEvent = new AddSpecialReviewEvent<T>(document, newSpecialReview);
         
+        rule.setBusinessObjectService(getBusinessObjectService(SPECIAL_REVIEW_TYPE_CODE_HUMAN_SUBJECTS, APPROVAL_TYPE_CODE_APPROVED, true, false, false, false));
         assertFalse(rule.processRules(addProposalSpecialReviewEvent));
         assertError(NEW_SPECIAL_REVIEW + DOT + EXPIRATION_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_DATE_LATER);
     }
@@ -260,6 +279,7 @@ public abstract class AddSpecialReviewRuleTestBase<T extends SpecialReview<? ext
         newSpecialReview.setApprovalDate(new Date(dateFormat.parse("Aug 21, 2007").getTime()));
         AddSpecialReviewEvent<T> addSpecialReviewEvent = new AddSpecialReviewEvent<T>(document, newSpecialReview);
         
+        rule.setBusinessObjectService(getBusinessObjectService(SPECIAL_REVIEW_TYPE_CODE_HUMAN_SUBJECTS, APPROVAL_TYPE_CODE_APPROVED, true, false, false, false));
         assertFalse(rule.processRules(addSpecialReviewEvent));
         assertError(NEW_SPECIAL_REVIEW + DOT + PROTOCOL_NUMBER_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_REQUIRED_FOR_VALID);
     }
@@ -274,15 +294,9 @@ public abstract class AddSpecialReviewRuleTestBase<T extends SpecialReview<? ext
         newSpecialReview.setProtocolNumber(PROTOCOL_NUMBER);
         newSpecialReview.setApplicationDate(null);
         newSpecialReview.setApprovalDate(new Date(dateFormat.parse("Aug 21, 2007").getTime()));
-        ValidSpecialReviewApproval approval = new ValidSpecialReviewApproval();
-        approval.setSpecialReviewTypeCode(SPECIAL_REVIEW_TYPE_CODE_HUMAN_SUBJECTS);
-        approval.setSpecialReviewType(humanSubjectsSpecialReviewType);
-        approval.setApprovalTypeCode(APPROVAL_TYPE_CODE_APPROVED);
-        approval.setSpecialReviewApprovalType(approvedSpecialReviewApprovalType);
-        approval.setApplicationDateFlag(true);
-        newSpecialReview.setValidSpecialReviewApproval(approval);
         AddSpecialReviewEvent<T> addSpecialReviewEvent = new AddSpecialReviewEvent<T>(document, newSpecialReview);
         
+        rule.setBusinessObjectService(getBusinessObjectService(SPECIAL_REVIEW_TYPE_CODE_HUMAN_SUBJECTS, APPROVAL_TYPE_CODE_APPROVED, true, true, false, false));
         assertFalse(rule.processRules(addSpecialReviewEvent));
         assertError(NEW_SPECIAL_REVIEW + DOT + APPLICATION_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_REQUIRED_FOR_VALID);
     }
@@ -297,15 +311,9 @@ public abstract class AddSpecialReviewRuleTestBase<T extends SpecialReview<? ext
         newSpecialReview.setProtocolNumber(PROTOCOL_NUMBER);
         newSpecialReview.setApplicationDate(new Date(dateFormat.parse("Aug 1, 2007").getTime()));
         newSpecialReview.setApprovalDate(null);
-        ValidSpecialReviewApproval approval = new ValidSpecialReviewApproval();
-        approval.setSpecialReviewTypeCode(SPECIAL_REVIEW_TYPE_CODE_HUMAN_SUBJECTS);
-        approval.setSpecialReviewType(humanSubjectsSpecialReviewType);
-        approval.setApprovalTypeCode(APPROVAL_TYPE_CODE_APPROVED);
-        approval.setSpecialReviewApprovalType(approvedSpecialReviewApprovalType);
-        approval.setApprovalDateFlag(true);
-        newSpecialReview.setValidSpecialReviewApproval(approval);
         AddSpecialReviewEvent<T> addSpecialReviewEvent = new AddSpecialReviewEvent<T>(document, newSpecialReview);
         
+        rule.setBusinessObjectService(getBusinessObjectService(SPECIAL_REVIEW_TYPE_CODE_HUMAN_SUBJECTS, APPROVAL_TYPE_CODE_APPROVED, true, false, true, false));
         assertFalse(rule.processRules(addSpecialReviewEvent));
         assertError(NEW_SPECIAL_REVIEW + DOT + APPROVAL_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_REQUIRED_FOR_VALID);
     }
@@ -322,6 +330,7 @@ public abstract class AddSpecialReviewRuleTestBase<T extends SpecialReview<? ext
         newSpecialReview.setExemptionTypeCodes(new ArrayList<String>());
         AddSpecialReviewEvent<T> addSpecialReviewEvent = new AddSpecialReviewEvent<T>(document, newSpecialReview);
         
+        rule.setBusinessObjectService(getBusinessObjectService(SPECIAL_REVIEW_TYPE_CODE_HUMAN_SUBJECTS, APPROVAL_TYPE_CODE_EXEMPT, false, false, false, true));
         assertFalse(rule.processRules(addSpecialReviewEvent));
         assertError(NEW_SPECIAL_REVIEW + DOT + EXEMPTION_TYPE_CODE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_REQUIRED_FOR_VALID);
     }
@@ -339,8 +348,70 @@ public abstract class AddSpecialReviewRuleTestBase<T extends SpecialReview<? ext
         newSpecialReview.setExemptionTypeCodes(Arrays.asList(EXEMPTION_TYPE_CODE_E1, EXEMPTION_TYPE_CODE_E2));
         AddSpecialReviewEvent<T> addSpecialReviewEvent = new AddSpecialReviewEvent<T>(document, newSpecialReview);
         
+        rule.setBusinessObjectService(getBusinessObjectService(SPECIAL_REVIEW_TYPE_CODE_HUMAN_SUBJECTS, APPROVAL_TYPE_CODE_APPROVED, true, false, true, false));
         assertFalse(rule.processRules(addSpecialReviewEvent));
         assertError(NEW_SPECIAL_REVIEW + DOT + EXEMPTION_TYPE_CODE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_CANNOT_SELECT_EXEMPTION_FOR_VALID);
+    }
+    
+    protected BusinessObjectService getBusinessObjectService(final String specialReviewTypeCode, final String approvalTypeCode, 
+            final boolean protocolNumberFlag, final boolean applicationDateFlag, final boolean approvalDateFlag, final boolean exemptNumberFlag) {
+        final BusinessObjectService service = context.mock(BusinessObjectService.class);
+        final SpecialReviewType specialReviewType = context.mock(SpecialReviewType.class);
+        final SpecialReviewApprovalType specialReviewApprovalType = context.mock(SpecialReviewApprovalType.class);
+        final ValidSpecialReviewApproval approval = context.mock(ValidSpecialReviewApproval.class);
+        
+        final Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(SPECIAL_REVIEW_TYPE_CODE_FIELD, specialReviewTypeCode);
+        fieldValues.put(APPROVAL_TYPE_CODE_FIELD, approvalTypeCode);
+        
+        context.checking(new Expectations() {{
+            allowing(service).findMatching(ValidSpecialReviewApproval.class, fieldValues);
+            will(returnValue(Collections.singletonList(approval)));
+            
+            allowing(approval).getSpecialReviewType();
+            will(returnValue(specialReviewType));
+            
+            allowing(approval).getSpecialReviewApprovalType();
+            will(returnValue(specialReviewApprovalType));
+            
+            allowing(approval).isProtocolNumberFlag();
+            will(returnValue(protocolNumberFlag));
+            
+            allowing(approval).isApplicationDateFlag();
+            will(returnValue(applicationDateFlag));
+            
+            allowing(approval).isApprovalDateFlag();
+            will(returnValue(approvalDateFlag));
+            
+            allowing(approval).isExemptNumberFlag();
+            will(returnValue(exemptNumberFlag));
+            
+            allowing(specialReviewType).getSpecialReviewTypeCode();
+            will(returnValue(specialReviewTypeCode));
+            
+            allowing(specialReviewType).getDescription();
+            will(returnValue(SPECIAL_REVIEW_TYPE_DESCRIPTION_HUMAN_SUBJECTS));
+            
+            allowing(specialReviewApprovalType).getApprovalTypeCode();
+            will(returnValue(approvalTypeCode));
+            
+            allowing(specialReviewApprovalType).getDescription();
+            will(returnValue(getApprovalDescription(approvalTypeCode)));
+        }
+
+        private String getApprovalDescription(String approvalTypeCode) {
+            if (APPROVAL_TYPE_CODE_APPROVED.equals(approvalTypeCode)) {
+                return APPROVAL_TYPE_DESCRIPTION_APPROVED;
+            } else if (APPROVAL_TYPE_CODE_EXEMPT.equals(approvalTypeCode)) {
+                return APPROVAL_TYPE_DESCRIPTION_EXEMPT;
+            } else {
+                return Constants.EMPTY_STRING;
+            }
+        }
+        
+        });
+    
+        return service;
     }
     
     private void assertError(String propertyKey, String errorKey) {

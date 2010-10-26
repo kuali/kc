@@ -483,7 +483,6 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         ipSpecialReview.setApprovalType(dpSpecialReview.getApprovalType());
         ipSpecialReview.setSpecialReviewTypeCode(dpSpecialReview.getSpecialReviewTypeCode());
         ipSpecialReview.setSpecialReviewNumber(dpSpecialReview.getSpecialReviewNumber());
-        ipSpecialReview.setValidSpecialReviewApproval(dpSpecialReview.getValidSpecialReviewApproval());
         for (String dpExempt : dpSpecialReview.getExemptionTypeCodes()) {
             InstitutionalProposalSpecialReviewExemption newIpSpecialReviewExemption = ipSpecialReview.createSpecialReviewExemption(dpExempt);
             ipSpecialReview.getSpecialReviewExemptions().add(newIpSpecialReviewExemption);
