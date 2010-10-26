@@ -250,7 +250,7 @@ public class AwardVersioningTest extends KcUnitTestBase {
     private AwardSpecialReview createSpecialReview(Integer specialReviewNo, String specialReviewCode, String approvalTypeCode) {
         AwardSpecialReview review = new AwardSpecialReview();
         review.setSpecialReviewNumber(specialReviewNo);
-        review.setSpecialReviewCode(specialReviewCode);
+        review.setSpecialReviewTypeCode(specialReviewCode);
         review.setApprovalTypeCode(approvalTypeCode);
         return review;
     }

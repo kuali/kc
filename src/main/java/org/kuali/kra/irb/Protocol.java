@@ -607,7 +607,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         managedLists.add(getAttachmentPersonnels());
         
         managedLists.add(getProtocolPersons());
-        managedLists.add(getSpecialReviews());
         managedLists.add(getProtocolActions());
         managedLists.add(getProtocolSubmissions());
         if (getProtocolAmendRenewal() != null) {
@@ -618,12 +617,12 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         }
         managedLists.add(getProtocolAmendRenewals());
         
-        List<ProtocolSpecialReviewExemption> protocolSpecialReviewExemptions = new ArrayList<ProtocolSpecialReviewExemption>();
-
-        for (ProtocolSpecialReview protocolSpecialReview : getSpecialReviews()) {
-            protocolSpecialReviewExemptions.addAll(protocolSpecialReview.getSpecialReviewExemptions());
+        List<ProtocolSpecialReviewExemption> specialReviewExemptions = new ArrayList<ProtocolSpecialReviewExemption>();
+        for (ProtocolSpecialReview specialReview : getSpecialReviews()) {
+            specialReviewExemptions.addAll(specialReview.getSpecialReviewExemptions());
         }
-        managedLists.add(protocolSpecialReviewExemptions);
+        managedLists.add(specialReviewExemptions);
+        managedLists.add(getSpecialReviews());
         
         return managedLists;
     }
@@ -810,16 +809,13 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
 
     public void setSpecialReviews(List<ProtocolSpecialReview> specialReviews) {
         this.specialReviews = specialReviews;
-        for (ProtocolSpecialReview specialReview : specialReviews) {
-            specialReview.init(this);
-        }
     }
     
     /**
      * @see org.kuali.kra.document.SpecialReviewHandler#addSpecialReview(org.kuali.kra.bo.AbstractSpecialReview)
      */
     public void addSpecialReview(ProtocolSpecialReview specialReview) {
-        specialReview.setProtocol(this);
+        specialReview.setSequenceOwner(this);
         getSpecialReviews().add(specialReview);
     }
 
@@ -1502,14 +1498,14 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     private void addSpecialReviewSummaries(ProtocolSummary protocolSummary) {
         for (ProtocolSpecialReview specialReview : getSpecialReviews()) {
             SpecialReviewSummary specialReviewSummary = new SpecialReviewSummary();
-            if (specialReview.getSpecialReview() == null) {
+            if (specialReview.getSpecialReviewType() == null) {
                 specialReview.refreshReferenceObject("specialReview");
             }
-            specialReviewSummary.setType(specialReview.getSpecialReview().getDescription());
-            if (specialReview.getSpecialReviewApprovalType() == null) {
-                specialReview.refreshReferenceObject("specialReviewApprovalType");
+            specialReviewSummary.setType(specialReview.getSpecialReviewType().getDescription());
+            if (specialReview.getApprovalType() == null) {
+                specialReview.refreshReferenceObject("approvalType");
             }
-            specialReviewSummary.setApprovalStatus(specialReview.getSpecialReviewApprovalType().getDescription());
+            specialReviewSummary.setApprovalStatus(specialReview.getApprovalType().getDescription());
             specialReviewSummary.setProtocolNumber(specialReview.getProtocolNumber());
             specialReviewSummary.setApplicationDate(specialReview.getApplicationDate());
             specialReviewSummary.setApprovalDate(specialReview.getApprovalDate());

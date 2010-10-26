@@ -24,6 +24,7 @@ import org.kuali.kra.common.permissions.bo.PermissionsUser;
 import org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles;
 import org.kuali.kra.common.permissions.rule.PermissionsRule;
 import org.kuali.kra.common.permissions.web.bean.User;
+import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.approve.ExecuteProtocolApproveRule;
@@ -82,6 +83,7 @@ import org.kuali.kra.irb.protocol.reference.AddProtocolReferenceRule;
 import org.kuali.kra.irb.protocol.reference.ProtocolReferenceRule;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchAreaAuditRule;
 import org.kuali.kra.irb.questionnaire.ProtocolQuestionnaireAuditRule;
+import org.kuali.kra.irb.specialreview.ProtocolSpecialReview;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.CustomAttributeRule;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
@@ -104,7 +106,8 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
     private static final String PROTOCOL_LUN_FORM_ELEMENT="protocolHelper.leadUnitNumber";
     private static final String ERROR_PROPERTY_ORGANIZATION_ID = "protocolHelper.newProtocolLocation.organizationId";
     private static final String PROTOCOL_DOC_LUN_FORM_ELEMENT = "document.protocolList[0].leadUnitNumber";
-
+    private static final String SAVE_SPECIAL_REVIEW_FIELD = "document.protocolList[0].specialReviews";
+    
 // TODO : move these static constant up to parent 
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -131,7 +134,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         valid &= processLeadUnitBusinessRules((ProtocolDocument) document);
         valid &= processProtocolLocationBusinessRules((ProtocolDocument) document);
         valid &= processProtocolParticipantBusinessRules((ProtocolDocument) document);
-        
+        valid &= processProtocolSpecialReviewBusinessRules((ProtocolDocument) document);
         return valid;
     }
 
@@ -217,6 +220,11 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
             }
         }
         return isValid;
+    }
+    
+    private boolean processProtocolSpecialReviewBusinessRules(ProtocolDocument document) {
+        List<ProtocolSpecialReview> specialReviews = document.getProtocol().getSpecialReviews();
+        return processRules(new SaveSpecialReviewEvent<ProtocolSpecialReview>(SAVE_SPECIAL_REVIEW_FIELD, document, specialReviews));
     }
 
     /**

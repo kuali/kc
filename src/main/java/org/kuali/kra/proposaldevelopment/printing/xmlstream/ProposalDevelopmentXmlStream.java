@@ -36,9 +36,8 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 
 import edu.mit.coeus.utils.xml.v2.budget.BUDGETDocument.BUDGET;
 import edu.mit.coeus.utils.xml.v2.budget.BUDGETDocument.BUDGET.BudgetMaster;
@@ -47,6 +46,7 @@ import edu.mit.coeus.utils.xml.v2.lookuptypes.PROPOSALSTATUSDocument.PROPOSALSTA
 import edu.mit.coeus.utils.xml.v2.lookuptypes.PROPOSALTYPEDocument.PROPOSALTYPE;
 import edu.mit.coeus.utils.xml.v2.lookuptypes.SPECIALREVIEWDocument.SPECIALREVIEW;
 import edu.mit.coeus.utils.xml.v2.organization.ORGANIZATIONDocument.ORGANIZATION;
+import edu.mit.coeus.utils.xml.v2.propdev.PROPOSALDocument;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPABSTRACTDocument.PROPABSTRACT;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPAPPROVALMAPSDocument.PROPAPPROVALMAPS;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPCHANGEDDATA31Document.PROPCHANGEDDATA31;
@@ -55,7 +55,6 @@ import edu.mit.coeus.utils.xml.v2.propdev.PROPINVESTIGATORSDocument.PROPINVESTIG
 import edu.mit.coeus.utils.xml.v2.propdev.PROPKEYPERSONSDocument.PROPKEYPERSONS;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPLOCATIONDocument.PROPLOCATION;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPNOTEPADDocument.PROPNOTEPAD;
-import edu.mit.coeus.utils.xml.v2.propdev.PROPOSALDocument;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPOSALDocument.PROPOSAL;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPOSALMASTERDocument.PROPOSALMASTER;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPPERCREDITSPLITDocument.PROPPERCREDITSPLIT;
@@ -249,8 +248,8 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
 			SPECIALREVIEW proposalSpecialReview = SPECIALREVIEW.Factory
 					.newInstance();
 			proposalSpecialReview.setDESCRIPTION(specialReview
-					.getSpecialReview().getDescription());
-			 proposalSpecialReview.setSPECIALREVIEWCODE(getCode(specialReview.getSpecialReview().getSpecialReviewCode()));
+					.getSpecialReviewType().getDescription());
+			 proposalSpecialReview.setSPECIALREVIEWCODE(getCode(specialReview.getSpecialReviewType().getSpecialReviewTypeCode()));
 			proposalReview.setSPECIALREVIEW(proposalSpecialReview);
 			APPLICABLEREVIEWTYPE applicablereviewtype = APPLICABLEREVIEWTYPE.Factory
 					.newInstance();

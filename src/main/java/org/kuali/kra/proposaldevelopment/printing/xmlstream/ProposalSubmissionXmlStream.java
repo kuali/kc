@@ -25,9 +25,8 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonCreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
-import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 
 import edu.mit.coeus.utils.xml.v2.lookuptypes.ACTIVITYTYPEDocument.ACTIVITYTYPE;
 import edu.mit.coeus.utils.xml.v2.lookuptypes.APPLICABLEREVIEWTYPEDocument.APPLICABLEREVIEWTYPE;
@@ -290,11 +289,11 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 					.newInstance();
 			appReviewType.setAPPLICABLEREVIEWTYPECODE(0);
 			appReviewType.setDESCRIPTION(specialReview
-					.getSpecialReviewApprovalType().getDescription());
+					.getApprovalType().getDescription());
 			propSplReview.setAPPLICABLEREVIEWTYPE(appReviewType);
 			SPECIALREVIEW splReview = SPECIALREVIEW.Factory.newInstance();
 			splReview.setSPECIALREVIEWCODE(0);
-			splReview.setDESCRIPTION(specialReview.getSpecialReview()
+			splReview.setDESCRIPTION(specialReview.getSpecialReviewType()
 					.getDescription());
 			propSplReview.setSPECIALREVIEW(splReview);
 			propSplReview.setPROTOCOLNUMBER(specialReview.getProtocolNumber());

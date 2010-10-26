@@ -1762,7 +1762,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      * @see org.kuali.kra.document.SpecialReviewHandler#addSpecialReview(java.lang.Object)
      */
     public void addSpecialReview(AwardSpecialReview specialReview) {
-        specialReview.setAward(this);
+        specialReview.setSequenceOwner(this);
         getSpecialReviews().add(specialReview);
     }
 
@@ -1805,7 +1805,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      */
     public void add(AwardSpecialReview awardSpecialReview) {
        specialReviews.add(awardSpecialReview);
-       awardSpecialReview.setAward(this);
+       awardSpecialReview.setSequenceOwner(this);
     }
     
     public void add(AwardSponsorContact awardSponsorContact) {

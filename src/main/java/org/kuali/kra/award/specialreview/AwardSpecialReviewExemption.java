@@ -17,82 +17,50 @@ package org.kuali.kra.award.specialreview;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.SequenceAssociate;
-import org.kuali.kra.SequenceOwner;
-import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.AbstractSpecialReviewExemption;
+import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
 
 /**
- * This class represents AwardSpecialReviewExemption
+ * Defines the Special Review Exemption for an Award.
  */
-public class AwardSpecialReviewExemption extends AbstractSpecialReviewExemption implements SequenceAssociate<Award> {
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
-    private static final long serialVersionUID = -2155591303526248765L;
-    private Long awardSpecialReviewExemptionId;
-    private AwardSpecialReview awardSpecialReview;
+public class AwardSpecialReviewExemption extends SpecialReviewExemption {
+
+    private static final long serialVersionUID = -589624827761999058L;
     
-    private Award award;
-    @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap hashMap = super.toStringMapper();
-        hashMap.put("awardSpecialReviewExemptionId", getAwardSpecialReviewExemptionId());
-        return hashMap;
-    }
-    /**
-     * Gets the awardSpecialReviewExemptionId attribute. 
-     * @return Returns the awardSpecialReviewExemptionId.
-     */
+    private Long awardSpecialReviewExemptionId;
+    private Long awardSpecialReviewId;
+    
+    private AwardSpecialReview awardSpecialReview;
+
     public Long getAwardSpecialReviewExemptionId() {
         return awardSpecialReviewExemptionId;
     }
-    /**
-     * Sets the awardSpecialReviewExemptionId attribute value.
-     * @param awardSpecialReviewExemptionId The awardSpecialReviewExemptionId to set.
-     */
+
     public void setAwardSpecialReviewExemptionId(Long awardSpecialReviewExemptionId) {
         this.awardSpecialReviewExemptionId = awardSpecialReviewExemptionId;
     }
-    /**
-     * Gets the awardSpecialReview attribute. 
-     * @return Returns the awardSpecialReview.
-     */
+    
+    public Long getAwardSpecialReviewId() {
+        return awardSpecialReviewId;
+    }
+
+    public void setAwardSpecialReviewId(Long awardSpecialReviewId) {
+        this.awardSpecialReviewId = awardSpecialReviewId;
+    }
+
     public AwardSpecialReview getAwardSpecialReview() {
         return awardSpecialReview;
     }
-    /**
-     * Sets the awardSpecialReview attribute value.
-     * @param awardSpecialReview The awardSpecialReview to set.
-     */
+
     public void setAwardSpecialReview(AwardSpecialReview awardSpecialReview) {
         this.awardSpecialReview = awardSpecialReview;
     }
+
+    @Override
+    protected LinkedHashMap<String, Object> toStringMapper() {
+        LinkedHashMap<String, Object> propMap = super.toStringMapper();
+        propMap.put("awardSpecialReviewExemptionId", getAwardSpecialReviewExemptionId());
+        propMap.put("awardSpecialReviewId", getAwardSpecialReviewId());
+        return propMap;
+    }
     
-    /**
-     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
-     */
-    public void resetPersistenceState() {
-        this.awardSpecialReviewExemptionId = null;
-    }
-    public Award getSequenceOwner() {
-        return award;
-    }
-    public void setSequenceOwner(Award newlyVersionedOwner) {
-        setAward(newlyVersionedOwner);
-        
-    }
-    /**
-     * @see org.kuali.kra.Sequenceable#getSequenceNumber()
-     */
-    public Integer getSequenceNumber() {
-        return award != null ? award.getSequenceNumber() : null;
-    }
-    public Award getAward() {
-        return award;
-    }
-    public void setAward(Award award) {
-        this.award = award;
-    }
 }

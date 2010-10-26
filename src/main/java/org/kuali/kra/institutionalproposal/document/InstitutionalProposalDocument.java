@@ -33,9 +33,9 @@ import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonCreditSplit;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnit;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReview;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReviewExemption;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalVersioningService;
+import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
+import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReviewExemption;
 import org.kuali.kra.service.InstitutionalProposalCustomAttributeService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -140,19 +140,19 @@ public class InstitutionalProposalDocument extends ResearchDocumentBase {
         List managedLists = super.buildListOfDeletionAwareLists();       
         
         InstitutionalProposal institutionalProposal = getInstitutionalProposal();
-        List <InstitutionalProposalSpecialReviewExemption> institutionalProposalSpecialReviewExemptions = new ArrayList<InstitutionalProposalSpecialReviewExemption>();
         
-        for (InstitutionalProposalSpecialReview institutionalProposalSpecialReview : getInstitutionalProposal().getSpecialReviews()) {
-            institutionalProposalSpecialReviewExemptions.addAll(institutionalProposalSpecialReview.getSpecialReviewExemptions());            
-        }
-        
-        managedLists.add(institutionalProposalSpecialReviewExemptions);
         managedLists.add(institutionalProposal.getInstitutionalProposalUnitContacts());
-        managedLists.add(institutionalProposal.getSpecialReviews());
         managedLists.add(institutionalProposal.getInstitutionalProposalScienceKeywords());
         managedLists.add(institutionalProposal.getInstitutionalProposalCostShares());
         managedLists.add(institutionalProposal.getInstitutionalProposalUnrecoveredFandAs());
         managedLists.add(institutionalProposal.getAwardFundingProposals());
+        
+        List<InstitutionalProposalSpecialReviewExemption> specialReviewExemptions = new ArrayList<InstitutionalProposalSpecialReviewExemption>();
+        for (InstitutionalProposalSpecialReview specialReview : getInstitutionalProposal().getSpecialReviews()) {
+            specialReviewExemptions.addAll(specialReview.getSpecialReviewExemptions());        
+        }
+        managedLists.add(specialReviewExemptions);
+        managedLists.add(institutionalProposal.getSpecialReviews());
         
         // For project personnel 
         List<InstitutionalProposalPersonUnit> units = new ArrayList<InstitutionalProposalPersonUnit>();

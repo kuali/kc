@@ -515,6 +515,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     }
 
     public ActionForward specialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ((ProposalDevelopmentForm) form).getSpecialReviewHelper().prepareView();
         return mapping.findForward(Constants.SPECIAL_REVIEW_PAGE);
     }
 

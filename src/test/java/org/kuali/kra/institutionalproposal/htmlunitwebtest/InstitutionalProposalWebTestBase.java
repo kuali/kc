@@ -46,6 +46,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
 //        )
 public abstract class InstitutionalProposalWebTestBase extends KcWebTestBase {
     
+    protected static final String SPECIAL_REVIEW_LINK_NAME = "specialReview";
     protected static final String CUSTOM_DATA_LINK_NAME = "customData";
     protected static final String DISTRIBUTION_LINK_NAME = "distribution";
     

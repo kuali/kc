@@ -214,6 +214,9 @@ public interface Constants {
     // Permission constants
     public static final String PERMISSION_USERS_PROPERTY_KEY = "newPermissionsUser";
     
+    // Special Review constraints
+    public static final Integer SPECIAL_REVIEW_COMMENT_LENGTH = 40;
+    
     // Task Authorization
     public static final String TASK_AUTHORIZATION = "taskAuthorization";
 
@@ -461,7 +464,6 @@ public interface Constants {
     public static final String PROPERTY_PROTOCOL_STATUS = "protocolStatus";
     public static final String PARAMETER_PROTOCOL_PERSON_TRAINING_SECTION = "protocolPersonTrainingSectionRequired";
     public static final Integer PROTOCOL_RISK_LEVEL_COMMENT_LENGTH = 40;
-    public static final Integer PROTOCOL_SPECIAL_REVIEW_COMMENT_LENGTH = 40;
     public static final Integer PROTOCOL_REFERENCE_COMMENT_LENGTH = 250;
     public static final String ACTIVE_STATUS_LITERAL = "Active";
     public static final String INACTIVE_STATUS_LITERAL = "Inactive";

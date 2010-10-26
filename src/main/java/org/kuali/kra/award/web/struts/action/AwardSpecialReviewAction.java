@@ -24,15 +24,13 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
+import org.kuali.kra.common.specialreview.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.rule.event.AddSpecialReviewEvent;
 
 /**
  * This class represents the Struts Action for Special Review page(AwardSpecialReview.jsp).
  */
 public class AwardSpecialReviewAction extends AwardAction {
-    
-    private static final String NEW_SPECIAL_REVIEW = "newSpecialReview";
     
     /**
      * This method is for adding AwardSpecialReview to the list.
@@ -46,12 +44,12 @@ public class AwardSpecialReviewAction extends AwardAction {
     public ActionForward addSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument document = awardForm.getAwardDocument();
-        AwardSpecialReview newSpecialReview = awardForm.getNewSpecialReview();
+        AwardSpecialReview newSpecialReview = awardForm.getSpecialReviewHelper().getNewSpecialReview();
         
-        if (applyRules(new AddSpecialReviewEvent<AwardSpecialReview>(NEW_SPECIAL_REVIEW, document, newSpecialReview))) {
+        if (applyRules(new AddSpecialReviewEvent<AwardSpecialReview>(document, newSpecialReview))) {
             newSpecialReview.setSpecialReviewNumber(document.getDocumentNextValue(Constants.SPECIAL_REVIEW_NUMBER));
             document.getAward().getSpecialReviews().add(newSpecialReview);
-            awardForm.setNewSpecialReview(new AwardSpecialReview());
+            awardForm.getSpecialReviewHelper().setNewSpecialReview(new AwardSpecialReview());
         }
 
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);

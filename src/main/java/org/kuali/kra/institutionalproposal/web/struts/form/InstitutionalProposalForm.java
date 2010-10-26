@@ -31,8 +31,8 @@ import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCusto
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShareBean;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalNotepadBean;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReview;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandABean;
+import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReviewHelper;
 import org.kuali.kra.medusa.MedusaBean;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
@@ -57,8 +57,7 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
     private String lookupResultsSequenceNumber;
     private String lookupResultsBOClassName;
     
-    private InstitutionalProposalSpecialReview newSpecialReview;
-    
+    private InstitutionalProposalSpecialReviewHelper specialReviewHelper;
     private InstitutionalProposalCustomDataFormHelper institutionalProposalCustomDataFormHelper;
     private InstitutionalProposalNotepadBean institutionalProposalNotepadBean;
     private InstitutionalProposalCostShareBean institutionalProposalCostShareBean;
@@ -98,12 +97,12 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
      * This method initialize all form variables
      */
     public void initialize() {
+        specialReviewHelper = new InstitutionalProposalSpecialReviewHelper(this);
         institutionalProposalCustomDataFormHelper = new InstitutionalProposalCustomDataFormHelper(this);
         institutionalProposalNotepadBean = new InstitutionalProposalNotepadBean(this);
         institutionalProposalCostShareBean = new InstitutionalProposalCostShareBean(this);
         institutionalProposalUnrecoveredFandABean = new InstitutionalProposalUnrecoveredFandABean(this);
         
-        newSpecialReview = new InstitutionalProposalSpecialReview();
         projectPersonnelBean = new InstitutionalProposalProjectPersonnelBean(this);
         institutionalProposalCreditSplitBean = new InstitutionalProposalCreditSplitBean(this);
         medusaBean = new MedusaBean();
@@ -129,6 +128,22 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
         return "InstitutionalProposalDocument";
     }
     
+    /**
+     * Gets the Special Review Helper.
+     * @return the Special Review Helper
+     */
+    public InstitutionalProposalSpecialReviewHelper getSpecialReviewHelper() {
+        return specialReviewHelper;
+    }
+
+    /**
+     * Sets the Special Review Helper.
+     * @param specialReviewHelper the Special Review Helper
+     */
+    public void setSpecialReviewHelper(InstitutionalProposalSpecialReviewHelper specialReviewHelper) {
+        this.specialReviewHelper = specialReviewHelper;
+    }
+
     /**
      * Gets the institutionalProposalCustomDataFormHelper attribute. 
      * @return Returns the institutionalProposalCustomDataFormHelper.
@@ -248,22 +263,6 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
     public void setInstitutionalProposalUnrecoveredFandABean(
             InstitutionalProposalUnrecoveredFandABean institutionalProposalUnrecoveredFandABean) {
         this.institutionalProposalUnrecoveredFandABean = institutionalProposalUnrecoveredFandABean;
-    }
-
-    /**
-     * Gets the newSpecialReview attribute value.
-     * @return Returns the newSpecialReview.
-     */
-    public InstitutionalProposalSpecialReview getNewSpecialReview() {
-        return newSpecialReview;
-    }
-
-    /**
-     * Sets the newInstitutionalProposalSpecialReview attribute value.
-     * @param newInstitutionalProposalSpecialReview The newInstitutionalProposalSpecialReview to set
-     */
-    public void setNewSpecialReview(InstitutionalProposalSpecialReview newSpecialReview) {
-        this.newSpecialReview = newSpecialReview;
     }
 
     @Override

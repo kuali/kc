@@ -21,8 +21,8 @@ import org.kuali.kra.award.home.AwardCommentFactory;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.award.specialreview.AwardSpecialReviewExemption;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReview;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReviewExemption;
+import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
+import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReviewExemption;
 
 class SpecialReviewDataFeedCommand extends ProposalDataFeedCommandBase {
     private static final String SPECIAL_REVIEW_COMMENT_PATTERN = "Added Special Review from Proposal Number %s for Special Review #%d and Protocol #%s";
@@ -63,8 +63,8 @@ class SpecialReviewDataFeedCommand extends ProposalDataFeedCommandBase {
     
     private boolean isIdentical(AwardSpecialReview awardSpecialReview, InstitutionalProposalSpecialReview ipSpecialReview) {
         String pattern = "%s:%s";
-        String thisSignature = String.format(pattern, awardSpecialReview.getSpecialReviewCode(), awardSpecialReview.getProtocolNumber());
-        String thatSignature = String.format(pattern, ipSpecialReview.getSpecialReviewCode(), ipSpecialReview.getProtocolNumber());
+        String thisSignature = String.format(pattern, awardSpecialReview.getSpecialReviewTypeCode(), awardSpecialReview.getProtocolNumber());
+        String thatSignature = String.format(pattern, ipSpecialReview.getSpecialReviewTypeCode(), ipSpecialReview.getProtocolNumber());
         
         return thisSignature.equalsIgnoreCase(thatSignature);
     }
@@ -83,9 +83,9 @@ class SpecialReviewDataFeedCommand extends ProposalDataFeedCommandBase {
         copiedSpecialReview.setExemptionTypeCodes(ipSpecialReview.getExemptionTypeCodes());
         copiedSpecialReview.setExpirationDate(ipSpecialReview.getExpirationDate());
         copiedSpecialReview.setProtocolNumber(ipSpecialReview.getProtocolNumber());
-        copiedSpecialReview.setSpecialReview(ipSpecialReview.getSpecialReview());
-        copiedSpecialReview.setSpecialReviewApprovalType(ipSpecialReview.getSpecialReviewApprovalType());
-        copiedSpecialReview.setSpecialReviewCode(ipSpecialReview.getSpecialReviewCode());
+        copiedSpecialReview.setSpecialReviewType(ipSpecialReview.getSpecialReviewType());
+        copiedSpecialReview.setApprovalType(ipSpecialReview.getApprovalType());
+        copiedSpecialReview.setSpecialReviewTypeCode(ipSpecialReview.getSpecialReviewTypeCode());
         for(InstitutionalProposalSpecialReviewExemption ipExempt: ipSpecialReview.getSpecialReviewExemptions()) {
             if (StringUtils.isNotBlank(ipExempt.getExemptionTypeCode())) {
                 AwardSpecialReviewExemption newAwardExempt = copiedSpecialReview.createSpecialReviewExemption(ipExempt.getExemptionTypeCode());

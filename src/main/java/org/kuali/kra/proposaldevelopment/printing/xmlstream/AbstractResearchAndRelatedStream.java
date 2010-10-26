@@ -2,8 +2,6 @@ package org.kuali.kra.proposaldevelopment.printing.xmlstream;
 
 import gov.nih.era.projectmgmt.sbir.cgap.commonNamespace.ContactInfoType;
 import gov.nih.era.projectmgmt.sbir.cgap.commonNamespace.PostalAddressType;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.AnimalSubjectDocument.AnimalSubject;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ApplicantOrganizationType.OrganizationContactPerson;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.BudgetTotalsType;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.CoreApplicantSubmissionQualifiersType;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.CoreApplicationCategoryType;
@@ -15,22 +13,23 @@ import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.CoreStateIn
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.CoreStateReceiptQualifiersType;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.CoreSubmissionCategoryType;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.DescriptionBlockType;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.EquipmentCostsDocument.EquipmentCosts;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.OtherAgencyQuestionsType;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.OtherDirectCostsDocument.OtherDirectCosts;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.OtherDirectType;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ParticipantPatientCostsDocument.ParticipantPatientCosts;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ParticipantType;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.PersonFullNameType;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ProjectRoleType;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ProjectSiteType;
+import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.TravelType;
+import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.AnimalSubjectDocument.AnimalSubject;
+import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ApplicantOrganizationType.OrganizationContactPerson;
+import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.EquipmentCostsDocument.EquipmentCosts;
+import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.OtherDirectCostsDocument.OtherDirectCosts;
+import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ParticipantPatientCostsDocument.ParticipantPatientCosts;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ProjectSurveyDocument.ProjectSurvey;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.TravelCostsDocument.TravelCosts;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.TravelType;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -61,17 +60,14 @@ import org.kuali.kra.budget.personnel.TbnPerson;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
-import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
+import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.s2s.generator.bo.CompensationInfo;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.kra.s2s.service.S2SUtilService;
-import org.kuali.kra.s2s.service.impl.S2SBudgetCalculatorServiceImpl;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.RolodexService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStream {
@@ -137,8 +133,8 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         List<ProposalSpecialReview> specialReviewList = developmentProposal.getPropSpecialReviews();
         if (specialReviewList != null) {
             for (ProposalSpecialReview proposalSpecialReview : specialReviewList) {
-                if (proposalSpecialReview.getSpecialReviewCode() != null
-                        && proposalSpecialReview.getSpecialReviewCode().equals(SPECIAL_REVIEW_CODE_2)) {
+                if (proposalSpecialReview.getSpecialReviewTypeCode() != null
+                        && proposalSpecialReview.getSpecialReviewTypeCode().equals(SPECIAL_REVIEW_CODE_2)) {
                     animalSubject.setVertebrateAnimalsUsedQuestion(true);
                     String animalWelfareAssurance = getAnimalWelfareAssuranceNumber(developmentProposal);
                     if (animalWelfareAssurance != null) {

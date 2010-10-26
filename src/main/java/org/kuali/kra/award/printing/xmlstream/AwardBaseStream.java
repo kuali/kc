@@ -406,14 +406,14 @@ public abstract class AwardBaseStream implements XmlStream {
 			specialReviewType.setSequenceNumber(awardSpecialReview
 					.getSequenceNumber());
 		}
-		if (awardSpecialReview.getSpecialReviewCode() != null) {
-			specialReviewType.setReviewType(Integer.valueOf(awardSpecialReview.getSpecialReviewCode()));
+		if (awardSpecialReview.getSpecialReviewTypeCode() != null) {
+			specialReviewType.setReviewType(Integer.valueOf(awardSpecialReview.getSpecialReviewTypeCode()));
 		}
         if (awardSpecialReview.getApprovalTypeCode() != null) {
             specialReviewType.setApprovalType(Integer.parseInt(awardSpecialReview.getApprovalTypeCode()));
             awardSpecialReview.refreshReferenceObject("specialReviewApprovalType");
-            if(awardSpecialReview.getSpecialReviewApprovalType()!=null){
-                specialReviewType.setApprovalTypeDesc(awardSpecialReview.getSpecialReviewApprovalType().getDescription());
+            if(awardSpecialReview.getApprovalType()!=null){
+                specialReviewType.setApprovalTypeDesc(awardSpecialReview.getApprovalType().getDescription());
             }
         }
 		if (awardSpecialReview.getApprovalTypeCode() != null) {
@@ -426,9 +426,9 @@ public abstract class AwardBaseStream implements XmlStream {
 			specialReviewType.setProtocolNumber(awardSpecialReview.getProtocolNumber());
 		}
 		awardSpecialReview.refreshReferenceObject("specialReview");
-		if (awardSpecialReview.getSpecialReview() != null
-				&& awardSpecialReview.getSpecialReview().getDescription() != null) {
-			specialReviewType.setReviewTypeDesc(awardSpecialReview.getSpecialReview().getDescription());
+		if (awardSpecialReview.getSpecialReviewType() != null
+				&& awardSpecialReview.getSpecialReviewType().getDescription() != null) {
+			specialReviewType.setReviewTypeDesc(awardSpecialReview.getSpecialReviewType().getDescription());
 		}
 		Calendar applicationDate = getApplicationDate(awardSpecialReview);
 		if (applicationDate != null) {

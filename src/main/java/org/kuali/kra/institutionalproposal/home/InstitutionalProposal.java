@@ -56,6 +56,7 @@ import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCusto
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
+import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
@@ -1344,7 +1345,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     }
 
     public void addSpecialReview(InstitutionalProposalSpecialReview specialReview) {
-        specialReview.setInstitutionalProposal(this);
+        specialReview.setSequenceOwner(this);
         getSpecialReviews().add(specialReview);
         
     }

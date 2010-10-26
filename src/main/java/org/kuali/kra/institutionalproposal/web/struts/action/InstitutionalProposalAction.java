@@ -25,7 +25,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -212,7 +211,8 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
      * @return
      */
     public ActionForward specialReview(ActionMapping mapping, ActionForm form
-            , HttpServletRequest request, HttpServletResponse response) {        
+            , HttpServletRequest request, HttpServletResponse response) {
+        ((InstitutionalProposalForm) form).getSpecialReviewHelper().prepareView();
         return mapping.findForward(Constants.MAPPING_INSTITUTIONAL_PROPOSAL_SPECIAL_REVIEW_PAGE);
     }
     

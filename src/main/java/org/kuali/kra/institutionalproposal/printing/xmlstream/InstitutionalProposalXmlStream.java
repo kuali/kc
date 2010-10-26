@@ -55,23 +55,23 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.NoticeOfOpportunity;
 import org.kuali.kra.bo.NsfCode;
 import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.bo.SpecialReview;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
+import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.institutionalproposal.ProposalStatus;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnit;
-import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalComment;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceKeyword;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReview;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
 import org.kuali.kra.institutionalproposal.printing.InstitutionalProposalPrintType;
 import org.kuali.kra.institutionalproposal.printing.service.InstitutionalProposalPersonService;
+import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -429,7 +429,7 @@ public class InstitutionalProposalXmlStream extends
 					.getProtocolNumber();
 			institutionalProposalSpecialReview.refreshNonUpdateableReferences();
 			SpecialReviewApprovalType specialReviewApprovalType = institutionalProposalSpecialReview
-					.getSpecialReviewApprovalType();
+					.getApprovalType();
 			if (protocolNumber != null
 					&& (protocol = getProtocolInfo(protocolNumber)) != null) {
 				specialReviewType.setProtocolNumber(protocolNumber);
@@ -471,8 +471,8 @@ public class InstitutionalProposalXmlStream extends
 				}
 				specialReviewType.setProtocolNumber(institutionalProposalSpecialReview.getProtocolNumber());
 			}
-			SpecialReview specialReview = institutionalProposalSpecialReview
-					.getSpecialReview();
+			SpecialReviewType specialReview = institutionalProposalSpecialReview
+					.getSpecialReviewType();
 			if (specialReview != null && specialReview.getDescription() != null) {
 				specialReviewType.setSpecialReviewType(specialReview
 						.getDescription());
