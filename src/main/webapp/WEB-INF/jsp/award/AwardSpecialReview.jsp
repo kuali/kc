@@ -24,12 +24,19 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="specialReview"
   	extraTopButtons="${KualiForm.extraTopButtons}" >
-  	
-  	<c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
 
 <div align="right"><kul:help documentTypeName="AwardDocument" pageName="Special Review" /></div>
 
-<kra-a:awardSpecialReview /> 
+<div id="workarea">
+	<kra-specialreview:specialReviewPage attributes="${DataDictionary.AwardSpecialReview.attributes}"
+	                                     exemptionAttributes="${DataDictionary.AwardSpecialReviewExemption.attributes}"
+	                                     collectionReference="${KualiForm.document.award.specialReviews}"
+	                                     collectionProperty="document.awardList[0].specialReviews"
+	                                     action="awardSpecialReview" />
+	
+	<kul:panelFooter />
+</div>
+
 <kul:documentControls transactionalDocument="false" suppressRoutingControls="true" suppressCancelButton="true" />
 <script language="javascript" src="scripts/kuali_application.js"></script>
 

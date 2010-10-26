@@ -176,8 +176,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
     @SuppressWarnings("unchecked")
     @Override
     public List buildListOfDeletionAwareLists() {
-        List managedLists = super.buildListOfDeletionAwareLists();       
-        List <AwardSpecialReviewExemption> awardSpecialReviewExemptions = new ArrayList<AwardSpecialReviewExemption>();
+        List managedLists = super.buildListOfDeletionAwareLists();
         
         Award award = getAward();
         
@@ -196,12 +195,12 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         managedLists.add(award.getAwardApprovedSubawards());
         managedLists.add(award.getAwardCloseoutItems());
         managedLists.add(award.getAwardAttachments());
-                
-        for (AwardSpecialReview awardSpecialReview : getAward().getSpecialReviews()) {
-            awardSpecialReviewExemptions.addAll(awardSpecialReview.getSpecialReviewExemptions());            
-        }
         
-        managedLists.add(awardSpecialReviewExemptions);
+        List<AwardSpecialReviewExemption> specialReviewExemptions = new ArrayList<AwardSpecialReviewExemption>();
+        for (AwardSpecialReview specialReview : getAward().getSpecialReviews()) {
+            specialReviewExemptions.addAll(specialReview.getSpecialReviewExemptions());            
+        }
+        managedLists.add(specialReviewExemptions);
         managedLists.add(award.getSpecialReviews());
 
         List<AwardReportTerm> reportTerms = award.getAwardReportTermItems();

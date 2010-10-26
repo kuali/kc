@@ -65,7 +65,6 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
-import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalState;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUser;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserEditRoles;
@@ -73,6 +72,8 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
+import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
+import org.kuali.kra.proposaldevelopment.specialreview.SpecialReviewHelper;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
@@ -108,11 +109,9 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     
     private static final long serialVersionUID = 7928293162992415894L;
     private static final String MISSING_PARAM_MSG = "Couldn't find parameter ";
-    //private static final String DELETE_SPECIAL_REVIEW_ACTION = "deleteSpecialReview";
     
     private boolean creditSplitEnabled;
     private String primeSponsorName;
-    private ProposalSpecialReview newPropSpecialReview;
     private ProposalPerson newProposalPerson;
     private List<ProposalPersonDegree> newProposalPersonDegree;
     private List<Unit> newProposalPersonUnit;
@@ -153,6 +152,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private CongressionalDistrictHelper performingOrganizationHelper;
     private List<CongressionalDistrictHelper> performanceSiteHelpers;
     private List<CongressionalDistrictHelper> otherOrganizationHelpers;
+    private SpecialReviewHelper specialReviewHelper;
     private String newHierarchyProposalNumber;
     private String newHierarchyChildProposalNumber;
     private String newHierarchyBudgetTypeCode;
@@ -211,7 +211,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
      */
     @SuppressWarnings("unchecked")
     public void initialize() {
-        setNewPropSpecialReview(new ProposalSpecialReview());
         setNewNarrative(createNarrative());
         setNewProposalPerson(new ProposalPerson());
         setNewProposalPersonDegree(new ArrayList<ProposalPersonDegree>());
@@ -225,6 +224,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         setPerformingOrganizationHelper(new CongressionalDistrictHelper());
         setPerformanceSiteHelpers(new TypedArrayList(CongressionalDistrictHelper.class));
         setOtherOrganizationHelpers(new TypedArrayList(CongressionalDistrictHelper.class));
+        setSpecialReviewHelper(new SpecialReviewHelper(this));
         customAttributeValues = new HashMap<String, String[]>();
         setCopyCriteria(new ProposalCopyCriteria(getDocument()));
         proposalDevelopmentParameters = new HashMap<String, Parameter>();
@@ -306,14 +306,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
             getDocInfo().add(new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.principalInvestigator", EMPTY_STRING));
         }
         
-    }
-
-    public ProposalSpecialReview getNewPropSpecialReview() {
-        return newPropSpecialReview;
-    }
-
-    public void setNewPropSpecialReview(ProposalSpecialReview newPropSpecialReview) {
-        this.newPropSpecialReview = newPropSpecialReview;
     }
 
     /**
@@ -1261,6 +1253,14 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 
     public List<CongressionalDistrictHelper> getOtherOrganizationHelpers() {
         return otherOrganizationHelpers;
+    }
+
+    public SpecialReviewHelper getSpecialReviewHelper() {
+        return specialReviewHelper;
+    }
+
+    public void setSpecialReviewHelper(SpecialReviewHelper specialReviewHelper) {
+        this.specialReviewHelper = specialReviewHelper;
     }
 
     public final String getProposalFormTabTitle() {

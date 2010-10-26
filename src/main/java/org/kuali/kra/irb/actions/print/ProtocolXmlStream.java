@@ -287,18 +287,18 @@ public class ProtocolXmlStream extends PrintBaseXmlStream {
             else {
                 specialReview.setSpecialReviewApprovalDate(getDateTimeService().getCurrentCalendar());
             }
-            if (specialReviewBean.getSpecialReviewApprovalType() != null) {
+            if (specialReviewBean.getApprovalType() != null) {
                 specialReview.setSpecialReviewApprovalTypeCode(new BigInteger(specialReviewBean.getApprovalTypeCode()));
-                specialReview.setSpecialReviewApprovalTypeDesc(specialReviewBean.getSpecialReviewApprovalType().getDescription());
+                specialReview.setSpecialReviewApprovalTypeDesc(specialReviewBean.getApprovalType().getDescription());
             }
             specialReview.setSpecialReviewComments(specialReviewBean.getComments());
             if (specialReviewBean.getSpecialReviewNumber() != null) {
                 specialReview.setSpecialReviewNumber(BigInteger.valueOf(specialReviewBean.getSpecialReviewNumber()));
             }
             specialReview.setSpecialReviewProtocolNumber(specialReviewBean.getProtocolNumber());
-            if (specialReviewBean.getSpecialReview() != null) {
-                specialReview.setSpecialReviewTypeCode(new BigInteger(specialReviewBean.getSpecialReviewCode()));
-                specialReview.setSpecialReviewTypeDesc(specialReviewBean.getSpecialReview().getDescription());
+            if (specialReviewBean.getSpecialReviewType() != null) {
+                specialReview.setSpecialReviewTypeCode(new BigInteger(specialReviewBean.getSpecialReviewTypeCode()));
+                specialReview.setSpecialReviewTypeDesc(specialReviewBean.getSpecialReviewType().getDescription());
             }
         }
     }

@@ -15,11 +15,10 @@
  */
 package org.kuali.kra.award;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.kuali.kra.infrastructure.KeyConstants.AWARD_ATTACHMENT_FILE_REQUIRED;
 import static org.kuali.kra.infrastructure.KeyConstants.AWARD_ATTACHMENT_TYPE_CODE_REQUIRED;
+
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.commitments.AddAwardFandaRateEvent;
@@ -86,11 +85,11 @@ import org.kuali.kra.award.rule.AwardCommentsRuleImpl;
 import org.kuali.kra.award.rule.event.AddAwardAttachmentEvent;
 import org.kuali.kra.award.rule.event.AwardCommentsRuleEvent;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
-import org.kuali.kra.award.specialreview.AwardSpecialReviewRule;
 import org.kuali.kra.common.permissions.bo.PermissionsUser;
 import org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles;
 import org.kuali.kra.common.permissions.rule.PermissionsRule;
 import org.kuali.kra.common.permissions.web.bean.User;
+import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.BusinessRuleInterface;
@@ -101,13 +100,8 @@ import org.kuali.kra.rules.KraCustomAttributeRule;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
-
-import static org.kuali.kra.infrastructure.KeyConstants.AWARD_ATTACHMENT_FILE_REQUIRED;
-import static org.kuali.kra.infrastructure.KeyConstants.AWARD_ATTACHMENT_TYPE_CODE_REQUIRED;
 
 
 
@@ -140,7 +134,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     private static final String AWARD_REPORT_TERMS = "awardReportTerms";
     private static final String AWARD_REPORT_TERM_ITEMS = "awardReportTermItems";
     private static final String AWARD_ERROR_PATH_PREFIX = "document.awardList[0].";
-    private static final String AWARD_ERROR_PATH_PREFIX_NOARRAY = "document.award";
+    private static final String SAVE_SPECIAL_REVIEW_FIELD = "document.awardList[0].specialReviews";
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AwardDocumentRule.class);
 
@@ -304,11 +298,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         retval &= processSaveAwardProjectPersonsBusinessRules(errorMap, awardDocument);
         retval &= processSaveAwardCustomDataBusinessRules(awardDocument);
         retval &= processAwardCommentsBusinessRules(awardDocument);
-        
-        errorMap.addToErrorPath(AWARD_ERROR_PATH_PREFIX_NOARRAY);
         retval &= processSpecialReviewBusinessRule(document);
-        errorMap.removeFromErrorPath(AWARD_ERROR_PATH_PREFIX_NOARRAY);
-        
         retval &= processAwardDetailsAndDatesSaveRules(document);
         retval &= processDateBusinessRule(errorMap, awardDocument);
         retval &=processKeywordBusinessRule(awardDocument);
@@ -460,23 +450,9 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      * @return valid Does the validation pass
      */
     private boolean processSpecialReviewBusinessRule(Document document) {
-        boolean valid = true;
         AwardDocument awardDocument = (AwardDocument) document;
-
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-
-        int i = 0;
-
-        for (AwardSpecialReview awardSpecialReview : awardDocument.getAward().getSpecialReviews()) {
-            errorMap.addToErrorPath("specialReview[" + i + "]");
-            AwardSpecialReviewRule specialReviewRule = new AwardSpecialReviewRule();
-            valid &= specialReviewRule.processValidSpecialReviewBusinessRules(awardSpecialReview, "documentExemptNumbers[" + i + "]");
-            valid &= specialReviewRule.processProposalSpecialReviewBusinessRules(awardSpecialReview);
-            
-            errorMap.removeFromErrorPath("specialReview[" + i + "]");
-            i++;
-        }
-        return valid;
+        List<AwardSpecialReview> specialReviews = awardDocument.getAward().getSpecialReviews();
+        return processRules(new SaveSpecialReviewEvent<AwardSpecialReview>(SAVE_SPECIAL_REVIEW_FIELD, document, specialReviews));
     }
     
     /**

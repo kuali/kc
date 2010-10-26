@@ -253,13 +253,13 @@ public class ProtocolMergeTest extends KcUnitTestBase {
         protocol.merge(amendment);
         
         assertEquals(2, protocol.getSpecialReviews().size());
-        assertEquals(SPECIAL_REVIEW_CODE_1, protocol.getSpecialReviews().get(0).getSpecialReviewCode());
-        assertEquals(SPECIAL_REVIEW_CODE_2, protocol.getSpecialReviews().get(1).getSpecialReviewCode());
+        assertEquals(SPECIAL_REVIEW_CODE_1, protocol.getSpecialReviews().get(0).getSpecialReviewTypeCode());
+        assertEquals(SPECIAL_REVIEW_CODE_2, protocol.getSpecialReviews().get(1).getSpecialReviewTypeCode());
     }
     
     private ProtocolSpecialReview createSpecialReview(String specialReviewCode) {
         ProtocolSpecialReview sr = new ProtocolSpecialReview();
-        sr.setSpecialReviewCode(specialReviewCode);
+        sr.setSpecialReviewTypeCode(specialReviewCode);
         return sr;
     }
     

@@ -19,78 +19,76 @@ package org.kuali.kra.bo;
 import java.util.LinkedHashMap;
 
 /**
- * Class representation of the ValidSpecialReviewApproval business object of the KRA domain
+ * Defines the ValidSpecialReviewApproval business object of the KRA domain.
  */
 public class ValidSpecialReviewApproval extends KraPersistableBusinessObjectBase {
-	private String approvalTypeCode;
-	private String specialReviewCode;
-	// change type from 'Boolean' to 'boolean'
-	private boolean applicationDateFlag;
+
+    private static final long serialVersionUID = 2223133021712448327L;
+    
+    private String specialReviewTypeCode;
+    private String approvalTypeCode;
+    private boolean protocolNumberFlag;
+    private boolean applicationDateFlag;
     private boolean approvalDateFlag;
     private boolean exemptNumberFlag;
-	private boolean protocolNumberFlag;
-	private SpecialReview specialReview;
-	private SpecialReviewApprovalType specialReviewApprovalType;
-
-	public String getApprovalTypeCode() {
-		return approvalTypeCode;
-	}
-
-	public void setApprovalTypeCode(String approvalTypeCode) {
-		this.approvalTypeCode = approvalTypeCode;
-	}
-
-	public String getSpecialReviewCode() {
-		return specialReviewCode;
-	}
-
-	public void setSpecialReviewCode(String specialReviewCode) {
-		this.specialReviewCode = specialReviewCode;
-	}
-
-	public boolean isApplicationDateFlag() {
-		return applicationDateFlag;
-	}
-
-	public void setApplicationDateFlag(boolean applicationDateFlag) {
-		this.applicationDateFlag = applicationDateFlag;
-	}
-
-	public boolean isApprovalDateFlag() {
-		return approvalDateFlag;
-	}
-
-	public void setApprovalDateFlag(boolean approvalDateFlag) {
-		this.approvalDateFlag = approvalDateFlag;
-	}
-
-	public boolean isProtocolNumberFlag() {
-		return protocolNumberFlag;
-	}
-
-	public void setProtocolNumberFlag(boolean protocolNumberFlag) {
-		this.protocolNumberFlag = protocolNumberFlag;
-	}
-
-
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("approvalTypeCode", getApprovalTypeCode());
-		hashMap.put("specialReviewCode", getSpecialReviewCode());
-		hashMap.put("applicationDateFlag", isApplicationDateFlag());
-		hashMap.put("approvalDateFlag", isApprovalDateFlag());
-        hashMap.put("protocolNumberFlag", isProtocolNumberFlag());
-        hashMap.put("exemptNumberFlag", isExemptNumberFlag());
-		return hashMap;
-	}
-
-    public SpecialReview getSpecialReview() {
-        return specialReview;
+    
+    private SpecialReviewType specialReviewType;
+    private SpecialReviewApprovalType specialReviewApprovalType;
+    
+    public String getSpecialReviewTypeCode() {
+        return specialReviewTypeCode;
     }
 
-    public void setSpecialReview(SpecialReview specialReview) {
-        this.specialReview = specialReview;
+    public void setSpecialReviewTypeCode(String specialReviewTypeCode) {
+        this.specialReviewTypeCode = specialReviewTypeCode;
+    }
+    
+    public boolean isProtocolNumberFlag() {
+        return protocolNumberFlag;
+    }
+
+    public void setProtocolNumberFlag(boolean protocolNumberFlag) {
+        this.protocolNumberFlag = protocolNumberFlag;
+    }
+
+    public String getApprovalTypeCode() {
+        return approvalTypeCode;
+    }
+
+    public void setApprovalTypeCode(String approvalTypeCode) {
+        this.approvalTypeCode = approvalTypeCode;
+    }
+
+    public boolean isApplicationDateFlag() {
+        return applicationDateFlag;
+    }
+
+    public void setApplicationDateFlag(boolean applicationDateFlag) {
+        this.applicationDateFlag = applicationDateFlag;
+    }
+
+    public boolean isApprovalDateFlag() {
+        return approvalDateFlag;
+    }
+
+    public void setApprovalDateFlag(boolean approvalDateFlag) {
+        this.approvalDateFlag = approvalDateFlag;
+    }
+
+    public boolean isExemptNumberFlag() {
+        return exemptNumberFlag;
+    }
+
+    public void setExemptNumberFlag(boolean exemptNumberFlag) {
+        this.exemptNumberFlag = exemptNumberFlag;
+    }
+
+    public SpecialReviewType getSpecialReviewType() {
+        return specialReviewType;
+    }
+
+    public void setSpecialReviewType(SpecialReviewType specialReviewType) {
+        this.specialReviewType = specialReviewType;
     }
 
     public SpecialReviewApprovalType getSpecialReviewApprovalType() {
@@ -100,13 +98,17 @@ public class ValidSpecialReviewApproval extends KraPersistableBusinessObjectBase
     public void setSpecialReviewApprovalType(SpecialReviewApprovalType specialReviewApprovalType) {
         this.specialReviewApprovalType = specialReviewApprovalType;
     }
-
-    public boolean isExemptNumberFlag() {
-        return exemptNumberFlag;
+    
+    @Override 
+    protected LinkedHashMap<?, ?> toStringMapper() {
+        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
+        hashMap.put("specialReviewTypeCode", getSpecialReviewTypeCode());
+        hashMap.put("approvalTypeCode", getApprovalTypeCode());
+        hashMap.put("applicationDateFlag", isApplicationDateFlag());
+        hashMap.put("approvalDateFlag", isApprovalDateFlag());
+        hashMap.put("protocolNumberFlag", isProtocolNumberFlag());
+        hashMap.put("exemptNumberFlag", isExemptNumberFlag());
+        return hashMap;
     }
 
-
-    public void setExemptNumberFlag(boolean exemptNumberFlag) {
-        this.exemptNumberFlag = exemptNumberFlag;
-    }
 }

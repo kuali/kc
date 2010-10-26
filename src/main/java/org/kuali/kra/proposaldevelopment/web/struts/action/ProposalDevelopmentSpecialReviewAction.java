@@ -21,15 +21,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.bo.ExemptionType;
+import org.kuali.kra.common.specialreview.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.rule.event.AddProposalSpecialReviewEvent;
+import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Handles Special Review Actions.
@@ -42,24 +40,22 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
      * @param mapping the action mapping
      * @param form the action form
      * @param request the request
-     * @param response the reponse
+     * @param response the response
      * @return the action forward
      * @throws Exception if unable to add the special review
      */
     public ActionForward addSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument pdDoc = pdForm.getDocument();
-        ProposalSpecialReview newProposalSpecialReview = pdForm.getNewPropSpecialReview();
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument document = proposalDevelopmentForm.getDocument();
+        ProposalSpecialReview newSpecialReview = proposalDevelopmentForm.getSpecialReviewHelper().getNewSpecialReview();
 
         KualiRuleService ruleService = KraServiceLocator.getService(KualiRuleService.class);
-        
-        if (ruleService.applyRules(new AddProposalSpecialReviewEvent(Constants.EMPTY_STRING, pdForm.getDocument(), newProposalSpecialReview))){
-            
-            newProposalSpecialReview.setSpecialReviewNumber(pdForm.getDocument().getDocumentNextValue(Constants.PROPOSAL_SPECIALREVIEW_NUMBER));
-            pdDoc.getDevelopmentProposal().getPropSpecialReviews().add(newProposalSpecialReview);
-
-            pdForm.setNewPropSpecialReview(new ProposalSpecialReview());
+        if (ruleService.applyRules(new AddSpecialReviewEvent<ProposalSpecialReview>(proposalDevelopmentForm.getDocument(), newSpecialReview))) {
+            newSpecialReview.setSpecialReviewNumber(document.getDocumentNextValue(Constants.PROPOSAL_SPECIALREVIEW_NUMBER));
+            document.getDevelopmentProposal().getPropSpecialReviews().add(newSpecialReview);
+            proposalDevelopmentForm.getSpecialReviewHelper().setNewSpecialReview(new ProposalSpecialReview());
         }
+        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -69,16 +65,14 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
      * @param mapping the action mapping
      * @param form the action form
      * @param request the request
-     * @param response the reponse
+     * @param response the response
      * @return the action forward
      * @throws Exception if unable to add the special review
      */
     public ActionForward deleteSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument pdDoc = proposalDevelopmentForm.getDocument();
-        ProposalSpecialReview delProposalSpecialReview = pdDoc.getDevelopmentProposal().getPropSpecialReviews().get(getLineToDelete(request));
-        pdDoc.getDevelopmentProposal().getPropSpecialReviews().remove(delProposalSpecialReview);
+        ProposalDevelopmentDocument document = proposalDevelopmentForm.getDocument();
+        document.getDevelopmentProposal().getPropSpecialReviews().remove(getLineToDelete(request));
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }

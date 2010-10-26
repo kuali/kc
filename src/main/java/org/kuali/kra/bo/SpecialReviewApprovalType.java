@@ -18,18 +18,15 @@ package org.kuali.kra.bo;
 import java.util.LinkedHashMap;
 
 
-public class SpecialReviewApprovalType  extends KraPersistableBusinessObjectBase {
+/**
+ * Defines the Special Review Approval Type business object for all modules.
+ */
+public class SpecialReviewApprovalType extends KraPersistableBusinessObjectBase {
 
+    private static final long serialVersionUID = -3695729124365459765L;
+    
     private String approvalTypeCode;
     private String description;
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     public String getApprovalTypeCode() {
         return approvalTypeCode;
@@ -38,18 +35,23 @@ public class SpecialReviewApprovalType  extends KraPersistableBusinessObjectBase
     public void setApprovalTypeCode(String approvalTypeCode) {
         this.approvalTypeCode = approvalTypeCode;
     }
+    
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap propMap = new LinkedHashMap();
-        propMap.put("approvalTypeCode", this.getApprovalTypeCode());
-        propMap.put("description", this.getDescription());
-        propMap.put("updateTimestamp", this.getUpdateTimestamp());
-        propMap.put("updateUser", this.getUpdateUser());
+    protected LinkedHashMap<?, ?> toStringMapper() {
+        LinkedHashMap<String, Object> propMap = new LinkedHashMap<String, Object>();
+        propMap.put("approvalTypeCode", getApprovalTypeCode());
+        propMap.put("description", getDescription());
+        propMap.put("updateTimestamp", getUpdateTimestamp());
+        propMap.put("updateUser", getUpdateUser());
         return propMap;
     }
 
 }
-
-
-

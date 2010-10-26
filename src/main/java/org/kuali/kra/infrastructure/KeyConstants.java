@@ -28,23 +28,21 @@ public final class KeyConstants {
     public static final String ERROR_INVALID_FORMAT_WITH_FORMAT = "error.invalidFormat.withFormat";
     public static final String ERROR_REQUIRED = "error.required";
     
-    public static final String ERROR_REQUIRED_FOR_APPROVED_SPECIALREVIEW = "error.required.for.approved.specialReview";
-    public static final String ERROR_NOT_APPROVED_SPECIALREVIEW = "error.not.approved.specialReview";
-    public static final String ERROR_REQUIRED_SELECT_APPROVAL_STATUS = "error.required.select.approval.status";
-    public static final String ERROR_REQUIRED_SELECT_SPECIAL_REVIEW_CODE = "error.required.select.special.review.code";
-
-    public static final String ERROR_REQUIRED_FOR_VALID_SPECIALREVIEW = "error.required.for.valid.specialReview";
     public static final String ERROR_REQUIRED_PROPOSAL_SPONSOR_ID = "error.required.proposalSponsorId";
     public static final String ERROR_NIH_SPONSOR_PROJECT_TITLE_LENGTH = "error.nih.sponsor.project.title.length";
     public static final String WARNING_EMPTY_DEADLINE_DATE = "warning.empty.deadline.date";
     public static final String WARNING_PAST_DEADLINE_DATE = "warning.past.deadline.date";
     public static final String WARNING_ACTIVITY_TYPE_CHANGED = "warning.activityType.changed";
-    public static final String ERROR_SPECIAL_REVIEW_DATE_ORDERING = "error.special.review.date.ordering";
-    public static final String ERROR_APPROVAL_DATE_BEFORE_APPLICATION_DATE_SPECIALREVIEW = "error.approvalDate.before.applicationDate.for.valid.specialReview";
     public static final String ERROR_START_DATE_AFTER_END_DATE = "error.start.date.after.end.date";
     
     public static final String QUESTION_DELETE_CONFIRMATION = "document.question.delete.text";
     
+    // Special Review
+    public static final String ERROR_SPECIAL_REVIEW_DATE_SAME_OR_LATER = "error.special.review.date.same.or.later";
+    public static final String ERROR_SPECIAL_REVIEW_DATE_LATER = "error.special.review.date.later";
+    public static final String ERROR_SPECIAL_REVIEW_EMPTY_FOR_NOT_APPROVED = "error.special.review.empty.for.not.approved";
+    public static final String ERROR_SPECIAL_REVIEW_REQUIRED_FOR_VALID = "error.special.review.required.for.valid";
+    public static final String ERROR_SPECIAL_REVIEW_CANNOT_SELECT_EXEMPTION_FOR_VALID = "error.special.review.cannot.select.exemption.for.valid";
     
     // Abstracts and Attachments errors
     public static final String ERROR_PROPOSAL_ATTACHMENT_NOT_COMPLETE = "error.document.narrativestatuscode.not.complete";
@@ -231,9 +229,6 @@ public final class KeyConstants {
     public static final String WARNING_PERIOD_COST_LIMIT_EXCEEDED= "warning.periodCostLimit.exceeded";
     public static final String WARNING_UNRECOVERED_FA_NEGATIVE= "warning.unrecoveredFA.negative";
 
-    // special review enhancement
-    public static final String ERROR_EXEMPT_NUMBER_SELECTED = "error.exempt.number.selected";
-    public static final String ERROR_EXPIRATION_DATE_PAST = "error.expiration.date.past";
     public static final String AUDIT_ERROR_BUDGETPERIOD_START_BEFORE_PROJECT_START_DATE = "error.periodStartDate.before.projectStartDate";
     public static final String AUDIT_ERROR_BUDGETPERIOD_END_AFTER_PROJECT_END_DATE = "error.periodEndDate.after.projectEndDate";
     public static final String AUDIT_WARNING_BUDGETPERIOD_START_AFTER_PROJECT_START_DATE = "warning.budgetStartDate.after.projectStartDate";

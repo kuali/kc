@@ -12,8 +12,8 @@
     </property>
     <property name="lockingKeys">
       <list>
+        <value>specialReviewTypeCode</value>
         <value>approvalTypeCode</value>
-        <value>specialReviewCode</value>
       </list>
     </property>
     
@@ -38,8 +38,8 @@
     <property name="title" value="Edit Valid Special Review Approval"/>
     <property name="maintainableItems">
       <list>
+        <bean parent="MaintainableFieldDefinition" p:name="specialReviewTypeCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="approvalTypeCode" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="specialReviewCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="applicationDateFlag"/>
         <bean parent="MaintainableFieldDefinition" p:name="approvalDateFlag"/>
         <bean parent="MaintainableFieldDefinition" p:name="protocolNumberFlag"/>

@@ -15,23 +15,17 @@
  */
 package org.kuali.kra.irb.specialreview;
 
+import org.kuali.kra.common.specialreview.rules.AddSpecialReviewRuleTestBase;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.rules.AddSpecialReviewRuleTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class AddProtocolSpecialReviewRuleTest extends AddSpecialReviewRuleTestBase<ProtocolSpecialReview> {
-
-    private static final String NEW_SPECIAL_REVIEW = "specialReviewHelper.newSpecialReview";
-    
-    public AddProtocolSpecialReviewRuleTest() {
-        super(NEW_SPECIAL_REVIEW);
-    }
     
     @Override
-    public Document getDocument() throws WorkflowException, Exception {
+    public Document getDocument() throws WorkflowException {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         Document document = getDocumentService().getNewDocument(ProtocolDocument.class);
         return document;

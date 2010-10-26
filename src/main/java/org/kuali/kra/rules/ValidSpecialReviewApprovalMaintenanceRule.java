@@ -18,9 +18,9 @@ package org.kuali.kra.rules;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.kra.bo.SpecialReview;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.ValidSpecialReviewApproval;
+import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 
 /**
@@ -55,7 +55,7 @@ public class ValidSpecialReviewApprovalMaintenanceRule extends KraMaintenanceDoc
         valid &= checkExistenceFromTable(SpecialReviewApprovalType.class, approvalTypePk, "approvalTypeCode", "Approval Type Code");
         
         Map<String, String> specialReviewPk = new HashMap<String, String>();
-        specialReviewPk.put("specialReviewCode", specialReviewApproval.getSpecialReviewCode());
+        specialReviewPk.put("specialReviewCode", specialReviewApproval.getSpecialReviewTypeCode());
         valid &= checkExistenceFromTable(SpecialReview.class, specialReviewPk, "specialReviewCode", "Special Review Code");
         
         return valid;

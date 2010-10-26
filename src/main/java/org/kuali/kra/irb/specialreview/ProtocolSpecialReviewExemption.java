@@ -17,57 +17,50 @@ package org.kuali.kra.irb.specialreview;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.bo.AbstractSpecialReviewExemption;
+import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
 
 /**
- * This class represents ProtocolSpecialReviewExemption
+ * Defines a Special Review Exemption for a Protocol.
  */
-@SuppressWarnings("serial")
-public class ProtocolSpecialReviewExemption extends AbstractSpecialReviewExemption {
-   
-    private Long protocolSpecialReviewExemptionId;
-    private ProtocolSpecialReview protocolSpecialReview;
+public class ProtocolSpecialReviewExemption extends SpecialReviewExemption {
+
+    private static final long serialVersionUID = 5397618472812176402L;
     
-    /**
-     * Gets the protocolSpecialReviewExemptionId attribute. 
-     * @return Returns the protocolSpecialReviewExemptionId.
-     */
+    private Long protocolSpecialReviewExemptionId;
+    private Long protocolSpecialReviewId;
+    
+    private ProtocolSpecialReview protocolSpecialReview;
+
     public Long getProtocolSpecialReviewExemptionId() {
         return protocolSpecialReviewExemptionId;
     }
-    
-    /**
-     * Sets the protocolSpecialReviewExemptionId attribute value.
-     * @param protocolSpecialReviewExemptionId The protocolSpecialReviewExemptionId to set.
-     */
+
     public void setProtocolSpecialReviewExemptionId(Long protocolSpecialReviewExemptionId) {
         this.protocolSpecialReviewExemptionId = protocolSpecialReviewExemptionId;
     }
-    
-    /**
-     * Gets the protocolSpecialReview attribute. 
-     * @return Returns the protocolSpecialReview.
-     */
+
+    public Long getProtocolSpecialReviewId() {
+        return protocolSpecialReviewId;
+    }
+
+    public void setProtocolSpecialReviewId(Long protocolSpecialReviewId) {
+        this.protocolSpecialReviewId = protocolSpecialReviewId;
+    }
+
     public ProtocolSpecialReview getProtocolSpecialReview() {
         return protocolSpecialReview;
     }
-    
-    /**
-     * Sets the protocolSpecialReview attribute value.
-     * @param protocolSpecialReview The protocolSpecialReview to set.
-     */
+
     public void setProtocolSpecialReview(ProtocolSpecialReview protocolSpecialReview) {
         this.protocolSpecialReview = protocolSpecialReview;
     }
     
-    /**
-     * @see org.kuali.kra.bo.AbstractSpecialReviewExemption#toStringMapper()
-     */
-    @SuppressWarnings("unchecked")
     @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap hashMap = super.toStringMapper();
-        hashMap.put("protocolSpecialReviewExemptionId", getProtocolSpecialReviewExemptionId());
-        return hashMap;
+    protected LinkedHashMap<String, Object> toStringMapper() {
+        LinkedHashMap<String, Object> propMap = super.toStringMapper();
+        propMap.put("protocolSpecialReviewExemptionId", getProtocolSpecialReviewExemptionId());
+        propMap.put("protocolSpecialReviewId", getProtocolSpecialReviewId());
+        return propMap;
     }
+    
 }

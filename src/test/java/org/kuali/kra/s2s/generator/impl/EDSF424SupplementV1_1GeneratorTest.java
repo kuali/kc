@@ -27,8 +27,8 @@ import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.s2s.generator.S2STestBase;
 import org.kuali.kra.s2s.generator.util.S2STestUtils;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -48,7 +48,7 @@ public class EDSF424SupplementV1_1GeneratorTest extends S2STestBase<EDSF424Suppl
     protected void prepareData(ProposalDevelopmentDocument document) throws Exception {
         ProposalSpecialReview specialReview = new ProposalSpecialReview();
         specialReview.setSpecialReviewNumber(1);
-        specialReview.setSpecialReviewCode("1");
+        specialReview.setSpecialReviewTypeCode("1");
         specialReview.setApprovalTypeCode("4");
         specialReview.setComments("This is the comment for special review comments");
         List<ProposalSpecialReview> reviewList = new ArrayList<ProposalSpecialReview>();

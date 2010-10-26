@@ -21,19 +21,16 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.common.specialreview.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReview;
+import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
-import org.kuali.kra.rule.event.AddSpecialReviewEvent;
 
 /**
  * Invokes rules on and applies actions to add, delete, or save SpecialReviews.
  */
 public class InstitutionalProposalSpecialReviewAction extends InstitutionalProposalAction {
-    
-    private static final String NEW_SPECIAL_REVIEW = "newSpecialReview";
 
     /**
      * This method is for adding AwardSpecialReview to the list.
@@ -47,12 +44,13 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
     public ActionForward addSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
         InstitutionalProposalDocument document = institutionalProposalForm.getInstitutionalProposalDocument();
-        InstitutionalProposalSpecialReview newSpecialReview = institutionalProposalForm.getNewSpecialReview();
+        InstitutionalProposalSpecialReview newSpecialReview = institutionalProposalForm.getSpecialReviewHelper().getNewSpecialReview();
         
-        if (applyRules(new AddSpecialReviewEvent<InstitutionalProposalSpecialReview>(NEW_SPECIAL_REVIEW, document, newSpecialReview))) {
+        if (applyRules(new AddSpecialReviewEvent<InstitutionalProposalSpecialReview>(document, newSpecialReview))) {
             newSpecialReview.setSpecialReviewNumber(document.getDocumentNextValue(Constants.SPECIAL_REVIEW_NUMBER));
             document.getInstitutionalProposal().getSpecialReviews().add(newSpecialReview);
-            institutionalProposalForm.setNewSpecialReview(new InstitutionalProposalSpecialReview());
+            
+            institutionalProposalForm.getSpecialReviewHelper().setNewSpecialReview(new InstitutionalProposalSpecialReview());
         }
         
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
@@ -71,7 +69,6 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
         throws Exception {
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
         InstitutionalProposalDocument document = institutionalProposalForm.getInstitutionalProposalDocument();
-        
         document.getInstitutionalProposal().getSpecialReviews().remove(getLineToDelete(request));
 
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
@@ -85,12 +82,17 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
-        InstitutionalProposal institutionalProposal = institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal();
+        InstitutionalProposalDocument document = institutionalProposalForm.getInstitutionalProposalDocument();
         
-        if (!institutionalProposal.getSpecialReviews().isEmpty()) {
-            institutionalProposal.setSpecialReviewIndicator("1");
+        // For reasons unknown to me, to enforce saving special review records in order between successive saves, we must save the document before saving 
+        // anything else (like the special review indicator) on the document.  This statement can be safely removed if the special review indicator is no 
+        // longer being set at this point...
+        getDocumentService().saveDocument(document);
+        
+        if (!document.getInstitutionalProposal().getSpecialReviews().isEmpty()) {
+            document.getInstitutionalProposal().setSpecialReviewIndicator("1");
         } else {
-            institutionalProposal.setSpecialReviewIndicator("0");
+            document.getInstitutionalProposal().setSpecialReviewIndicator("0");
         }
         
         return super.save(mapping, form, request, response);

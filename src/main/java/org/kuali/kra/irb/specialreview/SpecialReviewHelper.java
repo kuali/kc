@@ -15,8 +15,7 @@
  */
 package org.kuali.kra.irb.specialreview;
 
-import java.io.Serializable;
-
+import org.kuali.kra.common.specialreview.web.struts.form.SpecialReviewHelperBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
@@ -24,32 +23,29 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.rice.kns.util.GlobalVariables;
 
-public class SpecialReviewHelper implements Serializable {
+/**
+ * Defines the Special Review Helper for Protocol.
+ */
+public class SpecialReviewHelper extends SpecialReviewHelperBase<ProtocolSpecialReview> {
+
+    private static final long serialVersionUID = -9108501504678520983L;
     
-    /**
-     * Each Helper must contain a reference to its document form
-     * so that it can access the actual document.
-     */
     private ProtocolForm form;
     
-    private boolean modifySpecialReview;
-    
-    private ProtocolSpecialReview newSpecialReview;
-    
+    /**
+     * Constructs a SpecialReviewHelper.
+     * @param form the container form
+     */
     public SpecialReviewHelper(ProtocolForm form) {
         this.form = form;
         setNewSpecialReview(new ProtocolSpecialReview());
     }
-    
-    public void prepareView() {
-        initializePermissions(getProtocol());
-    }
-    
-    private void initializePermissions(Protocol protocol) {
-        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_SPECIAL_REVIEW, protocol);
-        modifySpecialReview = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);   
+
+    @Override
+    public boolean hasModifySpecialReviewPermission(String principalId) {
+        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_SPECIAL_REVIEW, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(principalId, task);
     }
     
     private Protocol getProtocol() {
@@ -60,23 +56,8 @@ public class SpecialReviewHelper implements Serializable {
         return document.getProtocol();
     }
     
-    public boolean getModifySpecialReview() {
-        return modifySpecialReview;
-    }
-
-    public ProtocolSpecialReview getNewSpecialReview() {
-        return newSpecialReview;
-    }
-
-    public void setNewSpecialReview(ProtocolSpecialReview newSpecialReview) {
-        this.newSpecialReview = newSpecialReview;
-    }
-    
     private TaskAuthorizationService getTaskAuthorizationService() {
         return KraServiceLocator.getService(TaskAuthorizationService.class);
     }
     
-    private String getUserIdentifier() {
-        return GlobalVariables.getUserSession().getPrincipalId();
-   }
 }
