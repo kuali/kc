@@ -26,20 +26,21 @@ import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.Description
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.FundingOpportunityDetailsType;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.HumanSubjectsType;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.KeyPersonType;
+import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.KeyPersonType.KeyPersonFlag;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.OrgAssurancesType;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.OtherDirectType;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ParticipantType;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.PersonFullNameType;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ResearchAndRelatedProjectDocument;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.SalariesAndWagesType;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.KeyPersonType.KeyPersonFlag;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ProgramDirectorPrincipalInvestigatorDocument.ProgramDirectorPrincipalInvestigator;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ProjectDescriptionDocument.ProjectDescription;
+import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ResearchAndRelatedProjectDocument;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ResearchAndRelatedProjectDocument.ResearchAndRelatedProject;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ResearchCoverPageDocument.ResearchCoverPage;
+import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.SalariesAndWagesType;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -70,7 +71,8 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
-import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
+import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 /**
  * This class generates XML that confirms with the RaR XSD related to Proposal
@@ -165,12 +167,9 @@ public class ResearchAndRelatedXmlStream extends AbstractResearchAndRelatedStrea
 			budgetSummaryType.setAllBudgetTotals(getBudgetTotals(budget.getTotalCost(), budget.getCostSharingAmount()));
 			budgetSummaryType.setBudgetPeriodArray(getBudgetPeriodArray(budget.getBudgetPeriods()));
 			budgetSummaryType.setBudgetJustification(getBudgetJustification(developmentPropsal.getProposalNumber()));
-			// budgetSummaryType.setBudgetDirectCostsTotal(budget
-			// .getTotalDirectCost().bigDecimalValue());
-			// budgetSummaryType.setBudgetIndirectCostsTotal(budget
-			// .getTotalIndirectCost().bigDecimalValue());
-			// budgetSummaryType.setBudgetCostsTotal(budget.getTotalCost()
-			// .bigDecimalValue());
+			budgetSummaryType.setBudgetDirectCostsTotal(budget.getTotalDirectCost().bigDecimalValue());
+			budgetSummaryType.setBudgetIndirectCostsTotal(budget.getTotalIndirectCost().bigDecimalValue());
+			budgetSummaryType.setBudgetCostsTotal(budget.getTotalCost().bigDecimalValue());
 		}
 		return budgetSummaryType;
 	}
@@ -865,8 +864,8 @@ public class ResearchAndRelatedXmlStream extends AbstractResearchAndRelatedStrea
 	private boolean getHumanSubjectsUsedQuestion(
 			ProposalSpecialReview proposalSpecialReview) {
 		boolean humanSubjectsUsedQuestion = false;
-		if (proposalSpecialReview.getSpecialReviewTypeCode() != null
-				&& proposalSpecialReview.getSpecialReviewTypeCode().equals(
+		if (proposalSpecialReview.getSpecialReviewCode() != null
+				&& proposalSpecialReview.getSpecialReviewCode().equals(
 						SPECIAL_REVIEW_CODE_1)) {
 			humanSubjectsUsedQuestion = true;
 		}
