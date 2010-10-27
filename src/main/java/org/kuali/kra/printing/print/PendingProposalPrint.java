@@ -43,15 +43,6 @@ import org.kuali.kra.printing.util.PrintingUtils;
 public class PendingProposalPrint extends AbstractPrint {
 
 	/**
-	 * Fetches the {@link ResearchDocumentBase}
-	 * 
-	 * @return {@link ResearchDocumentBase} document
-	 */
-	public KraPersistableBusinessObjectBase getPrintableBusinessObject() {
-		return getPrintableBusinessObject();
-	}
-
-	/**
 	 * This method fetches the XSL style-sheets required for transforming the
 	 * generated XML into PDF.
 	 * 
