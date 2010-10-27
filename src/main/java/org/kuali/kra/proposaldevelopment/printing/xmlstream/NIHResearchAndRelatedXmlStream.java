@@ -45,6 +45,7 @@ import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.OtherDirect
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.OtherDirectType;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.PersonFullNameType;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ProjectRoleType;
+import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ProjectSiteType;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ProposalPersonType;
 
 import java.math.BigDecimal;
@@ -88,6 +89,7 @@ import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.printing.util.PrintingUtils;
+import org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -1025,10 +1027,70 @@ public class NIHResearchAndRelatedXmlStream extends
 				.setFundingOpportunityDetails(getFundingOpportunityDetailsForResearchCoverPage(developmentProposal));
 		researchCoverPage
 				.setAuthorizedOrganizationalRepresentative(getAuthorizedOrganizationalRepresentative(developmentProposal));
+	    setAlternateProjectSites(developmentProposal,researchCoverPage);
+	    
 		return researchCoverPage;
 	}
 
-	/*
+	private void setAlternateProjectSites(DevelopmentProposal developmentProposal,ResearchCoverPage researchCoverPage) {
+	    List<ProposalSite> otherOrganizations = developmentProposal.getOtherOrganizations();
+	    setPerformanceSites(researchCoverPage, otherOrganizations);
+        List<ProposalSite> proposalSites = developmentProposal.getPerformanceSites();
+        setPerformanceSites(researchCoverPage, proposalSites);
+    }
+
+    /**
+     * This method...
+     * @param researchCoverPage
+     * @param proposalSites
+     */
+    private void setPerformanceSites(ResearchCoverPage researchCoverPage, List<ProposalSite> proposalSites) {
+        for (ProposalSite proposalSite : proposalSites) {
+	        ProjectSiteType projectSiteType= researchCoverPage.addNewAlternateProjectSites();
+	        Rolodex rolodexBean = proposalSite.getRolodex();
+	        if(rolodexBean==null){
+	            rolodexBean = proposalSite.getOrganization().getRolodex();
+	        }
+	        projectSiteType.setOrganizationName(rolodexBean.getOrganization());
+	        setPostalAddressInfo(rolodexBean,projectSiteType);
+	        List<CongressionalDistrict> congressionalDistricts = proposalSite.getCongressionalDistricts();
+	        String congrDistName = null;
+	        for (CongressionalDistrict congressionalDistrict : congressionalDistricts) {
+	            congrDistName= congrDistName==null?congressionalDistrict.getCongressionalDistrict():
+	                congrDistName+","+congressionalDistrict.getCongressionalDistrict();
+            }
+	        projectSiteType.setCongressionalDistrict(congrDistName);  
+        }
+    }
+
+    private void setPostalAddressInfo(Rolodex rolodexBean,ProjectSiteType projectSiteType) {
+      PostalAddressType postalAddressType = projectSiteType.addNewPostalAddress();
+      postalAddressType
+              .setCity((rolodexBean.getCity() == null || rolodexBean.getCity().trim().equals("")) ? "Unknown"
+                      : rolodexBean.getCity());
+      postalAddressType.setPostalCode((rolodexBean.getPostalCode() == null || rolodexBean.getPostalCode()
+              .trim().equals("")) ? "Unknown" : rolodexBean.getPostalCode());
+      postalAddressType.setCountry((rolodexBean.getCountryCode() == null || rolodexBean.getCountryCode()
+              .trim().equals("")) ? "Unknown" : rolodexBean.getCountryCode());
+
+      if (rolodexBean.getState() != null)
+          postalAddressType.setState(rolodexBean.getState());
+
+      if (rolodexBean.getAddressLine1() != null) {
+          XmlToken street = postalAddressType.addNewStreet();
+          street.setStringValue(rolodexBean.getAddressLine1());
+      }
+      if (rolodexBean.getAddressLine2() != null) {
+          XmlToken street2 = postalAddressType.addNewStreet();
+          street2.setStringValue(rolodexBean.getAddressLine2());
+      }
+      if (rolodexBean.getAddressLine3() != null) {
+          XmlToken street3 = postalAddressType.addNewStreet();
+          street3.setStringValue(rolodexBean.getAddressLine3());
+      }
+    }
+
+    /*
 	 * This method gets AuthorizedOrganizationalRepresentativeType XMLObject and
 	 * set data to it from authorisedOraganization
 	 */
