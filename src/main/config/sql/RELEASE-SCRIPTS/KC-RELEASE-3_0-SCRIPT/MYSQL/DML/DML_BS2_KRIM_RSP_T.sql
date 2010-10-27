@@ -16,6 +16,6 @@ SELECT MAX(ID), UUID(), 1, 1, 'KC-WKFLW', 'IRB Admin Approve Review Request', 'P
 INSERT INTO KRIM_RSP_ID_S VALUES (NULL);
 
 INSERT INTO KRIM_RSP_T ( RSP_ID, OBJ_ID, VER_NBR, RSP_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND )
-SELECT MAX(ID), SYS_GUID(), 1, 1, 'KC-WKFLW', 'ProtocolUnitApprovalResponsibility', 'ProtocolUnitApprovalResponsibility', 'Y' FROM KRIM_RS_ID_S;
+SELECT MAX(ID), UUID(), 1, 1, 'KC-WKFLW', 'ProtocolUnitApprovalResponsibility', 'ProtocolUnitApprovalResponsibility', 'Y' FROM KRIM_RS_ID_S;
 
 COMMIT;
