@@ -20,12 +20,12 @@ import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,15 +33,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
-import org.kuali.rice.kns.util.RiceKeyConstants;
-import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.AwardBudgetForm;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
-import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.budget.BudgetException;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -52,7 +46,6 @@ import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardAttachment;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardFiles;
@@ -60,14 +53,16 @@ import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.proposaldevelopment.budget.service.BudgetPrintService;
 import org.kuali.kra.proposaldevelopment.budget.service.BudgetSubAwardService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.AuditCluster;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 public class BudgetActionsAction extends BudgetAction implements AuditModeAction {
     private static final String CONTENT_TYPE_XML = "text/xml";
@@ -165,6 +160,64 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         Budget budget = budgetForm.getBudgetDocument().getBudget();
         KraServiceLocator.getService(BudgetSubAwardService.class).populateBudgetSubAwardAttachments(budget);
         return forward;
+    }
+    
+    /**
+     * Adds a non XFD file to the Sub Award for manual (non-Grants.gov) budgets.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @SuppressWarnings("unchecked")
+    public ActionForward addNonXFD(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetForm budgetForm = (BudgetForm) form;
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        BudgetSubAwards newBudgetSubAward = budgetForm.getNewSubAward();
+        FormFile newBudgetSubAwardFile = budgetForm.getSubAwardFile();
+        
+        boolean success = true;
+        if (StringUtils.isBlank(newBudgetSubAward.getOrganizationName())) {
+            GlobalVariables.getMessageMap().putError(Constants.SUBAWARD_ORG_NAME, Constants.SUBAWARD_ORG_NAME_REQUIERED);
+            success = false;
+        }
+        if (ArrayUtils.isEmpty(newBudgetSubAwardFile.getFileData())) {
+            GlobalVariables.getMessageMap().putError(Constants.SUBAWARD_FILE, Constants.SUBAWARD_FILE_REQUIERED);
+            success = false;
+        }
+        
+        if (success) {
+            newBudgetSubAward.setBudgetId(budgetDocument.getBudget().getBudgetId());
+            newBudgetSubAward.setSubAwardNumber(generateSubAwardNumber(budgetDocument));
+            newBudgetSubAward.setBudgetVersionNumber(budgetDocument.getBudget().getBudgetVersionNumber());
+            newBudgetSubAward.setSubAwardStatusCode(1);
+            
+            BudgetSubAwardFiles newBudgetSubAwardFiles = new BudgetSubAwardFiles();
+            newBudgetSubAwardFiles.setSubAwardXfdFileName(newBudgetSubAwardFile.getFileName());
+            newBudgetSubAwardFiles.setSubAwardXfdFileData(newBudgetSubAwardFile.getFileData());
+            newBudgetSubAward.setSubAwardXfdFileName(newBudgetSubAwardFile.getFileName());
+            newBudgetSubAward.setSubAwardXfdFileData(newBudgetSubAwardFile.getFileData());
+            newBudgetSubAward.getBudgetSubAwardFiles().add(newBudgetSubAwardFiles);
+            
+            List listToBeSaved = new ArrayList();
+            listToBeSaved.add(newBudgetSubAward);
+            listToBeSaved.addAll(newBudgetSubAward.getBudgetSubAwardFiles());
+            listToBeSaved.addAll(newBudgetSubAward.getBudgetSubAwardAttachments());
+            getBusinessObjectService().save(listToBeSaved);
+            
+            budgetDocument.getBudget().getBudgetSubAwards().add(newBudgetSubAward);
+            
+            budgetForm.setNewSubAward(new BudgetSubAwards()); 
+        }
+        
+        newBudgetSubAward.getBudgetSubAwardFiles().clear();
+        List<BudgetSubAwardAttachment> attList = newBudgetSubAward.getBudgetSubAwardAttachments();
+        for (BudgetSubAwardAttachment budgetSubAwardAttachment : attList) {
+            budgetSubAwardAttachment.setAttachment(null);
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);        
     }
     
     @SuppressWarnings("unchecked")
