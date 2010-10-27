@@ -63,7 +63,7 @@ Make sure MySQL user has following privileges on the schema
 	* Create_tmp_table
 	* Lock_tables
 
-Edit KC-Release-2_0-Bundled-Install.sql change kcprd to username
+Edit KC-Release-2_0-Bundled-MySql-Install.sql change kcprd to username
 
 Run: KC_Install.bat mysql new username password
 
