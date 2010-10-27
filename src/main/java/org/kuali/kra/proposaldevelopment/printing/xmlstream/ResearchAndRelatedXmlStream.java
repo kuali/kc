@@ -167,12 +167,9 @@ public class ResearchAndRelatedXmlStream extends AbstractResearchAndRelatedStrea
 			budgetSummaryType.setAllBudgetTotals(getBudgetTotals(budget.getTotalCost(), budget.getCostSharingAmount()));
 			budgetSummaryType.setBudgetPeriodArray(getBudgetPeriodArray(budget.getBudgetPeriods()));
 			budgetSummaryType.setBudgetJustification(getBudgetJustification(developmentPropsal.getProposalNumber()));
-			// budgetSummaryType.setBudgetDirectCostsTotal(budget
-			// .getTotalDirectCost().bigDecimalValue());
-			// budgetSummaryType.setBudgetIndirectCostsTotal(budget
-			// .getTotalIndirectCost().bigDecimalValue());
-			// budgetSummaryType.setBudgetCostsTotal(budget.getTotalCost()
-			// .bigDecimalValue());
+			budgetSummaryType.setBudgetDirectCostsTotal(budget.getTotalDirectCost().bigDecimalValue());
+			budgetSummaryType.setBudgetIndirectCostsTotal(budget.getTotalIndirectCost().bigDecimalValue());
+			budgetSummaryType.setBudgetCostsTotal(budget.getTotalCost().bigDecimalValue());
 		}
 		return budgetSummaryType;
 	}

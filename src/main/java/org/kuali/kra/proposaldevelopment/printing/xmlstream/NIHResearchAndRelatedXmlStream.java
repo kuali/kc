@@ -28,7 +28,9 @@ import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.KeyPersonType;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.NSFOtherPersonnelType;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.NSFSeniorPersonnelType;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.OrgAssurancesType;
+import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.SignatureType;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.IndirectCostRateDetails;
+import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod.ConsortiumCosts;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod.SalarySubtotals;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.IndirectCostRateDetails.NoDHHSAgreement;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.ProgramDirectorPrincipalInvestigatorDocument.ProgramDirectorPrincipalInvestigator;
@@ -59,6 +61,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlToken;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.home.ContactRole;
@@ -69,10 +72,12 @@ import org.kuali.kra.bo.OrganizationType;
 import org.kuali.kra.bo.OrganizationYnq;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.bo.Ynq;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetCategoryMapping;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
@@ -90,6 +95,8 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
+import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
+import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.bo.CompensationInfo;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
@@ -97,6 +104,8 @@ import org.kuali.kra.s2s.generator.bo.OtherPersonnelInfo;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.kns.service.ParameterService;
+
+import com.sun.tools.xjc.model.CNonElement;
 
 /**
  * This class generates XML that confirms with the RaR XSD related to Proposal
@@ -602,6 +611,8 @@ public class NIHResearchAndRelatedXmlStream extends
 			budgetSummaryType.setBudgetPeriodArray(getBudgetPeriodArray(developmentProposal,budget.getBudgetPeriods()));
 			budgetSummaryType.setBudgetJustification(getBudgetJustification(developmentProposal.getProposalNumber()));
             setAllNSFSeniorPersonnels(developmentProposal,budget,budgetSummaryType);
+            budgetSummaryType.setModularBudgetQuestion(budget.getModularBudgetFlag());
+            budgetSummaryType.setBudgetCostsTotal(budget.getTotalCost().bigDecimalValue());
 
 		}
 		return budgetSummaryType;
@@ -715,6 +726,7 @@ public class NIHResearchAndRelatedXmlStream extends
 				budgetPeriodType.setIndirectCostsTotal(budgetPeriod.getTotalIndirectCost().bigDecimalValue());
 				budgetPeriodType.setPeriodCostsTotal(budgetPeriod.getTotalCost().bigDecimalValue());
 				budgetPeriodType.setProgramIncome(new BigDecimal(0));
+				budgetPeriodType.setConsortiumCosts(getConsortiumCosts(developmentProposal,budgetPeriod));
 	            int count = setNSFSeniorPersonnels(developmentProposal, budgetPeriod, budgetPeriodType.addNewNSFSeniorPersonnel());
 	            budgetPeriodType.setNSFTotalSeniorPersonnel(BigInteger.valueOf(count));
 	            
@@ -727,7 +739,44 @@ public class NIHResearchAndRelatedXmlStream extends
 		return budgetPeriods.toArray(new gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod[0]);
 	}
 
-	private void setNonPersonnelLACost(List<BudgetLineItem> budgetLineItems,
+	private ConsortiumCosts getConsortiumCosts(DevelopmentProposal developmentProposal,BudgetPeriod budgetPeriod) {
+	    ProposalDevelopmentBudgetExt budget = (ProposalDevelopmentBudgetExt)budgetPeriod.getBudget();
+	    BudgetDecimal consortiumDirectCost = BudgetDecimal.ZERO;
+	    BudgetDecimal consortiumIndirectCosts = BudgetDecimal.ZERO;
+	    ConsortiumCosts consortiumCost = ConsortiumCosts.Factory.newInstance();
+	    if(budget.getModularBudgetFlag()){
+	        BudgetModular budgetModular = budgetPeriod.getBudgetModular();
+	        consortiumDirectCost = budgetModular.getConsortiumFna();
+	    }else{
+	       boolean isNih = sponsorService.isSponsorNihOsc(developmentProposal) || sponsorService.isSponsorNihMultiplePi(developmentProposal);
+	        String mappingName = isNih?"NIH_PRINTING":"NSF_PRINTING";
+	        
+            String fnaGt25KParamValue = getParameterService().getParameterValue(BudgetDocument.class, "SUBCONTRACTOR_F_AND_A_GT_25K");
+            String fnaLt25KParamValue = getParameterService().getParameterValue(BudgetDocument.class, "SUBCONTRACTOR_F_AND_A_LT_25K");
+            String fnaBroadParamValue = getParameterService().getParameterValue(BudgetDocument.class, "BROAD_F_AND_A");
+	        Map<String, String> categoryMap = new HashMap<String, String>();
+	        categoryMap.put(KEY_TARGET_CATEGORY_CODE, "04");
+	        categoryMap.put(KEY_MAPPING_NAME, mappingName);
+	        List<BudgetCategoryMapping> budgetCategoryList = getBudgetCategoryMappings(categoryMap);
+	        for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
+	            for (BudgetCategoryMapping categoryMapping : budgetCategoryList) {
+	                consortiumDirectCost = consortiumDirectCost.add(lineItem.getLineItemCost());
+	                if (categoryMapping.getBudgetCategoryCode().equals(lineItem.getBudgetCategoryCode()) &&
+	                        (lineItem.getCostElement().equals(fnaGt25KParamValue) ||
+	                                lineItem.getCostElement().equals(fnaLt25KParamValue) ||
+	                                lineItem.getCostElement().equals(fnaBroadParamValue))) {
+	                    consortiumIndirectCosts = consortiumIndirectCosts.add(lineItem.getLineItemCost());
+	                }
+	            }
+	        }	        
+	        
+	    }
+        consortiumCost.setDirectCosts(consortiumDirectCost.subtract(consortiumIndirectCosts).bigDecimalValue());
+        consortiumCost.setIndirectCosts(consortiumIndirectCosts.bigDecimalValue()); 
+        return consortiumCost;
+    }
+
+    private void setNonPersonnelLACost(List<BudgetLineItem> budgetLineItems,
             gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod budgetPeriodType) {
 	    BudgetDecimal amount = BudgetDecimal.ZERO;
 	    for (BudgetLineItem budgetLineItem : budgetLineItems) {
@@ -1048,22 +1097,76 @@ public class NIHResearchAndRelatedXmlStream extends
 	 * Principal Investigator data to it
 	 */
 	private ProgramDirectorPrincipalInvestigator getProgramDirectorPrincipalInvestigatorForResearchCoverPage(
-			DevelopmentProposal developmentProposal) {
-		ProgramDirectorPrincipalInvestigator principalInvestigatorType = ProgramDirectorPrincipalInvestigator.Factory
-				.newInstance();
-		ProposalPerson principalInvestigator = PrintingUtils
-				.getPrincipalInvestigator(developmentProposal
-						.getProposalPersons());
-		if(principalInvestigator!=null){
-		    principalInvestigatorType.setContactInformation(getPersonContactInformation(principalInvestigator));
-	        principalInvestigatorType.setName(getContactPersonFullName(principalInvestigator
-                                                .getLastName(), principalInvestigator.getFirstName(),
-                                                principalInvestigator.getMiddleName()));
-		}
-		return principalInvestigatorType;
-	}
+            DevelopmentProposal developmentProposal) {
+        ProgramDirectorPrincipalInvestigator principalInvestigatorType = ProgramDirectorPrincipalInvestigator.Factory.newInstance();
+        ProposalPerson principalInvestigator = PrintingUtils.getPrincipalInvestigator(developmentProposal.getProposalPersons());
+        if (principalInvestigator != null) {
+            principalInvestigatorType.setContactInformation(getPersonContactInformation(principalInvestigator));
+            principalInvestigatorType.setName(getContactPersonFullName(principalInvestigator.getLastName(), principalInvestigator
+                    .getFirstName(), principalInvestigator.getMiddleName()));
 
-	/*
+
+            if (principalInvestigator.getEraCommonsUserName() == null) {
+                principalInvestigatorType.setAccountIdentifier("Unknown");
+            }
+            else {
+                principalInvestigatorType.setAccountIdentifier(principalInvestigator.getEraCommonsUserName());
+            }
+            principalInvestigatorType.setNewInvestigatorQuestion(getNewInvestQuestion(developmentProposal));
+//            ContactInfoType contactInfoType = principalInvestigatorType.addNewContactInformation();
+//            contactInfoType.setEmail(principalInvestigator.getEmailAddress());
+//            if (principalInvestigator.getFaxNumber() != null)
+//                contactInfoType.setFaxNumber(principalInvestigator.getFaxNumber());
+//            contactInfoType.setPhoneNumber(principalInvestigator.getOfficePhone());
+//
+//            PostalAddressType postalAddressType = contactInfoType.addNewPostalAddress();
+//            postalAddressType
+//                    .setCity((principalInvestigator.getCity() == null || principalInvestigator.getCity().trim().equals("")) ? "Unknown"
+//                            : principalInvestigator.getCity());
+//            postalAddressType.setPostalCode((principalInvestigator.getPostalCode() == null || principalInvestigator.getPostalCode()
+//                    .trim().equals("")) ? "Unknown" : principalInvestigator.getPostalCode());
+//            postalAddressType.setCountry((principalInvestigator.getCountryCode() == null || principalInvestigator.getCountryCode()
+//                    .trim().equals("")) ? "Unknown" : principalInvestigator.getCountryCode());
+//
+//            if (principalInvestigator.getState() != null)
+//                postalAddressType.setState(principalInvestigator.getState());
+//
+//            if (principalInvestigator.getAddressLine1() != null) {
+//                XmlToken street = postalAddressType.addNewStreet();
+//                street.setStringValue(principalInvestigator.getAddressLine1());
+//            }
+//            if (principalInvestigator.getAddressLine2() != null) {
+//                XmlToken street2 = postalAddressType.addNewStreet();
+//                street2.setStringValue(principalInvestigator.getAddressLine2());
+//            }
+//            if (principalInvestigator.getAddressLine3() != null) {
+//                XmlToken street3 = postalAddressType.addNewStreet();
+//                street3.setStringValue(principalInvestigator.getAddressLine3());
+//            }
+            SignatureType signatureType = principalInvestigatorType.addNewDirectorInvestigatorSignature();
+            signatureType.setSignatureAuthentication("unknown");
+            signatureType.setSignatureDate(getDateTimeService().getCurrentCalendar());
+            String unitName = getUnitName(principalInvestigator);
+            if(unitName!=null){
+                principalInvestigatorType.setAccountIdentifier(unitName);
+            }
+        }
+        return principalInvestigatorType;
+    }
+
+	private boolean getNewInvestQuestion(DevelopmentProposal developmentProposal) {
+        List<ProposalYnq> vecYNQQuestions = developmentProposal.getProposalYnqs();
+        for (ProposalYnq proposalYnq : vecYNQQuestions) {
+            if (proposalYnq.getQuestionId().equals("13") &&  (proposalYnq.getAnswer()!=null && 
+                                                                proposalYnq.getAnswer().equals("Y"))) {
+                return true;
+            }   
+            
+        }
+        return false;
+    }
+
+    /*
 	 * This method gets ApplicantOrganizationType XMLObject for
 	 * ResearchCoverPage and set the data from organization to it if data is
 	 * there else put default data
