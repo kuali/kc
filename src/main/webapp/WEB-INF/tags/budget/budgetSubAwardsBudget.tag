@@ -59,6 +59,8 @@
 					</td>
 					<td class="infoline">
 						<div align=center>
+						    <html:image property="methodToCall.addNonXFD.line${status.index}.anchor${currentTabIndex}"
+                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
 							<html:image property="methodToCall.translateXFD.anchor${tabKey}"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-extractxml.gif' styleClass="tinybutton"/>
 						</div>
@@ -97,10 +99,18 @@
 					</td>
 					<td valign="middle" class="infoline">
 						<div align=center>
-							<html:image property="methodToCall.viewXFD.line${status.index}.anchor${currentTabIndex}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-viewpdf.gif' styleClass="tinybutton" onclick="excludeSubmitRestriction=true"/>
-							<html:image property="methodToCall.viewXML.line${status.index}.anchor${currentTabIndex}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-viewxml.gif' styleClass="tinybutton" onclick="excludeSubmitRestriction=true"/>
+						    <c:choose>
+	                            <c:when test="${not empty KualiForm.document.budget.budgetSubAwards[status.index].subAwardXmlFileData}" >
+									<html:image property="methodToCall.viewXFD.line${status.index}.anchor${currentTabIndex}"
+									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-viewpdf.gif' styleClass="tinybutton" onclick="excludeSubmitRestriction=true"/>
+									<html:image property="methodToCall.viewXML.line${status.index}.anchor${currentTabIndex}"
+									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-viewxml.gif' styleClass="tinybutton" onclick="excludeSubmitRestriction=true"/>
+							    </c:when>
+							    <c:otherwise>
+							        <html:image property="methodToCall.viewXFD.line${status.index}.anchor${currentTabIndex}"
+                                    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton" onclick="excludeSubmitRestriction=true"/>
+                                </c:otherwise>
+                            </c:choose>
 							<html:image property="methodToCall.delete.line${status.index}.anchor${currentTabIndex}"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
 						</div>
