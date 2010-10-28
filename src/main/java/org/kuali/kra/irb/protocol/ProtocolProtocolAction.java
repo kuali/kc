@@ -81,12 +81,13 @@ public class ProtocolProtocolAction extends ProtocolAction {
         /*
          * Add a Protocol Create Action to the protocol.
          */
-        ProtocolDocument protocolDocument = ((ProtocolForm) form).getProtocolDocument();
-        Protocol protocol = protocolDocument.getProtocol();
-        org.kuali.kra.irb.actions.ProtocolAction protocolAction = new org.kuali.kra.irb.actions.ProtocolAction(protocol, null,
-            ProtocolActionType.PROTOCOL_CREATED);
-        protocolAction.setComments(PROTOCOL_CREATED);
-        protocol.getProtocolActions().add(protocolAction);
+        // move this to presav
+//        ProtocolDocument protocolDocument = ((ProtocolForm) form).getProtocolDocument();
+//        Protocol protocol = protocolDocument.getProtocol();
+//        org.kuali.kra.irb.actions.ProtocolAction protocolAction = new org.kuali.kra.irb.actions.ProtocolAction(protocol, null,
+//            ProtocolActionType.PROTOCOL_CREATED);
+//        protocolAction.setComments(PROTOCOL_CREATED);
+//        protocol.getProtocolActions().add(protocolAction);
     }
 
     /**
@@ -546,6 +547,21 @@ public class ProtocolProtocolAction extends ProtocolAction {
 
     private ProtocolProtocolService getProtocolProtocolService() {
         return (ProtocolProtocolService) KraServiceLocator.getService(ProtocolProtocolService.class);
+    }
+
+    @Override
+    public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        super.preSave(mapping, form, request, response);
+        ProtocolDocument protocolDocument = ((ProtocolForm) form).getProtocolDocument();
+        if (StringUtils.equals("INITIATED", protocolDocument.getDocumentHeader().getWorkflowDocument().getStatusDisplayValue())) {
+            Protocol protocol = protocolDocument.getProtocol();
+            protocol.getProtocolActions().clear();
+            org.kuali.kra.irb.actions.ProtocolAction protocolAction = new org.kuali.kra.irb.actions.ProtocolAction(protocol, null,
+                ProtocolActionType.PROTOCOL_CREATED);
+            protocolAction.setComments(PROTOCOL_CREATED);
+            protocol.getProtocolActions().add(protocolAction);
+        }
     }
 
 
