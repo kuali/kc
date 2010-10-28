@@ -21,6 +21,7 @@ import gov.nih.era.projectmgmt.sbir.cgap.commonNamespace.PostalAddressType;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.AbstractType;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.ApplicantOrganizationType;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.AuthorizedOrganizationalRepresentativeType;
+import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetPeriodType;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.FundingOpportunityDetailsType;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.HumanSubjectsType;
@@ -29,6 +30,7 @@ import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.NSFOtherPersonnelT
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.NSFSeniorPersonnelType;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.OrgAssurancesType;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.SignatureType;
+import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetPeriodType.ProgramIncomeDetails;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.IndirectCostRateDetails;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod.ConsortiumCosts;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod.SalarySubtotals;
@@ -78,6 +80,7 @@ import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetCategoryMapping;
+import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
@@ -106,6 +109,7 @@ import org.kuali.kra.s2s.generator.bo.OtherPersonnelInfo;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 import com.sun.tools.xjc.model.CNonElement;
 
@@ -731,16 +735,30 @@ public class NIHResearchAndRelatedXmlStream extends
 				budgetPeriodType.setConsortiumCosts(getConsortiumCosts(developmentProposal,budgetPeriod));
 	            int count = setNSFSeniorPersonnels(developmentProposal, budgetPeriod, budgetPeriodType.addNewNSFSeniorPersonnel());
 	            budgetPeriodType.setNSFTotalSeniorPersonnel(BigInteger.valueOf(count));
-	            
 	            setNSFOtherPersonnels(developmentProposal,budgetPeriod,budgetPeriodType);
 	            setSalarySubTotals(budgetPeriod,budgetPeriodType);
-	            
+	            setProgramIncome(budgetPeriod,budgetPeriodType);
+
 				budgetPeriods.add(budgetPeriodType);
 			}
 		}
 		return budgetPeriods.toArray(new gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod[0]);
 	}
 
+    private void setProgramIncome(BudgetPeriod budgetPeriod, BudgetPeriodType budgetPeriodType) {
+        Budget budget = budgetPeriod.getBudget();
+        List<BudgetProjectIncome> programIncomes = budget.getBudgetProjectIncomes();
+        KualiDecimal totalProgIncome = KualiDecimal.ZERO;
+        for (BudgetProjectIncome budgetProjectIncome : programIncomes) {
+            if(budgetProjectIncome.getBudgetPeriodNumber().equals(budgetPeriod.getBudgetPeriod())){
+              ProgramIncomeDetails progIncDetailsType = budgetPeriodType.addNewProgramIncomeDetails();
+              progIncDetailsType.setAnticipatedAmount(budgetProjectIncome.getProjectIncome().bigDecimalValue());
+              totalProgIncome = totalProgIncome.add(budgetProjectIncome.getProjectIncome());
+              progIncDetailsType.setSources(budgetProjectIncome.getDescription());
+            }
+        }
+        budgetPeriodType.setProgramIncome(totalProgIncome.bigDecimalValue());
+    }
 	private ConsortiumCosts getConsortiumCosts(DevelopmentProposal developmentProposal,BudgetPeriod budgetPeriod) {
 	    ProposalDevelopmentBudgetExt budget = (ProposalDevelopmentBudgetExt)budgetPeriod.getBudget();
 	    BudgetDecimal consortiumDirectCost = BudgetDecimal.ZERO;
