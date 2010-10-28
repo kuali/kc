@@ -554,7 +554,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
             throws Exception {
         super.preSave(mapping, form, request, response);
         ProtocolDocument protocolDocument = ((ProtocolForm) form).getProtocolDocument();
-        if (StringUtils.equals("INITIATED", protocolDocument.getDocumentHeader().getWorkflowDocument().getStatusDisplayValue())) {
+        if (protocolDocument.getDocumentHeader().getWorkflowDocument().stateIsInitiated()) {
             Protocol protocol = protocolDocument.getProtocol();
             protocol.getProtocolActions().clear();
             org.kuali.kra.irb.actions.ProtocolAction protocolAction = new org.kuali.kra.irb.actions.ProtocolAction(protocol, null,
