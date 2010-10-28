@@ -408,6 +408,8 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.committee.service.CommitteeBatchCorrespondenceServiceTest.class,
     org.kuali.kra.proposaldevelopment.web.AbstractsPanelWebTest.class,
     org.kuali.kra.proposaldevelopment.web.CustomDataWebTest.class,
+    org.kuali.kra.document.InstituteRateMaintenanceDocumentTest.class,
+    org.kuali.kra.document.InstituteLaRateMaintenanceDocumentTest.class,
     // Data needs to be loaded with sql loader.
     org.kuali.kra.proposaldevelopment.web.KeyPersonnelWebTest.class,
     org.kuali.kra.proposaldevelopment.web.ProposalYnqWebTest.class,
