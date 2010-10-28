@@ -50,6 +50,7 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
         InstitutionalProposalSpecialReview newSpecialReview = institutionalProposalForm.getNewSpecialReview();
         
         if (applyRules(new AddSpecialReviewEvent<InstitutionalProposalSpecialReview>(NEW_SPECIAL_REVIEW, document, newSpecialReview))) {
+            newSpecialReview.setInstitutionalProposal(document.getInstitutionalProposal());
             newSpecialReview.setSpecialReviewNumber(document.getDocumentNextValue(Constants.SPECIAL_REVIEW_NUMBER));
             document.getInstitutionalProposal().getSpecialReviews().add(newSpecialReview);
             institutionalProposalForm.setNewSpecialReview(new InstitutionalProposalSpecialReview());
