@@ -224,30 +224,32 @@ public class NIHResearchAndRelatedXmlStream extends
 	private void setNIHDeatils(
 			ResearchAndRelatedProject researchAndRelatedProject,
 			DevelopmentProposal developmentProposal) {
-		String proposalTypeCode = developmentProposal.getProposalTypeCode();
-		if ("6".equals(proposalTypeCode)) {
-			InstitutionalProposal institutionalProposal = getMaxInstitutionalProposal(developmentProposal);
-			researchAndRelatedProject
-					.setNihPriorGrantNumber(institutionalProposal
-							.getSponsorProposalNumber()); // setNihPriorGrantNumber
-		} else if ("3".equals(proposalTypeCode) || "4".equals(proposalTypeCode)
-				|| "5".equals(proposalTypeCode)) {
-			String federalIdComesFromAwardStr = parameterService
-					.getParameterValue(ProposalDevelopmentDocument.class,
-							"FEDERAL_ID_COMES_FROM_CURRENT_AWARD");
-			if ("1".equals(federalIdComesFromAwardStr)) {
-				String currentAwardNumber = developmentProposal
-						.getCurrentAwardNumber();
-				Award award = getAward(currentAwardNumber);
-				String sponsorAwardNumber = award.getSponsorAwardNumber(); // setNihPriorGrantNumber
-				String activityCode = sponsorAwardNumber.substring(3, 3); // setNihActivityCode
-				String awardType = sponsorAwardNumber.substring(1, 1); // setNihApplicationTypeCode
-				researchAndRelatedProject.setNihActivityCode(activityCode);
-				researchAndRelatedProject
-						.setNihPriorGrantNumber(sponsorAwardNumber);
-				researchAndRelatedProject.setNihApplicationTypeCode(awardType);
-			}
-		}
+//		String proposalTypeCode = developmentProposal.getProposalTypeCode();
+		String federalId  = getS2SUtilService().getFederalId(developmentProposal.getProposalDocument());
+		researchAndRelatedProject.setNihPriorGrantNumber(federalId);
+//		if ("6".equals(proposalTypeCode)) {
+//			InstitutionalProposal institutionalProposal = getMaxInstitutionalProposal(developmentProposal);
+//			researchAndRelatedProject
+//					.setNihPriorGrantNumber(institutionalProposal
+//							.getSponsorProposalNumber()); // setNihPriorGrantNumber
+//		} else if ("3".equals(proposalTypeCode) || "4".equals(proposalTypeCode)
+//				|| "5".equals(proposalTypeCode)) {
+//			String federalIdComesFromAwardStr = parameterService
+//					.getParameterValue(ProposalDevelopmentDocument.class,
+//							"FEDERAL_ID_COMES_FROM_CURRENT_AWARD");
+//			if ("1".equals(federalIdComesFromAwardStr)) {
+//				String currentAwardNumber = developmentProposal
+//						.getCurrentAwardNumber();
+//				Award award = getAward(currentAwardNumber);
+//				String sponsorAwardNumber = award.getSponsorAwardNumber(); // setNihPriorGrantNumber
+//				String activityCode = sponsorAwardNumber.substring(3, 3); // setNihActivityCode
+//				String awardType = sponsorAwardNumber.substring(1, 1); // setNihApplicationTypeCode
+//				researchAndRelatedProject.setNihActivityCode(activityCode);
+//				researchAndRelatedProject
+//						.setNihPriorGrantNumber(sponsorAwardNumber);
+//				researchAndRelatedProject.setNihApplicationTypeCode(awardType);
+//			}
+//		}
 	}
 
 	/**
