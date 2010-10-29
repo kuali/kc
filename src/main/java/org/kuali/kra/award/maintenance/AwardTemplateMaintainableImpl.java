@@ -18,8 +18,8 @@ package org.kuali.kra.award.maintenance;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.AwardTemplate;
 import org.kuali.kra.award.home.AwardTemplateReportTerm;
@@ -27,6 +27,7 @@ import org.kuali.kra.award.home.AwardTemplateReportTermRecipient;
 import org.kuali.kra.award.home.ValidBasisMethodPayment;
 import org.kuali.kra.award.paymentreports.ValidClassReportFrequency;
 import org.kuali.kra.award.paymentreports.ValidFrequencyBase;
+import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -38,6 +39,7 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * This class is for adding validation rules to maintain Award Template
@@ -49,6 +51,8 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
     private static final long serialVersionUID = -3368480537790330757L;
     
     private static final String PERSON_OBJECT_REFERENCE = "person";
+    
+    private static final String ERROR_KEY_PREFIX = "document.newMaintainableObject.add";
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AwardTemplateMaintainableImpl.class); 
 
@@ -101,20 +105,65 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
         }
         // get the new line from the map
         AwardTemplateReportTermRecipient addLine = (AwardTemplateReportTermRecipient) newCollectionLines.get(collectionName);
+        ErrorReporter errorReporter = new ErrorReporter();
         if (addLine != null) {
             // mark the isNewCollectionRecord so the option to delete this line will be presented
             addLine.setNewCollectionRecord(true);
+            addLine.setRolodexNameOrganization("");
             // parse contactTypeCodeAndRolodexId to get ContactTypeCode and RolodexId separately
-            String aString = addLine.getContactTypeCodeAndRolodexId();
-            int index1 = aString.indexOf(Constants.AWARD_TEMP_RECPNT_CONTACT_TYPE_CODE_ROLODEX_ID_SEPARATOR);
-            if (index1 > 0) {
-                String contactTypeCode = aString.substring(0, index1);
-                Integer rolodexId = Integer.parseInt(aString.substring(index1 + Constants.AWARD_TEMP_RECPNT_CONTACT_TYPE_CODE_ROLODEX_ID_SEPARATOR.length(), aString.length()));
-                addLine.setContactTypeCode(contactTypeCode);
-                addLine.setRolodexId(rolodexId);
+            String contactTypeCodeAndRolodexIdString = addLine.getContactTypeCodeAndRolodexId();
+            Integer rolodexIdInt = addLine.getRolodexId();
+            if(StringUtils.isNotEmpty(contactTypeCodeAndRolodexIdString) && rolodexIdInt != null) {
+                //add error only one can be selected
+                addLine.setRolodexNameOrganization("");
+                errorReporter.reportError(
+                        ERROR_KEY_PREFIX + collectionName, 
+                        KeyConstants.ERROR_CAN_NOT_SELECT_BOTH_FIELDS,
+                        contactTypeCodeAndRolodexIdString, rolodexIdInt.toString());
+                return;
             }
+            if(StringUtils.isNotEmpty(contactTypeCodeAndRolodexIdString)) {
+                int index1 = contactTypeCodeAndRolodexIdString.indexOf(Constants.AWARD_TEMP_RECPNT_CONTACT_TYPE_CODE_ROLODEX_ID_SEPARATOR);
+                if (index1 > 0) {
+                    String contactTypeCode = contactTypeCodeAndRolodexIdString.substring(0, index1);
+                    Integer rolodexId = Integer.parseInt(contactTypeCodeAndRolodexIdString.substring(
+                                                                index1 + Constants.AWARD_TEMP_RECPNT_CONTACT_TYPE_CODE_ROLODEX_ID_SEPARATOR.length(), 
+                                                                contactTypeCodeAndRolodexIdString.length()));
+                    addLine.setContactTypeCode(contactTypeCode);
+                    addLine.setRolodexId(rolodexId);
+                    addLine.setRolodexNameOrganization(this.rolodexNameAndOrganization(rolodexId));
+                }
+            } else if (rolodexIdInt != null) {
+                addLine.setContactTypeCode("-1");  // use default contact type code
+                addLine.setRolodexId(rolodexIdInt);
+                addLine.setRolodexNameOrganization(this.rolodexNameAndOrganization(rolodexIdInt));
+            } else { 
+                // add error, one of the fields has to be selected
+                addLine.setRolodexNameOrganization("");
+                errorReporter.reportError(
+                        ERROR_KEY_PREFIX + collectionName, 
+                        KeyConstants.ERROR_ONE_FIELD_MUST_BE_SELECTED);
+                return;
+            }
+            
             // get the collection from the business object
             Collection maintCollection = (Collection) ObjectUtils.getPropertyValue(getBusinessObject(), collectionName);
+            
+            if (maintCollection.size() > 0) {
+                List<AwardTemplateReportTermRecipient> aList = new TypedArrayList(AwardTemplateReportTermRecipient.class);
+                aList.addAll(maintCollection);
+                Integer id = addLine.getRolodexId();
+                for(int i = 0; i < aList.size(); i++ ){
+                    AwardTemplateReportTermRecipient aRecipient = (AwardTemplateReportTermRecipient) aList.get(i);
+                    if(aRecipient.getRolodexId().equals(id)) {
+                        errorReporter.reportError(
+                                ERROR_KEY_PREFIX + collectionName, 
+                                KeyConstants.ERROR_DUPLICATE_ROLODEX_ID);
+                        return; 
+                    }
+                }
+            }
+                       
             // add the line to the collection
             maintCollection.add( addLine );
             //refresh parent object since attributes could of changed prior to user clicking add
@@ -129,6 +178,15 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
         
     }
     
+    public String rolodexNameAndOrganization(Integer rolodexId) {
+        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        Rolodex aRolodex = businessObjectService.findBySinglePrimaryKey(Rolodex.class, rolodexId);
+        String rolocesNameAndOrganization = "";
+        if ( aRolodex != null ) {
+            rolocesNameAndOrganization = aRolodex.getFullName() + "/" + aRolodex.getOrganization();
+        }
+        return rolocesNameAndOrganization;
+    }
     
     @Override
     public void prepareForSave() {
