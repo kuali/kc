@@ -62,18 +62,21 @@
 		<property name="summaryTitle" value="Sponsor Template Report Recipient"/>
 		<property name="summaryFields">
 			<list>
-				<bean parent="MaintainableFieldDefinition" p:name="contactTypeCodeAndRolodexId"/>
+				<bean parent="MaintainableFieldDefinition" p:name="rolodexId"/>
+				<bean parent="MaintainableFieldDefinition" p:name="rolodexNameOrganization"/>
 			</list>
 		</property>
-		 <property name="attributeToHighlightOnDuplicateKey" value="contactTypeCodeAndRolodexId"/>
+		<property name="attributeToHighlightOnDuplicateKey" value="rolodexId"/>
 		<property name="duplicateIdentificationFields">
 			<list>
-				<bean parent="MaintainableFieldDefinition" p:name="contactTypeCodeAndRolodexId"/>
+				<bean parent="MaintainableFieldDefinition" p:name="rolodexId"/>
 			</list>
 		</property>
 		<property name="maintainableFields">
 			<list>
-				<bean parent="MaintainableFieldDefinition" p:name="contactTypeCodeAndRolodexId" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="contactTypeCodeAndRolodexId" p:readOnlyAfterAdd="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="rolodexId" p:readOnlyAfterAdd="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="rolodexNameOrganization" p:unconditionallyReadOnly="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="numberOfCopies" />
 				<bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
 			</list>

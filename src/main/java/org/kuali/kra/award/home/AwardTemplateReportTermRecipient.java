@@ -18,6 +18,7 @@ package org.kuali.kra.award.home;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.infrastructure.Constants;
@@ -39,6 +40,7 @@ public class AwardTemplateReportTermRecipient extends KraPersistableBusinessObje
     private ContactType contactType;
     private Rolodex rolodex; 
     private String contactTypeCodeAndRolodexId;
+    private String rolodexNameOrganization;
 	
 	public AwardTemplateReportTermRecipient() { 
 
@@ -51,17 +53,38 @@ public class AwardTemplateReportTermRecipient extends KraPersistableBusinessObje
 	public void setTemplateReportTermRecipientId(Integer templateReportTermRecipientId) {
 		this.templateReportTermRecipientId = templateReportTermRecipientId;
 	}
+	
+   public String getRolodexNameOrganization() {
+        if (StringUtils.isEmpty(rolodexNameOrganization)) {
+            this.refreshReferenceObject("rolodex");
+            if(this.getRolodex() == null) {
+                rolodexNameOrganization = "";
+            } else {
+                rolodexNameOrganization = this.getRolodex().getFullName() + "/" + this.getRolodex().getOrganization();
+            }
+        }
+        return rolodexNameOrganization;
+    }
+
+    public void setRolodexNameOrganization(String rolodexNameOrganization) {
+        this.rolodexNameOrganization = rolodexNameOrganization;
+    }
 	   
 	public String getContactTypeCodeAndRolodexId() {
 	    if (contactTypeCodeAndRolodexId == null) {
 	        this.refreshReferenceObject("contactType");
-	        if(this.getContactType() == null || this.getRolodexId() == null){
-	            contactTypeCodeAndRolodexId = "";
-	        } else {
-	        contactTypeCodeAndRolodexId = this.getContactType().getContactTypeCode()
-	            + Constants.AWARD_TEMP_RECPNT_CONTACT_TYPE_CODE_ROLODEX_ID_SEPARATOR 
-	            + this.getRolodexId().toString();
-	        }
+            if(this.getContactType() == null || this.getRolodexId() == null){
+                contactTypeCodeAndRolodexId = "";
+            } else {
+                 String aString = this.getContactType().getContactTypeCode();
+                 if (aString.equals("-1")) {
+                     contactTypeCodeAndRolodexId = "";
+                 } else {
+                     contactTypeCodeAndRolodexId = this.getContactType().getContactTypeCode()
+        	            + Constants.AWARD_TEMP_RECPNT_CONTACT_TYPE_CODE_ROLODEX_ID_SEPARATOR 
+        	            + this.getRolodexId().toString();
+                 }
+            }
 	    }
        return contactTypeCodeAndRolodexId;
     }
