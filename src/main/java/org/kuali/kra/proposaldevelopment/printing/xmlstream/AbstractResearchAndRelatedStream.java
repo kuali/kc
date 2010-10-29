@@ -962,9 +962,9 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         postalAddressType
                 .setPostalCode((postalCode == null || postalCode.trim().equals(Constants.EMPTY_STRING)) ? DEFAULT_VALUE_UNKNOWN
                         : postalCode);
-        String county = proposalPerson.getCounty();
-        postalAddressType.setCountry((county == null || county.trim().equals(Constants.EMPTY_STRING)) ? DEFAULT_VALUE_UNKNOWN
-                : county);
+        String country = proposalPerson.getCountryCode();
+        postalAddressType.setCountry((country == null || country.trim().equals(Constants.EMPTY_STRING)) ? DEFAULT_VALUE_UNKNOWN
+                : country);
         return postalAddressType;
     }
 
