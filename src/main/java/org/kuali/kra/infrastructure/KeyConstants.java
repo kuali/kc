@@ -829,6 +829,8 @@ public final class KeyConstants {
     public static final String ERROR_REVIEW_TYPE_NOT_EXISTS = "error.reviewtype.notexists";
     public static final String ERROR_SUBMISSION_TYPE_QUALIFIER_EXISTS = "error.submtypequal.exists";
     public static final String ERROR_TYPE_QUALIFIER_NOT_EXISTS = "error.typequal.notexists";
+    public static final String ERROR_FOLLOWUP_USER_PROMPT_REQUIRED = "error.protocol.actions.followUp.userPromptRequired";
+    public static final String ERROR_FOLLOWUP_USER_PROMPT_REQUIRED_EMPTY = "error.protocol.actions.followUp.userPromptRequiredEmpty";
     public static final String INVALID_SUBMISSION_REVIEW_TYPE = "invalid.submreviewtype";
     public static final String INVALID_SUBMISSION_TYPE_QUALIFIER = "invalid.submtypequal";
     public static final String ERROR_MANDATORY_QUESTIONNAIRE = "error.mandatory.questionnaire";
