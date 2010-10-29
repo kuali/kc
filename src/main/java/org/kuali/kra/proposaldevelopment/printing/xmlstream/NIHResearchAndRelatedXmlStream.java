@@ -155,6 +155,8 @@ public class NIHResearchAndRelatedXmlStream extends
 	private static final String PROJECT_ROLE_COI = "COI";
 	private static final String PROJECT_ROLE_KP = "KP";
 
+    private static final Object PROPOSAL_YNQ_QUESTION_17 = "17";
+
 	protected ParameterService parameterService;
     private SponsorService sponsorService;
 
@@ -1366,7 +1368,7 @@ public class NIHResearchAndRelatedXmlStream extends
 				.getDunsNumber());
 		applicantOrganizationType.setOrganizationEIN(organization
 				.getFedralEmployerId() == null ? DEFAULT_VALUE_UNKNOWN
-				: organization.getFedralEmployerId());
+				: ("1"+organization.getFedralEmployerId())+"A1");
 		if (organization.getPhsAccount() != null) {
 			applicantOrganizationType.setPHSAccountID(organization
 					.getPhsAccount());
@@ -1619,10 +1621,28 @@ public class NIHResearchAndRelatedXmlStream extends
 		}
 		setEXemptionNumber(developmentProposal, humanSubjectsType,
 				exemptionNumber);
+		setPhase3ClinicalTrialQuestion(developmentProposal,humanSubjectsType);
 		return humanSubjectsType;
 	}
 
-	/*
+	private void setPhase3ClinicalTrialQuestion(DevelopmentProposal developmentProposal, HumanSubjectsType humanSubjectsType) {
+	    humanSubjectsType.setPhase3ClinicalTrialQuestion(false);
+	    String strAnswer = getClinicalTrialQuestion(developmentProposal);
+	    humanSubjectsType.setPhase3ClinicalTrialQuestion(strAnswer.equals("Y"));                    
+    }
+    private String getClinicalTrialQuestion(DevelopmentProposal developmentProposal) {
+        String clinicalQuestion = "N";
+        for (ProposalYnq proposalYnq : developmentProposal.getProposalYnqs()) {
+            if (proposalYnq.getQuestionId() != null
+                    && proposalYnq.getQuestionId().equals(
+                            PROPOSAL_YNQ_QUESTION_17)) {
+                clinicalQuestion = proposalYnq.getAnswer();
+            }
+        }
+        return clinicalQuestion;
+    }
+
+    /*
 	 * This method will return true if special review code 1 found in proposal
 	 * special review otherwise false.
 	 */
