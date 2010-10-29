@@ -33,6 +33,7 @@ import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.SignatureType;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetPeriodType.ProgramIncomeDetails;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.IndirectCostRateDetails;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod.ConsortiumCosts;
+import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod.IndirectCostDetails;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod.SalarySubtotals;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.IndirectCostRateDetails.NoDHHSAgreement;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.ProgramDirectorPrincipalInvestigatorDocument.ProgramDirectorPrincipalInvestigator;
@@ -57,6 +58,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,10 +86,12 @@ import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
+import org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.kra.budget.personnel.BudgetPersonnelRateAndBase;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -102,6 +106,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
+import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.bo.CompensationInfo;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
@@ -730,6 +735,7 @@ public class NIHResearchAndRelatedXmlStream extends
 				budgetPeriodType.setParticipantPatientTotal(getParticipantPatientTotal(budgetLineItems));
 				budgetPeriodType.setPeriodDirectCostsTotal(budgetPeriod.getTotalDirectCost().bigDecimalValue());
 				budgetPeriodType.setIndirectCostsTotal(budgetPeriod.getTotalIndirectCost().bigDecimalValue());
+				setIndirectCostDetails(budgetPeriod,budgetPeriodType);
 				budgetPeriodType.setPeriodCostsTotal(budgetPeriod.getTotalCost().bigDecimalValue());
 				budgetPeriodType.setProgramIncome(new BigDecimal(0));
 				budgetPeriodType.setConsortiumCosts(getConsortiumCosts(developmentProposal,budgetPeriod));
@@ -744,6 +750,98 @@ public class NIHResearchAndRelatedXmlStream extends
 		}
 		return budgetPeriods.toArray(new gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod[0]);
 	}
+	class IndirectCostDetailsBean{
+	    private BudgetDecimal baseAmount = BudgetDecimal.ZERO;
+        private BudgetDecimal rate = BudgetDecimal.ZERO;
+        private BudgetDecimal fund = BudgetDecimal.ZERO;
+        private String rateTypeDescription;
+	}
+    private void setIndirectCostDetails(BudgetPeriod budgetPeriod,
+            gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod budgetPeriodType) {
+        Budget budget = budgetPeriod.getBudget();
+        Map<String,IndirectCostDetailsBean> ohAmountsMap = new HashMap<String,IndirectCostDetailsBean>();
+        if(budget.getModularBudgetFlag()){
+            BudgetModular budgetModular = budgetPeriod.getBudgetModular();
+            List<BudgetModularIdc> budgetModularIdcs = budgetModular.getBudgetModularIdcs();
+            for (BudgetModularIdc budgetModularIdc : budgetModularIdcs) {
+                String key = budgetModularIdc.getDescription()+budgetModularIdc.getIdcRate();
+                if(ohAmountsMap.get(key)==null){
+                    IndirectCostDetailsBean indcost = new IndirectCostDetailsBean();
+                    indcost.rate = budgetModularIdc.getIdcRate();
+                    indcost.baseAmount = budgetModularIdc.getIdcBase();
+                    indcost.fund = budgetModularIdc.getFundsRequested();
+                    indcost.rateTypeDescription = budgetModularIdc.getDescription();
+                    ohAmountsMap.put(key, indcost);
+                }else{
+                    IndirectCostDetailsBean indcost = ohAmountsMap.get(key);
+                    indcost.rate = indcost.rate.add(budgetModularIdc.getIdcRate());
+                    indcost.baseAmount = indcost.baseAmount.add(budgetModularIdc.getIdcBase());
+                    indcost.fund = indcost.fund.add(budgetModularIdc.getFundsRequested());
+                    indcost.rateTypeDescription = budgetModularIdc.getDescription();
+                }
+                
+            }
+            
+        }else{
+            List<BudgetLineItem> budgetLineItems = budgetPeriod.getBudgetLineItems();
+            for (BudgetLineItem budgetLineItem : budgetLineItems) {
+//                List<BudgetPersonnelDetails> budgetPersonnelLineItems = budgetLineItem.getBudgetPersonnelDetailsList();
+//                if(budgetPersonnelLineItems.isEmpty()){
+                    List<BudgetRateAndBase> budgetRateAndBases = budgetLineItem.getBudgetRateAndBaseList();
+                    for (BudgetRateAndBase budgetRateAndBase : budgetRateAndBases) {
+                        String key = budgetRateAndBase.getRateClassCode()+budgetRateAndBase.getRateTypeCode();
+                        if(budgetRateAndBase.getRateClass().getRateClassType().equals(RateClassType.OVERHEAD.getRateClassType())){
+                            if(ohAmountsMap.get(key)==null){
+                                IndirectCostDetailsBean indcost = new IndirectCostDetailsBean();
+                                indcost.rate = budgetRateAndBase.getAppliedRate();
+                                indcost.baseAmount = budgetRateAndBase.getBaseCost().add(budgetRateAndBase.getBaseCostSharing());
+                                indcost.fund = budgetRateAndBase.getCalculatedCost().add(budgetRateAndBase.getCalculatedCostSharing());
+                                indcost.rateTypeDescription = budgetRateAndBase.getRateClass().getRateClassTypeDescription();
+                                ohAmountsMap.put(key, indcost);
+                            }else{
+                                IndirectCostDetailsBean indcost = ohAmountsMap.get(key);
+                                indcost.baseAmount = indcost.baseAmount.add(budgetRateAndBase.getBaseCost()).add(budgetRateAndBase.getBaseCostSharing());
+                                indcost.fund = indcost.fund.add(budgetRateAndBase.getCalculatedCost()).add(budgetRateAndBase.getCalculatedCostSharing());
+                            }
+                        }
+                    }
+//                }else{
+//                    for (BudgetPersonnelDetails budgetPersonnelDetails : budgetPersonnelLineItems) {
+//                        List<BudgetPersonnelRateAndBase> budgetRateAndBases = budgetPersonnelDetails.getBudgetPersonnelRateAndBaseList();
+//                        for (BudgetPersonnelRateAndBase budgetRateAndBase : budgetRateAndBases) {
+//                            String key = budgetRateAndBase.getRateClassCode()+budgetRateAndBase.getRateTypeCode();
+//                            if(budgetRateAndBase.getRateClass().getRateClassType().equals(RateClassType.OVERHEAD.getRateClassType())){
+//                                if(key==null){
+//                                    IndirectCostDetailsBean indcost = new IndirectCostDetailsBean();
+//                                    indcost.rate = budgetRateAndBase.getAppliedRate();
+//                                    indcost.baseAmount = budgetRateAndBase.getSalaryRequested().add(budgetRateAndBase.getBaseCostSharing());
+//                                    indcost.fund = budgetRateAndBase.getCalculatedCost().add(budgetRateAndBase.getCalculatedCostSharing());
+//                                    indcost.rateTypeDescription = budgetRateAndBase.getRateClass().getRateClassTypeDescription();
+//                                    ohAmountsMap.put(key, indcost);
+//                                }else{
+//                                    IndirectCostDetailsBean indcost = ohAmountsMap.get(key);
+//                                    indcost.baseAmount = indcost.baseAmount.add(budgetRateAndBase.getSalaryRequested()).add(budgetRateAndBase.getBaseCostSharing());
+//                                    indcost.fund = indcost.fund.add(budgetRateAndBase.getCalculatedCost()).add(budgetRateAndBase.getCalculatedCostSharing());
+//                                }
+//                            }
+//                        }
+//                        
+//                    }
+//                }
+            }
+        }
+        for (Iterator<String> iterator = ohAmountsMap.keySet().iterator(); iterator.hasNext();) {
+            String key = iterator.next();
+            IndirectCostDetailsBean indirectCostDetailBean = ohAmountsMap.get(key);
+            IndirectCostDetails indDetailsType = budgetPeriodType.addNewIndirectCostDetails();
+            indDetailsType.setCostType( indirectCostDetailBean.rateTypeDescription == null ? "UNKNOWN" :
+                                        indirectCostDetailBean.rateTypeDescription);
+            indDetailsType.setBaseAmount(indirectCostDetailBean.baseAmount.bigDecimalValue());
+            indDetailsType.setRate(indirectCostDetailBean.rate.bigDecimalValue());
+            indDetailsType.setFundsRequested(indirectCostDetailBean.fund.bigDecimalValue());
+        }
+        
+    }
 
     private void setProgramIncome(BudgetPeriod budgetPeriod, BudgetPeriodType budgetPeriodType) {
         Budget budget = budgetPeriod.getBudget();
