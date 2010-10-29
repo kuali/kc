@@ -39,6 +39,7 @@
 				<ref bean="AwardTemplateReportTermRecipient-numberOfCopies" />
 				<ref bean="AwardTemplateReportTermRecipient-versionNumber" />
 				<ref bean="AwardTemplateReportTermRecipient-contactTypeCodeAndRolodexId" />
+				<ref bean="AwardTemplateReportTermRecipient-rolodexNameOrganization" />
 			</list>
 		</property>
 	</bean>
@@ -143,6 +144,21 @@
 		</property>
 		<property name="summary" value="Rolodex Id" />
 		<property name="description" value="Rolodex Id" />
+	</bean>
+	
+	<bean id="AwardTemplateReportTermRecipient-rolodexNameOrganization" parent="AwardTemplateReportTermRecipient-rolodexNameOrganization-parentBean" />
+	<bean id="AwardTemplateReportTermRecipient-rolodexNameOrganization-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="rolodexNameOrganization" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Rolodex Name/Organization" />
+		<property name="shortLabel" value="Rolodex Name/Organization" />
+		<property name="maxLength" value="100" />
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="100" />
+		</property>
+		<property name="summary" value="Rolodex Name/Organization" />
+		<property name="description" value="Rolodex Name/Organization" />
 	</bean>
 
 	<bean id="AwardTemplateReportTermRecipient-numberOfCopies" parent="AwardTemplateReportTermRecipient-numberOfCopies-parentBean" />
