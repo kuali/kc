@@ -480,6 +480,9 @@ public final class KeyConstants {
     public static final String INVALID_REPORT_FREQUENCY = "error.invalid.award.awardTemplate.reportTerm.reportFreqency";
     public static final String INVALID_BASIS_PAYMENT = "error.invalid.award.awardTemplate.awardBasisPayment";
     public static final String INVALID_METHOD_PAYMENT = "error.invalid.award.awardTemplate.awardMethodPayment";
+    public static final String ERROR_CAN_NOT_SELECT_BOTH_FIELDS = "error.award.awardTemplateRecipient.canNotSelectBothFields";
+    public static final String ERROR_ONE_FIELD_MUST_BE_SELECTED = "error.award.awardTemplateRecipient.oneFieldMustBeSelected";
+    public static final String ERROR_DUPLICATE_ROLODEX_ID = "error.award.awardTemplateRecipient.duplicateRolodexId";
     
     // IRB Protocol Research Area Validation messages
     public static final String ERROR_PROTOCOL_RESEARCH_AREA_REQUIRED = "error.protocol.researchArea.required";
