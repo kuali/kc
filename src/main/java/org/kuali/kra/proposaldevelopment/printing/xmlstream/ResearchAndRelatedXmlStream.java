@@ -158,15 +158,15 @@ public class ResearchAndRelatedXmlStream extends AbstractResearchAndRelatedStrea
 	 * BudgetSummaryType from budget and budgetPeriod which having final
 	 * versionFlag enable.
 	 */
-	private BudgetSummaryType getBudgetSummary(DevelopmentProposal developmentPropsal,Budget budget) {
+	private BudgetSummaryType getBudgetSummary(DevelopmentProposal developmentProposal,Budget budget) {
 		BudgetSummaryType budgetSummaryType = BudgetSummaryType.Factory.newInstance();
 		if (budget != null) {
 			BudgetPeriod budgetPeriod = budget.getBudgetPeriod(1);
 			budgetSummaryType.setInitialBudgetTotals(getBudgetTotals(budgetPeriod.getTotalCost(), 
 			                                                                budgetPeriod.getCostSharingAmount()));
 			budgetSummaryType.setAllBudgetTotals(getBudgetTotals(budget.getTotalCost(), budget.getCostSharingAmount()));
-			budgetSummaryType.setBudgetPeriodArray(getBudgetPeriodArray(budget.getBudgetPeriods()));
-			budgetSummaryType.setBudgetJustification(getBudgetJustification(developmentPropsal.getProposalNumber()));
+			budgetSummaryType.setBudgetPeriodArray(getBudgetPeriodArray(developmentProposal,budget.getBudgetPeriods()));
+			budgetSummaryType.setBudgetJustification(getBudgetJustification(developmentProposal.getProposalNumber()));
 			budgetSummaryType.setBudgetDirectCostsTotal(budget.getTotalDirectCost().bigDecimalValue());
 			budgetSummaryType.setBudgetIndirectCostsTotal(budget.getTotalIndirectCost().bigDecimalValue());
 			budgetSummaryType.setBudgetCostsTotal(budget.getTotalCost().bigDecimalValue());
@@ -178,7 +178,7 @@ public class ResearchAndRelatedXmlStream extends AbstractResearchAndRelatedStrea
 	 * This method gets arrays of BudgetPeriodType XMLObjects by setting each
 	 * BudgetPeriodType data from budgetPeriod data
 	 */
-	private BudgetPeriodType[] getBudgetPeriodArray(List<BudgetPeriod> budgetPeriodList) {
+	private BudgetPeriodType[] getBudgetPeriodArray(DevelopmentProposal developmentProposal,List<BudgetPeriod> budgetPeriodList) {
 		List<BudgetPeriodType> budgetPeriodTypeList = new ArrayList<BudgetPeriodType>();
 		for (BudgetPeriod budgetPeriod : budgetPeriodList) {
 			if (budgetPeriod.getBudgetPeriod() != null) {
@@ -189,14 +189,14 @@ public class ResearchAndRelatedXmlStream extends AbstractResearchAndRelatedStrea
 				budgetPeriodType.setEndDate(dateTimeService.getCalendar(budgetPeriod.getEndDate()));
 				budgetPeriodType.setFee(new BigDecimal(0));
 				budgetPeriodType.setSalariesWagesTotal(getSalaryWagesTotal(budgetLineItems));
-				budgetPeriodType.setSalariesAndWagesArray(getSalaryAndWages(budgetLineItems));
+				budgetPeriodType.setSalariesAndWagesArray(getSalaryAndWages(developmentProposal,budgetLineItems));
 				budgetPeriodType.setEquipmentTotal(getEquipmentTotal(budgetLineItems));
 				budgetPeriodType.setEquipmentCostsArray(getEquipmentCosts(budgetLineItems));
-				budgetPeriodType.setOtherDirectCostsArray(getOtherDirectCosts(budgetLineItems));
+				budgetPeriodType.setOtherDirectCostsArray(getOtherDirectCosts(developmentProposal,budgetLineItems));
 				budgetPeriodType.setOtherDirectTotal(getOtherDirectTotal(budgetLineItems));
 				budgetPeriodType.setTravelCostsArray(getTravelCosts(budgetLineItems));
 				budgetPeriodType.setTravelTotal(getTravelTotal(budgetLineItems));
-				budgetPeriodType.setParticipantPatientCostsArray(getParticipantPatientCost(budgetLineItems));
+				budgetPeriodType.setParticipantPatientCostsArray(getParticipantPatientCost(developmentProposal,budgetLineItems));
 				budgetPeriodType.setParticipantPatientTotal(getParticipantPatientTotal(budgetLineItems));
 				budgetPeriodType.setPeriodDirectCostsTotal(budgetPeriod.getTotalDirectCost().bigDecimalValue());
 				budgetPeriodType.setIndirectCostsTotal(budgetPeriod.getTotalIndirectCost().bigDecimalValue());
@@ -312,7 +312,7 @@ public class ResearchAndRelatedXmlStream extends AbstractResearchAndRelatedStrea
 	/*
 	 * This method gets arrays of SalaryAndWagesType XMLObject
 	 */
-	private SalariesAndWagesType[] getSalaryAndWages(
+	private SalariesAndWagesType[] getSalaryAndWages(DevelopmentProposal developmentProposal,
 			List<BudgetLineItem> budgetLineItems) {
 		List<SalariesAndWagesType> salariesAndWagesTypeList = new ArrayList<SalariesAndWagesType>();
 		for (BudgetLineItem budgetLineItem : budgetLineItems) {
@@ -321,7 +321,7 @@ public class ResearchAndRelatedXmlStream extends AbstractResearchAndRelatedStrea
 				budgetPersDetails.refreshNonUpdateableReferences();
 				BudgetPerson budgetPerson = budgetPersDetails.getBudgetPerson();
 				if (budgetPerson != null) {
-					SalariesAndWagesType salariesAndWagesType = getSalariesAndWagesType(
+					SalariesAndWagesType salariesAndWagesType = getSalariesAndWagesType(developmentProposal,
 							budgetPersDetails, budgetPerson);
 					salariesAndWagesTypeList.add(salariesAndWagesType);
 				}
@@ -334,7 +334,7 @@ public class ResearchAndRelatedXmlStream extends AbstractResearchAndRelatedStrea
 	 * This method computes the salaries and wages details of a BudgetPerson and
 	 * populates SalariesAndWagesType
 	 */
-	private SalariesAndWagesType getSalariesAndWagesType(
+	private SalariesAndWagesType getSalariesAndWagesType(DevelopmentProposal deveopmentProposal,
 			BudgetPersonnelDetails budgetPersDetails, BudgetPerson budgetPerson) {
 		SalariesAndWagesType salariesAndWagesType = SalariesAndWagesType.Factory
 				.newInstance();
@@ -350,7 +350,7 @@ public class ResearchAndRelatedXmlStream extends AbstractResearchAndRelatedStrea
 		KcPerson person = budgetPerson.getPerson();
 		salariesAndWagesType.setName(getContactPersonFullName(person
 				.getLastName(), person.getFirstName(), person.getMiddleName()));
-		salariesAndWagesType.setProjectRole(getProjectRoleType(budgetPerson));
+		salariesAndWagesType.setProjectRole(getProjectRoleType(deveopmentProposal,budgetPerson));
 		salariesAndWagesType.setProjectRoleDescription(budgetPerson.getRole());
 		salariesAndWagesType.setSalariesTotal(budgetPersDetails
 				.getSalaryRequested().bigDecimalValue());

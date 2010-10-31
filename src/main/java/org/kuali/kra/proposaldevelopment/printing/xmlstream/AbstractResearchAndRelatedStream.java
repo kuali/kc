@@ -49,7 +49,10 @@ import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetCategoryMap;
 import org.kuali.kra.budget.core.BudgetCategoryMapping;
+import org.kuali.kra.budget.core.BudgetCategoryType;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.AbstractBudgetRateAndBase;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
@@ -59,6 +62,7 @@ import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.personnel.BudgetPersonnelRateAndBase;
 import org.kuali.kra.budget.personnel.TbnPerson;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
@@ -72,6 +76,7 @@ import org.kuali.kra.s2s.service.impl.S2SBudgetCalculatorServiceImpl;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.RolodexService;
+import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStream {
@@ -222,18 +227,74 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
     /*
      * This method gets arrays of otherDirectCost XMLObject from List of BudgetLineItems by checking the budgetCategoryCode as Other
      */
-    protected OtherDirectCosts[] getOtherDirectCosts(List<BudgetLineItem> budgetLineItems) {
+    protected OtherDirectCosts[] getOtherDirectCosts(DevelopmentProposal developmentProposal,List<BudgetLineItem> budgetLineItems) {
         List<OtherDirectCosts> otherDirectCostList = new ArrayList<OtherDirectCosts>();
         for (BudgetLineItem budgetLineItem : budgetLineItems) {
             if (isBudgetCategoryOther(budgetLineItem)) {
                 OtherDirectCosts otherDirectCost = OtherDirectCosts.Factory.newInstance();
                 otherDirectCost.setCost(budgetLineItem.getLineItemCost().bigDecimalValue());
                 otherDirectCost.setDescription(budgetLineItem.getLineItemDescription());
-                otherDirectCost.setType(budgetLineItem.getBudgetCategory().getDescription());// budgetLineItem.getBudgetCategory().getDescription()));
+                otherDirectCost.setType(getOtherCategoryMapTypeDescription(developmentProposal,budgetLineItem));// budgetLineItem.getBudgetCategory().getDescription()));
                 otherDirectCostList.add(otherDirectCost);
             }
         }
         return otherDirectCostList.toArray(new OtherDirectCosts[0]);
+    }
+
+    private String getOtherCategoryMapTypeDescription(DevelopmentProposal developmentProposal, BudgetLineItem budgetLineItem) {
+        BudgetCategoryMap budgetCategoryMap = getBudgetCategoryMap(developmentProposal, budgetLineItem);
+        if(budgetCategoryMap!=null){
+            return budgetCategoryMap.getDescription();
+        }else{
+            return "Other Direct Costs"; 
+        }
+    }
+
+    private String getCategoryMapTypeDescription(DevelopmentProposal developmentProposal, BudgetLineItem budgetLineItem) {
+        BudgetCategoryMap budgetCategoryMap = getBudgetCategoryMap(developmentProposal, budgetLineItem);
+        if(budgetCategoryMap!=null){
+            return budgetCategoryMap.getDescription();
+        }else if(budgetLineItem.getLineItemDescription()!=null && !budgetLineItem.getLineItemDescription().equals("")){
+           return budgetLineItem.getLineItemDescription();
+        }else{
+           return budgetLineItem.getBudgetCategory().getDescription(); 
+        }
+    }
+
+    /**
+     * This method...
+     * @param developmentProposal
+     * @param budgetLineItem
+     * @return
+     */
+    private BudgetCategoryMap getBudgetCategoryMap(DevelopmentProposal developmentProposal, BudgetLineItem budgetLineItem) {
+        boolean isNih = getSponsorService().isSponsorNihOsc(developmentProposal) 
+                                || getSponsorService().isSponsorNihMultiplePi(developmentProposal);
+        String mappingName = isNih?"NIH_PRINTING":"NSF_PRINTING";
+        BudgetCategoryMap budgetCategoryMap = null;
+        Map<String, String> categoryMap = new HashMap<String, String>();
+        categoryMap.put("budgetCategoryCode", budgetLineItem.getBudgetCategoryCode());
+        categoryMap.put(KEY_MAPPING_NAME, mappingName);
+        List<BudgetCategoryMapping> budgetCategoryList = getBudgetCategoryMappings(categoryMap);
+        if(!budgetCategoryList.isEmpty()){
+            BudgetCategoryMapping budgetCategoryMapping = budgetCategoryList.get(0);
+            categoryMap = new HashMap<String, String>();
+            categoryMap.put(KEY_MAPPING_NAME, mappingName);
+            categoryMap.put("targetCategoryCode", budgetCategoryMapping.getTargetCategoryCode());
+            List<BudgetCategoryMap> budgetCategoryMaps = (List)getBusinessObjectService().findMatching(BudgetCategoryMap.class, categoryMap);
+            if(!budgetCategoryMaps.isEmpty()){
+                budgetCategoryMap =  budgetCategoryMaps.get(0);
+            }
+        }
+        return budgetCategoryMap;
+    }
+
+    /**
+     * This method...
+     * @return
+     */
+    private SponsorService getSponsorService() {
+        return KraServiceLocator.getService(SponsorService.class);
     }
 
     /*
@@ -242,8 +303,9 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
      */
     protected boolean isBudgetCategoryOther(BudgetLineItem budgetLineItem) {
         boolean isOther = true;
-        if (isBudgetCategoryEquipment(budgetLineItem) && isBudgetCategoryTravel(budgetLineItem)
-                && isBudgetCategoryParticipantPatient(budgetLineItem)) {
+        if (isBudgetCategoryEquipment(budgetLineItem) || isBudgetCategoryTravel(budgetLineItem)
+                || isBudgetCategoryParticipantPatient(budgetLineItem) || 
+                budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode().equals("P")) {
             isOther = false;
         }
         return isOther;
@@ -283,11 +345,12 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
      * This method check budgetCagegoryCode for Participant and Patient in BudgetLineItem
      */
     protected boolean isBudgetCategoryParticipantPatient(BudgetLineItem budgetLineItem) {
-        return budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_OTHER)
-                || budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_STIPENDS)
-                || budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_SUBSISTANCE)
-                || budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_TRAVEL)
-                || budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_INPATIENT)
+        return 
+//        budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_OTHER)||
+//                budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_STIPENDS)
+//                || budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_SUBSISTANCE)
+//                || budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_TRAVEL) ||
+                budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_INPATIENT)
                 || budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_OUTPATIENT);
     }
 
@@ -605,8 +668,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
     protected BudgetDecimal getFringeCost(BudgetPersonnelDetails budgetPersDetails) {
         BudgetDecimal fringe = BudgetDecimal.ZERO;
         for (BudgetPersonnelRateAndBase budgetPersRateBase : budgetPersDetails.getBudgetPersonnelRateAndBaseList()) {
-            if (isRateAndBaseOfRateClassTypeEB(budgetPersRateBase) || isRateAndBaseOfRateClassTypeVacation(budgetPersRateBase)
-                    || isRateAndBaseOfRateClassTypeOverhead(budgetPersRateBase)) {
+            if (isRateAndBaseOfRateClassTypeEB(budgetPersRateBase) || isRateAndBaseOfRateClassTypeVacation(budgetPersRateBase)) {
                 fringe = fringe.add(budgetPersRateBase.getCalculatedCost());
             }
         }
@@ -669,10 +731,10 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         }
         rateAndBase.refreshNonUpdateableReferences();
         if (rateAndBase.getRateClass() != null
-                && RateClassType.EMPLOYEE_BENEFITS.getRateClassType().equals(rateAndBase.getRateClass().getRateClassType())) {
+                && RateClassType.EMPLOYEE_BENEFITS.getRateClassType().equals(rateAndBase.getRateClass().getRateClassType())
+                && !rateAndBase.getRateTypeCode().equals("3")) {
             return true;
-        }
-        else {
+        }else {
             return false;
         }
     }
@@ -687,7 +749,8 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         }
         rateAndBase.refreshNonUpdateableReferences();
         if (rateAndBase.getRateClass() != null
-                && RateClassType.VACATION.getRateClassType().equals(rateAndBase.getRateClass().getRateClassType())) {
+                && RateClassType.VACATION.getRateClassType().equals(rateAndBase.getRateClass().getRateClassType())
+                && !rateAndBase.getRateTypeCode().equals("2")) {
             return true;
         }
         else {
@@ -768,14 +831,15 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
      * This method gets Arrays of ParticipantPatientCost XMLObject from list of BudgetLineItems by checking the BudgetCategoryCode
      * as paricipantPatient
      */
-    protected ParticipantPatientCosts[] getParticipantPatientCost(List<BudgetLineItem> budgetLineItems) {
+    protected ParticipantPatientCosts[] getParticipantPatientCost(DevelopmentProposal developmentProposal,
+                                                                                List<BudgetLineItem> budgetLineItems) {
         List<ParticipantPatientCosts> participantPatientCostList = new ArrayList<ParticipantPatientCosts>();
-        ParticipantPatientCosts participantPatientCost = ParticipantPatientCosts.Factory.newInstance();
         for (BudgetLineItem budgetLineItem : budgetLineItems) {
             if (isBudgetCategoryParticipantPatient(budgetLineItem)) {
+                ParticipantPatientCosts participantPatientCost = ParticipantPatientCosts.Factory.newInstance();
                 participantPatientCost.setCost(budgetLineItem.getLineItemCost().bigDecimalValue());
                 participantPatientCost.setDescription(budgetLineItem.getLineItemDescription());
-                participantPatientCost.setType(getParticipantPatientType(budgetLineItem.getBudgetCategory().getDescription()));
+                participantPatientCost.setType(getParticipantPatientType(developmentProposal, budgetLineItem));
                 participantPatientCostList.add(participantPatientCost);
             }
         }
@@ -786,9 +850,18 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
      * This method gets ParticipantPatientType Enum value based on budgetCategory Description if there is no enum for budgetCategory
      * Description take as Other enum value
      */
-    private ParticipantType.Enum getParticipantPatientType(String budgetCatgoryDesc) {
-        ParticipantType.Enum participantType = ParticipantType.Enum.forString(budgetCatgoryDesc);
-        if (participantType == null) {
+    private ParticipantType.Enum getParticipantPatientType(DevelopmentProposal developmentProposal, BudgetLineItem budgetLineItem) {
+        BudgetCategoryMap budgetCategoryMap = getBudgetCategoryMap(developmentProposal, budgetLineItem);
+        ParticipantType.Enum participantType = null;
+        if(budgetCategoryMap!=null){
+            if(budgetCategoryMap.getTargetCategoryCode().equals("41")){
+                participantType = ParticipantType.INPATIENT;
+            }else if(budgetCategoryMap.getTargetCategoryCode().equals("90")){
+                participantType = ParticipantType.OUTPATIENT;
+            }else{
+                participantType = ParticipantType.OTHER;
+            }
+        }else{
             participantType = ParticipantType.OTHER;
         }
         return participantType;
@@ -825,13 +898,59 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
      * Other
      */
     protected gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ProjectRoleType.Enum getProjectRoleType(
-            BudgetPerson budgetPerson) {
+            DevelopmentProposal developmentProposal, BudgetPerson budgetPerson) {
         gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ProjectRoleType.Enum roleType = ProjectRoleType.Enum
-                .forString(budgetPerson.getRole());
-        if (roleType == null) {
+        .forString(budgetPerson.getRole());
+        if(isPI(developmentProposal,budgetPerson)){
+            roleType = ProjectRoleType.PI_PD;
+        }else if(isCoPI(developmentProposal,budgetPerson)){
+            roleType = ProjectRoleType.CO_PI_PD;
+        }else if(isKeyPerson(developmentProposal,budgetPerson)){
+            roleType = ProjectRoleType.KEY_PERSON;
+        }else if (roleType == null) {
             roleType = ProjectRoleType.OTHER;
         }
         return roleType;
+    }
+
+    private boolean isKeyPerson(DevelopmentProposal developmentProposal, BudgetPerson budgetPerson) {
+        List<ProposalPerson> proposalPersons = developmentProposal.getProposalPersons();
+        for (ProposalPerson proposalPerson : proposalPersons) {
+            if(isSamePerson(budgetPerson, proposalPerson)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isCoPI(DevelopmentProposal developmentProposal, BudgetPerson budgetPerson) {
+        List<ProposalPerson> proposalPersons = developmentProposal.getInvestigators();
+        for (ProposalPerson proposalPerson : proposalPersons) {
+            if(isSamePerson(budgetPerson, proposalPerson)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isPI(DevelopmentProposal developmentProposal, BudgetPerson budgetPerson) {
+        ProposalPerson proposalPerson = developmentProposal.getPrincipalInvestigator();
+        return isSamePerson(budgetPerson, proposalPerson);
+    }
+
+    /**
+     * This method...
+     * @param budgetPerson
+     * @param proposalPerson
+     */
+    private boolean isSamePerson(BudgetPerson budgetPerson, ProposalPerson proposalPerson) {
+        if(proposalPerson.getPersonId()!=null && proposalPerson.getPersonId().equals(budgetPerson.getPersonId())){
+            return true;
+        }
+        if(proposalPerson.getRolodexId()!=null && proposalPerson.getRolodexId().equals(budgetPerson.getRolodexId())){
+            return true;
+        }
+        return false;
     }
 
     /*
