@@ -553,9 +553,9 @@ public class NIHResearchAndRelatedXmlStream extends
 		sortKeyPersonWithName(propKeyPersons);
 		sortKeyPersonWithName(propInvestigators);
 		List<KeyPersonType> keyPersonPIList = getKeyPersonForPropInvestigator(
-				developmentProposal, propPIs);
+				developmentProposal, propPIs,true);
 		List<KeyPersonType> keyPersonInvestigatorList = getKeyPersonForPropInvestigator(
-				developmentProposal, propInvestigators);
+				developmentProposal, propInvestigators,false);
 		List<KeyPersonType> keyPersonKeyPersonList = getKeyPersonForPropKeyPerson(
 				developmentProposal, propKeyPersons);
 		List<KeyPersonType> allKeyPersonList = new ArrayList<KeyPersonType>();
@@ -573,23 +573,29 @@ public class NIHResearchAndRelatedXmlStream extends
 			keyPersonType.setName(personFullNameType);
 			ContactInfoType contactInfoType = getContactInfoType(proposalPerson);
 			keyPersonType.setContactInformation(contactInfoType);
-			setBiographicalSketch(proposalPerson,keyPersonType);
 			KeyPersonFlag keyPersonFlag = getKeyPersonFlag(proposalPerson);
 			keyPersonType.setKeyPersonFlag(keyPersonFlag);
-			keyPersonType.setSocialSecurityNumber(proposalPerson
-					.getSocialSecurityNumber());
+			keyPersonType.setSocialSecurityNumber(proposalPerson.getSocialSecurityNumber());
 			String unitName = getUnitName(proposalPerson);
 			if (unitName != null) {
 				keyPersonType.setOrganizationDepartment(unitName);
 			}
 			Organization organization = getOrganizationFromDevelopmentProposal(developmentProposal);
 			keyPersonType.setOrganizationName(organization.getOrganizationName());
-			keyPersonType.setOrganizationDivision(getMajorSubDivision(getLeadUnit(developmentProposal)));
 			if (proposalPerson.getPrimaryTitle() != null) {
 				keyPersonType
 						.setPositionTitle(proposalPerson.getPrimaryTitle());
 			}
+            setBiographicalSketch(proposalPerson,keyPersonType);
+            keyPersonType.setOrganizationDivision(getMajorSubDivision(getLeadUnit(developmentProposal)));
 			setDegree(proposalPerson, keyPersonType);
+            if (proposalPerson.getEraCommonsUserName() == null) {
+                keyPersonType.setAccountIdentifier("Unknown");
+            }
+            else {
+                keyPersonType.setAccountIdentifier(proposalPerson.getEraCommonsUserName());
+            }
+
 			keyPersonlist.add(keyPersonType);
 		}
 		return keyPersonlist;
@@ -631,7 +637,7 @@ public class NIHResearchAndRelatedXmlStream extends
 	 */
 	private List<KeyPersonType> getKeyPersonForPropInvestigator(
 			DevelopmentProposal developmentProposal,
-			List<ProposalPerson> proposalPersonList) {
+			List<ProposalPerson> proposalPersonList,boolean piFlag) {
 		List<KeyPersonType> keyPersonTypeList = new ArrayList<KeyPersonType>();
 		for (ProposalPerson proposalPerson : proposalPersonList) {
 			KeyPersonType keyPersonType = KeyPersonType.Factory.newInstance();
@@ -639,11 +645,11 @@ public class NIHResearchAndRelatedXmlStream extends
 			keyPersonType.setName(personFullNameType);
 			ContactInfoType contactInfoType = getContactInfoType(proposalPerson);
 			keyPersonType.setContactInformation(contactInfoType);
-			// TODO :AuthenticationCredential Not found
-			// keyPersonType.setAuthenticationCredential();
-			// TODO :BiographicalSketch Not found
-			// keyPersonType.setBiographicalSketch();
+			setBiographicalSketch(proposalPerson, keyPersonType);
 			KeyPersonFlag keyPersonFlag = getKeyPersonFlag(proposalPerson);
+			if(piFlag){
+			    keyPersonFlag.setKeyPersonFlagDesc("PI");
+			}
 			keyPersonType.setKeyPersonFlag(keyPersonFlag);
 			keyPersonType.setSocialSecurityNumber(proposalPerson
 					.getSocialSecurityNumber());
@@ -652,15 +658,22 @@ public class NIHResearchAndRelatedXmlStream extends
 				keyPersonType.setOrganizationDepartment(unitName);
 			}
 			Organization organization = getOrganizationFromDevelopmentProposal(developmentProposal);
-			keyPersonType.setOrganizationName(organization
-					.getOrganizationName());
-			// TODO :OrganizationDivision Not found
-			// keyPersonType.setOrganizationDivision();
+			keyPersonType.setOrganizationName(organization.getOrganizationName());
+            keyPersonType.setOrganizationDivision(getMajorSubDivision(getLeadUnit(developmentProposal)));
 			if (proposalPerson.getPrimaryTitle() != null) {
 				keyPersonType
 						.setPositionTitle(proposalPerson.getPrimaryTitle());
 			}
-			keyPersonType.addDegree(proposalPerson.getDegree());
+            setBiographicalSketch(proposalPerson,keyPersonType);
+            keyPersonType.setOrganizationDivision(getMajorSubDivision(getLeadUnit(developmentProposal)));
+            setDegree(proposalPerson, keyPersonType);
+            if (proposalPerson.getEraCommonsUserName() == null) {
+                keyPersonType.setAccountIdentifier("Unknown");
+            }
+            else {
+                keyPersonType.setAccountIdentifier(proposalPerson.getEraCommonsUserName());
+            }
+			
 			keyPersonTypeList.add(keyPersonType);
 		}
 		return keyPersonTypeList;
@@ -1537,18 +1550,18 @@ public class NIHResearchAndRelatedXmlStream extends
 	 */
 	private KeyPersonFlag getKeyPersonFlag(ProposalPerson proposalPerson) {
 		KeyPersonFlag keyPersonFlag = KeyPersonFlag.Factory.newInstance();
-		if (proposalPerson.getPercentageEffort() != null
-				&& proposalPerson.getPercentageEffort().intValue() != 999) {
+//		if (proposalPerson.getPercentageEffort() != null
+//				&& proposalPerson.getPercentageEffort().intValue() != 999) {
 			keyPersonFlag
 					.setKeyPersonFlagCode(DEFAULT_VALUE_KEY_PERSON_FLAG_CODE);
 			keyPersonFlag
 					.setKeyPersonFlagDesc(KEY_PERSON_FLAG_DESCRIPTION_VALUE_KEY_PERSON);
-		} else {
-			keyPersonFlag
-					.setKeyPersonFlagCode(KEY_PERSON_FLAG_CODE_VALUE_FALSE);
-			keyPersonFlag
-					.setKeyPersonFlagDesc(KEY_PERSON_FLAG_DESCRIPTION_VALUE_COLLABORATOR);
-		}
+//		} else {
+//			keyPersonFlag
+//					.setKeyPersonFlagCode(KEY_PERSON_FLAG_CODE_VALUE_FALSE);
+//			keyPersonFlag
+//					.setKeyPersonFlagDesc(KEY_PERSON_FLAG_DESCRIPTION_VALUE_COLLABORATOR);
+//		}
 		return keyPersonFlag;
 	}
 
