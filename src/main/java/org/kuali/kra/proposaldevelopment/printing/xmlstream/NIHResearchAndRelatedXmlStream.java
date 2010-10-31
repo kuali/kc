@@ -25,11 +25,13 @@ import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetPeriodType;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.FundingOpportunityDetailsType;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.HumanSubjectsType;
+import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.KeyPersonBiosketchType;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.KeyPersonType;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.NSFOtherPersonnelType;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.NSFSeniorPersonnelType;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.OrgAssurancesType;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.SignatureType;
+import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.ApplicantOrganizationType.OrganizationClassification;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetPeriodType.ProgramIncomeDetails;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.IndirectCostRateDetails;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod.ConsortiumCosts;
@@ -97,12 +99,14 @@ import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.personnel.BudgetPersonnelRateAndBase;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
@@ -116,6 +120,7 @@ import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.kra.s2s.generator.bo.OtherPersonnelInfo;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.service.SponsorService;
+import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -390,7 +395,8 @@ public class NIHResearchAndRelatedXmlStream extends
 			ProposalPerson proposalPerson, Budget budget) {
 		ProposalPersonType proposalPersonType = ProposalPersonType.Factory
 				.newInstance();
-		proposalPersonType.setDegree(proposalPerson.getDegree());
+		String degree = getDegree(proposalPerson);
+		proposalPersonType.setDegree(degree);
 		proposalPersonType.setEmail(proposalPerson.getEmailAddress());
 		proposalPersonType
 				.setName(getProposalPersonFullNameType(proposalPerson));
@@ -440,6 +446,20 @@ public class NIHResearchAndRelatedXmlStream extends
 		proposalPersonType.setFundingMonths(calendarMonths.bigDecimalValue().setScale(2));
 		return proposalPersonType;
 	}
+
+    /**
+     * This method...
+     * @param proposalPerson
+     * @return
+     */
+    private String getDegree(ProposalPerson proposalPerson) {
+        List<ProposalPersonDegree> proposalPersonDegress = proposalPerson.getProposalPersonDegrees();
+		String degree = null;
+		for (ProposalPersonDegree proposalPersonDegree : proposalPersonDegress) {
+            degree = degree==null?proposalPersonDegree.getDegree():degree+","+proposalPersonDegree.getDegree(); 
+        }
+        return degree;
+    }
 
 	/**
 	 * 
@@ -553,10 +573,7 @@ public class NIHResearchAndRelatedXmlStream extends
 			keyPersonType.setName(personFullNameType);
 			ContactInfoType contactInfoType = getContactInfoType(proposalPerson);
 			keyPersonType.setContactInformation(contactInfoType);
-			// TODO :AuthenticationCredential Not found
-			// keyPersonType.setAuthenticationCredential();
-			// TODO :BiographicalSketch Not found
-			// keyPersonType.setBiographicalSketch(proposalPerson.getB);
+			setBiographicalSketch(proposalPerson,keyPersonType);
 			KeyPersonFlag keyPersonFlag = getKeyPersonFlag(proposalPerson);
 			keyPersonType.setKeyPersonFlag(keyPersonFlag);
 			keyPersonType.setSocialSecurityNumber(proposalPerson
@@ -566,21 +583,48 @@ public class NIHResearchAndRelatedXmlStream extends
 				keyPersonType.setOrganizationDepartment(unitName);
 			}
 			Organization organization = getOrganizationFromDevelopmentProposal(developmentProposal);
-			keyPersonType.setOrganizationName(organization
-					.getOrganizationName());
-			// TODO :OrganizationDivision Not found
-			// keyPersonType.setOrganizationDivision();
+			keyPersonType.setOrganizationName(organization.getOrganizationName());
+			keyPersonType.setOrganizationDivision(getMajorSubDivision(getLeadUnit(developmentProposal)));
 			if (proposalPerson.getPrimaryTitle() != null) {
 				keyPersonType
 						.setPositionTitle(proposalPerson.getPrimaryTitle());
 			}
-			// keyPersonType.addDegree(proposalPerson.getDegree());
+			setDegree(proposalPerson, keyPersonType);
 			keyPersonlist.add(keyPersonType);
 		}
 		return keyPersonlist;
 	}
 
-	/*
+	private void setBiographicalSketch(ProposalPerson proposalPerson, KeyPersonType keyPersonType) {
+	    KeyPersonBiosketchType keyPersonBioSketch = keyPersonType.addNewNIHBiographicalSketch();
+	    keyPersonBioSketch.setResearchSupportFileIdentifier("researchfilename");
+	    keyPersonBioSketch.setPositionsHonorsCitationsFileIdentifier("honorsfilename");
+
+    }
+
+    private void setDegree(ProposalPerson proposalPerson, KeyPersonType keyPersonType) {
+	    List<ProposalPersonDegree> proposalPersonDegrees = proposalPerson.getProposalPersonDegrees();
+	    for (ProposalPersonDegree proposalPersonDegree : proposalPersonDegrees) {
+	        keyPersonType.addDegree(proposalPersonDegree.getDegree());
+        }
+    }
+
+    private String getMajorSubDivision(String leadUnit) {
+	    UnitService unitService = KraServiceLocator.getService(UnitService.class);
+	    List<Unit> units = unitService.getAllSubUnits("000001");
+	    for (Unit unit : units) {
+            if(unit.getUnitNumber().equals(leadUnit)){
+                return unit.getParentUnitNumber();
+            }
+        }
+        return leadUnit;
+    }
+
+    private String getLeadUnit(DevelopmentProposal developmentProposal) {
+        return developmentProposal.getOwnedByUnit().getUnitNumber();
+    }
+
+    /*
 	 * This method will set the values to key person type attributes like
 	 * organization department, organization name , position title etc ... if
 	 * key person found.
@@ -616,7 +660,7 @@ public class NIHResearchAndRelatedXmlStream extends
 				keyPersonType
 						.setPositionTitle(proposalPerson.getPrimaryTitle());
 			}
-			// keyPersonType.addDegree(proposalPerson.getDegree());
+			keyPersonType.addDegree(proposalPerson.getDegree());
 			keyPersonTypeList.add(keyPersonType);
 		}
 		return keyPersonTypeList;
@@ -1322,18 +1366,14 @@ public class NIHResearchAndRelatedXmlStream extends
 	 */
 	private FundingOpportunityDetailsType getFundingOpportunityDetailsForResearchCoverPage(
 			DevelopmentProposal developmentProposal) {
-		FundingOpportunityDetailsType fundingOpportunityType = FundingOpportunityDetailsType.Factory
-				.newInstance();
-		String programAnnouncementNumber = developmentProposal
-				.getProgramAnnouncementNumber();
-		String programAnnouncementTitle = developmentProposal
-				.getProgramAnnouncementTitle();
-		fundingOpportunityType
-				.setFundingOpportunityNumber(programAnnouncementNumber == null ? EMPTY_STRING
+		FundingOpportunityDetailsType fundingOpportunityType = FundingOpportunityDetailsType.Factory.newInstance();
+		String programAnnouncementNumber = developmentProposal.getProgramAnnouncementNumber();
+		String programAnnouncementTitle = developmentProposal.getProgramAnnouncementTitle();
+		fundingOpportunityType.setFundingOpportunityNumber(programAnnouncementNumber == null ? EMPTY_STRING
 						: programAnnouncementNumber);
-		fundingOpportunityType
-				.setFundingOpportunityTitle(programAnnouncementTitle == null ? EMPTY_STRING
+		fundingOpportunityType.setFundingOpportunityTitle(programAnnouncementTitle == null ? EMPTY_STRING
 						: programAnnouncementTitle);
+		fundingOpportunityType.setFundingOpportunityResponseCode(developmentProposal.getS2sOpportunity()!=null);
 		return fundingOpportunityType;
 	}
 
@@ -1358,6 +1398,7 @@ public class NIHResearchAndRelatedXmlStream extends
                 principalInvestigatorType.setAccountIdentifier(principalInvestigator.getEraCommonsUserName());
             }
             principalInvestigatorType.setNewInvestigatorQuestion(getNewInvestQuestion(developmentProposal));
+            setDegree(principalInvestigator,principalInvestigatorType);
 //            ContactInfoType contactInfoType = principalInvestigatorType.addNewContactInformation();
 //            contactInfoType.setEmail(principalInvestigator.getEmailAddress());
 //            if (principalInvestigator.getFaxNumber() != null)
@@ -1391,15 +1432,22 @@ public class NIHResearchAndRelatedXmlStream extends
             SignatureType signatureType = principalInvestigatorType.addNewDirectorInvestigatorSignature();
             signatureType.setSignatureAuthentication("unknown");
             signatureType.setSignatureDate(getDateTimeService().getCurrentCalendar());
-            String unitName = getUnitName(principalInvestigator);
-            if(unitName!=null){
-                principalInvestigatorType.setAccountIdentifier(unitName);
-            }
+//            String unitName = getUnitName(principalInvestigator);
+//            if(unitName!=null){
+//                principalInvestigatorType.setAccountIdentifier(unitName);
+//            }
         }
         return principalInvestigatorType;
     }
 
-	private boolean getNewInvestQuestion(DevelopmentProposal developmentProposal) {
+	private void setDegree(ProposalPerson principalInvestigator, ProgramDirectorPrincipalInvestigator principalInvestigatorType) {
+	    List<ProposalPersonDegree> proposalPersonDegrees = principalInvestigator.getProposalPersonDegrees();
+	    for (ProposalPersonDegree proposalPersonDegree : proposalPersonDegrees) {
+	        principalInvestigatorType.addDegree(proposalPersonDegree.getDegree());
+        }
+    }
+
+    private boolean getNewInvestQuestion(DevelopmentProposal developmentProposal) {
         List<ProposalYnq> vecYNQQuestions = developmentProposal.getProposalYnqs();
         for (ProposalYnq proposalYnq : vecYNQQuestions) {
             if (proposalYnq.getQuestionId().equals("13") &&  (proposalYnq.getAnswer()!=null && 
@@ -1457,6 +1505,12 @@ public class NIHResearchAndRelatedXmlStream extends
 		if (cageNumber != null) {
 			applicantOrganizationType.setCageNumber(cageNumber);
 		}
+       OrganizationClassification orgClassification = applicantOrganizationType.addNewOrganizationClassification();
+       List<OrganizationType> organizationTypes = organization.getOrganizationTypes();
+       if(!organizationTypes.isEmpty()){
+           orgClassification.setCategoryCode(organizationTypes.get(0).getOrganizationTypeCode().toString());
+           orgClassification.setSubCategoryCode(organizationTypes.get(0).getOrganizationTypeList().getDescription());
+       }
 		return applicantOrganizationType;
 	}
 
