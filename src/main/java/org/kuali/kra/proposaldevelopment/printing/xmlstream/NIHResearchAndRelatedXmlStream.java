@@ -53,10 +53,12 @@ import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ProposalPer
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.MathContext;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -88,6 +90,7 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.budget.personnel.AppointmentType;
 import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
@@ -156,6 +159,12 @@ public class NIHResearchAndRelatedXmlStream extends
 	private static final String PROJECT_ROLE_KP = "KP";
 
     private static final Object PROPOSAL_YNQ_QUESTION_17 = "17";
+
+    private static final String BUDGET_PERIOD_TYPE_4 = "4";
+
+    private static final String BUDGET_PERIOD_TYPE_2 = "2";
+
+    private static final String BUDGET_PERIOD_TYPE_3 = "3";
 
 	protected ParameterService parameterService;
     private SponsorService sponsorService;
@@ -308,17 +317,19 @@ public class NIHResearchAndRelatedXmlStream extends
 	 *            Date
 	 * @return Difference of the Months of the Dates.
 	 */
-	private BigDecimal getMonthsBetweenDates(Date startDate, Date endDate) {
-		BigDecimal projectDuration;
+	private BigDecimal getMonthsBetweenDates(Date pFrom, Date pTo) {
+		BudgetDecimal projectDuration = null;
 		Calendar calendarStart = Calendar.getInstance();
-		calendarStart.setTimeInMillis(startDate.getTime());
+		calendarStart.setTimeInMillis(pFrom.getTime());
 		Calendar calendarEnd = Calendar.getInstance();
-		calendarEnd.setTimeInMillis(endDate.getTime());
+		calendarEnd.setTimeInMillis(pTo.getTime());
 		int yd = 12*( calendarEnd.get(Calendar.YEAR) - calendarStart.get(Calendar.YEAR));
 		int md = (calendarEnd.get( Calendar.MONTH ) - calendarStart.get( Calendar.MONTH ));
+		int dd = (calendarEnd.get( Calendar.DAY_OF_MONTH ) - calendarStart.get( Calendar.DAY_OF_MONTH ));
+        if(dd>=15) md++;
 		int result = yd + md;
-		projectDuration = new BigDecimal(result);
-		return projectDuration;
+		projectDuration = new BudgetDecimal(result);
+		return projectDuration.setScale(0).bigDecimalValue();
 	}
 
 	private String getNSFPreviousAwardNumber(DevelopmentProposal developmentProposal) {
@@ -718,6 +729,7 @@ public class NIHResearchAndRelatedXmlStream extends
 		List<gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod> budgetPeriods = 
 		                        new ArrayList<gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod>();
 		for (BudgetPeriod budgetPeriod : budgetPeriodList) {
+		    Budget budget = budgetPeriod.getBudget();
 			if (budgetPeriod.getBudgetPeriod() != null) {
 				List<BudgetLineItem> budgetLineItems = budgetPeriod.getBudgetLineItems();
 				gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod budgetPeriodType = 
@@ -726,16 +738,17 @@ public class NIHResearchAndRelatedXmlStream extends
 				budgetPeriodType.setStartDate(dateTimeService.getCalendar(budgetPeriod.getStartDate()));
 				budgetPeriodType.setEndDate(dateTimeService.getCalendar(budgetPeriod.getEndDate()));
 				budgetPeriodType.setFee(new BigDecimal(0));
-				budgetPeriodType.setSalariesWagesTotal(getSalaryWagesTotal(budgetLineItems));
-				budgetPeriodType.setSalariesAndWagesArray(getSalaryAndWages(budgetLineItems));
+				setSalaryAndWages(developmentProposal,budget,budgetPeriod,budgetPeriodType);
+//				budgetPeriodType.setSalariesWagesTotal(getSalaryWagesTotal(budgetLineItems));
+//				budgetPeriodType.setSalariesAndWagesArray(getSalaryAndWages(developmentProposal,budget,budgetPeriod));
 				budgetPeriodType.setEquipmentTotal(getEquipmentTotal(budgetLineItems));
 				budgetPeriodType.setEquipmentCostsArray(getEquipmentCosts(budgetLineItems));
-				budgetPeriodType.setOtherDirectCostsArray(getOtherDirectCosts(budgetLineItems));
+				budgetPeriodType.setOtherDirectCostsArray(getOtherDirectCosts(developmentProposal,budgetLineItems));
 				setNonPersonnelLACost(budgetLineItems,budgetPeriodType);
 				budgetPeriodType.setOtherDirectTotal(getOtherDirectTotal(budgetLineItems));
 				budgetPeriodType.setTravelCostsArray(getTravelCosts(budgetLineItems));
 				budgetPeriodType.setTravelTotal(getTravelTotal(budgetLineItems));
-				budgetPeriodType.setParticipantPatientCostsArray(getParticipantPatientCost(budgetLineItems));
+				budgetPeriodType.setParticipantPatientCostsArray(getParticipantPatientCost(developmentProposal,budgetLineItems));
 				budgetPeriodType.setParticipantPatientTotal(getParticipantPatientTotal(budgetLineItems));
 				budgetPeriodType.setPeriodDirectCostsTotal(budgetPeriod.getTotalDirectCost().bigDecimalValue());
 				budgetPeriodType.setIndirectCostsTotal(budgetPeriod.getTotalIndirectCost().bigDecimalValue());
@@ -882,11 +895,11 @@ public class NIHResearchAndRelatedXmlStream extends
 	        List<BudgetCategoryMapping> budgetCategoryList = getBudgetCategoryMappings(categoryMap);
 	        for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
 	            for (BudgetCategoryMapping categoryMapping : budgetCategoryList) {
-	                consortiumDirectCost = consortiumDirectCost.add(lineItem.getLineItemCost());
-	                if (categoryMapping.getBudgetCategoryCode().equals(lineItem.getBudgetCategoryCode()) &&
-	                        (lineItem.getCostElement().equals(fnaGt25KParamValue) ||
-	                                lineItem.getCostElement().equals(fnaLt25KParamValue) ||
-	                                lineItem.getCostElement().equals(fnaBroadParamValue))) {
+	                if (categoryMapping.getBudgetCategoryCode().equals(lineItem.getBudgetCategoryCode()))
+                        consortiumDirectCost = consortiumDirectCost.add(lineItem.getLineItemCost());
+                        if((lineItem.getCostElement().equals(fnaGt25KParamValue) ||
+                                lineItem.getCostElement().equals(fnaLt25KParamValue) ||
+                                lineItem.getCostElement().equals(fnaBroadParamValue))) {
 	                    consortiumIndirectCosts = consortiumIndirectCosts.add(lineItem.getLineItemCost());
 	                }
 	            }
@@ -905,11 +918,7 @@ public class NIHResearchAndRelatedXmlStream extends
             List<BudgetLineItemCalculatedAmount> calcAmounts = budgetLineItem.getBudgetCalculatedAmounts();
             for (BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : calcAmounts) {
                 budgetLineItemCalculatedAmount.refreshNonUpdateableReferences();
-                if(budgetLineItemCalculatedAmount.getRateClass().getRateClassType().equals(RateClassType.LAB_ALLOCATION.getRateClassType()) ||
-                        (budgetLineItemCalculatedAmount.getRateClass().getRateClassType().equals(RateClassType.EMPLOYEE_BENEFITS.getRateClassType())
-                                && budgetLineItemCalculatedAmount.getRateTypeCode().equals("3")) ||
-                        (budgetLineItemCalculatedAmount.getRateClass().getRateClassType().equals(RateClassType.VACATION.getRateClassType())
-                                && budgetLineItemCalculatedAmount.getRateTypeCode().equals("2"))){
+                if(budgetLineItemCalculatedAmount.getRateClass().getRateClassType().equals(RateClassType.LAB_ALLOCATION.getRateClassType())){
                     amount = amount.add(budgetLineItemCalculatedAmount.getCalculatedCost());
                 }
             }
@@ -1043,7 +1052,8 @@ public class NIHResearchAndRelatedXmlStream extends
         return otherPersonInfo;
     }
 
-    private boolean isPersonExistsInProposal(DevelopmentProposal developmentProposal, BudgetPersonnelDetails budgetPersonnelDetails) {
+    private boolean isPersonExistsInProposal(DevelopmentProposal developmentProposal, 
+            BudgetPersonnelDetails budgetPersonnelDetails) {
         List<ProposalPerson> proposalPersons = developmentProposal.getProposalPersons();
         for (ProposalPerson proposalPerson : proposalPersons) {
             if(getS2SUtilService().proposalPersonEqualsBudgetPerson(proposalPerson, budgetPersonnelDetails))
@@ -1055,26 +1065,69 @@ public class NIHResearchAndRelatedXmlStream extends
     /*
 	 * This method gets arrays of SalaryAndWagesType XMLObject
 	 */
-	private SalariesAndWagesType[] getSalaryAndWages(List<BudgetLineItem> budgetLineItems) {
+	private void setSalaryAndWages(DevelopmentProposal developmentProposal,Budget budget,
+	                              BudgetPeriod budgetPeriod,
+	                              gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod budgetPeriodType ) {
 		List<SalariesAndWagesType> salariesAndWagesTypeList = new ArrayList<SalariesAndWagesType>();
+		List<BudgetLineItem> budgetLineItems = budgetPeriod.getBudgetLineItems();
+		BudgetDecimal totalSalary = BudgetDecimal.ZERO;
 		for (BudgetLineItem budgetLineItem : budgetLineItems) {
 			for (BudgetPersonnelDetails budgetPersDetails : budgetLineItem
 					.getBudgetPersonnelDetailsList()) {
+			    budgetPersDetails.refreshReferenceObject("budgetPerson");
 				BudgetPerson budgetPerson = budgetPersDetails.getBudgetPerson();
 				if (budgetPerson != null) {
-					SalariesAndWagesType salariesAndWagesType = getSalariesAndWagesType(budgetPersDetails, budgetPerson);
+					SalariesAndWagesType salariesAndWagesType = getSalariesAndWagesType(
+					                                developmentProposal,budget,budgetPersDetails, budgetPerson);
+					totalSalary = totalSalary.add(new BudgetDecimal(salariesAndWagesType.getSalaryAndFringeTotal()));
 					salariesAndWagesTypeList.add(salariesAndWagesType);
 				}
 			}
 		}
-		return salariesAndWagesTypeList.toArray(new SalariesAndWagesType[0]);
+        SalariesAndWagesType laSalariesAndWagesType = getLAAmmountsAsSalaryRecord(developmentProposal,budget,budgetPeriod);
+        if(laSalariesAndWagesType!=null){
+            totalSalary = totalSalary.add(new BudgetDecimal(laSalariesAndWagesType.getSalaryAndFringeTotal()));
+            salariesAndWagesTypeList.add(laSalariesAndWagesType);
+        }
+        budgetPeriodType.setSalariesWagesTotal(totalSalary.bigDecimalValue());
+		budgetPeriodType.setSalariesAndWagesArray(salariesAndWagesTypeList.toArray(new SalariesAndWagesType[0]));
 	}
 
-	/*
+	private SalariesAndWagesType getLAAmmountsAsSalaryRecord(DevelopmentProposal developmentProposal, Budget budget,
+	        BudgetPeriod budgetPeriod) {
+        List<BudgetLineItem> budgetLineItems = budgetPeriod.getBudgetLineItems();
+        BudgetDecimal salaryRequested = BudgetDecimal.ZERO;
+        BudgetDecimal fringe = BudgetDecimal.ZERO;
+        for (BudgetLineItem budgetLineItem : budgetLineItems) {
+    	    List<BudgetLineItemCalculatedAmount> budgetLineItemCalcAmounts = budgetLineItem.getBudgetCalculatedAmounts();
+            for (BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : budgetLineItemCalcAmounts) {
+                if(budgetLineItemCalculatedAmount.getRateClass().getRateClassType().equals(RateClassType.LA_SALARIES.getRateClassType())){
+                    salaryRequested = salaryRequested.add(budgetLineItemCalculatedAmount.getCalculatedCost());
+                }
+                if((budgetLineItemCalculatedAmount.getRateClass().getRateClassType().equals(RateClassType.EMPLOYEE_BENEFITS.getRateClassType()) && 
+                        budgetLineItemCalculatedAmount.getRateTypeCode().equals("3")) || 
+                        (budgetLineItemCalculatedAmount.getRateClass().getRateClassType().equals(RateClassType.VACATION.getRateClassType())) && 
+                        budgetLineItemCalculatedAmount.getRateTypeCode().equals("2")){
+                    fringe = fringe.add(budgetLineItemCalculatedAmount.getCalculatedCost());
+                }
+            }
+        }
+        if(salaryRequested.isZero()){
+            return null;
+        }
+        SalariesAndWagesType salariesAndWagesType = SalariesAndWagesType.Factory.newInstance();
+        salariesAndWagesType.setName(getContactPersonFullName("Lab Allocation","",""));
+        salariesAndWagesType.setRequestedCost(salaryRequested.bigDecimalValue());
+        salariesAndWagesType.setFringeCost(fringe.bigDecimalValue());
+        salariesAndWagesType.setSalaryAndFringeTotal(salaryRequested.add(fringe).bigDecimalValue());
+        return salariesAndWagesType;
+    }
+
+    /*
 	 * This method computes the salaries and wages details of a BudgetPerson and
 	 * populates SalariesAndWagesType
 	 */
-	private SalariesAndWagesType getSalariesAndWagesType(
+	private SalariesAndWagesType getSalariesAndWagesType(DevelopmentProposal developmentProposal,Budget budget,
 			BudgetPersonnelDetails budgetPersDetails, BudgetPerson budgetPerson) {
 		SalariesAndWagesType salariesAndWagesType = SalariesAndWagesType.Factory
 				.newInstance();
@@ -1084,13 +1137,22 @@ public class NIHResearchAndRelatedXmlStream extends
 		salariesAndWagesType.setAppointmentMonths(new BigDecimal(budgetPerson
 				.getAppointmentTypeCode() == null ? Constants.EMPTY_STRING
 				: budgetPerson.getAppointmentTypeCode()));
-		salariesAndWagesType.setSummerFundingMonths(BigDecimal.ZERO);
-		salariesAndWagesType.setAcademicFundingMonths(new BigDecimal(0.0));
-		salariesAndWagesType.setFundingMonths(new BigDecimal(0.0));
+		salariesAndWagesType.setSummerFundingMonths(calculateFundingMonths(developmentProposal,budgetPersDetails, 
+		                                            BUDGET_PERIOD_TYPE_4).bigDecimalValue());
+		salariesAndWagesType.setAcademicFundingMonths(calculateFundingMonths(developmentProposal,budgetPersDetails, 
+                                            BUDGET_PERIOD_TYPE_2).bigDecimalValue());
+		salariesAndWagesType.setFundingMonths(calculateFundingMonths(developmentProposal,budgetPersDetails, 
+                                            BUDGET_PERIOD_TYPE_3).bigDecimalValue());
 		KcPerson person = budgetPerson.getPerson();
-		salariesAndWagesType.setName(getContactPersonFullName(person
+		if(person!=null){
+		    salariesAndWagesType.setName(getContactPersonFullName(person
 				.getLastName(), person.getFirstName(), person.getMiddleName()));
-		salariesAndWagesType.setProjectRole(getProjectRoleType(budgetPerson));
+		}else{
+		    Rolodex rolodex = budgetPerson.getRolodex();
+		    salariesAndWagesType.setName(getContactPersonFullName(rolodex.getLastName(), 
+		                                    rolodex.getFirstName(), rolodex.getMiddleName()));
+		}
+		salariesAndWagesType.setProjectRole(getProjectRoleType(developmentProposal,budgetPerson));
 		salariesAndWagesType.setProjectRoleDescription(budgetPerson.getRole());
 		salariesAndWagesType.setSalariesTotal(budgetPersDetails
 				.getSalaryRequested().bigDecimalValue());
@@ -1702,104 +1764,21 @@ public class NIHResearchAndRelatedXmlStream extends
 		return humanSubAssurance;
 	}
 
-	private Double getPersonCalendarMonths(ProposalPerson person, Budget budget) {
-		// DECODE
-		// (FN_GET_FUNDING_MONTHS(AW_PROPOSAL_NUMBER,'CC',1,PP.PERSON_ID),NULL,'0',
-		// FN_GET_FUNDING_MONTHS(AW_PROPOSAL_NUMBER,'CC',1,PP.PERSON_ID) ) +
-		// DECODE
-		// (FN_GET_FUNDING_MONTHS(AW_PROPOSAL_NUMBER,'CY',1,PP.PERSON_ID),NULL,'0',
-		// FN_GET_FUNDING_MONTHS(AW_PROPOSAL_NUMBER,'CY',1,PP.PERSON_ID) )
-		// CALENDAR_MONTHS,
-
-		BudgetDecimal ccMonths = getFundingMonths(person, budget, "CC");
-		BudgetDecimal cyMonths = getFundingMonths(person, budget, "CY");
-		BudgetDecimal personCalendarMonths = ccMonths.add(cyMonths);
-		personCalendarMonths.setScale();
-		return personCalendarMonths.doubleValue();
-	}
-
-	private BudgetDecimal getPersonAcademicMonths(ProposalPerson person,
-			Budget budget) {
-		return getFundingMonths(person, budget, "AP");
-	}
-
-	private BudgetDecimal getPersonSummerMonths(ProposalPerson person,
-			Budget budget) {
-		return getFundingMonths(person, budget, "SP");
-	}
-
-	// budgetPersonnelDetails.getPersonId();
-	// budget.getBudgetPersonnelDetailsList();
-	// // Find the budget person for proposal person
-	// BudgetPerson budgetPerson = null;
-	// budgetPerson.
-	// sum( PD.percent_effort * round(months_between(PD.end_date,PD.start_date))
-	// / 100 ) ;
-	private BudgetDecimal getFundingMonths(ProposalPerson person,
-			Budget budget, String appointmentTypeCode) {
-		BudgetDecimal fundingMonths = null;
-		BudgetPersonnelDetails budgetPersonnelDetails = getBudgetPersonnelDetailsForPropPerson(
-				budget.getBudgetPersonnelDetailsList(), person,
-				appointmentTypeCode);
-		if (budgetPersonnelDetails != null) {
-			BigDecimal totalMonths = getMonthsBetweenDates(
-					budgetPersonnelDetails.getStartDate(),
-					budgetPersonnelDetails.getEndDate());
-			fundingMonths = budgetPersonnelDetails.getPercentEffort().multiply(
-					new BudgetDecimal(totalMonths));
-			fundingMonths = fundingMonths.divide(new BudgetDecimal(100));
+	private BudgetDecimal calculateFundingMonths(DevelopmentProposal developmentProposal,
+			BudgetPersonnelDetails budgetPersonnelDetails, String budgetPeriodType) {
+        BudgetDecimal fundingMonths = BudgetDecimal.ZERO;
+		if (isPersonExistsInProposal(developmentProposal,budgetPersonnelDetails)
+				&& budgetPeriodType.equals(budgetPersonnelDetails.getPeriodTypeCode())) {
+	        if (budgetPersonnelDetails != null) {
+	            BigDecimal totalMonths = getMonthsBetweenDates(
+	                    budgetPersonnelDetails.getStartDate(),
+	                    budgetPersonnelDetails.getEndDate());
+	            fundingMonths = budgetPersonnelDetails.getPercentEffort().multiply(
+	                    new BudgetDecimal(totalMonths));
+	            fundingMonths = fundingMonths.divide(new BudgetDecimal(100));
+	        }
 		}
-		return fundingMonths;
-	}
-
-	// TODO How to check the appointmentTypeCode for the BudgetPersonnelDetails
-	private BudgetPersonnelDetails getBudgetPersonnelDetailsForPropPerson(
-			List<BudgetPersonnelDetails> budgetPersonnelDetailsList,
-			ProposalPerson propPerson, String appointmentTypeCode) {
-		// for each budget personnel details
-		BudgetPersonnelDetails budgetPersonnelDetails = null;
-		for (BudgetPersonnelDetails budgetPersonnelDet : budgetPersonnelDetailsList) {
-			if (isPropsalPersonSameAsBudgetPerson(propPerson,
-					budgetPersonnelDet.getBudgetPerson())
-					&& appointmentTypeCode.equals(budgetPersonnelDetails
-							.getBudgetPerson().getAppointmentType())) {
-				budgetPersonnelDetails = budgetPersonnelDet;
-				break;
-			}
-		}
-		return budgetPersonnelDetails;
-	}
-
-	private BudgetPerson getBudgetPersonForPropPerson(
-			List<BudgetPerson> budgetPersons, ProposalPerson propPerson) {
-		// for each item
-		// if isPropsalPersonSameAsBudgetPerson(propPersons, budgetPerson)
-		// return the budget person
-		BudgetPerson budgetPerson = null;
-		for (BudgetPerson person : budgetPersons) {
-			if (isPropsalPersonSameAsBudgetPerson(propPerson, person)) {
-				budgetPerson = person;
-				break;
-			}
-		}
-		return budgetPerson;
-	}
-
-	private boolean isPropsalPersonSameAsBudgetPerson(
-			ProposalPerson propPerson, BudgetPerson budgetPerson) {
-		boolean propsalPersonSameAsBudgetPerson = false;
-		if (propPerson != null && budgetPerson != null) {
-			String propPersonId = propPerson.getPersonId();
-			Integer propRolodexId = propPerson.getRolodexId();
-			if (propPersonId != null) {
-				propsalPersonSameAsBudgetPerson = propPersonId
-						.equals(budgetPerson.getPersonId());
-			} else if (propRolodexId != null) {
-				propsalPersonSameAsBudgetPerson = propRolodexId
-						.equals(budgetPerson.getRolodexId());
-			}
-		}
-		return propsalPersonSameAsBudgetPerson;
+        return fundingMonths.setScale(0);
 	}
 
 	public ParameterService getParameterService() {
