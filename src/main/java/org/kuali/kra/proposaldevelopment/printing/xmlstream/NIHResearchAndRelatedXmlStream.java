@@ -639,6 +639,7 @@ public class NIHResearchAndRelatedXmlStream extends
             setAllNSFSeniorPersonnels(developmentProposal,budget,budgetSummaryType);
             budgetSummaryType.setModularBudgetQuestion(budget.getModularBudgetFlag());
             budgetSummaryType.setBudgetCostsTotal(budget.getTotalCost().bigDecimalValue());
+            budgetSummaryType.setBudgetDirectCostsTotal(budget.getTotalDirectCost().bigDecimalValue());
 
 		}
 		return budgetSummaryType;
