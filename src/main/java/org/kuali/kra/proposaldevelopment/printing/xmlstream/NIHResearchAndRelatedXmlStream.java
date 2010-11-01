@@ -1758,18 +1758,20 @@ public class NIHResearchAndRelatedXmlStream extends
 	private void setPhase3ClinicalTrialQuestion(DevelopmentProposal developmentProposal, HumanSubjectsType humanSubjectsType) {
 	    humanSubjectsType.setPhase3ClinicalTrialQuestion(false);
 	    String strAnswer = getClinicalTrialQuestion(developmentProposal);
-	    humanSubjectsType.setPhase3ClinicalTrialQuestion(strAnswer.equals("Y"));                    
+	    if(strAnswer!=null){
+	        humanSubjectsType.setPhase3ClinicalTrialQuestion(strAnswer.equals("Y"));
+	    }
     }
     private String getClinicalTrialQuestion(DevelopmentProposal developmentProposal) {
-        String clinicalQuestion = "N";
+        String clinicalAnswer = "N";
         for (ProposalYnq proposalYnq : developmentProposal.getProposalYnqs()) {
             if (proposalYnq.getQuestionId() != null
                     && proposalYnq.getQuestionId().equals(
                             PROPOSAL_YNQ_QUESTION_17)) {
-                clinicalQuestion = proposalYnq.getAnswer();
+                clinicalAnswer = proposalYnq.getAnswer();
             }
         }
-        return clinicalQuestion;
+        return clinicalAnswer==null?"N":clinicalAnswer;
     }
 
     /*
