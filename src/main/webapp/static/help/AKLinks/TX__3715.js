@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__3715", [["Documents/documenttype.htm", "right", "Document Type"],["Documents/documenttype1.htm", "right", "Document Type"]]);
