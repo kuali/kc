@@ -19,26 +19,41 @@ import java.io.Serializable;
 import java.sql.Date;
 
 import org.kuali.kra.irb.actions.ActionHelper;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsBean;
-
+import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
 
 /**
- * This class is really just a "form" for granting an exemption.
+ * This class is really just a "form" for generic actions.
  */
-@SuppressWarnings("serial")
-public class ProtocolGenericActionBean extends ReviewerCommentsBean implements Serializable {
+public class ProtocolGenericActionBean implements Serializable {
+
+    private static final long serialVersionUID = 5886866641947940513L;
+
+    private ActionHelper actionHelper;
     
     private String comments = "";
     private Date actionDate = new Date(System.currentTimeMillis());
     
+    private ReviewCommentsBean reviewCommentsBean;
+    
     /**
      * Constructs a ProtocolGenericActionBean.
-     * @param actionHelper Reference back to the parent ActionHelper
+     * @param actionHelper a reference back to the parent helper
      */
     public ProtocolGenericActionBean(ActionHelper actionHelper) {
-        super(actionHelper);
+        this.actionHelper = actionHelper;
+        
+        reviewCommentsBean = new ReviewCommentsBean();
+        reviewCommentsBean.setProtocol(actionHelper.getProtocol());
     }
-    
+
+    public ActionHelper getActionHelper() {
+        return actionHelper;
+    }
+
+    public void setActionHelper(ActionHelper actionHelper) {
+        this.actionHelper = actionHelper;
+    }
+
     public String getComments() {
         return comments;
     }
@@ -54,4 +69,13 @@ public class ProtocolGenericActionBean extends ReviewerCommentsBean implements S
     public void setActionDate(Date actionDate) {
         this.actionDate = actionDate;
     }
+
+    public ReviewCommentsBean getReviewCommentsBean() {
+        return reviewCommentsBean;
+    }
+
+    public void setReviewCommentsBean(ReviewCommentsBean reviewCommentsBean) {
+        this.reviewCommentsBean = reviewCommentsBean;
+    }
+    
 }

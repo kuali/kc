@@ -19,12 +19,11 @@ package org.kuali.kra.irb.actions.decision;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.test.ProtocolFactory;
+import org.kuali.kra.committee.bo.CommitteeDecisionMotionType;
 
 public class CommitteeDecisionAbstainerRuleTest extends CommitteeDecisionRuleBase {
     
-    CommitteeDecisionAbstainerRule rule;
+    private CommitteeDecisionAbstainerRule rule;
 
     @Before
     public void setUp() throws Exception {
@@ -36,40 +35,40 @@ public class CommitteeDecisionAbstainerRuleTest extends CommitteeDecisionRuleBas
         rule = null;
     }
     
+    /**
+     * Tests a valid new abstainer.
+     */
     @Test
-    public void testProccessCommitteeDecisionRule1() throws Exception {
-        ProtocolDocument document = ProtocolFactory.createProtocolDocument();
-        CommitteeDecision decision = buildValidCommitteeDecision(document.getProtocol());
-        //add a new abstainer
-        decision.setNewAbstainer(getBasicPerson());
-        assertTrue(rule.proccessCommitteeDecisionAbstainerRule(document, decision));
+    public void testValidNewAbstainer() throws Exception {
+        CommitteeDecision decision = getMockCommitteeDecisionBean(CommitteeDecisionMotionType.APPROVE, YES_COUNT, NO_COUNT, getBasicPerson(), null, null, false);
+        assertTrue(rule.proccessCommitteeDecisionAbstainerRule(null, decision));
     }
     
+    /**
+     * Tests invalid new abstainer which has no membership ID
+     */
     @Test
-    public void testProccessCommitteeDecisionRule2() throws Exception {
-        ProtocolDocument document = ProtocolFactory.createProtocolDocument();
-        CommitteeDecision decision = buildValidCommitteeDecision(document.getProtocol());
-        //add a new abstainer that is already in the abstainer list
-        decision.setNewAbstainer(getBasicAbstainer());
-        assertFalse(rule.proccessCommitteeDecisionAbstainerRule(document, decision));
+    public void testInvalidNewAbstainerNoMembershipId() throws Exception {
+        CommitteeDecision decision = getMockCommitteeDecisionBean(CommitteeDecisionMotionType.APPROVE, YES_COUNT, NO_COUNT, new CommitteePerson(), null, null, false);
+        assertFalse(rule.proccessCommitteeDecisionAbstainerRule(null, decision));
     }
     
+    /**
+     * Tests an invalid new abstainer which is already in the abstainer list.
+     */
     @Test
-    public void testProccessCommitteeDecisionRule3() throws Exception {
-        ProtocolDocument document = ProtocolFactory.createProtocolDocument();
-        CommitteeDecision decision = buildValidCommitteeDecision(document.getProtocol());
-        //add a new abstainer that is already in the recused list
-        decision.setNewAbstainer(getBasicRescuser());
-        assertFalse(rule.proccessCommitteeDecisionAbstainerRule(document, decision));
+    public void testInvalidNewAbstainerInAbstainerList() throws Exception {
+        CommitteeDecision decision = getMockCommitteeDecisionBean(CommitteeDecisionMotionType.APPROVE, YES_COUNT, NO_COUNT, getBasicAbstainer(), null, null, false);
+        assertFalse(rule.proccessCommitteeDecisionAbstainerRule(null, decision));
     }
     
+    /**
+     * Tests an invalid new abstainer which is already in the recused list.
+     */
     @Test
-    public void testProccessCommitteeDecisionRule4() throws Exception {
-        ProtocolDocument document = ProtocolFactory.createProtocolDocument();
-        CommitteeDecision decision = buildValidCommitteeDecision(document.getProtocol());
-        //add a new abstainer that is not a valid person
-        CommitteePerson person = new CommitteePerson();
-        decision.setNewAbstainer(person);
-        assertFalse(rule.proccessCommitteeDecisionAbstainerRule(document, decision));
+    public void testInvalidNewAbstainerInRecusedList() throws Exception {
+        CommitteeDecision decision = getMockCommitteeDecisionBean(CommitteeDecisionMotionType.APPROVE, YES_COUNT, NO_COUNT, getBasicRecused(), null, null, false);
+        assertFalse(rule.proccessCommitteeDecisionAbstainerRule(null, decision));
     }
+    
 }

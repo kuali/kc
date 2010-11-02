@@ -16,15 +16,17 @@
 package org.kuali.kra.irb.actions.undo;
 
 import java.sql.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.ArrayList;
 
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
@@ -33,316 +35,409 @@ import org.kuali.kra.irb.actions.approve.ProtocolApproveBean;
 import org.kuali.kra.irb.actions.approve.ProtocolApproveService;
 import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaBean;
 import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaService;
-import org.kuali.kra.irb.actions.delete.ProtocolDeleteBean;
-import org.kuali.kra.irb.actions.delete.ProtocolDeleteService;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionService;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
 import org.kuali.kra.irb.actions.request.ProtocolRequestService;
+import org.kuali.kra.irb.actions.submit.ProtocolActionService;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.test.data.PerSuiteUnitTestData;
-import org.kuali.rice.test.data.UnitTestData;
-import org.kuali.rice.test.data.UnitTestFile;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.DateUtils;
 
 /**
  * Test the ProtocolWithdrawService implementation.
  */
-@PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
-        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_status.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ORG_TYPE.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_PERSON_ROLES.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_type.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_review_type.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_REVIEWER_TYPE.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_committee_type.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ACTION_TYPE.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_STATUS.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_CONTINGENCY.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_EXEMPT_STUDIES_CHECKLIST.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE_QUALIFIER.sql", delimiter = ";") }))
 public class UndoLastActionServiceTest extends KcUnitTestBase {
 
     private static final String COMMENTS = "something silly";
-    private static final String VALID_SUBMISSION_TYPE = "100";
-    private static final String VALID_REVIEW_TYPE = "1";
+    
+    private static final String ASSIGN_TO_AGENDA_COMMENTS = "assigning to agenda";
+    private static final Date ASSIGN_TO_AGENDA_ACTION_DATE = new Date(System.currentTimeMillis());
+    private static final Date APPROVAL_ACTION_DATE = new Date(System.currentTimeMillis());
+    private static final Date APPROVAL_APPROVAL_DATE = DateUtils.convertToSqlDate(DateUtils.addWeeks(APPROVAL_ACTION_DATE, -1));
+    private static final Date APPROVAL_EXPIRATION_DATE = DateUtils.convertToSqlDate(DateUtils.addYears(APPROVAL_ACTION_DATE, 1));
+    private static final String APPROVAL_COMMENTS = "approving";
+    private static final String CLOSE_COMMENTS = "closing administratively";
+    private static final String CLOSE_ENROLLMENT_COMMENTS = "closing enrollment";
+    private static final Date CLOSE_ACTION_DATE = new Date(System.currentTimeMillis());
 
-    private static final String VALID_CONTINGENCY_CODE_1 = "22";
-    private static final String VALID_EXEMPT_STUDIES_ITEM_CODE = "1";
-
-    private UndoLastActionService undoLastActionService;
+    private UndoLastActionServiceImpl service;
     private ProtocolSubmitActionService protocolSubmitActionService;
     private ProtocolAssignToAgendaService protocolAssignToAgendaService;
     private ProtocolApproveService protocolApproveService;
     private ProtocolRequestService protocolRequestService;
-    private ProtocolDeleteService protocolDeleteService;
     private ProtocolGenericActionService protocolGenericActionService;
-    private BusinessObjectService businessObjectService;
+    
+    private Mockery context = new JUnit4Mockery() {{
+        setImposteriser(ClassImposteriser.INSTANCE);
+    }};
 
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        GlobalVariables.setUserSession(new UserSession("quickstart"));
-        undoLastActionService = KraServiceLocator.getService(UndoLastActionService.class);
+        
+        service = new UndoLastActionServiceImpl();
+        service.setProtocolActionService(KraServiceLocator.getService(ProtocolActionService.class));
+        service.setBusinessObjectService(getMockBusinessObjectService());
+        service.setDocumentService(getMockDocumentService());
+        
         protocolSubmitActionService = KraServiceLocator.getService(ProtocolSubmitActionService.class);
         protocolAssignToAgendaService = KraServiceLocator.getService(ProtocolAssignToAgendaService.class);
         protocolApproveService = KraServiceLocator.getService(ProtocolApproveService.class);
         protocolRequestService = KraServiceLocator.getService(ProtocolRequestService.class);
         protocolGenericActionService = KraServiceLocator.getService(ProtocolGenericActionService.class);
-        protocolDeleteService = KraServiceLocator.getService(ProtocolDeleteService.class);
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
     }
 
+    @Override
     @After
     public void tearDown() throws Exception {
-        GlobalVariables.setUserSession(null);
+        service = null;
+        protocolSubmitActionService = null;
+        protocolAssignToAgendaService = null;
+        protocolApproveService = null;
+        protocolRequestService = null;
+        protocolGenericActionService = null;
+        
         super.tearDown();
-    }
-
-    private ProtocolDocument initProtocolDocument() throws Exception {
-        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
-        Long protocolId = protocolDocument.getProtocol().getProtocolId();
-        ProtocolSubmitAction submitAction = createSubmitAction("668", "1", VALID_REVIEW_TYPE);
-        submitAction.setSubmissionQualifierTypeCode("2");
-        protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
-
-        ProtocolAssignToAgendaBean assignToAgendaBean = new ProtocolAssignToAgendaBean(null);
-        assignToAgendaBean.setComments("assigning to agenda");
-        assignToAgendaBean.setCommitteName("test committee");
-        assignToAgendaBean.setProtocolAssigned(true);
-        protocolAssignToAgendaService.assignToAgenda(protocolDocument.getProtocol(), assignToAgendaBean);
-        boolean result = protocolAssignToAgendaService.isAssignedToAgenda(protocolDocument.getProtocol());
-        assertTrue(result);
-
-        ProtocolApproveBean approvalActionBean = new ProtocolApproveBean(null);
-        approvalActionBean.setActionDate(new Date(System.currentTimeMillis()));
-        approvalActionBean.setApprovalDate(new Date(System.currentTimeMillis()));
-        approvalActionBean.setComments("approving");
-        approvalActionBean.setExpirationDate(new Date(System.currentTimeMillis()));
-        approvalActionBean.getReviewComments().setProtocolId(protocolId);
-        protocolApproveService.approve(protocolDocument, approvalActionBean);
-
-        assertEquals(ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT, protocolDocument.getProtocol().getProtocolStatusCode());
-        ProtocolSubmission submission = protocolDocument.getProtocol().getProtocolSubmissions().get(0);
-        assertEquals(ProtocolSubmissionStatus.APPROVED, submission.getSubmissionStatusCode());
-        ProtocolAction protocolAction = findProtocolAction(protocolDocument.getProtocol().getProtocolId());
-        assertNotNull(protocolAction);
-        assertEquals("approving", protocolAction.getComments());
-        assertEquals("204", protocolAction.getProtocolActionTypeCode());
-
-        return protocolDocument;
     }
 
     @Test
     public void testUndoApproveAction() throws Exception {
-        ProtocolDocument protocolDocument = initProtocolDocument();
+        ProtocolDocument protocolDocument = getApprovedProtocolDocument();
 
-        UndoLastActionBean undoLastActionBean = new UndoLastActionBean();
-        undoLastActionBean.setComments(COMMENTS);
-
-        undoLastActionService.undoLastAction(protocolDocument, undoLastActionBean);
+        service.undoLastAction(protocolDocument, getUndoLastActionBean());
 
         assertEquals(ProtocolStatus.SUBMITTED_TO_IRB, protocolDocument.getProtocol().getProtocolStatusCode());
-        ProtocolSubmission submission = protocolDocument.getProtocol().getProtocolSubmissions().get(0);
+        
+        assertTrue(!protocolDocument.getProtocol().getProtocolSubmissions().isEmpty());
+        ProtocolSubmission submission = protocolDocument.getProtocol().getProtocolSubmission();
+        assertNotNull(submission);
         assertEquals(ProtocolSubmissionStatus.IN_AGENDA, submission.getSubmissionStatusCode());
-        ProtocolAction protocolAction = findProtocolAction(protocolDocument.getProtocol().getProtocolId());
-        assertNotNull(protocolAction);
-        assertEquals("assigning to agenda", protocolAction.getComments());
-        assertEquals("200", protocolAction.getProtocolActionTypeCode());
+        
+        assertTrue(!protocolDocument.getProtocol().getProtocolActions().isEmpty());
+        ProtocolAction action = protocolDocument.getProtocol().getLastProtocolAction();
+        assertNotNull(action);
+        assertEquals(ProtocolActionType.ASSIGN_TO_AGENDA, action.getProtocolActionTypeCode());
+        assertEquals(ASSIGN_TO_AGENDA_COMMENTS, action.getComments());
     }
 
     @Test
     public void testUndoRequestToCloseAction() throws Exception {
-        ProtocolDocument protocolDocument = initProtocolDocument();
+        ProtocolDocument protocolDocument = getApprovedProtocolDocument();
 
-        UndoLastActionBean undoLastActionBean = new UndoLastActionBean();
-        undoLastActionBean.setComments(COMMENTS);
         ProtocolRequestBean requestToCloseBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE,
             ProtocolSubmissionType.REQUEST_TO_CLOSE, "protocolCloseRequestBean");
         protocolRequestService.submitRequest(protocolDocument.getProtocol(), requestToCloseBean);
 
         assertEquals(ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT, protocolDocument.getProtocol().getProtocolStatusCode());
-        ProtocolSubmission submission = findProtocolSubmission(protocolDocument);
+        
+        assertTrue(!protocolDocument.getProtocol().getProtocolSubmissions().isEmpty());
+        ProtocolSubmission submission = protocolDocument.getProtocol().getProtocolSubmission();
+        assertNotNull(submission);
         assertEquals(ProtocolSubmissionStatus.PENDING, submission.getSubmissionStatusCode());
-        ProtocolAction protocolAction = findProtocolAction(protocolDocument.getProtocol().getProtocolId());
-        assertNotNull(protocolAction);
-        assertEquals("105", protocolAction.getProtocolActionTypeCode());
+        
+        assertTrue(!protocolDocument.getProtocol().getProtocolActions().isEmpty());
+        ProtocolAction action = protocolDocument.getProtocol().getLastProtocolAction();
+        assertNotNull(action);
+        assertEquals(ProtocolActionType.REQUEST_TO_CLOSE, action.getProtocolActionTypeCode());
 
-        undoLastActionService.undoLastAction(protocolDocument, undoLastActionBean);
+        service.undoLastAction(protocolDocument, getUndoLastActionBean());
 
         assertEquals(ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT, protocolDocument.getProtocol().getProtocolStatusCode());
-        submission = findProtocolSubmission(protocolDocument);
-        assertEquals(ProtocolSubmissionStatus.APPROVED, submission.getSubmissionStatusCode());
-        protocolAction = findProtocolAction(protocolDocument.getProtocol().getProtocolId());
-        assertNotNull(protocolAction);
-        assertEquals("approving", protocolAction.getComments());
-        assertEquals("204", protocolAction.getProtocolActionTypeCode());
+        
+        assertTrue(!protocolDocument.getProtocol().getProtocolSubmissions().isEmpty());
+        ProtocolSubmission lastSubmission = protocolDocument.getProtocol().getProtocolSubmission();
+        assertNotNull(lastSubmission);
+        assertEquals(ProtocolSubmissionStatus.APPROVED, lastSubmission.getSubmissionStatusCode());
+        
+        assertTrue(!protocolDocument.getProtocol().getProtocolActions().isEmpty());
+        ProtocolAction lastAction = protocolDocument.getProtocol().getLastProtocolAction();
+        assertNotNull(lastAction);
+        assertEquals(ProtocolActionType.APPROVED, lastAction.getProtocolActionTypeCode());
+        assertEquals(APPROVAL_COMMENTS, lastAction.getComments());
     }
 
     @Test
     public void testUndoCloseAction() throws Exception {
-        ProtocolDocument protocolDocument = initProtocolDocument();
+        ProtocolDocument protocolDocument = getApprovedProtocolDocument();
 
-        UndoLastActionBean undoLastActionBean = new UndoLastActionBean();
-        undoLastActionBean.setComments(COMMENTS);
         ProtocolRequestBean requestToCloseBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE,
             ProtocolSubmissionType.REQUEST_TO_CLOSE, "protocolCloseRequestBean");
         protocolRequestService.submitRequest(protocolDocument.getProtocol(), requestToCloseBean);
 
         assertEquals(ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT, protocolDocument.getProtocol().getProtocolStatusCode());
-        ProtocolSubmission submission = findProtocolSubmission(protocolDocument);
+        
+        assertTrue(!protocolDocument.getProtocol().getProtocolSubmissions().isEmpty());
+        ProtocolSubmission submission = protocolDocument.getProtocol().getProtocolSubmission();
+        assertNotNull(submission);
         assertEquals(ProtocolSubmissionStatus.PENDING, submission.getSubmissionStatusCode());
-        assertEquals(ProtocolSubmissionType.REQUEST_TO_CLOSE, submission.getSubmissionTypeCode());
-        ProtocolAction protocolAction = findProtocolAction(protocolDocument.getProtocol().getProtocolId());
-        assertNotNull(protocolAction);
-        assertEquals("105", protocolAction.getProtocolActionTypeCode());
+        
+        assertTrue(!protocolDocument.getProtocol().getProtocolActions().isEmpty());
+        ProtocolAction action = protocolDocument.getProtocol().getLastProtocolAction();
+        assertNotNull(action);
+        assertEquals(ProtocolActionType.REQUEST_TO_CLOSE, action.getProtocolActionTypeCode());
 
-        ProtocolGenericActionBean closeActionBean = new ProtocolGenericActionBean(null);
-        closeActionBean.setActionDate(new Date(System.currentTimeMillis()));
-        closeActionBean.setComments("closing administratively");
-        protocolGenericActionService.close(protocolDocument.getProtocol(), closeActionBean);
+        protocolGenericActionService.close(protocolDocument.getProtocol(), getMockGenericActionBean(CLOSE_COMMENTS));
 
-        assertTrue(protocolDocument.getProtocol().getProtocolStatusCode().equals(ProtocolStatus.CLOSED_ADMINISTRATIVELY)
-                || protocolDocument.getProtocol().getProtocolStatusCode().equals("301"));
-        submission = protocolDocument.getProtocol().getProtocolSubmission();
-        assertEquals(ProtocolSubmissionStatus.CLOSED, submission.getSubmissionStatusCode());
-        protocolAction = findProtocolAction(protocolDocument.getProtocol().getProtocolId());
-        assertNotNull(protocolAction);
-        assertEquals("300", protocolAction.getProtocolActionTypeCode());
+        assertTrue(ProtocolStatus.CLOSED_ADMINISTRATIVELY.equals(protocolDocument.getProtocol().getProtocolStatusCode())
+                || ProtocolStatus.CLOSED_BY_INVESTIGATOR.equals(protocolDocument.getProtocol().getProtocolStatusCode()));
+        
+        assertTrue(!protocolDocument.getProtocol().getProtocolSubmissions().isEmpty());
+        ProtocolSubmission lastSubmission = protocolDocument.getProtocol().getProtocolSubmission();
+        assertNotNull(lastSubmission);
+        assertEquals(ProtocolSubmissionStatus.CLOSED, lastSubmission.getSubmissionStatusCode());
+        
+        assertTrue(!protocolDocument.getProtocol().getProtocolActions().isEmpty());
+        ProtocolAction lastAction = protocolDocument.getProtocol().getLastProtocolAction();
+        assertNotNull(lastAction);
+        assertEquals(ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, lastAction.getProtocolActionTypeCode());
+        assertEquals(CLOSE_COMMENTS, lastAction.getComments());
 
-        undoLastActionService.undoLastAction(protocolDocument, undoLastActionBean);
+        service.undoLastAction(protocolDocument, getUndoLastActionBean());
 
         assertEquals(ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT, protocolDocument.getProtocol().getProtocolStatusCode());
-        submission = findProtocolSubmission(protocolDocument);
-        assertEquals(ProtocolSubmissionStatus.PENDING, submission.getSubmissionStatusCode());
-        protocolAction = findProtocolAction(protocolDocument.getProtocol().getProtocolId());
-        assertNotNull(protocolAction);
-        assertEquals("105", protocolAction.getProtocolActionTypeCode());
+        
+        assertTrue(!protocolDocument.getProtocol().getProtocolSubmissions().isEmpty());
+        ProtocolSubmission lastLastSubmission = protocolDocument.getProtocol().getProtocolSubmission();
+        assertNotNull(lastLastSubmission);
+        assertEquals(ProtocolSubmissionStatus.PENDING, lastLastSubmission.getSubmissionStatusCode());
+        
+        assertTrue(!protocolDocument.getProtocol().getProtocolActions().isEmpty());
+        ProtocolAction lastLastAction = protocolDocument.getProtocol().getLastProtocolAction();
+        assertNotNull(lastLastAction);
+        assertEquals(ProtocolActionType.REQUEST_TO_CLOSE, lastLastAction.getProtocolActionTypeCode());
     }
 
     @Test
     public void testUndoRequestForSuspensionAction() throws Exception {
-        ProtocolDocument protocolDocument = initProtocolDocument();
+        ProtocolDocument protocolDocument = getApprovedProtocolDocument();
 
-        UndoLastActionBean undoLastActionBean = new UndoLastActionBean();
-        undoLastActionBean.setComments(COMMENTS);
         ProtocolRequestBean requestForSuspensionBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_FOR_SUSPENSION,
             ProtocolSubmissionType.REQUEST_FOR_SUSPENSION, "protocolSuspendRequestBean");
         protocolRequestService.submitRequest(protocolDocument.getProtocol(), requestForSuspensionBean);
 
         assertEquals(ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT, protocolDocument.getProtocol().getProtocolStatusCode());
-        ProtocolSubmission submission = findProtocolSubmission(protocolDocument);
+        
+        assertTrue(!protocolDocument.getProtocol().getProtocolSubmissions().isEmpty());
+        ProtocolSubmission submission = protocolDocument.getProtocol().getProtocolSubmission();
+        assertNotNull(submission);
         assertEquals(ProtocolSubmissionStatus.PENDING, submission.getSubmissionStatusCode());
-        ProtocolAction protocolAction = findProtocolAction(protocolDocument.getProtocol().getProtocolId());
-        assertNotNull(protocolAction);
-        assertEquals("106", protocolAction.getProtocolActionTypeCode());
+        
+        assertTrue(!protocolDocument.getProtocol().getProtocolActions().isEmpty());
+        ProtocolAction action = protocolDocument.getProtocol().getLastProtocolAction();
+        assertNotNull(action);
+        assertEquals(ProtocolActionType.REQUEST_FOR_SUSPENSION, action.getProtocolActionTypeCode());
 
-        undoLastActionService.undoLastAction(protocolDocument, undoLastActionBean);
+        service.undoLastAction(protocolDocument, getUndoLastActionBean());
 
         assertEquals(ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT, protocolDocument.getProtocol().getProtocolStatusCode());
-        submission = findProtocolSubmission(protocolDocument);
-        assertEquals(ProtocolSubmissionStatus.APPROVED, submission.getSubmissionStatusCode());
-        protocolAction = findProtocolAction(protocolDocument.getProtocol().getProtocolId());
-        assertNotNull(protocolAction);
-        assertEquals("approving", protocolAction.getComments());
-        assertEquals("204", protocolAction.getProtocolActionTypeCode());
+        
+        assertTrue(!protocolDocument.getProtocol().getProtocolSubmissions().isEmpty());
+        ProtocolSubmission lastSubmission = protocolDocument.getProtocol().getProtocolSubmission();
+        assertNotNull(lastSubmission);
+        assertEquals(ProtocolSubmissionStatus.APPROVED, lastSubmission.getSubmissionStatusCode());
+        
+        assertTrue(!protocolDocument.getProtocol().getProtocolActions().isEmpty());
+        ProtocolAction lastAction = protocolDocument.getProtocol().getLastProtocolAction();
+        assertNotNull(lastAction);
+        assertEquals(ProtocolActionType.APPROVED, lastAction.getProtocolActionTypeCode());
+        assertEquals(APPROVAL_COMMENTS, lastAction.getComments());
     }
     
     @Test
     public void testUndoEnrollmentActions() throws Exception {
-        ProtocolDocument protocolDocument = initProtocolDocument();
+        ProtocolDocument protocolDocument = getApprovedProtocolDocument();
 
-        UndoLastActionBean undoLastActionBean = new UndoLastActionBean();
-        undoLastActionBean.setComments(COMMENTS);
         ProtocolRequestBean requestToCloseBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE_ENROLLMENT,
             ProtocolSubmissionType.REQUEST_TO_CLOSE_ENROLLMENT, "protocolCloseEnrollmentRequestBean");
         protocolRequestService.submitRequest(protocolDocument.getProtocol(), requestToCloseBean);
 
         assertEquals(ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT, protocolDocument.getProtocol().getProtocolStatusCode());
-        ProtocolSubmission submission = findProtocolSubmission(protocolDocument);
+        
+        assertTrue(!protocolDocument.getProtocol().getProtocolSubmissions().isEmpty());
+        ProtocolSubmission submission = protocolDocument.getProtocol().getProtocolSubmission();
+        assertNotNull(submission);
         assertEquals(ProtocolSubmissionStatus.PENDING, submission.getSubmissionStatusCode());
-        assertEquals(ProtocolSubmissionType.REQUEST_TO_CLOSE_ENROLLMENT, submission.getSubmissionTypeCode());
-        ProtocolAction protocolAction = findProtocolAction(protocolDocument.getProtocol().getProtocolId());
-        assertNotNull(protocolAction);
-        assertEquals(ProtocolActionType.REQUEST_TO_CLOSE_ENROLLMENT, protocolAction.getProtocolActionTypeCode());
+        
+        assertTrue(!protocolDocument.getProtocol().getProtocolActions().isEmpty());
+        ProtocolAction action = protocolDocument.getProtocol().getLastProtocolAction();
+        assertNotNull(action);
+        assertEquals(ProtocolActionType.REQUEST_TO_CLOSE_ENROLLMENT, action.getProtocolActionTypeCode());
 
-        ProtocolGenericActionBean closeActionBean = new ProtocolGenericActionBean(null);
-        closeActionBean.setActionDate(new Date(System.currentTimeMillis()));
-        closeActionBean.setComments("closing enrollment");
-        protocolGenericActionService.closeEnrollment(protocolDocument.getProtocol(), closeActionBean);
+        protocolGenericActionService.closeEnrollment(protocolDocument.getProtocol(), getMockGenericActionBean(CLOSE_ENROLLMENT_COMMENTS));
 
-        assertTrue(protocolDocument.getProtocol().getProtocolStatusCode().equals(ProtocolStatus.ACTIVE_CLOSED_TO_ENROLLMENT));
-        submission = protocolDocument.getProtocol().getProtocolSubmission();
-        assertEquals(ProtocolSubmissionStatus.CLOSED_FOR_ENROLLMENT, submission.getSubmissionStatusCode());
-        protocolAction = findProtocolAction(protocolDocument.getProtocol().getProtocolId());
-        assertNotNull(protocolAction);
-        assertEquals(ProtocolActionType.CLOSED_FOR_ENROLLMENT, protocolAction.getProtocolActionTypeCode());
+        assertEquals(ProtocolStatus.ACTIVE_CLOSED_TO_ENROLLMENT, protocolDocument.getProtocol().getProtocolStatusCode());
+        
+        assertTrue(!protocolDocument.getProtocol().getProtocolSubmissions().isEmpty());
+        ProtocolSubmission lastSubmission = protocolDocument.getProtocol().getProtocolSubmission();
+        assertNotNull(lastSubmission);
+        assertEquals(ProtocolSubmissionStatus.CLOSED_FOR_ENROLLMENT, lastSubmission.getSubmissionStatusCode());
+        
+        assertTrue(!protocolDocument.getProtocol().getProtocolActions().isEmpty());
+        ProtocolAction lastAction = protocolDocument.getProtocol().getLastProtocolAction();
+        assertNotNull(lastAction);
+        assertEquals(ProtocolActionType.CLOSED_FOR_ENROLLMENT, lastAction.getProtocolActionTypeCode());
+        assertEquals(CLOSE_ENROLLMENT_COMMENTS, lastAction.getComments());
 
-        undoLastActionService.undoLastAction(protocolDocument, undoLastActionBean);
+        service.undoLastAction(protocolDocument, getUndoLastActionBean());
 
         assertEquals(ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT, protocolDocument.getProtocol().getProtocolStatusCode());
-        submission = findProtocolSubmission(protocolDocument);
-        assertEquals(ProtocolSubmissionStatus.PENDING, submission.getSubmissionStatusCode());
-        assertEquals(ProtocolSubmissionType.REQUEST_TO_CLOSE_ENROLLMENT, submission.getSubmissionTypeCode());
-        protocolAction = findProtocolAction(protocolDocument.getProtocol().getProtocolId());
-        assertNotNull(protocolAction);
-        assertEquals(ProtocolActionType.REQUEST_TO_CLOSE_ENROLLMENT, protocolAction.getProtocolActionTypeCode());
-    }
-
-    @Test
-    public void testUndoDeleteAction() throws Exception {
-        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
-        Protocol protocol = protocolDocument.getProtocol();
-        UndoLastActionBean undoLastActionBean = new UndoLastActionBean();
-        undoLastActionBean.setComments(COMMENTS);
         
-        assertFalse(protocol.getProtocolStatusCode().equalsIgnoreCase(ProtocolStatus.DELETED));
-        assertTrue(protocol.isActive());
-        protocolDeleteService.delete(protocol, new ProtocolDeleteBean());
+        assertTrue(!protocolDocument.getProtocol().getProtocolSubmissions().isEmpty());
+        ProtocolSubmission lastLastSubmission = protocolDocument.getProtocol().getProtocolSubmission();
+        assertNotNull(lastLastSubmission);
+        assertEquals(ProtocolSubmissionStatus.PENDING, lastLastSubmission.getSubmissionStatusCode());
         
-        assertTrue(protocol.getProtocolStatusCode().equalsIgnoreCase(ProtocolStatus.DELETED));
-        assertFalse(protocol.isActive());
-        
-        ProtocolDocument updatedDocument = undoLastActionService.undoLastAction(protocolDocument, undoLastActionBean);
-        assertFalse(protocolDocument.getDocumentNumber().equalsIgnoreCase(updatedDocument.getDocumentNumber()));
-        assertFalse(updatedDocument.getProtocol().getProtocolStatusCode().equalsIgnoreCase(ProtocolStatus.DELETED));
-        assertTrue(updatedDocument.getProtocol().isActive());
+        assertTrue(!protocolDocument.getProtocol().getProtocolActions().isEmpty());
+        ProtocolAction lastLastAction = protocolDocument.getProtocol().getLastProtocolAction();
+        assertNotNull(lastLastAction);
+        assertEquals(ProtocolActionType.REQUEST_TO_CLOSE_ENROLLMENT, lastLastAction.getProtocolActionTypeCode());
     }
     
-    @SuppressWarnings("unchecked")
-    private ProtocolAction findProtocolAction(Long protocolId) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("protocolId", protocolId);
-        List<ProtocolAction> actions = (List<ProtocolAction>) businessObjectService.findMatching(ProtocolAction.class, fieldValues);
-        assertTrue(actions.size() > 0);
-        ProtocolAction action = actions.get(actions.size() - 1);
+    private ProtocolDocument getApprovedProtocolDocument() throws Exception {
+        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        
+        protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), getMockSubmitAction());
+        
+        assertEquals(ProtocolStatus.SUBMITTED_TO_IRB, protocolDocument.getProtocol().getProtocolStatusCode());
+
+        protocolAssignToAgendaService.assignToAgenda(protocolDocument.getProtocol(), getMockAssignToAgendaBean());
+        
+        assertTrue(!protocolDocument.getProtocol().getProtocolSubmissions().isEmpty());
+        ProtocolSubmission submission = protocolDocument.getProtocol().getProtocolSubmission();
+        assertNotNull(submission);
+        assertEquals(ProtocolSubmissionStatus.IN_AGENDA, submission.getSubmissionStatusCode());
+
+        protocolApproveService.approve(protocolDocument, getMockApproveBean());
+        
+        assertEquals(ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT, protocolDocument.getProtocol().getProtocolStatusCode());
+        
+        assertTrue(!protocolDocument.getProtocol().getProtocolActions().isEmpty());
+        ProtocolAction action = protocolDocument.getProtocol().getLastProtocolAction();
+        assertNotNull(action);
+        assertEquals(APPROVAL_APPROVAL_DATE, protocolDocument.getProtocol().getApprovalDate());
+        assertEquals(APPROVAL_EXPIRATION_DATE, protocolDocument.getProtocol().getExpirationDate());
+        assertEquals(APPROVAL_COMMENTS, action.getComments());
+        assertEquals(APPROVAL_ACTION_DATE, action.getActionDate());
+        
+        assertTrue(!protocolDocument.getProtocol().getProtocolSubmissions().isEmpty());
+        assertEquals(ProtocolSubmissionStatus.APPROVED, submission.getSubmissionStatusCode());
+
+        return protocolDocument;
+    }
+    
+    private ProtocolSubmitAction getMockSubmitAction() {
+        final ProtocolSubmitAction action = context.mock(ProtocolSubmitAction.class);
+        
+        context.checking(new Expectations() {{
+            allowing(action).getSubmissionTypeCode();
+            will(returnValue(ProtocolSubmissionType.INITIAL_SUBMISSION));
+            
+            allowing(action).getProtocolReviewTypeCode();
+            will(returnValue(ProtocolReviewType.FULL_TYPE_CODE));
+            
+            allowing(action).getSubmissionQualifierTypeCode();
+            will(returnValue(ProtocolSubmissionQualifierType.ANNUAL_SCHEDULED_BY_IRB));
+            
+            allowing(action).getNewCommitteeId();
+            will(returnValue(Constants.EMPTY_STRING));
+            
+            allowing(action).getNewScheduleId();
+            will(returnValue(Constants.EMPTY_STRING));
+            
+            allowing(action).getReviewers();
+            will(returnValue(new ArrayList<ProtocolReviewerBean>()));
+        }});
+        
         return action;
     }
-
-    @SuppressWarnings("unchecked")
-    private ProtocolSubmission findProtocolSubmission(ProtocolDocument protocolDocument) {
-        int lastIndex = protocolDocument.getProtocol().getProtocolSubmissions().size() - 1;
-        return protocolDocument.getProtocol().getProtocolSubmissions().get(lastIndex);
+    
+    private ProtocolAssignToAgendaBean getMockAssignToAgendaBean() {
+        final ProtocolAssignToAgendaBean bean = context.mock(ProtocolAssignToAgendaBean.class);
+        
+        context.checking(new Expectations() {{
+           allowing(bean).isProtocolAssigned();
+           will(returnValue(true));
+           
+           allowing(bean).getActionDate();
+           will(returnValue(ASSIGN_TO_AGENDA_ACTION_DATE));
+           
+           allowing(bean).getComments();
+           will(returnValue(ASSIGN_TO_AGENDA_COMMENTS));
+        }});
+        
+        return bean;
     }
-
-    /*
-     * Create protocol submission action.
-     */
-    private ProtocolSubmitAction createSubmitAction(String committeeId, String scheduleId, String protocolReviewTypeCode) {
-        ProtocolSubmitAction submitAction = new ProtocolSubmitAction(null);
-        submitAction.setSubmissionTypeCode(VALID_SUBMISSION_TYPE);
-        submitAction.setProtocolReviewTypeCode(protocolReviewTypeCode);
-        submitAction.setCommitteeId(committeeId);
-        submitAction.setScheduleId(scheduleId);
-        return submitAction;
+    
+    private ProtocolApproveBean getMockApproveBean() {
+        final ProtocolApproveBean bean = context.mock(ProtocolApproveBean.class);
+        
+        context.checking(new Expectations() {{
+            allowing(bean).getActionDate();
+            will(returnValue(APPROVAL_ACTION_DATE));
+            
+            allowing(bean).getComments();
+            will(returnValue(APPROVAL_COMMENTS));
+            
+            allowing(bean).getApprovalDate();
+            will(returnValue(APPROVAL_APPROVAL_DATE));
+            
+            allowing(bean).getExpirationDate();
+            will(returnValue(APPROVAL_EXPIRATION_DATE));
+        }});
+        
+        return bean;
     }
+    
+    private UndoLastActionBean getUndoLastActionBean() {
+        UndoLastActionBean bean = new UndoLastActionBean();
+        bean.setComments(COMMENTS);
+        return bean;
+    }
+    
+    private ProtocolGenericActionBean getMockGenericActionBean(final String comments){
+        final ProtocolGenericActionBean bean = context.mock(ProtocolGenericActionBean.class);
+        
+        context.checking(new Expectations() {{
+            allowing(bean).getComments();
+            will(returnValue(comments));
+            
+            allowing(bean).getActionDate();
+            will(returnValue(CLOSE_ACTION_DATE));
+        }});
+        
+        return bean;
+    }
+    
+    private BusinessObjectService getMockBusinessObjectService() {
+        final BusinessObjectService service = context.mock(BusinessObjectService.class);
+        
+        context.checking(new Expectations() {{
+            ignoring(service);
+        }});
+        
+        return service;
+    }
+    
+    private DocumentService getMockDocumentService() {
+        final DocumentService service = context.mock(DocumentService.class);
+        
+        context.checking(new Expectations() {{
+            ignoring(service);
+        }});
+        
+        return service;
+    }
+    
 }

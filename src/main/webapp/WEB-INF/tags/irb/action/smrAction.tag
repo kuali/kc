@@ -59,11 +59,10 @@
                 
                 <tr>
                     <td colspan="2">
-                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolSMRBean.reviewComments}"
-                                                       property="actionHelper.protocolSMRBean.reviewComments"
+                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolSMRBean.reviewCommentsBean}"
+                                                       property="actionHelper.protocolSMRBean.reviewCommentsBean"
                                                        action="${action}"
-                                                       actionName="SMR"
-                                                       allowReadOnly="${not KualiForm.actionHelper.canManageReviewComments}" />
+                                                       actionName="SMR" />
                    </td>
                 </tr>
                 

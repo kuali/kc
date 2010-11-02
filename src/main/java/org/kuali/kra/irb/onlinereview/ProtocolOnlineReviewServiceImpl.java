@@ -31,12 +31,12 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsService;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.kew.KraDocumentRejectionService;
+import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.WorkflowDocument;
@@ -63,7 +63,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
     private CommitteeService committeeService;
     private KraDocumentRejectionService kraDocumentRejectionService;
     private ProtocolFinderDao protocolFinderDao;
-    private ReviewerCommentsService reviewerCommentsService;
+    private ReviewCommentsService reviewCommentsService;
     
     private String reviewerApproveNodeName;
     private String irbAdminApproveNodeName;
@@ -436,12 +436,11 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
             cancelOnlineReviewDocument(protocolOnlineReviewDocument, submission, annotation);
             protocolOnlineReviewDocument.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD);
             
-            ReviewerComments comments = protocolOnlineReviewDocument.getProtocolOnlineReview().getReviewerComments();
-            comments.deleteAllComments();
-            getReviewerCommentsService().persistReviewerComments(comments, submission.getProtocol());
-            if (protocolOnlineReviewDocument.getProtocolOnlineReview().getCommitteeScheduleMinutes()!=null) {
-                protocolOnlineReviewDocument.getProtocolOnlineReview().getCommitteeScheduleMinutes().clear();
-            }
+            List<CommitteeScheduleMinute> reviewComments = protocolOnlineReviewDocument.getProtocolOnlineReview().getCommitteeScheduleMinutes();
+            List<CommitteeScheduleMinute> deletedReviewComments = new ArrayList<CommitteeScheduleMinute>();
+            getReviewerCommentsService().deleteAllReviewComments(reviewComments, deletedReviewComments);
+            getReviewerCommentsService().saveReviewComments(reviewComments, deletedReviewComments);
+
 //            for (ProtocolReviewer reviewer : submission.getProtocolReviewers()) {
 //                if (protocolOnlineReviewDocument.getProtocolOnlineReview().getProtocolReviewer().getProtocolReviewerId().equals(reviewer.getProtocolReviewerId())) {
 //                    protocolOnlineReviewDocument.getProtocolOnlineReview().getProtocolReviewer().setSubmissionIdFk(null);
@@ -483,12 +482,10 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
             cancelOnlineReviewDocument(protocolOnlineReviewDocument, submission, annotation);
             submissionsProtocolOnlineReview.setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD);
             
-            ReviewerComments comments = submissionsProtocolOnlineReview.getReviewerComments();
-            comments.deleteAllComments();
-            getReviewerCommentsService().persistReviewerComments(comments, submission.getProtocol());
-            if (submissionsProtocolOnlineReview.getCommitteeScheduleMinutes()!=null) {
-                submissionsProtocolOnlineReview.getCommitteeScheduleMinutes().clear();
-            }
+            List<CommitteeScheduleMinute> reviewComments = protocolOnlineReviewDocument.getProtocolOnlineReview().getCommitteeScheduleMinutes();
+            List<CommitteeScheduleMinute> deletedReviewComments = new ArrayList<CommitteeScheduleMinute>();
+            getReviewerCommentsService().deleteAllReviewComments(reviewComments, deletedReviewComments);
+            getReviewerCommentsService().saveReviewComments(reviewComments, deletedReviewComments);
             
 //            for (ProtocolReviewer reviewer : submission.getProtocolReviewers()) {
 //                if (protocolOnlineReviewDocument.getProtocolOnlineReview().getProtocolReviewer().getProtocolReviewerId().equals(reviewer.getProtocolReviewerId())) {
@@ -664,12 +661,12 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         this.protocolFinderDao = protocolFinderDao;
     }
 
-    public ReviewerCommentsService getReviewerCommentsService() {
-        return reviewerCommentsService;
+    public ReviewCommentsService getReviewerCommentsService() {
+        return reviewCommentsService;
     }
 
-    public void setReviewerCommentsService(ReviewerCommentsService reviewerCommentsService) {
-        this.reviewerCommentsService = reviewerCommentsService;
+    public void setReviewCommentsService(ReviewCommentsService reviewCommentsService) {
+        this.reviewCommentsService = reviewCommentsService;
     }
 
     public String getProtocolOnlineReviewDocumentDescription(String protocolNumber, String piName) {
