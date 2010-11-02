@@ -41,7 +41,7 @@ import org.kuali.rice.test.data.UnitTestFile;
         @UnitTestFile(filename = "classpath:sql/dml/load_protocol_reference_type.sql", delimiter = ";")}))
 public class ProtocolReferenceRuleTest extends ProtocolRuleTestBase {
 
-    private static final String NEW_PROTOCOLREFERENCE= "newProtocolReference";
+    private static final String NEW_PROTOCOLREFERENCE= "newProtocolReferenceBean";
     private ProtocolReferenceRule rule = null;
     private List<ProtocolReferenceType> protocolReferenceList;
     private BusinessObjectService bos;
@@ -82,8 +82,8 @@ public class ProtocolReferenceRuleTest extends ProtocolRuleTestBase {
 
         ProtocolDocument document = getNewProtocolDocument();
         
-        ProtocolReference newProtocolReference = new ProtocolReference();
-        newProtocolReference.setProtocolReferenceType(protocolReferenceList.get(0));
+        ProtocolReferenceBean newProtocolReference = new ProtocolReferenceBean();
+        //newProtocolReference.setProtocolReferenceType(protocolReferenceList.get(0));
         newProtocolReference.setProtocolReferenceTypeCode(protocolReferenceList.get(0).getProtocolReferenceTypeCode());
         newProtocolReference.setReferenceKey("Test Me");
         
@@ -96,13 +96,13 @@ public class ProtocolReferenceRuleTest extends ProtocolRuleTestBase {
     public void testNotValid() throws Exception {
         
         ProtocolDocument document = getNewProtocolDocument();        
-        ProtocolReference newProtocolReference = new ProtocolReference();
+        ProtocolReferenceBean newProtocolReferenceBean = new ProtocolReferenceBean();
         
-        AddProtocolReferenceEvent event = new AddProtocolReferenceEvent(Constants.EMPTY_STRING,document,newProtocolReference);
+        AddProtocolReferenceEvent event = new AddProtocolReferenceEvent(Constants.EMPTY_STRING,document,newProtocolReferenceBean);
         assertFalse(rule.processAddProtocolReferenceBusinessRules(event));
         
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_PROTOCOLREFERENCE + ".protocolReferenceTypeCode");
-        assertTrue(errors.size() == 1);    
+        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_PROTOCOLREFERENCE + ".protocolReferenceTypeCode");   
+        assertEquals(1, errors.size());
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), KeyConstants.ERROR_PROTOCOLREFERENCE_PROTOCOLREFERENCETYPECODE);
         

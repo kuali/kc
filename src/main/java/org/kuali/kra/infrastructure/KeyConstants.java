@@ -624,6 +624,7 @@ public final class KeyConstants {
     //IRB Additional Information Fields
     public static final String ERROR_PROTOCOLREFERENCE_PROTOCOLREFERENCETYPECODE = "error.required.for.protocolReference.protocolReferenceTypeCode";
     public static final String ERROR_PROTOCOLREFERENCE_PROTOCOLREFERENCEKEY = "error.required.for.protocolReference.protocolReferenceKey";
+    public static final String ERROR_PROTOCOLREFERENCE_INVALID_DATE = "error.protocolReferences.date";
     
     public static final String ERROR_PROTOCOL_SUMMARY_IS_REQUIRED = "error.amendment.required.summary";
     public static final String ERROR_PROTOCOL_SELECT_MODULE = "error.amendment.select.module";

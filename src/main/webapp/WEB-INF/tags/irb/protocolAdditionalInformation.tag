@@ -3,6 +3,7 @@
 <c:set var="protocolDocumentAttributes" value="${DataDictionary.ProtocolDocument.attributes}" />
 <c:set var="protocolAttributes" value="${DataDictionary.Protocol.attributes}" />
 <c:set var="protocolReferenceAttributes" value="${DataDictionary.ProtocolReference.attributes}" />
+<c:set var="protocolReferenceBeanAttributes" value="${DataDictionary.ProtocolReferenceBean.attributes}" />
 <c:set var="protocolReferenceTypeAttributes" value="${DataDictionary.ProtocolReferenceType.attributes}" />  
 <c:set var="textAreaFieldName" value="document.protocolList[0].description" />
 <c:set var="textAreaFieldName1" value="newProtocolReference.comments" />
@@ -136,10 +137,10 @@
         	<%-- Header --%>
         	<tr>
         		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" />
-        		<kul:htmlAttributeHeaderCell attributeEntry="${protocolReferenceAttributes.protocolReferenceTypeCode}" />
-				<kul:htmlAttributeHeaderCell attributeEntry="${protocolReferenceAttributes.referenceKey}" />
-				<kul:htmlAttributeHeaderCell attributeEntry="${protocolReferenceAttributes.applicationDate}" />
-				<kul:htmlAttributeHeaderCell attributeEntry="${protocolReferenceAttributes.approvalDate}" />
+        		<kul:htmlAttributeHeaderCell attributeEntry="${protocolReferenceBeanAttributes.protocolReferenceTypeCode}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${protocolReferenceBeanAttributes.referenceKey}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${protocolReferenceBeanAttributes.applicationDate}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${protocolReferenceBeanAttributes.approvalDate}" />
 				<c:if test="${!readOnly}">
 				    <kul:htmlAttributeHeaderCell literalLabel="Actions" />
 				</c:if>
@@ -148,23 +149,26 @@
 			
             <%-- New data --%>
          	<kra:permission value="${!readOnlymodifyReferences}">
-                <tr>
+         		
+         		<tr>
                     <th class="infoline" rowspan="2">add:</th>
                     <td class="infoline" style="text-align:center;">
-						<kul:htmlControlAttribute property="newProtocolReference.protocolReferenceTypeCode" attributeEntry="${protocolReferenceAttributes.protocolReferenceTypeCode}" readOnly="${readOnlymodifyReferences}" />
+						<kul:htmlControlAttribute property="newProtocolReferenceBean.protocolReferenceTypeCode" 
+							attributeEntry="${protocolReferenceBeanAttributes.protocolReferenceTypeCode}" readOnly="${readOnlymodifyReferences}" />
                     </td>
                     <td class="infoline" style="text-align:center;">
-                        <kul:htmlControlAttribute property="newProtocolReference.referenceKey" attributeEntry="${protocolReferenceAttributes.referenceKey}" readOnly="${readOnlymodifyReferences}"/>
+                        <kul:htmlControlAttribute property="newProtocolReferenceBean.referenceKey" 
+                        	attributeEntry="${protocolReferenceBeanAttributes.referenceKey}" readOnly="${readOnlymodifyReferences}"/>
                     </td>
                     <td class="infoline" style="text-align:center;">
-						<kul:htmlControlAttribute property="newProtocolReference.applicationDate" attributeEntry="${protocolReferenceAttributes.applicationDate}"  readOnly="${readOnlymodifyReferences}"/>
+						<kul:htmlControlAttribute property="newProtocolReferenceBean.applicationDate" attributeEntry="${protocolReferenceBeanAttributes.applicationDate}"  readOnly="${readOnlymodifyReferences}"/>
                     </td>
                     <td class="infoline" style="text-align:center;">
-                        <kul:htmlControlAttribute property="newProtocolReference.approvalDate" attributeEntry="${protocolReferenceAttributes.approvalDate}"  readOnly="${readOnlymodifyReferences}"/>
+                        <kul:htmlControlAttribute property="newProtocolReferenceBean.approvalDate" attributeEntry="${protocolReferenceBeanAttributes.approvalDate}"  readOnly="${readOnlymodifyReferences}"/>
                     </td>
                     <td class="infoline" rowspan="2" style="text-align:center;">
                         <div align=center>
-							<html:image property="methodToCall.addProtocolReference.anchor${tabKey}"
+							<html:image property="methodToCall.addProtocolReferenceBean.anchor${tabKey}"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
                         </div>
                     </td>
@@ -177,15 +181,14 @@
 
                             <tr>
                                 <td style="border:none; background:none;">
-                                	<kul:htmlControlAttribute property="newProtocolReference.comments" attributeEntry="${protocolReferenceAttributes.comments}" readOnly="${readOnlymodifyReferences}"/>
+                                	<kul:htmlControlAttribute property="newProtocolReferenceBean.comments" attributeEntry="${protocolReferenceBeanAttributes.comments}" readOnly="${readOnlymodifyReferences}"/>
                                 </td>
                             </tr>
 
                         </table>
                     
                     </th>
-                </tr>	            
-	            
+                </tr>
             </kra:permission>
             
 			<%-- End of New data --%>
