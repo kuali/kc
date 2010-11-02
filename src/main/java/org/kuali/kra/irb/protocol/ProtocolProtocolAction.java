@@ -52,7 +52,9 @@ import org.kuali.kra.irb.protocol.participant.ProtocolParticipantRule;
 import org.kuali.kra.irb.protocol.participant.ProtocolParticipantService;
 import org.kuali.kra.irb.protocol.reference.AddProtocolReferenceEvent;
 import org.kuali.kra.irb.protocol.reference.ProtocolReference;
+import org.kuali.kra.irb.protocol.reference.ProtocolReferenceBean;
 import org.kuali.kra.irb.protocol.reference.ProtocolReferenceService;
+import org.kuali.kra.irb.protocol.reference.ProtocolReferenceType;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchAreaService;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -234,7 +236,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
      * @param response
      * @return
      * @throws Exception
-     */
+     
     public ActionForward addProtocolReference(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
@@ -250,6 +252,27 @@ public class ProtocolProtocolAction extends ProtocolAction {
 
         }
 
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }*/
+    
+    public ActionForward addProtocolReferenceBean(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolReferenceBean bean = protocolForm.getNewProtocolReferenceBean();
+        
+        if (applyRules(new AddProtocolReferenceEvent(Constants.EMPTY_STRING, protocolForm.getDocument(), bean))) {
+            ProtocolReferenceType type = this.getBusinessObjectService().findBySinglePrimaryKey(ProtocolReferenceType.class, bean.getProtocolReferenceTypeCode());
+            
+            ProtocolReference ref = new ProtocolReference(bean, protocolForm.getProtocolDocument().getProtocol(), type);
+            
+            ProtocolReferenceService service = KraServiceLocator.getService(ProtocolReferenceService.class);
+
+            service.addProtocolReference(protocolForm.getDocument().getProtocol(), ref);
+            
+            //protocolForm.getProtocolDocument().getProtocol().getProtocolReferences().add(ref);
+            protocolForm.setNewProtocolReferenceBean(new ProtocolReferenceBean());
+        }
+        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 

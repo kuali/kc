@@ -24,6 +24,7 @@ import org.kuali.rice.kns.rule.BusinessRule;
  */
 public class AddProtocolReferenceEvent extends ProtocolReferenceEventBase {
 
+    /*
 
     public AddProtocolReferenceEvent(String errorPathPrefix, ProtocolDocument document, ProtocolReference protocolReference) {
         super("adding ProtocolReference to document " + getDocumentId(document), errorPathPrefix, document, protocolReference);
@@ -31,7 +32,30 @@ public class AddProtocolReferenceEvent extends ProtocolReferenceEventBase {
 
     public AddProtocolReferenceEvent(String errorPathPrefix, Document document, ProtocolReference protocolReference) {
         this(errorPathPrefix, (ProtocolDocument)document, protocolReference);
-    }    
+    }
+    */   
+    
+    /**
+     * 
+     * Constructs a AddProtocolReferenceEvent.java.
+     * @param errorPathPrefix
+     * @param document
+     * @param protocolReferenceBean
+     */
+    public AddProtocolReferenceEvent(String errorPathPrefix, ProtocolDocument document, ProtocolReferenceBean protocolReferenceBean) {
+        super("adding ProtocolReference to document " + getDocumentId(document), errorPathPrefix, document, protocolReferenceBean);
+    }
+    
+    /**
+     * 
+     * Constructs a AddProtocolReferenceEvent.java.
+     * @param errorPathPrefix
+     * @param document
+     * @param protocolReferenceBean
+     */
+    public AddProtocolReferenceEvent(String errorPathPrefix, Document document, ProtocolReferenceBean protocolReferenceBean) {
+        this(errorPathPrefix, (ProtocolDocument)document, protocolReferenceBean);
+    } 
     
     /**
      * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()

@@ -15,6 +15,10 @@
  */
 package org.kuali.kra.irb.protocol.reference;
 
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
@@ -32,17 +36,38 @@ public class ProtocolReferenceRule extends ResearchDocumentRuleBase implements A
         
         boolean rulePassed = true;
         
-        if(null == addProtocolReferenceEvent.getProtocolReference().getProtocolReferenceTypeCode()) {
+        if (null == addProtocolReferenceEvent.getProtocolReferenceBean().getProtocolReferenceTypeCode()) {
             rulePassed = false;
-            reportError("newProtocolReference"+".protocolReferenceTypeCode", KeyConstants.ERROR_PROTOCOLREFERENCE_PROTOCOLREFERENCETYPECODE, "Type");
+            reportError("newProtocolReferenceBean"+".protocolReferenceTypeCode", KeyConstants.ERROR_PROTOCOLREFERENCE_PROTOCOLREFERENCETYPECODE, "Type");
         }
          
-        if(StringUtils.isBlank(addProtocolReferenceEvent.getProtocolReference().getReferenceKey())) {
+        if (StringUtils.isBlank(addProtocolReferenceEvent.getProtocolReferenceBean().getReferenceKey())) {
             rulePassed = false;
-            reportError("newProtocolReference"+".referenceKey", KeyConstants.ERROR_PROTOCOLREFERENCE_PROTOCOLREFERENCEKEY, "Other Identifier");
+            reportError("newProtocolReferenceBean"+".referenceKey", KeyConstants.ERROR_PROTOCOLREFERENCE_PROTOCOLREFERENCEKEY, "Other Identifier");
+        }
+        
+        if (!validateDate(addProtocolReferenceEvent.getProtocolReferenceBean().getApplicationDate())){
+            rulePassed = false;
+            reportError("newProtocolReferenceBean"+".applicationDate", KeyConstants.ERROR_PROTOCOLREFERENCE_INVALID_DATE, "Application Date");
+        }
+        
+        if (!validateDate(addProtocolReferenceEvent.getProtocolReferenceBean().getApprovalDate())){
+            rulePassed = false;
+            reportError("newProtocolReferenceBean"+".approvalDate", KeyConstants.ERROR_PROTOCOLREFERENCE_INVALID_DATE, "Approval Date");
         }
             
         return rulePassed;
+    }
+    
+    private boolean validateDate(String stringDate) {
+        try {
+            if (!StringUtils.isBlank(stringDate)) {
+                Date date = new Date(DateFormat.getDateInstance(DateFormat.SHORT).parse(stringDate).getTime());
+            }
+        } catch (ParseException e) {
+            return false;
+        }
+        return true;
     }
 
 }
