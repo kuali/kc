@@ -30,7 +30,6 @@ import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
@@ -273,16 +272,6 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
     public void setProtocolOnlineReviewDeterminationRecommendation(
             ProtocolOnlineReviewDeterminationRecommendation protocolOnlineReviewDeterminationRecommendation) {
         this.protocolOnlineReviewDeterminationRecommendation = protocolOnlineReviewDeterminationRecommendation;
-    }
-    
-    /**
-     * Get reviewer comments in a handy class that struts can use to manage the list.
-     * @return new ReviewerComments bean initialized with the current comments.
-     */
-    public ReviewerComments getReviewerComments() {
-        ReviewerComments commentsBean = new ReviewerComments();
-        commentsBean.setComments(getCommitteeScheduleMinutes());
-        return commentsBean;
     }
     
     /**

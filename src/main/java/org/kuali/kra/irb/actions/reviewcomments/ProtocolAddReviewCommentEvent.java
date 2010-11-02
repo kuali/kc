@@ -23,22 +23,22 @@ import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 /**
  * Encapsulates a validation event for a Reviewer Comment add action.
  */
-public class ProtocolAddReviewerCommentEvent extends KraDocumentEventBaseExtension {
+public class ProtocolAddReviewCommentEvent extends KraDocumentEventBaseExtension {
     
     private String propertyName;
-    private CommitteeScheduleMinute reviewerComment;
+    private CommitteeScheduleMinute reviewComment;
 
     /**
      * Constructs a ProtocolAddReviewerCommentEvent.
      * 
      * @param document The document to validate
      * @param propertyName The error path property prefix
-     * @param reviewerComment The added Reviewer Comment
+     * @param reviewComment The added Reviewer Comment
      */
-    public ProtocolAddReviewerCommentEvent(ProtocolDocument document, String propertyName, CommitteeScheduleMinute reviewerComment) {
+    public ProtocolAddReviewCommentEvent(ProtocolDocument document, String propertyName, CommitteeScheduleMinute reviewComment) {
         super("Enter reviewer comment", "", document);
         this.propertyName = propertyName;
-        this.reviewerComment = reviewerComment;
+        this.reviewComment = reviewComment;
     }
     
     public ProtocolDocument getProtocolDocument() {
@@ -49,14 +49,14 @@ public class ProtocolAddReviewerCommentEvent extends KraDocumentEventBaseExtensi
         return propertyName;
     }
     
-    public CommitteeScheduleMinute getReviewerComment() {
-        return reviewerComment;
+    public CommitteeScheduleMinute getReviewComment() {
+        return reviewComment;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public BusinessRuleInterface getRule() {
-        return new ProtocolAddReviewerCommentRule();
+        return new ProtocolAddReviewCommentRule();
     }
 
 }

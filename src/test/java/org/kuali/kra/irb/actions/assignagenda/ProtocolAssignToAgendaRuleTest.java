@@ -15,6 +15,12 @@
  */
 package org.kuali.kra.irb.actions.assignagenda;
 
+import java.sql.Date;
+
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,33 +36,30 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-//@PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
-//        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_status.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ORG_TYPE.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_PERSON_ROLES.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_type.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_review_type.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_REVIEWER_TYPE.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_committee_type.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE_QUALIFIER.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_MODULES.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_STATUS.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_schedule_status.sql", delimiter = ";")
-//}))
 public class ProtocolAssignToAgendaRuleTest extends ProtocolRuleTestBase {
-
-    private ProtocolAssignToAgendaRule rule = null;
     
+    private static final String COMMITTEE_ID = "10014";
+    private static final Date ACTION_DATE = new Date(System.currentTimeMillis());
+
+    private ProtocolAssignToAgendaRule rule;
+    
+    private Mockery context = new JUnit4Mockery() {{
+        setImposteriser(ClassImposteriser.INSTANCE);
+    }};
+    
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
+        
         rule = new ProtocolAssignToAgendaRule();
     }
 
+    @Override
     @After
     public void tearDown() throws Exception {
         rule = null;
+        
         super.tearDown();
     }
 
@@ -64,17 +67,12 @@ public class ProtocolAssignToAgendaRuleTest extends ProtocolRuleTestBase {
      * Test a valid assignment.
      * @throws Exception
      */
-    @SuppressWarnings("deprecation")
     @Test
     public void testHasCommittee() throws Exception {
-        
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
-        ProtocolAssignToAgendaBean actionBean = new ProtocolAssignToAgendaBean(null);
-        actionBean.setCommitteeId("1");
-        
-        assertTrue(rule.processAssignToAgendaRule(protocolDocument, actionBean));
-        assertEquals(GlobalVariables.getErrorMap().size(), 0);
+        assertTrue(rule.processAssignToAgendaRule(protocolDocument, getMockAssignToAgendaBean(COMMITTEE_ID)));
+        assertTrue(GlobalVariables.getMessageMap().hasNoErrors());
     }
 
     /**
@@ -85,11 +83,23 @@ public class ProtocolAssignToAgendaRuleTest extends ProtocolRuleTestBase {
     public void testNoCommittee() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
-        ProtocolAssignToAgendaBean actionBean = new ProtocolAssignToAgendaBean(null);
-        actionBean.setCommitteeId("");
-        
-        assertFalse(rule.processAssignToAgendaRule(protocolDocument, actionBean));
+        assertFalse(rule.processAssignToAgendaRule(protocolDocument, getMockAssignToAgendaBean(Constants.EMPTY_STRING)));
         assertError(Constants.PROTOCOL_ASSIGN_TO_AGENDA_PROPERTY_KEY + ".committeeId", 
                     KeyConstants.ERROR_PROTOCOL_COMMITTEE_NOT_SELECTED);
     }
+    
+    private ProtocolAssignToAgendaBean getMockAssignToAgendaBean(final String committeeId) {
+        final ProtocolAssignToAgendaBean bean = context.mock(ProtocolAssignToAgendaBean.class);
+        
+        context.checking(new Expectations() {{
+           allowing(bean).getCommitteeId();
+           will(returnValue(committeeId));
+           
+           allowing(bean).getActionDate();
+           will(returnValue(ACTION_DATE));
+        }});
+        
+        return bean;
+    }
+    
 }

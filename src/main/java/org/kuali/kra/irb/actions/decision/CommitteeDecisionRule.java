@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.irb.actions.decision;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.CommitteeDecisionMotionType;
@@ -22,8 +25,11 @@ import org.kuali.kra.committee.service.CommitteeScheduleAttendanceService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 /**
@@ -75,9 +81,10 @@ public class CommitteeDecisionRule extends ResearchDocumentRuleBase implements E
             reportError(Constants.PROTOCOL_RECORD_COMMITTEE_KEY + DOT + MOTION_FIELD, KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_MOTION);
             retVal = false;
         } else {
+            ReviewCommentsBean reviewerCommentsBean = committeeDecision.getReviewCommentsBean();
             if ((CommitteeDecisionMotionType.SPECIFIC_MINOR_REVISIONS.equals(committeeDecision.getMotionTypeCode()) 
                     || CommitteeDecisionMotionType.SUBSTANTIVE_REVISIONS_REQUIRED.equals(committeeDecision.getMotionTypeCode())) 
-                    && CollectionUtils.isEmpty(committeeDecision.getReviewComments().getCommentsForCurrentProtocol())) {
+                    && CollectionUtils.isEmpty(filterReviewComments(reviewerCommentsBean.getReviewComments(), reviewerCommentsBean.getProtocol()))) {
                 reportError(Constants.PROTOCOL_RECORD_COMMITTEE_KEY + DOT + MOTION_FIELD, 
                             KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_SMR_SRR_REVIEWER_COMMENTS);
                 retVal = false;
@@ -85,6 +92,16 @@ public class CommitteeDecisionRule extends ResearchDocumentRuleBase implements E
         }
         
         return retVal;
+    }
+    
+    private List<CommitteeScheduleMinute> filterReviewComments(List<CommitteeScheduleMinute> reviewComments, Protocol protocol) {
+        List<CommitteeScheduleMinute> filteredComments = new ArrayList<CommitteeScheduleMinute>();
+        for (CommitteeScheduleMinute comment : reviewComments) {
+            if (protocol.getProtocolId().equals(comment.getProtocolId())) {
+                filteredComments.add(comment);
+            }
+        }
+        return filteredComments;
     }
     
     private boolean processCounts(ProtocolSubmission submission, CommitteeDecision committeeDecision) {

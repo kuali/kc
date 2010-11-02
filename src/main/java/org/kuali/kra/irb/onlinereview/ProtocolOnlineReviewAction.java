@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.onlinereview;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,8 +37,8 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsService;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewerType;
@@ -46,11 +47,12 @@ import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.onlinereview.event.AddProtocolOnlineReviewCommentEvent;
 import org.kuali.kra.irb.onlinereview.event.RouteProtocolOnlineReviewEvent;
 import org.kuali.kra.irb.onlinereview.event.SaveProtocolOnlineReviewEvent;
+import org.kuali.kra.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.meeting.MinuteEntryType;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
-import org.kuali.rice.core.util.RiceConstants;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.DocumentService;
@@ -283,15 +285,13 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber(
                 (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE),
                 "approveOnlineReview");
-        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
-        ReviewerCommentsService reviewerCommentsService = KraServiceLocator.getService(ReviewerCommentsService.class);
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolOnlineReviewDocument prDoc = protocolForm.getOnlineReviewsActionHelper().getDocumentFromHelperMap(onlineReviewDocumentNumber);
-        ReviewerComments reviewComments = protocolForm.getOnlineReviewsActionHelper().getReviewerCommentsFromHelperMap(onlineReviewDocumentNumber);
+        ReviewCommentsBean reviewCommentsBean = protocolForm.getOnlineReviewsActionHelper().getReviewCommentsBeanFromHelperMap(onlineReviewDocumentNumber);
 
         //check to see if we are the reviewer and this is an approval to the irb admin.
         
-        boolean validComments = applyRules(new RouteProtocolOnlineReviewEvent(prDoc,reviewComments.getComments(), protocolForm.getOnlineReviewsActionHelper().getIndexByDocumentNumber(onlineReviewDocumentNumber)));
+        boolean validComments = applyRules(new RouteProtocolOnlineReviewEvent(prDoc, reviewCommentsBean.getReviewComments(), protocolForm.getOnlineReviewsActionHelper().getIndexByDocumentNumber(onlineReviewDocumentNumber)));
         boolean statusIsOk = false;
         
         if( validComments && getKraWorkflowService().isUserApprovalRequested(prDoc, GlobalVariables.getUserSession().getPrincipalId())) {
@@ -310,7 +310,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
                 {
                     prDoc.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.FINAL_STATUS_CD);
                     getBusinessObjectService().save(prDoc.getProtocolOnlineReview());
-                    documentService.saveDocument(prDoc);
+                    getDocumentService().saveDocument(prDoc);
                     statusIsOk = true;
                 }
             } else {
@@ -321,9 +321,9 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         if (!validComments || !statusIsOk) {
             //nothing to do here.
         } else {
-            reviewerCommentsService.persistReviewerComments(reviewComments, protocolForm.getProtocolDocument().getProtocol(), prDoc.getProtocolOnlineReview());
-            documentService.saveDocument(prDoc);
-            documentService.approveDocument(prDoc, "", null);
+            getReviewCommentsService().saveReviewComments(reviewCommentsBean.getReviewComments(), reviewCommentsBean.getDeletedReviewComments());
+            getDocumentService().saveDocument(prDoc);
+            getDocumentService().approveDocument(prDoc, "", null);
             protocolForm.getOnlineReviewsActionHelper().init(true);
             recordOnlineReviewActionSuccess("approved", prDoc);
             if (!protocolForm.getEditingMode().containsKey("maintainProtocolOnlineReviews")) {
@@ -351,12 +351,10 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber(
                 (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE),
                 "blanketApproveOnlineReview");
-        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
-        ReviewerCommentsService reviewerCommentsService = KraServiceLocator.getService(ReviewerCommentsService.class);
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolOnlineReviewDocument prDoc = (ProtocolOnlineReviewDocument) protocolForm.getOnlineReviewsActionHelper()
             .getDocumentHelperMap().get(onlineReviewDocumentNumber).get("document");
-        documentService.blanketApproveDocument(prDoc, "", null);
+        getDocumentService().blanketApproveDocument(prDoc, "", null);
         protocolForm.getOnlineReviewsActionHelper().init(true);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -378,13 +376,13 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolOnlineReviewDocument prDoc = protocolForm.getOnlineReviewsActionHelper().getDocumentFromHelperMap(onlineReviewDocumentNumber);
-        ReviewerComments reviewComments = protocolForm.getOnlineReviewsActionHelper().getReviewerCommentsFromHelperMap(onlineReviewDocumentNumber);
-        if ( !this.applyRules(new SaveProtocolOnlineReviewEvent(prDoc,reviewComments.getComments(), protocolForm.getOnlineReviewsActionHelper().getIndexByDocumentNumber(onlineReviewDocumentNumber)))) {
+        ReviewCommentsBean reviewCommentsBean = protocolForm.getOnlineReviewsActionHelper().getReviewCommentsBeanFromHelperMap(onlineReviewDocumentNumber);
+        if ( !this.applyRules(new SaveProtocolOnlineReviewEvent(prDoc, reviewCommentsBean.getReviewComments(), protocolForm.getOnlineReviewsActionHelper().getIndexByDocumentNumber(onlineReviewDocumentNumber)))) {
             //nothing to do, we failed validation return them to the screen.
         } else {
             ProtocolReviewer reviewer = prDoc.getProtocolOnlineReview().getProtocolReviewer();
             getBusinessObjectService().save(reviewer);
-            getReviewerCommentsService().persistReviewerComments(reviewComments, protocolForm.getProtocolDocument().getProtocol(), prDoc.getProtocolOnlineReview());
+            getReviewCommentsService().saveReviewComments(reviewCommentsBean.getReviewComments(), reviewCommentsBean.getDeletedReviewComments());
             documentService.saveDocument(prDoc);
             recordOnlineReviewActionSuccess("saved", prDoc);
             protocolForm.getOnlineReviewsActionHelper().init(true);
@@ -408,11 +406,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber(
                 (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE),
                 "rejectOnlineReview");
-        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
-        ReviewerCommentsService reviewerCommentsService = KraServiceLocator.getService(ReviewerCommentsService.class);
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ActionForward forward =  mapping.findForward(Constants.MAPPING_BASIC);
-        
+        ProtocolForm protocolForm = (ProtocolForm) form;        
         ProtocolOnlineReviewDocument prDoc = (ProtocolOnlineReviewDocument) protocolForm.getOnlineReviewsActionHelper()
             .getDocumentHelperMap().get(onlineReviewDocumentNumber).get("document");
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
@@ -453,19 +447,17 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber(
                 (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE),
                 "disapproveOnlineReview");
-        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
-        ReviewerCommentsService reviewerCommentsService = KraServiceLocator.getService(ReviewerCommentsService.class);
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolOnlineReviewDocument prDoc = (ProtocolOnlineReviewDocument) protocolForm.getOnlineReviewsActionHelper()
             .getDocumentHelperMap().get(onlineReviewDocumentNumber).get("document");
-
+        ReviewCommentsBean reviewCommentsBean = protocolForm.getOnlineReviewsActionHelper().getReviewCommentsBeanFromHelperMap(onlineReviewDocumentNumber);
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
         String disapprovalNoteText = "";
         String callerString = String.format("disapproveOnlineReview.%s.anchor%s",prDoc.getDocumentNumber(),0);
        
         //the data gets saved here, need to validate the save ok.
-        if (!this.applyRules(new SaveProtocolOnlineReviewEvent(prDoc,prDoc.getProtocolOnlineReview().getReviewerComments().getComments(), protocolForm.getOnlineReviewsActionHelper().getIndexByDocumentNumber(onlineReviewDocumentNumber)))) {
+        if (!this.applyRules(new SaveProtocolOnlineReviewEvent(prDoc, reviewCommentsBean.getReviewComments(), protocolForm.getOnlineReviewsActionHelper().getIndexByDocumentNumber(onlineReviewDocumentNumber)))) {
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
         
@@ -593,21 +585,28 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
     public ActionForward addOnlineReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber((String)request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE),"addOnlineReviewComment");
-        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
-        ReviewerCommentsService reviewerCommentsService = KraServiceLocator.getService(ReviewerCommentsService.class);
-        ProtocolForm protocolForm = (ProtocolForm)form;
-        ProtocolOnlineReviewDocument prDoc = protocolForm.getOnlineReviewsActionHelper().getDocumentFromHelperMap(onlineReviewDocumentNumber);
-        ReviewerComments comments = protocolForm.getOnlineReviewsActionHelper().getReviewerCommentsFromHelperMap(onlineReviewDocumentNumber);
-        if ( !(this.applyRules(new AddProtocolOnlineReviewCommentEvent(prDoc,comments.getNewComment(), protocolForm.getOnlineReviewsActionHelper().getIndexByDocumentNumber(onlineReviewDocumentNumber)))
-                && this.applyRules(new SaveProtocolOnlineReviewEvent(prDoc,prDoc.getProtocolOnlineReview().getReviewerComments().getComments(), protocolForm.getOnlineReviewsActionHelper().getIndexByDocumentNumber(onlineReviewDocumentNumber)))))
-        {
-            //nothing to do, we failed validation return them to the screen.
-        } else {
-            comments.addNewComment(protocolForm.getProtocolDocument().getProtocol(),prDoc.getProtocolOnlineReview() );
-            reviewerCommentsService.persistReviewerComments(comments, protocolForm.getProtocolDocument().getProtocol(), prDoc.getProtocolOnlineReview());
-            documentService.saveDocument(prDoc);
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        OnlineReviewsActionHelper actionHelper = protocolForm.getOnlineReviewsActionHelper();
+        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String documentNumber = getOnlineReviewActionDocumentNumber(parameterName, "addOnlineReviewComment");
+        
+        ProtocolOnlineReviewDocument document = actionHelper.getDocumentFromHelperMap(documentNumber);
+        ReviewCommentsBean reviewCommentsBean = actionHelper.getReviewCommentsBeanFromHelperMap(documentNumber);
+        long documentIndex = actionHelper.getIndexByDocumentNumber(documentNumber);
+        
+        if (applyRules(new AddProtocolOnlineReviewCommentEvent(document, reviewCommentsBean.getNewReviewComment(), documentIndex))
+                && applyRules(new SaveProtocolOnlineReviewEvent(document, reviewCommentsBean.getReviewComments(), documentIndex))) {
+            CommitteeScheduleMinute newReviewComment = reviewCommentsBean.getNewReviewComment();
+            List<CommitteeScheduleMinute> reviewComments = reviewCommentsBean.getReviewComments();
+            List<CommitteeScheduleMinute> deletedReviewComments = reviewCommentsBean.getDeletedReviewComments();
+            
+            getReviewCommentsService().addReviewComment(newReviewComment, reviewComments, document.getProtocolOnlineReview());
+            getReviewCommentsService().saveReviewComments(reviewComments, deletedReviewComments);
+            getDocumentService().saveDocument(document);
+            
+            reviewCommentsBean.setNewReviewComment(new CommitteeScheduleMinute(MinuteEntryType.PROTOCOL));
         }
+        
         //protocolForm.getOnlineReviewsActionHelper().init(true);
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }    
@@ -624,19 +623,26 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
     public ActionForward moveUpOnlineReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
-        String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber((String)request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE),"moveUpOnlineReviewComment");
-        int onlineReviewCommentIndex = getOnlineReviewActionIndexNumber((String)request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE),"moveUpOnlineReviewComment");
-        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
-        ReviewerCommentsService reviewerCommentsService = KraServiceLocator.getService(ReviewerCommentsService.class);
-        ProtocolForm protocolForm = (ProtocolForm)form;
-        ProtocolOnlineReviewDocument prDoc = protocolForm.getOnlineReviewsActionHelper().getDocumentFromHelperMap(onlineReviewDocumentNumber);
-        ReviewerComments comments = protocolForm.getOnlineReviewsActionHelper().getReviewerCommentsFromHelperMap(onlineReviewDocumentNumber);
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        OnlineReviewsActionHelper actionHelper = protocolForm.getOnlineReviewsActionHelper();
+        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String documentNumber = getOnlineReviewActionDocumentNumber(parameterName, "moveUpOnlineReviewComment");
         
-        if (this.applyRules(new SaveProtocolOnlineReviewEvent(prDoc,comments.getComments(), protocolForm.getOnlineReviewsActionHelper().getIndexByDocumentNumber(onlineReviewDocumentNumber)))) {
-            comments.moveUp(onlineReviewCommentIndex, onlineReviewCommentIndex);
-            reviewerCommentsService.persistReviewerComments(comments, protocolForm.getProtocolDocument().getProtocol(), prDoc.getProtocolOnlineReview());
-            documentService.saveDocument(prDoc);
-        } 
+        ProtocolOnlineReviewDocument document = actionHelper.getDocumentFromHelperMap(documentNumber);
+        ReviewCommentsBean reviewCommentsBean = actionHelper.getReviewCommentsBeanFromHelperMap(documentNumber);
+        long documentIndex = actionHelper.getIndexByDocumentNumber(documentNumber);
+        int commentIndex = getOnlineReviewActionIndexNumber(parameterName, "moveUpOnlineReviewComment");
+        
+        if (applyRules(new SaveProtocolOnlineReviewEvent(document, reviewCommentsBean.getReviewComments(), documentIndex))) {
+            Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+            List<CommitteeScheduleMinute> reviewComments = reviewCommentsBean.getReviewComments();
+            List<CommitteeScheduleMinute> deletedReviewComments = reviewCommentsBean.getDeletedReviewComments();
+            
+            getReviewCommentsService().moveUpReviewComment(reviewComments, protocol, commentIndex);
+            getReviewCommentsService().saveReviewComments(reviewComments, deletedReviewComments);
+            getDocumentService().saveDocument(document);
+        }
+        
         protocolForm.getOnlineReviewsActionHelper().init(true); 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }    
@@ -653,19 +659,26 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
     public ActionForward moveDownOnlineReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
-        String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber((String)request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE),"moveDownOnlineReviewComment");
-        int onlineReviewCommentIndex = getOnlineReviewActionIndexNumber((String)request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE),"moveDownOnlineReviewComment");
-        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
-        ReviewerCommentsService reviewerCommentsService = KraServiceLocator.getService(ReviewerCommentsService.class);
-        ProtocolForm protocolForm = (ProtocolForm)form;
-      
-        ProtocolOnlineReviewDocument prDoc = protocolForm.getOnlineReviewsActionHelper().getDocumentFromHelperMap(onlineReviewDocumentNumber);
-        ReviewerComments comments = protocolForm.getOnlineReviewsActionHelper().getReviewerCommentsFromHelperMap(onlineReviewDocumentNumber);
-        if (this.applyRules(new SaveProtocolOnlineReviewEvent(prDoc,comments.getComments(), protocolForm.getOnlineReviewsActionHelper().getIndexByDocumentNumber(onlineReviewDocumentNumber)))) {
-            comments.moveDown(onlineReviewCommentIndex, onlineReviewCommentIndex);
-            reviewerCommentsService.persistReviewerComments(comments, protocolForm.getProtocolDocument().getProtocol(), prDoc.getProtocolOnlineReview());
-            documentService.saveDocument(prDoc);
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        OnlineReviewsActionHelper actionHelper = protocolForm.getOnlineReviewsActionHelper();
+        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String documentNumber = getOnlineReviewActionDocumentNumber(parameterName, "moveDownOnlineReviewComment");
+        
+        ProtocolOnlineReviewDocument document = actionHelper.getDocumentFromHelperMap(documentNumber);
+        ReviewCommentsBean reviewCommentsBean = actionHelper.getReviewCommentsBeanFromHelperMap(documentNumber);
+        long documentIndex = actionHelper.getIndexByDocumentNumber(documentNumber);
+        int commentIndex = getOnlineReviewActionIndexNumber(parameterName, "moveDownOnlineReviewComment");
+              
+        if (applyRules(new SaveProtocolOnlineReviewEvent(document, reviewCommentsBean.getReviewComments(), documentIndex))) {
+            Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+            List<CommitteeScheduleMinute> reviewComments = reviewCommentsBean.getReviewComments();
+            List<CommitteeScheduleMinute> deletedReviewComments = reviewCommentsBean.getDeletedReviewComments();
+            
+            getReviewCommentsService().moveDownReviewComment(reviewComments, protocol, commentIndex);
+            getReviewCommentsService().saveReviewComments(reviewComments, deletedReviewComments);
+            getDocumentService().saveDocument(document);
         }
+        
         protocolForm.getOnlineReviewsActionHelper().init(true);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }    
@@ -681,18 +694,24 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
      */
     public ActionForward deleteOnlineReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber((String)request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE),"deleteOnlineReviewComment");
-        int onlineReviewCommentIndex = getOnlineReviewActionIndexNumber((String)request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE),"deleteOnlineReviewComment");
-        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
-        ReviewerCommentsService reviewerCommentsService = KraServiceLocator.getService(ReviewerCommentsService.class);
-        ProtocolForm protocolForm = (ProtocolForm)form;
-        ProtocolOnlineReviewDocument prDoc = (ProtocolOnlineReviewDocument) documentService.getByDocumentHeaderId(onlineReviewDocumentNumber);
-        ReviewerComments comments = protocolForm.getOnlineReviewsActionHelper().getReviewerCommentsFromHelperMap(onlineReviewDocumentNumber);
         
-        if (this.applyRules(new SaveProtocolOnlineReviewEvent(prDoc,comments.getComments(), protocolForm.getOnlineReviewsActionHelper().getIndexByDocumentNumber(onlineReviewDocumentNumber)))) {
-            comments.deleteComment(onlineReviewCommentIndex);
-            reviewerCommentsService.persistReviewerComments(comments, protocolForm.getProtocolDocument().getProtocol(), prDoc.getProtocolOnlineReview());
-            documentService.saveDocument(prDoc);
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        OnlineReviewsActionHelper actionHelper = protocolForm.getOnlineReviewsActionHelper();
+        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String documentNumber = getOnlineReviewActionDocumentNumber(parameterName, "deleteOnlineReviewComment");
+        
+        ProtocolOnlineReviewDocument document = actionHelper.getDocumentFromHelperMap(documentNumber);
+        ReviewCommentsBean reviewCommentsBean = actionHelper.getReviewCommentsBeanFromHelperMap(documentNumber);
+        long documentIndex = actionHelper.getIndexByDocumentNumber(documentNumber);
+        int commentIndex = getOnlineReviewActionIndexNumber(parameterName, "deleteOnlineReviewComment");
+                
+        if (applyRules(new SaveProtocolOnlineReviewEvent(document, reviewCommentsBean.getReviewComments(), documentIndex))) {
+            List<CommitteeScheduleMinute> reviewComments = reviewCommentsBean.getReviewComments();
+            List<CommitteeScheduleMinute> deletedReviewComments = reviewCommentsBean.getDeletedReviewComments();
+            
+            getReviewCommentsService().deleteReviewComment(reviewComments, commentIndex, deletedReviewComments);
+            getReviewCommentsService().saveReviewComments(reviewComments, deletedReviewComments);
+            getDocumentService().saveDocument(document);
         }
         
         protocolForm.getOnlineReviewsActionHelper().init(true);
@@ -714,8 +733,8 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         return KraServiceLocator.getService(TaskAuthorizationService.class);
     }
     
-    private ReviewerCommentsService getReviewerCommentsService() {
-        return KraServiceLocator.getService(ReviewerCommentsService.class);
+    private ReviewCommentsService getReviewCommentsService() {
+        return KraServiceLocator.getService(ReviewCommentsService.class);
     }
     
     private KraAuthorizationService getKraAuthorizationService() {

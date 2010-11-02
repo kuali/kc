@@ -101,11 +101,10 @@
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolExpediteApprovalBean.reviewComments}"
-                                                       property="actionHelper.protocolExpediteApprovalBean.reviewComments"
+                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolExpediteApprovalBean.reviewCommentsBean}"
+                                                       property="actionHelper.protocolExpediteApprovalBean.reviewCommentsBean"
                                                        action="${action}"
-                                                       actionName="ExpediteApproval"
-                                                       allowReadOnly="${not KualiForm.actionHelper.canManageReviewComments}" />
+                                                       actionName="ExpediteApproval" />
                    </td>
                 </tr>
                 

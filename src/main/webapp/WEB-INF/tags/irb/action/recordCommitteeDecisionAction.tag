@@ -208,11 +208,10 @@
                 
                 <tr>
                     <td colspan="12">
-                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.committeeDecision.reviewComments}"
-                                                       property="actionHelper.committeeDecision.reviewComments"
+                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.committeeDecision.reviewCommentsBean}"
+                                                       property="actionHelper.committeeDecision.reviewCommentsBean"
                                                        action="${action}"
-                                                       actionName="CommitteeDecision"
-                                                       allowReadOnly="${not KualiForm.actionHelper.canManageReviewComments}" />
+                                                       actionName="CommitteeDecision" />
                    </td>
                 </tr>
                 

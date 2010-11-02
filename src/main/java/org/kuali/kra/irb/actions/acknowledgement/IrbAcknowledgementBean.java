@@ -19,23 +19,27 @@ import java.io.Serializable;
 import java.sql.Date;
 
 import org.kuali.kra.irb.actions.ActionHelper;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsBean;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
 
 /**
  * This class is the form data of IRB acknowledgement sub-panel.
  */
-public class IrbAcknowledgementBean extends ReviewerCommentsBean implements Serializable {
+public class IrbAcknowledgementBean implements Serializable {
 
-    private static final long serialVersionUID = 793214946729519060L;
+    private static final long serialVersionUID = 9084925682470626330L;
+    
     private String comments = "";
     private Date actionDate = new Date(System.currentTimeMillis());
     
+    private ReviewCommentsBean reviewCommentsBean;
+    
     /**
      * Constructs a IrbAcknowledgementBean.
-     * @param actionHelper Reference back to the parent ActionHelper
+     * @param actionHelper a reference back to the parent helper
      */
     public IrbAcknowledgementBean(ActionHelper actionHelper) {
-        super(actionHelper);
+        reviewCommentsBean = new ReviewCommentsBean();
+        reviewCommentsBean.setProtocol(actionHelper.getProtocol());
     }
 
     public String getComments() {
@@ -53,4 +57,13 @@ public class IrbAcknowledgementBean extends ReviewerCommentsBean implements Seri
     public void setActionDate(Date actionDate) {
         this.actionDate = actionDate;
     }
+
+    public ReviewCommentsBean getReviewCommentsBean() {
+        return reviewCommentsBean;
+    }
+
+    public void setReviewCommentsBean(ReviewCommentsBean reviewCommentsBean) {
+        this.reviewCommentsBean = reviewCommentsBean;
+    }
+    
 }

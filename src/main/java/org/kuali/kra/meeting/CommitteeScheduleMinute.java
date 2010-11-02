@@ -85,10 +85,20 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase im
     @SkipVersioning
     private transient String updateUserFullName;
 
+    /**
+     * Constructs a CommitteeScheduleMinute.
+     */
+    public CommitteeScheduleMinute() {
+        
+    }
     
-    public CommitteeScheduleMinute() { 
-
-    } 
+    /**
+     * Constructs a CommitteeScheduleMinute with a default minute entry.
+     * @param minuteEntryTypeCode the type code for the default minute entry
+     */
+    public CommitteeScheduleMinute(String minuteEntryTypeCode) {
+        this.minuteEntryTypeCode = minuteEntryTypeCode;
+    }
     
     public Long getScheduleIdFk() {
         return scheduleIdFk;

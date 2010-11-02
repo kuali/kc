@@ -27,7 +27,7 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
@@ -82,7 +82,7 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
             submission.setRecusedCount(committeeDecision.getRecusedCount());
             submission.setVotingComments(committeeDecision.getVotingComments());
             
-            addReviewerComments(submission, committeeDecision.getReviewComments());
+            addReviewComments(submission, committeeDecision.getReviewCommentsBean());
 
             ProtocolAction protocolAction = new ProtocolAction(protocol, submission, ProtocolActionType.RECORD_COMMITTEE_DECISION);
             protocolAction.setComments(committeeDecision.getVotingComments());
@@ -200,9 +200,9 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
         return protocolSubmission;
     }
     
-    protected void addReviewerComments(ProtocolSubmission submission, ReviewerComments reviewComments) {
+    protected void addReviewComments(ProtocolSubmission submission, ReviewCommentsBean reviewCommentsBean) {
         int nextEntryNumber = 0;
-        for (CommitteeScheduleMinute minute : reviewComments.getComments()) {
+        for (CommitteeScheduleMinute minute : reviewCommentsBean.getReviewComments()) {
             minute.setEntryNumber(nextEntryNumber);
             // comments are retrieved based on schedule, so should not change other protocol's review comments
             if (StringUtils.isBlank(minute.getMinuteEntryTypeCode())) {

@@ -17,60 +17,52 @@ package org.kuali.kra.irb.actions.responseapproval;
 
 import java.sql.Date;
 
-import org.apache.commons.lang.time.DateUtils;
-import org.junit.After;
-import org.junit.Before;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.approve.ProtocolApproveBean;
-import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.kra.rules.TemplateRuleTest;
+import org.kuali.rice.kns.util.DateUtils;
 
 /**
  * Test the business rules for Assigning a protocol to a committee.
  */
 public class ProtocolResponseApprovalRuleTest extends ProtocolRuleTestBase {
     
-    private static final Date APPROVAL_DATE = new Date(DateUtils.addDays(new Date(System.currentTimeMillis()), -1).getTime());
-    private static final Date EXPIRATION_DATE = new Date(DateUtils.addYears(APPROVAL_DATE, 1).getTime());
     private static final Date ACTION_DATE = new Date(System.currentTimeMillis());
+    private static final Date APPROVAL_DATE = DateUtils.convertToSqlDate(DateUtils.addWeeks(ACTION_DATE, -1));
+    private static final Date EXPIRATION_DATE = DateUtils.convertToSqlDate(DateUtils.addYears(ACTION_DATE, 1));
     
     private static final String APPROVAL_DATE_FIELD = Constants.PROTOCOL_RESPONSE_APPROVE_ACTION_PROPERTY_KEY + ".approvalDate";
     private static final String EXPIRATION_DATE_FIELD = Constants.PROTOCOL_RESPONSE_APPROVE_ACTION_PROPERTY_KEY + ".expirationDate";
     private static final String ACTION_DATE_FIELD = Constants.PROTOCOL_RESPONSE_APPROVE_ACTION_PROPERTY_KEY + ".actionDate";
     
-    private ProtocolResponseApprovalRule rule;
-    
-    @Before
-    public void setUp() throws Exception {
-        super.setUp();
-        rule = new ProtocolResponseApprovalRule();
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        rule = null;
-        super.tearDown();
-    }
+    private Mockery context = new JUnit4Mockery() {{
+        setImposteriser(ClassImposteriser.INSTANCE);
+    }};
 
     /**
      * Tests a valid Response Approval.
      * @throws Exception
      */
     @Test
-    public void testOk() throws Exception {
-        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
-        
-        ProtocolApproveBean actionBean = new ProtocolApproveBean(null);
-        actionBean.setApprovalDate(APPROVAL_DATE);
-        actionBean.setExpirationDate(EXPIRATION_DATE);
-        actionBean.setActionDate(ACTION_DATE);
-        
-        assertTrue(rule.processRules(new ProtocolResponseApprovalEvent<ProtocolResponseApprovalRule>(protocolDocument, actionBean)));
-        assertTrue(GlobalVariables.getMessageMap().hasNoErrors());
+    public void testOk() {
+        new TemplateRuleTest<ProtocolResponseApprovalEvent<ProtocolResponseApprovalRule>, ProtocolResponseApprovalRule>() {
+
+            @Override
+            protected void prerequisite() {
+                ProtocolApproveBean bean = getMockApproveBean(APPROVAL_DATE, EXPIRATION_DATE, ACTION_DATE);
+                event = new ProtocolResponseApprovalEvent<ProtocolResponseApprovalRule>(null, bean);
+                rule = new ProtocolResponseApprovalRule();
+                expectedReturnValue = true;
+            }
+            
+        };
     }
 
     /**
@@ -78,16 +70,23 @@ public class ProtocolResponseApprovalRuleTest extends ProtocolRuleTestBase {
      * @throws Exception
      */
     @Test
-    public void testNoApprovalDate() throws Exception {
-        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
-        
-        ProtocolApproveBean actionBean = new ProtocolApproveBean(null);
-        actionBean.setApprovalDate(null);
-        actionBean.setExpirationDate(EXPIRATION_DATE);
-        actionBean.setActionDate(ACTION_DATE);
-        
-        assertFalse(rule.processRules(new ProtocolResponseApprovalEvent<ProtocolResponseApprovalRule>(protocolDocument, actionBean)));
-        assertError(APPROVAL_DATE_FIELD, KeyConstants.ERROR_PROTOCOL_APPROVAL_DATE_REQUIRED);
+    public void testNoApprovalDate() {
+        new TemplateRuleTest<ProtocolResponseApprovalEvent<ProtocolResponseApprovalRule>, ProtocolResponseApprovalRule>() {
+
+            @Override
+            protected void prerequisite() {
+                ProtocolApproveBean bean = getMockApproveBean(null, EXPIRATION_DATE, ACTION_DATE);
+                event = new ProtocolResponseApprovalEvent<ProtocolResponseApprovalRule>(null, bean);
+                rule = new ProtocolResponseApprovalRule();
+                expectedReturnValue = false;
+            }
+            
+            @Override
+            public void checkRuleAssertions() {
+                assertError(APPROVAL_DATE_FIELD, KeyConstants.ERROR_PROTOCOL_APPROVAL_DATE_REQUIRED);
+            }
+            
+        };
     }
     
     /**
@@ -96,15 +95,22 @@ public class ProtocolResponseApprovalRuleTest extends ProtocolRuleTestBase {
      */
     @Test
     public void testNoExpirationDate() throws Exception {
-        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
-        
-        ProtocolApproveBean actionBean = new ProtocolApproveBean(null);
-        actionBean.setApprovalDate(APPROVAL_DATE);
-        actionBean.setExpirationDate(null);
-        actionBean.setActionDate(ACTION_DATE);
-        
-        assertFalse(rule.processRules(new ProtocolResponseApprovalEvent<ProtocolResponseApprovalRule>(protocolDocument, actionBean)));
-        assertError(EXPIRATION_DATE_FIELD, KeyConstants.ERROR_PROTOCOL_APPROVAL_EXPIRATION_DATE_REQUIRED);
+        new TemplateRuleTest<ProtocolResponseApprovalEvent<ProtocolResponseApprovalRule>, ProtocolResponseApprovalRule>() {
+
+            @Override
+            protected void prerequisite() {
+                ProtocolApproveBean bean = getMockApproveBean(APPROVAL_DATE, null, ACTION_DATE);
+                event = new ProtocolResponseApprovalEvent<ProtocolResponseApprovalRule>(null, bean);
+                rule = new ProtocolResponseApprovalRule();
+                expectedReturnValue = false;
+            }
+            
+            @Override
+            public void checkRuleAssertions() {
+                assertError(EXPIRATION_DATE_FIELD, KeyConstants.ERROR_PROTOCOL_APPROVAL_EXPIRATION_DATE_REQUIRED);
+            }
+            
+        };
     }
     
     /**
@@ -112,15 +118,40 @@ public class ProtocolResponseApprovalRuleTest extends ProtocolRuleTestBase {
      * @throws Exception
      */
     @Test
-    public void testNoActionDate() throws Exception {
-        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
-        
-        ProtocolApproveBean actionBean = new ProtocolApproveBean(null);
-        actionBean.setApprovalDate(APPROVAL_DATE);
-        actionBean.setExpirationDate(EXPIRATION_DATE);
-        actionBean.setActionDate(null);
-        
-        assertFalse(rule.processRules(new ProtocolResponseApprovalEvent<ProtocolResponseApprovalRule>(protocolDocument, actionBean)));
-        assertError(ACTION_DATE_FIELD, KeyConstants.ERROR_PROTOCOL_APPROVAL_ACTION_DATE_REQUIRED);
+    public void testNoActionDate() {
+        new TemplateRuleTest<ProtocolResponseApprovalEvent<ProtocolResponseApprovalRule>, ProtocolResponseApprovalRule>() {
+
+            @Override
+            protected void prerequisite() {
+                ProtocolApproveBean bean = getMockApproveBean(APPROVAL_DATE, EXPIRATION_DATE, null);
+                event = new ProtocolResponseApprovalEvent<ProtocolResponseApprovalRule>(null, bean);
+                rule = new ProtocolResponseApprovalRule();
+                expectedReturnValue = false;
+            }
+            
+            @Override
+            public void checkRuleAssertions() {
+                assertError(ACTION_DATE_FIELD, KeyConstants.ERROR_PROTOCOL_APPROVAL_ACTION_DATE_REQUIRED);
+            }
+            
+        };
     }
+    
+    private ProtocolApproveBean getMockApproveBean(final Date approvalDate, final Date expirationDate, final Date actionDate) {
+        final ProtocolApproveBean bean = context.mock(ProtocolApproveBean.class);
+        
+        context.checking(new Expectations() {{
+            allowing(bean).getApprovalDate();
+            will(returnValue(approvalDate));
+            
+            allowing(bean).getExpirationDate();
+            will(returnValue(expirationDate));
+            
+            allowing(bean).getActionDate();
+            will(returnValue(actionDate));
+        }});
+        
+        return bean;
+    }
+    
 }
