@@ -1,87 +1,175 @@
-rem @echo off
-mkdir LOGS
-if "%1" == "" goto USAGE
-if "%1" == "mysql" goto MYSQL
-if "%1" == "oracle" goto ORACLE
-:ORACLE
-if "%2" == "" goto USAGE
-if "%3" == "" goto USAGE
-if "%4" == "" goto USAGE
-if "%5" == "" goto USAGE
-if "%2" == "new" goto newora
-if "%2" == "newemb" goto USAGE
-if "%2" == "1.0" goto USAGE
-if "%2" == "1.1" goto USAGE
-if "%2" == "1.1.1" goto USAGE
+@echo off
+if NOT EXIST "LOGS" mkdir LOGS
+:mode
+set /p mode="Enter Rice Mode (BUNDLE, EMBED) <%mode%>: "
+if /i "%mode%" == "BUNDLE" goto DBType
+if /i "%mode%" == "EMBED" goto DBType
+echo invalid Rice Mode entered <%mode%>
+goto mode
+
+:DBType
+set /p dbtype="Enter Database Type (ORACLE,MYSQL) <%dbtype%>: "
+if /i "%dbtype%" == "ORACLE" goto Version
+if /i "%dbtype%" == "MYSQL" goto Version
+echo Invalid Database Type <%dbtype%>
+goto dbtype
+
+:Version
+set /p Version="Enter Version (NEW, 2.0) <%Version%>: "
+if /i "%Version%" == "NEW" goto User
+if /i "%Version%" == "2.0" goto User
+echo Invalid Version <%Version%>
+goto Version
+
+:User
+set /p un="Enter DB Username <%un%>: "
+if "%un%" == "" (
+echo ------------------------
+echo Username must be entered
+echo ------------------------
+goto User
+)
+
+:Password
+set /p pw="Enter DB Password <%pw%>: "
+if "%pw%" == "" (
+echo ------------------------
+echo Password must be entered
+echo ------------------------
+goto Password
+)
+
+if /i "%dbtype%" == "MYSQL" goto RICE
+:DBSvrNm
+set /p DBSvrNm="Enter Database TNS Name <%DBSvrNm%>:"
+if "%DBSvrNm%" == "" (   
+echo ---------------------------------
+echo Database TNS Name must be entered
+echo ---------------------------------
+goto DBSvrNm
+)
+
+:RICE
+if /i "%mode%" == "BUNDLE" goto INSTALL
+:RiceUser
+set /p Riceun="Enter Rice DB Username <%Riceun%>: "
+if "%Riceun%" == "" (
+echo -----------------------------
+echo Rice Username must be entered
+echo -----------------------------
+goto RiceUser
+)
+
+:RicePassword
+set /p Ricepw="Enter Rice DB Password <%Ricepw%>: "
+if "%Ricepw%" == "" (
+echo -----------------------------
+echo Rice Password must be entered
+echo -----------------------------
+goto Password
+)
+
+if /i "%dbtype%" == "MYSQL" goto RICE
+:RiceDBSvrNm
+set /p RiceDBSvrNm="Enter Rice Database TNS Name <%RiceDBSvrNm%>:"
+if "%RiceDBSvrNm%" == "" (   
+echo --------------------------------------
+echo Rice Database TNS Name must be entered
+echo --------------------------------------
+goto RiceDBSvrNm
+)
+
+:Install
+goto %version%%dbtype%
 goto usage
-:newora
+
+:NEWORACLE
 cd KC-RELEASE-2_0-SCRIPT
-sqlplus "%3"/"%4"@"%5" < KC-Release-2_0-Bundled-Oracle-Install.sql
+if /i "%mode%" == "BUNDLE" (
+sqlplus "%4"/"%5"@"%6" < KC-Release-2_0-Base-Bundled-Oracle-Install.sql
+sqlplus "%4"/"%5"@"%6" < KR-Release-1_0_2-Bundled.sql
+if /i "%mode%" == "EMBED" (
+sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-Release-2_0-Embedded-Oracle-Install.sql
+sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KR-Release-1_0_2-EmbeddedClient-Oracle-Install.sql
+sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-Release-1_0_2-EmbeddedServer-Oracle-Install.sql
+)
+echo move *.log ../LOGS
+cd ..
+
+:2.0ORACLE
+cd KC-RELEASE-3_0-SCRIPT
+if /i "%mode%" == "BUNDLE" (
+echo sqlplus "%un%"/"%pw%"@"%DBSvrNm%" * KC-Release-2_0-3_0.sql
+
+echo *********sqlplus "%un%"/"%pw%"@"%DBSvrNm%" * rice-102-103.sql**********************
+
+echo sqlplus "%un%"/"%pw%"@"%DBSvrNm%" * KR-Release-2_0-3_0.sql
+)
+if /i "%mode%" == "EMBED" (
+echo sqlplus "%un%"/"%pw%"@"%DBSvrNm%" * KC-Release-2_0-3_0.sql
+
+echo *********sqlplus "%un%"/"%pw%"@"%DBSvrNm%" * rice-102-103Client.sql**********************
+echo *********sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" * rice-102-103server.sql**********************
+
+echo sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" * KR-Release-2_0-3_0.sql
+)
+echo move *.log ../LOGS
+cd ..
+goto FINISH
+
+:NEWMYSQL
+cd KC-RELEASE-2_0-SCRIPT
+if /i "%mode%" == "BUNDLE" echo mysql -u %un% -p%pw% -D %un% -s * KC-Release-2_0-Bundled-MySql-Install.sql > KC-Release-2_0-Bundled-MySql-Install.log
+if /i "%mode%" == "EMBED" (
+echo mysql -u %un% -p%pw% -D %un% -s * KC-Release-2_0-Embedded-MySql-Install.sql
+echo mysql -u %un% -p%pw% -D %un% -s * KR-Release-1_0_2-EmbeddedClient-MySql-Install.sql
+echo mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s * KR-Release-1_0_2-EmbeddedServer-MySql-Install.sql
+)
 move *.log ../LOGS
-cd ../LOGS
+cd ..
+
+:2.0MYSQL
+cd KC-RELEASE-3_0-SCRIPT
+if /i "%mode%" == "BUNDLE" (
+echo mysql -u %un% -p%pw% -D %un% -s * KC-Release-2_0-3_0-MySql.sql
+
+echo *********mysql -u %un% -p%pw% -D %un% -s * rice-102-103-MySql.sql**********************
+
+echo mysql -u %un% -p%pw% -D %un% -s * KR-Release-2_0-3_0-MySql.sql
+)
+if /i "%mode%" == "EMBED" (
+echo mysql -u %un% -p%pw% -D %un% -s * KC-Release-2_0-3_0-MySql.sql
+
+echo *********mysql -u %un% -p%pw% -D %un% -s * rice-102-103Client-MySql.sql**********************
+echo *********mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s * rice-102-103server-MySql.sql**********************
+
+echo mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s * KR-Release-2_0-3_0-MySql.sql
+)
+move *.log ../LOGS
+cd ..
+goto FINISH
+
+:FINISH
+cd LOGS
 Echo Review log files for errors during database install.
 dir *.log
 goto end
-:MYSQL
-if "%2" == "" goto USAGE
-if "%3" == "" goto USAGE
-if "%4" == "" goto USAGE
-if "%2" == "new" goto newmysql
-goto usage
-:newmysql
-cd KC-RELEASE-2_0-SCRIPT
-mysql -u %3 -p%4 -D %3 -s < KC-Release-2_0-Bundled-Install.sql > KC-Release-2_0-Bundled-MySql-Install.log
-move *.log ../LOGS
-cd ../LOGS
-Echo Review log files for errors during database install.
-dir *.log
-goto end
-REM :newemb
-REM if "%5" == "" goto USAGE
-REM if "%6" == "" goto USAGE
-REM if "%7" == "" goto USAGE
-REM cd KC-RELEASE-2_0-SCRIPT
-REM sqlplus %5/%6@%7 @KR-Release-1_0_2-EmbeddedServer.sql
-REM sqlplus %2/%3@%4 @KR-Release-1_0_2-EmbeddedClient.sql
-REM sqlplus %2/%3@%4 @KC-Release-2_0-Full-Install.sql
-REM move *.log ../LOGS
-REM cd ../LOGS
-REM Echo Review log files for errors during database install.
-REM dir *.log
-REM goto end
-REM 
-REM :v10
-REM cd KRA-RELEASE-1_1-SCRIPT
-REM sqlplus %2/%3@%4 @KRA-Release1_1.sql
-REM move *.log ../LOGS
-REM cd ..
-REM 
-REM :v11
-REM cd KC-RELEASE-1_1_1-PATCH-SCRIPT
-REM sqlplus %2/%3@%4 @KCRA-Release-1_1-1_1_1-Patch.sql
-REM move *.log ../LOGS
-REM cd ..
-REM :v111
-REM cd KC-RELEASE-2_0-SCRIPT
-REM sqlplus %2/%3@%4 @KC-Release-1_1_1-2_0-Patch.sql
-REM move *.log ../LOGS
-REM cd ../LOGS
-REM Echo Review log files for errors during database install.
-REM dir *.log
-REM goto end
+
 :usage
 Echo USAGE:
-Echo KC_Install.bat DB_Server new username password DB_server_name
-REM Echo    - Install_Version = Choose one: new, 1.0, 1.1, 1.1.1
-Echo    - DB_Server = Choose one: oracle, mysql
-Echo    - new = New install with an empty database schema with bundled rice
-REM Echo       - newemb = New install with an empty database schema with embedded rice
-REM Echo       - 1.0 = upgrading from 1.0 KC version
-REM Echo       - 1.1 = upgrading from 1.1 KC version
-Echo    - username = The kc Database schema name to install database scripts to (bundled rice goes here too).
-Echo    - password = the password for username
-Echo    - DB_server_name = the name used to locate the database server where kc schema is located (Oracle only)
-REM Echo    - riceusername = The rice Database schema name to install embedded rice database scripts to.
-REM Echo    - ricepassword = the password for riceusername
-REM Echo    - riceDB_server_name = the name used to locate the database server where rice schema is located
+Echo KC_Install.bat
+Echo You will be prompted for the following:
+Echo    - Mode = Choose one: bundle, embed
+Echo       - bundle = Rice installed with KC client tables
+Echo       - embed = Rice installed in a separate schema 
+Echo    - DB_Type = Choose one: oracle, mysql
+Echo    - Ver = Choose one: new, 2.0
+Echo       - new = New install with an empty database schema
+Echo       - 2.0 = upgrading from 2.0 KC version
+Echo    - un = The kc Database schema name to install database scripts to (bundled rice goes here too).
+Echo    - pw = the password for username
+Echo    - DB_svr_name = the TNS name used to locate the database server where kc schema is located (Oracle Only)
+Echo    - riceun = The rice Database schema name to install embedded rice database scripts to.
+Echo    - ricepw = the password for riceusername
+Echo    - riceDB_svr_name = the TNS name used to locate the database server where rice schema is located (Oracle Only)
 :end
