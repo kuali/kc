@@ -29,9 +29,9 @@ Make sure oracle user has following privileges
 	
 Note: a users DEFAULT TABLESPACE is set with the CREATE USER statement or ALTER USER statement. The TABLESPACE should not be the SYSTEM tablespace.
 
-Run: KC_Install.bat oracle new username password DB_Server_Name
+Run: KC_Install.bat
 
-NOTE: This will COMPLETELY clear data from any existing KC tables in this schema!
+NOTE: A New install will COMPLETELY clear data from any existing KC tables in this schema!
 
 
 Installation Steps - MySQL
@@ -65,19 +65,26 @@ Make sure MySQL user has following privileges on the schema
 
 Edit KC-Release-2_0-Bundled-MySql-Install.sql change kcprd to username
 
-Run: KC_Install.bat mysql new username password
+Run: KC_Install.bat
 
-NOTE: This will COMPLETELY clear data from any existing KC tables in this schema!
+NOTE: A New install will COMPLETELY clear data from any existing KC tables in this schema!
 
 KC_Install.bat Usage
 --------------------------
 
-KC_Install.bat DB_Server new username password DB_server_name
+KC_Install.bat
+
+You will be prompted for the following:
+   - Rice Mode = Choose one: Bundle, Embed
    - DB_Server = Choose one: oracle, mysql
-   - new = New install with an empty database schema with bundled rice
+   - Version = Choose one: New, 2.0
    - username = The kc Database schema name to install database scripts to (bundled rice goes here too).
    - password = the password for username
-   - DB_server_name = the name used to locate the database server where kc schema is located (Oracle Only)
+   - DB_server_name = the tns name used to connect to kc database (Oracle only).
+   If embedded mode selected the following will be asked
+   - Rice Username = the rice database schema name to install rice scripts to (embedded rice).
+   - rice Password = password for rice username
+   - Rice DB Server name = the tns name used to connect to rice database (Oracle Only).
 
 Review .log files for installation errors
 
