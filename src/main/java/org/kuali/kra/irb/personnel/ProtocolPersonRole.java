@@ -36,9 +36,9 @@ public class ProtocolPersonRole extends KraPersistableBusinessObjectBase impleme
     private boolean affiliationDetailsRequired;
     private boolean trainingDetailsRequired;
     private boolean commentsDetailsRequired;
+    private boolean active;
 	
 	public ProtocolPersonRole() { 
-
 	} 
 	
 	public String getProtocolPersonRoleId() {
@@ -99,6 +99,14 @@ public class ProtocolPersonRole extends KraPersistableBusinessObjectBase impleme
 
     public void setCommentsDetailsRequired(boolean commentsDetailsRequired) {
         this.commentsDetailsRequired = commentsDetailsRequired;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public int compareTo(ProtocolPersonRole other) {

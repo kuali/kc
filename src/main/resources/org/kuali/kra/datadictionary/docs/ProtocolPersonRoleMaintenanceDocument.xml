@@ -50,6 +50,7 @@
                 <bean parent="MaintainableFieldDefinition" p:name="trainingDetailsRequired" p:required="true"/>
                 <bean parent="MaintainableFieldDefinition" p:name="commentsDetailsRequired" p:required="true"/>
                 <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
+                <bean parent="MaintainableFieldDefinition" p:name="active"/>
             </list>
         </property>
     </bean>
