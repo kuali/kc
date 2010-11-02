@@ -103,11 +103,10 @@
 	            
 	            <tr>
                     <td colspan="2">
-                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.assignToAgendaBean.reviewComments}"
-                                                       property="actionHelper.assignToAgendaBean.reviewComments"
+                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.assignToAgendaBean.reviewCommentsBean}"
+                                                       property="actionHelper.assignToAgendaBean.reviewCommentsBean"
                                                        action="${action}"
-                                                       actionName="AssignToAgenda" 
-                                                       allowReadOnly="${not KualiForm.actionHelper.canManageReviewComments}"/>
+                                                       actionName="AssignToAgenda" />
                    </td>
                 </tr>
 	            

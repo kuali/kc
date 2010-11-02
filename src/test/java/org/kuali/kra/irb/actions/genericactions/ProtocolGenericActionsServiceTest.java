@@ -19,246 +19,289 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.ProtocolVersionService;
 import org.kuali.kra.irb.actions.ProtocolAction;
+import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
+import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
+import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.bo.AdHocRouteRecipient;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
-    
-    private BusinessObjectService businessObjectService;
-    private ProtocolSubmitActionService submitActionService;
-    private DocumentService documentService;
-    private ProtocolGenericActionService genericActionService;
-    
+
     private static final String BASIC_COMMENT = "some dummy comments here";
     private static final Date BASIC_ACTION_DATE = new Date(System.currentTimeMillis());
     
-    private static final String COMMITTEE_ID = "1285093659990";
-    private static final String SCHEDULE_ID = "10014";
+    private ProtocolGenericActionServiceImpl service;
+    
+    private Mockery context = new JUnit4Mockery() {{
+        setImposteriser(ClassImposteriser.INSTANCE);
+    }};
 
     @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        GlobalVariables.setUserSession(new UserSession("quickstart"));
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        submitActionService = KraServiceLocator.getService(ProtocolSubmitActionService.class);
-        documentService = KraServiceLocator.getService(DocumentService.class);
-        genericActionService = KraServiceLocator.getService(ProtocolGenericActionService.class);
+        
+        service = new ProtocolGenericActionServiceImpl();
+        service.setProtocolActionService(KraServiceLocator.getService(ProtocolActionService.class));
+        service.setDocumentService(KraServiceLocator.getService(DocumentService.class));
+        service.setProtocolActionCorrespondenceGenerationService(getMockActionCorrespondenceGenerationService());
+        service.setProtocolOnlineReviewService(getMockOnlineReviewService());
+        service.setProtocolVersionService(KraServiceLocator.getService(ProtocolVersionService.class));
     }
 
     @Override
     @After
     public void tearDown() throws Exception {
-        businessObjectService = null;
-        genericActionService = null;
-        GlobalVariables.setUserSession(null);
+        service = null;
+        
         super.tearDown();
     }
 
     @Test
     public void testClose() throws Exception {
-        Protocol prot = getNewProtocol();
-        ProtocolGenericActionBean actionBean = buildProtocolGenericActionBean();
-        businessObjectService.save(prot);
-        genericActionService.close(prot, actionBean);
+        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        
+        ProtocolGenericActionBean actionBean = getMockGenericActionBean();
+        service.close(protocolDocument.getProtocol(), actionBean);
+        
         String expected = ProtocolStatus.CLOSED_ADMINISTRATIVELY;
-        assertEquals(expected, prot.getProtocolStatus().getProtocolStatusCode());
+        assertEquals(expected, protocolDocument.getProtocol().getProtocolStatus().getProtocolStatusCode());
     }
 
     @Test
     public void testCloseEnrollment() throws Exception {
-        Protocol prot = getNewProtocol();
-        ProtocolGenericActionBean actionBean = buildProtocolGenericActionBean();
-        businessObjectService.save(prot);
-        genericActionService.closeEnrollment(prot, actionBean);
+        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        
+        ProtocolGenericActionBean actionBean = getMockGenericActionBean();
+        service.closeEnrollment(protocolDocument.getProtocol(), actionBean);
+        
         String expected = ProtocolStatus.ACTIVE_CLOSED_TO_ENROLLMENT;
-        assertEquals(expected, prot.getProtocolStatus().getProtocolStatusCode());
+        assertEquals(expected, protocolDocument.getProtocol().getProtocolStatus().getProtocolStatusCode());
     }
 
     @Test
     public void testExpire() throws Exception {
-        Protocol prot = getNewProtocol();
-        ProtocolGenericActionBean actionBean = buildProtocolGenericActionBean();
-        businessObjectService.save(prot);
-        genericActionService.expire(prot, actionBean);
+        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        
+        ProtocolGenericActionBean actionBean = getMockGenericActionBean();
+        service.expire(protocolDocument.getProtocol(), actionBean);
+        
         String expected = ProtocolStatus.EXPIRED;
-        assertEquals(expected, prot.getProtocolStatus().getProtocolStatusCode());
+        assertEquals(expected, protocolDocument.getProtocol().getProtocolStatus().getProtocolStatusCode());
     }
 
     @Test
     public void testPermitDataAnalysis() throws Exception {
-        Protocol prot = getNewProtocol();
-        ProtocolGenericActionBean actionBean = buildProtocolGenericActionBean();
-        businessObjectService.save(prot);
-        genericActionService.permitDataAnalysis(prot, actionBean);
+        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        
+        ProtocolGenericActionBean actionBean = getMockGenericActionBean();
+        service.permitDataAnalysis(protocolDocument.getProtocol(), actionBean);
+        
         String expected = ProtocolStatus.ACTIVE_DATA_ANALYSIS_ONLY;
-        assertEquals(expected, prot.getProtocolStatus().getProtocolStatusCode());
+        assertEquals(expected, protocolDocument.getProtocol().getProtocolStatus().getProtocolStatusCode());
     }
 
     @Test
     public void testReopen() throws Exception {
-        Protocol prot = getNewProtocol();
-        ProtocolGenericActionBean actionBean = buildProtocolGenericActionBean();
-        businessObjectService.save(prot);
-        genericActionService.reopen(prot, actionBean);
+        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        
+        ProtocolGenericActionBean actionBean = getMockGenericActionBean();
+        service.reopen(protocolDocument.getProtocol(), actionBean);
+        
         String expected = ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT;
-        assertEquals(expected, prot.getProtocolStatus().getProtocolStatusCode());
+        assertEquals(expected, protocolDocument.getProtocol().getProtocolStatus().getProtocolStatusCode());
     }
-
-    /**@Test
-    public void testSuspendByIRB() throws Exception {
-        GlobalVariables.setUserSession(new UserSession("testIrbAdmin")); //is an IRB
-        Protocol prot = getNewProtocol();
-        ProtocolGenericActionBean actionBean = buildProtocolGenericActionBean();
-        businessObjectService.save(prot);
-        genericActionService.suspend(prot, actionBean);
-        String expected = ProtocolStatus.SUSPENDED_BY_IRB;
-        assertEquals(expected, prot.getProtocolStatus().getProtocolStatusCode());
-        GlobalVariables.setUserSession(new UserSession("quickstart")); //reset testing user for further testing
-    }*/
     
     @Test
     public void testSuspendByPI() throws Exception {
-        Protocol prot = getNewProtocol();
+        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         ProtocolActionType prevType = new ProtocolActionType();
         prevType.setProtocolActionTypeCode(ProtocolActionType.REQUEST_FOR_SUSPENSION);
         ProtocolAction pa = new ProtocolAction();
         pa.setProtocolActionType(prevType);
         pa.setProtocolActionTypeCode(prevType.getProtocolActionTypeCode());
-        pa.setProtocolId(prot.getProtocolId());
-        pa.setProtocolNumber(prot.getProtocolNumber());
+        pa.setProtocolId(protocolDocument.getProtocol().getProtocolId());
+        pa.setProtocolNumber(protocolDocument.getProtocol().getProtocolNumber());
         pa.setActionId(123);
         pa.setActualActionDate(new Timestamp(System.currentTimeMillis()));
-        prot.getProtocolActions().add(pa);
+        protocolDocument.getProtocol().getProtocolActions().add(pa);
         
-        ProtocolGenericActionBean actionBean = buildProtocolGenericActionBean();
-        businessObjectService.save(prot);
-        genericActionService.suspend(prot, actionBean);
+        ProtocolGenericActionBean actionBean = getMockGenericActionBean();
+        service.suspend(protocolDocument.getProtocol(), actionBean);
+        
         String expected = ProtocolStatus.SUSPENDED_BY_PI;
-        assertEquals(expected, prot.getProtocolStatus().getProtocolStatusCode());
+        assertEquals(expected, protocolDocument.getProtocol().getProtocolStatus().getProtocolStatusCode());
     }
     
     @Test
     public void testSuspendByIRB() throws Exception {
-        Protocol prot = getNewProtocol();
+        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        
         ProtocolActionType prevType = new ProtocolActionType();
         prevType.setProtocolActionTypeCode(ProtocolActionType.APPROVED);
         ProtocolAction pa = new ProtocolAction();
         pa.setProtocolActionType(prevType);
         pa.setProtocolActionTypeCode(prevType.getProtocolActionTypeCode());
-        pa.setProtocolId(prot.getProtocolId());
-        pa.setProtocolNumber(prot.getProtocolNumber());
+        pa.setProtocolId(protocolDocument.getProtocol().getProtocolId());
+        pa.setProtocolNumber(protocolDocument.getProtocol().getProtocolNumber());
         pa.setActionId(1234);
         pa.setActualActionDate(new Timestamp(System.currentTimeMillis()));
-        prot.getProtocolActions().add(pa);
+        protocolDocument.getProtocol().getProtocolActions().add(pa);
         
-        ProtocolGenericActionBean actionBean = buildProtocolGenericActionBean();
-        businessObjectService.save(prot);
-        genericActionService.suspend(prot, actionBean);
+        ProtocolGenericActionBean actionBean = getMockGenericActionBean();
+        service.suspend(protocolDocument.getProtocol(), actionBean);
+        
         String expected = ProtocolStatus.SUSPENDED_BY_IRB;
-        assertEquals(expected, prot.getProtocolStatus().getProtocolStatusCode());
+        assertEquals(expected, protocolDocument.getProtocol().getProtocolStatus().getProtocolStatusCode());
     }
 
     @Test
     public void testSuspendByDsmb() throws Exception {
-        Protocol prot = getNewProtocol();
-        ProtocolGenericActionBean actionBean = buildProtocolGenericActionBean();
-        businessObjectService.save(prot);
-        genericActionService.suspendByDsmb(prot, actionBean);
+        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        
+        ProtocolGenericActionBean actionBean = getMockGenericActionBean();
+        service.suspendByDsmb(protocolDocument.getProtocol(), actionBean);
+        
         String expected = ProtocolStatus.SUSPENDED_BY_DSMB;
-        assertEquals(expected, prot.getProtocolStatus().getProtocolStatusCode());
+        assertEquals(expected, protocolDocument.getProtocol().getProtocolStatus().getProtocolStatusCode());
     }
 
     @Test
     public void testTerminate() throws Exception {
-        Protocol prot = getNewProtocol();
-        ProtocolGenericActionBean actionBean = buildProtocolGenericActionBean();
-        businessObjectService.save(prot);
-        genericActionService.terminate(prot, actionBean);
+        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        
+        ProtocolGenericActionBean actionBean = getMockGenericActionBean();
+        service.terminate(protocolDocument.getProtocol(), actionBean);
+        
         String expected = ProtocolStatus.TERMINATED_BY_IRB;
-        assertEquals(expected, prot.getProtocolStatus().getProtocolStatusCode());
+        assertEquals(expected, protocolDocument.getProtocol().getProtocolStatus().getProtocolStatusCode());
     }
     
     @Test
     public void testDisapprove() throws Exception {
-        Protocol prot = getNewProtocol();
-        businessObjectService.save(prot);
-        submitActionService.submitToIrbForReview(prot, buildProtocolSubmitAction());
-        documentService.routeDocument(prot.getProtocolDocument(), "Initial Document Route", new ArrayList<AdHocRouteRecipient>());
-        ProtocolGenericActionBean actionBean = buildProtocolGenericActionBean();
-        genericActionService.disapprove(prot, actionBean);
+        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        
+        ProtocolSubmitActionService protocolSubmitActionService = KraServiceLocator.getService(ProtocolSubmitActionService.class);
+        protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), getMockSubmitAction());
+        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        documentService.routeDocument(protocolDocument.getProtocol().getProtocolDocument(), "Initial Document Route", new ArrayList<AdHocRouteRecipient>());
+        
+        ProtocolGenericActionBean actionBean = getMockGenericActionBean();
+        service.disapprove(protocolDocument.getProtocol(), actionBean);
+        
         String expected = ProtocolStatus.DISAPPROVED;
-        assertEquals(expected, prot.getProtocolStatus().getProtocolStatusCode());
-        assertTrue(prot.getProtocolDocument().getDocumentHeader().getWorkflowDocument().stateIsDisapproved());
+        assertEquals(expected, protocolDocument.getProtocol().getProtocolStatus().getProtocolStatusCode());
+        assertTrue(protocolDocument.getProtocol().getProtocolDocument().getDocumentHeader().getWorkflowDocument().stateIsDisapproved());
     }
     
     @Test
     public void testReturnForSMR() throws Exception {
-        Protocol prot = getNewProtocol();
-        ProtocolGenericActionBean actionBean = buildProtocolGenericActionBean();
-        businessObjectService.save(prot);
-        ProtocolDocument oldDocument = prot.getProtocolDocument();
-        ProtocolDocument newDocument = genericActionService.returnForSMR(prot, actionBean);
+        ProtocolDocument oldDocument = ProtocolFactory.createProtocolDocument();
+        
+        ProtocolGenericActionBean actionBean = getMockGenericActionBean();
+        ProtocolDocument newDocument = service.returnForSMR(oldDocument.getProtocol(), actionBean);
+        
         String expectedStatus = ProtocolStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED;
         String unexpectedDocumentNumber = oldDocument.getDocumentNumber();
-        assertEquals(expectedStatus, prot.getProtocolStatus().getProtocolStatusCode());
+        assertEquals(expectedStatus, newDocument.getProtocol().getProtocolStatus().getProtocolStatusCode());
         assertTrue(oldDocument.getDocumentHeader().getWorkflowDocument().stateIsCanceled());
         assertNotSame(unexpectedDocumentNumber, newDocument.getDocumentNumber());
     }
     
     @Test
     public void testReturnForSRR() throws Exception {
-        Protocol prot = getNewProtocol();
-        ProtocolGenericActionBean actionBean = buildProtocolGenericActionBean();
-        businessObjectService.save(prot);
-        ProtocolDocument oldDocument = prot.getProtocolDocument();
-        ProtocolDocument newDocument = genericActionService.returnForSRR(prot, actionBean);
+        ProtocolDocument oldDocument = ProtocolFactory.createProtocolDocument();
+        
+        ProtocolGenericActionBean actionBean = getMockGenericActionBean();
+        ProtocolDocument newDocument = service.returnForSRR(oldDocument.getProtocol(), actionBean);
+        
         String expectedStatus = ProtocolStatus.SUBSTANTIVE_REVISIONS_REQUIRED;
         String unexpectedDocumentNumber = oldDocument.getDocumentNumber();
-        assertEquals(expectedStatus, prot.getProtocolStatus().getProtocolStatusCode());
+        assertEquals(expectedStatus, newDocument.getProtocol().getProtocolStatus().getProtocolStatusCode());
         assertTrue(oldDocument.getDocumentHeader().getWorkflowDocument().stateIsCanceled());
         assertNotSame(unexpectedDocumentNumber, newDocument.getDocumentNumber());
     }
     
-    private Protocol getNewProtocol() throws Exception{
-        Protocol prot = ProtocolFactory.createProtocolDocument().getProtocol();
-        return prot;
+    private ProtocolActionCorrespondenceGenerationService getMockActionCorrespondenceGenerationService() {
+        final ProtocolActionCorrespondenceGenerationService service = context.mock(ProtocolActionCorrespondenceGenerationService.class);
+        
+        context.checking(new Expectations() {{
+            ignoring(service);
+        }});
+        
+        return service;
     }
     
-    private ProtocolGenericActionBean buildProtocolGenericActionBean(){
-        ProtocolGenericActionBean actionBean = new ProtocolGenericActionBean(null);
-        actionBean.setComments(BASIC_COMMENT);
-        actionBean.setActionDate(BASIC_ACTION_DATE);
-        return actionBean;
+    private ProtocolOnlineReviewService getMockOnlineReviewService() {
+        final ProtocolOnlineReviewService service = context.mock(ProtocolOnlineReviewService.class);
+        
+        context.checking(new Expectations() {{
+            ignoring(service);
+        }});
+        
+        return service;
     }
     
-    private ProtocolSubmitAction buildProtocolSubmitAction() {
-        ProtocolSubmitAction submitAction = new ProtocolSubmitAction(null);
-        submitAction.setSubmissionTypeCode(ProtocolSubmissionType.INITIAL_SUBMISSION);
-        submitAction.setProtocolReviewTypeCode(ProtocolReviewType.FULL_TYPE_CODE);
-        submitAction.setSubmissionQualifierTypeCode(ProtocolSubmissionQualifierType.ANNUAL_SCHEDULED_BY_IRB);
-        submitAction.setCommitteeId(COMMITTEE_ID);
-        submitAction.setScheduleId(SCHEDULE_ID);
-        return submitAction;
+    private ProtocolGenericActionBean getMockGenericActionBean(){
+        final ProtocolGenericActionBean bean = context.mock(ProtocolGenericActionBean.class);
+        
+        context.checking(new Expectations() {{
+            allowing(bean).getComments();
+            will(returnValue(BASIC_COMMENT));
+            
+            allowing(bean).getActionDate();
+            will(returnValue(BASIC_ACTION_DATE));
+        }});
+        
+        return bean;
+    }
+    
+    private ProtocolSubmitAction getMockSubmitAction() {
+        final ProtocolSubmitAction action = context.mock(ProtocolSubmitAction.class);
+        
+        context.checking(new Expectations() {{
+            allowing(action).getSubmissionTypeCode();
+            will(returnValue(ProtocolSubmissionType.INITIAL_SUBMISSION));
+            
+            allowing(action).getProtocolReviewTypeCode();
+            will(returnValue(ProtocolReviewType.FULL_TYPE_CODE));
+            
+            allowing(action).getSubmissionQualifierTypeCode();
+            will(returnValue(ProtocolSubmissionQualifierType.ANNUAL_SCHEDULED_BY_IRB));
+            
+            allowing(action).getNewCommitteeId();
+            will(returnValue(Constants.EMPTY_STRING));
+            
+            allowing(action).getNewScheduleId();
+            will(returnValue(Constants.EMPTY_STRING));
+            
+            allowing(action).getReviewers();
+            will(returnValue(new ArrayList<ProtocolReviewerBean>()));
+        }});
+
+        return action;
     }
 
 }

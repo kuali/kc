@@ -17,110 +17,139 @@ package org.kuali.kra.irb.actions.acknowledgement;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
+import org.kuali.kra.irb.actions.ProtocolStatus;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
+import org.kuali.kra.irb.actions.submit.ProtocolActionService;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
 import org.kuali.kra.irb.test.ProtocolFactory;
-import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.service.DocumentService;
 
 public class IrbAcknowledgementServiceTest extends KcUnitTestBase {
 
-    private static final String COMMENTS = "test acknowledgement";
-    private static final String VALID_REVIEW_TYPE = "7";
-    private static final String VALID_CONTINGENCY_CODE_1 = "22";
+    private static final String COMMENTS = "Test IRB Acknowledgement";
+    private static final Date ACTION_DATE = new Date(System.currentTimeMillis());
     
-    private IrbAcknowledgementService irbAcknowledgementService;
+    private IrbAcknowledgementServiceImpl service;
     private ProtocolSubmitActionService protocolSubmitActionService;
-    private BusinessObjectService businessObjectService;  
     
+    private Mockery context = new JUnit4Mockery() {{
+        setImposteriser(ClassImposteriser.INSTANCE);
+    }};
+    
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        GlobalVariables.setUserSession(new UserSession("quickstart"));
-        irbAcknowledgementService = KraServiceLocator.getService(IrbAcknowledgementService.class);
+        
+        service = new IrbAcknowledgementServiceImpl();
+        service.setProtocolActionService(KraServiceLocator.getService(ProtocolActionService.class));
+        service.setDocumentService(getMockDocumentService());
+        
         protocolSubmitActionService = KraServiceLocator.getService(ProtocolSubmitActionService.class);
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
     }
 
+    @Override
     @After
     public void tearDown() throws Exception {
-        GlobalVariables.setUserSession(null);
+        protocolSubmitActionService = null;
+        service = null;
+        
         super.tearDown();
     }
     
     @Test
     public void testIrbAcknowledgement() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        
+        protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), getMockSubmitAction());
+        
+        assertEquals(ProtocolStatus.SUBMITTED_TO_IRB, protocolDocument.getProtocol().getProtocolStatusCode());
 
-        IrbAcknowledgementBean irbAcknowledgementBean = new IrbAcknowledgementBean(null);
-        irbAcknowledgementBean.setComments(COMMENTS);
-        irbAcknowledgementBean.setActionDate(new Date(System.currentTimeMillis()));
-        addComments(protocolDocument.getProtocol(), irbAcknowledgementBean);
+        service.irbAcknowledgement(protocolDocument.getProtocol(), getMockIrbAcknowledgementBean());
         
-        ProtocolSubmitAction submitAction = createSubmitAction("668", "1", VALID_REVIEW_TYPE);
-        submitAction.setSubmissionQualifierTypeCode("2");
-        protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
+        assertTrue(!protocolDocument.getProtocol().getProtocolActions().isEmpty());
+        ProtocolAction action = protocolDocument.getProtocol().getLastProtocolAction();
+        assertNotNull(action);
+        assertEquals(COMMENTS, action.getComments());
+        assertEquals(ACTION_DATE, action.getActionDate());
         
-        irbAcknowledgementBean.getReviewComments().setProtocolId(protocolDocument.getProtocol().getProtocolId());
-        irbAcknowledgementService.irbAcknowledgement(protocolDocument.getProtocol(), irbAcknowledgementBean);
-    
-        assertEquals("101", protocolDocument.getProtocol().getProtocolStatusCode());
-        
-        ProtocolAction protocolAction = findProtocolAction(protocolDocument.getProtocol().getProtocolId());
-        assertNotNull(protocolAction);
-        assertEquals(COMMENTS, protocolAction.getComments());
-        
-        ProtocolSubmission submission = protocolDocument.getProtocol().getProtocolSubmissions().get(0);
-        assertEquals("212", submission.getSubmissionStatusCode());
-    }
-
-    
-    private void addComments(Protocol protocol, IrbAcknowledgementBean irbAcknowledgementBean) {
-        List<CommitteeScheduleMinute> comments = new ArrayList<CommitteeScheduleMinute>();
-        CommitteeScheduleMinute firstComment = new CommitteeScheduleMinute();
-        firstComment.setProtocolContingencyCode(VALID_CONTINGENCY_CODE_1);
-        firstComment.setPrivateCommentFlag(true);
-        firstComment.setProtocolIdFk(protocol.getProtocolId());
-        irbAcknowledgementBean.getReviewComments().setComments(comments);
+        assertTrue(!protocolDocument.getProtocol().getProtocolSubmissions().isEmpty());
+        ProtocolSubmission submission = protocolDocument.getProtocol().getProtocolSubmission();
+        assertNotNull(submission);
+        assertEquals(ProtocolSubmissionStatus.IRB_ACKNOWLEDGEMENT, submission.getSubmissionStatusCode());
     }
     
-    @SuppressWarnings("unchecked")
-    private ProtocolAction findProtocolAction(Long protocolId) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("protocolId", protocolId);
-        List<ProtocolAction> actions = (List<ProtocolAction>) businessObjectService.findMatching(ProtocolAction.class, fieldValues);
+    private DocumentService getMockDocumentService() {
+        final DocumentService service = context.mock(DocumentService.class);
         
-        assertEquals(2, actions.size());
-        ProtocolAction action = actions.get(1);
+        context.checking(new Expectations() {{
+            ignoring(service);
+        }});
+        
+        return service;
+    }
+    
+    private ProtocolSubmitAction getMockSubmitAction() {
+        final ProtocolSubmitAction action = context.mock(ProtocolSubmitAction.class);
+        
+        context.checking(new Expectations() {{
+            allowing(action).getSubmissionTypeCode();
+            will(returnValue(ProtocolSubmissionType.NOTIFY_IRB));
+            
+            allowing(action).getProtocolReviewTypeCode();
+            will(returnValue(ProtocolReviewType.FYI_TYPE_CODE));
+            
+            allowing(action).getSubmissionQualifierTypeCode();
+            will(returnValue(ProtocolSubmissionQualifierType.ANNUAL_SCHEDULED_BY_IRB));
+            
+            allowing(action).getNewCommitteeId();
+            will(returnValue(Constants.EMPTY_STRING));
+            
+            allowing(action).getNewScheduleId();
+            will(returnValue(Constants.EMPTY_STRING));
+            
+            allowing(action).getReviewers();
+            will(returnValue(new ArrayList<ProtocolReviewerBean>()));
+        }});
+        
         return action;
     }
     
-    /*
-     * Create protocol submission action.
-     */
-    private ProtocolSubmitAction createSubmitAction(String committeeId, String scheduleId, String protocolReviewTypeCode) {
-        ProtocolSubmitAction submitAction = new ProtocolSubmitAction(null);
-        submitAction.setSubmissionTypeCode(ProtocolSubmissionType.NOTIFY_IRB);
-        submitAction.setProtocolReviewTypeCode(protocolReviewTypeCode);
-        submitAction.setCommitteeId(committeeId);
-        submitAction.setScheduleId(scheduleId);
-        return submitAction;
+    private IrbAcknowledgementBean getMockIrbAcknowledgementBean() {
+        final IrbAcknowledgementBean bean = context.mock(IrbAcknowledgementBean.class);
+        
+        context.checking(new Expectations() {{
+            allowing(bean).getComments();
+            will(returnValue(COMMENTS));
+            
+            allowing(bean).getActionDate();
+            will(returnValue(ACTION_DATE));
+            
+            allowing(bean).getReviewCommentsBean();
+            will(returnValue(new ReviewCommentsBean()));
+        }});
+        
+        return bean;
     }
 
 }

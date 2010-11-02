@@ -73,11 +73,10 @@
                 
                 <tr>
                     <td colspan="2">
-                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolGrantExemptionBean.reviewComments}"
-                                                       property="actionHelper.protocolGrantExemptionBean.reviewComments"
+                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolGrantExemptionBean.reviewCommentsBean}"
+                                                       property="actionHelper.protocolGrantExemptionBean.reviewCommentsBean"
                                                        action="${action}" 
-                                                       actionName="GrantExemption"
-                                                       allowReadOnly="${not KualiForm.actionHelper.canManageReviewComments}" />
+                                                       actionName="GrantExemption" />
                    </td>
                 </tr>
                 

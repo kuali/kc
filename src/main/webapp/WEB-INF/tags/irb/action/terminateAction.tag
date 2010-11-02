@@ -62,8 +62,7 @@
 	                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolTerminateBean.reviewComments}"
 	                                                       property="actionHelper.protocolTerminateBean.reviewComments"
 	                                                       action="${action}"
-	                                                       actionName="Terminate" 
-	                                                       allowReadOnly="${not KualiForm.actionHelper.canManageReviewComments}"/>
+	                                                       actionName="Terminate" />
 	                   </td>
 	                </tr>
 	            </c:if>

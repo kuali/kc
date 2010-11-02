@@ -17,120 +17,162 @@ package org.kuali.kra.irb.actions.responseapproval;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import org.apache.commons.lang.time.DateUtils;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.approve.ProtocolApproveBean;
+import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
+import org.kuali.kra.irb.actions.submit.ProtocolActionService;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
 import org.kuali.kra.irb.test.ProtocolFactory;
-import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.DateUtils;
 
 /**
  * Test the ProtocolResponseApprovalService implementation.
  */
 public class ProtocolResponseApprovalServiceTest extends KcUnitTestBase {
 
-    private static final Date APPROVAL_DATE = new Date(DateUtils.addDays(new Date(System.currentTimeMillis()), -1).getTime());
-    private static final Date EXPIRATION_DATE = new Date(DateUtils.addYears(APPROVAL_DATE, 1).getTime());
     private static final Date ACTION_DATE = new Date(System.currentTimeMillis());
+    private static final Date APPROVAL_DATE = DateUtils.convertToSqlDate(DateUtils.addWeeks(ACTION_DATE, -1));
+    private static final Date EXPIRATION_DATE = DateUtils.convertToSqlDate(DateUtils.addYears(ACTION_DATE, 1));
     private static final String COMMENTS = "Testing response approval";
     
-    private static final String COMMITTEE_ID = "668";
-    private static final String SCHEDULE_ID = "1";
-    private static final String RESPONSE_REVIEW_TYPE = "6";
-    private static final String ANNUAL_SCHEDULED_BY_IRB_SUBMISSION_QUALIFIER = "2";
-    
-    private static final String VALID_SUBMISSION_TYPE = "100";
-    
-    private ProtocolResponseApprovalService protocolResponseApprovalService;
+    private ProtocolResponseApprovalServiceImpl service;
     private ProtocolSubmitActionService protocolSubmitActionService;
-    private BusinessObjectService businessObjectService;  
+    
+    private Mockery context = new JUnit4Mockery() {{
+        setImposteriser(ClassImposteriser.INSTANCE);
+    }};
     
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        GlobalVariables.setUserSession(new UserSession("quickstart"));
-        protocolResponseApprovalService = KraServiceLocator.getService(ProtocolResponseApprovalService.class);
+        
+        service = new ProtocolResponseApprovalServiceImpl();
+        service.setProtocolActionService(KraServiceLocator.getService(ProtocolActionService.class));
+        service.setDocumentService(getMockDocumentService());
+        service.setProtocolActionCorrespondenceGenerationService(getMockActionCorrespondenceGenerationService());
+        
         protocolSubmitActionService = KraServiceLocator.getService(ProtocolSubmitActionService.class);
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
     }
 
     @After
     public void tearDown() throws Exception {
-        GlobalVariables.setUserSession(null);
+        service = null;
+        protocolSubmitActionService = null;
+        
         super.tearDown();
     }
     
     @Test
     public void testApproveResponse() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        
+        protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), getMockSubmitAction());
+        
+        assertEquals(ProtocolStatus.SUBMITTED_TO_IRB, protocolDocument.getProtocol().getProtocolStatusCode());
 
-        ProtocolApproveBean responseApprovalBean = new ProtocolApproveBean(null);
-        responseApprovalBean.setApprovalDate(APPROVAL_DATE);
-        responseApprovalBean.setExpirationDate(EXPIRATION_DATE);
-        responseApprovalBean.setActionDate(ACTION_DATE);
-        responseApprovalBean.setComments(COMMENTS);
-        addComments(protocolDocument.getProtocol(), responseApprovalBean);
-        
-        ProtocolSubmitAction submitAction = createSubmitAction(COMMITTEE_ID, SCHEDULE_ID, RESPONSE_REVIEW_TYPE);
-        submitAction.setSubmissionQualifierTypeCode(ANNUAL_SCHEDULED_BY_IRB_SUBMISSION_QUALIFIER);
-        protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
-        
-        responseApprovalBean.getReviewComments().setProtocolId(protocolDocument.getProtocol().getProtocolId());
-        protocolResponseApprovalService.approveResponse(protocolDocument.getProtocol(), responseApprovalBean);
+        service.approveResponse(protocolDocument.getProtocol(), getMockApproveBean());
     
         assertEquals(ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT, protocolDocument.getProtocol().getProtocolStatusCode());
         
-        ProtocolAction protocolAction = findProtocolAction(protocolDocument.getProtocol().getProtocolId());
-        assertNotNull(protocolAction);
-        assertEquals(COMMENTS, protocolAction.getComments());
+        assertTrue(!protocolDocument.getProtocol().getProtocolActions().isEmpty());
+        ProtocolAction action = protocolDocument.getProtocol().getLastProtocolAction();
+        assertNotNull(action);
+        assertEquals(APPROVAL_DATE, protocolDocument.getProtocol().getApprovalDate());
+        assertEquals(EXPIRATION_DATE, protocolDocument.getProtocol().getExpirationDate());
+        assertEquals(COMMENTS, action.getComments());
+        assertEquals(ACTION_DATE, action.getActionDate());
         
-        ProtocolSubmission submission = protocolDocument.getProtocol().getProtocolSubmissions().get(0);
+        assertTrue(!protocolDocument.getProtocol().getProtocolSubmissions().isEmpty());
+        ProtocolSubmission submission = protocolDocument.getProtocol().getProtocolSubmission();
+        assertNotNull(submission);
         assertEquals(ProtocolSubmissionStatus.APPROVED, submission.getSubmissionStatusCode());
     }
     
-    private void addComments(Protocol protocol, ProtocolApproveBean responseApprovalBean) {
-        List<CommitteeScheduleMinute> comments = new ArrayList<CommitteeScheduleMinute>();
-        CommitteeScheduleMinute firstComment = new CommitteeScheduleMinute();
-        firstComment.setProtocolIdFk(protocol.getProtocolId());
-        responseApprovalBean.getReviewComments().setComments(comments);
-    }
-    
-    @SuppressWarnings("unchecked")
-    private ProtocolAction findProtocolAction(Long protocolId) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("protocolId", protocolId);
-        List<ProtocolAction> actions = (List<ProtocolAction>) businessObjectService.findMatching(ProtocolAction.class, fieldValues);
+    private ProtocolSubmitAction getMockSubmitAction() {
+        final ProtocolSubmitAction action = context.mock(ProtocolSubmitAction.class);
         
-        assertEquals(2, actions.size());
-        ProtocolAction action = actions.get(1);
+        context.checking(new Expectations() {{
+            allowing(action).getSubmissionTypeCode();
+            will(returnValue(ProtocolSubmissionType.INITIAL_SUBMISSION));
+            
+            allowing(action).getProtocolReviewTypeCode();
+            will(returnValue(ProtocolReviewType.RESPONSE_REVIEW_TYPE_CODE));
+            
+            allowing(action).getSubmissionQualifierTypeCode();
+            will(returnValue(ProtocolSubmissionQualifierType.ANNUAL_SCHEDULED_BY_IRB));
+            
+            allowing(action).getNewCommitteeId();
+            will(returnValue(Constants.EMPTY_STRING));
+            
+            allowing(action).getNewScheduleId();
+            will(returnValue(Constants.EMPTY_STRING));
+            
+            allowing(action).getReviewers();
+            will(returnValue(new ArrayList<ProtocolReviewerBean>()));
+        }});
+        
         return action;
     }
-
-    private ProtocolSubmitAction createSubmitAction(String committeeId, String scheduleId, String protocolReviewTypeCode) {
-        ProtocolSubmitAction submitAction = new ProtocolSubmitAction(null);
-        submitAction.setSubmissionTypeCode(VALID_SUBMISSION_TYPE);
-        submitAction.setProtocolReviewTypeCode(protocolReviewTypeCode);
-        submitAction.setCommitteeId(committeeId);
-        submitAction.setScheduleId(scheduleId);
-        return submitAction;
+    
+    private ProtocolApproveBean getMockApproveBean() {
+        final ProtocolApproveBean bean = context.mock(ProtocolApproveBean.class);
+        
+        context.checking(new Expectations() {{
+            allowing(bean).getApprovalDate();
+            will(returnValue(APPROVAL_DATE));
+            
+            allowing(bean).getExpirationDate();
+            will(returnValue(EXPIRATION_DATE));
+            
+            allowing(bean).getActionDate();
+            will(returnValue(ACTION_DATE));
+            
+            allowing(bean).getComments();
+            will(returnValue(COMMENTS));
+        }});
+        
+        return bean;
+    }
+    
+    private DocumentService getMockDocumentService() {
+        final DocumentService service = context.mock(DocumentService.class);
+        
+        context.checking(new Expectations() {{
+            ignoring(service);
+        }});
+        
+        return service;
+    }
+    
+    private ProtocolActionCorrespondenceGenerationService getMockActionCorrespondenceGenerationService() {
+        final ProtocolActionCorrespondenceGenerationService service = context.mock(ProtocolActionCorrespondenceGenerationService.class);
+        
+        context.checking(new Expectations() {{
+            ignoring(service);
+        }});
+        
+        return service;
     }
     
 }

@@ -59,11 +59,10 @@
                 <c:if test="${KualiForm.actionHelper.canAddSuspendReviewerComments}">
 	                <tr>
 	                    <td colspan="2">
-	                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolSuspendBean.reviewComments}"
-	                                                       property="actionHelper.protocolSuspendBean.reviewComments"
+	                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolSuspendBean.reviewCommentsBean}"
+	                                                       property="actionHelper.protocolSuspendBean.reviewCommentsBean"
 	                                                       action="${action}"
-	                                                       actionName="Suspend" 
-	                                                       allowReadOnly="${not KualiForm.actionHelper.canManageReviewComments}"/>
+	                                                       actionName="Suspend" />
 	                   </td>
 	                </tr>
 	            </c:if>

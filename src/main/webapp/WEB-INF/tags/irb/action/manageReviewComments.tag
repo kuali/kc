@@ -18,10 +18,9 @@
 <c:set var="action" value="protocolProtocolActions" />
 
 <kra:permission value="${KualiForm.actionHelper.canManageReviewComments}">
-      <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolManageReviewCommentsBean.reviewComments}"
-              property="actionHelper.protocolManageReviewCommentsBean.reviewComments"
+      <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolManageReviewCommentsBean.reviewCommentsBean}"
+              property="actionHelper.protocolManageReviewCommentsBean.reviewCommentsBean"
               action="${action}"
               actionName="" 
-              allowReadOnly="${false}" 
               tabCustomTitle="Manage Review Comments" methodToCall="manageComments" />
 </kra:permission>

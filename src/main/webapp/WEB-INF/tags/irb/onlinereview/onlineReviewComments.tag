@@ -17,7 +17,7 @@
 
 
 
-<%@ attribute name="bean" required="true" type="org.kuali.kra.irb.actions.reviewcomments.ReviewerComments" %>
+<%@ attribute name="bean" required="true" type="org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean" %>
 <%@ attribute name="documentNumber" required="true"%>
 <%@ attribute name="property" required="true" %>
 <%@ attribute name="action" required="true" %>
@@ -28,7 +28,7 @@
 
 <c:set var="minutesAttributes" value="${DataDictionary.CommitteeScheduleMinute.attributes}" />
 
-<kul:innerTab tabTitle="Review Comments" parentTab="" defaultOpen="true" tabErrorKey="onlineReviewsActionHelper.protocolOnlineReviewsReviewCommentsList[${reviewIndex}] .*" useCurrentTabIndexAsKey="false">
+<kul:innerTab tabTitle="Review Comments" parentTab="" defaultOpen="true" tabErrorKey="onlineReviewsActionHelper.reviewCommentsBeans[${reviewIndex}] .*" useCurrentTabIndexAsKey="false">
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary="">
             <tbody>
@@ -52,22 +52,22 @@
                     <td valign="middle" style="text-align:center">
                                            
                         <c:choose>
-                            <c:when test="${empty bean.newComment.protocolContingencyCode}" >
+                            <c:when test="${empty bean.newReviewComment.protocolContingencyCode}" >
                                 (select)
                             </c:when>
                             <c:otherwise>
-                                <kul:htmlControlAttribute property="${property}.newComment.protocolContingencyCode" 
+                                <kul:htmlControlAttribute property="${property}.newReviewComment.protocolContingencyCode" 
                                                   attributeEntry="${minutesAttributes.protocolContingencyCode}" readOnly="${readOnly}" />
                             </c:otherwise>
                         </c:choose> 
                     		<c:if test = "${!readOnly}">
                         		<kul:lookup boClassName="org.kuali.kra.meeting.ProtocolContingency" 
-                                    fieldConversions="protocolContingencyCode:${property}.newComment.protocolContingencyCode"  />
+                                    fieldConversions="protocolContingencyCode:${property}.newReviewComment.protocolContingencyCode"  />
                        		</c:if>
                     </td>
                                             
 	               <td align="left" valign="middle">
-                              <kul:htmlControlAttribute property="${property}.newComment.minuteEntry" 
+                              <kul:htmlControlAttribute property="${property}.newReviewComment.minuteEntry" 
                                                         attributeEntry="${minutesAttributes.minuteEntry}" readOnly = "${readOnly}" />
                        
                     </td>
@@ -75,7 +75,7 @@
                     <td valign="middle" style="text-align:center">
                         <c:choose>
                         <c:when test = "${!readOnly}">
-                        	<kul:htmlControlAttribute property="${property}.newComment.privateCommentFlag" 
+                        	<kul:htmlControlAttribute property="${property}.newReviewComment.privateCommentFlag" 
                                                   attributeEntry="${minutesAttributes.privateCommentFlag}" readOnly = "${readOnly}"/>
                       	</c:when>
                       	<c:otherwise>
@@ -87,7 +87,7 @@
 					<td valign="middle" style="text-align:center">
 				        <c:choose>
 				        	<c:when test = "${!readOnly}">
-				        		<kul:htmlControlAttribute property="${property}.newComment.finalFlag" 
+				        		<kul:htmlControlAttribute property="${property}.newReviewComment.finalFlag" 
                                                   attributeEntry="${minutesAttributes.finalFlag}" readOnly = "${readOnly}"/>
                         	</c:when>
                         	<c:otherwise>
@@ -108,102 +108,94 @@
                     </td>
                 </tr>
                 </c:if>
-                <c:set var="displayCount" value="0"/>
-                                                   
-                <c:forEach var="comment" items="${bean.comments}" varStatus="status">
-                	<c:set var="doHide" value="${comment.protocolId != bean.protocolId}" />
-                    <tr <c:choose>
-                        		<c:when test="${doHide == true }">
-                        			<c:set var="displayCount" value="${displayCount + 1}"/>
-                        			style="display:none"
-                        		</c:when>
-                        	</c:choose>>
-                        <th>
-                        	<c:choose>
-                        		<c:when test="${doHide == false }">
-                        			<c:set var="displayCount" value="${displayCount + 1}"/>
-                        			${displayCount }
-                        		</c:when>
-                        	</c:choose>
-                        </th>
-
-                        <c:choose>
-                            <c:when test="${empty comment.protocolContingencyCode}">
-                                <td style="text-align:center;">
-                                    n/a
-                                </td>
-                                <td>
-                                    <kul:htmlControlAttribute property="${property}.comments[${status.index}].minuteEntry"
-                                                              attributeEntry="${minutesAttributes.minuteEntry}" readOnly="${readOnly}" />
-                                </td>
-                            </c:when>
-                            <c:otherwise>
-                                <td style="text-align:center;">
-                                   	<kul:htmlControlAttribute property="${property}.comments[${status.index}].protocolContingencyCode" 
-                                                  attributeEntry="${minutesAttributes.protocolContingencyCode}" readOnly="${readOnly}" />
-                               
-                                    <c:choose>
-	                            		<c:when test="${!readOnly}">
-                                    		<kul:lookup boClassName="org.kuali.kra.meeting.ProtocolContingency"
-                                                fieldConversions="protocolContingencyCode:${property}.comments[${status.index}].protocolContingencyCode" />
-                                        </c:when>
-                                    </c:choose>
-                                </td>
-                                <td>
-                                    <kul:htmlControlAttribute property="${property}.comments[${status.index}].minuteEntry"
-                                                              attributeEntry="${minutesAttributes.minuteEntry}" readOnly="${readOnly}" />
-                                </td>
-                            </c:otherwise>
-                        </c:choose>
-                                                
-		                   <td style="text-align:center; vertical-align:middle">
-                            
-                            	<kul:htmlControlAttribute property="${property}.comments[${status.index}].privateCommentFlag" 
-                                                      attributeEntry="${minutesAttributes.privateCommentFlag}"
-                                                      readOnly="${readOnly}" />
-                            
-                        </td>
-                                                
-                        <td style="text-align:center; vertical-align:middle">
-                            
-                            	<kul:htmlControlAttribute property="${property}.comments[${status.index}].finalFlag" 
-                                                      attributeEntry="${minutesAttributes.finalFlag}"
-                                                      readOnly="${readOnly}" />
-                            
-                        </td>
-                        
-                        <td style="text-align:center; vertical-align:middle">
-                        	<kul:htmlControlAttribute property="${property}.comments[${status.index}].updateUserFullName" 
-                                                      attributeEntry="${minutesAttributes.updateUser}"
-                                                      readOnly="true" />  <kul:htmlControlAttribute property="${property}.comments[${status.index}].updateTimestamp" 
-                                                      attributeEntry="${minutesAttributes.updateTimestamp}"
-                                                      readOnly="true" />
-                        </td>
-                        
-                        <td style="text-align:center; vertical-align:middle">
-                        	<kul:htmlControlAttribute property="${property}.comments[${status.index}].createUserFullName" 
-                                                      attributeEntry="${minutesAttributes.createUser}"
-                                                      readOnly="true" /> <kul:htmlControlAttribute property="${property}.comments[${status.index}].createTimestamp" 
-                                                      attributeEntry="${minutesAttributes.createTimestamp}"
-                                                      readOnly="true" />
-                        </td>
-                        
-                        <td>
-                            <div align="center">&nbsp;
-                            	<nobr>
-                            		<c:if test = "${!readOnly}">
-                            	 		<html:image property="methodToCall.moveUp${actionName}ReviewComment.${documentNumber}.line.${status.index}.anchor${tabKey}"
-                                        	    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-moveup.gif' styleClass="tinybutton"/>
-                                		<html:image property="methodToCall.moveDown${actionName}ReviewComment.${documentNumber}.line.${status.index}.anchor${tabKey}"
-                                        	    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-movedown.gif' styleClass="tinybutton"/>
-	                            		<html:image property="methodToCall.delete${actionName}ReviewComment.${documentNumber}.line.${status.index}.anchor${tabKey}"
-			                                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
-		                                
-	                                </c:if>
-                                </nobr>
-                            </div>
-                        </td>
-                    </tr>
+                
+                <c:set var="displayCount" value="0"/>           
+                <c:forEach var="reviewComment" items="${bean.reviewComments}" varStatus="status">
+                    <c:set var="isCommentForCurrentProtocol" value="${reviewComment.protocolId == bean.protocol.protocolId}" /> 
+                	<c:set var="displayCount" value="${displayCount + 1}"/>
+                	
+                	<c:if test="${isCommentForCurrentProtocol}">
+	                    <tr>
+	                        <th>${displayCount}</th>
+	
+	                        <c:choose>
+	                            <c:when test="${empty reviewComment.protocolContingencyCode}">
+	                                <td style="text-align:center;">
+	                                    n/a
+	                                </td>
+	                                <td>
+	                                    <kul:htmlControlAttribute property="${property}.reviewComments[${status.index}].minuteEntry"
+	                                                              attributeEntry="${minutesAttributes.minuteEntry}" readOnly="${readOnly}" />
+	                                </td>
+	                            </c:when>
+	                            <c:otherwise>
+	                                <td style="text-align:center;">
+	                                   	<kul:htmlControlAttribute property="${property}.reviewComments[${status.index}].protocolContingencyCode" 
+	                                                  attributeEntry="${minutesAttributes.protocolContingencyCode}" readOnly="${readOnly}" />
+	                               
+	                                    <c:choose>
+		                            		<c:when test="${!readOnly}">
+	                                    		<kul:lookup boClassName="org.kuali.kra.meeting.ProtocolContingency"
+	                                                fieldConversions="protocolContingencyCode:${property}.reviewComments[${status.index}].protocolContingencyCode" />
+	                                        </c:when>
+	                                    </c:choose>
+	                                </td>
+	                                <td>
+	                                    <kul:htmlControlAttribute property="${property}.reviewComments[${status.index}].minuteEntry"
+	                                                              attributeEntry="${minutesAttributes.minuteEntry}" readOnly="${readOnly}" />
+	                                </td>
+	                            </c:otherwise>
+	                        </c:choose>
+	                                                
+			                <td style="text-align:center; vertical-align:middle">
+	                            
+	                            	<kul:htmlControlAttribute property="${property}.reviewComments[${status.index}].privateCommentFlag" 
+	                                                      attributeEntry="${minutesAttributes.privateCommentFlag}"
+	                                                      readOnly="${readOnly}" />
+	                            
+	                        </td>
+	                                                
+	                        <td style="text-align:center; vertical-align:middle">
+	                            
+	                            	<kul:htmlControlAttribute property="${property}.reviewComments[${status.index}].finalFlag" 
+	                                                      attributeEntry="${minutesAttributes.finalFlag}"
+	                                                      readOnly="${readOnly}" />
+	                            
+	                        </td>
+	                        
+	                        <td style="text-align:center; vertical-align:middle">
+	                        	<kul:htmlControlAttribute property="${property}.reviewComments[${status.index}].updateUserFullName" 
+	                                                      attributeEntry="${minutesAttributes.updateUser}"
+	                                                      readOnly="true" />  <kul:htmlControlAttribute property="${property}.reviewComments[${status.index}].updateTimestamp" 
+	                                                      attributeEntry="${minutesAttributes.updateTimestamp}"
+	                                                      readOnly="true" />
+	                        </td>
+	                        
+	                        <td style="text-align:center; vertical-align:middle">
+	                        	<kul:htmlControlAttribute property="${property}.reviewComments[${status.index}].createUserFullName" 
+	                                                      attributeEntry="${minutesAttributes.createUser}"
+	                                                      readOnly="true" /> <kul:htmlControlAttribute property="${property}.reviewComments[${status.index}].createTimestamp" 
+	                                                      attributeEntry="${minutesAttributes.createTimestamp}"
+	                                                      readOnly="true" />
+	                        </td>
+	                        
+	                        <td>
+	                            <div align="center">&nbsp;
+	                            	<nobr>
+	                            		<c:if test = "${!readOnly}">
+	                            	 		<html:image property="methodToCall.moveUp${actionName}ReviewComment.${documentNumber}.line.${status.index}.anchor${tabKey}"
+	                                        	    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-moveup.gif' styleClass="tinybutton"/>
+	                                		<html:image property="methodToCall.moveDown${actionName}ReviewComment.${documentNumber}.line.${status.index}.anchor${tabKey}"
+	                                        	    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-movedown.gif' styleClass="tinybutton"/>
+		                            		<html:image property="methodToCall.delete${actionName}ReviewComment.${documentNumber}.line.${status.index}.anchor${tabKey}"
+				                                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+			                                
+		                                </c:if>
+	                                </nobr>
+	                            </div>
+	                        </td>
+	                    </tr>
+	                </c:if>
                 </c:forEach>
 
             </tbody>

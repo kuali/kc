@@ -34,7 +34,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
@@ -73,7 +73,7 @@ public class OnlineReviewsActionHelper implements Serializable {
     
     private Map<String,Map<String,Object>> documentHelperMap;
     private List<ProtocolOnlineReviewDocument> protocolOnlineReviewDocuments;
-    private List<ReviewerComments> reviewerComments;
+    private List<ReviewCommentsBean> reviewCommentsBeans;
     //private List<Object> reviewerPersons;
     private boolean initComplete = false;
 
@@ -103,7 +103,7 @@ public class OnlineReviewsActionHelper implements Serializable {
                 this.newReviewDateRequested = new Date((new java.util.Date()).getTime());
                 this.protocolOnlineReviewDocuments = getProtocolOnlineReviewService()
                 .getProtocolReviewDocumentsForCurrentSubmission(protocolDocument.getProtocol()); 
-                this.reviewerComments = new ArrayList<ReviewerComments>();
+                this.reviewCommentsBeans = new ArrayList<ReviewCommentsBean>();
                 this.documentHelperMap = new LinkedHashMap<String,Map<String,Object>>();
 
                 if (principalInvestigator != null ) {
@@ -126,11 +126,12 @@ public class OnlineReviewsActionHelper implements Serializable {
                         throw new RuntimeException(String.format("Exception generated creating new instance of ProtocolOnlineReviewForm with document %s",pDoc.getDocumentNumber()),e);
                     }
                    
-                    ReviewerComments comments = pDoc.getProtocolOnlineReview().getReviewerComments();
-                    comments.setProtocolId( pDoc.getProtocolOnlineReview().getProtocolId() );
+                    ReviewCommentsBean commentsBean = new ReviewCommentsBean();
+                    commentsBean.setProtocol(pDoc.getProtocolOnlineReview().getProtocol());
+                    commentsBean.setReviewComments(pDoc.getProtocolOnlineReview().getCommitteeScheduleMinutes());
                  
-                    pDocMap.put(REVIEWER_COMMENTS_MAP_KEY, comments);
-                    reviewerComments.add(comments);
+                    pDocMap.put(REVIEWER_COMMENTS_MAP_KEY, commentsBean);
+                    reviewCommentsBeans.add(commentsBean);
                     
                 }
                 initComplete = true;
@@ -178,14 +179,6 @@ public class OnlineReviewsActionHelper implements Serializable {
 //    public List<ProtocolOnlineReviewForm> getProtocolOnlineReviewFormsForCurrentSubmission() throws Exception {
 //        return protocolOnlineReviewForms;
 //    }
-    
-    /**
-     * Get a list of ReviewerComments.
-     * @return
-     */
-    public List<ReviewerComments> getProtocolOnlineReviewsReviewCommentsList() {
-        return reviewerComments;
-    }
 
     /**
      * Gets the newReviewOrganizationDocumentNumber attribute. 
@@ -324,16 +317,16 @@ public class OnlineReviewsActionHelper implements Serializable {
      * Gets the reviewerComments attribute. 
      * @return Returns the reviewerComments.
      */
-    public List<ReviewerComments> getReviewerComments() {
-        return reviewerComments;
+    public List<ReviewCommentsBean> getReviewCommentsBeans() {
+        return reviewCommentsBeans;
     }
 
     /**
      * Sets the reviewerComments attribute value.
      * @param reviewerComments The reviewerComments to set.
      */
-    public void setReviewerComments(List<ReviewerComments> reviewerComments) {
-        this.reviewerComments = reviewerComments;
+    public void setReviewCommentsBeans(List<ReviewCommentsBean> reviewCommentsBeans) {
+        this.reviewCommentsBeans = reviewCommentsBeans;
     }
 
     
@@ -375,12 +368,12 @@ public class OnlineReviewsActionHelper implements Serializable {
         return protocolDocument;
     }
     
-    public ReviewerComments getReviewerCommentsFromHelperMap(String documentNumber) {
-        ReviewerComments comments = (ReviewerComments)getHelperMapByDocumentNumber(documentNumber).get(REVIEWER_COMMENTS_MAP_KEY);
-        if (comments==null) {
-            throw new IllegalStateException(String.format("ReviewerComments for document %s was not stored in the helper map.", documentNumber));
+    public ReviewCommentsBean getReviewCommentsBeanFromHelperMap(String documentNumber) {
+        ReviewCommentsBean bean = (ReviewCommentsBean) getHelperMapByDocumentNumber(documentNumber).get(REVIEWER_COMMENTS_MAP_KEY);
+        if (bean == null) {
+            throw new IllegalStateException(String.format("ReviewerCommentsBean for document %s was not stored in the helper map.", documentNumber));
         }
-        return comments;
+        return bean;
     }
 
     public int getDocumentIndexByReviewer(String personId, boolean nonEmployeeFlag) {

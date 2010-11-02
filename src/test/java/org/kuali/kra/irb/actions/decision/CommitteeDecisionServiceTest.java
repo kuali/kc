@@ -15,43 +15,43 @@
  */
 package org.kuali.kra.irb.actions.decision;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
 import java.util.ArrayList;
-import java.util.List;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
-import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.kuali.kra.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.actions.ProtocolStatus;
+import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedBean;
+import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedService;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
+import org.kuali.kra.irb.test.ProtocolFactory;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 
-@RunWith(JMock.class)
-public class CommitteeDecisionServiceTest {
-    
-    private static final Long PROTOCOL_ID = 1234L;
-    private static final String PROTOCOL_NUMBER = "123456";
-    private static final String PROTOCOL_NEXT_ACTION_ID_KEY = "actionId";
-    private static final Long SUBMISSION_ID = 1234L;
-    private static final String COMMITTEE_ID = "1285093659990";
-    private static final String SCHEDULE_ID = "10014";
+public class CommitteeDecisionServiceTest extends KcUnitTestBase {
     
     private static final Integer YES_COUNT = 2;
     private static final Integer NO_COUNT = 0;
@@ -60,44 +60,43 @@ public class CommitteeDecisionServiceTest {
     private static final String VOTING_COMMENTS = "just some dumb comments";
     
     private CommitteeDecisionServiceImpl service;
-    private ProtocolActionService protocolActionService;
-    private BusinessObjectService businessObjectService;
-    private CommitteeService committeeService;
-    private DocumentService documentService;
-    
-    private Protocol protocol;
-    private ProtocolDocument protocolDocument;
-    private ProtocolSubmission protocolSubmission;
-    private ProtocolAction protocolAction;
+    private ProtocolSubmitActionService protocolSubmitActionService;
+    private ProtocolAssignCmtSchedService protocolAssignCmtSchedService;
     
     private Mockery context = new JUnit4Mockery() {{
         setImposteriser(ClassImposteriser.INSTANCE);
     }};
 
+    @Override
     @Before
     public void setUp() throws Exception {
-        businessObjectService = context.mock(BusinessObjectService.class);       
-        protocolActionService = context.mock(ProtocolActionService.class);
-        committeeService = context.mock(CommitteeService.class);
-        documentService = context.mock(DocumentService.class);
+        super.setUp();
         
         service = new CommitteeDecisionServiceImpl();
-        service.setBusinessObjectService(businessObjectService);
-        service.setProtocolActionService(protocolActionService);
-        service.setCommitteeService(committeeService);
-        service.setDocumentService(documentService);
+        service.setProtocolActionService(KraServiceLocator.getService(ProtocolActionService.class));
+        service.setBusinessObjectService(KraServiceLocator.getService(BusinessObjectService.class));
+        service.setCommitteeService(getMockCommitteeService());
+        service.setDocumentService(getMockDocumentService());
+        
+        protocolSubmitActionService = KraServiceLocator.getService(ProtocolSubmitActionService.class);
+        protocolAssignCmtSchedService = KraServiceLocator.getService(ProtocolAssignCmtSchedService.class);
     }
 
+    @Override
     @After
     public void tearDown() throws Exception {
         service = null;
+        protocolSubmitActionService = null;
+        protocolAssignCmtSchedService = null;
+        
+        super.tearDown();
     }
 
     @Test
     public void testProcessApproveCommitteeDecision() throws Exception {
-        prerequisite(CommitteeDecisionMotionType.APPROVE);
+        Protocol protocol = getProtocolAssignedToAgenda();
         
-        CommitteeDecision committeeDecision = createCommitteeDecision(CommitteeDecisionMotionType.APPROVE);
+        CommitteeDecision committeeDecision = getMockCommitteeDecisionBean(CommitteeDecisionMotionType.APPROVE);
         service.processCommitteeDecision(protocol, committeeDecision);
         
         ProtocolAction lastAction = protocol.getLastProtocolAction();
@@ -115,9 +114,9 @@ public class CommitteeDecisionServiceTest {
     
     @Test
     public void testProcessDisapproveCommitteeDecision() throws Exception {
-        prerequisite(CommitteeDecisionMotionType.DISAPPROVE);
+        Protocol protocol = getProtocolAssignedToAgenda();
         
-        CommitteeDecision committeeDecision = createCommitteeDecision(CommitteeDecisionMotionType.DISAPPROVE);
+        CommitteeDecision committeeDecision = getMockCommitteeDecisionBean(CommitteeDecisionMotionType.DISAPPROVE);
         service.processCommitteeDecision(protocol, committeeDecision);
         
         ProtocolAction lastAction = protocol.getLastProtocolAction();
@@ -135,9 +134,9 @@ public class CommitteeDecisionServiceTest {
     
     @Test
     public void testProcessSMRCommitteeDecision() throws Exception {
-        prerequisite(CommitteeDecisionMotionType.SPECIFIC_MINOR_REVISIONS);
+        Protocol protocol = getProtocolAssignedToAgenda();
         
-        CommitteeDecision committeeDecision = createCommitteeDecision(CommitteeDecisionMotionType.SPECIFIC_MINOR_REVISIONS);
+        CommitteeDecision committeeDecision = getMockCommitteeDecisionBean(CommitteeDecisionMotionType.SPECIFIC_MINOR_REVISIONS);
         service.processCommitteeDecision(protocol, committeeDecision);
         
         ProtocolAction lastAction = protocol.getLastProtocolAction();
@@ -155,9 +154,9 @@ public class CommitteeDecisionServiceTest {
     
     @Test
     public void testProcessSRRCommitteeDecision() throws Exception {
-        prerequisite(CommitteeDecisionMotionType.SUBSTANTIVE_REVISIONS_REQUIRED);
+        Protocol protocol = getProtocolAssignedToAgenda();
         
-        CommitteeDecision committeeDecision = createCommitteeDecision(CommitteeDecisionMotionType.SUBSTANTIVE_REVISIONS_REQUIRED);
+        CommitteeDecision committeeDecision = getMockCommitteeDecisionBean(CommitteeDecisionMotionType.SUBSTANTIVE_REVISIONS_REQUIRED);
         service.processCommitteeDecision(protocol, committeeDecision);
         
         ProtocolAction lastAction = protocol.getLastProtocolAction();
@@ -173,148 +172,118 @@ public class CommitteeDecisionServiceTest {
         assertEquals(VOTING_COMMENTS, submission.getVotingComments());
     }
     
-    private void prerequisite(String motionTypeCode) throws Exception {
-        mockProtocol();
-        mockProtocolSubmission(motionTypeCode);
-        mockProtocolAction();
-        mockProtocolActionService();
-        mockBusinessObjectService();
-        mockCommitteeService();
-        mockDocumentService();
+    private Protocol getProtocolAssignedToAgenda() throws Exception {
+        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        
+        protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), getMockSubmitAction());
+        assertEquals(ProtocolStatus.SUBMITTED_TO_IRB, protocolDocument.getProtocol().getProtocolStatusCode());
+        
+        protocolAssignCmtSchedService.assignToCommitteeAndSchedule(protocolDocument.getProtocol(), getMockAssignCmtSchedBean());
+        assertEquals(ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE, protocolDocument.getProtocol().getProtocolSubmission().getSubmissionStatusCode());
+        
+        return protocolDocument.getProtocol();
     }
     
-    private void mockProtocol() {
-        protocol = context.mock(Protocol.class);
+    private ProtocolSubmitAction getMockSubmitAction() {
+        final ProtocolSubmitAction action = context.mock(ProtocolSubmitAction.class);
         
         context.checking(new Expectations() {{
-            allowing(protocol).getProtocolId();
-            will(returnValue(PROTOCOL_ID));
+            allowing(action).getSubmissionTypeCode();
+            will(returnValue(ProtocolSubmissionType.INITIAL_SUBMISSION));
             
-            allowing(protocol).getProtocolNumber();
-            will(returnValue(PROTOCOL_NUMBER));
+            allowing(action).getProtocolReviewTypeCode();
+            will(returnValue(ProtocolReviewType.FULL_TYPE_CODE));
             
-            allowing(protocol).getProtocolDocument();
-            will(returnValue(protocolDocument));
+            allowing(action).getSubmissionQualifierTypeCode();
+            will(returnValue(ProtocolSubmissionQualifierType.ANNUAL_SCHEDULED_BY_IRB));
             
-            allowing(protocol).getSequenceNumber();
-            will(returnValue(0));
+            allowing(action).getNewCommitteeId();
+            will(returnValue(Constants.EMPTY_STRING));
             
-            allowing(protocol).getNextValue(PROTOCOL_NEXT_ACTION_ID_KEY);
-            will(returnValue(2));
-
-            allowing(protocol).getProtocolActions();
-            will(returnValue(new ArrayList<ProtocolAction>()));
+            allowing(action).getNewScheduleId();
+            will(returnValue(Constants.EMPTY_STRING));
             
-            allowing(protocol).refresh();
+            allowing(action).getReviewers();
+            will(returnValue(new ArrayList<ProtocolReviewerBean>()));
         }});
+        
+        return action;
     }
     
-    private void mockProtocolSubmission(final String motionTypeCode) {
-        protocolSubmission = context.mock(ProtocolSubmission.class);
+    private ProtocolAssignCmtSchedBean getMockAssignCmtSchedBean() {
+        final ProtocolAssignCmtSchedBean bean = context.mock(ProtocolAssignCmtSchedBean.class);
         
         context.checking(new Expectations() {{
-            List<ProtocolSubmission> submissions = new ArrayList<ProtocolSubmission>();
-            submissions.add(protocolSubmission);
-            allowing(protocol).getProtocolSubmissions();
-            will(returnValue(submissions));
+            allowing(bean).getNewCommitteeId();
+            will(returnValue(Constants.EMPTY_STRING));
             
-            allowing(protocol).getProtocolSubmission();
-            will(returnValue(protocolSubmission));
-            
-            allowing(protocolSubmission).getSubmissionId();
-            will(returnValue(SUBMISSION_ID));
-            
-            allowing(protocolSubmission).getSubmissionNumber();
-            will(returnValue(1));
-            
-            allowing(protocolSubmission).getSubmissionStatusCode();
-            will(returnValue(ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE));
-            
-            allowing(protocolSubmission).getCommitteeId();
-            will(returnValue(COMMITTEE_ID));
-            
-            allowing(protocolSubmission).getScheduleId();
-            will(returnValue(SCHEDULE_ID));
-            
-            allowing(protocolSubmission).getScheduleIdFk();
-            will(returnValue(1L));
-            
-            allowing(protocolSubmission).getCommitteeDecisionMotionTypeCode();
-            will(returnValue(motionTypeCode));
-            
-            allowing(protocolSubmission).getYesVoteCount();
-            will(returnValue(YES_COUNT));
-            
-            allowing(protocolSubmission).getNoVoteCount();
-            will(returnValue(NO_COUNT));
-            
-            allowing(protocolSubmission).getAbstainerCount();
-            will(returnValue(ABSTAIN_COUNT));
-            
-            allowing(protocolSubmission).getRecusedCount();
-            will(returnValue(RECUSED_COUNT));
-            
-            allowing(protocolSubmission).getVotingComments();
-            will(returnValue(VOTING_COMMENTS));
-            
-            allowing(protocolSubmission).setCommitteeDecisionMotionTypeCode(CommitteeDecisionMotionType.APPROVE);
-            allowing(protocolSubmission).setCommitteeDecisionMotionTypeCode(CommitteeDecisionMotionType.DISAPPROVE);
-            allowing(protocolSubmission).setCommitteeDecisionMotionTypeCode(CommitteeDecisionMotionType.SPECIFIC_MINOR_REVISIONS);
-            allowing(protocolSubmission).setCommitteeDecisionMotionTypeCode(CommitteeDecisionMotionType.SUBSTANTIVE_REVISIONS_REQUIRED);
-            allowing(protocolSubmission).setYesVoteCount(YES_COUNT);
-            allowing(protocolSubmission).setNoVoteCount(NO_COUNT);
-            allowing(protocolSubmission).setAbstainerCount(ABSTAIN_COUNT);
-            allowing(protocolSubmission).setRecusedCount(RECUSED_COUNT);
-            allowing(protocolSubmission).setVotingComments(VOTING_COMMENTS);
+            allowing(bean).getNewScheduleId();
+            will(returnValue(Constants.EMPTY_STRING));
         }});
+        
+        return bean;
     }
     
-    private void mockProtocolAction() {
-        protocolAction = new ProtocolAction(protocol, protocolSubmission, ProtocolActionType.RECORD_COMMITTEE_DECISION);
+    private CommitteeService getMockCommitteeService() {
+        final CommitteeService service = context.mock(CommitteeService.class);
         
         context.checking(new Expectations() {{
-            allowing(protocol).getLastProtocolAction();
-            will(returnValue(protocolAction));
-        }});
-    
-    }
-    
-    private void mockProtocolActionService() {
-        context.checking(new Expectations() {{
-            allowing(protocolActionService).updateProtocolStatus(protocolAction, protocol);
-        }});
-    }
-    
-    private void mockBusinessObjectService() {
-        context.checking(new Expectations() {{
-            allowing(businessObjectService).save(protocolAction);
-            allowing(businessObjectService).save(protocolDocument);
-        }});
-    }
-    
-    private void mockCommitteeService() {
-        context.checking(new Expectations() {{
-            allowing(committeeService).getAvailableMembers(COMMITTEE_ID, SCHEDULE_ID);
+            allowing(service).getAvailableMembers(null, null);
             will(returnValue(new ArrayList<CommitteeMembership>()));
         }});
+        
+        return service;
     }
     
-    private void mockDocumentService() throws Exception {
+    private DocumentService getMockDocumentService() {
+        final DocumentService service = context.mock(DocumentService.class);
+        
         context.checking(new Expectations() {{
-            allowing(documentService).saveDocument(protocolDocument);
+            ignoring(service);
         }});
+        
+        return service;
     }
     
-    private CommitteeDecision createCommitteeDecision(String motionTypeCode) {
-        CommitteeDecision committeeDecision = new CommitteeDecision(null);
-        committeeDecision.setMotionTypeCode(motionTypeCode);
-        committeeDecision.setYesCount(YES_COUNT);
-        committeeDecision.setNoCount(NO_COUNT);
-        committeeDecision.setAbstainCount(ABSTAIN_COUNT);
-        committeeDecision.setRecusedCount(RECUSED_COUNT);
-        committeeDecision.getReviewComments().setProtocolId(PROTOCOL_ID);
-        committeeDecision.setVotingComments(VOTING_COMMENTS);
-        return committeeDecision;
+    private CommitteeDecision getMockCommitteeDecisionBean(final String motionTypeCode) {
+        final CommitteeDecision committeeDecisionBean = context.mock(CommitteeDecision.class);
+        
+        context.checking(new Expectations() {{
+            allowing(committeeDecisionBean).getMotionTypeCode();
+            will(returnValue(motionTypeCode));
+            
+            allowing(committeeDecisionBean).getYesCount();
+            will(returnValue(YES_COUNT));
+            
+            allowing(committeeDecisionBean).getNoCount();
+            will(returnValue(NO_COUNT));
+            
+            allowing(committeeDecisionBean).getAbstainCount();
+            will(returnValue(ABSTAIN_COUNT));
+            
+            allowing(committeeDecisionBean).getRecusedCount();
+            will(returnValue(RECUSED_COUNT));
+            
+            allowing(committeeDecisionBean).getVotingComments();
+            will(returnValue(VOTING_COMMENTS));
+            
+            allowing(committeeDecisionBean).getAbstainers();
+            will(returnValue(new ArrayList<CommitteePerson>()));
+            
+            allowing(committeeDecisionBean).getRecused();
+            will(returnValue(new ArrayList<CommitteePerson>()));
+            
+            allowing(committeeDecisionBean).getAbstainersToDelete();
+            will(returnValue(new ArrayList<CommitteePerson>()));
+            
+            allowing(committeeDecisionBean).getRecusedToDelete();
+            will(returnValue(new ArrayList<CommitteePerson>()));
+            
+            allowing(committeeDecisionBean).getReviewCommentsBean();
+            will(returnValue(new ReviewCommentsBean()));
+        }});
+        
+        return committeeDecisionBean;
     }
 
 }
