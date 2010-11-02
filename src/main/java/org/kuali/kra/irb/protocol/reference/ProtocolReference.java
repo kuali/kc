@@ -16,14 +16,25 @@
 package org.kuali.kra.irb.protocol.reference;
 
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAssociate;
 
+/**
+ * 
+ * This class...
+ */
 public class ProtocolReference extends ProtocolAssociate { 
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 7610203950849323256L;
     private Long protocolReferenceId;
-	private Integer protocolReferenceNumber; 
+    private Integer protocolReferenceNumber; 
 	private Integer protocolReferenceTypeCode; 
 	private String referenceKey; 
 	private Date applicationDate; 
@@ -31,9 +42,44 @@ public class ProtocolReference extends ProtocolAssociate {
 	private String comments; 
 	private ProtocolReferenceType protocolReferenceType; 
 	
+	/**
+	 * 
+	 * Constructs a ProtocolReference.java.
+	 */
 	public ProtocolReference() { 
 
 	} 
+	
+	/**
+	 * 
+	 * Constructs a ProtocolReference.java.
+	 * @param bean
+	 * @param protocol
+	 * @param protocolReferenceType
+	 * @throws ParseException
+	 */
+	public ProtocolReference(ProtocolReferenceBean bean, Protocol protocol, ProtocolReferenceType protocolReferenceType) throws ParseException {
+	    System.err.println("Got HEre!!!!!");
+	    this.protocolReferenceType = protocolReferenceType;
+	    this.protocolReferenceTypeCode = protocolReferenceType.getProtocolReferenceTypeCode();
+	    this.setProtocol(protocol);
+	    this.setProtocolId(protocol.getProtocolId());
+	    this.setProtocolNumber(protocol.getProtocolNumber());
+	    System.err.println("protocol.getProtocolNumber(): " + protocol.getProtocolNumber());
+	    this.referenceKey = bean.getReferenceKey();
+	    this.comments = bean.getComments();
+	    this.setApplicationDate(convertStringToDate(bean.getApplicationDate()));
+	    this.setApprovalDate(convertStringToDate(bean.getApprovalDate()));
+    } 
+	
+	private Date convertStringToDate(String stringDate) throws ParseException {
+	    if (!StringUtils.isBlank(stringDate)) {
+    	    Date date = new Date(DateFormat.getDateInstance(DateFormat.SHORT).parse(stringDate).getTime());
+    	    return date;
+	    } else {
+	        return null;
+	    }
+	}
 
     public void setProtocolReferenceId(Long protocolReferenceId) {
         this.protocolReferenceId = protocolReferenceId;

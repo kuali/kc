@@ -24,11 +24,11 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public abstract class ProtocolReferenceEventBase extends KraDocumentEventBase implements ProtocolReferenceEvent {
     
-    private ProtocolReference protocolReference;
+    private ProtocolReferenceBean protocolReferenceBean;
     
-    protected ProtocolReferenceEventBase(String description, String errorPathPrefix, ProtocolDocument document, ProtocolReference protocolReference) {
+    protected ProtocolReferenceEventBase(String description, String errorPathPrefix, ProtocolDocument document, ProtocolReferenceBean protocolReferenceBean) {
         super(description, errorPathPrefix, document);
-        this.protocolReference = (ProtocolReference) ObjectUtils.deepCopy(protocolReference);
+        this.protocolReferenceBean = protocolReferenceBean;
     }
 
     /**
@@ -37,12 +37,12 @@ public abstract class ProtocolReferenceEventBase extends KraDocumentEventBase im
     @Override
     protected void logEvent() {
     }
-
+    
     /**
-     * @see org.kuali.kra.irb.protocol.reference.ProtocolReferenceEvent#getProtocolReference()
+     * @see org.kuali.kra.irb.protocol.reference.ProtocolReferenceEvent#getProtocolReferenceBean()
      */
-    public ProtocolReference getProtocolReference() {
-        return this.protocolReference;
+    public ProtocolReferenceBean getProtocolReferenceBean() {
+        return this.protocolReferenceBean;
     }
 
 }

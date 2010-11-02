@@ -20,8 +20,7 @@ import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 /**
  * This interface is hook to Kuali Event Notification
  */
-public interface ProtocolReferenceEvent extends KualiDocumentEvent {
-    
-    public ProtocolReference getProtocolReference();
+public interface ProtocolReferenceEvent extends KualiDocumentEvent {    
+    public ProtocolReferenceBean getProtocolReferenceBean();
     
 }

@@ -41,6 +41,7 @@ import org.kuali.kra.irb.personnel.PersonnelHelper;
 import org.kuali.kra.irb.protocol.ProtocolHelper;
 import org.kuali.kra.irb.protocol.participant.ParticipantsHelper;
 import org.kuali.kra.irb.protocol.reference.ProtocolReference;
+import org.kuali.kra.irb.protocol.reference.ProtocolReferenceBean;
 import org.kuali.kra.irb.questionnaire.QuestionnaireHelper;
 import org.kuali.kra.irb.specialreview.SpecialReviewHelper;
 import org.kuali.kra.service.KraAuthorizationService;
@@ -87,7 +88,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     private transient ProtocolNotepadHelper notepadHelper;
     private boolean auditActivated;
     
-    private ProtocolReference newProtocolReference;
+    private ProtocolReferenceBean newProtocolReferenceBean;
     
     //KNS Lookup hooks
     private String lookupResultsSequenceNumber;
@@ -123,7 +124,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         setQuestionnaireHelper(new QuestionnaireHelper(this));
         setAttachmentsHelper(new ProtocolAttachmentHelper(this));
         setNotepadHelper(new ProtocolNotepadHelper(this));
-        setNewProtocolReference(new ProtocolReference());
+        setNewProtocolReferenceBean(new ProtocolReferenceBean());
         setOnlineReviewsActionHelper(new OnlineReviewsActionHelper(this));
     }
 
@@ -322,13 +323,13 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     public ParticipantsHelper getParticipantsHelper() {
         return participantsHelper;
     }
-
-    public void setNewProtocolReference(ProtocolReference newProtocolReference) {
-        this.newProtocolReference = newProtocolReference;
+    
+    public void setNewProtocolReferenceBean(ProtocolReferenceBean newProtocolReferenceBean) {
+        this.newProtocolReferenceBean = newProtocolReferenceBean;
     }
 
-    public ProtocolReference getNewProtocolReference() {
-        return newProtocolReference;
+    public ProtocolReferenceBean getNewProtocolReferenceBean() {
+        return newProtocolReferenceBean;
     }
     
     @Override
