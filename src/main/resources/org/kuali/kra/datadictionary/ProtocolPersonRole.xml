@@ -39,6 +39,7 @@
 				<ref bean="ProtocolPersonRole-trainingDetailsRequired" />
                 <ref bean="ProtocolPersonRole-commentsDetailsRequired" />
 				<ref bean="ProtocolPersonRole-versionNumber" />
+				<ref bean="ProtocolPersonRole-active" />
 			</list>
 		</property>
 	</bean>
@@ -107,6 +108,15 @@
 	<bean id="ProtocolPersonRole-versionNumber" parent="ProtocolPersonRole-versionNumber-parentBean" />
 	<bean id="ProtocolPersonRole-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
 	</bean>
+	
+	<bean id="ProtocolPersonRole-active" parent="ProtocolPersonRole-active-parentBean" />
+  	<bean id="ProtocolPersonRole-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    	<property name="name" value="active" />
+        <property name="label" value="Active" />
+        <property name="shortLabel" value="Active" />
+        <property name="summary" value="Active" />
+        <property name="description" value="Active" />
+  	</bean>
 
 	<!-- Business Object Inquiry Definition -->
 	<bean id="ProtocolPersonRole-inquiryDefinition" parent="ProtocolPersonRole-inquiryDefinition-parentBean" />
@@ -124,6 +134,8 @@
 								p:forceInquiry="true" />
 							<bean parent="FieldDefinition"
 								p:attributeName="description" />
+							<bean parent="FieldDefinition"
+								p:attributeName="active" />
 						</list>
 					</property>
 				</bean>
@@ -148,6 +160,8 @@
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
 					p:attributeName="description" />
+				<bean parent="FieldDefinition"
+					p:attributeName="active" />
 			</list>
 		</property>
 		<property name="resultFields" >
@@ -157,6 +171,8 @@
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
 					p:attributeName="description" />
+				<bean parent="FieldDefinition"
+					p:attributeName="active" />
 			</list>
 		</property>
 	</bean>
