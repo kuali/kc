@@ -17,75 +17,74 @@ package org.kuali.kra.irb.actions.expediteapproval;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Collections;
 
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.approve.ProtocolApproveBean;
+import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.irb.actions.submit.ExpeditedReviewCheckListItem;
+import org.kuali.kra.irb.actions.submit.ProtocolActionService;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.test.ProtocolFactory;
-import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.test.data.PerSuiteUnitTestData;
-import org.kuali.rice.test.data.UnitTestData;
-import org.kuali.rice.test.data.UnitTestFile;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.DateUtils;
 
 /**
  * Test the ProtocolWithdrawService implementation.
  */
-@PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
-        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_status.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ORG_TYPE.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_PERSON_ROLES.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_type.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_review_type.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_REVIEWER_TYPE.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_committee_type.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_STATUS.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_CONTINGENCY.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_EXPEDITED_REVIEW_CHECKLIST.sql", delimiter = ";"), 
-        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE_QUALIFIER.sql", delimiter = ";")
-}))
 public class ProtocolExpediteApprovalServiceTest extends KcUnitTestBase {
 
+    private static final Date ACTION_DATE = new Date(System.currentTimeMillis());
+    private static final Date APPROVAL_DATE = DateUtils.convertToSqlDate(DateUtils.addWeeks(ACTION_DATE, -1));
+    private static final Date EXPIRATION_DATE = DateUtils.convertToSqlDate(DateUtils.addYears(ACTION_DATE, 1));
     private static final String COMMENTS = "Testing expedited approval";
-    private static final String VALID_SUBMISSION_TYPE = "100";
-    private static final String EXPIDITED_REVIEW_TYPE = "2";
-    private static final String VALID_CONTINGENCY_CODE_1 = "22";
     private static final String VALID_EXPEDITED_REVIEW_CHECKLIST_CODE = "1";
-    
-    private ProtocolExpediteApprovalService protocolExpediteApprovalService;
+
+    private ProtocolExpediteApprovalServiceImpl service;
     private ProtocolSubmitActionService protocolSubmitActionService;
-    private BusinessObjectService businessObjectService;  
+    
+    private Mockery context = new JUnit4Mockery() {{
+        setImposteriser(ClassImposteriser.INSTANCE);
+    }};
     
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        GlobalVariables.setUserSession(new UserSession("quickstart"));
-        protocolExpediteApprovalService = KraServiceLocator.getService(ProtocolExpediteApprovalService.class);
+
+        service = new ProtocolExpediteApprovalServiceImpl();
+        service.setProtocolActionService(KraServiceLocator.getService(ProtocolActionService.class));
+        service.setDocumentService(getMockDocumentService());
+        service.setProtocolActionCorrespondenceGenerationService(getMockActionCorrespondenceGenerationService());
+        service.setProtocolOnlineReviewService(getMockOnlineReviewService());
+        
         protocolSubmitActionService = KraServiceLocator.getService(ProtocolSubmitActionService.class);
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
     }
 
     @After
     public void tearDown() throws Exception {
-        GlobalVariables.setUserSession(null);
+        service = null;
+        protocolSubmitActionService = null;
+        
         super.tearDown();
     }
     
@@ -93,68 +92,119 @@ public class ProtocolExpediteApprovalServiceTest extends KcUnitTestBase {
     public void testGrantExemption() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
 
-        ProtocolApproveBean expeditedApprovalBean = new ProtocolApproveBean(null);
-        expeditedApprovalBean.setComments(COMMENTS);
-        expeditedApprovalBean.setApprovalDate(new Date(System.currentTimeMillis()));
-        expeditedApprovalBean.setExpirationDate(new Date(System.currentTimeMillis()));
-        expeditedApprovalBean.setActionDate(new Date(System.currentTimeMillis()));
-        addComments(protocolDocument.getProtocol(), expeditedApprovalBean);
+        protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), getMockSubmitAction());
         
-        ProtocolSubmitAction submitAction = createSubmitAction("668", "1", EXPIDITED_REVIEW_TYPE);
-        addExemptStudiesCheckList(submitAction);
-        submitAction.setSubmissionQualifierTypeCode("2");
-        protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
+        assertEquals(ProtocolStatus.SUBMITTED_TO_IRB, protocolDocument.getProtocol().getProtocolStatusCode());
         
-        expeditedApprovalBean.getReviewComments().setProtocolId(protocolDocument.getProtocol().getProtocolId());
-        protocolExpediteApprovalService.grantExpeditedApproval(protocolDocument.getProtocol(), expeditedApprovalBean);
+        service.grantExpeditedApproval(protocolDocument.getProtocol(), getMockApproveBean());
     
         assertEquals(ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT, protocolDocument.getProtocol().getProtocolStatusCode());
         
-        ProtocolAction protocolAction = findProtocolAction(protocolDocument.getProtocol().getProtocolId());
-        assertNotNull(protocolAction);
-        assertEquals(COMMENTS, protocolAction.getComments());
+        assertTrue(!protocolDocument.getProtocol().getProtocolActions().isEmpty());
+        ProtocolAction action = protocolDocument.getProtocol().getLastProtocolAction();
+        assertNotNull(action);
+        assertEquals(APPROVAL_DATE, protocolDocument.getProtocol().getApprovalDate());
+        assertEquals(EXPIRATION_DATE, protocolDocument.getProtocol().getExpirationDate());
+        assertEquals(COMMENTS, action.getComments());
+        assertEquals(ACTION_DATE, action.getActionDate());
         
-        ProtocolSubmission submission = protocolDocument.getProtocol().getProtocolSubmissions().get(0);
+        assertTrue(!protocolDocument.getProtocol().getProtocolSubmissions().isEmpty());
+        ProtocolSubmission submission = protocolDocument.getProtocol().getProtocolSubmission();
+        assertNotNull(submission);
         assertEquals(ProtocolSubmissionStatus.APPROVED, submission.getSubmissionStatusCode());
     }
-
-    private void addExemptStudiesCheckList(ProtocolSubmitAction submitAction) {
-        List<ExpeditedReviewCheckListItem> checkList = new ArrayList<ExpeditedReviewCheckListItem>();
-        ExpeditedReviewCheckListItem expeditedReviewCheckListItem = new ExpeditedReviewCheckListItem();
-        expeditedReviewCheckListItem.setExpeditedReviewCheckListCode(VALID_EXPEDITED_REVIEW_CHECKLIST_CODE);
-        expeditedReviewCheckListItem.setChecked(true);
-        submitAction.setExpeditedReviewCheckList(checkList);
-    }
     
-    private void addComments(Protocol protocol, ProtocolApproveBean expeditedApprovalBean) {
-        List<CommitteeScheduleMinute> comments = new ArrayList<CommitteeScheduleMinute>();
-        CommitteeScheduleMinute firstComment = new CommitteeScheduleMinute();
-        firstComment.setProtocolContingencyCode(VALID_CONTINGENCY_CODE_1);
-        firstComment.setPrivateCommentFlag(true);
-        firstComment.setProtocolIdFk(protocol.getProtocolId());
-        expeditedApprovalBean.getReviewComments().setComments(comments);
-    }
-    
-    @SuppressWarnings("unchecked")
-    private ProtocolAction findProtocolAction(Long protocolId) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("protocolId", protocolId);
-        List<ProtocolAction> actions = (List<ProtocolAction>) businessObjectService.findMatching(ProtocolAction.class, fieldValues);
+    private ProtocolSubmitAction getMockSubmitAction() {
+        final ProtocolSubmitAction action = context.mock(ProtocolSubmitAction.class);
         
-        assertEquals(2, actions.size());
-        ProtocolAction action = actions.get(1);
+        context.checking(new Expectations() {{
+            allowing(action).getSubmissionTypeCode();
+            will(returnValue(ProtocolSubmissionType.INITIAL_SUBMISSION));
+            
+            allowing(action).getProtocolReviewTypeCode();
+            will(returnValue(ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE));
+            
+            allowing(action).getSubmissionQualifierTypeCode();
+            will(returnValue(ProtocolSubmissionQualifierType.ANNUAL_SCHEDULED_BY_IRB));
+            
+            allowing(action).getNewCommitteeId();
+            will(returnValue(Constants.EMPTY_STRING));
+            
+            allowing(action).getNewScheduleId();
+            will(returnValue(Constants.EMPTY_STRING));
+            
+            allowing(action).getReviewers();
+            will(returnValue(new ArrayList<ProtocolReviewerBean>()));
+            
+            allowing(action).getExpeditedReviewCheckList();
+            will(returnValue(Collections.singletonList(getMockExpeditedReviewCheckListItem())));
+        }});
+        
         return action;
     }
     
-    /*
-     * Create protocol submission action.
-     */
-    private ProtocolSubmitAction createSubmitAction(String committeeId, String scheduleId, String protocolReviewTypeCode) {
-        ProtocolSubmitAction submitAction = new ProtocolSubmitAction(null);
-        submitAction.setSubmissionTypeCode(VALID_SUBMISSION_TYPE);
-        submitAction.setProtocolReviewTypeCode(protocolReviewTypeCode);
-        submitAction.setCommitteeId(committeeId);
-        submitAction.setScheduleId(scheduleId);
-        return submitAction;
+    private ExpeditedReviewCheckListItem getMockExpeditedReviewCheckListItem() {
+        final ExpeditedReviewCheckListItem item = context.mock(ExpeditedReviewCheckListItem.class);
+        
+        context.checking(new Expectations() {{
+            allowing(item).getExpeditedReviewCheckListCode();
+            will(returnValue(VALID_EXPEDITED_REVIEW_CHECKLIST_CODE));
+            
+            allowing(item).getChecked();
+            will(returnValue(true));
+        }});
+        
+        return item;
     }
+    
+    private ProtocolApproveBean getMockApproveBean() {
+        final ProtocolApproveBean bean = context.mock(ProtocolApproveBean.class);
+        
+        context.checking(new Expectations() {{
+            allowing(bean).getApprovalDate();
+            will(returnValue(APPROVAL_DATE));
+            
+            allowing(bean).getExpirationDate();
+            will(returnValue(EXPIRATION_DATE));
+            
+            allowing(bean).getActionDate();
+            will(returnValue(ACTION_DATE));
+            
+            allowing(bean).getComments();
+            will(returnValue(COMMENTS));
+        }});
+        
+        return bean;
+    }
+    
+    private DocumentService getMockDocumentService() {
+        final DocumentService service = context.mock(DocumentService.class);
+        
+        context.checking(new Expectations() {{
+            ignoring(service);
+        }});
+        
+        return service;
+    }
+    
+    private ProtocolActionCorrespondenceGenerationService getMockActionCorrespondenceGenerationService() {
+        final ProtocolActionCorrespondenceGenerationService service = context.mock(ProtocolActionCorrespondenceGenerationService.class);
+        
+        context.checking(new Expectations() {{
+            ignoring(service);
+        }});
+        
+        return service;
+    }
+    
+    private ProtocolOnlineReviewService getMockOnlineReviewService() {
+        final ProtocolOnlineReviewService service = context.mock(ProtocolOnlineReviewService.class);
+        
+        context.checking(new Expectations() {{
+            ignoring(service);
+        }});
+        
+        return service;
+    }
+    
 }

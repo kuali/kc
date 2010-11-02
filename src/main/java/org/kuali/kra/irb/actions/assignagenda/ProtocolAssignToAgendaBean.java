@@ -27,26 +27,24 @@ import org.kuali.kra.printing.Printable;
 /**
  * This class is really just a "form" for assigning a protocol to an agenda.
  */
-@SuppressWarnings("serial")
 public class ProtocolAssignToAgendaBean extends ProtocolGenericActionBean implements Serializable {
+
+    private static final long serialVersionUID = -1671485882883282877L;
     
     private String committeeId = "";
     private String committeName = "";
     private String scheduleDate = "";
-    private boolean protocolAssigned = false;
+    private boolean protocolAssigned;
     private Date actionDate = new Date(System.currentTimeMillis());
 
     private transient ProtocolAssignToAgendaService agendaService;
 
     /**
-     * 
-     * Constructs a ProtocolAssignToAgendaBean.java.
-     * 
-     * @param actionHelper an ActionHelper object
+     * Constructs a ProtocolAssignToAgendaBean.
+     * @param actionHelper a reference back to the parent helper
      */
     public ProtocolAssignToAgendaBean(ActionHelper actionHelper) {
         super(actionHelper);
-
     }
     
     

@@ -29,6 +29,7 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -59,7 +60,7 @@ import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredBean;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsService;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
@@ -243,6 +244,8 @@ public class ActionHelper implements Serializable {
     private List<ProtocolReviewer> protocolReviewers;        
     private int currentSubmissionNumber;
     private String renewalSummary;
+    
+    private transient CommitteeScheduleService committeeScheduleService;
     private transient KcPersonService kcPersonService;
     private transient BusinessObjectService businessObjectService;
     private Map<String, ProtocolRequestBean>  actionTypeRequestBeanMap = new HashMap<String, ProtocolRequestBean>();
@@ -266,14 +269,14 @@ public class ActionHelper implements Serializable {
         protocolRenewAmendmentBean = createAmendmentBean();
         protocolDeleteBean = new ProtocolDeleteBean();
         assignToAgendaBean = new ProtocolAssignToAgendaBean(this);
-        assignToAgendaBean.initComments();
+        assignToAgendaBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         assignCmtSchedBean = new ProtocolAssignCmtSchedBean(this);
         assignCmtSchedBean.init();
         protocolAssignReviewersBean = new ProtocolAssignReviewersBean(this);
         protocolGrantExemptionBean = new ProtocolGrantExemptionBean(this);
-        protocolGrantExemptionBean.initComments();
+        protocolGrantExemptionBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         irbAcknowledgementBean = new IrbAcknowledgementBean(this);
-        irbAcknowledgementBean.initComments();
+        irbAcknowledgementBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         protocolExpediteApprovalBean = buildProtocolApproveBean(ProtocolActionType.EXPEDITE_APPROVAL, form.getProtocolDocument().getProtocol());
         protocolResponseApprovalBean = buildProtocolApproveBean(ProtocolActionType.RESPONSE_APPROVAL, form.getProtocolDocument().getProtocol());
         protocolApproveBean = buildProtocolApproveBean(ProtocolActionType.APPROVED, form.getProtocolDocument().getProtocol());
@@ -292,6 +295,7 @@ public class ActionHelper implements Serializable {
         undoLastActionBean = createUndoLastActionBean(getProtocol());
         committeeDecision = new CommitteeDecision(this);
         committeeDecision.init();
+        committeeDecision.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         protocolModifySubmissionBean = new ProtocolModifySubmissionBean(this.getProtocol().getProtocolSubmission());
         protocolDeferBean = buildProtocolGenericActionBean(ProtocolActionType.DEFERRED, protocolActions, currentSubmission);
         protocolReviewNotRequiredBean = new ProtocolReviewNotRequiredBean();
@@ -331,7 +335,7 @@ public class ActionHelper implements Serializable {
      */
     private ProtocolGenericActionBean buildProtocolGenericActionBean(String actionTypeCode, List<ProtocolAction> protocolActions, ProtocolSubmission currentSubmission) throws Exception {
         ProtocolGenericActionBean bean = new ProtocolGenericActionBean(this);
-        bean.initComments();
+        bean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         ProtocolAction protocolAction = findProtocolAction(actionTypeCode, protocolActions, currentSubmission);
         if (protocolAction != null) {
             bean.setComments(protocolAction.getComments());
@@ -344,7 +348,7 @@ public class ActionHelper implements Serializable {
     
     private ProtocolApproveBean buildProtocolApproveBean(String actionTypeCode, Protocol protocol) throws Exception{
         ProtocolApproveBean bean = new ProtocolApproveBean(this);
-        bean.initComments();
+        bean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         ProtocolAction protocolAction = findProtocolAction(actionTypeCode, protocol.getProtocolActions(), protocol.getProtocolSubmission());
         if (protocolAction != null) {
             bean.setComments(protocolAction.getComments());
@@ -647,26 +651,47 @@ public class ActionHelper implements Serializable {
      * Refreshes the comments for all the beans from the database.  Use sparingly since this will erase non-persisted comments.
      */
     public void prepareCommentsView() {
-        assignToAgendaBean.initComments();
-        protocolGrantExemptionBean.initComments();
-        irbAcknowledgementBean.initComments();
-        protocolExpediteApprovalBean.initComments();
-        protocolResponseApprovalBean.initComments();
-        protocolApproveBean.initComments();
-        protocolDisapproveBean.initComments();
-        protocolSMRBean.initComments();
-        protocolSRRBean.initComments();
-        protocolReopenBean.initComments();
-        protocolCloseEnrollmentBean.initComments();
-        protocolSuspendBean.initComments();
-        protocolSuspendByDsmbBean.initComments();
-        protocolCloseBean.initComments();
-        protocolExpireBean.initComments();
-        protocolTerminateBean.initComments();
-        protocolPermitDataAnalysisBean.initComments();
-        committeeDecision.initComments();
-        protocolDeferBean.initComments();
-        protocolManageReviewCommentsBean.initComments();
+        assignToAgendaBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        protocolGrantExemptionBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        irbAcknowledgementBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        protocolExpediteApprovalBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        protocolResponseApprovalBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        protocolApproveBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        protocolDisapproveBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        protocolSMRBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        protocolSRRBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        protocolReopenBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        protocolCloseEnrollmentBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        protocolSuspendBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        protocolSuspendByDsmbBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        protocolCloseBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        protocolExpireBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        protocolTerminateBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        protocolPermitDataAnalysisBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        committeeDecision.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        protocolDeferBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        protocolManageReviewCommentsBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+    }
+    
+    private List<CommitteeScheduleMinute> getCopiedReviewComments() {
+        List<CommitteeScheduleMinute> clonedMinutes = new ArrayList<CommitteeScheduleMinute>();
+        
+        Long scheduleIdFk = getProtocol().getProtocolSubmission().getScheduleIdFk();
+        List<CommitteeScheduleMinute> minutes = getCommitteeScheduleService().getMinutesBySchedule(scheduleIdFk);
+        if (CollectionUtils.isNotEmpty(minutes)) {
+            for (CommitteeScheduleMinute minute : minutes) {
+                clonedMinutes.add(minute.getCopy());
+            }
+        }
+        
+        return clonedMinutes;
+    }
+    
+    private CommitteeScheduleService getCommitteeScheduleService() {
+        if (committeeScheduleService == null) {
+            committeeScheduleService = KraServiceLocator.getService(CommitteeScheduleService.class);        
+        }
+        return committeeScheduleService;
     }
     
     private ProtocolVersionService getProtocolVersionService() {
@@ -1515,8 +1540,8 @@ public class ActionHelper implements Serializable {
         return businessObjectService;
     }
     
-    private ReviewerCommentsService getReviewerCommentsService() {
-        return KraServiceLocator.getService(ReviewerCommentsService.class);
+    private ReviewCommentsService getReviewerCommentsService() {
+        return KraServiceLocator.getService(ReviewCommentsService.class);
     }
     
     private CommitteeDecisionService getCommitteeDecisionService() {

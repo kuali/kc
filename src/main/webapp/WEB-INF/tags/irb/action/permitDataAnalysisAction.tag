@@ -59,11 +59,10 @@
                 <c:if test="${KualiForm.actionHelper.canAddDataAnalysisReviewerComments}">
 	                <tr>
 	                    <td colspan="2">
-	                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolPermitDataAnalysisBean.reviewComments}"
-	                                                       property="actionHelper.protocolPermitDataAnalysisBean.reviewComments"
+	                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolPermitDataAnalysisBean.reviewCommentsBean}"
+	                                                       property="actionHelper.protocolPermitDataAnalysisBean.reviewCommentsBean"
 	                                                       action="${action}"
-	                                                       actionName="PermitDataAnalysis"
-	                                                       allowReadOnly="${not KualiForm.actionHelper.canManageReviewComments}" />
+	                                                       actionName="PermitDataAnalysis" />
 	                   </td>
 	                </tr>
 	            </c:if>

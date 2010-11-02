@@ -195,11 +195,11 @@
 		
 		
 			<kra-irb-olr:onlineReviewComments actionName="Online" 
-       										  bean="${KualiForm.onlineReviewsActionHelper.protocolOnlineReviewsReviewCommentsList[renderIndex]}"
+       										  bean="${KualiForm.onlineReviewsActionHelper.reviewCommentsBeans[renderIndex]}"
        										  documentNumber = "${documentNumber}" 
        										  allowReadOnly="${readOnly}" 
        										  action="Online" 
-       										  property="onlineReviewsActionHelper.protocolOnlineReviewsReviewCommentsList[${renderIndex}]"
+       										  property="onlineReviewsActionHelper.reviewCommentsBeans[${renderIndex}]"
        										  reviewIndex = "${renderIndex}" readOnly="${readOnly}"></kra-irb-olr:onlineReviewComments>
 		
 

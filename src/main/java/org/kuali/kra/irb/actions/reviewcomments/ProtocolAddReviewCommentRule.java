@@ -22,18 +22,18 @@ import org.kuali.rice.kns.util.GlobalVariables;
 /**
  * Validates the rules for a Protocol Risk Level add action.
  */
-public class ProtocolAddReviewerCommentRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<ProtocolAddReviewerCommentEvent> {
+public class ProtocolAddReviewCommentRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<ProtocolAddReviewCommentEvent> {
     
     /**
      * {@inheritDoc}
      * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
      */
-    public boolean processRules(ProtocolAddReviewerCommentEvent event) {
+    public boolean processRules(ProtocolAddReviewCommentEvent event) {
         boolean isValid = true;
         
-        String errorPathKey = event.getPropertyName() + ".newComment";
+        String errorPathKey = event.getPropertyName() + ".newReviewComment";
         GlobalVariables.getMessageMap().addToErrorPath(errorPathKey);
-        getDictionaryValidationService().validateBusinessObject(event.getReviewerComment());
+        getDictionaryValidationService().validateBusinessObject(event.getReviewComment());
         GlobalVariables.getMessageMap().removeFromErrorPath(errorPathKey);
         
         isValid &= GlobalVariables.getMessageMap().hasNoErrors();

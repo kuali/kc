@@ -24,10 +24,10 @@ import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsService;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewStatus;
+import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kew.dto.ActionTakenEventDTO;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
@@ -154,16 +154,18 @@ public class ProtocolOnlineReviewDocument extends ResearchDocumentBase implement
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
-        if ( StringUtils.equals( statusChangeEvent.getNewRouteStatus(), KEWConstants.ROUTE_HEADER_CANCEL_CD ) 
+        if (StringUtils.equals(statusChangeEvent.getNewRouteStatus(), KEWConstants.ROUTE_HEADER_CANCEL_CD) 
                 || StringUtils.equals(statusChangeEvent.getNewRouteStatus(), KEWConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug(String.format("Protocol Online Review Document %s has been cancelled, deleting associated review comments.", getDocumentNumber()));
             }
-            ReviewerComments reviewerComments = getProtocolOnlineReview().getReviewerComments();
-            reviewerComments.deleteAllComments();
             getProtocolOnlineReview().getProtocolSubmission().getProtocolReviewers().remove(getProtocolOnlineReview().getProtocolReviewer());
-            KraServiceLocator.getService(ReviewerCommentsService.class).persistReviewerComments(reviewerComments, getProtocolOnlineReview().getProtocol());
-            getProtocolOnlineReview().getCommitteeScheduleMinutes().clear();
+            
+            List<CommitteeScheduleMinute> reviewComments = getProtocolOnlineReview().getCommitteeScheduleMinutes();
+            List<CommitteeScheduleMinute> deletedReviewComments = new ArrayList<CommitteeScheduleMinute>();
+            getReviewerCommentsService().deleteAllReviewComments(reviewComments, deletedReviewComments);
+            getReviewerCommentsService().saveReviewComments(reviewComments, deletedReviewComments);
+
             getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD);
             getBusinessObjectService().save(getProtocolOnlineReview());
         }
@@ -191,6 +193,10 @@ public class ProtocolOnlineReviewDocument extends ResearchDocumentBase implement
     
     private BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);
+    }
+    
+    private ReviewCommentsService getReviewerCommentsService() {
+        return KraServiceLocator.getService(ReviewCommentsService.class);
     }
 
     /**

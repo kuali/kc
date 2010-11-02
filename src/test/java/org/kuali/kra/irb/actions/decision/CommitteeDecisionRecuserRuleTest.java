@@ -19,55 +19,58 @@ package org.kuali.kra.irb.actions.decision;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.test.ProtocolFactory;
+import org.kuali.kra.committee.bo.CommitteeDecisionMotionType;
 
 public class CommitteeDecisionRecuserRuleTest extends CommitteeDecisionRuleBase {
     
-    CommitteeDecisionRecuserRule rule;
+    private CommitteeDecisionRecuserRule rule;
 
+    @Override
     @Before
     public void setUp() throws Exception {
         rule = new CommitteeDecisionRecuserRule();
     }
 
+    @Override
     @After
     public void tearDown() throws Exception {
         rule = null;
     }
     
+    /**
+     * Tests a valid new recused.
+     */
     @Test
-    public void testProccessCommitteeDecisionRule1() throws Exception {
-        ProtocolDocument document = ProtocolFactory.createProtocolDocument();
-        CommitteeDecision decision = buildValidCommitteeDecision(document.getProtocol());
-        //add a new recuser
-        decision.setNewRecused(getBasicPerson());
-        assertTrue(rule.proccessCommitteeDecisionRecuserRule(document, decision));
+    public void testValidNewRecused() {
+        CommitteeDecision decision = getMockCommitteeDecisionBean(CommitteeDecisionMotionType.APPROVE, YES_COUNT, NO_COUNT, null, getBasicPerson(), null, false);
+        assertTrue(rule.proccessCommitteeDecisionRecuserRule(null, decision));
     }
     
+   /**
+    * Tests invalid new recused which has no membership ID
+    */
     @Test
-    public void testProccessCommitteeDecisionRule2() throws Exception {
-        ProtocolDocument document = ProtocolFactory.createProtocolDocument();
-        CommitteeDecision decision = buildValidCommitteeDecision(document.getProtocol());
-        //add a new recuser that is already in the recused list
-        decision.setNewRecused(getBasicRescuser());
-        assertFalse(rule.proccessCommitteeDecisionRecuserRule(document, decision));
+    public void testInvalidNewRecusedNoMembershipId() {
+        CommitteeDecision decision = getMockCommitteeDecisionBean(CommitteeDecisionMotionType.APPROVE, YES_COUNT, NO_COUNT, null, new CommitteePerson(), null, false);
+        assertFalse(rule.proccessCommitteeDecisionRecuserRule(null, decision));
     }
     
+    /**
+     * Tests an invalid new recused which is already in the recused list.
+     */
     @Test
-    public void testProccessCommitteeDecisionRule3() throws Exception {
-        ProtocolDocument document = ProtocolFactory.createProtocolDocument();
-        CommitteeDecision decision = buildValidCommitteeDecision(document.getProtocol());
-        //add a new recuser that is already in the abstainer list
-        decision.setNewRecused(getBasicAbstainer());
-        assertFalse(rule.proccessCommitteeDecisionRecuserRule(document, decision));
+    public void testInvalidNewRecusedInRecusedList() {
+        CommitteeDecision decision = getMockCommitteeDecisionBean(CommitteeDecisionMotionType.APPROVE, YES_COUNT, NO_COUNT, null, getBasicRecused(), null, false);
+        assertFalse(rule.proccessCommitteeDecisionRecuserRule(null, decision));
     }
+    
+    /**
+     * Tests an invalid new recused which is already in the abstainer list.
+     */
     @Test
-    public void testProccessCommitteeDecisionRule4() throws Exception {
-        ProtocolDocument document = ProtocolFactory.createProtocolDocument();
-        CommitteeDecision decision = buildValidCommitteeDecision(document.getProtocol());
-        //add a new recuser that is invalid
-        decision.setNewRecused(new CommitteePerson());
-        assertFalse(rule.proccessCommitteeDecisionRecuserRule(document, decision));
+    public void testInvalidNewRecusedInAbstainerList() {
+        CommitteeDecision decision = getMockCommitteeDecisionBean(CommitteeDecisionMotionType.APPROVE, YES_COUNT, NO_COUNT, null, getBasicAbstainer(), null, false);
+        assertFalse(rule.proccessCommitteeDecisionRecuserRule(null, decision));
     }
+
 }

@@ -16,117 +16,109 @@
 package org.kuali.kra.irb.actions.approve;
 
 import java.sql.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolStatus;
+import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevel;
 import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelBean;
+import org.kuali.kra.irb.actions.submit.ProtocolActionService;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
-
-//@PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
-//        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_status.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ORG_TYPE.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_PERSON_ROLES.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_type.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE_QUALIFIER.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_review_type.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_REVIEWER_TYPE.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_committee_type.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ATTACHMENT_TYPE.sql", delimiter = ";")
-//}))
+import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.DateUtils;
 
 public class ProtocolApproveServiceImplTest extends KcUnitTestBase {
     
-    private DocumentService documentService;
-    private ProtocolApproveServiceImpl protocolApproveServiceImpl;
-    private ProtocolApproveService protocolApproveService;
-    
-    private static final Date BASIC_ACTION_DATE = new Date(2010, 2, 14);
+    private static final Date ACTION_DATE = new Date(System.currentTimeMillis());
+    private static final String COMMENTS = "some comments go here";
+    private static final Date APPROVAL_DATE = DateUtils.convertToSqlDate(DateUtils.addWeeks(ACTION_DATE, -1));
+    private static final Date EXPIRATION_DATE = DateUtils.convertToSqlDate(DateUtils.addYears(ACTION_DATE, 1));
     
     private static final String LOW_RISK_CODE = "1";
     private static final String HIGH_RISK_CODE = "5";
     private static final String ACTIVE_STATUS = "A";
     private static final String INACTIVE_STATUS = "I";
+    private static final Date ASSIGNED_DATE = DateUtils.convertToSqlDate(DateUtils.addDays(new Date(System.currentTimeMillis()), -1));
+    private static final Date INACTIVATED_DATE = new Date(System.currentTimeMillis());
     private static final String HIGH_RISK_LEVEL_COMMENTS = "Very high risk.";
+    private static final String PROTOCOL_TYPE_EXEMPT = "4";
+    
+    private ProtocolApproveServiceImpl service;
 
-            
+    private Mockery context = new JUnit4Mockery() {{
+        setImposteriser(ClassImposteriser.INSTANCE);
+    }};
+           
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        GlobalVariables.setUserSession(new UserSession("quickstart"));
-        documentService = KraServiceLocator.getService(DocumentService.class);
-        protocolApproveService = KraServiceLocator.getService(ProtocolApproveService.class);
-        protocolApproveServiceImpl = (ProtocolApproveServiceImpl)KraServiceLocator.getService(ProtocolApproveService.class);
+
+        service = new ProtocolApproveServiceImpl();
+        service.setProtocolActionService(KraServiceLocator.getService(ProtocolActionService.class));
+        service.setParameterService(getMockParameterService());
+        service.setProtocolActionCorrespondenceGenerationService(getMockActionCorrespondenceGenerationService());
+        service.setProtocolOnlineReviewService(getMockOnlineReviewService());
+        service.setDocumentService(KraServiceLocator.getService(DocumentService.class));
     }
 
+    @Override
     @After
     public void tearDown() throws Exception {
-        documentService = null;
-        protocolApproveService = null;
-        protocolApproveServiceImpl = null;
-        GlobalVariables.setUserSession(null);
+        service = null;
+        
         super.tearDown();
-    }
-
-    @Test
-    public void testSetDocumentService() {
-        protocolApproveServiceImpl.setDocumentService(documentService);
-        assertTrue(true);
     }
 
     @Test
     public void testApprove() throws Exception{
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
-        Protocol prot = protocolDocument.getProtocol();
-        ProtocolApproveBean actionBean = new ProtocolApproveBean(null);
-        actionBean.setActionDate(BASIC_ACTION_DATE);
-        actionBean.setApprovalDate(BASIC_ACTION_DATE);
-        actionBean.setComments("some comments go here");
-        actionBean.setExpirationDate(BASIC_ACTION_DATE);
-        documentService.saveDocument(protocolDocument);
-        protocolApproveService.approve(protocolDocument, actionBean);
-        documentService.saveDocument(protocolDocument);
+
+        service.approve(protocolDocument, getMockApproveBean(new ProtocolRiskLevelBean()));
+        
         String expected = ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT;
-        assertEquals(expected, prot.getProtocolStatus().getProtocolStatusCode());
+        assertEquals(expected, protocolDocument.getProtocol().getProtocolStatus().getProtocolStatusCode());
     }
     
     @Test
     public void testApproveRiskLevels() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
-        ProtocolApproveBean protocolApproveBean = new ProtocolApproveBean(null);
-        ProtocolRiskLevelBean protocolRiskLevelBean = protocolApproveBean.getProtocolRiskLevelBean();
+        
+        ProtocolRiskLevelBean protocolRiskLevelBean = new ProtocolRiskLevelBean();
         
         ProtocolRiskLevel lowRiskLevelProtocol = protocolRiskLevelBean.getNewProtocolRiskLevel();
         lowRiskLevelProtocol.setRiskLevelCode(LOW_RISK_CODE);
-        lowRiskLevelProtocol.setDateAssigned(BASIC_ACTION_DATE);
+        lowRiskLevelProtocol.setDateAssigned(ASSIGNED_DATE);
         lowRiskLevelProtocol.setStatus(ACTIVE_STATUS);
         protocolRiskLevelBean.addNewProtocolRiskLevel(protocolDocument.getProtocol());
         
         ProtocolRiskLevel highRiskLevelProtocol = protocolRiskLevelBean.getNewProtocolRiskLevel();
         highRiskLevelProtocol.setRiskLevelCode(HIGH_RISK_CODE);
-        highRiskLevelProtocol.setDateAssigned(BASIC_ACTION_DATE);
+        highRiskLevelProtocol.setDateAssigned(ASSIGNED_DATE);
         highRiskLevelProtocol.setStatus(INACTIVE_STATUS);
-        highRiskLevelProtocol.setDateInactivated(BASIC_ACTION_DATE);
+        highRiskLevelProtocol.setDateInactivated(INACTIVATED_DATE);
         highRiskLevelProtocol.setComments(HIGH_RISK_LEVEL_COMMENTS);
         protocolRiskLevelBean.addNewProtocolRiskLevel(protocolDocument.getProtocol());
         
-        protocolApproveService.approve(protocolDocument, protocolApproveBean);
+        ProtocolApproveBean protocolApproveBean = getMockApproveBean(protocolRiskLevelBean);
+        service.approve(protocolDocument, protocolApproveBean);
         
-        verifyPersistRiskLevel(protocolDocument.getProtocol(), 0, LOW_RISK_CODE, BASIC_ACTION_DATE, ACTIVE_STATUS);
-        verifyPersistRiskLevel(protocolDocument.getProtocol(), 1, HIGH_RISK_CODE, BASIC_ACTION_DATE, INACTIVE_STATUS, BASIC_ACTION_DATE, 
+        verifyPersistRiskLevel(protocolDocument.getProtocol(), 0, LOW_RISK_CODE, ASSIGNED_DATE, ACTIVE_STATUS);
+        verifyPersistRiskLevel(protocolDocument.getProtocol(), 1, HIGH_RISK_CODE, ASSIGNED_DATE, INACTIVE_STATUS, INACTIVATED_DATE, 
                 HIGH_RISK_LEVEL_COMMENTS);
     }
     
@@ -136,7 +128,7 @@ public class ProtocolApproveServiceImplTest extends KcUnitTestBase {
     
     private void verifyPersistRiskLevel(Protocol protocol, int index, String expectedRiskLevelCode, Date expectedDateAssigned, String expectedStatus, 
             Date expectedDateUpdated, String expectedComments) {
-        ProtocolRiskLevel protocolRiskLevel = findProtocolRiskLevel(protocol.getProtocolId(), index);
+        ProtocolRiskLevel protocolRiskLevel = findProtocolRiskLevel(protocol, index);
         assertEquals(protocolRiskLevel.getProtocolId(), protocol.getProtocolId());
         assertEquals(expectedRiskLevelCode, protocolRiskLevel.getRiskLevelCode());
         assertEquals(expectedDateAssigned, protocolRiskLevel.getDateAssigned());
@@ -145,13 +137,64 @@ public class ProtocolApproveServiceImplTest extends KcUnitTestBase {
         assertEquals(expectedComments, protocolRiskLevel.getComments());
     }
     
-    @SuppressWarnings("unchecked")
-    private ProtocolRiskLevel findProtocolRiskLevel(Long protocolId, int index) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("protocolId", protocolId);
-        List<ProtocolRiskLevel> list = (List<ProtocolRiskLevel>) getBusinessObjectService().findMatching(ProtocolRiskLevel.class, fieldValues);
-        
-        assertTrue(index + 1 <= list.size());
-        return list.get(index);
+    private ProtocolRiskLevel findProtocolRiskLevel(Protocol protocol, int index) {
+        List<ProtocolRiskLevel> riskLevels = protocol.getProtocolRiskLevels();
+        assertTrue(index + 1 <= riskLevels.size());
+        return riskLevels.get(index);
     }
+    
+    private ParameterService getMockParameterService() {
+        final ParameterService service = context.mock(ParameterService.class);
+        
+        context.checking(new Expectations() {{
+            allowing(service).getParameterValue(ProtocolDocument.class, Constants.PROTOCOL_TYPE_CODE_EXEMPT);
+            will(returnValue(PROTOCOL_TYPE_EXEMPT));
+        }});
+        
+        return service;
+    }
+    
+    private ProtocolActionCorrespondenceGenerationService getMockActionCorrespondenceGenerationService() {
+        final ProtocolActionCorrespondenceGenerationService service = context.mock(ProtocolActionCorrespondenceGenerationService.class);
+        
+        context.checking(new Expectations() {{
+            ignoring(service);
+        }});
+        
+        return service;
+    }
+    
+    private ProtocolOnlineReviewService getMockOnlineReviewService() {
+        final ProtocolOnlineReviewService service = context.mock(ProtocolOnlineReviewService.class);
+        
+        context.checking(new Expectations() {{
+            ignoring(service);
+        }});
+        
+        return service;
+    }
+    
+    private ProtocolApproveBean getMockApproveBean(final ProtocolRiskLevelBean protocolRiskLevelBean) {
+        final ProtocolApproveBean bean = context.mock(ProtocolApproveBean.class);
+        
+        context.checking(new Expectations() {{
+            allowing(bean).getApprovalDate();
+            will(returnValue(APPROVAL_DATE));
+            
+            allowing(bean).getExpirationDate();
+            will(returnValue(EXPIRATION_DATE));
+            
+            allowing(bean).getActionDate();
+            will(returnValue(ACTION_DATE));
+            
+            allowing(bean).getComments();
+            will(returnValue(COMMENTS));
+            
+            allowing(bean).getProtocolRiskLevelBean();
+            will(returnValue(protocolRiskLevelBean));
+        }});
+        
+        return bean;
+    }
+    
 }

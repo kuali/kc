@@ -141,7 +141,7 @@
    		<property name = "reviewerApproveNodeName" value = "OnlineReviewer"/>
    		<property name = "irbAdminApproveNodeName" value = "IRBAdminReview"/>
    		<property name = "kraDocumentRejectionService" ref = "kraDocumentRejectionService"/>
-   		<property name = "reviewerCommentsService" ref = "reviewerCommentsService"/>
+   		<property name = "reviewCommentsService" ref = "reviewCommentsService"/>
    		<property name="protocolFinderDao" ref="protocolFinderDao" />
     </bean>
     
@@ -586,12 +586,13 @@
         <property name="committeeService" ref="committeeService" />
     </bean>
     
-    <bean id="reviewerCommentsService" class="org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsServiceImpl">
+    <bean id="reviewCommentsService" class="org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="committeeScheduleService" ref="committeeScheduleService" />
         <property name="committeeService" ref="committeeService" />
    		<property name="protocolFinderDao" ref="protocolFinderDao" />
    		<property name="roleService" ref="roleManagementService" />
+   		<property name="dateTimeService" ref="dateTimeService" />
     </bean>   
     
     <bean id="protocolAssignToAgendaService" class="org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaServiceImpl">

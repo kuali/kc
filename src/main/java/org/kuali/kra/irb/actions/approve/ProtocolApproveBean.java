@@ -21,15 +21,21 @@ import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelBean;
 
+/**
+ * This class is really just a "form" for approving a protocol.
+ */
 public class ProtocolApproveBean extends ProtocolGenericActionBean {
 
+    private static final long serialVersionUID = 8171915138697584398L;
+    
     private Date approvalDate;
     private Date expirationDate;
     
     private ProtocolRiskLevelBean protocolRiskLevelBean;
     
     /**
-     * Constructor initializes variables with no default values.
+     * Constructs a ProtocolApproveBean.
+     * @param actionHelper a reference back to the parent helper
      */
     public ProtocolApproveBean(ActionHelper actionHelper) {
         super(actionHelper);
@@ -54,5 +60,6 @@ public class ProtocolApproveBean extends ProtocolGenericActionBean {
        
     public ProtocolRiskLevelBean getProtocolRiskLevelBean() {
         return protocolRiskLevelBean;
-    }    
+    }
+    
 }

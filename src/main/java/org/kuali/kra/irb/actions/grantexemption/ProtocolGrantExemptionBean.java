@@ -19,24 +19,28 @@ import java.io.Serializable;
 import java.sql.Date;
 
 import org.kuali.kra.irb.actions.ActionHelper;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsBean;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
 
 /**
  * This class is really just a "form" for granting an exemption.
  */
-@SuppressWarnings("serial")
-public class ProtocolGrantExemptionBean extends ReviewerCommentsBean implements Serializable{
+public class ProtocolGrantExemptionBean implements Serializable {
+
+    private static final long serialVersionUID = -369805742361963806L;
     
     private Date approvalDate = new Date(System.currentTimeMillis());
     private String comments = "";
     private Date actionDate = new Date(System.currentTimeMillis());
     
+    private ReviewCommentsBean reviewCommentsBean;
+    
     /**
      * Constructs a ProtocolGrantExemptionBean.
-     * @param actionHelper Reference back to the paren ActionHelper
+     * @param actionHelper a reference back to the parent helper
      */
     public ProtocolGrantExemptionBean(ActionHelper actionHelper) {
-        super(actionHelper);
+        reviewCommentsBean = new ReviewCommentsBean();
+        reviewCommentsBean.setProtocol(actionHelper.getProtocol());
     }
     
     public Date getApprovalDate() {
@@ -63,8 +67,17 @@ public class ProtocolGrantExemptionBean extends ReviewerCommentsBean implements 
         this.actionDate = actionDate;
     }
     
+    public ReviewCommentsBean getReviewCommentsBean() {
+        return reviewCommentsBean;
+    }
+
+    public void setReviewCommentsBean(ReviewCommentsBean reviewCommentsBean) {
+        this.reviewCommentsBean = reviewCommentsBean;
+    }
+
     public GrantExemptionCorrespondence getCorrespondence() {
         GrantExemptionCorrespondence correspondence = new GrantExemptionCorrespondence();
         return correspondence;
     }
+    
 }

@@ -22,16 +22,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ActionHelper;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsBean;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.meeting.ProtocolVoteAbstainee;
 import org.kuali.kra.meeting.ProtocolVoteRecused;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -39,9 +36,12 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 /**
  * This class is a bean for managing the input for a committee decision.
  */
-@SuppressWarnings("serial")
-public class CommitteeDecision extends ReviewerCommentsBean implements Serializable {
+public class CommitteeDecision implements Serializable {
 
+    private static final long serialVersionUID = -5299517839812034337L;
+
+    private ActionHelper actionHelper;
+    
     private String motionTypeCode;
     private Integer noCount;
     private Integer yesCount;
@@ -59,25 +59,29 @@ public class CommitteeDecision extends ReviewerCommentsBean implements Serializa
     private List<CommitteePerson> abstainersToDelete = new ArrayList<CommitteePerson>();
     private List<CommitteePerson> recusedToDelete = new ArrayList<CommitteePerson>();
     
+    private ReviewCommentsBean reviewCommentsBean;
+    
     /**
      * Constructs a CommitteeDecision.
-     * @param actionHelper Reference back to the parent ActionHelper
+     * @param actionHelper a reference back to the parent helper
      */
     public CommitteeDecision(ActionHelper actionHelper) {
-        super(actionHelper);
+        this.actionHelper = actionHelper;
+        
+        reviewCommentsBean = new ReviewCommentsBean();
+        reviewCommentsBean.setProtocol(actionHelper.getProtocol());
     }
     
     /**
      * This method initializes the class.
      */
     public void init() {
-        Protocol protocol = getActionHelper().getProtocol();
         // getSubmission(protocol) is not necessary the most recent one.
         // this may cause problem later if the most recent submission does not have schedule, then
         // npe when try to getavailable member
         // TODO : check with Jay
         //ProtocolSubmission submission = getSubmission(protocol);
-        ProtocolSubmission submission = protocol.getProtocolSubmission();
+        ProtocolSubmission submission = actionHelper.getProtocol().getProtocolSubmission();
         if (submission != null) {
             this.motionTypeCode = submission.getCommitteeDecisionMotionTypeCode();
             this.noCount = submission.getNoVoteCount();
@@ -90,11 +94,10 @@ public class CommitteeDecision extends ReviewerCommentsBean implements Serializa
             //not sure if I really need to deal with protocol actions    
             //ES: Please remove condition before checking in.
             if (submission.getScheduleIdFk() != null) {
-                initializeAbstainees(protocol, submission);
-                initializeRecused(protocol, submission);
+                initializeAbstainees(submission);
+                initializeRecused(submission);
             }
         }
-        initComments();
     }
     
     public Integer getRecusedCount() {
@@ -113,19 +116,19 @@ public class CommitteeDecision extends ReviewerCommentsBean implements Serializa
         return lookUpFields;
     }
     
-    private List<CommitteeMembership> getCommitteeMemberships(Protocol protocol) {
-        List<CommitteeMembership> committeeMemberships =  
-            KraServiceLocator.getService(CommitteeService.class).getAvailableMembers(protocol.getProtocolSubmission().getCommittee().getCommitteeId(), 
-                    protocol.getProtocolSubmission().getScheduleId());
+    private List<CommitteeMembership> getCommitteeMemberships() {
+        String committeeId = actionHelper.getProtocol().getProtocolSubmission().getCommittee().getCommitteeId();
+        String scheduleId = actionHelper.getProtocol().getProtocolSubmission().getScheduleId();
+        List<CommitteeMembership> committeeMemberships = KraServiceLocator.getService(CommitteeService.class).getAvailableMembers(committeeId, scheduleId);
         return committeeMemberships;
     }
     
-    private void initializeAbstainees(Protocol protocol, ProtocolSubmission submission) {
-        Map<String, Long> absenteeLookFields = getLookUpFields(protocol.getProtocolId(), submission.getSubmissionId());
+    private void initializeAbstainees(ProtocolSubmission submission) {
+        Map<String, Long> absenteeLookFields = getLookUpFields(actionHelper.getProtocol().getProtocolId(), submission.getSubmissionId());
         
         Collection<ProtocolVoteAbstainee> protocolVoteAbstainees = KraServiceLocator.getService(BusinessObjectService.class).findMatching(ProtocolVoteAbstainee.class, absenteeLookFields);
         
-        List<CommitteeMembership> committeeMemberships = getCommitteeMemberships(protocol);
+        List<CommitteeMembership> committeeMemberships = getCommitteeMemberships();
         
         for (ProtocolVoteAbstainee abstainee : protocolVoteAbstainees) {
             for (CommitteeMembership membership : committeeMemberships) {
@@ -140,12 +143,12 @@ public class CommitteeDecision extends ReviewerCommentsBean implements Serializa
         }
     }
     
-    private void initializeRecused(Protocol protocol, ProtocolSubmission submission) {
-        Map<String, Long> absenteeLookFields = getLookUpFields(protocol.getProtocolId(), submission.getSubmissionId());
+    private void initializeRecused(ProtocolSubmission submission) {
+        Map<String, Long> absenteeLookFields = getLookUpFields(actionHelper.getProtocol().getProtocolId(), submission.getSubmissionId());
         
         Collection<ProtocolVoteRecused> protocolVoteRecused = KraServiceLocator.getService(BusinessObjectService.class).findMatching(ProtocolVoteRecused.class, absenteeLookFields);
         
-        List<CommitteeMembership> committeeMemberships = getCommitteeMemberships(protocol);
+        List<CommitteeMembership> committeeMemberships = getCommitteeMemberships();
         
         for (ProtocolVoteRecused recusee : protocolVoteRecused) {
             for (CommitteeMembership membership : committeeMemberships) {
@@ -158,16 +161,6 @@ public class CommitteeDecision extends ReviewerCommentsBean implements Serializa
                 }
             }
         }
-    }
-    
-    private ProtocolSubmission getSubmission(Protocol protocol) {
-        for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
-            if (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.IN_AGENDA)
-                    || StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
-                return submission;
-            }
-        }
-        return null;
     }
 
     public String getMotionTypeCode() {
@@ -265,4 +258,13 @@ public class CommitteeDecision extends ReviewerCommentsBean implements Serializa
                 (this.getAbstainCount() != null ? this.getAbstainCount() : 0) + 
                 (this.getRecusedCount() != null ? this.getRecusedCount() : 0);
     }
+
+    public ReviewCommentsBean getReviewCommentsBean() {
+        return reviewCommentsBean;
+    }
+
+    public void setReviewCommentsBean(ReviewCommentsBean reviewCommentsBean) {
+        this.reviewCommentsBean = reviewCommentsBean;
+    }
+
 }

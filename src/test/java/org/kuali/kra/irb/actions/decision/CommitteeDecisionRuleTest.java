@@ -24,115 +24,126 @@ import org.kuali.kra.irb.test.ProtocolFactory;
 
 public class CommitteeDecisionRuleTest extends CommitteeDecisionRuleBase {
     
-    CommitteeDecisionRule rule;
+    private CommitteeDecisionRule rule;
 
+    @Override
     @Before
     public void setUp() throws Exception {
+        super.setUp();
+        
         rule = new CommitteeDecisionRule();
-        rule.setAttendanceService(new MockCommitteeScheduleAttendanceService());
     }
 
+    @Override
     @After
     public void tearDown() throws Exception {
         rule = null;
-    }
-    
-    @Test
-    public void testProcessCommitteeDecisionRule0() throws Exception {
-        ProtocolDocument document = ProtocolFactory.createProtocolDocument();
-        CommitteeDecision decision = buildValidCommitteeDecision(document.getProtocol());
-        assertTrue(rule.proccessCommitteeDecisionRule(document, decision));
-    }
-    
-    @Test
-    public void testProcessCommitteeDecisionRule1() throws Exception {
-        ProtocolDocument document = ProtocolFactory.createProtocolDocument();
-        CommitteeDecision decision = buildValidCommitteeDecision(document.getProtocol());
-        //more no votes than yes votes .... valid disapprove
-        decision.setNoCount(5);
-        decision.setMotionTypeCode(CommitteeDecisionMotionType.DISAPPROVE);
-        assertTrue(rule.proccessCommitteeDecisionRule(document, decision));
-    }
-    
-    @Test
-    public void testProcessCommitteeDecisionRule2() throws Exception {
-        ProtocolDocument document = ProtocolFactory.createProtocolDocument();
-        CommitteeDecision decision = buildValidCommitteeDecision(document.getProtocol());
-        //comment included ... valid SMR
-        decision.setMotionTypeCode(CommitteeDecisionMotionType.SPECIFIC_MINOR_REVISIONS);
-        decision.getReviewComments().getComments().add(getBasicReviewComment(document.getProtocol().getProtocolId()));
-        assertTrue(rule.proccessCommitteeDecisionRule(document, decision));
-    }
-    
-    @Test
-    public void testProcessCommitteeDecisionRule3() throws Exception {
-        ProtocolDocument document = ProtocolFactory.createProtocolDocument();
-        CommitteeDecision decision = buildValidCommitteeDecision(document.getProtocol());
-        //comment included ... valid SRR
-        decision.setMotionTypeCode(CommitteeDecisionMotionType.SUBSTANTIVE_REVISIONS_REQUIRED);
-        decision.getReviewComments().getComments().add(getBasicReviewComment(document.getProtocol().getProtocolId()));
-        assertTrue(rule.proccessCommitteeDecisionRule(document, decision));
-    }
-    
-    @Test
-    public void testProcessCommitteeDecisionRule4() throws Exception {
-        ProtocolDocument document = ProtocolFactory.createProtocolDocument();
-        CommitteeDecision decision = buildValidCommitteeDecision(document.getProtocol());
-        //no comment included ... invalid SMR
-        decision.setMotionTypeCode(CommitteeDecisionMotionType.SPECIFIC_MINOR_REVISIONS);
-        assertFalse(rule.proccessCommitteeDecisionRule(document, decision));
-    }
-    
-    @Test
-    public void testProcessCommitteeDecisionRule5() throws Exception {
-        ProtocolDocument document = ProtocolFactory.createProtocolDocument();
-        CommitteeDecision decision = buildValidCommitteeDecision(document.getProtocol());
-        //no comment included ... invalid SRR
-        decision.setMotionTypeCode(CommitteeDecisionMotionType.SUBSTANTIVE_REVISIONS_REQUIRED);
-        assertFalse(rule.proccessCommitteeDecisionRule(document, decision));
+        
+        super.tearDown();
     }
     
     /**
+     * Test a valid approve.
+     * @throws Exception
+     */
+    @Test
+    public void testValidApprove() throws Exception {
+        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        
+        CommitteeDecision decision = getMockCommitteeDecisionBean(CommitteeDecisionMotionType.APPROVE, YES_COUNT, NO_COUNT, null, null, protocolDocument.getProtocol(), false);
+        rule.setAttendanceService(getMockCommitteeScheduleAttendanceService(YES_COUNT, NO_COUNT));
+        assertTrue(rule.proccessCommitteeDecisionRule(protocolDocument, decision));
+    }
+    
+    /**
+     * Test an invalid approve with no Yes count.
+     * @throws Exception
+     */
+    @Test
+    public void testInvalidApprove() throws Exception {
+        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        
+        CommitteeDecision decision = getMockCommitteeDecisionBean(CommitteeDecisionMotionType.APPROVE, null, NO_COUNT, null, null, protocolDocument.getProtocol(), false);
+        rule.setAttendanceService(getMockCommitteeScheduleAttendanceService(null, NO_COUNT));
+        assertFalse(rule.proccessCommitteeDecisionRule(protocolDocument, decision));
+    }
+    
+    /**
+     * Test a valid disapprove with more no votes than yes votes.
+     * @throws Exception
+     */
+    @Test
+    public void testValidDisapprove() throws Exception {
+        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        
+        CommitteeDecision decision = getMockCommitteeDecisionBean(CommitteeDecisionMotionType.DISAPPROVE, YES_COUNT, 5, null, null, protocolDocument.getProtocol(), false);
+        rule.setAttendanceService(getMockCommitteeScheduleAttendanceService(YES_COUNT, 5));
+        assertTrue(rule.proccessCommitteeDecisionRule(protocolDocument, decision));
+    }
+    
+    /**
+     * Test an invalid disapprove with no No count.
+     * @throws Exception
+     */
+    @Test
+    public void testInvalidDisapprove() throws Exception {
+        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        
+        CommitteeDecision decision = getMockCommitteeDecisionBean(CommitteeDecisionMotionType.DISAPPROVE, YES_COUNT, null, null, null, protocolDocument.getProtocol(), false);
+        rule.setAttendanceService(getMockCommitteeScheduleAttendanceService(YES_COUNT, null));
+        assertFalse(rule.proccessCommitteeDecisionRule(protocolDocument, decision));
+    }
+    
+    /**
+     * Test a valid SMR with a single comment.
+     * @throws Exception
+     */
+    @Test
+    public void testValidSMR() throws Exception {
+        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        
+        CommitteeDecision decision = getMockCommitteeDecisionBean(CommitteeDecisionMotionType.SPECIFIC_MINOR_REVISIONS, YES_COUNT, NO_COUNT, null, null, protocolDocument.getProtocol(), true);
+        rule.setAttendanceService(getMockCommitteeScheduleAttendanceService(YES_COUNT, NO_COUNT));
+        assertTrue(rule.proccessCommitteeDecisionRule(protocolDocument, decision));
+    }
+    
+    /**
+     * Test an invalid SMR with no comment.
+     * @throws Exception
+     */
+    @Test
+    public void testInvalidSMR() throws Exception {
+        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        
+        CommitteeDecision decision = getMockCommitteeDecisionBean(CommitteeDecisionMotionType.SPECIFIC_MINOR_REVISIONS, YES_COUNT, NO_COUNT, null, null, protocolDocument.getProtocol(), false);
+        rule.setAttendanceService(getMockCommitteeScheduleAttendanceService(YES_COUNT, NO_COUNT));
+        assertFalse(rule.proccessCommitteeDecisionRule(protocolDocument, decision));
+    }
+    
+    /**
+     * Test a valid SRR with a single comment.
+     * @throws Exception
+     */
+    @Test
+    public void testValidSRR() throws Exception {
+        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        
+        CommitteeDecision decision = getMockCommitteeDecisionBean(CommitteeDecisionMotionType.SUBSTANTIVE_REVISIONS_REQUIRED, YES_COUNT, NO_COUNT, null, null, protocolDocument.getProtocol(), true);
+        rule.setAttendanceService(getMockCommitteeScheduleAttendanceService(YES_COUNT, NO_COUNT));
+        assertTrue(rule.proccessCommitteeDecisionRule(protocolDocument, decision));
+    }
+    
+    /**
+     * Test an invalid SRR with no comment.
+     * @throws Exception
+     */
+    @Test
+    public void testInvalidSRR() throws Exception {
+        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        
+        CommitteeDecision decision = getMockCommitteeDecisionBean(CommitteeDecisionMotionType.SUBSTANTIVE_REVISIONS_REQUIRED, YES_COUNT, NO_COUNT, null, null, protocolDocument.getProtocol(), false);
+        rule.setAttendanceService(getMockCommitteeScheduleAttendanceService(YES_COUNT, NO_COUNT));
+        assertFalse(rule.proccessCommitteeDecisionRule(protocolDocument, decision));
+    }
 
-    @Test
-    public void testProccessCommitteeDecisionRule1() {
-        CommitteeDecision decision = buildValidCommitteeDecision();
-        decision.setNewAbstainer(getBasicPerson());
-        assertTrue(rule.proccessCommitteeDecisionRule(null, decision));
-    }
-    
-    @Test
-    public void testProccessCommitteeDecisionRule2() {
-        CommitteeDecision decision = buildValidCommitteeDecision();
-        decision.setNewRecused(getBasicPerson());
-        assertTrue(rule.proccessCommitteeDecisionRule(null, decision));
-    }
-    
-    @Test
-    public void testProccessCommitteeDecisionRule3() {
-        CommitteeDecision decision = buildValidCommitteeDecision();
-        decision.setNewRecused(getBasicRescuser());
-        assertFalse(rule.proccessCommitteeDecisionRule(null, decision));
-    }
-    
-    @Test
-    public void testProccessCommitteeDecisionRule4() {
-        CommitteeDecision decision = buildValidCommitteeDecision();
-        decision.setNewRecused(getBasicAbstainer());
-        assertFalse(rule.proccessCommitteeDecisionRule(null, decision));
-    }
-    
-    @Test
-    public void testProccessCommitteeDecisionRule5() {
-        CommitteeDecision decision = buildValidCommitteeDecision();
-        decision.setNewAbstainer(getBasicAbstainer());
-        assertFalse(rule.proccessCommitteeDecisionRule(null, decision));
-    }
-    
-    @Test
-    public void testProccessCommitteeDecisionRule6() {
-        CommitteeDecision decision = buildValidCommitteeDecision();
-        decision.setNewAbstainer(getBasicRescuser());
-        assertFalse(rule.proccessCommitteeDecisionRule(null, decision));
-    }*/
 }
