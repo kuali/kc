@@ -433,6 +433,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.actions.amendrenew.ProtocolCreateRenewalRuleTest.class,
     org.kuali.kra.irb.actions.history.ProtocolHistoryFilterDatesRuleTest.class,
     org.kuali.kra.irb.actions.print.ProtocolActionPrintRuleTest.class,
+    org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsServiceTest.class,
     org.kuali.kra.irb.actions.undo.UndoLastActionServiceTest.class,
     org.kuali.kra.irb.auth.CreateAmendmentAuthorizerTest.class,
     org.kuali.kra.irb.auth.CreateProtocolAuthorizerTest.class,
