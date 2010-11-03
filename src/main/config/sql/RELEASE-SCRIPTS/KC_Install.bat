@@ -3,9 +3,15 @@ if NOT EXIST "LOGS" mkdir LOGS
 :mode
 set /p mode="Enter Rice Mode (BUNDLE, EMBED) <%mode%>: "
 if /i "%mode%" == "BUNDLE" goto DBType
-if /i "%mode%" == "EMBED" goto DBType
+if /i "%mode%" == "EMBED" goto InstRice
 echo invalid Rice Mode entered <%mode%>
 goto mode
+:InstRice
+set /p InstRice="Install/Upgrade Embedded Rice Server Side (Y,N) <%InstRice%>: "
+if /i "%InstRice%" == "Y" goto DBType
+if /i "%InstRice%" == "N" goto DBType
+echo Invalid Response <%InstRice%>
+goto InstRice
 
 :DBType
 set /p dbtype="Enter Database Type (ORACLE,MYSQL) <%dbtype%>: "
@@ -86,12 +92,15 @@ goto usage
 :NEWORACLE
 cd KC-RELEASE-2_0-SCRIPT
 if /i "%mode%" == "BUNDLE" (
-sqlplus "%4"/"%5"@"%6" < KC-Release-2_0-Base-Bundled-Oracle-Install.sql
-sqlplus "%4"/"%5"@"%6" < KR-Release-1_0_2-Bundled.sql
+sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KR-Release-1_0_2-Server-Oracle-Install.sql
+sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-Release-2_0-Base-Bundled-Oracle-Install.sql
+sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-Release-2_0-Base-Rice-Oracle-Install.sql
+)
+if /i "%mode%%InstRice% == "EMBEDY" sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-Release-1_0_2-Server-Oracle-Install.sql
 if /i "%mode%" == "EMBED" (
+sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KR-Release-1_0_2-Client-Oracle-Install.sql
 sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-Release-2_0-Embedded-Oracle-Install.sql
-sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KR-Release-1_0_2-EmbeddedClient-Oracle-Install.sql
-sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-Release-1_0_2-EmbeddedServer-Oracle-Install.sql
+sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KC-Release-2_0-Base-Rice-Oracle-Install.sql
 )
 echo move *.log ../LOGS
 cd ..
@@ -99,19 +108,15 @@ cd ..
 :2.0ORACLE
 cd KC-RELEASE-3_0-SCRIPT
 if /i "%mode%" == "BUNDLE" (
-echo sqlplus "%un%"/"%pw%"@"%DBSvrNm%" * KC-Release-2_0-3_0.sql
-
-echo *********sqlplus "%un%"/"%pw%"@"%DBSvrNm%" * rice-102-103.sql**********************
-
-echo sqlplus "%un%"/"%pw%"@"%DBSvrNm%" * KR-Release-2_0-3_0.sql
+sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < RICE-1_0_2-1_0_3\update_final_oracle.sql
+sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-Release-2_0-3_0.sql
+sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KR-Release-2_0-3_0.sql
 )
+if /i "%mode%%InstRice% == "EMBEDY" sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < RICE-1_0_2-1_0_3\update_final_oracle.sql
 if /i "%mode%" == "EMBED" (
-echo sqlplus "%un%"/"%pw%"@"%DBSvrNm%" * KC-Release-2_0-3_0.sql
-
-echo *********sqlplus "%un%"/"%pw%"@"%DBSvrNm%" * rice-102-103Client.sql**********************
-echo *********sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" * rice-102-103server.sql**********************
-
-echo sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" * KR-Release-2_0-3_0.sql
+sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < RICE-1_0_2-1_0_3\update_client_final_oracle.sql
+sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-Release-2_0-3_0.sql
+sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-Release-2_0-3_0.sql
 )
 echo move *.log ../LOGS
 cd ..
@@ -119,11 +124,16 @@ goto FINISH
 
 :NEWMYSQL
 cd KC-RELEASE-2_0-SCRIPT
-if /i "%mode%" == "BUNDLE" echo mysql -u %un% -p%pw% -D %un% -s * KC-Release-2_0-Bundled-MySql-Install.sql > KC-Release-2_0-Bundled-MySql-Install.log
+if /i "%mode%" == "BUNDLE" (
+mysql -u %un% -p%pw% -D %un% -s < KC-Release-1_0_2-Server-MySql-Install.sql > KC-Release-1_0_2-Server-MySql-Install.log
+mysql -u %un% -p%pw% -D %un% -s < KC-Release-2_0-Base-Bundled-MySql-Install.sql > KC-Release-2_0-Base-Bundled-MySql-Install.log
+mysql -u %un% -p%pw% -D %un% -s < KC-Release-2_0-Base-Rice-MySql-Install.sql > KC-Release-2_0-Base-Rice-MySql-Install.log
+)
+if /i "%mode%%InstRice% == "EMBEDY" mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s < KR-Release-1_0_2-Server-MySql-Install.sql > KR-Release-1_0_2-Server-MySql-Install.log
 if /i "%mode%" == "EMBED" (
-echo mysql -u %un% -p%pw% -D %un% -s * KC-Release-2_0-Embedded-MySql-Install.sql
-echo mysql -u %un% -p%pw% -D %un% -s * KR-Release-1_0_2-EmbeddedClient-MySql-Install.sql
-echo mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s * KR-Release-1_0_2-EmbeddedServer-MySql-Install.sql
+mysql -u %un% -p%pw% -D %un% -s < KR-Release-1_0_2-Client-MySql-Install.sql > KR-Release-1_0_2-Client-MySql-Install.log
+mysql -u %un% -p%pw% -D %un% -s < KC-Release-2_0-Embedded-MySql-Install.sql > KC-Release-2_0-Embedded-MySql-Install.log
+mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s < KC-Release-2_0-Base-Rice-MySql-Install.sql > KC-Release-2_0-Base-Rice-MySql-Install.log
 )
 move *.log ../LOGS
 cd ..
@@ -131,19 +141,15 @@ cd ..
 :2.0MYSQL
 cd KC-RELEASE-3_0-SCRIPT
 if /i "%mode%" == "BUNDLE" (
-echo mysql -u %un% -p%pw% -D %un% -s * KC-Release-2_0-3_0-MySql.sql
-
-echo *********mysql -u %un% -p%pw% -D %un% -s * rice-102-103-MySql.sql**********************
-
-echo mysql -u %un% -p%pw% -D %un% -s * KR-Release-2_0-3_0-MySql.sql
+mysql -u %un% -p%pw% -D %un% -s < RICE-1_0_2-1_0_3/update_final_mysql.sql > update_final_mysql.log
+mysql -u %un% -p%pw% -D %un% -s < KC-Release-2_0-3_0-Upgrade-MySql-Install.sql > KC-Release-2_0-3_0-Upgrade-MySql-Install.log
+mysql -u %un% -p%pw% -D %un% -s < KR-Release-2_0-3_0-Upgrade-MySql-Install.sql > KR-Release-2_0-3_0-Upgrade-MySql-Install.log
 )
+if /i "%mode%%InstRice% == "EMBEDY" mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s < RICE-1_0_2-1_0_3/update_final_mysql.sql > update_final_mysql.log
 if /i "%mode%" == "EMBED" (
-echo mysql -u %un% -p%pw% -D %un% -s * KC-Release-2_0-3_0-MySql.sql
-
-echo *********mysql -u %un% -p%pw% -D %un% -s * rice-102-103Client-MySql.sql**********************
-echo *********mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s * rice-102-103server-MySql.sql**********************
-
-echo mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s * KR-Release-2_0-3_0-MySql.sql
+mysql -u %un% -p%pw% -D %un% -s < RICE-1_0_2-1_0_3/update_client_final_mysql.sql > update_client_final_mysql.sql
+mysql -u %un% -p%pw% -D %un% -s < KC-Release-2_0-3_0-Upgrade-MySql-Install.sql > KC-Release-2_0-3_0-Upgrade-MySql-Install.log
+mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s < KR-Release-2_0-3_0-Upgrade-MySql-Install.sql
 )
 move *.log ../LOGS
 cd ..
@@ -162,6 +168,7 @@ Echo You will be prompted for the following:
 Echo    - Mode = Choose one: bundle, embed
 Echo       - bundle = Rice installed with KC client tables
 Echo       - embed = Rice installed in a separate schema 
+Echo           - When installing in embedded mode, you will be asked to install embedded rice server.
 Echo    - DB_Type = Choose one: oracle, mysql
 Echo    - Ver = Choose one: new, 2.0
 Echo       - new = New install with an empty database schema
