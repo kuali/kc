@@ -1,6 +1,6 @@
 set sqlblanklines on
 set define off
-SPOOL EMBEDDEDCLIENT_ORACLE.log
+SPOOL KR-Release-1_0_2-Client-Oracle-Install.log
 PROMPT sql/schema.sql
 @RICE/EMBEDDEDCLIENT_ORACLE/sql/schema.sql
 PROMPT datasql/KRNS_NTE_TYP_T.sql
