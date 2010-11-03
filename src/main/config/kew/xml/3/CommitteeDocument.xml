@@ -7,6 +7,7 @@
 			<label>Committee Document</label>
 			<parent>KC</parent>
 			<docHandler>${kuali.docHandler.url.prefix}/committeeCommittee.do?methodToCall=docHandler</docHandler>
+            <helpDefinitionURL>default.htm?turl=Documents/committee.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

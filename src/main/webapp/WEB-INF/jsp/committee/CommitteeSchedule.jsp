@@ -26,7 +26,7 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="committeeSchedule">
 
-<div align="right"><kul:help documentTypeName="CommitteeDocument" pageName="Committee Schedule" /></div>
+<div align="right"><kul:help documentTypeName="CommitteeDocument" pageName="Schedule" /></div>
   	 	
 <kra-committee:committeeSchedule />
 
