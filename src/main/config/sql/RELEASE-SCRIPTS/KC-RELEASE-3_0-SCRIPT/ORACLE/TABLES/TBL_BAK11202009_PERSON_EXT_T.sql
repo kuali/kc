@@ -1,1 +1,1 @@
-DROP TABLE IF EXISTS bak11202009_person_ext_t;
+DROP TABLE bak11202009_person_ext_t;
