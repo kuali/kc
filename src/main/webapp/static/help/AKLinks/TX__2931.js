@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__2931", [["Documents/authorization.htm", "right", "Authorization"],["Documents/authorization1.htm", "right", "Authorization"]]);

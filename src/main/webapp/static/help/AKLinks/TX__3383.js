@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3383", [["Documents/questiontypeidinquiryscreen.htm", "right", "Question Type Id Inquiry Screen"],["Documents/questiontypeidinquiryscreen1.htm", "right", "Question Type Id Inquiry Screen"]]);

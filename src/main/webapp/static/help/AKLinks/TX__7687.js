@@ -1,1 +1,0 @@
-d2hStoreMenuItems("TX__7687", [["WordDocuments/gloss_workgroup2.htm", "d2hWnd_SecondaryPopup", "Workgroup"],["WordDocuments/workgroup.htm", "right", "Workgroup"],["WordDocuments/workgroup1.htm", "right", "Workgroup"]]);

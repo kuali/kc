@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3107", [["Documents/questiontype1.htm", "right", "Question Type"],["Documents/questiontype.htm", "right", "Question Type"]]);
