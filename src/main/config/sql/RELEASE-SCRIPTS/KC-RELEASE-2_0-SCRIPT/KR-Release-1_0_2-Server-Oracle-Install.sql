@@ -1,6 +1,6 @@
 set sqlblanklines on
 set define off
-SPOOL EMBEDDEDSERVER_ORACLE.log
+SPOOL KR-Release-1_0_2-Server-Oracle-Install.log
 PROMPT Running Running schema.sql......
 @RICE/EMBEDDEDSERVER_ORACLE/sql/schema.sql
 PROMPT Running KREN_CHNL_PRODCR_T.sql...

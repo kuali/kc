@@ -102,7 +102,7 @@ sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KR-Release-1_0_2-Client-Oracle-Install.sql
 sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-Release-2_0-Embedded-Oracle-Install.sql
 sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KC-Release-2_0-Base-Rice-Oracle-Install.sql
 )
-echo move *.log ../LOGS
+move *.log ../LOGS
 cd ..
 
 :2.0ORACLE
@@ -118,7 +118,7 @@ sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < RICE-1_0_2-1_0_3\update_client_final_oracle.
 sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-Release-2_0-3_0.sql
 sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-Release-2_0-3_0.sql
 )
-echo move *.log ../LOGS
+move *.log ../LOGS
 cd ..
 goto FINISH
 
