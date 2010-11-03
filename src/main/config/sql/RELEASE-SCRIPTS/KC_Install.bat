@@ -1,4 +1,4 @@
-REM @echo off
+@echo off
 if NOT EXIST "LOGS" mkdir LOGS
 :mode
 set /p mode="Enter Rice Mode (BUNDLE, EMBED) <%mode%>: "
