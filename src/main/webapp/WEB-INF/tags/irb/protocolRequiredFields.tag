@@ -169,7 +169,8 @@
 		               			</c:when>
 		                  		<c:otherwise>
 		                  		   <kul:htmlControlAttribute property="protocolHelper.leadUnitName"
-	                                                         attributeEntry="${protocolAttributes.unitName}" />       
+	                                                         attributeEntry="${protocolAttributes.leadUnitName}" 
+	                                                         readOnly="true" />       
 	                         	</c:otherwise>  
 							</c:choose>                        
                         </c:if>
