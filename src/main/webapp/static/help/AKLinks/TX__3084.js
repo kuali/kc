@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3084", [["Documents/budgetcategorytype1.htm", "right", "Budget Category Type"],["Documents/budgetcategorytype2.htm", "right", "Budget Category Type"],["Documents/budgetcategorytype.htm", "right", "Budget Category Type"]]);

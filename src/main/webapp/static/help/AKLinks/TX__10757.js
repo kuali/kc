@@ -1,1 +1,0 @@
-d2hStoreMenuItems("TX__10757", [["WordDocuments/editcostelementtab.htm", "right", "Edit Cost Element Tab"],["WordDocuments/editcostelementtab1.htm", "right", "Edit Cost Element Tab"]]);

@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3220", [["Documents/protocolreviewertype1.htm", "right", "Protocol Reviewer Type"],["Documents/protocolreviewertype.htm", "right", "Protocol Reviewer Type"]]);

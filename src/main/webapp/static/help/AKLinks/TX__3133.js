@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3133", [["Documents/sponsorformtemplates1.htm", "right", "Sponsor Form Templates"],["Documents/sponsorformtemplates.htm", "right", "Sponsor Form Templates"]]);

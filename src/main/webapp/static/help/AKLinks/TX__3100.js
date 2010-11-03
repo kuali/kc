@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3100", [["Documents/persondocumenttype1.htm", "right", "Person Document Type"],["Documents/persondocumenttype2.htm", "right", "Person Document Type"],["Documents/persondocumenttype.htm", "right", "Person Document Type"]]);

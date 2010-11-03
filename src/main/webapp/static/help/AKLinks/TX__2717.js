@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__2717", [["Documents/synctotemplatefunction.htm", "right", "Sync to Template Function"],["Documents/synctotemplatefunction1.htm", "right", "Sync to Template Function"]]);

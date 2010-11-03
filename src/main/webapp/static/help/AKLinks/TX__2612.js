@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__2612", [["Documents/expandtextarea.htm", "right", "Expand Text Area"],["Documents/expandtextarea1.htm", "right", "Expand Text Area"]]);
