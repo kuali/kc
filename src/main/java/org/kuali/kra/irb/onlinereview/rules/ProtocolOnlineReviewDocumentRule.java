@@ -39,7 +39,7 @@ public class ProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase i
                                                                                          ,RouteProtocolOnlineReviewRule
                                                                                          {
 
-    private static final String ONLINE_REVIEW_COMMENTS_ERROR_PATH="onlineReviewsActionHelper.protocolOnlineReviewsReviewCommentsList[%s]";
+    private static final String ONLINE_REVIEW_COMMENTS_ERROR_PATH = "onlineReviewsActionHelper.reviewCommentsBeans[%s]";
     private static final String ONLINE_REVIEW_ERROR_PATH="onlineReviewsActionHelper.protocolOnlineReviewDocuments[%s].protocolOnlineReview";
     private static final String REVIEWER_APPROVAL_NODE_NAME="OnlineReviewer";
     private transient KraAuthorizationService kraAuthorizationService;
@@ -62,7 +62,7 @@ public class ProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase i
             valid = false;
             GlobalVariables.getErrorMap().clearErrorPath();
             GlobalVariables.getErrorMap().addToErrorPath(String.format( ONLINE_REVIEW_COMMENTS_ERROR_PATH, event.getOnlineReviewIndex()));
-            GlobalVariables.getErrorMap().putError("newComment.minuteEntry",  
+            GlobalVariables.getErrorMap().putError("newReviewComment.minuteEntry",  
                                                    KeyConstants.ERROR_ONLINE_REVIEW_COMMENT_REQUIRED);  
         }
         return valid;
@@ -80,7 +80,7 @@ public class ProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase i
         for (CommitteeScheduleMinute minute : event.getMinutes()) {
             if (StringUtils.isEmpty(minute.getMinuteEntry()) && StringUtils.isEmpty(minute.getProtocolContingencyCode())) {
                 valid=false;
-                GlobalVariables.getErrorMap().putError(String.format("comments[%s].minuteEntry" ,index),  
+                GlobalVariables.getErrorMap().putError(String.format("reviewComments[%s].minuteEntry" ,index),  
                         KeyConstants.ERROR_ONLINE_REVIEW_COMMENT_REQUIRED);
             }
             index++;
@@ -117,7 +117,7 @@ public class ProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase i
             
             for (CommitteeScheduleMinute minute : event.getMinutes()) {
                 if (!minute.isFinalFlag()) {
-                    GlobalVariables.getErrorMap().putError(String.format("comments[%s].finalFlag", commentIndex),
+                    GlobalVariables.getErrorMap().putError(String.format("reviewComments[%s].finalFlag", commentIndex),
                             KeyConstants.ERROR_ONLINE_REVIEW_COMMENTS_FINAL_AFTER_REVIEWER_ROUTE);
                     valid = false;
                    
