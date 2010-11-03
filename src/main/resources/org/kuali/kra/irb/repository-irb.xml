@@ -990,6 +990,7 @@
         
         <collection-descriptor name="committeeScheduleMinutes" proxy="true" element-class-ref="org.kuali.kra.meeting.CommitteeScheduleMinute" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="protocolOnlineReviewIdFk" />
+        	<orderby name="entryNumber" sort="ASC" />
     	</collection-descriptor>
         
     </class-descriptor> 

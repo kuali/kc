@@ -172,7 +172,7 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
         } else {
             newReviewComment.setScheduleIdFk(CommitteeSchedule.DEFAULT_SCHEDULE_ID);
         }
-        // set entry number somehow
+        newReviewComment.setEntryNumber(reviewComments.size());
         newReviewComment.setProtocolIdFk(protocol.getProtocolId());
         newReviewComment.setProtocol(protocol);
         newReviewComment.setSubmissionIdFk(protocolSubmission.getSubmissionId());
@@ -207,7 +207,7 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
             if (toIndex < fromIndex) {
                 CommitteeScheduleMinute movingReviewComment = reviewComments.remove(fromIndex);
                 reviewComments.add(toIndex, movingReviewComment);
-                for (int i = toIndex; i < fromIndex; i++) {
+                for (int i = toIndex; i <= fromIndex; i++) {
                     reviewComments.get(i).setEntryNumber(i);
                 }
             }
@@ -248,7 +248,7 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
             if (toIndex > fromIndex) {
                 CommitteeScheduleMinute movingReviewComment = reviewComments.remove(fromIndex);
                 reviewComments.add(toIndex, movingReviewComment);
-                for (int i = fromIndex; i < toIndex; i++) {
+                for (int i = fromIndex; i <= toIndex; i++) {
                     reviewComments.get(i).setEntryNumber(i);
                 }
             }
@@ -285,11 +285,15 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
      */
     public void deleteReviewComment(List<CommitteeScheduleMinute> reviewComments, int index, List<CommitteeScheduleMinute> deletedReviewComments) {
         if (index >= 0 && index < reviewComments.size()) {
-            CommitteeScheduleMinute reviewerComment = reviewComments.get(index);
-            if (reviewerComment.getCommScheduleMinutesId() != null) {
-                deletedReviewComments.add(reviewerComment);
+            CommitteeScheduleMinute reviewComment = reviewComments.get(index);
+            if (reviewComment.getCommScheduleMinutesId() != null) {
+                deletedReviewComments.add(reviewComment);
             }
             reviewComments.remove(index);
+            
+            for (int i = index; i < reviewComments.size(); i++) {
+                reviewComments.get(i).setEntryNumber(i);
+            }
         }
     }
     
@@ -311,20 +315,15 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
      * @see org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService#saveReviewComments(java.util.List, java.util.List)
      */
     public void saveReviewComments(List<CommitteeScheduleMinute> reviewComments, List<CommitteeScheduleMinute> deletedReviewComments) {
-        int nextEntryNumber = 0;
-        for (CommitteeScheduleMinute reviewerComment : reviewComments) {
-            reviewerComment.setEntryNumber(nextEntryNumber);
-            boolean doUpdate = false;
-            if (reviewerComment.getCommScheduleMinutesId() != null) {
-                CommitteeScheduleMinute existing = this.committeeScheduleService.getCommitteeScheduleMinute(reviewerComment.getCommScheduleMinutesId());
-                doUpdate = !reviewerComment.equals(existing);
-            } else {
-                doUpdate = true;
+        for (CommitteeScheduleMinute reviewComment : reviewComments) {
+            boolean doUpdate = true;
+            if (reviewComment.getCommScheduleMinutesId() != null) {
+                CommitteeScheduleMinute existing = committeeScheduleService.getCommitteeScheduleMinute(reviewComment.getCommScheduleMinutesId());
+                doUpdate = !reviewComment.equals(existing);
             }
             if (doUpdate) {
-                this.businessObjectService.save(reviewerComment);
+                businessObjectService.save(reviewComment);
             }
-            nextEntryNumber++;
         }
         
         if (!deletedReviewComments.isEmpty()) {

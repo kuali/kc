@@ -490,26 +490,26 @@ public interface Constants {
     public static final String PROTOCOL_UPDATE_RISK_LEVEL_KEY = "document.protocol.protocolRiskLevels";
     
     // Review Comments
-    public static final String PROTOCOL_APPROVE_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolApproveBean.reviewComments";
-    public static final String PROTOCOL_MANAGE_REVIEW_COMMENTS_KEY = "actionHelper.protocolManageReviewCommentsBean.reviewComments";
-    public static final String PROTOCOL_ASSIGN_TO_AGENDA_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.assignToAgendaBean.reviewComments";
-    public static final String PROTOCOL_CLOSE_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolCloseBean.reviewComments";
-    public static final String PROTOCOL_CLOSE_ENROLLMENT_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolCloseEnrollmentBean.reviewComments";
-    public static final String PROTOCOL_COMMITTEE_DECISION_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.committeeDecision.reviewComments";
-    public static final String PROTOCOL_DEFER_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolDeferBean.reviewComments";
-    public static final String PROTOCOL_DISAPPROVE_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolDisapproveBean.reviewComments";
-    public static final String PROTOCOL_EXPEDITE_APPROVAL_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolExpediteApprovalBean.reviewComments";
-    public static final String PROTOCOL_EXPIRE_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolExpireBean.reviewComments";
-    public static final String PROTOCOL_GRANT_EXEMPTION_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolGrantExemptionBean.reviewComments";
-    public static final String PROTOCOL_IRB_ACKNOWLEDGEMENT_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.irbAcknowledgementBean.reviewComments";
-    public static final String PROTOCOL_PERMIT_DATA_ANALYSIS_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolPermitDataAnalysisBean.reviewComments";
-    public static final String PROTOCOL_REOPEN_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolReopenBean.reviewComments";
-    public static final String PROTOCOL_RESPONSE_APPROVAL_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolResponseApprovalBean.reviewComments";
-    public static final String PROTOCOL_SMR_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolSMRBean.reviewComments";
-    public static final String PROTOCOL_SRR_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolSRRBean.reviewComments";
-    public static final String PROTOCOL_SUSPEND_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolSuspendBean.reviewComments";
-    public static final String PROTOCOL_SUSPEND_BY_DMSB_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolSuspendByDmsbBean.reviewComments";
-    public static final String PROTOCOL_TERMINATE_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolTerminateBean.reviewComments";
+    public static final String PROTOCOL_APPROVE_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolApproveBean.reviewCommentsBean";
+    public static final String PROTOCOL_MANAGE_REVIEW_COMMENTS_KEY = "actionHelper.protocolManageReviewCommentsBean.reviewCommentsBean";
+    public static final String PROTOCOL_ASSIGN_TO_AGENDA_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.assignToAgendaBean.reviewCommentsBean";
+    public static final String PROTOCOL_CLOSE_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolCloseBean.reviewCommentsBean";
+    public static final String PROTOCOL_CLOSE_ENROLLMENT_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolCloseEnrollmentBean.reviewCommentsBean";
+    public static final String PROTOCOL_COMMITTEE_DECISION_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.committeeDecision.reviewCommentsBean";
+    public static final String PROTOCOL_DEFER_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolDeferBean.reviewCommentsBean";
+    public static final String PROTOCOL_DISAPPROVE_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolDisapproveBean.reviewCommentsBean";
+    public static final String PROTOCOL_EXPEDITE_APPROVAL_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolExpediteApprovalBean.reviewCommentsBean";
+    public static final String PROTOCOL_EXPIRE_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolExpireBean.reviewCommentsBean";
+    public static final String PROTOCOL_GRANT_EXEMPTION_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolGrantExemptionBean.reviewCommentsBean";
+    public static final String PROTOCOL_IRB_ACKNOWLEDGEMENT_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.irbAcknowledgementBean.reviewCommentsBean";
+    public static final String PROTOCOL_PERMIT_DATA_ANALYSIS_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolPermitDataAnalysisBean.reviewCommentsBean";
+    public static final String PROTOCOL_REOPEN_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolReopenBean.reviewCommentsBean";
+    public static final String PROTOCOL_RESPONSE_APPROVAL_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolResponseApprovalBean.reviewCommentsBean";
+    public static final String PROTOCOL_SMR_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolSMRBean.reviewCommentsBean";
+    public static final String PROTOCOL_SRR_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolSRRBean.reviewCommentsBean";
+    public static final String PROTOCOL_SUSPEND_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolSuspendBean.reviewCommentsBean";
+    public static final String PROTOCOL_SUSPEND_BY_DMSB_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolSuspendByDmsbBean.reviewCommentsBean";
+    public static final String PROTOCOL_TERMINATE_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolTerminateBean.reviewCommentsBean";
     
     // Protocol protocol page audit rules
     public static final String PROTOCOL_PROTOCOL_PAGE = "protocol";
