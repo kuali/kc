@@ -99,7 +99,7 @@ public final class AccountCreationClientImpl implements AccountCreationClient {
                                                      completeErrorMessage);
             } else {
                 /* if account created successfully, then update the award table with the document number and date*/
-                String financialAccountDocumentNumber = createAccountResult.getAccountNumber();
+                String financialAccountDocumentNumber = createAccountResult.getDocumentNumber();
                 if (financialAccountDocumentNumber == null) {
                     GlobalVariables.getMessageMap().putError(DOCUMENT_NUMBER_NULL, KeyConstants.DOCUMENT_NUMBER_NULL);
                     LOG.warn("Document number returned from KFS account creation service is null.");
@@ -228,7 +228,7 @@ public final class AccountCreationClientImpl implements AccountCreationClient {
         if (principalInvestigator.getAddressLine3() != null) {
             streetAddress += principalInvestigator.getAddressLine3();
         }
- 
+        
         accountParameters.setDefaultAddressStreetAddress(streetAddress);
         accountParameters.setDefaultAddressCityName(principalInvestigator.getCity());
         accountParameters.setDefaultAddressStateCode(principalInvestigator.getState());
