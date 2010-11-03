@@ -13,6 +13,9 @@ select "Running TBL_ATTACHMENT_FILE.sql...";
 select "Running TBL_AWARD.sql...";
 \. MYSQL\TABLES\TBL_AWARD.sql
 
+select "Running TBL_BAK11202009_PERSON_EXT_T.sql...";
+\. MYSQL\TABLES\TBL_BAK11202009_PERSON_EXT_T.sql
+
 select "Running TBL_BUDGET_SUB_AWARDS.sql...";
 \. MYSQL\TABLES\TBL_BUDGET_SUB_AWARDS.sql
 
