@@ -13,6 +13,7 @@
 			<blanketApproveWorkgroupName>KC-WKFLW:IRBAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>KC-WKFLW:IRBAdmin</defaultExceptionWorkgroupName>
 			<docHandler>${kuali.docHandler.url.prefix}/protocolProtocol.do?methodToCall=docHandler</docHandler>
+            <helpDefinitionURL>default.htm?turl=Documents/protocol.htm</helpDefinitionURL>
 			<active>true</active>
 			<policies>
 				<policy>

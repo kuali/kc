@@ -28,7 +28,7 @@
     headerDispatch="${KualiForm.headerDispatch}"
     headerTabActive="committeeActions">
 
-    <div align="right"><kul:help documentTypeName="CommitteeDocument" pageName="Committee Actions" /></div>
+    <div align="right"><kul:help documentTypeName="CommitteeDocument" pageName="Actions" /></div>
     
     <c:choose>
         <c:when test="${readOnly}">
