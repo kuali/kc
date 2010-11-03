@@ -28,7 +28,7 @@
 	headerDispatch="${KualiForm.headerDispatch}"
 	headerTabActive="committeeMembership">
 
-	<div align="right"><kul:help documentTypeName="CommitteeDocument" pageName="Committee Membership" /></div>
+	<div align="right"><kul:help documentTypeName="CommitteeDocument" pageName="Members" /></div>
  
     <kra-committee:committeeAddMembershipSection readOnly="${readOnly}" />
     
