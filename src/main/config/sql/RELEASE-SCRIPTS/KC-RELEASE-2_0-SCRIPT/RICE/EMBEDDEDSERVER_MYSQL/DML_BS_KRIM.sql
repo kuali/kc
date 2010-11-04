@@ -2470,28 +2470,28 @@ Insert into KRIM_ROLE_ID_S values (null);
 INSERT INTO KRIM_ROLE_T (ROLE_ID,ROLE_NM,NMSPC_CD,DESC_TXT,KIM_TYP_ID,ACTV_IND,VER_NBR,OBJ_ID,LAST_UPDT_DT) 
 select Max(ID),'Create Temporary Proposal Log','KC-IP','Create Temporary Proposal Log',
 (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM = 'UnitHierarchy' AND NMSPC_CD = 'KC-SYS'),
-'Y',1, UUID() from KRIM_ROLE_ID_S;
+'Y',1, null, UUID() from KRIM_ROLE_ID_S;
 
 Insert into KRIM_ROLE_ID_S values (null);
 
 INSERT INTO KRIM_ROLE_T (ROLE_ID,ROLE_NM,NMSPC_CD,DESC_TXT,KIM_TYP_ID,ACTV_IND,VER_NBR,OBJ_ID,LAST_UPDT_DT) 
 select Max(ID),'Create Proposal Log','KC-IP','Create Proposal Log',
 (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM = 'UnitHierarchy' AND NMSPC_CD = 'KC-SYS'),
-'Y',1, UUID() from KRIM_ROLE_ID_S;
+'Y',1, null, UUID() from KRIM_ROLE_ID_S;
 
 Insert into KRIM_ROLE_ID_S values (null);
 
 INSERT INTO KRIM_ROLE_T (ROLE_ID,ROLE_NM,NMSPC_CD,DESC_TXT,KIM_TYP_ID,ACTV_IND,VER_NBR,OBJ_ID,LAST_UPDT_DT) 
 select Max(ID),'Modify Proposal Log','KC-IP','Modify Proposal Log',
 (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM = 'UnitHierarchy' AND NMSPC_CD = 'KC-SYS'),
-'Y',1, UUID() from KRIM_ROLE_ID_S;
+'Y',1, null, UUID() from KRIM_ROLE_ID_S;
 
 Insert into KRIM_ROLE_ID_S values (null);
 
 INSERT INTO KRIM_ROLE_T (ROLE_ID,ROLE_NM,NMSPC_CD,DESC_TXT,KIM_TYP_ID,ACTV_IND,VER_NBR,OBJ_ID,LAST_UPDT_DT) 
 select Max(ID),'View Proposal Log','KC-IP','View Proposal Log',
 (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM = 'UnitHierarchy' AND NMSPC_CD = 'KC-SYS'),
-'Y',1, UUID() from KRIM_ROLE_ID_S;
+'Y',1, null, UUID() from KRIM_ROLE_ID_S;
 
 -- REM INSERTING into KRIM_ROLE_PERM_T
 insert into KRIM_ROLE_PERM_ID_S values (null);
@@ -3967,14 +3967,14 @@ Insert into KRIM_GRP_ID_S values (null);
 Insert into KRIM_GRP_T (GRP_ID,NMSPC_CD,GRP_NM,GRP_DESC,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
 select Max(ID),'KC-WKFLW','Proposal Development - Department Reviewers','Reviewes for DepartmentalReview route node.',
 (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KUALI' AND NM = 'Default'),
-'Y',to_timestamp('14-APR-10','DD-MON-RR HH.MI.SSXFF AM'),1, UUID() from KRIM_GRP_ID_S;
+'Y',null,1, UUID() from KRIM_GRP_ID_S;
 
 Insert into KRIM_GRP_ID_S values (null);
 
 INSERT INTO KRIM_GRP_T (GRP_ID,NMSPC_CD,GRP_NM,GRP_DESC,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
 select Max(ID),'KC-WKFLW','Proposal Development - Custom Approval Reviewers','Reviewes for CustomApproval route node.',
 (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KUALI' AND NM = 'Default'),
-'Y',TO_TIMESTAMP('14-APR-10','DD-MON-RR HH.MI.SSXFF AM'),1, UUID() from KRIM_GRP_ID_S;
+'Y', null,1, UUID() from KRIM_GRP_ID_S;
 
 
 -- REM INSERTING into KRIM_RSP_T
