@@ -49,7 +49,9 @@ lower_case_table_names=1
 max_connections=1000
 
 Create MySQL username of less than 8 characters
-Create MySQL schema matching username
+Create MySQL schema matching username with the default character set of UTF8, if a different character set is desired, 
+the ddl scripts will need to be updated to the new character set.
+  
 Make sure MySQL user has following privileges on the schema
 	* Select
 	* Insert
