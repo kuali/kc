@@ -1,8 +1,8 @@
-KC Release Version 2.0
+KC Release Version 3.0
 ------------------------
 
-KC database release bundle contains all SQL scripts needed to 
-install a new schema in a rice bundled mode
+KC database release contains all SQL scripts needed to 
+install a new schema in a rice bundled or embedded mode
 with the database objects (tables, constraints, bootstrap data)
 required to launch/execute KC application.
 

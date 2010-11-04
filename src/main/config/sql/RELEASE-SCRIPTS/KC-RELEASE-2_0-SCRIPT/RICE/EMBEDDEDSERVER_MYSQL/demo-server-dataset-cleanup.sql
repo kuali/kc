@@ -1,32 +1,32 @@
---
--- Copyright 2009 The Kuali Foundation
--- 
--- Licensed under the Educational Community License, Version 2.0 (the "License");
--- you may not use this file except in compliance with the License.
--- You may obtain a copy of the License at
--- 
--- http://www.opensource.org/licenses/ecl2.php
--- 
--- Unless required by applicable law or agreed to in writing, software
--- distributed under the License is distributed on an "AS IS" BASIS,
--- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
--- See the License for the specific language governing permissions and
--- limitations under the License.
--- 
+#
+# Copyright 2009 The Kuali Foundation
+# 
+# Licensed under the Educational Community License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+# http://www.opensource.org/licenses/ecl2.php
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# 
 
--- #############################################################################
--- # demo-server-dataset-cleanup.sql                                           #
--- #                                                                           #
--- # This file will clean up and remove data from the database to prepare the  # 
--- # "demo" server dataset which essentially clears out document and other     #
--- # volatile data from the database but leaves our demo set of data.          #
--- #############################################################################
+# #############################################################################
+# # demo-server-dataset-cleanup.sql                                           #
+# #                                                                           #
+# # This file will clean up and remove data from the database to prepare the  # 
+# # "demo" server dataset which essentially clears out document and other     #
+# # volatile data from the database but leaves our demo set of data.          #
+# #############################################################################
 
--- ##############
--- # KEW Tables #
--- ##############
+# ##############
+# # KEW Tables #
+# ##############
 
--- Document Tables - we want to clean out all of this
+# Document Tables - we want to clean out all of this
 
 delete from krew_actn_itm_t
 /
@@ -71,7 +71,7 @@ delete from krew_app_doc_stat_tran_t
 delete from krew_doc_lnk_t
 /
 
--- Document Type Tables - delete all except the current version
+# Document Type Tables - delete all except the current version
 
 delete from krew_doc_typ_attr_t where doc_typ_id in (select doc_typ_id from krew_doc_typ_t where CUR_IND=0)
 /
@@ -95,10 +95,10 @@ delete from krew_doc_typ_t where cur_ind=0
 update krew_doc_typ_t set PREV_DOC_TYP_VER_NBR=NULL, DOC_TYP_VER_NBR=0, VER_NBR=0
 /
 
--- Rule Tables - delete all except the current version
--- note that the statements below depend on the fact that there are no foreign key constraints on these
--- tables, when we add them we will either need to rewrite this script or turn off constraints prior to
--- executing this
+# Rule Tables - delete all except the current version
+# note that the statements below depend on the fact that there are no foreign key constraints on these
+# tables, when we add them we will either need to rewrite this script or turn off constraints prior to
+# executing this
 
 delete from krew_rule_t where CUR_IND=0
 /
@@ -119,8 +119,8 @@ delete from krew_dlgn_rsp_t where DLGN_RULE_BASE_VAL_ID not in (select rule_id f
 delete from krew_rule_expr_t where RULE_EXPR_ID not in (select RULE_EXPR_ID from krew_rule_t where RULE_EXPR_ID is not null)
 /
 
--- EDL Tables - delete associations that are inactive or for doc types that aren't current or no longer exist
--- clear out all "dump" data
+# EDL Tables - delete associations that are inactive or for doc types that are not current or no longer exist
+# clear out all "dump" data
 
 delete from krew_edl_def_t where ACTV_IND=0
 /
@@ -140,12 +140,12 @@ delete from krew_edl_dmp_t
 /
 
 
--- User Option Table - delete RELOAD_ACTION_LIST options
+# User Option Table - delete RELOAD_ACTION_LIST options
 
 delete from krew_usr_optn_t where PRSN_OPTN_ID like 'RELOAD_ACTION_LIST%'
 /
 
--- Remove/Replace Document Tables - clear all data
+# Remove/Replace Document Tables - clear all data
 
 delete from krew_rmv_rplc_doc_t
 /
@@ -154,13 +154,13 @@ delete from krew_rmv_rplc_grp_t
 delete from krew_rmv_rplc_rule_t
 /
 
--- ##############
--- # KSB Tables #
--- ##############
+# ##############
+# # KSB Tables #
+# ##############
 
--- Note that for most of the KSB-related tables, the client-dataset-cleanup script will need to be run
+# Note that for most of the KSB-related tables, the client-dataset-cleanup script will need to be run
 
--- Service Registry - table should be emptied, will be re-populated on startup 
+# Service Registry - table should be emptied, will be re-populated on startup 
 
 delete from krsb_flt_svc_def_t
 /
@@ -168,18 +168,18 @@ delete from krsb_svc_def_t
 /
 
 
--- ##############
--- # KNS Tables #
--- ##############
+# ##############
+# # KNS Tables #
+# ##############
 
 delete from krns_pessimistic_lock_t
 /
 
--- ##############
--- # KEN Tables #
--- ##############
+# ##############
+# # KEN Tables #
+# ##############
 
--- delete message and notification data
+# delete message and notification data
 
 delete from kren_msg_t
 /
@@ -194,13 +194,13 @@ delete from kren_recip_t
 delete from kren_sndr_t
 /
 
--- currently, all KIM tables in the master datasource are empty, so nothing needs to be done here
+# currently, all KIM tables in the master datasource are empty, so nothing needs to be done here
 
--- ##############
--- # KIM Tables #
--- ##############
+# ##############
+# # KIM Tables #
+# ##############
 
--- delete data from cache table and from "document" and related "pending" data tables
+# delete data from cache table and from "document" and related "pending" data tables
 
 delete from krim_entity_cache_t
 /
