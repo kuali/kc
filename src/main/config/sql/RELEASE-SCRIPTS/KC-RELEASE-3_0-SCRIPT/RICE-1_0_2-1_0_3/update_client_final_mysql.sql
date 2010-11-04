@@ -13,6 +13,6 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 -- DO NOT add comments before the blank line below, or they will disappear.
-ALTER TABLE KRNS_ATT_T MODIFY (MIME_TYP VARCHAR(255));
+ALTER TABLE KRNS_ATT_T MODIFY MIME_TYP VARCHAR(255);
 
-ALTER TABLE KRNS_MAINT_DOC_ATT_T MODIFY (CNTNT_TYP VARCHAR(255));
+ALTER TABLE KRNS_MAINT_DOC_ATT_T MODIFY CNTNT_TYP VARCHAR(255);
