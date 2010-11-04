@@ -6105,17 +6105,17 @@ buffer := '                        <fo:block>
                             <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                 <fo:block>
                                     <fo:table width="100%" space-before.optimum="1pt" space-after.optimum="2pt">
-                                        <fo:table-column column-width="proportional-column-width(20)" />
-                                        <fo:table-column column-width="proportional-column-width(80)" />
+                                        <fo:table-column column-width="127pt" />
+                                        <fo:table-column column-width="451pt" />
                                         <fo:table-body>
                                             <fo:table-row>
-                                                <fo:table-cell display-align="before" width="20%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="white">
+                                                <fo:table-cell display-align="before" width="127pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="white">
                                                     <fo:block>
                                                         <fo:inline font-size="10pt" font-weight="bold">To:</fo:inline>
                                                         <fo:inline font-size="10pt">&#160;&#160;&#160;&#160;&#160; </fo:inline>
                                                     </fo:block>
                                                 </fo:table-cell>
-                                                <fo:table-cell width="80%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="white">
+                                                <fo:table-cell width="451pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="white">
                                                     <fo:block>
                                                         <xsl:for-each select="n1:Protocol">
                                                             <xsl:for-each select="n1:Investigator">
@@ -6158,12 +6158,12 @@ SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
 WHERE
 PROTO_CORRESP_TYPE_CODE =  4 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
 buffer := '                                            <fo:table-row>
-                                                <fo:table-cell display-align="before" width="20%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="white">
+                                                <fo:table-cell display-align="before" width="127pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="white">
                                                     <fo:block>
                                                         <fo:inline font-size="10pt" font-weight="bold">From:</fo:inline>
                                                     </fo:block>
                                                 </fo:table-cell>
-                                                <fo:table-cell width="80%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="white">
+                                                <fo:table-cell width="451pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="white">
                                                     <fo:block>
                                                         <xsl:for-each select="n1:Protocol">
                                                             <xsl:for-each select="n1:Submissions">
@@ -6221,12 +6221,12 @@ buffer := '                                                        </fo:block>
                                                 </fo:table-cell>
                                             </fo:table-row>
                                             <fo:table-row>
-                                                <fo:table-cell display-align="before" width="20%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="white">
+                                                <fo:table-cell display-align="before" width="127pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="white">
                                                     <fo:block>
                                                         <fo:inline font-size="10pt" font-weight="bold">Date:</fo:inline>
                                                     </fo:block>
                                                 </fo:table-cell>
-                                                <fo:table-cell width="80%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="white">
+                                                <fo:table-cell width="451pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="white">
                                                     <fo:block>
                                                         <xsl:for-each select="n1:CurrentDate">
                                                             <fo:inline font-size="10pt" />
@@ -6240,12 +6240,12 @@ buffer := '                                                        </fo:block>
                                                 </fo:table-cell>
                                             </fo:table-row>
                                             <fo:table-row>
-                                                <fo:table-cell display-align="before" width="20%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="white">
+                                                <fo:table-cell display-align="before" width="127pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="white">
                                                     <fo:block>
                                                         <fo:inline font-size="10pt" font-weight="bold">Committee Action:</fo:inline>
                                                     </fo:block>
                                                 </fo:table-cell>
-                                                <fo:table-cell width="80%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="white">
+                                                <fo:table-cell width="451pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="white">
                                                     <fo:block>
                                                         <fo:inline font-size="10pt" font-weight="bold">Substantive Revisions Required</fo:inline>
                                                     </fo:block>
@@ -6260,7 +6260,7 @@ buffer := '                                                        </fo:block>
                                             </fo:block>
                                             <fo:table width="100%" space-before.optimum="1pt" space-after.optimum="2pt">
                                                 <fo:table-column column-width="127pt" />
-                                                <fo:table-column column-width="proportional-column-width(80)" />
+                                                <fo:table-column column-width="451pt" />
                                                 <fo:table-body>
                                                     <fo:table-row>
                                                         <fo:table-cell display-align="before" width="127pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="white">
@@ -6278,7 +6278,7 @@ PROTO_CORRESP_TYPE_CODE =  4 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
 buffer := '                                                                <fo:inline font-size="10pt">&#160;&#160;&#160;&#160; </fo:inline>
                                                             </fo:block>
                                                         </fo:table-cell>
-                                                        <fo:table-cell display-align="before" width="80%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="white">
+                                                        <fo:table-cell display-align="before" width="451pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="white">
                                                             <fo:block>
                                                                 <xsl:for-each select="n1:Protocol">
                                                                     <xsl:for-each select="n1:Submissions">
@@ -6301,13 +6301,13 @@ buffer := '                                                                <fo:i
                                                         </fo:table-cell>
                                                     </fo:table-row>
                                                     <fo:table-row>
-                                                        <fo:table-cell width="20%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="white">
+                                                        <fo:table-cell width="127pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="white">
                                                             <fo:block>
                                                                 <fo:inline font-size="10pt" font-weight="bold">IRB Protocol #:</fo:inline>
                                                                 <fo:inline font-size="10pt">&#160;&#160;&#160; </fo:inline>
                                                             </fo:block>
                                                         </fo:table-cell>
-                                                        <fo:table-cell display-align="before" width="80%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="white">
+                                                        <fo:table-cell display-align="before" width="451pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="white">
                                                             <fo:block>
                                                                 <xsl:for-each select="n1:Protocol">
                                                                     <xsl:for-each select="n1:ProtocolMasterData">
@@ -6337,7 +6337,7 @@ PROTO_CORRESP_TYPE_CODE =  4 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
 buffer := '                                                                <fo:inline font-size="10pt">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; </fo:inline>
                                                             </fo:block>
                                                         </fo:table-cell>
-                                                        <fo:table-cell display-align="before" width="80%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="white">
+                                                        <fo:table-cell display-align="before" width="451pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="white">
                                                             <fo:block>
                                                                 <xsl:for-each select="n1:Protocol">
                                                                     <xsl:for-each select="n1:ProtocolMasterData">
@@ -7878,17 +7878,17 @@ buffer := '                        </fo:block>
                             <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                 <fo:block>
                                     <fo:table width="100%" space-before.optimum="1pt" space-after.optimum="2pt">
-                                        <fo:table-column column-width="proportional-column-width(20)" />
-                                        <fo:table-column column-width="proportional-column-width(80)" />
+                                        <fo:table-column column-width="127pt" />
+                                        <fo:table-column column-width="451pt" />
                                         <fo:table-body>
                                             <fo:table-row>
-                                                <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="20%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
+                                                <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="127pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
                                                     <fo:block>
                                                         <fo:inline font-size="10pt" font-weight="bold">To:</fo:inline>
                                                         <fo:inline font-size="10pt">&#160;&#160;&#160;&#160;&#160; </fo:inline>
                                                     </fo:block>
                                                 </fo:table-cell>
-                                                <fo:table-cell border-style="solid" border-width="1pt" border-color="white" width="80%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
+                                                <fo:table-cell border-style="solid" border-width="1pt" border-color="white" width="451pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
                                                     <fo:block>
                                                         <xsl:for-each select="n1:Protocol">
                                                             <xsl:for-each select="n1:Investigator">
@@ -7931,12 +7931,12 @@ WHERE
 PROTO_CORRESP_TYPE_CODE =  6 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
 buffer := '                                            </fo:table-row>
                                             <fo:table-row>
-                                                <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="20%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
+                                                <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="127pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
                                                     <fo:block>
                                                         <fo:inline font-size="10pt" font-weight="bold">From:</fo:inline>
                                                     </fo:block>
                                                 </fo:table-cell>
-                                                <fo:table-cell border-style="solid" border-width="1pt" border-color="white" width="80%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
+                                                <fo:table-cell border-style="solid" border-width="1pt" border-color="white" width="451pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
                                                     <fo:block>
                                                         <xsl:for-each select="n1:Protocol">
                                                             <xsl:for-each select="n1:Submissions">
@@ -7994,12 +7994,12 @@ buffer := '                                                            </fo:bloc
                                                 </fo:table-cell>
                                             </fo:table-row>
                                             <fo:table-row>
-                                                <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="20%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
+                                                <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="127pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
                                                     <fo:block>
                                                         <fo:inline font-size="10pt" font-weight="bold">Date:</fo:inline>
                                                     </fo:block>
                                                 </fo:table-cell>
-                                                <fo:table-cell border-style="solid" border-width="1pt" border-color="white" width="80%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
+                                                <fo:table-cell border-style="solid" border-width="1pt" border-color="white" width="451pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
                                                     <fo:block>
                                                         <xsl:for-each select="n1:CurrentDate">
                                                             <fo:inline font-size="10pt">
@@ -8014,12 +8014,12 @@ buffer := '                                                            </fo:bloc
                                                 </fo:table-cell>
                                             </fo:table-row>
                                             <fo:table-row>
-                                                <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="20%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
+                                                <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="127pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
                                                     <fo:block>
                                                         <fo:inline font-size="10pt" font-weight="bold">Committee Action:</fo:inline>
                                                     </fo:block>
                                                 </fo:table-cell>
-                                                <fo:table-cell border-style="solid" border-width="1pt" border-color="white" width="80%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
+                                                <fo:table-cell border-style="solid" border-width="1pt" border-color="white" width="451pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
                                                     <fo:block>
                                                         <fo:inline font-size="10pt" font-weight="bold">Specific Minor Revisions Required</fo:inline>
                                                     </fo:block>
@@ -8033,11 +8033,11 @@ buffer := '                                                            </fo:bloc
                                                 <xsl:text>&#xA;</xsl:text>
                                             </fo:block>
                                             <fo:table width="100%" space-before.optimum="1pt" space-after.optimum="2pt">
-                                                <fo:table-column column-width="proportional-column-width(20)" />
-                                                <fo:table-column column-width="proportional-column-width(80)" />
+                                                <fo:table-column column-width="127pt" />
+                                                <fo:table-column column-width="451pt" />
                                                 <fo:table-body>
                                                     <fo:table-row>
-                                                        <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="20%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
+                                                        <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="127pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
 ';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
@@ -8052,7 +8052,7 @@ buffer := '                                                            <fo:block
                                                                 <fo:inline font-size="10pt">&#160;&#160;&#160;&#160; </fo:inline>
                                                             </fo:block>
                                                         </fo:table-cell>
-                                                        <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="80%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
+                                                        <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="451pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
                                                             <fo:block>
                                                                 <xsl:for-each select="n1:Protocol">
                                                                     <xsl:for-each select="n1:Submissions">
@@ -8075,13 +8075,13 @@ buffer := '                                                            <fo:block
                                                         </fo:table-cell>
                                                     </fo:table-row>
                                                     <fo:table-row>
-                                                        <fo:table-cell border-style="solid" border-width="1pt" border-color="white" width="20%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
+                                                        <fo:table-cell border-style="solid" border-width="1pt" border-color="white" width="127pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
                                                             <fo:block>
                                                                 <fo:inline font-size="10pt" font-weight="bold">IRB Protocol # </fo:inline>
                                                                 <fo:inline font-size="10pt">&#160;&#160;&#160; </fo:inline>
                                                             </fo:block>
                                                         </fo:table-cell>
-                                                        <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="80%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
+                                                        <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="451pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
                                                             <fo:block>
                                                                 <xsl:for-each select="n1:Protocol">
                                                                     <xsl:for-each select="n1:ProtocolMasterData">
@@ -8096,7 +8096,7 @@ buffer := '                                                            <fo:block
                                                         </fo:table-cell>
                                                     </fo:table-row>
                                                     <fo:table-row>
-                                                        <fo:table-cell border-style="solid" border-width="1pt" border-color="white" width="20%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
+                                                        <fo:table-cell border-style="solid" border-width="1pt" border-color="white" width="127pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
 ';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
@@ -8111,7 +8111,7 @@ buffer := '                                                            <fo:block
                                                                 <fo:inline font-size="10pt">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; </fo:inline>
                                                             </fo:block>
                                                         </fo:table-cell>
-                                                        <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="80%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
+                                                        <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="451pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
                                                             <fo:block>
                                                                 <xsl:for-each select="n1:Protocol">
                                                                     <xsl:for-each select="n1:ProtocolMasterData">
