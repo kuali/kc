@@ -16,34 +16,37 @@
 package org.kuali.kra.irb.personnel;
 
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.kra.rule.BusinessRuleInterface;
+import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
- * This class represents the AddProtocolPersonnelEvent
+ * Represents the event to add a ProtocolPersonnel.
  */
-public class AddProtocolPersonnelEvent extends ProtocolPersonnelEventBase {
+public class AddProtocolPersonnelEvent extends KraDocumentEventBaseExtension {
     
+    private ProtocolPerson protocolPerson;
+    
+    /**
+     * Constructs a AddProtocolPersonnelEvent.
+     * @param errorPathPrefix The error path prefix
+     * @param document The document to validate
+     * @param protocolPerson the person to add
+     */
     public AddProtocolPersonnelEvent(String errorPathPrefix, ProtocolDocument document, ProtocolPerson protocolPerson) {
-        super("adding ProtocolPerson to document " + getDocumentId(document), errorPathPrefix, document, protocolPerson);
-    }
-
-    public AddProtocolPersonnelEvent(String errorPathPrefix, Document document, ProtocolPerson protocolPerson) {
-        this(errorPathPrefix, (ProtocolDocument) document, protocolPerson);
+        super("Adding ProtocolPerson to document " + getDocumentId(document), errorPathPrefix, document);
+    
+        this.protocolPerson = (ProtocolPerson) ObjectUtils.deepCopy(protocolPerson);
     }
     
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
-    public Class getRuleInterfaceClass() {
-        return AddProtocolPersonnelRule.class;
+    public ProtocolPerson getProtocolPerson() {
+        return protocolPerson;
     }
 
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
-     */
-    public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((AddProtocolPersonnelRule) rule).processAddProtocolPersonnelBusinessRules(this);
+    @Override
+    @SuppressWarnings("unchecked")
+    public BusinessRuleInterface getRule() {
+        return new AddProtocolPersonnelRule();
     }
 
 }

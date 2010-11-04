@@ -51,15 +51,6 @@ public class ProtocolPersonnelAction extends ProtocolAction {
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolPersonnelAction.class);
     private ProtocolAttachmentService protocolAttachmentService;
-    /**
-     * @see org.kuali.kra.irb.ProtocolAction#isValidSave(org.kuali.kra.irb.ProtocolForm)
-     */
-    @Override
-    protected boolean isValidSave(ProtocolForm protocolForm) {    
-        getProtocolPersonnelService().syncProtocolPersonRoleChanges(getProtocolPersons(protocolForm));
-        boolean rulePassed = applyRules(new SaveProtocolPersonnelEvent(Constants.EMPTY_STRING, protocolForm.getDocument()));
-        return rulePassed;
-    }
     
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
