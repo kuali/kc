@@ -31,7 +31,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
-import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
@@ -82,15 +81,6 @@ public class ProtocolCustomDataAction extends ProtocolAction {
             protocolDocument.getCustomAttributeDocuments().get(customAttributeId).getCustomAttribute().setValue(value);
         }
         return mapping.findForward("customData");    
-    }
-
-    /**
-     * @see org.kuali.kra.irb.ProtocolAction#isValidSave(org.kuali.kra.irb.ProtocolForm)
-     */
-    @Override
-    protected boolean isValidSave(ProtocolForm protocolForm) {
-        return super.isValidSave(protocolForm) && 
-               applyRules(new SaveCustomAttributeEvent(Constants.EMPTY_STRING, protocolForm.getDocument()));
     }
 
     /**

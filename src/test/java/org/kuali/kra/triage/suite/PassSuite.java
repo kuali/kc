@@ -322,7 +322,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.proposaldevelopment.document.ProposalColumnsToAlterMaintainableImplTest.class,
     org.kuali.kra.committee.service.CommitteeScheduleServiceImplTest.class,
     org.kuali.kra.irb.personnel.ProtocolPersonnelRuleTest.class,
-    org.kuali.kra.rules.KraCustomAttributeRulesTest.class,
+    org.kuali.kra.rules.SaveCustomAttributeRuleTest.class,
     org.kuali.kra.committee.rules.CommitteeMembershipAddRuleTest.class,
     org.kuali.kra.committee.rules.CommitteeMembershipSaveRuleTest.class,
     org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRuleImplTest.class,
