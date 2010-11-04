@@ -15,54 +15,28 @@
  */
 package org.kuali.kra.irb.personnel;
 
-import static org.kuali.kra.logging.BufferedLogger.info;
-
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.kra.rule.BusinessRuleInterface;
+import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 
 /**
- * Event triggered when a protocol personnel is saved to a
- * <code>{@link ProtocolDocument}</code>
- *
+ * Represents the event to save a ProtocolPersonnel.
  */
-public class SaveProtocolPersonnelEvent extends ProtocolPersonnelEventBase {
+public class SaveProtocolPersonnelEvent extends KraDocumentEventBaseExtension {
 
     /**
-     * Constructs an SaveProtocolPersonnelEvent.java with the given errorPathPrefix, document.
-     * 
-     * @param errorPathPrefix
-     * @param document
-     * @see org.kuali.kra.rule.event.KraDocumentEventBase#KraDocumentEventBase(String, String, Document)
+     * Constructs an SaveProtocolPersonnelEvent.
+     * @param errorPathPrefix The error path prefix
+     * @param document The document to validate
      */
     public SaveProtocolPersonnelEvent(String errorPathPrefix, ProtocolDocument document) {
         super("Saving protocol personnel on document " + getDocumentId(document), errorPathPrefix, document);
-        logEvent();
     }
 
-    /**
-     * Constructs an SaveProtocolPersonnelEvent.java with the given errorPathPrefix, document.
-     * 
-     * @param errorPathPrefix
-     * @param document
-     * @param proposalPerson
-     */
-    public SaveProtocolPersonnelEvent(String errorPathPrefix, Document document) {
-        this(errorPathPrefix, (ProtocolDocument) document);
+    @Override
+    @SuppressWarnings("unchecked")
+    public BusinessRuleInterface getRule() {
+        return new SaveProtocolPersonnelRule();
     }
-
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
-    public Class getRuleInterfaceClass() {
-        return SaveProtocolPersonnelRule.class;
-    }
-
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
-     */
-    public boolean invokeRuleMethod(BusinessRule rule) {
-        info("Calling processSaveProtocolPersonnelBusinessRules on ", rule.getClass().getSimpleName());
-        return ((SaveProtocolPersonnelRule) rule).processSaveProtocolPersonnelBusinessRules(this);
-    }
+    
 }

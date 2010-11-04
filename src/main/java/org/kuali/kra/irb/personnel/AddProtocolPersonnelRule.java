@@ -15,21 +15,19 @@
  */
 package org.kuali.kra.irb.personnel;
 
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.kra.rule.BusinessRuleInterface;
 
 /**
- * This class adds rule for adding new <code>ProtocolPerson</code> object
+ * Runs the rule processing for adding a <code>ProtocolPerson</code>.
  */
-public interface AddProtocolPersonnelRule extends BusinessRule {
+public class AddProtocolPersonnelRule extends ProtocolPersonnelRuleBase implements BusinessRuleInterface<AddProtocolPersonnelEvent> {
 
     /**
-     * This method evaluates to true if ProtocolPerson objects satisfy required fields and business rules.
-     * Protocol person role is mandatory.
-     * Don't allow more than one Principal Investigator for each protocol.
-     * Don't allow duplicate person. Same person can be listed in multiple roles. Validate with person and role
-     * @param addProtocolPersonnelEvent
-     * @return boolean true for valid object and false for invalid entry
+     * {@inheritDoc}
+     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
      */
-    public boolean processAddProtocolPersonnelBusinessRules(AddProtocolPersonnelEvent addProtocolPersonnelEvent);
+    public boolean processRules(AddProtocolPersonnelEvent event) {
+        return processAddProtocolPersonnelEvent(event);
+    }
 
 }

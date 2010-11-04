@@ -25,6 +25,7 @@ import org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles;
 import org.kuali.kra.common.permissions.rule.PermissionsRule;
 import org.kuali.kra.common.permissions.web.bean.User;
 import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewEvent;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.approve.ExecuteProtocolApproveRule;
@@ -64,7 +65,8 @@ import org.kuali.kra.irb.personnel.AddProtocolPersonnelRule;
 import org.kuali.kra.irb.personnel.AddProtocolUnitEvent;
 import org.kuali.kra.irb.personnel.AddProtocolUnitRule;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelAuditRule;
-import org.kuali.kra.irb.personnel.ProtocolPersonnelRule;
+import org.kuali.kra.irb.personnel.ProtocolPersonnelRuleBase;
+import org.kuali.kra.irb.personnel.ProtocolPersonnelService;
 import org.kuali.kra.irb.personnel.ProtocolUnitRule;
 import org.kuali.kra.irb.personnel.SaveProtocolPersonnelEvent;
 import org.kuali.kra.irb.personnel.SaveProtocolPersonnelRule;
@@ -85,11 +87,10 @@ import org.kuali.kra.irb.protocol.research.ProtocolResearchAreaAuditRule;
 import org.kuali.kra.irb.questionnaire.ProtocolQuestionnaireAuditRule;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReview;
 import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.CustomAttributeRule;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
-import org.kuali.kra.rules.KraCustomAttributeRule;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.kra.rules.SaveCustomAttributeRule;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.util.ErrorMap;
@@ -100,7 +101,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolParticipantRule, AddProtocolLocationRule, AddProtocolPersonnelRule, SaveProtocolPersonnelRule, PermissionsRule, AddProtocolUnitRule, CustomAttributeRule, BusinessRuleInterface, ExecuteProtocolSubmitActionRule, ExecuteProtocolAssignCmtSchedRule, ExecuteProtocolAssignReviewersRule, ExecuteProtocolAdminCorrectionRule, ExecuteCommitteeDecisionRule, ExecuteCommitteeDecisionAbstainerRule, ExecuteCommitteeDecisionRecuserRule, ExecuteProtocolModifySubmissionRule, ExecuteProtocolApproveRule, ExecuteProtocolReviewNotRequiredRule {
+public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolParticipantRule, AddProtocolLocationRule, PermissionsRule, AddProtocolUnitRule, BusinessRuleInterface, ExecuteProtocolSubmitActionRule, ExecuteProtocolAssignCmtSchedRule, ExecuteProtocolAssignReviewersRule, ExecuteProtocolAdminCorrectionRule, ExecuteCommitteeDecisionRule, ExecuteCommitteeDecisionAbstainerRule, ExecuteCommitteeDecisionRecuserRule, ExecuteProtocolModifySubmissionRule, ExecuteProtocolApproveRule, ExecuteProtocolReviewNotRequiredRule {
 
     private static final String PROTOCOL_PIID_FORM_ELEMENT="protocolHelper.personId";
     private static final String PROTOCOL_LUN_FORM_ELEMENT="protocolHelper.leadUnitNumber";
@@ -134,6 +135,8 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         valid &= processLeadUnitBusinessRules((ProtocolDocument) document);
         valid &= processProtocolLocationBusinessRules((ProtocolDocument) document);
         valid &= processProtocolParticipantBusinessRules((ProtocolDocument) document);
+        valid &= processProtocolPersonnelBusinessRules((ProtocolDocument) document);
+        valid &= processProtocolCustomDataBusinessRules((ProtocolDocument) document);
         valid &= processProtocolSpecialReviewBusinessRules((ProtocolDocument) document);
         return valid;
     }
@@ -222,6 +225,14 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         return isValid;
     }
     
+    private boolean processProtocolPersonnelBusinessRules(ProtocolDocument document) {
+        return processRules(new SaveProtocolPersonnelEvent(Constants.EMPTY_STRING, document));
+    }
+    
+    private boolean processProtocolCustomDataBusinessRules(ProtocolDocument document) {
+        return processRules(new SaveCustomAttributeEvent(Constants.EMPTY_STRING, document));
+    }
+    
     private boolean processProtocolSpecialReviewBusinessRules(ProtocolDocument document) {
         List<ProtocolSpecialReview> specialReviews = document.getProtocol().getSpecialReviews();
         return processRules(new SaveSpecialReviewEvent<ProtocolSpecialReview>(SAVE_SPECIAL_REVIEW_FIELD, document, specialReviews));
@@ -246,24 +257,6 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
     public boolean processAddProtocolLocationBusinessRules(AddProtocolLocationEvent addProtocolLocationEvent) {
 
         return new ProtocolLocationRule().processAddProtocolLocationBusinessRules(addProtocolLocationEvent);
-        
-    }
-    
-    /**
-     * @see org.kuali.kra.irb.personnel.AddProtocolPersonnelRule#processAddProtocolPersonnelBusinessRules(org.kuali.kra.irb.personnel.AddProtocolPersonnelEvent)
-     */
-    public boolean processAddProtocolPersonnelBusinessRules(AddProtocolPersonnelEvent addProtocolPersonnelEvent) {
-
-        return new ProtocolPersonnelRule().processAddProtocolPersonnelBusinessRules(addProtocolPersonnelEvent);
-        
-    }
-
-    /**
-     * @see org.kuali.kra.irb.personnel.SaveProtocolPersonnelRule#processSaveProtocolPersonnelBusinessRules(org.kuali.kra.irb.personnel.SaveProtocolPersonnelEvent)
-     */
-    public boolean processSaveProtocolPersonnelBusinessRules(SaveProtocolPersonnelEvent saveProtocolPersonnelEvent) {
-
-        return new ProtocolPersonnelRule().processSaveProtocolPersonnelBusinessRules(saveProtocolPersonnelEvent);
         
     }
     
@@ -305,13 +298,6 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
 
         return new ProtocolUnitRule().processAddProtocolUnitBusinessRules(addProtocolUnitEvent);
         
-    }
-
-    /**
-     * @see org.kuali.kra.rule.CustomAttributeRule#processCustomAttributeRules(org.kuali.kra.rule.event.SaveCustomAttributeEvent)
-     */
-    public boolean processCustomAttributeRules(SaveCustomAttributeEvent saveCustomAttributeEvent) {
-        return new KraCustomAttributeRule().processCustomAttributeRules(saveCustomAttributeEvent);
     }
 
     /**
@@ -409,5 +395,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         return new ProtocolReviewNotRequiredRule().processReviewNotRequiredRule(document, actionBean);
     }
 
-    
+    private ProtocolPersonnelService getProtocolPersonnelService() {
+        return KraServiceLocator.getService(ProtocolPersonnelService.class);
+    }
 }
