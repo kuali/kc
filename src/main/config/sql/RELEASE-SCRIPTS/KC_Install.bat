@@ -137,7 +137,7 @@ mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KC-Release-2_0-Base-Rice-MySql-
 )
 move *.log ../LOGS
 cd ..
-pause
+
 :2.0MYSQL
 cd KC-RELEASE-3_0-SCRIPT
 if /i "%mode%" == "BUNDLE" (

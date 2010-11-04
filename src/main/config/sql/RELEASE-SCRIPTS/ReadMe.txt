@@ -2,12 +2,14 @@ KC Release Version 3.0
 ------------------------
 
 KC database release contains all SQL scripts needed to 
-install a new schema in a rice bundled or embedded mode
-with the database objects (tables, constraints, bootstrap data)
-required to launch/execute KC application.
+install a new schema or upgrade a KC 2.0 database using 
+rice bundled or embedded mode with the database objects 
+(tables, constraints, bootstrap data) for the KC application.
 
-KC database install scripts for a rice embedded version 
-or upgrade existing KC schema will be released separately.
+The scripts to upgrade Rice from 1.0.2 to 1.0.3 are also included.  
+If installing in an embedded rice environment you will be prompted 
+to install/upgrade rice.  If your Rice server has been upgraded 
+already you will answer no to the question. 
 
 Installation Steps - Oracle
 ---------------------------
@@ -85,6 +87,7 @@ You will be prompted for the following:
    - Rice Username = the rice database schema name to install rice scripts to (embedded rice).
    - rice Password = password for rice username
    - Rice DB Server name = the tns name used to connect to rice database (Oracle Only).
+   - Do you wish to Install/Upgrade your Embedded Rice Server (Don't perform if your server was upgraded separately)
 
 Review .log files for installation errors
 
