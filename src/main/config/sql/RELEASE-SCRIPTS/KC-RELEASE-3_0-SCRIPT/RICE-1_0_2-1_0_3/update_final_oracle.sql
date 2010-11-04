@@ -1,3 +1,4 @@
+spool update_final_oracle.log
 --
 -- Copyright 2010 The Kuali Foundation
 -- 
