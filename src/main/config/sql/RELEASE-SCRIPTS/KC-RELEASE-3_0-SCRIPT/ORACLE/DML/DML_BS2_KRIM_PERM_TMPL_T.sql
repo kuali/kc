@@ -1,5 +1,5 @@
 UPDATE KRIM_PERM_TMPL_T
-  SET KIM_TYP_ID = '1007'
+  SET KIM_TYP_ID = (select kim_typ_id from krim_typ_t where nm = 'Document Action' and nmspc_cd = 'KC-SYS')
   WHERE NM       = 'Perform Document Action';
   
 -- Deleting dependent records for KRIM_PERM_TMPL_T record.
