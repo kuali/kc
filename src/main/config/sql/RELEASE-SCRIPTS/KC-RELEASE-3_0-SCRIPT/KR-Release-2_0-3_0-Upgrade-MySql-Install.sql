@@ -11,8 +11,8 @@ select "Running DML_BS1_KRIM_ENTITY.sql...";
 select "Running DML_BS1_KRIM_TYP_T.sql...";
 \. MYSQL\DML\DML_BS1_KRIM_TYP_T.sql
 
---select "Running DML_BS2_KREN_CHNL_PRODCR_T.sql...";
---\. MYSQL\DML\DML_BS2_KREN_CHNL_PRODCR_T.sql
+-- select "Running DML_BS2_KREN_CHNL_PRODCR_T.sql...";
+-- \. MYSQL\DML\DML_BS2_KREN_CHNL_PRODCR_T.sql
 
 select "Running DML_BS2_KRIM_PERM_TMPL_T.sql...";
 \. MYSQL\DML\DML_BS2_KRIM_PERM_TMPL_T.sql
