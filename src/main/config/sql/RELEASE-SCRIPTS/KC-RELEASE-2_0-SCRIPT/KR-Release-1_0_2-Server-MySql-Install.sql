@@ -1,3 +1,4 @@
+delimiter /
 
 select "Running schema.sql...";
 \. RICE\EMBEDDEDSERVER_MYSQL\sql\schema.sql
@@ -224,11 +225,12 @@ select "Running TRV_DOC_2.sql...";
 select "Running schema-constraints.sql...";
 \. RICE\EMBEDDEDSERVER_MYSQL\sql\schema-constraints.sql
 
-select "Running demo-server-dataset-cleanup.sql...";
-\. RICE\EMBEDDEDSERVER_MYSQL\sql\demo-server-dataset-cleanup.sql
+# select "Running demo-server-dataset-cleanup.sql...";
+# \. RICE\EMBEDDEDSERVER_MYSQL\sql\demo-server-dataset-cleanup.sql
 
-select "Running bootstrap-server-dataset-cleanup.sql...";
-\. RICE\EMBEDDEDSERVER_MYSQL\sql\bootstrap-server-dataset-cleanup.sql
+# select "Running bootstrap-server-dataset-cleanup.sql...";
+# \. RICE\EMBEDDEDSERVER_MYSQL\sql\bootstrap-server-dataset-cleanup.sql
 
-COMMIT;
-EXIT
+COMMIT
+/
+quit
