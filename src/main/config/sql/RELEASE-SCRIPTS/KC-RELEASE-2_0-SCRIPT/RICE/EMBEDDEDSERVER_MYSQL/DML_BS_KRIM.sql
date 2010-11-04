@@ -117,639 +117,887 @@ INSERT INTO KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID,NMSPC_CD,NM,LBL,CMPNT_NM,ACTV_IND
 select Max(ID),'KC-SYS','timeandmoney','TimeAndMoney Number','org.kuali.kra.kim.bo.KcKimAttributes','Y',1,UUID() from KRIM_ATTR_DEFN_ID_S;
 
 -- REM INSERTING into KRIM_TYP_ATTR_T
+insert into KRIM_TYP_ATTR_ID_S values (null);
+
 Insert into KRIM_TYP_ATTR_T (KIM_TYP_ATTR_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,SORT_CD,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_TYP_ATTR_ID_S.NEXTVAL,
+select max(id),
 (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Unit'),
 (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'unitNumber'),
-'A','Y',1,SYS_GUID());
+'A','Y',1, UUID() from KRIM_TYP_ATTR_ID_S;
+
+insert into KRIM_TYP_ATTR_ID_S values (null);
 
 Insert into KRIM_TYP_ATTR_T (KIM_TYP_ATTR_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,SORT_CD,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_TYP_ATTR_ID_S.NEXTVAL,
+select max(id),
 (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'UnitHierarchy'),
 (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'subunits'),
-'B','Y',1,SYS_GUID());
+'B','Y',1, UUID() from KRIM_TYP_ATTR_ID_S;
+
+insert into KRIM_TYP_ATTR_ID_S values (null);
 
 Insert into KRIM_TYP_ATTR_T (KIM_TYP_ATTR_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,SORT_CD,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_TYP_ATTR_ID_S.NEXTVAL,
+select max(id),
 (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'UnitHierarchy'),
 (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'unitNumber'),
-'A','Y',1,SYS_GUID());
+'A','Y',1, UUID() from KRIM_TYP_ATTR_ID_S;
+
+insert into KRIM_TYP_ATTR_ID_S values (null);
 
 Insert into KRIM_TYP_ATTR_T (KIM_TYP_ATTR_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,SORT_CD,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_TYP_ATTR_ID_S.NEXTVAL,
+select max(id),
 (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Document Section'),
 (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'sectionName'),
-'a','Y',1,SYS_GUID());
+'a','Y',1, UUID() from KRIM_TYP_ATTR_ID_S;
+
+insert into KRIM_TYP_ATTR_ID_S values (null);
 
 Insert into KRIM_TYP_ATTR_T (KIM_TYP_ATTR_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,SORT_CD,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_TYP_ATTR_ID_S.NEXTVAL,
+select max(id),
 (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Document Action'),
 (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'documentAction'),
-'a','Y',1,SYS_GUID());
+'a','Y',1, UUID() from KRIM_TYP_ATTR_ID_S;
+
+insert into KRIM_TYP_ATTR_ID_S values (null);
 
 Insert into KRIM_TYP_ATTR_T (KIM_TYP_ATTR_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,SORT_CD,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_TYP_ATTR_ID_S.NEXTVAL,
+select max(id),
 (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'ProposalType'),
 (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'proposal'),
-'A','Y',1,SYS_GUID());
+'A','Y',1, UUID() from KRIM_TYP_ATTR_ID_S;
+
+insert into KRIM_TYP_ATTR_ID_S values (null);
 
 Insert into KRIM_TYP_ATTR_T (KIM_TYP_ATTR_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,SORT_CD,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_TYP_ATTR_ID_S.NEXTVAL,
+select max(id),
 (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'ProtocolType'),
 (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'protocol'),
-'A','Y',1,SYS_GUID());
+'A','Y',1, UUID() from KRIM_TYP_ATTR_ID_S;
+
+insert into KRIM_TYP_ATTR_ID_S values (null);
 
 Insert into KRIM_TYP_ATTR_T (KIM_TYP_ATTR_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,SORT_CD,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_TYP_ATTR_ID_S.NEXTVAL,
+select max(id),
 (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'CommitteeType'),
 (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'committee'),
-'A','Y',1,SYS_GUID());
+'A','Y',1, UUID() from KRIM_TYP_ATTR_ID_S;
+
+insert into KRIM_TYP_ATTR_ID_S values (null);
 
 Insert into KRIM_TYP_ATTR_T (KIM_TYP_ATTR_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,SORT_CD,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_TYP_ATTR_ID_S.NEXTVAL,
+select max(id),
 (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'AwardType'),
 (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'award'),
-'A','Y',1,SYS_GUID());
+'A','Y',1, UUID() from KRIM_TYP_ATTR_ID_S;
+
+insert into KRIM_TYP_ATTR_ID_S values (null);
 
 INSERT INTO KRIM_TYP_ATTR_T (KIM_TYP_ATTR_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,SORT_CD,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_TYP_ATTR_ID_S.NEXTVAL,
+select max(id),
 (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'TimeAndMoneyType'),
 (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'timeandmoney'),
-'A','Y',1,SYS_GUID());
+'A','Y',1, UUID() from KRIM_TYP_ATTR_ID_S;
 
 
 -- REM INSERTING into KRIM_PERM_TMPL_T
-Insert into KRIM_PERM_TMPL_T (PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_TMPL_ID_S.NEXTVAL,'KC-IDM','Answer Questionnaire Permission','Answer Questionnaire',
-(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)'),
-'Y',1,SYS_GUID());
+insert into KRIM_PERM_TMPL_ID_S values (null);
 
 Insert into KRIM_PERM_TMPL_T (PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_TMPL_ID_S.NEXTVAL,'KC-IDM','Question Permission','Modify/View Question',
+select max(id),'KC-IDM','Answer Questionnaire Permission','Answer Questionnaire',
 (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_TMPL_ID_S;
+
+insert into KRIM_PERM_TMPL_ID_S values (null);
 
 Insert into KRIM_PERM_TMPL_T (PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_TMPL_ID_S.NEXTVAL,'KC-IDM','Questionnaire Permission','Modify/View Questionnaire',
+select max(id),'KC-IDM','Question Permission','Modify/View Question',
 (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_TMPL_ID_S;
+
+insert into KRIM_PERM_TMPL_ID_S values (null);
 
 Insert into KRIM_PERM_TMPL_T (PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_TMPL_ID_S.NEXTVAL,'KC-IDM','Route All Documents','Route All Documents',
+select max(id),'KC-IDM','Questionnaire Permission','Modify/View Questionnaire',
 (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_TMPL_ID_S;
+
+insert into KRIM_PERM_TMPL_ID_S values (null);
 
 Insert into KRIM_PERM_TMPL_T (PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_TMPL_ID_S.NEXTVAL,'KC-IDM','Perform Any Document Action','Perform Any Document Action',
+select max(id),'KC-IDM','Route All Documents','Route All Documents',
 (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_TMPL_ID_S;
+
+insert into KRIM_PERM_TMPL_ID_S values (null);
 
 Insert into KRIM_PERM_TMPL_T (PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_TMPL_ID_S.NEXTVAL,'KC-IDM','View All Documents','View All Documents',
+select max(id),'KC-IDM','Perform Any Document Action','Perform Any Document Action',
 (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_TMPL_ID_S;
+
+insert into KRIM_PERM_TMPL_ID_S values (null);
 
 Insert into KRIM_PERM_TMPL_T (PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_TMPL_ID_S.NEXTVAL,'KC-IDM','Modify All Documents','Modify All Documents',
+select max(id),'KC-IDM','View All Documents','View All Documents',
 (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_TMPL_ID_S;
+
+insert into KRIM_PERM_TMPL_ID_S values (null);
 
 Insert into KRIM_PERM_TMPL_T (PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_TMPL_ID_S.NEXTVAL,'KC-IDM','Perform Document Action','Perform Document Action',
+select max(id),'KC-IDM','Modify All Documents','Modify All Documents',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)'),
+'Y',1, UUID() from KRIM_PERM_TMPL_ID_S;
+
+insert into KRIM_PERM_TMPL_ID_S values (null);
+
+Insert into KRIM_PERM_TMPL_T (PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,VER_NBR,OBJ_ID)
+select max(id),'KC-IDM','Perform Document Action','Perform Document Action',
 (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Document Section'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_TMPL_ID_S;
+
+insert into KRIM_PERM_TMPL_ID_S values (null);
 
 Insert into KRIM_PERM_TMPL_T (PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_TMPL_ID_S.NEXTVAL,'KC-IDM','View Document Section','View Document Section',
+select max(id),'KC-IDM','View Document Section','View Document Section',
 (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Document Section'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_TMPL_ID_S;
+
+insert into KRIM_PERM_TMPL_ID_S values (null);
 
 INSERT INTO KRIM_PERM_TMPL_T (PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_TMPL_ID_S.NEXTVAL,'KC-IDM','Edit Document Section','Edit Document Section',
+select max(id),'KC-IDM','Edit Document Section','Edit Document Section',
 (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Document Section'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_TMPL_ID_S;
 
 
 -- REM INSERTING into KRIM_PERM_T
-Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PD','Create ProposalDevelopmentDocument','Create Proposal Development Document',
-(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Initiate Document'),
-'Y',1,SYS_GUID());
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Create ProtocolDocument','Create Protocol Document',
+select max(id),'KC-PD','Create ProposalDevelopmentDocument','Create Proposal Development Document',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Initiate Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Create CommitteeDocument','Add new committees in a unit',
+select max(id),'KC-PROTOCOL','Create ProtocolDocument','Create Protocol Document',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Initiate Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-AWARD','Create Award','Create Award',
+select max(id),'KC-PROTOCOL','Create CommitteeDocument','Add new committees in a unit',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Initiate Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PD','Submit ProposalDevelopmentDocument','Submit a Proposal for approval',
+select max(id),'KC-AWARD','Create Award','Create Award',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Initiate Document'),
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+select max(id),'KC-PD','Submit ProposalDevelopmentDocument','Submit a Proposal for approval',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Route Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Submit Protocol','Submit a Protocol to IRB for review',
+select max(id),'KC-PROTOCOL','Submit Protocol','Submit a Protocol to IRB for review',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Route Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PD','Modify ProposalDevelopmentDocument','Modify Proposal Development Document',
+select max(id),'KC-PD','Modify ProposalDevelopmentDocument','Modify Proposal Development Document',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Edit Document Section'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PD','Modify Budget','Create/Modify Proposal Budget',
+select max(id),'KC-PD','Modify Budget','Create/Modify Proposal Budget',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Edit Document Section'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PD','Modify Narrative','Create/Modify Proposal Narrative',
+select max(id),'KC-PD','Modify Narrative','Create/Modify Proposal Narrative',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Edit Document Section'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PD','Modify ProposalPermissions','Assign Users to Proposal Roles',
+select max(id),'KC-PD','Modify ProposalPermissions','Assign Users to Proposal Roles',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Edit Document Section'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Modify Protocol','Modify Protocol Document',
+select max(id),'KC-PROTOCOL','Modify Protocol','Modify Protocol Document',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Edit Document Section'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Modify ProtocolPermissions','Assign Users to Protocol Roles',
+select max(id),'KC-PROTOCOL','Modify ProtocolPermissions','Assign Users to Protocol Roles',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Edit Document Section'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Modify Committee','Modify existing committees in a unit',
+select max(id),'KC-PROTOCOL','Modify Committee','Modify existing committees in a unit',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Edit Document Section'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Modify Schedule','Modify schedule details for committees in a unit',
+select max(id),'KC-PROTOCOL','Modify Schedule','Modify schedule details for committees in a unit',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Edit Document Section'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Maintain Memberships','Maintain membership details in committees in a unit',
+select max(id),'KC-PROTOCOL','Maintain Memberships','Maintain membership details in committees in a unit',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Edit Document Section'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Maintain Minutes','Add/modify/delete minute entries in any schedule for committees in a unit',
+select max(id),'KC-PROTOCOL','Maintain Minutes','Add/modify/delete minute entries in any schedule for committees in a unit',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Edit Document Section'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-AWARD','Modify Award','Modify Award',
+select max(id),'KC-AWARD','Modify Award','Modify Award',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Edit Document Section'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-AWARD','Maintain Award Documents','Maintain Award Documents',
+select max(id),'KC-AWARD','Maintain Award Documents','Maintain Award Documents',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Edit Document Section'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PD','View Proposal','View Proposal Development Document',
+select max(id),'KC-PD','View Proposal','View Proposal Development Document',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'View Document Section'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PD','View Budget','View Proposal Budget',
+select max(id),'KC-PD','View Budget','View Proposal Budget',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'View Document Section'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PD','View Narratives','View Proposal Narrative',
+select max(id),'KC-PD','View Narratives','View Proposal Narrative',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'View Document Section'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','View Protocol','View Protocol Document',
+select max(id),'KC-PROTOCOL','View Protocol','View Protocol Document',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'View Document Section'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','View Minutes','View Minutes',
+select max(id),'KC-PROTOCOL','View Minutes','View Minutes',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'View Document Section'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','View Committee','View all committees in a unit',
+select max(id),'KC-PROTOCOL','View Committee','View all committees in a unit',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'View Document Section'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','View Schedule','View schedule details of committees in a unit',
+select max(id),'KC-PROTOCOL','View Schedule','View schedule details of committees in a unit',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'View Document Section'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','View Agenda','View Agenda',
+select max(id),'KC-PROTOCOL','View Agenda','View Agenda',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'View Document Section'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-AWARD','View Award','View Award',
+select max(id),'KC-AWARD','View Award','View Award',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'View Document Section'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-AWARD','View Award Documents','View Award Documents',
+select max(id),'KC-AWARD','View Award Documents','View Award Documents',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'View Document Section'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PD','Alter Proposal Data','Change proposal master data once the proposal is locked',
+select max(id),'KC-PD','Alter Proposal Data','Change proposal master data once the proposal is locked',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PD','Print Proposal','Print proposal on a sponsor specific path',
+select max(id),'KC-PD','Print Proposal','Print proposal on a sponsor specific path',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PD','Certify','Certify',
+select max(id),'KC-PD','Certify','Certify',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PD','Submit to Sponsor','Submit a Proposal to Grants.gov',
+select max(id),'KC-PD','Submit to Sponsor','Submit a Proposal to Grants.gov',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PD','Add Proposal Viewer','Assign User to Proposal Viewer Role',
+select max(id),'KC-PD','Add Proposal Viewer','Assign User to Proposal Viewer Role',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Create Ammendment','Create a new ammendment for a protocol',
+select max(id),'KC-PROTOCOL','Create Ammendment','Create a new ammendment for a protocol',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Create Renewal','Create a new renewal for a protocol',
+select max(id),'KC-PROTOCOL','Create Renewal','Create a new renewal for a protocol',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Administrative Correction','Perform Administrative Corrections on Protocols',
+select max(id),'KC-PROTOCOL','Administrative Correction','Perform Administrative Corrections on Protocols',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Maintain Protocol Submissions','Modify Protocol Submission details',
+select max(id),'KC-PROTOCOL','Maintain Protocol Submissions','Modify Protocol Submission details',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Add Notes','Add Protocol Notes',
+select max(id),'KC-PROTOCOL','Add Notes','Add Protocol Notes',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','View Restricted Notes','View Restricted Notes in Protocols',
+select max(id),'KC-PROTOCOL','View Restricted Notes','View Restricted Notes in Protocols',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Generate Agenda','Generate Agenda',
+select max(id),'KC-PROTOCOL','Generate Agenda','Generate Agenda',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Generate Minutes','Generate Minutes',
+select max(id),'KC-PROTOCOL','Generate Minutes','Generate Minutes',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Generate Schedule','Generate Schedule',
+select max(id),'KC-PROTOCOL','Generate Schedule','Generate Schedule',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','View Member Details','View membership details for a member in a committee',
+select max(id),'KC-PROTOCOL','View Member Details','View membership details for a member in a committee',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Modify Any Protocol','Modify Any Protocol Document',
+select max(id),'KC-PROTOCOL','Modify Any Protocol','Modify Any Protocol Document',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Modify All Documents'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-AWARD','View Any Proposal','View Any Proposal',
+select max(id),'KC-AWARD','View Any Proposal','View Any Proposal',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'View All Documents'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Perform IRB Actions on a Protocol','Perform any IRB action on a protocol submitted to a committee',
+select max(id),'KC-PROTOCOL','Perform IRB Actions on a Protocol','Perform any IRB action on a protocol submitted to a committee',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Any Document Action'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-IP','Edit Proposal Log','Edit a Proposal Log',
+select max(id),'KC-IP','Edit Proposal Log','Edit a Proposal Log',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Edit Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-IP','Save Proposal Log','Save a Proposal Log',
+select max(id),'KC-IP','Save Proposal Log','Save a Proposal Log',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Save Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-IP','Submit Proposal Log','Submit a Proposal Log',
+select max(id),'KC-IP','Submit Proposal Log','Submit a Proposal Log',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Route Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-QUESTIONNAIRE','Modify Questionnaire',null,
+select max(id),'KC-QUESTIONNAIRE','Modify Questionnaire',null,
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Questionnaire Permission'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-QUESTIONNAIRE','View Questionnaire',null,
+select max(id),'KC-QUESTIONNAIRE','View Questionnaire',null,
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Questionnaire Permission'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PD','Maintain ProposalHierarchy','Create, modify and synchronize ProposalHierarchies',
+select max(id),'KC-PD','Maintain ProposalHierarchy','Create, modify and synchronize ProposalHierarchies',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Edit Document Section'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-SYS','Administer Routing for Document','Allows users to open KC documents via the Super search option in Document Search and take Administrative workflow actions on them (such as approving the document, approving individual requests, or sending the document to a specified route node).',
+select max(id),'KC-SYS','Administer Routing for Document','Allows users to open KC documents via the Super search option in Document Search and take Administrative workflow actions on them (such as approving the document, approving individual requests, or sending the document to a specified route node).',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Administer Routing for Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-SYS','Blanket Approve Document','Allows access to the Blanket Approval button on KC Documents.',
+select max(id),'KC-SYS','Blanket Approve Document','Allows access to the Blanket Approval button on KC Documents.',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Blanket Approve Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-SYS','Initiate Document','Authorizes the initiation of KC Documents.',
+select max(id),'KC-SYS','Initiate Document','Authorizes the initiation of KC Documents.',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Initiate Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-SYS','Open Document','Authorizes users to open KC Documents.',
+select max(id),'KC-SYS','Open Document','Authorizes users to open KC Documents.',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Open Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-SYS','Save Document','Authorizes user to save documents answering to the KC parent document Type.',
+select max(id),'KC-SYS','Save Document','Authorizes user to save documents answering to the KC parent document Type.',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Save Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-SYS','Delete Note / Attachment','Authorizes users to delete notes and attachments created by any user on documents answering to the KC parent document type.',
+select max(id),'KC-SYS','Delete Note / Attachment','Authorizes users to delete notes and attachments created by any user on documents answering to the KC parent document type.',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Delete Note / Attachment'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-SYS','Ad Hoc Review Document','Authorizes users to take the Approve action on KC documents Ad Hoc routed to them.',
+select max(id),'KC-SYS','Ad Hoc Review Document','Authorizes users to take the Approve action on KC documents Ad Hoc routed to them.',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Ad Hoc Review Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-SYS','Ad Hoc Review Document','Authorizes users to take the FYI action on KC documents Ad Hoc routed to them.',
+select max(id),'KC-SYS','Ad Hoc Review Document','Authorizes users to take the FYI action on KC documents Ad Hoc routed to them.',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Ad Hoc Review Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-SYS','Ad Hoc Review Document','Authorizes users to take the Acknowledge action on KC documents Ad Hoc routed to them.',
+select max(id),'KC-SYS','Ad Hoc Review Document','Authorizes users to take the Acknowledge action on KC documents Ad Hoc routed to them.',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Ad Hoc Review Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-SYS','Initiate Document','Authorizes the initiation of KC Simple Maintenance documents.',
+select max(id),'KC-SYS','Initiate Document','Authorizes the initiation of KC Simple Maintenance documents.',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Initiate Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-SYS','Assign Role','Authorizes users to modify the information on the Assignees Tab of the Role Document and the Roles section of the Membership Tab on the Person Document for roles with a Module Code beginning with KRA.',
+select max(id),'KC-SYS','Assign Role','Authorizes users to modify the information on the Assignees Tab of the Role Document and the Roles section of the Membership Tab on the Person Document for roles with a Module Code beginning with KRA.',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-IDM' AND NM = 'Assign Role'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-SYS','Grant Permission','Authorizes users to modify the information on the Permissions tab of the Role Document for roles with a module code beginning with KRA.',
+select max(id),'KC-SYS','Grant Permission','Authorizes users to modify the information on the Permissions tab of the Role Document for roles with a module code beginning with KRA.',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-IDM' AND NM = 'Grant Permission'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-SYS','Grant Responsibility','Authorizes users to modify the information on the Responsibility tab of the Role Document for roles with a Module Code that begins with KFS.',
+select max(id),'KC-SYS','Grant Responsibility','Authorizes users to modify the information on the Responsibility tab of the Role Document for roles with a Module Code that begins with KFS.',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-IDM' AND NM = 'Grant Responsibility'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-SYS','Maintain System Parameter','Authorizes users to initiate and edit the Parameter document for pameters with a module code beginning with KFS.',
+select max(id),'KC-SYS','Maintain System Parameter','Authorizes users to initiate and edit the Parameter document for pameters with a module code beginning with KFS.',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Maintain System Parameter'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KR-WKFLW','View Other Action List','Authorizes users to access other user''s action lists via the Help Desk Action List Login.',
+select max(id),'KR-WKFLW','View Other Action List','Authorizes users to access other user''s action lists via the Help Desk Action List Login.',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KUALI' AND NM = 'Default'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KR-WKFLW','Unrestricted Document Search','Allows power users to bypass the security associated with certain document types to limit the result set.',
+select max(id),'KR-WKFLW','Unrestricted Document Search','Allows power users to bypass the security associated with certain document types to limit the result set.',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KUALI' AND NM = 'Default'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PD','Blanket Approve ProposalDevelopmentDocument','Blanket Approve ProposalDevelopmentDocument',
+select max(id),'KC-PD','Blanket Approve ProposalDevelopmentDocument','Blanket Approve ProposalDevelopmentDocument',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Blanket Approve Document'),
-'N',1,SYS_GUID());
+'N',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Blanket Approve ProtocolDocument','Blanket Approve ProtocolDocument',
+select max(id),'KC-PROTOCOL','Blanket Approve ProtocolDocument','Blanket Approve ProtocolDocument',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Blanket Approve Document'),
-'N',1,SYS_GUID());
+'N',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Blanket Approve CommitteeDocument','Blanket Approve CommitteeDocument',
+select max(id),'KC-PROTOCOL','Blanket Approve CommitteeDocument','Blanket Approve CommitteeDocument',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Blanket Approve Document'),
-'N',1,SYS_GUID());
+'N',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-AWARD','Blanket Approve AwardDocument','Blanket Approve AwardDocument',
+select max(id),'KC-AWARD','Blanket Approve AwardDocument','Blanket Approve AwardDocument',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Blanket Approve Document'),
-'N',1,SYS_GUID());
+'N',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-AWARD','Blanket Approve TimeAndMoneyDocument','Blanket Approve TimeAndMoneyDocument',
+select max(id),'KC-AWARD','Blanket Approve TimeAndMoneyDocument','Blanket Approve TimeAndMoneyDocument',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Blanket Approve Document'),
-'N',1,SYS_GUID());
+'N',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-QUESTIONNAIRE','Modify Question','Modify Question',
+select max(id),'KC-QUESTIONNAIRE','Modify Question','Modify Question',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Question Permission'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-QUESTIONNAIRE','View Question','View Question',
+select max(id),'KC-QUESTIONNAIRE','View Question','View Question',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Question Permission'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-IP','Create Proposal Log','Initiate a new Proposal Log',
+select max(id),'KC-IP','Create Proposal Log','Initiate a new Proposal Log',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Initiate Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-IP','Open Proposal Log','Open a Proposal Log',
+select max(id),'KC-IP','Open Proposal Log','Open a Proposal Log',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Open Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-IP','Cancel Proposal Log','Cancel a Proposal Log',
+select max(id),'KC-IP','Cancel Proposal Log','Cancel a Proposal Log',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Cancel Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-IP','Create Institutional Proposal','Initiate a new Institutional Proposal',
+select max(id),'KC-IP','Create Institutional Proposal','Initiate a new Institutional Proposal',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Initiate Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-IP','Edit Institutional Proposal','Edit a Institutional Proposal',
+select max(id),'KC-IP','Edit Institutional Proposal','Edit a Institutional Proposal',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Edit Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-IP','Save Institutional Proposal','Save a Institutional Proposal',
+select max(id),'KC-IP','Save Institutional Proposal','Save a Institutional Proposal',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Save Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-IP','Submit Institutional Proposal','Submit a Institutional Proposal',
+select max(id),'KC-IP','Submit Institutional Proposal','Submit a Institutional Proposal',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Route Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-IP','Open Institutional Proposal','Open a Institutional Proposal',
+select max(id),'KC-IP','Open Institutional Proposal','Open a Institutional Proposal',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Open Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-IP','Cancel Institutional Proposal','Cancel a Institutional Proposal',
+select max(id),'KC-IP','Cancel Institutional Proposal','Cancel a Institutional Proposal',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Cancel Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-IP','Create Intellectual Property Review','Initiate a new Intellectual Property Review',
+select max(id),'KC-IP','Create Intellectual Property Review','Initiate a new Intellectual Property Review',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Initiate Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-IP','Edit Intellectual Property Review','Edit a Intellectual Property Review',
+select max(id),'KC-IP','Edit Intellectual Property Review','Edit a Intellectual Property Review',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Edit Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-IP','Save Intellectual Property Review','Save a Intellectual Property Review',
+select max(id),'KC-IP','Save Intellectual Property Review','Save a Intellectual Property Review',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Save Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-IP','Submit Intellectual Property Review','Submit a Intellectual Property Review',
+select max(id),'KC-IP','Submit Intellectual Property Review','Submit a Intellectual Property Review',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Route Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-IP','Open Intellectual Property Review','Open a Intellectual Property Review',
+select max(id),'KC-IP','Open Intellectual Property Review','Open a Intellectual Property Review',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Open Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-IP','Cancel Intellectual Property Review','Cancel a Intellectual Property Review',
+select max(id),'KC-IP','Cancel Intellectual Property Review','Cancel a Intellectual Property Review',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Cancel Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Answer Protocol Questionnaire',null,
+select max(id),'KC-PROTOCOL','Answer Protocol Questionnaire',null,
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Answer Questionnaire Permission'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-M','Create Valid Rate','Create a Valid Rates entry',
+select max(id),'KC-M','Create Valid Rate','Create a Valid Rates entry',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KUALI' AND NM = 'Default'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Modify Correspondence Template',null,
+select max(id),'KC-PROTOCOL','Modify Correspondence Template',null,
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Edit Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','View Correspondence Template',null,
+select max(id),'KC-PROTOCOL','View Correspondence Template',null,
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Open Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-AB','Blanket Approve AwardBudgetDocument','Blanket Approve AwardBudgetDocument',
+select max(id),'KC-AB','Blanket Approve AwardBudgetDocument','Blanket Approve AwardBudgetDocument',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Blanket Approve Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-AB','Submit AwardBudget','Submit award budget document',
+select max(id),'KC-AB','Submit AwardBudget','Submit award budget document',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Route Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-AB','Approve AwardBudget','Approve award budget document',
+select max(id),'KC-AB','Approve AwardBudget','Approve award budget document',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-AB','Post AwardBudget','Post award budget document',
+select max(id),'KC-AB','Post AwardBudget','Post award budget document',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-AB','Create AwardBudget','Create award budget document',
+select max(id),'KC-AB','Create AwardBudget','Create award budget document',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-AB','Maintain AwardBudgetRouting','Maintaining Award budget routing',
+select max(id),'KC-AB','Maintain AwardBudgetRouting','Maintaining Award budget routing',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-AB','Modify AwardBudget','Modify Award Budget at unit level',
+select max(id),'KC-AB','Modify AwardBudget','Modify Award Budget at unit level',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Edit Document Section'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-AB','View AwardBudget','View Award Budget at unit level',
+select max(id),'KC-AB','View AwardBudget','View Award Budget at unit level',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'View Document Section'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Modify Batch Correspondence Detail','Modify Batch Correspondence Detail',
+select max(id),'KC-PROTOCOL','Modify Batch Correspondence Detail','Modify Batch Correspondence Detail',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Edit Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
+
+insert into KRIM_PERM_ID_S values (null);
 
 INSERT INTO KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','View Batch Correspondence Detail','View Batch Correspondence Detail',
+select max(id),'KC-PROTOCOL','View Batch Correspondence Detail','View Batch Correspondence Detail',
 (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Open Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_PERM_ID_S;
 
 
 -- REM INSERTING into KRIM_PERM_ATTR_DATA_T
@@ -2246,881 +2494,1173 @@ select Max(ID),'View Proposal Log','KC-IP','View Proposal Log',
 'Y',1, UUID() from KRIM_ROLE_ID_S;
 
 -- REM INSERTING into KRIM_ROLE_PERM_T
+insert into KRIM_ROLE_PERM_ID_S values (null);
+
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'Proposal Creator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Create ProposalDevelopmentDocument'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Aggregator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Modify ProposalDevelopmentDocument'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Aggregator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'View Proposal'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Aggregator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Modify Narrative'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Aggregator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'View Narratives'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Aggregator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Modify Budget'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Aggregator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'View Budget'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Aggregator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Modify ProposalPermissions'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Aggregator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Print Proposal'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Aggregator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Certify'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Aggregator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Submit ProposalDevelopmentDocument'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Aggregator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Add Proposal Viewer'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Narrative Writer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Modify ProposalDevelopmentDocument'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Narrative Writer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'View Proposal'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Narrative Writer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Modify Narrative'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Narrative Writer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'View Narratives'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Narrative Writer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'View Budget'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Narrative Writer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Print Proposal'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Budget Creator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Modify ProposalDevelopmentDocument'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Budget Creator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'View Proposal'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Budget Creator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'View Narratives'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Budget Creator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Modify Budget'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Budget Creator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'View Budget'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Budget Creator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Print Proposal'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Viewer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'View Proposal'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Viewer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'View Narratives'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Viewer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'View Budget'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Viewer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Print Proposal'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-ADM' AND ROLE_NM = 'OSP Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'View Proposal'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-ADM' AND ROLE_NM = 'OSP Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'View Narratives'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-ADM' AND ROLE_NM = 'OSP Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'View Budget'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-ADM' AND ROLE_NM = 'OSP Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Alter Proposal Data'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-ADM' AND ROLE_NM = 'OSP Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Add Proposal Viewer'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-ADM' AND ROLE_NM = 'Proposal Submission'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'View Proposal'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-ADM' AND ROLE_NM = 'Proposal Submission'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'View Narratives'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-ADM' AND ROLE_NM = 'Proposal Submission'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'View Budget'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-ADM' AND ROLE_NM = 'Proposal Submission'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Alter Proposal Data'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-ADM' AND ROLE_NM = 'Proposal Submission'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Print Proposal'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-ADM' AND ROLE_NM = 'Proposal Submission'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Submit to Sponsor'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'Protocol Creator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Create ProtocolDocument'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND ROLE_NM = 'Protocol Aggregator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Modify Any Protocol'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND ROLE_NM = 'Protocol Aggregator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Submit Protocol'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND ROLE_NM = 'Protocol Aggregator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Modify Protocol'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND ROLE_NM = 'Protocol Aggregator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'View Protocol'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND ROLE_NM = 'Protocol Aggregator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Modify ProtocolPermissions'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND ROLE_NM = 'Protocol Aggregator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Add Notes'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND ROLE_NM = 'Protocol Aggregator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Create Ammendment'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND ROLE_NM = 'Protocol Aggregator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Create Renewal'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND ROLE_NM = 'Protocol Viewer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'View Protocol'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Modify Committee'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Modify Schedule'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Perform IRB Actions on a Protocol'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'View Restricted Notes'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'View Agenda'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'View Committee'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'View Member Details'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'View Minutes'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'View Schedule'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Modify Protocol'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Create CommitteeDocument'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Administrative Correction'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Generate Agenda'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Generate Minutes'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Generate Schedule'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,OBJ_ID,VER_NBR) 
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Create Temporary Proposal Log' AND NMSPC_CD = 'KC-IP'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Create Proposal Log' AND NMSPC_CD = 'KC-IP'),
-'Y',SYS_GUID(),1);
+'Y', UUID(),1 from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,OBJ_ID,VER_NBR) 
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Create Temporary Proposal Log' AND NMSPC_CD = 'KC-IP'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Edit Proposal Log' AND NMSPC_CD = 'KC-IP'),
-'Y',SYS_GUID(),1);
+'Y', UUID(),1 from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,OBJ_ID,VER_NBR) 
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Create Temporary Proposal Log' AND NMSPC_CD = 'KC-IP'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Save Proposal Log' AND NMSPC_CD = 'KC-IP'),
-'Y',SYS_GUID(),1);
+'Y', UUID(),1 from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,OBJ_ID,VER_NBR) 
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Create Temporary Proposal Log' AND NMSPC_CD = 'KC-IP'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Submit Proposal Log' AND NMSPC_CD = 'KC-IP'),
-'Y',SYS_GUID(),1);
+'Y', UUID(),1 from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,OBJ_ID,VER_NBR) 
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Create Temporary Proposal Log' AND NMSPC_CD = 'KC-IP'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Open Proposal Log' AND NMSPC_CD = 'KC-IP'),
-'Y',SYS_GUID(),1);
+'Y', UUID(),1 from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,OBJ_ID,VER_NBR) 
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Create Temporary Proposal Log' AND NMSPC_CD = 'KC-IP'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Cancel Proposal Log' AND NMSPC_CD = 'KC-IP'),
-'Y',SYS_GUID(),1);
+'Y', UUID(),1 from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,OBJ_ID,VER_NBR) 
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Create Proposal Log' AND NMSPC_CD = 'KC-IP'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Create Proposal Log' AND NMSPC_CD = 'KC-IP'),
-'Y',SYS_GUID(),1);
+'Y', UUID(),1 from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,OBJ_ID,VER_NBR) 
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Create Proposal Log' AND NMSPC_CD = 'KC-IP'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Edit Proposal Log' AND NMSPC_CD = 'KC-IP'),
-'Y',SYS_GUID(),1);
+'Y', UUID(),1 from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,OBJ_ID,VER_NBR) 
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Create Proposal Log' AND NMSPC_CD = 'KC-IP'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Save Proposal Log' AND NMSPC_CD = 'KC-IP'),
-'Y',SYS_GUID(),1);
+'Y', UUID(),1 from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,OBJ_ID,VER_NBR) 
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Create Proposal Log' AND NMSPC_CD = 'KC-IP'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Submit Proposal Log' AND NMSPC_CD = 'KC-IP'),
-'Y',SYS_GUID(),1);
+'Y', UUID(),1 from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,OBJ_ID,VER_NBR) 
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Create Proposal Log' AND NMSPC_CD = 'KC-IP'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Open Proposal Log' AND NMSPC_CD = 'KC-IP'),
-'Y',SYS_GUID(),1);
+'Y', UUID(),1 from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,OBJ_ID,VER_NBR) 
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Create Proposal Log' AND NMSPC_CD = 'KC-IP'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Cancel Proposal Log' AND NMSPC_CD = 'KC-IP'),
-'Y',SYS_GUID(),1);
+'Y', UUID(),1 from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,OBJ_ID,VER_NBR) 
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Modify Proposal Log' AND NMSPC_CD = 'KC-IP'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Create Proposal Log' AND NMSPC_CD = 'KC-IP'),
-'Y',SYS_GUID(),1);
+'Y', UUID(),1 from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,OBJ_ID,VER_NBR) 
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Modify Proposal Log' AND NMSPC_CD = 'KC-IP'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Edit Proposal Log' AND NMSPC_CD = 'KC-IP'),
-'Y',SYS_GUID(),1);
+'Y', UUID(),1 from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,OBJ_ID,VER_NBR) 
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Modify Proposal Log' AND NMSPC_CD = 'KC-IP'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Save Proposal Log' AND NMSPC_CD = 'KC-IP'),
-'Y',SYS_GUID(),1);
+'Y', UUID(),1 from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,OBJ_ID,VER_NBR) 
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Modify Proposal Log' AND NMSPC_CD = 'KC-IP'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Submit Proposal Log' AND NMSPC_CD = 'KC-IP'),
-'Y',SYS_GUID(),1);
+'Y', UUID(),1 from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,OBJ_ID,VER_NBR) 
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Modify Proposal Log' AND NMSPC_CD = 'KC-IP'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Open Proposal Log' AND NMSPC_CD = 'KC-IP'),
-'Y',SYS_GUID(),1);
+'Y', UUID(),1 from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,OBJ_ID,VER_NBR) 
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Modify Proposal Log' AND NMSPC_CD = 'KC-IP'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Cancel Proposal Log' AND NMSPC_CD = 'KC-IP'),
-'Y',SYS_GUID(),1);
+'Y', UUID(),1 from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,OBJ_ID,VER_NBR) 
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'View Proposal Log' AND NMSPC_CD = 'KC-IP'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Open Proposal Log' AND NMSPC_CD = 'KC-IP'),
-'Y',SYS_GUID(),1);
+'Y', UUID(),1 from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Maintain Memberships'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Maintain Minutes'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Maintain Protocol Submissions'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Reviewer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'View Agenda'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Reviewer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'View Committee'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Reviewer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'View Member Details'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Reviewer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'View Minutes'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Reviewer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'View Schedule'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KUALI' AND ROLE_NM = 'User'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Ad Hoc Review Document' AND DESC_TXT like '% Approve %'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KUALI' AND ROLE_NM = 'User'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Ad Hoc Review Document' AND DESC_TXT like '% FYI %'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KUALI' AND ROLE_NM = 'User'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Ad Hoc Review Document' AND DESC_TXT like '% Acknowledge %'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AWARD' AND ROLE_NM = 'Award Modifier'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AWARD' AND NM = 'Create Award'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AWARD' AND ROLE_NM = 'Award Modifier'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AWARD' AND NM = 'Modify Award'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AWARD' AND ROLE_NM = 'Award Modifier'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AWARD' AND NM = 'View Award'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AWARD' AND ROLE_NM = 'Application Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AWARD' AND NM = 'View Any Proposal'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AWARD' AND ROLE_NM = 'Award Documents Maintainer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AWARD' AND NM = 'Maintain Award Documents'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Modify Batch Correspondence Detail'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AWARD' AND ROLE_NM = 'Award Viewer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AWARD' AND NM = 'View Award'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Reviewer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'View Batch Correspondence Detail'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AWARD' AND ROLE_NM = 'Award Documents Viewer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AWARD' AND NM = 'View Award Documents'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-QUESTIONNAIRE' AND NM = 'Modify Questionnaire'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Reviewer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-QUESTIONNAIRE' AND NM = 'View Questionnaire'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Aggregator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Maintain ProposalHierarchy'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Blanket Approve Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Save Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Delete Note / Attachment'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Initiate Document' AND DESC_TXT LIKE '% KC Simple %'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Assign Role'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Grant Permission'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Grant Responsibility'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Maintain System Parameter'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Maintain System Parameter'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Full Unmask Field' AND DESC_TXT = 'Authorizes users to view the entire Tax Identification Number on the Person document and inquiry.'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'View Other Action List' AND DESC_TXT LIKE 'Authorizes users to access other user''s action lists via the Help Desk Action List Login.'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Unrestricted Document Search' AND DESC_TXT LIKE 'Allows power users to bypass the security associated with certain document types to limit the result set.'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Full Unmask Field' AND DESC_TXT LIKE '% Person document %'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Initiate Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-QUESTIONNAIRE' AND NM = 'Modify Question'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Reviewer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-QUESTIONNAIRE' AND NM = 'View Question'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Proposal Log PI'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Open Proposal Log'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KUALI' AND ROLE_NM = 'User'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Open Document'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Institutional Proposal Viewer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Open Institutional Proposal'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Institutional Proposal Viewer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Open Intellectual Property Review'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Institutional Proposal Maintainer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Create Institutional Proposal'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Institutional Proposal Maintainer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Edit Institutional Proposal'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Institutional Proposal Maintainer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Save Institutional Proposal'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Institutional Proposal Maintainer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Submit Institutional Proposal'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Institutional Proposal Maintainer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Open Institutional Proposal'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Institutional Proposal Maintainer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Cancel Institutional Proposal'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Institutional Proposal Maintainer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Create Intellectual Property Review'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Institutional Proposal Maintainer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Edit Intellectual Property Review'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Institutional Proposal Maintainer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Save Intellectual Property Review'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Institutional Proposal Maintainer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Submit Intellectual Property Review'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Institutional Proposal Maintainer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Open Intellectual Property Review'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Institutional Proposal Maintainer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Cancel Intellectual Property Review'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Intellectual Property Review Maintainer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Open Institutional Proposal'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Intellectual Property Review Maintainer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Create Intellectual Property Review'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Intellectual Property Review Maintainer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Edit Intellectual Property Review'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Intellectual Property Review Maintainer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Save Intellectual Property Review'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Intellectual Property Review Maintainer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Submit Intellectual Property Review'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Intellectual Property Review Maintainer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Open Intellectual Property Review'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Intellectual Property Review Maintainer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Cancel Intellectual Property Review'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Unit Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Open Institutional Proposal'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
 
 --Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
 --VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
@@ -3128,203 +3668,269 @@ VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
 --(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Open Institutional Proposal'),
 --'Y',1,SYS_GUID());
 
+insert into KRIM_ROLE_PERM_ID_S values (null);
+
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Answer Protocol Questionnaire'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-ADM' AND ROLE_NM = 'OSP Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-M' AND NM = 'Create Valid Rate'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Blanket Approve ProposalDevelopmentDocument'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Blanket Approve ProtocolDocument'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Blanket Approve CommitteeDocument'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AWARD' AND NM = 'Blanket Approve AwardDocument'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AWARD' AND NM = 'Blanket Approve TimeAndMoneyDocument'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Modify Correspondence Template'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Reviewer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'View Correspondence Template'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AB' AND NM = 'Create AwardBudget'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AB' AND NM = 'Post AwardBudget'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AB' AND NM = 'Submit AwardBudget'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AB' AND NM = 'Maintain AwardBudgetRouting'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AB' AND NM = 'Modify AwardBudget'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AB' AND NM = 'View AwardBudget'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Administrator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AWARD' AND NM = 'View Award'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Maintainer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AB' AND NM = 'Submit AwardBudget'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Maintainer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AB' AND NM = 'Modify AwardBudget'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Maintainer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AB' AND NM = 'View AwardBudget'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Maintainer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AWARD' AND NM = 'View Award'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Aggregator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AB' AND NM = 'Create AwardBudget'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Aggregator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AB' AND NM = 'Submit AwardBudget'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Aggregator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AB' AND NM = 'View AwardBudget'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Aggregator'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AWARD' AND NM = 'View Award'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Viewer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AB' AND NM = 'View AwardBudget'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Viewer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AWARD' AND NM = 'View Award'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Modifier'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AB' AND NM = 'Modify AwardBudget'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Modifier'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AWARD' AND NM = 'View Award'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Approver'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AB' AND NM = 'Approve AwardBudget'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Approver'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AWARD' AND NM = 'View Award'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KR-WKFLW' AND ROLE_NM = 'Initiator or Reviewer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Open Proposal Log'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KR-WKFLW' AND ROLE_NM = 'Initiator or Reviewer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Open Institutional Proposal'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
+
+insert into KRIM_ROLE_PERM_ID_S values (null);
 
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KR-WKFLW' AND ROLE_NM = 'Initiator or Reviewer'),
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AWARD' AND NM = 'View Award'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_PERM_ID_S;
 
 
 -- REM INSERTING into KRIM_GRP_T
@@ -3891,83 +4497,109 @@ select Max(ID),
 'false',1, UUID() from KRIM_ATTR_DATA_ID_S;
 
 -- REM INSERTING into KRIM_ROLE_RSP_T
+insert into KRIM_ROLE_RSP_ID_S values (null);
+
 Insert into KRIM_ROLE_RSP_T (ROLE_RSP_ID,ROLE_ID,RSP_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_RSP_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-WKFLW' AND ROLE_NM = 'OSPApprover'),
 (SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_RSP_ID_S;
+
+insert into KRIM_ROLE_RSP_ID_S values (null);
 
 Insert into KRIM_ROLE_RSP_T (ROLE_RSP_ID,ROLE_ID,RSP_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_RSP_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-WKFLW' AND ROLE_NM = 'OSPApprover'),
 (SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_RSP_ID_S;
+
+insert into KRIM_ROLE_RSP_ID_S values (null);
 
 Insert into KRIM_ROLE_RSP_T (ROLE_RSP_ID,ROLE_ID,RSP_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_RSP_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-WKFLW' AND ROLE_NM = 'PI'),
 (SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_RSP_ID_S;
+
+insert into KRIM_ROLE_RSP_ID_S values (null);
 
 Insert into KRIM_ROLE_RSP_T (ROLE_RSP_ID,ROLE_ID,RSP_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_RSP_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-WKFLW' AND ROLE_NM = 'COI'),
 (SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_RSP_ID_S;
+
+insert into KRIM_ROLE_RSP_ID_S values (null);
 
 Insert into KRIM_ROLE_RSP_T (ROLE_RSP_ID,ROLE_ID,RSP_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_RSP_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-WKFLW' AND ROLE_NM = 'KP'),
 (SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_RSP_ID_S;
+
+insert into KRIM_ROLE_RSP_ID_S values (null);
 
 Insert into KRIM_ROLE_RSP_T (ROLE_RSP_ID,ROLE_ID,RSP_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_RSP_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-WKFLW' AND ROLE_NM = 'CustomReviewer'),
 (SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_RSP_ID_S;
+
+insert into KRIM_ROLE_RSP_ID_S values (null);
 
 Insert into KRIM_ROLE_RSP_T (ROLE_RSP_ID,ROLE_ID,RSP_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_RSP_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-WKFLW' AND ROLE_NM = 'DepartmentReviewer'),
 (SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_RSP_ID_S;
+
+insert into KRIM_ROLE_RSP_ID_S values (null);
 
 Insert into KRIM_ROLE_RSP_T (ROLE_RSP_ID,ROLE_ID,RSP_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_RSP_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-WKFLW' AND ROLE_NM = 'IRBApprover'),
 (SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_RSP_ID_S;
+
+insert into KRIM_ROLE_RSP_ID_S values (null);
 
 Insert into KRIM_ROLE_RSP_T (ROLE_RSP_ID,ROLE_ID,RSP_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_RSP_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-WKFLW' AND ROLE_NM = 'IRBApprover'),
 (SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_RSP_ID_S;
+
+insert into KRIM_ROLE_RSP_ID_S values (null);
 
 Insert into KRIM_ROLE_RSP_T (ROLE_RSP_ID,ROLE_ID,RSP_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_RSP_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-WKFLW' AND ROLE_NM = 'IRBApprover'),
 (SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_RSP_ID_S;
+
+insert into KRIM_ROLE_RSP_ID_S values (null);
 
 Insert into KRIM_ROLE_RSP_T (ROLE_RSP_ID,ROLE_ID,RSP_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_RSP_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-WKFLW' AND ROLE_NM = 'IRBApprover'),
 (SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_RSP_ID_S;
+
+insert into KRIM_ROLE_RSP_ID_S values (null);
 
 Insert into KRIM_ROLE_RSP_T (ROLE_RSP_ID,ROLE_ID,RSP_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_RSP_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Approver'),
 (SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_RSP_ID_S;
+
+insert into KRIM_ROLE_RSP_ID_S values (null);
 
 INSERT INTO KRIM_ROLE_RSP_T (ROLE_RSP_ID,ROLE_ID,RSP_ID,ACTV_IND,VER_NBR,OBJ_ID)
-VALUES (KRIM_ROLE_RSP_ID_S.NEXTVAL,
+select max(id),
 (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Approver'),
 (SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
-'Y',1,SYS_GUID());
+'Y',1, UUID() from KRIM_ROLE_RSP_ID_S;
 
 
 -- REM INSERTING into KRIM_ROLE_RSP_ACTN_T
