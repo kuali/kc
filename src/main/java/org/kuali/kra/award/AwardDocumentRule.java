@@ -93,10 +93,8 @@ import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.CustomAttributeRule;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
-import org.kuali.kra.rules.KraCustomAttributeRule;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.document.Document;
@@ -116,7 +114,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
                                                                             AddFandaRateRule,
                                                                             AwardFandaRateSaveRule,
                                                                             AwardDetailsAndDatesRule,
-                                                                            CustomAttributeRule,
                                                                             AwardProjectPersonsSaveRule,
                                                                             PermissionsRule,
                                                                             AwardReportTermRule,
@@ -426,8 +423,12 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     */
     private boolean processSaveAwardCustomDataBusinessRules(Document document) {
         boolean valid = true;
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        
         AwardDocument awardDocument = (AwardDocument) document;
+        
+        valid &= processRules(new SaveCustomAttributeEvent(Constants.EMPTY_STRING, awardDocument));
+        
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
         errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
         errorMap.addToErrorPath(AWARD_ERROR_PATH);
         String errorPath = "awardCustomData";
@@ -790,13 +791,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
         
         return success;
-    }
-    
-    /**
-     * @see org.kuali.kra.rule.CustomAttributeRule#processCustomAttributeRules(org.kuali.kra.rule.event.SaveCustomAttributeEvent)
-     */
-    public boolean processCustomAttributeRules(SaveCustomAttributeEvent saveCustomAttributeEvent) {
-        return new KraCustomAttributeRule().processCustomAttributeRules(saveCustomAttributeEvent);
     }
     
     private boolean processSaveAwardProjectPersonsBusinessRules(ErrorMap errorMap, AwardDocument document) {

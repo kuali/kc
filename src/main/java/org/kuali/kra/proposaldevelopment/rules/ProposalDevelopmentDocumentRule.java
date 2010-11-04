@@ -21,9 +21,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewEvent;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
@@ -73,10 +73,8 @@ import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.CustomAttributeRule;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
-import org.kuali.kra.rules.KraCustomAttributeRule;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.Document;
@@ -95,7 +93,7 @@ import org.kuali.rice.kns.util.RiceKeyConstants;
  * @see org.kuali.proposaldevelopment.rules.ProposalDevelopmentKeyPersonsRule
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase implements AddCongressionalDistrictRule, AddKeyPersonRule, AddNarrativeRule,SaveNarrativesRule, AddInstituteAttachmentRule, AddPersonnelAttachmentRule, AddProposalSiteRule, BusinessRuleInterface, SaveProposalSitesRule, DeleteProposalSiteRule, ClearProposalSiteAddressRule, AbstractsRule, CopyProposalRule, ChangeKeyPersonRule, DeleteCongressionalDistrictRule, PermissionsRule, CustomAttributeRule, NewNarrativeUserRightsRule, SaveKeyPersonRule,CalculateCreditSplitRule, ProposalDataOverrideRule  {
+public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase implements AddCongressionalDistrictRule, AddKeyPersonRule, AddNarrativeRule,SaveNarrativesRule, AddInstituteAttachmentRule, AddPersonnelAttachmentRule, AddProposalSiteRule, BusinessRuleInterface, SaveProposalSitesRule, DeleteProposalSiteRule, ClearProposalSiteAddressRule, AbstractsRule, CopyProposalRule, ChangeKeyPersonRule, DeleteCongressionalDistrictRule, PermissionsRule, NewNarrativeUserRightsRule, SaveKeyPersonRule,CalculateCreditSplitRule, ProposalDataOverrideRule  {
     
     @SuppressWarnings("unused")
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentDocumentRule.class); 
@@ -133,6 +131,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         final boolean CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME = false;
         getDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(document, getMaxDictionaryValidationDepth(), VALIDATION_REQUIRED, CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME);
         valid &= processProposalRequiredFieldsBusinessRule(proposalDevelopmentDocument);
+        valid &= processProtocolCustomDataBusinessRules(proposalDevelopmentDocument);
         valid &= processSpecialReviewBusinessRule(proposalDevelopmentDocument);
         valid &= processProposalYNQBusinessRule(proposalDevelopmentDocument, false);
         valid &= processBudgetVersionsBusinessRule(proposalDevelopmentDocument, false);
@@ -142,6 +141,10 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         GlobalVariables.getErrorMap().removeFromErrorPath("document.developmentProposalList[0]");
      
         return valid;
+    }
+    
+    private boolean processProtocolCustomDataBusinessRules(ProposalDevelopmentDocument document) {
+        return processRules(new SaveCustomAttributeEvent(Constants.EMPTY_STRING, document));
     }
 
     /**
@@ -569,10 +572,6 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     public boolean processNewNarrativeUserRightsBusinessRules(ProposalDevelopmentDocument document,
             List<NarrativeUserRights> newNarrativeUserRights, int narrativeIndex) {
         return new ProposalDevelopmentNarrativeRule().processNewNarrativeUserRightsBusinessRules(document, newNarrativeUserRights, narrativeIndex);
-    }
-    
-    public boolean processCustomAttributeRules(SaveCustomAttributeEvent saveCustomAttributeEvent) {
-        return new KraCustomAttributeRule().processCustomAttributeRules(saveCustomAttributeEvent);    
     }
 
     public boolean processCalculateCreditSplitBusinessRules(ProposalDevelopmentDocument document) {

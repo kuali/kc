@@ -15,20 +15,19 @@
  */
 package org.kuali.kra.irb.personnel;
 
-import org.kuali.rice.kns.rule.BusinessRule;
-
+import org.kuali.kra.rule.BusinessRuleInterface;
 
 /**
- * Interface for saving protocol personnel
- *
+ * Runs the rule processing for saving a <code>ProtocolPerson</code>.
  */
-public interface SaveProtocolPersonnelRule extends BusinessRule {
-    
+public class SaveProtocolPersonnelRule extends ProtocolPersonnelRuleBase implements BusinessRuleInterface<SaveProtocolPersonnelEvent> {
+
     /**
-     * Rule invoked upon saving protocol personnel to a 
-     * <code>{@link org.kuali.kra.irb.ProtocolDocument}</code>
-     *
-     * @return boolean
+     * {@inheritDoc}
+     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
      */
-    public boolean processSaveProtocolPersonnelBusinessRules(SaveProtocolPersonnelEvent saveProtocolPersonnelEvent);
+    public boolean processRules(SaveProtocolPersonnelEvent event) {
+        return processSaveProtocolPersonnelEvent(event);
+    }
+    
 }

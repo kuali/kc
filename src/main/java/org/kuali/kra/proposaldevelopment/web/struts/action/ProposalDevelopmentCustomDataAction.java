@@ -15,30 +15,23 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
-import java.util.Enumeration;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.common.customattributes.CustomDataAction;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
-import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
-import org.kuali.kra.service.CustomAttributeService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 public class ProposalDevelopmentCustomDataAction extends ProposalDevelopmentAction {
 
-    private static final Log LOG = LogFactory.getLog(ProposalDevelopmentCustomDataAction.class);
+    private static final String CUSTOM_ATTRIBUTE_NAME = "CustomDataAttribute";
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -91,32 +84,15 @@ public class ProposalDevelopmentCustomDataAction extends ProposalDevelopmentActi
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-
+    
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#postDocumentSave(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     */
     @Override
-    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
-        boolean rulePassed = true;
-        // check any business rules
-        rulePassed &= getKualiRuleService().applyRules(new SaveCustomAttributeEvent(Constants.EMPTY_STRING,proposalDevelopmentDocument));
-
-        if (!rulePassed){
-            mapping.findForward(Constants.MAPPING_BASIC);
-        }
-        
-
-        // refresh, so the status can be displayed properly on tab title
-        ActionForward forward =  super.save(mapping, form, request, response);
-        // save the key/value pair.  probably in service
-        getService(CustomAttributeService.class).setCustomAttributeKeyValue(proposalDevelopmentDocument, "CustomDataAttribute", proposalDevelopmentForm.getWorkflowDocument().getInitiatorNetworkId());
-
-        return forward;
-    }
-
-    @Override
-    protected KualiRuleService getKualiRuleService() {
-        return getService(KualiRuleService.class);
+    public void postDocumentSave(KualiDocumentFormBase form) throws Exception {
+        super.postDocumentSave(form);
+        CustomDataAction.setCustomAttributeContent(form, CUSTOM_ATTRIBUTE_NAME);
     }
 
 }
