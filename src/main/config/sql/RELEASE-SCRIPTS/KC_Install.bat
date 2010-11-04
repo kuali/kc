@@ -125,7 +125,7 @@ goto FINISH
 :NEWMYSQL
 cd KC-RELEASE-2_0-SCRIPT
 if /i "%mode%" == "BUNDLE" (
-mysql -u %un% -p%pw% -D %un% -s -f < KC-Release-1_0_2-Server-MySql-Install.sql > KC-Release-1_0_2-Server-MySql-Install.log
+mysql -u %un% -p%pw% -D %un% -s -f < KR-Release-1_0_2-Server-MySql-Install.sql > KC-Release-1_0_2-Server-MySql-Install.log
 mysql -u %un% -p%pw% -D %un% -s -f < KC-Release-2_0-Base-Bundled-MySql-Install.sql > KC-Release-2_0-Base-Bundled-MySql-Install.log
 mysql -u %un% -p%pw% -D %un% -s -f < KC-Release-2_0-Base-Rice-MySql-Install.sql > KC-Release-2_0-Base-Rice-MySql-Install.log
 )
