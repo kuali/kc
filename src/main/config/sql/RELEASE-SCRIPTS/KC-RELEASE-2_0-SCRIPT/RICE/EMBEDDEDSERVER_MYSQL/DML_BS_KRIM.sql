@@ -2485,7 +2485,6 @@ INSERT INTO KRIM_ROLE_T (ROLE_ID,ROLE_NM,NMSPC_CD,DESC_TXT,KIM_TYP_ID,ACTV_IND,V
 select Max(ID),'Modify Proposal Log','KC-IP','Modify Proposal Log',
 (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM = 'UnitHierarchy' AND NMSPC_CD = 'KC-SYS'),
 'Y',1, UUID(),NULL from KRIM_ROLE_ID_S;
-'Y',1, null, UUID() from KRIM_ROLE_ID_S;
 
 Insert into KRIM_ROLE_ID_S values (null);
 
@@ -2493,7 +2492,6 @@ INSERT INTO KRIM_ROLE_T (ROLE_ID,ROLE_NM,NMSPC_CD,DESC_TXT,KIM_TYP_ID,ACTV_IND,V
 select Max(ID),'View Proposal Log','KC-IP','View Proposal Log',
 (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM = 'UnitHierarchy' AND NMSPC_CD = 'KC-SYS'),
 'Y',1, UUID(), NULL from KRIM_ROLE_ID_S;
-'Y',1, null, UUID() from KRIM_ROLE_ID_S;
 
 -- REM INSERTING into KRIM_ROLE_PERM_T
 insert into KRIM_ROLE_PERM_ID_S values (null);
