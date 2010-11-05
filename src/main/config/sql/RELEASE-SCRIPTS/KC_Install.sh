@@ -96,7 +96,7 @@ case "${dbtype}" in
 		cd KC-RELEASE-3_0-SCRIPT
 		if [ "${mode}" = "BUNDLE" ]
 		then
-			sqlplus "${un}"/"${pw}"@"${DBSvrNm}" < RICE-1_0_2-1_0_3\update_final_oracle.sql
+			sqlplus "${un}"/"${pw}"@"${DBSvrNm}" < RICE-1_0_2-1_0_3/update_final_oracle.sql
 			sqlplus "${un}"/"${pw}"@"${DBSvrNm}" < KC-Release-2_0-3_0.sql
 			sqlplus "${un}"/"${pw}"@"${DBSvrNm}" < KR-Release-2_0-3_0.sql
 		else 
@@ -104,9 +104,9 @@ case "${dbtype}" in
 			then
 				if [ "${InstRice}" = "Y" ]
 				then
-					sqlplus "${Riceun}"/"${Ricepw}"@"${RiceDBSvrNm}" < RICE-1_0_2-1_0_3\update_final_oracle.sql
+					sqlplus "${Riceun}"/"${Ricepw}"@"${RiceDBSvrNm}" < RICE-1_0_2-1_0_3/update_final_oracle.sql
 				fi
-				sqlplus "${un}"/"${pw}"@"${DBSvrNm}" < RICE-1_0_2-1_0_3\update_client_final_oracle.sql
+				sqlplus "${un}"/"${pw}"@"${DBSvrNm}" < RICE-1_0_2-1_0_3/update_client_final_oracle.sql
 				sqlplus "${un}"/"${pw}"@"${DBSvrNm}" < KC-Release-2_0-3_0-Upgrade-Oracle-Install.sql
 				sqlplus "${Riceun}"/"${Ricepw}"@"${RiceDBSvrNm}" < KR-Release-2_0-3_0-Upgrade-Oracle-Install.sql
 			fi
