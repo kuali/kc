@@ -1,5 +1,5 @@
 
-*** Installing the out-of-the-box Kuali Coeus 2.0 distribution ***
+*** Installing the out-of-the-box Kuali Coeus 3.0 distribution ***
 
 Requirements:
 
@@ -12,17 +12,17 @@ Requirements:
 2. Place binary/kc-config.xml in one of the configured default locations: {Userhome}/kuali/main/ptd/kc-config.xml OR /opt/sa_forms/java/ptd/kra/kc-config.xml.
    (NOTE: If you are upgrading and have an existing kc-config.xml in this location, please replace it, as new parameters are often added)
 	* On Windows with Tomcat running as a service, the best location is usually c:\kuali\main\ptd
-	* To use a different directory, open kc-ptd.war and edit the "alt.config.location" parameter in /WEB-INF/classes/META-INF/kc-config-build.xml.
+	* To use a different location, open kc-ptd.war and create an "alt.config.location" parameter in /WEB-INF/classes/META-INF/kc-config-build.xml.
 	* You SHOULD also be able to pass a java parameter of alt.config.location to your j2ee container (not guaranteed to work)
 	(NOTE: This file also contains the "build.environment" parameter referenced in the external kc-config.xml file as "environment")
 
 3. Edit parameters in the external kc-config.xml (that you just placed in step #2) as desired.
 	* You will at least need to fill in the following parameters with your database connection information: datasource.url, datasource.username, datasource.password.
 	* You will also need to change application.host to your server's host name (i.e. kuali.yourinstitution.edu).
-	* Other commonly changed parameters are: http.port and app.context.name (be sure app.context.name matches your deployed webapp -- normally the name of your war file)
+	* Other commonly changed parameters are: application.http.scheme, http.port and app.context.name (be sure app.context.name matches your deployed webapp -- normally the name of your war file)
 	* If you are using SSL, be sure that application.http.scheme and http.port reflect this.
 	* If you are using MySQL, see the MySQL changes at the end of this guide.
-	* For embedded mode or further configuration, please consult the full KC_2.0_Installation_Guide.pdf
+	* For embedded mode or further configuration, please consult the Kuali Coeus 3.0 User Manual online.
 
 4. For Oracle: Obtain ojdbc14.jar from an oracle client install ({OracleHome}/jdbc/lib) or the Oracle website (http://www.oracle.com).
    For MySQL: Obtain the jar file for the appropriate MySQL jdbc driver from mysql.com.
