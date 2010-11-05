@@ -54,27 +54,27 @@ select "Running datasql/AWARD_STATUS.sql..."
 -- select "Running datasql/AWARD_TEMPLATE_COMMENTS.sql..."
 /
  
--- \. ALLKC/MYSQL/datasql/AWARD_TEMPLATE_COMMENTS.sql
+-- /. ALLKC/MYSQL/datasql/AWARD_TEMPLATE_COMMENTS.sql
 -- select "Running datasql/AWARD_TEMPLATE_CONTACT.sql..."
 /
  
--- \. ALLKC/MYSQL/datasql/AWARD_TEMPLATE_CONTACT.sql
+-- /. ALLKC/MYSQL/datasql/AWARD_TEMPLATE_CONTACT.sql
 -- select "Running datasql/AWARD_TEMPLATE_REPORT_TERMS.sql..."
 /
  
--- \. ALLKC/MYSQL/datasql/AWARD_TEMPLATE_REPORT_TERMS.sql
+-- /. ALLKC/MYSQL/datasql/AWARD_TEMPLATE_REPORT_TERMS.sql
 -- select "Running datasql/AWARD_TEMPLATE.sql..."
 /
  
--- \. ALLKC/MYSQL/datasql/AWARD_TEMPLATE.sql
+-- /. ALLKC/MYSQL/datasql/AWARD_TEMPLATE.sql
 -- select "Running datasql/AWARD_TEMPLATE_TERMS.sql..."
 /
  
--- \. ALLKC/MYSQL/datasql/AWARD_TEMPLATE_TERMS.sql
+-- /. ALLKC/MYSQL/datasql/AWARD_TEMPLATE_TERMS.sql
 -- select "Running datasql/AWARD_TEMPL_REP_TERMS_RECNT.sql..."
 /
  
--- \. ALLKC/MYSQL/datasql/AWARD_TEMPL_REP_TERMS_RECNT.sql
+-- /. ALLKC/MYSQL/datasql/AWARD_TEMPL_REP_TERMS_RECNT.sql
 select "Running datasql/AWARD_TRANSACTION_TYPE.sql..."
 /
  
@@ -154,7 +154,7 @@ select "Running datasql/CORRESPONDENT_TYPE.sql..."
 -- select "Running datasql/COST_ELEMENT.sql..."
 /
  
--- \. ALLKC/MYSQL/datasql/COST_ELEMENT.sql
+-- /. ALLKC/MYSQL/datasql/COST_ELEMENT.sql
 select "Running datasql/COST_SHARE_TYPE.sql..."
 /
  
@@ -170,11 +170,11 @@ select "Running datasql/CUSTOM_ATTRIBUTE_DATA_TYPE.sql..."
 -- select "Running datasql/CUSTOM_ATTRIBUTE_DOCUMENT.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/CUSTOM_ATTRIBUTE_DOCUMENT.sql
+-- /. ALLKC/MYSQL/datasql/CUSTOM_ATTRIBUTE_DOCUMENT.sql
 -- select "Running datasql/CUSTOM_ATTRIBUTE.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/CUSTOM_ATTRIBUTE.sql
+-- /. ALLKC/MYSQL/datasql/CUSTOM_ATTRIBUTE.sql
 select "Running datasql/DEADLINE_TYPE.sql..."
 /
  
@@ -246,15 +246,15 @@ select "Running datasql/IDC_RATE_TYPE.sql..."
 -- select "Running datasql/INSTITUTE_LA_RATES.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/INSTITUTE_LA_RATES.sql
+-- /. ALLKC/MYSQL/datasql/INSTITUTE_LA_RATES.sql
 -- select "Running datasql/INSTITUTE_RATES.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/INSTITUTE_RATES.sql
+-- /. ALLKC/MYSQL/datasql/INSTITUTE_RATES.sql
 -- select "Running datasql/INV_CREDIT_TYPE.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/INV_CREDIT_TYPE.sql
+-- /. ALLKC/MYSQL/datasql/INV_CREDIT_TYPE.sql
 select "Running datasql/IP_REVIEW_ACTIVITY_TYPE.sql..."
 /
  
@@ -270,7 +270,7 @@ select "Running datasql/IP_REVIEW_RESULT_TYPE.sql..."
 -- select "Running datasql/JOB_CODE.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/JOB_CODE.sql
+-- /. ALLKC/MYSQL/datasql/JOB_CODE.sql
 select "Running datasql/KC_COUNTRY_CODES_T.sql..."
 /
  
@@ -278,383 +278,383 @@ select "Running datasql/KC_COUNTRY_CODES_T.sql..."
 -- select "Running datasql/KRA_USER.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRA_USER.sql
+-- /. ALLKC/MYSQL/datasql/KRA_USER.sql
 -- select "Running datasql/KR_COUNTRY_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KR_COUNTRY_T.sql
+-- /. ALLKC/MYSQL/datasql/KR_COUNTRY_T.sql
 -- select "Running datasql/KREN_CHNL_PRODCR_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREN_CHNL_PRODCR_T.sql
+-- /. ALLKC/MYSQL/datasql/KREN_CHNL_PRODCR_T.sql
 -- select "Running datasql/KREN_CHNL_SUBSCRP_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREN_CHNL_SUBSCRP_T.sql
+-- /. ALLKC/MYSQL/datasql/KREN_CHNL_SUBSCRP_T.sql
 -- select "Running datasql/KREN_CHNL_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREN_CHNL_T.sql
+-- /. ALLKC/MYSQL/datasql/KREN_CHNL_T.sql
 -- select "Running datasql/KREN_CNTNT_TYP_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREN_CNTNT_TYP_T.sql
+-- /. ALLKC/MYSQL/datasql/KREN_CNTNT_TYP_T.sql
 -- select "Running datasql/KREN_PRIO_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREN_PRIO_T.sql
+-- /. ALLKC/MYSQL/datasql/KREN_PRIO_T.sql
 -- select "Running datasql/KREN_PRODCR_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREN_PRODCR_T.sql
+-- /. ALLKC/MYSQL/datasql/KREN_PRODCR_T.sql
 -- select "Running datasql/KREN_RECIP_DELIV_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREN_RECIP_DELIV_T.sql
+-- /. ALLKC/MYSQL/datasql/KREN_RECIP_DELIV_T.sql
 -- select "Running datasql/KREN_RECIP_LIST_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREN_RECIP_LIST_T.sql
+-- /. ALLKC/MYSQL/datasql/KREN_RECIP_LIST_T.sql
 -- select "Running datasql/KREN_RVWER_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREN_RVWER_T.sql
+-- /. ALLKC/MYSQL/datasql/KREN_RVWER_T.sql
 -- select "Running datasql/KREW_ACTN_ITM_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREW_ACTN_ITM_T.sql
+-- /. ALLKC/MYSQL/datasql/KREW_ACTN_ITM_T.sql
 -- select "Running datasql/KREW_ACTN_RQST_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREW_ACTN_RQST_T.sql
+-- /. ALLKC/MYSQL/datasql/KREW_ACTN_RQST_T.sql
 -- select "Running datasql/KREW_ACTN_TKN_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREW_ACTN_TKN_T.sql
+-- /. ALLKC/MYSQL/datasql/KREW_ACTN_TKN_T.sql
 -- select "Running datasql/KREW_ATT_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREW_ATT_T.sql
+-- /. ALLKC/MYSQL/datasql/KREW_ATT_T.sql
 -- select "Running datasql/KREW_DOC_HDR_CNTNT_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREW_DOC_HDR_CNTNT_T.sql
+-- /. ALLKC/MYSQL/datasql/KREW_DOC_HDR_CNTNT_T.sql
 -- select "Running datasql/KREW_DOC_HDR_EXT_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREW_DOC_HDR_EXT_T.sql
+-- /. ALLKC/MYSQL/datasql/KREW_DOC_HDR_EXT_T.sql
 -- select "Running datasql/KREW_DOC_HDR_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREW_DOC_HDR_T.sql
+-- /. ALLKC/MYSQL/datasql/KREW_DOC_HDR_T.sql
 -- select "Running datasql/KREW_DOC_NTE_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREW_DOC_NTE_T.sql
+-- /. ALLKC/MYSQL/datasql/KREW_DOC_NTE_T.sql
 -- select "Running datasql/KREW_DOC_TYP_ATTR_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREW_DOC_TYP_ATTR_T.sql
+-- /. ALLKC/MYSQL/datasql/KREW_DOC_TYP_ATTR_T.sql
 -- select "Running datasql/KREW_DOC_TYP_PLCY_RELN_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREW_DOC_TYP_PLCY_RELN_T.sql
+-- /. ALLKC/MYSQL/datasql/KREW_DOC_TYP_PLCY_RELN_T.sql
 -- select "Running datasql/KREW_DOC_TYP_PROC_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREW_DOC_TYP_PROC_T.sql
+-- /. ALLKC/MYSQL/datasql/KREW_DOC_TYP_PROC_T.sql
 -- select "Running datasql/KREW_DOC_TYP_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREW_DOC_TYP_T.sql
+-- /. ALLKC/MYSQL/datasql/KREW_DOC_TYP_T.sql
 -- select "Running datasql/KREW_EDL_ASSCTN_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREW_EDL_ASSCTN_T.sql
+-- /. ALLKC/MYSQL/datasql/KREW_EDL_ASSCTN_T.sql
 -- select "Running datasql/KREW_EDL_DEF_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREW_EDL_DEF_T.sql
+-- /. ALLKC/MYSQL/datasql/KREW_EDL_DEF_T.sql
 -- select "Running datasql/KREW_INIT_RTE_NODE_INSTN_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREW_INIT_RTE_NODE_INSTN_T.sql
+-- /. ALLKC/MYSQL/datasql/KREW_INIT_RTE_NODE_INSTN_T.sql
 -- select "Running datasql/KREW_OUT_BOX_ITM_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREW_OUT_BOX_ITM_T.sql
+-- /. ALLKC/MYSQL/datasql/KREW_OUT_BOX_ITM_T.sql
 -- select "Running datasql/KREW_RTE_BRCH_PROTO_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREW_RTE_BRCH_PROTO_T.sql
+-- /. ALLKC/MYSQL/datasql/KREW_RTE_BRCH_PROTO_T.sql
 -- select "Running datasql/KREW_RTE_BRCH_ST_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREW_RTE_BRCH_ST_T.sql
+-- /. ALLKC/MYSQL/datasql/KREW_RTE_BRCH_ST_T.sql
 -- select "Running datasql/KREW_RTE_BRCH_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREW_RTE_BRCH_T.sql
+-- /. ALLKC/MYSQL/datasql/KREW_RTE_BRCH_T.sql
 -- select "Running datasql/KREW_RTE_NODE_CFG_PARM_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREW_RTE_NODE_CFG_PARM_T.sql
+-- /. ALLKC/MYSQL/datasql/KREW_RTE_NODE_CFG_PARM_T.sql
 -- select "Running datasql/KREW_RTE_NODE_INSTN_LNK_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREW_RTE_NODE_INSTN_LNK_T.sql
+-- /. ALLKC/MYSQL/datasql/KREW_RTE_NODE_INSTN_LNK_T.sql
 -- select "Running datasql/KREW_RTE_NODE_INSTN_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREW_RTE_NODE_INSTN_T.sql
+-- /. ALLKC/MYSQL/datasql/KREW_RTE_NODE_INSTN_T.sql
 -- select "Running datasql/KREW_RTE_NODE_LNK_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREW_RTE_NODE_LNK_T.sql
+-- /. ALLKC/MYSQL/datasql/KREW_RTE_NODE_LNK_T.sql
 -- select "Running datasql/KREW_RTE_NODE_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREW_RTE_NODE_T.sql
+-- /. ALLKC/MYSQL/datasql/KREW_RTE_NODE_T.sql
 -- select "Running datasql/KREW_RULE_ATTR_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREW_RULE_ATTR_T.sql
+-- /. ALLKC/MYSQL/datasql/KREW_RULE_ATTR_T.sql
 -- select "Running datasql/KREW_RULE_EXT_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREW_RULE_EXT_T.sql
+-- /. ALLKC/MYSQL/datasql/KREW_RULE_EXT_T.sql
 -- select "Running datasql/KREW_RULE_EXT_VAL_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREW_RULE_EXT_VAL_T.sql
+-- /. ALLKC/MYSQL/datasql/KREW_RULE_EXT_VAL_T.sql
 -- select "Running datasql/KREW_RULE_RSP_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREW_RULE_RSP_T.sql
+-- /. ALLKC/MYSQL/datasql/KREW_RULE_RSP_T.sql
 -- select "Running datasql/KREW_RULE_TMPL_ATTR_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREW_RULE_TMPL_ATTR_T.sql
+-- /. ALLKC/MYSQL/datasql/KREW_RULE_TMPL_ATTR_T.sql
 -- select "Running datasql/KREW_RULE_TMPL_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREW_RULE_TMPL_T.sql
+-- /. ALLKC/MYSQL/datasql/KREW_RULE_TMPL_T.sql
 -- select "Running datasql/KREW_RULE_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREW_RULE_T.sql
+-- /. ALLKC/MYSQL/datasql/KREW_RULE_T.sql
 -- select "Running datasql/KREW_STYLE_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREW_STYLE_T.sql
+-- /. ALLKC/MYSQL/datasql/KREW_STYLE_T.sql
 -- select "Running datasql/KREW_USR_OPTN_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KREW_USR_OPTN_T.sql
+-- /. ALLKC/MYSQL/datasql/KREW_USR_OPTN_T.sql
 -- select "Running datasql/KRIM_ADDR_TYP_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRIM_ADDR_TYP_T.sql
+-- /. ALLKC/MYSQL/datasql/KRIM_ADDR_TYP_T.sql
 -- select "Running datasql/KRIM_AFLTN_TYP_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRIM_AFLTN_TYP_T.sql
+-- /. ALLKC/MYSQL/datasql/KRIM_AFLTN_TYP_T.sql
 -- select "Running datasql/KRIM_ATTR_DEFN_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRIM_ATTR_DEFN_T.sql
+-- /. ALLKC/MYSQL/datasql/KRIM_ATTR_DEFN_T.sql
 -- select "Running datasql/KRIM_EMAIL_TYP_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRIM_EMAIL_TYP_T.sql
+-- /. ALLKC/MYSQL/datasql/KRIM_EMAIL_TYP_T.sql
 -- select "Running datasql/KRIM_EMP_STAT_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRIM_EMP_STAT_T.sql
+-- /. ALLKC/MYSQL/datasql/KRIM_EMP_STAT_T.sql
 -- select "Running datasql/KRIM_EMP_TYP_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRIM_EMP_TYP_T.sql
+-- /. ALLKC/MYSQL/datasql/KRIM_EMP_TYP_T.sql
 -- select "Running datasql/KRIM_ENTITY_ADDR_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRIM_ENTITY_ADDR_T.sql
+-- /. ALLKC/MYSQL/datasql/KRIM_ENTITY_ADDR_T.sql
 -- select "Running datasql/KRIM_ENTITY_CACHE_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRIM_ENTITY_CACHE_T.sql
+-- /. ALLKC/MYSQL/datasql/KRIM_ENTITY_CACHE_T.sql
 -- select "Running datasql/KRIM_ENTITY_EMAIL_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRIM_ENTITY_EMAIL_T.sql
+-- /. ALLKC/MYSQL/datasql/KRIM_ENTITY_EMAIL_T.sql
 -- select "Running datasql/KRIM_ENTITY_EMP_INFO_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRIM_ENTITY_EMP_INFO_T.sql
+-- /. ALLKC/MYSQL/datasql/KRIM_ENTITY_EMP_INFO_T.sql
 -- select "Running datasql/KRIM_ENTITY_ENT_TYP_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRIM_ENTITY_ENT_TYP_T.sql
+-- /. ALLKC/MYSQL/datasql/KRIM_ENTITY_ENT_TYP_T.sql
 -- select "Running datasql/KRIM_ENTITY_NM_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRIM_ENTITY_NM_T.sql
+-- /. ALLKC/MYSQL/datasql/KRIM_ENTITY_NM_T.sql
 -- select "Running datasql/KRIM_ENTITY_PHONE_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRIM_ENTITY_PHONE_T.sql
+-- /. ALLKC/MYSQL/datasql/KRIM_ENTITY_PHONE_T.sql
 -- select "Running datasql/KRIM_ENTITY_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRIM_ENTITY_T.sql
+-- /. ALLKC/MYSQL/datasql/KRIM_ENTITY_T.sql
 -- select "Running datasql/KRIM_ENT_NM_TYP_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRIM_ENT_NM_TYP_T.sql
+-- /. ALLKC/MYSQL/datasql/KRIM_ENT_NM_TYP_T.sql
 -- select "Running datasql/KRIM_ENT_TYP_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRIM_ENT_TYP_T.sql
+-- /. ALLKC/MYSQL/datasql/KRIM_ENT_TYP_T.sql
 -- select "Running datasql/KRIM_EXT_ID_TYP_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRIM_EXT_ID_TYP_T.sql
+-- /. ALLKC/MYSQL/datasql/KRIM_EXT_ID_TYP_T.sql
 -- select "Running datasql/KRIM_GRP_MBR_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRIM_GRP_MBR_T.sql
+-- /. ALLKC/MYSQL/datasql/KRIM_GRP_MBR_T.sql
 -- select "Running datasql/KRIM_GRP_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRIM_GRP_T.sql
+-- /. ALLKC/MYSQL/datasql/KRIM_GRP_T.sql
 -- select "Running datasql/KRIM_PERM_ATTR_DATA_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRIM_PERM_ATTR_DATA_T.sql
+-- /. ALLKC/MYSQL/datasql/KRIM_PERM_ATTR_DATA_T.sql
 -- select "Running datasql/KRIM_PERM_TMPL_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRIM_PERM_TMPL_T.sql
+-- /. ALLKC/MYSQL/datasql/KRIM_PERM_TMPL_T.sql
 -- select "Running datasql/KRIM_PERM_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRIM_PERM_T.sql
+-- /. ALLKC/MYSQL/datasql/KRIM_PERM_T.sql
 -- select "Running datasql/KRIM_PHONE_TYP_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRIM_PHONE_TYP_T.sql
+-- /. ALLKC/MYSQL/datasql/KRIM_PHONE_TYP_T.sql
 -- select "Running datasql/KRIM_PRNCPL_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRIM_PRNCPL_T.sql
+-- /. ALLKC/MYSQL/datasql/KRIM_PRNCPL_T.sql
 -- select "Running datasql/KRIM_ROLE_MBR_ATTR_DATA_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRIM_ROLE_MBR_ATTR_DATA_T.sql
+-- /. ALLKC/MYSQL/datasql/KRIM_ROLE_MBR_ATTR_DATA_T.sql
 -- select "Running datasql/KRIM_ROLE_MBR_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRIM_ROLE_MBR_T.sql
+-- /. ALLKC/MYSQL/datasql/KRIM_ROLE_MBR_T.sql
 -- select "Running datasql/KRIM_ROLE_PERM_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRIM_ROLE_PERM_T.sql
+-- /. ALLKC/MYSQL/datasql/KRIM_ROLE_PERM_T.sql
 -- select "Running datasql/KRIM_ROLE_RSP_ACTN_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRIM_ROLE_RSP_ACTN_T.sql
+-- /. ALLKC/MYSQL/datasql/KRIM_ROLE_RSP_ACTN_T.sql
 -- select "Running datasql/KRIM_ROLE_RSP_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRIM_ROLE_RSP_T.sql
+-- /. ALLKC/MYSQL/datasql/KRIM_ROLE_RSP_T.sql
 -- select "Running datasql/KRIM_ROLE_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRIM_ROLE_T.sql
+-- /. ALLKC/MYSQL/datasql/KRIM_ROLE_T.sql
 -- select "Running datasql/KRIM_RSP_ATTR_DATA_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRIM_RSP_ATTR_DATA_T.sql
+-- /. ALLKC/MYSQL/datasql/KRIM_RSP_ATTR_DATA_T.sql
 -- select "Running datasql/KRIM_RSP_TMPL_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRIM_RSP_TMPL_T.sql
+-- /. ALLKC/MYSQL/datasql/KRIM_RSP_TMPL_T.sql
 -- select "Running datasql/KRIM_RSP_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRIM_RSP_T.sql
+-- /. ALLKC/MYSQL/datasql/KRIM_RSP_T.sql
 -- select "Running datasql/KRIM_TYP_ATTR_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRIM_TYP_ATTR_T.sql
+-- /. ALLKC/MYSQL/datasql/KRIM_TYP_ATTR_T.sql
 -- select "Running datasql/KRIM_TYP_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRIM_TYP_T.sql
+-- /. ALLKC/MYSQL/datasql/KRIM_TYP_T.sql
 -- select "Running datasql/KRNS_CAMPUS_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRNS_CAMPUS_T.sql
+-- /. ALLKC/MYSQL/datasql/KRNS_CAMPUS_T.sql
 -- select "Running datasql/KRNS_CMP_TYP_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRNS_CMP_TYP_T.sql
+-- /. ALLKC/MYSQL/datasql/KRNS_CMP_TYP_T.sql
 -- select "Running datasql/KRNS_DOC_HDR_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRNS_DOC_HDR_T.sql
+-- /. ALLKC/MYSQL/datasql/KRNS_DOC_HDR_T.sql
 -- select "Running datasql/KRNS_MAINT_DOC_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRNS_MAINT_DOC_T.sql
+-- /. ALLKC/MYSQL/datasql/KRNS_MAINT_DOC_T.sql
 -- select "Running datasql/KRNS_NMSPC_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRNS_NMSPC_T.sql
+-- /. ALLKC/MYSQL/datasql/KRNS_NMSPC_T.sql
 -- select "Running datasql/KRNS_NTE_TYP_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRNS_NTE_TYP_T.sql
+-- /. ALLKC/MYSQL/datasql/KRNS_NTE_TYP_T.sql
 -- select "Running datasql/KRNS_PARM_DTL_TYP_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRNS_PARM_DTL_TYP_T.sql
+-- /. ALLKC/MYSQL/datasql/KRNS_PARM_DTL_TYP_T.sql
 -- select "Running datasql/KRNS_PARM_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRNS_PARM_T.sql
+-- /. ALLKC/MYSQL/datasql/KRNS_PARM_T.sql
 -- select "Running datasql/KRNS_PARM_TYP_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRNS_PARM_TYP_T.sql
+-- /. ALLKC/MYSQL/datasql/KRNS_PARM_TYP_T.sql
 -- select "Running datasql/KRSB_MSG_PYLD_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRSB_MSG_PYLD_T.sql
+-- /. ALLKC/MYSQL/datasql/KRSB_MSG_PYLD_T.sql
 -- select "Running datasql/KRSB_MSG_QUE_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRSB_MSG_QUE_T.sql
+-- /. ALLKC/MYSQL/datasql/KRSB_MSG_QUE_T.sql
 -- select "Running datasql/KRSB_QRTZ_FIRED_TRIGGERS.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRSB_QRTZ_FIRED_TRIGGERS.sql
+-- /. ALLKC/MYSQL/datasql/KRSB_QRTZ_FIRED_TRIGGERS.sql
 -- select "Running datasql/KRSB_QRTZ_LOCKS.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRSB_QRTZ_LOCKS.sql
+-- /. ALLKC/MYSQL/datasql/KRSB_QRTZ_LOCKS.sql
 -- select "Running datasql/KRSB_QRTZ_SCHEDULER_STATE.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRSB_QRTZ_SCHEDULER_STATE.sql
+-- /. ALLKC/MYSQL/datasql/KRSB_QRTZ_SCHEDULER_STATE.sql
 -- select "Running datasql/KRSB_QRTZ_TRIGGERS.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KRSB_QRTZ_TRIGGERS.sql
+-- /. ALLKC/MYSQL/datasql/KRSB_QRTZ_TRIGGERS.sql
 -- select "Running datasql/KR_STATE_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/KR_STATE_T.sql
+-- /. ALLKC/MYSQL/datasql/KR_STATE_T.sql
 select "Running datasql/LOCATION_TYPE.sql..."
 /
  
@@ -694,7 +694,7 @@ select "Running datasql/NSF_CODES.sql..."
 -- select "Running datasql/ORGANIZATION.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/ORGANIZATION.sql
+-- /. ALLKC/MYSQL/datasql/ORGANIZATION.sql
 select "Running datasql/ORGANIZATION_TYPE_LIST.sql..."
 /
  
@@ -702,15 +702,15 @@ select "Running datasql/ORGANIZATION_TYPE_LIST.sql..."
 -- select "Running datasql/ORGANIZATION_TYPE.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/ORGANIZATION_TYPE.sql
+-- /. ALLKC/MYSQL/datasql/ORGANIZATION_TYPE.sql
 -- select "Running datasql/ORGANIZATION_YNQ.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/ORGANIZATION_YNQ.sql
+-- /. ALLKC/MYSQL/datasql/ORGANIZATION_YNQ.sql
 -- select "Running datasql/PERSON_APPOINTMENT.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/PERSON_APPOINTMENT.sql
+-- /. ALLKC/MYSQL/datasql/PERSON_APPOINTMENT.sql
 select "Running datasql/PERSON_EDITABLE_FIELDS.sql..."
 /
  
@@ -718,7 +718,7 @@ select "Running datasql/PERSON_EDITABLE_FIELDS.sql..."
 -- select "Running datasql/PERSON_EXT_T.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/PERSON_EXT_T.sql
+-- /. ALLKC/MYSQL/datasql/PERSON_EXT_T.sql
 select "Running datasql/PERSON_TRAINING.sql..."
 /
  
@@ -826,7 +826,7 @@ select "Running datasql/QUESTION_TYPES.sql..."
 -- select "Running datasql/RATE_CLASS.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/RATE_CLASS.sql
+-- /. ALLKC/MYSQL/datasql/RATE_CLASS.sql
 select "Running datasql/RATE_CLASS_TYPE.sql..."
 /
  
@@ -834,7 +834,7 @@ select "Running datasql/RATE_CLASS_TYPE.sql..."
 -- select "Running datasql/RATE_TYPE.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/RATE_TYPE.sql
+-- /. ALLKC/MYSQL/datasql/RATE_TYPE.sql
 select "Running datasql/REPORT_CLASS.sql..."
 /
  
@@ -854,7 +854,7 @@ select "Running datasql/RISK_LEVEL.sql..."
 -- select "Running datasql/ROLODEX.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/ROLODEX.sql
+-- /. ALLKC/MYSQL/datasql/ROLODEX.sql
 select "Running datasql/S2S_REVISION_TYPE.sql..."
 /
  
@@ -878,7 +878,7 @@ select "Running datasql/SCHOOL_CODE.sql..."
 -- select "Running datasql/SCIENCE_KEYWORD.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/SCIENCE_KEYWORD.sql
+-- /. ALLKC/MYSQL/datasql/SCIENCE_KEYWORD.sql
 select "Running datasql/SPECIAL_REVIEW.sql..."
 -- /
  
@@ -886,19 +886,19 @@ select "Running datasql/SPECIAL_REVIEW.sql..."
 -- select "Running datasql/SPONSOR_FORMS.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/SPONSOR_FORMS.sql
+-- /. ALLKC/MYSQL/datasql/SPONSOR_FORMS.sql
 -- select "Running datasql/SPONSOR_FORM_TEMPLATES.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/SPONSOR_FORM_TEMPLATES.sql
+-- /. ALLKC/MYSQL/datasql/SPONSOR_FORM_TEMPLATES.sql
 -- select "Running datasql/SPONSOR_HIERARCHY.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/SPONSOR_HIERARCHY.sql
+-- /. ALLKC/MYSQL/datasql/SPONSOR_HIERARCHY.sql
 -- select "Running datasql/SPONSOR.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/SPONSOR.sql
+-- /. ALLKC/MYSQL/datasql/SPONSOR.sql
 select "Running datasql/SPONSOR_TERM.sql..."
 /
  
@@ -942,7 +942,7 @@ select "Running datasql/TRAINING.sql..."
 -- select "Running datasql/UNIT_ADMINISTRATOR.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/UNIT_ADMINISTRATOR.sql
+-- /. ALLKC/MYSQL/datasql/UNIT_ADMINISTRATOR.sql
 select "Running datasql/UNIT_ADMINISTRATOR_TYPE.sql..."
 /
  
@@ -950,7 +950,7 @@ select "Running datasql/UNIT_ADMINISTRATOR_TYPE.sql..."
 -- select "Running datasql/UNIT.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/UNIT.sql
+-- /. ALLKC/MYSQL/datasql/UNIT.sql
 select "Running datasql/USER_TABLES_TEMP.sql..."
 /
  
@@ -970,11 +970,11 @@ select "Running datasql/VALID_CALC_TYPES.sql..."
 -- select "Running datasql/VALID_CE_JOB_CODES.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/VALID_CE_JOB_CODES.sql
+-- /. ALLKC/MYSQL/datasql/VALID_CE_JOB_CODES.sql
 -- select "Running datasql/VALID_CE_RATE_TYPES.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/VALID_CE_RATE_TYPES.sql
+-- /. ALLKC/MYSQL/datasql/VALID_CE_RATE_TYPES.sql
 select "Running datasql/VALID_CLASS_REPORT_FREQ.sql..."
 /
  
@@ -986,11 +986,11 @@ select "Running datasql/VALID_FREQUENCY_BASE.sql..."
 -- select "Running datasql/VALID_RATES.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/VALID_RATES.sql
+-- /. ALLKC/MYSQL/datasql/VALID_RATES.sql
 -- select "Running datasql/VALID_SP_REV_APPROVAL.sql..."
 -- /
  
--- \. ALLKC/MYSQL/datasql/VALID_SP_REV_APPROVAL.sql
+-- /. ALLKC/MYSQL/datasql/VALID_SP_REV_APPROVAL.sql
 select "Running datasql/VULNERABLE_SUBJECT_TYPE.sql..."
 /
  
