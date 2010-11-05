@@ -72,7 +72,7 @@ if "%Ricepw%" == "" (
 echo -----------------------------
 echo Rice Password must be entered
 echo -----------------------------
-goto Password
+goto RicePassword
 )
 
 if /i "%dbtype%" == "MYSQL" goto INSTALL
