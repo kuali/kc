@@ -67,29 +67,32 @@ then
 	fi
 fi
 
-case "${version}${dbtype}" in
-	"NEWORACLE")
-		cd KC-RELEASE-2_0-SCRIPT
-		if [ "${mode}" = "BUNDLE" ]
+case "${dbtype}" in
+	"ORACLE")
+		if [ "${version}" = "NEW" ]
 		then
-			sqlplus "${un}"/"${pw}"@"${DBSvrNm}" < KR-Release-1_0_2-Server-Oracle-Install.sql
-			sqlplus "${un}"/"${pw}"@"${DBSvrNm}" < KC-Release-2_0-Base-Bundled-Oracle-Install.sql
-			sqlplus "${un}"/"${pw}"@"${DBSvrNm}" < KC-Release-2_0-Base-Rice-Oracle-Install.sql
-		else
-			if [ "${mode}" = "EMBED" ]
+			cd KC-RELEASE-2_0-SCRIPT
+			if [ "${mode}" = "BUNDLE" ]
 			then
-				if [ "${InstRice}" = "Y" ]
+				sqlplus "${un}"/"${pw}"@"${DBSvrNm}" < KR-Release-1_0_2-Server-Oracle-Install.sql
+				sqlplus "${un}"/"${pw}"@"${DBSvrNm}" < KC-Release-2_0-Base-Bundled-Oracle-Install.sql
+				sqlplus "${un}"/"${pw}"@"${DBSvrNm}" < KC-Release-2_0-Base-Rice-Oracle-Install.sql
+			else
+				if [ "${mode}" = "EMBED" ]
 				then
-					sqlplus "${Riceun}"/"${Ricepw}"@"${RiceDBSvrNm}" < KR-Release-1_0_2-Server-Oracle-Install.sql
+					if [ "${InstRice}" = "Y" ]
+					then
+						sqlplus "${Riceun}"/"${Ricepw}"@"${RiceDBSvrNm}" < KR-Release-1_0_2-Server-Oracle-Install.sql
+					fi
+					sqlplus "${un}"/"${pw}"@"%DBSvrNm%" < KR-Release-1_0_2-Client-Oracle-Install.sql
+					sqlplus "${un}"/"${pw}"@"%DBSvrNm%" < KC-Release-2_0-Base-Bundled-Oracle-Install.sql
+					sqlplus "${Riceun}"/"${Ricepw}"@"${RiceDBSvrNm}" < KC-Release-2_0-Base-Rice-Oracle-Install.sql
 				fi
-				sqlplus "${un}"/"${pw}"@"%DBSvrNm%" < KR-Release-1_0_2-Client-Oracle-Install.sql
-				sqlplus "${un}"/"${pw}"@"%DBSvrNm%" < KC-Release-2_0-Base-Bundled-Oracle-Install.sql
-				sqlplus "${Riceun}"/"${Ricepw}"@"${RiceDBSvrNm}" < KC-Release-2_0-Base-Rice-Oracle-Install.sql
 			fi
+			mv *.log ../LOGS/
+			cd ..
 		fi
-		mv *.log ../LOGS/
-		cd ..
-	"2.0ORACLE")
+
 		cd KC-RELEASE-3_0-SCRIPT
 		if [ "${mode}" = "BUNDLE" ]
 		then
@@ -110,28 +113,31 @@ case "${version}${dbtype}" in
 		fi
 		mv *.log ../LOGS/
 		cd .. ;;
-	"NEWMYSQL")
-		cd KC-RELEASE-2_0-SCRIPT
-		if [ "${mode}" = "BUNDLE" ]
+	"MYSQL")
+		if [ "${version}" = "NEW" ]
 		then
-			mysql -u ${un} -p${pw} -D ${un} -s -f < KR-Release-1_0_2-Server-MySql-Install.sql > KC-Release-1_0_2-Server-MySql-Install.log
-			mysql -u ${un} -p${pw} -D ${un} -s -f < KC-Release-2_0-Base-Bundled-MySql-Install.sql > KC-Release-2_0-Base-Bundled-MySql-Install.log
-			mysql -u ${un} -p${pw} -D ${un} -s -f < KC-Release-2_0-Base-Rice-MySql-Install.sql > KC-Release-2_0-Base-Rice-MySql-Install.log
-		else 
-			if [ "${mode}" = "EMBED" ]
+			cd KC-RELEASE-2_0-SCRIPT
+			if [ "${mode}" = "BUNDLE" ]
 			then
-				if [ "${InstRice}" = "Y" ]
-				then
-					mysql -u ${Riceun} -p${Ricepw} -D ${Riceun} -s < KR-Release-1_0_2-Server-MySql-Install.sql > KR-Release-1_0_2-Server-MySql-Install.log
-				fi
-				mysql -u ${un} -p${pw} -D ${un} -s -f < KR-Release-1_0_2-Client-MySql-Install.sql > KR-Release-1_0_2-Client-MySql-Install.log
+				mysql -u ${un} -p${pw} -D ${un} -s -f < KR-Release-1_0_2-Server-MySql-Install.sql > KC-Release-1_0_2-Server-MySql-Install.log
 				mysql -u ${un} -p${pw} -D ${un} -s -f < KC-Release-2_0-Base-Bundled-MySql-Install.sql > KC-Release-2_0-Base-Bundled-MySql-Install.log
-				mysql -u ${Riceun} -p${Ricepw} -D ${Riceun} -s -f < KC-Release-2_0-Base-Rice-MySql-Install.sql > KC-Release-2_0-Base-Rice-MySql-Install.log
+				mysql -u ${un} -p${pw} -D ${un} -s -f < KC-Release-2_0-Base-Rice-MySql-Install.sql > KC-Release-2_0-Base-Rice-MySql-Install.log
+			else 
+				if [ "${mode}" = "EMBED" ]
+				then
+					if [ "${InstRice}" = "Y" ]
+					then
+						mysql -u ${Riceun} -p${Ricepw} -D ${Riceun} -s < KR-Release-1_0_2-Server-MySql-Install.sql > KR-Release-1_0_2-Server-MySql-Install.log
+					fi
+					mysql -u ${un} -p${pw} -D ${un} -s -f < KR-Release-1_0_2-Client-MySql-Install.sql > KR-Release-1_0_2-Client-MySql-Install.log
+					mysql -u ${un} -p${pw} -D ${un} -s -f < KC-Release-2_0-Base-Bundled-MySql-Install.sql > KC-Release-2_0-Base-Bundled-MySql-Install.log
+					mysql -u ${Riceun} -p${Ricepw} -D ${Riceun} -s -f < KC-Release-2_0-Base-Rice-MySql-Install.sql > KC-Release-2_0-Base-Rice-MySql-Install.log
+				fi
 			fi
+			mv *.log ../LOGS/
+			cd ..
 		fi
-		mv *.log ../LOGS/
-		cd ..
-	"2.0MYSQL")
+
 		cd KC-RELEASE-3_0-SCRIPT
 		if [ "${mode}" = "BUNDLE" ]
 		then
