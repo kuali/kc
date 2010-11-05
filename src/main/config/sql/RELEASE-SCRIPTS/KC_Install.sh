@@ -48,9 +48,9 @@ dbtype=`getChoice 'Enter Database Type' ORACLE MYSQL`
 
 Version=`getChoice 'Enter Version' NEW 2.0`
 
-un=`getAnswer 'Enter DB Username'`
+un=`getAnswer 'Enter KC Database Username'`
 
-pw=`getAnswer 'Enter DB Password'`
+pw=`getAnswer 'Enter KC Database Password'`
 
 if [ "${dbtype}" = "ORACLE" ]
 then
