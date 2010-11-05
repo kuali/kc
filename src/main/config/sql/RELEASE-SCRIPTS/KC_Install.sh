@@ -54,7 +54,7 @@ pw=`getAnswer 'Enter DB Password'`
 
 if [ "${dbtype}" = "ORACLE" ]
 then
-	DBSvrNM=`getAnswer 'Enter KC Database TNS Name'`
+	DBSvrNm=`getAnswer 'Enter KC Database TNS Name'`
 fi
 
 if [ "${mode}" = "EMBED" ]
