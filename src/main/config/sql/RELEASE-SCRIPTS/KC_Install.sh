@@ -97,8 +97,8 @@ case "${dbtype}" in
 		if [ "${mode}" = "BUNDLE" ]
 		then
 			sqlplus "${un}"/"${pw}"@"${DBSvrNm}" < RICE-1_0_2-1_0_3/update_final_oracle.sql
-			sqlplus "${un}"/"${pw}"@"${DBSvrNm}" < KC-Release-2_0-3_0.sql
-			sqlplus "${un}"/"${pw}"@"${DBSvrNm}" < KR-Release-2_0-3_0.sql
+			sqlplus "${un}"/"${pw}"@"${DBSvrNm}" < KC-Release-2_0-3_0-Upgrade-Oracle-Install.sql
+			sqlplus "${un}"/"${pw}"@"${DBSvrNm}" < KR-Release-2_0-3_0-Upgrade-Oracle-Install.sql
 		else 
 			if [ "${mode}" = "EMBED" ]
 			then
