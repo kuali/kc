@@ -33,7 +33,15 @@ Requirements:
 
 6. The KC application should now be accessible at: {application.host}/{app.context.name} (as specified in the external kc-config.xml -- app.context.name is kc-ptd, if not overridden).
 
-7. Login as 'quickstart' (click on a tab or option and the login screen will appear).
+7. Login as 'admin' (click on a tab or option and the login screen will appear).
+
+8. Ingest the KEW documents
+	* Click the System Admin tab and then select XML Ingester from the Workflow pane.
+	* Find the KEW zip files in the distribution package
+		* They are located under KC-RELEASE-2_0-SCRIPT and KC-RELEASE-3_0-SCRIPT subdirectories under db_scripts
+	* If you did a NEW install, you should ingest both 2.0 and 3.0 KEW zip files (in that order)
+	* If you upgraded a 2.0 version of KC then only ingest the 3.0 KEW zip file
+	* Ingestion can take several minutes per zip file, so it is recommended to only do one at a time
 
 *** MySQL changes to external kc-config.xml file -- adjust datasource.url as needed to fit your install:
 
