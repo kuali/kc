@@ -514,6 +514,7 @@
 	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
     
 		<rule>
+    		<name>HierarchyParentDispositionRule</name>
       		<documentType>ProposalDevelopmentDocument</documentType>
       		<ruleTemplate>HierarchyParentDispositionApproval</ruleTemplate>
       		<description>System User Approval for Hierarchy children.</description>
@@ -528,6 +529,7 @@
     	</rule>
 
 		<rule>
+    		<name>CustomApprovalRule</name>
 			<documentType>ProposalDevelopmentDocument</documentType>
 			<ruleTemplate>CustomApproval</ruleTemplate>
 			<description>Custom approval routing</description>
@@ -556,6 +558,7 @@
 		</rule>
 		
 		<rule>
+    		<name>DepartmentalApprovalRule</name>
 			<documentType>ProposalDevelopmentDocument</documentType>
 			<ruleTemplate>DepartmentalApproval</ruleTemplate>
 			<description>Departmental Approval Routing Rule for BL-IIDC</description>
