@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3228", [["Documents/submissiontype2.htm", "right", "Submission Type"],["Documents/submissiontype.htm", "right", "Submission Type"]]);
