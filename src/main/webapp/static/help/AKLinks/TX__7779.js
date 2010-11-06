@@ -1,1 +1,0 @@
-d2hStoreMenuItems("TX__7779", [["WordDocuments/gloss_actionlist1.htm", "d2hWnd_SecondaryPopup", "Action List"],["WordDocuments/actionlist.htm", "right", "Action List"]]);

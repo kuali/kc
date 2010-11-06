@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3125", [["Documents/researchareas1.htm", "right", "Research Areas"],["Documents/researchareas.htm", "right", "Research Areas"]]);

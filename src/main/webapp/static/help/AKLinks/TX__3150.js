@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3150", [["Documents/ipreviewactivitytype1.htm", "right", "IP Review Activity Type"],["Documents/ipreviewactivitytype.htm", "right", "IP Review Activity Type"]]);

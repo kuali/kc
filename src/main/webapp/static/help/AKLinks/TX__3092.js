@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3092", [["Documents/investigatorcredittype1.htm", "right", "Investigator Credit Type"],["Documents/investigatorcredittype.htm", "right", "Investigator Credit Type"]]);

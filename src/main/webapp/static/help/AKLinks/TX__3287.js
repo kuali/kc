@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3287", [["Documents/editcostelementtab.htm", "right", "Edit Cost Element Tab"],["Documents/editcostelementtab1.htm", "right", "Edit Cost Element Tab"]]);

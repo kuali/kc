@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3216", [["Documents/protocolcorrespondencerecipients1.htm", "right", "Protocol Correspondence Recipients"],["Documents/protocolcorrespondencerecipients.htm", "right", "Protocol Correspondence Recipients"]]);

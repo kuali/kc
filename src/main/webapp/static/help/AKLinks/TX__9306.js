@@ -1,1 +1,0 @@
-d2hStoreMenuItems("TX__9306", [["WordDocuments/editnsfcodestab.htm", "right", "Edit NSF Codes Tab"],["WordDocuments/editnsfcodestab1.htm", "right", "Edit NSF Codes Tab"]]);

@@ -1,1 +1,0 @@
-d2hStoreMenuItems("TX__9182", [["WordDocuments/tabbedpagesectionexamples.htm", "right", "Tabbed Page Section Examples"],["WordDocuments/tabbedpagesectionexamples1.htm", "right", "Tabbed Page Section Examples"]]);

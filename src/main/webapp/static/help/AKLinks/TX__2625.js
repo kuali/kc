@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__2625", [["Documents/actionbuttons.htm", "right", "Action Buttons"],["Documents/actionbuttons1.htm", "right", "Action Buttons"],["Documents/actionbuttons2.htm", "right", "Action Buttons"],["Documents/actionbuttons3.htm", "right", "Action Buttons"]]);

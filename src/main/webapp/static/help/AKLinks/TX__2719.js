@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__2719", [["Documents/procedureforaddinganote.htm", "right", "Procedure for Adding a Note"],["Documents/procedureforaddinganote1.htm", "right", "Procedure for Adding a Note"]]);

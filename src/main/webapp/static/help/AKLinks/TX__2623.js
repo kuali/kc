@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__2623", [["Documents/fieldlevelhelp.htm", "right", "Field-Level Help"],["Documents/fieldlevelhelp1.htm", "right", "Field-Level Help"]]);
