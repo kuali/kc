@@ -1,3 +1,4 @@
+delimiter /
 TRUNCATE TABLE KREN_CNTNT_TYP_T
 /
 INSERT INTO KREN_CNTNT_TYP_T (CNTNT_TYP_ID,CNTNT_TYP_VER_NBR,CUR_IND,DESC_TXT,NM,NMSPC_CD,VER_NBR,XSD,XSL)
@@ -121,3 +122,4 @@ to be accepted into the system. -->
     </xsl:template> 
 </xsl:stylesheet>')
 /
+delimiter ;

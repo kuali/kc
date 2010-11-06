@@ -1,3 +1,4 @@
+delimiter /
 TRUNCATE TABLE KREN_PRODCR_T
 /
 INSERT INTO KREN_PRODCR_T (CNTCT_INFO,DESC_TXT,NM,PRODCR_ID,VER_NBR)
@@ -9,3 +10,4 @@ INSERT INTO KREN_PRODCR_T (CNTCT_INFO,DESC_TXT,NM,PRODCR_ID,VER_NBR)
 INSERT INTO KREN_PRODCR_T (CNTCT_INFO,DESC_TXT,NM,PRODCR_ID,VER_NBR)
   VALUES ('kuali-ken-testing@cornell.edu','This producer represents messages sent from the University Events system.','University Events Office',3,1)
 /
+delimiter ;

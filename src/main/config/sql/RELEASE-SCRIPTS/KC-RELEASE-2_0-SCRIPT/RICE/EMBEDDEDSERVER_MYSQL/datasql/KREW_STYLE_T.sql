@@ -1,3 +1,4 @@
+delimiter /
 TRUNCATE TABLE KREW_STYLE_T
 /
 INSERT INTO KREW_STYLE_T (ACTV_IND,NM,OBJ_ID,STYLE_ID,VER_NBR,XML)
@@ -176,3 +177,4 @@ to debug, or see values of previously created, the uncomment the following line 
       </xsl:stylesheet>
 ')
 /
+delimiter ;

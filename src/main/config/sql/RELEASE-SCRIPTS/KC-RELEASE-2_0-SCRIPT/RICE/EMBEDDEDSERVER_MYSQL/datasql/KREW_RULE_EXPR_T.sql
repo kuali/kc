@@ -1,3 +1,4 @@
+delimiter /
 TRUNCATE TABLE KREW_RULE_EXPR_T
 /
 INSERT INTO KREW_RULE_EXPR_T (OBJ_ID,RULE_EXPR,RULE_EXPR_ID,TYP,VER_NBR)
@@ -39,3 +40,4 @@ INSERT INTO KREW_RULE_EXPR_T (OBJ_ID,RULE_EXPR,RULE_EXPR_ID,TYP,VER_NBR)
 		        	return RecipeUtils.constructEmptyApprovalRequest(rule);
 		        }',2001,'BSF:groovy',1)
 /
+delimiter ;

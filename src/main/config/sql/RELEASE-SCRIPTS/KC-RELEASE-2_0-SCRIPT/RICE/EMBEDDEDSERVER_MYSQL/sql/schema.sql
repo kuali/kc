@@ -1,3 +1,4 @@
+delimiter /
 
 # -----------------------------------------------------------------------
 # ACCT_DD_ATTR_DOC
@@ -6298,3 +6299,5 @@ CREATE TABLE TRV_FO_ID_S
 /
 ALTER TABLE TRV_FO_ID_S auto_increment = 1000
 /
+
+delimiter ;
