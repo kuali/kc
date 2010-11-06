@@ -1,5 +1,3 @@
-delimiter /
-
 select "Running schema.sql...";
 \. RICE/EMBEDDEDCLIENT_MYSQL/sql/schema.sql
 
@@ -12,6 +10,5 @@ select "Running KRSB_QRTZ_LOCKS.sql...";
 select "Running schema-constraints.sql...";
 \. RICE/EMBEDDEDCLIENT_MYSQL/sql/schema-constraints.sql
 
-COMMIT
-/
+COMMIT;
 quit
