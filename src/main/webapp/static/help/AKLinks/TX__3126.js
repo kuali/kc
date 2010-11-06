@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3126", [["Documents/rulefunctions1.htm", "right", "Rule Functions"],["Documents/rulefunctions.htm", "right", "Rule Functions"]]);

@@ -1,1 +1,0 @@
-d2hStoreMenuItems("TX__9154", [["WordDocuments/workflowmenugroup.htm", "right", "Workflow Menu Group"],["WordDocuments/workflowmenugroup1.htm", "right", "Workflow Menu Group"],["WordDocuments/workflowmenugroup2.htm", "right", "Workflow Menu Group"]]);

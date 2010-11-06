@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__2604", [["Documents/panels.htm", "right", "Panels"],["Documents/panels1.htm", "right", "Panels"],["Documents/panels2.htm", "right", "Panels"]]);

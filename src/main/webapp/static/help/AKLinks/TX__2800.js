@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__2800", [["Documents/printpanel.htm", "right", "Print Panel"],["Documents/printpanel1.htm", "right", "Print Panel"]]);

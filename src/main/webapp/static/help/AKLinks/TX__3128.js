@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3128", [["Documents/rulevariables1.htm", "right", "Rule Variables"],["Documents/rulevariables.htm", "right", "Rule Variables"]]);

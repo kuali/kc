@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3207", [["Documents/minuteentrytype1.htm", "right", "Minute Entry Type"],["Documents/minuteentrytype.htm", "right", "Minute Entry Type"]]);

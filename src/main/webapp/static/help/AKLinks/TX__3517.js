@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3517", [["Documents/ruletemplate.htm", "right", "Rule Template"],["Documents/ruletemplate1.htm", "right", "Rule Template"]]);

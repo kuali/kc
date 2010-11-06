@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__2830", [["Documents/inflationdefaultrates.htm", "right", "Inflation Default Rates"],["Documents/inflationdefaultrates1.htm", "right", "Inflation Default Rates"]]);

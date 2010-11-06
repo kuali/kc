@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3870", [["Documents/customdata.htm", "right", "Custom Data"],["Documents/customdata1.htm", "right", "Custom Data"],["Documents/customdata2.htm", "right", "Custom Data"],["Documents/customdata3.htm", "right", "Custom Data"],["Documents/customdata4.htm", "right", "Custom Data"],["Documents/customdata5.htm", "right", "Custom Data"]]);

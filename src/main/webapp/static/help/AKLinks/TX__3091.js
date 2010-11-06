@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3091", [["Documents/instituterate2.htm", "right", "Institute Rate"],["Documents/instituterate.htm", "right", "Institute Rate"]]);

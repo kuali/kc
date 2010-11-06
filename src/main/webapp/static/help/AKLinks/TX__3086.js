@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3086", [["Documents/costsharingtype1.htm", "right", "Cost Sharing Type"],["Documents/costsharingtype.htm", "right", "Cost Sharing Type"]]);

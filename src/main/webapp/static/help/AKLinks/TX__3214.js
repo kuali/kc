@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3214", [["Documents/protocolattachmenttypegroup1.htm", "right", "Protocol Attachment Type Group"],["Documents/protocolattachmenttypegroup.htm", "right", "Protocol Attachment Type Group"]]);
