@@ -46,7 +46,7 @@ fi
 
 dbtype=`getChoice 'Enter Database Type' ORACLE MYSQL`
 
-Version=`getChoice 'Enter Version' NEW 2.0`
+version=`getChoice 'Enter Version' NEW 2.0`
 
 un=`getAnswer 'Enter KC Database Username'`
 
@@ -84,8 +84,8 @@ case "${dbtype}" in
 					then
 						sqlplus "${Riceun}"/"${Ricepw}"@"${RiceDBSvrNm}" < KR-Release-1_0_2-Server-Oracle-Install.sql
 					fi
-					sqlplus "${un}"/"${pw}"@"%DBSvrNm%" < KR-Release-1_0_2-Client-Oracle-Install.sql
-					sqlplus "${un}"/"${pw}"@"%DBSvrNm%" < KC-Release-2_0-Base-Bundled-Oracle-Install.sql
+					sqlplus "${un}"/"${pw}"@"${DBSvrNm}" < KR-Release-1_0_2-Client-Oracle-Install.sql
+					sqlplus "${un}"/"${pw}"@"${DBSvrNm}" < KC-Release-2_0-Base-Bundled-Oracle-Install.sql
 					sqlplus "${Riceun}"/"${Ricepw}"@"${RiceDBSvrNm}" < KC-Release-2_0-Base-Rice-Oracle-Install.sql
 				fi
 			fi
