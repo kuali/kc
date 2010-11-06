@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3079", [["Documents/activitytype2.htm", "right", "Activity Type"],["Documents/activitytype.htm", "right", "Activity Type"]]);

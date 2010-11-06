@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3115", [["Documents/yesnoquestions1.htm", "right", "Yes/No Questions"],["Documents/yesnoquestions.htm", "right", "Yes/No Questions"]]);

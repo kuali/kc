@@ -1,1 +1,0 @@
-d2hStoreMenuItems("TX__9932", [["WordDocuments/edoc1.htm", "right", "E-Doc"],["WordDocuments/gloss_edoc2.htm", "d2hWnd_SecondaryPopup", "e-doc"]]);
