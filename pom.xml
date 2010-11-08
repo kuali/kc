@@ -65,24 +65,31 @@
 						<configuration>
 							<!-- maven 3 conventions - works with current m2Eclipse -->
 							<sourceRoot>${project.build.directory}/generated/cxf/main/java</sourceRoot>
-							<defaultOptions>
-							    <noAddressBinding>true</noAddressBinding>
-							    <extraargs>
-							    	<extraarg>-verbose</extraarg>
-							    	<extraarg>-validate</extraarg>
-							    </extraargs>
-							</defaultOptions>
-							<!-- maven 3 conventions - works with current m2Eclipse -->
-							<wsdlRoot>${basedir}/src/main/resources/wsdl</wsdlRoot>
-						    <includes>
-						      <include>ApplicantIntegrationServices-V1_1.wsdl</include>
-						    </includes>
+							<disableDirectoryScan>true</disableDirectoryScan>
+							<wsdlOptions>
+								<wsdlOption>
+								    <noAddressBinding>true</noAddressBinding>
+									<wsdl>${gg.wsdl.location}/ApplicantIntegrationServices-V1_1.wsdl</wsdl>
+									<catalog>${gg.wsdl.location}/schemas/gg-catalog.xml</catalog>
+									<extraargs>
+								    	<extraarg>-verbose</extraarg>
+								    	<extraarg>-validate</extraarg>
+								    </extraargs>
+								</wsdlOption>
+							</wsdlOptions>
 						</configuration>
 						<goals>
 							<goal>wsdl2java</goal>
 						</goals>
 					</execution>
 				</executions>
+				<dependencies>
+                    <dependency>
+                        <groupId>org.apache.cxf</groupId>
+                        <artifactId>cxf-common-schemas</artifactId>
+                        <version>${cxf.version}</version>
+                    </dependency>
+                </dependencies>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -1385,5 +1392,6 @@
 		<surefire.argLine>-Xmx1536m -XX:MaxPermSize=512m</surefire.argLine>
 		<surefire.aggregate>true</surefire.aggregate>
     	<cobertura.maven.plugin.version>2.4</cobertura.maven.plugin.version>
+    	<gg.wsdl.location>${basedir}/src/main/resources/wsdl</gg.wsdl.location>
 	</properties>
 </project>
