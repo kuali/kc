@@ -23,9 +23,17 @@
 		The action was executed by
 		<xsl:value-of select="Protocol/user/firstName" />
 		<xsl:text> </xsl:text>
-		<xsl:value-of select="Protocol/user/lastName" />
-		. Additional information and further actions can be accessed through
-		the Kuali Coeus system.
-
+		<xsl:value-of select="Protocol/user/lastName" />. 
+		<br />
+		The Submission Type Qualifier is '<xsl:value-of select="Protocol/Submissions/SubmissionDetails/SubmissionTypeQualifierDesc" />'.
+		<br />
+		The Submission Review Type is '<xsl:value-of select="Protocol/Submissions/SubmissionDetails/ProtocolReviewTypeDesc" />'.
+		<br />
+		The Committee name is '<xsl:value-of select="Protocol/Submissions/CommitteeMasterData/CommitteeName" />'.
+		<br />
+		The comment on the action is '<xsl:value-of select="Protocol/Submissions/SubmissionDetails/ActionType/ActionComments" />'.
+		<br />
+		Additional information and further actions can be accessed through the Kuali Coeus system.
+		<br />
 	</xsl:template>
 </xsl:stylesheet>
