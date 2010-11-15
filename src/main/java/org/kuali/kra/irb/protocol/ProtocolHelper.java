@@ -33,6 +33,7 @@ import org.kuali.kra.irb.personnel.ProtocolUnit;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceService;
 import org.kuali.kra.irb.protocol.location.ProtocolLocation;
+import org.kuali.kra.irb.protocol.participant.ProtocolParticipant;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.RolodexService;
 import org.kuali.kra.service.TaskAuthorizationService;
@@ -69,6 +70,7 @@ public class ProtocolHelper implements Serializable {
     private ProtocolLocation newProtocolLocation;
     private String organizationName;
     private ProtocolFundingSource newFundingSource;
+    private ProtocolParticipant newProtocolParticipant;
     
     private boolean editProtocolFundingSourceName = false;
     
@@ -563,6 +565,14 @@ public class ProtocolHelper implements Serializable {
 
     public void setNewFundingSource(ProtocolFundingSource newFundingSource) {
         this.newFundingSource = newFundingSource;
+    }
+    
+    public ProtocolParticipant getNewProtocolParticipant() {
+        return newProtocolParticipant;
+    }
+
+    public void setNewProtocolParticipant(ProtocolParticipant newProtocolParticipant) {
+        this.newProtocolParticipant = newProtocolParticipant;
     }
     
     public boolean getModifyFundingSource() {
