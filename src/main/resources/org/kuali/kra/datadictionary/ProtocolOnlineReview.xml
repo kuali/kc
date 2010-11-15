@@ -49,8 +49,11 @@
 				<ref bean="ProtocolOnlineReview-protocol.principalInvestigator.personName"/>
 				<ref bean="ProtocolOnlineReview-protocolSubmission.protocolSubmissionType.description"/>
 				<ref bean="ProtocolOnlineReview-protocolSubmission.submissionStatus.description"/>
-				
 				<ref bean="ProtocolOnlineReview-lookupProtocolOnlineReviewStatusCode"/>
+				<ref bean="ProtocolOnlineReview-protocol.protocolNumber"/>
+				<ref bean="ProtocolOnlineReview-protocol.protocolStatus.description"/>
+				<!--  Result fields -->
+				<ref bean="ProtocolOnlineReview-resultDueDate"/>
 				
 			</list>
 		</property>
@@ -487,7 +490,39 @@
 		<property name="summary" value="Principal Investigator" />
 		<property name="description" value="Principal Investigator" />
 	</bean>
+	
+	<bean id="ProtocolOnlineReview-protocol.protocolNumber" parent="ProtocolOnlineReview-protocol.protocolNumber-parentBean" />
+    <bean id="ProtocolOnlineReview-protocol.protocolNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="protocol.protocolNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Protocol #" />
+        <property name="shortLabel" value="Protocol #" />
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Protocol Number" />
+        <property name="description" value="Protocol Number" />
+    </bean>
 
+    <bean id="ProtocolOnlineReview-protocol.protocolStatus.description" parent="ProtocolOnlineReview-protocol.protocolStatus.description-parentBean" />
+    <bean id="ProtocolOnlineReview-protocol.protocolStatus.description-parentBean" abstract="true" parent="ProtocolStatus-description" >
+        <property name="name" value="protocol.protocolStatus.description" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Protocol Status" />
+        <property name="shortLabel" value="Protocol Status" />
+        <property name="control" >
+            <bean parent="SelectControlDefinition"
+                p:businessObjectClass="org.kuali.kra.irb.actions.ProtocolStatus"
+                p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+                p:includeKeyInLabel="false"
+                p:includeBlankRow="false"
+                p:keyAttribute="protocolStatusCode"
+                p:labelAttribute="description" />
+        </property>
+        <property name="summary" value="Protocol Status Code" />
+        <property name="description" value="Protocol Status Code" />
+    </bean>
 
 	<!-- Business Object Inquiry Definition -->
 	<bean id="ProtocolOnlineReview-inquiryDefinition" parent="ProtocolOnlineReview-inquiryDefinition-parentBean"/>
@@ -511,7 +546,19 @@
 		</property>
 	</bean>
 
-	
+	<bean id="ProtocolOnlineReview-resultDueDate" parent="ProtocolOnlineReview-resultDueDate-parentBean" />
+    <bean id="ProtocolOnlineReview-resultDueDate-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="resultDueDate" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Due Date" />
+        <property name="shortLabel" value="Due Date" />
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="20" />
+        </property>
+        <property name="summary" value="Due Date" />
+        <property name="description" value="Due Date" />
+    </bean>
 
 
 	<!-- Business Object Lookup Definition -->
@@ -539,10 +586,12 @@
 			<list>
 				<bean p:attributeName="protocol.principalInvestigator.personName" parent = "FieldDefinition"/>
 				<bean p:attributeName="protocol.protocolNumber" parent = "FieldDefinition"/>
+				<bean p:attributeName="protocol.protocolStatus.description" parent = "FieldDefinition"/>
 				<bean p:attributeName="protocolSubmission.submissionNumber" parent = "FieldDefinition"/>
 				<bean p:attributeName="protocolSubmission.protocolSubmissionType.description" parent = "FieldDefinition"/>
 				<bean p:attributeName="protocolSubmission.submissionStatus.description" parent = "FieldDefinition"/>
 				<bean p:attributeName="lookupReviewerFullName" parent = "FieldDefinition"/>
+				<bean p:attributeName="resultDueDate" parent="FieldDefinition"/>
 				<bean p:attributeName="protocolOnlineReviewStatus.description" parent="FieldDefinition"/>
 			</list>
 		</property>
