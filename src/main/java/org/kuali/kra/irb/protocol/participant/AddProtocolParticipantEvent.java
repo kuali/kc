@@ -18,65 +18,50 @@ package org.kuali.kra.irb.protocol.participant;
 import java.util.List;
 
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.kra.rule.BusinessRuleInterface;
+import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 
 /**
- * 
  * This class represents the event when a <code>{@link ProtocolParticipant}</code> is added to a 
  * <code>{@link Protocol}</code>.
  * 
  * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
-public class AddProtocolParticipantEvent extends ProtocolParticipantEventBase {
+public class AddProtocolParticipantEvent extends KraDocumentEventBaseExtension {
+    
+    private static final String NEW_PROTOCOL_PARTICIPANT_FIELD = "protocolHelper.newProtocolParticipant";
+    
+    private ProtocolParticipant newProtocolParticipant;
+    private List<ProtocolParticipant> protocolParticipants;
+    
     /**
-     * 
      * Constructs a <code>{@link AddProtocolParticipantEvent}</code>.
      * 
      * @param errorPathPrefix
      * @param document
-     * @param protocolParticipant
+     * @param newProtocolParticipant
+     * @param existingProtocolParticipants
      */
-    public AddProtocolParticipantEvent(String errorPathPrefix, ProtocolDocument document, 
-            ProtocolParticipantBean newProtocolParticipant,
-            List<ProtocolParticipantBean> existingProtocolParticipants) {
-        super("adding ProtocolParticipant to document " + getDocumentId(document), 
-                errorPathPrefix, document, newProtocolParticipant, existingProtocolParticipants);
+    public AddProtocolParticipantEvent(ProtocolDocument document, ProtocolParticipant newProtocolParticipant, 
+            List<ProtocolParticipant> protocolParticipants) {
+        super("Adding ProtocolParticipant to document " + getDocumentId(document), NEW_PROTOCOL_PARTICIPANT_FIELD, document);
+    
+        this.newProtocolParticipant = newProtocolParticipant;
+        this.protocolParticipants = protocolParticipants;
     }
     
-    /**
-     * 
-     * Constructs a <code>{@link AddProtocolParticipantEvent}</code>.
-     * 
-     * @param errorPathPrefix
-     * @param document
-     * @param protocolParticipant
-     */
-    public AddProtocolParticipantEvent(String errorPathPrefix, Document document, 
-            ProtocolParticipantBean newProtocolParticipant,
-            List<ProtocolParticipantBean> existingProtocolParticipants) {
-        this(errorPathPrefix, (ProtocolDocument) document, newProtocolParticipant, existingProtocolParticipants);
+    public ProtocolParticipant getNewProtocolParticipant() {
+        return newProtocolParticipant;
     }
     
-    /**
-     * 
-     * Returns the <code>{@link AddProtocolParticipantRule}</code> class which is needed to validate a
-     * <code>{@link ProtocolParticipant}</code>
-     * 
-     * @return <code>{@link AddProtocolParticipantRule} class</code>
-     */
-    public Class getRuleInterfaceClass() {
-        return AddProtocolParticipantRule.class;
+    public List<ProtocolParticipant> getProtocolParticipants() {
+        return protocolParticipants;
     }
 
-    /**
-     * 
-     * Invokes the processing of the rules when adding a <code>{@link ProtocolParticipant}</code>.
-     * 
-     * @param The <code>{@link AddProtocolParticipantRule}</code> that is to be used for processing
-     * @return <code>true</code> if all rules are satisfied, otherwise <code>false</code>
-     */
-    public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((AddProtocolParticipantRule) rule).processAddProtocolParticipantBusinessRules(this);
+    @Override
+    @SuppressWarnings("unchecked")
+    public BusinessRuleInterface getRule() {
+        return new AddProtocolParticipantRule();
     }
+    
 }

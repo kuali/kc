@@ -16,11 +16,11 @@
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="protocolParticipantBeanAttributes" value="${DataDictionary.ProtocolParticipantBean.attributes}" />
+<c:set var="attributes" value="${DataDictionary.ProtocolParticipant.attributes}" />
 <c:set var="action" value="protocolParticipant" />
 <c:set var="readOnly" value="${!KualiForm.protocolHelper.modifySubjects}" />
 
-<kul:tab tabTitle="Participant Types" defaultOpen="false" tabErrorKey="participantsHelper.newParticipant.*,participantsHelper.existingParticipants[*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
+<kul:tab tabTitle="Participant Types" defaultOpen="false" tabErrorKey="protocolHelper.newProtocolParticipant*,document.protocolList[0].protocolParticipants*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left"> Participant Types </span>
@@ -32,8 +32,8 @@
         	<%-- Header --%>
         	<tr>
         		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" />
-        		<kul:htmlAttributeHeaderCell attributeEntry="${protocolParticipantBeanAttributes.participantTypeCode}" scope="col" />
-				<kul:htmlAttributeHeaderCell attributeEntry="${protocolParticipantBeanAttributes.participantCount}" scope="col" />
+        		<kul:htmlAttributeHeaderCell attributeEntry="${attributes.participantTypeCode}" scope="col" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${attributes.participantCount}" scope="col" />
 				<c:if test="${!readOnly}">
 					<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
 				</c:if>
@@ -49,13 +49,15 @@
 		
 		            <td align="left" valign="middle" class="infoline">
 		               	<div align="center">
-		               		<kul:htmlControlAttribute property="participantsHelper.newParticipant.participantTypeCode" attributeEntry="${protocolParticipantBeanAttributes.participantTypeCode}" readOnly="false" />
+		               		<kul:htmlControlAttribute property="protocolHelper.newProtocolParticipant.participantTypeCode" 
+		               		                          attributeEntry="${attributes.participantTypeCode}" />
 		            	</div>
 					</td>
 				
 		            <td align="left" valign="middle" class="infoline">
 		               	<div align="center">
-		               	    <kul:htmlControlAttribute property="participantsHelper.newParticipant.participantCount" attributeEntry="${protocolParticipantBeanAttributes.participantCount}" readOnly="false" />
+		               	    <kul:htmlControlAttribute property="protocolHelper.newProtocolParticipant.participantCount" 
+		               	                              attributeEntry="${attributes.participantCount}" />
 		               	</div>
 		            </td>
 		
@@ -72,26 +74,30 @@
 			
 			<%-- Existing data --%>        	
         	
-        	<c:forEach var="protocolParticipant" items="${KualiForm.participantsHelper.existingParticipants}" varStatus="status">
+        	<c:forEach items="${KualiForm.document.protocolList[0].protocolParticipants}" varStatus="status">
 	             <tr>
 					<th class="infoline">
 						<c:out value="${status.index+1}" />
 					</th>
 	                <td align="left" valign="middle">
 	                    <div align="center"> 
-	                    	${protocolParticipant.participantTypeDescription} 
+	                    	<kul:htmlControlAttribute property="document.protocolList[0].protocolParticipants[${status.index}].participantType.description" 
+	                    	                          attributeEntry="${attributes.participantTypeCode}" 
+	                    	                          readOnly="true" /> 
 	                    </div>
 					</td>
 	                <td align="left" valign="middle">
 	                	<div align="center"> 
-	                		<kul:htmlControlAttribute property="participantsHelper.existingParticipants[${status.index}].participantCount" attributeEntry="${protocolParticipantBeanAttributes.participantCount}" readOnly="${readOnly}" /> 
+	                		<kul:htmlControlAttribute property="document.protocolList[0].protocolParticipants[${status.index}].participantCount" 
+	                		                          attributeEntry="${attributes.participantCount}" 
+	                		                          readOnly="${readOnly}" /> 
 	                	</div>
 	                </td>
 
                    <c:if test="${!readOnly}">
 						<td>
 							<div align=center>&nbsp;					
-								<html:image property="methodToCall.deleteProtocolParticipant.line${status.index}.anchor${currentTabIndex}"
+								<html:image property="methodToCall.deleteProtocolParticipant.line${status.index}.anchor${currentTabIndex}.validate0"
 										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
 							</div>
 		                </td>

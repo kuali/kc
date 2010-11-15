@@ -18,22 +18,10 @@ package org.kuali.kra.irb.protocol.participant;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.protocol.location.ProtocolLocation;
-import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
-import org.kuali.kra.irb.protocol.participant.ParticipantType;
-import org.kuali.kra.irb.protocol.participant.ProtocolParticipant;
-import org.kuali.kra.irb.protocol.participant.ProtocolParticipantService;
-import org.kuali.kra.irb.protocol.participant.ProtocolParticipantServiceImpl;
-import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * 
@@ -42,8 +30,6 @@ import org.kuali.rice.kns.service.BusinessObjectService;
  * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
 public class ProtocolParticipantServiceTest {
-
-    private Mockery context = new JUnit4Mockery();
 
     private Protocol protocol;
 
@@ -72,21 +58,12 @@ public class ProtocolParticipantServiceTest {
         protocol.getProtocolParticipants().add(protocolParticipant3);
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void testAddProtocolParticipant() {
         ProtocolParticipant protocolParticipant = new ProtocolParticipant();
         protocolParticipant.setParticipantTypeCode("4");
 
-        final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
         final ProtocolParticipantServiceImpl protocolParticipantService = new ProtocolParticipantServiceImpl();
-        protocolParticipantService.setBusinessObjectService(businessObjectService);
-
-        final Map keyMap = new HashMap();
-        keyMap.put("participantTypeCode", "4");
-        context.checking(new Expectations() {{
-            one(businessObjectService).findByPrimaryKey(ParticipantType.class, keyMap); will(returnValue(new ParticipantType()));
-        }});
 
         protocolParticipantService.addProtocolParticipant(protocol, protocolParticipant);
         

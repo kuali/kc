@@ -497,10 +497,7 @@ public final class KeyConstants {
     public static final String ERROR_PROTOCOL_ONLINE_REVIEW_INVALID_ONE_PERSON_ONLY="error.protocol.onlinereview.search.onlyoneperson";
     
     // IRB Protocol Participant Types Validation Messages
-    public static final String ERROR_PROTOCOL_PARTICIPANT_TYPE_NOT_SELECTED = "error.protocol.participantType.notselected";
-    public static final String ERROR_PROTOCOL_PARTICIPANT_TYPE_INVALID = "error.protocol.participantType.invalid";
     public static final String ERROR_PROTOCOL_PARTICIPANT_TYPE_DUPLICATE = "error.protocol.participantType.duplicate";
-    public static final String ERROR_PROTOCOL_PARTICIPANT_COUNT_INVALID = "error.protocol.participantCount.invalid";
 
     // IRB Protocol Location Validation Messages
     public static final String ERROR_PROTOCOL_LOCATION_ORGANIZATION_ID_NOT_FOUND = "error.protocolLocation.organizationId.notFound";

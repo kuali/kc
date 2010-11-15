@@ -31,12 +31,10 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolEventBase;
 import org.kuali.kra.irb.ProtocolForm;
-import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.protocol.funding.AddProtocolFundingSourceEvent;
 import org.kuali.kra.irb.protocol.funding.LookupProtocolFundingSourceEvent;
@@ -47,8 +45,6 @@ import org.kuali.kra.irb.protocol.location.ProtocolLocation;
 import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
 import org.kuali.kra.irb.protocol.participant.AddProtocolParticipantEvent;
 import org.kuali.kra.irb.protocol.participant.ProtocolParticipant;
-import org.kuali.kra.irb.protocol.participant.ProtocolParticipantBean;
-import org.kuali.kra.irb.protocol.participant.ProtocolParticipantRule;
 import org.kuali.kra.irb.protocol.participant.ProtocolParticipantService;
 import org.kuali.kra.irb.protocol.reference.AddProtocolReferenceEvent;
 import org.kuali.kra.irb.protocol.reference.ProtocolReference;
@@ -67,44 +63,6 @@ import org.kuali.rice.kns.util.KNSConstants;
  * tab (web page).
  */
 public class ProtocolProtocolAction extends ProtocolAction {
-
-    private static final String PROTOCOL_CREATED = "Protocol created";
-
-    /**
-     * @see org.kuali.kra.irb.ProtocolAction#isValidSave(org.kuali.kra.irb.ProtocolForm)
-     */
-    @Override
-    protected boolean isValidSave(ProtocolForm protocolForm) {
-        boolean rulePassed = true;
-        protocolForm.getProtocolHelper().prepareRequiredFieldsForSave();
-        
-        //if there are protocol participants, make sure that any of those updates are made to the action protocol
-        if (protocolForm.getParticipantsHelper().getExistingParticipants() != null) {
-            ProtocolParticipantRule rule = new ProtocolParticipantRule();
-            AddProtocolParticipantEvent event = new AddProtocolParticipantEvent(Constants.EMPTY_STRING, 
-                    protocolForm.getDocument(), protocolForm.getParticipantsHelper().getNewParticipant(), 
-                    protocolForm.getParticipantsHelper().getExistingParticipants());
-            if (rule.processExistingProtocolParticipantBusinessRules(event)) {
-                //we know all the beans are fine, so lets update the BO
-                int index = 0;
-                for (ProtocolParticipantBean existingBean : event.getExistingProtocolParticipants()) {
-                    ProtocolParticipant protocolParticipant = protocolForm.getProtocolDocument().getProtocol().getProtocolParticipant(index);
-                    String existingBeanParticipantCount = existingBean.getParticipantCount();
-                    if(existingBeanParticipantCount != null && !"".equals(existingBeanParticipantCount.trim())) {
-                        protocolParticipant.setParticipantCount(Integer.valueOf(existingBeanParticipantCount));
-                    } else {
-                        protocolParticipant.setParticipantCount(null);
-                    }
-                    
-                    index++;
-                }
-            } else {
-                rulePassed = false;
-            }
-        }
-        
-        return rulePassed;
-    }
 
     /**
      * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
@@ -189,18 +147,16 @@ public class ProtocolProtocolAction extends ProtocolAction {
      * @return
      * @throws Exception
      */
-    public ActionForward addProtocolParticipant(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    public ActionForward addProtocolParticipant(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+        throws Exception {
+        
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolParticipantBean newProtocolParticipantBean = protocolForm.getParticipantsHelper().getNewParticipant();
-        List<ProtocolParticipantBean> existingBeans = protocolForm.getParticipantsHelper().getExistingParticipants();
+        ProtocolParticipant newProtocolParticipant = protocolForm.getProtocolHelper().getNewProtocolParticipant();
+        List<ProtocolParticipant> protocolParticipants = protocolForm.getProtocolDocument().getProtocol().getProtocolParticipants();
 
-        if (applyRules(new AddProtocolParticipantEvent(Constants.EMPTY_STRING, protocolForm.getDocument(), newProtocolParticipantBean, existingBeans))) {
-            //deal with managing the beans
-            protocolForm.getParticipantsHelper().getExistingParticipants().add(newProtocolParticipantBean);
-            protocolForm.getParticipantsHelper().setNewParticipant(new ProtocolParticipantBean());
-            //deal with managing the BOs            
-            getProtocolParticipantService().addProtocolParticipant(protocolForm.getProtocolDocument().getProtocol(), newProtocolParticipantBean);
+        if (applyRules(new AddProtocolParticipantEvent(protocolForm.getDocument(), newProtocolParticipant, protocolParticipants))) {
+            getProtocolParticipantService().addProtocolParticipant(protocolForm.getProtocolDocument().getProtocol(), newProtocolParticipant);
+            protocolForm.getProtocolHelper().setNewProtocolParticipant(new ProtocolParticipant());          
         }
 
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -218,11 +174,11 @@ public class ProtocolProtocolAction extends ProtocolAction {
      * @return
      * @throws Exception
      */
-    public ActionForward deleteProtocolParticipant(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    public ActionForward deleteProtocolParticipant(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+        throws Exception {
+        
         ProtocolForm protocolForm = (ProtocolForm) form;
         protocolForm.getDocument().getProtocol().getProtocolParticipants().remove(getLineToDelete(request));
-        protocolForm.getParticipantsHelper().getExistingParticipants().remove(getLineToDelete(request));
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -551,19 +507,19 @@ public class ProtocolProtocolAction extends ProtocolAction {
     }
 
     @Override
-    public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
+    public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.preSave(mapping, form, request, response);
-        ProtocolDocument protocolDocument = ((ProtocolForm) form).getProtocolDocument();
-        if (protocolDocument.getDocumentHeader().getWorkflowDocument().stateIsInitiated()) {
-            Protocol protocol = protocolDocument.getProtocol();
-            protocol.getProtocolActions().clear();
-            org.kuali.kra.irb.actions.ProtocolAction protocolAction = new org.kuali.kra.irb.actions.ProtocolAction(protocol, null,
-                ProtocolActionType.PROTOCOL_CREATED);
-            protocolAction.setComments(PROTOCOL_CREATED);
-            protocol.getProtocolActions().add(protocolAction);
-        }
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        protocolForm.getProtocolHelper().prepareRequiredFieldsForSave();
     }
 
+    @Override
+    protected ActionForward saveOnClose(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        protocolForm.getProtocolHelper().prepareRequiredFieldsForSave();
+        
+        return super.saveOnClose(mapping, form, request, response);
+    }
 
 }

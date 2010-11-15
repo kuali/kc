@@ -39,8 +39,6 @@ import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.permission.PermissionsHelper;
 import org.kuali.kra.irb.personnel.PersonnelHelper;
 import org.kuali.kra.irb.protocol.ProtocolHelper;
-import org.kuali.kra.irb.protocol.participant.ParticipantsHelper;
-import org.kuali.kra.irb.protocol.reference.ProtocolReference;
 import org.kuali.kra.irb.protocol.reference.ProtocolReferenceBean;
 import org.kuali.kra.irb.questionnaire.QuestionnaireHelper;
 import org.kuali.kra.irb.specialreview.SpecialReviewHelper;
@@ -76,7 +74,6 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     private ProtocolHelper protocolHelper;
     private PersonnelHelper personnelHelper;
     private PermissionsHelper permissionsHelper;
-    private ParticipantsHelper participantsHelper;
     private CustomDataHelper customDataHelper;
     private SpecialReviewHelper specialReviewHelper;
     private ActionHelper actionHelper;
@@ -117,7 +114,6 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         setProtocolHelper(new ProtocolHelper(this));
         setPersonnelHelper(new PersonnelHelper(this));
         setPermissionsHelper(new PermissionsHelper(this));
-        setParticipantsHelper(new ParticipantsHelper(this.getProtocolDocument().getProtocol()));
         setCustomDataHelper(new CustomDataHelper(this));
         setSpecialReviewHelper(new SpecialReviewHelper(this));
         setActionHelper(new ActionHelper(this));
@@ -216,7 +212,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         // Temporary hack for KRACOEUS-489
         if (getActionFormUtilMap() instanceof ActionFormUtilMap) {
             ((ActionFormUtilMap) getActionFormUtilMap()).clear();
-        }       
+        }
     }
     
     @Override
@@ -314,14 +310,6 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     
     public PermissionsHelper getPermissionsHelper() {
         return permissionsHelper;
-    }
-    
-    public void setParticipantsHelper(ParticipantsHelper participantsHelper) {
-        this.participantsHelper = participantsHelper;
-    }
-
-    public ParticipantsHelper getParticipantsHelper() {
-        return participantsHelper;
     }
     
     public void setNewProtocolReferenceBean(ProtocolReferenceBean newProtocolReferenceBean) {

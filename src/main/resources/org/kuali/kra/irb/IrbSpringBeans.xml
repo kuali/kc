@@ -70,11 +70,7 @@
         <property name="organizationService" ref="organizationService" />
     </bean>
         
-    <bean id="protocolParticipantTypeService" class="org.kuali.kra.irb.protocol.participant.ProtocolParticipantServiceImpl">
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
-        </property>
-    </bean>  
+    <bean id="protocolParticipantTypeService" class="org.kuali.kra.irb.protocol.participant.ProtocolParticipantServiceImpl" />
     
     <bean id="protocolFundingSourceService" class="org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceServiceImpl">
         <property name="fundingSourceTypeService" ref="fundingSourceTypeService" />

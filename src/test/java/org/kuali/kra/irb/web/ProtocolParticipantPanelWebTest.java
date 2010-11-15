@@ -38,8 +38,8 @@ public class ProtocolParticipantPanelWebTest extends ProtocolWebTestBase {
 
     private static final String PARTICIPANT_DIV = "tab-ParticipantTypes-div";
     private static final String PARTICIPANT_TABLE = "participants-table";
-    private static final String PARTICIPANT_TYPE_CODE_ID = "participantsHelper.newParticipant.participantTypeCode";
-    private static final String PARTICIPANT_DETAILS_ID = "participantsHelper.newParticipant.participantCount";
+    private static final String PARTICIPANT_TYPE_CODE_ID = "protocolHelper.newProtocolParticipant.participantTypeCode";
+    private static final String PARTICIPANT_DETAILS_ID = "protocolHelper.newProtocolParticipant.participantCount";
     private static final String PARTICIPANT_ADD_BTN = "methodToCall.addProtocolParticipant";
 
     private static final String PARTICIPANT_STUDENTS_TYPE_CODE = "7";
@@ -160,8 +160,7 @@ public class ProtocolParticipantPanelWebTest extends ProtocolWebTestBase {
 
         // change the details for that participant.
 
-        //setFieldValue(protocolPage, "document.protocolList[0].protocolParticipants[0].participantCount", PARTICIPANT_STUDENTS_COUNT_VALUE2);
-        setFieldValue(protocolPage, "participantsHelper.existingParticipants[0].participantCount", PARTICIPANT_STUDENTS_COUNT_VALUE2);
+        setFieldValue(protocolPage, "document.protocolList[0].protocolParticipants[0].participantCount", PARTICIPANT_STUDENTS_COUNT_VALUE2);
 
         // Save the document
         protocolPage = saveDoc(protocolPage);
