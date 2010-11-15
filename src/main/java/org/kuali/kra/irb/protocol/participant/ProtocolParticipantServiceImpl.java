@@ -15,11 +15,7 @@
  */
 package org.kuali.kra.irb.protocol.participant;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.kuali.kra.irb.Protocol;
-import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * 
@@ -30,17 +26,6 @@ import org.kuali.rice.kns.service.BusinessObjectService;
  */
 public class ProtocolParticipantServiceImpl implements ProtocolParticipantService {
 
-    private BusinessObjectService businessObjectService;
-
-    /**
-     * Set the Business Object Service. Injected by the Spring Framework.
-     * 
-     * @param businessObjectService the business object service
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
     /**
      * This method adds the ProtocolParticipant to the List of ProtocolParticipants along with the 
      * appropriate ParticipantType.
@@ -49,47 +34,8 @@ public class ProtocolParticipantServiceImpl implements ProtocolParticipantServic
      * @param protocolParticipant which is added to ProtocolParticipants list after setting ParticipantType.
      */
     public void addProtocolParticipant(Protocol protocol, ProtocolParticipant protocolParticipant) {
-        Map keyMap = new HashMap();
-        keyMap.put("participantTypeCode", protocolParticipant.getParticipantTypeCode());
-
-        ParticipantType participantType = 
-            (ParticipantType) businessObjectService.findByPrimaryKey(ParticipantType.class, keyMap);
-
-        protocolParticipant.setParticipantType(participantType);
-
-        protocolParticipant.setProtocolNumber("0");
-        protocolParticipant.setSequenceNumber(0);
-
-        protocol.getProtocolParticipants().add(protocolParticipant);
-
-    }
-    
-    /**
-     * 
-     * @see org.kuali.kra.irb.protocol.participant.ProtocolParticipantService#addProtocolParticipant(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.protocol.participant.ProtocolParticipantBean)
-     */
-    public void addProtocolParticipant(Protocol protocol, ProtocolParticipantBean protocolParticipantBean) {
-        Map keyMap = new HashMap();
-        keyMap.put("participantTypeCode", protocolParticipantBean.getParticipantTypeCode());
-
-        ParticipantType participantType = 
-            (ParticipantType) businessObjectService.findByPrimaryKey(ParticipantType.class, keyMap);
-        
-        protocolParticipantBean.setParticipantTypeDescription(participantType.getDescription());
-        
-        ProtocolParticipant protocolParticipant = new ProtocolParticipant();
-        
-        if (protocolParticipantBean.getParticipantCount() != null && !protocolParticipantBean.getParticipantCount().trim().equals("")) {
-            protocolParticipant.setParticipantCount(Integer.valueOf(protocolParticipantBean.getParticipantCount()));
-        }
-        
-        protocolParticipant.setParticipantTypeCode(protocolParticipantBean.getParticipantTypeCode());
-        
-        protocolParticipant.setParticipantType(participantType);
-
-        protocolParticipant.setProtocolNumber("0");
-        protocolParticipant.setSequenceNumber(0);
-
+        protocolParticipant.setProtocol(protocol);
+        protocolParticipant.refreshReferenceObject("participantType");
         protocol.getProtocolParticipants().add(protocolParticipant);
     }
 

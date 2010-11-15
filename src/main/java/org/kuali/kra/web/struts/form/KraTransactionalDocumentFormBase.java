@@ -18,6 +18,8 @@ package org.kuali.kra.web.struts.form;
 import java.util.Collection;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.document.ResearchDocumentBase;
@@ -62,7 +64,28 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
     public void setNavigateTo(String navigateTo) {
         this.navigateTo = navigateTo;
     }
-    
+
+    @Override
+    public void populate(HttpServletRequest request) {
+        super.populate(request);
+        
+        
+        // Hack to get panels with add/delete items that are editable after add (Protocol Participants, Special Review) to work correctly with validation.  
+        // In this scenario, the user adds a couple of correctly formatted items but then changes one of the fields to an incorrect format and saves.  This will
+        // cause validation errors, but if the user now tries to delete the errant entry, validation will fail because the validator in the Kuali Request 
+        // Processor still detects the error in the message map.  We don't want validation to run for a delete method, so we need to clear the current error 
+        // messages, preventing the validator from running and allowing the delete to go through.
+        //
+        // This is detected by the existence of "validate0" on the methodToCall property (similar to finding the line number of a delete).
+        String methodToCallAttribute = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        if (StringUtils.contains(methodToCallAttribute, "validate")) {
+            String validateParameter = StringUtils.substringBetween(methodToCallAttribute, ".validate", ".");
+            if (StringUtils.equals("0", validateParameter)) {
+                GlobalVariables.getMessageMap().clearErrorMessages();
+            }
+        }
+    }
+
     /**
      * Consume SoftErrors (if any) and return the collection
      * @return

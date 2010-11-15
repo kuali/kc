@@ -147,7 +147,7 @@
 					<td rowspan="2">
 						<div align=center>&nbsp;
 							<c:if test="${canModify}"> 
-								<html:image property="methodToCall.deleteSpecialReview.line${status.index}.anchor${currentTabIndex}"
+								<html:image property="methodToCall.deleteSpecialReview.line${status.index}.anchor${currentTabIndex}.validate0"
 									        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
 							</c:if>  
 						</div>

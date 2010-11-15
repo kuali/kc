@@ -87,8 +87,8 @@
 	<bean id="ProtocolParticipant-participantTypeCode" parent="ProtocolParticipant-participantTypeCode-parentBean" />
 	<bean id="ProtocolParticipant-participantTypeCode-parentBean" abstract="true" parent="ParticipantType-participantTypeCode" >
 		<property name="name" value="participantTypeCode" />
-		<property name="label" value="Protocol Participant Description" />
-        <property name="shortLabel" value="Description" />
+		<property name="label" value="Protocol Participant Type" />
+        <property name="shortLabel" value="Type" />
 		<property name="required" value="true" />
 		<property name="control" >
             <bean parent="SelectControlDefinition"

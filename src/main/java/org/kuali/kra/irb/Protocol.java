@@ -211,7 +211,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         sequenceNumber = new Integer(0);
         //billable = false;
         protocolRiskLevels = new ArrayList<ProtocolRiskLevel>();
-        protocolParticipants = new TypedArrayList(ProtocolParticipant.class);
+        protocolParticipants = new ArrayList<ProtocolParticipant>();
         protocolResearchAreas = new ArrayList<ProtocolResearchArea>();
         protocolReferences = new ArrayList<ProtocolReference>(); 
         newDescription = getDefaultNewDescription();

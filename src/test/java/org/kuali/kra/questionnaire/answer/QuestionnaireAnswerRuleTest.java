@@ -18,31 +18,17 @@ package org.kuali.kra.questionnaire.answer;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.kra.questionnaire.question.Question;
+import org.kuali.kra.rules.TemplateRuleTest;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.MessageMap;
 
 public class QuestionnaireAnswerRuleTest extends KcUnitTestBase {
-    private QuestionnaireAnswerRule rule;
-
-    @Before
-    public void setUp() throws Exception {
-        super.setUp();
-       rule = new QuestionnaireAnswerRule();
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        super.tearDown();
-        rule = null;
-    }
 
     /**
      * 
@@ -50,13 +36,25 @@ public class QuestionnaireAnswerRuleTest extends KcUnitTestBase {
      */
     @Test
     public void testRuleIsOK() {
-        
-        
-        List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
-        answerHeaders.add(createAnswerHeaderForVersioning(1L, "0912000001", "0"));
-        rule.processQuestionnaireAnswerRules(answerHeaders);
-        MessageMap messages = GlobalVariables.getMessageMap();
-        Assert.assertEquals(0, messages.getErrorMessages().size());
+        new TemplateRuleTest<SaveQuestionnaireAnswerEvent, SaveQuestionnaireAnswerRule>() {
+            
+            @Override
+            protected void prerequisite() {
+                List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
+                answerHeaders.add(createAnswerHeaderForVersioning(1L, "0912000001", "0"));
+                
+                event = new SaveQuestionnaireAnswerEvent(null, answerHeaders);
+                rule = new SaveQuestionnaireAnswerRule();
+                expectedReturnValue = true;
+            }
+            
+            @Override
+            public void checkRuleAssertions() {
+                MessageMap messages = GlobalVariables.getMessageMap();
+                Assert.assertEquals(0, messages.getErrorMessages().size());
+            }
+            
+        };
     }
     
     /**
@@ -65,19 +63,31 @@ public class QuestionnaireAnswerRuleTest extends KcUnitTestBase {
      */
     @Test
     public void testRuleIsNotOK() {
-        
-        
-        List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
-        answerHeaders.add(createAnswerHeaderForVersioning(1L, "0912000001", "0"));
-        answerHeaders.get(0).getAnswers().get(1).setAnswer("1x");
-        answerHeaders.get(0).getAnswers().get(2).setAnswer("01012009");
-        rule.processQuestionnaireAnswerRules(answerHeaders);
-        MessageMap messages = GlobalVariables.getMessageMap();
-        Assert.assertEquals(2, messages.getErrorMessages().size());
-        Assert.assertTrue(messages.getErrorMessages().containsKey("questionnaireHelper.answerHeaders[0].answers[1].answer"));
-        Assert.assertTrue(messages.getErrorMessages().containsKey("questionnaireHelper.answerHeaders[0].answers[2].answer"));
-        Assert.assertEquals("error.invalidFormat.withFormat(Answer 2, 1x, Number - [0-9])", messages.getErrorMessages().get("questionnaireHelper.answerHeaders[0].answers[1].answer").get(0).toString());
-        Assert.assertEquals("error.invalidFormat(Answer 3, 01012009, Date - [xx/xx/xxxx])", messages.getErrorMessages().get("questionnaireHelper.answerHeaders[0].answers[2].answer").get(0).toString());
+        new TemplateRuleTest<SaveQuestionnaireAnswerEvent, SaveQuestionnaireAnswerRule>() {
+            
+            @Override
+            protected void prerequisite() {
+                List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
+                answerHeaders.add(createAnswerHeaderForVersioning(1L, "0912000001", "0"));
+                answerHeaders.get(0).getAnswers().get(1).setAnswer("1x");
+                answerHeaders.get(0).getAnswers().get(2).setAnswer("01012009");
+                
+                event = new SaveQuestionnaireAnswerEvent(null, answerHeaders);
+                rule = new SaveQuestionnaireAnswerRule();
+                expectedReturnValue = false;
+            }
+            
+            @Override
+            public void checkRuleAssertions() {
+                MessageMap messages = GlobalVariables.getMessageMap();
+                Assert.assertEquals(2, messages.getErrorMessages().size());
+                Assert.assertTrue(messages.getErrorMessages().containsKey("questionnaireHelper.answerHeaders[0].answers[1].answer"));
+                Assert.assertTrue(messages.getErrorMessages().containsKey("questionnaireHelper.answerHeaders[0].answers[2].answer"));
+                Assert.assertEquals("error.invalidFormat.withFormat(Answer 2, 1x, Number - [0-9])", messages.getErrorMessages().get("questionnaireHelper.answerHeaders[0].answers[1].answer").get(0).toString());
+                Assert.assertEquals("error.invalidFormat(Answer 3, 01012009, Date - [xx/xx/xxxx])", messages.getErrorMessages().get("questionnaireHelper.answerHeaders[0].answers[2].answer").get(0).toString());
+            }
+            
+        };
     }
 
     private AnswerHeader createAnswerHeaderForVersioning(Long questionnaireRefId, String moduleItemKey,String moduleSubItemKey) {
@@ -109,7 +119,6 @@ public class QuestionnaireAnswerRuleTest extends KcUnitTestBase {
         
     }
 
-    
     private Answer createAnswer(Integer answerNumber, String ans) {
         Answer answer = new Answer();
         answer.setAnswer(ans);
@@ -117,6 +126,7 @@ public class QuestionnaireAnswerRuleTest extends KcUnitTestBase {
         return answer;
         
     }
+    
     private QuestionnaireQuestion createQuestionnaireQuestion(Integer questionNumber, Integer questionTypeId) {
         QuestionnaireQuestion questionnaireQuestion = new QuestionnaireQuestion();
         questionnaireQuestion.setQuestionNumber(questionNumber);

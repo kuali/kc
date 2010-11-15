@@ -64,7 +64,7 @@ public class ProposalDevelopmentSpecialReviewWebTest extends ProposalDevelopment
     private static final String EXEMPTION_TYPE_CODES_FIELD = "document.developmentProposalList[0].propSpecialReviews[0].exemptionTypeCodes";
     
     private static final String METHODTOCALL_ADDSPECIALREVIEW = "methodToCall.addSpecialReview.anchorSpecialReview";
-    private static final String METHODCOCALL_DELETESPECIALREVIEW = "methodToCall.deleteSpecialReview.line0.anchor0";
+    private static final String METHODTOCALL_DELETESPECIALREVIEW = "methodToCall.deleteSpecialReview.line0.anchor0.validate0";
     
     private class Review {
         String type;
@@ -163,7 +163,7 @@ public class ProposalDevelopmentSpecialReviewWebTest extends ProposalDevelopment
         proposalPage = saveAndSearchDoc(specialReviewPage);
         specialReviewPage = clickOnTab(proposalPage, SPECIAL_REVIEW_LINK_NAME);
         
-        specialReviewPage = clickOn(specialReviewPage, METHODCOCALL_DELETESPECIALREVIEW);
+        specialReviewPage = clickOn(specialReviewPage, METHODTOCALL_DELETESPECIALREVIEW);
         List<Review> reviews = new ArrayList<Review>();
         checkTable(specialReviewPage, reviews, 2);
         proposalPage = saveAndSearchDoc(specialReviewPage);
