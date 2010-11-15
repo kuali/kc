@@ -534,4 +534,20 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
     public void setLookupProtocolOnlineReviewStatusCode(String lookupProtocolOnlineReviewStatusCode) {
         this.lookupProtocolOnlineReviewStatusCode = lookupProtocolOnlineReviewStatusCode;
     }
+    
+    /**
+     * Returns the dateDue if it is non-empty; otherwise, returns the scheduled meeting date.
+     * @return dateDue if not-null, otherwise scheduled meeting date
+     */
+    public Date getResultDueDate() {
+        Date resultDueDate = null;
+        if (dateDue != null) {
+            resultDueDate = dateDue;
+        } else {
+            if (protocolSubmission != null && protocolSubmission.getCommitteeSchedule() != null) {
+                resultDueDate = protocolSubmission.getCommitteeSchedule().getScheduledDate();
+            }
+        }
+        return resultDueDate;
+    }
 }
