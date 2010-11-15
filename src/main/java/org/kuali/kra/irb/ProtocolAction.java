@@ -30,7 +30,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.personnel.ProtocolPersonTrainingService;
@@ -56,8 +55,6 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
  * all user requests for that particular tab (web page).
  */
 public abstract class ProtocolAction extends KraTransactionalDocumentActionBase {
-    
-    private static final String PROTOCOL_CREATED = "Protocol created";
     
     /** {@inheritDoc} */
     @Override
@@ -205,29 +202,21 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     }
     
     /**
-     * Create the original Protocol Action and the set of Protocol Users for a new Protocol Document.
-     * The original action of the protocol is PROTOCOL_CREATED while the original creator of the protocol is assigned to the PROTOCOL_AGGREGATOR role.
+     * Create the original set of Protocol Users for a new Protocol Document.
+     * The creator the protocol is assigned to the PROTOCOL_AGGREGATOR role.
      * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#initialDocumentSave(org.kuali.core.web.struts.form.KualiDocumentFormBase)
      */
     @Override
     protected void initialDocumentSave(KualiDocumentFormBase form) throws Exception {
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolDocument document = protocolForm.getDocument();
-        
-        // Create the original action PROTOCOL_CREATED
-        
-        document.getProtocol().getProtocolActions().clear();
-        org.kuali.kra.irb.actions.ProtocolAction protocolAction = new org.kuali.kra.irb.actions.ProtocolAction(document.getProtocol(), null, 
-                ProtocolActionType.PROTOCOL_CREATED);
-        protocolAction.setComments(PROTOCOL_CREATED);
-        document.getProtocol().getProtocolActions().add(protocolAction);
         
         // Assign the creator of the protocol the AGGREGATOR role.
         
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument doc = protocolForm.getDocument();
         String userId = GlobalVariables.getUserSession().getPrincipalId();
         KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
-        kraAuthService.addRole(userId, RoleConstants.PROTOCOL_AGGREGATOR, document.getProtocol());
-        kraAuthService.addRole(userId, RoleConstants.PROTOCOL_APPROVER, document.getProtocol()); 
+        kraAuthService.addRole(userId, RoleConstants.PROTOCOL_AGGREGATOR, doc.getProtocol());
+        kraAuthService.addRole(userId, RoleConstants.PROTOCOL_APPROVER, doc.getProtocol()); 
         
         // Add the users defined in the access control list for the protocol's lead unit
         
