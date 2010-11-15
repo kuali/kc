@@ -26,6 +26,8 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
+import org.kuali.kra.irb.actions.ProtocolAction;
+import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelService;
@@ -42,6 +44,8 @@ import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class ProtocolHelper implements Serializable {
+    
+    private static final String PROTOCOL_CREATED = "Protocol created";
     
     /**
      * Each Helper must contain a reference to its document form
@@ -405,6 +409,18 @@ public class ProtocolHelper implements Serializable {
         getProtocolPersonnelService().setPrincipalInvestigator(createPrincipalInvestigator(), getProtocol());
         ProtocolPerson principalInvestigator = getProtocolPersonnelService().getPrincipalInvestigator(getProtocol().getProtocolPersons());
         getProtocolPersonnelService().setLeadUnit(createLeadUnit(), principalInvestigator, getProtocol());
+    }
+    
+    /**
+     * Creates the initial PROTOCOL_CREATED action for a new protocol.
+     */
+    public void createInitialProtocolAction() {
+        if (getProtocol().getProtocolDocument().getDocumentHeader().getWorkflowDocument().stateIsInitiated()) {
+            getProtocol().getProtocolActions().clear();
+            ProtocolAction protocolAction = new ProtocolAction(getProtocol(), null, ProtocolActionType.PROTOCOL_CREATED);
+            protocolAction.setComments(PROTOCOL_CREATED);
+            getProtocol().getProtocolActions().add(protocolAction);
+        }
     }
     
     private ProtocolNumberService getProtocolNumberService() {

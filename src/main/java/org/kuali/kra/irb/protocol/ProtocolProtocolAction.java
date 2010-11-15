@@ -512,12 +512,14 @@ public class ProtocolProtocolAction extends ProtocolAction {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         protocolForm.getProtocolHelper().prepareRequiredFieldsForSave();
+        protocolForm.getProtocolHelper().createInitialProtocolAction();
     }
 
     @Override
     protected ActionForward saveOnClose(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
         protocolForm.getProtocolHelper().prepareRequiredFieldsForSave();
+        protocolForm.getProtocolHelper().createInitialProtocolAction();
         
         return super.saveOnClose(mapping, form, request, response);
     }
