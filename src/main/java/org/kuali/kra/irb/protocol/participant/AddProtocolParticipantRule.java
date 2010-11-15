@@ -15,22 +15,21 @@
  */
 package org.kuali.kra.irb.protocol.participant;
 
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.kra.rule.BusinessRuleInterface;
 
 /**
- * 
- * This interface addresses the adds rule for adding a new <code>ProtocolParticipant</code>
+ * This interface addresses the adds rule for adding a new <code>ProtocolParticipant</code>.
  * 
  * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
-public interface AddProtocolParticipantRule extends BusinessRule {
+public class AddProtocolParticipantRule extends ProtocolParticipantRuleBase implements BusinessRuleInterface<AddProtocolParticipantEvent> {
 
     /**
-     * 
-     * Processes the validation rules for an <code>{@link AddProtocolParticipantEvent}</code>
-     * 
-     * @param addProtocolParticipantEvent
-     * @return <code>true</code> if valid, <code>false</code> otherwise
+     * {@inheritDoc}
+     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
      */
-    public boolean processAddProtocolParticipantBusinessRules(AddProtocolParticipantEvent addProtocolParticipantEvent);
+    public boolean processRules(AddProtocolParticipantEvent event) {
+        return processAddProtocolParticipantEvent(event);
+    }
+
 }

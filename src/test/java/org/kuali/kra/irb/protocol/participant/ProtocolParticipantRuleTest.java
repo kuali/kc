@@ -18,22 +18,12 @@ package org.kuali.kra.irb.protocol.participant;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.protocol.participant.AddProtocolParticipantEvent;
-import org.kuali.kra.irb.protocol.participant.ParticipantType;
-import org.kuali.kra.irb.protocol.participant.ProtocolParticipant;
-import org.kuali.kra.irb.protocol.participant.ProtocolParticipantRule;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.kra.rules.TemplateRuleTest;
+import org.kuali.rice.kns.datadictionary.validation.charlevel.NumericValidationPattern;
 
 /**
  * Test the business rules for Protocol Participant.
@@ -42,42 +32,15 @@ import org.kuali.rice.kns.util.TypedArrayList;
  */
 public class ProtocolParticipantRuleTest extends ProtocolRuleTestBase {
 
-    private static final Integer NEW_PARTICIPANT_COUNT = 5;
-    private static final Integer NEW_PARTICIPANT_NEG_COUNT = -5;
-    private static final String NEW_PROTOCOL_PARTICIPANT = "participantsHelper.newParticipant";
-    private static final String INVALID_PARTICIPANT_TYPE_CD = "999";
     private static final String CHILDREN_PARTICIPANT_TYPE_CD = "1";
     private static final String OTHER_PARTICIPANT_TYPE_CD = "10";
-    private ProtocolParticipantRule rule;
-    private List<ParticipantType> participantTypes;
-    private KeyValuesService keyValuesService;
-
-
-    @Before
-    public void setUp() throws Exception {
-        super.setUp();
-        rule = new ProtocolParticipantRule();
-        keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
-        participantTypes = (List)keyValuesService.findAll(ParticipantType.class);
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        rule = null;
-        keyValuesService = null;
-        participantTypes = null;
-        super.tearDown();
-    }
-
-    /** 
-     * This method ensures that participant types list has members defined.
-     * 
-     */
-    @Test
-    public void checkParticipantTypes() {
-        assertNotNull(participantTypes);
-        assertTrue(participantTypes.size()>0);
-    }
+    private static final Integer NEW_PARTICIPANT_COUNT = 5;
+    private static final Integer NEW_PARTICIPANT_NEG_COUNT = -5;
+    
+    private static final String NEW_PROTOCOL_PARTICIPANT_FIELD = "protocolHelper.newProtocolParticipant";
+    private static final String DOT = ".";
+    private static final String PARTICIPANT_TYPE_CODE_FIELD = "participantTypeCode";
+    private static final String PARTICIPANT_COUNT_FIELD = "participantCount";
 
     /**
      * Test adding a protocol participant when a count is specified.  This is allowed.
@@ -86,10 +49,15 @@ public class ProtocolParticipantRuleTest extends ProtocolRuleTestBase {
      */
     @Test
     public void testAddProtocolParticipantWithCount() throws Exception {
-        
-        ProtocolParticipantBean bean = getParticipantBean(OTHER_PARTICIPANT_TYPE_CD, "5");
-        assertTrue(rule.processAddProtocolParticipantBusinessRules(
-                getAddProtocolParticipantEvent(bean, getParticipantBeans())));
+        new TemplateRuleTest<AddProtocolParticipantEvent, AddProtocolParticipantRule> (){            
+            @Override
+            protected void prerequisite() {
+                event = new AddProtocolParticipantEvent(null, getProtocolParticipant(OTHER_PARTICIPANT_TYPE_CD, NEW_PARTICIPANT_COUNT), 
+                        getProtocolParticipants());
+                rule = new AddProtocolParticipantRule();
+                expectedReturnValue = true;
+            }
+        };
     }
 
     /**
@@ -99,10 +67,14 @@ public class ProtocolParticipantRuleTest extends ProtocolRuleTestBase {
      */
     @Test
     public void testAddProtocolParticipantWithoutCount() throws Exception {
-        
-        ProtocolParticipantBean bean = getParticipantBean(OTHER_PARTICIPANT_TYPE_CD, "");
-        assertTrue(rule.processAddProtocolParticipantBusinessRules(
-                getAddProtocolParticipantEvent(bean, getParticipantBeans())));
+        new TemplateRuleTest<AddProtocolParticipantEvent, AddProtocolParticipantRule> (){            
+            @Override
+            protected void prerequisite() {
+                event = new AddProtocolParticipantEvent(null, getProtocolParticipant(OTHER_PARTICIPANT_TYPE_CD, null), getProtocolParticipants());
+                rule = new AddProtocolParticipantRule();
+                expectedReturnValue = true;
+            }
+        };
     }
 
     /**
@@ -112,17 +84,20 @@ public class ProtocolParticipantRuleTest extends ProtocolRuleTestBase {
      */
     @Test
     public void testAddProtocolParticipantWithNegCount() throws Exception {
-        
-        ProtocolParticipantBean bean = getParticipantBean(CHILDREN_PARTICIPANT_TYPE_CD, String.valueOf(NEW_PARTICIPANT_NEG_COUNT));
-        
-        assertFalse(rule.processAddProtocolParticipantBusinessRules(
-                getAddProtocolParticipantEvent(bean, getParticipantBeans())));
-        
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_PROTOCOL_PARTICIPANT + 
-                ".participantCount");
-        assertTrue(errors.size()== 1);
-        ErrorMessage message = (ErrorMessage) errors.get(0);
-        assertEquals(message.getErrorKey(), KeyConstants.ERROR_PROTOCOL_PARTICIPANT_COUNT_INVALID);
+        new TemplateRuleTest<AddProtocolParticipantEvent, AddProtocolParticipantRule> (){            
+            @Override
+            protected void prerequisite() {
+                event = new AddProtocolParticipantEvent(null, getProtocolParticipant(CHILDREN_PARTICIPANT_TYPE_CD, NEW_PARTICIPANT_NEG_COUNT), 
+                        getProtocolParticipants());
+                rule = new AddProtocolParticipantRule();
+                expectedReturnValue = false;
+            }
+
+            @Override
+            public void checkRuleAssertions() {
+                assertError(PARTICIPANT_COUNT_FIELD, "error.format" + DOT + NumericValidationPattern.class.getName());
+            }
+        };
     }
     
     /**
@@ -132,84 +107,54 @@ public class ProtocolParticipantRuleTest extends ProtocolRuleTestBase {
      */
     @Test
     public void testAddDuplicateProtocolParticipant() throws Exception {
+        new TemplateRuleTest<AddProtocolParticipantEvent, AddProtocolParticipantRule> (){            
+            @Override
+            protected void prerequisite() {
+                event = new AddProtocolParticipantEvent(null, getProtocolParticipant(CHILDREN_PARTICIPANT_TYPE_CD, NEW_PARTICIPANT_COUNT), 
+                        getProtocolParticipants());
+                rule = new AddProtocolParticipantRule();
+                expectedReturnValue = false;
+            }
 
-        ProtocolDocument document = getNewProtocolDocument();
-        
-        ProtocolParticipantBean newParticipant = getParticipantBean(participantTypes.get(0).getParticipantTypeCode(), "5");
-        List<ProtocolParticipantBean> existingBeans = getParticipantBeans();
-        existingBeans.add(newParticipant);
-        
-        AddProtocolParticipantEvent event = new AddProtocolParticipantEvent(Constants.EMPTY_STRING, 
-                document, newParticipant, existingBeans);
-        assertFalse(rule.processAddProtocolParticipantBusinessRules(event));
-
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_PROTOCOL_PARTICIPANT + 
-                ".participantTypeCode");
-        assertTrue(errors.size()== 1);
-        ErrorMessage message = (ErrorMessage) errors.get(0);
-        assertEquals(message.getErrorKey(), KeyConstants.ERROR_PROTOCOL_PARTICIPANT_TYPE_DUPLICATE);
+            @Override
+            public void checkRuleAssertions() {
+                assertError(NEW_PROTOCOL_PARTICIPANT_FIELD + DOT + PARTICIPANT_TYPE_CODE_FIELD, KeyConstants.ERROR_PROTOCOL_PARTICIPANT_TYPE_DUPLICATE);
+            }
+        };
     }
 
     /**
      * Test adding a participant with an unspecified participant type.  This is not allowed.
      */
     @Test
-    public void testAddUnspecifiedProtocolParticipant() throws Exception {      
-      ProtocolParticipantBean bean = getParticipantBean("", "5");
-      
-      assertFalse(rule.processAddProtocolParticipantBusinessRules(
-              getAddProtocolParticipantEvent(bean, getParticipantBeans())));
-      
-      TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_PROTOCOL_PARTICIPANT + 
-              ".participantTypeCode");
-      assertTrue(errors.size()== 1);
-      ErrorMessage message = (ErrorMessage) errors.get(0);
-      assertEquals(message.getErrorKey(), KeyConstants.ERROR_PROTOCOL_PARTICIPANT_TYPE_NOT_SELECTED);
+    public void testAddUnspecifiedProtocolParticipant() throws Exception {
+        new TemplateRuleTest<AddProtocolParticipantEvent, AddProtocolParticipantRule> (){            
+            @Override
+            protected void prerequisite() {
+                event = new AddProtocolParticipantEvent(null, getProtocolParticipant(Constants.EMPTY_STRING, NEW_PARTICIPANT_COUNT), getProtocolParticipants());
+                rule = new AddProtocolParticipantRule();
+                expectedReturnValue = false;
+            }
+
+            @Override
+            public void checkRuleAssertions() {
+                assertError(PARTICIPANT_TYPE_CODE_FIELD, KeyConstants.ERROR_REQUIRED);
+            }
+        };
     }
 
-    /**
-     * Test adding an invalid participant type.  This is not allowed.
-     */
-    @Test
-    public void testAddInvalidProtocolParticipant() throws Exception {
-      ProtocolParticipantBean bean = getParticipantBean(INVALID_PARTICIPANT_TYPE_CD, "5");
-      
-      assertFalse(rule.processAddProtocolParticipantBusinessRules(
-              getAddProtocolParticipantEvent(bean, getParticipantBeans())));
-      
-      TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_PROTOCOL_PARTICIPANT +
-              ".participantTypeCode");
-      assertTrue(errors.size()== 1);
-      ErrorMessage message = (ErrorMessage) errors.get(0);
-      assertEquals(message.getErrorKey(), KeyConstants.ERROR_PROTOCOL_PARTICIPANT_TYPE_INVALID);
+    private ProtocolParticipant getProtocolParticipant(String participantTypeCode, Integer participantCount) {
+        ProtocolParticipant participant = new ProtocolParticipant();
+        participant.setParticipantTypeCode(participantTypeCode);
+        participant.setParticipantCount(participantCount);
+        return participant;
     }
     
-    private ProtocolParticipantBean getParticipantBean(String participantTypeCode, String participantCount) {
-        ProtocolParticipantBean bean = new ProtocolParticipantBean("beanId", participantTypeCode, participantCount, "generic description");
-        return bean;
+    private List<ProtocolParticipant> getProtocolParticipants(){
+        List<ProtocolParticipant> participants = new ArrayList<ProtocolParticipant>();
+        ProtocolParticipant participant = getProtocolParticipant(CHILDREN_PARTICIPANT_TYPE_CD, NEW_PARTICIPANT_COUNT);
+        participants.add(participant);
+        return participants;
     }
     
-    private List<ProtocolParticipantBean> getParticipantBeans(){
-        List<ProtocolParticipantBean> beans = new ArrayList<ProtocolParticipantBean>();
-        ProtocolParticipantBean bean = getParticipantBean(CHILDREN_PARTICIPANT_TYPE_CD, "5");
-        bean.setProtocolParticipantId("beanId101");
-        beans.add(bean);
-        return beans;
-    }
-
-    /*
-     * This method is to get add protocol participant event
-     * @param newProtocolParticipant
-     * @return event
-     * @throws Exception
-     */
-    private AddProtocolParticipantEvent getAddProtocolParticipantEvent(ProtocolParticipantBean 
-            newParticipant, List<ProtocolParticipantBean> existingBeans) throws Exception {
-        ProtocolDocument document = getNewProtocolDocument();
-        
-        AddProtocolParticipantEvent event = new AddProtocolParticipantEvent(Constants.EMPTY_STRING, document,
-                newParticipant, existingBeans);
-        
-        return event;
-    }
 }

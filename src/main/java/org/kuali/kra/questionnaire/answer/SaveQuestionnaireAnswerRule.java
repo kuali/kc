@@ -17,13 +17,13 @@ package org.kuali.kra.questionnaire.answer;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.rice.kns.datadictionary.validation.ValidationPattern;
 import org.kuali.rice.kns.datadictionary.validation.charlevel.AnyCharacterValidationPattern;
 import org.kuali.rice.kns.datadictionary.validation.charlevel.NumericValidationPattern;
@@ -35,7 +35,7 @@ import org.kuali.rice.kns.util.RiceKeyConstants;
  * 
  * This class is primarily to validate questionnaire answer format.
  */
-public class QuestionnaireAnswerRule {
+public class SaveQuestionnaireAnswerRule implements BusinessRuleInterface<SaveQuestionnaireAnswerEvent> {
 
     private static final String QUESTION_TYPE_NUMBER = "3";
     private static final String QUESTION_TYPE_DATE = "4";
@@ -43,6 +43,7 @@ public class QuestionnaireAnswerRule {
     private static final String ANSWER = "Answer ";
     private static final String DATE_REGEX = "(0?[1-9]|1[012])/(0?[1-9]|[12][0-9]|3[01])/(19|2[0-9])[0-9]{2}";
     private static final Map<String, ValidationPattern> VALIDATION_CLASSES;
+    
     static {
         final Map<String, ValidationPattern> tempPatterns = new HashMap<String, ValidationPattern>();
 
@@ -55,24 +56,19 @@ public class QuestionnaireAnswerRule {
 
         VALIDATION_CLASSES = Collections.unmodifiableMap(tempPatterns);
     }
-
+    
     /**
-     * 
-     * This method will validate 'answer' if it not empty.
-     * 
-     * @param answerHeaders
-     * @return
+     * {@inheritDoc}
+     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
      */
-    public boolean processQuestionnaireAnswerRules(List<AnswerHeader> answerHeaders) {
+    public boolean processRules(SaveQuestionnaireAnswerEvent event) {
         boolean valid = true;
         int answerHeaderIndex = 0;
-        for (AnswerHeader answerHeader : answerHeaders) {
+        for (AnswerHeader answerHeader : event.getAnswerHeaders()) {
             int questionIndex = 0;
             for (Answer answer : answerHeader.getAnswers()) {
-                String errorKey = "questionnaireHelper.answerHeaders[" + answerHeaderIndex + "].answers[" + questionIndex
-                        + "].answer";
-                if (StringUtils.isNotBlank(answer.getAnswer())
-                        && VALIDATION_CLASSES.containsKey(answer.getQuestion().getQuestionTypeId().toString())) {
+                String errorKey = "questionnaireHelper.answerHeaders[" + answerHeaderIndex + "].answers[" + questionIndex + "].answer";
+                if (StringUtils.isNotBlank(answer.getAnswer()) && VALIDATION_CLASSES.containsKey(answer.getQuestion().getQuestionTypeId().toString())) {
                     boolean validAttributeFormat = validateAttributeFormat(answer, errorKey, questionIndex);
                     if (!validAttributeFormat) {
                         answerHeader.setShowQuestions("Y");
@@ -98,8 +94,6 @@ public class QuestionnaireAnswerRule {
      * @return
      */
     private boolean validateAttributeFormat(Answer answer, String errorKey, int questionIndex) {
-
-
         boolean valid = true;
 
         ValidationPattern validationPattern = VALIDATION_CLASSES.get(answer.getQuestion().getQuestionTypeId().toString());
@@ -134,6 +128,5 @@ public class QuestionnaireAnswerRule {
         }
         return validFormat;
     }
-
 
 }

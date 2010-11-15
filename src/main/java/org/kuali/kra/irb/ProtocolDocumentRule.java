@@ -60,26 +60,18 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionRule;
 import org.kuali.kra.irb.noteattachment.SubmitProtocolAttachmentProtocolRuleImpl;
 import org.kuali.kra.irb.permission.ProtocolPermissionsRule;
-import org.kuali.kra.irb.personnel.AddProtocolPersonnelEvent;
-import org.kuali.kra.irb.personnel.AddProtocolPersonnelRule;
 import org.kuali.kra.irb.personnel.AddProtocolUnitEvent;
 import org.kuali.kra.irb.personnel.AddProtocolUnitRule;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelAuditRule;
-import org.kuali.kra.irb.personnel.ProtocolPersonnelRuleBase;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelService;
 import org.kuali.kra.irb.personnel.ProtocolUnitRule;
 import org.kuali.kra.irb.personnel.SaveProtocolPersonnelEvent;
-import org.kuali.kra.irb.personnel.SaveProtocolPersonnelRule;
 import org.kuali.kra.irb.protocol.funding.AddProtocolFundingSourceEvent;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceAuditRule;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceRule;
 import org.kuali.kra.irb.protocol.location.AddProtocolLocationEvent;
 import org.kuali.kra.irb.protocol.location.AddProtocolLocationRule;
 import org.kuali.kra.irb.protocol.location.ProtocolLocationRule;
-import org.kuali.kra.irb.protocol.participant.AddProtocolParticipantEvent;
-import org.kuali.kra.irb.protocol.participant.AddProtocolParticipantRule;
-import org.kuali.kra.irb.protocol.participant.ProtocolParticipant;
-import org.kuali.kra.irb.protocol.participant.ProtocolParticipantRule;
 import org.kuali.kra.irb.protocol.reference.AddProtocolReferenceEvent;
 import org.kuali.kra.irb.protocol.reference.AddProtocolReferenceRule;
 import org.kuali.kra.irb.protocol.reference.ProtocolReferenceRule;
@@ -90,7 +82,6 @@ import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.kra.rules.SaveCustomAttributeRule;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.util.ErrorMap;
@@ -101,7 +92,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolParticipantRule, AddProtocolLocationRule, PermissionsRule, AddProtocolUnitRule, BusinessRuleInterface, ExecuteProtocolSubmitActionRule, ExecuteProtocolAssignCmtSchedRule, ExecuteProtocolAssignReviewersRule, ExecuteProtocolAdminCorrectionRule, ExecuteCommitteeDecisionRule, ExecuteCommitteeDecisionAbstainerRule, ExecuteCommitteeDecisionRecuserRule, ExecuteProtocolModifySubmissionRule, ExecuteProtocolApproveRule, ExecuteProtocolReviewNotRequiredRule {
+public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolLocationRule, PermissionsRule, AddProtocolUnitRule, BusinessRuleInterface, ExecuteProtocolSubmitActionRule, ExecuteProtocolAssignCmtSchedRule, ExecuteProtocolAssignReviewersRule, ExecuteProtocolAdminCorrectionRule, ExecuteCommitteeDecisionRule, ExecuteCommitteeDecisionAbstainerRule, ExecuteCommitteeDecisionRecuserRule, ExecuteProtocolModifySubmissionRule, ExecuteProtocolApproveRule, ExecuteProtocolReviewNotRequiredRule {
 
     private static final String PROTOCOL_PIID_FORM_ELEMENT="protocolHelper.personId";
     private static final String PROTOCOL_LUN_FORM_ELEMENT="protocolHelper.leadUnitNumber";
@@ -134,7 +125,6 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         boolean valid = true;
         valid &= processLeadUnitBusinessRules((ProtocolDocument) document);
         valid &= processProtocolLocationBusinessRules((ProtocolDocument) document);
-        valid &= processProtocolParticipantBusinessRules((ProtocolDocument) document);
         valid &= processProtocolPersonnelBusinessRules((ProtocolDocument) document);
         valid &= processProtocolCustomDataBusinessRules((ProtocolDocument) document);
         valid &= processProtocolSpecialReviewBusinessRules((ProtocolDocument) document);
@@ -200,30 +190,6 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         }
         return isValid;
     }
-
-    /**
-     * At least one organization must be entered.  
-     * If the default value is removed, another organization must be added before user 
-     * can save
-     * @param document
-     * @return <code>true</code> if document passed the protocol participant validation, 
-     *         <code>false</code> otherwise.
-     */
-    public boolean processProtocolParticipantBusinessRules(ProtocolDocument document) {
-        final String ERROR_PROPERTY_PREFIX = "document.protocolList[0].protocolParticipants[";
-        final String ERROR_PROPERTY_PARTICIPANT_COUNT = "].participantCount";
-        boolean isValid = true;
-        List<ProtocolParticipant> protocolParticipants = document.getProtocol().getProtocolParticipants();
-        for(ProtocolParticipant protocolParticipant: protocolParticipants) {
-            if ((protocolParticipant.getParticipantCount() != null) && (protocolParticipant.getParticipantCount() == 0)) {
-                int index = protocolParticipants.indexOf(protocolParticipant);
-                String errorPath = ERROR_PROPERTY_PREFIX + index + ERROR_PROPERTY_PARTICIPANT_COUNT;
-                reportError(errorPath, KeyConstants.ERROR_PROTOCOL_PARTICIPANT_COUNT_INVALID);
-                isValid = false;
-            }
-        }
-        return isValid;
-    }
     
     private boolean processProtocolPersonnelBusinessRules(ProtocolDocument document) {
         return processRules(new SaveProtocolPersonnelEvent(Constants.EMPTY_STRING, document));
@@ -236,13 +202,6 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
     private boolean processProtocolSpecialReviewBusinessRules(ProtocolDocument document) {
         List<ProtocolSpecialReview> specialReviews = document.getProtocol().getSpecialReviews();
         return processRules(new SaveSpecialReviewEvent<ProtocolSpecialReview>(SAVE_SPECIAL_REVIEW_FIELD, document, specialReviews));
-    }
-
-    /**
-     * @see org.kuali.kra.irb.protocol.participant.AddProtocolParticipantRule#processAddParticipantBusinessRules(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.protocol.participant.ProtocolParticipant)
-     */
-    public boolean processAddProtocolParticipantBusinessRules(AddProtocolParticipantEvent addProtocolParticipantEvent) {
-        return new ProtocolParticipantRule().processAddProtocolParticipantBusinessRules(addProtocolParticipantEvent);
     }
 
     public boolean processAddProtocolReferenceBusinessRules(AddProtocolReferenceEvent addProtocolReferenceEvent) {
