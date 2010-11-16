@@ -687,6 +687,9 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             
             recordProtocolActionSuccess("Create Renewal without Amendment");
             
+            // Form fields copy needed to support modifyAmendmentSections
+            protocolForm.getActionHelper().getProtocolAmendmentBean().setSummary(protocolForm.getActionHelper().getRenewalSummary());
+            
             return mapping.findForward(PROTOCOL_TAB);
         }
         return mapping.findForward(MAPPING_BASIC);
