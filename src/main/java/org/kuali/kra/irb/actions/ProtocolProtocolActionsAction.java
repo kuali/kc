@@ -3243,29 +3243,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
     }
     
-    /**
-     * 
-     * This method is a nice tool to print off everything in the request object.  Great for debugging.
-     * @param request
-     */
-    private void debugPrintRequest(HttpServletRequest request) {
-        java.util.Iterator keys = request.getParameterMap().keySet().iterator();
-        String newLine = "\n";
-        StringBuffer sb = new StringBuffer("************************************************").append(newLine);
-        while(keys.hasNext()) {
-            String key = (String)keys.next();
-            sb.append(key).append(" : ");
-            try {
-                sb.append(request.getParameterMap().get(key).toString());
-            } catch(Exception e) {
-                sb.append(e.getMessage());
-            }
-            sb.append(newLine);
-        }
-        sb.append("****************************").append(newLine);
-        System.err.println(sb.toString());
-    }
-    
     private ProtocolAttachmentService getProtocolAttachmentService() {
         return KraServiceLocator.getService(ProtocolAttachmentService.class);
     }
