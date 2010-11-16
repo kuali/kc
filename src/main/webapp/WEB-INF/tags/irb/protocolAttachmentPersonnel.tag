@@ -17,12 +17,12 @@
 
 <c:set var="protocolAttachmentPersonnelAttributes" value="${DataDictionary.ProtocolAttachmentPersonnel.attributes}" />
 <c:set var="attachmentFileAttributes" value="${DataDictionary.AttachmentFile.attributes}" />
-<c:set var="attachmentsHelper" value="${KualiForm.attachmentsHelper}" />
-<c:set var="modify" value="${KualiForm.attachmentsHelper.modifyAttachments}" />
+<c:set var="notesAttachmentsHelper" value="${KualiForm.notesAttachmentsHelper}" />
+<c:set var="modify" value="${KualiForm.notesAttachmentsHelper.modifyAttachments}" />
 <c:set var="action" value="protocolNoteAndAttachment" />
 <c:set var="attachmentPersonnels" value="${KualiForm.document.protocolList[0].attachmentPersonnels}"/>
 
-<kul:tab tabTitle="Personnel Attachments" tabItemCount="${fn:length(attachmentPersonnels)}" defaultOpen="false" tabErrorKey="attachmentsHelper.newAttachmentPersonnel.*,document.protocol.attachmentPersonnels*" transparentBackground="false">
+<kul:tab tabTitle="Personnel Attachments" tabItemCount="${fn:length(attachmentPersonnels)}" defaultOpen="false" tabErrorKey="notesAttachmentsHelper.newAttachmentPersonnel.*,document.protocol.attachmentPersonnels*" transparentBackground="false">
 	<div class="tab-container" align="center">
    		<h3>
    			<span class="subhead-left">${modify ? "Add Personnel Attachment" : "Personnel Attachments"}</span>
@@ -79,21 +79,21 @@
 					</td>
 	                <td align="left" valign="middle" class="infoline">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="attachmentsHelper.newAttachmentPersonnel.updateTimestamp" attributeEntry="${protocolAttachmentPersonnelAttributes.updateTimestamp}" readOnly="true"/>
+	                		<kul:htmlControlAttribute property="notesAttachmentsHelper.newAttachmentPersonnel.updateTimestamp" attributeEntry="${protocolAttachmentPersonnelAttributes.updateTimestamp}" readOnly="true"/>
 		            	</div>
 					</td>
 	                <td align="left" valign="middle" class="infoline">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="attachmentsHelper.newAttachmentPersonnel.updateUser" attributeEntry="${protocolAttachmentPersonnelAttributes.updateUser}" readOnly="true"/>
+	                		<kul:htmlControlAttribute property="notesAttachmentsHelper.newAttachmentPersonnel.updateUser" attributeEntry="${protocolAttachmentPersonnelAttributes.updateUser}" readOnly="true"/>
 		            	</div>
 					</td>
 					<td align="left" valign="middle" class="infoline">
 	                	<div align="left">
-	                		<c:set var="property" value="attachmentsHelper.newAttachmentPersonnel.personId" />
+	                		<c:set var="property" value="notesAttachmentsHelper.newAttachmentPersonnel.personId" />
 	                		
 	                		<%-- attachment type finder logic start--%>
 								<jsp:useBean id="typeParamsPerson" class="java.util.HashMap" />
-								<c:set target="${typeParamsPerson}" property="protocolId" value="${attachmentsHelper.protocol.protocolId}" />
+								<c:set target="${typeParamsPerson}" property="protocolId" value="${notesAttachmentsHelper.protocol.protocolId}" />
 								<c:set var="options" value="${krafn:getOptionList('org.kuali.kra.irb.personnel.ProtocolPersonValuesFinder', typeParamsPerson)}" />
 							<%-- attachment type finder logic end --%>
 	               			
@@ -111,11 +111,11 @@
 					</td>
 	         		<td align="left" valign="middle" class="infoline">
 	                	<div align="left">
-	                		<c:set var="property" value="attachmentsHelper.newAttachmentPersonnel.typeCode" />
+	                		<c:set var="property" value="notesAttachmentsHelper.newAttachmentPersonnel.typeCode" />
 	                		
 	                		<%-- attachment type finder logic start--%>
 								<jsp:useBean id="typeParamsType" class="java.util.HashMap"/>
-								<c:set target="${typeParamsType}" property="groupCode" value="${attachmentsHelper.newAttachmentPersonnel.groupCode}" />
+								<c:set target="${typeParamsType}" property="groupCode" value="${notesAttachmentsHelper.newAttachmentPersonnel.groupCode}" />
 								<c:set var="options" value="${krafn:getOptionList('org.kuali.kra.irb.noteattachment.ProtocolAttachmentTypeByGroupValuesFinder', typeParamsType)}" />
 							<%-- attachment type finder logic end --%>
 	               			
@@ -133,12 +133,12 @@
 					</td>
 					<td align="left" valign="middle" class="infoline">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="attachmentsHelper.newAttachmentPersonnel.description" attributeEntry="${protocolAttachmentPersonnelAttributes.description}"/>
+	                		<kul:htmlControlAttribute property="notesAttachmentsHelper.newAttachmentPersonnel.description" attributeEntry="${protocolAttachmentPersonnelAttributes.description}"/>
 		            	</div>
 					</td>
 					<td align="left" valign="middle" class="infoline">
 	              		<div align="left">
-	              		    <c:set var="property" value="attachmentsHelper.newAttachmentPersonnel.newFile" />
+	              		    <c:set var="property" value="notesAttachmentsHelper.newAttachmentPersonnel.newFile" />
 	              		
 	              		    <%-- attachment file error handling logic start--%>
 	               				<kul:checkErrors keyMatch="${property}" auditMatch="${property}"/>

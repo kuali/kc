@@ -40,7 +40,7 @@ public class RouteProtocolOnlineReviewEvent extends KraDocumentEventBase {
      */
     public RouteProtocolOnlineReviewEvent(final ProtocolOnlineReviewDocument document,
         final List<CommitteeScheduleMinute> minutes, final long onlineReviewIndex ) {
-        super("adding new protocol notepad", "notepadHelper", document);
+        super("adding new protocol notepad", "notesAttachmentsHelper", document);
         this.onlineReviewIndex = onlineReviewIndex;
         if (document == null) {
             throw new IllegalArgumentException("the document is null");

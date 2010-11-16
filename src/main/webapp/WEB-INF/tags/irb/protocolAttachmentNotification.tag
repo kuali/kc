@@ -16,13 +16,13 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="protocolAttachmentNotificationAttributes" value="${DataDictionary.ProtocolAttachmentNotification.attributes}" />
-<c:set var="attachmentsHelper" value="${KualiForm.attachmentsHelper}" />
-<c:set var="readOnly" value="${!KualiForm.attachmentsHelper.modifyProtocol}" />
+<c:set var="notesAttachmentsHelper" value="${KualiForm.notesAttachmentsHelper}" />
+<c:set var="readOnly" value="${!KualiForm.notesAttachmentsHelper.modifyProtocol}" />
 <c:set var="action" value="protocolNoteAndAttachment" />
 <c:set var="attachmentNotifications" value="${KualiForm.document.protocolList[0].attachmentNotifications}"/>
 <c:set var="commentDisplayLength" value="<%=org.kuali.kra.infrastructure.Constants.PROTOCOL_ATTACHMENT_NOTIFICATION_COMMENTS%>" />
 
-<kul:tab tabTitle="Notifications From Attachments" tabItemCount="${fn:length(attachmentNotifications)}" defaultOpen="false" tabErrorKey="attachmentsHelper.newAttachmentNotification.*,document.protocol.attachmentNotifications*" transparentBackground="false">
+<kul:tab tabTitle="Notifications From Attachments" tabItemCount="${fn:length(attachmentNotifications)}" defaultOpen="false" tabErrorKey="notesAttachmentsHelper.newAttachmentNotification.*,document.protocol.attachmentNotifications*" transparentBackground="false">
 	<div class="tab-container" align="center">
    		<%-- add functionality for dev only - START --%>
    		<h3>
@@ -38,7 +38,7 @@
          		</th>
          		<td align="left" valign="middle">
                 	<div align="left">
-                		<kul:htmlControlAttribute property="attachmentsHelper.newAttachmentNotification.updateUser" attributeEntry="${protocolAttachmentNotificationAttributes.updateUser}" readOnly="true"/>
+                		<kul:htmlControlAttribute property="notesAttachmentsHelper.newAttachmentNotification.updateUser" attributeEntry="${protocolAttachmentNotificationAttributes.updateUser}" readOnly="true"/>
 	            	</div>
 				</td>
                <th>
@@ -48,7 +48,7 @@
 				</th>
        			<td align="left" valign="middle">
               		<div align="left">
-              			<c:set var="property" value="attachmentsHelper.newAttachmentNotification.newFile" />
+              			<c:set var="property" value="notesAttachmentsHelper.newAttachmentNotification.newFile" />
               		
               		    <%-- attachment file error handling logic start--%>
                				<kul:checkErrors keyMatch="${property}" auditMatch="${property}"/>
@@ -68,7 +68,7 @@
          		</th>
          		<td align="left" valign="middle">
                 	<div align="left">
-                		<kul:htmlControlAttribute property="attachmentsHelper.newAttachmentNotification.updateTimestamp" attributeEntry="${protocolAttachmentNotificationAttributes.updateTimestamp}" readOnly="true"/>
+                		<kul:htmlControlAttribute property="notesAttachmentsHelper.newAttachmentNotification.updateTimestamp" attributeEntry="${protocolAttachmentNotificationAttributes.updateTimestamp}" readOnly="true"/>
 	            	</div>
 				</td>
 				<th>
@@ -78,7 +78,7 @@
 				</th>
          		<td align="left" valign="middle">
                 	<div align="left">
-                		<kul:htmlControlAttribute property="attachmentsHelper.newAttachmentNotification.actionDate" attributeEntry="${protocolAttachmentNotificationAttributes.actionDate}" />
+                		<kul:htmlControlAttribute property="notesAttachmentsHelper.newAttachmentNotification.actionDate" attributeEntry="${protocolAttachmentNotificationAttributes.actionDate}" />
 	            	</div>
 				</td>
          	</tr>
@@ -90,7 +90,7 @@
          		</th>
          		<td align="left" valign="middle">
                 	<div align="left">
-                		<kul:htmlControlAttribute property="attachmentsHelper.newAttachmentNotification.comments" attributeEntry="${protocolAttachmentNotificationAttributes.comments}"/>
+                		<kul:htmlControlAttribute property="notesAttachmentsHelper.newAttachmentNotification.comments" attributeEntry="${protocolAttachmentNotificationAttributes.comments}"/>
 	            	</div>
 				</td>
          	</tr>
