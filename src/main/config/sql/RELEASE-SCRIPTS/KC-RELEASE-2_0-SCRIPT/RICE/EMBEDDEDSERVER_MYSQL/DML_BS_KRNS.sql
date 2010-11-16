@@ -895,4 +895,7 @@ VALUES ('KUALI','KC-M','sponsorHierarchyHelp','D','HELP','A','default.htm?turl=D
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_NM,PARM_DTL_TYP_CD,PARM_TYP_CD,CONS_CD,TXT,PARM_DESC_TXT,VER_NBR,OBJ_ID) 
 VALUES ('KUALI','KC-M','sponsorHierarchyCreateNewHelp','D','HELP','A','default.htm?turl=Documents%2Fsponsorhierarchy.htm','Sponsor Hierarchy Help',1,UUID());
 
+INSERT INTO KRNS_CAMPUS_T (ACTV_IND,CAMPUS_CD,CAMPUS_NM,CAMPUS_SHRT_NM,CAMPUS_TYP_CD,OBJ_ID,VER_NBR)
+  VALUES ('Y','UN','UNIVERSITY','UNIVERSITY','B',UUID(),1);
+
 COMMIT;
