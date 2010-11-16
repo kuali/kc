@@ -53,7 +53,6 @@ public class AccountCreationServiceSOAP extends Service {
         try {
             url = new URL(urlString);
         } catch (MalformedURLException e) {
-            System.err.println("Can not initialize the default wsdl from " + urlString +  e);
             LOG.error(e.getMessage(), e);
         }
         WSDL_LOCATION = url;

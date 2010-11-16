@@ -59,13 +59,11 @@ public class ProtocolReference extends ProtocolAssociate {
 	 * @throws ParseException
 	 */
 	public ProtocolReference(ProtocolReferenceBean bean, Protocol protocol, ProtocolReferenceType protocolReferenceType) throws ParseException {
-	    System.err.println("Got HEre!!!!!");
 	    this.protocolReferenceType = protocolReferenceType;
 	    this.protocolReferenceTypeCode = protocolReferenceType.getProtocolReferenceTypeCode();
 	    this.setProtocol(protocol);
 	    this.setProtocolId(protocol.getProtocolId());
 	    this.setProtocolNumber(protocol.getProtocolNumber());
-	    System.err.println("protocol.getProtocolNumber(): " + protocol.getProtocolNumber());
 	    this.referenceKey = bean.getReferenceKey();
 	    this.comments = bean.getComments();
 	    this.setApplicationDate(convertStringToDate(bean.getApplicationDate()));
