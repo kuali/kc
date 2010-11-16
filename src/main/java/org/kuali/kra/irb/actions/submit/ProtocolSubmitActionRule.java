@@ -194,7 +194,6 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
     private boolean isReviewerValid(ProtocolReviewerBean reviewer, int reviewerIndex) {
         boolean isValid = true;
         String reviewerTypeCode = reviewer.getReviewerTypeCode();
-        boolean isChecked = reviewer.getChecked();
         
         String parameterName = Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".reviewer[" + reviewerIndex + "].reviewerTypeCode";
         
@@ -202,18 +201,6 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
         if (!StringUtils.isBlank(reviewerTypeCode) && isReviewerTypeInvalid(reviewerTypeCode)) {
             isValid = false;
             this.reportError(parameterName, KeyConstants.ERROR_PROTOCOL_REVIEWER_TYPE_INVALID, reviewer.getFullName());
-        }
-        
-        // if reviewer checked and type code empty, report an error
-        if (isChecked && StringUtils.isBlank(reviewerTypeCode)) {
-            isValid = false;
-            this.reportError(parameterName, KeyConstants.ERROR_PROTOCOL_REVIEWER_NO_TYPE_BUT_REVIEWER_CHECKED, reviewer.getFullName());
-        }
-        
-        // if reviewer unchecked and type code not empty, report an error
-        if (!isChecked && !StringUtils.isBlank(reviewerTypeCode)) {
-            isValid = false;
-            this.reportError(parameterName, KeyConstants.ERROR_PROTOCOL_REVIEWER_NOT_CHECKED_BUT_TYPE_SELECTED, reviewer.getFullName());
         }
         
         return isValid;

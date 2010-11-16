@@ -41,8 +41,6 @@
                                             <c:forEach var="reviewer" items="${KualiForm.actionHelper.protocolAssignReviewersBean.leftReviewers}" varStatus="status">
                                                 <tr>
                                                     <td style="border: 0 none">
-                                                        <kul:htmlControlAttribute property="actionHelper.protocolAssignReviewersBean.reviewer[${status.index}].checked"
-                                                                                  attributeEntry="${reviewerAttributes.checked}"/>
                                                         ${reviewer.fullName}
                                                     </td>
                                                     <td style="border: 0 none">
@@ -59,8 +57,6 @@
                                             <c:forEach var="reviewer" items="${KualiForm.actionHelper.protocolAssignReviewersBean.rightReviewers}" varStatus="status">
                                                 <tr>
                                                     <td style="border: 0 none">
-                                                        <kul:htmlControlAttribute property="actionHelper.protocolAssignReviewersBean.reviewer[${status.index + numLeftReviewers}].checked"
-                                                                                  attributeEntry="${reviewerAttributes.checked}"/>
                                                         ${reviewer.fullName}
                                                     </td>
                                                     <td style="border: 0 none">

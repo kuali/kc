@@ -136,8 +136,6 @@
 						                        	<c:forEach var="reviewer" items="${KualiForm.actionHelper.protocolSubmitAction.leftReviewers}" varStatus="status">
 						                        	    <tr>
 						                        	        <td style="border: 0 none">
-						                        	            <kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.reviewer[${status.index}].checked"
-		                                                                                  attributeEntry="${reviewerAttributes.checked}"/>
 		                                                        ${reviewer.fullName}
 		                                                    </td>
 						                        	        <td style="border: 0 none">
@@ -154,8 +152,6 @@
 						                        	<c:forEach var="reviewer" items="${KualiForm.actionHelper.protocolSubmitAction.rightReviewers}" varStatus="status">
 						                        	    <tr>
 						                        	        <td style="border: 0 none">
-						                        	            <kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.reviewer[${status.index + numLeftReviewers}].checked"
-		                                                                                  attributeEntry="${reviewerAttributes.checked}"/>
 		                                                        ${reviewer.fullName}
 		                                                    </td>
 						                        	        <td style="border: 0 none">
