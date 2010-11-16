@@ -19,11 +19,11 @@ package org.kuali.kra.irb.noteattachment;
  * Contains all the property prefixes used in this package.
  */
 public enum NoteAndAttachmentPrefix {
-    NEW_ATTACHMENT_PROTOCOL("attachmentsHelper.newAttachmentProtocol", false),
-    NEW_ATTACHMENT_PERSONNEL("attachmentsHelper.newAttachmentPersonnel", false),
+    NEW_ATTACHMENT_PROTOCOL("notesAttachmentsHelper.newAttachmentProtocol", false),
+    NEW_ATTACHMENT_PERSONNEL("notesAttachmentsHelper.newAttachmentPersonnel", false),
     ATTACHMENT_PROTOCOL("document.protocolList[0].attachmentProtocols", true),
     ATTACHMENT_PERSONNEL("document.protocolList[0].attachmentPersonnels", true),
-    NEW_NOTEPAD("notepadHelper.newProtocolNotepad", false);
+    NEW_NOTEPAD("notesAttachmentsHelper.newProtocolNotepad", false);
     
     private final String name;
     private final boolean indexed;

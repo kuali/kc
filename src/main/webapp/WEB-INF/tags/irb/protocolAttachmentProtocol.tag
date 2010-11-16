@@ -17,12 +17,12 @@
 
 <c:set var="protocolAttachmentProtocolAttributes" value="${DataDictionary.ProtocolAttachmentProtocol.attributes}" />
 <c:set var="attachmentFileAttributes" value="${DataDictionary.AttachmentFile.attributes}" />
-<c:set var="attachmentsHelper" value="${KualiForm.attachmentsHelper}" />
-<c:set var="modify" value="${KualiForm.attachmentsHelper.modifyAttachments}" />
+<c:set var="notesAttachmentsHelper" value="${KualiForm.notesAttachmentsHelper}" />
+<c:set var="modify" value="${KualiForm.notesAttachmentsHelper.modifyAttachments}" />
 <c:set var="action" value="protocolNoteAndAttachment" />
 <c:set var="attachmentProtocols" value="${KualiForm.document.protocolList[0].attachmentProtocols}"/>
 
-<kul:tab tabTitle="Protocol Attachments" tabItemCount="${fn:length(KualiForm.document.protocolList[0].activeAttachmentProtocols)}" defaultOpen="false" tabErrorKey="attachmentsHelper.newAttachmentProtocol.*" transparentBackground="true" tabAuditKey="document.protocolList[0].attachmentProtocols*">
+<kul:tab tabTitle="Protocol Attachments" tabItemCount="${fn:length(KualiForm.document.protocolList[0].activeAttachmentProtocols)}" defaultOpen="false" tabErrorKey="notesAttachmentsHelper.newAttachmentProtocol.*" transparentBackground="true" tabAuditKey="document.protocolList[0].attachmentProtocols*">
 	<div class="tab-container" align="center">
    		<kra:permission value="${modify}">
 	   		<h3>
@@ -38,11 +38,11 @@
 	         		</th>
 	         		<td align="left" valign="middle" colspan="3">
 	                	<div align="left">
-	                		<c:set var="property" value="attachmentsHelper.newAttachmentProtocol.typeCode" />
+	                		<c:set var="property" value="notesAttachmentsHelper.newAttachmentProtocol.typeCode" />
 	                	
 	               			<%-- attachment type finder logic start--%>
 								<jsp:useBean id="typeParamsType" class="java.util.HashMap"/>
-								<c:set target="${typeParamsType}" property="groupCode" value="${attachmentsHelper.newAttachmentProtocol.groupCode}" />
+								<c:set target="${typeParamsType}" property="groupCode" value="${notesAttachmentsHelper.newAttachmentProtocol.groupCode}" />
 								<c:set var="options" value="${krafn:getOptionList('org.kuali.kra.irb.noteattachment.ProtocolAttachmentTypeByGroupValuesFinder', typeParamsType)}" />
 							<%-- attachment type finder logic end --%>
 							
@@ -68,7 +68,7 @@
 	         		</th>
 	         		<td align="left" valign="middle">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="attachmentsHelper.newAttachmentProtocol.statusCode" attributeEntry="${protocolAttachmentProtocolAttributes['statusCode']}"/>
+	                		<kul:htmlControlAttribute property="notesAttachmentsHelper.newAttachmentProtocol.statusCode" attributeEntry="${protocolAttachmentProtocolAttributes['statusCode']}"/>
 		            	</div>
 					</td>
 					<th>
@@ -78,7 +78,7 @@
 					</th>
 	         		<td align="left" valign="middle">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="attachmentsHelper.newAttachmentProtocol.contactName" attributeEntry="${protocolAttachmentProtocolAttributes.contactName}"/>
+	                		<kul:htmlControlAttribute property="notesAttachmentsHelper.newAttachmentProtocol.contactName" attributeEntry="${protocolAttachmentProtocolAttributes.contactName}"/>
 		            	</div>
 					</td>
 	         	</tr>
@@ -90,7 +90,7 @@
 	         		</th>
 	         		<td align="left" valign="middle">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="attachmentsHelper.newAttachmentProtocol.updateUser" attributeEntry="${protocolAttachmentProtocolAttributes.updateUser}" readOnly="true"/>
+	                		<kul:htmlControlAttribute property="notesAttachmentsHelper.newAttachmentProtocol.updateUser" attributeEntry="${protocolAttachmentProtocolAttributes.updateUser}" readOnly="true"/>
 		            	</div>
 					</td>
 					<th>
@@ -100,7 +100,7 @@
 					</th>
 	         			<td align="left" valign="middle">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="attachmentsHelper.newAttachmentProtocol.contactEmailAddress" attributeEntry="${protocolAttachmentProtocolAttributes.contactEmailAddress}"/>
+	                		<kul:htmlControlAttribute property="notesAttachmentsHelper.newAttachmentProtocol.contactEmailAddress" attributeEntry="${protocolAttachmentProtocolAttributes.contactEmailAddress}"/>
 		            	</div>
 					</td>
 	         	</tr>
@@ -112,7 +112,7 @@
 	         		</th>
 	         		<td align="left" valign="middle">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="attachmentsHelper.newAttachmentProtocol.updateTimestamp" attributeEntry="${protocolAttachmentProtocolAttributes.updateTimestamp}" readOnly="true"/>
+	                		<kul:htmlControlAttribute property="notesAttachmentsHelper.newAttachmentProtocol.updateTimestamp" attributeEntry="${protocolAttachmentProtocolAttributes.updateTimestamp}" readOnly="true"/>
 		            	</div>
 					</td>
 					<th>
@@ -122,7 +122,7 @@
 					</th>
 	         		<td align="left" valign="middle">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="attachmentsHelper.newAttachmentProtocol.contactPhoneNumber" attributeEntry="${protocolAttachmentProtocolAttributes.contactPhoneNumber}"/>
+	                		<kul:htmlControlAttribute property="notesAttachmentsHelper.newAttachmentProtocol.contactPhoneNumber" attributeEntry="${protocolAttachmentProtocolAttributes.contactPhoneNumber}"/>
 		            	</div>
 					</td>
 	         	</tr>
@@ -134,7 +134,7 @@
 	         		</th>
 	         		<td align="left" valign="middle">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="attachmentsHelper.newAttachmentProtocol.comments" attributeEntry="${protocolAttachmentProtocolAttributes.comments}"/>
+	                		<kul:htmlControlAttribute property="notesAttachmentsHelper.newAttachmentProtocol.comments" attributeEntry="${protocolAttachmentProtocolAttributes.comments}"/>
 		            	</div>
 					</td>
 					<th>
@@ -144,7 +144,7 @@
 					</th>
 	         		<td align="left" valign="middle">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="attachmentsHelper.newAttachmentProtocol.description" attributeEntry="${protocolAttachmentProtocolAttributes.description}"/>
+	                		<kul:htmlControlAttribute property="notesAttachmentsHelper.newAttachmentProtocol.description" attributeEntry="${protocolAttachmentProtocolAttributes.description}"/>
 		            	</div>
 					</td>
 	         	</tr>
@@ -156,7 +156,7 @@
 					</th>
 	       			<td align="left" valign="middle" colspan="3">
 	              		<div align="left">
-	              			<c:set var="property" value="attachmentsHelper.newAttachmentProtocol.newFile" />
+	              			<c:set var="property" value="notesAttachmentsHelper.newAttachmentProtocol.newFile" />
 	              		
 	              		    <%-- attachment file error handling logic start--%>
 	               				<kul:checkErrors keyMatch="${property}" auditMatch="${property}"/>
@@ -184,7 +184,7 @@
 		<c:forEach var="attachmentProtocol" items="${attachmentProtocols}" varStatus="itrStatus">
 		  <c:choose>
 		    <c:when test="${attachmentProtocol.active}">
-		             <c:set var="modify" value="${KualiForm.attachmentsHelper.modifyAttachments and attachmentProtocol.documentStatusCode != '3'}" />
+		             <c:set var="modify" value="${KualiForm.notesAttachmentsHelper.modifyAttachments and attachmentProtocol.documentStatusCode != '3'}" />
 		    
 		    			<kul:innerTab tabTitle="${attachmentProtocol.type.description} - ${attachmentProtocol.status.description}" parentTab="Protocol Attachments(${size})" defaultOpen="false" tabErrorKey="document.protocolList[0].attachmentProtocols[${itrStatus.index}]*,document.protocolList[0].attachmentProtocols[${itrStatus.index}]*" useCurrentTabIndexAsKey="true" tabAuditKey="document.protocolList[0].attachmentProtocols[${itrStatus.index}]*" auditCluster="NoteAndAttachmentAuditErrors">
 				<div class="innerTab-container" align="left">
@@ -358,7 +358,7 @@
 									<html:image property="methodToCall.viewAttachmentProtocol.line${itrStatus.index}.anchor${currentTabIndex}"
 										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
 										alt="View Protocol Attachment" onclick="excludeSubmitRestriction = true;"/>
-									<kra:permission value="${KualiForm.attachmentsHelper.modifyAttachments}">
+									<kra:permission value="${KualiForm.notesAttachmentsHelper.modifyAttachments}">
 										<input class="tinybutton" type="image"
 											src='${ConfigProperties.kra.externalizable.images.url}tinybutton-replace.gif'
 											id="replaceButton${itrStatus.index}"

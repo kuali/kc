@@ -36,7 +36,7 @@ class AddProtocolAttachmentPersonnelEvent extends KraDocumentEventBase {
      */
     public AddProtocolAttachmentPersonnelEvent(final ProtocolDocument document,
         final ProtocolAttachmentPersonnel newAttachmentPersonnel) {
-        super("adding new protocol attachment", "attachmentsHelper", document);
+        super("adding new protocol attachment", "notesAttachmentsHelper", document);
         
         if (document == null) {
             throw new IllegalArgumentException("the document is null");
