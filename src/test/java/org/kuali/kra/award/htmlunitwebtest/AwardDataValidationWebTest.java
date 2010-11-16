@@ -58,7 +58,6 @@ public class AwardDataValidationWebTest extends AwardActionsWebTest {
     @Test
     public void testTurnOnDataValidation() throws Exception{
         HtmlPage awardActionsPageAfterActivate = clickOn(awardActionsPage, METHOD_ACTIVATE);
-        System.out.println(awardActionsPageAfterActivate.asXml());
         assertTrue(awardActionsPageAfterActivate.asXml().contains(TERMS_ERROR_STRING));
         assertTrue(awardActionsPageAfterActivate.asXml().contains(REPORT_ERROR_STRING));
     }

@@ -115,7 +115,6 @@ public final class AccountCreationClientImpl implements AccountCreationClient {
         } catch (WebServiceException e) {
             String errorMessage = "Cannot connect to the service. The service may be down, please try again later.";
             LOG.error(errorMessage + e.getMessage(), e);
-            System.err.println(errorMessage + e.getMessage());
             GlobalVariables.getMessageMap().putError(CANNOT_CONNECT_TO_SERVICE, KeyConstants.CANNOT_CONNECT_TO_SERVICE);
         }
         

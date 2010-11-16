@@ -87,7 +87,6 @@ public class ProposalYnqWebTest extends ProposalDevelopmentWebTestBase{
         proposalPage = clickOn(proposalPage, BUTTON_SAVE);
         /* page should contain errors - review date and explanation required */
         assertContains(proposalPage, ERRORS_FOUND_ON_PAGE);
-        System.out.println("PAGE IS " + proposalPage.asXml());
         //assertContains(proposalPage, ERROR_REVIEW_DATE);
         assertTrue(proposalPage.asXml().contains(ERROR_REVIEW_DATE));
         //assertContains(proposalPage, ERROR_EXPLANATION);
