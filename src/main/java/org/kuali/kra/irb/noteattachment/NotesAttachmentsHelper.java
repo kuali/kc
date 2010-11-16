@@ -26,26 +26,35 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.kuali.kra.bo.AttachmentFile;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.auth.ProtocolTask;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.util.CollectionUtil;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
- * This is the "Helper" class for ProtocolNoteAndAttachment.
+ * This is the "Helper" class for Protocol Notes And Attachments.
  */
-public class ProtocolAttachmentHelper {
+public class NotesAttachmentsHelper {
     
+    private static final String NAMESPACE = "KC-UNT";
+
     private static final String UNSUPPORTED_ATTACHMENT_TYPE = "unsupported attachment type ";
     private static final String CONFIRM_YES_DELETE_ATTACHMENT_PERSONNEL = "confirmDeleteAttachmentPersonnel";
     private static final String CONFIRM_YES_DELETE_ATTACHMENT_PROTOCOL = "confirmDeleteAttachmentProtocol";
     
     private final ProtocolAttachmentService notesService;
     private final TaskAuthorizationService authService;
+    private final KraAuthorizationService kraAuthorizationService;
+    private final DateTimeService dateTimeService;
+    private final ProtocolNotepadService protocolNotepadService;
     
     private final ProtocolAttachmentVersioningUtility versioningUtil;
     
@@ -55,15 +64,25 @@ public class ProtocolAttachmentHelper {
     private ProtocolAttachmentPersonnel newAttachmentPersonnel;
     private List<AttachmentFile> FilesToDelete;
     
-    private boolean modifyAttachments;
+    private ProtocolNotepad newProtocolNotepad;
+
     
+    private boolean modifyAttachments;
+    private boolean modifyNotepads;
+    private boolean viewRestricted;
+
     /**
      * Constructs a helper setting the dependencies to default values.
      * @param form the form
      * @throws IllegalArgumentException if the form is null
      */
-    public ProtocolAttachmentHelper(final ProtocolForm form) {
-        this(form, KraServiceLocator.getService(ProtocolAttachmentService.class), KraServiceLocator.getService(TaskAuthorizationService.class), new ProtocolAttachmentVersioningUtility(form));
+    public NotesAttachmentsHelper(final ProtocolForm form) {
+        this(form, KraServiceLocator.getService(ProtocolAttachmentService.class), 
+                   KraServiceLocator.getService(TaskAuthorizationService.class),
+                   KraServiceLocator.getService(KraAuthorizationService.class),
+                   KraServiceLocator.getService(DateTimeService.class),
+                   KraServiceLocator.getService(ProtocolNotepadService.class),
+                   new ProtocolAttachmentVersioningUtility(form));
     }
     
     /**
@@ -74,10 +93,13 @@ public class ProtocolAttachmentHelper {
      * @param versioningUtil the versioning util
      * @throws IllegalArgumentException if the form, notesService, authService, or versioningUtil is null
      */
-    ProtocolAttachmentHelper(final ProtocolForm form,
-        final ProtocolAttachmentService notesService,
-        final TaskAuthorizationService authService,
-        final ProtocolAttachmentVersioningUtility versioningUtil) {
+    NotesAttachmentsHelper(final ProtocolForm form,
+                           final ProtocolAttachmentService notesService,
+                           final TaskAuthorizationService authService,
+                           final KraAuthorizationService kraAuthorizationService,
+                           final DateTimeService dateTimeService,
+                           final ProtocolNotepadService protocolNotepadService,
+                           final ProtocolAttachmentVersioningUtility versioningUtil) {
         
         if (form == null) {
             throw new IllegalArgumentException("the form was null");
@@ -91,6 +113,18 @@ public class ProtocolAttachmentHelper {
             throw new IllegalArgumentException("the authService was null");
         }
         
+        if (kraAuthorizationService == null) {
+            throw new IllegalArgumentException("the kraAuthorizationService was null");
+        }
+        
+        if (dateTimeService == null) {
+            throw new IllegalArgumentException("the dateTimeService was null.");
+        }
+
+        if (protocolNotepadService == null) {
+            throw new IllegalArgumentException("the protocolNotepadService was null.");
+        }
+        
         if (versioningUtil == null) {
             throw new IllegalArgumentException("the versioningUtil was null");
         }
@@ -98,6 +132,9 @@ public class ProtocolAttachmentHelper {
         this.form = form;
         this.notesService = notesService;
         this.authService = authService;
+        this.kraAuthorizationService = kraAuthorizationService;
+        this.dateTimeService = dateTimeService;
+        this.protocolNotepadService = protocolNotepadService;
         this.versioningUtil = versioningUtil;
         this.FilesToDelete = new ArrayList<AttachmentFile>() ;
     }
@@ -109,6 +146,7 @@ public class ProtocolAttachmentHelper {
         this.initializePermissions();
         notesService.setProtocolAttachmentUpdateUsersName(form.getProtocolDocument().getProtocol().getAttachmentProtocols());
         notesService.setProtocolAttachmentUpdateUsersName(form.getProtocolDocument().getProtocol().getAttachmentPersonnels());
+        protocolNotepadService.setProtocolNotepadUpdateUsersName(form.getProtocolDocument().getProtocol().getNotepads());
     }
     
     /**
@@ -116,6 +154,8 @@ public class ProtocolAttachmentHelper {
      */
     private void initializePermissions() {
         this.modifyAttachments = this.canModifyProtocolAttachments();
+        this.modifyNotepads = this.canAddProtocolNotepads();
+        this.viewRestricted = this.canViewRestrictedProtocolNotepads();
     }
     
     /**
@@ -226,6 +266,11 @@ public class ProtocolAttachmentHelper {
         
         if (this.versioningUtil.versioningRequired()) {
             this.versioningUtil.versionExstingAttachments();
+        }
+        
+        //process update user fields for note BOs
+        for(ProtocolNotepad note: this.getProtocol().getNotepads()) {
+            updateUserFieldsIfNecessary(note); 
         }
     }
     
@@ -495,7 +540,7 @@ public class ProtocolAttachmentHelper {
         assert attachments != null : "the attachments was null";
         
         for (final ProtocolAttachmentBase attachment : attachments) {
-            if (ProtocolAttachmentHelper.doesNewFileExist(attachment)) {
+            if (NotesAttachmentsHelper.doesNewFileExist(attachment)) {
                 final AttachmentFile newFile = AttachmentFile.createFromFormFile(attachment.getNewFile());
                 //setting the sequence number to the old file sequence number
                 if (attachment.getFile() != null) {
@@ -522,7 +567,7 @@ public class ProtocolAttachmentHelper {
        
         for (final T attachment : attachments) {
             if (attachment.isNew()) {
-                final Integer nextDocNumber = ProtocolAttachmentHelper.createNextDocNumber(typeToDocNumber.get(attachment.getTypeCode()));
+                final Integer nextDocNumber = NotesAttachmentsHelper.createNextDocNumber(typeToDocNumber.get(attachment.getTypeCode()));
                 attachment.setDocumentId(nextDocNumber);
             }
         }
@@ -576,4 +621,146 @@ public class ProtocolAttachmentHelper {
     public void setFilesToDelete(List<AttachmentFile> filesToDelete) {
         FilesToDelete = filesToDelete;
     }
+    
+    /**
+     * Checks if Protocol Notepads can be modified.
+     * @return true if can be modified false if cannot
+     */
+    private boolean canAddProtocolNotepads() {
+        final ProtocolTask task = new ProtocolTask(TaskName.ADD_PROTOCOL_NOTES, this.getProtocol());
+        return this.authService.isAuthorized(this.getUserIdentifier(), task);
+    }
+    
+    /**
+     * Checks if restricted Protocol Notepads can be viewed.
+     * @return true if can be modified false if cannot
+     */
+    private boolean canViewRestrictedProtocolNotepads() {
+        final ProtocolTask task = new ProtocolTask(TaskName.VIEW_RESTRICTED_NOTES, this.getProtocol());
+        return this.authService.isAuthorized(this.getUserIdentifier(), task);
+    }
+
+    /**
+     * Gets the new protocol notepad.  This method will not return null.
+     * Also, The ProtocolAttachmentProtocol should have a valid protocol Id at this point.
+     * 
+     * @return the new protocol notepad
+     */
+    public ProtocolNotepad getNewProtocolNotepad() {
+        if (this.newProtocolNotepad == null) {
+            this.initProtocolNotepad();
+        }
+        
+        return this.newProtocolNotepad;
+    }
+
+    /**
+     * Sets the new protocol notepad.
+     * @param newProtocolNotepad the new protocol notepad
+     */
+    public void setNewProtocolNotepad(final ProtocolNotepad newProtocolNotepad) {
+        this.newProtocolNotepad = newProtocolNotepad;
+    }
+    
+    /**
+     * returns whether a protocol can be modified.
+     * @return true if modification is allowed false if not.
+     */
+    public boolean isModifyNotepads() {
+        return this.modifyNotepads;
+    }
+
+    /**
+     * sets whether a protocol can be modified.
+     * @param modifyNotepads true if modification is allowed false if not.
+     */
+    public void setModifyNotepads(final boolean modifyNotepads) {
+        this.modifyNotepads = modifyNotepads;
+    }
+    
+    /**
+     * returns whether a restricted note can be viewed.
+     * @return true if viewing is allowed false if not.
+     */
+    public boolean isViewRestricted() {
+        return this.viewRestricted;
+    }
+
+    /**
+     * sets whether a restricted note can be viewed.
+     * @param viewRestricted true if viewing is allowed false if not.
+     */
+    public void setViewRestricted(final boolean viewRestricted) {
+        this.viewRestricted = viewRestricted;
+    }
+    
+    public boolean isIrbAdmin() {
+        return this.kraAuthorizationService.hasRole(GlobalVariables.getUserSession().getPrincipalId(), NAMESPACE, RoleConstants.IRB_ADMINISTRATOR);
+    }
+    
+    /**
+     * initializes a new attachment protocol setting the protocol id.
+     */
+    private void initProtocolNotepad() {
+        final ProtocolNotepad notepad = new ProtocolNotepad(this.getProtocol());
+        notepad.setEntryNumber(this.getNextEntryNumber());
+        this.setNewProtocolNotepad(notepad);
+    }
+    
+    /**
+     * adds a new note to the protocol.  Also performs validation.
+     */
+    void addNewNote() {
+    
+        final AddProtocolNotepadRule rule = new AddProtocolNotepadRuleImpl();
+        final AddProtocolNotepadEvent event = new AddProtocolNotepadEvent(this.form.getDocument(), this.newProtocolNotepad);
+        
+        if (!rule.processAddProtocolNotepadRules(event)) {
+            return;
+        }
+
+        this.addNewNotepad(this.newProtocolNotepad);
+        
+        this.initProtocolNotepad();
+    }
+    
+    void updateUserFieldsIfNecessary(ProtocolNotepad currentNote) {
+        if (currentNote.isEditable()) {
+                updateUserFields(currentNote);
+        }
+    }
+
+    /**
+     * Update the User and Timestamp for the business object.
+     * @param doc the business object
+     */
+    private void updateUserFields(KraPersistableBusinessObjectBase bo) {
+        String updateUser = GlobalVariables.getUserSession().getPrincipalName();
+    
+        // Since the UPDATE_USER column is only VACHAR(60), we need to truncate this string if it's longer than 60 characters
+        if (updateUser.length() > 60) {
+            updateUser = updateUser.substring(0, 60);
+        }
+        bo.setUpdateTimestamp(dateTimeService.getCurrentTimestamp());
+        bo.setUpdateUser(updateUser);
+    }
+
+    /**
+     * Adds the passed in notepad to the list on the protocol.
+     * @param notepad the notepad to add.
+     */
+    private void addNewNotepad(ProtocolNotepad notepad) {
+        updateUserFields(notepad);
+        // set notepad to be editable
+        notepad.setEditable(true);
+        this.getProtocol().getNotepads().add(notepad);
+    }
+    
+    /** gets the next entry number based on previously generated numbers. */
+    private Integer getNextEntryNumber() {
+        final Collection<ProtocolNotepad> notepads = this.getProtocol().getNotepads();
+        final Integer maxEntry = notepads.isEmpty() ? Integer.valueOf(0) : Collections.max(notepads, ProtocolNotepad.NotepadByEntryNumber.INSTANCE).getEntryNumber();
+        return Integer.valueOf(maxEntry.intValue() + 1);
+    }
+
 }

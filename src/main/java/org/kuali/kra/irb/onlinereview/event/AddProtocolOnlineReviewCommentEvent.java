@@ -41,7 +41,7 @@ public class AddProtocolOnlineReviewCommentEvent extends KraDocumentEventBase {
      */
     public AddProtocolOnlineReviewCommentEvent(final ProtocolOnlineReviewDocument document,
         final CommitteeScheduleMinute newCommitteeScheduleMinute, final long onlineReviewIndex ) {
-        super("adding new protocol notepad", "notepadHelper", document);
+        super("adding new protocol notepad", "notesAttachmentsHelper", document);
         this.onlineReviewIndex = onlineReviewIndex;
         if (document == null) {
             throw new IllegalArgumentException("the document is null");

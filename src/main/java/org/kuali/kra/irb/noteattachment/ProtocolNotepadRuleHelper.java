@@ -37,7 +37,7 @@ class ProtocolNotepadRuleHelper {
     /**
      * Creates helper using prefix provided.
      *  
-     * @param aPropertyPrefix the prefix (ex: notepadHelper.newProtocolNotepad)
+     * @param aPropertyPrefix the prefix (ex: notesAttachmentsHelper.newProtocolNotepad)
      * @throws IllegalArgumentException if the propertyPrefix is null
      */
     ProtocolNotepadRuleHelper(final String aPropertyPrefix) {
@@ -59,7 +59,7 @@ class ProtocolNotepadRuleHelper {
     
     /**
      * Resets the property prefix.
-     * @param aPropertyPrefix the prefix (ex: attachmentsHelper.newAttachmentProtocol)
+     * @param aPropertyPrefix the prefix (ex: notesAttachmentsHelper.newAttachmentProtocol)
      * @throws IllegalArgumentException if the propertyPrefix is null
      */
     void resetPropertyPrefix(final String aPropertyPrefix) {

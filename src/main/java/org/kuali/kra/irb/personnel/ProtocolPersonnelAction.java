@@ -266,7 +266,7 @@ public class ProtocolPersonnelAction extends ProtocolAction {
                 filesToDelete.add(attachment.getFile());
             }
         }
-        protocolForm.getAttachmentsHelper().setFilesToDelete(filesToDelete);
+        protocolForm.getNotesAttachmentsHelper().setFilesToDelete(filesToDelete);
     }
 
     
@@ -282,9 +282,9 @@ public class ProtocolPersonnelAction extends ProtocolAction {
             throws Exception {
         // TODO Auto-generated method stub
         super.postSave(mapping, form, request, response);
-        if (!((ProtocolForm) form).getAttachmentsHelper().getFilesToDelete().isEmpty()) {
-            getBusinessObjectService().delete(((ProtocolForm) form).getAttachmentsHelper().getFilesToDelete());
-            ((ProtocolForm) form).getAttachmentsHelper().getFilesToDelete().clear();
+        if (!((ProtocolForm) form).getNotesAttachmentsHelper().getFilesToDelete().isEmpty()) {
+            getBusinessObjectService().delete(((ProtocolForm) form).getNotesAttachmentsHelper().getFilesToDelete());
+            ((ProtocolForm) form).getNotesAttachmentsHelper().getFilesToDelete().clear();
         }
     }
 }
