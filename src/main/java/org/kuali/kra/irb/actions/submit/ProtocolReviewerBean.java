@@ -32,7 +32,6 @@ public class ProtocolReviewerBean extends BusinessObjectBase {
 
     private String personId;
     private String fullName;
-    private boolean checked = false;
     private String reviewerTypeCode;
     private boolean nonEmployeeFlag;
     
@@ -67,14 +66,6 @@ public class ProtocolReviewerBean extends BusinessObjectBase {
         this.fullName = fullName;
     }
     
-    public boolean getChecked() {
-        return checked;
-    }
-    
-    public void setChecked(boolean checked) {
-        this.checked = checked;
-    }
-    
     public String getReviewerTypeCode() {
         return reviewerTypeCode;
     }
@@ -97,7 +88,6 @@ public class ProtocolReviewerBean extends BusinessObjectBase {
         LinkedHashMap map = new LinkedHashMap();
         map.put("personId", getPersonId());
         map.put("fullName", getFullName());
-        map.put("checked", getChecked());
         map.put("reviewTypeCode", getReviewerTypeCode());
         map.put("nonEmployeeFlag", getNonEmployeeFlag());
         return map;

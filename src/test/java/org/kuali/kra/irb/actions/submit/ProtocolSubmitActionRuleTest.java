@@ -244,51 +244,13 @@ public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
         submitAction.setSubmissionTypeCode(VALID_SUBMISSION_TYPE);
         submitAction.setProtocolReviewTypeCode(VALID_REVIEW_TYPE);
         ProtocolReviewerBean reviewer = new ProtocolReviewerBean();
-        reviewer.setChecked(false);
         reviewer.setReviewerTypeCode("");
         submitAction.getReviewers().add(reviewer);
         reviewer = new ProtocolReviewerBean();
-        reviewer.setChecked(true);
         reviewer.setReviewerTypeCode("1");
         submitAction.getReviewers().add(reviewer);
         assertTrue(rule.processSubmitAction(document, submitAction));
         assertEquals(GlobalVariables.getErrorMap().size(), 0);
-    }
-    
-    /**
-     * Test a reviewer that is "unchecked" but has a reviewer type set.
-     */
-    @Test
-    public void testUncheckedReviewer() throws WorkflowException {
-        ProtocolDocument document = getNewProtocolDocument();
-        ProtocolSubmitAction submitAction = new ProtocolSubmitAction(null);
-        submitAction.setSubmissionTypeCode(VALID_SUBMISSION_TYPE);
-        submitAction.setProtocolReviewTypeCode(VALID_REVIEW_TYPE);
-        ProtocolReviewerBean reviewer = new ProtocolReviewerBean();
-        reviewer.setChecked(false);
-        reviewer.setReviewerTypeCode("1");
-        submitAction.getReviewers().add(reviewer);
-        assertFalse(rule.processSubmitAction(document, submitAction));
-        assertError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".reviewer[0].reviewerTypeCode", 
-                    KeyConstants.ERROR_PROTOCOL_REVIEWER_NOT_CHECKED_BUT_TYPE_SELECTED);
-    }
-    
-    /**
-     * Test a reviewer that is "checked" but does not have a reviewer type.
-     */
-    @Test
-    public void testCheckedReviewer() throws WorkflowException {
-        ProtocolDocument document = getNewProtocolDocument();
-        ProtocolSubmitAction submitAction = new ProtocolSubmitAction(null);
-        submitAction.setSubmissionTypeCode(VALID_SUBMISSION_TYPE);
-        submitAction.setProtocolReviewTypeCode(VALID_REVIEW_TYPE);
-        ProtocolReviewerBean reviewer = new ProtocolReviewerBean();
-        reviewer.setChecked(true);
-        reviewer.setReviewerTypeCode("");
-        submitAction.getReviewers().add(reviewer);
-        assertFalse(rule.processSubmitAction(document, submitAction));
-        assertError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".reviewer[0].reviewerTypeCode", 
-                    KeyConstants.ERROR_PROTOCOL_REVIEWER_NO_TYPE_BUT_REVIEWER_CHECKED);
     }
     
     /**
@@ -301,7 +263,6 @@ public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
         submitAction.setSubmissionTypeCode(VALID_SUBMISSION_TYPE);
         submitAction.setProtocolReviewTypeCode(VALID_REVIEW_TYPE);
         ProtocolReviewerBean reviewer = new ProtocolReviewerBean();
-        reviewer.setChecked(true);
         reviewer.setReviewerTypeCode("xx");
         submitAction.getReviewers().add(reviewer);
         assertFalse(rule.processSubmitAction(document, submitAction));
