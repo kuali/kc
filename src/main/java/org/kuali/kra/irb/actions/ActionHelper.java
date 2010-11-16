@@ -420,8 +420,12 @@ public class ActionHelper implements Serializable {
     }
     
     public void initAmendmentBeans() throws Exception {
-        protocolAmendmentBean = createAmendmentBean();
-        protocolRenewAmendmentBean = createAmendmentBean();
+        if (protocolAmendmentBean == null) {
+            protocolAmendmentBean = createAmendmentBean();
+        }
+        if (protocolRenewAmendmentBean == null) {
+            protocolRenewAmendmentBean = createAmendmentBean();
+        }
 }
 
     /**
