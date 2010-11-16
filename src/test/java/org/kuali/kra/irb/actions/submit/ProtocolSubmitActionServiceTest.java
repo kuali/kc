@@ -247,7 +247,6 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
         
         
         KimPrincipalInfo prncpl = identityManagementService.getPrincipalByPrincipalName("quickstart");
-        reviewer.setChecked(true);
         reviewer.setPersonId(prncpl.getPrincipalId());
         reviewer.setNonEmployeeFlag(false);
         reviewer.setReviewerTypeCode("1");
@@ -257,7 +256,6 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
         
         reviewer = new ProtocolReviewerBean();
         prncpl = identityManagementService.getPrincipalByPrincipalName("majors");
-        reviewer.setChecked(false);
         reviewer.setPersonId(prncpl.getPrincipalId());
         reviewer.setNonEmployeeFlag(false);
         reviewer.setReviewerTypeCode("1");
@@ -269,40 +267,12 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
         Rolodex rolodex = rolodexService.getRolodex(253);
         reviewer = new ProtocolReviewerBean();
         reviewer.setNonEmployeeFlag(true);
-        reviewer.setChecked(true);
         reviewer.setPersonId("253");
         reviewer.setReviewerTypeCode("1");
         reviewer.setFullName(rolodex.getFullName());
         
         return reviewers;
     }
-
-
-
-    /*
-     * Get a couple of reviewers.
-     * We are going to pull them from the committee, and check one of the boxes.
-     */
-    private List<ProtocolReviewerBean> getReviewersFromCommittee(Committee committee) {
-        List<ProtocolReviewerBean> reviewers = new ArrayList<ProtocolReviewerBean>();
-        ProtocolReviewerBean reviewer = new ProtocolReviewerBean();
-        
-        for( CommitteeMembership membership : committee.getCommitteeMemberships()) {
-            reviewer.setChecked(false);
-            reviewer.setPersonId(membership.getPersonId()==null?membership.getRolodexId().toString():membership.getPersonId());
-            reviewer.setNonEmployeeFlag(membership.getPersonId()==null);
-            reviewer.setReviewerTypeCode("1");
-            reviewers.add(reviewer);
-        }
-        
-        if( reviewers.size() == 0 )
-            throw new IllegalStateException( "Committee has no members!" );
-        reviewers.get(0).setChecked(true);
-        
-        return reviewers;
-    }
-
-    
     
     /*
      * Create a committee.
@@ -409,7 +379,7 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
         int index = 0;
         if (submitAction.getReviewers() != null) {
             for (ProtocolReviewerBean reviewerBean : submitAction.getReviewers()) {
-                if (reviewerBean.getChecked()) {
+                if (StringUtils.isNotBlank(reviewerBean.getReviewerTypeCode())) {
                     verifyReviewer(reviewerBean, submission.getProtocolReviewers().get(index++));
                 }
             }
@@ -441,7 +411,7 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
         int count = 0;
         if (reviewers != null) {
             for (ProtocolReviewerBean reviewerBean : reviewers) {
-                if (reviewerBean.getChecked()) {
+                if (StringUtils.isNotBlank(reviewerBean.getReviewerTypeCode())) {
                     count++;
                 }
             }

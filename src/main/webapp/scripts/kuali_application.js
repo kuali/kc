@@ -1956,17 +1956,6 @@ function setReviewers(reviewers, beginIndex, endIndex, reviewerTypes, htmlElemen
 		var data = document.createElement('td');
 		
 		data.style.border = "0 none";
-		var checkBox = document.createElement('input');
-		checkBox.setAttribute("type", "checkbox");
-		checkBox.setAttribute("name", "actionHelper.protocolSubmitAction.reviewer[" + reviewerIndex + "].checked");
-		data.appendChild(checkBox);
-		
-		var hidden = document.createElement('input');
-		hidden.setAttribute("type", "hidden");
-		hidden.setAttribute("value", "actionHelper.protocolSubmitAction.reviewer[" + reviewerIndex + "].checked");
-		hidden.setAttribute("name", "checkboxToReset");
-		data.appendChild(hidden);
-		
 		var text = document.createTextNode(reviewers[i+1]);
 		data.appendChild(text);
 		row.appendChild(data);
