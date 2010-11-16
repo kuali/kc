@@ -1412,43 +1412,9 @@ public class NIHResearchAndRelatedXmlStream extends
             }
             principalInvestigatorType.setNewInvestigatorQuestion(getNewInvestQuestion(developmentProposal));
             setDegree(principalInvestigator,principalInvestigatorType);
-//            ContactInfoType contactInfoType = principalInvestigatorType.addNewContactInformation();
-//            contactInfoType.setEmail(principalInvestigator.getEmailAddress());
-//            if (principalInvestigator.getFaxNumber() != null)
-//                contactInfoType.setFaxNumber(principalInvestigator.getFaxNumber());
-//            contactInfoType.setPhoneNumber(principalInvestigator.getOfficePhone());
-//
-//            PostalAddressType postalAddressType = contactInfoType.addNewPostalAddress();
-//            postalAddressType
-//                    .setCity((principalInvestigator.getCity() == null || principalInvestigator.getCity().trim().equals("")) ? "Unknown"
-//                            : principalInvestigator.getCity());
-//            postalAddressType.setPostalCode((principalInvestigator.getPostalCode() == null || principalInvestigator.getPostalCode()
-//                    .trim().equals("")) ? "Unknown" : principalInvestigator.getPostalCode());
-//            postalAddressType.setCountry((principalInvestigator.getCountryCode() == null || principalInvestigator.getCountryCode()
-//                    .trim().equals("")) ? "Unknown" : principalInvestigator.getCountryCode());
-//
-//            if (principalInvestigator.getState() != null)
-//                postalAddressType.setState(principalInvestigator.getState());
-//
-//            if (principalInvestigator.getAddressLine1() != null) {
-//                XmlToken street = postalAddressType.addNewStreet();
-//                street.setStringValue(principalInvestigator.getAddressLine1());
-//            }
-//            if (principalInvestigator.getAddressLine2() != null) {
-//                XmlToken street2 = postalAddressType.addNewStreet();
-//                street2.setStringValue(principalInvestigator.getAddressLine2());
-//            }
-//            if (principalInvestigator.getAddressLine3() != null) {
-//                XmlToken street3 = postalAddressType.addNewStreet();
-//                street3.setStringValue(principalInvestigator.getAddressLine3());
-//            }
             SignatureType signatureType = principalInvestigatorType.addNewDirectorInvestigatorSignature();
             signatureType.setSignatureAuthentication("unknown");
             signatureType.setSignatureDate(getDateTimeService().getCurrentCalendar());
-//            String unitName = getUnitName(principalInvestigator);
-//            if(unitName!=null){
-//                principalInvestigatorType.setAccountIdentifier(unitName);
-//            }
         }
         return principalInvestigatorType;
     }
