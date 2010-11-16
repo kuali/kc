@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="readOnly" value="${!KualiForm.attachmentsHelper.modifyAttachments}" scope="request" />
+<c:set var="readOnly" value="${!KualiForm.notesAttachmentsHelper.modifyAttachments}" scope="request" />
 
 <kul:documentPage
 	showDocumentInfo="true"

@@ -58,8 +58,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         final ActionForward forward = super.execute(mapping, form, request, response);
-        ((ProtocolForm) form).getAttachmentsHelper().prepareView();
-        ((ProtocolForm) form).getNotepadHelper().prepareView();
+        ((ProtocolForm) form).getNotesAttachmentsHelper().prepareView();
         return forward;
     }
     
@@ -69,9 +68,8 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
      */
     @Override
     public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ((ProtocolForm) form).getAttachmentsHelper().processSave();
-        ((ProtocolForm) form).getNotepadHelper().processSave();
-        ((ProtocolForm) form).getAttachmentsHelper().fixReloadedAttachments(request.getParameterMap());
+        ((ProtocolForm) form).getNotesAttachmentsHelper().processSave();
+        ((ProtocolForm) form).getNotesAttachmentsHelper().fixReloadedAttachments(request.getParameterMap());
         /*
         Enumeration paramNames = request.getParameterNames();
         while (paramNames.hasMoreElements()) {
@@ -101,7 +99,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
      */
     public ActionForward addAttachmentProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
         HttpServletResponse response) throws Exception {
-        ((ProtocolForm) form).getAttachmentsHelper().addNewProtocolAttachmentProtocol();
+        ((ProtocolForm) form).getNotesAttachmentsHelper().addNewProtocolAttachmentProtocol();
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -118,7 +116,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
      */
     public ActionForward addAttachmentPersonnel(ActionMapping mapping, ActionForm form, HttpServletRequest request,
         HttpServletResponse response) throws Exception {
-        ((ProtocolForm) form).getAttachmentsHelper().addNewProtocolAttachmentPersonnel();
+        ((ProtocolForm) form).getNotesAttachmentsHelper().addNewProtocolAttachmentPersonnel();
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -166,7 +164,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
     public ActionForward deleteAttachmentProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         int selection = this.getSelectedLine(request);
-        ProtocolAttachmentBase attachment = ((ProtocolForm) form).getAttachmentsHelper().retrieveExistingAttachmentByType(
+        ProtocolAttachmentBase attachment = ((ProtocolForm) form).getNotesAttachmentsHelper().retrieveExistingAttachmentByType(
                 selection, ProtocolAttachmentProtocol.class);
         if (isValidContactData(attachment, ATTACHMNENT_PATH + selection + "]")) {
             return confirmDeleteAttachment(mapping, (ProtocolForm) form, request, response, ProtocolAttachmentProtocol.class);
@@ -251,7 +249,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
             HttpServletResponse response, Class<? extends ProtocolAttachmentBase> attachmentType) throws Exception {
         
         final int selection = this.getSelectedLine(request);
-        final ProtocolAttachmentBase attachment = form.getAttachmentsHelper().retrieveExistingAttachmentByType(selection, attachmentType);
+        final ProtocolAttachmentBase attachment = form.getNotesAttachmentsHelper().retrieveExistingAttachmentByType(selection, attachmentType);
        
         if (attachment == null) {
             LOG.info(NOT_FOUND_SELECTION + selection);
@@ -259,7 +257,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
         
-        final String confirmMethod = form.getAttachmentsHelper().retrieveConfirmMethodByType(attachmentType);
+        final String confirmMethod = form.getNotesAttachmentsHelper().retrieveConfirmMethodByType(attachmentType);
         final StrutsConfirmation confirm 
         = buildParameterizedConfirmationQuestion(mapping, form, request, response, confirmMethod, 
                 KeyConstants.QUESTION_DELETE_ATTACHMENT_CONFIRMATION, attachment.getAttachmentDescription(), attachment.getFile().getName());
@@ -285,7 +283,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
         
         final int selection = this.getSelectedLine(request);
         
-        if (!form.getAttachmentsHelper().deleteExistingAttachmentByType(selection, attachmentType)) {
+        if (!form.getNotesAttachmentsHelper().deleteExistingAttachmentByType(selection, attachmentType)) {
             LOG.info(NOT_FOUND_SELECTION + selection);
             //may want to tell the user the selection was invalid.
         }
@@ -312,7 +310,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
             HttpServletResponse response, Class<? extends ProtocolAttachmentBase> attachmentType) throws Exception {
         
         final int selection = this.getSelectedLine(request);
-        final ProtocolAttachmentBase attachment = form.getAttachmentsHelper().retrieveExistingAttachmentByType(selection, attachmentType);
+        final ProtocolAttachmentBase attachment = form.getNotesAttachmentsHelper().retrieveExistingAttachmentByType(selection, attachmentType);
         
         if (attachment == null) {
             LOG.info(NOT_FOUND_SELECTION + selection);
@@ -359,7 +357,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
      */
     public ActionForward addNote(ActionMapping mapping, ActionForm form, HttpServletRequest request,
         HttpServletResponse response) throws Exception {
-        ((ProtocolForm) form).getNotepadHelper().addNewNote();
+        ((ProtocolForm) form).getNotesAttachmentsHelper().addNewNote();
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -371,9 +369,9 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
     public void postSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         super.postSave(mapping, form, request, response);
-        if (!((ProtocolForm) form).getAttachmentsHelper().getFilesToDelete().isEmpty()) {
-            getBusinessObjectService().delete(((ProtocolForm) form).getAttachmentsHelper().getFilesToDelete());
-            ((ProtocolForm) form).getAttachmentsHelper().getFilesToDelete().clear();
+        if (!((ProtocolForm) form).getNotesAttachmentsHelper().getFilesToDelete().isEmpty()) {
+            getBusinessObjectService().delete(((ProtocolForm) form).getNotesAttachmentsHelper().getFilesToDelete());
+            ((ProtocolForm) form).getNotesAttachmentsHelper().getFilesToDelete().clear();
             }
         for (ProtocolPerson person : ((ProtocolForm) form).getProtocolDocument().getProtocol().getProtocolPersons()) {
             person.refreshReferenceObject("attachmentPersonnels");
