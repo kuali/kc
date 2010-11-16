@@ -25,7 +25,6 @@ import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ActionHelper;
-import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
@@ -82,10 +81,9 @@ public class ProtocolAssignReviewersBean implements Serializable{
                     }
                     
                     for (ProtocolOnlineReview review : submission.getProtocolOnlineReviews()) {
-                        if(review.isActive()) {
+                        if (review.isActive()) {
                             for (ProtocolReviewerBean reviewerBean : reviewers) {
                                 if (reviewerBean.isProtocolReviewerBeanForReviewer(review.getProtocolReviewer())) {
-                                    reviewerBean.setChecked(true);
                                     reviewerBean.setReviewerTypeCode(review.getProtocolReviewer().getReviewerTypeCode());
                                     break;
                                 }

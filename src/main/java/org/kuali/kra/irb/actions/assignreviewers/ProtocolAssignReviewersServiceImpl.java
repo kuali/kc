@@ -18,6 +18,7 @@ package org.kuali.kra.irb.actions.assignreviewers;
 import java.sql.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
@@ -35,7 +36,6 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
     
     private BusinessObjectService businessObjectService;
     private ProtocolOnlineReviewService protocolOnlineReviewService;
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolAssignReviewersServiceImpl.class);
     
     /**
      * {@inheritDoc}
@@ -45,7 +45,7 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
     public void assignReviewers(ProtocolSubmission protocolSubmission, List<ProtocolReviewerBean> protocolReviewerBeans)  {
         if (protocolSubmission != null) {
             for (ProtocolReviewerBean bean : protocolReviewerBeans) {
-                if (bean.getChecked()) {
+                if (StringUtils.isNotBlank(bean.getReviewerTypeCode())) {
                     if (!protocolOnlineReviewService.isProtocolReviewer(bean.getPersonId(), bean.getNonEmployeeFlag(), protocolSubmission)) {
                         
                         createReviewer(protocolSubmission, bean);

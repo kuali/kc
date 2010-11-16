@@ -30,12 +30,9 @@ import org.kuali.kra.irb.actions.submit.ProtocolReviewerType;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewStatus;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kew.service.WorkflowDocument;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -55,10 +52,10 @@ public class ProtocolAssignReviewersRule extends ResearchDocumentRuleBase implem
             ProtocolReviewerBean reviewer = reviewers.get(i);
             if (!isReviewerValid(reviewer, i)) {
                 isValid = false;
-            } else if (!reviewer.getChecked()) {
+            } else if (StringUtils.isBlank(reviewer.getReviewerTypeCode())) {
                 //get the review
                 for (ProtocolOnlineReviewDocument pDocument : protocolOnlineReviewDocuments) {
-                    if(reviewer.isProtocolReviewerBeanForReviewer(pDocument.getProtocolOnlineReview().getProtocolReviewer())) {
+                    if (reviewer.isProtocolReviewerBeanForReviewer(pDocument.getProtocolOnlineReview().getProtocolReviewer())) {
                         //the review exists and the user is asking to remove it...
                         isValid &= isValidRemovalRequest(pDocument, reviewer, i);
                         break;
@@ -78,7 +75,6 @@ public class ProtocolAssignReviewersRule extends ResearchDocumentRuleBase implem
     private boolean isReviewerValid(ProtocolReviewerBean reviewer, int reviewerIndex) {
         boolean isValid = true;
         String reviewerTypeCode = reviewer.getReviewerTypeCode();
-        boolean isChecked = reviewer.getChecked();
         
         String propertyName =  Constants.PROTOCOL_ASSIGN_REVIEWERS_PROPERTY_KEY + ".reviewer[" + reviewerIndex + "].reviewerTypeCode";
         //R
@@ -87,18 +83,6 @@ public class ProtocolAssignReviewersRule extends ResearchDocumentRuleBase implem
         if (!StringUtils.isBlank(reviewerTypeCode) && isReviewerTypeInvalid(reviewerTypeCode)) {
             isValid = false;
             reportError(propertyName, KeyConstants.ERROR_PROTOCOL_REVIEWER_TYPE_INVALID, reviewer.getFullName());
-        }
-        
-        // if reviewer checked and type code empty, report an error
-        if (isChecked && StringUtils.isBlank(reviewerTypeCode)) {
-            isValid = false;
-            reportError(propertyName, KeyConstants.ERROR_PROTOCOL_REVIEWER_NO_TYPE_BUT_REVIEWER_CHECKED, reviewer.getFullName());
-        }
-        
-        // if reviewer unchecked and type code not empty, report an error
-        if (!isChecked && !StringUtils.isBlank(reviewerTypeCode)) {
-            isValid = false;
-            reportError(propertyName, KeyConstants.ERROR_PROTOCOL_REVIEWER_NOT_CHECKED_BUT_TYPE_SELECTED, reviewer.getFullName());
         }
         
         return isValid;
