@@ -96,8 +96,6 @@ public class SubmissionTypeValuesFinder extends IrbActionsKeyValuesBase {
             if (displayResponseToPrevIRBNotication(currentStatus)) {
                 types.add(ProtocolSubmissionType.RESPONSE_TO_PREV_IRB_NOTIFICATION);
             }
-        } else {
-            //System.err.println("************* protocol form is null!!!");
         }
         return types;
     }

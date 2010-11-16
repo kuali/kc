@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
@@ -28,6 +30,8 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 
 public class AwardAmountInfoServiceImpl implements AwardAmountInfoService {
+
+    private static final Log LOG = LogFactory.getLog(AwardAmountInfoService.class);
 
     transient BusinessObjectService businessObjectService;
     transient DocumentService documentService;
@@ -67,8 +71,8 @@ public class AwardAmountInfoServiceImpl implements AwardAmountInfoService {
                         validAwardAmountInfos.add(aai);
                     }
                 }
-                }catch (WorkflowException e) {
-                    System.out.println("Workflow exception");
+                } catch (WorkflowException e) {
+                    LOG.error(e.getMessage(), e);
                 }
         
             }
@@ -123,7 +127,7 @@ public class AwardAmountInfoServiceImpl implements AwardAmountInfoService {
 //                        }
 //                    }
 //                    }catch (WorkflowException e) {
-//                        System.out.println("Workflow exception");
+//                        LOG.error(e.getMessage(), e);
 //                    }
 //            
 //                }
