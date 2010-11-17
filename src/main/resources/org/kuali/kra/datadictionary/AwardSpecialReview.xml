@@ -31,6 +31,9 @@
 		<property name="lookupDefinition" >
 			<ref bean="AwardSpecialReview-lookupDefinition" />
 		</property>
+		<property name="helpDefinition" >
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="awardSpecialReviewHelp" p:parameterDetailType="D" />
+        </property>
 		<property name="titleAttribute" value="awardSpecialReviewId" />
 		<property name="attributes" >
 			<list>
