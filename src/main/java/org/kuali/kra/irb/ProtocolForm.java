@@ -117,6 +117,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         setActionHelper(new ActionHelper(this));
         setQuestionnaireHelper(new QuestionnaireHelper(this));
         setNotesAttachmentsHelper(new NotesAttachmentsHelper(this));
+        this.notesAttachmentsHelper.prepareView();
         setNewProtocolReferenceBean(new ProtocolReferenceBean());
         setOnlineReviewsActionHelper(new OnlineReviewsActionHelper(this));
     }

@@ -70,6 +70,8 @@ public class NotesAttachmentsHelper {
     private boolean modifyAttachments;
     private boolean modifyNotepads;
     private boolean viewRestricted;
+    
+    private boolean manageNotesOpen;
 
     /**
      * Constructs a helper setting the dependencies to default values.
@@ -137,6 +139,7 @@ public class NotesAttachmentsHelper {
         this.protocolNotepadService = protocolNotepadService;
         this.versioningUtil = versioningUtil;
         this.FilesToDelete = new ArrayList<AttachmentFile>() ;
+        this.manageNotesOpen = false;
     }
     
     /**
@@ -257,7 +260,7 @@ public class NotesAttachmentsHelper {
      * this method handles logic related to saving attachments.
      * Since multiple attachments can change on a single save, this method must handle all attachment types.
      */
-    void processSave() {
+    public void processSave() {
         this.refreshAttachmentReferences(this.getProtocol().getAttachmentPersonnels());
         this.refreshAttachmentReferences(this.getProtocol().getAttachmentProtocols());
         
@@ -710,7 +713,7 @@ public class NotesAttachmentsHelper {
     /**
      * adds a new note to the protocol.  Also performs validation.
      */
-    void addNewNote() {
+    public void addNewNote() {
     
         final AddProtocolNotepadRule rule = new AddProtocolNotepadRuleImpl();
         final AddProtocolNotepadEvent event = new AddProtocolNotepadEvent(this.form.getDocument(), this.newProtocolNotepad);
@@ -761,6 +764,14 @@ public class NotesAttachmentsHelper {
         final Collection<ProtocolNotepad> notepads = this.getProtocol().getNotepads();
         final Integer maxEntry = notepads.isEmpty() ? Integer.valueOf(0) : Collections.max(notepads, ProtocolNotepad.NotepadByEntryNumber.INSTANCE).getEntryNumber();
         return Integer.valueOf(maxEntry.intValue() + 1);
+    }
+    
+    public void setManageNotesOpen(boolean manageNotesOpen){
+        this.manageNotesOpen = manageNotesOpen;
+    }
+    
+    public boolean isManageNotesOpen() {
+        return this.manageNotesOpen;
     }
 
 }

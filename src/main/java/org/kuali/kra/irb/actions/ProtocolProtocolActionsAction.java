@@ -122,6 +122,7 @@ import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentService;
+import org.kuali.kra.irb.noteattachment.ProtocolNotepad;
 import org.kuali.kra.irb.summary.AttachmentSummary;
 import org.kuali.kra.irb.summary.ProtocolSummary;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
@@ -135,6 +136,7 @@ import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
@@ -3668,6 +3670,38 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     
     private void recordProtocolActionSuccess(String protocolActionName) {
         GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_PROTOCOL_ACTION_SUCCESSFULLY_COMPLETED, protocolActionName);
+    }
+    
+    /**
+     * Method called when adding a protocol note.
+     * 
+     * @param mapping the action mapping
+     * @param form the form.
+     * @param request the request.
+     * @param response the response.
+     * @return an action forward.
+     * @throws Exception if there is a problem executing the request.
+     */
+    public ActionForward addNote(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+        HttpServletResponse response) throws Exception {
+        ((ProtocolForm) form).getNotesAttachmentsHelper().addNewNote();
+        ((ProtocolForm) form).getNotesAttachmentsHelper().setManageNotesOpen(true);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward saveNotes(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        Protocol protocol = ((ProtocolForm) form).getProtocolDocument().getProtocol();
+        //protocolForm.getNotesAttachmentsHelper().processSave();
+        for(ProtocolNotepad note : protocol.getNotepads()) {
+            if (StringUtils.isBlank(note.getUpdateUserFullName())) {
+                note.setUpdateUserFullName(GlobalVariables.getUserSession().getPerson().getName());
+                note.setUpdateTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
+            }
+            note.setEditable(false);
+        }
+        getBusinessObjectService().save(protocol.getNotepads());
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
 }
