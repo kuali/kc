@@ -75,6 +75,7 @@
             <kra-irb-action:reviewNotRequiredAction />
             <kra-irb-action:undoLastAction />
             <kra-irb-action:manageReviewComments />
+            <kra-irb-action:manageNotes />
 		</c:if>
 	</div>
 </kul:tabTop>
