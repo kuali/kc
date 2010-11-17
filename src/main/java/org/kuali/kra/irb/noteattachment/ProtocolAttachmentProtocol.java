@@ -38,6 +38,7 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
     private static final long serialVersionUID = -7115904344245464654L;
     private static final String GROUP_CODE = "1";
     
+    // 1-Complete, 2-Incomplete.  an attachment status must be 'complete' before this protocol can be submitted.
     private String statusCode;
     private ProtocolAttachmentStatus status;
     
@@ -49,12 +50,18 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
     private String typeCode;
     private ProtocolAttachmentType type;
     private String description;
+    // documentstatuscode : 1-Draft, 2-Finalized, 3-Deleted
+    // Alll new files are 'Draft'.  When protocol is approved, all 'Draft become 'Finalized'
+    // 'delete' will set status to 'Deleted'.
     private String documentStatusCode;
     private Integer attachmentVersion;
     private Timestamp createTimestamp;
     private List<ProtocolAttachmentProtocol> versions;
     
+    // an indicator to decide whether to display this file in protocol attachment panel or not
     private boolean active = true;
+    // an indicator of whether this file has been changed/replaced or not.  This is if documentstatus is 1 or 3.
+    // if it is changed, then the updateuser and updatetimestamp of this record will be updated.
     private boolean changed = false;
     
     
