@@ -28,7 +28,8 @@
 <div align="right"><kul:help documentTypeName="ProposalDevelopmentDocument" pageName="Special Review" /></div>
 
 <div id="workarea">
-	<kra-specialreview:specialReviewPage attributes="${DataDictionary.ProposalSpecialReview.attributes}"
+	<kra-specialreview:specialReviewPage businessObjectClassName="org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview"
+	                                     attributes="${DataDictionary.ProposalSpecialReview.attributes}"
 	                                     exemptionAttributes="${DataDictionary.ProposalSpecialReviewExemption.attributes}"
 	                                     collectionReference="${KualiForm.document.developmentProposal.propSpecialReviews}"
 	                                     collectionProperty="document.developmentProposalList[0].propSpecialReviews"
