@@ -28,7 +28,8 @@
 <div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="Special Review" /></div>
 
 <div id="workarea">
-	<kra-specialreview:specialReviewPage attributes="${DataDictionary.ProtocolSpecialReview.attributes}"
+	<kra-specialreview:specialReviewPage businessObjectClassName="org.kuali.kra.irb.specialreview.ProtocolSpecialReview"
+	                                     attributes="${DataDictionary.ProtocolSpecialReview.attributes}"
 	                                     exemptionAttributes="${DataDictionary.ProtocolSpecialReviewExemption.attributes}"
 	                                     collectionReference="${KualiForm.document.protocol.specialReviews}"
 	                                     collectionProperty="document.protocolList[0].specialReviews"

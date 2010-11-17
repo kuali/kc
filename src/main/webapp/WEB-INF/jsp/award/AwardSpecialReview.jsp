@@ -28,7 +28,8 @@
 <div align="right"><kul:help documentTypeName="AwardDocument" pageName="Special Review" /></div>
 
 <div id="workarea">
-	<kra-specialreview:specialReviewPage attributes="${DataDictionary.AwardSpecialReview.attributes}"
+	<kra-specialreview:specialReviewPage businessObjectClassName="org.kuali.kra.award.specialreview.AwardSpecialReview"
+	                                     attributes="${DataDictionary.AwardSpecialReview.attributes}"
 	                                     exemptionAttributes="${DataDictionary.AwardSpecialReviewExemption.attributes}"
 	                                     collectionReference="${KualiForm.document.award.specialReviews}"
 	                                     collectionProperty="document.awardList[0].specialReviews"
