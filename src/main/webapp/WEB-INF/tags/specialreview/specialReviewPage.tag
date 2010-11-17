@@ -14,6 +14,8 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<%@ attribute name="businessObjectClassName" required="true" 
+              description="The specific per-module business class to use for the help pages" %>
 <%@ attribute name="attributes" required="true" type="java.util.Map"
               description="The Data Dictionary reference to the Special Review attributes" %>
 <%@ attribute name="exemptionAttributes" required="true" type="java.util.Map"
@@ -32,7 +34,7 @@
     <div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Special Review</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.common.specialreview.bo.SpecialReview" altText="help"/></span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="${businessObjectClassName}" altText="help"/></span>
         </h3>
         
         <table id="specialReviewTableId" cellpadding="0" cellspacing="0" summary="">
