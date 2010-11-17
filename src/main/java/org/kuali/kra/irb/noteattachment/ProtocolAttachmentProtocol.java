@@ -51,8 +51,8 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
     private ProtocolAttachmentType type;
     private String description;
     // documentstatuscode : 1-Draft, 2-Finalized, 3-Deleted
-    // Alll new files are 'Draft'.  When protocol is approved, all 'Draft become 'Finalized'
-    // 'delete' will set status to 'Deleted'.
+    // Alll new files are 'Draft'.  When protocol is versioned, all 'Draft' become 'Finalized'
+    // 'delete' will set this code to 'Deleted'.
     private String documentStatusCode;
     private Integer attachmentVersion;
     private Timestamp createTimestamp;
