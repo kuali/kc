@@ -89,11 +89,13 @@ class ProtocolAttachmentProtocolRuleHelper {
      * @return true is valid.
      */
     boolean validStatusForSubmission(final ProtocolAttachmentProtocol attachmentProtocol) {
-        if (attachmentProtocol.getStatus() == null || !COMPLETE_STATUS_CODE.equals(attachmentProtocol.getStatus().getCode())) {
-            final AuditError error = new AuditError(this.propertyPrefix + "." + ProtocolAttachmentProtocol.PropertyName.STATUS_CODE,
-                KeyConstants.AUDIT_ERROR_PROTOCOL_ATTACHMENT_STATUS_COMPLETE, NOTE_AND_ATTACHMENT_LINK);
-            this.errorReporter.reportAuditError(error, NOTES_AND_ATTACHMENT_AUDIT_ERRORS_KEY, NOTES_ATTACHMENTS_CLUSTER_LABEL, Constants.AUDIT_ERRORS);
-            return false;
+        if (!StringUtils.equals(attachmentProtocol.getDocumentStatusCode(), "3")) {
+            if (attachmentProtocol.getStatus() == null || !COMPLETE_STATUS_CODE.equals(attachmentProtocol.getStatus().getCode())) {
+                final AuditError error = new AuditError(this.propertyPrefix + "." + ProtocolAttachmentProtocol.PropertyName.STATUS_CODE,
+                    KeyConstants.AUDIT_ERROR_PROTOCOL_ATTACHMENT_STATUS_COMPLETE, NOTE_AND_ATTACHMENT_LINK);
+                this.errorReporter.reportAuditError(error, NOTES_AND_ATTACHMENT_AUDIT_ERRORS_KEY, NOTES_ATTACHMENTS_CLUSTER_LABEL, Constants.AUDIT_ERRORS);
+                return false;
+            }
         }
         return true;
     }
