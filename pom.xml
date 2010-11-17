@@ -1393,5 +1393,6 @@
 		<surefire.aggregate>true</surefire.aggregate>
     	<cobertura.maven.plugin.version>2.4</cobertura.maven.plugin.version>
     	<gg.wsdl.location>${basedir}/src/main/resources/wsdl</gg.wsdl.location>
+    	<gg.schema.dir>${basedir}/src/main/resources/wsdl/schema</gg.schema.dir>  
 	</properties>
 </project>
