@@ -53,6 +53,9 @@
                     p:name="protocolActionTypeCode"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
+                    p:name="motionTypeCode"
+                    p:required="true" />
+                <bean parent="MaintainableFieldDefinition"
                     p:name="actionNumber"
                     p:required="true" />    
  	            <bean parent="MaintainableFieldDefinition"
