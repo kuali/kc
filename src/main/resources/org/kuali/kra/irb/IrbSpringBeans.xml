@@ -533,6 +533,7 @@
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="kraAuthorizationService" ref="kraAuthorizationService" />
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
+        <property name="followupActionService" ref = "followupActionService"/>
         <property name="protocolDao" ref="protocolDao" />
         <property name="ruleFiles">
             <list>
@@ -543,7 +544,6 @@
                 <value>org/kuali/kra/irb/drools/rules/canPerformProtocolActionRules.drl</value>
                 <value>org/kuali/kra/irb/drools/rules/updateProtocolRules.drl</value>
                 <value>org/kuali/kra/irb/drools/rules/undoProtocolUpdateRules.drl</value>
-                <value>org/kuali/kra/irb/drools/rules/isProtocolActionOpenForFollowupRules.drl</value>
             </list>
         </property>
     </bean>
@@ -829,4 +829,14 @@
 	      p:localServiceName="protocolApproverRoleTypeService" />
 	  </property>
 	</bean>
+
+	<bean id="followupActionService" class="org.kuali.kra.irb.actions.followup.FollowupActionServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService"/>
+		</property>
+	</bean>
+
 </beans>
+
+
+
