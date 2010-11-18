@@ -34,6 +34,7 @@
             <list>
                 <ref bean="ValidProtocolActionAction-validProtocolActionActionId" />
                 <ref bean="ValidProtocolActionAction-protocolActionTypeCode" />
+                <ref bean="ValidProtocolActionAction-committeeDecisionMotionTypeCode" />
                 <ref bean="ValidProtocolActionAction-actionNumber" />
                 <ref bean="ValidProtocolActionAction-followupActionCode" />
                 <ref bean="ValidProtocolActionAction-userPromptFlag" />
@@ -63,7 +64,31 @@
         <property name="description" value="Valid Protocol Action Action Id" />
     </bean>
 
-    <bean id="ValidProtocolActionAction-protocolActionTypeCode" parent="ValidProtocolActionAction-protocolActionTypeCode-parentBean" />
+    <bean id="ValidProtocolActionAction-committeeDecisionMotionTypeCode" parent="ValidProtocolActionAction-committeeDecisionMotionTypeCode-parentBean" />
+    <bean id="ValidProtocolActionAction-committeeDecisionMotionTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="motionTypeCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Motion Type" />
+        <property name="shortLabel" value="Motion Type" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="required" value="false" />
+        <property name="control" >
+          <bean parent="SelectControlDefinition"
+                p:businessObjectClass="org.kuali.kra.committee.bo.CommitteeDecisionMotionType"
+                p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+                p:includeKeyInLabel="false"
+                p:includeBlankRow="false"
+                p:keyAttribute="motionTypeCode"
+                p:labelAttribute="description" />
+        </property>
+        <property name="summary" value="Committee Motion Type" />
+        <property name="description" value="Committee Motion Type" />
+    </bean>
+
+	<bean id="ValidProtocolActionAction-protocolActionTypeCode" parent="ValidProtocolActionAction-protocolActionTypeCode-parentBean" />
     <bean id="ValidProtocolActionAction-protocolActionTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="protocolActionTypeCode" />
         <property name="forceUppercase" value="false" />
@@ -86,6 +111,8 @@
         <property name="summary" value="Protocol Action Type" />
         <property name="description" value="Protocol Action Type" />
     </bean>
+
+
 
 	<bean id="ValidProtocolActionAction-actionNumber" parent="ValidProtocolActionAction-actionNumber-parentBean" />
    	<bean id="ValidProtocolActionAction-actionNumber-parentBean" abstract="true" parent="AttributeDefinition" >
@@ -219,6 +246,8 @@
 				<bean parent="FieldDefinition" p:attributeName="validProtocolActionActionId"
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition" p:attributeName="protocolActionTypeCode"
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition" p:attributeName="motionTypeCode"
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition" p:attributeName="actionNumber"
 					p:forceInquiry="true" />

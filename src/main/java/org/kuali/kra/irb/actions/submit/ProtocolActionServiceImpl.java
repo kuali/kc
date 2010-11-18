@@ -27,6 +27,7 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDao;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolSubmissionDoc;
+import org.kuali.kra.irb.actions.followup.FollowupActionService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -72,9 +73,7 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
     private static final int UPDATE_RULE = 5;
     
     private static final int UNDO_UPDATE_RULE = 6;
-    
-    private static final int FOLLOWUP_RULE = 7;
-
+   
     private static final String MODIFY_ANY_PROTOCOL = "Modify Any Protocol";
 
     private static final String PERFORM_IRB_ACTIONS_ON_PROTO = "Perform IRB Actions on a Protocol";
@@ -94,7 +93,9 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
     private KraAuthorizationService kraAuthorizationService;
 
     private UnitAuthorizationService unitAuthorizationService;
-
+    
+    private FollowupActionService followupActionService;
+   
     private ProtocolDao protocolDao;
 
     private DroolsRuleHandler canPerformRuleHandler;
@@ -127,6 +128,12 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
         this.protocolDao = protocolDao;
     }
 
+    public void setFollowupActionService(FollowupActionService followupActionService) {
+        this.followupActionService = followupActionService;
+    }
+
+    
+    
     /**
      * @see org.kuali.kra.irb.actions.submit.ProtocolActionService#isActionAllowed(java.lang.String, org.kuali.kra.irb.Protocol)
      */
@@ -284,10 +291,11 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
      * @see org.kuali.kra.irb.actions.ProtocolActionFollowupService#isActionOpenForFollowup(java.lang.String, org.kuali.kra.irb.Protocol)
      */
     public boolean isActionOpenForFollowup(String protocolActionTypeCode, Protocol protocol) {
-        String motionTypeCode = protocol.getProtocolSubmission().getCommitteeDecisionMotionTypeCode();
-        ProtocolActionFollowupMapping mapping = new ProtocolActionFollowupMapping(protocolActionTypeCode, motionTypeCode);
-        rulesList.get(FOLLOWUP_RULE).executeRules(mapping);
-        return mapping.getIsOpenForFollowup();
+        return followupActionService.isActionOpenForFollowup(protocolActionTypeCode, protocol);
+//        String motionTypeCode = protocol.getProtocolSubmission().getCommitteeDecisionMotionTypeCode();
+//        ProtocolActionFollowupMapping mapping = new ProtocolActionFollowupMapping(protocolActionTypeCode, motionTypeCode);
+//        rulesList.get(FOLLOWUP_RULE).executeRules(mapping);
+//        return mapping.getIsOpenForFollowup();
     }
     
     /**
