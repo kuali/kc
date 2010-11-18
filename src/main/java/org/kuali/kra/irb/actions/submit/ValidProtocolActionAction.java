@@ -18,6 +18,8 @@ package org.kuali.kra.irb.actions.submit;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.committee.bo.CommitteeDecisionMotionType;
+import org.kuali.kra.irb.actions.ProtocolActionType;
 
 /**
  * This class represents the action follow up mapping as it exists in coeus.
@@ -33,10 +35,81 @@ public class ValidProtocolActionAction extends KraPersistableBusinessObjectBase 
     
     private Long validProtocolActionActionId; 
     private String protocolActionTypeCode;
+    private String motionTypeCode;
     private int actionNumber;
     private String followupActionCode;
     private boolean userPromptFlag;
     private String userPrompt;
+    
+    private ProtocolActionType protocolActionType;
+    private CommitteeDecisionMotionType committeeDecisionMotionType;
+    
+    
+    /**
+     * Gets the motionTypeCode attribute. 
+     * @return Returns the motionTypeCode.
+     */
+    public String getMotionTypeCode() {
+        return motionTypeCode;
+    }
+
+    /**
+     * Sets the motionTypeCode attribute value.
+     * @param motionTypeCode The motionTypeCode to set.
+     */
+    public void setMotionTypeCode(String motionTypeCode) {
+        this.motionTypeCode = motionTypeCode;
+    }
+
+    /**
+     * Gets the protocolActionType attribute. 
+     * @return Returns the protocolActionType.
+     */
+    public ProtocolActionType getProtocolActionType() {
+        return protocolActionType;
+    }
+
+    /**
+     * Sets the protocolActionType attribute value.
+     * @param protocolActionType The protocolActionType to set.
+     */
+    public void setProtocolActionType(ProtocolActionType protocolActionType) {
+        this.protocolActionType = protocolActionType;
+    }
+
+    /**
+     * Gets the committeeDecisionMotionType attribute. 
+     * @return Returns the committeeDecisionMotionType.
+     */
+    public CommitteeDecisionMotionType getCommitteeDecisionMotionType() {
+        return committeeDecisionMotionType;
+    }
+
+    /**
+     * Sets the committeeDecisionMotionType attribute value.
+     * @param committeeDecisionMotionType The committeeDecisionMotionType to set.
+     */
+    public void setCommitteeDecisionMotionType(CommitteeDecisionMotionType committeeDecisionMotionType) {
+        this.committeeDecisionMotionType = committeeDecisionMotionType;
+    }
+
+    /**
+     * Gets the followupProtocolActionType attribute. 
+     * @return Returns the followupProtocolActionType.
+     */
+    public ProtocolActionType getFollowupProtocolActionType() {
+        return followupProtocolActionType;
+    }
+
+    /**
+     * Sets the followupProtocolActionType attribute value.
+     * @param followupProtocolActionType The followupProtocolActionType to set.
+     */
+    public void setFollowupProtocolActionType(ProtocolActionType followupProtocolActionType) {
+        this.followupProtocolActionType = followupProtocolActionType;
+    }
+
+    private ProtocolActionType followupProtocolActionType;
     
     public ValidProtocolActionAction() { 
 

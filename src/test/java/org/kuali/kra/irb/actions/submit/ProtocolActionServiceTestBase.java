@@ -19,8 +19,9 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
-public class ProtocolActionServiceTestBase {
+public class ProtocolActionServiceTestBase extends KcUnitTestBase {
    
     public static Protocol getProtocol(final Mockery context) {
         

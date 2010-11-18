@@ -1108,6 +1108,7 @@
     <class-descriptor class="org.kuali.kra.irb.actions.submit.ValidProtocolActionAction" table="VALID_PROTO_ACTION_ACTION">
         <field-descriptor name="validProtocolActionActionId" column="VALID_PROTO_ACTION_ACTION_ID" jdbc-type="BIGINT" primarykey="true" />
         <field-descriptor name="protocolActionTypeCode" column="PROTOCOL_ACTION_TYPE_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="motionTypeCode" column="COMM_DECISION_MOTION_TYPE_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="actionNumber" column="ACTION_NUMBER" jdbc-type="INTEGER"/>
         <field-descriptor name="followupActionCode" column="FOLLOWUP_ACTION_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="userPromptFlag" column="USER_PROMPT_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
