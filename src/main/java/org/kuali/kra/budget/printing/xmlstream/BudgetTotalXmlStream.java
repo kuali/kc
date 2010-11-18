@@ -24,7 +24,6 @@ import noNamespace.BudgetSalaryDocument.BudgetSalary;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.document.ResearchDocumentBase;
 
 /**
@@ -72,7 +71,7 @@ public class BudgetTotalXmlStream extends BudgetBaseSalaryStream {
 	private BudgetSalary getBudgetSalary() {
 		BudgetSalary budgetSalary = getBudgetSalaryTypeXmlObject();
 		budgetSalary.setHeaderTitle(BUDGET_TOTAL);
-		budgetSalary.setSalaryArray(getBudgetTotalAndSummarySalaryTypes());
+		budgetSalary.setSalaryArray(getBudgetTotalAndSummarySalaryTypes(true));
 		return budgetSalary;
 	}
 }
