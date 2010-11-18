@@ -82,7 +82,7 @@
 							</td>
 							<td class="infoline">
 								<div align="center">
-						   			<c:out value="${KualiForm.document.award.financialAccountCreationDate}" />	
+								<fmt:formatDate value="${KualiForm.document.award.financialAccountCreationDate}" pattern="MM/dd/yyyy" />
 								</div>
 							</td>
 						</tr>
