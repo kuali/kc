@@ -15,9 +15,7 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -29,8 +27,13 @@ import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.committee.bo.CommitteeDecisionMotionType;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDao;
+import org.kuali.kra.irb.actions.ProtocolAction;
+import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.actions.followup.FollowupActionService;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -56,6 +59,7 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
 
         businessObjectService = context.mock(BusinessObjectService.class);
         protocolActionService.setBusinessObjectService(businessObjectService);
+        protocolActionService.setFollowupActionService(KraServiceLocator.getService(FollowupActionService.class));
 
         dao = context.mock(ProtocolDao.class);
         protocolActionService.setProtocolDao(dao);
@@ -83,6 +87,17 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
         };
         return protocolSubmission;
 
+    }
+    
+    private ProtocolAction getProtocolAction() {
+        ProtocolAction protocolAction = new ProtocolAction() {
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {
+                //do nothing.
+            }
+        };
+        
+        return protocolAction;
     }
     
     private void mockMinutes() {
@@ -1205,28 +1220,45 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
          protocol.setProtocolStatusCode("311");
          assertTrue(protocolActionService.canPerformAction("116", protocol));
     }
+
+    
+    private void createNewDefaultProtocolAction(String protocolActionTypeCode,String committeeDecisionMotionTypeCode) {
+        ProtocolAction protocolAction = getProtocolAction();
+        protocolAction.setActionId(1);
+        protocolAction.setActionDate(new Timestamp(System.currentTimeMillis()));
+        protocolAction.setActualActionDate(new Timestamp(System.currentTimeMillis()));
+        protocolAction.setProtocol(protocol);
+        protocolAction.setSubmissionNumber(protocol.getProtocolSubmission().getSequenceNumber());
+        protocolAction.setProtocolActionTypeCode(protocolActionTypeCode);
+        protocol.getProtocolSubmission().setSubmissionId(1L);
+        protocolAction.setSubmissionIdFk(protocol.getProtocolSubmission().getSubmissionId());
+        protocolAction.setProtocolSubmission(protocol.getProtocolSubmission());
+        protocolAction.getProtocolSubmission().setCommitteeDecisionMotionTypeCode(committeeDecisionMotionTypeCode);
+        protocol.getProtocolActions().add(protocolAction);
+        protocolAction.setActionDate(new java.sql.Timestamp( (new java.util.Date()).getTime() ));
+    }
     
     @Test
     public void testIsApproveActionOpenForFollowup() {
-        protocol.getProtocolSubmission().setCommitteeDecisionMotionTypeCode("1");
+        createNewDefaultProtocolAction(ProtocolActionType.RECORD_COMMITTEE_DECISION,CommitteeDecisionMotionType.APPROVE);
         assertTrue(protocolActionService.isActionOpenForFollowup("204", protocol));
     }
     
     @Test
     public void testIsDisapproveActionOpenForFollowup() {
-        protocol.getProtocolSubmission().setCommitteeDecisionMotionTypeCode("2");
+        createNewDefaultProtocolAction(ProtocolActionType.RECORD_COMMITTEE_DECISION,CommitteeDecisionMotionType.DISAPPROVE);
         assertTrue(protocolActionService.isActionOpenForFollowup("304", protocol));
     }
     
     @Test
     public void testIsReturnForSMRActionOpenForFollowup() {
-        protocol.getProtocolSubmission().setCommitteeDecisionMotionTypeCode("3");
+        createNewDefaultProtocolAction(ProtocolActionType.RECORD_COMMITTEE_DECISION,CommitteeDecisionMotionType.SPECIFIC_MINOR_REVISIONS);
         assertTrue(protocolActionService.isActionOpenForFollowup("203", protocol));
     }
     
     @Test
     public void testIsReturnForSRRActionOpenForFollowup() {
-        protocol.getProtocolSubmission().setCommitteeDecisionMotionTypeCode("4");
+        createNewDefaultProtocolAction(ProtocolActionType.RECORD_COMMITTEE_DECISION,CommitteeDecisionMotionType.SUBSTANTIVE_REVISIONS_REQUIRED);
         assertTrue(protocolActionService.isActionOpenForFollowup("202", protocol));
     }
     
@@ -1239,7 +1271,6 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
         ruleFiles.add("org/kuali/kra/irb/drools/rules/canPerformProtocolActionRules.drl");
         ruleFiles.add("org/kuali/kra/irb/drools/rules/updateProtocolRules.drl");
         ruleFiles.add("org/kuali/kra/irb/drools/rules/undoProtocolUpdateRules.drl");
-        ruleFiles.add("org/kuali/kra/irb/drools/rules/isProtocolActionOpenForFollowupRules.drl");
         return ruleFiles;
     }
 }
