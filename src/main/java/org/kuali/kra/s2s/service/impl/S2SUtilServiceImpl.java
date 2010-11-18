@@ -337,7 +337,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
                 return null;
             }
         } else if (isProposalTypeNew(proposal.getProposalTypeCode()) && 
-                isSubmissionTypeChangeCorrected(proposal.getS2sOpportunity().getS2sSubmissionTypeCode())
+                (proposal.getS2sOpportunity()!=null && isSubmissionTypeChangeCorrected(proposal.getS2sOpportunity().getS2sSubmissionTypeCode()))
                 || isProposalTypeResubmission(proposal.getProposalTypeCode())) {
             if (!StringUtils.isBlank(proposal.getSponsorProposalNumber())) {
                 federalId = proposal.getSponsorProposalNumber();
