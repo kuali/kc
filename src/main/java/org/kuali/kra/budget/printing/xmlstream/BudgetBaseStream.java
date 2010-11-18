@@ -1892,11 +1892,12 @@ public abstract class BudgetBaseStream implements XmlStream {
 	protected String getBudgetCategoryDescForSalarySummary(
 			BudgetPersonnelDetails budgetPersDetails,
 			BudgetPersonnelRateAndBase budgetPersRateAndBase) {
+	    budgetPersDetails.refreshReferenceObject("costElementBO");
 		String category = null;
 		if (isRateAndBaseLASalary(budgetPersRateAndBase)) {
 			category = LAB_ALLOCATION;
-		} else if (budgetPersDetails.getBudgetCategory() != null) {
-			category = budgetPersDetails.getBudgetCategory().getDescription();
+		} else if (budgetPersDetails.getCostElementBO() != null && budgetPersDetails.getCostElementBO().getBudgetCategory() != null) {
+			category = budgetPersDetails.getCostElementBO().getBudgetCategory().getDescription();
 		}
 		return category;
 	}
@@ -2152,13 +2153,12 @@ public abstract class BudgetBaseStream implements XmlStream {
 	 * @return String categoryCode
 	 */
 	protected String getBudgetCategoryCodeFroBudgetSalarySummary(
-			BudgetPersonnelRateAndBase budgetPersRateAndBase,
-			String budgetCategoryCode) {
-		String categoryCode;
+			BudgetPersonnelRateAndBase budgetPersRateAndBase,BudgetPersonnelDetails budgetPersonnelDetails) {
+        String categoryCode = null;
 		if (isRateAndBaseLASalary(budgetPersRateAndBase)) {
 			categoryCode = CATEGORY_CODE_LA_SALARY;
-		} else {
-			categoryCode = budgetCategoryCode;
+		} else if(budgetPersonnelDetails.getCostElementBO()!=null && budgetPersonnelDetails.getCostElementBO().getBudgetCategory()!=null){
+			categoryCode = budgetPersonnelDetails.getCostElementBO().getBudgetCategory().getBudgetCategoryCode();
 		}
 		return categoryCode;
 	}
@@ -2190,9 +2190,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 	protected boolean isRateAndBaseLASalary(
 			AbstractBudgetRateAndBase rateAndBase) {
 		rateAndBase.refreshNonUpdateableReferences();
-		return rateAndBase.getRateClassCode().equals(RATE_CLASS_CODE_LA_SALARY)
-				&& rateAndBase.getRateTypeCode().equals(
-						RATE_TYPE_CODE_LA_SALARY);
+		return rateAndBase.getRateClass().getRateClassType().equals(RateClassType.LA_SALARIES.getRateClassType());
 	}
 
 	/**
@@ -2203,13 +2201,20 @@ public abstract class BudgetBaseStream implements XmlStream {
 	 * @return boolean
 	 */
 	protected boolean isRateAndBaseEBonLA(AbstractBudgetRateAndBase rateAndBase) {
-		rateAndBase.refreshNonUpdateableReferences();
-		return rateAndBase.getRateClassCode().equals(RATE_CLASS_CODE_EB_ON_LA)
-				&& rateAndBase.getRateTypeCode().equals(
-						DEFAULT_RATE_TYPE_CODE_FOR_LI);
+	    ValidCalcType ebOnLaValidCalcType = getDependentValidRateClassTypeForLA(RateClassType.EMPLOYEE_BENEFITS.getRateClassType());
+		return ebOnLaValidCalcType!=null && rateAndBase.getRateClassCode().equals(ebOnLaValidCalcType.getRateClassCode())
+				&& rateAndBase.getRateTypeCode().equals(ebOnLaValidCalcType.getRateTypeCode());
 	}
 
-	/**
+    private ValidCalcType getDependentValidRateClassTypeForLA(String rateClassType) {
+	    Map<String,String> param = new HashMap<String,String>();
+	    param.put("rateClassType", rateClassType);
+	    param.put("dependentRateClassType", RateClassType.LA_SALARIES.getRateClassType());
+	    List<ValidCalcType> result = (List)getBusinessObjectService().findMatching(ValidCalcType.class, param);
+        return result.isEmpty()?null:result.get(0);
+    }
+
+    /**
 	 * This method gets true if rateClassCode is 8 and rateTypeCode is 2 else
 	 * false
 	 * 
@@ -2217,14 +2222,13 @@ public abstract class BudgetBaseStream implements XmlStream {
 	 * @return boolean
 	 */
 	protected boolean isRateAndBaseVAonLA(AbstractBudgetRateAndBase rateAndBase) {
-		rateAndBase.refreshNonUpdateableReferences();
-		return rateAndBase.getRateClassCode().equals(
-				RATE_CLASS_CODE_VACATION_ON_LA)
-				&& rateAndBase.getRateTypeCode().equals(
-						RATE_TYPE_CODE_VACATION_ON_LA);
+	    ValidCalcType vacationOnLaValidCalcType = getDependentValidRateClassTypeForLA(RateClassType.VACATION.getRateClassType());
+		return vacationOnLaValidCalcType!=null && 
+		        rateAndBase.getRateClassCode().equals(vacationOnLaValidCalcType.getRateClassCode())
+				    && rateAndBase.getRateTypeCode().equals(vacationOnLaValidCalcType.getRateTypeCode());
 	}
 
-	/**
+    /**
 	 * This method gets true if rateClassType is Y else false from
 	 * BudgetLineItemCalculatedAmount
 	 * 
