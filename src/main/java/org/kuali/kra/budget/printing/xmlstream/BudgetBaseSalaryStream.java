@@ -66,16 +66,12 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 	 */
 	protected BudgetSalary getBudgetSalaryTypeXmlObject() {
 		BudgetSalary budgetSalary = BudgetSalary.Factory.newInstance();
-		String proposalNumber = ((ProposalDevelopmentDocument) budget
-				.getBudgetDocument().getParentDocument())
-				.getDevelopmentProposal().getProposalNumber();
+        DevelopmentProposal proposal = ((ProposalDevelopmentDocument) budget.getBudgetDocument().getParentDocument()).getDevelopmentProposal();
+		String proposalNumber = proposal.getProposalNumber();
 		if (proposalNumber != null) {
 			budgetSalary.setProposalNumber(proposalNumber);
 		}
 		setBudgetSalaryTypeBasicInformation(budgetSalary);
-		DevelopmentProposal proposal = ((ProposalDevelopmentDocument) budget
-				.getBudgetDocument().getParentDocument())
-				.getDevelopmentProposal();
 		String principleInvestigatorName = getProposalInvestigatorName(proposal);
 		if (principleInvestigatorName != null) {
 			budgetSalary.setPIName(principleInvestigatorName);
@@ -96,12 +92,10 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 		}
 		budgetSalary.setCurrentDate(dateTimeService.getCurrentCalendar());
 		if (budget.getStartDate() != null) {
-			budgetSalary.setStartDate(dateTimeService.getCalendar(budget
-					.getStartDate()));
+			budgetSalary.setStartDate(dateTimeService.getCalendar(budget.getStartDate()));
 		}
 		if (budget.getEndDate() != null) {
-			budgetSalary.setEndDate(dateTimeService.getCalendar(budget
-					.getEndDate()));
+			budgetSalary.setEndDate(dateTimeService.getCalendar(budget.getEndDate()));
 		}
 		if (budget.getBudgetPeriods() != null) {
 			budgetSalary.setTotalPeriod(budget.getBudgetPeriods().size());
@@ -175,7 +169,7 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 	 * 
 	 * @return Salary type array
 	 */
-	protected SalaryType[] getBudgetTotalAndSummarySalaryTypes() {
+	protected SalaryType[] getBudgetTotalAndSummarySalaryTypes(boolean includeNonPersonnel) {
 		List<SalaryTypeVO> salaryTypeVoList = new ArrayList<SalaryTypeVO>();
 		List<List<BudgetLineItemCalculatedAmount>> budgetLineItemCalcAmountsList = new ArrayList<List<BudgetLineItemCalculatedAmount>>();
 		Map<String, String> lineItems = getListOfCostElementDescription(budgetLineItemCalcAmountsList);
@@ -183,7 +177,6 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 			salaryTypeVoList.add(getSalaryTypeVOForCostElement(costElemetDesc,
 					lineItems.get(costElemetDesc)));
 		}
-		boolean includeNonPersonnel = false;
 		setSalaryTypesForLineItemCalcuAmount(salaryTypeVoList,includeNonPersonnel);
 		List<SalaryType> salaryTypeList = getListOfSalaryTypeXmlObjects(salaryTypeVoList);
 		return salaryTypeList.toArray(new SalaryType[0]);
@@ -294,24 +287,17 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 				List<BudgetLineItemCalculatedAmount> budgetLineItemCalculatedAmounts = budgetLineItem
 						.getBudgetLineItemCalculatedAmounts();
 				for (BudgetLineItemCalculatedAmount budgetLineItemCalcAmount : budgetLineItemCalculatedAmounts) {
-					String rateClassCode = budgetLineItemCalcAmount
-							.getRateClassCode();
-					String rateTypeCode = budgetLineItemCalcAmount
-							.getRateTypeCode();
+					String rateClassCode = budgetLineItemCalcAmount.getRateClassCode();
+					String rateTypeCode = budgetLineItemCalcAmount.getRateTypeCode();
 					RateClass rateClass = getRateClassBo(rateClassCode);
-					String costElementDesc = getCostElementDescriptionForLineItem(
-							budgetLineItemCalcAmount, rateClass);
-					if (costElementDesc != null
-							&& !calculatedAmountDescList
-									.contains(costElementDesc)) {
+					String costElementDesc = getCostElementDescriptionForLineItem(budgetLineItemCalcAmount, rateClass);
+					if (costElementDesc != null&& !calculatedAmountDescList.contains(costElementDesc)) {
 						calculatedAmountDescList.add(costElementDesc);
 						SalaryTypeVO salaryTypeVOForCalculatedAmount = new SalaryTypeVO();
-						salaryTypeVOForCalculatedAmount
-								.setName(costElementDesc);
+						salaryTypeVOForCalculatedAmount.setName(costElementDesc);
 						List<BudgetDataPeriodVO> budgetPeriodDataList = getBudgetDataPeriodsForCalculatedAmounts(
 								rateClassCode, rateTypeCode,includeNonPersonnel);
-						salaryTypeVOForCalculatedAmount
-								.setBudgetPeriodVOs(budgetPeriodDataList);
+						salaryTypeVOForCalculatedAmount.setBudgetPeriodVOs(budgetPeriodDataList);
 						salaryTypeVoList.add(salaryTypeVOForCalculatedAmount);
 					}
 				}
@@ -364,21 +350,15 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 			BudgetDataPeriodVO budgetPeriodVO = new BudgetDataPeriodVO();
 			budgetPeriodVO.setBudgetPeriodId(++budgetPeriodDataId);
 			BudgetDecimal periodCost = BudgetDecimal.ZERO;
-			for (BudgetLineItem budgetLineItem : budgetPeriod
-					.getBudgetLineItems()) {
+			for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
 				String budgetCategoryType = getBudgetCategoryTypeCode(budgetLineItem);
 				if (includeNonPersonnel || isPersonnel(budgetCategoryType)) {
-					for (BudgetLineItemCalculatedAmount budgetLineItemCalcAmount : budgetLineItem
-							.getBudgetLineItemCalculatedAmounts()) {
+					for (BudgetLineItemCalculatedAmount budgetLineItemCalcAmount : budgetLineItem.getBudgetLineItemCalculatedAmounts()) {
 						if (budgetLineItemCalcAmount.getRateClassCode() != null
-								&& budgetLineItemCalcAmount.getRateClassCode()
-										.equals(rateClassCode)
+								&& budgetLineItemCalcAmount.getRateClassCode().equals(rateClassCode)
 								&& budgetLineItemCalcAmount.getRateTypeCode() != null
-								&& budgetLineItemCalcAmount.getRateTypeCode()
-										.equals(rateTypeCode)) {
-							periodCost = periodCost
-									.add(budgetLineItemCalcAmount
-											.getCalculatedCost());
+								&& budgetLineItemCalcAmount.getRateTypeCode().equals(rateTypeCode)) {
+							periodCost = periodCost.add(budgetLineItemCalcAmount.getCalculatedCost());
 						}
 					}
 				}
@@ -400,17 +380,14 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 			RateClass rateClass) {
 		String costElementDesc = null;
 		if (budgetLineItemCalcAmount.getRateTypeDescription() != null) {
-			if (rateClass != null
-					&& rateClass.getRateClassType() != null
-					&& rateClass.getRateClassType().equals(
+			if (rateClass != null&& rateClass.getRateClassType() != null
+			                && rateClass.getRateClassType().equals(
 							RateClassType.OVERHEAD.getRateClassType())) {
-				costElementDesc = new StringBuilder(OVERHEAD_RATE_PREFIX)
-						.append(
+				costElementDesc = new StringBuilder(OVERHEAD_RATE_PREFIX).append(
 								budgetLineItemCalcAmount.getRateTypeDescription()).toString();
 			} else if (rateClass != null && rateClass.getDescription() != null) {
 				costElementDesc = new StringBuilder(rateClass.getDescription())
-						.append(SEPARATER_STRING).append(
-								budgetLineItemCalcAmount.getRateTypeDescription()).toString();
+						.append(SEPARATER_STRING).append(budgetLineItemCalcAmount.getRateTypeDescription()).toString();
 			}
 		}
 		return costElementDesc;
@@ -448,20 +425,17 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 		if (!salaryTypeVoList.isEmpty()) {
 			for (SalaryTypeVO salaryTypeVO : salaryTypeVoList) {
 				BudgetPeriodData[] budgetPeriodArray = null;
-				List<BudgetDataPeriodVO> budgetDataPeriodVOs = salaryTypeVO
-						.getBudgetPeriodVOs();
+				List<BudgetDataPeriodVO> budgetDataPeriodVOs = salaryTypeVO.getBudgetPeriodVOs();
 				if (budgetDataPeriodVOs != null) {
 					BudgetDecimal total = BudgetDecimal.ZERO;
-					budgetPeriodArray = getBudgetDataPeriodXmlObjects(
-							budgetDataPeriodVOs, budgetPeriodWiseTotalMap);
+					budgetPeriodArray = getBudgetDataPeriodXmlObjects(budgetDataPeriodVOs, budgetPeriodWiseTotalMap);
 					total = getTotalForCostElementOfAllPeriodsCost(budgetDataPeriodVOs);
 					salaryTypeVO.setTotal(total);
 				}
 
-				salaryTypeList.add(getSalaryTypeXmlObject(salaryTypeVO
-						.getCostElement(), salaryTypeVO.getCostElementCode(),
-						salaryTypeVO.getName(), budgetPeriodArray, salaryTypeVO
-								.getTotal()));
+				salaryTypeList.add(
+				        getSalaryTypeXmlObject(salaryTypeVO.getCostElement(),salaryTypeVO.getCostElementCode(),
+				                                salaryTypeVO.getName(), budgetPeriodArray, salaryTypeVO.getTotal()));
 			}
 			setTotalForPeriodWise(salaryTypeList, budgetPeriodWiseTotalMap);
 		}
@@ -470,8 +444,7 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 				int i = 0;
 				if (salaryType1.getCostElementCode() != null
 						&& salaryType2.getCostElementCode() != null) {
-					i = salaryType1.getCostElementCode().compareTo(
-							salaryType2.getCostElementCode());
+					i = salaryType1.getCostElementCode().compareTo(salaryType2.getCostElementCode());
 				}
 				return i;
 			}
@@ -490,17 +463,14 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 		if (!budgetPeriodWiseTotalMap.isEmpty()) {
 			List<BudgetPeriodData> budgetPeriodList = new ArrayList<BudgetPeriodData>();
 			for (Integer periodId : budgetPeriodWiseTotalMap.keySet()) {
-				BudgetPeriodData budgetPeriodData = BudgetPeriodData.Factory
-						.newInstance();
+				BudgetPeriodData budgetPeriodData = BudgetPeriodData.Factory.newInstance();
 				budgetPeriodData.setBudgetPeriodID(periodId);
-				BudgetDecimal periodCost = budgetPeriodWiseTotalMap
-						.get(periodId);
+				BudgetDecimal periodCost = budgetPeriodWiseTotalMap.get(periodId);
 				budgetPeriodData.setPeriodCost(periodCost.bigDecimalValue());
 				budgetSalaryTotal = budgetSalaryTotal.add(periodCost);
 				budgetPeriodList.add(budgetPeriodData);
 			}
-			budgetPeriodArray = budgetPeriodList
-					.toArray(new BudgetPeriodData[0]);
+			budgetPeriodArray = budgetPeriodList.toArray(new BudgetPeriodData[0]);
 		}
 		salaryTypeList.add(getSalaryTypeXmlObject(null, null,
 				PERIOD_COST_TOTAL, budgetPeriodArray, budgetSalaryTotal));
@@ -529,15 +499,13 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 		List<BudgetPeriodData> budgetPeriodList = null;
 		budgetPeriodList = new ArrayList<BudgetPeriodData>();
 		for (BudgetDataPeriodVO budgetPeriodVO : budgetDataPeriods) {
-			BudgetPeriodData budgetPeriodData = BudgetPeriodData.Factory
-					.newInstance();
+			BudgetPeriodData budgetPeriodData = BudgetPeriodData.Factory.newInstance();
 			int budgetPeriodId = budgetPeriodVO.getBudgetPeriodId();
 			budgetPeriodData.setBudgetPeriodID(budgetPeriodId);
 			BudgetDecimal periodCost = budgetPeriodVO.getPeriodCost();
 			budgetPeriodData.setPeriodCost(periodCost.bigDecimalValue());
 			if (budgetPeriodWiseTotalMap.containsKey(budgetPeriodId)) {
-				BudgetDecimal periodTotal = budgetPeriodWiseTotalMap
-						.get(budgetPeriodId);
+				BudgetDecimal periodTotal = budgetPeriodWiseTotalMap.get(budgetPeriodId);
 				periodTotal = periodTotal.add(periodCost);
 				budgetPeriodWiseTotalMap.put(budgetPeriodId, periodTotal);
 			} else {
@@ -545,8 +513,7 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 			}
 			budgetPeriodList.add(budgetPeriodData);
 		}
-		BudgetPeriodData[] budgetPeriodArray = budgetPeriodList
-				.toArray(new BudgetPeriodData[0]);
+		BudgetPeriodData[] budgetPeriodArray = budgetPeriodList.toArray(new BudgetPeriodData[0]);
 		return budgetPeriodArray;
 	}
 }
