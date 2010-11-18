@@ -70,7 +70,7 @@ public class BudgetSummaryTotalXmlStream extends BudgetBaseSalaryStream {
 	private BudgetSalary getBudgetSalary() {
 		BudgetSalary budgetSalary = getBudgetSalaryTypeXmlObject();
 		budgetSalary.setHeaderTitle(BUDGET_SUMMARY_TOTAL);
-		budgetSalary.setSalaryArray(getBudgetTotalAndSummarySalaryTypes());
+		budgetSalary.setSalaryArray(getBudgetTotalAndSummarySalaryTypes(true));
 		return budgetSalary;
 	}
 }
