@@ -155,8 +155,8 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
                 BudgetDecimal calculatedCost = rateAndCost.getCalculatedCost();
                 BudgetDecimal calculatedCostSharing = rateAndCost.getCalculatedCostSharing();
                 
-                budgetRateBase.setSalaryRequested(breakUpInterval.getApplicableAmt());
-                budgetRateBase.setBaseCostSharing(breakUpInterval.getApplicableAmtCostSharing());
+                budgetRateBase.setSalaryRequested(rateAndCost.getBaseAmount());
+                budgetRateBase.setBaseCostSharing(rateAndCost.getBaseCostSharingAmount());
                 
                 budgetRateBase.setBudgetPeriodId(budgetPersonnelLineItem.getBudgetPeriodId());
                 budgetRateBase.setBudgetPeriod(budgetPersonnelLineItem.getBudgetPeriod());
