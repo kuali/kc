@@ -267,8 +267,7 @@ public class BudgetSummaryXmlStream extends BudgetBaseStream {
 				.setInvestigatorFlag(getInvestigatorFlag(budgetPersRateAndBase));
 		reportTypeVO
 				.setBudgetCategoryCode(getBudgetCategoryCodeFroBudgetSalarySummary(
-						budgetPersRateAndBase, budgetPersDetails
-								.getBudgetCategoryCode()));
+						budgetPersRateAndBase, budgetPersDetails));
 		reportTypeVO.setSalaryRequested(budgetPersRateAndBase
 				.getSalaryRequested());
 		return reportTypeVO;
