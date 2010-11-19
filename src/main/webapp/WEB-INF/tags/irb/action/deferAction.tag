@@ -60,7 +60,7 @@
                         <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolDeferBean.reviewCommentsBean}"
                                                        property="actionHelper.protocolDeferBean.reviewCommentsBean"
                                                        action="${action}"
-                                                       actionName="Defer" />
+                                                       taskName="protocolDefer" />
                    </td>
                 </tr>
                 

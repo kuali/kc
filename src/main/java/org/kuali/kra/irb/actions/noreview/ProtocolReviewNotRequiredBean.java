@@ -18,26 +18,26 @@ package org.kuali.kra.irb.actions.noreview;
 import java.io.Serializable;
 import java.sql.Date;
 
+import org.kuali.kra.irb.actions.ActionHelper;
+import org.kuali.kra.irb.actions.ProtocolActionBean;
+
 /**
- * This class manages the HTML Elements needed for the review not required pangel.
+ * This class manages the HTML Elements needed for the review not required panel.
  */
-public class ProtocolReviewNotRequiredBean implements Serializable {
-    
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
-    private static final long serialVersionUID = -4332595416119188156L;
+public class ProtocolReviewNotRequiredBean extends ProtocolActionBean implements Serializable {
+
+    private static final long serialVersionUID = -9057687242686885236L;
     
     private String comments = "";
     private Date actionDate = new Date(System.currentTimeMillis());
     private Date decisionDate = new Date(System.currentTimeMillis());
-    
+
     /**
-     * 
-     * Constructs a ProtocolReviewNotRequiredBean.java.
+     * Constructs a ProtocolReviewNotRequiredBean.
+     * @param actionHelper Reference back to the action helper for this bean
      */
-    public ProtocolReviewNotRequiredBean() {
-        
+    public ProtocolReviewNotRequiredBean(ActionHelper actionHelper) {
+        super(actionHelper);
     }
 
     public String getComments() {

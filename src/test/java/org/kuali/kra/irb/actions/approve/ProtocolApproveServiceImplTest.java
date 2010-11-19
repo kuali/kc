@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.actions.approve;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jmock.Expectations;
@@ -88,7 +89,7 @@ public class ProtocolApproveServiceImplTest extends KcUnitTestBase {
     public void testApprove() throws Exception{
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
 
-        service.approve(protocolDocument, getMockApproveBean(new ProtocolRiskLevelBean()));
+        service.approve(protocolDocument, getMockProtocolApproveBean());
         
         String expected = ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT;
         assertEquals(expected, protocolDocument.getProtocol().getProtocolStatus().getProtocolStatusCode());
@@ -98,24 +99,25 @@ public class ProtocolApproveServiceImplTest extends KcUnitTestBase {
     public void testApproveRiskLevels() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
-        ProtocolRiskLevelBean protocolRiskLevelBean = new ProtocolRiskLevelBean();
+        List<ProtocolRiskLevel> protocolRiskLevels = new ArrayList<ProtocolRiskLevel>();
         
-        ProtocolRiskLevel lowRiskLevelProtocol = protocolRiskLevelBean.getNewProtocolRiskLevel();
-        lowRiskLevelProtocol.setRiskLevelCode(LOW_RISK_CODE);
-        lowRiskLevelProtocol.setDateAssigned(ASSIGNED_DATE);
-        lowRiskLevelProtocol.setStatus(ACTIVE_STATUS);
-        protocolRiskLevelBean.addNewProtocolRiskLevel(protocolDocument.getProtocol());
+        ProtocolRiskLevel lowProtocolRiskLevel = new ProtocolRiskLevel();
+        lowProtocolRiskLevel.setRiskLevelCode(LOW_RISK_CODE);
+        lowProtocolRiskLevel.setDateAssigned(ASSIGNED_DATE);
+        lowProtocolRiskLevel.setStatus(ACTIVE_STATUS);
+        protocolRiskLevels.add(lowProtocolRiskLevel);
         
-        ProtocolRiskLevel highRiskLevelProtocol = protocolRiskLevelBean.getNewProtocolRiskLevel();
-        highRiskLevelProtocol.setRiskLevelCode(HIGH_RISK_CODE);
-        highRiskLevelProtocol.setDateAssigned(ASSIGNED_DATE);
-        highRiskLevelProtocol.setStatus(INACTIVE_STATUS);
-        highRiskLevelProtocol.setDateInactivated(INACTIVATED_DATE);
-        highRiskLevelProtocol.setComments(HIGH_RISK_LEVEL_COMMENTS);
-        protocolRiskLevelBean.addNewProtocolRiskLevel(protocolDocument.getProtocol());
+        ProtocolRiskLevel highProtocolRiskLevel = new ProtocolRiskLevel();
+        highProtocolRiskLevel.setRiskLevelCode(HIGH_RISK_CODE);
+        highProtocolRiskLevel.setDateAssigned(ASSIGNED_DATE);
+        highProtocolRiskLevel.setStatus(INACTIVE_STATUS);
+        highProtocolRiskLevel.setDateInactivated(INACTIVATED_DATE);
+        highProtocolRiskLevel.setComments(HIGH_RISK_LEVEL_COMMENTS);
+        protocolRiskLevels.add(highProtocolRiskLevel);
         
-        ProtocolApproveBean protocolApproveBean = getMockApproveBean(protocolRiskLevelBean);
-        service.approve(protocolDocument, protocolApproveBean);
+        protocolDocument.getProtocol().setProtocolRiskLevels(protocolRiskLevels);
+        
+        service.approve(protocolDocument, getMockProtocolApproveBean());
         
         verifyPersistRiskLevel(protocolDocument.getProtocol(), 0, LOW_RISK_CODE, ASSIGNED_DATE, ACTIVE_STATUS);
         verifyPersistRiskLevel(protocolDocument.getProtocol(), 1, HIGH_RISK_CODE, ASSIGNED_DATE, INACTIVE_STATUS, INACTIVATED_DATE, 
@@ -174,7 +176,7 @@ public class ProtocolApproveServiceImplTest extends KcUnitTestBase {
         return service;
     }
     
-    private ProtocolApproveBean getMockApproveBean(final ProtocolRiskLevelBean protocolRiskLevelBean) {
+    private ProtocolApproveBean getMockProtocolApproveBean() {
         final ProtocolApproveBean bean = context.mock(ProtocolApproveBean.class);
         
         context.checking(new Expectations() {{
@@ -191,7 +193,7 @@ public class ProtocolApproveServiceImplTest extends KcUnitTestBase {
             will(returnValue(COMMENTS));
             
             allowing(bean).getProtocolRiskLevelBean();
-            will(returnValue(protocolRiskLevelBean));
+            will(returnValue(new ProtocolRiskLevelBean(Constants.PROTOCOL_APPROVAL_ENTER_RISK_LEVEL_KEY)));
         }});
         
         return bean;

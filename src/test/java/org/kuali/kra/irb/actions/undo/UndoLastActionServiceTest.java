@@ -17,6 +17,7 @@ package org.kuali.kra.irb.actions.undo;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -27,6 +28,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
@@ -37,6 +39,7 @@ import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaBean;
 import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaService;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionService;
+import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
 import org.kuali.kra.irb.actions.request.ProtocolRequestService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
@@ -116,7 +119,7 @@ public class UndoLastActionServiceTest extends KcUnitTestBase {
     public void testUndoApproveAction() throws Exception {
         ProtocolDocument protocolDocument = getApprovedProtocolDocument();
 
-        service.undoLastAction(protocolDocument, getUndoLastActionBean());
+        service.undoLastAction(protocolDocument, getMockUndoLastActionBean(protocolDocument.getProtocol()));
 
         assertEquals(ProtocolStatus.SUBMITTED_TO_IRB, protocolDocument.getProtocol().getProtocolStatusCode());
         
@@ -136,7 +139,7 @@ public class UndoLastActionServiceTest extends KcUnitTestBase {
     public void testUndoRequestToCloseAction() throws Exception {
         ProtocolDocument protocolDocument = getApprovedProtocolDocument();
 
-        ProtocolRequestBean requestToCloseBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE,
+        ProtocolRequestBean requestToCloseBean = getMockProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE,
             ProtocolSubmissionType.REQUEST_TO_CLOSE, "protocolCloseRequestBean");
         protocolRequestService.submitRequest(protocolDocument.getProtocol(), requestToCloseBean);
 
@@ -152,7 +155,7 @@ public class UndoLastActionServiceTest extends KcUnitTestBase {
         assertNotNull(action);
         assertEquals(ProtocolActionType.REQUEST_TO_CLOSE, action.getProtocolActionTypeCode());
 
-        service.undoLastAction(protocolDocument, getUndoLastActionBean());
+        service.undoLastAction(protocolDocument, getMockUndoLastActionBean(protocolDocument.getProtocol()));
 
         assertEquals(ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT, protocolDocument.getProtocol().getProtocolStatusCode());
         
@@ -172,7 +175,7 @@ public class UndoLastActionServiceTest extends KcUnitTestBase {
     public void testUndoCloseAction() throws Exception {
         ProtocolDocument protocolDocument = getApprovedProtocolDocument();
 
-        ProtocolRequestBean requestToCloseBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE,
+        ProtocolRequestBean requestToCloseBean = getMockProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE,
             ProtocolSubmissionType.REQUEST_TO_CLOSE, "protocolCloseRequestBean");
         protocolRequestService.submitRequest(protocolDocument.getProtocol(), requestToCloseBean);
 
@@ -204,7 +207,7 @@ public class UndoLastActionServiceTest extends KcUnitTestBase {
         assertEquals(ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, lastAction.getProtocolActionTypeCode());
         assertEquals(CLOSE_COMMENTS, lastAction.getComments());
 
-        service.undoLastAction(protocolDocument, getUndoLastActionBean());
+        service.undoLastAction(protocolDocument, getMockUndoLastActionBean(protocolDocument.getProtocol()));
 
         assertEquals(ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT, protocolDocument.getProtocol().getProtocolStatusCode());
         
@@ -223,7 +226,7 @@ public class UndoLastActionServiceTest extends KcUnitTestBase {
     public void testUndoRequestForSuspensionAction() throws Exception {
         ProtocolDocument protocolDocument = getApprovedProtocolDocument();
 
-        ProtocolRequestBean requestForSuspensionBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_FOR_SUSPENSION,
+        ProtocolRequestBean requestForSuspensionBean = getMockProtocolRequestBean(ProtocolActionType.REQUEST_FOR_SUSPENSION,
             ProtocolSubmissionType.REQUEST_FOR_SUSPENSION, "protocolSuspendRequestBean");
         protocolRequestService.submitRequest(protocolDocument.getProtocol(), requestForSuspensionBean);
 
@@ -239,7 +242,7 @@ public class UndoLastActionServiceTest extends KcUnitTestBase {
         assertNotNull(action);
         assertEquals(ProtocolActionType.REQUEST_FOR_SUSPENSION, action.getProtocolActionTypeCode());
 
-        service.undoLastAction(protocolDocument, getUndoLastActionBean());
+        service.undoLastAction(protocolDocument, getMockUndoLastActionBean(protocolDocument.getProtocol()));
 
         assertEquals(ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT, protocolDocument.getProtocol().getProtocolStatusCode());
         
@@ -259,7 +262,7 @@ public class UndoLastActionServiceTest extends KcUnitTestBase {
     public void testUndoEnrollmentActions() throws Exception {
         ProtocolDocument protocolDocument = getApprovedProtocolDocument();
 
-        ProtocolRequestBean requestToCloseBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE_ENROLLMENT,
+        ProtocolRequestBean requestToCloseBean = getMockProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE_ENROLLMENT,
             ProtocolSubmissionType.REQUEST_TO_CLOSE_ENROLLMENT, "protocolCloseEnrollmentRequestBean");
         protocolRequestService.submitRequest(protocolDocument.getProtocol(), requestToCloseBean);
 
@@ -290,7 +293,7 @@ public class UndoLastActionServiceTest extends KcUnitTestBase {
         assertEquals(ProtocolActionType.CLOSED_FOR_ENROLLMENT, lastAction.getProtocolActionTypeCode());
         assertEquals(CLOSE_ENROLLMENT_COMMENTS, lastAction.getComments());
 
-        service.undoLastAction(protocolDocument, getUndoLastActionBean());
+        service.undoLastAction(protocolDocument, getMockUndoLastActionBean(protocolDocument.getProtocol()));
 
         assertEquals(ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT, protocolDocument.getProtocol().getProtocolStatusCode());
         
@@ -335,6 +338,26 @@ public class UndoLastActionServiceTest extends KcUnitTestBase {
         assertEquals(ProtocolSubmissionStatus.APPROVED, submission.getSubmissionStatusCode());
 
         return protocolDocument;
+    }
+    
+    private BusinessObjectService getMockBusinessObjectService() {
+        final BusinessObjectService service = context.mock(BusinessObjectService.class);
+        
+        context.checking(new Expectations() {{
+            ignoring(service);
+        }});
+        
+        return service;
+    }
+    
+    private DocumentService getMockDocumentService() {
+        final DocumentService service = context.mock(DocumentService.class);
+        
+        context.checking(new Expectations() {{
+            ignoring(service);
+        }});
+        
+        return service;
     }
     
     private ProtocolSubmitAction getMockSubmitAction() {
@@ -400,9 +423,19 @@ public class UndoLastActionServiceTest extends KcUnitTestBase {
         return bean;
     }
     
-    private UndoLastActionBean getUndoLastActionBean() {
-        UndoLastActionBean bean = new UndoLastActionBean();
-        bean.setComments(COMMENTS);
+    private UndoLastActionBean getMockUndoLastActionBean(final Protocol protocol) {
+        final UndoLastActionBean bean = context.mock(UndoLastActionBean.class);
+        
+        context.checking(new Expectations() {{
+            allowing(bean).getComments();
+            will(returnValue(COMMENTS));
+            
+            allowing(bean).setActionsPerformed(protocol.getProtocolActions());
+            
+            allowing(bean).getLastPerformedAction();
+            will(returnValue(protocol.getLastProtocolAction()));
+        }});
+        
         return bean;
     }
     
@@ -420,24 +453,30 @@ public class UndoLastActionServiceTest extends KcUnitTestBase {
         return bean;
     }
     
-    private BusinessObjectService getMockBusinessObjectService() {
-        final BusinessObjectService service = context.mock(BusinessObjectService.class);
+    private ProtocolRequestBean getMockProtocolRequestBean(final String protocolActionTypeCode, final String submissionTypeCode, final String beanName) {
+        final ProtocolRequestBean bean = context.mock(ProtocolRequestBean.class);
         
         context.checking(new Expectations() {{
-            ignoring(service);
+            allowing(bean).getProtocolActionTypeCode();
+            will(returnValue(protocolActionTypeCode));
+            
+            allowing(bean).getSubmissionTypeCode();
+            will(returnValue(submissionTypeCode));
+            
+            allowing(bean).getCommitteeId();
+            will(returnValue(Constants.EMPTY_STRING));
+            
+            allowing(bean).getReason();
+            will(returnValue(Constants.EMPTY_STRING));
+            
+            allowing(bean).getBeanName();
+            will(returnValue(beanName));
+            
+            allowing(bean).getActionAttachments();
+            will(returnValue(new ArrayList<ProtocolActionAttachment>()));
         }});
         
-        return service;
-    }
-    
-    private DocumentService getMockDocumentService() {
-        final DocumentService service = context.mock(DocumentService.class);
-        
-        context.checking(new Expectations() {{
-            ignoring(service);
-        }});
-        
-        return service;
+        return bean;
     }
     
 }

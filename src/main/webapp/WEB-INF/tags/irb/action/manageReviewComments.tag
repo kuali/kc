@@ -21,6 +21,7 @@
       <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolManageReviewCommentsBean.reviewCommentsBean}"
               property="actionHelper.protocolManageReviewCommentsBean.reviewCommentsBean"
               action="${action}"
-              actionName="" 
-              tabCustomTitle="Manage Review Comments" methodToCall="manageComments" />
+              taskName="protocolManageReviewComments" 
+              tabCustomTitle="Manage Review Comments" 
+              methodToCall="manageComments" />
 </kra:permission>

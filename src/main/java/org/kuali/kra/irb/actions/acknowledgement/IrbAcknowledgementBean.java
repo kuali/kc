@@ -18,13 +18,16 @@ package org.kuali.kra.irb.actions.acknowledgement;
 import java.io.Serializable;
 import java.sql.Date;
 
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.actions.ActionHelper;
+import org.kuali.kra.irb.actions.ProtocolActionBean;
+import org.kuali.kra.irb.actions.ProtocolOnlineReviewCommentable;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
 
 /**
  * This class is the form data of IRB acknowledgement sub-panel.
  */
-public class IrbAcknowledgementBean implements Serializable {
+public class IrbAcknowledgementBean extends ProtocolActionBean implements ProtocolOnlineReviewCommentable, Serializable {
 
     private static final long serialVersionUID = 9084925682470626330L;
     
@@ -35,11 +38,12 @@ public class IrbAcknowledgementBean implements Serializable {
     
     /**
      * Constructs a IrbAcknowledgementBean.
-     * @param actionHelper a reference back to the parent helper
+     * @param actionHelper Reference back to the action helper for this bean
      */
     public IrbAcknowledgementBean(ActionHelper actionHelper) {
-        reviewCommentsBean = new ReviewCommentsBean();
-        reviewCommentsBean.setProtocol(actionHelper.getProtocol());
+        super(actionHelper);
+        
+        reviewCommentsBean = new ReviewCommentsBean(Constants.PROTOCOL_IRB_ACKNOWLEDGEMENT_ENTER_REVIEW_COMMENTS_KEY);
     }
 
     public String getComments() {

@@ -146,7 +146,7 @@ public class IrbAcknowledgementServiceTest extends KcUnitTestBase {
             will(returnValue(ACTION_DATE));
             
             allowing(bean).getReviewCommentsBean();
-            will(returnValue(new ReviewCommentsBean()));
+            will(returnValue(new ReviewCommentsBean(Constants.EMPTY_STRING)));
         }});
         
         return bean;

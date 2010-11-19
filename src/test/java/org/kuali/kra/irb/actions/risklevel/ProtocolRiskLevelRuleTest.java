@@ -145,7 +145,7 @@ public class ProtocolRiskLevelRuleTest extends ProtocolRuleTestBase {
         protocolRiskLevel.setStatus("I");
         protocolRiskLevel.setDateInactivated(new Date(System.currentTimeMillis()));
         
-        ProtocolUpdateRiskLevelEvent event = new ProtocolUpdateRiskLevelEvent(protocolDocument, Constants.PROTOCOL_APPROVAL_ENTER_RISK_LEVEL_KEY, 0);
+        ProtocolUpdateRiskLevelEvent event = new ProtocolUpdateRiskLevelEvent(protocolDocument, 0);
         ProtocolUpdateRiskLevelRule rule = new ProtocolUpdateRiskLevelRule();
         assertTrue(rule.processRules(event));
     }
@@ -164,10 +164,10 @@ public class ProtocolRiskLevelRuleTest extends ProtocolRuleTestBase {
         
         protocolRiskLevel.setStatus("I");
         
-        ProtocolUpdateRiskLevelEvent event = new ProtocolUpdateRiskLevelEvent(protocolDocument, Constants.PROTOCOL_APPROVAL_ENTER_RISK_LEVEL_KEY, 0);
+        ProtocolUpdateRiskLevelEvent event = new ProtocolUpdateRiskLevelEvent(protocolDocument, 0);
         ProtocolUpdateRiskLevelRule rule = new ProtocolUpdateRiskLevelRule();
         assertFalse(rule.processRules(event));
-        assertError(Constants.PROTOCOL_APPROVAL_ENTER_RISK_LEVEL_KEY + "[" + event.getIndex() + "].dateInactivated", KeyConstants.ERROR_PROTOCOL_DATE_INACTIVATED_REQUIRED);
+        assertError(Constants.PROTOCOL_UPDATE_RISK_LEVEL_KEY + "[" + event.getIndex() + "].dateInactivated", KeyConstants.ERROR_PROTOCOL_DATE_INACTIVATED_REQUIRED);
     }
     
 }
