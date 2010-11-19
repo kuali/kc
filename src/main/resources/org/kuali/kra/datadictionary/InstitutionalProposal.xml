@@ -453,7 +453,7 @@
     <bean id="InstitutionalProposal-requestedStartDateInitial" parent="InstitutionalProposal-requestedStartDateInitial-parentBean" />
     <bean id="InstitutionalProposal-requestedStartDateInitial-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
         <property name="name" value="requestedStartDateInitial" />
-        <property name="label" value="Initial Requested Start Date" />
+        <property name="label" value="Requested Start Date" />
         <property name="shortLabel" value="Requested Start Date" />
         <property name="summary" value="Requested Start Date Initial" />
         <property name="description" value="Requested Start Date Initial" />
@@ -471,7 +471,7 @@
     <bean id="InstitutionalProposal-requestedEndDateInitial" parent="InstitutionalProposal-requestedEndDateInitial-parentBean" />
     <bean id="InstitutionalProposal-requestedEndDateInitial-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
         <property name="name" value="requestedEndDateInitial" />
-        <property name="label" value="Initial Requested End Date" />
+        <property name="label" value="Requested End Date" />
         <property name="shortLabel" value="Requested End Date" />
         <property name="summary" value="Requested End Date Initial" />
         <property name="description" value="Requested End Date Initial" />
@@ -490,7 +490,7 @@
     <bean id="InstitutionalProposal-totalDirectCostInitial-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="totalDirectCostInitial" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Initial Total Direct Cost" />
+        <property name="label" value="Total Direct Cost" />
         <property name="shortLabel" value="Total Direct Cost" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
@@ -534,8 +534,8 @@
     <bean id="InstitutionalProposal-totalIndirectCostInitial-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="totalIndirectCostInitial" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Initial F&amp;A Cost" />
-        <property name="shortLabel" value="Initial F&amp;A Cost" />
+        <property name="label" value="F&amp;A Cost" />
+        <property name="shortLabel" value="F&amp;A Cost" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
       		<bean parent="FixedPointValidationPattern"
