@@ -995,7 +995,137 @@ function loadPersonName(usernameFieldName, fullnameElementId,
 	}
 }
 
+/*
+ * functions for award template report term 
+ */	
+  
+ var reportTypeName;
+ function updateReportType( reportClassField, callbackFunction ) {
 
+    if (reportClassField.name.lastIndexOf("reportClassCode") == 0) {
+    	reportTypeName = "reportCode" ;
+    } else if (reportClassField.name.lastIndexOf("reportClassCode") > 0) {
+    	reportTypeName =  findElPrefix( reportClassField.name ) + ".reportCode" ;
+    }
+    var reportClass = reportClassField.value;
+    
+  //  alert ("reportType is " + reportTypeName + ". ReportClass is " + reportClass );
+ 
+	if ( reportClass != "") {
+		var dwrReply = {
+			callback:callbackFunction,
+			errorHandler:function( errorMessage ) { 
+				window.status = errorMessage;
+			}};;
+		AwardTemplateReportTermService.getReportTypeForAjaxCall(reportClass, dwrReply );
+	} else {
+	    kualiElements[reportType].options.length=1;
+	}
+}
+ function updateReportType_Callback( data ) {
+	 alert("in callback function with data = " + data);
+	kualiElements[reportTypeName].options.length=0; //reset 
+	var option_array=data.split(",");
+	var optionNum=0;
+	var nameLabelPair;
+	while (optionNum < option_array.length)
+	 {
+		  if (optionNum == 0) {
+		        kualiElements[reportTypeName].options[0]=new Option("select","", true, true);
+		  } else {
+		        nameLabelPair = option_array[optionNum].split(";");
+		        kualiElements[reportTypeName].options[optionNum]=new Option(nameLabelPair[1], nameLabelPair[0]);
+		  }
+		  optionNum+=1;
+	 }
+}
+
+ var frequencyName;
+ function updateFrequency(reportTypeField, callbackFunction ) {
+
+	var reportClassName;
+    if (reportTypeField.name.lastIndexOf("reportCode") == 0) {
+    	frequencyName = "frequencyCode" ;
+    	reportClassName="reportClassCode";
+    } else if (reportTypeField.name.lastIndexOf("reportCode") > 0) {
+    	frequencyName =  findElPrefix( reportTypeField.name ) + ".frequencyCode" ;
+    	reportClassName = findElPrefix( reportTypeField.name ) + ".reportClassCode" ;
+    }
+  //  alert("frequencyName is " + frequencyName );
+    var reportCode = reportTypeField.value;
+    var reportClass = kualiElements[reportClassName].value;
+   // alert ("ReportCode is " + reportCode );
+    //alert ("ReportClass is " + reportClass);
+ 
+	if ( reportCode != "") {
+		var dwrReply = {
+			callback:callbackFunction,
+			errorHandler:function( errorMessage ) { 
+				window.status = errorMessage;
+			}};
+		AwardTemplateReportTermService.getFrequencyForAjaxCall(reportCode, reportClass, dwrReply );
+	} else {
+	    kualiElements[reportType].options.length=1;
+	}
+}
+ function updateFrequency_Callback( data ) {
+	alert("in callback function with data = " + data);
+	kualiElements[frequencyName].options.length=0; //reset 
+	var option_array=data.split(",");
+	var optionNum=0;
+	var nameLabelPair;
+	while (optionNum < option_array.length)
+	 {
+		  if (optionNum == 0) {
+		        kualiElements[frequencyName].options[0]=new Option("select","", true, true);
+		  } else {
+		        nameLabelPair = option_array[optionNum].split(";");
+		        kualiElements[frequencyName].options[optionNum]=new Option(nameLabelPair[1], nameLabelPair[0]);
+		  }
+		  optionNum+=1;
+	 }
+}
+
+ var frequencyBaseName;
+ function updateFrequencyBase(frequencyField, callbackFunction ) {
+    if (frequencyField.name.lastIndexOf("frequencyCode") == 0) {
+    	frequencyBaseName = "frequencyBaseCode" ;
+    } else if (frequencyField.name.lastIndexOf("frequencyCode") > 0) {
+    	frequencyBaseName =  findElPrefix( frequencyField.name ) + ".frequencyBaseCode" ;
+    }
+ //   alert("frequencyBaseName is " + frequencyBaseName );
+    var frequency = frequencyField.value;
+	if ( frequency != "") {
+		var dwrReply = {
+			callback:callbackFunction,
+			errorHandler:function( errorMessage ) { 
+				window.status = errorMessage;
+			}};
+		AwardTemplateReportTermService.getFrequencyBaseForAjaxCall(frequency, dwrReply );
+	} else {
+	    kualiElements[reportType].options.length=1;
+	}
+}
+ 
+ function updateFrequencyBase_Callback( data ) {
+	alert("in callback function with data = " + data);
+	kualiElements[frequencyBaseName].options.length=0; //reset 
+	var option_array=data.split(",");
+	var optionNum=0;
+	var nameLabelPair;
+	while (optionNum < option_array.length)
+	 {
+		  if (optionNum == 0) {
+		        kualiElements[frequencyBaseName].options[0]=new Option("select","", true, true);
+		  } else {
+		        nameLabelPair = option_array[optionNum].split(";");
+		        kualiElements[frequencyBaseName].options[optionNum]=new Option(nameLabelPair[1], nameLabelPair[0]);
+		  }
+		  optionNum+=1;
+	 }
+} 
+ 
+ 
 /*
  * functions for custom attribute maintenance 
  */	
