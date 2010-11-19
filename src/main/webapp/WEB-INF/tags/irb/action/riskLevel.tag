@@ -18,7 +18,7 @@
 <%@ attribute name="bean" required="true" type="org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelBean" %>
 <%@ attribute name="property" required="true" %>
 <%@ attribute name="action" required="true" %>
-<%@ attribute name="actionName" required="true" %>
+<%@ attribute name="taskName" required="true" %>
 
 <c:set var="attributes" value="${DataDictionary.ProtocolRiskLevel.attributes}" />
 
@@ -71,7 +71,7 @@
                 </td>
                 <td align="left" valign="middle">
                     <div align="center">
-                        <html:image property="methodToCall.add${actionName}RiskLevel.anchor${tabKey}"
+                        <html:image property="methodToCall.addRiskLevel.taskName${taskName}.anchor${tabKey}"
                                     src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
                     </div>
                 </td>
@@ -119,11 +119,11 @@
 			            <div align="center">
 			                <c:choose>
 				                <c:when test="${!protocolRiskLevel.persisted}">
-					                <html:image property="methodToCall.delete${actionName}RiskLevel.line${status.index}.anchor${tabKey}"
+					                <html:image property="methodToCall.deleteRiskLevel.taskName${taskName}.line${status.index}.anchor${tabKey}"
 					                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
 				                </c:when>
 				                <c:otherwise>
-				                    <html:image property="methodToCall.update${actionName}RiskLevel.line${status.index}.anchor${tabKey}"
+				                    <html:image property="methodToCall.updateRiskLevel.taskName${taskName}.line${status.index}.anchor${tabKey}"
                                                 src='${ConfigProperties.kra.externalizable.images.url}tinybutton-update.gif' styleClass="tinybutton"/>
                                 </c:otherwise>
 				            </c:choose>

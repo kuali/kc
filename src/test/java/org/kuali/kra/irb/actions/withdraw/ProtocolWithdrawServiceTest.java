@@ -15,28 +15,39 @@
  */
 package org.kuali.kra.irb.actions.withdraw;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.ArrayList;
 
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.ProtocolVersionService;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolStatus;
+import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaService;
+import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
+import org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService;
+import org.kuali.kra.irb.actions.submit.ProtocolActionService;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.service.DocumentService;
 
 /**
  * Test the ProtocolWithdrawService implementation.
@@ -44,73 +55,148 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class ProtocolWithdrawServiceTest extends KcUnitTestBase {
 
     private static final String REASON = "my test reason";
-    private static final String VALID_SUBMISSION_TYPE = "100";
-    private static final String VALID_REVIEW_TYPE = "1";
     
-    private ProtocolWithdrawService protocolWithdrawService;
+    private ProtocolWithdrawServiceImpl service;
     private ProtocolSubmitActionService protocolSubmitActionService;
-    private BusinessObjectService businessObjectService;  
+    
+    private Mockery context = new JUnit4Mockery() {{
+        setImposteriser(ClassImposteriser.INSTANCE);
+    }};
     
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        GlobalVariables.setUserSession(new UserSession("quickstart"));
-        protocolWithdrawService = KraServiceLocator.getService(ProtocolWithdrawService.class);
+
+        service = new ProtocolWithdrawServiceImpl();
+        service.setProtocolActionService(KraServiceLocator.getService(ProtocolActionService.class));
+        service.setProtocolOnlineReviewService(getMockOnlineReviewService());
+        service.setBusinessObjectService(getMockBusinessObjectService());
+        service.setProtocolActionsNotificationService(getMockProtocolActionsNotificationService());
+        service.setDocumentService(KraServiceLocator.getService(DocumentService.class));
+        service.setProtocolVersionService(KraServiceLocator.getService(ProtocolVersionService.class));
+        service.setProtocolAssignToAgendaService(getMockProtocolAssignToAgendaService());
+        service.setProtocolActionCorrespondenceGenerationService(getMockActionCorrespondenceGenerationService());
+        
         protocolSubmitActionService = KraServiceLocator.getService(ProtocolSubmitActionService.class);
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
     }
 
     @After
     public void tearDown() throws Exception {
-        GlobalVariables.setUserSession(null);
+        service = null;
+        protocolSubmitActionService = null;
+        
         super.tearDown();
     }
     
     @Test
     public void testWithdrawal() throws Exception {
-        ProtocolWithdrawBean withdrawBean = new ProtocolWithdrawBean();
-        withdrawBean.setReason(REASON);
-        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        ProtocolDocument oldProtocolDocument = ProtocolFactory.createProtocolDocument();
         
-        ProtocolSubmitAction submitAction = createSubmitAction("668", "1", VALID_REVIEW_TYPE);
-        submitAction.setSubmissionQualifierTypeCode(ProtocolSubmissionQualifierType.ANNUAL_SCHEDULED_BY_IRB);
-        protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
-        Committee committee = new Committee();
-        protocolDocument.getProtocol().getProtocolSubmission().setCommittee(committee);
+        protocolSubmitActionService.submitToIrbForReview(oldProtocolDocument.getProtocol(), getMockSubmitAction());
+        assertEquals(ProtocolStatus.SUBMITTED_TO_IRB, oldProtocolDocument.getProtocol().getProtocolStatusCode());
         
-        ProtocolDocument newProtocolDocument = protocolWithdrawService.withdraw(protocolDocument.getProtocol(), withdrawBean);
+        ProtocolDocument newProtocolDocument = service.withdraw(oldProtocolDocument.getProtocol(), getMockProtocolWithdrawBean());
     
-        assertTrue(protocolDocument.getDocumentHeader().getWorkflowDocument().stateIsCanceled());
+        assertTrue(oldProtocolDocument.getDocumentHeader().getWorkflowDocument().stateIsCanceled());
         assertEquals(ProtocolStatus.WITHDRAWN, newProtocolDocument.getProtocol().getProtocolStatusCode());
         
-        ProtocolAction protocolAction = findProtocolAction(protocolDocument.getProtocol().getProtocolId());
+        ProtocolAction protocolAction = oldProtocolDocument.getProtocol().getLastProtocolAction();
         assertNotNull(protocolAction);
         assertEquals(REASON, protocolAction.getComments());
         
-        ProtocolSubmission submission = protocolDocument.getProtocol().getProtocolSubmissions().get(0);
+        ProtocolSubmission submission = oldProtocolDocument.getProtocol().getProtocolSubmission();
         assertEquals(ProtocolSubmissionStatus.WITHDRAWN, submission.getSubmissionStatusCode());
     }
-
-    @SuppressWarnings("unchecked")
-    private ProtocolAction findProtocolAction(Long protocolId) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("protocolId", protocolId);
-        List<ProtocolAction> actions = (List<ProtocolAction>) businessObjectService.findMatchingOrderBy(ProtocolAction.class, fieldValues, "actionId", true);
+    
+    private ProtocolOnlineReviewService getMockOnlineReviewService() {
+        final ProtocolOnlineReviewService service = context.mock(ProtocolOnlineReviewService.class);
         
-        assertEquals(2, actions.size());
-        ProtocolAction action = actions.get(1);
+        context.checking(new Expectations() {{
+            ignoring(service);
+        }});
+        
+        return service;
+    }
+    
+    private BusinessObjectService getMockBusinessObjectService() {
+        final BusinessObjectService service = context.mock(BusinessObjectService.class);
+        
+        context.checking(new Expectations() {{
+            ignoring(service);
+        }});
+        
+        return service;
+    }
+    
+    private ProtocolActionsNotificationService getMockProtocolActionsNotificationService() {
+        final ProtocolActionsNotificationService service = context.mock(ProtocolActionsNotificationService.class);
+        
+        context.checking(new Expectations() {{
+            ignoring(service);
+        }});
+        
+        return service;
+    }
+    
+    private ProtocolAssignToAgendaService getMockProtocolAssignToAgendaService() {
+        final ProtocolAssignToAgendaService service = context.mock(ProtocolAssignToAgendaService.class);
+        
+        context.checking(new Expectations() {{
+            allowing(service).getAssignedToAgendaProtocolAction(with(any(Protocol.class)));
+            will(returnValue(null));
+        }});
+        
+        return service;
+    }
+    
+    private ProtocolActionCorrespondenceGenerationService getMockActionCorrespondenceGenerationService() {
+        final ProtocolActionCorrespondenceGenerationService service = context.mock(ProtocolActionCorrespondenceGenerationService.class);
+        
+        context.checking(new Expectations() {{
+            ignoring(service);
+        }});
+        
+        return service;
+    }
+    
+    private ProtocolSubmitAction getMockSubmitAction() {
+        final ProtocolSubmitAction action = context.mock(ProtocolSubmitAction.class);
+        
+        context.checking(new Expectations() {{
+            allowing(action).getSubmissionTypeCode();
+            will(returnValue(ProtocolSubmissionType.INITIAL_SUBMISSION));
+            
+            allowing(action).getProtocolReviewTypeCode();
+            will(returnValue(ProtocolReviewType.FULL_TYPE_CODE));
+            
+            allowing(action).getSubmissionQualifierTypeCode();
+            will(returnValue(ProtocolSubmissionQualifierType.ANNUAL_SCHEDULED_BY_IRB));
+            
+            allowing(action).getNewCommitteeId();
+            will(returnValue(Constants.EMPTY_STRING));
+            
+            allowing(action).getNewScheduleId();
+            will(returnValue(Constants.EMPTY_STRING));
+            
+            allowing(action).getReviewers();
+            will(returnValue(new ArrayList<ProtocolReviewerBean>()));
+        }});
+        
         return action;
     }
     
-    /*
-     * Create protocol submission action.
-     */
-    private ProtocolSubmitAction createSubmitAction(String committeeId, String scheduleId, String protocolReviewTypeCode) {
-        ProtocolSubmitAction submitAction = new ProtocolSubmitAction(null);
-        submitAction.setSubmissionTypeCode(VALID_SUBMISSION_TYPE);
-        submitAction.setProtocolReviewTypeCode(protocolReviewTypeCode);
-        submitAction.setCommitteeId(committeeId);
-        submitAction.setScheduleId(scheduleId);
-        return submitAction;
+    private ProtocolWithdrawBean getMockProtocolWithdrawBean() {
+        final ProtocolWithdrawBean bean = context.mock(ProtocolWithdrawBean.class);
+        
+        context.checking(new Expectations() {{
+            allowing(bean).getReason();
+            will(returnValue(REASON));
+            
+            allowing(bean).getCorrespondence();
+            will(returnValue(new WithdrawCorrespondence()));
+        }});
+        
+        return bean;
     }
+    
 }

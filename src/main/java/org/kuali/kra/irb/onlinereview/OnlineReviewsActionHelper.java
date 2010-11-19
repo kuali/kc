@@ -30,6 +30,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
@@ -126,8 +127,7 @@ public class OnlineReviewsActionHelper implements Serializable {
                         throw new RuntimeException(String.format("Exception generated creating new instance of ProtocolOnlineReviewForm with document %s",pDoc.getDocumentNumber()),e);
                     }
                    
-                    ReviewCommentsBean commentsBean = new ReviewCommentsBean();
-                    commentsBean.setProtocol(pDoc.getProtocolOnlineReview().getProtocol());
+                    ReviewCommentsBean commentsBean = new ReviewCommentsBean(Constants.EMPTY_STRING);
                     commentsBean.setReviewComments(pDoc.getProtocolOnlineReview().getCommitteeScheduleMinutes());
                  
                     pDocMap.put(REVIEWER_COMMENTS_MAP_KEY, commentsBean);

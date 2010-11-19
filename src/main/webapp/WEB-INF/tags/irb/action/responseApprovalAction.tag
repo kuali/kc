@@ -98,7 +98,7 @@
                         <kra-irb-action:riskLevel bean="${KualiForm.actionHelper.protocolResponseApprovalBean.protocolRiskLevelBean}"
                                                   property="actionHelper.protocolResponseApprovalBean.protocolRiskLevelBean"
                                                   action="${action}" 
-                                                  actionName="ResponseApproval" />
+                                                  taskName="protocolResponseApproval" />
                     </td>
                 </tr>
                 <tr>
@@ -106,7 +106,7 @@
                         <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolResponseApprovalBean.reviewCommentsBean}"
                                                        property="actionHelper.protocolResponseApprovalBean.reviewCommentsBean"
                                                        action="${action}"
-                                                       actionName="ResponseApproval" />
+                                                       taskName="protocolResponseApproval" />
                    </td>
                 </tr>
                 

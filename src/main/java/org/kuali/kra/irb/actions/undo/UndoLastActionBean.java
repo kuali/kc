@@ -21,16 +21,16 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.ProtocolAction;
+import org.kuali.kra.irb.actions.ProtocolActionBean;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 
-public class UndoLastActionBean implements Serializable {
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
-    private static final long serialVersionUID = 1L;
+public class UndoLastActionBean extends ProtocolActionBean implements Serializable {
 
+    private static final long serialVersionUID = 801139767436741048L;
+    
     private static final String[] NOT_UNDOABLE_ACTIONS = {ProtocolActionType.PROTOCOL_CREATED, ProtocolActionType.SUBMIT_TO_IRB, ProtocolActionType.RENEWAL_CREATED, ProtocolActionType.AMENDMENT_CREATED, ProtocolActionType.EXPIRED, ProtocolActionType.WITHDRAWN, ProtocolActionType.APPROVED, ProtocolActionType.ADMINISTRATIVE_CORRECTION, ProtocolActionType.DEFERRED};
     private static final String AMEND = "A";
     private static final String RENEW = "R";
@@ -38,6 +38,14 @@ public class UndoLastActionBean implements Serializable {
     private String comments;
     private List<ProtocolAction> actionsPerformed;
     private Protocol protocol;
+    
+    /**
+     * Constructs a UndoLastActionBean.
+     * @param actionHelper Reference back to the action helper for this bean
+     */
+    public UndoLastActionBean(ActionHelper actionHelper) {
+        super(actionHelper);
+    }
     
     public String getComments() {
         return comments;

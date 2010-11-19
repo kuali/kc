@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.irb.actions;
 
-import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
-import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
-
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -105,7 +102,9 @@ import org.kuali.kra.irb.actions.reviewcomments.ProtocolAddReviewCommentEvent;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.irb.actions.risklevel.ProtocolAddRiskLevelEvent;
+import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevel;
 import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelBean;
+import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelService;
 import org.kuali.kra.irb.actions.risklevel.ProtocolUpdateRiskLevelEvent;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
@@ -136,7 +135,6 @@ import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
-import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -336,7 +334,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         
-        Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
+        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (CONFIRM_SUBMIT_FOR_REVIEW_KEY.equals(question)) {
             forward = submitForReviewAndRedirect(mapping, form, request, response);
         }
@@ -398,7 +396,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             return mapping.findForward(PROTOCOL_TAB);
         }
 
-        return mapping.findForward(MAPPING_BASIC);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
@@ -426,7 +424,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 recordProtocolActionSuccess("Request to Close");
             }
         }
-        return mapping.findForward(MAPPING_BASIC);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
@@ -454,7 +452,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 recordProtocolActionSuccess("Request for Suspension");
             }
         }
-        return mapping.findForward(MAPPING_BASIC);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
@@ -483,7 +481,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 recordProtocolActionSuccess("Request to Close Enrollment");
             }
         }
-        return mapping.findForward(MAPPING_BASIC);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
@@ -513,7 +511,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 recordProtocolActionSuccess("Request to Re-open Enrollment");
             }
         }
-        return mapping.findForward(MAPPING_BASIC);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
@@ -542,7 +540,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 recordProtocolActionSuccess("Request for Data Analysis Only");
             }
         }
-        return mapping.findForward(MAPPING_BASIC);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     
@@ -561,7 +559,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 recordProtocolActionSuccess("Request for Termination");
             }
         }
-        return mapping.findForward(MAPPING_BASIC);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
@@ -584,7 +582,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 
         recordProtocolActionSuccess("Notify IRB");
         
-        return mapping.findForward(MAPPING_BASIC);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
@@ -607,7 +605,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         if (isAuthorized(task)) {
             if (!applyRules(new CreateAmendmentEvent(protocolForm.getProtocolDocument(), Constants.PROTOCOL_CREATE_AMENDMENT_KEY,
                 protocolForm.getActionHelper().getProtocolAmendmentBean()))) {
-                return mapping.findForward(MAPPING_BASIC);
+                return mapping.findForward(Constants.MAPPING_BASIC);
             }
 
             String newDocId = getProtocolAmendRenewService().createAmendment(protocolForm.getProtocolDocument(),
@@ -624,7 +622,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             
             return mapping.findForward(PROTOCOL_TAB);
         }
-        return mapping.findForward(MAPPING_BASIC);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
@@ -648,7 +646,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         if (isAuthorized(task)) {
             if (!applyRules(new ModifyAmendmentSectionsEvent(protocolForm.getProtocolDocument(), Constants.PROTOCOL_CREATE_AMENDMENT_KEY,
                 protocolForm.getActionHelper().getProtocolAmendmentBean()))) {
-                return mapping.findForward(MAPPING_BASIC);
+                return mapping.findForward(Constants.MAPPING_BASIC);
             }
 
             getProtocolAmendRenewService().updateAmendmentRenewal(protocolForm.getProtocolDocument(), 
@@ -657,7 +655,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             return save(mapping, protocolForm, request, response);
         }
             
-        return mapping.findForward(MAPPING_BASIC);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     /**
@@ -678,7 +676,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         if (isAuthorized(task)) {
             if (!applyRules(new CreateRenewalEvent(protocolForm.getProtocolDocument(),
                     Constants.PROTOCOL_CREATE_RENEWAL_SUMMARY_KEY, protocolForm.getActionHelper().getRenewalSummary()))) {
-                    return mapping.findForward(MAPPING_BASIC);
+                    return mapping.findForward(Constants.MAPPING_BASIC);
                 }
             String newDocId = getProtocolAmendRenewService().createRenewal(protocolForm.getProtocolDocument(),((ProtocolForm) form).getActionHelper().getRenewalSummary());
             // Switch over to the new protocol document and
@@ -697,7 +695,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             
             return mapping.findForward(PROTOCOL_TAB);
         }
-        return mapping.findForward(MAPPING_BASIC);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
@@ -720,7 +718,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             if (!applyRules(new CreateAmendmentEvent(protocolForm.getProtocolDocument(),
                 Constants.PROTOCOL_CREATE_RENEWAL_WITH_AMENDMENT_KEY, protocolForm.getActionHelper()
                         .getProtocolRenewAmendmentBean()))) {
-                return mapping.findForward(MAPPING_BASIC);
+                return mapping.findForward(Constants.MAPPING_BASIC);
             }
 
             String newDocId = getProtocolAmendRenewService().createRenewalWithAmendment(protocolForm.getProtocolDocument(),
@@ -741,7 +739,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             
             return mapping.findForward(PROTOCOL_TAB);
         }
-        return mapping.findForward(MAPPING_BASIC);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     /**
@@ -765,7 +763,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                     "");
 
         }
-        return mapping.findForward(MAPPING_BASIC);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
@@ -780,7 +778,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      */
     public ActionForward confirmDeleteProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
+        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (CONFIRM_DELETE_PROTOCOL_KEY.equals(question)) {
             ProtocolForm protocolForm = (ProtocolForm) form;
             getProtocolDeleteService().delete(protocolForm.getProtocolDocument().getProtocol(),
@@ -788,7 +786,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             
             recordProtocolActionSuccess("Delete Protocol, Amendment, or Renewal");
         }
-        return mapping.findForward(MAPPING_BASIC);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
@@ -854,7 +852,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
         Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
-        ActionForward forward = mapping.findForward(MAPPING_BASIC);
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         ActionHelper actionHelper = protocolForm.getActionHelper();
         StringBuffer fileName = new StringBuffer().append("Protocol-");
         if (applyRules(new ProtocolActionPrintEvent(protocolForm.getProtocolDocument(), actionHelper.getSummaryReport(),
@@ -1006,7 +1004,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         if (action != null) {
             protocolForm.getActionHelper().setCurrentSequenceNumber(action.getSequenceNumber());
         }
-        return mapping.findForward(MAPPING_BASIC);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
@@ -1053,7 +1051,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         actionHelper.setCurrentSequenceNumber(actionHelper.getCurrentSequenceNumber() - 1);
         ((ProtocolForm) form).getActionHelper().initSummaryDetails();
 
-        return mapping.findForward(MAPPING_BASIC);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
@@ -1074,7 +1072,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         actionHelper.setCurrentSequenceNumber(actionHelper.getCurrentSequenceNumber() + 1);
         ((ProtocolForm) form).getActionHelper().initSummaryDetails();
         
-        return mapping.findForward(MAPPING_BASIC);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
@@ -1094,7 +1092,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ActionHelper actionHelper = protocolForm.getActionHelper();
         actionHelper.setCurrentSubmissionNumber(actionHelper.getPrevSubmissionNumber());
         protocolForm.getActionHelper().initSubmissionDetails();
-        return mapping.findForward(MAPPING_BASIC);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     /**
@@ -1114,7 +1112,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ActionHelper actionHelper = protocolForm.getActionHelper();
         actionHelper.setCurrentSubmissionNumber(actionHelper.getNextSubmissionNumber());
         protocolForm.getActionHelper().initSubmissionDetails();
-        return mapping.findForward(MAPPING_BASIC);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
@@ -1209,52 +1207,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    public ActionForward addAssignToAgendaReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ActionHelper actionHelper = protocolForm.getActionHelper();
-        ReviewCommentsBean actionBean = actionHelper.getAssignToAgendaBean().getReviewCommentsBean();
-        
-        addReviewComment(actionBean, protocolForm.getProtocolDocument(), Constants.PROTOCOL_ASSIGN_TO_AGENDA_ENTER_REVIEW_COMMENTS_KEY);
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    } 
-    
-    public ActionForward deleteAssignToAgendaReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolAssignToAgendaBean actionBean = protocolForm.getActionHelper().getAssignToAgendaBean();
-        
-        deleteReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward moveUpAssignToAgendaReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolAssignToAgendaBean actionBean = protocolForm.getActionHelper().getAssignToAgendaBean();
-        
-        moveUpReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward moveDownAssignToAgendaReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolAssignToAgendaBean actionBean = protocolForm.getActionHelper().getAssignToAgendaBean();
-        
-        moveDownReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    
     /**
      * Assign a protocol to a committee/schedule.
      * @param mapping
@@ -1337,7 +1289,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
    
     public ActionForward confirmAssignToAgenda(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
+        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
 
         if (CONFIRM_ASSIGN_TO_AGENDA_KEY.equals(question)) {
             ProtocolForm protocolForm = (ProtocolForm) form;
@@ -1345,7 +1297,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             getProtocolAssignToAgendaService().assignToAgenda(protocolForm.getProtocolDocument().getProtocol(), actionBean);
         }
 
-        return mapping.findForward(MAPPING_BASIC);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     /**
@@ -1444,133 +1396,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-
-    /**
-     * Add a review comment to a grant exemption request.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward addGrantExemptionReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ActionHelper actionHelper = protocolForm.getActionHelper();
-        ReviewCommentsBean actionBean = actionHelper.getProtocolGrantExemptionBean().getReviewCommentsBean();
-
-        addReviewComment(actionBean, protocolForm.getProtocolDocument(), Constants.PROTOCOL_GRANT_EXEMPTION_ENTER_REVIEW_COMMENTS_KEY);
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-        
-    public ActionForward addIrbAcknowledgementReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ActionHelper actionHelper = protocolForm.getActionHelper();
-        ReviewCommentsBean actionBean = actionHelper.getIrbAcknowledgementBean().getReviewCommentsBean();
-        
-        addReviewComment(actionBean, protocolForm.getProtocolDocument(), Constants.PROTOCOL_IRB_ACKNOWLEDGEMENT_ENTER_REVIEW_COMMENTS_KEY);
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-
-    /**
-     * Delete a review comment from a grant exemption request.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward deleteGrantExemptionReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGrantExemptionBean actionBean = protocolForm.getActionHelper().getProtocolGrantExemptionBean();
-        
-        deleteReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward deleteIrbAcknowledgementReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        IrbAcknowledgementBean actionBean = protocolForm.getActionHelper().getIrbAcknowledgementBean();
-        
-        deleteReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    /**
-     * Move a review comment up one in a grant exemption request.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward moveUpGrantExemptionReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGrantExemptionBean actionBean = protocolForm.getActionHelper().getProtocolGrantExemptionBean();
-        
-        moveUpReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward moveUpIrbAcknowledgementReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        IrbAcknowledgementBean actionBean = protocolForm.getActionHelper().getIrbAcknowledgementBean();
-        
-        moveUpReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    /**
-     * Move a review comment down one in a grant exemption request.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward moveDownGrantExemptionReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGrantExemptionBean actionBean = protocolForm.getActionHelper().getProtocolGrantExemptionBean();
-        
-        moveDownReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward moveDownIrbAcknowledgementReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        IrbAcknowledgementBean actionBean = protocolForm.getActionHelper().getIrbAcknowledgementBean();
-        
-        moveDownReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
     /**
      * Expedite Approval.
      * @param mapping
@@ -1591,88 +1416,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         recordProtocolActionSuccess("Expedited Approval");
         return mapping.findForward(KNSConstants.MAPPING_PORTAL);            
     }
-    
-    /**
-     * Add a review comment to a grant exemption request.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward addExpediteApprovalReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ActionHelper actionHelper = protocolForm.getActionHelper();
-        ReviewCommentsBean actionBean = actionHelper.getProtocolExpediteApprovalBean().getReviewCommentsBean();
-        
-        addReviewComment(actionBean, protocolForm.getProtocolDocument(), Constants.PROTOCOL_EXPEDITE_APPROVAL_ENTER_REVIEW_COMMENTS_KEY);
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    /**
-     * Delete a review comment from a grant exemption request.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward deleteExpediteApprovalReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolApproveBean actionBean = protocolForm.getActionHelper().getProtocolExpediteApprovalBean();
-        
-        deleteReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    /**
-     * Move a review comment up one in a grant exemption request.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward moveUpExpediteApprovalReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolApproveBean actionBean = protocolForm.getActionHelper().getProtocolExpediteApprovalBean();
-        
-        moveUpReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    /**
-     * Move a review comment down one in a grant exemption request.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward moveDownExpediteApprovalReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolApproveBean actionBean = protocolForm.getActionHelper().getProtocolExpediteApprovalBean();
-        
-        moveDownReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
     
     /**
      * Approves a protocol for a Response Review Type.
@@ -1701,87 +1444,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     }
     
     /**
-     * Adds a Review Comment to a protocol in a Response Approval action.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward addResponseApprovalReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ActionHelper actionHelper = protocolForm.getActionHelper();
-        ReviewCommentsBean actionBean = actionHelper.getProtocolResponseApprovalBean().getReviewCommentsBean();
-        
-        addReviewComment(actionBean, protocolForm.getProtocolDocument(), Constants.PROTOCOL_RESPONSE_APPROVAL_ENTER_REVIEW_COMMENTS_KEY);
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    /**
-     * Deletes a Review Comment to a protocol in a Response Approval action.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward deleteResponseApprovalReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolApproveBean actionBean = protocolForm.getActionHelper().getProtocolResponseApprovalBean();
-        
-        deleteReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    /**
-     * Moves a Review Comment up one in a protocol in a Response Approval action.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward moveUpResponseApprovalReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolApproveBean actionBean = protocolForm.getActionHelper().getProtocolResponseApprovalBean();
-        
-        moveUpReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    /**
-     * Moves a Review Comment down one in a protocol in a Response Approval action.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward moveDownResponseApprovalReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolApproveBean actionBean = protocolForm.getActionHelper().getProtocolResponseApprovalBean();
-        
-        moveDownReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    /**
      * Disapproves a protocol.
      * @param mapping
      * @param form
@@ -1805,87 +1467,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
-    /**
-     * Adds a Review Comment to a protocol in a Disapprove action.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward addDisapproveActionReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ActionHelper actionHelper = protocolForm.getActionHelper();
-        ReviewCommentsBean actionBean = actionHelper.getProtocolDisapproveBean().getReviewCommentsBean();
-        
-        addReviewComment(actionBean, protocolForm.getProtocolDocument(), Constants.PROTOCOL_DISAPPROVE_ENTER_REVIEW_COMMENTS_KEY);
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    /**
-     * Deletes a Review Comment to a protocol in a Disapprove action.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward deleteDisapproveActionReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolDisapproveBean();
-        
-        deleteReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    /**
-     * Moves a Review Comment up one in a protocol in a Disapprove action.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward moveUpDisapproveActionReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolDisapproveBean();
-        
-        moveUpReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    /**
-     * Moves a Review Comment down one in a protocol in a Disapprove action.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward moveDownDisapproveActionReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolDisapproveBean();
-        
-        moveDownReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }  
     
     /**
      * Returns the protocol to the PI for specific minor revisions.
@@ -1921,87 +1502,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     }
     
     /**
-     * Adds a Review Comment to a protocol in an SMR action.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward addSMRReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ActionHelper actionHelper = protocolForm.getActionHelper();
-        ReviewCommentsBean actionBean = actionHelper.getProtocolSMRBean().getReviewCommentsBean();
-        
-        addReviewComment(actionBean, protocolForm.getProtocolDocument(), Constants.PROTOCOL_SMR_ENTER_REVIEW_COMMENTS_KEY);
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    /**
-     * Deletes a Review Comment to a protocol in an SMR action.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward deleteSMRReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSMRBean();
-        
-        deleteReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    /**
-     * Moves a Review Comment up one in a protocol in an SMR action.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward moveUpSMRReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSMRBean();
-        
-        moveUpReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    /**
-     * Moves a Review Comment down one in a protocol in an SMR action.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward moveDownSMRReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSMRBean();
-        
-        moveDownReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }  
-    
-    /**
      * Returns the protocol to the PI for substantial revisions.
      * @param mapping
      * @param form
@@ -2033,87 +1533,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         return forward;
     }
-    
-    /**
-     * Adds a Review Comment to a protocol in an SRR action.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward addSRRReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ActionHelper actionHelper = protocolForm.getActionHelper();
-        ReviewCommentsBean actionBean = actionHelper.getProtocolSRRBean().getReviewCommentsBean();
-        
-        addReviewComment(actionBean, protocolForm.getProtocolDocument(), Constants.PROTOCOL_SRR_ENTER_REVIEW_COMMENTS_KEY);
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    /**
-     * Deletes a Review Comment to a protocol in an SRR action.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward deleteSRRReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSRRBean();
-        
-        deleteReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    /**
-     * Moves a Review Comment up one in a protocol in an SRR action.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward moveUpSRRReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSRRBean();
-        
-        moveUpReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    /**
-     * Moves a Review Comment down one in a protocol in an SRR action.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward moveDownSRRReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSRRBean();
-        
-        moveDownReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }  
     
     /**
      * Perform Protocol Approve Action - maps to IRBReview RouteNode 
@@ -2183,96 +1602,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    public ActionForward addReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ActionHelper actionHelper = protocolForm.getActionHelper();
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolManageReviewCommentsBean();
-
-        addReviewComment(actionBean.getReviewCommentsBean(), protocolForm.getProtocolDocument(), Constants.PROTOCOL_MANAGE_REVIEW_COMMENTS_KEY);
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    } 
-    
-    public ActionForward deleteReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolManageReviewCommentsBean();
-        
-        deleteReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward moveUpReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolManageReviewCommentsBean();
-        
-        moveUpReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward moveDownReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolManageReviewCommentsBean();
-        
-        moveDownReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward addApproveActionReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ActionHelper actionHelper = protocolForm.getActionHelper();
-        ReviewCommentsBean actionBean = actionHelper.getProtocolApproveBean().getReviewCommentsBean();
-        
-        addReviewComment(actionBean, protocolForm.getProtocolDocument(), Constants.PROTOCOL_APPROVE_ENTER_REVIEW_COMMENTS_KEY);
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward deleteApproveActionReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolApproveBean actionBean = protocolForm.getActionHelper().getProtocolApproveBean();
-        
-        deleteReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward moveUpApproveActionReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolApproveBean actionBean = protocolForm.getActionHelper().getProtocolApproveBean();
-        
-        moveUpReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward moveDownApproveActionReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolApproveBean actionBean = protocolForm.getActionHelper().getProtocolApproveBean();
-        
-        moveDownReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
     public ActionForward reopen(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
@@ -2286,51 +1615,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             
             recordProtocolActionSuccess("Re-open Enrollment");
         }
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward addReopenReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ActionHelper actionHelper = protocolForm.getActionHelper();
-        ReviewCommentsBean actionBean = actionHelper.getProtocolReopenBean().getReviewCommentsBean();
-        
-        addReviewComment(actionBean, protocolForm.getProtocolDocument(), Constants.PROTOCOL_REOPEN_ENTER_REVIEW_COMMENTS_KEY);
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward deleteReopenReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form; 
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolReopenBean();
-        
-        deleteReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward moveUpReopenReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolReopenBean();
-        
-        moveUpReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward moveDownReopenReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolReopenBean();
-        
-        moveDownReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -2352,51 +1636,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    public ActionForward addCloseEnrollmentReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ActionHelper actionHelper = protocolForm.getActionHelper();
-        ReviewCommentsBean actionBean = actionHelper.getProtocolCloseEnrollmentBean().getReviewCommentsBean();
-        
-        addReviewComment(actionBean, protocolForm.getProtocolDocument(), Constants.PROTOCOL_CLOSE_ENROLLMENT_ENTER_REVIEW_COMMENTS_KEY);
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward deleteCloseEnrollmentReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolCloseEnrollmentBean();
-        
-        deleteReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward moveUpCloseEnrollmentReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolCloseEnrollmentBean();
-        
-        moveUpReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward moveDownCloseEnrollmentReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolCloseEnrollmentBean();
-        
-        moveDownReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
     public ActionForward suspend(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
@@ -2410,51 +1649,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             
             recordProtocolActionSuccess("Suspend");
         }
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward addSuspendReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ActionHelper actionHelper = protocolForm.getActionHelper();
-        ReviewCommentsBean actionBean = actionHelper.getProtocolSuspendBean().getReviewCommentsBean();
-        
-        addReviewComment(actionBean, protocolForm.getProtocolDocument(), Constants.PROTOCOL_SUSPEND_ENTER_REVIEW_COMMENTS_KEY);
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward deleteSuspendReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSuspendBean();
-        
-        deleteReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward moveUpSuspendReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSuspendBean();
-        
-        moveUpReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward moveDownSuspendReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSuspendBean();
-        
-        moveDownReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -2476,51 +1670,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    public ActionForward addSuspendByDsmbReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ActionHelper actionHelper = protocolForm.getActionHelper();
-        ReviewCommentsBean actionBean = actionHelper.getProtocolSuspendByDsmbBean().getReviewCommentsBean();
-        
-        addReviewComment(actionBean, protocolForm.getProtocolDocument(), Constants.PROTOCOL_SUSPEND_BY_DMSB_ENTER_REVIEW_COMMENTS_KEY);
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward deleteSuspendByDsmbReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSuspendByDsmbBean();
-        
-        deleteReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward moveUpSuspendByDsmbReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSuspendByDsmbBean();
-        
-        moveUpReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward moveDownSuspendByDsmbReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSuspendByDsmbBean();
-        
-        moveDownReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
     public ActionForward closeProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
@@ -2531,51 +1680,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             
             recordProtocolActionSuccess("Close");
         }
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward addCloseReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ActionHelper actionHelper = protocolForm.getActionHelper();
-        ReviewCommentsBean actionBean = actionHelper.getProtocolCloseBean().getReviewCommentsBean();
-        
-        addReviewComment(actionBean, protocolForm.getProtocolDocument(), Constants.PROTOCOL_CLOSE_ENTER_REVIEW_COMMENTS_KEY);
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward deleteCloseReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolCloseBean();
-        
-        deleteReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward moveUpCloseReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolCloseBean();
-        
-        moveUpReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward moveDownCloseReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolCloseBean();
-        
-        moveDownReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -2595,51 +1699,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    public ActionForward addExpireReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ActionHelper actionHelper = protocolForm.getActionHelper();
-        ReviewCommentsBean actionBean = actionHelper.getProtocolExpireBean().getReviewCommentsBean();
-        
-        addReviewComment(actionBean, protocolForm.getProtocolDocument(), Constants.PROTOCOL_EXPIRE_ENTER_REVIEW_COMMENTS_KEY);
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward deleteExpireReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolExpireBean();
-        
-        deleteReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward moveUpExpireReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolExpireBean();
-        
-        moveUpReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward moveDownExpireReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolExpireBean();
-        
-        moveDownReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
     public ActionForward terminate(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
@@ -2651,51 +1710,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             
             recordProtocolActionSuccess("Terminate");
         }
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward addTerminateReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ActionHelper actionHelper = protocolForm.getActionHelper();
-        ReviewCommentsBean actionBean = actionHelper.getProtocolTerminateBean().getReviewCommentsBean();
-        
-        addReviewComment(actionBean, protocolForm.getProtocolDocument(), Constants.PROTOCOL_TERMINATE_ENTER_REVIEW_COMMENTS_KEY);
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward deleteTerminateReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolTerminateBean();
-        
-        deleteReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward moveUpTerminateReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolTerminateBean();
-        
-        moveUpReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward moveDownTerminateReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolTerminateBean();
-        
-        moveDownReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -2715,275 +1729,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    public ActionForward addPermitDataAnalysisReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ActionHelper actionHelper = protocolForm.getActionHelper();
-        ReviewCommentsBean actionBean = actionHelper.getProtocolPermitDataAnalysisBean().getReviewCommentsBean();
-        
-        addReviewComment(actionBean, protocolForm.getProtocolDocument(), Constants.PROTOCOL_PERMIT_DATA_ANALYSIS_ENTER_REVIEW_COMMENTS_KEY);
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward deletePermitDataAnalysisReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolPermitDataAnalysisBean();
-        
-        deleteReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward moveUpPermitDataAnalysisReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolPermitDataAnalysisBean();
-        
-        moveUpReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward moveDownPermitDataAnalysisReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolPermitDataAnalysisBean();
-        
-        moveDownReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    /**
-     * Adds a Risk Level to a protocol in an Approval action.
-     * 
-     * @param mapping Struts action mapping
-     * @param form Form associated with this action
-     * @param request Raw HTTP Request
-     * @param response Raw HTTP Response
-     * @return The mapping for the next page
-     * @throws Exception
-     */
-    public ActionForward addApproveRiskLevel(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ActionHelper actionHelper = protocolForm.getActionHelper();
-        
-        addRiskLevel(actionHelper.getProtocolApproveBean().getProtocolRiskLevelBean(), protocolForm.getDocument(), actionHelper.getProtocol(), 
-                Constants.PROTOCOL_APPROVAL_ENTER_RISK_LEVEL_KEY);
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    /**
-     * Adds a Risk Level to a protocol in an Expedited Approval action.
-     * 
-     * @param mapping Struts action mapping
-     * @param form Form associated with this action
-     * @param request Raw HTTP Request
-     * @param response Raw HTTP Response
-     * @return The mapping for the next page
-     * @throws Exception
-     */
-    public ActionForward addExpediteApprovalRiskLevel(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ActionHelper actionHelper = protocolForm.getActionHelper();
-        
-        addRiskLevel(actionHelper.getProtocolExpediteApprovalBean().getProtocolRiskLevelBean(), protocolForm.getProtocolDocument(), actionHelper.getProtocol(), 
-                Constants.PROTOCOL_EXPEDITED_APPROVAL_ENTER_RISK_LEVEL_KEY);
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    /**
-     * Adds a Risk Level to a protocol in an Response Approval action.
-     * 
-     * @param mapping Struts action mapping
-     * @param form Form associated with this action
-     * @param request Raw HTTP Request
-     * @param response Raw HTTP Response
-     * @return The mapping for the next page
-     * @throws Exception
-     */
-    public ActionForward addResponseApprovalRiskLevel(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ActionHelper actionHelper = protocolForm.getActionHelper();
-        
-        addRiskLevel(actionHelper.getProtocolResponseApprovalBean().getProtocolRiskLevelBean(), protocolForm.getProtocolDocument(), actionHelper.getProtocol(), 
-                Constants.PROTOCOL_EXPEDITED_APPROVAL_ENTER_RISK_LEVEL_KEY);
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    /*
-     * Applies add rules to all risk levels from both types of approval actions
-     */
-    private void addRiskLevel(ProtocolRiskLevelBean protocolRiskLevelBean, ProtocolDocument document, Protocol protocol, String errorPropertyName) {
-        if (applyRules(new ProtocolAddRiskLevelEvent(document, errorPropertyName, protocolRiskLevelBean.getNewProtocolRiskLevel()))) {
-            protocolRiskLevelBean.addNewProtocolRiskLevel(protocol);
-        }
-    }
-    
-    /**
-     * Updates a persisted Risk Level in a protocol for an approval action, 
-     * moving the persisted risk level to Inactive status and adding a new Active status risk level.
-     * 
-     * @param mapping Struts action mapping
-     * @param form Form associated with this action
-     * @param request Raw HTTP Request
-     * @param response Raw HTTP Response
-     * @return The mapping for the next page
-     * @throws Exception
-     */
-    public ActionForward updateApproveRiskLevel(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ActionHelper actionHelper = protocolForm.getActionHelper();
-
-        updateRiskLevel(actionHelper.getProtocolApproveBean().getProtocolRiskLevelBean(), protocolForm.getProtocolDocument(), 
-                actionHelper.getProtocol(), getSelectedLine(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    /**
-     * Updates a persisted Risk Level in a protocol for an expedited approval action, 
-     * moving the persisted risk level to Inactive status and adding a new Active status risk level.
-     * 
-     * @param mapping Struts action mapping
-     * @param form Form associated with this action
-     * @param request Raw HTTP Request
-     * @param response Raw HTTP Response
-     * @return The mapping for the next page
-     * @throws Exception
-     */
-    public ActionForward updateExpediteApprovalRiskLevel(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ActionHelper actionHelper = protocolForm.getActionHelper();
-
-        updateRiskLevel(actionHelper.getProtocolExpediteApprovalBean().getProtocolRiskLevelBean(), protocolForm.getProtocolDocument(), 
-                actionHelper.getProtocol(), getSelectedLine(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    /**
-     * Updates a persisted Risk Level in a protocol for a Response Approval action, 
-     * moving the persisted risk level to Inactive status and adding a new Active status risk level.
-     * 
-     * @param mapping Struts action mapping
-     * @param form Form associated with this action
-     * @param request Raw HTTP Request
-     * @param response Raw HTTP Response
-     * @return The mapping for the next page
-     * @throws Exception
-     */
-    public ActionForward updateResponseApprovalRiskLevel(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ActionHelper actionHelper = protocolForm.getActionHelper();
-
-        updateRiskLevel(actionHelper.getProtocolResponseApprovalBean().getProtocolRiskLevelBean(), protocolForm.getProtocolDocument(), 
-                actionHelper.getProtocol(), getSelectedLine(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    /*
-     * Applies update rules to all risk levels from both types of approval actions
-     */
-    private void updateRiskLevel(ProtocolRiskLevelBean protocolRiskLevelBean, ProtocolDocument document, Protocol protocol, int lineNumber) {
-        if (applyRules(new ProtocolUpdateRiskLevelEvent(document, Constants.PROTOCOL_UPDATE_RISK_LEVEL_KEY, lineNumber))) {
-            protocolRiskLevelBean.updateProtocolRiskLevel(protocol.getProtocolRiskLevels().get(lineNumber));
-        }
-    }
-    
-    /**
-     * Deletes a Risk Level from a protocol in an Approval action.
-     * 
-     * @param mapping Struts action mapping
-     * @param form Form associated with this action
-     * @param request Raw HTTP Request
-     * @param response Raw HTTP Response
-     * @return The mapping for the next page
-     * @throws Exception
-     */
-    public ActionForward deleteApproveRiskLevel(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ActionHelper actionHelper = protocolForm.getActionHelper();
-        
-        deleteRiskLevel(actionHelper.getProtocolApproveBean().getProtocolRiskLevelBean(), actionHelper.getProtocol(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    /**
-     * Deletes a Risk Level from a protocol in an Expedited Approval action.
-     * 
-     * @param mapping Struts action mapping
-     * @param form Form associated with this action
-     * @param request Raw HTTP Request
-     * @param response Raw HTTP Response
-     * @return The mapping for the next page
-     * @throws Exception
-     */
-    public ActionForward deleteExpediteApprovalRiskLevel(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ActionHelper actionHelper = protocolForm.getActionHelper();
-        
-        deleteRiskLevel(actionHelper.getProtocolExpediteApprovalBean().getProtocolRiskLevelBean(), actionHelper.getProtocol(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    
-    /**
-     * Deletes a Risk Level from a protocol in a Response Approval action.
-     * 
-     * @param mapping Struts action mapping
-     * @param form Form associated with this action
-     * @param request Raw HTTP Request
-     * @param response Raw HTTP Response
-     * @return The mapping for the next page
-     * @throws Exception
-     */
-    public ActionForward deleteResponseApprovalRiskLevel(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ActionHelper actionHelper = protocolForm.getActionHelper();
-        
-        deleteRiskLevel(actionHelper.getProtocolResponseApprovalBean().getProtocolRiskLevelBean(), actionHelper.getProtocol(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    /*
-     * Deletes the risk level from the protocol for both types of approval actions
-     */
-    private void deleteRiskLevel(ProtocolRiskLevelBean protocolRiskLevelBean, Protocol protocol, int lineNumber) {
-        protocolRiskLevelBean.deleteProtocolRiskLevel(protocol, lineNumber);
-    }
-    
     /**
      * Open ProtocolDocument in Read/Write mode for Admin Correction
      * 
@@ -2998,7 +1743,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
 
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ActionForward forward = mapping.findForward(MAPPING_BASIC);
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         
         ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_ADMIN_CORRECTION, protocolForm.getProtocolDocument().getProtocol());
         if (isAuthorized(task)) {
@@ -3074,51 +1819,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 
             recordProtocolActionSuccess("Record Committee Decision");
         }
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward addCommitteeDecisionReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ActionHelper actionHelper = protocolForm.getActionHelper();
-        ReviewCommentsBean actionBean = actionHelper.getCommitteeDecision().getReviewCommentsBean();
-        
-        addReviewComment(actionBean, protocolForm.getProtocolDocument(), Constants.PROTOCOL_COMMITTEE_DECISION_ENTER_REVIEW_COMMENTS_KEY);
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward deleteCommitteeDecisionReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        CommitteeDecision actionBean = protocolForm.getActionHelper().getCommitteeDecision();
-        
-        deleteReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward moveUpCommitteeDecisionReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        CommitteeDecision actionBean = protocolForm.getActionHelper().getCommitteeDecision();
-        
-        moveUpReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward moveDownCommitteeDecisionReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        CommitteeDecision actionBean = protocolForm.getActionHelper().getCommitteeDecision();
-        
-        moveDownReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -3205,37 +1905,236 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return KraServiceLocator.getService(ProtocolPrintingService.class);
     }
 
-    private void addReviewComment(ReviewCommentsBean reviewCommentsBean, ProtocolDocument document, String errorPropertyName) throws Exception {
-        CommitteeScheduleMinute newReviewComment = reviewCommentsBean.getNewReviewComment();
-        List<CommitteeScheduleMinute> reviewComments = reviewCommentsBean.getReviewComments();
-        Protocol protocol = reviewCommentsBean.getProtocol();
+    /**
+     * Adds a risk level to the bean indicated by the task name in the request.
+     * 
+     * @param mapping The mapping associated with this action.
+     * @param form The Protocol form.
+     * @param request The HTTP request
+     * @param response The HTTP response
+     * @return the forward to the current page
+     */
+    public ActionForward addRiskLevel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument document = protocolForm.getProtocolDocument();
+        ProtocolRiskLevelBean protocolRiskLevelBean = getProtocolRiskLevelBean(mapping, form, request, response);
         
-        if (applyRules(new ProtocolAddReviewCommentEvent(document, errorPropertyName, newReviewComment))) {
-            getReviewCommentsService().addReviewComment(newReviewComment, reviewComments, protocol);
+        if (protocolRiskLevelBean != null) {
+            String errorPropertyName = protocolRiskLevelBean.getErrorPropertyName();
+            ProtocolRiskLevel newProtocolRiskLevel = protocolRiskLevelBean.getNewProtocolRiskLevel();
+            Protocol protocol = document.getProtocol();
             
-            reviewCommentsBean.setNewReviewComment(new CommitteeScheduleMinute(MinuteEntryType.PROTOCOL));
+            if (applyRules(new ProtocolAddRiskLevelEvent(document, errorPropertyName, newProtocolRiskLevel))) {
+                getProtocolRiskLevelService().addRiskLevel(newProtocolRiskLevel, protocol);
+                
+                protocolRiskLevelBean.setNewProtocolRiskLevel(new ProtocolRiskLevel());
+            }
         }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    /**
+     * Updates a persisted risk level in the bean indicated by the task name in the request, moving the persisted risk level to Inactive status and adding a 
+     * new Active status risk level.
+     * 
+     * @param mapping The mapping associated with this action.
+     * @param form The Protocol form.
+     * @param request The HTTP request
+     * @param response The HTTP response
+     * @return the forward to the current page
+     */
+    public ActionForward updateRiskLevel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument document = protocolForm.getProtocolDocument();
+        ProtocolRiskLevelBean protocolRiskLevelBean = getProtocolRiskLevelBean(mapping, form, request, response);
+        
+        if (protocolRiskLevelBean != null) {
+            int lineNumber = getSelectedLine(request);
+            ProtocolRiskLevel currentProtocolRiskLevel = document.getProtocol().getProtocolRiskLevels().get(lineNumber);
+            ProtocolRiskLevel newProtocolRiskLevel = protocolRiskLevelBean.getNewProtocolRiskLevel();
+            
+            if (applyRules(new ProtocolUpdateRiskLevelEvent(document, lineNumber))) {
+                getProtocolRiskLevelService().updateRiskLevel(currentProtocolRiskLevel, newProtocolRiskLevel);
+            }
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    private void deleteReviewComment(ReviewCommentsBean reviewCommentsBean, int index) throws Exception {
-        List<CommitteeScheduleMinute> reviewComments = reviewCommentsBean.getReviewComments();
-        List<CommitteeScheduleMinute> deletedReviewComments = reviewCommentsBean.getDeletedReviewComments();
+    /**
+     * Deletes a risk level from the bean indicated by the task name in the request.
+     * 
+     * @param mapping The mapping associated with this action.
+     * @param form The Protocol form.
+     * @param request The HTTP request
+     * @param response The HTTP response
+     * @return the forward to the current page
+     */
+    public ActionForward deleteRiskLevel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument document = protocolForm.getProtocolDocument();
+        ProtocolRiskLevelBean protocolRiskLevelBean = getProtocolRiskLevelBean(mapping, form, request, response);
         
-        getReviewCommentsService().deleteReviewComment(reviewComments, index, deletedReviewComments);
+        if (protocolRiskLevelBean != null) {
+            int lineNumber = getSelectedLine(request);
+            Protocol protocol = document.getProtocol();
+            
+            getProtocolRiskLevelService().deleteRiskLevel(lineNumber, protocol);
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    private void moveUpReviewComment(ReviewCommentsBean reviewCommentsBean, int index) throws Exception {
-        List<CommitteeScheduleMinute> reviewComments = reviewCommentsBean.getReviewComments();
-        Protocol protocol = reviewCommentsBean.getProtocol();
+    private ProtocolRiskLevelBean getProtocolRiskLevelBean(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ProtocolRiskLevelBean protocolRiskLevelBean = null;
         
-        getReviewCommentsService().moveUpReviewComment(reviewComments, protocol, index);
+        ProtocolActionBean protocolActionBean = getActionBean(mapping, form, request, response);
+        if (protocolActionBean != null && protocolActionBean instanceof ProtocolRiskLevelCommentable) {
+            protocolRiskLevelBean = ((ProtocolRiskLevelCommentable) protocolActionBean).getProtocolRiskLevelBean();
+        }
+        
+        return protocolRiskLevelBean;
+    }
+
+    /**
+     * Adds a review comment to the bean indicated by the task name in the request.
+     * 
+     * @param mapping The mapping associated with this action.
+     * @param form The Protocol form.
+     * @param request The HTTP request
+     * @param response The HTTP response
+     * @return the forward to the current page
+     */
+    public ActionForward addReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument document = protocolForm.getProtocolDocument();
+        ReviewCommentsBean reviewCommentsBean = getReviewCommentsBean(mapping, form, request, response);
+        
+        if (reviewCommentsBean != null) {
+            String errorPropertyName = reviewCommentsBean.getErrorPropertyName();
+            CommitteeScheduleMinute newReviewComment = reviewCommentsBean.getNewReviewComment();
+            List<CommitteeScheduleMinute> reviewComments = reviewCommentsBean.getReviewComments();
+            Protocol protocol = document.getProtocol();
+            
+            if (applyRules(new ProtocolAddReviewCommentEvent(document, errorPropertyName, newReviewComment))) {
+                getReviewCommentsService().addReviewComment(newReviewComment, reviewComments, protocol);
+                
+                reviewCommentsBean.setNewReviewComment(new CommitteeScheduleMinute(MinuteEntryType.PROTOCOL));
+            }
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    private void moveDownReviewComment(ReviewCommentsBean reviewCommentsBean, int index) throws Exception {
-        List<CommitteeScheduleMinute> reviewComments = reviewCommentsBean.getReviewComments();
-        Protocol protocol = reviewCommentsBean.getProtocol();
+    /**
+     * Moves up a review comment in the bean indicated by the task name in the request.
+     * 
+     * @param mapping The mapping associated with this action.
+     * @param form The Protocol form.
+     * @param request The HTTP request
+     * @param response The HTTP response
+     * @return the forward to the current page
+     */
+    public ActionForward moveUpReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument document = protocolForm.getProtocolDocument();
+        ReviewCommentsBean reviewCommentsBean = getReviewCommentsBean(mapping, form, request, response);
         
-        getReviewCommentsService().moveDownReviewComment(reviewComments, protocol, index);
+        if (reviewCommentsBean != null) {
+            List<CommitteeScheduleMinute> reviewComments = reviewCommentsBean.getReviewComments();
+            Protocol protocol = document.getProtocol();
+            int lineNumber = getSelectedLine(request);
+    
+            getReviewCommentsService().moveUpReviewComment(reviewComments, protocol, lineNumber);
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * Moves down a review comment in the bean indicated by the task name in the request.
+     * 
+     * @param mapping The mapping associated with this action.
+     * @param form The Protocol form.
+     * @param request The HTTP request
+     * @param response The HTTP response
+     * @return the forward to the current page
+     */
+    public ActionForward moveDownReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument document = protocolForm.getProtocolDocument();
+        ReviewCommentsBean reviewCommentsBean = getReviewCommentsBean(mapping, form, request, response);
+        
+        if (reviewCommentsBean != null) {
+            List<CommitteeScheduleMinute> reviewComments = reviewCommentsBean.getReviewComments();
+            Protocol protocol = document.getProtocol();
+            int lineNumber = getSelectedLine(request);
+            
+            getReviewCommentsService().moveDownReviewComment(reviewComments, protocol, lineNumber);
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * Deletes a review comment from the bean indicated by the task name in the request.
+     * 
+     * @param mapping The mapping associated with this action.
+     * @param form The Protocol form.
+     * @param request The HTTP request
+     * @param response The HTTP response
+     * @return the forward to the current page
+     */
+    public ActionForward deleteReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ReviewCommentsBean reviewCommentsBean = getReviewCommentsBean(mapping, form, request, response);
+        
+        if (reviewCommentsBean != null) {
+            List<CommitteeScheduleMinute> reviewComments = reviewCommentsBean.getReviewComments();
+            int lineNumber = getLineToDelete(request);
+            List<CommitteeScheduleMinute> deletedReviewComments = reviewCommentsBean.getDeletedReviewComments();
+            
+            getReviewCommentsService().deleteReviewComment(reviewComments, lineNumber, deletedReviewComments);
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * Saves the review comments to the database and performs refresh and cleanup.
+     * @param protocolForm
+     * @param actionBean
+     * @throws Exception
+     */
+    private void saveReviewComments(ProtocolForm protocolForm, ReviewCommentsBean actionBean) throws Exception { 
+        getReviewCommentsService().saveReviewComments(actionBean.getReviewComments(), actionBean.getDeletedReviewComments());           
+        actionBean.setDeletedReviewComments(new ArrayList<CommitteeScheduleMinute>());
+        protocolForm.getActionHelper().prepareCommentsView();
+    }
+    
+    private ReviewCommentsBean getReviewCommentsBean(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ReviewCommentsBean reviewCommentsBean = null;
+        
+        ProtocolActionBean protocolActionBean = getActionBean(mapping, form, request, response);
+        if (protocolActionBean != null && protocolActionBean instanceof ProtocolOnlineReviewCommentable) {
+            reviewCommentsBean = ((ProtocolOnlineReviewCommentable) protocolActionBean).getReviewCommentsBean();
+        }
+        
+        return reviewCommentsBean;
+    }
+    
+    private ProtocolActionBean getActionBean(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        
+        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String taskName = StringUtils.substringBetween(parameterName, ".taskName", ".");
+        
+        ProtocolActionBean protocolActionBean = null;
+        if (StringUtils.isNotBlank(taskName)) {
+            protocolActionBean = protocolForm.getActionHelper().getActionBean(taskName);
+        }
+
+        return protocolActionBean;
     }
     
     private boolean hasPermission(String taskName, Protocol protocol) {
@@ -3328,57 +2227,16 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return KraServiceLocator.getService("protocolCommitteeDecisionService");
     }
     
+    private ProtocolRiskLevelService getProtocolRiskLevelService() {
+        return KraServiceLocator.getService(ProtocolRiskLevelService.class);
+    }
+    
     private ReviewCommentsService getReviewCommentsService() {
         return KraServiceLocator.getService(ReviewCommentsService.class);
     }
     
     private ProtocolDeferService getProtocolDeferService() {
         return KraServiceLocator.getService(ProtocolDeferService.class);
-    }
-
-    public ActionForward addDeferReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ActionHelper actionHelper = protocolForm.getActionHelper();
-        ReviewCommentsBean actionBean = actionHelper.getProtocolDeferBean().getReviewCommentsBean();
-        
-        addReviewComment(actionBean, protocolForm.getProtocolDocument(), Constants.PROTOCOL_DEFER_ENTER_REVIEW_COMMENTS_KEY);
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward deleteDeferReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolDeferBean();
-        
-        deleteReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward moveUpDeferReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolDeferBean();
-        
-        moveUpReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward moveDownDeferReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolDeferBean();
-        
-        moveDownReviewComment(actionBean.getReviewCommentsBean(), getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     /**
@@ -3573,20 +2431,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 
         return selectedAttachment;
     }
-    
-    /**
-     * Saves the review comments to the database and performs refresh and cleanup.
-     * @param protocolForm
-     * @param actionBean
-     * @return
-     * @throws Exception
-     */
-    private void saveReviewComments(ProtocolForm protocolForm, ReviewCommentsBean actionBean) throws Exception { 
-        getReviewCommentsService().saveReviewComments(actionBean.getReviewComments(), actionBean.getDeletedReviewComments());           
-        actionBean.setDeletedReviewComments(new ArrayList<CommitteeScheduleMinute>());
-        protocolForm.getActionHelper().prepareCommentsView();
-    }
-
     
     /**
      * 

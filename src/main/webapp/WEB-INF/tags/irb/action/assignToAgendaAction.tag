@@ -106,7 +106,7 @@
                         <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.assignToAgendaBean.reviewCommentsBean}"
                                                        property="actionHelper.assignToAgendaBean.reviewCommentsBean"
                                                        action="${action}"
-                                                       actionName="AssignToAgenda" />
+                                                       taskName="protocolAssignToAgenda" />
                    </td>
                 </tr>
 	            

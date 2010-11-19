@@ -18,29 +18,25 @@ package org.kuali.kra.irb.actions.grantexemption;
 import java.io.Serializable;
 import java.sql.Date;
 
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.actions.ActionHelper;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
+import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 
 /**
  * This class is really just a "form" for granting an exemption.
  */
-public class ProtocolGrantExemptionBean implements Serializable {
+public class ProtocolGrantExemptionBean extends ProtocolGenericActionBean implements Serializable {
 
-    private static final long serialVersionUID = -369805742361963806L;
+    private static final long serialVersionUID = 1066298574931838541L;
     
     private Date approvalDate = new Date(System.currentTimeMillis());
-    private String comments = "";
-    private Date actionDate = new Date(System.currentTimeMillis());
-    
-    private ReviewCommentsBean reviewCommentsBean;
     
     /**
      * Constructs a ProtocolGrantExemptionBean.
-     * @param actionHelper a reference back to the parent helper
+     * @param actionHelper Reference back to the action helper for this bean
      */
     public ProtocolGrantExemptionBean(ActionHelper actionHelper) {
-        reviewCommentsBean = new ReviewCommentsBean();
-        reviewCommentsBean.setProtocol(actionHelper.getProtocol());
+        super(actionHelper, Constants.PROTOCOL_GRANT_EXEMPTION_ENTER_REVIEW_COMMENTS_KEY);
     }
     
     public Date getApprovalDate() {
@@ -50,34 +46,9 @@ public class ProtocolGrantExemptionBean implements Serializable {
     public void setApprovalDate(Date approvalDate) {
         this.approvalDate = approvalDate;
     }
-    
-    public String getComments() {
-        return comments;
-    }
-    
-    public void setComments(String comments) {
-        this.comments = comments;
-    }
-    
-    public Date getActionDate() {
-        return actionDate;
-    }
-    
-    public void setActionDate(Date actionDate) {
-        this.actionDate = actionDate;
-    }
-    
-    public ReviewCommentsBean getReviewCommentsBean() {
-        return reviewCommentsBean;
-    }
-
-    public void setReviewCommentsBean(ReviewCommentsBean reviewCommentsBean) {
-        this.reviewCommentsBean = reviewCommentsBean;
-    }
 
     public GrantExemptionCorrespondence getCorrespondence() {
-        GrantExemptionCorrespondence correspondence = new GrantExemptionCorrespondence();
-        return correspondence;
+        return new GrantExemptionCorrespondence();
     }
     
 }

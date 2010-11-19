@@ -17,20 +17,25 @@ package org.kuali.kra.irb.actions.withdraw;
 
 import java.io.Serializable;
 
+import org.kuali.kra.irb.actions.ActionHelper;
+import org.kuali.kra.irb.actions.ProtocolActionBean;
+
 /**
  * This class is really just a "form" containing the reason
  * for withdrawing a protocol.
  */
-@SuppressWarnings("serial")
-public class ProtocolWithdrawBean implements Serializable {
+public class ProtocolWithdrawBean extends ProtocolActionBean implements Serializable {
+    
+    private static final long serialVersionUID = -3244694733749584969L;
     
     private String reason = "";
     
     /**
-     * 
      * Constructs a ProtocolWithdrawBean.java.
+     * @param actionHelper Reference back to the action helper for this bean
      */
-    public ProtocolWithdrawBean() {
+    public ProtocolWithdrawBean(ActionHelper actionHelper) {
+        super(actionHelper);
     }
 
     public void setReason(String reason) {

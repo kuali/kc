@@ -19,7 +19,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.MinuteEntryType;
 
@@ -28,9 +27,9 @@ import org.kuali.kra.meeting.MinuteEntryType;
  */
 public class ReviewCommentsBean implements Serializable {
 
-    private static final long serialVersionUID = -8296332231625862386L;
+    private static final long serialVersionUID = -9167144271091192973L;
 
-    private Protocol protocol;
+    private String errorPropertyName;
     
     private CommitteeScheduleMinute newReviewComment;
     private List<CommitteeScheduleMinute> reviewComments;
@@ -39,19 +38,21 @@ public class ReviewCommentsBean implements Serializable {
     /**
      * Constructs a ReviewerCommentsBean.
      */
-    public ReviewCommentsBean() {
-        newReviewComment = new CommitteeScheduleMinute();
-        newReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
-        reviewComments = new ArrayList<CommitteeScheduleMinute>();
-        deletedReviewComments = new ArrayList<CommitteeScheduleMinute>();
+    public ReviewCommentsBean(String errorPropertyName) {
+        this.errorPropertyName = errorPropertyName;
+        
+        this.newReviewComment = new CommitteeScheduleMinute();
+        this.newReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
+        this.reviewComments = new ArrayList<CommitteeScheduleMinute>();
+        this.deletedReviewComments = new ArrayList<CommitteeScheduleMinute>();
     }
     
-    public Protocol getProtocol() {
-        return protocol;
+    public void setErrorPropertyName(String errorPropertyName) {
+        this.errorPropertyName = errorPropertyName;
     }
 
-    public void setProtocol(Protocol protocol) {
-        this.protocol = protocol;
+    public String getErrorPropertyName() {
+        return errorPropertyName;
     }
     
     public CommitteeScheduleMinute getNewReviewComment() {

@@ -14,10 +14,10 @@
  limitations under the License.
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:p="http://www.springframework.org/schema/p"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+		                   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 	<bean id="ProtocolAssignToAgendaBean" parent="ProtocolAssignToAgendaBean-parentBean" />
 	<bean id="ProtocolAssignToAgendaBean-parentBean" abstract="true" parent="BusinessObjectEntry">
@@ -28,7 +28,6 @@
 			<list>
 				<ref bean="ProtocolAssignToAgendaBean-committeeId" />
 				<ref bean="ProtocolAssignToAgendaBean-committeeName" />
-				<!-- <ref bean="ProtocolAssignToAgendaBean-scheduleId" /> -->
 				<ref bean="ProtocolAssignToAgendaBean-scheduleDate" />
 				<ref bean="ProtocolAssignToAgendaBean-doAssignment" />
 				<ref bean="ProtocolAssignToAgendaBean-comments" />
@@ -79,29 +78,15 @@
 	</bean>
 	
 	<bean id="ProtocolAssignToAgendaBean-comments" parent="ProtocolAssignToAgendaBean-comments-parentBean" />
-	<bean id="ProtocolAssignToAgendaBean-comments-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="comments" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Comments" />
-		<property name="shortLabel" value="Comments" />
-		<property name="maxLength" value="2000" />
-		<property name="required" value="false" />
+	<bean id="ProtocolAssignToAgendaBean-comments-parentBean" abstract="true" parent="ProtocolGenericActionBean-comments" >
 		<property name="control" >
       		<bean parent="TextareaControlDefinition"
-            	p:rows="4"
-            	p:cols="40" />
+            	  p:rows="4"
+            	  p:cols="40" />
 		</property>
-		<property name="summary" value="comments" />
-		<property name="description" value="comments" />
 	</bean>
 	
-	<bean id="ProtocolAssignToAgendaBean-actionDate" parent="ProtocolAssignToAgendaBean-actionDate-parentBean"/>
-    <bean id="ProtocolAssignToAgendaBean-actionDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
-        <property name="name" value="actionDate"/>
-        <property name="label" value="Action Date"/>
-        <property name="shortLabel" value="Action Date"/>
-        <property name="required" value="true"/>
-        <property name="summary" value="Action Date"/>
-        <property name="description" value="Action Date"/>
-    </bean>
+	<bean id="ProtocolAssignToAgendaBean-actionDate" parent="ProtocolAssignToAgendaBean-actionDate-parentBean" />
+    <bean id="ProtocolAssignToAgendaBean-actionDate-parentBean" abstract="true" parent="ProtocolGenericActionBean-actionDate" />
+
 </beans>

@@ -16,10 +16,9 @@
 package org.kuali.kra.irb.actions.assignagenda;
 
 import java.io.Serializable;
-import java.sql.Date;
 
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.printing.Printable;
@@ -35,7 +34,6 @@ public class ProtocolAssignToAgendaBean extends ProtocolGenericActionBean implem
     private String committeName = "";
     private String scheduleDate = "";
     private boolean protocolAssigned;
-    private Date actionDate = new Date(System.currentTimeMillis());
 
     private transient ProtocolAssignToAgendaService agendaService;
 
@@ -44,19 +42,8 @@ public class ProtocolAssignToAgendaBean extends ProtocolGenericActionBean implem
      * @param actionHelper a reference back to the parent helper
      */
     public ProtocolAssignToAgendaBean(ActionHelper actionHelper) {
-        super(actionHelper);
+        super(actionHelper, Constants.PROTOCOL_ASSIGN_TO_AGENDA_ENTER_REVIEW_COMMENTS_KEY);
     }
-    
-    
-    public Date getActionDate() {
-        return actionDate;
-    }
-
-
-    public void setActionDate(Date actionDate) {
-        this.actionDate = actionDate;
-    }
-
 
     public void setCommitteeId(String committeeId) {
         this.committeeId = committeeId;
@@ -108,15 +95,14 @@ public class ProtocolAssignToAgendaBean extends ProtocolGenericActionBean implem
      * Prepare the Assign to Committee and Schedule for rendering with JSP.
      */
     public void prepareView() {
-        Protocol protocol = getActionHelper().getProtocol();
-        if (protocol != null && protocol.getProtocolNumber() != null) {
-            String assignedCommitteeId = getProtocolAssigntoAgendaService().getAssignedCommitteeId(protocol);
+        if (getProtocol() != null && getProtocol().getProtocolNumber() != null) {
+            String assignedCommitteeId = getProtocolAssigntoAgendaService().getAssignedCommitteeId(getProtocol());
             if (assignedCommitteeId != null) {
                 this.committeeId = assignedCommitteeId;
-                this.committeName = getProtocolAssigntoAgendaService().getAssignedCommitteeName(protocol);
-                this.setComments(getProtocolAssigntoAgendaService().getAssignToAgendaComments(protocol));
-                this.protocolAssigned = getProtocolAssigntoAgendaService().isAssignedToAgenda(protocol);
-                this.scheduleDate = getProtocolAssigntoAgendaService().getAssignedScheduleDate(protocol);
+                this.committeName = getProtocolAssigntoAgendaService().getAssignedCommitteeName(getProtocol());
+                this.setComments(getProtocolAssigntoAgendaService().getAssignToAgendaComments(getProtocol()));
+                this.protocolAssigned = getProtocolAssigntoAgendaService().isAssignedToAgenda(getProtocol());
+                this.scheduleDate = getProtocolAssigntoAgendaService().getAssignedScheduleDate(getProtocol());
             }
         }
         

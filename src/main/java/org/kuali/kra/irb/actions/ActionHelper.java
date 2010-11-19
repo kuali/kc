@@ -249,26 +249,24 @@ public class ActionHelper implements Serializable {
     private transient CommitteeScheduleService committeeScheduleService;
     private transient KcPersonService kcPersonService;
     private transient BusinessObjectService businessObjectService;
+    
+    private Map<String, ProtocolActionBean> actionBeanTaskMap = new HashMap<String, ProtocolActionBean>();
     private Map<String, ProtocolRequestBean>  actionTypeRequestBeanMap = new HashMap<String, ProtocolRequestBean>();
+    
     /**
-     * @throws Exception 
      * Constructs an ActionHelper.
      * @param form the protocol form
-     * @throws  
+     * @throws Exception 
      */
     public ActionHelper(ProtocolForm form) throws Exception {
         this.form = form;
         
-        List<ProtocolAction> protocolActions = getProtocol().getProtocolActions();
-        ProtocolSubmission currentSubmission = getProtocol().getProtocolSubmission();
-        
         protocolSubmitAction = new ProtocolSubmitAction(this);
-        protocolWithdrawBean = new ProtocolWithdrawBean();
-        initRequestBeanAndMap();
-        protocolNotifyIrbBean = new ProtocolNotifyIrbBean();
+        protocolWithdrawBean = new ProtocolWithdrawBean(this);
+        protocolNotifyIrbBean = new ProtocolNotifyIrbBean(this);
         protocolAmendmentBean = createAmendmentBean();
         protocolRenewAmendmentBean = createAmendmentBean();
-        protocolDeleteBean = new ProtocolDeleteBean();
+        protocolDeleteBean = new ProtocolDeleteBean(this);
         assignToAgendaBean = new ProtocolAssignToAgendaBean(this);
         assignToAgendaBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         assignCmtSchedBean = new ProtocolAssignCmtSchedBean(this);
@@ -278,53 +276,112 @@ public class ActionHelper implements Serializable {
         protocolGrantExemptionBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         irbAcknowledgementBean = new IrbAcknowledgementBean(this);
         irbAcknowledgementBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-        protocolExpediteApprovalBean = buildProtocolApproveBean(ProtocolActionType.EXPEDITE_APPROVAL, form.getProtocolDocument().getProtocol());
-        protocolResponseApprovalBean = buildProtocolApproveBean(ProtocolActionType.RESPONSE_APPROVAL, form.getProtocolDocument().getProtocol());
-        protocolApproveBean = buildProtocolApproveBean(ProtocolActionType.APPROVED, form.getProtocolDocument().getProtocol());
-        protocolDisapproveBean = buildProtocolGenericActionBean(ProtocolActionType.DISAPPROVED, protocolActions, currentSubmission);
-        protocolSMRBean = buildProtocolGenericActionBean(ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, protocolActions, currentSubmission);
-        protocolSRRBean = buildProtocolGenericActionBean(ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, protocolActions, currentSubmission);
-        protocolReopenBean = buildProtocolGenericActionBean(ProtocolActionType.REOPEN_ENROLLMENT, protocolActions, currentSubmission);
-        protocolCloseEnrollmentBean = buildProtocolGenericActionBean(ProtocolActionType.CLOSED_FOR_ENROLLMENT, protocolActions, currentSubmission);
-        protocolSuspendBean = buildProtocolGenericActionBean(ProtocolActionType.SUSPENDED, protocolActions, currentSubmission);
-        protocolSuspendByDsmbBean = buildProtocolGenericActionBean(ProtocolActionType.SUSPENDED_BY_DSMB, protocolActions, currentSubmission);
-        protocolCloseBean = buildProtocolGenericActionBean(ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, protocolActions, currentSubmission);
-        protocolExpireBean = buildProtocolGenericActionBean(ProtocolActionType.EXPIRED, protocolActions, currentSubmission);
-        protocolTerminateBean = buildProtocolGenericActionBean(ProtocolActionType.TERMINATED, protocolActions, currentSubmission);
-        protocolPermitDataAnalysisBean = buildProtocolGenericActionBean(ProtocolActionType.DATA_ANALYSIS_ONLY, protocolActions, currentSubmission);
+        protocolExpediteApprovalBean = buildProtocolApproveBean(ProtocolActionType.EXPEDITE_APPROVAL, 
+                Constants.PROTOCOL_EXPEDITE_APPROVAL_ENTER_REVIEW_COMMENTS_KEY, Constants.PROTOCOL_EXPEDITED_APPROVAL_ENTER_RISK_LEVEL_KEY);
+        protocolResponseApprovalBean = buildProtocolApproveBean(ProtocolActionType.RESPONSE_APPROVAL, 
+                Constants.PROTOCOL_RESPONSE_APPROVAL_ENTER_REVIEW_COMMENTS_KEY, Constants.PROTOCOL_EXPEDITED_APPROVAL_ENTER_RISK_LEVEL_KEY);
+        protocolApproveBean = buildProtocolApproveBean(ProtocolActionType.APPROVED, 
+                Constants.PROTOCOL_APPROVE_ENTER_REVIEW_COMMENTS_KEY, Constants.PROTOCOL_APPROVAL_ENTER_RISK_LEVEL_KEY);
+        protocolDisapproveBean = buildProtocolGenericActionBean(ProtocolActionType.DISAPPROVED, 
+                Constants.PROTOCOL_DISAPPROVE_ENTER_REVIEW_COMMENTS_KEY);
+        protocolSMRBean = buildProtocolGenericActionBean(ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, 
+                Constants.PROTOCOL_SMR_ENTER_REVIEW_COMMENTS_KEY);
+        protocolSRRBean = buildProtocolGenericActionBean(ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, 
+                Constants.PROTOCOL_SRR_ENTER_REVIEW_COMMENTS_KEY);
+        protocolReopenBean = buildProtocolGenericActionBean(ProtocolActionType.REOPEN_ENROLLMENT, 
+                Constants.PROTOCOL_REOPEN_ENTER_REVIEW_COMMENTS_KEY);
+        protocolCloseEnrollmentBean = buildProtocolGenericActionBean(ProtocolActionType.CLOSED_FOR_ENROLLMENT, 
+                Constants.PROTOCOL_CLOSE_ENROLLMENT_ENTER_REVIEW_COMMENTS_KEY);
+        protocolSuspendBean = buildProtocolGenericActionBean(ProtocolActionType.SUSPENDED, 
+                Constants.PROTOCOL_SUSPEND_ENTER_REVIEW_COMMENTS_KEY);
+        protocolSuspendByDsmbBean = buildProtocolGenericActionBean(ProtocolActionType.SUSPENDED_BY_DSMB, 
+                Constants.PROTOCOL_SUSPEND_BY_DMSB_ENTER_REVIEW_COMMENTS_KEY);
+        protocolCloseBean = buildProtocolGenericActionBean(ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, 
+                Constants.PROTOCOL_CLOSE_ENTER_REVIEW_COMMENTS_KEY);
+        protocolExpireBean = buildProtocolGenericActionBean(ProtocolActionType.EXPIRED, 
+                Constants.PROTOCOL_EXPIRE_ENTER_REVIEW_COMMENTS_KEY);
+        protocolTerminateBean = buildProtocolGenericActionBean(ProtocolActionType.TERMINATED, 
+                Constants.PROTOCOL_TERMINATE_ENTER_REVIEW_COMMENTS_KEY);
+        protocolPermitDataAnalysisBean = buildProtocolGenericActionBean(ProtocolActionType.DATA_ANALYSIS_ONLY, 
+                Constants.PROTOCOL_PERMIT_DATA_ANALYSIS_ENTER_REVIEW_COMMENTS_KEY);
         protocolAdminCorrectionBean = createAdminCorrectionBean();
         undoLastActionBean = createUndoLastActionBean(getProtocol());
         committeeDecision = new CommitteeDecision(this);
         committeeDecision.init();
         committeeDecision.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-        protocolModifySubmissionBean = new ProtocolModifySubmissionBean(this.getProtocol().getProtocolSubmission());
-        protocolDeferBean = buildProtocolGenericActionBean(ProtocolActionType.DEFERRED, protocolActions, currentSubmission);
-        protocolReviewNotRequiredBean = new ProtocolReviewNotRequiredBean();
-        protocolManageReviewCommentsBean = buildProtocolGenericActionBean(ProtocolActionType.MANAGE_REVIEW_COMMENTS, protocolActions, currentSubmission);
+        protocolModifySubmissionBean = new ProtocolModifySubmissionBean(this);
+        protocolDeferBean = buildProtocolGenericActionBean(ProtocolActionType.DEFERRED, 
+                Constants.PROTOCOL_DEFER_ENTER_REVIEW_COMMENTS_KEY);
+        protocolReviewNotRequiredBean = new ProtocolReviewNotRequiredBean(this);
+        protocolManageReviewCommentsBean = buildProtocolGenericActionBean(ProtocolActionType.MANAGE_REVIEW_COMMENTS, 
+                Constants.PROTOCOL_MANAGE_REVIEW_COMMENTS_KEY);
+        protocolCloseRequestBean = new ProtocolRequestBean(this, ProtocolActionType.REQUEST_TO_CLOSE, 
+                ProtocolSubmissionType.REQUEST_TO_CLOSE, "protocolCloseRequestBean");
+        protocolSuspendRequestBean = new ProtocolRequestBean(this, ProtocolActionType.REQUEST_FOR_SUSPENSION, 
+                ProtocolSubmissionType.REQUEST_FOR_SUSPENSION, "protocolSuspendRequestBean");
+        protocolCloseEnrollmentRequestBean = new ProtocolRequestBean(this, ProtocolActionType.REQUEST_TO_CLOSE_ENROLLMENT, 
+                ProtocolSubmissionType.REQUEST_TO_CLOSE_ENROLLMENT, "protocolCloseEnrollmentRequestBean");
+        protocolReOpenEnrollmentRequestBean = new ProtocolRequestBean(this, ProtocolActionType.REQUEST_TO_REOPEN_ENROLLMENT,
+                ProtocolSubmissionType.REQUEST_TO_REOPEN_ENROLLMENT, "protocolReOpenEnrollmentRequestBean");
+        protocolDataAnalysisRequestBean = new ProtocolRequestBean(this, ProtocolActionType.REQUEST_FOR_DATA_ANALYSIS_ONLY,
+                ProtocolSubmissionType.REQUEST_FOR_DATA_ANALYSIS_ONLY, "protocolDataAnalysisRequestBean");
+        protocolTerminateRequestBean = new ProtocolRequestBean(this, ProtocolActionType.REQUEST_FOR_TERMINATION,
+                ProtocolSubmissionType.REQUEST_FOR_TERMINATION, "protocolTerminateRequestBean");
+        
+        initActionBeanTaskMap();
+        initRequestBeanAndMap();
         
         protocolSummaryPrintOptions = new ProtocolSummaryPrintOptions();
     }
     
+    private void initActionBeanTaskMap() {
+        actionBeanTaskMap.put(TaskName.PROTOCOL_ADMIN_CORRECTION, protocolAdminCorrectionBean);
+        actionBeanTaskMap.put(TaskName.CREATE_PROTOCOL_AMMENDMENT, protocolAmendmentBean);
+        actionBeanTaskMap.put(TaskName.CREATE_PROTOCOL_RENEWAL, protocolRenewAmendmentBean);
+        actionBeanTaskMap.put(TaskName.APPROVE_PROTOCOL, protocolApproveBean);
+        actionBeanTaskMap.put(TaskName.ASSIGN_TO_COMMITTEE_SCHEDULE, assignCmtSchedBean);
+        actionBeanTaskMap.put(TaskName.ASSIGN_REVIEWERS, protocolAssignReviewersBean);
+        actionBeanTaskMap.put(TaskName.ASSIGN_TO_AGENDA, assignToAgendaBean);
+        actionBeanTaskMap.put(TaskName.CLOSE_PROTOCOL, protocolCloseBean);
+        actionBeanTaskMap.put(TaskName.CLOSE_ENROLLMENT_PROTOCOL, protocolCloseEnrollmentBean);
+        actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_CLOSE_ENROLLMENT, protocolCloseEnrollmentRequestBean);
+        actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_CLOSE, protocolCloseRequestBean);
+        actionBeanTaskMap.put(TaskName.RECORD_COMMITTEE_DECISION, committeeDecision);
+        actionBeanTaskMap.put(TaskName.PERMIT_DATA_ANALYSIS, protocolPermitDataAnalysisBean);
+        actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_DATA_ANALYSIS, protocolDataAnalysisRequestBean);
+        actionBeanTaskMap.put(TaskName.PROTOCOL_AMEND_RENEW_DELETE, protocolDeleteBean);
+        actionBeanTaskMap.put(TaskName.DEFER_PROTOCOL, protocolDeferBean);
+        actionBeanTaskMap.put(TaskName.DISAPPROVE_PROTOCOL, protocolDisapproveBean);
+        actionBeanTaskMap.put(TaskName.EXPEDITE_APPROVAL, protocolExpediteApprovalBean);
+        actionBeanTaskMap.put(TaskName.EXPIRE_PROTOCOL, protocolExpireBean);
+        actionBeanTaskMap.put(TaskName.GRANT_EXEMPTION, protocolGrantExemptionBean);
+        actionBeanTaskMap.put(TaskName.IRB_ACKNOWLEDGEMENT, irbAcknowledgementBean);
+        actionBeanTaskMap.put(TaskName.PROTOCOL_MANAGE_REVIEW_COMMENTS, protocolManageReviewCommentsBean);
+        actionBeanTaskMap.put(TaskName.MODIFY_PROTOCOL_SUBMISSION, protocolModifySubmissionBean);
+        actionBeanTaskMap.put(TaskName.NOTIFY_IRB, protocolNotifyIrbBean);
+        actionBeanTaskMap.put(TaskName.REOPEN_PROTOCOL, protocolReopenBean);
+        actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_REOPEN_ENROLLMENT, protocolReOpenEnrollmentRequestBean);
+        actionBeanTaskMap.put(TaskName.RESPONSE_APPROVAL, protocolResponseApprovalBean);
+        actionBeanTaskMap.put(TaskName.PROTOCOL_REVIEW_NOT_REQUIRED, protocolReviewNotRequiredBean);
+        actionBeanTaskMap.put(TaskName.RETURN_FOR_SMR, protocolSMRBean);
+        actionBeanTaskMap.put(TaskName.RETURN_FOR_SRR, protocolSRRBean);
+        actionBeanTaskMap.put(TaskName.SUBMIT_PROTOCOL, protocolSubmitAction);
+        actionBeanTaskMap.put(TaskName.SUSPEND_PROTOCOL, protocolSuspendBean);
+        actionBeanTaskMap.put(TaskName.SUSPEND_PROTOCOL_BY_DSMB, protocolSuspendByDsmbBean);
+        actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_SUSPENSION, protocolSuspendRequestBean);
+        actionBeanTaskMap.put(TaskName.TERMINATE_PROTOCOL, protocolTerminateBean);
+        actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_TERMINATE, protocolTerminateRequestBean);
+        actionBeanTaskMap.put(TaskName.PROTOCOL_UNDO_LAST_ACTION, undoLastActionBean);
+        actionBeanTaskMap.put(TaskName.PROTOCOL_WITHDRAW, protocolWithdrawBean);
+    }
+    
     private void initRequestBeanAndMap() {
-        protocolCloseRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE,
-            ProtocolSubmissionType.REQUEST_TO_CLOSE, "protocolCloseRequestBean");
-        protocolSuspendRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_FOR_SUSPENSION,
-            ProtocolSubmissionType.REQUEST_FOR_SUSPENSION, "protocolSuspendRequestBean");
-        protocolCloseEnrollmentRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE_ENROLLMENT,
-            ProtocolSubmissionType.REQUEST_TO_CLOSE_ENROLLMENT, "protocolCloseEnrollmentRequestBean");
-        protocolReOpenEnrollmentRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_REOPEN_ENROLLMENT,
-            ProtocolSubmissionType.REQUEST_TO_REOPEN_ENROLLMENT, "protocolReOpenEnrollmentRequestBean");
-        protocolDataAnalysisRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_FOR_DATA_ANALYSIS_ONLY,
-            ProtocolSubmissionType.REQUEST_FOR_DATA_ANALYSIS_ONLY, "protocolDataAnalysisRequestBean");
-        protocolTerminateRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_FOR_TERMINATION,
-            ProtocolSubmissionType.REQUEST_FOR_TERMINATION, "protocolTerminateRequestBean");
         actionTypeRequestBeanMap.put(ProtocolActionType.REQUEST_TO_CLOSE, protocolCloseRequestBean);
         actionTypeRequestBeanMap.put(ProtocolActionType.REQUEST_TO_CLOSE_ENROLLMENT, protocolCloseEnrollmentRequestBean);
         actionTypeRequestBeanMap.put(ProtocolActionType.REQUEST_TO_REOPEN_ENROLLMENT, protocolReOpenEnrollmentRequestBean);
         actionTypeRequestBeanMap.put(ProtocolActionType.REQUEST_FOR_DATA_ANALYSIS_ONLY, protocolDataAnalysisRequestBean);
         actionTypeRequestBeanMap.put(ProtocolActionType.REQUEST_FOR_SUSPENSION, protocolSuspendRequestBean);
         actionTypeRequestBeanMap.put(ProtocolActionType.REQUEST_FOR_TERMINATION, protocolTerminateRequestBean);
-
     }
     
     /**
@@ -334,31 +391,32 @@ public class ActionHelper implements Serializable {
      * reviewer comments.  This encapsulates that.
      * @return a ProtocolGenericActionBean, and pre-populated with reviewer comments if any exist
      */
-    private ProtocolGenericActionBean buildProtocolGenericActionBean(String actionTypeCode, List<ProtocolAction> protocolActions, ProtocolSubmission currentSubmission) throws Exception {
-        ProtocolGenericActionBean bean = new ProtocolGenericActionBean(this);
+    private ProtocolGenericActionBean buildProtocolGenericActionBean(String actionTypeCode, String errorPropertyKey) {
+        ProtocolGenericActionBean bean = new ProtocolGenericActionBean(this, errorPropertyKey);
+        
         bean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-        ProtocolAction protocolAction = findProtocolAction(actionTypeCode, protocolActions, currentSubmission);
+        ProtocolAction protocolAction = findProtocolAction(actionTypeCode, getProtocol().getProtocolActions(), getProtocol().getProtocolSubmission());
         if (protocolAction != null) {
             bean.setComments(protocolAction.getComments());
-            java.sql.Date actionDate = new java.sql.Date(protocolAction.getActionDate().getYear(), protocolAction.getActionDate().getMonth(), 
-                    protocolAction.getActionDate().getDay());
-            bean.setActionDate(actionDate);
+            bean.setActionDate(new Date(protocolAction.getActionDate().getTime()));
         }
+        
         return bean;
     }
     
-    private ProtocolApproveBean buildProtocolApproveBean(String actionTypeCode, Protocol protocol) throws Exception{
-        ProtocolApproveBean bean = new ProtocolApproveBean(this);
+    private ProtocolApproveBean buildProtocolApproveBean(String actionTypeCode, String protocolOnlineReviewCommentsErrorPropertyKey, 
+            String protocolRiskLevelCommentsErrorPropertyKey) throws Exception {
+        
+        ProtocolApproveBean bean = new ProtocolApproveBean(this, protocolOnlineReviewCommentsErrorPropertyKey, protocolRiskLevelCommentsErrorPropertyKey);
+        
         bean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-        ProtocolAction protocolAction = findProtocolAction(actionTypeCode, protocol.getProtocolActions(), protocol.getProtocolSubmission());
+        ProtocolAction protocolAction = findProtocolAction(actionTypeCode, getProtocol().getProtocolActions(), getProtocol().getProtocolSubmission());
         if (protocolAction != null) {
             bean.setComments(protocolAction.getComments());
-            java.sql.Date actionDate = new java.sql.Date(protocolAction.getActionDate().getYear(), protocolAction.getActionDate().getMonth(), 
-                    protocolAction.getActionDate().getDay());
-            bean.setActionDate(actionDate);
+            bean.setActionDate(new Date(protocolAction.getActionDate().getTime()));
         }
-        bean.setApprovalDate(buildApprovalDate(protocol));
-        bean.setExpirationDate(buildExpirationDate(protocol, bean.getApprovalDate()));
+        bean.setApprovalDate(buildApprovalDate(getProtocol()));
+        bean.setExpirationDate(buildExpirationDate(getProtocol(), bean.getApprovalDate()));
         return bean;
     }
     
@@ -408,8 +466,7 @@ public class ActionHelper implements Serializable {
         return expirationDate;
     }
 
-    private ProtocolAction findProtocolAction(String actionTypeCode, List<ProtocolAction> protocolActions, ProtocolSubmission currentSubmission) 
-        throws Exception {
+    private ProtocolAction findProtocolAction(String actionTypeCode, List<ProtocolAction> protocolActions, ProtocolSubmission currentSubmission) {
 
         for (ProtocolAction pa : protocolActions) {
             if (pa.getProtocolActionType().getProtocolActionTypeCode().equals(actionTypeCode)
@@ -439,7 +496,7 @@ public class ActionHelper implements Serializable {
      * @throws Exception 
      */
     private ProtocolAmendmentBean createAmendmentBean() throws Exception {
-        ProtocolAmendmentBean amendmentBean = new ProtocolAmendmentBean();
+        ProtocolAmendmentBean amendmentBean = new ProtocolAmendmentBean(this);
         List<String> moduleTypeCodes;
 
         if (StringUtils.isNotEmpty(getProtocol().getProtocolNumber()) && (getProtocol().isAmendment() || getProtocol().isRenewal())) {
@@ -511,7 +568,7 @@ public class ActionHelper implements Serializable {
      * @throws Exception 
      */
     private AdminCorrectionBean createAdminCorrectionBean() throws Exception {
-        AdminCorrectionBean adminCorrectionBean = new AdminCorrectionBean();
+        AdminCorrectionBean adminCorrectionBean = new AdminCorrectionBean(this);
         List<String> moduleTypeCodes = getProtocolAmendRenewService().getAvailableModules(getProtocol().getProtocolNumber());
         
         for (String moduleTypeCode : moduleTypeCodes) {
@@ -522,7 +579,7 @@ public class ActionHelper implements Serializable {
     }
     
     private UndoLastActionBean createUndoLastActionBean(Protocol protocol) throws Exception {
-        undoLastActionBean = new UndoLastActionBean();
+        undoLastActionBean = new UndoLastActionBean(this);
         undoLastActionBean.setProtocol(protocol);
         Collections.sort(protocol.getProtocolActions(), new Comparator<ProtocolAction>() {
             public int compare(ProtocolAction action1, ProtocolAction action2) {
@@ -1837,6 +1894,9 @@ public class ActionHelper implements Serializable {
         return protocolSummaryPrintOptions;
     }
     
+    public ProtocolActionBean getActionBean(String taskName) {
+        return actionBeanTaskMap.get(taskName);
+    }
 
     public ProtocolRequestBean getActionTypeRequestBeanMap(String actionTypeCode) {
         return actionTypeRequestBeanMap.get(actionTypeCode);

@@ -25,8 +25,11 @@ import java.util.Map;
 import org.kuali.kra.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.ActionHelper;
+import org.kuali.kra.irb.actions.ProtocolActionBean;
+import org.kuali.kra.irb.actions.ProtocolOnlineReviewCommentable;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.meeting.ProtocolVoteAbstainee;
@@ -36,11 +39,9 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 /**
  * This class is a bean for managing the input for a committee decision.
  */
-public class CommitteeDecision implements Serializable {
+public class CommitteeDecision extends ProtocolActionBean implements ProtocolOnlineReviewCommentable, Serializable {
 
-    private static final long serialVersionUID = -5299517839812034337L;
-
-    private ActionHelper actionHelper;
+    private static final long serialVersionUID = -8052093280852074307L;
     
     private String motionTypeCode;
     private Integer noCount;
@@ -63,13 +64,12 @@ public class CommitteeDecision implements Serializable {
     
     /**
      * Constructs a CommitteeDecision.
-     * @param actionHelper a reference back to the parent helper
+     * @param actionHelper Reference back to the action helper for this bean
      */
     public CommitteeDecision(ActionHelper actionHelper) {
-        this.actionHelper = actionHelper;
+        super(actionHelper);
         
-        reviewCommentsBean = new ReviewCommentsBean();
-        reviewCommentsBean.setProtocol(actionHelper.getProtocol());
+        reviewCommentsBean = new ReviewCommentsBean(Constants.PROTOCOL_COMMITTEE_DECISION_ENTER_REVIEW_COMMENTS_KEY);
     }
     
     /**
@@ -81,7 +81,7 @@ public class CommitteeDecision implements Serializable {
         // npe when try to getavailable member
         // TODO : check with Jay
         //ProtocolSubmission submission = getSubmission(protocol);
-        ProtocolSubmission submission = actionHelper.getProtocol().getProtocolSubmission();
+        ProtocolSubmission submission = getProtocol().getProtocolSubmission();
         if (submission != null) {
             this.motionTypeCode = submission.getCommitteeDecisionMotionTypeCode();
             this.noCount = submission.getNoVoteCount();
@@ -117,14 +117,14 @@ public class CommitteeDecision implements Serializable {
     }
     
     private List<CommitteeMembership> getCommitteeMemberships() {
-        String committeeId = actionHelper.getProtocol().getProtocolSubmission().getCommittee().getCommitteeId();
-        String scheduleId = actionHelper.getProtocol().getProtocolSubmission().getScheduleId();
+        String committeeId = getProtocol().getProtocolSubmission().getCommittee().getCommitteeId();
+        String scheduleId = getProtocol().getProtocolSubmission().getScheduleId();
         List<CommitteeMembership> committeeMemberships = KraServiceLocator.getService(CommitteeService.class).getAvailableMembers(committeeId, scheduleId);
         return committeeMemberships;
     }
     
     private void initializeAbstainees(ProtocolSubmission submission) {
-        Map<String, Long> absenteeLookFields = getLookUpFields(actionHelper.getProtocol().getProtocolId(), submission.getSubmissionId());
+        Map<String, Long> absenteeLookFields = getLookUpFields(getProtocol().getProtocolId(), submission.getSubmissionId());
         
         Collection<ProtocolVoteAbstainee> protocolVoteAbstainees = KraServiceLocator.getService(BusinessObjectService.class).findMatching(ProtocolVoteAbstainee.class, absenteeLookFields);
         
@@ -144,7 +144,7 @@ public class CommitteeDecision implements Serializable {
     }
     
     private void initializeRecused(ProtocolSubmission submission) {
-        Map<String, Long> absenteeLookFields = getLookUpFields(actionHelper.getProtocol().getProtocolId(), submission.getSubmissionId());
+        Map<String, Long> absenteeLookFields = getLookUpFields(getProtocol().getProtocolId(), submission.getSubmissionId());
         
         Collection<ProtocolVoteRecused> protocolVoteRecused = KraServiceLocator.getService(BusinessObjectService.class).findMatching(ProtocolVoteRecused.class, absenteeLookFields);
         

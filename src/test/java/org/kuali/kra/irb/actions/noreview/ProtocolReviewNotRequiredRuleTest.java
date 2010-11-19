@@ -15,71 +15,89 @@
  */
 package org.kuali.kra.irb.actions.noreview;
 
-import static org.junit.Assert.*;
-
 import java.sql.Date;
 
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class ProtocolReviewNotRequiredRuleTest {
-    ProtocolDocument protocolDocument;
-    ProtocolReviewNotRequiredBean actionBean;
-    ProtocolReviewNotRequiredRule rule;
+public class ProtocolReviewNotRequiredRuleTest extends KcUnitTestBase {
+    
+    private static final String COMMENTS = "really cool comments";
+    private static final Date ACTION_DATE = new Date(System.currentTimeMillis());
+    private static final Date DECISION_DATE = new Date(System.currentTimeMillis());
+    
+    private ProtocolReviewNotRequiredRule rule;
+    
+    @Override
     @Before
     public void setUp() throws Exception {
-        protocolDocument = null; //a valid protocol document isn't required for this test.
-        actionBean = createValidProtocolReviewNotRequiredBean();
+        super.setUp();
+        
         rule = new ProtocolReviewNotRequiredRule();
     }
 
+    @Override
     @After
     public void tearDown() throws Exception {
         rule = null;
-        actionBean = null;
-        GlobalVariables.getMessageMap().clearErrorMessages();
+        
+        super.tearDown();
     }
     
-    private ProtocolReviewNotRequiredBean createValidProtocolReviewNotRequiredBean() {
-        ProtocolReviewNotRequiredBean bean = new ProtocolReviewNotRequiredBean();
-        bean.setComments("really cool comments");
-        bean.setActionDate(new Date(System.currentTimeMillis()));
-        bean.setDecisionDate(new Date(System.currentTimeMillis()));
-        return bean;
-    }
+    private Mockery context = new JUnit4Mockery() {{
+        setImposteriser(ClassImposteriser.INSTANCE);
+    }};
 
     @Test
-    public void testProcessReviewNotRequiredRule1() {
-        boolean result = rule.processReviewNotRequiredRule(protocolDocument, actionBean);
-        assertTrue(result);
+    public void testOK() {
+        ProtocolReviewNotRequiredBean protocolReviewNotRequredBean = getMockProtocolReviewNotRequiredBean(COMMENTS, ACTION_DATE, DECISION_DATE);
+        assertTrue(rule.processReviewNotRequiredRule(null, protocolReviewNotRequredBean));
         assertEquals(0, GlobalVariables.getMessageMap().getErrorCount());
     }
     
     @Test
-    public void testProcessReviewNotRequiredRule2() {
-        actionBean.setActionDate(null);
-        boolean result = rule.processReviewNotRequiredRule(protocolDocument, actionBean);
-        assertFalse(result);
-        assertEquals(1, GlobalVariables.getMessageMap().getErrorCount());
-    }
-    
-    @Test
-    public void testProcessReviewNotRequiredRule3() {
-        actionBean.setDecisionDate(null);
-        boolean result = rule.processReviewNotRequiredRule(protocolDocument, actionBean);
-        assertFalse(result);
-        assertEquals(1, GlobalVariables.getMessageMap().getErrorCount());
-    }
-    
-    @Test
-    public void testProcessReviewNotRequiredRule4() {
-        actionBean.setComments(null);
-        boolean result = rule.processReviewNotRequiredRule(protocolDocument, actionBean);
-        assertTrue(result);
+    public void testNoComments() {
+        ProtocolReviewNotRequiredBean protocolReviewNotRequredBean = getMockProtocolReviewNotRequiredBean(null, ACTION_DATE, DECISION_DATE);
+        assertTrue(rule.processReviewNotRequiredRule(null, protocolReviewNotRequredBean));
         assertEquals(0, GlobalVariables.getMessageMap().getErrorCount());
+    }
+    
+    @Test
+    public void testNoActionDate() {
+        ProtocolReviewNotRequiredBean protocolReviewNotRequredBean = getMockProtocolReviewNotRequiredBean(COMMENTS, null, DECISION_DATE);
+        assertFalse(rule.processReviewNotRequiredRule(null, protocolReviewNotRequredBean));
+        assertEquals(1, GlobalVariables.getMessageMap().getErrorCount());
+    }
+    
+    @Test
+    public void testNoDecisionDate() {
+        ProtocolReviewNotRequiredBean protocolReviewNotRequredBean = getMockProtocolReviewNotRequiredBean(COMMENTS, ACTION_DATE, null);
+        assertFalse(rule.processReviewNotRequiredRule(null, protocolReviewNotRequredBean));
+        assertEquals(1, GlobalVariables.getMessageMap().getErrorCount());
+    }
+    
+    private ProtocolReviewNotRequiredBean getMockProtocolReviewNotRequiredBean(final String comments, final Date actionDate, final Date decisionDate) {
+        final ProtocolReviewNotRequiredBean bean = context.mock(ProtocolReviewNotRequiredBean.class);
+        
+        context.checking(new Expectations() {{
+            allowing(bean).getComments();
+            will(returnValue(comments));
+            
+            allowing(bean).getActionDate();
+            will(returnValue(actionDate));
+            
+            allowing(bean).getDecisionDate();
+            will(returnValue(decisionDate));
+        }});
+        
+        return bean;
     }
 
 }

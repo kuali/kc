@@ -19,19 +19,21 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.actions.ActionHelper;
+import org.kuali.kra.irb.actions.ProtocolActionBean;
 import org.kuali.kra.irb.actions.submit.CheckListService;
 import org.kuali.kra.irb.actions.submit.ExemptStudiesCheckListItem;
 import org.kuali.kra.irb.actions.submit.ExpeditedReviewCheckListItem;
 import org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem;
 import org.kuali.kra.irb.actions.submit.ProtocolExpeditedReviewCheckListItem;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 
 /**
  * This class is really just a "form" for editing a protocol submission.
  */
-@SuppressWarnings({ "serial" })
-public class ProtocolModifySubmissionBean implements Serializable {
+public class ProtocolModifySubmissionBean extends ProtocolActionBean implements Serializable {
+
+    private static final long serialVersionUID = 6809400244968716321L;
     
     private String submissionTypeCode = "";
     private String protocolReviewTypeCode = "";
@@ -45,19 +47,20 @@ public class ProtocolModifySubmissionBean implements Serializable {
     private String selectedProtocolReviewTypeCode = null;
     
     /**
-     * 
-     * Constructs a ProtocolModifySubmissionBean.java.
-     * @param protocolSubmission
+     * Constructs a ProtocolModifySubmissionBean.
+     * @param actionHelper Reference back to the action helper for this bean
      */
-    public ProtocolModifySubmissionBean(ProtocolSubmission protocolSubmission) {
-        this.submissionTypeCode = protocolSubmission.getProtocolSubmissionType().getSubmissionTypeCode();
-        this.submissionQualifierTypeCode = protocolSubmission.getSubmissionTypeQualifierCode();
-        this.protocolReviewTypeCode = protocolSubmission.getProtocolReviewTypeCode();
-        this.billable = protocolSubmission.isBillable();
+    public ProtocolModifySubmissionBean(ActionHelper actionHelper) {
+        super(actionHelper);
+        
+        this.submissionTypeCode = actionHelper.getProtocol().getProtocolSubmission().getProtocolSubmissionType().getSubmissionTypeCode();
+        this.submissionQualifierTypeCode = actionHelper.getProtocol().getProtocolSubmission().getSubmissionTypeQualifierCode();
+        this.protocolReviewTypeCode = actionHelper.getProtocol().getProtocolSubmission().getProtocolReviewTypeCode();
+        this.billable = actionHelper.getProtocol().getProtocolSubmission().isBillable();
         
         expeditedReviewCheckList = getCheckListService().getExpeditedReviewCheckList();        
         for (ExpeditedReviewCheckListItem displayItem : expeditedReviewCheckList) {
-            for (ProtocolExpeditedReviewCheckListItem databaseItem : protocolSubmission.getExpeditedReviewCheckList()) {
+            for (ProtocolExpeditedReviewCheckListItem databaseItem : actionHelper.getProtocol().getProtocolSubmission().getExpeditedReviewCheckList()) {
                 if (displayItem.getExpeditedReviewCheckListCode().equals(databaseItem.getExpeditedReviewCheckListCode())) {
                     displayItem.setChecked(true);
                 }
@@ -66,7 +69,7 @@ public class ProtocolModifySubmissionBean implements Serializable {
         
         exemptStudiesCheckList = getCheckListService().getExemptStudiesCheckList();
         for (ExemptStudiesCheckListItem displayItem : exemptStudiesCheckList) {
-            for (ProtocolExemptStudiesCheckListItem databaseItem : protocolSubmission.getExemptStudiesCheckList()) {
+            for (ProtocolExemptStudiesCheckListItem databaseItem : actionHelper.getProtocol().getProtocolSubmission().getExemptStudiesCheckList()) {
                 if (displayItem.getExemptStudiesCheckListCode().equals(databaseItem.getExemptStudiesCheckListCode())) {
                     displayItem.setChecked(true);
                 }

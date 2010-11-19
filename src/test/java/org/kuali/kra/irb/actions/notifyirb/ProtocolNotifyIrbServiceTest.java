@@ -17,11 +17,16 @@ package org.kuali.kra.irb.actions.notifyirb;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,12 +35,14 @@ import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.test.CommitteeFactory;
 import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolSubmissionDoc;
+import org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService;
 import org.kuali.kra.irb.actions.request.MockFormFile;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
@@ -46,76 +53,54 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Test the Protocol NotifyIrb Service Implementation.
  */
-//@PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
-//        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_status.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ORG_TYPE.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_PERSON_ROLES.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_type.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE_QUALIFIER.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_review_type.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_REVIEWER_TYPE.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_committee_type.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_STATUS.sql", delimiter = ";")
-//}))
 public class ProtocolNotifyIrbServiceTest extends KcUnitTestBase {
 
-    private static final String REASON = "my test reason";
+    private static final String COMMITTEE_ID = "913";
+    private static final String COMMENT = "my test reason";
     
-    private ProtocolNotifyIrbServiceImpl protocolNotifyIrbService;
-    private BusinessObjectService businessObjectService;  
-    private ProtocolActionService protocolActionService;
-    private DocumentService documentService;
+    private ProtocolNotifyIrbServiceImpl service;
+    private BusinessObjectService businessObjectService;
+    
+    private Mockery context = new JUnit4Mockery() {{
+        setImposteriser(ClassImposteriser.INSTANCE);
+    }};
     
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        GlobalVariables.setUserSession(new UserSession("quickstart"));
-        protocolNotifyIrbService = new ProtocolNotifyIrbServiceImpl();
+        
+        service = new ProtocolNotifyIrbServiceImpl();
+        service.setProtocolActionService(KraServiceLocator.getService(ProtocolActionService.class));
+        service.setDocumentService(getMockDocumentService());
+        service.setProtocolActionsNotificationService(getMockProtocolActionsNotificationService());
+        
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        documentService = KraServiceLocator.getService(DocumentService.class);
-        protocolNotifyIrbService.setBusinessObjectService(businessObjectService);
-        protocolActionService = KraServiceLocator.getService(ProtocolActionService.class);
-        protocolNotifyIrbService.setProtocolActionService(protocolActionService);
-        protocolNotifyIrbService.setDocumentService(documentService);
     }
 
     @After
     public void tearDown() throws Exception {
-        GlobalVariables.setUserSession(null);
+        service = null;
+        businessObjectService = null;
+        
         super.tearDown();
     }
     
     @Test
     public void testRequestWithNoCommitteeNoFile() throws WorkflowException {
-        ProtocolNotifyIrbBean notifyIrbBean = new ProtocolNotifyIrbBean();
-        notifyIrbBean.setSubmissionQualifierTypeCode(ProtocolSubmissionQualifierType.AE_UADE);
-        notifyIrbBean.setCommitteeId("");
-//        notifyIrbBean.setFile(null);
-        notifyIrbBean.setComment(REASON);
-        notifyIrbBean.setReviewTypeCode("7");
-        runTest(notifyIrbBean);
+        runTest(getMockProtocolNotifyIrbBean(Constants.EMPTY_STRING));
     }
     
     @Test
     public void testRequestWithCommitteeAndFile() throws WorkflowException {
-        ProtocolNotifyIrbBean notifyIrbBean = new ProtocolNotifyIrbBean();
-        notifyIrbBean.setSubmissionQualifierTypeCode(ProtocolSubmissionQualifierType.AE_UADE);
-        notifyIrbBean.setCommitteeId("913");
         ProtocolActionAttachment attachment = new ProtocolActionAttachment();
         attachment.setFile(new MockFormFile());
-        notifyIrbBean.getActionAttachments().add(attachment);
-        //notifyIrbBean.setFile(new MockFormFile());
-        notifyIrbBean.setComment(REASON);
-        notifyIrbBean.setReviewTypeCode("7");
+        ProtocolNotifyIrbBean notifyIrbBean = getMockProtocolNotifyIrbBean(COMMITTEE_ID, attachment);
         runTest(notifyIrbBean);
     }
     
@@ -123,7 +108,6 @@ public class ProtocolNotifyIrbServiceTest extends KcUnitTestBase {
      * Runs a test for the configuration defined by the input parameters.
      */
     private void runTest(ProtocolNotifyIrbBean notifyIrbBean) throws WorkflowException {
-        
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
         CommitteeDocument committeeDocument = null;
@@ -131,12 +115,12 @@ public class ProtocolNotifyIrbServiceTest extends KcUnitTestBase {
             committeeDocument = createCommittee(notifyIrbBean.getCommitteeId());
         }
         
-        protocolNotifyIrbService.submitIrbNotification(protocolDocument.getProtocol(), notifyIrbBean);
+        service.submitIrbNotification(protocolDocument.getProtocol(), notifyIrbBean);
     
-        ProtocolSubmission protocolSubmission = findSubmission(protocolDocument.getProtocol().getProtocolId());
+        ProtocolSubmission protocolSubmission = protocolDocument.getProtocol().getProtocolSubmission();
         assertNotNull(protocolSubmission);
         
-        ProtocolAction protocolAction = findProtocolAction(protocolDocument.getProtocol().getProtocolId());
+        ProtocolAction protocolAction = protocolDocument.getProtocol().getLastProtocolAction();
         assertNotNull(protocolAction);
         
         verifyAction(protocolAction, notifyIrbBean, protocolSubmission);
@@ -178,7 +162,6 @@ public class ProtocolNotifyIrbServiceTest extends KcUnitTestBase {
         assertEquals(new Integer(1), submission.getSubmissionNumber());
         
         assertEquals(ProtocolSubmissionType.NOTIFY_IRB, submission.getSubmissionTypeCode());
-        //assertEquals(ProtocolReviewType.FULL_TYPE_CODE, submission.getProtocolReviewTypeCode());
         assertEquals(ProtocolReviewType.FYI_TYPE_CODE, submission.getProtocolReviewTypeCode());
         assertEquals(ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE, submission.getSubmissionStatusCode());
        
@@ -212,7 +195,7 @@ public class ProtocolNotifyIrbServiceTest extends KcUnitTestBase {
     private void verifyAction(ProtocolAction action, ProtocolNotifyIrbBean requestBean, ProtocolSubmission submission) {
         assertEquals(ProtocolActionType.NOTIFY_IRB, action.getProtocolActionTypeCode());
         assertEquals(submission.getSubmissionId(), action.getSubmissionIdFk());
-        assertEquals(REASON, action.getComments());
+        assertEquals(COMMENT, action.getComments());
     }
 
     /*
@@ -221,34 +204,6 @@ public class ProtocolNotifyIrbServiceTest extends KcUnitTestBase {
     private String convert(String s) {
         if (s == null) return "";
         return s;
-    }
-
-    /**
-     * Find the ProtocolAction in the database.
-     */
-    @SuppressWarnings("unchecked")
-    private ProtocolAction findProtocolAction(Long protocolId) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("protocolId", protocolId);
-        List<ProtocolAction> actions = (List<ProtocolAction>) businessObjectService.findMatching(ProtocolAction.class, fieldValues);
-        
-        assertEquals(1, actions.size());
-        ProtocolAction action = actions.get(0);
-        return action;
-    }
-
-    /*
-     * Find the ProtocolSubmission in the database.
-     */
-    @SuppressWarnings("unchecked")
-    private ProtocolSubmission findSubmission(Long protocolId) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("protocolId", protocolId);
-        List<ProtocolSubmission> submissions = (List<ProtocolSubmission>) businessObjectService.findMatching(ProtocolSubmission.class, fieldValues);
-        
-        assertEquals(1, submissions.size());
-        ProtocolSubmission submission = submissions.get(0);
-        return submission;
     }
     
     /*
@@ -265,4 +220,48 @@ public class ProtocolNotifyIrbServiceTest extends KcUnitTestBase {
         }
         return docs.get(0);
     }
+    
+    private DocumentService getMockDocumentService() {
+        final DocumentService service = context.mock(DocumentService.class);
+        
+        context.checking(new Expectations() {{
+            ignoring(service);
+        }});
+        
+        return service;
+    }
+    
+    private ProtocolActionsNotificationService getMockProtocolActionsNotificationService() {
+        final ProtocolActionsNotificationService service = context.mock(ProtocolActionsNotificationService.class);
+        
+        context.checking(new Expectations() {{
+            ignoring(service);
+        }});
+        
+        return service;
+    }
+    
+    private ProtocolNotifyIrbBean getMockProtocolNotifyIrbBean(final String committeeId, final ProtocolActionAttachment... attachments) {
+        final ProtocolNotifyIrbBean bean = context.mock(ProtocolNotifyIrbBean.class);
+        
+        context.checking(new Expectations() {{
+            allowing(bean).getSubmissionQualifierTypeCode();
+            will(returnValue(ProtocolSubmissionQualifierType.AE_UADE));
+            
+            allowing(bean).getReviewTypeCode();
+            will(returnValue(ProtocolReviewType.FYI_TYPE_CODE));
+            
+            allowing(bean).getCommitteeId();
+            will(returnValue(committeeId));
+            
+            allowing(bean).getComment();
+            will(returnValue(COMMENT));
+            
+            allowing(bean).getActionAttachments();
+            will(returnValue(Arrays.asList(attachments)));
+        }});
+        
+        return bean;
+    }
+    
 }

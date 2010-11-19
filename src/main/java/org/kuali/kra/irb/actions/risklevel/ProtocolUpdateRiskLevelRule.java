@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.actions.risklevel;
 
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
@@ -33,7 +34,7 @@ public class ProtocolUpdateRiskLevelRule extends ResearchDocumentRuleBase implem
         boolean isValid = true;
         
         int index = event.getIndex();
-        String errorPathKey = event.getPropertyName() + "[" + index + "]";
+        String errorPathKey = Constants.PROTOCOL_UPDATE_RISK_LEVEL_KEY + "[" + index + "]";
         ProtocolRiskLevel persistedProtocolRiskLevel = event.getProtocolDocument().getProtocol().getProtocolRiskLevels().get(index);
         
         GlobalVariables.getMessageMap().addToErrorPath(errorPathKey);
