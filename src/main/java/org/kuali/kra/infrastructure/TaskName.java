@@ -122,6 +122,7 @@ public interface TaskName {
     public static final String PROTOCOL_REVIEW_NOT_REQUIRED = "protocolReviewNotRequired";
     public static final String PROTOCOL_MANAGE_REVIEW_COMMENTS = "protocolManageReviewComments";
     public static final String PROTOCOL_APPROVE_OTHER = "protocolApproveOther";
+    public static final String PROTOCOL_MANAGE_NOTES = "protocolManageNotes";
     
     /*
      * Protocol - Online Review Tasks
