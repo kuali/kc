@@ -356,7 +356,10 @@
                 </bean>           
                 <bean class="org.kuali.kra.irb.auth.ProtocolApproveOtherAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolApproveOther" />
-                </bean>    
+                </bean>   
+                <bean class="org.kuali.kra.irb.auth.ProtocolManageNotesAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolManageNotes" />
+                </bean>   
             </list>
         </property>
     </bean>

@@ -3687,38 +3687,45 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      */
     public ActionForward addNote(ActionMapping mapping, ActionForm form, HttpServletRequest request,
         HttpServletResponse response) throws Exception {
-        ((ProtocolForm) form).getNotesAttachmentsHelper().addNewNote();
-        ((ProtocolForm) form).getNotesAttachmentsHelper().setManageNotesOpen(true);
+        ProtocolForm protocolForm = ((ProtocolForm) form);
+        if (protocolForm.getActionHelper().getCanManageNotes()) {
+            protocolForm.getNotesAttachmentsHelper().addNewNote();
+            protocolForm.getNotesAttachmentsHelper().setManageNotesOpen(true);
+        }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     public ActionForward saveNotes(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
-        Protocol protocol = ((ProtocolForm) form).getProtocolDocument().getProtocol();
+        ProtocolForm protocolForm = ((ProtocolForm) form);
+        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
         
-        final AddProtocolNotepadRule rule = new AddProtocolNotepadRuleImpl();
+        if (protocolForm.getActionHelper().getCanManageNotes()) {
         
-        //final AddProtocolNotepadEvent event = new AddProtocolNotepadEvent(this.form.getDocument(), this.newProtocolNotepad);
-        boolean validNotes = true;
-        //validate all of them first
-        for(ProtocolNotepad note : protocol.getNotepads()) {
-            if (note.isEditable()) {
-                AddProtocolNotepadEvent event = new AddProtocolNotepadEvent(protocol.getProtocolDocument(), note);
-                if (!rule.processAddProtocolNotepadRules(event)) {
-                    validNotes = false;
-                }
-            }
-        }
-        
-        if (validNotes) {
+            final AddProtocolNotepadRule rule = new AddProtocolNotepadRuleImpl();
+            
+            //final AddProtocolNotepadEvent event = new AddProtocolNotepadEvent(this.form.getDocument(), this.newProtocolNotepad);
+            boolean validNotes = true;
+            //validate all of them first
             for(ProtocolNotepad note : protocol.getNotepads()) {
-                if (StringUtils.isBlank(note.getUpdateUserFullName())) {
-                    note.setUpdateUserFullName(GlobalVariables.getUserSession().getPerson().getName());
-                    note.setUpdateTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
+                if (note.isEditable()) {
+                    AddProtocolNotepadEvent event = new AddProtocolNotepadEvent(protocol.getProtocolDocument(), note);
+                    if (!rule.processAddProtocolNotepadRules(event)) {
+                        validNotes = false;
+                    }
                 }
-                note.setEditable(false);
             }
-            getBusinessObjectService().save(protocol.getNotepads());
+            
+            if (validNotes) {
+                for(ProtocolNotepad note : protocol.getNotepads()) {
+                    if (StringUtils.isBlank(note.getUpdateUserFullName())) {
+                        note.setUpdateUserFullName(GlobalVariables.getUserSession().getPerson().getName());
+                        note.setUpdateTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
+                    }
+                    note.setEditable(false);
+                }
+                getBusinessObjectService().save(protocol.getNotepads());
+            }
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }

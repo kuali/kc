@@ -152,6 +152,7 @@ public class ActionHelper implements Serializable {
     private boolean canReviewNotRequired = false;
     private boolean canManageReviewComments = false;
     private boolean canApproveOther = false;
+    private boolean canManageNotes = false;
 
     private boolean isApproveOpenForFollowup;
     private boolean isDisapproveOpenForFollowup;
@@ -629,6 +630,7 @@ public class ActionHelper implements Serializable {
         canReviewNotRequired = hasReviewNotRequiredPermission();
         canManageReviewComments = hasManageReviewCommentsPermission();
         canApproveOther = hasApproveOtherPermission();
+        canManageNotes = hasManageNotesPermision();
         
         isApproveOpenForFollowup = hasApproveFollowupAction();
         isDisapproveOpenForFollowup = hasDisapproveFollowupAction();
@@ -889,6 +891,11 @@ public class ActionHelper implements Serializable {
     
     private boolean hasApproveOtherPermission() {
         ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_APPROVE_OTHER, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    private boolean hasManageNotesPermision() {
+        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_MANAGE_NOTES, getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
@@ -1303,6 +1310,10 @@ public class ActionHelper implements Serializable {
     
     public boolean getCanApproveOther() {
         return canApproveOther;
+    }
+    
+    public boolean getCanManageNotes() {
+        return canManageNotes;
     }
 
     public boolean getIsApproveOpenForFollowup() {
