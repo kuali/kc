@@ -20,7 +20,7 @@ import org.kuali.rice.kns.rule.BusinessRule;
 /**
  * Contains rules for adding {@link ProtocolNotepad ProtocolNotepad}.
  */
-interface AddProtocolNotepadRule extends BusinessRule {
+public interface AddProtocolNotepadRule extends BusinessRule {
 
     /**
      * Executes the rules for adding a new {@link ProtocolNotepad ProtocolNotepad}.

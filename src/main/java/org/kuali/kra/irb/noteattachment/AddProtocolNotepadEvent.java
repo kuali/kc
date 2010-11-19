@@ -24,7 +24,7 @@ import org.kuali.rice.kns.rule.BusinessRule;
 /**
  * Event created when adding a new {@link ProtocolNotepad ProtocolNotepad}.
  */
-class AddProtocolNotepadEvent extends KraDocumentEventBase {
+public class AddProtocolNotepadEvent extends KraDocumentEventBase {
 
     private static final Log LOG = LogFactory.getLog(AddProtocolNotepadEvent.class);
     private final ProtocolNotepad newProtocolNotepad;
