@@ -16,20 +16,15 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="protocolNotesAttributes" value="${DataDictionary.ProtocolNotepad.attributes}" />
-<c:set var="modify" value="${KualiForm.notesAttachmentsHelper.modifyNotepads}" />
-<c:set var="viewRestrictedNotes" value="${KualiForm.notesAttachmentsHelper.viewRestricted}" />
-<c:set var="irbAdmin" value="${KualiForm.notesAttachmentsHelper.irbAdmin}" />
 <c:set var="tabItemCount" value="0" />
 
 <c:set var="isOpen" value="${KualiForm.notesAttachmentsHelper.manageNotesOpen}" />
 
-<c:forEach var="protocolNotepad" items="${KualiForm.document.protocol.notepads}" varStatus="status">
-    <c:if test="${viewRestrictedNotes || !protocolNotepad.restrictedView}">               
+<c:forEach var="protocolNotepad" items="${KualiForm.document.protocol.notepads}" varStatus="status">              
         <c:set var="tabItemCount" value="${tabItemCount+1}" />
-    </c:if>
 </c:forEach>
 
-<kra:permission value="${false}">
+<kra:permission value="${KualiForm.actionHelper.canManageNotes}">
 
 <kul:innerTab tabTitle="Manage Notes (${tabItemCount})" parentTab="" defaultOpen="${isOpen}" tabErrorKey="notesAttachmentsHelper.newProtocolNotepad.*,document.protocol.notepads.*">
    
@@ -44,7 +39,6 @@
 				<th><kul:htmlAttributeLabel attributeEntry="${protocolNotesAttributes.restrictedView}" useShortLabel="true" noColon="true"/></th>
 				<th><div align="center">Actions</div></th>
 			</tr>
-			<kra:permission value="${modify}">
 				<tr>
 	            	<th width="40" align="center" scope="row"><div align="center">Add:</div></th>
 	            	<td width="80" class="infoline">
@@ -55,17 +49,17 @@
 		            </td>
 		            <td width="150" class="infoline">
 		            	<div align="center">
-	            	    	<kul:htmlControlAttribute property="notesAttachmentsHelper.newProtocolNotepad.noteTopic" attributeEntry="${protocolNotesAttributes.noteTopic}" readOnly="${!modify}" />
+	            	    	<kul:htmlControlAttribute property="notesAttachmentsHelper.newProtocolNotepad.noteTopic" attributeEntry="${protocolNotesAttributes.noteTopic}" />
 	            	  	</div>
 		            </td>
 		            <td width="1000" class="infoline">
 		            	<div align="left">
-	            	    	<kul:htmlControlAttribute property="notesAttachmentsHelper.newProtocolNotepad.comments" attributeEntry="${protocolNotesAttributes.comments}"readOnly="${!modify}" />
+	            	    	<kul:htmlControlAttribute property="notesAttachmentsHelper.newProtocolNotepad.comments" attributeEntry="${protocolNotesAttributes.comments}" />
 	            	  	</div>
 		            </td>
 		            <td class="infoline">
 		            	<div align="center">
-		            		<kul:htmlControlAttribute property="notesAttachmentsHelper.newProtocolNotepad.restrictedView" attributeEntry="${protocolNotesAttributes.restrictedView}" readOnly="${!modify}" />
+		            		<kul:htmlControlAttribute property="notesAttachmentsHelper.newProtocolNotepad.restrictedView" attributeEntry="${protocolNotesAttributes.restrictedView}"  />
 		            	 </div>
 			        </td>
 		            <td class="infoline">
@@ -75,9 +69,9 @@
 						</div>
 		            </td>
 	          	</tr>
-          	</kra:permission>
+
          	<c:forEach var="protocolNotepad" items="${KualiForm.document.protocol.notepads}" varStatus="status">
-	             <c:if test="${viewRestrictedNotes || !protocolNotepad.restrictedView}">
+
 		             <tr>
 						<th class="infoline">
 							<c:out value="${status.index+1}" />
@@ -95,26 +89,26 @@
 		                <td valign="middle">                	
 							<div align="center">
 								<kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].noteTopic" 
-									attributeEntry="${protocolNotesAttributes.noteTopic}" readOnly="${!modify || !protocolNotepad.editable}"/>
+									attributeEntry="${protocolNotesAttributes.noteTopic}" readOnly="${ !protocolNotepad.editable}"/>
 							</div>
 						</td>
 		                <td valign="middle">                	
 							<div align="left">
 								<kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].comments" 
-									attributeEntry="${protocolNotesAttributes.comments}" readOnly="${!modify || !protocolNotepad.editable}"/>
+									attributeEntry="${protocolNotesAttributes.comments}" readOnly="${ !protocolNotepad.editable}"/>
 							</div>
 						</td>
 		                <td valign="middle">
 							<div align="center">
 				               <kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].restrictedView" 
-				               	attributeEntry="${protocolNotesAttributes.restrictedView}" readOnly="${!modify || ((!viewRestrictedNotes || !protocolNotepad.editable) && !irbAdmin)}"/>
+				               	attributeEntry="${protocolNotesAttributes.restrictedView}" readOnly="${(!protocolNotepad.editable)}"/>
 							</div>
 		                </td>
 						<td>
 							&nbsp;
 		                </td>
 		            </tr>
-	            </c:if>
+		            
         	</c:forEach> 
         	<tr>
         		<td class="infoline" colspan="7">
