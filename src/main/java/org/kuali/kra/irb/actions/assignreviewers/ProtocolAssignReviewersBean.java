@@ -23,8 +23,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ActionHelper;
+import org.kuali.kra.irb.actions.ProtocolActionBean;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
@@ -33,21 +33,20 @@ import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
  * This class is really just a "form" for assigning a protocol
  * to one or more reviewers.
  */
-@SuppressWarnings("serial")
-public class ProtocolAssignReviewersBean implements Serializable{
-    
-    private ActionHelper actionHelper;
+public class ProtocolAssignReviewersBean extends ProtocolActionBean implements Serializable {
+
+    private static final long serialVersionUID = -3769655019628462999L;
     
     private String currentCommitteeId = null;
     private String currentScheduleId = null;
     private List<ProtocolReviewerBean> reviewers = new ArrayList<ProtocolReviewerBean>();
     
+    /**
+     * Constructs a ProtocolAssignReviewersBean.
+     * @param actionHelper Reference back to the action helper for this bean
+     */
     public ProtocolAssignReviewersBean(ActionHelper actionHelper) {
-        this.actionHelper = actionHelper;
-    }
-
-    private Protocol getProtocol() {
-        return actionHelper.getProtocolForm().getProtocolDocument().getProtocol();
+        super(actionHelper);
     }
     
     /**

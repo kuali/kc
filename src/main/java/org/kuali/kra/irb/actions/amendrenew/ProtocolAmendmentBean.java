@@ -15,10 +15,12 @@
  */
 package org.kuali.kra.irb.actions.amendrenew;
 
+import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.ProtocolEditableBean;
 
-@SuppressWarnings("serial")
 public class ProtocolAmendmentBean extends ProtocolEditableBean {
+
+    private static final long serialVersionUID = 6548643656057631296L;
 
     private String summary = "";
     
@@ -34,8 +36,12 @@ public class ProtocolAmendmentBean extends ProtocolEditableBean {
     private boolean others = false;
     private boolean protocolPermissions = false;
     
-    public ProtocolAmendmentBean() {
-        
+    /**
+     * Constructs a ProtocolAmendmentBean.
+     * @param actionHelper Reference back to the action helper for this bean
+     */
+    public ProtocolAmendmentBean(ActionHelper actionHelper) {
+        super(actionHelper);
     }
 
     public String getSummary() {

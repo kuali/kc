@@ -17,6 +17,10 @@ package org.kuali.kra.irb.actions.delete;
 
 import java.util.List;
 
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,54 +32,45 @@ import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Test the ProtocolDeleteService implementation.
  */
-//@PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
-//        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_status.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ORG_TYPE.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_PERSON_ROLES.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_type.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_review_type.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_REVIEWER_TYPE.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_committee_type.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE_QUALIFIER.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_MODULES.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_STATUS.sql", delimiter = ";")
-//}))
 public class ProtocolDeleteServiceTest extends KcUnitTestBase {
 
     private static final String REASON = "my test reason";
     private static final String SUMMARY = "summary";
     
-    private ProtocolDeleteService protocolDeleteService;
-    private ProtocolAmendRenewService protocolAmendRenewService;  
+    private ProtocolDeleteService service;
+    private ProtocolAmendRenewService protocolAmendRenewService;
     
+    private Mockery context = new JUnit4Mockery() {{
+        setImposteriser(ClassImposteriser.INSTANCE);
+    }};
+    
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        GlobalVariables.setUserSession(new UserSession("quickstart"));
-        protocolDeleteService = KraServiceLocator.getService(ProtocolDeleteService.class);
+
+        service = KraServiceLocator.getService(ProtocolDeleteService.class);
         protocolAmendRenewService = KraServiceLocator.getService(ProtocolAmendRenewService.class);
     }
 
     @After
     public void tearDown() throws Exception {
-        GlobalVariables.setUserSession(null);
+        service = null;
+        protocolAmendRenewService = null;
+        
         super.tearDown();
     }
     
     @Test
     public void testDelete() throws WorkflowException {
-        ProtocolDeleteBean deleteBean = new ProtocolDeleteBean();
-        deleteBean.setReason(REASON);
+        ProtocolDeleteBean protocolDeleteBean = getMockProtocolDeleteBean();
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
          
-        protocolDeleteService.delete(protocolDocument.getProtocol(), deleteBean);
+        service.delete(protocolDocument.getProtocol(), protocolDeleteBean);
     
         assertFalse(protocolDocument.getProtocol().isActive());
         assertEquals(ProtocolStatus.DELETED, protocolDocument.getProtocol().getProtocolStatusCode());
@@ -83,25 +78,75 @@ public class ProtocolDeleteServiceTest extends KcUnitTestBase {
     
     @Test
     public void testDeleteAmendment() throws Exception {
-       
+        ProtocolAmendmentBean protocolAmendmentBean = getMockProtocolAmendmentBean();
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
-        ProtocolAmendmentBean amendmentBean = new ProtocolAmendmentBean();
-        amendmentBean.setAddModifyAttachments(true);
-        amendmentBean.setProtocolOrganizations(true);
-        amendmentBean.setSummary(SUMMARY);
-        
-        String docNbr = protocolAmendRenewService.createAmendment(protocolDocument, amendmentBean);
+        String docNbr = protocolAmendRenewService.createAmendment(protocolDocument, protocolAmendmentBean);
         ProtocolDocument amendmentDocument = (ProtocolDocument) getDocumentService().getByDocumentHeaderId(docNbr);
         
         List<String> modules = protocolAmendRenewService.getAvailableModules(protocolDocument.getProtocol().getProtocolNumber());
         assertEquals(9, modules.size());
         
-        ProtocolDeleteBean deleteBean = new ProtocolDeleteBean();
-        deleteBean.setReason(REASON);
-        protocolDeleteService.delete(amendmentDocument.getProtocol(), deleteBean);
+        ProtocolDeleteBean protocolDeleteBean = getMockProtocolDeleteBean();
+        service.delete(amendmentDocument.getProtocol(), protocolDeleteBean);
         
         modules = protocolAmendRenewService.getAvailableModules(protocolDocument.getProtocol().getProtocolNumber());
         assertEquals(11, modules.size());
     }
+    
+    private ProtocolDeleteBean getMockProtocolDeleteBean() {
+        final ProtocolDeleteBean bean = context.mock(ProtocolDeleteBean.class);
+        
+        context.checking(new Expectations() {{
+            allowing(bean).getReason();
+            will(returnValue(REASON));
+        }});
+        
+        return bean;
+    }
+    
+    private ProtocolAmendmentBean getMockProtocolAmendmentBean() {
+        final ProtocolAmendmentBean bean = context.mock(ProtocolAmendmentBean.class);
+        
+        context.checking(new Expectations() {{
+            allowing(bean).getSummary();
+            will(returnValue(SUMMARY));
+            
+            allowing(bean).getGeneralInfo();
+            will(returnValue(false));
+            
+            allowing(bean).getFundingSource();
+            will(returnValue(false));
+            
+            allowing(bean).getProtocolReferencesAndOtherIdentifiers();
+            will(returnValue(false));
+            
+            allowing(bean).getProtocolOrganizations();
+            will(returnValue(false));
+            
+            allowing(bean).getSubjects();
+            will(returnValue(false));
+            
+            allowing(bean).getAddModifyAttachments();
+            will(returnValue(true));
+            
+            allowing(bean).getAreasOfResearch();
+            will(returnValue(false));
+            
+            allowing(bean).getSpecialReview();
+            will(returnValue(false));
+            
+            allowing(bean).getProtocolPersonnel();
+            will(returnValue(false));
+            
+            allowing(bean).getOthers();
+            will(returnValue(false));
+            
+            allowing(bean).getProtocolPermissions();
+            will(returnValue(true));
+        }});
+        
+        return bean;
+    }
+    
 }

@@ -18,12 +18,17 @@ package org.kuali.kra.irb.actions.request;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,6 +38,7 @@ import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.test.CommitteeFactory;
 import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -48,10 +54,8 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Test the ProtocolRequestService implementation.
@@ -62,46 +66,35 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * the submitRequest(), a check is done against the database to
  * verify that the changes occurred as expected.
 */
-
-//@PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
-//        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_status.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ORG_TYPE.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_PERSON_ROLES.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_type.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_review_type.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_REVIEWER_TYPE.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_committee_type.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE_QUALIFIER.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_MODULES.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_STATUS.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_schedule_status.sql", delimiter = ";")
-//}))
 public class ProtocolRequestServiceTest extends KcUnitTestBase {
 
+    private static final String COMMITTEE_ID = "925";
     private static final String REASON = "my test reason";
     
-    private ProtocolRequestServiceImpl protocolRequestService;
+    private ProtocolRequestServiceImpl service;
     private BusinessObjectService businessObjectService;
-    private ProtocolActionService protocolActionService;   
-    private DocumentService documentService;   
+    
+    private Mockery context = new JUnit4Mockery() {{
+        setImposteriser(ClassImposteriser.INSTANCE);
+    }};
    
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        GlobalVariables.setUserSession(new UserSession("quickstart"));
-        protocolRequestService = new ProtocolRequestServiceImpl();
+        
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        protocolActionService = KraServiceLocator.getService(ProtocolActionService.class);
-        documentService = KraServiceLocator.getService(DocumentService.class);
-        protocolRequestService.setBusinessObjectService(businessObjectService);
-        protocolRequestService.setProtocolActionService(protocolActionService);
-        protocolRequestService.setDocumentService(documentService);
+
+        service = new ProtocolRequestServiceImpl();
+        service.setBusinessObjectService(businessObjectService);
+        service.setProtocolActionService(KraServiceLocator.getService(ProtocolActionService.class));
+        service.setDocumentService(KraServiceLocator.getService(DocumentService.class));
     }
 
     @After
     public void tearDown() throws Exception {
-        GlobalVariables.setUserSession(null);
+        service = null;
+        businessObjectService = null;
+        
         super.tearDown();
     }
     
@@ -118,12 +111,10 @@ public class ProtocolRequestServiceTest extends KcUnitTestBase {
      */
     @Test
     public void testRequestWithNoCommitteeNoFile() throws WorkflowException {
-        ProtocolRequestBean closeRequest = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE, 
-                                                                   ProtocolSubmissionType.REQUEST_TO_CLOSE, "protocolCloseRequestBean");
+        ProtocolRequestBean closeRequest = getMockProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE, ProtocolSubmissionType.REQUEST_TO_CLOSE, 
+                Constants.EMPTY_STRING, "protocolCloseRequestBean");
         
-        //closeRequest.setFile(null);
-        closeRequest.setReason(REASON);
-        runTest("", null, closeRequest);
+        runTest(Constants.EMPTY_STRING, null, closeRequest);
     }
     
     /*
@@ -134,14 +125,12 @@ public class ProtocolRequestServiceTest extends KcUnitTestBase {
      */
     @Test
     public void testRequest() throws WorkflowException {
-        ProtocolRequestBean closeRequest = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE, 
-                                                                   ProtocolSubmissionType.REQUEST_TO_CLOSE, "protocolCloseRequestBean");
         ProtocolActionAttachment attachment = new ProtocolActionAttachment();
         attachment.setFile(new MockFormFile());
-        closeRequest.getActionAttachments().add(attachment);
-        closeRequest.setCommitteeId("925");
-        closeRequest.setReason(REASON);
-        runTest("925", null, closeRequest);
+        ProtocolRequestBean closeRequest = getMockProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE, ProtocolSubmissionType.REQUEST_TO_CLOSE, 
+                COMMITTEE_ID, "protocolCloseRequestBean", attachment);
+        
+        runTest(COMMITTEE_ID, null, closeRequest);
     }
     
     /*
@@ -182,12 +171,12 @@ public class ProtocolRequestServiceTest extends KcUnitTestBase {
         if (!StringUtils.isBlank(committeeId)) {
             committeeDocument = createCommittee(committeeId);
         }
-        protocolRequestService.submitRequest(protocolDocument.getProtocol(), requestBean);
+        service.submitRequest(protocolDocument.getProtocol(), requestBean);
         
-        ProtocolSubmission protocolSubmission = findSubmission(protocolDocument.getProtocol().getProtocolId());
+        ProtocolSubmission protocolSubmission = protocolDocument.getProtocol().getProtocolSubmission();
         assertNotNull(protocolSubmission);
         
-        ProtocolAction protocolAction = findProtocolAction(protocolDocument.getProtocol().getProtocolId());
+        ProtocolAction protocolAction = protocolDocument.getProtocol().getLastProtocolAction();
         assertNotNull(protocolAction);
         
         verifyAction(protocolAction, requestBean, protocolSubmission);
@@ -272,34 +261,6 @@ public class ProtocolRequestServiceTest extends KcUnitTestBase {
         if (s == null) return "";
         return s;
     }
-
-    /**
-     * Find the ProtocolAction in the database.
-     */
-    @SuppressWarnings("unchecked")
-    private ProtocolAction findProtocolAction(Long protocolId) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("protocolId", protocolId);
-        List<ProtocolAction> actions = (List<ProtocolAction>) businessObjectService.findMatching(ProtocolAction.class, fieldValues);
-        
-        assertEquals(1, actions.size());
-        ProtocolAction action = actions.get(0);
-        return action;
-    }
-
-    /*
-     * Find the ProtocolSubmission in the database.
-     */
-    @SuppressWarnings("unchecked")
-    private ProtocolSubmission findSubmission(Long protocolId) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("protocolId", protocolId);
-        List<ProtocolSubmission> submissions = (List<ProtocolSubmission>) businessObjectService.findMatching(ProtocolSubmission.class, fieldValues);
-        
-        assertEquals(1, submissions.size());
-        ProtocolSubmission submission = submissions.get(0);
-        return submission;
-    }
     
     /*
      * Find a ProtocolSubmissionDoc in the database.
@@ -315,4 +276,33 @@ public class ProtocolRequestServiceTest extends KcUnitTestBase {
         }
         return docs.get(0);
     }
+    
+    private ProtocolRequestBean getMockProtocolRequestBean(final String protocolActionTypeCode, final String submissionTypeCode, final String committeeId, 
+            final String beanName, final ProtocolActionAttachment... attachments) {
+        
+        final ProtocolRequestBean bean = context.mock(ProtocolRequestBean.class);
+        
+        context.checking(new Expectations() {{
+            allowing(bean).getProtocolActionTypeCode();
+            will(returnValue(protocolActionTypeCode));
+            
+            allowing(bean).getSubmissionTypeCode();
+            will(returnValue(submissionTypeCode));
+            
+            allowing(bean).getCommitteeId();
+            will(returnValue(committeeId));
+            
+            allowing(bean).getReason();
+            will(returnValue(REASON));
+            
+            allowing(bean).getBeanName();
+            will(returnValue(beanName));
+            
+            allowing(bean).getActionAttachments();
+            will(returnValue(Arrays.asList(attachments)));
+        }});
+        
+        return bean;
+    }
+    
 }

@@ -15,11 +15,13 @@
  */
 package org.kuali.kra.irb.actions.amendrenew;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,64 +36,45 @@ import org.kuali.kra.irb.actions.copy.ProtocolCopyService;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Test the ProtocolAmendRenewService implementation.
  */
-//@PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
-//        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_status.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ORG_TYPE.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_PERSON_ROLES.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_type.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE_QUALIFIER.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_review_type.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_REVIEWER_TYPE.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_committee_type.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_MODULES.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_STATUS.sql", delimiter = ";")
-//}))
 public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
 
     private static final String SUMMARY = "my test summary";
     
-    private ProtocolAmendRenewServiceImpl protocolAmendRenewService;
-    private BusinessObjectService businessObjectService;
-    private DocumentService documentService;
+    private ProtocolAmendRenewServiceImpl service;
+    
+    private Mockery context = new JUnit4Mockery() {{
+        setImposteriser(ClassImposteriser.INSTANCE);
+    }};
     
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        GlobalVariables.setUserSession(new UserSession("quickstart"));
-        protocolAmendRenewService = new ProtocolAmendRenewServiceImpl();
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        documentService = KraServiceLocator.getService(DocumentService.class);
-        ProtocolCopyService copyService = KraServiceLocator.getService(ProtocolCopyService.class);
-        protocolAmendRenewService.setDocumentService(documentService);
-        protocolAmendRenewService.setProtocolCopyService(copyService);
-        protocolAmendRenewService.setKraLookupDao(KraServiceLocator.getService(KraLookupDao.class));
-        protocolAmendRenewService.setProtocolFinderDao(KraServiceLocator.getService(ProtocolFinderDao.class));
+
+        service = new ProtocolAmendRenewServiceImpl();
+        service.setDocumentService(KraServiceLocator.getService(DocumentService.class));
+        service.setProtocolCopyService(KraServiceLocator.getService(ProtocolCopyService.class));
+        service.setKraLookupDao(KraServiceLocator.getService(KraLookupDao.class));
+        service.setProtocolFinderDao(KraServiceLocator.getService(ProtocolFinderDao.class));
     }
 
     @After
     public void tearDown() throws Exception {
-        GlobalVariables.setUserSession(null);
+        service = null;
+        
         super.tearDown();
     }
     
     @Test
     public void testAmendment() throws Exception {
-        ProtocolAmendmentBean amendmentBean = new ProtocolAmendmentBean();
-        amendmentBean.setAddModifyAttachments(true);
-        amendmentBean.setProtocolOrganizations(true);
-        amendmentBean.setSummary(SUMMARY);
-        
+        ProtocolAmendmentBean protocolAmendmentBean = getMockProtocolAmendmentBean(false, false, false, true, false, true, false, false, false, false, false);
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
-        String docNbr = protocolAmendRenewService.createAmendment(protocolDocument, amendmentBean);
+        
+        String docNbr = service.createAmendment(protocolDocument, protocolAmendmentBean);
         
         ProtocolDocument amendmentDocument = (ProtocolDocument) getDocumentService().getByDocumentHeaderId(docNbr);
     
@@ -104,7 +87,7 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
     @Test
     public void testRenewal() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
-        String docNbr = protocolAmendRenewService.createRenewal(protocolDocument, SUMMARY);
+        String docNbr = service.createRenewal(protocolDocument, SUMMARY);
         
         ProtocolDocument amendmentDocument = (ProtocolDocument) getDocumentService().getByDocumentHeaderId(docNbr);
     
@@ -116,13 +99,10 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
     
     @Test
     public void testRenewalWithAmendment() throws Exception {
-        ProtocolAmendmentBean amendmentBean = new ProtocolAmendmentBean();
-        amendmentBean.setAddModifyAttachments(true);
-        amendmentBean.setProtocolOrganizations(true);
-        amendmentBean.setSummary(SUMMARY);
-        
+        ProtocolAmendmentBean protocolAmendmentBean = getMockProtocolAmendmentBean(false, false, false, true, false, true, false, false, false, false, false);
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
-        String docNbr = protocolAmendRenewService.createRenewalWithAmendment(protocolDocument, amendmentBean);
+        
+        String docNbr = service.createRenewalWithAmendment(protocolDocument, protocolAmendmentBean);
         
         ProtocolDocument amendmentDocument = (ProtocolDocument) getDocumentService().getByDocumentHeaderId(docNbr);
     
@@ -131,16 +111,24 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
         verifyAction(protocolDocument.getProtocol(), ProtocolActionType.RENEWAL_CREATED, "Renewal-001: Created");
         verifyAmendmentRenewal(amendmentDocument.getProtocol(), SUMMARY, 2);
     }
+
+    private void verifyAction(Protocol protocol, String expectedActionType, String expectedComment) {
+        ProtocolAction action = protocol.getLastProtocolAction();
+        assertEquals(expectedActionType, action.getProtocolActionTypeCode());
+        assertEquals(action.getProtocolId(), protocol.getProtocolId());
+        assertEquals(null, action.getSubmissionIdFk());
+        assertEquals(expectedComment, action.getComments());
+    }
     
     private void verifyAmendmentRenewal(Protocol protocol, String expectedSummary, int moduleCount) {
-        ProtocolAmendRenewal amendRenewal = findAmendRenewal(protocol.getProtocolId());
+        ProtocolAmendRenewal amendRenewal = protocol.getProtocolAmendRenewal();
         assertEquals(amendRenewal.getProtocolId(), protocol.getProtocolId());
         assertEquals(expectedSummary, amendRenewal.getSummary());
         verifyModules(amendRenewal, moduleCount);
     }
-
+    
     private void verifyModules(ProtocolAmendRenewal amendRenewal, int moduleCount) {
-        List<ProtocolAmendRenewModule> modules = findModules(amendRenewal.getId());
+        List<ProtocolAmendRenewModule> modules = amendRenewal.getModules();
         assertEquals(moduleCount, modules.size());
         if (moduleCount > 0) {
             assertContains(ProtocolModule.ADD_MODIFY_ATTACHMENTS, modules);
@@ -156,44 +144,6 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
         }
         assertTrue(false);
     }
-
-    private void verifyAction(Protocol protocol, String expectedActionType, String expectedComment) {
-        ProtocolAction action = findProtocolAction(protocol.getProtocolId());
-        assertEquals(expectedActionType, action.getProtocolActionTypeCode());
-        assertEquals(action.getProtocolId(), protocol.getProtocolId());
-        assertEquals(null, action.getSubmissionIdFk());
-        assertEquals(expectedComment, action.getComments());
-    }
-
-    @SuppressWarnings("unchecked")
-    private ProtocolAction findProtocolAction(Long protocolId) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("protocolId", protocolId);
-        List<ProtocolAction> actions = (List<ProtocolAction>) businessObjectService.findMatching(ProtocolAction.class, fieldValues);
-        
-        assertEquals(1, actions.size());
-        ProtocolAction action = actions.get(0);
-        return action;
-    }
-    
-    @SuppressWarnings("unchecked")
-    private ProtocolAmendRenewal findAmendRenewal(Long protocolId) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("protocolId", protocolId);
-        List<ProtocolAmendRenewal> list = (List<ProtocolAmendRenewal>) businessObjectService.findMatching(ProtocolAmendRenewal.class, fieldValues);
-        
-        assertEquals(1, list.size());
-        ProtocolAmendRenewal item = list.get(0);
-        return item;
-    }
-    
-    @SuppressWarnings("unchecked")
-    private List<ProtocolAmendRenewModule> findModules(Long amendRenewId) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("protocolAmendRenewalId", amendRenewId);
-        List<ProtocolAmendRenewModule> list = (List<ProtocolAmendRenewModule>) businessObjectService.findMatching(ProtocolAmendRenewModule.class, fieldValues);
-        return list;
-    }
     
     /**
      * Verify that the getAmendmentAndRenewals() method works.
@@ -204,7 +154,7 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
         ProtocolDocument a1 = ProtocolFactory.createProtocolDocument("0906000001A001");
         ProtocolDocument a2 = ProtocolFactory.createProtocolDocument("0906000001A002");
         ProtocolDocument r1 = ProtocolFactory.createProtocolDocument("0906000001R001");
-        List<Protocol> protocols = protocolAmendRenewService.getAmendmentAndRenewals("0906000001");
+        List<Protocol> protocols = service.getAmendmentAndRenewals("0906000001");
         assertEquals(3, protocols.size());
         assertTrue(containsProtocol(protocols, a1));
         assertTrue(containsProtocol(protocols, a2));
@@ -229,16 +179,12 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
      */
     @Test
     public void testAvailableModules() throws Exception {
-        ProtocolAmendmentBean amendmentBean = new ProtocolAmendmentBean();
-        amendmentBean.setAddModifyAttachments(true);
-        amendmentBean.setAreasOfResearch(true);
-        amendmentBean.setProtocolOrganizations(true);
-        amendmentBean.setSummary(SUMMARY);
-        
+        ProtocolAmendmentBean protocolAmendmentBean = getMockProtocolAmendmentBean(false, false, false, true, false, true, true, false, false, false, false);
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument("0906000001");
-        protocolAmendRenewService.createAmendment(protocolDocument, amendmentBean);
         
-        List<String> modules = protocolAmendRenewService.getAvailableModules("0906000001");
+        service.createAmendment(protocolDocument, protocolAmendmentBean);
+        
+        List<String> modules = service.getAvailableModules("0906000001");
         assertEquals(8, modules.size());
         assertTrue(modules.contains(ProtocolModule.FUNDING_SOURCE));
         assertTrue(modules.contains(ProtocolModule.GENERAL_INFO));
@@ -249,4 +195,53 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
         assertTrue(modules.contains(ProtocolModule.SUBJECTS));
         assertTrue(modules.contains(ProtocolModule.PROTOCOL_PERMISSIONS));
     }
+    
+    private ProtocolAmendmentBean getMockProtocolAmendmentBean(final boolean generalInfo, final boolean fundingSource, 
+            final boolean protocolReferencesAndOtherIdentifiers, final boolean protocolOrganizations, final boolean subjects, 
+            final boolean addModifyAttachments, final boolean areasOfResearch, final boolean specialReview, final boolean protocolPersonnel, 
+            final boolean others, final boolean protocolPermissions) {
+        
+        final ProtocolAmendmentBean bean = context.mock(ProtocolAmendmentBean.class);
+        
+        context.checking(new Expectations() {{
+            allowing(bean).getSummary();
+            will(returnValue(SUMMARY));
+            
+            allowing(bean).getGeneralInfo();
+            will(returnValue(generalInfo));
+            
+            allowing(bean).getFundingSource();
+            will(returnValue(fundingSource));
+            
+            allowing(bean).getProtocolReferencesAndOtherIdentifiers();
+            will(returnValue(protocolReferencesAndOtherIdentifiers));
+            
+            allowing(bean).getProtocolOrganizations();
+            will(returnValue(protocolOrganizations));
+            
+            allowing(bean).getSubjects();
+            will(returnValue(subjects));
+            
+            allowing(bean).getAddModifyAttachments();
+            will(returnValue(addModifyAttachments));
+            
+            allowing(bean).getAreasOfResearch();
+            will(returnValue(areasOfResearch));
+            
+            allowing(bean).getSpecialReview();
+            will(returnValue(specialReview));
+            
+            allowing(bean).getProtocolPersonnel();
+            will(returnValue(protocolPersonnel));
+            
+            allowing(bean).getOthers();
+            will(returnValue(others));
+            
+            allowing(bean).getProtocolPermissions();
+            will(returnValue(protocolPermissions));
+        }});
+        
+        return bean;
+    }
+    
 }

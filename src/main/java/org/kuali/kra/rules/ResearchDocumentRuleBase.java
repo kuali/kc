@@ -309,6 +309,14 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
     }
     
     /**
+     * This is a convenience method to use jmock to set the parameterService for unit testing.
+     * @param businessObjectService
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+    
+    /**
      * Gets the error reporter.
      * @return the error reporter
      */

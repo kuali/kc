@@ -24,28 +24,21 @@ import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
  */
 public class ProtocolUpdateRiskLevelEvent extends KraDocumentEventBaseExtension {
     
-    private String propertyName;
     private int index;
 
     /**
      * Constructs a ProtocolUpdateRiskLevelEvent.
      * 
      * @param document The document to validate
-     * @param propertyName The error path property prefix
      * @param index The index of the Risk Level to validate
      */
-    public ProtocolUpdateRiskLevelEvent(ProtocolDocument document, String propertyName, int index) {
+    public ProtocolUpdateRiskLevelEvent(ProtocolDocument document, int index) {
         super("Enter risk level", "", document);
-        this.propertyName = propertyName;
         this.index = index;
     }
     
     public ProtocolDocument getProtocolDocument() {
         return (ProtocolDocument) getDocument();
-    }
-    
-    public String getPropertyName() {
-        return propertyName;
     }
     
     public int getIndex() {

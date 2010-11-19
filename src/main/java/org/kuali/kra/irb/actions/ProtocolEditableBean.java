@@ -17,8 +17,10 @@ package org.kuali.kra.irb.actions;
 
 import java.io.Serializable;
 
-@SuppressWarnings("serial")
-public class ProtocolEditableBean implements Serializable {
+public class ProtocolEditableBean extends ProtocolActionBean implements Serializable {
+    
+    private static final long serialVersionUID = 8009752803115791560L;
+    
     private boolean generalInfoEnabled = false;
     private boolean fundingSourceEnabled = false;
     private boolean protocolReferencesEnabled = false;
@@ -31,8 +33,12 @@ public class ProtocolEditableBean implements Serializable {
     private boolean othersEnabled = false;
     private boolean protocolPermissionsEnabled = false;
     
-    public ProtocolEditableBean() {
-        
+    /**
+     * Constructs a ProtocolEditableBean.
+     * @param actionHelper Reference back to the action helper for this bean
+     */
+    public ProtocolEditableBean(ActionHelper actionHelper) {
+        super(actionHelper);
     }
 
     public boolean getGeneralInfoEnabled() {

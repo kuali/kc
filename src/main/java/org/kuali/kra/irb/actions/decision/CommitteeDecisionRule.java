@@ -81,10 +81,13 @@ public class CommitteeDecisionRule extends ResearchDocumentRuleBase implements E
             reportError(Constants.PROTOCOL_RECORD_COMMITTEE_KEY + DOT + MOTION_FIELD, KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_MOTION);
             retVal = false;
         } else {
+            String motionTypeCode = committeeDecision.getMotionTypeCode();
             ReviewCommentsBean reviewerCommentsBean = committeeDecision.getReviewCommentsBean();
-            if ((CommitteeDecisionMotionType.SPECIFIC_MINOR_REVISIONS.equals(committeeDecision.getMotionTypeCode()) 
-                    || CommitteeDecisionMotionType.SUBSTANTIVE_REVISIONS_REQUIRED.equals(committeeDecision.getMotionTypeCode())) 
-                    && CollectionUtils.isEmpty(filterReviewComments(reviewerCommentsBean.getReviewComments(), reviewerCommentsBean.getProtocol()))) {
+            List<CommitteeScheduleMinute> reviewComments = reviewerCommentsBean.getReviewComments();
+            Protocol protocol = committeeDecision.getProtocol();
+            if ((CommitteeDecisionMotionType.SPECIFIC_MINOR_REVISIONS.equals(motionTypeCode) 
+                    || CommitteeDecisionMotionType.SUBSTANTIVE_REVISIONS_REQUIRED.equals(motionTypeCode)) 
+                    && CollectionUtils.isEmpty(filterReviewComments(reviewComments, protocol))) {
                 reportError(Constants.PROTOCOL_RECORD_COMMITTEE_KEY + DOT + MOTION_FIELD, 
                             KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_SMR_SRR_REVIEWER_COMMENTS);
                 retVal = false;

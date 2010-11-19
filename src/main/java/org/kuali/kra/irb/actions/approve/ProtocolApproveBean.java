@@ -18,15 +18,16 @@ package org.kuali.kra.irb.actions.approve;
 import java.sql.Date;
 
 import org.kuali.kra.irb.actions.ActionHelper;
+import org.kuali.kra.irb.actions.ProtocolRiskLevelCommentable;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelBean;
 
 /**
  * This class is really just a "form" for approving a protocol.
  */
-public class ProtocolApproveBean extends ProtocolGenericActionBean {
+public class ProtocolApproveBean extends ProtocolGenericActionBean implements ProtocolRiskLevelCommentable {
 
-    private static final long serialVersionUID = 8171915138697584398L;
+    private static final long serialVersionUID = 8022339401747868812L;
     
     private Date approvalDate;
     private Date expirationDate;
@@ -37,9 +38,12 @@ public class ProtocolApproveBean extends ProtocolGenericActionBean {
      * Constructs a ProtocolApproveBean.
      * @param actionHelper a reference back to the parent helper
      */
-    public ProtocolApproveBean(ActionHelper actionHelper) {
-        super(actionHelper);
-        protocolRiskLevelBean = new ProtocolRiskLevelBean();
+    public ProtocolApproveBean(ActionHelper actionHelper, String protocolOnlineReviewCommentsErrorPropertyKey, 
+            String protocolRiskLevelCommentsErrorPropertyKey) {
+        
+        super(actionHelper, protocolOnlineReviewCommentsErrorPropertyKey);
+        
+        protocolRiskLevelBean = new ProtocolRiskLevelBean(protocolRiskLevelCommentsErrorPropertyKey);
     }
     
     public Date getApprovalDate() {
@@ -60,6 +64,10 @@ public class ProtocolApproveBean extends ProtocolGenericActionBean {
        
     public ProtocolRiskLevelBean getProtocolRiskLevelBean() {
         return protocolRiskLevelBean;
+    }
+    
+    public void setProtocolRiskLevelBean(ProtocolRiskLevelBean protocolRiskLevelBean) {
+        this.protocolRiskLevelBean = protocolRiskLevelBean;
     }
     
 }

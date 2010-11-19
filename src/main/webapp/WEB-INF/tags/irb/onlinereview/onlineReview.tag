@@ -194,8 +194,7 @@
 			</kul:innerTab>
 		
 		
-			<kra-irb-olr:onlineReviewComments actionName="Online" 
-       										  bean="${KualiForm.onlineReviewsActionHelper.reviewCommentsBeans[renderIndex]}"
+			<kra-irb-olr:onlineReviewComments bean="${KualiForm.onlineReviewsActionHelper.reviewCommentsBeans[renderIndex]}"
        										  documentNumber = "${documentNumber}" 
        										  allowReadOnly="${readOnly}" 
        										  action="Online" 

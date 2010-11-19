@@ -19,7 +19,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.struts.upload.FormFile;
+import org.kuali.kra.irb.actions.ActionHelper;
+import org.kuali.kra.irb.actions.ProtocolActionBean;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
 
 /**
@@ -37,8 +38,9 @@ import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
  * protocol action type and submission type entry in the database.  Please
  * see the ActionHelper class for how this class is used.
  */
-@SuppressWarnings("serial")
-public class ProtocolRequestBean implements Serializable {
+public class ProtocolRequestBean extends ProtocolActionBean implements Serializable {
+
+    private static final long serialVersionUID = -4980779026132275453L;
     
     private String protocolActionTypeCode;
     private String submissionTypeCode;
@@ -48,7 +50,16 @@ public class ProtocolRequestBean implements Serializable {
     private ProtocolActionAttachment newActionAttachment;
     private List<ProtocolActionAttachment> actionAttachments = new ArrayList<ProtocolActionAttachment>();
 
-    public ProtocolRequestBean(String protocolActionTypeCode, String submissionTypeCode, String beanName) {
+    /**
+     * Constructs a ProtocolRequestBean.
+     * @param actionHelper Reference back to the action helper for this bean
+     * @param protocolActionTypeCode
+     * @param submissionTypeCode
+     * @param beanName
+     */
+    public ProtocolRequestBean(ActionHelper actionHelper, String protocolActionTypeCode, String submissionTypeCode, String beanName) {
+        super(actionHelper);
+        
         this.protocolActionTypeCode = protocolActionTypeCode;
         this.submissionTypeCode = submissionTypeCode;
         this.beanName = beanName;

@@ -15,114 +15,147 @@
  */
 package org.kuali.kra.irb.actions.modifysubmission;
 
-import java.util.ArrayList;
+import java.util.Collections;
 
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem;
-import org.kuali.kra.irb.actions.submit.ProtocolExpeditedReviewCheckListItem;
+import org.kuali.kra.irb.actions.submit.ExemptStudiesCheckListItem;
+import org.kuali.kra.irb.actions.submit.ExpeditedReviewCheckListItem;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
-import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class ProtocolModifySubmissionRuleTest extends KcUnitTestBase {
-    ProtocolModifySubmissionBean actionBean;
-    ProtocolSubmissionType type;
-    ProtocolModifySubmissionRule rule;
-    ProtocolSubmission submission;
+    
+    private ProtocolModifySubmissionRule rule;
     ProtocolDocument document;
+    
+    private Mockery context = new JUnit4Mockery() {{
+        setImposteriser(ClassImposteriser.INSTANCE);
+    }};
+    
+    @Override
     @Before
     public void setUp() throws Exception {
-        type = new ProtocolSubmissionType();
-        type.setDescription("test");
-        type.setSubmissionTypeCode(ProtocolSubmissionType.INITIAL_SUBMISSION);
-        submission = new ProtocolSubmission();
-        submission.setProtocolSubmissionType(type);
-        submission.setSubmissionTypeQualifierCode("xyz");
-        submission.setProtocolReviewTypeCode(ProtocolReviewType.FULL_TYPE_CODE);
-        submission.setBillable(true);
-        submission.setExemptStudiesCheckList(new ArrayList<ProtocolExemptStudiesCheckListItem>());
-        submission.setExpeditedReviewCheckList(new ArrayList<ProtocolExpeditedReviewCheckListItem>());
-        actionBean = new ProtocolModifySubmissionBean(submission);
+        super.setUp();
+        
         rule = new ProtocolModifySubmissionRule();
-        document = ProtocolFactory.createProtocolDocument("123");
     }
 
     @After
     public void tearDown() throws Exception {
         rule = null;
-        actionBean = null;
-        submission = null;
         document = null;
+        
+        super.tearDown();
     }
 
     @Test
-    public void testProcessModifySubmissionRule1() {
-        //default test
-        boolean result = rule.processModifySubmissionRule(document, actionBean);
-        assertTrue(result);
+    public void testOK() {
+        ProtocolModifySubmissionBean protocolModifySubmissionBean = getMockProtocolModifySubmissionBean(ProtocolSubmissionType.INITIAL_SUBMISSION, 
+                ProtocolSubmissionQualifierType.ANNUAL_SCHEDULED_BY_IRB, ProtocolReviewType.FULL_TYPE_CODE, false, false);
+        assertTrue(rule.processModifySubmissionRule(document, protocolModifySubmissionBean));
     }
     
     @Test
-    public void testProcessModifySubmissionRule2() {
-        //no input test
-        actionBean.setProtocolReviewTypeCode("");
-        actionBean.setSubmissionQualifierTypeCode("");
-        actionBean.setSubmissionTypeCode("");
-        boolean result = rule.processModifySubmissionRule(document, actionBean);
-        assertFalse(result);
+    public void testEmpty() {
+        ProtocolModifySubmissionBean protocolModifySubmissionBean = getMockProtocolModifySubmissionBean(Constants.EMPTY_STRING, 
+                Constants.EMPTY_STRING, Constants.EMPTY_STRING, false, false);
+        assertFalse(rule.processModifySubmissionRule(document, protocolModifySubmissionBean));
         assertEquals(2, GlobalVariables.getMessageMap().getErrorCount());
     }
     
     @Test
-    public void testProcessModifySubmissionRule3() {
-        //exempt studies, but nothing checked
-        actionBean.setProtocolReviewTypeCode(ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE);
-        boolean result = rule.processModifySubmissionRule(document, actionBean);
-        assertFalse(result);
-        assertEquals(1, GlobalVariables.getMessageMap().getErrorCount());
-    }
-    
-    @Test
-    public void testProcessModifySubmissionRule4() {
-        //exempt studies, one item checked
-        actionBean.setProtocolReviewTypeCode(ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE);
-        actionBean.getExemptStudiesCheckList().get(0).setChecked(true);
-        boolean result = rule.processModifySubmissionRule(document, actionBean);
+    public void testExpeditedOK() {
+        ProtocolModifySubmissionBean protocolModifySubmissionBean = getMockProtocolModifySubmissionBean(ProtocolSubmissionType.INITIAL_SUBMISSION, 
+                ProtocolSubmissionQualifierType.ANNUAL_SCHEDULED_BY_IRB, ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE, true, false);
+        boolean result = rule.processModifySubmissionRule(document, protocolModifySubmissionBean);
         assertTrue(result);
     }
     
     @Test
-    public void testProcessModifySubmissionRule5() {
-        //expedited, but nothing checked
-        actionBean.setProtocolReviewTypeCode(ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE);
-        boolean result = rule.processModifySubmissionRule(document, actionBean);
-        assertFalse(result);
+    public void testExpeditedNothingChecked() {
+        ProtocolModifySubmissionBean protocolModifySubmissionBean = getMockProtocolModifySubmissionBean(ProtocolSubmissionType.INITIAL_SUBMISSION, 
+                ProtocolSubmissionQualifierType.ANNUAL_SCHEDULED_BY_IRB, ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE, false, false);
+        assertFalse(rule.processModifySubmissionRule(document, protocolModifySubmissionBean));
         assertEquals(1, GlobalVariables.getMessageMap().getErrorCount());
     }
     
     @Test
-    public void testProcessModifySubmissionRule6() {
-        //expedited, one item checked
-        actionBean.setProtocolReviewTypeCode(ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE);
-        actionBean.getExpeditedReviewCheckList().get(0).setChecked(true);
-        boolean result = rule.processModifySubmissionRule(document, actionBean);
-        assertTrue(result);
+    public void testExemptExpeditedChecked() {
+        ProtocolModifySubmissionBean protocolModifySubmissionBean = getMockProtocolModifySubmissionBean(ProtocolSubmissionType.INITIAL_SUBMISSION, 
+                ProtocolSubmissionQualifierType.ANNUAL_SCHEDULED_BY_IRB, ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE, true, false);
+        assertFalse(rule.processModifySubmissionRule(document, protocolModifySubmissionBean));
+        assertEquals(1, GlobalVariables.getMessageMap().getErrorCount());
     }
     
     @Test
-    public void testProcessModifySubmissionRule7() {
-        //expedited, but exempt item checked
-        actionBean.setProtocolReviewTypeCode(ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE);
-        actionBean.getExemptStudiesCheckList().get(0).setChecked(true);
-        boolean result = rule.processModifySubmissionRule(document, actionBean);
-        assertFalse(result);
+    public void testExemptOK() {
+        ProtocolModifySubmissionBean protocolModifySubmissionBean = getMockProtocolModifySubmissionBean(ProtocolSubmissionType.INITIAL_SUBMISSION, 
+                ProtocolSubmissionQualifierType.ANNUAL_SCHEDULED_BY_IRB, ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE, false, true);
+        assertTrue(rule.processModifySubmissionRule(document, protocolModifySubmissionBean));
+    }
+    
+    @Test
+    public void testExemptNothingChecked() {
+        ProtocolModifySubmissionBean protocolModifySubmissionBean = getMockProtocolModifySubmissionBean(ProtocolSubmissionType.INITIAL_SUBMISSION, 
+                ProtocolSubmissionQualifierType.ANNUAL_SCHEDULED_BY_IRB, ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE, false, false);
+        assertFalse(rule.processModifySubmissionRule(document, protocolModifySubmissionBean));
         assertEquals(1, GlobalVariables.getMessageMap().getErrorCount());
+    }
+    
+    @Test
+    public void testExpeditedExemptChecked() {
+        ProtocolModifySubmissionBean protocolModifySubmissionBean = getMockProtocolModifySubmissionBean(ProtocolSubmissionType.INITIAL_SUBMISSION, 
+                ProtocolSubmissionQualifierType.ANNUAL_SCHEDULED_BY_IRB, ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE, false, true);
+        assertFalse(rule.processModifySubmissionRule(document, protocolModifySubmissionBean));
+        assertEquals(1, GlobalVariables.getMessageMap().getErrorCount());
+    }
+    
+    private ProtocolModifySubmissionBean getMockProtocolModifySubmissionBean(final String protocolSubmissionTypeCode, 
+            final String protocolSubmissionQualifierTypeCode, final String protocolReviewTypeCode, final boolean expeditedChecklistChecked, 
+            final boolean exemptChecklistChecked) {
+        
+        final ProtocolModifySubmissionBean bean = context.mock(ProtocolModifySubmissionBean.class);
+        final ExpeditedReviewCheckListItem expeditedItem = context.mock(ExpeditedReviewCheckListItem.class);
+        final ExemptStudiesCheckListItem exemptItem = context.mock(ExemptStudiesCheckListItem.class);
+        
+        context.checking(new Expectations() {{
+            allowing(bean).getSubmissionTypeCode();
+            will(returnValue(protocolSubmissionTypeCode));
+            
+            allowing(bean).getSubmissionQualifierTypeCode();
+            will(returnValue(protocolSubmissionQualifierTypeCode));
+            
+            allowing(bean).getProtocolReviewTypeCode();
+            will(returnValue(protocolReviewTypeCode));
+            
+            allowing(bean).isBillable();
+            will(returnValue(true));
+            
+            allowing(bean).getExpeditedReviewCheckList();
+            will(returnValue(Collections.singletonList(expeditedItem)));
+            
+            allowing(expeditedItem).getChecked();
+            will(returnValue(expeditedChecklistChecked));
+            
+            allowing(bean).getExemptStudiesCheckList();
+            will(returnValue(Collections.singletonList(exemptItem)));
+            
+            allowing(exemptItem).getChecked();
+            will(returnValue(exemptChecklistChecked));
+        }});
+        
+        return bean;
     }
 
 }

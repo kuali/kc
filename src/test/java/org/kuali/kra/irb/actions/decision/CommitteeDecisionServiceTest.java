@@ -246,44 +246,44 @@ public class CommitteeDecisionServiceTest extends KcUnitTestBase {
     }
     
     private CommitteeDecision getMockCommitteeDecisionBean(final String motionTypeCode) {
-        final CommitteeDecision committeeDecisionBean = context.mock(CommitteeDecision.class);
+        final CommitteeDecision bean = context.mock(CommitteeDecision.class);
         
         context.checking(new Expectations() {{
-            allowing(committeeDecisionBean).getMotionTypeCode();
+            allowing(bean).getMotionTypeCode();
             will(returnValue(motionTypeCode));
             
-            allowing(committeeDecisionBean).getYesCount();
+            allowing(bean).getYesCount();
             will(returnValue(YES_COUNT));
             
-            allowing(committeeDecisionBean).getNoCount();
+            allowing(bean).getNoCount();
             will(returnValue(NO_COUNT));
             
-            allowing(committeeDecisionBean).getAbstainCount();
+            allowing(bean).getAbstainCount();
             will(returnValue(ABSTAIN_COUNT));
             
-            allowing(committeeDecisionBean).getRecusedCount();
+            allowing(bean).getRecusedCount();
             will(returnValue(RECUSED_COUNT));
             
-            allowing(committeeDecisionBean).getVotingComments();
+            allowing(bean).getVotingComments();
             will(returnValue(VOTING_COMMENTS));
             
-            allowing(committeeDecisionBean).getAbstainers();
+            allowing(bean).getAbstainers();
             will(returnValue(new ArrayList<CommitteePerson>()));
             
-            allowing(committeeDecisionBean).getRecused();
+            allowing(bean).getRecused();
             will(returnValue(new ArrayList<CommitteePerson>()));
             
-            allowing(committeeDecisionBean).getAbstainersToDelete();
+            allowing(bean).getAbstainersToDelete();
             will(returnValue(new ArrayList<CommitteePerson>()));
             
-            allowing(committeeDecisionBean).getRecusedToDelete();
+            allowing(bean).getRecusedToDelete();
             will(returnValue(new ArrayList<CommitteePerson>()));
             
-            allowing(committeeDecisionBean).getReviewCommentsBean();
-            will(returnValue(new ReviewCommentsBean()));
+            allowing(bean).getReviewCommentsBean();
+            will(returnValue(new ReviewCommentsBean(Constants.EMPTY_STRING)));
         }});
         
-        return committeeDecisionBean;
+        return bean;
     }
 
 }

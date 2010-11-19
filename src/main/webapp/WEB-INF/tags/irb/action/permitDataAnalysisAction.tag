@@ -62,7 +62,7 @@
 	                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolPermitDataAnalysisBean.reviewCommentsBean}"
 	                                                       property="actionHelper.protocolPermitDataAnalysisBean.reviewCommentsBean"
 	                                                       action="${action}"
-	                                                       actionName="PermitDataAnalysis" />
+	                                                       taskName="protocolPermitDataAnalysis" />
 	                   </td>
 	                </tr>
 	            </c:if>
