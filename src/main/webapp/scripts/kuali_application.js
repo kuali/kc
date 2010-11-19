@@ -1023,7 +1023,7 @@ function loadPersonName(usernameFieldName, fullnameElementId,
 	}
 }
  function updateReportType_Callback( data ) {
-	 alert("in callback function with data = " + data);
+	// alert("in callback function with data = " + data);
 	kualiElements[reportTypeName].options.length=0; //reset 
 	var option_array=data.split(",");
 	var optionNum=0;
@@ -1069,7 +1069,7 @@ function loadPersonName(usernameFieldName, fullnameElementId,
 	}
 }
  function updateFrequency_Callback( data ) {
-	alert("in callback function with data = " + data);
+//	alert("in callback function with data = " + data);
 	kualiElements[frequencyName].options.length=0; //reset 
 	var option_array=data.split(",");
 	var optionNum=0;
@@ -1108,7 +1108,7 @@ function loadPersonName(usernameFieldName, fullnameElementId,
 }
  
  function updateFrequencyBase_Callback( data ) {
-	alert("in callback function with data = " + data);
+//	alert("in callback function with data = " + data);
 	kualiElements[frequencyBaseName].options.length=0; //reset 
 	var option_array=data.split(",");
 	var optionNum=0;
