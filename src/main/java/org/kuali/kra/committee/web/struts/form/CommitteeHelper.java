@@ -28,6 +28,7 @@ import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
 import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.committee.document.authorization.CommitteeScheduleTask;
 import org.kuali.kra.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.committee.service.CommitteeService;
@@ -65,6 +66,7 @@ public class CommitteeHelper implements Serializable {
     private Boolean printFutureScheduledMeeting;
     private boolean modifySchedule = false;
     private boolean viewSchedule = false;
+    private List<Boolean> viewSpecificSchedule;
     private boolean performAction = false;
     private boolean showActiveMembersOnly = true;
 
@@ -97,15 +99,18 @@ public class CommitteeHelper implements Serializable {
             if (activeCommittee != null && activeCommittee.getId().equals(getCommittee().getId())) {
                 modifySchedule = canModifySchedule();
                 viewSchedule = canViewSchedule();
+                viewSpecificSchedule = canViewSpecificSchedule();
             } else {
                 // inactive committee can not access schedule data either
                 modifySchedule = false;
                 viewSchedule = false;
+                viewSpecificSchedule = canNotViewSpecificSchedule();
             }
         } else {
             modifyCommittee = canModifyCommittee();
             modifySchedule = false;
             viewSchedule = false;
+            viewSpecificSchedule = canNotViewSpecificSchedule();
         }
         prepareCommitteeScheduleDeleteView();
 
@@ -342,6 +347,24 @@ public class CommitteeHelper implements Serializable {
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
+    public List<Boolean> canViewSpecificSchedule() {
+        List<Boolean> canViewSchedule = new ArrayList<Boolean>();
+        for (CommitteeSchedule committeeSchedule : getCommittee().getCommitteeSchedules()) {
+            CommitteeTask task = new CommitteeScheduleTask(TaskName.VIEW_SCHEDULE, committeeSchedule.getCommittee(), committeeSchedule);
+            canViewSchedule.add(getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task));
+        }
+        return canViewSchedule; 
+    }
+    
+    @SuppressWarnings("unused") 
+    public List<Boolean> canNotViewSpecificSchedule() {
+        List<Boolean> canNotViewSchedule = new ArrayList<Boolean>();
+        for (CommitteeSchedule committeeSchedule : getCommittee().getCommitteeSchedules()) {
+            canNotViewSchedule.add(false);
+        }
+        return canNotViewSchedule; 
+    }
+    
     public boolean canPerformAction() {
         CommitteeTask task = new CommitteeTask(TaskName.PERFORM_COMMITTEE_ACTIONS, getCommittee());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
@@ -363,6 +386,10 @@ public class CommitteeHelper implements Serializable {
         this.viewSchedule = viewSchedule;
     }
     
+    public List<Boolean> getViewSpecificSchedule() {
+        return viewSpecificSchedule;
+    }
+
     public boolean isPerformAction() {
         return performAction;
     }

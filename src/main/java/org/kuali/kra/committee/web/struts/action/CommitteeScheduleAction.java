@@ -227,9 +227,8 @@ public class CommitteeScheduleAction extends CommitteeAction {
         CommitteeForm committeeForm = (CommitteeForm) form;     
         CommitteeSchedule commSchedule = ((CommitteeDocument)committeeForm.getDocument()).getCommittee().getCommitteeSchedules().get(getLineToDelete(request));
         response.sendRedirect("meetingManagement.do?methodToCall=start&scheduleId="+commSchedule.getId()
-                +"&lineNum="+(getLineToDelete(request)+1)+"&readOnly=" +(!committeeForm.getCommitteeHelper().canModifySchedule() && committeeForm.getCommitteeHelper().canViewSchedule()));
+                +"&lineNum="+(getLineToDelete(request)+1)+"&readOnly=" +(!committeeForm.getCommitteeHelper().canModifySchedule()));
         return null;
     }    
 
-    
 }
