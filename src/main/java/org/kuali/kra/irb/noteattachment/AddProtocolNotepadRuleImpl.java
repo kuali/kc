@@ -21,7 +21,7 @@ import org.kuali.kra.irb.ProtocolDocument;
  * Implementation of {@link AddProtocolNotepadRule AddProtocolNotepadRule}.
  * @see AddProtocolNotepadRule for details
  */
-class AddProtocolNotepadRuleImpl implements AddProtocolNotepadRule {
+public class AddProtocolNotepadRuleImpl implements AddProtocolNotepadRule {
     
     private final ProtocolNotepadRuleHelper notesHelper
         = new ProtocolNotepadRuleHelper(NoteAndAttachmentPrefix.NEW_NOTEPAD.getPrefixName());

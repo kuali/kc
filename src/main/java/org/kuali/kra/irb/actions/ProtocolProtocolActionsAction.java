@@ -118,6 +118,9 @@ import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawService;
 import org.kuali.kra.irb.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
+import org.kuali.kra.irb.noteattachment.AddProtocolNotepadEvent;
+import org.kuali.kra.irb.noteattachment.AddProtocolNotepadRule;
+import org.kuali.kra.irb.noteattachment.AddProtocolNotepadRuleImpl;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
@@ -3692,15 +3695,31 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     public ActionForward saveNotes(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         Protocol protocol = ((ProtocolForm) form).getProtocolDocument().getProtocol();
-        //protocolForm.getNotesAttachmentsHelper().processSave();
+        
+        final AddProtocolNotepadRule rule = new AddProtocolNotepadRuleImpl();
+        
+        //final AddProtocolNotepadEvent event = new AddProtocolNotepadEvent(this.form.getDocument(), this.newProtocolNotepad);
+        boolean validNotes = true;
+        //validate all of them first
         for(ProtocolNotepad note : protocol.getNotepads()) {
-            if (StringUtils.isBlank(note.getUpdateUserFullName())) {
-                note.setUpdateUserFullName(GlobalVariables.getUserSession().getPerson().getName());
-                note.setUpdateTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
+            if (note.isEditable()) {
+                AddProtocolNotepadEvent event = new AddProtocolNotepadEvent(protocol.getProtocolDocument(), note);
+                if (!rule.processAddProtocolNotepadRules(event)) {
+                    validNotes = false;
+                }
             }
-            note.setEditable(false);
         }
-        getBusinessObjectService().save(protocol.getNotepads());
+        
+        if (validNotes) {
+            for(ProtocolNotepad note : protocol.getNotepads()) {
+                if (StringUtils.isBlank(note.getUpdateUserFullName())) {
+                    note.setUpdateUserFullName(GlobalVariables.getUserSession().getPerson().getName());
+                    note.setUpdateTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
+                }
+                note.setEditable(false);
+            }
+            getBusinessObjectService().save(protocol.getNotepads());
+        }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
