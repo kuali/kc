@@ -24,15 +24,15 @@
 				<value>templateReportTermId</value>
 			</list>
 		</property>
-		
-		
-		
-		
-		
+		<property name="webScriptFiles">
+	      <list>
+	        <value>../dwr/interface/AwardTemplateReportTermService.js</value>
+	      </list>
+	    </property>
+	    
 		<property name="documentTypeName" value="AwardTemplateReportTermMaintenanceDocument"/>
 		<property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
-		
-		
+			
 	</bean>
 
 	<!-- Maintenance Section Definitions -->

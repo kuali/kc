@@ -82,7 +82,8 @@
 	            p:includeKeyInLabel="false"
 	            p:includeBlankRow="false"
 	            p:keyAttribute="reportClassCode"
-	            p:labelAttribute="description" />
+	            p:labelAttribute="description" 
+	            p:script="updateReportType(this, updateReportType_Callback)"/>
 	    </property>
 		<property name="summary" value="Report Class Code" />
 		<property name="description" value="Report Class Code" />
@@ -105,8 +106,10 @@
 	            p:includeKeyInLabel="false"
 	            p:includeBlankRow="false"
 	            p:keyAttribute="reportCode"
-	            p:labelAttribute="description" />
+	            p:labelAttribute="description" 
+	            p:script="updateFrequency(this, updateFrequency_Callback)"/>
 	    </property>
+	   	    
 		<property name="summary" value="Report Type Code" />
 		<property name="description" value="Report Type Code" />
 	</bean>
@@ -128,7 +131,8 @@
 	            p:includeKeyInLabel="false"
 	            p:includeBlankRow="false"
 	            p:keyAttribute="frequencyCode"
-	            p:labelAttribute="description" />
+	            p:labelAttribute="description"
+	            p:script="updateFrequencyBase(this, updateFrequencyBase_Callback)"/>
 	    </property>
 		<property name="summary" value="Frequency Code" />
 		<property name="description" value="Frequency Code" />

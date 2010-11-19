@@ -138,5 +138,11 @@
 			<param name="beanName" value="awardTransactionLookupService"/>
 			<include method="getApplicableTransactionIds"/>
 		</create>
+		<create creator="spring" javascript="AwardTemplateReportTermService">
+			<param name="beanName" value="awardTemplateReportTermService" />
+			<include method="getReportTypeForAjaxCall" />
+			<include method="getFrequencyForAjaxCall" />
+			<include method="getFrequencyBaseForAjaxCall" />
+		</create>
 	</allow>
 </dwr>
