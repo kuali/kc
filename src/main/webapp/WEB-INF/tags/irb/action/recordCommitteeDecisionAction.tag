@@ -211,7 +211,7 @@
                         <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.committeeDecision.reviewCommentsBean}"
                                                        property="actionHelper.committeeDecision.reviewCommentsBean"
                                                        action="${action}"
-                                                       actionName="CommitteeDecision" />
+                                                       taskName="protocolRecordCommitteeDecision" />
                    </td>
                 </tr>
                 

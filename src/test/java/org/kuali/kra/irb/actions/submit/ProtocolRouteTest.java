@@ -15,34 +15,31 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean;
-import org.kuali.kra.irb.actions.approve.ProtocolApproveBean;
-import org.kuali.kra.irb.actions.approve.ProtocolApproveService;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
@@ -73,36 +70,36 @@ import org.kuali.rice.test.data.UnitTestFile;
 }))
 public class ProtocolRouteTest extends KcUnitTestBase {
 
-    private static final String VALID_SUBMISSION_TYPE = "100";
-    private static final String VALID_SUBMISSION_QUALIFIER = "2";
-    private static final String VALID_PROTOCOL_REVIEW_TYPE = "1";
     private static final String SUMMARY = "my test summary";
     
-    private ProtocolSubmitActionService protocolSubmitActionService;
-    private BusinessObjectService businessObjectService;   
+    private ProtocolSubmitActionService protocolSubmitActionService; 
     private DocumentService documentService;
     private ProtocolAmendRenewService protocolAmendRenewService;
     private ProtocolFinderDao protocolFinder;
     
-    @SuppressWarnings("unchecked")
+    private Mockery context = new JUnit4Mockery() {{
+        setImposteriser(ClassImposteriser.INSTANCE);
+    }};
+    
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        GlobalVariables.setUserSession(new UserSession("quickstart"));
-        GlobalVariables.setErrorMap(new ErrorMap());
-        GlobalVariables.setAuditErrorMap(new HashMap());
+
         protocolSubmitActionService = KraServiceLocator.getService(ProtocolSubmitActionService.class);
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         documentService = KraServiceLocator.getService(DocumentService.class);
         protocolAmendRenewService = KraServiceLocator.getService(ProtocolAmendRenewService.class);
         protocolFinder = KraServiceLocator.getService(ProtocolFinderDao.class);
     }
 
+    @Override
     @After
     public void tearDown() throws Exception {
-        GlobalVariables.setUserSession(null);
-        GlobalVariables.setErrorMap(null);
-        GlobalVariables.setAuditErrorMap(null);
+        protocolSubmitActionService = null;
+        documentService = null;
+        protocolAmendRenewService = null;
+        protocolFinder = null;
+        
         super.tearDown();
     }
     
@@ -113,9 +110,8 @@ public class ProtocolRouteTest extends KcUnitTestBase {
     @Test
     public void runApprovedTest() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
-        ProtocolSubmitAction submitAction = createSubmitAction();
     
-        protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
+        protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), getMockSubmitAction());
 
         documentService.routeDocument(protocolDocument, null, null);
         documentService.blanketApproveDocument(protocolDocument, null, null);
@@ -135,9 +131,8 @@ public class ProtocolRouteTest extends KcUnitTestBase {
     @Test
     public void runDisapprovedTest() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument("0906000002");
-        ProtocolSubmitAction submitAction = createSubmitAction();
     
-        protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
+        protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), getMockSubmitAction());
         
         documentService.routeDocument(protocolDocument, null, null);
         documentService.disapproveDocument(protocolDocument, null);
@@ -158,19 +153,14 @@ public class ProtocolRouteTest extends KcUnitTestBase {
     @Test
     public void runAmendmentTest() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument("0906000003");
-        ProtocolSubmitAction submitAction = createSubmitAction();
+        ProtocolSubmitAction submitAction = getMockSubmitAction();
     
         protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
         
         documentService.routeDocument(protocolDocument, null, null);
         documentService.blanketApproveDocument(protocolDocument, null, null);
         
-        ProtocolAmendmentBean amendmentBean = new ProtocolAmendmentBean();
-        amendmentBean.setAddModifyAttachments(true);
-        amendmentBean.setProtocolOrganizations(true);
-        amendmentBean.setSummary(SUMMARY);
-        
-        String docNbr = protocolAmendRenewService.createAmendment(protocolDocument, amendmentBean);
+        String docNbr = protocolAmendRenewService.createAmendment(protocolDocument, getMockProtocolAmendmentBean());
         
         ProtocolDocument amendmentDocument = (ProtocolDocument) getDocumentService().getByDocumentHeaderId(docNbr);
         protocolSubmitActionService.submitToIrbForReview(amendmentDocument.getProtocol(), submitAction);
@@ -195,41 +185,20 @@ public class ProtocolRouteTest extends KcUnitTestBase {
         // TODO: This test can be re-added once we can route the new protocol through workflow.
         //assertEquals(getWorkflowDocument(newProtocol.getProtocolDocument).isFinal());
         
-        verifyProtocolAction(newProtocol.getProtocolId(), ProtocolActionType.APPROVED);
-    }
-
-    /**
-     * Create protocol submission action.
-     */
-    private ProtocolSubmitAction createSubmitAction() {
-        ProtocolSubmitAction submitAction = new ProtocolSubmitAction(null);
-        submitAction.setSubmissionTypeCode(VALID_SUBMISSION_TYPE);
-        submitAction.setSubmissionQualifierTypeCode(VALID_SUBMISSION_QUALIFIER);
-        submitAction.setProtocolReviewTypeCode(VALID_PROTOCOL_REVIEW_TYPE);
-        return submitAction;
+        verifyProtocolAction(newProtocol, ProtocolActionType.APPROVED);
     }
 
     /**
      * Verfy that the protocol has the given protocol action.
      */
-    private void verifyProtocolAction(Long protocolId, String actionTypeCode) {
-        List<ProtocolAction> actions = getProtocolActions(protocolId);
+    private void verifyProtocolAction(Protocol protocol, String actionTypeCode) {
+        List<ProtocolAction> actions = protocol.getProtocolActions();
         for (ProtocolAction action : actions) {
             if (StringUtils.equals(actionTypeCode, action.getProtocolActionTypeCode())) {
                 return;
             }
         }
         assertTrue(actionTypeCode + " not found", false);
-    }
-
-    /**
-     * Get the ProtocolActions for a protocol
-     */
-    @SuppressWarnings("unchecked")
-    private List<ProtocolAction> getProtocolActions(Long protocolId) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("protocolId", protocolId);
-        return (List<ProtocolAction>) businessObjectService.findMatching(ProtocolAction.class, fieldValues);
     }
     
     /**
@@ -252,4 +221,75 @@ public class ProtocolRouteTest extends KcUnitTestBase {
         }
         return workflowDocument;
     }
+    
+    private ProtocolSubmitAction getMockSubmitAction() {
+        final ProtocolSubmitAction action = context.mock(ProtocolSubmitAction.class);
+        
+        context.checking(new Expectations() {{
+            allowing(action).getSubmissionTypeCode();
+            will(returnValue(ProtocolSubmissionType.INITIAL_SUBMISSION));
+            
+            allowing(action).getProtocolReviewTypeCode();
+            will(returnValue(ProtocolReviewType.FULL_TYPE_CODE));
+            
+            allowing(action).getSubmissionQualifierTypeCode();
+            will(returnValue(ProtocolSubmissionQualifierType.ANNUAL_SCHEDULED_BY_IRB));
+            
+            allowing(action).getNewCommitteeId();
+            will(returnValue(Constants.EMPTY_STRING));
+            
+            allowing(action).getNewScheduleId();
+            will(returnValue(Constants.EMPTY_STRING));
+            
+            allowing(action).getReviewers();
+            will(returnValue(new ArrayList<ProtocolReviewerBean>()));
+        }});
+        
+        return action;
+    }
+    
+    private ProtocolAmendmentBean getMockProtocolAmendmentBean() {
+        final ProtocolAmendmentBean bean = context.mock(ProtocolAmendmentBean.class);
+        
+        context.checking(new Expectations() {{
+            allowing(bean).getSummary();
+            will(returnValue(SUMMARY));
+            
+            allowing(bean).getGeneralInfo();
+            will(returnValue(false));
+            
+            allowing(bean).getFundingSource();
+            will(returnValue(false));
+            
+            allowing(bean).getProtocolReferencesAndOtherIdentifiers();
+            will(returnValue(false));
+            
+            allowing(bean).getProtocolOrganizations();
+            will(returnValue(true));
+            
+            allowing(bean).getSubjects();
+            will(returnValue(false));
+            
+            allowing(bean).getAddModifyAttachments();
+            will(returnValue(true));
+            
+            allowing(bean).getAreasOfResearch();
+            will(returnValue(false));
+            
+            allowing(bean).getSpecialReview();
+            will(returnValue(false));
+            
+            allowing(bean).getProtocolPersonnel();
+            will(returnValue(false));
+            
+            allowing(bean).getOthers();
+            will(returnValue(false));
+            
+            allowing(bean).getProtocolPermissions();
+            will(returnValue(false));
+        }});
+        
+        return bean;
+    }
+    
 }

@@ -62,7 +62,7 @@
                         <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolDisapproveBean.reviewCommentsBean}"
                                                        property="actionHelper.protocolDisapproveBean.reviewCommentsBean"
                                                        action="${action}"
-                                                       actionName="DisapproveAction" />
+                                                       taskName="protocolDisapprove" />
                    </td>
                 </tr>
                 

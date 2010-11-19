@@ -15,12 +15,23 @@
  */
 package org.kuali.kra.irb.actions.correction;
 
+import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.ProtocolEditableBean;
 
 public class AdminCorrectionBean extends ProtocolEditableBean {
 
+    private static final long serialVersionUID = 3247703113947298472L;
+    
     private String comments;
     private boolean applyCorrection;
+    
+    /**
+     * Constructs a AdminCorrectionBean.
+     * @param actionHelper Reference back to the action helper for this bean
+     */
+    public AdminCorrectionBean(ActionHelper actionHelper) {
+        super(actionHelper);
+    }
     
     public String getComments() {
         return comments;

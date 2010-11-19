@@ -21,7 +21,6 @@
 <%@ attribute name="documentNumber" required="true"%>
 <%@ attribute name="property" required="true" %>
 <%@ attribute name="action" required="true" %>
-<%@ attribute name="actionName" required="true" %>
 <%@ attribute name="allowReadOnly" required="true" %>
 <%@ attribute name="reviewIndex" required = "true" %>
 <%@ attribute name="readOnly" required = "true" %>
@@ -101,7 +100,7 @@
                     <td>
                         <div align="center">
                             <c:if test = "${!readOnly}">
-                            	<html:image property="methodToCall.add${actionName}ReviewComment.${documentNumber}.anchor${tabKey}"
+                            	<html:image property="methodToCall.addOnlineReviewComment.${documentNumber}.anchor${tabKey}"
                                         src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
                             </c:if>
                         </div>
@@ -111,7 +110,7 @@
                 
                 <c:set var="displayCount" value="0"/>           
                 <c:forEach var="reviewComment" items="${bean.reviewComments}" varStatus="status">
-                    <c:set var="isCommentForCurrentProtocol" value="${reviewComment.protocolId == bean.protocol.protocolId}" /> 
+                    <c:set var="isCommentForCurrentProtocol" value="${reviewComment.protocolId == KualiForm.actionHelper.protocol.protocolId}" /> 
                 	<c:set var="displayCount" value="${displayCount + 1}"/>
                 	
                 	<c:if test="${isCommentForCurrentProtocol}">
@@ -183,11 +182,11 @@
 	                            <div align="center">&nbsp;
 	                            	<nobr>
 	                            		<c:if test = "${!readOnly}">
-	                            	 		<html:image property="methodToCall.moveUp${actionName}ReviewComment.${documentNumber}.line.${status.index}.anchor${tabKey}"
+	                            	 		<html:image property="methodToCall.moveUpOnlineReviewComment.${documentNumber}.line.${status.index}.anchor${tabKey}"
 	                                        	    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-moveup.gif' styleClass="tinybutton"/>
-	                                		<html:image property="methodToCall.moveDown${actionName}ReviewComment.${documentNumber}.line.${status.index}.anchor${tabKey}"
+	                                		<html:image property="methodToCall.moveDownOnlineReviewComment.${documentNumber}.line.${status.index}.anchor${tabKey}"
 	                                        	    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-movedown.gif' styleClass="tinybutton"/>
-		                            		<html:image property="methodToCall.delete${actionName}ReviewComment.${documentNumber}.line.${status.index}.anchor${tabKey}"
+		                            		<html:image property="methodToCall.deleteOnlineReviewComment.${documentNumber}.line.${status.index}.anchor${tabKey}"
 				                                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
 			                                
 		                                </c:if>

@@ -56,62 +56,62 @@ public abstract class CommitteeDecisionRuleBase extends KcUnitTestBase {
     protected CommitteeDecision getMockCommitteeDecisionBean(final String motionTypeCode, final Integer yesCount, final Integer noCount, 
             final CommitteePerson newAbstainer, final CommitteePerson newRecused, final Protocol protocol, final boolean hasReviewComment) {
         
-        final CommitteeDecision committeeDecisionBean = context.mock(CommitteeDecision.class);
+        final CommitteeDecision bean = context.mock(CommitteeDecision.class);
         
         context.checking(new Expectations() {{
-            allowing(committeeDecisionBean).getMotionTypeCode();
+            allowing(bean).getProtocol();
+            will(returnValue(protocol));
+            
+            allowing(bean).getMotionTypeCode();
             will(returnValue(motionTypeCode));
             
-            allowing(committeeDecisionBean).getYesCount();
+            allowing(bean).getYesCount();
             will(returnValue(yesCount));
             
-            allowing(committeeDecisionBean).getNoCount();
+            allowing(bean).getNoCount();
             will(returnValue(noCount));
             
-            allowing(committeeDecisionBean).getAbstainCount();
+            allowing(bean).getAbstainCount();
             will(returnValue(ABSTAIN_COUNT));
             
-            allowing(committeeDecisionBean).getRecusedCount();
+            allowing(bean).getRecusedCount();
             will(returnValue(RECUSED_COUNT));
             
-            allowing(committeeDecisionBean).getVotingComments();
+            allowing(bean).getVotingComments();
             will(returnValue(VOTING_COMMENTS));
             
-            allowing(committeeDecisionBean).getNewAbstainer();
+            allowing(bean).getNewAbstainer();
             will(returnValue(newAbstainer));
             
-            allowing(committeeDecisionBean).getNewRecused();
+            allowing(bean).getNewRecused();
             will(returnValue(newRecused));
             
-            allowing(committeeDecisionBean).getAbstainers();
+            allowing(bean).getAbstainers();
             will(returnValue(Collections.singletonList(getBasicAbstainer())));
             
-            allowing(committeeDecisionBean).getRecused();
+            allowing(bean).getRecused();
             will(returnValue(Collections.singletonList(getBasicRecused())));
             
-            allowing(committeeDecisionBean).getAbstainersToDelete();
+            allowing(bean).getAbstainersToDelete();
             will(returnValue(new ArrayList<CommitteePerson>()));
             
-            allowing(committeeDecisionBean).getRecusedToDelete();
+            allowing(bean).getRecusedToDelete();
             will(returnValue(new ArrayList<CommitteePerson>()));
             
-            allowing(committeeDecisionBean).getTotalVoteCount();
+            allowing(bean).getTotalVoteCount();
             will(returnValue((yesCount != null ? yesCount : 0) + (noCount != null ? noCount : 0) + ABSTAIN_COUNT + RECUSED_COUNT));
             
-            allowing(committeeDecisionBean).getReviewCommentsBean();
+            allowing(bean).getReviewCommentsBean();
             will(returnValue(getMockReviewCommentsBean(protocol, hasReviewComment)));
         }});
         
-        return committeeDecisionBean;
+        return bean;
     }
     
     private ReviewCommentsBean getMockReviewCommentsBean(final Protocol protocol, final boolean hasReviewComment) {
         final ReviewCommentsBean bean = context.mock(ReviewCommentsBean.class);
         
         context.checking(new Expectations() {{
-            allowing(bean).getProtocol();
-            will(returnValue(protocol));
-            
             allowing(bean).getReviewComments();
             will(returnValue(hasReviewComment? Collections.singletonList(getBasicReviewComment(protocol)) : Collections.EMPTY_LIST));
         }});

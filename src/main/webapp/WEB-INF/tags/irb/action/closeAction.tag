@@ -62,7 +62,7 @@
 	                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolCloseBean.reviewCommentsBean}"
 	                                                       property="actionHelper.protocolCloseBean.reviewCommentsBean"
 	                                                       action="${action}"
-	                                                       actionName="Close" />
+	                                                       taskName="protocolClose" />
 	                   </td>
 	                </tr>
                 </c:if>

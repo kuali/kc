@@ -19,11 +19,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kra.irb.actions.ActionHelper;
+import org.kuali.kra.irb.actions.ProtocolActionBean;
+
 /**
- * 
+ * This class is really just a "form" for notifying the IRB.
  */
-@SuppressWarnings("serial")
-public class ProtocolNotifyIrbBean implements Serializable{
+public class ProtocolNotifyIrbBean extends ProtocolActionBean implements Serializable {
+
+    private static final long serialVersionUID = -1572148230502384077L;
     
     private String submissionQualifierTypeCode;
     private String reviewTypeCode;
@@ -35,8 +39,12 @@ public class ProtocolNotifyIrbBean implements Serializable{
     private ProtocolActionAttachment newActionAttachment;
     private List<ProtocolActionAttachment> actionAttachments = new ArrayList<ProtocolActionAttachment>();
     
-    public ProtocolNotifyIrbBean() {
-        
+    /**
+     * Constructs a ProtocolNotifyIrbBean.
+     * @param actionHelper Reference back to the action helper for this bean
+     */
+    public ProtocolNotifyIrbBean(ActionHelper actionHelper) {
+        super(actionHelper);
     }
 
     public void setCommitteeId(String committeeId) {

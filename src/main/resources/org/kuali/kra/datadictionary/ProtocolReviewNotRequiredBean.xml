@@ -14,10 +14,10 @@
  limitations under the License.
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:p="http://www.springframework.org/schema/p"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+		                   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 	<bean id="ProtocolReviewNotRequiredBean" parent="ProtocolReviewNotRequiredBean-parentBean" />
 	<bean id="ProtocolReviewNotRequiredBean-parentBean" abstract="true" parent="BusinessObjectEntry">
@@ -27,7 +27,6 @@
 		<property name="attributes" >
 			<list>
 			    <ref bean="ProtocolReviewNotRequiredBean-decisionDate" />
-			    <!-- <ref bean="ProtocolReviewNotRequiredBean-expirationDate" />  -->
 			    <ref bean="ProtocolReviewNotRequiredBean-comments" />
 				<ref bean="ProtocolReviewNotRequiredBean-actionDate" />
 			</list>
@@ -47,41 +46,9 @@
 	</bean>
 	
 	<bean id="ProtocolReviewNotRequiredBean-comments" parent="ProtocolReviewNotRequiredBean-comments-parentBean" />
-	<bean id="ProtocolReviewNotRequiredBean-comments-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="comments" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Comments" />
-		<property name="shortLabel" value="Comments" />
-		<property name="maxLength" value="2000" />
-		<property name="control" >
-      		<bean parent="TextareaControlDefinition"
-		          p:rows="4"
-		          p:cols="100" />
-		</property>
-		<property name="summary" value="Comments" />
-		<property name="description" value="Comments" />
-	</bean>	
+	<bean id="ProtocolReviewNotRequiredBean-comments-parentBean" abstract="true" parent="ProtocolGenericActionBean-comments" />
 
     <bean id="ProtocolReviewNotRequiredBean-actionDate" parent="ProtocolGenericActionBean-actionDate-parentBean"/>
-    <bean id="ProtocolReviewNotRequiredBean-actionDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
-        <property name="name" value="actionDate"/>
-        <property name="label" value="Action Date"/>
-        <property name="shortLabel" value="Action Date"/>
-        <property name="required" value="true"/>
-        <property name="summary" value="Action Date"/>
-        <property name="description" value="Action Date"/>
-    </bean>
-	
-	<!-- 
-	<bean id="ProtocolReviewNotRequiredBean-expirationDate" parent="ProtocolReviewNotRequiredBean-expirationDate-parentBean"/>
-    <bean id="ProtocolReviewNotRequiredBean-expirationDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
-        <property name="name" value="expirationDate"/>
-        <property name="label" value="Expiration Date"/>
-        <property name="shortLabel" value="Expiration Date"/>
-        <property name="required" value="true"/>
-        <property name="summary" value="Expiration Date"/>
-        <property name="description" value="Expiration Date"/>
-    </bean>
-     --> 
+    <bean id="ProtocolReviewNotRequiredBean-actionDate-parentBean" abstract="true" parent="ProtocolGenericActionBean-actionDate" />
     
 </beans>

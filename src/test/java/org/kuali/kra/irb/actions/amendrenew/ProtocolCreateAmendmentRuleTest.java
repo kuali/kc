@@ -15,75 +15,95 @@
  */
 package org.kuali.kra.irb.actions.amendrenew;
 
-import static org.junit.Assert.*;
-
-import org.junit.Before;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.Test;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.kra.irb.test.ProtocolRuleTestBase;
+import org.kuali.kra.rules.TemplateRuleTest;
 
-public class ProtocolCreateAmendmentRuleTest {
+public class ProtocolCreateAmendmentRuleTest extends ProtocolRuleTestBase {
 
     private static final String PROPERTY_KEY = "key";
     private static final String SUMMARY = "summary";
-
-    @Before
-    public void setUp() throws Exception {
-        GlobalVariables.setErrorMap(new ErrorMap());
-    }
+    
+    private Mockery context = new JUnit4Mockery() {{
+        setImposteriser(ClassImposteriser.INSTANCE);
+    }};
     
     @Test
     public void testOK() {
-        ProtocolAmendmentBean amendmentBean = new ProtocolAmendmentBean();
-        amendmentBean.setAddModifyAttachments(true);
-        amendmentBean.setSummary(SUMMARY);
-        
-        CreateAmendmentEvent<?> event = new CreateAmendmentEvent<CreateAmendmentRule>(null, PROPERTY_KEY, amendmentBean);
-        
-        CreateAmendmentRule rule = new CreateAmendmentRule();
-        assertTrue(rule.processRules(event));
+        new TemplateRuleTest<CreateAmendmentEvent<CreateAmendmentRule>, CreateAmendmentRule> () {
+
+            @Override
+            protected void prerequisite() {
+                ProtocolAmendmentBean bean = getMockProtocolAmendmentBean(SUMMARY, true);
+                
+                event = new CreateAmendmentEvent<CreateAmendmentRule>(null, PROPERTY_KEY, bean);
+                rule = new CreateAmendmentRule();
+                expectedReturnValue = true;
+            }
+            
+        };
     }
     
     @Test
     public void testSummary() {
-        ProtocolAmendmentBean amendmentBean = new ProtocolAmendmentBean();
-        amendmentBean.setAddModifyAttachments(true);
-        
-        CreateAmendmentEvent<?> event = new CreateAmendmentEvent<CreateAmendmentRule>(null, PROPERTY_KEY, amendmentBean);
-        
-        CreateAmendmentRule rule = new CreateAmendmentRule();
-        assertFalse(rule.processRules(event));
-        assertError(PROPERTY_KEY, KeyConstants.ERROR_PROTOCOL_SUMMARY_IS_REQUIRED);
+        new TemplateRuleTest<CreateAmendmentEvent<CreateAmendmentRule>, CreateAmendmentRule> () {
+
+            @Override
+            protected void prerequisite() {
+                ProtocolAmendmentBean bean = getMockProtocolAmendmentBean(Constants.EMPTY_STRING, true);
+                
+                event = new CreateAmendmentEvent<CreateAmendmentRule>(null, PROPERTY_KEY, bean);
+                rule = new CreateAmendmentRule();
+                expectedReturnValue = false;
+            }
+            
+            @Override
+            public void checkRuleAssertions() {
+                assertError(PROPERTY_KEY, KeyConstants.ERROR_PROTOCOL_SUMMARY_IS_REQUIRED);
+            }
+            
+        };
     }
     
     @Test
     public void testSelection() {
-        ProtocolAmendmentBean amendmentBean = new ProtocolAmendmentBean();
-        amendmentBean.setSummary(SUMMARY);
-        
-        CreateAmendmentEvent<?> event = new CreateAmendmentEvent<CreateAmendmentRule>(null, PROPERTY_KEY, amendmentBean);
-        
-        CreateAmendmentRule rule = new CreateAmendmentRule();
-        assertFalse(rule.processRules(event));
-        assertError(PROPERTY_KEY, KeyConstants.ERROR_PROTOCOL_SELECT_MODULE);
+        new TemplateRuleTest<CreateAmendmentEvent<CreateAmendmentRule>, CreateAmendmentRule> () {
+
+            @Override
+            protected void prerequisite() {
+                ProtocolAmendmentBean bean = getMockProtocolAmendmentBean(SUMMARY, false);
+                
+                event = new CreateAmendmentEvent<CreateAmendmentRule>(null, PROPERTY_KEY, bean);
+                rule = new CreateAmendmentRule();
+                expectedReturnValue = false;
+            }
+            
+            @Override
+            public void checkRuleAssertions() {
+                assertError(PROPERTY_KEY, KeyConstants.ERROR_PROTOCOL_SELECT_MODULE);
+            }
+            
+        };
     }
     
-    /**
-     * Assert an error.  The Error Map should have one error with the given
-     * property key and error key.
-     * @param propertyKey
-     * @param errorKey
-     */
-    protected void assertError(String propertyKey, String errorKey) {
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(propertyKey);
-        assertNotNull(errors);
-        assertTrue(errors.size() == 1);
+    private ProtocolAmendmentBean getMockProtocolAmendmentBean(final String summary, final boolean someSelected) {
+        final ProtocolAmendmentBean bean = context.mock(ProtocolAmendmentBean.class);
         
-        ErrorMessage message = (ErrorMessage) errors.get(0);
-        assertNotNull(message);
-        assertEquals(message.getErrorKey(), errorKey);
+        context.checking(new Expectations() {{
+            allowing(bean).getSummary();
+            will(returnValue(summary));
+            
+            allowing(bean).isSomeSelected();
+            will(returnValue(someSelected));
+        }});
+        
+        return bean;
     }
+    
 }

@@ -24,16 +24,18 @@ import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.ActionHelper;
+import org.kuali.kra.irb.actions.ProtocolActionBean;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * This class is really just a "form" for submitting a protocol for review
  * in the Submit for Review Action.
  */
-@SuppressWarnings({ "unchecked", "serial" })
-public class ProtocolSubmitAction implements Serializable{
+@SuppressWarnings("unchecked")
+public class ProtocolSubmitAction extends ProtocolActionBean implements Serializable{
+
+    private static final long serialVersionUID = -4712974868607781787L;
     
-    private ActionHelper actionHelper;
     private String submissionTypeCode = "";
     private String protocolReviewTypeCode = "";
     private String submissionQualifierTypeCode = "";
@@ -54,8 +56,12 @@ public class ProtocolSubmitAction implements Serializable{
     private int checkListItemDescriptionIndex = 0;
     private String selectedProtocolReviewTypeCode = null;
     
+    /**
+     * Constructs a ProtocolSubmitAction.
+     * @param actionHelper Reference back to the action helper for this bean
+     */
     public ProtocolSubmitAction(ActionHelper actionHelper) {
-        this.actionHelper = actionHelper;
+        super(actionHelper);
     }
     
     /**
@@ -74,7 +80,7 @@ public class ProtocolSubmitAction implements Serializable{
          * we have to change the schedule dates that we display if the committee
          * has changed.
          */
-        if (actionHelper.getProtocolForm().isJavaScriptEnabled()) {
+        if (getActionHelper().getProtocolForm().isJavaScriptEnabled()) {
             committeeId = newCommitteeId;
             scheduleId = newScheduleId;
         } 

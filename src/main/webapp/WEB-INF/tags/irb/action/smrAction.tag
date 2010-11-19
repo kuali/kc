@@ -62,7 +62,7 @@
                         <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolSMRBean.reviewCommentsBean}"
                                                        property="actionHelper.protocolSMRBean.reviewCommentsBean"
                                                        action="${action}"
-                                                       actionName="SMR" />
+                                                       taskName="protocolReturnForSMR" />
                    </td>
                 </tr>
                 

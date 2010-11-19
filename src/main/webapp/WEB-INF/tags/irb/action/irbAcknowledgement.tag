@@ -61,7 +61,7 @@
                         <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.irbAcknowledgementBean.reviewCommentsBean}"
                                                        property="actionHelper.irbAcknowledgementBean.reviewCommentsBean"
                                                        action="${action}" 
-                                                       actionName="IrbAcknowledgement" />
+                                                       taskName="irbAcknowledgement" />
                    </td>
                 </tr>
                 

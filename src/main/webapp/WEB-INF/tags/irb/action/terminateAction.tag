@@ -59,10 +59,10 @@
                 <c:if test="${KualiForm.actionHelper.canAddTerminateReviewerComments}">
 	                <tr>
 	                    <td colspan="2">
-	                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolTerminateBean.reviewComments}"
-	                                                       property="actionHelper.protocolTerminateBean.reviewComments"
+	                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolTerminateBean.reviewCommentsBean}"
+	                                                       property="actionHelper.protocolTerminateBean.reviewCommentsBean"
 	                                                       action="${action}"
-	                                                       actionName="Terminate" />
+	                                                       taskName="protocolTerminate" />
 	                   </td>
 	                </tr>
 	            </c:if>

@@ -19,17 +19,16 @@ import java.io.Serializable;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ActionHelper;
+import org.kuali.kra.irb.actions.ProtocolActionBean;
 
 /**
  * This class is really just a "form" for assigning a protocol
  * to a committee and schedule.
  */
-@SuppressWarnings("serial")
-public class ProtocolAssignCmtSchedBean implements Serializable{
+public class ProtocolAssignCmtSchedBean extends ProtocolActionBean implements Serializable {
     
-    private ActionHelper actionHelper;
+    private static final long serialVersionUID = 4765501993140678114L;
     
     private String committeeId = "";
     private String scheduleId = "";
@@ -37,8 +36,12 @@ public class ProtocolAssignCmtSchedBean implements Serializable{
     private String newCommitteeId = "";
     private String newScheduleId = "";
     
+    /**
+     * Constructs a ProtocolAssignCmtSchedBean.
+     * @param actionHelper Reference back to the action helper for this bean
+     */
     public ProtocolAssignCmtSchedBean(ActionHelper actionHelper) {
-        this.actionHelper = actionHelper;
+        super(actionHelper);
     }
     
     public void init() {
@@ -57,10 +60,6 @@ public class ProtocolAssignCmtSchedBean implements Serializable{
     private ProtocolAssignCmtSchedService getProtocolAssignCmtSchedService() {
         return KraServiceLocator.getService(ProtocolAssignCmtSchedService.class);
     }
-
-    private Protocol getProtocol() {
-        return actionHelper.getProtocolForm().getProtocolDocument().getProtocol();
-    }
     
     /**
      * Prepare the Assign to Committee and Schedule for rendering with JSP.
@@ -73,7 +72,7 @@ public class ProtocolAssignCmtSchedBean implements Serializable{
          * we have to change the schedule dates that we display if the committee
          * has changed.
          */
-        if (actionHelper.getProtocolForm().isJavaScriptEnabled()) {
+        if (getActionHelper().getProtocolForm().isJavaScriptEnabled()) {
             committeeId = newCommitteeId;
             scheduleId = newScheduleId;
         } 

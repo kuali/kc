@@ -19,16 +19,16 @@ import java.io.Serializable;
 import java.sql.Date;
 
 import org.kuali.kra.irb.actions.ActionHelper;
+import org.kuali.kra.irb.actions.ProtocolActionBean;
+import org.kuali.kra.irb.actions.ProtocolOnlineReviewCommentable;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
 
 /**
  * This class is really just a "form" for generic actions.
  */
-public class ProtocolGenericActionBean implements Serializable {
+public class ProtocolGenericActionBean extends ProtocolActionBean implements ProtocolOnlineReviewCommentable, Serializable {
 
-    private static final long serialVersionUID = 5886866641947940513L;
-
-    private ActionHelper actionHelper;
+    private static final long serialVersionUID = -5693984308725487845L;
     
     private String comments = "";
     private Date actionDate = new Date(System.currentTimeMillis());
@@ -37,21 +37,12 @@ public class ProtocolGenericActionBean implements Serializable {
     
     /**
      * Constructs a ProtocolGenericActionBean.
-     * @param actionHelper a reference back to the parent helper
+     * @param actionHelper Reference back to the action helper for this bean
      */
-    public ProtocolGenericActionBean(ActionHelper actionHelper) {
-        this.actionHelper = actionHelper;
+    public ProtocolGenericActionBean(ActionHelper actionHelper, String errorPropertyKey) {
+        super(actionHelper);
         
-        reviewCommentsBean = new ReviewCommentsBean();
-        reviewCommentsBean.setProtocol(actionHelper.getProtocol());
-    }
-
-    public ActionHelper getActionHelper() {
-        return actionHelper;
-    }
-
-    public void setActionHelper(ActionHelper actionHelper) {
-        this.actionHelper = actionHelper;
+        reviewCommentsBean = new ReviewCommentsBean(errorPropertyKey);
     }
 
     public String getComments() {

@@ -15,20 +15,20 @@
  */
 package org.kuali.kra.irb.actions.request;
 
-import org.junit.After;
-import org.junit.Before;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
+import org.kuali.kra.rules.TemplateRuleTest;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Test the business rules for Protocol Requests: close, suspend, open enrollment,
@@ -41,47 +41,36 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class ProtocolRequestRuleTest extends ProtocolRuleTestBase {
-
-    private ProtocolRequestRule rule = null;
  
     private static final String COMMITTEE_ID = "1";
     private static final String MANDATORY = "M";
     private static final String OPTIONAL = "O";
-    private ParameterService parameterService;
     
-    @Before
-    public void setUpServices() {
-        this.parameterService = KraServiceLocator.getService(ParameterService.class);
-        this.parameterService.clearCache();
-    }
-
-    @Before
-    public void setUp() throws Exception {
-        super.setUp();
-        rule = new ProtocolRequestRule();
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        rule = null;
-        super.tearDown();
-    }
+    private Mockery context = new JUnit4Mockery() {{
+        setImposteriser(ClassImposteriser.INSTANCE);
+    }};
 
     /**
      * Test a request with the system param set to optional, which is loaded
      * at startup time.
      * @throws Exception
      */
-    @SuppressWarnings({ "deprecation", "unchecked" })
     @Test
     public void testOK() throws Exception {
-        ProtocolDocument document = getNewProtocolDocument();
-        ProtocolRequestBean requestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE,
-                                                                  ProtocolSubmissionType.REQUEST_TO_CLOSE, "protocolCloseRequestBean");
-        ProtocolRequestEvent event = new ProtocolRequestEvent(document, Constants.PROTOCOL_CLOSE_REQUEST_PROPERTY_KEY, requestBean);
-        
-        assertTrue(rule.processRules(event));
-        assertEquals(GlobalVariables.getErrorMap().size(), 0);
+        new TemplateRuleTest<ProtocolRequestEvent<ProtocolRequestRule>, ProtocolRequestRule> () {
+
+            @Override
+            protected void prerequisite() {
+                ProtocolRequestBean requestBean = getMockProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE, ProtocolSubmissionType.REQUEST_TO_CLOSE, 
+                        Constants.EMPTY_STRING, "protocolCloseRequestBean");
+                
+                event = new ProtocolRequestEvent<ProtocolRequestRule>(null, Constants.PROTOCOL_CLOSE_REQUEST_PROPERTY_KEY, requestBean);
+                rule = new ProtocolRequestRule();
+                rule.setParameterService(getMockParameterService(OPTIONAL));
+                expectedReturnValue = true;
+            }
+            
+        };
     }
     
     /**
@@ -89,21 +78,22 @@ public class ProtocolRequestRuleTest extends ProtocolRuleTestBase {
      * errors if the committee id has been set.
      * @throws WorkflowException
      */
-    @SuppressWarnings({ "deprecation", "unchecked" })
     @Test
     public void testMandatoryOK() throws WorkflowException {
-        setParameter(MANDATORY);
-        
-        ProtocolDocument document = getNewProtocolDocument();
-        ProtocolRequestBean requestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE,
-                                                                  ProtocolSubmissionType.REQUEST_TO_CLOSE, "protocolCloseRequestBean");
-        requestBean.setCommitteeId(COMMITTEE_ID);
-        ProtocolRequestEvent event = new ProtocolRequestEvent(document, Constants.PROTOCOL_CLOSE_REQUEST_PROPERTY_KEY, requestBean);
-       
-        assertTrue(rule.processRules(event));
-        assertEquals(0, GlobalVariables.getErrorMap().size());
-        
-        setParameter(OPTIONAL);
+        new TemplateRuleTest<ProtocolRequestEvent<ProtocolRequestRule>, ProtocolRequestRule> () {
+
+            @Override
+            protected void prerequisite() {
+                ProtocolRequestBean requestBean = getMockProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE, ProtocolSubmissionType.REQUEST_TO_CLOSE, 
+                        COMMITTEE_ID, "protocolCloseRequestBean");
+                
+                event = new ProtocolRequestEvent<ProtocolRequestRule>(null, Constants.PROTOCOL_CLOSE_REQUEST_PROPERTY_KEY, requestBean);
+                rule = new ProtocolRequestRule();
+                rule.setParameterService(getMockParameterService(MANDATORY));
+                expectedReturnValue = true;
+            }
+            
+        };
     }
     
     /**
@@ -111,45 +101,60 @@ public class ProtocolRequestRuleTest extends ProtocolRuleTestBase {
      * if the committee id has not been set.
      * @throws WorkflowException
      */
-    @SuppressWarnings("unchecked")
     @Test
     public void testMandatoryCommittee() throws WorkflowException {
-        setParameter(MANDATORY);
-        
-        ProtocolDocument document = getNewProtocolDocument();
-        ProtocolRequestBean requestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE,
-                                                                  ProtocolSubmissionType.REQUEST_TO_CLOSE, "protocolCloseRequestBean");
-        ProtocolRequestEvent event = new ProtocolRequestEvent(document, Constants.PROTOCOL_CLOSE_REQUEST_PROPERTY_KEY, requestBean);
-       
-        assertFalse(rule.processRules(event));
-        assertError(Constants.PROTOCOL_CLOSE_REQUEST_PROPERTY_KEY + ".committeeId", 
-                    KeyConstants.ERROR_PROTOCOL_COMMITTEE_NOT_SELECTED);
-        
-        setParameter(OPTIONAL);
+        new TemplateRuleTest<ProtocolRequestEvent<ProtocolRequestRule>, ProtocolRequestRule> () {
+
+            @Override
+            protected void prerequisite() {
+                ProtocolRequestBean requestBean = getMockProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE, ProtocolSubmissionType.REQUEST_TO_CLOSE, 
+                        Constants.EMPTY_STRING, "protocolCloseRequestBean");
+                
+                event = new ProtocolRequestEvent<ProtocolRequestRule>(null, Constants.PROTOCOL_CLOSE_REQUEST_PROPERTY_KEY, requestBean);
+                rule = new ProtocolRequestRule();
+                rule.setParameterService(getMockParameterService(MANDATORY));
+                expectedReturnValue = false;
+            }
+            
+            @Override
+            public void checkRuleAssertions() {
+                assertError(Constants.PROTOCOL_CLOSE_REQUEST_PROPERTY_KEY + ".committeeId", KeyConstants.ERROR_PROTOCOL_COMMITTEE_NOT_SELECTED);
+            }
+            
+        };
     }
     
-    /*
-     * Set the IRB parameter for submission in order to make the committee
-     * either mandatory or optional.
-     */
-    private void setParameter(String value) {
-        // the tranaction handling is not really saved to db.
-        // it is ok for testMandatoryOK, but in testMandatoryCommittee, OLE was thrown.
-        // so have to try this to force it to save to db.
-//        try {
-//            super.transactionalLifecycle.stop();
-//        }
-//        catch (Exception e) {
-//
-//        }
-        this.parameterService.setParameterForTesting(ProtocolDocument.class,
-                Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION, value);
+    private ParameterService getMockParameterService(final String committeeMandatoryCode) {
+        final ParameterService service = context.mock(ParameterService.class);
         
-//        try {
-//            super.transactionalLifecycle.start();
-//        }
-//        catch (Exception e) {
-//
-//        }
+        context.checking(new Expectations() {{
+            allowing(service).getParameterValue(ProtocolDocument.class, Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION);
+            will(returnValue(committeeMandatoryCode));
+        }});
+        
+        return service;
     }
+    
+    private ProtocolRequestBean getMockProtocolRequestBean(final String protocolActionTypeCode, final String submissionTypeCode, final String committeeId, 
+            final String beanName) {
+        
+        final ProtocolRequestBean bean = context.mock(ProtocolRequestBean.class);
+        
+        context.checking(new Expectations() {{
+            allowing(bean).getProtocolActionTypeCode();
+            will(returnValue(protocolActionTypeCode));
+            
+            allowing(bean).getSubmissionTypeCode();
+            will(returnValue(submissionTypeCode));
+            
+            allowing(bean).getCommitteeId();
+            will(returnValue(committeeId));
+            
+            allowing(bean).getBeanName();
+            will(returnValue(beanName));
+        }});
+        
+        return bean;
+    }
+    
 }

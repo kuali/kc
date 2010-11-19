@@ -585,6 +585,8 @@
         <property name="committeeService" ref="committeeService" />
     </bean>
     
+    <bean id="protocolRiskLevelService" class="org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelServiceImpl" />
+    
     <bean id="reviewCommentsService" class="org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="committeeScheduleService" ref="committeeScheduleService" />
