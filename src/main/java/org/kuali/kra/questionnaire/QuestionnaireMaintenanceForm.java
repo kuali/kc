@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
@@ -42,7 +43,16 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
     private List qnaireQuestions;
     private String lookedUpCollectionName;
     private transient FormFile templateFile;
+    // following are ajax related.  consider to move to an ajaxbean
     private String moduleCode;
+    private Integer qidx;
+    private String questionId;
+    private Question question;
+    private Integer moveup;
+    private Integer movedn;
+    private String childNode;
+    private String response;
+    private String value;
 
     /**
      * Constructs a QuestionnaireMaintenanceForm.
@@ -220,6 +230,86 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
 
     public void setModuleCode(String moduleCode) {
         this.moduleCode = moduleCode;
+    }
+
+
+    public Integer getQidx() {
+        return qidx;
+    }
+
+
+    public void setQidx(Integer qidx) {
+        this.qidx = qidx;
+    }
+
+
+    public String getQuestionId() {
+        return questionId;
+    }
+
+
+    public void setQuestionId(String questionId) {
+        this.questionId = questionId;
+    }
+
+
+    public Question getQuestion() {
+        return question;
+    }
+
+
+    public void setQuestion(Question question) {
+        this.question = question;
+    }
+
+
+    public Integer getMoveup() {
+        return moveup;
+    }
+
+
+    public void setMoveup(Integer moveup) {
+        this.moveup = moveup;
+    }
+
+
+    public Integer getMovedn() {
+        return movedn;
+    }
+
+
+    public void setMovedn(Integer movedn) {
+        this.movedn = movedn;
+    }
+
+
+    public String getChildNode() {
+        return childNode;
+    }
+
+
+    public void setChildNode(String childNode) {
+        this.childNode = childNode;
+    }
+
+
+    public String getResponse() {
+        return response;
+    }
+
+
+    public void setResponse(String response) {
+        this.response = response;
+    }
+
+
+    public String getValue() {
+        return value;
+    }
+
+
+    public void setValue(String value) {
+        this.value = value;
     }
 
 
