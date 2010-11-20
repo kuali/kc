@@ -28,6 +28,8 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.committee.service.CommitteeService;
@@ -75,6 +77,9 @@ import org.kuali.kra.irb.summary.ProtocolSummary;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.ProtocolVoteAbstainee;
 import org.kuali.kra.meeting.ProtocolVoteRecused;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
+import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.TaskAuthorizationService;
@@ -246,6 +251,12 @@ public class ActionHelper implements Serializable {
     private int currentSubmissionNumber;
     private String renewalSummary;
     
+    // indicator for whether there is submission questionnaire answer exist.
+    // ie, questionnaire has been saved for a request/notify irb action
+    private boolean submissionQuestionnaireExist;
+    // check if there is submission questionnaire to answer
+    private boolean toAnswerSubmissionQuestionnaire;
+
     private transient CommitteeScheduleService committeeScheduleService;
     private transient KcPersonService kcPersonService;
     private transient BusinessObjectService businessObjectService;
@@ -332,6 +343,7 @@ public class ActionHelper implements Serializable {
         initRequestBeanAndMap();
         
         protocolSummaryPrintOptions = new ProtocolSummaryPrintOptions();
+        toAnswerSubmissionQuestionnaire = hasSubmissionQuestionnaire();
     }
     
     private void initActionBeanTaskMap() {
@@ -1691,9 +1703,32 @@ public class ActionHelper implements Serializable {
                 currentSubmissionNumber));
         setAbstainees(getCommitteeDecisionService().getAbstainers(getProtocol().getProtocolNumber(), currentSubmissionNumber));
         setRecusers(getCommitteeDecisionService().getRecusers(getProtocol().getProtocolNumber(), currentSubmissionNumber));
-
+        setSubmissionQuestionnaireExist(hasAnsweredQuestionnaire());
     }
     
+    private boolean hasAnsweredQuestionnaire() {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("moduleItemCode", CoeusModule.IRB_MODULE_CODE);
+        fieldValues.put("moduleItemKey", getProtocol().getProtocolNumber());
+        fieldValues.put("moduleSubItemCode", CoeusSubModule.PROTOCOL_SUBMISSION);
+        fieldValues.put("moduleSubItemKey", Integer.toString(currentSubmissionNumber));
+        return getBusinessObjectService().countMatching(AnswerHeader.class, fieldValues) > 0;
+    }
+
+    /*
+     * This will check whetehr there is submission questionnaire.
+     * When business rule is implemented, this will become more complicated because
+     * each request action may have different set of questionnaire, so this has to be changed.
+     */
+    private boolean hasSubmissionQuestionnaire() {
+        ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, this.getProtocolForm().getProtocolDocument().getProtocol().getProtocolNumber() + "T", CoeusSubModule.PROTOCOL_SUBMISSION, "999", false);
+        return CollectionUtils.isNotEmpty(getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean));
+    }
+
+    private QuestionnaireAnswerService getQuestionnaireAnswerService() {
+        return KraServiceLocator.getService(QuestionnaireAnswerService.class);
+    }
+
     /**
      * 
      * This method is to get previous submission number.  Current implementation is based on submission number in sequence.
@@ -1932,6 +1967,22 @@ public class ActionHelper implements Serializable {
 
     public void setReviewCommentsReport(Boolean reviewCommentsReport) {
         this.reviewCommentsReport = reviewCommentsReport;
+    }
+
+    public boolean isSubmissionQuestionnaireExist() {
+        return submissionQuestionnaireExist;
+    }
+
+    public void setSubmissionQuestionnaireExist(boolean submissionQuestionnaireExist) {
+        this.submissionQuestionnaireExist = submissionQuestionnaireExist;
+    }
+
+    public boolean isToAnswerSubmissionQuestionnaire() {
+        return toAnswerSubmissionQuestionnaire;
+    }
+
+    public void setToAnswerSubmissionQuestionnaire(boolean toAnswerSubmissionQuestionnaire) {
+        this.toAnswerSubmissionQuestionnaire = toAnswerSubmissionQuestionnaire;
     }
 
     

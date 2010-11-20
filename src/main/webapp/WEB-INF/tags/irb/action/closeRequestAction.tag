@@ -17,7 +17,6 @@
 
   <kra-irb-action:requestAction bean="${KualiForm.actionHelper.protocolCloseRequestBean}"
                                       permission="${KualiForm.actionHelper.canRequestClose}"
-                                                       requestAction="closeRequestProtocol"
                                                        beanName="protocolCloseRequestBean"
                                                        actionTypeCode="105" 
                                                        tabTitle="Request To Close"/>

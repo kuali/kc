@@ -24,7 +24,12 @@ public class ModuleQuestionnaireBean {
     private String moduleItemCode;
     private String moduleSubItemCode;
     private String moduleItemKey;
+    /*
+     * regular protocol & amendment questionnaire: sequence number
+     * protocol submission questionnaire : submission number
+     */
     private String moduleSubItemKey;
+    // finalDoc : as an indicator to retrieve non-current usage or not
     private boolean finalDoc;
 
     public ModuleQuestionnaireBean() {
@@ -32,7 +37,7 @@ public class ModuleQuestionnaireBean {
     }
 
     public ModuleQuestionnaireBean(String moduleItemCode, Protocol protocol) {
-          this(moduleItemCode, protocol.getProtocolNumber(), protocol.getSequenceNumber().toString(), "0", protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().stateIsApproved());
+          this(moduleItemCode, protocol.getProtocolNumber(), "0", protocol.getSequenceNumber().toString(), protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().stateIsApproved());
           setProtocolSubItemCode(protocol) ;
         
     }

@@ -52,6 +52,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.test.ProtocolFactory;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -300,6 +301,9 @@ public class ProtocolRequestServiceTest extends KcUnitTestBase {
             
             allowing(bean).getActionAttachments();
             will(returnValue(Arrays.asList(attachments)));
+            
+            allowing(bean).getAnswerHeaders();
+            will(returnValue(new ArrayList<AnswerHeader>()));
         }});
         
         return bean;

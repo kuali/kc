@@ -160,7 +160,7 @@ public class QuestionnaireXmlStream implements XmlStream {
         
         Boolean questionnaireCompletionFlag = (Boolean)params.get("QUESTIONNAIRE_COMPLETION_FLAG");
         questionnaireCompletionFlag = questionnaireCompletionFlag==null?Boolean.FALSE:questionnaireCompletionFlag;
-        ModuleQuestionnaireBean moduleQuestionnaireBean = getQuestionnaireAnswerHeaderBean(printableBusinessObject);
+        ModuleQuestionnaireBean moduleQuestionnaireBean = getQuestionnaireAnswerHeaderBean(printableBusinessObject, params);
         if(questionnaire != null) {
             Integer questId = questionnaire.getQuestionnaireId();
             if(questId!=null){
@@ -299,7 +299,7 @@ public class QuestionnaireXmlStream implements XmlStream {
      * @return
      */
     private ModuleQuestionnaireBean getQuestionnaireAnswerHeaderBean(
-            KraPersistableBusinessObjectBase printableBusinessObject) {
+            KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> params) {
         String moduleItemCode = null;
         String moduleSubItemCode = "0";
         String moduleItemKey = null;
@@ -308,8 +308,14 @@ public class QuestionnaireXmlStream implements XmlStream {
             Protocol protocol = (Protocol)printableBusinessObject;
             moduleItemCode = CoeusModule.IRB_MODULE_CODE;
             moduleSubItemCode = getProtocolSubItemCode(protocol);
-            moduleItemKey = protocol.getProtocolNumber();
-            moduleSubItemKey = protocol.getSequenceNumber().toString();
+            if (params.get("protocolNumber") != null && params.get("submissionNumber") != null) {
+                moduleItemKey = (String)params.get("protocolNumber");
+                moduleSubItemKey = (String)params.get("submissionNumber");
+                moduleSubItemCode = CoeusSubModule.PROTOCOL_SUBMISSION;
+            } else {
+                moduleItemKey = protocol.getProtocolNumber();
+                moduleSubItemKey = protocol.getSequenceNumber().toString();
+            }
         }else if(printableBusinessObject instanceof DevelopmentProposal){
             DevelopmentProposal developmentProposal = (DevelopmentProposal)printableBusinessObject;
             moduleItemCode = CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE;

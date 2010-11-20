@@ -16,7 +16,6 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
   <kra-irb-action:requestAction bean="${KualiForm.actionHelper.protocolReOpenEnrollmentRequestBean}"
                                       permission="${KualiForm.actionHelper.canRequestReOpenEnrollment}"
-                                                       requestAction="reopenEnrollmentRequestProtocol"
                                                        beanName="protocolReOpenEnrollmentRequestBean"
                                                        actionTypeCode="115"
                                                        tabTitle="Request to Re-open Enrollment"/>

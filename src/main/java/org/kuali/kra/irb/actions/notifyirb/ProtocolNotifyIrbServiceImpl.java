@@ -15,8 +15,15 @@
  */
 package org.kuali.kra.irb.actions.notifyirb;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
@@ -27,6 +34,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -37,6 +45,8 @@ import org.kuali.rice.kns.service.DocumentService;
 public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
     
     private static final Log LOG = LogFactory.getLog(ProtocolNotifyIrbServiceImpl.class);
+    private static final String MODULE_ITEM_CODE = "moduleItemCode";
+    private static final String MODULE_ITEM_KEY = "moduleItemKey";
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
     private ProtocolActionService protocolActionService;
@@ -68,6 +78,11 @@ public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
         protocol.getProtocolActions().add(protocolAction);
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
 //        businessObjectService.save(protocol.getProtocolDocument());
+        if (!CollectionUtils.isEmpty(notifyIrbBean.getAnswerHeaders())) {
+            saveQuestionnaire(notifyIrbBean, submission.getSubmissionNumber());
+            notifyIrbBean.setAnswerHeaders(new ArrayList<AnswerHeader>());
+        }
+        cleanUnreferencedQuestionnaire(protocol.getProtocolNumber());
         documentService.saveDocument(protocol.getProtocolDocument());
         protocol.refreshReferenceObject("protocolSubmissions");
         try {
@@ -75,6 +90,30 @@ public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
             protocolActionsNotificationService.sendActionsNotification(protocol, new NotifyIrbEvent(protocol));
         } catch (Exception e) {
             LOG.info("Notify Irb Notification exception " + e.getStackTrace());
+        }
+    }
+    
+    private void saveQuestionnaire(ProtocolNotifyIrbBean notifyIrbBean, Integer submissionNumber) {
+        for (AnswerHeader answerHeader : notifyIrbBean.getAnswerHeaders()) {
+            answerHeader.setModuleSubItemKey(submissionNumber.toString());
+            answerHeader.setModuleItemKey(answerHeader.getModuleItemKey().substring(0, answerHeader.getModuleItemKey().length() - 1));
+        }
+        businessObjectService.save(notifyIrbBean.getAnswerHeaders());
+    }
+
+    /*
+     * This is a clean up work.  If user enters submission questionnaire for several different request submit action.
+     * Once, one of them is submitted, then the others whould be removed.
+     */
+    private void cleanUnreferencedQuestionnaire(String protocolNumber) {
+        // TODO : make this a shared 
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(MODULE_ITEM_CODE, CoeusModule.IRB_MODULE_CODE);
+        fieldValues.put(MODULE_ITEM_KEY, protocolNumber + "T");
+
+        List<AnswerHeader> answerHeaders = (List<AnswerHeader>) businessObjectService.findMatching(AnswerHeader.class, fieldValues);
+        if (CollectionUtils.isNotEmpty(answerHeaders)) {
+            businessObjectService.delete(answerHeaders);
         }
     }
     
