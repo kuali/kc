@@ -2470,3 +2470,29 @@ function generateAttendance(genAtt, noMember, noOther) {
         document.getElementById('meetingHelper.newCommitteeScheduleMinute.minuteEntry').value = comment;
     }
 }
+
+
+var viewQuestionnaireWindow = null;
+function questionnairePop(protocolNumber, submissionNumber, docFormKey, sessionDocument) {
+
+	var documentWebScope = "";
+	if (sessionDocument == true) {
+		documentWebScope = "session";
+	}
+
+    viewQuestionnaireWindow = window.open(extractUrlBase() +
+    	                               "/questionnaire.do?methodToCall=submissionQuestionnairePop" +
+    	                               "&docFormKey=" + docFormKey + 
+    	                               "&documentWebScope=" + documentWebScope +
+    	                               "&protocolNumber=" + protocolNumber +
+    	                               "&submissionNumber=" + submissionNumber, 
+    	                               "viewQuestionnaire", 
+    	                               "width=1200, height=800, scrollbars=yes, resizable=yes");   
+}
+
+function closeQuestionnairePop() {
+	if (viewQuestionnaireWindow != null) {
+		viewQuestionnaireWindow.close();
+	} 
+
+}

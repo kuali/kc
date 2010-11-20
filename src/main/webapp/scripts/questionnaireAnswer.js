@@ -1,23 +1,23 @@
-		$(document).ready(function(){
+		$j(document).ready(function(){
 			
 			// More/Less Information...
-				$(".Qmoreinfocontrol").parent().next().hide();
-				$(".Qmoreinfocontrol").toggle(
+				$j(".Qmoreinfocontrol").parent().next().hide();
+				$j(".Qmoreinfocontrol").toggle(
 					function()
 					{
-						$(this).parent().next().slideDown(400);
-						$(this).html("Less Information...");
+						$j(this).parent().next().slideDown(400);
+						$j(this).html("Less Information...");
 					},function(){
-						$(this).parent().next().slideUp(400);
-						$(this).html("More Information...");
+						$j(this).parent().next().slideUp(400);
+						$j(this).html("More Information...");
 					}
 				);
 				
 				// set up Questions show/hide	
-			    for ( var i = 0; i < $("#numberOfQuestionaires").attr("value"); i++) {
-		    		$("#questionpanelcontent"+i).hide();
-			    	if ($("#questionnaireHelper\\.answerHeaders\\["+i+"\\]\\.showQuestions").attr("value") == 'Y') {
-			    		$("#questionpanelcontrol"+i).click();
+			    for ( var i = 0; i < $j("#numberOfQuestionaires").attr("value"); i++) {
+		    		$j("#questionpanelcontent"+i).hide();
+			    	if ($j("#questionnaireHelper\\.answerHeaders\\["+i+"\\]\\.showQuestions").attr("value") == 'Y') {
+			    		$j("#questionpanelcontrol"+i).click();
 			    	}
 			    }
 
@@ -27,20 +27,20 @@
     /*
      * questionnaire panel to toggle hide/show of panel
      */
-    $(".questionpanel").toggle(
+    $j(".questionpanel").toggle(
             function()
             {
-            	var headerIdx = $(this).attr("id").substring(20);
+            	var headerIdx = $j(this).attr("id").substring(20);
                 var panelcontentid = "questionpanelcontent"+headerIdx;
-                $("#"+panelcontentid).slideDown(500);
-                $(this).html("<img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
-                $("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.showQuestions").attr("value","Y")
+                $j("#"+panelcontentid).slideDown(500);
+                $j(this).html("<img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+                $j("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.showQuestions").attr("value","Y")
             },function(){
-            	var headerIdx = $(this).attr("id").substring(20);
+            	var headerIdx = $j(this).attr("id").substring(20);
                 var panelcontentid = "questionpanelcontent"+headerIdx;
-                $("#"+panelcontentid).slideUp(500);
-                $(this).html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
-                $("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.showQuestions").attr("value","N")
+                $j("#"+panelcontentid).slideUp(500);
+                $j(this).html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+                $j("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.showQuestions").attr("value","N")
             }
         );
 
@@ -48,10 +48,10 @@
     /*
      * go thru each question. if display flag is 'N', then hide this question/
      */
-    $('table[id^=table-parent-]').each(
+    $j('table[id^=table-parent-]').each(
 			function() {
-			    if ($(this).children().children().children().children().children('input[id^=childDisplay]').attr("value") == 'N') {
-				    $(this).hide();
+			    if ($j(this).children().children().children().children().children('input[id^=childDisplay]').attr("value") == 'N') {
+				    $j(this).hide();
 			    }
 			});
 
@@ -59,7 +59,7 @@
      * set up 'change' event trigger for answer fields.
      * This is not working for date field from date picker, and lookup field return from search page.
      */
-    $('.Qanswer, textarea').change(
+    $j('.Qanswer, textarea').change(
 			function() {
                 answerChanged(this);
 			});
@@ -71,36 +71,36 @@
      *         3. All the matched children questions should be checked whether answer match condition or not.
      */     
 	function answerChanged(answer) {
-		var qn= $(answer).parents('div[class^=Qresponsediv]').siblings('input[id^=parent]');
+		var qn= $j(answer).parents('div[class^=Qresponsediv]').siblings('input[id^=parent]');
         if (qn) {
-            var answerValue = $(answer).attr("value");
-            var idx = $(qn).attr("id").substring(7,$(qn).attr("id").indexOf("-",7));
-            var headerIdx = $(qn).attr("id").substring($(qn).attr("id").indexOf("-",7)+1);
-            var responseDiv = $(answer).parents('div[class^=Qresponsediv]');
+            var answerValue = $j(answer).attr("value");
+            var idx = $j(qn).attr("id").substring(7,$j(qn).attr("id").indexOf("-",7));
+            var headerIdx = $j(qn).attr("id").substring($j(qn).attr("id").indexOf("-",7)+1);
+            var responseDiv = $j(answer).parents('div[class^=Qresponsediv]');
             var prefix = "table-parent-"+headerIdx+"-"+idx;
-           $("table[id^="+prefix+"-]").each(                           
+           $j("table[id^="+prefix+"-]").each(                           
         			function() {
-                        var conditionDiv = $("#"+$(this).attr("id")+" .condition:nth(0)");
-                        var qidx = $(this).attr("id").substring(prefix.length+1);
+                        var conditionDiv = $j("#"+$j(this).attr("id")+" .condition:nth(0)");
+                        var qidx = $j(this).attr("id").substring(prefix.length+1);
                         // not sure why conditionDiv is not 'undefine' if the node is not set
                         if (conditionDiv && conditionDiv.children() && conditionDiv.size() == 1 && conditionDiv.children().size() == 3) {
                            if (isConditionMatchAnswers(answer, responseDiv, conditionDiv.children('input:eq(1)').attr("value"), conditionDiv.children('input:eq(2)').attr("value"), answerValue)) {
-                           		$(this).show();                                   		
-                           		$("#childDisplay"+conditionDiv.children('input:eq(1)').attr("id").substring(9)).attr("value","Y");
-                           		$("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.matchedChild").attr("value","Y");
+                           		$j(this).show();                                   		
+                           		$j("#childDisplay"+conditionDiv.children('input:eq(1)').attr("id").substring(9)).attr("value","Y");
+                           		$j("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.matchedChild").attr("value","Y");
                           		showChildren(conditionDiv.children('input:eq(1)').attr("id").substring(10));
                            } else {
                           		hideChildren(conditionDiv.children('input:eq(1)').attr("id").substring(10));
-                          		$(this).hide();
-                           		$("#childDisplay"+conditionDiv.children('input:eq(1)').attr("id").substring(9)).attr("value","N");
-                           		$("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.matchedChild").attr("value","N");
+                          		$j(this).hide();
+                           		$j("#childDisplay"+conditionDiv.children('input:eq(1)').attr("id").substring(9)).attr("value","N");
+                           		$j("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.matchedChild").attr("value","N");
                            		emptyAnswerForHiddenQuestion(this);
                            }    
                         }  else {
                       		hideChildren(conditionDiv.children('input:eq(1)').attr("id").substring(10));
-                      		$(this).hide();
-                       		$("#childDisplay"+conditionDiv.children('input:eq(1)').attr("id").substring(9)).attr("value","N");
-                       		$("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.matchedChild").attr("value","N");
+                      		$j(this).hide();
+                       		$j("#childDisplay"+conditionDiv.children('input:eq(1)').attr("id").substring(9)).attr("value","N");
+                       		$j("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.matchedChild").attr("value","N");
                        		emptyAnswerForHiddenQuestion(this);
 
                         }
@@ -117,13 +117,13 @@
     	var prefix = "table-parent-"+parentIndicator;
     	var headerIdx = parentIndicator.substring(0, parentIndicator.indexOf("-"));
     	var idx = parentIndicator.substring(parentIndicator.indexOf("-")+1);
-        $("table[id^="+prefix+"-]").each(                           
+        $j("table[id^="+prefix+"-]").each(                           
     			function() {
-                    var conditionDiv = $("#"+$(this).attr("id")+" .condition:nth(0)");
+                    var conditionDiv = $j("#"+$j(this).attr("id")+" .condition:nth(0)");
                     if (isNaN(conditionDiv.children('input:eq(1)').attr("value"))) {
-                   		$(this).show();                   		
-                   		$("#childDisplay"+conditionDiv.children('input:eq(1)').attr("id").substring(9)).attr("value","Y");
-                   		$("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.matchedChild").attr("value","Y");
+                   		$j(this).show();                   		
+                   		$j("#childDisplay"+conditionDiv.children('input:eq(1)').attr("id").substring(9)).attr("value","Y");
+                   		$j("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.matchedChild").attr("value","Y");
                   		showChildren(conditionDiv.children('input:eq(1)').attr("id").substring(10));
                     } 
     			});
@@ -138,16 +138,16 @@
     	var prefix = "table-parent-"+parentIndicator;
     	var headerIdx = parentIndicator.substring(0, parentIndicator.indexOf("-"));
     	var idx = parentIndicator.substring(parentIndicator.indexOf("-")+1);
-        $("table[id^="+prefix+"-]").each(                           
+        $j("table[id^="+prefix+"-]").each(                           
     			function() {
-              		$(this).hide();
-                    var conditionDiv = $("#"+$(this).attr("id")+" .condition:nth(0)");
+              		$j(this).hide();
+                    var conditionDiv = $j("#"+$j(this).attr("id")+" .condition:nth(0)");
                     
                     if (conditionDiv && conditionDiv.children() && conditionDiv.size() == 1 && conditionDiv.children().size() == 3) {
                       		hideChildren(conditionDiv.children('input:eq(1)').attr("id").substring(10));                           
-                       		$("#childDisplay"+conditionDiv.children('input:eq(1)').attr("id").substring(9)).attr("value","N");
-                            var qidx = $(this).attr("id").substring(prefix.length+1);
-                       		$("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.matchedChild").attr("value","N");
+                       		$j("#childDisplay"+conditionDiv.children('input:eq(1)').attr("id").substring(9)).attr("value","N");
+                            var qidx = $j(this).attr("id").substring(prefix.length+1);
+                       		$j("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.matchedChild").attr("value","N");
                        		emptyAnswerForHiddenQuestion(this);
                     } 
     			});
@@ -158,14 +158,14 @@
      * uncheck radio button if it is checked and empty answer fields if it is not a 'radio' type.
      */
     function emptyAnswerForHiddenQuestion(questionTable) {
-   		$(questionTable).find('[class^=Qanswer]').each(
+   		$j(questionTable).find('[class^=Qanswer]').each(
            		function() {		
-           		  var radioChecked = $(this).attr('checked');
+           		  var radioChecked = $j(this).attr('checked');
            		  if (radioChecked) {
-           			  $(this).attr('checked', false);
+           			  $j(this).attr('checked', false);
                   } else {
-                	  if ($(this).attr("type") != "radio") {
-                		  $(this).attr("value","");
+                	  if ($j(this).attr("type") != "radio") {
+                		  $j(this).attr("value","");
                 	  }
                   }	  
            		});
@@ -182,7 +182,7 @@
 			responseDiv.siblings('div[class^=Qresponsediv]').each (
 				function() {
 					if (!isMatched) {
-                        var answer = $(this).children().children().children().children().children().children('input').attr("value");
+                        var answer = $j(this).children().children().children().children().children().children('input').attr("value");
                         isMatched = isConditionMatched(parentAnswerField, condition, conditionValue, answer);
 					}
                     
@@ -238,8 +238,8 @@
     		    alert(parentAnswer + " is Not a Valid Date ");
         	} else {
         		setDate(parentAnswerField, parentAnswer);
-        		//$(parentAnswerField).attr("value",formatDate(parseDate(parentAnswer), "MM/dd/yyyy"));
-        		isMatched = isDateMatched($(parentAnswerField).attr("value"), conditionValue, condition)
+        		//$j(parentAnswerField).attr("value",formatDate(parseDate(parentAnswer), "MM/dd/yyyy"));
+        		isMatched = isDateMatched($j(parentAnswerField).attr("value"), conditionValue, condition)
         	}
     	}	  
 
@@ -264,7 +264,7 @@
     		} 
     		
     	}
-    		$(parentAnswerField).attr("value",formatDate(parseDate(parentAnswer), "MM/dd/yyyy"));
+    		$j(parentAnswerField).attr("value",formatDate(parseDate(parentAnswer), "MM/dd/yyyy"));
     	
     }
 

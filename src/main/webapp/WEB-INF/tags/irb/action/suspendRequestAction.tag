@@ -17,7 +17,6 @@
 
   <kra-irb-action:requestAction bean="${KualiForm.actionHelper.protocolSuspendRequestBean}"
                                       permission="${KualiForm.actionHelper.canRequestSuspension}"
-                                                       requestAction="suspendRequestProtocol"
                                                        beanName="protocolSuspendRequestBean"
                                                        actionTypeCode="106"
                                                        tabTitle="Request for Suspension"/>

@@ -15,7 +15,6 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ attribute name="permission" required="true" %>
-<%@ attribute name="requestAction" required="true" %>
 <%@ attribute name="beanName" required="true" %>
 <%@ attribute name="actionTypeCode" required="true" %>
 <%@ attribute name="tabTitle" required="true" %>
@@ -155,12 +154,14 @@
 			        </c:forEach>
                     
                 </table>
+
+          <kra-irb-action:requestQuestionnaire actionTypeCode="${actionTypeCode}" altLabel="Request Submission Questionnaire"/>
                                                 
             <table cellpadding="0" cellspacing="0" summary="">                 
                  <tr>
 					<td align="center" colspan="4">
 						<div align="center">
-							<html:image property="methodToCall.${requestAction}.anchor${tabKey}"
+							<html:image property="methodToCall.submitRequestAction.actionType${actionTypeCode}.anchor${tabKey}"  onclick="closeQuestionnairePop()"
 							            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif' styleClass="tinybutton"/>
 						</div>
 	                </td>

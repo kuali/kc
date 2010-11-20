@@ -34,6 +34,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.bo.AttachmentFile;
+import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeService;
@@ -125,6 +127,7 @@ import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentService;
 import org.kuali.kra.irb.noteattachment.ProtocolNotepad;
+import org.kuali.kra.irb.questionnaire.ProtocolQuestionnaireAuditRule;
 import org.kuali.kra.irb.summary.AttachmentSummary;
 import org.kuali.kra.irb.summary.ProtocolSummary;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
@@ -133,6 +136,9 @@ import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
+import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
@@ -141,6 +147,7 @@ import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
+import org.springframework.util.CollectionUtils;
 
 /**
  * The set of actions for the Protocol Actions tab.
@@ -177,12 +184,31 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             put("comments", "PROTOCOL_REVIEW_COMMENTS_REPORT");
     }};
 
-    
+    private static final Map<String, String> REQUEST_ACTION_MAP = new HashMap<String, String>() {
+        {
+            put("105", "REQUEST_TO_CLOSE");
+            put("108", "REQUEST_TO_CLOSE_ENROLLMENT");
+            put("115", "REQUEST_TO_REOPEN_ENROLLMENT");
+            put("106", "REQUEST_FOR_SUSPENSION");
+            put("104", "REQUEST_FOR_TERMINATION");
+            put("114", "REQUEST_FOR_DATA_ANALYSIS_ONLY");
+    }};
+
     /** {@inheritDoc} */
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
-            HttpServletResponse response) throws Exception {
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        if (StringUtils.isNotBlank(((ProtocolForm) form).getQuestionnaireHelper().getSubmissionActionTypeCode())) {
+            //    && StringUtils.isBlank(getSubmitActionType(request))) {
+            // questionnaire is already loaded for this action.
+            ProtocolSubmissionBeanBase submissionBean = getSubmissionBean(form, protocolForm.getQuestionnaireHelper()
+                    .getSubmissionActionTypeCode());
+            if (!CollectionUtils.isEmpty(protocolForm.getQuestionnaireHelper().getAnswerHeaders())) {
+                setQnCompleteStatus(protocolForm.getQuestionnaireHelper().getAnswerHeaders());
+                submissionBean.setAnswerHeaders(protocolForm.getQuestionnaireHelper().getAnswerHeaders());
+            } 
+        }
         ActionForward actionForward = super.execute(mapping, form, request, response);
-        ProtocolForm protocolForm =  (ProtocolForm) form;
         protocolForm.getActionHelper().prepareView();
         // submit action may change "submission details", so re-initializa it
         protocolForm.getActionHelper().initSubmissionDetails();
@@ -400,169 +426,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     }
 
     /**
-     * Request a close of the protocol.
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    @SuppressWarnings("unchecked")
-    public ActionForward closeRequestProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_CLOSE, protocolForm.getProtocolDocument().getProtocol());
-        if (isAuthorized(task)) {
-            ProtocolRequestBean closeRequestBean = protocolForm.getActionHelper().getProtocolCloseRequestBean();
-            if (applyRules(new ProtocolRequestEvent(protocolForm.getProtocolDocument(),
-                Constants.PROTOCOL_CLOSE_REQUEST_PROPERTY_KEY, closeRequestBean))) {
-                getProtocolRequestService().submitRequest(protocolForm.getProtocolDocument().getProtocol(), closeRequestBean);
-            
-                recordProtocolActionSuccess("Request to Close");
-            }
-        }
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-
-    /**
-     * Request a suspension of a protocol.
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    @SuppressWarnings("unchecked")
-    public ActionForward suspendRequestProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_SUSPENSION, protocolForm.getProtocolDocument().getProtocol());
-        if (isAuthorized(task)) {
-            ProtocolRequestBean suspendRequestBean = protocolForm.getActionHelper().getProtocolSuspendRequestBean();
-            if (applyRules(new ProtocolRequestEvent(protocolForm.getProtocolDocument(),
-                Constants.PROTOCOL_SUSPEND_REQUEST_PROPERTY_KEY, suspendRequestBean))) {
-                getProtocolRequestService().submitRequest(protocolForm.getProtocolDocument().getProtocol(), suspendRequestBean);
-            
-                recordProtocolActionSuccess("Request for Suspension");
-            }
-        }
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-
-    /**
-     * Request a close of enrollment for a protocol.
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    @SuppressWarnings("unchecked")
-    public ActionForward closeEnrollmentRequestProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_CLOSE_ENROLLMENT, protocolForm.getProtocolDocument()
-                .getProtocol());
-        if (isAuthorized(task)) {
-            ProtocolRequestBean closeEnrollmentRequestBean = protocolForm.getActionHelper().getProtocolCloseEnrollmentRequestBean();
-            if (applyRules(new ProtocolRequestEvent(protocolForm.getProtocolDocument(),
-                Constants.PROTOCOL_CLOSE_ENROLLMENT_REQUEST_PROPERTY_KEY, closeEnrollmentRequestBean))) {
-                getProtocolRequestService().submitRequest(protocolForm.getProtocolDocument().getProtocol(), closeEnrollmentRequestBean);
-            
-                recordProtocolActionSuccess("Request to Close Enrollment");
-            }
-        }
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-
-    /**
-     * Request to re-open enrollment for a protocol.
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    @SuppressWarnings("unchecked")
-    public ActionForward reopenEnrollmentRequestProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_REOPEN_ENROLLMENT, protocolForm.getProtocolDocument()
-                .getProtocol());
-        if (isAuthorized(task)) {
-            ProtocolRequestBean reopenEnrollmentRequestBean = protocolForm.getActionHelper()
-                    .getProtocolReOpenEnrollmentRequestBean();
-            if (applyRules(new ProtocolRequestEvent(protocolForm.getProtocolDocument(),
-                Constants.PROTOCOL_REOPEN_ENROLLMENT_REQUEST_PROPERTY_KEY, reopenEnrollmentRequestBean))) {
-                getProtocolRequestService().submitRequest(protocolForm.getProtocolDocument().getProtocol(), reopenEnrollmentRequestBean);
-            
-                recordProtocolActionSuccess("Request to Re-open Enrollment");
-            }
-        }
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-
-    /**
-     * Request for data analysis only for a protocol.
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    @SuppressWarnings("unchecked")
-    public ActionForward dataAnalysisOnlyRequestProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_DATA_ANALYSIS, protocolForm.getProtocolDocument()
-                .getProtocol());
-        if (isAuthorized(task)) {
-            ProtocolRequestBean dataAnalysisRequestBean = protocolForm.getActionHelper().getProtocolDataAnalysisRequestBean();
-            if (applyRules(new ProtocolRequestEvent(protocolForm.getProtocolDocument(),
-                Constants.PROTOCOL_DATA_ANALYSIS_REQUEST_PROPERTY_KEY, dataAnalysisRequestBean))) {
-                getProtocolRequestService().submitRequest(protocolForm.getProtocolDocument().getProtocol(), dataAnalysisRequestBean);
-            
-                recordProtocolActionSuccess("Request for Data Analysis Only");
-            }
-        }
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    
-    public ActionForward terminateRequestProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_TERMINATE, protocolForm.getProtocolDocument()
-                .getProtocol());
-        if (isAuthorized(task)) {
-            ProtocolRequestBean terminateRequestBean = protocolForm.getActionHelper().getProtocolTerminateRequestBean();
-            if (applyRules(new ProtocolRequestEvent(protocolForm.getProtocolDocument(),
-                Constants.PROTOCOL_TERMINATE_REQUEST_PROPERTY_KEY, terminateRequestBean))) {
-                getProtocolRequestService().submitRequest(protocolForm.getProtocolDocument().getProtocol(), terminateRequestBean);
-            
-                recordProtocolActionSuccess("Request for Termination");
-            }
-        }
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-
-    /**
      * Notify the IRB office.
      * 
      * @param mapping
@@ -576,15 +439,42 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
 
         ProtocolForm protocolForm = (ProtocolForm) form;
-        getProtocolNotifyIrbService().submitIrbNotification(protocolForm.getProtocolDocument().getProtocol(),
-                protocolForm.getActionHelper().getProtocolNotifyIrbBean());
-        LOG.info("notifyIrbProtocol "+ protocolForm.getProtocolDocument().getDocumentNumber());
+        protocolForm.getActionHelper().getProtocolNotifyIrbBean().setAnswerHeaders(getAnswerHeaders(form, ProtocolActionType.NOTIFY_IRB));
+        if (isMandatoryQuestionnaireComplete(protocolForm.getActionHelper().getProtocolNotifyIrbBean(), "actionHelper.protocolNotifyIrbBean.datavalidation")) {
+            getProtocolNotifyIrbService().submitIrbNotification(protocolForm.getProtocolDocument().getProtocol(),
+                    protocolForm.getActionHelper().getProtocolNotifyIrbBean());
+            protocolForm.getQuestionnaireHelper().setAnswerHeaders(new ArrayList<AnswerHeader>());
+            LOG.info("notifyIrbProtocol " + protocolForm.getProtocolDocument().getDocumentNumber());
 
-        recordProtocolActionSuccess("Notify IRB");
-        
+            recordProtocolActionSuccess("Notify IRB");
+        }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    /*
+     * get the saved answer headers
+     */
+    private List<AnswerHeader> getAnswerHeaders(ActionForm form, String actionTypeCode) {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocolForm.getProtocolDocument().getProtocol().getProtocolNumber() + "T", CoeusSubModule.PROTOCOL_SUBMISSION, actionTypeCode, false);
+        return getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
+
+    }
+    
+    /*
+     * check if the mandatory submission questionnaire is complete before submit a request/notify irb action
+     */
+    private boolean isMandatoryQuestionnaireComplete(ProtocolSubmissionBeanBase submissionBean, String errorKey) {
+        boolean valid = true;
+        ProtocolQuestionnaireAuditRule auditRule = new ProtocolQuestionnaireAuditRule();
+        if (!auditRule.isMandatorySubmissionQuestionnaireComplete(submissionBean.getAnswerHeaders())) {
+            GlobalVariables.getMessageMap().clearErrorMessages();
+            GlobalVariables.getMessageMap().putError(errorKey, KeyConstants.ERROR_MANDATORY_QUESTIONNAIRE);
+            valid = false;
+        }
+        return valid;
+    }
+    
     /**
      * Create an Amendment.
      * 
@@ -2530,45 +2420,115 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      * @throws Exception if there is a problem executing the request.
      */
     public ActionForward addNote(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-        HttpServletResponse response) throws Exception {
-        ProtocolForm protocolForm = ((ProtocolForm) form);
-        if (protocolForm.getActionHelper().getCanManageNotes()) {
-            protocolForm.getNotesAttachmentsHelper().addNewNote();
-            protocolForm.getNotesAttachmentsHelper().setManageNotesOpen(true);
-        }
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward saveNotes(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
-        ProtocolForm protocolForm = ((ProtocolForm) form);
-        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+            ProtocolForm protocolForm = ((ProtocolForm) form);
+            if (protocolForm.getActionHelper().getCanManageNotes()) {
+                protocolForm.getNotesAttachmentsHelper().addNewNote();
+                protocolForm.getNotesAttachmentsHelper().setManageNotesOpen(true);
+            }
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
         
-        if (protocolForm.getActionHelper().getCanManageNotes()) {
-        
-            final AddProtocolNotepadRule rule = new AddProtocolNotepadRuleImpl();
+        public ActionForward saveNotes(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+                HttpServletResponse response) throws Exception {
+            ProtocolForm protocolForm = ((ProtocolForm) form);
+            Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
             
-            //final AddProtocolNotepadEvent event = new AddProtocolNotepadEvent(this.form.getDocument(), this.newProtocolNotepad);
-            boolean validNotes = true;
-            //validate all of them first
-            for(ProtocolNotepad note : protocol.getNotepads()) {
-                if (note.isEditable()) {
-                    AddProtocolNotepadEvent event = new AddProtocolNotepadEvent(protocol.getProtocolDocument(), note);
-                    if (!rule.processAddProtocolNotepadRules(event)) {
-                        validNotes = false;
+            if (protocolForm.getActionHelper().getCanManageNotes()) {
+            
+                final AddProtocolNotepadRule rule = new AddProtocolNotepadRuleImpl();
+                
+                //final AddProtocolNotepadEvent event = new AddProtocolNotepadEvent(this.form.getDocument(), this.newProtocolNotepad);
+                boolean validNotes = true;
+                //validate all of them first
+                for(ProtocolNotepad note : protocol.getNotepads()) {
+                    if (note.isEditable()) {
+                        AddProtocolNotepadEvent event = new AddProtocolNotepadEvent(protocol.getProtocolDocument(), note);
+                        if (!rule.processAddProtocolNotepadRules(event)) {
+                            validNotes = false;
+                        }
                     }
+                }
+                
+                if (validNotes) {
+                    for(ProtocolNotepad note : protocol.getNotepads()) {
+                        if (StringUtils.isBlank(note.getUpdateUserFullName())) {
+                            note.setUpdateUserFullName(GlobalVariables.getUserSession().getPerson().getName());
+                            note.setUpdateTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
+                        }
+                        note.setEditable(false);
+                    }
+                    getBusinessObjectService().save(protocol.getNotepads());
                 }
             }
-            
-            if (validNotes) {
-                for(ProtocolNotepad note : protocol.getNotepads()) {
-                    if (StringUtils.isBlank(note.getUpdateUserFullName())) {
-                        note.setUpdateUserFullName(GlobalVariables.getUserSession().getPerson().getName());
-                        note.setUpdateTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
-                    }
-                    note.setEditable(false);
-                }
-                getBusinessObjectService().save(protocol.getNotepads());
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+       
+
+    public ActionForward submissionQuestionnaire(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+
+        ((ProtocolForm)form).getQuestionnaireHelper().prepareView();
+        ((ProtocolForm)form).getQuestionnaireHelper().setSubmissionActionTypeCode(getSubmitActionType(request));
+        // TODO : if questionnaire is already populated, then don't need to do it
+            ProtocolSubmissionBeanBase submissionBean = getSubmissionBean(form, ((ProtocolForm)form).getQuestionnaireHelper().getSubmissionActionTypeCode());
+            if (CollectionUtils.isEmpty(submissionBean.getAnswerHeaders())) {
+                ((ProtocolForm)form).getQuestionnaireHelper().populateAnswers();
+                submissionBean.setAnswerHeaders(((ProtocolForm)form).getQuestionnaireHelper().getAnswerHeaders());
+            } else {
+                ((ProtocolForm)form).getQuestionnaireHelper().setAnswerHeaders(submissionBean.getAnswerHeaders());
+            }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    private String getSubmitActionType(HttpServletRequest request) {
+        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String actionTypeCode = "";
+        if (StringUtils.isNotBlank(parameterName)) {
+            actionTypeCode = StringUtils.substringBetween(parameterName, ".actionType", ".");
+        }
+
+        return actionTypeCode;
+    }
+
+    private void setQnCompleteStatus(List<AnswerHeader> answerHeaders) {
+        for (AnswerHeader answerHeader : answerHeaders) {
+            answerHeader.setCompleted(getQuestionnaireAnswerService().isQuestionnaireAnswerComplete(answerHeader.getAnswers()));
+        }
+    }
+    
+    private QuestionnaireAnswerService getQuestionnaireAnswerService() {
+        return KraServiceLocator.getService(QuestionnaireAnswerService.class);
+    }
+
+    /**
+     * 
+     * This method is a generic method for all 6 request actions.
+     * It is using enum 'ProtocolRequestAction' to  provide unique properties for each action
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward submitRequestAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        ProtocolRequestAction requestAction = ProtocolRequestAction.valueOf(REQUEST_ACTION_MAP.get(getRequestActionType(request)));
+
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolTask task = new ProtocolTask(requestAction.getTaskName(), protocolForm.getProtocolDocument()
+                .getProtocol());
+        if (isAuthorized(task)) {
+            ProtocolRequestBean requestBean = protocolForm.getActionHelper().getActionTypeRequestBeanMap(requestAction.getActionTypeCode());
+            boolean valid = applyRules(new ProtocolRequestEvent(protocolForm.getProtocolDocument(),
+                    requestAction.getErrorPath(), requestBean));
+            requestBean.setAnswerHeaders(getAnswerHeaders(form, requestAction.getActionTypeCode()));
+            valid &= isMandatoryQuestionnaireComplete(requestBean, "actionHelper." + requestAction.getBeanName() + ".datavalidation");
+            if (valid) {
+                getProtocolRequestService().submitRequest(protocolForm.getProtocolDocument().getProtocol(), requestBean);            
+                recordProtocolActionSuccess(requestAction.getActionName());
             }
         }
         return mapping.findForward(Constants.MAPPING_BASIC);

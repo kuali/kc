@@ -17,7 +17,6 @@ package org.kuali.kra.irb.actions.undo;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -52,6 +51,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
 import org.kuali.kra.irb.test.ProtocolFactory;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -474,6 +474,9 @@ public class UndoLastActionServiceTest extends KcUnitTestBase {
             
             allowing(bean).getActionAttachments();
             will(returnValue(new ArrayList<ProtocolActionAttachment>()));
+
+            allowing(bean).getAnswerHeaders();
+            will(returnValue(new ArrayList<AnswerHeader>()));
         }});
         
         return bean;

@@ -438,7 +438,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     /*
      * check if all the required answers are entered.
      */
-    protected boolean isQuestionnaireAnswerComplete(List<Answer> answers) {
+    public boolean isQuestionnaireAnswerComplete(List<Answer> answers) {
 
         boolean isComplete = true;
         for (Answer answer : answers) {

@@ -16,7 +16,6 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
   <kra-irb-action:requestAction bean="${KualiForm.actionHelper.protocolTerminateRequestBean}"
                                       permission="${KualiForm.actionHelper.canRequestTerminate}"
-                                                       requestAction="terminateRequestProtocol"
                                                        beanName="protocolTerminateRequestBean"
                                                        actionTypeCode="104"
                                                        tabTitle="Request for Termination"/>

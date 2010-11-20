@@ -83,5 +83,14 @@ public interface QuestionnaireAnswerService {
      * @param answers
      */
     void setupChildAnswerIndicator(List<Answer> answers);
+    
+    /**
+     * check if the questionnaire is complete.
+     * This method...
+     * @param answers
+     * @return
+     */
+    boolean isQuestionnaireAnswerComplete(List<Answer> answers);
+
 
 }
