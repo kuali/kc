@@ -17,6 +17,7 @@ package org.kuali.kra.irb.actions.notifyirb;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -51,6 +52,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.test.ProtocolFactory;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -81,6 +83,7 @@ public class ProtocolNotifyIrbServiceTest extends KcUnitTestBase {
         service.setProtocolActionsNotificationService(getMockProtocolActionsNotificationService());
         
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        service.setBusinessObjectService(businessObjectService);
     }
 
     @After
@@ -259,6 +262,9 @@ public class ProtocolNotifyIrbServiceTest extends KcUnitTestBase {
             
             allowing(bean).getActionAttachments();
             will(returnValue(Arrays.asList(attachments)));
+            
+            allowing(bean).getAnswerHeaders();
+            will(returnValue(new ArrayList<AnswerHeader>()));
         }});
         
         return bean;

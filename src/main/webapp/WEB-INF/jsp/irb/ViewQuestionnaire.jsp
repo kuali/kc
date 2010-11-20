@@ -14,16 +14,8 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<kul:documentPage
-	showDocumentInfo="true"
-	htmlFormAction="questionnaire"
-	documentTypeName="${KualiForm.docTypeName}"
-	renderMultipart="false"
-	showTabButtons="true"
-	auditCount="0"
-  	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="questionnaire">
-  	
+
+<kra:infopage title="Questionnaire" action="questionnaire" htmlFormAction="questionnaire">
   	<script src="scripts/jquery/jquery.js"></script>
 <script type="text/javascript">
    var $j = jQuery.noConflict();
@@ -35,11 +27,11 @@
     <script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
     <script type="text/javascript" src="scripts/jquery/CalendarPopup.js"></script>
     
-  	<div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="Questionnaire" /></div>
-	<kra-irb:protocolQuestionnaireAnswers/>
-	<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
    	
-    <script type="text/javascript" src="scripts/questionnaireAnswer.js"></script>
   	
-  	
-</kul:documentPage>
+
+    <kra-questionnaire:submissionQuestionnaireAD viewOnly="true"/>
+		    <script type="text/javascript" src="scripts/questionnaireAnswer.js"></script>
+    <div id="formComplete"></div> 
+		
+</kra:infopage>

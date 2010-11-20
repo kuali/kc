@@ -24,6 +24,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.infrastructure.Constants;
@@ -41,6 +43,8 @@ import org.kuali.kra.irb.protocol.ProtocolHelper;
 import org.kuali.kra.irb.protocol.reference.ProtocolReferenceBean;
 import org.kuali.kra.irb.questionnaire.QuestionnaireHelper;
 import org.kuali.kra.irb.specialreview.SpecialReviewHelper;
+import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
+import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
@@ -205,6 +209,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     
     @Override
     public void populate(HttpServletRequest request) { 
+        initAnswerList(request);
         super.populate(request);
         
         // Temporary hack for KRACOEUS-489
@@ -213,6 +218,25 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         }
     }
     
+    /*
+     * For submission questionnaire, it is a popup and not a session document.
+     * so, it has to be retrieved, then populate with the new data.
+     */
+    private void initAnswerList(HttpServletRequest request) {
+        
+        String protocolNumber = request.getParameter("questionnaireHelper.protocolNumber");
+        String submissionNumber = request.getParameter("questionnaireHelper.submissionNumber");
+        if (StringUtils.isNotBlank(protocolNumber) && protocolNumber.endsWith("T")) {
+            ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocolNumber, CoeusSubModule.PROTOCOL_SUBMISSION, submissionNumber, false);
+            this.getQuestionnaireHelper().setAnswerHeaders(
+                    getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean));
+        }
+    }
+
+    private QuestionnaireAnswerService getQuestionnaireAnswerService() {
+        return KraServiceLocator.getService(QuestionnaireAnswerService.class);
+}
+
     @Override
     public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
@@ -448,5 +472,5 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         addExtraButton("methodToCall.sendAdHocRequests", sendAdHocRequestsImage, "Send AdHoc Requests");
         return extraButtons;
     }
-
+    
 }

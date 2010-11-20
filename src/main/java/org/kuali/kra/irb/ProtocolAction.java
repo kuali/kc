@@ -30,6 +30,8 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.actions.ProtocolSubmissionBeanBase;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.personnel.ProtocolPersonTrainingService;
@@ -48,6 +50,7 @@ import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.springframework.util.CollectionUtils;
 
 /**
  * The ProtocolAction is the base class for all Protocol actions.  Each derived
@@ -94,12 +97,44 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
      * @return the Action Forward
      */
     public ActionForward questionnaire(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        
+
         ((ProtocolForm)form).getQuestionnaireHelper().prepareView();
-        ((ProtocolForm)form).getQuestionnaireHelper().populateAnswers();
+        ((ProtocolForm)form).getQuestionnaireHelper().setSubmissionActionTypeCode(getSubmitActionType(request));
+        // TODO : if questionnaire is already populated, then don't need to do it
+        if (StringUtils.isBlank(((ProtocolForm)form).getQuestionnaireHelper().getSubmissionActionTypeCode()) || CollectionUtils.isEmpty(((ProtocolForm)form).getQuestionnaireHelper().getAnswerHeaders())) {
+            ((ProtocolForm)form).getQuestionnaireHelper().populateAnswers();
+        } else {
+            ProtocolSubmissionBeanBase submissionBean = getSubmissionBean(form, ((ProtocolForm)form).getQuestionnaireHelper().getSubmissionActionTypeCode());
+            if (CollectionUtils.isEmpty(submissionBean.getAnswerHeaders())) {
+                ((ProtocolForm)form).getQuestionnaireHelper().populateAnswers();
+                submissionBean.setAnswerHeaders(((ProtocolForm)form).getQuestionnaireHelper().getAnswerHeaders());
+            } else {
+                ((ProtocolForm)form).getQuestionnaireHelper().setAnswerHeaders(submissionBean.getAnswerHeaders());
+            }
+        }
         return mapping.findForward("questionnaire");
     }
     
+    protected ProtocolSubmissionBeanBase getSubmissionBean(ActionForm form,String submissionActionType) {
+        ProtocolSubmissionBeanBase submissionBean;
+        if (ProtocolActionType.NOTIFY_IRB.equals(submissionActionType)) {
+            submissionBean = ((ProtocolForm)form).getActionHelper().getProtocolNotifyIrbBean();
+        } else {
+            submissionBean = ((ProtocolForm) form).getActionHelper().getActionTypeRequestBeanMap(submissionActionType);
+        }
+        return submissionBean;
+    }
+
+    private String getSubmitActionType(HttpServletRequest request) {
+        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String actionTypeCode = "";
+        if (StringUtils.isNotBlank(parameterName)) {
+            actionTypeCode = StringUtils.substringBetween(parameterName, ".actionType", ".");
+        }
+
+        return actionTypeCode;
+    }
+
     /**
      * This method gets called upon navigation to Notes and attachments tab.
      * @param mapping the Action Mapping

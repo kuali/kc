@@ -54,6 +54,10 @@
 		    <kra-irb:voteSummary />
 		    <kra-irb:checklistItems />
 		    <kra-irb:protocolReviewComments />
+		    <c:if test="${KualiForm.actionHelper.submissionQuestionnaireExist}">
+		        <kra-irb:viewSubmissionQuestionnaire />
+		    </c:if>
+		    
             </tbody>
         </table>
     </div>

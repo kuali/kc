@@ -25,6 +25,8 @@
         <c:set var="isOpen" value="true" />
     </c:if>
 </c:forEach>
+ <c:set var="parentTabValue" value="Notify IRB" scope="request"/>
+                   
                                     
 <kra:permission value="${KualiForm.actionHelper.canNotifyIrb}">
 
@@ -175,6 +177,7 @@
                     
                 </table>
                 
+           <kra-irb-action:requestQuestionnaire actionTypeCode="116" altLabel="Notify Irb Questionnaire"/>
                 
                 
             <table cellpadding="0" cellspacing="0" summary="">
@@ -182,7 +185,7 @@
                 <tr>
 					<td align="center" colspan="4">
 						<div align="center">
-							<html:image property="methodToCall.notifyIrbProtocol.anchor${tabKey}"
+							<html:image property="methodToCall.notifyIrbProtocol.anchor${tabKey}" onclick="closeQuestionnairePop()"
 							            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif' styleClass="tinybutton"/>
 						</div>
 	                </td>
