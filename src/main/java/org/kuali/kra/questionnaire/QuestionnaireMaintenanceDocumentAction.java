@@ -511,6 +511,17 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         return mapping.findForward("ajaxQuestionnaire");
     }
     
+    public ActionForward getQuestionMaintainTable(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
+        if (StringUtils.isNotBlank(qnForm.getQuestionId())) {
+            Map pkMap = new HashMap();
+            pkMap.put("questionRefId", qnForm.getQuestionId());
+            qnForm.setQuestion((Question)getBusinessObjectService().findByPrimaryKey(Question.class, pkMap));
+        }
+        return mapping.findForward("ajaxQuestionMaintainTable");
+    }
+    
     private QuestionnaireAuthorizationService getQuestionnaireAuthorizationService() {
         return KraServiceLocator.getService(QuestionnaireAuthorizationService.class);
     }
