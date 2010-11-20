@@ -31,6 +31,9 @@ public abstract class ProtocolActionBean {
     public ProtocolActionBean(ActionHelper actionHelper) {
         this.setActionHelper(actionHelper);
     }
+    
+    public ProtocolActionBean() {
+    }
 
     public void setActionHelper(ActionHelper actionHelper) {
         this.actionHelper = actionHelper;

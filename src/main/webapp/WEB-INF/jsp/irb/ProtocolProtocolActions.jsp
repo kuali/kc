@@ -18,8 +18,14 @@
 
 <script src="scripts/jquery/jquery.js"></script>
 <script type="text/javascript">
-    var jq = jQuery.noConflict();
+   var $j = jQuery.noConflict();
 </script>
+    <link rel="stylesheet" href="css/jquery/questionnaire.css" type="text/css" />
+    <link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
+    <link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
+    <link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />
+    <script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
+    <script type="text/javascript" src="scripts/jquery/CalendarPopup.js"></script>
 
 <c:set var="protocolAttributes" value="${DataDictionary.ProtocolDocument.attributes}" />
 <c:set var="showActions" value="${empty DocumentPessimisticLockMessages}" scope="request"/>
@@ -71,5 +77,6 @@
 <script language="javascript" src="dwr/interface/ProtocolActionAjaxService.js"></script>
 
 <script language="javascript">enableJavaScript()</script>
+    <script type="text/javascript" src="scripts/questionnaireAnswer.js"></script>
 
 </kul:documentPage>

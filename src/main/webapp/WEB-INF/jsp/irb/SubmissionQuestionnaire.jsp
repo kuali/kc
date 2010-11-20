@@ -14,16 +14,8 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<kul:documentPage
-	showDocumentInfo="true"
-	htmlFormAction="questionnaire"
-	documentTypeName="${KualiForm.docTypeName}"
-	renderMultipart="false"
-	showTabButtons="true"
-	auditCount="0"
-  	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="questionnaire">
-  	
+
+<kra:infopage title="Questionnaire" action="questionnaire" htmlFormAction="questionnaire">
   	<script src="scripts/jquery/jquery.js"></script>
 <script type="text/javascript">
    var $j = jQuery.noConflict();
@@ -35,11 +27,27 @@
     <script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
     <script type="text/javascript" src="scripts/jquery/CalendarPopup.js"></script>
     
-  	<div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="Questionnaire" /></div>
-	<kra-irb:protocolQuestionnaireAnswers/>
-	<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
    	
-    <script type="text/javascript" src="scripts/questionnaireAnswer.js"></script>
   	
-  	
-</kul:documentPage>
+
+    <kra-questionnaire:submissionQuestionnaireAD viewOnly="false"/>
+		    <script type="text/javascript" src="scripts/questionnaireAnswer.js"></script>
+    <div id="formComplete"></div> 
+	<c:set var="prop" value="questionnaireHelper.protocolNumber"/>
+	${kfunc:registerEditableProperty(KualiForm, prop)}
+	<input type="hidden" name="${prop}" id ="${prop}" 
+           value = "${KualiForm.questionnaireHelper.protocolNumber}" />
+	<c:set var="prop" value="questionnaireHelper.submissionNumber"/>
+	${kfunc:registerEditableProperty(KualiForm, prop)}
+	<input type="hidden" name="${prop}" id ="${prop}" 
+           value = "${KualiForm.questionnaireHelper.submissionNumber}" />
+    <SCRIPT type="text/javascript">
+
+    $j(document).ready(function()     {
+   	   var input = $j('<input type="image" id = "save" class="globalbuttons" src="kr/static/images/buttonsmall_save.gif" name="methodToCall.saveSubmissionQuestionnaire">');
+   	   input.prependTo($j("#globalbuttons"));
+    } ); 
+
+    </SCRIPT> 
+		
+</kra:infopage>

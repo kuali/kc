@@ -47,24 +47,24 @@
                         <td style="background-color: rgb(195, 195, 195); font-weight: bold; height: 35px;">
                             <img style="border: medium none ; width: 45px; height: 15px; vertical-align: middle;" alt="show/hide this panel" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-show.gif" id="Csequence01"/>
                             <script type="text/javascript">
-                                jq(document).ready(function(){
+                                $j(document).ready(function(){
                                     // initial state
-                                    jq("#Dsequence01").hide(0);
+                                    $j("#Dsequence01").hide(0);
                                     // trigger
-                                    jq("#Csequence01").toggle(
+                                    $j("#Csequence01").toggle(
                                         function() {
-                                            jq("#Dsequence01").slideDown(700);
-                                            jq("#Csequence01").attr("src","${ConfigProperties.kra.externalizable.images.url}tinybutton-hide.gif");
-                                            jq(".sequence").addClass("compare"); 
-                                            jq(".sequencetd").css("color","#666666"); 
-                                            jq(".changed").css({'color' : '#FF0000', 'font-weight' : 'bold'}); 
+                                            $j("#Dsequence01").slideDown(700);
+                                            $j("#Csequence01").attr("src","${ConfigProperties.kra.externalizable.images.url}tinybutton-hide.gif");
+                                            $j(".sequence").addClass("compare"); 
+                                            $j(".sequencetd").css("color","#666666"); 
+                                            $j(".changed").css({'color' : '#FF0000', 'font-weight' : 'bold'}); 
                                         },
                                         function() {
-                                            jq("#Dsequence01").slideUp(600);
-                                            jq("#Csequence01").attr("src","${ConfigProperties.kra.externalizable.images.url}tinybutton-show.gif");
-                                            jq(".sequence").removeClass("compare"); 
-                                            jq(".sequencetd").css("color","#333333"); 
-                                            jq(".changed").css({'color' : '#000000', 'font-weight' : 'normal'}); 
+                                            $j("#Dsequence01").slideUp(600);
+                                            $j("#Csequence01").attr("src","${ConfigProperties.kra.externalizable.images.url}tinybutton-show.gif");
+                                            $j(".sequence").removeClass("compare"); 
+                                            $j(".sequencetd").css("color","#333333"); 
+                                            $j(".changed").css({'color' : '#000000', 'font-weight' : 'normal'}); 
                                         });  
                                 });
                             </script>

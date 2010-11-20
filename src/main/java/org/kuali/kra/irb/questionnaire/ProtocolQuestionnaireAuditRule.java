@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -40,6 +41,7 @@ public class ProtocolQuestionnaireAuditRule  extends ResearchDocumentRuleBase im
     private static final String MANDATORY_QUESTIONNAIRE_AUDIT_ERRORS = "mandatoryQuestionnaireAuditErrors";
     
     private List<AuditError> auditErrors;
+    private boolean requestSubmission;
     
     /**
      * @see org.kuali.kra.rules.ResearchDocumentRuleBase#processRunAuditBusinessRules(org.kuali.rice.kns.document.Document)
@@ -62,8 +64,14 @@ public class ProtocolQuestionnaireAuditRule  extends ResearchDocumentRuleBase im
         List<Integer> headers = new ArrayList<Integer>();
         boolean isValid = true;
         int i = 0;
-        for (AnswerHeader answerHeader : getQuestionnaireAnswerService().getQuestionnaireAnswer(new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocol))) {
-            if (getQuestionnaireUsage(CoeusModule.IRB_MODULE_CODE, getProtocolSubItemCode(protocol), answerHeader.getQuestionnaire().getQuestionnaireUsages()).isMandatory() && !answerHeader.getCompleted()) {
+        String subItemCode = getProtocolSubItemCode(protocol);
+        ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocol);
+        if (isRequestSubmission()) {
+            moduleQuestionnaireBean.setModuleSubItemCode(CoeusSubModule.PROTOCOL_SUBMISSION);
+            subItemCode = CoeusSubModule.PROTOCOL_SUBMISSION;
+        }
+        for (AnswerHeader answerHeader : getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean)) {
+            if (getQuestionnaireUsage(CoeusModule.IRB_MODULE_CODE, subItemCode, answerHeader.getQuestionnaire().getQuestionnaireUsages()).isMandatory() && !answerHeader.getCompleted()) {
                 headers.add(i);
             }
             i++;
@@ -108,6 +116,19 @@ public class ProtocolQuestionnaireAuditRule  extends ResearchDocumentRuleBase im
         }
     }
 
+    public boolean isMandatorySubmissionQuestionnaireComplete(List<AnswerHeader> answerHeaders) {
+        boolean isValid = true;
+        for (AnswerHeader answerHeader : answerHeaders) {
+            if (getQuestionnaireUsage(CoeusModule.IRB_MODULE_CODE, CoeusSubModule.PROTOCOL_SUBMISSION, answerHeader.getQuestionnaire().getQuestionnaireUsages()).isMandatory() 
+                    && !getQuestionnaireAnswerService().isQuestionnaireAnswerComplete(answerHeader.getAnswers())) {
+                isValid = false;
+                break;
+            }
+        }
+        return isValid;
+
+    }
+
     /**
      * Creates and adds the AuditCluster to the Global AuditErrorMap.
      */
@@ -121,5 +142,13 @@ public class ProtocolQuestionnaireAuditRule  extends ResearchDocumentRuleBase im
     
     protected QuestionnaireAnswerService getQuestionnaireAnswerService() {
         return KraServiceLocator.getService(QuestionnaireAnswerService.class);
+    }
+
+    public boolean isRequestSubmission() {
+        return requestSubmission;
+    }
+
+    public void setRequestSubmission(boolean requestSubmission) {
+        this.requestSubmission = requestSubmission;
     }
 }

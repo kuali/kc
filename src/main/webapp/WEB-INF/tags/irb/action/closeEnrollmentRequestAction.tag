@@ -17,7 +17,6 @@
 
   <kra-irb-action:requestAction bean="${KualiForm.actionHelper.protocolCloseEnrollmentRequestBean}"
                                       permission="${KualiForm.actionHelper.canRequestCloseEnrollment}"
-                                                       requestAction="closeEnrollmentRequestProtocol"
                                                        beanName="protocolCloseEnrollmentRequestBean"
                                                        actionTypeCode="108"
                                                        tabTitle="Request to Close Enrollment"/>

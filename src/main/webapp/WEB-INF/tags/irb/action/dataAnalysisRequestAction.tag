@@ -16,7 +16,6 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
   <kra-irb-action:requestAction bean="${KualiForm.actionHelper.protocolDataAnalysisRequestBean}"
                                       permission="${KualiForm.actionHelper.canRequestDataAnalysis}"
-                                                       requestAction="dataAnalysisOnlyRequestProtocol"
                                                        beanName="protocolDataAnalysisRequestBean"
                                                        actionTypeCode="114"
                                                        tabTitle="Request for Data Analysis Only"/>

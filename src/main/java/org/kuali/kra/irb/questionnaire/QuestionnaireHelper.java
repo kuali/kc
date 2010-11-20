@@ -20,7 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
@@ -58,7 +60,10 @@ public class QuestionnaireHelper implements Serializable {
     private List<AnswerHeader> answerHeaders;
     private List<String> headerLabels;
     transient private QuestionnaireAnswerService questionnaireAnswerService;
-
+    private String submissionActionTypeCode;
+    private String protocolNumber;
+    private String submissionNumber; 
+    
     /**
      * 
      * Constructs a QuestionnaireHelper.java. To hook up with protocol form.
@@ -122,14 +127,33 @@ public class QuestionnaireHelper implements Serializable {
      * This method get/setup questionnaire answers when 'questionnaire' page is clicked.
      */
     public void populateAnswers() {
-        setAnswerHeaders(getQuestionnaireAnswerService().getQuestionnaireAnswer(new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, getProtocol())));
+        ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, getProtocol());
+        if (StringUtils.isNotBlank(getSubmissionActionTypeCode())) {
+            // TODO : need to figure out a way to set subitemkey which is submissionnumber.
+            // however, submissionnumber will not be available until it is submitted
+            moduleQuestionnaireBean.setModuleSubItemCode("2");
+            moduleQuestionnaireBean.setModuleSubItemKey(getNextSubmissionNumber(getProtocol()).toString());
+        }
+        setAnswerHeaders(getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean));
         resetHeaderLabels();
     }
 
-    /*
+    private Integer getNextSubmissionNumber(Protocol protocol) {
+        Integer propNextValue = 1;
+        String propertyName = "submissionNumber";
+        // search for property and get the latest number - increment for next call
+        for (DocumentNextvalue documentNextvalue : protocol.getProtocolDocument().getDocumentNextvalues()) {
+            if(documentNextvalue.getPropertyName().equalsIgnoreCase(propertyName)) {
+                propNextValue = documentNextvalue.getNextValue();
+            }
+        }
+        return propNextValue;
+    }
+
+    /**
      * set up the tab labels for each questionnaire 
      */
-    private void resetHeaderLabels() {
+    public void resetHeaderLabels() {
         List<String> labels = new ArrayList<String>();
         for (AnswerHeader answerHeader : answerHeaders) {
             labels.add(getQuestionnaireLabel(answerHeader.getQuestionnaire().getQuestionnaireUsages(), answerHeader.getModuleSubItemCode()));
@@ -198,7 +222,7 @@ public class QuestionnaireHelper implements Serializable {
      * This method is to do a couple of things, move question answer and re-evaluate 'completed' flag.
      */
     public void preSave() {
-        questionnaireAnswerService.preSave(answerHeaders);
+        getQuestionnaireAnswerService().preSave(answerHeaders);
     }
     
     /**
@@ -209,5 +233,29 @@ public class QuestionnaireHelper implements Serializable {
      */
     public void updateChildIndicator(int headerIndex) {
         questionnaireAnswerService.setupChildAnswerIndicator(answerHeaders.get(headerIndex).getAnswers());
+    }
+
+    public String getSubmissionActionTypeCode() {
+        return submissionActionTypeCode;
+    }
+
+    public void setSubmissionActionTypeCode(String submissionActionTypeCode) {
+        this.submissionActionTypeCode = submissionActionTypeCode;
+    }
+
+    public String getProtocolNumber() {
+        return protocolNumber;
+    }
+
+    public void setProtocolNumber(String protocolNumber) {
+        this.protocolNumber = protocolNumber;
+    }
+
+    public String getSubmissionNumber() {
+        return submissionNumber;
+    }
+
+    public void setSubmissionNumber(String submissionNumber) {
+        this.submissionNumber = submissionNumber;
     }
 }

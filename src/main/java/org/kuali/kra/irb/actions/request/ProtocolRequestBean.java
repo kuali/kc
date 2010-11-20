@@ -16,12 +16,9 @@
 package org.kuali.kra.irb.actions.request;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.kuali.kra.irb.actions.ActionHelper;
-import org.kuali.kra.irb.actions.ProtocolActionBean;
-import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
+import org.kuali.kra.irb.actions.ProtocolSubmissionBeanBase;
 
 /**
  * The ProtocolRequestBean is used for some of the common, yet simple,
@@ -38,17 +35,13 @@ import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
  * protocol action type and submission type entry in the database.  Please
  * see the ActionHelper class for how this class is used.
  */
-public class ProtocolRequestBean extends ProtocolActionBean implements Serializable {
-
-    private static final long serialVersionUID = -4980779026132275453L;
+public class ProtocolRequestBean extends ProtocolSubmissionBeanBase implements Serializable {
     
+    private static final long serialVersionUID = -4980779026132275453L;
     private String protocolActionTypeCode;
     private String submissionTypeCode;
-    private String committeeId;
     private String reason = "";
     private String beanName;
-    private ProtocolActionAttachment newActionAttachment;
-    private List<ProtocolActionAttachment> actionAttachments = new ArrayList<ProtocolActionAttachment>();
 
     /**
      * Constructs a ProtocolRequestBean.
@@ -65,14 +58,6 @@ public class ProtocolRequestBean extends ProtocolActionBean implements Serializa
         this.beanName = beanName;
     }
 
-    public void setCommitteeId(String committeeId) {
-        this.committeeId = committeeId;
-    }
-
-    public String getCommitteeId() {
-        return committeeId;
-    }
-    
     public void setReason(String reason) {
         this.reason = reason;
     }
@@ -89,22 +74,6 @@ public class ProtocolRequestBean extends ProtocolActionBean implements Serializa
         return submissionTypeCode;
     }
     
-    public ProtocolActionAttachment getNewActionAttachment() {
-        return newActionAttachment;
-    }
-
-    public void setNewActionAttachment(ProtocolActionAttachment newActionAttachment) {
-        this.newActionAttachment = newActionAttachment;
-    }
-
-    public List<ProtocolActionAttachment> getActionAttachments() {
-        return actionAttachments;
-    }
-
-    public void setActionAttachments(List<ProtocolActionAttachment> actionAttachments) {
-        this.actionAttachments = actionAttachments;
-    }
-
     public String getBeanName() {
         return beanName;
     }
