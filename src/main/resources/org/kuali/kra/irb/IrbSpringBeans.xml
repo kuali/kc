@@ -483,11 +483,6 @@
             <ref bean="dataDictionaryService" />
         </property>
     </bean> 
-    <bean id="protocolProtocolService" class="org.kuali.kra.irb.protocol.ProtocolProtocolServiceImpl">
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
-        </property>
-    </bean> 
     
     <bean id="checkListService" class="org.kuali.kra.irb.actions.submit.CheckListServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />

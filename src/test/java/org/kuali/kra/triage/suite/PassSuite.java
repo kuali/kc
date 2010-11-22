@@ -307,7 +307,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.committee.web.CommitteeWebTest.class,
     org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentRequiredFieldsAuditRuleTest.class,
     org.kuali.kra.award.htmlunitwebtest.AwardDirectFandADistributionWebTest.class,
-    org.kuali.kra.irb.protocol.ProtocolProtocolServiceTest.class,
     org.kuali.kra.committee.web.CommitteeScheduleWebAddSchedulePanelTest.class,
     org.kuali.kra.meeting.MinuteEntryTypeValuesFinderTest.class,
     org.kuali.kra.questionnaire.question.QuestionLookupableHelperServiceTest.class,

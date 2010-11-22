@@ -502,10 +502,6 @@ public class ProtocolProtocolAction extends ProtocolAction {
         return (ProtocolFundingSourceService) KraServiceLocator.getService(ProtocolFundingSourceService.class);
     }
 
-    private ProtocolProtocolService getProtocolProtocolService() {
-        return (ProtocolProtocolService) KraServiceLocator.getService(ProtocolProtocolService.class);
-    }
-
     @Override
     public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.preSave(mapping, form, request, response);
