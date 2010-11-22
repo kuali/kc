@@ -90,12 +90,14 @@ import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredBean;
 import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredEvent;
 import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredService;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
+import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbService;
 import org.kuali.kra.irb.actions.print.ProtocolActionPrintEvent;
 import org.kuali.kra.irb.actions.print.ProtocolPrintType;
 import org.kuali.kra.irb.actions.print.ProtocolPrintingService;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
 import org.kuali.kra.irb.actions.request.ProtocolRequestEvent;
+import org.kuali.kra.irb.actions.request.ProtocolRequestRule;
 import org.kuali.kra.irb.actions.request.ProtocolRequestService;
 import org.kuali.kra.irb.actions.responseapproval.ProtocolResponseApprovalEvent;
 import org.kuali.kra.irb.actions.responseapproval.ProtocolResponseApprovalRule;
@@ -182,16 +184,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             put("full", "PROTOCOL_FULL_PROTOCOL_REPORT");
             put("history", "PROTOCOL_PROTOCOL_HISTORY_REPORT");
             put("comments", "PROTOCOL_REVIEW_COMMENTS_REPORT");
-    }};
-
-    private static final Map<String, String> REQUEST_ACTION_MAP = new HashMap<String, String>() {
-        {
-            put("105", "REQUEST_TO_CLOSE");
-            put("108", "REQUEST_TO_CLOSE_ENROLLMENT");
-            put("115", "REQUEST_TO_REOPEN_ENROLLMENT");
-            put("106", "REQUEST_FOR_SUSPENSION");
-            put("104", "REQUEST_FOR_TERMINATION");
-            put("114", "REQUEST_FOR_DATA_ANALYSIS_ONLY");
     }};
 
     /** {@inheritDoc} */
@@ -1454,6 +1446,62 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return forward;
     }
     
+
+    /**
+     * Requests an action to be performed by an administrator.  The user can request the following actions:
+     * 
+     *   Close
+     *   Close Enrollment
+     *   Data Analysis Only
+     *   Reopen Enrollment
+     *   Suspension
+     *   Termination
+     * 
+     * Uses the enumeration <code>ProtocolRequestAction</code> to encapsulate the unique properties on each action.
+     * @param mapping The mapping associated with this action.
+     * @param form The Protocol form.
+     * @param request The HTTP request
+     * @param response The HTTP response
+     * @return the forward to the current page
+     * @throws Exception
+     */
+    public ActionForward requestAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+        throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument document = protocolForm.getProtocolDocument();
+        Protocol protocol = document.getProtocol();
+        String taskName = getTaskName(request);
+        
+        if (StringUtils.isNotBlank(taskName) && isAuthorized(new ProtocolTask(taskName, protocol))) {
+            ProtocolRequestAction requestAction = ProtocolRequestAction.valueOfTaskName(taskName);
+            ProtocolRequestBean requestBean = getProtocolRequestBean(form, request);
+            
+            if (requestBean != null) {
+                boolean valid = applyRules(new ProtocolRequestEvent<ProtocolRequestRule>(document, requestAction.getErrorPath(), requestBean));
+                requestBean.setAnswerHeaders(getAnswerHeaders(form, requestAction.getActionTypeCode()));
+                valid &= isMandatoryQuestionnaireComplete(requestBean, "actionHelper." + requestAction.getBeanName() + ".datavalidation");
+                if (valid) {
+                    getProtocolRequestService().submitRequest(protocolForm.getProtocolDocument().getProtocol(), requestBean);            
+                    recordProtocolActionSuccess(requestAction.getActionName());
+                }
+            }
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    private ProtocolRequestBean getProtocolRequestBean(ActionForm form, HttpServletRequest request) {
+        ProtocolRequestBean protocolRequestBean = null;
+        
+        ProtocolActionBean protocolActionBean = getActionBean(form, request);
+        if (protocolActionBean != null && protocolActionBean instanceof ProtocolRequestBean) {
+            protocolRequestBean = (ProtocolRequestBean) protocolActionBean;
+        }
+        
+        return protocolRequestBean;
+    }
+    
     public ActionForward defer(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
@@ -1879,7 +1927,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     private ProtocolRiskLevelBean getProtocolRiskLevelBean(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ProtocolRiskLevelBean protocolRiskLevelBean = null;
         
-        ProtocolActionBean protocolActionBean = getActionBean(mapping, form, request, response);
+        ProtocolActionBean protocolActionBean = getActionBean(form, request);
         if (protocolActionBean != null && protocolActionBean instanceof ProtocolRiskLevelCommentable) {
             protocolRiskLevelBean = ((ProtocolRiskLevelCommentable) protocolActionBean).getProtocolRiskLevelBean();
         }
@@ -2005,7 +2053,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     private ReviewCommentsBean getReviewCommentsBean(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ReviewCommentsBean reviewCommentsBean = null;
         
-        ProtocolActionBean protocolActionBean = getActionBean(mapping, form, request, response);
+        ProtocolActionBean protocolActionBean = getActionBean(form, request);
         if (protocolActionBean != null && protocolActionBean instanceof ProtocolOnlineReviewCommentable) {
             reviewCommentsBean = ((ProtocolOnlineReviewCommentable) protocolActionBean).getReviewCommentsBean();
         }
@@ -2013,11 +2061,10 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return reviewCommentsBean;
     }
     
-    private ProtocolActionBean getActionBean(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    private ProtocolActionBean getActionBean(ActionForm form, HttpServletRequest request) {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
-        String taskName = StringUtils.substringBetween(parameterName, ".taskName", ".");
+
+        String taskName = getTaskName(request);
         
         ProtocolActionBean protocolActionBean = null;
         if (StringUtils.isNotBlank(taskName)) {
@@ -2025,6 +2072,17 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         }
 
         return protocolActionBean;
+    }
+    
+    private String getTaskName(HttpServletRequest request) {
+        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        
+        String taskName = "";
+        if (StringUtils.isNotBlank(parameterName)) {
+            taskName = StringUtils.substringBetween(parameterName, ".taskName", ".");
+        }
+        
+        return taskName;
     }
     
     private boolean hasPermission(String taskName, Protocol protocol) {
@@ -2234,15 +2292,18 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      * @return
      * @throws Exception
      */
-    public ActionForward confirmDeleteActionAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        int selection = this.getSelectedLine(request);
-        String actionTypeCode = getRequestActionType(request);
+    public ActionForward confirmDeleteActionAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+        throws Exception {
+        
+        String taskName = getTaskName(request);
+        int selection = getSelectedLine(request);
 
-        if (StringUtils.isBlank(actionTypeCode)) {
-            ((ProtocolForm) form).getActionHelper().getProtocolNotifyIrbBean().getActionAttachments().remove(selection);
+        if (StringUtils.isBlank(taskName)) {
+            ProtocolNotifyIrbBean notifyIrbBean = ((ProtocolForm) form).getActionHelper().getProtocolNotifyIrbBean();
+            notifyIrbBean.getActionAttachments().remove(selection);
         } else {
-            ((ProtocolForm) form).getActionHelper().getActionTypeRequestBeanMap(actionTypeCode).getActionAttachments().remove(selection);
+            ProtocolRequestBean requestBean = getProtocolRequestBean(form, request);
+            requestBean.getActionAttachments().remove(selection);
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -2332,30 +2393,22 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      * @return
      * @throws Exception
      */
-    public ActionForward addRequestAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        String actionTypeCode = getRequestActionType(request);
-        ProtocolRequestBean requestBean = ((ProtocolForm) form).getActionHelper().getActionTypeRequestBeanMap(actionTypeCode);
-        if (((ProtocolForm) form).getActionHelper().validFile(requestBean.getNewActionAttachment(), requestBean.getBeanName())) {
+    public ActionForward addRequestAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+        throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolRequestBean requestBean = getProtocolRequestBean(form, request);
+        
+        if (protocolForm.getActionHelper().validFile(requestBean.getNewActionAttachment(), requestBean.getBeanName())) {
             // add this log to trace if there is any further issue
-            LOG.info("addRequestAttachment "+ actionTypeCode + " " +requestBean.getNewActionAttachment().getFile().getFileName()
-                      + ((ProtocolForm) form).getProtocolDocument().getDocumentNumber());
-            ((ProtocolForm) form).getActionHelper().addRequestAttachment(actionTypeCode);
+            LOG.info("addRequestAttachment " + requestBean.getProtocolActionTypeCode() + " " + requestBean.getNewActionAttachment().getFile().getFileName()
+                    + protocolForm.getProtocolDocument().getDocumentNumber());
+            
+            requestBean.getActionAttachments().add(requestBean.getNewActionAttachment());
+            requestBean.setNewActionAttachment(new ProtocolActionAttachment());
         }
+        
         return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-
-    /*
-     * utility method to get the actiontypecode from the request methodtocall param
-     */
-    private String getRequestActionType(HttpServletRequest request) {
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
-        String actionTypeCode = "";
-        if (StringUtils.isNotBlank(parameterName)) {
-            actionTypeCode = StringUtils.substringBetween(parameterName, ".actionType", ".");
-        }
-
-        return actionTypeCode;
     }
 
     /**
@@ -2368,23 +2421,25 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      * @return
      * @throws Exception
      */
-    public ActionForward viewRequestAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    public ActionForward viewRequestAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+        throws Exception {
 
-        String actionTypeCode = getRequestActionType(request);
-        int selection = this.getSelectedLine(request);
-        ProtocolRequestBean requestBean = ((ProtocolForm) form).getActionHelper().getActionTypeRequestBeanMap(actionTypeCode);
-        ProtocolActionAttachment attachment = requestBean.getActionAttachments().get(selection);
-
-        if (attachment == null) {
-            LOG.info(NOT_FOUND_SELECTION + selection);
-            // may want to tell the user the selection was invalid.
-            return mapping.findForward(Constants.MAPPING_BASIC);
+        ProtocolRequestBean requestBean = getProtocolRequestBean(form, request);
+        int selection = getSelectedLine(request);
+        
+        if (requestBean != null) {
+            ProtocolActionAttachment attachment = requestBean.getActionAttachments().get(selection);
+    
+            if (attachment == null) {
+                LOG.info(NOT_FOUND_SELECTION + selection);
+                // may want to tell the user the selection was invalid.
+                return mapping.findForward(Constants.MAPPING_BASIC);
+            }
+    
+            this.streamToResponse(attachment.getFile().getFileData(), getValidHeaderString(attachment.getFile().getFileName()),
+                    getValidHeaderString(attachment.getFile().getContentType()), response);
         }
-
-        this.streamToResponse(attachment.getFile().getFileData(), getValidHeaderString(attachment.getFile().getFileName()),
-                getValidHeaderString(attachment.getFile().getContentType()), response);
-
+        
         return RESPONSE_ALREADY_HANDLED;
     }
 
@@ -2398,11 +2453,17 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      * @return
      * @throws Exception
      */
-    public ActionForward deleteRequestAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        String actionTypeCode = getRequestActionType(request);
-        ProtocolRequestBean requestBean = ((ProtocolForm) form).getActionHelper().getActionTypeRequestBeanMap(actionTypeCode);
-        return confirmDeleteAttachment(mapping, (ProtocolForm) form, request, response, requestBean.getActionAttachments());
+    public ActionForward deleteRequestAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+        throws Exception {
+        
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        
+        ProtocolRequestBean requestBean = getProtocolRequestBean(form, request);
+        if (requestBean != null) {
+            forward = confirmDeleteAttachment(mapping, (ProtocolForm) form, request, response, requestBean.getActionAttachments());
+        }
+        
+        return forward;
     }
     
     private void recordProtocolActionSuccess(String protocolActionName) {
@@ -2481,16 +2542,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    private String getSubmitActionType(HttpServletRequest request) {
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
-        String actionTypeCode = "";
-        if (StringUtils.isNotBlank(parameterName)) {
-            actionTypeCode = StringUtils.substringBetween(parameterName, ".actionType", ".");
-        }
-
-        return actionTypeCode;
-    }
-
     private void setQnCompleteStatus(List<AnswerHeader> answerHeaders) {
         for (AnswerHeader answerHeader : answerHeaders) {
             answerHeader.setCompleted(getQuestionnaireAnswerService().isQuestionnaireAnswerComplete(answerHeader.getAnswers()));
@@ -2499,39 +2550,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     
     private QuestionnaireAnswerService getQuestionnaireAnswerService() {
         return KraServiceLocator.getService(QuestionnaireAnswerService.class);
-    }
-
-    /**
-     * 
-     * This method is a generic method for all 6 request actions.
-     * It is using enum 'ProtocolRequestAction' to  provide unique properties for each action
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward submitRequestAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-
-        ProtocolRequestAction requestAction = ProtocolRequestAction.valueOf(REQUEST_ACTION_MAP.get(getRequestActionType(request)));
-
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolTask task = new ProtocolTask(requestAction.getTaskName(), protocolForm.getProtocolDocument()
-                .getProtocol());
-        if (isAuthorized(task)) {
-            ProtocolRequestBean requestBean = protocolForm.getActionHelper().getActionTypeRequestBeanMap(requestAction.getActionTypeCode());
-            boolean valid = applyRules(new ProtocolRequestEvent(protocolForm.getProtocolDocument(),
-                    requestAction.getErrorPath(), requestBean));
-            requestBean.setAnswerHeaders(getAnswerHeaders(form, requestAction.getActionTypeCode()));
-            valid &= isMandatoryQuestionnaireComplete(requestBean, "actionHelper." + requestAction.getBeanName() + ".datavalidation");
-            if (valid) {
-                getProtocolRequestService().submitRequest(protocolForm.getProtocolDocument().getProtocol(), requestBean);            
-                recordProtocolActionSuccess(requestAction.getActionName());
-            }
-        }
-        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
 }

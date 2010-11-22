@@ -30,8 +30,11 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.irb.actions.ProtocolActionBean;
 import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.actions.ProtocolRequestAction;
 import org.kuali.kra.irb.actions.ProtocolSubmissionBeanBase;
+import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.personnel.ProtocolPersonTrainingService;
@@ -118,14 +121,14 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     protected ProtocolSubmissionBeanBase getSubmissionBean(ActionForm form,String submissionActionType) {
         ProtocolSubmissionBeanBase submissionBean;
         if (ProtocolActionType.NOTIFY_IRB.equals(submissionActionType)) {
-            submissionBean = ((ProtocolForm)form).getActionHelper().getProtocolNotifyIrbBean();
+            submissionBean = ((ProtocolForm) form).getActionHelper().getProtocolNotifyIrbBean();
         } else {
-            submissionBean = ((ProtocolForm) form).getActionHelper().getActionTypeRequestBeanMap(submissionActionType);
+            submissionBean = ((ProtocolForm) form).getActionHelper().getRequestBean(submissionActionType);
         }
         return submissionBean;
     }
 
-    private String getSubmitActionType(HttpServletRequest request) {
+    protected String getSubmitActionType(HttpServletRequest request) {
         String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
         String actionTypeCode = "";
         if (StringUtils.isNotBlank(parameterName)) {
