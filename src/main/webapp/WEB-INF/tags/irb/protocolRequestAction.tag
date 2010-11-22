@@ -56,12 +56,42 @@
             <kra-irb-action:modifyAmendmentSectionsAction />
             <kra-irb-action:createRenewalWithAmendmentAction />
             <kra-irb-action:createRenewalAction />
-            <kra-irb-action:closeRequestAction />
-            <kra-irb-action:suspendRequestAction />
-            <kra-irb-action:closeEnrollmentRequestAction />
-            <kra-irb-action:reopenEnrollmentRequestAction />
-            <kra-irb-action:dataAnalysisRequestAction />
-            <kra-irb-action:terminateRequestAction />
+            <kra-irb-action:requestAction bean="${KualiForm.actionHelper.protocolCloseRequestBean}"
+                                          permission="${KualiForm.actionHelper.canRequestClose}"
+                                          beanName="protocolCloseRequestBean"
+                                          taskName="protocolRequestClose"
+                                          actionTypeCode="105" 
+                                          tabTitle="Request To Close"/>
+            <kra-irb-action:requestAction bean="${KualiForm.actionHelper.protocolSuspendRequestBean}"
+                                          permission="${KualiForm.actionHelper.canRequestSuspension}"
+                                          beanName="protocolSuspendRequestBean"
+                                          taskName="protocolRequestSuspension"
+                                          actionTypeCode="106"
+                                          tabTitle="Request for Suspension"/>
+            <kra-irb-action:requestAction bean="${KualiForm.actionHelper.protocolCloseEnrollmentRequestBean}"
+                                          permission="${KualiForm.actionHelper.canRequestCloseEnrollment}"
+                                          taskName="protocolRequestCloseEnrollment"
+                                          beanName="protocolCloseEnrollmentRequestBean"
+                                          actionTypeCode="108"
+                                          tabTitle="Request to Close Enrollment"/>
+            <kra-irb-action:requestAction bean="${KualiForm.actionHelper.protocolReOpenEnrollmentRequestBean}"
+                                          permission="${KualiForm.actionHelper.canRequestReOpenEnrollment}"
+                                          beanName="protocolReOpenEnrollmentRequestBean"
+                                          taskName="protocolRequestReOpenEnrollment"
+                                          actionTypeCode="115"
+                                          tabTitle="Request to Re-open Enrollment"/>
+            <kra-irb-action:requestAction bean="${KualiForm.actionHelper.protocolDataAnalysisRequestBean}"
+                                          permission="${KualiForm.actionHelper.canRequestDataAnalysis}"
+                                          beanName="protocolDataAnalysisRequestBean"
+                                          taskName="protocolRequestDataAnalysis"
+                                          actionTypeCode="114"
+                                          tabTitle="Request for Data Analysis Only"/>
+            <kra-irb-action:requestAction bean="${KualiForm.actionHelper.protocolTerminateRequestBean}"
+                                          permission="${KualiForm.actionHelper.canRequestTerminate}"
+                                          beanName="protocolTerminateRequestBean"
+                                          taskName="protocolRequestTerminate"
+                                          actionTypeCode="104"
+                                          tabTitle="Request for Termination"/>
             <kra-irb-action:deleteAction />
             <kra-irb-action:makeAdminCorrectionAction />
             <kra-irb-action:closeEnrollmentAction />

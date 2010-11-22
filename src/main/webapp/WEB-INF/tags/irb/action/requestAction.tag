@@ -16,6 +16,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ attribute name="permission" required="true" %>
 <%@ attribute name="beanName" required="true" %>
+<%@ attribute name="taskName" required="true" %>
 <%@ attribute name="actionTypeCode" required="true" %>
 <%@ attribute name="tabTitle" required="true" %>
 
@@ -117,7 +118,7 @@
 					    </td>
 					    <td align="center" valign="middle" class="infoline">
 						    <div align="center">
-							    <html:image property="methodToCall.addRequestAttachment.actionType${actionTypeCode}.anchor${tabKey}"
+							    <html:image property="methodToCall.addRequestAttachment.taskName${taskName}.anchor${tabKey}"
 							    src="${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton"/>
 						    </div>
 					    </td>
@@ -142,10 +143,10 @@
 					        </td>
 					        <td align="center" valign="middle">
 						        <div align="center">
-							        <html:image property="methodToCall.viewRequestAttachment.line${itrStatus.index}.actionType${actionTypeCode}.anchor${currentTabIndex}"
+							        <html:image property="methodToCall.viewRequestAttachment.taskName${taskName}.line${itrStatus.index}.anchor${currentTabIndex}"
 								        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
 								        alt="View Attachment" onclick="excludeSubmitRestriction = true;"/>
-								    <html:image property="methodToCall.deleteRequestAttachment.line${itrStatus.index}.actionType${actionTypeCode}.anchor${currentTabIndex}"
+								    <html:image property="methodToCall.deleteRequestAttachment.taskName${taskName}.line${itrStatus.index}.anchor${currentTabIndex}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"
 									alt="Delete Attachment"/>
 						        </div>
@@ -161,7 +162,7 @@
                  <tr>
 					<td align="center" colspan="4">
 						<div align="center">
-							<html:image property="methodToCall.submitRequestAction.actionType${actionTypeCode}.anchor${tabKey}"  onclick="closeQuestionnairePop()"
+							<html:image property="methodToCall.requestAction.taskName${taskName}.anchor${tabKey}"  onclick="closeQuestionnairePop()"
 							            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif' styleClass="tinybutton"/>
 						</div>
 	                </td>
