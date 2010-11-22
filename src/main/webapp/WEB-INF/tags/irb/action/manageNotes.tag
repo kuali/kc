@@ -78,7 +78,7 @@
 						</th>
 		                <td valign="middle">
                             <c:if test="${!protocolNotepad.editable}">
-							    <kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].updateTimestamp" attributeEntry="${protocolNotesAttributes.updateTimestamp}" readOnly="true"/>
+							    <kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].updateTimestamp" attributeEntry="${protocolNotesAttributes.updateTimestamp}" readOnly="${true}"/>
                             </c:if>
                             &nbsp;
 						</td>
@@ -101,7 +101,7 @@
 		                <td valign="middle">
 							<div align="center">
 				               <kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].restrictedView" 
-				               	attributeEntry="${protocolNotesAttributes.restrictedView}" readOnly="${(!protocolNotepad.editable)}"/>
+				               	attributeEntry="${protocolNotesAttributes.restrictedView}" readOnly="${false}"/>
 							</div>
 		                </td>
 						<td>
