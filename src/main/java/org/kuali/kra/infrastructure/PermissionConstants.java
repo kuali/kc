@@ -62,6 +62,7 @@ public interface PermissionConstants {
     public static final String MAINTAIN_ONLINE_REVIEWS = "Maintain Protocol Online Reviews";
     public static final String MODIFY_PROTOCOL_SUBMISSION = "Modify Protocol Submission";
     public static final String REVIEW_NOT_REQUIRED = "Protocol Review Not Required";
+    public static final String MAINTAIN_NOTES = "Maintain Protocol Notes";
     /* IRB - Online Review Permissions */
     
     public static final String MODIFY_PROTOCOL_ONLINE_REVIEW = "Modify Protocol Online Review";
