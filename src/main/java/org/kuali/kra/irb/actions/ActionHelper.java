@@ -261,9 +261,7 @@ public class ActionHelper implements Serializable {
     private transient KcPersonService kcPersonService;
     private transient BusinessObjectService businessObjectService;
     
-    private Map<String, ProtocolActionBean> actionBeanTaskMap = new HashMap<String, ProtocolActionBean>();
-    private Map<String, ProtocolRequestBean>  actionTypeRequestBeanMap = new HashMap<String, ProtocolRequestBean>();
-    
+    private Map<String, ProtocolActionBean> actionBeanTaskMap = new HashMap<String, ProtocolActionBean>();    
     /**
      * Constructs an ActionHelper.
      * @param form the protocol form
@@ -340,12 +338,15 @@ public class ActionHelper implements Serializable {
                 ProtocolSubmissionType.REQUEST_FOR_TERMINATION, "protocolTerminateRequestBean");
         
         initActionBeanTaskMap();
-        initRequestBeanAndMap();
         
         protocolSummaryPrintOptions = new ProtocolSummaryPrintOptions();
         toAnswerSubmissionQuestionnaire = hasSubmissionQuestionnaire();
     }
     
+    /**
+     * Initializes the mapping between the task names and the beans.  This is used to get the bean associated to the task name passed in from the tag file.
+     * The reason TaskName (a text code) is used and ProtocolActionType (a number code) is not is because not every task is mapped to a ProtocolActionType.
+     */
     private void initActionBeanTaskMap() {
         actionBeanTaskMap.put(TaskName.PROTOCOL_ADMIN_CORRECTION, protocolAdminCorrectionBean);
         actionBeanTaskMap.put(TaskName.CREATE_PROTOCOL_AMMENDMENT, protocolAmendmentBean);
@@ -374,6 +375,12 @@ public class ActionHelper implements Serializable {
         actionBeanTaskMap.put(TaskName.REOPEN_PROTOCOL, protocolReopenBean);
         actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_REOPEN_ENROLLMENT, protocolReOpenEnrollmentRequestBean);
         actionBeanTaskMap.put(TaskName.RESPONSE_APPROVAL, protocolResponseApprovalBean);
+        actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_CLOSE, protocolCloseRequestBean);
+        actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_CLOSE_ENROLLMENT, protocolCloseEnrollmentRequestBean);
+        actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_REOPEN_ENROLLMENT, protocolReOpenEnrollmentRequestBean);
+        actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_DATA_ANALYSIS, protocolDataAnalysisRequestBean);
+        actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_SUSPENSION, protocolSuspendRequestBean);
+        actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_TERMINATE, protocolTerminateRequestBean);
         actionBeanTaskMap.put(TaskName.PROTOCOL_REVIEW_NOT_REQUIRED, protocolReviewNotRequiredBean);
         actionBeanTaskMap.put(TaskName.RETURN_FOR_SMR, protocolSMRBean);
         actionBeanTaskMap.put(TaskName.RETURN_FOR_SRR, protocolSRRBean);
@@ -385,15 +392,6 @@ public class ActionHelper implements Serializable {
         actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_TERMINATE, protocolTerminateRequestBean);
         actionBeanTaskMap.put(TaskName.PROTOCOL_UNDO_LAST_ACTION, undoLastActionBean);
         actionBeanTaskMap.put(TaskName.PROTOCOL_WITHDRAW, protocolWithdrawBean);
-    }
-    
-    private void initRequestBeanAndMap() {
-        actionTypeRequestBeanMap.put(ProtocolActionType.REQUEST_TO_CLOSE, protocolCloseRequestBean);
-        actionTypeRequestBeanMap.put(ProtocolActionType.REQUEST_TO_CLOSE_ENROLLMENT, protocolCloseEnrollmentRequestBean);
-        actionTypeRequestBeanMap.put(ProtocolActionType.REQUEST_TO_REOPEN_ENROLLMENT, protocolReOpenEnrollmentRequestBean);
-        actionTypeRequestBeanMap.put(ProtocolActionType.REQUEST_FOR_DATA_ANALYSIS_ONLY, protocolDataAnalysisRequestBean);
-        actionTypeRequestBeanMap.put(ProtocolActionType.REQUEST_FOR_SUSPENSION, protocolSuspendRequestBean);
-        actionTypeRequestBeanMap.put(ProtocolActionType.REQUEST_FOR_TERMINATION, protocolTerminateRequestBean);
     }
     
     /**
@@ -1820,12 +1818,6 @@ public class ActionHelper implements Serializable {
         getProtocolNotifyIrbBean().setNewActionAttachment(new ProtocolActionAttachment());
     }
 
-    public void addRequestAttachment(String actionTypeCode) {
-        getActionTypeRequestBeanMap(actionTypeCode).getActionAttachments().add(
-                getActionTypeRequestBeanMap(actionTypeCode).getNewActionAttachment());
-        getActionTypeRequestBeanMap(actionTypeCode).setNewActionAttachment(new ProtocolActionAttachment());
-    }
-
     public boolean validFile(final ProtocolActionAttachment attachment, String propertyName) {
         
         boolean valid = true;
@@ -1933,8 +1925,18 @@ public class ActionHelper implements Serializable {
         return actionBeanTaskMap.get(taskName);
     }
 
-    public ProtocolRequestBean getActionTypeRequestBeanMap(String actionTypeCode) {
-        return actionTypeRequestBeanMap.get(actionTypeCode);
+    public ProtocolRequestBean getRequestBean(String actionTypeCode) {
+        ProtocolRequestBean protocolRequestBean = null;
+        
+        ProtocolRequestAction action = ProtocolRequestAction.valueOfActionTypeCode(actionTypeCode);
+        if (action != null) {
+            ProtocolActionBean bean = actionBeanTaskMap.get(action.getTaskName());
+            if (bean instanceof ProtocolRequestBean) {
+                protocolRequestBean = (ProtocolRequestBean) bean;
+            }
+        }
+        
+        return protocolRequestBean;
     }
 
     public Boolean getSummaryReport() {
