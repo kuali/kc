@@ -168,12 +168,27 @@
 		        <input type="hidden" name="prevOnOffCampusFlag" value="${KualiForm.document.budget.onOffCampusFlag}">
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.onOffCampusFlag}" /></div></th>
                 <td colspan="3">
-                	<kul:htmlControlAttribute property="document.budget.onOffCampusFlag" attributeEntry="${budgetAttributes.onOffCampusFlag}" readOnlyAlternateDisplay="${KualiForm.document.budget.onOffCampusFlagDescription}"/>
-                </td>           		
+                	<kul:htmlControlAttribute 
+                		property="document.budget.onOffCampusFlag" 
+                		attributeEntry="${budgetAttributes.onOffCampusFlag}" 
+                		readOnlyAlternateDisplay="${KualiForm.document.budget.onOffCampusFlagDescription}"                		
+                		onchange="confirmOnOffCampusFlagChange(this);"/>
+                </td> 
+                 <script type="text/javascript">
+                 	var selIdx;
+                 	function confirmOnOffCampusFlagChange(formItem) {
+                		if(confirm("Changing On/Off Campus Flag, will result in recalculation of the budget. If you changed On/Off Campus Flag, you have to redistribute the Under recovery amount. Do you want to change the On/Off Campus Flag?")){
+                			selIdx=formItem.selectedIndex} 
+                		else {formItem.selectedIndex = selIdx}
+                	}
+                	function assignOnOffCampusIndex(document) {
+                		selIdx = document.getElementById('document.budget.onOffCampusFlag').selectedIndex;
+                	}
+                </script>          		
      		</tr>
 
         </table>
     </div>
 </kul:tabTop>
 <%-- initialize status of final checkbox and budget status. --%>
-<img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" onLoad="setupBudgetStatusSummary(document);" />
+<img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" onLoad="assignOnOffCampusIndex(document); setupBudgetStatusSummary(document)" />
