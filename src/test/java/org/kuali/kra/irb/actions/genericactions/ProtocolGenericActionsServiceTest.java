@@ -34,10 +34,13 @@ import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
+import org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
@@ -66,8 +69,9 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
         service = new ProtocolGenericActionServiceImpl();
         service.setProtocolActionService(KraServiceLocator.getService(ProtocolActionService.class));
         service.setDocumentService(KraServiceLocator.getService(DocumentService.class));
-        service.setProtocolActionCorrespondenceGenerationService(getMockActionCorrespondenceGenerationService());
-        service.setProtocolOnlineReviewService(getMockOnlineReviewService());
+        service.setProtocolActionCorrespondenceGenerationService(getMockProtocolActionCorrespondenceGenerationService());
+        service.setProtocolActionsNotificationService(getMockProtocolActionsNotificationService());
+        service.setProtocolOnlineReviewService(getMockProtocolOnlineReviewService());
         service.setProtocolVersionService(KraServiceLocator.getService(ProtocolVersionService.class));
     }
 
@@ -80,10 +84,43 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
     }
 
     @Test
-    public void testClose() throws Exception {
+    public void testClosedByPI() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
-        ProtocolGenericActionBean actionBean = getMockGenericActionBean();
+        ProtocolActionType prevType = new ProtocolActionType();
+        prevType.setProtocolActionTypeCode(ProtocolActionType.REQUEST_TO_CLOSE);
+        ProtocolAction pa = new ProtocolAction();
+        pa.setProtocolActionType(prevType);
+        pa.setProtocolActionTypeCode(prevType.getProtocolActionTypeCode());
+        pa.setProtocolId(protocolDocument.getProtocol().getProtocolId());
+        pa.setProtocolNumber(protocolDocument.getProtocol().getProtocolNumber());
+        pa.setActionId(123);
+        pa.setActualActionDate(new Timestamp(System.currentTimeMillis()));
+        protocolDocument.getProtocol().getProtocolActions().add(pa);
+        
+        ProtocolGenericActionBean actionBean = getMockProtocolGenericActionBean();
+        service.close(protocolDocument.getProtocol(), actionBean);
+
+        String expected = ProtocolStatus.CLOSED_BY_INVESTIGATOR;
+        assertEquals(expected, protocolDocument.getProtocol().getProtocolStatus().getProtocolStatusCode());
+    }
+    
+    @Test
+    public void testClosedAdministratively() throws Exception {
+        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        
+        ProtocolActionType prevType = new ProtocolActionType();
+        prevType.setProtocolActionTypeCode(ProtocolActionType.APPROVED);
+        ProtocolAction pa = new ProtocolAction();
+        pa.setProtocolActionType(prevType);
+        pa.setProtocolActionTypeCode(prevType.getProtocolActionTypeCode());
+        pa.setProtocolId(protocolDocument.getProtocol().getProtocolId());
+        pa.setProtocolNumber(protocolDocument.getProtocol().getProtocolNumber());
+        pa.setActionId(1234);
+        pa.setActualActionDate(new Timestamp(System.currentTimeMillis()));
+        protocolDocument.getProtocol().getProtocolActions().add(pa);
+        
+        ProtocolGenericActionBean actionBean = getMockProtocolGenericActionBean();
         service.close(protocolDocument.getProtocol(), actionBean);
         
         String expected = ProtocolStatus.CLOSED_ADMINISTRATIVELY;
@@ -94,7 +131,7 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
     public void testCloseEnrollment() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
-        ProtocolGenericActionBean actionBean = getMockGenericActionBean();
+        ProtocolGenericActionBean actionBean = getMockProtocolGenericActionBean();
         service.closeEnrollment(protocolDocument.getProtocol(), actionBean);
         
         String expected = ProtocolStatus.ACTIVE_CLOSED_TO_ENROLLMENT;
@@ -105,18 +142,45 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
     public void testExpire() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
-        ProtocolGenericActionBean actionBean = getMockGenericActionBean();
+        ProtocolGenericActionBean actionBean = getMockProtocolGenericActionBean();
         service.expire(protocolDocument.getProtocol(), actionBean);
         
         String expected = ProtocolStatus.EXPIRED;
         assertEquals(expected, protocolDocument.getProtocol().getProtocolStatus().getProtocolStatusCode());
+    }
+    
+    @Test
+    public void testIrbAcknowledgement() throws Exception {
+        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        
+        ProtocolSubmissionType prevSubmissionType = new ProtocolSubmissionType();
+        prevSubmissionType.setSubmissionTypeCode(ProtocolSubmissionType.INITIAL_SUBMISSION);
+        ProtocolReviewType prevReviewType = new ProtocolReviewType();
+        prevReviewType.setReviewTypeCode(ProtocolReviewType.FULL_TYPE_CODE);
+        ProtocolSubmission submission = new ProtocolSubmission();
+        submission.setProtocolSubmissionType(prevSubmissionType);
+        submission.setSubmissionTypeCode(prevSubmissionType.getSubmissionTypeCode());
+        submission.setProtocolReviewType(prevReviewType);
+        submission.setProtocolReviewTypeCode(prevReviewType.getReviewTypeCode());
+        submission.setProtocolId(protocolDocument.getProtocol().getProtocolId());
+        submission.setProtocolNumber(protocolDocument.getProtocol().getProtocolNumber());
+        submission.setSubmissionId(1234L);
+        submission.setSubmissionNumber(1);
+        submission.setSubmissionDate(new Timestamp(System.currentTimeMillis()));
+        protocolDocument.getProtocol().getProtocolSubmissions().add(submission);
+        
+        ProtocolGenericActionBean actionBean = getMockProtocolGenericActionBean();
+        service.irbAcknowledgement(protocolDocument.getProtocol(), actionBean);
+        
+        String expected = ProtocolSubmissionStatus.IRB_ACKNOWLEDGEMENT;
+        assertEquals(expected, protocolDocument.getProtocol().getProtocolSubmission().getSubmissionStatusCode());
     }
 
     @Test
     public void testPermitDataAnalysis() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
-        ProtocolGenericActionBean actionBean = getMockGenericActionBean();
+        ProtocolGenericActionBean actionBean = getMockProtocolGenericActionBean();
         service.permitDataAnalysis(protocolDocument.getProtocol(), actionBean);
         
         String expected = ProtocolStatus.ACTIVE_DATA_ANALYSIS_ONLY;
@@ -127,7 +191,7 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
     public void testReopen() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
-        ProtocolGenericActionBean actionBean = getMockGenericActionBean();
+        ProtocolGenericActionBean actionBean = getMockProtocolGenericActionBean();
         service.reopen(protocolDocument.getProtocol(), actionBean);
         
         String expected = ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT;
@@ -137,6 +201,7 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
     @Test
     public void testSuspendByPI() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        
         ProtocolActionType prevType = new ProtocolActionType();
         prevType.setProtocolActionTypeCode(ProtocolActionType.REQUEST_FOR_SUSPENSION);
         ProtocolAction pa = new ProtocolAction();
@@ -148,7 +213,7 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
         pa.setActualActionDate(new Timestamp(System.currentTimeMillis()));
         protocolDocument.getProtocol().getProtocolActions().add(pa);
         
-        ProtocolGenericActionBean actionBean = getMockGenericActionBean();
+        ProtocolGenericActionBean actionBean = getMockProtocolGenericActionBean();
         service.suspend(protocolDocument.getProtocol(), actionBean);
         
         String expected = ProtocolStatus.SUSPENDED_BY_PI;
@@ -170,7 +235,7 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
         pa.setActualActionDate(new Timestamp(System.currentTimeMillis()));
         protocolDocument.getProtocol().getProtocolActions().add(pa);
         
-        ProtocolGenericActionBean actionBean = getMockGenericActionBean();
+        ProtocolGenericActionBean actionBean = getMockProtocolGenericActionBean();
         service.suspend(protocolDocument.getProtocol(), actionBean);
         
         String expected = ProtocolStatus.SUSPENDED_BY_IRB;
@@ -181,7 +246,7 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
     public void testSuspendByDsmb() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
-        ProtocolGenericActionBean actionBean = getMockGenericActionBean();
+        ProtocolGenericActionBean actionBean = getMockProtocolGenericActionBean();
         service.suspendByDsmb(protocolDocument.getProtocol(), actionBean);
         
         String expected = ProtocolStatus.SUSPENDED_BY_DSMB;
@@ -192,7 +257,7 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
     public void testTerminate() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
-        ProtocolGenericActionBean actionBean = getMockGenericActionBean();
+        ProtocolGenericActionBean actionBean = getMockProtocolGenericActionBean();
         service.terminate(protocolDocument.getProtocol(), actionBean);
         
         String expected = ProtocolStatus.TERMINATED_BY_IRB;
@@ -204,11 +269,11 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
         ProtocolSubmitActionService protocolSubmitActionService = KraServiceLocator.getService(ProtocolSubmitActionService.class);
-        protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), getMockSubmitAction());
+        protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), getMockProtocolSubmitAction());
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
         documentService.routeDocument(protocolDocument.getProtocol().getProtocolDocument(), "Initial Document Route", new ArrayList<AdHocRouteRecipient>());
         
-        ProtocolGenericActionBean actionBean = getMockGenericActionBean();
+        ProtocolGenericActionBean actionBean = getMockProtocolGenericActionBean();
         service.disapprove(protocolDocument.getProtocol(), actionBean);
         
         String expected = ProtocolStatus.DISAPPROVED;
@@ -220,7 +285,7 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
     public void testReturnForSMR() throws Exception {
         ProtocolDocument oldDocument = ProtocolFactory.createProtocolDocument();
         
-        ProtocolGenericActionBean actionBean = getMockGenericActionBean();
+        ProtocolGenericActionBean actionBean = getMockProtocolGenericActionBean();
         ProtocolDocument newDocument = service.returnForSMR(oldDocument.getProtocol(), actionBean);
         
         String expectedStatus = ProtocolStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED;
@@ -234,7 +299,7 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
     public void testReturnForSRR() throws Exception {
         ProtocolDocument oldDocument = ProtocolFactory.createProtocolDocument();
         
-        ProtocolGenericActionBean actionBean = getMockGenericActionBean();
+        ProtocolGenericActionBean actionBean = getMockProtocolGenericActionBean();
         ProtocolDocument newDocument = service.returnForSRR(oldDocument.getProtocol(), actionBean);
         
         String expectedStatus = ProtocolStatus.SUBSTANTIVE_REVISIONS_REQUIRED;
@@ -244,7 +309,7 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
         assertNotSame(unexpectedDocumentNumber, newDocument.getDocumentNumber());
     }
     
-    private ProtocolActionCorrespondenceGenerationService getMockActionCorrespondenceGenerationService() {
+    private ProtocolActionCorrespondenceGenerationService getMockProtocolActionCorrespondenceGenerationService() {
         final ProtocolActionCorrespondenceGenerationService service = context.mock(ProtocolActionCorrespondenceGenerationService.class);
         
         context.checking(new Expectations() {{
@@ -254,7 +319,17 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
         return service;
     }
     
-    private ProtocolOnlineReviewService getMockOnlineReviewService() {
+    private ProtocolActionsNotificationService getMockProtocolActionsNotificationService() {
+        final ProtocolActionsNotificationService service = context.mock(ProtocolActionsNotificationService.class);
+        
+        context.checking(new Expectations() {{
+            ignoring(service);
+        }});
+        
+        return service;
+    }
+    
+    private ProtocolOnlineReviewService getMockProtocolOnlineReviewService() {
         final ProtocolOnlineReviewService service = context.mock(ProtocolOnlineReviewService.class);
         
         context.checking(new Expectations() {{
@@ -264,7 +339,7 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
         return service;
     }
     
-    private ProtocolGenericActionBean getMockGenericActionBean(){
+    private ProtocolGenericActionBean getMockProtocolGenericActionBean(){
         final ProtocolGenericActionBean bean = context.mock(ProtocolGenericActionBean.class);
         
         context.checking(new Expectations() {{
@@ -278,7 +353,7 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
         return bean;
     }
     
-    private ProtocolSubmitAction getMockSubmitAction() {
+    private ProtocolSubmitAction getMockProtocolSubmitAction() {
         final ProtocolSubmitAction action = context.mock(ProtocolSubmitAction.class);
         
         context.checking(new Expectations() {{
