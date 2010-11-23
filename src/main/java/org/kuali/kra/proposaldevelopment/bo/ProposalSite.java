@@ -87,10 +87,6 @@ public class ProposalSite extends KraPersistableBusinessObjectBase {
     }
 
     public void setOrganizationId(String organizationId) {
-        // When the organization changes, remove the congressional districts of the old organization
-        if (!StringUtils.equals(organizationId, this.organizationId)) {
-            congressionalDistricts.clear();
-        }
         this.organizationId = organizationId;
     }
 
@@ -198,6 +194,7 @@ public class ProposalSite extends KraPersistableBusinessObjectBase {
      */
     public void setDefaultCongressionalDistrictIdentifier(String districtIdentifier) {
         if (!StringUtils.isEmpty(districtIdentifier) && !contains(districtIdentifier)) {
+            congressionalDistricts.clear();
             CongressionalDistrict defaultDistrict = new CongressionalDistrict();
             defaultDistrict.setCongressionalDistrict(districtIdentifier);
             defaultDistrict.setProposalNumber(proposalNumber);
