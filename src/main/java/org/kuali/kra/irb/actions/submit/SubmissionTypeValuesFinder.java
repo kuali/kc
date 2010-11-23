@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.IrbActionsKeyValuesBase;
 import org.kuali.kra.irb.actions.ProtocolStatus;
@@ -59,13 +60,7 @@ public class SubmissionTypeValuesFinder extends IrbActionsKeyValuesBase {
      * @return true if applicable for a review submission; otherwise false
      */
     private boolean isSubmitForReviewType(ProtocolSubmissionType submissionType) {
-        /*
-        String typeCodes[] = { ProtocolSubmissionType.INITIAL_SUBMISSION,
-                               ProtocolSubmissionType.RESPONSE_TO_PREV_IRB_NOTIFICATION,
-                               ProtocolSubmissionType.AMENDMENT,
-                               ProtocolSubmissionType.CONTINUATION,
-                               ProtocolSubmissionType.CONTINUATION_WITH_AMENDMENT };
-                               */
+        
         Collection<String> typeCodes = getValidSubmissionTypes();
 
         for (String typeCode : typeCodes) {
@@ -78,138 +73,73 @@ public class SubmissionTypeValuesFinder extends IrbActionsKeyValuesBase {
     
     private Collection<String> getValidSubmissionTypes() {
         Collection<String> types = new ArrayList<String>();
-        ProtocolForm pf = (ProtocolForm)GlobalVariables.getKualiForm();
-        if (pf != null){
+        ProtocolForm pf = (ProtocolForm) GlobalVariables.getKualiForm();
+        if (pf != null) {
             String currentStatus  = pf.getProtocolDocument().getProtocol().getProtocolStatusCode();
-            if (displayInitialSubmission(currentStatus)){
+            if (displayInitialSubmission(currentStatus)) {
                 types.add(ProtocolSubmissionType.INITIAL_SUBMISSION);
             }
-            if (displayAmendment(currentStatus)) {
+            if (displayAmendment(currentStatus, pf.getProtocolDocument().getProtocol())) {
                 types.add(ProtocolSubmissionType.AMENDMENT);
             }
-            if( displayContinuation(currentStatus)) {
+            if (displayContinuation(currentStatus, pf.getProtocolDocument().getProtocol())) {
                 types.add(ProtocolSubmissionType.CONTINUATION);
             }
-            if (displayContinuationWithAmendment(currentStatus)) {
+            if (displayContinuationWithAmendment(currentStatus, pf.getProtocolDocument().getProtocol())) {
                 types.add(ProtocolSubmissionType.CONTINUATION_WITH_AMENDMENT);
             }
             if (displayResponseToPrevIRBNotication(currentStatus)) {
                 types.add(ProtocolSubmissionType.RESPONSE_TO_PREV_IRB_NOTIFICATION);
             }
+            if (displayResubmission(currentStatus)) {
+                types.add(ProtocolSubmissionType.RESUBMISSION);
+            }
         }
         return types;
     }
     
-    private boolean displayInitialSubmission(String currentStatus){
+    private boolean displayInitialSubmission(String currentStatus) {
         String validStatuses[] = { ProtocolStatus.IN_PROGRESS,
-                ProtocolStatus.SUBMITTED_TO_IRB,
-                ProtocolStatus.DISAPPROVED,
-                ProtocolStatus.WITHDRAWN,
-                ProtocolStatus.DEFERRED,
-                ProtocolStatus.IRB_REVIEW_NOT_REQUIRED };
-        for (String status : validStatuses) {
-            if (StringUtils.equals(currentStatus, status)) {
-                return true;
-            }
-        }
-        return false;
+                ProtocolStatus.WITHDRAWN};
+        return validateCurrentStatus(currentStatus, validStatuses);
     }
     
-    private boolean displayResponseToPrevIRBNotication(String currentStatus){
-        String validStatuses[] = { ProtocolStatus.SUBMITTED_TO_IRB,
-                ProtocolStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED,
+    private boolean displayResponseToPrevIRBNotication(String currentStatus) {
+        String validStatuses[] = { ProtocolStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED,
                 ProtocolStatus.SUBSTANTIVE_REVISIONS_REQUIRED,
-                ProtocolStatus.AMENDMENT_MERGED,
-                ProtocolStatus.AMENDMENT_IN_PROGRESS,
-                ProtocolStatus.RENEWAL_IN_PROGRESS,
-                ProtocolStatus.RENEWAL_MERGED,
-                ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT,
-                ProtocolStatus.SUSPENDED_BY_PI,
-                ProtocolStatus.SUSPENDED_BY_DSMB,
-                ProtocolStatus.SUSPENDED_BY_IRB,
-                ProtocolStatus.CLOSED_ADMINISTRATIVELY,
-                ProtocolStatus.ACTIVE_CLOSED_TO_ENROLLMENT,
-                ProtocolStatus.ACTIVE_DATA_ANALYSIS_ONLY,
-                ProtocolStatus.EXEMPT,
-                ProtocolStatus.DEFERRED,
-                ProtocolStatus.CLOSED_BY_INVESTIGATOR };
-        for (String status : validStatuses) {
-            if (StringUtils.equals(currentStatus, status)) {
-                return true;
-            }
-        }
-        return false;
+                ProtocolStatus.DEFERRED };
+        return validateCurrentStatus(currentStatus, validStatuses);
     }
     
-    private boolean displayAmendment(String currentStatus){
-        String validStatuses[] = { ProtocolStatus.SUBMITTED_TO_IRB,
-                ProtocolStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED,
-                ProtocolStatus.SUBSTANTIVE_REVISIONS_REQUIRED,
-                ProtocolStatus.AMENDMENT_MERGED,
-                ProtocolStatus.AMENDMENT_IN_PROGRESS,
-                ProtocolStatus.RENEWAL_MERGED,
-                ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT,
-                ProtocolStatus.SUSPENDED_BY_PI,
-                ProtocolStatus.SUSPENDED_BY_DSMB,
-                ProtocolStatus.SUSPENDED_BY_IRB,
-                ProtocolStatus.CLOSED_ADMINISTRATIVELY,
-                ProtocolStatus.ACTIVE_CLOSED_TO_ENROLLMENT,
-                ProtocolStatus.ACTIVE_DATA_ANALYSIS_ONLY,
-                ProtocolStatus.EXEMPT,
-                ProtocolStatus.DEFERRED,
-                ProtocolStatus.CLOSED_BY_INVESTIGATOR };
-        for (String status : validStatuses) {
-            if (StringUtils.equals(currentStatus, status)) {
-                return true;
-            }
-        }
-        return false;
+    private boolean displayAmendment(String currentStatus, Protocol protocol) {
+        String validStatuses[] = { ProtocolStatus.WITHDRAWN, ProtocolStatus.AMENDMENT_IN_PROGRESS };
+        return validateCurrentStatus(currentStatus, validStatuses)  && hasAmmendmentProtocolNumber(protocol.getProtocolNumber());
     }
     
-    private boolean displayContinuation(String currentStatus){
-        String validStatuses[] = { ProtocolStatus.SUBMITTED_TO_IRB,
-                ProtocolStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED,
-                ProtocolStatus.SUBSTANTIVE_REVISIONS_REQUIRED,
-                ProtocolStatus.AMENDMENT_MERGED,
-                ProtocolStatus.RENEWAL_IN_PROGRESS,
-                ProtocolStatus.RENEWAL_MERGED,
-                ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT,
-                ProtocolStatus.SUSPENDED_BY_PI,
-                ProtocolStatus.SUSPENDED_BY_DSMB,
-                ProtocolStatus.SUSPENDED_BY_IRB,
-                ProtocolStatus.EXPIRED,
-                ProtocolStatus.CLOSED_ADMINISTRATIVELY,
-                ProtocolStatus.ACTIVE_CLOSED_TO_ENROLLMENT,
-                ProtocolStatus.ACTIVE_DATA_ANALYSIS_ONLY,
-                ProtocolStatus.EXEMPT,
-                ProtocolStatus.DEFERRED,
-                ProtocolStatus.CLOSED_BY_INVESTIGATOR };
-        for (String status : validStatuses) {
-            if (StringUtils.equals(currentStatus, status)) {
-                return true;
-            }
-        }
-        return false;
+    private boolean displayContinuation(String currentStatus, Protocol protocol) {
+        String validStatuses[] = { ProtocolStatus.WITHDRAWN, ProtocolStatus.RENEWAL_IN_PROGRESS };
+        return validateCurrentStatus(currentStatus, validStatuses)  && hasRenewalProtocolNumber(protocol.getProtocolNumber());
     }
     
-    private boolean displayContinuationWithAmendment(String currentStatus){
-        String validStatuses[] = { ProtocolStatus.SUBMITTED_TO_IRB,
-                ProtocolStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED,
-                ProtocolStatus.SUBSTANTIVE_REVISIONS_REQUIRED,
-                ProtocolStatus.AMENDMENT_MERGED,
-                ProtocolStatus.RENEWAL_IN_PROGRESS,
-                ProtocolStatus.RENEWAL_MERGED,
-                ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT,
-                ProtocolStatus.SUSPENDED_BY_PI,
-                ProtocolStatus.SUSPENDED_BY_DSMB,
-                ProtocolStatus.SUSPENDED_BY_IRB,
-                ProtocolStatus.EXPIRED,
-                ProtocolStatus.CLOSED_ADMINISTRATIVELY,
-                ProtocolStatus.ACTIVE_CLOSED_TO_ENROLLMENT,
-                ProtocolStatus.ACTIVE_DATA_ANALYSIS_ONLY,
-                ProtocolStatus.EXEMPT,
-                ProtocolStatus.DEFERRED,
-                ProtocolStatus.CLOSED_BY_INVESTIGATOR };
+    private boolean displayContinuationWithAmendment(String currentStatus, Protocol protocol) {
+        String validStatuses[] = { ProtocolStatus.WITHDRAWN, ProtocolStatus.RENEWAL_IN_PROGRESS };
+        return validateCurrentStatus(currentStatus, validStatuses)  && hasRenewalProtocolNumber(protocol.getProtocolNumber());
+    }
+    
+    private boolean hasAmmendmentProtocolNumber(String protocolNumber) {
+        return protocolNumber.contains("A");
+    }
+    
+    private boolean hasRenewalProtocolNumber(String protocolNumber) {
+        return protocolNumber.contains("R");
+    }
+    
+    private boolean displayResubmission(String currentStatus) {
+        String validStatuses[] = {ProtocolStatus.WITHDRAWN};
+        return validateCurrentStatus(currentStatus, validStatuses);
+    }
+    
+    private boolean validateCurrentStatus(String currentStatus, String[] validStatuses) {
         for (String status : validStatuses) {
             if (StringUtils.equals(currentStatus, status)) {
                 return true;
