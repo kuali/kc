@@ -157,6 +157,14 @@ public interface ProtocolOnlineReviewService {
      */
     void removeOnlineReviewDocument(String personId, boolean nonEmployeeFlag, ProtocolSubmission submission, String annotation);
     
+    /**
+     * Cancels all online review documents associated with the submission.
+     * 
+     * @param submission
+     * @param annotation
+     */
+    void cancelOnlineReviews(ProtocolSubmission submission, String annotation);
+    
     /*
      * Remove all online reviews associated with the submission.
      * If an online review document is enroute it will be cancelled.  

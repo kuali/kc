@@ -639,12 +639,14 @@
     </bean>
     
     <bean id="protocolGenericActionService" class="org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionServiceImpl">
-        <property name="kimRoleManagementService" ref="roleManagementService" />
-        <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
         <property name="protocolActionService" ref="protocolActionService" />
-        <property name="protocolVersionService" ref="protocolVersionService" />
-        <property name="protocolOnlineReviewService" ref="protocolOnlineReviewService"/>
         <property name="documentService" ref="documentService" />
+        <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
+        <property name="protocolActionsNotificationService" ref="protocolActionsNotificationService" />
+        <property name="protocolOnlineReviewService" ref="protocolOnlineReviewService"/>
+        <property name="protocolVersionService" ref="protocolVersionService" />
+        <property name="protocolAssignToAgendaService" ref="protocolAssignToAgendaService" />
+        <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
     <bean id="protocolApproveService" class="org.kuali.kra.irb.actions.approve.ProtocolApproveServiceImpl">
@@ -788,22 +790,6 @@
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
         <property name="kcPersonService" ref="kcPersonService" />
      </bean>
-
-    <bean id="irbAcknowledgementService" class="org.kuali.kra.irb.actions.acknowledgement.IrbAcknowledgementServiceImpl">
-        <property name="documentService" ref="documentService" />
-        <property name="protocolActionService" ref="protocolActionService" />
-        <property name="protocolActionsNotificationService" ref="protocolActionsNotificationService" />
-   </bean>
-
-    <bean id="protocolDeferService" class="org.kuali.kra.irb.actions.defer.ProtocolDeferServiceImpl">
-        <property name="documentService" ref="documentService" />
-        <property name="businessObjectService" ref="businessObjectService" />
-        <property name="protocolVersionService" ref="protocolVersionService" />
-        <property name="protocolAssignToAgendaService" ref="protocolAssignToAgendaService" />
-		<property name="identityManagementService" ref = "identityManagementService"/>
-		<property name="protocolGenericActionService" ref = "protocolGenericActionService"/>
-		<property name="protocolActionsNotificationService" ref = "protocolActionsNotificationService"/>
-    </bean>
     
     <bean id="committeeScheduleAttendanceService" class="org.kuali.kra.committee.service.impl.CommitteeScheduleAttendanceServiceImpl">
         <property name="committeeService" ref="committeeService" />
