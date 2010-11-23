@@ -421,8 +421,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.questionnaire.question.QuestionAuthorizationServiceTest.class,
     org.kuali.kra.award.htmlunitwebtest.AwardSpecialReviewWebTest.class,
     org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalSpecialReviewWebTest.class,
-    org.kuali.kra.irb.actions.acknowledgement.IrbAcknowledgementServiceTest.class,
-    org.kuali.kra.irb.actions.acknowledgement.IrbAcknowledgementWebTest.class,
     org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionRuleTest.class,
     org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionServiceTest.class,
     org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredRuleTest.class,

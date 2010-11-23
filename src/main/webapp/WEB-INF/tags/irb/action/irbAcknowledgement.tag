@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="attributes" value="${DataDictionary.IrbAcknowledgementBean.attributes}" />
+<c:set var="attributes" value="${DataDictionary.ProtocolGenericActionBean.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
 
 <kra:permission value="${KualiForm.actionHelper.canIrbAcknowledgement}">
@@ -36,7 +36,7 @@
                     </th>
                     <td>
                         <nobr>
-                            <kul:htmlControlAttribute property="actionHelper.irbAcknowledgementBean.comments" attributeEntry="${attributes.comments}" />
+                            <kul:htmlControlAttribute property="actionHelper.protocolIrbAcknowledgementBean.comments" attributeEntry="${attributes.comments}" />
                         </nobr>
                     </td>
                 </tr>
@@ -51,15 +51,15 @@
                     </th>
                     <td>
                         <nobr>
-                            <kul:htmlControlAttribute property="actionHelper.irbAcknowledgementBean.actionDate" attributeEntry="${attributes.actionDate}"  />
+                            <kul:htmlControlAttribute property="actionHelper.protocolIrbAcknowledgementBean.actionDate" attributeEntry="${attributes.actionDate}"  />
                         </nobr>
                     </td>
                 </tr>
                 
                 <tr>
                     <td colspan="2">
-                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.irbAcknowledgementBean.reviewCommentsBean}"
-                                                       property="actionHelper.irbAcknowledgementBean.reviewCommentsBean"
+                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolIrbAcknowledgementBean.reviewCommentsBean}"
+                                                       property="actionHelper.protocolIrbAcknowledgementBean.reviewCommentsBean"
                                                        action="${action}" 
                                                        taskName="irbAcknowledgement" />
                    </td>
