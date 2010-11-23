@@ -41,7 +41,6 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.ProtocolVersionService;
-import org.kuali.kra.irb.actions.acknowledgement.IrbAcknowledgementBean;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewModule;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewal;
@@ -204,10 +203,10 @@ public class ActionHelper implements Serializable {
     private ProtocolGenericActionBean protocolExpireBean;
     private ProtocolGenericActionBean protocolTerminateBean;
     private ProtocolGenericActionBean protocolPermitDataAnalysisBean;
+    private ProtocolGenericActionBean protocolIrbAcknowledgementBean;
     private AdminCorrectionBean protocolAdminCorrectionBean;
     private UndoLastActionBean undoLastActionBean;
     private CommitteeDecision committeeDecision;
-    private IrbAcknowledgementBean irbAcknowledgementBean;
     private ProtocolModifySubmissionBean protocolModifySubmissionBean;
     private ProtocolGenericActionBean protocolDeferBean;
     private ProtocolReviewNotRequiredBean protocolReviewNotRequiredBean;
@@ -283,8 +282,6 @@ public class ActionHelper implements Serializable {
         protocolAssignReviewersBean = new ProtocolAssignReviewersBean(this);
         protocolGrantExemptionBean = new ProtocolGrantExemptionBean(this);
         protocolGrantExemptionBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-        irbAcknowledgementBean = new IrbAcknowledgementBean(this);
-        irbAcknowledgementBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         protocolExpediteApprovalBean = buildProtocolApproveBean(ProtocolActionType.EXPEDITE_APPROVAL, 
                 Constants.PROTOCOL_EXPEDITE_APPROVAL_ENTER_REVIEW_COMMENTS_KEY, Constants.PROTOCOL_EXPEDITED_APPROVAL_ENTER_RISK_LEVEL_KEY);
         protocolResponseApprovalBean = buildProtocolApproveBean(ProtocolActionType.RESPONSE_APPROVAL, 
@@ -313,6 +310,8 @@ public class ActionHelper implements Serializable {
                 Constants.PROTOCOL_TERMINATE_ENTER_REVIEW_COMMENTS_KEY);
         protocolPermitDataAnalysisBean = buildProtocolGenericActionBean(ProtocolActionType.DATA_ANALYSIS_ONLY, 
                 Constants.PROTOCOL_PERMIT_DATA_ANALYSIS_ENTER_REVIEW_COMMENTS_KEY);
+        protocolIrbAcknowledgementBean = buildProtocolGenericActionBean(ProtocolActionType.IRB_ACKNOWLEDGEMENT, 
+                Constants.PROTOCOL_IRB_ACKNOWLEDGEMENT_ENTER_REVIEW_COMMENTS_KEY);
         protocolAdminCorrectionBean = createAdminCorrectionBean();
         undoLastActionBean = createUndoLastActionBean(getProtocol());
         committeeDecision = new CommitteeDecision(this);
@@ -368,7 +367,7 @@ public class ActionHelper implements Serializable {
         actionBeanTaskMap.put(TaskName.EXPEDITE_APPROVAL, protocolExpediteApprovalBean);
         actionBeanTaskMap.put(TaskName.EXPIRE_PROTOCOL, protocolExpireBean);
         actionBeanTaskMap.put(TaskName.GRANT_EXEMPTION, protocolGrantExemptionBean);
-        actionBeanTaskMap.put(TaskName.IRB_ACKNOWLEDGEMENT, irbAcknowledgementBean);
+        actionBeanTaskMap.put(TaskName.IRB_ACKNOWLEDGEMENT, protocolIrbAcknowledgementBean);
         actionBeanTaskMap.put(TaskName.PROTOCOL_MANAGE_REVIEW_COMMENTS, protocolManageReviewCommentsBean);
         actionBeanTaskMap.put(TaskName.MODIFY_PROTOCOL_SUBMISSION, protocolModifySubmissionBean);
         actionBeanTaskMap.put(TaskName.NOTIFY_IRB, protocolNotifyIrbBean);
@@ -726,7 +725,7 @@ public class ActionHelper implements Serializable {
     public void prepareCommentsView() {
         assignToAgendaBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         protocolGrantExemptionBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-        irbAcknowledgementBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        protocolIrbAcknowledgementBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         protocolExpediteApprovalBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         protocolResponseApprovalBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         protocolApproveBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
@@ -1138,10 +1137,6 @@ public class ActionHelper implements Serializable {
     public ProtocolGrantExemptionBean getProtocolGrantExemptionBean() {
         return protocolGrantExemptionBean;
     }
-    
-    public IrbAcknowledgementBean getIrbAcknowledgementBean() {
-        return irbAcknowledgementBean;
-    }
 
     public ProtocolApproveBean getProtocolExpediteApprovalBean() {
         return protocolExpediteApprovalBean;
@@ -1197,6 +1192,10 @@ public class ActionHelper implements Serializable {
     
     public ProtocolGenericActionBean getProtocolPermitDataAnalysisBean() {
         return protocolPermitDataAnalysisBean;
+    }
+    
+    public ProtocolGenericActionBean getProtocolIrbAcknowledgementBean() {
+        return protocolIrbAcknowledgementBean;
     }
     
     public AdminCorrectionBean getProtocolAdminCorrectionBean() {

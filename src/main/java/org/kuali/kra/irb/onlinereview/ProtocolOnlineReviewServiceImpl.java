@@ -502,6 +502,17 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#cancelOnlineReviews(org.kuali.kra.irb.actions.submit.ProtocolSubmission, 
+     *      java.lang.String)
+     */
+    public void cancelOnlineReviews(ProtocolSubmission submission, String annotation) {
+        //get the online reviews, loop through them and finalize them if necessary.
+        for (ProtocolOnlineReview review : submission.getProtocolOnlineReviews()) {
+            cancelOnlineReviewDocument(review.getProtocolOnlineReviewDocument(), submission, annotation);
+        }
+    }
     
     /**
      * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#finalizeOnlineReviews(org.kuali.kra.irb.actions.submit.ProtocolSubmission)
