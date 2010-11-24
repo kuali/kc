@@ -138,7 +138,7 @@ public class ActionHelper implements Serializable {
     private boolean canDisapprove = false;
     private boolean canReturnForSMR = false;
     private boolean canReturnForSRR = false;
-    private boolean canReopen = false;
+    private boolean canReopenEnrollment = false;
     private boolean canCloseEnrollment = false;
     private boolean canSuspend = false;
     private boolean canSuspendByDsmb = false;
@@ -195,7 +195,7 @@ public class ActionHelper implements Serializable {
     private ProtocolGenericActionBean protocolDisapproveBean;
     private ProtocolGenericActionBean protocolSMRBean;
     private ProtocolGenericActionBean protocolSRRBean;
-    private ProtocolGenericActionBean protocolReopenBean;
+    private ProtocolGenericActionBean protocolReopenEnrollmentBean;
     private ProtocolGenericActionBean protocolCloseEnrollmentBean;
     private ProtocolGenericActionBean protocolSuspendBean;
     private ProtocolGenericActionBean protocolSuspendByDsmbBean;
@@ -294,7 +294,7 @@ public class ActionHelper implements Serializable {
                 Constants.PROTOCOL_SMR_ENTER_REVIEW_COMMENTS_KEY);
         protocolSRRBean = buildProtocolGenericActionBean(ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, 
                 Constants.PROTOCOL_SRR_ENTER_REVIEW_COMMENTS_KEY);
-        protocolReopenBean = buildProtocolGenericActionBean(ProtocolActionType.REOPEN_ENROLLMENT, 
+        protocolReopenEnrollmentBean = buildProtocolGenericActionBean(ProtocolActionType.REOPEN_ENROLLMENT, 
                 Constants.PROTOCOL_REOPEN_ENTER_REVIEW_COMMENTS_KEY);
         protocolCloseEnrollmentBean = buildProtocolGenericActionBean(ProtocolActionType.CLOSED_FOR_ENROLLMENT, 
                 Constants.PROTOCOL_CLOSE_ENROLLMENT_ENTER_REVIEW_COMMENTS_KEY);
@@ -371,7 +371,7 @@ public class ActionHelper implements Serializable {
         actionBeanTaskMap.put(TaskName.PROTOCOL_MANAGE_REVIEW_COMMENTS, protocolManageReviewCommentsBean);
         actionBeanTaskMap.put(TaskName.MODIFY_PROTOCOL_SUBMISSION, protocolModifySubmissionBean);
         actionBeanTaskMap.put(TaskName.NOTIFY_IRB, protocolNotifyIrbBean);
-        actionBeanTaskMap.put(TaskName.REOPEN_PROTOCOL, protocolReopenBean);
+        actionBeanTaskMap.put(TaskName.REOPEN_PROTOCOL, protocolReopenEnrollmentBean);
         actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_REOPEN_ENROLLMENT, protocolReOpenEnrollmentRequestBean);
         actionBeanTaskMap.put(TaskName.RESPONSE_APPROVAL, protocolResponseApprovalBean);
         actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_CLOSE, protocolCloseRequestBean);
@@ -678,7 +678,7 @@ public class ActionHelper implements Serializable {
         canDisapprove = hasDisapprovePermission();
         canReturnForSMR = hasReturnForSMRPermission();
         canReturnForSRR = hasReturnForSRRPermission();
-        canReopen = hasReopenPermission();
+        canReopenEnrollment = hasReopenEnrollmentPermission();
         canCloseEnrollment = hasCloseEnrollmentPermission();
         canSuspend = hasSuspendPermission();
         canSuspendByDsmb = hasSuspendByDsmbPermission();
@@ -732,7 +732,7 @@ public class ActionHelper implements Serializable {
         protocolDisapproveBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         protocolSMRBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         protocolSRRBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-        protocolReopenBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        protocolReopenEnrollmentBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         protocolCloseEnrollmentBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         protocolSuspendBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         protocolSuspendByDsmbBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
@@ -899,7 +899,7 @@ public class ActionHelper implements Serializable {
         return hasPermission(TaskName.RETURN_FOR_SRR);
     }
     
-    private boolean hasReopenPermission() {
+    private boolean hasReopenEnrollmentPermission() {
         return hasGenericPermission(GenericProtocolAuthorizer.REOPEN_PROTOCOL);
     }
     
@@ -1162,8 +1162,8 @@ public class ActionHelper implements Serializable {
         return protocolSRRBean;
     }
     
-    public ProtocolGenericActionBean getProtocolReopenBean() {
-        return protocolReopenBean;
+    public ProtocolGenericActionBean getProtocolReopenEnrollmentBean() {
+        return protocolReopenEnrollmentBean;
     }
     
     public ProtocolGenericActionBean getProtocolCloseEnrollmentBean() {
@@ -1306,8 +1306,8 @@ public class ActionHelper implements Serializable {
         return canReturnForSRR;
     }
     
-    public boolean getCanReopen() {
-        return canReopen;
+    public boolean getCanReopenEnrollment() {
+        return canReopenEnrollment;
     }
     
     public boolean getCanCloseEnrollment() {
