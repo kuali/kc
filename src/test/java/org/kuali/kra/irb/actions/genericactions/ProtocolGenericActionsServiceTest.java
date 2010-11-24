@@ -192,7 +192,7 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
         ProtocolGenericActionBean actionBean = getMockProtocolGenericActionBean();
-        service.reopen(protocolDocument.getProtocol(), actionBean);
+        service.reopenEnrollment(protocolDocument.getProtocol(), actionBean);
         
         String expected = ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT;
         assertEquals(expected, protocolDocument.getProtocol().getProtocolStatus().getProtocolStatusCode());

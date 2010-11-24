@@ -15,13 +15,33 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
+<%@ attribute name="tabTitle" required="true" %>
+<%@ attribute name="bean" required="true" type="org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean" %>
+<%@ attribute name="property" required="true" %>
+<%@ attribute name="taskName" required="true" %>
+<%@ attribute name="methodToCall" required="true" %>
+<%@ attribute name="canPerformAction" required="false" %>
+<%@ attribute name="canAddReviewComments" required="false" %>
+<%@ attribute name="defaultOpen" required="false" %>
+
+<c:if test="${empty canPerformAction}">
+    <c:set var="canPerformAction" value="true" />
+</c:if>
+
+<c:if test="${empty canAddReviewComments}">
+    <c:set var="canAddReviewComments" value="true" />
+</c:if>
+
+<c:if test="${empty defaultOpen}">
+    <c:set var="defaultOpen" value="false" />
+</c:if>
+
 <c:set var="attributes" value="${DataDictionary.ProtocolGenericActionBean.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
-<c:set var="openForFollowup" value="${KualiForm.actionHelper.isReturnForSMROpenForFollowup}" />
 
-<kra:permission value="${KualiForm.actionHelper.canReturnForSMR}">
+<kra:permission value="${canPerformAction}">
 
-<kul:innerTab tabTitle="Return for Specific Minor Revisions" parentTab="" defaultOpen="${openForFollowup}" tabErrorKey="actionHelper.protocolSMRBean*">
+<kul:innerTab tabTitle="${tabTitle}" parentTab="" defaultOpen="${defaultOpen}" tabErrorKey="${property}*">
    
    <kra-irb-action:padLeft>
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
@@ -37,7 +57,8 @@
                     </th>
                     <td>
                         <nobr>
-                            <kul:htmlControlAttribute property="actionHelper.protocolSMRBean.comments" attributeEntry="${attributes.comments}" />
+                            <kul:htmlControlAttribute property="${property}.comments" 
+                                                      attributeEntry="${attributes.comments}" />
                         </nobr>
                     </td>
                 </tr>
@@ -52,25 +73,29 @@
                     </th>
                     <td>
                         <nobr>
-                            <kul:htmlControlAttribute property="actionHelper.protocolSMRBean.actionDate" attributeEntry="${attributes.actionDate}"  />
+                            <kul:htmlControlAttribute property="${property}.actionDate" 
+                                                      attributeEntry="${attributes.actionDate}"  />
                         </nobr>
                     </td>
                 </tr>
                 
-                <tr>
-                    <td colspan="2">
-                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolSMRBean.reviewCommentsBean}"
-                                                       property="actionHelper.protocolSMRBean.reviewCommentsBean"
-                                                       action="${action}"
-                                                       taskName="protocolReturnForSMR" />
-                   </td>
-                </tr>
+                <c:if test="${canAddReviewComments}">
+	                <tr>
+	                    <td colspan="2">
+	                        <kra-irb-action:reviewComments bean="${bean.reviewCommentsBean}"
+	                                                       property="${property}.reviewCommentsBean"
+	                                                       action="${action}"
+	                                                       taskName="${taskName}" />
+	                   </td>
+	                </tr>
+	            </c:if>
                 
                 <tr>
                     <td align="center" colspan="2">
                         <div align="center">
-                            <html:image property="methodToCall.returnForSMR.anchor${tabKey}"
-                                        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif' styleClass="tinybutton"/>
+                            <html:image property="methodToCall.${methodToCall}.anchor${tabKey}"
+                                        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif' 
+                                        styleClass="tinybutton"/>
                         </div>
                     </td>
                 </tr>

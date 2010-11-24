@@ -86,7 +86,7 @@ public interface ProtocolGenericActionService {
      * @param actionBean ProtocolGenericActionBean object
      * @throws Exception if there was a general problem performing the action
      */
-    void reopen(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
+    void reopenEnrollment(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
     
     /**
      * Returns the protocol to the PI for specific minor revisions.
