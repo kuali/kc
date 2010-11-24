@@ -44,14 +44,42 @@
             <kra-irb-action:grantExemptionAction />
             <kra-irb-action:approveAction />
             <kra-irb-action:recordCommitteeDecisionAction />
-            <kra-irb-action:deferAction />
+            <kra-irb-action:genericAction tabTitle="Defer Action"
+			                              bean="${KualiForm.actionHelper.protocolDeferBean}"
+			                              property="actionHelper.protocolDeferBean"
+			                              taskName="protocolDefer"
+			                              methodToCall="defer"
+			                              canPerformAction="${KualiForm.actionHelper.canDefer}" />
             <kra-irb-action:expediteApprovalAction />
             <kra-irb-action:responseApprovalAction />
-            <kra-irb-action:disapproveAction />
-            <kra-irb-action:smrAction />
-            <kra-irb-action:srrAction />
+            <kra-irb-action:genericAction tabTitle="Disapprove"
+                                          bean="${KualiForm.actionHelper.protocolDisapproveBean}"
+                                          property="actionHelper.protocolDisapproveBean"
+                                          taskName="protocolDisapprove"
+                                          methodToCall="disapproveProtocol"
+                                          canPerformAction="${KualiForm.actionHelper.canDisapprove}"
+                                          defaultOpen="${KualiForm.actionHelper.isDisapproveOpenForFollowup}"/>
+            <kra-irb-action:genericAction tabTitle="Return for Specific Minor Revisions"
+                                          bean="${KualiForm.actionHelper.protocolSMRBean}"
+                                          property="actionHelper.protocolSMRBean"
+                                          taskName="protocolReturnForSMR"
+                                          methodToCall="returnForSMR"
+                                          canPerformAction="${KualiForm.actionHelper.canReturnForSMR}"
+                                          defaultOpen="${KualiForm.actionHelper.isReturnForSMROpenForFollowup}" />
+            <kra-irb-action:genericAction tabTitle="Return for Substantive Revisions Required"
+                                          bean="${KualiForm.actionHelper.protocolSRRBean}"
+                                          property="actionHelper.protocolSRRBean"
+                                          taskName="protocolReturnForSRR"
+                                          methodToCall="returnForSRR"
+                                          canPerformAction="${KualiForm.actionHelper.canReturnForSRR}"
+                                          defaultOpen="${KualiForm.actionHelper.isReturnForSRROpenForFollowup}" />
             <kra-irb-action:notifyIrbAction />
-            <kra-irb-action:irbAcknowledgement />
+            <kra-irb-action:genericAction tabTitle="IRB Acknowledgement"
+                                          bean="${KualiForm.actionHelper.protocolIrbAcknowledgementBean}"
+                                          property="actionHelper.protocolIrbAcknowledgementBean"
+                                          taskName="irbAcknowledgement"
+                                          methodToCall="irbAcknowledgement"
+                                          canPerformAction="${KualiForm.actionHelper.canIrbAcknowledgement}" />
             <kra-irb-action:createAmendmentAction />
             <kra-irb-action:modifyAmendmentSectionsAction />
             <kra-irb-action:createRenewalWithAmendmentAction />
@@ -94,14 +122,61 @@
                                           tabTitle="Request for Termination"/>
             <kra-irb-action:deleteAction />
             <kra-irb-action:makeAdminCorrectionAction />
-            <kra-irb-action:closeEnrollmentAction />
-            <kra-irb-action:reopenAction />
-            <kra-irb-action:permitDataAnalysisAction />
-            <kra-irb-action:suspendAction />
-            <kra-irb-action:suspendByDsmbAction />
-            <kra-irb-action:closeAction />
-            <kra-irb-action:expireAction />
-            <kra-irb-action:terminateAction />
+            <kra-irb-action:genericAction tabTitle="Close Enrollment"
+                                          bean="${KualiForm.actionHelper.protocolCloseEnrollmentBean}"
+                                          property="actionHelper.protocolCloseEnrollmentBean"
+                                          taskName="protocolCloseEnrollment"
+                                          methodToCall="closeEnrollment"
+                                          canPerformAction="${KualiForm.actionHelper.canCloseEnrollment}"
+                                          canAddReviewComments="${KualiForm.actionHelper.canAddCloseEnrollmentReviewerComments}" />
+            <kra-irb-action:genericAction tabTitle="Re-open Enrollment"
+                                          bean="${KualiForm.actionHelper.protocolReopenEnrollmentBean}"
+                                          property="actionHelper.protocolReopenEnrollmentBean"
+                                          taskName="protocolReopen"
+                                          methodToCall="reopenEnrollment"
+                                          canPerformAction="${KualiForm.actionHelper.canReopenEnrollment}"
+                                          canAddReviewComments="${KualiForm.actionHelper.canAddReopenEnrollmentReviewerComments}" />
+            <kra-irb-action:genericAction tabTitle="Data Analysis Only"
+                                          bean="${KualiForm.actionHelper.protocolPermitDataAnalysisBean}"
+                                          property="actionHelper.protocolPermitDataAnalysisBean"
+                                          taskName="protocolPermitDataAnalysis"
+                                          methodToCall="permitDataAnalysis"
+                                          canPerformAction="${KualiForm.actionHelper.canPermitDataAnalysis}"
+                                          canAddReviewComments="${KualiForm.actionHelper.canAddDataAnalysisReviewerComments}" />
+            <kra-irb-action:genericAction tabTitle="Suspend"
+                                          bean="${KualiForm.actionHelper.protocolSuspendBean}"
+                                          property="actionHelper.protocolSuspendBean"
+                                          taskName="protocolSuspend"
+                                          methodToCall="suspend"
+                                          canPerformAction="${KualiForm.actionHelper.canSuspend}"
+                                          canAddReviewComments="${KualiForm.actionHelper.canAddSuspendReviewerComments}" />
+            <kra-irb-action:genericAction tabTitle="Suspend By DSMB"
+                                          bean="${KualiForm.actionHelper.protocolSuspendByDsmbBean}"
+                                          property="actionHelper.protocolSuspendByDsmbBean"
+                                          taskName="protocolSuspendByDsmb"
+                                          methodToCall="suspendByDsmb"
+                                          canPerformAction="${KualiForm.actionHelper.canSuspendByDsmb}"
+                                          canAddReviewComments="false" />
+            <kra-irb-action:genericAction tabTitle="Close"
+                                          bean="${KualiForm.actionHelper.protocolCloseBean}"
+                                          property="actionHelper.protocolCloseBean"
+                                          taskName="protocolClose"
+                                          methodToCall="closeProtocol"
+                                          canPerformAction="${KualiForm.actionHelper.canClose}"
+                                          canAddReviewComments="${KualiForm.actionHelper.canAddCloseReviewerComments}" />
+            <kra-irb-action:genericAction tabTitle="Expire"
+                                          bean="${KualiForm.actionHelper.protocolExpireBean}"
+                                          property="actionHelper.protocolExpireBean"
+                                          taskName="protocolExpire"
+                                          methodToCall="expire"
+                                          canPerformAction="${KualiForm.actionHelper.canExpire}" />
+            <kra-irb-action:genericAction tabTitle="Terminate"
+                                          bean="${KualiForm.actionHelper.protocolTerminateBean}"
+                                          property="actionHelper.protocolTerminateBean"
+                                          taskName="protocolTerminate"
+                                          methodToCall="terminate"
+                                          canPerformAction="${KualiForm.actionHelper.canTerminate}"
+                                          canAddReviewComments="${KualiForm.actionHelper.canAddTerminateReviewerComments}" />
             <kra-irb-action:reviewNotRequiredAction />
             <kra-irb-action:undoLastAction />
             <kra-irb-action:manageReviewComments />

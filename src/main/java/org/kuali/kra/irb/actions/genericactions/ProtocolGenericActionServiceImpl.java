@@ -99,7 +99,7 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
     }
 
     /**{@inheritDoc}**/
-    public void reopen(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
+    public void reopenEnrollment(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, ProtocolActionType.REOPEN_ENROLLMENT, ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT);
     }
     
