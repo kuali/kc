@@ -163,6 +163,23 @@ public class SaveCustomAttributeRuleTest extends ProposalDevelopmentRuleTestBase
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(RiceKeyConstants.ERROR_INVALID_FORMAT, message.getErrorKey());
     }
+    
+    @Test
+    public void testInvalidDateValue() throws Exception {
+
+        ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
+        document.setCustomAttributeDocuments(TestUtilities.setupTestCustomAttributeDocuments());
+
+        document.getCustomAttributeDocuments().get("1").getCustomAttribute().setValue(TestUtilities.BILLING_ELEMENT_VALUE);
+        document.getCustomAttributeDocuments().get("4").getCustomAttribute().setValue(TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
+        document.getCustomAttributeDocuments().get("8").getCustomAttribute().setValue("02/29/2010");
+        SaveCustomAttributeEvent saveCustomAttributeEvent = new SaveCustomAttributeEvent(Constants.EMPTY_STRING, document);
+        assertFalse(rule.processRules(saveCustomAttributeEvent));
+        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages("customAttributeValues(id8)");
+        assertTrue(errors.size() == 1);
+        ErrorMessage message = (ErrorMessage) errors.get(0);
+        assertEquals(KeyConstants.ERROR_DATE, message.getErrorKey());
+    }
 
 
     
