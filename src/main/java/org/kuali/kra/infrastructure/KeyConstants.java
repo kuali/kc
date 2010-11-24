@@ -65,6 +65,9 @@ public final class KeyConstants {
     // Proposal Development Questions
     public static final String QUESTION_CONFIRM_CLEAR_DELIVERY_ADDRESS_INFO="document.question.clearDeliveryAddress.text";
     
+    //Proposal Development Custome Attribute Date
+    public static final String ERROR_DATE="error.date";
+    
     // Key Personnel Mojo
     public static final String ERROR_INVESTIGATOR_UNITS_UPBOUND = "error.investigatorUnits.upbound";
     public static final String ERROR_INVESTIGATOR_UPBOUND = "error.principalInvestigators.upbound";
