@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.rules;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -130,6 +132,18 @@ public class SaveCustomAttributeRule extends ResearchDocumentRuleBase implements
             }
         }
         
+        if (isValid && customAttributeDataType.getDescription().equals("Date")) {
+            if (!StringUtils.isEmpty(attributeValue)) {
+                try {
+                    DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
+                    dateFormat.setLenient(false);
+                    dateFormat.parse(attributeValue);
+                } catch (ParseException e) {
+                    reportError(errorKey, KeyConstants.ERROR_DATE, attributeValue, customAttribute.getLabel());
+                    isValid = false;
+                }
+            }
+        }
         return isValid;
     }
     
