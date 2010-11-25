@@ -108,6 +108,11 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
                 }
             }
         }
+        if (StringUtils.isBlank(((ProtocolForm) form).getDocId())) {
+            // lookup return to submission questionnaire popup
+            forward = mapping.findForward(SUBMISSION_QUESTIONNAIRE);
+            ((ProtocolForm) form).getQuestionnaireHelper().resetHeaderLabels();
+        }
         return forward;
     }
 
