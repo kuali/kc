@@ -569,7 +569,7 @@ function clickMovedn(curidx) {
 }
 
 function clickRemove(curidx) {
-	alert("remove node" +curidx);
+	//alert("remove node" +curidx);
 	var liId = "li#qnaireid" + curidx;
 	// TODO : IE problem , clone does not clone child node
 		// removedNode = $(liId).clone(true);

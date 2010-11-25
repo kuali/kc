@@ -29,6 +29,7 @@ import org.jboss.util.collection.CollectionsUtil;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.questionnaire.QuestionnaireQuestion;
+import org.kuali.kra.questionnaire.QuestionnaireQuestionComparator;
 import org.kuali.kra.questionnaire.QuestionnaireUsage;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -160,6 +161,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         List<AnswerHeader> answerHeaders = initAnswerHeaders(moduleQuestionnaireBean, answerHeaderMap, moduleQuestionnaireBean
                 .isFinalDoc());
         for (AnswerHeader answerHeader : answerHeaders) {
+            Collections.sort(answerHeader.getAnswers(), new AnswerComparator());
             answerHeader.setCompleted(isQuestionnaireAnswerComplete(answerHeader.getAnswers()));
         }
         return answerHeaders;
@@ -408,7 +410,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                 answer.setParentAnswer(parentAnswers.get(answer.getQuestionnaireQuestion().getParentQuestionNumber()));
             }
         }
-        Collections.sort(answers);
+        Collections.sort(answers, new AnswerComparator());
 
         for (Answer answer : answers) {
             if (answer.getQuestionnaireQuestion().getParentQuestionNumber() == 0) {
