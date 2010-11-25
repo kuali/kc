@@ -27,7 +27,7 @@ import org.kuali.kra.questionnaire.question.Question;
 /**
  * Holds a single answer for a {@link Question Question}.
  */
-public class Answer extends KraPersistableBusinessObjectBase implements Comparable<Answer> {
+public class Answer extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
 
@@ -218,68 +218,12 @@ public class Answer extends KraPersistableBusinessObjectBase implements Comparab
         this.matchedChild = matchedChild;
     }
 
-    public int compareTo(Answer argAnswer) {
-        int retVal; 
-
-        if (ObjectUtils.equals(this.getQuestionNumber(), argAnswer.getQuestionNumber())) {
-            retVal =  this.getAnswerNumber().compareTo(argAnswer.getAnswerNumber());
-        } else if (ObjectUtils.equals(this.getQuestionnaireQuestion().getParentQuestionNumber(), argAnswer.getQuestionnaireQuestion()
-                .getParentQuestionNumber())) {
-            retVal = this.getQuestionNumber().compareTo(argAnswer.getQuestionNumber());
-        } else if (ObjectUtils.equals(this.getQuestionnaireQuestion().getParentQuestionNumber(), argAnswer.getQuestionNumber())) {
-            retVal = 1;
-        } else if (ObjectUtils.equals(this.getQuestionNumber(), argAnswer.getQuestionnaireQuestion().getParentQuestionNumber())) {
-            retVal = -1;
-        } else if (this.getQuestionnaireQuestion().getParentQuestionNumber() == 0
-                && argAnswer.getQuestionnaireQuestion().getParentQuestionNumber() != 0) {
-            retVal = this.getQuestionNumber().compareTo(getRootAnswer(argAnswer).getQuestionNumber());
-        } else if (this.getQuestionnaireQuestion().getParentQuestionNumber() != 0
-                && argAnswer.getQuestionnaireQuestion().getParentQuestionNumber() != 0) {
-            if (ObjectUtils.equals(getRootAnswer(this).getQuestionNumber(), getRootAnswer(argAnswer).getQuestionNumber())) {
-                retVal = compareAtSameDepth(this, argAnswer);
-            } else {
-                retVal = getRootAnswer(this).getQuestionNumber().compareTo(getRootAnswer(argAnswer).getQuestionNumber());
-            }
-        } else {
-            retVal = 0;
-        }
-        return retVal;
-    }
-
     public List<Answer> getParentAnswer() {
         return parentAnswer;
     }
 
     public void setParentAnswer(List<Answer> parentAnswer) {
         this.parentAnswer = parentAnswer;
-    }
-
-    private Answer getRootAnswer(Answer argAnswer) {
-
-        Answer thisAnswer = argAnswer;
-        while (thisAnswer.getQuestionnaireQuestion().getParentQuestionNumber() > 0) {
-            thisAnswer = thisAnswer.getParentAnswer().get(0);
-        }
-        return thisAnswer;
-    }
-
-    private int compareAtSameDepth(Answer thisAnswer, Answer argAnswer) {
-        int depth = 1;
-        while (getAncestor(thisAnswer,depth).getQuestionNumber().equals(getAncestor(argAnswer,depth).getQuestionNumber())) {
-            depth++;
-        }
-        return getAncestor(thisAnswer,depth).getQuestionNumber().compareTo(getAncestor(argAnswer,depth).getQuestionNumber());
-    }
-    
-    private Answer getAncestor(Answer argAnswer, int depth) {
-        List<Answer> answers = new ArrayList<Answer>();
-        answers.add(argAnswer);
-        Answer thisAnswer = argAnswer;
-        while (thisAnswer.getQuestionnaireQuestion().getParentQuestionNumber() > 0) {
-            thisAnswer = thisAnswer.getParentAnswer().get(0);
-            answers.add(thisAnswer);
-        }
-        return answers.get(answers.size() - (depth + 1));
     }
 
 }
