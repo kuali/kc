@@ -659,7 +659,7 @@
 		<dependency>
 			<groupId>org.kuali.rice</groupId>
 			<artifactId>rice-impl</artifactId>
-			<version>${rice.version}</version>
+			<version>${rice.snapshot.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>com.oracle</groupId>
@@ -962,7 +962,7 @@
 										<artifactItem>
 											<groupId>org.kuali.rice</groupId>
 											<artifactId>rice-web</artifactId>
-											<version>${rice.version}</version>
+											<version>${rice.snapshot.version}</version>
 											<type>war</type>
 											<overWrite>false</overWrite>
 											<outputDirectory>src/main/webapp</outputDirectory>
@@ -1119,7 +1119,7 @@
 		          			<contextHandlers>
 		          				<contextHandler implementation="org.eclipse.jetty.webapp.WebAppContext">
 		          					<!-- this is kind of hacky not sure if there is a better way -->
-                   					<war>${settings.localRepository}/org/kuali/rice/rice-web/${rice.version}/rice-web-${rice.version}.war</war>
+                   					<war>${settings.localRepository}/org/kuali/rice/rice-web/${rice.version}/rice-web-${rice.snapshot.version}.war</war>
                    					<contextPath>/kr-dev</contextPath>
                					</contextHandler>
 		          			</contextHandlers>
@@ -1226,6 +1226,17 @@
 	</profiles>
 
 	<repositories>
+         <repository> 
+                <id>kuali.nexus</id> 
+                <name>Nexus Repository Manager</name> 
+                <url>http://nexus.kuali.org/content/groups/public</url> 
+                <releases> 
+                        <enabled>true</enabled> 
+                </releases> 
+                <snapshots> 
+                        <enabled>true</enabled> 
+                </snapshots> 
+        </repository> 
 		<repository>
 			<id>kuali</id>
 			<name>Kuali Repository</name>
@@ -1240,6 +1251,21 @@
 			<url>http://repository.jboss.org/nexus/content/groups/public/</url>
 		</repository>
 	</repositories>
+	
+    <pluginRepositories>
+    	<pluginRepository> 
+           <id>kuali.nexus</id> 
+           <name>Nexus Repository Manager</name> 
+           <url>http://nexus.kuali.org/content/groups/public</url> 
+           <releases> 
+                   <enabled>true</enabled> 
+           </releases> 
+           <snapshots> 
+                   <enabled>true</enabled> 
+           </snapshots> 
+   		</pluginRepository>
+   	</pluginRepositories> 
+	
 
     <!-- 
       Maven 3 Migration: The reporting section should be removed when fully migrated to Maven 3
@@ -1337,7 +1363,8 @@
 		<jstl.version>1.1.2</jstl.version>
 		<mysql.version>5.1.13</mysql.version>
 		<oracle.version>10.2.0.3.0</oracle.version>
-		<rice.version>1.0.3</rice.version>
+		<rice.version>1.0.3.1-SNAPSHOT</rice.version>
+		<rice.snapshot.version>1.0.3.1-20101124.204003-3</rice.snapshot.version>
 		<servlet.version>2.4</servlet.version>
 		<slf4j.version>1.6.1</slf4j.version>
 		<springframework.version>2.5.6</springframework.version>
