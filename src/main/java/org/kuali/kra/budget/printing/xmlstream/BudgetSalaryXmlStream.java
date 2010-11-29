@@ -85,7 +85,7 @@ public class BudgetSalaryXmlStream extends BudgetBaseSalaryStream {
 		for (String costElemetDesc : lineItems) {
 			setSalaryTypesForCostElement(costElemetDesc, salaryTypeVoList);
 		}
-		boolean includeNonPersonnel = true;
+		boolean includeNonPersonnel = false;
 		setSalaryTypesForLineItemCalcuAmount(salaryTypeVoList,includeNonPersonnel);
 		List<SalaryType> salaryTypeList = getListOfSalaryTypeXmlObjects(salaryTypeVoList);
 		BudgetSalary budgetSalary = getBudgetSalaryTypeXmlObject();

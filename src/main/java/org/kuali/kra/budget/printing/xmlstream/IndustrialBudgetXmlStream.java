@@ -33,6 +33,7 @@ import noNamespace.BudgetSummaryReportDocument.BudgetSummaryReport;
 import noNamespace.ReportPageType.BudgetSummary;
 import noNamespace.ReportPageType.CalculationMethodology;
 
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
@@ -40,6 +41,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
@@ -84,22 +86,15 @@ public class IndustrialBudgetXmlStream extends BudgetBaseStream {
 			for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
 				if (!(budgetPeriod.getBudgetLineItems() != null && !budgetPeriod
 						.getBudgetLineItems().isEmpty())) {
-					LOG
-							.debug("Skipping printing of empty budget period, for Budget period - "
-									+ budgetPeriod.getBudgetPeriod());
+					LOG.debug("Skipping printing of empty budget period, for Budget period - "+ budgetPeriod.getBudgetPeriod());
 					continue;
 				}
 				this.budgetPeriod = budgetPeriod;
-				BudgetSummaryReport budgetSummaryReport = BudgetSummaryReport.Factory
-						.newInstance();
-				BudgetSummaryReportDocument budgetSummaryReportDocument = BudgetSummaryReportDocument.Factory
-						.newInstance();
+				BudgetSummaryReport budgetSummaryReport = BudgetSummaryReport.Factory.newInstance();
+				BudgetSummaryReportDocument budgetSummaryReportDocument = BudgetSummaryReportDocument.Factory.newInstance();
 				budgetSummaryReport = getIndustrialBudgetReport();
-				budgetSummaryReportDocument
-						.setBudgetSummaryReport(budgetSummaryReport);
-				xmlObjectList.put(BUDGET_PERIOD
-						+ budgetPeriod.getBudgetPeriod(),
-						budgetSummaryReportDocument);
+				budgetSummaryReportDocument.setBudgetSummaryReport(budgetSummaryReport);
+				xmlObjectList.put(BUDGET_PERIOD+ budgetPeriod.getBudgetPeriod(),budgetSummaryReportDocument);
 			}
 		}
 		return xmlObjectList;
@@ -112,13 +107,9 @@ public class IndustrialBudgetXmlStream extends BudgetBaseStream {
 	 */
 	private BudgetSummaryReport getIndustrialBudgetReport() {
 
-		BudgetSummaryReport budgetSummaryReport = BudgetSummaryReport.Factory
-				.newInstance();
-		ReportPageType cumilativePageType = ReportPageType.Factory
-				.newInstance();
-		DevelopmentProposal proposal = ((ProposalDevelopmentDocument) budget
-				.getBudgetDocument().getParentDocument())
-				.getDevelopmentProposal();
+		BudgetSummaryReport budgetSummaryReport = BudgetSummaryReport.Factory.newInstance();
+		ReportPageType cumilativePageType = ReportPageType.Factory.newInstance();
+		DevelopmentProposal proposal = ((ProposalDevelopmentDocument) budget.getBudgetDocument().getParentDocument()).getDevelopmentProposal();
 		ReportHeaderType reportHeaderType = getReportHeaderTypeForCumulativeReport(proposal);
 		budgetSummaryReport.setReportHeader(reportHeaderType);
 		cumilativePageType = getIndustrialBudgetReportPageType();
@@ -217,7 +208,8 @@ public class IndustrialBudgetXmlStream extends BudgetBaseStream {
 					.getBudgetPersonnelDetailsList()) {
 				for (BudgetPersonnelRateAndBase budgetPersRateAndBase : budgetPersDetails
 						.getBudgetPersonnelRateAndBaseList()) {
-					if (!(isRateAndBaseEBonLA(budgetPersRateAndBase) || isRateAndBaseVAonLA(budgetPersRateAndBase))) {
+					if (!(isRateAndBaseOfRateClassTypeEB(budgetPersRateAndBase) || isRateAndBaseOfRateClassTypeVacation(budgetPersRateAndBase) 
+					        || isRateAndBaseOfRateClassTypeLAwithEBVA(budgetPersRateAndBase))) {
 						ReportTypeVO reportTypeVO = getReportTypeVOForIndustrialBudgetSalary(
 								budgetLineItem, budgetPersDetails,
 								budgetPersRateAndBase);
@@ -259,8 +251,7 @@ public class IndustrialBudgetXmlStream extends BudgetBaseStream {
 						budgetPersRateAndBase));
 		reportTypeVO
 				.setBudgetCategoryCode(getBudgetCategoryCodeFroBudgetSalarySummary(
-						budgetPersRateAndBase, budgetPersDetails
-								.getBudgetCategoryCode()));
+						budgetPersRateAndBase, budgetPersDetails));
 		reportTypeVO
 				.setCalculatedCost(getCalculatedForIndustrialBudgetSalary(budgetPersRateAndBase));
 		reportTypeVO.setSalaryRequested(budgetPersRateAndBase
@@ -352,18 +343,14 @@ public class IndustrialBudgetXmlStream extends BudgetBaseStream {
 	private ReportType getReportTypeForIndustrialBudgetSalary(
 			BudgetDecimal salary, ReportTypeVO reportTypeVO) {
 		ReportType reportType = ReportType.Factory.newInstance();
-		reportType.setStartDate(reportTypeVO.getStartDate().toString());
-		reportType.setEndDate(reportTypeVO.getEndDate().toString());
-		reportType.setBudgetCategoryDescription(reportTypeVO
-				.getBudgetCategoryDesc());
+		reportType.setStartDate(DateFormatUtils.format(reportTypeVO.getStartDate(), DATE_FORMAT_MMDDYY));
+		reportType.setEndDate(DateFormatUtils.format(reportTypeVO.getEndDate(), DATE_FORMAT_MMDDYY));
+		reportType.setBudgetCategoryDescription(reportTypeVO.getBudgetCategoryDesc());
 		reportType.setPersonName(reportTypeVO.getPersonName());
-		reportType.setPercentEffort(reportTypeVO.getPercentEffort()
-				.doubleValue());
-		reportType.setPercentCharged(reportTypeVO.getPercentCharged()
-				.doubleValue());
+		reportType.setPercentEffort(reportTypeVO.getPercentEffort().doubleValue());
+		reportType.setPercentCharged(reportTypeVO.getPercentCharged().doubleValue());
 		if (reportTypeVO.getBudgetCategoryCode() != null) {
-			reportType.setBudgetCategoryCode(Integer.parseInt(reportTypeVO
-					.getBudgetCategoryCode()));
+			reportType.setBudgetCategoryCode(Integer.parseInt(reportTypeVO.getBudgetCategoryCode()));
 		}
 		salary = salary.add(reportTypeVO.getSalaryRequested());
 		reportType.setSalaryRequested(salary.doubleValue());
@@ -396,8 +383,8 @@ public class IndustrialBudgetXmlStream extends BudgetBaseStream {
 	private BudgetDecimal getCalculatedForIndustrialBudgetSalary(
 			BudgetPersonnelRateAndBase budgetPersRateAndBase) {
 		BudgetDecimal calculatedCost = BudgetDecimal.ZERO;
-		if (isRateAndBaseOfRateClassTypeEB(budgetPersRateAndBase)
-				|| isRateAndBaseOfRateClassTypeVacation(budgetPersRateAndBase)
+		if (isRateAndBaseEBonLA(budgetPersRateAndBase)
+				|| isRateAndBaseVAonLA(budgetPersRateAndBase)
 				|| isRateAndBaseOfRateClassTypeOverhead(budgetPersRateAndBase)) {
 			calculatedCost = budgetPersRateAndBase.getCalculatedCost();
 		}

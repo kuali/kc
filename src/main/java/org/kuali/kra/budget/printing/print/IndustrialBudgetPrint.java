@@ -44,8 +44,7 @@ public class IndustrialBudgetPrint extends AbstractPrint {
 	 */
 	public List<Source> getXSLTemplates() {
 		ArrayList<Source> sourceList = PrintingUtils
-				.getXSLTforReport(BudgetPrintType.INDUSTRIAL_BUDGET_REPORT
-						.getBudgetPrintType());
+				.getXSLTforReport(BudgetPrintType.INDUSTRIAL_BUDGET_REPORT.getBudgetPrintType());
 		return sourceList;
 	}
 
