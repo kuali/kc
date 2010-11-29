@@ -16,8 +16,6 @@
 package org.kuali.kra.irb.actions.approve;
 
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -30,11 +28,12 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
-import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevel;
-import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelBean;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
@@ -49,13 +48,6 @@ public class ProtocolApproveServiceImplTest extends KcUnitTestBase {
     private static final Date APPROVAL_DATE = DateUtils.convertToSqlDate(DateUtils.addWeeks(ACTION_DATE, -1));
     private static final Date EXPIRATION_DATE = DateUtils.convertToSqlDate(DateUtils.addYears(ACTION_DATE, 1));
     
-    private static final String LOW_RISK_CODE = "1";
-    private static final String HIGH_RISK_CODE = "5";
-    private static final String ACTIVE_STATUS = "A";
-    private static final String INACTIVE_STATUS = "I";
-    private static final Date ASSIGNED_DATE = DateUtils.convertToSqlDate(DateUtils.addDays(new Date(System.currentTimeMillis()), -1));
-    private static final Date INACTIVATED_DATE = new Date(System.currentTimeMillis());
-    private static final String HIGH_RISK_LEVEL_COMMENTS = "Very high risk.";
     private static final String PROTOCOL_TYPE_EXEMPT = "4";
     
     private ProtocolApproveServiceImpl service;
@@ -86,63 +78,42 @@ public class ProtocolApproveServiceImplTest extends KcUnitTestBase {
     }
 
     @Test
-    public void testApprove() throws Exception{
+    public void testFullApproval() throws Exception{
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
-
-        service.approve(protocolDocument, getMockProtocolApproveBean());
         
-        String expected = ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT;
-        assertEquals(expected, protocolDocument.getProtocol().getProtocolStatus().getProtocolStatusCode());
+        service.grantFullApproval(protocolDocument.getProtocol(), getMockProtocolApproveBean());
+        
+        verifyPersistStatusAction(protocolDocument.getProtocol());
     }
     
     @Test
-    public void testApproveRiskLevels() throws Exception {
+    public void testExpeditedApproval() throws Exception {
+        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+
+        service.grantExpeditedApproval(protocolDocument.getProtocol(), getMockProtocolApproveBean());
+    
+        verifyPersistStatusAction(protocolDocument.getProtocol());
+    }
+    
+    @Test
+    public void testResponseApproval() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
-        List<ProtocolRiskLevel> protocolRiskLevels = new ArrayList<ProtocolRiskLevel>();
-        
-        ProtocolRiskLevel lowProtocolRiskLevel = new ProtocolRiskLevel();
-        lowProtocolRiskLevel.setRiskLevelCode(LOW_RISK_CODE);
-        lowProtocolRiskLevel.setDateAssigned(ASSIGNED_DATE);
-        lowProtocolRiskLevel.setStatus(ACTIVE_STATUS);
-        protocolRiskLevels.add(lowProtocolRiskLevel);
-        
-        ProtocolRiskLevel highProtocolRiskLevel = new ProtocolRiskLevel();
-        highProtocolRiskLevel.setRiskLevelCode(HIGH_RISK_CODE);
-        highProtocolRiskLevel.setDateAssigned(ASSIGNED_DATE);
-        highProtocolRiskLevel.setStatus(INACTIVE_STATUS);
-        highProtocolRiskLevel.setDateInactivated(INACTIVATED_DATE);
-        highProtocolRiskLevel.setComments(HIGH_RISK_LEVEL_COMMENTS);
-        protocolRiskLevels.add(highProtocolRiskLevel);
-        
-        protocolDocument.getProtocol().setProtocolRiskLevels(protocolRiskLevels);
-        
-        service.approve(protocolDocument, getMockProtocolApproveBean());
-        
-        verifyPersistRiskLevel(protocolDocument.getProtocol(), 0, LOW_RISK_CODE, ASSIGNED_DATE, ACTIVE_STATUS);
-        verifyPersistRiskLevel(protocolDocument.getProtocol(), 1, HIGH_RISK_CODE, ASSIGNED_DATE, INACTIVE_STATUS, INACTIVATED_DATE, 
-                HIGH_RISK_LEVEL_COMMENTS);
+        service.grantResponseApproval(protocolDocument.getProtocol(), getMockProtocolApproveBean());
+    
+        verifyPersistStatusAction(protocolDocument.getProtocol());
     }
     
-    private void verifyPersistRiskLevel(Protocol protocol, int index, String expectedRiskLevelCode, Date expectedDateAssigned, String expectedStatus) {
-        verifyPersistRiskLevel(protocol, index, expectedRiskLevelCode, expectedDateAssigned, expectedStatus, null, null);
-    }
-    
-    private void verifyPersistRiskLevel(Protocol protocol, int index, String expectedRiskLevelCode, Date expectedDateAssigned, String expectedStatus, 
-            Date expectedDateUpdated, String expectedComments) {
-        ProtocolRiskLevel protocolRiskLevel = findProtocolRiskLevel(protocol, index);
-        assertEquals(protocolRiskLevel.getProtocolId(), protocol.getProtocolId());
-        assertEquals(expectedRiskLevelCode, protocolRiskLevel.getRiskLevelCode());
-        assertEquals(expectedDateAssigned, protocolRiskLevel.getDateAssigned());
-        assertEquals(expectedStatus, protocolRiskLevel.getStatus());
-        assertEquals(expectedDateUpdated, protocolRiskLevel.getDateInactivated());
-        assertEquals(expectedComments, protocolRiskLevel.getComments());
-    }
-    
-    private ProtocolRiskLevel findProtocolRiskLevel(Protocol protocol, int index) {
-        List<ProtocolRiskLevel> riskLevels = protocol.getProtocolRiskLevels();
-        assertTrue(index + 1 <= riskLevels.size());
-        return riskLevels.get(index);
+    private void verifyPersistStatusAction(Protocol protocol) {
+        assertEquals(ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT, protocol.getProtocolStatusCode());
+        
+        assertTrue(!protocol.getProtocolActions().isEmpty());
+        ProtocolAction action = protocol.getLastProtocolAction();
+        assertNotNull(action);
+        assertEquals(APPROVAL_DATE, protocol.getApprovalDate());
+        assertEquals(EXPIRATION_DATE, protocol.getExpirationDate());
+        assertEquals(COMMENTS, action.getComments());
+        assertEquals(ACTION_DATE, action.getActionDate());
     }
     
     private ParameterService getMockParameterService() {
@@ -191,9 +162,6 @@ public class ProtocolApproveServiceImplTest extends KcUnitTestBase {
             
             allowing(bean).getComments();
             will(returnValue(COMMENTS));
-            
-            allowing(bean).getProtocolRiskLevelBean();
-            will(returnValue(new ProtocolRiskLevelBean(Constants.PROTOCOL_APPROVAL_ENTER_RISK_LEVEL_KEY)));
         }});
         
         return bean;

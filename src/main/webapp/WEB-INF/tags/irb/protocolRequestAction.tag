@@ -42,7 +42,25 @@
             <kra-irb-action:assignReviewersAction />
             <kra-irb-action:assignToAgendaAction />
             <kra-irb-action:grantExemptionAction />
-            <kra-irb-action:approveAction />
+            <kra-irb-action:approveAction tabTitle="Approve Action"
+                                          bean="${KualiForm.actionHelper.protocolFullApprovalBean}"
+                                          property="actionHelper.protocolFullApprovalBean"
+                                          taskName="protocolApprove"
+                                          methodToCall="grantFullApproval"
+                                          canPerformAction="${KualiForm.actionHelper.canApproveFull}"
+                                          defaultOpen="${KualiForm.actionHelper.isApproveOpenForFollowup}" />
+            <kra-irb-action:approveAction tabTitle="Expedited Approval"
+                                          bean="${KualiForm.actionHelper.protocolExpeditedApprovalBean}"
+                                          property="actionHelper.protocolExpeditedApprovalBean"
+                                          taskName="protocolExpediteApproval"
+                                          methodToCall="grantExpeditedApproval"
+                                          canPerformAction="${KualiForm.actionHelper.canApproveExpedited}" />
+            <kra-irb-action:approveAction tabTitle="Response Approval"
+                                          bean="${KualiForm.actionHelper.protocolResponseApprovalBean}"
+                                          property="actionHelper.protocolResponseApprovalBean"
+                                          taskName="protocolResponseApproval"
+                                          methodToCall="grantResponseApproval"
+                                          canPerformAction="${KualiForm.actionHelper.canApproveResponse}" />
             <kra-irb-action:recordCommitteeDecisionAction />
             <kra-irb-action:genericAction tabTitle="Defer Action"
 			                              bean="${KualiForm.actionHelper.protocolDeferBean}"
@@ -50,8 +68,6 @@
 			                              taskName="protocolDefer"
 			                              methodToCall="defer"
 			                              canPerformAction="${KualiForm.actionHelper.canDefer}" />
-            <kra-irb-action:expediteApprovalAction />
-            <kra-irb-action:responseApprovalAction />
             <kra-irb-action:genericAction tabTitle="Disapprove"
                                           bean="${KualiForm.actionHelper.protocolDisapproveBean}"
                                           property="actionHelper.protocolDisapproveBean"

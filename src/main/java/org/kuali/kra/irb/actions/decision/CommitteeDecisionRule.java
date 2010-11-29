@@ -78,7 +78,7 @@ public class CommitteeDecisionRule extends ResearchDocumentRuleBase implements E
         boolean retVal = true;
         
         if (StringUtils.isBlank(committeeDecision.getMotionTypeCode())) { 
-            reportError(Constants.PROTOCOL_RECORD_COMMITTEE_KEY + DOT + MOTION_FIELD, KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_MOTION);
+            reportError(Constants.PROTOCOL_COMMITTEE_DECISION_ACTION_PROPERTY_KEY + DOT + MOTION_FIELD, KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_MOTION);
             retVal = false;
         } else {
             String motionTypeCode = committeeDecision.getMotionTypeCode();
@@ -88,7 +88,7 @@ public class CommitteeDecisionRule extends ResearchDocumentRuleBase implements E
             if ((CommitteeDecisionMotionType.SPECIFIC_MINOR_REVISIONS.equals(motionTypeCode) 
                     || CommitteeDecisionMotionType.SUBSTANTIVE_REVISIONS_REQUIRED.equals(motionTypeCode)) 
                     && CollectionUtils.isEmpty(filterReviewComments(reviewComments, protocol))) {
-                reportError(Constants.PROTOCOL_RECORD_COMMITTEE_KEY + DOT + MOTION_FIELD, 
+                reportError(Constants.PROTOCOL_COMMITTEE_DECISION_ACTION_PROPERTY_KEY + DOT + MOTION_FIELD, 
                             KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_SMR_SRR_REVIEWER_COMMENTS);
                 retVal = false;
             }
@@ -115,17 +115,17 @@ public class CommitteeDecisionRule extends ResearchDocumentRuleBase implements E
         int membersPresent = getAttendanceService().getActualVotingMembersCount(committeeId, scheduleId);
         
         if (membersPresent < committeeDecision.getTotalVoteCount()) {
-            reportError(Constants.PROTOCOL_RECORD_COMMITTEE_KEY, 
+            reportError(Constants.PROTOCOL_COMMITTEE_DECISION_ACTION_PROPERTY_KEY, 
                     KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_INVALID_VOTE_COUNT);
             retVal = false;
         }
         if (CommitteeDecisionMotionType.APPROVE.equals(committeeDecision.getMotionTypeCode()) && committeeDecision.getYesCount() == null) {
-            reportError(Constants.PROTOCOL_RECORD_COMMITTEE_KEY + DOT + YES_COUNT_FIELD, 
+            reportError(Constants.PROTOCOL_COMMITTEE_DECISION_ACTION_PROPERTY_KEY + DOT + YES_COUNT_FIELD, 
                     KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_YES_VOTES);
             retVal = false;
         }
         if (CommitteeDecisionMotionType.DISAPPROVE.equals(committeeDecision.getMotionTypeCode()) && committeeDecision.getNoCount() == null) {
-            reportError(Constants.PROTOCOL_RECORD_COMMITTEE_KEY + DOT + NO_COUNT_FIELD, 
+            reportError(Constants.PROTOCOL_COMMITTEE_DECISION_ACTION_PROPERTY_KEY + DOT + NO_COUNT_FIELD, 
                     KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_NO_VOTES);
             retVal = false;
         }

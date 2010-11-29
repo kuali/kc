@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.actions.approve;
 
-import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.Protocol;
 
 /**
  * 
@@ -24,12 +24,27 @@ import org.kuali.kra.irb.ProtocolDocument;
 public interface ProtocolApproveService {
     
     /**
-     *     
-     * This method adds a new protocol action to the protocol which is an approval.
-     * @param protocol The protocol to be acted upon
-     * @param actionBean the bean that contains UI information
-     * @throws Exception if a problem occurs while persisting the data
+     * Approves a full submission to a Protocol.
+     * @param protocol the current Protocol
+     * @param actionBean the bean that contains the comments and dates
+     * @throws Exception
      */
-    void approve(ProtocolDocument protocolDocument, ProtocolApproveBean actionBean) throws Exception;
+    void grantFullApproval(Protocol protocol, ProtocolApproveBean actionBean) throws Exception;
+
+    /**
+     * Approves an expedited submission to a Protocol.
+     * @param protocol the current Protocol
+     * @param actionBean the bean that contains the comments and dates
+     * @throws Exception
+     */
+    void grantExpeditedApproval(Protocol protocol, ProtocolApproveBean actionBean) throws Exception;
+    
+    /**
+     * Approves a response submission to a Protocol.
+     * @param protocol the current Protocol
+     * @param actionBean the bean that contains the comments and dates
+     * @throws Exception
+     */
+    void grantResponseApproval(Protocol protocol, ProtocolApproveBean actionBean) throws Exception;
 
 }
