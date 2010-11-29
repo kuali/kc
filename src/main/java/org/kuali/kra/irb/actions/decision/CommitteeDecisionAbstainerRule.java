@@ -35,7 +35,7 @@ public class CommitteeDecisionAbstainerRule extends CommitteeDecisionVoterRuleBa
     public boolean proccessCommitteeDecisionAbstainerRule(ProtocolDocument document, CommitteeDecision committeeDecision) {
         boolean retVal = true;
         if (!processVoter(committeeDecision.getNewAbstainer(), committeeDecision.getAbstainers(), committeeDecision.getRecused())) {
-            GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_RECORD_COMMITTEE_KEY + ".newAbstainer.membershipId", 
+            GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_COMMITTEE_DECISION_ACTION_PROPERTY_KEY + ".newAbstainer.membershipId", 
                     KeyConstants.ERROR_PROTOCOL_RECORD_COMMITTEE_ABSTAIN_RECUSED_ALREADY_EXISTS);
             retVal = false; 
         }

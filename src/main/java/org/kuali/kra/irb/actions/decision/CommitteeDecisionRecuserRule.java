@@ -34,7 +34,7 @@ public class CommitteeDecisionRecuserRule extends CommitteeDecisionVoterRuleBase
         boolean retVal = true; 
         
         if(!processVoter(committeeDecision.getNewRecused(), committeeDecision.getAbstainers(), committeeDecision.getRecused())) {
-            GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_RECORD_COMMITTEE_KEY + ".newRecused.membershipId", 
+            GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_COMMITTEE_DECISION_ACTION_PROPERTY_KEY + ".newRecused.membershipId", 
                     KeyConstants.ERROR_PROTOCOL_RECORD_COMMITTEE_ABSTAIN_RECUSED_ALREADY_EXISTS);
             retVal = false;
         }

@@ -42,7 +42,7 @@ public class ProtocolAssignToAgendaBean extends ProtocolGenericActionBean implem
      * @param actionHelper a reference back to the parent helper
      */
     public ProtocolAssignToAgendaBean(ActionHelper actionHelper) {
-        super(actionHelper, Constants.PROTOCOL_ASSIGN_TO_AGENDA_ENTER_REVIEW_COMMENTS_KEY);
+        super(actionHelper, Constants.PROTOCOL_ASSIGN_TO_AGENDA_ACTION_PROPERTY_KEY);
     }
 
     public void setCommitteeId(String committeeId) {

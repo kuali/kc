@@ -74,8 +74,8 @@ import org.kuali.kra.irb.actions.decision.CommitteeDecisionRecuserEvent;
 import org.kuali.kra.irb.actions.decision.CommitteeDecisionService;
 import org.kuali.kra.irb.actions.decision.CommitteePerson;
 import org.kuali.kra.irb.actions.delete.ProtocolDeleteService;
-import org.kuali.kra.irb.actions.expediteapproval.ProtocolExpediteApprovalService;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
+import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionEvent;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionService;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionBean;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionService;
@@ -96,9 +96,6 @@ import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
 import org.kuali.kra.irb.actions.request.ProtocolRequestEvent;
 import org.kuali.kra.irb.actions.request.ProtocolRequestRule;
 import org.kuali.kra.irb.actions.request.ProtocolRequestService;
-import org.kuali.kra.irb.actions.responseapproval.ProtocolResponseApprovalEvent;
-import org.kuali.kra.irb.actions.responseapproval.ProtocolResponseApprovalRule;
-import org.kuali.kra.irb.actions.responseapproval.ProtocolResponseApprovalService;
 import org.kuali.kra.irb.actions.reviewcomments.ProtocolAddReviewCommentEvent;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
@@ -1264,7 +1261,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     }
     
     /**
-     * Perform Protocol Approve Action - maps to IRBReview RouteNode 
+     * Perform Full Approve Action - maps to IRBReview RouteNode.
      * @param mapping
      * @param form
      * @param request
@@ -1272,21 +1269,25 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      * @return
      * @throws Exception
      */
-    public ActionForward approveAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    public ActionForward grantFullApproval(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+        throws Exception {
+        
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        
         ProtocolForm protocolForm = (ProtocolForm) form;
-        if (hasPermission(TaskName.APPROVE_PROTOCOL, protocolForm.getProtocolDocument().getProtocol())) {
-            if (applyRules(new ProtocolApproveEvent(protocolForm.getProtocolDocument(), protocolForm.getActionHelper()
-                    .getProtocolApproveBean()))) {
+        ProtocolDocument document = protocolForm.getProtocolDocument();
+        ProtocolApproveBean actionBean = protocolForm.getActionHelper().getProtocolFullApprovalBean();
+        
+        if (hasPermission(TaskName.APPROVE_PROTOCOL, document.getProtocol())) {
+            if (applyRules(new ProtocolApproveEvent(document, actionBean))) {
                 forward = super.approve(mapping, protocolForm, request, response);
-                ProtocolApproveBean actionBean = protocolForm.getActionHelper().getProtocolApproveBean();
-                getProtocolApproveService().approve(protocolForm.getProtocolDocument(), actionBean);
-                if (protocolForm.getProtocolDocument().getProtocol().isAmendment() || protocolForm.getProtocolDocument().getProtocol().isRenewal()) {
-                    forward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
-                    
-                } 
+                getProtocolApproveService().grantFullApproval(document.getProtocol(), actionBean);
                 saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
+                if (document.getProtocol().isAmendment() || document.getProtocol().isRenewal()) {
+                    forward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+                }
+                
+                recordProtocolActionSuccess("Full Approval");
             }
         }
         
@@ -1294,7 +1295,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     }
     
     /**
-     * Expedite Approval.
+     * Perform Expedited Approve Action.
      * @param mapping
      * @param form
      * @param request
@@ -1302,20 +1303,30 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      * @return
      * @throws Exception
      */
-    public ActionForward expediteApproval(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    public ActionForward grantExpeditedApproval(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+        throws Exception {
+        
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolApproveBean actionBean = protocolForm.getActionHelper().getProtocolExpediteApprovalBean();
-        getProtocolExpediteApprovalService().grantExpeditedApproval(protocolForm.getProtocolDocument().getProtocol(), actionBean);
-        saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
+        ProtocolDocument document = protocolForm.getProtocolDocument();
+        ProtocolApproveBean actionBean = protocolForm.getActionHelper().getProtocolExpeditedApprovalBean();
         
-        recordProtocolActionSuccess("Expedited Approval");
-        return mapping.findForward(KNSConstants.MAPPING_PORTAL);            
+        if (hasPermission(TaskName.EXPEDITE_APPROVAL, document.getProtocol())) {
+            if (applyRules(new ProtocolApproveEvent(document, actionBean))) {
+                getProtocolApproveService().grantExpeditedApproval(protocolForm.getProtocolDocument().getProtocol(), actionBean);
+                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
+                forward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+                
+                recordProtocolActionSuccess("Expedited Approval");
+            }
+        }
+        
+        return forward;
     }
     
     /**
-     * Approves a protocol for a Response Review Type.
+     * Perform Response Approve Action.
      * @param mapping
      * @param form
      * @param request
@@ -1323,21 +1334,26 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      * @return
      * @throws Exception
      */
-    public ActionForward approveResponse(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    public ActionForward grantResponseApproval(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+        throws Exception {
+        
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolDocument document = protocolForm.getProtocolDocument();
         ProtocolApproveBean actionBean = protocolForm.getActionHelper().getProtocolResponseApprovalBean();
         
-        if (applyRules(new ProtocolResponseApprovalEvent<ProtocolResponseApprovalRule>(document, actionBean))) {
-            getProtocolResponseApprovalService().approveResponse(document.getProtocol(), actionBean);
-            saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-            
-            recordProtocolActionSuccess("Response Approval");
+        if (hasPermission(TaskName.RESPONSE_APPROVAL, document.getProtocol())) {
+            if (applyRules(new ProtocolApproveEvent(document, actionBean))) {
+                getProtocolApproveService().grantResponseApproval(document.getProtocol(), actionBean);
+                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
+                forward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+                
+                recordProtocolActionSuccess("Response Approval");
+            }
         }
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return forward;
     }
     
     /**
@@ -1406,14 +1422,17 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      */
     public ActionForward closeProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+        ProtocolDocument document = protocolForm.getProtocolDocument();
+        Protocol protocol = document.getProtocol();
+        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolCloseBean();
         
         if (hasGenericPermission(GenericProtocolAuthorizer.CLOSE_PROTOCOL, protocol)) {
-            ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolCloseBean();
-            getProtocolGenericActionService().close(protocol, actionBean);
-            saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-            
-            recordProtocolActionSuccess("Close");
+            if (applyRules(new ProtocolGenericActionEvent(document, actionBean))) {
+                getProtocolGenericActionService().close(protocol, actionBean);
+                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
+                
+                recordProtocolActionSuccess("Close");
+            }
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -1430,14 +1449,17 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      */
     public ActionForward closeEnrollment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+        ProtocolDocument document = protocolForm.getProtocolDocument();
+        Protocol protocol = document.getProtocol();
+        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolCloseEnrollmentBean();
         
         if (hasGenericPermission(GenericProtocolAuthorizer.CLOSE_ENROLLMENT_PROTOCOL, protocol)) {
-            ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolCloseEnrollmentBean();
-            getProtocolGenericActionService().closeEnrollment(protocol, actionBean);
-            saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
+            if (applyRules(new ProtocolGenericActionEvent(document, actionBean))) {
+                getProtocolGenericActionService().closeEnrollment(protocol, actionBean);
+                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
             
-            recordProtocolActionSuccess("Close Enrollment");
+                recordProtocolActionSuccess("Close Enrollment");
+            }
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -1456,22 +1478,23 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+        ProtocolDocument document = protocolForm.getProtocolDocument();
+        Protocol protocol = document.getProtocol();
+        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolDeferBean();
         
         if (hasPermission(TaskName.DEFER_PROTOCOL, protocol)) {
-            ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolDeferBean();
-            
-            ProtocolDocument newDocument = getProtocolGenericActionService().defer(protocol, actionBean);
-            
-            saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-            
-            protocolForm.setDocId(newDocument.getDocumentNumber());
-            loadDocument(protocolForm);
-            protocolForm.getProtocolHelper().prepareView();
-            
-            recordProtocolActionSuccess("Defer");
-            
-            forward = mapping.findForward(PROTOCOL_TAB);
+            if (applyRules(new ProtocolGenericActionEvent(document, actionBean))) {
+                ProtocolDocument newDocument = getProtocolGenericActionService().defer(protocol, actionBean);
+                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
+                
+                protocolForm.setDocId(newDocument.getDocumentNumber());
+                loadDocument(protocolForm);
+                protocolForm.getProtocolHelper().prepareView();
+                
+                recordProtocolActionSuccess("Defer");
+                
+                forward = mapping.findForward(PROTOCOL_TAB);
+            }
         }
         
         return forward;
@@ -1488,14 +1511,17 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      */
     public ActionForward disapproveProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+        ProtocolDocument document = protocolForm.getProtocolDocument();
+        Protocol protocol = document.getProtocol();
+        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolDisapproveBean();
         
         if (hasPermission(TaskName.DISAPPROVE_PROTOCOL, protocol)) {
-            ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolDisapproveBean();
-            getProtocolGenericActionService().disapprove(protocol, actionBean);
-            saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-            
-            recordProtocolActionSuccess("Disapprove");
+            if (applyRules(new ProtocolGenericActionEvent(document, actionBean))) {
+                getProtocolGenericActionService().disapprove(protocol, actionBean);
+                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
+                
+                recordProtocolActionSuccess("Disapprove");
+            }
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -1512,14 +1538,17 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      */
     public ActionForward expire(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+        ProtocolDocument document = protocolForm.getProtocolDocument();
+        Protocol protocol = document.getProtocol();
+        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolExpireBean();
         
         if (hasGenericPermission(GenericProtocolAuthorizer.EXPIRE_PROTOCOL, protocol)) {
-            ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolExpireBean();
-            getProtocolGenericActionService().expire(protocol, actionBean);
-            saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-            
-            recordProtocolActionSuccess("Expire");
+            if (applyRules(new ProtocolGenericActionEvent(document, actionBean))) {
+                getProtocolGenericActionService().expire(protocol, actionBean);
+                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
+                
+                recordProtocolActionSuccess("Expire");
+            }
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -1536,13 +1565,16 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      */
     public ActionForward irbAcknowledgement(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
-        
+        ProtocolDocument document = protocolForm.getProtocolDocument();
+        Protocol protocol = document.getProtocol();
         ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolIrbAcknowledgementBean();
-        getProtocolGenericActionService().irbAcknowledgement(protocol, actionBean);
-        saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-            
-        recordProtocolActionSuccess("IRB Acknowledgement");
+        
+        if (applyRules(new ProtocolGenericActionEvent(document, actionBean))) {
+            getProtocolGenericActionService().irbAcknowledgement(protocol, actionBean);
+            saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
+                
+            recordProtocolActionSuccess("IRB Acknowledgement");
+        }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -1558,14 +1590,17 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      */
     public ActionForward permitDataAnalysis(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+        ProtocolDocument document = protocolForm.getProtocolDocument();
+        Protocol protocol = document.getProtocol();
+        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolPermitDataAnalysisBean();
         
         if (hasGenericPermission(GenericProtocolAuthorizer.PERMIT_DATA_ANALYSIS, protocol)) {
-            ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolPermitDataAnalysisBean();
-            getProtocolGenericActionService().permitDataAnalysis(protocol, actionBean);
-            saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-            
-            recordProtocolActionSuccess("Permit Data Analysis Only");
+            if (applyRules(new ProtocolGenericActionEvent(document, actionBean))) {
+                getProtocolGenericActionService().permitDataAnalysis(protocol, actionBean);
+                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
+                
+                recordProtocolActionSuccess("Permit Data Analysis Only");
+            }
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -1583,14 +1618,17 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      */
     public ActionForward reopenEnrollment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+        ProtocolDocument document = protocolForm.getProtocolDocument();
+        Protocol protocol = document.getProtocol();
+        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolReopenEnrollmentBean();
         
         if (hasGenericPermission(GenericProtocolAuthorizer.REOPEN_PROTOCOL, protocol)) {
-            ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolReopenEnrollmentBean();
-            getProtocolGenericActionService().reopenEnrollment(protocol, actionBean);
-            saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-            
-            recordProtocolActionSuccess("Re-open Enrollment");
+            if (applyRules(new ProtocolGenericActionEvent(document, actionBean))) {
+                getProtocolGenericActionService().reopenEnrollment(protocol, actionBean);
+                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
+                
+                recordProtocolActionSuccess("Re-open Enrollment");
+            }
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -1609,21 +1647,23 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+        ProtocolDocument document = protocolForm.getProtocolDocument();
+        Protocol protocol = document.getProtocol();
+        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSMRBean();
         
         if (hasPermission(TaskName.RETURN_FOR_SMR, protocol)) {
-            ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSMRBean();
-            
-            ProtocolDocument newDocument = getProtocolGenericActionService().returnForSMR(protocol, actionBean);
-            
-            saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());            
-            protocolForm.setDocId(newDocument.getDocumentNumber());
-            loadDocument(protocolForm);
-            protocolForm.getProtocolHelper().prepareView();
-            
-            recordProtocolActionSuccess("Return for Specific Minor Revisions");
-            
-            forward = mapping.findForward(PROTOCOL_TAB);
+            if (applyRules(new ProtocolGenericActionEvent(document, actionBean))) {
+                ProtocolDocument newDocument = getProtocolGenericActionService().returnForSMR(protocol, actionBean);
+                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
+                
+                protocolForm.setDocId(newDocument.getDocumentNumber());
+                loadDocument(protocolForm);
+                protocolForm.getProtocolHelper().prepareView();
+                
+                recordProtocolActionSuccess("Return for Specific Minor Revisions");
+                
+                forward = mapping.findForward(PROTOCOL_TAB);
+            }
         }
         
         return forward;
@@ -1642,21 +1682,23 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+        ProtocolDocument document = protocolForm.getProtocolDocument();
+        Protocol protocol = document.getProtocol();
+        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSRRBean();
         
         if (hasPermission(TaskName.RETURN_FOR_SRR, protocol)) {
-            ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSRRBean();
-            
-            ProtocolDocument newDocument = getProtocolGenericActionService().returnForSRR(protocol, actionBean);
-            
-            saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-            protocolForm.setDocId(newDocument.getDocumentNumber());
-            loadDocument(protocolForm);
-            protocolForm.getProtocolHelper().prepareView();
-            
-            recordProtocolActionSuccess("Return for Substantive Revisions Required");
-            
-            forward = mapping.findForward(PROTOCOL_TAB);
+            if (applyRules(new ProtocolGenericActionEvent(document, actionBean))) {
+                ProtocolDocument newDocument = getProtocolGenericActionService().returnForSRR(protocol, actionBean);
+                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
+                
+                protocolForm.setDocId(newDocument.getDocumentNumber());
+                loadDocument(protocolForm);
+                protocolForm.getProtocolHelper().prepareView();
+                
+                recordProtocolActionSuccess("Return for Substantive Revisions Required");
+                
+                forward = mapping.findForward(PROTOCOL_TAB);
+            }
         }
         
         return forward;
@@ -1673,14 +1715,17 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      */
     public ActionForward suspend(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+        ProtocolDocument document = protocolForm.getProtocolDocument();
+        Protocol protocol = document.getProtocol();
+        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSuspendBean();
         
         if (hasGenericPermission(GenericProtocolAuthorizer.SUSPEND_PROTOCOL, protocol)) {
-            ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSuspendBean();
-            getProtocolGenericActionService().suspend(protocol, actionBean);
-            saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-            
-            recordProtocolActionSuccess("Suspend");
+            if (applyRules(new ProtocolGenericActionEvent(document, actionBean))) {
+                getProtocolGenericActionService().suspend(protocol, actionBean);
+                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
+                
+                recordProtocolActionSuccess("Suspend");
+            }
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -1697,14 +1742,17 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      */
     public ActionForward suspendByDsmb(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+        ProtocolDocument document = protocolForm.getProtocolDocument();
+        Protocol protocol = document.getProtocol();
+        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSuspendByDsmbBean();
         
         if (hasGenericPermission(GenericProtocolAuthorizer.SUSPEND_PROTOCOL_BY_DSMB, protocol)) {
-            ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSuspendByDsmbBean();
-            getProtocolGenericActionService().suspendByDsmb(protocol, actionBean);
-            saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-            
-            recordProtocolActionSuccess("Suspend by DSMB");
+            if (applyRules(new ProtocolGenericActionEvent(document, actionBean))) {
+                getProtocolGenericActionService().suspendByDsmb(protocol, actionBean);
+                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
+                
+                recordProtocolActionSuccess("Suspend by DSMB");
+            }
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -1719,16 +1767,19 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      * @return
      * @throws Exception
      */
-    public ActionForward terminate(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
+    public ActionForward terminate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument document = protocolForm.getProtocolDocument();
+        Protocol protocol = document.getProtocol();
+        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolTerminateBean();
+
         if (hasGenericPermission(GenericProtocolAuthorizer.TERMINATE_PROTOCOL, protocolForm.getProtocolDocument().getProtocol())) {
-            ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolTerminateBean();
-            getProtocolGenericActionService().terminate(protocolForm.getProtocolDocument().getProtocol(), actionBean);
-            saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-            
-            recordProtocolActionSuccess("Terminate");
+            if (applyRules(new ProtocolGenericActionEvent(document, actionBean))) {
+                getProtocolGenericActionService().terminate(protocol, actionBean);
+                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
+                
+                recordProtocolActionSuccess("Terminate");
+            }
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -1939,7 +1990,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolRiskLevelBean protocolRiskLevelBean = getProtocolRiskLevelBean(mapping, form, request, response);
         
         if (protocolRiskLevelBean != null) {
-            String errorPropertyName = protocolRiskLevelBean.getErrorPropertyName();
+            String errorPropertyName = protocolRiskLevelBean.getErrorPropertyKey();
             ProtocolRiskLevel newProtocolRiskLevel = protocolRiskLevelBean.getNewProtocolRiskLevel();
             Protocol protocol = document.getProtocol();
             
@@ -2230,14 +2281,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     
     private ProtocolGrantExemptionService getProtocolGrantExemptionService() {
         return KraServiceLocator.getService(ProtocolGrantExemptionService.class);
-    }
-    
-    private ProtocolExpediteApprovalService getProtocolExpediteApprovalService() {
-        return KraServiceLocator.getService(ProtocolExpediteApprovalService.class);
-    }
-    
-    private ProtocolResponseApprovalService getProtocolResponseApprovalService() {
-        return KraServiceLocator.getService(ProtocolResponseApprovalService.class);
     }
     
     private ProtocolApproveService getProtocolApproveService() {

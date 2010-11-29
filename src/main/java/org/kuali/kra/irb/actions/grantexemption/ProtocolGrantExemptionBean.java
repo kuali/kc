@@ -36,7 +36,7 @@ public class ProtocolGrantExemptionBean extends ProtocolGenericActionBean implem
      * @param actionHelper Reference back to the action helper for this bean
      */
     public ProtocolGrantExemptionBean(ActionHelper actionHelper) {
-        super(actionHelper, Constants.PROTOCOL_GRANT_EXEMPTION_ENTER_REVIEW_COMMENTS_KEY);
+        super(actionHelper, Constants.PROTOCOL_GRANT_EXEMPTION_ACTION_PROPERTY_KEY);
     }
     
     public Date getApprovalDate() {

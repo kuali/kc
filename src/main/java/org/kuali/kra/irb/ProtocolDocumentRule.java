@@ -28,9 +28,6 @@ import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.actions.approve.ExecuteProtocolApproveRule;
-import org.kuali.kra.irb.actions.approve.ProtocolApproveBean;
-import org.kuali.kra.irb.actions.approve.ProtocolApproveRule;
 import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaBean;
 import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaRule;
 import org.kuali.kra.irb.actions.assigncmtsched.ExecuteProtocolAssignCmtSchedRule;
@@ -92,7 +89,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolLocationRule, PermissionsRule, AddProtocolUnitRule, BusinessRuleInterface, ExecuteProtocolSubmitActionRule, ExecuteProtocolAssignCmtSchedRule, ExecuteProtocolAssignReviewersRule, ExecuteProtocolAdminCorrectionRule, ExecuteCommitteeDecisionRule, ExecuteCommitteeDecisionAbstainerRule, ExecuteCommitteeDecisionRecuserRule, ExecuteProtocolModifySubmissionRule, ExecuteProtocolApproveRule, ExecuteProtocolReviewNotRequiredRule {
+public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolLocationRule, PermissionsRule, AddProtocolUnitRule, BusinessRuleInterface, ExecuteProtocolSubmitActionRule, ExecuteProtocolAssignCmtSchedRule, ExecuteProtocolAssignReviewersRule, ExecuteProtocolAdminCorrectionRule, ExecuteCommitteeDecisionRule, ExecuteCommitteeDecisionAbstainerRule, ExecuteCommitteeDecisionRecuserRule, ExecuteProtocolModifySubmissionRule, ExecuteProtocolReviewNotRequiredRule {
 
     private static final String PROTOCOL_PIID_FORM_ELEMENT="protocolHelper.personId";
     private static final String PROTOCOL_LUN_FORM_ELEMENT="protocolHelper.leadUnitNumber";
@@ -296,13 +293,6 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
     public boolean processAssignToCommitteeSchedule(ProtocolDocument document, ProtocolAssignCmtSchedBean actionBean) {
         return new ProtocolAssignCmtSchedRule().processAssignToCommitteeSchedule(document, actionBean);
     }
-    
-    /**
-     * @see org.kuali.kra.irb.actions.assigncmtsched.ExecuteProtocolAssignToAgendaRule#processAssignToAgendaRule(org.kuali.kra.irb.ProtocolDocument, ProtocolAssignToAgendaBean)
-     */
-    public boolean processAssignToAgenda(ProtocolDocument document, ProtocolAssignToAgendaBean actionBean) {
-        return new ProtocolAssignToAgendaRule().processAssignToAgendaRule(document, actionBean);
-    }
 
     /**
      * @see org.kuali.kra.irb.actions.assignreviewers.ExecuteProtocolAssignReviewersRule#processAssignReviewers(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersBean)
@@ -344,10 +334,6 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
     
     private UnitService getUnitService() {
         return KraServiceLocator.getService(UnitService.class);
-    }
-
-    public boolean processApproveRule(ProtocolDocument document, ProtocolApproveBean actionBean) {
-        return new ProtocolApproveRule().processApproveRule(document, actionBean);
     }
     
     public boolean processReviewNotRequiredRule(ProtocolDocument document, ProtocolReviewNotRequiredBean actionBean) {

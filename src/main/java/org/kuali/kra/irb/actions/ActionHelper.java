@@ -132,9 +132,9 @@ public class ActionHelper implements Serializable {
     private boolean canAssignCmtSched = false;
     private boolean canAssignReviewers = false;
     private boolean canGrantExemption = false;
-    private boolean canExpediteApproval = false;
+    private boolean canApproveFull = false;
+    private boolean canApproveExpedited = false;
     private boolean canApproveResponse = false;
-    private boolean canApprove = false;
     private boolean canDisapprove = false;
     private boolean canReturnForSMR = false;
     private boolean canReturnForSRR = false;
@@ -189,8 +189,8 @@ public class ActionHelper implements Serializable {
     private ProtocolAssignCmtSchedBean assignCmtSchedBean;
     private ProtocolAssignReviewersBean protocolAssignReviewersBean;
     private ProtocolGrantExemptionBean protocolGrantExemptionBean;
-    private ProtocolApproveBean protocolApproveBean;
-    private ProtocolApproveBean protocolExpediteApprovalBean;
+    private ProtocolApproveBean protocolFullApprovalBean;
+    private ProtocolApproveBean protocolExpeditedApprovalBean;
     private ProtocolApproveBean protocolResponseApprovalBean;
     private ProtocolGenericActionBean protocolDisapproveBean;
     private ProtocolGenericActionBean protocolSMRBean;
@@ -282,36 +282,36 @@ public class ActionHelper implements Serializable {
         protocolAssignReviewersBean = new ProtocolAssignReviewersBean(this);
         protocolGrantExemptionBean = new ProtocolGrantExemptionBean(this);
         protocolGrantExemptionBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-        protocolExpediteApprovalBean = buildProtocolApproveBean(ProtocolActionType.EXPEDITE_APPROVAL, 
-                Constants.PROTOCOL_EXPEDITE_APPROVAL_ENTER_REVIEW_COMMENTS_KEY, Constants.PROTOCOL_EXPEDITED_APPROVAL_ENTER_RISK_LEVEL_KEY);
+        protocolFullApprovalBean = buildProtocolApproveBean(ProtocolActionType.APPROVED, 
+                Constants.PROTOCOL_FULL_APPROVAL_ACTION_PROPERTY_KEY);
+        protocolExpeditedApprovalBean = buildProtocolApproveBean(ProtocolActionType.EXPEDITE_APPROVAL, 
+                Constants.PROTOCOL_EXPEDITED_APPROVAL_ACTION_PROPERTY_KEY);
         protocolResponseApprovalBean = buildProtocolApproveBean(ProtocolActionType.RESPONSE_APPROVAL, 
-                Constants.PROTOCOL_RESPONSE_APPROVAL_ENTER_REVIEW_COMMENTS_KEY, Constants.PROTOCOL_EXPEDITED_APPROVAL_ENTER_RISK_LEVEL_KEY);
-        protocolApproveBean = buildProtocolApproveBean(ProtocolActionType.APPROVED, 
-                Constants.PROTOCOL_APPROVE_ENTER_REVIEW_COMMENTS_KEY, Constants.PROTOCOL_APPROVAL_ENTER_RISK_LEVEL_KEY);
+                Constants.PROTOCOL_RESPONSE_APPROVAL_ACTION_PROPERTY_KEY);
         protocolDisapproveBean = buildProtocolGenericActionBean(ProtocolActionType.DISAPPROVED, 
-                Constants.PROTOCOL_DISAPPROVE_ENTER_REVIEW_COMMENTS_KEY);
+                Constants.PROTOCOL_DISAPPROVE_ACTION_PROPERTY_KEY);
         protocolSMRBean = buildProtocolGenericActionBean(ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, 
-                Constants.PROTOCOL_SMR_ENTER_REVIEW_COMMENTS_KEY);
+                Constants.PROTOCOL_SMR_ACTION_PROPERTY_KEY);
         protocolSRRBean = buildProtocolGenericActionBean(ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, 
-                Constants.PROTOCOL_SRR_ENTER_REVIEW_COMMENTS_KEY);
+                Constants.PROTOCOL_SRR_ACTION_PROPERTY_KEY);
         protocolReopenEnrollmentBean = buildProtocolGenericActionBean(ProtocolActionType.REOPEN_ENROLLMENT, 
-                Constants.PROTOCOL_REOPEN_ENTER_REVIEW_COMMENTS_KEY);
+                Constants.PROTOCOL_REOPEN_ENROLLMENT_ACTION_PROPERTY_KEY);
         protocolCloseEnrollmentBean = buildProtocolGenericActionBean(ProtocolActionType.CLOSED_FOR_ENROLLMENT, 
-                Constants.PROTOCOL_CLOSE_ENROLLMENT_ENTER_REVIEW_COMMENTS_KEY);
+                Constants.PROTOCOL_CLOSE_ENROLLMENT_ACTION_PROPERTY_KEY);
         protocolSuspendBean = buildProtocolGenericActionBean(ProtocolActionType.SUSPENDED, 
-                Constants.PROTOCOL_SUSPEND_ENTER_REVIEW_COMMENTS_KEY);
+                Constants.PROTOCOL_SUSPEND_ACTION_PROPERTY_KEY);
         protocolSuspendByDsmbBean = buildProtocolGenericActionBean(ProtocolActionType.SUSPENDED_BY_DSMB, 
-                Constants.PROTOCOL_SUSPEND_BY_DMSB_ENTER_REVIEW_COMMENTS_KEY);
+                Constants.PROTOCOL_SUSPEND_BY_DSMB_ACTION_PROPERTY_KEY);
         protocolCloseBean = buildProtocolGenericActionBean(ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, 
-                Constants.PROTOCOL_CLOSE_ENTER_REVIEW_COMMENTS_KEY);
+                Constants.PROTOCOL_CLOSE_ACTION_PROPERTY_KEY);
         protocolExpireBean = buildProtocolGenericActionBean(ProtocolActionType.EXPIRED, 
-                Constants.PROTOCOL_EXPIRE_ENTER_REVIEW_COMMENTS_KEY);
+                Constants.PROTOCOL_EXPIRE_ACTION_PROPERTY_KEY);
         protocolTerminateBean = buildProtocolGenericActionBean(ProtocolActionType.TERMINATED, 
-                Constants.PROTOCOL_TERMINATE_ENTER_REVIEW_COMMENTS_KEY);
+                Constants.PROTOCOL_TERMINATE_ACTION_PROPERTY_KEY);
         protocolPermitDataAnalysisBean = buildProtocolGenericActionBean(ProtocolActionType.DATA_ANALYSIS_ONLY, 
-                Constants.PROTOCOL_PERMIT_DATA_ANALYSIS_ENTER_REVIEW_COMMENTS_KEY);
+                Constants.PROTOCOL_PERMIT_DATA_ANALYSIS_ACTION_PROPERTY_KEY);
         protocolIrbAcknowledgementBean = buildProtocolGenericActionBean(ProtocolActionType.IRB_ACKNOWLEDGEMENT, 
-                Constants.PROTOCOL_IRB_ACKNOWLEDGEMENT_ENTER_REVIEW_COMMENTS_KEY);
+                Constants.PROTOCOL_IRB_ACKNOWLEDGEMENT_ACTION_PROPERTY_KEY);
         protocolAdminCorrectionBean = createAdminCorrectionBean();
         undoLastActionBean = createUndoLastActionBean(getProtocol());
         committeeDecision = new CommitteeDecision(this);
@@ -319,7 +319,7 @@ public class ActionHelper implements Serializable {
         committeeDecision.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         protocolModifySubmissionBean = new ProtocolModifySubmissionBean(this);
         protocolDeferBean = buildProtocolGenericActionBean(ProtocolActionType.DEFERRED, 
-                Constants.PROTOCOL_DEFER_ENTER_REVIEW_COMMENTS_KEY);
+                Constants.PROTOCOL_DEFER_ACTION_PROPERTY_KEY);
         protocolReviewNotRequiredBean = new ProtocolReviewNotRequiredBean(this);
         protocolManageReviewCommentsBean = buildProtocolGenericActionBean(ProtocolActionType.MANAGE_REVIEW_COMMENTS, 
                 Constants.PROTOCOL_MANAGE_REVIEW_COMMENTS_KEY);
@@ -350,7 +350,7 @@ public class ActionHelper implements Serializable {
         actionBeanTaskMap.put(TaskName.PROTOCOL_ADMIN_CORRECTION, protocolAdminCorrectionBean);
         actionBeanTaskMap.put(TaskName.CREATE_PROTOCOL_AMMENDMENT, protocolAmendmentBean);
         actionBeanTaskMap.put(TaskName.CREATE_PROTOCOL_RENEWAL, protocolRenewAmendmentBean);
-        actionBeanTaskMap.put(TaskName.APPROVE_PROTOCOL, protocolApproveBean);
+        actionBeanTaskMap.put(TaskName.APPROVE_PROTOCOL, protocolFullApprovalBean);
         actionBeanTaskMap.put(TaskName.ASSIGN_TO_COMMITTEE_SCHEDULE, assignCmtSchedBean);
         actionBeanTaskMap.put(TaskName.ASSIGN_REVIEWERS, protocolAssignReviewersBean);
         actionBeanTaskMap.put(TaskName.ASSIGN_TO_AGENDA, assignToAgendaBean);
@@ -364,7 +364,7 @@ public class ActionHelper implements Serializable {
         actionBeanTaskMap.put(TaskName.PROTOCOL_AMEND_RENEW_DELETE, protocolDeleteBean);
         actionBeanTaskMap.put(TaskName.DEFER_PROTOCOL, protocolDeferBean);
         actionBeanTaskMap.put(TaskName.DISAPPROVE_PROTOCOL, protocolDisapproveBean);
-        actionBeanTaskMap.put(TaskName.EXPEDITE_APPROVAL, protocolExpediteApprovalBean);
+        actionBeanTaskMap.put(TaskName.EXPEDITE_APPROVAL, protocolExpeditedApprovalBean);
         actionBeanTaskMap.put(TaskName.EXPIRE_PROTOCOL, protocolExpireBean);
         actionBeanTaskMap.put(TaskName.GRANT_EXEMPTION, protocolGrantExemptionBean);
         actionBeanTaskMap.put(TaskName.IRB_ACKNOWLEDGEMENT, protocolIrbAcknowledgementBean);
@@ -413,10 +413,9 @@ public class ActionHelper implements Serializable {
         return bean;
     }
     
-    private ProtocolApproveBean buildProtocolApproveBean(String actionTypeCode, String protocolOnlineReviewCommentsErrorPropertyKey, 
-            String protocolRiskLevelCommentsErrorPropertyKey) throws Exception {
+    private ProtocolApproveBean buildProtocolApproveBean(String actionTypeCode, String errorPropertyKey) throws Exception {
         
-        ProtocolApproveBean bean = new ProtocolApproveBean(this, protocolOnlineReviewCommentsErrorPropertyKey, protocolRiskLevelCommentsErrorPropertyKey);
+        ProtocolApproveBean bean = new ProtocolApproveBean(this, errorPropertyKey);
         
         bean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         ProtocolAction protocolAction = findProtocolAction(actionTypeCode, getProtocol().getProtocolActions(), getProtocol().getProtocolSubmission());
@@ -672,9 +671,9 @@ public class ActionHelper implements Serializable {
         canAssignCmtSched = hasAssignCmtSchedPermission();
         canAssignReviewers = hasAssignReviewersPermission();
         canGrantExemption = hasGrantExemptionPermission();
-        canExpediteApproval = hasExpediteApprovalPermission();
+        canApproveFull = hasFullApprovePermission();
+        canApproveExpedited = hasExpeditedApprovalPermission();
         canApproveResponse = hasResponseApprovalPermission();
-        canApprove = hasApprovePermission();
         canDisapprove = hasDisapprovePermission();
         canReturnForSMR = hasReturnForSMRPermission();
         canReturnForSRR = hasReturnForSRRPermission();
@@ -726,9 +725,9 @@ public class ActionHelper implements Serializable {
         assignToAgendaBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         protocolGrantExemptionBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         protocolIrbAcknowledgementBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-        protocolExpediteApprovalBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        protocolFullApprovalBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        protocolExpeditedApprovalBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         protocolResponseApprovalBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-        protocolApproveBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         protocolDisapproveBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         protocolSMRBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         protocolSRRBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
@@ -875,16 +874,16 @@ public class ActionHelper implements Serializable {
         return hasPermission(TaskName.GRANT_EXEMPTION);
     }
     
-    private boolean hasExpediteApprovalPermission() {
+    private boolean hasFullApprovePermission() {
+        return hasPermission(TaskName.APPROVE_PROTOCOL);
+    }
+    
+    private boolean hasExpeditedApprovalPermission() {
         return hasPermission(TaskName.EXPEDITE_APPROVAL);
     }
     
     private boolean hasResponseApprovalPermission() {
         return hasPermission(TaskName.RESPONSE_APPROVAL);
-    }
-    
-    private boolean hasApprovePermission() {
-        return hasPermission(TaskName.APPROVE_PROTOCOL);
     }
     
     private boolean hasDisapprovePermission() {
@@ -1138,16 +1137,16 @@ public class ActionHelper implements Serializable {
         return protocolGrantExemptionBean;
     }
 
-    public ProtocolApproveBean getProtocolExpediteApprovalBean() {
-        return protocolExpediteApprovalBean;
+    public ProtocolApproveBean getProtocolFullApprovalBean() {
+        return protocolFullApprovalBean;
+    }
+
+    public ProtocolApproveBean getProtocolExpeditedApprovalBean() {
+        return protocolExpeditedApprovalBean;
     }
     
     public ProtocolApproveBean getProtocolResponseApprovalBean() {
         return protocolResponseApprovalBean;
-    }
-
-    public ProtocolApproveBean getProtocolApproveBean() {
-        return protocolApproveBean;
     }
     
     public ProtocolGenericActionBean getProtocolDisapproveBean() {
@@ -1282,16 +1281,16 @@ public class ActionHelper implements Serializable {
         return canGrantExemption;
     }
     
-    public boolean getCanExpediteApproval() {
-        return canExpediteApproval;
+    public boolean getCanApproveFull() {
+        return canApproveFull;
+    }
+    
+    public boolean getCanApproveExpedited() {
+        return canApproveExpedited;
     }
     
     public boolean getCanApproveResponse() {
         return canApproveResponse;
-    }
-    
-    public boolean getCanApprove() {
-        return canApprove;
     }
     
     public boolean getCanDisapprove() {
