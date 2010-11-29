@@ -15,47 +15,36 @@
  */
 package org.kuali.kra.irb.actions.approve;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.kra.rule.BusinessRuleInterface;
+import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 
 /**
- * The event that occurs when the IRB Administrator approves a protocol.
+ * Encapsulates the event that the IRB Administrator approves a protocol.
  */
-public class ProtocolApproveEvent extends KraDocumentEventBase {
+public class ProtocolApproveEvent extends KraDocumentEventBaseExtension {
+        
+    private ProtocolApproveBean protocolApproveBean;
     
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolApproveEvent.class);
+    /**
+     * Constructs a ProtocolApproveEvent.
+     * @param document the document to validate
+     * @param protocolApproveBean the bean that keeps the comments and dates
+     */
+    public ProtocolApproveEvent(ProtocolDocument document, ProtocolApproveBean protocolApproveBean) {
+        super("Approving document " + getDocumentId(document), protocolApproveBean.getErrorPropertyKey(), document);
+        
+        this.protocolApproveBean = protocolApproveBean;
+    }
     
-    private ProtocolApproveBean actionBean;
-    
-    public ProtocolApproveEvent(ProtocolDocument document, ProtocolApproveBean actionBean) {
-        super("Approving document " + getDocumentId(document), "", document);
-        this.actionBean = actionBean;
-        logEvent();
+    public ProtocolApproveBean getProtocolApproveBean() {
+        return protocolApproveBean;
     }
 
     @Override
-    protected void logEvent() {
-        StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
-        logMessage.append(" with ");
-
-        if (this.actionBean == null) {
-            logMessage.append("null actionBean");
-        }
-        else {
-            logMessage.append(actionBean.toString());
-        }
-
-        LOG.debug(logMessage);
-    }
-
     @SuppressWarnings("unchecked")
-    public Class getRuleInterfaceClass() {
-        return ExecuteProtocolApproveRule.class;
+    public BusinessRuleInterface getRule() {
+        return new ProtocolApproveRule();
     }
-
-    public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((ExecuteProtocolApproveRule) rule).processApproveRule((ProtocolDocument) getDocument(), actionBean);
-    }
+    
 }

@@ -15,55 +15,37 @@
  */
 package org.kuali.kra.irb.actions.assignagenda;
 
-import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.kra.rule.BusinessRuleInterface;
+import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 
 /**
  * The event that occurs when the IRB Administrator assigns a protocol to an agenda.
  */
-public class ProtocolAssignToAgendaEvent extends KraDocumentEventBase {
+public class ProtocolAssignToAgendaEvent extends KraDocumentEventBaseExtension {
 
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
-            .getLog(ProtocolAssignToAgendaEvent.class);
-
-    private ProtocolAssignToAgendaBean actionBean;
+    private ProtocolAssignToAgendaBean protocolAssignToAgendaBean;
     
     /**
-     * 
-     * Constructs a ProtocolAssignToAgendaEvent.java.
-     * @param document a ProtocolDocument object
-     * @param actionBean a ProtocolAssignToAgendaBean object
+     * Constructs a ProtocolAssignToAgendaEvent.
+     * @param document the document to validate
+     * @param protocolAssignToAgendaBean the bean that keeps the data
      */
-    public ProtocolAssignToAgendaEvent(ProtocolDocument document, ProtocolAssignToAgendaBean actionBean) {
-        super("Submitting to agenda document " + getDocumentId(document), "", document);
-        this.actionBean = actionBean;
-        logEvent();
+    public ProtocolAssignToAgendaEvent(ProtocolDocument document, ProtocolAssignToAgendaBean protocolAssignToAgendaBean) {
+        super("Submitting to agenda document " + getDocumentId(document), Constants.PROTOCOL_ASSIGN_TO_AGENDA_ACTION_PROPERTY_KEY, document);
+        
+        this.protocolAssignToAgendaBean = protocolAssignToAgendaBean;
+    }
+    
+    public ProtocolAssignToAgendaBean getProtocolAssignToAgendaBean() {
+        return protocolAssignToAgendaBean;
     }
 
     @Override
-    protected void logEvent() {
-        StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
-        logMessage.append(" with ");
-
-        // vary logging detail as needed
-        if (this.actionBean == null) {
-            logMessage.append("null actionBean");
-        } else {
-            logMessage.append(actionBean.toString());
-        }
-
-        LOG.debug(logMessage);
-    }
-
-    public Class getRuleInterfaceClass() {
-        return ExecuteProtocolAssignToAgendaRule.class;
+    @SuppressWarnings("unchecked")
+    public BusinessRuleInterface getRule() {
+        return new ProtocolAssignToAgendaRule();
     }
     
-    /** {@inheritDoc} */
-    public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((ExecuteProtocolAssignToAgendaRule) rule).processAssignToAgendaRule((ProtocolDocument) this.getDocument(),
-                this.actionBean);
-    }
 }

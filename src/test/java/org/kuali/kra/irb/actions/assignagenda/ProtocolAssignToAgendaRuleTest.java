@@ -21,15 +21,11 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.legacy.ClassImposteriser;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.kra.rules.TemplateRuleTest;
 
 /**
  * Test the business rules for Assigning a protocol to a committee.
@@ -40,28 +36,12 @@ public class ProtocolAssignToAgendaRuleTest extends ProtocolRuleTestBase {
     
     private static final String COMMITTEE_ID = "10014";
     private static final Date ACTION_DATE = new Date(System.currentTimeMillis());
-
-    private ProtocolAssignToAgendaRule rule;
+    
+    private static final String COMMITTEE_ID_FIELD = "committeeId";
     
     private Mockery context = new JUnit4Mockery() {{
         setImposteriser(ClassImposteriser.INSTANCE);
     }};
-    
-    @Override
-    @Before
-    public void setUp() throws Exception {
-        super.setUp();
-        
-        rule = new ProtocolAssignToAgendaRule();
-    }
-
-    @Override
-    @After
-    public void tearDown() throws Exception {
-        rule = null;
-        
-        super.tearDown();
-    }
 
     /**
      * Test a valid assignment.
@@ -69,10 +49,16 @@ public class ProtocolAssignToAgendaRuleTest extends ProtocolRuleTestBase {
      */
     @Test
     public void testHasCommittee() throws Exception {
-        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
-        
-        assertTrue(rule.processAssignToAgendaRule(protocolDocument, getMockAssignToAgendaBean(COMMITTEE_ID)));
-        assertTrue(GlobalVariables.getMessageMap().hasNoErrors());
+        new TemplateRuleTest<ProtocolAssignToAgendaEvent, ProtocolAssignToAgendaRule>() {
+
+            @Override
+            protected void prerequisite() {
+                event = new ProtocolAssignToAgendaEvent(null, getMockAssignToAgendaBean(COMMITTEE_ID));
+                rule = new ProtocolAssignToAgendaRule();
+                expectedReturnValue = true;
+            }
+            
+        };
     }
 
     /**
@@ -81,11 +67,21 @@ public class ProtocolAssignToAgendaRuleTest extends ProtocolRuleTestBase {
      */
     @Test
     public void testNoCommittee() throws Exception {
-        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
-        
-        assertFalse(rule.processAssignToAgendaRule(protocolDocument, getMockAssignToAgendaBean(Constants.EMPTY_STRING)));
-        assertError(Constants.PROTOCOL_ASSIGN_TO_AGENDA_PROPERTY_KEY + ".committeeId", 
-                    KeyConstants.ERROR_PROTOCOL_COMMITTEE_NOT_SELECTED);
+        new TemplateRuleTest<ProtocolAssignToAgendaEvent, ProtocolAssignToAgendaRule>() {
+
+            @Override
+            protected void prerequisite() {
+                event = new ProtocolAssignToAgendaEvent(null, getMockAssignToAgendaBean(Constants.EMPTY_STRING));
+                rule = new ProtocolAssignToAgendaRule();
+                expectedReturnValue = false;
+            }
+            
+            @Override
+            public void checkRuleAssertions() {
+                assertError(COMMITTEE_ID_FIELD, KeyConstants.ERROR_PROTOCOL_COMMITTEE_NOT_SELECTED);
+            }
+            
+        };
     }
     
     private ProtocolAssignToAgendaBean getMockAssignToAgendaBean(final String committeeId) {

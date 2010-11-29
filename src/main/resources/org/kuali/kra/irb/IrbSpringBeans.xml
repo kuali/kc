@@ -609,19 +609,6 @@
         <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
     </bean>
     
-    <bean id="protocolExpediteApprovalService" class="org.kuali.kra.irb.actions.expediteapproval.ProtocolExpediteApprovalServiceImpl">
-        <property name="documentService" ref="documentService" />
-        <property name="protocolActionService" ref="protocolActionService" />
-        <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
-        <property name="protocolOnlineReviewService" ref="protocolOnlineReviewService"/>
-    </bean>
-    
-    <bean id="protocolResponseApprovalService" class="org.kuali.kra.irb.actions.responseapproval.ProtocolResponseApprovalServiceImpl">
-        <property name="documentService" ref="documentService" />
-        <property name="protocolActionService" ref="protocolActionService" />
-        <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
-    </bean>
-    
     <bean id="protocolCommitteeDecisionService" class="org.kuali.kra.irb.actions.decision.CommitteeDecisionServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="protocolActionService" ref="protocolActionService" />

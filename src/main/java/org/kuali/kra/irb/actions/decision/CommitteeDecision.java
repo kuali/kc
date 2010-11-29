@@ -69,7 +69,7 @@ public class CommitteeDecision extends ProtocolActionBean implements ProtocolOnl
     public CommitteeDecision(ActionHelper actionHelper) {
         super(actionHelper);
         
-        reviewCommentsBean = new ReviewCommentsBean(Constants.PROTOCOL_COMMITTEE_DECISION_ENTER_REVIEW_COMMENTS_KEY);
+        reviewCommentsBean = new ReviewCommentsBean(Constants.PROTOCOL_COMMITTEE_DECISION_ACTION_PROPERTY_KEY);
     }
     
     /**

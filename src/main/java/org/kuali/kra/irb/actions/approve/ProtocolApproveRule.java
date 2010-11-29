@@ -15,29 +15,41 @@
  */
 package org.kuali.kra.irb.actions.approve;
 
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
- * Validate the approval of a protocol document.
+ * Encapsulates the rules for approving a Protocol.
  */
-public class ProtocolApproveRule extends ResearchDocumentRuleBase implements ExecuteProtocolApproveRule {
-   
-    public boolean processApproveRule(ProtocolDocument document, ProtocolApproveBean actionBean) {
-        boolean valid = true;
-        if(actionBean.getApprovalDate() == null) {
-            valid = false;
-            GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_APPROVE_ACTION_PROPERTY_KEY + ".approvalDate", 
-                                                   KeyConstants.ERROR_PROTOCOL_APPROVAL_DATE_REQUIRED);  
+public class ProtocolApproveRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<ProtocolApproveEvent> {
+    
+    private static final String APPROVAL_DATE_FIELD = "approvalDate";
+    private static final String EXPIRATION_DATE_FIELD = "expirationDate";
+    private static final String ACTION_DATE_FIELD = "actionDate";
+    
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
+     */
+    public boolean processRules(ProtocolApproveEvent event) {
+        boolean isValid = true;
+        
+        if (event.getProtocolApproveBean().getApprovalDate() == null) {
+            isValid = false;
+            reportError(APPROVAL_DATE_FIELD, KeyConstants.ERROR_PROTOCOL_APPROVAL_DATE_REQUIRED);  
         }
-        if(actionBean.getExpirationDate() == null) {
-            valid = false;
-            GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_APPROVE_ACTION_PROPERTY_KEY + ".expirationDate", 
-                                                   KeyConstants.ERROR_PROTOCOL_APPROVAL_EXPIRATION_DATE_REQUIRED);  
+        
+        if (event.getProtocolApproveBean().getExpirationDate() == null) {
+            isValid = false;
+            reportError(EXPIRATION_DATE_FIELD, KeyConstants.ERROR_PROTOCOL_APPROVAL_EXPIRATION_DATE_REQUIRED);  
         }
-        return valid;
+        
+        if (event.getProtocolApproveBean().getActionDate() == null) {
+            isValid = false;
+            reportError(ACTION_DATE_FIELD, KeyConstants.ERROR_PROTOCOL_GENERIC_ACTION_DATE_REQUIRED);  
+        }
+        
+        return isValid;
     }
 }

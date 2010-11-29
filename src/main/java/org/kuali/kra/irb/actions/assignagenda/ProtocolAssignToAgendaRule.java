@@ -16,31 +16,36 @@
 package org.kuali.kra.irb.actions.assignagenda;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Validate the assignment of a protocol to a agenda.
  */
-public class ProtocolAssignToAgendaRule extends ResearchDocumentRuleBase implements ExecuteProtocolAssignToAgendaRule {
-   
-    /** {@inheritDoc} */
-    @SuppressWarnings("deprecation")    
-    public boolean processAssignToAgendaRule(ProtocolDocument document, ProtocolAssignToAgendaBean actionBean) {
-        boolean valid = true;
-        if (StringUtils.isBlank(actionBean.getCommitteeId())) {
-            valid = false;
-            GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_ASSIGN_TO_AGENDA_PROPERTY_KEY + ".committeeId", 
-                                                   KeyConstants.ERROR_PROTOCOL_COMMITTEE_NOT_SELECTED);
+public class ProtocolAssignToAgendaRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<ProtocolAssignToAgendaEvent> {
+
+    private static final String COMMITTEE_ID_FIELD = "committeeId";
+    private static final String ACTION_DATE_FIELD = "actionDate";
+    
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
+     */
+    public boolean processRules(ProtocolAssignToAgendaEvent event) {
+        boolean isValid = true;
+        
+        if (StringUtils.isBlank(event.getProtocolAssignToAgendaBean().getCommitteeId())) {
+            isValid = false;
+            reportError(COMMITTEE_ID_FIELD, KeyConstants.ERROR_PROTOCOL_COMMITTEE_NOT_SELECTED);
         }
-        if(actionBean.getActionDate() == null) {
-            valid = false;
-            GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_ASSIGN_TO_AGENDA_PROPERTY_KEY + ".actionDate", 
-                    KeyConstants.ERROR_PROTOCOL_ASSIGN_TO_AGENDA_NO_ACTION_DATE);
+        
+        if (event.getProtocolAssignToAgendaBean().getActionDate() == null) {
+            isValid = false;
+            reportError(ACTION_DATE_FIELD, KeyConstants.ERROR_PROTOCOL_ASSIGN_TO_AGENDA_NO_ACTION_DATE);
         }
-        return valid;
+        
+        return isValid;
     }
+    
 }

@@ -28,10 +28,12 @@ import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
  */
 public class ProtocolGenericActionBean extends ProtocolActionBean implements ProtocolOnlineReviewCommentable, Serializable {
 
-    private static final long serialVersionUID = -5693984308725487845L;
+    private static final long serialVersionUID = 1098390205989217539L;
     
     private String comments = "";
     private Date actionDate = new Date(System.currentTimeMillis());
+    
+    private String errorPropertyKey;
     
     private ReviewCommentsBean reviewCommentsBean;
     
@@ -42,6 +44,7 @@ public class ProtocolGenericActionBean extends ProtocolActionBean implements Pro
     public ProtocolGenericActionBean(ActionHelper actionHelper, String errorPropertyKey) {
         super(actionHelper);
         
+        this.errorPropertyKey = errorPropertyKey;
         reviewCommentsBean = new ReviewCommentsBean(errorPropertyKey);
     }
 
@@ -60,13 +63,13 @@ public class ProtocolGenericActionBean extends ProtocolActionBean implements Pro
     public void setActionDate(Date actionDate) {
         this.actionDate = actionDate;
     }
+    
+    public String getErrorPropertyKey() {
+        return errorPropertyKey;
+    }
 
     public ReviewCommentsBean getReviewCommentsBean() {
         return reviewCommentsBean;
-    }
-
-    public void setReviewCommentsBean(ReviewCommentsBean reviewCommentsBean) {
-        this.reviewCommentsBean = reviewCommentsBean;
     }
     
 }
