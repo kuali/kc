@@ -27,9 +27,9 @@ import org.kuali.kra.meeting.MinuteEntryType;
  */
 public class ReviewCommentsBean implements Serializable {
 
-    private static final long serialVersionUID = -9167144271091192973L;
+    private static final long serialVersionUID = 1020677422739490270L;
 
-    private String errorPropertyName;
+    private String errorPropertyKey;
     
     private CommitteeScheduleMinute newReviewComment;
     private List<CommitteeScheduleMinute> reviewComments;
@@ -38,21 +38,17 @@ public class ReviewCommentsBean implements Serializable {
     /**
      * Constructs a ReviewerCommentsBean.
      */
-    public ReviewCommentsBean(String errorPropertyName) {
-        this.errorPropertyName = errorPropertyName;
+    public ReviewCommentsBean(String errorPropertyKey) {
+        this.errorPropertyKey = errorPropertyKey + ".reviewCommentsBean";
         
         this.newReviewComment = new CommitteeScheduleMinute();
         this.newReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
         this.reviewComments = new ArrayList<CommitteeScheduleMinute>();
         this.deletedReviewComments = new ArrayList<CommitteeScheduleMinute>();
     }
-    
-    public void setErrorPropertyName(String errorPropertyName) {
-        this.errorPropertyName = errorPropertyName;
-    }
 
     public String getErrorPropertyName() {
-        return errorPropertyName;
+        return errorPropertyKey;
     }
     
     public CommitteeScheduleMinute getNewReviewComment() {

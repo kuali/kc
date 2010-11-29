@@ -22,27 +22,23 @@ import java.io.Serializable;
  */
 public class ProtocolRiskLevelBean implements Serializable {
 
-    private static final long serialVersionUID = -3356100216341676530L;
+    private static final long serialVersionUID = -3726620115307425457L;
 
-    private String errorPropertyName;
+    private String errorPropertyKey;
     
     private ProtocolRiskLevel newProtocolRiskLevel;
     
     /**
      * Constructs a ProtocolRiskLevelBean.
      */
-    public ProtocolRiskLevelBean(String errorPropertyName) {
-        this.setErrorPropertyName(errorPropertyName);
+    public ProtocolRiskLevelBean(String errorPropertyKey) {
+        this.errorPropertyKey = errorPropertyKey + ".protocolRiskLevelBean";
         
         newProtocolRiskLevel = new ProtocolRiskLevel();
     }
 
-    public String getErrorPropertyName() {
-        return errorPropertyName;
-    }
-    
-    public void setErrorPropertyName(String errorPropertyName) {
-        this.errorPropertyName = errorPropertyName;
+    public String getErrorPropertyKey() {
+        return errorPropertyKey;
     }
     
     public ProtocolRiskLevel getNewProtocolRiskLevel() {

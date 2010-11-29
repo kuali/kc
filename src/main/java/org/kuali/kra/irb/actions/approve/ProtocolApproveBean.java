@@ -32,18 +32,18 @@ public class ProtocolApproveBean extends ProtocolGenericActionBean implements Pr
     private Date approvalDate;
     private Date expirationDate;
     
+    private String errorPropertyKey;
     private ProtocolRiskLevelBean protocolRiskLevelBean;
     
     /**
      * Constructs a ProtocolApproveBean.
      * @param actionHelper a reference back to the parent helper
      */
-    public ProtocolApproveBean(ActionHelper actionHelper, String protocolOnlineReviewCommentsErrorPropertyKey, 
-            String protocolRiskLevelCommentsErrorPropertyKey) {
+    public ProtocolApproveBean(ActionHelper actionHelper, String errorPropertyKey) {
+        super(actionHelper, errorPropertyKey);
         
-        super(actionHelper, protocolOnlineReviewCommentsErrorPropertyKey);
-        
-        protocolRiskLevelBean = new ProtocolRiskLevelBean(protocolRiskLevelCommentsErrorPropertyKey);
+        this.errorPropertyKey = errorPropertyKey;
+        protocolRiskLevelBean = new ProtocolRiskLevelBean(errorPropertyKey);
     }
     
     public Date getApprovalDate() {
@@ -61,13 +61,13 @@ public class ProtocolApproveBean extends ProtocolGenericActionBean implements Pr
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
     }
+    
+    public String getErrorPropertyKey() {
+        return errorPropertyKey;
+    }
        
     public ProtocolRiskLevelBean getProtocolRiskLevelBean() {
         return protocolRiskLevelBean;
-    }
-    
-    public void setProtocolRiskLevelBean(ProtocolRiskLevelBean protocolRiskLevelBean) {
-        this.protocolRiskLevelBean = protocolRiskLevelBean;
     }
     
 }

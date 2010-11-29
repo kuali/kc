@@ -537,7 +537,7 @@ public final class KeyConstants {
     public static final String ERROR_PROTOCOL_ADMIN_CORRECTION_COMMENTS_REQUIRED = "error.protocol.correction.comments.required";
     public static final String ERROR_PROTOCOL_APPROVAL_DATE_REQUIRED = "error.protocol.approve.approveDate.required";
     public static final String ERROR_PROTOCOL_APPROVAL_EXPIRATION_DATE_REQUIRED = "error.protocol.approve.expirationDate.required";
-    public static final String ERROR_PROTOCOL_APPROVAL_ACTION_DATE_REQUIRED = "error.protocol.approve.actionDate.required";
+    public static final String ERROR_PROTOCOL_GENERIC_ACTION_DATE_REQUIRED = "error.protocol.generic.actionDate.required";
     public static final String ERROR_PROTOCOL_UNDO_LASTACTION_COMMENTS_REQUIRED = "error.protocol.undolastaction.comments.required";
     public static final String ERROR_PROTOCOL_RECORD_COMMITTEE_ABSTAIN_RECUSED_ALREADY_EXISTS = "error.protocol.recordcommittee.abstainer.already.used";
     public static final String ERROR_PROTOCOL_RECORD_COMMITEE_NO_MOTION = "error.protocol.recordcommittee.motion.not.selected";

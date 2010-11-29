@@ -322,7 +322,7 @@ public class UndoLastActionServiceTest extends KcUnitTestBase {
         assertNotNull(submission);
         assertEquals(ProtocolSubmissionStatus.IN_AGENDA, submission.getSubmissionStatusCode());
 
-        protocolApproveService.approve(protocolDocument, getMockApproveBean());
+        protocolApproveService.grantFullApproval(protocolDocument.getProtocol(), getMockApproveBean());
         
         assertEquals(ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT, protocolDocument.getProtocol().getProtocolStatusCode());
         
