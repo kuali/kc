@@ -30,8 +30,7 @@ public class ProtocolManageNotesAuthorizer extends ProtocolAuthorizer {
     @Override
     public boolean isAuthorized(String userId, ProtocolTask task) {
         Protocol protocol = task.getProtocol();
-        return canExecuteAction(protocol, ProtocolActionType.MANAGE_PROTOCOL_NOTES) && 
-            hasPermission(userId, protocol, PermissionConstants.MAINTAIN_NOTES);
+        return hasPermission(userId, protocol, PermissionConstants.MAINTAIN_NOTES);
     }
 
 }

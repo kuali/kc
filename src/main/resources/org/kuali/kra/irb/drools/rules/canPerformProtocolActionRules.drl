@@ -416,11 +416,3 @@ when
 then	
 	setAction(protocolAction, true);
 end
-
-rule "Manage Protocol Notes"
-salience 100
-when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "311", protocolStatusCode == "101" )
-then	
-	setAction(protocolAction, true);
-end
