@@ -259,11 +259,11 @@ public class BudgetPeriodCalculator {
                 budgetPeriod.getBudgetLineItems().add(budgetLineItem);
                 budgetCalculationService.calculateBudgetLineItem(budget, budgetLineItem);
                 for (BudgetLineItemCalculatedAmount prevCalAmts : prevBudgetLineItem.getBudgetLineItemCalculatedAmounts()) {
-                    for (BudgetLineItemCalculatedAmount CalAmts : budgetLineItem.getBudgetLineItemCalculatedAmounts()) {
-                        if (prevCalAmts.getRateClassCode().equals(CalAmts.getRateClassCode()) && prevCalAmts.getRateTypeCode().equals(CalAmts.getRateTypeCode())) {
-                            CalAmts.setBudgetLineItemCalculatedAmountId(null);
-                            CalAmts.setApplyRateFlag(prevCalAmts.getApplyRateFlag());
-                            CalAmts.setVersionNumber(null);
+                    for (BudgetLineItemCalculatedAmount calAmts : budgetLineItem.getBudgetLineItemCalculatedAmounts()) {
+                        if (prevCalAmts.getRateClassCode().equals(calAmts.getRateClassCode()) && prevCalAmts.getRateTypeCode().equals(calAmts.getRateTypeCode())) {
+                            calAmts.setBudgetLineItemCalculatedAmountId(null);
+                            calAmts.setApplyRateFlag(prevCalAmts.getApplyRateFlag());
+                            calAmts.setVersionNumber(null);
                         }
                     }
                 }
