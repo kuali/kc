@@ -124,20 +124,6 @@ public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
                     KeyConstants.ERROR_PROTOCOL_REVIEW_TYPE_NOT_SELECTED);
     }
     
-    /**
-     * Test a invalid submission type.
-     * @throws Exception
-     */
-    @Test
-    public void testSubmissionTypeInvalid() throws Exception {
-        ProtocolDocument document = getNewProtocolDocument();
-        ProtocolSubmitAction submitAction = new ProtocolSubmitAction(null);
-        submitAction.setSubmissionTypeCode(INVALID_SUBMISSION_TYPE);
-        submitAction.setProtocolReviewTypeCode(VALID_REVIEW_TYPE);
-        assertFalse(rule.processSubmitAction(document, submitAction));
-        assertError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".submissionTypeCode", 
-                    KeyConstants.ERROR_PROTOCOL_SUBMISSION_TYPE_INVALID);
-    }
     
     /**
      * Test a invalid review type.

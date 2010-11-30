@@ -521,7 +521,6 @@ public final class KeyConstants {
     public static final String ERROR_PROTOCOL_SUBMISSION_QUALIFIER_NOT_SELECTED = "error.protocol.submissionQualifer.notFound";
     public static final String ERROR_PROTOCOL_SUBMISSION_EXPEDITED_CHECKBOX_REQ="error.protocol.submission.expeditedCheckbox";
     public static final String ERROR_PROTOCOL_SUBMISSION_EXEMPT_CHECKBOX_REQ="error.protocol.submission.exemptCheckbox";
-    public static final String ERROR_PROTOCOL_SUBMISSION_TYPE_INVALID = "error.protocol.submissionTypeCode.invalid";
     public static final String ERROR_PROTOCOL_REVIEW_TYPE_NOT_SELECTED = "error.protocol.reviewTypeCode.notFound";
     public static final String ERROR_PROTOCOL_REVIEW_TYPE_INVALID = "error.protocol.reviewTypeCode.invalid";
     public static final String ERROR_PROTOCOL_REVIEW_TYPE_MUST_BE_FYI = "error.protocol.reviewTypeCode.mustbe.fyi";
