@@ -428,6 +428,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.actions.approve.ProtocolApproveRuleTest.class,
     org.kuali.kra.irb.actions.amendrenew.ProtocolCreateRenewalRuleTest.class,
     org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionRuleTest.class,
+    org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionRuleTest.class,
     org.kuali.kra.irb.actions.history.ProtocolHistoryFilterDatesRuleTest.class,
     org.kuali.kra.irb.actions.print.ProtocolActionPrintRuleTest.class,
     org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsServiceTest.class,
