@@ -919,8 +919,6 @@
 					p:attributeName="protocolNumber"
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
-					p:attributeName="sequenceNumber" />
-				<bean parent="FieldDefinition"
 					p:attributeName="protocolType.description"/>
 				<bean parent="FieldDefinition"
 					p:attributeName="protocolStatus.description"/>
