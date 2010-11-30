@@ -53,7 +53,8 @@ public class CustomAttributeDocumentMaintenanceDocumentRuleTest extends Maintena
     public void testOK() throws Exception {
 
         CustomAttributeDocument customAttributeDocument = new CustomAttributeDocument();
-        customAttributeDocument.setCustomAttributeId(new Integer(99));
+        customAttributeDocument.setCustomAttributeId(new Integer(1));
+        customAttributeDocument.setActive(true);
         MaintenanceDocument customAttributeDocumentMaintDoc = newMaintDoc(customAttributeDocument);
         assertTrue(rule.processCustomRouteDocumentBusinessRules(customAttributeDocumentMaintDoc));
         assertTrue(rule.processCustomApproveDocumentBusinessRules(customAttributeDocumentMaintDoc));
@@ -85,5 +86,25 @@ public class CustomAttributeDocumentMaintenanceDocumentRuleTest extends Maintena
 
     }
 
+    @Test
+    public void testInvalidCustomAttributeId() throws Exception {
+
+        CustomAttributeDocument customAttributeDocument = new CustomAttributeDocument();
+        customAttributeDocument.setCustomAttributeId(new Integer(99));
+        MaintenanceDocument customAttributeDocumentMaintDoc = newMaintDoc(customAttributeDocument);
+        assertFalse(rule.processCustomRouteDocumentBusinessRules(customAttributeDocumentMaintDoc));
+        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(Constants.DOCUMENT_NEWMAINTAINABLEOBJECT_CUSTOM_ATTRIBUTE_ID);
+        assertTrue(errors.size() == 1);
+        ErrorMessage message = (ErrorMessage) errors.get(0);
+        assertEquals(message.getErrorKey(), KeyConstants.ERROR_INVALID_CUSTOM_ATT_ID);
+
+        // approve will have the same error too.
+        assertFalse(rule.processCustomApproveDocumentBusinessRules(customAttributeDocumentMaintDoc));
+        errors = GlobalVariables.getErrorMap().getMessages(Constants.DOCUMENT_NEWMAINTAINABLEOBJECT_CUSTOM_ATTRIBUTE_ID);
+        assertTrue(errors.size() == 1);
+        message = (ErrorMessage) errors.get(0);
+        assertEquals(message.getErrorKey(), KeyConstants.ERROR_INVALID_CUSTOM_ATT_ID);
+
+    }
 
 }
