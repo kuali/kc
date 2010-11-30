@@ -68,9 +68,6 @@ public class ProtocolActionType extends KraPersistableBusinessObjectBase {
     //No corresponding actionTypeCode for this in Coeus 
     public static final String MODIFY_PROTOCOL_SUBMISISON = "309";
     
-    //No corresponding actionTypeCode for this in Coeus
-    public static final String MANAGE_PROTOCOL_NOTES = "311";
-    
     private String protocolActionTypeCode;
     
     private String description;
