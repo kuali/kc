@@ -31,6 +31,7 @@ import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.DictionaryValidationService;
@@ -195,18 +196,45 @@ public class ProtocolOnlineReviewLookupableHelperServiceImpl extends KraLookupab
        this.kcPersonService = kcPersonService;
    }
   
-   
-   protected void addEditHtmlData(List<HtmlData> htmlDataList, BusinessObject businessObject) {
-       Properties parameters = new Properties();
-       parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, "redirectToProtocolFromReview");
-       parameters.put(KNSConstants.PARAMETER_COMMAND, "displayDocSearchView");
-       parameters.put(KNSConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
-       parameters.put("docId", ((ProtocolOnlineReview)businessObject).getProtocolOnlineReviewDocument().getDocumentNumber());
-       String href = UrlFactory.parameterizeUrl("../"+getHtmlAction(), parameters);
-       
-       AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, 
-               KNSConstants.DOC_HANDLER_METHOD, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL);
-       htmlDataList.add(anchorHtmlData);
-   }
+    @Override
+    protected void addEditHtmlData(List<HtmlData> htmlDataList, BusinessObject businessObject) {
+        ProtocolOnlineReview protocolOnlineReview = (ProtocolOnlineReview) businessObject;
+        
+        if (ProtocolOnlineReviewStatus.SAVED_STATUS_CD.equals(protocolOnlineReview.getProtocolOnlineReviewStatusCode())) {
+            htmlDataList.add(getEditLink(protocolOnlineReview.getProtocolOnlineReviewDocument()));
+        } else {
+            htmlDataList.add(getViewLink(protocolOnlineReview.getProtocolOnlineReviewDocument()));
+        }
+    }
+    
+    @Override
+    protected AnchorHtmlData getViewLink(Document document) {
+        Properties parameters = getLinkProperties(document);
+        parameters.put("viewDocument", "true");
+        String displayText = "view";
+        
+        return getAnchorHtmlData(parameters, displayText);
+    }
+    
+    private AnchorHtmlData getEditLink(Document document) {
+        Properties parameters = getLinkProperties(document);
+        String displayText = KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL;
+        
+        return getAnchorHtmlData(parameters, displayText);
+    }
+    
+    private Properties getLinkProperties(Document document) {
+        Properties parameters = new Properties();
+        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, "redirectToProtocolFromReview");
+        parameters.put(KNSConstants.PARAMETER_COMMAND, "displayDocSearchView");
+        parameters.put(KNSConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
+        parameters.put("docId", document.getDocumentNumber());
+        return parameters;
+    }
+    
+    private AnchorHtmlData getAnchorHtmlData(Properties parameters, String displayText) {
+        String href  = UrlFactory.parameterizeUrl("../" + getHtmlAction(), parameters);
+        return new AnchorHtmlData(href, KNSConstants.DOC_HANDLER_METHOD, displayText);
+    }
 
 }
