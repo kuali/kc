@@ -547,7 +547,7 @@
 			<list>
 				<bean p:attributeName="protocolOnlineReviewId" parent = "FieldDefinition"/>
 				<bean p:attributeName="lookupProtocol.protocolNumber" parent="FieldDefinition"/>
-				<bean p:attributeName="lookupProtocolOnlineReviewStatusCode" parent="FieldDefinition"/>
+				<bean p:attributeName="lookupProtocolOnlineReviewStatusCode" parent="FieldDefinition" p:defaultValue="S"/>
 				<bean p:attributeName="lookupReviewerRolodexId" parent="FieldDefinition" p:hidden = "true" />
 				<bean p:attributeName="lookupReviewerPersonId" parent="FieldDefinition" p:hidden = "true" />
 				<bean p:attributeName="dateRequested" parent="FieldDefinition"/>
