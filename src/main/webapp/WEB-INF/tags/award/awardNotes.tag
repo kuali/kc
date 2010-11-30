@@ -78,7 +78,7 @@
 						<c:out value="${status.index+1}" />
 					</th>
 	                <td valign="middle">
-						${KualiForm.document.award.awardNotepads[status.index].createTimestamp}&nbsp;
+						<fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${KualiForm.document.award.awardNotepads[status.index].createTimestamp}" />
 					</td>
 	                <td valign="middle">
 						${KualiForm.document.award.awardNotepads[status.index].updateUser}&nbsp;
