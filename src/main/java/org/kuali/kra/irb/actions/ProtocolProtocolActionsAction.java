@@ -78,6 +78,7 @@ import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionEvent;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionService;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionBean;
+import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionEvent;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionService;
 import org.kuali.kra.irb.actions.history.ProtocolHistoryFilterDatesEvent;
 import org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionBean;
@@ -1247,15 +1248,20 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      * @return
      * @throws Exception
      */
-    public ActionForward grantExemption(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
+    public ActionForward grantExemption(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument document = protocolForm.getProtocolDocument();
+        Protocol protocol = document.getProtocol();
         ProtocolGrantExemptionBean actionBean = protocolForm.getActionHelper().getProtocolGrantExemptionBean();
-        getProtocolGrantExemptionService().grantExemption(protocolForm.getProtocolDocument().getProtocol(), actionBean);
-        saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-        
-        recordProtocolActionSuccess("Grant Exemption");
+            
+        if (hasPermission(TaskName.GRANT_EXEMPTION, protocol)) {
+            if (applyRules(new ProtocolGrantExemptionEvent(document, actionBean))) {
+                getProtocolGrantExemptionService().grantExemption(protocol, actionBean);
+                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
+                
+                recordProtocolActionSuccess("Grant Exemption");
+            }
+        }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -1569,11 +1575,13 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         Protocol protocol = document.getProtocol();
         ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolIrbAcknowledgementBean();
         
-        if (applyRules(new ProtocolGenericActionEvent(document, actionBean))) {
-            getProtocolGenericActionService().irbAcknowledgement(protocol, actionBean);
-            saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-                
-            recordProtocolActionSuccess("IRB Acknowledgement");
+        if (hasPermission(TaskName.IRB_ACKNOWLEDGEMENT, protocol)) {
+            if (applyRules(new ProtocolGenericActionEvent(document, actionBean))) {
+                getProtocolGenericActionService().irbAcknowledgement(protocol, actionBean);
+                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
+                    
+                recordProtocolActionSuccess("IRB Acknowledgement");
+            }
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
