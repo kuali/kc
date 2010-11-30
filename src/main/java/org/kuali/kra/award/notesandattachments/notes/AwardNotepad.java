@@ -16,6 +16,8 @@
 package org.kuali.kra.award.notesandattachments.notes;
 
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
 
@@ -34,11 +36,17 @@ public class AwardNotepad extends AwardAssociate {
     private String comments; 
     private String noteTopic;
     private boolean restrictedView; 
-    private Date createTimestamp;
-
+    private Timestamp createTimestamp;
+    
+    /**
+     * 
+     * Constructs a AwardNotepad.java.
+     */
     public AwardNotepad() { 
-        Calendar cl = Calendar.getInstance();
-        setCreateTimestamp(new Date(cl.getTime().getTime()));
+        if (createTimestamp == null) {
+            Calendar cl = Calendar.getInstance();
+            setCreateTimestamp(new Timestamp(cl.getTime().getTime()));
+        }
     } 
     
     
@@ -105,7 +113,7 @@ public class AwardNotepad extends AwardAssociate {
      * Gets the createTimeStamp attribute. 
      * @return Returns the createTimeStamp.
      */
-    public Date getCreateTimestamp() {
+    public Timestamp getCreateTimestamp() {
         return createTimestamp;
     }
 
@@ -114,8 +122,14 @@ public class AwardNotepad extends AwardAssociate {
      * Sets the createTimeStamp attribute value.
      * @param createTimeStamp The createTimeStamp to set.
      */
-    public void setCreateTimestamp(Date createTimestamp) {
-        this.createTimestamp = createTimestamp;
+    public void setCreateTimestamp(Timestamp pCreateTimestamp) {
+        if (pCreateTimestamp == null) {
+          System.err.println("************************* null create time stamp passed in!");
+        } else {
+            DateFormat df = DateFormat.getInstance();
+            System.err.println("************************* " + df.format(pCreateTimestamp) );               
+        }
+        this.createTimestamp = pCreateTimestamp;
     }
     
 
