@@ -62,9 +62,9 @@ public class CommitteeScheduleAction extends CommitteeAction {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        ((CommitteeForm)form).getCommitteeHelper().prepareView();
 
         ActionForward actionForward = super.execute(mapping, form, request, response);
+        ((CommitteeForm)form).getCommitteeHelper().prepareView();
         
         return actionForward;
     }    
