@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.infrastructure.Constants;
@@ -43,7 +44,7 @@ public class CustomAttributeDocumentMaintenanceDocumentRule  extends Maintenance
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */ 
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-        return checkOkToInActivate(document);
+        return validate(document);
     }
     
     /**
@@ -52,9 +53,16 @@ public class CustomAttributeDocumentMaintenanceDocumentRule  extends Maintenance
      */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
-        return checkOkToInActivate(document);
+        return validate(document);
     }
 
+    private boolean validate(MaintenanceDocument document) {
+        boolean valid = checkOkToInActivate(document);
+        valid &= checkCustomAttributeExist(document);
+        return valid;
+        
+    }
+    
     /**
      * 
      * This method to check whether it is ok to inactivate a custom attribute document.
@@ -73,11 +81,38 @@ public class CustomAttributeDocumentMaintenanceDocumentRule  extends Maintenance
             Map<String, String> queryMap = new HashMap<String, String>();
             queryMap.put(Constants.CUSTOM_ATTRIBUTE_ID, newCustomAttributeDocument.getCustomAttributeId().toString());
 
-            List<CustomAttributeDocValue> customAttributeDocValueList = (List<CustomAttributeDocValue>)KraServiceLocator.getService(BusinessObjectService.class).findMatching(CustomAttributeDocValue.class, queryMap);
+            List<CustomAttributeDocValue> customAttributeDocValueList = (List<CustomAttributeDocValue>)getBoService().findMatching(CustomAttributeDocValue.class, queryMap);
 
             if (customAttributeDocValueList !=null && customAttributeDocValueList.size() > 0) {
-                GlobalVariables.getErrorMap().putError(Constants.DOCUMENT_NEWMAINTAINABLEOBJECT_ACTIVE, KeyConstants.ERROR_INACTIVE_CUSTOM_ATT_DOC,
+                GlobalVariables.getMessageMap().putError(Constants.DOCUMENT_NEWMAINTAINABLEOBJECT_ACTIVE, KeyConstants.ERROR_INACTIVE_CUSTOM_ATT_DOC,
                         new String[] {});
+                return false;
+            }
+        }
+
+
+        return true;
+
+    }
+
+    /*
+     * check if custom attribute id is valid
+     */
+    private boolean checkCustomAttributeExist(MaintenanceDocument maintenanceDocument) {
+
+
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("new maintainable is: " + maintenanceDocument.getNewMaintainableObject().getClass());
+        }
+        CustomAttributeDocument newCustomAttributeDocument = (CustomAttributeDocument) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
+
+        if (newCustomAttributeDocument.getCustomAttributeId() != null) {
+            Map<String, String> queryMap = new HashMap<String, String>();
+            queryMap.put("id", newCustomAttributeDocument.getCustomAttributeId().toString());
+
+            if (getBoService().countMatching(CustomAttribute.class, queryMap) == 0) {
+                GlobalVariables.getMessageMap().putError(Constants.DOCUMENT_NEWMAINTAINABLEOBJECT_CUSTOM_ATTRIBUTE_ID, KeyConstants.ERROR_INVALID_CUSTOM_ATT_ID,
+                        new String[] {newCustomAttributeDocument.getCustomAttributeId().toString()});
                 return false;
             }
         }

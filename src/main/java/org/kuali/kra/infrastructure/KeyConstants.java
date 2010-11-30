@@ -212,6 +212,7 @@ public final class KeyConstants {
     public static final String SESSION_TIMEOUT_MESSAGE = "error.session.timeout";
     public static final String SESSION_EXPIRED_IND = "sessionExpired";
     public static final String ERROR_INACTIVE_CUSTOM_ATT_DOC = "error.inactive.customAttributeDocument";
+    public static final String ERROR_INVALID_CUSTOM_ATT_ID = "error.invalid.customAttributeid";
     public static final String ERROR_WORKFLOW_SUBMISSION = "error.workflow.submission";
     public static final String ERROR_ADMIN_CORRECTION_SUBMISSION = "error.admin.correction.submission";
     
