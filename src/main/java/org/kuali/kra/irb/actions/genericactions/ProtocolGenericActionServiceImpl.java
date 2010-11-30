@@ -197,7 +197,8 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
             if (currentWorkflowDocument != null) {
                 currentWorkflowDocument.disapprove("Protocol document disapproved after committee decision");
             }
-        }    
+        }
+        protocolOnlineReviewService.cancelOnlineReviews(protocol.getProtocolSubmission(), "Protocol Review cancelled - protocol has been disapproved.");
     }
     
     private ProtocolDocument getDeferredVersionedDocument(Protocol protocol) throws Exception {
