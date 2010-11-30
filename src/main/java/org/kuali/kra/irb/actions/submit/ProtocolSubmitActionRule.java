@@ -108,10 +108,6 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
             isValid = false;
             GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".submissionTypeCode", 
                                                    KeyConstants.ERROR_PROTOCOL_SUBMISSION_TYPE_NOT_SELECTED);
-        } else if (isSubmissionTypeInvalid(submissionTypeCode) || isSubmissionTypeInvalidForProtocolStatus(document, submissionTypeCode)) {
-            isValid = false;
-            this.reportError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".submissionTypeCode", 
-                             KeyConstants.ERROR_PROTOCOL_SUBMISSION_TYPE_INVALID, new String[] { submissionTypeCode });
         } else {
             isValid = isValidSubmTypeQual(submitAction);
         }
