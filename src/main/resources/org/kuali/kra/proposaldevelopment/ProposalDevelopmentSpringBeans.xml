@@ -742,18 +742,18 @@
 
 	<!--Proposal Development Printing Service Configuration Start -->
 	<bean id="printCertificationXmlStream"
-		class="org.kuali.kra.proposaldevelopment.printing.xmlstream.PrintCertificationXmlStream">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
+		class="org.kuali.kra.proposaldevelopment.printing.xmlstream.PrintCertificationXmlStream"
+		parent="proposalBaseStream">
 	</bean>
 	<bean id="printCertificationPrint"
 		class="org.kuali.kra.proposaldevelopment.printing.print.PrintCertificationPrint"
 		scope="prototype">
 		<property name="xmlStream" ref="printCertificationXmlStream" />
+	</bean>
+	<bean id="proposalBaseStream"
+		class="org.kuali.kra.proposaldevelopment.printing.xmlstream.ProposalBaseStream" abstract="true">
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="dateTimeService" ref="dateTimeService" />
 	</bean>
 	<bean id="proposalSponsorFormsPrint"
 		class="org.kuali.kra.proposaldevelopment.printing.print.ProposalSponsorFormsPrint"
@@ -772,20 +772,12 @@
 	</bean>
 
 	<bean id="proposalSubmissionXmlStream"
-		class="org.kuali.kra.proposaldevelopment.printing.xmlstream.ProposalSubmissionXmlStream">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
+		class="org.kuali.kra.proposaldevelopment.printing.xmlstream.ProposalSubmissionXmlStream"
+		parent="proposalBaseStream">
 	</bean>
 	<bean id="abstractResearchAndRelatedStream"
 		class="org.kuali.kra.proposaldevelopment.printing.xmlstream.AbstractResearchAndRelatedStream"
-		abstract="true">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
+		abstract="true" parent="proposalBaseStream">
 		<property name="kcPersonService">
 			<ref bean="kcPersonService" />
 		</property>
@@ -794,29 +786,17 @@
 	<bean id="researchAndRelatedXmlStream"
 		class="org.kuali.kra.proposaldevelopment.printing.xmlstream.ResearchAndRelatedXmlStream"
 		parent="abstractResearchAndRelatedStream">
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
 	</bean>
 	<bean id="nihResearchAndRelatedXmlStream"
 		class="org.kuali.kra.proposaldevelopment.printing.xmlstream.NIHResearchAndRelatedXmlStream"
 		parent="abstractResearchAndRelatedStream">
 		<property name="parameterService" ref="parameterService" />
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
 		<property name="sponsorService">
 			<ref bean="sponsorService" />
 		</property>
 	</bean>
 	<bean id="proposalDevelopmentXmlStream"
-		class="org.kuali.kra.proposaldevelopment.printing.xmlstream.ProposalDevelopmentXmlStream">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
+		class="org.kuali.kra.proposaldevelopment.printing.xmlstream.ProposalDevelopmentXmlStream" parent="proposalBaseStream">
 	</bean>
 
 	<!--Proposal Development Printing Service Configuration End -->
