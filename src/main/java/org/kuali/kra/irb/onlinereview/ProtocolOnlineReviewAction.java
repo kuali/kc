@@ -301,7 +301,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
                 Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
                 String callerString = String.format("approveOnlineReview.%s.anchor%s",prDoc.getDocumentNumber(),0);
                 if(question == null){
-                   return this.performQuestionWithoutInput(mapping, form, request, response, UPDATE_REVIEW_STATUS_TO_FINAL,getKualiConfigurationService().getPropertyString(KeyConstants.QUESTION_PROTOCOL_CONFIRM_SUBMIT_FOR_REVIEW), KNSConstants.CONFIRMATION_QUESTION, callerString, "");
+                   return this.performQuestionWithoutInput(mapping, form, request, response, UPDATE_REVIEW_STATUS_TO_FINAL,getKualiConfigurationService().getPropertyString(KeyConstants.QUESTION_CONFIRM_UPDATE_REVIEW_TO_FINAL), KNSConstants.CONFIRMATION_QUESTION, callerString, "");
                  } 
                 else if((UPDATE_REVIEW_STATUS_TO_FINAL.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked))  {
                     //nothing to do.
@@ -421,6 +421,8 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         }
         else
         {
+            prDoc.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.SAVED_STATUS_CD);
+            getDocumentService().saveDocument(prDoc);
             getProtocolOnlineReviewService().returnProtocolOnlineReviewDocumentToReviewer(prDoc,reason,GlobalVariables.getUserSession().getPrincipalId());
             protocolForm.getOnlineReviewsActionHelper().init(true);
             recordOnlineReviewActionSuccess("returned to reviewer", prDoc);
@@ -502,7 +504,9 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
                 
                 KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase)protocolForm.getOnlineReviewsActionHelper().getDocumentHelperMap().get(onlineReviewDocumentNumber).get(OnlineReviewsActionHelper.FORM_MAP_KEY);
                 doProcessingAfterPost( kualiDocumentFormBase, request );
-                getDocumentService().disapproveDocument(kualiDocumentFormBase.getDocument(), disapprovalNoteText);
+                ProtocolOnlineReviewDocument document = (ProtocolOnlineReviewDocument) kualiDocumentFormBase.getDocument();
+                document.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD);
+                getDocumentService().disapproveDocument(document, disapprovalNoteText);
                 GlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_ROUTE_DISAPPROVED);
                 kualiDocumentFormBase.setAnnotation("");
                 protocolForm.getOnlineReviewsActionHelper().init(true);
