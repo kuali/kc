@@ -150,7 +150,7 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 		proposal.setPROPYNQArray(getProposalYNQs(developmentProposal
 				.getProposalYnqs(), developmentProposal
 				.getProposalChangedDataList()));
-		proposal.setCURDATE(dateTimeService.getCurrentDate().toString());
+		proposal.setCURDATE(getDateTimeService().getCurrentDate().toString());
 		return proposal;
 	}
 
@@ -605,7 +605,7 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 		Map<String, String> noticeCodeMap = new HashMap<String, String>();
 		noticeCodeMap.put(NOTICE_OF_OPPORTUNITY_CODE, noticeOfOpportunityCode);
 		String description = Constants.EMPTY_STRING;
-		NoticeOfOpportunity noticeOfOpportunity = (NoticeOfOpportunity) businessObjectService
+		NoticeOfOpportunity noticeOfOpportunity = (NoticeOfOpportunity) getBusinessObjectService()
 				.findByPrimaryKey(NoticeOfOpportunity.class, noticeCodeMap);
 		if (noticeOfOpportunity != null) {
 			description = noticeOfOpportunity.getDescription();
@@ -695,7 +695,7 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 	private Sponsor getSponsorBySponsorCode(String sponsorCode) {
 		Map<String, String> sponsorCodeMap = new HashMap<String, String>();
 		sponsorCodeMap.put(Constants.SPONSOR_CODE, sponsorCode);
-		Sponsor sponsor = (Sponsor) businessObjectService.findByPrimaryKey(
+		Sponsor sponsor = (Sponsor) getBusinessObjectService().findByPrimaryKey(
 				Sponsor.class, sponsorCodeMap);
 		return sponsor;
 	}

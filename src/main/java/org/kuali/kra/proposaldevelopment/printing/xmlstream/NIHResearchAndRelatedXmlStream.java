@@ -220,7 +220,9 @@ public class NIHResearchAndRelatedXmlStream extends
 		Award award = getAward(developmentProposal.getCurrentAwardNumber());
 		if (award != null) {
 			Calendar totalProjectStartDate = Calendar.getInstance();
-			totalProjectStartDate.setTime(award.getAwardEffectiveDate());
+			if(award.getAwardEffectiveDate()!=null){
+			    totalProjectStartDate.setTime(award.getAwardEffectiveDate());
+			}
 			researchAndRelatedProject.setTotalProjectStartDt(totalProjectStartDate);
 			AwardAmountInfo amountInfo = getMaxAwardAmountInfo(award);
 			Calendar totalProjectEndDate = Calendar.getInstance();
@@ -411,7 +413,7 @@ public class NIHResearchAndRelatedXmlStream extends
 		 
 		proposalPersonType.setSSN(proposalPerson.getSocialSecurityNumber());
 		if (proposalPerson.getDateOfBirth() != null) {
-			proposalPersonType.setDOB(dateTimeService.toDateString(proposalPerson.getDateOfBirth()));
+			proposalPersonType.setDOB(getDateTimeService().toDateString(proposalPerson.getDateOfBirth()));
 		}
 
 		BudgetDecimal calendarMonths = BudgetDecimal.ZERO;
@@ -793,8 +795,8 @@ public class NIHResearchAndRelatedXmlStream extends
 				gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod budgetPeriodType = 
 				        gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod.Factory.newInstance();
 				budgetPeriodType.setBudgetPeriodID(BigInteger.valueOf(budgetPeriod.getBudgetPeriod()));
-				budgetPeriodType.setStartDate(dateTimeService.getCalendar(budgetPeriod.getStartDate()));
-				budgetPeriodType.setEndDate(dateTimeService.getCalendar(budgetPeriod.getEndDate()));
+				budgetPeriodType.setStartDate(getDateTimeService().getCalendar(budgetPeriod.getStartDate()));
+				budgetPeriodType.setEndDate(getDateTimeService().getCalendar(budgetPeriod.getEndDate()));
 				budgetPeriodType.setFee(new BigDecimal(0));
 				setSalaryAndWages(developmentProposal,budget,budgetPeriod,budgetPeriodType);
 //				budgetPeriodType.setSalariesWagesTotal(getSalaryWagesTotal(budgetLineItems));
@@ -1704,7 +1706,7 @@ public class NIHResearchAndRelatedXmlStream extends
 				if (!proposalSpecialReview.getApprovalTypeCode().equals(
 						APPROVAL_TYPE_EXEMPT)
 						&& proposalSpecialReview.getApprovalDate() != null) {
-					humanSubjectsType.setIRBApprovalDate(dateTimeService
+					humanSubjectsType.setIRBApprovalDate(getDateTimeService()
 							.getCalendar(proposalSpecialReview
 									.getApprovalDate()));
 					break;

@@ -150,7 +150,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
                         animalSubject.setAssuranceNumber(animalWelfareAssurance);
                     }
                     if (proposalSpecialReview.getApplicationDate() != null) {
-                        animalSubject.setIACUCApprovalDate(dateTimeService.getCalendar(proposalSpecialReview.getApplicationDate()));
+                        animalSubject.setIACUCApprovalDate(getDateTimeService().getCalendar(proposalSpecialReview.getApplicationDate()));
                     }
                     else {
                         animalSubject.setIACUCApprovalPending(IACU_APPROVAL_PENDING_VALUE);
@@ -968,7 +968,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
      */
     protected void setApplicantSubmissionQualifiersForResearchCoverPage(DevelopmentProposal developmentProposal,
             CoreApplicantSubmissionQualifiersType coreApplicantSubmissionQualifiersType) {
-        coreApplicantSubmissionQualifiersType.setApplicationDate(dateTimeService.getCalendar(developmentProposal
+        coreApplicantSubmissionQualifiersType.setApplicationDate(getDateTimeService().getCalendar(developmentProposal
                 .getRequestedEndDateInitial()));
     }
 
@@ -979,7 +979,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
             CoreFederalAgencyReceiptQualifiersType coreFederalAgencyReceiptQualifiersType) {
         coreFederalAgencyReceiptQualifiersType.setAgencyName(developmentProposal.getSponsor().getAcronym());
         if (developmentProposal.getS2sOpportunity() != null && developmentProposal.getS2sOpportunity().getOpeningDate() != null) {
-            coreFederalAgencyReceiptQualifiersType.setAgencyReceiptDate(dateTimeService.getCalendar(developmentProposal
+            coreFederalAgencyReceiptQualifiersType.setAgencyReceiptDate(getDateTimeService().getCalendar(developmentProposal
                     .getS2sOpportunity().getOpeningDate()));
         }
     }
@@ -990,7 +990,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
     protected CoreStateReceiptQualifiersType setStateReceiptQualifiersForResearchCoverPage(DevelopmentProposal developmentProposal,
             CoreStateReceiptQualifiersType coreStateReceiptQualifiersType) {
         if (developmentProposal.getDeadlineDate() != null) {
-            coreStateReceiptQualifiersType.setStateReceiptDate(dateTimeService.getCalendar(developmentProposal.getDeadlineDate()));
+            coreStateReceiptQualifiersType.setStateReceiptDate(getDateTimeService().getCalendar(developmentProposal.getDeadlineDate()));
         }
         return coreStateReceiptQualifiersType;
     }
@@ -1002,7 +1002,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
     protected void setStateIntergovernmentalReviewForResearchCoverPage(DevelopmentProposal developmentProposal,
             CoreStateIntergovernmentalReviewType coreStateIntergovernmentalReviewType) {
         if (developmentProposal.getDeadlineDate() != null) {
-            coreStateIntergovernmentalReviewType.setReviewAvailabilityDate(dateTimeService.getCalendar(developmentProposal
+            coreStateIntergovernmentalReviewType.setReviewAvailabilityDate(getDateTimeService().getCalendar(developmentProposal
                     .getDeadlineDate()));
         }
         coreStateIntergovernmentalReviewType.setSubjectToReviewQuestion(true);
@@ -1025,8 +1025,8 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
      */
     protected CoreProjectDatesType getProjectDatesForResearchCoverPage(Date startDate, Date endDate) {
         CoreProjectDatesType coreProjectDatesType = CoreProjectDatesType.Factory.newInstance();
-        coreProjectDatesType.setProjectStartDate(dateTimeService.getCalendar(startDate));
-        coreProjectDatesType.setProjectEndDate(dateTimeService.getCalendar(endDate));
+        coreProjectDatesType.setProjectStartDate(getDateTimeService().getCalendar(startDate));
+        coreProjectDatesType.setProjectEndDate(getDateTimeService().getCalendar(endDate));
         return coreProjectDatesType;
     }
 
