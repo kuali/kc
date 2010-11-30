@@ -18,16 +18,26 @@ package org.kuali.kra.meeting;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.validator.Resources;
+import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.meeting.MeetingEventBase.ErrorType;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.service.ResearchDocumentService;
+import org.kuali.rice.ken.util.NotificationConstants;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 
@@ -273,6 +283,45 @@ public class MeetingManagementAction extends MeetingAction {
         return forward; 
     }
 
+    public ActionForward returnToCommittee(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        final MeetingForm meetingForm = (MeetingForm) form;
+        
+        this.save(mapping, form, request, response);
+       
+        
+        return this.getReturnToCommitteeForward(meetingForm);
+        
+    }
 
+    private ActionForward getReturnToCommitteeForward(final MeetingForm form) throws WorkflowException {
+        assert form != null : "the form is null";
+        final DocumentService docService = KraServiceLocator.getService(DocumentService.class);
+        final String docNumber = form.getMeetingHelper().getCommitteeSchedule().getCommittee().getCommitteeDocument().getDocumentNumber();
+        
+        final CommitteeDocument pdDoc = (CommitteeDocument) docService.getByDocumentHeaderId(docNumber);
+        String forwardUrl = buildForwardUrl(pdDoc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
+        forwardUrl = forwardUrl.replaceFirst("committeeCommittee.do", "committeeSchedule.do");
+        forwardUrl += "&methodToCallAttribute=methodToCall.reload";
+        return new ActionForward(forwardUrl, true);
+    }
+
+    protected String buildForwardUrl(Long routeHeaderId) {
+        ResearchDocumentService researchDocumentService = KraServiceLocator.getService(ResearchDocumentService.class);
+        String forward = researchDocumentService.getDocHandlerUrl(routeHeaderId);
+//        forward = forward.replaceFirst(DEFAULT_TAB, ALTERNATE_OPEN_TAB);
+        if (forward.indexOf("?") == -1) {
+            forward += "?";
+        }
+        else {
+            forward += "&";
+        }
+        forward += KEWConstants.ROUTEHEADER_ID_PARAMETER + "=" + routeHeaderId;
+        forward += "&" + KEWConstants.COMMAND_PARAMETER + "=" + NotificationConstants.NOTIFICATION_DETAIL_VIEWS.DOC_SEARCH_VIEW;
+        if (GlobalVariables.getUserSession().isBackdoorInUse()) {
+            forward += "&" + KEWConstants.BACKDOOR_ID_PARAMETER + "=" + GlobalVariables.getUserSession().getPrincipalName();
+        }
+        return forward;
+    }
 
 }
