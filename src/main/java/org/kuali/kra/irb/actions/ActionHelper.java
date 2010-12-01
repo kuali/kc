@@ -1585,6 +1585,11 @@ public class ActionHelper implements Serializable {
                     break;
                 }
             }
+            if (protocolSubmission == null) {
+                // undo last action may remove the last submission; so it can't be found
+                protocolSubmission = getProtocol().getProtocolSubmission();
+                currentSubmissionNumber = protocolSubmission.getSubmissionNumber();
+            }
         }
         
         return protocolSubmission;
