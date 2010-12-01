@@ -2604,50 +2604,61 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      * @return an action forward.
      * @throws Exception if there is a problem executing the request.
      */
-    public ActionForward addNote(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    public ActionForward addNote(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
-            ProtocolForm protocolForm = ((ProtocolForm) form);
-            if (protocolForm.getActionHelper().getCanManageNotes()) {
-                protocolForm.getNotesAttachmentsHelper().addNewNote();
-                protocolForm.getNotesAttachmentsHelper().setManageNotesOpen(true);
-            }
-            return mapping.findForward(Constants.MAPPING_BASIC);
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        if (protocolForm.getActionHelper().getCanManageNotes()) {
+            protocolForm.getNotesAttachmentsHelper().addNewNote();
+            protocolForm.getNotesAttachmentsHelper().setManageNotesOpen(true);
         }
-        
-        public ActionForward saveNotes(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
-                HttpServletResponse response) throws Exception {
-            ProtocolForm protocolForm = ((ProtocolForm) form);
-            Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * 
+     * This method...
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward saveNotes(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
             
-            if (protocolForm.getActionHelper().getCanManageNotes()) {
+        if (protocolForm.getActionHelper().getCanManageNotes()) {
             
-                final AddProtocolNotepadRule rule = new AddProtocolNotepadRuleImpl();
+            final AddProtocolNotepadRule rule = new AddProtocolNotepadRuleImpl();
                 
-                //final AddProtocolNotepadEvent event = new AddProtocolNotepadEvent(this.form.getDocument(), this.newProtocolNotepad);
-                boolean validNotes = true;
-                //validate all of them first
-                for(ProtocolNotepad note : protocol.getNotepads()) {
-                    if (note.isEditable()) {
-                        AddProtocolNotepadEvent event = new AddProtocolNotepadEvent(protocol.getProtocolDocument(), note);
-                        if (!rule.processAddProtocolNotepadRules(event)) {
-                            validNotes = false;
-                        }
+            //final AddProtocolNotepadEvent event = new AddProtocolNotepadEvent(this.form.getDocument(), this.newProtocolNotepad);
+            boolean validNotes = true;
+            //validate all of them first
+            for (ProtocolNotepad note : protocol.getNotepads()) {
+                if (note.isEditable()) {
+                    AddProtocolNotepadEvent event = new AddProtocolNotepadEvent(protocol.getProtocolDocument(), note);
+                    if (!rule.processAddProtocolNotepadRules(event)) {
+                        validNotes = false;
                     }
                 }
-                
-                if (validNotes) {
-                    for(ProtocolNotepad note : protocol.getNotepads()) {
-                        if (StringUtils.isBlank(note.getUpdateUserFullName())) {
-                            note.setUpdateUserFullName(GlobalVariables.getUserSession().getPerson().getName());
-                            note.setUpdateTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
-                        }
-                        note.setEditable(false);
-                    }
-                    getBusinessObjectService().save(protocol.getNotepads());
-                }
             }
-            return mapping.findForward(Constants.MAPPING_BASIC);
+            
+            if (validNotes) {
+                for (ProtocolNotepad note : protocol.getNotepads()) {
+                    if (StringUtils.isBlank(note.getUpdateUserFullName())) {
+                        note.setUpdateUserFullName(GlobalVariables.getUserSession().getPerson().getName());
+                        note.setUpdateTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
+                    }
+                    note.setEditable(false);
+                }
+                getBusinessObjectService().save(protocol.getNotepads());
+                recordProtocolActionSuccess("Manage Notes");
+            }
         }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
        
 
     public ActionForward submissionQuestionnaire(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
