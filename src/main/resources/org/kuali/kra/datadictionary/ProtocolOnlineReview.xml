@@ -216,8 +216,8 @@
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="protocolOnlineReviewStatus.description" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Status" />
-		<property name="shortLabel" value="Status" />
+		<property name="label" value="Online Review Status" />
+		<property name="shortLabel" value="Online Review Status" />
 		<property name="maxLength" value="3" />
 		<property name="validationPattern">
 			<bean parent="AlphaNumericValidationPattern" />
@@ -499,6 +499,8 @@
     <bean id="ProtocolOnlineReview-protocol.protocolStatus.description" parent="ProtocolOnlineReview-protocol.protocolStatus.description-parentBean" />
     <bean id="ProtocolOnlineReview-protocol.protocolStatus.description-parentBean" abstract="true" parent="ProtocolStatus-description" >
         <property name="name" value="protocol.protocolStatus.description" />
+        <property name="label" value="Protocol Status" />
+        <property name="shortLabel" value="Protocol Status" />
     </bean>
     
     <bean id="ProtocolOnlineReview-resultDueDate" parent="ProtocolOnlineReview-resultDueDate-parentBean" />
