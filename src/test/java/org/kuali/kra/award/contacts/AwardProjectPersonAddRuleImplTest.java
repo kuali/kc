@@ -88,4 +88,11 @@ public class AwardProjectPersonAddRuleImplTest {
         AwardPerson newPerson = new AwardPerson(duplicatePerson, ContactRoleFixtureFactory.MOCK_KEY_PERSON);
         Assert.assertFalse("Duplicate Rolodex not identified", rule.checkForDuplicatePerson(award, newPerson));
     }
+    
+    @Test
+    public void testCheckForKeyPersonRole_NotFound() {
+        AwardPerson newPerson = new AwardPerson(new KcPerson(), ContactRoleFixtureFactory.MOCK_KEY_PERSON);
+        newPerson.setKeyPersonRole(null);
+        Assert.assertFalse("Key Person Role not checked for", rule.checkForKeyPersonProjectRoles(newPerson));
+    }
 }

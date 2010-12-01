@@ -20,8 +20,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.Unit;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -37,8 +39,9 @@ public class AwardProjectPersonAddRuleImpl extends BaseAwardContactAddRule imple
         AwardPerson newProjectPerson = event.getNewProjectPerson();
         Award award = ((AwardDocument) event.getDocument()).getAward();
         
-        return checkForSelectedContactAndRole(newProjectPerson) && (checkForExistingPrincipalInvestigators(award, newProjectPerson) 
-                                                                    & checkForDuplicatePerson(award, newProjectPerson));
+        return checkForSelectedContactAndRole(newProjectPerson) 
+            && (checkForExistingPrincipalInvestigators(award, newProjectPerson) & checkForDuplicatePerson(award, newProjectPerson))
+            && checkForKeyPersonProjectRoles(newProjectPerson);
     }
     
     boolean checkForSelectedContactAndRole(AwardContact newContact) {
@@ -88,6 +91,19 @@ public class AwardProjectPersonAddRuleImpl extends BaseAwardContactAddRule imple
         if(!valid) {
             GlobalVariables.getErrorMap().putError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY, ERROR_AWARD_PROJECT_PERSON_EXISTS, 
                                                                                 newProjectPerson.getContact().getFullName());
+        }
+        
+        return valid;
+    }
+    
+    boolean checkForKeyPersonProjectRoles(AwardPerson newProjectPerson) {
+        boolean valid = true;
+        
+        if (StringUtils.equalsIgnoreCase(newProjectPerson.getContactRole().getRoleCode(), ContactRole.KEY_PERSON_CODE) 
+                && StringUtils.isBlank(newProjectPerson.getKeyPersonRole())) {
+            valid = false;
+            GlobalVariables.getMessageMap().putError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY + ".keyPersonRole", ERROR_AWARD_PROJECT_KEY_PERSON_ROLE_REQUIRED, 
+                    newProjectPerson.getFullName());
         }
         
         return valid;
