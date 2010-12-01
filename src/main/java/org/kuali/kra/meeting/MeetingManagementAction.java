@@ -284,17 +284,13 @@ public class MeetingManagementAction extends MeetingAction {
     }
 
     public ActionForward returnToCommittee(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
-        final MeetingForm meetingForm = (MeetingForm) form;
-        
-        this.save(mapping, form, request, response);
-       
-        
-        return this.getReturnToCommitteeForward(meetingForm);
+                
+        this.save(mapping, form, request, response);        
+        return this.getReturnToCommitteeForward((MeetingForm)form);
         
     }
 
-    private ActionForward getReturnToCommitteeForward(final MeetingForm form) throws WorkflowException {
+    private ActionForward getReturnToCommitteeForward(MeetingForm form) throws WorkflowException {
         assert form != null : "the form is null";
         final DocumentService docService = KraServiceLocator.getService(DocumentService.class);
         final String docNumber = form.getMeetingHelper().getCommitteeSchedule().getCommittee().getCommitteeDocument().getDocumentNumber();
