@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.award.notesandattachments.notes;
 
-import java.sql.Date;
+//import java.sql.Date;
 import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.util.Calendar;
+//import java.text.DateFormat;
+//import java.util.Calendar;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.award.AwardAssociate;
@@ -42,11 +42,7 @@ public class AwardNotepad extends AwardAssociate {
      * 
      * Constructs a AwardNotepad.java.
      */
-    public AwardNotepad() { 
-        if (createTimestamp == null) {
-            Calendar cl = Calendar.getInstance();
-            setCreateTimestamp(new Timestamp(cl.getTime().getTime()));
-        }
+    public AwardNotepad() {
     } 
     
     
@@ -123,12 +119,6 @@ public class AwardNotepad extends AwardAssociate {
      * @param createTimeStamp The createTimeStamp to set.
      */
     public void setCreateTimestamp(Timestamp pCreateTimestamp) {
-        if (pCreateTimestamp == null) {
-          System.err.println("************************* null create time stamp passed in!");
-        } else {
-            DateFormat df = DateFormat.getInstance();
-            System.err.println("************************* " + df.format(pCreateTimestamp) );               
-        }
         this.createTimestamp = pCreateTimestamp;
     }
     
@@ -154,8 +144,3 @@ public class AwardNotepad extends AwardAssociate {
         return hashMap;
     }
 }
-
-
-
-    
-
