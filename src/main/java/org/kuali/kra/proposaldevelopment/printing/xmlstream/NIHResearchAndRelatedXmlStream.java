@@ -64,6 +64,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
@@ -92,6 +93,7 @@ import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.printing.util.PrintingUtils;
@@ -208,7 +210,9 @@ public class NIHResearchAndRelatedXmlStream extends
 		Award award = getAward(developmentProposal.getCurrentAwardNumber());
 		if (award != null) {
 			Calendar totalProjectStartDate = Calendar.getInstance();
-			totalProjectStartDate.setTime(award.getAwardEffectiveDate());
+			if(award.getAwardEffectiveDate()!=null){
+			    totalProjectStartDate.setTime(award.getAwardEffectiveDate());
+			}
 			researchAndRelatedProject.setTotalProjectStartDt(totalProjectStartDate);
 			AwardAmountInfo amountInfo = getMaxAwardAmountInfo(award);
 			Calendar totalProjectEndDate = Calendar.getInstance();
@@ -224,36 +228,53 @@ public class NIHResearchAndRelatedXmlStream extends
 		researchAndRelatedProject.setBudgetSummary(getBudgetSummary(budget,developmentProposal));
 		return researchAndRelatedProject;
 	}
+    protected boolean isProposalTypeRenewalRevisionContinuation(String proposalTypeCode) {
+        String proposalTypeCodeRenewal = 
+            parameterService.getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL);
+        String proposalTypeCodeRevision = 
+            parameterService.getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
+        String proposalTypeCodeContinuation = 
+            parameterService.getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION);
+         
+        return !StringUtils.isEmpty(proposalTypeCode) &&
+               (proposalTypeCode.equals(proposalTypeCodeRenewal) ||
+                proposalTypeCode.equals(proposalTypeCodeRevision) ||
+                proposalTypeCode.equals(proposalTypeCodeContinuation));
+    }  
 
 	private void setNIHDeatils(
 			ResearchAndRelatedProject researchAndRelatedProject,
 			DevelopmentProposal developmentProposal) {
-//		String proposalTypeCode = developmentProposal.getProposalTypeCode();
+		String proposalTypeCode = developmentProposal.getProposalTypeCode();
 		String federalId  = getS2SUtilService().getFederalId(developmentProposal.getProposalDocument());
 		researchAndRelatedProject.setNihPriorGrantNumber(federalId);
-//		if ("6".equals(proposalTypeCode)) {
+//		if (ProposalType.RESUBMISSION_TYPE_CODE.equals(proposalTypeCode)) {
 //			InstitutionalProposal institutionalProposal = getMaxInstitutionalProposal(developmentProposal);
-//			researchAndRelatedProject
-//					.setNihPriorGrantNumber(institutionalProposal
-//							.getSponsorProposalNumber()); // setNihPriorGrantNumber
-//		} else if ("3".equals(proposalTypeCode) || "4".equals(proposalTypeCode)
-//				|| "5".equals(proposalTypeCode)) {
-//			String federalIdComesFromAwardStr = parameterService
-//					.getParameterValue(ProposalDevelopmentDocument.class,
-//							"FEDERAL_ID_COMES_FROM_CURRENT_AWARD");
-//			if ("1".equals(federalIdComesFromAwardStr)) {
-//				String currentAwardNumber = developmentProposal
-//						.getCurrentAwardNumber();
-//				Award award = getAward(currentAwardNumber);
-//				String sponsorAwardNumber = award.getSponsorAwardNumber(); // setNihPriorGrantNumber
-//				String activityCode = sponsorAwardNumber.substring(3, 3); // setNihActivityCode
-//				String awardType = sponsorAwardNumber.substring(1, 1); // setNihApplicationTypeCode
-//				researchAndRelatedProject.setNihActivityCode(activityCode);
+//			if(institutionalProposal!=null){
+//			    researchAndRelatedProject
+//					.setNihPriorGrantNumber(institutionalProposal.getSponsorProposalNumber()); // setNihPriorGrantNumber
+//			}
+//		} else 
+		    
+		if (isProposalTypeRenewalRevisionContinuation(proposalTypeCode)) {
+			String federalIdComesFromAwardStr = parameterService
+					.getParameterValue(ProposalDevelopmentDocument.class,"FEDERAL_ID_COMES_FROM_CURRENT_AWARD");
+			if ("Y".equalsIgnoreCase(federalIdComesFromAwardStr)) {
+				String currentAwardNumber = developmentProposal.getCurrentAwardNumber();
+				Award award = getAward(currentAwardNumber);
+				if(award!=null){
+				    String sponsorAwardNumber = award.getSponsorAwardNumber(); // setNihPriorGrantNumber
+				    if(sponsorAwardNumber!=null && sponsorAwardNumber.length()>5){
+				        String activityCode = sponsorAwardNumber.substring(2, 5); // setNihActivityCode
+				        String awardType = sponsorAwardNumber.substring(0, 1); // setNihApplicationTypeCode
+				        researchAndRelatedProject.setNihActivityCode(activityCode);
+				        researchAndRelatedProject.setNihApplicationTypeCode(awardType);
+				    }
+				}
 //				researchAndRelatedProject
 //						.setNihPriorGrantNumber(sponsorAwardNumber);
-//				researchAndRelatedProject.setNihApplicationTypeCode(awardType);
-//			}
-//		}
+			}
+		}
 	}
 
 	/**
@@ -399,7 +420,7 @@ public class NIHResearchAndRelatedXmlStream extends
 		 
 		proposalPersonType.setSSN(proposalPerson.getSocialSecurityNumber());
 		if (proposalPerson.getDateOfBirth() != null) {
-			proposalPersonType.setDOB(dateTimeService.toDateString(proposalPerson.getDateOfBirth()));
+			proposalPersonType.setDOB(getDateTimeService().toDateString(proposalPerson.getDateOfBirth()));
 		}
 
 		BudgetDecimal calendarMonths = BudgetDecimal.ZERO;
@@ -781,8 +802,8 @@ public class NIHResearchAndRelatedXmlStream extends
 				gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod budgetPeriodType = 
 				        gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod.Factory.newInstance();
 				budgetPeriodType.setBudgetPeriodID(BigInteger.valueOf(budgetPeriod.getBudgetPeriod()));
-				budgetPeriodType.setStartDate(dateTimeService.getCalendar(budgetPeriod.getStartDate()));
-				budgetPeriodType.setEndDate(dateTimeService.getCalendar(budgetPeriod.getEndDate()));
+				budgetPeriodType.setStartDate(getDateTimeService().getCalendar(budgetPeriod.getStartDate()));
+				budgetPeriodType.setEndDate(getDateTimeService().getCalendar(budgetPeriod.getEndDate()));
 				budgetPeriodType.setFee(new BigDecimal(0));
 				setSalaryAndWages(developmentProposal,budget,budgetPeriod,budgetPeriodType);
 //				budgetPeriodType.setSalariesWagesTotal(getSalaryWagesTotal(budgetLineItems));
@@ -1692,7 +1713,7 @@ public class NIHResearchAndRelatedXmlStream extends
 				if (!proposalSpecialReview.getApprovalTypeCode().equals(
 						APPROVAL_TYPE_EXEMPT)
 						&& proposalSpecialReview.getApprovalDate() != null) {
-					humanSubjectsType.setIRBApprovalDate(dateTimeService
+					humanSubjectsType.setIRBApprovalDate(getDateTimeService()
 							.getCalendar(proposalSpecialReview
 									.getApprovalDate()));
 					break;

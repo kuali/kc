@@ -183,8 +183,8 @@ public class ResearchAndRelatedXmlStream extends AbstractResearchAndRelatedStrea
 				List<BudgetLineItem> budgetLineItems = budgetPeriod.getBudgetLineItems();
 				BudgetPeriodType budgetPeriodType = BudgetPeriodType.Factory.newInstance();
 				budgetPeriodType.setBudgetPeriodID(new BigInteger(String.valueOf(budgetPeriod.getBudgetPeriod())));
-				budgetPeriodType.setStartDate(dateTimeService.getCalendar(budgetPeriod.getStartDate()));
-				budgetPeriodType.setEndDate(dateTimeService.getCalendar(budgetPeriod.getEndDate()));
+				budgetPeriodType.setStartDate(getDateTimeService().getCalendar(budgetPeriod.getStartDate()));
+				budgetPeriodType.setEndDate(getDateTimeService().getCalendar(budgetPeriod.getEndDate()));
 				budgetPeriodType.setFee(new BigDecimal(0));
 				budgetPeriodType.setSalariesWagesTotal(getSalaryWagesTotal(budgetLineItems));
 				budgetPeriodType.setSalariesAndWagesArray(getSalaryAndWages(developmentProposal,budgetLineItems));
@@ -839,7 +839,7 @@ public class ResearchAndRelatedXmlStream extends AbstractResearchAndRelatedStrea
 				if (!proposalSpecialReview.getApprovalTypeCode().equals(
 						APPROVAL_TYPE_EXEMPT)
 						&& proposalSpecialReview.getApprovalDate() != null) {
-					humanSubjectsType.setIRBApprovalDate(dateTimeService
+					humanSubjectsType.setIRBApprovalDate(getDateTimeService()
 							.getCalendar(proposalSpecialReview
 									.getApprovalDate()));
 					break;

@@ -437,7 +437,7 @@ public abstract class AbstractBudgetCalculator {
                             + "\' for Period - ";
 
                     // if apply flag is false and rate class type is not Overhead then skip
-                    if (!applyRateFlag && !rateClassType.equals(RateClassType.OVERHEAD.getRateClassType())) {
+                    if ((applyRateFlag==null || !applyRateFlag) && !rateClassType.equals(RateClassType.OVERHEAD.getRateClassType())) {
                         continue;
                     }
 
