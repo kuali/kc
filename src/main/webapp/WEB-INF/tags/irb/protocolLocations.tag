@@ -133,9 +133,24 @@
 				            ${KualiForm.document.protocolList[0].protocolLocations[status.index].rolodex.state} &nbsp;
 				            ${KualiForm.document.protocolList[0].protocolLocations[status.index].rolodex.postalCode}
 						</c:if>
-						<kra:permission value="${KualiForm.protocolHelper.modifyOrganizations}">  
-	                    	<kul:lookup boClassName="org.kuali.kra.bo.Rolodex" 
-	                    		fieldConversions="rolodexId:document.protocolList[0].protocolLocations[${status.index}].rolodexId,firstName:document.protocolList[0].protocolLocations[${status.index}].rolodex.firstName,lastName:document.protocolList[0].protocolLocations[${status.index}].rolodex.lastName,postalCode:document.protocolList[0].protocolLocations[${status.index}].rolodex.postalCode,addressLine1:document.protocolList[0].protocolLocations[${status.index}].rolodex.addressLine1,addressLine2:document.protocolList[0].protocolLocations[${status.index}].rolodex.addressLine2,addressLine3:document.protocolList[0].protocolLocations[${status.index}].rolodex.addressLine3,city:document.protocolList[0].protocolLocations[${status.index}].rolodex.city,state:document.protocolList[0].protocolLocations[${status.index}].rolodex.state"	anchor="${currentTabIndex}"/> 
+						<kra:permission value="${KualiForm.protocolHelper.modifyOrganizations}">
+						    <c:choose>
+							    <c:when test="${empty KualiForm.document.protocolList[0].protocolLocations[status.index].rolodex.lastName
+							                    and empty KualiForm.document.protocolList[0].protocolLocations[status.index].rolodex.firstName
+							                    and empty KualiForm.document.protocolList[0].protocolLocations[status.index].rolodex.addressLine1
+							                    and empty KualiForm.document.protocolList[0].protocolLocations[status.index].rolodex.addressLine2
+							                    and empty KualiForm.document.protocolList[0].protocolLocations[status.index].rolodex.addressLine3
+							                    and empty KualiForm.document.protocolList[0].protocolLocations[status.index].rolodex.city
+							                    and empty KualiForm.document.protocolList[0].protocolLocations[status.index].rolodex.state
+							                    and empty KualiForm.document.protocolList[0].protocolLocations[status.index].rolodex.postalCode}">
+			                    	<kul:lookup boClassName="org.kuali.kra.bo.Rolodex" searchIconOverride='${ConfigProperties.kra.externalizable.images.url}tinybutton-addcontact.gif'
+			                    		fieldConversions="rolodexId:document.protocolList[0].protocolLocations[${status.index}].rolodexId,firstName:document.protocolList[0].protocolLocations[${status.index}].rolodex.firstName,lastName:document.protocolList[0].protocolLocations[${status.index}].rolodex.lastName,postalCode:document.protocolList[0].protocolLocations[${status.index}].rolodex.postalCode,addressLine1:document.protocolList[0].protocolLocations[${status.index}].rolodex.addressLine1,addressLine2:document.protocolList[0].protocolLocations[${status.index}].rolodex.addressLine2,addressLine3:document.protocolList[0].protocolLocations[${status.index}].rolodex.addressLine3,city:document.protocolList[0].protocolLocations[${status.index}].rolodex.city,state:document.protocolList[0].protocolLocations[${status.index}].rolodex.state"	anchor="${currentTabIndex}"/> 
+							    </c:when>
+							    <c:otherwise>
+								    <html:image property="methodToCall.clearProtocolLocationAddress.line${status.index}.anchor${currentTabIndex}"
+		                                    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-clearcontact.gif' styleClass="tinybutton"/>
+	                            </c:otherwise>
+	                        </c:choose>
 						</kra:permission>  
                     	<kul:directInquiry boClassName="org.kuali.kra.bo.Rolodex" inquiryParameters="document.protocolList[0].protocolLocations[${status.index}].rolodexId:rolodexId" anchor="${currentTabIndex}"/>
 					</div>
@@ -150,10 +165,8 @@
 				  <c:if test="${!readOnly}">
 					  <td>
 						<div align=center>&nbsp;
-							<html:image property="methodToCall.clearProtocolLocationAddress.line${status.index}.anchor${currentTabIndex}"
-									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-clraddress.gif' styleClass="tinybutton"/>
 							<html:image property="methodToCall.deleteProtocolLocation.line${status.index}.anchor${currentTabIndex}"
-									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-deleteorganization.gif' styleClass="tinybutton"/>
 						</div>
 		              </td>
 		           </c:if>
