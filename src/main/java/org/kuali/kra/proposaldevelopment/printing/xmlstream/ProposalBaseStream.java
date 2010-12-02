@@ -43,8 +43,8 @@ public abstract class ProposalBaseStream implements XmlStream {
 
 	private final static Log LOG = LogFactory
 			.getLog(ProposalBaseStream.class);
-	protected DateTimeService dateTimeService;
-	protected BusinessObjectService businessObjectService = null;
+	private DateTimeService dateTimeService;
+	private BusinessObjectService businessObjectService;
 
 
 	/**
@@ -77,7 +77,7 @@ public abstract class ProposalBaseStream implements XmlStream {
 		if(!(currentAwardNumber == null)) {
             Map<String, Object> fieldValues = new HashMap<String, Object>();
             fieldValues.put("awardNumber", currentAwardNumber);
-            List<Award> sponsors = (List<Award>)businessObjectService.findMatching(Award.class, fieldValues);
+            List<Award> sponsors = (List<Award>)getBusinessObjectService().findMatching(Award.class, fieldValues);
             if(sponsors.size()>0){
             	award = sponsors.get(0);
             }

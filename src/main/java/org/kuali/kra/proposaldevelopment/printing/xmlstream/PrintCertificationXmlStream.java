@@ -141,7 +141,7 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
 				developmentProposal.getPrimeSponsorCode());
 		printCertification.setCertificationsArray(certifications);
 		printCertification.setLogoPath(IMAGES_PATH);
-		printCertification.setCurrentDate(dateTimeService.getCurrentCalendar());
+		printCertification.setCurrentDate(getDateTimeService().getCurrentCalendar());
 		printCertification.setOfficeName(getOfficeName(proposalPerson));
 		return printCertification;
 	}
@@ -392,9 +392,8 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
 		Map<String, String> sponsorCodeMap = new HashMap<String, String>();
 		sponsorCodeMap.put(Constants.SPONSOR_CODE, sponsorCode);
 		String sponsorTypeCode = EMPTY_STRING;
-		org.kuali.kra.bo.Sponsor sponsor = (org.kuali.kra.bo.Sponsor) businessObjectService
-				.findByPrimaryKey(org.kuali.kra.bo.Sponsor.class,
-						sponsorCodeMap);
+		org.kuali.kra.bo.Sponsor sponsor = (org.kuali.kra.bo.Sponsor) getBusinessObjectService()
+		            .findByPrimaryKey(org.kuali.kra.bo.Sponsor.class,sponsorCodeMap);
 		if (sponsor != null) {
 			sponsorTypeCode = sponsor.getSponsorTypeCode();
 		}
@@ -408,7 +407,7 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
 	private List<String> getQuestionIdsFromArgValueLookup() {
 		Map<String, String> questionMap = new HashMap<String, String>();
 		questionMap.put(ARGUMENT_NAME, PI_QUESTION);
-		List<ArgValueLookup> argValueLookupList = (List<ArgValueLookup>) businessObjectService
+		List<ArgValueLookup> argValueLookupList = (List<ArgValueLookup>) getBusinessObjectService()
 				.findMatching(ArgValueLookup.class, questionMap);
 		List<String> questionIds = new ArrayList<String>();
 		for (ArgValueLookup argValueLookup : argValueLookupList) {
@@ -425,7 +424,7 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
 		boolean available = false;
 		Map<String, String> sponsorHirarchyMap = new HashMap<String, String>();
 		sponsorHirarchyMap.put(Constants.HIERARCHY_NAME, SPONSOR_GROUPS);
-		List<SponsorHierarchy> sponsorHierarchyList = (List<SponsorHierarchy>) businessObjectService
+		List<SponsorHierarchy> sponsorHierarchyList = (List<SponsorHierarchy>) getBusinessObjectService()
 				.findMatching(SponsorHierarchy.class, sponsorHirarchyMap);
 		for (SponsorHierarchy sponsorHierarchy : sponsorHierarchyList) {
 			String sponsorCode = sponsorHierarchy.getSponsorCode();
@@ -452,7 +451,7 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
 			Map<String, String> conditionMap = new HashMap<String, String>();
 			conditionMap.put(KEY_ROLODEX_ID, proposalPerson.getRolodexId()
 					.toString());
-			Rolodex rolodex = (Rolodex) businessObjectService.findByPrimaryKey(
+			Rolodex rolodex = (Rolodex) getBusinessObjectService().findByPrimaryKey(
 					Rolodex.class, conditionMap);
 			if (rolodex != null) {
 				personName = rolodex.getFullName();
