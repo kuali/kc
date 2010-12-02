@@ -36,14 +36,13 @@
 	<tr>
 		<th width="20%">
 			<div align="right">
-
-					<kul:htmlAttributeLabel attributeEntry="${awardAttributes.basisOfPaymentCode}"/> 
+				<kul:htmlAttributeLabel attributeEntry="${awardAttributes.basisOfPaymentCode}"/> 
 			</div>
 		</th>
 		<td width="30%" valign="middle">
 			<div align="left">
                 
-                <html:select property="document.awardList[0].basisOfPaymentCode" tabindex="0" onchange = "javascript: loadAwardMethodOfPaymentCodes('document.awardList[0].basisOfPaymentCode','document.awardList[0].methodOfPaymentCode'); return false;" >                                              
+                <html:select property="document.awardList[0].basisOfPaymentCode" tabindex="0" onchange="javascript: loadAwardMethodOfPaymentCodes('document.awardList[0].basisOfPaymentCode','document.awardList[0].methodOfPaymentCode'); return false;" disabled="${readOnly}" >                                              
                 <c:forEach items="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.ValidAwardBasisPaymentValueFinder', paramMap1)}" var="option">
 	                <c:choose>                    	
 	                	<c:when test="${document.awardList[0].basisOfPaymentCode == option.key}">
@@ -72,7 +71,7 @@
 		</th>
 		<td width="30%" valign="middle">
 			<div align="left" onLoad = "javascript: loadAwardBasisOfPaymentCodes('${document.awardList[0].awardTypeCode}', 'document.awardList[0].basisOfPaymentCode');return false;">
-				<html:select property="document.awardList[0].methodOfPaymentCode" tabindex="0">                                              
+				<html:select property="document.awardList[0].methodOfPaymentCode" tabindex="0" disabled="${readOnly}">                                              
                 <c:forEach items="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.ValidMethodOfPaymentValuesFinder', paramMap2)}" var="option">
 	                <c:choose>                    	
 	                	<c:when test="${document.awardList[0].methodOfPaymentCode == option.key}">
@@ -91,10 +90,6 @@
                 </c:if>
 	            <%-- <html:image property="methodToCall.refreshPulldownOptions" styleClass="tinybutton" 
 	            	src='${ConfigProperties.kra.externalizable.images.url}arrow_refresh.png'/> --%>
-				
-			
-			
-			
                 <%-- <kul:htmlControlAttribute property="document.awardList[0].methodOfPaymentCode" attributeEntry="${awardAttributes.methodOfPaymentCode}" /> --%>
 			</div>
 		</td>
