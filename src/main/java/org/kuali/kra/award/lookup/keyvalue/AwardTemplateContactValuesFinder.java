@@ -24,8 +24,8 @@ import org.kuali.kra.award.home.AwardTemplateContact;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
-import org.kuali.kra.maintenance.KraMaintenanceDocument;
 import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 
@@ -38,7 +38,7 @@ public class AwardTemplateContactValuesFinder extends ExtendedPersistableBusines
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List<KeyLabelPair> getKeyValues() {
-        KraMaintenanceDocument doc = getDocument();
+        MaintenanceDocument doc = getDocument();
         AwardTemplate awardTemplate = (AwardTemplate) doc.getDocumentBusinessObject();
         List<AwardTemplateContact> contacts = awardTemplate.getTemplateContacts();
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
@@ -58,11 +58,11 @@ public class AwardTemplateContactValuesFinder extends ExtendedPersistableBusines
      * 
      * @return the current document or null if not found
      */
-    private KraMaintenanceDocument getDocument() {
-        KraMaintenanceDocument doc = null;
+    private MaintenanceDocument getDocument() {
+        MaintenanceDocument doc = null;
         KualiMaintenanceForm form = (KualiMaintenanceForm) GlobalVariables.getKualiForm();
         if (form != null) {
-            doc = (KraMaintenanceDocument) form.getDocument();
+            doc = (MaintenanceDocument) form.getDocument();
         }
         return doc;
     }
