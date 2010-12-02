@@ -16,6 +16,8 @@
 package org.kuali.kra.award.notesandattachments.notes;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.Calendar;
 
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
@@ -96,7 +98,10 @@ public class AwardNotepadBean implements Serializable {
      * @throws Exception
      */
     public boolean addNote(AwardNotepadBean awardNotepadBean) throws Exception {
-        awardNotepadBean.getAwardDocument().getAward().add(awardNotepadBean.getNewAwardNotepad());
+        AwardNotepad note = awardNotepadBean.getNewAwardNotepad();
+        Calendar cl = Calendar.getInstance();
+        note.setCreateTimestamp(new Timestamp(cl.getTime().getTime()));
+        awardNotepadBean.getAwardDocument().getAward().add(note);
         awardNotepadBean.init();
         return true;
     }
