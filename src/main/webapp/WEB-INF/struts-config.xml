@@ -40,6 +40,7 @@
         <form-bean name="MedusaForm" type="org.kuali.kra.medusa.web.MedusaForm"/>
         <form-bean name="ProtocolOnlineReviewForm" type="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewForm"/> 
         <form-bean name="ProtocolNotificationTemplateForm" type="org.kuali.kra.irb.actions.notification.ProtocolNotificationTemplateForm" />
+        <form-bean name="JqueryAjaxForm" type="org.kuali.kra.jqueryajax.JqueryAjaxForm"/>
     </form-beans>
 
 <!-- Rice content Start -->
@@ -387,6 +388,9 @@
      <action path="/medusaAjax" name="MedusaForm" type="org.kuali.kra.medusa.web.MedusaAjaxAction" attribute="KualiForm">
         <forward name="basic" path="/WEB-INF/jsp/medusa/medusaAjax.jsp"/>
      </action>
+ 		<action path="/jqueryAjax" name="JqueryAjaxForm" type="org.kuali.kra.jqueryajax.JqueryAjaxAction" attribute="KualiForm">
+            <forward name="basic" path="/WEB-INF/jsp/jqueryajax/JqueryAjax.jsp" />
+        </action>
 
     </action-mappings>
 
