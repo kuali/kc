@@ -60,6 +60,7 @@ import org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionBean;
 import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredBean;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
+import org.kuali.kra.irb.actions.print.QuestionnairePrintOption;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
@@ -76,6 +77,7 @@ import org.kuali.kra.irb.summary.ProtocolSummary;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.ProtocolVoteAbstainee;
 import org.kuali.kra.meeting.ProtocolVoteRecused;
+import org.kuali.kra.questionnaire.QuestionnaireUsage;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
@@ -261,6 +263,10 @@ public class ActionHelper implements Serializable {
     private transient BusinessObjectService businessObjectService;
     
     private Map<String, ProtocolActionBean> actionBeanTaskMap = new HashMap<String, ProtocolActionBean>();    
+    // protocol print
+    ProtocolSummaryPrintOptions protocolPrintOption = new ProtocolSummaryPrintOptions();
+    List<QuestionnairePrintOption> questionnairesToPrints;
+    
     /**
      * Constructs an ActionHelper.
      * @param form the protocol form
@@ -340,6 +346,8 @@ public class ActionHelper implements Serializable {
         
         protocolSummaryPrintOptions = new ProtocolSummaryPrintOptions();
         toAnswerSubmissionQuestionnaire = hasSubmissionQuestionnaire();
+//        protocolPrintOption = new ProtocolSummaryPrintOptions();
+//        initPrintQuestionnaire();
     }
     
     /**
@@ -716,6 +724,7 @@ public class ActionHelper implements Serializable {
         initSubmissionDetails();
         initFilterDatesView();
         initAmendmentBeans();
+        initPrintQuestionnaire();
     }
     
     /**
@@ -1990,5 +1999,51 @@ public class ActionHelper implements Serializable {
         this.toAnswerSubmissionQuestionnaire = toAnswerSubmissionQuestionnaire;
     }
 
+    public ProtocolSummaryPrintOptions getProtocolPrintOption() {
+        return protocolPrintOption;
+    }
+
+    public void setProtocolPrintOption(ProtocolSummaryPrintOptions protocolPrintOption) {
+        this.protocolPrintOption = protocolPrintOption;
+    }
+
+    public List<QuestionnairePrintOption> getQuestionnairesToPrints() {
+        return questionnairesToPrints;
+    }
+
+    public void setQuestionnairesToPrints(List<QuestionnairePrintOption> questionnairesToPrints) {
+        this.questionnairesToPrints = questionnairesToPrints;
+    }
+
+    private void initPrintQuestionnaire() {
+        setQuestionnairesToPrints(new ArrayList<QuestionnairePrintOption>());
+        ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, getProtocol());
+        List<AnswerHeader> answerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
+        setupQnPrintOption(answerHeaders);
+    }
+
+    private void setupQnPrintOption(List<AnswerHeader> answerHeaders) {
+        for (AnswerHeader answerHeader : answerHeaders) {
+            QuestionnairePrintOption printOption = new QuestionnairePrintOption();
+            printOption.setQuestionnaireRefId(answerHeader.getQuestionnaire().getQuestionnaireRefId());
+            printOption.setSelected(true);
+            printOption.setLabel(getQuestionnaireLabel(answerHeader.getQuestionnaire().getQuestionnaireUsages(), answerHeader.getModuleSubItemCode()));
+            getQuestionnairesToPrints().add(printOption);
+        }
+     
+    }
     
+    private String getQuestionnaireLabel(List<QuestionnaireUsage> usages, String moduleSubItemCode) {
+        if (CollectionUtils.isNotEmpty(usages) && usages.size() > 1) {
+            Collections.sort((List<QuestionnaireUsage>) usages);
+           // Collections.reverse((List<QuestionnaireUsage>) usages);
+        }
+        for (QuestionnaireUsage usage : usages) {
+            if (CoeusModule.IRB_MODULE_CODE.equals(usage.getModuleItemCode()) && moduleSubItemCode.equals(usage.getModuleSubItemCode())) {
+                return usage.getQuestionnaireLabel();
+            }
+        }
+        return null;
+    }
+
 }

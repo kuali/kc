@@ -55,6 +55,7 @@
 <kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="false"/>
 </c:if>
 <kra-irb:protocolPrint/>
+<kra-irb:protocolSummaryPrint/>
 <kra-irb:protocolSummaryViewPrint/>
 <kra-irb:protocolCopyProtocol />
 <kul:routeLog /> 

@@ -136,6 +136,7 @@ import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
+import org.kuali.kra.questionnaire.print.QuestionnairePrintingService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
@@ -775,6 +776,66 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return reportParameters;
     }
 
+    /**
+     * 
+     * This method is to print the sections selected.  This is more like coeus implementation.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward printProtocolSelectedItems(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        ActionHelper actionHelper = protocolForm.getActionHelper();
+        String fileName = "Protocol_Summary_Report.pdf";
+        ProtocolPrintType printType = ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT;
+        String reportName = protocol.getProtocolNumber() + "-" + printType.getReportName();
+        AttachmentDataSource dataStream = getProtocolPrintingService().print(reportName, getPrintArtifacts(protocolForm));
+        if (dataStream.getContent() != null) {
+            dataStream.setFileName(fileName.toString());
+            PrintingUtils.streamToResponse(dataStream, response);
+            forward = null;
+        }
+
+
+        return forward;
+    }
+
+    
+    private QuestionnairePrintingService getQuestionnairePrintingService() {
+        return KraServiceLocator.getService(QuestionnairePrintingService.class);
+    }
+
+    /*
+     * get printables for protocol & questionnaires.
+     * Protocol only has one printable and each questionnaire has its own printable.
+     */
+    private List<Printable> getPrintArtifacts(ActionForm form) {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        List<Printable> printableArtifactList = new ArrayList<Printable>();
+        ProtocolPrintType printType = ProtocolPrintType.valueOf(PRINTTAG_MAP.get("full"));
+
+        AbstractPrint printable = (AbstractPrint)getProtocolPrintingService().getProtocolPrintable(printType);
+        printable.setPrintableBusinessObject(protocolForm.getProtocolDocument().getProtocol());
+     //   Map reportParameters = getReportOptions(protocolForm,ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT);
+        Map reportParameters = new HashMap();
+        ProtocolSummaryPrintOptions summaryOptions = protocolForm.getActionHelper().getProtocolPrintOption();
+        
+        reportParameters.put(ProtocolSummaryPrintOptions.class, summaryOptions);
+
+        printable.setReportParameters(reportParameters);
+        printableArtifactList.add(printable);
+        printableArtifactList.addAll(getQuestionnairePrintingService().getQuestionnairePtintable(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getQuestionnairesToPrints()));
+
+        return printableArtifactList;
+    }
+
+    
     /*
      * set up all artifacts and filename
      */
