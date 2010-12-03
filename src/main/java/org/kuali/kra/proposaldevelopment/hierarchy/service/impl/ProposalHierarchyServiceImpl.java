@@ -318,16 +318,12 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 
     protected void synchronizeAll(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException {
         boolean changed = false;
-        DevelopmentProposal childProposal;
         LOG.info(String.format("***Synchronizing all Children of Parent (#%s)", hierarchyProposal.getProposalNumber()));
         if (!hierarchyProposal.isParent()) {
             throw new ProposalHierarchyException("Proposal " + hierarchyProposal.getProposalNumber()
                     + " is not a hierarchy parent");
         }
-        for (String childProposalNumber : proposalHierarchyDao.getHierarchyChildProposalNumbers(hierarchyProposal.getProposalNumber())) {
-            childProposal = getDevelopmentProposal(childProposalNumber);
-            changed |= synchronizeChild(hierarchyProposal, childProposal);
-        }
+        changed = synchronizeAllChildProposals(hierarchyProposal);
         if (changed) {
             aggregateHierarchy(hierarchyProposal);
         }
@@ -342,7 +338,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         LOG.info(String.format("***Synchronizing Child (#%s) of Parent (#%s)", childProposal.getProposalNumber(), hierarchy.getProposalNumber()));
         
         prepareHierarchySync(hierarchy);
-        boolean changed = synchronizeChild(hierarchy, childProposal);
+        boolean changed = synchronizeChildProposal(hierarchy, childProposal);
         if (changed) {
             aggregateHierarchy(hierarchy);
         }
@@ -364,7 +360,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         newChildProposal.setHierarchyParentProposalNumber(hierarchyProposal.getProposalNumber());
         newChildProposal.setHierarchyBudgetType(hierarchyBudgetTypeCode);
         // call synchronize
-        synchronizeChild(hierarchyProposal, newChildProposal);
+        synchronizeChildProposal(hierarchyProposal, newChildProposal);
         // call aggregate
         aggregateHierarchy(hierarchyProposal);        
     }
@@ -421,24 +417,68 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         hierarchyProposal.setMailingAddressId(srcProposal.getMailingAddressId());
         hierarchyProposal.setMailDescription(srcProposal.getMailDescription());
     }
+    
+    /**
+     * Synchronizes all child proposals to the parent.
+     * @param hierarchyProposal
+     * @return
+     * @throws ProposalHierarchyException
+     */
+    protected boolean synchronizeAllChildProposals(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException {
+        boolean changed = false;
+        
+        for (DevelopmentProposal childProposal : getHierarchyChildren(hierarchyProposal.getProposalNumber())) {
+            /*  TODO restore code below after testing
+            if (isSynchronized(childProposal.getProposalNumber())) {
+                break;
+            }
+            */
+            List<PropScienceKeyword> oldKeywords = getOldKeywords(hierarchyProposal, childProposal);
+            ProposalPerson principalInvestigator = hierarchyProposal.getPrincipalInvestigator();
+            BudgetDocument<DevelopmentProposal> hierarchyBudgetDocument = getHierarchyBudget(hierarchyProposal); 
+            Budget hierarchyBudget = hierarchyBudgetDocument.getBudget();
+            BudgetDocument<DevelopmentProposal> childBudgetDocument = getFinalOrLatestChildBudget(childProposal);
+            Budget childBudget = childBudgetDocument.getBudget();
+            ObjectUtils.materializeAllSubObjects(hierarchyBudget);
+            ObjectUtils.materializeAllSubObjects(childBudget);
+            childProposal.setHierarchyLastSyncHashCode(computeHierarchyHashCode(childProposal, childBudget));
+            
+            removeChildElements(hierarchyProposal, hierarchyBudget, childProposal.getProposalNumber());
+            
+            synchronizeKeywords(hierarchyProposal, childProposal, oldKeywords);
+            synchronizeSpecialReviews(hierarchyProposal, childProposal);
+            synchronizeNarratives(hierarchyProposal, childProposal);
+            synchronizePersons(hierarchyProposal, childProposal, principalInvestigator);
+            businessObjectService.save(childProposal);
+            
+            synchronizeBudget(hierarchyProposal, childProposal, hierarchyBudget, childBudget, hierarchyBudgetDocument);
+            changed = true;
+        }
+        
+        return changed;
+    }
 
-    protected boolean synchronizeChild(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal)
-            throws ProposalHierarchyException {
-        
-        String instituteNarrativeTypeGroup = parameterService.getParameterValue(ProposalDevelopmentDocument.class, PARAMETER_NAME_INSTITUTE_NARRATIVE_TYPE_GROUP);
-        
-/*  TODO restore code below after testing
+    /**
+     * Synchronizes the given child proposal to the parent.  
+     * <p>
+     * If a key protocol person appears in multiple child proposals and is removed from the given child 
+     * proposal, then this also aggregates that key person back to the parent proposal from a different child proposal, making sure that all the key persons
+     * in all of the child proposals are represented in the parent proposal.
+     *  
+     * @param hierarchyProposal
+     * @param childProposal
+     * @return
+     * @throws ProposalHierarchyException
+     */
+    protected boolean synchronizeChildProposal(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal) throws ProposalHierarchyException {
+        /*  TODO restore code below after testing
         if (isSynchronized(childProposal.getProposalNumber())) {
             return false;
         }
-*/
-        ProposalPerson pi = hierarchyProposal.getPrincipalInvestigator();
-        List<PropScienceKeyword> oldKeywords = new ArrayList<PropScienceKeyword>();
-        for (PropScienceKeyword keyword : hierarchyProposal.getPropScienceKeywords()) {
-            if (StringUtils.equals(childProposal.getProposalNumber(), keyword.getHierarchyProposalNumber())) {
-                oldKeywords.add(keyword);
-            }
-        }
+         */
+        
+        List<PropScienceKeyword> oldKeywords = getOldKeywords(hierarchyProposal, childProposal);
+        ProposalPerson principalInvestigator = hierarchyProposal.getPrincipalInvestigator();
         BudgetDocument<DevelopmentProposal> hierarchyBudgetDocument = getHierarchyBudget(hierarchyProposal); 
         Budget hierarchyBudget = hierarchyBudgetDocument.getBudget();
         BudgetDocument<DevelopmentProposal> childBudgetDocument = getFinalOrLatestChildBudget(childProposal);
@@ -449,7 +489,39 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         
         removeChildElements(hierarchyProposal, hierarchyBudget, childProposal.getProposalNumber());
         
-        // copy PropScienceKeywords
+        synchronizeKeywords(hierarchyProposal, childProposal, oldKeywords);
+        synchronizeSpecialReviews(hierarchyProposal, childProposal);
+        synchronizeNarratives(hierarchyProposal, childProposal);
+        synchronizePersonsAndAggregate(hierarchyProposal, childProposal, principalInvestigator);
+        businessObjectService.save(childProposal);
+        
+        synchronizeBudget(hierarchyProposal, childProposal, hierarchyBudget, childBudget, hierarchyBudgetDocument);
+        return true;
+    }
+    
+    /**
+     * Gets the old proposal science keywords before removing them from the parent.
+     * @param hierarchyProposal
+     * @param childProposal
+     * @return
+     */
+    protected List<PropScienceKeyword> getOldKeywords(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal) {
+        List<PropScienceKeyword> oldKeywords = new ArrayList<PropScienceKeyword>();
+        for (PropScienceKeyword keyword : hierarchyProposal.getPropScienceKeywords()) {
+            if (StringUtils.equals(childProposal.getProposalNumber(), keyword.getHierarchyProposalNumber())) {
+                oldKeywords.add(keyword);
+            }
+        }
+        return oldKeywords;
+    }
+    
+    /**
+     * Synchronizes the proposal science keywords from the child proposal to the parent proposal.
+     * @param hierarchyProposal
+     * @param childProposal
+     * @param oldKeywords
+     */
+    protected void synchronizeKeywords(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal, List<PropScienceKeyword> oldKeywords) {
         for (PropScienceKeyword keyword : childProposal.getPropScienceKeywords()) {
             PropScienceKeyword newKeyword = new PropScienceKeyword(hierarchyProposal.getProposalNumber(), keyword.getScienceKeyword());
             int index = oldKeywords.indexOf(newKeyword);
@@ -459,45 +531,85 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             newKeyword.setHierarchyProposalNumber(childProposal.getProposalNumber());
             hierarchyProposal.addPropScienceKeyword(newKeyword);
         }
-        
-        // copy PropSpecialReviews
-        for(ProposalSpecialReview review : childProposal.getPropSpecialReviews()) {
-            ProposalSpecialReview newReview = (ProposalSpecialReview)ObjectUtils.deepCopy(review);
+    }
+    
+    /**
+     * Synchronizes the proposal special reviews from the child proposal to the parent proposal.
+     * @param hierarchyProposal
+     * @param childProposal
+     */
+    protected void synchronizeSpecialReviews(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal) {
+        for (ProposalSpecialReview review : childProposal.getPropSpecialReviews()) {
+            ProposalSpecialReview newReview = (ProposalSpecialReview) ObjectUtils.deepCopy(review);
             newReview.setProposalNumber(hierarchyProposal.getProposalNumber());
             newReview.setSpecialReviewNumber(hierarchyProposal.getProposalDocument().getDocumentNextValue(Constants.PROPOSAL_SPECIALREVIEW_NUMBER));            
             newReview.setVersionNumber(null);
             newReview.setHierarchyProposalNumber(childProposal.getProposalNumber());
             hierarchyProposal.getPropSpecialReviews().add(newReview);
         }
-        
-        // copy Narratives
+    }
+    
+    /**
+     * Synchronizes the proposal narratives from the child proposal to the parent proposal.
+     * @param hierarchyProposal
+     * @param childProposal
+     */
+    protected void synchronizeNarratives(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal) {
+        String instituteNarrativeTypeGroup = parameterService.getParameterValue(ProposalDevelopmentDocument.class, 
+                PARAMETER_NAME_INSTITUTE_NARRATIVE_TYPE_GROUP);
         for (Narrative narrative : childProposal.getNarratives()) {
             if (!StringUtils.equalsIgnoreCase(narrative.getNarrativeType().getAllowMultiple(), "N")
                     && !StringUtils.equalsIgnoreCase(narrative.getNarrativeType().getNarrativeTypeGroup(), instituteNarrativeTypeGroup)) {
                 Map<String,String> primaryKey = new HashMap<String,String>();            
                 primaryKey.put("proposalNumber", narrative.getProposalNumber());
-                primaryKey.put("moduleNumber", narrative.getModuleNumber()+"");
-                NarrativeAttachment attachment = (NarrativeAttachment)businessObjectService.findByPrimaryKey(NarrativeAttachment.class, primaryKey);
+                primaryKey.put("moduleNumber", narrative.getModuleNumber() + "");
+                NarrativeAttachment attachment = (NarrativeAttachment) businessObjectService.findByPrimaryKey(NarrativeAttachment.class, primaryKey);
                 narrative.getNarrativeAttachmentList().clear();
                 narrative.getNarrativeAttachmentList().add(attachment);
                 
-                Narrative newNarrative = (Narrative)ObjectUtils.deepCopy(narrative);
+                Narrative newNarrative = (Narrative) ObjectUtils.deepCopy(narrative);
                 newNarrative.setVersionNumber(null);
                 newNarrative.setHierarchyProposalNumber(childProposal.getProposalNumber());
                 narrativeService.addNarrative(hierarchyProposal.getProposalDocument(), newNarrative);
             }
         }
-
-        // copy ProposalPersons
-        int firstIndex, lastIndex;
-        ProposalPerson firstInstance;
+    }
+    
+    /**
+     * Synchronizes the proposal persons from the child proposal to the parent proposal and then restores any proposal persons that were in the given child
+     * proposal (and hence removed from the given parent proposal).
+     * <p>
+     * This first synchronizes the main proposal persons from the primary child proposal to the parent proposal and then runs the same algorithm on all other
+     * children of the parent proposal.
+     * @param hierarchyProposal
+     * @param primaryChildProposal
+     * @param principalInvestigator
+     */
+    protected void synchronizePersonsAndAggregate(DevelopmentProposal hierarchyProposal, DevelopmentProposal primaryChildProposal, 
+            ProposalPerson principalInvestigator) {
+        
+        synchronizePersons(hierarchyProposal, primaryChildProposal, principalInvestigator);
+        for (DevelopmentProposal childProposal : getHierarchyChildren(hierarchyProposal.getProposalNumber())) {
+            if (!StringUtils.equals(primaryChildProposal.getProposalNumber(), childProposal.getProposalNumber())) {
+                synchronizePersons(hierarchyProposal, childProposal, principalInvestigator);
+            }
+        }
+    }
+    
+    /**
+     * Synchronizes the proposal persons from the child proposal to the parent proposal.
+     * @param hierarchyProposal
+     * @param childProposal
+     * @param principalInvestigator
+     */
+    protected void synchronizePersons(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal, ProposalPerson principalInvestigator) {
         for (ProposalPerson person : childProposal.getProposalPersons()) {
-            firstIndex = hierarchyProposal.getProposalPersons().indexOf(person);
-            lastIndex = hierarchyProposal.getProposalPersons().lastIndexOf(person);
-            firstInstance = (firstIndex == -1) ? null : hierarchyProposal.getProposalPersons().get(firstIndex);
+            int firstIndex = hierarchyProposal.getProposalPersons().indexOf(person);
+            int lastIndex = hierarchyProposal.getProposalPersons().lastIndexOf(person);
+            ProposalPerson firstInstance = (firstIndex == -1) ? null : hierarchyProposal.getProposalPersons().get(firstIndex);
             if (firstIndex == -1 || (firstIndex == lastIndex && !rolesAreSimilar(person, firstInstance))) {
                 ProposalPerson newPerson;
-                newPerson = (ProposalPerson)ObjectUtils.deepCopy(person);
+                newPerson = (ProposalPerson) ObjectUtils.deepCopy(person);
                 newPerson.setProposalNumber(hierarchyProposal.getProposalNumber());
                 newPerson.getProposalPersonYnqs().clear();
                 newPerson.getCreditSplits().clear();
@@ -511,18 +623,30 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 if (StringUtils.equalsIgnoreCase(person.getProposalPersonRoleId(), Constants.PRINCIPAL_INVESTIGATOR_ROLE)) {
                     newPerson.setProposalPersonRoleId(Constants.CO_INVESTIGATOR_ROLE);
                 }
-                if (newPerson.equals(pi) && (firstIndex == -1 || !firstInstance.isInvestigator())) {
+                if (newPerson.equals(principalInvestigator) && (firstIndex == -1 || !firstInstance.isInvestigator())) {
                     newPerson.setProposalPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
                 }
                 hierarchyProposal.addProposalPerson(newPerson);
-                
             }
         }
-                
-        businessObjectService.save(childProposal);
-        LOG.info(String.format("***Beginning Hierarchy Budget Sync for Parent %s and Child %s", hierarchyProposal.getProposalNumber(), childProposal.getProposalNumber()));
-        synchronizeChildBudget(hierarchyBudget, childBudget, childProposal.getProposalNumber(), childProposal.getHierarchyBudgetType(), StringUtils.equals( childProposal.getProposalNumber(),
-                hierarchyProposal.getHierarchyOriginatingChildProposalNumber() ));
+    }
+    
+    /**
+     * Synchronizes the proposal budget from the child proposal to the parent proposal.
+     * @param hierarchyProposal
+     * @param childProposal
+     * @param hierarchyBudget
+     * @param childBudget
+     * @param hierarchyBudgetDocument
+     * @throws ProposalHierarchyException
+     */
+    protected void synchronizeBudget(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal, Budget hierarchyBudget, Budget childBudget, 
+            BudgetDocument hierarchyBudgetDocument) throws ProposalHierarchyException {
+        
+        LOG.info(String.format("***Beginning Hierarchy Budget Sync for Parent %s and Child %s", 
+                hierarchyProposal.getProposalNumber(), childProposal.getProposalNumber()));
+        synchronizeChildBudget(hierarchyBudget, childBudget, childProposal.getProposalNumber(), childProposal.getHierarchyBudgetType(), 
+                StringUtils.equals(childProposal.getProposalNumber(), hierarchyProposal.getHierarchyOriginatingChildProposalNumber()));
         if (hierarchyBudget.getEndDate().after(hierarchyProposal.getRequestedEndDateInitial())) {
             hierarchyProposal.setRequestedEndDateInitial(hierarchyBudget.getEndDate());
         }
@@ -531,13 +655,11 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         }
         try {
             documentService.saveDocument(hierarchyBudgetDocument);
-        }
-        catch (WorkflowException e) {
+        } catch (WorkflowException e) {
             throw new ProposalHierarchyException(e);
         }
-        LOG.info(String.format("***Completed Hierarchy Budget Sync for Parent %s and Child %s", hierarchyProposal.getProposalNumber(), childProposal.getProposalNumber()));
-        
-        return true;
+        LOG.info(String.format("***Completed Hierarchy Budget Sync for Parent %s and Child %s", 
+                hierarchyProposal.getProposalNumber(), childProposal.getProposalNumber()));
     }
     
     protected void syncProposalPersons(DevelopmentProposal childProposal, DevelopmentProposal hierarchyProposal, ProposalPerson pi, List<ProposalPerson> removedPersons) {
