@@ -15,20 +15,28 @@
  */
 package org.kuali.kra.questionnaire.print;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.irb.actions.print.QuestionnairePrintOption;
+import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.service.PrintingService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.rice.kew.bo.KewPersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingService {
 
     private PrintingService printingService;
     private QuestionnairePrint questionnairePrint;
+    private BusinessObjectService businessObjectService;
 
     /**
      * 
@@ -74,6 +82,36 @@ public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingSe
         return source;
     }
 
+    
+    private Questionnaire getQuestionnaire(Long questionnaireRefId) {
+        Map pkMap = new HashMap();
+        pkMap.put("questionnaireRefId", questionnaireRefId);
+        return (Questionnaire)businessObjectService.findByPrimaryKey(Questionnaire.class, pkMap);
+        
+    }
+
+    public List<Printable> getQuestionnairePtintable(KraPersistableBusinessObjectBase printableBusinessObject, 
+            List<QuestionnairePrintOption> questionnairesToPrints) {
+        List<Printable> printables = new ArrayList<Printable>();
+        for (QuestionnairePrintOption printOption : questionnairesToPrints) {
+            if (printOption.isSelected()) {
+             //   AbstractPrint printable = getQuestionnairePrint();
+                AbstractPrint printable =  new QuestionnairePrint();
+                printable.setXmlStream(getQuestionnairePrint().getXmlStream());
+            Map<String, Object> reportParameters = new HashMap<String, Object>();
+            Questionnaire questionnaire = getQuestionnaire(printOption.getQuestionnaireRefId());
+            reportParameters.put("questionnaireId", questionnaire.getQuestionnaireId());
+            reportParameters.put("template", questionnaire.getTemplate());
+            if (printable != null) {
+                printable.setPrintableBusinessObject(printableBusinessObject);
+                printable.setReportParameters(reportParameters);
+                printables.add(printable);
+            }
+            }
+        }
+        return printables;
+    }
+
     /**
      * @return the printingService
      */
@@ -94,6 +132,10 @@ public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingSe
 
     public void setQuestionnairePrint(QuestionnairePrint questionnairePrint) {
         this.questionnairePrint = questionnairePrint;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
 
