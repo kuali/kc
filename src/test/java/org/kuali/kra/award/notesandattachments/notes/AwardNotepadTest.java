@@ -27,7 +27,7 @@ import org.kuali.kra.award.notesandattachments.notes.AwardNotepad;
  */
 public class AwardNotepadTest {
 
-private static final int AWARD_NOTEPAD_ATTRIBUTES_COUNT = 6;
+private static final int AWARD_NOTEPAD_ATTRIBUTES_COUNT = 7;
     
     private AwardNotepad awardNotepadBo;
     private Award award = new Award();
