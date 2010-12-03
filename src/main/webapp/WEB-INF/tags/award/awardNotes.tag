@@ -81,7 +81,7 @@
 						<fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${KualiForm.document.award.awardNotepads[status.index].createTimestamp}" />
 					</td>
 	                <td valign="middle">
-						${KualiForm.document.award.awardNotepads[status.index].updateUser}&nbsp;
+						${KualiForm.document.award.awardNotepads[status.index].createUser}&nbsp;
 	                </td>
 	                <td valign="middle">                	
 					<div align="center">

@@ -21,6 +21,7 @@ import java.util.Calendar;
 
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class...
@@ -101,6 +102,7 @@ public class AwardNotepadBean implements Serializable {
         AwardNotepad note = awardNotepadBean.getNewAwardNotepad();
         Calendar cl = Calendar.getInstance();
         note.setCreateTimestamp(new Timestamp(cl.getTime().getTime()));
+        note.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
         awardNotepadBean.getAwardDocument().getAward().add(note);
         awardNotepadBean.init();
         return true;
