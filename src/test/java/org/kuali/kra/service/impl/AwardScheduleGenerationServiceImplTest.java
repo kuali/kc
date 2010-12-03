@@ -33,17 +33,16 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.kra.award.AwardAmountInfoServiceImpl;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.paymentreports.Frequency;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.paymentschedule.FrequencyBaseConstants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.scheduling.sequence.ScheduleSequence;
 import org.kuali.kra.scheduling.service.ScheduleService;
 import org.kuali.kra.scheduling.util.Time24HrFmt;
-import org.kuali.kra.service.AwardScheduleGenerationService;
 import org.kuali.rice.kns.service.ParameterService;
 
 /**
@@ -80,8 +79,9 @@ public class AwardScheduleGenerationServiceImplTest {
         award = new Award();        
         frequency = new Frequency();        
         awardReportTerms = new ArrayList<AwardReportTerm>();        
-        newAwardReportTerm = new AwardReportTerm();        
-        awardScheduleGenerationServiceImpl = (AwardScheduleGenerationServiceImpl) KraServiceLocator.getService(AwardScheduleGenerationService.class);
+        newAwardReportTerm = new AwardReportTerm();  
+        awardScheduleGenerationServiceImpl = new AwardScheduleGenerationServiceImpl();
+        awardScheduleGenerationServiceImpl.setAwardAmountInfoService(new AwardAmountInfoServiceImpl());
         calendar = new GregorianCalendar();
         calendar1 = new GregorianCalendar();
         setMapOfDatesOnAward(award);
@@ -111,10 +111,14 @@ public class AwardScheduleGenerationServiceImplTest {
         calendar.clear();
         calendar.set(START_DATE_YEAR_2009, Calendar.SEPTEMBER, FIRST_DAY_OF_MONTH);
         award.setProjectEndDate(new java.sql.Date(calendar.getTimeInMillis()));
+        calendar.clear();
+        calendar.set(START_DATE_YEAR_2009, Calendar.JUNE, FIRST_DAY_OF_MONTH);
+        award.setBeginDate(new java.sql.Date(calendar.getTimeInMillis()));
     }
     
     @Test
     public final void testGetStartDate(){
+        // test Execution Date as the start Date
         newAwardReportTerm.setFrequencyBaseCode(FrequencyBaseConstants.AWARD_EXECUTION_DATE.getfrequencyBase());
         calendar.clear();
         calendar.set(START_DATE_YEAR_2009, Calendar.MAY, FIRST_DAY_OF_MONTH);
@@ -124,6 +128,19 @@ public class AwardScheduleGenerationServiceImplTest {
         newAwardReportTerm.setDueDate(new Date(calendar.getTimeInMillis()));
         
         java.util.Date startDate = awardScheduleGenerationServiceImpl.getStartDate(newAwardReportTerm, mapOfDates);
+        
+        Assert.assertEquals(calendar.getTime(), startDate);
+        
+        // Test Project Start Date as the start date
+        newAwardReportTerm.setFrequencyBaseCode(FrequencyBaseConstants.AWARD_EFFECTIVE_DATE.getfrequencyBase());
+        calendar.clear();
+        calendar.set(START_DATE_YEAR_2009, Calendar.JUNE, FIRST_DAY_OF_MONTH);
+        
+        newAwardReportTerm.setFrequency(frequency);
+        newAwardReportTerm.setAward(award);
+        newAwardReportTerm.setDueDate(new Date(calendar.getTimeInMillis()));
+        
+        startDate = awardScheduleGenerationServiceImpl.getStartDate(newAwardReportTerm, mapOfDates);
         
         Assert.assertEquals(calendar.getTime(), startDate);
         
