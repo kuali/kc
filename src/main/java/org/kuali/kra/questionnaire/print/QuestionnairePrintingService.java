@@ -15,10 +15,13 @@
  */
 package org.kuali.kra.questionnaire.print;
 
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.irb.actions.print.QuestionnairePrintOption;
+import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.service.PrintingService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
@@ -69,4 +72,15 @@ public interface QuestionnairePrintingService {
     AttachmentDataSource printQuestionnaireAnswer(
             KraPersistableBusinessObjectBase printableBusinessObject,
             Map<String, Object> reportParameters) throws PrintingException;
+    
+    /**
+     * 
+     * This method is to get the printables for the questions selected and printed with protocol summary.
+     * @param printableBusinessObject
+     * @param questionnairesToPrints
+     * @return
+     */
+    List<Printable> getQuestionnairePtintable(KraPersistableBusinessObjectBase printableBusinessObject, 
+            List<QuestionnairePrintOption> questionnairesToPrints);
+
 }

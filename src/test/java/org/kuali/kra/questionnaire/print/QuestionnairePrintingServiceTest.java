@@ -20,9 +20,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.actions.print.QuestionnairePrintOption;
+import org.kuali.kra.printing.Printable;
+import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.util.PrintingServiceTestBase;
 import org.kuali.kra.printing.util.PrintingTestUtils;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
@@ -31,10 +37,12 @@ import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 
 public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
     private QuestionnairePrintingService questionnairePrintingService;
+    private Mockery context = new JUnit4Mockery();
 
     /**
      * This method tests QuestionnairePrintingService. It generates Questionnaire report.
@@ -124,6 +132,47 @@ public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
             PrintingTestUtils.writePdftoDisk(pdfBytes,
                     "QuestionnaireAnswer");
             assertNotNull(pdfBytes);
+        } catch (Exception e) {
+            e.printStackTrace();
+            //assert false;
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void testGetQuestionnairePtintable() {
+        List<QuestionnairePrintOption> questionnairesToPrints = new ArrayList<QuestionnairePrintOption>();
+        QuestionnairePrintOption printOption1 = new QuestionnairePrintOption();
+        printOption1.setLabel("Test1");
+        printOption1.setQuestionnaireRefId(1L);
+        printOption1.setSelected(true);
+        questionnairesToPrints.add(printOption1);
+        QuestionnairePrintOption printOption2 = new QuestionnairePrintOption();
+        printOption2.setLabel("Test2");
+        printOption2.setQuestionnaireRefId(2L);
+        printOption2.setSelected(false);
+        questionnairesToPrints.add(printOption2);
+        final Map  pkMap = new HashMap();
+        pkMap.put("questionnaireRefId", 1L);
+        try {
+            final Questionnaire questionnaire = new Questionnaire();
+            questionnaire.setQuestionnaireId(1);
+            questionnaire.setQuestionnaireRefId(1L);
+            ProtocolDocument document = new ProtocolDocument();
+            document.getProtocol().setProtocolNumber("1234");
+           final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
+           QuestionnairePrint questionnairePrint = new QuestionnairePrint();
+           QuestionnairePrintingServiceImpl qnPrintingServiceImpl = new QuestionnairePrintingServiceImpl();
+            context.checking(new Expectations() {{
+                one(businessObjectService).findByPrimaryKey(Questionnaire.class, pkMap); will(returnValue(questionnaire));
+            }});
+            qnPrintingServiceImpl.setBusinessObjectService(businessObjectService);
+            qnPrintingServiceImpl.setQuestionnairePrint(questionnairePrint);
+            
+            List<Printable> printables = qnPrintingServiceImpl.getQuestionnairePtintable(document.getProtocol(), questionnairesToPrints);
+            // FIXME Writing PDF to disk for testing purpose only.
+            assertEquals(printables.size(),1);
+            assertEquals(((AbstractPrint)printables.get(0)).getReportParameters().get("questionnaireId"), new Integer(1));
         } catch (Exception e) {
             e.printStackTrace();
             //assert false;

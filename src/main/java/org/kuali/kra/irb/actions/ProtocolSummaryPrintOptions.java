@@ -21,25 +21,25 @@ import java.io.Serializable;
  * This class is for setting the print options for ProtocolSummary
  */
 public class ProtocolSummaryPrintOptions implements Serializable {
-    private boolean actions;
-    private boolean ammendmentRenewalSummary;
-    private boolean amendmentRenewalHistory;
-    private boolean attachments;
-    private boolean documents;
-    private boolean areaOfResearch;
-    private boolean correspondents;
-    private boolean fundingSource;
-    private boolean investigator;
-    private boolean notes;
-    private boolean organizaition;
-    private boolean protocolDetails;
-    private boolean references;
-    private boolean riskLevel;
-    private boolean specialReview;
-    private boolean roles;
-    private boolean studyPersonnels;
-    private boolean subjects;
-    private boolean otherData;
+    private boolean actions = true;
+    private boolean ammendmentRenewalSummary = true;
+    private boolean amendmentRenewalHistory = true;
+    private boolean attachments = true;
+    private boolean documents = true;
+    private boolean areaOfResearch = true;
+    private boolean correspondents = true;
+    private boolean fundingSource = true;
+    private boolean investigator = true;
+    private boolean notes = true;
+    private boolean organizaition = true;
+    private boolean protocolDetails = true;
+    private boolean references = true;
+    private boolean riskLevel = true;
+    private boolean specialReview = true;
+    private boolean roles = true;
+    private boolean studyPersonnels = true;
+    private boolean subjects = true;
+    private boolean otherData = true;
     /**
      * Gets the actions attribute. 
      * @return Returns the actions.

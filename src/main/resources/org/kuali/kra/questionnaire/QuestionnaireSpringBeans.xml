@@ -146,7 +146,11 @@
 		<property name="printingService">
 			<ref bean="printingService" />
 		</property>
-            <property name="questionnairePrint" ref="questionnairePrint" />
+        <property name="questionnairePrint" ref="questionnairePrint" />
+        <property name="businessObjectService">
+                <ref bean="businessObjectService" />
+ 		</property>
+                
 	</bean>
 	
 	
