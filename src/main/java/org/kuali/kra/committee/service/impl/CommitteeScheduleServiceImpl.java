@@ -249,6 +249,8 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
             java.sql.Date sqlDate = calculateAdvancedSubmissionDays(date, daysToAdd);
             committeeSchedule.setProtocolSubDeadline(sqlDate);
 
+            committeeSchedule.setCommittee(committee);
+
             ScheduleStatus defaultStatus = getDefaultScheduleStatus();
             committeeSchedule.setScheduleStatusCode(defaultStatus.getScheduleStatusCode());
             committeeSchedule.setScheduleStatus(defaultStatus);
