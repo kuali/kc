@@ -37,6 +37,7 @@ public class AwardNotepad extends AwardAssociate {
     private String noteTopic;
     private boolean restrictedView; 
     private Timestamp createTimestamp;
+    private String createUser;
     
     /**
      * 
@@ -120,8 +121,17 @@ public class AwardNotepad extends AwardAssociate {
      */
     public void setCreateTimestamp(Timestamp pCreateTimestamp) {
         this.createTimestamp = pCreateTimestamp;
+    }    
+
+    public String getCreateUser() {
+        return createUser;
     }
-    
+
+
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
+
 
     /**
      * @see org.kuali.kra.Sequenceable#resetPersistenceState()
@@ -141,6 +151,7 @@ public class AwardNotepad extends AwardAssociate {
         hashMap.put("comments", this.getComments());
         hashMap.put("restrictedView", this.getRestrictedView());
         hashMap.put("noteTopic", this.getNoteTopic());
+        hashMap.put("createUser", this.getCreateUser());
         return hashMap;
     }
 }
