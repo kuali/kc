@@ -2496,3 +2496,29 @@ function closeQuestionnairePop() {
 	} 
 
 }
+
+function loadUnitAjax(methodToCall, codeField, fieldToUpdate) {
+	codeField = codeField.replace(/\./g, "\\.");
+	fieldToUpdate = fieldToUpdate.replace(/\./g, "\\.");
+	$j.ajax( {
+		url : 'jqueryAjax.do',
+		type : 'POST',
+		dataType : 'html',
+		data : 'methodToCall='+methodToCall+'&code=' + $j("#"+codeField).attr("value"),
+		cache : false,
+		async : false,
+		timeout : 1000,
+		error : function() {
+			alert('Error loading XML document');
+		},
+		success : function(xml) {
+			$j(xml).find('value').each(function() {
+				$j('#'+fieldToUpdate+'\\.div').html($j(this).html());
+
+				});
+		}
+	}); // end ajax
+
+    return false;
+}
+

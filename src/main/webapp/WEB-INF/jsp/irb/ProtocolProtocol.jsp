@@ -18,6 +18,16 @@
 
 <c:set var="protocolAttributes" value="${DataDictionary.ProtocolDocument.attributes}" />
 
+<script src="scripts/jquery/jquery.js"></script>
+<script type="text/javascript">
+   var $j = jQuery.noConflict();
+</script>
+    <link rel="stylesheet" href="css/jquery/questionnaire.css" type="text/css" />
+    <link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
+    <link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
+    <link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />
+    <script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
+    <script type="text/javascript" src="scripts/jquery/CalendarPopup.js"></script>
 
 <kul:documentPage
 	showDocumentInfo="true"
@@ -56,8 +66,9 @@
 <SCRIPT type="text/javascript">
 var kualiForm = document.forms['KualiForm'];
 var kualiElements = kualiForm.elements;
+
 </SCRIPT>
 
 <script language="javascript" src="dwr/interface/ProtocolFundingSourceService.js"></script>
-<script language="javascript" src="dwr/interface/UnitService.js"></script>
+<!-- <script language="javascript" src="dwr/interface/UnitService.js"></script> -->
 </kul:documentPage>
