@@ -2512,7 +2512,7 @@ function loadUnitAjax(methodToCall, codeField, fieldToUpdate) {
 			alert('Error loading XML document');
 		},
 		success : function(xml) {
-			$j(xml).find('value').each(function() {
+			$j(xml).find('h3').each(function() {
 				$j('#'+fieldToUpdate+'\\.div').html($j(this).html());
 
 				});
