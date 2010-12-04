@@ -11,9 +11,9 @@
 <html:form styleId="kualiForm" method="post"
     action="/jqueryAjax.do" enctype=""
     onsubmit="return hasFormAlreadyBeenSubmitted();"> 
-<value>
+<h3>
 		${KualiForm.returnVal}
-</value>
+</h3>
 
 
 
