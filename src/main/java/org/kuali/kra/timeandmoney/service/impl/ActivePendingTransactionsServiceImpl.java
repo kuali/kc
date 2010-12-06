@@ -128,7 +128,11 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
             awardHierarchyNode.getValue().setObligationExpirationDate(awardAmountInfo.getObligationExpirationDate());
             awardHierarchyNode.getValue().setFinalExpirationDate(awardAmountInfo.getFinalExpirationDate());
             awardHierarchyNode.getValue().setAnticipatedTotalAmount(awardAmountInfo.getAnticipatedTotalAmount());
+            awardHierarchyNode.getValue().setAnticipatedTotalDirect(awardAmountInfo.getAnticipatedTotalDirect());
+            awardHierarchyNode.getValue().setAnticipatedTotalIndirect(awardAmountInfo.getAnticipatedTotalIndirect());
             awardHierarchyNode.getValue().setAmountObligatedToDate(awardAmountInfo.getAmountObligatedToDate());
+            awardHierarchyNode.getValue().setObligatedTotalDirect(awardAmountInfo.getObligatedTotalDirect());
+            awardHierarchyNode.getValue().setObligatedTotalIndirect(awardAmountInfo.getObligatedTotalIndirect());
             awardHierarchyNode.getValue().setObliDistributableAmount(awardAmountInfo.getObliDistributableAmount());
             awardHierarchyNode.getValue().setAntDistributableAmount(awardAmountInfo.getAntDistributableAmount());        
         }
@@ -733,7 +737,11 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         transactionDetail.setSequenceNumber(sequenceNumber);
         transactionDetail.setDestinationAwardNumber(destinationAwardNumber);
         transactionDetail.setAnticipatedAmount(pendingTransaction.getAnticipatedAmount());
+        transactionDetail.setAnticipatedDirectAmount(pendingTransaction.getAnticipatedDirectAmount());
+        transactionDetail.setAnticipatedIndirectAmount(pendingTransaction.getAnticipatedIndirectAmount());
         transactionDetail.setObligatedAmount(pendingTransaction.getObligatedAmount());
+        transactionDetail.setObligatedDirectAmount(pendingTransaction.getObligatedDirectAmount());
+        transactionDetail.setObligatedIndirectAmount(pendingTransaction.getObligatedIndirectAmount());
         transactionDetail.setAwardNumber(currentAwardNumber);
         transactionDetail.setTransactionId(pendingTransaction.getTransactionId());
         transactionDetail.setTimeAndMoneyDocumentNumber(documentNumber);
@@ -763,7 +771,11 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         transactionDetail.setSequenceNumber(sequenceNumber);
         transactionDetail.setDestinationAwardNumber(destinationAwardNumber);
         transactionDetail.setAnticipatedAmount(pendingTransaction.getAnticipatedAmount());
+        transactionDetail.setAnticipatedDirectAmount(pendingTransaction.getAnticipatedDirectAmount());
+        transactionDetail.setAnticipatedIndirectAmount(pendingTransaction.getAnticipatedIndirectAmount());
         transactionDetail.setObligatedAmount(pendingTransaction.getObligatedAmount());
+        transactionDetail.setObligatedDirectAmount(pendingTransaction.getObligatedDirectAmount());
+        transactionDetail.setObligatedIndirectAmount(pendingTransaction.getObligatedIndirectAmount());
         transactionDetail.setAwardNumber(currentAwardNumber);
         transactionDetail.setTransactionId(pendingTransaction.getTransactionId());
         transactionDetail.setTimeAndMoneyDocumentNumber(documentNumber);
@@ -855,8 +867,13 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
        //add transaction amounts to the AmountInfo
         newAwardAmountInfo.setObliDistributableAmount(awardAmountInfo.getObliDistributableAmount().add(pendingTransaction.getObligatedAmount()));
         newAwardAmountInfo.setAmountObligatedToDate(awardAmountInfo.getAmountObligatedToDate().add(pendingTransaction.getObligatedAmount()));
+        newAwardAmountInfo.setObligatedTotalDirect(awardAmountInfo.getObligatedTotalDirect().add(pendingTransaction.getObligatedDirectAmount()));
+        newAwardAmountInfo.setObligatedTotalIndirect(awardAmountInfo.getObligatedTotalIndirect().add(pendingTransaction.getObligatedIndirectAmount()));
         newAwardAmountInfo.setAntDistributableAmount(awardAmountInfo.getAntDistributableAmount().add(pendingTransaction.getAnticipatedAmount()));
         newAwardAmountInfo.setAnticipatedTotalAmount(awardAmountInfo.getAnticipatedTotalAmount().add(pendingTransaction.getAnticipatedAmount()));
+        newAwardAmountInfo.setAnticipatedTotalDirect(awardAmountInfo.getAnticipatedTotalDirect().add(pendingTransaction.getAnticipatedDirectAmount()));
+        newAwardAmountInfo.setAnticipatedTotalIndirect(awardAmountInfo.getAnticipatedTotalIndirect().add(pendingTransaction.getAnticipatedIndirectAmount()));
+
 
         
         //updateAmountFields(updateAmounts, addOrSubtract, pendingTransaction, awardAmountInfo, newAwardAmountInfo);
@@ -888,8 +905,12 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
        //add transaction amounts to the AmountInfo
         newAwardAmountInfo.setObliDistributableAmount(awardAmountInfo.getObliDistributableAmount().add(pendingTransaction.getObligatedAmount()));
         newAwardAmountInfo.setAmountObligatedToDate(awardAmountInfo.getAmountObligatedToDate());
+        newAwardAmountInfo.setObligatedTotalDirect(awardAmountInfo.getObligatedTotalDirect());
+        newAwardAmountInfo.setObligatedTotalIndirect(awardAmountInfo.getObligatedTotalIndirect());
         newAwardAmountInfo.setAntDistributableAmount(awardAmountInfo.getAntDistributableAmount().add(pendingTransaction.getAnticipatedAmount()));
         newAwardAmountInfo.setAnticipatedTotalAmount(awardAmountInfo.getAnticipatedTotalAmount());
+        newAwardAmountInfo.setAnticipatedTotalDirect(awardAmountInfo.getAnticipatedTotalDirect());
+        newAwardAmountInfo.setAnticipatedTotalIndirect(awardAmountInfo.getAnticipatedTotalIndirect());
 
         
         //updateAmountFields(updateAmounts, addOrSubtract, pendingTransaction, awardAmountInfo, newAwardAmountInfo);
@@ -942,8 +963,12 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
        //subtract transaction amounts from distributable
         newAwardAmountInfo.setObliDistributableAmount(awardAmountInfo.getObliDistributableAmount().subtract(pendingTransaction.getObligatedAmount()));
         newAwardAmountInfo.setAmountObligatedToDate(awardAmountInfo.getAmountObligatedToDate());
+        newAwardAmountInfo.setObligatedTotalDirect(awardAmountInfo.getObligatedTotalDirect());
+        newAwardAmountInfo.setObligatedTotalIndirect(awardAmountInfo.getObligatedTotalIndirect());
         newAwardAmountInfo.setAntDistributableAmount(awardAmountInfo.getAntDistributableAmount().subtract(pendingTransaction.getAnticipatedAmount()));
         newAwardAmountInfo.setAnticipatedTotalAmount(awardAmountInfo.getAnticipatedTotalAmount());
+        newAwardAmountInfo.setAnticipatedTotalDirect(awardAmountInfo.getAnticipatedTotalDirect());
+        newAwardAmountInfo.setAnticipatedTotalIndirect(awardAmountInfo.getAnticipatedTotalIndirect());
 
         
         //updateAmountFields(updateAmounts, addOrSubtract, pendingTransaction, awardAmountInfo, newAwardAmountInfo);
@@ -975,8 +1000,12 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
        //subtract transaction amounts from distributable
         newAwardAmountInfo.setObliDistributableAmount(awardAmountInfo.getObliDistributableAmount().subtract(pendingTransaction.getObligatedAmount()));
         newAwardAmountInfo.setAmountObligatedToDate(awardAmountInfo.getAmountObligatedToDate().subtract(pendingTransaction.getObligatedAmount()));
+        newAwardAmountInfo.setObligatedTotalDirect(awardAmountInfo.getObligatedTotalDirect().subtract(pendingTransaction.getObligatedDirectAmount()));
+        newAwardAmountInfo.setObligatedTotalIndirect(awardAmountInfo.getObligatedTotalIndirect().subtract(pendingTransaction.getObligatedIndirectAmount()));
         newAwardAmountInfo.setAntDistributableAmount(awardAmountInfo.getAntDistributableAmount().subtract(pendingTransaction.getAnticipatedAmount()));
         newAwardAmountInfo.setAnticipatedTotalAmount(awardAmountInfo.getAnticipatedTotalAmount().subtract(pendingTransaction.getAnticipatedAmount()));
+        newAwardAmountInfo.setAnticipatedTotalDirect(awardAmountInfo.getAnticipatedTotalDirect().subtract(pendingTransaction.getAnticipatedDirectAmount()));
+        newAwardAmountInfo.setAnticipatedTotalIndirect(awardAmountInfo.getAnticipatedTotalIndirect().subtract(pendingTransaction.getAnticipatedIndirectAmount()));
 
         
         //updateAmountFields(updateAmounts, addOrSubtract, pendingTransaction, awardAmountInfo, newAwardAmountInfo);
@@ -1029,8 +1058,12 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
        //add transaction amounts to the AmountInfo
         newAwardAmountInfo.setObliDistributableAmount(awardAmountInfo.getObliDistributableAmount());
         newAwardAmountInfo.setAmountObligatedToDate(awardAmountInfo.getAmountObligatedToDate().add(pendingTransaction.getObligatedAmount()));
+        newAwardAmountInfo.setObligatedTotalDirect(awardAmountInfo.getObligatedTotalDirect().add(pendingTransaction.getObligatedDirectAmount()));
+        newAwardAmountInfo.setObligatedTotalIndirect(awardAmountInfo.getObligatedTotalIndirect().add(pendingTransaction.getObligatedIndirectAmount()));
         newAwardAmountInfo.setAntDistributableAmount(awardAmountInfo.getAntDistributableAmount());
         newAwardAmountInfo.setAnticipatedTotalAmount(awardAmountInfo.getAnticipatedTotalAmount().add(pendingTransaction.getAnticipatedAmount()));
+        newAwardAmountInfo.setAnticipatedTotalDirect(awardAmountInfo.getAnticipatedTotalDirect().add(pendingTransaction.getAnticipatedDirectAmount()));
+        newAwardAmountInfo.setAnticipatedTotalIndirect(awardAmountInfo.getAnticipatedTotalIndirect().add(pendingTransaction.getAnticipatedIndirectAmount()));
         
         addAwardAmountTransaction(newAwardAmountInfo.getAwardNumber(), awardAmountTransactionItems, newAwardAmountTransaction, documentNumber);
 
@@ -1059,8 +1092,12 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
        //add transaction amounts to the AmountInfo
         newAwardAmountInfo.setObliDistributableAmount(awardAmountInfo.getObliDistributableAmount());
         newAwardAmountInfo.setAmountObligatedToDate(awardAmountInfo.getAmountObligatedToDate().subtract(pendingTransaction.getObligatedAmount()));
+        newAwardAmountInfo.setObligatedTotalDirect(awardAmountInfo.getObligatedTotalDirect().subtract(pendingTransaction.getObligatedDirectAmount()));
+        newAwardAmountInfo.setObligatedTotalIndirect(awardAmountInfo.getObligatedTotalIndirect().subtract(pendingTransaction.getObligatedIndirectAmount()));
         newAwardAmountInfo.setAntDistributableAmount(awardAmountInfo.getAntDistributableAmount());
         newAwardAmountInfo.setAnticipatedTotalAmount(awardAmountInfo.getAnticipatedTotalAmount().subtract(pendingTransaction.getAnticipatedAmount()));
+        newAwardAmountInfo.setAnticipatedTotalDirect(awardAmountInfo.getAnticipatedTotalDirect().subtract(pendingTransaction.getAnticipatedDirectAmount()));
+        newAwardAmountInfo.setAnticipatedTotalIndirect(awardAmountInfo.getAnticipatedTotalIndirect().subtract(pendingTransaction.getAnticipatedIndirectAmount()));
         
         addAwardAmountTransaction(newAwardAmountInfo.getAwardNumber(), awardAmountTransactionItems, newAwardAmountTransaction, documentNumber);
 

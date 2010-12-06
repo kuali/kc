@@ -633,7 +633,11 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
             awardHierarchyNode.setAwardStatusCode(award.getStatusCode());
             awardHierarchyNode.setObliDistributableAmount(awardAmountInfo.getObliDistributableAmount());
             awardHierarchyNode.setAmountObligatedToDate(awardAmountInfo.getAmountObligatedToDate());
+            awardHierarchyNode.setObligatedTotalDirect(awardAmountInfo.getObligatedTotalDirect());
+            awardHierarchyNode.setObligatedTotalIndirect(awardAmountInfo.getObligatedTotalIndirect());
             awardHierarchyNode.setAnticipatedTotalAmount(awardAmountInfo.getAnticipatedTotalAmount());
+            awardHierarchyNode.setAnticipatedTotalDirect(awardAmountInfo.getAnticipatedTotalDirect());
+            awardHierarchyNode.setAnticipatedTotalIndirect(awardAmountInfo.getAnticipatedTotalIndirect());
             awardHierarchyNode.setAntDistributableAmount(awardAmountInfo.getAntDistributableAmount());
             awardHierarchyNode.setCurrentFundEffectiveDate(awardAmountInfo.getCurrentFundEffectiveDate());
             //awardHierarchyNode.setCurrentFundEffectiveDate(award.getAwardEffectiveDate());

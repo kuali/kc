@@ -32,7 +32,12 @@ public class TransactionDetail extends KraPersistableBusinessObjectBase {
     private String destinationAwardNumber;
     private String transactionDetailType;
     private KualiDecimal obligatedAmount;
+    private KualiDecimal obligatedDirectAmount;
+    private KualiDecimal obligatedIndirectAmount;
     private KualiDecimal anticipatedAmount;
+    private KualiDecimal anticipatedDirectAmount;
+    private KualiDecimal anticipatedIndirectAmount;
+
     
     @Override
     protected LinkedHashMap<String, Object> toStringMapper() {        
@@ -264,5 +269,71 @@ public class TransactionDetail extends KraPersistableBusinessObjectBase {
     public void setTimeAndMoneyDocumentNumber(String timeAndMoneyDocumentNumber) {
         this.timeAndMoneyDocumentNumber = timeAndMoneyDocumentNumber;
     }
+
+    /**
+     * Gets the obligatedDirectAmount attribute. 
+     * @return Returns the obligatedDirectAmount.
+     */
+    public KualiDecimal getObligatedDirectAmount() {
+        return obligatedDirectAmount;
+    }
+
+    /**
+     * Sets the obligatedDirectAmount attribute value.
+     * @param obligatedDirectAmount The obligatedDirectAmount to set.
+     */
+    public void setObligatedDirectAmount(KualiDecimal obligatedDirectAmount) {
+        this.obligatedDirectAmount = obligatedDirectAmount;
+    }
+
+    /**
+     * Gets the obligatedIndirectAmount attribute. 
+     * @return Returns the obligatedIndirectAmount.
+     */
+    public KualiDecimal getObligatedIndirectAmount() {
+        return obligatedIndirectAmount;
+    }
+
+    /**
+     * Sets the obligatedIndirectAmount attribute value.
+     * @param obligatedIndirectAmount The obligatedIndirectAmount to set.
+     */
+    public void setObligatedIndirectAmount(KualiDecimal obligatedIndirectAmount) {
+        this.obligatedIndirectAmount = obligatedIndirectAmount;
+    }
+
+    /**
+     * Gets the anticipatedDirectAmount attribute. 
+     * @return Returns the anticipatedDirectAmount.
+     */
+    public KualiDecimal getAnticipatedDirectAmount() {
+        return anticipatedDirectAmount;
+    }
+
+    /**
+     * Sets the anticipatedDirectAmount attribute value.
+     * @param anticipatedDirectAmount The anticipatedDirectAmount to set.
+     */
+    public void setAnticipatedDirectAmount(KualiDecimal anticipatedDirectAmount) {
+        this.anticipatedDirectAmount = anticipatedDirectAmount;
+    }
+
+    /**
+     * Gets the anticipatedIndirectAmount attribute. 
+     * @return Returns the anticipatedIndirectAmount.
+     */
+    public KualiDecimal getAnticipatedIndirectAmount() {
+        return anticipatedIndirectAmount;
+    }
+
+    /**
+     * Sets the anticipatedIndirectAmount attribute value.
+     * @param anticipatedIndirectAmount The anticipatedIndirectAmount to set.
+     */
+    public void setAnticipatedIndirectAmount(KualiDecimal anticipatedIndirectAmount) {
+        this.anticipatedIndirectAmount = anticipatedIndirectAmount;
+    }
+    
+    
 
 }

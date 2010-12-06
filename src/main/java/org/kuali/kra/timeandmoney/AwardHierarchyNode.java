@@ -28,8 +28,12 @@ public class AwardHierarchyNode extends AwardHierarchy {
     private Date finalExpirationDate;
     private Date projectStartDate;
     private KualiDecimal anticipatedTotalAmount; 
+    private KualiDecimal anticipatedTotalDirect; 
+    private KualiDecimal anticipatedTotalIndirect; 
     private KualiDecimal antDistributableAmount;
     private KualiDecimal amountObligatedToDate; 
+    private KualiDecimal obligatedTotalDirect; 
+    private KualiDecimal obligatedTotalIndirect; 
     private KualiDecimal obliDistributableAmount;
     private String leadUnitName;
     private String principalInvestigatorName;
@@ -46,6 +50,10 @@ public class AwardHierarchyNode extends AwardHierarchy {
         antDistributableAmount = new KualiDecimal("0");
         amountObligatedToDate = new KualiDecimal("0");
         obliDistributableAmount = new KualiDecimal("0");
+        anticipatedTotalDirect = new KualiDecimal("0");
+        anticipatedTotalIndirect = new KualiDecimal("0");
+        obligatedTotalDirect = new KualiDecimal("0");
+        obligatedTotalIndirect = new KualiDecimal("0");
     }
 
     /** {@inheritDoc} */
@@ -265,6 +273,72 @@ public class AwardHierarchyNode extends AwardHierarchy {
      */
     public void setProjectStartDate(Date projectStartDate) {
         this.projectStartDate = projectStartDate;
+    }
+    
+    
+
+    /**
+     * Gets the anticipatedTotalDirect attribute. 
+     * @return Returns the anticipatedTotalDirect.
+     */
+    public KualiDecimal getAnticipatedTotalDirect() {
+        return anticipatedTotalDirect;
+    }
+
+    /**
+     * Sets the anticipatedTotalDirect attribute value.
+     * @param anticipatedTotalDirect The anticipatedTotalDirect to set.
+     */
+    public void setAnticipatedTotalDirect(KualiDecimal anticipatedTotalDirect) {
+        this.anticipatedTotalDirect = anticipatedTotalDirect;
+    }
+
+    /**
+     * Gets the anticipatedTotalIndirect attribute. 
+     * @return Returns the anticipatedTotalIndirect.
+     */
+    public KualiDecimal getAnticipatedTotalIndirect() {
+        return anticipatedTotalIndirect;
+    }
+
+    /**
+     * Sets the anticipatedTotalIndirect attribute value.
+     * @param anticipatedTotalIndirect The anticipatedTotalIndirect to set.
+     */
+    public void setAnticipatedTotalIndirect(KualiDecimal anticipatedTotalIndirect) {
+        this.anticipatedTotalIndirect = anticipatedTotalIndirect;
+    }
+
+    /**
+     * Gets the obligatedTotalDirect attribute. 
+     * @return Returns the obligatedTotalDirect.
+     */
+    public KualiDecimal getObligatedTotalDirect() {
+        return obligatedTotalDirect;
+    }
+
+    /**
+     * Sets the obligatedTotalDirect attribute value.
+     * @param obligatedTotalDirect The obligatedTotalDirect to set.
+     */
+    public void setObligatedTotalDirect(KualiDecimal obligatedTotalDirect) {
+        this.obligatedTotalDirect = obligatedTotalDirect;
+    }
+
+    /**
+     * Gets the obligatedTotalIndirect attribute. 
+     * @return Returns the obligatedTotalIndirect.
+     */
+    public KualiDecimal getObligatedTotalIndirect() {
+        return obligatedTotalIndirect;
+    }
+
+    /**
+     * Sets the obligatedTotalIndirect attribute value.
+     * @param obligatedTotalIndirect The obligatedTotalIndirect to set.
+     */
+    public void setObligatedTotalIndirect(KualiDecimal obligatedTotalIndirect) {
+        this.obligatedTotalIndirect = obligatedTotalIndirect;
     }
 
     /**

@@ -2285,6 +2285,36 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         }
         return returnValue;
     }
+    
+    /**
+     * Gets the obligatedTotal attribute. 
+     * @return Returns the obligatedTotal.
+     */
+    public KualiDecimal getObligatedTotalDirect() {
+        KualiDecimal returnValue = new KualiDecimal(0.00);
+//        if(awardAmountInfos.get(0).getAmountObligatedToDate()!=null){
+//            returnValue = returnValue.add(awardAmountInfos.get(0).getAmountObligatedToDate());
+//        }
+        if(getLastAwardAmountInfo().getObligatedTotalDirect()!=null){
+            returnValue = returnValue.add(getLastAwardAmountInfo().getObligatedTotalDirect());
+        }
+        return returnValue;
+    }
+    
+    /**
+     * Gets the obligatedTotal attribute. 
+     * @return Returns the obligatedTotal.
+     */
+    public KualiDecimal getObligatedTotalIndirect() {
+        KualiDecimal returnValue = new KualiDecimal(0.00);
+//        if(awardAmountInfos.get(0).getAmountObligatedToDate()!=null){
+//            returnValue = returnValue.add(awardAmountInfos.get(0).getAmountObligatedToDate());
+//        }
+        if(getLastAwardAmountInfo().getObligatedTotalIndirect()!=null){
+            returnValue = returnValue.add(getLastAwardAmountInfo().getObligatedTotalIndirect());
+        }
+        return returnValue;
+    }
 
     /**
      * Gets the anticipatedTotal attribute. 
@@ -2301,6 +2331,35 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         return returnValue;
     }
     
+    /**
+     * Gets the anticipatedTotal attribute. 
+     * @return Returns the anticipatedTotal.
+     */
+    public KualiDecimal getAnticipatedTotalDirect() {
+        KualiDecimal returnValue = new KualiDecimal(0.00);
+//        if(awardAmountInfos.get(0).getAnticipatedTotalAmount()!=null){
+//            returnValue = returnValue.add(awardAmountInfos.get(0).getAnticipatedTotalAmount());
+//        }
+        if(getLastAwardAmountInfo().getAnticipatedTotalDirect()!=null){
+            returnValue = returnValue.add(getLastAwardAmountInfo().getAnticipatedTotalDirect());
+        }
+        return returnValue;
+    }
+    
+    /**
+     * Gets the anticipatedTotal attribute. 
+     * @return Returns the anticipatedTotal.
+     */
+    public KualiDecimal getAnticipatedTotalIndirect() {
+        KualiDecimal returnValue = new KualiDecimal(0.00);
+//        if(awardAmountInfos.get(0).getAnticipatedTotalAmount()!=null){
+//            returnValue = returnValue.add(awardAmountInfos.get(0).getAnticipatedTotalAmount());
+//        }
+        if(getLastAwardAmountInfo().getAnticipatedTotalIndirect()!=null){
+            returnValue = returnValue.add(getLastAwardAmountInfo().getAnticipatedTotalIndirect());
+        }
+        return returnValue;
+    }
     /**
      * 
      * @see org.kuali.kra.common.permissions.Permissionable#getDocumentNumberForPermission()

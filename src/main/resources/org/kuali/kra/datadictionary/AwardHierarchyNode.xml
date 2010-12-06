@@ -46,8 +46,12 @@
                 <ref bean="AwardHierarchyNode-obligationExpirationDate" />
                 <ref bean="AwardHierarchyNode-finalExpirationDate" />
                 <ref bean="AwardHierarchyNode-anticipatedTotalAmount" />
+                <ref bean="AwardHierarchyNode-anticipatedTotalDirect" />
+                <ref bean="AwardHierarchyNode-anticipatedTotalIndirect" />
                 <ref bean="AwardHierarchyNode-antDistributableAmount" />
                 <ref bean="AwardHierarchyNode-amountObligatedToDate" />
+                <ref bean="AwardHierarchyNode-obligatedTotalDirect" />
+                <ref bean="AwardHierarchyNode-obligatedTotalIndirect" />
                 <ref bean="AwardHierarchyNode-obliDistributableAmount" />
                 
                 <ref bean="AwardHierarchyNode-versionNumber" />
@@ -145,6 +149,42 @@
         <property name="description" value="Anticipated Total Amount" />    
     </bean>
     
+    <bean id="AwardHierarchyNode-anticipatedTotalDirect" parent="AwardHierarchyNode-anticipatedTotalDirect-parentBean" />
+    <bean id="AwardHierarchyNode-anticipatedTotalDirect-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="anticipatedTotalDirect" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Anticipated Total Direct" />
+        <property name="shortLabel" value="Anticipated Total Direct" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Anticipated Total Direct" />
+        <property name="description" value="Anticipated Total Direct" />    
+    </bean>
+    
+    <bean id="AwardHierarchyNode-anticipatedTotalIndirect" parent="AwardHierarchyNode-anticipatedTotalIndirect-parentBean" />
+    <bean id="AwardHierarchyNode-anticipatedTotalIndirect-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="anticipatedTotalIndirect" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Anticipated Total Indirect" />
+        <property name="shortLabel" value="Anticipated Total Indirect" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Anticipated Total Indirect" />
+        <property name="description" value="Anticipated Total Indirect" />    
+    </bean>
+    
     <bean id="AwardHierarchyNode-antDistributableAmount" parent="AwardHierarchyNode-antDistributableAmount-parentBean" />
     <bean id="AwardHierarchyNode-antDistributableAmount-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="antDistributableAmount" />
@@ -179,6 +219,42 @@
         </property>
         <property name="summary" value="Amount Obligated To Date" />
         <property name="description" value="Amount Obligated To Date" />
+    </bean>
+    
+    <bean id="AwardHierarchyNode-obligatedTotalIndirect" parent="AwardHierarchyNode-obligatedTotalIndirect-parentBean" />
+    <bean id="AwardHierarchyNode-obligatedTotalIndirect-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="obligatedTotalIndirect" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Obligated Total Indirect" />
+        <property name="shortLabel" value="Obligated Total Indirect" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Obligated Total Indirect" />
+        <property name="description" value="Obligated Total Indirect" />
+    </bean>
+    
+    <bean id="AwardHierarchyNode-obligatedTotalDirect" parent="AwardHierarchyNode-obligatedTotalDirect-parentBean" />
+    <bean id="AwardHierarchyNode-obligatedTotalDirect-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="obligatedTotalDirect" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Obligated Total Direct" />
+        <property name="shortLabel" value="Obligated Total Direct" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Obligated Total Direct" />
+        <property name="description" value="Obligated Total Direct" />
     </bean>
     
     <bean id="AwardHierarchyNode-obliDistributableAmount" parent="AwardHierarchyNode-obliDistributableAmount-parentBean" />

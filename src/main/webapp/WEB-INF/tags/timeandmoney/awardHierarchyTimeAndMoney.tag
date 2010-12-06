@@ -18,7 +18,7 @@
 <c:set var="awardHierarchyNodeAttributes" value="${DataDictionary.AwardHierarchyNode.attributes}" />
 <c:set var="awardAmountTransactionAttributes" value="${DataDictionary.AwardAmountTransaction.attributes}" />
 
-<kul:tab tabTitle="Award Hierarchy" defaultOpen="true" tabErrorKey="awardHierarchyNodeItems*,document.award.timeAndMoneyAwardAmountTransaction.newAwardAmountTransaction*,document.award.timeAndMoneyAwardDates*" auditCluster="reportsAuditErrors" tabAuditKey="document.reportTermsAuditRules*" useRiceAuditMode="true">
+<kul:tab tabTitle="Award Hierarchy" defaultOpen="true" tabErrorKey="awardHierarchyNodeItems*,document.award.timeAndMoneyAwardAmountTransaction.newAwardAmountTransaction*,document.award.timeAndMoneyAwardDates*,totals*,timeAndMoneyTransaction*" auditCluster="reportsAuditErrors" tabAuditKey="document.reportTermsAuditRules*" useRiceAuditMode="true">
 	<div class="tab-container" align="right">
 		<h3>
     		<span class="subhead-left">Award Hierarchy</span>
@@ -120,7 +120,16 @@
 		</table>
 		
 		</c:if>
-	
+			
+		<c:choose>				
+			<c:when test="${KualiForm.directIndirectViewEnabled == '1'}" >						
+				<input type="hidden" id="directIndirectViewEnabled" name="directIndirectViewEnabled" value="1" />					
+			</c:when>
+			<c:otherwise>						
+				<input type="hidden" id="directIndirectViewEnabled" name="directIndirectViewEnabled" value="0" />					
+			</c:otherwise>
+		</c:choose>			
+
 		<c:if test="${KualiForm.inSingleNodeHierarchy}" >
 			<input type="hidden" id="controlForAwardHierarchyView" name="controlForAwardHierarchyView" value="2" />
 			<input type="hidden" id="inSingleNodeHierarchy" name="inSingleNodeHierarchy" value="1" />
@@ -149,11 +158,19 @@
 			<c:set var="obligationExpirationDateProperty" value="${tempNode.obligationExpirationDate}" />
 			<c:set var="amountObligatedToDateProperty" value="${tempNode.amountObligatedToDate}" />
 			<c:set var="anticipatedTotalAmountProperty" value="${tempNode.anticipatedTotalAmount}" />
+			<c:set var="obligatedTotalDirectProperty" value="${tempNode.obligatedTotalDirect}" />
+			<c:set var="obligatedTotalIndirectProperty" value="${tempNode.obligatedTotalIndirect}" />
+			<c:set var="anticipatedTotalDirectProperty" value="${tempNode.anticipatedTotalDirect}" />
+			<c:set var="anticipatedTotalIndirectProperty" value="${tempNode.anticipatedTotalIndirect}" />
 			${kfunc:registerEditableProperty(KualiForm, finalExpirationDateProperty)}  
 			${kfunc:registerEditableProperty(KualiForm, currentFundEffectiveDateProperty)}
 			${kfunc:registerEditableProperty(KualiForm, obligationExpirationDateProperty)}  
 			${kfunc:registerEditableProperty(KualiForm, amountObligatedToDateProperty)}  
 			${kfunc:registerEditableProperty(KualiForm, obligationExpirationDateProperty)}  
+			${kfunc:registerEditableProperty(KualiForm, obligatedTotalDirectProperty)}
+			${kfunc:registerEditableProperty(KualiForm, obligatedTotalIndirectProperty)}
+			${kfunc:registerEditableProperty(KualiForm, anticipatedTotalDirectProperty)}
+			${kfunc:registerEditableProperty(KualiForm, anticipatedTotalIndirectProperty)}
 		</c:forEach> 
 		<table style="border: medium none ; width: 100%; border-collapse: collapse;">
 		<tbody><tr>
@@ -208,23 +225,57 @@
 			Anticipated
 			</td> 
 		</c:if>
+				
 		
 		<c:if test="${KualiForm.controlForAwardHierarchyView == 2}" >
-			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
-			Oblg. Start
-			</td>
-			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
-			Oblg. End
-			</td>
-			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 110px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
-			Project End
-			</td>		
-			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
-			Obligated
-			</td>
-			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 110px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
-			Anticipated
-			</td>
+			<c:choose>				
+				<c:when test="${KualiForm.directIndirectViewEnabled == '1'}" >						
+					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+					Oblg. Start
+					</td>
+					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+					Oblg. End
+					</td>
+					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 110px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+					Project End
+					</td>
+					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+					Oblg. Direct
+					</td>
+					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+					Oblg. F&A
+					</td>		
+					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+					Oblg. Total
+					</td>
+					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 110px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+					Ant. Direct
+					</td>
+					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 110px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+					Ant. F&A
+					</td>
+					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 110px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+					Ant. Total
+					</td>					
+				</c:when>
+				<c:otherwise>			
+					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+					Oblg. Start
+					</td>
+					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+					Oblg. End
+					</td>
+					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 110px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+					Project End
+					</td>		
+					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+					Obligated
+					</td>
+					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 110px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+					Anticipated
+					</td>				
+				</c:otherwise>
+			</c:choose>		
 		</c:if>
 	</tr>
 	</tbody></table></div>

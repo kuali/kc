@@ -77,6 +77,7 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.ui.ExtraButton;
@@ -106,7 +107,7 @@ public class AwardForm extends BudgetVersionFormBase
     private final int AWARD_HIERARCHY_TEMP_OBJ_PARAM_NAME_PREFIX_LENGTH = AWARD_HIERARCHY_TEMP_OBJ_PARAM_NAME_PREFIX.length();
     
     private static final long serialVersionUID = -7633960906991275328L;
-
+    
     private String lookupResultsBOClassName;
     private String lookupResultsSequenceNumber;
     
@@ -117,6 +118,7 @@ public class AwardForm extends BudgetVersionFormBase
     
     private AwardFandaRate newAwardFandaRate;    
     private List<KeyLabelPair> reportClasses;
+    private String directIndirectViewEnabled;
     
     private ApprovedEquipmentBean approvedEquipmentBean;
     private AwardProjectPersonnelBean projectPersonnelBean;
@@ -180,6 +182,7 @@ public class AwardForm extends BudgetVersionFormBase
     private List<List<BudgetDecimal>>  totalBudgetLimits = new ArrayList<List<BudgetDecimal>>();
     
     private boolean viewFundingSource;
+    private transient ParameterService parameterService;
 
     /**
      * Constructs a AwardForm with an existing AwardDocument. Used primarily by tests outside of Struts
@@ -239,6 +242,7 @@ public class AwardForm extends BudgetVersionFormBase
         //sync
         syncRequiresConfirmationMap = null;
         currentSyncScopes = null;
+        setDirectIndirectViewEnabled(getParameterService().getParameterValue("KC-AWARD", "D", "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST"));
         
     }
 
@@ -501,7 +505,7 @@ public class AwardForm extends BudgetVersionFormBase
      * @return Returns the awardInMultipleNodeHierarchy.
      */
     public boolean isAwardInMultipleNodeHierarchy() {
-        return awardInMultipleNodeHierarchy;
+        return getDocument().getAward().isAwardInMultipleNodeHierarchy();
     }
 
     /**
@@ -1335,5 +1339,33 @@ public class AwardForm extends BudgetVersionFormBase
     public AwardTransactionSelectorBean getAwardTimeAndMoneyTransactionReport() {
         return awardTimeAndMoneyTransactionReport;
     }
+    
+    /**
+     * Looks up and returns the ParameterService.
+     * @return the parameter service. 
+     */
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+        }
+        return this.parameterService;
+    }
+    
+    /**
+     * Gets the directIndirectViewEnabled attribute. 
+     * @return Returns the directIndirectViewEnabled.
+     */
+    public String getDirectIndirectViewEnabled() {
+        return directIndirectViewEnabled;
+    }
+
+    /**
+     * Sets the directIndirectViewEnabled attribute value.
+     * @param directIndirectViewEnabled The directIndirectViewEnabled to set.
+     */
+    public void setDirectIndirectViewEnabled(String directIndirectViewEnabled) {
+        this.directIndirectViewEnabled = directIndirectViewEnabled;
+    }
+    
 
 }
