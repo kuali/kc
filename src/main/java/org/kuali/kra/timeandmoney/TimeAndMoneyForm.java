@@ -39,6 +39,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -68,6 +69,9 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
     private String deletedRas;
     private String controlForAwardHierarchyView;
     private String currentOrPendingView;
+    private String directIndirectViewEnabled;
+
+    private transient ParameterService parameterService;
     
     private String currentAwardNumber;
     private String currentSeqNumber;
@@ -110,6 +114,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         }
         setControlForAwardHierarchyView("2");
         setCurrentOrPendingView("0");
+        setDirectIndirectViewEnabled(getParameterService().getParameterValue("KC-AWARD", "D", "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST"));
     }
     
     /** {@inheritDoc} */
@@ -140,6 +145,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
     public void populate(HttpServletRequest request) {
         this.registerEditableProperty("controlForAwardHierarchyView");
         this.registerEditableProperty("currentOrPendingView");
+        this.registerEditableProperty("directIndirectViewEnabled");
         registerHierarchyNodeDates();
         super.populate(request);
     }
@@ -156,6 +162,10 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
             this.registerEditableProperty("awardHierarchyNodeItems[" + temp + "].obligationExpirationDate");
             this.registerEditableProperty("awardHierarchyNodeItems[" + temp + "].amountObligatedToDate");
             this.registerEditableProperty("awardHierarchyNodeItems[" + temp + "].anticipatedTotalAmount");
+            this.registerEditableProperty("awardHierarchyNodeItems[" + temp + "].obligatedTotalDirect");
+            this.registerEditableProperty("awardHierarchyNodeItems[" + temp + "].obligatedTotalIndirect");
+            this.registerEditableProperty("awardHierarchyNodeItems[" + temp + "].anticipatedTotalDirect");
+            this.registerEditableProperty("awardHierarchyNodeItems[" + temp + "].anticipatedTotalIndirect");
             temp++;
         }
     }
@@ -587,6 +597,48 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         }
 
     }
+    
+    /**
+     * Looks up and returns the ParameterService.
+     * @return the parameter service. 
+     */
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+        }
+        return this.parameterService;
+    }
+    
+//    public boolean isDirectIndirectViewEnabled() {
+//        boolean returnValue = false;
+//        String directIndirectEnabledValue = getParameterService().getParameterValue("KC-AWARD", "D", "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST");
+//        if(directIndirectEnabledValue.equals("1")) {
+//            returnValue = true;
+//        }
+//        return returnValue;
+//    }
+//    
+
+    
+    
+    /**
+     * Gets the directIndirectViewEnabled attribute. 
+     * @return Returns the directIndirectViewEnabled.
+     */
+    public String getDirectIndirectViewEnabled() {
+        return directIndirectViewEnabled;
+    }
+
+    /**
+     * Sets the directIndirectViewEnabled attribute value.
+     * @param directIndirectViewEnabled The directIndirectViewEnabled to set.
+     */
+    public void setDirectIndirectViewEnabled(String directIndirectViewEnabled) {
+        this.directIndirectViewEnabled = directIndirectViewEnabled;
+    }
+    
+    
+
     
 
 }

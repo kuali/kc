@@ -40,6 +40,10 @@
                 <ref bean="PendingTransaction-destinationAwardNumber" />
                 <ref bean="PendingTransaction-obligatedAmount" />
                 <ref bean="PendingTransaction-anticipatedAmount" />
+                <ref bean="PendingTransaction-obligatedDirectAmount" />
+                <ref bean="PendingTransaction-anticipatedDirectAmount" />
+                <ref bean="PendingTransaction-obligatedIndirectAmount" />
+                <ref bean="PendingTransaction-anticipatedIndirectAmount" />
                 <ref bean="PendingTransaction-comments" />
                 <ref bean="PendingTransaction-versionNumber" />
             </list>
@@ -131,6 +135,50 @@
         <property name="summary" value="Obligated" />
         <property name="description" value="Obligated" />
     </bean>
+    
+    <bean id="PendingTransaction-obligatedDirectAmount" parent="PendingTransaction-obligatedDirectAmount-parentBean" />
+    <bean id="PendingTransaction-obligatedDirectAmount-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="obligatedDirectAmount" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Obligated Direct" />
+        <property name="shortLabel" value="Obligated Direct" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+      <bean parent="FixedPointValidationPattern"
+            p:precision="12"
+            p:scale="2" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="CurrencyControlDefinition"
+            p:formattedMaxLength="22"
+            p:size="16" />
+    </property>
+        <property name="summary" value="Obligated Direct" />
+        <property name="description" value="Obligated Direct" />
+    </bean>
+    
+    <bean id="PendingTransaction-obligatedIndirectAmount" parent="PendingTransaction-obligatedIndirectAmount-parentBean" />
+    <bean id="PendingTransaction-obligatedIndirectAmount-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="obligatedIndirectAmount" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Obligated Indirect" />
+        <property name="shortLabel" value="Obligated Indirect" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+      <bean parent="FixedPointValidationPattern"
+            p:precision="12"
+            p:scale="2" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="CurrencyControlDefinition"
+            p:formattedMaxLength="22"
+            p:size="16" />
+    </property>
+        <property name="summary" value="Obligated Indirect" />
+        <property name="description" value="Obligated Indirect" />
+    </bean>
 
     <bean id="PendingTransaction-anticipatedAmount" parent="PendingTransaction-anticipatedAmount-parentBean" />
     <bean id="PendingTransaction-anticipatedAmount-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
@@ -152,6 +200,50 @@
     </property>
         <property name="summary" value="Anticipated" />
         <property name="description" value="Anticipated" />
+    </bean>
+    
+    <bean id="PendingTransaction-anticipatedDirectAmount" parent="PendingTransaction-anticipatedDirectAmount-parentBean" />
+    <bean id="PendingTransaction-anticipatedDirectAmount-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+        <property name="name" value="anticipatedDirectAmount" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Anticipated Direct" />
+        <property name="shortLabel" value="Anticipated Direct" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+      <bean parent="FixedPointValidationPattern"
+            p:precision="12"
+            p:scale="2" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="CurrencyControlDefinition"
+            p:formattedMaxLength="22"
+            p:size="16" />
+    </property>
+        <property name="summary" value="Anticipated Direct" />
+        <property name="description" value="Anticipated Direct" />
+    </bean>
+    
+    <bean id="PendingTransaction-anticipatedIndirectAmount" parent="PendingTransaction-anticipatedIndirectAmount-parentBean" />
+    <bean id="PendingTransaction-anticipatedIndirectAmount-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+        <property name="name" value="anticipatedIndirectAmount" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Anticipated Indirect" />
+        <property name="shortLabel" value="Anticipated Indirect" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+      <bean parent="FixedPointValidationPattern"
+            p:precision="12"
+            p:scale="2" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="CurrencyControlDefinition"
+            p:formattedMaxLength="22"
+            p:size="16" />
+    </property>
+        <property name="summary" value="Anticipated Indirect" />
+        <property name="description" value="Anticipated Indirect" />
     </bean>
 
     <bean id="PendingTransaction-comments" parent="PendingTransaction-comments-parentBean" />
@@ -198,7 +290,15 @@
                             <bean parent="FieldDefinition"
                                 p:attributeName="obligatedAmount" />
                             <bean parent="FieldDefinition"
+                                p:attributeName="obligatedDirectAmount" />
+                             <bean parent="FieldDefinition"
+                                p:attributeName="obligatedIndirectAmount" />
+                            <bean parent="FieldDefinition"
                                 p:attributeName="anticipatedAmount" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="anticipatedDirectAmount" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="anticipatedIndirectAmount" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="comments" />
                         </list>
@@ -230,7 +330,15 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="obligatedAmount" />
                 <bean parent="FieldDefinition"
+                    p:attributeName="obligatedDirectAmount" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="obligatedIndirectAmount" />
+                <bean parent="FieldDefinition"
                     p:attributeName="anticipatedAmount" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="anticipatedDirectAmount" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="anticipatedIndirectAmount" />
                 <bean parent="FieldDefinition"
                     p:attributeName="comments" />
             </list>
@@ -247,7 +355,15 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="obligatedAmount" />
                 <bean parent="FieldDefinition"
+                    p:attributeName="obligatedDirectAmount" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="obligatedIndirectAmount" />
+                <bean parent="FieldDefinition"
                     p:attributeName="anticipatedAmount" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="anticipatedDirectAmount" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="anticipatedIndirectAmount" />
                 <bean parent="FieldDefinition"
                     p:attributeName="comments" />
             </list>

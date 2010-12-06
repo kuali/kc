@@ -86,13 +86,19 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
             appendDate(aNode.getObligationExpirationDate(), sb);
             appendDate(aNode.getFinalExpirationDate(), sb);
             Formatter formatter = Formatter.getFormatter(KualiDecimal.class);
-            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(formatter.format(aNode.getAmountObligatedToDate()));
-            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(formatter.format(aNode.getAnticipatedTotalAmount()));           
+            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(formatter.format(aNode.getAmountObligatedToDate()));//5
+            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(formatter.format(aNode.getAnticipatedTotalAmount()));  //6         
             sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(formatter.format(aNode.getObliDistributableAmount()));//Distributable amount needs to be updated
             sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(formatter.format(aNode.getAntDistributableAmount()));
-            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(formatter.format(aNode.getAmountObligatedToDate().subtract(aNode.getObliDistributableAmount())));
-            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(formatter.format(aNode.getAnticipatedTotalAmount().subtract(aNode.getAntDistributableAmount())));
-            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(aNode.getAwardStatusCode());            
+            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(formatter.format(aNode.getAmountObligatedToDate().subtract(aNode.getObliDistributableAmount())));//9
+            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(formatter.format(aNode.getAnticipatedTotalAmount().subtract(aNode.getAntDistributableAmount())));//10
+
+            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(aNode.getAwardStatusCode()); //11
+            
+            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(formatter.format(aNode.getObligatedTotalDirect()));//12
+            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(formatter.format(aNode.getObligatedTotalIndirect()));//13
+            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(formatter.format(aNode.getAnticipatedTotalDirect()));//14
+            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(formatter.format(aNode.getAnticipatedTotalIndirect()));//15
             appendDate(aNode.getProjectStartDate(), sb);
             sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(aNode.getTitle());
             sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(aNode.getAwardId());

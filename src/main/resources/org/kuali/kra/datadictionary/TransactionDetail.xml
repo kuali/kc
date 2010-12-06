@@ -43,7 +43,11 @@
                 <ref bean="TransactionDetail-sourceAwardNumber" />
                 <ref bean="TransactionDetail-destinationAwardNumber" />
                 <ref bean="TransactionDetail-obligatedAmount" />
+                <ref bean="TransactionDetail-obligatedDirectAmount" />
+                <ref bean="TransactionDetail-obligatedIndirectAmount" />
                 <ref bean="TransactionDetail-anticipatedAmount" />
+                <ref bean="TransactionDetail-anticipatedDirectAmount" />
+                <ref bean="TransactionDetail-anticipatedIndirectAmount" />
                 <ref bean="TransactionDetail-comments" />
                 <ref bean="TransactionDetail-versionNumber" />
             </list>
@@ -206,10 +210,94 @@
         <property name="summary" value="Obligated" />
         <property name="description" value="Obligated" />
     </bean>
+    
+    <bean id="TransactionDetail-obligatedDirectAmount" parent="TransactionDetail-obligatedDirectAmount-parentBean" />
+    <bean id="TransactionDetail-obligatedDirectAmount-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="obligatedDirectAmount" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Obligated" />
+        <property name="shortLabel" value="Obligated" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+	      	<bean parent="FixedPointValidationPattern"
+	            p:precision="12"
+	            p:scale="2"
+	            p:allowNegative="true" />
+    	</property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="12" />
+        </property>
+        <property name="summary" value="Obligated" />
+        <property name="description" value="Obligated" />
+    </bean>
+    
+    <bean id="TransactionDetail-obligatedIndirectAmount" parent="TransactionDetail-obligatedIndirectAmount-parentBean" />
+    <bean id="TransactionDetail-obligatedIndirectAmount-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="obligatedIndirectAmount" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Obligated" />
+        <property name="shortLabel" value="Obligated" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+	      	<bean parent="FixedPointValidationPattern"
+	            p:precision="12"
+	            p:scale="2"
+	            p:allowNegative="true" />
+    	</property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="12" />
+        </property>
+        <property name="summary" value="Obligated" />
+        <property name="description" value="Obligated" />
+    </bean>
 
     <bean id="TransactionDetail-anticipatedAmount" parent="TransactionDetail-anticipatedAmount-parentBean" />
     <bean id="TransactionDetail-anticipatedAmount-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
         <property name="name" value="anticipatedAmount" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Anticipated" />
+        <property name="shortLabel" value="Anticipated" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+	      	<bean parent="FixedPointValidationPattern"
+	            p:precision="12"
+	            p:scale="2"
+	            p:allowNegative="true" />
+    	</property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="12" />
+        </property>
+        <property name="summary" value="Anticipated" />
+        <property name="description" value="Anticipated" />
+    </bean>
+    
+    <bean id="TransactionDetail-anticipatedDirectAmount" parent="TransactionDetail-anticipatedDirectAmount-parentBean" />
+    <bean id="TransactionDetail-anticipatedDirectAmount-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+        <property name="name" value="anticipatedDirectAmount" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Anticipated" />
+        <property name="shortLabel" value="Anticipated" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+	      	<bean parent="FixedPointValidationPattern"
+	            p:precision="12"
+	            p:scale="2"
+	            p:allowNegative="true" />
+    	</property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="12" />
+        </property>
+        <property name="summary" value="Anticipated" />
+        <property name="description" value="Anticipated" />
+    </bean>
+    
+    <bean id="TransactionDetail-anticipatedIndirectAmount" parent="TransactionDetail-anticipatedIndirectAmount-parentBean" />
+    <bean id="TransactionDetail-anticipatedIndirectAmount-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+        <property name="name" value="anticipatedIndirectAmount" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Anticipated" />
         <property name="shortLabel" value="Anticipated" />
@@ -279,7 +367,15 @@
                             <bean parent="FieldDefinition"
                                 p:attributeName="obligatedAmount" />
                             <bean parent="FieldDefinition"
+                                p:attributeName="obligatedDirectAmount" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="obligatedIndirectAmount" />
+                            <bean parent="FieldDefinition"
                                 p:attributeName="anticipatedAmount" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="anticipatedDirectAmount" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="anticipatedIndirectAmount" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="comments" />
                         </list>
@@ -319,7 +415,15 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="obligatedAmount" />
                 <bean parent="FieldDefinition"
+                    p:attributeName="obligatedDirectAmount" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="obligatedIndirectAmount" />
+                <bean parent="FieldDefinition"
                     p:attributeName="anticipatedAmount" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="anticipatedDirectAmount" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="anticipatedIndirectAmount" />
                 <bean parent="FieldDefinition"
                     p:attributeName="comments" />
             </list>
@@ -344,7 +448,15 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="obligatedAmount" />
                 <bean parent="FieldDefinition"
+                    p:attributeName="obligatedDirectAmount" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="obligatedIndirectAmount" />
+                <bean parent="FieldDefinition"
                     p:attributeName="anticipatedAmount" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="anticipatedDirectAmount" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="anticipatedIndirectAmount" />
                 <bean parent="FieldDefinition"
                     p:attributeName="comments" />
             </list>

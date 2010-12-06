@@ -29,11 +29,14 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.VersionHistoryService;
+import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.history.TransactionDetail;
 import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * The AwardPaymentScheduleRuleImpl
@@ -47,8 +50,11 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
     private static final String CURRENT_FUND_EFFECTIVE_DATE = "currentFundEffectiveDate";
     private static final String SOURCE_AWARD_ERROR_PARM = "Source Award (Source Award)";
     private static final String DESTINATION_AWARD_ERROR_PARM = "Destination Award (Destination Award)";
+    private static final String TOTALS = "totals";
+    private static final String TIME_AND_MONEY_TRANSACTION = "timeAndMoneyTransaction";
     
-        
+    private ParameterService parameterService;
+
     /**
      * 
      * @see org.kuali.kra.timeandmoney.transactions.TransactionRule#processPendingTransactionBusinessRules(
@@ -81,6 +87,47 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
         
         return areRequiredFieldsComplete(event.getPendingTransactionItemForValidation()) && processCommonValidations(event) && 
         validObligatedFunds && validAnticipatedFunds && validFunds && validDates;        
+    }
+    
+    /**
+     * @see org.kuali.kra.timeandmoney.transactions.TransactionRule#processSingleNodeTransactionBusinessRules(org.kuali.kra.timeandmoney.AwardHierarchyNode, org.kuali.kra.award.home.AwardAmountInfo)
+     * Business rules for single node transactions
+     * 1)if direct/F&A view is disabled, then we test that transaction will either move anticipated/obligated money into or our of award.
+     *   We cannot have the instance where we are moving in and out of award at same time since the transactions have a source and destination award
+     * 2)if Direct/F&A view is enabled, then there are two possibilities.
+     *      a)We cannot move money in and out of award for direct/indirect amounts in same transaction.
+     *      b)The exception to this rule is if doing so does not affect the total amount.  The net affect of this is moving money from idc to dc or
+     *        vice versa.
+     */
+    public boolean processSingleNodeTransactionBusinessRules (AwardHierarchyNode awardHierarchyNode, AwardAmountInfo aai) {
+        boolean returnValue;
+        if(isDirectIndirectViewEnabled()) {
+            returnValue = processParameterEnabledRules(awardHierarchyNode, aai);
+        } else {
+            returnValue = processParameterDisabledRules(awardHierarchyNode, aai);
+        }
+        return returnValue;
+    }
+    
+    
+    /**
+     * Looks up and returns the ParameterService.
+     * @return the parameter service. 
+     */
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+        }
+        return this.parameterService;
+    }
+    
+    public boolean isDirectIndirectViewEnabled() {
+        boolean returnValue = false;
+        String directIndirectEnabledValue = getParameterService().getParameterValue("KC-AWARD", "D", "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST");
+        if(directIndirectEnabledValue.equals("1")) {
+            returnValue = true;
+        }
+        return returnValue;
     }
     
     
@@ -278,6 +325,60 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
             award = getActiveAwardVersion(goToAwardNumber);
         }
         return award;
+    }
+    
+    /**
+     * This method...
+     * @param awardHierarchyNode
+     * @param aai
+     * @return
+     */
+    public boolean processParameterEnabledRules(AwardHierarchyNode awardHierarchyNode, AwardAmountInfo aai) {
+        boolean valid = true;
+        KualiDecimal obligatedDirectChange = awardHierarchyNode.getObligatedTotalDirect().subtract(aai.getObligatedTotalDirect());
+        KualiDecimal obligatedIndirectChange = awardHierarchyNode.getObligatedTotalIndirect().subtract(aai.getObligatedTotalIndirect());
+        KualiDecimal anticipatedDirectChange = awardHierarchyNode.getAnticipatedTotalDirect().subtract(aai.getAnticipatedTotalDirect());
+        KualiDecimal anticipatedIndirectChange = awardHierarchyNode.getAnticipatedTotalIndirect().subtract(aai.getAnticipatedTotalIndirect());
+        
+        boolean obligatedTotalChanged = awardHierarchyNode.getObligatedTotalDirect().add(awardHierarchyNode.getObligatedTotalIndirect()).isNonZero();
+        boolean anticipatedTotalChanged = awardHierarchyNode.getAnticipatedTotalDirect().add(awardHierarchyNode.getAnticipatedTotalIndirect()).isNonZero();
+        //if totals change and net effect of changes result in reduction of one total with increase of other, we need to report error.
+        if(obligatedTotalChanged || anticipatedTotalChanged) {
+            KualiDecimal obligatedNetEffect = awardHierarchyNode.getObligatedTotalDirect().add(awardHierarchyNode.getObligatedTotalIndirect());
+            KualiDecimal anticipatedNetEffect = awardHierarchyNode.getAnticipatedTotalDirect().add(awardHierarchyNode.getAnticipatedTotalIndirect());
+            if((obligatedNetEffect.isNegative() && anticipatedNetEffect.isPositive()) ||
+                    (obligatedNetEffect.isPositive() && anticipatedNetEffect.isNegative())) {
+                reportError(TOTALS, KeyConstants.ERROR_NET_TOTALS_TRANSACTION);
+                valid = false;
+            }
+        }
+        //if indirect/direct change in transaction is a debit of one and credit of the other, then there cannot be a net change in total.
+        if((((obligatedDirectChange.isPositive() && obligatedIndirectChange.isNegative()) ||
+                (obligatedDirectChange.isNegative() && obligatedIndirectChange.isPositive())) && obligatedTotalChanged) ||
+                    (((anticipatedDirectChange.isPositive() && anticipatedIndirectChange.isNegative()) ||
+                        (anticipatedDirectChange.isNegative() && anticipatedIndirectChange.isPositive())) && anticipatedTotalChanged)) {
+            reportError(TIME_AND_MONEY_TRANSACTION, KeyConstants.ERROR_NET_TOTALS_TRANSACTION);
+            valid = false;
+        }
+        return valid;
+    }
+    
+    /**
+     * This method...
+     * @param awardHierarchyNode
+     * @param aai
+     * @return
+     */
+    public boolean processParameterDisabledRules(AwardHierarchyNode awardHierarchyNode, AwardAmountInfo aai) {
+        boolean valid = true;
+        KualiDecimal obligatedChange = awardHierarchyNode.getAmountObligatedToDate().subtract(aai.getAmountObligatedToDate());
+        KualiDecimal anticipatedChange = awardHierarchyNode.getAnticipatedTotalAmount().subtract(aai.getAnticipatedTotalAmount());
+        if ((obligatedChange.isPositive() && anticipatedChange.isNegative()) ||
+                obligatedChange.isNegative() && anticipatedChange.isPositive()) {
+            reportError(TIME_AND_MONEY_TRANSACTION, KeyConstants.ERROR_NET_TOTALS_TRANSACTION);
+            valid = false;
+        }
+        return valid;
     }
     
     /*

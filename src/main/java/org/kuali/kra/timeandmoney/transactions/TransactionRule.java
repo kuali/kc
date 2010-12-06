@@ -15,11 +15,14 @@
  */
 package org.kuali.kra.timeandmoney.transactions;
 
+import org.kuali.kra.award.home.AwardAmountInfo;
+import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * This interface defines the rule processing method
  */
+
 public interface TransactionRule extends BusinessRule {
     public static final String PENDING_TRANSACTION_ITEMS_LIST_ERROR_KEY = "pendingTransactionItems";
     
@@ -37,4 +40,7 @@ public interface TransactionRule extends BusinessRule {
      * @return
      */
     boolean processAddPendingTransactionBusinessRules(AddTransactionRuleEvent event);
+
+    
+    boolean processSingleNodeTransactionBusinessRules (AwardHierarchyNode awardHierarchyNode, AwardAmountInfo aai);
 }
