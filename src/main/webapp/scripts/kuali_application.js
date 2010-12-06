@@ -2497,7 +2497,7 @@ function closeQuestionnairePop() {
 
 }
 
-function loadUnitAjax(methodToCall, codeField, fieldToUpdate) {
+function ajaxLoad(methodToCall, codeField, fieldToUpdate) {
 	codeField = codeField.replace(/\./g, "\\.");
 	fieldToUpdate = fieldToUpdate.replace(/\./g, "\\.");
 	$j.ajax( {
