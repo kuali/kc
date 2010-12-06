@@ -149,10 +149,10 @@
         }
         
         item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
-        var text5 = item_text.substring(0,item_text.indexOf("%3A")).trim();
+        var text5 = item_text.substring(0,item_text.indexOf("%3A")).trim();					//amount obligated to date
         
         item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
-        var text6 = item_text.substring(0,item_text.indexOf("%3A")).trim();
+        var text6 = item_text.substring(0,item_text.indexOf("%3A")).trim();					//anticipated total amount
         
         item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();//Obligated Distributable
         var text7 = item_text.substring(0,item_text.indexOf("%3A")).trim();
@@ -168,6 +168,18 @@
         
         item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
         var text11 = item_text.substring(0,item_text.indexOf("%3A")).trim();
+        
+        item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();//obligated total direct
+        var text12 = item_text.substring(0,item_text.indexOf("%3A")).trim();
+        
+        item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();//obligated total indirect
+        var text13 = item_text.substring(0,item_text.indexOf("%3A")).trim();
+        
+        item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();//anticipated total direct
+        var text14 = item_text.substring(0,item_text.indexOf("%3A")).trim();
+        
+        item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();//anticipated total indirect
+        var text15 = item_text.substring(0,item_text.indexOf("%3A")).trim();
         
         if(text11 == 1){
         	var txtImage = "<img src=\"static/images/award_active.gif\" alt=\"Active\" title=\"Active\" />";
@@ -190,132 +202,7 @@
         text2 = text2.trim();
         if(text2 == ' '){
         	text2 = '';
-        }
-//        if (jQuery.browser.msie) {
-//        	if($("#controlForAwardHierarchyView").attr("value") == 0){
-//  	      	  var abc = "<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top;\">"+txtImage+"&nbsp;"+text1+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse; position:absolute;left:730px;\">"
-//  		  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse; position:absolute;left:842px;\">"
-//  		  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td nowrap style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse; position:absolute;left:954px;\">"
-//  	//+ displaydate()
-//  		  			+"<input type=\"text\"class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\""+ " value=\"" +text4 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/></td>"
-//  		  			+"<td align=\"right\" style=\"border: medium none ; width: 15px; border-collapse: collapse; vertical-align: top; position:absolute; left:1075px; \" >"+txtImage+"&nbsp;</td>"
-//  		  			+"</tr></tbody></table>";
-//  	        }else if($("#controlForAwardHierarchyView").attr("value") == 1){
-//  	        	var abc = "<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top\">"+txtImage+"&nbsp;"+text1+"</td>"
-//  	        		+"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 114px; border-collapse: collapse; vertical-align: top; position: absolute; left: 465px; \">"
-//  		  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/></td>"
-//  		  			+"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 114px; border-collapse: collapse; vertical-align: top; position: absolute; left:  582px; \">"	  			
-//  		  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" class = 'datepicker' style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"
-//  		  			//+ displaydate()
-//  		  			+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 114px; border-collapse: collapse; vertical-align: top; position: absolute; left: 699px; \">"
-//  		  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\""+ " value=\"" +text4 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>" 
-//  		  			+"</td><td style=\"border: 1px solid rgb(153, 153, 153); text-align: right; width: 112px; position: absolute; left: 816px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);\">  Distributed: </td>" 
-//  		  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 932px; border-collapse: collapse; \">" +text9 + "</td>"
-//  		  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 1044px; border-collapse: collapse; \">" +text10 + "</td>"
-//  		  			+"<td align=\"left\" style=\"border: medium none ; width: 5px; position: absolute; left: 1174px; border-collapse: collapse; vertical-align: top; \" >"+txtImage+"&nbsp;</td></tr></tbody></table>"
-//  		  			+"<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse;\">&nbsp;</td>"
-//  		  			+"<td style=\"width: 112px; border: 1px solid rgb(153, 153, 153); border-collapse: collapse; position: absolute; left: 465px;\">&nbsp;</td><td style=\"width: 112px; border: 1px solid rgb(153, 153, 153); border-collapse: collapse; position: absolute; left:  882px; \">"
-//  		  			+"&nbsp;</td><td style=\"width: 112px; border: 1px solid rgb(153, 153, 153); border-collapse: collapse; position: absolute; left: 699px;\">&nbsp;</td>"
-//  		  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: right; width: 112px; border-collapse: collapse; position: absolute; left: 816px; font-weight: bold; background-color: rgb(195, 195, 195);\">  Distributable: </td>"
-//  		  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 932px; border-collapse: collapse;\">" +text7 + "</td>"
-//  		  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 1044px; border-collapse: collapse;\">" +text8 + "</td>"
-//  		  			+"<td align=\"left\" style=\"width: 5px; border: medium none ; border-collapse: collapse; position: absolute; left: 1174px; \">&nbsp;</td></tr></tbody></table>"
-//  		  			+"<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse;\">&nbsp;</td>"
-//  		  			+"<td style=\"width: 112px; position: absolute; left: 465px; border: 1px solid rgb(153, 153, 153); border-collapse: collapse;\">&nbsp;</td><td style=\"width: 112px; position: absolute; left: 582px; border: 1px solid rgb(153, 153, 153); border-collapse: collapse;\">&nbsp;</td>"
-//  		  			+"<td style=\"width: 112px; position: absolute; left: 699px; border: 1px solid rgb(153, 153, 153); border-collapse: collapse;\">&nbsp;</td>"
-//  		  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: right; width: 112px; position: absolute; left: 816px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);\">  Total: </td>"
-//  		  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 932px; border-collapse: collapse;\">" +text5 + "</td>"
-//  		  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 1044px; border-collapse: collapse;\">" +text6 + "</td>"
-//  		  			+"<td align=\"left\" style=\"width: 5px; position: absolute; left: 1174px; border: medium none ; border-collapse: collapse;\"> &nbsp;</td></tr></tbody></table>";
-//  	        }else if($("#controlForAwardHierarchyView").attr("value") == 2){
-//  	        	if($("#inSingleNodeHierarchy").attr("value") == 1){
-//  	        		var abc = "<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top\">"+txtImage+"&nbsp;"+text1+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; position: absolute; left: 885px; border-collapse: collapse; \">"
-//  		  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; position: absolute; left:  999px; border-collapse: collapse; \">"
-//  		  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 110px; position: absolute; left: 1109px; border-collapse: collapse; \">"
-//  		  			//+ displaydate()
-//  		  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\""+ " value=\"" +text4 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+
-//  		  			"</td>" +
-//  		  			"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; position: absolute; left: 1221px; border-collapse: collapse; \">"
-//  		  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + racode2 + "].amountObligatedToDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].amountObligatedToDate\""+ " value=\"" +text5 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td>" +
-//  		  			"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; position: absolute; left: 1335px; border-collapse: collapse; \">"
-//  		  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + racode2 + "].anticipatedTotalAmount\" id=\"awardHierarchyNodeItems[" + racode2 + "].anticipatedTotalAmount\""+ " value=\"" +text6 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td>"
-//  		  			+"</tr></tbody></table>";	
-//  	        	}else {
-//  	    			var abc = "<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top\">"+txtImage+"&nbsp;"+text1+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; position: absolute; left: 885px; border-collapse: collapse; \">"
-//  		  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; position: absolute; left:  999px; border-collapse: collapse; \">"
-//  		  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 110px; position: absolute; left: 1109px; border-collapse: collapse; \">"
-//  		  			//+ displaydate()
-//  		  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\""+ " value=\"" +text4 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 1221px; border-collapse: collapse;\">"
-//  		  			+text5+"</td><td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 110px; position: absolute; left: 1335px; border-collapse: collapse;\">"
-//  		  			+text6+"</td>"
-//  		  			+"<td align=\"right\" style=\"border: medium none ; width: 10px; position: absolute; left: 1455px; border-collapse: collapse; vertical-align: top; \" >"+txtImage+"&nbsp;</td>"
-//  		  			+"</tr></tbody></table>";
-//  	        	} 
-//  	        }
-//        }else {
-//	        if($("#controlForAwardHierarchyView").attr("value") == 0){
-//	      	  var abc = "<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top;\">"+txtImage+"&nbsp;"+text1+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse; position:absolute;left:1100px;\">"
-//		  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse; position:absolute;left:1212px;\">"
-//		  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td nowrap style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse; position:absolute;left:1324px;\">"
-//	//+ displaydate()
-//		  			+"<input type=\"text\"class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\""+ " value=\"" +text4 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/></td>"
-//		  			+"<td align=\"right\" style=\"border: medium none ; width: 15px; border-collapse: collapse; vertical-align: top; position:absolute; left:1445px; \" >"+txtImage+"&nbsp;</td>"
-//		  			+"</tr></tbody></table>";
-//	        }else if($("#controlForAwardHierarchyView").attr("value") == 1){
-//	        	var abc = "<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top\">"+txtImage+"&nbsp;"+text1+"</td>"
-//	        		+"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 114px; border-collapse: collapse; vertical-align: top; position: absolute; left: 765px; \">"
-//		  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/></td>"
-//		  			+"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 114px; border-collapse: collapse; vertical-align: top; position: absolute; left:  882px; \">"	  			
-//		  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" class = 'datepicker' style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"
-//		  			//+ displaydate()
-//		  			+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 114px; border-collapse: collapse; vertical-align: top; position: absolute; left: 999px; \">"
-//		  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\""+ " value=\"" +text4 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>" 
-//		  			+"</td><td style=\"border: 1px solid rgb(153, 153, 153); text-align: right; width: 112px; position: absolute; left: 1116px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);\">  Distributed: </td>" 
-//		  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 1232px; border-collapse: collapse; \">" +text9 + "</td>"
-//		  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 1344px; border-collapse: collapse; \">" +text10 + "</td>"
-//		  			+"<td align=\"left\" style=\"border: medium none ; width: 5px; position: absolute; left: 1474px; border-collapse: collapse; vertical-align: top; \" >"+txtImage+"&nbsp;</td></tr></tbody></table>"
-//		  			+"<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse;\">&nbsp;</td>"
-//		  			+"<td style=\"width: 112px; border: 1px solid rgb(153, 153, 153); border-collapse: collapse; position: absolute; left: 765px;\">&nbsp;</td><td style=\"width: 112px; border: 1px solid rgb(153, 153, 153); border-collapse: collapse; position: absolute; left:  882px; \">"
-//		  			+"&nbsp;</td><td style=\"width: 112px; border: 1px solid rgb(153, 153, 153); border-collapse: collapse; position: absolute; left: 999px;\">&nbsp;</td>"
-//		  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: right; width: 112px; border-collapse: collapse; position: absolute; left: 1116px; font-weight: bold; background-color: rgb(195, 195, 195);\">  Distributable: </td>"
-//		  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 1232px; border-collapse: collapse;\">" +text7 + "</td>"
-//		  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 1344px; border-collapse: collapse;\">" +text8 + "</td>"
-//		  			+"<td align=\"left\" style=\"width: 5px; border: medium none ; border-collapse: collapse; position: absolute; left: 1374px; \">&nbsp;</td></tr></tbody></table>"
-//		  			+"<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse;\">&nbsp;</td>"
-//		  			+"<td style=\"width: 112px; position: absolute; left: 765px; border: 1px solid rgb(153, 153, 153); border-collapse: collapse;\">&nbsp;</td><td style=\"width: 112px; position: absolute; left: 882px; border: 1px solid rgb(153, 153, 153); border-collapse: collapse;\">&nbsp;</td>"
-//		  			+"<td style=\"width: 112px; position: absolute; left: 999px; border: 1px solid rgb(153, 153, 153); border-collapse: collapse;\">&nbsp;</td>"
-//		  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: right; width: 112px; position: absolute; left: 1116px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);\">  Total: </td>"
-//		  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 1232px; border-collapse: collapse;\">" +text5 + "</td>"
-//		  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 1344px; border-collapse: collapse;\">" +text6 + "</td>"
-//		  			+"<td align=\"left\" style=\"width: 5px; position: absolute; left: 1474px; border: medium none ; border-collapse: collapse;\"> &nbsp;</td></tr></tbody></table>";
-//	        }else if($("#controlForAwardHierarchyView").attr("value") == 2){
-//	        	if($("#inSingleNodeHierarchy").attr("value") == 1){
-//	        		var abc = "<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top\">"+txtImage+"&nbsp;"+text1+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; position: absolute; left: 885px; border-collapse: collapse; \">"
-//		  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; position: absolute; left:  999px; border-collapse: collapse; \">"
-//		  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 110px; position: absolute; left: 1109px; border-collapse: collapse; \">"
-//		  			//+ displaydate()
-//		  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\""+ " value=\"" +text4 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+
-//		  			"</td>" +
-//		  			"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; position: absolute; left: 1221px; border-collapse: collapse; \">"
-//		  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + racode2 + "].amountObligatedToDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].amountObligatedToDate\""+ " value=\"" +text5 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td>" +
-//		  			"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; position: absolute; left: 1335px; border-collapse: collapse; \">"
-//		  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + racode2 + "].anticipatedTotalAmount\" id=\"awardHierarchyNodeItems[" + racode2 + "].anticipatedTotalAmount\""+ " value=\"" +text6 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td>"
-//		  			+"</tr></tbody></table>";	
-//	        	}else {
-//	    			var abc = "<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top\">"+txtImage+"&nbsp;"+text1+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; position: absolute; left: 885px; border-collapse: collapse; \">"
-//		  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; position: absolute; left:  999px; border-collapse: collapse; \">"
-//		  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 110px; position: absolute; left: 1109px; border-collapse: collapse; \">"
-//		  			//+ displaydate()
-//		  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\""+ " value=\"" +text4 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 1221px; border-collapse: collapse;\">"
-//		  			+text5+"</td><td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 110px; position: absolute; left: 1335px; border-collapse: collapse;\">"
-//		  			+text6+"</td>"
-//		  			+"<td align=\"right\" style=\"border: medium none ; width: 10px; position: absolute; left: 1455px; border-collapse: collapse; vertical-align: top; \" >"+txtImage+"&nbsp;</td>"
-//		  			+"</tr></tbody></table>";
-//	        	} 
-//	        }
-//        }
-//        return abc;
-//    }
+        }        
         
         if($("#controlForAwardHierarchyView").attr("value") == 0){
 	      	  var abc = "<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top;\">"+txtImage+"&nbsp;"+text1+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse; align:right;\">"
@@ -352,28 +239,58 @@
 		  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">" +text6 + "</td>"
 		  			+"</tr></tbody></table>";
 	        }else if($("#controlForAwardHierarchyView").attr("value") == 2){
-	        	if($("#inSingleNodeHierarchy").attr("value") == 1){
-	        		var abc = "<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top\">"+txtImage+"&nbsp;"+text1+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"
-		  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; left: border-collapse: collapse; \">"
-		  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 110px; align:right; left: border-collapse: collapse; \">"
-		  			//+ displaydate()
-		  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\""+ " value=\"" +text4 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+
-		  			"</td>" +
-		  			"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"
-		  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + racode2 + "].amountObligatedToDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].amountObligatedToDate\""+ " value=\"" +text5 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td>" +
-		  			"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"
-		  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + racode2 + "].anticipatedTotalAmount\" id=\"awardHierarchyNodeItems[" + racode2 + "].anticipatedTotalAmount\""+ " value=\"" +text6 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td>"
-		  			+"</tr></tbody></table>";	
-	        	}else {
-	    			var abc = "<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top\">"+txtImage+"&nbsp;"+text1+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"
-		  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"
-		  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 110px; align:right; border-collapse: collapse; \">"
-		  			//+ displaydate()
-		  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\""+ " value=\"" +text4 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">"
-		  			+text5+"</td><td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 110px; align:right; left: 1335px; border-collapse: collapse;\">"
-		  			+text6+"</td>"
-		  			+"</tr></tbody></table>";
-	        	} 
+	        	if($("#directIndirectViewEnabled").attr("value") == 1){
+		        	if($("#inSingleNodeHierarchy").attr("value") == 1){
+		        		var abc = "<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top\">"+txtImage+"&nbsp;"+text1+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"
+			  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; left: border-collapse: collapse; \">"
+			  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 110px; align:right; left: border-collapse: collapse; \">"
+			  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\""+ " value=\"" +text4 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+
+			  			"</td>" +
+			  			"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"			  			
+			  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + racode2 + "].obligatedTotalDirect\" id=\"awardHierarchyNodeItems[" + racode2 + "].obligatedTotalDirect\""+ " value=\"" +text12 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td>" +
+			  			"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"			  			
+			  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + racode2 + "].obligatedTotalIndirect\" id=\"awardHierarchyNodeItems[" + racode2 + "].obligatedTotalIndirect\""+ " value=\"" +text13 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td>" +
+			  			"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">"+text5+"</td>" +
+			  			"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"	
+			  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + racode2 + "].anticipatedTotalDirect\" id=\"awardHierarchyNodeItems[" + racode2 + "].anticipatedTotalDirect\""+ " value=\"" +text14 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td>" +
+			  			"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"	
+			  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + racode2 + "].anticipatedTotalIndirect\" id=\"awardHierarchyNodeItems[" + racode2 + "].anticipatedTotalIndirect\""+ " value=\"" +text15 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td>"
+			  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 110px; align:right; left: 1335px; border-collapse: collapse;\">"+text6+"</td>"
+			  			+"</tr></tbody></table>";	
+		        	}else {
+		    			var abc = "<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top\">"+txtImage+"&nbsp;"+text1+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"
+			  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"
+			  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 110px; align:right; border-collapse: collapse; \">"
+			  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\""+ " value=\"" +text4 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td>"
+			  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">"+text12+"</td>"
+			  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">"+text13+"</td>"
+			  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">"+text5+"</td>"
+			  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">"+text14+"</td>"
+			  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">"+text15+"</td>"
+			  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 110px; align:right; left: 1335px; border-collapse: collapse;\">"+text6+"</td>" +"</tr></tbody></table>";
+		        	} 
+	        	}else{
+	        		if($("#inSingleNodeHierarchy").attr("value") == 1){
+		        		var abc = "<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top\">"+txtImage+"&nbsp;"+text1+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"
+			  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; left: border-collapse: collapse; \">"
+			  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 110px; align:right; left: border-collapse: collapse; \">"
+			  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\""+ " value=\"" +text4 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+
+			  			"</td>" +
+			  			"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"
+			  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + racode2 + "].amountObligatedToDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].amountObligatedToDate\""+ " value=\"" +text5 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td>" +
+			  			"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"
+			  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + racode2 + "].anticipatedTotalAmount\" id=\"awardHierarchyNodeItems[" + racode2 + "].anticipatedTotalAmount\""+ " value=\"" +text6 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td>"
+			  			+"</tr></tbody></table>";	
+		        	}else {
+		    			var abc = "<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top\">"+txtImage+"&nbsp;"+text1+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"
+			  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"
+			  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 110px; align:right; border-collapse: collapse; \">"
+			  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\""+ " value=\"" +text4 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">"
+			  			+text5+"</td><td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 110px; align:right; left: 1335px; border-collapse: collapse;\">"
+			  			+text6+"</td>"
+			  			+"</tr></tbody></table>";
+		        	} 
+	        	}
 	        }
  	   return abc; 
     }

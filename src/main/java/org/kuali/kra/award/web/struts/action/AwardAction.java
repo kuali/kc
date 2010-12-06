@@ -64,7 +64,6 @@ import org.kuali.kra.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.service.AwardDirectFandADistributionService;
 import org.kuali.kra.service.AwardReportsService;
@@ -92,10 +91,12 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.PessimisticLockService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -108,7 +109,7 @@ public class AwardAction extends BudgetParentActionBase {
     protected static final String AWARD_ID_PARAMETER_NAME = "awardId";
     private static final String AWARD_NUMBER_SERVICE = "awardNumberService";
     private static final String INITIAL_TRANSACTION_COMMENT = "Initial Time And Money creation transaction";
-
+    private ParameterService parameterService;
     
     private static final Log LOG = LogFactory.getLog( AwardAction.class );
     
@@ -766,8 +767,21 @@ public class AwardAction extends BudgetParentActionBase {
         transactionDetail.setSourceAwardNumber(sourceAwardNumber);
         transactionDetail.setSequenceNumber(sequenceNumber);
         transactionDetail.setDestinationAwardNumber(destinationAwardNumber);
-        transactionDetail.setAnticipatedAmount(rootAward.getAnticipatedTotal());
-        transactionDetail.setObligatedAmount(rootAward.getObligatedTotal());
+        if(isDirectIndirectViewEnabled()){
+            transactionDetail.setAnticipatedAmount(rootAward.getAnticipatedTotalDirect().add(rootAward.getAnticipatedTotalIndirect()));
+            transactionDetail.setAnticipatedDirectAmount(rootAward.getAnticipatedTotalDirect());
+            transactionDetail.setAnticipatedIndirectAmount(rootAward.getAnticipatedTotalIndirect());
+            transactionDetail.setObligatedAmount(rootAward.getObligatedTotalDirect().add(rootAward.getObligatedTotalIndirect()));
+            transactionDetail.setObligatedDirectAmount(rootAward.getObligatedTotalDirect());
+            transactionDetail.setObligatedIndirectAmount(rootAward.getObligatedTotalIndirect());
+        } else {
+            transactionDetail.setAnticipatedAmount(rootAward.getAnticipatedTotal());
+            transactionDetail.setAnticipatedDirectAmount(rootAward.getAnticipatedTotal());
+            transactionDetail.setAnticipatedIndirectAmount(new KualiDecimal(0));
+            transactionDetail.setObligatedAmount(rootAward.getObligatedTotal());
+            transactionDetail.setObligatedDirectAmount(rootAward.getObligatedTotal());
+            transactionDetail.setObligatedIndirectAmount(new KualiDecimal(0));
+        }
         transactionDetail.setAwardNumber(rootAward.getAwardNumber());
         transactionDetail.setTransactionId(new Long(0));
         transactionDetail.setTimeAndMoneyDocumentNumber(documentNumber);
@@ -775,6 +789,26 @@ public class AwardAction extends BudgetParentActionBase {
         transactionDetail.setTransactionDetailType(TransactionDetailType.PRIMARY.toString());
         return transactionDetail;
         
+    }
+    
+    /**
+     * Looks up and returns the ParameterService.
+     * @return the parameter service. 
+     */
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+        }
+        return this.parameterService;
+    }
+    
+    public boolean isDirectIndirectViewEnabled() {
+        boolean returnValue = false;
+        String directIndirectEnabledValue = getParameterService().getParameterValue("KC-AWARD", "D", "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST");
+        if(directIndirectEnabledValue.equals("1")) {
+            returnValue = true;
+        }
+        return returnValue;
     }
     
     /*
@@ -793,10 +827,23 @@ public class AwardAction extends BudgetParentActionBase {
         newAwardAmountInfo.setTransactionId(null);
         newAwardAmountInfo.setAward(rootAward);
        //add transaction amounts to the AmountInfo
+        if(isDirectIndirectViewEnabled()){
+            newAwardAmountInfo.setAmountObligatedToDate(rootAward.getObligatedTotalDirect().add(rootAward.getObligatedTotalIndirect()));
+            newAwardAmountInfo.setObligatedTotalDirect(rootAward.getObligatedTotalDirect());
+            newAwardAmountInfo.setObligatedTotalIndirect(rootAward.getObligatedTotalIndirect());
+            newAwardAmountInfo.setAnticipatedTotalAmount(rootAward.getAnticipatedTotalDirect().add(rootAward.getAnticipatedTotalIndirect()));
+            newAwardAmountInfo.setAnticipatedTotalDirect(rootAward.getAnticipatedTotalDirect());
+            newAwardAmountInfo.setAnticipatedTotalIndirect(rootAward.getAnticipatedTotalIndirect());
+        } else {
+            newAwardAmountInfo.setAmountObligatedToDate(rootAward.getLastAwardAmountInfo().getAmountObligatedToDate());
+            newAwardAmountInfo.setObligatedTotalDirect(rootAward.getObligatedTotalDirect());
+            newAwardAmountInfo.setObligatedTotalIndirect(rootAward.getObligatedTotalIndirect());
+            newAwardAmountInfo.setAnticipatedTotalAmount(rootAward.getLastAwardAmountInfo().getAnticipatedTotalAmount());
+            newAwardAmountInfo.setAnticipatedTotalDirect(rootAward.getAnticipatedTotalDirect());
+            newAwardAmountInfo.setAnticipatedTotalIndirect(rootAward.getAnticipatedTotalIndirect());
+        }
         newAwardAmountInfo.setObliDistributableAmount(rootAward.getLastAwardAmountInfo().getAmountObligatedToDate());
-        newAwardAmountInfo.setAmountObligatedToDate(rootAward.getLastAwardAmountInfo().getAmountObligatedToDate());
         newAwardAmountInfo.setAntDistributableAmount(rootAward.getLastAwardAmountInfo().getAnticipatedTotalAmount());
-        newAwardAmountInfo.setAnticipatedTotalAmount(rootAward.getLastAwardAmountInfo().getAnticipatedTotalAmount());
         newAwardAmountInfo.setObligatedChange(rootAward.getLastAwardAmountInfo().getAmountObligatedToDate());
         newAwardAmountInfo.setAnticipatedChange(rootAward.getLastAwardAmountInfo().getAnticipatedTotalAmount());
         newAwardAmountInfo.setOriginatingAwardVersion(rootAward.getSequenceNumber());

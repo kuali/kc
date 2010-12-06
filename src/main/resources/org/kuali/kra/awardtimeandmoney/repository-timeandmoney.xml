@@ -49,7 +49,11 @@
 		<field-descriptor name="sourceAwardNumber" column="SOURCE_AWARD_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="destinationAwardNumber" column="DESTINATION_AWARD_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="obligatedAmount" column="OBLIGATED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="obligatedDirectAmount" column="OBLIGATED_DIRECT_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="obligatedIndirectAmount" column="OBLIGATED_INDIRECT_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="anticipatedAmount" column="ANTICIPATED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="anticipatedDirectAmount" column="ANTICIPATED_DIRECT_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="anticipatedIndirectAmount" column="ANTICIPATED_INDIRECT_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
@@ -66,7 +70,11 @@
 		<field-descriptor name="sourceAwardNumber" column="SOURCE_AWARD_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="destinationAwardNumber" column="DESTINATION_AWARD_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="obligatedAmount" column="OBLIGATED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="obligatedDirectAmount" column="OBLIGATED_DIRECT_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="obligatedIndirectAmount" column="OBLIGATED_INDIRECT_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="anticipatedAmount" column="ANTICIPATED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="anticipatedDirectAmount" column="ANTICIPATED_DIRECT_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="anticipatedIndirectAmount" column="ANTICIPATED_INDIRECT_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
 		<field-descriptor name="transactionDetailType" column="TRANSACTION_DETAIL_TYPE" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />

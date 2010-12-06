@@ -756,6 +756,8 @@ public final class KeyConstants {
     public static final String ERROR_DATE_NULL = "error.date.null";
     public static final String ERROR_OBLIGATED_DATES_INVALID = "error.obligated.dates.invalid";
     public static final String ERROR_OBLIGATED_END_DATE = "error.obligated.end.date";
+    public static final String ERROR_NET_TOTALS_TRANSACTION = "error.net.totals.transaction";
+    public static final String ERROR_DIRECT_INDIRECT_TRANSACTION = "error.direct.indirect.transaction";
 
 
 
