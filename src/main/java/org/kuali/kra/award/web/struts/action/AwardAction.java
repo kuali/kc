@@ -15,7 +15,9 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
+import static org.apache.commons.lang.StringUtils.replace;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import static org.kuali.rice.kns.util.KNSConstants.CONFIRMATION_QUESTION;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -109,6 +111,9 @@ public class AwardAction extends BudgetParentActionBase {
     protected static final String AWARD_ID_PARAMETER_NAME = "awardId";
     private static final String AWARD_NUMBER_SERVICE = "awardNumberService";
     private static final String INITIAL_TRANSACTION_COMMENT = "Initial Time And Money creation transaction";
+    private static final String REPORTS_PROPERTY_NAME = "Reports";
+    private static final String REPORTS_PARAM_STRING = "After Award Reports information is synchronized, make sure that the Award Sponsor Contacts information is also synchronized with the same sponsor template. Failing to do so will result in data inconsistency. Are you sure you want to replace current Reports information with selected {1} template information?";
+
     private ParameterService parameterService;
     
     private static final Log LOG = LogFactory.getLog( AwardAction.class );
@@ -1336,6 +1341,26 @@ public class AwardAction extends BudgetParentActionBase {
         return proceedToProcessSyncAward?processSyncAward(mapping,form,request,response):mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
+    protected StrutsConfirmation buildReportsParameterizedConfirmationQuestion(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response, String questionId, String configurationId, String... params)
+            throws Exception {
+        StrutsConfirmation retval = new StrutsConfirmation();
+        retval.setMapping(mapping);
+        retval.setForm(form);
+        retval.setRequest(request);
+        retval.setResponse(response);
+        retval.setQuestionId(questionId);
+        retval.setQuestionType(CONFIRMATION_QUESTION);
+
+        String questionText = this.REPORTS_PARAM_STRING;
+        for (int i = 0; i < params.length; i++) {
+            questionText = replace(questionText, "{" + i + "}", params[i]);
+        }
+        retval.setQuestionText(questionText);
+
+        return retval;
+
+    }
     
     public ActionForward processSyncAward(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception{
@@ -1355,10 +1380,17 @@ public class AwardAction extends BudgetParentActionBase {
                     && !StringUtils.equals(QUESTION_VERIFY_EMPTY_SYNC+":"+currentScope, question)) {
                         
                 String scopeSyncLabel = "";
+                StrutsConfirmation confirmationQuestion = new StrutsConfirmation();
                 if( StringUtils.isNotEmpty(currentScope.getDisplayPropertyName()))
                     scopeSyncLabel = kualiConfiguration.getPropertyString(currentScope.getDisplayPropertyName());
-                StrutsConfirmation confirmationQuestion = buildParameterizedConfirmationQuestion(mapping, form, request, response, (QUESTION_VERIFY_SYNC+":"+currentScope)  , currentScope.equals(AwardTemplateSyncScope.FULL)?KeyConstants.QUESTION_SYNC_FULL:KeyConstants.QUESTION_SYNC_PANEL,
-                        scopeSyncLabel, awardDocument.getAward().getAwardTemplate().getDescription(), getScopeMessageToAddQuestion(currentScope)); 
+                    if(StringUtils.equals(REPORTS_PROPERTY_NAME,scopeSyncLabel)) {
+                        confirmationQuestion = buildReportsParameterizedConfirmationQuestion(mapping, form, request, response, (QUESTION_VERIFY_SYNC+":"+currentScope)  , currentScope.equals(AwardTemplateSyncScope.FULL)?KeyConstants.QUESTION_SYNC_FULL:KeyConstants.QUESTION_SYNC_PANEL,
+                                scopeSyncLabel, awardDocument.getAward().getAwardTemplate().getDescription(), getScopeMessageToAddQuestion(currentScope));
+                    } else {
+                        confirmationQuestion = buildParameterizedConfirmationQuestion(mapping, form, request, response, (QUESTION_VERIFY_SYNC+":"+currentScope)  , currentScope.equals(AwardTemplateSyncScope.FULL)?KeyConstants.QUESTION_SYNC_FULL:KeyConstants.QUESTION_SYNC_PANEL,
+                                scopeSyncLabel, awardDocument.getAward().getAwardTemplate().getDescription(), getScopeMessageToAddQuestion(currentScope)); 
+                    }
+                
                 confirmationQuestion.setCaller("processSyncAward");
                 awardForm.setCurrentSyncQuestionId( (QUESTION_VERIFY_SYNC+":"+currentScope) );
                 return  (performQuestionWithoutInput( confirmationQuestion,""  ));
