@@ -60,6 +60,7 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -74,6 +75,7 @@ public class AwardHomeAction extends AwardAction {
     private static final String AWARD_VERSION_EDITPENDING_PROMPT_KEY = "message.award.version.editpending.prompt";
     private static final String DOC_HANDLER_URL_PATTERN = "%s/DocHandler.do?command=displayDocSearchView&docId=%s";
     private ApprovedSubawardActionHelper approvedSubawardActionHelper;
+    private ParameterService parameterService;
     
     public AwardHomeAction(){
         approvedSubawardActionHelper = new ApprovedSubawardActionHelper();
@@ -251,14 +253,44 @@ public class AwardHomeAction extends AwardAction {
      */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardDocument awardDocument = ((AwardForm)form).getAwardDocument();
+      //if award is a root Award and direct/indirect view is enabled, then we need to sum the obligated and anticipated totals until we create
+        //initial T&M doc.
+        if(awardDocument.getAward().getAwardNumber().endsWith("-00001") && isDirectIndirectViewEnabled()) {
+            setTotalsOnAward(awardDocument.getAward());
+        }
         ActionForward forward = super.save(mapping, form, request, response);
 //        if(GlobalVariables.getMessageMap().getErrorCount() == 0) {
 //            ((AwardForm) form).getFundingProposalBean().updateProposalStatuses();   // TODO: This save isn't in same transaction as document save
 //        }
-        AwardDocument awardDocument = ((AwardForm)form).getAwardDocument();
         awardDocument.getAward().refreshReferenceObject("sponsor");
-
         return forward;
+    }
+    
+    private void setTotalsOnAward(Award award) {
+        AwardAmountInfo aai = award.getLastAwardAmountInfo();
+        aai.setAmountObligatedToDate(aai.getObligatedTotalDirect().add(aai.getObligatedTotalIndirect()));
+        aai.setAnticipatedTotalAmount(aai.getAnticipatedTotalDirect().add(aai.getAnticipatedTotalIndirect()));
+    }
+    
+    /**
+     * Looks up and returns the ParameterService.
+     * @return the parameter service. 
+     */
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+        }
+        return this.parameterService;
+    }
+    
+    public boolean isDirectIndirectViewEnabled() {
+        boolean returnValue = false;
+        String directIndirectEnabledValue = getParameterService().getParameterValue("KC-AWARD", "D", "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST");
+        if(directIndirectEnabledValue.equals("1")) {
+            returnValue = true;
+        }
+        return returnValue;
     }
     
     /**

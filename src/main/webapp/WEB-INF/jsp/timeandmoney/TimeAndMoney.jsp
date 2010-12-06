@@ -33,7 +33,14 @@
 
 <kra-timeandmoney:awardHierarchyTimeAndMoney />
 <c:if test="${KualiForm.inMultipleNodeHierarchy}" >
-<kra-timeandmoney:transactions />
+	<c:choose>
+		<c:when test="${KualiForm.directIndirectViewEnabled == '1'}">	
+			<kra-timeandmoney:directIndirectTransactions />
+		</c:when>
+		<c:otherwise>
+			<kra-timeandmoney:transactions />
+		</c:otherwise>
+	</c:choose>  	
 </c:if>
 <kra-a:awardDirectFnAFundsDistribution />
 <kra-timeandmoney:summary />

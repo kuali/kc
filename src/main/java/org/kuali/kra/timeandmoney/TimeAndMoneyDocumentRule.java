@@ -17,6 +17,7 @@ package org.kuali.kra.timeandmoney;
 
 import java.util.List;
 
+import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRule;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRuleEvent;
@@ -183,6 +184,11 @@ public class TimeAndMoneyDocumentRule extends ResearchDocumentRuleBase implement
     public boolean processAwardDirectFandADistributionBusinessRules(
             AwardDirectFandADistributionRuleEvent awardDirectFandADistributionRuleEvent) {
         return new AwardDirectFandADistributionRuleImpl().processAwardDirectFandADistributionBusinessRules(awardDirectFandADistributionRuleEvent);
+    }
+
+    public boolean processSingleNodeTransactionBusinessRules(AwardHierarchyNode awardHierarchyNode, AwardAmountInfo aai) {
+        // TODO Auto-generated method stub
+        return false;
     }
     
 }

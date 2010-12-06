@@ -54,6 +54,7 @@ public class TransactionBean implements Serializable {
      * @return
      */
     public boolean addPendingTransactionItem() {
+        sumDirectIndirectIfViewEnabled();
         AddTransactionRuleEvent event = generateAddEvent();
         updateDocumentFromSession(event.getTimeAndMoneyDocument());
         boolean success = getRuleService().applyRules(event);
@@ -62,6 +63,20 @@ public class TransactionBean implements Serializable {
             init();
         }
         return success;
+    }
+    
+    /**
+     * This method sums direct/indirect costs and adds them to the total of pending transaction for processing.  Total does not need to be displayed
+     * in Pending transactions if system parameter for direct/indirect view is enabled.
+     */
+    private void sumDirectIndirectIfViewEnabled() {
+        if(newPendingTransaction.getAnticipatedDirectAmount().isPositive() ||
+                newPendingTransaction.getAnticipatedIndirectAmount().isPositive() ||
+                    newPendingTransaction.getObligatedDirectAmount().isPositive() ||
+                        newPendingTransaction.getObligatedIndirectAmount().isPositive()) {
+            newPendingTransaction.setAnticipatedAmount(newPendingTransaction.getAnticipatedDirectAmount().add(newPendingTransaction.getAnticipatedIndirectAmount()));
+            newPendingTransaction.setObligatedAmount(newPendingTransaction.getObligatedDirectAmount().add(newPendingTransaction.getObligatedIndirectAmount()));
+        }
     }
     
     /*
