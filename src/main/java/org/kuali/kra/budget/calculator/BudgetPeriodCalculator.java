@@ -235,6 +235,7 @@ public class BudgetPeriodCalculator {
 
                     
                     budgetPersonnelDetail.setVersionNumber(null);
+                    budgetCalculationService.populateCalculatedAmount(budget, budgetPersonnelDetail);
                     List<BudgetPersonnelCalculatedAmount> persCalAmounts = budgetPersonnelDetail.getBudgetPersonnelCalculatedAmounts();
                     for (BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount : persCalAmounts) {
                         budgetPersonnelCalculatedAmount.setBudgetPersonnelCalculatedAmountId(null);
@@ -253,7 +254,7 @@ public class BudgetPeriodCalculator {
                 }
                 
                 budgetPeriod.getBudgetLineItems().add(budgetLineItem);
-                budgetCalculationService.calculateBudgetLineItem(budget, budgetLineItem);
+                budgetCalculationService.populateCalculatedAmount(budget, budgetLineItem);
                 for (BudgetLineItemCalculatedAmount prevCalAmts : prevBudgetLineItem.getBudgetLineItemCalculatedAmounts()) {
                     for (BudgetLineItemCalculatedAmount calAmts : budgetLineItem.getBudgetLineItemCalculatedAmounts()) {
                         if (prevCalAmts.getRateClassCode().equals(calAmts.getRateClassCode()) && prevCalAmts.getRateTypeCode().equals(calAmts.getRateTypeCode())) {
