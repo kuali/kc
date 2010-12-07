@@ -36,6 +36,7 @@ import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
+import java.security.KeyStore.LoadStoreParameter;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.util.ArrayList;
@@ -76,6 +77,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
  * This class is used to make web service call to grants.gov
  */
 public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService {
+    private static final String JKS_TYPE = "JKS";
     private static final Log LOG = LogFactory.getLog(GrantsGovConnectorServiceImpl.class);
     private S2SUtilService s2SUtilService;
     private BusinessObjectService businessObjectService;
@@ -217,7 +219,6 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
                 message.setAttachments(atts);
             };
         });
-//        client.getRequestContext().put(MessageContext.OUTBOUND_MESSAGE_ATTACHMENTS, attachments);
         SubmitApplicationRequest request = new SubmitApplicationRequest();
         request.setGrantApplicationXML(xmlText);
         try {
@@ -246,8 +247,6 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
                 DevelopmentProposal.class, proposalMap);
         String multiCampusEnabledStr = s2SUtilService.getParameterValue(MULTI_CAMPUS_ENABLED);
         boolean mulitCampusEnabled = multiCampusEnabledStr.equals(MULTI_CAMPUS_ENABLED_VALUE) ? true : false;
-//        S2SSSLProtocolSocketFactory socketFactory = new S2SSSLProtocolSocketFactory(pdDoc.getOrganization().getDunsNumber(),
-//            mulitCampusEnabled);
         return configureApplicantIntegrationSoapPort(pdDoc.getApplicantOrganization().getOrganization().getDunsNumber(),
                 mulitCampusEnabled);
     }
@@ -273,22 +272,13 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
         HTTPClientPolicy httpClientPolicy = new HTTPClientPolicy();
         httpClientPolicy.setConnectionTimeout(0);
         httpClientPolicy.setReceiveTimeout(0);
-//        httpClientPolicy.setConnection(ConnectionType.KEEP_ALIVE);
         httpClientPolicy.setAllowChunking(false);
         HTTPConduit conduit = (HTTPConduit) client.getConduit();
         conduit.setClient(httpClientPolicy);
         TLSClientParameters tlsConfig = new TLSClientParameters();
-        try{
-            setPossibleCypherSuites(tlsConfig);
-            configureKeyStoreAndTrustStore(tlsConfig, alias, mulitCampusEnabled);
-            conduit.setTlsClientParameters(tlsConfig);
-        }catch(IOException ioEx){
-            LOG.error(ioEx);
-            throw new S2SException(KeyConstants.ERROR_KEYSTORE_CONFIG,ioEx.getMessage());
-        }catch (GeneralSecurityException e) {
-            LOG.error(e);
-            throw new S2SException(KeyConstants.ERROR_KEYSTORE_CONFIG_SECURITY,e.getMessage());
-        }
+        setPossibleCypherSuites(tlsConfig);
+        configureKeyStoreAndTrustStore(tlsConfig, alias, mulitCampusEnabled);
+        conduit.setTlsClientParameters(tlsConfig);
         return applicantWebService;
     }
 
@@ -314,50 +304,59 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
     }
 
     /**
-     * This method...
+     * This method is to confgiure KeyStore and Truststore for Grants.Gov webservice client
      * @param tlsConfig
      * @param alias
      * @param mulitCampusEnabled
-     * @throws KeyStoreException
-     * @throws IOException
-     * @throws NoSuchAlgorithmException
-     * @throws CertificateException
-     * @throws FileNotFoundException
-     * @throws UnrecoverableKeyException
+     * @throws S2SException
      */
     protected void configureKeyStoreAndTrustStore(TLSClientParameters tlsConfig, String alias, boolean mulitCampusEnabled)
-            throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException, FileNotFoundException,
-            UnrecoverableKeyException {
-        KeyStore keyStore = KeyStore.getInstance("JKS");
-
-        keyStore.load(new FileInputStream(s2SUtilService.getProperty(KEYSTORE_LOCATION)),
-                s2SUtilService.getProperty(KEYSTORE_PASSWORD).toCharArray());
-        KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-        if (alias != null && mulitCampusEnabled) {
-            KeyStore keyStoreAlias = KeyStore.getInstance("JKS");
-            Certificate[] certificates = keyStore.getCertificateChain(alias);
-            Key key = keyStore.getKey(alias, s2SUtilService.getProperty(KEYSTORE_PASSWORD)
-                    .toCharArray());
-//            Certificate[] certificates = { certificate };
-            keyStoreAlias.load(null, null);
-            keyStoreAlias.setKeyEntry(alias, key, 
-                    s2SUtilService.getProperty(KEYSTORE_PASSWORD).toCharArray(), certificates);
-            keyManagerFactory.init(keyStoreAlias, 
-                    s2SUtilService.getProperty(KEYSTORE_PASSWORD).toCharArray());
+            throws S2SException {
+        KeyStore keyStore = S2SCertificateReader.getKeyStore();//KeyStore.getInstance(JKS_TYPE);
+        KeyManagerFactory keyManagerFactory;
+        try {
+            keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+            if (alias != null && mulitCampusEnabled) {
+                KeyStore keyStoreAlias;
+                keyStoreAlias = KeyStore.getInstance(JKS_TYPE);
+                Certificate[] certificates = keyStore.getCertificateChain(alias);
+                Key key = keyStore.getKey(alias, s2SUtilService.getProperty(KEYSTORE_PASSWORD).toCharArray());
+                keyStoreAlias.load(null, null);
+                keyStoreAlias.setKeyEntry(alias, key, 
+                        s2SUtilService.getProperty(KEYSTORE_PASSWORD).toCharArray(), certificates);
+                keyManagerFactory.init(keyStoreAlias, 
+                        s2SUtilService.getProperty(KEYSTORE_PASSWORD).toCharArray());
+            }
+            else {
+                keyManagerFactory.init(keyStore, s2SUtilService.getProperty(KEYSTORE_PASSWORD).toCharArray());
+            }
+            KeyManager[] km = keyManagerFactory.getKeyManagers();
+            tlsConfig.setKeyManagers(km);
+            
+    //        KeyStore trustStore = KeyStore.getInstance(JKS_TYPE);
+    //        trustStore.load(new FileInputStream(s2SUtilService.getProperty(TRUSTSTORE_LOCATION)),
+    //                s2SUtilService.getProperty(TRUSTSTORE_PASSWORD).toCharArray());
+            KeyStore trustStore = S2SCertificateReader.getTrustStore();
+            TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+            trustManagerFactory.init(trustStore);
+            TrustManager[] tm = trustManagerFactory.getTrustManagers();
+            tlsConfig.setTrustManagers(tm);
+        }catch (NoSuchAlgorithmException e){
+            LOG.error(e);
+            throw new S2SException(KeyConstants.ERROR_KEYSTORE_CONFIG,e.getMessage());
+        }catch (KeyStoreException e) {
+            LOG.error(e);
+            throw new S2SException(KeyConstants.ERROR_KEYSTORE_CONFIG,e.getMessage());
+        }catch (UnrecoverableKeyException e) {
+            LOG.error(e);
+            throw new S2SException(KeyConstants.ERROR_KEYSTORE_CONFIG,e.getMessage());
+        }catch (CertificateException e) {
+            LOG.error(e);
+            throw new S2SException(KeyConstants.ERROR_KEYSTORE_CONFIG,e.getMessage());
+        }catch (IOException e) {
+            LOG.error(e);
+            throw new S2SException(KeyConstants.ERROR_KEYSTORE_CONFIG,e.getMessage());
         }
-        else {
-            keyManagerFactory.init(keyStore, s2SUtilService.getProperty(KEYSTORE_PASSWORD).toCharArray());
-        }
-        KeyManager[] km = keyManagerFactory.getKeyManagers();
-        tlsConfig.setKeyManagers(km);
-        
-        KeyStore trustStore = KeyStore.getInstance("JKS");
-        trustStore.load(new FileInputStream(s2SUtilService.getProperty(TRUSTSTORE_LOCATION)),
-                s2SUtilService.getProperty(TRUSTSTORE_PASSWORD).toCharArray());
-        TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-        trustManagerFactory.init(trustStore);
-        TrustManager[] tm = trustManagerFactory.getTrustManagers();
-        tlsConfig.setTrustManagers(tm);
     }
 
     /**
