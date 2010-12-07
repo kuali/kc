@@ -27,7 +27,10 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -52,6 +55,7 @@ import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.budget.personnel.BudgetPersonnelBudgetService;
 import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.kra.budget.personnel.HierarchyPersonnelSummary;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -1048,6 +1052,21 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         }
     }
     
+    protected List<BudgetDocument<DevelopmentProposal>> getHierarchyBudgets(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException {
+        List<BudgetDocument<DevelopmentProposal>> hierarchyBudgets = new ArrayList<BudgetDocument<DevelopmentProposal>>();
+        
+        try {
+            for (BudgetDocumentVersion budgetDocumentVersion : hierarchyProposal.getProposalDocument().getBudgetDocumentVersions()) {
+                String budgetDocumentNumber = budgetDocumentVersion.getBudgetVersionOverview().getDocumentNumber();
+                hierarchyBudgets.add((BudgetDocument<DevelopmentProposal>) documentService.getByDocumentHeaderId(budgetDocumentNumber));
+            }
+        } catch (WorkflowException e) {
+            throw new ProposalHierarchyException(e);
+        }
+    
+        return hierarchyBudgets;
+    }
+    
     protected BudgetDocument<DevelopmentProposal> getHierarchyBudget(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException {
         String budgetDocumentNumber = hierarchyProposal.getProposalDocument().getBudgetDocumentVersions().get(0).getBudgetVersionOverview().getDocumentNumber();
         BudgetDocument<DevelopmentProposal> budgetDocument = null;
@@ -1671,6 +1690,34 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         boolean isInvestigator2 = StringUtils.equals(person2.getProposalPersonRoleId(), Constants.PRINCIPAL_INVESTIGATOR_ROLE)
                 || StringUtils.equals(person2.getProposalPersonRoleId(), Constants.CO_INVESTIGATOR_ROLE);
         return isInvestigator1 == isInvestigator2;
+    }
+    
+    /**
+     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#getHierarchyPersonnelSummaries(java.lang.String)
+     */
+    public List<HierarchyPersonnelSummary> getHierarchyPersonnelSummaries(String parentProposalNumber) throws ProposalHierarchyException {
+        List<HierarchyPersonnelSummary> summaries = new ArrayList<HierarchyPersonnelSummary>();
+        
+        List<String> proposalNumbers = new ArrayList<String>();
+        proposalNumbers.addAll(proposalHierarchyDao.getHierarchyChildProposalNumbers(parentProposalNumber));
+        Collections.sort(proposalNumbers);
+        
+        for (String proposalNumber : proposalNumbers) {
+            HierarchyPersonnelSummary summary = new HierarchyPersonnelSummary();
+            
+            DevelopmentProposal childProposal = getDevelopmentProposal(proposalNumber);
+            List<Budget> hierarchyBudgets = new ArrayList<Budget>();
+            for (BudgetDocument<DevelopmentProposal> hierarchyBudgetDocument : getHierarchyBudgets(childProposal)) {
+                hierarchyBudgets.add(hierarchyBudgetDocument.getBudget());
+            }
+            Collections.sort(hierarchyBudgets);
+            
+            summary.setProposalNumber(proposalNumber);
+            summary.setHierarchyBudgets(hierarchyBudgets);
+            summaries.add(summary);
+        }
+        
+        return summaries;
     }
     
     /**

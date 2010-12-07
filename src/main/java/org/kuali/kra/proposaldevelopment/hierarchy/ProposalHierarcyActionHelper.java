@@ -17,12 +17,17 @@ package org.kuali.kra.proposaldevelopment.hierarchy;
 
 import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.*;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.personnel.HierarchyPersonnelSummary;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -144,13 +149,23 @@ public class ProposalHierarcyActionHelper {
             }
         }
     }
+    
+    public List<HierarchyPersonnelSummary> getHierarchyPersonnelSummaries(String parentProposalNumber) {
+        List<HierarchyPersonnelSummary> retval = null;
+        try {
+            retval = getProposalHierarchyService().getHierarchyPersonnelSummaries(parentProposalNumber);
+        } catch (ProposalHierarchyException e) {
+            doUnexpectedError(e, FIELD_GENERIC, false);
+        }
+        
+        return retval;
+    }
 
-    public List<HierarchyProposalSummary> getHierarchySummaries(String proposalNumber) {
+    public List<HierarchyProposalSummary> getHierarchyProposalSummaries(String proposalNumber) {
         List<HierarchyProposalSummary> retval = null;
         try {
             retval = getProposalHierarchyService().getHierarchyProposalSummaries(proposalNumber);
-        }
-        catch (ProposalHierarchyException e) {
+        } catch (ProposalHierarchyException e) {
             doUnexpectedError(e, FIELD_GENERIC, false);
         }
         return retval;
@@ -158,6 +173,18 @@ public class ProposalHierarcyActionHelper {
 
     public DevelopmentProposal getDevelopmentProposal(String proposalNumber) {
         return getProposalHierarchyService().getDevelopmentProposal(proposalNumber);
+    }
+    
+    public List<DevelopmentProposal> getChildProposals(String parentProposalNumber) {
+        List<DevelopmentProposal> childProposals = new ArrayList<DevelopmentProposal>();
+        
+        try {
+            childProposals.addAll(getProposalHierarchyService().getHierarchyChildren(parentProposalNumber));
+        } catch (ProposalHierarchyException e) {
+            doUnexpectedError(e, FIELD_GENERIC, false);
+        }
+        
+        return childProposals;
     }
     
     private ProposalHierarchyService getProposalHierarchyService() {

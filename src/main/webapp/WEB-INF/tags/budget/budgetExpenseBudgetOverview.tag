@@ -16,7 +16,6 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ attribute name="transparentBackground" description="Tab Background color" required="false" %>
 <%@ attribute name="defaultOpen" description="Tab Default Appearance" required="false" %>
-<%@ attribute name="isTop" required="false" %>
 
 <c:set var="budgetPeriodAttributes" value="${DataDictionary.BudgetPeriod.attributes}" />
 <c:set var="budgetDocumentAttributes" value="${DataDictionary.Budget.attributes}" />
@@ -27,9 +26,6 @@
 </c:if>
 <c:if test="${empty defaultOpen}">
 	<c:set var="defaultOpen" value="true" />
-</c:if>
-<c:if test="${empty isTop}">
-	<c:set var="isTop" value="false" />
 </c:if>
 
 <c:choose>
@@ -50,18 +46,17 @@
 </c:if>
 
 <div id="workarea">
-<c:set var="showWarnings" value="${(KualiForm.document.budget.totalCostLimit > 0 && cumTotalCost > KualiForm.document.budget.totalCostLimit) || (KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].totalCostLimit > 0 && KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].totalCost > KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].totalCostLimit)}" />
-
-<c:choose>
-	<c:when test="${isTop}">
-		<kul:tabTop tabTitle="Budget Overview (Period ${budgetPeriod})" defaultOpen="${showWarnings || defaultOpen}" tabErrorKey="document.budget.budgetPeriod[${budgetPeriod-1}].costSharingAmount,document.budget.budgetPeriod[${budgetPeriod-1}].totalDirectCost,document.budget.budgetPeriod[${budgetPeriod-1}].totalIndirectCost,document.budget.budgetPeriod[${budgetPeriod-1}].totalCost,document.budget.budgetPeriod[${budgetPeriod-1}].totalCostLimit,document.budget.budgetPeriod[${budgetPeriod-1}].underrecoveryAmount,document.budget.budgetPeriod[${budgetPeriod-1}].periodCostLimit," auditCluster="${tabAuditCluster}" tabAuditKey="document.budget.budgetPeriod[${budgetPeriod-1}].totalCostLimit">	
-			<kra-b:budgetExpenseBudgetOverviewBody />
-		</kul:tabTop>
-	</c:when>
-	<c:otherwise>
-		<kul:tab tabTitle="Budget Overview (Period ${budgetPeriod})" transparentBackground="${transparentBackground}" defaultOpen="${showWarnings || defaultOpen}" tabErrorKey="document.budget.budgetPeriod[${budgetPeriod-1}].costSharingAmount,document.budget.budgetPeriod[${budgetPeriod-1}].totalDirectCost,document.budget.budgetPeriod[${budgetPeriod-1}].totalIndirectCost,document.budget.budgetPeriod[${budgetPeriod-1}].totalCost,document.budget.budgetPeriod[${budgetPeriod-1}].totalCostLimit,document.budget.budgetPeriod[${budgetPeriod-1}].underrecoveryAmount,document.budget.budgetPeriod[${budgetPeriod-1}].periodCostLimit," auditCluster="${tabAuditCluster}" tabAuditKey="document.budget.budgetPeriod[${budgetPeriod-1}].totalCostLimit" useRiceAuditMode="true">	
-			<kra-b:budgetExpenseBudgetOverviewBody />
-		</kul:tab>
-	</c:otherwise>
-</c:choose>
-   
+	<c:set var="showWarnings" value="${(KualiForm.document.budget.totalCostLimit > 0 && cumTotalCost > KualiForm.document.budget.totalCostLimit) || (KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].totalCostLimit > 0 && KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].totalCost > KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].totalCostLimit)}" />
+	
+	<kul:tab tabTitle="Budget Overview (Period ${budgetPeriod})" 
+	         transparentBackground="${transparentBackground}" 
+	         defaultOpen="${showWarnings || defaultOpen}" 
+	         tabErrorKey="document.budget.budgetPeriod[${budgetPeriod-1}].costSharingAmount,document.budget.budgetPeriod[${budgetPeriod-1}].totalDirectCost,document.budget.budgetPeriod[${budgetPeriod-1}].totalIndirectCost,document.budget.budgetPeriod[${budgetPeriod-1}].totalCost,document.budget.budgetPeriod[${budgetPeriod-1}].totalCostLimit,document.budget.budgetPeriod[${budgetPeriod-1}].underrecoveryAmount,document.budget.budgetPeriod[${budgetPeriod-1}].periodCostLimit," 
+	         auditCluster="${tabAuditCluster}" 
+	         tabAuditKey="document.budget.budgetPeriod[${budgetPeriod-1}].totalCostLimit" 
+	         useRiceAuditMode="true">  
+	    
+	    <kra-b:budgetExpenseBudgetOverviewBody />
+	
+	</kul:tab>
+</div>

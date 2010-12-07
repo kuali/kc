@@ -529,7 +529,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     
     public ActionForward hierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm)form;
-        pdForm.setHierarchyProposalSummaries(getHierarchyHelper().getHierarchySummaries(pdForm.getDocument().getDevelopmentProposal().getProposalNumber()));
+        pdForm.setHierarchyProposalSummaries(getHierarchyHelper().getHierarchyProposalSummaries(pdForm.getDocument().getDevelopmentProposal().getProposalNumber()));
         return mapping.findForward(Constants.HIERARCHY_PAGE);
     }
     
