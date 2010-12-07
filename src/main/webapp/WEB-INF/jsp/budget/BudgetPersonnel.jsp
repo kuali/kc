@@ -14,8 +14,6 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<c:set var="hierarchyStatus" value="${KualiForm.document.parentDocument.budgetParent.hierarchyStatus}" />
-<c:set var="hierarchyParentStatus" value="${KualiForm.hierarchyParentStatus}"/>
 
 <kra-b:swapProposalDevelopmentEditModes/>
 <c:set var="readOnly" value="${not KualiForm.editingMode['modifyBudgets']}" scope="request" />
@@ -37,19 +35,14 @@
   	
 	<kra-b:budgetExpensesSelectBudgetPeriod />
 	<br><br>
-
-	<c:set var="isTop" value="true" />
-	<c:if test="${hierarchyStatus != hierarchyParentStatus}"> 	
-		<kra-b:projectPersonnel/>
-		<c:set var="isTop" value="false" />
-	</c:if>
+    <kra-b:budgetProjectPersonnel/>
 	
 	<c:set var="action" value="budgetExpensesAction" />
 	<c:set var="budgetCategoryTypeCodeKey" value="${KualiForm.document.budget.budgetCategoryTypeCodes[0].key}" />
 	<c:set var="budgetCategoryTypeCodeLabel" value="${KualiForm.document.budget.budgetCategoryTypeCodes[0].label}" />
 	<c:set var="catCodes" value="0" />
 	
-	<kra-b:budgetExpenseBudgetOverview transparentBackground="false" defaultOpen="false" isTop="${isTop}" /> 
+	<kra-b:budgetExpenseBudgetOverview transparentBackground="false" defaultOpen="false" /> 
 	<kra-b:budgetPersonnelDetail budgetCategoryTypeCodeKey="${budgetCategoryTypeCodeKey}" budgetCategoryTypeCodeLabel="${budgetCategoryTypeCodeLabel}" catCodes="${catCodes}"/>
 	
 	<kul:panelFooter />
