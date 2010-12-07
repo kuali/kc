@@ -100,6 +100,7 @@
     <property name="shortLabel" value="Salary Requested" />
     <property name="summary" value="Salary Requested" />
     <property name="description" value="Salary Requested" />
+    <property name="required" value="false" />
   </bean>
   <bean id="BudgetPersonnelRateAndBase-baseCostSharing" parent="BudgetPersonnelRateAndBase-baseCostSharing-parentBean" />
 
