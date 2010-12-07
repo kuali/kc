@@ -782,6 +782,19 @@ public final class KeyConstants {
     public static final String ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD_FOR_RESUBMIT = "error.proposal.require.priorAwardResubmit";
     public static final String ERROR_AWARD_CANNOT_BE_VERSIONED = "error.award.cannot.be.versioned";
     
+    public static final String ERROR_S2S_KEYSTORE_CREATION = "error.s2s.keystore.creation";
+    public static final String ERROR_S2S_KEYSTORE_NO_ALGORITHM = "error.s2s.keystore.no.algorithm";
+    public static final String ERROR_S2S_KEYSTORE_BAD_CERTIFICATE = "error.s2s.keystore.badcertificate";
+    public static final String ERROR_S2S_KEYSTORE_NOT_FOUND = "error.s2s.keystore.not.found";
+    public static final String ERROR_S2S_KEYSTORE_CANNOT_READ = "error.s2s.keystore.cannot.read";
+
+    public static final String ERROR_S2S_TRUSTSTORE_CREATION = "error.s2s.truststore.creation";
+    public static final String ERROR_S2S_TRUSTSTORE_NO_ALGORITHM = "error.s2s.truststore.no.algorithm";
+    public static final String ERROR_S2S_TRUSTSTORE_BAD_CERTIFICATE = "error.s2s.truststore.badcertificate";
+    public static final String ERROR_S2S_TRUSTSTORE_NOT_FOUND = "error.s2s.truststore.not.found";
+    public static final String ERROR_S2S_TRUSTSTORE_CANNOT_READ = "error.s2s.truststore.cannot.read";
+
+
     // Correspondence
     public static final String ERROR_CORRESPONDENCE_TEMPLATE_COMMITTEE_NOT_SPECIFIED = "error.correspondence.template.committee.not.specified";
     public static final String ERROR_CORRESPONDENCE_TEMPLATE_COMMITTEE_DUPLICATE = "error.correspondence.template.committee.duplicate";
