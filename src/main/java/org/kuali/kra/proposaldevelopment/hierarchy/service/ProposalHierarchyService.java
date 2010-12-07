@@ -16,8 +16,11 @@
 package org.kuali.kra.proposaldevelopment.hierarchy.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.personnel.HierarchyPersonnelSummary;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyErrorDto;
@@ -112,6 +115,7 @@ public interface ProposalHierarchyService {
 
     public DevelopmentProposal getDevelopmentProposal(String proposalNumber);
     public DevelopmentProposal lookupParent(DevelopmentProposal childProposal) throws ProposalHierarchyException;
+    public List<HierarchyPersonnelSummary> getHierarchyPersonnelSummaries(String parentProposalNumber) throws ProposalHierarchyException;
     public List<HierarchyProposalSummary> getHierarchyProposalSummaries(String proposalNumber) throws ProposalHierarchyException;
     public ProposalHierarchyErrorDto validateChildBudgetPeriods(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal, boolean allowEndDateChange) throws ProposalHierarchyException;
     
