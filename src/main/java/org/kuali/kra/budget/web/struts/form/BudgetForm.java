@@ -35,6 +35,7 @@ import org.kuali.kra.budget.nonpersonnel.BudgetJustificationWrapper;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.kra.budget.personnel.HierarchyPersonnelSummary;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
@@ -114,8 +115,17 @@ public class BudgetForm extends BudgetVersionFormBase {
     
     private String newGroupName;
     
+    private List<HierarchyPersonnelSummary> hierarchyPersonnelSummaries;
     private List<HierarchyProposalSummary> hierarchyProposalSummaries;
     
+    public List<HierarchyPersonnelSummary> getHierarchyPersonnelSummaries() {
+        return hierarchyPersonnelSummaries;
+    }
+
+    public void setHierarchyPersonnelSummaries(List<HierarchyPersonnelSummary> hierarchyPersonnelSummaries) {
+        this.hierarchyPersonnelSummaries = hierarchyPersonnelSummaries;
+    }
+
     /**
      * Sets the hierarchyProposalSummaries attribute value.
      * @param hierarchyProposalSummaries The hierarchyProposalSummaries to set.

@@ -45,6 +45,7 @@ import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.budget.personnel.BudgetPersonService;
 import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.kra.budget.personnel.HierarchyPersonnelSummary;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.budget.rates.BudgetRatesService;
 import org.kuali.kra.budget.service.BudgetLockService;
@@ -335,6 +336,7 @@ public class BudgetAction extends BudgetActionBase {
 
     public ActionForward personnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         BudgetForm budgetForm = (BudgetForm) form;
+        populatePersonnelHierarchySummary(budgetForm);
         populatePersonnelCategoryTypeCodes(budgetForm);
         if (budgetForm.getBudgetDocument().getBudget().getBudgetPersons().isEmpty()) {
             KraServiceLocator.getService(BudgetPersonService.class).synchBudgetPersonsToProposal(budgetForm.getBudgetDocument().getBudget());
@@ -362,6 +364,18 @@ public class BudgetAction extends BudgetActionBase {
             }
         }
         return mapping.findForward(Constants.BUDGET_PERSONNEL_PAGE);
+    }
+    
+    protected void populatePersonnelHierarchySummary(BudgetForm budgetForm) {
+        ProposalDevelopmentDocument parentDocument = (ProposalDevelopmentDocument) budgetForm.getDocument().getParentDocument();
+        String proposalNumber = parentDocument.getDevelopmentProposal().getProposalNumber();
+        budgetForm.setHierarchyPersonnelSummaries(getHierarchyHelper().getHierarchyPersonnelSummaries(proposalNumber));
+        for (HierarchyPersonnelSummary hierarchyPersonnelSummary : budgetForm.getHierarchyPersonnelSummaries()) {
+            for (Budget budget : hierarchyPersonnelSummary.getHierarchyBudgets()) {
+                reconcilePersonnelRoles(budget.getBudgetDocument());
+            }
+        }
+        
     }
 
     private String getPersonnelBudgetCategoryTypeCode() {
@@ -499,7 +513,7 @@ public class BudgetAction extends BudgetActionBase {
         BudgetForm budgetForm = (BudgetForm)form;
         ProposalDevelopmentDocument aDoc = (ProposalDevelopmentDocument) budgetForm.getDocument().getParentDocument();
         
-        budgetForm.setHierarchyProposalSummaries(getHierarchyHelper().getHierarchySummaries(aDoc.getDevelopmentProposal().getProposalNumber()));
+        budgetForm.setHierarchyProposalSummaries(getHierarchyHelper().getHierarchyProposalSummaries(aDoc.getDevelopmentProposal().getProposalNumber()));
         return mapping.findForward(Constants.HIERARCHY_PAGE);
     }
     
