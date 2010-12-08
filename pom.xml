@@ -237,6 +237,8 @@
 			<artifactId>commons-lang</artifactId>
 			<version>2.5</version>
 		</dependency>
+		
+		
 		<!-- included to resolve dependency conflict between rice & htmlunit.  htmlunit needs a newer version -->
 		<dependency>
 			<groupId>commons-httpclient</groupId>
@@ -341,6 +343,10 @@
 		    	<exclusion>
 		    		<artifactId>commons-logging</artifactId>
 		    		<groupId>commons-logging</groupId>
+		    	</exclusion>
+		    	<exclusion>
+		    		<groupId>xerces</groupId>
+					<artifactId>xmlParserAPIs</artifactId>
 		    	</exclusion>
 		    </exclusions>
 		</dependency>
@@ -893,18 +899,17 @@
 		    	</exclusion>
 		    </exclusions>
 		</dependency>
-		<!-- this duplicates packages in xml-apis... and some of these are in jdk 6 - not sure what we should do here -->
 		<dependency>
-		    <groupId>xerces</groupId>
-		    <artifactId>xmlParserAPIs</artifactId>
-		    <version>2.6.2</version>
+		<groupId>xml-apis</groupId>
+		<artifactId>xml-apis</artifactId>
+		<version>1.3.04</version>
+		<scope>provided</scope>
 		</dependency>
-		<!-- part of this library is in jdk 6 - not sure what we should do here -->
 		<dependency>
-			<groupId>xml-apis</groupId>
-			<artifactId>xml-apis</artifactId>
-			<version>1.3.04</version>
-			<scope>compile</scope>
+		<groupId>xerces</groupId>
+		<artifactId>xmlParserAPIs</artifactId>
+		<version>2.6.2</version>
+		<scope>provided</scope>
 		</dependency>
 	</dependencies>
 
