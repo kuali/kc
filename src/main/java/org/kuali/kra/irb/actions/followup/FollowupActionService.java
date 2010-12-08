@@ -15,7 +15,11 @@
  */
 package org.kuali.kra.irb.actions.followup;
 
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.submit.ValidProtocolActionAction;
 
 public interface FollowupActionService {
     
@@ -33,5 +37,10 @@ public interface FollowupActionService {
     boolean isActionOpenForFollowup(String protocolActionTypeCode, Protocol protocol);
     
     
+    List<ValidProtocolActionAction> getFollowupEnabledActionMap(Protocol protocol);
+    
+    List<ValidProtocolActionAction> getFollowupsForActionTypeAndMotionType(String protocolActionTypeCode, String committeeMotionTypeCode);
+    
+    List<ValidProtocolActionAction> getFollowupsForProtocol(Protocol protocol);
 
 }
