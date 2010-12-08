@@ -21,9 +21,10 @@ echo Invalid Database Type <%dbtype%>
 goto dbtype
 
 :Version
-set /p Version="Enter Version (NEW, 2.0) <%Version%>: "
+set /p Version="Enter Version (NEW, 2.0, 3.0) <%Version%>: "
 if /i "%Version%" == "NEW" goto User
 if /i "%Version%" == "2.0" goto User
+if /i "%Version%" == "3.0" goto User
 echo Invalid Version <%Version%>
 goto Version
 
@@ -120,6 +121,12 @@ sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-Release-2_0-3_0-Upgrade-Oracl
 )
 move *.log ../LOGS
 cd ..
+
+:3.0ORACLE
+cd KC-RELEASE-3_0_1-SCRIPT
+sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-Release-3_0-3_0_1-Upgrade-Oracle-Install.sql
+move *.log ../LOGS
+cd ..
 goto FINISH
 
 :NEWMYSQL
@@ -153,6 +160,13 @@ mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-Release-2_0-3_0-Upgrade-MySq
 )
 move *.log ../LOGS
 cd ..
+
+:3.0MYSQL
+cd KC-RELEASE-3_0-SCRIPT
+mysql -u %un% -p%pw% -D %un% -s -f < KC-Release-3_0-3_0_1-Upgrade-MySql-Install.sql > KC-Release-2_0-3_0-Upgrade-MySql-Install.log 2>&1
+move *.log ../LOGS
+cd ..
+
 goto FINISH
 
 :FINISH
