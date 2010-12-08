@@ -33,7 +33,7 @@ public class ProtocolWithdrawAuthorizerTest extends ProtocolAuthorizerTestBase {
     
     @Test
     public void testNotAProtocol() throws Exception {
-        runActionAuthorizerTest(PROTOCOL_NUMBER + "A001", true, true, false);
+        runActionAuthorizerTest(PROTOCOL_NUMBER + "A001", true, true, true);
     }
     
     @Test
