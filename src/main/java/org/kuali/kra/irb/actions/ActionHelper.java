@@ -54,6 +54,7 @@ import org.kuali.kra.irb.actions.correction.AdminCorrectionBean;
 import org.kuali.kra.irb.actions.decision.CommitteeDecision;
 import org.kuali.kra.irb.actions.decision.CommitteeDecisionService;
 import org.kuali.kra.irb.actions.delete.ProtocolDeleteBean;
+import org.kuali.kra.irb.actions.followup.FollowupActionService;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionBean;
 import org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionBean;
@@ -69,6 +70,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
+import org.kuali.kra.irb.actions.submit.ValidProtocolActionAction;
 import org.kuali.kra.irb.actions.undo.UndoLastActionBean;
 import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawBean;
 import org.kuali.kra.irb.auth.GenericProtocolAuthorizer;
@@ -164,6 +166,8 @@ public class ActionHelper implements Serializable {
     private boolean isDisapproveOpenForFollowup;
     private boolean isReturnForSMROpenForFollowup;
     private boolean isReturnForSRROpenForFollowup;
+    
+    private List<ValidProtocolActionAction> followupActionActions;
     
     private boolean canViewOnlineReviewers;
     private boolean canViewOnlineReviewerComments;
@@ -261,6 +265,9 @@ public class ActionHelper implements Serializable {
     private transient CommitteeScheduleService committeeScheduleService;
     private transient KcPersonService kcPersonService;
     private transient BusinessObjectService businessObjectService;
+    private transient FollowupActionService followupActionService;
+    private Map<String, ProtocolRequestBean>  actionTypeRequestBeanMap = new HashMap<String, ProtocolRequestBean>();
+    private Map<String,Boolean> followupActionMap = new HashMap<String,Boolean>();
     
     private Map<String, ProtocolActionBean> actionBeanTaskMap = new HashMap<String, ProtocolActionBean>();    
     // protocol print
@@ -705,10 +712,8 @@ public class ActionHelper implements Serializable {
         canApproveOther = hasApproveOtherPermission();
         canManageNotes = hasManageNotesPermision();
         
-        isApproveOpenForFollowup = hasApproveFollowupAction();
-        isDisapproveOpenForFollowup = hasDisapproveFollowupAction();
-        isReturnForSMROpenForFollowup = hasReturnForSMRFollowupAction();
-        isReturnForSRROpenForFollowup = hasReturnForSRRFollowupAction();
+        followupActionActions = getFollowupActionService().getFollowupsForProtocol(form.getProtocolDocument().getProtocol());
+        
         
         canViewOnlineReviewers = hasCanViewOnlineReviewersPermission();
         canViewOnlineReviewerComments = hasCanViewOnlineReviewerCommentsPermission();
@@ -999,23 +1004,16 @@ public class ActionHelper implements Serializable {
         return retVal;
     }
     
-    private boolean hasApproveFollowupAction() {
-        return getProtocolActionService().isActionOpenForFollowup(ProtocolActionType.APPROVED, getProtocol());
+    private boolean hasFollowupAction(String actionCode) {
+        for (ValidProtocolActionAction action : followupActionActions) {
+            if (StringUtils.equals(action.getFollowupActionCode(),actionCode)) {
+                return true;
+            }
+        }
+        return false;
     }
     
-    private boolean hasDisapproveFollowupAction() {
-        return getProtocolActionService().isActionOpenForFollowup(ProtocolActionType.DISAPPROVED, getProtocol());
-    }
-    
-    private boolean hasReturnForSMRFollowupAction() {
-        return getProtocolActionService().isActionOpenForFollowup(ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, getProtocol());
-    }
-    
-    private boolean hasReturnForSRRFollowupAction() {
-        return getProtocolActionService().isActionOpenForFollowup(ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, getProtocol());
-    }
-    
-    private boolean hasCanViewOnlineReviewersPermission() {
+	private boolean hasCanViewOnlineReviewersPermission() {
         return getReviewerCommentsService().canViewOnlineReviewers(getUserIdentifier(), getSelectedSubmission());
     }
     
@@ -1391,19 +1389,24 @@ public class ActionHelper implements Serializable {
     }
 
     public boolean getIsApproveOpenForFollowup() {
-        return isApproveOpenForFollowup;
+        return hasFollowupAction(ProtocolActionType.APPROVED);
     }
     
     public boolean getIsDisapproveOpenForFollowup() {
-        return isDisapproveOpenForFollowup;
+        return hasFollowupAction(ProtocolActionType.DISAPPROVED);
     }
     
     public boolean getIsReturnForSMROpenForFollowup() {
-        return isReturnForSMROpenForFollowup;
+        return hasFollowupAction(ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED);
     }
     
     public boolean getIsReturnForSRROpenForFollowup() {
-        return isReturnForSRROpenForFollowup;
+        return hasFollowupAction(ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED);
+    }
+    
+    
+    public Map<String,Boolean> getFollowupActionMap() {
+        return followupActionMap;
     }
     
     public boolean getCanViewOnlineReviewers() {
@@ -1632,6 +1635,13 @@ public class ActionHelper implements Serializable {
             businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         }
         return businessObjectService;
+    }
+    
+    public FollowupActionService getFollowupActionService() {
+        if (followupActionService == null) {
+            followupActionService = KraServiceLocator.getService(FollowupActionService.class);
+        }
+        return followupActionService;
     }
     
     private ReviewCommentsService getReviewerCommentsService() {
