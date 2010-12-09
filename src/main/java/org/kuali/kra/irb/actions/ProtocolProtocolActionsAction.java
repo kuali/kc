@@ -830,6 +830,15 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 
         printable.setReportParameters(reportParameters);
         printableArtifactList.add(printable);
+        if (summaryOptions.isReviewComments()) {
+            Map reportParameters1 = getReportOptions(protocolForm,ProtocolPrintType.PROTOCOL_REVIEW_COMMENTS_REPORT);
+            AbstractPrint printable1 = (AbstractPrint)getProtocolPrintingService().getProtocolPrintable(ProtocolPrintType.valueOf(PRINTTAG_MAP.get("comments")));
+            printable1.setPrintableBusinessObject(protocolForm.getProtocolDocument().getProtocol());
+            printable1.setReportParameters(reportParameters1);
+            printableArtifactList.add(printable1);
+            
+        }
+        
         printableArtifactList.addAll(getQuestionnairePrintingService().getQuestionnairePtintable(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getQuestionnairesToPrints()));
 
         return printableArtifactList;
