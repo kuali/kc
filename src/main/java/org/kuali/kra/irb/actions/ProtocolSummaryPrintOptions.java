@@ -21,6 +21,10 @@ import java.io.Serializable;
  * This class is for setting the print options for ProtocolSummary
  */
 public class ProtocolSummaryPrintOptions implements Serializable {
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -7053561167215452265L;
     private boolean actions = true;
     private boolean ammendmentRenewalSummary = true;
     private boolean amendmentRenewalHistory = true;
@@ -40,6 +44,7 @@ public class ProtocolSummaryPrintOptions implements Serializable {
     private boolean studyPersonnels = true;
     private boolean subjects = true;
     private boolean otherData = true;
+    private boolean reviewComments = true;
     /**
      * Gets the actions attribute. 
      * @return Returns the actions.
@@ -305,5 +310,13 @@ public class ProtocolSummaryPrintOptions implements Serializable {
      */
     public boolean isOtherData() {
         return otherData;
+    }
+    
+    public boolean isReviewComments() {
+        return reviewComments;
+    }
+    
+    public void setReviewComments(boolean reviewComments) {
+        this.reviewComments = reviewComments;
     }
 }
