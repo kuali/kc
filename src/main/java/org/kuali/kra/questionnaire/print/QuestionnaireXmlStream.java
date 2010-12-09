@@ -243,7 +243,9 @@ public class QuestionnaireXmlStream implements XmlStream {
         String moduleCode = moduleQuestionnaireBean.getModuleItemCode();
         CoeusModule moduleData = getQuestionnaireCouesModule(moduleCode);//txnBean.getModuleData(true);
         String moduleSubItemKey = moduleQuestionnaireBean.getModuleSubItemKey();
-        CoeusSubModule subModuleData = getQuestionnaireCoeusSubModule(moduleCode,moduleSubItemKey);
+        // a bug should be the modulesubitemcode NOT modulesubitemkey
+       // CoeusSubModule subModuleData = getQuestionnaireCoeusSubModule(moduleCode,moduleSubItemKey);
+        CoeusSubModule subModuleData = getQuestionnaireCoeusSubModule(moduleCode,moduleQuestionnaireBean.getModuleSubItemCode());
         
         moduleInfo.setModuleCode(Integer.parseInt(moduleCode));
         moduleInfo.setSubModuleCode(Integer.parseInt(moduleSubItemKey));
