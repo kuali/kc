@@ -21,7 +21,7 @@ package org.kuali.kra.infrastructure;
  */
 public enum AwardRoleConstants {    
 
-    APPLICATION_ADMINISTRATOR("Application Administrator"), AWARD_BUDGET_APPROVER("Award Budget Approver"),
+    AWARD_BUDGET_APPROVER("Award Budget Approver"),
     AWARD_BUDGET_ADMINISTRATOR("Award Budget Admnistrator"), AWARD_MODIFIER("Award Modifier"),
     OSP_ADMINISTRATOR("OSP Administrator"), AWARD_BUDGET_AGGREGATOR("Award Budget Aggregator"),
     AWARD_BUDGET_MAINTAINER("Award Budget Maintainer"), AWARD_DOCUMENTS_MAINTAINER("Award Documents Maintainer"),
