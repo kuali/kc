@@ -135,7 +135,9 @@
                 </td>
                 <td>
                        <div align="left">
-                            &nbsp;
+                            <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.reviewComments" 
+                                                      attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
+                                                      readOnly="false" styleClass="printOptions"/>Review Comments
                         </div>
                 </td>
             </tr>
