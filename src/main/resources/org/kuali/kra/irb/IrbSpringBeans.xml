@@ -172,52 +172,104 @@
                     <property name="taskName" value="submitProtocol" />
                 </bean>
                 
+                <bean class="org.kuali.kra.irb.auth.SubmitProtocolUnavailableAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="submitProtocolUnavailable" />
+                </bean>
+                
                 <bean class="org.kuali.kra.irb.auth.CreateAmendmentAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="createAmendment" />
+                </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.CreateAmendmentUnavailableAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="createAmendmentUnavailable" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ModifyAmendmentSectionsAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="modifyAmendmentSections" />
                 </bean>
                 
+                <bean class="org.kuali.kra.irb.auth.ModifyAmendmentSectionsUnavailableAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="modifyAmendmentSectionsUnavailable" />
+                </bean>
+                
                 <bean class="org.kuali.kra.irb.auth.CreateRenewalAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="createRenewal" />
+                </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.CreateRenewalUnavailableAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="createRenewalUnavailable" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.NotifyIrbAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolNotifyIrb" />
                 </bean>
                 
+                <bean class="org.kuali.kra.irb.auth.NotifyIrbUnavailableAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolNotifyIrbUnavailable" />
+                </bean>
+                
                 <bean class="org.kuali.kra.irb.auth.ProtocolWithdrawAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolWithdraw" />
+                </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.ProtocolWithdrawUnavailableAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolWithdrawUnavailable" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolRequestCloseAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolRequestClose" />
                 </bean>
                 
+                <bean class="org.kuali.kra.irb.auth.ProtocolRequestCloseUnavailableAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolRequestCloseUnavailable" />
+                </bean>
+                
                 <bean class="org.kuali.kra.irb.auth.ProtocolRequestCloseEnrollmentAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolRequestCloseEnrollment" />
+                </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.ProtocolRequestCloseEnrollmentUnavailableAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolRequestCloseEnrollmentUnavailable" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolRequestReOpenEnrollmentAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolRequestReOpenEnrollment" />
                 </bean>
                 
+                <bean class="org.kuali.kra.irb.auth.ProtocolRequestReOpenEnrollmentUnavailableAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolRequestReOpenEnrollmentUnavailable" />
+                </bean>
+                
                 <bean class="org.kuali.kra.irb.auth.ProtocolRequestSuspensionAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolRequestSuspension" />
+                </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.ProtocolRequestSuspensionUnavailableAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolRequestSuspensionUnavailable" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolRequestDataAnalysisAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolRequestDataAnalysis" />
                 </bean>
                 
+                <bean class="org.kuali.kra.irb.auth.ProtocolRequestDataAnalysisUnavailableAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolRequestDataAnalysisUnavailable" />
+                </bean>
+                
                 <bean class="org.kuali.kra.irb.auth.ProtocolRequestTerminateAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolRequestTerminate" />
                 </bean>
                 
+                <bean class="org.kuali.kra.irb.auth.ProtocolRequestTerminateUnavailableAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolRequestTerminateUnavailable" />
+                </bean>
+                
                 <bean class="org.kuali.kra.irb.auth.ProtocolAmendRenewDeleteAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolAmendRenewDelete" />
+                </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.ProtocolAmendRenewDeleteUnavailableAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolAmendRenewDeleteUnavailable" />
                 </bean>
                 
                 <!--  Task Authorizer for modifying persons and their roles on a proposal -->
@@ -269,16 +321,32 @@
                     <property name="taskName" value="protocolAssignToAgenda" />
                 </bean>
                 
+                <bean class="org.kuali.kra.irb.auth.ProtocolAssignToAgendaUnavailableAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolAssignToAgendaUnavailable" />
+                </bean>
+                
                 <bean class="org.kuali.kra.irb.auth.ProtocolAssignCmtSchedAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolAssignToCmtSched" />
+                </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.ProtocolAssignCmtSchedUnavailableAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolAssignToCmtSchedUnavailable" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolAssignReviewersAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolAssignReviewers" />
                 </bean>
                 
+                <bean class="org.kuali.kra.irb.auth.ProtocolAssignReviewersUnavailableAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolAssignReviewersUnavailable" />
+                </bean>
+                
                 <bean class="org.kuali.kra.irb.auth.ProtocolGrantExemptionAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolGrantExemption" />
+                </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.ProtocolGrantExemptionUnavailableAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolGrantExemptionUnavailable" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.AddProtocolNotesAuthorizer" parent="parentAmendmentAuthorizer">
@@ -293,36 +361,72 @@
                     <property name="taskName" value="protocolExpediteApproval" />
                 </bean>
                 
+                <bean class="org.kuali.kra.irb.auth.ExpediteApprovalUnavailableAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolExpediteApprovalUnavailable" />
+                </bean>
+                
                 <bean class="org.kuali.kra.irb.auth.ResponseApprovalAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolResponseApproval" />
+                </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.ResponseApprovalUnavailableAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolResponseApprovalUnavailable" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ApproveProtocolAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolApprove" />
                 </bean>
                 
+                <bean class="org.kuali.kra.irb.auth.ApproveProtocolUnavailableAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolApproveUnavailable" />
+                </bean>
+                
                 <bean class="org.kuali.kra.irb.auth.DisapproveProtocolAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolDisapprove" />
+                </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.DisapproveProtocolUnavailableAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolDisapproveUnavailable" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ReturnForSMRAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolReturnForSMR" />
                 </bean>
                 
+                <bean class="org.kuali.kra.irb.auth.ReturnForSMRUnavailableAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolReturnForSMRUnavailable" />
+                </bean>
+                
                 <bean class="org.kuali.kra.irb.auth.ReturnForSRRAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolReturnForSRR" />
+                </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.ReturnForSRRUnavailableAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolReturnForSRRUnavailable" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.GenericProtocolAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="genericProtocolAction" />
                 </bean>
                 
+                <bean class="org.kuali.kra.irb.auth.GenericProtocolUnavailableAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="genericProtocolActionUnavailable" />
+                </bean>
+                
                 <bean class="org.kuali.kra.irb.auth.AdminCorrectionProtocolAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolAdminCorrection" />
                 </bean>
                 
+                <bean class="org.kuali.kra.irb.auth.AdminCorrectionProtocolUnavailableAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolAdminCorrectionUnavailable" />
+                </bean>
+                
                 <bean class="org.kuali.kra.irb.auth.RecordCommitteeDecisionProtocolAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolRecordCommitteeDecision" />
+                </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.RecordCommitteeDecisionProtocolUnavailableAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolRecordCommitteeDecisionUnavailable" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.EnterRiskLevelProtocolAuthorizer" parent="parentProtocolAuthorizer">
@@ -342,23 +446,41 @@
                 <bean class="org.kuali.kra.irb.auth.IrbAcknowledgementAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="irbAcknowledgement" />
                 </bean>
+                <bean class="org.kuali.kra.irb.auth.IrbAcknowledgementUnavailableAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="irbAcknowledgementUnavailable" />
+                </bean>
                 <bean class="org.kuali.kra.irb.auth.ModifyProtocolSubmissionAuthorizer" parent="parentProtocolAuthorizer">
                 	<property name="taskName" value="modifyProtocolSubmisison"/>
+                </bean>
+                <bean class="org.kuali.kra.irb.auth.ModifyProtocolSubmissionUnavailableAuthorizer" parent="parentProtocolAuthorizer">
+                	<property name="taskName" value="modifyProtocolSubmisisonUnavailable"/>
                 </bean>
                 <bean class="org.kuali.kra.irb.auth.ProtocolDeferAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolDefer" />
                 </bean>
+                <bean class="org.kuali.kra.irb.auth.ProtocolDeferUnavailableAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolDeferUnavailable" />
+                </bean>
                 <bean class="org.kuali.kra.irb.auth.ProtocolReviewNotRequiredAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolReviewNotRequired" />
                 </bean>    
+                <bean class="org.kuali.kra.irb.auth.ProtocolReviewNotRequiredUnavailableAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolReviewNotRequiredUnavailable" />
+                </bean>    
                 <bean class="org.kuali.kra.irb.auth.ManageReviewCommentsAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolManageReviewComments" />
+                </bean>           
+                <bean class="org.kuali.kra.irb.auth.ManageReviewCommentsUnavailableAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolManageReviewCommentsUnavailable" />
                 </bean>           
                 <bean class="org.kuali.kra.irb.auth.ProtocolApproveOtherAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolApproveOther" />
                 </bean>   
                 <bean class="org.kuali.kra.irb.auth.ProtocolManageNotesAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolManageNotes" />
+                </bean>   
+                <bean class="org.kuali.kra.irb.auth.ProtocolManageNotesUnavailableAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolManageNotesUnavailable" />
                 </bean>   
             </list>
         </property>
