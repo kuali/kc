@@ -16,6 +16,7 @@
 package org.kuali.kra.questionnaire.answer;
 
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 
 /**
  * This class is intend as a link between modules & questionnaire answer So, Questionnaire answer service can be shared.
@@ -36,11 +37,16 @@ public class ModuleQuestionnaireBean {
         super();
     }
 
+    public ModuleQuestionnaireBean(String moduleItemCode, DevelopmentProposal developmentProposal) {
+        //TODO : temporary set up for PD. 
+        this(moduleItemCode, developmentProposal.getProposalNumber(), "0", "0", developmentProposal.getProposalDocument().getDocumentHeader().getWorkflowDocument().stateIsApproved());      
+  }
+
     public ModuleQuestionnaireBean(String moduleItemCode, Protocol protocol) {
-          this(moduleItemCode, protocol.getProtocolNumber(), "0", protocol.getSequenceNumber().toString(), protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().stateIsApproved());
-          setProtocolSubItemCode(protocol) ;
-        
-    }
+        this(moduleItemCode, protocol.getProtocolNumber(), "0", protocol.getSequenceNumber().toString(), protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().stateIsApproved());
+        setProtocolSubItemCode(protocol) ;
+      
+  }
 
     public ModuleQuestionnaireBean(String moduleItemCode, String moduleItemKey, String moduleSubItemCode, String moduleSubItemKey, boolean finalDoc) {
         this.moduleItemCode = moduleItemCode;
