@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.irb.questionnaire;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.DocumentNextvalue;
@@ -29,37 +24,28 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.auth.ProtocolTask;
-import org.kuali.kra.questionnaire.QuestionnaireUsage;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.QuestionnaireHelperBase;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
-import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kns.util.GlobalVariables;
-
-import java.util.Collections;
 
 /**
  * 
  * This is Helper class for protocol questionnaire.
  */
-public class QuestionnaireHelper implements Serializable {
+public class QuestionnaireHelper extends QuestionnaireHelperBase {
+
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
-    private static final long serialVersionUID = 2799300472544313825L;
-    private static final String UPDATE_WITH_NO_ANSWER_COPY = "1";
+    private static final long serialVersionUID = -8923292365833681926L;
 
     /**
      * Each Helper must contain a reference to its document form so that it can access the actual document.
      */
     private ProtocolForm form;
 
-    private boolean answerQuestionnaire = false;
-
-    private List<AnswerHeader> answerHeaders;
-    private List<String> headerLabels;
-    transient private QuestionnaireAnswerService questionnaireAnswerService;
     private String submissionActionTypeCode;
     private String protocolNumber;
     private String submissionNumber; 
@@ -87,7 +73,24 @@ public class QuestionnaireHelper implements Serializable {
      */
     private void initializePermissions(Protocol protocol) {
         ProtocolTask task = new ProtocolTask(TaskName.ANSWER_PROTOCOL_QUESTIONNAIRE, protocol);
-        answerQuestionnaire = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+        setAnswerQuestionnaire(getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task));
+    }
+
+    public String getModuleCode() {
+        return CoeusModule.IRB_MODULE_CODE;
+    }
+
+    public ModuleQuestionnaireBean getModuleQnBean() {
+        //return new ModuleQuestionnaireBean(getModuleCode(), getProtocol());
+        ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, getProtocol());
+        if (StringUtils.isNotBlank(getSubmissionActionTypeCode())) {
+            // TODO : need to figure out a way to set subitemkey which is submissionnumber.
+            // however, submissionnumber will not be available until it is submitted
+            moduleQuestionnaireBean.setModuleSubItemCode("2");
+            moduleQuestionnaireBean.setModuleSubItemKey(getNextSubmissionNumber(getProtocol()).toString());
+        }
+        return moduleQuestionnaireBean;
+
     }
 
     private Protocol getProtocol() {
@@ -106,38 +109,6 @@ public class QuestionnaireHelper implements Serializable {
         return GlobalVariables.getUserSession().getPrincipalId();
     }
 
-    public boolean isAnswerQuestionnaire() {
-        return answerQuestionnaire;
-    }
-
-    public void setAnswerQuestionnaire(boolean answerQuestionnaire) {
-        this.answerQuestionnaire = answerQuestionnaire;
-    }
-
-    public List<AnswerHeader> getAnswerHeaders() {
-        return answerHeaders;
-    }
-
-    public void setAnswerHeaders(List<AnswerHeader> answerHeaders) {
-        this.answerHeaders = answerHeaders;
-    }
-
-    /**
-     * 
-     * This method get/setup questionnaire answers when 'questionnaire' page is clicked.
-     */
-    public void populateAnswers() {
-        ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, getProtocol());
-        if (StringUtils.isNotBlank(getSubmissionActionTypeCode())) {
-            // TODO : need to figure out a way to set subitemkey which is submissionnumber.
-            // however, submissionnumber will not be available until it is submitted
-            moduleQuestionnaireBean.setModuleSubItemCode("2");
-            moduleQuestionnaireBean.setModuleSubItemKey(getNextSubmissionNumber(getProtocol()).toString());
-        }
-        setAnswerHeaders(getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean));
-        resetHeaderLabels();
-    }
-
     private Integer getNextSubmissionNumber(Protocol protocol) {
         Integer propNextValue = 1;
         String propertyName = "submissionNumber";
@@ -148,91 +119,6 @@ public class QuestionnaireHelper implements Serializable {
             }
         }
         return propNextValue;
-    }
-
-    /**
-     * set up the tab labels for each questionnaire 
-     */
-    public void resetHeaderLabels() {
-        List<String> labels = new ArrayList<String>();
-        for (AnswerHeader answerHeader : answerHeaders) {
-            labels.add(getQuestionnaireLabel(answerHeader.getQuestionnaire().getQuestionnaireUsages(), answerHeader.getModuleSubItemCode()));
-        }
-        setHeaderLabels(labels);
-     
-    }
-    
-    /*
-     * get questionnaire display label from the appropriate questionnaire usage
-     */
-    private String getQuestionnaireLabel(List<QuestionnaireUsage> usages, String moduleSubItemCode) {
-        if (CollectionUtils.isNotEmpty(usages) && usages.size() > 1) {
-            Collections.sort((List<QuestionnaireUsage>) usages);
-           // Collections.reverse((List<QuestionnaireUsage>) usages);
-        }
-        for (QuestionnaireUsage usage : usages) {
-            if (CoeusModule.IRB_MODULE_CODE.equals(usage.getModuleItemCode()) && moduleSubItemCode.equals(usage.getModuleSubItemCode())) {
-                return usage.getQuestionnaireLabel();
-            }
-        }
-        return null;
-    }
-
-    private QuestionnaireAnswerService getQuestionnaireAnswerService() {
-        if (questionnaireAnswerService == null) {
-            questionnaireAnswerService = KraServiceLocator.getService(QuestionnaireAnswerService.class);
-        }
-        return questionnaireAnswerService;
-    }
-
-    public List<String> getHeaderLabels() {
-        return headerLabels;
-    }
-
-    public void setHeaderLabels(List<String> headerLabels) {
-        this.headerLabels = headerLabels;
-    }
-
-    /**
-     * 
-     * This method is for the 'update' button to update questionnaire answer to newer version
-     * either copy old answer to the new version or Not.
-     * @param answerHeaderIndex
-     */
-    public void updateQuestionnaireAnswer(int answerHeaderIndex) {
-        AnswerHeader answerHeader = answerHeaders.get(answerHeaderIndex);
-        if (UPDATE_WITH_NO_ANSWER_COPY.equals(answerHeader.getUpdateOption())) {
-            // no copy
-            answerHeaders.remove(answerHeaderIndex);
-            answerHeaders.add(answerHeaderIndex, questionnaireAnswerService.getNewVersionAnswerHeader(new ModuleQuestionnaireBean(
-                CoeusModule.IRB_MODULE_CODE, getProtocol()), answerHeader.getQuestionnaire()));
-        } else {
-            AnswerHeader newAnswerHeader = questionnaireAnswerService.getNewVersionAnswerHeader(new ModuleQuestionnaireBean(
-                CoeusModule.IRB_MODULE_CODE, getProtocol()), answerHeader.getQuestionnaire());
-            questionnaireAnswerService.copyAnswerToNewVersion(answerHeader, newAnswerHeader);
-            answerHeaders.remove(answerHeaderIndex);
-            answerHeaders.add(answerHeaderIndex, newAnswerHeader);
-        }
-        resetHeaderLabels();
-
-    }
-    
-    /**
-     * 
-     * This method is to do a couple of things, move question answer and re-evaluate 'completed' flag.
-     */
-    public void preSave() {
-        getQuestionnaireAnswerService().preSave(answerHeaders);
-    }
-    
-    /**
-     * 
-     * This method to update whether a child question answer is to be displayed or not.  This is specifically
-     * used when 'lookup' value is returned because the js 'onchange' is not working in this case.
-     * @param headerIndex
-     */
-    public void updateChildIndicator(int headerIndex) {
-        questionnaireAnswerService.setupChildAnswerIndicator(answerHeaders.get(headerIndex).getAnswers());
     }
 
     public String getSubmissionActionTypeCode() {
