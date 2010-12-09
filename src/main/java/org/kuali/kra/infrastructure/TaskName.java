@@ -70,10 +70,14 @@ public interface TaskName {
     public static final String MODIFY_PROTOCOL_ROLES = "modifyProtocolRoles";
     public static final String ADD_PROTOCOL_NOTES = "addProtocolNotes";
     public static final String CREATE_PROTOCOL_AMMENDMENT = "createAmendment";
+    public static final String CREATE_PROTOCOL_AMMENDMENT_UNAVAILABLE = "createAmendmentUnavailable";
     public static final String MODIFY_PROTOCOL_AMMENDMENT_SECTIONS = "modifyAmendmentSections";
+    public static final String MODIFY_PROTOCOL_AMMENDMENT_SECTIONS_UNAVAILABLE = "modifyAmendmentSectionsUnavailable";
     public static final String CREATE_PROTOCOL_RENEWAL = "createRenewal";
+    public static final String CREATE_PROTOCOL_RENEWAL_UNAVAILABLE = "createRenewalUnavailable";
     public static final String MODIFY_PROTOCOL_BILLABLE = "modifyBillable";
     public static final String SUBMIT_PROTOCOL = "submitProtocol";
+    public static final String SUBMIT_PROTOCOL_UNAVAILABLE = "submitProtocolUnavailable";
     public static final String MODIFY_PROTOCOL_GENERAL_INFO = "modifyProtocolGeneralInfo";
     public static final String MODIFY_PROTOCOL_FUNDING_SOURCE = "modifyProtocolFundingSource";
     public static final String MODIFY_PROTOCOL_REFERENCES = "modifyProtocolReferences";
@@ -85,25 +89,44 @@ public interface TaskName {
     public static final String MODIFY_PROTOCOL_PERSONNEL = "modifyProtocolPersonnel";
     public static final String MODIFY_PROTOCOL_OTHERS = "modifyProtocolOthers";
     public static final String NOTIFY_IRB = "protocolNotifyIrb";
+    public static final String NOTIFY_IRB_UNAVAILABLE = "protocolNotifyIrbUnavailable";
     public static final String PROTOCOL_WITHDRAW = "protocolWithdraw";
+    public static final String PROTOCOL_WITHDRAW_UNAVAILABLE = "protocolWithdrawUnavailable";
     public static final String PROTOCOL_REQUEST_CLOSE = "protocolRequestClose";
+    public static final String PROTOCOL_REQUEST_CLOSE_UNAVAILABLE = "protocolRequestCloseUnavailable";
     public static final String PROTOCOL_REQUEST_SUSPENSION = "protocolRequestSuspension";
+    public static final String PROTOCOL_REQUEST_SUSPENSION_UNAVAILABLE = "protocolRequestSuspensionUnavailable";
     public static final String PROTOCOL_REQUEST_CLOSE_ENROLLMENT = "protocolRequestCloseEnrollment";
+    public static final String PROTOCOL_REQUEST_CLOSE_ENROLLMENT_UNAVAILABLE = "protocolRequestCloseEnrollmentUnavailable";
     public static final String PROTOCOL_REQUEST_REOPEN_ENROLLMENT = "protocolRequestReOpenEnrollment";
+    public static final String PROTOCOL_REQUEST_REOPEN_ENROLLMENT_UNAVAILABLE = "protocolRequestReOpenEnrollmentUnavailable";
     public static final String PROTOCOL_REQUEST_DATA_ANALYSIS = "protocolRequestDataAnalysis";
+    public static final String PROTOCOL_REQUEST_DATA_ANALYSIS_UNAVAILABLE = "protocolRequestDataAnalysisUnavailable";
     public static final String PROTOCOL_REQUEST_TERMINATE = "protocolRequestTerminate";
+    public static final String PROTOCOL_REQUEST_TERMINATE_UNAVAILABLE = "protocolRequestTerminateUnavailable";
     public static final String PROTOCOL_AMEND_RENEW_DELETE = "protocolAmendRenewDelete";
+    public static final String PROTOCOL_AMEND_RENEW_DELETE_UNAVAILABLE = "protocolAmendRenewDeleteUnavailable";
     public static final String ASSIGN_TO_AGENDA = "protocolAssignToAgenda";
+    public static final String ASSIGN_TO_AGENDA_UNAVAILABLE = "protocolAssignToAgendaUnavailable";
     public static final String ASSIGN_TO_COMMITTEE_SCHEDULE = "protocolAssignToCmtSched";
+    public static final String ASSIGN_TO_COMMITTEE_SCHEDULE_UNAVAILABLE = "protocolAssignToCmtSchedUnavailable";
     public static final String ASSIGN_REVIEWERS = "protocolAssignReviewers";
+    public static final String ASSIGN_REVIEWERS_UNAVAILABLE = "protocolAssignReviewersUnavailable";
     public static final String GRANT_EXEMPTION = "protocolGrantExemption";
+    public static final String GRANT_EXEMPTION_UNAVAILABLE = "protocolGrantExemptionUnavailable";
     public static final String VIEW_RESTRICTED_NOTES = "viewRestrictedNotes";
     public static final String EXPEDITE_APPROVAL = "protocolExpediteApproval";
+    public static final String EXPEDITE_APPROVAL_UNAVAILABLE = "protocolExpediteApprovalUnavailable";
     public static final String RESPONSE_APPROVAL = "protocolResponseApproval";
+    public static final String RESPONSE_APPROVAL_UNAVAILABLE = "protocolResponseApprovalUnavailable";
     public static final String APPROVE_PROTOCOL = "protocolApprove";
+    public static final String APPROVE_PROTOCOL_UNAVAILABLE = "protocolApproveUnavailable";
     public static final String DISAPPROVE_PROTOCOL = "protocolDisapprove";
+    public static final String DISAPPROVE_PROTOCOL_UNAVAILABLE = "protocolDisapproveUnavailable";
     public static final String RETURN_FOR_SMR = "protocolReturnForSMR";
+    public static final String RETURN_FOR_SMR_UNAVAILABLE = "protocolReturnForSMRUnavailable";
     public static final String RETURN_FOR_SRR = "protocolReturnForSRR";
+    public static final String RETURN_FOR_SRR_UNAVAILABLE = "protocolReturnForSRRUnavailable";
     public static final String REOPEN_PROTOCOL = "protocolReopen";
     public static final String CLOSE_ENROLLMENT_PROTOCOL = "protocolCloseEnrollment";
     public static final String SUSPEND_PROTOCOL = "protocolSuspend";
@@ -113,16 +136,24 @@ public interface TaskName {
     public static final String TERMINATE_PROTOCOL = "protocolTerminate";
     public static final String PERMIT_DATA_ANALYSIS = "protocolPermitDataAnalysis";
     public static final String PROTOCOL_ADMIN_CORRECTION = "protocolAdminCorrection";
+    public static final String PROTOCOL_ADMIN_CORRECTION_UNAVAILABLE = "protocolAdminCorrectionUnavailable";
     public static final String PROTOCOL_UNDO_LAST_ACTION = "protocolUndoLastAction";
     public static final String RECORD_COMMITTEE_DECISION = "protocolRecordCommitteeDecision";
+    public static final String RECORD_COMMITTEE_DECISION_UNAVAILABLE = "protocolRecordCommitteeDecisionUnavailable";
     public static final String ENTER_RISK_LEVEL = "protocolEnterRiskLevel";
     public static final String IRB_ACKNOWLEDGEMENT = "irbAcknowledgement";
+    public static final String IRB_ACKNOWLEDGEMENT_UNAVAILABLE = "irbAcknowledgementUnavailable";
     public static final String MODIFY_PROTOCOL_SUBMISSION = "modifyProtocolSubmisison";
+    public static final String MODIFY_PROTOCOL_SUBMISSION_UNAVAILABLE = "modifyProtocolSubmisisonUnavailable";
     public static final String DEFER_PROTOCOL = "protocolDefer";
+    public static final String DEFER_PROTOCOL_UNAVAILABLE = "protocolDeferUnavailable";
     public static final String PROTOCOL_REVIEW_NOT_REQUIRED = "protocolReviewNotRequired";
+    public static final String PROTOCOL_REVIEW_NOT_REQUIRED_UNAVAILABLE = "protocolReviewNotRequiredUnavailable";
     public static final String PROTOCOL_MANAGE_REVIEW_COMMENTS = "protocolManageReviewComments";
+    public static final String PROTOCOL_MANAGE_REVIEW_COMMENTS_UNAVAILABLE = "protocolManageReviewCommentsUnavailable";
     public static final String PROTOCOL_APPROVE_OTHER = "protocolApproveOther";
     public static final String PROTOCOL_MANAGE_NOTES = "protocolManageNotes";
+    public static final String PROTOCOL_MANAGE_NOTES_UNAVAILABLE = "protocolManageNotesUnavailable";
     
     /*
      * Protocol - Online Review Tasks
@@ -137,6 +168,7 @@ public interface TaskName {
      * Generic Action task
      */
     public static final String GENERIC_PROTOCOL_ACTION = "genericProtocolAction";
+    public static final String GENERIC_PROTOCOL_ACTION_UNAVAILABLE = "genericProtocolActionUnavailable";
     
     /*
      * Committee Tasks.

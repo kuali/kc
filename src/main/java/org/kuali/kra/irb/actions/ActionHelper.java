@@ -118,49 +118,89 @@ public class ActionHelper implements Serializable {
     private ProtocolForm form;
     
     private boolean canSubmitProtocol = false;
+    private boolean canSubmitProtocolUnavailable = false;
     private String submissionConstraint;
     
     private boolean canCreateAmendment = false;
+    private boolean canCreateAmendmentUnavailable = false;
     private boolean canModifyAmendmentSections = false;
+    private boolean canModifyAmendmentSectionsUnavailable = false;
     private boolean canCreateRenewal = false;
+    private boolean canCreateRenewalUnavailable = false;
     private boolean canNotifyIrb = false;
+    private boolean canNotifyIrbUnavailable = false;
     private boolean canWithdraw = false;
+    private boolean canWithdrawUnavailable = false;
     private boolean canRequestClose = false;
+    private boolean canRequestCloseUnavailable = false;
     private boolean canRequestSuspension = false;
+    private boolean canRequestSuspensionUnavailable = false;
     private boolean canRequestCloseEnrollment = false;
+    private boolean canRequestCloseEnrollmentUnavailable = false;
     private boolean canRequestReOpenEnrollment = false;
+    private boolean canRequestReOpenEnrollmentUnavailable = false;
     private boolean canRequestDataAnalysis = false;
+    private boolean canRequestDataAnalysisUnavailable = false;
     private boolean canRequestTerminate = false;
+    private boolean canRequestTerminateUnavailable = false;
     private boolean canDeleteProtocolAmendRenew = false;
+    private boolean canDeleteProtocolAmendRenewUnavailable = false;
     private boolean canAssignToAgenda = false;
+    private boolean canAssignToAgendaUnavailable = false;
     private boolean canAssignCmtSched = false;
+    private boolean canAssignCmtSchedUnavailable = false;
     private boolean canAssignReviewers = false;
+    private boolean canAssignReviewersUnavailable = false;
     private boolean canGrantExemption = false;
+    private boolean canGrantExemptionUnavailable = false;
     private boolean canApproveFull = false;
+    private boolean canApproveFullUnavailable = false;
     private boolean canApproveExpedited = false;
+    private boolean canApproveExpeditedUnavailable = false;
     private boolean canApproveResponse = false;
+    private boolean canApproveResponseUnavailable = false;
     private boolean canDisapprove = false;
+    private boolean canDisapproveUnavailable = false;
     private boolean canReturnForSMR = false;
+    private boolean canReturnForSMRUnavailable = false;
     private boolean canReturnForSRR = false;
+    private boolean canReturnForSRRUnavailable = false;
     private boolean canReopenEnrollment = false;
+    private boolean canReopenEnrollmentUnavailable = false;
     private boolean canCloseEnrollment = false;
+    private boolean canCloseEnrollmentUnavailable = false;
     private boolean canSuspend = false;
+    private boolean canSuspendUnavailable = false;
     private boolean canSuspendByDsmb = false;
+    private boolean canSuspendByDsmbUnavailable = false;
     private boolean canClose = false;
+    private boolean canCloseUnavailable = false;
     private boolean canExpire = false;
+    private boolean canExpireUnavailable = false;
     private boolean canTerminate = false;
+    private boolean canTerminateUnavailable = false;
     private boolean canPermitDataAnalysis = false;
+    private boolean canPermitDataAnalysisUnavailable = false;
     private boolean canEnterRiskLevel = false;
     private boolean canMakeAdminCorrection = false;
+    private boolean canMakeAdminCorrectionUnavailable = false;
     private boolean canRecordCommitteeDecision = false;
+    private boolean canRecordCommitteeDecisionUnavailable = false;
     private boolean canUndoLastAction = false;
+    private boolean canUndoLastActionUnavailable = false;
     private boolean canModifyProtocolSubmission = false;
+    private boolean canModifyProtocolSubmissionUnavailable = false;
     private boolean canIrbAcknowledgement = false;
+    private boolean canIrbAcknowledgementUnavailable = false;
     private boolean canDefer = false;
+    private boolean canDeferUnavailable = false;
     private boolean canReviewNotRequired = false;
+    private boolean canReviewNotRequiredUnavailable = false;
     private boolean canManageReviewComments = false;
+    private boolean canManageReviewCommentsUnavailable = false;
     private boolean canApproveOther = false;
     private boolean canManageNotes = false;
+    private boolean canManageNotesUnavailable = false;
 
     private boolean isApproveOpenForFollowup;
     private boolean isDisapproveOpenForFollowup;
@@ -665,52 +705,92 @@ public class ActionHelper implements Serializable {
     public void prepareView() throws Exception {
         protocolSubmitAction.prepareView();
         canSubmitProtocol = hasSubmitProtocolPermission();
+        canSubmitProtocolUnavailable = hasSubmitProtocolUnavailablePermission();
         assignToAgendaBean.prepareView();
         assignCmtSchedBean.prepareView();
         protocolAssignReviewersBean.prepareView();
         submissionConstraint = getParameterValue(Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION);
         
         canCreateAmendment = hasCreateAmendmentPermission();
+        canCreateAmendmentUnavailable = hasCreateAmendmentUnavailablePermission();
         canModifyAmendmentSections = hasModifyAmendmentSectionsPermission();
+        canModifyAmendmentSectionsUnavailable = hasModifyAmendmentSectionsUnavailablePermission();
         canCreateRenewal = hasCreateRenewalPermission();
+        canCreateRenewalUnavailable = hasCreateRenewalUnavailablePermission();
         canNotifyIrb = hasNotifyIrbPermission();
+        canNotifyIrbUnavailable = hasNotifyIrbUnavailablePermission();
         canWithdraw = hasWithdrawPermission();
+        canWithdrawUnavailable = hasWithdrawUnavailablePermission();
         canRequestClose = hasRequestClosePermission();
+        canRequestCloseUnavailable = hasRequestCloseUnavailablePermission();
         canRequestSuspension = hasRequestSuspensionPermission();
+        canRequestSuspensionUnavailable = hasRequestSuspensionUnavailablePermission();
         canRequestCloseEnrollment = hasRequestCloseEnrollmentPermission();
+        canRequestCloseEnrollmentUnavailable = hasRequestCloseEnrollmentUnavailablePermission();
         canRequestReOpenEnrollment = hasRequestReOpenEnrollmentPermission();
+        canRequestReOpenEnrollmentUnavailable = hasRequestReOpenEnrollmentUnavailablePermission();
         canRequestDataAnalysis = hasRequestDataAnalysisPermission();
+        canRequestDataAnalysisUnavailable = hasRequestDataAnalysisUnavailablePermission();
         canRequestTerminate = hasRequestTerminatePermission();
+        canRequestTerminateUnavailable = hasRequestTerminateUnavailablePermission();
         canDeleteProtocolAmendRenew = hasDeleteProtocolAmendRenewPermission();
+        canDeleteProtocolAmendRenewUnavailable = hasDeleteProtocolAmendRenewUnavailablePermission();
         canAssignToAgenda = hasAssignToAgendaPermission();
+        canAssignToAgendaUnavailable = hasAssignToAgendaUnavailablePermission();
         canAssignCmtSched = hasAssignCmtSchedPermission();
+        canAssignCmtSchedUnavailable = hasAssignCmtSchedUnavailablePermission();
         canAssignReviewers = hasAssignReviewersPermission();
+        canAssignReviewersUnavailable = hasAssignReviewersUnavailablePermission();
         canGrantExemption = hasGrantExemptionPermission();
+        canGrantExemptionUnavailable = hasGrantExemptionUnavailablePermission();
         canApproveFull = hasFullApprovePermission();
+        canApproveFullUnavailable = hasFullApproveUnavailablePermission();
         canApproveExpedited = hasExpeditedApprovalPermission();
+        canApproveExpeditedUnavailable = hasExpeditedApprovalUnavailablePermission();
         canApproveResponse = hasResponseApprovalPermission();
+        canApproveResponseUnavailable = hasResponseApprovalUnavailablePermission();
         canDisapprove = hasDisapprovePermission();
+        canDisapproveUnavailable = hasDisapproveUnavailablePermission();
         canReturnForSMR = hasReturnForSMRPermission();
+        canReturnForSMRUnavailable = hasReturnForSMRUnavailablePermission();
         canReturnForSRR = hasReturnForSRRPermission();
+        canReturnForSRRUnavailable = hasReturnForSRRUnavailablePermission();
         canReopenEnrollment = hasReopenEnrollmentPermission();
+        canReopenEnrollmentUnavailable = hasReopenEnrollmentUnavailablePermission();
         canCloseEnrollment = hasCloseEnrollmentPermission();
+        canCloseEnrollmentUnavailable = hasCloseEnrollmentUnavailablePermission();
         canSuspend = hasSuspendPermission();
+        canSuspendUnavailable = hasSuspendUnavailablePermission();
         canSuspendByDsmb = hasSuspendByDsmbPermission();
+        canSuspendByDsmbUnavailable = hasSuspendByDsmbUnavailablePermission();
         canClose = hasClosePermission();
+        canCloseUnavailable = hasCloseUnavailablePermission();
         canExpire = hasExpirePermission();
+        canExpireUnavailable = hasExpireUnavailablePermission();
         canTerminate = hasTerminatePermission();
+        canTerminateUnavailable = hasTerminateUnavailablePermission();
         canPermitDataAnalysis = hasPermitDataAnalysisPermission();
+        canPermitDataAnalysisUnavailable = hasPermitDataAnalysisUnavailablePermission();
         canMakeAdminCorrection = hasAdminCorrectionPermission();
+        canMakeAdminCorrectionUnavailable = hasAdminCorrectionUnavailablePermission();
         canRecordCommitteeDecision = hasRecordCommitteeDecisionPermission();
+        canRecordCommitteeDecisionUnavailable = hasRecordCommitteeDecisionUnavailablePermission();
         canEnterRiskLevel = hasEnterRiskLevelPermission();
         canUndoLastAction = hasUndoLastActionPermission();
+        canUndoLastActionUnavailable = hasUndoLastActionUnavailablePermission();
         canIrbAcknowledgement = hasIrbAcknowledgementPermission();
+        canIrbAcknowledgementUnavailable = hasIrbAcknowledgementUnavailablePermission();
         canDefer = hasDeferPermission();
+        canDeferUnavailable = hasDeferUnavailablePermission();
         canModifyProtocolSubmission = hasCanModifySubmissionPermission();
+        canModifyProtocolSubmissionUnavailable = hasCanModifySubmissionUnavailablePermission();
         canReviewNotRequired = hasReviewNotRequiredPermission();
+        canReviewNotRequiredUnavailable = hasReviewNotRequiredUnavailablePermission();
         canManageReviewComments = hasManageReviewCommentsPermission();
+        canManageReviewCommentsUnavailable = hasManageReviewCommentsUnavailablePermission();
         canApproveOther = hasApproveOtherPermission();
-        canManageNotes = hasManageNotesPermision();
+        canManageNotes = hasManageNotesPermission();
+        canManageNotesUnavailable = hasManageNotesUnavailablePermission();
         
         followupActionActions = getFollowupActionService().getFollowupsForProtocol(form.getProtocolDocument().getProtocol());
         
@@ -809,8 +889,18 @@ public class ActionHelper implements Serializable {
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
+    private boolean hasSubmitProtocolUnavailablePermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.SUBMIT_PROTOCOL_UNAVAILABLE, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
     private boolean hasCreateAmendmentPermission() {
         ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_AMMENDMENT, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    private boolean hasCreateAmendmentUnavailablePermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_AMMENDMENT_UNAVAILABLE, getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
@@ -819,8 +909,18 @@ public class ActionHelper implements Serializable {
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
+    private boolean hasModifyAmendmentSectionsUnavailablePermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_AMMENDMENT_SECTIONS_UNAVAILABLE, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
     private boolean hasCreateRenewalPermission() {
         ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_RENEWAL, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    private boolean hasCreateRenewalUnavailablePermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_RENEWAL_UNAVAILABLE, getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
@@ -829,8 +929,18 @@ public class ActionHelper implements Serializable {
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
+    private boolean hasNotifyIrbUnavailablePermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.NOTIFY_IRB_UNAVAILABLE, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
     private boolean hasWithdrawPermission() {
         ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_WITHDRAW, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    private boolean hasWithdrawUnavailablePermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_WITHDRAW_UNAVAILABLE, getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
@@ -839,8 +949,18 @@ public class ActionHelper implements Serializable {
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
+    private boolean hasRequestCloseUnavailablePermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_CLOSE_UNAVAILABLE, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
     private boolean hasRequestSuspensionPermission() {
         ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_SUSPENSION, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    private boolean hasRequestSuspensionUnavailablePermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_SUSPENSION_UNAVAILABLE, getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
@@ -849,8 +969,18 @@ public class ActionHelper implements Serializable {
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
+    private boolean hasRequestCloseEnrollmentUnavailablePermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_CLOSE_ENROLLMENT_UNAVAILABLE, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
     private boolean hasRequestReOpenEnrollmentPermission() {
         ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_REOPEN_ENROLLMENT, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    private boolean hasRequestReOpenEnrollmentUnavailablePermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_REOPEN_ENROLLMENT_UNAVAILABLE, getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
@@ -859,8 +989,18 @@ public class ActionHelper implements Serializable {
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
+    private boolean hasRequestDataAnalysisUnavailablePermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_DATA_ANALYSIS_UNAVAILABLE, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
     private boolean hasRequestTerminatePermission() {
         ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_TERMINATE, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    private boolean hasRequestTerminateUnavailablePermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_TERMINATE_UNAVAILABLE, getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
@@ -869,8 +1009,18 @@ public class ActionHelper implements Serializable {
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
+    private boolean hasDeleteProtocolAmendRenewUnavailablePermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_AMEND_RENEW_DELETE_UNAVAILABLE, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
     private boolean hasAssignToAgendaPermission() {
         ProtocolTask task = new ProtocolTask(TaskName.ASSIGN_TO_AGENDA, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    private boolean hasAssignToAgendaUnavailablePermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.ASSIGN_TO_AGENDA_UNAVAILABLE, getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
@@ -879,8 +1029,18 @@ public class ActionHelper implements Serializable {
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
+    private boolean hasAssignCmtSchedUnavailablePermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.ASSIGN_TO_COMMITTEE_SCHEDULE_UNAVAILABLE, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
     private boolean hasAssignReviewersPermission() {
         ProtocolTask task = new ProtocolTask(TaskName.ASSIGN_REVIEWERS, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    private boolean hasAssignReviewersUnavailablePermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.ASSIGN_REVIEWERS_UNAVAILABLE, getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
@@ -888,72 +1048,144 @@ public class ActionHelper implements Serializable {
         return hasPermission(TaskName.GRANT_EXEMPTION);
     }
     
+    private boolean hasGrantExemptionUnavailablePermission() {
+        return hasPermission(TaskName.GRANT_EXEMPTION_UNAVAILABLE);
+    }
+    
     private boolean hasFullApprovePermission() {
         return hasPermission(TaskName.APPROVE_PROTOCOL);
+    }
+    
+    private boolean hasFullApproveUnavailablePermission() {
+        return hasPermission(TaskName.APPROVE_PROTOCOL_UNAVAILABLE);
     }
     
     private boolean hasExpeditedApprovalPermission() {
         return hasPermission(TaskName.EXPEDITE_APPROVAL);
     }
     
+    private boolean hasExpeditedApprovalUnavailablePermission() {
+        return hasPermission(TaskName.EXPEDITE_APPROVAL_UNAVAILABLE);
+    }
+    
     private boolean hasResponseApprovalPermission() {
         return hasPermission(TaskName.RESPONSE_APPROVAL);
+    }
+    
+    private boolean hasResponseApprovalUnavailablePermission() {
+        return hasPermission(TaskName.RESPONSE_APPROVAL_UNAVAILABLE);
     }
     
     private boolean hasDisapprovePermission() {
         return hasPermission(TaskName.DISAPPROVE_PROTOCOL);
     }
     
+    private boolean hasDisapproveUnavailablePermission() {
+        return hasPermission(TaskName.DISAPPROVE_PROTOCOL_UNAVAILABLE);
+    }
+    
     private boolean hasReturnForSMRPermission() {
         return hasPermission(TaskName.RETURN_FOR_SMR);
+    }
+    
+    private boolean hasReturnForSMRUnavailablePermission() {
+        return hasPermission(TaskName.RETURN_FOR_SMR_UNAVAILABLE);
     }
     
     private boolean hasReturnForSRRPermission() {
         return hasPermission(TaskName.RETURN_FOR_SRR);
     }
     
+    private boolean hasReturnForSRRUnavailablePermission() {
+        return hasPermission(TaskName.RETURN_FOR_SRR_UNAVAILABLE);
+    }
+    
     private boolean hasReopenEnrollmentPermission() {
         return hasGenericPermission(GenericProtocolAuthorizer.REOPEN_PROTOCOL);
+    }
+    
+    private boolean hasReopenEnrollmentUnavailablePermission() {
+        return hasGenericUnavailablePermission(GenericProtocolAuthorizer.REOPEN_PROTOCOL);
     }
     
     private boolean hasCloseEnrollmentPermission() {
         return hasGenericPermission(GenericProtocolAuthorizer.CLOSE_ENROLLMENT_PROTOCOL);
     }
     
+    private boolean hasCloseEnrollmentUnavailablePermission() {
+        return hasGenericUnavailablePermission(GenericProtocolAuthorizer.CLOSE_ENROLLMENT_PROTOCOL);
+    }
+    
     private boolean hasSuspendPermission() {
         return hasGenericPermission(GenericProtocolAuthorizer.SUSPEND_PROTOCOL);
+    }
+    
+    private boolean hasSuspendUnavailablePermission() {
+        return hasGenericUnavailablePermission(GenericProtocolAuthorizer.SUSPEND_PROTOCOL);
     }
     
     private boolean hasSuspendByDsmbPermission() {
         return hasGenericPermission(GenericProtocolAuthorizer.SUSPEND_PROTOCOL_BY_DSMB);
     }
     
+    private boolean hasSuspendByDsmbUnavailablePermission() {
+        return hasGenericUnavailablePermission(GenericProtocolAuthorizer.SUSPEND_PROTOCOL_BY_DSMB);
+    }
+    
     private boolean hasClosePermission() {
         return hasGenericPermission(GenericProtocolAuthorizer.CLOSE_PROTOCOL);
+    }
+    
+    private boolean hasCloseUnavailablePermission() {
+        return hasGenericUnavailablePermission(GenericProtocolAuthorizer.CLOSE_PROTOCOL);
     }
     
     private boolean hasExpirePermission() {
         return hasGenericPermission(GenericProtocolAuthorizer.EXPIRE_PROTOCOL);
     }
     
+    private boolean hasExpireUnavailablePermission() {
+        return hasGenericUnavailablePermission(GenericProtocolAuthorizer.EXPIRE_PROTOCOL);
+    }
+    
     private boolean hasTerminatePermission() {
         return hasGenericPermission(GenericProtocolAuthorizer.TERMINATE_PROTOCOL);
+    }
+    
+    private boolean hasTerminateUnavailablePermission() {
+        return hasGenericUnavailablePermission(GenericProtocolAuthorizer.TERMINATE_PROTOCOL);
     }
     
     private boolean hasPermitDataAnalysisPermission() {
         return hasGenericPermission(GenericProtocolAuthorizer.PERMIT_DATA_ANALYSIS);
     }
     
+    private boolean hasPermitDataAnalysisUnavailablePermission() {
+        return hasGenericUnavailablePermission(GenericProtocolAuthorizer.PERMIT_DATA_ANALYSIS);
+    }
+    
     private boolean hasAdminCorrectionPermission() {
         return hasPermission(TaskName.PROTOCOL_ADMIN_CORRECTION);
+    }
+    
+    private boolean hasAdminCorrectionUnavailablePermission() {
+        return hasPermission(TaskName.PROTOCOL_ADMIN_CORRECTION_UNAVAILABLE);
     }
     
     private boolean hasUndoLastActionPermission() {
         return hasPermission(TaskName.PROTOCOL_UNDO_LAST_ACTION) && undoLastActionBean.canUndoLastAction();
     }
     
+    private boolean hasUndoLastActionUnavailablePermission() {
+        return hasPermission(TaskName.PROTOCOL_UNDO_LAST_ACTION) && !undoLastActionBean.canUndoLastAction();
+    }
+    
     private boolean hasRecordCommitteeDecisionPermission() {
         return hasPermission(TaskName.RECORD_COMMITTEE_DECISION);
+    }
+    
+    private boolean hasRecordCommitteeDecisionUnavailablePermission() {
+        return hasPermission(TaskName.RECORD_COMMITTEE_DECISION_UNAVAILABLE);
     }
     
     private boolean hasEnterRiskLevelPermission() {
@@ -964,8 +1196,16 @@ public class ActionHelper implements Serializable {
         return hasPermission(TaskName.DEFER_PROTOCOL);
     }
     
+    private boolean hasDeferUnavailablePermission() {
+        return hasPermission(TaskName.DEFER_PROTOCOL_UNAVAILABLE);
+    }
+    
     private boolean hasManageReviewCommentsPermission() {
         return hasPermission(TaskName.PROTOCOL_MANAGE_REVIEW_COMMENTS); 
+    }
+    
+    private boolean hasManageReviewCommentsUnavailablePermission() {
+        return hasPermission(TaskName.PROTOCOL_MANAGE_REVIEW_COMMENTS_UNAVAILABLE); 
     }
     
     private boolean hasApproveOtherPermission() {
@@ -973,8 +1213,13 @@ public class ActionHelper implements Serializable {
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
-    private boolean hasManageNotesPermision() {
+    private boolean hasManageNotesPermission() {
         ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_MANAGE_NOTES, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    private boolean hasManageNotesUnavailablePermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_MANAGE_NOTES_UNAVAILABLE, getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
@@ -988,8 +1233,18 @@ public class ActionHelper implements Serializable {
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
+    private boolean hasGenericUnavailablePermission(String genericActionName) {
+        ProtocolTask task = new ProtocolTask(TaskName.GENERIC_PROTOCOL_ACTION_UNAVAILABLE, getProtocol(), genericActionName);
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
     private boolean hasIrbAcknowledgementPermission() {
         ProtocolTask task = new ProtocolTask(TaskName.IRB_ACKNOWLEDGEMENT, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    private boolean hasIrbAcknowledgementUnavailablePermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.IRB_ACKNOWLEDGEMENT_UNAVAILABLE, getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
@@ -998,8 +1253,19 @@ public class ActionHelper implements Serializable {
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
+    private boolean hasCanModifySubmissionUnavailablePermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_SUBMISSION_UNAVAILABLE, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
     private boolean hasReviewNotRequiredPermission() {
         ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REVIEW_NOT_REQUIRED, getProtocol());
+        boolean retVal = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+        return retVal;
+    }
+    
+    private boolean hasReviewNotRequiredUnavailablePermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REVIEW_NOT_REQUIRED_UNAVAILABLE, getProtocol());
         boolean retVal = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
         return retVal;
     }
@@ -1068,6 +1334,9 @@ public class ActionHelper implements Serializable {
         return canSubmitProtocol;
     }
     
+    public boolean getCanSubmitProtocolUnavailable() {
+        return canSubmitProtocolUnavailable;
+    }
     /**
      * Get the userName of the user for the current session.
      * @return the current session's userName
@@ -1228,120 +1497,240 @@ public class ActionHelper implements Serializable {
         return canCreateAmendment;
     }
     
+    public boolean getCanCreateAmendmentUnavailable() {
+        return canCreateAmendmentUnavailable;
+    }
+    
     public boolean getCanModifyAmendmentSections() {
         return canModifyAmendmentSections;
     }
 
+    public boolean getCanModifyAmendmentSectionsUnavailable() {
+        return canModifyAmendmentSectionsUnavailable;
+    }
+
     public boolean getCanCreateRenewal() {
         return canCreateRenewal;
+    }
+
+    public boolean getCanCreateRenewalUnavailable() {
+        return canCreateRenewalUnavailable;
     }
     
     public boolean getCanNotifyIrb() {
         return canNotifyIrb;
     }
     
+    public boolean getCanNotifyIrbUnavailable() {
+        return canNotifyIrbUnavailable;
+    }
+    
     public boolean getCanWithdraw() {
         return canWithdraw;
+    }
+    
+    public boolean getCanWithdrawUnavailable() {
+        return canWithdrawUnavailable;
     }
     
     public boolean getCanRequestClose() {
         return canRequestClose;
     }
     
+    public boolean getCanRequestCloseUnavailable() {
+        return canRequestCloseUnavailable;
+    }
+    
     public boolean getCanRequestSuspension() {
         return canRequestSuspension;
+    }
+    
+    public boolean getCanRequestSuspensionUnavailable() {
+        return canRequestSuspensionUnavailable;
     }
     
     public boolean getCanRequestCloseEnrollment() {
         return canRequestCloseEnrollment;
     }
     
+    public boolean getCanRequestCloseEnrollmentUnavailable() {
+        return canRequestCloseEnrollmentUnavailable;
+    }
+    
     public boolean getCanRequestReOpenEnrollment() {
         return canRequestReOpenEnrollment;
+    }
+    
+    public boolean getCanRequestReOpenEnrollmentUnavailable() {
+        return canRequestReOpenEnrollmentUnavailable;
     }
     
     public boolean getCanRequestDataAnalysis() {
         return canRequestDataAnalysis;
     }
     
+    public boolean getCanRequestDataAnalysisUnavailable() {
+        return canRequestDataAnalysisUnavailable;
+    }
+    
     public boolean getcanRequestTerminate(){
         return this.canRequestTerminate;
+    }
+    
+    public boolean getcanRequestTerminateUnavailable(){
+        return this.canRequestTerminateUnavailable;
     }
     
     public boolean getCanDeleteProtocolAmendRenew() {
         return canDeleteProtocolAmendRenew;
     }
     
+    public boolean getCanDeleteProtocolAmendRenewUnavailable() {
+        return canDeleteProtocolAmendRenewUnavailable;
+    }
+    
     public boolean getCanAssignToAgenda() {
         return canAssignToAgenda;
+    }
+    
+    public boolean getCanAssignToAgendaUnavailable() {
+        return canAssignToAgendaUnavailable;
     }
     
     public boolean getCanAssignCmtSched() {
         return canAssignCmtSched;
     }
     
+    public boolean getCanAssignCmtSchedUnavailable() {
+        return canAssignCmtSchedUnavailable;
+    }
+    
     public boolean getCanAssignReviewers() {
         return canAssignReviewers;
+    }
+    
+    public boolean getCanAssignReviewersUnavailable() {
+        return canAssignReviewersUnavailable;
     }
     
     public boolean getCanGrantExemption() {
         return canGrantExemption;
     }
     
+    public boolean getCanGrantExemptionUnavailable() {
+        return canGrantExemptionUnavailable;
+    }
+    
     public boolean getCanApproveFull() {
         return canApproveFull;
+    }
+    
+    public boolean getCanApproveFullUnavailable() {
+        return canApproveFullUnavailable;
     }
     
     public boolean getCanApproveExpedited() {
         return canApproveExpedited;
     }
     
+    public boolean getCanApproveExpeditedUnavailable() {
+        return canApproveExpeditedUnavailable;
+    }
+    
     public boolean getCanApproveResponse() {
         return canApproveResponse;
+    }
+    
+    public boolean getCanApproveResponseUnavailable() {
+        return canApproveResponseUnavailable;
     }
     
     public boolean getCanDisapprove() {
         return canDisapprove;
     }
     
+    public boolean getCanDisapproveUnavailable() {
+        return canDisapproveUnavailable;
+    }
+    
     public boolean getCanReturnForSMR() {
         return canReturnForSMR;
+    }
+    
+    public boolean getCanReturnForSMRUnavailable() {
+        return canReturnForSMRUnavailable;
     }
     
     public boolean getCanReturnForSRR() {
         return canReturnForSRR;
     }
     
+    public boolean getCanReturnForSRRUnavailable() {
+        return canReturnForSRRUnavailable;
+    }
+    
     public boolean getCanReopenEnrollment() {
         return canReopenEnrollment;
+    }
+    
+    public boolean getCanReopenEnrollmentUnavailable() {
+        return canReopenEnrollmentUnavailable;
     }
     
     public boolean getCanCloseEnrollment() {
         return canCloseEnrollment;
     }
     
+    public boolean getCanCloseEnrollmentUnavailable() {
+        return canCloseEnrollmentUnavailable;
+    }
+    
     public boolean getCanSuspend() {
         return canSuspend;
+    }
+    
+    public boolean getCanSuspendUnavailable() {
+        return canSuspendUnavailable;
     }
     
     public boolean getCanSuspendByDsmb() {
         return canSuspendByDsmb;
     }
     
+    public boolean getCanSuspendByDsmbUnavailable() {
+        return canSuspendByDsmbUnavailable;
+    }
+    
     public boolean getCanClose() {
         return canClose;
+    }
+    
+    public boolean getCanCloseUnavailable() {
+        return canCloseUnavailable;
     }
     
     public boolean getCanExpire() {
         return canExpire;
     }
     
+    public boolean getCanExpireUnavailable() {
+        return canExpireUnavailable;
+    }
+    
     public boolean getCanTerminate() {
         return canTerminate;
     }
     
+    public boolean getCanTerminateUnavailable() {
+        return canTerminateUnavailable;
+    }
+    
     public boolean getCanPermitDataAnalysis() {
         return canPermitDataAnalysis;
+    }
+    
+    public boolean getCanPermitDataAnalysisUnavailable() {
+        return canPermitDataAnalysisUnavailable;
     }
     
     public boolean getCanEnterRiskLevel() {
@@ -1352,32 +1741,64 @@ public class ActionHelper implements Serializable {
         return canMakeAdminCorrection;
     }
     
+    public boolean getCanMakeAdminCorrectionUnavailable() {
+        return canMakeAdminCorrectionUnavailable;
+    }
+    
     public boolean getCanUndoLastAction() {
         return canUndoLastAction;
+    }
+    
+    public boolean getCanUndoLastActionUnavailable() {
+        return canUndoLastActionUnavailable;
     }
     
     public boolean getCanRecordCommitteeDecision() {
         return canRecordCommitteeDecision;
     }
     
+    public boolean getCanRecordCommitteeDecisionUnavailable() {
+        return canRecordCommitteeDecisionUnavailable;
+    }
+    
     public boolean getCanModifyProtocolSubmission() {
         return this.canModifyProtocolSubmission;
+    }
+    
+    public boolean getCanModifyProtocolSubmissionUnavailable() {
+        return this.canModifyProtocolSubmissionUnavailable;
     }
     
     public boolean getCanIrbAcknowledgement() {
         return canIrbAcknowledgement;
     }
     
+    public boolean getCanIrbAcknowledgementUnavailable() {
+        return canIrbAcknowledgementUnavailable;
+    }
+    
     public boolean getCanDefer() {
         return canDefer;
+    }
+    
+    public boolean getCanDeferUnavailable() {
+        return canDeferUnavailable;
     }
     
     public boolean getCanReviewNotRequired() {
         return this.canReviewNotRequired;
     }
 
+    public boolean getCanReviewNotRequiredUnavailable() {
+        return this.canReviewNotRequiredUnavailable;
+    }
+
     public boolean getCanManageReviewComments() {  
         return canManageReviewComments;
+    }
+    
+    public boolean getCanManageReviewCommentsUnavailable() {  
+        return canManageReviewCommentsUnavailable;
     }
     
     public boolean getCanApproveOther() {
@@ -1386,6 +1807,10 @@ public class ActionHelper implements Serializable {
     
     public boolean getCanManageNotes() {
         return canManageNotes;
+    }
+
+    public boolean getCanManageNotesUnavailable() {
+        return canManageNotesUnavailable;
     }
 
     public boolean getIsApproveOpenForFollowup() {
