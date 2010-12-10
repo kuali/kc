@@ -33,8 +33,16 @@
             answer="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex]}" questionIndex="${questionIndex}"/>
     </c:when>
     <c:when test="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex].question.questionTypeId == 6}" >
-        <kra-questionnaire:lookupQuestion question="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex].question}"
-            answer="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex]}" questionIndex="${questionIndex}"/>
+        <c:choose>
+            <c:when test = "${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex].question.lookupClass == 'org.kuali.kra.bo.ArgValueLookup'}">
+                <kra-questionnaire:argValueLookupQuestion question="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex].question}"
+                    answer="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex]}" questionIndex="${questionIndex}"/>
+            </c:when>
+            <c:otherwise>
+                <kra-questionnaire:lookupQuestion question="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex].question}"
+                    answer="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex]}" questionIndex="${questionIndex}"/>
+            </c:otherwise>
+        </c:choose>
     </c:when>
     <c:otherwise>
     </c:otherwise>
