@@ -109,36 +109,15 @@ http://www.osedu.org/licenses/ECL-2.0
               <c:set var="personnelSalaryCumulativeTotals" value="0.00" />
               <c:forEach var="period" items="${budget.budgetPeriods}" varStatus="status">
                 	<c:set var="periodTotalVar" value="period${status.index}" />
-               		<%-- The following sets and scriptlets is a temporary fix before Jetty fixes the type coercion bug --%>
-                	<c:set var="testVar1" value="${personnelSubTotalsMap[periodTotalVar]}" />
-                	<c:set var="testVar2" value="${personnelSalaryTotals[period.budgetPeriod-1]}" />
-                	<%
-                		double var1 = Double.valueOf(pageContext.getAttribute("testVar1").toString()).doubleValue();
-                		double var2 = Double.valueOf(pageContext.getAttribute("testVar2").toString()).doubleValue();
-                        double var3= var1 + var2;
-                        double var4 = 0.00 + var2;
-                	%> 
-                	<%-- this line is replaced by the following line temporarily. Need to put it back and delete the following line after Jetty fixes the type coercion issue
-                	<c:set target="${personnelSubTotalsMap}" property="${periodTotalVar}" value="${personnelSubTotalsMap[periodTotalVar] + personnelSalaryTotals[period.budgetPeriod-1]}" />
-                	--%>
-                	<c:set target="${personnelSubTotalsMap}" property="${periodTotalVar}" value="<%=var3%>" />
+                	<c:set target="${personnelSubTotalsMap}" property="${periodTotalVar}" value="${personnelSubTotalsMap[periodTotalVar] + krafn:getBigDecimal(personnelSalaryTotals[period.budgetPeriod-1])}" />
+
 	           		<td class="tab-subhead" >
 	           			<div align="right">
-	           				<%-- this line is replaced by the following line temporarily. Need to put it back and delete the following line after Jetty fixes the type coercion issue 
-	           				<fmt:formatNumber value="${0.00 + personnelSalaryTotals[period.budgetPeriod-1]}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;
-	           				 --%>
-	           				<fmt:formatNumber value="<%=var4%>" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;
+	           				<fmt:formatNumber value="${0.00 + krafn:getBigDecimal(personnelSalaryTotals[period.budgetPeriod-1])}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;
 	           			</div>
 	           		</td>
-	           		<%-- The following sets and scriptlets is a temporary fix before Jetty fixes the type coercion bug --%>
-		           	<%
-		           		double var5 = Double.valueOf(pageContext.getAttribute("personnelSalaryCumulativeTotals").toString()).doubleValue();
-		           		double var6 = var5 + var2;
-		           	%>
-		           	<%-- this line is replaced by the following line temporarily. Need to put it back and delete the following line after Jetty fixes the type coercion issue
-           			<c:set var="personnelSalaryCumulativeTotals" value = "${personnelSalaryCumulativeTotals + personnelSalaryTotals[period.budgetPeriod-1] }" />
-           			--%>
-		           	<c:set var="personnelSalaryCumulativeTotals" value = "<%=var6%>" />
+	           		
+           			<c:set var="personnelSalaryCumulativeTotals" value = "${personnelSalaryCumulativeTotals + krafn:getBigDecimal(personnelSalaryTotals[period.budgetPeriod-1])}" />
 	          </c:forEach>
               <td  align="right" class="tab-subhead">
 				<div align="right">
@@ -152,36 +131,15 @@ http://www.osedu.org/licenses/ECL-2.0
               <c:set var="personnelFringeCumulativeTotals" value="0.00" />
               <c:forEach var="period" items="${budget.budgetPeriods}" varStatus="status" >
                 	<c:set var="periodTotalVar" value="period${status.index}" />
-                	<%-- The following sets and scriptlets is a temporary fix before Jetty fixes the type coercion bug --%>
-                	<c:set var="testVar1" value="${personnelSubTotalsMap[periodTotalVar]}" />
-                	<c:set var="testVar2" value="${personnelFringeTotals[period.budgetPeriod-1]}" />
-                	<%
-                		double var1 = Double.valueOf(pageContext.getAttribute("testVar1").toString()).doubleValue();
-                		double var2 = Double.valueOf(pageContext.getAttribute("testVar2").toString()).doubleValue();
-                		double var3 = var1 + var2;
-                		double var4 = 0.00 + var2;
-                	%>
-                	<%-- this line is replaced by the following line temporarily. Need to put it back and delete the following line after Jetty fixes the type coercion issue
-		            <c:set target="${personnelSubTotalsMap}" property="${periodTotalVar}" value="${personnelSubTotalsMap[periodTotalVar] + personnelFringeTotals[period.budgetPeriod-1]}" />
-		             --%>
-		            <c:set target="${personnelSubTotalsMap}" property="${periodTotalVar}" value="<%=var3%>" />
+		            <c:set target="${personnelSubTotalsMap}" property="${periodTotalVar}" value="${personnelSubTotalsMap[periodTotalVar] + krafn:getBigDecimal(personnelFringeTotals[period.budgetPeriod-1])}" />
+
 	           		<td class="tab-subhead" >
 	           			<div align="right">
-	           			<%-- this line is replaced by the following line temporarily. Need to put it back and delete the following line after Jetty fixes the type coercion issue
-	           			<fmt:formatNumber value="${0.00 + personnelFringeTotals[period.budgetPeriod-1]}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;
-	           			 --%>
-	           			 <fmt:formatNumber value="<%=var4%>" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;
+	           			    <fmt:formatNumber value="${0.00 + krafn:getBigDecimal(personnelFringeTotals[period.budgetPeriod-1])}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;
 	           			</div>
 	           		</td>
-		         	<%-- The following sets and scriptlets is a temporary fix before Jetty fixes the type coercion bug --%>
-		           	<%
-		           		double var5 = Double.valueOf(pageContext.getAttribute("personnelFringeCumulativeTotals").toString()).doubleValue();
-		           		double var6 = var5 + var2;
-		           	%>
-		           	<%-- this line is replaced by the following line temporarily. Need to put it back and delete the following line after Jetty fixes the type coercion issue
-		           	<c:set var="personnelFringeCumulativeTotals" value = "${personnelFringeCumulativeTotals + personnelFringeTotals[period.budgetPeriod-1] }" />
-		           	--%>
-		           	<c:set var="personnelFringeCumulativeTotals" value = "<%=var6%>" />
+	           		
+		           	<c:set var="personnelFringeCumulativeTotals" value = "${personnelFringeCumulativeTotals + krafn:getBigDecimal(personnelFringeTotals[period.budgetPeriod-1])}" />
 	          </c:forEach>
 	          
               <td  align="right" class="tab-subhead">
@@ -196,36 +154,15 @@ http://www.osedu.org/licenses/ECL-2.0
 				<c:set var="personnelCalculatedExpenseSummaryCumulativeTotals" value="0.00" />
               	<c:forEach var="period" items="${budget.budgetPeriods}" varStatus="status" >
                 	<c:set var="periodTotalVar" value="period${status.index}" />
-                	<%-- The following sets and scriptlets is a temporary fix before Jetty fixes the type coercion bug --%>
-                	<c:set var="testVar1" value="${personnelSubTotalsMap[periodTotalVar]}" />
-                	<c:set var="testVar2" value="${personnelCalculatedExpenseSummaryTotals[period.budgetPeriod-1]}" />
-                	<%
-                		double var1 = Double.valueOf(pageContext.getAttribute("testVar1").toString()).doubleValue();
-                		double var2 = Double.valueOf(pageContext.getAttribute("testVar2").toString()).doubleValue();
-                		double var3 = var1 + var2;
-                		double var4 = 0.00 + var2;
-                	%>
-                	<%-- this line is replaced by the following line temporarily. Need to put it back and delete the following line after Jetty fixes the type coercion issue
-                	<c:set target="${personnelSubTotalsMap}" property="${periodTotalVar}" value="${personnelSubTotalsMap[periodTotalVar] + personnelCalculatedExpenseSummaryTotals[period.budgetPeriod-1]}" />
-                	--%>
-               		<c:set target="${personnelSubTotalsMap}" property="${periodTotalVar}" value="<%=var3%>" />
+                	<c:set target="${personnelSubTotalsMap}" property="${periodTotalVar}" value="${personnelSubTotalsMap[periodTotalVar] + krafn:getBigDecimal(personnelCalculatedExpenseSummaryTotals[period.budgetPeriod-1])}" />
+	           		
 	           		<td class="tab-subhead" >
 	           			<div align="right">
-	           				<%-- this line is replaced by the following line temporarily. Need to put it back and delete the following line after Jetty fixes the type coercion issue
-	           				<fmt:formatNumber value="${0.00 + personnelCalculatedExpenseSummaryTotals[period.budgetPeriod-1]}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;
-	           				--%>
-	           				<fmt:formatNumber value="<%=var4%>" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;
+	           				<fmt:formatNumber value="${0.00 + krafn:getBigDecimal(personnelCalculatedExpenseSummaryTotals[period.budgetPeriod-1])}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;
 	           			</div>
 	           		</td>
-	           		<%-- The following sets and scriptlets is a temporary fix before Jetty fixes the type coercion bug --%>
-		            <%
-		             	double var5 = Double.valueOf(pageContext.getAttribute("personnelCalculatedExpenseSummaryCumulativeTotals").toString()).doubleValue();
-		             	double var6 = var5 + var2;
-		            %>
-		            <%-- this line is replaced by the following line temporarily. Need to put it back and delete the following line after Jetty fixes the type coercion issue
-	           		<c:set var="personnelCalculatedExpenseSummaryCumulativeTotals" value = "${personnelCalculatedExpenseSummaryCumulativeTotals + personnelCalculatedExpenseSummaryTotals[period.budgetPeriod-1] }" />
-	           		--%>
-		            <c:set var="personnelCalculatedExpenseSummaryCumulativeTotals" value = "<%=var6%>" />
+	           		
+	           		<c:set var="personnelCalculatedExpenseSummaryCumulativeTotals" value = "${personnelCalculatedExpenseSummaryCumulativeTotals + krafn:getBigDecimal(personnelCalculatedExpenseSummaryTotals[period.budgetPeriod-1])}" />
 	          	</c:forEach>
 				<td  align="right" class="tab-subhead">
 					<div align="right">
@@ -238,18 +175,7 @@ http://www.osedu.org/licenses/ECL-2.0
 		                <c:forEach var="periodTotal" items="${calculatedExpenseTotal.value}" varStatus="status">
 		                	<c:set var="calculatedIndirectExpenseVar" value="calculatedIndirectExpense${status.index}" />
 		                	<c:set target="${indirectCostMap}" property="calculatedIndirectExpense${status.index}" value="0.00" />
-		                	
-		                	<%-- The following sets and scriptlets is a temporary fix before Jetty fixes the type coercion bug --%>
-		                	<c:set var="testVar1" value="${indirectCostMap[calculatedIndirectExpenseVar]}" />
-		                	<%
-				             	double var1 = Double.valueOf(pageContext.getAttribute("testVar1").toString()).doubleValue();
-		                		double var2 = Double.valueOf(pageContext.getAttribute("periodTotal").toString()).doubleValue();
-				             	double var3 = var1 + var2;
-				            %>
-				            <%-- this line is replaced by the following line temporarily. Need to put it back and delete the following line after Jetty fixes the type coercion issue
-			                <c:set target="${indirectCostMap}" property="calculatedIndirectExpense${status.index}" value="${indirectCostMap[calculatedIndirectExpenseVar] + periodTotal}" />
-			                --%>
-			                <c:set target="${indirectCostMap}" property="calculatedIndirectExpense${status.index}" value="<%=var3%>" />
+			                <c:set target="${indirectCostMap}" property="calculatedIndirectExpense${status.index}" value="${indirectCostMap[calculatedIndirectExpenseVar] + krafn:getBigDecimal(periodTotal)}" />
 		        	    </c:forEach> 
 		        	   </c:if>
 		        	   </c:forEach>
@@ -283,37 +209,15 @@ http://www.osedu.org/licenses/ECL-2.0
 			              <c:set var="nonPersonnelCumulativeTotals" value="0.00" />
 			              <c:forEach var="period" items="${budget.budgetPeriods}" varStatus="status" >
 		                	<c:set var="periodTotalVar" value="period${status.index}" />
-		                	
-		                	<%-- The following sets and scriptlets is a temporary fix before Jetty fixes the type coercion bug --%>
-		                	<c:set var="testVar1" value="${nonPersonnelSubTotalsMap[periodTotalVar]}" />
-		                	<c:set var="testVar2" value="${nonPersonnelSummaryTotals[period.budgetPeriod-1]}" />
-		                	<%
-				             	double var1 = Double.valueOf(pageContext.getAttribute("testVar1").toString()).doubleValue();
-		                		double var2 = Double.valueOf(pageContext.getAttribute("testVar2").toString()).doubleValue();
-				             	double var3 = var1 + var2;
-				             	double var4 = 0.00 + var2;
-				            %>
-		                	<%-- this line is replaced by the following line temporarily. Need to put it back and delete the following line after Jetty fixes the type coercion issue
-		               		<c:set target="${nonPersonnelSubTotalsMap}" property="${periodTotalVar}" value="${nonPersonnelSubTotalsMap[periodTotalVar] + nonPersonnelSummaryTotals[period.budgetPeriod-1]}" />
-		               		--%>
-		               		<c:set target="${nonPersonnelSubTotalsMap}" property="${periodTotalVar}" value="<%=var3%>" />
-						           	<td class="tab-subhead" >
-										<div align="right">
-											<%-- this line is replaced by the following line temporarily. Need to put it back and delete the following line after Jetty fixes the type coercion issue
-											<fmt:formatNumber value="${0.00 + nonPersonnelSummaryTotals[period.budgetPeriod-1]}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;
-											--%>
-											<fmt:formatNumber value="<%=var4%>" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;
-										</div>
-									</td>
-								<%-- The following scriptlets is a temporary fix before Jetty fixes the type coercion bug --%>
-								<%
-					             	double var5 = Double.valueOf(pageContext.getAttribute("nonPersonnelCumulativeTotals").toString()).doubleValue();
-					             	double var6 = var5 + var2;
-					            %>
-					            <%-- this line is replaced by the following line temporarily. Need to put it back and delete the following line after Jetty fixes the type coercion issue
-								<c:set var="nonPersonnelCumulativeTotals" value = "${nonPersonnelCumulativeTotals + nonPersonnelSummaryTotals[period.budgetPeriod-1] }" />
-								--%>
-								<c:set var="nonPersonnelCumulativeTotals" value = "<%=var6%>" />
+		               		<c:set target="${nonPersonnelSubTotalsMap}" property="${periodTotalVar}" value="${nonPersonnelSubTotalsMap[periodTotalVar] + krafn:getBigDecimal(nonPersonnelSummaryTotals[period.budgetPeriod-1])}" />
+				           	
+				           	<td class="tab-subhead" >
+								<div align="right">
+									<fmt:formatNumber value="${0.00 + krafn:getBigDecimal(nonPersonnelSummaryTotals[period.budgetPeriod-1])}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;
+								</div>
+							</td>
+						    
+						    <c:set var="nonPersonnelCumulativeTotals" value = "${nonPersonnelCumulativeTotals + krafn:getBigDecimal(nonPersonnelSummaryTotals[period.budgetPeriod-1])}" />
 				          </c:forEach>
 			              <td  align="right" class="tab-subhead">
 							  <div align="right">
@@ -330,37 +234,15 @@ http://www.osedu.org/licenses/ECL-2.0
 				<c:set var="nonPersonnelCalculatedExpenseSummaryCumulativeTotals" value="0.00" />
               	<c:forEach var="period" items="${budget.budgetPeriods}" varStatus="status" >
                 	<c:set var="periodTotalVar" value="period${status.index}" />
-                	<%-- The following sets and scriptlets is a temporary fix before Jetty fixes the type coercion bug --%>
-                	<c:set var="testVar1" value="${nonPersonnelSubTotalsMap[periodTotalVar]}" />
-	               	<c:set var="testVar2" value="${nonPersonnelCalculatedExpenseSummaryTotals[period.budgetPeriod-1]}" />
-	               	<%
-	               		double var1 = Double.valueOf(pageContext.getAttribute("testVar1").toString()).doubleValue();
-	               		double var2 = Double.valueOf(pageContext.getAttribute("testVar2").toString()).doubleValue();
-	               		double var3 = var1 + var2;
-	               		double var4 = 0.00 + var2;
-	               	%>
-                	<%-- this line is replaced by the following line temporarily. Need to put it back and delete the following line after Jetty fixes the type coercion issue
-	               	<c:set target="${nonPersonnelSubTotalsMap}" property="${periodTotalVar}" value="${nonPersonnelSubTotalsMap[periodTotalVar] + nonPersonnelCalculatedExpenseSummaryTotals[period.budgetPeriod-1]}" />
-	               	 --%>
-               		<c:set target="${nonPersonnelSubTotalsMap}" property="${periodTotalVar}" value="<%=var3%>" />
-		           		<td class="tab-subhead" >
-		           			<div align="right">
-								<%-- this line is replaced by the following line temporarily. Need to put it back and delete the following line after Jetty fixes the type coercion issue
-								<fmt:formatNumber value="${0.00 + nonPersonnelCalculatedExpenseSummaryTotals[period.budgetPeriod-1]}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;
-								--%>
-		           				<fmt:formatNumber value="<%=var4%>" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;
-		           			</div>
-		           		</td>
-		            <%-- The following sets and scriptlets is a temporary fix before Jetty fixes the type coercion bug --%>
-		             <%
-		             	double var5 = Double.valueOf(pageContext.getAttribute("nonPersonnelCalculatedExpenseSummaryCumulativeTotals").toString()).doubleValue();
-		             	double var6 = var5 + var2;
-		             %>
-		             <%-- this line is replaced by the following line temporarily. Need to put it back and delete the following line after Jetty fixes the type coercion issue
-	           		<c:set var="nonPersonnelCalculatedExpenseSummaryCumulativeTotals" value = "${nonPersonnelCalculatedExpenseSummaryCumulativeTotals + nonPersonnelCalculatedExpenseSummaryTotals[period.budgetPeriod-1] }" />
-	           		 --%>
-		             <c:set var="nonPersonnelCalculatedExpenseSummaryCumulativeTotals" value = "<%=var6%>" /> 
-		             
+	               	<c:set target="${nonPersonnelSubTotalsMap}" property="${periodTotalVar}" value="${nonPersonnelSubTotalsMap[periodTotalVar] + krafn:getBigDecimal(nonPersonnelCalculatedExpenseSummaryTotals[period.budgetPeriod-1])}" />
+	           		
+	           		<td class="tab-subhead" >
+	           			<div align="right">
+							<fmt:formatNumber value="${0.00 + krafn:getBigDecimal(nonPersonnelCalculatedExpenseSummaryTotals[period.budgetPeriod-1])}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;
+	           			</div>
+	           		</td>
+
+	           		<c:set var="nonPersonnelCalculatedExpenseSummaryCumulativeTotals" value = "${nonPersonnelCalculatedExpenseSummaryCumulativeTotals + krafn:getBigDecimal(nonPersonnelCalculatedExpenseSummaryTotals[period.budgetPeriod-1])}" />
 	          	</c:forEach>
 				<td  align="right" class="tab-subhead">
 					<div align="right">
@@ -372,17 +254,7 @@ http://www.osedu.org/licenses/ECL-2.0
 	           		<c:if test="${not empty calculatedExpenseTotal.key.rateClass.rateClassType && calculatedExpenseTotal.key.rateClass.rateClassType eq 'O'}">
 		               <c:forEach var="periodTotal" items="${calculatedExpenseTotal.value}" varStatus="status">
 		               		<c:set var="calculatedIndirectExpenseVar" value="calculatedIndirectExpense${status.index}" />
-		               		<%-- The following sets and scriptlets is a temporary fix before Jetty fixes the type coercion bug --%>
-		                	<c:set var="testVar1" value="${indirectCostMap[calculatedIndirectExpenseVar]}" />
-			               	<%
-			               		double var1 = Double.valueOf(pageContext.getAttribute("testVar1").toString()).doubleValue();
-			               		double var2 = Double.valueOf(pageContext.getAttribute("periodTotal").toString()).doubleValue();
-			               		double var3 = 0.00 + var1 + var2;
-			               	%>
-							<%-- this line is replaced by the following line temporarily. Need to put it back and delete the following line after Jetty fixes the type coercion issue
 		               		<c:set target="${indirectCostMap}" property="calculatedIndirectExpense${status.index}" value="${0.00 + indirectCostMap[calculatedIndirectExpenseVar] + periodTotal}" />
-		               		--%>
-		               		<c:set target="${indirectCostMap}" property="calculatedIndirectExpense${status.index}" value="<%=var3%>" />
 						</c:forEach>
 					</c:if>
 				</c:forEach>
@@ -392,17 +264,7 @@ http://www.osedu.org/licenses/ECL-2.0
 		   		<c:if test="${nonPersonnelObjectCode.costElement eq KualiForm.proposalHierarchyIndirectObjectCode}">
 	        	 	 <c:forEach var="periodTotal" items="${budget.objectCodeTotals[nonPersonnelObjectCode]}" varStatus="objPeriodStatus" >
 	               		<c:set var="calculatedIndirectExpenseVar" value="calculatedIndirectExpense${objPeriodStatus.index}" />
-	               		<%-- The following sets and scriptlets is a temporary fix before Jetty fixes the type coercion bug --%>
-	                	<c:set var="testVar1" value="${indirectCostMap[calculatedIndirectExpenseVar]}" />
-		               	<%
-		               		double var1 = Double.valueOf(pageContext.getAttribute("testVar1").toString()).doubleValue();
-		               		double var2 = Double.valueOf(pageContext.getAttribute("periodTotal").toString()).doubleValue();
-		               		double var3 = 0.00 + var1 + var2;
-		               	%>
-						<%-- this line is replaced by the following line temporarily. Need to put it back and delete the following line after Jetty fixes the type coercion issue
 	               		<c:set target="${indirectCostMap}" property="calculatedIndirectExpense${objPeriodStatus.index}" value="${0.00 + indirectCostMap[calculatedIndirectExpenseVar] + periodTotal}" />
-	               		--%>
-	               		<c:set target="${indirectCostMap}" property="calculatedIndirectExpense${objPeriodStatus.index}" value="<%=var3%>" />
 	        	 	 </c:forEach>
 	        	 </c:if>
 				</c:forEach>
