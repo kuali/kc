@@ -16,9 +16,11 @@
 package org.kuali.kra.institutionalproposal.contacts;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.award.contacts.AwardUnitContact;
+import org.kuali.kra.bo.UnitAdministratorType;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -75,7 +77,8 @@ public class InstitutionalProposalUnitContactAddRuleImpl {
         boolean valid = true;
         for(InstitutionalProposalUnitContact unitContact: institutionalProposal.getInstitutionalProposalUnitContacts()) {
             // equal, but not both are null
-            valid = !(StringUtils.equals(unitContact.getPersonId(),newUnitContact.getPersonId()));
+            valid = !(StringUtils.equals(unitContact.getPersonId(),newUnitContact.getPersonId()) 
+                        && StringUtils.equals(unitContact.getUnitAdministratorTypeCode(),newUnitContact.getUnitAdministratorTypeCode()));
             if(!valid) {
                 registerError(newUnitContact);
                 break;
@@ -127,7 +130,18 @@ public class InstitutionalProposalUnitContactAddRuleImpl {
 
     @SuppressWarnings("deprecation")
     private void registerError(InstitutionalProposalUnitContact newUnitContact) {
+        String roleDescription = getRoleDescription(newUnitContact);
         GlobalVariables.getErrorMap().putError(PERSON_ERROR_KEY, ERROR_INSTITUTIONAL_PROPOSAL_UNIT_CONTACT_EXISTS, 
-                                                newUnitContact.getContact().getFullName());
+                                                newUnitContact.getContact().getFullName(), roleDescription);
+    }
+
+    private String getRoleDescription(InstitutionalProposalUnitContact newUnitContact) {
+        String roleDescription = "";
+        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
+        UnitAdministratorType aType = boService.findBySinglePrimaryKey(UnitAdministratorType.class, newUnitContact.getUnitAdministratorTypeCode());
+        if (aType != null) {
+            roleDescription = aType.getDescription();
+        }
+        return roleDescription;
     }
 }
