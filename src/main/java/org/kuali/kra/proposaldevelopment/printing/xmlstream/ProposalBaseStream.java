@@ -23,6 +23,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
+import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -45,6 +46,7 @@ public abstract class ProposalBaseStream implements XmlStream {
 			.getLog(ProposalBaseStream.class);
 	private DateTimeService dateTimeService;
 	private BusinessObjectService businessObjectService;
+	private AwardService awardService;
 
 
 	/**
@@ -73,27 +75,14 @@ public abstract class ProposalBaseStream implements XmlStream {
 	}
 	
 	protected Award getAward(String currentAwardNumber) {
-		Award award = null;
-		if(!(currentAwardNumber == null)) {
-            Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put("awardNumber", currentAwardNumber);
-            List<Award> sponsors = (List<Award>)getBusinessObjectService().findMatching(Award.class, fieldValues);
-            if(sponsors.size()>0){
-            	award = sponsors.get(0);
-            }
-		}
-		return award;
+	    List<Award> awards = getAwardService().findAwardsForAwardNumber(currentAwardNumber);
+	    return awards.isEmpty()?null:awards.get(awards.size()-1);
 	}
 
-	/**
-	 * @param sponsors
-	 */
 	protected AwardAmountInfo getMaxAwardAmountInfo(Award award) {
 		Integer highestSequenceNumber = 0;
 		Long highestAwardAmountInfoId = 0L;
-		//Finding higesh Sequence Awar Amount Info
 		AwardAmountInfo higeshSequenceAwarAmountInfo = null;
-		//TODO NEED TO RETURN zeroth one as award and split as a method rest of the data
 			for(AwardAmountInfo amountInfo: award.getAwardAmountInfos()){
 				if(highestSequenceNumber < amountInfo.getSequenceNumber()){
 					higeshSequenceAwarAmountInfo = amountInfo;
@@ -139,4 +128,20 @@ public abstract class ProposalBaseStream implements XmlStream {
 			BusinessObjectService businessObjectService) {
 		this.businessObjectService = businessObjectService;
 	}
+
+    /**
+     * Sets the awardService attribute value.
+     * @param awardService The awardService to set.
+     */
+    public void setAwardService(AwardService awardService) {
+        this.awardService = awardService;
+    }
+
+    /**
+     * Gets the awardService attribute. 
+     * @return Returns the awardService.
+     */
+    public AwardService getAwardService() {
+        return awardService;
+    }
 }
