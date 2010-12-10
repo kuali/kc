@@ -34,7 +34,21 @@ width:200px;
 div.same-line{
 	float: left; 
 	text-align: left;
-} 
+}
+
+div.innerTab-h3head
+{
+	background-color:#6B6B6B;
+	border-bottom:1px solid #666666;
+	border-top:1px solid #666666;
+	color:#FFFFFF;
+	font-size:100%;
+	font-weight:bold;
+	height:18px;
+	margin:0px;
+	padding:2px 0px 0px 6px;
+	text-align:left;
+}
 
 input.align-right {
 	text-align: right;
