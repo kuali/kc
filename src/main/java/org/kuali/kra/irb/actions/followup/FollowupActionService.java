@@ -36,9 +36,6 @@ public interface FollowupActionService {
      */
     boolean isActionOpenForFollowup(String protocolActionTypeCode, Protocol protocol);
     
-    
-    List<ValidProtocolActionAction> getFollowupEnabledActionMap(Protocol protocol);
-    
     List<ValidProtocolActionAction> getFollowupsForActionTypeAndMotionType(String protocolActionTypeCode, String committeeMotionTypeCode);
     
     List<ValidProtocolActionAction> getFollowupsForProtocol(Protocol protocol);
