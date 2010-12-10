@@ -29,4 +29,13 @@
         <function-signature>java.util.List getOptionList(java.lang.String, java.util.Map)</function-signature>
         <example>&lt;c:forEach items="${kra-fn:getOptionList()}"&gt;></example>
     </function>
+    
+    <function>
+        <description>Coerces the type of BudgetDecimal to a BigDecimal</description>
+        <name>getBigDecimal</name>
+        <function-class>org.kuali.kra.web.JstlFunctions</function-class>
+        <function-signature>java.math.BigDecimal getBigDecimal(org.kuali.kra.budget.BudgetDecimal)</function-signature>
+        <example>&lt;c:set var="cumTotalCost" value="${cumTotalCost + krafn:getBigDecimal(budgetPeriodObj.totalCost)}" /"&gt;</example>
+    </function>
+    
 </taglib>
