@@ -115,13 +115,10 @@
 					</td>
 	                
 					<td>
-						<c:set var="isLeadUnit" value="${institutionalProposal.leadUnit != null && institutionalProposalContact.person != null && institutionalProposalContact.person.organizationIdentifier == institutionalProposal.leadUnit.unitNumber}" />
 						<div align="center">
 						  <c:if test="${!readOnly}">
-						  	<c:if test="${!isLeadUnit}">
-								<html:image property="methodToCall.deleteUnitContact.line${institutionalProposalContactRowStatus.index}.anchor${currentTabIndex}"
-								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton" disabled="${isLeadUnit}"/>
-							</c:if>
+							 <html:image property="methodToCall.deleteUnitContact.line${institutionalProposalContactRowStatus.index}.anchor${currentTabIndex}"
+								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton" />
 						  </c:if>
 						  <c:if test="${readOnly}">&nbsp;</c:if>
 						</div>
