@@ -220,17 +220,24 @@ public class NIHResearchAndRelatedXmlStream extends
 		researchAndRelatedProject.setNSFPreviousAwardNumber(getNSFPreviousAwardNumber(developmentProposal));
 		researchAndRelatedProject.setNSFProjectDuration(getNSFProjectDuration(developmentProposal));
 		researchAndRelatedProject.setNihInventions(getNihInventions(developmentProposal));
-		Award award = getAward(developmentProposal.getCurrentAwardNumber());
+		Award award = null;
+		if(developmentProposal.getCurrentAwardNumber()!=null){
+		    award = getAward(developmentProposal.getCurrentAwardNumber());
+		}
 		if (award != null) {
-			Calendar totalProjectStartDate = Calendar.getInstance();
-			if(award.getAwardEffectiveDate()!=null){
-			    totalProjectStartDate.setTime(award.getAwardEffectiveDate());
-			}
-			researchAndRelatedProject.setTotalProjectStartDt(totalProjectStartDate);
-			AwardAmountInfo amountInfo = getMaxAwardAmountInfo(award);
-			Calendar totalProjectEndDate = Calendar.getInstance();
-			totalProjectEndDate.setTime(amountInfo.getFinalExpirationDate());
-			researchAndRelatedProject.setTotalProjectEndDt(totalProjectEndDate);
+            AwardAmountInfo amountInfo = getMaxAwardAmountInfo(award);
+            if(amountInfo!=null){
+    			if(amountInfo.getCurrentFundEffectiveDate()!=null){
+    	            Calendar totalProjectStartDate = Calendar.getInstance();
+    			    totalProjectStartDate.setTime(amountInfo.getCurrentFundEffectiveDate());
+    	            researchAndRelatedProject.setTotalProjectStartDt(totalProjectStartDate);
+    			}
+                if(amountInfo.getFinalExpirationDate()!=null){
+                    Calendar totalProjectEndDate = Calendar.getInstance();
+                    totalProjectEndDate.setTime(amountInfo.getFinalExpirationDate());
+                    researchAndRelatedProject.setTotalProjectEndDt(totalProjectEndDate);
+                }
+            }
 		}
 		setNIHDeatils(researchAndRelatedProject, developmentProposal);
 		try {

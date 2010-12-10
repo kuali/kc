@@ -791,6 +791,7 @@
 		class="org.kuali.kra.proposaldevelopment.printing.xmlstream.NIHResearchAndRelatedXmlStream"
 		parent="abstractResearchAndRelatedStream">
 		<property name="parameterService" ref="parameterService" />
+		<property name="awardService" ref="awardService" />
 		<property name="sponsorService">
 			<ref bean="sponsorService" />
 		</property>
