@@ -38,6 +38,9 @@ public class FollowupActionServiceImpl implements FollowupActionService {
     private static final Log LOG = LogFactory.getLog(FollowupActionServiceImpl.class);
     
     
+    /**
+     * @see org.kuali.kra.irb.actions.followup.FollowupActionService#getFollowupsForActionTypeAndMotionType(java.lang.String, java.lang.String)
+     */
     public List<ValidProtocolActionAction> getFollowupsForActionTypeAndMotionType(String protocolActionTypeCode, String committeeMotionTypeCode) {
          
         Map<String,String> fieldSet = new HashMap<String,String>();
@@ -50,6 +53,11 @@ public class FollowupActionServiceImpl implements FollowupActionService {
     }
     
     
+    /**
+     * Return a list of ValidProtocolActionAction bos for the given action type code.
+     * @param protocolActionTypeCode
+     * @return 
+     */
     public List<ValidProtocolActionAction> getFollowupsForActionTypeCode(String protocolActionTypeCode) {
         List<ValidProtocolActionAction> resultSet = new ArrayList<ValidProtocolActionAction>();
         if (!StringUtils.isEmpty(protocolActionTypeCode)) {
@@ -60,6 +68,9 @@ public class FollowupActionServiceImpl implements FollowupActionService {
         return resultSet;
     }
     
+    /**
+     * @see org.kuali.kra.irb.actions.followup.FollowupActionService#getFollowupsForProtocol(org.kuali.kra.irb.Protocol)
+     */
     public List<ValidProtocolActionAction> getFollowupsForProtocol(Protocol protocol) {
         List<ValidProtocolActionAction> resultList; 
         if (protocol.getLastProtocolAction()==null) {
@@ -119,36 +130,6 @@ public class FollowupActionServiceImpl implements FollowupActionService {
         
         return result;
     }
-    
-
-    public List<ValidProtocolActionAction> getFollowupEnabledActionMap(Protocol protocol) {
-        List<ValidProtocolActionAction> resultList = new ArrayList<ValidProtocolActionAction>();
-        List<ValidProtocolActionAction> valids = getFollowupsForActionTypeCode(protocol.getLastProtocolAction().getProtocolActionTypeCode());
-        
-        for (ValidProtocolActionAction protocolActionAction : valids) {
-            if (!StringUtils.isEmpty(protocolActionAction.getMotionTypeCode())) {
-                    //there is an associated motion type code with this action
-                    //we need to check the committee's motion on the protocol in
-                    //addition
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug(String.format("ValidProtocolActionAction %s has defined MotionTypeCode %s, checking motion on protocol."
-                            ,protocolActionAction.getValidProtocolActionActionId(),protocolActionAction.getMotionTypeCode()));
-                }
-                if (StringUtils.equals(protocol.getProtocolSubmission().getCommitteeDecisionMotionTypeCode(), protocolActionAction.getMotionTypeCode())) {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("MotionType matches last motion on protocol.");
-                    }
-                        resultList.add(protocolActionAction);
-                    }
-                    
-            } else {
-                resultList.add(protocolActionAction);
-            }
-        }
-        return resultList;
-    }
-        
-    //Getters and setters and other junk
     
     /**
      * Gets the businessObjectService attribute. 
