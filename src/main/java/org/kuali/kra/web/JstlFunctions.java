@@ -17,10 +17,12 @@ package org.kuali.kra.web;
 
 import static java.lang.Class.forName;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder;
 
 /**
@@ -162,5 +164,19 @@ public final class JstlFunctions {
                         .append("\n")
                         .append(thrownObj.getMessage())
                         .toString();
+    }
+    
+    /**
+     * Returns the BigDecimal value wrapped inside the given BudgetDecimal in order to get correct type coercion for Jetty.
+     * Here is an example of how the code is used in a JSP/tag file:
+     * <code>
+     * <c:set var="cumTotalCost" value="${cumTotalCost + krafn:getBigDecimal(budgetPeriodObj.totalCost)}" />
+     * </code>
+     * 
+     * @param budgetDecimal
+     * @return
+     */
+    public static BigDecimal getBigDecimal(BudgetDecimal budgetDecimal) {
+        return budgetDecimal.bigDecimalValue();
     }
 }
