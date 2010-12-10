@@ -38,15 +38,18 @@
 </c:choose>
 <c:set var="tabAuditCluster" value="budgetExpensesAuditWarnings${budgetPeriod}" />
 
-<c:set var="cumTotalCost" value="0.00" />
+<c:set var="cumTotalCost" value="0" />
 <c:if test="${fn:length(KualiForm.document.budget.budgetPeriods) > 0}">
 	<c:forEach var="budgetPeriodObj" items="${KualiForm.document.budget.budgetPeriods}" >
-		<c:set var="cumTotalCost" value="${cumTotalCost + budgetPeriodObj.totalCost}" />
+		<c:set var="cumTotalCost" value="${cumTotalCost + krafn:getBigDecimal(budgetPeriodObj.totalCost)}" />
 	</c:forEach>
 </c:if>
 
 <div id="workarea">
-	<c:set var="showWarnings" value="${(KualiForm.document.budget.totalCostLimit > 0 && cumTotalCost > KualiForm.document.budget.totalCostLimit) || (KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].totalCostLimit > 0 && KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].totalCost > KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].totalCostLimit)}" />
+    <c:set var="currentTotalCostLimit" value="${krafn:getBigDecimal(KualiForm.document.budget.totalCostLimit)}" />
+	<c:set var="previousTotalCostLimit" value="${krafn:getBigDecimal(KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].totalCostLimit)}" />
+	<c:set var="previousTotalCost" value="${krafn:getBigDecimal(KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].totalCost)}" />
+	<c:set var="showWarnings" value="${(currentTotalCostLimit > 0 && cumTotalCost > currentTotalCostLimit) || (previousTotalCostLimit > 0 && previousTotalCost > previousTotalCostLimit)}" />
 	
 	<kul:tab tabTitle="Budget Overview (Period ${budgetPeriod})" 
 	         transparentBackground="${transparentBackground}" 
