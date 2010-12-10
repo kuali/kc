@@ -74,7 +74,7 @@
 		    <td
 			    style="text-align: center; border-top: medium none; width: 65px;"
 			    class="content_white">
-			    <input type="image" alt="delete" style="border: medium none;"
+			    <input type="image" alt="delete" style="border: medium none;" onClick="clickDeleteResponse(${qidx})"
 					src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" id="deletereq${qidx}"></td>
 	    </tr>
     </c:otherwise>
