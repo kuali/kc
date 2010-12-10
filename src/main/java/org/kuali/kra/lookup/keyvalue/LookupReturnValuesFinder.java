@@ -18,15 +18,17 @@ package org.kuali.kra.lookup.keyvalue;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.ArgValueLookupService;
 import org.kuali.kra.service.CustomAttributeService;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * 
@@ -41,31 +43,49 @@ public class LookupReturnValuesFinder extends KeyValuesBase {
         keyValues.add(new KeyLabelPair("", "select"));
         String lookupClass = (String) GlobalVariables.getUserSession().retrieveObject(Constants.LOOKUP_CLASS_NAME);
 
-        List lookupReturnFields = (List) GlobalVariables.getUserSession().retrieveObject(Constants.LOOKUP_RETURN_FIELDS);
-        try {
-            if (lookupReturnFields != null) {
-                GlobalVariables.getUserSession().removeObject(Constants.LOOKUP_RETURN_FIELDS);
-                GlobalVariables.getUserSession().removeObject(Constants.LOOKUP_CLASS_NAME);
+        if ("org.kuali.kra.bo.ArgValueLookup".equals(lookupClass)) {
+            keyValues = getArgValuesPair();
+        }
+        else {
+
+            List lookupReturnFields = (List) GlobalVariables.getUserSession().retrieveObject(Constants.LOOKUP_RETURN_FIELDS);
+            try {
+                if (lookupReturnFields != null) {
+                    GlobalVariables.getUserSession().removeObject(Constants.LOOKUP_RETURN_FIELDS);
+                    GlobalVariables.getUserSession().removeObject(Constants.LOOKUP_CLASS_NAME);
+                }
+                else {
+                    if (lookupClass != null) {
+                        lookupReturnFields = KraServiceLocator.getService(CustomAttributeService.class).getLookupReturns(
+                                lookupClass);
+                        GlobalVariables.getUserSession().addObject(Constants.LOOKUP_RETURN_FIELDS, lookupReturnFields);
+                    }
+                }
             }
-            else {
-                if (lookupClass != null) {
-                    lookupReturnFields = KraServiceLocator.getService(CustomAttributeService.class).getLookupReturns(lookupClass);
-                    GlobalVariables.getUserSession().addObject(Constants.LOOKUP_RETURN_FIELDS, lookupReturnFields);
+            catch (Exception e) {
+                LOG.info(e.getMessage(), e);
+            }
+
+            if (lookupReturnFields != null) {
+                for (Object fieldName : lookupReturnFields) {
+                    keyValues.add(new KeyLabelPair(fieldName.toString(), KraServiceLocator.getService(DataDictionaryService.class)
+                            .getAttributeLabel(lookupClass, fieldName.toString())));
                 }
             }
         }
-        catch (Exception e) {
-            LOG.info(e.getMessage(), e);
-        }
-        
-        if (lookupReturnFields != null) {
-            for (Object fieldName : lookupReturnFields) {
-                keyValues.add(new KeyLabelPair(fieldName.toString(), KraServiceLocator.getService(DataDictionaryService.class).getAttributeLabel(lookupClass,fieldName.toString())));
-            }
-        }
-
         return keyValues;
     }
 
-
+    private List<KeyLabelPair> getArgValuesPair() {
+        String argNames[] = KraServiceLocator.getService(ArgValueLookupService.class).getArgumentNames().split(",");
+        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        keyValues.add(new KeyLabelPair("", "select"));
+        for (String name : argNames) {
+            if (StringUtils.isNotBlank(name)) {
+                String[] values = name.split(";");
+                keyValues.add(new KeyLabelPair(values[0], values[1]));
+            }
+        }
+        return keyValues;
+    }
 }
