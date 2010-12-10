@@ -26,6 +26,10 @@ import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 
+/**
+ * 
+ * This class is the questionnaire helper base to be shared by modules that are going to use questionnaire
+ */
 public abstract class QuestionnaireHelperBase implements Serializable {
 
     private static final long serialVersionUID = 180986754611233315L;
