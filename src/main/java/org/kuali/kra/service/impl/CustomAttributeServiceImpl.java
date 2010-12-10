@@ -16,12 +16,14 @@
 package org.kuali.kra.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.ArgValueLookup;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDataType;
 import org.kuali.kra.bo.CustomAttributeDocValue;
@@ -45,6 +47,7 @@ import org.kuali.rice.kns.util.KNSPropertyConstants;
  */
 public class CustomAttributeServiceImpl implements CustomAttributeService {
 
+    private static final String ARGVALUELOOKUPE_CLASS = "org.kuali.kra.bo.ArgValueLookup";
     private BusinessObjectService businessObjectService;
 
     /**
@@ -247,8 +250,21 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
      * @see org.kuali.kra.service.CustomAttributeService#getLookupReturns(java.lang.String)
      */
     public List getLookupReturns(String lookupClass) throws Exception {
-        BusinessObjectDictionaryService businessDictionaryService = (BusinessObjectDictionaryService)KraServiceLocator.getService(Constants.BUSINESS_OBJECT_DICTIONARY_SERVICE_NAME);
-        return businessDictionaryService.getLookupFieldNames(Class.forName(lookupClass));
+        List<String> lookupReturns = new ArrayList<String>();
+        if (ARGVALUELOOKUPE_CLASS.equals(lookupClass)) {
+            for (ArgValueLookup argValueLookup : (List<ArgValueLookup>) businessObjectService.findAll(ArgValueLookup.class)) {
+                if (!lookupReturns.contains(argValueLookup.getArgumentName())) {
+                    lookupReturns.add(argValueLookup.getArgumentName());
+                }
+            }
+            Collections.sort(lookupReturns);
+        }
+        else {
+            BusinessObjectDictionaryService businessDictionaryService = (BusinessObjectDictionaryService) KraServiceLocator
+                    .getService(Constants.BUSINESS_OBJECT_DICTIONARY_SERVICE_NAME);
+            lookupReturns = businessDictionaryService.getLookupFieldNames(Class.forName(lookupClass));
+        }
+        return lookupReturns;
     }
     
     /**
@@ -259,7 +275,7 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
         List lookupFieldNames = getLookupReturns(lookupClass);
         String attributeNames="";
         for (Object attributeName : lookupFieldNames) {
-            attributeNames += "," + attributeName +";"+KraServiceLocator.getService(DataDictionaryService.class).getAttributeLabel(lookupClass,attributeName.toString());
+            attributeNames += "," + attributeName +";"+ (ARGVALUELOOKUPE_CLASS.equals(lookupClass) ? attributeName : KraServiceLocator.getService(DataDictionaryService.class).getAttributeLabel(lookupClass,attributeName.toString()));
         }
         return attributeNames;
     }
