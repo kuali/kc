@@ -878,11 +878,11 @@
 	<bean id="Award-projectEndDate" parent="Award-projectEndDate-parentBean" />
 	<bean id="Award-projectEndDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
 	    <property name="name" value="projectEndDate" />
-	    <property name="label" value="Final Expiration Date" />
-	    <property name="shortLabel" value="Final Expiration Date" />
+	    <property name="label" value="Project End Date" />
+	    <property name="shortLabel" value="Project End Date" />
 	    <property name="required" value="false" />
-	    <property name="summary" value="Final Expiration Date" />
-	    <property name="description" value="Final Expiration Date" />
+	    <property name="summary" value="Project End Date" />
+	    <property name="description" value="Project End Date" />
   	</bean>
 
 	<bean id="Award-updateTimestamp" parent="Award-updateTimestamp-parentBean" />
