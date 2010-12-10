@@ -381,6 +381,25 @@ function addrequirement(curidx) {
 	
 }
 
+function clickDeleteResponse(idx) {
+	// alert("This would delete this requirement."
+	// + $(this).parents('tr:eq(0)').next().size());
+	//var idx = $(this).parents('li:eq(0)').attr("id")
+	//		.substring(8);
+	var splitq = $("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+    var tmpstr = splitq[0] +"#f#" +splitq[1] 
+    +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +"N" +"#f#" +"" +"#f#" +
+    "" +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] ;
+$("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+	
+	getAddRequirementRow(idx).appendTo(
+			$("#deletereq" + idx).parents('tr:eq(0)').parents(
+					'tbody:eq(0)'));
+	$("#deletereq" + idx).parents('tr:eq(0)').remove();
+	return false;
+
+}
+
 function clickCopy(curidx) {
 //	alert("Copy node" +curidx);
 	var liId = "li#qnaireid" + curidx;
