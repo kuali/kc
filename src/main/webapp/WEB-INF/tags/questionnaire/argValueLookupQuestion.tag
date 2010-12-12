@@ -11,7 +11,7 @@
                         <jsp:useBean id="paramMap" class="java.util.HashMap"/>
 		                <c:set target="${paramMap}" property="argName" value="${question.lookupReturn}" />
 
-	                        <html:select property="${prop}" tabindex="0"  >
+	                        <html:select property="${prop}" tabindex="0"  styleClass="Qanswer">
 		                        <c:forEach items="${krafn:getOptionList('org.kuali.kra.lookup.keyvalue.ArgValueLookupValuesFinder', paramMap)}" var="option">
 		                            <c:choose>                    	
 		                    	        <c:when test="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex].answer == option.key}">
