@@ -107,6 +107,15 @@
                                     </c:otherwise>
                                 </c:choose>
                             </c:when>
+                            <c:when test = "${answer.question.questionTypeId == 6 and answer.question.lookupClass == 'org.kuali.kra.bo.ArgValueLookup'}" >
+                                <jsp:useBean id="paramMap" class="java.util.HashMap"/>
+		                        <c:set target="${paramMap}" property="argName" value="${answer.question.lookupReturn}" />
+		                        <c:forEach items="${krafn:getOptionList('org.kuali.kra.lookup.keyvalue.ArgValueLookupValuesFinder', paramMap)}" var="option">
+		        	                <c:if test="${answer.answer == option.key}">
+		        	                    ${option.label}
+		        	                </c:if>    
+		                        </c:forEach>
+                            </c:when>
                             <c:otherwise>
                                   ${answer.answer} </br>
                             </c:otherwise>
