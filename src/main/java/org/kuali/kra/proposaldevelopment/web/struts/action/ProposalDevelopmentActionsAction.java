@@ -69,8 +69,10 @@ import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyServ
 import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPrintingService;
 import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ProposalDataOverrideEvent;
+import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentRejectionRule;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStateService;
+import org.kuali.kra.proposaldevelopment.web.bean.ProposalDevelopmentRejectionBean;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
@@ -461,29 +463,64 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return new AuditActionHelper().setAuditMode(mapping, (ProposalDevelopmentForm) form, false);
     }
     
-    public ActionForward reject(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward reject(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        //System.err.println("******************* Got to the reject action **************************");
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
-        
-        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-        Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
-        String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
-        String methodToCall = ((KualiForm) form).getMethodToCall();
-        if(question == null){
-            return this.performQuestionWithInput(mapping, form, request, response, DOCUMENT_REJECT_QUESTION,"Are you sure you want to reject this document?" , KNSConstants.CONFIRMATION_QUESTION, methodToCall, "");
-         } 
-        else if((DOCUMENT_REJECT_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked))  {
+
+        //Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        //Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+        //String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
+       // String methodToCall = ((KualiForm) form).getMethodToCall();
+        //if (question == null) {
+          //  System.err.println("               question null");
+            ((ProposalDevelopmentForm)form).setShowRejectionConfirmation(true);
             return mapping.findForward(Constants.MAPPING_BASIC);
-        }
-        else
-        {
-            //reject the document using the service.
-            ProposalDevelopmentDocument pDoc = (ProposalDevelopmentDocument)kualiDocumentFormBase.getDocument();
+            //return this.performQuestionWithInput(mapping, form, request, response, DOCUMENT_REJECT_QUESTION,
+              //      "Are you sure you want to reject this document?", KNSConstants.CONFIRMATION_QUESTION, methodToCall, "");
+        //}
+        //else if ((DOCUMENT_REJECT_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
+          //  System.err.println("               question answered NO");
+            //return mapping.findForward(Constants.MAPPING_BASIC);
+        //}
+        //else {
+          //  System.err.println("               question answered YES");
+            // reject the document using the service.
+            //ProposalDevelopmentDocument pDoc = (ProposalDevelopmentDocument) kualiDocumentFormBase.getDocument();
+            
+            //ProposalDevelopmentRejectionBean bean = ((ProposalDevelopmentForm)form).getProposalDevelopmentRejectionBean();
+            
+            //ProposalHierarchyService phService = KraServiceLocator.getService(ProposalHierarchyService.class);
+            //phService.rejectProposalDevelopmentDocument(pDoc.getDevelopmentProposal().getProposalNumber(), bean.getRejectReason(), GlobalVariables
+              //      .getUserSession().getPrincipalId());
+            //return super.returnToSender(request, mapping, kualiDocumentFormBase);
+        //}
+    }
+    
+    public ActionForward rejectNo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+    throws Exception {
+        ((ProposalDevelopmentForm) form).setShowRejectionConfirmation(false);
+        ((ProposalDevelopmentForm) form).setProposalDevelopmentRejectionBean(new ProposalDevelopmentRejectionBean());
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward rejectYes(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+    throws Exception {
+        
+        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        ProposalDevelopmentDocument pDoc = (ProposalDevelopmentDocument) kualiDocumentFormBase.getDocument();
+        ProposalDevelopmentRejectionBean bean = ((ProposalDevelopmentForm) form).getProposalDevelopmentRejectionBean();
+        
+        if (new ProposalDevelopmentRejectionRule().proccessProposalDevelopmentRejection(bean)){
+            System.err.println("THERE IS AN ERROR**********************");
+            // reject the document using the service.
             ProposalHierarchyService phService = KraServiceLocator.getService(ProposalHierarchyService.class);
-            phService.rejectProposalDevelopmentDocument(pDoc.getDevelopmentProposal().getProposalNumber(), reason, GlobalVariables.getUserSession().getPrincipalId());
+            phService.rejectProposalDevelopmentDocument(pDoc.getDevelopmentProposal().getProposalNumber(), bean.getRejectReason(), GlobalVariables
+                    .getUserSession().getPrincipalId());
+            ((ProposalDevelopmentForm) form).setShowRejectionConfirmation(false);
             return super.returnToSender(request, mapping, kualiDocumentFormBase);
         }
-        
-       
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     
