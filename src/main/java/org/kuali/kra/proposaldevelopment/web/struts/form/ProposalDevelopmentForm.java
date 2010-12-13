@@ -74,6 +74,7 @@ import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.specialreview.SpecialReviewHelper;
+import org.kuali.kra.proposaldevelopment.web.bean.ProposalDevelopmentRejectionBean;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
@@ -182,6 +183,9 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     
     private boolean viewFundingSource;
     
+    private ProposalDevelopmentRejectionBean proposalDevelopmentRejectionBean;
+    private boolean showRejectionConfirmation;
+    
     public ProposalDevelopmentForm() {
         super();
         initialize();
@@ -235,6 +239,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         medusaBean = new MedusaBean();
         reportHelperBean = new ReportHelperBean(this);
         canCreateProposal = isAuthorizedToCreateProposal();
+        setProposalDevelopmentRejectionBean(new ProposalDevelopmentRejectionBean());
     }
 
     /**
@@ -1646,4 +1651,19 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         this.viewFundingSource = viewFundingSource;
     }
     
+    public ProposalDevelopmentRejectionBean getProposalDevelopmentRejectionBean() {
+        return this.proposalDevelopmentRejectionBean;
+    }
+    
+    public void setProposalDevelopmentRejectionBean(ProposalDevelopmentRejectionBean proposalDevelopmentRejectionBean) {
+        this.proposalDevelopmentRejectionBean = proposalDevelopmentRejectionBean;
+    }
+    
+    public boolean isShowRejectionConfirmation() {
+        return this.showRejectionConfirmation;
+    }
+    
+    public void setShowRejectionConfirmation(boolean showRejectionConfirmation) {
+        this.showRejectionConfirmation = showRejectionConfirmation;
+    }
 }
