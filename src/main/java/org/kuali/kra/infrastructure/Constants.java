@@ -430,6 +430,8 @@ public interface Constants {
     public static final String NEW_AWARD_REPORT_TERM_RECIPIENTS_LIST_KEY_FOR_INITIALIZE_OBJECTS = "newAwardReportTermRecipientsList";
     public static final String REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES_PANEL = "reportClassForPaymentsAndInvoicesPanel";
     
+    public static final String UNIT_CONTACTS_DEFAULT_GROUP_FLAG = "U";
+    
     //Award Audit Rules
     public static final String CONTACT_AUDIT_RULES_ERROR_KEY = "document.contactAuditRules";
     public static final String REPORT_TERMS_AUDIT_RULES_ERROR_KEY = "document.reportTermsAuditRules";

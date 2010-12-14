@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.UnitAdministratorType;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
@@ -36,7 +36,7 @@ public class InstitutionalProposalUnitContactsProjectRoleValuesFinder extends Ex
         Collection<UnitAdministratorType> types = (Collection<UnitAdministratorType>) boService.findAll(UnitAdministratorType.class);
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         for (UnitAdministratorType aType: types) {
-            if ( StringUtils.equals(aType.getDefaultGroupFlag(), "U")) {    // only get Unit Contacts
+            if ( aType.getDefaultGroupFlag().equals(Constants.UNIT_CONTACTS_DEFAULT_GROUP_FLAG)) {    // only get Unit Contacts
                 keyValues.add(new KeyLabelPair(aType.getUnitAdministratorTypeCode(), aType.getDescription()));
             }
         }

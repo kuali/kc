@@ -23,6 +23,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.bo.UnitAdministratorType;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.core.util.KeyLabelPair;
@@ -58,7 +59,7 @@ public class InstitutionalProposalUnitContactsProjectRoleValuesFinderTest extend
             Assert.assertNotNull(keyLabelPair.getLabel());
             if(!StringUtils.equals(keyLabelPair.getLabel(), "select")){ 
                 UnitAdministratorType aType = (UnitAdministratorType) boService.findBySinglePrimaryKey(UnitAdministratorType.class, keyLabelPair.getKey());
-                Assert.assertEquals("U", aType.getDefaultGroupFlag());
+                Assert.assertEquals(Constants.UNIT_CONTACTS_DEFAULT_GROUP_FLAG, aType.getDefaultGroupFlag());
             }
         }
         
