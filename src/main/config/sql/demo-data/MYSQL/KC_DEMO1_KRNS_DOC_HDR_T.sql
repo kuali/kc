@@ -1,21 +1,21 @@
---REM INSERTING into KRNS_DOC_HDR_T
+-- REM INSERTING into KRNS_DOC_HDR_T
 Insert into KRNS_DOC_HDR_T (DOC_HDR_ID,VER_NBR,FDOC_DESC,ORG_DOC_HDR_ID,TMPL_DOC_HDR_ID,EXPLANATION,OBJ_ID) 
-values ('3091',6,'IRB Long V1',null,null,null,UUID()());
-
-
-Insert into KRNS_DOC_HDR_T (DOC_HDR_ID,VER_NBR,FDOC_DESC,ORG_DOC_HDR_ID,TMPL_DOC_HDR_ID,EXPLANATION,OBJ_ID) 
-values ('3092',6,'IRB Short V1',null,null,null,UUID()());
+values ('3091',6,'IRB Long V1',null,null,null,UUID());
 
 
 Insert into KRNS_DOC_HDR_T (DOC_HDR_ID,VER_NBR,FDOC_DESC,ORG_DOC_HDR_ID,TMPL_DOC_HDR_ID,EXPLANATION,OBJ_ID) 
-values ('3093',6,'IRB Long V2',null,null,null,UUID()());
+values ('3092',6,'IRB Short V1',null,null,null,UUID());
 
 
 Insert into KRNS_DOC_HDR_T (DOC_HDR_ID,VER_NBR,FDOC_DESC,ORG_DOC_HDR_ID,TMPL_DOC_HDR_ID,EXPLANATION,OBJ_ID) 
-values ('3094',9,'IRB Committee',null,null,null,UUID()());
+values ('3093',6,'IRB Long V2',null,null,null,UUID());
 
 
---REM PROTOCOL STAGE DATA
+Insert into KRNS_DOC_HDR_T (DOC_HDR_ID,VER_NBR,FDOC_DESC,ORG_DOC_HDR_ID,TMPL_DOC_HDR_ID,EXPLANATION,OBJ_ID) 
+values ('3094',9,'IRB Committee',null,null,null,UUID());
+
+
+-- REM PROTOCOL STAGE DATA
 INSERT INTO KRNS_DOC_HDR_T (DOC_HDR_ID,FDOC_DESC,OBJ_ID,VER_NBR)
   VALUES ('4073','Staged for Admin Corr - Pending/In Prog','5F49859D-5573-8BEB-8F7A-559C62B14D92',2);
 
