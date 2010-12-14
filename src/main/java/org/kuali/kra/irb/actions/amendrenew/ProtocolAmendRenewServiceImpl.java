@@ -28,6 +28,7 @@ import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.copy.ProtocolCopyService;
+import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.Document;
@@ -99,6 +100,8 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
         amendProtocolDocument.getProtocol().setProtocolStatusCode(ProtocolStatus.AMENDMENT_IN_PROGRESS);
         amendProtocolDocument.getProtocol().refreshReferenceObject(PROTOCOL_STATUS);
         
+        markProtocolAttachmentsAsFinalized(amendProtocolDocument.getProtocol().getAttachmentProtocols());
+        
         ProtocolAction protocolAction = createCreateAmendmentProtocolAction(protocolDocument.getProtocol(), 
                                                              amendProtocolDocument.getProtocol().getProtocolNumber());
         protocolDocument.getProtocol().getProtocolActions().add(protocolAction);
@@ -106,6 +109,19 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
         return createAmendment(protocolDocument, amendProtocolDocument, amendmentBean);
     }
     
+    /**
+     * This method marks all protocol attachment as finalized.
+     * @param attachmentProtocols
+     */
+    private void markProtocolAttachmentsAsFinalized(List<ProtocolAttachmentProtocol> attachmentProtocols) {
+        for (ProtocolAttachmentProtocol protocolAttachment : attachmentProtocols) {
+            if ("1".equals(protocolAttachment.getDocumentStatusCode())) {
+                protocolAttachment.setDocumentStatusCode("2");
+            }
+        }
+        
+    }
+
     /**
      * @see org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService#createRenewal(org.kuali.kra.irb.ProtocolDocument)
      */
@@ -118,6 +134,8 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
         renewProtocolDocument.getProtocol().setProtocolStatusCode(ProtocolStatus.RENEWAL_IN_PROGRESS);
         renewProtocolDocument.getProtocol().refreshReferenceObject(PROTOCOL_STATUS);
         
+        markProtocolAttachmentsAsFinalized(renewProtocolDocument.getProtocol().getAttachmentProtocols());
+
         ProtocolAction protocolAction = createCreateRenewalProtocolAction(protocolDocument.getProtocol(),
                                                                           renewProtocolDocument.getProtocol().getProtocolNumber());
         protocolDocument.getProtocol().getProtocolActions().add(protocolAction);
@@ -142,6 +160,8 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
         renewProtocolDocument.getProtocol().setProtocolStatusCode(ProtocolStatus.RENEWAL_IN_PROGRESS);
         renewProtocolDocument.getProtocol().refreshReferenceObject(PROTOCOL_STATUS);
         
+        markProtocolAttachmentsAsFinalized(renewProtocolDocument.getProtocol().getAttachmentProtocols());
+
         ProtocolAction protocolAction = createCreateRenewalProtocolAction(protocolDocument.getProtocol(),
                                                                           renewProtocolDocument.getProtocol().getProtocolNumber());
         protocolDocument.getProtocol().getProtocolActions().add(protocolAction);
