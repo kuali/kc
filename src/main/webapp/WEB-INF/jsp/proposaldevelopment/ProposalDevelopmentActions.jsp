@@ -31,7 +31,8 @@ http://www.osedu.org/licenses/ECL-2.0
 
 <kul:documentPage showDocumentInfo="true"
 	htmlFormAction="proposalDevelopmentActions"
-	documentTypeName="ProposalDevelopmentDocument" renderMultipart="false"
+	documentTypeName="ProposalDevelopmentDocument" 
+	renderMultipart="true"
 	showTabButtons="true" auditCount="0"
 	headerDispatch="${KualiForm.headerDispatch}" headerTabActive="actions">
 	

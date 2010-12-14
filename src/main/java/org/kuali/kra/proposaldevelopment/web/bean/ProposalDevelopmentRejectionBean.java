@@ -26,8 +26,8 @@ public class ProposalDevelopmentRejectionBean implements Serializable {
      */
     private static final long serialVersionUID = 4081027512143550976L;
     
-    private byte[] rejectFile;
     private String rejectReason;
+    transient private FormFile rejectFile;
     
     /**
      * 
@@ -37,12 +37,12 @@ public class ProposalDevelopmentRejectionBean implements Serializable {
         
     }
 
-    public byte[] getRejectFile() {
+    public FormFile getRejectFile() {
         return rejectFile;
     }
 
-    public void setRejectFile(byte[] rejectFile) {
-        this.rejectFile = rejectFile;
+    public void setRejectFile(FormFile rejectFile) {
+        this.rejectFile = (FormFile) rejectFile;
     }
 
     public String getRejectReason() {

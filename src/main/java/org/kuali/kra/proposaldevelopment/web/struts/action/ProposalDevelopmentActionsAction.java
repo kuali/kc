@@ -22,10 +22,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,6 +40,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.SponsorFormTemplate;
 import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.budget.core.Budget;
@@ -58,6 +61,8 @@ import org.kuali.kra.kim.service.KcGroupService;
 import org.kuali.kra.printing.service.CurrentAndPendingReportService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.kra.proposaldevelopment.bo.NarrativeStatus;
 import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.bo.ProposalOverview;
@@ -506,13 +511,27 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     
     public ActionForward rejectYes(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
     throws Exception {
-        
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         ProposalDevelopmentDocument pDoc = (ProposalDevelopmentDocument) kualiDocumentFormBase.getDocument();
         ProposalDevelopmentRejectionBean bean = ((ProposalDevelopmentForm) form).getProposalDevelopmentRejectionBean();
         
         if (new ProposalDevelopmentRejectionRule().proccessProposalDevelopmentRejection(bean)){
-            System.err.println("THERE IS AN ERROR**********************");
+            
+            FormFile file = bean.getRejectFile();
+            if (file != null) {
+                Narrative narrative = new Narrative();
+                narrative.setFileName(file.getFileName());
+                narrative.setComments(bean.getRejectReason());
+                narrative.setNarrativeFile(file);
+                narrative.setNarrativeTypeCode("18");
+                Map keys = new HashMap();
+                keys.put("NARRATIVE_STATUS_CODE", "C");
+                NarrativeStatus status = (NarrativeStatus) this.getBusinessObjectService().findByPrimaryKey(NarrativeStatus.class, keys);
+                narrative.setNarrativeStatus(status);
+                pDoc.getDevelopmentProposal().addInstituteAttachment(narrative);
+                this.getBusinessObjectService().save(pDoc);
+            }
+            
             // reject the document using the service.
             ProposalHierarchyService phService = KraServiceLocator.getService(ProposalHierarchyService.class);
             phService.rejectProposalDevelopmentDocument(pDoc.getDevelopmentProposal().getProposalNumber(), bean.getRejectReason(), GlobalVariables
