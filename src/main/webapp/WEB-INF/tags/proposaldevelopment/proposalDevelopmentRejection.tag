@@ -15,12 +15,9 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<%--<c:set var="proposalDevelopmentRejectionBeanAttributes" value="${DataDictionary.ProposalDevelopmentRejectionBean.attributes}" />
-<c:set var="proposalDevelopmentAttributes" value="${DataDictionary.DevelopmentProposal.attributes}" />
---%>
 <c:set var="proposalDevelopmentRejectionBeanAttributes" value="${DataDictionary.ProposalDevelopmentRejectionBean.attributes}" />
 
-<kul:tabTop tabTitle="Proposal Developement Rejection Confirmation" defaultOpen="true" tabErrorKey="ProposalDevelopmentRejectionBean">
+<kul:tabTop tabTitle="Proposal Developement Rejection Confirmation" defaultOpen="true" tabErrorKey="ProposalDevelopmentRejectionBean*">
 	<div class="tab-container" align="center">
 	<table cellpadding=0 cellspacing=0 summary="">
 		<tr>
@@ -34,33 +31,18 @@
 				<kul:htmlControlAttribute property="proposalDevelopmentRejectionBean.rejectReason" attributeEntry="${proposalDevelopmentRejectionBeanAttributes.rejectReason}" readOnly="${false}" />
 			</td>
 		</tr>
-		<%--<tr>
+		<tr>
 			<th>
 				Attachment:
 			</th>
 			<td>
-				<kra:file property="proposalDevelopmentRejectionBean.rejectFile" />
-				
-				
-				<div id = "templateFileDiv" class="addsection" style="${addStyle}">
-	                        <%--<html:file property="templateFile" size="50" onchange="showViewFile(this)"/>
-	                        <kra:file property="proposalDevelopmentRejectionBean.rejectFile" />
-	                    </div>
-                        <div id = "fileNameDiv" class="viewsection" style="${viewStyle}">
-	                         ${KualiForm.proposalDevelopmentRejectionBean.rejectFile}
-	                    </div>
+				<html:file property="proposalDevelopmentRejectionBean.rejectFile" />
 			</td>
-		</tr>--%>
+		</tr>
 		<tr>
             <td colspan="2" align="center">
             	<html:image property="methodToCall.rejectYes" src="/kc-dev/kr/static/images/buttonsmall_Yes.gif" title="Do Reject" alt="Do Reject" styleClass="tinybutton"/>
-            	<html:image property="methodToCall.rejectNo" src="/kc-dev/kr/static/images/buttonsmall_No.gif" title="Dont Reject" alt="Don't Reject" styleClass="tinybutton"/>
-	
-	                <%--<input type="image" name="methodToCall.rejectYes" src="/kc-dev/kr/static/images/buttonsmall_Yes.gif"/>
-	            
-	                <input type="image" name="methodToCall.rejectNo" src="/kc-dev/kr/static/images/buttonsmall_No.gif"/>
-	                <html:image property="methodToCall.rejectNo" src="${ConfigProperties.kr.externalizable.images.url}tinygrey-cancel.gif" title="Dont Reject" alt="Don't Reject" styleClass="tinybutton"/> --%>
-	                
+            	<html:image property="methodToCall.rejectNo" src="/kc-dev/kr/static/images/buttonsmall_No.gif" title="Dont Reject" alt="Don't Reject" styleClass="tinybutton"/>	                
             </td>
         </tr>
 	</table>
