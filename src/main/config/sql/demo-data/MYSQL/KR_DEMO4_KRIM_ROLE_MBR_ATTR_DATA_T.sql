@@ -636,70 +636,70 @@ INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID,ATTR_VAL,KIM_ATTR_DEFN_ID,KI
 INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID,ATTR_VAL,KIM_ATTR_DEFN_ID,KIM_TYP_ID,OBJ_ID,ROLE_MBR_ID,VER_NBR)
   VALUES ('1427','000001',
 (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where NMSPC_CD = 'KC-SYS' AND nm = 'unitNumber'),
-(select kim_typ_id from KRIM_TYP_T where NMSPC_CD = 'KC-SYS' AND nm = 'UnitHierarchy'),UUID()(),'1538',1);
+(select kim_typ_id from KRIM_TYP_T where NMSPC_CD = 'KC-SYS' AND nm = 'UnitHierarchy'),UUID(),'1538',1);
 
 INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID,ATTR_VAL,KIM_ATTR_DEFN_ID,KIM_TYP_ID,OBJ_ID,ROLE_MBR_ID,VER_NBR)
   VALUES ('1428','Y',
 (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where NMSPC_CD = 'KC-SYS' AND nm = 'subunits'),
-(select kim_typ_id from KRIM_TYP_T where NMSPC_CD = 'KC-SYS' AND nm = 'UnitHierarchy'),UUID()(),'1538',1);
+(select kim_typ_id from KRIM_TYP_T where NMSPC_CD = 'KC-SYS' AND nm = 'UnitHierarchy'),UUID(),'1538',1);
 
 INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID,ATTR_VAL,KIM_ATTR_DEFN_ID,KIM_TYP_ID,OBJ_ID,ROLE_MBR_ID,VER_NBR)
   VALUES ('1429','IN-CARD',
 (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where NMSPC_CD = 'KC-SYS' AND nm = 'unitNumber'),
-(select kim_typ_id from KRIM_TYP_T where NMSPC_CD = 'KC-SYS' AND nm = 'UnitHierarchy'),UUID()(),'1539',1);
+(select kim_typ_id from KRIM_TYP_T where NMSPC_CD = 'KC-SYS' AND nm = 'UnitHierarchy'),UUID(),'1539',1);
 
 INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID,ATTR_VAL,KIM_ATTR_DEFN_ID,KIM_TYP_ID,OBJ_ID,ROLE_MBR_ID,VER_NBR)
   VALUES ('1430','Y',
 (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where NMSPC_CD = 'KC-SYS' AND nm = 'subunits'),
-(select kim_typ_id from KRIM_TYP_T where NMSPC_CD = 'KC-SYS' AND nm = 'UnitHierarchy'),UUID()(),'1539',1);
+(select kim_typ_id from KRIM_TYP_T where NMSPC_CD = 'KC-SYS' AND nm = 'UnitHierarchy'),UUID(),'1539',1);
 
 INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID,ATTR_VAL,KIM_ATTR_DEFN_ID,KIM_TYP_ID,OBJ_ID,ROLE_MBR_ID,VER_NBR)
   VALUES ('1431','000001',
 (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where NMSPC_CD = 'KC-SYS' AND nm = 'unitNumber'),
-(select kim_typ_id from KRIM_TYP_T where NMSPC_CD = 'KC-SYS' AND nm = 'Unit'),UUID()(),'1540',1);
+(select kim_typ_id from KRIM_TYP_T where NMSPC_CD = 'KC-SYS' AND nm = 'Unit'),UUID(),'1540',1);
 
 INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID,ATTR_VAL,KIM_ATTR_DEFN_ID,KIM_TYP_ID,OBJ_ID,ROLE_MBR_ID,VER_NBR)
   VALUES ('1432','000001',
 (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where NMSPC_CD = 'KC-SYS' AND nm = 'unitNumber'),
-(select kim_typ_id from KRIM_TYP_T where NMSPC_CD = 'KC-SYS' AND nm = 'UnitHierarchy'),UUID()(),'1541',1);
+(select kim_typ_id from KRIM_TYP_T where NMSPC_CD = 'KC-SYS' AND nm = 'UnitHierarchy'),UUID(),'1541',1);
 
 INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID,ATTR_VAL,KIM_ATTR_DEFN_ID,KIM_TYP_ID,OBJ_ID,ROLE_MBR_ID,VER_NBR)
   VALUES ('1433','Y',
 (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where NMSPC_CD = 'KC-SYS' AND nm = 'subunits'),
-(select kim_typ_id from KRIM_TYP_T where NMSPC_CD = 'KC-SYS' AND nm = 'UnitHierarchy'),UUID()(),'1541',1);
+(select kim_typ_id from KRIM_TYP_T where NMSPC_CD = 'KC-SYS' AND nm = 'UnitHierarchy'),UUID(),'1541',1);
 
 INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID,ATTR_VAL,KIM_ATTR_DEFN_ID,KIM_TYP_ID,OBJ_ID,ROLE_MBR_ID,VER_NBR)
   VALUES ('1434','000001',
 (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where NMSPC_CD = 'KC-SYS' AND nm = 'unitNumber'),
-(select kim_typ_id from KRIM_TYP_T where NMSPC_CD = 'KC-SYS' AND nm = 'Unit'),UUID()(),'1542',1);
+(select kim_typ_id from KRIM_TYP_T where NMSPC_CD = 'KC-SYS' AND nm = 'Unit'),UUID(),'1542',1);
 
 INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID,ATTR_VAL,KIM_ATTR_DEFN_ID,KIM_TYP_ID,OBJ_ID,ROLE_MBR_ID,VER_NBR)
   VALUES ('1435','000001',
 (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where NMSPC_CD = 'KC-SYS' AND nm = 'unitNumber'),
-(select kim_typ_id from KRIM_TYP_T where NMSPC_CD = 'KC-SYS' AND nm = 'UnitHierarchy'),UUID()(),'1543',1);
+(select kim_typ_id from KRIM_TYP_T where NMSPC_CD = 'KC-SYS' AND nm = 'UnitHierarchy'),UUID(),'1543',1);
 
 INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID,ATTR_VAL,KIM_ATTR_DEFN_ID,KIM_TYP_ID,OBJ_ID,ROLE_MBR_ID,VER_NBR)
   VALUES ('1436','Y',
 (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where NMSPC_CD = 'KC-SYS' AND nm = 'subunits'),
-(select kim_typ_id from KRIM_TYP_T where NMSPC_CD = 'KC-SYS' AND nm = 'UnitHierarchy'),UUID()(),'1543',1);
+(select kim_typ_id from KRIM_TYP_T where NMSPC_CD = 'KC-SYS' AND nm = 'UnitHierarchy'),UUID(),'1543',1);
 
 INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID,ATTR_VAL,KIM_ATTR_DEFN_ID,KIM_TYP_ID,OBJ_ID,ROLE_MBR_ID,VER_NBR)
   VALUES ('1437','000001',
 (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where NMSPC_CD = 'KC-SYS' AND nm = 'unitNumber'),
-(select kim_typ_id from KRIM_TYP_T where NMSPC_CD = 'KC-SYS' AND nm = 'UnitHierarchy'),UUID()(),'1544',1);
+(select kim_typ_id from KRIM_TYP_T where NMSPC_CD = 'KC-SYS' AND nm = 'UnitHierarchy'),UUID(),'1544',1);
 
 INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID,ATTR_VAL,KIM_ATTR_DEFN_ID,KIM_TYP_ID,OBJ_ID,ROLE_MBR_ID,VER_NBR)
   VALUES ('1438','Y',
 (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where NMSPC_CD = 'KC-SYS' AND nm = 'subunits'),
-(select kim_typ_id from KRIM_TYP_T where NMSPC_CD = 'KC-SYS' AND nm = 'UnitHierarchy'),UUID()(),'1544',1);
+(select kim_typ_id from KRIM_TYP_T where NMSPC_CD = 'KC-SYS' AND nm = 'UnitHierarchy'),UUID(),'1544',1);
 
 INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID,ATTR_VAL,KIM_ATTR_DEFN_ID,KIM_TYP_ID,OBJ_ID,ROLE_MBR_ID,VER_NBR)
   VALUES ('1439','000001',
 (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where NMSPC_CD = 'KC-SYS' AND nm = 'unitNumber'),
-(select kim_typ_id from KRIM_TYP_T where NMSPC_CD = 'KC-SYS' AND nm = 'Unit'),UUID()(),'1545',1);
+(select kim_typ_id from KRIM_TYP_T where NMSPC_CD = 'KC-SYS' AND nm = 'Unit'),UUID(),'1545',1);
 
 
---REM PROTOCOL STAGE DATA
+-- REM PROTOCOL STAGE DATA
 INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID,ATTR_VAL,KIM_ATTR_DEFN_ID,KIM_TYP_ID,OBJ_ID,ROLE_MBR_ID,VER_NBR)
   VALUES ('1440','1009000013',
 (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where NMSPC_CD = 'KC-SYS' AND nm = 'protocol'),
