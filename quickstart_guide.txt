@@ -1,5 +1,5 @@
 
-*** Installing the out-of-the-box Kuali Coeus 3.0 distribution ***
+*** Installing the out-of-the-box Kuali Coeus 3.0.1 distribution ***
 
 Requirements:
 
