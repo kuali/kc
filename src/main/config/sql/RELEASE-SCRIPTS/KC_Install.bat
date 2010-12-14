@@ -184,9 +184,10 @@ Echo       - bundle = Rice installed with KC client tables
 Echo       - embed = Rice installed in a separate schema 
 Echo           - When installing in embedded mode, you will be asked to install embedded rice server.
 Echo    - DB_Type = Choose one: oracle, mysql
-Echo    - Ver = Choose one: new, 2.0
+Echo    - Ver = Choose one: new, 2.0, 3.0
 Echo       - new = New install with an empty database schema
 Echo       - 2.0 = upgrading from 2.0 KC version
+Echo       - 3.0 = upgrading from 3.0 KC version
 Echo    - un = The kc Database schema name to install database scripts to (bundled rice goes here too).
 Echo    - pw = the password for username
 Echo    - DB_svr_name = the TNS name used to locate the database server where kc schema is located (Oracle Only)
