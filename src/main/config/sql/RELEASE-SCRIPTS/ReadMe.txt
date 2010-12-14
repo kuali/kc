@@ -93,3 +93,9 @@ You will be prompted for the following:
 
 Review .log files for installation errors
 
+Install Demonstration Data
+--------------------------
+
+The demonstration data can be found in the db_scripts/demo-data/<Database> folder.  Run the KC_DEMO.sql and KR_DEMO.sql
+in your Kuali Coeus and Kuali Rice database schemas respectively.  If you are running in bundled mode they will be run 
+in the same schema. 
