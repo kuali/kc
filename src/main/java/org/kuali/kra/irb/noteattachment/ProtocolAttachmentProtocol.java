@@ -50,8 +50,8 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
     private String typeCode;
     private ProtocolAttachmentType type;
     private String description;
-    // documentstatuscode : 1-Draft, 2-Finalized, 3-Deleted
-    // Alll new files are 'Draft'.  When protocol is versioned, all 'Draft' become 'Finalized'
+    // documentStatusCode : 1-Draft, 2-Finalized, 3-Deleted
+    // All new files are 'Draft'.  When protocol is versioned, all 'Draft' become 'Finalized'
     // 'delete' will set this code to 'Deleted'.
     private String documentStatusCode;
     private Integer attachmentVersion;
@@ -284,6 +284,9 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
         hashMap.put(TypedAttachment.PropertyName.DOCUMENT_ID.getPropertyName(), this.getDocumentId());
         hashMap.put(TypedAttachment.PropertyName.GROUP_CODE.getPropertyName(), this.getGroupCode());
         hashMap.put(TypedAttachment.PropertyName.DESCRIPTION.getPropertyName(), this.getDescription());
+        hashMap.put(PropertyName.DOCUMENT_STATUS_CODE.getPropertyName(), this.getDocumentStatusCode());
+        hashMap.put(PropertyName.ATTACHMENT_VERSION.getPropertyName(), this.getAttachmentVersion());
+        hashMap.put(PropertyName.CREATE_TIMESTAMP.getPropertyName(), this.getCreateTimestamp());
         return hashMap;
     }
 
@@ -380,7 +383,8 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
      */
     public static enum PropertyName {
         COMMENTS("comments"), EMAIL("contactEmailAddress"), CONTACT_NAME("contactName"),
-        PHONE("contactPhoneNumber"), STATUS_CODE("statusCode");
+        PHONE("contactPhoneNumber"), STATUS_CODE("statusCode"), DOCUMENT_STATUS_CODE("documentStatusCode"),
+        ATTACHMENT_VERSION("attachmentVersion"), CREATE_TIMESTAMP("createTimestamp");
         
         private final String name;
         
