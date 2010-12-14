@@ -24,6 +24,7 @@
     <bean id="ProposalLog" parent="ProposalLog-parentBean" />
     <bean id="ProposalLog-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" />
+        <property name="boNotesEnabled" value="true"/> 
         <property name="objectLabel" value="Proposal Log" />
         <property name="inquiryDefinition" >
             <ref bean="ProposalLog-inquiryDefinition" />
