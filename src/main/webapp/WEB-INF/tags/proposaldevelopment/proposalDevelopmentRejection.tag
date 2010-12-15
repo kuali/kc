@@ -41,8 +41,8 @@
 		</tr>
 		<tr>
             <td colspan="2" align="center">
-            	<html:image property="methodToCall.rejectYes" src="/kc-dev/kr/static/images/buttonsmall_Yes.gif" title="Do Reject" alt="Do Reject" styleClass="tinybutton"/>
-            	<html:image property="methodToCall.rejectNo" src="/kc-dev/kr/static/images/buttonsmall_No.gif" title="Dont Reject" alt="Don't Reject" styleClass="tinybutton"/>	                
+            	<html:image property="methodToCall.rejectYes" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_Yes.gif" title="Do Reject" alt="Do Reject" styleClass="tinybutton"/>
+            	<html:image property="methodToCall.rejectNo" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_No.gif" title="Dont Reject" alt="Don't Reject" styleClass="tinybutton"/>	                
             </td>
         </tr>
 	</table>

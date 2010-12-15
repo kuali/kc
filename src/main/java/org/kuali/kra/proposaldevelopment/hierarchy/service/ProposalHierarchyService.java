@@ -15,10 +15,12 @@
  */
 package org.kuali.kra.proposaldevelopment.hierarchy.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.struts.upload.FormFile;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.personnel.HierarchyPersonnelSummary;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
@@ -174,10 +176,13 @@ public interface ProposalHierarchyService {
      * @param proposalNumber the proposalNumber you wish to reject
      * @param reason the reason why it is rejected.  Will be added to the route log.
      * @param principalId The princpal to reject the document as.
+     * @param rejectFile The file uploaded when the proposoal development was rejected.
      * @throws WorkflowException if there is a problem getting the workflow document, or rejecting the document.
      * @throws ProposalHierarchyException 
+     * @throws IOException if there is a problem with the upload file.
      */
-    public void rejectProposalDevelopmentDocument( String proposalNumber, String reason, String principalId ) throws WorkflowException, ProposalHierarchyException;
+    public void rejectProposalDevelopmentDocument( String proposalNumber, String reason, String principalId, FormFile rejectFile) 
+    throws WorkflowException, ProposalHierarchyException, IOException;
     
     /**
      * Given the proposalDevelopmentDocument, RouteStatusChangeDTO, and the current user principal name, route all of the child proposal appropriately. 
