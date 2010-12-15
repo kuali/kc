@@ -244,7 +244,8 @@ when
 	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "109")
 then	
 	//TODO update all protocol submission's and committee schedule, following statement should be removed
-	deleteNewProtocolSubmission(protocolAction);
+	// currently, this is only a followup action will be recorded as action.  not delete submission is needed.
+	//deleteNewProtocolSubmission(protocolAction);
 end
 
 rule "fn_Response_Approve" 

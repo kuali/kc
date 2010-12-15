@@ -1041,27 +1041,28 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
         assertTrue(protocolActionService.canPerformAction("207", protocol));
     }
 
-    @Test
-    public void testActionTypeCode109Cond1() {
-        protocol.setSequenceNumber(123);
-        protocol.getProtocolSubmission().setSubmissionNumber(123);
-        mockSubmissionCondt4(true);
-        protocol.getProtocolSubmission().setProtocolReviewTypeCode("2");
-        protocol.getProtocolSubmission().setSubmissionStatusCode("NOT100");
-        assertTrue(protocolActionService.canPerformAction("109", protocol));
-
-        protocol.getProtocolSubmission().setProtocolReviewTypeCode("3");
-        protocol.getProtocolSubmission().setSubmissionStatusCode("NOT100");
-        assertTrue(protocolActionService.canPerformAction("109", protocol));
-    }
+    // this condition is commented in rule file
+//    @Test
+//    public void testActionTypeCode109Cond1() {
+//        protocol.setSequenceNumber(123);
+//        protocol.getProtocolSubmission().setSubmissionNumber(123);
+//        mockSubmissionCondt4(true);
+//        protocol.getProtocolSubmission().setProtocolReviewTypeCode("2");
+//        protocol.getProtocolSubmission().setSubmissionStatusCode("NOT100");
+//        assertTrue(protocolActionService.canPerformAction("109", protocol));
+//
+//        protocol.getProtocolSubmission().setProtocolReviewTypeCode("3");
+//        protocol.getProtocolSubmission().setSubmissionStatusCode("NOT100");
+//        assertTrue(protocolActionService.canPerformAction("109", protocol));
+//    }
 
     @Test
     public void testActionTypeCode109Cond2() {
         protocol.setSequenceNumber(123);
         protocol.getProtocolSubmission().setSubmissionNumber(123);
         mockSubmissionCondt4(false);
-        protocol.getProtocolSubmission().setSubmissionStatusCode("NOT100");
-        protocol.getProtocolSubmission().setScheduleIdFk(null);
+        protocol.getProtocolSubmission().setSubmissionStatusCode("100");
+       // protocol.getProtocolSubmission().setScheduleIdFk(null);
         assertTrue(protocolActionService.canPerformAction("109", protocol));
     }
 

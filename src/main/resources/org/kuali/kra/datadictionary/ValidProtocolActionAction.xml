@@ -37,6 +37,9 @@
                 <ref bean="ValidProtocolActionAction-committeeDecisionMotionTypeCode" />
                 <ref bean="ValidProtocolActionAction-actionNumber" />
                 <ref bean="ValidProtocolActionAction-followupActionCode" />
+                <ref bean="ValidProtocolActionAction-protocolActionType.description" />
+                <ref bean="ValidProtocolActionAction-committeeDecisionMotionType.description" />
+                <ref bean="ValidProtocolActionAction-followupProtocolActionType.description" />
                 <ref bean="ValidProtocolActionAction-userPromptFlag" />
                 <ref bean="ValidProtocolActionAction-userPrompt" />
                 <ref bean="ValidProtocolActionAction-versionNumber" />
@@ -112,7 +115,27 @@
         <property name="description" value="Protocol Action Type" />
     </bean>
 
+  <bean id="ValidProtocolActionAction-protocolActionType.description" parent="ValidProtocolActionAction-protocolActionType.description-parentBean" />
+  <bean id="ValidProtocolActionAction-protocolActionType.description-parentBean" abstract="true" parent="ProtocolActionType-description">
+    <property name="name" value="protocolActionType.description" />
+    <property name="label" value="Protocol Action" />
+    <property name="shortLabel" value="Protocol Action" />
+  </bean>
+  
+  <bean id="ValidProtocolActionAction-committeeDecisionMotionType.description" parent="ValidProtocolActionAction-committeeDecisionMotionType.description-parentBean" />
+  <bean id="ValidProtocolActionAction-committeeDecisionMotionType.description-parentBean" abstract="true" parent="CommitteeDecisionMotionType-description">
+    <property name="name" value="committeeDecisionMotionType.description" />
+    <property name="label" value="Motion Type" />
+    <property name="shortLabel" value="Motion Type" />
+  </bean>
 
+  <bean id="ValidProtocolActionAction-followupProtocolActionType.description" parent="ValidProtocolActionAction-followupProtocolActionType.description-parentBean" />
+  <bean id="ValidProtocolActionAction-followupProtocolActionType.description-parentBean" abstract="true" parent="ProtocolActionType-description">
+    <property name="name" value="followupProtocolActionType.description" />
+    <property name="label" value="Follow-up Action" />
+    <property name="shortLabel" value="Follow-up Action" />
+  </bean>
+  
 
 	<bean id="ValidProtocolActionAction-actionNumber" parent="ValidProtocolActionAction-actionNumber-parentBean" />
    	<bean id="ValidProtocolActionAction-actionNumber-parentBean" abstract="true" parent="AttributeDefinition" >
@@ -245,13 +268,13 @@
             <list>
 				<bean parent="FieldDefinition" p:attributeName="validProtocolActionActionId"
 					p:forceInquiry="true" />
-				<bean parent="FieldDefinition" p:attributeName="protocolActionTypeCode"
+				<bean parent="FieldDefinition" p:attributeName="protocolActionType.description"
 					p:forceInquiry="true" />
-				<bean parent="FieldDefinition" p:attributeName="motionTypeCode"
+				<bean parent="FieldDefinition" p:attributeName="committeeDecisionMotionType.description"
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition" p:attributeName="actionNumber"
 					p:forceInquiry="true" />
-				<bean parent="FieldDefinition" p:attributeName="followupActionCode"
+				<bean parent="FieldDefinition" p:attributeName="followupProtocolActionType.description"
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition" p:attributeName="userPromptFlag"
 					p:forceInquiry="true" />					

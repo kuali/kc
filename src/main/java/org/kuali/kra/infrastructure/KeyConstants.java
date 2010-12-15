@@ -718,7 +718,8 @@ public final class KeyConstants {
     public static final String QUESTION_PROTOCOL_CONFIRM_SUBMIT_FOR_REVIEW = "question.protocol.confirmExceedMaxProtocols";
     public static final String QUESTION_CONFIRM_SCHEDULE_CHANGE_REMOVE_EXISTING_REVIEWS = "question.protocol.confirmRemoveExistingReviews";
     public static final String QUESTION_CONFIRM_UPDATE_REVIEW_TO_FINAL="question.protocol.onlineReview.confirmUpdateToFinal";
-   
+    public static final String QUESTION_PROTOCOL_CONFIRM_FOLLOWUP_ACTION = "question.protocol.confirmFollowupAction";
+
     // Questionnaire
     public static final String ERROR_QUESTION_STATUS_IN_USE = "error.question.status.in.use";
     public static final String ERROR_QUESTION_RESPONSE_TYPE_NOT_SPECIFIED = "error.question.response.type.not.specified";

@@ -304,18 +304,20 @@ then
 	setAction(protocolAction, true);
 end
 
-rule "Assign to Schedule 1 //TODO not sure about this cond."
-salience 100
-when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "109", protocolSubmissionScheduleId != null, submissionStatusCode not in ("100","102"),protocolReviewTypeCode in ("2","3"))
-then	
-	setAction(protocolAction, true);
-end
+//rule "Assign to Schedule 1 //TODO not sure about this cond."
+//salience 100
+//when
+//	protocolAction : ProtocolActionMapping(actionTypeCode == "109", protocolSubmissionScheduleId != null, submissionStatusCode not in ("100","102"),protocolReviewTypeCode in ("2","3"))
+//then	
+//	setAction(protocolAction, true);
+//end
 
 rule "Assign to Schedule 2 //TODO not sure about this cond."
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "109", protocolSubmissionScheduleId == null, submissionStatusCode not in ("100","102"))
+    // based on ProtocolAssignCmtSchedAuthorizer.isPendingOrSubmittedToCommittee
+	//protocolAction : ProtocolActionMapping(actionTypeCode == "109", protocolSubmissionScheduleId == null, submissionStatusCode not in ("100","102"))
+	protocolAction : ProtocolActionMapping(actionTypeCode == "109", submissionStatusCode in ("100","102"))
 then	
 	setAction(protocolAction, true);
 end
