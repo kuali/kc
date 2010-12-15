@@ -108,9 +108,9 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         for(Object hierarchyName : sponsorHierarchies) {
             topSponsorHierarchy = topSponsorHierarchy + hierarchyName + Constants.SPONSOR_HIERARCHY_SEPARATOR_C1C;            
         }
-        
-        topSponsorHierarchy = topSponsorHierarchy.substring(0, topSponsorHierarchy.length() - 3);
-
+        if(topSponsorHierarchy.length() >= 3) {
+            topSponsorHierarchy = topSponsorHierarchy.substring(0, topSponsorHierarchy.length() - 3);
+        }
         return topSponsorHierarchy;
     }
 
