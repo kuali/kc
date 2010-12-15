@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.budget;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
@@ -25,9 +26,12 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.ExtraButton;
+import org.kuali.rice.kns.web.ui.HeaderField;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class AwardBudgetForm extends BudgetForm {
     /**
@@ -126,6 +130,34 @@ public class AwardBudgetForm extends BudgetForm {
      */
     public String getFnARateFlagEditable(){
         return Boolean.toString(getAwardBudgetDocument().getParentDocument().getBudgetParent().getAwardFandaRate().isEmpty());
+    }
+
+    /*
+     * Following 4 methods override base function of Budget. For Award Budgets, header should display info about budget,
+     * not parent Award document.
+     */
+    @Override
+    protected HeaderField getHeaderDocNumber() {
+        return new HeaderField("DataDictionary.DocumentHeader.attributes.documentNumber", getBudgetDocument() == null ? null : getBudgetDocument().getDocumentNumber()); 
+    }
+
+    @Override
+    protected HeaderField getHeaderDocStatus (KualiWorkflowDocument parentWorkflowDocument) {
+        AwardBudgetExt abe = this.getAwardBudgetDocument().getAwardBudget();
+        return new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.workflowDocumentStatus", abe.getAwardBudgetStatus().getDescription());
+    }
+    
+    @Override
+    protected HeaderField getHeaderDocInitiator(KualiWorkflowDocument parentWorkflowDocument) {
+        KualiWorkflowDocument doc = getBudgetDocument().getDocumentHeader().getWorkflowDocument();
+        return new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.initiatorNetworkId", doc.getInitiatorNetworkId());
+    }
+    
+    @Override
+    protected HeaderField getHeaderDocCreateDate(KualiWorkflowDocument parentWorkflowDocument) {
+        Timestamp ts = getBudgetDocument().getDocumentHeader().getWorkflowDocument().getCreateDate();
+        String updateDateStr = KNSServiceLocator.getDateTimeService().toString(ts, "hh:mm a MM/dd/yyyy");
+        return new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.createDate", updateDateStr);
     }
     
 }
