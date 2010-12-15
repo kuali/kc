@@ -696,25 +696,12 @@ public class BudgetForm extends BudgetVersionFormBase {
         } catch (WorkflowException e) {
         } 
         
-        //Document Number TODO replace universal user inquiry
-        HeaderField docNumber = new HeaderField("DataDictionary.DocumentHeader.attributes.documentNumber", parentDocument != null? parentDocument.getDocumentNumber() : null); 
-        HeaderField docStatus = new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.workflowDocumentStatus", parentWorkflowDocument != null? parentWorkflowDocument.getStatusDisplayValue() : null);
-        HeaderField docInitiator = new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.initiatorNetworkId", 
-                parentWorkflowDocument != null? parentWorkflowDocument.getInitiatorNetworkId() : null, 
-                        parentWorkflowDocument != null? "<kul:inquiry boClassName='org.kuali.rice.kns.bo.user.UniversalUser' keyValues='${PropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER}=" + parentWorkflowDocument.getRouteHeader().getInitiatorPrincipalId() + "' render='true'>" + parentWorkflowDocument.getInitiatorNetworkId() + "</kul:inquiry>" : null);
-        
-        String createDateStr = null;
-        if(parentWorkflowDocument != null && parentWorkflowDocument.getCreateDate() != null) {
-            createDateStr = KNSServiceLocator.getDateTimeService().toString(parentWorkflowDocument.getCreateDate(), "hh:mm a MM/dd/yyyy");
-        }
-        
-        HeaderField docCreateDate = new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.createDate", createDateStr);
-
+        // Replaced setting local vars with method calls to ease overriding
         getDocInfo().clear();
-        getDocInfo().add(docNumber);
-        getDocInfo().add(docStatus); 
-        getDocInfo().add(docInitiator);
-        getDocInfo().add(docCreateDate);
+        getDocInfo().add(getHeaderDocNumber());
+        getDocInfo().add(getHeaderDocStatus(parentWorkflowDocument)); 
+        getDocInfo().add(getHeaderDocInitiator(parentWorkflowDocument));
+        getDocInfo().add(getHeaderDocCreateDate(parentWorkflowDocument));
         
         String budgetName = Constants.EMPTY_STRING;
         String budgetVersionNumber = Constants.EMPTY_STRING;
@@ -738,6 +725,29 @@ public class BudgetForm extends BudgetVersionFormBase {
         getDocInfo().add(new HeaderField(VERSION_NUMBER_KEY, budgetVersionNumber));
     }
 
+    protected HeaderField getHeaderDocNumber() {
+        BudgetParentDocument parentDocument = getDocument().getParentDocument();
+        return new HeaderField("DataDictionary.DocumentHeader.attributes.documentNumber", parentDocument != null? parentDocument.getDocumentNumber() : null); 
+    }
+
+    protected HeaderField getHeaderDocStatus (KualiWorkflowDocument parentWorkflowDocument) {
+        return new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.workflowDocumentStatus", parentWorkflowDocument != null? parentWorkflowDocument.getStatusDisplayValue() : null);
+    }
+    
+    protected HeaderField getHeaderDocInitiator(KualiWorkflowDocument parentWorkflowDocument) {
+        return new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.initiatorNetworkId", 
+                               parentWorkflowDocument != null? parentWorkflowDocument.getInitiatorNetworkId() : null, 
+                               parentWorkflowDocument != null? "<kul:inquiry boClassName='org.kuali.rice.kns.bo.user.UniversalUser' keyValues='${PropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER}=" + parentWorkflowDocument.getRouteHeader().getInitiatorPrincipalId() + "' render='true'>" + parentWorkflowDocument.getInitiatorNetworkId() + "</kul:inquiry>" : null);
+    }
+    
+    protected HeaderField getHeaderDocCreateDate(KualiWorkflowDocument parentWorkflowDocument) {
+        String createDateStr = null;
+        if(parentWorkflowDocument != null && parentWorkflowDocument.getCreateDate() != null) {
+        createDateStr = KNSServiceLocator.getDateTimeService().toString(parentWorkflowDocument.getCreateDate(), "hh:mm a MM/dd/yyyy");
+        }
+        return new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.createDate", createDateStr);
+    }
+    
     public String getUrRateClassCodePrevValue() {
         return urRateClassCodePrevValue;
     }
