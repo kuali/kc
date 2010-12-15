@@ -40,6 +40,7 @@ public class PHSCoverLetterV1_2Generator extends PHSCoverLetterBaseGenerator {
 				.newInstance();
 		PHSCoverLetter12 phsCoverLetter = PHSCoverLetter12.Factory
 				.newInstance();
+        CoverLetterFile coverLetterFile = CoverLetterFile.Factory.newInstance();
 		phsCoverLetter.setFormVersion(S2SConstants.FORMVERSION_1_2);
 		AttachedFileDataType attachedFileDataType = null;
 		for (Narrative narrative : pdDoc.getDevelopmentProposal()
@@ -48,13 +49,12 @@ public class PHSCoverLetterV1_2Generator extends PHSCoverLetterBaseGenerator {
 					&& Integer.parseInt(narrative.getNarrativeTypeCode()) == NARRATIVE_PHS_COVER_LETTER) {
 				attachedFileDataType = getAttachedFileType(narrative);
 				if(attachedFileDataType != null){
-					CoverLetterFile coverLetterFile = CoverLetterFile.Factory
-							.newInstance();
 					coverLetterFile.setCoverLetterFilename(attachedFileDataType);
-					phsCoverLetter.setCoverLetterFile(coverLetterFile);
+					break;
 				}
 			}
 		}
+        phsCoverLetter.setCoverLetterFile(coverLetterFile);
 		phsCoverLetterDocument.setPHSCoverLetter12(phsCoverLetter);
 		return phsCoverLetterDocument;
 	}

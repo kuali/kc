@@ -392,26 +392,57 @@ public class RROtherProjectInfoV1_3Generator extends
 	 */
 	private void setAttachments(
 			RROtherProjectInfo13Document.RROtherProjectInfo13 rrOtherProjectInfo) {
-		Boolean isOtherAttachmentsExists = false;
-		for (Narrative narrative : pdDoc.getDevelopmentProposal()
-				.getNarratives()) {
-			if (narrative.getNarrativeTypeCode() != null) {
-				setEquipmentAttachments(rrOtherProjectInfo, narrative);
-				setFacilitiesAttachments(rrOtherProjectInfo, narrative);
-				setProjectNarrativeAttachments(rrOtherProjectInfo, narrative);
-				setBibliographyAttachments(rrOtherProjectInfo, narrative);
-				setAbstractAttachments(rrOtherProjectInfo, narrative);
-				int narrativeTypeCode = Integer.parseInt(narrative
-						.getNarrativeTypeCode());
-				if (narrativeTypeCode == OTHER_ATTACHMENT
-						|| narrativeTypeCode == SUPPLIMENTARY_ATTACHMENT) {
-					isOtherAttachmentsExists = true;
-				}
-			}
-		}
-		if (isOtherAttachmentsExists) {
-			setOtherAttachments(rrOtherProjectInfo);
-		}
+        Boolean isOtherAttachmentsExists = false;
+        AttachedFileDataType attachedFileDataType;
+        ProjectNarrativeAttachments projectNarrativeAttachments = ProjectNarrativeAttachments.Factory.newInstance();
+        AbstractAttachments abstractAttachments = AbstractAttachments.Factory.newInstance();
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+            if (narrative.getNarrativeTypeCode() != null) {
+                attachedFileDataType = getAttachedFileType(narrative);
+                switch(Integer.parseInt(narrative.getNarrativeTypeCode())){
+                    case(EQUIPMENT_ATTACHMENT):
+                        if(attachedFileDataType != null){
+                            EquipmentAttachments equipmentAttachments = EquipmentAttachments.Factory.newInstance();
+                            equipmentAttachments.setEquipmentAttachment(attachedFileDataType);
+                            rrOtherProjectInfo.setEquipmentAttachments(equipmentAttachments);
+                        }
+                    break;
+                    case(FACILITIES_ATTACHMENT):
+                        if(attachedFileDataType != null){
+                            FacilitiesAttachments facilitiesAttachments = FacilitiesAttachments.Factory.newInstance();
+                            facilitiesAttachments.setFacilitiesAttachment(attachedFileDataType);
+                            rrOtherProjectInfo.setFacilitiesAttachments(facilitiesAttachments);
+                        }
+                    break;
+                    case(NARRATIVE_ATTACHMENT):
+                        if(attachedFileDataType != null){
+                            projectNarrativeAttachments.setProjectNarrativeAttachment(attachedFileDataType);
+                        }
+                    break;
+                    case(BIBLIOGRAPHY_ATTACHMENT):
+                        if(attachedFileDataType != null){
+                            BibliographyAttachments bibliographyAttachments = BibliographyAttachments.Factory.newInstance();
+                            bibliographyAttachments.setBibliographyAttachment(attachedFileDataType);
+                            rrOtherProjectInfo.setBibliographyAttachments(bibliographyAttachments);
+                        }
+                    break;
+                    case(ABSTRACT_PROJECT_SUMMARY_ATTACHMENT):
+                        if(attachedFileDataType != null){
+                            abstractAttachments.setAbstractAttachment(attachedFileDataType);
+                        }
+                    break;
+                    case(OTHER_ATTACHMENT):
+                    case(SUPPLIMENTARY_ATTACHMENT):
+                        isOtherAttachmentsExists = true;
+                    break;
+                }
+            }
+        }
+        rrOtherProjectInfo.setProjectNarrativeAttachments(projectNarrativeAttachments);
+        rrOtherProjectInfo.setAbstractAttachments(abstractAttachments);
+        if (isOtherAttachmentsExists) {
+            setOtherAttachments(rrOtherProjectInfo);
+        }
 	}
 
 	/*
@@ -424,100 +455,6 @@ public class RROtherProjectInfoV1_3Generator extends
 				.newInstance();
 		otherAttachments.setOtherAttachmentArray(getAttachedFileDataTypes());
 		rrOtherProjectInfo.setOtherAttachments(otherAttachments);
-	}
-
-	/*
-	 * This method will set the abstract attachments to RR other Project info
-	 * document
-	 */
-	private void setAbstractAttachments(
-			RROtherProjectInfo13Document.RROtherProjectInfo13 rrOtherProjectInfo,
-			Narrative narrative) {
-		if (Integer.parseInt(narrative.getNarrativeTypeCode()) == ABSTRACT_PROJECT_SUMMARY_ATTACHMENT) {
-			AttachedFileDataType attachedFileDataType = getAttachedFileType(narrative);
-			if(attachedFileDataType != null){
-				AbstractAttachments abstractAttachments = AbstractAttachments.Factory.newInstance();
-				abstractAttachments.setAbstractAttachment(attachedFileDataType);
-				rrOtherProjectInfo.setAbstractAttachments(abstractAttachments);
-			}
-		}
-	}
-
-	/*
-	 * This method will set the bibliography attachments to RR other Project
-	 * info document
-	 */
-	private void setBibliographyAttachments(
-			RROtherProjectInfo13Document.RROtherProjectInfo13 rrOtherProjectInfo,
-			Narrative narrative) {
-		if (Integer.parseInt(narrative.getNarrativeTypeCode()) == BIBLIOGRAPHY_ATTACHMENT) {
-			AttachedFileDataType attachedFileDataType = getAttachedFileType(narrative);
-			if(attachedFileDataType != null){
-				BibliographyAttachments bibliographyAttachments = BibliographyAttachments.Factory.newInstance();
-				bibliographyAttachments
-						.setBibliographyAttachment(attachedFileDataType);
-				rrOtherProjectInfo
-						.setBibliographyAttachments(bibliographyAttachments);
-			}
-		}
-	}
-
-	/*
-	 * This method will set the project narrative attachments to RR other
-	 * Project info document
-	 */
-	private void setProjectNarrativeAttachments(
-			RROtherProjectInfo13Document.RROtherProjectInfo13 rrOtherProjectInfo,
-			Narrative narrative) {
-		if (Integer.parseInt(narrative.getNarrativeTypeCode()) == NARRATIVE_ATTACHMENT) {
-			AttachedFileDataType attachedFileDataType = getAttachedFileType(narrative);
-			if(attachedFileDataType != null){
-				ProjectNarrativeAttachments projectNarrativeAttachments = ProjectNarrativeAttachments.Factory
-						.newInstance();
-				projectNarrativeAttachments
-						.setProjectNarrativeAttachment(attachedFileDataType);
-				rrOtherProjectInfo
-						.setProjectNarrativeAttachments(projectNarrativeAttachments);
-			}
-		}
-	}
-
-	/*
-	 * This method will set the facilities attachments to RR other Project info
-	 * document
-	 */
-	private void setFacilitiesAttachments(
-			RROtherProjectInfo13Document.RROtherProjectInfo13 rrOtherProjectInfo,
-			Narrative narrative) {
-		if (Integer.parseInt(narrative.getNarrativeTypeCode()) == FACILITIES_ATTACHMENT) {
-			AttachedFileDataType attachedFileDataType = getAttachedFileType(narrative);
-			if(attachedFileDataType != null){
-				FacilitiesAttachments facilitiesAttachments = FacilitiesAttachments.Factory
-						.newInstance();
-				facilitiesAttachments
-						.setFacilitiesAttachment(attachedFileDataType);
-				rrOtherProjectInfo.setFacilitiesAttachments(facilitiesAttachments);
-			}
-		}
-	}
-
-	/*
-	 * This method will set the equipment attachments to RR other Project info
-	 * document
-	 */
-	private void setEquipmentAttachments(
-			RROtherProjectInfo13Document.RROtherProjectInfo13 rrOtherProjectInfo,
-			Narrative narrative) {
-		if (Integer.parseInt(narrative.getNarrativeTypeCode()) == EQUIPMENT_ATTACHMENT) {
-			AttachedFileDataType attachedFileDataType = getAttachedFileType(narrative);
-			if(attachedFileDataType != null){
-				EquipmentAttachments equipmentAttachments = EquipmentAttachments.Factory
-						.newInstance();
-				equipmentAttachments
-						.setEquipmentAttachment(attachedFileDataType);
-				rrOtherProjectInfo.setEquipmentAttachments(equipmentAttachments);
-			}
-		}
 	}
 
 	/*
