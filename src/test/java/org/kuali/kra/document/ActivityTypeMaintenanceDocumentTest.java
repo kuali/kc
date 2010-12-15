@@ -29,7 +29,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class ActivityTypeMaintenanceDocumentTest extends MaintenanceDocumentTestBase {
     
     private static final String ACTIVITY_TYPE_CODE_1 = Long.toString(System.currentTimeMillis()%1000);
-    private static final String ACTIVITY_TYPE_CODE_2 = Long.toString((System.currentTimeMillis()+1)%1000);
+    private static final String ACTIVITY_TYPE_CODE_2 = Long.toString((System.currentTimeMillis()+1)%1001);
 
     @Override
     public void tearDown() throws Exception {
