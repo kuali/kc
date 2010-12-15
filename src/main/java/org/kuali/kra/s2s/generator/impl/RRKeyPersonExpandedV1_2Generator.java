@@ -93,7 +93,6 @@ public class RRKeyPersonExpandedV1_2Generator extends
 		if (keyPersonArray.length > 0) {
 			rrKeyPersonExpanded.setKeyPersonArray(keyPersonArray);
 		}
-		// TODO Save the extraKeyPerson before calling the following details.
 		saveKeyPersonAttachmentsToProposal();
 		if (extraPersons.size() > 0) {
 			for (ProposalPerson extraPerson : extraPersons) {
@@ -213,7 +212,7 @@ public class RRKeyPersonExpandedV1_2Generator extends
 			profile.setCredential(PI.getEraCommonsUserName());
 		}
 		profile.setProjectRole(ProjectRoleDataType.PD_PI);
-		set(profile, PI);
+		setAttachments(profile, PI);
 		profileDataType.setProfile(profile);
 	}
 
@@ -265,7 +264,7 @@ public class RRKeyPersonExpandedV1_2Generator extends
 	/*
 	 * This method is used to add attachments related to principle indicator
 	 */
-	private void set(Profile profile, ProposalPerson PI) {
+	private void setAttachments(Profile profile, ProposalPerson PI) {
 		setBioSketchAttachment(profile, PI);
 		setCurrentPendingAttachment(profile, PI);
 	}
@@ -346,7 +345,7 @@ public class RRKeyPersonExpandedV1_2Generator extends
 			}
 			Profile profileKeyPerson = Profile.Factory.newInstance();
 			setAllkeyPersonDetailsToKeyPerson(keyPerson, profileKeyPerson);
-			set(profileKeyPerson, keyPerson);
+			setAttachments(profileKeyPerson, keyPerson);
 			PersonProfileDataType personProfileDataTypeKeyPerson = PersonProfileDataType.Factory
 					.newInstance();
 			personProfileDataTypeKeyPerson.setProfile(profileKeyPerson);
