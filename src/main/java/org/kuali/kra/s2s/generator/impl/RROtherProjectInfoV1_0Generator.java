@@ -160,6 +160,8 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
         if (proposalYnq != null) {
             answer = (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(proposalYnq.getAnswer()) ? YesNoDataType.YES : YesNoDataType.NO);
             rrOtherProjectInfo.setProprietaryInformationIndicator(answer);
+        }else{
+            rrOtherProjectInfo.setProprietaryInformationIndicator(YesNoDataType.NO);
         }
         /**
          * EnvironmentalImpact is of YnQ type
@@ -178,6 +180,8 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
                 environmentalImpactExplanation.setEnvironmentalImpactIndicator(answer);
                 environmentalImpact.setEnvironmentalImpactExplanation(environmentalImpactExplanation);
             }
+        }else{
+            environmentalImpact.setEnvironmentalImpactIndicator(YesNoDataType.NO);
         }
         proposalYnq = getAnswer(ENVIRONMENTAL_EXEMPTION_YNQ, pdDoc);
         if (proposalYnq != null) {
