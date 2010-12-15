@@ -110,7 +110,9 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
         if (currentWorkflowDocument.stateIsCanceled()) {
             protocolDocument = protocolCopyService.copyProtocol(protocolDocument);
             resetProtocolStatus(protocolDocument.getProtocol());
-        } else if(currentWorkflowDocument != null && currentWorkflowDocument.stateIsFinal() && lastPerformedAction != null && ProtocolActionType.APPROVED.equals(lastPerformedAction.getProtocolActionTypeCode())) {
+        } else if(currentWorkflowDocument != null && currentWorkflowDocument.stateIsFinal() && lastPerformedAction != null 
+                  && (ProtocolActionType.APPROVED.equals(lastPerformedAction.getProtocolActionTypeCode()) 
+                          || ProtocolActionType.EXPEDITE_APPROVAL.equals(lastPerformedAction.getProtocolActionTypeCode()))) {
             //currentWorkflowDocument.returnToPreviousRouteLevel("Undo Last Action", currentWorkflowDocument.getDocRouteLevel() - 1);
             protocolDocument = protocolVersionService.versionProtocolDocument(protocolDocument);
             protocolDocument.getProtocol().refreshReferenceObject("protocolStatus");
