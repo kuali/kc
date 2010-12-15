@@ -52,6 +52,8 @@ public class ProtocolAction extends ProtocolAssociate {
     private String prevSubmissionStatusCode;
     private String submissionTypeCode;
     private String prevProtocolStatusCode;
+    // This will be used an indicator whether there is a follow up action
+    private String followupActionCode;
     
     @SkipVersioning
     private transient ProtocolSubmission protocolSubmission;    
@@ -364,5 +366,13 @@ public class ProtocolAction extends ProtocolAssociate {
     
     public void setIsInFilterView(boolean isInFilterView) {
         this.isInFilterView = isInFilterView;
+    }
+
+    public String getFollowupActionCode() {
+        return followupActionCode;
+    }
+
+    public void setFollowupActionCode(String followupActionCode) {
+        this.followupActionCode = followupActionCode;
     }
 }

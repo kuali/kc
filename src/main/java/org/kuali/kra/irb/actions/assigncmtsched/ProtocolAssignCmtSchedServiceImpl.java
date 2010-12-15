@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.actions.assigncmtsched;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,16 +25,20 @@ import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.ProtocolAction;
+import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Handles the assignment of a protocol to a committee/schedule.
  */
 public class ProtocolAssignCmtSchedServiceImpl implements ProtocolAssignCmtSchedService {
 
+    private static final String NEXT_ACTION_ID_KEY = "actionId";
     private BusinessObjectService businessObjectService;
     private CommitteeService committeeService;
     
@@ -80,10 +85,43 @@ public class ProtocolAssignCmtSchedServiceImpl implements ProtocolAssignCmtSched
      */
     public void assignToCommitteeAndSchedule(Protocol protocol, ProtocolAssignCmtSchedBean actionBean) throws Exception {
         ProtocolSubmission submission = findSubmission(protocol);
-        setSchedule(submission, actionBean.getNewCommitteeId(), actionBean.getNewScheduleId());
-        submission.setSubmissionStatusCode(ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
-        protocol.refreshReferenceObject("protocolStatus");
+        if (submission != null) {
+            setSchedule(submission, actionBean.getNewCommitteeId(), actionBean.getNewScheduleId());
+            submission.setSubmissionStatusCode(ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
+            protocol.refreshReferenceObject("protocolStatus");
+        } else if (ProtocolActionType.NOTIFIED_COMMITTEE.equals(protocol.getLastProtocolAction().getFollowupActionCode())) {
+            // followup action
+            updateSubmission(protocol, actionBean);
+            addNewAction(protocol, actionBean);
+        }
         businessObjectService.save(protocol);
+    }
+
+    private void updateSubmission(Protocol protocol, ProtocolAssignCmtSchedBean actionBean) {
+        for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
+            if (submission.getSubmissionNumber().equals(protocol.getLastProtocolAction().getSubmissionNumber())) {
+                setSchedule(submission, actionBean.getNewCommitteeId(), actionBean.getNewScheduleId());
+                break;
+            }
+        }
+    }
+    
+    private void addNewAction(Protocol protocol, ProtocolAssignCmtSchedBean actionBean) {
+        ProtocolAction lastAction = protocol.getLastProtocolAction();
+        ProtocolAction newAction = new ProtocolAction();
+        // deep copy will replaced the last action with the new one after save
+       // ProtocolAction newAction = (ProtocolAction)ObjectUtils.deepCopy(protocol.getLastProtocolAction());
+        newAction.setActionId(protocol.getNextValue(NEXT_ACTION_ID_KEY));
+        newAction.setActualActionDate(new Timestamp(System.currentTimeMillis()));
+        newAction.setActionDate(new Timestamp(System.currentTimeMillis()));
+        newAction.setProtocolActionTypeCode(ProtocolActionType.NOTIFIED_COMMITTEE);
+        newAction.setSubmissionIdFk(lastAction.getSubmissionIdFk());
+        newAction.setSubmissionNumber(lastAction.getSubmissionNumber());
+        newAction.setProtocolNumber(protocol.getProtocolNumber());
+        newAction.setProtocolId(protocol.getProtocolId());
+        newAction.setSequenceNumber(protocol.getSequenceNumber());
+        protocol.getProtocolActions().add(newAction);
+
     }
 
     /**

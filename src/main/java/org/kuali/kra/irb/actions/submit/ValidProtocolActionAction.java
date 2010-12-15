@@ -43,6 +43,7 @@ public class ValidProtocolActionAction extends KraPersistableBusinessObjectBase 
     
     private ProtocolActionType protocolActionType;
     private CommitteeDecisionMotionType committeeDecisionMotionType;
+    private ProtocolActionType followupProtocolActionType;
     
     
     /**
@@ -109,7 +110,6 @@ public class ValidProtocolActionAction extends KraPersistableBusinessObjectBase 
         this.followupProtocolActionType = followupProtocolActionType;
     }
 
-    private ProtocolActionType followupProtocolActionType;
     
     public ValidProtocolActionAction() { 
 
