@@ -195,19 +195,17 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
 			budgetYear.setCognizantFederalAgency(periodInfo
 					.getCognizantFedAgency());
 		}
-		AttachedFileDataType attachedFileDataType = null;
-		for (Narrative narrative : pdDoc.getDevelopmentProposal()
-				.getNarratives()) {
+		AttachedFileDataType attachedFileDataType = AttachedFileDataType.Factory.newInstance();
+		for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
 			if (narrative.getNarrativeTypeCode() != null
 					&& Integer.parseInt(narrative.getNarrativeTypeCode()) == BUDGET_JUSTIFICATION_ATTACHMENT) {
 				attachedFileDataType = getAttachedFileType(narrative);
 				if (attachedFileDataType != null) {
-					budgetYear
-							.setBudgetJustificationAttachment(attachedFileDataType);
 					break;
 				}
 			}
 		}
+        budgetYear.setBudgetJustificationAttachment(attachedFileDataType);
 		return budgetYear;
 	}
 

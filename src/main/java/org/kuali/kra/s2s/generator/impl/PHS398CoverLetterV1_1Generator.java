@@ -44,18 +44,19 @@ public class PHS398CoverLetterV1_1Generator extends PHS398CoverLetterBaseGenerat
 
         PHS398CoverLetterDocument phsCoverLetterDocument = PHS398CoverLetterDocument.Factory.newInstance();
         PHS398CoverLetter phsCoverLetter = PHS398CoverLetter.Factory.newInstance();
+        CoverLetterFile coverLetterFile = CoverLetterFile.Factory.newInstance();
         phsCoverLetter.setFormVersion(S2SConstants.FORMVERSION_1_1);
         AttachedFileDataType attachedFileDataType = null;
         for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null && Integer.parseInt(narrative.getNarrativeTypeCode()) == PHS_COVER_LETTER) {
                 attachedFileDataType = getAttachedFileType(narrative);
                 if(attachedFileDataType != null){
-                	CoverLetterFile coverLetterFile = CoverLetterFile.Factory.newInstance();
                 	coverLetterFile.setCoverLetterFilename(attachedFileDataType);
-                	phsCoverLetter.setCoverLetterFile(coverLetterFile);
+                	break;
                 }
             }
         }
+        phsCoverLetter.setCoverLetterFile(coverLetterFile);
         phsCoverLetterDocument.setPHS398CoverLetter(phsCoverLetter);
         return phsCoverLetterDocument;
     }
