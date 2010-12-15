@@ -1833,4 +1833,14 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         this.lookupProtocolPersonId = lookupProtocolPersonId;
     }
 
+    /**
+     * 
+     * This method is to check if the actiontypecode is a followup action.
+     * @param actionTypeCode
+     * @return
+     */
+    public boolean isFollowupAction(String actionTypeCode) {
+        return (getLastProtocolAction() == null || StringUtils.isBlank(getLastProtocolAction().getFollowupActionCode())) ? false 
+                : actionTypeCode.equals(getLastProtocolAction().getFollowupActionCode());
+    }
 }

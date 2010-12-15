@@ -18,6 +18,7 @@ package org.kuali.kra.irb.auth;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 
@@ -32,7 +33,8 @@ public class ProtocolAssignCmtSchedUnavailableAuthorizer extends ProtocolAuthori
     public boolean isAuthorized(String username, ProtocolTask task) {
         Protocol protocol = task.getProtocol();
         return (!kraWorkflowService.isInWorkflow(protocol.getProtocolDocument()) ||
-                !isPendingOrSubmittedToCommittee(protocol)) &&
+              //  !isPendingOrSubmittedToCommittee(protocol)) &&
+                !canExecuteAction(task.getProtocol(), ProtocolActionType.NOTIFIED_COMMITTEE)) &&
                hasPermission(username, protocol, PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
     }
 

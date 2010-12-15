@@ -16,6 +16,8 @@
 package org.kuali.kra.irb.actions.approve;
 
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -29,11 +31,10 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
+import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
@@ -80,7 +81,7 @@ public class ProtocolApproveServiceImplTest extends KcUnitTestBase {
     @Test
     public void testFullApproval() throws Exception{
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
-        
+        addProtocolAction(protocolDocument.getProtocol());
         service.grantFullApproval(protocolDocument.getProtocol(), getMockProtocolApproveBean());
         
         verifyPersistStatusAction(protocolDocument.getProtocol());
@@ -89,6 +90,7 @@ public class ProtocolApproveServiceImplTest extends KcUnitTestBase {
     @Test
     public void testExpeditedApproval() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        addProtocolAction(protocolDocument.getProtocol());
 
         service.grantExpeditedApproval(protocolDocument.getProtocol(), getMockProtocolApproveBean());
     
@@ -98,10 +100,27 @@ public class ProtocolApproveServiceImplTest extends KcUnitTestBase {
     @Test
     public void testResponseApproval() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        addProtocolAction(protocolDocument.getProtocol());
         
         service.grantResponseApproval(protocolDocument.getProtocol(), getMockProtocolApproveBean());
     
         verifyPersistStatusAction(protocolDocument.getProtocol());
+    }
+    
+    private void addProtocolAction (Protocol protocol) {
+        ProtocolAction newAction = new ProtocolAction();
+        newAction.setActionId(protocol.getNextValue("actionId"));
+        newAction.setActualActionDate(new Timestamp(System.currentTimeMillis()));
+        newAction.setActionDate(new Timestamp(ACTION_DATE.getTime()));
+        newAction.setProtocolActionTypeCode(ProtocolActionType.NOTIFIED_COMMITTEE);
+        newAction.setProtocolNumber(protocol.getProtocolNumber());
+        newAction.setProtocolId(protocol.getProtocolId());
+        newAction.setSequenceNumber(protocol.getSequenceNumber());
+        newAction.setComments(COMMENTS);
+        if (protocol.getProtocolActions() == null) {
+            protocol.setProtocolActions(new ArrayList<ProtocolAction>());
+        }
+        protocol.getProtocolActions().add(newAction);
     }
     
     private void verifyPersistStatusAction(Protocol protocol) {

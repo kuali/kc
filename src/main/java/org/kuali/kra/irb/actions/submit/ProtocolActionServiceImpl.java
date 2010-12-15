@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.drools.util.DroolsRuleHandler;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDao;
@@ -138,7 +139,7 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
      * @see org.kuali.kra.irb.actions.submit.ProtocolActionService#isActionAllowed(java.lang.String, org.kuali.kra.irb.Protocol)
      */
     public boolean isActionAllowed(String actionTypeCode, Protocol protocol) {
-        return canPerformAction(actionTypeCode, protocol);
+        return canPerformAction(actionTypeCode, protocol) || protocol.isFollowupAction(actionTypeCode);
     }
 
     /**
