@@ -387,9 +387,35 @@
 	<!-- # RR_OtherProjectInfo- -->
 	<Error>
 		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo/OtherAttachments/OtherAttachment</MessageKey>
-		<Message>You must have an atleast one Narrative with the proposal</Message>
+		<Message>You must have an at least one Attachment with type 'Other' or 'SupplementaryDocumentation'</Message>
 		<FixLink>abstractsAttachments</FixLink>
 	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo/OtherAttachments</MessageKey>
+		<Message>You must have an at least one Attachment with type 'Other' or 'SupplementaryDocumentation'</Message>
+		<FixLink>abstractsAttachments</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo/AbstractAttachments</MessageKey>
+		<Message>You must have a ProjectSummary with the proposal. Please attach the ProjectSummary in Abstracts and Attachments window</Message>
+		<FixLink>abstractsAttachments</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo/ProjectNarrativeAttachments</MessageKey>
+		<Message>You must have a Narrative with the proposal. Please attach the Narrative in Abstracts and Attachments window</Message>
+		<FixLink>abstractsAttachments</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_Budget/BudgetYear1/BudgetJustificationAttachment</MessageKey>
+		<Message>You must have a BudgetJustification with the proposal. Please attach the BudgetJustification in Abstracts and Attachments window</Message>
+		<FixLink>abstractsAttachments</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo</MessageKey>
+		<Message>RR Other Project Info form is not valid</Message>
+		<FixLink>abstractsAttachments</FixLink>
+	</Error>
+	
 	<Error>
 		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo/HumanSubjectsSupplement/ExemptionNumbers/ExemptionNumber</MessageKey>
 		<Message>Valid Human Subjects exemption numbers are E1,E2,E3,E4,E5,E6</Message>

@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import gov.grants.apply.coeus.personProfile.PersonProfileListDocument;
-import gov.grants.apply.coeus.personProfile.PersonProfileListDocument.PersonProfileList;
 import gov.grants.apply.forms.rrKeyPersonExpandedV11.PersonProfileDataType;
 import gov.grants.apply.forms.rrKeyPersonExpandedV11.ProjectRoleDataType;
 import gov.grants.apply.forms.rrKeyPersonExpandedV11.RRKeyPersonExpandedDocument;
@@ -30,21 +28,9 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import javax.xml.transform.Source;
-import javax.xml.transform.stream.StreamSource;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.printing.PrintingException;
-import org.kuali.kra.printing.print.GenericPrintable;
-import org.kuali.kra.printing.service.PrintingService;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonComparator;
@@ -60,9 +46,6 @@ import org.kuali.kra.s2s.util.S2SConstants;
  */
 public class RRKeyPersonExpandedV1_1Generator extends
 		RRKeyPersonExpandedBaseGenerator {
-
-	private static final Log LOG = LogFactory
-			.getLog(RRKeyPersonExpandedV1_1Generator.class);
 
 	/**
 	 * 
@@ -81,26 +64,23 @@ public class RRKeyPersonExpandedV1_1Generator extends
 		rrKeyPersonExpanded.setFormVersion(S2SConstants.FORMVERSION_1_1);
 		rrKeyPersonExpanded.setPDPI(getPersonProfilePI());
 		rrKeyPersonExpanded.setKeyPersonArray(getpersonProfileKeyPerson());
-		// TODO Save the extraKeyPerson before calling the following details.
 		saveKeyPersonAttachmentsToProposal();
 
 		AttachedFileDataType attachedFileDataType = null;
+        BioSketchsAttached bioSketchAttached = BioSketchsAttached.Factory.newInstance();
 		for (Narrative narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
 			if (narrative.getNarrativeTypeCode() != null) {
 				if (Integer.parseInt(narrative.getNarrativeTypeCode()) == BIOSKETCH_DOC_TYPE) {
 					attachedFileDataType = getAttachedFileType(narrative);
 					if (attachedFileDataType != null) {
-						BioSketchsAttached bioSketchAttached = BioSketchsAttached.Factory
-								.newInstance();
 						bioSketchAttached.setBioSketchAttached(attachedFileDataType);
-						rrKeyPersonExpanded
-								.setBioSketchsAttached(bioSketchAttached);
 						break;
 					}
 				}
 			}
 		}
+        rrKeyPersonExpanded.setBioSketchsAttached(bioSketchAttached);
 		for (Narrative narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
 			if (narrative.getNarrativeTypeCode() != null) {
@@ -398,39 +378,4 @@ public class RRKeyPersonExpandedV1_1Generator extends
 		return rrKeyPersonExpandedDocument;
 	}
 
-//	@Override
-//	protected XmlObject getKeypersonProfileObject() {
-//
-//		if (extraPersons != null) {
-//			PersonProfileList extraPersonProfileList = PersonProfileList.Factory.newInstance();
-//
-//			extraPersonProfileList.setProposalNumber(pdDoc
-//					.getDevelopmentProposal().getProposalNumber());
-//			extraPersonProfileList.setExtraKeyPersonArray(getExtraKeyPersons());
-//
-//			PersonProfileListDocument  extraPersonDoc = PersonProfileListDocument.Factory.newInstance();
-//			extraPersonDoc.setPersonProfileList(extraPersonProfileList);
-//			String xmlData = extraPersonDoc.xmlText();
-//			Map<String, byte[]> streamMap = new HashMap<String, byte[]>();
-//			streamMap.put("", xmlData.getBytes());
-//			Source xsltSource = new StreamSource(getClass()
-//					.getResourceAsStream(ADDITIONALKEYPERSONPROFILES_XSL));
-//			Map<String, Source> xSLTemplateWithBookmarks = new HashMap<String, Source>();
-//			xSLTemplateWithBookmarks.put("", xsltSource);
-//			
-//			
-//			GenericPrintable printable = new GenericPrintable();
-//			printable.setXSLTemplateWithBookmarks(xSLTemplateWithBookmarks);
-//			printable.setStreamMap(streamMap);
-//			PrintingService printingService= KraServiceLocator.getService(PrintingService.class);
-//			try {
-//				AttachmentDataSource printData = printingService.print(printable);
-//				String fileName = pdDoc.getDevelopmentProposal().getProposalNumber() +"_"+PROFILE_COMMENT;
-//				saveNarrative(printData.getContent(), ""+PROFILE_TYPE,fileName,PROFILE_COMMENT);
-//			} catch (PrintingException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		return null;
-//	}
 }

@@ -64,54 +64,85 @@ public class RRKeyPersonV1_1Generator extends RRKeyPersonBaseGenerator {
         saveKeyPersonAttachmentsToProposal();
         if (extraPersons.size() > 0) {
     		AttachedFileDataType attachedFileDataType = null;
-    		for (Narrative narrative : pdDoc.getDevelopmentProposal()
-    				.getNarratives()) {
-    			if (narrative.getNarrativeTypeCode() != null) {
-    				if (Integer.parseInt(narrative.getNarrativeTypeCode()) == BIOSKETCH_DOC_TYPE) {
-    					attachedFileDataType = getAttachedFileType(narrative);
-    					if (attachedFileDataType != null) {
-    						BioSketchsAttached bioSketchAttached = BioSketchsAttached.Factory
-    								.newInstance();
-    						bioSketchAttached.setBioSketchAttached(attachedFileDataType);
-    						rrKeyPerson
-    								.setBioSketchsAttached(bioSketchAttached);
-    						break;
-    					}
-    				}
-    			}
-    		}
-    		for (Narrative narrative : pdDoc.getDevelopmentProposal()
-    				.getNarratives()) {
-    			if (narrative.getNarrativeTypeCode() != null) {
-    				if (Integer.parseInt(narrative.getNarrativeTypeCode()) == CURRENTPENDING_DOC_TYPE) {
-    					attachedFileDataType = getAttachedFileType(narrative);
-    					if (attachedFileDataType != null) {
-    						SupportsAttached supportsAttached = SupportsAttached.Factory
-    								.newInstance();
-    						supportsAttached
-    								.setSupportAttached(attachedFileDataType);
-    						rrKeyPerson
-    								.setSupportsAttached(supportsAttached);
-    						break;
-    					}
-    				}
-    			}
-    		}           
-    		
-    		for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+            BioSketchsAttached bioSketchAttached = BioSketchsAttached.Factory.newInstance();
+            for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
                 if (narrative.getNarrativeTypeCode() != null) {
-                    if (Integer.parseInt(narrative.getNarrativeTypeCode()) == PROFILE_TYPE) {
-                    	attachedFileDataType = getAttachedFileType(narrative);
-                    	if(attachedFileDataType != null){
-	                        AdditionalProfilesAttached additionalProfilesAttached = AdditionalProfilesAttached.Factory.newInstance();
-	                        additionalProfilesAttached.setAdditionalProfileAttached(attachedFileDataType);
-	                        rrKeyPerson.setAdditionalProfilesAttached(additionalProfilesAttached);
-	                        break;
-                    	}
+                    switch(Integer.parseInt(narrative.getNarrativeTypeCode())){
+                        case(BIOSKETCH_DOC_TYPE):
+                            attachedFileDataType = getAttachedFileType(narrative);
+                        if (attachedFileDataType != null) {
+                            bioSketchAttached.setBioSketchAttached(attachedFileDataType);
+                        }
+                        break;
+                        case(CURRENTPENDING_DOC_TYPE):
+                            attachedFileDataType = getAttachedFileType(narrative);
+                            if (attachedFileDataType != null) {
+                                SupportsAttached supportsAttached = SupportsAttached.Factory.newInstance();
+                                supportsAttached.setSupportAttached(attachedFileDataType);
+                                rrKeyPerson.setSupportsAttached(supportsAttached);
+                            }
+                        break;
+                        case(PROFILE_TYPE):
+                            attachedFileDataType = getAttachedFileType(narrative);
+                            if(attachedFileDataType != null){
+                                AdditionalProfilesAttached additionalProfilesAttached = AdditionalProfilesAttached.Factory.newInstance();
+                                additionalProfilesAttached.setAdditionalProfileAttached(attachedFileDataType);
+                                rrKeyPerson.setAdditionalProfilesAttached(additionalProfilesAttached);
+                            }
+                        break;
                     }
                 }
             }
+            rrKeyPerson.setBioSketchsAttached(bioSketchAttached);
         }
+//    		for (Narrative narrative : pdDoc.getDevelopmentProposal()
+//    				.getNarratives()) {
+//    			if (narrative.getNarrativeTypeCode() != null) {
+//    				if (Integer.parseInt(narrative.getNarrativeTypeCode()) == BIOSKETCH_DOC_TYPE) {
+//    					attachedFileDataType = getAttachedFileType(narrative);
+//    					if (attachedFileDataType != null) {
+//    						BioSketchsAttached bioSketchAttached = BioSketchsAttached.Factory
+//    								.newInstance();
+//    						bioSketchAttached.setBioSketchAttached(attachedFileDataType);
+//    						rrKeyPerson
+//    								.setBioSketchsAttached(bioSketchAttached);
+//    						break;
+//    					}
+//    				}
+//    			}
+//    		}
+//    		for (Narrative narrative : pdDoc.getDevelopmentProposal()
+//    				.getNarratives()) {
+//    			if (narrative.getNarrativeTypeCode() != null) {
+//    				if (Integer.parseInt(narrative.getNarrativeTypeCode()) == CURRENTPENDING_DOC_TYPE) {
+//    					attachedFileDataType = getAttachedFileType(narrative);
+//    					if (attachedFileDataType != null) {
+//    						SupportsAttached supportsAttached = SupportsAttached.Factory
+//    								.newInstance();
+//    						supportsAttached
+//    								.setSupportAttached(attachedFileDataType);
+//    						rrKeyPerson
+//    								.setSupportsAttached(supportsAttached);
+//    						break;
+//    					}
+//    				}
+//    			}
+//    		}           
+//    		
+//    		for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+//                if (narrative.getNarrativeTypeCode() != null) {
+//                    if (Integer.parseInt(narrative.getNarrativeTypeCode()) == PROFILE_TYPE) {
+//                    	attachedFileDataType = getAttachedFileType(narrative);
+//                    	if(attachedFileDataType != null){
+//	                        AdditionalProfilesAttached additionalProfilesAttached = AdditionalProfilesAttached.Factory.newInstance();
+//	                        additionalProfilesAttached.setAdditionalProfileAttached(attachedFileDataType);
+//	                        rrKeyPerson.setAdditionalProfilesAttached(additionalProfilesAttached);
+//	                        break;
+//                    	}
+//                    }
+//                }
+//            }
+//        }
         rrKeyPersonDocument.setRRKeyPerson(rrKeyPerson);
         return rrKeyPersonDocument;
     }

@@ -228,6 +228,8 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
          * Attachments
          */
         AttachedFileDataType attachedFileDataType;
+        ProjectNarrativeAttachments projectNarrativeAttachments = ProjectNarrativeAttachments.Factory.newInstance();
+        AbstractAttachments abstractAttachments = AbstractAttachments.Factory.newInstance();
         for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null) {
                 if (Integer.parseInt(narrative.getNarrativeTypeCode()) == EQUIPMENT_ATTACHMENT) {
@@ -253,12 +255,9 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
                 else if (Integer.parseInt(narrative.getNarrativeTypeCode()) == NARRATIVE_ATTACHMENT) {
                     // NARRATIVE
                     attachedFileDataType = getAttachedFileType(narrative);
-                    if(attachedFileDataType == null){
-                        continue;
+                    if(attachedFileDataType != null){
+                        projectNarrativeAttachments.setProjectNarrativeAttachment(attachedFileDataType);
                     }
-                    ProjectNarrativeAttachments projectNarrativeAttachments = ProjectNarrativeAttachments.Factory.newInstance();
-                    projectNarrativeAttachments.setProjectNarrativeAttachment(attachedFileDataType);
-                    rrOtherProjectInfo.setProjectNarrativeAttachments(projectNarrativeAttachments);
                 }
                 else if (Integer.parseInt(narrative.getNarrativeTypeCode()) == BIBLIOGRAPHY_ATTACHMENT) {
                     // BIBLIOGRAPHY
@@ -273,15 +272,14 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
                 else if (Integer.parseInt(narrative.getNarrativeTypeCode()) == ABSTRACT_PROJECT_SUMMARY_ATTACHMENT) {
                     // ABSTRACT - PROJECT SUMMARY
                     attachedFileDataType = getAttachedFileType(narrative);
-                    if(attachedFileDataType == null){
-                        continue;
+                    if(attachedFileDataType != null){
+                        abstractAttachments.setAbstractAttachment(attachedFileDataType);
                     }
-                    AbstractAttachments abstractAttachments = AbstractAttachments.Factory.newInstance();
-                    abstractAttachments.setAbstractAttachment(attachedFileDataType);
-                    rrOtherProjectInfo.setAbstractAttachments(abstractAttachments);
                 }
             }
         }
+        rrOtherProjectInfo.setProjectNarrativeAttachments(projectNarrativeAttachments);
+        rrOtherProjectInfo.setAbstractAttachments(abstractAttachments);
 
         OtherAttachments otherAttachments = OtherAttachments.Factory.newInstance();
         otherAttachments.setOtherAttachmentArray(getAttachedFileDataTypes());
