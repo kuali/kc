@@ -123,7 +123,9 @@ public class RROtherProjectInfoV1_3Generator extends
 			answer = (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(proposalYnq
 					.getAnswer()) ? YesNoDataType.Y_YES : YesNoDataType.N_NO);
 			rrOtherProjectInfo.setProprietaryInformationIndicator(answer);
-		}
+		}else{
+            rrOtherProjectInfo.setProprietaryInformationIndicator(YesNoDataType.N_NO);
+        }
 	}
 
 	/*
@@ -165,7 +167,9 @@ public class RROtherProjectInfoV1_3Generator extends
 									.trim());
 				}
 			}
-		}
+		}else{
+            environmentalImpact.setEnvironmentalImpactIndicator(YesNoDataType.N_NO);
+        }
 	}
 
 	/*
