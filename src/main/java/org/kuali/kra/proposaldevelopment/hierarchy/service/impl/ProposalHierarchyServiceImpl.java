@@ -23,6 +23,7 @@ import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyCo
 import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.PARAMETER_NAME_INSTITUTE_NARRATIVE_TYPE_GROUP;
 import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.QUESTION_EXTEND_PROJECT_DATE_CONFIRM;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,6 +39,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.struts.upload.FormFile;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.core.Budget;
@@ -66,6 +68,7 @@ import org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
+import org.kuali.kra.proposaldevelopment.bo.NarrativeStatus;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.ProposalBudgetStatus;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -1507,7 +1510,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     /**
      * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#rejectProposalDevelopmentDocument(java.lang.String, java.lang.String)
      */
-    public void rejectProposalDevelopmentDocument( String proposalNumber, String reason, String principalName ) throws WorkflowException, ProposalHierarchyException {
+    public void rejectProposalDevelopmentDocument( String proposalNumber, String reason, String principalName, FormFile rejectFile ) 
+    throws WorkflowException, ProposalHierarchyException, IOException {
         DevelopmentProposal pbo = getDevelopmentProposal(proposalNumber);
         ProposalDevelopmentDocument pDoc = (ProposalDevelopmentDocument)documentService.getByDocumentHeaderId(pbo.getProposalDocument().getDocumentNumber());
         if( !pbo.isInHierarchy() ) {
@@ -1518,6 +1522,26 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             //it is a child or in some unknown state, either way we do not support rejecting it.
             throw new UnsupportedOperationException( String.format( "Cannot reject proposal %s it is a hierarchy child or ", proposalNumber ));
         }
+        
+        if (rejectFile != null && rejectFile.getFileData().length > 0) {
+            Narrative narrative = new Narrative();
+            narrative.setFileName(rejectFile.getFileName());
+            narrative.setComments(reason);
+            narrative.setNarrativeFile(rejectFile);
+            narrative.setNarrativeTypeCode("18");
+            Map keys = new HashMap();
+            keys.put("NARRATIVE_STATUS_CODE", "C");
+            NarrativeStatus status = (NarrativeStatus) this.businessObjectService.findByPrimaryKey(NarrativeStatus.class, keys);
+            narrative.setNarrativeStatus(status);
+            narrative.setModuleStatusCode(status.getNarrativeStatusCode());
+            narrative.setModuleTitle("Proposal rejection attachment.");
+            narrative.setContactName(GlobalVariables.getUserSession().getPrincipalName());
+            narrative.setPhoneNumber(GlobalVariables.getUserSession().getPerson().getPhoneNumber());
+            narrative.setEmailAddress(GlobalVariables.getUserSession().getPerson().getEmailAddress());
+            pDoc.getDevelopmentProposal().addInstituteAttachment(narrative);
+            this.businessObjectService.save(pDoc);
+        }
+        
     }
     
     
