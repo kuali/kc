@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -38,6 +39,11 @@ public class ProtocolAssignCmtSchedRule extends ResearchDocumentRuleBase impleme
             valid = false;
             GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_ASSIGN_CMT_SCHED_ACTION_PROPERTY_KEY + ".committeeId", 
                                                    KeyConstants.ERROR_PROTOCOL_COMMITTEE_NOT_SELECTED);
+        }
+        if (document.getProtocol().isFollowupAction(ProtocolActionType.NOTIFIED_COMMITTEE) && StringUtils.isBlank(actionBean.getNewScheduleId())) {
+            valid = false;
+            GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_ASSIGN_CMT_SCHED_ACTION_PROPERTY_KEY + ".scheduleId", 
+                                                   KeyConstants.ERROR_PROTOCOL_SCHEDULE_NOT_SELECTED);
         }
         return valid;
     }

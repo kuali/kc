@@ -108,6 +108,8 @@ public class ProtocolApproveServiceImpl implements ProtocolApproveService {
         ProtocolAction protocolAction = new ProtocolAction(protocol, null, protocolActionTypeCode);
         protocolAction.setComments(actionBean.getComments());
         protocolAction.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
+        protocolAction.setSubmissionIdFk(protocol.getLastProtocolAction().getSubmissionIdFk());
+        protocolAction.setSubmissionNumber(protocol.getLastProtocolAction().getSubmissionNumber());
         protocol.getProtocolActions().add(protocolAction);
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
     }

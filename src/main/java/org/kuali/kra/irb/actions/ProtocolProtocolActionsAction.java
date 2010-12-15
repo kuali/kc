@@ -74,6 +74,7 @@ import org.kuali.kra.irb.actions.decision.CommitteeDecisionRecuserEvent;
 import org.kuali.kra.irb.actions.decision.CommitteeDecisionService;
 import org.kuali.kra.irb.actions.decision.CommitteePerson;
 import org.kuali.kra.irb.actions.delete.ProtocolDeleteService;
+import org.kuali.kra.irb.actions.followup.FollowupActionService;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionEvent;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionService;
@@ -110,6 +111,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionEvent;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
+import org.kuali.kra.irb.actions.submit.ValidProtocolActionAction;
 import org.kuali.kra.irb.actions.undo.UndoLastActionBean;
 import org.kuali.kra.irb.actions.undo.UndoLastActionService;
 import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawService;
@@ -154,8 +156,9 @@ import org.springframework.util.CollectionUtils;
 public class ProtocolProtocolActionsAction extends ProtocolAction implements AuditModeAction {
 
     private static final Log LOG = LogFactory.getLog(ProtocolProtocolActionsAction.class);
-    private static final String CONFIRM_NO_DELETE = "";
+    private static final String CONFIRM_NO_ACTION = "";
     private static final String CONFIRM_DELETE_ACTION_ATT = "confirmDeleteActionAttachment";
+    private static final String CONFIRM_FOLLOWUP_ACTION = "confirmAddFollowupAction";
     
     private static final String PROTOCOL_TAB = "protocol";
     private static final String CONFIRM_SUBMIT_FOR_REVIEW_KEY = "confirmSubmitForReview";
@@ -169,6 +172,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     private static final String NOT_FOUND_SELECTION = "The attachment was not found for selection ";
 
     private static final String CONFIRM_DELETE_PROTOCOL_KEY = "confirmDeleteProtocol";
+    private static final String CONFIRM_FOLLOWUP_ACTION_KEY = "confirmFollowupAction";
 
     /** signifies that a response has already be handled therefore forwarding to obtain a response is not needed. */
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
@@ -1323,17 +1327,20 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolDocument document = protocolForm.getProtocolDocument();
         Protocol protocol = document.getProtocol();
         ProtocolGrantExemptionBean actionBean = protocolForm.getActionHelper().getProtocolGrantExemptionBean();
-            
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         if (hasPermission(TaskName.GRANT_EXEMPTION, protocol)) {
             if (applyRules(new ProtocolGrantExemptionEvent(document, actionBean))) {
                 getProtocolGrantExemptionService().grantExemption(protocol, actionBean);
-                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-                
+                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());                
                 recordProtocolActionSuccess("Grant Exemption");
-            }
+                forward = confirmFollowupAction(mapping, form, request, response, Constants.MAPPING_BASIC);
+           }
+        }
+        if (request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME) != null) {
+            forward = confirmFollowupAction(mapping, form, request, response, Constants.MAPPING_BASIC);
         }
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return forward;
     }
     
     /**
@@ -1392,12 +1399,15 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             if (applyRules(new ProtocolApproveEvent(document, actionBean))) {
                 getProtocolApproveService().grantExpeditedApproval(protocolForm.getProtocolDocument().getProtocol(), actionBean);
                 saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-                forward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
-                
                 recordProtocolActionSuccess("Expedited Approval");
+                forward = confirmFollowupAction(mapping, form, request, response, KNSConstants.MAPPING_PORTAL);
             }
         }
-        
+        // Question frame work will execute method twice.  so, need to be aware that service will not be executed twice.
+        if (request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME) != null) {
+            confirmFollowupAction(mapping, form, request, response, KNSConstants.MAPPING_PORTAL);
+            forward = mapping.findForward(KNSConstants.MAPPING_PORTAL);                                    
+        }
         return forward;
     }
     
@@ -2472,7 +2482,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 CONFIRM_DELETE_ACTION_ATT, KeyConstants.QUESTION_DELETE_ATTACHMENT_CONFIRMATION, "", attachment
                         .getFile().getFileName());
 
-        return confirm(confirm, CONFIRM_DELETE_ACTION_ATT, CONFIRM_NO_DELETE);
+        return confirm(confirm, CONFIRM_DELETE_ACTION_ATT, CONFIRM_NO_ACTION);
     }
 
 
@@ -2747,6 +2757,55 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+
+    /*
+     * confirmation question for followup action
+     */
+    private ActionForward confirmFollowupAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response, String forward) throws Exception {
+
+        //List<ValidProtocolActionAction> validFollowupActions = getFollowupActionService().getFollowupsForProtocol(((ProtocolForm)form).getProtocolDocument().getProtocol());
+        List<ValidProtocolActionAction> validFollowupActions = getFollowupActionService().getFollowupsForProtocol(((ProtocolForm)form).getProtocolDocument().getProtocol());
+
+        if (validFollowupActions.isEmpty()) {
+            LOG.info("No followup action");
+            return mapping.findForward(forward);
+        } else if (!validFollowupActions.get(0).getUserPromptFlag()) {
+            addFollowupAction(((ProtocolForm)form).getProtocolDocument().getProtocol());
+            return mapping.findForward(forward);
+        }
+
+        StrutsConfirmation confirm = buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_FOLLOWUP_ACTION,
+                KeyConstants.QUESTION_PROTOCOL_CONFIRM_FOLLOWUP_ACTION, validFollowupActions.get(0).getUserPrompt());
+        LOG.info("followup action "+validFollowupActions.get(0).getUserPrompt());
+
+        return confirm(confirm, CONFIRM_FOLLOWUP_ACTION, CONFIRM_NO_ACTION);
+    }
+
+    /**
+     * 
+     * This method if 'Yes' to do followup action, then this will be executed.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward confirmAddFollowupAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        addFollowupAction(((ProtocolForm)form).getProtocolDocument().getProtocol());
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    private void addFollowupAction(Protocol protocol) throws Exception {
+
+        List<ValidProtocolActionAction> validFollowupActions = getFollowupActionService().getFollowupsForProtocol(protocol);
+        protocol.getLastProtocolAction().setFollowupActionCode(validFollowupActions.get(0).getFollowupActionCode());
+        getBusinessObjectService().save(protocol.getLastProtocolAction());
+    }
+
     private void setQnCompleteStatus(List<AnswerHeader> answerHeaders) {
         for (AnswerHeader answerHeader : answerHeaders) {
             answerHeader.setCompleted(getQuestionnaireAnswerService().isQuestionnaireAnswerComplete(answerHeader.getAnswers()));
@@ -2755,6 +2814,9 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     
     private QuestionnaireAnswerService getQuestionnaireAnswerService() {
         return KraServiceLocator.getService(QuestionnaireAnswerService.class);
+    }
+    private FollowupActionService getFollowupActionService() {
+        return KraServiceLocator.getService(FollowupActionService.class);
     }
 
 }
