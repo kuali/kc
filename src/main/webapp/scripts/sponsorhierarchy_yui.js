@@ -85,62 +85,56 @@ function sponsorHierarchy() {
     }
     
     function addNode(mapKey) {
-
 		oCurrentTextNode=oTextNodeMap[mapKey];
 		showWait();
         if (!oCurrentTextNode.dynamicLoadComplete) {
-               var temp = loadNextLevelSponsorHierarchy(oCurrentTextNode);
+          loadNextLevelSponsorHierarchy(oCurrentTextNode);
 		}
         checkToAdd(mapKey)
-
-
-
      }
 
     function checkToAdd(mapKey) {
     
-			oCurrentTextNode=oTextNodeMap[mapKey];
-			var childrenNode= {};
-			childrenNode=oCurrentTextNode.children;
+		oCurrentTextNode=oTextNodeMap[mapKey];
+		var childrenNode= {};
+		childrenNode=oCurrentTextNode.children;
+		if (!oCurrentTextNode.dynamicLoadComplete) {
+			loadNextLevelSponsorHierarchy(oCurrentTextNode);
+		}
+		hideWait();
+		
+		if (childrenNode.length == 0 || !childrenNode[0].isLeaf)  {
+		//alert (childrenNode[0]+childrenNode[0].isLeaf+" ln "+leafNode)
+        var sLabel = window.prompt("Enter a name for the new group: ", ""),
+            oChildNode;
+		sLabel = sLabel.trim();
+		if (sLabel.length > 50) {
+		  sLabel = sLabel.substring(0,50);
+		}
+        if (sLabel && sLabel.length > 0) {
+ 			if (childrenNode.length == 00 || (sLabel != childrenNode[0].description && isUniqueGroupName(childrenNode[0],sLabel) == "true")) {                       
+				var oChildNode = new SHNode( "<table style=\"width:"+String(1080-(oCurrentTextNode.depth+1)*widthGap)+"px\"><tr><td style=\"width:"+String(760-(oCurrentTextNode.depth+1)*widthGap)+"px\">" + sLabel + "</td><td style=\"width:320px\">"+ setupMaintenanceButtons(sLabel, oCurrentTextNode)+"</td></tr></table>", oCurrentTextNode, false, true, false, sLabel);
+   				oChildNode.contentStyle="icon-page";
+   				oChildNode.setDynamicLoad(loadNextLevelSponsorHierarchy, 1); // need this. otherwise when 'add sponsor' the sponsor will not be displayed immediately.
+   				oCurrentTextNode.refresh();
+            	oCurrentTextNode.expand();
+				        						
+    			updateEmptyNodes(oChildNode,"false");
 
-			if (oCurrentTextNode.dynamicLoadComplete) {		
-					hideWait();
-			
-					if (childrenNode.length == 0 || !childrenNode[0].isLeaf)  {
-					//alert (childrenNode[0]+childrenNode[0].isLeaf+" ln "+leafNode)
-                    var sLabel = window.prompt("Enter a name for the new group: ", ""),
-                        oChildNode;
-					sLabel = sLabel.trim();
-					if (sLabel.length > 50) {
-					  sLabel = sLabel.substring(0,50);
-					}
-                    if (sLabel && sLabel.length > 0) {
-             			if (childrenNode.length == 00 || (sLabel != childrenNode[0].description && isUniqueGroupName(childrenNode[0],sLabel) == "true")) {                       
-							var oChildNode = new SHNode( "<table style=\"width:"+String(1080-(oCurrentTextNode.depth+1)*widthGap)+"px\"><tr><td style=\"width:"+String(760-(oCurrentTextNode.depth+1)*widthGap)+"px\">" + sLabel + "</td><td style=\"width:320px\">"+ setupMaintenanceButtons(sLabel, oCurrentTextNode)+"</td></tr></table>", oCurrentTextNode, false, true, false, sLabel);
-               				oChildNode.contentStyle="icon-page";
-               				oChildNode.setDynamicLoad(loadNextLevelSponsorHierarchy, 1); // need this. otherwise when 'add sponsor' the sponsor will not be displayed immediately.
-               				oCurrentTextNode.refresh();
-                        	oCurrentTextNode.expand();
-           					        						
-	            			updateEmptyNodes(oChildNode,"false");
+            	oTextNodeMap[nodeKey++] = oChildNode;
+            	tree.draw();
+            	oChildNode.loadComplete();
+            	
+            } else {
+   				alert("A group with name '"+sLabel+"' already exists for level "+ (oCurrentTextNode.depth+2));
+			}
 
-                        	oTextNodeMap[nodeKey++] = oChildNode;
-                        	tree.draw();
-                        	oChildNode.loadComplete();
-                        	
-                        } else {
-               				alert("A group with name '"+sLabel+"' already exists for level "+ (oCurrentTextNode.depth+2));
-            			}
-
-                    }
-                    
-                    } else {
-                    	alert ("The group '"+oCurrentTextNode.description+"' has sponsors assigned to it. Cannot create subgroups for this group.");
-                    }
-                    leafNode="false";
-               } else {
-                    checkToAdd(mapKey);
-               }     
+        }
+        
+        } else {
+        	alert ("The group '"+oCurrentTextNode.description+"' has sponsors assigned to it. Cannot create subgroups for this group.");
+        }
+        leafNode="false";
     }
 
 
