@@ -1,5 +1,4 @@
 var node;
-var i = 1;
 var removedNode = null;
 var cutNode;
 var sqlScripts = "";
@@ -9,6 +8,7 @@ var sqlidx = 0;
 var deletedNodes = "";
 var newNodes = ";";
 var loadedidx = 0;
+var icur = 1;
 
 $(document).ready(function() {
 	$.ajaxSettings.cache = false;
@@ -38,7 +38,7 @@ $(document).ready(function() {
 
 	$(document).ajaxComplete(function() {
 			$("#loading").hide();
-		});
+		});	
 
 }); // $(document).ready
 
@@ -114,12 +114,12 @@ $("#add0")
 								.attr("value"), trNode.children('td:eq(2)')
 								.children('input:eq(0)').attr("value"));
 						// need this ultag to force to display folder.
-						var childUlTag = $('<ul></ul>').attr("id", "ul" + i);
+						var childUlTag = $('<ul></ul>').attr("id", "ul" + icur);
 						childUlTag.appendTo(listitem);
 
 						// this is new nodes, so it is same as already loaded
 						// from DB
-						var loadedId = "loaded" + i;
+						var loadedId = "loaded" + icur;
 						var inputtag = $('<input type="hidden"></input>').attr(
 								"id", loadedId);
 						inputtag.appendTo(childUlTag);
@@ -156,7 +156,6 @@ $("#add0")
  * Load first level area of research when page is initially loaded
  */
 function loadFirstLevel() {
-
 	$.ajax( {
 				url : 'researchAreaAjax.do',
 				type : 'GET',
@@ -174,15 +173,15 @@ function loadFirstLevel() {
 							.each(
 									function() {
 										var item_text = $(this).text();
-										i++;
+										icur++;
 										var racode = item_text.substring(0,
 												item_text.indexOf("%3A"))
 												.trim();
 										item_text = item_text.replace("%3A",
 												":");
-										var id = "item" + i;
-										var tagId = "listcontrol" + i;
-										var divId = "listcontent" + i;
+										var id = "item" + icur;
+										var tagId = "listcontrol" + icur;
+										var divId = "listcontent" + icur;
 
 										// NOTES : if use 'div', then FF will
 										// display the '+' and idDiv in
@@ -191,11 +190,11 @@ function loadFirstLevel() {
 										var idDiv;
 										if (jQuery.browser.msie) {
 											idDiv = $('<div></div>').attr("id",
-													"itemText" + i).html(
+													"itemText" + icur).html(
 													item_text);
 										} else {
 											idDiv = $('<span>').attr("id",
-													"itemText" + i).html(
+													"itemText" + icur).html(
 													item_text);
 										}
 										var tag = $(
@@ -206,8 +205,8 @@ function loadFirstLevel() {
 												.attr("id", divId);
 										var hidracode = $(
 												'<input type="hidden" id = "racode" name = "racode" />')
-												.attr("id", "racode" + i).attr(
-														"name", "racode" + i)
+												.attr("id", "racode" + icur).attr(
+														"name", "racode" + icur)
 												.attr("value", racode);
 										hidracode.appendTo(div);
 										tag
@@ -256,7 +255,7 @@ function loadFirstLevel() {
 										// need this ultag to force to display
 										// folder.
 										var childUlTag = $('<ul></ul>').attr(
-												"id", "ul" + i);
+												"id", "ul" + icur);
 										childUlTag.appendTo(listitem);
 										listitem.appendTo('ul#researcharea');
 										// also need this to show 'folder' icon
@@ -339,9 +338,9 @@ function tbodyTag(name, id) {
 						// alert(ulTag.attr("id"));
 				} else {
 					alert("not found")
-					i++;
+					icur++;
 					ulTag = $('<ul class="filetree"></ul>')
-							.attr("id", "ul" + i);
+							.attr("id", "ul" + icur);
 				}
 				if (removedNode) {
 					removedNode.appendTo(ulTag);
@@ -592,7 +591,7 @@ function getAddRow(id) {
 								var parentNode = $("#" + id);
 								var ulTag = parentNode.children('ul');
 								if (parentNode.children('ul').size() == 0) {
-									i++;
+									icur++;
 									ulTag = $('<ul class="filetree"></ul>')
 											.attr("id", "ul" + id.substring(4));
 								}
@@ -684,17 +683,17 @@ function editResearchArea(idx) {
  * initially.
  */
 function setupListItem(code, name) {
-	i++;
-	var id1 = "item" + i;
-	var tagId = "listcontrol" + i;
-	var divId = "listcontent" + i;
+	icur++;
+	var id1 = "item" + icur;
+	var tagId = "listcontrol" + icur;
+	var divId = "listcontent" + icur;
 	var idDiv;
 	// for later change RA description
 	if (jQuery.browser.msie) {
-		idDiv = $('<div></div>').attr("id", "itemText" + i).html(
+		idDiv = $('<div></div>').attr("id", "itemText" + icur).html(
 				code + " : " + name);
 	} else {
-		idDiv = $('<span>').attr("id", "itemText" + i)
+		idDiv = $('<span>').attr("id", "itemText" + icur)
 				.html(code + " : " + name);
 	}
 	var tag = $('<a style = "margin-left:2px;" ></a>').attr("id", tagId).html(
@@ -703,7 +702,7 @@ function setupListItem(code, name) {
 			'<div  class="hierarchydetail" style="margin-top:2px; "></div>')
 			.attr("id", divId);
 	var hidracode = $('<input type="hidden" id = "racode" name = "racode" />')
-			.attr("id", "racode" + i).attr("name", "racode" + i).attr("value",
+			.attr("id", "racode" + icur).attr("name", "racode" + icur).attr("value",
 					code);
 	hidracode.appendTo(detDiv);
 	$(tag).click(
@@ -738,7 +737,6 @@ function loadChildrenRA(nodeName, tagId) {
 	var liNode = parentNode.parents('li:eq(0)');
 	var ulNode = liNode.children('ul:eq(0)');
 	var inputNodev;
-
 	if (liNode.children('ul').size() == 0
 			|| ulNode.children('input').size() == 0) {
 		$
@@ -757,13 +755,13 @@ function loadChildrenRA(nodeName, tagId) {
 						var ulTag;
 						if (liNode.children('ul').size() == 0) {
 							ulTag = $('<ul class="filetree"></ul>').attr("id",
-									"ul" + i);
+									"ul" + icur);
 						} else {
 							ulTag = ulNode;
 						}
 
 						ulTag.appendTo(liNode);
-						var loadedId = "loaded" + i;
+						var loadedId = "loaded" + icur;
 						var inputtag = $('<input type="hidden"></input>').attr(
 								"id", loadedId);
 						inputtag.appendTo(ulTag);
@@ -772,24 +770,24 @@ function loadChildrenRA(nodeName, tagId) {
 								.each(
 										function() {
 											var item_text = $(this).text();
-											i++;
+											icur++;
 											var racode = item_text.substring(0,
 													item_text.indexOf("%3A"))
 													.trim();
 											item_text = item_text.replace(
 													"%3A", ":");
-											var id = "item" + i;
-											var tagId = "listcontrol" + i;
-											var divId = "listcontent" + i;
+											var id = "item" + icur;
+											var tagId = "listcontrol" + icur;
+											var divId = "listcontent" + icur;
 
 											var idDiv;
 											if (jQuery.browser.msie) {
 												idDiv = $('<div></div>').attr(
-														"id", "itemText" + i)
+														"id", "itemText" + icur)
 														.html(item_text);
 											} else {
 												idDiv = $('<span>').attr("id",
-														"itemText" + i).html(
+														"itemText" + icur).html(
 														item_text);
 											}
 											var tag = $(
@@ -801,8 +799,8 @@ function loadChildrenRA(nodeName, tagId) {
 													.attr("id", divId);
 											var hidracode = $(
 													'<input type="hidden" id = "racode" name = "racode" />')
-													.attr("id", "racode" + i)
-													.attr("name", "racode" + i)
+													.attr("id", "racode" + icur)
+													.attr("name", "racode" + icur)
 													.attr("value", racode);
 											hidracode.appendTo(detDiv);
 											tag
@@ -856,7 +854,7 @@ function loadChildrenRA(nodeName, tagId) {
 											ulTagId = ulTag.attr("id");
 											detDiv.appendTo(listitem);
 											var childUlTag = $('<ul></ul>')
-													.attr("id", "ul" + i);
+													.attr("id", "ul" + icur);
 											childUlTag.appendTo(listitem);
 											listitem.appendTo(ulTag);
 											// force to display folder icon
@@ -864,7 +862,7 @@ function loadChildrenRA(nodeName, tagId) {
 												add : listitem
 											});
 
-											if (i == 1) {
+											if (icur == 1) {
 												// alert (listitem.html());
 											}
 
@@ -872,7 +870,7 @@ function loadChildrenRA(nodeName, tagId) {
 					}
 				});
 	}
-	loadedidx = i;
+	loadedidx = icur;
 } // end loadChildrenRA
 
 /*
@@ -963,7 +961,7 @@ $(document).ready(function() {
 		$("#listcontent00").show();
 		// //$("#listcontent00").slideToggle(300);
 		// $("#listcontrol00").show();
-		loadedidx = i;
+		loadedidx = icur;
 	})
 $("#loading").hide();
 
@@ -1020,7 +1018,7 @@ $("#save").click(function() {
 		}
 	} // end for
 	sqlidx = 0;
-	loadedidx = i;
+	loadedidx = icur;
 	return false;
 });
 
@@ -1097,7 +1095,7 @@ $("#close")
 				} // end for
 			} // end confirm
 			sqlidx = 0;
-			loadedidx = i;
+			loadedidx = icur;
 			// return false;
 		});
 
@@ -1161,3 +1159,4 @@ function deleteChild(childid) {
 	}
 
 }
+
