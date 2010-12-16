@@ -224,6 +224,11 @@
 					<property name="taskName" value="viewProposal" />
 				</bean>
 				<bean
+					class="org.kuali.kra.proposaldevelopment.document.authorizer.AddNoteProposalAuthorizer"
+					parent="parentProposalAuthorizer">
+					<property name="taskName" value="proposalAddNoteAttachment" />
+				</bean>
+				<bean
 					class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer"
 					parent="parentProposalAuthorizer">
 					<property name="taskName" value="maintainProposalHierarchy" />
