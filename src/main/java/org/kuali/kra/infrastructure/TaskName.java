@@ -46,6 +46,7 @@ public interface TaskName {
     public static final String MAINTAIN_PROPOSAL_HIERARCHY = "maintainProposalHierarchy";
     public static final String PROPOSAL_HIERARCHY_CHILD_WORKFLOW_ACTION="hierarchyChildWorkflowAction";
     public static final String PROPOSAL_HIERARCHY_CHILD_ACKNOWLEDGE_ACTION="proposal.hierarchyChildAcknowledgeAction";
+    public static final String PROPOSAL_ADD_NOTE_ATTACHMENT = "proposalAddNoteAttachment";
     
     /*
      * Narrative Tasks.

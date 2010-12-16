@@ -326,7 +326,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
     
     @Override
     public boolean canAddNoteAttachment(Document document, String attachmentTypeCode, Person user) {
-        return canExecuteProposalTask(user.getPrincipalId(), (ProposalDevelopmentDocument) document, TaskName.MODIFY_PROPOSAL);
+        return canExecuteProposalTask(user.getPrincipalId(), (ProposalDevelopmentDocument) document, TaskName.PROPOSAL_ADD_NOTE_ATTACHMENT);
     }
     
     @Override
