@@ -17,7 +17,7 @@
 <c:set var="kraAttributeReferenceDummyAttributes" value="${DataDictionary.KraAttributeReferenceDummy.attributes}" />
 
 
-<kul:tab tabTitle="Print Refactor" defaultOpen="false" tabErrorKey="actionHelper.reportType">
+<kul:tab tabTitle="Print" defaultOpen="false" tabErrorKey="actionHelper.reportType">
     <div class="tab-container" align="left">
         <h3>
             <span class="subhead-left">Print</span>
