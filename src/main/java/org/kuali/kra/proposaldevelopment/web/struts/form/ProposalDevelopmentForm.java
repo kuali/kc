@@ -1488,8 +1488,14 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
             if (tab.getHeaderTabNavigateTo().equals("grantsGov")) {
                 tab.setDisabled(disableGrantsGov);
             }
-            if(showHierarchy || !tab.getHeaderTabNavigateTo().equals("hierarchy")) {
-                newTabs.add(tab);
+            if (showHierarchy || !tab.getHeaderTabNavigateTo().equals("hierarchy")) {
+                if (tab.getHeaderTabNavigateTo().equals("customData")) {
+                    if (!this.getDocument().getCustomAttributeDocuments().isEmpty()) {
+                        newTabs.add(tab);
+                    }
+                } else {
+                    newTabs.add(tab);
+                }
             }
         }
         tabs = newTabs.toArray(new HeaderNavigation[newTabs.size()]);
