@@ -15,8 +15,11 @@
  */
 package org.kuali.kra.institutionalproposal.web.struts.form;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.web.struts.form.ReportHelperBean;
@@ -37,6 +40,7 @@ import org.kuali.kra.medusa.MedusaBean;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.kra.web.struts.form.MultiLookupFormBase;
+import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -51,7 +55,8 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 4564236415580911082L;
-    
+    private static final String CUSTOM_DATA_NAV_TO = "customData";
+
     private boolean auditActivated;
     
     private String lookupResultsSequenceNumber;
@@ -421,5 +426,30 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
     public void setViewFundingSource(boolean viewFundingSource) {
         this.viewFundingSource = viewFundingSource;
     }
-    
+  
+    @Override
+    public HeaderNavigation[] getHeaderNavigationTabs() {
+        
+        HeaderNavigation[] navigation = super.getHeaderNavigationTabs();
+        
+        List<HeaderNavigation> resultList = new ArrayList<HeaderNavigation>();
+            //We have to copy the HeaderNavigation elements into a new collection as the 
+            //List returned by DD is it's cached copy of the header navigation list.
+        for (HeaderNavigation nav : navigation) {
+            if (StringUtils.equals(nav.getHeaderTabNavigateTo(),CUSTOM_DATA_NAV_TO)) {
+                boolean displayTab = !((InstitutionalProposalDocument)this.getDocument()).getCustomAttributeDocuments().isEmpty();
+                nav.setDisabled(!displayTab);
+                if (displayTab) {
+                    resultList.add(nav);
+                }
+            } else {
+                resultList.add(nav);
+            }
+        }
+        
+        HeaderNavigation[] result = new HeaderNavigation[resultList.size()];
+        resultList.toArray(result);
+        return result;
+    }
+
 }

@@ -56,8 +56,8 @@ import org.kuali.kra.award.paymentreports.paymentschedule.PaymentScheduleBean;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.ApprovedEquipmentBean;
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.ApprovedForeignTravelBean;
 import org.kuali.kra.award.permissions.PermissionsHelper;
-import org.kuali.kra.award.printing.AwardTransactionSelectorBean;
 import org.kuali.kra.award.printing.AwardPrintNotice;
+import org.kuali.kra.award.printing.AwardTransactionSelectorBean;
 import org.kuali.kra.award.specialreview.SpecialReviewHelper;
 import org.kuali.kra.award.web.struts.action.SponsorTermFormHelper;
 import org.kuali.kra.bo.versioning.VersionHistory;
@@ -75,6 +75,7 @@ import org.kuali.kra.web.struts.form.MultiLookupFormBase;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -96,7 +97,8 @@ public class AwardForm extends BudgetVersionFormBase
 
     public static final String SAVE = "save";
     public static final String RELOAD = "reload";
-   
+    private static final String CUSTOM_DATA_NAV_TO = "customData";
+
 
     private static final int NUMBER_30 = 30;
     public static final String COLUMN = ":";
@@ -1367,5 +1369,29 @@ public class AwardForm extends BudgetVersionFormBase
         this.directIndirectViewEnabled = directIndirectViewEnabled;
     }
     
+    @Override
+    public HeaderNavigation[] getHeaderNavigationTabs() {
+        
+        HeaderNavigation[] navigation = super.getHeaderNavigationTabs();
+        
+        List<HeaderNavigation> resultList = new ArrayList<HeaderNavigation>();
+            //We have to copy the HeaderNavigation elements into a new collection as the 
+            //List returned by DD is it's cached copy of the header navigation list.
+        for (HeaderNavigation nav : navigation) {
+            if (StringUtils.equals(nav.getHeaderTabNavigateTo(),CUSTOM_DATA_NAV_TO)) {
+                boolean displayTab = !this.getDocument().getCustomAttributeDocuments().isEmpty();
+                nav.setDisabled(!displayTab);
+                if (displayTab) {
+                    resultList.add(nav);
+                }
+            } else {
+                resultList.add(nav);
+            }
+        }
+        
+        HeaderNavigation[] result = new HeaderNavigation[resultList.size()];
+        resultList.toArray(result);
+        return result;
+    }
 
 }
