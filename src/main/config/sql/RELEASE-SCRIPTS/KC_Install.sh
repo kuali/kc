@@ -107,7 +107,7 @@ case "${dbtype}" in
 			cd ..
 		fi
 
-		if [ "${version}" = "2.0" ]
+		if [ "${version}" = "2.0" ] || [ "${version}" = "NEW" ]
 		then
 			cd KC-RELEASE-3_0-SCRIPT
 			if [ "${mode}" = "BUNDLE" ]
@@ -159,7 +159,7 @@ case "${dbtype}" in
 			cd ..
 		fi
 
-		if [ "${version}" = "2.0" ]
+		if [ "${version}" = "2.0" ] || [ "${version}" = "NEW" ]
 		then
 			cd KC-RELEASE-3_0-SCRIPT
 			if [ "${mode}" = "BUNDLE" ]
