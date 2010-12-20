@@ -37,6 +37,7 @@ import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.SequenceAccessorService;
 
 /**
  * Test the ProtocolAmendRenewService implementation.
@@ -60,6 +61,7 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
         service.setProtocolCopyService(KraServiceLocator.getService(ProtocolCopyService.class));
         service.setKraLookupDao(KraServiceLocator.getService(KraLookupDao.class));
         service.setProtocolFinderDao(KraServiceLocator.getService(ProtocolFinderDao.class));
+        service.setSequenceAccessorService(KraServiceLocator.getService(SequenceAccessorService.class));
     }
 
     @After
