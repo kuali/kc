@@ -42,6 +42,7 @@
 
 <c:set var="propPrefix" value="${noteType.fullPath}." />
 
+
 <c:if test="${not empty attachmentTypesValuesFinderClass}">
   <c:set var="noteColSpan" value="${noteColSpan + 1}" />
 </c:if>
@@ -90,10 +91,17 @@
                       <kul:htmlAttributeHeaderCell literalLabel="add:" scope="row"/>
                       <td class="infoline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                       <td class="infoline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                      
                       <c:if test="${displayTopicFieldInNotes eq true}">
-                       <td class="infoline"><kul:htmlControlAttribute attributeEntry="${notesAttributes.noteTopicText}" property="newNote.noteTopicText" forceRequired="true" /></td>
+                       <td class="infoline">
+                       		<kul:htmlControlAttribute attributeEntry="${notesAttributes.noteTopicText}" property="newNote.noteTopicText" forceRequired="true" readOnly="${false}" />
+                       	</td>
                       </c:if>
-                      <td class="infoline"><kul:htmlControlAttribute attributeEntry="${notesAttributes.noteText}" property="newNote.noteText" forceRequired="${notesAttributes.noteText.required}" /></td>
+                      
+                      <td class="infoline">
+                      	<kul:htmlControlAttribute attributeEntry="${notesAttributes.noteText}" property="newNote.noteText" forceRequired="${notesAttributes.noteText.required}" readOnly="${false}"  />
+                      </td>
+                      
                       <c:if test="${allowsNoteAttachments eq true}">
                         <td class="infoline">
                           <div align="center"><br />
