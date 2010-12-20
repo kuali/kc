@@ -28,11 +28,14 @@ import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.copy.ProtocolCopyService;
+import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
+import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -55,6 +58,7 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
     private ProtocolCopyService protocolCopyService;
     private KraLookupDao kraLookupDao;
     private ProtocolFinderDao protocolFinderDao;
+    private SequenceAccessorService sequenceAccessorService;
     
     /**
      * Set the Document Service.
@@ -70,6 +74,14 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
      */
     public void setProtocolCopyService(ProtocolCopyService protocolCopyService) {
         this.protocolCopyService = protocolCopyService;
+    }
+    
+    /**
+     * Set the Sequence Accessor Service.
+     * @param sequenceAccessorService
+     */
+    public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
+        this.sequenceAccessorService = sequenceAccessorService;
     }
     
     /**
@@ -341,7 +353,34 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
             protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), ProtocolModule.PROTOCOL_PERMISSIONS);
             amendmentEntry.removeModule(ProtocolModule.PROTOCOL_PERMISSIONS);
         }
-        
+
+        resetPersonId(protocol);
+    }
+    
+    /**
+     * 
+     * This method syncs the personId between the protocol person and personnel attachment.
+     * @param protocol
+     */
+    private void resetPersonId(Protocol protocol) {
+        if (protocol.getProtocolPersons() != null) {
+            List <ProtocolAttachmentPersonnel> attachments = new ArrayList<ProtocolAttachmentPersonnel>();
+            for (ProtocolPerson person : protocol.getProtocolPersons()) {
+                Long nextPersonId = sequenceAccessorService.getNextAvailableSequenceNumber("SEQ_PROTOCOL_ID");
+                person.setProtocolPersonId(nextPersonId.intValue());
+                for (ProtocolAttachmentPersonnel attachment : person.getAttachmentPersonnels()) {
+                    attachment.setProtocol(protocol);
+                    attachment.setPersonId(nextPersonId.intValue());
+                    attachment.setPerson(null);
+                    attachment.setId(null);
+                    attachment.setProtocolId(protocol.getProtocolId());
+                    attachment.setProtocolNumber(protocol.getProtocolNumber());
+                    attachment.setSequenceNumber(protocol.getSequenceNumber());
+                    attachments.add(attachment);
+                }
+            }
+            protocol.setAttachmentPersonnels(attachments);
+        }
     }
     
     /**
