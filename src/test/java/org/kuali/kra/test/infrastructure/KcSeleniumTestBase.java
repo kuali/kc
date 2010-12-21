@@ -49,14 +49,12 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
     
     @Before
     public void seleniumBeforeTest() throws Exception {
-        logBeforeRun();
         LIFECYCLE.startPerTest(transactional);
     }
     
     @After
     public void seleniumAfterTest() throws Exception {
         LIFECYCLE.stopPerTest();
-        logAfterRun();
     }
     
     /**
