@@ -19,7 +19,7 @@ class SeleniumUnitTest extends KcSeleniumTestBase {
         selenium.type("//input[@id='document.developmentProposalList[0].requestedEndDateInitial']", String.format('%tD', new Date()))
         selenium.select("//select[@id='document.developmentProposalList[0].proposalTypeCode']", "label=New")
         selenium.select("//select[@id='document.developmentProposalList[0].ownedByUnitNumber']", "label=000001 - University")
-        selenium.select("//select[@id='document.developmentProposalList[0].activityTypeCode']", "label=Research")
+        selenium.select("//select[@id='document.developmentProposalList[0].activityTypeCode']", "label=Instruction")
         selenium.click("methodToCall.save")
         selenium.waitForPageToLoad("60000")
         selenium.click("//img[@alt='doc search']")
