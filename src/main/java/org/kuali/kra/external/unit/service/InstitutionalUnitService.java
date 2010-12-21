@@ -23,7 +23,7 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import org.kuali.kra.external.unit.HashMapElement;
+import org.kuali.kra.external.HashMapElement;
 import org.kuali.kra.external.unit.UnitDTO;
 
 /**
