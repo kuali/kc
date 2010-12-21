@@ -1,0 +1,8 @@
+# rename this to liquibase.properties when testing
+classpath=/java/drivers/ojdbc14.jar 
+driver=oracle.jdbc.OracleDriver
+url=jdbc:oracle:thin:@localhost:1521:XE
+username=krbdev
+password=dev174kr
+drivers.directory=/java/drivers
+drivers.file.pattern=ojdbc*.jar,mysql*.jar
