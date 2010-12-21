@@ -22,7 +22,7 @@ import java.util.List;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
-import org.kuali.kra.external.unit.HashMapElement;
+import org.kuali.kra.external.HashMapElement;
 import org.kuali.kra.external.unit.UnitDTO;
 import org.kuali.kra.external.unit.service.InstitutionalUnitService;
 import org.kuali.kra.service.UnitService;
