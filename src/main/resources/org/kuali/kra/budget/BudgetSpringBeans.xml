@@ -475,5 +475,34 @@
 	<bean id="budgetPeriodLookupableHelperService" class="org.kuali.kra.lookup.BudgetPeriodLookupableHelperServiceImpl" 
  		scope="prototype" parent="lookupableHelperService"> 
   	</bean>		
-    
+    <bean id="budgetCategoryService"
+		class="org.kuali.kra.external.budget.service.impl.BudgetCategoryServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
+	
+    <bean id="budgetCategoryServiceJavaExporter" class="org.kuali.rice.ksb.messaging.KSBExporter">
+		<property name="serviceDefinition">
+			<bean class="org.kuali.rice.ksb.messaging.JavaServiceDefinition">
+				<property name="service" ref="budgetCategoryService" />
+				<property name="serviceNameSpaceURI" value="KC" />
+				<property name="localServiceName" value="budgetCategoryService" />
+				<property name="serviceInterface"
+					value="org.kuali.kra.external.budget.service" />
+				<property name="busSecurity" value="false" />
+				<property name="retryAttempts" value="1" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="budgetCategoryServiceSoapExporter" class="org.kuali.rice.ksb.messaging.KSBExporter">
+		<property name="serviceDefinition">
+			<bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+				<property name="service" ref="budgetCategoryService" />
+				<property name="serviceNameSpaceURI" value="KC" />
+				<property name="localServiceName" value="budgetCategorySoapService" />
+				<property name="busSecurity" value="true" />
+				<property name="jaxWsService" value="true" />
+			</bean>
+		</property>
+	</bean>
 </beans>
