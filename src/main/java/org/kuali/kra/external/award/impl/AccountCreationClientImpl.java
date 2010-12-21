@@ -29,6 +29,12 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.namespace.QName;
 import javax.xml.ws.WebServiceException;
 
+import kfs.AccountCreationService;
+import kfs.AccountCreationServiceSOAP;
+import kfs.AccountCreationStatusDTO;
+import kfs.AccountParametersDTO;
+//import kfs.
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.commitments.AwardFandaRate;
@@ -59,7 +65,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  */
 
 public final class AccountCreationClientImpl implements AccountCreationClient {
-   
+
     private AccountParametersDTO accountParameters;
     private DocumentService documentService;
     
@@ -84,8 +90,8 @@ public final class AccountCreationClientImpl implements AccountCreationClient {
         URL wsdlURL = AccountCreationServiceSOAP.WSDL_LOCATION;
         try {
             AccountCreationServiceSOAP ss = new AccountCreationServiceSOAP(wsdlURL, SERVICE_NAME);
-            AccountCreationService port = ss.getAccountCreationServicePort();             
-
+            AccountCreationService port = ss.getAccountCreationServicePort();   
+            
             AccountCreationStatusDTO createAccountResult = port.createAccount(accountParameters);
             // If the account did not get created display the errors
             if (!createAccountResult.getStatus().equals("success")) {
@@ -159,7 +165,7 @@ public final class AccountCreationClientImpl implements AccountCreationClient {
         accountParameters.setExpirationDate(gregorianDate);
         
         // expense guideline text
-        String expenseGuidelineText = award.getAwardId() + "";
+        String expenseGuidelineText = award.getAwardNumber();
         accountParameters.setExpenseGuidelineText(expenseGuidelineText);
         
         setIncomeGuidelineText(award);
@@ -173,7 +179,7 @@ public final class AccountCreationClientImpl implements AccountCreationClient {
         //Principal id
         //accountParameters.setPrincipalId(UserSession.getAuthenticatedUser().getPrincipalId());
         /* KFS and KC do not share a common db, so using khuntleys id
-         so it will succeed authentication by KFS.*/
+         so it will pass KFS authentication.*/
         String KHUNTLEY_ID = "6162502038";
         accountParameters.setPrincipalId(KHUNTLEY_ID);
         // get the current FandaRate
@@ -200,7 +206,8 @@ public final class AccountCreationClientImpl implements AccountCreationClient {
         final int ACCOUNT_NAME_LENGTH = 40;
         // Account name
         String accountName = award.getSponsor().getAcronym() 
-                            + "-" + award.getAwardNumber();
+        // sponsor award id?
+                            + "-" + award.getSponsorAwardNumber();  //award.getAwardNumber();
         if (award.getPrincipalInvestigatorName() != null) {
             accountName += "-" + award.getPrincipalInvestigator().getPerson().getFirstName()
                                + award.getPrincipalInvestigator().getPerson().getLastName();
