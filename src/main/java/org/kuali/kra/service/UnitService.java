@@ -81,5 +81,12 @@ public interface UnitService {
     public String getInitialUnitsForUnitHierarchy(int depth);
     
     public List<UnitAdministrator> retrieveUnitAdministratorsByUnitNumber(String unitNumber);
+    
+    /**
+     * 
+     * This method returns the tree depth of the entire unit hierarchy tree;
+     * @return
+     */
+    public int getUnitTreeDepth();
 
 }
