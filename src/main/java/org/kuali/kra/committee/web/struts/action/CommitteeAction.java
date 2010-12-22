@@ -77,18 +77,6 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
         CommitteeForm committeeForm = (CommitteeForm) form;
         CommitteeDocument doc = committeeForm.getCommitteeDocument();
         
-        if (doc.getCommittee().getMinimumMembersRequired() == null) {
-            doc.getCommittee().setMinimumMembersRequired(0);
-        }
-        
-        if (doc.getCommittee().getMaxProtocols()==null) {
-            doc.getCommittee().setMaxProtocols(0);
-        }
-        
-        if(doc.getCommittee().getAdvancedSubmissionDaysRequired()==null) {
-            doc.getCommittee().setAdvancedSubmissionDaysRequired(0);
-        }
-        
         CommitteeTask task = new CommitteeTask(TaskName.MODIFY_COMMITTEE, doc.getCommittee());
         if (isAuthorized(task)) {
             if (isValidSave(committeeForm)) {
