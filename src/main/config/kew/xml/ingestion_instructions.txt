@@ -8,13 +8,7 @@ delete from krew_doc_typ_t;
 commit;
 
 
-the kew files are organized in a hierarchy like so.
-
-           1 (KualiDocument.xml)
-          / \
-(KC.xml) 2   2
-        / \ / \
-       3  33   3 (AwardDocument.xml)
+the kew files are organized in a hierarchy.
        
 You can zip each folder and use the rice ingester to reingest the hierarchy.
 You must start with the lowest numbered folder and work your way down.
