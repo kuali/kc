@@ -15,6 +15,14 @@
  */
 package org.kuali.kra.web.struts.action;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.web.struts.form.UnitHierarchyForm;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 
 /**
@@ -23,4 +31,19 @@ import org.kuali.rice.kns.web.struts.action.KualiAction;
  */
 public class UnitHierarchyAction extends KualiAction {
     //nothing needed here yet
+    
+    public ActionForward expandAllUnitHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        UnitHierarchyForm unitForm = (UnitHierarchyForm) form;
+        unitForm.setDisplayWholeTree(true);
+        unitForm.resetUnits();
+        return mapping.findForward(Constants.MAPPING_BASIC);
+        
+    }
+    
+    public ActionForward collapseAllUnitHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        UnitHierarchyForm unitForm = (UnitHierarchyForm) form;
+        unitForm.setDisplayWholeTree(false);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+        
+    }
 }
