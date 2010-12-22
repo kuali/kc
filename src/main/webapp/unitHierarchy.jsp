@@ -47,6 +47,7 @@ body {
 <script type="text/javascript" src="scripts/kra_yui.js" ></script>
 
 <!--begin custom header content for this example-->
+							            
 <style>
 #treeDiv1 {background: #fff; margin-top:1em; padding:1em; min-height:7em;}
 </style>
@@ -82,12 +83,18 @@ body {
 	<a href="index.jsp">Main</a></div>
 </div>
 
-
+<br/><br/>
+&nbsp;
+<html:image property="methodToCall.expandAllUnitHierarchy" src='${ConfigProperties.kr.externalizable.images.url}tinybutton-expandall.gif' styleClass="tinybutton" alt="Expand All"/>
+&nbsp;
+<html:image property="methodToCall.collapseAllUnitHierarchy" src='${ConfigProperties.kr.externalizable.images.url}tinybutton-collapseall.gif' styleClass="tinybutton" alt="Collapse All"/>
 
 <!--  initial data here -->
 <input type="hidden" id = "units" name="units"   value="${UnitHierarchyForm.units}"/>
 <input type="hidden" id = "selectedUnitNumber" name="selectedUnitNumber"  />
-<input type="hidden" id = "depth" name = "depth" value="${UnitHierarchyForm.initialUnitDepth}">
+<c:set var="dept" value="${UnitHierarchyForm.initialUnitDepth}"/>
+
+<input type="hidden" id = "depth" name = "depth" value="${dept}">
 
 <!--BEGIN SOURCE CODE FOR Unit hierarchy =============================== -->
 

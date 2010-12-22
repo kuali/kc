@@ -144,6 +144,7 @@ public class UnitServiceImpl implements UnitService {
                 subUnits = unit.getUnitNumber()+KNSConstants.BLANK_SPACE+COLUMN+KNSConstants.BLANK_SPACE+unit.getUnitName();                
             }
         }
+        System.err.println("about to return : " + subUnits);
         return subUnits;
         
     }
@@ -230,6 +231,21 @@ public class UnitServiceImpl implements UnitService {
         List<UnitAdministrator> unitAdministrators = 
             (List<UnitAdministrator>) getBusinessObjectService().findMatching(UnitAdministrator.class, queryMap);
         return unitAdministrators;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.service.UnitService#getUnitTreeDepth()
+     */
+    public int getUnitTreeDepth() {
+        /**
+         * This function returns a higher number than the actual depth of the hirearchy tree.  This does not cause any problem as of yet.
+         * A closer to accurate query would be:
+         *      select count(distinct parent_unit_number) as counter from unit where PARENT_UNIT_NUMBER is not null
+         * although this to will result in a higher number than the true depth.
+         * @TODO fix this as time allows. 
+         */
+        return getBusinessObjectService().findAll(Unit.class).size();
     }
     
 }
