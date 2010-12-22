@@ -1,0 +1,823 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--************************************************************************-->
+<!-- TITLE:    	Universal CodesSchema	                                   -->
+<!-- DATE:    	October 1, 2003				   		        -->
+<!-- VERSION:    1.0	 				   		                            -->
+<!--   								   	                                   -->
+<!-- COMMENTS: This schema contains code values that are      -->
+<!--                      universally used,  such as ISO Country Codes -->
+<!--                      and ISO Currency Codes. These codes are     -->
+<!--                      included in this schema rather than the Global -->
+<!--  	              schema so that any changes to them will not  -->
+<!--                      impact the Global schema.			               -->
+<!--   								   	                                   -->
+<!--************************************************************************-->
+<xsd:schema targetNamespace="http://apply.grants.gov/system/UniversalCodes-V1.0" xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+    <!-- ISO COUNTRY CODES -->
+    <xsd:simpleType name="CountryCodeType">
+        <xsd:annotation>
+            <xsd:documentation>These country codes are from the ISO 3166 standard for country codes</xsd:documentation>
+            <xsd:documentation>AFG  AFGHANISTAN</xsd:documentation>
+            <xsd:documentation>ALB  ALBANIA</xsd:documentation>
+            <xsd:documentation>DZA  ALGERIA</xsd:documentation>
+            <xsd:documentation>ASM  AMERICAN SAMOA</xsd:documentation>
+            <xsd:documentation>AND  ANDORRA</xsd:documentation>
+            <xsd:documentation>AGO  ANGOLA</xsd:documentation>
+            <xsd:documentation>AIA  ANGUILLA</xsd:documentation>
+            <xsd:documentation>ATA  ANTARCTICA</xsd:documentation>
+            <xsd:documentation>ATG  ANTIGUA AND BARBUDA</xsd:documentation>
+            <xsd:documentation>ARG  ARGENTINA</xsd:documentation>
+            <xsd:documentation>ARM  ARMENIA</xsd:documentation>
+            <xsd:documentation>ABW  ARUBA</xsd:documentation>
+            <xsd:documentation>AUS  AUSTRALIA</xsd:documentation>
+            <xsd:documentation>AUT  AUSTRIA</xsd:documentation>
+            <xsd:documentation>AZE  ZERBAIJAN</xsd:documentation>
+            <xsd:documentation>BHS  BAHAMAS</xsd:documentation>
+            <xsd:documentation>BHR  BAHRAIN</xsd:documentation>
+            <xsd:documentation>BGD  BANGLADESH</xsd:documentation>
+            <xsd:documentation>BRB  BARBADOS</xsd:documentation>
+            <xsd:documentation>BLR  BELARUS</xsd:documentation>
+            <xsd:documentation>BEL  BELGIUM</xsd:documentation>
+            <xsd:documentation>BLZ  BELIZE</xsd:documentation>
+            <xsd:documentation>BEN  BENIN</xsd:documentation>
+            <xsd:documentation>BMU  BERMUDA</xsd:documentation>
+            <xsd:documentation>BTN  BHUTAN</xsd:documentation>
+            <xsd:documentation>BOL  BOLIVIA</xsd:documentation>
+            <xsd:documentation>BIH  BOSNIA AND HERZEGOWINA</xsd:documentation>
+            <xsd:documentation>BWA  BOTSWANA</xsd:documentation>
+            <xsd:documentation>BVT  BOUVET ISLAND</xsd:documentation>
+            <xsd:documentation>BRA  BRAZIL</xsd:documentation>
+            <xsd:documentation>IOT  BRITISH INDIAN OCEAN TERRITORY</xsd:documentation>
+            <xsd:documentation>BRN  BRUNEI DARUSSALAM</xsd:documentation>
+            <xsd:documentation>BGR  BULGARIA</xsd:documentation>
+            <xsd:documentation>BFA  BURKINA FASO</xsd:documentation>
+            <xsd:documentation>BDI  BURUNDI</xsd:documentation>
+            <xsd:documentation>KHM  CAMBODIA</xsd:documentation>
+            <xsd:documentation>CMR  CAMEROON</xsd:documentation>
+            <xsd:documentation>CAN  CANADA</xsd:documentation>
+            <xsd:documentation>CPV  CAPE VERDE</xsd:documentation>
+            <xsd:documentation>CYM  CAYMAN ISLANDS</xsd:documentation>
+            <xsd:documentation>CAF  CENTRAL AFRICAN REPUBLIC</xsd:documentation>
+            <xsd:documentation>TCD  CHAD</xsd:documentation>
+            <xsd:documentation>CHL  CHILE</xsd:documentation>
+            <xsd:documentation>CHN  CHINA</xsd:documentation>
+            <xsd:documentation>CXR  CHRISTMAS ISLAND</xsd:documentation>
+            <xsd:documentation>CCK  COCOS (KEELING) ISLANDS</xsd:documentation>
+            <xsd:documentation>COL  COLOMBIA</xsd:documentation>
+            <xsd:documentation>COM  COMOROS</xsd:documentation>
+            <xsd:documentation>COD  CONGO, Democratic Republic of</xsd:documentation>
+            <xsd:documentation>COG  CONGO, People's Republic of</xsd:documentation>
+            <xsd:documentation>COK  COOK ISLANDS</xsd:documentation>
+            <xsd:documentation>CRI  COSTA RICA</xsd:documentation>
+            <xsd:documentation>CIV  COTE D'IVOIRE</xsd:documentation>
+            <xsd:documentation>HRV  CROATIA (local name: Hrvatska)</xsd:documentation>
+            <xsd:documentation>CUB  CUBA</xsd:documentation>
+            <xsd:documentation>CYP  CYPRUS</xsd:documentation>
+            <xsd:documentation>CZE  CZECH REPUBLIC</xsd:documentation>
+            <xsd:documentation>DNK  DENMARK</xsd:documentation>
+            <xsd:documentation>DJI  DJIBOUTI</xsd:documentation>
+            <xsd:documentation>DMA  DOMINICA</xsd:documentation>
+            <xsd:documentation>DOM  DOMINICAN REPUBLIC</xsd:documentation>
+            <xsd:documentation>TLS  EAST TIMOR</xsd:documentation>
+            <xsd:documentation>ECU  ECUADOR</xsd:documentation>
+            <xsd:documentation>EGY  EGYPT</xsd:documentation>
+            <xsd:documentation>SLV  EL SALVADOR</xsd:documentation>
+            <xsd:documentation>GNQ  EQUATORIAL GUINEA</xsd:documentation>
+            <xsd:documentation>ERI  ERITREA</xsd:documentation>
+            <xsd:documentation>EST  ESTONIA</xsd:documentation>
+            <xsd:documentation>ETH  ETHIOPIA</xsd:documentation>
+            <xsd:documentation>FLK  FALKLAND ISLANDS (MALVINAS)</xsd:documentation>
+            <xsd:documentation>FRO  FAROE ISLANDS</xsd:documentation>
+            <xsd:documentation>FJI  FIJI</xsd:documentation>
+            <xsd:documentation>FIN  FINLAND</xsd:documentation>
+            <xsd:documentation>FRA  FRANCE</xsd:documentation>
+            <xsd:documentation>FXX  FRANCE, METROPOLITAN</xsd:documentation>
+            <xsd:documentation>GUF  FRENCH GUIANA</xsd:documentation>
+            <xsd:documentation>PYF  FRENCH POLYNESIA</xsd:documentation>
+            <xsd:documentation>ATF  FRENCH SOUTHERN TERRITORIES</xsd:documentation>
+            <xsd:documentation>GAB  GABON</xsd:documentation>
+            <xsd:documentation>GMB  GAMBIA</xsd:documentation>
+            <xsd:documentation>GEO  GEORGIA</xsd:documentation>
+            <xsd:documentation>DEU  GERMANY</xsd:documentation>
+            <xsd:documentation>GHA  GHANA</xsd:documentation>
+            <xsd:documentation>GIB  GIBRALTAR</xsd:documentation>
+            <xsd:documentation>GRC  GREECE</xsd:documentation>
+            <xsd:documentation>GRL  GREENLAND</xsd:documentation>
+            <xsd:documentation>GRD  GRENADA</xsd:documentation>
+            <xsd:documentation>GLP  GUADELOUPE</xsd:documentation>
+            <xsd:documentation>GUM  GUAM</xsd:documentation>
+            <xsd:documentation>GTM  GUATEMALA</xsd:documentation>
+            <xsd:documentation>GIN  GUINEA</xsd:documentation>
+            <xsd:documentation>GNB  GUINEA-BISSAU</xsd:documentation>
+            <xsd:documentation>GUY  GUYANA</xsd:documentation>
+            <xsd:documentation>HTI  HAITI</xsd:documentation>
+            <xsd:documentation>HMD  HEARD AND MC DONALD ISLANDS</xsd:documentation>
+            <xsd:documentation>HND  HONDURAS</xsd:documentation>
+            <xsd:documentation>HKG  HONG KONG</xsd:documentation>
+            <xsd:documentation>HUN  HUNGARY</xsd:documentation>
+            <xsd:documentation>ISL  ICELAND</xsd:documentation>
+            <xsd:documentation>IND  INDIA</xsd:documentation>
+            <xsd:documentation>IDN  INDONESIA </xsd:documentation>
+            <xsd:documentation>IRN  IRAN (ISLAMIC REPUBLIC OF)</xsd:documentation>
+            <xsd:documentation>IRQ  IRAQ</xsd:documentation>
+            <xsd:documentation>IRL  IRELAND</xsd:documentation>
+            <xsd:documentation>ISR  ISRAEL</xsd:documentation>
+            <xsd:documentation>ITA  ITALY</xsd:documentation>
+            <xsd:documentation>JAM  JAMAICA</xsd:documentation>
+            <xsd:documentation>JPN  JAPAN</xsd:documentation>
+            <xsd:documentation>JOR  JORDAN</xsd:documentation>
+            <xsd:documentation>KAZ  KAZAKHSTAN</xsd:documentation>
+            <xsd:documentation>KEN  KENYA</xsd:documentation>
+            <xsd:documentation>KIR  KIRIBATI</xsd:documentation>
+            <xsd:documentation>PRK  KOREA, DEMOCRATIC PEOPLE'S REPUBLIC OF</xsd:documentation>
+            <xsd:documentation>KOR  KOREA, REPUBLIC OF</xsd:documentation>
+            <xsd:documentation>KWT  KUWAIT</xsd:documentation>
+            <xsd:documentation>KGZ  KYRGYZSTAN</xsd:documentation>
+            <xsd:documentation>LAO  LAO PEOPLE'S DEMOCRATIC REPUBLIC</xsd:documentation>
+            <xsd:documentation>LVA  LATVIA</xsd:documentation>
+            <xsd:documentation>LBN  LEBANON</xsd:documentation>
+            <xsd:documentation>LSO  LESOTHO</xsd:documentation>
+            <xsd:documentation>LBR  LIBERIA</xsd:documentation>
+            <xsd:documentation>LBY  LIBYAN ARAB JAMAHIRIYA</xsd:documentation>
+            <xsd:documentation>LIE  LIECHTENSTEIN</xsd:documentation>
+            <xsd:documentation>LTU  LITHUANIA</xsd:documentation>
+            <xsd:documentation>LUX  LUXEMBOURG</xsd:documentation>
+            <xsd:documentation>MAC  MACAU</xsd:documentation>
+            <xsd:documentation>MKD  MACEDONIA, THE FORMER YUGOSLAV REPUBLICOF</xsd:documentation>
+            <xsd:documentation>MDG  MADAGASCAR</xsd:documentation>
+            <xsd:documentation>MWI  MALAWI</xsd:documentation>
+            <xsd:documentation>MYS  MALAYSIA</xsd:documentation>
+            <xsd:documentation>MDV  MALDIVES</xsd:documentation>
+            <xsd:documentation>MLI  MALI</xsd:documentation>
+            <xsd:documentation>MLT  MALTA</xsd:documentation>
+            <xsd:documentation>MHL  MARSHALL ISLANDS</xsd:documentation>
+            <xsd:documentation>MTQ  MARTINIQUE</xsd:documentation>
+            <xsd:documentation>MRT  MAURITANIA</xsd:documentation>
+            <xsd:documentation>MUS  MAURITIUS</xsd:documentation>
+            <xsd:documentation>MYT  MAYOTTE</xsd:documentation>
+            <xsd:documentation>MEX  MEXICO</xsd:documentation>
+            <xsd:documentation>FSM  MICRONESIA, FEDERATED STATES OF</xsd:documentation>
+            <xsd:documentation>MDA  MOLDOVA, REPUBLIC OF</xsd:documentation>
+            <xsd:documentation>MCO  MONACO</xsd:documentation>
+            <xsd:documentation>MNG  MONGOLIA</xsd:documentation>
+            <xsd:documentation>MSR  MONTSERRAT</xsd:documentation>
+            <xsd:documentation>MAR  MOROCCO</xsd:documentation>
+            <xsd:documentation>MOZ  MOZAMBIQUE</xsd:documentation>
+            <xsd:documentation>MMR  MYANMAR</xsd:documentation>
+            <xsd:documentation>NAM  NAMIBIA</xsd:documentation>
+            <xsd:documentation>NRU  NAURU</xsd:documentation>
+            <xsd:documentation>NPL  NEPAL</xsd:documentation>
+            <xsd:documentation>NLD  NETHERLANDS</xsd:documentation>
+            <xsd:documentation>ANT  NETHERLANDS ANTILLES</xsd:documentation>
+            <xsd:documentation>NCL  NEW CALEDONIA</xsd:documentation>
+            <xsd:documentation>NZL  NEW ZEALAND</xsd:documentation>
+            <xsd:documentation>NIC  NICARAGUA</xsd:documentation>
+            <xsd:documentation>NER  NIGER</xsd:documentation>
+            <xsd:documentation>NGA  NIGERIA</xsd:documentation>
+            <xsd:documentation>NIU  NIUE</xsd:documentation>
+            <xsd:documentation>NFK  NORFOLK ISLAND</xsd:documentation>
+            <xsd:documentation>MNP  NORTHERN MARIANA ISLANDS</xsd:documentation>
+            <xsd:documentation>NOR  NORWAY</xsd:documentation>
+            <xsd:documentation>OMN  OMAN</xsd:documentation>
+            <xsd:documentation>PAK  PAKISTAN</xsd:documentation>
+            <xsd:documentation>PLW  PALAU</xsd:documentation>
+            <xsd:documentation>PSE  PALESTINIAN TERRITORY, Occupied</xsd:documentation>
+            <xsd:documentation>PAN  PANAMA</xsd:documentation>
+            <xsd:documentation>PNG  PAPUA NEW GUINEA</xsd:documentation>
+            <xsd:documentation>PRY  PARAGUAY</xsd:documentation>
+            <xsd:documentation>PER  PERU</xsd:documentation>
+            <xsd:documentation>PHL  PHILIPPINES</xsd:documentation>
+            <xsd:documentation>PCN  PITCAIRN</xsd:documentation>
+            <xsd:documentation>POL  POLAND</xsd:documentation>
+            <xsd:documentation>PRT  PORTUGAL</xsd:documentation>
+            <xsd:documentation>PRI  PUERTO RICO</xsd:documentation>
+            <xsd:documentation>QAT  QATAR</xsd:documentation>
+            <xsd:documentation>REU  REUNION</xsd:documentation>
+            <xsd:documentation>ROU  ROMANIA</xsd:documentation>
+            <xsd:documentation>RUS  RUSSIAN FEDERATION</xsd:documentation>
+            <xsd:documentation>RWA  RWANDA</xsd:documentation>
+            <xsd:documentation>KNA  SAINT KITTS AND NEVIS</xsd:documentation>
+            <xsd:documentation>LCA  SAINT LUCIA</xsd:documentation>
+            <xsd:documentation>VCT  SAINT VINCENT AND THE GRENADINES</xsd:documentation>
+            <xsd:documentation>WSM  SAMOA</xsd:documentation>
+            <xsd:documentation>SMR  SAN MARINO</xsd:documentation>
+            <xsd:documentation>STP  SAO TOME AND PRINCIPE</xsd:documentation>
+            <xsd:documentation>SAU  SAUDI ARABIA</xsd:documentation>
+            <xsd:documentation>SEN  SENEGAL</xsd:documentation>
+            <xsd:documentation>SYC  SEYCHELLES</xsd:documentation>
+            <xsd:documentation>SLE  SIERRA LEONE</xsd:documentation>
+            <xsd:documentation>SGP  SINGAPORE</xsd:documentation>
+            <xsd:documentation>SVK  SLOVAKIA (Slovak Republic)</xsd:documentation>
+            <xsd:documentation>SVN  SLOVENIA</xsd:documentation>
+            <xsd:documentation>SLB  SOLOMON ISLANDS</xsd:documentation>
+            <xsd:documentation>SOM  SOMALIA</xsd:documentation>
+            <xsd:documentation>ZAF  SOUTH AFRICA</xsd:documentation>
+            <xsd:documentation>SGS  SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS</xsd:documentation>
+            <xsd:documentation>ESP  SPAIN</xsd:documentation>
+            <xsd:documentation>LKA  SRI LANKA</xsd:documentation>
+            <xsd:documentation>SHN  ST. HELENA</xsd:documentation>
+            <xsd:documentation>SPM  ST. PIERRE AND MIQUELON</xsd:documentation>
+            <xsd:documentation>SDN  SUDAN</xsd:documentation>
+            <xsd:documentation>SUR  SURINAME</xsd:documentation>
+            <xsd:documentation>SJM  SVALBARD AND JAN MAYEN ISLANDS</xsd:documentation>
+            <xsd:documentation>SWZ  SWAZILAND</xsd:documentation>
+            <xsd:documentation>SWE  SWEDEN</xsd:documentation>
+            <xsd:documentation>CHE  SWITZERLAND</xsd:documentation>
+            <xsd:documentation>SYR  SYRIAN ARAB REPUBLIC</xsd:documentation>
+            <xsd:documentation>TWN  TAIWAN</xsd:documentation>
+            <xsd:documentation>TJK  TAJIKISTAN</xsd:documentation>
+            <xsd:documentation>TZA  TANZANIA, UNITED REPUBLIC OF</xsd:documentation>
+            <xsd:documentation>THA  THAILAND</xsd:documentation>
+            <xsd:documentation>TGO  TOGO</xsd:documentation>
+            <xsd:documentation>TKL  TOKELAU</xsd:documentation>
+            <xsd:documentation>TON  TONGA</xsd:documentation>
+            <xsd:documentation>TTO  TRINIDAD AND TOBAGO</xsd:documentation>
+            <xsd:documentation>TUN  TUNISIA</xsd:documentation>
+            <xsd:documentation>TUR  TURKEY</xsd:documentation>
+            <xsd:documentation>TKM  TURKMENISTAN</xsd:documentation>
+            <xsd:documentation>TCA  TURKS AND CAICOS ISLANDS</xsd:documentation>
+            <xsd:documentation>TUV  TUVALU</xsd:documentation>
+            <xsd:documentation>UGA  UGANDA</xsd:documentation>
+            <xsd:documentation>UKR  UKRAINE</xsd:documentation>
+            <xsd:documentation>ARE  UNITED ARAB EMIRATES</xsd:documentation>
+            <xsd:documentation>GBR  UNITED KINGDOM</xsd:documentation>
+            <xsd:documentation>USA  UNITED STATES</xsd:documentation>
+            <xsd:documentation>UMI  UNITED STATES MINOR OUTLYING ISLANDS</xsd:documentation>
+            <xsd:documentation>URY  URUGUAY</xsd:documentation>
+            <xsd:documentation>UZB  UZBEKISTAN</xsd:documentation>
+            <xsd:documentation>VUT  VANUATU</xsd:documentation>
+            <xsd:documentation>VAT  VATICAN CITY STATE (HOLY SEE)</xsd:documentation>
+            <xsd:documentation>VEN  VENEZUELA</xsd:documentation>
+            <xsd:documentation>VNM  VIET NAM</xsd:documentation>
+            <xsd:documentation>VGB  VIRGIN ISLANDS (BRITISH)</xsd:documentation>
+            <xsd:documentation>VIR  VIRGIN ISLANDS (U.S.)</xsd:documentation>
+            <xsd:documentation>WLF  WALLIS AND FUTUNA ISLANDS</xsd:documentation>
+            <xsd:documentation>ESH  WESTERN SAHARA</xsd:documentation>
+            <xsd:documentation>YEM  YEMEN</xsd:documentation>
+            <xsd:documentation>YUG  YUGOSLAVIA</xsd:documentation>
+            <xsd:documentation>ZMB  ZAMBIA</xsd:documentation>
+            <xsd:documentation>ZWE  ZIMBABWE</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:token">
+            <xsd:enumeration value="AFG"/>
+            <xsd:enumeration value="ALB"/>
+            <xsd:enumeration value="DZA"/>
+            <xsd:enumeration value="ASM"/>
+            <xsd:enumeration value="AND"/>
+            <xsd:enumeration value="AGO"/>
+            <xsd:enumeration value="AIA"/>
+            <xsd:enumeration value="ATA"/>
+            <xsd:enumeration value="ATG"/>
+            <xsd:enumeration value="ARG"/>
+            <xsd:enumeration value="ARM"/>
+            <xsd:enumeration value="ABW"/>
+            <xsd:enumeration value="AUS"/>
+            <xsd:enumeration value="AUT"/>
+            <xsd:enumeration value="AZE"/>
+            <xsd:enumeration value="BHS"/>
+            <xsd:enumeration value="BHR"/>
+            <xsd:enumeration value="BGD"/>
+            <xsd:enumeration value="BRB"/>
+            <xsd:enumeration value="BLR"/>
+            <xsd:enumeration value="BEL"/>
+            <xsd:enumeration value="BLZ"/>
+            <xsd:enumeration value="BEN"/>
+            <xsd:enumeration value="BMU"/>
+            <xsd:enumeration value="BTN"/>
+            <xsd:enumeration value="BOL"/>
+            <xsd:enumeration value="BIH"/>
+            <xsd:enumeration value="BWA"/>
+            <xsd:enumeration value="BVT"/>
+            <xsd:enumeration value="BRA"/>
+            <xsd:enumeration value="IOT"/>
+            <xsd:enumeration value="BRN"/>
+            <xsd:enumeration value="BGR"/>
+            <xsd:enumeration value="BFA"/>
+            <xsd:enumeration value="BDI"/>
+            <xsd:enumeration value="KHM"/>
+            <xsd:enumeration value="CMR"/>
+            <xsd:enumeration value="CAN"/>
+            <xsd:enumeration value="CPV"/>
+            <xsd:enumeration value="CYM"/>
+            <xsd:enumeration value="CAF"/>
+            <xsd:enumeration value="TCD"/>
+            <xsd:enumeration value="CHL"/>
+            <xsd:enumeration value="CHN"/>
+            <xsd:enumeration value="CXR"/>
+            <xsd:enumeration value="CCK"/>
+            <xsd:enumeration value="COL"/>
+            <xsd:enumeration value="COM"/>
+            <xsd:enumeration value="COD"/>
+            <xsd:enumeration value="COG"/>
+            <xsd:enumeration value="COK"/>
+            <xsd:enumeration value="CRI"/>
+            <xsd:enumeration value="CIV"/>
+            <xsd:enumeration value="HRV"/>
+            <xsd:enumeration value="CUB"/>
+            <xsd:enumeration value="CYP"/>
+            <xsd:enumeration value="CZE"/>
+            <xsd:enumeration value="DNK"/>
+            <xsd:enumeration value="DJI"/>
+            <xsd:enumeration value="DMA"/>
+            <xsd:enumeration value="DOM"/>
+            <xsd:enumeration value="TLS"/>
+            <xsd:enumeration value="ECU"/>
+            <xsd:enumeration value="EGY"/>
+            <xsd:enumeration value="SLV"/>
+            <xsd:enumeration value="GNQ"/>
+            <xsd:enumeration value="ERI"/>
+            <xsd:enumeration value="EST"/>
+            <xsd:enumeration value="ETH"/>
+            <xsd:enumeration value="FLK"/>
+            <xsd:enumeration value="FRO"/>
+            <xsd:enumeration value="FJI"/>
+            <xsd:enumeration value="FIN"/>
+            <xsd:enumeration value="FRA"/>
+            <xsd:enumeration value="FXX"/>
+            <xsd:enumeration value="GUF"/>
+            <xsd:enumeration value="PYF"/>
+            <xsd:enumeration value="ATF"/>
+            <xsd:enumeration value="GAB"/>
+            <xsd:enumeration value="GMB"/>
+            <xsd:enumeration value="GEO"/>
+            <xsd:enumeration value="DEU"/>
+            <xsd:enumeration value="GHA"/>
+            <xsd:enumeration value="GIB"/>
+            <xsd:enumeration value="GRC"/>
+            <xsd:enumeration value="GRL"/>
+            <xsd:enumeration value="GRD"/>
+            <xsd:enumeration value="GLP"/>
+            <xsd:enumeration value="GUM"/>
+            <xsd:enumeration value="GTM"/>
+            <xsd:enumeration value="GIN"/>
+            <xsd:enumeration value="GNB"/>
+            <xsd:enumeration value="GUY"/>
+            <xsd:enumeration value="HTI"/>
+            <xsd:enumeration value="HMD"/>
+            <xsd:enumeration value="HND"/>
+            <xsd:enumeration value="HKG"/>
+            <xsd:enumeration value="HUN"/>
+            <xsd:enumeration value="ISL"/>
+            <xsd:enumeration value="IND"/>
+            <xsd:enumeration value="IDN"/>
+            <xsd:enumeration value="IRN"/>
+            <xsd:enumeration value="IRQ"/>
+            <xsd:enumeration value="IRL"/>
+            <xsd:enumeration value="ISR"/>
+            <xsd:enumeration value="ITA"/>
+            <xsd:enumeration value="JAM"/>
+            <xsd:enumeration value="JPN"/>
+            <xsd:enumeration value="JOR"/>
+            <xsd:enumeration value="KAZ"/>
+            <xsd:enumeration value="KEN"/>
+            <xsd:enumeration value="KIR"/>
+            <xsd:enumeration value="PRK"/>
+            <xsd:enumeration value="KOR"/>
+            <xsd:enumeration value="KWT"/>
+            <xsd:enumeration value="KGZ"/>
+            <xsd:enumeration value="LAO"/>
+            <xsd:enumeration value="LVA"/>
+            <xsd:enumeration value="LBN"/>
+            <xsd:enumeration value="LSO"/>
+            <xsd:enumeration value="LBR"/>
+            <xsd:enumeration value="LBY"/>
+            <xsd:enumeration value="LIE"/>
+            <xsd:enumeration value="LTU"/>
+            <xsd:enumeration value="LUX"/>
+            <xsd:enumeration value="MAC"/>
+            <xsd:enumeration value="MKD"/>
+            <xsd:enumeration value="MDG"/>
+            <xsd:enumeration value="MWI"/>
+            <xsd:enumeration value="MYS"/>
+            <xsd:enumeration value="MDV"/>
+            <xsd:enumeration value="MLI"/>
+            <xsd:enumeration value="MLT"/>
+            <xsd:enumeration value="MHL"/>
+            <xsd:enumeration value="MTQ"/>
+            <xsd:enumeration value="MRT"/>
+            <xsd:enumeration value="MUS"/>
+            <xsd:enumeration value="MYT"/>
+            <xsd:enumeration value="MEX"/>
+            <xsd:enumeration value="FSM"/>
+            <xsd:enumeration value="MDA"/>
+            <xsd:enumeration value="MCO"/>
+            <xsd:enumeration value="MNG"/>
+            <xsd:enumeration value="MSR"/>
+            <xsd:enumeration value="MAR"/>
+            <xsd:enumeration value="MOZ"/>
+            <xsd:enumeration value="MMR"/>
+            <xsd:enumeration value="NAM"/>
+            <xsd:enumeration value="NRU"/>
+            <xsd:enumeration value="NPL"/>
+            <xsd:enumeration value="NLD"/>
+            <xsd:enumeration value="ANT"/>
+            <xsd:enumeration value="NZL"/>
+            <xsd:enumeration value="NIC"/>
+            <xsd:enumeration value="NER"/>
+            <xsd:enumeration value="NGA"/>
+            <xsd:enumeration value="NIU"/>
+            <xsd:enumeration value="NFK"/>
+            <xsd:enumeration value="MNP"/>
+            <xsd:enumeration value="NOR"/>
+            <xsd:enumeration value="OMN"/>
+            <xsd:enumeration value="PAK"/>
+            <xsd:enumeration value="PLW"/>
+            <xsd:enumeration value="PSE"/>
+            <xsd:enumeration value="PAN"/>
+            <xsd:enumeration value="PNG"/>
+            <xsd:enumeration value="PRY"/>
+            <xsd:enumeration value="PER"/>
+            <xsd:enumeration value="PHL"/>
+            <xsd:enumeration value="PCN"/>
+            <xsd:enumeration value="POL"/>
+            <xsd:enumeration value="PRT"/>
+            <xsd:enumeration value="PRI"/>
+            <xsd:enumeration value="QAT"/>
+            <xsd:enumeration value="REU"/>
+            <xsd:enumeration value="ROU"/>
+            <xsd:enumeration value="RUS"/>
+            <xsd:enumeration value="RWA"/>
+            <xsd:enumeration value="KNA"/>
+            <xsd:enumeration value="LCA"/>
+            <xsd:enumeration value="VCT"/>
+            <xsd:enumeration value="WSM"/>
+            <xsd:enumeration value="SMR"/>
+            <xsd:enumeration value="STP"/>
+            <xsd:enumeration value="SAU"/>
+            <xsd:enumeration value="SEN"/>
+            <xsd:enumeration value="SYC"/>
+            <xsd:enumeration value="SLE"/>
+            <xsd:enumeration value="SGP"/>
+            <xsd:enumeration value="SVK"/>
+            <xsd:enumeration value="SVN"/>
+            <xsd:enumeration value="SLB"/>
+            <xsd:enumeration value="SOM"/>
+            <xsd:enumeration value="ZAF"/>
+            <xsd:enumeration value="SGS"/>
+            <xsd:enumeration value="ESP"/>
+            <xsd:enumeration value="LKA"/>
+            <xsd:enumeration value="SHN"/>
+            <xsd:enumeration value="SPM"/>
+            <xsd:enumeration value="SDN"/>
+            <xsd:enumeration value="SUR"/>
+            <xsd:enumeration value="SJM"/>
+            <xsd:enumeration value="SWZ"/>
+            <xsd:enumeration value="SWE"/>
+            <xsd:enumeration value="CHE"/>
+            <xsd:enumeration value="SYR"/>
+            <xsd:enumeration value="TWN"/>
+            <xsd:enumeration value="TJK"/>
+            <xsd:enumeration value="TZA"/>
+            <xsd:enumeration value="THA"/>
+            <xsd:enumeration value="TGO"/>
+            <xsd:enumeration value="TKL"/>
+            <xsd:enumeration value="TON"/>
+            <xsd:enumeration value="TTO"/>
+            <xsd:enumeration value="TUN"/>
+            <xsd:enumeration value="TUR"/>
+            <xsd:enumeration value="TKM"/>
+            <xsd:enumeration value="TCA"/>
+            <xsd:enumeration value="TUV"/>
+            <xsd:enumeration value="UGA"/>
+            <xsd:enumeration value="UKR"/>
+            <xsd:enumeration value="ARE"/>
+            <xsd:enumeration value="GBR"/>
+            <xsd:enumeration value="USA"/>
+            <xsd:enumeration value="UMI"/>
+            <xsd:enumeration value="URY"/>
+            <xsd:enumeration value="UZB"/>
+            <xsd:enumeration value="VUT"/>
+            <xsd:enumeration value="VAT"/>
+            <xsd:enumeration value="VEN"/>
+            <xsd:enumeration value="VNM"/>
+            <xsd:enumeration value="VGB"/>
+            <xsd:enumeration value="VIR"/>
+            <xsd:enumeration value="WLF"/>
+            <xsd:enumeration value="ESH"/>
+            <xsd:enumeration value="YEM"/>
+            <xsd:enumeration value="YUG"/>
+            <xsd:enumeration value="ZMB"/>
+            <xsd:enumeration value="ZWE"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <!-- ISO CURRENCY CODES -->
+    <xsd:simpleType name="CurrencyCodeType">
+        <xsd:annotation>
+            <xsd:documentation>These currency codes are from the ISO 4217 standard for currency codes</xsd:documentation>
+            <xsd:documentation>ADP  Andorran Peseta</xsd:documentation>
+            <xsd:documentation>AED  United Arab Emirates Dirham</xsd:documentation>
+            <xsd:documentation>AFA  Afghanistan Afghani</xsd:documentation>
+            <xsd:documentation>ALL  Albanian Lek</xsd:documentation>
+            <xsd:documentation>ANG  Netherlands Antillian Guilder</xsd:documentation>
+            <xsd:documentation>AOK  Angolan Kwanza</xsd:documentation>
+            <xsd:documentation>ARA  Argentinian Austral</xsd:documentation>
+            <xsd:documentation>ATS  Austrian Schilling</xsd:documentation>
+            <xsd:documentation>AUD  Australian Dollar</xsd:documentation>
+            <xsd:documentation>AWG  Aruban Florin</xsd:documentation>
+            <xsd:documentation>BBD  Barbados Dollar</xsd:documentation>
+            <xsd:documentation>BDT  Bangladeshi Taka</xsd:documentation>
+            <xsd:documentation>BEF  Belgian Franc</xsd:documentation>
+            <xsd:documentation>BGL  Bulgarian Lev</xsd:documentation>
+            <xsd:documentation>BHD  Bahraini Dinar</xsd:documentation>
+            <xsd:documentation>BIF  Burundi Franc</xsd:documentation>
+            <xsd:documentation>BMD  Bermudian Dollar</xsd:documentation>
+            <xsd:documentation>BND  Brunei Dollar</xsd:documentation>
+            <xsd:documentation>BOB  Bolivian Boliviano</xsd:documentation>
+            <xsd:documentation>BRC  Brazilian Cruzeiro</xsd:documentation>
+            <xsd:documentation>BSD  Bahamian Dollar</xsd:documentation>
+            <xsd:documentation>BTN  Bhutan Ngultrum</xsd:documentation>
+            <xsd:documentation>BUK  Burma Kyat</xsd:documentation>
+            <xsd:documentation>BWP  Botswanian Pula</xsd:documentation>
+            <xsd:documentation>BZD  Belize Dollar</xsd:documentation>
+            <xsd:documentation>CAD  Canadian Dollar</xsd:documentation>
+            <xsd:documentation>CHF  Swiss Franc</xsd:documentation>
+            <xsd:documentation>CLF  Chilean Unidades de Fomento</xsd:documentation>
+            <xsd:documentation>CLP  Chilean Peso</xsd:documentation>
+            <xsd:documentation>CNY  Yuan (Chinese) Renminbi</xsd:documentation>
+            <xsd:documentation>COP  Colombian Peso</xsd:documentation>
+            <xsd:documentation>CRC  Costa Rican Colon</xsd:documentation>
+            <xsd:documentation>CSK  Czech Koruna</xsd:documentation>
+            <xsd:documentation>CUP  Cuban Peso</xsd:documentation>
+            <xsd:documentation>CVE  Cape Verde Escudo</xsd:documentation>
+            <xsd:documentation>CYP  Cyprus Pound</xsd:documentation>
+            <xsd:documentation>DDM  East German Mark (DDR)</xsd:documentation>
+            <xsd:documentation>DEM  Deutsche Mark</xsd:documentation>
+            <xsd:documentation>DJF  Djibouti Franc</xsd:documentation>
+            <xsd:documentation>DKK  Danish Krone</xsd:documentation>
+            <xsd:documentation>DOP  Dominican Peso</xsd:documentation>
+            <xsd:documentation>DZD  Algerian Dinar</xsd:documentation>
+            <xsd:documentation>ECS  Ecuador Sucre</xsd:documentation>
+            <xsd:documentation>EGP  Egyptian Pound</xsd:documentation>
+            <xsd:documentation>ESP  Spanish Peseta</xsd:documentation>
+            <xsd:documentation>ETB  Ethiopian Birr</xsd:documentation>
+            <xsd:documentation>EUR  Euro</xsd:documentation>
+            <xsd:documentation>FIM  Finnish Markka</xsd:documentation>
+            <xsd:documentation>FJD  Fiji Dollar</xsd:documentation>
+            <xsd:documentation>FKP  Falkland Islands Pound</xsd:documentation>
+            <xsd:documentation>FRF  French Franc</xsd:documentation>
+            <xsd:documentation>GBP  British Pound</xsd:documentation>
+            <xsd:documentation>GHC  Ghanaian Cedi</xsd:documentation>
+            <xsd:documentation>GIP  Gibraltar Pound</xsd:documentation>
+            <xsd:documentation>GMD  Gambian Dalasi</xsd:documentation>
+            <xsd:documentation>GNF  Guinea Franc</xsd:documentation>
+            <xsd:documentation>GRD  Greek Drachma</xsd:documentation>
+            <xsd:documentation>GTQ  Guatemalan Quetzal</xsd:documentation>
+            <xsd:documentation>GWP  Guinea-Bissau Peso</xsd:documentation>
+            <xsd:documentation>GYD  Guyanan Dollar</xsd:documentation>
+            <xsd:documentation>HKD  Hong Kong Dollar</xsd:documentation>
+            <xsd:documentation>HNL  Honduran Lempira</xsd:documentation>
+            <xsd:documentation>HTG  Haitian Gourde</xsd:documentation>
+            <xsd:documentation>HUF  Hungarian Forint</xsd:documentation>
+            <xsd:documentation>IDR  Indonesian Rupiah</xsd:documentation>
+            <xsd:documentation>IEP  Irish Punt</xsd:documentation>
+            <xsd:documentation>ILS  Israeli Shekel</xsd:documentation>
+            <xsd:documentation>INR  Indian Rupee</xsd:documentation>
+            <xsd:documentation>IQD  Iraqi Dinar</xsd:documentation>
+            <xsd:documentation>IRR  Iranian Rial</xsd:documentation>
+            <xsd:documentation>ISK  Iceland Krona</xsd:documentation>
+            <xsd:documentation>ITL  Italian Lira</xsd:documentation>
+            <xsd:documentation>JMD  Jamaican Dollar</xsd:documentation>
+            <xsd:documentation>JOD  Jordanian Dinar </xsd:documentation>
+            <xsd:documentation>JPY  Japanese Yen</xsd:documentation>
+            <xsd:documentation>KES  Kenyan Schilling</xsd:documentation>
+            <xsd:documentation>KHR  Kampuchean (Cambodian) Riel</xsd:documentation>
+            <xsd:documentation>KMF  Comoros Franc KPW</xsd:documentation>
+            <xsd:documentation>KPW  North Korean Won</xsd:documentation>
+            <xsd:documentation>KRW  (South) Korean Won</xsd:documentation>
+            <xsd:documentation>KWD  Kuwaiti Dinar</xsd:documentation>
+            <xsd:documentation>KYD  Cayman Islands Dollar</xsd:documentation>
+            <xsd:documentation>LAK  Lao Kip</xsd:documentation>
+            <xsd:documentation>LBP  Lebanese Pound</xsd:documentation>
+            <xsd:documentation>LKR  Sri Lanka Rupee</xsd:documentation>
+            <xsd:documentation>LRD  Liberian Dollar</xsd:documentation>
+            <xsd:documentation>LSL  Lesotho Loti</xsd:documentation>
+            <xsd:documentation>LUF  Luxembourg Franc</xsd:documentation>
+            <xsd:documentation>LYD  Libyan Dinar</xsd:documentation>
+            <xsd:documentation>MAD  Moroccan Dirham</xsd:documentation>
+            <xsd:documentation>MGF  Malagasy Franc</xsd:documentation>
+            <xsd:documentation>MNT  Mongolian Tugrik</xsd:documentation>
+            <xsd:documentation>MOP  Macau Pataca</xsd:documentation>
+            <xsd:documentation>MRO  Mauritanian Ouguiya</xsd:documentation>
+            <xsd:documentation>MTL  Maltese Lira</xsd:documentation>
+            <xsd:documentation>MUR  Mauritius Rupee</xsd:documentation>
+            <xsd:documentation>MVR  Maldive Rufiyaa</xsd:documentation>
+            <xsd:documentation>MWK  Malawi Kwacha</xsd:documentation>
+            <xsd:documentation>MXP  Mexican Peso</xsd:documentation>
+            <xsd:documentation>MYR  Malaysian Ringgit</xsd:documentation>
+            <xsd:documentation>MZM  Mozambique Metical</xsd:documentation>
+            <xsd:documentation>NGN  Nigerian Naira</xsd:documentation>
+            <xsd:documentation>NIC  Nicaraguan Cordoba</xsd:documentation>
+            <xsd:documentation>NLG  Dutch Guilder</xsd:documentation>
+            <xsd:documentation>NOK  Norwegian Kroner</xsd:documentation>
+            <xsd:documentation>NPR  Nepalese Rupee</xsd:documentation>
+            <xsd:documentation>NZD  New Zealand Dollar</xsd:documentation>
+            <xsd:documentation>OMR  Omani Rial</xsd:documentation>
+            <xsd:documentation>PAB  Panamanian Balboa</xsd:documentation>
+            <xsd:documentation>PEI  Peruvian Inti</xsd:documentation>
+            <xsd:documentation>PGK  Papua New Guinea Kina</xsd:documentation>
+            <xsd:documentation>PHP  Philippine Peso</xsd:documentation>
+            <xsd:documentation>PKR  Pakistan Rupee</xsd:documentation>
+            <xsd:documentation>PLZ  Polish Zloty</xsd:documentation>
+            <xsd:documentation>PTE  Portuguese Escudo</xsd:documentation>
+            <xsd:documentation>PYG  Paraguay Guarani</xsd:documentation>
+            <xsd:documentation>QAR  Qatari Rial</xsd:documentation>
+            <xsd:documentation>ROL  Romanian Leu</xsd:documentation>
+            <xsd:documentation>RWF  Rwanda Franc</xsd:documentation>
+            <xsd:documentation>SAR  Saudi Arabian Riyal</xsd:documentation>
+            <xsd:documentation>SBD  Solomon Islands Dollar</xsd:documentation>
+            <xsd:documentation>SCR  Seychelles Rupee</xsd:documentation>
+            <xsd:documentation>SDP  Sudanese Pound</xsd:documentation>
+            <xsd:documentation>SEK  Swedish Krona</xsd:documentation>
+            <xsd:documentation>SGD  Singapore Dollar</xsd:documentation>
+            <xsd:documentation>SHP  St. Helena Pound</xsd:documentation>
+            <xsd:documentation>SLL  Sierra Leone Leone</xsd:documentation>
+            <xsd:documentation>SOS  Somali Schilling</xsd:documentation>
+            <xsd:documentation>SRG  Suriname Guilder</xsd:documentation>
+            <xsd:documentation>STD  Sao Tome and Principe Dobra</xsd:documentation>
+            <xsd:documentation>SUR  USSR Rouble</xsd:documentation>
+            <xsd:documentation>SVC  El Salvador Colon</xsd:documentation>
+            <xsd:documentation>SYP  Syrian Potmd</xsd:documentation>
+            <xsd:documentation>SZL  Swaziland Lilangeni</xsd:documentation>
+            <xsd:documentation>THB  Thai Bhat</xsd:documentation>
+            <xsd:documentation>TND  Tunisian Dinar</xsd:documentation>
+            <xsd:documentation>TOP  Tongan Pa'anga</xsd:documentation>
+            <xsd:documentation>TPE  East Timor Escudo</xsd:documentation>
+            <xsd:documentation>TRL  Turkish Lira</xsd:documentation>
+            <xsd:documentation>TTD  Trinidad and Tobago Dollar</xsd:documentation>
+            <xsd:documentation>TWD  Taiwan Dollar</xsd:documentation>
+            <xsd:documentation>TZS  Tanzanian Schilling</xsd:documentation>
+            <xsd:documentation>UGS  Uganda Shilling</xsd:documentation>
+            <xsd:documentation>USD  US Dollar</xsd:documentation>
+            <xsd:documentation>UYP  Uruguayan Peso</xsd:documentation>
+            <xsd:documentation>VEB  Venezualan Bolivar</xsd:documentation>
+            <xsd:documentation>VND  Vietnamese Dong</xsd:documentation>
+            <xsd:documentation>VUV  Vanuatu Vatu</xsd:documentation>
+            <xsd:documentation>WST  Samoan Tala</xsd:documentation>
+            <xsd:documentation>YDD  Democratic Yemeni Dinar</xsd:documentation>
+            <xsd:documentation>YER  Yemeni Rial</xsd:documentation>
+            <xsd:documentation>YUD  New Yugoslavia Dinar</xsd:documentation>
+            <xsd:documentation>ZAR  South African Rand</xsd:documentation>
+            <xsd:documentation>ZMK  Zambian Kwacha</xsd:documentation>
+            <xsd:documentation>ZRZ  Zaire Zaire</xsd:documentation>
+            <xsd:documentation>ZWD  Zimbabwe Dollar</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:token">
+            <xsd:enumeration value="ADP"/>
+            <xsd:enumeration value="AED"/>
+            <xsd:enumeration value="AFA"/>
+            <xsd:enumeration value="ALL"/>
+            <xsd:enumeration value="ANG"/>
+            <xsd:enumeration value="AOK"/>
+            <xsd:enumeration value="ARA"/>
+            <xsd:enumeration value="ATS"/>
+            <xsd:enumeration value="AUD"/>
+            <xsd:enumeration value="AWG"/>
+            <xsd:enumeration value="BBD"/>
+            <xsd:enumeration value="BDT"/>
+            <xsd:enumeration value="BEF"/>
+            <xsd:enumeration value="BGL"/>
+            <xsd:enumeration value="BHD"/>
+            <xsd:enumeration value="BIF"/>
+            <xsd:enumeration value="BMD"/>
+            <xsd:enumeration value="BND"/>
+            <xsd:enumeration value="BOB"/>
+            <xsd:enumeration value="BRC"/>
+            <xsd:enumeration value="BSD"/>
+            <xsd:enumeration value="BTN"/>
+            <xsd:enumeration value="BUK"/>
+            <xsd:enumeration value="BWP"/>
+            <xsd:enumeration value="BZD"/>
+            <xsd:enumeration value="CAD"/>
+            <xsd:enumeration value="CHF"/>
+            <xsd:enumeration value="CLF"/>
+            <xsd:enumeration value="CLP"/>
+            <xsd:enumeration value="CNY"/>
+            <xsd:enumeration value="COP"/>
+            <xsd:enumeration value="CRC"/>
+            <xsd:enumeration value="CSK"/>
+            <xsd:enumeration value="CUP"/>
+            <xsd:enumeration value="CVE"/>
+            <xsd:enumeration value="CYP"/>
+            <xsd:enumeration value="DDM"/>
+            <xsd:enumeration value="DEM"/>
+            <xsd:enumeration value="DJF"/>
+            <xsd:enumeration value="DKK"/>
+            <xsd:enumeration value="DOP"/>
+            <xsd:enumeration value="DZD"/>
+            <xsd:enumeration value="ECS"/>
+            <xsd:enumeration value="EGP"/>
+            <xsd:enumeration value="ESP"/>
+            <xsd:enumeration value="ETB"/>
+            <xsd:enumeration value="EUR"/>
+            <xsd:enumeration value="FIM"/>
+            <xsd:enumeration value="FJD"/>
+            <xsd:enumeration value="FKP"/>
+            <xsd:enumeration value="FRF"/>
+            <xsd:enumeration value="GBP"/>
+            <xsd:enumeration value="GHC"/>
+            <xsd:enumeration value="GIP"/>
+            <xsd:enumeration value="GMD"/>
+            <xsd:enumeration value="GNF"/>
+            <xsd:enumeration value="GRD"/>
+            <xsd:enumeration value="GTQ"/>
+            <xsd:enumeration value="GWP"/>
+            <xsd:enumeration value="GYD"/>
+            <xsd:enumeration value="HKD"/>
+            <xsd:enumeration value="HNL"/>
+            <xsd:enumeration value="HTG"/>
+            <xsd:enumeration value="HUF"/>
+            <xsd:enumeration value="IDR"/>
+            <xsd:enumeration value="IEP"/>
+            <xsd:enumeration value="ILS"/>
+            <xsd:enumeration value="INR"/>
+            <xsd:enumeration value="IQD"/>
+            <xsd:enumeration value="IRR"/>
+            <xsd:enumeration value="ISK"/>
+            <xsd:enumeration value="ITL"/>
+            <xsd:enumeration value="JMD"/>
+            <xsd:enumeration value="JOD"/>
+            <xsd:enumeration value="JPY"/>
+            <xsd:enumeration value="KES"/>
+            <xsd:enumeration value="KHR"/>
+            <xsd:enumeration value="KMF"/>
+            <xsd:enumeration value="KPW"/>
+            <xsd:enumeration value="KRW"/>
+            <xsd:enumeration value="KWD"/>
+            <xsd:enumeration value="KYD"/>
+            <xsd:enumeration value="LAK"/>
+            <xsd:enumeration value="LBP"/>
+            <xsd:enumeration value="LKR"/>
+            <xsd:enumeration value="LRD"/>
+            <xsd:enumeration value="LSL"/>
+            <xsd:enumeration value="LUF"/>
+            <xsd:enumeration value="LYD"/>
+            <xsd:enumeration value="MAD"/>
+            <xsd:enumeration value="MGF"/>
+            <xsd:enumeration value="MNT"/>
+            <xsd:enumeration value="MOP"/>
+            <xsd:enumeration value="MRO"/>
+            <xsd:enumeration value="MTL"/>
+            <xsd:enumeration value="MUR"/>
+            <xsd:enumeration value="MVR"/>
+            <xsd:enumeration value="MWK"/>
+            <xsd:enumeration value="MXP"/>
+            <xsd:enumeration value="MYR"/>
+            <xsd:enumeration value="MZM"/>
+            <xsd:enumeration value="NGN"/>
+            <xsd:enumeration value="NIC"/>
+            <xsd:enumeration value="NLG"/>
+            <xsd:enumeration value="NOK"/>
+            <xsd:enumeration value="NPR"/>
+            <xsd:enumeration value="NZD"/>
+            <xsd:enumeration value="OMR"/>
+            <xsd:enumeration value="PAB"/>
+            <xsd:enumeration value="PEI"/>
+            <xsd:enumeration value="PGK"/>
+            <xsd:enumeration value="PHP"/>
+            <xsd:enumeration value="PKR"/>
+            <xsd:enumeration value="PLZ"/>
+            <xsd:enumeration value="PTE"/>
+            <xsd:enumeration value="PYG"/>
+            <xsd:enumeration value="QAR"/>
+            <xsd:enumeration value="ROL"/>
+            <xsd:enumeration value="RWF"/>
+            <xsd:enumeration value="SAR"/>
+            <xsd:enumeration value="SBD"/>
+            <xsd:enumeration value="SCR"/>
+            <xsd:enumeration value="SDP"/>
+            <xsd:enumeration value="SEK"/>
+            <xsd:enumeration value="SGD"/>
+            <xsd:enumeration value="SHP"/>
+            <xsd:enumeration value="SLL"/>
+            <xsd:enumeration value="SOS"/>
+            <xsd:enumeration value="SRG"/>
+            <xsd:enumeration value="STD"/>
+            <xsd:enumeration value="SUR"/>
+            <xsd:enumeration value="SVC"/>
+            <xsd:enumeration value="SYP"/>
+            <xsd:enumeration value="SZL"/>
+            <xsd:enumeration value="THB"/>
+            <xsd:enumeration value="TND"/>
+            <xsd:enumeration value="TOP"/>
+            <xsd:enumeration value="TPE"/>
+            <xsd:enumeration value="TRL"/>
+            <xsd:enumeration value="TTD"/>
+            <xsd:enumeration value="TWD"/>
+            <xsd:enumeration value="TZS"/>
+            <xsd:enumeration value="UGS"/>
+            <xsd:enumeration value="USD"/>
+            <xsd:enumeration value="UYP"/>
+            <xsd:enumeration value="VEB"/>
+            <xsd:enumeration value="VND"/>
+            <xsd:enumeration value="VUV"/>
+            <xsd:enumeration value="WST"/>
+            <xsd:enumeration value="YDD"/>
+            <xsd:enumeration value="YER"/>
+            <xsd:enumeration value="YUD"/>
+            <xsd:enumeration value="ZAR"/>
+            <xsd:enumeration value="ZMK"/>
+            <xsd:enumeration value="ZRZ"/>
+            <xsd:enumeration value="ZWD"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>
