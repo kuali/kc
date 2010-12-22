@@ -465,7 +465,8 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.web.ProtocolModifySubmissionWebTest.class,
     org.kuali.kra.irb.web.ProtocolSpecialReviewWebTest.class,
     org.kuali.kra.irb.web.ProtocolWithdrawWebTest.class,
-    org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentSpecialReviewWebTest.class
+    org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentSpecialReviewWebTest.class,
+    org.kuali.kra.service.impl.UnitServiceImplTest.class
 })
 /** these are all the test class where all the test methods are currently passing. */
 public class PassSuite {
