@@ -235,9 +235,9 @@ public class UnitServiceImpl implements UnitService {
     
     /**
      * 
-     * @see org.kuali.kra.service.UnitService#getUnitTreeDepth()
+     * @see org.kuali.kra.service.UnitService#getMaxUnitTreeDepth()
      */
-    public int getUnitTreeDepth() {
+    public int getMaxUnitTreeDepth() {
         /**
          * This function returns a higher number than the actual depth of the hirearchy tree.  This does not cause any problem as of yet.
          * A closer to accurate query would be:

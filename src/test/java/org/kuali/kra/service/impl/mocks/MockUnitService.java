@@ -129,7 +129,7 @@ public class MockUnitService implements UnitService {
         return null;
     }
     
-    public int getUnitTreeDepth() {
+    public int getMaxUnitTreeDepth() {
         return 10;
     }
 }

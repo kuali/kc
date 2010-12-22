@@ -112,8 +112,8 @@ public class UnitServiceImplTest extends KcUnitTestBase {
     }
 
     @Test
-    public void testGetUnitTreeDepth() {
-        int retVal = unitService.getUnitTreeDepth();
+    public void testGetMaxUnitTreeDepth() {
+        int retVal = unitService.getMaxUnitTreeDepth();
         assertTrue(retVal>1);
     }
 
