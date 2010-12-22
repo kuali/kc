@@ -43,6 +43,7 @@ public class UnitHierarchyAction extends KualiAction {
     public ActionForward collapseAllUnitHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         UnitHierarchyForm unitForm = (UnitHierarchyForm) form;
         unitForm.setDisplayWholeTree(false);
+        unitForm.resetUnits();
         return mapping.findForward(Constants.MAPPING_BASIC);
         
     }

@@ -84,7 +84,7 @@ public class UnitHierarchyForm extends KualiForm {
      */
     public int getInitialUnitDepth() {
         if (getDisplayWholeTree()){
-            return KraServiceLocator.getService(UnitService.class).getUnitTreeDepth();
+            return KraServiceLocator.getService(UnitService.class).getMaxUnitTreeDepth();
         } else {
             final String param = getParameterService().getParameterValue(ProposalDevelopmentDocument.class, Constants.INITIAL_UNIT_HIERARCHY_LOAD_DEPTH);
             return Integer.parseInt(param);

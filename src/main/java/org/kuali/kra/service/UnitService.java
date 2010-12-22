@@ -87,6 +87,6 @@ public interface UnitService {
      * This method returns the tree depth of the entire unit hierarchy tree;
      * @return
      */
-    public int getUnitTreeDepth();
+    public int getMaxUnitTreeDepth();
 
 }
