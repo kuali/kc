@@ -128,4 +128,8 @@ public class MockUnitService implements UnitService {
         // TODO Auto-generated method stub
         return null;
     }
+    
+    public int getUnitTreeDepth() {
+        return 10;
+    }
 }

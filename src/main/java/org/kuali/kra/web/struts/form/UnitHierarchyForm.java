@@ -25,6 +25,10 @@ import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
+/**
+ * 
+ * This class manages the form attributes for UnitHierarchy.
+ */
 public class UnitHierarchyForm extends KualiForm {
 
     private static final long serialVersionUID = 998128282202385681L;
@@ -34,11 +38,13 @@ public class UnitHierarchyForm extends KualiForm {
     private String selectedUnitNumber;
     private transient ParameterService parameterService;
     
+    private boolean displayWholeTree = false;
+    
     /**
      * Constructs a UnitHierarchyForm.
      */
-    public UnitHierarchyForm() {
-        units = KraServiceLocator.getService(UnitService.class).getInitialUnitsForUnitHierarchy(this.getInitialUnitDepth());        
+    public UnitHierarchyForm() {        
+        resetUnits();
     }
 
     @Override
@@ -46,6 +52,14 @@ public class UnitHierarchyForm extends KualiForm {
         // FIXME : just a temporary soln.  it always get the methodtocall='refresh' after it started properly the first time.  
         // need to investigate this.
         this.setMethodToCall("");
+    }
+    /**
+     * 
+     * This method reset the Units string based on the initial depth.
+     * To display the whole tree, simply set the displayWholeTree attribute to true before calling this method.
+     */
+    public void resetUnits() {
+        units = KraServiceLocator.getService(UnitService.class).getInitialUnitsForUnitHierarchy(this.getInitialUnitDepth());
     }
     
     public String getUnits() {
@@ -69,8 +83,12 @@ public class UnitHierarchyForm extends KualiForm {
      * @return Initial Unit Depth
      */
     public int getInitialUnitDepth() {
-        final String param = getParameterService().getParameterValue(ProposalDevelopmentDocument.class, Constants.INITIAL_UNIT_HIERARCHY_LOAD_DEPTH);
-        return Integer.parseInt(param);
+        if (getDisplayWholeTree()){
+            return KraServiceLocator.getService(UnitService.class).getUnitTreeDepth();
+        } else {
+            final String param = getParameterService().getParameterValue(ProposalDevelopmentDocument.class, Constants.INITIAL_UNIT_HIERARCHY_LOAD_DEPTH);
+            return Integer.parseInt(param);
+        }
     }
     
     /**
@@ -83,4 +101,12 @@ public class UnitHierarchyForm extends KualiForm {
         }
         return this.parameterService;
     }
+
+    public boolean getDisplayWholeTree() {
+        return displayWholeTree;
+    }
+
+    public void setDisplayWholeTree(boolean displayWholeTree) {
+        this.displayWholeTree = displayWholeTree;
+    }    
 }
