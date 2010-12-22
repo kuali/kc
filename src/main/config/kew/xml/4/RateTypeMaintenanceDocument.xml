@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>RateTypeMaintenanceDocument</name>
+			<description>Create/Edit a Rate Type</description>
+			<label>Rate Type Maintenance Document</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/ratetype.htm</helpDefinitionURL>
+		</documentType>
+	</documentTypes>	
+</data>
