@@ -1,5 +1,5 @@
 # rename this to liquibase.properties when testing
-classpath=/java/drivers/ojdbc14.jar 
+# substitute parameter values wherever necessary to point to the target schema for data import
 driver=oracle.jdbc.OracleDriver
 url=jdbc:oracle:thin:@localhost:1521:XE
 username=krbdev
