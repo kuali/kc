@@ -1,0 +1,1082 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<!-- Parent Maintenance DocTypes-->
+		<documentType>
+			<name>KcMaintenanceDocument</name>
+			<description>Parent of maintenance documents in KC</description>
+			<label>KcMaintenanceDocument</label>
+			<parent>KC</parent>
+			<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+			<superUserWorkgroupName>KC-WKFLW:KcAdmin</superUserWorkgroupName>
+			<blanketApproveWorkgroupName>KC-WKFLW:KcAdmin</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>KC-WKFLW:KcAdmin</defaultExceptionWorkgroupName>
+			<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+			<active>true</active>
+			<!-- <routingVersion>2</routingVersion> -->
+			<routePaths>
+				<routePath>
+					<start name="Initiated" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initiated">
+					<activationType>P</activationType>
+					<mandatoryRoute>false</mandatoryRoute>
+					<finalApproval>false</finalApproval>
+				</start>
+			</routeNodes>
+		</documentType>			
+		<documentType>
+			<name>KcProposalsMaintenanceDocument</name>
+			<description>Parent of Miscellaneous maintenance documents in KC</description>
+			<label>KcProposalsMaintenanceDocument</label>
+			<parent>KcMaintenanceDocument</parent>
+			<routePaths>
+				<routePath>
+					<start name="Initiated" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initiated">
+					<activationType>P</activationType>
+					<mandatoryRoute>false</mandatoryRoute>
+					<finalApproval>false</finalApproval>
+				</start>
+			</routeNodes>
+		</documentType>	
+		<documentType>
+			<name>KcSharedMaintenanceDocument</name>
+			<description>Parent of shared maintenance documents in KC</description>
+			<label>KcSharedMaintenanceDocument</label>
+			<parent>KcMaintenanceDocument</parent>
+			<routePaths>
+				<routePath>
+					<start name="Initiated" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initiated">
+					<activationType>P</activationType>
+					<mandatoryRoute>false</mandatoryRoute>
+					<finalApproval>false</finalApproval>
+				</start>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>KcAwardsMaintenanceDocument</name>
+			<description>Parent of Awards maintenance documents in KC</description>
+			<label>KcAwardsMaintenanceDocument</label>
+			<parent>KcMaintenanceDocument</parent>
+			<routePaths>
+				<routePath>
+					<start name="Initiated" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initiated">
+					<activationType>P</activationType>
+					<mandatoryRoute>false</mandatoryRoute>
+					<finalApproval>false</finalApproval>
+				</start>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>KcComplianceMaintenanceDocument</name>
+			<description>Parent of Compliance maintenance documents in KC</description>
+			<label>KcComplianceMaintenanceDocument</label>
+			<parent>KcMaintenanceDocument</parent>
+			<routePaths>
+				<routePath>
+					<start name="Initiated" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initiated">
+					<activationType>P</activationType>
+					<mandatoryRoute>false</mandatoryRoute>
+					<finalApproval>false</finalApproval>
+				</start>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>KcMiscellaneousMaintenanceDocument</name>
+			<description>Parent of Miscellaneous maintenance documents in KC</description>
+			<label>KcMiscellaneousMaintenanceDocument</label>
+			<parent>KcMaintenanceDocument</parent>
+			<routePaths>
+				<routePath>
+					<start name="Initiated" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initiated">
+					<activationType>P</activationType>
+					<mandatoryRoute>false</mandatoryRoute>
+					<finalApproval>false</finalApproval>
+				</start>
+			</routeNodes>
+		</documentType>
+		<!-- KC Maintenance Document Types -->
+		<documentType>
+			<name>Award Transaction Type Maintenance Document</name>
+			<description>Create a New Award Transaction Type</description>
+			<label>Award Transaction Type</label>
+			<parent>KcMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>CarrierTypeMaintenanceDocument</name>
+			<description>Create a New Carrier Type</description>
+			<label>Carrier Type</label>
+			<parent>KcMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ExemptionTypeMaintenanceDocument</name>
+			<description>Create/Edit a Exemption Type Code</description>
+			<label>Exemption Type</label>
+			<parent>KcMaintenanceDocument</parent>
+		</documentType>		
+		<documentType>
+			<name>KcPersonExtendedAttributesMaintenanceDocument</name>
+			<description>Create/Edit a KC Person Extended Attributes entry</description>
+			<label>Person</label>
+			<parent>KcMaintenanceDocument</parent>
+		</documentType>		
+		<documentType>
+			<name>PersonAppointmentMaintenanceDocument</name>
+			<description>Create/Edit a Person Appointment entry</description>
+			<label>Person Appointment</label>
+			<parent>KcMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>PersonDegreeMaintenanceDocument</name>
+			<description>Create/Edit a Person Degree entry</description>
+			<label>Person Degree</label>
+			<parent>KcMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>PersonEditableFieldMaintenanceDocument</name>
+			<description>Create a New Person Editable Field</description>
+			<label>Person Editable Field</label>
+			<parent>KcMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/persontableeditablecolumns.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>PropLocationMaintenanceDocument</name>
+			<description>Create/Edit a Prop Location</description>
+			<label>Prop Location</label>
+			<parent>KcMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ProposalColumnsToAlterMaintenanceDocument</name>
+			<description>Create a New Proposal Column To Alter</description>
+			<label>Proposal Column To Alter</label>
+			<parent>KcMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ProposalLogMaintenanceDocument</name>
+			<description>Create a new Proposal Log</description>
+			<label>Proposal Log</label>
+			<parent>KcMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ProposalResponseMaintenanceDocument</name>
+			<description>Create a New Proposal Response</description>
+			<label>Proposal Response</label>
+			<parent>KcMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ProposalRoleTemplateMaintenanceDocument</name>
+			<description>Create/Edit a Proposal Role Template entry</description>
+			<label>Proposal Role Template</label>
+			<parent>KcMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>PropPerDocTypeMaintenanceDocument</name>
+			<description>Create a New Proposal Person Document Type</description>
+			<label>Proposal Person Document Type</label>
+			<parent>KcMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>RiskLevelMaintenanceDocument</name>
+			<description>Create a New Risk Level</description>
+			<label>Risk Level Maintenance Document</label>
+			<parent>KcMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>SponsorTermMaintenanceDocument</name>
+			<description>Create a New Award Sponsor Term</description>
+			<label>Award Sponsor Term</label>
+			<parent>KcMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>SponsorTermTypeMaintenanceDocument</name>
+			<description>Create a New Sponsor Term Type</description>
+			<label>Sponsor Term Type</label>
+			<parent>KcMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>TbnPersonMaintenanceDocument</name>
+			<description>Create a New TBN Person</description>
+			<label>To Be Named Person</label>
+			<parent>KcMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>UnitMaintenanceDocument</name>
+			<description>Create/Edit a Unit</description>
+			<label>Unit</label>
+			<parent>KcMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>AbstractTypeMaintenanceDocument</name>
+			<description>Create a New Abstract Type</description>
+			<label>Abstract Type</label>
+			<parent>KcProposalsMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/abstracttype.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>AccountTypeMaintenanceDocument</name>
+			<description>Create a New Account Type</description>
+			<label>Account Type</label>
+			<parent>KcAwardsMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ActivityTypeMaintenanceDocument</name>
+			<description>Create a New Activity Type</description>
+			<label>Activity Type Maintenance Document</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/activitytype.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>KcAffiliationTypeMaintenanceDocument</name>
+			<description>Create an Affiliation Type</description>
+			<label>Affiliation Type Maintenance Document</label>
+			<parent>KcComplianceMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>AppointmentTypeMaintenanceDocument</name>
+			<description>Create/Edit a Appointment Type</description>
+			<label>Appointment Type</label>
+			<parent>KcProposalsMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/appointmenttype.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>ArgValueLookupMaintenanceDocument</name>
+			<description>Create/Edit a Argument Value Lookup</description>
+			<label>Argument Value</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+		</documentType>
+        <documentType>
+            <name>AwardAttachmentTypeMaintenanceDocument</name>
+            <description>Create/Edit an Award Attachment Type</description>
+            <label>Award Attachment Type</label>
+            <parent>KcAwardsMaintenanceDocument</parent>
+        </documentType>
+		<documentType>
+			<name>AwardBasisOfPaymentMaintenanceDocument</name>
+			<description>Create a New Award Basis Of Payment</description>
+			<label>Award Basis Of Payment</label>
+			<parent>KcAwardsMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>AwardMethodOfPaymentMaintenanceDocument</name>
+			<description>Create a New Award Method Of Payment</description>
+			<label>Award Basis Of Payment</label>
+			<parent>KcAwardsMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>AwardStatusMaintenanceDocument</name>
+			<description>Create a New Award Status</description>
+			<label>Award Status Type</label>
+			<parent>KcAwardsMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>AwardTemplateCommentMaintenanceDocument</name>
+			<description>Create a New Sponsor Template Comment</description>
+			<label>Sponsor Template Comment</label>
+			<parent>KcAwardsMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>AwardTemplateContactMaintenanceDocument</name>
+			<description>Create a New Sponsor Template Contact</description>
+			<label>Sponsor Template Contact</label>
+			<parent>KcAwardsMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>AwardTemplateMaintenanceDocument</name>
+			<description>Create a New Sponsor Template</description>
+			<label>Sponsor Template</label>
+			<parent>KcAwardsMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>AwardTemplateReportTermMaintenanceDocument</name>
+			<description>Create a New Sponsor Template Report Terms</description>
+			<label>Edit Sponsor Template Reports</label>
+			<parent>KcAwardsMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>AwardTemplateReportTermRecipientMaintenanceDocument</name>
+			<description>Create a New Sponsor Template Report Term Recipient</description>
+			<label>Sponsor Template Report Term Recipient</label>
+			<parent>KcAwardsMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>AwardTemplateTermMaintenanceDocument</name>
+			<description>Create a New Sponsor Template Terms</description>
+			<label>Sponsor Template Report Terms</label>
+			<parent>KcAwardsMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>AwardTypeMaintenanceDocument</name>
+			<description>Create a New Award Type</description>
+			<label>Award Type</label>
+			<parent>KcAwardsMaintenanceDocument</parent>
+		</documentType>
+        <documentType>
+            <name>BatchCorrespondenceDetailMaintenanceDocument</name>
+            <description>Create/Edit Batch Correspondence Details</description>
+            <label>Batch Correspondence Detail</label>
+            <parent>KcSharedMaintenanceDocument</parent>
+        </documentType>
+        <documentType>
+            <name>BatchCorrespondenceMaintenanceDocument</name>
+            <description>Create/Edit a Batch Correspondence</description>
+            <label>Batch Correspondence</label>
+            <parent>KcSharedMaintenanceDocument</parent>
+        </documentType>
+		<documentType>
+			<name>BudgetCategoryMaintenanceDocument</name>
+			<description>Create/Edit a Budget Category</description>
+			<label>Budget Category Maintenance Document</label>
+			<parent>KcProposalsMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/budgetcategory.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>BudgetCategoryMappingMaintenanceDocument</name>
+			<description>Create/Edit a Budget Category Mapping</description>
+			<label>Budget Category Mapping Maintenance Document</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/budgetcategorymapping.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>BudgetCategoryMapMaintenanceDocument</name>
+			<description>Create/Edit a Budget Category Maps</description>
+			<label>Budget Category Maps Maintenance Document</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/budgetcategorymaps.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>BudgetCategoryTypeMaintenanceDocument</name>
+			<description>Create/Edit a Budget Category Type</description>
+			<label>Budget Category Type Maintenance Document</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/budgetcategorytype.htm</helpDefinitionURL>
+		</documentType>		
+		<documentType>
+			<name>BudgetStatusMaintenanceDocument</name>
+			<description>Create/Edit a Budget Status</description>
+			<label>Budget Status</label>
+			<parent>KcProposalsMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/budgetstatus.htm</helpDefinitionURL>
+		</documentType>
+       <documentType>
+            <name>CloseoutReportTypeMaintenanceDocument</name>
+            <description>Create/Edit a Closeout Report Type</description>
+            <label>Closeout Report Type</label>
+            <parent>KcSharedMaintenanceDocument</parent>
+        </documentType>
+		<documentType>
+			<name>CoeusModuleMaintenanceDocument</name>
+			<description>Create a Kuali Coeus Module</description>
+			<label>Kuali Coeus Module</label>
+			<parent>KcMiscellaneousMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>Coeus Sub Module Maintenance Document</name>
+			<description>Create a Kuali Coeus Sub Module</description>
+			<label>Kuali Coeus Sub Module</label>
+			<parent>KcMiscellaneousMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>CommentTypeMaintenanceDocument</name>
+			<description>Create a New Comment Type</description>
+			<label>Comment Type</label>
+			<parent>KcAwardsMaintenanceDocument</parent>
+		</documentType>		
+        <documentType>
+            <name>CommitteeDecisionMotionTypeMaintenanceDocument</name>
+            <description>Create/Edit a Committee Decision Motion Type</description>
+            <label>Committee Decision Motion Type</label>
+            <parent>KcComplianceMaintenanceDocument</parent>
+        </documentType>
+		<documentType>
+			<name>CommitteeMembershipTypeMaintenanceDocument</name>
+			<description>Create/Edit a Committee Membership Type</description>
+			<label>Committee Membership Type</label>
+			<parent>KcComplianceMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>CommitteeTypeMaintenanceDocument</name>
+			<description>Create/Edit a Committee Type</description>
+			<label>Committee Type</label>
+			<parent>KcComplianceMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ContactTypeMaintenanceDocument</name>
+			<description>Create a New Contact Type</description>
+			<label>Contact Type</label>
+			<parent>KcAwardsMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>CorrespondentTypeMaintenanceDocument</name>
+			<description>Create/Edit a Correspondent Type</description>
+			<label>Correspondent Type</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>CostElementMaintenanceDocument</name>
+			<description>Create/Edit a Cost Element</description>
+			<label>Cost Element Maintenance Document</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/costelement.htm</helpDefinitionURL>
+		</documentType>
+        <documentType>
+            <name>CostShareTypeMaintenanceDocument</name>
+            <description>Create/Edit a Cost Share Type</description>
+            <label>Cost Share Type</label>
+            <parent>KcSharedMaintenanceDocument</parent>
+        </documentType>
+		<documentType>
+			<name>CustomAttributeDocumentMaintenanceDocument</name>
+			<description>Create/Edit a Custom Attribute Document</description>
+			<label>CustomAttributeDocument Maintenance Document</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/customattribute.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>CustomAttributeMaintenanceDocument</name>
+			<description>Create/Edit a Custom Attribute</description>
+			<label>CustomAttribute Maintenance Document</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/customattributedocument.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>DeadlineTypeMaintenanceDocument</name>
+			<description>Create a New Deadline Type</description>
+			<label>Deadline Type</label>
+			<parent>KcProposalsMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/deadlinetype.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>DegreeTypeMaintenanceDocument</name>
+			<description>Create/Edit a Degree Type entry</description>
+			<label>Degree Type</label>
+			<parent>KcProposalsMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/degreetype.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>DistributionMaintenanceDocument</name>
+			<description>Create a New Osp Distribution</description>
+			<label>Osp Distribution</label>
+			<parent>KcAwardsMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ExemptStudiesCheckListMaintenanceDocument</name>
+			<description>Create a New Exempt Studies CheckList Item</description>
+			<label>Exempt Studies CheckList Item</label>
+			<parent>KcComplianceMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ExpeditedReviewCheckListMaintenanceDocument</name>
+			<description>Create a New Expedited Review CheckList Item</description>
+			<label>Expedited Review CheckList Item</label>
+			<parent>KcComplianceMaintenanceDocument</parent>
+		</documentType>
+        <documentType>
+            <name>FandaRateTypeMaintenanceDocument</name>
+            <description>Create/Edit a F &amp; A Rate Type</description>
+            <label>F &amp; A Rate Type</label>
+            <parent>KcSharedMaintenanceDocument</parent>
+        </documentType>
+		<documentType>
+			<name>FrequencyBaseMaintenanceDocument</name>
+			<description>Create a New Frequency Base</description>
+			<label>Frequency Base</label>
+			<parent>KcAwardsMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>FundingSourceTypeMaintenanceDocument</name>
+			<description>Create/Edit a Funding Source Type</description>
+			<label>Funding Source Type</label>
+			<parent>KcComplianceMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>InstituteLaRateMaintenanceDocument</name>
+			<description>Create/Edit an Institute La Rate</description>
+			<label>Institute La Rates Maintenance Document</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/institutelarate.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>InstituteRateMaintenanceDocument</name>
+			<description>Create/Edit an Institute Rate</description>
+			<label>Institute Rates Maintenance Document</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/instituterate.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>IntellectualPropertyReviewActivityTypeMaintenanceDocument</name>
+			<description>Create a New IP Review Activity Type</description>
+			<label>IP Review Activity Type</label>
+			<parent>KcAwardsMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>IntellectualPropertyReviewMaintenanceDocument</name>
+			<description>Maintain Intellectual Property Review</description>
+			<label>Intellectual Property Review</label>
+			<parent>KcAwardsMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>IntellectualPropertyReviewRequirementTypeMaintenanceDocument</name>
+			<description>Create a New IP Review Requirement Type</description>
+			<label>IP Review Requirement Type</label>
+			<parent>KcAwardsMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>IntellectualPropertyReviewResultTypeMaintenanceDocument</name>
+			<description>Create a New IP Review Result Type</description>
+			<label>IP Review Result Type</label>
+			<parent>KcAwardsMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>InvestigatorCreditTypeMaintenanceDocument</name>
+			<description>Create/Edit a Investigator Credit Type</description>
+			<label>Investigator Credit Type</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/investigatorcredittype.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>JobCodeMaintenanceDocument</name>
+			<description>Create/Edit a Job Code</description>
+			<label>Job Code</label>
+			<parent>KcProposalsMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>MailByMaintenanceDocument</name>
+			<description>Create a New Mail By</description>
+			<label>Mail By</label>
+			<parent>KcProposalsMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/mailby.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>MailTypeMaintenanceDocument</name>
+			<description>Create/Edit a Mail Type</description>
+			<label>Mail Type</label>
+			<parent>KcProposalsMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>MembershipRoleMaintenanceDocument</name>
+			<description>Create/Edit a Membership Role</description>
+			<label>Membership Role</label>
+			<parent>KcComplianceMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>MessageOfTheDayMaintenanceDocument</name>
+			<description>Document used to create or update message of the day documents.</description>
+			<label>Message Of The Day Maintenance Document</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>MinuteEntryTypeMaintenanceDocument</name>
+			<description>Create a New Minute Entry Type</description>
+			<label>Minute Entry Type</label>
+			<parent>KcComplianceMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>NarrativeStatusMaintenanceDocument</name>
+			<description>Create a New Narrative Status</description>
+			<label>Narrative Status</label>
+			<parent>KcProposalsMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/narrativestatus.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>NarrativeTypeMaintenanceDocument</name>
+			<description>Create a New Narrative Type</description>
+			<label>Narrative Type</label>
+			<parent>KcProposalsMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/narrativetypes.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>NoticeOfOpportunityMaintenanceDocument</name>
+			<description>Create a New Notice of Opportunity</description>
+			<label>Notice of Opportunity</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/noticeofopportunity.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>NsfCodeMaintenanceDocument</name>
+			<description>Create a New NSF Code</description>
+			<label>NSF Code</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>OrganizationMaintenanceDocument</name>
+			<description>Create/Edit an Organization</description>
+			<label>Organization Maintenance Document</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/organization.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>OrganizationTypeListMaintenanceDocument</name>
+			<description>Create/Edit an Organization Type Code</description>
+			<label>Organization</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>OrganizationTypeMaintenanceDocument</name>
+			<description>Create/Edit an Organization Type</description>
+			<label>Organization</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ParticipantTypeMaintenanceDocument</name>
+			<description>Create/Edit a Participant Type</description>
+			<label>Participant Type</label>
+			<parent>KcComplianceMaintenanceDocument</parent>
+		</documentType>
+		<!-- I think this is an obsolete entry-->
+		<documentType>
+			<name>PersonMaintenanceDocument</name>
+			<description>Create/Edit a Person entry</description>
+			<label>Person</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/personmaintenancedocument.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>PersonTrainingMaintenanceDocument</name>
+			<description>Create a New Person Training</description>
+			<label>Person Training Maintenance Document</label>
+			<parent>KcMiscellaneousMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>PostSubmissionStatusMaintenanceDocument</name>
+			<description>Create a New Post Submission Status Code</description>
+			<label>Post Submission Status Code</label>
+			<parent>KcProposalsMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>Proposal Log Status Maintenance Document</name>
+			<description>Document used to create or update Proposal Log Status business objects.</description>
+			<label>Proposal Log Status Maintenance Document</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>Proposal Log Type Maintenance Document</name>
+			<description>Document used to create or update Proposal Log Type business objects.</description>
+			<label>Proposal Log Type Maintenance Document</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>Proposal Status Maintenance Document</name>
+			<description>Document used to create or update Proposal Status business objects.</description>
+			<label>Proposal Status Maintenance Document</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ProposalTypeMaintenanceDocument</name>
+			<description>Create/Edit a Proposal Type Code</description>
+			<label>Proposal Type</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/proposaltype.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>ProtocolActionTypeMaintenanceDocument</name>
+			<description>Create/Edit a Protocol Action Type</description>
+			<label>Protocol Action Type</label>
+			<parent>KcComplianceMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ProtocolAttachmentGroupMaintenanceDocument</name>
+			<description>Create a Protocol Attachment Group</description>
+			<label>Protocol Attachment Group Maintenance Document</label>
+			<parent>KcComplianceMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ProtocolAttachmentStatusMaintenanceDocument</name>
+			<description>Create a Protocol Attachment Status</description>
+			<label>Protocol Attachment Status Maintenance Document</label>
+			<parent>KcComplianceMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ProtocolAttachmentTypeGroupMaintenanceDocument</name>
+			<description>Create a Protocol Attachment Type Group</description>
+			<label>Protocol Attachment Type Group Maintenance Document</label>
+			<parent>KcComplianceMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ProtocolAttachmentTypeMaintenanceDocument</name>
+			<description>Create a Protocol Attachment Type</description>
+			<label>Protocol Attachment Type Maintenance Document</label>
+			<parent>KcComplianceMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ProtocolContingencyMaintenanceDocument</name>
+			<description>Create a New Protocol Contingency</description>
+			<label>Protocol Contingency</label>
+			<parent>KcComplianceMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ProtocolCorrespondenceTemplateMaintenanceDocument</name>
+			<description>Create/Edit a Correspondence Template</description>
+			<label>Correspondence Template</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ProtocolCorrespondenceTypeMaintenanceDocument</name>
+			<description>Create/Edit a Protocol Correspondence Type</description>
+			<label>Protocol Correspondence Type</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ProtocolNotificationTemplateMaintenanceDocument</name>
+			<description>Create/Edit a Notification Template</description>
+			<label>Notification Template</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ProtocolOnlineReviewDeterminRecommendMaintenanceDocument</name>
+			<description>Create a New ProtocolOnlineReviewDeterminationRecommendation</description>
+			<label>Protocol Review Determination Recommendation Code</label>
+			<parent>KcAwardsMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ProtocolOnlineReviewStatusMaintenanceDocument</name>
+			<description>Create a New ProtocolOnlineReview Status</description>
+			<label>Protocol Review Status Code</label>
+			<parent>KcAwardsMaintenanceDocument</parent>
+		</documentType>
+        <documentType>
+            <name>Protocol Organization Type Maintenance Document</name>
+            <description>Create/Edit a Protocol Organization Type</description>
+            <label>Protocol Protocol Organization Type</label>
+            <parent>KcSharedMaintenanceDocument</parent>
+        </documentType>
+        <documentType>
+            <name>ProtocolPersonRoleMaintenanceDocument</name>
+            <description>Create/Edit a Protocol Person Role</description>
+            <label>Protocol Person Role</label>
+            <parent>KcSharedMaintenanceDocument</parent>
+        </documentType>
+		<documentType>
+			<name>ProtocolReferenceTypeMaintenanceDocument</name>
+			<description>Create/Edit a Protocol Reference Type</description>
+			<label>Protocol Reference Type</label>
+			<parent>KcComplianceMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ProtocolReviewerTypeMaintenanceDocument</name>
+			<description>Create a New Protocol Reviewer Type</description>
+			<label>Protocol Reviewer Type</label>
+			<parent>KcComplianceMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ProtocolReviewTypeMaintenanceDocument</name>
+			<description>Create/Edit a Protocol Review Type</description>
+			<label>Protocol Review Type</label>
+			<parent>KcComplianceMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ProtocolStatusMaintenanceDocument</name>
+			<description>Create a Protocol Status</description>
+			<label>Protocol Status Maintenance Document</label>
+			<parent>KcComplianceMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ProtocolSubmissionQualifierTypeMaintenanceDocument</name>
+			<description>Create an Protocol Submission Qualifier Type</description>
+			<label>Protocol Submission Qualifier Type Maintenance Document</label>
+			<parent>KcComplianceMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ProtocolTypeMaintenanceDocument</name>
+			<description>Create a Protocol Type</description>
+			<label>Protocol Type Maintenance Document</label>
+			<parent>KcComplianceMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>QuestionCategoryMaintenanceDocument</name>
+			<description>Create/Edit a Question Category</description>
+			<label>Question Category</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>QuestionMaintenanceDocument</name>
+			<description>Create/Edit a Question</description>
+			<label>Question</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+			<docHandler>${kuali.docHandler.url.prefix}/maintenance.do?methodToCall=docHandler</docHandler>
+            <helpDefinitionURL>default.htm?turl=Documents/question.htm</helpDefinitionURL>
+		</documentType>
+        <documentType>
+            <name>QuestionnaireMaintenanceDocument</name>
+            <parent>KcSharedMaintenanceDocument</parent>
+            <description>Create/Edit a Questionnaire</description>
+            <label>Questionnaire</label>
+            <docHandler>${kuali.docHandler.url.prefix}/maintenanceQn.do?methodToCall=docHandler</docHandler>
+            <helpDefinitionURL>default.htm?turl=Documents/questionnaire1.htm</helpDefinitionURL>
+        </documentType>
+		<documentType>
+			<name>Questionnaire Questions Maintenance Document</name>
+			<description>Create a Questionnaire Questions</description>
+			<label>Questionnaire Questions</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>Questionnaire Usage Maintenance Document</name>
+			<description>Create a Questionnaire Usage</description>
+			<label>Questionnaire Usage</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>QuestionTypeMaintenanceDocument</name>
+			<description>Create/Edit a Question Type</description>
+			<label>Questionnaire Type</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>RateClassMaintenanceDocument</name>
+			<description>Create/Edit a Rate Class</description>
+			<label>Rate Class Maintenance Document</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/rateclass.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>RateClassTypeMaintenanceDocument</name>
+			<description>Create/Edit a Rate Class Type</description>
+			<label>Rate Class Type Maintenance Document</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/rateclasstype.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>RateTypeMaintenanceDocument</name>
+			<description>Create/Edit a Rate Type</description>
+			<label>Rate Type Maintenance Document</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/ratetype.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>ReportClassMaintenanceDocument</name>
+			<description>Create a New Report Class</description>
+			<label>Report Class</label>
+			<parent>KcAwardsMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ReportMaintenanceDocument</name>
+			<description>Create a New Report Type</description>
+			<label>Report Type</label>
+			<parent>KcAwardsMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ResearchAreasMaintenanceDocument</name>
+			<description>Create a New Research Area</description>
+			<label>Report Area</label>
+			<parent>KcMiscellaneousMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>RolodexMaintenanceDocument</name>
+			<description>Create/Edit a Rolodex entry</description>
+			<label>Rolodex</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>S2sRevisionTypeMaintenanceDocument</name>
+			<description>Create a New Revision Type Document</description>
+			<label>Revision Type Document</label>
+			<parent>KcProposalsMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/s2srevisiontype.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>S2sSubmissionTypeMaintenanceDocument</name>
+			<description>Create a New SubmissionType Document Type</description>
+			<label>Submission Type Document Type</label>
+			<parent>KcProposalsMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/s2ssubmissiontype.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>ScheduleActItemTypeMaintenanceDocument</name>
+			<description>Create a New Schedule Act Item Type</description>
+			<label>Schedule Act Item Type</label>
+			<parent>KcComplianceMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>SchoolCodeMaintenanceDocument</name>
+			<description>Create a New School Code</description>
+			<label>School Code</label>
+			<parent>KcMiscellaneousMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ScienceKeywordMaintenanceDocument</name>
+			<description>Create a New Science Keyword</description>
+			<label>Science Keyword</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/keywords.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>SpecialReviewApprovalTypeMaintenanceDocument</name>
+			<description>Create/Edit a Special Review Approval Type Code</description>
+			<label>Special Review Approval Type</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/specialreviewapprovaltype.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>SpecialReviewTypeMaintenanceDocument</name>
+			<description>Create/Edit a Special Review Type Code</description>
+			<label>Special Review Type</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/specialreviewapprovaltype.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>SponsorFormsMaintenanceDocument</name>
+			<description>Create a New Sponsor Form</description>
+			<label>Sponsor Form</label>
+			<parent>KcMiscellaneousMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>SponsorFormTemplateMaintenanceDocument</name>
+			<description>Create a New Sponsor Form Template</description>
+			<label>Sponsor Form Template</label>
+			<parent>KcMiscellaneousMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>SponsorHierarchyMaintenanceDocument</name>
+			<description>Create a New Sponsor Hierarchy</description>
+			<label>Sponsor Hierarchy</label>
+			<parent>KcMiscellaneousMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>SponsorMaintenanceDocument</name>
+			<description>Create a New Sponsor Type</description>
+			<label>Sponsor</label>
+			<parent>KcMiscellaneousMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/sponsor.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>SponsorTypeMaintenanceDocument</name>
+			<description>Create a New Sponsor Type</description>
+			<label>Sponsor Type</label>
+			<parent>KcMiscellaneousMaintenanceDocument</parent>
+		</documentType>		<documentType>
+			<name>KcStateMaintenanceDocument</name>
+			<description>Create a New State</description>
+			<label>State</label>
+			<parent>KcMiscellaneousMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/state.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>TrainingMaintenanceDocument</name>
+			<description>Create a New Training</description>
+			<label>Training</label>
+			<parent>KcMiscellaneousMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>UnitAdministratorMaintenanceDocument</name>
+			<description>Create/Edit a Unit Administrator</description>
+			<label>Unit Administrator</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ValidAwardBasisPaymentMaintenanceDocument</name>
+			<description>Document used to create or update Valid Award Basis Payment business objects.</description>
+			<label>Valid Award Basis Payment Maintenance Document</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ValidBasisMethodPaymentMaintenanceDocument</name>
+			<description>Document used to create or update Valid Basis Method Payment business objects.</description>
+			<label>Valid Basis Method Payment Maintenance Document</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ValidCalcTypeMaintenanceDocument</name>
+			<description>Create/Edit a Valid Calculation Type</description>
+			<label>Valid Calc Types Maintenance Document</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/validcalculationtype.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>ValidCeJobCodeMaintenanceDocument</name>
+			<description>Create/Edit a Valid Cost Element Job Code</description>
+			<label>Valid Cost Element Job Code</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ValidCeRateTypeMaintenanceDocument</name>
+			<description>Create/Edit a Valid Cost Element Rate Type</description>
+			<label>Valid Cost Element Rate Types Maintenance Document</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/validcostelementratetype.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>Valid Class Report Freq Maintenance Document</name>
+			<description>Document used to create or update Valid Class Report Frequency business objects.</description>
+			<label>Valid Class Report Frequency Maintenance Document</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>Valid Frequency Base Maintenance Document</name>
+			<description>Document used to create or update Valid Frequency Base business objects.</description>
+			<label>Valid Frequency Base Maintenance Document</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ValidNarrFormsMaintenanceDocument</name>
+			<description>Map a Valid Narrative type to an S2S form </description>
+			<label>Valid Narrative Type - S2S Form</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ValidProtocolActionCorrespondenceMaintenanceDocument</name>
+			<description>Create/Edit Correspondence Generated for Protocol Action</description>
+			<label>Correspondence Generated</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ValidProtocolActionActionMaintenanceDocument</name>
+			<description>Create/Edit Valid Protocol Follow-up Actions</description>
+			<label>Protocol Follow-up Actions Maintenance Document</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ValidProtoSubRevTypeMaintenanceDocument</name>
+			<description>Create/Edit Valid Protocol Submission Review Type</description>
+			<label>Valid Protocol Submission Review Type</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ValidProtoSubTypeQualMaintenanceDocument</name>
+			<description>Create/Edit Valid Protocol Submission Type Qualifier</description>
+			<label>Valid Protocol Submission Type Qualifier</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ValidRatesMaintenanceDocument</name>
+			<description>Create a New Valid Rate</description>
+			<label>Valid Rates</label>
+			<parent>KcMiscellaneousMaintenanceDocument</parent>
+		</documentType>
+		<documentType>
+			<name>ValidSpecialReviewApprovalMaintenanceDocument</name>
+			<description>Document used to create or update Valid Special Review Approval business objects.</description>
+			<label>Valid Special Review Approval Maintenance Document</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/validspecialreviewapproval.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>YnqMaintenanceDocument</name>
+			<description>YnqMaintenanceDocument</description>
+			<label>YnqMaintenanceDocument</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/yesnoquestions.htm</helpDefinitionURL>
+		</documentType>
+	</documentTypes>	
+</data>
