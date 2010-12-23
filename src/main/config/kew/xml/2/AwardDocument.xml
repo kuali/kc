@@ -15,7 +15,25 @@
 			<active>true</active>
 			<routePaths>
 				<routePath>
-					<start name="Initiated" />
+					<start name="Initiated" nextNode="hasSync"/>
+					<split name="hasSync">
+						<branch name="True">
+							<requests name="SyncValidationApproval" nextNode="AwardStandardApprovalInSync"/>
+							<requests name="AwardStandardApprovalInSync" nextNode="ApplySync"/>
+							<requests name="ApplySync" nextNode="SyncFYIs"/>
+							<requests name="SyncFYIs" nextNode="JoinSync"/>
+						</branch>
+						<branch name="False">
+							<split name="isSyncChild" nextNode="JoinSync">
+								<branch name="False">
+									<requests name="AwardStandardApproval" nextNode="JoinSyncChild"/>
+								</branch>
+							</split>
+							<join name="JoinSyncChild"/>
+						</branch>
+					</split>
+					<join name="JoinSync"/>
+					
 				</routePath>
 			</routePaths>
 			<routeNodes>
@@ -24,6 +42,39 @@
 					<mandatoryRoute>false</mandatoryRoute>
 					<finalApproval>false</finalApproval>
 				</start>
+				<split name="hasSync">
+       			   <type>org.kuali.kra.kew.SimpleBooleanSplitNode</type>
+        		</split>
+				<split name="isSyncChild">
+       			   <type>org.kuali.kra.kew.SimpleBooleanSplitNode</type>
+        		</split>
+				<role name="ApplySync">
+					<activationType>S</activationType>
+					<qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
+					<mandatoryRoute>false</mandatoryRoute>
+				</role>
+				<role name="SyncFYIs">
+					<activationType>S</activationType>
+					<qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
+					<mandatoryRoute>false</mandatoryRoute>				
+				</role>
+				<join name="JoinSync"/>
+				<join name="JoinSyncChild"/>
+				<requests name="SyncValidationApproval">
+					<activationType>S</activationType>
+					<ruleTemplate>RoutedByUserRoleTemplate</ruleTemplate>
+					<mandatoryRoute>true</mandatoryRoute>
+				</requests>
+				<requests name="AwardStandardApproval">
+					<activationType>S</activationType>
+					<ruleTemplate>AwardStandardApproval</ruleTemplate>
+					<mandatoryRoute>false</mandatoryRoute>
+				</requests>
+				<requests name="AwardStandardApprovalInSync">
+					<activationType>S</activationType>
+					<ruleTemplate>AwardStandardApproval</ruleTemplate>
+					<mandatoryRoute>false</mandatoryRoute>
+				</requests>				
 			</routeNodes>
 		</documentType>
 	</documentTypes>
@@ -103,4 +154,37 @@
             </routingConfig>
         </ruleAttribute>
      </ruleAttributes>
+     <ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+        <ruleTemplate allowOverwrite="true">
+          <name>RoutedByUserRoleTemplate</name>
+          <description>Routed By User Role Template</description>
+        </ruleTemplate>
+        <ruleTemplate allowOverwrite="true">
+	      <name>AwardStandardApproval</name>
+	      <description>Standard Approval Template for Awards</description>
+	    </ruleTemplate>
+     </ruleTemplates>     
+	 <rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">     
+         <rule>
+            <name>AwardSyncValidationRule</name>
+            <documentType>AwardDocument</documentType>
+            <ruleTemplate>RoutedByUserRoleTemplate</ruleTemplate>
+            <description>Award Sync Validation Approval Rule</description>
+            <forceAction>true</forceAction>
+            <responsibilities>
+               <responsibility>
+                  <role>org.kuali.rice.kew.rule.RoutedByUserRoleAttribute!ROUTED_BY_USER</role>
+                  <approvePolicy>F</approvePolicy>
+                  <actionRequested>A</actionRequested>
+               </responsibility>
+            </responsibilities>
+      </rule>
+      <rule>
+            <name>AwardStandardApproval</name>
+      		<documentType>AwardDocument</documentType>
+      		<ruleTemplate>AwardStandardApproval</ruleTemplate>
+      		<description>Standard Approval Node for Awards</description>
+			<forceAction>false</forceAction>
+    	</rule>      
+    </rules>
 </data>

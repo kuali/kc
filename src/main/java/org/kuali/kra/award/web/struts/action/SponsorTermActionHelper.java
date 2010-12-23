@@ -28,8 +28,6 @@ import org.kuali.kra.award.AwardSponsorTermRuleEvent;
 import org.kuali.kra.award.AwardSponsorTermRuleImpl;
 import org.kuali.kra.award.home.AwardSponsorTerm;
 import org.kuali.kra.bo.SponsorTerm;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -53,9 +51,8 @@ public class SponsorTermActionHelper implements Serializable {
      * @return
      * @throws Exception
      */
-    public boolean addSponsorTerm(SponsorTermFormHelper formHelper, HttpServletRequest request) throws Exception {
-        boolean success = addSponsorTermFromDatabase(formHelper, request);
-        return success;
+    public AwardSponsorTerm addSponsorTerm(SponsorTermFormHelper formHelper, HttpServletRequest request) throws Exception {
+        return addSponsorTermFromDatabase(formHelper, request);
     }
     
    
@@ -68,9 +65,9 @@ public class SponsorTermActionHelper implements Serializable {
     
     /**
      * This method adds sponsorTerm from a hardcoded sponsorCode in UI. Pulls the sponsorTerm data from database.
-     * @return
+     * @return new AwardSponsorTerm on success, null otherwise
      */
-    protected boolean addSponsorTermFromDatabase(SponsorTermFormHelper formHelper, HttpServletRequest request) {
+    protected AwardSponsorTerm addSponsorTermFromDatabase(SponsorTermFormHelper formHelper, HttpServletRequest request) {
         // sponsorTermCode is the value entered into the "Code" field by the user. sponsorTermTypeCode is the
         // index of the subpanel that contains the field.
         String sponsorTermCode = formHelper.getNewSponsorTerms().get(getSponsorTermTypeIndex(request)).getSponsorTermCode();
@@ -90,7 +87,11 @@ public class SponsorTermActionHelper implements Serializable {
         }
         AwardSponsorTerm newAwardSponsorTerm = new AwardSponsorTerm(sponsorTermId, matchingSponsorTerm);
         
-        return applyRulesToAwardSponsorTerm(newAwardSponsorTerm, formHelper, request);
+        if (applyRulesToAwardSponsorTerm(newAwardSponsorTerm, formHelper, request)) {        
+            return newAwardSponsorTerm;
+        } else {
+            return null;
+        }
     }
     
     

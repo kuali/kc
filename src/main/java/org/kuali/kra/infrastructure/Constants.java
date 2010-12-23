@@ -383,6 +383,11 @@ public interface Constants {
     public static final String DEFAULT_TXN_TYPE_COPIED_AWARD = "TXN_TYPE_DEF_COPIED_AWARD";
     public static final String DEF_CURRENT_ACTION_COMMENT_COPIED_AWARD = "Copied Award" ;
     
+    //Award Hierarchy Sync
+    public static final String AWARD_APPLY_SYNC_NODE_NAME = "ApplySync";
+    public static final String AWARD_RERUN_SYNC_VALIDATION_NODE_NAME = "hasSync";
+    public static final String AWARD_SYNC_VALIDATION_NODE_NAME = "SyncValidationApproval";
+    
   //Institutional Proposal
     public static final String MAPPING_INSTITUTIONAL_PROPOSAL_BASIC = "basic";
     public static final String MAPPING_INSTITUTIONAL_PROPOSAL_HOME_PAGE = "home";

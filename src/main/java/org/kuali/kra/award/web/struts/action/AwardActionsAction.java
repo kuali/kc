@@ -20,6 +20,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -35,6 +36,9 @@ import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.AwardNumberService;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyTempObject;
+import org.kuali.kra.award.awardhierarchy.sync.AwardSyncPendingChangeBean;
+import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
+import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
@@ -819,4 +823,134 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         return KraServiceLocator.getService(InstitutionalProposalService.class);
     }
     
+    /**
+     * Called when the sync sponsor button is pressed.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward syncSponsor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+        throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        Award award = awardForm.getAwardDocument().getAward();
+        getAwardSyncCreationService().addAwardSyncChange(award, new AwardSyncPendingChangeBean(AwardSyncType.ADD_SYNC, award, "sponsorCode", "sponsorCode"));
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    /**
+     * Called when the sync award status button is pressed.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward syncStatusCode(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+        throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        Award award = awardForm.getAwardDocument().getAward();
+        getAwardSyncCreationService().addAwardSyncChange(award, new AwardSyncPendingChangeBean(AwardSyncType.ADD_SYNC, award, "statusCode", "statusCode"));
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    /**
+     * Called to delete award sync changes.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deleteChanges(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+        throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        Award award = awardForm.getAwardDocument().getAward();
+        ListIterator<AwardSyncChange> iter = award.getSyncChanges().listIterator();
+        while (iter.hasNext()) {
+            AwardSyncChange change = iter.next();
+            if (change.isDelete()) {
+                getBusinessObjectService().delete(change);
+                iter.remove();
+            }
+        }
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }   
+    
+    /**
+     * Turns on sync mode.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward activateSyncMode(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+        throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        awardForm.setSyncMode(true);
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    /**
+     * Turn off sync mode.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deactivateSyncMode(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+        throws Exception {
+        AwardForm awardForm = (AwardForm)form;
+        awardForm.setSyncMode(false);
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    /**
+     * Clears all sync type selections.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward clearSyncSelections(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+        throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        for (AwardSyncChange change : awardForm.getAwardDocument().getAward().getSyncChanges()) {
+            change.setSyncDescendants(null);
+            change.setSyncFabricated(false);
+            change.setSyncCostSharing(false);
+        }
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    /**
+     * Routes document back to previous route node that will re-run validation.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward rerunValidation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+        throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        
+        awardForm.getAwardSyncBean().getParentAwardStatus().setStatus("Validation In Progress");
+        getBusinessObjectService().save(awardForm.getAwardSyncBean().getParentAwardStatus());
+
+        awardForm.getAwardDocument().getDocumentHeader().
+            getWorkflowDocument().returnToPreviousNode("Re-run Hierarchy Sync Validation", Constants.AWARD_RERUN_SYNC_VALIDATION_NODE_NAME);
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
 }

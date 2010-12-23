@@ -466,7 +466,16 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.web.ProtocolSpecialReviewWebTest.class,
     org.kuali.kra.irb.web.ProtocolWithdrawWebTest.class,
     org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentSpecialReviewWebTest.class,
-    org.kuali.kra.service.impl.UnitServiceImplTest.class
+    org.kuali.kra.service.impl.UnitServiceImplTest.class,
+    org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncCreationServiceTest.class,
+    org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncSelectorServiceTest.class,
+    org.kuali.kra.award.awardhierarchy.sync.helpers.AwardSyncAwardHelperTest.class,
+    org.kuali.kra.award.awardhierarchy.sync.helpers.AwardSyncPersonHelperTest.class,
+    org.kuali.kra.award.awardhierarchy.sync.helpers.AwardSyncUnitHelperTest.class,
+    org.kuali.kra.award.awardhierarchy.sync.helpers.AwardSyncSponsorContactHelperTest.class,
+    org.kuali.kra.award.awardhierarchy.sync.helpers.AwardSyncTermHelperTest.class,
+    org.kuali.kra.award.awardhierarchy.sync.helpers.AwardSyncReportHelperTest.class,
+    org.kuali.kra.award.awardhierarchy.sync.helpers.AwardSyncReportRecipientHelperTest.class
 })
 /** these are all the test class where all the test methods are currently passing. */
 public class PassSuite {

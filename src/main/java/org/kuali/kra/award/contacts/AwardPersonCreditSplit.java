@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.kuali.kra.SequenceAssociate;
+import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -37,6 +38,7 @@ public final class AwardPersonCreditSplit extends KraPersistableBusinessObjectBa
     private static final long serialVersionUID = -6999442247404810830L;
     
     private Long awardPersonCreditSplitId;
+    @SkipVersioning
     private AwardPerson awardPerson;    
     private KualiDecimal credit;
     private InvestigatorCreditType investigatorCreditType;

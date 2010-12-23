@@ -26,6 +26,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.authorization.Task;
+import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncService;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.document.authorization.AwardTask;
@@ -53,6 +54,7 @@ import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.service.AwardCustomAttributeService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.VersionHistoryService;
+import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
@@ -103,6 +105,9 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
     private static final String RETURN_TO_AWARD_ALT_TEXT = "return to award";
     private static final String RETURN_TO_AWARD_METHOD_TO_CALL = "methodToCall.returnToAward";
     private static final String KRA_EXTERNALIZABLE_IMAGES_URI_KEY = "kra.externalizable.images.url";
+    
+    private static final String HAS_SYNC_SPLITNODE = "hasSync";
+    private static final String IS_SYNC_CHILD_SPLITNODE = "isSyncChild";
     
 
     private transient boolean documentSaveAfterVersioning;
@@ -246,6 +251,33 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         }
     }
     
+    public void doRouteLevelChange(DocumentRouteLevelChangeDTO levelChangeEvent) {
+        if (StringUtils.equalsIgnoreCase(levelChangeEvent.getNewNodeName(), Constants.AWARD_SYNC_VALIDATION_NODE_NAME)
+                && !getAward().getSyncChanges().isEmpty()) {
+            getAwardSyncService().validateHierarchyChanges(getAward());
+        } else if (StringUtils.equalsIgnoreCase(levelChangeEvent.getNewNodeName(), Constants.AWARD_APPLY_SYNC_NODE_NAME)
+                && !getAward().getSyncChanges().isEmpty()) {
+            getAwardSyncService().applyAwardSyncChangesToHierarchy(getAward());
+        }
+    }
+    
+    /**
+     * @see org.kuali.kra.document.ResearchDocumentBase#answerSplitNodeQuestion(java.lang.String)
+     */
+    @Override
+    public boolean answerSplitNodeQuestion( String routeNodeName ) throws Exception {
+        LOG.debug("Processing answerSplitNodeQuestion:"+routeNodeName );
+        if (StringUtils.equals(HAS_SYNC_SPLITNODE, routeNodeName)) {
+            return !getAward().getSyncChanges().isEmpty();
+        }
+        if (StringUtils.equals(IS_SYNC_CHILD_SPLITNODE, routeNodeName)) {
+            return getAward().isSyncChild();
+        }
+        //defer to the super class. ResearchDocumentBase will throw the UnsupportedOperationException
+        //if no super class answers the question.
+        return super.answerSplitNodeQuestion(routeNodeName);
+    }
+    
     protected void init() {
         awardList = new ArrayList<Award>();
         awardList.add(new Award());
@@ -329,6 +361,10 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
      */
     protected VersionHistoryService getVersionHistoryService() {
         return KraServiceLocator.getService(VersionHistoryService.class);
+    }
+    
+    protected AwardSyncService getAwardSyncService() {
+        return KraServiceLocator.getService(AwardSyncService.class);
     }
 
      public List<BudgetDocumentVersion> getBudgetDocumentVersions() {

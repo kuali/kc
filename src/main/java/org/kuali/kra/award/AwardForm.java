@@ -30,6 +30,7 @@ import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyBean;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyTempObject;
+import org.kuali.kra.award.awardhierarchy.sync.AwardSyncBean;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.commitments.CostShareFormHelper;
 import org.kuali.kra.award.contacts.AwardCentralAdminContactsBean;
@@ -184,7 +185,12 @@ public class AwardForm extends BudgetVersionFormBase
     private List<List<BudgetDecimal>>  totalBudgetLimits = new ArrayList<List<BudgetDecimal>>();
     
     private boolean viewFundingSource;
+
+    private boolean syncMode;
+    private AwardSyncBean awardSyncBean;
+
     private transient ParameterService parameterService;
+
 
     /**
      * Constructs a AwardForm with an existing AwardDocument. Used primarily by tests outside of Struts
@@ -244,8 +250,11 @@ public class AwardForm extends BudgetVersionFormBase
         //sync
         syncRequiresConfirmationMap = null;
         currentSyncScopes = null;
+
+        syncMode = false;
+        awardSyncBean = new AwardSyncBean(this);
+
         setDirectIndirectViewEnabled(getParameterService().getParameterValue("KC-AWARD", "D", "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST"));
-        
     }
 
     /**
@@ -1361,6 +1370,22 @@ public class AwardForm extends BudgetVersionFormBase
         return directIndirectViewEnabled;
     }
 
+    public boolean isSyncMode() {
+        return syncMode;
+    }
+
+    public void setSyncMode(boolean syncMode) {
+        this.syncMode = syncMode;
+    }
+
+    public AwardSyncBean getAwardSyncBean() {
+        return awardSyncBean;
+    }
+
+    public void setAwardSyncBean(AwardSyncBean awardSyncBean) {
+        this.awardSyncBean = awardSyncBean;
+    }     
+    
     /**
      * Sets the directIndirectViewEnabled attribute value.
      * @param directIndirectViewEnabled The directIndirectViewEnabled to set.
@@ -1393,5 +1418,4 @@ public class AwardForm extends BudgetVersionFormBase
         resultList.toArray(result);
         return result;
     }
-
 }

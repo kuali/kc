@@ -17,6 +17,10 @@ package org.kuali.kra.award.home;
 
 import java.util.List;
 
+import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.service.VersionException;
+import org.kuali.rice.kew.exception.WorkflowException;
+
 /**
  * 
  * This class intends to provide basic business service behavior 
@@ -48,5 +52,13 @@ public interface AwardService {
      * @return The list of Awards
      */
     public List<Award> findAwardsForAwardNumber(String awardNumber);
+    
+    /**
+     * Create new version of the award document
+     * @param awardDocument
+     * @return
+     * @throws VersionException
+     */
+    public AwardDocument createNewAwardVersion(AwardDocument awardDocument) throws VersionException, WorkflowException;
     
 }

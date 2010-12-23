@@ -25,6 +25,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SkipVersioning;
+import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
@@ -45,13 +46,16 @@ public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements
     private Long awardPersonUnitId;
     //don't version parent bo as it leads to odd and destructive behavior in some cases
     @SkipVersioning
+    @AwardSyncableProperty(parent=true, parentProperty="units")
     private AwardPerson awardPerson;
+    @AwardSyncableProperty
     private boolean leadUnit;    
     private Unit unit;
     
     private List<AwardPersonUnitCreditSplit> creditSplits;
     
     // OJB Hack
+    @AwardSyncableProperty(key=true)
     private String unitNumber;
     private Long awardContactId;
     

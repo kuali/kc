@@ -47,6 +47,10 @@ import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyBean;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyTempObject;
+import org.kuali.kra.award.awardhierarchy.sync.AwardSyncPendingChangeBean;
+import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
+import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncService;
+import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncCreationService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
@@ -86,6 +90,7 @@ import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -145,6 +150,9 @@ public class AwardAction extends BudgetParentActionBase {
     private static final int NINE = 9;
     private static final int ZERO = 0;
     private static final String DOCUMENT_ROUTE_QUESTION="DocRoute";
+    
+    private static final String ADD_SYNC_CHANGE_QUESTION = "document.question.awardhierarchy.sync";
+    private static final String DEL_SYNC_CHANGE_QUESTION = "document.question.awardhierarchy.sync";    
    
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(
@@ -388,6 +396,15 @@ public class AwardAction extends BudgetParentActionBase {
                 awardForm.setAwardHierarchyNodes(bean.getAwardHierarchy(bean.getRootNode().getAwardNumber(), order));
                 awardForm.setOrder(order);
             }
+            //generate hierarchy sync changes after save so all BOs have ids and parent ids set
+            for (AwardSyncPendingChangeBean pendingChange : awardForm.getAwardSyncBean().getConfirmedPendingChanges()) {
+                //refresh object to make sure all references have been loaded before the sync
+                pendingChange.getObject().refresh();
+                getAwardSyncCreationService().addAwardSyncChange(award, pendingChange);
+            }
+            //now we need to save the hierarchy changes
+            getBusinessObjectService().save(award.getSyncChanges());
+            awardForm.getAwardSyncBean().getConfirmedPendingChanges().clear();
         } else {
             GlobalVariables.getErrorMap().putError("document.awardList[0].unitNumber", KeyConstants.ERROR_AWARD_LEAD_UNIT_NOT_AUTHORIZED,  new String[] {userId, awardForm.getAwardDocument().getLeadUnitNumber()});
             forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
@@ -1574,6 +1591,99 @@ public class AwardAction extends BudgetParentActionBase {
         retList.add(2, map.get("Totals"));
         return retList;
     }
-
-
+    
+    /**
+     * 
+     * This should be called when an add or delete action is called that might be added to the sync queue.
+     * It checks to ensure that syncMode is already enabled and will return an ActionForward for
+     * the question or for the returnForward specified by the caller.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @param syncType
+     * @param object
+     * @param attrName
+     * @param returnForward
+     * @return
+     * @throws Exception
+     */
+    protected ActionForward confirmSyncAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response,
+            AwardSyncType syncType, PersistableBusinessObject object, String awardAttrName, String attrName, ActionForward returnForward) 
+        throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        if (awardForm.isSyncMode()) {
+            awardForm.getAwardSyncBean().setCurrentForward(returnForward);
+            awardForm.getAwardSyncBean().addPendingChange(syncType, object, awardAttrName, attrName);            
+            return syncActionCaller(mapping, form, request, response);
+        } else {
+            return returnForward;
+        }
+    }
+    
+    /**
+     * When synchronizing a new addition or deletion call this method. It will confirm the change
+     * and then add the change.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward syncActionCaller(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+        throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        String message = ADD_SYNC_CHANGE_QUESTION;
+        if (awardForm.getAwardSyncBean().getPendingChanges().get(0).getSyncType().equals(AwardSyncType.DELETE_SYNC.getSyncValue())) {
+            message = DEL_SYNC_CHANGE_QUESTION;
+        }
+        //overwrite the method to call to call this instead of the original method which would result
+        //in an error as the action should have already been performed
+        request.setAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE, "methodToCall.syncActionCaller");
+        ActionForward confirmAction = confirm(buildParameterizedConfirmationQuestion(mapping, form, request, response, 
+                                              "confirmSyncActionKey", message), 
+                                              "confirmSyncAction", "refuseSyncAction");
+        if (confirmAction != null) {
+            return confirmAction;
+        } else {
+            return awardForm.getAwardSyncBean().getCurrentForward();
+        }
+    }
+    
+    /**
+     * If the user answers yes to a confirm sync action question call this method.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
+    public ActionForward confirmSyncAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        AwardForm awardForm = (AwardForm) form;
+        awardForm.getAwardSyncBean().confirmPendingChanges();
+        return null;
+    }
+    
+    /**
+     * If the user answers no to a confirm sync action question call this method.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
+    public ActionForward refuseSyncAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        AwardForm awardForm = (AwardForm) form;
+        awardForm.getAwardSyncBean().getPendingChanges().clear();
+        return null;
+    }
+    
+    protected AwardSyncCreationService getAwardSyncCreationService() {
+        return KraServiceLocator.getService(AwardSyncCreationService.class);
+    }
+    
+    protected AwardSyncService getAwardSyncService() {
+        return KraServiceLocator.getService(AwardSyncService.class);
+    }
 }

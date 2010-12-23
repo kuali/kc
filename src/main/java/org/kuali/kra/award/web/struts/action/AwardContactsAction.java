@@ -30,9 +30,13 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.AwardForm;
+import org.kuali.kra.award.awardhierarchy.sync.AwardSyncPendingChangeBean;
+import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
 import org.kuali.kra.award.contacts.AwardCreditSplitBean;
 import org.kuali.kra.award.contacts.AwardPerson;
+import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.contacts.AwardProjectPersonnelBean;
+import org.kuali.kra.award.contacts.AwardSponsorContact;
 import org.kuali.kra.award.contacts.AwardSponsorContactsBean;
 import org.kuali.kra.award.contacts.AwardUnitContactsBean;
 import org.kuali.kra.award.home.Award;
@@ -51,7 +55,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
  */
 public class AwardContactsAction extends AwardAction {
     
-    private static final String DELETE_PROJECT_PERSON_UNIT_PREFIX = "deleteProjectPersonUnit.";
+    private static final String PROJECT_PERSON_PREFIX = ".personIndex";
     private static final String LINE_SUFFIX = ".line";
     private static final String CONFIRM_SYNC_UNIT_CONTACTS = "confirmSyncUnitContacts";
     private static final String CONFIRM_SYNC_UNIT_CONTACTS_KEY = "confirmSyncUnitContactsKey";
@@ -109,8 +113,13 @@ public class AwardContactsAction extends AwardAction {
     public ActionForward addNewProjectPersonUnit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
                                                                                                                         throws Exception {
         
-        getProjectPersonnelBean(form).addNewProjectPersonUnit(getSelectedLine(request));
-        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        AwardPersonUnit unit = getProjectPersonnelBean(form).addNewProjectPersonUnit(getSelectedLine(request));
+        if (unit != null) {
+            return confirmSyncAction(mapping, form, request, response, AwardSyncType.ADD_SYNC, unit, "projectPersons", null, mapping.findForward(Constants.MAPPING_AWARD_BASIC));       
+        } else {
+            return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        }
+
     }
     
     /**
@@ -123,8 +132,14 @@ public class AwardContactsAction extends AwardAction {
      */
     public ActionForward addProjectPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
                                                                                                                         throws Exception {
-        getProjectPersonnelBean(form).addProjectPerson();
-        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        AwardPerson awardPerson = getProjectPersonnelBean(form).addProjectPerson();
+        if (awardPerson != null) {
+            return this.confirmSyncAction(mapping, form, request, response, AwardSyncType.ADD_SYNC, awardPerson, "projectPersons", null, 
+                    mapping.findForward(Constants.MAPPING_AWARD_BASIC));
+        } else {
+            return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        }
+
     }
     
     /**
@@ -137,8 +152,13 @@ public class AwardContactsAction extends AwardAction {
      */
     public ActionForward addSponsorContact(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
                                                                                                                         throws Exception {
-        getSponsorContactsBean(form).addSponsorContact();
-        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        AwardSponsorContact contact = getSponsorContactsBean(form).addSponsorContact();
+        if (contact != null) {
+            return this.confirmSyncAction(mapping, form, request, response, AwardSyncType.ADD_SYNC, contact, "sponsorContacts", null, 
+                    mapping.findForward(Constants.MAPPING_AWARD_BASIC));
+        } else {
+            return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        }
     }
     
     /**
@@ -165,8 +185,9 @@ public class AwardContactsAction extends AwardAction {
      */
     public ActionForward deleteProjectPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
                                                                                                                         throws Exception {
+        AwardPerson awardPerson = getProjectPersonnelBean(form).getProjectPersonnel().get(getLineToDelete(request));
         getProjectPersonnelBean(form).deleteProjectPerson(getLineToDelete(request));
-        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        return this.confirmSyncAction(mapping, form, request, response, AwardSyncType.DELETE_SYNC, awardPerson, "projectPersons", null, mapping.findForward(Constants.MAPPING_AWARD_BASIC));
     }
 
     /**
@@ -179,8 +200,9 @@ public class AwardContactsAction extends AwardAction {
      */
     public ActionForward deleteProjectPersonUnit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
                                                                                                                         throws Exception {
+        AwardPersonUnit unit = getProjectPersonnelBean(form).getProjectPersonnel().get(getProjectPersonIndex(request)).getUnit(getLineToDelete(request));
         getProjectPersonnelBean(form).deleteProjectPersonUnit(getProjectPersonIndex(request), getLineToDelete(request));
-        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        return this.confirmSyncAction(mapping, form, request, response, AwardSyncType.DELETE_SYNC, unit, "projectPersons", null, mapping.findForward(Constants.MAPPING_AWARD_BASIC));
     }
     
     /**
@@ -193,7 +215,7 @@ public class AwardContactsAction extends AwardAction {
      */
     public ActionForward deleteUnitContact(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
                                                                                                                         throws Exception {
-    
+
         getUnitContactsBean(form).deleteUnitContact(getLineToDelete(request));
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
@@ -209,9 +231,9 @@ public class AwardContactsAction extends AwardAction {
      */
     public ActionForward deleteSponsorContact(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
                                                                                                                         throws Exception {
-    
+        AwardSponsorContact contact = getSponsorContactsBean(form).getSponsorContacts().get(getLineToDelete(request));
         getSponsorContactsBean(form).deleteSponsorContact(getLineToDelete(request));
-        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        return this.confirmSyncAction(mapping, form, request, response, AwardSyncType.DELETE_SYNC, contact, "sponsorContacts", null, mapping.findForward(Constants.MAPPING_AWARD_BASIC));
     }
 
     @Override
@@ -302,7 +324,7 @@ public class AwardContactsAction extends AwardAction {
         int selectedPersonIndex = -1;
         String parameterName = (String) request.getAttribute(METHOD_TO_CALL_ATTRIBUTE);
         if (isNotBlank(parameterName)) {
-            selectedPersonIndex = Integer.parseInt(substringBetween(parameterName, DELETE_PROJECT_PERSON_UNIT_PREFIX, LINE_SUFFIX));
+            selectedPersonIndex = Integer.parseInt(substringBetween(parameterName, PROJECT_PERSON_PREFIX, LINE_SUFFIX));
         }
 
         return selectedPersonIndex;
@@ -323,4 +345,32 @@ public class AwardContactsAction extends AwardAction {
     private AwardUnitContactsBean getUnitContactsBean(ActionForm form) {
         return ((AwardForm) form).getUnitContactsBean();
     }
+    
+    public ActionForward syncProjectPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+        throws Exception {
+        AwardForm awardForm = (AwardForm)form;
+        Award award = awardForm.getAwardDocument().getAward();
+        AwardPerson person = award.getProjectPerson(getSelectedLine(request));
+        getAwardSyncCreationService().addAwardSyncChange(award, new AwardSyncPendingChangeBean(AwardSyncType.ADD_SYNC, person, "projectPersons", null));
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+
+    public ActionForward syncProjectPersonUnit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+        throws Exception {
+        AwardForm awardForm = (AwardForm)form;
+        Award award = awardForm.getAwardDocument().getAward();
+        AwardPersonUnit unit = award.getProjectPerson(getProjectPersonIndex(request)).getUnit(getSelectedLine(request));
+        getAwardSyncCreationService().addAwardSyncChange(award, new AwardSyncPendingChangeBean(AwardSyncType.ADD_SYNC, unit, "projectPersons", null));
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }  
+    
+    public ActionForward syncSponsorContact(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+        throws Exception {
+        AwardForm awardForm = (AwardForm)form;
+        Award award = awardForm.getAwardDocument().getAward();
+        AwardSponsorContact contact = award.getSponsorContacts().get(getSelectedLine(request));
+        getAwardSyncCreationService().addAwardSyncChange(award, new AwardSyncPendingChangeBean(AwardSyncType.ADD_SYNC, contact, "sponsorContacts", null));
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }    
+    
 }
