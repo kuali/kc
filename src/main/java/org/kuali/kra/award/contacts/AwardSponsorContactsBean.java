@@ -31,12 +31,15 @@ public class AwardSponsorContactsBean extends AwardContactsBean {
         super(awardForm);
     }
 
-    public void addSponsorContact() {
+    public AwardSponsorContact addSponsorContact() {
         boolean success = new AwardSponsorContactAddRuleImpl().processAddAwardSponsorContactBusinessRules(getAward(), getSponsorContact());
         if(success){
-            getAward().add(getSponsorContact());
+            AwardSponsorContact contact = getSponsorContact();
+            getAward().add(contact);
             init();
+            return contact;
         }
+        return null;
     }
     
     /**

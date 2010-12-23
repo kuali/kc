@@ -57,6 +57,8 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  */
 public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
     
+    private AwardHierarchyService awardHierarchyService;
+    
     /**
      * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer#getEditModes(
      * org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person, java.util.Set)
@@ -68,7 +70,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         
         if (awardDocument.getAward().getAwardId() == null) {
             if (canCreateAward(user.getPrincipalId())) {
-                editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
+                editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);              
             }
             else {
                 editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
@@ -76,7 +78,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         }
         else {
             if (canExecuteAwardTask(user.getPrincipalId(), awardDocument, AwardTaskNames.MODIFY_AWARD.getAwardTaskName())) {  
-                editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);                
+                editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
             }
             else if (canExecuteAwardTask(user.getPrincipalId(), awardDocument, AwardTaskNames.VIEW_AWARD.getAwardTaskName())) {
                 editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
@@ -104,6 +106,9 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
             if (canCreateAwardAccount(document, user)) {
                 editModes.add("createAwardAccount");
             }
+            if (awardHasHierarchyChildren(document)) {
+                editModes.add("awardSync");
+            }            
         }
         
         return editModes;
@@ -327,4 +332,18 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         AwardTask task = new AwardTask(taskName, doc.getAward());
         return getTaskAuthorizationService().isAuthorized(userId, task);
     }
+    
+    protected boolean awardHasHierarchyChildren(Document document) {
+        AwardDocument awardDocument = (AwardDocument) document;
+        AwardHierarchy hierarchy = getAwardHierarchyService().loadAwardHierarchyBranch(awardDocument.getAward().getAwardNumber());
+        return hierarchy != null && hierarchy.hasChildren();
+    }
+
+    public AwardHierarchyService getAwardHierarchyService() {
+        if (awardHierarchyService == null) {
+            awardHierarchyService = KraServiceLocator.getService(AwardHierarchyService.class);
+        }
+        return awardHierarchyService;
+    }
+
 }

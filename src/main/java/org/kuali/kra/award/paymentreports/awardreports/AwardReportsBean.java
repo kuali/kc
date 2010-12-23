@@ -68,7 +68,7 @@ public class AwardReportsBean implements Serializable {
      * @param formHelper
      * @return
      */
-    public boolean addAwardReportTermItem(String reportClassCode, int index) {        
+    public AwardReportTerm addAwardReportTermItem(String reportClassCode, int index) {        
         AwardReportTerm newAwardReportTerm = getNewAwardReportTerms().get(index);
         newAwardReportTerm.setReportClassCode(reportClassCode);
         AddAwardReportTermRuleEvent event = generateAddAwardReportTermEvent(newAwardReportTerm, reportClassCode, index);
@@ -76,8 +76,9 @@ public class AwardReportsBean implements Serializable {
         if(success){
             getAward().add(newAwardReportTerm);
             init(index);
+            return newAwardReportTerm;
         }
-        return success;
+        return null;
     }
     
     /**
@@ -85,7 +86,7 @@ public class AwardReportsBean implements Serializable {
      * @param formHelper
      * @return
      */
-    public boolean addAwardReportTermRecipientItem(int index) {
+    public AwardReportTermRecipient addAwardReportTermRecipientItem(int index) {
         AwardReportTermRecipient newAwardReportTermRecipient = getNewAwardReportTermRecipients().get(index);
         
         AddAwardReportTermRecipientRuleEvent event = generateAddAwardReportTermRecipientEvent(index);
@@ -98,8 +99,9 @@ public class AwardReportsBean implements Serializable {
             }
             getAward().getAwardReportTermItems().get(index).getAwardReportTermRecipients().add(newAwardReportTermRecipient);
             initRecipient(index);
+            return newAwardReportTermRecipient;
         }
-        return success;
+        return null;
     }
 
     /**
@@ -108,11 +110,14 @@ public class AwardReportsBean implements Serializable {
      * 
      * @param deletedItemIndex
      */
-    public void deleteAwardReportTermItem(int deletedItemIndex) {
+    public AwardReportTerm deleteAwardReportTermItem(int deletedItemIndex) {
+        AwardReportTerm termToDelete = null;
         List<AwardReportTerm> items = getAward().getAwardReportTermItems();
         if(deletedItemIndex >= 0 && deletedItemIndex < items.size()) {
+            termToDelete = items.get(deletedItemIndex);
             items.remove(deletedItemIndex);
-        }        
+        }
+        return termToDelete;
     }
     
     /**
@@ -122,11 +127,14 @@ public class AwardReportsBean implements Serializable {
      * @param awardReportTermIndex
      * @param deletedItemIndex
      */
-    public void deleteAwardReportTermRecipientItem(int awardReportTermIndex, int deletedItemIndex) {
+    public AwardReportTermRecipient deleteAwardReportTermRecipientItem(int awardReportTermIndex, int deletedItemIndex) {
+        AwardReportTermRecipient recipient = null;
         List<AwardReportTermRecipient> items = getAward().getAwardReportTermItems().get(awardReportTermIndex).getAwardReportTermRecipients();
         if(deletedItemIndex >= 0 && deletedItemIndex < items.size()) {
+            recipient = items.get(deletedItemIndex);
             items.remove(deletedItemIndex);
-        }        
+        }
+        return recipient;
     }
         
     /**

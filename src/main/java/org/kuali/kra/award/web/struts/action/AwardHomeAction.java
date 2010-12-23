@@ -38,6 +38,7 @@ import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
+import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
 import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
 import org.kuali.kra.bo.versioning.VersionHistory;
@@ -399,6 +400,12 @@ public class AwardHomeAction extends AwardAction {
         Award award = awardDocument.getAward();
         ActionForward forward;
         
+        AwardDocument parentSyncAward = getAwardSyncService().getAwardLockingHierarchyForSync(awardDocument, GlobalVariables.getUserSession().getPrincipalId()); 
+        if (parentSyncAward != null) {
+            GlobalVariables.getMessageList().add("error.award.awardhierarchy.sync.locked", parentSyncAward.getDocumentNumber());
+            return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        }
+        
         if(getTimeAndMoneyExistenceService().validateTimeAndMoneyRule(award, awardForm.getAwardHierarchyNodes())){
             VersionHistory foundPending = findPendingVersion(award);
             cleanUpUserSession();
@@ -418,180 +425,17 @@ public class AwardHomeAction extends AwardAction {
 
     private ActionForward createAndSaveNewAwardVersion(HttpServletResponse response, AwardForm awardForm,
                                                         AwardDocument awardDocument, Award award) throws Exception {
-        Award newVersion = getVersioningService().createNewVersion(award);
-        newVersion.getFundingProposals().clear();
-        AwardDocument newAwardDocument = (AwardDocument) getDocumentService().getNewDocument(AwardDocument.class);
-        newAwardDocument.getDocumentHeader().setDocumentDescription(awardDocument.getDocumentHeader().getDocumentDescription());
-        newAwardDocument.setAward(newVersion);
-        newVersion.setAwardTransactionTypeCode(0);
-//        getDocumentService().saveDocument(newAwardDocument);
-        copyBudgetData(awardDocument, newAwardDocument);
+        AwardDocument newAwardDocument = getAwardService().createNewAwardVersion(awardForm.getAwardDocument());
         getDocumentService().saveDocument(newAwardDocument);
-        getVersionHistoryService().createVersionHistory(newVersion, VersionStatus.PENDING, GlobalVariables.getUserSession().getPrincipalName());
+        getVersionHistoryService().createVersionHistory(newAwardDocument.getAward(), VersionStatus.PENDING,
+                GlobalVariables.getUserSession().getPrincipalName());
         reinitializeAwardForm(awardForm, newAwardDocument);
         return new ActionForward(makeDocumentOpenUrl(newAwardDocument), true);
     }
     
-    private void copyBudgetData(AwardDocument award, AwardDocument newVersion) throws Exception {
-       List<String> budgetDocNumbers = new ArrayList<String>(award.getBudgetDocumentVersions().size());
-        for (BudgetDocumentVersion budgetDocumentVersion : award.getBudgetDocumentVersions()) {
-            budgetDocNumbers.add(budgetDocumentVersion.getDocumentNumber());
-        }
-        int i = 1;
-        for (String docNumber : budgetDocNumbers) {
-            BudgetDocument budgetDoc = copyAwardBudgetVersion(docNumber, newVersion, i++);
-        }
-        award.refreshReferenceObject("budgetDocumentVersions");
-    } 
-    
-    private BudgetDocument copyAwardBudgetVersion(String documentNumber, BudgetParentDocument dest, int budgetVersionNumber) throws Exception {
-        BudgetDocument budgetDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(documentNumber);
-        
-        budgetDocument.toCopy();
-        budgetDocument.setVersionNumber(null);
-        if(budgetDocument.getBudgets().isEmpty()) {
-            return null;
-        }
-        budgetDocument.getBudget().setBudgetVersionNumber(budgetVersionNumber);
-        Map<String, Object> objectMap = new HashMap<String, Object>();
-        fixNumericProperty(budgetDocument, "setBudgetId", Long.class, null, objectMap);
-        objectMap.clear();
-        fixNumericProperty(budgetDocument, "setBudgetPeriodId", Long.class, null, objectMap);
-        objectMap.clear();
-        fixNumericProperty(budgetDocument, "setBudgetLineItemId", Long.class, null, objectMap);
-        objectMap.clear();
-        fixNumericProperty(budgetDocument, "setBudgetLineItemCalculatedAmountId", Long.class, null, objectMap);
-        objectMap.clear();
-        fixNumericProperty(budgetDocument, "setBudgetPersonnelLineItemId", Long.class, null, objectMap);
-        objectMap.clear();
-        fixNumericProperty(budgetDocument, "setBudgetPersonnelCalculatedAmountId", Long.class, null, objectMap);
-        objectMap.clear();
-        fixNumericProperty(budgetDocument, "setBudgetPersonnelRateAndBaseId", Long.class, null, objectMap);
-        objectMap.clear();
-        fixNumericProperty(budgetDocument, "setBudgetRateAndBaseId", Long.class, null, objectMap);
-        objectMap.clear();
-        fixNumericProperty(budgetDocument, "setVersionNumber", Integer.class, null, objectMap);
-        objectMap.clear();
-        
-        ObjectUtils.materializeAllSubObjects(budgetDocument.getBudget());
-
-        Budget budget = budgetDocument.getBudget();
-        AwardBudgetExt awardBudget = (AwardBudgetExt)budget;
-        awardBudget.setBudgetStatus(getParameterService().getParameterValue(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_STATUS_IN_PROGRESS));
-
-        budget.setFinalVersionFlag(false);
-        budgetDocument.setParentDocumentKey(dest.getDocumentNumber());
-        budgetDocument.setParentDocument(dest);
-        
-        //Work around for 1-to-1 Relationship between BudgetPeriod & BudgetModular
-        Map<BudgetPeriod, BudgetModular> tmpBudgetModulars = new HashMap<BudgetPeriod, BudgetModular>(); 
-        for(BudgetPeriod budgetPeriod: budget.getBudgetPeriods()) {
-            BudgetModular tmpObject = null;
-            if(budgetPeriod.getBudgetModular() != null) {
-                tmpObject = (BudgetModular) ObjectUtils.deepCopy(budgetPeriod.getBudgetModular());
-            }
-            tmpBudgetModulars.put(budgetPeriod, tmpObject);
-            budgetPeriod.setBudgetModular(null);
-        }
-        
-        List<BudgetProjectIncome> srcProjectIncomeList = budget.getBudgetProjectIncomes();
-        budget.setBudgetProjectIncomes(new ArrayList<BudgetProjectIncome>());
-        budget.setBudgetDocument(budgetDocument);
-        budget.setDocumentNumber(budgetDocument.getDocumentNumber());
-        getDocumentService().saveDocument(budgetDocument);
-        
-        for(BudgetPeriod tmpBudgetPeriod: budget.getBudgetPeriods()) {
-            BudgetModular tmpBudgetModular = tmpBudgetModulars.get(tmpBudgetPeriod);
-            if(tmpBudgetModular != null) {
-                tmpBudgetModular.setBudgetPeriodId(tmpBudgetPeriod.getBudgetPeriodId());
-                tmpBudgetPeriod.setBudgetModular(tmpBudgetModular);
-            }
-            
-            for(BudgetProjectIncome budgetProjectIncome : srcProjectIncomeList) {
-                if(budgetProjectIncome.getBudgetPeriodNumber().intValue() == tmpBudgetPeriod.getBudgetPeriod().intValue()) {
-                    budgetProjectIncome.setBudgetPeriodId(tmpBudgetPeriod.getBudgetPeriodId());
-                    budgetProjectIncome.setBudgetId(tmpBudgetPeriod.getBudget().getBudgetId());
-                    budgetProjectIncome.setVersionNumber(new Long(0));
-                }
-            }
-        }
-        
-        budget.setBudgetProjectIncomes(srcProjectIncomeList);
-        getBudgetSummaryService().calculateBudget(budgetDocument.getBudget());
-        getDocumentService().saveDocument(budgetDocument);
-        budgetDocument.getParentDocument().refreshReferenceObject("budgetDocumentVersions");
-        return budgetDocument;
-  }
-  
-  /**
-   * Recurse through all of the BOs and if a BO has a specific property,
-   * set its value to the new value.
-   * @param object the object
-   * @param propertyValue 
-   */
-  private void fixNumericProperty(Object object, String methodName, Class clazz, Object propertyValue, Map<String, Object> objectMap) throws Exception {
-      if(ObjectUtils.isNotNull(object) && object instanceof PersistableBusinessObject) {
-          PersistableBusinessObject objectWId = (PersistableBusinessObject) object;
-          if (objectMap.get(objectWId.getObjectId()) != null) return;
-          objectMap.put(((PersistableBusinessObject) object).getObjectId(), object);
-          
-          Method[] methods = object.getClass().getMethods();
-          for (Method method : methods) {
-              if (method.getName().equals(methodName)) {
-                    try {
-                      if(clazz.equals(Long.class))
-                          method.invoke(object, (Long) propertyValue);  
-                      else 
-                          method.invoke(object, (Integer) propertyValue);
-                     } catch (Throwable e) { }  
-              } else if (isPropertyGetterMethod(method, methods)) {
-                  Object value = null;
-                  try {
-                      value = method.invoke(object);
-                  } catch (Throwable e) {
-                      //We don't need to propagate this exception
-                  }
-                  
-                  if(value != null) {
-                      if (value instanceof Collection) {
-                          Collection c = (Collection) value;
-                          Iterator iter = c.iterator();
-                          while (iter.hasNext()) {
-                              Object entry = iter.next();
-                              fixNumericProperty(entry, methodName, clazz, propertyValue, objectMap);
-                          }
-                      } else {
-                          fixNumericProperty(value, methodName, clazz, propertyValue, objectMap);
-                      }   
-                  }
-              }
-          }
-      }
-  }
-  
-      /**
-       * Is the given method a getter method for a property?  Must conform to
-       * the following:
-       * <ol>
-       * <li>Must start with the <b>get</b></li>
-       * <li>Must have a corresponding setter method</li>
-       * <li>Must have zero arguments.</li>
-       * </ol>
-       * @param method the method to check
-       * @param methods the other methods in the object
-       * @return true if it is property getter method; otherwise false
-       */
-    private boolean isPropertyGetterMethod(Method method, Method methods[]) {
-        if (method.getName().startsWith("get") && method.getParameterTypes().length == 0) {
-            String setterName = method.getName().replaceFirst("get", "set");
-            for (Method m : methods) {
-                if (m.getName().equals(setterName)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }    
+    private AwardService getAwardService() {
+        return KraServiceLocator.getService(AwardService.class);
+    }
     
     /**
      * 

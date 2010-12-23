@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.award.AwardTemplateSyncScope;
+import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardSyncable;
 import org.kuali.kra.award.home.ContactType;
@@ -41,12 +42,19 @@ public class AwardReportTermRecipient extends KraPersistableBusinessObjectBase i
     private Long awardReportTermId;
     private Long contactId;
     
-    @AwardSyncable( scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT }) private String contactTypeCode; 
-    @AwardSyncable( scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT }) private Integer rolodexId;
-    @AwardSyncable( scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT }) private Integer numberOfCopies; 
+    @AwardSyncableProperty(key=true)
+    @AwardSyncable( scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT }) 
+    private String contactTypeCode;
+    @AwardSyncableProperty(key=true)
+    @AwardSyncable( scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT }) 
+    private Integer rolodexId;
+    @AwardSyncableProperty
+    @AwardSyncable( scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT }) 
+    private Integer numberOfCopies; 
     
     private ContactType contactType;
     private Rolodex rolodex; 
+    @AwardSyncableProperty(parent=true, parentProperty="awardReportTermRecipients")
     private AwardReportTerm awardReportTerm; 
     
     /**

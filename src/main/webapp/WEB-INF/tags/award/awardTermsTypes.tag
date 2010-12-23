@@ -32,7 +32,7 @@
 	<table border="0" cellpadding="0" cellspacing="0" summary="">
         <tr>
             <th width="6%"><div align="center">&nbsp;</div></th>          		
-          	<th width="5%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${sponsorTermAttributes.sponsorTermCode}" noColon="true" /></div></th>
+          	<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${sponsorTermAttributes.sponsorTermCode}" noColon="true" /></div></th>
           	<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
         </tr>
         <c:if test="${!readOnly}">
@@ -40,7 +40,7 @@
         	<th width="6%" class="infoline">
 			    <c:out value="Add:" />
 			</th>
-			<td width="90%" valign="left" class="infoline">
+			<td valign="left" class="infoline">
 				<div align="left"> 
 					<kul:htmlControlAttribute property="sponsorTermFormHelper.newSponsorTerms[${index}].sponsorTermCode" attributeEntry="${sponsorTermAttributes.sponsorTermCode}"/>
 					<input type="hidden" name="document.keyValue${index}" value="${sponsorTermTypeKey}">
@@ -50,7 +50,7 @@
               		anchor="${tabKey}"/>
 				</div>
 			</td>
-			<td class="infoline">
+			<td width="10%" class="infoline">
 			<div align="center">
 			    <html:image property="methodToCall.addAwardSponsorTerm.sponsorTermType${sponsorTermTypeKey}.sponsorTermTypeIndex${index}.anchor${tabKey}"
 			        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
@@ -63,19 +63,23 @@
 	        <c:choose>                    	
 	            <c:when test="${KualiForm.document.awardList[0].awardSponsorTerms[status.index].sponsorTermTypeCode == sponsorTermTypeKey}">
 	              <tr>
-					<th width="5%" class="infoline">
+					<th class="infoline">
 						${termIndex}
 						<c:set var="termIndex" value="${termIndex+1}" />
 					</th>
-	                <td width="10%" valign="left">
+	                <td valign="left">
 						${awardSponsorTerm.sponsorTermCode}: ${awardSponsorTerm.description}
 					</td>
 					<td width="10%">
-					<div align="center">&nbsp;
-					   <c:if test="${!readOnly}">
+					<div align="center">
+					   <c:choose><c:when test="${!readOnly}">
 						<html:image property="methodToCall.deleteAwardSponsorTerm.line${status.index}.anchor${currentTabIndex}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
-					   </c:if>
+						<c:if test="${KualiForm.syncMode}">
+		 					<html:image property="methodToCall.syncSponsorTerm.line${status.index}.anchor${currentTabIndex}"
+ 								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-sync.gif' alt="sync" styleClass="tinybutton" disabled="${readOnly}"/>
+						</c:if>				        
+					   </c:when><c:otherwise>&nbsp;</c:otherwise></c:choose>
 					</div>
 	                </td>
 	          	  </tr>

@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.AwardTemplateSyncScope;
+import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
 import org.kuali.kra.award.home.AwardSyncable;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.Contactable;
@@ -43,13 +44,20 @@ public abstract class AwardContact extends AwardAssociate {
      * These field are OJB hacks. Because anonymous access wouldn't work for more than one field, the Award,
      * we need to provide real fields to be persisted
      */
+    @AwardSyncableProperty(key=true)
     protected String personId;
     
-    @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT }) protected Integer rolodexId;
-    @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) protected String roleCode;
+    @AwardSyncableProperty(key=true)
+    @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT }) 
+    protected Integer rolodexId;
+    @AwardSyncableProperty(key=true)
+    @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) 
+    protected String roleCode;
+    
     
     private Long awardContactId;    
     private ContactRole contactRole;
+    @AwardSyncableProperty
     private String fullName;
     private KcPerson person;
     private NonOrganizationalRolodex rolodex;
@@ -204,7 +212,7 @@ public abstract class AwardContact extends AwardAssociate {
      * @return Returns the person.
      */
     public KcPerson getPerson() {
-        if(person == null && personId != null) {
+        if (person == null && personId != null) {
             refreshPerson();
         }
         return person;

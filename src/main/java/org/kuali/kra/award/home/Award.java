@@ -29,9 +29,11 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.award.AwardTemplateSyncScope;
-import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyTempObject;
+import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
+import org.kuali.kra.award.awardhierarchy.sync.AwardSyncStatus;
+import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
 import org.kuali.kra.award.commitments.AwardCostShare;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.contacts.AwardPerson;
@@ -98,7 +100,9 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private AwardDocument awardDocument;
     private String awardNumber;
     private Integer sequenceNumber;
+    @AwardSyncableProperty
     private String sponsorCode;
+    @AwardSyncableProperty
     private Integer statusCode;
     private AwardStatus awardStatus;
     private String accountNumber;
@@ -189,11 +193,13 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private List<AwardApprovedForeignTravel> approvedForeignTravelTrips;
     private List<AwardPaymentSchedule> paymentScheduleItems;
     private List<AwardTransferringSponsor> awardTransferringSponsors;
-    private List<AwardAmountInfo> awardAmountInfos;
+    private List<AwardAmountInfo>awardAmountInfos;
     private List<AwardCloseout> awardCloseoutItems;
     private List<AwardNotepad> awardNotepads;
     private List<AwardAttachment> awardAttachments;
-    
+    private List<AwardSyncChange> syncChanges;
+    private List<AwardSyncStatus> syncStatuses;
+    private boolean syncChild;
 
     private List<AwardFundingProposal> fundingProposals;
     
@@ -1907,6 +1913,9 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
 
         fundingProposals = new ArrayList<AwardFundingProposal>();
         initializeAwardHierarchyTempObjects();
+        
+        syncChanges = new ArrayList<AwardSyncChange>();
+        syncStatuses = new ArrayList<AwardSyncStatus>();
     }
     
     public void initializeAwardAmountInfoObjects() {
@@ -2992,4 +3001,28 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         this.awardInMultipleNodeHierarchy = awardInMultipleNodeHierarchy;
     }
 
+    public boolean isSyncChild() {
+        return syncChild;
+    }
+
+    public void setSyncChild(boolean syncChild) {
+        this.syncChild = syncChild;
+    }
+    
+    public List<AwardSyncChange> getSyncChanges() {
+        return syncChanges;
+    }
+
+    public void setSyncChanges(List<AwardSyncChange> syncChanges) {
+        this.syncChanges = syncChanges;
+    }
+    
+
+    public List<AwardSyncStatus> getSyncStatuses() {
+        return syncStatuses;
+    }
+
+    public void setSyncStatuses(List<AwardSyncStatus> syncStatuses) {
+        this.syncStatuses = syncStatuses;
+    }
 }

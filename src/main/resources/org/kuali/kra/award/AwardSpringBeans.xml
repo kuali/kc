@@ -45,11 +45,27 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="awardService" class="org.kuali.kra.award.home.AwardServiceImpl">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
+        <property name="documentService">
+            <ref bean="documentService" />
+        </property>
+        <property name="versioningService">
+            <ref bean="versioningService" />
+        </property>
+        <property name="versionHistoryService">
+            <ref bean="versionHistoryService" />
+        </property>
+        <property name="budgetSummaryService">
+            <ref bean="budgetSummaryService" />
+        </property>
+        <property name="parameterService">
+            <ref bean="parameterService" />
+        </property>
+        
     </bean>
 
 	<bean id="awardHierarchyUIService" class="org.kuali.kra.service.impl.AwardHierarchyUIServiceImpl">
@@ -94,7 +110,7 @@
                 
                 <bean class="org.kuali.kra.award.document.authorizer.OpenAwardBudgetAuthorizer" parent="parentAwardAuthorizer">
                     <property name="taskName" value="openBudgets" />
-                </bean>
+                </bean>                
             </list>
          </property>
      </bean>
@@ -382,5 +398,87 @@
 	</bean>
 	<bean id="awardPaymentAndInvoicesService" class = "org.kuali.kra.service.AwardPaymentAndInvoicesServiceImpl">
 		<property name = "businessObjectService" ref = "businessObjectService"/>
+	</bean>
+	
+    <bean id="enWorkflowUtilityService"
+		class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="enWorkflowUtilityService" />
+	</bean>
+	
+	<bean id="awardSyncUtilityService" class="org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncUtilityServiceImpl">
+		<property name="workflowUtility" ref="enWorkflowUtilityService" />
+		<property name="kualiConfigurationService" ref="kualiConfigurationService"/>
+	</bean>
+    
+    <bean id="awardSyncBase" abstract="true">
+      	<property name="awardSyncUtilityService" ref="awardSyncUtilityService"/>
+    </bean>
+    
+    <bean id="awardSyncAwardHelper" parent="awardSyncBase" 
+    	  class="org.kuali.kra.award.awardhierarchy.sync.helpers.AwardSyncAwardHelper"/>
+        
+    <bean id="awardSyncPersonHelper" parent="awardSyncBase"
+          class="org.kuali.kra.award.awardhierarchy.sync.helpers.AwardSyncPersonHelper"/>
+    
+    <bean id="awardSyncUnitHelper" parent="awardSyncBase"
+          class="org.kuali.kra.award.awardhierarchy.sync.helpers.AwardSyncUnitHelper"/>    
+    
+    <bean id="awardSyncTermHelper" parent="awardSyncBase"
+          class="org.kuali.kra.award.awardhierarchy.sync.helpers.AwardSyncTermHelper"/>
+          
+    <bean id="awardSyncSponsorContactHelper" parent="awardSyncBase"
+          class="org.kuali.kra.award.awardhierarchy.sync.helpers.AwardSyncSponsorContactHelper"/>
+          
+    <bean id="awardSyncReportHelper" parent="awardSyncBase"
+          class="org.kuali.kra.award.awardhierarchy.sync.helpers.AwardSyncReportHelper"/>
+
+    <bean id="awardSyncReportRecipientHelper" parent="awardSyncBase"
+          class="org.kuali.kra.award.awardhierarchy.sync.helpers.AwardSyncReportRecipientHelper"/>
+          
+          
+          
+    <bean id="awardSyncHelpersService" class="org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncHelpersServiceImpl">
+    		<property name="syncHelpers">
+			<map>
+ 				<entry key="Award"><ref bean="awardSyncAwardHelper"/></entry>
+				<entry key="AwardPerson"><ref bean="awardSyncPersonHelper"/></entry>
+				<entry key="AwardPersonUnit"><ref bean="awardSyncUnitHelper"/></entry>
+				<entry key="AwardSponsorTerm"><ref bean="awardSyncTermHelper"/></entry>
+				<entry key="AwardSponsorContact"><ref bean="awardSyncSponsorContactHelper"/></entry>
+				<entry key="AwardReportTerm"><ref bean="awardSyncReportHelper"/></entry>
+				<entry key="AwardReportTermRecipient"><ref bean="awardSyncReportRecipientHelper"/></entry>
+			</map>
+		</property>
+	</bean>
+          
+	<bean id="awardSyncCreationService" class="org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncCreationServiceImpl">
+		<property name="xmlSerializerService" ref="xmlObjectSerializerService"/>
+		<property name="businessObjectService" ref="businessObjectService"/>
+		<property name="awardSyncHelpersService" ref="awardSyncHelpersService"/>
+	</bean>
+	
+	<bean id="awardSyncSelectorService" class="org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncSelectorServiceImpl">
+		<property name="parameterService" ref="parameterService"/>
+	</bean>
+          
+        
+	<bean id="awardSyncService" class="org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncServiceImpl">
+	    <property name="awardService" ref="awardService"/>
+		<property name="awardHierarchyService" ref="awardHierarchyService"/>
+		<property name="awardSyncSelectorService" ref="awardSyncSelectorService" />
+		<property name="awardSyncCreationService" ref="awardSyncCreationService" />
+		<property name="awardSyncUtilityService" ref="awardSyncUtilityService" />
+		<property name="versionHistoryService" ref="versionHistoryService"/>
+		<property name="businessObjectService" ref="businessObjectService"/>
+		<property name="documentService" ref="documentService"/>
+		<property name="personService" ref="personService"/>
+		<property name="awardSyncHelpersService" ref="awardSyncHelpersService"/>
+		<property name="pessimisticLockService" ref="awardLockService" />
+		<property name="kraWorkflowService" ref="kraWorkflowService"/>
+		<property name="syncExecutor">
+			<bean class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+				<property name="maxPoolSize" value="1"/>
+			</bean>
+		</property>		
 	</bean>
 </beans>
