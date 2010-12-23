@@ -31,6 +31,9 @@ import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
 public class AwardSyncSelectorServiceTest extends KcUnitTestBase {
 
+    protected static final String otherSponsorCode = "000500";
+    protected static final String costShareSponsorCode = "009906";
+    
     private AwardSyncSelectorService awardSyncSelectorService;
     private Award award;
     private AwardStatus activeStatus;
@@ -68,9 +71,9 @@ public class AwardSyncSelectorServiceTest extends KcUnitTestBase {
     
     @Test
     public void testIsCostShareAccount() throws Exception {
-        award.setSponsorCode("000500");
+        award.setSponsorCode(otherSponsorCode);
         assertFalse(awardSyncSelectorService.isCostShareAccount(award));
-        award.setSponsorCode("0009906");
+        award.setSponsorCode(costShareSponsorCode);
         assertTrue(awardSyncSelectorService.isCostShareAccount(award));
     }
     
@@ -91,7 +94,7 @@ public class AwardSyncSelectorServiceTest extends KcUnitTestBase {
         
         award.setAwardStatus(activeStatus);
         award.setAccountTypeCode(1);
-        award.setSponsorCode("0009906");
+        award.setSponsorCode(costShareSponsorCode);
         
         assertFalse(awardSyncSelectorService.isAwardInvolvedInSync(award, changes));
         
@@ -115,7 +118,7 @@ public class AwardSyncSelectorServiceTest extends KcUnitTestBase {
         
         award.setAwardStatus(inactiveStatus);
         award.setAccountTypeCode(1);
-        award.setSponsorCode("000500");
+        award.setSponsorCode(otherSponsorCode);
         
         //check active sync
         assertTrue(awardSyncSelectorService.isChangeApplicableToAward(award, change));
@@ -132,7 +135,7 @@ public class AwardSyncSelectorServiceTest extends KcUnitTestBase {
         
         //check cost share sync
         change.setSyncFabricated(false);
-        award.setSponsorCode("0009906");
+        award.setSponsorCode(costShareSponsorCode);
         assertFalse(awardSyncSelectorService.isChangeApplicableToAward(award, change));
         change.setSyncCostSharing(true);
         assertTrue(awardSyncSelectorService.isChangeApplicableToAward(award, change));
