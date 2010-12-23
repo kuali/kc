@@ -18,6 +18,7 @@ package org.kuali.kra.award;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
@@ -58,7 +59,7 @@ public class AwardSyncAuditRule implements DocumentAuditRule {
         Award award = awardDocument.getAward();
         if (award.getSyncChanges() != null) {
             for (AwardSyncChange change : award.getSyncChanges()) {
-                if (change.getSyncDescendants() == null || change.getSyncDescendants().isEmpty()) {
+                if (change.getSyncDescendantsType() == null) {
                     valid = false;
                     auditErrors.add(new AuditError("document.awardList[0].syncChanges[" 
                             + award.getSyncChanges().indexOf(change) + "].syncDescendants",
