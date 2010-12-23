@@ -25,6 +25,7 @@ import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.AwardTemplateSyncScope;
+import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
 import org.kuali.kra.award.home.AwardSyncable;
 import org.kuali.kra.award.home.AwardSyncableList;
 import org.kuali.kra.award.home.AwardTemplateReportTermRecipient;
@@ -47,16 +48,29 @@ public class AwardReportTerm extends AwardAssociate  {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -3117988810554700250L;
+
     private Long awardReportTermId;
     private List<AwardReporting> awardReportings;
     
     
-    @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) private String reportClassCode; 
-    @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) private String reportCode; 
-    @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) private String frequencyCode; 
-    @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) private String frequencyBaseCode; 
-    @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) private String ospDistributionCode;
-    @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) private Date dueDate;
+    @AwardSyncableProperty(key=true) 
+    @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) 
+    private String reportClassCode; 
+    @AwardSyncableProperty(key=true)
+    @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) 
+    private String reportCode; 
+    @AwardSyncableProperty(key=true)
+    @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) 
+    private String frequencyCode; 
+    @AwardSyncableProperty(key=true)
+    @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) 
+    private String frequencyBaseCode; 
+    @AwardSyncableProperty
+    @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) 
+    private String ospDistributionCode;
+    @AwardSyncableProperty
+    @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) 
+    private Date dueDate;
 
     private Distribution distribution; 
     private @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) Frequency frequency; 
@@ -64,6 +78,7 @@ public class AwardReportTerm extends AwardAssociate  {
     private @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) Report report; 
     private @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) ReportClass reportClass;
 
+    @AwardSyncableProperty
     @AwardSyncableList(parentPropertyName="awardReportTerm",syncClass=AwardReportTermRecipient.class,syncSourceClass=AwardTemplateReportTermRecipient.class,scopes={AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT}) 
     private List<AwardReportTermRecipient> awardReportTermRecipients;
     

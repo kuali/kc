@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
@@ -32,14 +33,19 @@ import org.kuali.rice.kns.util.KualiDecimal;
  */
 public class AwardPerson extends AwardContact implements PersonRolodex {
     private static final long serialVersionUID = 7980027108784055721L;
+    @AwardSyncableProperty
     private KualiDecimal academicYearEffort;
-
+    @AwardSyncableProperty
     private KualiDecimal calendarYearEffort;
-    
+    @AwardSyncableProperty
     private boolean faculty;
+    @AwardSyncableProperty
     private KualiDecimal summerEffort;
+    @AwardSyncableProperty
     private KualiDecimal totalEffort;
+    @AwardSyncableProperty
     private String keyPersonRole;
+    @AwardSyncableProperty
     private List<AwardPersonUnit> units;
     private List<AwardPersonCreditSplit> creditSplits;
     
