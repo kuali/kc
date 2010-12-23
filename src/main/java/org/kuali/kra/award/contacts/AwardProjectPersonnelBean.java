@@ -38,9 +38,10 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
         super(awardForm);
     }
     
-    public void addNewProjectPersonUnit(int projectPersonIndex) {
+    public AwardPersonUnit addNewProjectPersonUnit(int projectPersonIndex) {
         AwardPerson person = getAward().getProjectPersons().get(projectPersonIndex);
         AwardPersonUnitRuleAddEvent event = generateAddPersonUnitEvent(person, projectPersonIndex);
+        AwardPersonUnit newUnit = newAwardPersonUnits[projectPersonIndex];
         boolean success = new AwardPersonUnitAddRuleImpl().processAddAwardPersonUnitBusinessRules(event);
         if(success) {
             person.add(newAwardPersonUnits[projectPersonIndex]);
@@ -50,12 +51,13 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
             }
             initNewAwardPersonUnits();
         }
+        return newUnit;
     }
 
     /**
      * This method is for adding a project person
      */
-    public void addProjectPerson() {
+    public AwardPerson addProjectPerson() {
         AwardProjectPersonRuleAddEvent event = generateAddProjectPersonEvent();
         boolean success = new AwardProjectPersonAddRuleImpl().processAddAwardProjectPersonBusinessRules(event);
         if(success){
@@ -69,6 +71,9 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
                     awardPerson.getUnits().add(new AwardPersonUnit(awardPerson, awardPerson.getPerson().getUnit(), false));
                 }
             }
+            return awardPerson;
+        } else {
+            return null;
         }
     }
 

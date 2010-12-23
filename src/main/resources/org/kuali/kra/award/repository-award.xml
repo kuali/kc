@@ -34,7 +34,6 @@
     	
 	</class-descriptor>
 	
-	
 	<class-descriptor class="org.kuali.kra.award.home.Award" table="AWARD">
 		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQUENCE_AWARD_ID" />		
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" access="anonymous" />
@@ -88,6 +87,7 @@
         <field-descriptor name="unitNumber" column="LEAD_UNIT_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="financialAccountDocumentNumber" column="FIN_ACCOUNT_DOC_NBR" jdbc-type="VARCHAR" />
     	<field-descriptor name="financialAccountCreationDate" column="FIN_ACCOUNT_CREATION_DATE" jdbc-type="DATE" />
+    	<field-descriptor name="syncChild" column="HIERARCHY_SYNC_CHILD" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/> 
     	
     	<collection-descriptor name="awardComments" proxy="true" element-class-ref="org.kuali.kra.award.home.AwardComment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="awardId"/>
@@ -202,9 +202,16 @@
 			<foreignkey field-ref="unitNumber"/>
 		</reference-descriptor>
 		<reference-descriptor name="awardType" class-ref="org.kuali.kra.award.home.AwardType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="awardTypeCode"/>
+			<foreignkey field-ref="awardTypeCode"/>			
 		</reference-descriptor>		
-	</class-descriptor>	
+        <collection-descriptor name="syncChanges" proxy="true" element-class-ref="org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        	<inverse-foreignkey field-ref="awardId"/>
+        	<orderby name="awardSyncChangeId" sort="ASC" />
+        </collection-descriptor>
+        <collection-descriptor name="syncStatuses" proxy="true" element-class-ref="org.kuali.kra.award.awardhierarchy.sync.AwardSyncStatus" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="object">
+        	<inverse-foreignkey field-ref="parentAwardId"/>
+        </collection-descriptor>
+	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.award.contacts.AwardPerson" table="AWARD_PERSONS">
 		<field-descriptor name="awardContactId" column="AWARD_PERSON_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQUENCE_AWARD_ID" />
@@ -586,7 +593,10 @@
 		</reference-descriptor>
 		<reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="rolodexId"/>
-		</reference-descriptor>	
+		</reference-descriptor>
+		<reference-descriptor name="awardReportTerm" class-ref="org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm" auto-retrieve="true" auto-update="none" auto-delete="none">
+		    <foreignkey field-ref="awardReportTermId"/>
+		</reference-descriptor>
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.award.contacts.AwardSponsorContact" table="AWARD_SPONSOR_CONTACTS">
@@ -1310,4 +1320,89 @@
 			<foreignkey field-ref="proposalId"/> 
 		</reference-descriptor>
     </class-descriptor>
+    
+    <class-descriptor class="org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange" table="AWARD_SYNC_CHANGE">
+        <field-descriptor name="awardSyncChangeId" column="AWARD_SYNC_CHANGE_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_AWARD_SYNC_CHANGE_ID" />
+        <field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" nullable="false" />
+        <field-descriptor name="xml" column="XML_CHANGES" jdbc-type="CLOB" />
+        <field-descriptor name="className" column="CLASS_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="attrName" column="ATTRIBUTE_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectDesc" column="OBJECT_DESC" jdbc-type="VARCHAR" />
+        <field-descriptor name="dataDesc" column="DATA_DESC" jdbc-type="VARCHAR" />
+        <field-descriptor name="syncType" column="SYNC_TYPE" jdbc-type="CHAR" />
+        <field-descriptor name="syncDescendants" column="SYNC_DESCEND" jdbc-type="VARCHAR"/>
+        <field-descriptor name="syncFabricated" column="SYNC_FABRICATED_DESCEND" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+        <field-descriptor name="syncCostSharing" column="SYNC_COST_SHARE_DESCEND" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+        
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        
+        <reference-descriptor name="award" class-ref="org.kuali.kra.award.home.Award" auto-retrieve="true" auto-update="none" auto-delete="none">
+        	<foreignkey field-ref="awardId" />
+        </reference-descriptor>
+    </class-descriptor>
+        
+	<class-descriptor class="org.kuali.kra.award.awardhierarchy.sync.AwardSyncStatus" table="AWARD_SYNC_STATUS">
+		<field-descriptor name="awardSyncStatusId" column="AWARD_SYNC_STATUS_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_AWARD_SYNC_STATUS_ID" />
+		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" nullable="true"/>
+		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" nullable="false" />
+		<field-descriptor name="parentAwardId" column="PARENT_AWARD_ID" jdbc-type="BIGINT" nullable="false" />
+		<field-descriptor name="success" column="STEP_SUCCESS" jdbc-type="CHAR" nullable="false" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="status" column="STATUS" jdbc-type="VARCHAR" nullable="true"/>
+		<field-descriptor name="syncComplete" column="SYNC_COMPLETE" jdbc-type="CHAR" nullable="false" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+
+        <reference-descriptor name="award" class-ref="org.kuali.kra.award.home.Award" auto-retrieve="true" auto-update="none" auto-delete="none">
+        	<foreignkey field-ref="awardId" />
+        </reference-descriptor>
+		<collection-descriptor name="changeLogs" proxy="true" element-class-ref="org.kuali.kra.award.awardhierarchy.sync.AwardSyncLog" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="awardSyncStatusId"/>
+			<query-customizer
+      			class="org.kuali.kra.dao.KraQueryCustomizerDefaultImpl">
+	          <attribute
+	              attribute-name="logTypeCode"
+	              attribute-value="CL"
+	          />
+	       </query-customizer>
+		</collection-descriptor>
+		<collection-descriptor name="validationLogs" proxy="true" element-class-ref="org.kuali.kra.award.awardhierarchy.sync.AwardSyncLog" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="awardSyncStatusId"/>
+			<query-customizer
+      			class="org.kuali.kra.dao.KraQueryCustomizerDefaultImpl">
+	          <attribute
+	              attribute-name="logTypeCode"
+	              attribute-value="VM"
+	          />
+	       </query-customizer>
+		</collection-descriptor>
+         			
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.award.awardhierarchy.sync.AwardSyncLog" table="AWARD_SYNC_LOG">
+		<field-descriptor name="awardSyncLogId" column="AWARD_SYNC_LOG_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_AWARD_SYNC_LOG_ID" />
+		<field-descriptor name="awardSyncStatusId" column="AWARD_SYNC_STATUS_ID" jdbc-type="BIGINT" nullable="false"/>
+		<field-descriptor name="awardSyncChangeId" column="AWARD_SYNC_CHANGE_ID" jdbc-type="BIGINT" nullable="true"/>
+		<field-descriptor name="success" column="SUCCESS" jdbc-type="CHAR" nullable="false" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="logTypeCode" column="LOG_TYPE_CODE" jdbc-type="CHAR" nullable="false"/>
+		<field-descriptor name="status" column="STATUS" jdbc-type="VARCHAR" nullable="true"/>
+
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+
+		<reference-descriptor name="syncStatus" class-ref="org.kuali.kra.award.awardhierarchy.sync.AwardSyncStatus" auto-retrieve="true" auto-update="true" auto-delete="none">
+			<foreignkey field-ref="awardSyncStatusId"/>		
+		</reference-descriptor>		
+		<reference-descriptor name="change" class-ref="org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange" auto-retrieve="true" auto-update="true" auto-delete="none">
+			<foreignkey field-ref="awardSyncChangeId"/>
+		</reference-descriptor>
+	</class-descriptor>
+	
 </descriptor-repository>

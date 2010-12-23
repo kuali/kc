@@ -543,6 +543,12 @@
 		class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
 		<property name="serviceName" value="notificationService" />
 	</bean>
+	
+	<bean id="xmlObjectSerializerService"
+		class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="xmlObjectSerializerService" />
+	</bean>
+	
 
 
 
