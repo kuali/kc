@@ -18,6 +18,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="awardPersonAttributes" value="${DataDictionary.AwardPerson.attributes}" />
+<c:set var="keyPersonRoleConstant" value="<%=org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE%>" />
 
 <%-- kra:section permission="modifyAward" --%>
 <kul:tab tabTitle="Key Personnel and Credit Split" tabItemCount="${KualiForm.projectPersonnelBean.projectPersonnelCount}" defaultOpen="false" 
@@ -83,7 +84,8 @@
     		        		<kul:htmlControlAttribute property="projectPersonnelBean.contactRoleCode" 
     	                									attributeEntry="${awardPersonAttributes.contactRoleCode}" onchange="proposalRoleChange(this, 'normal');"/><br/>
     	                	<span class="keypersononly">
-    					    *<kul:htmlAttributeLabel attributeEntry="${awardPersonAttributes.keyPersonRole}" useShortLabel="true" noColon="false" /><span class="noscriptonly">(Required for Key Persons only)</span> 
+    					    *<kul:htmlAttributeLabel attributeEntry="${awardPersonAttributes.keyPersonRole}" useShortLabel="true" noColon="false" />
+    					    <span class="noscriptonly">(Required for Key Persons only)</span> 
     				         <kul:htmlControlAttribute property="projectPersonnelBean.newAwardContact.keyPersonRole" 
     										           attributeEntry="${awardPersonAttributes.keyPersonRole}"/>
     					    </span>
@@ -154,16 +156,42 @@
     						</div>
     					</td>
     	                <td valign="middle">
+    	                	${KualiForm.valueFinderResultDoNotCache}
     	                	<div align="center">
-                                <c:set var="isNih" value="${KualiForm.document.awardList[0].nih}" />
-                                <c:if test="${isNih}">
-                                    <c:set var="roleDescription" value="${KualiForm.document.awardList[0].nihDescription[awardContact.contactRole.roleCode]}" />
-                                </c:if>
-                                <c:if test="${!isNih}">
-                                    <c:set var="roleDescription" value="${awardContact.contactRole.description}" />
-                                </c:if>
-    	                		${roleDescription}&nbsp;
-    	                	</div> 
+    	                	 	<kul:htmlControlAttribute property="projectPersonnelBean.projectPersonnel[${awardContactRowStatus.index}].contactRoleCode" 
+    	                			attributeEntry="${awardPersonAttributes.contactRoleCode}" onchange="existingRoleChange(this, 'normal', ${awardContactRowStatus.index});"/><br/>
+	
+    	                		<c:set var="classNameScript" value="keyPeson${awardContactRowStatus.index}" />
+   	                			<span class="${classNameScript}">
+	    					    	*<kul:htmlAttributeLabel attributeEntry="${awardPersonAttributes.keyPersonRole}" useShortLabel="true" noColon="false" />
+		    					    <span class="noscriptonly">(Required for Key Persons only)</span> 
+		    				        <kul:htmlControlAttribute property="projectPersonnelBean.projectPersonnel[${awardContactRowStatus.index}].keyPersonRole" 
+		    										           attributeEntry="${awardPersonAttributes.keyPersonRole}"/>
+	    					    </span>
+	    					    <c:if test="${KualiForm.document.awardList[0].projectPersons[awardContactRowStatus.index].contactRole.roleCode != keyPersonRoleConstant}">
+	    					    	<script type="text/javascript">
+		    					    	var scriptSpanName1='<c:out value=".${classNameScript}" />';
+		    					    	$(scriptSpanName1).slideUp('normal');
+	    					    	</script>
+	    					    </c:if>
+    	                		<script type="text/javascript">
+		                          function existingRoleChange(formItem, speed, indexOfContact) {
+			                          var scriptSpanName='.keyPeson' + indexOfContact;
+		                              if ( $(formItem).val() == 'KP' ) {
+		                                  $(scriptSpanName).slideDown(speed);
+		                              } else {
+		                                  $(scriptSpanName).slideUp(speed);
+		                              }
+		                          }
+		                          $(document).ready(function() {
+		                        	  existingRoleChange('#projectPersonnelBean\\.projectPersonnel[${awardContactRowStatus.index}]\\.contactRoleCode', 'now');
+		                              $('.noscriptonly').hide();
+		                          });
+		                        </script>
+
+    	                	</div>
+    	                	${KualiForm.valueFinderResultCache}
+    	                	 
     					</td>
     					<td valign="middle">
     						<div align="center">
