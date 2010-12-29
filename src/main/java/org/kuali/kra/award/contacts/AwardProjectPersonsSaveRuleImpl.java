@@ -49,24 +49,37 @@ public class AwardProjectPersonsSaveRuleImpl implements AwardProjectPersonsSaveR
         if (projectPersons.size() == 0) {
             return true;
         }
-
+        
         boolean valid = checkForDuplicateUnits(projectPersons);
         valid &= checkForKeyPersonProjectRoles(projectPersons);
         valid &= checkForOnePrincipalInvestigator(projectPersons);
         valid &= checkForRequiredUnitDetails(projectPersons);
         valid &= checkForLeadUnitForPI(projectPersons);
-
+        if(valid) {
+            removeKeyPersonRoleForNoneKeyPerson(projectPersons);  // remove key person roles in case some person was changed from Key person to non-Key
+        }
+        
         return valid;
     }
 
+    
+    void removeKeyPersonRoleForNoneKeyPerson(List<AwardPerson> projectPersons) {
+        for ( AwardPerson person : projectPersons ) {
+            if ( !StringUtils.equalsIgnoreCase(person.getContactRole().getRoleCode(), ContactRole.KEY_PERSON_CODE) &&
+                    StringUtils.isNotEmpty(person.getKeyPersonRole()) ) {
+                person.setKeyPersonRole(null);
+            }
+        }
+    }
     boolean checkForKeyPersonProjectRoles(List<AwardPerson> projectPersons) {
        boolean valid = true;
        for ( AwardPerson person : projectPersons ) {
            if ( StringUtils.equalsIgnoreCase(person.getContactRole().getRoleCode(), ContactRole.KEY_PERSON_CODE) &&
                    StringUtils.isBlank(person.getKeyPersonRole()) ) {
                valid = false;
-               GlobalVariables.getMessageMap().putError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY + "[" + projectPersons.indexOf(person) + "].keyPersonRole", 
-                       ERROR_AWARD_PROJECT_KEY_PERSON_ROLE_REQUIRED, person.getFullName());
+               GlobalVariables.getMessageMap().putError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY, 
+                                       ERROR_AWARD_PROJECT_KEY_PERSON_ROLE_REQUIRED, 
+                                       person.getFullName());
            }
        }
        return valid;
