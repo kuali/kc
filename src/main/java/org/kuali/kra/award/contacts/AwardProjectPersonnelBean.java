@@ -251,8 +251,10 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
     
     private void setLeadUnitSelectionStates(String unitName) {
         AwardPerson awardPerson = findPrincipalInvestigator();
-        for(AwardPersonUnit associatedUnit: awardPerson.getUnits()) {
-            associatedUnit.setLeadUnit(associatedUnit.getUnit().getUnitName().equals(unitName));
+        if(awardPerson != null) {
+            for(AwardPersonUnit associatedUnit: awardPerson.getUnits()) {
+                associatedUnit.setLeadUnit(associatedUnit.getUnit().getUnitName().equals(unitName));
+            }
         }
     }    
 }

@@ -170,7 +170,7 @@ public class AwardProjectPersonsSaveRuleImplTest {
         kpPerson.setKeyPersonRole(null);
         Assert.assertFalse("Key Person Role not checked for", rule.checkForKeyPersonProjectRoles(award.getProjectPersons()));
 
-        checkErrorState(AwardProjectPersonsSaveRule.AWARD_PROJECT_PERSON_LIST_ERROR_KEY + "[" + award.getProjectPersons().indexOf(kpPerson) + "].keyPersonRole",
+        checkErrorState(AwardProjectPersonsSaveRule.AWARD_PROJECT_PERSON_LIST_ERROR_KEY,
                                 AwardProjectPersonsSaveRule.ERROR_AWARD_PROJECT_KEY_PERSON_ROLE_REQUIRED);
     }
 
@@ -178,6 +178,21 @@ public class AwardProjectPersonsSaveRuleImplTest {
     public void testCheckForKeyPersonRole_Found() {
         Assert.assertTrue("Key Person Role not checked for", rule.checkForKeyPersonProjectRoles(award.getProjectPersons()));
     }
+    
+    @Test
+    public void testProjectRolesChanges() {
+        // when a coi is changed to key person
+        coiPerson.setContactRole(ContactRoleFixtureFactory.MOCK_KEY_PERSON);
+        Assert.assertFalse("Key Person Role not checked for", rule.checkForKeyPersonProjectRoles(award.getProjectPersons()));
+        coiPerson.setKeyPersonRole("fromCOI");
+        Assert.assertTrue("Key Person Role not checked for", rule.checkForKeyPersonProjectRoles(award.getProjectPersons()));
+        
+        // when a key person is changed to coi
+        kpPerson.setContactRole(ContactRoleFixtureFactory.MOCK_COI);
+        Assert.assertTrue("rule should return true", rule.processSaveAwardProjectPersonsBusinessRules(award.getProjectPersons()));
+        Assert.assertEquals(null, kpPerson.getKeyPersonRole());
+    }
+    
 
     private void checkErrorState(String errorProperty, String errorMessageKey) {
         MessageMap messageMap = GlobalVariables.getMessageMap();
