@@ -253,8 +253,7 @@ public class AwardForm extends BudgetVersionFormBase
 
         syncMode = false;
         awardSyncBean = new AwardSyncBean(this);
-
-        setDirectIndirectViewEnabled(getParameterService().getParameterValue("KC-AWARD", "D", "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST"));
+        setDirectIndirectViewEnabled(getParameterService().getParameterValue(Constants.PARAMETER_MODULE_AWARD, Constants.PARAMETER_COMPONENT_DOCUMENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST"));
     }
 
     /**

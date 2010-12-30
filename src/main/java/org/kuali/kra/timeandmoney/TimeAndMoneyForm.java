@@ -114,7 +114,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         }
         setControlForAwardHierarchyView("2");
         setCurrentOrPendingView("0");
-        setDirectIndirectViewEnabled(getParameterService().getParameterValue("KC-AWARD", "D", "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST"));
+        setDirectIndirectViewEnabled(getParameterService().getParameterValue(Constants.PARAMETER_MODULE_AWARD, Constants.PARAMETER_COMPONENT_DOCUMENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST"));
     }
     
     /** {@inheritDoc} */
@@ -608,18 +608,6 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         }
         return this.parameterService;
     }
-    
-//    public boolean isDirectIndirectViewEnabled() {
-//        boolean returnValue = false;
-//        String directIndirectEnabledValue = getParameterService().getParameterValue("KC-AWARD", "D", "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST");
-//        if(directIndirectEnabledValue.equals("1")) {
-//            returnValue = true;
-//        }
-//        return returnValue;
-//    }
-//    
-
-    
     
     /**
      * Gets the directIndirectViewEnabled attribute. 

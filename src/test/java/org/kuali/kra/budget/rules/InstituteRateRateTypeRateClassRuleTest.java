@@ -170,7 +170,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
         
         this.context.checking(new Expectations() {
             {
-                oneOf(pService).getParameterValues(Constants.MODULE_NAMESPACE_BUDGET, "A", "instituteLaRateClassTypes");
+                oneOf(pService).getParameterValues(Constants.MODULE_NAMESPACE_BUDGET, Constants.BUDGET_ALL_DETAIL_TYPE_CODE, "instituteLaRateClassTypes");
                 will(returnValue(validTypes));
             }
         });
@@ -204,7 +204,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
         
         this.context.checking(new Expectations() {
             {
-                oneOf(pService).getParameterValues(Constants.MODULE_NAMESPACE_BUDGET, "A", "instituteRateClassTypes");
+                oneOf(pService).getParameterValues(Constants.MODULE_NAMESPACE_BUDGET, Constants.BUDGET_ALL_DETAIL_TYPE_CODE, "instituteRateClassTypes");
                 will(returnValue(validTypes));
             }
         });
@@ -239,7 +239,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
         
         this.context.checking(new Expectations() {
             {
-                oneOf(pService).getParameterValues(Constants.MODULE_NAMESPACE_BUDGET, "A", "instituteRateClassTypes");
+                oneOf(pService).getParameterValues(Constants.MODULE_NAMESPACE_BUDGET, Constants.BUDGET_ALL_DETAIL_TYPE_CODE, "instituteRateClassTypes");
                 will(returnValue(validTypes));
             }
             
@@ -290,7 +290,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
         
         this.context.checking(new Expectations() {
             {
-                oneOf(pService).getParameterValues(Constants.MODULE_NAMESPACE_BUDGET, "A", "instituteRateClassTypes");
+                oneOf(pService).getParameterValues(Constants.MODULE_NAMESPACE_BUDGET, Constants.BUDGET_ALL_DETAIL_TYPE_CODE, "instituteRateClassTypes");
                 will(returnValue(validTypes));
             }
             
@@ -341,7 +341,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
         
         this.context.checking(new Expectations() {
             {
-                oneOf(pService).getParameterValues(Constants.MODULE_NAMESPACE_BUDGET, "A", "instituteRateClassTypes");
+                oneOf(pService).getParameterValues(Constants.MODULE_NAMESPACE_BUDGET, Constants.BUDGET_ALL_DETAIL_TYPE_CODE, "instituteRateClassTypes");
                 will(returnValue(validTypes));
             }
             
@@ -385,14 +385,14 @@ public class InstituteRateRateTypeRateClassRuleTest {
         m.setAccessible(true);
         
         InstituteRate instituteRate = new InstituteRate();
-        instituteRate.setRateTypeCode("foo");
+        instituteRate.setRateTypeCode("foo"); 
         
         final Collection<String> validTypes = new ArrayList<String>();
         validTypes.add("abc");
         
         this.context.checking(new Expectations() {
             {
-                oneOf(pService).getParameterValues(Constants.MODULE_NAMESPACE_BUDGET, "A", "instituteRateClassTypes");
+                oneOf(pService).getParameterValues(Constants.MODULE_NAMESPACE_BUDGET, Constants.BUDGET_ALL_DETAIL_TYPE_CODE, "instituteRateClassTypes");
                 will(returnValue(validTypes));
             }
             

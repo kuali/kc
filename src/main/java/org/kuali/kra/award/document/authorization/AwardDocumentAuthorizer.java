@@ -135,7 +135,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         // if document is in processed or final state
         if (status.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_PROCESSED_CD) 
                 || status.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_FINAL_CD)) {
-            String awardAccountParameter = getParameterService().getParameterValue("KC-AWARD", "D", "AWARD_CREATE_ACCOUNT");
+            String awardAccountParameter = getParameterService().getParameterValue(Constants.PARAMETER_MODULE_AWARD, Constants.PARAMETER_COMPONENT_DOCUMENT, "AWARD_CREATE_ACCOUNT");
             // if the integration parameter is ON
             if (awardAccountParameter.equalsIgnoreCase("ON")) {
                 IdentityManagementService identityManagementService 
