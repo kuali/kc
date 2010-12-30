@@ -85,7 +85,7 @@ public interface Constants {
     public static final String MODULE_NAMESPACE_INSTITUTIONAL_PROPOSAL = "KC-IP";
     public static final String MODULE_NAMESPACE_AWARD = "KC-AWARD"; 
     
-    public static final String PARAMETER_COMPONENT_DOCUMENT = "D";
+    public static final String PARAMETER_COMPONENT_DOCUMENT = "Document";
     public static final String INSTITUTE_NARRATIVE_TYPE_GROUP_CODE = "O";
     public static final String PROPOSAL_NARRATIVE_TYPE_GROUP_CODE = "P";    
     public static final String NARRATIVE_MODULE_STATUS_COMPLETE = "C";
@@ -160,7 +160,7 @@ public interface Constants {
     public static final String DEFAULT_DATE_FORMAT_PATTERN = "MM/dd/yyyy";
     public static final String DEFAULT_TIME_FORMAT_PATTERN = "h:mm a";
     public static final String MODULE_NAMESPACE_BUDGET = "KC-B"; 
-    public static final String BUDGET_ALL_DETAIL_TYPE_CODE = "A";
+    public static final String BUDGET_ALL_DETAIL_TYPE_CODE = "All";
     
     // Budget Versions Constants
     public static final String BUDGET_STATUS_COMPLETE_CODE = "budgetStatusCompleteCode";
@@ -638,7 +638,7 @@ public interface Constants {
     
     //
     public static final String KC_GENERIC_PARAMETER_NAMESPACE = "KC-GEN";
-    public static final String KC_ALL_PARAMETER_DETAIL_TYPE_CODE = "A";
+    public static final String KC_ALL_PARAMETER_DETAIL_TYPE_CODE = "All";
     public static final String MODULE_NAMESPACE_AWARD_BUDGET = "KC-AB";
     
     public static final String CUSTOM_ATTRIBUTE_DOCUMENT_DETAIL_TYPE_CODE = "DocumentType";

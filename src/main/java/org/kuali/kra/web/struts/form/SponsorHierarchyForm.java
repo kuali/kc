@@ -287,7 +287,7 @@ public class SponsorHierarchyForm extends KualiForm {
         int groupingNumber = 300;
         try {
            String sysParam = this.getParameterService().getParameterValue(
-                Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, "A", Constants.NUMBER_PER_SPONSOR_HIERARCHY_GROUP);
+                Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.NUMBER_PER_SPONSOR_HIERARCHY_GROUP);
            groupingNumber=Integer.parseInt(sysParam);
         } catch (Exception e) {
             LOG.debug("System param for numberPerSponsorHierarchyGroup is not defined");
