@@ -287,7 +287,7 @@ public class AwardHomeAction extends AwardAction {
     
     public boolean isDirectIndirectViewEnabled() {
         boolean returnValue = false;
-        String directIndirectEnabledValue = getParameterService().getParameterValue("KC-AWARD", "D", "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST");
+        String directIndirectEnabledValue = getParameterService().getParameterValue(Constants.PARAMETER_MODULE_AWARD, Constants.PARAMETER_COMPONENT_DOCUMENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST");
         if(directIndirectEnabledValue.equals("1")) {
             returnValue = true;
         }
