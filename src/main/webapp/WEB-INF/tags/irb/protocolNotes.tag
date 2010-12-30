@@ -97,7 +97,14 @@
 						</td>
 		                <td valign="middle">                	
 						<div align="left">
-						<kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].comments" attributeEntry="${protocolNotesAttributes.comments}" readOnly="${!modify || !protocolNotepad.editable}"/>
+						<c:choose>
+						    <c:when test="${!modify || !protocolNotepad.editable}">
+			                   <kra:truncateComment textAreaFieldName="document.protocol.notepads[${status.index}].comments" action="protocolProtocolActions" textAreaLabel="${protocolNotesAttributes.comments.label}" textValue="${KualiForm.document.protocolList[0].notepads[status.index].comments}" displaySize="120"/>
+						    </c:when>
+						    <c:otherwise>
+						        <kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].comments" attributeEntry="${protocolNotesAttributes.comments}" />
+						    </c:otherwise>
+						</c:choose>
 						</div>
 						</td>
 		                <td valign="middle">
