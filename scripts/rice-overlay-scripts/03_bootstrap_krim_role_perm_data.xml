@@ -93,6 +93,23 @@
 			</delete>
 		</rollback>		
     </changeSet>
+    
+	<changeSet context="bootstrap,demo" author="kc" id="KC_LOAD_KRIM_GRP_T">
+		<loadData tableName="KRIM_GRP_T" file="bootstrap/krim_grp_t.csv" />
+		<rollback>
+			<delete tableName="KRIM_GRP_T">
+				<where>NMSPC_CD LIKE 'KC%'</where>
+			</delete>
+		</rollback>		
+    </changeSet>
+	<changeSet context="bootstrap,demo" author="kc" id="KC_LOAD_KRIM_GRP_MBR_T">
+		<loadData tableName="KRIM_GRP_MBR_T" file="bootstrap/krim_grp_mbr_t.csv" />
+		<rollback>
+			<delete tableName="KRIM_GRP_MBR_T">
+				<where>GRP_ID IN (SELECT GRP_ID FROM KRIM_GRP_T WHERE NMSPC_CD LIKE 'KC%')</where>
+			</delete>
+		</rollback>		
+    </changeSet>        
 
 	<changeSet context="bootstrap,demo" author="kc" id="KC_LOAD_KRIM_ROLE_PERM_T">
 		<loadData tableName="KRIM_ROLE_PERM_T" file="bootstrap/krim_role_perm_t.csv" />
