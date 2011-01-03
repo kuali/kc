@@ -1389,43 +1389,54 @@ public class AwardAction extends BudgetParentActionBase {
         String question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
         AwardTemplateSyncScope[] scopes = awardForm.getCurrentSyncScopes();
+        AwardTemplateSyncScope[] scopesList = scopes;   // for maintaining the current scopes list
         KualiConfigurationService kualiConfiguration = getService(KualiConfigurationService.class);
         
         for( int i = 0; i < scopes.length; i++ ) {
             AwardTemplateSyncScope currentScope = scopes[i];
             
-            if( ((question == null  || !((StringUtils.equals( QUESTION_VERIFY_SYNC+":"+currentScope, question)))) && awardForm.getSyncRequiresConfirmationMap().get(currentScope))
-                    && !StringUtils.equals(QUESTION_VERIFY_EMPTY_SYNC+":"+currentScope, question)) {
+            if (((question == null || !((StringUtils.equals(QUESTION_VERIFY_SYNC + ":" + currentScope, question))))
+                        && awardForm.getSyncRequiresConfirmationMap().get(currentScope))
+                    && !StringUtils.equals(QUESTION_VERIFY_EMPTY_SYNC + ":" + currentScope, question)) {
                         
                 String scopeSyncLabel = "";
                 StrutsConfirmation confirmationQuestion = new StrutsConfirmation();
-                if( StringUtils.isNotEmpty(currentScope.getDisplayPropertyName()))
+                if( StringUtils.isNotEmpty(currentScope.getDisplayPropertyName())) {
                     scopeSyncLabel = kualiConfiguration.getPropertyString(currentScope.getDisplayPropertyName());
-                    if(StringUtils.equals(scopeSyncLabel, REPORTS_PROPERTY_NAME) || StringUtils.equals(scopeSyncLabel, PAYMENT_INVOICES_PROPERTY_NAME) ) {
-                        confirmationQuestion = buildAwardSyncParameterizedConfirmationQuestion(mapping, form, request, response, (QUESTION_VERIFY_SYNC+":"+currentScope)  , currentScope.equals(AwardTemplateSyncScope.FULL)?KeyConstants.QUESTION_SYNC_FULL:KeyConstants.QUESTION_SYNC_PANEL,
-                                scopeSyncLabel, awardDocument.getAward().getAwardTemplate().getDescription(), getScopeMessageToAddQuestion(currentScope));
-                    } else {
-                        confirmationQuestion = buildParameterizedConfirmationQuestion(mapping, form, request, response, (QUESTION_VERIFY_SYNC+":"+currentScope)  , currentScope.equals(AwardTemplateSyncScope.FULL)?KeyConstants.QUESTION_SYNC_FULL:KeyConstants.QUESTION_SYNC_PANEL,
-                                scopeSyncLabel, awardDocument.getAward().getAwardTemplate().getDescription(), getScopeMessageToAddQuestion(currentScope)); 
-                    }
-                
+                }
+                if( StringUtils.equals(scopeSyncLabel, REPORTS_PROPERTY_NAME) || StringUtils.equals(scopeSyncLabel, PAYMENT_INVOICES_PROPERTY_NAME)) {
+                    confirmationQuestion = buildAwardSyncParameterizedConfirmationQuestion(mapping, form, request, response, (QUESTION_VERIFY_SYNC+":"+currentScope), 
+                                currentScope.equals(AwardTemplateSyncScope.FULL)?KeyConstants.QUESTION_SYNC_FULL:KeyConstants.QUESTION_SYNC_PANEL,
+                            scopeSyncLabel, awardDocument.getAward().getAwardTemplate().getDescription(), getScopeMessageToAddQuestion(currentScope));
+                } else {
+                    confirmationQuestion = buildParameterizedConfirmationQuestion(mapping, form, request, response, (QUESTION_VERIFY_SYNC+":"+currentScope), 
+                            currentScope.equals(AwardTemplateSyncScope.FULL)?KeyConstants.QUESTION_SYNC_FULL:KeyConstants.QUESTION_SYNC_PANEL,
+                            scopeSyncLabel, awardDocument.getAward().getAwardTemplate().getDescription(), getScopeMessageToAddQuestion(currentScope)); 
+                }
                 confirmationQuestion.setCaller("processSyncAward");
                 awardForm.setCurrentSyncQuestionId( (QUESTION_VERIFY_SYNC+":"+currentScope) );
                 return  (performQuestionWithoutInput( confirmationQuestion,""  ));
-            } else if (( StringUtils.equals(awardForm.getCurrentSyncQuestionId(), question) &&  ConfirmationQuestion.YES.equals(buttonClicked))||!awardForm.getSyncRequiresConfirmationMap().get(currentScope))  {                               
+               
+            } else if (( StringUtils.equals(awardForm.getCurrentSyncQuestionId(), question) 
+                            &&  ConfirmationQuestion.YES.equals(buttonClicked)) 
+                         || !awardForm.getSyncRequiresConfirmationMap().get(currentScope)) {                               
                     if( LOG.isDebugEnabled() ) 
                         LOG.debug( "USER ACCEPTED SYNC OR NO CONFIRM REQUIRED FOR:"+currentScope+" CALLING SYNC SERVICE." );
                     boolean templateHasScopedData = awardTemplateSyncService.templateContainsScopedData(awardDocument, currentScope);
                     boolean scopeRequiresEmptyConfirm = ArrayUtils.contains(DEFAULT_SCOPES_REQUIRE_VERIFY_FOR_EMPTY,currentScope);
                     
-                    if( awardDocument.getAward().getSequenceNumber() > 1 && !templateHasScopedData && StringUtils.equals( awardForm.getCurrentSyncQuestionId(), (QUESTION_VERIFY_SYNC+":"+currentScope) ) && scopeRequiresEmptyConfirm ) {
+                    if( awardDocument.getAward().getSequenceNumber() > 1 
+                            && !templateHasScopedData 
+                            && StringUtils.equals( awardForm.getCurrentSyncQuestionId(), (QUESTION_VERIFY_SYNC+":"+currentScope) ) 
+                            && scopeRequiresEmptyConfirm ) {
                        //we need to verify since the template has no data.
                         String scopeSyncLabel = "";
                         if( StringUtils.isNotEmpty(currentScope.getDisplayPropertyName()))
                             scopeSyncLabel = kualiConfiguration.getPropertyString(currentScope.getDisplayPropertyName());
                         
-                        StrutsConfirmation confirmationQuestion = buildParameterizedConfirmationQuestion(mapping, form, request, response, (QUESTION_VERIFY_EMPTY_SYNC+":"+currentScope), KeyConstants.QUESTION_SYNC_PANEL_TO_EMPTY,
-                                scopeSyncLabel, awardDocument.getAward().getAwardTemplate().getDescription()); 
+                        StrutsConfirmation confirmationQuestion = buildParameterizedConfirmationQuestion(mapping, form, request, response, (
+                                    QUESTION_VERIFY_EMPTY_SYNC+":"+currentScope), KeyConstants.QUESTION_SYNC_PANEL_TO_EMPTY,
+                                    scopeSyncLabel, awardDocument.getAward().getAwardTemplate().getDescription()); 
                         awardForm.setCurrentSyncQuestionId((QUESTION_VERIFY_EMPTY_SYNC+":"+currentScope));
                         confirmationQuestion.setCaller("processSyncAward");
                         return performQuestionWithoutInput(confirmationQuestion, "");
@@ -1436,12 +1447,14 @@ public class AwardAction extends BudgetParentActionBase {
                     
                     AwardTemplateSyncScope[] s = { currentScope };
                     awardTemplateSyncService.syncAwardToTemplate(awardDocument, s);
-                    awardForm.setCurrentSyncScopes( (AwardTemplateSyncScope[])ArrayUtils.remove(scopes, 0) );
+                    scopesList = (AwardTemplateSyncScope[])ArrayUtils.remove(scopesList, 0);    // maintaining the current list
+                    awardForm.setCurrentSyncScopes(scopesList);
                     
-            } else if ( StringUtils.equals(awardForm.getCurrentSyncQuestionId(),question) && ConfirmationQuestion.NO.equals(buttonClicked)) {
+           } else if ( StringUtils.equals(awardForm.getCurrentSyncQuestionId(),question) && ConfirmationQuestion.NO.equals(buttonClicked)) {
                 if( LOG.isDebugEnabled() ) 
                     LOG.debug( "USER DECLINED "+currentScope +", SKIPPING." );
-                awardForm.setCurrentSyncScopes( (AwardTemplateSyncScope[])ArrayUtils.remove(scopes, 0 ));
+                scopesList = (AwardTemplateSyncScope[])ArrayUtils.remove(scopesList, 0);    // maintaining the current list
+                awardForm.setCurrentSyncScopes(scopesList);
             } else {
                 throw new RuntimeException( "Do not know what to do in this case!" );
             }
@@ -1452,7 +1465,6 @@ public class AwardAction extends BudgetParentActionBase {
         awardForm.setCurrentSyncQuestionId(null);
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }    
-    
     
     private String getScopeMessageToAddQuestion( AwardTemplateSyncScope scope ) {
         KualiConfigurationService configurationService = KraServiceLocator.getService(KualiConfigurationService.class);
