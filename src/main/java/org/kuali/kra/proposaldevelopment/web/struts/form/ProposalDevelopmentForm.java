@@ -72,6 +72,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.specialreview.SpecialReviewHelper;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalDevelopmentRejectionBean;
@@ -1472,7 +1473,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     /**
      * This method makes sure that the Hierarchy tab is not displayed for proposals
      * not in a hierarchy and that the Grants.gov tab is not displayed for children
-     * in a hierarchy.
+     * in a hierarchy and when the sponsor is not a Federal Sponsor.
      * 
      * @return Returns the headerNavigationTabs filtered based on hierarchy status.
      * @see org.kuali.rice.kns.web.struts.form.KualiForm#getHeaderNavigationTabs()
@@ -1481,8 +1482,10 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     public HeaderNavigation[] getHeaderNavigationTabs() {
         HeaderNavigation[] tabs = super.getHeaderNavigationTabs();
         List<HeaderNavigation> newTabs = new ArrayList<HeaderNavigation>();
-        boolean showHierarchy = getDocument().getDevelopmentProposal().isInHierarchy();
-        boolean disableGrantsGov = getDocument().getDevelopmentProposal().isChild();
+        DevelopmentProposal devProposal = getDocument().getDevelopmentProposal();
+        boolean showHierarchy = devProposal.isInHierarchy();
+        boolean disableGrantsGov = !isGrantsGovEnabled();
+        
         
         for (HeaderNavigation tab : tabs) {
             if (tab.getHeaderTabNavigateTo().equals("grantsGov")) {
@@ -1500,6 +1503,10 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         }
         tabs = newTabs.toArray(new HeaderNavigation[newTabs.size()]);
         return tabs;
+    }
+    
+    public boolean isGrantsGovEnabled() {
+        return KraServiceLocator.getService(ProposalDevelopmentService.class).isGrantsGovEnabledForProposal(getDocument().getDevelopmentProposal());
     }
 
     /**

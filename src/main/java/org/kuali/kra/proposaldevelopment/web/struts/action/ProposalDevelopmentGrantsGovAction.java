@@ -70,7 +70,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         
         // In a Hierarchy Child, the G.g tab is disabled, so this exception should only happen if the app is being hacked.
         if (proposalDevelopmentDocument.getDevelopmentProposal().isChild()) throw new ProposalHierarchyException("Cannot perform Grants.gov tasks on a Proposal Hierarchy child");
-        
+                
         if(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity()!=null){
             if(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getProposalNumber()==null){
                 proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().setProposalNumber(proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber());                
@@ -298,6 +298,11 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         final ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         final ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
+        
+        if (!((ProposalDevelopmentForm)form).isGrantsGovEnabled()) {
+            GlobalVariables.getMessageMap().putWarning(Constants.NO_FIELD, KeyConstants.ERROR_IF_GRANTS_GOV_IS_DISABLED);
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
         
         final String proposalTypeCodeRevision = this.getParameterService().getParameterValue(ProposalDevelopmentDocument.class, 
                 KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);

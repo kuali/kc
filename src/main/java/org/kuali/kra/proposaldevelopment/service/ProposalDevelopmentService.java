@@ -24,6 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 
@@ -55,6 +56,21 @@ public interface ProposalDevelopmentService {
     public String getDataOverrideLookupDisplayReturnValue( String lookupClassName );
     
     public String getDataOverrideLookupDisplayDisplayValue( String lookupClassName, String value, String displayAttributeName );
+    
+    /**
+     * For the proposal, based on the hierarchy status and sponsor code is grants gov enabled 
+     * @param proposal
+     * @return
+     */
+    public boolean isGrantsGovEnabledForProposal(DevelopmentProposal proposal);
+    
+    /**
+     * On a sponsor change, will grants gov be enabled after the change
+     * @param proposalNumber
+     * @param sponsorCode
+     * @return
+     */
+    public boolean isGrantsGovEnabledOnSponsorChange(String proposalNumber, String sponsorCode);
 
 
 }
