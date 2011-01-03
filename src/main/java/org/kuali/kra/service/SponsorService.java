@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.service;
 
+import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.web.struts.form.SponsorHierarchyForm;
 
 import java.util.Collection;
@@ -26,6 +27,13 @@ public interface SponsorService {
      * @return The name of the sponsor identified by this code.
      */
     public String getSponsorName(String sponsorCode);
+    
+    /**
+     * Get the sponsor for the given sponsor code
+     * @param sponsorCode
+     * @return
+     */
+    public Sponsor getSponsor(String sponsorCode);
     
     /**
      * 

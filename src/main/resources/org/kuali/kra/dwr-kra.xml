@@ -37,6 +37,7 @@
 		<create creator="spring" javascript="SponsorService">
 			<param name="beanName" value="sponsorService" />
 			<include method="getSponsorName" />
+			<include method="getSponsor" />
 			<include method="getSubSponsorHierarchiesForTreeView" />
 			<include method="updateSponsorCodes" />
 			<include method="getSponsorCodes" />
@@ -65,6 +66,7 @@
 		<create creator="spring" javascript="ProposalDevelopmentService">
 			<param name="beanName" value="proposalDevelopmentService" />
 			<include method="populateProposalEditableFieldMetaDataForAjaxCall" />
+			<include method="isGrantsGovEnabledOnSponsorChange" />
 		</create>
 		<create creator="spring" javascript="JobCodeService">
 			<param name="beanName" value="jobCodeService" />

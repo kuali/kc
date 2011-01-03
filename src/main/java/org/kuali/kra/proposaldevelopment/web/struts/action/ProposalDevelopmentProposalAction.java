@@ -81,6 +81,17 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         KraServiceLocator.getService(ProposalDevelopmentService.class).initializeProposalSiteNumbers(
                 proposalDevelopmentDocument);
         
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        if (!proposalDevelopmentForm.isGrantsGovEnabled()
+                && proposalDevelopmentForm.getDocument().getDevelopmentProposal().getS2sOpportunity() != null) {
+            //if grants gov isn't enabled and we have an opportunity, clear it.
+            proposalDevelopmentForm.setVersionNumberForS2sOpportunity(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getVersionNumber());            
+            proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().setS2sOppForms(null);
+            proposalDevelopmentDocument.getDevelopmentProposal().setS2sOpportunity(null);
+            proposalDevelopmentDocument.getDevelopmentProposal().setProgramAnnouncementNumber(null);
+            proposalDevelopmentDocument.getDevelopmentProposal().setProgramAnnouncementTitle(null);
+        }
+        
         SaveProposalSitesEvent ruleEvent = new SaveProposalSitesEvent("document.developmentProposal", proposalDevelopmentDocument);
         if (getKualiRuleService().applyRules(ruleEvent)) {
             return super.save(mapping, form, request, response);
