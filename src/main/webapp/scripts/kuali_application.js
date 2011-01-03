@@ -411,6 +411,24 @@ function loadSponsorName(sponsorCodeFieldName, sponsorNameFieldName ) {
 }
  
 
+function checkGrantsGovStatusOnSponsorChange(proposalNumber, sponsorCodeFieldName) {
+	var sponsorCode = DWRUtil.getValue( sponsorCodeFieldName );
+	var dwrReply = {
+			callback:function(data) {
+				enableGrantsGov(data);
+			},
+			errorHandler:function( errorMessage ) {
+				window.status = errorMessage;
+				enableGrantsGov(false);
+			}
+	};
+	ProposalDevelopmentService.isGrantsGovEnabledOnSponsorChange(proposalNumber, sponsorCode, dwrReply);
+}
+
+function enableGrantsGov(enable) {
+	$j('input[name$="navigateTo.grantsGov"]').attr("disabled", !enable);
+}
+
 /*
  * Load the Budget Category Code based on Object Code(Cost Element)
  */ 

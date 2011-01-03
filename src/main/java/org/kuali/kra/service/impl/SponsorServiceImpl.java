@@ -92,6 +92,20 @@ public class SponsorServiceImpl implements SponsorService, Constants {
 
         return sponsorName;
     }
+    
+    /**
+     * @see org.kuali.kra.service.SponsorService#getSponsor(java.lang.String)
+     */
+    public Sponsor getSponsor(String sponsorCode) {
+        Map<String, String> primaryKeys = new HashMap<String, String>();
+        if (StringUtils.isNotEmpty(sponsorCode)) {
+            primaryKeys.put(Constants.SPONSOR_CODE, sponsorCode);
+            Sponsor sponsor = (Sponsor) businessObjectService.findByPrimaryKey(Sponsor.class, primaryKeys);
+            return sponsor;
+        } else {
+            return null;
+        }
+    }
 
     /**
      * 

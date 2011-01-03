@@ -47,9 +47,11 @@
 <kul:panelFooter />
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true" />
 
+<script src="scripts/jquery/jquery.js"></script>
 <SCRIPT type="text/javascript">
 var kualiForm = document.forms['KualiForm'];
 var kualiElements = kualiForm.elements;
+var $j = jQuery.noConflict();
 </SCRIPT>
 <script language="javascript" src="scripts/kuali_application.js"></script>
 <script language="javascript" src="dwr/interface/SponsorService.js"></script>

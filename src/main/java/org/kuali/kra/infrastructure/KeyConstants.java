@@ -200,6 +200,7 @@ public final class KeyConstants {
     public static final String ERROR_RESUBMISSION_INVALID_PROPOSALTYPE_SUBMISSIONTYPE = "error.resubmission.invalidProposalTypeSubmissionType";
     public static final String ERROR_RESUBMISSION_OPPORTUNITY_IS_APPLICATION = "error.resubmission.s2sOpportunity.isApplication";
     public static final String ERROR_NOT_SELECTED_SUBMISSION_TYPE = "error.submissionType.notSelected";
+    public static final String ERROR_IF_GRANTS_GOV_IS_DISABLED = "error.grantsgov.disabled";
     
     public static final String ERROR_PRINTING_UNKNOWN = "error.printing.unknown";
     

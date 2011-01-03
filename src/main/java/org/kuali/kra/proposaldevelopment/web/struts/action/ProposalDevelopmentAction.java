@@ -534,6 +534,9 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     }
     
     public ActionForward grantsGov(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        if (!((ProposalDevelopmentForm) form).isGrantsGovEnabled()) {
+            GlobalVariables.getMessageMap().putWarning(Constants.NO_FIELD, KeyConstants.ERROR_IF_GRANTS_GOV_IS_DISABLED);
+        }
         return mapping.findForward(Constants.GRANTS_GOV_PAGE);
     }
 
