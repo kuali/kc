@@ -25,6 +25,7 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.budget.core.BudgetService;
@@ -391,5 +392,16 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         this.versionHistoryService = versionHistoryService;
     }
 
+    public boolean isGrantsGovEnabledForProposal(DevelopmentProposal devProposal) {
+        return !devProposal.isChild() && devProposal.getSponsor() != null && StringUtils.equals(devProposal.getSponsor().getSponsorTypeCode(), "0");
+    }
+
+    public boolean isGrantsGovEnabledOnSponsorChange(String proposalNumber, String sponsorCode) {
+        DevelopmentProposal proposal = (DevelopmentProposal) getBusinessObjectService().findBySinglePrimaryKey(DevelopmentProposal.class, proposalNumber);
+        Sponsor sponsor = (Sponsor) getBusinessObjectService().findBySinglePrimaryKey(Sponsor.class, sponsorCode);
+        boolean enableGrantsGov = proposal == null || !proposal.isChild();
+        enableGrantsGov &= sponsor != null && StringUtils.equals(sponsor.getSponsorTypeCode(), "0");
+        return enableGrantsGov;
+    }
     
 }
