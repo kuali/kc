@@ -18,10 +18,13 @@ package org.kuali.kra.proposaldevelopment.web.struts.action;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.specialreview.rule.event.AddSpecialReviewEvent;
+import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -33,6 +36,8 @@ import org.kuali.rice.kns.service.KualiRuleService;
  * Handles Special Review Actions.
  */
 public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentAction {
+    
+    private SpecialReviewService specialReviewService;
     
     /**
      * Adds a special review item. The add only completes if the special review to be added passes all audit rules.
@@ -69,11 +74,92 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
      * @return the action forward
      * @throws Exception if unable to add the special review
      */
-    public ActionForward deleteSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward deleteSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+        throws Exception {
+        
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument document = proposalDevelopmentForm.getDocument();
         document.getDevelopmentProposal().getPropSpecialReviews().remove(getLineToDelete(request));
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+    
+    /**
+     * Displays the Protocol linked to the new special review item.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward viewNewSpecialReviewProtocolLink(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+        throws Exception {
+        
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalSpecialReview proposalSpecialReview = proposalDevelopmentForm.getSpecialReviewHelper().getNewSpecialReview();
+
+        String viewProtocolUrl = getViewProtocolUrl(proposalSpecialReview);
+
+        if (StringUtils.isNotEmpty(viewProtocolUrl)) {
+            forward = new ActionForward(viewProtocolUrl, true);
+        }
+        
+        return forward;
+    }
+    
+    /**
+     * Displays the Protocol linked to the special review item on the selected line (from the parameter list since this is run through a popup window).
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward viewSpecialReviewProtocolLink(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+        throws Exception {
+        
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        String lineNumber = request.getParameter("line");
+        
+        if (NumberUtils.isNumber(lineNumber)) {
+            int index = Integer.parseInt(lineNumber);
+            ProposalSpecialReview proposalSpecialReview = proposalDevelopmentForm.getDocument().getDevelopmentProposal().getPropSpecialReviews().get(index);
+
+            String viewProtocolUrl = getViewProtocolUrl(proposalSpecialReview);
+
+            if (StringUtils.isNotBlank(viewProtocolUrl)) {
+                forward = new ActionForward(viewProtocolUrl, true);
+            }
+        }
+        
+        return forward;
+    }
+    
+    private String getViewProtocolUrl(ProposalSpecialReview specialReview) throws Exception {
+        String protocolNumber = specialReview.getProtocolNumber();
+        Long routeHeaderId = getSpecialReviewService().getViewSpecialReviewProtocolRouteHeaderId(protocolNumber);
+        String forwardUrl = buildForwardUrl(routeHeaderId);
+        
+        return StringUtils.isNotBlank(forwardUrl) ? forwardUrl + "&viewDocument=true" : Constants.EMPTY_STRING;
+    }
+    
+    public SpecialReviewService getSpecialReviewService() {
+        if (specialReviewService == null) {
+            specialReviewService = KraServiceLocator.getService(SpecialReviewService.class);
+        }
+        return specialReviewService;
+    }
+    
+    public void setSpecialReviewService(SpecialReviewService specialReviewService) {
+        this.specialReviewService = specialReviewService;
+    }
+    
 }
