@@ -60,7 +60,8 @@
 					</th>
 	                <td align="left" valign="middle" class="infoline">
 		                <div align="center"><kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.specialReviewTypeCode" 
-		                                                              attributeEntry="${attributes.specialReviewTypeCode}" styleClass="fixed-size-select"/></div>
+		                                                              attributeEntry="${attributes.specialReviewTypeCode}" styleClass="fixed-size-select"
+		                                                              onchange="showHideSpecialReviewProtocolLink(this, 'specialReviewHelper.newSpecialReview.specialReviewProtocolLinkDiv');return false"/></div>
 					</td>
 	                <td class="infoline">
 		                <div align="center"><kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.approvalTypeCode" 
@@ -68,7 +69,25 @@
 	                </td>
 	                <td class="infoline">   
 		                <div align="center"><kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.protocolNumber" 
-		                                                              attributeEntry="${attributes.protocolNumber}" /></div>
+		                                                              attributeEntry="${attributes.protocolNumber}" />
+		                                    <c:choose>
+                                                <c:when test="${KualiForm.specialReviewHelper.newSpecialReview.specialReviewTypeCode == '1'}">
+                                                    <c:set var="initialStyle" value="display:inline"/>
+                                                </c:when>
+                                                <c:otherwise>
+                                                   <c:set var="initialStyle" value="display:none"/>
+                                                </c:otherwise>
+                                            </c:choose>
+		                                    <span id="specialReviewHelper.newSpecialReview.specialReviewProtocolLinkDiv" style="${initialStyle}">
+			                                    <kul:lookup boClassName="org.kuali.kra.irb.Protocol" 
+			                                                fieldConversions="protocolNumber:specialReviewHelper.newSpecialReview.protocolNumber" />
+			                                    <c:if test="${not empty KualiForm.specialReviewHelper.newSpecialReview.protocolNumber}">
+				                                    <html:image property="methodToCall.viewNewSpecialReviewProtocolLink"
+				                                                src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' alt="View Protocol" styleClass="tinybutton"
+		                                                        onclick="specialReviewProtocolPop(${KualiForm.document.sessionDocument}, '${action}', 'viewNewSpecialReviewProtocolLink', -1, ${KualiForm.formKey});return false" />
+		                                        </c:if>
+	                                        </span>
+		                </div>
 					</td>
 	                <td align="left" valign="middle" class="infoline">
                         <div align="center"><kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.applicationDate" 
@@ -113,6 +132,7 @@
 	                                                                  attributeEntry="${attributes.specialReviewTypeCode}"  
 	                                                                  readOnly="${not canModify}"
 	                                                                  readOnlyAlternateDisplay="${specialReview.specialReviewType.description}" 
+	                                                                  onchange="showHideSpecialReviewProtocolLink(this, '${collectionProperty}[${status.index}].specialReviewProtocolLinkDiv');return false"
 	                                                                  styleClass="fixed-size-select" /></div>
 					</td>
                     <td>
@@ -124,7 +144,25 @@
                     <td>
                         <div align="center"><kul:htmlControlAttribute property="${collectionProperty}[${status.index}].protocolNumber" 
                                                                       attributeEntry="${attributes.protocolNumber}" 
-                                                                      readOnly="${not canModify}"/></div>
+                                                                      readOnly="${not canModify}"/>
+                                            <c:choose>
+	                                            <c:when test="${collectionReference[status.index].specialReviewTypeCode == '1'}">
+	                                                <c:set var="initialStyle" value="display:inline"/>
+	                                            </c:when>
+	                                            <c:otherwise>
+	                                               <c:set var="initialStyle" value="display:none"/>
+	                                            </c:otherwise>
+	                                        </c:choose>
+                                            <span id="${collectionProperty}[${status.index}].specialReviewProtocolLinkDiv" style="${initialStyle}">
+	                                            <kul:lookup boClassName="org.kuali.kra.irb.Protocol" 
+	                                                        fieldConversions="protocolNumber:${collectionProperty}[${status.index}].protocolNumber" />
+	                                            <c:if test="${not empty collectionReference[status.index].protocolNumber}">
+	                                                <html:image property="methodToCall.viewSpecialReviewProtocolLink"
+	                                                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' alt="View Protocol" styleClass="tinybutton"
+	                                                            onclick="javascript: specialReviewProtocolPop(${KualiForm.document.sessionDocument}, '${action}', 'viewSpecialReviewProtocolLink', ${status.index}, ${KualiForm.formKey});return false" />
+	                                            </c:if>
+	                                        </span>
+                        </div>
 					</td>
                     <td align="left" valign="middle">
                         <div align="center"><kul:htmlControlAttribute property="${collectionProperty}[${status.index}].applicationDate" 

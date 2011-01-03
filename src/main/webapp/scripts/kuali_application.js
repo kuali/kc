@@ -2523,3 +2523,37 @@ function ajaxLoad(methodToCall, codeField, fieldToUpdate) {
     return false;
 }
 
+/**
+ * Display the Protocol 'view' link only if the specialReviewTypeCode is 'Human Subjects'
+ */
+function showHideSpecialReviewProtocolLink(specialReviewTypeCode, id) {
+	if (specialReviewTypeCode.value == '1') {
+    	document.getElementById(id).style.display = 'inline';
+	} else {
+        document.getElementById(id).style.display = 'none'; 
+	}
+}
+
+/**
+ * Display the Protocol document linked through Special Review
+ */
+var specialReviewProtocolWindow = null;
+function specialReviewProtocolPop(sessionDocument, action, methodToCall, line, docFormKey) {
+	var documentWebScope = "";
+	if (sessionDocument == true) {
+		documentWebScope = "session";
+	}
+
+	if (specialReviewProtocolWindow != null) {
+		specialReviewProtocolWindow.close();
+	} 
+
+	specialReviewProtocolWindow = window.open(extractUrlBase() +  
+		"/" + action + ".do?methodToCall=" + methodToCall 
+			+ "&methodToCallAttribute=methodToCall." + methodToCall + ".x" 
+			+ "&line=" + line 
+			+ "&docFormKey=" + docFormKey 
+			+ "&documentWebScope=" + documentWebScope,
+	    "specialReviewProtocolWindow", 
+		"width=800, height=750, scrollbars=yes, resizable=yes");   
+}
