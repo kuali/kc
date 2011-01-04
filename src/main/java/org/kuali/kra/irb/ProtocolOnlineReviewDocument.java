@@ -36,6 +36,7 @@ import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.ParameterConstants;
 import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
 import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -50,7 +51,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * Protocol and ProtocolDocument can have a 1:1 relationship.
  */
 @NAMESPACE(namespace=Constants.MODULE_NAMESPACE_PROTOCOL)
-@COMPONENT(component=Constants.PARAMETER_COMPONENT_DOCUMENT)
+@COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
 public class ProtocolOnlineReviewDocument extends ResearchDocumentBase implements Copyable, SessionDocument { 
 	
     private static final String DOCUMENT_TYPE_CODE = "PTRV";

@@ -53,6 +53,7 @@ import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterConstants;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -360,7 +361,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         newAward.setAwardNotepads(new ArrayList<AwardNotepad>());
         
         try {
-            String defaultTxnTypeStr = kualiConfigurationService.getParameterValue(Constants.MODULE_NAMESPACE_AWARD, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.DEFAULT_TXN_TYPE_COPIED_AWARD);
+            String defaultTxnTypeStr = kualiConfigurationService.getParameterValue(Constants.MODULE_NAMESPACE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, Constants.DEFAULT_TXN_TYPE_COPIED_AWARD);
             if(StringUtils.isNotEmpty(defaultTxnTypeStr)) {
                 newAward.setAwardTransactionTypeCode(Integer.parseInt(defaultTxnTypeStr));
             }

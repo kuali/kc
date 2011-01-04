@@ -27,8 +27,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.bo.Parameter;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterConstants;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
@@ -287,7 +286,7 @@ public class SponsorHierarchyForm extends KualiForm {
         int groupingNumber = 300;
         try {
            String sysParam = this.getParameterService().getParameterValue(
-                Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.NUMBER_PER_SPONSOR_HIERARCHY_GROUP);
+                Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.ALL_COMPONENT, Constants.NUMBER_PER_SPONSOR_HIERARCHY_GROUP);
            groupingNumber=Integer.parseInt(sysParam);
         } catch (Exception e) {
             LOG.debug("System param for numberPerSponsorHierarchyGroup is not defined");
