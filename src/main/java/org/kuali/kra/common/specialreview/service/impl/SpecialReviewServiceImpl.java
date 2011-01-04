@@ -15,7 +15,10 @@
  */
 package org.kuali.kra.common.specialreview.service.impl;
 
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolFinderDao;
@@ -27,8 +30,66 @@ import org.kuali.rice.kns.service.DocumentService;
  */
 public class SpecialReviewServiceImpl implements SpecialReviewService {
     
+    private static final String PROTOCOL_NUMBER = ".protocolNumber";
+    
     private ProtocolFinderDao protocolFinderDao;
     private DocumentService documentService;
+    
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#getProtocol(java.util.Map)
+     */
+    public Protocol getProtocol(Map<String, String[]> parameters) {
+        Protocol protocol = null;
+        
+        String protocolNumber = null;
+        for (String parameterName : parameters.keySet()) {
+            if (parameterName.endsWith(PROTOCOL_NUMBER)) {
+                protocolNumber = parameters.get(parameterName)[0];
+                break;
+            }
+        }
+        
+        if (StringUtils.isNotBlank(protocolNumber)) {
+            protocol = getProtocolFinderDao().findCurrentProtocolByNumber(protocolNumber);
+        }
+        
+        return protocol;
+    }
+    
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#getProtocolSaveLocationPrefix(java.util.Map)
+     */
+    public String getProtocolSaveLocationPrefix(Map<String, String[]> parameters) {
+        String prefix = null;
+        
+        for (String parameterName : parameters.keySet()) {
+            if (parameterName.endsWith(PROTOCOL_NUMBER)) {
+                prefix = StringUtils.removeEnd(parameterName, PROTOCOL_NUMBER);
+                break;
+            }
+        }
+        
+        return prefix;
+    }
+    
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#getProtocolIndex(java.lang.String)
+     */
+    public int getProtocolIndex(String prefix) {
+        int index = -1;
+        
+        int lineStart = prefix.lastIndexOf('[') + 1;
+        int lineEnd = prefix.lastIndexOf(']');
+        String lineNumber = prefix.substring(lineStart, lineEnd);
+        if (NumberUtils.isDigits(lineNumber)) {
+            index = Integer.parseInt(lineNumber);
+        }
+        
+        return index;
+    }
 
     /**
      * {@inheritDoc}
