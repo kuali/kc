@@ -103,14 +103,12 @@
 	                                            
 					                       </td>
 
-                                          <c:if test="${!readOnly}">
                                           	<td> 
                                           		<%-- view protocol popup alternatives --%>
                                           		<a href="${pageContext.request.contextPath}/meetingManagement.do?command=viewProtocolSubmission&line=${status.index}" target="_blank" >
                                           			<img alt="View Protocol" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif" styleClass="tinybutton" />
                                           		</a>
 		                                    </td>
-		                                  </c:if>
 	                                   </tr>
 	                                 </c:if>  
         	                       </c:forEach>
