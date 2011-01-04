@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.irb.specialreview;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,6 +30,7 @@ import org.kuali.kra.common.specialreview.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
@@ -37,6 +41,42 @@ import org.kuali.kra.irb.ProtocolForm;
 public class ProtocolSpecialReviewAction extends ProtocolAction {
     
     private SpecialReviewService specialReviewService;
+    
+    @Override
+    @SuppressWarnings("unchecked")
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+        throws Exception {
+
+        ActionForward forward = super.refresh(mapping, form, request, response);
+        
+        Protocol protocol = getSpecialReviewService().getProtocol(request.getParameterMap());
+
+        if (protocol != null) {
+            String prefix = getSpecialReviewService().getProtocolSaveLocationPrefix(request.getParameterMap());
+            ProtocolForm protocolForm = (ProtocolForm) form;
+            
+            ProtocolSpecialReview protocolSpecialReview = null;
+            if (prefix.startsWith("specialReviewHelper.newSpecialReview")) {
+                protocolSpecialReview = protocolForm.getSpecialReviewHelper().getNewSpecialReview();
+            } else {
+                int index = getSpecialReviewService().getProtocolIndex(prefix);
+                if (index != -1) {
+                    protocolSpecialReview = protocolForm.getDocument().getProtocol().getSpecialReviews().get(index);
+                }
+            }
+            
+            if (protocolSpecialReview != null) {
+                // Set Approval Status once we get the mapping
+                Timestamp submissionDate = protocol.getProtocolSubmission().getSubmissionDate();
+                protocolSpecialReview.setApplicationDate(submissionDate == null ? null : new Date(submissionDate.getTime()));
+                protocolSpecialReview.setApprovalDate(protocol.getLastApprovalDate() == null ? protocol.getApprovalDate() : protocol.getLastApprovalDate());
+                protocolSpecialReview.setExpirationDate(protocol.getExpirationDate());
+                // Set Exemption # once we get the mapping
+            }
+        }
+        
+        return forward;
+    }
 
     /**
      * Adds a Protocol Special Review to the list.
@@ -139,7 +179,7 @@ public class ProtocolSpecialReviewAction extends ProtocolAction {
         
         return forward;
     }
-    
+
     private String getViewProtocolUrl(ProtocolSpecialReview specialReview) throws Exception {
         String protocolNumber = specialReview.getProtocolNumber();
         Long routeHeaderId = getSpecialReviewService().getViewSpecialReviewProtocolRouteHeaderId(protocolNumber);
