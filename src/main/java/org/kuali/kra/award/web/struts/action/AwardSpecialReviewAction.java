@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -30,6 +33,7 @@ import org.kuali.kra.common.specialreview.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.Protocol;
 
 /**
  * This class represents the Struts Action for Special Review page(AwardSpecialReview.jsp).
@@ -37,6 +41,42 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 public class AwardSpecialReviewAction extends AwardAction {
     
     private SpecialReviewService specialReviewService;
+    
+    @Override
+    @SuppressWarnings("unchecked")
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+        throws Exception {
+
+        ActionForward forward = super.refresh(mapping, form, request, response);
+        
+        Protocol protocol = getSpecialReviewService().getProtocol(request.getParameterMap());
+
+        if (protocol != null) {
+            String prefix = getSpecialReviewService().getProtocolSaveLocationPrefix(request.getParameterMap());
+            AwardForm awardForm = (AwardForm) form;
+            
+            AwardSpecialReview awardSpecialReview = null;
+            if (prefix.startsWith("specialReviewHelper.newSpecialReview")) {
+                awardSpecialReview = awardForm.getSpecialReviewHelper().getNewSpecialReview();
+            } else {
+                int index = getSpecialReviewService().getProtocolIndex(prefix);
+                if (index != -1) {
+                    awardSpecialReview = awardForm.getDocument().getAward().getSpecialReviews().get(index);
+                }
+            }
+            
+            if (awardSpecialReview != null) {
+                // Set Approval Status once we get the mapping
+                Timestamp submissionDate = protocol.getProtocolSubmission().getSubmissionDate();
+                awardSpecialReview.setApplicationDate(submissionDate == null ? null : new Date(submissionDate.getTime()));
+                awardSpecialReview.setApprovalDate(protocol.getLastApprovalDate() == null ? protocol.getApprovalDate() : protocol.getLastApprovalDate());
+                awardSpecialReview.setExpirationDate(protocol.getExpirationDate());
+                // Set Exemption # once we get the mapping
+            }
+        }
+        
+        return forward;
+    }
     
     /**
      * This method is for adding AwardSpecialReview to the list.
