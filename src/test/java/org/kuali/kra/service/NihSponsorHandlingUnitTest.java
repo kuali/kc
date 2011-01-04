@@ -1,5 +1,11 @@
 package org.kuali.kra.service;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,9 +20,8 @@ import org.kuali.kra.service.impl.adapters.KeyPersonnelServiceAdapter;
 import org.kuali.kra.service.impl.adapters.ParameterServiceAdapter;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.ParameterConstants;
 import org.kuali.rice.kns.service.ParameterService;
-
-import java.util.*;
 
 public class NihSponsorHandlingUnitTest {
     private NihSponsorHandlingTestHelper helper;
@@ -122,7 +127,7 @@ public class NihSponsorHandlingUnitTest {
         return new ParameterServiceAdapter() {
             public String getParameterValue(String namespaceCode, String detailTypeCode, String parameterName) {
                 if(Constants.KC_GENERIC_PARAMETER_NAMESPACE.equals(namespaceCode) &&
-                   Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE.equals(detailTypeCode)) {
+                   ParameterConstants.ALL_COMPONENT.equals(detailTypeCode)) {
 
                     if(Constants.SPONSOR_HIERARCHY_NAME.equals(parameterName)) {
                         return GROUP_HIERARCHY_NAME;

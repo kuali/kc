@@ -68,6 +68,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.CountryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterConstants;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.StateService;
 
@@ -345,7 +346,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
                 federalId = institutionalProposal.getSponsorProposalNumber();
             }
             if(isProposalTypeResubmission(proposal.getProposalTypeCode())){
-                if (  proposal.getSponsorCode().equals(this.parameterService.getParameterValue(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, KeyConstants.NSF_SPONSOR_CODE))) {
+                if (  proposal.getSponsorCode().equals(this.parameterService.getParameterValue(Constants.KC_GENERIC_PARAMETER_NAMESPACE, ParameterConstants.ALL_COMPONENT, KeyConstants.NSF_SPONSOR_CODE))) {
                     return null;
                 }
             }

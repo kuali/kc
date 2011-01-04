@@ -66,6 +66,7 @@ import org.kuali.rice.kns.document.SessionDocument;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterConstants;
 import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
 import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -83,7 +84,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  * Award and AwardDocument can have a 1:1 relationship.
  */
 @NAMESPACE(namespace=Constants.PARAMETER_MODULE_AWARD)
-@COMPONENT(component=Constants.PARAMETER_COMPONENT_DOCUMENT)
+@COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
 public class AwardDocument extends BudgetParentDocument<Award> implements  Copyable, SessionDocument{
     private static final Log LOG = LogFactory.getLog(AwardDocument.class);
     

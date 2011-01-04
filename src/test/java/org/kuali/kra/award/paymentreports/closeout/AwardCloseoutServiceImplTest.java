@@ -109,7 +109,7 @@ public class AwardCloseoutServiceImplTest {
 //        parameter.setParameterName(KeyConstants.CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT);
 //        parameter.setParameterValue(REPORT_CLASS_CODE_FINANCIAL_REPORT);        
 //        context.checking(new Expectations() {{
-//            one(kualiConfigurationService).getParameter(Constants.PARAMETER_MODULE_AWARD, Constants.PARAMETER_COMPONENT_DOCUMENT, KeyConstants.CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT);will(returnValue(parameter));
+//            one(kualiConfigurationService).getParameter(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, KeyConstants.CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT);will(returnValue(parameter));
 //        }});        
 //        service.setKualiConfigurationService(kualiConfigurationService);
 //                
@@ -131,7 +131,7 @@ public class AwardCloseoutServiceImplTest {
 //        parameter.setParameterName(KeyConstants.CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT);
 //        parameter.setParameterValue(REPORT_CLASS_CODE_FINANCIAL_REPORT);        
 //        context.checking(new Expectations() {{
-//            one(kualiConfigurationService).getParameter(Constants.PARAMETER_MODULE_AWARD, Constants.PARAMETER_COMPONENT_DOCUMENT, KeyConstants.CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT);will(returnValue(parameter));
+//            one(kualiConfigurationService).getParameter(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, KeyConstants.CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT);will(returnValue(parameter));
 //        }});        
 //        service.setKualiConfigurationService(kualiConfigurationService);
 //        
