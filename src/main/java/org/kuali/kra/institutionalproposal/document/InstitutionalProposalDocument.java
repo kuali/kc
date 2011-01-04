@@ -26,7 +26,6 @@ import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.document.ResearchDocumentBase;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalConstants;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
@@ -40,6 +39,7 @@ import org.kuali.kra.service.InstitutionalProposalCustomAttributeService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.service.ParameterConstants;
 import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
 import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -55,7 +55,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * InstitutionalProposal and InstitutionalProposalDocument can have a 1:1 relationship.
  */
 @NAMESPACE(namespace=InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE)
-@COMPONENT(component=Constants.PARAMETER_COMPONENT_DOCUMENT)
+@COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
 public class InstitutionalProposalDocument extends ResearchDocumentBase {
     private static final Log LOG = LogFactory.getLog(InstitutionalProposalDocument.class);
     

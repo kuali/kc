@@ -98,6 +98,7 @@ import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.ParameterConstants;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -479,7 +480,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         errorMap.addToErrorPath(AWARD_ERROR_PATH);
         if(StringUtils.equalsIgnoreCase(
                 getKualiConfigurationService().getParameterValue(Constants.PARAMETER_MODULE_AWARD, 
-                        Constants.PARAMETER_COMPONENT_DOCUMENT,
+                        ParameterConstants.DOCUMENT_COMPONENT,
                         KeyConstants.MIT_IDC_VALIDATION_ENABLED),
                         KeyConstants.MIT_IDC_VALIDATION_ENABLED_VALUE_FOR_COMPARISON)){
             String errorPath = "benefitsRates.rates";

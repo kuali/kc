@@ -96,6 +96,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.service.ParameterConstants;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.service.PessimisticLockService;
@@ -1450,7 +1451,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     private boolean autogenerateInstitutionalProposal() {
         return getParameterService().getIndicatorParameter(
                 Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, 
-                Constants.PARAMETER_COMPONENT_DOCUMENT,
+                ParameterConstants.DOCUMENT_COMPONENT,
                 KeyConstants.AUTOGENERATE_INSTITUTIONAL_PROPOSAL_PARAM);
     }
 

@@ -18,7 +18,6 @@ package org.kuali.kra.award.document.authorization;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -27,13 +26,11 @@ import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
-import org.kuali.kra.award.contacts.AwardUnitContact;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.AwardTaskNames;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
@@ -47,6 +44,7 @@ import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.ParameterConstants;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -135,7 +133,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         // if document is in processed or final state
         if (status.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_PROCESSED_CD) 
                 || status.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_FINAL_CD)) {
-            String awardAccountParameter = getParameterService().getParameterValue(Constants.PARAMETER_MODULE_AWARD, Constants.PARAMETER_COMPONENT_DOCUMENT, "AWARD_CREATE_ACCOUNT");
+            String awardAccountParameter = getParameterService().getParameterValue(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "AWARD_CREATE_ACCOUNT");
             // if the integration parameter is ON
             if (awardAccountParameter.equalsIgnoreCase("ON")) {
                 IdentityManagementService identityManagementService 

@@ -1636,7 +1636,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 //        budgetVersionOverview.setDescriptionUpdatable(isDescriptionUpdatable);
 //
 //        String budgetStatusIncompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameterValue(
-//                Constants.MODULE_NAMESPACE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
+//                Constants.MODULE_NAMESPACE_BUDGET, ParameterConstants.DOCUMENT_COMPONENT, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
 //        budgetVersionOverview.setBudgetStatus(budgetStatusIncompleteCode);
 //
 //        this.getBudgetDocumentVersions().add(budgetDocumentVersion);

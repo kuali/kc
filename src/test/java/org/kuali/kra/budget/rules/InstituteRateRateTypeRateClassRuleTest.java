@@ -39,7 +39,7 @@ import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterConstants;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -170,7 +170,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
         
         this.context.checking(new Expectations() {
             {
-                oneOf(pService).getParameterValues(Constants.MODULE_NAMESPACE_BUDGET, Constants.BUDGET_ALL_DETAIL_TYPE_CODE, "instituteLaRateClassTypes");
+                oneOf(pService).getParameterValues(Constants.MODULE_NAMESPACE_BUDGET, ParameterConstants.ALL_COMPONENT, "instituteLaRateClassTypes");
                 will(returnValue(validTypes));
             }
         });
@@ -204,7 +204,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
         
         this.context.checking(new Expectations() {
             {
-                oneOf(pService).getParameterValues(Constants.MODULE_NAMESPACE_BUDGET, Constants.BUDGET_ALL_DETAIL_TYPE_CODE, "instituteRateClassTypes");
+                oneOf(pService).getParameterValues(Constants.MODULE_NAMESPACE_BUDGET, ParameterConstants.ALL_COMPONENT, "instituteRateClassTypes");
                 will(returnValue(validTypes));
             }
         });
@@ -239,7 +239,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
         
         this.context.checking(new Expectations() {
             {
-                oneOf(pService).getParameterValues(Constants.MODULE_NAMESPACE_BUDGET, Constants.BUDGET_ALL_DETAIL_TYPE_CODE, "instituteRateClassTypes");
+                oneOf(pService).getParameterValues(Constants.MODULE_NAMESPACE_BUDGET, ParameterConstants.ALL_COMPONENT, "instituteRateClassTypes");
                 will(returnValue(validTypes));
             }
             
@@ -290,7 +290,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
         
         this.context.checking(new Expectations() {
             {
-                oneOf(pService).getParameterValues(Constants.MODULE_NAMESPACE_BUDGET, Constants.BUDGET_ALL_DETAIL_TYPE_CODE, "instituteRateClassTypes");
+                oneOf(pService).getParameterValues(Constants.MODULE_NAMESPACE_BUDGET, ParameterConstants.ALL_COMPONENT, "instituteRateClassTypes");
                 will(returnValue(validTypes));
             }
             
@@ -341,7 +341,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
         
         this.context.checking(new Expectations() {
             {
-                oneOf(pService).getParameterValues(Constants.MODULE_NAMESPACE_BUDGET, Constants.BUDGET_ALL_DETAIL_TYPE_CODE, "instituteRateClassTypes");
+                oneOf(pService).getParameterValues(Constants.MODULE_NAMESPACE_BUDGET, ParameterConstants.ALL_COMPONENT, "instituteRateClassTypes");
                 will(returnValue(validTypes));
             }
             
@@ -392,7 +392,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
         
         this.context.checking(new Expectations() {
             {
-                oneOf(pService).getParameterValues(Constants.MODULE_NAMESPACE_BUDGET, Constants.BUDGET_ALL_DETAIL_TYPE_CODE, "instituteRateClassTypes");
+                oneOf(pService).getParameterValues(Constants.MODULE_NAMESPACE_BUDGET, ParameterConstants.ALL_COMPONENT, "instituteRateClassTypes");
                 will(returnValue(validTypes));
             }
             

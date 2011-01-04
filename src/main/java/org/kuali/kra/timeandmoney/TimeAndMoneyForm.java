@@ -39,6 +39,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterConstants;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
@@ -114,7 +115,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         }
         setControlForAwardHierarchyView("2");
         setCurrentOrPendingView("0");
-        setDirectIndirectViewEnabled(getParameterService().getParameterValue(Constants.PARAMETER_MODULE_AWARD, Constants.PARAMETER_COMPONENT_DOCUMENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST"));
+        setDirectIndirectViewEnabled(getParameterService().getParameterValue(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST"));
     }
     
     /** {@inheritDoc} */

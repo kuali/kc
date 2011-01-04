@@ -35,6 +35,7 @@ import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.history.TransactionDetail;
 import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.ParameterConstants;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -124,7 +125,7 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
     
     public boolean isDirectIndirectViewEnabled() {
         boolean returnValue = false;
-        String directIndirectEnabledValue = getParameterService().getParameterValue(Constants.PARAMETER_MODULE_AWARD, Constants.PARAMETER_COMPONENT_DOCUMENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST");
+        String directIndirectEnabledValue = getParameterService().getParameterValue(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST");
         if(directIndirectEnabledValue.equals("1")) {
             returnValue = true;
         }

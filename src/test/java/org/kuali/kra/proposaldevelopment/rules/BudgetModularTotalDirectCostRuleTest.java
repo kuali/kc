@@ -42,6 +42,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterConstants;
 import org.kuali.rice.kns.service.ParameterEvaluator;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.impl.DocumentServiceImpl;
@@ -158,7 +159,7 @@ public class BudgetModularTotalDirectCostRuleTest {
         public String getParameterValue(String namespaceCode,
                 String parameterDetailTypeCode, String parameterName) {
                 if (Constants.MODULE_NAMESPACE_BUDGET.equals(namespaceCode)
-                    && Constants.PARAMETER_COMPONENT_DOCUMENT.equals(parameterDetailTypeCode)
+                    && ParameterConstants.DOCUMENT_COMPONENT.equals(parameterDetailTypeCode)
                     && Constants.BUDGET_STATUS_COMPLETE_CODE.equals(parameterName)) {
                     return "1";
                 }
@@ -202,7 +203,7 @@ public class BudgetModularTotalDirectCostRuleTest {
        public String getParameterValue(String namespaceCode,
            String parameterDetailTypeCode, String parameterName) {
            if (Constants.MODULE_NAMESPACE_BUDGET.equals(namespaceCode)
-               && Constants.PARAMETER_COMPONENT_DOCUMENT.equals(parameterDetailTypeCode)
+               && ParameterConstants.DOCUMENT_COMPONENT.equals(parameterDetailTypeCode)
                && Constants.BUDGET_STATUS_COMPLETE_CODE.equals(parameterName)) {
                return "1";
            }
