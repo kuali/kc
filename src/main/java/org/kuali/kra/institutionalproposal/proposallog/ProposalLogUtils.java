@@ -18,6 +18,7 @@ package org.kuali.kra.institutionalproposal.proposallog;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalConstants;
+import org.kuali.rice.kns.service.ParameterConstants;
 import org.kuali.rice.kns.service.ParameterService;
 
 /**
@@ -59,7 +60,7 @@ public final class ProposalLogUtils {
     
     private static String getCodeValue(String paramName) {
         return KraServiceLocator.getService(ParameterService.class).getParameterValue(
-                InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE, Constants.PARAMETER_COMPONENT_DOCUMENT, paramName);
+                InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE, ParameterConstants.DOCUMENT_COMPONENT, paramName);
     }
 
 }

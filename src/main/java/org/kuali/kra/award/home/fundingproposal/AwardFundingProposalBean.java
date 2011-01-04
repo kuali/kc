@@ -34,6 +34,7 @@ import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.ParameterConstants;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -259,7 +260,7 @@ public class AwardFundingProposalBean implements Serializable {
     private boolean validProposalStatus() {
         
         int proposalStatusCode = newFundingProposal.getProposalStatus().getProposalStatusCode();
-        List<String> validCodes= KraServiceLocator.getService(ParameterService.class).getParameterValues(Constants.MODULE_NAMESPACE_INSTITUTIONAL_PROPOSAL, Constants.PARAMETER_COMPONENT_DOCUMENT, "validFundingProposalStatusCodes");
+        List<String> validCodes= KraServiceLocator.getService(ParameterService.class).getParameterValues(Constants.MODULE_NAMESPACE_INSTITUTIONAL_PROPOSAL, ParameterConstants.DOCUMENT_COMPONENT, "validFundingProposalStatusCodes");
         ListIterator itr= validCodes.listIterator();
         while(itr.hasNext()) {
             Object currentCode= itr.next();

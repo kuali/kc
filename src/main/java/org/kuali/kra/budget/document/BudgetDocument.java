@@ -22,8 +22,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.award.budget.AwardBudgetExt;
-import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
@@ -33,19 +31,18 @@ import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.ParameterConstants;
 import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
 import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 @NAMESPACE(namespace=Constants.MODULE_NAMESPACE_BUDGET)
-@COMPONENT(component=Constants.PARAMETER_COMPONENT_DOCUMENT)
+@COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
 public class BudgetDocument<T extends BudgetParent> extends ResearchDocumentBase implements Copyable, SessionDocument,Permissionable,BudgetDocumentTypeChecker  {
     /**
      * Comment for <code>serialVersionUID</code>

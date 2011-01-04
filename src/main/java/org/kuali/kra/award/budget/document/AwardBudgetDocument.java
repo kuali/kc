@@ -37,11 +37,12 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.ParameterConstants;
 import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
 import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
 
 @NAMESPACE(namespace=Constants.MODULE_NAMESPACE_AWARD_BUDGET)
-@COMPONENT(component=Constants.PARAMETER_COMPONENT_DOCUMENT)
+@COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
 public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home.Award> {
 
     private static final String AWARD_BUDGET_DOCUMENT_TYPE_CODE = "ABGT";

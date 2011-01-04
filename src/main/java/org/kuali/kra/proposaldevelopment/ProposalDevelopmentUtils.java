@@ -17,6 +17,7 @@ package org.kuali.kra.proposaldevelopment;
 
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.service.ParameterConstants;
 import org.kuali.rice.kns.service.ParameterService;
 
 /**
@@ -50,7 +51,7 @@ public final class ProposalDevelopmentUtils {
     public static String getProposalDevelopmentDocumentParameter(final String parmName) {
         ParameterService parameterService = KraServiceLocator.getService(ParameterService.class);
         return parameterService.getParameterValue(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, 
-                Constants.PARAMETER_COMPONENT_DOCUMENT, 
+                ParameterConstants.DOCUMENT_COMPONENT, 
                 parmName);
     }
     

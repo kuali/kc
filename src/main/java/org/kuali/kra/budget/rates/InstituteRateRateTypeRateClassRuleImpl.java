@@ -19,16 +19,16 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.kra.bo.AbstractInstituteRate;
 import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.ParameterConstants;
+import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class does not directly extend a rule class in order to break up the rule logic into smaller classes.
@@ -239,6 +239,6 @@ public final class InstituteRateRateTypeRateClassRuleImpl implements InstituteRa
         assert rateType != null : "infoType is null";
         
         return this.parameterService.getParameterValues(Constants.MODULE_NAMESPACE_BUDGET,
-            Constants.BUDGET_ALL_DETAIL_TYPE_CODE, rateType);
+            ParameterConstants.ALL_COMPONENT, rateType);
     }
 }

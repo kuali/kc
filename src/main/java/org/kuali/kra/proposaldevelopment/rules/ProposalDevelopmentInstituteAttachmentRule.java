@@ -16,35 +16,27 @@
 package org.kuali.kra.proposaldevelopment.rules;
 
 import static org.kuali.kra.infrastructure.Constants.INSTITUTE_NARRATIVE_TYPE_GROUP;
-import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
-import static org.kuali.kra.infrastructure.Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ATTACHMENT_STATUS_NOT_SELECTED;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ATTACHMENT_TYPE_NOT_SELECTED;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_NARRATIVE_TYPE_DESCRITPION_REQUIRED;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_NARRATIVE_TYPE_DUPLICATE;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AddInstituteAttachmentRule;
-import org.kuali.kra.proposaldevelopment.rule.SaveInstituteAttachmentsRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddInstituteAttachmentEvent;
-import org.kuali.kra.proposaldevelopment.rule.event.SaveInstituteAttachmentsEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class ProposalDevelopmentInstituteAttachmentRule extends ResearchDocumentRuleBase implements AddInstituteAttachmentRule { 
     private static final String NARRATIVE_TYPE_ALLOWMULTIPLE_NO = "N";
