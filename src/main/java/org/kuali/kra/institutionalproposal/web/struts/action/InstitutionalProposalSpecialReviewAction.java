@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.institutionalproposal.web.struts.action;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -30,6 +33,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
+import org.kuali.kra.irb.Protocol;
 
 /**
  * Invokes rules on and applies actions to add, delete, or save SpecialReviews.
@@ -37,6 +41,42 @@ import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposal
 public class InstitutionalProposalSpecialReviewAction extends InstitutionalProposalAction {
     
     private SpecialReviewService specialReviewService;
+    
+    @Override
+    @SuppressWarnings("unchecked")
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+        throws Exception {
+
+        ActionForward forward = super.refresh(mapping, form, request, response);
+        
+        Protocol protocol = getSpecialReviewService().getProtocol(request.getParameterMap());
+
+        if (protocol != null) {
+            String prefix = getSpecialReviewService().getProtocolSaveLocationPrefix(request.getParameterMap());
+            InstitutionalProposalForm proposalForm = (InstitutionalProposalForm) form;
+            
+            InstitutionalProposalSpecialReview proposalSpecialReview = null;
+            if (prefix.startsWith("specialReviewHelper.newSpecialReview")) {
+                proposalSpecialReview = proposalForm.getSpecialReviewHelper().getNewSpecialReview();
+            } else {
+                int index = getSpecialReviewService().getProtocolIndex(prefix);
+                if (index != -1) {
+                    proposalSpecialReview = proposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().getSpecialReviews().get(index);
+                }
+            }
+            
+            if (proposalSpecialReview != null) {
+                // Set Approval Status once we get the mapping
+                Timestamp submissionDate = protocol.getProtocolSubmission().getSubmissionDate();
+                proposalSpecialReview.setApplicationDate(submissionDate == null ? null : new Date(submissionDate.getTime()));
+                proposalSpecialReview.setApprovalDate(protocol.getLastApprovalDate() == null ? protocol.getApprovalDate() : protocol.getLastApprovalDate());
+                proposalSpecialReview.setExpirationDate(protocol.getExpirationDate());
+                // Set Exemption # once we get the mapping
+            }
+        }
+        
+        return forward;
+    }
 
     /**
      * This method is for adding AwardSpecialReview to the list.
