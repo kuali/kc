@@ -84,8 +84,6 @@ public class CommitteeActionsWebTest extends CommitteeWebTestBase {
 
         
         setFieldValue(actionsPage, "committeeHelper.historyBatchCorrespondenceTypeCode", "1");
-        setFieldValue(actionsPage, "committeeHelper.historyStartDate", "01/01/2010");
-        setFieldValue(actionsPage, "committeeHelper.historyEndDate", "12/31/2010");
         actionsPage = clickOn(getElementByName(actionsPage, "methodToCall.filterBatchCorrespondenceHistory", true));
 
         assertFalse(hasError(actionsPage));
