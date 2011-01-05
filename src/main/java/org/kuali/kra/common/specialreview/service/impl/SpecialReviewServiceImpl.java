@@ -100,8 +100,10 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
         
         if (StringUtils.isNotBlank(protocolNumber)) {
             Protocol protocol = getProtocolFinderDao().findCurrentProtocolByNumber(protocolNumber);
-            Document document = getDocumentService().getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber());
-            routeHeaderId = document.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+            if (protocol != null) {
+                Document document = getDocumentService().getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber());
+                routeHeaderId = document.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+            }
         }
         
         return routeHeaderId;

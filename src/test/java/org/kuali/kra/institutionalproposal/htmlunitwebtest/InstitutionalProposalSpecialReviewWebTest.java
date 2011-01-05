@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.institutionalproposal.htmlunitwebtest;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -38,15 +39,15 @@ public class InstitutionalProposalSpecialReviewWebTest extends InstitutionalProp
 
     private static final String TABLE_ID = "specialReviewTableId";
     
-    private static final String SPECIAL_REVIEW_TYPE_HUMAN_SUBJECTS_CODE = "1";
-    private static final String SPECIAL_REVIEW_TYPE_HUMAN_SUBJECTS_NAME = "Human Subjects";
+    private static final String SPECIAL_REVIEW_TYPE_ANIMAL_USAGE_CODE = "2";
+    private static final String SPECIAL_REVIEW_TYPE_ANIMAL_USAGE_NAME = "Animal Usage";
     
     private static final String APPROVAL_TYPE_APPROVED_CODE = "2";
     private static final String APPROVAL_TYPE_APPROVED_NAME = "Approved";
     private static final String APPROVAL_TYPE_EXEMPT_CODE = "4";
     private static final String APPROVAL_TYPE_EXEMPT_NAME = "Exempt";
     
-    private static final String PROTOCOL_NUMBER = "0906000001";
+    private static final String PROTOCOL_NUMBER = "1000000001";
     private static final String APPLICATION_DATE = "01/01/2009";
     private static final String APPROVAL_DATE = "02/01/2009";
     private static final String EXPIRATION_DATE = "03/01/2009";
@@ -115,7 +116,7 @@ public class InstitutionalProposalSpecialReviewWebTest extends InstitutionalProp
         
         List<Review> reviews = new ArrayList<Review>();
         reviews.add(
-                new Review(SPECIAL_REVIEW_TYPE_HUMAN_SUBJECTS_NAME, APPROVAL_TYPE_APPROVED_NAME, PROTOCOL_NUMBER, APPLICATION_DATE, APPROVAL_DATE, 
+                new Review(SPECIAL_REVIEW_TYPE_ANIMAL_USAGE_NAME, APPROVAL_TYPE_APPROVED_NAME, PROTOCOL_NUMBER, APPLICATION_DATE, APPROVAL_DATE, 
                            EXPIRATION_DATE, Collections.<String>emptyList(), COMMENTS));
         checkTable(specialReviewPage, reviews, 3);
         
@@ -138,7 +139,7 @@ public class InstitutionalProposalSpecialReviewWebTest extends InstitutionalProp
         
         List<Review> reviews = new ArrayList<Review>();
         reviews.add(
-                new Review(SPECIAL_REVIEW_TYPE_HUMAN_SUBJECTS_NAME, APPROVAL_TYPE_EXEMPT_NAME, Constants.EMPTY_STRING, APPLICATION_DATE, Constants.EMPTY_STRING, 
+                new Review(SPECIAL_REVIEW_TYPE_ANIMAL_USAGE_NAME, APPROVAL_TYPE_EXEMPT_NAME, Constants.EMPTY_STRING, APPLICATION_DATE, Constants.EMPTY_STRING, 
                            EXPIRATION_DATE, Collections.singletonList(EXEMPTION_TYPE_E1_NAME), COMMENTS));
         checkTable(specialReviewPage, reviews, 3);
         
@@ -189,8 +190,8 @@ public class InstitutionalProposalSpecialReviewWebTest extends InstitutionalProp
         assertTrue(this.getErrors(specialReviewPage, "tab-SpecialReview-div").size() == 2);
     }
     
-    private void setApprovedSpecialReviewFields(HtmlPage page) {
-        setFieldValue(page, NEW_SPECIAL_REVIEW_TYPE_CODE_FIELD, SPECIAL_REVIEW_TYPE_HUMAN_SUBJECTS_CODE);
+    private void setApprovedSpecialReviewFields(HtmlPage page) throws IOException {
+        setFieldValue(page, NEW_SPECIAL_REVIEW_TYPE_CODE_FIELD, SPECIAL_REVIEW_TYPE_ANIMAL_USAGE_CODE);
         setFieldValue(page, NEW_APPROVAL_TYPE_CODE_FIELD, APPROVAL_TYPE_APPROVED_CODE);
         setFieldValue(page, NEW_PROTOCOL_NUMBER_FIELD, PROTOCOL_NUMBER);
         setFieldValue(page, NEW_APPLICATION_DATE_FIELD, APPLICATION_DATE);
@@ -200,7 +201,7 @@ public class InstitutionalProposalSpecialReviewWebTest extends InstitutionalProp
     }
     
     private void setExemptSpecialReviewFields(HtmlPage page) {
-        setFieldValue(page, NEW_SPECIAL_REVIEW_TYPE_CODE_FIELD, SPECIAL_REVIEW_TYPE_HUMAN_SUBJECTS_CODE);
+        setFieldValue(page, NEW_SPECIAL_REVIEW_TYPE_CODE_FIELD, SPECIAL_REVIEW_TYPE_ANIMAL_USAGE_CODE);
         setFieldValue(page, NEW_APPROVAL_TYPE_CODE_FIELD, APPROVAL_TYPE_EXEMPT_CODE);
         setFieldValue(page, NEW_APPLICATION_DATE_FIELD, APPLICATION_DATE);
         setFieldValue(page, NEW_EXPIRATION_DATE_FIELD, EXPIRATION_DATE);
