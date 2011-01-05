@@ -625,6 +625,7 @@ public interface Constants {
     
     //Award Hierarchy - Time And Money Constants
     public static final String AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT = "000000-00000";
+    public static final String LAST_NODE_NEXT_VALUE = "lastNodeNextValue";
     
     //Award Template Constants
     public static final String AWARD_TEMP_RECPNT_CONTACT_TYPE_CODE_ROLODEX_ID_SEPARATOR = "***";
