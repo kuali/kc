@@ -493,6 +493,8 @@ public final class KeyConstants {
     public static final String ERROR_ONE_FIELD_MUST_BE_SELECTED = "error.award.awardTemplateRecipient.oneFieldMustBeSelected";
     public static final String ERROR_DUPLICATE_ROLODEX_ID = "error.award.awardTemplateRecipient.duplicateRolodexId";
     
+    //Award Sponsor Template Errors
+    public static final String ERROR_TERM_REQUIRED = "error.award.sponsorTemplate.term.required";
     //Award hierarchy sync validation errors
     public static final String ERROR_SYNC_DESCENDANT_BLANK = "error.award.awardhierarchy.sync.whichdescendants";
     public static final String ERROR_SYNC_AWARD_STATUS = "error.award.awardhierarchy.sync.invalidstatus";
