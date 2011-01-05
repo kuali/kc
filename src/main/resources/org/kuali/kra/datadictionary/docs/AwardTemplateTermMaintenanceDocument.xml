@@ -49,6 +49,7 @@
 			<list>
 				<!--  <bean parent="MaintainableFieldDefinition" p:name="sponsorTermTypeCode" p:required="true"/> -->
 				<bean parent="MaintainableFieldDefinition" p:name="sponsorTermId" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="sponsorTermTypeCode" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
 			</list>
 		</property>
@@ -76,6 +77,7 @@
 					<property name="summaryFields">
 					<list>
 			            <bean parent="MaintainableFieldDefinition" p:name="sponsorTermId"/>
+			            <bean parent="MaintainableFieldDefinition" p:name="sponsorTermTypeCode"/>
                    </list>
 					</property>
 					<property name="attributeToHighlightOnDuplicateKey" value="sponsorTermId"/>
@@ -87,6 +89,7 @@
 					<property name="maintainableFields">
 						<list>
 							<bean parent="MaintainableFieldDefinition" p:name="sponsorTermId" p:template = "sponsorTermId" p:unconditionallyReadOnly="true"/>
+							<bean parent="MaintainableFieldDefinition" p:name="sponsorTermTypeCode" p:template = "sponsorTermTypeCode" p:unconditionallyReadOnly="true"/>
 							<bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
 						</list>
 					</property>
