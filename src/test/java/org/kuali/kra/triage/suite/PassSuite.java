@@ -475,7 +475,8 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.award.awardhierarchy.sync.helpers.AwardSyncSponsorContactHelperTest.class,
     org.kuali.kra.award.awardhierarchy.sync.helpers.AwardSyncTermHelperTest.class,
     org.kuali.kra.award.awardhierarchy.sync.helpers.AwardSyncReportHelperTest.class,
-    org.kuali.kra.award.awardhierarchy.sync.helpers.AwardSyncReportRecipientHelperTest.class
+    org.kuali.kra.award.awardhierarchy.sync.helpers.AwardSyncReportRecipientHelperTest.class,
+    org.kuali.kra.rules.SponsorTemplateTermsExistenceRuleTest.class
 })
 /** these are all the test class where all the test methods are currently passing. */
 public class PassSuite {
