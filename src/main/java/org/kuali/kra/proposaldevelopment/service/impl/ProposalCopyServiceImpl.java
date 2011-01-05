@@ -810,6 +810,13 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         narratives = doc.getDevelopmentProposal().getInstituteAttachments();
         for (Narrative narrative : narratives) {
             loadAttachmentContent(narrative);
+            /**
+             * The getNarratives collection contains both personal and instiutional attachments for persisting and displaying.  Am not sure
+             * why it was implemented this way, but do to time constraints significant refactor isn't ideal.
+             */
+            if(!doc.getDevelopmentProposal().getNarratives().contains(narrative)) {
+                doc.getDevelopmentProposal().getNarratives().add(narrative);
+            }
         }
         
         // Load proposal attachments.
