@@ -512,6 +512,9 @@
         <bean p:attributeName="organization" parent="FieldDefinition"/>
         <bean p:attributeName="lastName" parent="FieldDefinition"/>
         <bean p:attributeName="firstName" parent="FieldDefinition"/>
+        <bean p:attributeName="addressLine1" parent="FieldDefinition"/>
+        <bean p:attributeName="addressLine2" parent="FieldDefinition"/>
+        <bean p:attributeName="addressLine3" parent="FieldDefinition"/>
         <bean p:attributeName="city" parent="FieldDefinition"/>
         <bean p:attributeName="county" parent="FieldDefinition"/>
         <bean p:attributeName="state" parent="FieldDefinition"/>
@@ -528,6 +531,9 @@
         <bean p:attributeName="organization" parent="FieldDefinition"/>
         <bean p:attributeName="lastName" parent="FieldDefinition"/>
         <bean p:attributeName="firstName" parent="FieldDefinition"/>
+        <bean p:attributeName="addressLine1" parent="FieldDefinition"/>
+        <bean p:attributeName="addressLine2" parent="FieldDefinition"/>
+        <bean p:attributeName="addressLine3" parent="FieldDefinition"/>
         <bean p:attributeName="city" parent="FieldDefinition"/>
         <bean p:attributeName="county" parent="FieldDefinition"/>
         <bean p:attributeName="state" parent="FieldDefinition"/>
