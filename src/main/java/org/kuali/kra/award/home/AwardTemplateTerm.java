@@ -30,7 +30,8 @@ public class AwardTemplateTerm extends KraPersistableBusinessObjectBase{
     private Integer awardTemplateTermId; 
 	private String templateCode;
 	private AwardTemplate awardTemplate; 
-    @AwardSyncable private Long sponsorTermId; 
+    @AwardSyncable private Long sponsorTermId;
+    private String sponsorTermTypeCode;
     private SponsorTerm sponsorTerm;
 
 	
@@ -65,21 +66,21 @@ public class AwardTemplateTerm extends KraPersistableBusinessObjectBase{
 	}
 
 
-//    /**
-//     * Gets the sponsorTermsTypeCode attribute. 
-//     * @return Returns the sponsorTermsTypeCode.
-//     */
-//    public String getSponsorTermTypeCode() {
-//        return sponsorTerm.getSponsorTermType().getSponsorTermTypeCode();
-//    }
+    /**
+     * Gets the sponsorTermsTypeCode attribute. 
+     * @return Returns the sponsorTermsTypeCode.
+     */
+    public String getSponsorTermTypeCode() {
+        return sponsorTerm.getSponsorTermTypeCode();
+    }
 
-//    /**
-//     * Sets the sponsorTermsTypeCode attribute value.
-//     * @param sponsorTermsTypeCode The sponsorTermsTypeCode to set.
-//     */
-//    public void setSponsorTermTypeCode(String sponsorTermTypeCode) {
-//        this.sponsorTermTypeCode = sponsorTermTypeCode;
-//    }
+    /**
+     * Sets the sponsorTermsTypeCode attribute value.
+     * @param sponsorTermsTypeCode The sponsorTermsTypeCode to set.
+     */
+    public void setSponsorTermTypeCode(String sponsorTermTypeCode) {
+        this.sponsorTermTypeCode = sponsorTermTypeCode;
+    }
 
 //    /**
 //     * Gets the sponsorTermsType attribute. 

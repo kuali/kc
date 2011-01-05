@@ -34,7 +34,7 @@
 			<list>
 				<ref bean="AwardTemplateTerm-awardTemplateTermId" />
 				<ref bean="AwardTemplateTerm-awardTemplateCode" />
-				<!--   <ref bean="AwardTemplateTerm-sponsorTermTypeCode" /> -->
+				<ref bean="AwardTemplateTerm-sponsorTermTypeCode" />
 				<ref bean="AwardTemplateTerm-sponsorTermId" />
 				<ref bean="AwardTemplateTerm-versionNumber" />
 				<!--  <ref bean="AwardTemplateTerm-SponsorTerm"/> -->
@@ -84,8 +84,8 @@
   	<bean id="AwardTemplateTerm-sponsorTermId-parentBean" abstract="true" parent="AttributeDefinition">
     	<property name="name" value="sponsorTermId" />
     	<property name="forceUppercase" value="false" />
-    	<property name="label" value="Sponsor Term" />
-    	<property name="shortLabel" value="Sponsor Term" />
+    	<property name="label" value="Sponsor Term ID" />
+    	<property name="shortLabel" value="Sponsor Term ID" />
     	
     	<property name="validationPattern" >
       		<bean parent="AlphaNumericValidationPattern" />
@@ -106,12 +106,12 @@
 	
 	
 	
-	<!--   <bean id="AwardTemplateTerm-sponsorTermTypeCode" parent="AwardTemplateTerm-sponsorTermTypeCode-parentBean" />
+	<bean id="AwardTemplateTerm-sponsorTermTypeCode" parent="AwardTemplateTerm-sponsorTermTypeCode-parentBean" />
 	<bean id="AwardTemplateTerm-sponsorTermTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="sponsorTermTypeCode" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Sponsor Terms Type" />
-		<property name="shortLabel" value="Sponsor Terms Type" />
+		<property name="label" value="Sponsor Term Type" />
+		<property name="shortLabel" value="Sponsor Term Type" />
 		<property name="maxLength" value="3" />
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
@@ -128,7 +128,7 @@
 		<property name="summary" value="Sponsor Terms Type Code" />
 		<property name="description" value="Sponsor Terms Type Code" />
 	</bean>
-	-->
+	
 	
 	<!--  <bean id="AwardTemplateTerm-sponsorTermId" parent="AwardTemplateTerm-sponsorTermId-parentBean" />
 	<bean id="AwardTemplateTerm-sponsorTermId-parentBean" abstract="true" parent="AttributeDefinition" >
