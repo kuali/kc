@@ -664,7 +664,71 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
             awardHierarchyNodes.put(awardHierarchyNode.getAwardNumber(), awardHierarchyNode);
         }  
     }
-
+    
+    public void createNodeMapsOnFormForSummaryPanel(Map<String, AwardHierarchyNode> awardHierarchyNodes, Map<String, String> previousNodeMap, Map<String, String> nextNodeMap) {
+        List <AwardHierarchy> sortedList = new ArrayList<AwardHierarchy>();
+        AwardHierarchy rootNode = loadFullHierarchyFromAnyNode(getRootNode(awardHierarchyNodes).getAwardNumber());
+        //AwardHierarchy rootNode = (AwardHierarchy) getRootNode(awardHierarchyNodes);
+        sortedList.add(rootNode);
+        //create sorted list with a depth first search through hierarchy tree adding node to sorted list as we visit each node.
+        //add all first level children and tear through children recursively creating top down sorted list.
+        for(AwardHierarchy ah : rootNode.getChildren()) {
+            sortedList.add(ah);
+            addChildrenToSortedList(ah, sortedList);
+        }
+        nextNodeMap.clear();
+        previousNodeMap.clear();
+        previousNodeMap.put(rootNode.getAwardNumber(), Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT);
+        addSubNodesToPreviousNodeMap(sortedList, previousNodeMap);
+        addNodesToNextNodeMap(sortedList, nextNodeMap);
+    }
+    
+    private void addChildrenToSortedList(AwardHierarchy ah, List <AwardHierarchy> sortedList) {
+        if(ah.hasChildren()) {
+            for(AwardHierarchy awardHierarchy : ah.getChildren()) {
+                sortedList.add(awardHierarchy);
+                addChildrenToSortedList(awardHierarchy, sortedList);
+            }
+        }
+    }
+    
+    private void addSubNodesToPreviousNodeMap(List <AwardHierarchy> sortedList, Map<String, String> previousNodeMap) {
+        String previousNodeNumber = null;
+        String nextNodeNumber = null;
+        int index = 0;
+        while(index < sortedList.size() - 1) {
+            previousNodeNumber = sortedList.get(index).getAwardNumber();
+            nextNodeNumber = sortedList.get(index + 1).getAwardNumber();
+            previousNodeMap.put(nextNodeNumber, previousNodeNumber);
+            index++;
+        }
+    }
+    
+    private void addNodesToNextNodeMap(List <AwardHierarchy> sortedList, Map<String, String> nextNodeMap) {
+        String previousNodeNumber = null;
+        String nextNodeNumber = null;
+        int index = 0;
+        while(index < sortedList.size() - 1) {
+            previousNodeNumber = sortedList.get(index).getAwardNumber();
+            nextNodeNumber = sortedList.get(index + 1).getAwardNumber();
+            nextNodeMap.put(previousNodeNumber, nextNodeNumber);
+            index++;
+        }
+        nextNodeMap.put(sortedList.get(index).getAwardNumber(), Constants.LAST_NODE_NEXT_VALUE);
+        
+    }
+    
+    
+    private AwardHierarchyNode getRootNode(Map<String, AwardHierarchyNode> awardHierarchyNodes) {
+        AwardHierarchyNode returnValue = null;
+        for(String awardNumber : awardHierarchyNodes.keySet()) {
+            if(awardNumber.endsWith("-00001")) {
+                returnValue = awardHierarchyNodes.get(awardNumber);
+            }
+        }
+        return returnValue;
+    }
+    
     /**
      * Gets the awardAmountInfoService attribute. 
      * @return Returns the awardAmountInfoService.

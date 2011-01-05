@@ -654,6 +654,11 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         } else {
             getAwardHierarchyService().populateAwardHierarchyNodes(timeAndMoneyDocument.getAwardHierarchyItems(), timeAndMoneyDocument.getAwardHierarchyNodes(), null, null);
         }
+        //initialize award for summary display to current version of root award
+        timeAndMoneyForm.setAwardForSummaryPanelDisplay(tmpAward);
+        
+        getAwardHierarchyService().createNodeMapsOnFormForSummaryPanel(timeAndMoneyDocument.getAwardHierarchyNodes(), timeAndMoneyForm.getPreviousNodeMap(),
+                timeAndMoneyForm.getNextNodeMap());
 
         GlobalVariables.getUserSession().addObject(GlobalVariables.getUserSession().getKualiSessionId()+Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION, timeAndMoneyDocument);
         
@@ -993,6 +998,28 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             returnValue = true;
         }
         return returnValue;
+    }
+    
+    @SuppressWarnings("unchecked")
+    public ActionForward goToNextAward(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
+        Map<String, String> map = new HashMap<String,String>();
+        String nextAwardNumber = timeAndMoneyForm.getNextNodeMap().get(timeAndMoneyForm.getAwardForSummaryPanelDisplay().getAwardNumber());
+        map.put("awardNumber", nextAwardNumber);
+        Award nextAward = ((List<Award>)getBusinessObjectService().findMatching(Award.class, map)).get(0);
+        timeAndMoneyForm.setAwardForSummaryPanelDisplay(nextAward);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+        
+    @SuppressWarnings("unchecked")
+    public ActionForward goToPreviousAward(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
+        Map<String, String> map = new HashMap<String,String>();
+        String previousAwardNumber = timeAndMoneyForm.getPreviousNodeMap().get(timeAndMoneyForm.getAwardForSummaryPanelDisplay().getAwardNumber());
+        map.put("awardNumber", previousAwardNumber);
+        Award previousAward = ((List<Award>)businessObjectService.findMatching(Award.class, map)).get(0);
+        timeAndMoneyForm.setAwardForSummaryPanelDisplay(previousAward);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
 }

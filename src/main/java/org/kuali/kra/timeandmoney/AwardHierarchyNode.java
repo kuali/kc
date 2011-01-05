@@ -147,6 +147,10 @@ public class AwardHierarchyNode extends AwardHierarchy {
         }
         return antDistributableAmount;
     }
+    
+    public String getAwardNumber() {
+        return super.getAwardNumber();
+    }
 
     /**
      * Sets the antDistributableAmount attribute value.
