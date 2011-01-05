@@ -21,7 +21,6 @@ import java.sql.Timestamp;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -137,18 +136,13 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
     public ActionForward viewNewSpecialReviewProtocolLink(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
         throws Exception {
         
-        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        String viewProtocolUrl = Constants.EMPTY_STRING;
         
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalSpecialReview proposalSpecialReview = proposalDevelopmentForm.getSpecialReviewHelper().getNewSpecialReview();
-
-        String viewProtocolUrl = getViewProtocolUrl(proposalSpecialReview);
-
-        if (StringUtils.isNotEmpty(viewProtocolUrl)) {
-            forward = new ActionForward(viewProtocolUrl, true);
-        }
+        viewProtocolUrl = getViewProtocolUrl(proposalSpecialReview);
         
-        return forward;
+        return new ActionForward(viewProtocolUrl, true);
     }
     
     /**
@@ -164,7 +158,7 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
     public ActionForward viewSpecialReviewProtocolLink(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
         throws Exception {
         
-        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        String viewProtocolUrl = Constants.EMPTY_STRING;
         
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         String lineNumber = request.getParameter("line");
@@ -172,23 +166,22 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
         if (NumberUtils.isNumber(lineNumber)) {
             int index = Integer.parseInt(lineNumber);
             ProposalSpecialReview proposalSpecialReview = proposalDevelopmentForm.getDocument().getDevelopmentProposal().getPropSpecialReviews().get(index);
-
-            String viewProtocolUrl = getViewProtocolUrl(proposalSpecialReview);
-
-            if (StringUtils.isNotBlank(viewProtocolUrl)) {
-                forward = new ActionForward(viewProtocolUrl, true);
-            }
+            viewProtocolUrl = getViewProtocolUrl(proposalSpecialReview);
         }
         
-        return forward;
+        return new ActionForward(viewProtocolUrl, true);
     }
     
     private String getViewProtocolUrl(ProposalSpecialReview specialReview) throws Exception {
+        String viewProtocolUrl = Constants.EMPTY_STRING;
+
         String protocolNumber = specialReview.getProtocolNumber();
         Long routeHeaderId = getSpecialReviewService().getViewSpecialReviewProtocolRouteHeaderId(protocolNumber);
-        String forwardUrl = buildForwardUrl(routeHeaderId);
+        if (routeHeaderId != 0L) {
+            viewProtocolUrl = buildForwardUrl(routeHeaderId) + "&viewDocument=true";
+        }
         
-        return StringUtils.isNotBlank(forwardUrl) ? forwardUrl + "&viewDocument=true" : Constants.EMPTY_STRING;
+        return viewProtocolUrl;
     }
     
     public SpecialReviewService getSpecialReviewService() {
