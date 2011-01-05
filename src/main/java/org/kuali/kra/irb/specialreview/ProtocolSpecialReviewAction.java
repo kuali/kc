@@ -21,7 +21,6 @@ import java.sql.Timestamp;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -134,18 +133,13 @@ public class ProtocolSpecialReviewAction extends ProtocolAction {
     public ActionForward viewNewSpecialReviewProtocolLink(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
         throws Exception {
         
-        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        String viewProtocolUrl = Constants.EMPTY_STRING;
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolSpecialReview protocolSpecialReview = protocolForm.getSpecialReviewHelper().getNewSpecialReview();
-
-        String viewProtocolUrl = getViewProtocolUrl(protocolSpecialReview);
-
-        if (StringUtils.isNotEmpty(viewProtocolUrl)) {
-            forward = new ActionForward(viewProtocolUrl, true);
-        }
+        viewProtocolUrl = getViewProtocolUrl(protocolSpecialReview);
         
-        return forward;
+        return new ActionForward(viewProtocolUrl, true);
     }
     
     /**
@@ -161,7 +155,7 @@ public class ProtocolSpecialReviewAction extends ProtocolAction {
     public ActionForward viewSpecialReviewProtocolLink(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
         throws Exception {
         
-        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        String viewProtocolUrl = Constants.EMPTY_STRING;
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         String lineNumber = request.getParameter("line");
@@ -169,23 +163,22 @@ public class ProtocolSpecialReviewAction extends ProtocolAction {
         if (NumberUtils.isNumber(lineNumber)) {
             int index = Integer.parseInt(lineNumber);
             ProtocolSpecialReview protocolSpecialReview = protocolForm.getProtocolDocument().getProtocol().getSpecialReviews().get(index);
-
-            String viewProtocolUrl = getViewProtocolUrl(protocolSpecialReview);
-
-            if (StringUtils.isNotBlank(viewProtocolUrl)) {
-                forward = new ActionForward(viewProtocolUrl, true);
-            }
+            viewProtocolUrl = getViewProtocolUrl(protocolSpecialReview);
         }
         
-        return forward;
+        return new ActionForward(viewProtocolUrl, true);
     }
 
     private String getViewProtocolUrl(ProtocolSpecialReview specialReview) throws Exception {
+        String viewProtocolUrl = Constants.EMPTY_STRING;
+
         String protocolNumber = specialReview.getProtocolNumber();
         Long routeHeaderId = getSpecialReviewService().getViewSpecialReviewProtocolRouteHeaderId(protocolNumber);
-        String forwardUrl = buildForwardUrl(routeHeaderId);
+        if (routeHeaderId != 0L) {
+            viewProtocolUrl = buildForwardUrl(routeHeaderId) + "&viewDocument=true";
+        }
         
-        return StringUtils.isNotBlank(forwardUrl) ? forwardUrl + "&viewDocument=true" : Constants.EMPTY_STRING;
+        return viewProtocolUrl;
     }
     
     public SpecialReviewService getSpecialReviewService() {
