@@ -21,7 +21,6 @@ import java.sql.Timestamp;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -157,18 +156,13 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
     public ActionForward viewNewSpecialReviewProtocolLink(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
         throws Exception {
         
-        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        String viewProtocolUrl = Constants.EMPTY_STRING;
         
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
         InstitutionalProposalSpecialReview institutionalProposalSpecialReview = institutionalProposalForm.getSpecialReviewHelper().getNewSpecialReview();
-
-        String viewProtocolUrl = getViewProtocolUrl(institutionalProposalSpecialReview);
-
-        if (StringUtils.isNotEmpty(viewProtocolUrl)) {
-            forward = new ActionForward(viewProtocolUrl, true);
-        }
+        viewProtocolUrl = getViewProtocolUrl(institutionalProposalSpecialReview);
         
-        return forward;
+        return new ActionForward(viewProtocolUrl, true);
     }
     
     /**
@@ -184,7 +178,7 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
     public ActionForward viewSpecialReviewProtocolLink(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
         throws Exception {
         
-        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        String viewProtocolUrl = Constants.EMPTY_STRING;
         
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
         String lineNumber = request.getParameter("line");
@@ -193,23 +187,22 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
             int index = Integer.parseInt(lineNumber);
             InstitutionalProposalSpecialReview institutionalProposalSpecialReview 
                 = institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().getSpecialReviews().get(index);
-
-            String viewProtocolUrl = getViewProtocolUrl(institutionalProposalSpecialReview);
-
-            if (StringUtils.isNotBlank(viewProtocolUrl)) {
-                forward = new ActionForward(viewProtocolUrl, true);
-            }
+            viewProtocolUrl = getViewProtocolUrl(institutionalProposalSpecialReview);
         }
         
-        return forward;
+        return new ActionForward(viewProtocolUrl, true);
     }
     
     private String getViewProtocolUrl(InstitutionalProposalSpecialReview specialReview) throws Exception {
+        String viewProtocolUrl = Constants.EMPTY_STRING;
+
         String protocolNumber = specialReview.getProtocolNumber();
         Long routeHeaderId = getSpecialReviewService().getViewSpecialReviewProtocolRouteHeaderId(protocolNumber);
-        String forwardUrl = buildForwardUrl(routeHeaderId);
+        if (routeHeaderId != 0L) {
+            viewProtocolUrl = buildForwardUrl(routeHeaderId) + "&viewDocument=true";
+        }
         
-        return StringUtils.isNotBlank(forwardUrl) ? forwardUrl + "&viewDocument=true" : Constants.EMPTY_STRING;
+        return viewProtocolUrl;
     }
     
     public SpecialReviewService getSpecialReviewService() {

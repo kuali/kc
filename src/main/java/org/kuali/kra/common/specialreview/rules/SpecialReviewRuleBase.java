@@ -27,6 +27,9 @@ import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
 import org.kuali.kra.common.specialreview.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.springframework.util.CollectionUtils;
@@ -52,8 +55,11 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
     private static final String EXEMPTION_TYPE_CODE_FIELD = "exemptionTypeCodes";
     private static final String EXEMPTION_TYPE_CODE_TITLE = "Exemption #";
     
+    private ProtocolFinderDao protocolFinderDao;
+    
     /**
      * Runs the rules for adding a specialReview.
+     * 
      * @param addSpecialReviewEvent The event invoking the add specialReview rules
      * @return True if the specialReview is valid, false otherwise
      */
@@ -70,6 +76,7 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
     
     /**
      * Runs the rules for saving specialReviews.
+     * 
      * @param saveSpecialReviewEvent The event invoking the save specialReview rules
      * @return True if the specialReviews are valid, false otherwise
      */
@@ -89,7 +96,8 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
     
     /**
      * Validates the interdependencies between the different date fields and the statuses.
-     * @param specialReview
+     * 
+     * @param specialReview The special review object to validate
      * @param errorPath The error path
      * @return true if the specialReview is valid, false otherwise
      */
@@ -147,13 +155,29 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
         return isValid;
     }
     
+    /**
+     * Validates the rules that determine whether certain fields are required in certain circumstances.
+     * 
+     * @param approval The maintenance document that determines whether a field is required
+     * @param specialReview The special review to validate
+     * @param errorPath The error path
+     * @return true if the specialReview is valid, false otherwise
+     */
     private boolean validateApprovalFields(ValidSpecialReviewApproval approval, T specialReview, String errorPath) {
         boolean isValid = true;
 
-        if (approval.isProtocolNumberFlag() && StringUtils.isBlank(specialReview.getProtocolNumber())) {
-            isValid = false;
-            reportErrorWithoutFullErrorPath(errorPath + DOT + PROTOCOL_NUMBER_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_REQUIRED_FOR_VALID, 
-                    PROTOCOL_NUMBER_TITLE, getValidSpecialReviewApprovalErrorString(approval));
+        if (approval.isProtocolNumberFlag()) {
+            if (StringUtils.isBlank(specialReview.getProtocolNumber())) {
+                isValid = false;
+                reportErrorWithoutFullErrorPath(errorPath + DOT + PROTOCOL_NUMBER_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_REQUIRED_FOR_VALID, 
+                        PROTOCOL_NUMBER_TITLE, getValidSpecialReviewApprovalErrorString(approval));
+            } else {
+                Protocol protocol = getProtocolFinderDao().findCurrentProtocolByNumber(specialReview.getProtocolNumber());
+                if (protocol == null) {
+                    isValid = false;
+                    reportErrorWithoutFullErrorPath(errorPath + DOT + PROTOCOL_NUMBER_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_PROTOCOL_NUMBER_INVALID);
+                }
+            }
         }
         if (approval.isApplicationDateFlag() && specialReview.getApplicationDate() == null) {
             isValid = false;
@@ -190,6 +214,17 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
         stringBuilder.append("/");
         stringBuilder.append(validSpecialReviewApproval.getSpecialReviewApprovalType().getDescription());
         return stringBuilder.toString();
+    }
+    
+    public ProtocolFinderDao getProtocolFinderDao() {
+        if (protocolFinderDao == null) {
+            protocolFinderDao = KraServiceLocator.getService(ProtocolFinderDao.class);
+        }
+        return protocolFinderDao;
+    }
+
+    public void setProtocolFinderDao(ProtocolFinderDao protocolFinderDao) {
+        this.protocolFinderDao = protocolFinderDao;
     }
     
 }

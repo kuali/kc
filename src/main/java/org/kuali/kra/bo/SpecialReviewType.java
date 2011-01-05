@@ -21,8 +21,13 @@ import java.util.LinkedHashMap;
  * Defines the type of the Special Review.
  */
 public class SpecialReviewType extends KraPersistableBusinessObjectBase {
+    
+    /**
+     * The Human Subjects Special Review type.
+     */
+    public static final String HUMAN_SUBJECTS = "1";
 
-    private static final long serialVersionUID = 8121074074078215304L;
+    private static final long serialVersionUID = -7939863013575475658L;
     
     private String specialReviewTypeCode;
     private String description;
