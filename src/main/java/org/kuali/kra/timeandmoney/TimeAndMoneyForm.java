@@ -17,6 +17,7 @@ package org.kuali.kra.timeandmoney;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionBean;
@@ -71,6 +73,9 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
     private String controlForAwardHierarchyView;
     private String currentOrPendingView;
     private String directIndirectViewEnabled;
+    private Map<String, String> previousNodeMap;
+    private Map<String, String> nextNodeMap;
+    private Award awardForSummaryPanelDisplay;
 
     private transient ParameterService parameterService;
     
@@ -115,7 +120,9 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         }
         setControlForAwardHierarchyView("2");
         setCurrentOrPendingView("0");
-        setDirectIndirectViewEnabled(getParameterService().getParameterValue(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST"));
+        setDirectIndirectViewEnabled(getParameterService().getParameterValue(Constants.PARAMETER_MODULE_AWARD, Constants.PARAMETER_COMPONENT_DOCUMENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST"));
+        previousNodeMap = new HashMap<String, String>();
+        nextNodeMap = new HashMap<String, String>();
     }
     
     /** {@inheritDoc} */
@@ -385,6 +392,42 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         }
         return returnValue;
     }
+    
+    public boolean isRootNode() {
+        boolean returnVal = false;
+        String awardNumber = getAwardForSummaryPanelDisplay().getAwardNumber();
+        if(getPreviousNodeMap().get(awardNumber).equals(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT)) {
+            returnVal = true;
+        }
+        return returnVal;
+    }
+    
+    public boolean isLastNode() {
+        boolean returnVal = false;
+        String awardNumber = getAwardForSummaryPanelDisplay().getAwardNumber();
+        if(getNextNodeMap().get(awardNumber).equals(Constants.LAST_NODE_NEXT_VALUE)) {
+            returnVal = true;
+        }
+        return returnVal;
+    }
+    
+    
+
+    /**
+     * Gets the awardForSummaryPanelDisplay attribute. 
+     * @return Returns the awardForSummaryPanelDisplay.
+     */
+    public Award getAwardForSummaryPanelDisplay() {
+        return awardForSummaryPanelDisplay;
+    }
+
+    /**
+     * Sets the awardForSummaryPanelDisplay attribute value.
+     * @param awardForSummaryPanelDisplay The awardForSummaryPanelDisplay to set.
+     */
+    public void setAwardForSummaryPanelDisplay(Award awardForSummaryPanelDisplay) {
+        this.awardForSummaryPanelDisplay = awardForSummaryPanelDisplay;
+    }
 
     /**
      * Gets the obligationStartDates attribute. 
@@ -450,6 +493,41 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         this.awardHierarchyNodeItems = awardHierarchyNodeItems;
     }
     
+    
+    
+    
+    /**
+     * Gets the previousNodeMap attribute. 
+     * @return Returns the previousNodeMap.
+     */
+    public Map<String, String> getPreviousNodeMap() {
+        return previousNodeMap;
+    }
+
+    /**
+     * Sets the previousNodeMap attribute value.
+     * @param previousNodeMap The previousNodeMap to set.
+     */
+    public void setPreviousNodeMap(Map<String, String> previousNodeMap) {
+        this.previousNodeMap = previousNodeMap;
+    }
+
+    /**
+     * Gets the nextNodeMap attribute. 
+     * @return Returns the nextNodeMap.
+     */
+    public Map<String, String> getNextNodeMap() {
+        return nextNodeMap;
+    }
+
+    /**
+     * Sets the nextNodeMap attribute value.
+     * @param nextNodeMap The nextNodeMap to set.
+     */
+    public void setNextNodeMap(Map<String, String> nextNodeMap) {
+        this.nextNodeMap = nextNodeMap;
+    }
+
     public String getAwardHierarchy() throws ParseException {
         awardHierarchy = "";
         if(StringUtils.isBlank(awardNumber)){
