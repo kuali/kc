@@ -45,6 +45,7 @@ public class ProtocolSummaryPrintOptions implements Serializable {
     private boolean subjects = true;
     private boolean otherData = true;
     private boolean reviewComments = true;
+    private boolean protocolHistory = true;
     /**
      * Gets the actions attribute. 
      * @return Returns the actions.
@@ -318,5 +319,11 @@ public class ProtocolSummaryPrintOptions implements Serializable {
     
     public void setReviewComments(boolean reviewComments) {
         this.reviewComments = reviewComments;
+    }
+    public boolean isProtocolHistory() {
+        return protocolHistory;
+    }
+    public void setProtocolHistory(boolean protocolHistory) {
+        this.protocolHistory = protocolHistory;
     }
 }

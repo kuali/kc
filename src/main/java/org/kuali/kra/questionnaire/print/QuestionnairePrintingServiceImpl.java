@@ -20,9 +20,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.print.QuestionnairePrintOption;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
@@ -34,6 +37,8 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingService {
 
+    private static final String PROTOCOL_NUMBER = "protocolNumber";
+    private static final String SUBMISSION_NUMBER = "submissionNumber";
     private PrintingService printingService;
     private QuestionnairePrint questionnairePrint;
     private BusinessObjectService businessObjectService;
@@ -90,11 +95,15 @@ public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingSe
         
     }
 
+    /**
+     * 
+     * @see org.kuali.kra.questionnaire.print.QuestionnairePrintingService#getQuestionnairePtintable(org.kuali.kra.bo.KraPersistableBusinessObjectBase, java.util.List)
+     */
     public List<Printable> getQuestionnairePtintable(KraPersistableBusinessObjectBase printableBusinessObject, 
-            List<QuestionnairePrintOption> questionnairesToPrints) {
+            List<QuestionnairePrintOption> questionnairesToPrints, Integer selectedQid) {
         List<Printable> printables = new ArrayList<Printable>();
         for (QuestionnairePrintOption printOption : questionnairesToPrints) {
-            if (printOption.isSelected()) {
+            if (printOption.isSelected() && printOption.getQuestionnaireId().equals(selectedQid)) {
              //   AbstractPrint printable = getQuestionnairePrint();
                 AbstractPrint printable =  new QuestionnairePrint();
                 printable.setXmlStream(getQuestionnairePrint().getXmlStream());
@@ -102,14 +111,41 @@ public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingSe
             Questionnaire questionnaire = getQuestionnaire(printOption.getQuestionnaireRefId());
             reportParameters.put("questionnaireId", questionnaire.getQuestionnaireId());
             reportParameters.put("template", questionnaire.getTemplate());
+            if (CoeusSubModule.PROTOCOL_SUBMISSION.equals(printOption.getSubItemCode())) {
+                reportParameters.put(PROTOCOL_NUMBER, printOption.getItemKey());
+                reportParameters.put(SUBMISSION_NUMBER, printOption.getSubItemKey());
+            }
+
             if (printable != null) {
-                printable.setPrintableBusinessObject(printableBusinessObject);
+                printable.setPrintableBusinessObject(getProtocolPrintable(printOption));
                 printable.setReportParameters(reportParameters);
                 printables.add(printable);
             }
             }
         }
         return printables;
+    }
+
+    /*
+     * get the appropriate protocol as printable.
+     * need further work for requestion submission questionnaire printables
+     * which should be retrieved from protocolsubmission ?
+     */
+    private Protocol getProtocolPrintable(QuestionnairePrintOption printOption) {
+        if (CoeusSubModule.PROTOCOL_SUBMISSION.equals(printOption.getSubItemCode())) {
+            Map keyValues = new HashMap();
+            keyValues.put("protocolNumber", printOption.getItemKey());
+            keyValues.put("submissionNumber", printOption.getSubItemKey());
+            return ((List<ProtocolSubmission>) businessObjectService.findMatchingOrderBy(ProtocolSubmission.class, keyValues,
+                    "submissionId", false)).get(0).getProtocol();
+        }
+        else {
+            Map keyValues = new HashMap();
+            keyValues.put("protocolNumber", printOption.getItemKey());
+            keyValues.put("sequenceNumber", printOption.getSubItemKey());
+            return ((List<Protocol>) businessObjectService.findMatching(Protocol.class, keyValues)).get(0);
+        }
+
     }
 
     /**

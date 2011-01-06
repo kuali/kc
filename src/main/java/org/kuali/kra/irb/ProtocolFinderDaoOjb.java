@@ -68,4 +68,18 @@ public class ProtocolFinderDaoOjb extends PlatformAwareDaoBaseOjb implements Pro
         return (List<ProtocolSubmission>) getPersistenceBrokerTemplate().getCollectionByQuery(q);
     }
 
+    /**
+     * 
+     * @see org.kuali.kra.irb.ProtocolFinderDao#findProtocols(java.lang.String)
+     */
+    @SuppressWarnings("unchecked")
+    public List<Protocol> findProtocols(String protocolNumber) {
+        
+        Criteria crit = new Criteria();
+        crit.addLike(PROTOCOL_NUMBER, protocolNumber + "%");
+        Query q = QueryFactory.newQuery(Protocol.class, crit);
+
+        return (List<Protocol>) getPersistenceBrokerTemplate().getCollectionByQuery(q);
+    }
+
 }

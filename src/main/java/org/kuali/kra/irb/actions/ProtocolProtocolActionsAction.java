@@ -811,6 +811,26 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     }
 
     
+    public ActionForward printProtocolQuestionnaires(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        String fileName = "Protocol_questionnaire_Report.pdf";
+        Integer selectedQid = getSelectedLine(request);
+        String reportName = protocol.getProtocolNumber() + "-" + "ProtocolQuestionnaires";
+        AttachmentDataSource dataStream = getProtocolPrintingService().print(reportName, getQuestionnairePrintingService().getQuestionnairePtintable(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getQuestionnairesToPrints(), selectedQid));
+        if (dataStream.getContent() != null) {
+            dataStream.setFileName(fileName.toString());
+            PrintingUtils.streamToResponse(dataStream, response);
+            forward = null;
+        }
+
+
+        return forward;
+    }
+
+    
     private QuestionnairePrintingService getQuestionnairePrintingService() {
         return KraServiceLocator.getService(QuestionnairePrintingService.class);
     }
@@ -842,8 +862,16 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             printableArtifactList.add(printable1);
             
         }
+        if (summaryOptions.isProtocolHistory()) {
+            Map reportParameters1 = getReportOptions(protocolForm,ProtocolPrintType.PROTOCOL_PROTOCOL_HISTORY_REPORT);
+            AbstractPrint printable1 = (AbstractPrint)getProtocolPrintingService().getProtocolPrintable(ProtocolPrintType.valueOf(PRINTTAG_MAP.get("history")));
+            printable1.setPrintableBusinessObject(protocolForm.getProtocolDocument().getProtocol());
+            printable1.setReportParameters(reportParameters1);
+            printableArtifactList.add(printable1);
+            
+        }
         
-        printableArtifactList.addAll(getQuestionnairePrintingService().getQuestionnairePtintable(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getQuestionnairesToPrints()));
+//        printableArtifactList.addAll(getQuestionnairePrintingService().getQuestionnairePtintable(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getQuestionnairesToPrints()));
 
         return printableArtifactList;
     }

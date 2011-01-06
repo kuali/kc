@@ -62,6 +62,7 @@ import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredBean;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
 import org.kuali.kra.irb.actions.print.QuestionnairePrintOption;
+import org.kuali.kra.irb.actions.print.QuestionnairePrintOptionComparator;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
@@ -311,8 +312,8 @@ public class ActionHelper implements Serializable {
     
     private Map<String, ProtocolActionBean> actionBeanTaskMap = new HashMap<String, ProtocolActionBean>();    
     // protocol print
-    ProtocolSummaryPrintOptions protocolPrintOption = new ProtocolSummaryPrintOptions();
-    List<QuestionnairePrintOption> questionnairesToPrints;
+    private ProtocolSummaryPrintOptions protocolPrintOption = new ProtocolSummaryPrintOptions();
+    private List<QuestionnairePrintOption> questionnairesToPrints;
     
     /**
      * Constructs an ActionHelper.
@@ -2453,32 +2454,59 @@ public class ActionHelper implements Serializable {
     private void initPrintQuestionnaire() {
         setQuestionnairesToPrints(new ArrayList<QuestionnairePrintOption>());
         ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, getProtocol());
-        List<AnswerHeader> answerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
+       // List<AnswerHeader> answerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
+        List<AnswerHeader> answerHeaders = getQuestionnaireAnswerService().getAnswerHeadersForProtocol(getProtocol().getProtocolNumber());
         setupQnPrintOption(answerHeaders);
     }
 
+    /*
+     * This method is to set up the questionnaire print list.  Then sorted it.
+     */
     private void setupQnPrintOption(List<AnswerHeader> answerHeaders) {
         for (AnswerHeader answerHeader : answerHeaders) {
             QuestionnairePrintOption printOption = new QuestionnairePrintOption();
             printOption.setQuestionnaireRefId(answerHeader.getQuestionnaire().getQuestionnaireRefId());
+            printOption.setQuestionnaireId(answerHeader.getQuestionnaire().getQuestionnaireId());
             printOption.setSelected(true);
-            printOption.setLabel(getQuestionnaireLabel(answerHeader.getQuestionnaire().getQuestionnaireUsages(), answerHeader.getModuleSubItemCode()));
+            printOption.setQuestionnaireName(answerHeader.getQuestionnaire().getName());
+            printOption.setLabel(getQuestionnaireLabel(answerHeader));
+            printOption.setItemKey(answerHeader.getModuleItemKey());
+            printOption.setSubItemKey(answerHeader.getModuleSubItemKey());
+            printOption.setSubItemCode(answerHeader.getModuleSubItemCode());
             getQuestionnairesToPrints().add(printOption);
         }
+        Collections.sort(getQuestionnairesToPrints(), new QuestionnairePrintOptionComparator());
      
     }
     
-    private String getQuestionnaireLabel(List<QuestionnaireUsage> usages, String moduleSubItemCode) {
+    private String getQuestionnaireLabel(AnswerHeader answerHeader) {
+        String label = null;
+        List<QuestionnaireUsage> usages = answerHeader.getQuestionnaire().getQuestionnaireUsages();
         if (CollectionUtils.isNotEmpty(usages) && usages.size() > 1) {
             Collections.sort((List<QuestionnaireUsage>) usages);
            // Collections.reverse((List<QuestionnaireUsage>) usages);
         }
         for (QuestionnaireUsage usage : usages) {
-            if (CoeusModule.IRB_MODULE_CODE.equals(usage.getModuleItemCode()) && moduleSubItemCode.equals(usage.getModuleSubItemCode())) {
-                return usage.getQuestionnaireLabel();
+            if (CoeusModule.IRB_MODULE_CODE.equals(usage.getModuleItemCode()) && answerHeader.getModuleSubItemCode().equals(usage.getModuleSubItemCode())) {
+                if ("0".equals(answerHeader.getModuleSubItemCode())) {
+                    label = usage.getQuestionnaireLabel() + " - Sequence " + answerHeader.getModuleSubItemKey();
+                } else if (CoeusSubModule.PROTOCOL_SUBMISSION.equals(answerHeader.getModuleSubItemCode())) {
+                    Map keyValues = new HashMap();
+                    keyValues.put("protocolNumber", answerHeader.getModuleItemKey());
+                    keyValues.put("submissionNumber", answerHeader.getModuleSubItemKey());
+                    ProtocolSubmission submission = ((List<ProtocolSubmission>) businessObjectService.findMatchingOrderBy(ProtocolSubmission.class, keyValues,
+                            "submissionId", false)).get(0);
+                    label = usage.getQuestionnaireLabel() + " - " + submission.getSubmissionStatus().getDescription();
+                } else if (CoeusSubModule.AMENDMENT_RENEWAL.equals(answerHeader.getModuleSubItemCode())) {
+                    if (answerHeader.getModuleItemKey().contains("A")) {
+                        label = usage.getQuestionnaireLabel() + " - Amendment " + answerHeader.getModuleItemKey().substring(10);
+                    } else {
+                        label = usage.getQuestionnaireLabel() + " - Renewal " + answerHeader.getModuleItemKey().substring(10);
+                    }
+                }
             }
         }
-        return null;
+        return label;
     }
 
 }

@@ -26,7 +26,12 @@ public class QuestionnairePrintOption implements Serializable {
 
     private static final long serialVersionUID = -2388949517675336400L;
     private Long questionnaireRefId;
+    private Integer questionnaireId; 
     private String label;
+    private String questionnaireName;
+    private String itemKey;
+    private String subItemKey;
+    private String subItemCode;
     private boolean selected;
 
     public Long getQuestionnaireRefId() {
@@ -51,6 +56,46 @@ public class QuestionnairePrintOption implements Serializable {
 
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+
+    public String getItemKey() {
+        return itemKey;
+    }
+
+    public void setItemKey(String itemKey) {
+        this.itemKey = itemKey;
+    }
+
+    public String getSubItemKey() {
+        return subItemKey;
+    }
+
+    public void setSubItemKey(String subItemKey) {
+        this.subItemKey = subItemKey;
+    }
+
+    public String getSubItemCode() {
+        return subItemCode;
+    }
+
+    public void setSubItemCode(String subItemCode) {
+        this.subItemCode = subItemCode;
+    }
+
+    public Integer getQuestionnaireId() {
+        return questionnaireId;
+    }
+
+    public void setQuestionnaireId(Integer questionnaireId) {
+        this.questionnaireId = questionnaireId;
+    }
+
+    public String getQuestionnaireName() {
+        return questionnaireName;
+    }
+
+    public void setQuestionnaireName(String questionnaireName) {
+        this.questionnaireName = questionnaireName;
     }
 
 }
