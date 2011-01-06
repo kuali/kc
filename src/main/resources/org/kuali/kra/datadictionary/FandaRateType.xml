@@ -26,7 +26,7 @@
         <property name="businessObjectClass" value="org.kuali.kra.award.commitments.FandaRateType" />
         <property name="objectLabel" value="Award Fanda Rate" />
         <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="fandaRateTypeHelpUrl" p:parameterDetailType="D"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="fandaRateTypeHelpUrl" p:parameterDetailType="Document"/>
         </property>
         <property name="inquiryDefinition" >
             <ref bean="FandaRateType-inquiryDefinition" />

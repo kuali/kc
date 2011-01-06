@@ -27,7 +27,7 @@
 	      <bean parent="HelpDefinition"
 	            p:parameterNamespace="KC-T"
 	            p:parameterName="awardHierarchyHelpUrl"
-	            p:parameterDetailType="D" />
+	            p:parameterDetailType="Document" />
 	    </property>		
         <property name="inquiryDefinition" >
             <ref bean="AwardHierarchy-inquiryDefinition" />

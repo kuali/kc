@@ -32,7 +32,7 @@
 			<ref bean="ProtocolSpecialReview-lookupDefinition" />
 		</property>
 		<property name="helpDefinition" >
-            <bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="protocolSpecialReviewHelp" p:parameterDetailType="D" />
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="protocolSpecialReviewHelp" p:parameterDetailType="Document" />
         </property>
 		<property name="titleAttribute" value="protocolSpecialReviewId" />
 		<property name="attributes" >

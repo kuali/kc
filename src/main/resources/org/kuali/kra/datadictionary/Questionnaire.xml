@@ -30,7 +30,7 @@
             <ref bean="Questionnaire-lookupDefinition" />
         </property>
         <property name="helpDefinition" >
-            <bean parent="HelpDefinition" p:parameterNamespace="KC-QUESTIONNAIRE" p:parameterName="questionnaireQuestionnaireHelpUrl" p:parameterDetailType="D" />
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-QUESTIONNAIRE" p:parameterName="questionnaireQuestionnaireHelpUrl" p:parameterDetailType="Document" />
         </property>
         <property name="titleAttribute" value="questionnaireId" />
         <property name="attributes" >

@@ -21,8 +21,8 @@
       <list>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="KC-PD" p:parameterName="proposalDevelopmentProposalHelp" p:parameterDetailType="D"/>
-            <!-- <bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="protocolOnlineReviewHelp" p:parameterDetailType="D"/> -->
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-PD" p:parameterName="proposalDevelopmentProposalHelp" p:parameterDetailType="Document"/>
+            <!-- <bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="protocolOnlineReviewHelp" p:parameterDetailType="Document"/> -->
           </property>
           <property name="headerTabDisplayName" value="Online Review"/>
           <property name="headerTabNavigateTo" value="onlineReview"/>

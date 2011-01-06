@@ -32,7 +32,7 @@
 			<ref bean="ProtocolParticipant-lookupDefinition" />
 		</property>
 		<property name="helpDefinition" >
-            <bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="protocolParticipantTypesHelpUrl" p:parameterDetailType="D" />
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="protocolParticipantTypesHelpUrl" p:parameterDetailType="Document" />
         </property>
 		<property name="titleAttribute" value="protocolParticipantId" />
 		<property name="attributes" >

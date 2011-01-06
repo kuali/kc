@@ -30,7 +30,7 @@
 			<ref bean="ProtocolResearchAreas-lookupDefinition" />
 		</property>
 		<property name="helpDefinition" >
-            <bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="protocolAreaOfResearchHelpUrl" p:parameterDetailType="D" />
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="protocolAreaOfResearchHelpUrl" p:parameterDetailType="Document" />
         </property>
 		<property name="titleAttribute" value="protocolResearchAreasId" />
 		<property name="attributes" >

@@ -30,7 +30,7 @@
             <ref bean="ProtocolNotepad-lookupDefinition" />
         </property>
         <property name="helpDefinition" >
-            <bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="protocolNotesHelpUrl" p:parameterDetailType="D" />
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="protocolNotesHelpUrl" p:parameterDetailType="Document" />
         </property>
         <property name="titleAttribute" value="id" />
         <property name="attributes" >

@@ -30,7 +30,7 @@
             <ref bean="ProtocolSubmission-lookupDefinition" />
         </property>
         <property name="helpDefinition" >
-            <bean parent="HelpDefinition" p:parameterNamespace="KC-COMMITTEE" p:parameterName="meetingProtocolSubmittedHelpUrl" p:parameterDetailType="D" />
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-COMMITTEE" p:parameterName="meetingProtocolSubmittedHelpUrl" p:parameterDetailType="Document" />
         </property>
         <property name="titleAttribute" value="submissionNumber" />
         <property name="attributes" >
