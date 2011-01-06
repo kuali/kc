@@ -26,7 +26,7 @@
 "1120","IRB Reviewer","KC-UNT","IRB Reviewer","1002","Y","77151AD4B3659985E0404F8189D80E8B","1"
 "1124","Award Modifier","KC-AWARD","Award Modifier","1002","Y","77151AD4B3749985E0404F8189D80E8B","1"
 "1126","approver","KC-PD","approver","1001","Y","77151AD4B37E9985E0404F8189D80E8B","1"
-"1127","Application Administrator","KC-AWARD","This role pertains to the Awards module. For system-wide application administration, use the Manager role","1002","Y","77151AD4B37F9985E0404F8189D80E8B","1"
+"1127","Application Administrator","KC-SYS","This role pertains to the Awards module. For system-wide application administration, use the Manager role","1002","Y","77151AD4B37F9985E0404F8189D80E8B","1"
 "1129","Award Documents Maintainer","KC-AWARD","Award Documents Maintainer","1002","Y","77151AD4B3859985E0404F8189D80E8B","1"
 "1131","Award Viewer","KC-AWARD","Award Viewer","1002","Y","77151AD4B3899985E0404F8189D80E8B","1"
 "1133","Award Documents Viewer","KC-AWARD","Award Documents Viewer","1002","Y","77151AD4B38D9985E0404F8189D80E8B","1"
