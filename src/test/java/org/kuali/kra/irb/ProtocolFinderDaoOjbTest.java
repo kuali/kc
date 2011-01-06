@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.irb;
 
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -77,4 +79,17 @@ public class ProtocolFinderDaoOjbTest extends KcUnitTestBase {
         assertNotNull(protocol);
         assertEquals(protocolDocument1.getProtocol().getProtocolId(), protocol.getProtocolId());
     }
+    
+    @Test
+    public void testFindProtocol() throws WorkflowException {
+        ProtocolFactory.createProtocolDocument(PROTOCOL_NUMBER, 1);
+        ProtocolDocument protocolDocument1 = ProtocolFactory.createProtocolDocument(PROTOCOL_NUMBER, 2);
+        
+        ProtocolDocument protocolDocument2 = ProtocolFactory.createProtocolDocument(PROTOCOL_NUMBER+"A001", 1);
+       
+        List<Protocol> protocols = protocolFinder.findProtocols(PROTOCOL_NUMBER);
+        assertEquals(3, protocols.size());
+        assertEquals(PROTOCOL_NUMBER, protocols.get(0).getProtocolNumber());
+    }
+
 }
