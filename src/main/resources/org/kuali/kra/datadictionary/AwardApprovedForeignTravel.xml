@@ -14,7 +14,7 @@
       <bean parent="HelpDefinition"
             p:parameterNamespace="KC-ADMIN"
             p:parameterName="awardApprovedForeignTravelHelpUrl"
-            p:parameterDetailType="D" />
+            p:parameterDetailType="Document" />
     </property>
     <property name="attributes" >
       <list>

@@ -14,7 +14,7 @@
       <bean parent="HelpDefinition"
             p:parameterNamespace="KC-AWARD"
             p:parameterName="awardApprovedSubawardHelpUrl"
-            p:parameterDetailType="D" />
+            p:parameterDetailType="Document" />
     </property>
     <property name="attributes" >
       <list>

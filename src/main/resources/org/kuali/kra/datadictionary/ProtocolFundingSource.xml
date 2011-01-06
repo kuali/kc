@@ -30,7 +30,7 @@
 			<ref bean="ProtocolFundingSource-lookupDefinition" />
 		</property>
 		<property name="helpDefinition" >
-            <bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="protocolFundingSourcesHelpUrl" p:parameterDetailType="D" />
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="protocolFundingSourcesHelpUrl" p:parameterDetailType="Document" />
         </property>
 		<property name="titleAttribute" value="protocolFundingSourceId" />
 		<property name="attributes" >

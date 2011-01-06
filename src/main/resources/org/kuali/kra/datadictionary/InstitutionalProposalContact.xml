@@ -14,7 +14,7 @@
       <bean parent="HelpDefinition"
             p:parameterNamespace="KC-PROP"
             p:parameterName="institutionalProposalContactHelpUrl"
-            p:parameterDetailType="D" />
+            p:parameterDetailType="Document" />
     </property>
     <property name="attributes" >
       <list>

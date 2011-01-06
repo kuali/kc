@@ -30,7 +30,7 @@
             <ref bean="CommitteeScheduleAttendance-lookupDefinition" />
         </property>
         <property name="helpDefinition" >
-            <bean parent="HelpDefinition" p:parameterNamespace="KC-COMMITTEE" p:parameterName="meetingAttendanceHelpUrl" p:parameterDetailType="D" />
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-COMMITTEE" p:parameterName="meetingAttendanceHelpUrl" p:parameterDetailType="Document" />
         </property>
         <property name="titleAttribute" value="commScheduleAttendanceId" />
         <property name="attributes" >
