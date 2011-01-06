@@ -30,7 +30,7 @@
             <ref bean="CommitteeResearchArea-lookupDefinition" />
         </property>
         <property name="helpDefinition" >
-            <bean parent="HelpDefinition" p:parameterNamespace="KC-COMMITTEE" p:parameterName="committeeAreaOfResearchHelpUrl" p:parameterDetailType="D" />
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-COMMITTEE" p:parameterName="committeeAreaOfResearchHelpUrl" p:parameterDetailType="Document" />
         </property>
         <property name="titleAttribute" value="CommitteeResearchArea-id" />
         <property name="attributes" >

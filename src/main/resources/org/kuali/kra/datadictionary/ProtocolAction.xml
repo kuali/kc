@@ -30,7 +30,7 @@
             <ref bean="ProtocolAction-lookupDefinition" />
         </property>
         <property name="helpDefinition" >
-            <bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="protocolAvailableActionsHelpUrl" p:parameterDetailType="D" />
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="protocolAvailableActionsHelpUrl" p:parameterDetailType="Document" />
         </property>
         <property name="titleAttribute" value="actionId" />
         <property name="attributes" >

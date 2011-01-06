@@ -25,7 +25,7 @@
 			<ref bean="ScheduleStatus-lookupDefinition"/>
 		</property>
 		<property name="helpDefinition" >
-            <bean parent="HelpDefinition" p:parameterNamespace="KC-COMMITTEE" p:parameterName="meetingDetailsHelpUrl" p:parameterDetailType="D" />
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-COMMITTEE" p:parameterName="meetingDetailsHelpUrl" p:parameterDetailType="Document" />
         </property>
 		<property name="titleAttribute" value="scheduleStatusCode"/>
 		<property name="attributes">

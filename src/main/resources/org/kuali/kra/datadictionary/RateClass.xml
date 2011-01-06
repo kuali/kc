@@ -20,7 +20,7 @@
       <bean parent="HelpDefinition"
             p:parameterNamespace="KC-B"
             p:parameterName="budgetRateClassHelpUrl"
-            p:parameterDetailType="D" />
+            p:parameterDetailType="Document" />
     </property>
     <property name="attributes" >
       <list>

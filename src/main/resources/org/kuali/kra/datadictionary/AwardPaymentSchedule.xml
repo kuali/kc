@@ -34,7 +34,7 @@
             <bean parent="HelpDefinition"
                 p:parameterNamespace="KC-AWARD"
                 p:parameterName="awardPaymentsReportsAndTermsHelp"
-                p:parameterDetailType="D" />
+                p:parameterDetailType="Document" />
         </property>
 		<property name="attributes" >
 			<list>

@@ -33,7 +33,7 @@
       		<bean parent="HelpDefinition"
             	p:parameterNamespace="KC-IP"
             	p:parameterName="InstitutionalProposalHelpUrl"
-            	p:parameterDetailType="D" />
+            	p:parameterDetailType="Document" />
     	</property>
         <property name="titleAttribute" value="proposalId" />
         <property name="attributes" >

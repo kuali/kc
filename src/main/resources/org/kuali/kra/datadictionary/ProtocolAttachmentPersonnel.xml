@@ -30,7 +30,7 @@
 			<ref bean="ProtocolAttachmentPersonnel-lookupDefinition" />
 		</property>
 		<property name="helpDefinition" >
-            <bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="protocolAddPersonnelAttachmentHelpUrl" p:parameterDetailType="D" />
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="protocolAddPersonnelAttachmentHelpUrl" p:parameterDetailType="Document" />
         </property>
 		<property name="titleAttribute" value="id" />
 		<property name="attributes" >

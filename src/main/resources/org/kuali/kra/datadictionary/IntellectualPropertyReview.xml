@@ -28,7 +28,7 @@
       		<bean parent="HelpDefinition"
             	p:parameterNamespace="KC-IP"
             	p:parameterName="InstitutionalProposalIPReviewHelpUrl"
-            	p:parameterDetailType="D" />
+            	p:parameterDetailType="Document" />
     	</property>        
         <property name="attributes" >
             <list>
