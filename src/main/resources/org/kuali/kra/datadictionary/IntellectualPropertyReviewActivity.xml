@@ -27,7 +27,7 @@
       		<bean parent="HelpDefinition"
             	p:parameterNamespace="KC-IP"
             	p:parameterName="IntellectualPropertyReviewActivityHelpUrl"
-            	p:parameterDetailType="D" />
+            	p:parameterDetailType="Document" />
     	</property>
         <property name="inquiryDefinition" >
             <ref bean="IntellectualPropertyReviewActivity-inquiryDefinition" />

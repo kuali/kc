@@ -30,7 +30,7 @@
             <ref bean="CommScheduleMinuteDoc-lookupDefinition" />
         </property>
         <property name="helpDefinition" >
-            <bean parent="HelpDefinition" p:parameterNamespace="KC-COMMITTEE" p:parameterName="meetingGenerateMinutesHelpUrl" p:parameterDetailType="D" />
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-COMMITTEE" p:parameterName="meetingGenerateMinutesHelpUrl" p:parameterDetailType="Document" />
         </property>
         <property name="titleAttribute" value="commScheduleMinuteDocId" />
         <property name="attributes" >

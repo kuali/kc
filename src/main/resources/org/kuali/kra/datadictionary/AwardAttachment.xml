@@ -27,7 +27,7 @@
 	      <bean parent="HelpDefinition"
 	            p:parameterNamespace="KC-AWARD"
 	            p:parameterName="awardAttachmentsHelpUrl"
-	            p:parameterDetailType="D" />
+	            p:parameterDetailType="Document" />
 	    </property>		
 		<property name="inquiryDefinition" >
 			<ref bean="AwardAttachment-inquiryDefinition" />

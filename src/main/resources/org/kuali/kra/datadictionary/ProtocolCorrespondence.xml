@@ -30,7 +30,7 @@
             <ref bean="ProtocolCorrespondence-lookupDefinition" />
         </property>
         <property name="helpDefinition" >
-            <bean parent="HelpDefinition" p:parameterNamespace="KC-COMMITTEE" p:parameterName="meetingCorrespondenceHelpUrl" p:parameterDetailType="D" />
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-COMMITTEE" p:parameterName="meetingCorrespondenceHelpUrl" p:parameterDetailType="Document" />
         </property>
         <property name="titleAttribute" value="id" />
         <property name="attributes" >

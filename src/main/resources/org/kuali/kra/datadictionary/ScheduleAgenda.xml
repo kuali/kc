@@ -30,7 +30,7 @@
             <ref bean="ScheduleAgenda-lookupDefinition" />
         </property>
         <property name="helpDefinition" >
-            <bean parent="HelpDefinition" p:parameterNamespace="KC-COMMITTEE" p:parameterName="meetingGenerateAgendaHelpUrl" p:parameterDetailType="D" />
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-COMMITTEE" p:parameterName="meetingGenerateAgendaHelpUrl" p:parameterDetailType="Document" />
         </property>
         <property name="titleAttribute" value="scheduleAgendaId" />
         <property name="attributes" >

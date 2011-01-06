@@ -36,7 +36,7 @@
             <bean parent="HelpDefinition" 
                   p:parameterNamespace="KC-PD" 
                   p:parameterName="proposalDevelopmentSpecialReviewHelpUrl" 
-                  p:parameterDetailType="D" />
+                  p:parameterDetailType="Document" />
         </property>
         <property name="attributes" >
             <list>

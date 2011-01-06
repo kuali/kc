@@ -13,7 +13,7 @@
       <bean parent="HelpDefinition"
             p:parameterNamespace="KC-PD"
             p:parameterName="proposalDevelopmentPermissionsHelp"
-            p:parameterDetailType="D" />
+            p:parameterDetailType="Document" />
     </property>
     <property name="attributes" >
       <list>
