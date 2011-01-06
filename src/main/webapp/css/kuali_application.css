@@ -70,3 +70,11 @@ input.align-right {
 {
       border-color: #FF0000;
 }
+
+span.subhead-left-black
+{
+	float: left;
+	text-align: left;
+	font-weight: bold;
+	color: #000000;
+}

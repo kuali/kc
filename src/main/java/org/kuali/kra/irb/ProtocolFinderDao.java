@@ -40,4 +40,12 @@ public interface ProtocolFinderDao {
      * @return
      */
     List<ProtocolSubmission> findProtocolSubmissions(String protocolNumber, int submissionNumber);
+
+    /**
+     * 
+     * This method is to find all the versioned protocols, amendments, renewals with this protocolNumber.
+     * @param protocolNumber
+     * @return
+     */
+    List<Protocol> findProtocols(String protocolNumber);
 }

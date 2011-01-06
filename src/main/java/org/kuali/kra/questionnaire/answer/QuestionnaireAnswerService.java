@@ -93,4 +93,12 @@ public interface QuestionnaireAnswerService {
     boolean isQuestionnaireAnswerComplete(List<Answer> answers);
 
 
+    /**
+     * 
+     * This method is to get all the questionnaire answer for the protocol.
+     * Questionnaire answer may contain submit questionnaire, request submission questionnaire, amendment/renewal questionnaire.
+     * @param protocolNumber
+     * @return
+     */
+    List<AnswerHeader> getAnswerHeadersForProtocol(String protocolNumber);
 }
