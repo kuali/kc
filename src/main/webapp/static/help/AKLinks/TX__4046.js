@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__4046", [["Documents/sponsor.htm", "right", "Sponsor"],["Documents/sponsor1.htm", "right", "Sponsor"]]);

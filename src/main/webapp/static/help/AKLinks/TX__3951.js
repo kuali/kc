@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3951", [["Documents/protocol.htm", "right", "Protocol"],["Documents/protocol1.htm", "right", "Protocol"]]);
