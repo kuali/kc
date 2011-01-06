@@ -97,10 +97,8 @@
 							    </extraargs>
 							</defaultOptions>
 							<!-- maven 3 conventions - works with current m2Eclipse -->
-							<wsdlRoot>${basedir}/src/main/resources/wsdl</wsdlRoot>
-						    <includes>
-						      <include>AccountCreationService.wsdl</include>
-						    </includes>
+							<wsdl>${gg.wsdl.location}/AccountCreationService.wsdl</wsdl>
+						    
 						</configuration>
 						<goals>
 							<goal>wsdl2java</goal>
