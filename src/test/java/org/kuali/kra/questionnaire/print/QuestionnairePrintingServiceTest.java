@@ -25,6 +25,7 @@ import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.print.QuestionnairePrintOption;
 import org.kuali.kra.printing.Printable;
@@ -144,12 +145,16 @@ public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
         List<QuestionnairePrintOption> questionnairesToPrints = new ArrayList<QuestionnairePrintOption>();
         QuestionnairePrintOption printOption1 = new QuestionnairePrintOption();
         printOption1.setLabel("Test1");
+        printOption1.setItemKey("1234");
+        printOption1.setSubItemKey("0");
         printOption1.setQuestionnaireRefId(1L);
+        printOption1.setQuestionnaireId(1);
         printOption1.setSelected(true);
         questionnairesToPrints.add(printOption1);
         QuestionnairePrintOption printOption2 = new QuestionnairePrintOption();
         printOption2.setLabel("Test2");
         printOption2.setQuestionnaireRefId(2L);
+        printOption2.setQuestionnaireId(1);
         printOption2.setSelected(false);
         questionnairesToPrints.add(printOption2);
         final Map  pkMap = new HashMap();
@@ -159,17 +164,23 @@ public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
             questionnaire.setQuestionnaireId(1);
             questionnaire.setQuestionnaireRefId(1L);
             ProtocolDocument document = new ProtocolDocument();
+            final List<Protocol>protocols = new ArrayList<Protocol>(); 
+            protocols.add(document.getProtocol());
             document.getProtocol().setProtocolNumber("1234");
+            final Map keyValues = new HashMap();
+            keyValues.put("protocolNumber", "1234");
+            keyValues.put("sequenceNumber", "0");
            final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
            QuestionnairePrint questionnairePrint = new QuestionnairePrint();
            QuestionnairePrintingServiceImpl qnPrintingServiceImpl = new QuestionnairePrintingServiceImpl();
             context.checking(new Expectations() {{
                 one(businessObjectService).findByPrimaryKey(Questionnaire.class, pkMap); will(returnValue(questionnaire));
+                one(businessObjectService).findMatching(Protocol.class, keyValues); will(returnValue(protocols));
             }});
             qnPrintingServiceImpl.setBusinessObjectService(businessObjectService);
             qnPrintingServiceImpl.setQuestionnairePrint(questionnairePrint);
             
-            List<Printable> printables = qnPrintingServiceImpl.getQuestionnairePtintable(document.getProtocol(), questionnairesToPrints);
+            List<Printable> printables = qnPrintingServiceImpl.getQuestionnairePtintable(document.getProtocol(), questionnairesToPrints, new Integer(1));
             // FIXME Writing PDF to disk for testing purpose only.
             assertEquals(printables.size(),1);
             assertEquals(((AbstractPrint)printables.get(0)).getReportParameters().get("questionnaireId"), new Integer(1));

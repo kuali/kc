@@ -154,6 +154,8 @@ public class QuestionnaireXmlStream implements XmlStream {
                 (List)businessObjectService.findMatchingOrderBy(
                         org.kuali.kra.questionnaire.Questionnaire.class, qParam, "questionnaireRefId", false);
             questionnaire = questionnaires.get(0);
+            // not sure why need this.  If it is not refreshed, some may get empty qnQuestions
+            questionnaire.refreshReferenceObject("questionnaireQuestions");
         }else{
             questionnaire = findQuestionnaireObject(documentNumber);
         }

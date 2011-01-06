@@ -18,6 +18,7 @@ package org.kuali.kra.questionnaire.answer;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -25,16 +26,15 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.util.collection.CollectionsUtil;
+import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.questionnaire.QuestionnaireQuestion;
-import org.kuali.kra.questionnaire.QuestionnaireQuestionComparator;
 import org.kuali.kra.questionnaire.QuestionnaireUsage;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ObjectUtils;
-
-import java.util.Collections;
 
 /**
  * 
@@ -49,6 +49,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     private static final String YES = "Y";
     private static final String NO = "N";
     private BusinessObjectService businessObjectService;
+    private ProtocolFinderDao protocolFinderDao;
 
     /*
      * Get the questionnaire that is 'final' for the specified module.
@@ -561,4 +562,32 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 
     }
 
+    public void setProtocolFinderDao(ProtocolFinderDao protocolFinderDao) {
+        this.protocolFinderDao = protocolFinderDao;
+    }
+
+    /**
+     * 
+     * @see org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#getAnswerHeadersForProtocol(java.lang.String)
+     */
+    public List<AnswerHeader> getAnswerHeadersForProtocol(String protocolNumber) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(MODULE_ITEM_CODE, CoeusModule.IRB_MODULE_CODE);
+        fieldValues.put(MODULE_ITEM_KEY, getProtocolNumbers(protocolNumber));
+        return (List<AnswerHeader>) businessObjectService.findMatching(AnswerHeader.class, fieldValues);
+    }
+
+    /*
+     * get the unique protocol numbers for the protocolnumber.
+     * The unique protocol numbers may contain amendment and renewal protocol's protocol numbers.
+     */
+    private List<String> getProtocolNumbers(String protocolNumber) {
+        List<String> protocolNumbers = new ArrayList<String>();
+        for (Protocol protocol : protocolFinderDao.findProtocols(protocolNumber)) {
+            if (!protocolNumbers.contains(protocol.getProtocolNumber())) {
+                protocolNumbers.add(protocol.getProtocolNumber());
+            }
+        }
+        return protocolNumbers;
+    }
 }

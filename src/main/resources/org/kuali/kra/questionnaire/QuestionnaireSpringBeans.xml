@@ -104,8 +104,9 @@
     </bean>
     <bean id="questionnaireAnswerService" class="org.kuali.kra.questionnaire.answer.QuestionnaireAnswerServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
+   		<property name="protocolFinderDao" ref="protocolFinderDao" />
     </bean>
-	    <bean id="questionnaireAuthorizationService" class="org.kuali.kra.questionnaire.QuestionnaireAuthorizationServiceImpl">
+	<bean id="questionnaireAuthorizationService" class="org.kuali.kra.questionnaire.QuestionnaireAuthorizationServiceImpl">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
         <property name="kcPersonService" ref="kcPersonService" />
     </bean>
