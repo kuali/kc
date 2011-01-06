@@ -78,6 +78,43 @@
 <script language="javascript" src="dwr/interface/ProtocolActionAjaxService.js"></script>
 
 <script language="javascript">enableJavaScript()</script>
-    <script type="text/javascript" src="scripts/questionnaireAnswer.js"></script>
+<script type="text/javascript" src="scripts/questionnaireAnswer.js"></script>
+    
+<script language="javascript">
+    		$j(document).ready(function(){
 
+    		    $j(".printSubpanel").toggle(
+    		            function()
+    		            {
+    		            	var controlId = $j(this).attr("id");
+    		            	var contentId = controlId.replace("Control","Content");
+    		                $j("#"+contentId).slideDown(500);
+    		                $j(this).html("<img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+    		            },function(){
+    		            	var controlId = $j(this).attr("id");
+    		            	var contentId = controlId.replace("Control","Content");
+    		                $j("#"+contentId).slideUp(500);
+    		                $j(this).html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+    		            }
+    		        );
+    		    $j(".printSubpanelContent").hide();       		
+
+
+    		    $j(".printQnSubpanel").toggle(
+    		            function()
+    		            {
+    		                $j("#"+$j(this).attr("id")+"Content").slideDown(500);
+    		                $j(this).html("<img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+    		            },function(){
+    		                $j("#"+$j(this).attr("id")+"Content").slideUp(500);
+    		                $j(this).html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+    		            }
+    		        );
+    		    $j(".printQnSubpanelContent").hide();       		
+
+    		      					
+		});
+
+ </script>
+ 
 </kul:documentPage>

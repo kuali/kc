@@ -15,207 +15,215 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="kraAttributeReferenceDummyAttributes" value="${DataDictionary.KraAttributeReferenceDummy.attributes}" />
-
+<c:set var="h3BkColor" value="background-color: #C3C3C3;border-bottom: 1px solid #CCCCCC;"/>
 
 <kul:tab tabTitle="Print" defaultOpen="false" tabErrorKey="actionHelper.reportType">
-    <div class="tab-container" align="left">
-        <h3>
-            <span class="subhead-left">Print</span>
+    <div class="tab-container" align="left" >
+        <h3 style="${h3BkColor}">
+            <span class="subhead-left-black"><a href="#" id ="protocolDetailsControl" class="printSubpanel"><img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a>
+                Protocol Details </span>
         </h3>
-
-        <table cellpadding="0" cellspacing="0" summary="print forms">
-            <tr>
-                <td>
+	    <div id="protocolDetailsContent" class="printSubpanelContent">   
+            <table cellpadding="0" cellspacing="0" summary="print forms">
+                <tr>
+                    <th colspan="3" class="infoline">
+                        <div align="left">
+                            Protocol Summary
+                        </div>
+                    </th>
+                </tr>
+                <tr>
+                    <td>
                        <div align="left">
                             <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.protocolDetails" 
                                                       attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
                                                       readOnly="false" styleClass="printOptions"/>Protocol Details
                         </div>
-                </td>
-                <td>
+                    </td>
+                    <td>
                        <div align="left">
                             <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.fundingSource" 
                                                       attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
                                                       readOnly="false" styleClass="printOptions"/>Funding Source
                         </div>
-                </td>
-                <td>
+                    </td>
+                    <td>
                        <div align="left">
                             <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.ammendmentRenewalSummary" 
                                                       attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
                                                       readOnly="false" styleClass="printOptions"/>Amendment & Renewal
                         </div>
-                </td>
-            </tr>
+                    </td>
+                </tr>
             
-            <tr>
-                <td>
+                <tr>
+                    <td>
                        <div align="left">
                             <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.organizaition" 
                                                       attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
                                                       readOnly="false" styleClass="printOptions"/>Organization
                         </div>
-                </td>
-                <td>
+                    </td>
+                    <td>
                        <div align="left">
                             <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.actions" 
                                                       attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
                                                       readOnly="false" styleClass="printOptions"/>Action History
                         </div>
-                </td>
-                <td>
+                    </td>
+                    <td>
                        <div align="left">
                             <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.otherData" 
                                                       attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
                                                       readOnly="false" styleClass="printOptions"/>Other Data
                         </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
                        <div align="left">
                             <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.investigator" 
                                                       attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
                                                       readOnly="false" styleClass="printOptions"/>Investigator
                         </div>
-                </td>
-                <td>
+                    </td>
+                    <td>
                        <div align="left">
                             <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.subjects" 
                                                       attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
                                                       readOnly="false" styleClass="printOptions"/>Subjects
                         </div>
-                </td>
-                <td>
+                    </td>
+                    <td>
                        <div align="left">
                             <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.roles" 
                                                       attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
                                                       readOnly="false" styleClass="printOptions"/>Protocol Roles
                         </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
                       <div align="left">
                             <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.studyPersonnels" 
                                                       attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
                                                       readOnly="false" styleClass="printOptions"/>Study Personnel
                         </div>
-                </td>
-                <td>
+                    </td>
+                    <td>
                        <div align="left">
                             <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.specialReview" 
                                                       attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
                                                       readOnly="false" styleClass="printOptions"/>Special Review
                         </div>
-                </td>
-                <td>
+                    </td>
+                    <td>
                        <div align="left">
                             <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.references" 
                                                       attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
                                                       readOnly="false" styleClass="printOptions"/>References
                         </div>
-                </td>
-            </tr>
+                    </td>
+                </tr>
 
-            <tr>
-                <td>
+                <tr>
+                    <td>
                       <div align="left">
                             <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.correspondents" 
                                                       attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
                                                       readOnly="false" styleClass="printOptions"/>Correspondents
                         </div>
-                </td>
-                <td>
+                    </td>
+                    <td>
                        <div align="left">
                             <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.riskLevel" 
                                                       attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
                                                       readOnly="false" styleClass="printOptions"/>Risk Levels
                         </div>
-                </td>
-                <td>
+                    </td>
+                    <td>
                        <div align="left">
-                            <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.reviewComments" 
-                                                      attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
-                                                      readOnly="false" styleClass="printOptions"/>Review Comments
+                            &nbsp;
                         </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
                       <div align="left">
                             <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.areaOfResearch" 
                                                       attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
                                                       readOnly="false" styleClass="printOptions"/>Area of Research
                         </div>
-                </td>
-                <td>
+                    </td>
+                    <td>
                        <div align="left">
                             <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.notes" 
                                                       attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
                                                       readOnly="false" styleClass="printOptions"/>Notes
                         </div>
-                </td>
-                <td>
+                    </td>
+                    <td>
                        <div align="left">
                             &nbsp;
                         </div>
-                </td>
-            </tr>
-	        <c:if test="${fn:length(KualiForm.actionHelper.questionnairesToPrints) > 0}">
-	           <c:set var = "qnLength" value = "${fn:length(KualiForm.actionHelper.questionnairesToPrints)}" />
-	            <tr>
-	                <td class="tab-subhead" colspan="3">Questionnaire</td>
-	            </tr>
-	
-	            <%--<c:forEach var="qnPrintOption" items="${KualiForm.actionHelper.questionnairesToPrints}" varStatus="status">--%>
-	            <c:forEach var="i" begin="1" end="${qnLength}" step="3">	            
-	                <tr>
-                        <td>
-                            <div align="left">
-                                <kul:htmlControlAttribute property="actionHelper.questionnairesToPrints[${i - 1}].selected" 
+                    </td>
+                </tr>
+                <tr>
+                    <th class="infoline">
+                        <div align="left">
+                            Review Comments
+                        </div>
+                    </th>
+                    <td colspan="2">
+                       <div align="center">
+                            <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.reviewComments" 
                                                       attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
-                                                      readOnly="false" styleClass="printOptions"/>${KualiForm.actionHelper.questionnairesToPrints[i-1].label}
-                            </div>
-                        </td>
-                        <td>
-                            <div align="left">
-	                            <c:if test="${qnLength >= i+1}">
-                                    <kul:htmlControlAttribute property="actionHelper.questionnairesToPrints[${i}].selected" 
+                                                      readOnly="false" styleClass="printOptions"/>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="infoline">
+                        <div align="left">
+                            Protocol History
+                        </div>
+                    </th>
+                    <td colspan="2" >
+                       <div align="center">
+                            <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.protocolHistory" 
                                                       attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
-                                                      readOnly="false" styleClass="printOptions"/>${KualiForm.actionHelper.questionnairesToPrints[i].label}
-	                            </c:if>
-                            </div>
-	                    </td>
-                        <td>
-                            <div align="left">
-	                            <c:if test="${qnLength >= i+2}">
-                                    <kul:htmlControlAttribute property="actionHelper.questionnairesToPrints[${i+1}].selected" 
-                                                      attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
-                                                      readOnly="false" styleClass="printOptions"/>${KualiForm.actionHelper.questionnairesToPrints[i+1].label}
-	                            </c:if>
-                            </div>
-	                    </td>
-	                 </tr>     
-	            </c:forEach>
-            </c:if>
-		    <tr>
-			    <td colspan="2" class="infoline">
-					<div align="center">
-                        <html:image property="methodToCall.printProtocolSelectedItems.anchor${currentTabIndex}"
+                                                      readOnly="false" styleClass="printOptions"/>
+                        </div>
+                    </td>
+                </tr>
+                
+		        <tr>
+			        <td colspan="2" class="infoline">
+					    <div align="center">
+                            <html:image property="methodToCall.printProtocolSelectedItems.anchor${currentTabIndex}"
                                 src='${ConfigProperties.kra.externalizable.images.url}tinybutton-printsel.gif' 
                                 styleClass="tinybutton" onclick="excludeSubmitRestriction = true;"/>                         
-				    </div>
-				</td>
-				<td>
-					<div align="center">
-      			        <html:image property="methodToCall.selectAllProtocolPrint.anchor${tabKey}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif" title="Select All" alt="Select All" styleClass="tinybutton" onclick="$j('.printOptions').attr('checked', true);return false;" />
-      			        <html:image property="methodToCall.deselectAllProtocolPrint.anchor${tabKey}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif" title="Select None" alt="Select None" styleClass="tinybutton" onclick="$j('.printOptions').attr('checked', false);return false;" />
-					</div>						
-				</td>
-			</tr>
-			
-	        <c:if test="${fn:length(KualiForm.document.protocolList[0].activeAttachmentProtocols) > 0}">
+				        </div>
+				    </td>
+				    <td>
+					    <div align="center">
+      			            <html:image property="methodToCall.selectAllProtocolPrint.anchor${tabKey}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif" title="Select All" alt="Select All" styleClass="tinybutton" onclick="$j('.printOptions').attr('checked', true);return false;" />
+      			            <html:image property="methodToCall.deselectAllProtocolPrint.anchor${tabKey}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif" title="Select None" alt="Select None" styleClass="tinybutton" onclick="$j('.printOptions').attr('checked', false);return false;" />
+					    </div>						
+				    </td>
+			    </tr>
+             </table>
+		</div>	
+		  
+		<c:if test="${fn:length(KualiForm.document.protocolList[0].activeAttachmentProtocols) > 0 or fn:length(KualiForm.document.protocolList[0].attachmentPersonnels) > 0}">
+            <h3 style="${h3BkColor}">
+                <span class="subhead-left-black"><a href="#" id ="attachmentControl" class="printSubpanel"><img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a>
+                Attachments </span>
+            </h3>
+	        <div id="attachmentContent" class="printSubpanelContent" style="padding-left: 15px;">   
+            <table cellpadding="0" cellspacing="0" summary="print forms">
+        </c:if>
+	    <c:if test="${fn:length(KualiForm.document.protocolList[0].activeAttachmentProtocols) > 0}">
 	            <tr>
 	                <td class="tab-subhead" colspan="3">Protocol Attachments</td>
 	            </tr>
@@ -240,11 +248,11 @@
 	            </c:forEach>
            </c:if>
            <c:if test="${fn:length(KualiForm.document.protocolList[0].attachmentPersonnels) > 0}">
-           	<tr>
-                <td class="tab-subhead" colspan="3">Personnel Attachments</td>
-            </tr>
-           	<c:forEach var="attachmentPersonnel" items="${KualiForm.document.protocolList[0].attachmentPersonnels}" varStatus="status">
-           		<tr>
+           	    <tr>
+                    <td class="tab-subhead" colspan="3">Personnel Attachments</td>
+                </tr>
+           	    <c:forEach var="attachmentPersonnel" items="${KualiForm.document.protocolList[0].attachmentPersonnels}" varStatus="status">
+           		    <tr>
 	                    <td colspan="2">
 	                        ${attachmentPersonnel.description} - ${attachmentPersonnel.type.description} (${attachmentPersonnel.file.name})
 	                    </td>
@@ -260,6 +268,78 @@
 	          </c:forEach>
            </c:if>
 						                         
-        </table>
+	        <c:if test="${fn:length(KualiForm.document.protocolList[0].activeAttachmentProtocols) > 0 or fn:length(KualiForm.document.protocolList[0].attachmentPersonnels) > 0}">
+                </table>
+                </div>
+            </c:if>
+		  
+		  
+	    <c:if test="${fn:length(KualiForm.actionHelper.questionnairesToPrints) > 0}">
+            <h3 style="${h3BkColor}">
+                <span class="subhead-left-black"><a href="#" id ="questionnaireControl" class="printSubpanel"><img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a>
+                Questionnaires </span>
+            </h3>
+	        <div id="questionnaireContent" class="printSubpanelContent" style="padding-left: 15px;">   
+	            <c:set var="qid" value="0"/>
+                <table cellpadding="0" cellspacing="0"  border="0" summary="print forms">
+	                <c:set var = "qnLength" value = "${fn:length(KualiForm.actionHelper.questionnairesToPrints)}" />
+	                <c:forEach var="qnPrintOption" items="${KualiForm.actionHelper.questionnairesToPrints}" varStatus="status">
+	                <%--<c:forEach var="i" begin="1" end="${qnLength}" step="3">--%>	            
+	                <c:if test="${qid != KualiForm.actionHelper.questionnairesToPrints[status.index].questionnaireId}">
+                       <tr>
+                           <td class="infoline" colspan="2">
+                              <div align="left">
+                               <a href="#" id ="qid${KualiForm.actionHelper.questionnairesToPrints[status.index].questionnaireId}" class="printQnSubpanel"><img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a>                              ${KualiForm.actionHelper.questionnairesToPrints[status.index].questionnaireName}
+                              </div>
+                           </td>
+                       </tr>
+	                   <c:set var="qid" value="${KualiForm.actionHelper.questionnairesToPrints[status.index].questionnaireId}"/>
+                       <tr>
+                          <td>
+	                   <div id ="qid${KualiForm.actionHelper.questionnairesToPrints[status.index].questionnaireId}Content" class="printQnSubpanelContent">
+	                        <table  cellpadding="0" cellspacing="0" border="0" >
+	                </c:if>
+	                    <tr>
+                            <td>
+                                <div align="left">
+                                    ${KualiForm.actionHelper.questionnairesToPrints[status.index].label}
+                                </div>
+                            </td>
+                            <td>
+                                <div align="center">
+                                    <kul:htmlControlAttribute property="actionHelper.questionnairesToPrints[${status.index}].selected" 
+                                                      attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
+                                                      readOnly="false" styleClass="printQnOptions${KualiForm.actionHelper.questionnairesToPrints[status.index].questionnaireId}"/>
+                                </div>
+                            </td>
+	                     </tr>     
+	                <c:if test="${qnLength == (status.index + 1) or qid != KualiForm.actionHelper.questionnairesToPrints[status.index+1].questionnaireId}">
+		        <tr>
+			    <td class="infoline">
+					<div align="center">
+                        <html:image property="methodToCall.printProtocolQuestionnaires.line${KualiForm.actionHelper.questionnairesToPrints[status.index].questionnaireId}.anchor${currentTabIndex}"
+                                src='${ConfigProperties.kra.externalizable.images.url}tinybutton-printsel.gif' 
+                                styleClass="tinybutton" onclick="excludeSubmitRestriction = true;"/>                         
+				    </div>
+				</td>
+				<td>
+					<div align="center">
+      			        <html:image property="methodToCall.selectAllProtocolPrint.anchor${tabKey}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif" title="Select All" alt="Select All" styleClass="tinybutton" onclick="$j('.printQnOptions${KualiForm.actionHelper.questionnairesToPrints[status.index].questionnaireId}').attr('checked', true);return false;" />
+      			        <html:image property="methodToCall.deselectAllProtocolPrint.anchor${tabKey}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif" title="Select None" alt="Select None" styleClass="tinybutton" onclick="$j('.printQnOptions${KualiForm.actionHelper.questionnairesToPrints[status.index].questionnaireId}').attr('checked', false);return false;" />
+					</div>						
+				</td>
+			</tr>
+           <%-- close the div for each questionnaire --%>
+                         </table>
+	                   </div>
+                         </td>
+                         </tr>
+
+                    </c:if>
+	                </c:forEach>
+       </table>
+       </div>
+      </c:if>
+      
     </div>
 </kul:tab>
