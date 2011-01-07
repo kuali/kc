@@ -55,6 +55,7 @@ public class CitizenshipTypeTest extends KcUnitTestBase {
     }
     
     //@Test
+    /*
     public void findAndUpdateTestCitizenshipType() throws Exception {
         Map arguments = new HashMap();
         arguments.put("CITIZENSHIP_TYPE_CODE", "ABW");
@@ -67,5 +68,5 @@ public class CitizenshipTypeTest extends KcUnitTestBase {
         
         CitizenshipType ct2 = (CitizenshipType)service.findByPrimaryKey(CitizenshipType.class, arguments);
         assertEquals("Aruba Tester", ct2.getDescription());
-    }
+    }*/
 }
