@@ -90,16 +90,16 @@
 							<!-- maven 3 conventions - works with current m2Eclipse -->
 							<sourceRoot>${project.build.directory}/generated/cxf/main/java</sourceRoot>
 							<disableDirectoryScan>true</disableDirectoryScan>
-							<defaultOptions>
-							    <noAddressBinding>true</noAddressBinding>
-							    <extraargs>
-							    	<extraarg>-verbose</extraarg>
-							    	<extraarg>-validate</extraarg>
-							    </extraargs>
-							</defaultOptions>
-							<!-- maven 3 conventions - works with current m2Eclipse -->
-							<wsdl>${gg.wsdl.location}/AccountCreationService.wsdl</wsdl>
-						    
+							<wsdlOptions>
+								<wsdlOption>
+								    <noAddressBinding>true</noAddressBinding>
+									<wsdl>${gg.wsdl.location}/AccountCreationService.wsdl</wsdl>
+									<extraargs>
+								    	<extraarg>-verbose</extraarg>
+								    	<extraarg>-validate</extraarg>
+								    </extraargs>
+								</wsdlOption>
+							</wsdlOptions>
 						</configuration>
 						<goals>
 							<goal>wsdl2java</goal>
