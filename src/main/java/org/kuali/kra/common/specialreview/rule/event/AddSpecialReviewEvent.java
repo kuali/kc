@@ -31,36 +31,48 @@ public class AddSpecialReviewEvent<T extends SpecialReview<? extends SpecialRevi
     private static final String NEW_SPECIAL_REVIEW_FIELD = "specialReviewHelper.newSpecialReview";
     
     private T specialReview;
+    
+    private boolean validateProtocol;
 
     /**
-     * Constructs an AddProposalSpecialReviewEvent with the given document, and proposalSpecialReview.
+     * Constructs an AddProposalSpecialReviewEvent.
      * 
-     * @param proposalDevelopmentDocument
-     * @param proposalSpecialReview
+     * @param document The document containing the Special Review
+     * @param specialReview The Special Review object to validate
      */
     public AddSpecialReviewEvent(Document document, T specialReview) {
+        this(document, specialReview, true);
+    }
+    
+    /**
+     * Constructs an AddProposalSpecialReviewEvent.
+     * 
+     * @param document The document containing the Special Review
+     * @param specialReview The Special Review object to validate
+     * @param validateProtocol Whether or not to validate the Protocol number
+     */
+    public AddSpecialReviewEvent(Document document, T specialReview, boolean validateProtocol) {
         super("adding special review to document " + getDocumentId(document), NEW_SPECIAL_REVIEW_FIELD, document);
         this.specialReview = specialReview;
+        this.validateProtocol = validateProtocol;
     }
 
-    /**
-     * Gets the specialReview attribute.
-     * 
-     * @return Returns the specialReview.
-     */
     public T getSpecialReview() {
         return specialReview;
     }
 
-    /**
-     * Sets the specialReview attribute value.
-     * 
-     * @param specialReview The specialReview to set.
-     */
     public void setSpecialReview(T specialReview) {
         this.specialReview = specialReview;
     }
     
+    public boolean getValidateProtocol() {
+        return validateProtocol;
+    }
+
+    public void setValidateProtocol(boolean validateProtocol) {
+        this.validateProtocol = validateProtocol;
+    }
+
     @Override
     public BusinessRuleInterface<AddSpecialReviewEvent<T>> getRule() {
         return new AddSpecialReviewRule<T>();
