@@ -251,13 +251,7 @@ public class AwardCloseoutServiceImplTest {
      */
     @Test
     public final void testGetCalculatedDueDate_NumberOfDaysAreZero_NumberOfMonthsAreZero(){
-        Calendar calendar = new GregorianCalendar();
-        calendar.setTimeInMillis(1000000);
-        newAwardReportTerm.setFrequency(newFrequency);
-        newAwardReportTerm.getFrequency().setNumberOfDays(0);
-        newAwardReportTerm.getFrequency().setNumberOfMonths(0);
-        java.util.Date calculatedDate= service.getCalculatedDueDate(new Date(calendar.getTimeInMillis()), newAwardReportTerm, calendar);
-        Assert.assertEquals(calendar.getTime(), calculatedDate);
+        getCalculatedDueDatTesting(0, 0, 0, 0);
     }
     
     /**
@@ -266,14 +260,7 @@ public class AwardCloseoutServiceImplTest {
      */
     @Test
     public final void testGetCalculatedDueDate_NumberOfDaysAreZero_NumberOfMonthsAreNotZero(){
-        Calendar calendar = new GregorianCalendar();
-        calendar.setTimeInMillis(1000000);
-        newAwardReportTerm.setFrequency(newFrequency);
-        newAwardReportTerm.getFrequency().setNumberOfDays(0);
-        newAwardReportTerm.getFrequency().setNumberOfMonths(5);
-        calendar.add(Calendar.MONTH, 5);
-        java.util.Date calculatedDate= service.getCalculatedDueDate(new Date(calendar.getTimeInMillis()), newAwardReportTerm, calendar);
-        Assert.assertEquals(calendar.getTime(), calculatedDate);
+        getCalculatedDueDatTesting(0, 5, 0, 0);
     }
     
     /**
@@ -282,14 +269,7 @@ public class AwardCloseoutServiceImplTest {
      */
     @Test
     public final void testGetCalculatedDueDate_NumberOfDaysAreNotZero_NumberOfMonthsAreZero(){
-        Calendar calendar = new GregorianCalendar();
-        calendar.setTimeInMillis(1000000);
-        newAwardReportTerm.setFrequency(newFrequency);
-        newAwardReportTerm.getFrequency().setNumberOfDays(15);
-        newAwardReportTerm.getFrequency().setNumberOfMonths(0);
-        calendar.add(Calendar.DAY_OF_YEAR, 15);
-        java.util.Date calculatedDate= service.getCalculatedDueDate(new Date(calendar.getTimeInMillis()), newAwardReportTerm, calendar);
-        Assert.assertEquals(calendar.getTime(), calculatedDate);
+        getCalculatedDueDatTesting(15, 0, 0, 0);
     }
     
     /**
@@ -298,15 +278,50 @@ public class AwardCloseoutServiceImplTest {
      */
     @Test
     public final void testGetCalculatedDueDate_NumberOfDaysAreNotZero_NumberOfMonthsAreNotZero(){
+        getCalculatedDueDatTesting(15, 5, 0, 0);
+    }
+
+    /**
+     * 
+     * This method tests the getCalculatedDueDate method of AwardCloseoutBean
+     */
+    @Test
+    public final void testGetCalculatedDueDate_NumberOfAdvanceDaysAreNotZero_NumberOfAdvanceMonthsAreNotZero(){
+        getCalculatedDueDatTesting(0, 0, 15, 5);
+    }
+    
+    /**
+     * 
+     * This method tests the getCalculatedDueDate method of AwardCloseoutBean
+     */
+    @Test
+    public final void testGetCalculatedDueDate_NumberOfAdvanceDaysAreNotZero_NumberOfAdvanceMonthsAreZero(){
+        getCalculatedDueDatTesting(0, 0, 15, 0);
+    }
+    
+    /**
+     * 
+     * This method tests the getCalculatedDueDate method of AwardCloseoutBean
+     */
+    @Test
+    public final void testGetCalculatedDueDate_NumberOfAdvanceDaysAreZero_NumberOfAdvanceMonthsAreNotZero(){
+        getCalculatedDueDatTesting(0, 0, 0, 5);
+    }
+    
+    public void getCalculatedDueDatTesting(int numberOfDays, int numberOfMonths, int numberOfAdvanceDays, int numberOfAdvanceMonths) {
         Calendar calendar = new GregorianCalendar();
         calendar.setTimeInMillis(1000000);
+        newFrequency.setNumberOfDays(numberOfDays);
+        newFrequency.setNumberOfMonths(numberOfMonths);
+        newFrequency.setAdvanceNumberOfDays(numberOfAdvanceDays);
+        newFrequency.setAdvanceNumberOfMonths(numberOfAdvanceMonths);
         newAwardReportTerm.setFrequency(newFrequency);
-        newAwardReportTerm.getFrequency().setNumberOfDays(15);
-        newAwardReportTerm.getFrequency().setNumberOfMonths(5);
-        calendar.add(Calendar.MONTH, 5);
-        calendar.add(Calendar.DAY_OF_YEAR, 15);
+        calendar.add(Calendar.MONTH, numberOfMonths);
+        calendar.add(Calendar.DAY_OF_YEAR, numberOfDays);
+        calendar.add(Calendar.MONTH, -numberOfAdvanceMonths);
+        calendar.add(Calendar.DAY_OF_YEAR, -numberOfAdvanceDays);
         java.util.Date calculatedDate= service.getCalculatedDueDate(new Date(calendar.getTimeInMillis()), newAwardReportTerm, calendar);
         Assert.assertEquals(calendar.getTime(), calculatedDate);
     }
-
+    
 }
