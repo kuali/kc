@@ -24,10 +24,11 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.paymentreports.Frequency;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * 
@@ -150,13 +151,21 @@ public class AwardCloseoutServiceImpl implements AwardCloseoutService {
      *
      */
     protected java.util.Date getCalculatedDueDate(Date finalExpirationDate, AwardReportTerm awardReportTerm, Calendar calendar) {
-        if (awardReportTerm.getFrequency().getNumberOfDays() != null) {
-            calendar.add(Calendar.DAY_OF_YEAR, awardReportTerm.getFrequency().getNumberOfDays());
+        Frequency frequency = awardReportTerm.getFrequency();
+        if(frequency != null) {
+            if (frequency.getNumberOfDays() != null) {
+                calendar.add(Calendar.DAY_OF_YEAR, frequency.getNumberOfDays());
+            }
+            if (frequency.getNumberOfMonths() != null) {
+                calendar.add(Calendar.MONTH, frequency.getNumberOfMonths());    
+            }
+            if(frequency.getAdvanceNumberOfDays()!=null){
+                calendar.add(Calendar.DAY_OF_YEAR, -frequency.getAdvanceNumberOfDays());
+            }
+            if(frequency.getAdvanceNumberOfMonths()!=null){
+                calendar.add(Calendar.MONTH, -frequency.getAdvanceNumberOfMonths());
+            }    
         }
-        if (awardReportTerm.getFrequency().getNumberOfMonths() != null) {
-            calendar.add(Calendar.MONTH, awardReportTerm.getFrequency().getNumberOfMonths());    
-        }
-        
         return calendar.getTime();
     }
 
@@ -304,7 +313,11 @@ public class AwardCloseoutServiceImpl implements AwardCloseoutService {
         java.util.Date dueDate = calendar.getTime();
         if (awardReportTerm.getDueDate() != null) {
             dueDate =  awardReportTerm.getDueDate();
-        } else if (awardReportTerm.getFrequency() != null && awardReportTerm.getFrequency().getNumberOfMonths() != null) {
+        } else if (awardReportTerm.getFrequency() != null 
+                    && (awardReportTerm.getFrequency().getNumberOfMonths() != null
+                        || awardReportTerm.getFrequency().getNumberOfDays() != null 
+                        || awardReportTerm.getFrequency().getAdvanceNumberOfMonths() != null
+                        || awardReportTerm.getFrequency().getAdvanceNumberOfDays() != null)) {
             // don't want to change calendar's value
             dueDate = getCalculatedDueDate(finalExpirationDate, awardReportTerm, (Calendar)calendar.clone());
         }
