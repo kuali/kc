@@ -66,10 +66,14 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
     protected boolean processAddSpecialReviewEvent(AddSpecialReviewEvent<T> addSpecialReviewEvent) {
         boolean rulePassed = true;
         
-        getDictionaryValidationService().validateBusinessObject(addSpecialReviewEvent.getSpecialReview());
+        T specialReview = addSpecialReviewEvent.getSpecialReview();
+        String errorPathPrefix = addSpecialReviewEvent.getErrorPathPrefix();
+        boolean validateProtocol = addSpecialReviewEvent.getValidateProtocol();
+        
+        getDictionaryValidationService().validateBusinessObject(specialReview);
         rulePassed &= GlobalVariables.getMessageMap().hasNoErrors();
-        rulePassed &= validateDateFields(addSpecialReviewEvent.getSpecialReview(), addSpecialReviewEvent.getErrorPathPrefix());
-        rulePassed &= validateSpecialReviewApprovalFields(addSpecialReviewEvent.getSpecialReview(), addSpecialReviewEvent.getErrorPathPrefix());
+        rulePassed &= validateDateFields(specialReview, errorPathPrefix);
+        rulePassed &= validateSpecialReviewApprovalFields(specialReview, errorPathPrefix, validateProtocol);
 
         return rulePassed;
     }
@@ -87,8 +91,9 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
         int i = 0;
         for (T specialReview : specialReviews) {
             String errorPath = saveSpecialReviewEvent.getErrorPathPrefix() + "[" + i++ + "]";
+            boolean validateProtocol = saveSpecialReviewEvent.getValidateProtocol();
             rulePassed &= validateDateFields(specialReview, errorPath);
-            rulePassed &= validateSpecialReviewApprovalFields(specialReview, errorPath);
+            rulePassed &= validateSpecialReviewApprovalFields(specialReview, errorPath, validateProtocol);
         }
         
         return rulePassed;
@@ -135,10 +140,11 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
      * Validates the rules surrounding the ValidSpecialReviewApproval.
      * @param specialReview The special review to validate
      * @param errorPath The error path
+     * @param validateProtocol Whether or not to validate whether the given protocol number refers to an existing Protocol
      * @return true if the specialReview is valid, false otherwise
      */
     @SuppressWarnings("unchecked")
-    private boolean validateSpecialReviewApprovalFields(T specialReview, String errorPath) {
+    private boolean validateSpecialReviewApprovalFields(T specialReview, String errorPath, boolean validateProtocol) {
         boolean isValid = true;
         
         if (StringUtils.isNotBlank(specialReview.getSpecialReviewTypeCode()) && StringUtils.isNotBlank(specialReview.getApprovalTypeCode())) {
@@ -148,7 +154,7 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
             Collection<ValidSpecialReviewApproval> validApprovals = getBusinessObjectService().findMatching(ValidSpecialReviewApproval.class, fieldValues);
 
             for (ValidSpecialReviewApproval validApproval : validApprovals) {
-                isValid &= validateApprovalFields(validApproval, specialReview, errorPath);
+                isValid &= validateApprovalFields(validApproval, specialReview, errorPath, validateProtocol);
             }
         }
         
@@ -161,9 +167,10 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
      * @param approval The maintenance document that determines whether a field is required
      * @param specialReview The special review to validate
      * @param errorPath The error path
+     * @param validateProtocol Whether or not to validate whether the given protocol number refers to an existing Protocol
      * @return true if the specialReview is valid, false otherwise
      */
-    private boolean validateApprovalFields(ValidSpecialReviewApproval approval, T specialReview, String errorPath) {
+    private boolean validateApprovalFields(ValidSpecialReviewApproval approval, T specialReview, String errorPath, boolean validateProtocol) {
         boolean isValid = true;
 
         if (approval.isProtocolNumberFlag()) {
@@ -172,10 +179,12 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
                 reportErrorWithoutFullErrorPath(errorPath + DOT + PROTOCOL_NUMBER_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_REQUIRED_FOR_VALID, 
                         PROTOCOL_NUMBER_TITLE, getValidSpecialReviewApprovalErrorString(approval));
             } else {
-                Protocol protocol = getProtocolFinderDao().findCurrentProtocolByNumber(specialReview.getProtocolNumber());
-                if (protocol == null) {
-                    isValid = false;
-                    reportErrorWithoutFullErrorPath(errorPath + DOT + PROTOCOL_NUMBER_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_PROTOCOL_NUMBER_INVALID);
+                if (validateProtocol) {
+                    Protocol protocol = getProtocolFinderDao().findCurrentProtocolByNumber(specialReview.getProtocolNumber());
+                    if (protocol == null) {
+                        isValid = false;
+                        reportErrorWithoutFullErrorPath(errorPath + DOT + PROTOCOL_NUMBER_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_PROTOCOL_NUMBER_INVALID);
+                    }
                 }
             }
         }

@@ -32,16 +32,31 @@ import org.kuali.rice.kns.document.Document;
 public class SaveSpecialReviewEvent<T extends SpecialReview<? extends SpecialReviewExemption>> extends KraDocumentEventBaseExtension {
     
     private List<T> specialReviews;
+    
+    private boolean validateProtocol;
 
     /**
      * Constructs a SaveSpecialReviewEvent.
+     * 
      * @param errorPathPrefix
      * @param document
      * @param specialReview
      */
     public SaveSpecialReviewEvent(String errorPathPrefix, Document document, List<T> specialReviews) {
+        this(errorPathPrefix, document, specialReviews, true);
+    }
+    
+    /**
+     * Constructs a SaveSpecialReviewEvent.
+     * 
+     * @param errorPathPrefix
+     * @param document
+     * @param specialReview
+     */
+    public SaveSpecialReviewEvent(String errorPathPrefix, Document document, List<T> specialReviews, boolean validateProtocol) {
         super("saving special review to document " + getDocumentId(document), errorPathPrefix, document);
         this.specialReviews = specialReviews;
+        this.validateProtocol = validateProtocol;
     }
 
     public List<T> getSpecialReviews() {
@@ -51,7 +66,15 @@ public class SaveSpecialReviewEvent<T extends SpecialReview<? extends SpecialRev
     public void setSpecialReviews(List<T> specialReviews) {
         this.specialReviews = specialReviews;
     }
-    
+
+    public boolean getValidateProtocol() {
+        return validateProtocol;
+    }
+
+    public void setValidateProtocol(boolean validateProtocol) {
+        this.validateProtocol = validateProtocol;
+    }
+
     @Override
     public BusinessRuleInterface<SaveSpecialReviewEvent<T>> getRule() {
         return new SaveSpecialReviewRule<T>();
@@ -84,7 +107,7 @@ public class SaveSpecialReviewEvent<T extends SpecialReview<? extends SpecialRev
         if (getClass() != obj.getClass()) {
             return false;
         }
-        SaveSpecialReviewEvent<T> other = (SaveSpecialReviewEvent<T>) obj;
+        SaveSpecialReviewEvent<?> other = (SaveSpecialReviewEvent<?>) obj;
         if (specialReviews == null) {
             if (other.specialReviews != null) {
                 return false;
