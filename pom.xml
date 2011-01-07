@@ -89,6 +89,7 @@
 						<configuration>
 							<!-- maven 3 conventions - works with current m2Eclipse -->
 							<sourceRoot>${project.build.directory}/generated/cxf/main/java</sourceRoot>
+							<disableDirectoryScan>true</disableDirectoryScan>
 							<defaultOptions>
 							    <noAddressBinding>true</noAddressBinding>
 							    <extraargs>
