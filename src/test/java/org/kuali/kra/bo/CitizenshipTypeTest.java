@@ -54,7 +54,7 @@ public class CitizenshipTypeTest extends KcUnitTestBase {
         assertNotNull(ct.getObjectId());
     }
     
-    @Test
+    //@Test
     public void findAndUpdateTestCitizenshipType() throws Exception {
         Map arguments = new HashMap();
         arguments.put("CITIZENSHIP_TYPE_CODE", "ABW");
