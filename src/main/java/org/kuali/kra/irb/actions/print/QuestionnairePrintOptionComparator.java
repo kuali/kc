@@ -30,8 +30,8 @@ public class QuestionnairePrintOptionComparator implements Comparator<Questionna
         int retval = 0;
         retval = q1.getQuestionnaireId().compareTo(q2.getQuestionnaireId());
         if (retval == 0) {
-            if (ObjectUtils.equals(q1.getItemKey(), q1.getItemKey())) {
-                if (ObjectUtils.equals(q1.getSubItemCode(), q1.getSubItemCode())) {
+            if (ObjectUtils.equals(q1.getItemKey(), q2.getItemKey())) {
+                if (ObjectUtils.equals(q1.getSubItemCode(), q2.getSubItemCode())) {
                     retval = q1.getSubItemKey().compareTo(q2.getSubItemKey());
                 }
                 else {
