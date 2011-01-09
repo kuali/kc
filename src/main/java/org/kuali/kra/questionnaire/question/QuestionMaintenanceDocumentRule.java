@@ -125,7 +125,7 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
     private boolean validateQuestionUsage(MaintenanceDocument maintenanceDocument) {
         Question question = (Question) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
 
-        if (!question.getStatus().equals("A") && getQuestionService().isQuestionUsed(question.getQuestionId())) {
+        if (!"A".equals(question.getStatus()) && getQuestionService().isQuestionUsed(question.getQuestionId())) {
             GlobalVariables.getErrorMap().putError(Constants.QUESTION_DOCUMENT_FIELD_STATUS,
                     KeyConstants.ERROR_QUESTION_STATUS_IN_USE);
             return false;

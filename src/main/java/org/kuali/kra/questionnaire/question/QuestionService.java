@@ -40,6 +40,6 @@ public interface QuestionService {
      * @param questionId of the question
      * @return true if question is used in an active questionnaire, false otherwise
      */
-    boolean isQuestionUsed(Integer questionRefId);
+    boolean isQuestionUsed(Integer questionId);
 
 }
