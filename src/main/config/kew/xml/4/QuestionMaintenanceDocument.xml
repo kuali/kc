@@ -6,7 +6,7 @@
 			<description>Create/Edit a Question</description>
 			<label>Question</label>
 			<parent>KcSharedMaintenanceDocument</parent>
-			<docHandler>${kuali.docHandler.url.prefix}/maintenance.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kuali.docHandler.url.prefix}/maintenanceQ.do?methodToCall=docHandler</docHandler>
             <helpDefinitionURL>default.htm?turl=Documents/question.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

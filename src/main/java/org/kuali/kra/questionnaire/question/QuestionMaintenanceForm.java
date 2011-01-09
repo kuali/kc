@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.maintenance;
+package org.kuali.kra.questionnaire.question;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 
-public class KraMaintenanceForm extends KualiMaintenanceForm {
+public class QuestionMaintenanceForm extends KualiMaintenanceForm {
 
     private static final long serialVersionUID = -627714142076110160L;
 
