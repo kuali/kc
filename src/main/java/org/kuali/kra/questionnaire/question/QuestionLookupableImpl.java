@@ -37,7 +37,7 @@ public class QuestionLookupableImpl extends KualiLookupableImpl {
     private static final long serialVersionUID = -5431630475561370731L;
 
     private static final String MAINTENANCE = "maintenance";
-    private static final String NEW_MAINTENANCE = "../maintenance";
+    private static final String NEW_MAINTENANCE = "../maintenanceQ";
     private static final String LOOKUP_RETURN ="lookupReturn";
     private static final String LOOKUP_CLASS ="lookupClass";
 

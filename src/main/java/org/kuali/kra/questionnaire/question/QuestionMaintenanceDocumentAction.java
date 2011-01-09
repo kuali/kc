@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.maintenance;
+package org.kuali.kra.questionnaire.question;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,22 +27,31 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.questionnaire.question.Question;
-import org.kuali.kra.questionnaire.question.QuestionAuthorizationService;
-import org.kuali.kra.questionnaire.question.QuestionService;
+import org.kuali.kra.maintenance.QuestionMaintainableImpl;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.service.impl.VersioningServiceImpl;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.action.KualiMaintenanceDocumentAction;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 
-public class KraMaintenanceDocumentAction extends KualiMaintenanceDocumentAction{
+/**
+ * 
+ * This is the maintenance action class is for question.
+ */
+public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentAction {
+    
     private static final String QUESTION_REF_ID = "questionRefId";
+    private static final String EDIT_QUESTION_OF_ACTIVE_QUESTIONNAIRE_QUESTION = "EditQuestionOfActiveQuestionnaire";
 
     /**
      * 
@@ -83,60 +92,31 @@ public class KraMaintenanceDocumentAction extends KualiMaintenanceDocumentAction
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward actionForward = super.execute(mapping, form, request, response);
-
-        // Version if a Question is selected for editing
-        if (form instanceof KraMaintenanceForm) {
-            KraMaintenanceForm kraMaintenanceForm = (KraMaintenanceForm) form;
-            MaintenanceDocumentBase maintenanceDocumentBase = (MaintenanceDocumentBase) kraMaintenanceForm.getDocument();
-            
-            if (maintenanceDocumentBase.getNewMaintainableObject().getBusinessObject() instanceof Question) {
-                specialHandlingOfQuestion(kraMaintenanceForm, request);
-            }
-        }
-                
-        return actionForward;
-    }
     
     /**
      * 
      * This method implements special behaviors for Question.
-     * @param kraMaintenanceForm
+     * @param questionMaintenanceForm
      * @param request
      * @throws VersionException 
      */
-    private void specialHandlingOfQuestion(KraMaintenanceForm kraMaintenanceForm, HttpServletRequest request) throws VersionException {
-        MaintenanceDocumentBase maintenanceDocumentBase = (MaintenanceDocumentBase) kraMaintenanceForm.getDocument();
+    private void specialHandlingOfQuestion(QuestionMaintenanceForm questionMaintenanceForm, HttpServletRequest request) throws VersionException {
+        MaintenanceDocumentBase maintenanceDocumentBase = (MaintenanceDocumentBase) questionMaintenanceForm.getDocument();
 
         boolean readOnly = !KraServiceLocator.getService(QuestionAuthorizationService.class).hasPermission(PermissionConstants.MODIFY_QUESTION)
                 || ObjectUtils.equals(request.getParameter("readOnly"), "true");
                 
-        if (StringUtils.equals(kraMaintenanceForm.getMethodToCall(), "edit")) {
+        if (StringUtils.equals(questionMaintenanceForm.getMethodToCall(), "edit")) {
             if (readOnly) {
-                setReadOnlyMode(kraMaintenanceForm);
+                questionMaintenanceForm.setReadOnly(true);
             } else {
                 createNewQuestionVersion(maintenanceDocumentBase, request.getParameter(QUESTION_REF_ID));
             }
-        } else if (StringUtils.equals(kraMaintenanceForm.getMethodToCall(), "copy")) {
+        } else if (StringUtils.equals(questionMaintenanceForm.getMethodToCall(), "copy")) {
             initCopiedQuestion(maintenanceDocumentBase);
         }
     }
     
-    /**
-     * 
-     * This method sets the form for read only mode by setting the readOnly form indicator and enabling only the close action.
-     * @param kraMaintenanceForm
-     */
-    private void setReadOnlyMode(KraMaintenanceForm kraMaintenanceForm) {
-        kraMaintenanceForm.setReadOnly(true);
-
-        Map<String, String> documentActions = new HashMap<String, String>();
-        documentActions.put(KNSConstants.KUALI_ACTION_CAN_CLOSE, "TRUE");
-        kraMaintenanceForm.setDocumentActions(documentActions);
-    }
-
     /**
      * 
      * This method creates a new version of the question.
@@ -182,16 +162,85 @@ public class KraMaintenanceDocumentAction extends KualiMaintenanceDocumentAction
      */
     private void initCopiedQuestion(MaintenanceDocumentBase maintenanceDocumentBase) {
         QuestionMaintainableImpl oldMaintainableObject = (QuestionMaintainableImpl) maintenanceDocumentBase
-        .getOldMaintainableObject();
+                .getOldMaintainableObject();
         Question oldQuestion = (Question) oldMaintainableObject.getBusinessObject();
         oldQuestion.setQuestionId(null);
         oldQuestion.setSequenceNumber(null);
 
         QuestionMaintainableImpl newMaintainableObject = (QuestionMaintainableImpl) maintenanceDocumentBase
-        .getNewMaintainableObject();
+                .getNewMaintainableObject();
         Question newQuestion = (Question) newMaintainableObject.getBusinessObject();
         newQuestion.setQuestionId(null);
         newQuestion.setSequenceNumber(null);
     }
+    
+    @Override
+    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward;
+        
+        QuestionService questionService = KraServiceLocator.getService(QuestionService.class);
+        QuestionMaintenanceForm questionMaintenanceForm = (QuestionMaintenanceForm) form;
+        
+        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        String questionRefId = request.getParameter(QUESTION_REF_ID);
 
+        if (!questionMaintenanceForm.isReadOnly() && (question != null || questionService.isQuestionUsed(questionService.getQuestionByRefId(questionRefId).getQuestionId()))) {
+
+            // logic for question
+            if (question == null) {
+                // Be sure not to call super.edit a second time when evaluating the user response.  Doing so will
+                // cause the form data to be overridden and the desired question will not be edited.
+                super.edit(mapping, form, request, response);
+
+                // Version if a Question is selected for editing
+                specialHandlingOfQuestion(questionMaintenanceForm, request);
+
+                // ask question if not already asked
+                KualiConfigurationService kualiConfiguration = KNSServiceLocator.getKualiConfigurationService();
+                forward = performQuestionWithoutInput(mapping, form, request, response, EDIT_QUESTION_OF_ACTIVE_QUESTIONNAIRE_QUESTION, 
+                        kualiConfiguration.getPropertyString(KeyConstants.QUESTION_EDIT_QUESTION_OF_ACTIVE_QUESTIONNAIRE), 
+                        KNSConstants.CONFIRMATION_QUESTION, KNSConstants.MAPPING_CLOSE, "");
+            } else {
+                // Check to see if user has chosen to abort editing
+                Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+                if ((EDIT_QUESTION_OF_ACTIVE_QUESTIONNAIRE_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
+                    forward = returnToSender(request, mapping, questionMaintenanceForm);
+                } else {
+                    forward = mapping.findForward(Constants.MAPPING_BASIC);
+                }
+            } 
+        } else {
+            forward = super.edit(mapping, form, request, response);
+
+            // Version if a Question is selected for editing
+            specialHandlingOfQuestion(questionMaintenanceForm, request);
+        }
+
+        return forward;
+    }
+
+    /**
+     * Normally Maintenance documents don't have an explicit view mode (i.e. edit in read-only mode).  Because of that we need to
+     * override the documentActions to ensure that the readOnly flag is preserved and only the close action is enabled when viewing
+     * a question.
+     * 
+     * @see org.kuali.rice.kns.web.struts.action.KualiMaintenanceDocumentAction#populateAuthorizationFields(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
+     */
+    @Override
+    protected void populateAuthorizationFields(KualiDocumentFormBase formBase){
+        QuestionMaintenanceForm questionMaintenanceForm = (QuestionMaintenanceForm) formBase;
+        
+        boolean isReadOnly = questionMaintenanceForm.isReadOnly();
+
+        // populateAuthorizationFields will override the isReadOnly property of the form.
+        super.populateAuthorizationFields(formBase);
+        
+        if (isReadOnly && formBase.getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_CLOSE)) {
+            Map<String, String> documentActions = new HashMap<String, String>();
+            documentActions.put(KNSConstants.KUALI_ACTION_CAN_CLOSE, "TRUE");
+            questionMaintenanceForm.setDocumentActions(documentActions);
+            
+            questionMaintenanceForm.setReadOnly(isReadOnly);
+        }
+    }
 }
