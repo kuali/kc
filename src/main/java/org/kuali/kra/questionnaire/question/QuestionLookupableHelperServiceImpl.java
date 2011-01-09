@@ -34,7 +34,7 @@ public class QuestionLookupableHelperServiceImpl extends KualiLookupableHelperSe
     private static final long serialVersionUID = 7936563894902841571L;
 
     private static final String MAINTENANCE = "maintenance";
-    private static final String NEW_MAINTENANCE = "../maintenance";
+    private static final String NEW_MAINTENANCE = "../maintenanceQ";
     private static final String VIEW = "view";
     private static final String SEQUENCE_STATUS_CURRENT = "C";
 
