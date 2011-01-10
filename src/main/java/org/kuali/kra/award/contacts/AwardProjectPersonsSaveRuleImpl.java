@@ -55,22 +55,10 @@ public class AwardProjectPersonsSaveRuleImpl implements AwardProjectPersonsSaveR
         valid &= checkForOnePrincipalInvestigator(projectPersons);
         valid &= checkForRequiredUnitDetails(projectPersons);
         valid &= checkForLeadUnitForPI(projectPersons);
-        if(valid) {
-            removeKeyPersonRoleForNoneKeyPerson(projectPersons);  // remove key person roles in case some person was changed from Key person to non-Key
-        }
-        
+
         return valid;
     }
 
-    
-    void removeKeyPersonRoleForNoneKeyPerson(List<AwardPerson> projectPersons) {
-        for ( AwardPerson person : projectPersons ) {
-            if ( !StringUtils.equalsIgnoreCase(person.getContactRole().getRoleCode(), ContactRole.KEY_PERSON_CODE) &&
-                    StringUtils.isNotEmpty(person.getKeyPersonRole()) ) {
-                person.setKeyPersonRole(null);
-            }
-        }
-    }
     boolean checkForKeyPersonProjectRoles(List<AwardPerson> projectPersons) {
        boolean valid = true;
        for ( AwardPerson person : projectPersons ) {
