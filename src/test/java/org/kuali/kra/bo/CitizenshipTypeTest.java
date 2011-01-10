@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.bo;
 
+import static org.junit.Assert.assertEquals;
+import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDataType;
+import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDataType.Enum;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,7 +33,7 @@ public class CitizenshipTypeTest extends KcUnitTestBase {
     
     private BusinessObjectService service;
     
-    private String TEST_CODE = "tst";
+    private int TEST_CODE = -1;
     private String TEST_DESCRIPTION = "test citizenship";
 
     @Before
@@ -43,31 +46,70 @@ public class CitizenshipTypeTest extends KcUnitTestBase {
         service = null;
     }
     
-    //@Test
-    /*
+    @Test
     public void makeNewCitizenshipType() throws Exception {
         CitizenshipType ct = new CitizenshipType();
-        ct.setCitizenTypeCode(TEST_CODE);
+        ct.setCitizenshipTypeCode(TEST_CODE);
         ct.setDescription(TEST_DESCRIPTION);
         ct.setActive(true);
         assertNull(ct.getObjectId());
         service.save(ct);
         assertNotNull(ct.getObjectId());
-    }*/
+    }
     
-    //@Test
-    /*
+    @Test
     public void findAndUpdateTestCitizenshipType() throws Exception {
         Map arguments = new HashMap();
-        arguments.put("CITIZENSHIP_TYPE_CODE", "ABW");
+        arguments.put("CITIZENSHIP_TYPE_CODE", "1");
         CitizenshipType ct = (CitizenshipType)service.findByPrimaryKey(CitizenshipType.class, arguments);
-        assertEquals("Aruba", ct.getDescription());
+        assertEquals("US CITIZEN OR NONCITIZEN NATIONAL", ct.getDescription());
         assertEquals(new Long(1), ct.getVersionNumber());
         
-        ct.setDescription("Aruba Tester");
+        String testDescr = "something cool";
+        
+        ct.setDescription(testDescr);
         service.save(ct);
         
         CitizenshipType ct2 = (CitizenshipType)service.findByPrimaryKey(CitizenshipType.class, arguments);
-        assertEquals("Aruba Tester", ct2.getDescription());
-    }*/
+        assertEquals(testDescr, ct2.getDescription());
+    }
+    
+    @Test
+    public void testGetEnumValueOfCitizenshipType1() throws Exception {
+        Map arguments = new HashMap();
+        arguments.put("CITIZENSHIP_TYPE_CODE", "1");
+        CitizenshipType ct = (CitizenshipType)service.findByPrimaryKey(CitizenshipType.class, arguments); 
+        assertEquals(CitizenshipDataType.INT_U_S_CITIZEN_OR_NONCITIZEN_NATIONAL, ct.getEnumValueOfCitizenshipType().intValue());
+    }
+       
+    @Test
+    public void testGetEnumValueOfCitizenshipType2() throws Exception {
+        Map arguments = new HashMap();
+        arguments.put("CITIZENSHIP_TYPE_CODE", "2");
+        CitizenshipType ct = (CitizenshipType)service.findByPrimaryKey(CitizenshipType.class, arguments); 
+        assertEquals(CitizenshipDataType.INT_PERMANENT_RESIDENT_OF_U_S, ct.getEnumValueOfCitizenshipType().intValue());
+    }
+    
+    @Test
+    public void testGetEnumValueOfCitizenshipType3() throws Exception {
+        Map arguments = new HashMap();
+        arguments.put("CITIZENSHIP_TYPE_CODE", "3");
+        CitizenshipType ct = (CitizenshipType)service.findByPrimaryKey(CitizenshipType.class, arguments); 
+        assertEquals(CitizenshipDataType.INT_NON_U_S_CITIZEN_WITH_TEMPORARY_VISA, ct.getEnumValueOfCitizenshipType().intValue());
+    }
+    
+    @Test
+    public void testGetEnumValueOfCitizenshipType4() throws Exception {
+        CitizenshipType testType = new CitizenshipType();
+        testType.setCitizenshipTypeCode(-101);
+        testType.setDescription("super awesome cool description");
+        try {
+            Enum results = testType.getEnumValueOfCitizenshipType();
+        } catch (IllegalArgumentException iae) {
+            assertEquals("Invalid citizenship type provided", iae.getMessage());
+            return;
+        }
+        //the getEnumValue function should throw an exception, if not, it accepted an invalid citisenship type
+        assertTrue(false);
+    }
 }
