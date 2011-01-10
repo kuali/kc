@@ -31,6 +31,7 @@ import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.document.authorization.AwardTask;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
@@ -294,6 +295,23 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         }
         if (getBudgetDocumentVersions() != null) {
             updateDocumentDescriptions(getBudgetDocumentVersions());
+        }
+        Award award = getAward();
+        if(!award.getProjectPersons().isEmpty()) {
+            List<AwardPerson> aList = award.getProjectPersonsSorted();
+            award.getProjectPersons().clear();
+            award.getProjectPersons().addAll(aList);
+            this.removeKeyPersonRoleForNoneKeyPerson();
+        }
+            
+    }
+    
+    void removeKeyPersonRoleForNoneKeyPerson() {
+        for ( AwardPerson person : this.getAward().getProjectPersons() ) {
+            if ( !StringUtils.equalsIgnoreCase(person.getContactRole().getRoleCode(), ContactRole.KEY_PERSON_CODE) &&
+                    StringUtils.isNotEmpty(person.getKeyPersonRole()) ) {
+                person.setKeyPersonRole(null);
+            }
         }
     }
     
