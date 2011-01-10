@@ -524,6 +524,19 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
 
     /**
+     * @return
+     */
+    public List<AwardPerson> getProjectPersonsSorted() {
+        List<AwardPerson> aList = new ArrayList<AwardPerson>();
+        if(this.getPrincipalInvestigator() != null) {
+            aList.add(this.getPrincipalInvestigator());
+        }
+        aList.addAll(this.getCoInvestigators());
+        aList.addAll(this.getKeyPersons());
+        return aList;    
+   }
+    
+    /**
      * This method returns all PIs and co-PIs.
      * @return
      */

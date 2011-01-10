@@ -190,7 +190,6 @@ public class AwardProjectPersonsSaveRuleImplTest {
         // when a key person is changed to coi
         kpPerson.setContactRole(ContactRoleFixtureFactory.MOCK_COI);
         Assert.assertTrue("rule should return true", rule.processSaveAwardProjectPersonsBusinessRules(award.getProjectPersons()));
-        Assert.assertEquals(null, kpPerson.getKeyPersonRole());
     }
     
 
