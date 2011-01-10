@@ -182,6 +182,7 @@
                         </div>
                     </td>
                 </tr>
+         <%-- kcirb-1159 is closed (not fix, so comment out this       
                 <tr>
                     <th class="infoline">
                         <div align="left">
@@ -196,7 +197,7 @@
                         </div>
                     </td>
                 </tr>
-                
+        --%>         
 		        <tr>
 			        <td colspan="2" class="infoline">
 					    <div align="center">
