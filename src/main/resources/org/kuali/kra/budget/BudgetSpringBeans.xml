@@ -500,7 +500,7 @@
 				<property name="service" ref="budgetCategoryService" />
 				<property name="serviceNameSpaceURI" value="KC" />
 				<property name="localServiceName" value="budgetCategorySoapService" />
-				<property name="busSecurity" value="true" />
+				<property name="busSecurity" value="false" />
 				<property name="jaxWsService" value="true" />
 			</bean>
 		</property>
