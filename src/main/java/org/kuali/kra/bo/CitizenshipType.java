@@ -70,29 +70,6 @@ public class CitizenshipType extends KraPersistableBusinessObjectBase {
     public void setActive(boolean active) {
         this.active = active;
     }
-    
-    public Enum getEnumValueOfCitizenshipType() throws IllegalArgumentException{
-        Enum retVal = null;
-        switch(citizenshipTypeCode){
-            case CitizenshipDataType.INT_NON_U_S_CITIZEN_WITH_TEMPORARY_VISA : {
-                retVal = CitizenshipDataType.NON_U_S_CITIZEN_WITH_TEMPORARY_VISA;
-                break;
-            }
-            case CitizenshipDataType.INT_PERMANENT_RESIDENT_OF_U_S : {
-                retVal = CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S;
-                break;
-            }
-            case CitizenshipDataType.INT_U_S_CITIZEN_OR_NONCITIZEN_NATIONAL : {
-                retVal = CitizenshipDataType.U_S_CITIZEN_OR_NONCITIZEN_NATIONAL;
-                break;
-            }
-            default: {
-                throw new IllegalArgumentException("Invalid citizenship type provided");
-            }
-        }
-        return retVal;
-    }
-
 
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
