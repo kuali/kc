@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://test.kc.kuali.org/kc-dly30/" />
+<title>SubmittedProtocolTC</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">SubmittedProtocolTC</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>portal.do?selectedTab=portalResearcherBody</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Create Protocol</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectFrame</td>
+	<td>iframeportlet</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.documentHeader.documentDescription']</td>
+	<td>Staged for IRB Admin Action - Prot 1</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//select[@id='document.protocolList[0].protocolTypeCode']</td>
+	<td>label=Full Board</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//textarea[@id='document.protocolList[0].title']</td>
+	<td>Staged for IRB Admin Action - Protocol Submission 1</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.performLookup.(!!org.kuali.kra.bo.KcPerson!!).(((personId:protocolHelper.personId,fullName:protocolHelper.principalInvestigatorName,unit.unitNumber:protocolHelper.lookupUnitNumber,unit.unitName:protocolHelper.lookupUnitName))).((``)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).(::::;;::::).anchor</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>firstName</td>
+	<td>irb*</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@name='methodToCall.search' and @value='search']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//table[@id='row']/tbody/tr[6]/td[1]/a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>tab-AdditionalInformation-imageToggle</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.protocolList[0].fdaApplicationNumber']</td>
+	<td>123456</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.protocolList[0].referenceNumber1']</td>
+	<td>A123456</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.protocolList[0].referenceNumber2']</td>
+	<td>B123456</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//textarea[@id='document.protocolList[0].description']</td>
+	<td>Enter keywords here</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>newProtocolReference.protocolReferenceTypeCode</td>
+	<td>label=COAG</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>newProtocolReference.referenceKey</td>
+	<td>C123456</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>newProtocolReference.applicationDate_datepicker</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>newProtocolReference.approvalDate_datepicker</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//div[3]/table/tbody/tr[1]/td[6]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>newProtocolReference.comments</td>
+	<td>Identifier comments</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.addProtocolReference.anchorAdditionalInformation</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.performLookup.(!!org.kuali.kra.bo.ResearchArea!!).((``)).(:;protocolResearchAreas;:).((%true%)).((~~)).anchorAdditionalInformation</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>researchAreaCode</td>
+	<td>000001</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@name='methodToCall.search' and @value='search']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//input[@title='return valueResearch Area Code=000001 ']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.prepareToReturnSelectedResults.(::;true;::)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>tab-ParticipantTypes-imageToggle</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>participantsHelper.newParticipant.participantTypeCode</td>
+	<td>label=Children</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>participantsHelper.newParticipant.participantCount</td>
+	<td>10</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.addProtocolParticipant.anchorParticipantTypes</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>participantsHelper.newParticipant.participantTypeCode</td>
+	<td>label=Pregnant women</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>participantsHelper.newParticipant.participantCount</td>
+	<td>5</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.addProtocolParticipant.anchorParticipantTypes</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.headerTab.headerDispatch.save.navigateTo.personnel</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.performLookup.(!!org.kuali.kra.bo.KcPerson!!).(((personId:personnelHelper.newProtocolPerson.personId,fullName:personnelHelper.newProtocolPerson.personName))).((``)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).(::::;;::::).anchor</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@name='methodToCall.search' and @value='search']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//table[@id='row']/tbody/tr[3]/td[1]/a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>personnelHelper.newProtocolPerson.protocolPersonRoleId</td>
+	<td>label=Co-Investigator</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.addProtocolPerson</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>tab-2-imageToggle</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>tab-4-imageToggle</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//select[@id='document.protocolList[0].protocolPersons[0].affiliationTypeCode']</td>
+	<td>label=Faculty</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>tab-35-imageToggle</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>tab-37-imageToggle</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//select[@id='document.protocolList[0].protocolPersons[1].affiliationTypeCode']</td>
+	<td>label=Faculty</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>tab-63-imageToggle</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>personnelHelper.newProtocolPersonUnits[1].unitNumber</td>
+	<td>IN-CARD</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.addProtocolPersonUnit.document.protocolList[0].protocolPersons[1].line</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.headerTab.headerDispatch.save.navigateTo.specialReview</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>specialReviewHelper.newSpecialReview.specialReviewCode</td>
+	<td>label=Animal Usage</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>specialReviewHelper.newSpecialReview.approvalTypeCode</td>
+	<td>label=Approved</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>specialReviewHelper.newSpecialReview.protocolNumber</td>
+	<td>123456</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>specialReviewHelper.newSpecialReview.applicationDate_datepicker</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//tr[1]/td[5]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>specialReviewHelper.newSpecialReview.approvalDate_datepicker</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//div[3]/table/tbody/tr[1]/td[6]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>specialReviewHelper.newSpecialReview.expirationDate_datepicker</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//div[4]/table/tbody/tr[1]/td[5]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>specialReviewHelper.newSpecialReview.expirationDate</td>
+	<td>09/01/2013</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.addSpecialReview.anchorSpecialReview</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.headerTab.headerDispatch.save.navigateTo.permissions</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.performLookup.(!!org.kuali.kra.bo.KcPerson!!).(((personId:permissionsHelper.newUser.userId,userName:permissionsHelper.newUser.userName,fullName:permissionsHelper.newUser.fullName,unit.unitNumber:permissionsHelper.newUser.unitNumber,unit.unitName:permissionsHelper.newUser.unitName))).((`lookup.leadUnit:organizationIdentifier`)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).(::::;;::::).anchorUsers</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@name='methodToCall.search' and @value='search']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>organizationIdentifier</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@name='methodToCall.search' and @value='search']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//table[@id='row']/tbody/tr[2]/td[1]/a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>permissionsHelper.newUser.roleName</td>
+	<td>label=Aggregator</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.addUser.anchorUsers</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.headerTab.headerDispatch.save.navigateTo.noteAndAttachment</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>tab-Notes-imageToggle</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>notepadHelper.newProtocolNotepad.noteTopic</td>
+	<td>Test Note</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>notepadHelper.newProtocolNotepad.comments</td>
+	<td>Note entered by IRB Researcher before submission.</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.addNote.anchorNotes</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.headerTab.headerDispatch.save.navigateTo.protocolActions</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>tab-RequestanAction-imageToggle</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>tab-:SubmitforReview-imageToggle</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>actionHelper.protocolSubmitAction.submissionTypeCode</td>
+	<td>label=Initial Protocol Application for Approval</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>actionHelper.protocolSubmitAction.protocolReviewTypeCode</td>
+	<td>label=Full</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>actionHelper.protocolSubmitAction.committeeId</td>
+	<td>value=KC001</td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>500</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>actionHelper.protocolSubmitAction.scheduleId</td>
+	<td>label=12-20-2010, EHOB 341, 01:00 PM</td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>500</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>actionHelper.protocolSubmitAction.reviewer[0].checked</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>actionHelper.protocolSubmitAction.reviewer[0].reviewerTypeCode</td>
+	<td>label=primary</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.submitForReview.anchor:SubmitforReview</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>
