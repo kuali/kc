@@ -24,7 +24,7 @@ import java.util.LinkedHashMap;
  */
 public class CitizenshipType extends KraPersistableBusinessObjectBase {
     
-    private String citizenTypeCode;
+    private int citizenshipTypeCode;
     private String description;
     private boolean active;
 
@@ -37,14 +37,14 @@ public class CitizenshipType extends KraPersistableBusinessObjectBase {
     
     
 
-    public String getCitizenTypeCode() {
-        return citizenTypeCode;
+    public int getCitizenshipTypeCode() {
+        return citizenshipTypeCode;
     }
 
 
 
-    public void setCitizenTypeCode(String citizenTypeCode) {
-        this.citizenTypeCode = citizenTypeCode;
+    public void setCitizenshipTypeCode(int citizenTypeCode) {
+        this.citizenshipTypeCode = citizenTypeCode;
     }
 
 
@@ -73,7 +73,7 @@ public class CitizenshipType extends KraPersistableBusinessObjectBase {
     
     public Enum getEnumValueOfCitizenshipType() throws IllegalArgumentException{
         Enum retVal = null;
-        switch(Integer.parseInt(citizenTypeCode)){
+        switch(citizenshipTypeCode){
             case CitizenshipDataType.INT_NON_U_S_CITIZEN_WITH_TEMPORARY_VISA : {
                 retVal = CitizenshipDataType.NON_U_S_CITIZEN_WITH_TEMPORARY_VISA;
                 break;
@@ -100,7 +100,7 @@ public class CitizenshipType extends KraPersistableBusinessObjectBase {
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap map = new LinkedHashMap();
-        map.put("citizen type code", this.getCitizenTypeCode());
+        map.put("citizen type code", this.getCitizenshipTypeCode());
         map.put("description", this.getDescription());
         map.put("Active", this.isActive());
         map.put("update user", this.getUpdateUser());

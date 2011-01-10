@@ -17,29 +17,29 @@
     <property name="titleAttribute" value="abstractTypeCode" />
     <property name="attributes" >
       <list>
-        <ref bean="CitizenshipType-citizenTypeCode" />
+        <ref bean="CitizenshipType-citizenshipTypeCode" />
         <ref bean="CitizenshipType-description" />
         <ref bean="CitizenshipType-active" />
       </list>
     </property>
   </bean>
   
-  <bean id="CitizenshipType-citizenTypeCode" parent="CitizenshipType-citizenTypeCode-parentBean" />
-  <bean id="CitizenshipType-citizenTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="citizenTypeCode" />
+  <bean id="CitizenshipType-citizenshipTypeCode" parent="CitizenshipType-citizenshipTypeCode-parentBean" />
+  <bean id="CitizenshipType-citizenshipTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="citizenshipTypeCode" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Citizenship Type" />
-    <property name="shortLabel" value="Citizenship Type" />
+    <property name="shortLabel" value="Citizenship Type Code" />
     <property name="maxLength" value="3" />
     <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+      <bean parent="NumericValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
     <property name="summary" value="Citizenship Type" />
-    <property name="description" value="Citizenship Type" />
+    <property name="description" value="Citizenship Type Code" />
   </bean>
   
   <bean id="CitizenshipType-description" parent="CitizenshipType-description-parentBean" />
@@ -88,7 +88,7 @@
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
-                    p:attributeName="citizenTypeCode"
+                    p:attributeName="citizenshipTypeCode"
                     p:forceInquiry="true" />
               <bean parent="FieldDefinition"
                     p:attributeName="description" />
@@ -115,7 +115,7 @@
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
-                    p:attributeName="citizenTypeCode"
+                    p:attributeName="citizenshipTypeCode"
                     p:forceInquiry="true" />
               <bean parent="FieldDefinition"
                     p:attributeName="description" />
@@ -126,7 +126,7 @@
     <property name="resultFields" >
       <list>
         <bean parent="FieldDefinition"
-                    p:attributeName="citizenTypeCode"
+                    p:attributeName="citizenshipTypeCode"
                     p:forceInquiry="true" />
               <bean parent="FieldDefinition"
                     p:attributeName="description" />
