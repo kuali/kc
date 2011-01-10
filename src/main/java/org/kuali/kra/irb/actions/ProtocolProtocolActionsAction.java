@@ -862,6 +862,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             printableArtifactList.add(printable1);
             
         }
+        /** kcirb-1159 is closed for not fixing
         if (summaryOptions.isProtocolHistory()) {
             Map reportParameters1 = getReportOptions(protocolForm,ProtocolPrintType.PROTOCOL_PROTOCOL_HISTORY_REPORT);
             AbstractPrint printable1 = (AbstractPrint)getProtocolPrintingService().getProtocolPrintable(ProtocolPrintType.valueOf(PRINTTAG_MAP.get("history")));
@@ -870,7 +871,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             printableArtifactList.add(printable1);
             
         }
-        
+        **/
 //        printableArtifactList.addAll(getQuestionnairePrintingService().getQuestionnairePtintable(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getQuestionnairesToPrints()));
 
         return printableArtifactList;
