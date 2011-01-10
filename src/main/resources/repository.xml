@@ -2050,9 +2050,8 @@
 		</reference-descriptor>
 	</class-descriptor>
 	
-	<!-- 
 	<class-descriptor class="org.kuali.kra.bo.CitizenshipType" table="CITIZENSHIP_TYPE_T">
-        <field-descriptor name="citizenTypeCode" column="CITIZENSHIP_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
+        <field-descriptor name="citizenshipTypeCode" column="CITIZENSHIP_TYPE_CODE" jdbc-type="INTEGER" primarykey="true"/>
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -2060,5 +2059,4 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />    
 	</class-descriptor>
-		 -->
 </descriptor-repository>

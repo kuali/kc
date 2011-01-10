@@ -12,7 +12,7 @@
     </property>
     <property name="lockingKeys">
       <list>
-        <value>citizenTypeCode</value>
+        <value>citizenshipTypeCode</value>
       </list>
     </property>
     
@@ -35,7 +35,7 @@
     <property name="title" value="Edit Citizenship Types"/>
     <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition" p:name="citizenTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="citizenshipTypeCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="active"/>
       </list>
