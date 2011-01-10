@@ -43,7 +43,8 @@ public class CitizenshipTypeTest extends KcUnitTestBase {
         service = null;
     }
     
-    @Test
+    //@Test
+    /*
     public void makeNewCitizenshipType() throws Exception {
         CitizenshipType ct = new CitizenshipType();
         ct.setCitizenTypeCode(TEST_CODE);
@@ -52,7 +53,7 @@ public class CitizenshipTypeTest extends KcUnitTestBase {
         assertNull(ct.getObjectId());
         service.save(ct);
         assertNotNull(ct.getObjectId());
-    }
+    }*/
     
     //@Test
     /*
