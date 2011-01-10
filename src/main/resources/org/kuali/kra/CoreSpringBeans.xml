@@ -549,9 +549,6 @@
 		<property name="serviceName" value="xmlObjectSerializerService" />
 	</bean>
 	
-
-
-
-
-
+	<bean id="citizenshipTypeService" class="org.kuali.kra.service.impl.CitizenshipTypeServiceImpl">
+	</bean>
 </beans>
