@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="selenium.base" href="" />
+<link rel="selenium.base" href="http://test.kc.kuali.org/kc-dly30/" />
 <title>SRRProtocolTC</title>
 </head>
 <body>
@@ -13,7 +13,7 @@
 </thead><tbody>
 <tr>
 	<td>open</td>
-	<td>/kc-dly30/portal.do</td>
+	<td>portal.do</td>
 	<td></td>
 </tr>
 <tr>
@@ -149,7 +149,7 @@
 <tr>
 	<td>select</td>
 	<td>actionHelper.protocolSubmitAction.scheduleId</td>
-	<td>value=1474</td>
+	<td>value=14</td>
 </tr>
 <tr>
 	<td>pause</td>
@@ -166,64 +166,9 @@
 	<td>actionHelper.protocolSubmitAction.reviewer[0].reviewerTypeCode</td>
 	<td>label=primary</td>
 </tr>
-<!-- tr>
-	<td>click</td>
-	<td>name=actionHelper.protocolSubmitAction.reviewer[1].checked</td>
-	<td></td>
-</tr>
-<tr>
-	<td>select</td>
-	<td>actionHelper.protocolSubmitAction.reviewer[1].reviewerTypeCode</td>
-	<td>label=primary</td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>name=actionHelper.protocolSubmitAction.reviewer[2].checked</td>
-	<td></td>
-</tr>
-<tr>
-	<td>select</td>
-	<td>actionHelper.protocolSubmitAction.reviewer[2].reviewerTypeCode</td>
-	<td>label=primary</td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>name=actionHelper.protocolSubmitAction.reviewer[3].checked</td>
-	<td></td>
-</tr>
-<tr>
-	<td>select</td>
-	<td>actionHelper.protocolSubmitAction.reviewer[3].reviewerTypeCode</td>
-	<td>label=primary</td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>name=actionHelper.protocolSubmitAction.reviewer[4].checked</td>
-	<td></td>
-</tr>
-<tr>
-	<td>select</td>
-	<td>actionHelper.protocolSubmitAction.reviewer[4].reviewerTypeCode</td>
-	<td>label=primary</td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>name=actionHelper.protocolSubmitAction.reviewer[5].checked</td>
-	<td></td>
-</tr>
-<tr>
-	<td>select</td>
-	<td>actionHelper.protocolSubmitAction.reviewer[5].reviewerTypeCode</td>
-	<td>label=primary</td>
-</tr -->
 <tr>
 	<td>clickAndWait</td>
 	<td>methodToCall.submitForReview.anchor:SubmitforReview</td>
-	<td></td>
-</tr>
-<tr>
-	<td>selectWindow</td>
-	<td>0</td>
 	<td></td>
 </tr>
 <tr>
@@ -244,7 +189,7 @@
 <tr>
 	<td>type</td>
 	<td>title</td>
-	<td>*Substantive Revisions Required*</td>
+	<td>*staged data for Administrative Correction testing with status of Substantive Revisions Required*</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -298,8 +243,8 @@
 </tr>
 <tr>
 	<td>select</td>
-	<td>actionHelper.committeeDecision.motion</td>
-	<td>label=substantive revisions required</td>
+	<td>actionHelper.committeeDecision.motionTypeCode</td>
+	<td>value=4</td>
 </tr>
 <tr>
 	<td>type</td>
@@ -337,13 +282,23 @@
 	<td></td>
 </tr>
 <tr>
+	<td>click</td>
+	<td>tab-:ReturnforSubstantiveRevisionsRequired-imageToggle</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.returnForSRR.anchor38</td>
+	<td></td>
+</tr>
+<tr>
 	<td>clickAndWait</td>
 	<td>methodToCall.close</td>
 	<td></td>
 </tr>
 <tr>
 	<td>click</td>
-	<td>methodToCall.processAnswer.button1</td>
+	<td>methodToCall.processAnswer.button0</td>
 	<td></td>
 </tr>
 
