@@ -319,6 +319,10 @@ public class QuestionnaireXmlStream implements XmlStream {
             } else {
                 moduleItemKey = protocol.getProtocolNumber();
                 moduleSubItemKey = protocol.getSequenceNumber().toString();
+                if (params.get("moduleSubItemCode") != null) {
+                    // for amendquestionnaire
+                    moduleSubItemCode = (String)params.get("moduleSubItemCode");
+                }
             }
         }else if(printableBusinessObject instanceof DevelopmentProposal){
             DevelopmentProposal developmentProposal = (DevelopmentProposal)printableBusinessObject;
@@ -394,51 +398,65 @@ public class QuestionnaireXmlStream implements XmlStream {
         return businessObject;
     }
 
-    private void setQuestionInfoData(org.kuali.kra.questionnaire.Questionnaire questionnaire, 
-            ModuleQuestionnaireBean moduleQuestionnaireBean, Questionnaire questionnaireType,boolean questionnaireCompletionFlag) throws PrintingException {
+    private void setQuestionInfoData(org.kuali.kra.questionnaire.Questionnaire questionnaire,
+            ModuleQuestionnaireBean moduleQuestionnaireBean, Questionnaire questionnaireType, boolean questionnaireCompletionFlag)
+            throws PrintingException {
         List<AnswerHeader> answerHeaders = null;
-        if(moduleQuestionnaireBean != null){
+        org.kuali.kra.questionnaire.Questionnaire answeredQuestionnaire = null;
+        if (moduleQuestionnaireBean != null) {
             answerHeaders = questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);
+            if (!answerHeaders.isEmpty()) {
+                answeredQuestionnaire = answerHeaders.get(0).getQuestionnaire();
+                // This is another weird behavior. some have empty questionnairequestions, and require this refresh.
+                answeredQuestionnaire.refreshReferenceObject("questionnaireQuestions");
+            }
+
         }
-        List<QuestionnaireQuestion> sortedQuestionnaireQuestions = getSortedQuestionnaireQuestions(questionnaire);
-        if(sortedQuestionnaireQuestions != null && sortedQuestionnaireQuestions.size() > 0) {
+        List<QuestionnaireQuestion> sortedQuestionnaireQuestions = getSortedQuestionnaireQuestions(answeredQuestionnaire != null ? answerHeaders
+                .get(0).getQuestionnaire()
+                : questionnaire);
+        if (sortedQuestionnaireQuestions != null && sortedQuestionnaireQuestions.size() > 0) {
             QuestionsType questionsType = questionnaireType.addNewQuestions();
             for (QuestionnaireQuestion questionnaireQuestion : sortedQuestionnaireQuestions) {
                 Long questionId = questionnaireQuestion.getQuestionnaireQuestionsId();
                 int questionNumber = questionnaireQuestion.getQuestionNumber().intValue();
                 boolean isAnswerPresent = false;
                 QuestionInfoType questionInfo = questionsType.addNewQuestionInfo();
-                if(questionId!=null){
+                if (questionId != null) {
                     questionInfo.setQuestionId(questionId.intValue());
                 }
                 questionInfo.setQuestionNumber(questionNumber);
-                if(questionnaireQuestion.getQuestion()==null){
+                if (questionnaireQuestion.getQuestion() == null) {
                     questionnaireQuestion.refreshReferenceObject("question");
                 }
-                if(questionnaireQuestion.getQuestion()!=null){
+                if (questionnaireQuestion.getQuestion() != null) {
                     questionInfo.setQuestion(questionnaireQuestion.getQuestion().getQuestion());
                 }
-                if(answerHeaders != null && answerHeaders.size() > 0) {
+                if (answerHeaders != null && answerHeaders.size() > 0) {
                     for (AnswerHeader answerHeader : answerHeaders) {
                         int selectedAnswer = 0;
                         String answerDescription = null;
-                        if(questionnaireQuestion.getQuestionnaireRefIdFk().equals(answerHeader.getQuestionnaireRefIdFk())){
+                        if (questionnaireQuestion.getQuestionnaireRefIdFk().equals(answerHeader.getQuestionnaireRefIdFk())) {
                             List<Answer> answers = answerHeader.getAnswers();
                             for (Answer answer : answers) {
-                                if(answer.getQuestionnaireQuestion().getQuestionnaireQuestionsId().equals(questionnaireQuestion.getQuestionnaireQuestionsId()) &&
-                                        answer.getQuestionNumber().equals(questionnaireQuestion.getQuestionNumber()) &&
-                                        answer.getQuestionRefIdFk().equals(questionnaireQuestion.getQuestionRefIdFk())){
-                                    if(answer.getAnswer() != null) {
+                                if (answer.getQuestionnaireQuestion().getQuestionnaireQuestionsId().equals(
+                                        questionnaireQuestion.getQuestionnaireQuestionsId())
+                                        && answer.getQuestionNumber().equals(questionnaireQuestion.getQuestionNumber())
+                                        && answer.getQuestionRefIdFk().equals(questionnaireQuestion.getQuestionRefIdFk())) {
+                                    if (answer.getAnswer() != null) {
                                         isAnswerPresent = true;
                                         String name = answer.getAnswer().trim();
-                                         if(name != null){
-                                            if(name.trim().equalsIgnoreCase("Y")) {
+                                        if (name != null) {
+                                            if (name.trim().equalsIgnoreCase("Y")) {
                                                 answerDescription = "Yes";
-                                            } else if(name.trim().equalsIgnoreCase("N")) {
+                                            }
+                                            else if (name.trim().equalsIgnoreCase("N")) {
                                                 answerDescription = "No";
-                                            } else if(name.trim().equalsIgnoreCase("X")) {
+                                            }
+                                            else if (name.trim().equalsIgnoreCase("X")) {
                                                 answerDescription = "None";
-                                            } else {
+                                            }
+                                            else {
                                                 answerDescription = name;
                                             }
                                         }
@@ -446,10 +464,10 @@ public class QuestionnaireXmlStream implements XmlStream {
                                         break;
                                     }
                                 }
-                                
+
                             }
                         }
-                        if(isAnswerPresent || !questionnaireCompletionFlag){
+                        if (isAnswerPresent || !questionnaireCompletionFlag) {
                             AnswerInfoType answerInfo = questionInfo.addNewAnswerInfo();
                             answerInfo.setAnswerNumber(selectedAnswer);
                             answerInfo.setAnswer(answerDescription);
@@ -459,6 +477,7 @@ public class QuestionnaireXmlStream implements XmlStream {
             }
         }
     }
+
     private List<QuestionnaireQuestion> getSortedQuestionnaireQuestions(org.kuali.kra.questionnaire.Questionnaire questionnaire) {
         return getSortedVector(questionnaire.getQuestionnaireQuestions());
     }
