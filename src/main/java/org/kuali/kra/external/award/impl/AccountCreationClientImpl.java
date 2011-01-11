@@ -23,10 +23,10 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.namespace.QName;
+import javax.xml.ws.BindingProvider;
 import javax.xml.ws.WebServiceException;
 
 import kfs.AccountCreationService;
@@ -46,6 +46,7 @@ import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.external.award.AccountCreationClient;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.rice.core.config.ConfigContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.web.session.UserSession;
 import org.kuali.rice.kns.service.DocumentService;
@@ -87,11 +88,14 @@ public final class AccountCreationClientImpl implements AccountCreationClient {
         setAccountParameters(award);
         accountParameters = getAccountParameters();
         
-        URL wsdlURL = AccountCreationServiceSOAP.WSDL_LOCATION;
         try {
-            AccountCreationServiceSOAP ss = new AccountCreationServiceSOAP(wsdlURL, SERVICE_NAME);
-            AccountCreationService port = ss.getAccountCreationServicePort();   
+        	 
+            AccountCreationServiceSOAP ss = new AccountCreationServiceSOAP();
             
+            AccountCreationService port = ss.getAccountCreationServicePort();   
+            ((BindingProvider)port).getRequestContext().put(
+                    BindingProvider.ENDPOINT_ADDRESS_PROPERTY, ConfigContext.getCurrentContextConfig().
+                    getProperty(KeyConstants.KFS_ACCOUNT_CREATION_ENDPOINT));
             AccountCreationStatusDTO createAccountResult = port.createAccount(accountParameters);
             // If the account did not get created display the errors
             if (!createAccountResult.getStatus().equals("success")) {
@@ -262,7 +266,7 @@ public final class AccountCreationClientImpl implements AccountCreationClient {
                 if (adminPerson.getAddressLine3() != null) {
                     adminStreetAddress += adminPerson.getAddressLine3();
                 }
-                
+             
                 accountParameters.setAdminContactAddressStreetAddress(adminStreetAddress);
                 accountParameters.setAdminContactAddressStreetAddress(adminPerson.getAddressLine1());
                 accountParameters.setAdminContactAddressCityName(adminPerson.getCity());
