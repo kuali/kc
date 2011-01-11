@@ -485,6 +485,7 @@
         <field-descriptor name="fileName" column="BIOSKETCH_FILENAME" jdbc-type="VARCHAR"/>
         <field-descriptor name="contentType" column="BIOSKETCH_FILE_CONTENT_TYPE" jdbc-type="VARCHAR"/>
         <field-descriptor name="attachmentContent" column="BIOSKETCH_FILE" jdbc-type="LONGVARBINARY"/>
+        <field-descriptor name="citizenshipTypeCode" column="CITIZENSHIP_TYPE_CODE" jdbc-type="INTEGER"/>
 		
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
@@ -497,6 +498,10 @@
 		<collection-descriptor name="personAppointments" proxy="true" element-class-ref="org.kuali.kra.bo.PersonAppointment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="personId"/>
 		</collection-descriptor>
+		
+		<reference-descriptor name="citizenshipType" class-ref="org.kuali.kra.bo.CitizenshipType" auto-retrieve="true" auto-update="object" auto-delete="none">
+			<foreignkey field-ref="citizenshipTypeCode"/>
+		</reference-descriptor>
 		
         
 	</class-descriptor>
