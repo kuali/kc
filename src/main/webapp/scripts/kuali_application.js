@@ -2492,21 +2492,32 @@ function generateAttendance(genAtt, noMember, noOther) {
 
 
 var viewQuestionnaireWindow = null;
-function questionnairePop(protocolNumber, submissionNumber, docFormKey, sessionDocument) {
+function questionnairePop(protocolNumber, submissionNumber, docFormKey, sessionDocument, summary) {
 
 	var documentWebScope = "";
 	if (sessionDocument == true) {
 		documentWebScope = "session";
 	}
 
-    viewQuestionnaireWindow = window.open(extractUrlBase() +
-    	                               "/questionnaire.do?methodToCall=submissionQuestionnairePop" +
+	if (summary == true) {
+        viewQuestionnaireWindow = window.open(extractUrlBase() +
+    	                               "/questionnaire.do?methodToCall=summaryQuestionnairePop" +
     	                               "&docFormKey=" + docFormKey + 
     	                               "&documentWebScope=" + documentWebScope +
     	                               "&protocolNumber=" + protocolNumber +
-    	                               "&submissionNumber=" + submissionNumber, 
+    	                               "&sequenceNumber=" + submissionNumber, 
     	                               "viewQuestionnaire", 
-    	                               "width=1200, height=800, scrollbars=yes, resizable=yes");   
+    	                               "width=1200, height=800, scrollbars=yes, resizable=yes");
+	} else {
+	    viewQuestionnaireWindow = window.open(extractUrlBase() +
+                "/questionnaire.do?methodToCall=submissionQuestionnairePop" +
+                "&docFormKey=" + docFormKey + 
+                "&documentWebScope=" + documentWebScope +
+                "&protocolNumber=" + protocolNumber +
+                "&submissionNumber=" + submissionNumber, 
+                "viewQuestionnaire", 
+                "width=1200, height=800, scrollbars=yes, resizable=yes");
+	}
 }
 
 function closeQuestionnairePop() {
