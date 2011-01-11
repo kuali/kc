@@ -483,7 +483,10 @@ public final class KeyConstants {
     public static final String CURRENT_RATE_NOT_SPECIFIED = "error.award.createAccount.invalid.currentRate";
     public static final String AWARD_ACCOUNT_NUMBER_NOT_SPECIFIED = "error.award.createAccount.invalid.accountNumber";
     public static final String NO_PERMISSION_TO_CREATE_ACCOUNT = "error.award.createAccount.noPermission";
-
+    public static final String KFS_ACCOUNT_CREATION_ENDPOINT = "kfs.accountcreation.webservice.endpoint";
+    
+    // award budget
+    public static final String BUDGET_POSTED = "message.awardBudget.posted";
     
     //Award template validation errors
     public static final String ERROR_NO_TEMPLATE_CODE = "error.award.templateCode.notFound";

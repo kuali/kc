@@ -149,4 +149,6 @@
 	<param name="application.custom.image.url.copyallperiods">/${app.context.name}/static/images/buttonsmall_copyoneper.gif</param>
 	
 	<param name="rice.logging.configure">true</param>
+	<!-- needed for services used for KC- KFS integration -->
+	<param name="kfs.accountcreation.webservice.endpoint">https://test.kfs.kuali.org/kfs-reg/remoting/accountCreationServiceSOAP</param>
 </config>
