@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.bo;
 
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDataType;
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDataType.Enum;
 import java.util.LinkedHashMap;
 
 /**

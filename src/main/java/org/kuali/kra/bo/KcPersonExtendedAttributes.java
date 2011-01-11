@@ -59,6 +59,7 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
     private String idProvided;
     private String idVerified;
     private String county;
+    private int citizenshipTypeCode;
     
     private String biosketchDescription;
     private String fileName;
@@ -68,6 +69,7 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
     
     private List<PersonDegree> personDegrees = new TypedArrayList(PersonDegree.class);
     private List<PersonAppointment> personAppointments = new TypedArrayList(PersonAppointment.class);
+    private CitizenshipType citizenshipType;
     
     
     /**
@@ -577,6 +579,22 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
         this.biosketchDescription = biosketchDescription;
     }
     
+    public int getCitizenshipTypeCode() {
+        return citizenshipTypeCode;
+    }
+
+    public void setCitizenshipTypeCode(int citizenshipTypeCode) {
+        this.citizenshipTypeCode = citizenshipTypeCode;
+    }
+
+    public CitizenshipType getCitizenshipType() {
+        return citizenshipType;
+    }
+
+    public void setCitizenshipType(CitizenshipType citizenshipType) {
+        this.citizenshipType = citizenshipType;
+    }
+
     public String getBiosketchAttachmentLink() {
         //getAttachment() is always return null.
         if(attachmentContent == null){
