@@ -17,20 +17,10 @@ package org.kuali.kra.common.specialreview.service;
 
 import java.util.Map;
 
-import org.kuali.kra.irb.Protocol;
-
 /**
  * Provides services for linking an IRB Protocol with other modules.
  */
 public interface SpecialReviewService {
-    
-    /**
-     * Gets the Protocol from the protocol number included in the parameter map.
-     *
-     * @param parameters The parameters from the request
-     * @return the Protocol if the protocol number is in the request, null otherwise
-     */
-    Protocol getProtocol(Map<String, String[]> parameters);
     
     /**
      * Gets the save location prefix string before the protocol number included in the parameter map.
