@@ -22,6 +22,7 @@ public class CoeusSubModule extends KraPersistableBusinessObjectBase {
     private static final long serialVersionUID = 1L;
     public static final String AMENDMENT_RENEWAL = "1";
     public static final String PROTOCOL_SUBMISSION = "2";
+    public static final String ZERO_SUBMODULE = "0";
 
     private Integer coeusSubModuleId; 
     private String moduleCode; 

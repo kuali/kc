@@ -75,6 +75,9 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             if (!questionnaireIds.contains(questionnaireUsage.getQuestionnaire().getQuestionnaireId())) {
                 questionnaireIds.add(questionnaireUsage.getQuestionnaire().getQuestionnaireId());
                 if (finalDoc || isCurrentQuestionnaire(questionnaireUsage.getQuestionnaire())) {
+                    // TODO : if usage is not in current qn, also, this qn is not saved
+                    // this will cause problem because it should not be included.  so, may have to 
+                    // filter out in initanswerheaders
                     usages.add(questionnaireUsage);
                 }
             }
@@ -97,7 +100,10 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                 }
             }
             else {
-                answerHeaders.add(setupAnswerForQuestionnaire(questionnaireUsage.getQuestionnaire(), moduleQuestionnaireBean));
+                if (!finalDoc || isCurrentQuestionnaire(questionnaireUsage.getQuestionnaire())) {
+                    // filter out an not saved and usage is not include in current qn
+                    answerHeaders.add(setupAnswerForQuestionnaire(questionnaireUsage.getQuestionnaire(), moduleQuestionnaireBean));
+                }
             }
         }
         return answerHeaders;

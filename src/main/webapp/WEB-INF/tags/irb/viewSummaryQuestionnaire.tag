@@ -14,27 +14,22 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<tr>
-<td colspan="2">
 <table width="100%" cellspacing="0" cellpadding="0">
 			<tbody>
                             <tr>
-                                <th class="tab-subhead" align="left" >
-                                <div align="right">
+                                <td style="background-color: rgb(195, 195, 195); font-weight: bold;">
                                                Questionnaire:
-                                               </div>
-                                </th>
+                                               
+                                </td>
                                 <td align="left" valign="middle" width="85%">
                                     <div align="left">
 							        <html:image property="methodToCall.questionnaire.actionType116.anchor${currentTabIndex}"
 								        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-questionnaire.gif' styleClass="tinybutton"
-									onclick="questionnairePop('${KualiForm.document.protocolList[0].protocolNumber}','${KualiForm.actionHelper.selectedSubmission.submissionNumber}','${KualiForm.formKey}',' ${KualiForm.document.sessionDocument}', false); return false;"
+									onclick="questionnairePop('${KualiForm.document.protocolList[0].protocolNumber}','${KualiForm.actionHelper.currentSequenceNumber}','${KualiForm.formKey}',' ${KualiForm.document.sessionDocument}', true); return false;"
 								        alt="View Questionnaire" />
                                      </div>
                                   </td>
                             </tr>
            	</tbody>
            	</table>	
-        </td>
-</tr>
-           	
+
