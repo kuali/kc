@@ -135,6 +135,9 @@
 		<property name="narrativeService">
 			<ref bean="narrativeService" />
 		</property>
+		<property name="citizenshipTypeService">
+			<ref bean="citizenshipTypeService" />
+		</property>
 		
 	</bean>
 

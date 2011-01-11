@@ -33,6 +33,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactRole;
+import org.kuali.kra.bo.CitizenshipType;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
@@ -60,6 +61,7 @@ import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.kra.service.CitizenshipTypeService;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.kns.bo.Country;
@@ -89,6 +91,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     private KcPersonService kcPersonService;
     private SponsorService sponsorService;
     private NarrativeService narrativeService;
+    private CitizenshipTypeService citizenshipTypeService;
 	private static final String SUBMISSION_TYPE_CODE = "submissionTypeCode";
 	private static final String SUBMISSION_TYPE_DESCRIPTION = "submissionTypeDescription";
 	private static final String PROPOSAL_YNQ_STATE_REVIEW = "EO";
@@ -1027,6 +1030,12 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     public void setNarrativeService(NarrativeService narrativeService) {
         this.narrativeService = narrativeService;
     }
+    
+    
+
+    public void setCitizenshipTypeService(CitizenshipTypeService citizenshipTypeService) {
+        this.citizenshipTypeService = citizenshipTypeService;
+    }
 
     /**
      * Implementation should return one of the enums defined in PHS398CareerDevelopmentAwardSup11V11 form schema.
@@ -1035,6 +1044,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      * 
      */
     public Enum getCitizenship(ProposalPerson proposalPerson) {
-        return CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S;
+        CitizenshipType citizenship = proposalPerson.getPerson().getExtendedAttributes().getCitizenshipType();
+        return this.citizenshipTypeService.getEnumValueOfCitizenshipType(citizenship);
     }
 }
