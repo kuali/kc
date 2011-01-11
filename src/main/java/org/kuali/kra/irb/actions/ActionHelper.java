@@ -314,7 +314,9 @@ public class ActionHelper implements Serializable {
     // protocol print
     private ProtocolSummaryPrintOptions protocolPrintOption = new ProtocolSummaryPrintOptions();
     private List<QuestionnairePrintOption> questionnairesToPrints;
-    
+    // flag if versioned protocol questionnaire exist
+    private boolean summaryQuestionnaireExist;
+
     /**
      * Constructs an ActionHelper.
      * @param form the protocol form
@@ -2127,6 +2129,7 @@ public class ActionHelper implements Serializable {
             protocolSummary.compare(prevProtocolSummary);
             prevProtocolSummary.compare(protocolSummary);
         }
+        setSummaryQuestionnaireExist(hasAnsweredQuestionnaire(CoeusSubModule.ZERO_SUBMODULE, protocol.getSequenceNumber().toString()));
     }
 
     /**
@@ -2149,15 +2152,15 @@ public class ActionHelper implements Serializable {
                 currentSubmissionNumber));
         setAbstainees(getCommitteeDecisionService().getAbstainers(getProtocol().getProtocolNumber(), currentSubmissionNumber));
         setRecusers(getCommitteeDecisionService().getRecusers(getProtocol().getProtocolNumber(), currentSubmissionNumber));
-        setSubmissionQuestionnaireExist(hasAnsweredQuestionnaire());
+        setSubmissionQuestionnaireExist(hasAnsweredQuestionnaire(CoeusSubModule.PROTOCOL_SUBMISSION, Integer.toString(currentSubmissionNumber)));
     }
     
-    private boolean hasAnsweredQuestionnaire() {
+    private boolean hasAnsweredQuestionnaire(String moduleSubItemCode, String moduleSubItemKey) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("moduleItemCode", CoeusModule.IRB_MODULE_CODE);
         fieldValues.put("moduleItemKey", getProtocol().getProtocolNumber());
-        fieldValues.put("moduleSubItemCode", CoeusSubModule.PROTOCOL_SUBMISSION);
-        fieldValues.put("moduleSubItemKey", Integer.toString(currentSubmissionNumber));
+        fieldValues.put("moduleSubItemCode", moduleSubItemCode);
+        fieldValues.put("moduleSubItemKey", moduleSubItemKey);
         return getBusinessObjectService().countMatching(AnswerHeader.class, fieldValues) > 0;
     }
 
@@ -2464,19 +2467,25 @@ public class ActionHelper implements Serializable {
      */
     private void setupQnPrintOption(List<AnswerHeader> answerHeaders) {
         for (AnswerHeader answerHeader : answerHeaders) {
-            QuestionnairePrintOption printOption = new QuestionnairePrintOption();
-            printOption.setQuestionnaireRefId(answerHeader.getQuestionnaire().getQuestionnaireRefId());
-            printOption.setQuestionnaireId(answerHeader.getQuestionnaire().getQuestionnaireId());
-            printOption.setSelected(true);
-            printOption.setQuestionnaireName(answerHeader.getQuestionnaire().getName());
-            printOption.setLabel(getQuestionnaireLabel(answerHeader));
-            printOption.setItemKey(answerHeader.getModuleItemKey());
-            printOption.setSubItemKey(answerHeader.getModuleSubItemKey());
-            printOption.setSubItemCode(answerHeader.getModuleSubItemCode());
-            getQuestionnairesToPrints().add(printOption);
+            // only submission questionnaire and current protocol questionnaire will be printed
+            if (CoeusSubModule.PROTOCOL_SUBMISSION.equals(answerHeader.getModuleSubItemCode())
+                    || (CoeusSubModule.ZERO_SUBMODULE.equals(answerHeader.getModuleSubItemCode())
+                            && getProtocol().getProtocolNumber().equals(answerHeader.getModuleItemKey()) && answerHeader
+                            .getModuleSubItemKey().equals(getProtocol().getSequenceNumber().toString()))) {
+                QuestionnairePrintOption printOption = new QuestionnairePrintOption();
+                printOption.setQuestionnaireRefId(answerHeader.getQuestionnaire().getQuestionnaireRefId());
+                printOption.setQuestionnaireId(answerHeader.getQuestionnaire().getQuestionnaireId());
+                printOption.setSelected(true);
+                printOption.setQuestionnaireName(answerHeader.getQuestionnaire().getName());
+                printOption.setLabel(getQuestionnaireLabel(answerHeader));
+                printOption.setItemKey(answerHeader.getModuleItemKey());
+                printOption.setSubItemKey(answerHeader.getModuleSubItemKey());
+                printOption.setSubItemCode(answerHeader.getModuleSubItemCode());
+                getQuestionnairesToPrints().add(printOption);
+            }
         }
         Collections.sort(getQuestionnairesToPrints(), new QuestionnairePrintOptionComparator());
-     
+
     }
     
     private String getQuestionnaireLabel(AnswerHeader answerHeader) {
@@ -2489,14 +2498,19 @@ public class ActionHelper implements Serializable {
         for (QuestionnaireUsage usage : usages) {
             if (CoeusModule.IRB_MODULE_CODE.equals(usage.getModuleItemCode()) && answerHeader.getModuleSubItemCode().equals(usage.getModuleSubItemCode())) {
                 if ("0".equals(answerHeader.getModuleSubItemCode())) {
-                    label = usage.getQuestionnaireLabel() + " - Sequence " + answerHeader.getModuleSubItemKey();
+                    label = usage.getQuestionnaireLabel();
                 } else if (CoeusSubModule.PROTOCOL_SUBMISSION.equals(answerHeader.getModuleSubItemCode())) {
                     Map keyValues = new HashMap();
                     keyValues.put("protocolNumber", answerHeader.getModuleItemKey());
                     keyValues.put("submissionNumber", answerHeader.getModuleSubItemKey());
                     ProtocolSubmission submission = ((List<ProtocolSubmission>) businessObjectService.findMatchingOrderBy(ProtocolSubmission.class, keyValues,
                             "submissionId", false)).get(0);
-                    label = usage.getQuestionnaireLabel() + " - " + submission.getSubmissionStatus().getDescription();
+                    keyValues.clear();
+                    keyValues.put("protocolId", submission.getProtocolId());
+                    keyValues.put("submissionNumber", answerHeader.getModuleSubItemKey());
+                    //keyValues.put("submissionIdFk", submission.getSubmissionId());
+                    ProtocolAction protocolAction = ((List<ProtocolAction>) businessObjectService.findMatching(ProtocolAction.class, keyValues)).get(0);
+                    label = usage.getQuestionnaireLabel() + " - " + protocolAction.getProtocolActionType().getDescription() + " - " + protocolAction.getActionDateString();
                 } else if (CoeusSubModule.AMENDMENT_RENEWAL.equals(answerHeader.getModuleSubItemCode())) {
                     if (answerHeader.getModuleItemKey().contains("A")) {
                         label = usage.getQuestionnaireLabel() + " - Amendment " + answerHeader.getModuleItemKey().substring(10);
@@ -2507,6 +2521,14 @@ public class ActionHelper implements Serializable {
             }
         }
         return label;
+    }
+
+    public boolean isSummaryQuestionnaireExist() {
+        return summaryQuestionnaireExist;
+    }
+
+    public void setSummaryQuestionnaireExist(boolean summaryQuestionnaireExist) {
+        this.summaryQuestionnaireExist = summaryQuestionnaireExist;
     }
 
 }

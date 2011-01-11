@@ -34,6 +34,7 @@ import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.ProtocolForm;
@@ -211,6 +212,25 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
         return forward;
     }
 
+    public ActionForward summaryQuestionnairePop(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ActionForward forward;
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        String sequenceNumber = request.getParameter("sequenceNumber");
+        String protocolNumber = request.getParameter(PROTOCOL_NUMBER);
+        ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocolNumber,
+            CoeusSubModule.ZERO_SUBMODULE, sequenceNumber, true);
+        protocolForm.getQuestionnaireHelper().setAnswerHeaders(
+                getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean));
+
+        protocolForm.getQuestionnaireHelper().setAnswerHeaders(
+                getAnsweredQuestionnaire(protocolForm.getQuestionnaireHelper().getAnswerHeaders()));
+        forward = mapping.findForward("viewQuestionnaire");
+
+        protocolForm.getQuestionnaireHelper().resetHeaderLabels();
+        return forward;
+    }
+
     /*
      * to filter out the questionnaire answer not saved
      */
@@ -271,18 +291,27 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
         // for release 3 : if questionnaire questions has answer, then print answer.
         reportParameters.put("questionnaireId", answerHeader.getQuestionnaire().getQuestionnaireId());
         reportParameters.put("template", answerHeader.getQuestionnaire().getTemplate());
-        reportParameters.put(PROTOCOL_NUMBER, answerHeader.getModuleItemKey());
-        reportParameters.put(SUBMISSION_NUMBER, answerHeader.getModuleSubItemKey());
+        Protocol protocol;
+        if (CoeusSubModule.PROTOCOL_SUBMISSION.equals(answerHeader.getModuleSubItemCode())) {
+            reportParameters.put(PROTOCOL_NUMBER, answerHeader.getModuleItemKey());
+            reportParameters.put(SUBMISSION_NUMBER, answerHeader.getModuleSubItemKey());
+            protocol = getProtocolFinder().findCurrentProtocolByNumber(getProtocolNumber(answerHeader));
+        } else {
+            Map keyValues= new HashMap();
+            keyValues.put(PROTOCOL_NUMBER, answerHeader.getModuleItemKey());
+            keyValues.put("sequenceNumber", answerHeader.getModuleSubItemKey());
+            protocol = ((List<Protocol>)getBusinessObjectService().findMatching(Protocol.class, keyValues)).get(0);
+        }
 
         AttachmentDataSource dataStream = getQuestionnairePrintingService().printQuestionnaireAnswer(
-                getProtocolFinder().findCurrentProtocolByNumber(getProtocolNumber(answerHeader)), reportParameters);
+                protocol, reportParameters);
         if (dataStream.getContent() != null) {
             streamToResponse(dataStream, response);
             forward = null;
         }
         return forward;
     }
-    
+
     /*
      * get protocolnumber for answerheader moduleitemkey
      * a saved but not submitted answer has "T" at the end of protocolnumber
