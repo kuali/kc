@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.protocol.participant;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.Protocol;
 
 /**
@@ -35,6 +36,9 @@ public class ProtocolParticipantServiceImpl implements ProtocolParticipantServic
      */
     public void addProtocolParticipant(Protocol protocol, ProtocolParticipant protocolParticipant) {
         protocolParticipant.setProtocol(protocol);
+        if (StringUtils.isBlank(protocolParticipant.getProtocolNumber())) {
+            protocolParticipant.setProtocolNumber("0");
+        }
         protocolParticipant.refreshReferenceObject("participantType");
         protocol.getProtocolParticipants().add(protocolParticipant);
     }

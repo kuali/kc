@@ -17,6 +17,7 @@ package org.kuali.kra.irb;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
@@ -122,6 +123,9 @@ public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase
      * @return protocol number.
      */
     public String getProtocolNumber() {
+        if ((StringUtils.isBlank(protocolNumber) || "0".equals(protocolNumber)) && protocol != null && StringUtils.isNotBlank(protocol.getProtocolNumber())) {
+            setProtocolNumber(protocol.getProtocolNumber());
+        }
         return this.protocolNumber;
     }
 
