@@ -505,7 +505,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             throws Exception {
         ActionForward actionForward;
         save(mapping, form, request, response);
-        actionForward = super.route(mapping, form, request, response);            
+        actionForward = super.route(mapping, form, request, response);  
         return actionForward;
     }
     
@@ -520,7 +520,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             HttpServletResponse response) throws Exception {
         ActionForward actionForward;
         save(mapping, form, request, response);
-        actionForward = super.blanketApprove(mapping, form, request, response);            
+        actionForward = super.blanketApprove(mapping, form, request, response); 
         return actionForward;
     }
     
@@ -970,7 +970,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
         TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyForm.getTimeAndMoneyDocument();
-        getBusinessObjectService().save(timeAndMoneyDocument);
+        this.save(mapping, form, request, response);
         
         AwardDocument awardDocument = timeAndMoneyDocument.getAward().getAwardDocument();
                 
