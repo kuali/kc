@@ -46,6 +46,8 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kr
     private SpecialReviewType specialReviewType;
     private SpecialReviewApprovalType approvalType;
     
+    private String protocolStatus;
+    
     // Struts 1 does not like having objects in multiselect boxes, so these two fields are a hack to make this work nicely with Struts.
     //
     // The field specialReviewExemptions holds the objects stored in the database, while exemptionTypeCodes has just the currently selected string codes.
@@ -151,7 +153,15 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kr
         this.exemptionTypeCodes = exemptionTypeCodes;
         syncExemptionTypeCodesToSpecialReviewExemptions();
     }
-    
+
+    public String getProtocolStatus() {
+        return protocolStatus;
+    }
+
+    public void setProtocolStatus(String protocolStatus) {
+        this.protocolStatus = protocolStatus;
+    }
+
     @Override
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> propMap = new LinkedHashMap<String, Object>();

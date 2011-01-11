@@ -59,8 +59,9 @@
 
             <c:if test="${canModify}"> 
                 <tr>
+                    <c:set var="protocolLinkingReadOnly" value="${KualiForm.specialReviewHelper.newSpecialReview.specialReviewTypeCode == '1'}" />
                     <c:choose>
-                       <c:when test="${KualiForm.specialReviewHelper.newSpecialReview.specialReviewTypeCode == '1'}">
+                       <c:when test="${protocolLinkingReadOnly}">
                            <c:set var="initialStyle" value="display:inline"/>
                        </c:when>
                        <c:otherwise>
@@ -74,38 +75,44 @@
 	                <td align="left" valign="middle" class="infoline"><div align="center">
 	                   <kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.specialReviewTypeCode" 
 		                                         attributeEntry="${attributes.specialReviewTypeCode}" styleClass="fixed-size-select"
-		                                         onchange="showHideSpecialReviewProtocolLink(this, 'specialReviewHelper.newSpecialReview.specialReviewProtocolLinkDiv');return false"/>
+		                                         onchange="showHideSpecialReviewProtocolLink(this, 'specialReviewHelper.newSpecialReview');return false"/>
 					</div></td>
 	                <td class="infoline"><div align="center">
-	                   <kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.approvalTypeCode" 
-		                                         attributeEntry="${attributes.approvalTypeCode}" />
+	                   <kra:dynamicHtmlControlAttribute property="specialReviewHelper.newSpecialReview.approvalTypeCode" 
+		                                                attributeEntry="${attributes.approvalTypeCode}" 
+		                                                initialReadOnly="${protocolLinkingReadOnly}"
+		                                                readOnlyBody="true"
+		                                                staticOnly="${!enableProtocolLinking}">
+                           ${KualiForm.specialReviewHelper.newSpecialReview.protocolStatus}
+		               </kra:dynamicHtmlControlAttribute>
 	                </div></td>
 	                <td class="infoline"><div align="center">
                         <kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.protocolNumber" 
 		                                          attributeEntry="${attributes.protocolNumber}" />
-                        <span id="specialReviewHelper.newSpecialReview.specialReviewProtocolLinkDiv" style="${initialStyle}">
-                            <c:if test="${enableProtocolLinking}">
+                        <c:if test="${enableProtocolLinking}">
+                            <span id="specialReviewHelper.newSpecialReview.protocolNumber.link.div" style="${initialStyle}">
                                 <kul:lookup boClassName="org.kuali.kra.irb.Protocol" 
                                             fieldConversions="protocolNumber:specialReviewHelper.newSpecialReview.protocolNumber" />
-                                <c:if test="${not empty KualiForm.specialReviewHelper.newSpecialReview.protocolNumber}">
-                                    <html:image property="methodToCall.viewNewSpecialReviewProtocolLink"
-	                                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' alt="View Protocol" styleClass="tinybutton"
-	                                            onclick="specialReviewProtocolPop(${KualiForm.document.sessionDocument}, '${action}', 'viewNewSpecialReviewProtocolLink', -1, ${KualiForm.formKey});return false" />
-                                </c:if>
-                            </c:if>
-                        </span>
+                            </span>
+                        </c:if>
 					</div></td>
 	                <td align="left" valign="middle" class="infoline"><div align="center">
-                        <kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.applicationDate" 
-                                                  attributeEntry="${attributes.applicationDate}" />
+                        <kra:dynamicHtmlControlAttribute property="specialReviewHelper.newSpecialReview.applicationDate" 
+                                                         attributeEntry="${attributes.applicationDate}" 
+                                                         initialReadOnly="${protocolLinkingReadOnly}"
+                                                         staticOnly="${!enableProtocolLinking}" />
 	                </div></td>
                     <td align="left" valign="middle" class="infoline"><div align="center">
-                        <kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.approvalDate" 
-                                                  attributeEntry="${attributes.approvalDate}" />
+                        <kra:dynamicHtmlControlAttribute property="specialReviewHelper.newSpecialReview.approvalDate" 
+                                                         attributeEntry="${attributes.approvalDate}" 
+                                                         initialReadOnly="${protocolLinkingReadOnly}"
+                                                         staticOnly="${!enableProtocolLinking}" />
 	                </div></td>
 	                <td align="left" valign="middle" class="infoline"><div align="center">
-	                	<kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.expirationDate" 
-	                	                          attributeEntry="${attributes.expirationDate}" />
+	                	<kra:dynamicHtmlControlAttribute property="specialReviewHelper.newSpecialReview.expirationDate" 
+	                	                                 attributeEntry="${attributes.expirationDate}" 
+	                	                                 initialReadOnly="${protocolLinkingReadOnly}"
+	                	                                 staticOnly="${!enableProtocolLinking}" />
 	                </div></td>
 	                <td align="left" valign="middle" class="infoline"><div align="center">
                         <kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.exemptionTypeCodes" 
@@ -129,6 +136,7 @@
             
         	<c:forEach var="specialReview" items="${collectionReference}" varStatus="status">
                 <tr>
+                    <c:set var="protocolLinkingReadOnly" value="${enableProtocolLinking and collectionReference[status.index].specialReviewTypeCode == '1'}" />
 	                <c:choose>
 	                    <c:when test="${collectionReference[status.index].specialReviewTypeCode == '1'}">
 	                        <c:set var="initialStyle" value="display:inline"/>
@@ -146,59 +154,74 @@
 	                                              attributeEntry="${attributes.specialReviewTypeCode}"  
 	                                              readOnly="${not canModify}"
 	                                              readOnlyAlternateDisplay="${specialReview.specialReviewType.description}" 
-	                                              onchange="showHideSpecialReviewProtocolLink(this, '${collectionProperty}[${status.index}].specialReviewProtocolLinkDiv');return false"
+	                                              onchange="showHideSpecialReviewProtocolLink(this, '${collectionProperty}[${status.index}]');return false"
 	                                              styleClass="fixed-size-select" />
 					</div></td>
                     <td><div align="center">
-                        <kul:htmlControlAttribute property="${collectionProperty}[${status.index}].approvalTypeCode" 
-	                                              attributeEntry="${attributes.approvalTypeCode}" 
-	                                              readOnly="${not canModify}"
-	                                              readOnlyAlternateDisplay="${specialReview.approvalType.description}" />
+                        <kra:dynamicHtmlControlAttribute property="${collectionProperty}[${status.index}].approvalTypeCode" 
+	                                                     attributeEntry="${attributes.approvalTypeCode}" 
+	                                                     initialReadOnly="${protocolLinkingReadOnly}"
+                                                         readOnly="${not canModify}"
+                                                         readOnlyBody="true" 
+                                                         staticOnly="${!enableProtocolLinking}">
+                            <c:choose>
+	                            <c:when test="${collectionReference[status.index].specialReviewTypeCode == '1'}">
+	                                ${collectionReference[status.index].protocolStatus}
+	                            </c:when>
+	                            <c:otherwise>
+	                                ${collectionReference[status.index].approvalType.description}
+	                            </c:otherwise>
+                            </c:choose>
+                        </kra:dynamicHtmlControlAttribute>
 	                </div></td>
                     <td><div align="center">
                         <kul:htmlControlAttribute property="${collectionProperty}[${status.index}].protocolNumber" 
                                                   attributeEntry="${attributes.protocolNumber}" 
-                                                  readOnly="${not canModify}"/>
-                        <span id="${collectionProperty}[${status.index}].specialReviewProtocolLinkDiv" style="${initialStyle}">
-	                        <c:if test="${enableProtocolLinking}">
+                                                  readOnly="${not canModify}" />
+                        <c:if test="${enableProtocolLinking}">
+                            <span id="${collectionProperty}[${status.index}].protocolNumber.link.div" style="${initialStyle}">
 	                            <kul:lookup boClassName="org.kuali.kra.irb.Protocol" 
 		                                    fieldConversions="protocolNumber:${collectionProperty}[${status.index}].protocolNumber" />
-		                        <c:if test="${not empty collectionReference[status.index].protocolNumber}">
-		                           <html:image property="methodToCall.viewSpecialReviewProtocolLink"
-		                                       src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' alt="View Protocol" styleClass="tinybutton"
-		                                       onclick="javascript: specialReviewProtocolPop(${KualiForm.document.sessionDocument}, '${action}', 'viewSpecialReviewProtocolLink', ${status.index}, ${KualiForm.formKey});return false" />
-		                        </c:if>
-		                    </c:if>
-	                    </span>
+                            </span>
+                        </c:if>
 					</div></td>
                     <td align="left" valign="middle"><div align="center">
-                        <kul:htmlControlAttribute property="${collectionProperty}[${status.index}].applicationDate" 
-                                                  attributeEntry="${attributes.applicationDate}" 
-                                                  readOnly="${not canModify}"/>
+                        <kra:dynamicHtmlControlAttribute property="${collectionProperty}[${status.index}].applicationDate" 
+                                                         attributeEntry="${attributes.applicationDate}" 
+                                                         initialReadOnly="${protocolLinkingReadOnly}"
+                                                         readOnly="${not canModify}"
+                                                         staticOnly="${!enableProtocolLinking}" />
 	                </div></td>
 	                <td align="left" valign="middle"><div align="center">
-                        <kul:htmlControlAttribute property="${collectionProperty}[${status.index}].approvalDate" 
-                                                  attributeEntry="${attributes.approvalDate}" 
-                                                  readOnly="${not canModify}"/>
+                        <kra:dynamicHtmlControlAttribute property="${collectionProperty}[${status.index}].approvalDate" 
+                                                         attributeEntry="${attributes.approvalDate}" 
+                                                         initialReadOnly="${protocolLinkingReadOnly}"
+                                                         readOnly="${not canModify}"
+                                                         staticOnly="${!enableProtocolLinking}" />
 	                </div></td>
 	                <td align="left" valign="middle"><div align="center">
-                        <kul:htmlControlAttribute property="${collectionProperty}[${status.index}].expirationDate" 
-                                                  attributeEntry="${attributes.expirationDate}" 
-                                                  readOnly="${not canModify}"/></div>
-	                </td>
+                        <kra:dynamicHtmlControlAttribute property="${collectionProperty}[${status.index}].expirationDate" 
+                                                         attributeEntry="${attributes.expirationDate}" 
+                                                         initialReadOnly="${protocolLinkingReadOnly}"
+                                                         readOnly="${not canModify}"
+                                                         staticOnly="${!enableProtocolLinking}"/>
+	                </div></td>
 	                <td align="left" valign="middle"><div align="center">
                         <kul:htmlControlAttribute property="${collectionProperty}[${status.index}].exemptionTypeCodes" 
                                                   attributeEntry="${exemptionAttributes.exemptionTypeCode}" 
                                                   readOnly="${not canModify}"/>
 	                </div></td>
-					<td rowspan="2">
-						<div align=center>&nbsp;
-							<c:if test="${canModify}"> 
-								<html:image property="methodToCall.deleteSpecialReview.line${status.index}.anchor${currentTabIndex}.validate0"
-									        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
-							</c:if>  
-						</div>
-	                </td>
+					<td rowspan="2"><div align=center>
+                        <c:if test="${canModify}">
+                            <html:image property="methodToCall.deleteSpecialReview.line${status.index}.anchor${currentTabIndex}.validate0"
+									    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+                        </c:if>
+                        <c:if test="${not empty collectionReference[status.index].protocolNumber}">
+                            <html:image property="methodToCall.viewSpecialReviewProtocolLink"
+                                        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' alt="View Protocol" styleClass="tinybutton"
+                                        onclick="javascript: specialReviewProtocolPop(${KualiForm.document.sessionDocument}, '${action}', 'viewSpecialReviewProtocolLink', ${status.index}, ${KualiForm.formKey});return false" />
+                        </c:if>
+	                </div></td>
 	            </tr>
 	            <tr>
 	            	<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${attributes.comments}" noColon="false" /></div></th>

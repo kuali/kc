@@ -15,12 +15,10 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -29,7 +27,6 @@ import org.kuali.kra.common.specialreview.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
@@ -41,39 +38,29 @@ import org.kuali.rice.kns.service.KualiRuleService;
 public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentAction {
     
     private SpecialReviewService specialReviewService;
-    
+
     @Override
     @SuppressWarnings("unchecked")
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
         throws Exception {
 
         ActionForward forward = super.refresh(mapping, form, request, response);
-        
-        Protocol protocol = getSpecialReviewService().getProtocol(request.getParameterMap());
 
-        if (protocol != null) {
-            String prefix = getSpecialReviewService().getProtocolSaveLocationPrefix(request.getParameterMap());
-            ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-            
-            ProposalSpecialReview proposalSpecialReview = null;
-            if (prefix.startsWith("specialReviewHelper.newSpecialReview")) {
-                proposalSpecialReview = proposalDevelopmentForm.getSpecialReviewHelper().getNewSpecialReview();
-            } else {
-                int index = getSpecialReviewService().getProtocolIndex(prefix);
-                if (index != -1) {
-                    proposalSpecialReview = proposalDevelopmentForm.getDocument().getDevelopmentProposal().getPropSpecialReviews().get(index);
-                }
-            }
-            
-            if (proposalSpecialReview != null) {
-                // Set Approval Status once we get the mapping
-                Timestamp submissionDate = protocol.getProtocolSubmission().getSubmissionDate();
-                proposalSpecialReview.setApplicationDate(submissionDate == null ? null : new Date(submissionDate.getTime()));
-                proposalSpecialReview.setApprovalDate(protocol.getLastApprovalDate() == null ? protocol.getApprovalDate() : protocol.getLastApprovalDate());
-                proposalSpecialReview.setExpirationDate(protocol.getExpirationDate());
-                // Set Exemption # once we get the mapping
+        String prefix = getSpecialReviewService().getProtocolSaveLocationPrefix(request.getParameterMap());
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        
+        ProposalSpecialReview proposalSpecialReview = null;
+        
+        if (StringUtils.startsWith(prefix, "specialReviewHelper.newSpecialReview")) {
+            proposalSpecialReview = proposalDevelopmentForm.getSpecialReviewHelper().getNewSpecialReview();
+        } else {
+            int index = getSpecialReviewService().getProtocolIndex(prefix);
+            if (index != -1) {
+                proposalSpecialReview = proposalDevelopmentForm.getDocument().getDevelopmentProposal().getPropSpecialReviews().get(index);
             }
         }
+        
+        proposalDevelopmentForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(proposalSpecialReview);
         
         return forward;
     }

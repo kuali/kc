@@ -2542,13 +2542,32 @@ function ajaxLoad(methodToCall, codeField, fieldToUpdate) {
 }
 
 /**
- * Display the Protocol 'view' link only if the specialReviewTypeCode is 'Human Subjects'
+ * Display the Protocol link and make the fields read-only if the special review type is Human Subjects
  */
-function showHideSpecialReviewProtocolLink(specialReviewTypeCode, id) {
-	if (specialReviewTypeCode.value == '1') {
-    	document.getElementById(id).style.display = 'inline';
+function showHideSpecialReviewProtocolLink(specialReviewTypeCode, idPrefix) {
+	var readOnly = specialReviewTypeCode.value == '1';
+	if (readOnly) {
+		changeObjectVisibility(idPrefix + ".protocolNumber.link.div", "inline");
 	} else {
-        document.getElementById(id).style.display = 'none'; 
+		changeObjectVisibility(idPrefix + ".protocolNumber.link.div", "none"); 
+	}
+	
+	enableDisableReadOnlyDynamicHtmlControl(readOnly, new Array(idPrefix + ".approvalTypeCode", idPrefix + ".applicationDate", idPrefix + ".approvalDate", idPrefix + ".expirationDate"));
+}
+
+function enableDisableReadOnlyDynamicHtmlControl(readOnly, ids) {
+	if (readOnly) {
+		for (var i = 0; i < ids.length; i++) {
+			changeObjectVisibility(ids[i] + ".read.div", "inline");
+			changeObjectVisibility(ids[i] + ".edit.div", "none");
+			changeObjectVisibility(ids[i] + ".error.div", "none");
+		}
+	} else {
+		for (var i = 0; i < ids.length; i++) {
+			changeObjectVisibility(ids[i] + ".read.div", "none");
+			changeObjectVisibility(ids[i] + ".edit.div", "inline");
+			changeObjectVisibility(ids[i] + ".error.div", "none");
+		}
 	}
 }
 
