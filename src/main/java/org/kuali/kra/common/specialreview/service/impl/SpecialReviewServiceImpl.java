@@ -37,28 +37,6 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#getProtocol(java.util.Map)
-     */
-    public Protocol getProtocol(Map<String, String[]> parameters) {
-        Protocol protocol = null;
-        
-        String protocolNumber = null;
-        for (String parameterName : parameters.keySet()) {
-            if (parameterName.endsWith(PROTOCOL_NUMBER)) {
-                protocolNumber = parameters.get(parameterName)[0];
-                break;
-            }
-        }
-        
-        if (StringUtils.isNotBlank(protocolNumber)) {
-            protocol = getProtocolFinderDao().findCurrentProtocolByNumber(protocolNumber);
-        }
-        
-        return protocol;
-    }
-    
-    /**
-     * {@inheritDoc}
      * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#getProtocolSaveLocationPrefix(java.util.Map)
      */
     public String getProtocolSaveLocationPrefix(Map<String, String[]> parameters) {
@@ -81,11 +59,13 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
     public int getProtocolIndex(String prefix) {
         int index = -1;
         
-        int lineStart = prefix.lastIndexOf('[') + 1;
-        int lineEnd = prefix.lastIndexOf(']');
-        String lineNumber = prefix.substring(lineStart, lineEnd);
-        if (NumberUtils.isDigits(lineNumber)) {
-            index = Integer.parseInt(lineNumber);
+        int lastLeftBracketIndex = StringUtils.lastIndexOf(prefix, '[');
+        int lastRightBracketIndex = StringUtils.lastIndexOf(prefix, ']');
+        if (lastLeftBracketIndex != -1 && lastRightBracketIndex != -1) {
+            String lineNumber = prefix.substring(lastLeftBracketIndex + 1, lastRightBracketIndex);
+            if (NumberUtils.isDigits(lineNumber)) {
+                index = Integer.parseInt(lineNumber);
+            }
         }
         
         return index;

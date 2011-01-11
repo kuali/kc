@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.institutionalproposal.specialreview;
 
+import java.util.List;
+
 import org.apache.commons.lang.BooleanUtils;
 import org.kuali.kra.common.specialreview.web.struts.form.SpecialReviewHelperBase;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
@@ -25,7 +27,7 @@ import org.kuali.rice.kns.authorization.AuthorizationConstants;
  */
 public class InstitutionalProposalSpecialReviewHelper extends SpecialReviewHelperBase<InstitutionalProposalSpecialReview> {
 
-    private static final long serialVersionUID = -6510163979860592885L;
+    private static final long serialVersionUID = 1917713283767513864L;
     
     private InstitutionalProposalForm form;
     
@@ -41,6 +43,11 @@ public class InstitutionalProposalSpecialReviewHelper extends SpecialReviewHelpe
     @Override
     protected boolean hasModifySpecialReviewPermission(String principalId) {
         return BooleanUtils.toBoolean((String) form.getEditingMode().get(AuthorizationConstants.EditMode.FULL_ENTRY));
+    }
+
+    @Override
+    protected List<InstitutionalProposalSpecialReview> getSpecialReviews() {
+        return form.getInstitutionalProposalDocument().getInstitutionalProposal().getSpecialReviews();
     }
     
 }
