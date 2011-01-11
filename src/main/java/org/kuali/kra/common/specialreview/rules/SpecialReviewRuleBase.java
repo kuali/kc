@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.bo.ValidSpecialReviewApproval;
 import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
@@ -109,28 +110,30 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
     private boolean validateDateFields(T specialReview, String errorPath) {
         boolean isValid = true;
         
-        if (specialReview.getApplicationDate() != null && specialReview.getApprovalDate() != null 
-                && specialReview.getApprovalDate().before(specialReview.getApplicationDate())) {
-            isValid = false;
-            reportErrorWithoutFullErrorPath(errorPath + DOT + APPROVAL_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_DATE_SAME_OR_LATER, 
-                    APPROVAL_DATE_TITLE, APPLICATION_DATE_TITLE);
-        }
-        if (specialReview.getApprovalDate() != null && specialReview.getExpirationDate() != null
-                && specialReview.getExpirationDate().before(specialReview.getApprovalDate())) {
-            isValid = false;
-            reportErrorWithoutFullErrorPath(errorPath + DOT + EXPIRATION_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_DATE_LATER, 
-                    EXPIRATION_DATE_TITLE, APPROVAL_DATE_TITLE);
-        }
-        if (specialReview.getApplicationDate() != null && specialReview.getExpirationDate() != null
-                && specialReview.getExpirationDate().before(specialReview.getApplicationDate())) {
-            isValid = false;
-            reportErrorWithoutFullErrorPath(errorPath + DOT + EXPIRATION_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_DATE_LATER, 
-                    EXPIRATION_DATE_TITLE, APPLICATION_DATE_TITLE);
-        }
-        if (!APPROVAL_TYPE_CODE_APPROVED.equals(specialReview.getApprovalTypeCode()) && specialReview.getApprovalDate() != null) {
-            isValid = false;
-            reportErrorWithoutFullErrorPath(errorPath + DOT + APPROVAL_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_EMPTY_FOR_NOT_APPROVED, 
-                    APPROVAL_DATE_TITLE);
+        if (!SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {
+            if (specialReview.getApplicationDate() != null && specialReview.getApprovalDate() != null 
+                    && specialReview.getApprovalDate().before(specialReview.getApplicationDate())) {
+                isValid = false;
+                reportErrorWithoutFullErrorPath(errorPath + DOT + APPROVAL_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_DATE_SAME_OR_LATER, 
+                        APPROVAL_DATE_TITLE, APPLICATION_DATE_TITLE);
+            }
+            if (specialReview.getApprovalDate() != null && specialReview.getExpirationDate() != null
+                    && specialReview.getExpirationDate().before(specialReview.getApprovalDate())) {
+                isValid = false;
+                reportErrorWithoutFullErrorPath(errorPath + DOT + EXPIRATION_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_DATE_LATER, 
+                        EXPIRATION_DATE_TITLE, APPROVAL_DATE_TITLE);
+            }
+            if (specialReview.getApplicationDate() != null && specialReview.getExpirationDate() != null
+                    && specialReview.getExpirationDate().before(specialReview.getApplicationDate())) {
+                isValid = false;
+                reportErrorWithoutFullErrorPath(errorPath + DOT + EXPIRATION_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_DATE_LATER, 
+                        EXPIRATION_DATE_TITLE, APPLICATION_DATE_TITLE);
+            }
+            if (!APPROVAL_TYPE_CODE_APPROVED.equals(specialReview.getApprovalTypeCode()) && specialReview.getApprovalDate() != null) {
+                isValid = false;
+                reportErrorWithoutFullErrorPath(errorPath + DOT + APPROVAL_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_EMPTY_FOR_NOT_APPROVED, 
+                        APPROVAL_DATE_TITLE);
+            }
         }
         
         return isValid;
@@ -188,25 +191,28 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
                 }
             }
         }
-        if (approval.isApplicationDateFlag() && specialReview.getApplicationDate() == null) {
-            isValid = false;
-            reportErrorWithoutFullErrorPath(errorPath + DOT + APPLICATION_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_REQUIRED_FOR_VALID, 
-                    APPLICATION_DATE_TITLE, getValidSpecialReviewApprovalErrorString(approval));
-        }
-        if (approval.isApprovalDateFlag() && specialReview.getApprovalDate() == null) {
-            isValid = false;
-            reportErrorWithoutFullErrorPath(errorPath + DOT + APPROVAL_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_REQUIRED_FOR_VALID, 
-                    APPROVAL_DATE_TITLE, getValidSpecialReviewApprovalErrorString(approval));
-        }
-        if (approval.isExemptNumberFlag() && CollectionUtils.isEmpty(specialReview.getExemptionTypeCodes())) {
-            isValid = false;
-            reportErrorWithoutFullErrorPath(errorPath + DOT + EXEMPTION_TYPE_CODE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_REQUIRED_FOR_VALID, 
-                    EXEMPTION_TYPE_CODE_TITLE, getValidSpecialReviewApprovalErrorString(approval));
-        }
-        if (!approval.isExemptNumberFlag() && specialReview.getExemptionTypeCodes() != null && !specialReview.getExemptionTypeCodes().isEmpty()) {
-            isValid = false;
-            reportErrorWithoutFullErrorPath(errorPath + DOT + EXEMPTION_TYPE_CODE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_CANNOT_SELECT_EXEMPTION_FOR_VALID, 
-                    getValidSpecialReviewApprovalErrorString(approval));
+        
+        if (!SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {
+            if (approval.isApplicationDateFlag() && specialReview.getApplicationDate() == null) {
+                isValid = false;
+                reportErrorWithoutFullErrorPath(errorPath + DOT + APPLICATION_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_REQUIRED_FOR_VALID, 
+                        APPLICATION_DATE_TITLE, getValidSpecialReviewApprovalErrorString(approval));
+            }
+            if (approval.isApprovalDateFlag() && specialReview.getApprovalDate() == null) {
+                isValid = false;
+                reportErrorWithoutFullErrorPath(errorPath + DOT + APPROVAL_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_REQUIRED_FOR_VALID, 
+                        APPROVAL_DATE_TITLE, getValidSpecialReviewApprovalErrorString(approval));
+            }
+            if (approval.isExemptNumberFlag() && CollectionUtils.isEmpty(specialReview.getExemptionTypeCodes())) {
+                isValid = false;
+                reportErrorWithoutFullErrorPath(errorPath + DOT + EXEMPTION_TYPE_CODE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_REQUIRED_FOR_VALID, 
+                        EXEMPTION_TYPE_CODE_TITLE, getValidSpecialReviewApprovalErrorString(approval));
+            }
+            if (!approval.isExemptNumberFlag() && specialReview.getExemptionTypeCodes() != null && !specialReview.getExemptionTypeCodes().isEmpty()) {
+                isValid = false;
+                reportErrorWithoutFullErrorPath(errorPath + DOT + EXEMPTION_TYPE_CODE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_CANNOT_SELECT_EXEMPTION_FOR_VALID, 
+                        getValidSpecialReviewApprovalErrorString(approval));
+            }
         }
         
         return isValid;

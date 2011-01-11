@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.irb.specialreview;
 
+import java.util.List;
+
 import org.kuali.kra.common.specialreview.web.struts.form.SpecialReviewHelperBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.service.TaskAuthorizationService;
@@ -29,9 +29,11 @@ import org.kuali.kra.service.TaskAuthorizationService;
  */
 public class SpecialReviewHelper extends SpecialReviewHelperBase<ProtocolSpecialReview> {
 
-    private static final long serialVersionUID = -9108501504678520983L;
-    
+    private static final long serialVersionUID = 3491535054613361337L;
+
     private ProtocolForm form;
+    
+    private transient TaskAuthorizationService taskAuthorizationService;
     
     /**
      * Constructs a SpecialReviewHelper.
@@ -44,20 +46,24 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProtocolSpecial
 
     @Override
     public boolean hasModifySpecialReviewPermission(String principalId) {
-        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_SPECIAL_REVIEW, getProtocol());
+        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_SPECIAL_REVIEW, form.getDocument().getProtocol());
         return getTaskAuthorizationService().isAuthorized(principalId, task);
     }
-    
-    private Protocol getProtocol() {
-        ProtocolDocument document = form.getDocument();
-        if (document == null || document.getProtocol() == null) {
-            throw new IllegalArgumentException("invalid (null) ProtocolDocument in ProtocolForm");
-        }
-        return document.getProtocol();
+
+    @Override
+    protected List<ProtocolSpecialReview> getSpecialReviews() {
+        return form.getDocument().getProtocol().getSpecialReviews();
     }
     
-    private TaskAuthorizationService getTaskAuthorizationService() {
-        return KraServiceLocator.getService(TaskAuthorizationService.class);
+    public TaskAuthorizationService getTaskAuthorizationService() {
+        if (taskAuthorizationService == null) {
+            taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        }
+        return taskAuthorizationService;
+    }
+    
+    public void setTaskAuthorizationService(TaskAuthorizationService taskAuthorizationService) {
+        this.taskAuthorizationService = taskAuthorizationService;
     }
     
 }

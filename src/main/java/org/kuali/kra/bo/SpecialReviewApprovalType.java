@@ -22,6 +22,8 @@ import java.util.LinkedHashMap;
  * Defines the Special Review Approval Type business object for all modules.
  */
 public class SpecialReviewApprovalType extends KraPersistableBusinessObjectBase {
+    
+    public static final String LINK_TO_IRB = "5";
 
     private static final long serialVersionUID = -3695729124365459765L;
     

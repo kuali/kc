@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.award.specialreview;
 
+import java.util.List;
+
 import org.apache.commons.lang.BooleanUtils;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.common.specialreview.web.struts.form.SpecialReviewHelperBase;
@@ -25,7 +27,7 @@ import org.kuali.rice.kns.authorization.AuthorizationConstants;
  */
 public class SpecialReviewHelper extends SpecialReviewHelperBase<AwardSpecialReview> {
 
-    private static final long serialVersionUID = -3062893807666409229L;
+    private static final long serialVersionUID = -5123033437831691617L;
     
     private AwardForm form;
     
@@ -41,6 +43,11 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<AwardSpecialRev
     @Override
     protected boolean hasModifySpecialReviewPermission(String principalId) {
         return BooleanUtils.toBoolean((String) form.getEditingMode().get(AuthorizationConstants.EditMode.FULL_ENTRY));
+    }
+
+    @Override
+    protected List<AwardSpecialReview> getSpecialReviews() {
+        return form.getDocument().getAward().getSpecialReviews();
     }
     
 }

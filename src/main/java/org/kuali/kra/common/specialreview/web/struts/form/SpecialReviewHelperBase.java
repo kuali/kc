@@ -16,9 +16,16 @@
 package org.kuali.kra.common.specialreview.web.struts.form;
 
 import java.io.Serializable;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.List;
 
+import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -27,11 +34,13 @@ import org.kuali.rice.kns.util.GlobalVariables;
  */
 public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends SpecialReviewExemption>> implements Serializable {
 
-    private static final long serialVersionUID = 5881897247177996736L;
+    private static final long serialVersionUID = -7047410188013032544L;
 
     private T newSpecialReview;
 
     private boolean canModifySpecialReview;
+    
+    private transient ProtocolFinderDao protocolFinderDao;
     
     public T getNewSpecialReview() {
         return newSpecialReview;
@@ -50,6 +59,27 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
      */
     public void prepareView() {
         initializePermissions();
+        initializeProtocolLinkView();
+    }
+    
+    /**
+     * Prepares the linked fields on the Special Review that are pulled directly from the Protocol and not from the local object.
+     * @param specialReview the Special Review to update
+     */
+    public void prepareProtocolLinkViewFields(T specialReview) {
+        if (specialReview != null) {
+            Protocol protocol = getProtocolFinderDao().findCurrentProtocolByNumber(specialReview.getProtocolNumber());
+            
+            if (protocol != null) {
+                specialReview.setApprovalTypeCode(SpecialReviewApprovalType.LINK_TO_IRB);
+                specialReview.setProtocolStatus(protocol.getProtocolStatus().getDescription());
+                Timestamp submissionDate = protocol.getProtocolSubmission().getSubmissionDate();
+                specialReview.setApplicationDate(submissionDate == null ? null : new Date(submissionDate.getTime()));
+                specialReview.setApprovalDate(protocol.getLastApprovalDate() == null ? protocol.getApprovalDate() : protocol.getLastApprovalDate());
+                specialReview.setExpirationDate(protocol.getExpirationDate());
+                // Set Exemption # once we get the mapping
+            }
+        }
     }
     
     /**
@@ -68,6 +98,30 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
     
     private String getUserIdentifier() {
         return GlobalVariables.getUserSession().getPrincipalId();
+    }
+    
+    private void initializeProtocolLinkView() {
+        prepareProtocolLinkViewFields(getNewSpecialReview());
+        for (T specialReview : getSpecialReviews()) {
+            prepareProtocolLinkViewFields(specialReview);
+        }
+    }
+    
+    /**
+     * Get the existing saved Special Reviews from the form.
+     * @return the list of saved Special Reviews
+     */
+    protected abstract List<T> getSpecialReviews();
+    
+    public ProtocolFinderDao getProtocolFinderDao() {
+        if (protocolFinderDao == null) {
+            protocolFinderDao = KraServiceLocator.getService(ProtocolFinderDao.class);
+        }
+        return protocolFinderDao;
+    }
+
+    public void setProtocolFinderDao(ProtocolFinderDao protocolFinderDao) {
+        this.protocolFinderDao = protocolFinderDao;
     }
     
 }
