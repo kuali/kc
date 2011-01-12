@@ -49,9 +49,6 @@
     <property name="label" value="Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="40" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="40" />
