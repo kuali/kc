@@ -93,17 +93,11 @@
  --%>
  			<c:forEach var="award" items="${KualiForm.fundingProposalBean.allAwardsForAwardNumber}" varStatus="awardRowStatus">
  				<c:set var="isLastAward" value="${awardRowStatus.index == (KualiForm.fundingProposalBean.allAwardsForAwardNumberSize - 1)}" />
- 				<tr>
- 					<th class="infoline">
- 						<div align="center">${award.sequenceNumber}</div> 						
- 					</th>
- 					<td colspan="7" class="infoline">&nbsp;</td>
- 				</tr>
  				<c:forEach var="fundingProposal" items="${award.fundingProposals}" varStatus="fundingProposalRowStatus">
 			    	<c:set var="awardExpr" value="fundingProposalBean.allAwardsForAwardNumber[${awardRowStatus.index}]" />
 			    	<tr>
 						<td class="infoline">
-							&nbsp;    		
+							 <div align="center">${fundingProposal.award.sequenceNumber}</div>
 				    	</td>
 				    	<td class="infoline">
 				    		<kul:htmlControlAttribute property="${awardExpr}.fundingProposals[${fundingProposalRowStatus.index}].proposal.principalInvestigator.fullName" 
