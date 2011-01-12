@@ -58,7 +58,7 @@ public interface S2SFormGenerator {
      * @return XmlObject
      */
     
-    public XmlObject getFormObject(XmlObject xmlObject);
+//    public XmlObject getFormObject(XmlObject xmlObject);
     
     /**
      * 

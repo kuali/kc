@@ -688,7 +688,7 @@
 		<dependency>                    
 			<groupId>org.kuali.kra.s2s</groupId>                    
 			<artifactId>gg-forms4</artifactId>                    
-			<version>1.0</version>                
+			<version>1.1</version>                
 		</dependency>
 		<dependency>                    
 			<groupId>org.kuali.kra.s2s</groupId>                    
@@ -698,6 +698,11 @@
 		<dependency>                    
 			<groupId>org.kuali.kra.s2s</groupId>                    
 			<artifactId>gg-forms6</artifactId>             
+			<version>1.0</version>                 
+		</dependency>
+		<dependency>                    
+			<groupId>org.kuali.kra.s2s</groupId>                    
+			<artifactId>gg-forms7</artifactId>                    
 			<version>1.0</version>                 
 		</dependency>
 		<dependency>                    
