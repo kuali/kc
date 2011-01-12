@@ -43,7 +43,7 @@ import org.w3c.dom.NodeList;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class RRSubAwardBudgetV1_1Generator extends RRSubAwardBudgetBaseGenerator {
+public class RRSubAwardBudgetV1_1Generator extends S2SAdobeFormAttachmentBaseGenerator {
 
 
     /**

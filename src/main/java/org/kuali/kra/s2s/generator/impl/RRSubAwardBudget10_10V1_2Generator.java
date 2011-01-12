@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import gov.grants.apply.forms.rrFedNonFedBudgetV11.RRFedNonFedBudgetDocument;
-import gov.grants.apply.forms.rrFedNonFedBudgetV11.RRFedNonFedBudgetDocument.RRFedNonFedBudget;
-import gov.grants.apply.forms.rrFedNonFedSubawardBudgetV12.RRFedNonFedSubawardBudgetDocument;
-import gov.grants.apply.forms.rrFedNonFedSubawardBudgetV12.RRFedNonFedSubawardBudgetDocument.RRFedNonFedSubawardBudget;
-import gov.grants.apply.forms.rrFedNonFedSubawardBudgetV12.RRFedNonFedSubawardBudgetDocument.RRFedNonFedSubawardBudget.BudgetAttachments;
+import gov.grants.apply.forms.rrBudget10V11.RRBudget10Document;
+import gov.grants.apply.forms.rrBudget10V11.RRBudget10Document.RRBudget10;
+import gov.grants.apply.forms.rrSubawardBudget1010V12.RRSubawardBudget1010Document;
+import gov.grants.apply.forms.rrSubawardBudget1010V12.RRSubawardBudget1010Document.RRSubawardBudget1010;
+import gov.grants.apply.forms.rrSubawardBudget1010V12.RRSubawardBudget1010Document.RRSubawardBudget1010.BudgetAttachments;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -43,30 +43,29 @@ import org.w3c.dom.NodeList;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class RRFedNonFedSubAwardBudgetV1_2Generator extends S2SAdobeFormAttachmentBaseGenerator {
+public class RRSubAwardBudget10_10V1_2Generator extends S2SAdobeFormAttachmentBaseGenerator {
 
-
-    private static final String RR_FED_NON_FED_BUDGET_11_NAMESPACE_URI = "http://apply.grants.gov/forms/RR_FedNonFedBudget-V1.1";
-    private static final String LOCAL_FED_NON_FED_NAME = "RR_FedNonFedBudget";
+    private static final String RR_BUDGET10_11_NAMESPACE_URI = "http://apply.grants.gov/forms/RR_Budget10-V1.1";
+    private static final String RR_BUDGET10_11_LOCAL_NAME = "RR_Budget10";
 
     /**
      * 
      * This method is to get SubAward Budget details
      * 
-     * @return rrSubawardBudgetDocument {@link XmlObject} of type RRFedNonFedSubawardBudgetDocument.
+     * @return rrSubawardBudgetDocument {@link XmlObject} of type RRSubawardBudgetDocument.
      */
-    private RRFedNonFedSubawardBudgetDocument getRRFedNonFedSubawardBudgetDocument() {
+    private RRSubawardBudget1010Document getRRSubawardBudgetDocument() {
 
-        RRFedNonFedSubawardBudgetDocument rrSubawardBudgetDocument = RRFedNonFedSubawardBudgetDocument.Factory.newInstance();
-        RRFedNonFedSubawardBudget rrSubawardBudget = RRFedNonFedSubawardBudget.Factory.newInstance();
+        RRSubawardBudget1010Document rrSubawardBudgetDocument = RRSubawardBudget1010Document.Factory.newInstance();
+        RRSubawardBudget1010 rrSubawardBudget = RRSubawardBudget1010.Factory.newInstance();
         BudgetAttachments budgetAttachments = BudgetAttachments.Factory.newInstance();
-        List<BudgetSubAwards> budgetSubAwardsList = getBudgetSubAwards(pdDoc,RR_FED_NON_FED_BUDGET_11_NAMESPACE_URI,false);
-        RRFedNonFedBudget[] budgetList = new RRFedNonFedBudget[budgetSubAwardsList.size()];
+        List<BudgetSubAwards> budgetSubAwardsList = getBudgetSubAwards(pdDoc,RR_BUDGET10_11_NAMESPACE_URI,false);
+        RRBudget10[] budgetList = new RRBudget10[budgetSubAwardsList.size()];
         rrSubawardBudget.setFormVersion(S2SConstants.FORMVERSION_1_2);
 
         int attCount = 1;
         for (BudgetSubAwards budgetSubAwards : budgetSubAwardsList) {
-            RRFedNonFedBudget rrBudget = getRRFedNonFedBudget(budgetSubAwards).getRRFedNonFedBudget();
+            RRBudget10 rrBudget = getRRBudget10(budgetSubAwards).getRRBudget10();
             switch (attCount) {
                 case 1:
                     rrSubawardBudget.setATT1(prepareAttName(budgetSubAwards));
@@ -113,31 +112,30 @@ public class RRFedNonFedSubAwardBudgetV1_2Generator extends S2SAdobeFormAttachme
             attCount++;
             
         }
-        budgetAttachments.setRRFedNonFedBudgetArray(budgetList);
+        budgetAttachments.setRRBudget10Array(budgetList);
         rrSubawardBudget.setBudgetAttachments(budgetAttachments);
-        rrSubawardBudgetDocument.setRRFedNonFedSubawardBudget(rrSubawardBudget);
+        rrSubawardBudgetDocument.setRRSubawardBudget1010(rrSubawardBudget);
         return rrSubawardBudgetDocument;
     }
 
     /**
      * 
-     * This method is used to get RRFedNonFedBudget from BudgetSubAwards
+     * This method is used to get RRBudget from BudgetSubAwards
      * 
      * @param budgetSubAwards(BudgetSubAwards) budget sub awards entry.
-     * @return RRFedNonFedBudget corresponding to the BudgetSubAwards object.
+     * @return RRBudget corresponding to the BudgetSubAwards object.
      */
-    private RRFedNonFedBudgetDocument getRRFedNonFedBudget(BudgetSubAwards budgetSubAwards) {
-        RRFedNonFedBudgetDocument rrBudget = RRFedNonFedBudgetDocument.Factory.newInstance();
+    private RRBudget10Document getRRBudget10(BudgetSubAwards budgetSubAwards) {
+        RRBudget10Document rrBudget = RRBudget10Document.Factory.newInstance();
         String subAwdXML = budgetSubAwards.getSubAwardXmlFileData();
         Document subAwdFormsDoc;
         try {
             subAwdFormsDoc = stringToDom(subAwdXML);
-        }
-        catch (S2SException e1) {
+        }catch (S2SException e1) {
             return rrBudget;
         }
         Element subAwdFormsElement = subAwdFormsDoc.getDocumentElement();
-        NodeList subAwdNodeList = subAwdFormsElement.getElementsByTagNameNS(RR_FED_NON_FED_BUDGET_11_NAMESPACE_URI, LOCAL_FED_NON_FED_NAME);
+        NodeList subAwdNodeList = subAwdFormsElement.getElementsByTagNameNS(RR_BUDGET10_11_NAMESPACE_URI, RR_BUDGET10_11_LOCAL_NAME);
         Node subAwdNode = null;
         if (subAwdNodeList != null){
             if(subAwdNodeList.getLength() == 0) {
@@ -149,7 +147,7 @@ public class RRFedNonFedSubAwardBudgetV1_2Generator extends S2SAdobeFormAttachme
         try {
             subAwdNodeBytes = docToBytes(nodeToDom(subAwdNode));
             InputStream bgtIS = new ByteArrayInputStream(subAwdNodeBytes);
-            rrBudget = (RRFedNonFedBudgetDocument) XmlObject.Factory.parse(bgtIS);
+            rrBudget = (RRBudget10Document) XmlObject.Factory.parse(bgtIS);
         }
         catch (S2SException e) {
             return rrBudget;
@@ -165,7 +163,7 @@ public class RRFedNonFedSubAwardBudgetV1_2Generator extends S2SAdobeFormAttachme
 
 
     /**
-     * This method creates {@link XmlObject} of type {@link RRFedNonFedSubawardBudgetDocument} by populating data from the given
+     * This method creates {@link XmlObject} of type {@link RRSubawardBudgetDocument} by populating data from the given
      * {@link ProposalDevelopmentDocument}
      * 
      * @param proposalDevelopmentDocument for which the {@link XmlObject} needs to be created
@@ -174,23 +172,7 @@ public class RRFedNonFedSubAwardBudgetV1_2Generator extends S2SAdobeFormAttachme
      */
     public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         pdDoc=proposalDevelopmentDocument;
-        return getRRFedNonFedSubawardBudgetDocument();
+        return getRRSubawardBudgetDocument();
     }
-
-    /**
-     * This method typecasts the given {@link XmlObject} to the required generator type and returns back the document of that
-     * generator type.
-     * 
-     * @param xmlObject which needs to be converted to the document type of the required generator
-     * @return {@link XmlObject} document of the required generator type
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
-     */
-    public XmlObject getFormObject(XmlObject xmlObject) {
-        RRFedNonFedSubawardBudget rrSubawardBudget = (RRFedNonFedSubawardBudget) xmlObject;
-        RRFedNonFedSubawardBudgetDocument rrSubawardBudgetDocument = RRFedNonFedSubawardBudgetDocument.Factory.newInstance();
-        rrSubawardBudgetDocument.setRRFedNonFedSubawardBudget(rrSubawardBudget);
-        return rrSubawardBudgetDocument;
-    }
-
 
 }

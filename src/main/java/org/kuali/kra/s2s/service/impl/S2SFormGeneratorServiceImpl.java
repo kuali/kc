@@ -15,8 +15,12 @@
  */
 package org.kuali.kra.s2s.service.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.xmlbeans.XmlOptions;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingLoader;
@@ -65,5 +69,26 @@ public class S2SFormGeneratorServiceImpl implements S2SFormGeneratorService {
             throw new S2SException("Could not generate form for "+formInfo.getMainClass(),e);
         }
         return formGenerator;
+    }
+
+
+    public XmlOptions getXmlOptionsPrefixes() {
+        XmlOptions xmlOptions = new XmlOptions();
+        Map<String, String> prefixMap = new HashMap<String, String>();
+        prefixMap.put(
+                "http://apply.grants.gov/system/MetaGrantApplication", "");
+        prefixMap.put(
+                "http://apply.grants.gov/forms/RR_SubawardBudget-V1.0",
+                "RR_SubawardBudget");
+        prefixMap.put(
+                "http://apply.grants.gov/forms/RR_SubawardBudget-V1.1",
+                "RR_SubawardBudget");
+        prefixMap.put(
+                "http://apply.grants.gov/forms/RR_SubawardBudget-V1.2",
+                "RR_SubawardBudget");
+        
+
+        xmlOptions.setSaveSuggestedPrefixes(prefixMap);
+        return xmlOptions;
     }
 }

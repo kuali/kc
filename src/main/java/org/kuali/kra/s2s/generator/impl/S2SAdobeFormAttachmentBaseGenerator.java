@@ -55,7 +55,7 @@ import org.xml.sax.SAXException;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 
-public abstract class RRSubAwardBudgetBaseGenerator extends S2SBaseFormGenerator {
+public abstract class S2SAdobeFormAttachmentBaseGenerator extends S2SBaseFormGenerator {
 
     protected static final String RR_BUDGET_10_NAMESPACE_URI = "http://apply.grants.gov/forms/RR_Budget-V1.0";
     protected static final String RR_BUDGET_11_NAMESPACE_URI = "http://apply.grants.gov/forms/RR_Budget-V1.1";
@@ -176,7 +176,6 @@ public abstract class RRSubAwardBudgetBaseGenerator extends S2SBaseFormGenerator
      * @param proposalDevelopmentDocument (ProposalDevelopmentDocument)
      * @return List<BudgetSubAwards> list of budget sub awards.
      */
-    @SuppressWarnings("unchecked")
     protected List<BudgetSubAwards> getBudgetSubAwards(ProposalDevelopmentDocument proposalDevelopmentDocument,
             String namespace,boolean checkNull) {
         List<BudgetSubAwards> budgetSubAwardsList = new ArrayList<BudgetSubAwards>();
@@ -194,11 +193,12 @@ public abstract class RRSubAwardBudgetBaseGenerator extends S2SBaseFormGenerator
 
 
     /**
-     * This method...
+     * This method is to find the subaward budget BOs for the given namespace
      * @param namespace
      * @param budget
      * @return
      */
+    @SuppressWarnings("unchecked")
     private List<BudgetSubAwards> findBudgetSubawards(String namespace, Budget budget,boolean checkNull) {
         List<BudgetSubAwards> budgetSubAwardsList;
         Map<String,Object> paramMap = new HashMap<String,Object>();
