@@ -1048,5 +1048,78 @@
 			gov.grants.apply.forms.rrOtherProjectInfo13V13
 		</pkgName>
 	</Form>
+	<!-- Form set 7 -->
+	<Form namespace="http://apply.grants.gov/forms/PHS398_ResearchTrainingProgramPlan-V1.0">
+		<formName>PHS398_ResearchTrainingProgramPlan-V1.0</formName>
+		<mainClass>
+			org.kuali.kra.s2s.generator.impl.PHS398ResTrainProgPlanV1_0Generator
+		</mainClass>
+		<stylesheet>
+			org/kuali/kra/s2s/stylesheet/PHS398_ResearchTrainProPlan_V1.0.xsl
+		</stylesheet>
+		<pkgName>
+			gov.grants.apply.forms.phs398ResearchTrainingProgramPlanV10
+		</pkgName>
+	</Form>
+	<Form namespace="http://apply.grants.gov/forms/RR_Budget10-V1.1">
+		<formName>RR_Budget10-V1.1</formName>
+		<mainClass>
+			org.kuali.kra.s2s.generator.impl.RRBudget10V1_1Generator
+		</mainClass>
+		<stylesheet>
+			org/kuali/kra/s2s/stylesheet/RR_Budget10-V1.1.fo.xsl
+		</stylesheet>
+		<pkgName>
+			gov.grants.apply.forms.rrBudget10V11
+		</pkgName>
+	</Form>
+	<Form namespace="http://apply.grants.gov/forms/RR_FedNonFedBudget10-V1.1">
+		<formName>RR_FedNonFedBudget10-V1.1</formName>
+		<mainClass>
+			org.kuali.kra.s2s.generator.impl.RRFedNonFedBudget10V1_1Generator
+		</mainClass>
+		<stylesheet>
+			org/kuali/kra/s2s/stylesheet/RR_FedNonFedBudget10-V1.1.fo.xsl
+		</stylesheet>
+		<pkgName>
+			gov.grants.apply.forms.rrFedNonFedBudget10V11
+		</pkgName>
+	</Form>
+	<Form namespace="http://apply.grants.gov/forms/RR_SubawardBudget30-V1.2">
+		<formName>RR_SubawardBudget30-V1.2</formName>
+		<mainClass>
+			org.kuali.kra.s2s.generator.impl.RRSubAwardBudget5_30V1_2Generator
+		</mainClass>
+		<stylesheet>
+			org/kuali/kra/s2s/stylesheet/RR_SubawardBudget30-V1.2.fo.xsl
+		</stylesheet>
+		<pkgName>
+			gov.grants.apply.forms.rrSubawardBudget30V12
+		</pkgName>
+	</Form>
+	<Form namespace="http://apply.grants.gov/forms/RR_SubawardBudget10_10-V1.2">
+		<formName>RR_SubawardBudget10_10-V1.2</formName>
+		<mainClass>
+			org.kuali.kra.s2s.generator.impl.RRSubAwardBudget10_10V1_2Generator
+		</mainClass>
+		<stylesheet>
+			org/kuali/kra/s2s/stylesheet/RR_SubawardBudget10_10-V1.2.fo.xsl
+		</stylesheet>
+		<pkgName>
+			gov.grants.apply.forms.rrSubawardBudget1010V12
+		</pkgName>
+	</Form>
+	<Form namespace="http://apply.grants.gov/forms/RRSF424_SF424B-V1.1">
+		<formName>RRSF424_SF424B-V1.1</formName>
+		<mainClass>
+			org.kuali.kra.s2s.generator.impl.RRSF424BV1_1Generator
+		</mainClass>
+		<stylesheet>
+			org/kuali/kra/s2s/stylesheet/RRSF424B-V1.1.fo.xsl
+		</stylesheet>
+		<pkgName>
+			gov.grants.apply.forms.rrsf424SF424BV11
+		</pkgName>
+	</Form>
 	
 </FormBinding>

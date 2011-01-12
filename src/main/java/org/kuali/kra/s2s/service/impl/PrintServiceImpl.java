@@ -453,7 +453,7 @@ public class PrintServiceImpl implements PrintService {
 			XmlObject formObject = s2sFormGenerator.getFormObject(pdDoc);
 			if (s2SValidatorService.validate(formObject, errors)) {
 
-				byte[] formXmlBytes = formObject.xmlText().getBytes();
+				byte[] formXmlBytes = formObject.xmlText(s2SFormGeneratorService.getXmlOptionsPrefixes()).getBytes();
 				S2SFormPrint formPrintable = new S2SFormPrint();
 
 				// Linkedhashmap is used to preserve the order of entry.
