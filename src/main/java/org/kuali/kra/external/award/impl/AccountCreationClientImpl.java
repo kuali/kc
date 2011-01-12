@@ -16,6 +16,7 @@
 package org.kuali.kra.external.award.impl;
 
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Date;
 import java.util.Calendar;
@@ -88,14 +89,12 @@ public final class AccountCreationClientImpl implements AccountCreationClient {
         setAccountParameters(award);
         accountParameters = getAccountParameters();
         
+        URL wsdlURL = null;
+        String serviceEndPointUrl = ConfigContext.getCurrentContextConfig().getProperty(KeyConstants.KFS_ACCOUNT_CREATION_ENDPOINT);
         try {
-        	 
-            AccountCreationServiceSOAP ss = new AccountCreationServiceSOAP();
-            
+            wsdlURL = new URL(serviceEndPointUrl + "?wsdl");
+            AccountCreationServiceSOAP ss = new AccountCreationServiceSOAP(wsdlURL, SERVICE_NAME);
             AccountCreationService port = ss.getAccountCreationServicePort();   
-            ((BindingProvider)port).getRequestContext().put(
-                    BindingProvider.ENDPOINT_ADDRESS_PROPERTY, ConfigContext.getCurrentContextConfig().
-                    getProperty(KeyConstants.KFS_ACCOUNT_CREATION_ENDPOINT));
             AccountCreationStatusDTO createAccountResult = port.createAccount(accountParameters);
             // If the account did not get created display the errors
             if (!createAccountResult.getStatus().equals("success")) {
@@ -121,7 +120,11 @@ public final class AccountCreationClientImpl implements AccountCreationClient {
                     documentService.saveDocument(awardDocument);
 
                 }
-            }    
+            }  
+        } catch (MalformedURLException e) {
+            String errorMessage = "Can not initialize the default wsdl from Service Endpoint location:" + serviceEndPointUrl;
+            LOG.error(errorMessage + e.getMessage(), e);
+            GlobalVariables.getMessageMap().putError(KeyConstants.AWARD_ACCOUNT_INVALID_WSDL_URL, KeyConstants.AWARD_ACCOUNT_INVALID_WSDL_URL);
         } catch (WebServiceException e) {
             String errorMessage = "Cannot connect to the service. The service may be down, please try again later.";
             LOG.error(errorMessage + e.getMessage(), e);
