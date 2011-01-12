@@ -218,8 +218,9 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
         ProtocolForm protocolForm = (ProtocolForm) form;
         String sequenceNumber = request.getParameter("sequenceNumber");
         String protocolNumber = request.getParameter(PROTOCOL_NUMBER);
+        
         ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocolNumber,
-            CoeusSubModule.ZERO_SUBMODULE, sequenceNumber, true);
+            (protocolNumber.contains("A") || protocolNumber.contains("R")) ? CoeusSubModule.AMENDMENT_RENEWAL : CoeusSubModule.ZERO_SUBMODULE, sequenceNumber, true);
         protocolForm.getQuestionnaireHelper().setAnswerHeaders(
                 getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean));
 

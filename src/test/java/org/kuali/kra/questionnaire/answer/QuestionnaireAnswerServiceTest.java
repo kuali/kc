@@ -515,14 +515,15 @@ public class QuestionnaireAnswerServiceTest {
 
         final Map <String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("moduleItemCode", CoeusModule.IRB_MODULE_CODE);
-        fieldValues.put("moduleItemKey", protocolNumbers);
+       // fieldValues.put("moduleItemKey", protocolNumbers);
+        fieldValues.put("moduleItemKey", "0912000001");
 
        final Collection<AnswerHeader> headers = new ArrayList<AnswerHeader>();
        AnswerHeader answerHeader1 = createAnswerHeaderForVersioning(1L, "0912000001", "0");
        headers.add(answerHeader1);
        AnswerHeader answerHeader2 = createAnswerHeaderForVersioning(1L, "0912000001A001", "0");
        answerHeader2.setModuleSubItemCode("1");
-       headers.add(answerHeader2);
+//       headers.add(answerHeader2);
        AnswerHeader answerHeader3 = createAnswerHeaderForVersioning(1L, "0912000001", "1");
        answerHeader3.setModuleSubItemCode("2");
        headers.add(answerHeader3);
@@ -559,13 +560,13 @@ public class QuestionnaireAnswerServiceTest {
         final ProtocolFinderDao protocolFinderDao = context.mock(ProtocolFinderDao.class);
         context.checking(new Expectations() {{
             one(businessObjectService).findMatching(AnswerHeader.class, fieldValues); will(returnValue(headers));
-            one(protocolFinderDao).findProtocols("0912000001"); will(returnValue(protocols));
+           // one(protocolFinderDao).findProtocols("0912000001"); will(returnValue(protocols));
         }});
         questionnaireAnswerServiceImpl.setBusinessObjectService(businessObjectService);
         questionnaireAnswerServiceImpl.setProtocolFinderDao(protocolFinderDao);
         
         List<AnswerHeader> answerHeaders = questionnaireAnswerServiceImpl.getAnswerHeadersForProtocol("0912000001");
-        Assert.assertEquals(3, answerHeaders.size());
+        Assert.assertEquals(2, answerHeaders.size());
         Assert.assertEquals("0", answerHeaders.get(0).getModuleSubItemKey());
         Assert.assertEquals("0912000001", answerHeaders.get(0).getModuleItemKey());
         //assertEquals(answerHeader, questionnaireAnswerServiceImpl.getNewVersionAnswerHeader(new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocol), questionnaire));
