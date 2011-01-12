@@ -22,14 +22,17 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.struts.upload.FormFile;
+import org.kuali.kra.bo.KcAttachment;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.PropPerDocType;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.KcAttachmentService;
 
 /**
  * 
  * This is bo for eps_prop_person_bio.
  */
-public class ProposalPersonBiography extends KraPersistableBusinessObjectBase {
+public class ProposalPersonBiography extends KraPersistableBusinessObjectBase implements KcAttachment {
 
 	private Integer proposalPersonNumber;
 	private String personId;
@@ -39,6 +42,7 @@ public class ProposalPersonBiography extends KraPersistableBusinessObjectBase {
 	private String description;
     private String documentTypeCode;
     private String fileName;
+    private String contentType;
     transient private FormFile personnelAttachmentFile;
     private List<ProposalPersonBiographyAttachment> personnelAttachmentList;
     private PropPerDocType propPerDocType;
@@ -174,6 +178,34 @@ public class ProposalPersonBiography extends KraPersistableBusinessObjectBase {
 
     public void setUploadUserFullName(String uploadUserFullName) {
         this.uploadUserFullName = uploadUserFullName;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    public byte[] getData() {
+        if (getPersonnelAttachmentList().isEmpty()) {
+            return null;
+        } else {
+            return getPersonnelAttachmentList().get(0).getContent();
+        }
+    }
+
+    public String getName() {
+        return getFileName();
+    }
+
+    public String getType() {
+        return getContentType();
+    }
+
+    public String getIconPath() {
+        return KraServiceLocator.getService(KcAttachmentService.class).getFileTypeIcon(this);
     }
 
 }

@@ -235,6 +235,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
                     bio.setProposalPersonNumber(person.getProposalPersonNumber());
                     bio.setDocumentTypeCode(getDefaultPersonAttachmentDocType()); //biosketch
                     bio.setFileName(origPerson.getExtendedAttributes().getFileName());
+                    bio.setContentType(origPerson.getExtendedAttributes().getContentType());
                     
                     ProposalPersonBiographyAttachment personnelAttachment = new ProposalPersonBiographyAttachment();
                     personnelAttachment.setFileName(origPerson.getExtendedAttributes().getFileName());

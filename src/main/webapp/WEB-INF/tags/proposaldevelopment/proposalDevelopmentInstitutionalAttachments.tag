@@ -106,6 +106,7 @@
                 </td>
 	                <td>
 	                    <div id="replaceInstDiv${status.index}" style="display:block;">
+	                       <kra:fileicon attachment="${instituteAttachment}"/>
 					       <kul:htmlControlAttribute property="document.developmentProposalList[0].instituteAttachments[${status.index}].fileName" 
 					       		readOnly="true" attributeEntry="${narrativeAttributes.fileName}" />     
 				        </div>

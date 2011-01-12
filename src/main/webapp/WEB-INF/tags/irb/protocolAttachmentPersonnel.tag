@@ -194,7 +194,7 @@
 					</td>
 	       			<td align="left" valign="middle">
 	           			<div align="left" id="attachmentPersonnelFileName${itrStatus.index}">
-	              			${attachmentPersonnel.file.name}
+	              			<kra:fileicon attachment="${attachmentPersonnel.file}"/>${attachmentPersonnel.file.name}
 	           			</div>
 					</td>
 					<td align="center" valign="middle">

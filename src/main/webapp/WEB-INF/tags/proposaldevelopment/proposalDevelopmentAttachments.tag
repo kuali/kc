@@ -140,6 +140,7 @@ internal attachements.  We are just going to loop through the narratives and see
 			                <td align="left" valign="middle">
 			                <%-- %><c:if test="${(!empty narrative.fileName)}">--%>
 				                <div id="replaceDiv${status.index}" style="display:block;">
+				                    <kra:fileicon attachment="${narrative}"/>
 					                <kul:htmlControlAttribute property="document.developmentProposalList[0].narrative[${status.index}].fileName" 
 					                	 readOnly="true" attributeEntry="${narrativeAttributes.fileName}" />
 				                </div>
