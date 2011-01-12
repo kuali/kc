@@ -1499,7 +1499,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         for (ProtocolSpecialReview specialReview : getSpecialReviews()) {
             SpecialReviewSummary specialReviewSummary = new SpecialReviewSummary();
             if (specialReview.getSpecialReviewType() == null) {
-                specialReview.refreshReferenceObject("specialReview");
+                specialReview.refreshReferenceObject("specialReviewType");
             }
             specialReviewSummary.setType(specialReview.getSpecialReviewType().getDescription());
             if (specialReview.getApprovalType() == null) {
