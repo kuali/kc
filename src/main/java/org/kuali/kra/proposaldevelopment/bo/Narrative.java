@@ -25,6 +25,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.struts.upload.FormFile;
+import org.kuali.kra.bo.KcAttachment;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
@@ -32,6 +33,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.NarrativeTask;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -39,7 +41,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * 
  * This class is BO for narrarive
  */
-public class Narrative extends KraPersistableBusinessObjectBase implements HierarchyMaintainable {
+public class Narrative extends KraPersistableBusinessObjectBase implements HierarchyMaintainable, KcAttachment {
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(Narrative.class);
     
@@ -56,6 +58,7 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
     private NarrativeType narrativeType;
     private NarrativeStatus narrativeStatus;
     private String fileName;
+    private String contentType;
     private List<NarrativeUserRights> narrativeUserRights;
     private List<NarrativeAttachment> narrativeAttachmentList;
     transient private FormFile narrativeFile;
@@ -363,6 +366,7 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
                 narrativeAttachment.setProposalNumber(getProposalNumber());
                 narrativeAttachment.setModuleNumber(getModuleNumber());
                 setFileName(narrativeAttachment.getFileName());
+                setContentType(narrativeAttachment.getContentType());
             }else {
                 getNarrativeAttachmentList().clear();
             }
@@ -587,5 +591,33 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
      */
     public void setHiddenInHierarchy(boolean hiddenInHierarchy) {
         this.hiddenInHierarchy = hiddenInHierarchy;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    public byte[] getData() {
+        if (getNarrativeAttachmentList().isEmpty()) {
+            return null;
+        } else {
+            return getNarrativeAttachmentList().get(0).getContent();
+        }
+    }
+
+    public String getIconPath() {
+        return KraServiceLocator.getService(KcAttachmentService.class).getFileTypeIcon(this);
+    }
+
+    public String getName() {
+        return getFileName();
+    }
+
+    public String getType() {
+        return getContentType();
     }
 }
