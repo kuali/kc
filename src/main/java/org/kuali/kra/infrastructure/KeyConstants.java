@@ -479,6 +479,7 @@ public final class KeyConstants {
     public static final String AWARD_F_AND_A_RATE_NOT_SPECIFIED = "error.award.createAccount.invalid.rate";
     public static final String ACCOUNT_ALREADY_CREATED = "error.award.createAccount.account.already.created";
     public static final String CANNOT_CONNECT_TO_SERVICE = "error.award.createAccount.cannotConnect";
+    public static final String AWARD_ACCOUNT_INVALID_WSDL_URL = "error.award.createAccount.invalid.wsdlurl";
     public static final String DOCUMENT_NUMBER_NULL = "error.award.createAccount.nullDocumentNumber";
     public static final String CURRENT_RATE_NOT_SPECIFIED = "error.award.createAccount.invalid.currentRate";
     public static final String AWARD_ACCOUNT_NUMBER_NOT_SPECIFIED = "error.award.createAccount.invalid.accountNumber";
