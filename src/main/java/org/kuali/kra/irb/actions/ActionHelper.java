@@ -2129,7 +2129,7 @@ public class ActionHelper implements Serializable {
             protocolSummary.compare(prevProtocolSummary);
             prevProtocolSummary.compare(protocolSummary);
         }
-        setSummaryQuestionnaireExist(hasAnsweredQuestionnaire(CoeusSubModule.ZERO_SUBMODULE, protocol.getSequenceNumber().toString()));
+        setSummaryQuestionnaireExist(hasAnsweredQuestionnaire((protocol.isAmendment() || protocol.isRenewal()) ? CoeusSubModule.AMENDMENT_RENEWAL : CoeusSubModule.ZERO_SUBMODULE, protocol.getSequenceNumber().toString()));
     }
 
     /**
@@ -2468,8 +2468,9 @@ public class ActionHelper implements Serializable {
     private void setupQnPrintOption(List<AnswerHeader> answerHeaders) {
         for (AnswerHeader answerHeader : answerHeaders) {
             // only submission questionnaire and current protocol questionnaire will be printed
-            if (CoeusSubModule.PROTOCOL_SUBMISSION.equals(answerHeader.getModuleSubItemCode())
-                    || (CoeusSubModule.ZERO_SUBMODULE.equals(answerHeader.getModuleSubItemCode())
+            if (CoeusSubModule.PROTOCOL_SUBMISSION.equals(answerHeader.getModuleSubItemCode())                    
+                    || ((CoeusSubModule.ZERO_SUBMODULE.equals(answerHeader.getModuleSubItemCode())
+                            || CoeusSubModule.AMENDMENT_RENEWAL.equals(answerHeader.getModuleSubItemCode()))
                             && getProtocol().getProtocolNumber().equals(answerHeader.getModuleItemKey()) && answerHeader
                             .getModuleSubItemKey().equals(getProtocol().getSequenceNumber().toString()))) {
                 QuestionnairePrintOption printOption = new QuestionnairePrintOption();

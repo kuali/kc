@@ -579,7 +579,8 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     public List<AnswerHeader> getAnswerHeadersForProtocol(String protocolNumber) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(MODULE_ITEM_CODE, CoeusModule.IRB_MODULE_CODE);
-        fieldValues.put(MODULE_ITEM_KEY, getProtocolNumbers(protocolNumber));
+       // fieldValues.put(MODULE_ITEM_KEY, getProtocolNumbers(protocolNumber));
+        fieldValues.put(MODULE_ITEM_KEY, protocolNumber);
         return (List<AnswerHeader>) businessObjectService.findMatching(AnswerHeader.class, fieldValues);
     }
 
