@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.s2s.service;
 
+import org.apache.xmlbeans.XmlOptions;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.S2SFormGenerator;
 import org.kuali.kra.s2s.generator.S2SGeneratorNotFoundException;
@@ -38,6 +39,11 @@ public interface S2SFormGeneratorService {
      * @throws S2SGeneratorNotFoundException 
      * 
      */
-    public abstract S2SFormGenerator getS2SGenerator(String nameSpace) throws S2SException, S2SGeneratorNotFoundException;
+    public S2SFormGenerator getS2SGenerator(String nameSpace) throws S2SException, S2SGeneratorNotFoundException;
+    /**
+     * This method is to get the namespace prefixes for some individual forms like, Subaward Budget and PHS398_ResearchTrainingProgramPlan
+     * @return
+     */
+    public XmlOptions getXmlOptionsPrefixes();
 
 }

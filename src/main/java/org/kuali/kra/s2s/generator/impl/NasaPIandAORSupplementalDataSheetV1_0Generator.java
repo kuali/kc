@@ -105,10 +105,8 @@ public class NasaPIandAORSupplementalDataSheetV1_0Generator extends
 		AuthorizedRepresentativeName authorizedRepresentativeName = AuthorizedRepresentativeName.Factory
 				.newInstance();
 
-		DepartmentalPerson aorInfo = s2sUtilService
-				.getDepartmentalPerson(pdDoc);
-		authorizedRepresentativeName.setAORName(globLibV20Generator
-				.getHumanNameDataType(aorInfo));
+		DepartmentalPerson aorInfo = s2sUtilService.getDepartmentalPerson(pdDoc);
+		authorizedRepresentativeName.setAORName(globLibV20Generator.getHumanNameDataType(aorInfo));
 
 		// TODO HardCoded because table EPS_PROP_CUSTOM_DATA was not found in
 		// database

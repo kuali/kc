@@ -389,24 +389,9 @@ public class KRAS2SServiceImpl implements S2SService {
 			appSubmission.setStatus(S2SConstants.GRANTS_GOV_STATUS_MESSAGE);
 			appSubmission.setComments(S2SConstants.GRANTS_GOV_COMMENTS_MESSAGE);
 			SubmitApplicationResponse response = null;
-			XmlOptions xmlOptions = new XmlOptions();
-			Map<String, String> prefixMap = new HashMap<String, String>();
-			prefixMap.put(
-					"http://apply.grants.gov/system/MetaGrantApplication", "");
-			prefixMap.put(
-					"http://apply.grants.gov/forms/RR_SubawardBudget-V1.0",
-					"RR_SubawardBudget");
-			prefixMap.put(
-					"http://apply.grants.gov/forms/RR_SubawardBudget-V1.1",
-					"RR_SubawardBudget");
-			prefixMap.put(
-					"http://apply.grants.gov/forms/RR_SubawardBudget-V1.2",
-					"RR_SubawardBudget");
-
-			xmlOptions.setSaveSuggestedPrefixes(prefixMap);
 
 			String applicationXml = grantApplicationDocument
-					.xmlText(xmlOptions);
+					.xmlText(s2SFormGeneratorService.getXmlOptionsPrefixes());
 			response = grantsGovConnectorService.submitApplication(
 					applicationXml, attachments, pdDoc
 							.getDevelopmentProposal().getProposalNumber());
