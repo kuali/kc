@@ -21,11 +21,13 @@ import java.util.LinkedHashMap;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.SeparateAssociate;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.KcAttachmentService;
 
 /**
  * Represents a Protocol Attachment File.
  */
-public class AttachmentFile extends SeparateAssociate {
+public class AttachmentFile extends SeparateAssociate implements KcAttachment {
     
     /** the max file name length. length={@value}*/
     public static final int MAX_FILE_NAME_LENGTH = 150;
@@ -231,5 +233,9 @@ public class AttachmentFile extends SeparateAssociate {
         public CreateException(Throwable t) {
             super(t);
         }
+    }
+
+    public String getIconPath() {
+        return KraServiceLocator.getService(KcAttachmentService.class).getFileTypeIcon(this);
     }
 }
