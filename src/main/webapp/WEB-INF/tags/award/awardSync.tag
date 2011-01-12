@@ -159,7 +159,7 @@
    		<c:if test="${KualiForm.awardSyncBean.onValidationNode}">
    		<div class="syncactions" style="text-align: center;">
    		  <html:image property="methodToCall.rerunValidation"
-   		  		src="${ConfigProperties.kra.externalizable.images.url}buttonsmall_rerunvalidation.gif"
+   		  		src="${ConfigProperties.kra.externalizable.images.url}tinybutton_rerunvalidation.gif"
    		  		styleClass="globalButtons"/>
    		</div>
    		</c:if>
