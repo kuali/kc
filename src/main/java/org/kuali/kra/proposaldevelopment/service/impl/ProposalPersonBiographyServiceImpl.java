@@ -74,6 +74,7 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
                     personnelAttachment.setBiographyData(personnelAttachmentFile.getFileData());
                     personnelAttachment.setContentType(personnelAttachmentFile.getContentType());
                     proposalPersonBiography.setFileName(personnelAttachmentFile.getFileName());
+                    proposalPersonBiography.setContentType(personnelAttachmentFile.getContentType());
                     if (proposalPersonBiography.getPersonnelAttachmentList().isEmpty())
                         proposalPersonBiography.getPersonnelAttachmentList().add(personnelAttachment);
                     else

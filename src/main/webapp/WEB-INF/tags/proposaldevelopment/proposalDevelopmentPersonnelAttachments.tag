@@ -122,7 +122,7 @@
 	                	${propPersonBio.description} 
 					</td>
 	                <td>
-	                    ${propPersonBio.fileName}
+	                    <kra:fileicon attachment="${propPersonBio}"/> ${propPersonBio.fileName}
 	                </td>
 	                <td>
 					<div align=center>
