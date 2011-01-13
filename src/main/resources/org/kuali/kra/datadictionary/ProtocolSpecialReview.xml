@@ -75,7 +75,13 @@
 	<bean id="ProtocolSpecialReview-specialReviewNumber-parentBean" abstract="true" parent="SpecialReview-specialReviewNumber-parentBean" />
 
 	<bean id="ProtocolSpecialReview-specialReviewTypeCode" parent="ProtocolSpecialReview-specialReviewTypeCode-parentBean" />
-	<bean id="ProtocolSpecialReview-specialReviewTypeCode-parentBean" abstract="true" parent="SpecialReview-specialReviewTypeCode" />
+	<bean id="ProtocolSpecialReview-specialReviewTypeCode-parentBean" abstract="true" parent="SpecialReview-specialReviewTypeCode">
+        <property name="control" >
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="org.kuali.kra.irb.specialreview.ProtocolSpecialReviewTypeValuesFinder"
+                  p:includeKeyInLabel="false" />
+        </property>
+    </bean>
 	
 	<bean id="ProtocolSpecialReview-approvalTypeCode" parent="ProtocolSpecialReview-approvalTypeCode-parentBean" />
 	<bean id="ProtocolSpecialReview-approvalTypeCode-parentBean" abstract="true" parent="SpecialReview-approvalTypeCode" />

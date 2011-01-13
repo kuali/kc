@@ -75,7 +75,13 @@
 	<bean id="InstitutionalProposalSpecialReview-specialReviewNumber-parentBean" abstract="true" parent="SpecialReview-specialReviewNumber-parentBean" />
 	
 	<bean id="InstitutionalProposalSpecialReview-specialReviewTypeCode" parent="InstitutionalProposalSpecialReview-specialReviewTypeCode-parentBean" />
-	<bean id="InstitutionalProposalSpecialReview-specialReviewTypeCode-parentBean" abstract="true" parent="SpecialReview-specialReviewTypeCode" />
+	<bean id="InstitutionalProposalSpecialReview-specialReviewTypeCode-parentBean" abstract="true" parent="SpecialReview-specialReviewTypeCode">
+        <property name="control" >
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReviewTypeValuesFinder"
+                  p:includeKeyInLabel="false" />
+        </property>
+    </bean>
 
 	<bean id="InstitutionalProposalSpecialReview-approvalTypeCode" parent="InstitutionalProposalSpecialReview-approvalTypeCode-parentBean" />
 	<bean id="InstitutionalProposalSpecialReview-approvalTypeCode-parentBean" abstract="true" parent="SpecialReview-approvalTypeCode" />
