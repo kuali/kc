@@ -1,13 +1,15 @@
-KC Release Version 2.0
+KC Release Version 3.0
 ------------------------
 
-KC database release bundle contains all SQL scripts needed to 
-install a new schema in a rice bundled mode
-with the database objects (tables, constraints, bootstrap data)
-required to launch/execute KC application.
+KC database release contains all SQL scripts needed to 
+install a new schema or upgrade a KC 2.0 database using 
+rice bundled or embedded mode with the database objects 
+(tables, constraints, bootstrap data) for the KC application.
 
-KC database install scripts for a rice embedded version 
-or upgrade existing KC schema will be released separately.
+The scripts to upgrade Rice from 1.0.2 to 1.0.3 are also included.  
+If installing in an embedded rice environment you will be prompted 
+to install/upgrade rice.  If your Rice server has been upgraded 
+already you will answer no to the question. 
 
 Installation Steps - Oracle
 ---------------------------
@@ -29,9 +31,9 @@ Make sure oracle user has following privileges
 	
 Note: a users DEFAULT TABLESPACE is set with the CREATE USER statement or ALTER USER statement. The TABLESPACE should not be the SYSTEM tablespace.
 
-Run: KC_Install.bat oracle new username password DB_Server_Name
+Run: KC_Install.bat
 
-NOTE: This will COMPLETELY clear data from any existing KC tables in this schema!
+NOTE: A New install will COMPLETELY clear data from any existing KC tables in this schema!
 
 
 Installation Steps - MySQL
@@ -47,7 +49,9 @@ lower_case_table_names=1
 max_connections=1000
 
 Create MySQL username of less than 8 characters
-Create MySQL schema matching username
+Create MySQL schema matching username with the default character set of UTF8, if a different character set is desired, 
+the ddl scripts will need to be updated to the new character set.
+  
 Make sure MySQL user has following privileges on the schema
 	* Select
 	* Insert
@@ -63,21 +67,35 @@ Make sure MySQL user has following privileges on the schema
 	* Create_tmp_table
 	* Lock_tables
 
-Edit KC-Release-2_0-Bundled-Install.sql change kcprd to username
+Edit KC-Release-2_0-Bundled-MySql-Install.sql change kcprd to username
 
-Run: KC_Install.bat mysql new username password
+Run: KC_Install.bat
 
-NOTE: This will COMPLETELY clear data from any existing KC tables in this schema!
+NOTE: A New install will COMPLETELY clear data from any existing KC tables in this schema!
 
 KC_Install.bat Usage
 --------------------------
 
-KC_Install.bat DB_Server new username password DB_server_name
+KC_Install.bat
+
+You will be prompted for the following:
+   - Rice Mode = Choose one: Bundle, Embed
    - DB_Server = Choose one: oracle, mysql
-   - new = New install with an empty database schema with bundled rice
+   - Version = Choose one: New, 2.0
    - username = The kc Database schema name to install database scripts to (bundled rice goes here too).
    - password = the password for username
-   - DB_server_name = the name used to locate the database server where kc schema is located (Oracle Only)
+   - DB_server_name = the tns name used to connect to kc database (Oracle only).
+   If embedded mode selected the following will be asked
+   - Rice Username = the rice database schema name to install rice scripts to (embedded rice).
+   - rice Password = password for rice username
+   - Rice DB Server name = the tns name used to connect to rice database (Oracle Only).
+   - Do you wish to Install/Upgrade your Embedded Rice Server (Don't perform if your server was upgraded separately)
 
 Review .log files for installation errors
 
+Install Demonstration Data
+--------------------------
+
+The demonstration data can be found in the db_scripts/demo-data/<Database> folder.  Run the KC_DEMO.sql and KR_DEMO.sql
+in your Kuali Coeus and Kuali Rice database schemas respectively.  If you are running in bundled mode they will be run 
+in the same schema. 
