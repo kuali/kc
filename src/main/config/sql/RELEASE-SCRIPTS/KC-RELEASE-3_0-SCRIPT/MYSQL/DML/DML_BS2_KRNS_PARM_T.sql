@@ -36,126 +36,486 @@ INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM
 VALUES ('KUALI', 'KC-PROTOCOL', 'D', 'irb.protocol.protocoltype.exempt', 'CONFG', '4', 'Protocol Type Exempt', 'A', UUID(), 1);
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-PROTOCOL','D','protocolProtocolHelp',1,'HELP','default.htm?turl=Documents/protocol1.htm','Protocol Page Help','A','62681381F5DB429FAC427F4F4A35C3AB');
+VALUES ('KUALI','KC-PROTOCOL','D','protocolProtocolHelp',1,'HELP','default.htm?turl=Documents/protocol1.htm','Protocol Page Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-PROTOCOL','D','protocolRequiredFieldsHelpUrl',1,'HELP','default.htm?turl=Documents/requiredfieldsforsavingdocument.htm','Protocol Required Fields for Saving Document Help','A','776F0D47EAFB474185BC9C9383DB6D25');
+VALUES ('KUALI','KC-PROTOCOL','D','protocolRequiredFieldsHelpUrl',1,'HELP','default.htm?turl=Documents/requiredfieldsforsavingdocument.htm','Protocol Required Fields for Saving Document Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-PROTOCOL','D','protocolStatusAndDatesHelpUrl',1,'HELP','default.htm?turl=Documents/statusdates1.htm','Protocol Status and Dates Help','A','2D31BDDBAAE64A4080C2D3254095BA62');
+VALUES ('KUALI','KC-PROTOCOL','D','protocolStatusAndDatesHelpUrl',1,'HELP','default.htm?turl=Documents/statusdates1.htm','Protocol Status and Dates Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-PROTOCOL','D','protocolAreaOfResearchHelpUrl',1,'HELP','default.htm?turl=Documents/areaofresearch.htm','Protocol Area of Research Help','A','6F4D5501FFC94B94A4F83C2DD8CA850C');
+VALUES ('KUALI','KC-PROTOCOL','D','protocolAreaOfResearchHelpUrl',1,'HELP','default.htm?turl=Documents/areaofresearch.htm','Protocol Area of Research Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-PROTOCOL','D','protocolAdditionalInformationHelpUrl',1,'HELP','default.htm?turl=Documents/additionalinformation1.htm','Protocol Additional Information Help','A','A1107E15A3B442BEB23CF38F6363742F');
+VALUES ('KUALI','KC-PROTOCOL','D','protocolAdditionalInformationHelpUrl',1,'HELP','default.htm?turl=Documents/additionalinformation1.htm','Protocol Additional Information Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-PROTOCOL','D','protocolOtherIdentifiersHelpUrl',1,'HELP','default.htm?turl=Documents/otheridentifiers.htm','Protocol Other Identifiers Help','A','61CACCE09818497EBFB856A35CF349D2');
+VALUES ('KUALI','KC-PROTOCOL','D','protocolOtherIdentifiersHelpUrl',1,'HELP','default.htm?turl=Documents/otheridentifiers.htm','Protocol Other Identifiers Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-PROTOCOL','D','protocolOrganizationsHelpUrl',1,'HELP','default.htm?turl=Documents/organizations.htm','Protocol Organizations Help','A','FBF354C0EA8149599842014D985FB7D2');
+VALUES ('KUALI','KC-PROTOCOL','D','protocolOrganizationsHelpUrl',1,'HELP','default.htm?turl=Documents/organizations.htm','Protocol Organizations Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-PROTOCOL','D','protocolFundingSourcesHelpUrl',1,'HELP','default.htm?turl=Documents/fundingsources.htm','Protocol Funding Sources Help','A','66C554CBCE3C4EC2AC5AC0C22FB78C9E');
+VALUES ('KUALI','KC-PROTOCOL','D','protocolFundingSourcesHelpUrl',1,'HELP','default.htm?turl=Documents/fundingsources.htm','Protocol Funding Sources Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-PROTOCOL','D','protocolParticipantTypesHelpUrl',1,'HELP','default.htm?turl=Documents/participanttypes.htm','Protocol Participant Types Help','A','90EFDFC57AB6439BA56861B216C7A3AC');
+VALUES ('KUALI','KC-PROTOCOL','D','protocolParticipantTypesHelpUrl',1,'HELP','default.htm?turl=Documents/participanttypes.htm','Protocol Participant Types Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-PROTOCOL','D','protocolPersonnelHelp',1,'HELP','default.htm?turl=Documents/personnel.htm','Protocol Personnel Page Help','A','491EA51A75674CA48C953093475E3A83');
+VALUES ('KUALI','KC-PROTOCOL','D','protocolPersonnelHelp',1,'HELP','default.htm?turl=Documents/personnel3.htm','Protocol Personnel Page Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-PROTOCOL','D','protocolPersonnelHelpUrl',1,'HELP','default.htm?turl=Documents/addpersonnel.htm','Protocol Add Personnel Help','A','4F2167D3B2C64B78995763C72EC544F9');
+VALUES ('KUALI','KC-PROTOCOL','D','protocolPersonnelHelpUrl',1,'HELP','default.htm?turl=Documents/addpersonnel.htm','Protocol Add Personnel Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-PROTOCOL','D','protocolQuestionnaireHelp',1,'HELP','default.htm?turl=Documents/questionnaire.htm','Protocol Questionnaire Page Help','A','C2BF427CEB824202BEBB752CB69A4194');
+VALUES ('KUALI','KC-PROTOCOL','D','protocolQuestionnaireHelp',1,'HELP','default.htm?turl=Documents/questionnaire.htm','Protocol Questionnaire Page Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-PROTOCOL','D','protocolCustomDataHelp',1,'HELP','default.htm?turl=Documents/customdata1.htm','Protocol Custom Data Page Help','A','002256983F7948C18DC7A04A625D79BD');
+VALUES ('KUALI','KC-PROTOCOL','D','protocolCustomDataHelp',1,'HELP','default.htm?turl=Documents/customdata1.htm','Protocol Custom Data Page Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-PROTOCOL','D','protocolSpecialReviewHelp',1,'HELP','default.htm?turl=Documents/specialreview.htm','Protocol Special Review Page Help','A','3697C8AF76BC488EA42CE0E416FA4E76');
+VALUES ('KUALI','KC-PROTOCOL','D','protocolSpecialReviewHelp',1,'HELP','default.htm?turl=Documents/specialreview.htm','Protocol Special Review Page Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-PROTOCOL','D','protocolPermissionsHelp',1,'HELP','default.htm?turl=Documents/permissions1.htm','Protocol Permissions Page Help','A','46064E3EF5EE4BD4B26C2CEC90175A86');
+VALUES ('KUALI','KC-PROTOCOL','D','protocolPermissionsHelp',1,'HELP','default.htm?turl=Documents/permissions1.htm','Protocol Permissions Page Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-PROTOCOL','D','protocolNotesAndAttachmentsHelp',1,'HELP','default.htm?turl=Documents/notesattachments.htm','Protocol Notes and Attachments Page Help','A','CD5836F621D349BD9AB2ADD6A26F6DAB');
+VALUES ('KUALI','KC-PROTOCOL','D','protocolNotesAndAttachmentsHelp',1,'HELP','default.htm?turl=Documents/notesattachments.htm','Protocol Notes and Attachments Page Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-PROTOCOL','D','protocolAddProtocolAttachmentHelpUrl',1,'HELP','default.htm?turl=Documents/protocolattachments.htm','Protocol Add Protocol Attachments Help','A','A9909E9902DC4439BEF3C1D6A03A061D');
+VALUES ('KUALI','KC-PROTOCOL','D','protocolAddProtocolAttachmentHelpUrl',1,'HELP','default.htm?turl=Documents/protocolattachments.htm','Protocol Add Protocol Attachments Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-PROTOCOL','D','protocolAddPersonnelAttachmentHelpUrl',1,'HELP','default.htm?turl=Documents/personnelattachments.htm','Protocol Add Personnel Attachments Help','A','D83F68A55AEE4239A89E5AB519CBA846');
+VALUES ('KUALI','KC-PROTOCOL','D','protocolAddPersonnelAttachmentHelpUrl',1,'HELP','default.htm?turl=Documents/personnelattachments.htm','Protocol Add Personnel Attachments Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-PROTOCOL','D','protocolNotesHelpUrl',1,'HELP','default.htm?turl=Documents/notes.htm','Protocol Notes Help','A','F2012927FED742BAABDB3E4C8FCFCCCC');
+VALUES ('KUALI','KC-PROTOCOL','D','protocolNotesHelpUrl',1,'HELP','default.htm?turl=Documents/notes.htm','Protocol Notes Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-PROTOCOL','D','protocolActionsHelp',1,'HELP','default.htm?turl=Documents/protocolactions.htm','Protocol Actions Page Help','A','0621D61D4D794A6885A2972D5CED3AD7');
+VALUES ('KUALI','KC-PROTOCOL','D','protocolActionsHelp',1,'HELP','default.htm?turl=Documents/protocolactions.htm','Protocol Actions Page Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-PROTOCOL','D','protocolAvailableActionsHelpUrl',1,'HELP','default.htm?turl=Documents/requestanaction.htm','Protocol Available Actions Help','A','9CA94CAF7D144927A99063000D6BDB99');
+VALUES ('KUALI','KC-PROTOCOL','D','protocolAvailableActionsHelpUrl',1,'HELP','default.htm?turl=Documents/requestanaction.htm','Protocol Available Actions Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-QUESTIONNAIRE','D','questionnaireQuestionnaireHelp',1,'HELP','default.htm?turl=Documents/questionnaire1.htm','Questionnaire Page Help','A','A4A84A5E68C4432C8338418733EB0EC3');
+VALUES ('KUALI','KC-QUESTIONNAIRE','D','questionnaireQuestionnaireHelpUrl',1,'HELP','default.htm?turl=Documents/questionnaire1.htm','Questionnaire Page Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-QUESTIONNAIRE','D','questionnaireQuestionHelpUrl',1,'HELP','default.htm?turl=Documents/question.htm','Questionnaire Question Help','A','B266CFC3582F4E8FB84EB60F267C8988');
+VALUES ('KUALI','KC-QUESTIONNAIRE','D','questionnaireQuestionHelpUrl',1,'HELP','default.htm?turl=Documents/question.htm','Questionnaire Question Help','A',UUID());
 
 INSERT INTO krns_nmspc_t (NMSPC_CD, VER_NBR, NM, ACTV_IND, OBJ_ID) 
-VALUES ('KC-COMMITTEE', '1', 'KC IRB Committee', 'Y', 'A43CB5C126D94A07BE7212BDA202F560');
+VALUES ('KC-COMMITTEE', '1', 'KC IRB Committee', 'Y', UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-COMMITTEE','D','committeeCommitteeHelp',1,'HELP','default.htm?turl=Documents/committeecommittee.htm','Committee Page Help','A','F0999EC012964F4BB57F4D129071403D');
+VALUES ('KUALI','KC-COMMITTEE','D','committeeCommitteeHelp',1,'HELP','default.htm?turl=Documents/committee1.htm','Committee Page Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-COMMITTEE','D','committeeCommitteeHelpUrl',1,'HELP','default.htm?turl=Documents/committeecommittee1.htm','Committee Help','A','56CD4B6359D642F587078F80250F19CC');
+VALUES ('KUALI','KC-COMMITTEE','D','committeeCommitteeHelpUrl',1,'HELP','default.htm?turl=Documents/committee2.htm','Committee Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-COMMITTEE','D','committeeAreaOfResearchHelpUrl',1,'HELP','default.htm?turl=Documents/committeeareaofresearch.htm','Committee Area of Research Help','A','7BDB765D7BDE4BC4B408F2F157F859ED');
+VALUES ('KUALI','KC-COMMITTEE','D','committeeAreaOfResearchHelpUrl',1,'HELP','default.htm?turl=Documents/areaofresearch1.htm','Committee Area of Research Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-COMMITTEE','D','committeeMembershipHelp',1,'HELP','default.htm?turl=Documents/committeemembership.htm','Committee Membership Page Help','A','26186A68AE5E4880806C447D7A7DCD88');
+VALUES ('KUALI','KC-COMMITTEE','D','committeeMembershipHelp',1,'HELP','default.htm?turl=Documents/members.htm','Committee Membership Page Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-COMMITTEE','D','committeeMembershipHelpUrl',1,'HELP','default.htm?turl=Documents/committeemembership1.htm','Committee Membership Help','A','7D85BAB7634F45EE94EF26697443FA68');
+VALUES ('KUALI','KC-COMMITTEE','D','committeeMembershipHelpUrl',1,'HELP','default.htm?turl=Documents/memberdetailssection.htm','Committee Membership Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-COMMITTEE','D','committeeScheduleHelp',1,'HELP','default.htm?turl=Documents/committeeschedule.htm','Committee Schedule Page Help','A','51512FB764F949B781522E4AF2171BB4');
+VALUES ('KUALI','KC-COMMITTEE','D','committeeScheduleHelp',1,'HELP','default.htm?turl=Documents/schedule.htm','Committee Schedule Page Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-COMMITTEE','D','committeeScheduleHelpUrl',1,'HELP','default.htm?turl=Documents/committeeschedule1.htm','Committee Schedule Help','A','66ED9C579FAE4C23AED7B6640BE1B2DC');
+VALUES ('KUALI','KC-COMMITTEE','D','committeeScheduleHelpUrl',1,'HELP','default.htm?turl=Documents/schedule1.htm','Committee Schedule Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-COMMITTEE','D','committeeActionsHelp',1,'HELP','default.htm?turl=Documents/committeeactions.htm','Committee Actions Page Help','A','871829A661E447CABDCE39D25A273488');
+VALUES ('KUALI','KC-COMMITTEE','D','committeeActionsHelp',1,'HELP','default.htm?turl=Documents/actions1.htm','Committee Actions Page Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-COMMITTEE','D','committeeBatchCorrespondenceHelpUrl',1,'HELP','default.htm?turl=Documents/committeebatchcorrespondence.htm','Committee Batch Correspondence Help','A','EE5A4B68412B41CE8D5F08A9ECADDDB3');
+VALUES ('KUALI','KC-COMMITTEE','D','committeeBatchCorrespondenceHelpUrl',1,'HELP','default.htm?turl=Documents/batchcorrespondence.htm','Committee Batch Correspondence Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-COMMITTEE','D','meetingDetailsHelpUrl',1,'HELP','default.htm?turl=Documents/meetingdetails.htm','Meeting Details Help','A','943058F9A11848E5AA5D512136D0F2B4');
+VALUES ('KUALI','KC-COMMITTEE','D','meetingDetailsHelpUrl',1,'HELP','default.htm?turl=Documents/meetingdetails.htm','Meeting Details Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-COMMITTEE','D','meetingProtocolSubmittedHelpUrl',1,'HELP','default.htm?turl=Documents/meetingprotocolsubmitted.htm','Meeting Protocol Submitted Help','A','F5E740C6320A4FB6B265A3452E2915B9');
+VALUES ('KUALI','KC-COMMITTEE','D','meetingProtocolSubmittedHelpUrl',1,'HELP','default.htm?turl=Documents/protocolsubmitted.htm','Meeting Protocol Submitted Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-COMMITTEE','D','meetingOtherActionsHelpUrl',1,'HELP','default.htm?turl=Documents/meetingotheractions.htm','Meeting Other Actions Help','A','0416E7DF9759442FAE4585D147F8098B');
+VALUES ('KUALI','KC-COMMITTEE','D','meetingOtherActionsHelpUrl',1,'HELP','default.htm?turl=Documents/otheractions.htm','Meeting Other Actions Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-COMMITTEE','D','meetingAttendanceHelpUrl',1,'HELP','default.htm?turl=Documents/meetingattendance.htm','Meeting Attendance Help','A','51864582F4C0496493282D83C202E773');
+VALUES ('KUALI','KC-COMMITTEE','D','meetingAttendanceHelpUrl',1,'HELP','default.htm?turl=Documents/attendance.htm','Meeting Attendance Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-COMMITTEE','D','meetingMinutesHelpUrl',1,'HELP','default.htm?turl=Documents/meetingminutes.htm','Meeting Minutes Help','A','097CABACFCBD4D49A1C1734652935F78');
+VALUES ('KUALI','KC-COMMITTEE','D','meetingMinutesHelpUrl',1,'HELP','default.htm?turl=Documents/minutes.htm','Meeting Minutes Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-COMMITTEE','D','meetingGenerateAgendaHelpUrl',1,'HELP','default.htm?turl=Documents/meetinggenerateagenda.htm','Meeting Generate Agenda Help','A','3B8AC9D238264166B4B58AD6448832D0');
+VALUES ('KUALI','KC-COMMITTEE','D','meetingGenerateAgendaHelpUrl',1,'HELP','default.htm?turl=Documents/agenda.htm','Meeting Generate Agenda Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-COMMITTEE','D','meetingGenerateMinutesHelpUrl',1,'HELP','default.htm?turl=Documents/meetinggenerateminutes.htm','Meeting Generate Minutes Help','A','F4CB139711294181B779AE890D4E6E72');
+VALUES ('KUALI','KC-COMMITTEE','D','meetingGenerateMinutesHelpUrl',1,'HELP','default.htm?turl=Documents/minutes1.htm','Meeting Generate Minutes Help','A',UUID());
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-COMMITTEE','D','meetingCorrespondenceHelpUrl',1,'HELP','default.htm?turl=Documents/meetingcorrespondence.htm','Meeting Correspondence Help','A','77E4785ECD764FDF8753300A97829F15');
+VALUES ('KUALI','KC-COMMITTEE','D','meetingCorrespondenceHelpUrl',1,'HELP','default.htm?turl=Documents/correspondence.htm','Meeting Correspondence Help','A',UUID());
+
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
+values ('KC-B','D','SUBCONTRACTOR_F_AND_A_GT_25K','CONFG','420630','Subcontract F&A greater than 25K','A',UUID());
+
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
+values ('KC-B','D','SUBCONTRACTOR_F_AND_A_LT_25K','CONFG','420610','Subcontract F&A less than 25K','A',UUID());
+
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
+values ('KC-B','D','BROAD_F_AND_A','CONFG','421502','Broad F&A','A',UUID());
+
+
+
+update krns_parm_t set txt ='default.htm?turl=Documents/awardactions.htm' 
+       where txt ='default.htm?turl=Documents/awarddocument.htm' and parm_nm ='awardActionsHelp';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/approvedequipment.htm' 
+       where txt ='default.htm?turl=Documents/specialapprovalpanel.htm' and parm_nm ='awardApprovedEquipmentHelpUrl';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/approvedforeigntravel.htm' 
+       where txt ='default.htm?turl=Documents/specialapprovalpanel.htm' and parm_nm ='awardApprovedForeignTravelHelpUrl';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/approvedsubawards.htm' 
+       where txt ='default.htm?turl=Documents/subawardpanel.htm' and parm_nm ='awardApprovedSubawardHelpUrl';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/attachments.htm' 
+       where txt ='default.htm?turl=Documents/attachmentspanel.htm' and parm_nm ='awardAttachmentsHelpUrl';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/awardcloseout.htm' 
+       where txt ='default.htm?turl=Documents/awarddocument.htm' and parm_nm ='awardCloseoutHelpUrl';  
+         
+update krns_parm_t set txt ='default.htm?turl=Documents/comments.htm' 
+       where txt ='default.htm?turl=Documents/awarddocument.htm' and parm_nm ='awardCommentHelpUrl';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/commitments.htm' 
+       where txt ='default.htm?turl=Documents/commitmentstab.htm' and parm_nm ='awardCommitmentsHelp';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/contacts1.htm' 
+       where txt ='default.htm?turl=Documents/awarddocument.htm' and parm_nm ='awardContactsHelp';  
+      
+update krns_parm_t set txt ='default.htm?turl=Documents/costsharing2.htm' 
+       where txt ='default.htm?turl=Documents/awarddocument.htm' and parm_nm ='awardCostShareHelpUrl';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/customdata4.htm' 
+       where txt ='default.htm?turl=Documents/kcawardtabs.htm' and parm_nm ='awardCustomDataHelp';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/customdata5.htm' 
+       where txt ='default.htm?turl=Documents/kcawardtabs.htm' and parm_nm ='awardCustomDataHelpUrl';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/farates.htm' 
+       where txt ='default.htm?turl=Documents/faratessubpanel.htm' and parm_nm ='awardFandaRateHelpUrl';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/award1.htm' 
+       where txt ='default.htm?turl=Documents/awarddocument.htm' and parm_nm ='awardHelpUrl';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/commentsnotesattachments.htm' 
+       where txt ='default.htm?turl=Documents/commentsnotesattachmentstab.htm' and parm_nm ='awardNoteAndAttachmentsHelp';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/paymentreportsterms.htm' 
+       where txt ='default.htm?turl=Documents/awardpaymentschedulesection.htm' and parm_nm ='awardPaymentsReportsAndTermsHelp';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/keypersonnelandcreditsplit.htm' 
+       where txt ='default.htm?turl=Documents/awarddocument.htm' and parm_nm ='awardPersonCreditSplitHelpUrl';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/terms.htm' 
+       where txt ='default.htm?turl=Documents/awarddocument.htm' and parm_nm ='awardReportTermHelpUrl';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/specialreview5.htm' 
+       where txt ='default.htm?turl=Documents/specialreviewpanel.htm' and parm_nm ='awardSpecialReviewHelp';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/transactions.htm' 
+       where txt ='default.htm?turl=Documents/transactionspanel.htm' and parm_nm ='PendingTransactionHelp';  
+
+
+update krns_parm_t set txt ='default.htm?turl=Documents/transactions.htm' 
+       where txt ='default.htm?turl=Documents/transactionspanel.htm' and parm_nm ='TransactionHelp';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/hierarchyactions.htm' 
+       where txt ='default.htm?turl=Documents/awardhierarchypanel.htm' and parm_nm ='awardHierarchyHelpUrl';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/multinodeaward.htm' 
+       where txt ='default.htm?turl=Documents/awardhierarchypanel.htm' and parm_nm ='awardHierarchyNodeHelpUrl'  ;  
+
+
+update krns_parm_t set txt ='default.htm?turl=Documents/institutionalproposalactions.htm' 
+       where txt ='default.htm?turl=Documents/institutionalproposalactionstab.htm' and parm_nm ='InstitutionalProposalActionsHelpUrl';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/contacts.htm' 
+       where txt ='default.htm?turl=Documents/institutionalproposaldocument.htm' and parm_nm ='InstitutionalProposalConstactsHelpUrl';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/customdata1.htm' 
+       where txt ='default.htm?turl=Documents/customdatatab2.htm' and parm_nm ='InstitutionalProposalCustomDataHelpUrl';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/distribution.htm' 
+       where txt ='default.htm?turl=Documents/distributiontab.htm' and parm_nm ='InstitutionalProposalDistributionHelpUrl';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/institutionalproposal.htm' 
+       where txt ='default.htm?turl=Documents/institutionalproposaldocument.htm' and parm_nm ='InstitutionalProposalHelpUrl';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/intellectualpropertyreview.htm' 
+       where txt ='default.htm?turl=Documents/intellectualpropertyreviewtab.htm' and parm_nm ='InstitutionalProposalIPReviewHelpUrl';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/specialreview2.htm' 
+       where txt ='default.htm?turl=Documents/specialreviewtab1.htm' and parm_nm ='InstitutionalProposalSpecialReviewHelpUrl';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/unitcontacts.htm' 
+       where txt ='default.htm?turl=Documents/institutionalproposaldocument.htm' and parm_nm ='InstitutionalProposalUnitAdministratorHelpUrl';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/activities.htm' 
+       where txt ='default.htm?turl=Documents/institutionalproposaldocument.htm' and parm_nm ='IntellectualPropertyReviewActivityHelpUrl';  
+
+
+update krns_parm_t set txt ='default.htm?turl=Documents/budgetactions.htm' 
+       where txt ='default.htm?turl=Documents/budgetactionstab.htm' and parm_nm ='budgetActionsHelp';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/budgetcategories.htm' 
+       where txt ='default.htm?turl=Documents/budgetcategory.htm' and parm_nm ='budgetCategoryMaintenanceHelp';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/costsharing.htm' 
+       where txt ='default.htm?turl=Documents/costsharingpanel.htm' and parm_nm ='budgetCostShareHelpUrl';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/distributionincome.htm' 
+       where txt ='default.htm?turl=Documents/distributionincometab.htm' and parm_nm ='budgetDistributionAndIncomeHelp';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/budget.htm' 
+       where txt ='default.htm?turl=Documents/budgetdocument.htm' and parm_nm ='budgetDocumentHelp';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/expensestabactionbutton.htm' 
+       where txt ='default.htm?turl=Documents/expensestabactionbutton.htm' and parm_nm ='budgetExpensesHelp';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/lineitemdetailssections.htm' 
+       where txt ='default.htm?turl=Documents/lineitemdetailssubpanel.htm' and parm_nm ='budgetLineItemHelpUrl';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/modularbudget.htm' 
+       where txt ='default.htm?turl=Documents/modularbudgettab.htm' and parm_nm ='budgetModularBudgetHelp';  
+                     
+update krns_parm_t set txt ='default.htm?turl=Documents/modularbudgetoverview.htm' 
+       where txt ='default.htm?turl=Documents/modularbudgetoverviewpanel.htm' and parm_nm ='budgetModularHelpUrl';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/fa.htm' 
+       where txt ='default.htm?turl=Documents/modularbudgetoverviewpanel.htm' and parm_nm ='budgetModularIdcHelpUrl';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/nonpersonnel1.htm' 
+       where txt ='default.htm?turl=Documents/nonpersonneltab.htm' and parm_nm ='budgetNonPersonnelHelp';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/parameters.htm' 
+       where txt ='default.htm?turl=Documents/parameterstab.htm' and parm_nm ='budgetParametersHelp';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/budgetperiodstotals.htm' 
+       where txt ='default.htm?turl=Documents/budgetperiodstotalspanel.htm' and parm_nm ='budgetPeriodHelpUrl';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/projectpersonnel.htm' 
+       where txt ='default.htm?turl=Documents/budgetperiodstotals.htm' and parm_nm ='budgetPersonHelpUrl';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/personneldetail.htm' 
+       where txt ='default.htm?turl=Documents/personneldetailpanel.htm' and parm_nm ='budgetPersonnelDetailsHelpUrl';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/personnel2.htm' 
+       where txt ='default.htm?turl=Documents/personneltab.htm' and parm_nm ='budgetPersonnelHelp';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/projectincome.htm' 
+       where txt ='default.htm?turl=Documents/projectincomepanel.htm' and parm_nm ='budgetProjectIncomeHelpUrl';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/rateclass1.htm' 
+       where txt ='default.htm?turl=Documents%2Frateclassessubpanelontheobjectcodenamesubpanel.htm' and parm_nm ='budgetRateClassHelpUrl';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/rates.htm' 
+       where txt ='default.htm?turl=Documents/rateclassessubpanelontheobjectcodenamesubpanel.htm' and parm_nm ='budgetRatesHelp';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/budgetstatus.htm' 
+       where txt ='default.htm?turl=Documents/budgetstatus.htm' and parm_nm ='budgetStatusHelpUrl';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/budgetstatus.htm' 
+       where txt ='default.htm?turl=Documents/budgetstatus.htm' and parm_nm ='budgetStatusMaintenanceHelp';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/summary2.htm' 
+       where txt ='default.htm?turl=Documents/summarypanel.htm' and parm_nm ='budgetSummaryHelp';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/budgetperiodstotals.htm' 
+       where txt ='default.htm?turl=Documents/summarytab.htm' and parm_nm ='budgetTotalsHelp';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/unrecoveredfa.htm' 
+       where txt ='default.htm?turl=Documents/unrecoveredfapanel.htm' and parm_nm ='budgetUnrecoveredFandAHelpUrl';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/budgetversions2.htm' 
+       where txt ='default.htm?turl=Documents/budgetversionspanel.htm' and parm_nm ='budgetVersionsHelp';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/personneldetail.htm' 
+       where txt ='default.htm?turl=Documents/personneldetailpanel.htm' and parm_nm ='budgetbudgetPersonnelDetailsHelpUrl';  
+
+
+
+update krns_parm_t set txt ='default.htm?turl=Documents/institutelarates.htm' 
+       where txt ='default.htm?turl=Documents/institutelarate.htm' and parm_nm ='instituteLaRateMaintenanceHelp';  
+  
+update krns_parm_t set txt ='default.htm?turl=Documents/instituterates.htm' 
+       where txt ='default.htm?turl=Documents/instituterate.htm' and parm_nm ='instituteRateMaintenanceHelp';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/organization.htm' 
+       where txt ='default.htm?turl=Documents%2Forganization.htm' and parm_nm ='organizationMaintenanceHelp';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/persontableeditablecolumns.htm' 
+       where txt ='default.htm?turl=Documents/persontableeditablecolumns.htm' and parm_nm ='personEditableFieldMaintenanceHelp';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/person.htm' 
+       where txt ='default.htm?turl=Documents/personmaintenancedocument.htm' and parm_nm ='personMaintenanceHelp';  
+                    
+ 
+                                  
+update krns_parm_t set txt ='default.htm?turl=Documents/rateclass.htm' 
+       where txt ='default.htm?turl=Documents%2Frateclassmaintenancedocument.htm' and parm_nm ='rateClassMaintenanceHelp';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/rateclasstype.htm' 
+       where txt ='default.htm?turl=Documents%2Frateclasstypemaintenancedocument.htm' and parm_nm ='rateClassTypeMaintenanceHelp';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/ratetype.htm' 
+       where txt ='default.htm?turl=Documents%2Fratetypemaintenancedocument.htm' and parm_nm ='rateTypeMaintenanceHelp';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/s2srevisiontype.htm' 
+       where txt ='default.htm?turl=Documents%2Fs2srevisiontypemaintenancedocument.htm' and parm_nm ='s2sRevisionTypeMaintenanceHelp';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/s2ssubmissiontype.htm' 
+       where txt ='default.htm?turl=Documents%2Fs2ssubmissiontypemaintenancedocument.htm' and parm_nm ='s2sSubmissionTypeMaintenanceHelp';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/sciencekeyword.htm' 
+       where txt ='default.htm?turl=Documents%2Fsciencekeywordmaintenancedocument.htm' and parm_nm ='scienceKeywordMaintenanceHelp';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/specialreviewapprovalstatus.htm' 
+       where txt ='default.htm?turl=Documents%2Fspecialreviewapprovalstatusmaintenancedocument.htm' and parm_nm ='specialReviewApprovalStatusMaintenanceHelp';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/specialreviewapprovaltype.htm' 
+       where txt ='default.htm?turl=Documents%2Fspecialreviewapprovaltypemaintenancedocument.htm' and parm_nm ='specialReviewApprovalTypeMaintenanceHelp';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/sponsorhierarchy.htm' 
+       where txt ='default.htm?turl=Documents%2Fsponsorhierarchy.htm' and parm_nm ='sponsorHierarchyCreateNewHelp';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/sponsorhierarchy.htm' 
+       where txt ='default.htm?turl=Documents%2Fsponsorhierarchy.htm' and parm_nm ='sponsorHierarchyHelp';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/sponsor1.htm' 
+       where txt ='default.htm?turl=Documents%2Fsponsormaintenancedocument.htm' and parm_nm ='sponsorMaintenanceHelp';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/state1.htm' 
+       where txt ='default.htm?turl=Documents%2Fstatemaintenancedocument.htm' and parm_nm ='stateMaintenanceHelp';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/timeandmoney.htm' 
+       where txt ='default.htm?turl=Documents/timeandmoneysubpanel.htm' and parm_nm ='timeAndMoneyHelp';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/validcalculationtype.htm' 
+       where txt ='default.htm?turl=Documents%2Fvalidcalculationtypemaintenancedocument.htm' and parm_nm ='validCalcTypeMaintenanceHelp';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/validcostelementratetype.htm' 
+       where txt ='default.htm?turl=Documents%2Fvalidcostelementratetypemaintenancedocument.htm' and parm_nm ='validCeRateTypeMaintenanceHelp';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/validspecialreviewapproval.htm' 
+       where txt ='default.htm?turl=Documents%2Fvalidspecialreviewapprovalmaintenancedocument.htm' and parm_nm ='validSpecialReviewApprovalMaintenanceHelp';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/yesnoquestions.htm' 
+       where txt ='default.htm?turl=Documents%2Fynqmaintenancedocument.htm' and parm_nm ='ynqMaintenanceHelp';  
+
+       
+
+update krns_parm_t set txt ='default.htm?turl=Documents/parameters.htm' 
+       where txt ='default.htm?turl=Documents/budgetstatus.htm' and parm_nm ='proposalBudgetStatusHelpUrl';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/abstracts.htm' 
+       where txt ='default.htm?turl=Documents/abstractspanel.htm' and parm_nm ='proposalDevelopmentAbstractHelpUrl';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/abstractsandattachments.htm' 
+       where txt ='default.htm?turl=Documents/abstractsandattachmentstab.htm' and parm_nm ='proposalDevelopmentAbstractsAttachmentsHelp';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/proposalactions.htm' 
+       where txt ='default.htm?turl=Documents/proposalactionstab.htm' and parm_nm ='proposalDevelopmentActionsHelp';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/budgetversions.htm' 
+       where txt ='default.htm?turl=Documents%2Fbudgetversionspanel.htm' and parm_nm ='proposalDevelopmentBudgetVersionsHelp';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/copytonewdocument.htm' 
+       where txt ='default.htm?turl=Documents/copytonewdocumentpanel.htm' and parm_nm ='proposalDevelopmentCopyCriteriaHelpUrl';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/combinedcreditsplit.htm' 
+       where txt ='default.htm?turl=Documents/combinedcreditsplitpanel.htm' and parm_nm ='proposalDevelopmentCreditSplitHelpUrl';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/customattributes.htm' 
+       where txt ='default.htm?turl=Documents%2Fcustomattributedocument.htm' and parm_nm ='proposalDevelopmentCustomAttributeHelpUrl';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/customdata.htm' 
+       where txt ='default.htm?turl=Documents%2Fcustomdatatab1.htm' and parm_nm ='proposalDevelopmentCustomDataHelp';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/proposaldevelopment.htm' 
+       where txt ='default.htm?turl=Documents/proposaldevelopmentdocument.htm' and parm_nm ='proposalDevelopmentDocumentHelp';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/grantsgov.htm' 
+       where txt ='default.htm?turl=Documents/grantsgovtab.htm' and parm_nm ='proposalDevelopmentGrantsGovHelp';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/keypersonnel.htm' 
+       where txt ='default.htm?turl=Documents/keypersonneltab.htm' and parm_nm ='proposalDevelopmentKeyPersonnelHelp';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/keywords.htm' 
+       where txt ='default.htm?turl=Documents%2Fkeywordspanel1.htm' and parm_nm ='proposalDevelopmentKeywordsHelpUrl';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/organizationlocation.htm' 
+       where txt ='default.htm?turl=Documents/organizationlocationpanel.htm' and parm_nm ='proposalDevelopmentLocationHelpUrl';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/deliveryinfo.htm' 
+       where txt ='default.htm?turl=Documents/mailby.htm' and parm_nm ='proposalDevelopmentMailByHelpUrl';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/proposalattachments.htm' 
+       where txt ='default.htm?turl=Documents/abstractsandattachmentstab.htm' and parm_nm ='proposalDevelopmentNarrativeHelpUrl';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/opportunitysearch.htm' 
+       where txt ='default.htm?turl=Documents/grantsgovlookup.htm' and parm_nm ='proposalDevelopmentOpportunityHelpUrl';  
+
+
+
+update krns_parm_t set txt ='default.htm?turl=Documents/organizationlocation.htm' 
+       where txt ='default.htm?turl=Documents/organizationlocationpanel.htm' and parm_nm ='proposalDevelopmentOrganizationHelpUrl';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/permissions1.htm' 
+       where txt ='default.htm?turl=Documents/permissionstab.htm' and parm_nm ='proposalDevelopmentPermissionsHelp';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/personattributes.htm' 
+       where txt ='default.htm?turl=Documents/personpanel.htm' and parm_nm ='proposalDevelopmentPersonHelpUrl';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/proposal.htm' 
+       where txt ='default.htm?turl=Documents/proposalpagetab.htm' and parm_nm ='proposalDevelopmentProposalHelp';  
+
+update krns_parm_t set txt ='default.htm?turl=Documents/requiredfieldsforsavingdocument.htm' 
+       where txt ='default.htm?turl=Documents/requiredfieldsforsavingdocumentpanel.htm' and parm_nm ='proposalDevelopmentProposalTypeHelpUrl';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/questions.htm' 
+       where txt ='default.htm?turl=Documents/questionstab.htm' and parm_nm ='proposalDevelopmentQuestionsHelp';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/specialreview.htm' 
+       where txt ='default.htm?turl=Documents/specialreviewtab.htm' and parm_nm ='proposalDevelopmentSpecialReviewHelp';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/specialreview.htm' 
+       where txt ='default.htm?turl=Documents/specialreviewpanel.htm' and parm_nm ='proposalDevelopmentSpecialReviewHelpUrl';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/sponsorprograminformation.htm' 
+       where txt ='default.htm?turl=Documents/sponsorprograminformationpanel.htm' and parm_nm ='proposalDevelopmentSponsorHelpUrl';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/proposalquestions.htm' 
+       where txt ='default.htm?turl=Documents/proposalquestionspanelexample.htm' and parm_nm ='proposalDevelopmentYnqHelpUrl';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/proposaltype.htm' 
+       where txt ='default.htm?turl=Documents%2Fproposaltypemaintenancedocument.htm' and parm_nm ='proposalTypeMaintenanceHelp';  
+ 
+update krns_parm_t set txt ='default.htm?turl=Documents/keypersonnel.htm' 
+       where txt ='default.htm?turl=Documents/userspanel.htm' and parm_nm ='proposalUserHelpUrl';  
+ 
+UPDATE KRNS_PARM_T SET TXT = 'default.htm?turl=Documents/additionalinformation.htm' WHERE PARM_NM = 'protocolAdditionalInformationHelpUrl';
+UPDATE KRNS_PARM_T SET TXT = 'default.htm?turl=Documents/addpersonnelattachment.htm' WHERE PARM_NM = 'protocolAddPersonnelAttachmentHelpUrl';	
+UPDATE KRNS_PARM_T SET TXT = 'default.htm?turl=Documents/addprotocolattachment.htm' WHERE PARM_NM = 'protocolAddProtocolAttachmentHelpUrl';
+UPDATE KRNS_PARM_T SET TXT = 'default.htm?turl=Documents/customdata3.htm' WHERE PARM_NM = 'protocolCustomDataHelp';
+UPDATE KRNS_PARM_T SET TXT = 'default.htm?turl=Documents/notes2.htm' WHERE PARM_NM = 'protocolNotesHelpUrl';
+UPDATE KRNS_PARM_T SET TXT = 'default.htm?turl=Documents/permissions2.htm' WHERE PARM_NM = 'protocolPermissionsHelp';
+UPDATE KRNS_PARM_T SET TXT = 'default.htm?turl=Documents/persondetails1.htm' WHERE PARM_NM = 'protocolPersonnelHelpUrl';
+UPDATE KRNS_PARM_T SET TXT = 'default.htm?turl=Documents/requiredfieldsforsavingdocument1.htm' WHERE PARM_NM = 'protocolRequiredFieldsHelpUrl';
+UPDATE KRNS_PARM_T SET TXT = 'default.htm?turl=Documents/specialreview3.htm' WHERE PARM_NM = 'protocolSpecialReviewHelp';
+UPDATE KRNS_PARM_T SET TXT = 'default.htm?turl=Documents/statusdates.htm' WHERE PARM_NM = 'protocolStatusAndDatesHelpUrl';
 
 COMMIT;
