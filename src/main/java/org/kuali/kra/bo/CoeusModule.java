@@ -21,9 +21,12 @@ import org.kuali.kra.questionnaire.QuestionnaireUsage;
 
 public class CoeusModule extends KraPersistableBusinessObjectBase { 
     
-    private static final long serialVersionUID = 1L;
-    public static final String IRB_MODULE_CODE = "7";
+    public static final String AWARD_MODULE_CODE = "1";
+    public static final String INSTITUTIONAL_PROPOSAL_MODULE_CODE = "2";
     public static final String PROPOSAL_DEVELOPMENT_MODULE_CODE = "3";
+    public static final String IRB_MODULE_CODE = "7";
+    
+    private static final long serialVersionUID = 1L;
 
     private String moduleCode; 
     private String description; 
