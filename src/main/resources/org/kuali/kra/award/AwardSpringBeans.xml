@@ -435,7 +435,8 @@
     <bean id="awardSyncReportRecipientHelper" parent="awardSyncBase"
           class="org.kuali.kra.award.awardhierarchy.sync.helpers.AwardSyncReportRecipientHelper"/>
           
-          
+    <bean id="awardSyncCommentsHelper" parent="awardSyncBase"
+          class="org.kuali.kra.award.awardhierarchy.sync.helpers.AwardSyncCommentsHelper"/>          
           
     <bean id="awardSyncHelpersService" class="org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncHelpersServiceImpl">
     		<property name="syncHelpers">
@@ -447,6 +448,7 @@
 				<entry key="AwardSponsorContact"><ref bean="awardSyncSponsorContactHelper"/></entry>
 				<entry key="AwardReportTerm"><ref bean="awardSyncReportHelper"/></entry>
 				<entry key="AwardReportTermRecipient"><ref bean="awardSyncReportRecipientHelper"/></entry>
+				<entry key="AwardComment"><ref bean="awardSyncCommentsHelper"/></entry>
 			</map>
 		</property>
 	</bean>

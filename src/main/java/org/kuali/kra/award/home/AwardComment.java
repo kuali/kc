@@ -21,6 +21,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.AwardTemplateSyncScope;
+import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
 import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.meeting.MemberPresentBean;
@@ -41,11 +42,13 @@ public class AwardComment extends AwardAssociate implements Comparable<AwardComm
     /*
      * These fields will sync when the containing class syncs.
      */
+    @AwardSyncableProperty(key=true)
     @AwardSyncable( scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT } )  
-    private String commentTypeCode; 
+    private String commentTypeCode;
     @AwardSyncable( scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT } ) 
     private Boolean checklistPrintFlag; 
-    @AwardSyncable( scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT } ) 
+    @AwardSyncable( scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT } )
+    @AwardSyncableProperty
     private String comments; 
     
    
