@@ -72,10 +72,16 @@
 	</bean>
 
 	<bean id="AwardSpecialReview-specialReviewNumber" parent="AwardSpecialReview-specialReviewNumber-parentBean" />
-	<bean id="AwardSpecialReview-specialReviewNumber-parentBean" abstract="true" parent="SpecialReview-specialReviewNumber-parentBean" />
+	<bean id="AwardSpecialReview-specialReviewNumber-parentBean" abstract="true" parent="SpecialReview-specialReviewNumber-parentBean" /> 
 	
 	<bean id="AwardSpecialReview-specialReviewTypeCode" parent="AwardSpecialReview-specialReviewTypeCode-parentBean" />
-	<bean id="AwardSpecialReview-specialReviewTypeCode-parentBean" abstract="true" parent="SpecialReview-specialReviewTypeCode" />
+	<bean id="AwardSpecialReview-specialReviewTypeCode-parentBean" abstract="true" parent="SpecialReview-specialReviewTypeCode">
+        <property name="control" >
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="org.kuali.kra.award.specialreview.AwardSpecialReviewTypeValuesFinder"
+                  p:includeKeyInLabel="false" />
+        </property>
+    </bean>
 	
 	<bean id="AwardSpecialReview-approvalTypeCode" parent="AwardSpecialReview-approvalTypeCode-parentBean" />
 	<bean id="AwardSpecialReview-approvalTypeCode-parentBean" abstract="true" parent="SpecialReview-approvalTypeCode" />
