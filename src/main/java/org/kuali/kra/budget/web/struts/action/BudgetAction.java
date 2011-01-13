@@ -367,15 +367,16 @@ public class BudgetAction extends BudgetActionBase {
     }
     
     protected void populatePersonnelHierarchySummary(BudgetForm budgetForm) {
-        ProposalDevelopmentDocument parentDocument = (ProposalDevelopmentDocument) budgetForm.getDocument().getParentDocument();
-        String proposalNumber = parentDocument.getDevelopmentProposal().getProposalNumber();
-        budgetForm.setHierarchyPersonnelSummaries(getHierarchyHelper().getHierarchyPersonnelSummaries(proposalNumber));
-        for (HierarchyPersonnelSummary hierarchyPersonnelSummary : budgetForm.getHierarchyPersonnelSummaries()) {
-            for (Budget budget : hierarchyPersonnelSummary.getHierarchyBudgets()) {
-                reconcilePersonnelRoles(budget.getBudgetDocument());
+        if (Boolean.valueOf(budgetForm.getDocument().getParentDocument().getProposalBudgetFlag())) {
+            ProposalDevelopmentDocument parentDocument = (ProposalDevelopmentDocument) budgetForm.getDocument().getParentDocument();
+            String proposalNumber = parentDocument.getDevelopmentProposal().getProposalNumber();
+            budgetForm.setHierarchyPersonnelSummaries(getHierarchyHelper().getHierarchyPersonnelSummaries(proposalNumber));
+            for (HierarchyPersonnelSummary hierarchyPersonnelSummary : budgetForm.getHierarchyPersonnelSummaries()) {
+                for (Budget budget : hierarchyPersonnelSummary.getHierarchyBudgets()) {
+                    reconcilePersonnelRoles(budget.getBudgetDocument());
+                }
             }
         }
-        
     }
 
     private String getPersonnelBudgetCategoryTypeCode() {
