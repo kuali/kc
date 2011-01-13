@@ -17,7 +17,7 @@
 
 <c:set var="action" value="budgetExpensesAction" />
 			
-<kra-b:budgetExpenseBudgetOverview /> 
+<kra-b:budgetExpenseBudgetOverview isTop="true" /> 
     	   			   	
 <c:forEach var="budgetCategoryTypeCode" items="${KualiForm.document.budget.budgetCategoryTypeCodes}" varStatus="catCodes">
 	<!-- c:if test="${budgetCategoryTypeCode.key != 'H' || (KualiForm.document.proposalBudgetFlag && KualiForm.document.parentDocument.developmentProposal.parent) }" -->
