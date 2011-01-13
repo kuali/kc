@@ -699,7 +699,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         Award award = awardForm.getAwardDocument().getAward();
         AwardSponsorTerm awardSponsorTerm = award.getAwardSponsorTerms().get(getSelectedLine(request));
         getAwardSyncCreationService().addAwardSyncChange(award, 
-                new AwardSyncPendingChangeBean(AwardSyncType.ADD_SYNC, awardSponsorTerm, "awardSponsorTerms", null));
+                new AwardSyncPendingChangeBean(AwardSyncType.ADD_SYNC, awardSponsorTerm, "awardSponsorTerms"));
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
@@ -719,7 +719,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         AwardReportTerm awardReportTerm = award.getAwardReportTermItems().get(getSelectedLine(request));
         awardReportTerm.refresh();
         getAwardSyncCreationService().addAwardSyncChange(award, 
-                new AwardSyncPendingChangeBean(AwardSyncType.ADD_SYNC, awardReportTerm, AWARD_REPORT_TERM_PROPERTY, null));
+                new AwardSyncPendingChangeBean(AwardSyncType.ADD_SYNC, awardReportTerm, AWARD_REPORT_TERM_PROPERTY));
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
@@ -739,7 +739,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         AwardReportTermRecipient recipient = 
             award.getAwardReportTermItems().get(getAwardReportTermIndex(request)).getAwardReportTermRecipients().get(getSelectedLine(request));
         getAwardSyncCreationService().addAwardSyncChange(award, 
-                new AwardSyncPendingChangeBean(AwardSyncType.ADD_SYNC, recipient, AWARD_REPORT_TERM_PROPERTY, null));
+                new AwardSyncPendingChangeBean(AwardSyncType.ADD_SYNC, recipient, AWARD_REPORT_TERM_PROPERTY));
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }      
 }
