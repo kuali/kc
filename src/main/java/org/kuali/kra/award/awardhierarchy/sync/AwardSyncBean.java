@@ -108,6 +108,12 @@ public class AwardSyncBean implements Serializable {
         AwardSyncPendingChangeBean pendingBean = new AwardSyncPendingChangeBean(type, object, awardAttr, attrName);
         getPendingChanges().add(pendingBean);
     }
+    
+    public void addPendingChange(AwardSyncType type, PersistableBusinessObject object, String awardAttr) {
+        AwardSyncPendingChangeBean pendingBean = new AwardSyncPendingChangeBean(type, object, awardAttr);
+        getPendingChanges().add(pendingBean);
+    }
+    
 
     public List<AwardSyncPendingChangeBean> getConfirmedPendingChanges() {
         return confirmedPendingChanges;
