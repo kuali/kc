@@ -1635,6 +1635,32 @@ public class AwardAction extends BudgetParentActionBase {
     }
     
     /**
+     * This should be called when a group add or delete action is called that might be added to the sync queue.
+     * It checks to ensure that syncMode is already enabled and will return an ActionForward for
+     * the question or for the returnForward specified by the caller.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @param pendingChanges
+     * @param returnForward
+     * @return
+     * @throws Exception
+     */
+    protected ActionForward confirmSyncAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response,
+            List<AwardSyncPendingChangeBean> pendingChanges, ActionForward returnForward) 
+        throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        if (awardForm.isSyncMode()) {
+            awardForm.getAwardSyncBean().setCurrentForward(returnForward);
+            awardForm.getAwardSyncBean().getPendingChanges().addAll(pendingChanges);
+            return syncActionCaller(mapping, form, request, response);
+        } else {
+            return returnForward;
+        }
+    }    
+    
+    /**
      * When synchronizing a new addition or deletion call this method. It will confirm the change
      * and then add the change.
      * @param mapping

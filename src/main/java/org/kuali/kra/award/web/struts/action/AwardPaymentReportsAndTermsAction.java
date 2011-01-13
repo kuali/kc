@@ -243,6 +243,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         String lookupResultsSequenceNumber = request.getParameter(KNSConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER);
         awardForm.setLookupResultsBOClassName(lookupResultsBOClassName);
         awardForm.setLookupResultsSequenceNumber(lookupResultsSequenceNumber);        
+        List<AwardSyncPendingChangeBean> pendingChanges = new ArrayList<AwardSyncPendingChangeBean>();
         try{
             // check to see if we are coming back from a lookup
             if (Constants.MULTIPLE_VALUE.equals(awardForm.getRefreshCaller())) {
@@ -256,7 +257,11 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
                     if (lookupResultsBOClass.isAssignableFrom(SponsorTerm.class)) {
                         for (Iterator iter = rawValues.iterator(); iter.hasNext();) {
                             SponsorTerm sponsorTerm = (SponsorTerm) iter.next();
-                            sponsorTermActionHelper.addSponsorTermFromMutiValueLookup(((AwardForm) form).getSponsorTermFormHelper(), sponsorTerm, request);
+                            AwardSponsorTerm awardSponsorTerm = 
+                                sponsorTermActionHelper.addSponsorTermFromMutiValueLookup(((AwardForm) form).getSponsorTermFormHelper(), sponsorTerm, request);
+                            if (awardSponsorTerm != null) {
+                                pendingChanges.add(new AwardSyncPendingChangeBean(AwardSyncType.ADD_SYNC, awardSponsorTerm, "awardSponsorTerms")); 
+                            }
                         }
                     }
                 }
@@ -264,7 +269,12 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         }catch(Exception ex){
             LOG.error("exception in refresh", ex);
         }
-        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        if (!pendingChanges.isEmpty()) {
+            return this.confirmSyncAction(mapping, form, request, response, pendingChanges,
+                    mapping.findForward(Constants.MAPPING_AWARD_BASIC));
+        } else {
+            return mapping.findForward(Constants.MAPPING_AWARD_BASIC);            
+        }
     }
     
     /**
