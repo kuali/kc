@@ -35,11 +35,17 @@ public class AwardSyncPendingChangeBean implements Serializable {
         
     }
     
-    public AwardSyncPendingChangeBean(AwardSyncType syncType, PersistableBusinessObject object, String attrName,
-            String awardAttr) {
+    public AwardSyncPendingChangeBean(AwardSyncType syncType, PersistableBusinessObject object, String awardAttr, String attrName) {
         this.syncType = syncType;
         this.object = object;
         this.attrName = attrName;
+        this.awardAttr = awardAttr;
+    }
+    
+    public AwardSyncPendingChangeBean(AwardSyncType syncType, PersistableBusinessObject object, String awardAttr) {
+        this.syncType = syncType;
+        this.object = object;
+        this.attrName = null;
         this.awardAttr = awardAttr;
     }
 

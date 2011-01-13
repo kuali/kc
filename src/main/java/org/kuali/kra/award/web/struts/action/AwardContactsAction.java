@@ -351,7 +351,7 @@ public class AwardContactsAction extends AwardAction {
         AwardForm awardForm = (AwardForm)form;
         Award award = awardForm.getAwardDocument().getAward();
         AwardPerson person = award.getProjectPerson(getSelectedLine(request));
-        getAwardSyncCreationService().addAwardSyncChange(award, new AwardSyncPendingChangeBean(AwardSyncType.ADD_SYNC, person, "projectPersons", null));
+        getAwardSyncCreationService().addAwardSyncChange(award, new AwardSyncPendingChangeBean(AwardSyncType.ADD_SYNC, person, "projectPersons"));
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
 
@@ -360,7 +360,7 @@ public class AwardContactsAction extends AwardAction {
         AwardForm awardForm = (AwardForm)form;
         Award award = awardForm.getAwardDocument().getAward();
         AwardPersonUnit unit = award.getProjectPerson(getProjectPersonIndex(request)).getUnit(getSelectedLine(request));
-        getAwardSyncCreationService().addAwardSyncChange(award, new AwardSyncPendingChangeBean(AwardSyncType.ADD_SYNC, unit, "projectPersons", null));
+        getAwardSyncCreationService().addAwardSyncChange(award, new AwardSyncPendingChangeBean(AwardSyncType.ADD_SYNC, unit, "projectPersons"));
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }  
     
@@ -369,7 +369,7 @@ public class AwardContactsAction extends AwardAction {
         AwardForm awardForm = (AwardForm)form;
         Award award = awardForm.getAwardDocument().getAward();
         AwardSponsorContact contact = award.getSponsorContacts().get(getSelectedLine(request));
-        getAwardSyncCreationService().addAwardSyncChange(award, new AwardSyncPendingChangeBean(AwardSyncType.ADD_SYNC, contact, "sponsorContacts", null));
+        getAwardSyncCreationService().addAwardSyncChange(award, new AwardSyncPendingChangeBean(AwardSyncType.ADD_SYNC, contact, "sponsorContacts"));
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }    
     

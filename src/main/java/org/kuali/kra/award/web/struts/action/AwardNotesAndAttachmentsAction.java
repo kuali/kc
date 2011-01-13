@@ -25,7 +25,10 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.AwardForm;
+import org.kuali.kra.award.awardhierarchy.sync.AwardSyncPendingChangeBean;
+import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.AwardComment;
 import org.kuali.kra.award.notesandattachments.attachments.AwardAttachment;
 import org.kuali.kra.award.notesandattachments.notes.AwardNoteAddEvent;
 import org.kuali.kra.award.notesandattachments.notes.AwardNotepadBean;
@@ -36,6 +39,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.service.impl.AwardCommentServiceImpl;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * 
@@ -271,7 +275,21 @@ public class AwardNotesAndAttachmentsAction extends AwardAction {
         }
         return forward;
     }
-    
+
+    public ActionForward syncComment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+        throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        //find specified comment
+        String awardCommentTypeCode = null;
+        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        if (StringUtils.isNotBlank(parameterName)) {
+            awardCommentTypeCode = StringUtils.substringBetween(parameterName, ".awardCommentTypeCode", ".");
+        }
+        AwardComment comment = awardForm.getAwardDocument().getAward().getAwardCommentByType(awardCommentTypeCode, false, false);
+        getAwardSyncCreationService().addAwardSyncChange(awardForm.getAwardDocument().getAward(), 
+                new AwardSyncPendingChangeBean(AwardSyncType.ADD_SYNC, comment, "awardComments"));
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
     
     
     
