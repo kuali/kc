@@ -44,7 +44,12 @@
             <td>	 
             	<div align="center">
             		<a href="${pageContext.request.contextPath}/awardNotesAndAttachments.do?command=redirectAwardCommentHistoryForPopup&awardCommentTypeCode=${commentTypeCode}&awardId=${awardId}" target="_blank" >
-    				<img alt="View History" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-viewhistory.gif" styleClass="tinybutton" />
+    				<img alt="View History" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-viewhistory.gif" styleClass="tinybutton" /></a>
+						<c:if test="${KualiForm.syncMode}">
+		 					<html:image property="methodToCall.syncComment.awardCommentTypeCode${commentTypeCode}.anchor${currentTabIndex}"
+ 								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-sync.gif' alt="sync" styleClass="tinybutton" disabled="${readOnly}"/>
+						</c:if>				        
+    				
     			</div>
     		</td>
     	</tr>
