@@ -26,6 +26,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.AwardSponsorTermRuleEvent;
 import org.kuali.kra.award.AwardSponsorTermRuleImpl;
+import org.kuali.kra.award.awardhierarchy.sync.AwardSyncPendingChangeBean;
+import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
 import org.kuali.kra.award.home.AwardSponsorTerm;
 import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -57,9 +59,13 @@ public class SponsorTermActionHelper implements Serializable {
     
    
     
-    public boolean addSponsorTermFromMutiValueLookup(SponsorTermFormHelper formHelper, SponsorTerm sponsorTerm, HttpServletRequest request) {
+    public AwardSponsorTerm addSponsorTermFromMutiValueLookup(SponsorTermFormHelper formHelper, SponsorTerm sponsorTerm, HttpServletRequest request) {
         AwardSponsorTerm newAwardSponsorTerm = new AwardSponsorTerm(sponsorTerm.getSponsorTermId(), sponsorTerm);
-        return applyRulesToAwardSponsorTermFromMultiValueLookup(newAwardSponsorTerm, formHelper, request, sponsorTerm);
+        if (applyRulesToAwardSponsorTermFromMultiValueLookup(newAwardSponsorTerm, formHelper, request, sponsorTerm)) {
+            return newAwardSponsorTerm;
+        } else {
+            return null;
+        }
     }
     
     
