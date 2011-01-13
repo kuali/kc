@@ -1,0 +1,8 @@
+select "Running DML_BS_KRNS.sql...";
+\. RICE/EMBEDDEDSERVER_MYSQL/DML_BS_KRNS.sql
+
+select "Running DML_BS_KRIM.sql...";
+\. RICE/EMBEDDEDSERVER_MYSQL/DML_BS_KRIM.sql
+
+COMMIT;
+EXIT
