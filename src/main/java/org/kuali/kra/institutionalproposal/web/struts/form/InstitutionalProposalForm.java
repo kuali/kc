@@ -412,12 +412,16 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
     }
     
     public boolean getDisplayEditButton() {
-        boolean displayEditButton = !isViewOnly();
-        
+        boolean displayEditButton;
+        InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) getDocument();
+        if (institutionalProposalDocument.isDocOpenedFromIPSearch()) {
+            displayEditButton = true;
+        }else {
+            displayEditButton = !isViewOnly();
+        }
         displayEditButton &= getInstitutionalProposalDocument().getInstitutionalProposal().isActiveVersion();
-        
         return displayEditButton;
-    }
+      }
     
     public boolean getViewFundingSource() {
         return viewFundingSource;
