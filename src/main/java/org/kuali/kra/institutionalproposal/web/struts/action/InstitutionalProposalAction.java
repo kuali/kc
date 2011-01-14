@@ -290,6 +290,24 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
     }
     
     /**
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        ActionForward forward = super.docHandler(mapping, form, request, response);
+        InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
+        InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) institutionalProposalForm.getDocument();
+        if (!(request.getParameter("docOpenedFromIPSearch") == null)) {
+            if (request.getParameter("docOpenedFromIPSearch").equals("true")) {
+                institutionalProposalDocument.setDocOpenedFromIPSearch(true);
+            }
+     }
+        return forward;
+    }
+
+    
+    /**
     *
     * This method gets called upon navigation to Medusa tab.
     * @param mapping
