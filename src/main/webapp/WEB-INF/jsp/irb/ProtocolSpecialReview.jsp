@@ -33,8 +33,7 @@
 	                                     exemptionAttributes="${DataDictionary.ProtocolSpecialReviewExemption.attributes}"
 	                                     collectionReference="${KualiForm.document.protocol.specialReviews}"
 	                                     collectionProperty="document.protocolList[0].specialReviews"
-	                                     action="protocolSpecialReview" 
-	                                     enableProtocolLinking="false" />
+	                                     action="protocolSpecialReview" />
 	
 	<kul:panelFooter />
 </div>

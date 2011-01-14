@@ -155,9 +155,12 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
      * @param proposalDevelopmentDocument : The proposalDevelopmentDocument that is being validated
      * @return valid Does the validation pass
      */
-    private boolean processSpecialReviewBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        List<ProposalSpecialReview> specialReviews = proposalDevelopmentDocument.getDevelopmentProposal().getPropSpecialReviews();
-        return processRules(new SaveSpecialReviewEvent<ProposalSpecialReview>(SAVE_SPECIAL_REVIEW_FIELD, proposalDevelopmentDocument, specialReviews));
+    private boolean processSpecialReviewBusinessRule(ProposalDevelopmentDocument proposalDocument) {
+        List<ProposalSpecialReview> specialReviews = proposalDocument.getDevelopmentProposal().getPropSpecialReviews();
+        boolean isProtocolLinkingEnabled 
+            = getParameterService().getIndicatorParameter("KC-PROTOCOL", "Document", "irb.protocol.development.proposal.linking.enabled");
+        return processRules(new SaveSpecialReviewEvent<ProposalSpecialReview>(
+            SAVE_SPECIAL_REVIEW_FIELD, proposalDocument, specialReviews, isProtocolLinkingEnabled));
     }
 
     public boolean processDeleteProposalSiteRules(BasicProposalSiteEvent proposalSiteEvent) {

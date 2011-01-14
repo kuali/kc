@@ -32,29 +32,19 @@ public class AddSpecialReviewEvent<T extends SpecialReview<? extends SpecialRevi
     
     private T specialReview;
     
-    private boolean validateProtocol;
-
-    /**
-     * Constructs an AddProposalSpecialReviewEvent.
-     * 
-     * @param document The document containing the Special Review
-     * @param specialReview The Special Review object to validate
-     */
-    public AddSpecialReviewEvent(Document document, T specialReview) {
-        this(document, specialReview, true);
-    }
+    private boolean isProtocolLinkingEnabled;
     
     /**
      * Constructs an AddProposalSpecialReviewEvent.
      * 
      * @param document The document containing the Special Review
      * @param specialReview The Special Review object to validate
-     * @param validateProtocol Whether or not to validate the Protocol number
+     * @param isProtocolLinkingEnabled Whether or not Protocol linking is enabled
      */
-    public AddSpecialReviewEvent(Document document, T specialReview, boolean validateProtocol) {
+    public AddSpecialReviewEvent(Document document, T specialReview, boolean isProtocolLinkingEnabled) {
         super("adding special review to document " + getDocumentId(document), NEW_SPECIAL_REVIEW_FIELD, document);
         this.specialReview = specialReview;
-        this.validateProtocol = validateProtocol;
+        this.isProtocolLinkingEnabled = isProtocolLinkingEnabled;
     }
 
     public T getSpecialReview() {
@@ -65,12 +55,12 @@ public class AddSpecialReviewEvent<T extends SpecialReview<? extends SpecialRevi
         this.specialReview = specialReview;
     }
     
-    public boolean getValidateProtocol() {
-        return validateProtocol;
+    public boolean getIsProtocolLinkingEnabled() {
+        return isProtocolLinkingEnabled;
     }
 
-    public void setValidateProtocol(boolean validateProtocol) {
-        this.validateProtocol = validateProtocol;
+    public void setIsProtocolLinkingEnabled(boolean isProtocolLinkingEnabled) {
+        this.isProtocolLinkingEnabled = isProtocolLinkingEnabled;
     }
 
     @Override

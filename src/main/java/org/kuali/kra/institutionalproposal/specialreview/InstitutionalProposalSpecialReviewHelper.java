@@ -27,7 +27,9 @@ import org.kuali.rice.kns.authorization.AuthorizationConstants;
  */
 public class InstitutionalProposalSpecialReviewHelper extends SpecialReviewHelperBase<InstitutionalProposalSpecialReview> {
 
-    private static final long serialVersionUID = 1917713283767513864L;
+    private static final long serialVersionUID = 6509860722698432447L;
+
+    private static final String PROTOCOL_INSTITUTIONAL_PROPOSAL_LINKING_ENABLED_PARAMETER = "irb.protocol.institute.proposal.linking.enabled";
     
     private InstitutionalProposalForm form;
     
@@ -43,6 +45,11 @@ public class InstitutionalProposalSpecialReviewHelper extends SpecialReviewHelpe
     @Override
     protected boolean hasModifySpecialReviewPermission(String principalId) {
         return BooleanUtils.toBoolean((String) form.getEditingMode().get(AuthorizationConstants.EditMode.FULL_ENTRY));
+    }
+    
+    @Override
+    protected boolean isProtocolLinkingEnabledForModule() {
+        return getParameterService().getIndicatorParameter(NAMESPACE_CODE, PARAMETER_CODE, PROTOCOL_INSTITUTIONAL_PROPOSAL_LINKING_ENABLED_PARAMETER);
     }
 
     @Override

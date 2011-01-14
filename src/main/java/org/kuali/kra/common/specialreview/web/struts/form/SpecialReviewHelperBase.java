@@ -26,6 +26,7 @@ import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolFinderDao;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -33,13 +34,25 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * @param <T> Special Review
  */
 public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends SpecialReviewExemption>> implements Serializable {
-
-    private static final long serialVersionUID = -7047410188013032544L;
+    
+    /**
+     * Namespace code for Protocol linking parameters.
+     */
+    protected static final String NAMESPACE_CODE = "KC-PROTOCOL";
+    
+    /**
+     * Parameter code for Protocol linking parameters.
+     */
+    protected static final String PARAMETER_CODE = "Document";
+    
+    private static final long serialVersionUID = 9062654027622023343L;
 
     private T newSpecialReview;
 
     private boolean canModifySpecialReview;
+    private boolean isProtocolLinkingEnabled;
     
+    private transient ParameterService parameterService;
     private transient ProtocolFinderDao protocolFinderDao;
     
     public T getNewSpecialReview() {
@@ -52,6 +65,10 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
     
     public boolean getCanModifySpecialReview() {
         return canModifySpecialReview;
+    }
+    
+    public boolean getIsProtocolLinkingEnabled() {
+        return isProtocolLinkingEnabled;
     }
     
     /**
@@ -87,14 +104,21 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
      */
     private void initializePermissions() {
         canModifySpecialReview = hasModifySpecialReviewPermission(getUserIdentifier());
+        isProtocolLinkingEnabled = isProtocolLinkingEnabledForModule();
     }
     
     /**
-     * Can the current user modify Special Review.
+     * Can the current user modify Special Review?
      * @param principalId the Id of the user for which to check permissions
      * @return true if the current user can modify Special Review, false otherwise
      */
     protected abstract boolean hasModifySpecialReviewPermission(String principalId);
+    
+    /**
+     * Is the Protocol linking parameter enabled for this module?
+     * @return true if Protocol liking is enabled for this module, false otherwise
+     */
+    protected abstract boolean isProtocolLinkingEnabledForModule();
     
     private String getUserIdentifier() {
         return GlobalVariables.getUserSession().getPrincipalId();
@@ -112,6 +136,17 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
      * @return the list of saved Special Reviews
      */
     protected abstract List<T> getSpecialReviews();
+    
+    public ParameterService getParameterService() {
+        if (parameterService == null) {
+            parameterService = KraServiceLocator.getService(ParameterService.class);
+        }
+        return parameterService;
+    }
+    
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
     
     public ProtocolFinderDao getProtocolFinderDao() {
         if (protocolFinderDao == null) {
