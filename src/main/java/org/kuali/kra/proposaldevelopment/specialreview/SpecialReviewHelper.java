@@ -26,7 +26,9 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  */
 public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecialReview> {
 
-    private static final long serialVersionUID = -9166606530296379486L;
+    private static final long serialVersionUID = 8832539481443727887L;
+
+    private static final String PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER = "irb.protocol.development.proposal.linking.enabled";
     
     private ProposalDevelopmentForm form;
     
@@ -42,6 +44,11 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecial
     @Override
     protected boolean hasModifySpecialReviewPermission(String principalId) {
         return BooleanUtils.toBoolean((String) form.getEditingMode().get("modifyProposal"));
+    }
+    
+    @Override
+    protected boolean isProtocolLinkingEnabledForModule() {
+        return getParameterService().getIndicatorParameter(NAMESPACE_CODE, PARAMETER_CODE, PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER);
     }
 
     @Override

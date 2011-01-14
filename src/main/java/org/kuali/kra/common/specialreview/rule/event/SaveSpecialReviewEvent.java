@@ -34,17 +34,6 @@ public class SaveSpecialReviewEvent<T extends SpecialReview<? extends SpecialRev
     private List<T> specialReviews;
     
     private boolean validateProtocol;
-
-    /**
-     * Constructs a SaveSpecialReviewEvent.
-     * 
-     * @param errorPathPrefix
-     * @param document
-     * @param specialReview
-     */
-    public SaveSpecialReviewEvent(String errorPathPrefix, Document document, List<T> specialReviews) {
-        this(errorPathPrefix, document, specialReviews, true);
-    }
     
     /**
      * Constructs a SaveSpecialReviewEvent.
