@@ -733,6 +733,18 @@
 			<foreignkey field-ref="rateClassCode"/> 
 		</reference-descriptor>
 	</class-descriptor>
+	<class-descriptor class="org.kuali.kra.budget.rates.TrainingStipendRate" table="TRAINING_STIPEND_RATES">
+		<field-descriptor name="rateId" column="TRAINING_STIPEND_RATES_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_TRAINING_STIPEND_RATES_ID" />
+		<field-descriptor name="careerLevel" column="CAREER_LEVEL" jdbc-type="VARCHAR" primarykey="false"/>
+		<field-descriptor name="experienceLevel" column="EXPERIENCE_LEVEL" jdbc-type="INTEGER" primarykey="false"/>
+		<field-descriptor name="stipendRate" column="STIPEND_RATE" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="effectiveDate" column="EFFECTIVE_DATE" jdbc-type="DATE" primarykey="false"/>
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" primarykey="false"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.budget.calculator.ValidCalcType" table="VALID_CALC_TYPES">
 		<field-descriptor name="calcTypeId" column="CALC_TYPE_ID" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="dependentSeqNumber" column="DEPENDENT_SEQ_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
