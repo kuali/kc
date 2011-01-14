@@ -69,11 +69,11 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
         
         T specialReview = addSpecialReviewEvent.getSpecialReview();
         String errorPathPrefix = addSpecialReviewEvent.getErrorPathPrefix();
-        boolean validateProtocol = addSpecialReviewEvent.getValidateProtocol();
+        boolean validateProtocol = addSpecialReviewEvent.getIsProtocolLinkingEnabled();
         
         getDictionaryValidationService().validateBusinessObject(specialReview);
         rulePassed &= GlobalVariables.getMessageMap().hasNoErrors();
-        rulePassed &= validateDateFields(specialReview, errorPathPrefix);
+        rulePassed &= validateDateFields(specialReview, errorPathPrefix, validateProtocol);
         rulePassed &= validateSpecialReviewApprovalFields(specialReview, errorPathPrefix, validateProtocol);
 
         return rulePassed;
@@ -93,7 +93,7 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
         for (T specialReview : specialReviews) {
             String errorPath = saveSpecialReviewEvent.getErrorPathPrefix() + "[" + i++ + "]";
             boolean validateProtocol = saveSpecialReviewEvent.getValidateProtocol();
-            rulePassed &= validateDateFields(specialReview, errorPath);
+            rulePassed &= validateDateFields(specialReview, errorPath, validateProtocol);
             rulePassed &= validateSpecialReviewApprovalFields(specialReview, errorPath, validateProtocol);
         }
         
@@ -107,10 +107,10 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
      * @param errorPath The error path
      * @return true if the specialReview is valid, false otherwise
      */
-    private boolean validateDateFields(T specialReview, String errorPath) {
+    private boolean validateDateFields(T specialReview, String errorPath, boolean validateProtocol) {
         boolean isValid = true;
         
-        if (!SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {
+        if (!validateProtocol || !SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {
             if (specialReview.getApplicationDate() != null && specialReview.getApprovalDate() != null 
                     && specialReview.getApprovalDate().before(specialReview.getApplicationDate())) {
                 isValid = false;
@@ -192,7 +192,7 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
             }
         }
         
-        if (!SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {
+        if (!validateProtocol || !SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {
             if (approval.isApplicationDateFlag() && specialReview.getApplicationDate() == null) {
                 isValid = false;
                 reportErrorWithoutFullErrorPath(errorPath + DOT + APPLICATION_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_REQUIRED_FOR_VALID, 

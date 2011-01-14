@@ -29,7 +29,7 @@ import org.kuali.kra.service.TaskAuthorizationService;
  */
 public class SpecialReviewHelper extends SpecialReviewHelperBase<ProtocolSpecialReview> {
 
-    private static final long serialVersionUID = 3491535054613361337L;
+    private static final long serialVersionUID = -6004130465079070854L;
 
     private ProtocolForm form;
     
@@ -45,9 +45,14 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProtocolSpecial
     }
 
     @Override
-    public boolean hasModifySpecialReviewPermission(String principalId) {
+    protected boolean hasModifySpecialReviewPermission(String principalId) {
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_SPECIAL_REVIEW, form.getDocument().getProtocol());
         return getTaskAuthorizationService().isAuthorized(principalId, task);
+    }
+    
+    @Override
+    protected boolean isProtocolLinkingEnabledForModule() {
+        return false;
     }
 
     @Override

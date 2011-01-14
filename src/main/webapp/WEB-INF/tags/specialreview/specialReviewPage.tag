@@ -26,14 +26,10 @@
               description="The property name of the collection that holds all the current Special Reviews" %>
 <%@ attribute name="action" required="true" 
               description="The name of the action class" %>
-<%@ attribute name="enableProtocolLinking" required="false"
-              description="Whether or not to enable linking and autofilling in of Protocol values.  Enabled by default."%>
 
 <c:set var="canModify" value="${KualiForm.specialReviewHelper.canModifySpecialReview}"/>
+<c:set var="enableProtocolLinking" value="${KualiForm.specialReviewHelper.isProtocolLinkingEnabled}" />
 <c:set var="commentDisplayLength" value="<%=org.kuali.kra.infrastructure.Constants.SPECIAL_REVIEW_COMMENT_LENGTH%>" />
-<c:if test="${empty enableProtocolLinking}">
-    <c:set var="enableProtocolLinking" value="true" />
-</c:if>
 
 <kul:tab tabTitle="Special Review" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="specialReviewHelper.newSpecialReview*, document.protocol.specialReviews*">
     <div class="tab-container" align="center">

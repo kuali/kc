@@ -454,7 +454,8 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     private boolean processSpecialReviewBusinessRule(Document document) {
         AwardDocument awardDocument = (AwardDocument) document;
         List<AwardSpecialReview> specialReviews = awardDocument.getAward().getSpecialReviews();
-        return processRules(new SaveSpecialReviewEvent<AwardSpecialReview>(SAVE_SPECIAL_REVIEW_FIELD, document, specialReviews));
+        boolean isProtocolLinkingEnabled = getParameterService().getIndicatorParameter("KC-PROTOCOL", "Document", "irb.protocol.award.linking.enabled");
+        return processRules(new SaveSpecialReviewEvent<AwardSpecialReview>(SAVE_SPECIAL_REVIEW_FIELD, document, specialReviews, isProtocolLinkingEnabled));
     }
     
     /**
