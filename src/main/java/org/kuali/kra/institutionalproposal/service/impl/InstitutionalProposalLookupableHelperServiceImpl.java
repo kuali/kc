@@ -52,7 +52,7 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
     
     private static final String MERGE_PROPOSAL_LOG_ACTION = "mergeProposalLog.do";
     private static final String AWARD_HOME_ACTION = "awardHome.do";
-    private static final String VIEW = "view";
+    private static final String OPEN = "open";
     
     private boolean includeMainSearchCustomActionUrls;
     private boolean includeMergeCustomActionUrls;
@@ -111,7 +111,7 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
         if (includeMainSearchCustomActionUrls) {
-            htmlDataList.add(getViewLink(((InstitutionalProposal) businessObject).getInstitutionalProposalDocument()));
+            htmlDataList.add(getOpenLink(((InstitutionalProposal) businessObject).getInstitutionalProposalDocument()));
         } 
         if (includeMergeCustomActionUrls) {
             htmlDataList.add(getSelectLink((InstitutionalProposal) businessObject));
@@ -120,9 +120,9 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
         return htmlDataList;
     }
     
-    protected AnchorHtmlData getViewLink(Document document) {
+    protected AnchorHtmlData getOpenLink(Document document) {
         AnchorHtmlData htmlData = new AnchorHtmlData();
-        htmlData.setDisplayText(VIEW);
+        htmlData.setDisplayText(OPEN);
         Properties parameters = new Properties();
         parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, KNSConstants.DOC_HANDLER_METHOD);
         parameters.put(KNSConstants.PARAMETER_COMMAND, KEWConstants.DOCSEARCH_COMMAND);
