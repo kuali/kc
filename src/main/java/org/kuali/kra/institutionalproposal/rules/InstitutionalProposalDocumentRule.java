@@ -253,10 +253,12 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
      * @return valid Does the validation pass
      */
     private boolean processSpecialReviewBusinessRule(Document document) {
-        InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
-        List<InstitutionalProposalSpecialReview> specialReviews = institutionalProposalDocument.getInstitutionalProposal().getSpecialReviews();
-        return processRules(
-                new SaveSpecialReviewEvent<InstitutionalProposalSpecialReview>(SAVE_SPECIAL_REVIEW_FIELD, institutionalProposalDocument, specialReviews));
+        InstitutionalProposalDocument proposalDocument = (InstitutionalProposalDocument) document;
+        List<InstitutionalProposalSpecialReview> specialReviews = proposalDocument.getInstitutionalProposal().getSpecialReviews();
+        boolean isProtocolLinkingEnabled 
+            = getParameterService().getIndicatorParameter("KC-PROTOCOL", "Document", "irb.protocol.institute.proposal.linking.enabled");
+        return processRules(new SaveSpecialReviewEvent<InstitutionalProposalSpecialReview>(
+            SAVE_SPECIAL_REVIEW_FIELD, proposalDocument, specialReviews, isProtocolLinkingEnabled));
     }
     
     /**
