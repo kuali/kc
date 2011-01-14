@@ -31,7 +31,9 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -50,6 +52,7 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
     
     private static final String MERGE_PROPOSAL_LOG_ACTION = "mergeProposalLog.do";
     private static final String AWARD_HOME_ACTION = "awardHome.do";
+    private static final String VIEW = "view";
     
     private boolean includeMainSearchCustomActionUrls;
     private boolean includeMergeCustomActionUrls;
@@ -116,6 +119,24 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
         htmlDataList.add(getMedusaLink(((InstitutionalProposal) businessObject).getInstitutionalProposalDocument(), false));
         return htmlDataList;
     }
+    
+    protected AnchorHtmlData getViewLink(Document document) {
+        AnchorHtmlData htmlData = new AnchorHtmlData();
+        htmlData.setDisplayText(VIEW);
+        Properties parameters = new Properties();
+        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, KNSConstants.DOC_HANDLER_METHOD);
+        parameters.put(KNSConstants.PARAMETER_COMMAND, KEWConstants.DOCSEARCH_COMMAND);
+        parameters.put(KNSConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
+        parameters.put("viewDocument", "true");
+        parameters.put("docOpenedFromIPSearch", "true");
+        parameters.put("docId", document.getDocumentNumber());
+        String href  = UrlFactory.parameterizeUrl("../"+getHtmlAction(), parameters);
+        
+        htmlData.setHref(href);
+        return htmlData;
+
+    }
+
 
     @Override
     protected String getHtmlAction() {
