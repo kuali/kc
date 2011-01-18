@@ -155,6 +155,7 @@ public interface TaskName {
     public static final String PROTOCOL_APPROVE_OTHER = "protocolApproveOther";
     public static final String PROTOCOL_MANAGE_NOTES = "protocolManageNotes";
     public static final String PROTOCOL_MANAGE_NOTES_UNAVAILABLE = "protocolManageNotesUnavailable";
+    public static final String ABANDON_PROTOCOL = "protocolAbandon";
     
     /*
      * Protocol - Online Review Tasks
