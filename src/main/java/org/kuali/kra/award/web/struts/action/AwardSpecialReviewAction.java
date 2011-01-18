@@ -78,6 +78,8 @@ public class AwardSpecialReviewAction extends AwardAction {
         AwardSpecialReview newSpecialReview = awardForm.getSpecialReviewHelper().getNewSpecialReview();
         boolean isProtocolLinkingEnabled = awardForm.getSpecialReviewHelper().getIsProtocolLinkingEnabled();
         
+        awardForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(newSpecialReview);
+        
         if (applyRules(new AddSpecialReviewEvent<AwardSpecialReview>(document, newSpecialReview, isProtocolLinkingEnabled))) {
             newSpecialReview.setSpecialReviewNumber(document.getDocumentNextValue(Constants.SPECIAL_REVIEW_NUMBER));
             document.getAward().getSpecialReviews().add(newSpecialReview);
