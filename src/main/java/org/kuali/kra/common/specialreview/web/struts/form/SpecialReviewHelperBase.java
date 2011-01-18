@@ -34,7 +34,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * @param <T> Special Review
  */
 public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends SpecialReviewExemption>> implements Serializable {
-    
+
     /**
      * Namespace code for Protocol linking parameters.
      */
@@ -44,10 +44,11 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
      * Parameter code for Protocol linking parameters.
      */
     protected static final String PARAMETER_CODE = "Document";
-    
-    private static final long serialVersionUID = 9062654027622023343L;
+
+    private static final long serialVersionUID = 4726816248612555502L;
 
     private T newSpecialReview;
+    private List<T> deletedSpecialReviews;
 
     private boolean canModifySpecialReview;
     private boolean isProtocolLinkingEnabled;
@@ -62,7 +63,15 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
     public void setNewSpecialReview(T newSpecialReview) {
         this.newSpecialReview = newSpecialReview;
     }
-    
+
+    public List<T> getDeletedSpecialReviews() {
+        return deletedSpecialReviews;
+    }
+
+    public void setDeletedSpecialReviews(List<T> deletedSpecialReviews) {
+        this.deletedSpecialReviews = deletedSpecialReviews;
+    }
+
     public boolean getCanModifySpecialReview() {
         return canModifySpecialReview;
     }

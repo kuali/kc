@@ -26,6 +26,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
+import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.common.specialreview.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.infrastructure.Constants;
@@ -104,9 +105,46 @@ public class AwardSpecialReviewAction extends AwardAction {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument document = awardForm.getAwardDocument();
         
-        document.getAward().getSpecialReviews().remove(getLineToDelete(request));
-
+        AwardSpecialReview deletedSpecialReview = document.getAward().getSpecialReviews().remove(getLineToDelete(request));
+        awardForm.getSpecialReviewHelper().getDeletedSpecialReviews().add(deletedSpecialReview);
+        
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.award.web.struts.action.AwardAction#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, 
+     *      javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        AwardDocument document = awardForm.getAwardDocument();
+        
+        for (AwardSpecialReview specialReview : document.getAward().getSpecialReviews()) {
+            String protocolNumber = specialReview.getProtocolNumber();
+            Long fundingSourceId = document.getAward().getAwardId();
+            String fundingSourceType = FundingSourceType.AWARD;
+            
+            if (!getSpecialReviewService().isLinkedToProtocolFundingSource(protocolNumber, fundingSourceId, fundingSourceType)) {
+                String fundingSourceNumber = document.getAward().getAwardNumber();
+                String fundingSourceName = document.getAward().getSponsorName();
+                String fundingSourceTitle = document.getAward().getTitle();
+                getSpecialReviewService().addProtocolFundingSourceForSpecialReview(
+                    protocolNumber, fundingSourceId, fundingSourceNumber, fundingSourceType, fundingSourceName, fundingSourceTitle);
+            }
+        }
+        
+        for (AwardSpecialReview specialReview : awardForm.getSpecialReviewHelper().getDeletedSpecialReviews()) {
+            String protocolNumber = specialReview.getProtocolNumber();
+            Long fundingSourceId = document.getAward().getAwardId();
+            String fundingSourceType = FundingSourceType.AWARD;
+            
+            getSpecialReviewService().deleteProtocolFundingSourceForSpecialReview(protocolNumber, fundingSourceId, fundingSourceType);
+        }
+        awardForm.getSpecialReviewHelper().getDeletedSpecialReviews().clear();
+
+        return super.save(mapping, form, request, response);
     }
     
     /**

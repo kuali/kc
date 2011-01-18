@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.specialreview;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.BooleanUtils;
@@ -39,6 +40,7 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecial
     public SpecialReviewHelper(ProposalDevelopmentForm form) {
         this.form = form;
         setNewSpecialReview(new ProposalSpecialReview());
+        setDeletedSpecialReviews(new ArrayList<ProposalSpecialReview>());
     }
 
     @Override

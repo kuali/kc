@@ -50,5 +50,41 @@ public interface SpecialReviewService {
      * @throws Exception
      */
     Long getViewSpecialReviewProtocolRouteHeaderId(String protocolNumber) throws Exception;
+    
+    /**
+     * Determines whether the given Protocol contains a Funding Source linking to the Institutional Proposal or Award corresponding to the given id.
+     * 
+     * @param protocolNumber The number of the Protocol in which to check for the Funding Source
+     * @param fundingSourceId The id of the Institutional Proposal or Award to check for
+     * @param fundingSourceType The type code (for either Institutional Proposal or Award) to check for
+     * @return
+     */
+    boolean isLinkedToProtocolFundingSource(String protocolNumber, Long fundingSourceId, String fundingSourceType);
+    
+    /**
+     * Adds a Protocol Funding Source from a Special Review contained in either an Institutional Proposal or Award and adds it to the Protocol.
+     * <p>
+     * In order to avoid locking problems, saves the changes directly to the Protocol BO instead of the document.
+     * 
+     * @param protocolNumber The number of the Protocol to which to add the new Funding Source
+     * @param fundingSourceId The id of the Institutional Proposal or Award in which the Special Review is added/saved
+     * @param fundingSourceNumber The human-readable number of the Institutional Proposal or Award in which the Special Review is added/saved
+     * @param fundingSourceTypeCode The type code (for either Institutional Proposal or Award) of the entity in which the Special Review is added/saved
+     * @param fundingSourceName The name of the Institutional Proposal or Award in which the Special Review is added/saved
+     * @param fundingSourceTitle The title of the Institutional Proposal or Award in which the Special Review is added/saved
+     */
+    void addProtocolFundingSourceForSpecialReview(String protocolNumber, Long fundingSourceId, String fundingSourceNumber, String fundingSourceTypeCode, 
+        String fundingSourceName, String fundingSourceTitle);
+    
+    /**
+     * Deletes the Protocol Funding Sources associated with the Special Review being deleted.
+     * <p>
+     * In order to avoid locking problems, saves the changes directly to the Protocol BO instead of the document.
+     * 
+     * @param protocolNumber The number of the Protocol to which to delete the Funding Sources
+     * @param fundingSourceId The id of the Institutional Proposal or Award in which the Special Review is deleted
+     * @param fundingSourceType The type code (for either Institutional Proposal or Award) of the entity in which the Special Review is deleted
+     */
+    void deleteProtocolFundingSourceForSpecialReview(String protocolNumber, Long fundingSourceId, String fundingSourceType);
 
 }
