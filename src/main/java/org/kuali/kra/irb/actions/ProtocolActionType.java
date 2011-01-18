@@ -60,6 +60,7 @@ public class ProtocolActionType extends KraPersistableBusinessObjectBase {
     public static final String DEFERRED = "201";
     public static final String MANAGE_REVIEW_COMMENTS = "310";
     public static final String NOTIFIED_COMMITTEE = "109";
+    public static final String ABANDON_PROTOCOL = "311";
     
     //No corresponding actionTypeCode for this in Coeus 
     //Although we can use DISAPPROVED/SPECIFIC_MINOR_REVISIONS_REQUIRED/SUBSTANTIVE_REVISIONS_REQUIRED instead

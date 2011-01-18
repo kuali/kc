@@ -85,7 +85,8 @@ public class ProtocolUpdateActionServiceTest extends ProtocolActionServiceTestBa
     public static final String ATC211 = "211";
     
     public static final String ATC212 = "212";
-    
+    public static final String ATC311 = "311";
+       
     private Mockery context;
     
     private Protocol protocol;
@@ -485,6 +486,14 @@ public class ProtocolUpdateActionServiceTest extends ProtocolActionServiceTestBa
         ruleFiles.add("org/kuali/kra/irb/drools/rules/canPerformProtocolActionRules.drl");
         ruleFiles.add("org/kuali/kra/irb/drools/rules/updateProtocolRules.drl");
         return ruleFiles;
+    }
+
+    @Test
+    public void testActionTypeCode311() {   
+        action.setProtocolActionTypeCode(ATC311);
+        protocol.getProtocolSubmission().getProtocolSubmissionType().setSubmissionTypeCode("XXX");        
+        protocolActionService.updateProtocolStatus(action, protocol);        
+        assertEquals("402", protocol.getProtocolStatusCode());
     }
 
 }

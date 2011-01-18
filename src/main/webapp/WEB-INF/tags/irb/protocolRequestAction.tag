@@ -193,6 +193,13 @@
                                           methodToCall="terminate"
                                           canPerformAction="${KualiForm.actionHelper.canTerminate}"
                                           canAddReviewComments="${KualiForm.actionHelper.canAddTerminateReviewerComments}" />
+            <kra-irb-action:genericAction tabTitle="Abandon"
+                                          bean="${KualiForm.actionHelper.protocolAbandonBean}"
+                                          property="actionHelper.protocolAbandonBean"
+                                          taskName="protocolAbandon"
+                                          methodToCall="abandon"
+                                          canPerformAction="${KualiForm.actionHelper.canAbandon}" 
+                                          canAddReviewComments="false"/>
             <kra-irb-action:reviewNotRequiredAction />
             <kra-irb-action:undoLastAction />
             <kra-irb-action:manageReviewComments />
@@ -458,6 +465,14 @@
 	            <kra-irb-action:genericUnavailableAction tabTitle="Manage Notes"
 	                                                     canPerformAction="${KualiForm.actionHelper.canManageNotesUnavailable}"
 	                                                     reason="" />
+	            <kra-irb-action:genericUnavailableAction tabTitle="Abandon"
+	                                                     canPerformAction="${!KualiForm.actionHelper.canAbandon}"
+				                                         reason="Protocol status must be SMR or SRR.
+				                                                 <p>
+				                                                 Protocol must be the initial Protocol.
+				                                                 <p>
+				                                                 Only PI can perform this action." />
+	                                                     
 		    </c:if>
 		    </div>
         </kul:innerTab>

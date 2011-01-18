@@ -47,6 +47,7 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
+import org.kuali.kra.irb.actions.abandon.ProtocolAbandonService;
 import org.kuali.kra.irb.actions.amendrenew.CreateAmendmentEvent;
 import org.kuali.kra.irb.actions.amendrenew.CreateRenewalEvent;
 import org.kuali.kra.irb.actions.amendrenew.ModifyAmendmentSectionsEvent;
@@ -2287,6 +2288,27 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    public ActionForward abandon(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolTask task = new ProtocolTask(TaskName.ABANDON_PROTOCOL, protocolForm.getProtocolDocument().getProtocol());
+        if (isAuthorized(task)) {
+            getProtocolAbandonService().abandonProtocol(protocolForm.getProtocolDocument().getProtocol(),
+                    protocolForm.getActionHelper().getProtocolAbandonBean());
+            protocolForm.getProtocolHelper().prepareView();
+            
+            recordProtocolActionSuccess("Abandon");
+
+            return mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        }
+
+        // should it return to portal page ?
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+
+    
     /**
      * Saves the review comments to the database and performs refresh and cleanup.
      * @param protocolForm
@@ -2355,7 +2377,11 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     private ProtocolGenericActionService getProtocolGenericActionService() {
         return KraServiceLocator.getService(ProtocolGenericActionService.class);
     }
-    
+     
+    private ProtocolAbandonService getProtocolAbandonService() {
+        return KraServiceLocator.getService(ProtocolAbandonService.class);
+    }
+       
     public ProtocolCopyService getProtocolCopyService() {
         return KraServiceLocator.getService(ProtocolCopyService.class);
     }

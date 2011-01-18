@@ -202,6 +202,7 @@ public class ActionHelper implements Serializable {
     private boolean canApproveOther = false;
     private boolean canManageNotes = false;
     private boolean canManageNotesUnavailable = false;
+    private boolean canAbandon = false;
 
     private boolean isApproveOpenForFollowup;
     private boolean isDisapproveOpenForFollowup;
@@ -258,7 +259,8 @@ public class ActionHelper implements Serializable {
     private ProtocolGenericActionBean protocolDeferBean;
     private ProtocolReviewNotRequiredBean protocolReviewNotRequiredBean;
     private ProtocolGenericActionBean protocolManageReviewCommentsBean;
-    
+    private ProtocolGenericActionBean protocolAbandonBean;
+
     private boolean prevDisabled;
     private boolean nextDisabled;
     private transient ParameterService parameterService;
@@ -368,6 +370,8 @@ public class ActionHelper implements Serializable {
                 Constants.PROTOCOL_PERMIT_DATA_ANALYSIS_ACTION_PROPERTY_KEY);
         protocolIrbAcknowledgementBean = buildProtocolGenericActionBean(ProtocolActionType.IRB_ACKNOWLEDGEMENT, 
                 Constants.PROTOCOL_IRB_ACKNOWLEDGEMENT_ACTION_PROPERTY_KEY);
+        protocolAbandonBean = buildProtocolGenericActionBean(ProtocolActionType.ABANDON_PROTOCOL, 
+                Constants.PROTOCOL_ABANDON_ACTION_PROPERTY_KEY);
         protocolAdminCorrectionBean = createAdminCorrectionBean();
         undoLastActionBean = createUndoLastActionBean(getProtocol());
         committeeDecision = new CommitteeDecision(this);
@@ -794,6 +798,7 @@ public class ActionHelper implements Serializable {
         canApproveOther = hasApproveOtherPermission();
         canManageNotes = hasManageNotesPermission();
         canManageNotesUnavailable = hasManageNotesUnavailablePermission();
+        canAbandon = hasAbandonProtocolPermission();
         
         followupActionActions = getFollowupActionService().getFollowupsForProtocol(form.getProtocolDocument().getProtocol());
         
@@ -1223,6 +1228,12 @@ public class ActionHelper implements Serializable {
     
     private boolean hasManageNotesUnavailablePermission() {
         ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_MANAGE_NOTES_UNAVAILABLE, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    private boolean hasAbandonProtocolPermission() {
+//        return hasGenericPermission(GenericProtocolAuthorizer.ABANDON_PROTOCOL);
+        ProtocolTask task = new ProtocolTask(TaskName.ABANDON_PROTOCOL, getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
@@ -2530,6 +2541,22 @@ public class ActionHelper implements Serializable {
 
     public void setSummaryQuestionnaireExist(boolean summaryQuestionnaireExist) {
         this.summaryQuestionnaireExist = summaryQuestionnaireExist;
+    }
+
+    public boolean isCanAbandon() {
+        return canAbandon;
+    }
+
+    public void setCanAbandon(boolean canAbandon) {
+        this.canAbandon = canAbandon;
+    }
+
+    public ProtocolGenericActionBean getProtocolAbandonBean() {
+        return protocolAbandonBean;
+    }
+
+    public void setProtocolAbandonBean(ProtocolGenericActionBean protocolAbandonBean) {
+        this.protocolAbandonBean = protocolAbandonBean;
     }
 
 }
