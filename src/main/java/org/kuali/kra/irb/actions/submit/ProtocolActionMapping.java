@@ -25,9 +25,12 @@ import java.util.Map;
 import org.kuali.kra.drools.brms.FactBean;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDao;
+import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /*
  * This class is for the condition attributes of of the protocol action.
@@ -49,6 +52,15 @@ public class ProtocolActionMapping implements FactBean {
         codeMap.put(ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, ProtocolSubmissionType.REQUEST_TO_CLOSE);
         codeMap.put(ProtocolActionType.TERMINATED, ProtocolSubmissionType.REQUEST_FOR_TERMINATION);        
         ACTION_TYPE_SUBMISSION_TYPE_MAP = Collections.unmodifiableMap(codeMap);
+    }
+
+    private static final List<String> APPROVE_ACTION_TYPES;
+    static {
+        final List<String> codes = new ArrayList<String>();     
+        codes.add(ProtocolActionType.APPROVED);
+        codes.add(ProtocolActionType.EXPEDITE_APPROVAL);
+        codes.add(ProtocolActionType.GRANT_EXEMPTION);
+        APPROVE_ACTION_TYPES = codes;
     }
 
 
@@ -322,4 +334,47 @@ public class ProtocolActionMapping implements FactBean {
     public void setAllowed(boolean allowed) {
         this.allowed = allowed;
     }
+    
+    /**
+     * check if this protocol has not been approved
+     */
+    public boolean isInitialProtocol() {
+        boolean initialProtocol = true;
+        for (ProtocolAction action : protocol.getProtocolActions()) {
+            if (APPROVE_ACTION_TYPES.contains(action.getProtocolActionTypeCode())) {
+                initialProtocol = false;
+                break;
+            }
+        }
+        return initialProtocol;
+    }
+
+    /**
+     * check if user is PI
+     */
+    public boolean isPrincipalInvestigator() {
+        Person user = GlobalVariables.getUserSession().getPerson();
+        boolean isPi = false;
+        if (user.getPrincipalId().equals(protocol.getPrincipalInvestigator().getPersonId())) {
+            isPi = true;
+        }
+        return isPi;
+    }
+
+    /**
+     * check if this submission is protocol is just SRR/SMR
+     * protocolSubmissions is sorted by submissionNumber in repository.
+     */
+    public boolean isSubmitForRevision() {
+        boolean revisionSubmission = false;
+        if (protocol.getProtocolSubmissions().size() >= 2) {
+            ProtocolSubmission prevSubmission = protocol.getProtocolSubmissions().get(protocol.getProtocolSubmissions().size() - 2);
+            if (ProtocolSubmissionStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED.equals(prevSubmission.getSubmissionStatusCode()) || ProtocolSubmissionStatus.SUBSTANTIVE_REVISIONS_REQUIRED
+                            .equals(prevSubmission.getSubmissionStatusCode())) {
+                revisionSubmission = true;
+            }
+        }
+        return revisionSubmission;
+    }
+
 }
