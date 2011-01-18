@@ -163,7 +163,7 @@ end
 rule "WithDraw Protocol 1"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "303", protocolStatusCode not in ("102", "104"),  submissionNumber == null, submissionCountForWithdraw == true)
+	protocolAction : ProtocolActionMapping(actionTypeCode == "303", protocolStatusCode not in ("102", "104"),  submissionNumber == null, submissionCountForWithdraw == true, submitForRevision == false)
 then	
 	setAction(protocolAction, true);
 end
@@ -171,7 +171,7 @@ end
 rule "WithDraw Protocol 2"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "303", protocolStatusCode not in ("102", "104"), submissionNumber != null, submissionStatusCode in ("100","101","102","201","202"))
+	protocolAction : ProtocolActionMapping(actionTypeCode == "303", protocolStatusCode not in ("102", "104"), submissionNumber != null, submissionStatusCode in ("100","101","102","201","202"), submitForRevision == false)
 then	
 	setAction(protocolAction, true);
 end
@@ -382,7 +382,7 @@ rule "Notify IRB"
 salience 100
 when
 	protocolAction : ProtocolActionMapping(actionTypeCode == "116",
-	  protocolStatusCode not in ("100", "101", "102", "103", "105", "106"))
+	  protocolStatusCode not in ("100", "101", "102", "103", "105", "106", "402"))
 then	
 	setAction(protocolAction, true);
 end
@@ -399,7 +399,7 @@ end
 rule "Make Administrative Correction"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "113", protocolStatusCode not in ("100", "304", "306"))
+	protocolAction : ProtocolActionMapping(actionTypeCode == "113", protocolStatusCode not in ("100", "304", "306", "402"))
 then	
 	setAction(protocolAction, true);
 end
@@ -415,6 +415,22 @@ rule "Defer"
 salience 100
 when
 	protocolAction : ProtocolActionMapping(actionTypeCode == "201", submissionStatusCode in ("100", "101"), protocolStatusCode == "101" )
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Abandon 1 - SMR"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "311", protocolStatusCode == "102", submissionStatusCode == "202", initialProtocol == true, principalInvestigator == true)
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Abandon 2 - SRR"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "311", protocolStatusCode == "104", submissionStatusCode == "201", initialProtocol == true, principalInvestigator == true)
 then	
 	setAction(protocolAction, true);
 end
