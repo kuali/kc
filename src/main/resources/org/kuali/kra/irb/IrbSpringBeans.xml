@@ -482,6 +482,9 @@
                 <bean class="org.kuali.kra.irb.auth.ProtocolManageNotesUnavailableAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolManageNotesUnavailable" />
                 </bean>   
+                <bean class="org.kuali.kra.irb.auth.AbandonProtocolAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolAbandon" />
+                </bean>   
             </list>
         </property>
     </bean>
@@ -931,6 +934,13 @@
 			<ref bean="businessObjectService"/>
 		</property>
 	</bean>
+
+    <bean id="protocolAbandonService" class="org.kuali.kra.irb.actions.abandon.ProtocolAbandonServiceImpl">
+        <property name="protocolActionService" ref="protocolActionService" />
+        <property name="protocolActionsNotificationService" ref="protocolActionsNotificationService" />
+       <property name="documentService" ref="documentService" />
+    </bean>
+    
 
 </beans>
 

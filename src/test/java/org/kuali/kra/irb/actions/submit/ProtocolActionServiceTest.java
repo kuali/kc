@@ -35,6 +35,7 @@ import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.followup.FollowupActionService;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
@@ -1222,7 +1223,42 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
          assertTrue(protocolActionService.canPerformAction("116", protocol));
     }
 
-    
+    /**
+     * 
+     * This method is for abandon condition 1
+     */
+    @Test
+    public void testActionTypeCode311Cond1() {
+        protocol.getProtocolSubmission().setSubmissionNumber(123);
+        protocol.getProtocolSubmission().setSubmissionStatusCode("202");
+
+        protocol.setProtocolStatusCode("102");
+        ProtocolPerson person = new ProtocolPerson();
+        person.setPersonId("10000000001");
+        person.setProtocolPersonRoleId("PI");
+        protocol.getProtocolPersons().add(person);
+
+        assertTrue(protocolActionService.canPerformAction("311", protocol));
+    }
+
+    /**
+     * 
+     * This method is for abandon condition 2
+     */
+    @Test
+    public void testActionTypeCode311Cond2() {
+        protocol.getProtocolSubmission().setSubmissionNumber(123);
+        protocol.getProtocolSubmission().setSubmissionStatusCode("201");
+
+        protocol.setProtocolStatusCode("104");
+        ProtocolPerson person = new ProtocolPerson();
+        person.setPersonId("10000000001");
+        person.setProtocolPersonRoleId("PI");
+        protocol.getProtocolPersons().add(person);
+        assertTrue(protocolActionService.canPerformAction("311", protocol));
+    }
+
+
     private void createNewDefaultProtocolAction(String protocolActionTypeCode,String committeeDecisionMotionTypeCode) {
         ProtocolAction protocolAction = getProtocolAction();
         protocolAction.setActionId(1);
