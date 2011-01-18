@@ -78,6 +78,8 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
         InstitutionalProposalSpecialReview newSpecialReview = institutionalProposalForm.getSpecialReviewHelper().getNewSpecialReview();
         boolean isProtocolLinkingEnabled = institutionalProposalForm.getSpecialReviewHelper().getIsProtocolLinkingEnabled();
         
+        institutionalProposalForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(newSpecialReview);
+        
         if (applyRules(new AddSpecialReviewEvent<InstitutionalProposalSpecialReview>(document, newSpecialReview, isProtocolLinkingEnabled))) {
             newSpecialReview.setSpecialReviewNumber(document.getDocumentNextValue(Constants.SPECIAL_REVIEW_NUMBER));
             document.getInstitutionalProposal().getSpecialReviews().add(newSpecialReview);

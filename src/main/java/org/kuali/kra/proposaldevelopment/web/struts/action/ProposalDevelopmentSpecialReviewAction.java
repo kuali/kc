@@ -81,6 +81,8 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
         ProposalSpecialReview newSpecialReview = proposalDevelopmentForm.getSpecialReviewHelper().getNewSpecialReview();
         boolean isProtocolLinkingEnabled = proposalDevelopmentForm.getSpecialReviewHelper().getIsProtocolLinkingEnabled();
         
+        proposalDevelopmentForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(newSpecialReview);
+        
         KualiRuleService ruleService = KraServiceLocator.getService(KualiRuleService.class);
         if (ruleService.applyRules(new AddSpecialReviewEvent<ProposalSpecialReview>(document, newSpecialReview, isProtocolLinkingEnabled))) {
             newSpecialReview.setSpecialReviewNumber(document.getDocumentNextValue(Constants.PROPOSAL_SPECIALREVIEW_NUMBER));
