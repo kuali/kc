@@ -75,10 +75,10 @@
             </table>
             <br>
             <html:image property="methodToCall.newSponsorHierarchy" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-createnew.gif" title="Add Sponsor Hierarchy" alt="Add Sponsor Hierarchy" styleClass="tinybutton"/>
-            <html:image property="methodToCall.maintSponsorHierarchy" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-maint.gif" title="Maintain Sponsor Hierarchy" alt="Maintain Sponsor Hierarchy" styleClass="tinybutton"/>
+            <html:image property="methodToCall.maintSponsorHierarchy" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-maintain.gif" title="Maintain Sponsor Hierarchy" alt="Maintain Sponsor Hierarchy" styleClass="tinybutton"/>
             <html:image property="methodToCall.copySponsorHierarchy" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-copy2.gif" title="Copy Sponsor Hierarchy" alt="Copy Sponsor Hierarchy" styleClass="tinybutton"/>
             <html:image property="methodToCall.deleteSponsorHierarchy" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Delete Sponsor Hierarchy" alt="Delete Sponsor Hierarchy" styleClass="tinybutton"/>
-            <html:image property="methodToCall.cancelSponsorHierarchy" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" title="cancel" alt="cancel" styleClass="tinybutton"/>
+            <html:image property="methodToCall.cancelSponsorHierarchy" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-cancel.gif" title="Cancel Sponsor Hierarchy" alt="Cancel Sponsor Hierarchy" styleClass="tinybutton"/>
           </div>
     </kul:tab>
 
