@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.institutionalproposal.specialreview;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.BooleanUtils;
@@ -40,6 +41,7 @@ public class InstitutionalProposalSpecialReviewHelper extends SpecialReviewHelpe
     public InstitutionalProposalSpecialReviewHelper(InstitutionalProposalForm form) {
         this.form = form;
         setNewSpecialReview(new InstitutionalProposalSpecialReview());
+        setDeletedSpecialReviews(new ArrayList<InstitutionalProposalSpecialReview>());
     }
 
     @Override

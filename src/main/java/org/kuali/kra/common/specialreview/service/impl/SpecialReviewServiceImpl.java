@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.common.specialreview.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -22,7 +24,9 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolFinderDao;
+import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 
 /**
@@ -34,6 +38,7 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
     
     private ProtocolFinderDao protocolFinderDao;
     private DocumentService documentService;
+    private BusinessObjectService businessObjectService;
     
     /**
      * {@inheritDoc}
@@ -89,6 +94,80 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
         return routeHeaderId;
     }
     
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#isLinkedToProtocolFundingSource(java.lang.String, java.lang.Long, java.lang.String)
+     */
+    public boolean isLinkedToProtocolFundingSource(String protocolNumber, Long fundingSourceId, String fundingSourceType) {
+        boolean isLinkedToProtocolFundingSource = false;
+        
+        if (StringUtils.isNotBlank(protocolNumber)) {
+            Protocol protocol = getProtocolFinderDao().findCurrentProtocolByNumber(protocolNumber);
+            if (protocol != null) {
+                for (ProtocolFundingSource protocolFundingSource : protocol.getProtocolFundingSources()) {
+                    if (StringUtils.equals(protocolFundingSource.getFundingSource(), String.valueOf(fundingSourceId)) 
+                        && StringUtils.equals(String.valueOf(protocolFundingSource.getFundingSourceTypeCode()), fundingSourceType)) {
+                        isLinkedToProtocolFundingSource = true;
+                        break;
+                    }
+                }
+            }
+        }
+        
+        return isLinkedToProtocolFundingSource;
+    }
+    
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#addProtocolFundingSourceForSpecialReview(java.lang.String, java.lang.String, 
+     *      java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+     */
+    public void addProtocolFundingSourceForSpecialReview(String protocolNumber, Long fundingSourceId, String fundingSourceNumber, String fundingSourceTypeCode, 
+        String fundingSourceName, String fundingSourceTitle) {
+        
+        if (StringUtils.isNotBlank(protocolNumber)) {
+            Protocol protocol = getProtocolFinderDao().findCurrentProtocolByNumber(protocolNumber);
+            if (protocol != null && fundingSourceId != null && StringUtils.isNotBlank(fundingSourceNumber) && NumberUtils.isNumber(fundingSourceTypeCode)) {
+                ProtocolFundingSource protocolFundingSource = new ProtocolFundingSource();
+                protocolFundingSource.setFundingSource(String.valueOf(fundingSourceId));
+                protocolFundingSource.setFundingSourceNumber(fundingSourceNumber);
+                protocolFundingSource.setFundingSourceTypeCode(Integer.valueOf(fundingSourceTypeCode));
+                protocolFundingSource.setFundingSourceName(fundingSourceName);
+                protocolFundingSource.setFundingSourceTitle(fundingSourceTitle);
+                protocol.getProtocolFundingSources().add(protocolFundingSource);
+                
+                getBusinessObjectService().save(protocol);
+            }
+        }
+    }
+    
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#deleteProtocolFundingSourceForSpecialReview(java.lang.String, java.lang.Long, 
+     *      java.lang.String)
+     */
+    public void deleteProtocolFundingSourceForSpecialReview(String protocolNumber, Long fundingSourceId, String fundingSourceType) {
+        if (StringUtils.isNotBlank(protocolNumber)) {
+            Protocol protocol = getProtocolFinderDao().findCurrentProtocolByNumber(protocolNumber);
+            if (protocol != null) {
+                List<ProtocolFundingSource> deletedProtocolFundingSources = new ArrayList<ProtocolFundingSource>();
+                
+                for (ProtocolFundingSource protocolFundingSource : protocol.getProtocolFundingSources()) {
+                    if (StringUtils.equals(protocolFundingSource.getFundingSource(), String.valueOf(fundingSourceId)) 
+                        && StringUtils.equals(String.valueOf(protocolFundingSource.getFundingSourceTypeCode()), fundingSourceType)) {
+                        deletedProtocolFundingSources.add(protocolFundingSource);
+                    }
+                }
+                
+                for (ProtocolFundingSource deletedProtocolFundingSource : deletedProtocolFundingSources) {
+                    protocol.getProtocolFundingSources().remove(deletedProtocolFundingSource);
+                }
+                
+                getBusinessObjectService().save(protocol);
+            }
+        }
+    }
+    
     public ProtocolFinderDao getProtocolFinderDao() {
         return protocolFinderDao;
     }
@@ -103,6 +182,14 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
 
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
+    }
+    
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+    
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
 }
