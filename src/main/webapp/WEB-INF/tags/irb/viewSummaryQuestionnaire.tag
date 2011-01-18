@@ -24,7 +24,7 @@
                                 <td align="left" valign="middle" width="85%">
                                     <div align="left">
 							        <html:image property="methodToCall.questionnaire.actionType116.anchor${currentTabIndex}"
-								        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-questionnaire.gif' styleClass="tinybutton"
+								        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
 									onclick="questionnairePop('${KualiForm.document.protocolList[0].protocolNumber}','${KualiForm.actionHelper.currentSequenceNumber}','${KualiForm.formKey}',' ${KualiForm.document.sessionDocument}', true); return false;"
 								        alt="View Questionnaire" />
                                      </div>
