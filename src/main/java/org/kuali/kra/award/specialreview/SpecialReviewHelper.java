@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.specialreview;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.BooleanUtils;
@@ -40,6 +41,7 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<AwardSpecialRev
     public SpecialReviewHelper(AwardForm form) {
         this.form = form;
         setNewSpecialReview(new AwardSpecialReview());
+        setDeletedSpecialReviews(new ArrayList<AwardSpecialReview>());
     }
 
     @Override

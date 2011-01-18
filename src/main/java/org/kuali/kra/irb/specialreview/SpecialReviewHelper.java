@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.specialreview;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.common.specialreview.web.struts.form.SpecialReviewHelperBase;
@@ -42,6 +43,7 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProtocolSpecial
     public SpecialReviewHelper(ProtocolForm form) {
         this.form = form;
         setNewSpecialReview(new ProtocolSpecialReview());
+        setDeletedSpecialReviews(new ArrayList<ProtocolSpecialReview>());
     }
 
     @Override
