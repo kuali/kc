@@ -23,6 +23,7 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.common.specialreview.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.infrastructure.Constants;
@@ -83,7 +84,6 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
         if (applyRules(new AddSpecialReviewEvent<InstitutionalProposalSpecialReview>(document, newSpecialReview, isProtocolLinkingEnabled))) {
             newSpecialReview.setSpecialReviewNumber(document.getDocumentNextValue(Constants.SPECIAL_REVIEW_NUMBER));
             document.getInstitutionalProposal().getSpecialReviews().add(newSpecialReview);
-            
             institutionalProposalForm.getSpecialReviewHelper().setNewSpecialReview(new InstitutionalProposalSpecialReview());
         }
         
@@ -101,9 +101,12 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
      */
     public ActionForward deleteSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
         throws Exception {
+        
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
         InstitutionalProposalDocument document = institutionalProposalForm.getInstitutionalProposalDocument();
-        document.getInstitutionalProposal().getSpecialReviews().remove(getLineToDelete(request));
+        
+        InstitutionalProposalSpecialReview deletedSpecialReview = document.getInstitutionalProposal().getSpecialReviews().remove(getLineToDelete(request));
+        institutionalProposalForm.getSpecialReviewHelper().getDeletedSpecialReviews().add(deletedSpecialReview);
 
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
@@ -117,6 +120,29 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
         InstitutionalProposalDocument document = institutionalProposalForm.getInstitutionalProposalDocument();
+        
+        for (InstitutionalProposalSpecialReview specialReview : document.getInstitutionalProposal().getSpecialReviews()) {
+            String protocolNumber = specialReview.getProtocolNumber();
+            Long fundingSourceId = document.getInstitutionalProposal().getProposalId();
+            String fundingSourceType = FundingSourceType.INSTITUTIONAL_PROPOSAL;
+            
+            if (!getSpecialReviewService().isLinkedToProtocolFundingSource(protocolNumber, fundingSourceId, fundingSourceType)) {
+                String fundingSourceNumber = document.getInstitutionalProposal().getProposalNumber();
+                String fundingSourceName = document.getInstitutionalProposal().getSponsorName();
+                String fundingSourceTitle = document.getInstitutionalProposal().getTitle();
+                getSpecialReviewService().addProtocolFundingSourceForSpecialReview(
+                    protocolNumber, fundingSourceId, fundingSourceNumber, fundingSourceType, fundingSourceName, fundingSourceTitle);
+            }
+        }
+        
+        for (InstitutionalProposalSpecialReview specialReview : institutionalProposalForm.getSpecialReviewHelper().getDeletedSpecialReviews()) {
+            String protocolNumber = specialReview.getProtocolNumber();
+            Long fundingSourceId = document.getInstitutionalProposal().getProposalId();
+            String fundingSourceType = FundingSourceType.INSTITUTIONAL_PROPOSAL;
+            
+            getSpecialReviewService().deleteProtocolFundingSourceForSpecialReview(protocolNumber, fundingSourceId, fundingSourceType);
+        }
+        institutionalProposalForm.getSpecialReviewHelper().getDeletedSpecialReviews().clear();
         
         // For reasons unknown to me, to enforce saving special review records in order between successive saves, we must save the document before saving 
         // anything else (like the special review indicator) on the document.  This statement can be safely removed if the special review indicator is no 

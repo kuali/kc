@@ -19,6 +19,9 @@ import java.util.LinkedHashMap;
 
 public class FundingSourceType extends KraPersistableBusinessObjectBase {
 
+    public static final String INSTITUTIONAL_PROPOSAL = "5";
+    public static final String AWARD = "6";
+    
     /**
      * Comment for <code>serialVersionUID</code>
      */
