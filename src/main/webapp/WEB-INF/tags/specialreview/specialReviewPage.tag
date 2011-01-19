@@ -31,7 +31,7 @@
 <c:set var="enableProtocolLinking" value="${KualiForm.specialReviewHelper.isProtocolLinkingEnabled}" />
 <c:set var="commentDisplayLength" value="<%=org.kuali.kra.infrastructure.Constants.SPECIAL_REVIEW_COMMENT_LENGTH%>" />
 
-<kul:tab tabTitle="Special Review" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="specialReviewHelper.newSpecialReview*, document.protocol.specialReviews*">
+<kul:tab tabTitle="Special Review" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="specialReviewHelper.newSpecialReview*,${collectionProperty}*">
     <div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Special Review</span>
@@ -212,7 +212,7 @@
                             <html:image property="methodToCall.deleteSpecialReview.line${status.index}.anchor${currentTabIndex}.validate0"
 									    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
                         </c:if>
-                        <c:if test="${not empty collectionReference[status.index].protocolNumber}">
+                        <c:if test="${enableProtocolLinking and not empty collectionReference[status.index].protocolNumber}">
                             <html:image property="methodToCall.viewSpecialReviewProtocolLink"
                                         src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' alt="View Protocol" styleClass="tinybutton"
                                         onclick="javascript: specialReviewProtocolPop(${KualiForm.document.sessionDocument}, '${action}', 'viewSpecialReviewProtocolLink', ${status.index}, ${KualiForm.formKey});return false" />
