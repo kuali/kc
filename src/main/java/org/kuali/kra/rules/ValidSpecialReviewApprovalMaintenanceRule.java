@@ -19,44 +19,50 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kra.bo.SpecialReviewApprovalType;
+import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.bo.ValidSpecialReviewApproval;
-import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 
 /**
  * This rule validates the Approval Type Code and Special Review Code fields on a Valid Special Review Approval document.
  */
 public class ValidSpecialReviewApprovalMaintenanceRule extends KraMaintenanceDocumentRuleBase {
+    
+    private static final String SPECIAL_REVIEW_TYPE_CODE = "specialReviewTypeCode";
+    private static final String SPECIAL_REVIEW_TYPE_TITLE = "Special Review Type Code";
+    
+    private static final String APPROVAL_TYPE_CODE = "approvalTypeCode";
+    private static final String APPROVAL_TYPE_TITLE = "Approval Type Code";
 
     /**
-     * 
+     * {@inheritDoc}
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */ 
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-        ValidSpecialReviewApproval specialReviewApproval = (ValidSpecialReviewApproval)document.getDocumentBusinessObject();
+        ValidSpecialReviewApproval specialReviewApproval = (ValidSpecialReviewApproval) document.getDocumentBusinessObject();
         return validate(specialReviewApproval);
     }
     
     /**
-     * 
+     * {@inheritDoc}
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
-        ValidSpecialReviewApproval specialReviewApproval = (ValidSpecialReviewApproval)document.getDocumentBusinessObject();
+        ValidSpecialReviewApproval specialReviewApproval = (ValidSpecialReviewApproval) document.getDocumentBusinessObject();
         return validate(specialReviewApproval);
     }
 
     private boolean validate(ValidSpecialReviewApproval specialReviewApproval) {
         boolean valid = true;
 
-        Map<String, String> approvalTypePk = new HashMap<String, String>();
-        approvalTypePk.put("approvalTypeCode", specialReviewApproval.getApprovalTypeCode());
-        valid &= checkExistenceFromTable(SpecialReviewApprovalType.class, approvalTypePk, "approvalTypeCode", "Approval Type Code");
+        Map<String, String> specialReviewTypePk = new HashMap<String, String>();
+        specialReviewTypePk.put(SPECIAL_REVIEW_TYPE_CODE, specialReviewApproval.getSpecialReviewTypeCode());
+        valid &= checkExistenceFromTable(SpecialReviewType.class, specialReviewTypePk, SPECIAL_REVIEW_TYPE_CODE, SPECIAL_REVIEW_TYPE_TITLE);
         
-        Map<String, String> specialReviewPk = new HashMap<String, String>();
-        specialReviewPk.put("specialReviewCode", specialReviewApproval.getSpecialReviewTypeCode());
-        valid &= checkExistenceFromTable(SpecialReview.class, specialReviewPk, "specialReviewCode", "Special Review Code");
+        Map<String, String> approvalTypePk = new HashMap<String, String>();
+        approvalTypePk.put(APPROVAL_TYPE_CODE, specialReviewApproval.getApprovalTypeCode());
+        valid &= checkExistenceFromTable(SpecialReviewApprovalType.class, approvalTypePk, APPROVAL_TYPE_CODE, APPROVAL_TYPE_TITLE);
         
         return valid;
     }

@@ -83,11 +83,7 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
         retval &= processSponsorProgramBusinessRule(document);
         retval &= processInstitutionalProposalBusinessRules(document);
         retval &= processInstitutionalProposalFinancialRules(document);
-        
-        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
         retval &= processSpecialReviewBusinessRule(document);
-        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
-
         retval &= processInstitutionalProposalPersonBusinessRules(errorMap, document);
         retval &= processInstitutionalProposalPersonCreditSplitBusinessRules(document);
         retval &= processInstitutionalProposalPersonUnitCreditSplitBusinessRules(document);
