@@ -39,7 +39,7 @@ public interface PermissionConstants {
     public static final String SUBMIT_PROPOSAL = "Submit ProposalDevelopmentDocument";
     public static final String ADD_PROPOSAL_VIEWER = "Add Proposal Viewer";
     public static final String MAINTAIN_PROPOSAL_HIERARCHY = "Maintain ProposalHierarchy";
-    
+        
     /* IRB Permissions */
     
     public static final String CREATE_PROTOCOL = "Create ProtocolDocument";
@@ -118,7 +118,9 @@ public interface PermissionConstants {
      */
     String CREATE_INSTITUTIONAL_PROPOSAL = "Create Institutional Proposal";
     String SUBMIT_INSTITUTIONAL_PROPOSAL = "Submit Institutional Proposal";
+    public static final String EDIT_INSTITUTE_PROPOSAL = "Edit Institutional Proposal";
     
     String DOCUMENT_TYPE_ATTRIBUTE_QUALIFIER = "documentTypeName";
+    
 
 }
