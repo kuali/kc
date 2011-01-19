@@ -22,7 +22,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -31,7 +30,6 @@ import java.util.Map;
 
 import javax.xml.transform.TransformerException;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -150,14 +148,26 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         Element datasetsElement = (Element) documentElement.getElementsByTagNameNS(XFA_NS, "datasets").item(0);
         Element dataElement = (Element) datasetsElement.getElementsByTagNameNS(XFA_NS, "data").item(0);
 
-        Element grantApplicationElement = (Element) dataElement.getChildNodes().item(0);
-
+        Element xmlElement = (Element) dataElement.getChildNodes().item(0);
         
-        byte[] serializedXML = XfaForm.serializeDoc(grantApplicationElement);
+        Node budgetElement = getBudgetElement(xmlElement);
+        
+        byte[] serializedXML = XfaForm.serializeDoc(budgetElement);
 
         return serializedXML;
     }
 
+    private Node getBudgetElement(Element xmlElement) throws Exception{
+        Node budgetNode = (Node)xmlElement;
+        NodeList budgetAttachments =  XPathAPI.selectNodeList(xmlElement,"//*[local-name(.) = 'BudgetAttachments']");
+        if(budgetAttachments!=null && budgetAttachments.getLength()>0){
+            Element budgetAttachment = (Element)budgetAttachments.item(0);
+            if(budgetAttachment.hasChildNodes()){
+                budgetNode = budgetAttachment.getFirstChild();
+            }
+        }
+        return budgetNode;
+    }
     /**
      * extracts attachments from PDF File
      */       
@@ -262,12 +272,11 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
 
         org.w3c.dom.Document document = domParser.parse(byteArrayInputStream);
         byteArrayInputStream.close();
-
+        
         if (document != null) {
             Node node;
             String formName, namespace;
             Element element = document.getDocumentElement();
-            String name = element.getNodeName();
             NamedNodeMap map = element.getAttributes();
             String namespaceHolder = element.getNodeName().substring(0, element.getNodeName().indexOf(':'));
             node = map.getNamedItem("xmlns:" + namespaceHolder);
@@ -283,14 +292,18 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         removeAllEmptyNodes(document,xpathEmptyNodes,0);
         removeAllEmptyNodes(document,xpathOtherPers,1);
         removeAllEmptyNodes(document,xpathEmptyNodes,0);
+        changeDataTypeForNumberOfOtherPersons(document);
         
         
         NodeList budgetYearList =  XPathAPI.selectNodeList(document,"//*[local-name(.) = 'BudgetYear']");
         for(int i=0;i<budgetYearList.getLength();i++){
             Node bgtYearNode = budgetYearList.item(i);
-            String period = XPathAPI.selectSingleNode(bgtYearNode,"BudgetPeriod").getTextContent();
-            Element newBudgetYearElement = copyElementToName((Element)bgtYearNode,bgtYearNode.getNodeName()+period);
-            bgtYearNode.getParentNode().replaceChild(newBudgetYearElement,bgtYearNode);
+            Node budgetPeriodNode = XPathAPI.selectSingleNode(bgtYearNode,"BudgetPeriod");
+            if(budgetPeriodNode!=null){
+                String period = budgetPeriodNode.getTextContent();
+                Element newBudgetYearElement = copyElementToName((Element)bgtYearNode,bgtYearNode.getNodeName()+period);
+                bgtYearNode.getParentNode().replaceChild(newBudgetYearElement,bgtYearNode);
+            }
         }
         
         Node oldroot = document.removeChild(document.getDocumentElement());
@@ -428,6 +441,40 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         hashValue.setHashAlgorithm(S2SConstants.HASH_ALGORITHM);
         hashValue.setStringValue(hashValueStr);
         return hashValue;
+    }
+    private void changeDataTypeForNumberOfOtherPersons(Document document) throws Exception{
+        NodeList otherPesronsCountNodes =  XPathAPI.selectNodeList(document,"//*[local-name(.)='OtherPersonnelTotalNumber']");
+        for (int i = 0; i < otherPesronsCountNodes.getLength(); i++) {
+            Node countNode = otherPesronsCountNodes.item(i);
+            String value = getValue(countNode);
+
+            if(value!=null && value.length()>0 && value.indexOf('.')!=-1){
+                int intVal = Double.valueOf(value).intValue();
+                setValue(countNode,""+intVal);
+            }
+        }
+    }
+    private void setValue(Node node, String value) {
+        Node child = null;
+        for (child = node.getFirstChild(); child != null;
+             child = child.getNextSibling()) {
+             if(child.getNodeType()==Node.TEXT_NODE){
+                child.setNodeValue(value);
+                break;
+             }
+        }
+    }
+    private static String getValue(Node node){
+        String textValue = "";
+        Node child = null;
+        for (child = node.getFirstChild(); child != null;
+             child = child.getNextSibling()) {
+             if(child.getNodeType()==Node.TEXT_NODE){
+                textValue = child.getNodeValue();
+                break;
+             }
+        }
+        return textValue.trim();
     }
 
 }
