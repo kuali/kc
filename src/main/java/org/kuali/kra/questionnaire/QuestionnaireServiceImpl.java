@@ -45,7 +45,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
          */
         permissionModuleMap = new HashMap<String, String>();
         permissionModuleMap.put(AwardPermissionConstants.MODIFY_AWARD.getAwardPermission(), "1");
-        // permissionModuleMap.put(PermissionConstants.MODIFY_INSTITUTE_PROPOSAL,"2");
+        permissionModuleMap.put(PermissionConstants.EDIT_INSTITUTE_PROPOSAL,"2");
         permissionModuleMap.put(PermissionConstants.MODIFY_PROPOSAL, "3");
         // permissionModuleMap.put(PermissionConstants.SUBCONTRACT,"4");
         // permissionModuleMap.put(PermissionConstants.NEGOTIATION,"5");
@@ -117,10 +117,12 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
          */
 
         List<String> modules = new ArrayList<String>();
-        for (String permission : this.parameterService.getParameterValues(Constants.PARAMETER_MODULE_QUESTIONNAIRE,
-                Constants.PARAMETER_COMPONENT_PERMISSION, PARAM_NAME)) {
+        List<String> parameters = this.parameterService.getParameterValues(Constants.PARAMETER_MODULE_QUESTIONNAIRE, Constants.PARAMETER_COMPONENT_PERMISSION, PARAM_NAME);
+        //parameters = this.parameterService.getParameterValues("", "", "");
+        for (String permission : parameters) {
             // "Permission:NamespaceCd" format
             String[] params = permission.split(":");
+            
             if (unitAuthorizationService.hasPermission(GlobalVariables.getUserSession().getPerson()
                     .getPrincipalId(), params[1], params[0])) {
                 modules.add(permissionModuleMap.get(params[0]));
