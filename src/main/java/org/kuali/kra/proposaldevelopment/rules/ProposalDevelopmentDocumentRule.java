@@ -132,7 +132,11 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         getDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(document, getMaxDictionaryValidationDepth(), VALIDATION_REQUIRED, CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME);
         valid &= processProposalRequiredFieldsBusinessRule(proposalDevelopmentDocument);
         valid &= processProtocolCustomDataBusinessRules(proposalDevelopmentDocument);
+        
+        GlobalVariables.getErrorMap().removeFromErrorPath("document.developmentProposalList[0]");
         valid &= processSpecialReviewBusinessRule(proposalDevelopmentDocument);
+        GlobalVariables.getErrorMap().addToErrorPath("document.developmentProposalList[0]");
+        
         valid &= processProposalYNQBusinessRule(proposalDevelopmentDocument, false);
         valid &= processBudgetVersionsBusinessRule(proposalDevelopmentDocument, false);
         valid &= processProposalGrantsGovBusinessRule(proposalDevelopmentDocument);

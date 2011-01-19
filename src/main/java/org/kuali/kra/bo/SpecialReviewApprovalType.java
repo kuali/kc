@@ -23,6 +23,14 @@ import java.util.LinkedHashMap;
  */
 public class SpecialReviewApprovalType extends KraPersistableBusinessObjectBase {
     
+    /**
+     * The type code for Approval Type 'Approved'.
+     */
+    public static final String APPROVED = "2";
+    
+    /**
+     * The type code for Approval Type 'Link to IRB'.
+     */
     public static final String LINK_TO_IRB = "5";
 
     private static final long serialVersionUID = -3695729124365459765L;
