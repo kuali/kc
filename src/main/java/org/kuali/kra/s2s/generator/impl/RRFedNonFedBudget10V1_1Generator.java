@@ -46,7 +46,6 @@ import gov.grants.apply.forms.rrFedNonFedBudget10V11.RRFedNonFedBudget10Document
 import gov.grants.apply.forms.rrFedNonFedBudget10V11.SectBCompensationDataType;
 import gov.grants.apply.forms.rrFedNonFedBudget10V11.SummaryDataType;
 import gov.grants.apply.forms.rrFedNonFedBudget10V11.TotalDataType;
-import gov.grants.apply.forms.rrFedNonFedBudgetV10.RRFedNonFedBudgetDocument.RRFedNonFedBudget;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 
 import java.math.BigDecimal;
@@ -91,6 +90,7 @@ import org.kuali.kra.s2s.util.S2SConstants;
  */
 public class RRFedNonFedBudget10V1_1Generator extends RRFedNonFedBudgetBaseGenerator {
 
+    private static final int FED_NONFED_BUDGET_JUSTIFICATION_133 = 133;
     private static final Log LOG = LogFactory.getLog(RRFedNonFedBudgetV1_0Generator.class);
     private static final String EXTRA_KEYPERSON_ATTACHMENT_NON_FED_XSL = "/org/kuali/kra/s2s/stylesheet/ExtraKeyPersonAttachmentNonFed.xsl";
 	private static final String EXTRA_KEYPERSONS = "EXTRA_KEYPERSONS";
@@ -130,6 +130,18 @@ public class RRFedNonFedBudget10V1_1Generator extends RRFedNonFedBudgetBaseGener
         for (BudgetPeriodInfo budgetPeriodData : budgetPeriodList) {
             setBudgetYearDataType(rrFedNonFedBudget,budgetPeriodData);
         }
+        AttachedFileDataType attachedFileDataType = AttachedFileDataType.Factory.newInstance();
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+            if (narrative.getNarrativeTypeCode() != null
+                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == FED_NONFED_BUDGET_JUSTIFICATION_133) {
+                attachedFileDataType = getAttachedFileType(narrative);
+                if (attachedFileDataType != null) {
+                    break;
+                }
+            }
+        }
+        rrFedNonFedBudget.setBudgetJustificationAttachment(attachedFileDataType);
+        
         rrFedNonFedBudget.setBudgetSummary(getBudgetSummary(budgetSummary));
         rrFedNonFedBudgetDocument.setRRFedNonFedBudget10(rrFedNonFedBudget);
         return rrFedNonFedBudgetDocument;
@@ -207,6 +219,7 @@ public class RRFedNonFedBudget10V1_1Generator extends RRFedNonFedBudgetBaseGener
                     summaryTotal.setTotalFedNonFedSummary(periodInfo.getCostSharingAmount().bigDecimalValue());
                 }
             }
+            
             budgetYear.setTotalCosts(summaryTotal);
         }
     }
