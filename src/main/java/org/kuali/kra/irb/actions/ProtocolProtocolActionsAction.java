@@ -818,9 +818,9 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         String fileName = "Protocol_questionnaire_Report.pdf";
-        Integer selectedQid = getSelectedLine(request);
+//        Integer selectedQid = getSelectedLine(request);
         String reportName = protocol.getProtocolNumber() + "-" + "ProtocolQuestionnaires";
-        AttachmentDataSource dataStream = getProtocolPrintingService().print(reportName, getQuestionnairePrintingService().getQuestionnairePtintable(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getQuestionnairesToPrints(), selectedQid));
+        AttachmentDataSource dataStream = getProtocolPrintingService().print(reportName, getQuestionnairePrintingService().getQuestionnairePtintable(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getQuestionnairesToPrints()));
         if (dataStream.getContent() != null) {
             dataStream.setFileName(fileName.toString());
             PrintingUtils.streamToResponse(dataStream, response);

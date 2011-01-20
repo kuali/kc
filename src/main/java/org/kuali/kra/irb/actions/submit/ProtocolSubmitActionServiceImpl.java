@@ -32,6 +32,7 @@ import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.ProtocolSubmissionBuilder;
 import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 
@@ -184,10 +185,10 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
         
         if (protocol.isAmendment()) {
-            addActionToOriginalProtocol(AMENDMENT, protocol.getProtocolNumber());
+            addActionToOriginalProtocol(AMENDMENT, protocol.getProtocolNumber(), protocolAction.getSubmissionNumber());
         }
         else if (protocol.isRenewal()) {
-            addActionToOriginalProtocol(RENEWAL, protocol.getProtocolNumber());
+            addActionToOriginalProtocol(RENEWAL, protocol.getProtocolNumber(), protocolAction.getSubmissionNumber());
         }
         
         if (submission.getScheduleIdFk() != null) {
@@ -220,16 +221,21 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
      * know when the amendment/renewal was submitted.
      * @param type
      * @param origProtocolNumber
+     * @throws WorkflowException 
      * @throws Exception
      */
-    protected void addActionToOriginalProtocol(String type, String origProtocolNumber) {
+    protected void addActionToOriginalProtocol(String type, String origProtocolNumber, Integer submissionNumber) throws WorkflowException {
         String protocolNumber = origProtocolNumber.substring(0, 10);
         String index = origProtocolNumber.substring(11);
         Protocol protocol = protocolFinderDao.findCurrentProtocolByNumber(protocolNumber);
         ProtocolAction protocolAction = new ProtocolAction(protocol, null, ProtocolActionType.SUBMIT_TO_IRB);
         protocolAction.setComments(type + "-" + index + ": " + SUBMIT_TO_IRB);
+        protocolAction.setSubmissionNumber(submissionNumber);
         protocol.getProtocolActions().add(protocolAction);
         businessObjectService.save(protocol);
+        // do following will get null workflow exception
+        //documentService.saveDocument(protocol.getProtocolDocument());
+
     }
 
     /**

@@ -115,11 +115,18 @@ public class ProtocolRequestServiceImpl implements ProtocolRequestService {
     }
     
     private void saveQuestionnaire(ProtocolRequestBean requestBean, Integer submissionNumber) {
+        List<AnswerHeader> saveHeaders = new ArrayList<AnswerHeader>();
         for (AnswerHeader answerHeader : requestBean.getAnswerHeaders()) {
-            answerHeader.setModuleSubItemKey(submissionNumber.toString());
-            answerHeader.setModuleItemKey(answerHeader.getModuleItemKey().substring(0, answerHeader.getModuleItemKey().length() - 1));
+            if (answerHeader.getAnswerHeaderId() != null) {
+                answerHeader.setModuleSubItemKey(submissionNumber.toString());
+                answerHeader.setModuleItemKey(answerHeader.getModuleItemKey().substring(0,
+                        answerHeader.getModuleItemKey().length() - 1));
+                saveHeaders.add(answerHeader);
+            }
         }
-        businessObjectService.save(requestBean.getAnswerHeaders());
+        if (!saveHeaders.isEmpty()) {
+            businessObjectService.save(saveHeaders);
+        }
     }
 
     /*

@@ -24,6 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAssociate;
+import org.kuali.kra.irb.actions.print.QuestionnairePrintOption;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 
@@ -64,6 +65,8 @@ public class ProtocolAction extends ProtocolAssociate {
     private transient List<ProtocolSubmissionDoc> protocolSubmissionDocs;
     
     private transient boolean isInFilterView = true;
+    private transient boolean questionnaireExist = false;
+    private transient QuestionnairePrintOption questionnairePrintOption;
     
     public ProtocolAction() { 
 
@@ -374,5 +377,21 @@ public class ProtocolAction extends ProtocolAssociate {
 
     public void setFollowupActionCode(String followupActionCode) {
         this.followupActionCode = followupActionCode;
+    }
+
+    public boolean isQuestionnaireExist() {
+        return questionnaireExist;
+    }
+
+    public void setQuestionnaireExist(boolean questionnaireExist) {
+        this.questionnaireExist = questionnaireExist;
+    }
+
+    public QuestionnairePrintOption getQuestionnairePrintOption() {
+        return questionnairePrintOption;
+    }
+
+    public void setQuestionnairePrintOption(QuestionnairePrintOption questionnairePrintOption) {
+        this.questionnairePrintOption = questionnairePrintOption;
     }
 }

@@ -100,10 +100,10 @@ public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingSe
      * @see org.kuali.kra.questionnaire.print.QuestionnairePrintingService#getQuestionnairePtintable(org.kuali.kra.bo.KraPersistableBusinessObjectBase, java.util.List)
      */
     public List<Printable> getQuestionnairePtintable(KraPersistableBusinessObjectBase printableBusinessObject, 
-            List<QuestionnairePrintOption> questionnairesToPrints, Integer selectedQid) {
+            List<QuestionnairePrintOption> questionnairesToPrints) {
         List<Printable> printables = new ArrayList<Printable>();
         for (QuestionnairePrintOption printOption : questionnairesToPrints) {
-            if (printOption.isSelected() && printOption.getQuestionnaireId().equals(selectedQid)) {
+            if (printOption.isSelected()) {
              //   AbstractPrint printable = getQuestionnairePrint();
                 AbstractPrint printable =  new QuestionnairePrint();
                 printable.setXmlStream(getQuestionnairePrint().getXmlStream());

@@ -336,8 +336,9 @@
         </tr>
     </tbody>
 </table>
+<%--
 		    <c:if test="${KualiForm.actionHelper.summaryQuestionnaireExist}">
 		        <kra-irb:viewSummaryQuestionnaire />
 		    </c:if>
-
+ --%>
 </div>
