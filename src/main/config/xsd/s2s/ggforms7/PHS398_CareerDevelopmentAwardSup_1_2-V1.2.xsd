@@ -32,7 +32,7 @@
 										<xs:element name="attFile" type="att:AttachedFileDataType"/>
 									</xs:sequence>
 								</xs:complexType>
-							</xs:element>
+							</xs:element> 
 							<xs:element name="CandidateBackground" minOccurs="0">
 								<xs:complexType>
 									<xs:sequence>
