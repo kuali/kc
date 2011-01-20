@@ -454,12 +454,12 @@ then
 	setProtocolStatusCode(protocolAction, "103");
 end
 
-rule "Abandoned:  Protocol Status = 402 " 
+rule "Abandoned:  Protocol Status = 313 " 
 salience 100
 when
-	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "311")
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "119")
 then	
 	createAuditTrail(protocolAction);
-	setProtocolStatusCode(protocolAction, "402");
+	setProtocolStatusCode(protocolAction, "313");
 end
 
