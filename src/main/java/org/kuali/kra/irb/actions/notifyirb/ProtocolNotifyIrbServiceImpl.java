@@ -94,11 +94,18 @@ public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
     }
     
     private void saveQuestionnaire(ProtocolNotifyIrbBean notifyIrbBean, Integer submissionNumber) {
+        List<AnswerHeader> saveHeaders = new ArrayList<AnswerHeader>();
         for (AnswerHeader answerHeader : notifyIrbBean.getAnswerHeaders()) {
-            answerHeader.setModuleSubItemKey(submissionNumber.toString());
-            answerHeader.setModuleItemKey(answerHeader.getModuleItemKey().substring(0, answerHeader.getModuleItemKey().length() - 1));
+            if (answerHeader.getAnswerHeaderId() != null) {
+                answerHeader.setModuleSubItemKey(submissionNumber.toString());
+                answerHeader.setModuleItemKey(answerHeader.getModuleItemKey().substring(0,
+                        answerHeader.getModuleItemKey().length() - 1));
+                saveHeaders.add(answerHeader);
+            }
         }
-        businessObjectService.save(notifyIrbBean.getAnswerHeaders());
+        if (!saveHeaders.isEmpty()) {
+            businessObjectService.save(saveHeaders);
+        }
     }
 
     /*

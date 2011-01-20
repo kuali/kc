@@ -22,13 +22,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.drools.util.DroolsRuleHandler;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDao;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolSubmissionDoc;
 import org.kuali.kra.irb.actions.followup.FollowupActionService;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -282,11 +284,27 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
             fieldValues.put("submissionIdFk", protocolActionBo.getProtocolSubmission().getSubmissionId().toString());
             fieldValues.put("protocolNumber", protocol.getProtocolNumber());
             businessObjectService.deleteMatching(ProtocolSubmissionDoc.class, fieldValues);
+            removeQuestionnaireAnswer(protocolActionBo, protocol);
             protocol.getProtocolSubmissions().remove(protocolActionBo.getProtocolSubmission()); 
             protocol.setProtocolSubmission(null); 
         }
     }
     
+    /*
+     * This is to remove the questionnaire answered for request submission
+     */
+    private void removeQuestionnaireAnswer(ProtocolAction protocolActionBo, Protocol protocol) {
+        // 'bos.deletematching' will not work because it is not deleting 'answers'
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("moduleItemCode", CoeusModule.IRB_MODULE_CODE);
+        fieldValues.put("moduleItemKey", protocol.getProtocolNumber());
+        fieldValues.put("moduleSubItemCode", CoeusSubModule.PROTOCOL_SUBMISSION);
+        fieldValues.put("moduleSubItemKey", protocolActionBo.getProtocolSubmission().getSubmissionNumber().toString());
+        List<AnswerHeader> answerHeaders = (List<AnswerHeader>)businessObjectService.findMatching(AnswerHeader.class, fieldValues);
+        if (!answerHeaders.isEmpty()) {
+            businessObjectService.delete(answerHeaders);
+        }
+    }
     /**
      * {@inheritDoc}
      * @see org.kuali.kra.irb.actions.ProtocolActionFollowupService#isActionOpenForFollowup(java.lang.String, org.kuali.kra.irb.Protocol)

@@ -27,6 +27,7 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolFinderDao;
@@ -577,11 +578,28 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
      * @see org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#getAnswerHeadersForProtocol(java.lang.String)
      */
     public List<AnswerHeader> getAnswerHeadersForProtocol(String protocolNumber) {
+        boolean isAmendmentOrRenewal = protocolNumber.contains("A") || protocolNumber.contains("R");
+        String originalProtocolNumber = protocolNumber;
+        if (isAmendmentOrRenewal) {
+            originalProtocolNumber = protocolNumber.substring(0,10);
+        }
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(MODULE_ITEM_CODE, CoeusModule.IRB_MODULE_CODE);
-       // fieldValues.put(MODULE_ITEM_KEY, getProtocolNumbers(protocolNumber));
-        fieldValues.put(MODULE_ITEM_KEY, protocolNumber);
-        return (List<AnswerHeader>) businessObjectService.findMatching(AnswerHeader.class, fieldValues);
+        fieldValues.put(MODULE_ITEM_KEY, getProtocolNumbers(originalProtocolNumber));
+       // fieldValues.put(MODULE_ITEM_KEY, protocolNumber);
+        List<AnswerHeader> answerHeaders = (List<AnswerHeader>) businessObjectService.findMatching(AnswerHeader.class, fieldValues);
+        if (isAmendmentOrRenewal) {
+            List<AnswerHeader> headers = new ArrayList<AnswerHeader>();
+            for (AnswerHeader answerHeader : answerHeaders) {
+                if (!(CoeusSubModule.PROTOCOL_SUBMISSION.equals(answerHeader.getModuleSubItemCode()) && answerHeader.getModuleItemKey().equals(originalProtocolNumber))
+                        && (CoeusSubModule.ZERO_SUBMODULE.equals(answerHeader.getModuleSubItemCode()) || answerHeader.getModuleItemKey().equals(protocolNumber))) {
+                    headers.add(answerHeader);
+                }
+            }
+            return headers;
+        } else {
+            return answerHeaders;
+        }
     }
 
     /*

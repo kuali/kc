@@ -280,12 +280,13 @@
                 <span class="subhead-left-black"><a href="#" id ="questionnaireControl" class="printSubpanel"><img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a>
                 Questionnaires </span>
             </h3>
-	        <div id="questionnaireContent" class="printSubpanelContent" style="padding-left: 15px;">   
+	        <div id="questionnaireContent" class="printSubpanelContent">   
 	            <c:set var="qid" value="0"/>
                 <table cellpadding="0" cellspacing="0"  border="0" summary="print forms">
 	                <c:set var = "qnLength" value = "${fn:length(KualiForm.actionHelper.questionnairesToPrints)}" />
 	                <c:forEach var="qnPrintOption" items="${KualiForm.actionHelper.questionnairesToPrints}" varStatus="status">
 	                <%--<c:forEach var="i" begin="1" end="${qnLength}" step="3">--%>	            
+<%-- 
 	                <c:if test="${qid != KualiForm.actionHelper.questionnairesToPrints[status.index].questionnaireId}">
                        <tr>
                            <td class="infoline" colspan="2">
@@ -300,6 +301,7 @@
 	                   <div id ="qid${KualiForm.actionHelper.questionnairesToPrints[status.index].questionnaireId}Content" class="printQnSubpanelContent">
 	                        <table  cellpadding="0" cellspacing="0" border="0" >
 	                </c:if>
+--%>	                
 	                    <tr>
                             <td>
                                 <div align="left">
@@ -310,10 +312,11 @@
                                 <div align="center">
                                     <kul:htmlControlAttribute property="actionHelper.questionnairesToPrints[${status.index}].selected" 
                                                       attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
-                                                      readOnly="false" styleClass="printQnOptions${KualiForm.actionHelper.questionnairesToPrints[status.index].questionnaireId}"/>
+                                                      readOnly="false" styleClass="printQnOptions"/>
                                 </div>
                             </td>
 	                     </tr>     
+<%--
 	                <c:if test="${qnLength == (status.index + 1) or qid != KualiForm.actionHelper.questionnairesToPrints[status.index+1].questionnaireId}">
 		        <tr>
 			    <td class="infoline">
@@ -330,14 +333,34 @@
 					</div>						
 				</td>
 			</tr>
+ --%>
            <%-- close the div for each questionnaire --%>
+<%-- 
                          </table>
 	                   </div>
                          </td>
                          </tr>
 
                     </c:if>
+--%>                    
 	                </c:forEach>
+
+		        <tr>
+			    <td class="infoline">
+					<div align="center">
+                        <html:image property="methodToCall.printProtocolQuestionnaires.anchor${currentTabIndex}"
+                                src='${ConfigProperties.kra.externalizable.images.url}tinybutton-printsel.gif' 
+                                styleClass="tinybutton" onclick="excludeSubmitRestriction = true;"/>                         
+				    </div>
+				</td>
+				<td>
+					<div align="center">
+      			        <html:image property="methodToCall.selectAllProtocolPrint.anchor${tabKey}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif" title="Select All" alt="Select All" styleClass="tinybutton" onclick="$j('.printQnOptions').attr('checked', true);return false;" />
+      			        <html:image property="methodToCall.deselectAllProtocolPrint.anchor${tabKey}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif" title="Select None" alt="Select None" styleClass="tinybutton" onclick="$j('.printQnOptions').attr('checked', false);return false;" />
+					</div>						
+				</td>
+			</tr>
+
        </table>
        </div>
       </c:if>
