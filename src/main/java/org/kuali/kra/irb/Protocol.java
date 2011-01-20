@@ -81,7 +81,6 @@ import org.kuali.kra.meeting.CommitteeScheduleAttendance;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * 
@@ -98,6 +97,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     private static final CharSequence AMENDMENT_LETTER = "A";
     private static final CharSequence RENEWAL_LETTER = "R";
     private static final String DEFAULT_PROTOCOL_TYPE_CODE = "1";
+    private static final String NEXT_ACTION_ID_KEY = "actionId";
     
     private Long protocolId; 
     private String protocolNumber; 
@@ -1242,6 +1242,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
             merge(amendment, module.getProtocolModuleTypeCode());
         }
         mergeProtocolSubmission(amendment);
+        mergeProtocolAction(amendment);
     }
 
     /**
@@ -1298,6 +1299,41 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
             this.getProtocolSubmissions().add(submission);
             //how about meting data
             // online review data
+        }
+    }
+    
+    /*
+     * merge amendment/renewal protocol action to original protocol when A/R is approved
+     */
+    @SuppressWarnings("unchecked")
+    private void mergeProtocolAction(Protocol amendment) {
+        List<ProtocolAction> protocolActions = (List<ProtocolAction>) deepCopy(amendment.getProtocolActions());  
+        Collections.sort(protocolActions, new Comparator<ProtocolAction>() {
+            public int compare(ProtocolAction action1, ProtocolAction action2) {
+                return action1.getActionId().compareTo(action2.getActionId());
+            }
+        });
+        // the first 1 'protocol created is already added to original protocol
+        // the last one is 'approve'
+        protocolActions.remove(0);
+        protocolActions.remove(protocolActions.size() - 1);
+        for (ProtocolAction protocolAction : protocolActions) {
+            protocolAction.setProtocolNumber(this.getProtocolNumber());
+            protocolAction.setProtocolActionId(null);
+            protocolAction.setSequenceNumber(sequenceNumber);
+            protocolAction.setProtocolId(this.getProtocolId());
+            String index = amendment.getProtocolNumber().substring(11);
+            protocolAction.setActionId(getNextValue(NEXT_ACTION_ID_KEY));
+            String type = "Amendment";
+            if (amendment.isRenewal()) {
+                type = "Renewal";
+            }
+            if (StringUtils.isNotBlank(protocolAction.getComments())) {
+                protocolAction.setComments(type + "-" + index + ": " + protocolAction.getComments());
+            } else {
+                protocolAction.setComments(type + "-" + index + ": ");
+            }
+            this.getProtocolActions().add(protocolAction);
         }
     }
     
