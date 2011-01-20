@@ -17,10 +17,12 @@ package org.kuali.kra.irb.actions.amendrenew;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
@@ -333,6 +335,15 @@ public class ProtocolMergeTest extends KcUnitTestBase {
         protocol.setProtocolId(2L);
         protocol.setProtocolNumber("0906000001A001");
         addModule(protocol, moduleTypeCode);
+        List<ProtocolAction> actions = new ArrayList<ProtocolAction>();
+        ProtocolAction action1 = new ProtocolAction();
+        action1.setActionId(1);
+        actions.add(action1);
+        ProtocolAction action2 = new ProtocolAction();
+        action2.setActionId(2);
+        actions.add(action2);
+        protocol.setProtocolActions(actions);
+        
         return protocol;
     }
     
