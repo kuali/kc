@@ -45,6 +45,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 	                <th>Date</th>
 	                <th><nobr>Action Date</nobr></th>
 	                <th style="width:50%;">Comments</th>
+ 	                <th>Questionnaire</th>
                 </tr>
                 <c:forEach items="${KualiForm.document.protocol.protocolActions}" var="protocolAction" varStatus="status">
                     <c:if test="${protocolAction.isInFilterView}">
@@ -82,12 +83,28 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 	                                </c:otherwise>
 	                            </c:choose>
 	                        </td>
+	            		    <td class="infoline">
+	            		        <c:choose>
+	            		            <c:when test="${protocolAction.questionnaireExist}">
+ 	            		               <c:set var="printOption" value="${protocolAction.questionnairePrintOption}"/>
+                                    <div align="center">
+							        <html:image property="methodToCall.questionnaire.actionType116.anchor${currentTabIndex}"
+								        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
+									onclick="questionnairePop('${printOption.itemKey}','${printOption.subItemKey}','${KualiForm.formKey}',' ${KualiForm.document.sessionDocument}', ${printOption.subItemCode != '2'}); return false;"
+								        alt="View Questionnaire" />
+                                     </div>
+	                                </c:when>
+	                                <c:otherwise>
+	                                      &nbsp;
+	                                </c:otherwise>
+	                            </c:choose>
+	                        </td>
 	            		</tr>
 	            		
 	            		<c:if test="${fn:length(protocolAction.protocolCorrespondences) > 0}">
 	            			<tr>
 	            				<td class="infoline">&nbsp;</td>
-	            		        <td colspan="4">
+	            		        <td colspan="5">
 	            		        	<kul:innerTab tabTitle="Correspondences" tabItemCount="${fn:length(protocolAction.protocolCorrespondences)}" parentTab="attachment${status.index}" defaultOpen="false" tabErrorKey="">
 	            		        		<div class="innerTab-container" align="left">
 		                                    <table class="tab" cellpadding="0" cellspacing="0" summary="">
@@ -118,29 +135,10 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 	            			</tr>
 	            		</c:if>
 	
-	
-	            		<c:if test="${protocolAction.questionnaireExist}">
-	            		    <c:set var="printOption" value="${protocolAction.questionnairePrintOption}"/>
-	            			<tr>
-	            		        <td> &nbsp;
-	            		        </td>            		        
-	            				<td class="infoline">Questionnaire</td>
-	            				<td align="left" valign="middle" colspan="3">
-                                    <div align="left">
-							        <html:image property="methodToCall.questionnaire.actionType116.anchor${currentTabIndex}"
-								        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
-									onclick="questionnairePop('${printOption.itemKey}','${printOption.subItemKey}','${KualiForm.formKey}',' ${KualiForm.document.sessionDocument}', ${printOption.subItemCode != '2'}); return false;"
-								        alt="View Questionnaire" />
-                                     </div>
-                                  </td>
-	            				
-	            			</tr>
-	            		</c:if>
-	
 	            		<c:if test="${fn:length(protocolAction.protocolSubmissionDocs) > 0}">
 	            			<tr>
 	            				<td class="infoline">&nbsp;</td>
-	            		        <td colspan="4">
+	            		        <td colspan="5">
 	            		        	<kul:innerTab tabTitle="Actions Attachments" tabItemCount="${fn:length(protocolAction.protocolSubmissionDocs)}" parentTab="attachment${status.index}" defaultOpen="false" tabErrorKey="">
 	            		        		<div class="innerTab-container" align="left">
 		                                    <table class="tab" cellpadding="0" cellspacing="0" summary="">
@@ -179,7 +177,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
             	</c:forEach>
             	
             	<tr>
-            	    <td class="infoline" colspan="5">
+            	    <td class="infoline" colspan="6">
             	        <html:image property="methodToCall.loadProtocolSummary.line${ctr}.anchor${currentTabIndex}"
                                     src='${ConfigProperties.kra.externalizable.images.url}tinybutton-load.gif' 
                                     styleClass="tinybutton" style="vertical-align:bottom"/>  
