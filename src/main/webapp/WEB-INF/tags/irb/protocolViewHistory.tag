@@ -118,6 +118,25 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 	            			</tr>
 	            		</c:if>
 	
+	
+	            		<c:if test="${protocolAction.questionnaireExist}">
+	            		    <c:set var="printOption" value="${protocolAction.questionnairePrintOption}"/>
+	            			<tr>
+	            		        <td> &nbsp;
+	            		        </td>            		        
+	            				<td class="infoline">Questionnaire</td>
+	            				<td align="left" valign="middle" colspan="3">
+                                    <div align="left">
+							        <html:image property="methodToCall.questionnaire.actionType116.anchor${currentTabIndex}"
+								        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
+									onclick="questionnairePop('${printOption.itemKey}','${printOption.subItemKey}','${KualiForm.formKey}',' ${KualiForm.document.sessionDocument}', ${printOption.subItemCode != '2'}); return false;"
+								        alt="View Questionnaire" />
+                                     </div>
+                                  </td>
+	            				
+	            			</tr>
+	            		</c:if>
+	
 	            		<c:if test="${fn:length(protocolAction.protocolSubmissionDocs) > 0}">
 	            			<tr>
 	            				<td class="infoline">&nbsp;</td>
