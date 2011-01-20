@@ -78,10 +78,9 @@ public interface QuestionnairePrintingService {
      * This method is to get the printables for the questions selected and printed with protocol summary.
      * @param printableBusinessObject
      * @param questionnairesToPrints
-     * @param selectedQid
      * @return
      */
     List<Printable> getQuestionnairePtintable(KraPersistableBusinessObjectBase printableBusinessObject, 
-            List<QuestionnairePrintOption> questionnairesToPrints, Integer selectedQid);
+            List<QuestionnairePrintOption> questionnairesToPrints);
 
 }
