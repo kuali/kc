@@ -1972,9 +1972,16 @@ public class ActionHelper implements Serializable {
             }
         } else if (ProtocolActionType.SUBMIT_TO_IRB.equals(protocolAction.getProtocolActionTypeCode())
                 && ("Submitted to IRB").equals(protocolAction.getComments())) {
-            protocolAction.setQuestionnairePrintOption(getQnPrintOptionForAction(protocolAction.getProtocolNumber(),
-                    getInitialSequence(protocolAction, ""), CoeusSubModule.ZERO_SUBMODULE));
-            protocolAction.setQuestionnaireExist(protocolAction.getQuestionnairePrintOption() != null);
+            if (protocolAction.getProtocol().isAmendment() || protocolAction.getProtocol().isRenewal()) {
+                protocolAction.setQuestionnairePrintOption(getQnPrintOptionForAction(protocolAction.getProtocolNumber(),
+                        protocolAction.getProtocol().getSequenceNumber().toString(), CoeusSubModule.AMENDMENT_RENEWAL));
+                protocolAction.setQuestionnaireExist(protocolAction.getQuestionnairePrintOption() != null);
+
+            } else {
+                protocolAction.setQuestionnairePrintOption(getQnPrintOptionForAction(protocolAction.getProtocolNumber(),
+                        getInitialSequence(protocolAction, ""), CoeusSubModule.ZERO_SUBMODULE));
+                protocolAction.setQuestionnaireExist(protocolAction.getQuestionnairePrintOption() != null);
+            }
         } else if (ProtocolActionType.SUBMIT_TO_IRB.equals(protocolAction.getProtocolActionTypeCode())
                 && StringUtils.isNotBlank(protocolAction.getComments())
                 && (protocolAction.getComments().startsWith("Amendment-") || protocolAction.getComments().startsWith("Renewal-"))) {
@@ -1985,7 +1992,7 @@ public class ActionHelper implements Serializable {
             protocolAction.setQuestionnaireExist(protocolAction.getQuestionnairePrintOption() != null);
         }
     }
-    
+
     /*
      * set up questionnaire option for UI view button
      */
