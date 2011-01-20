@@ -127,7 +127,7 @@
     <bean id="InstitutionalProposalUnrecoveredFandA-indirectcostRateTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="indirectcostRateTypeCode" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Idc Rate Type Code" />
+        <property name="label" value="IDC Rate Type Code" />
         <property name="shortLabel" value="F&amp;A Rate Type" />
         <property name="maxLength" value="3" />
     	<property name="validationPattern" >
@@ -143,8 +143,8 @@
             	p:keyAttribute="indirectcostRateTypeCode"
             	p:labelAttribute="description" />
     	</property>
-        <property name="summary" value="Idc Rate Type Code" />
-        <property name="description" value="Idc Rate Type Code" />
+        <property name="summary" value="IDC Rate Type Code" />
+        <property name="description" value="IDC Rate Type Code" />
     </bean>
 
     <bean id="InstitutionalProposalUnrecoveredFandA-fiscalYear" parent="InstitutionalProposalUnrecoveredFandA-fiscalYear-parentBean" />
@@ -185,7 +185,7 @@
     <bean id="InstitutionalProposalUnrecoveredFandA-underrecoveryOfIndirectcost-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="underrecoveryOfIndirectcost" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Underrecovery Of Indirectcost" />
+        <property name="label" value="Underrecovery of Indirect Cost" />
         <property name="shortLabel" value="Amount" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
@@ -199,8 +199,8 @@
            		p:formattedMaxLength="22"
             	p:size="16" />
     	</property>
-        <property name="summary" value="Underrecovery Of Indirectcost" />
-        <property name="description" value="Underrecovery Of Indirectcost" />
+        <property name="summary" value="Underrecovery of Indirect Cost" />
+        <property name="description" value="Underrecovery of Indirect Cost" />
     </bean>
 
     <bean id="InstitutionalProposalUnrecoveredFandA-sourceAccount" parent="KraAttributeReferenceDummy-sourceAccount" >
