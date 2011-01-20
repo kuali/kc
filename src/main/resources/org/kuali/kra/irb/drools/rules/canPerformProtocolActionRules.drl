@@ -382,7 +382,7 @@ rule "Notify IRB"
 salience 100
 when
 	protocolAction : ProtocolActionMapping(actionTypeCode == "116",
-	  protocolStatusCode not in ("100", "101", "102", "103", "105", "106", "402"))
+	  protocolStatusCode not in ("100", "101", "102", "103", "105", "106", "313"))
 then	
 	setAction(protocolAction, true);
 end
@@ -399,7 +399,7 @@ end
 rule "Make Administrative Correction"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "113", protocolStatusCode not in ("100", "304", "306", "402"))
+	protocolAction : ProtocolActionMapping(actionTypeCode == "113", protocolStatusCode not in ("100", "304", "306", "313"))
 then	
 	setAction(protocolAction, true);
 end
@@ -422,7 +422,7 @@ end
 rule "Abandon 1 - SMR"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "311", protocolStatusCode == "102", submissionStatusCode == "202", initialProtocol == true, principalInvestigator == true)
+	protocolAction : ProtocolActionMapping(actionTypeCode == "119", protocolStatusCode == "102", submissionStatusCode == "202", initialProtocol == true, principalInvestigator == true)
 then	
 	setAction(protocolAction, true);
 end
@@ -430,7 +430,7 @@ end
 rule "Abandon 2 - SRR"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "311", protocolStatusCode == "104", submissionStatusCode == "201", initialProtocol == true, principalInvestigator == true)
+	protocolAction : ProtocolActionMapping(actionTypeCode == "119", protocolStatusCode == "104", submissionStatusCode == "201", initialProtocol == true, principalInvestigator == true)
 then	
 	setAction(protocolAction, true);
 end

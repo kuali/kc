@@ -89,7 +89,7 @@ public class ProtocolAbandonServiceTest  extends KcUnitTestBase {
         
         ProtocolAction protocolAction = protocolDocument.getProtocol().getLastProtocolAction();
         assertNotNull(protocolAction);
-        assertEquals("402", protocolDocument.getProtocol().getProtocolStatusCode());
+        assertEquals("313", protocolDocument.getProtocol().getProtocolStatusCode());
         
         verifyAction(protocolAction, protocolAbandonBean, protocolSubmission);
     }

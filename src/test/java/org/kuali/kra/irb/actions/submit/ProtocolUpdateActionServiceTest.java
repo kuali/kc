@@ -85,7 +85,7 @@ public class ProtocolUpdateActionServiceTest extends ProtocolActionServiceTestBa
     public static final String ATC211 = "211";
     
     public static final String ATC212 = "212";
-    public static final String ATC311 = "311";
+    public static final String ATC119 = "119";
        
     private Mockery context;
     
@@ -489,11 +489,11 @@ public class ProtocolUpdateActionServiceTest extends ProtocolActionServiceTestBa
     }
 
     @Test
-    public void testActionTypeCode311() {   
-        action.setProtocolActionTypeCode(ATC311);
+    public void testActionTypeCode119() {   
+        action.setProtocolActionTypeCode(ATC119);
         protocol.getProtocolSubmission().getProtocolSubmissionType().setSubmissionTypeCode("XXX");        
         protocolActionService.updateProtocolStatus(action, protocol);        
-        assertEquals("402", protocol.getProtocolStatusCode());
+        assertEquals("313", protocol.getProtocolStatusCode());
     }
 
 }

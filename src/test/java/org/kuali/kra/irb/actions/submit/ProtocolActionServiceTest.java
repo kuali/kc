@@ -1228,7 +1228,7 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
      * This method is for abandon condition 1
      */
     @Test
-    public void testActionTypeCode311Cond1() {
+    public void testActionTypeCode119Cond1() {
         protocol.getProtocolSubmission().setSubmissionNumber(123);
         protocol.getProtocolSubmission().setSubmissionStatusCode("202");
 
@@ -1238,7 +1238,7 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
         person.setProtocolPersonRoleId("PI");
         protocol.getProtocolPersons().add(person);
 
-        assertTrue(protocolActionService.canPerformAction("311", protocol));
+        assertTrue(protocolActionService.canPerformAction("119", protocol));
     }
 
     /**
@@ -1246,7 +1246,7 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
      * This method is for abandon condition 2
      */
     @Test
-    public void testActionTypeCode311Cond2() {
+    public void testActionTypeCode119Cond2() {
         protocol.getProtocolSubmission().setSubmissionNumber(123);
         protocol.getProtocolSubmission().setSubmissionStatusCode("201");
 
@@ -1255,7 +1255,7 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
         person.setPersonId("10000000001");
         person.setProtocolPersonRoleId("PI");
         protocol.getProtocolPersons().add(person);
-        assertTrue(protocolActionService.canPerformAction("311", protocol));
+        assertTrue(protocolActionService.canPerformAction("119", protocol));
     }
 
 

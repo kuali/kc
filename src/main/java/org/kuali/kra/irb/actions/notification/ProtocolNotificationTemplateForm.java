@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
@@ -65,15 +66,15 @@ public class ProtocolNotificationTemplateForm extends KualiForm {
 
     private List<ProtocolNotificationTemplate> getDefaultTemplates() {
         List<ProtocolNotificationTemplate> templates = new ArrayList<ProtocolNotificationTemplate>();
-        templates.add(getTemplate("303", "ProtocolWithdrawNotification.xsl"));
-        templates.add(getTemplate("116", "NotifyIrbNotification.xsl"));
-        templates.add(getTemplate("105", "RequestToCloseNotification.xsl"));
-        templates.add(getTemplate("106", "RequestToSuspensionNotification.xsl"));
-        templates.add(getTemplate("108", "OpenEnrollmentNotification.xsl"));
-        templates.add(getTemplate("114", "DataAnalysisNotification.xsl"));
-        templates.add(getTemplate("115", "CloseEnrollmentNotification.xsl"));
-        templates.add(getTemplate("209", "IrbAcknowledgementNotification.xsl"));
-        templates.add(getTemplate("311", "AbandonProtocolNotification.xsl"));
+        templates.add(getTemplate(ProtocolActionType.WITHDRAWN, "ProtocolWithdrawNotification.xsl"));
+        templates.add(getTemplate(ProtocolActionType.NOTIFY_IRB, "NotifyIrbNotification.xsl"));
+        templates.add(getTemplate(ProtocolActionType.REQUEST_TO_CLOSE, "RequestToCloseNotification.xsl"));
+        templates.add(getTemplate(ProtocolActionType.REQUEST_FOR_SUSPENSION, "RequestToSuspensionNotification.xsl"));
+        templates.add(getTemplate(ProtocolActionType.REQUEST_TO_REOPEN_ENROLLMENT, "OpenEnrollmentNotification.xsl"));
+        templates.add(getTemplate(ProtocolActionType.REQUEST_FOR_DATA_ANALYSIS_ONLY, "DataAnalysisNotification.xsl"));
+        templates.add(getTemplate(ProtocolActionType.REQUEST_TO_CLOSE_ENROLLMENT, "CloseEnrollmentNotification.xsl"));
+        templates.add(getTemplate(ProtocolActionType.IRB_ACKNOWLEDGEMENT, "IrbAcknowledgementNotification.xsl"));
+        templates.add(getTemplate(ProtocolActionType.ABANDON_PROTOCOL, "AbandonProtocolNotification.xsl"));
 
         return templates;
     }
