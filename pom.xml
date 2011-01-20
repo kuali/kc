@@ -1468,7 +1468,7 @@
 		<mysql.version>5.1.13</mysql.version>
 		<oracle.version>10.2.0.3.0</oracle.version>
 		<rice.version>1.0.3.1-SNAPSHOT</rice.version>
-		<rice.snapshot.version>1.0.3.1-20101124.204003-3</rice.snapshot.version>
+		<rice.snapshot.version>1.0.3.1-20110119.231919-7</rice.snapshot.version>
 		<selenium.version>2.0a7</selenium.version>
 		<servlet.version>2.4</servlet.version>
 		<slf4j.version>1.6.1</slf4j.version>
