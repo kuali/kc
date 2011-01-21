@@ -69,16 +69,31 @@ public class InstitutionalProposalCustomDataFormHelper extends CustomDataHelperB
      * Data Tab and on Reload.
      */
     public void populateCustomDataValuesFromParentMap() {
-        if(customDataValues.size() == 0) {
-            for(Map.Entry<String, String[]> customAttributeValue:getCustomAttributeValues().entrySet()) {
+        //if(customDataValues.size() == 0) {
+            customDataValues = new ArrayList<InstitutionalProposalStringObjectBO>(maxCustomAttributeIndex());
+            int index = 0;
+            while (index <= maxCustomAttributeIndex()){
                 InstitutionalProposalStringObjectBO tempInstitutionalProposalStringObjectBO = new InstitutionalProposalStringObjectBO();
                 tempInstitutionalProposalStringObjectBO.setValue("");
                 customDataValues.add(tempInstitutionalProposalStringObjectBO);
+                index++;
             }
-        }
+        //}
+        
         for(Map.Entry<String, String[]> customAttributeValue:getCustomAttributeValues().entrySet()) {
             customDataValues.get(Integer.parseInt(customAttributeValue.getKey().substring(2)) - 1).setValue(customAttributeValue.getValue()[0]);
         }
+    }
+    
+    private int maxCustomAttributeIndex() {
+        int index = 0;
+        for(Map.Entry<String, String[]> customAttributeValue : getCustomAttributeValues().entrySet()) {
+            int tempIndex = Integer.parseInt(customAttributeValue.getKey().substring(2)) - 1;
+            if (tempIndex > index) {
+                index = tempIndex;
+            }
+        }
+        return index;
     }
     
     /**
@@ -153,30 +168,36 @@ public class InstitutionalProposalCustomDataFormHelper extends CustomDataHelperB
      * @param customAttributeDocuments
      */
     @SuppressWarnings("unchecked")
-    public void buildCustomDataCollectionsOnFormExistingInstitutionalProposal(SortedMap<String, List> customAttributeGroups, 
-                                                        InstitutionalProposalForm institutionalProposalForm, 
-                                                        Map<String, CustomAttributeDocument> customAttributeDocuments) {
-        List<InstitutionalProposalCustomData> institutionalProposalCustomDataList = 
-            institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().getInstitutionalProposalCustomDataList();
-        for(Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry:customAttributeDocuments.entrySet()) {
+    public void buildCustomDataCollectionsOnFormExistingInstitutionalProposal(SortedMap<String, List> customAttributeGroups,
+            InstitutionalProposalForm institutionalProposalForm, Map<String, CustomAttributeDocument> customAttributeDocuments) {
+        List<InstitutionalProposalCustomData> institutionalProposalCustomDataList = institutionalProposalForm
+                .getInstitutionalProposalDocument().getInstitutionalProposal().getInstitutionalProposalCustomDataList();
+        for (Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry : customAttributeDocuments.entrySet()) {
             InstitutionalProposalCustomData loopInstitutionalProposalCustomData = new InstitutionalProposalCustomData();
-            for(InstitutionalProposalCustomData institutionalProposalCustomData : institutionalProposalCustomDataList){
-                if(institutionalProposalCustomData.getCustomAttributeId() == (long) customAttributeDocumentEntry.getValue().getCustomAttribute().getId()){
+            for (InstitutionalProposalCustomData institutionalProposalCustomData : institutionalProposalCustomDataList) {
+                if (institutionalProposalCustomData.getCustomAttributeId() == (long) customAttributeDocumentEntry.getValue()
+                        .getCustomAttribute().getId()) {
                     loopInstitutionalProposalCustomData = institutionalProposalCustomData;
                     break;
                 }
             }
-            institutionalProposalForm.getCustomDataHelper().getCustomAttributeValues()
-            .put("id" + customAttributeDocumentEntry.getValue().getCustomAttributeId().toString(),new String[]{loopInstitutionalProposalCustomData.getValue()});
-            String groupName = 
-                customAttributeDocuments.get(loopInstitutionalProposalCustomData.getCustomAttributeId().toString()).getCustomAttribute().getGroupName();
-            List<CustomAttributeDocument> customAttributeDocumentList = customAttributeGroups.get(groupName);   
+            if (loopInstitutionalProposalCustomData.getCustomAttributeId() != null) {
+                String customAttrId = customAttributeDocumentEntry.getValue().getCustomAttributeId().toString();
+                institutionalProposalForm.getCustomDataHelper().getCustomAttributeValues().put("id" + customAttrId,
+                        new String[] { loopInstitutionalProposalCustomData.getValue() });
+
+                String loopCustomAttrId = loopInstitutionalProposalCustomData.getCustomAttributeId().toString();
+                String groupName = customAttributeDocuments.get(loopCustomAttrId).getCustomAttribute().getGroupName();
+
+                List<CustomAttributeDocument> customAttributeDocumentList = customAttributeGroups.get(groupName);
                 if (customAttributeDocumentList == null) {
                     customAttributeDocumentList = new ArrayList<CustomAttributeDocument>();
                     customAttributeGroups.put(groupName, customAttributeDocumentList);
                 }
-                customAttributeDocumentList.add(customAttributeDocuments.get(loopInstitutionalProposalCustomData.getCustomAttributeId().toString()));
-             }
+                customAttributeDocumentList.add(customAttributeDocuments.get(loopInstitutionalProposalCustomData
+                        .getCustomAttributeId().toString()));
+            }
+        }
         populateCustomDataValuesFromParentMap();
     }
     
