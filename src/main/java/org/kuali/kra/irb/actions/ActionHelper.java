@@ -1974,7 +1974,7 @@ public class ActionHelper implements Serializable {
                 && ("Submitted to IRB").equals(protocolAction.getComments())) {
             if (protocolAction.getProtocol().isAmendment() || protocolAction.getProtocol().isRenewal()) {
                 protocolAction.setQuestionnairePrintOption(getQnPrintOptionForAction(protocolAction.getProtocolNumber(),
-                        protocolAction.getProtocol().getSequenceNumber().toString(), CoeusSubModule.AMENDMENT_RENEWAL));
+                        protocolAction.getSequenceNumber().toString(), CoeusSubModule.AMENDMENT_RENEWAL));
                 protocolAction.setQuestionnaireExist(protocolAction.getQuestionnairePrintOption() != null);
 
             } else {
@@ -2315,13 +2315,8 @@ public class ActionHelper implements Serializable {
      */
     public int getNextSubmissionNumber() {
         List<Integer> submissionNumbers = getAvailableSubmissionNumbers();
-        int maxSubmissionNumber = 0;
+        int maxSubmissionNumber = getMaxSubmissionNumber();
 
-        for (Integer submissionNumber : submissionNumbers) {
-            if (submissionNumber > maxSubmissionNumber) {
-                maxSubmissionNumber = submissionNumber;
-            }
-        }
         Integer submissionNumber = currentSubmissionNumber + 1;
         if (!submissionNumbers.contains(submissionNumber)) {
             for (int i = currentSubmissionNumber + 1; i <= maxSubmissionNumber; i++) {
@@ -2575,9 +2570,10 @@ public class ActionHelper implements Serializable {
      * This method is to set up the questionnaire print list.  Then sorted it.
      */
     private void setupQnPrintOption(List<AnswerHeader> answerHeaders) {
+        int maxSubmissionNumber = getMaxSubmissionNumber();
         for (AnswerHeader answerHeader : answerHeaders) {
             // only submission questionnaire and current protocol questionnaire will be printed
-            if (CoeusSubModule.PROTOCOL_SUBMISSION.equals(answerHeader.getModuleSubItemCode())
+            if ((CoeusSubModule.PROTOCOL_SUBMISSION.equals(answerHeader.getModuleSubItemCode()) && Integer.parseInt(answerHeader.getModuleSubItemKey()) <= maxSubmissionNumber)
 //                    || ((CoeusSubModule.ZERO_SUBMODULE.equals(answerHeader.getModuleSubItemCode()) || CoeusSubModule.AMENDMENT_RENEWAL
 //                            .equals(answerHeader.getModuleSubItemCode()))
 //                            && getProtocol().getProtocolNumber().equals(answerHeader.getModuleItemKey()) && answerHeader
@@ -2599,22 +2595,105 @@ public class ActionHelper implements Serializable {
 
     }
 
+    private int getMaxSubmissionNumber() {
+        int maxSubmissionNumber = 0;
+
+        for (Integer submissionNumber : getAvailableSubmissionNumbers()) {
+            if (submissionNumber > maxSubmissionNumber) {
+                maxSubmissionNumber = submissionNumber;
+            }
+        }
+        return maxSubmissionNumber;
+    }
     /*
      * check if this is the current version of the amend/renewal Qn
      */
     private boolean isCurrentAmendRenewalQn(AnswerHeader answerHeader) {
         boolean isCurrentQn = CoeusSubModule.AMENDMENT_RENEWAL.equals(answerHeader.getModuleSubItemCode())
-                              || CoeusSubModule.ZERO_SUBMODULE.equals(answerHeader.getModuleSubItemCode());
+                || CoeusSubModule.ZERO_SUBMODULE.equals(answerHeader.getModuleSubItemCode());
         if (isCurrentQn) {
-            Map keyValues = new HashMap();
-            keyValues.put("protocolNumber", answerHeader.getModuleItemKey());
-            Protocol protocol = ((List<Protocol>) businessObjectService.findMatchingOrderBy(Protocol.class, keyValues,
-                    "sequenceNumber", false)).get(0);
-            isCurrentQn = answerHeader.getModuleSubItemKey().equals(protocol.getSequenceNumber().toString());
+            if (CoeusSubModule.ZERO_SUBMODULE.equals(answerHeader.getModuleSubItemCode())) {
+                isCurrentQn = isCurrentRegularQn(answerHeader);
+            } else if (CoeusSubModule.AMENDMENT_RENEWAL.equals(answerHeader.getModuleSubItemCode())) {
+                isCurrentQn = isCurrentAorRQn(answerHeader);
+            }
         }
         return isCurrentQn;
     }
 
+    /*
+     * This is Questionnaire answer is with submodulecode of "0".
+     * Then if this protocol is A/R, then it has to check whether this is the first version
+     * A/R merged into. 
+     */
+    private boolean isCurrentRegularQn(AnswerHeader answerHeader) {
+        boolean isCurrentQn = false;
+        if (getProtocol().isAmendment() || getProtocol().isRenewal()) {
+            Map keyValues = new HashMap();
+            keyValues.put("protocolNumber", answerHeader.getModuleItemKey());
+            Protocol prevProtocol = null;
+            // if this is an A/R protocol, then need to find the original protocol that the A/R first merged into.
+            for (Protocol protocol : ((List<Protocol>) businessObjectService.findMatchingOrderBy(Protocol.class, keyValues,
+                    "sequenceNumber", true))) {
+                isCurrentQn = answerHeader.getModuleSubItemKey().equals(protocol.getSequenceNumber().toString())
+                        && !CollectionUtils.isEmpty(getProtocol().getProtocolSubmissions())
+                        && isMergedToProtocol(protocol, getProtocol());
+                if (isCurrentQn) {
+                    if (prevProtocol == null
+                            || !isMergedToProtocol(prevProtocol, getProtocol())) {
+                        // this is the protocol this A/R merged into. so, use this questionnaire.
+                        break;
+                    } else {
+                        // prevProtocol is the initial Protocol that this A/R merged into.
+                        isCurrentQn = false;
+                    }
+
+                }
+                prevProtocol = protocol;
+            }
+        } else {
+            // if this is a regular protocol, then check if sequencenumber & modulesubitemkey match
+            isCurrentQn = answerHeader.getModuleSubItemKey().equals(getProtocol().getSequenceNumber().toString());
+        }
+        return isCurrentQn;
+    }
+    
+    /*
+     * if questionnaire is associated with Amendment/renewal submodulecode.
+     * if this protocol is normal protocol, then it has to check whether the A/R of this
+     * questionnaire has merged to this protocol yet.
+     */
+    private boolean isCurrentAorRQn(AnswerHeader answerHeader) {
+        boolean isCurrentQn = false;
+        if (getProtocol().isAmendment() || getProtocol().isRenewal()) {
+            // if this is A/R, then just match sequencenumber and modulesubitemkey
+            isCurrentQn = answerHeader.getModuleSubItemKey().equals(getProtocol().getSequenceNumber().toString());
+        } else {
+            // if this is a regular protocol, then get this A/R associated this this Qn and see if
+            // A/R has been merged to this version of protocol
+            Map keyValues = new HashMap();
+            keyValues.put("protocolNumber", answerHeader.getModuleItemKey());
+            Protocol protocol = ((List<Protocol>) businessObjectService.findMatchingOrderBy(Protocol.class, keyValues,
+                    "sequenceNumber", false)).get(0);
+            isCurrentQn = answerHeader.getModuleSubItemKey().equals(protocol.getSequenceNumber().toString())
+                    && !CollectionUtils.isEmpty(protocol.getProtocolSubmissions())
+                    && isMergedToProtocol(getProtocol(), protocol);
+        }
+        return isCurrentQn;
+    }       
+    
+    private boolean isMergedToProtocol(Protocol protocol, Protocol amendment) {
+        boolean merged = false;
+        int submissionNumber = amendment.getProtocolSubmissions().get(amendment.getProtocolSubmissions().size() - 1).getSubmissionNumber();
+        for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
+            if (submissionNumber == submission.getSubmissionNumber().intValue()) {
+                merged = true;
+                break;
+            }
+        }
+        return merged;
+    }
+    
     private String getQuestionnaireLabel(AnswerHeader answerHeader) {
         String label = null;
         List<QuestionnaireUsage> usages = answerHeader.getQuestionnaire().getQuestionnaireUsages();
