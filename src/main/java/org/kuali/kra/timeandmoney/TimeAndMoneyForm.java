@@ -32,13 +32,16 @@ import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionBean;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardHierarchyUIService;
+import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.kra.timeandmoney.transactions.TransactionBean;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterConstants;
@@ -702,6 +705,32 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
      */
     public void setDirectIndirectViewEnabled(String directIndirectViewEnabled) {
         this.directIndirectViewEnabled = directIndirectViewEnabled;
+    }
+    
+    protected KraWorkflowService getKraWorkflowService() {
+        return KraServiceLocator.getService(KraWorkflowService.class);
+    }
+    
+    public boolean getDisplayEditButton() throws Exception {
+        boolean displayEditButton = Boolean.FALSE;
+        
+
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        String rootAwardNumber = getTimeAndMoneyDocument().getRootAwardNumber();
+        fieldValues.put("rootAwardNumber", rootAwardNumber);
+        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
+
+        List<TimeAndMoneyDocument> timeAndMoneyDocuments = 
+            (List<TimeAndMoneyDocument>)businessObjectService.findMatchingOrderBy(TimeAndMoneyDocument.class, fieldValues, "documentNumber", true);
+        //BO service does not return workflow data, so we must call document service to retrieve the document to test if it is in workflow
+        TimeAndMoneyDocument t = timeAndMoneyDocuments.get(timeAndMoneyDocuments.size() -1);
+        TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(t.getDocumentNumber());
+        displayEditButton = timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal();
+//        if(!getKraWorkflowService().isInWorkflow(timeAndMoneyDocument)){
+//            displayEditButton = Boolean.FALSE;
+//        }
+        return displayEditButton;
     }
     
     
