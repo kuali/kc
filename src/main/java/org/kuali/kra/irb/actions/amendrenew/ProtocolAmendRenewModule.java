@@ -17,10 +17,12 @@ package org.kuali.kra.irb.actions.amendrenew;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.irb.Protocol;
 
 @SuppressWarnings("serial")
-public class ProtocolAmendRenewModule extends KraPersistableBusinessObjectBase {
+public class ProtocolAmendRenewModule extends KraPersistableBusinessObjectBase implements SequenceAssociate<Protocol> {
 
     private Long protocolAmendRenewModuleId;
     private String protocolAmendRenewalNumber;
@@ -102,5 +104,25 @@ public class ProtocolAmendRenewModule extends KraPersistableBusinessObjectBase {
         map.put("protocolNumber", this.getProtocolNumber());
         map.put("protocolModuleTypeCode", getProtocolModuleTypeCode());
         return map;
+    }
+
+    public Protocol getSequenceOwner() {
+        return protocolAmendRenewal != null ? protocolAmendRenewal.getProtocol() : null;
+    }
+
+    public void setSequenceOwner(Protocol newlyVersionedOwner) {
+        if(protocolAmendRenewal != null) {
+            protocolAmendRenewal.setProtocol(newlyVersionedOwner);
+        }
+        
+    }
+
+
+    public void resetPersistenceState() {
+        protocolAmendRenewModuleId = null;        
+    }
+
+    public Integer getSequenceNumber() {
+        return  protocolAmendRenewal != null ? protocolAmendRenewal.getSequenceNumber() : 0;
     }
 }
