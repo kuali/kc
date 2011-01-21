@@ -57,7 +57,17 @@ var kualiElements = kualiForm.elements;
 </SCRIPT>
 <script language="javascript" src="scripts/kuali_application.js"></script>
 
-<kul:documentControls transactionalDocument="true" suppressRoutingControls="false" />
+<%--<c:if test="${readOnly && KualiForm.document.canModify && KualiForm.displayEditButton}">--%>
+<c:if test="${readOnly && KualiForm.displayEditButton}">
+	<c:set var="extraButtonSource" value="${ConfigProperties.kra.externalizable.images.url}buttonsmall_edit_temp.gif"/>
+	<c:set var="extraButtonProperty" value="methodToCall.editOrVersion"/>
+	<c:set var="extraButtonAlt" value="Edit or Version"/>
+</c:if>
+
+<kul:documentControls transactionalDocument="true" suppressRoutingControls="false" 
+													extraButtonSource="${extraButtonSource}" 
+													extraButtonProperty="${extraButtonProperty}"
+													extraButtonAlt="${extraButtonAlt}" />
 
 </kul:documentPage>
 
