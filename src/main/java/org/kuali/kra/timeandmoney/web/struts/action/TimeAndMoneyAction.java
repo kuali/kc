@@ -56,6 +56,7 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterConstants;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -1020,6 +1021,33 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         Award previousAward = ((List<Award>)businessObjectService.findMatching(Award.class, map)).get(0);
         timeAndMoneyForm.setAwardForSummaryPanelDisplay(previousAward);
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward editOrVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ActionForward forward;
+        TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm)form;
+        TimeAndMoneyDocument doc = timeAndMoneyForm.getTimeAndMoneyDocument();
+        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        String rootAwardNumber = doc.getRootAwardNumber();
+        Award rootAward = getWorkingAwardVersion(rootAwardNumber);
+        TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getNewDocument(TimeAndMoneyDocument.class);
+        timeAndMoneyDocument.getDocumentHeader().setDocumentDescription("timeandmoney document");
+        timeAndMoneyDocument.setRootAwardNumber(rootAwardNumber);
+        timeAndMoneyDocument.setAwardNumber(rootAward.getAwardNumber());
+        timeAndMoneyDocument.setAward(rootAward);
+        AwardAmountTransaction aat = new AwardAmountTransaction();
+        aat.setAwardNumber("000000-00000");//need to initialize one element in this collection because the doc is saved on creation.
+        aat.setDocumentNumber(timeAndMoneyDocument.getDocumentNumber());
+        aat.setTransactionTypeCode(null);
+        timeAndMoneyDocument.getAwardAmountTransactions().add(aat);
+        documentService.saveDocument(timeAndMoneyDocument);
+ 
+        Long routeHeaderId = timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+        String forwardString = buildForwardUrl(routeHeaderId);
+        forward = new ActionForward(forwardString, true);
+        
+        return forward;
     }
 
 }
