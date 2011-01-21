@@ -21,10 +21,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.Protocol;
 
-public class ProtocolAmendRenewal extends KraPersistableBusinessObjectBase { 
+public class ProtocolAmendRenewal extends KraPersistableBusinessObjectBase implements SequenceAssociate<Protocol>{ 
     
     private static final long serialVersionUID = 1317253368511551232L;
 
@@ -154,6 +155,21 @@ public class ProtocolAmendRenewal extends KraPersistableBusinessObjectBase {
         hashMap.put("protocolNumber", this.getProtocolNumber());
         hashMap.put("sequenceNumber", this.getSequenceNumber());
         return hashMap;
+    }
+
+    /** {@inheritDoc} */
+    public Protocol getSequenceOwner() {
+        return this.getProtocol();
+    }
+
+    /** {@inheritDoc} */
+    public void setSequenceOwner(Protocol newlyVersionedOwner) {
+        this.setProtocol(newlyVersionedOwner);   
+    }
+
+    public void resetPersistenceState() {
+        this.setId(null);
+        
     }
 
 }
