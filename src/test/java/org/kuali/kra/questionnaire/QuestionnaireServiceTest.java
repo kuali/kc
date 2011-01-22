@@ -138,7 +138,7 @@ public class QuestionnaireServiceTest  extends KcUnitTestBase {
 //            }});
 
             List<String> modules = KraServiceLocator.getService(QuestionnaireService.class).getAssociateModules();
-            assertTrue(modules.size() == 1);
+            assertTrue(modules.size() == 2);
             assertEquals(modules.get(0), "7");
 
             context.assertIsSatisfied();
