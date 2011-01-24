@@ -422,7 +422,7 @@ end
 rule "Abandon 1 - SMR"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "119", protocolStatusCode == "102", submissionStatusCode == "202", initialProtocol == true, principalInvestigator == true)
+	protocolAction : ProtocolActionMapping(actionTypeCode == "119", protocolStatusCode == "102", submissionStatusCode == "202", initialProtocol == true)
 then	
 	setAction(protocolAction, true);
 end
@@ -430,7 +430,7 @@ end
 rule "Abandon 2 - SRR"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "119", protocolStatusCode == "104", submissionStatusCode == "201", initialProtocol == true, principalInvestigator == true)
+	protocolAction : ProtocolActionMapping(actionTypeCode == "119", protocolStatusCode == "104", submissionStatusCode == "201", initialProtocol == true)
 then	
 	setAction(protocolAction, true);
 end
