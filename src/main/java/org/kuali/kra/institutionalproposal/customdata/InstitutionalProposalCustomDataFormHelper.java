@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.drools.core.util.StringUtils;
 import org.kuali.kra.award.customdata.CustomDataHelper.AwardStringObjectBO;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.common.customattributes.CustomDataForm;
@@ -215,6 +216,9 @@ public class InstitutionalProposalCustomDataFormHelper extends CustomDataHelperB
             institutionalProposalForm.getCustomDataHelper().getCustomAttributeValues()
                 .put("id" + customAttributeDocumentEntry.getValue().getCustomAttributeId().toString(), new String[]{null});       
            String groupName = customAttributeDocumentEntry.getValue().getCustomAttribute().getGroupName();
+           if (StringUtils.isEmpty(groupName)) {
+               groupName = "No Group";
+           }
             List<CustomAttributeDocument> customAttributeDocumentList = customAttributeGroups.get(groupName);
                 if (customAttributeDocumentList == null) {
                     customAttributeDocumentList = new ArrayList<CustomAttributeDocument>();
