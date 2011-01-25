@@ -103,6 +103,10 @@
     		    $j(".printQnSubpanel").toggle(
     		            function()
     		            {
+        		            var idx = $j(this).attr("id").substring(9);
+        		           // alert(idx)
+        		           // click to ajax load questionnaire for the first time
+        		            $j("input[name=viewQnhistory"+idx+"]").click();
     		                $j("#"+$j(this).attr("id")+"Content").slideDown(500);
     		                $j(this).html("<img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
     		            },function(){

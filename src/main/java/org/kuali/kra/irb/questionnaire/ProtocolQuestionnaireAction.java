@@ -34,9 +34,7 @@ import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAction;
-import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
@@ -44,7 +42,6 @@ import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.questionnaire.answer.SaveQuestionnaireAnswerEvent;
 import org.kuali.kra.questionnaire.answer.SaveQuestionnaireAnswerRule;
-import org.kuali.kra.questionnaire.print.QuestionnairePrintingService;
 import org.kuali.rice.kns.document.Document;
 
 /**
@@ -173,10 +170,6 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
         return forward;
     }
 
-    private QuestionnairePrintingService getQuestionnairePrintingService() {
-        return KraServiceLocator.getService(QuestionnairePrintingService.class);
-    }
-
     /**
      * 
      * This method is to edit or view submission questionnaire
@@ -232,6 +225,51 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
         return forward;
     }
 
+    public ActionForward submissionQuestionnaireAjax(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ActionForward forward;
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        String submissionNumber = request.getParameter(SUBMISSION_NUMBER);
+        String protocolNumber = request.getParameter(PROTOCOL_NUMBER);
+        ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocolNumber, CoeusSubModule.PROTOCOL_SUBMISSION, submissionNumber, !protocolNumber.endsWith(SUFFIX_T));
+        protocolForm.getQuestionnaireHelper().setAnswerHeaders(
+                getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean));
+        if (protocolNumber.endsWith(SUFFIX_T)) {
+            if (!CollectionUtils.isEmpty(protocolForm.getQuestionnaireHelper().getAnswerHeaders())) {
+                protocolForm.getQuestionnaireHelper().setProtocolNumber(protocolNumber);
+                protocolForm.getQuestionnaireHelper().setSubmissionNumber(submissionNumber);
+            }
+            forward = mapping.findForward(SUBMISSION_QUESTIONNAIRE);
+
+        } else {
+            protocolForm.getQuestionnaireHelper().setAnswerHeaders(getAnsweredQuestionnaire(protocolForm.getQuestionnaireHelper().getAnswerHeaders()));
+            forward =  mapping.findForward("ajaxQuestionnaire");
+        }
+        protocolForm.getQuestionnaireHelper().resetHeaderLabels();
+        return forward;
+    }
+
+    public ActionForward summaryQuestionnaireAjax(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ActionForward forward;
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        String sequenceNumber = request.getParameter("sequenceNumber");
+        String protocolNumber = request.getParameter(PROTOCOL_NUMBER);
+        
+        ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocolNumber,
+            (protocolNumber.contains("A") || protocolNumber.contains("R")) ? CoeusSubModule.AMENDMENT_RENEWAL : CoeusSubModule.ZERO_SUBMODULE, sequenceNumber, true);
+        protocolForm.getQuestionnaireHelper().setAnswerHeaders(
+                getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean));
+
+        protocolForm.getQuestionnaireHelper().setAnswerHeaders(
+                getAnsweredQuestionnaire(protocolForm.getQuestionnaireHelper().getAnswerHeaders()));
+        forward = mapping.findForward("ajaxQuestionnaire");
+
+        protocolForm.getQuestionnaireHelper().resetHeaderLabels();
+        return forward;
+    }
+
+
     /*
      * to filter out the questionnaire answer not saved
      */
@@ -274,70 +312,6 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
             return KraServiceLocator.getService(QuestionnaireAnswerService.class);
     }
 
-    /**
-     * 
-     * This method is to print submission questionnaire answer
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */                  
-    public ActionForward printSubmissionQuestionnaireAnswer(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        ActionForward forward = mapping.findForward(MAPPING_BASIC);
-        Map<String, Object> reportParameters = new HashMap<String, Object>();
-        AnswerHeader answerHeader = getAnswerHeader(request);
-        // for release 3 : if questionnaire questions has answer, then print answer.
-        reportParameters.put("questionnaireId", answerHeader.getQuestionnaire().getQuestionnaireId());
-        reportParameters.put("template", answerHeader.getQuestionnaire().getTemplate());
-        Protocol protocol;
-        if (CoeusSubModule.PROTOCOL_SUBMISSION.equals(answerHeader.getModuleSubItemCode())) {
-            reportParameters.put(PROTOCOL_NUMBER, answerHeader.getModuleItemKey());
-            reportParameters.put(SUBMISSION_NUMBER, answerHeader.getModuleSubItemKey());
-            protocol = getProtocolFinder().findCurrentProtocolByNumber(getProtocolNumber(answerHeader));
-        } else {
-            Map keyValues= new HashMap();
-            keyValues.put(PROTOCOL_NUMBER, answerHeader.getModuleItemKey());
-            keyValues.put("sequenceNumber", answerHeader.getModuleSubItemKey());
-            protocol = ((List<Protocol>)getBusinessObjectService().findMatching(Protocol.class, keyValues)).get(0);
-        }
-
-        AttachmentDataSource dataStream = getQuestionnairePrintingService().printQuestionnaireAnswer(
-                protocol, reportParameters);
-        if (dataStream.getContent() != null) {
-            streamToResponse(dataStream, response);
-            forward = null;
-        }
-        return forward;
-    }
-
-    /*
-     * get protocolnumber for answerheader moduleitemkey
-     * a saved but not submitted answer has "T" at the end of protocolnumber
-     */
-    private String getProtocolNumber(AnswerHeader answerHeader) {
-        String protocolNumber = answerHeader.getModuleItemKey();
-        if (protocolNumber.endsWith(SUFFIX_T)) {
-            protocolNumber = protocolNumber.substring(0, protocolNumber.length() - 1);
-        }
-        return protocolNumber;
-    }
-    
-    /*
-     * This is to retrieve answer header based on answerheaderid
-     */
-    private AnswerHeader getAnswerHeader(HttpServletRequest request) {
-
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("answerHeaderId", Integer.toString(this.getSelectedLine(request)));
-        return  (AnswerHeader)getBusinessObjectService().findByPrimaryKey(AnswerHeader.class, fieldValues);
-    }
-
-    private ProtocolFinderDao getProtocolFinder() {
-        return KraServiceLocator.getService(ProtocolFinderDao.class);
-    }
 
 
 }

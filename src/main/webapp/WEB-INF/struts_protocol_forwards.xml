@@ -11,6 +11,7 @@
 <forward name="permissions" path="/WEB-INF/jsp/irb/ProtocolPermissions.jsp" />
 <forward name="permissionsRoleRights" path="/WEB-INF/jsp/irb/ProtocolPermissionsRoleRights.jsp" />
 <forward name="viewQuestionnaire" path="/WEB-INF/jsp/irb/ViewQuestionnaire.jsp" />
+<forward name="ajaxQuestionnaire" path="/WEB-INF/jsp/irb/AjaxQuestionnaire.jsp" />
 <forward name="submissionQuestionnaire" path="/WEB-INF/jsp/irb/SubmissionQuestionnaire.jsp" />
 <forward name="permissionsEditRoles" path="/WEB-INF/jsp/irb/ProtocolPermissionsEditRoles.jsp" />
 <forward name="permissionsCloseEditRoles" path="/WEB-INF/jsp/irb/ProtocolPermissionsCloseEditRoles.jsp" />
