@@ -45,7 +45,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 	                <th>Date</th>
 	                <th><nobr>Action Date</nobr></th>
 	                <th style="width:50%;">Comments</th>
- 	                <th>Questionnaire</th>
+ 	              <%--  <th>Questionnaire</th> --%>
                 </tr>
                 <c:forEach items="${KualiForm.document.protocol.protocolActions}" var="protocolAction" varStatus="status">
                     <c:if test="${protocolAction.isInFilterView}">
@@ -83,6 +83,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 	                                </c:otherwise>
 	                            </c:choose>
 	                        </td>
+	                        <%--
 	            		    <td class="infoline">
 	            		        <c:choose>
 	            		            <c:when test="${protocolAction.questionnaireExist}">
@@ -99,12 +100,13 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 	                                </c:otherwise>
 	                            </c:choose>
 	                        </td>
+	                         --%>
 	            		</tr>
 	            		
 	            		<c:if test="${fn:length(protocolAction.protocolCorrespondences) > 0}">
 	            			<tr>
 	            				<td class="infoline">&nbsp;</td>
-	            		        <td colspan="5">
+	            		        <td colspan="4">
 	            		        	<kul:innerTab tabTitle="Correspondences" tabItemCount="${fn:length(protocolAction.protocolCorrespondences)}" parentTab="attachment${status.index}" defaultOpen="false" tabErrorKey="">
 	            		        		<div class="innerTab-container" align="left">
 		                                    <table class="tab" cellpadding="0" cellspacing="0" summary="">
@@ -138,7 +140,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 	            		<c:if test="${fn:length(protocolAction.protocolSubmissionDocs) > 0}">
 	            			<tr>
 	            				<td class="infoline">&nbsp;</td>
-	            		        <td colspan="5">
+	            		        <td colspan="4">
 	            		        	<kul:innerTab tabTitle="Actions Attachments" tabItemCount="${fn:length(protocolAction.protocolSubmissionDocs)}" parentTab="attachment${status.index}" defaultOpen="false" tabErrorKey="">
 	            		        		<div class="innerTab-container" align="left">
 		                                    <table class="tab" cellpadding="0" cellspacing="0" summary="">
@@ -173,11 +175,47 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 	            		        </td>            		        
 	            			</tr>
 	            		</c:if>
+
+	            		<c:if test="${protocolAction.questionnaireExist}">
+	            		    <c:set var="printOption" value="${protocolAction.questionnairePrintOption}"/>
+	            			<tr>
+	            				<td class="infoline">&nbsp;</td>
+	            			    <td class="infoline" colspan="4">
+                                    <div class="innerTab-head">
+                                        <a href="#" id ="qnhistory${status.index}" class="printQnSubpanel"><img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a>
+                                               <b>Questionnaire</b>
+                                    </div>
+                            <%--    </td>
+                          <td> --%>
+	                   <div id ="qnhistory${status.index}Content" class="printQnSubpanelContent">
+							        <html:image property="viewQnhistory${status.index}"
+								        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
+									onclick="ajaxLoadQn('${printOption.itemKey}','${printOption.subItemKey}','${KualiForm.formKey}',' ${KualiForm.document.sessionDocument}', ${printOption.subItemCode != '2'}, ${status.index}); return false;"
+								        alt="View Questionnaire" />
+	                   </div>
+	            			</td>
+	            			<%-- 
+	            		        <td> &nbsp;
+	            		        </td>            		        
+	            				<td class="infoline">Questionnaire</td>
+	            				<td align="left" valign="middle" colspan="4">
+                                    <div id = "qnDiv" align="left">
+							        <html:image property="methodToCall.questionnaire.actionType116.anchor${currentTabIndex}"
+								        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
+									onclick="ajaxLoadQn('${printOption.itemKey}','${printOption.subItemKey}','${KualiForm.formKey}',' ${KualiForm.document.sessionDocument}', ${printOption.subItemCode != '2'}); return false;"
+								        alt="View Questionnaire" />
+                                     </div>
+                                  </td>
+	            				--%>
+	            			</tr>
+	            		</c:if>
+	
+
             		</c:if>
             	</c:forEach>
             	
             	<tr>
-            	    <td class="infoline" colspan="6">
+            	    <td class="infoline" colspan="5">
             	        <html:image property="methodToCall.loadProtocolSummary.line${ctr}.anchor${currentTabIndex}"
                                     src='${ConfigProperties.kra.externalizable.images.url}tinybutton-load.gif' 
                                     styleClass="tinybutton" style="vertical-align:bottom"/>  

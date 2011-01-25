@@ -831,11 +831,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return forward;
     }
 
-    
-    private QuestionnairePrintingService getQuestionnairePrintingService() {
-        return KraServiceLocator.getService(QuestionnairePrintingService.class);
-    }
-
     /*
      * get printables for protocol & questionnaires.
      * Protocol only has one printable and each questionnaire has its own printable.
