@@ -15,7 +15,12 @@
  */
 package org.kuali.kra.irb;
 
+import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
+
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,21 +29,22 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.common.customattributes.CustomDataAction;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.irb.actions.ProtocolActionBean;
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.kra.irb.actions.ProtocolRequestAction;
 import org.kuali.kra.irb.actions.ProtocolSubmissionBeanBase;
-import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.personnel.ProtocolPersonTrainingService;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelService;
+import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.print.QuestionnairePrintingService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitAclLoadService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
@@ -61,7 +67,10 @@ import org.springframework.util.CollectionUtils;
  * all user requests for that particular tab (web page).
  */
 public abstract class ProtocolAction extends KraTransactionalDocumentActionBase {
-    
+    private static final String PROTOCOL_NUMBER = "protocolNumber";
+    private static final String SUBMISSION_NUMBER = "submissionNumber";
+    private static final String SUFFIX_T = "T";
+   
     /** {@inheritDoc} */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -413,6 +422,75 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     }
     
     
+    /**
+     * 
+     * This method is to print submission questionnaire answer
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */                  
+    public ActionForward printSubmissionQuestionnaireAnswer(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ActionForward forward = mapping.findForward(MAPPING_BASIC);
+        Map<String, Object> reportParameters = new HashMap<String, Object>();
+        AnswerHeader answerHeader = getAnswerHeader(request);
+        // for release 3 : if questionnaire questions has answer, then print answer.
+        reportParameters.put("questionnaireId", answerHeader.getQuestionnaire().getQuestionnaireId());
+        reportParameters.put("template", answerHeader.getQuestionnaire().getTemplate());
+        Protocol protocol;
+        if (CoeusSubModule.PROTOCOL_SUBMISSION.equals(answerHeader.getModuleSubItemCode())) {
+            reportParameters.put(PROTOCOL_NUMBER, answerHeader.getModuleItemKey());
+            reportParameters.put(SUBMISSION_NUMBER, answerHeader.getModuleSubItemKey());
+            protocol = getProtocolFinder().findCurrentProtocolByNumber(getProtocolNumber(answerHeader));
+        } else {
+            Map keyValues= new HashMap();
+            keyValues.put(PROTOCOL_NUMBER, answerHeader.getModuleItemKey());
+            keyValues.put("sequenceNumber", answerHeader.getModuleSubItemKey());
+            protocol = ((List<Protocol>)getBusinessObjectService().findMatching(Protocol.class, keyValues)).get(0);
+        }
+
+        AttachmentDataSource dataStream = getQuestionnairePrintingService().printQuestionnaireAnswer(
+                protocol, reportParameters);
+        if (dataStream.getContent() != null) {
+            streamToResponse(dataStream, response);
+            forward = null;
+        }
+        return forward;
+    }
+    
+    /*
+     * This is to retrieve answer header based on answerheaderid
+     */
+    private AnswerHeader getAnswerHeader(HttpServletRequest request) {
+
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("answerHeaderId", Integer.toString(this.getSelectedLine(request)));
+        return  (AnswerHeader)getBusinessObjectService().findByPrimaryKey(AnswerHeader.class, fieldValues);
+    }
+
+    protected QuestionnairePrintingService getQuestionnairePrintingService() {
+        return KraServiceLocator.getService(QuestionnairePrintingService.class);
+    }
+
+    /*
+     * get protocolnumber for answerheader moduleitemkey
+     * a saved but not submitted answer has "T" at the end of protocolnumber
+     */
+    private String getProtocolNumber(AnswerHeader answerHeader) {
+        String protocolNumber = answerHeader.getModuleItemKey();
+        if (protocolNumber.endsWith(SUFFIX_T)) {
+            protocolNumber = protocolNumber.substring(0, protocolNumber.length() - 1);
+        }
+        return protocolNumber;
+    }
+    
+    private ProtocolFinderDao getProtocolFinder() {
+        return KraServiceLocator.getService(ProtocolFinderDao.class);
+    }
+
 
     
 }

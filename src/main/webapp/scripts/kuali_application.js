@@ -2520,6 +2520,102 @@ function questionnairePop(protocolNumber, submissionNumber, docFormKey, sessionD
 	}
 }
 
+function ajaxLoadQn(protocolNumber, submissionNumber,  docFormKey, documentWebScope, summary, qnIdx) {
+    var methodToCall = 'submissionQuestionnaireAjax';
+    var subItemKey = '&submissionNumber=';
+    
+	if (summary == true) {
+	    methodToCall = 'summaryQuestionnaireAjax';
+	    subItemKey = '&sequenceNumber=';
+	}
+	$j.ajax( {
+		url : 'questionnaire.do',
+		type : 'POST',
+		dataType : 'html',
+		data : 'methodToCall='+methodToCall+'&docFormKey=' + docFormKey+'&documentWebScope=' + documentWebScope
+		+subItemKey + submissionNumber+'&protocolNumber=' + protocolNumber,
+		cache : false,
+		async : false,
+		timeout : 1000,
+		error : function() {
+			alert('Error loading XML document');
+		},
+		success : function(xml) {
+			//alert(xml)
+			var qnhtml;
+			$j(xml).find('h5').each(function() {
+				//alert($j(this).html());
+				
+				qnhtml = $j(this).html();
+				qnhtml = qnhtml.replace(/questionpanelcontrol/g, "questionpanelcontrol" + qnIdx);
+				qnhtml = qnhtml.replace(/questionpanelcontent/g, "questionpanelcontent" + qnIdx);
+
+				$j('#qnhistory'+qnIdx+'Content').html(qnhtml);
+//			    $j(".questionpanel").toggle(
+//			            function()
+//			            {
+//			            	var headerIdx = $j(this).attr("id").substring(20);
+//			                var panelcontentid = "questionpanelcontent"+headerIdx;
+//			                $j("#"+panelcontentid).slideDown(500);
+//			                $j(this).html("<img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+//			                $j("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.showQuestions").attr("value","Y")
+//			            },function(){
+//			            	var headerIdx = $j(this).attr("id").substring(20);
+//			                var panelcontentid = "questionpanelcontent"+headerIdx;
+//			                $j("#"+panelcontentid).slideUp(500);
+//			                $j(this).html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+//			                $j("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.showQuestions").attr("value","N")
+//			            }
+//			        );
+//			    $j("#questionpanelcontrol0").click();
+
+				});
+		    $j(".questionpanel").toggle(
+            function()
+            {
+            	var headerIdx = $j(this).attr("id").substring(20);
+                var panelcontentid = "questionpanelcontent"+headerIdx;
+                $j("#"+panelcontentid).slideDown(500);
+                $j(this).html("<img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+                $j("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.showQuestions").attr("value","Y")
+            },function(){
+            	var headerIdx = $j(this).attr("id").substring(20);
+                var panelcontentid = "questionpanelcontent"+headerIdx;
+                $j("#"+panelcontentid).slideUp(500);
+                $j(this).html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+                $j("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.showQuestions").attr("value","N")
+            }
+        );
+		    var firstQn = true;
+			$j(qnhtml).find('div[id^=questionpanelcontent]').each(function() {
+				//alert('hide')
+				if (firstQn) {
+					var controlid = $j(this).attr("id").replace("content","control");
+					firstQn = false;
+				    $j('#'+controlid).click();
+				} else {
+					$j('#'+$j(this).attr("id")).hide();
+				}
+			});
+			$j(".Qmoreinfocontrol").parent().next().hide();
+			$j(".Qmoreinfocontrol").toggle(
+				function()
+				{
+					$j(this).parent().next().slideDown(400);
+					$j(this).html("Less Information...");
+				},function(){
+					$j(this).parent().next().slideUp(400);
+					$j(this).html("More Information...");
+				}
+			);
+
+
+		}
+	}); // end ajax
+
+    return false;
+}
+
 function closeQuestionnairePop() {
 	if (viewQuestionnaireWindow != null) {
 		viewQuestionnaireWindow.close();
