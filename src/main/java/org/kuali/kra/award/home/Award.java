@@ -528,7 +528,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      */
     public List<AwardPerson> getProjectPersonsSorted() {
         List<AwardPerson> aList = new ArrayList<AwardPerson>();
-        if(this.getPrincipalInvestigator() != null) {
+        if (this.getPrincipalInvestigator() != null) {
             aList.add(this.getPrincipalInvestigator());
         }
         aList.addAll(this.getCoInvestigators());
@@ -542,11 +542,12 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      */
     public List<AwardPerson> getInvestigators() {
         List<AwardPerson> investigators = new ArrayList<AwardPerson>();
-        for(AwardPerson person: projectPersons) {
-            if(person.isPrincipalInvestigator() || person.isCoInvestigator()) {
+        for (AwardPerson person : projectPersons) {
+            if (person.isPrincipalInvestigator() || person.isCoInvestigator()) {
                 investigators.add(person);
             }
         }
+        Collections.sort(investigators);
         return investigators;
     }
     
@@ -556,11 +557,12 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      */
     public List<AwardPerson> getCoInvestigators() {
         List<AwardPerson> coInvestigators = new ArrayList<AwardPerson>();
-        for(AwardPerson person: projectPersons) {
-            if(person.isCoInvestigator()) {
+        for (AwardPerson person: projectPersons) {
+            if (person.isCoInvestigator()) {
                 coInvestigators.add(person);
             }
         }
+        Collections.sort(coInvestigators);
         return coInvestigators;
     }
     
@@ -570,11 +572,12 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      */
     public List<AwardPerson> getKeyPersons() {
         List<AwardPerson> keyPersons = new ArrayList<AwardPerson>();
-        for(AwardPerson person: projectPersons) {
-            if(person.isKeyPerson()) {
+        for (AwardPerson person : projectPersons) {
+            if (person.isKeyPerson()) {
                 keyPersons.add(person);
             }
         }
+        Collections.sort(keyPersons);
         return keyPersons;
     }
     
