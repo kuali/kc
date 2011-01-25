@@ -31,7 +31,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 /**
  * This class implements an Award Person 
  */
-public class AwardPerson extends AwardContact implements PersonRolodex {
+public class AwardPerson extends AwardContact implements PersonRolodex, Comparable<AwardPerson> {
     private static final long serialVersionUID = 7980027108784055721L;
     @AwardSyncableProperty
     private KualiDecimal academicYearEffort;
@@ -318,5 +318,18 @@ public class AwardPerson extends AwardContact implements PersonRolodex {
     }
     public void setKeyPersonRole(String keyPersonRole) {
         this.keyPersonRole = keyPersonRole;
+    }
+    
+    /**
+     * 
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
+    public int compareTo(AwardPerson o) {
+        int lastNameComp = this.getPerson().getLastName().compareTo(o.getPerson().getLastName());
+        if (lastNameComp != 0) {
+            return lastNameComp;
+        } else {
+            return this.getPerson().getFirstName().compareTo(o.getPerson().getFirstName());
+        }
     }
 }
