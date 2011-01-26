@@ -61,6 +61,10 @@ spool kc_demo.log
 @KC_DEMO5_COMM_SCHEDULE_MINUTES.sql 
 @KC_DEMO5_PROTOCOL_ACTIONS.sql 
 @KC_DEMO5_PROTOCOL_REVIEWERS.sql 
-@KC_DEMO6_PROTOCOL_ONLN_RVWS.sql 
+@KC_DEMO6_PROTOCOL_ONLN_RVWS.sql
+
+alter sequence sequence_award_id nocache;
+alter sequence SEQUENCE_IPPCS_ID nocache;
+
 COMMIT;
 EXIT;
