@@ -1964,23 +1964,21 @@ public class ActionHelper implements Serializable {
     private void checkQuestionnaire(ProtocolAction protocolAction) {
         if (protocolAction.getSubmissionNumber() != null
                 && !ProtocolActionType.SUBMIT_TO_IRB.equals(protocolAction.getProtocolActionTypeCode())) {
-            protocolAction.setQuestionnaireExist(hasAnsweredQuestionnaire(CoeusSubModule.PROTOCOL_SUBMISSION, Integer
+            protocolAction.setAnswerHeadersCount(getAnswerHeaderCount(CoeusSubModule.PROTOCOL_SUBMISSION, Integer
                     .toString(protocolAction.getSubmissionNumber())));
-            if (protocolAction.isQuestionnaireExist()) {
+             if (protocolAction.getAnswerHeadersCount() > 0) {
                 protocolAction.setQuestionnairePrintOption(getQnPrintOptionForAction(protocolAction.getProtocolNumber(),
-                        protocolAction.getSubmissionNumber().toString(), CoeusSubModule.PROTOCOL_SUBMISSION));
+                        protocolAction.getSubmissionNumber().toString(), CoeusSubModule.PROTOCOL_SUBMISSION, protocolAction));
             }
         } else if (ProtocolActionType.SUBMIT_TO_IRB.equals(protocolAction.getProtocolActionTypeCode())
                 && ("Submitted to IRB").equals(protocolAction.getComments())) {
             if (protocolAction.getProtocol().isAmendment() || protocolAction.getProtocol().isRenewal()) {
                 protocolAction.setQuestionnairePrintOption(getQnPrintOptionForAction(protocolAction.getProtocolNumber(),
-                        protocolAction.getSequenceNumber().toString(), CoeusSubModule.AMENDMENT_RENEWAL));
-                protocolAction.setQuestionnaireExist(protocolAction.getQuestionnairePrintOption() != null);
+                        protocolAction.getSequenceNumber().toString(), CoeusSubModule.AMENDMENT_RENEWAL, protocolAction));
 
             } else {
                 protocolAction.setQuestionnairePrintOption(getQnPrintOptionForAction(protocolAction.getProtocolNumber(),
-                        getInitialSequence(protocolAction, ""), CoeusSubModule.ZERO_SUBMODULE));
-                protocolAction.setQuestionnaireExist(protocolAction.getQuestionnairePrintOption() != null);
+                        getInitialSequence(protocolAction, ""), CoeusSubModule.ZERO_SUBMODULE, protocolAction));
             }
         } else if (ProtocolActionType.SUBMIT_TO_IRB.equals(protocolAction.getProtocolActionTypeCode())
                 && StringUtils.isNotBlank(protocolAction.getComments())
@@ -1988,17 +1986,17 @@ public class ActionHelper implements Serializable {
             String amendmentRenewalNumber = getAmendmentRenewalNumber(protocolAction.getComments());
             protocolAction.setQuestionnairePrintOption(getQnPrintOptionForAction(protocolAction.getProtocolNumber()
                     + amendmentRenewalNumber, getInitialSequence(protocolAction, amendmentRenewalNumber),
-                    CoeusSubModule.AMENDMENT_RENEWAL));
-            protocolAction.setQuestionnaireExist(protocolAction.getQuestionnairePrintOption() != null);
-        }
+                    CoeusSubModule.AMENDMENT_RENEWAL, protocolAction));
+         }
     }
 
     /*
      * set up questionnaire option for UI view button
      */
-    private QuestionnairePrintOption getQnPrintOptionForAction(String itemKey, String subItemKey, String subItemCode) {
+    private QuestionnairePrintOption getQnPrintOptionForAction(String itemKey, String subItemKey, String subItemCode, ProtocolAction protocolAction) {
 
-        if (hasAnsweredQuestionnaire(subItemCode, itemKey, subItemKey)) {
+        protocolAction.setAnswerHeadersCount(getAnswerHeaderCount(subItemCode, itemKey, subItemKey));
+        if (protocolAction.getAnswerHeadersCount() > 0) {
             QuestionnairePrintOption qnPrintOption = new QuestionnairePrintOption();
             qnPrintOption.setItemKey(itemKey);
             qnPrintOption.setSubItemCode(subItemCode);
@@ -2009,15 +2007,16 @@ public class ActionHelper implements Serializable {
         }
     }
     
-    private boolean hasAnsweredQuestionnaire(String moduleSubItemCode, String moduleItemKey, String moduleSubItemKey) {
+    private int getAnswerHeaderCount(String moduleSubItemCode, String moduleItemKey, String moduleSubItemKey) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("moduleItemCode", CoeusModule.IRB_MODULE_CODE);
         fieldValues.put("moduleItemKey", moduleItemKey);
         fieldValues.put("moduleSubItemCode", moduleSubItemCode);
         fieldValues.put("moduleSubItemKey", moduleSubItemKey);
-        return getBusinessObjectService().countMatching(AnswerHeader.class, fieldValues) > 0;
+        return getBusinessObjectService().countMatching(AnswerHeader.class, fieldValues);
+        
     }
-
+    
     /*
      * utility method to get amend or renewal number
      */
@@ -2265,14 +2264,19 @@ public class ActionHelper implements Serializable {
     }
     
     private boolean hasAnsweredQuestionnaire(String moduleSubItemCode, String moduleSubItemKey) {
+        return getAnswerHeaderCount(moduleSubItemCode, moduleSubItemKey) > 0;
+    }
+
+    private int getAnswerHeaderCount(String moduleSubItemCode, String moduleSubItemKey) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("moduleItemCode", CoeusModule.IRB_MODULE_CODE);
         fieldValues.put("moduleItemKey", getProtocol().getProtocolNumber());
         fieldValues.put("moduleSubItemCode", moduleSubItemCode);
         fieldValues.put("moduleSubItemKey", moduleSubItemKey);
-        return getBusinessObjectService().countMatching(AnswerHeader.class, fieldValues) > 0;
+        return getBusinessObjectService().countMatching(AnswerHeader.class, fieldValues);
+        
     }
-
+    
     /*
      * This will check whetehr there is submission questionnaire.
      * When business rule is implemented, this will become more complicated because
