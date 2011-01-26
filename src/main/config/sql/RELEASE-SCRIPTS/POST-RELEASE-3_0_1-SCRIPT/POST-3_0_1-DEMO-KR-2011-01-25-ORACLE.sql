@@ -172,9 +172,4 @@ INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID,ATTR_VAL,KIM_ATTR_DEFN_ID,KI
    AND ROLE_ID = (SELECT role_id FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND role_nm = 'Protocol Viewer')),1);
 
 
--- Bootstrap fix
-INSERT INTO KRIM_GRP_MBR_T(GRP_MBR_ID, VER_NBR, OBJ_ID, GRP_ID, MBR_ID, MBR_TYP_CD, ACTV_FRM_DT, ACTV_TO_DT, LAST_UPDT_DT) 
-    VALUES(krim_grp_mbr_id_s.nextval, 0, SYS_GUID(), (select grp_id from krim_grp_t where GRP_NM = 'IRBAdmin' and NMSPC_CD = 'KC-WKFLW'), 
-    (select prncpl_id from krim_prncpl_t where prncpl_nm = 'kr'), 'P', NULL, NULL, NULL);
-
 COMMIT;
