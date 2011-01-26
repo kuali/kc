@@ -46,7 +46,7 @@ fi
 
 dbtype=`getChoice 'Enter Database Type' ORACLE MYSQL`
 
-version=`getChoice 'Enter Version' NEW 2.0 3.0`
+version=`getChoice 'Enter Version' NEW 2.0 3.0 3.0.1`
 
 un=`getAnswer 'Enter KC Database Username'`
 
@@ -130,9 +130,23 @@ case "${dbtype}" in
 			mv *.log ../LOGS/
 			cd ..
 		fi
-		cd KC-RELEASE-3_0_1-SCRIPT
-		sqlplus "${un}"/"${pw}${DBSvrNm}" < KC-Release-3_0-3_0_1-Upgrade-Oracle-Install.sql
-		mv *.log ../LOGS/
+		if [ "${version}" = "3.0" ] || [ "${version}" = "NEW" ]
+		then
+			cd KC-RELEASE-3_0_1-SCRIPT
+			sqlplus "${un}"/"${pw}${DBSvrNm}" < KC-Release-3_0-3_0_1-Upgrade-Oracle-Install.sql
+			mv *.log ../LOGS/
+			cd .. 
+		fi
+		cd POST-RELEASE-3_0_1-SCRIPT
+		if [ "${mode}" = "BUNDLE" ]
+		then
+			sqlplus "${un}"/"${pw}${DBSvrNm}" < POST-3_0_1-KR-2011-01-26-ORACLE.sql
+		else
+			if [ "${mode}" = "EMBED" ] && [ "${InstRice}" = "Y" ]
+			then
+				sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < POST-3_0_1-KR-2011-01-26-ORACLE.sql
+			fi
+		fi
 		cd .. ;;
 	"MYSQL")
 		if [ "${version}" = "NEW" ]
