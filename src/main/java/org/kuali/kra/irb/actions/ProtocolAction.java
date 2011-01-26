@@ -65,7 +65,7 @@ public class ProtocolAction extends ProtocolAssociate {
     private transient List<ProtocolSubmissionDoc> protocolSubmissionDocs;
     
     private transient boolean isInFilterView = true;
-    private transient boolean questionnaireExist = false;
+    private transient int answerHeadersCount = 0;
     private transient QuestionnairePrintOption questionnairePrintOption;
     
     public ProtocolAction() { 
@@ -379,19 +379,19 @@ public class ProtocolAction extends ProtocolAssociate {
         this.followupActionCode = followupActionCode;
     }
 
-    public boolean isQuestionnaireExist() {
-        return questionnaireExist;
-    }
-
-    public void setQuestionnaireExist(boolean questionnaireExist) {
-        this.questionnaireExist = questionnaireExist;
-    }
-
     public QuestionnairePrintOption getQuestionnairePrintOption() {
         return questionnairePrintOption;
     }
 
     public void setQuestionnairePrintOption(QuestionnairePrintOption questionnairePrintOption) {
         this.questionnairePrintOption = questionnairePrintOption;
+    }
+
+    public int getAnswerHeadersCount() {
+        return answerHeadersCount;
+    }
+
+    public void setAnswerHeadersCount(int answerHeadersCount) {
+        this.answerHeadersCount = answerHeadersCount;
     }
 }
