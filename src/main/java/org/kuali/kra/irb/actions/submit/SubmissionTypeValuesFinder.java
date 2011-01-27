@@ -100,29 +100,29 @@ public class SubmissionTypeValuesFinder extends IrbActionsKeyValuesBase {
     
     private boolean displayInitialSubmission(String currentStatus) {
         String validStatuses[] = { ProtocolStatus.IN_PROGRESS,
-                ProtocolStatus.WITHDRAWN};
+                ProtocolStatus.WITHDRAWN, ProtocolStatus.SUBMITTED_TO_IRB};
         return validateCurrentStatus(currentStatus, validStatuses);
     }
     
     private boolean displayResponseToPrevIRBNotication(String currentStatus) {
         String validStatuses[] = { ProtocolStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED,
                 ProtocolStatus.SUBSTANTIVE_REVISIONS_REQUIRED,
-                ProtocolStatus.DEFERRED };
+                ProtocolStatus.DEFERRED, ProtocolStatus.SUBMITTED_TO_IRB };
         return validateCurrentStatus(currentStatus, validStatuses);
     }
     
     private boolean displayAmendment(String currentStatus, Protocol protocol) {
-        String validStatuses[] = { ProtocolStatus.WITHDRAWN, ProtocolStatus.AMENDMENT_IN_PROGRESS };
+        String validStatuses[] = { ProtocolStatus.WITHDRAWN, ProtocolStatus.AMENDMENT_IN_PROGRESS, ProtocolStatus.SUBMITTED_TO_IRB };
         return validateCurrentStatus(currentStatus, validStatuses)  && hasAmmendmentProtocolNumber(protocol.getProtocolNumber());
     }
     
     private boolean displayContinuation(String currentStatus, Protocol protocol) {
-        String validStatuses[] = { ProtocolStatus.WITHDRAWN, ProtocolStatus.RENEWAL_IN_PROGRESS };
+        String validStatuses[] = { ProtocolStatus.WITHDRAWN, ProtocolStatus.RENEWAL_IN_PROGRESS, ProtocolStatus.SUBMITTED_TO_IRB };
         return validateCurrentStatus(currentStatus, validStatuses)  && hasRenewalProtocolNumber(protocol.getProtocolNumber());
     }
     
     private boolean displayContinuationWithAmendment(String currentStatus, Protocol protocol) {
-        String validStatuses[] = { ProtocolStatus.WITHDRAWN, ProtocolStatus.RENEWAL_IN_PROGRESS };
+        String validStatuses[] = { ProtocolStatus.WITHDRAWN, ProtocolStatus.RENEWAL_IN_PROGRESS, ProtocolStatus.SUBMITTED_TO_IRB };
         return validateCurrentStatus(currentStatus, validStatuses)  && hasRenewalProtocolNumber(protocol.getProtocolNumber());
     }
     
@@ -135,7 +135,7 @@ public class SubmissionTypeValuesFinder extends IrbActionsKeyValuesBase {
     }
     
     private boolean displayResubmission(String currentStatus) {
-        String validStatuses[] = {ProtocolStatus.WITHDRAWN};
+        String validStatuses[] = {ProtocolStatus.WITHDRAWN, ProtocolStatus.SUBMITTED_TO_IRB};
         return validateCurrentStatus(currentStatus, validStatuses);
     }
     
