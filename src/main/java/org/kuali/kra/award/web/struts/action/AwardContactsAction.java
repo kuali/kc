@@ -19,13 +19,18 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
 import static org.apache.commons.lang.StringUtils.substringBetween;
 import static org.kuali.rice.kns.util.KNSConstants.METHOD_TO_CALL_ATTRIBUTE;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.cxf.common.util.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -40,10 +45,12 @@ import org.kuali.kra.award.contacts.AwardSponsorContact;
 import org.kuali.kra.award.contacts.AwardSponsorContactsBean;
 import org.kuali.kra.award.contacts.AwardUnitContactsBean;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.service.ServiceHelper;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
@@ -65,10 +72,90 @@ public class AwardContactsAction extends AwardAction {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         Award award = awardForm.getAwardDocument().getAward();
-        setLeadUnitOnAwardFromPILeadUnit(award, awardForm);
-        award.initCentralAdminContacts();
-        ActionForward forward = super.save(mapping, form, request, response); 
+        ActionForward forward;
+        if (isValidSave(awardForm)) {
+            processAwardPersonChanges(award);
+            
+            //String leadUnitNumber = award.getAwardDocument().getLeadUnitNumber();
+            //System.err.println("in AwardContactsAction, before setLeadUnitOnAwardFromPILeadUnit leadUnitNumber: " + leadUnitNumber);
+            //System.err.println(" and the boolean null check:'" + (leadUnitNumber == null) + "'");
+            
+            setLeadUnitOnAwardFromPILeadUnit(award, awardForm);
+            
+            //leadUnitNumber = award.getAwardDocument().getLeadUnitNumber();
+            //System.err.println("in AwardContactsAction, before init leadUnitNumber: " + leadUnitNumber);
+            //System.err.println(" and the boolean null check:'" + (leadUnitNumber == null) + "'");
+            
+            award.initCentralAdminContacts();
+            
+            //leadUnitNumber = award.getAwardDocument().getLeadUnitNumber();
+            //System.err.println("in AwardContactsAction, after init leadUnitNumber: " + leadUnitNumber);
+            //System.err.println(" and the boolean null check:'" + (leadUnitNumber == null) + "'");
+            
+            forward = super.save(mapping, form, request, response);
+        } else {
+            forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);            
+        }
         return forward;
+    }
+    
+    private void processAwardPersonChanges(Award award) {
+        ArrayList<AwardPerson> PIs = new ArrayList<AwardPerson>();
+        for (AwardPerson formPerson : award.getProjectPersons()) {
+            if (ContactRole.PI_CODE.equals(formPerson.getContactRole().getRoleCode())) {
+                PIs.add(formPerson);
+            }
+        }
+        
+        if (PIs.size() > 1) {
+            AwardPerson formPersonToSwitchToCOI = getPersonToChange(award, PIs);
+            
+            if (formPersonToSwitchToCOI != null) {
+                Map params = new HashMap();
+                params.put("PROP_PERSON_ROLE_ID", ContactRole.COI_CODE);
+                ProposalPersonRole coiRole = (ProposalPersonRole) this.getBusinessObjectService().findByPrimaryKey(ProposalPersonRole.class, params);
+                
+                formPersonToSwitchToCOI.setContactRole(coiRole);
+                formPersonToSwitchToCOI.setContactRoleCode(coiRole.getRoleCode());   
+                if (award.getPrincipalInvestigator().getUnits().get(0) != null 
+                        && award.getPrincipalInvestigator().getUnits().get(0).getUnitNumber() != null) {
+                    award.setUnitNumber(award.getPrincipalInvestigator().getUnits().get(0).getUnitNumber());
+                }
+            }
+        }
+
+    }
+
+    private AwardPerson getPersonToChange(Award award, ArrayList<AwardPerson> PIs) {
+        Map params = new HashMap();
+        params.put("AWARD_ID", award.getAwardId());
+        Award databaseAward = (Award) this.getBusinessObjectService().findByPrimaryKey(Award.class, params);
+        
+        //boolean notFound = true;
+        AwardPerson formPersonToSwitchToCOI = null;
+        
+        Iterator<AwardPerson> PIIterator = PIs.iterator();
+        boolean foundPersonToChange = false;
+        while (PIIterator.hasNext() && !foundPersonToChange){
+            AwardPerson formPerson = PIIterator.next();
+            Iterator<AwardPerson> databasePeople = databaseAward.getProjectPersons().iterator();
+            while (databasePeople.hasNext() && !foundPersonToChange){
+                AwardPerson databasePerson = databasePeople.next();
+                if (formPerson.getAwardContactId().equals(databasePerson.getAwardContactId()) 
+                        && ContactRole.PI_CODE.equals(databasePerson.getContactRole().getRoleCode())) {
+                    //this form person is a PI in the database, therefore this person is the one we need to change, if he wasn't a PI
+                    //in the data base, then that is the newer PI
+                    foundPersonToChange = true;
+                    formPersonToSwitchToCOI = formPerson;
+                }
+            }
+            
+            if (!PIIterator.hasNext() && !foundPersonToChange && PIs.size() > 1) {
+                // we have two new people and both are set to PI, just use the last one to switch to COI
+                formPersonToSwitchToCOI = formPerson;
+            }
+        }
+        return formPersonToSwitchToCOI;
     }
     
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -86,14 +173,26 @@ public class AwardContactsAction extends AwardAction {
     @SuppressWarnings("unchecked")
     private void setLeadUnitOnAwardFromPILeadUnit(Award award, AwardForm awardForm) {
         for (AwardPerson person : award.getProjectPersons()) {
-            if(person.isPrincipalInvestigator()) {
-                List<Unit> units= (List<Unit>) getBusinessObjectService().findMatching(Unit.class, 
-                        ServiceHelper.getInstance().buildCriteriaMap("unitName", awardForm.getProjectPersonnelBean().getSelectedLeadUnit()));
-                if (units.size() > 0) {
-                Unit leadUnit = units.get(0);
-                award.setUnitNumber(leadUnit.getUnitNumber());
-                award.setLeadUnit(leadUnit);
-                }else {
+            if (person.isPrincipalInvestigator()) {
+                
+                String unitToUse;
+                //if (!StringUtils.isEmpty(awardForm.getProjectPersonnelBean().getSelectedLeadUnit())){
+                  //  unitToUse = awardForm.getProjectPersonnelBean().getSelectedLeadUnit();
+                //} else if (person.getUnit(0) != null) {
+                    unitToUse = person.getUnit(0).getUnitNumber();
+                //} else {
+                  //  unitToUse = null;
+                ////}
+                
+                System.err.println("unitToUse: " + unitToUse);
+                
+                List<Unit> units = (List<Unit>) getBusinessObjectService().findMatching(Unit.class, 
+                        ServiceHelper.getInstance().buildCriteriaMap("UNIT_NUMBER", unitToUse));
+                if (units.size() > 0 && units.get(0) != null) {
+                    Unit leadUnit = units.get(0);
+                    award.setUnitNumber(leadUnit.getUnitNumber());
+                    award.setLeadUnit(leadUnit);
+                } else {
                     award.setUnitNumber(null);
                     award.setLeadUnit(null);
                 }
