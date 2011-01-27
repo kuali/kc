@@ -1,0 +1,144 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="S2sOppFormQuestionnaire" parent="S2sOppFormQuestionnaire-parentBean" />
+
+  <bean id="S2sOppFormQuestionnaire-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.S2sOppFormQuestionnaire" />
+		<property name="objectLabel" value="S2S Opportunity Form to Questionnaire Mapping" />
+    <property name="inquiryDefinition" >
+      <ref bean="S2sOppFormQuestionnaire-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="S2sOppFormQuestionnaire-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="S2sOppFormQuestionnaire-s2sOppFormQuestionnaireId" />
+        <ref bean="S2sOppFormQuestionnaire-oppNameSpace" />
+        <ref bean="S2sOppFormQuestionnaire-formName" />
+        <ref bean="S2sOppFormQuestionnaire-questionnaireId" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+
+	<bean id="S2sOppFormQuestionnaire-s2sOppFormQuestionnaireId" parent="S2sOppFormQuestionnaire-s2sOppFormQuestionnaireId-parentBean" />
+   	<bean id="S2sOppFormQuestionnaire-s2sOppFormQuestionnaireId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="s2sOppFormQuestionnaireId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Id" />
+        <property name="shortLabel" value="Id" />
+        <property name="maxLength" value="12" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="12" />
+        </property>
+        <property name="summary" value="S2S Opportunity Form to Questionnaire Mapping Id" />
+        <property name="description" value="S2S Opportunity Form to Questionnaire Mapping Id" />
+    </bean>
+
+  	  <bean id="S2sOppFormQuestionnaire-oppNameSpace" parent="S2sOppFormQuestionnaire-oppNameSpace-parentBean" />
+  	  <bean id="S2sOppFormQuestionnaire-oppNameSpace-parentBean" abstract="true" parent="S2sOppForms-oppNameSpace">
+    	<property name="name" value="oppNameSpace" />
+    	<property name="label" value="Opportunity Name Space" />
+    	<property name="shortLabel" value="Opportunity Name Space" />
+    	<property name="control" >
+      		<bean parent="TextControlDefinition"
+            	p:size="80" />
+    	</property>
+  	 </bean>
+  
+  	  <bean id="S2sOppFormQuestionnaire-formName" parent="S2sOppFormQuestionnaire-formName-parentBean" />
+  	  <bean id="S2sOppFormQuestionnaire-formName-parentBean" abstract="true" parent="S2sOppForms-formName">
+    	<property name="name" value="formName" />
+    	<property name="label" value="Form Name" />
+    	<property name="shortLabel" value="Form Name" />
+    	<property name="control" >
+      		<bean parent="TextControlDefinition"
+            	p:size="80" />
+    	</property>
+  	 </bean>
+  
+	  <bean id="S2sOppFormQuestionnaire-questionnaireId" parent="S2sOppFormQuestionnaire-questionnaireId-parentBean" />
+  	  <bean id="S2sOppFormQuestionnaire-questionnaireId-parentBean" abstract="true" parent="Questionnaire-questionnaireId">
+    	<property name="name" value="questionnaireId" />
+    	<property name="label" value="Questionnaire Id" />
+    	<property name="shortLabel" value="Questionnaire Id" />
+  	 </bean>
+  
+  <bean id="S2sOppFormQuestionnaire-inquiryDefinition" parent="S2sOppFormQuestionnaire-inquiryDefinition-parentBean" />
+
+  <bean id="S2sOppFormQuestionnaire-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="S2S Opportunity Form to Questionnaire Mapping" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="S2S Opportunity Form to Questionnaire Mapping" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="oppNameSpace"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="formName"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="questionnaireId"
+                    p:forceInquiry="true" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="S2sOppFormQuestionnaire-lookupDefinition" parent="S2sOppFormQuestionnaire-lookupDefinition-parentBean" />
+
+  <bean id="S2sOppFormQuestionnaire-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="S2S Opportunity Form to Questionnaire Mapping Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+     
+        <bean parent="FieldDefinition"
+              p:attributeName="oppNameSpace" />
+        <bean parent="FieldDefinition"
+              p:attributeName="formName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="questionnaireId" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="oppNameSpace"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="formName"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="questionnaireId"
+              p:forceInquiry="true" />
+      </list>
+    </property>
+  </bean>
+</beans>

@@ -62,6 +62,13 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
         showQuestions = NOT_SHOW_ANSWER;
 
     }
+    
+    public void setNewModuleQuestionnaireBeanReferenceData(ModuleQuestionnaireBean newModuleQuestionnaireBean) {
+        this.moduleItemCode = newModuleQuestionnaireBean.getModuleItemCode();
+        this.moduleItemKey = newModuleQuestionnaireBean.getModuleItemKey();
+        this.moduleSubItemCode = newModuleQuestionnaireBean.getModuleSubItemCode();
+        this.moduleSubItemKey = newModuleQuestionnaireBean.getModuleSubItemKey();
+    }
 
     /**
      * Gets the moduleItemCode attribute.

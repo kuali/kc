@@ -15,6 +15,8 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ attribute name="viewOnly" required="true" %>
+<%@ attribute name="bean" required="true" type="org.kuali.kra.questionnaire.QuestionnaireHelperBase" %>
+<%@ attribute name="property" required="true" %>
 
 <c:set var="protocolPersonAttributes" value="${DataDictionary.ProtocolPerson.attributes}" />
 <%--  <c:set var="readOnly" value="${!KualiForm.questionnaireHelper.answerQuestionnaire}" scope = "request"/> --%>
@@ -44,8 +46,8 @@
 	</tr>
   </tbody>
 </table>
-<c:forEach items="${KualiForm.questionnaireHelper.answerHeaders}" var="answerHeader" varStatus="status">
-	<c:set var="answerHeaderIndex" value="${status.index}" scope="request"/>
+<c:forEach items="${bean.answerHeaders}" var="answerHeader" varStatus="status">
+	
 	
 	<%--
 	<c:set var="prop" value="questionnaireHelper.answerHeaders[${answerHeaderIndex}].showQuestions"/>
@@ -53,16 +55,16 @@
 	<input type="hidden" name="${prop}" id ="${prop}" 
            value = "${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].showQuestions}" readonly = "${readOnly}"/>
 		 --%>
-     <kra-questionnaire:submissionQuestionnaireAnswers/>
+     <kra-questionnaire:submissionQuestionnaireAnswers property = "${property}" bean = "${bean}" answerHeaderIndex = "${status.index}"/>
 				
 				 
 </c:forEach>
 
-<c:if test="${fn:length(KualiForm.questionnaireHelper.answerHeaders) > 0}">
+<c:if test="${fn:length(bean.answerHeaders) > 0}">
 
 	${kfunc:registerEditableProperty(KualiForm, "numberOfQuestionaires")}
     <input type="hidden" name="numberOfQuestionaires" id ="numberOfQuestionaires" 
-       value = "${fn:length(KualiForm.questionnaireHelper.answerHeaders)}" />
+       value = "${fn:length(bean.answerHeaders)}" />
     <kul:panelFooter />
 </c:if>
 

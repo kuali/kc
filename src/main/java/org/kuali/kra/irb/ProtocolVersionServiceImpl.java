@@ -29,8 +29,8 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
+import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -127,8 +127,8 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
         finalizeAttachmentProtocol(newProtocol);
         businessObjectService.save(newProtocol);
         // versioning questionnaire answer
-        List<AnswerHeader> newAnswerHeaders = questionnaireAnswerService.versioningQuestionnaireAnswer(new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE,
-                protocolDocument.getProtocol()), newProtocol.getSequenceNumber());
+        List<AnswerHeader> newAnswerHeaders = questionnaireAnswerService.versioningQuestionnaireAnswer(new ProtocolModuleQuestionnaireBean(protocolDocument.getProtocol())
+            , newProtocol.getSequenceNumber());
         if (!newAnswerHeaders.isEmpty()) {
             businessObjectService.save(newAnswerHeaders);
         }

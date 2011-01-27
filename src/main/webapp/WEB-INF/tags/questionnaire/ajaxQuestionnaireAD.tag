@@ -46,7 +46,7 @@
 </table>
 <h5>
 <c:forEach items="${KualiForm.questionnaireHelper.answerHeaders}" var="answerHeader" varStatus="status">
-	<c:set var="answerHeaderIndex" value="${status.index}" scope="request"/>
+	<c:set var="answerHeaderIndex" value="${status.index}"/>
 	
 	<%--
 	<c:set var="prop" value="questionnaireHelper.answerHeaders[${answerHeaderIndex}].showQuestions"/>
@@ -55,7 +55,7 @@
            value = "${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].showQuestions}" readonly = "${readOnly}"/>
 		 --%>
 		 
-     <kra-questionnaire:submissionQuestionnaireAnswers/>
+     <kra-questionnaire:submissionQuestionnaireAnswers property = "questionnaireHelper" bean = "${KualiForm.questionnaireHelper}" answerHeaderIndex = "${answerHeaderIndex}"/>
 				
 				 
 </c:forEach>

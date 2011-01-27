@@ -25,6 +25,8 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
+import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * 
@@ -147,15 +149,24 @@ public abstract class QuestionnaireHelperBase implements Serializable {
         this.headerLabels = headerLabels;
     }
 
-    private QuestionnaireAnswerService getQuestionnaireAnswerService() {
+    protected QuestionnaireAnswerService getQuestionnaireAnswerService() {
         if (questionnaireAnswerService == null) {
             questionnaireAnswerService = KraServiceLocator.getService(QuestionnaireAnswerService.class);
         }
         return questionnaireAnswerService;
     }
 
-    public void setQuestionnaireAnswerService(QuestionnaireAnswerService questionnaireAnswerService) {
+    protected void setQuestionnaireAnswerService(QuestionnaireAnswerService questionnaireAnswerService) {
         this.questionnaireAnswerService = questionnaireAnswerService;
     }
+    
+    protected TaskAuthorizationService getTaskAuthorizationService() {
+        return KraServiceLocator.getService(TaskAuthorizationService.class);
+    }
+
+    protected String getUserIdentifier() {
+        return GlobalVariables.getUserSession().getPrincipalId();
+    }
+
 
 }

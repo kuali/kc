@@ -18,6 +18,7 @@ package org.kuali.kra.questionnaire.answer;
 import java.util.List;
 
 import org.kuali.kra.questionnaire.Questionnaire;
+import org.kuali.kra.questionnaire.QuestionnaireUsage;
 
 /**
  * 
@@ -92,6 +93,16 @@ public interface QuestionnaireAnswerService {
      */
     boolean isQuestionnaireAnswerComplete(List<Answer> answers);
 
+    /**
+     * Copy all of the answer headers associated with a source ModuleQuestionnaireBean and associate them with a destination ModuleQuestionnaire Bean.
+     * This method persists the new AnswerHeader objects it creates. 
+     * 
+     * @param srcModuleQuestionnaireBean the ModulQuestionnaireBean containing the data pointing to the source questionnaires.
+     * @param newModuleQuestionnaireBean the ModuleQuestionnaireBean you would like to copy the AnswerHeader objects to.
+     * 
+     * @return a list of AnswerHeader objects.
+     */
+    public List<AnswerHeader> copyAnswerHeaders(ModuleQuestionnaireBean srcModuleQuestionnaireBean, ModuleQuestionnaireBean newModuleQuestionnaireBean);
 
     /**
      * 
@@ -101,4 +112,15 @@ public interface QuestionnaireAnswerService {
      * @return
      */
     List<AnswerHeader> getAnswerHeadersForProtocol(String protocolNumber);
+    
+    
+    /**
+     * Get the questionnaire usages for a module and submodule.
+     * 
+     * @param coeusModule the coeus module of the questionnaires you are looking for.
+     * @param coeusSubModule the coeus sub-module of the questionnaires you are looking for.
+     * @param finalDoc
+     * @return
+     */
+    public List<QuestionnaireUsage> getPublishedQuestionnaire(String coeusModule, String coeusSubModule, boolean finalDoc);
 }

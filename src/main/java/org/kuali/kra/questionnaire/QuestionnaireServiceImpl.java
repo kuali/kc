@@ -17,8 +17,10 @@ package org.kuali.kra.questionnaire;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.kra.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.infrastructure.Constants;
@@ -44,13 +46,15 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
          * TODO : permissionModuleMap is probably for initial release 2. See more comments on getAssociateModules method.
          */
         permissionModuleMap = new HashMap<String, String>();
-        permissionModuleMap.put(AwardPermissionConstants.MODIFY_AWARD.getAwardPermission(), "1");
+        permissionModuleMap.put(AwardPermissionConstants.MODIFY_AWARD.getAwardPermission() + ":" + Constants.MODULE_NAMESPACE_AWARD_BUDGET, "1");
         permissionModuleMap.put(PermissionConstants.EDIT_INSTITUTE_PROPOSAL,"2");
-        permissionModuleMap.put(PermissionConstants.MODIFY_PROPOSAL, "3");
+        permissionModuleMap.put(PermissionConstants.MAINTAIN_QUESTIONNAIRE_USAGE + ":" + Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, "3");
+        //permissionModuleMap.put(PermissionConstants.MODIFY_PROPOSAL + ":" + "KC-PD", "3");
         // permissionModuleMap.put(PermissionConstants.SUBCONTRACT,"4");
         // permissionModuleMap.put(PermissionConstants.NEGOTIATION,"5");
         // permissionModuleMap.put(PermissionConstants.MODIFY_PERSON,"6");
-        permissionModuleMap.put(PermissionConstants.MODIFY_PROTOCOL, "7");
+        permissionModuleMap.put(PermissionConstants.MODIFY_PROTOCOL + ":" + "KC-PROTOCOL", "7");
+        permissionModuleMap.put(PermissionConstants.MAINTAIN_QUESTIONNAIRE_USAGE + ":" + Constants.MODULE_NAMESPACE_PROTOCOL, "7");
         // permissionModuleMap.put(PermissionConstants.MODIFY_COI,"8");
     }
 
@@ -116,7 +120,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
          * task. The permission attributes could be a combination of module doce & coeus permission right
          */
 
-        List<String> modules = new ArrayList<String>();
+        Set<String> modules = new HashSet<String>();
         List<String> parameters = this.parameterService.getParameterValues(Constants.PARAMETER_MODULE_QUESTIONNAIRE, Constants.PARAMETER_COMPONENT_PERMISSION, PARAM_NAME);
         //parameters = this.parameterService.getParameterValues("", "", "");
         for (String permission : parameters) {
@@ -124,11 +128,11 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
             String[] params = permission.split(":");
             
             if (unitAuthorizationService.hasPermission(GlobalVariables.getUserSession().getPerson()
-                    .getPrincipalId(), params[1], params[0])) {
-                modules.add(permissionModuleMap.get(params[0]));
+                    .getPrincipalId(), params[1], params[0]) && !modules.contains(permissionModuleMap.get(permission))) {
+                modules.add(permissionModuleMap.get(permission));
             }
         }
-        return modules;
+        return new ArrayList<String>(modules);
     }
 
 

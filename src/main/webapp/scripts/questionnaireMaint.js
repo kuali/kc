@@ -2292,6 +2292,8 @@ var subModuleCodes = new Array(8);
   subModuleCodes[3][1] = 'Proposal Budget';
   subModuleCodes[7][1] = 'Amendment / Renewal';
   subModuleCodes[7][2] = 'Protocol Submission';
+  subModuleCodes[3][2] = 'S2S Questionnaires';
+	  
 //var subModuleCodes = [ 'select', 'Proposal Budget', 'Amendment / Renewal', 'Protocol Submission'];
 var opArray = [ 'select', 'and', 'or' ];
 var responseArray = [ 'select', 'Contains text value', 'Begins with text', 'Ends with text', 'Matches text',
@@ -2330,7 +2332,6 @@ $("#addUsage")
 			} else  if (isDuplicateUsage($("#newQuestionnaireUsage\\.moduleItemCode").attr("value"),$("#newQuestionnaireUsage\\.moduleSubItemCode").attr("value"), qnversion)) {
 				alert("Module is already added");
 			} else {	
-
 				trtmp = $('<tr/>').attr("id", "usage" + ucount);
 				thtmp = $('<th class="infoline"/>').html(ucount);
 				thtmp.appendTo(trtmp);

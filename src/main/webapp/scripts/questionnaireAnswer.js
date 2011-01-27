@@ -13,15 +13,18 @@
 					}
 				);
 				
-				// set up Questions show/hide	
-			    for ( var i = 0; i < $j("#numberOfQuestionaires").attr("value"); i++) {
-		    		$j("#questionpanelcontent"+i).hide();
-			    	if ($j("#questionnaireHelper\\.answerHeaders\\["+i+"\\]\\.showQuestions").attr("value") == 'Y') {
-			    		$j("#questionpanelcontrol"+i).click();
-			    	}
-			    }
-
-					
+				// set up Questions show/hide
+				$j(".numberOfQuestionnaires").each(
+					function(index) {
+					var idSplit = $j(this).attr("id").split(":");
+					var formProperty = idSplit[1];
+					for( var i = 0; i < $j(this).attr("value");i++) {
+						$j("#questionpanelcontent\\:"+formProperty+"\\:"+i).hide();
+						if ($j("#"+formProperty+"\\.answerHeaders\\["+i+"\\]\\.showQuestions").attr("value") == 'Y')  {
+							$j("#questionpanelcontrol\\:"+formProperty+"\\:"+i).click();
+						}
+					}
+				  });
 		});
 
     /*
@@ -30,17 +33,21 @@
     $j(".questionpanel").toggle(
             function()
             {
-            	var headerIdx = $j(this).attr("id").substring(20);
-                var panelcontentid = "questionpanelcontent"+headerIdx;
+            	var headerDetails = $j(this).attr("id").split(":");
+            	var headerIdx = headerDetails[2];
+            	var formProperty = headerDetails[1];
+                var panelcontentid = "questionpanelcontent\\:"+formProperty+"\\:"+headerIdx;
                 $j("#"+panelcontentid).slideDown(500);
                 $j(this).html("<img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
-                $j("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.showQuestions").attr("value","Y")
+                $j("#"+formProperty+"\\.answerHeaders\\["+headerIdx+"\\]\\.showQuestions").attr("value","Y")
             },function(){
-            	var headerIdx = $j(this).attr("id").substring(20);
-                var panelcontentid = "questionpanelcontent"+headerIdx;
+            	var headerDetails = $j(this).attr("id").split(":");
+            	var headerIdx = headerDetails[2];
+            	var formProperty = headerDetails[1];
+                var panelcontentid = "questionpanelcontent\\:"+formProperty+"\\:"+headerIdx;
                 $j("#"+panelcontentid).slideUp(500);
                 $j(this).html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
-                $j("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.showQuestions").attr("value","N")
+                $j("#"+formProperty+"\\.answerHeaders\\["+headerIdx+"\\]\\.showQuestions").attr("value","N")
             }
         );
 
@@ -61,7 +68,9 @@
      */
     $j('.Qanswer, textarea').change(
 			function() {
-                answerChanged(this);
+				var headerDetails = $j(this).attr("name").split(".");
+            	var formProperty = headerDetails[0];
+				answerChanged(this,formProperty);
 			});
 
     /*
@@ -70,7 +79,7 @@
      *         2. The child questions have table id starts with 'table-parent-{answerheaderindex}-{questionanswerindex}-{childquestionanswerindex}"
      *         3. All the matched children questions should be checked whether answer match condition or not.
      */     
-	function answerChanged(answer) {
+	function answerChanged(answer,formProperty) {
 		var qn= $j(answer).parents('div[class^=Qresponsediv]').siblings('input[id^=parent]');
         if (qn) {
             var answerValue = $j(answer).attr("value");
@@ -78,6 +87,7 @@
             var headerIdx = $j(qn).attr("id").substring($j(qn).attr("id").indexOf("-",7)+1);
             var responseDiv = $j(answer).parents('div[class^=Qresponsediv]');
             var prefix = "table-parent-"+headerIdx+"-"+idx;
+            
            $j("table[id^="+prefix+"-]").each(                           
         			function() {
                         var conditionDiv = $j("#"+$j(this).attr("id")+" .condition:nth(0)");
@@ -87,20 +97,20 @@
                            if (isConditionMatchAnswers(answer, responseDiv, conditionDiv.children('input:eq(1)').attr("value"), conditionDiv.children('input:eq(2)').attr("value"), answerValue)) {
                            		$j(this).show();                                   		
                            		$j("#childDisplay"+conditionDiv.children('input:eq(1)').attr("id").substring(9)).attr("value","Y");
-                           		$j("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.matchedChild").attr("value","Y");
-                          		showChildren(conditionDiv.children('input:eq(1)').attr("id").substring(10));
+                           		$j("#"+formProperty+"\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.matchedChild").attr("value","Y");
+                          		showChildren(conditionDiv.children('input:eq(1)').attr("id").substring(10),formProperty);
                            } else {
-                          		hideChildren(conditionDiv.children('input:eq(1)').attr("id").substring(10));
+                          		hideChildren(conditionDiv.children('input:eq(1)').attr("id").substring(10),formProperty);
                           		$j(this).hide();
                            		$j("#childDisplay"+conditionDiv.children('input:eq(1)').attr("id").substring(9)).attr("value","N");
-                           		$j("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.matchedChild").attr("value","N");
+                           		$j("#"+formProperty+"\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.matchedChild").attr("value","N");
                            		emptyAnswerForHiddenQuestion(this);
                            }    
                         }  else {
-                      		hideChildren(conditionDiv.children('input:eq(1)').attr("id").substring(10));
+                      		hideChildren(conditionDiv.children('input:eq(1)').attr("id").substring(10),formProperty);
                       		$j(this).hide();
                        		$j("#childDisplay"+conditionDiv.children('input:eq(1)').attr("id").substring(9)).attr("value","N");
-                       		$j("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.matchedChild").attr("value","N");
+                       		$j("#"+formProperty+"\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.matchedChild").attr("value","N");
                        		emptyAnswerForHiddenQuestion(this);
 
                         }
@@ -113,7 +123,7 @@
 	 * under this question hierarchy need to be 'shown' too.  This is in general related to descendant
 	 * without condition set up.
 	 */
-    function showChildren(parentIndicator) {
+    function showChildren(parentIndicator,formProperty) {
     	var prefix = "table-parent-"+parentIndicator;
     	var headerIdx = parentIndicator.substring(0, parentIndicator.indexOf("-"));
     	var idx = parentIndicator.substring(parentIndicator.indexOf("-")+1);
@@ -123,8 +133,8 @@
                     if (isNaN(conditionDiv.children('input:eq(1)').attr("value"))) {
                    		$j(this).show();                   		
                    		$j("#childDisplay"+conditionDiv.children('input:eq(1)').attr("id").substring(9)).attr("value","Y");
-                   		$j("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.matchedChild").attr("value","Y");
-                  		showChildren(conditionDiv.children('input:eq(1)').attr("id").substring(10));
+                   		$j("#"+formProperty+"\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.matchedChild").attr("value","Y");
+                  		showChildren(conditionDiv.children('input:eq(1)').attr("id").substring(10),formProperty);
                     } 
     			});
 
@@ -134,7 +144,7 @@
      * If a child questin's condition becomes unmatched, then need to navigate thru the
      * descendants and hide all of them under this hierarchy.
      */
-    function hideChildren(parentIndicator) {
+    function hideChildren(parentIndicator,formProperty) {
     	var prefix = "table-parent-"+parentIndicator;
     	var headerIdx = parentIndicator.substring(0, parentIndicator.indexOf("-"));
     	var idx = parentIndicator.substring(parentIndicator.indexOf("-")+1);
@@ -144,10 +154,10 @@
                     var conditionDiv = $j("#"+$j(this).attr("id")+" .condition:nth(0)");
                     
                     if (conditionDiv && conditionDiv.children() && conditionDiv.size() == 1 && conditionDiv.children().size() == 3) {
-                      		hideChildren(conditionDiv.children('input:eq(1)').attr("id").substring(10));                           
+                      		hideChildren(conditionDiv.children('input:eq(1)').attr("id").substring(10),formProperty);                           
                        		$j("#childDisplay"+conditionDiv.children('input:eq(1)').attr("id").substring(9)).attr("value","N");
                             var qidx = $j(this).attr("id").substring(prefix.length+1);
-                       		$j("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.matchedChild").attr("value","N");
+                       		$j("#"+formProperty+"\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.matchedChild").attr("value","N");
                        		emptyAnswerForHiddenQuestion(this);
                     } 
     			});
