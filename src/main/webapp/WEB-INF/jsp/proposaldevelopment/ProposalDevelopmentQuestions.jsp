@@ -27,9 +27,38 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="questions">
   	
+  	<script src="scripts/jquery/jquery.js"></script>
+	<script type="text/javascript">var $j = jQuery.noConflict();</script>
+    <link rel="stylesheet" href="css/jquery/questionnaire.css" type="text/css" />
+    <link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
+    <link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
+    <link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />
+    <script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
+    <script type="text/javascript" src="scripts/jquery/CalendarPopup.js"></script>
+    
   	<div align="right"><kul:help documentTypeName="ProposalDevelopmentDocument" pageName="Questions" /></div>
+	<div id = "workarea">
+	<kra-pd:proposalDevelopmentQuestionnaireAnswers bean = "${KualiForm.questionnaireHelper}" property = "questionnaireHelper"/>
+
+	
+	<c:set var = "forceTabNonTransparent" value = "true"/>
+  	<c:if test="${fn:length(KualiForm.questionnaireHelper.answerHeaders) == 0}">
+  		<c:set var="forceTabNonTransparent" value = "false"/>
+  	</c:if>
+ 	 	
+	<kra-pd:proposalDevelopmentQuestionnaireAnswers bean = "${KualiForm.s2sQuestionnaireHelper}" property = "s2sQuestionnaireHelper" forceNonTransparent="${forceTabNonTransparent}"/>
+   	
+    <script type="text/javascript" src="scripts/questionnaireAnswer.js"></script>
   	
-<kra-pd:proposalYnq /> 
+  	
+	<c:set var = "topTabTransparent" value = "true"/>
+  	<c:if test="${fn:length(KualiForm.questionnaireHelper.answerHeaders) gt 0 or fn:length(KualiForm.s2sQuestionnaireHelper.answerHeaders) gt 0}">
+  		<c:set var="topTabTransparent" value = "false"/>
+  	</c:if>
+  	
+	<kra-pd:proposalYnq topTabTransparent="${topTabTransparent}" />
+	<kul:panelFooter />
+	</div>
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true" />
 <script language="javascript" src="scripts/kuali_application.js"></script>
 

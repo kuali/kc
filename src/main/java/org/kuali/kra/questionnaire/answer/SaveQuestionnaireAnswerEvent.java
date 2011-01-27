@@ -28,6 +28,7 @@ import org.kuali.rice.kns.document.Document;
 public class SaveQuestionnaireAnswerEvent extends KraDocumentEventBaseExtension {
 
     private List<AnswerHeader> answerHeaders;
+    private String formProperty = "questionnaireHelper";
     
     /**
      * Constructs a QuestionnaireAnswerEvent.
@@ -40,6 +41,19 @@ public class SaveQuestionnaireAnswerEvent extends KraDocumentEventBaseExtension 
         
         this.answerHeaders = answerHeaders;
     }
+    
+    /**
+     * Constructs a QuestionnaireAnswerEvent.
+     * @param description
+     * @param errorPathPrefix
+     * @param document
+     */
+    public SaveQuestionnaireAnswerEvent(Document document, List<AnswerHeader> answerHeaders, String formProperty) {
+        super("Saving QuestionnaireAnswer to document" + getDocumentId(document), Constants.EMPTY_STRING, document);
+        this.formProperty = formProperty;
+        this.answerHeaders = answerHeaders;
+    }
+    
 
     @Override
     @SuppressWarnings("unchecked")
@@ -50,5 +64,23 @@ public class SaveQuestionnaireAnswerEvent extends KraDocumentEventBaseExtension 
     public List<AnswerHeader> getAnswerHeaders() {
         return answerHeaders;
     }
+    
+    /**
+     * Gets the formProperty attribute. 
+     * @return Returns the formProperty.
+     */
+    public String getFormProperty() {
+        return formProperty;
+    }
+
+    /**
+     * Sets the formProperty attribute value.
+     * @param formProperty The formProperty to set.
+     */
+    public void setFormProperty(String formProperty) {
+        this.formProperty = formProperty;
+    }
+
+
 
 }

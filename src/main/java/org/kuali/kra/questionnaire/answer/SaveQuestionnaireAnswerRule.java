@@ -67,7 +67,7 @@ public class SaveQuestionnaireAnswerRule implements BusinessRuleInterface<SaveQu
         for (AnswerHeader answerHeader : event.getAnswerHeaders()) {
             int questionIndex = 0;
             for (Answer answer : answerHeader.getAnswers()) {
-                String errorKey = "questionnaireHelper.answerHeaders[" + answerHeaderIndex + "].answers[" + questionIndex + "].answer";
+                String errorKey = event.getFormProperty()+".answerHeaders[" + answerHeaderIndex + "].answers[" + questionIndex + "].answer";
                 if (StringUtils.isNotBlank(answer.getAnswer()) && VALIDATION_CLASSES.containsKey(answer.getQuestion().getQuestionTypeId().toString())) {
                     boolean validAttributeFormat = validateAttributeFormat(answer, errorKey, questionIndex);
                     if (!validAttributeFormat) {

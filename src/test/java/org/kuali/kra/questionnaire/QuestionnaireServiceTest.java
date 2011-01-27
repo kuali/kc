@@ -17,8 +17,10 @@ package org.kuali.kra.questionnaire;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -42,9 +44,13 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class QuestionnaireServiceTest  extends KcUnitTestBase {
     
         private Mockery context = new JUnit4Mockery();
+        private Set<String> expectedModules;
         @Before
         public void setUp() throws Exception {
             super.setUp();
+            expectedModules = new HashSet<String>();
+            expectedModules.add("3");
+            expectedModules.add("7");
         }  
 
 
@@ -139,8 +145,11 @@ public class QuestionnaireServiceTest  extends KcUnitTestBase {
 
             List<String> modules = KraServiceLocator.getService(QuestionnaireService.class).getAssociateModules();
             assertTrue(modules.size() == 2);
-            assertEquals(modules.get(0), "7");
-
+            assertEquals(modules.size(), expectedModules.size());
+            for (String module : modules ) {
+                assertTrue(expectedModules.contains(module));
+            }
+            
             context.assertIsSatisfied();
                         
         }

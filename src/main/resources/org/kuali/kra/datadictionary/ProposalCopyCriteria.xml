@@ -21,6 +21,7 @@
         <ref bean="ProposalCopyCriteria-includeBudget" />
         <ref bean="ProposalCopyCriteria-budgetVersions" />
         <ref bean="ProposalCopyCriteria-leadUnitNumber" />
+        <ref bean="ProposalCopyCriteria-includeQuestionnaire" />
       </list>
     </property>
   </bean>
@@ -102,4 +103,25 @@
     <property name="summary" value="Lead Unit (Owned by Unit)" />
     <property name="description" value="The copied proposal&apos;s fixed home unit that will be used for routing and business rule purposes. AKA Owned by Unit." />
   </bean>
+
+  <bean id="ProposalCopyCriteria-includeQuestionnaire" parent="ProposalCopyCriteria-includeQuestionnaire-parentBean" />
+  <bean id="ProposalCopyCriteria-includeQuestionnaire-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="includeQuestionnaire" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Questionnaires?" />
+    <property name="shortLabel" value="Questionnaires?" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="Include Questionnaires?" />
+    <property name="description" value="Include Questionnaires in the Proposal Copy?" />
+  </bean>
+  
+
+
+
 </beans>

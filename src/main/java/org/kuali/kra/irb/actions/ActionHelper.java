@@ -76,6 +76,7 @@ import org.kuali.kra.irb.actions.undo.UndoLastActionBean;
 import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawBean;
 import org.kuali.kra.irb.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.irb.auth.ProtocolTask;
+import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.kra.irb.summary.ProtocolSummary;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.ProtocolVoteAbstainee;
@@ -2564,7 +2565,7 @@ public class ActionHelper implements Serializable {
 
     private void initPrintQuestionnaire() {
         setQuestionnairesToPrints(new ArrayList<QuestionnairePrintOption>());
-        ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, getProtocol());
+        ModuleQuestionnaireBean moduleQuestionnaireBean = new ProtocolModuleQuestionnaireBean(getProtocol());
        // List<AnswerHeader> answerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
         List<AnswerHeader> answerHeaders = getQuestionnaireAnswerService().getAnswerHeadersForProtocol(getProtocol().getProtocolNumber());
         setupQnPrintOption(answerHeaders);

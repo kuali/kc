@@ -23,11 +23,12 @@ import org.kuali.rice.kns.bo.BusinessObjectBase;
 
 /**
  * The <b>ProposalCopyCriteria</b> is user-specified criteria used
- * when copying a proposal development document.  There are three 
+ * when copying a proposal development document.  There are four 
  * criteria.
  * <ul>
  * <li>Include Attachments: should attachments also be copied?</li>
  * <li>Include Budget: should the budget(s) also be copied?</li>
+ * <li>Include Questionnaires:  Should the questionnaires also be copied if possible?</li>
  * <li>Budget Versions: if the budget(s) is copied, do we copy all of the versions or only the final version?</li>
  * </ul>
  *
@@ -49,6 +50,7 @@ public class ProposalCopyCriteria extends BusinessObjectBase {
     
     private boolean includeAttachments;
     private boolean includeBudget;
+    private boolean includeQuestionnaire;
     private String budgetVersions;
     private String leadUnitNumber;
     private String originalLeadUnitNumber;
@@ -59,6 +61,7 @@ public class ProposalCopyCriteria extends BusinessObjectBase {
     public ProposalCopyCriteria() {
         this.includeAttachments = false;
         this.includeBudget = false;
+        this.includeQuestionnaire = true;
         this.budgetVersions = BUDGET_ALL_VERSIONS;
         this.leadUnitNumber = "";
         this.originalLeadUnitNumber = "";
@@ -73,6 +76,7 @@ public class ProposalCopyCriteria extends BusinessObjectBase {
         this.includeBudget = false;
         this.budgetVersions = BUDGET_ALL_VERSIONS;
         this.leadUnitNumber = "";
+        this.includeQuestionnaire = true;
         this.originalLeadUnitNumber = doc.getDevelopmentProposal().getOwnedByUnitNumber();
     }
     
@@ -83,6 +87,22 @@ public class ProposalCopyCriteria extends BusinessObjectBase {
      */
     public boolean getIncludeAttachments() {
         return includeAttachments;
+    }
+
+    /**
+     * Gets the includeQuestionnaires attribute. 
+     * @return Returns the includeQuestionnaires.
+     */
+    public boolean getIncludeQuestionnaire() {
+        return includeQuestionnaire;
+    }
+
+    /**
+     * Sets the includeQuestionnaires attribute value.
+     * @param includeQuestionnaires The includeQuestionnaires to set.
+     */
+    public void setIncludeQuestionnaire(boolean includeQuestionnaire) {
+        this.includeQuestionnaire = includeQuestionnaire;
     }
 
     /**
@@ -162,13 +182,15 @@ public class ProposalCopyCriteria extends BusinessObjectBase {
         this.originalLeadUnitNumber = originalLeadUnitNumber;
     }
     
+    @SuppressWarnings("rawtypes")
     @Override
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap map = new LinkedHashMap();
+        LinkedHashMap<String,Object> map = new LinkedHashMap<String,Object>();
         map.put("includeAttachments", this.getIncludeAttachments());
         map.put("includeBudget", this.getIncludeBudget());
         map.put("budgetVersions", this.getBudgetVersions());
-        map.put("leadUnitNumber", getLeadUnitNumber());
+        map.put("leadUnitNumber", this.getLeadUnitNumber());
+        map.put("includeQuestionnaire", this.getIncludeQuestionnaire());
         return map;
     }
 

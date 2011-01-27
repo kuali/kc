@@ -88,6 +88,19 @@
                                               attributeEntry="${proposalCopyCriteriaAttributes.leadUnitNumber}"  readOnly="${!canCopy}"/>
                 </td>
             </tr>
+         
+         	<tr>
+				<th align="right" valign="middle">
+        			<kul:htmlAttributeLabel attributeEntry="${proposalCopyCriteriaAttributes.includeQuestionnaire}" />
+        		</th>
+        		
+				<td align="left" valign="middle">
+                	<kul:htmlControlAttribute property="copyCriteria.includeQuestionnaire" 
+                	                          attributeEntry="${proposalCopyCriteriaAttributes.includeQuestionnaire}" 
+                	                          readOnly="${!canCopy}"/>
+                </td>
+			</tr>
+         
             
 			<tr>
 				<td align="center" colspan="2">
@@ -97,6 +110,8 @@
 					</div>
                 </td>
 			</tr>
+			
+			
 			
         </table>
     </div> 
