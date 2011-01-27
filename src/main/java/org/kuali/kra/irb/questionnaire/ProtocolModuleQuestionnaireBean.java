@@ -23,6 +23,16 @@ public class ProtocolModuleQuestionnaireBean extends ModuleQuestionnaireBean {
 
     public ProtocolModuleQuestionnaireBean(Protocol protocol) {
         super(CoeusModule.IRB_MODULE_CODE, protocol.getProtocolNumber(), "0", protocol.getSequenceNumber().toString(), protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().stateIsApproved());
+        setProtocolSubItemCode(protocol) ;
     }
-    
+   
+    private void setProtocolSubItemCode(Protocol protocol) {
+        // For now check renewal/amendment.  will add 'Protocol Submission' when it is cleared
+            String subModuleCode = "0";
+            if (protocol.isAmendment() || protocol.isRenewal()) {
+                subModuleCode = "1";
+            }
+            setModuleSubItemCode(subModuleCode);
+        }
+
 }
