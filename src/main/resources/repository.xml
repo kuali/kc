@@ -1450,6 +1450,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="defaultGroupFlag" column="DEFAULT_GROUP_FLAG" jdbc-type="VARCHAR"/>
 		<field-descriptor name="multiplesFlag" column="MULTIPLES_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 	</class-descriptor>
 
 
