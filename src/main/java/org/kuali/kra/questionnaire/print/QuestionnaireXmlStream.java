@@ -324,10 +324,12 @@ public class QuestionnaireXmlStream implements XmlStream {
                     moduleSubItemCode = (String)params.get("moduleSubItemCode");
                 }
             }
-        }else if(printableBusinessObject instanceof DevelopmentProposal){
+        } else if(printableBusinessObject instanceof DevelopmentProposal){
             DevelopmentProposal developmentProposal = (DevelopmentProposal)printableBusinessObject;
             moduleItemCode = CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE;
             moduleItemKey = developmentProposal.getProposalNumber();
+            moduleSubItemCode = (String) params.get("coeusModuleSubItemCode");
+            moduleSubItemKey = "0";
         }
         return new ModuleQuestionnaireBean(moduleItemCode,moduleItemKey,moduleSubItemCode,moduleSubItemKey, false);
                 
@@ -412,9 +414,21 @@ public class QuestionnaireXmlStream implements XmlStream {
             }
 
         }
-        List<QuestionnaireQuestion> sortedQuestionnaireQuestions = getSortedQuestionnaireQuestions(answeredQuestionnaire != null ? answerHeaders
-                .get(0).getQuestionnaire()
-                : questionnaire);
+        
+        org.kuali.kra.questionnaire.Questionnaire toSortQuestionnaire = null;
+        if (answerHeaders!=null && answerHeaders.size() > 0) {
+            for (AnswerHeader header : answerHeaders) {
+                if (header.getQuestionnaire().getQuestionnaireId().equals(questionnaire.getQuestionnaireId())) {
+                    toSortQuestionnaire = header.getQuestionnaire();
+                }
+            }
+        }
+        
+        if (toSortQuestionnaire == null) {
+            toSortQuestionnaire = questionnaire;
+        }
+        
+        List<QuestionnaireQuestion> sortedQuestionnaireQuestions = getSortedQuestionnaireQuestions(toSortQuestionnaire);
         if (sortedQuestionnaireQuestions != null && sortedQuestionnaireQuestions.size() > 0) {
             QuestionsType questionsType = questionnaireType.addNewQuestions();
             for (QuestionnaireQuestion questionnaireQuestion : sortedQuestionnaireQuestions) {

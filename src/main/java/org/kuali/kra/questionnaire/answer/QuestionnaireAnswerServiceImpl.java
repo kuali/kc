@@ -55,7 +55,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     /*
      * Get the questionnaire that is 'final' for the specified module.
      */
-    protected List<QuestionnaireUsage> getPublishedQuestionnaire(String coeusModule, String coeusSubModule, boolean finalDoc) {
+    public List<QuestionnaireUsage> getPublishedQuestionnaire(String coeusModule, String coeusSubModule, boolean finalDoc) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(MODULE_ITEM_CODE, coeusModule);
         fieldValues.put(MODULE_SUB_ITEM_CODE, coeusSubModule);
@@ -149,6 +149,33 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         }
         return newAnswerHeaders;
     }
+    
+    /**
+     * Copy all of the answer headers associated with a source ModuleQuestionnaireBean and associate them with a destination ModuleQuestionnaire Bean.
+     * This method DOES NOT persist any of the newly created objects. 
+     * 
+     * @param srcModuleQuestionnaireBean the ModulQuestionnaireBean containing the data pointing to the source questionnaires.
+     * @param newModuleQuestionnaireBean the ModuleQuestionnaireBean you would like to copy the AnswerHeader objects to.
+     * 
+     * @return a list of AnswerHeader objects.
+     */
+    protected List<AnswerHeader> copyAnswerHeadersToNewModuleQB(ModuleQuestionnaireBean srcModuleQuestionnaireBean, ModuleQuestionnaireBean destModuleQuestionnaireBean) {
+        
+        List<AnswerHeader> newAnswerHeaders = new ArrayList<AnswerHeader>();
+        List<Integer> questionnaireIds = getAssociateedQuestionnaireIds(srcModuleQuestionnaireBean);
+        for (AnswerHeader answerHeader : retrieveAnswerHeaders(srcModuleQuestionnaireBean)) {
+            if (questionnaireIds.contains(answerHeader.getQuestionnaire().getQuestionnaireId())) {
+                AnswerHeader copiedAnswerHeader = (AnswerHeader) ObjectUtils.deepCopy(answerHeader);
+                copiedAnswerHeader.setNewModuleQuestionnaireBeanReferenceData(destModuleQuestionnaireBean);
+                copiedAnswerHeader.setAnswerHeaderId(null);
+                for (Answer answer : copiedAnswerHeader.getAnswers()) {
+                    answer.setId(null);
+                }
+                newAnswerHeaders.add(copiedAnswerHeader);
+            }
+        }
+        return newAnswerHeaders;
+    }
 
     /**
      * This will be called when 'questionnaire' page is clicked.
@@ -173,7 +200,6 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             answerHeader.setCompleted(isQuestionnaireAnswerComplete(answerHeader.getAnswers()));
         }
         return answerHeaders;
-
     }
     
     protected List<AnswerHeader> retrieveAnswerHeaders(ModuleQuestionnaireBean moduleQuestionnaireBean) {
@@ -237,6 +263,21 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         }
         newAnswerHeader.setCompleted(isQuestionnaireAnswerComplete(newAnswerHeader.getAnswers()));
     }
+    
+   
+    
+    
+    /**
+     * @see org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#copyAnswerHeaders(org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean, org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean)
+     */
+    public List<AnswerHeader> copyAnswerHeaders( ModuleQuestionnaireBean srcModuleQuestionnaireBean, ModuleQuestionnaireBean destModuleQuestionnaireBean) {
+        List<AnswerHeader> answerHeaders = copyAnswerHeadersToNewModuleQB(srcModuleQuestionnaireBean, destModuleQuestionnaireBean);
+        for (AnswerHeader header : answerHeaders) {
+            businessObjectService.save(header);
+        }
+        return answerHeaders;
+    }
+    
 
     /**
      * 

@@ -33,6 +33,9 @@ import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
  * This is a form class for questionnaire maintenance.
  */
 public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
+    
+    private static final long serialVersionUID = -6379415207639699802L;
+    
     private QuestionnaireUsage newQuestionnaireUsage;
     private List<QuestionnaireUsage> questionnaireUsages;
     private String editData;
@@ -40,7 +43,7 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
     private String lookupResultsBOClassName;
     private String docStatus;
    // private List<String> qnaireQuestions;
-    private List qnaireQuestions;
+    private List<String> qnaireQuestions;
     private String lookedUpCollectionName;
     private transient FormFile templateFile;
     // following are ajax related.  consider to move to an ajaxbean
@@ -57,10 +60,11 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
     /**
      * Constructs a QuestionnaireMaintenanceForm.
      */
+    @SuppressWarnings("unchecked")
     public QuestionnaireMaintenanceForm() {
         super();
         questionnaireUsages = new ArrayList<QuestionnaireUsage>();
-        qnaireQuestions = new ArrayList<String>();
+        qnaireQuestions = new TypedArrayList(String.class);
         questionNumber = 1;
         
 
@@ -85,11 +89,12 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
 
 
 
+    @SuppressWarnings("unchecked")
     public void reset(ActionMapping mapping, HttpServletRequest request) {
         // FIXME : just a temporary soln. it always get the methodtocall='refresh' after it started properly the first time.
         // need to investigate this.
         this.setMethodToCall("");
-        qnaireQuestions = new TypedArrayList(Object.class);
+        qnaireQuestions = new TypedArrayList(String.class);
         // to prevent indexoutofbound exception when populate
         if (this.getDocument() != null) {
             Questionnaire qn = (Questionnaire) ((MaintenanceDocumentBase) this.getDocument()).getNewMaintainableObject()
@@ -183,12 +188,12 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
         return qList;
     }
     
-    public List getQnaireQuestions() {
+    public List<String> getQnaireQuestions() {
     //public List<String> getQnaireQuestions() {
         return qnaireQuestions;
     }
 
-    public void setQnaireQuestions(List qnaireQuestions) {
+    public void setQnaireQuestions(List<String> qnaireQuestions) {
     //public void setQnaireQuestions(List<String> qnaireQuestions) {
         this.qnaireQuestions = qnaireQuestions;
     }

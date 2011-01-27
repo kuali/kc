@@ -25,28 +25,13 @@ public class ModuleQuestionnaireBean {
     private String moduleItemCode;
     private String moduleSubItemCode;
     private String moduleItemKey;
-    /*
-     * regular protocol & amendment questionnaire: sequence number
-     * protocol submission questionnaire : submission number
-     */
+
     private String moduleSubItemKey;
-    // finalDoc : as an indicator to retrieve non-current usage or not
     private boolean finalDoc;
 
     public ModuleQuestionnaireBean() {
         super();
     }
-
-    public ModuleQuestionnaireBean(String moduleItemCode, DevelopmentProposal developmentProposal) {
-        //TODO : temporary set up for PD. 
-        this(moduleItemCode, developmentProposal.getProposalNumber(), "0", "0", developmentProposal.getProposalDocument().getDocumentHeader().getWorkflowDocument().stateIsApproved());      
-  }
-
-    public ModuleQuestionnaireBean(String moduleItemCode, Protocol protocol) {
-        this(moduleItemCode, protocol.getProtocolNumber(), "0", protocol.getSequenceNumber().toString(), protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().stateIsApproved());
-        setProtocolSubItemCode(protocol) ;
-      
-  }
 
     public ModuleQuestionnaireBean(String moduleItemCode, String moduleItemKey, String moduleSubItemCode, String moduleSubItemKey, boolean finalDoc) {
         this.moduleItemCode = moduleItemCode;
@@ -56,14 +41,6 @@ public class ModuleQuestionnaireBean {
         this.finalDoc = finalDoc;
     }
 
-    private void setProtocolSubItemCode(Protocol protocol) {
-    // For now check renewal/amendment.  will add 'Protocol Submission' when it is cleared
-        String subModuleCode = "0";
-        if (protocol.isAmendment() || protocol.isRenewal()) {
-            subModuleCode = "1";
-        }
-        this.moduleSubItemCode = subModuleCode;
-    }
     
     public String getModuleItemCode() {
         return moduleItemCode;

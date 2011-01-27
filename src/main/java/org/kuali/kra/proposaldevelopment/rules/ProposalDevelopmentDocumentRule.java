@@ -464,6 +464,9 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         //Change for KRACOEUS-1403 ends here       
         retval &= new ProposalDevelopmentGrantsGovAuditRule().processRunAuditBusinessRules(document);
         
+        retval &= new ProposalDevelopmentS2sQuestionnaireAuditRule().processRunAuditBusinessRules(proposalDevelopmentDocument);
+        retval &= new ProposalDevelopmentQuestionnaireAuditRule().processRunAuditBusinessRules(proposalDevelopmentDocument);
+        
         // audit check for budgetversion with final status
         try {
             retval &= KraServiceLocator.getService(BudgetService.class).validateBudgetAuditRule((ProposalDevelopmentDocument)document);

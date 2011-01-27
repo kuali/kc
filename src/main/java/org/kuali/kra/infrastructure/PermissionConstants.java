@@ -97,7 +97,7 @@ public interface PermissionConstants {
     public static final String MODIFY_QUESTION = "Modify Question";
     public static final String VIEW_QUESTIONNAIRE = "View Questionnaire";
     public static final String MODIFY_QUESTIONNAIRE = "Modify Questionnaire";
-
+    public static final String MAINTAIN_QUESTIONNAIRE_USAGE = "Maintain Questionnaire Usage";
     /*
      * Correspondence Template Permissions
      */

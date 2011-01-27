@@ -107,6 +107,12 @@
 		<property name="budgetSummaryService">
 			<ref bean="budgetSummaryService" />
 		</property>
+		<property name = "questionnaireService">
+			<ref bean = "questionnaireService"/>
+		</property> 
+		<property name = "questionnaireAnswerService">
+			<ref bean = "questionnaireAnswerService"/>
+		</property>
 	</bean>
 
 	<bean id="proposalPersonService"
@@ -323,6 +329,11 @@
 					<property name="taskName" value="rejectProposal" />
 					<property name="requiresWritableDoc" value="true" />
 				</bean>
+				
+				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.AnswerProposalQuestionnaireAuthorizer" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="answerProposalQuestionnaire" />
+                </bean>
+				
 			</list>
 		</property>
 	</bean>
@@ -840,5 +851,12 @@
 	</bean>
 	<!-- Current And Pending Support-related Beans End -->
 
+	<!-- Proposal Development S2s Questionnaire Service -->
+	<bean id = "proposalDevelopmentS2sQuestionnaireService"
+		class = "org.kuali.kra.proposaldevelopment.service.impl.ProposalDevelopmentS2sQuestionnaireServiceImpl">
+		<property name = "businessObjectService" ref = "businessObjectService"/>
+		<property name = "questionnaireAnswerService" ref = "questionnaireAnswerService"/>
+		<property name = "questionnaireService" ref = "questionnaireService"/>
+	</bean>
 
 </beans>

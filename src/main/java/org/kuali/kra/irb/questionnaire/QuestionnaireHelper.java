@@ -82,7 +82,7 @@ public class QuestionnaireHelper extends QuestionnaireHelperBase {
 
     public ModuleQuestionnaireBean getModuleQnBean() {
         //return new ModuleQuestionnaireBean(getModuleCode(), getProtocol());
-        ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, getProtocol());
+        ProtocolModuleQuestionnaireBean moduleQuestionnaireBean = new ProtocolModuleQuestionnaireBean(getProtocol());
         if (StringUtils.isNotBlank(getSubmissionActionTypeCode())) {
             // TODO : need to figure out a way to set subitemkey which is submissionnumber.
             // however, submissionnumber will not be available until it is submitted
@@ -101,14 +101,8 @@ public class QuestionnaireHelper extends QuestionnaireHelperBase {
         return document.getProtocol();
     }
 
-    private TaskAuthorizationService getTaskAuthorizationService() {
-        return KraServiceLocator.getService(TaskAuthorizationService.class);
-    }
-
-    private String getUserIdentifier() {
-        return GlobalVariables.getUserSession().getPrincipalId();
-    }
-
+ 
+    
     private Integer getNextSubmissionNumber(Protocol protocol) {
         Integer propNextValue = 1;
         String propertyName = "submissionNumber";

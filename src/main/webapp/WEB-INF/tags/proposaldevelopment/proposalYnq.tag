@@ -14,6 +14,11 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<%@ attribute name="topTabTransparent" required="false" %>
+
+<c:if test = "${empty topTabTransparent}">
+	<c:set var = "topTabTransparent" value = "false"/>
+</c:if>
 
 <c:set var="proposalYnqAttributes" value="${DataDictionary.ProposalYnq.attributes}" />
 <c:set var="questionIdAttribute" value="${DataDictionary.ProposalPersonYnq.attributes.questionId}" />
@@ -30,7 +35,6 @@
 
 <c:set var="answerYesNo" value="${KualiForm.answerYesNo}" /> 
 <c:set var="answerYesNoNa" value="${KualiForm.answerYesNoNA}" /> 
-<div id="workarea">
 
 <jsp:useBean id="tabErrorKeys" scope = "page" class = "java.util.HashMap"/>
 <c:forEach items="${KualiForm.document.developmentProposalList[0].ynqGroupNames}" var="groupName" varStatus="status">
@@ -45,19 +49,19 @@
 					<c:set target = "${tabErrorKeys}" property = "${groupName.groupName}" value = "${tabErrorKeys[groupName.groupName]},document.developmentProposalList[0].proposalYnq[${ystatus.index}]*"/>
 				</c:otherwise> 
 			</c:choose> 
+			
 		</c:if>
 	</c:forEach>
 </c:forEach>
 
-
-
 <c:forEach items="${KualiForm.document.developmentProposalList[0].ynqGroupNames}" var="groups" varStatus="gps">
     <bean:define id="groupName" name="KualiForm" property="document.developmentProposalList[0].ynqGroupNames[${gps.index}].groupName"/>
-    <c:if test="${gps.first}">
-        <c:set var="transparent" value="true" />
-    </c:if> 
-<bean:define id="trunGroupName" name="KualiForm" property="document.developmentProposalList[0].ynqGroupNames[${gps.index}].truncGroupName"/>
-<bean:define id="fullGroupName" name="KualiForm" property="document.developmentProposalList[0].ynqGroupNames[${gps.index}].groupName"/>
+	<bean:define id="trunGroupName" name="KualiForm" property="document.developmentProposalList[0].ynqGroupNames[${gps.index}].truncGroupName"/>
+	<bean:define id="fullGroupName" name="KualiForm" property="document.developmentProposalList[0].ynqGroupNames[${gps.index}].groupName"/>
+	<c:set var = "transparent" value = "false"/>
+	<c:if test = "${gps.first and topTabTransparent}">
+	    <c:set var = "transparent" value = "true"/>
+	</c:if>
 
 <kul:tab tabTitle="${trunGroupName}" spanForLongTabTitle="true" defaultOpen="false" tabErrorKey="${tabErrorKeys[groups.groupName]}" auditCluster="ynqAuditErrors${fullGroupName}" tabAuditKey="${tabErrorKeys[groups.groupName]}" transparentBackground="${transparent}" useRiceAuditMode="true" >
 <c:set var="tabErrorKey" value="document.developmentProposalList[0].proposalYnq[${gps.index}]"/>
@@ -157,5 +161,3 @@
     </div>    
 </kul:tab>
 </c:forEach>
-<kul:panelFooter />
-</div>
