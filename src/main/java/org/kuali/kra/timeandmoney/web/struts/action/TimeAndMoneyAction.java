@@ -260,6 +260,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             //capture any changes of DirectFandADistributions, and add them to the Award working version for persistence.
             if(award.getAwardNumber().equals(timeAndMoneyDocument.getAward().getAwardNumber())) {
                 award.setAwardDirectFandADistributions(timeAndMoneyDocument.getAward().getAwardDirectFandADistributions());
+                getBusinessObjectService().save(award.getAwardDirectFandADistributions());
             }
             int index = findAwardHierarchyNodeIndex(awardHierarchyNode);
             AwardAmountInfo aai = awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());
