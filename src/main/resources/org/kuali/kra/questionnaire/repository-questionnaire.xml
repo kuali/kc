@@ -261,5 +261,14 @@
      -->   
 <!--  end Questionnaire -->
 
+	 <class-descriptor class="org.kuali.kra.bo.S2sOppFormQuestionnaire" table="S2S_FORM_TO_QUESTIONNAIRE">
+        <field-descriptor name="s2sOppFormQuestionnaireId" column="S2S_FORM_TO_QUESTIONNAIRE_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" />
+        <field-descriptor name="oppNameSpace" column="OPP_NAME_SPACE" jdbc-type="VARCHAR" />
+        <field-descriptor name="formName" column="FORM_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="questionnaireId" column="QUESTIONNAIRE_ID" jdbc-type="INTEGER" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>
 
 </descriptor-repository>

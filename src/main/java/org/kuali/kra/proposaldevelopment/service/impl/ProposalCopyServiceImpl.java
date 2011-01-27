@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
@@ -66,6 +67,11 @@ import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
+import org.kuali.kra.questionnaire.QuestionnaireService;
+import org.kuali.kra.questionnaire.answer.Answer;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
+import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -132,8 +138,11 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     
     private static final String MODULE_NUMBER = "moduleNumber";
     private static final String PROPOSAL_NUMBER = "proposalNumber";
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalCopyServiceImpl.class);
     private BudgetService<DevelopmentProposal> budgetService;
     private BudgetSummaryService budgetSummaryService;
+    private QuestionnaireService questionnaireService;
+    private QuestionnaireAnswerService questionnaireAnswerService;
     
     /**
      * The set of Proposal Development Document properties that
@@ -187,7 +196,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      */
     public String copyProposal(ProposalDevelopmentDocument doc, ProposalCopyCriteria criteria) throws Exception {
         String newDocNbr = null;
-        
+        LOG.info("STARTING PROPOSAL COPY");
         // check any business rules
         boolean rulePassed = getKualiRuleService().applyRules(new CopyProposalEvent(doc, criteria));
         
@@ -214,6 +223,15 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                 copyBudget(doc, newDoc, criteria.getBudgetVersions());
             }
 
+            //copy existing questionnaires (if we can, otherwise copy the pieces of the questionnaires that we can. )
+            //if (criteria.getIncludeQuestionnaires()) {
+            if (criteria.getIncludeQuestionnaire()) {
+                ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE, doc.getDevelopmentProposal().getProposalNumber(), "0" ,"0", true);
+                List<AnswerHeader> answerHeaders = questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);
+                ModuleQuestionnaireBean destModuleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE,newDoc.getDevelopmentProposal().getProposalNumber(),"0","0",false);
+                questionnaireAnswerService.copyAnswerHeaders(moduleQuestionnaireBean, destModuleQuestionnaireBean);
+            }
+            
             copyCustomData(doc, newDoc);
             
             newDocNbr = newDoc.getDocumentNumber();
@@ -233,8 +251,11 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @throws Exception
      */
     protected ProposalDevelopmentDocument createNewProposal(ProposalDevelopmentDocument srcDoc, ProposalCopyCriteria criteria) throws Exception {
+        
         DocumentService docService = KNSServiceLocator.getDocumentService();
         ProposalDevelopmentDocument newDoc = (ProposalDevelopmentDocument) docService.getNewDocument(srcDoc.getClass());
+        
+        LOG.info("EXECUTING IN createNewProposal");
         
         // Copy over the document overview properties.
         
@@ -1073,6 +1094,40 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         return KraServiceLocator.getService(KualiRuleService.class);
     }
     
+
+    /**
+     * Gets the questionnaireService attribute. 
+     * @return Returns the questionnaireService.
+     */
+    public QuestionnaireService getQuestionnaireService() {
+        return questionnaireService;
+    }
+
+    /**
+     * Sets the questionnaireService attribute value.
+     * @param questionnaireService The questionnaireService to set.
+     */
+    public void setQuestionnaireService(QuestionnaireService questionnaireService) {
+        this.questionnaireService = questionnaireService;
+    }
+
+
+    /**
+     * Gets the questionnaireAnswerService attribute. 
+     * @return Returns the questionnaireAnswerService.
+     */
+    public QuestionnaireAnswerService getQuestionnaireAnswerService() {
+        return questionnaireAnswerService;
+    }
+
+    /**
+     * Sets the questionnaireAnswerService attribute value.
+     * @param questionnaireAnswerService The questionnaireAnswerService to set.
+     */
+    public void setQuestionnaireAnswerService(QuestionnaireAnswerService questionnaireAnswerService) {
+        this.questionnaireAnswerService = questionnaireAnswerService;
+    }
+
     /**
      * Is the Proposal Type set to Renewal, Revision, or a Continuation?
      * @param proposalTypeCode proposal type code

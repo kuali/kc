@@ -71,12 +71,14 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalUserEditRoles;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
+import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentQuestionnaireHelper;
+import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentS2sQuestionnaireHelper;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
-import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.specialreview.SpecialReviewHelper;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalDevelopmentRejectionBean;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
+import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.service.KcPersonService;
@@ -187,6 +189,10 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private ProposalDevelopmentRejectionBean proposalDevelopmentRejectionBean;
     private boolean showRejectionConfirmation;
     
+    private ProposalDevelopmentQuestionnaireHelper proposalDevelopmentQuestionnaireHelper;
+    private ProposalDevelopmentS2sQuestionnaireHelper proposalDevelopmentS2sQuestionnaireHelper;
+
+   
     public ProposalDevelopmentForm() {
         super();
         initialize();
@@ -241,6 +247,8 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         reportHelperBean = new ReportHelperBean(this);
         canCreateProposal = isAuthorizedToCreateProposal();
         setProposalDevelopmentRejectionBean(new ProposalDevelopmentRejectionBean());
+        setQuestionnaireHelper(new ProposalDevelopmentQuestionnaireHelper(this));
+        setS2sQuestionnaireHelper(new ProposalDevelopmentS2sQuestionnaireHelper(this));
     }
 
     /**
@@ -1679,4 +1687,58 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     public void setShowRejectionConfirmation(boolean showRejectionConfirmation) {
         this.showRejectionConfirmation = showRejectionConfirmation;
     }
+    
+    /**
+     * Gets the proposalDevelopmentQuestionnaireHelper attribute. 
+     * @return Returns the proposalDevelopmentQuestionnaireHelper.
+     */
+    public ProposalDevelopmentQuestionnaireHelper getQuestionnaireHelper() {
+        return proposalDevelopmentQuestionnaireHelper;
+    }
+
+    /**
+     * Sets the proposalDevelopmentQuestionnaireHelper attribute value.
+     * @param proposalDevelopmentQuestionnaireHelper The proposalDevelopmentQuestionnaireHelper to set.
+     */
+    public void setQuestionnaireHelper(ProposalDevelopmentQuestionnaireHelper proposalDevelopmentQuestionnaireHelper) {
+        this.proposalDevelopmentQuestionnaireHelper = proposalDevelopmentQuestionnaireHelper;
+    }
+    
+    /**
+     * Gets the proposalDevelopmentS2sQuestionnaireHelper attribute. 
+     * @return Returns the proposalDevelopmentS2sQuestionnaireHelper.
+     */
+    public ProposalDevelopmentQuestionnaireHelper getS2sQuestionnaireHelper() {
+        return proposalDevelopmentS2sQuestionnaireHelper;
+    }
+
+    /**
+     * Sets the proposalDevelopmentS2sQuestionnaireHelper attribute value.
+     * @param proposalDevelopmentS2sQuestionnaireHelper The proposalDevelopmentS2sQuestionnaireHelper to set.
+     */
+    public void setS2sQuestionnaireHelper(ProposalDevelopmentS2sQuestionnaireHelper proposalDevelopmentS2sQuestionnaireHelper) {
+        this.proposalDevelopmentS2sQuestionnaireHelper = proposalDevelopmentS2sQuestionnaireHelper;
+    }
+
+    /*
+     * For submission questionnaire, it is a popup and not a session document.
+     * so, it has to be retrieved, then populate with the new data.
+     */
+    private void initAnswerList(HttpServletRequest request) {
+        //This was copied from protocol initially, commenting out until ready to implement 
+        //our version of it.
+//        String protocolNumber = request.getParameter("questionnaireHelper.protocolNumber");
+//        String submissionNumber = request.getParameter("questionnaireHelper.submissionNumber");
+//        if (StringUtils.isNotBlank(protocolNumber) && protocolNumber.endsWith("T")) {
+//            ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocolNumber, CoeusSubModule.PROTOCOL_SUBMISSION, submissionNumber, false);
+//            this.getQuestionnaireHelper().setAnswerHeaders(
+//                    getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean));
+//        }
+    }
+    
+    private QuestionnaireAnswerService getQuestionnaireAnswerService() {
+        return KraServiceLocator.getService(QuestionnaireAnswerService.class);
+    }
+
+
 }

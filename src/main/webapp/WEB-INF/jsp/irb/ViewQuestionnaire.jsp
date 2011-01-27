@@ -30,7 +30,7 @@
    	
   	
 
-    <kra-questionnaire:submissionQuestionnaireAD viewOnly="true"/>
+    <kra-questionnaire:submissionQuestionnaireAD viewOnly="true" bean = "${KualiForm.questionnaireHelper}" property = "questionnaireHelper"/>
 		    <script type="text/javascript" src="scripts/questionnaireAnswer.js"></script>
     <div id="formComplete"></div> 
 		

@@ -49,6 +49,8 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.irb.ProtocolForm;
+import org.kuali.kra.irb.actions.ProtocolSubmissionBeanBase;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
@@ -66,6 +68,8 @@ import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalRoleTemplateService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.answer.SaveQuestionnaireAnswerEvent;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.service.PrintService;
 import org.kuali.kra.s2s.service.S2SService;
@@ -76,6 +80,8 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -89,6 +95,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.springframework.util.CollectionUtils;
 
 public class ProposalDevelopmentAction extends BudgetParentActionBase {
     private static final String PROPOSAL_NARRATIVE_TYPE_GROUP = "proposalNarrativeTypeGroup";
@@ -138,7 +145,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         ActionForward actionForward = super.execute(mapping, form, request, response);
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument document = proposalDevelopmentForm.getDocument();
-         String keywordPanelDisplay = this.getParameterService().getParameterValue(
+        String keywordPanelDisplay = this.getParameterService().getParameterValue(
                     ProposalDevelopmentDocument.class, Constants.KEYWORD_PANEL_DISPLAY);        
             request.getSession().setAttribute(Constants.KEYWORD_PANEL_DISPLAY, keywordPanelDisplay);
             // TODO: not sure it's should be here - for audit error display.
@@ -248,6 +255,9 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         final ProposalDevelopmentDocument doc = proposalDevelopmentForm.getDocument();
        
 		updateProposalDocument(proposalDevelopmentForm);
+		
+		preSave(mapping, proposalDevelopmentForm, request, response);
+		
         ActionForward forward = super.save(mapping, form, request, response);
         // If validation is turned on, take the user to the proposal actions page (which contains the validation panel, which auto-expands)
         if (proposalDevelopmentForm.isAuditActivated()) {
@@ -519,11 +529,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         ((ProposalDevelopmentForm) form).getSpecialReviewHelper().prepareView();
         return mapping.findForward(Constants.SPECIAL_REVIEW_PAGE);
     }
-
-    public ActionForward questions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        return mapping.findForward(Constants.QUESTIONS_PAGE);
-    }
-    
+        
     public ActionForward permissions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return mapping.findForward(Constants.PERMISSIONS_PAGE);
     }
@@ -866,6 +872,59 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             }
         }
     }
+    
+    /**
+     * This method gets called upon navigation to Questionnaire tab.
+     * @param mapping the Action Mapping
+     * @param form the Action Form
+     * @param request the Http Request
+     * @param response Http Response
+     * @return the Action Forward
+     */
+    public ActionForward questions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm)form;
+        
+        proposalDevelopmentForm.getQuestionnaireHelper().prepareView();
+        proposalDevelopmentForm.getS2sQuestionnaireHelper().prepareView();
+        //((ProposalDevelopmentForm)form).getQuestionnaireHelper().setSubmissionActionTypeCode(getSubmitActionType(request));
+        if (CollectionUtils.isEmpty(proposalDevelopmentForm.getQuestionnaireHelper().getAnswerHeaders())) {
+            proposalDevelopmentForm.getQuestionnaireHelper().populateAnswers();
+        } else {
+            //nothing to do in this case right now..
+        }
+        
+        proposalDevelopmentForm.getS2sQuestionnaireHelper().populateAnswers();
+        
+        return mapping.findForward(Constants.QUESTIONS_PAGE);
+    }
+    
+    
+    /**
+     * This method allows logic to be executed before a save, after authorization is confirmed.
+     * 
+     * @param mapping the Action Mapping
+     * @param form the Action Form
+     * @param request the Http Request
+     * @param response Http Response
+     * @throws Exception if bad happens
+     */
+    public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        //do nothing
+    }
+    
+    
+    /**
+     * Use the Kuali Rule Service to apply the rules for the given event.
+     * @param event the event to process
+     * @return true if success; false if there was a validation error
+     */
+    protected final boolean applyRules(KualiDocumentEvent event) {
+        return getKualiRuleService().applyRules(event);
+    }
+    
+    
+    
 }
 
 class S2sOppFormsComparator1 implements Comparator<S2sOppForms> {
@@ -879,3 +938,5 @@ class S2sOppFormsComparator2 implements Comparator<S2sOppForms> {
         return  s2sOppForms2.getMandatory().compareTo(s2sOppForms1.getMandatory());
     }
   }
+
+

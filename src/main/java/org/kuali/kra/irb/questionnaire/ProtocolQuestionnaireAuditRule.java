@@ -25,77 +25,60 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.questionnaire.BaseQuestionnaireAuditRule;
 import org.kuali.kra.questionnaire.QuestionnaireUsage;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.DocumentAuditRule;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class ProtocolQuestionnaireAuditRule  extends ResearchDocumentRuleBase implements DocumentAuditRule {
+public class ProtocolQuestionnaireAuditRule  extends BaseQuestionnaireAuditRule<ProtocolDocument> implements DocumentAuditRule {
     
-    private static final String MANDATORY_QUESTIONNAIRE_AUDIT_ERRORS = "mandatoryQuestionnaireAuditErrors";
+    //private static final String MANDATORY_QUESTIONNAIRE_AUDIT_ERRORS = "questionnaireHelper%s%s";
     
-    private List<AuditError> auditErrors;
+    private static final String PROTOCOL_QUESTIONNAIRE_KEY="questionnaireHelper.answerHeaders[%s].answers[0].answer";
+    private static final String PROTOCOL_QUESTIONNAIRE_PANEL_KEY="%s%s%s";
+    
     private boolean requestSubmission;
     
-    /**
-     * @see org.kuali.kra.rules.ResearchDocumentRuleBase#processRunAuditBusinessRules(org.kuali.rice.kns.document.Document)
-     */
     public boolean processRunAuditBusinessRules(Document document) {
-        ProtocolDocument protocolDocument = (ProtocolDocument) document;
-        auditErrors = new ArrayList<AuditError>();
+        Protocol protocol = ((ProtocolDocument)document).getProtocol();
         
-        List<Integer> headerIds = getIncompleteMandatoryQuestionnaire(protocolDocument.getProtocol());
-
-        if (!headerIds.isEmpty()) {
-            addErrorToAuditErrors(headerIds);
+        boolean isValid = true;
+        List<AnswerHeader> headers = getQuestionnaireAnswerService().getQuestionnaireAnswer(new ProtocolModuleQuestionnaireBean(protocol));
+        
+        if (headers!=null) {
+            for (int i=0;i<headers.size();i++) {
+                AnswerHeader header = headers.get(i);
+                QuestionnaireUsage usage = getQuestionnaireUsage(CoeusModule.IRB_MODULE_CODE,header.getQuestionnaire().getQuestionnaireUsages());
+                if (usage.isMandatory() && !header.getCompleted()) {
+                    isValid = false;
+                    addErrorToAuditErrors(i,usage);
+                }
+            }
         }
-        reportAndCreateAuditCluster();
-        
-        return headerIds.isEmpty();
+        return isValid;
+            
     }
     
-    private List<Integer> getIncompleteMandatoryQuestionnaire(Protocol protocol) {
-        List<Integer> headers = new ArrayList<Integer>();
-        boolean isValid = true;
-        int i = 0;
-        String subItemCode = getProtocolSubItemCode(protocol);
-        ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocol);
+    protected List<Integer> getIncompleteMandatoryQuestionnaire(ProtocolDocument protocolDocument) {
+        Protocol protocol = protocolDocument.getProtocol();
+        ModuleQuestionnaireBean moduleQuestionnaireBean = new ProtocolModuleQuestionnaireBean(protocol);
         if (isRequestSubmission()) {
             moduleQuestionnaireBean.setModuleSubItemCode(CoeusSubModule.PROTOCOL_SUBMISSION);
-            subItemCode = CoeusSubModule.PROTOCOL_SUBMISSION;
         }
-        for (AnswerHeader answerHeader : getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean)) {
-            if (getQuestionnaireUsage(CoeusModule.IRB_MODULE_CODE, subItemCode, answerHeader.getQuestionnaire().getQuestionnaireUsages()).isMandatory() && !answerHeader.getCompleted()) {
-                headers.add(i);
-            }
-            i++;
-        }
-        return headers;
-
+        return super.getIncompleteMandatoryQuestionnaire(CoeusModule.IRB_MODULE_CODE, moduleQuestionnaireBean);
     }
     
-    private String getProtocolSubItemCode(Protocol protocol) {
-        // For now check renewal/amendment.  will add 'Protocol Submission' when it is cleared
-            String subModuleCode = "0";
-            if (protocol.isAmendment() || protocol.isRenewal()) {
-                subModuleCode = "1";
-            }
-            return subModuleCode;
-        }
-
-    private QuestionnaireUsage getQuestionnaireUsage(String moduleItemCode, String moduleSubItemCode, List<QuestionnaireUsage> questionnaireUsages) {
+    private QuestionnaireUsage getQuestionnaireUsage(String moduleItemCode, List<QuestionnaireUsage> questionnaireUsages) {
         QuestionnaireUsage usage = null;
         int version = 0;
         for (QuestionnaireUsage questionnaireUsage : questionnaireUsages) {
-            //if (usage == null || (moduleItemCode.equals(questionnaireUsage.getModuleItemCode()) && moduleSubItemCode.equals(questionnaireUsage.getModuleSubItemCode()))) {
-            //if (usage == null || (moduleItemCode.equals(questionnaireUsage.getModuleItemCode()) && moduleSubItemCode.equals(questionnaireUsage.getModuleSubItemCode()) && questionnaireUsage.getQuestionnaireSequenceNumber() > version)) {
-            if (moduleItemCode.equals(questionnaireUsage.getModuleItemCode()) && moduleSubItemCode.equals(questionnaireUsage.getModuleSubItemCode()) && questionnaireUsage.getQuestionnaireSequenceNumber() > version) {
+            if (usage == null || (moduleItemCode.equals(questionnaireUsage.getModuleItemCode()) && questionnaireUsage.getQuestionnaireSequenceNumber() > version)) {
                 version = questionnaireUsage.getQuestionnaireSequenceNumber();
                 usage = questionnaireUsage;
             }            
@@ -105,17 +88,40 @@ public class ProtocolQuestionnaireAuditRule  extends ResearchDocumentRuleBase im
     /**
      * Creates and adds the Audit Error to the <code>{@link List<AuditError>}</code> auditError.
      */
-    protected void addErrorToAuditErrors(List<Integer> headerIds) {
+    protected void addErrorToAuditErrors(Integer answerHeaderIndex, QuestionnaireUsage usage) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(Constants.PROTOCOL_QUESTIONNAIRE_PAGE);
         stringBuilder.append(".");
         stringBuilder.append(Constants.PROTOCOL_QUESTIONNAIRE_PANEL_ANCHOR);
-        for (Integer id : headerIds) {
-            auditErrors.add(new AuditError("questionnaireHelper.answerHeaders[" + id + "].answers[0].answer",
+        
+        getProtocolAuditErrors("questionnaireHelper",usage.getQuestionnaireLabel(),answerHeaderIndex).add(new AuditError(String.format(PROTOCOL_QUESTIONNAIRE_KEY, answerHeaderIndex),
                 KeyConstants.ERROR_MANDATORY_QUESTIONNAIRE, stringBuilder.toString()));
-        }
+        
     }
-
+    
+    
+    /**
+     * This method should only be called if an audit error is intending to be added because it will actually add a <code>{@link List<AuditError>}</code>
+     * to the auditErrorMap.
+     * 
+     * @return List of AuditError instances
+     */
+    @SuppressWarnings("unchecked")
+    private List<AuditError> getProtocolAuditErrors(String formProperty, String usageLabel, Integer answerHeaderIndex) {
+        List<AuditError> auditErrors = new ArrayList<AuditError>();
+        String key = String.format( PROTOCOL_QUESTIONNAIRE_PANEL_KEY, formProperty, usageLabel, answerHeaderIndex );
+        
+        if (!GlobalVariables.getAuditErrorMap().containsKey(key)) {
+           GlobalVariables.getAuditErrorMap().put(key, new AuditCluster(usageLabel, auditErrors, Constants.AUDIT_ERRORS));
+        }
+        else {
+            auditErrors = ((AuditCluster)GlobalVariables.getAuditErrorMap().get(key)).getAuditErrorList();
+        }
+        
+        return auditErrors;
+    }
+    
+    
     public boolean isMandatorySubmissionQuestionnaireComplete(List<AnswerHeader> answerHeaders) {
         boolean isValid = true;
         for (AnswerHeader answerHeader : answerHeaders) {
@@ -126,29 +132,36 @@ public class ProtocolQuestionnaireAuditRule  extends ResearchDocumentRuleBase im
             }
         }
         return isValid;
-
     }
-
+    
     /**
      * Creates and adds the AuditCluster to the Global AuditErrorMap.
      */
-    @SuppressWarnings("unchecked")
-    protected void reportAndCreateAuditCluster() {
-        if (auditErrors.size() > 0) {
-            GlobalVariables.getAuditErrorMap().put(MANDATORY_QUESTIONNAIRE_AUDIT_ERRORS, 
-                    new AuditCluster(Constants.PROTOCOL_QUESTIONNAIRE_PANEL_NAME, auditErrors, Constants.AUDIT_ERRORS));
-        }
-    }
-    
+
     protected QuestionnaireAnswerService getQuestionnaireAnswerService() {
         return KraServiceLocator.getService(QuestionnaireAnswerService.class);
     }
+    
+    @Override
+    protected String getAuditErrorLink() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(Constants.PROTOCOL_QUESTIONNAIRE_PAGE);
+        stringBuilder.append(".");
+        stringBuilder.append(Constants.PROTOCOL_QUESTIONNAIRE_PANEL_ANCHOR);
+        return stringBuilder.toString();
+    }
 
+    @Override
+    protected String getAuditErrorsLabel() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
     public boolean isRequestSubmission() {
         return requestSubmission;
     }
-
-    public void setRequestSubmission(boolean requestSubmission) {
+    
+    public void setRequestSubmittion(boolean requestSubmission) {
         this.requestSubmission = requestSubmission;
     }
 }

@@ -126,6 +126,9 @@ public final class KeyConstants {
     public static final String INVALID_DATE_REQUIRED_FOR = "error.invalid.date.required.for";
     public static final String INVALID_EXPLANATION_REQUIRED_FOR = "error.invalid.explanation.required.for";
         
+    //proposal questionnaire errors
+    public static final String ERROR_S2S_QUESTIONNAIRE_NOT_COMPLETE = "error.proposaldev.questionnaire.s2s.notcomplete";
+    public static final String ERROR_QUESTIONNAIRE_NOT_COMPLETE = "error.proposaldev.questionnaire.notcomplete";
     // Budget Versions errors
     public static final String ERROR_BUDGET_NAME_MISSING = "error.budgetVersion.documentDescription.required";
     public static final String ERROR_NO_FINAL_BUDGET = "error.final.budget.required";
