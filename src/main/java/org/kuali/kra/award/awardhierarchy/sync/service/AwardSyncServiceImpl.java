@@ -66,6 +66,7 @@ public class AwardSyncServiceImpl implements AwardSyncService {
 
     public static final String VALIDATION_SUCCESS_MESSAGE = "Valid";
     public static final String VALIDATION_FAILURE_MESSAGE = "Invalid";
+    public static final String SYNC_SAVED_MESSAGE = "Saved";
     public static final String SYNC_SUCCESS_MESSAGE = "Completed";
     public static final String SYNC_FAILURE_MESSAGE = "Failed";
     public static final String CHANGE_LOG_SUCCESS = "Success";
@@ -107,20 +108,22 @@ public class AwardSyncServiceImpl implements AwardSyncService {
      */
     public AwardDocument getAwardLockingHierarchyForSync(AwardDocument awardDocument, String principalId) {
         AwardHierarchy hierarchy = getAwardHierarchyService().loadAwardHierarchy(awardDocument.getAward().getAwardNumber());
-        Person person = getPersonService().getPerson(principalId);
-        while (hierarchy.getParent() != null) {
-            hierarchy = hierarchy.getParent();
-            Award parentAward = getPendingAward(hierarchy.getAwardNumber());
-            if (parentAward != null && !parentAward.getSyncChanges().isEmpty()) {
-                try {
-                    AwardDocument parentDocument = 
-                        (AwardDocument) getDocumentService().getByDocumentHeaderId(parentAward.getAwardDocument().getDocumentNumber());
-                    if (getKraWorkflowService().isEnRoute(parentDocument)
-                            && !parentDocument.getDocumentHeader().getWorkflowDocument().userIsRoutedByUser(person)) {
-                        return parentDocument;
+        if (hierarchy != null) {
+            Person person = getPersonService().getPerson(principalId);
+            while (hierarchy.getParent() != null) {
+                hierarchy = hierarchy.getParent();
+                Award parentAward = getPendingAward(hierarchy.getAwardNumber());
+                if (parentAward != null && !parentAward.getSyncChanges().isEmpty()) {
+                    try {
+                        AwardDocument parentDocument = 
+                            (AwardDocument) getDocumentService().getByDocumentHeaderId(parentAward.getAwardDocument().getDocumentNumber());
+                        if (getKraWorkflowService().isEnRoute(parentDocument)
+                                && !parentDocument.getDocumentHeader().getWorkflowDocument().userIsRoutedByUser(person)) {
+                            return parentDocument;
+                        }
+                    } catch (WorkflowException e) {
+                        LOG.error("Error loading document to check for award sync lock", e);
                     }
-                } catch (WorkflowException e) {
-                    LOG.error(e);
                 }
             }
         }
@@ -133,6 +136,8 @@ public class AwardSyncServiceImpl implements AwardSyncService {
      * @param syncType
      */
     protected void runSync(final Award award, final SyncType syncType) {
+        long start = System.currentTimeMillis();
+        LOG.debug("Award Hierarchy Sync Starting");
         try {
             List<SyncRunnable> runnables = new ArrayList<SyncRunnable>();
             runInTransaction(new TransactionRunnable() {
@@ -148,9 +153,19 @@ public class AwardSyncServiceImpl implements AwardSyncService {
             for (AwardSyncChange change : changes) {
                 change.setXmlExport(getAwardSyncCreationService().getXmlExport(change));
             }
+            
             AwardHierarchy hierarchy = getAwardHierarchyService().loadAwardHierarchyBranch(award.getAwardNumber());
             for (AwardHierarchy curHierarchy : hierarchy.getChildren()) {
                 runSyncOnHierarchy(award, curHierarchy, changes, syncType, runnables);
+            }
+            waitTillRunablesFinished(runnables);
+            //if we are syncing, we also need to run another sync to approve all the documents
+            //this needs to be in a separate run/transaction to avoid problems with versioning, saving and approving
+            //in the same transaction(OptimisticLockExceptions in RouteHeaders, VersionHistory and/or DB locks)
+            if (syncType == SyncType.SYNC) {
+                for (AwardHierarchy curHierarchy : hierarchy.getChildren()) {
+                    runSyncOnHierarchy(award, curHierarchy, changes, SyncType.APPROVE, runnables);
+                }
             }
             waitTillRunablesFinished(runnables);
             award.refresh();
@@ -163,13 +178,16 @@ public class AwardSyncServiceImpl implements AwardSyncService {
                         syncType == SyncType.VALIDATE ? "Validation Complete" : "Sync Descendants Complete");
                 }
             });
+            long elapsed = System.currentTimeMillis() - start;
+            LOG.info("Award Hierarchy Sync Finished : " + elapsed + "ms");            
         } catch (Exception e) {
             runInTransaction(new TransactionRunnable() {
                 public void run() {
                     setParentAwardStatus(award, true, 
                         syncType == SyncType.VALIDATE ? "Validation Failure" : "Sync Descendants Failure");
                 }
-            });            
+            });
+            throw new RuntimeException(e);
         }
     }
     
@@ -252,6 +270,7 @@ public class AwardSyncServiceImpl implements AwardSyncService {
             status.setParentAwardId(parentAward.getAwardId());
             status.setStatus(newStatus);
             status.setSuccess(success);
+            parentAward.getSyncStatuses().add(status);
         }
         getBusinessObjectService().save(status);
     }
@@ -316,12 +335,14 @@ public class AwardSyncServiceImpl implements AwardSyncService {
         if (oldAward != null) {
             logFailure(awardStatus, failureMessage, "Award has an outstanding pending version."); 
             awardStatus.setAwardId(oldAward.getAwardId());
+            awardStatus.setDocumentNumber(oldAward.getAwardDocument().getDocumentNumber());
         } else {
             oldAward = getActiveAward(awardNumber);
             if (oldAward == null) {
                 logFailure(awardStatus, failureMessage, "Award does not have an active version.");
             } else {
                 awardStatus.setAwardId(oldAward.getAwardId());
+                awardStatus.setDocumentNumber(oldAward.getAwardDocument().getDocumentNumber());
             }
         }
         return oldAward;
@@ -336,22 +357,30 @@ public class AwardSyncServiceImpl implements AwardSyncService {
      * @param principalsToNotify
      * @throws RuntimeException
      */
-    protected void runSyncChanges(Award parentAward, AwardHierarchy hierarchy, SyncType syncType, 
-            List<AwardSyncChange> changes, List<String> principalsToNotify) {
+    protected void runSyncChanges(Award parentAward, AwardHierarchy hierarchy, final SyncType syncType, 
+            List<AwardSyncChange> changes, final List<String> principalsToNotify) {
+        long start = System.currentTimeMillis();
+        LOG.debug("Award Hierarchy Sync Started for " + hierarchy.getAwardNumber());
         boolean result = true;
         UserSession oldSession = null;
-        String successMessage = SYNC_SUCCESS_MESSAGE;
-        String failureMessage = SYNC_FAILURE_MESSAGE;
+        String successMessage = null;
+        String failureMessage = null;
         if (syncType == SyncType.VALIDATE) {
             successMessage = VALIDATION_SUCCESS_MESSAGE;
             failureMessage = VALIDATION_FAILURE_MESSAGE;
+        } else if (syncType == SyncType.SYNC) {
+            successMessage = SYNC_SAVED_MESSAGE;
+            failureMessage = SYNC_FAILURE_MESSAGE;
+        } else if (syncType == SyncType.APPROVE) {
+            successMessage = SYNC_SUCCESS_MESSAGE;
+            failureMessage = SYNC_FAILURE_MESSAGE;            
         }
-        AwardSyncStatus awardStatus = findAwardSyncStatus(parentAward, hierarchy.getAwardNumber());
-        if (!awardStatus.isSyncComplete()) {
-            try {
-                //make sure our session is that of the document submitter, we usually won't have a session here at all, but
-                //save and restore the existing session in case.
-                oldSession = replaceSessionWithRoutedBy(parentAward);
+        final AwardSyncStatus awardStatus = findAwardSyncStatus(parentAward, hierarchy.getAwardNumber());
+        try {
+            //make sure our session is that of the document submitter, we usually won't have a session here at all, but
+            //save and restore the existing session in case.
+            oldSession = replaceSessionWithRoutedBy(parentAward);
+            if (!awardStatus.isSyncComplete() && syncType != SyncType.APPROVE) {
                 Award oldAward = checkAwardVersions(hierarchy.getAwardNumber(), awardStatus, failureMessage);
                 if (oldAward != null) {
                     if (getAwardSyncSelectorService().isAwardInvolvedInSync(oldAward, changes)) {
@@ -364,7 +393,7 @@ public class AwardSyncServiceImpl implements AwardSyncService {
                             return;
                         }
                         
-                        AwardDocument awardDocument = null;
+                        final AwardDocument awardDocument;
                         Award award = null;
                         if (syncType == SyncType.SYNC) {
                             awardDocument = versionAndPrepareAwardDocument(parentAward, oldAward, awardStatus);
@@ -376,9 +405,6 @@ public class AwardSyncServiceImpl implements AwardSyncService {
                             return;
                         }
                         award = awardDocument.getAward();
-                        //working around odd problem where document retrieved would not be the same
-                        //as the document we already have
-                        award.setAwardDocument(awardDocument);
                         result &= applyAndValidateChanges(award, awardStatus, changes);
                         if (result) {
                             finalizeAwardStatus(awardDocument, awardStatus, successMessage, syncType, principalsToNotify);
@@ -391,17 +417,21 @@ public class AwardSyncServiceImpl implements AwardSyncService {
                         awardStatus.setSuccess(true);
                     }
                 }
-            } catch (Exception e) {
-                LOG.error("Error applying sync", e);
-                awardStatus.addValidationLog("Error applying sync. See system log for details.", false, null);
-                awardStatus.setStatus(failureMessage);
-                awardStatus.setSuccess(false);
-                throw new RuntimeException(e);
-            } finally {
-                //persist status in another transaction to avoid any rollbacks
-                saveInTransaction(awardStatus);
-                GlobalVariables.setUserSession(oldSession);
+            } else if (syncType == SyncType.APPROVE) {
+                finalizeAward(awardStatus);
             }
+        } catch (Exception e) {
+            LOG.error("Error applying sync", e);
+            awardStatus.addValidationLog("Error applying sync. See system log for details.", false, null);
+            awardStatus.setStatus(failureMessage);
+            awardStatus.setSuccess(false);
+            throw new RuntimeException(e);
+        } finally {
+            //persist status in another transaction to avoid any rollbacks
+            saveInTransaction(awardStatus);
+            GlobalVariables.setUserSession(oldSession);
+            long elapsed = System.currentTimeMillis() - start;
+            LOG.info("Finished award sync - " + hierarchy.getAwardNumber() + " : " + elapsed + "ms");
         }
     }
     
@@ -445,9 +475,9 @@ public class AwardSyncServiceImpl implements AwardSyncService {
         if (syncType == SyncType.SYNC) {
             getDocumentService().saveDocument(awardDocument);
             principalsToNotify.addAll(getNotificationList(awardDocument));
-            saveAndFinalizeAward(awardDocument);
             awardStatus.setSyncComplete(true);
             awardStatus.setAwardId(awardDocument.getAward().getAwardId());
+            awardStatus.setDocumentNumber(awardDocument.getDocumentNumber());
             awardStatus.refreshReferenceObject("award");
         }
         awardStatus.setStatus(successMessage);
@@ -467,6 +497,10 @@ public class AwardSyncServiceImpl implements AwardSyncService {
         try {
             AwardDocument awardDocument = 
                 (AwardDocument) getDocumentService().getByDocumentHeaderId(award.getAwardDocument().getDocumentNumber());
+            //minor hack for the pseudo award document that can possibly contain hundred of awards that would
+            //then all be validated.
+            awardDocument.getAwardList().clear();
+            awardDocument.getAwardList().add(award);
             return awardDocument;
         } catch (WorkflowException e) {
             LOG.error("Unable to load award document.", e);
@@ -671,6 +705,10 @@ public class AwardSyncServiceImpl implements AwardSyncService {
      */
     protected AwardDocument versionAndPrepareAwardDocument(Award parentAward, Award oldAward, AwardSyncStatus awardStatus) {
         AwardDocument awardDocument = oldAward.getAwardDocument();
+        //hack to work around placeholder award document that can have many many awards attached to it
+        //and we need the specific award to be the only one on the document.
+        awardDocument.getAwardList().clear();
+        awardDocument.getAwardList().add(oldAward);
         AwardDocument newAwardDocument = null;
         try {
             newAwardDocument = getAwardService().createNewAwardVersion(awardDocument);
@@ -686,9 +724,6 @@ public class AwardSyncServiceImpl implements AwardSyncService {
         award.setAwardTransactionTypeCode(parentAward.getAwardTransactionTypeCode());
         award.setNoticeDate(parentAward.getNoticeDate());
         award.getAwardCurrentActionComments().setComments("Synchronize Descendants from Award " + parentAward.getAwardNumber());
-        //don't create version history. Will cause OptimisticLockExceptions and version history will be created
-        //when the document is blanketapproved.
-        //getVersionHistoryService().createVersionHistory(award, VersionStatus.PENDING, GlobalVariables.getUserSession().getPrincipalId());
         return newAwardDocument;
     }
     
@@ -705,7 +740,6 @@ public class AwardSyncServiceImpl implements AwardSyncService {
         //save as a normal award
         award.setSyncChild(false);
         getDocumentService().saveDocument(awardDocument);
-        //collect typical route node requests -- this will recreate the awardDocument's workflow doc for the system user - KR
         principalsToNotify.addAll(getAwardSyncUtilityService().buildListForFYI(awardDocument));
         //set to hierarchy sync child to avoid any requests being sent during blanket approve
         //and resave as it will recreate the workflow doc for the correct user
@@ -719,8 +753,18 @@ public class AwardSyncServiceImpl implements AwardSyncService {
      * @param newAwardDocument
      * @throws WorkflowException
      */
-    protected void saveAndFinalizeAward(AwardDocument newAwardDocument) throws WorkflowException {
-        getDocumentService().blanketApproveDocument(newAwardDocument, "Award Hierarchy Sync Routed Document", null);
+    protected void finalizeAward(AwardSyncStatus awardSyncStatus) {
+        try {
+            if (awardSyncStatus.isSuccess() && awardSyncStatus.isSyncComplete()
+                    && StringUtils.isNotBlank(awardSyncStatus.getDocumentNumber())) {
+                AwardDocument awardDocument = (AwardDocument) getDocumentService().getByDocumentHeaderId(awardSyncStatus.getDocumentNumber());
+                getDocumentService().blanketApproveDocument(awardDocument, "Award Hierarchy Sync Routed Document", null);
+                awardSyncStatus.setStatus(SYNC_SUCCESS_MESSAGE);
+            }
+        } catch (Exception e) {
+            awardSyncStatus.setSyncComplete(false);
+            logFailure(awardSyncStatus, SYNC_FAILURE_MESSAGE, "Award has an outstanding pending version.");
+        }
     }
     
     /**
@@ -751,12 +795,19 @@ public class AwardSyncServiceImpl implements AwardSyncService {
      * @param runnable
      */
     protected void runInTransaction(final TransactionRunnable runnable) {
-        TransactionTemplate template = new TransactionTemplate((PlatformTransactionManager) KraServiceLocator.getService("transactionManager"));
-        template.setPropagationBehavior(Propagation.REQUIRES_NEW.value());
-        template.execute(new TransactionCallback() {
-            public Object doInTransaction(TransactionStatus status) {
-                runnable.run();
-                return null;
+        final UserSession session = GlobalVariables.getUserSession();
+        syncExecutor.execute(new SyncRunnable() {
+            public void run() {
+                GlobalVariables.setUserSession(session);
+                TransactionTemplate template = 
+                    new TransactionTemplate((PlatformTransactionManager) KraServiceLocator.getService("transactionManager"));
+                template.setPropagationBehavior(Propagation.REQUIRES_NEW.value());
+                template.execute(new TransactionCallback() {
+                    public Object doInTransaction(TransactionStatus status) {
+                        runnable.run();
+                        return null;
+                    }
+                });
             }
         });
     }
@@ -798,14 +849,14 @@ public class AwardSyncServiceImpl implements AwardSyncService {
      * Validation or running full sync
      */
     protected enum SyncType {
-        SYNC(), VALIDATE();
+        SYNC(), VALIDATE(), APPROVE();
     }
     
     /**
      * Abstract class that is used to generate runnables to run in transactions.
      */
     protected abstract class TransactionRunnable {
-        public abstract void run() throws RuntimeException;
+        public abstract void run();
     }
     
     /**
@@ -892,7 +943,7 @@ public class AwardSyncServiceImpl implements AwardSyncService {
                 getDocumentService().sendAdHocRequests(awardDocument, annotation, recipients);
             }
             catch (WorkflowException e) {
-                LOG.error(e);
+                LOG.error("Error sending Ad Hoc requests for Award Sync", e);
             } finally {
                 super.run();
                 GlobalVariables.setUserSession(oldSession);

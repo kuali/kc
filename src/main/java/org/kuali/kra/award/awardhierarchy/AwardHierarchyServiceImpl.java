@@ -376,6 +376,9 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
                 comment.setComments(Constants.DEF_CURRENT_ACTION_COMMENT_COPIED_AWARD);
             }
         }
+        
+        newAward.getSyncChanges().clear();
+        newAward.getSyncStatuses().clear();
     } 
 
     AwardHierarchy copyAwardAsChildOfAnotherNode(AwardHierarchy sourceNode, AwardHierarchy targetParentNode) {

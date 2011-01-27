@@ -14,8 +14,6 @@
  limitations under the License.
 --%>
 <%-- member of AwardActions.jsp --%>
-<script src="scripts/jquery/jquery.js"></script>
-<script language="javascript" src="scripts/kuali_application.js"></script>
 <script language="javascript" src="dwr/interface/AwardTransactionLookupService.js"></script>
 <style type="text/css">
 .multi-col-list dl {
