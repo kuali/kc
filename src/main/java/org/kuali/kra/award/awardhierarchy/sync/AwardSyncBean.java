@@ -24,7 +24,10 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.kuali.kra.award.AwardForm;
+import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
+import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 
 /**
@@ -81,6 +84,23 @@ public class AwardSyncBean implements Serializable {
             }
         }
         return statuses;
+    }
+    
+    public List<AwardHierarchy> getHierarchyList() {
+        AwardHierarchy awardHierarchy = 
+            KraServiceLocator.getService(AwardHierarchyService.class).loadAwardHierarchyBranch(awardForm.getAwardDocument().getAward().getAwardNumber());
+        List<AwardHierarchy> listOrder = new ArrayList<AwardHierarchy>();
+        for (AwardHierarchy hierarchy : awardHierarchy.getChildren()) {
+            getHierarchyList(hierarchy, listOrder);
+        }
+        return listOrder;
+    }
+    
+    protected void getHierarchyList(AwardHierarchy hierarchy, List<AwardHierarchy> listOrder) {
+        listOrder.add(hierarchy);
+        for (AwardHierarchy child : hierarchy.getChildren()) {
+            getHierarchyList(child, listOrder);
+        }
     }
     
     public boolean isOnValidationNode() {
