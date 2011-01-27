@@ -462,7 +462,6 @@
 	<bean id="awardSyncSelectorService" class="org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncSelectorServiceImpl">
 		<property name="parameterService" ref="parameterService"/>
 	</bean>
-          
         
 	<bean id="awardSyncService" class="org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncServiceImpl">
 	    <property name="awardService" ref="awardService"/>
@@ -478,9 +477,9 @@
 		<property name="pessimisticLockService" ref="awardLockService" />
 		<property name="kraWorkflowService" ref="kraWorkflowService"/>
 		<property name="syncExecutor">
-			<bean class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
-				<property name="maxPoolSize" value="1"/>
-			</bean>
+			<!-- Leaving this as an executor, but care should be taken before making this a concurrent executor
+			     as database synchronization bugs still exist -->
+			<bean class="org.springframework.core.task.SyncTaskExecutor"></bean>
 		</property>		
 	</bean>
 </beans>

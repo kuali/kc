@@ -35,6 +35,11 @@
     margin-right: auto;
   }
   
+  #awardSyncLogs-All {
+     overflow: auto;
+     max-height: 30em;
+  }
+  
 </style>
 
 <script type="text/javascript">
@@ -64,6 +69,28 @@
 		$(link).find('img').attr('src', 'static/images/tinybutton-showdetails.gif');
 	  }
   }
+  function loadAllLogs() {
+	  jQuery.ajax({
+		  url:'${ConfigProperties.application.url}/awardSyncAjaxLogs.do?methodToCall=getAllLogs'+
+		  	'&docNum=${node.award.awardDocument.documentNumber}&formKey=${KualiForm.formKey}&docFormKey=${KualiForm.formKey}&documentWebScope=session',
+		  type: 'POST',
+		  datatype: 'html',
+		  async: true,
+	  	  success:function(data) {
+		    var loadingRow = $('#awardSyncLogs-All table tr.syncLogRow-loading');
+		    var lastRealRow = $(loadingRow).prev().prev();
+		    var tempDom = $('#awardSyncLogs-temp');
+		    tempDom.html(data);
+		    var nextElems = tempDom.find('#'+$(lastRealRow).attr('id')).next().nextAll();
+		    $(loadingRow).after(nextElems);
+		    $(loadingRow).detach();
+		    tempDom.detach();
+		  }
+	  });
+  }
+  $(document).ready(function () {
+	  loadAllLogs();
+  });
 </script>
 
 <input type="hidden" property="viewOnly" value="${readOnly}" />
@@ -151,10 +178,11 @@
    		        <th><kul:htmlAttributeLabel attributeEntry="${syncStatusAttrs.status}" noColon="true"/></th>
    		        <th>User Actions</th>
    		      </tr>
-   		      <kra-a:awardSyncTree hierarchy="${KualiForm.awardHierarchyBean.currentAwardHierarchyNode}"/>
+   		      <kra-a:awardSyncLogs rows="75"/>
    		    </table>
    		  </div>
    		</div>
+   		<div id="awardSyncLogs-temp" class="hidden" style="display:none;"></div>
    		</c:if>
    		<c:if test="${KualiForm.awardSyncBean.onValidationNode}">
    		<div class="syncactions" style="text-align: center;">

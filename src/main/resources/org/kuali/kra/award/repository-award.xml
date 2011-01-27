@@ -1348,6 +1348,7 @@
 		<field-descriptor name="awardSyncStatusId" column="AWARD_SYNC_STATUS_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_AWARD_SYNC_STATUS_ID" />
 		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" nullable="true"/>
 		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" nullable="false" />
+		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="parentAwardId" column="PARENT_AWARD_ID" jdbc-type="BIGINT" nullable="false" />
 		<field-descriptor name="success" column="STEP_SUCCESS" jdbc-type="CHAR" nullable="false" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="status" column="STATUS" jdbc-type="VARCHAR" nullable="true"/>

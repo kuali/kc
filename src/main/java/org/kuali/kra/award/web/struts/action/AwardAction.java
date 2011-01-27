@@ -169,9 +169,16 @@ public class AwardAction extends BudgetParentActionBase {
         forward = handleDocument(mapping, form, request, response, awardForm);
         
         AwardDocument awardDocument = (AwardDocument) awardForm.getDocument();
+        //check to see if this document might be a part of an active award sync(if it is lock it)
+        AwardDocument parentSyncAward = 
+            getAwardSyncService().getAwardLockingHierarchyForSync(awardDocument, GlobalVariables.getUserSession().getPrincipalId()); 
+        if (parentSyncAward != null) {
+            GlobalVariables.getMessageList().add("error.award.awardhierarchy.sync.locked", parentSyncAward.getDocumentNumber());
+            awardForm.setViewOnly(true);
+        }
         handlePlaceHolderDocument(request, awardDocument);
         awardForm.initializeFormOrDocumentBasedOnCommand();
-        setBooleanAwardInMultipleNodeHierarchyOnForm (awardDocument.getAward());    
+        setBooleanAwardInMultipleNodeHierarchyOnForm (awardDocument.getAward());
         if (!(request.getParameter("docOpenedFromAwardSearch") == null)) {
                if (request.getParameter("docOpenedFromAwardSearch").equals("true")) {
                    awardDocument.setDocOpenedFromAwardSearch(true);
