@@ -20,9 +20,12 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
+import org.kuali.kra.irb.actions.genericactions.ProtocolGenericCorrespondence;
 import org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
+import org.kuali.kra.printing.PrintingException;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.DocumentService;
 
@@ -36,6 +39,7 @@ public class ProtocolAbandonServiceImpl implements ProtocolAbandonService {
     private DocumentService documentService;
     private ProtocolActionService protocolActionService;
     private ProtocolActionsNotificationService protocolActionsNotificationService;
+    private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
 
     /**
      * 
@@ -51,10 +55,18 @@ public class ProtocolAbandonServiceImpl implements ProtocolAbandonService {
         documentService.cancelDocument(protocol.getProtocolDocument(), null);
         try {
             protocolActionsNotificationService.sendActionsNotification(protocol, new ProtocolAbandonEvent(protocol));
+            createCorrespondenceAndAttach(protocol, ProtocolActionType.ABANDON_PROTOCOL);
         } catch (Exception e) {
             LOG.info("Abandon Protocol Notification exception " + e.getStackTrace());
         }
         
+    }
+
+    private void createCorrespondenceAndAttach(Protocol protocol, String protocolActionType) throws PrintingException {
+        ProtocolGenericCorrespondence correspondence = new ProtocolGenericCorrespondence(protocolActionType);
+        correspondence.setPrintableBusinessObject(protocol);
+        correspondence.setProtocol(protocol);
+        protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
     }
 
     public void setDocumentService(DocumentService documentService) {
@@ -67,6 +79,11 @@ public class ProtocolAbandonServiceImpl implements ProtocolAbandonService {
 
     public void setProtocolActionsNotificationService(ProtocolActionsNotificationService protocolActionsNotificationService) {
         this.protocolActionsNotificationService = protocolActionsNotificationService;
+    }
+
+    public void setProtocolActionCorrespondenceGenerationService(
+            ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService) {
+        this.protocolActionCorrespondenceGenerationService = protocolActionCorrespondenceGenerationService;
     }
 
 }

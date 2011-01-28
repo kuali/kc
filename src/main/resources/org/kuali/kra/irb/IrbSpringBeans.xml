@@ -941,6 +941,7 @@
     <bean id="protocolAbandonService" class="org.kuali.kra.irb.actions.abandon.ProtocolAbandonServiceImpl">
         <property name="protocolActionService" ref="protocolActionService" />
         <property name="protocolActionsNotificationService" ref="protocolActionsNotificationService" />
+        <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
        <property name="documentService" ref="documentService" />
     </bean>
     
