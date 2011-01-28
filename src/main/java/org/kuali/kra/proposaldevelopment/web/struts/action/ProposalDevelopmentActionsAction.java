@@ -176,7 +176,9 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             }
         }
         
-        return forward;
+        ActionForward basicForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
+        return routeToHoldingPage(basicForward, forward, holdingPageForward);
     }
 
     private ActionForward promptUserForInput(KualiWorkflowDocument workflowDoc, String action, ActionMapping mapping, ActionForm form,
@@ -586,7 +588,10 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         
             forward = mapping.findForward((Constants.MAPPING_BASIC));
         }
-        return forward;
+        
+        ActionForward basicForward = mapping.findForward(Constants.MAPPING_BASIC);
+        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
+        return routeToHoldingPage(basicForward, forward, holdingPageForward);
     }
     
     /**
@@ -1356,8 +1361,13 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
 
     @Override
     public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-    throws Exception {
-        return super.blanketApprove(mapping, form, request, response);
+        throws Exception {
+        
+        ActionForward returnForward = super.blanketApprove(mapping, form, request, response);
+        
+        ActionForward forward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
+        return routeToHoldingPage(forward, returnForward, holdingPageForward);
     }
 
     @Override
