@@ -71,18 +71,10 @@ public class CustomAttributeDocumentMaintenanceDocumentRuleTest extends Maintena
         CustomAttributeDocument customAttributeDocument = new CustomAttributeDocument();
         customAttributeDocument.setCustomAttributeId(new Integer(8));
         MaintenanceDocument customAttributeDocumentMaintDoc = newMaintDoc(customAttributeDocument);
-        assertFalse(rule.processCustomRouteDocumentBusinessRules(customAttributeDocumentMaintDoc));
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(Constants.DOCUMENT_NEWMAINTAINABLEOBJECT_ACTIVE);
-        assertTrue(errors.size() == 1);
-        ErrorMessage message = (ErrorMessage) errors.get(0);
-        assertEquals(message.getErrorKey(), KeyConstants.ERROR_INACTIVE_CUSTOM_ATT_DOC);
+        assertTrue(rule.processCustomRouteDocumentBusinessRules(customAttributeDocumentMaintDoc));
 
         // approve will have the same error too.
-        assertFalse(rule.processCustomApproveDocumentBusinessRules(customAttributeDocumentMaintDoc));
-        errors = GlobalVariables.getErrorMap().getMessages(Constants.DOCUMENT_NEWMAINTAINABLEOBJECT_ACTIVE);
-        assertTrue(errors.size() == 1);
-        message = (ErrorMessage) errors.get(0);
-        assertEquals(message.getErrorKey(), KeyConstants.ERROR_INACTIVE_CUSTOM_ATT_DOC);
+        assertTrue(rule.processCustomApproveDocumentBusinessRules(customAttributeDocumentMaintDoc));
 
     }
 

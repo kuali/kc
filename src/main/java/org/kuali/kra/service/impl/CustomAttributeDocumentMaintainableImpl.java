@@ -37,8 +37,7 @@ public class CustomAttributeDocumentMaintainableImpl extends KualiMaintainableIm
             val = Integer.parseInt(customAttributeDocument.getDocumentTypeName());
             // the getDocumentTypeName is a number, so it needs translated
             needsTranslated = true;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             // getDocumentTypeName has already been translated, so can't do it again.
             needsTranslated = false;
         }
