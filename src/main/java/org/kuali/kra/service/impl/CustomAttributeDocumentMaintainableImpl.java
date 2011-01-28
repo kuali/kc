@@ -15,7 +15,12 @@
  */
 package org.kuali.kra.service.impl;
 
+import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
+import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 
@@ -23,28 +28,49 @@ import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
  * This class...
  */
 public class CustomAttributeDocumentMaintainableImpl extends KualiMaintainableImpl {
-    
+
     public void prepareForSave() {
         CustomAttributeDocument customAttributeDocument = (CustomAttributeDocument) this.getBusinessObject();
         boolean needsTranslated = true;
+        int val = 0;
         try {
-            int val = Integer.parseInt(customAttributeDocument.getDocumentTypeName());
-            //the getDocumentTypeName is a number, so it needs translated
+            val = Integer.parseInt(customAttributeDocument.getDocumentTypeName());
+            // the getDocumentTypeName is a number, so it needs translated
             needsTranslated = true;
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             // getDocumentTypeName has already been translated, so can't do it again.
             needsTranslated = false;
         }
         if (needsTranslated) {
-            if ("7".equals(customAttributeDocument.getDocumentTypeName())) {
-                customAttributeDocument.setDocumentTypeName("PROT");
-                System.err.println("set to prot");
-            } else if ("2".equals(customAttributeDocument.getDocumentTypeName())) {
-                customAttributeDocument.setDocumentTypeName("INPR");
-                System.err.println("set to inpr");
-            } else {
-                throw new IllegalArgumentException("invalid typeName provided: " + customAttributeDocument.getDocumentTypeName());
+
+            switch (val) {
+                case CoeusModule.AWARD_MODULE_CODE_INT: {
+                    customAttributeDocument.setDocumentTypeName(AwardDocument.DOCUMENT_TYPE_CODE);
+                    break;
+                }
+                case CoeusModule.INSTITUTIONAL_PROPOSAL_MODULE_CODE_INT: {
+                    customAttributeDocument.setDocumentTypeName(InstitutionalProposalDocument.DOCUMENT_TYPE_CODE);
+                    break;
+                }
+                case CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE_INT: {
+                    customAttributeDocument.setDocumentTypeName(ProposalDevelopmentDocument.DOCUMENT_TYPE_CODE);
+                    break;
+                }
+                case CoeusModule.IRB_MODULE_CODE_INT: {
+                    customAttributeDocument.setDocumentTypeName(ProtocolDocument.DOCUMENT_TYPE_CODE);
+                    break;
+                }
+                default: {
+                    throw new IllegalArgumentException("invalid typeName provided: "
+                            + customAttributeDocument.getDocumentTypeName());
+                }
             }
+
+            /**
+             * 1 Award 2 Institute Proposal 3 Development Proposal 4 Subcontracts 5 Negotiations 6 Person 7 IRB 8 Annual COI
+             * Disclosure
+             */
         }
         super.prepareForSave();
     }
