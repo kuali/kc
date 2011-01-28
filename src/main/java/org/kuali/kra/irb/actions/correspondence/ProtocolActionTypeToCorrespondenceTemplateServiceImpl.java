@@ -34,6 +34,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 public class ProtocolActionTypeToCorrespondenceTemplateServiceImpl implements ProtocolActionTypeToCorrespondenceTemplateService {
     
     private static Map<String, List<String>> actionTypesToCorrespondenceType;
+    // Should be better to use corr type code instead of description or best to have a valid action type/corres type table set up
     static {
         actionTypesToCorrespondenceType = new HashMap<String, List<String>>();
         actionTypesToCorrespondenceType.put(ProtocolActionType.SUBMIT_TO_IRB, Arrays.asList("Protocol Submission Report #1", "Protocol Submission Report #2"));
@@ -66,6 +67,7 @@ public class ProtocolActionTypeToCorrespondenceTemplateServiceImpl implements Pr
         actionTypesToCorrespondenceType.put(ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, Arrays.asList("Specific Minor Revisions Letter"));
         actionTypesToCorrespondenceType.put(ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, Arrays.asList("Substantive Revisions Required Letter"));
         actionTypesToCorrespondenceType.put(ProtocolActionType.DEFERRED, Arrays.asList("Notice Of Deferral"));
+        actionTypesToCorrespondenceType.put(ProtocolActionType.ABANDON_PROTOCOL, Arrays.asList("Abandon Notice"));
         /**
          * The following correspondence types don't map to a Protocol Action at this time:
          * Agenda Report, Committee Roster Report, 
