@@ -652,6 +652,8 @@ public interface Constants {
     public static final Object PROPOSAL_BUDGET = "proposalBudget";
     public static final Object AWARD_BUDGET = "awardBudget";
     public static final String ACTIVITY_TYPE_KEY = "document.developmentProposalList[0].activityTypeCode";
+    
+    public static final String INSTITUTIONAL_PROPOSAL_NAMESPACE = "KC-IP";
 
     // Maintenance documents
     public static final String VALID_SPECIAL_REVIEW_APPROVAL_TYPE_CODE_KEY = "document.newMaintainableObject.approvalTypeCode";

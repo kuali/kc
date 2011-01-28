@@ -562,8 +562,6 @@ public class AwardAction extends BudgetParentActionBase {
     protected boolean isValidSave(AwardForm awardForm) {
         AwardDocument awardDocument = (AwardDocument) awardForm.getDocument();
         String leadUnitNumber = awardDocument.getLeadUnitNumber();
-        System.err.println("leadUnitNumber: " + leadUnitNumber);
-        System.err.println(" and the boolean null check:'" + (leadUnitNumber == null) + "'");
         if (StringUtils.isNotEmpty(leadUnitNumber)) {
             String userId = GlobalVariables.getUserSession().getPrincipalId();
             UnitAuthorizationService authService = KraServiceLocator.getService(UnitAuthorizationService.class);      

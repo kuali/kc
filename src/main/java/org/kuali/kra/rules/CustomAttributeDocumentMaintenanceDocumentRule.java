@@ -76,20 +76,24 @@ public class CustomAttributeDocumentMaintenanceDocumentRule  extends Maintenance
             LOG.debug("new maintainable is: " + maintenanceDocument.getNewMaintainableObject().getClass());
         }
         CustomAttributeDocument newCustomAttributeDocument = (CustomAttributeDocument) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
-
+        
+        /*
+         * Leaving this commented out just in case there is a problem.
         if (newCustomAttributeDocument.getCustomAttributeId() != null && !newCustomAttributeDocument.isActive()) {
             Map<String, String> queryMap = new HashMap<String, String>();
             queryMap.put(Constants.CUSTOM_ATTRIBUTE_ID, newCustomAttributeDocument.getCustomAttributeId().toString());
 
             List<CustomAttributeDocValue> customAttributeDocValueList = (List<CustomAttributeDocValue>)getBoService().findMatching(CustomAttributeDocValue.class, queryMap);
-
+            
+            
             if (customAttributeDocValueList !=null && customAttributeDocValueList.size() > 0) {
                 GlobalVariables.getMessageMap().putError(Constants.DOCUMENT_NEWMAINTAINABLEOBJECT_ACTIVE, KeyConstants.ERROR_INACTIVE_CUSTOM_ATT_DOC,
                         new String[] {});
                 return false;
             }
+            
         }
-
+        */
 
         return true;
 
