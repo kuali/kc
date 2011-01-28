@@ -33,7 +33,7 @@
 		${kfunc:registerEditableProperty(KualiForm, prop)}
         
         <input type="text" class="QanswerDate" id="${prop}" name="${prop}" 
-               onchange = "answerChanged(this,${property})" maxlength="10" size="10" value="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].answer}" />
+               onchange = "answerChanged(this,'${property}')" maxlength="10" size="10" value="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].answer}" />
         <img src="kr/static/images/cal.gif" id="${prop}_datepicker" style="cursor: pointer;"
              title="Date selector" alt="Date selector"
              onmouseover="this.style.backgroundColor='red';" onmouseout="this.style.backgroundColor='transparent';" />
