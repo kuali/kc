@@ -70,7 +70,7 @@ import org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer;
 @COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
 public class ProtocolDocument extends ResearchDocumentBase implements Copyable, SessionDocument { 
 	
-    private static final String DOCUMENT_TYPE_CODE = "PROT";
+    public static final String DOCUMENT_TYPE_CODE = "PROT";
     private static final String AMENDMENT_KEY = "A";
     private static final String RENEWAL_KEY = "R";
     
