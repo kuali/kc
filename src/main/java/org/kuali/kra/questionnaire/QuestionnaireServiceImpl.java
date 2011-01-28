@@ -47,7 +47,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
          */
         permissionModuleMap = new HashMap<String, String>();
         permissionModuleMap.put(AwardPermissionConstants.MODIFY_AWARD.getAwardPermission() + ":" + Constants.MODULE_NAMESPACE_AWARD_BUDGET, "1");
-        permissionModuleMap.put(PermissionConstants.EDIT_INSTITUTE_PROPOSAL,"2");
+        permissionModuleMap.put(PermissionConstants.EDIT_INSTITUTE_PROPOSAL + ":" + Constants.INSTITUTIONAL_PROPOSAL_NAMESPACE,"2");
         permissionModuleMap.put(PermissionConstants.MAINTAIN_QUESTIONNAIRE_USAGE + ":" + Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, "3");
         //permissionModuleMap.put(PermissionConstants.MODIFY_PROPOSAL + ":" + "KC-PD", "3");
         // permissionModuleMap.put(PermissionConstants.SUBCONTRACT,"4");
@@ -122,13 +122,11 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
 
         Set<String> modules = new HashSet<String>();
         List<String> parameters = this.parameterService.getParameterValues(Constants.PARAMETER_MODULE_QUESTIONNAIRE, Constants.PARAMETER_COMPONENT_PERMISSION, PARAM_NAME);
-        //parameters = this.parameterService.getParameterValues("", "", "");
         for (String permission : parameters) {
-            // "Permission:NamespaceCd" format
             String[] params = permission.split(":");
-            
-            if (unitAuthorizationService.hasPermission(GlobalVariables.getUserSession().getPerson()
-                    .getPrincipalId(), params[1], params[0]) && !modules.contains(permissionModuleMap.get(permission))) {
+            boolean unitAuthCheck = unitAuthorizationService.hasPermission(GlobalVariables.getUserSession().getPerson()
+                    .getPrincipalId(), params[1], params[0]);
+            if (unitAuthCheck && !modules.contains(permissionModuleMap.get(permission))) {
                 modules.add(permissionModuleMap.get(permission));
             }
         }

@@ -75,23 +75,8 @@ public class AwardContactsAction extends AwardAction {
         ActionForward forward;
         if (isValidSave(awardForm)) {
             processAwardPersonChanges(award);
-            
-            //String leadUnitNumber = award.getAwardDocument().getLeadUnitNumber();
-            //System.err.println("in AwardContactsAction, before setLeadUnitOnAwardFromPILeadUnit leadUnitNumber: " + leadUnitNumber);
-            //System.err.println(" and the boolean null check:'" + (leadUnitNumber == null) + "'");
-            
             setLeadUnitOnAwardFromPILeadUnit(award, awardForm);
-            
-            //leadUnitNumber = award.getAwardDocument().getLeadUnitNumber();
-            //System.err.println("in AwardContactsAction, before init leadUnitNumber: " + leadUnitNumber);
-            //System.err.println(" and the boolean null check:'" + (leadUnitNumber == null) + "'");
-            
             award.initCentralAdminContacts();
-            
-            //leadUnitNumber = award.getAwardDocument().getLeadUnitNumber();
-            //System.err.println("in AwardContactsAction, after init leadUnitNumber: " + leadUnitNumber);
-            //System.err.println(" and the boolean null check:'" + (leadUnitNumber == null) + "'");
-            
             forward = super.save(mapping, form, request, response);
         } else {
             forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);            
@@ -174,18 +159,7 @@ public class AwardContactsAction extends AwardAction {
     private void setLeadUnitOnAwardFromPILeadUnit(Award award, AwardForm awardForm) {
         for (AwardPerson person : award.getProjectPersons()) {
             if (person.isPrincipalInvestigator()) {
-                
-                String unitToUse;
-                //if (!StringUtils.isEmpty(awardForm.getProjectPersonnelBean().getSelectedLeadUnit())){
-                  //  unitToUse = awardForm.getProjectPersonnelBean().getSelectedLeadUnit();
-                //} else if (person.getUnit(0) != null) {
-                    unitToUse = person.getUnit(0).getUnitNumber();
-                //} else {
-                  //  unitToUse = null;
-                ////}
-                
-                System.err.println("unitToUse: " + unitToUse);
-                
+                String unitToUse = person.getUnit(0).getUnitNumber();
                 List<Unit> units = (List<Unit>) getBusinessObjectService().findMatching(Unit.class, 
                         ServiceHelper.getInstance().buildCriteriaMap("UNIT_NUMBER", unitToUse));
                 if (units.size() > 0 && units.get(0) != null) {
