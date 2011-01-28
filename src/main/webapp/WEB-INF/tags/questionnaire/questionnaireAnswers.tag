@@ -55,7 +55,7 @@
 			         transparentBackground="${transparent}">
 			         
 	<div class="tab-container" align="center">
-	    <c:if test="${bean.answerHeaders[answerHeaderIndex].newerVersionPublished}">
+	    <c:if test="${bean.answerHeaders[answerHeaderIndex].newerVersionPublished and not readOnly}">
                 <kra-questionnaire:updateQuestionnaireAnswer  answerHeaderIndex="${answerHeaderIndex}" bean = "${bean}" property = "${property}"/>        
         </c:if>
 	
