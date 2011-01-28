@@ -284,7 +284,9 @@ public class AwardAction extends BudgetParentActionBase {
             forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
         
-        return forward;
+        ActionForward basicForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
+        return routeToHoldingPage(basicForward, forward, holdingPageForward);
     }
     
     private int isValidSubmission(AwardDocument awardDocument) {
@@ -314,7 +316,10 @@ public class AwardAction extends BudgetParentActionBase {
         }else{
             getTimeAndMoneyExistenceService().addAwardVersionErrorMessage();
         }
-        return forward;
+        
+        ActionForward basicForward = mapping.findForward(Constants.MAPPING_BASIC);
+        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
+        return routeToHoldingPage(basicForward, forward, holdingPageForward);
     }
     
     @Override
@@ -369,7 +374,10 @@ public class AwardAction extends BudgetParentActionBase {
             getTimeAndMoneyExistenceService().addAwardVersionErrorMessage();
             forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
-        return forward;
+        
+        ActionForward basicForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
+        return routeToHoldingPage(basicForward, forward, holdingPageForward);
     }
     
     /**
