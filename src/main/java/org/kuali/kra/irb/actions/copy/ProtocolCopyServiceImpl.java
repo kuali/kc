@@ -175,7 +175,6 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
         Long nextProtocolId = sequenceAccessorService.getNextAvailableSequenceNumber("SEQ_PROTOCOL_ID");
         newDoc.getProtocol().setProtocolId(nextProtocolId);
         if (!isAmendmentRenewal) {
-            newDoc.getProtocol().setAttachmentPersonnels(new ArrayList<ProtocolAttachmentPersonnel>());
             newDoc.getProtocol().setAttachmentProtocols(new ArrayList<ProtocolAttachmentProtocol>());
             newDoc.getProtocol().setNotepads(new ArrayList<ProtocolNotepad>());
             if (newDoc.getProtocol().getProtocolPersons() != null) {
@@ -184,7 +183,7 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
                 }
             }
         } else {
-            resetPersonId(newDoc.getProtocol());
+            initPersonId(newDoc.getProtocol());
         }
         documentService.saveDocument(newDoc); 
         if (isAmendmentRenewal) {
@@ -195,38 +194,18 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
         return newDoc;
     }
     
-    /*
-     * reset personnel attachment key fields for Amendment or renewal
-     * Personnel attachment is technically belong to protocol person
-     * But there is also a personnel attachments collection under protocol
+    /**
+     * This method initializes the personId of the person and person attachments for the newly created protocol.
+     * @param protocol
      */
-    protected void resetPersonId(Protocol protocol) {
-        List <ProtocolAttachmentPersonnel> attachments = new ArrayList<ProtocolAttachmentPersonnel>();
-        if (protocol.getProtocolPersons() != null) {
-            for (ProtocolPerson person : protocol.getProtocolPersons()) {
-                Long nextPersonId = sequenceAccessorService.getNextAvailableSequenceNumber("SEQ_PROTOCOL_ID");
-                person.setProtocolPersonId(nextPersonId.intValue());
-                for (ProtocolAttachmentPersonnel attachment : person.getAttachmentPersonnels()) {
-                    attachment.setProtocol(protocol);
-                    attachment.setPersonId(nextPersonId.intValue());
-                    attachment.setPerson(null);
-                    attachment.setId(null);
-                    attachment.setProtocolId(protocol.getProtocolId());
-                    attachment.setProtocolNumber(protocol.getProtocolNumber());
-                    attachment.setSequenceNumber(protocol.getSequenceNumber());
-                    attachments.add(attachment);
-                }
+    private void initPersonId(Protocol protocol) {
+        for (ProtocolPerson person : protocol.getProtocolPersons()) {
+            Integer nextPersonId = sequenceAccessorService.getNextAvailableSequenceNumber("SEQ_PROTOCOL_ID").intValue();
+            person.setProtocolPersonId(nextPersonId);
+            for (ProtocolAttachmentPersonnel attachment : person.getAttachmentPersonnels()) {
+                attachment.setPersonId(person.getProtocolPersonId());
             }
-            // attachmentpersonnels will be saved with protocol
-            protocol.setAttachmentPersonnels(attachments);
         }
-
-        for (ProtocolAttachmentProtocol attachment : protocol.getAttachmentProtocols()) {
-            attachment.setProtocol(protocol);
-            attachment.setProtocolNumber(protocol.getProtocolNumber());
-            attachment.setSequenceNumber(protocol.getSequenceNumber());
-        }
-
     }
     
     protected void refreshAttachmentsPersonnels(Protocol protocol) {
@@ -331,7 +310,6 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
         destProtocol.setProtocolPersons((List<ProtocolPerson>) deepCopy(srcProtocol.getProtocolPersons()));
         destProtocol.setSpecialReviews((List<ProtocolSpecialReview>) deepCopy(srcProtocol.getSpecialReviews()));
         destProtocol.setAttachmentProtocols((List<ProtocolAttachmentProtocol>) deepCopy(srcProtocol.getAttachmentProtocols()));
-        destProtocol.setAttachmentPersonnels((List<ProtocolAttachmentPersonnel>) deepCopy(srcProtocol.getAttachmentPersonnels()));
         destProtocol.setNotepads((List<ProtocolNotepad>) deepCopy(srcProtocol.getNotepads()));
     }
    

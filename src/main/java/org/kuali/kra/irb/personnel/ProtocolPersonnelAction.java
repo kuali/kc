@@ -15,33 +15,36 @@
  */
 package org.kuali.kra.irb.personnel;
 
-import static org.apache.commons.lang.StringUtils.isNotBlank;
-import static org.apache.commons.lang.StringUtils.substringBetween;
-import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
-import static org.kuali.rice.kns.util.KNSConstants.METHOD_TO_CALL_ATTRIBUTE;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.internet.HeaderTokenizer;
+import javax.mail.internet.MimeUtility;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
+import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentService;
+import org.kuali.kra.irb.noteattachment.ProtocolPersonnelAttachmentAdapter;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.web.struts.action.StrutsConfirmation;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * The ProtocolPersonnelAction corresponds to the Personnel tab (web page).  It is
@@ -50,7 +53,14 @@ import org.kuali.kra.service.KraAuthorizationService;
 public class ProtocolPersonnelAction extends ProtocolAction {
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolPersonnelAction.class);
+    
+    private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
+    private static final String CONFIRM_YES_DELETE_ATTACHMENT_PERSONNEL = "confirmDeleteAttachmentPersonnel";
+    private static final String CONFIRM_NO_DELETE = "";
+
+
     private ProtocolAttachmentService protocolAttachmentService;
+    private ProtocolPersonnelAttachmentAdapter protocolPersonnelAttachmentAdapter;
     
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -119,10 +129,128 @@ public class ProtocolPersonnelAction extends ProtocolAction {
     public ActionForward clearProtocolPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
         protocolForm.getPersonnelHelper().setNewProtocolPerson(new ProtocolPerson());
-        return mapping.findForward(MAPPING_BASIC);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     
+    /**
+     * Method called when adding an attachment to a person.
+     * 
+     * @param mapping the action mapping
+     * @param form the form.
+     * @param request the request.
+     * @param response the response.
+     * @return an action forward.
+     * @throws Exception if there is a problem executing the request.
+     */
+    public ActionForward addPersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        return getProtocolPersonnelAttachmentAdapter().addProtocolAttachmentPersonnel(mapping, form, request, response);
+    }
+
+    /**
+     * Method called when viewing an attachment personnel.
+     * 
+     * @param mapping the action mapping
+     * @param form the form.
+     * @param request the request.
+     * @param response the response.
+     * @return an action forward.
+     * @throws Exception if there is a problem executing the request.
+     */
+    public ActionForward viewPersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ProtocolDocument protocolDocument = ((ProtocolForm) form).getDocument();
+        ProtocolPerson protocolPerson = protocolDocument.getProtocol().getProtocolPerson(getSelectedPersonIndex(request, protocolDocument));
+        ProtocolAttachmentBase attachment = protocolPerson.getAttachmentPersonnels().get(getSelectedLine(request));
+        return printAttachmentProtocol(mapping, response, attachment);
+    }
+
+    /*
+     * This is to view attachment if attachment is selected in print panel.
+     */
+    private ActionForward printAttachmentProtocol(ActionMapping mapping, HttpServletResponse response, ProtocolAttachmentBase attachment) throws Exception {
+
+        if (attachment == null) {
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+
+        final AttachmentFile file = attachment.getFile();
+        this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
+
+        return RESPONSE_ALREADY_HANDLED;
+    }
+
+    /**
+     * Quotes a string that follows RFC 822 and is valid to include in an http header.
+     * 
+     * <p>
+     * This really should be a part of {@link org.kuali.rice.kns.util.WebUtils WebUtils}.
+     * <p>
+     * 
+     * For example: without this method, file names with spaces will not show up to the client correctly.
+     * 
+     * <p>
+     * This method is not doing a Base64 encode just a quoted printable character otherwise we would have to set the encoding type
+     * on the header.
+     * <p>
+     * 
+     * @param s the original string
+     * @return the modified header string
+     */
+    private String getValidHeaderString(String s) {
+        return MimeUtility.quote(s, HeaderTokenizer.MIME);
+    }
+
+    /**
+     * Method called when deleting an attachment from a person.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deletePersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        ProtocolDocument protocolDocument = ((ProtocolForm) form).getDocument();
+        ProtocolPerson protocolPerson = protocolDocument.getProtocol().getProtocolPerson(getSelectedPersonIndex(request, protocolDocument));
+        ProtocolAttachmentPersonnel attachment = protocolPerson.getAttachmentPersonnels().get(getSelectedLine(request));
+
+        final StrutsConfirmation confirm 
+        = buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_YES_DELETE_ATTACHMENT_PERSONNEL, 
+                KeyConstants.QUESTION_DELETE_ATTACHMENT_CONFIRMATION, attachment.getAttachmentDescription(), attachment.getFile().getName());
+        
+        return confirm(confirm, CONFIRM_YES_DELETE_ATTACHMENT_PERSONNEL, CONFIRM_NO_DELETE);
+    }
+    
+    /**
+     * Method called when confirming the deletion an attachment personnel.
+     * 
+     * @param mapping the action mapping
+     * @param form the form.
+     * @param request the request.
+     * @param response the response.
+     * @return an action forward.
+     * @throws Exception if there is a problem executing the request.
+     */
+    public ActionForward confirmDeleteAttachmentPersonnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProtocolDocument protocolDocument = ((ProtocolForm) form).getDocument();
+        ProtocolPerson protocolPerson = protocolDocument.getProtocol().getProtocolPerson(getSelectedPersonIndex(request, protocolDocument));
+        ProtocolAttachmentPersonnel attachment = protocolPerson.getAttachmentPersonnels().get(getSelectedLine(request));
+
+        if (attachment.getFileId() != null && !getProtocolAttachmentService().isSharedFile(attachment)) {
+            ((ProtocolForm) form).getNotesAttachmentsHelper().getFilesToDelete().add(attachment.getFile());
+        }
+        protocolDocument.getProtocol().getAttachmentPersonnels().remove(attachment);
+        protocolPerson.getAttachmentPersonnels().remove(getSelectedLine(request));
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+
+
     /**
      * This method is linked to ProtocolPersonnelService to perform the action
      * Add ProtocolUnit to Person.
@@ -149,7 +277,7 @@ public class ProtocolPersonnelAction extends ProtocolAction {
             getProtocolPersonnelService().addProtocolPersonUnit(protocolForm.getPersonnelHelper().getNewProtocolPersonUnits(), protocolPerson, selectedPersonIndex);
         }
 
-        return mapping.findForward(MAPPING_BASIC);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     /**
@@ -169,7 +297,7 @@ public class ProtocolPersonnelAction extends ProtocolAction {
         int selectedPersonIndex = getSelectedPersonIndex(request, protocolDocument);
         getProtocolPersonnelService().deleteProtocolPersonUnit(protocolDocument.getProtocol(), selectedPersonIndex, getSelectedLine(request));
 
-        return mapping.findForward(MAPPING_BASIC);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     /**
@@ -188,7 +316,7 @@ public class ProtocolPersonnelAction extends ProtocolAction {
         getProtocolPersonnelService().switchInvestigatorCoInvestigatorRole(protocolDocument.getProtocol().getProtocolPersons());
         getProtocolPersonnelService().syncPersonRoleAndUnit(protocolDocument.getProtocol().getProtocolPerson(selectedPersonIndex));
         getProtocolPersonnelService().syncPersonRoleAndAffiliation(protocolDocument.getProtocol().getProtocolPerson(selectedPersonIndex));
-        return mapping.findForward(MAPPING_BASIC);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
@@ -209,9 +337,9 @@ public class ProtocolPersonnelAction extends ProtocolAction {
      */
     protected int getSelectedPersonIndex(HttpServletRequest request, ProtocolDocument document) {
         int selectedPersonIndex = -1;
-        String parameterName = (String) request.getAttribute(METHOD_TO_CALL_ATTRIBUTE);
-        if (isNotBlank(parameterName)) {
-            selectedPersonIndex = Integer.parseInt(substringBetween(parameterName, "protocolPersons[", "]."));
+        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        if (StringUtils.isNotBlank(parameterName)) {
+            selectedPersonIndex = Integer.parseInt(StringUtils.substringBetween(parameterName, "protocolPersons[", "]."));
         }
         return selectedPersonIndex;
     }
@@ -275,6 +403,13 @@ public class ProtocolPersonnelAction extends ProtocolAction {
             protocolAttachmentService = KraServiceLocator.getService(ProtocolAttachmentService.class);
         }
         return protocolAttachmentService;
+    }
+    
+    private ProtocolPersonnelAttachmentAdapter getProtocolPersonnelAttachmentAdapter() {
+        if (protocolPersonnelAttachmentAdapter == null) {
+            protocolPersonnelAttachmentAdapter = new ProtocolPersonnelAttachmentAdapter();
+        }
+        return protocolPersonnelAttachmentAdapter;
     }
 
     @Override

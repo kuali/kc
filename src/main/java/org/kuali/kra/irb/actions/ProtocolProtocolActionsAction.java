@@ -123,7 +123,6 @@ import org.kuali.kra.irb.noteattachment.AddProtocolNotepadEvent;
 import org.kuali.kra.irb.noteattachment.AddProtocolNotepadRule;
 import org.kuali.kra.irb.noteattachment.AddProtocolNotepadRuleImpl;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
-import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentService;
 import org.kuali.kra.irb.noteattachment.ProtocolNotepad;
@@ -139,7 +138,6 @@ import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
-import org.kuali.kra.questionnaire.print.QuestionnairePrintingService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
@@ -510,7 +508,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     }
 
     /**
-     * Create an Amendment.
+     * Modify an Amendment.
      * 
      * @param mapping
      * @param form
@@ -712,16 +710,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 
     }
     
-    public ActionForward viewProtocolPersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        int selected = getSelectedLine(request);
-        ProtocolAttachmentPersonnel personAttach = protocolForm.getProtocolDocument().getProtocol().getAttachmentPersonnel(selected);
-        return printAttachmentProtocol(mapping, response, personAttach);
-
-    }
-  
     /**
      * 
      * This method is to print protocol reports
