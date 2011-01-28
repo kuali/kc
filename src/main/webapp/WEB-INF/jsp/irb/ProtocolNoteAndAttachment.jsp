@@ -28,11 +28,11 @@
   	headerTabActive="noteAndAttachment">
   	
 <div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="Notes%20%26%20Attachments" /></div>
-
-<kra-irb:protocolAttachment /> 
+<div id="workarea">
+<kra-irb:protocolAttachmentProtocol /> 
 <kra-irb:protocolNotes />
-
 <kul:panelFooter />
+</div>
 	<kul:documentControls 
 		transactionalDocument="false"
 		suppressRoutingControls="true"

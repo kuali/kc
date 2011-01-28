@@ -16,6 +16,8 @@
 package org.kuali.kra.irb.web;
 
 
+import java.io.IOException;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -59,6 +61,17 @@ public class ProtocolPersonnelWebTest extends ProtocolWebTestBase{
     private static final String ERROR_ROLE_CHANGE_NOT_PERMITTED = "This role change is not permitted.";
     private static final String NEW_PERSON1_UNIT_FIELD = "personnelHelper.newProtocolPersonUnits[0].unitNumber";
     private static final String NEW_PERSON2_UNIT_FIELD = "personnelHelper.newProtocolPersonUnits[0].unitNumber";
+
+    private static final String ATTACHMENT_TYPE_BIOGRAPHY = "11";
+    private static final String ATTACHMENT_DESCRIPTION = "Biography attachment";
+    private static final String ATTACHMENT_TYPE_PROPERTY = "personnelHelper.newProtocolAttachmentPersonnels[0].typeCode";
+    private static final String ATTACHMENT_DESCRIPTION_PROPERTY = "personnelHelper.newProtocolAttachmentPersonnels[0].description";
+    private static final String ATTACHMENT_FILE_PROPERTY = "personnelHelper.newProtocolAttachmentPersonnels[0].newFile";
+    private static final String ADD_ATTACHMENT_BUTTON = "methodToCall.addPersonnelAttachment.document.protocolList[0].protocolPersons[0].line";
+    private static final String DELETE_ATTACHMENT_BUTTON = "methodToCall.deletePersonnelAttachment.document.protocolList[0].protocolPersons[0].line0";
+    private static final String PERSONNEL_ATTACHMENT_CONFIRM_DELETE_MSG = "Are you sure you would like to delete the following attachment: Personnel Attachment ProtocolPersonnelWebTest.class?";
+    private static final String CONFIRM_DELETE_YES_BUTTON = "methodToCall.processAnswer.button0";
+
     
 
     /**
@@ -126,6 +139,37 @@ public class ProtocolPersonnelWebTest extends ProtocolWebTestBase{
         assertDoesNotContain(personnelPage,CO_INVESTIGATOR_NAME);
     }
     
+    /**
+     * This method is to test attachment section for a person
+     * add attachment
+     * @throws Exception
+     */
+    @Test
+    public void testAddAttachmentForPerson() throws Exception {
+        HtmlPage personnelPage = getPersonnelPage();
+        assertDoesNotContain(personnelPage, ATTACHMENT_DESCRIPTION);
+        personnelPage = addPersonnelAttachment(personnelPage);
+        assertContains(personnelPage, ATTACHMENT_DESCRIPTION);
+        saveAndSearchDoc(personnelPage);
+    }
+    
+    /**
+     * This method is to test attachment section for a person
+     * delete attachment
+     * @throws Exception
+     */
+    @Test
+    public void testDeleteAttachmentForPerson() throws Exception {
+        HtmlPage personnelPage = getPersonnelPage();
+        personnelPage = addPersonnelAttachment(personnelPage);
+        assertContains(personnelPage, ATTACHMENT_DESCRIPTION);
+        personnelPage = clickOn(getElementByName(personnelPage, DELETE_ATTACHMENT_BUTTON, true));
+        assertContains(personnelPage, PERSONNEL_ATTACHMENT_CONFIRM_DELETE_MSG);
+        personnelPage = clickOnByName(personnelPage, CONFIRM_DELETE_YES_BUTTON, true);
+        assertDoesNotContain(personnelPage, ATTACHMENT_DESCRIPTION);
+        saveAndSearchDoc(personnelPage);
+    }
+
     /**
      * This method is to test unit section for a person
      * add protocol unit
@@ -229,6 +273,17 @@ public class ProtocolPersonnelWebTest extends ProtocolWebTestBase{
     private HtmlPage addPerson(HtmlPage page, String personRole) throws Exception {
         setFieldValue(page,NEW_PERSON_ROLE_ID_FIELD, personRole);
         return clickOn(getElementByName(page, ADD_PERSON_BUTTON, true));
+    }
+    
+    /**
+     * This method is to add a attachment
+     * @throws IOException 
+     */
+    private HtmlPage addPersonnelAttachment(HtmlPage page) throws IOException {
+        setFieldValue(page, ATTACHMENT_TYPE_PROPERTY, ATTACHMENT_TYPE_BIOGRAPHY);
+        setFieldValue(page, ATTACHMENT_DESCRIPTION_PROPERTY, ATTACHMENT_DESCRIPTION);
+        setFieldValue(page, ATTACHMENT_FILE_PROPERTY, this.getFilePath(ProtocolPersonnelWebTest.class));
+        return clickOn(getElementByName(page, ADD_ATTACHMENT_BUTTON, true));
     }
 
     /**

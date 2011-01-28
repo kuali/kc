@@ -225,15 +225,31 @@ public class ProtocolMergeTest extends KcUnitTestBase {
         Protocol amendment = createAmendment(ProtocolModule.PROTOCOL_PERSONNEL);
         
         ProtocolPerson person = createPerson(NAME_1);
+        person.setPersonId("1");
+        person.setProtocolPersonRoleId("PI");
         amendment.getProtocolPersons().add(person);
         person = createPerson(NAME_2);
+        person.setPersonId("2");
+        person.setProtocolPersonRoleId("COI");
         amendment.getProtocolPersons().add(person);
-        
+
+        ProtocolAttachmentPersonnel pal = createPersonnelAttachment(DESCRIPTION_1);
+        person.setAttachmentPersonnels(new ArrayList<ProtocolAttachmentPersonnel>());
+        amendment.getAttachmentPersonnels().add(pal);
+        person.getAttachmentPersonnels().add(pal);
+        pal = createPersonnelAttachment(DESCRIPTION_2);
+        amendment.getAttachmentPersonnels().add(pal);
+        person.getAttachmentPersonnels().add(pal);
+
         protocol.merge(amendment);
         
         assertEquals(2, protocol.getProtocolPersons().size());
         assertEquals(NAME_1, protocol.getProtocolPersons().get(0).getPersonName());
         assertEquals(NAME_2, protocol.getProtocolPersons().get(1).getPersonName());
+        
+        assertEquals(2, protocol.getAttachmentPersonnels().size());
+        assertEquals(DESCRIPTION_1, protocol.getAttachmentPersonnels().get(0).getDescription());
+        assertEquals(DESCRIPTION_2, protocol.getAttachmentPersonnels().get(1).getDescription());
     }
 
     private ProtocolPerson createPerson(String personName) {
@@ -275,29 +291,11 @@ public class ProtocolMergeTest extends KcUnitTestBase {
         pap = createProtocolAttachment(NAME_2);
         amendment.getAttachmentProtocols().add(pap);
         
-        ProtocolPerson person = createPerson(NAME_1);
-        person.setPersonId("1");
-        person.setProtocolPersonRoleId("1");
-        amendment.getProtocolPersons().add(person);
-        protocol.getProtocolPersons().add(person);
-
-        ProtocolAttachmentPersonnel pal = createPersonnelAttachment(DESCRIPTION_1);
-        person.setAttachmentPersonnels(new ArrayList<ProtocolAttachmentPersonnel>());
-        amendment.getAttachmentPersonnels().add(pal);
-        person.getAttachmentPersonnels().add(pal);
-        pal = createPersonnelAttachment(DESCRIPTION_2);
-        amendment.getAttachmentPersonnels().add(pal);
-        person.getAttachmentPersonnels().add(pal);
-        
         protocol.merge(amendment);
         
         assertEquals(2, protocol.getAttachmentProtocols().size());
         assertEquals(NAME_1, protocol.getAttachmentProtocols().get(0).getContactName());
         assertEquals(NAME_2, protocol.getAttachmentProtocols().get(1).getContactName());
-        
-        assertEquals(2, protocol.getAttachmentPersonnels().size());
-        assertEquals(DESCRIPTION_1, protocol.getAttachmentPersonnels().get(0).getDescription());
-        assertEquals(DESCRIPTION_2, protocol.getAttachmentPersonnels().get(1).getDescription());
     }
     
 

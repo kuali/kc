@@ -22,5 +22,7 @@
 <c:set var="personAttributes" value="${DataDictionary.KcPerson.attributes}" />
 <c:set var="protocolUnitsAttributes" value="${DataDictionary.ProtocolUnit.attributes}" />
 <c:set var="unitAttributes" value="${DataDictionary.Unit.attributes}" />
+<c:set var="protocolAttachmentPersonnelAttributes" value="${DataDictionary.ProtocolAttachmentPersonnel.attributes}" />
+<c:set var="attachmentFileAttributes" value="${DataDictionary.AttachmentFile.attributes}" />
 <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}" />
 

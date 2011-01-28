@@ -79,6 +79,7 @@ import org.kuali.kra.irb.summary.ResearchAreaSummary;
 import org.kuali.kra.irb.summary.SpecialReviewSummary;
 import org.kuali.kra.meeting.CommitteeScheduleAttendance;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -159,7 +160,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     
     //these are the m:m attachment protocols that that a protocol has
     private List<ProtocolAttachmentProtocol> attachmentProtocols;
-    private List<ProtocolAttachmentPersonnel> attachmentPersonnels;
     
     private List<ProtocolNotepad> notepads;
 
@@ -177,6 +177,8 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     private boolean correctionMode = false;
     
     private transient DateTimeService dateTimeService;
+    private transient SequenceAccessorService sequenceAccessorService;
+
     // passed in req param submissionid.  used to check if irb ack is needed
     // this link is from protocosubmission or notify irb message
     private transient Long notifyIrbSubmissionId;
@@ -599,13 +601,9 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         managedLists.add(getProtocolLocations());
         managedLists.add(getProtocolRiskLevels());
         managedLists.add(getProtocolParticipants());
+        managedLists.add(getProtocolAttachmentPersonnel());
         managedLists.add(getProtocolUnits());
         managedLists.add(getAttachmentProtocols());
-        //the attachment personnels must get added to the managed list
-        //BEFORE the ProtocolPersons otherwise deleting a ProtocolPerson
-        //may cause a DB constraint violation.
-        managedLists.add(getAttachmentPersonnels());
-        
         managedLists.add(getProtocolPersons());
         managedLists.add(getProtocolActions());
         managedLists.add(getProtocolSubmissions());
@@ -627,6 +625,21 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         return managedLists;
     }
     
+    /**
+     * This method is to return all attachments for each person.
+     * Purpose of this method is to use the list in buildListOfDeletionAwareLists.
+     * Looks like OJB is not searching beyond the first level. It doesn't delete
+     * from collection under ProtocolPerson.
+     * @return List<ProtocolAttachmentPersonnel>
+     */
+    private List<ProtocolAttachmentPersonnel> getProtocolAttachmentPersonnel() {
+        List<ProtocolAttachmentPersonnel> protocolAttachmentPersonnel = new ArrayList<ProtocolAttachmentPersonnel>();
+        for (ProtocolPerson protocolPerson : getProtocolPersons()) {
+            protocolAttachmentPersonnel.addAll(protocolPerson.getAttachmentPersonnels());
+        }
+        return protocolAttachmentPersonnel;
+    }
+
     /**
      * This method is to return all protocol units for each person.
      * Purpose of this method is to use the list in buildListOfDeletionAwareLists.
@@ -895,40 +908,39 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     }
 
     /**
+     * @deprecated
      * Gets the attachment personnels. Cannot return {@code null}.
      * @return the attachment personnels
      */
+    @Deprecated
     public List<ProtocolAttachmentPersonnel> getAttachmentPersonnels() {
-        if (this.attachmentPersonnels == null) {
-            this.attachmentPersonnels = new ArrayList<ProtocolAttachmentPersonnel>();
-        }
-        
-        return this.attachmentPersonnels;
+        return getProtocolAttachmentPersonnel();
     }
     
     /**
-     * Gets an attachment personnel.
-     * @param index the index
-     * @return an attachment personnel
-     */
-    public ProtocolAttachmentPersonnel getAttachmentPersonnel(int index) {
-        return this.attachmentPersonnels.get(index);
-    }
-    
-    /**
+     * @deprecated
      * add an attachment personnel.
      * @param attachmentPersonnel the attachment personnel
      * @throws IllegalArgumentException if attachmentPersonnel is null
      */
+    @Deprecated
     private void addAttachmentPersonnel(ProtocolAttachmentPersonnel attachmentPersonnel) {
-        ProtocolAttachmentBase.addAttachmentToCollection(attachmentPersonnel, this.getAttachmentPersonnels());
+        // we don't maintain an attachmentPersonnel collection anymore that used to duplicate data
+        for (ProtocolPerson person : protocolPersons) {
+            if (person.getProtocolPersonId() == attachmentPersonnel.getPersonId()) {
+                ProtocolAttachmentBase.addAttachmentToCollection(attachmentPersonnel, person.getAttachmentPersonnels());
+                return;
+            }
+        }
     }
 
     /**
+     * @deprecated
      * remove an attachment personnel.
      * @param attachmentPersonnel the attachment personnel
      * @throws IllegalArgumentException if attachmentPersonnel is null
      */
+    @Deprecated
     private void removeAttachmentPersonnel(ProtocolAttachmentPersonnel attachmentPersonnel) {
         ProtocolAttachmentBase.removeAttachmentFromCollection(attachmentPersonnel, this.getAttachmentPersonnels());
     }
@@ -956,6 +968,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         }
         
         updateUserFields(attachment);
+        attachment.setProtocolId(getProtocolId());
         if (attachment instanceof ProtocolAttachmentProtocol) {
             this.addAttachmentProtocol((ProtocolAttachmentProtocol) attachment);
         } else if (attachment instanceof ProtocolAttachmentPersonnel) {
@@ -1173,9 +1186,18 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
             attachment.setSequenceNumber(0);
         }
     }
-
+    @Deprecated
     public void setAttachmentPersonnels(List<ProtocolAttachmentPersonnel> attachmentPersonnels) {
-        this.attachmentPersonnels = attachmentPersonnels;
+        for (ProtocolPerson person : protocolPersons) {
+            person.setAttachmentPersonnels(new ArrayList<ProtocolAttachmentPersonnel>());
+        }
+        for (ProtocolAttachmentPersonnel attachment : attachmentPersonnels) {
+            for (ProtocolPerson person : protocolPersons) {
+                if (person.getProtocolPersonId() == attachment.getPersonId()) {
+                    person.getAttachmentPersonnels().add(attachment);
+                }
+            }
+        }
     }
     
     public void setNotepads(List<ProtocolNotepad> notepads) {
@@ -1404,44 +1426,10 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
                 attachmentProtocols.add(attachment);
                 attachment.setProtocol(this);
             }
-           // attachmentProtocols.add(attachment);
         }
         getAttachmentProtocols().addAll(attachmentProtocols);
-        //setAttachmentProtocols(attachmentProtocols);
         
-        //setAttachmentProtocols((List<ProtocolAttachmentProtocol>) deepCopy(amendment.getAttachmentProtocols()));
-        mergeAttachmentPersonnels(amendment) ;
-//        setAttachmentPersonnels((List<ProtocolAttachmentPersonnel>) deepCopy(amendment.getAttachmentPersonnels()));
         mergeNotepads(amendment);
-    }
-    
-
-    private void mergeAttachmentPersonnels(Protocol amendment) {
-        List <ProtocolAttachmentPersonnel> attachments = new ArrayList<ProtocolAttachmentPersonnel>();
-        if (amendment.getProtocolPersons() != null) {
-            for (ProtocolPerson person : amendment.getProtocolPersons()) {
-                List <ProtocolAttachmentPersonnel> personAttachments = new ArrayList<ProtocolAttachmentPersonnel>();
-                ProtocolPerson matchingPerson = findMatchingPerson(person);
-                for (ProtocolAttachmentPersonnel attachment : (List<ProtocolAttachmentPersonnel>) deepCopy(person.getAttachmentPersonnels())) {
-                    
-                    attachment.setProtocolNumber(this.getProtocolNumber());
-                    attachment.setSequenceNumber(this.getSequenceNumber());
-                    attachment.setProtocolId(this.getProtocolId());
-                    attachment.setId(null);
-                    // TODO : at this point, is it possible that matching person not found ?
-                    // if amendment are modifying person and attachment modules
-                    attachment.setPerson(matchingPerson);
-                    attachment.setPersonId(matchingPerson.getProtocolPersonId());
-                    attachment.setId(null);
-                    attachment.setProtocol(this);
-                    personAttachments.add(attachment);
-                    attachments.add(attachment);
-                }
-                matchingPerson.setAttachmentPersonnels(personAttachments);
-            }
-            this.setAttachmentPersonnels(attachments);
-        }
-
     }
 
     private void mergeNotepads(Protocol amendment) {
@@ -1483,8 +1471,18 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     @SuppressWarnings("unchecked")
     private void mergePersonnel(Protocol amendment) {
         setProtocolPersons((List<ProtocolPerson>) deepCopy(amendment.getProtocolPersons()));
+        for (ProtocolPerson person : protocolPersons) {
+            Integer nextPersonId = getSequenceAccessorService().getNextAvailableSequenceNumber("SEQ_PROTOCOL_ID").intValue();
+            person.setProtocolPersonId(nextPersonId);
+            for (ProtocolAttachmentPersonnel protocolAttachmentPersonnel : person.getAttachmentPersonnels()) {
+                protocolAttachmentPersonnel.setId(null);
+                protocolAttachmentPersonnel.setPersonId(person.getProtocolPersonId());
+                protocolAttachmentPersonnel.setProtocolId(getProtocolId());
+                protocolAttachmentPersonnel.setProtocolNumber(getProtocolNumber());
+            }
+        }
     }
-    
+
     private void mergeOthers(Protocol amendment) {
         if (protocolDocument.getCustomAttributeDocuments() == null ||
             protocolDocument.getCustomAttributeDocuments().isEmpty()) {
@@ -1811,6 +1809,13 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
             dateTimeService = (DateTimeService) KraServiceLocator.getService(DateTimeService.class);
         }
         return dateTimeService;
+    }
+
+    protected SequenceAccessorService getSequenceAccessorService() {
+        if(sequenceAccessorService == null) {
+            sequenceAccessorService = (SequenceAccessorService) KraServiceLocator.getService(SequenceAccessorService.class);
+        }
+        return sequenceAccessorService;
     }
 
     public Long getNotifyIrbSubmissionId() {

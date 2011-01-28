@@ -16,7 +16,6 @@
 package org.kuali.kra.irb.web;
 
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.text.StringContains.containsString;
 
 import org.junit.Assert;
@@ -29,10 +28,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  */
 public class ProtocolNoteAndAttachmentWebTest extends ProtocolWebTestBase {
            
-    private static final String ONE_PERSONNEL_ATTACHMENT = "Personnel Attachments (1)";
-    private static final String OTHER_TYPE_NAME = "Other";
-    private static final String PERSON_NAME = "Nicholas Majors";
-    private static final String PERSONNEL_ATTACHMENT_CONFIRM_DELETE_MSG = "Are you sure you would like to delete the following attachment: Personnel Attachment ProtocolNoteAndAttachmentWebTest.class?";
     private static final String CONFIRM_DELETE_YES_BUTTON = "methodToCall.processAnswer.button0";
     private static final String PROTOCOL_ATTACHMENT_CONFIRM_DELETE_MSG = "Are you sure you would like to delete the following attachment: Protocol Attachment ProtocolWebTestBase.class?";
     private static final String DESCRIPTION = "a description";
@@ -40,14 +35,6 @@ public class ProtocolNoteAndAttachmentWebTest extends ProtocolWebTestBase {
     private static final String EMAIL = "axl@gnr.com";
     private static final String NAME = "AxlRose";
     private static final String COMMENTS = "some comments";
-    private static final String TYPE_CODE_9 = "9";
-    private static final String METHOD_TO_CALL_DELETE_ATTACHMENT_PERSONNEL = "methodToCall.deleteAttachmentPersonnel";
-    private static final String METHOD_TO_CALL_ADD_ATTACHMENT_PERSONNEL = "methodToCall.addAttachmentPersonnel";
-    private static final String NEW_ATTACHMENT_PERSONNEL_NEW_FILE_NAME = "notesAttachmentsHelper.newAttachmentPersonnel.newFile";
-    private static final String NEW_ATTACHMENT_PERSONNEL_DESCRIPTION_NAME = "notesAttachmentsHelper.newAttachmentPersonnel.description";
-    private static final String NEW_ATTACHMENT_PERSONNEL_TYPE_CODE_NAME = "notesAttachmentsHelper.newAttachmentPersonnel.typeCode";
-    private static final String NEW_ATTACHMENT_PERSONNEL_PERSON_PROTOCOL_PERSON_ID_NAME = "notesAttachmentsHelper.newAttachmentPersonnel.personId";
-    private static final String NO_PERSONNEL_ATTACHMENTS = "Personnel Attachments (0)";
     private static final String METHOD_TO_CALL_DELETE_ATTACHMENT_PROTOCOL = "methodToCall.deleteAttachmentProtocol";
     private static final String FILE_2 = "ProtocolWebTestBase.class";
     private static final String ATTACHMENT_PROTOCOL_0_NEW_FILE_NAME = "document.protocolList[0].attachmentProtocols[0].newFile";
@@ -194,85 +181,4 @@ public class ProtocolNoteAndAttachmentWebTest extends ProtocolWebTestBase {
         //FIXME: must change this to work w/ versioning.  right now deletes are never occurring b/c versioning is forced
     }
     
-    /** tests adding and replacing personnel attachments. */
-    @Test
-    public void testPersonnelAttachment() throws Exception {
-        HtmlPage initalPage = getNoteAttachmentPage();
-        Assert.assertThat(initalPage.asText(), containsString(NO_PERSONNEL_ATTACHMENTS));
-        
-        HtmlPage afterAddPage = clickOnExpandAll(addPersonnelAttachment(initalPage));  
-        validateAddedPersonnelAttachment(afterAddPage);
-        
-        HtmlPage confirmDeletePage = deletePersonnelAttachment(afterAddPage);
-        validateConfirmDeletePersonnelAttachment(confirmDeletePage);
-        
-        HtmlPage afterDeletePage = clickOnExpandAll(confirmDeletePersonnelAttachment(confirmDeletePage));
-        validateDeletedPersonnelAttachment(afterDeletePage);
-        
-        HtmlPage afterSaveDeletePage = clickOnExpandAll(saveDoc(afterDeletePage));
-        validateDeletedPersonnelAttachment(afterSaveDeletePage);
-    }
-    
-    /**
-     *  adds a personnel attachment.
-     *  @param initalPage the attachments page
-     *  @return page after add
-     */
-    private HtmlPage addPersonnelAttachment(HtmlPage initalPage) throws Exception {
-        //should find the PI - Nicholas Majors
-        selectAnyOption(initalPage, NEW_ATTACHMENT_PERSONNEL_PERSON_PROTOCOL_PERSON_ID_NAME);
-        setFieldValue(initalPage, NEW_ATTACHMENT_PERSONNEL_TYPE_CODE_NAME, TYPE_CODE_9);
-        setFieldValue(initalPage, NEW_ATTACHMENT_PERSONNEL_DESCRIPTION_NAME, DESCRIPTION);
-        setFieldValue(initalPage, NEW_ATTACHMENT_PERSONNEL_NEW_FILE_NAME, this.getFilePath(ProtocolNoteAndAttachmentWebTest.class));
-        return clickOnByName(initalPage, METHOD_TO_CALL_ADD_ATTACHMENT_PERSONNEL, true);
-    }     
-    
-    /**
-     *  validates page after add.
-     *  @param afterAddPage the attachments page after add
-     */
-    private void validateAddedPersonnelAttachment(HtmlPage afterAddPage) throws Exception {
-        
-        Assert.assertThat(afterAddPage.asText(), containsString(ONE_PERSONNEL_ATTACHMENT));
-        Assert.assertThat(afterAddPage.asText(), containsString(PERSON_NAME));
-        Assert.assertThat(afterAddPage.asText(), containsString(OTHER_TYPE_NAME));
-        Assert.assertThat(afterAddPage.asText(), containsString(DESCRIPTION));
-        Assert.assertThat(afterAddPage.asText(), containsString(FILE_1)); 
-    }
-    
-    /**
-     *  deletes a personnel attachment.
-     *  @param afterReplacePage the attachments page after replace
-     *  @return page after delete
-     */
-    private HtmlPage deletePersonnelAttachment(HtmlPage afterReplacePage) throws Exception {
-        return clickOnByName(afterReplacePage, METHOD_TO_CALL_DELETE_ATTACHMENT_PERSONNEL, true);
-    }
-    
-    /**
-     * Validates the confirm page after clicking delete.
-     * @param confirmDeletePage
-     * @throws Exception
-     */
-    private void validateConfirmDeletePersonnelAttachment(HtmlPage confirmDeletePage) throws Exception {
-        Assert.assertThat(confirmDeletePage.asText(), containsString(PERSONNEL_ATTACHMENT_CONFIRM_DELETE_MSG));
-    }
-    
-    /**
-     *  clicks "yes" on the confirm page.
-     *  @param afterAddPage the attachments page after add
-     *  @return page after replace
-     */
-    private HtmlPage confirmDeletePersonnelAttachment(HtmlPage afterAddPage) throws Exception {
-        return clickOnByName(afterAddPage, CONFIRM_DELETE_YES_BUTTON, true);
-    }
-    
-    /**
-     *  validates page after delete.
-     *  @param afterDeletePage the attachments page after delete
-     */
-    private void validateDeletedPersonnelAttachment(HtmlPage afterDeletePage) throws Exception {
-        Assert.assertThat(afterDeletePage.asText(), containsString(NO_PERSONNEL_ATTACHMENTS));
-        Assert.assertThat(afterDeletePage.asText(), not(containsString(FILE_1)));
-    }
 }

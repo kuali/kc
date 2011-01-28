@@ -24,7 +24,7 @@
 	showDocumentInfo="true"
 	htmlFormAction="personnel"
 	documentTypeName="ProtocolDocument"
-	renderMultipart="false"
+	renderMultipart="true"
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
