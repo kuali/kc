@@ -30,12 +30,14 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.SequenceAccessorService;
 
 
 public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolPersonnelServiceImpl.class);
     private BusinessObjectService businessObjectService;
+    private SequenceAccessorService sequenceAccessorService;
     private ProtocolPersonTrainingService protocolPersonTrainingService;
     private KraAuthorizationService kraAuthorizationService;
     
@@ -78,6 +80,8 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
      */
     public void addProtocolPerson(Protocol protocol, ProtocolPerson protocolPerson) {
         
+        Integer nextPersonId = getSequenceAccessorService().getNextAvailableSequenceNumber("SEQ_PROTOCOL_ID").intValue();
+        protocolPerson.setProtocolPersonId(nextPersonId);
         //TODO - How to handle protocol number and sequence number
         protocolPerson.setProtocolNumber("0");
         protocolPerson.setSequenceNumber(0);
@@ -597,6 +601,24 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     }
     
     /**
+     * Gets the SequenceAccessorService attribute.
+     * 
+     * @return Returns the SequenceAccessorService.
+     */
+    public SequenceAccessorService getSequenceAccessorService() {
+        return sequenceAccessorService;
+    }
+
+    /**
+     * Sets the SequenceAccessorService attribute value.
+     * 
+     * @param sequenceAccessorService The SequenceAccessorService to set.
+     */
+    public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
+        this.sequenceAccessorService = sequenceAccessorService;
+    }
+    
+     /**
      * This method is to get principal investigator role
      * @return String - PI role
      */

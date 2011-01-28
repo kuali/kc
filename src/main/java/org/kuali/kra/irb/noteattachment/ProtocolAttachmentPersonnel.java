@@ -268,5 +268,11 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase {
         }
     }
 
+    public void init(ProtocolPerson protocolPerson) {
+        setPerson(protocolPerson);
+        setPersonId(protocolPerson.getProtocolPersonId());
+        setId(null);
+        setProtocolNumber(protocolPerson.getProtocol().getProtocolNumber());
+    }
 
 }

@@ -57,6 +57,7 @@ public class ProtocolPerson extends ProtocolAssociate {
 
     public ProtocolPerson() {
         this.protocolUnits = new ArrayList<ProtocolUnit>();
+        this.attachmentPersonnels = new ArrayList<ProtocolAttachmentPersonnel>();
     }
 
     public Integer getProtocolPersonId() {
@@ -316,6 +317,9 @@ public class ProtocolPerson extends ProtocolAssociate {
      */
     @Override
     public void postInitHook(Protocol protocol) {
+        for (ProtocolAttachmentPersonnel attachment : this.attachmentPersonnels) {
+            attachment.init(this);
+        }
         for (ProtocolUnit unit : this.protocolUnits) {
             unit.init(this);
         }

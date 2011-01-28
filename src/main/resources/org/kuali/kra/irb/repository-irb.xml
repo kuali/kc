@@ -98,9 +98,6 @@
         <collection-descriptor name="attachmentProtocols" proxy="true" element-class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
             <inverse-foreignkey field-ref="protocolId" />
         </collection-descriptor>
-        <collection-descriptor name="attachmentPersonnels" proxy="true" element-class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
-            <inverse-foreignkey field-ref="protocolId" />
-        </collection-descriptor>
         <collection-descriptor name="notepads" proxy="false" element-class-ref="org.kuali.kra.irb.noteattachment.ProtocolNotepad" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
             <inverse-foreignkey field-ref="protocolId" />
         </collection-descriptor>
@@ -429,8 +426,7 @@
         <collection-descriptor name="protocolUnits" proxy="true" element-class-ref="org.kuali.kra.irb.personnel.ProtocolUnit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
             <inverse-foreignkey field-ref="protocolPersonId"/>
         </collection-descriptor>
-        <!-- this allows the attachment to be deleted when the person is deleted -->
-        <collection-descriptor name="attachmentPersonnels" proxy="true" element-class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="true">
+        <collection-descriptor name="attachmentPersonnels" proxy="true" element-class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="personId" />
         </collection-descriptor>
     </class-descriptor>
