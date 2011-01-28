@@ -51,6 +51,7 @@ public class QuestionnaireServiceTest  extends KcUnitTestBase {
             expectedModules = new HashSet<String>();
             expectedModules.add("3");
             expectedModules.add("7");
+            expectedModules.add("2");
         }  
 
 
@@ -144,7 +145,7 @@ public class QuestionnaireServiceTest  extends KcUnitTestBase {
 //            }});
 
             List<String> modules = KraServiceLocator.getService(QuestionnaireService.class).getAssociateModules();
-            assertTrue(modules.size() == 2);
+            assertEquals(3, modules.size());
             assertEquals(modules.size(), expectedModules.size());
             for (String module : modules ) {
                 assertTrue(expectedModules.contains(module));
