@@ -89,6 +89,9 @@
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
+        <property name="sequenceAccessorService">
+            <ref bean="sequenceAccessorService" />
+        </property>        
         <property name="protocolPersonTrainingService">
             <ref bean="protocolPersonTrainingService" />
         </property>        

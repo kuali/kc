@@ -115,14 +115,19 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
         
         Long nextProtocolId = sequenceAccessorService.getNextAvailableSequenceNumber("SEQ_PROTOCOL_ID");
         newProtocol.setProtocolId(nextProtocolId);
-        resetPersonId(newProtocol);
+
+        for (ProtocolPerson person : newProtocol.getProtocolPersons()) {
+            for (ProtocolAttachmentPersonnel attachment : person.getAttachmentPersonnels()) {
+                attachment.setProtocolId(newProtocol.getProtocolId());
+            }
+        }
+        
         newProtocolDocument.setProtocol(newProtocol);
         newProtocol.setProtocolDocument(newProtocolDocument);
         protocolDocument.getProtocol().setActive(false);
         finalizeAttachmentProtocol(protocolDocument.getProtocol());
         businessObjectService.save(protocolDocument.getProtocol());
         documentService.saveDocument(newProtocolDocument);
-        refreshAttachmentsPersonnels(newProtocol);
         newProtocol.resetForeignKeys();
         finalizeAttachmentProtocol(newProtocol);
         businessObjectService.save(newProtocol);
@@ -132,7 +137,6 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
         if (!newAnswerHeaders.isEmpty()) {
             businessObjectService.save(newAnswerHeaders);
         }
-
         
         return newProtocolDocument;
     }
@@ -141,7 +145,6 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
      */
     protected void materializeCollections(Protocol protocol) {
         checkCollection(protocol.getAttachmentProtocols());
-        checkCollection(protocol.getAttachmentPersonnels());
         checkCollection(protocol.getProtocolLocations());
         checkCollection(protocol.getProtocolAmendRenewals());
         for (ProtocolPerson person : protocol.getProtocolPersons()) {
@@ -168,41 +171,6 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
             attachment.setProtocol(protocol);
             if ("1".equals(attachment.getDocumentStatusCode())) {
                 attachment.setDocumentStatusCode("2");
-            }
-        }
-    }
-        
-
-    /*
-     * reset personnel attachment key fields for Amendment or renewal
-     * Personnel attachment is technically belong to protocol person
-     * But there is also a personnel attachments collection under protocol
-     * This method is very similar to the one in protocolcopyservice, maybe should refactor to share.
-     */
-    protected void resetPersonId(Protocol protocol) {
-        List <ProtocolAttachmentPersonnel> attachments = new ArrayList<ProtocolAttachmentPersonnel>();
-        if (protocol.getProtocolPersons() != null) {
-            for (ProtocolPerson person : protocol.getProtocolPersons()) {
-                Long nextPersonId = sequenceAccessorService.getNextAvailableSequenceNumber("SEQ_PROTOCOL_ID");
-                person.setProtocolPersonId(nextPersonId.intValue());
-                for (ProtocolAttachmentPersonnel attachment : person.getAttachmentPersonnels()) {
-                    attachment.setProtocol(protocol);
-                    attachment.setPersonId(nextPersonId.intValue());
-                    attachment.setPerson(null);
-                    attachment.setId(null);
-                    attachment.setProtocolId(protocol.getProtocolId());
-                    attachments.add(attachment);
-                }
-            }
-            protocol.setAttachmentPersonnels(attachments);
-        }
-
-    }
-
-    protected void refreshAttachmentsPersonnels(Protocol protocol) {
-        if (protocol.getProtocolPersons() != null) {
-            for (ProtocolPerson person : protocol.getProtocolPersons()) {
-                person.refreshReferenceObject("attachmentPersonnels");
             }
         }
     }

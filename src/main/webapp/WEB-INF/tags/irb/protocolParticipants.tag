@@ -50,14 +50,16 @@
 		            <td align="left" valign="middle" class="infoline">
 		               	<div align="center">
 		               		<kul:htmlControlAttribute property="protocolHelper.newProtocolParticipant.participantTypeCode" 
-		               		                          attributeEntry="${attributes.participantTypeCode}" />
+		               		                          attributeEntry="${attributes.participantTypeCode}" 
+		               		                          readOnly="${readOnly}" />
 		            	</div>
 					</td>
 				
 		            <td align="left" valign="middle" class="infoline">
 		               	<div align="center">
 		               	    <kul:htmlControlAttribute property="protocolHelper.newProtocolParticipant.participantCount" 
-		               	                              attributeEntry="${attributes.participantCount}" />
+		               	                              attributeEntry="${attributes.participantCount}"
+		               	                              readOnly="${readOnly}" />
 		               	</div>
 		            </td>
 		

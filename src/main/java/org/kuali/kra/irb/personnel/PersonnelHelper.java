@@ -26,8 +26,8 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.auth.ProtocolTask;
+import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -42,6 +42,7 @@ public class PersonnelHelper implements Serializable {
     private boolean modifyPersonnel;
     private ProtocolPerson newProtocolPerson;
     private List<ProtocolUnit> newProtocolPersonUnits;
+    private List<ProtocolAttachmentPersonnel> newProtocolAttachmentPersonnels;
     private boolean personTrainingSectionRequired;
     private transient ParameterService parameterService;
 
@@ -49,6 +50,7 @@ public class PersonnelHelper implements Serializable {
         setForm(form); 
         setNewProtocolPerson(new ProtocolPerson());
         setNewProtocolPersonUnits(new ArrayList<ProtocolUnit>());
+        setNewProtocolAttachmentPersonnels(new ArrayList<ProtocolAttachmentPersonnel>());
     }    
     
     public void prepareView() {
@@ -106,6 +108,17 @@ public class PersonnelHelper implements Serializable {
 
     public void setNewProtocolPersonUnits(List<ProtocolUnit> newProtocolPersonUnits) {
         this.newProtocolPersonUnits = newProtocolPersonUnits;
+    }
+    
+    public List<ProtocolAttachmentPersonnel> getNewProtocolAttachmentPersonnels() {
+        if (getForm().getDocument().getProtocol().getProtocolPersons().size() > this.newProtocolAttachmentPersonnels.size()) {
+            this.newProtocolAttachmentPersonnels.add(this.newProtocolAttachmentPersonnels.size(), new ProtocolAttachmentPersonnel());
+        }
+        return newProtocolAttachmentPersonnels;
+    }
+    
+    public void setNewProtocolAttachmentPersonnels(List<ProtocolAttachmentPersonnel> newProtocolAttachmentPersonnels) {
+        this.newProtocolAttachmentPersonnels = newProtocolAttachmentPersonnels;
     }
 
     public ProtocolForm getForm() {

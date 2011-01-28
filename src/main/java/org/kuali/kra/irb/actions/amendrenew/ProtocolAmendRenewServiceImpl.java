@@ -353,34 +353,6 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
             protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), ProtocolModule.PROTOCOL_PERMISSIONS);
             amendmentEntry.removeModule(ProtocolModule.PROTOCOL_PERMISSIONS);
         }
-
-        resetPersonId(protocol);
-    }
-    
-    /**
-     * 
-     * This method syncs the personId between the protocol person and personnel attachment.
-     * @param protocol
-     */
-    private void resetPersonId(Protocol protocol) {
-        if (protocol.getProtocolPersons() != null) {
-            List <ProtocolAttachmentPersonnel> attachments = new ArrayList<ProtocolAttachmentPersonnel>();
-            for (ProtocolPerson person : protocol.getProtocolPersons()) {
-                Long nextPersonId = sequenceAccessorService.getNextAvailableSequenceNumber("SEQ_PROTOCOL_ID");
-                person.setProtocolPersonId(nextPersonId.intValue());
-                for (ProtocolAttachmentPersonnel attachment : person.getAttachmentPersonnels()) {
-                    attachment.setProtocol(protocol);
-                    attachment.setPersonId(nextPersonId.intValue());
-                    attachment.setPerson(null);
-                    attachment.setId(null);
-                    attachment.setProtocolId(protocol.getProtocolId());
-                    attachment.setProtocolNumber(protocol.getProtocolNumber());
-                    attachment.setSequenceNumber(protocol.getSequenceNumber());
-                    attachments.add(attachment);
-                }
-            }
-            protocol.setAttachmentPersonnels(attachments);
-        }
     }
     
     /**

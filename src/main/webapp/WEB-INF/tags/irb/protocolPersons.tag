@@ -28,36 +28,37 @@
     <c:if test="${status.first}">
       <c:set var="transparent" value="true" />
     </c:if> 
-     	<c:set var="descri" value="${person.protocolPersonRole.description}" />
-		<c:set var="personIndex" value="${status.index}" />
-			<kul:tab tabTitle="${fn:substring(person.personName, 0, 22)}"
-					 tabErrorKey="document.protocolList[0].protocolPersons[${personIndex}]*"
-					 auditCluster="requiredFieldsAuditErrors" 
-					 tabAuditKey="" 
-					 useRiceAuditMode="true"
-			         tabDescription="${descri}"
-			         leftSideHtmlProperty="${leftSideHtmlProperty}" 
-			         leftSideHtmlAttribute="${protocolPersonAttributes.delete}" 
-			     	 leftSideHtmlDisabled="false" 
-			         defaultOpen="${hasErrors}" 
-					 useCurrentTabIndexAsKey="true"
-			         transparentBackground="${transparent}">
-					 <div class="tab-container" align="center">
-						<div id="workarea">
-							<div class="tab-container" align="center" id="G100">
-						    	<h3>
-						        	<span class="subhead-left"><bean:write name="KualiForm" property="${protocolPersonProperty}.personName"/></span>
-						            <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.personnel.ProtocolPerson" altText="help"/></span>
-						        </h3>
-								<kra-irb:personDetailsSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}"/>
-								<kra-irb:personContactInformationSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}"/>
-    							<c:if test="${personUnitRequired}">
-									<kra-irb:personUnitsSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}"/>
-    							</c:if> 
-						  	</div>
-						</div>
-					 </div>
-			</kul:tab>
+    	<c:set var="descri" value="${person.protocolPersonRole.description}" />
+	<c:set var="personIndex" value="${status.index}" />
+	<kul:tab tabTitle="${fn:substring(person.personName, 0, 22)}"
+			 tabErrorKey="document.protocolList[0].protocolPersons[${personIndex}]*"
+			 auditCluster="requiredFieldsAuditErrors" 
+			 tabAuditKey="" 
+			 useRiceAuditMode="true"
+	         tabDescription="${descri}"
+	         leftSideHtmlProperty="${leftSideHtmlProperty}" 
+	         leftSideHtmlAttribute="${protocolPersonAttributes.delete}" 
+	     	 leftSideHtmlDisabled="false" 
+	         defaultOpen="${hasErrors}" 
+			 useCurrentTabIndexAsKey="true"
+	         transparentBackground="${transparent}">
+        <div class="tab-container" align="center">
+		    <div id="workarea">
+			    <div class="tab-container" align="center" id="G100">
+				    <h3>
+				       	<span class="subhead-left"><bean:write name="KualiForm" property="${protocolPersonProperty}.personName"/></span>
+				        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.personnel.ProtocolPerson" altText="help"/></span>
+				    </h3>
+				    <kra-irb:personDetailsSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}"/>
+					<kra-irb:personContactInformationSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}"/>
+  					<kra-irb:personAttachmentSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}"/> 
+  					<c:if test="${personUnitRequired}">
+						<kra-irb:personUnitsSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}"/>
+  					</c:if>
+			  	</div>
+			</div>
+		 </div>
+	</kul:tab>
  </c:forEach>
 
 <c:if test="${fn:length(KualiForm.document.protocolList[0].protocolPersons) > 0}">
