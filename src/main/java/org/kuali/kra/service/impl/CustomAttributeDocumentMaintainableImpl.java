@@ -28,7 +28,11 @@ import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
  * This class...
  */
 public class CustomAttributeDocumentMaintainableImpl extends KualiMaintainableImpl {
-
+    
+    /**
+     * 
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#prepareForSave()
+     */
     public void prepareForSave() {
         CustomAttributeDocument customAttributeDocument = (CustomAttributeDocument) this.getBusinessObject();
         boolean needsTranslated = true;
@@ -42,29 +46,8 @@ public class CustomAttributeDocumentMaintainableImpl extends KualiMaintainableIm
             needsTranslated = false;
         }
         if (needsTranslated) {
-
-            switch (val) {
-                case CoeusModule.AWARD_MODULE_CODE_INT: {
-                    customAttributeDocument.setDocumentTypeName(AwardDocument.DOCUMENT_TYPE_CODE);
-                    break;
-                }
-                case CoeusModule.INSTITUTIONAL_PROPOSAL_MODULE_CODE_INT: {
-                    customAttributeDocument.setDocumentTypeName(InstitutionalProposalDocument.DOCUMENT_TYPE_CODE);
-                    break;
-                }
-                case CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE_INT: {
-                    customAttributeDocument.setDocumentTypeName(ProposalDevelopmentDocument.DOCUMENT_TYPE_CODE);
-                    break;
-                }
-                case CoeusModule.IRB_MODULE_CODE_INT: {
-                    customAttributeDocument.setDocumentTypeName(ProtocolDocument.DOCUMENT_TYPE_CODE);
-                    break;
-                }
-                default: {
-                    throw new IllegalArgumentException("invalid typeName provided: "
-                            + customAttributeDocument.getDocumentTypeName());
-                }
-            }
+            
+            customAttributeDocument.setDocumentTypeName(convertModuleNumberToDocumentTypeCode(val));
 
             /**
              * 1 Award 2 Institute Proposal 3 Development Proposal 4 Subcontracts 5 Negotiations 6 Person 7 IRB 8 Annual COI
@@ -72,6 +55,40 @@ public class CustomAttributeDocumentMaintainableImpl extends KualiMaintainableIm
              */
         }
         super.prepareForSave();
+    }
+    
+    /**|
+     * 
+     * This method converts the module number to document type code.
+     * Implemented: 1 Award, 2 Institute Proposal, 3 Development Proposal, 7 IRB. 
+     * Not Implemented: 4 Subcontracts, 5 Negotiations, 6 Person, 8 Annual COI Disclosure.
+     * @param moduleNumber
+     * @return
+     */
+    public String convertModuleNumberToDocumentTypeCode(int moduleNumber) {
+        String documentTypeCode = null;
+        switch (moduleNumber) {
+            case CoeusModule.AWARD_MODULE_CODE_INT: {
+                documentTypeCode = AwardDocument.DOCUMENT_TYPE_CODE;
+                break;
+            }
+            case CoeusModule.INSTITUTIONAL_PROPOSAL_MODULE_CODE_INT: {
+                documentTypeCode = InstitutionalProposalDocument.DOCUMENT_TYPE_CODE;
+                break;
+            }
+            case CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE_INT: {
+                documentTypeCode = ProposalDevelopmentDocument.DOCUMENT_TYPE_CODE;
+                break;
+            }
+            case CoeusModule.IRB_MODULE_CODE_INT: {
+                documentTypeCode = ProtocolDocument.DOCUMENT_TYPE_CODE;
+                break;
+            }
+            default: {
+                throw new IllegalArgumentException("invalid typeName provided: " + documentTypeCode);
+            }
+        }
+        return documentTypeCode;
     }
 
 }

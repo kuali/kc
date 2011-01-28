@@ -479,7 +479,8 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.award.awardhierarchy.sync.helpers.AwardSyncCommentsHelperTest.class,
     org.kuali.kra.rules.SponsorTemplateTermsExistenceRuleTest.class,
     org.kuali.kra.bo.CitizenshipTypeTest.class,
-    org.kuali.kra.irb.actions.abandon.ProtocolAbandonServiceTest.class
+    org.kuali.kra.irb.actions.abandon.ProtocolAbandonServiceTest.class,
+    org.kuali.kra.service.impl.CustomAttributeDocumentMaintainableImplTest.class
 })
 /** these are all the test class where all the test methods are currently passing. */
 public class PassSuite {
