@@ -941,6 +941,21 @@
 			gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11
 		</pkgName>
 	</Form>
+	<!-- New S2S Form - gg-forms7 -->
+	<Form
+		namespace="http://apply.grants.gov/forms/PHS398_CareerDevelopmentAwardSup_1_2-V1.2">
+		<formName>PHS398_CareerDevelopmentAwardSup_1_2-V1.2
+		</formName>
+		<mainClass>
+			org.kuali.kra.s2s.generator.impl.PHS398CareerDevelopmentAwardSupV1_2Generator
+		</mainClass>
+		<stylesheet>
+			org/kuali/kra/s2s/stylesheet/PHS398_CareerDevelopmentAwardSup-V1.2.xsl
+		</stylesheet>
+		<pkgName>
+			gov.grants.apply.forms.phs398CareerDevelopmentAwardSup12V12
+		</pkgName>
+	</Form>
 	<Form
 		namespace="http://apply.grants.gov/forms/PHS_CoverLetter_1_2-V1.2">
 		<formName>PHS_CoverLetter_1_2-V1.2</formName>
