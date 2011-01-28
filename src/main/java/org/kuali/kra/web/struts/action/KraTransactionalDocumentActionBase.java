@@ -698,18 +698,10 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         
-        ActionForward routeForward = mapping.findForward(Constants.MAPPING_BASIC);
         if (form instanceof CommitteeForm) {
-            routeForward = routeCommittee(mapping, form, request, response);
+            forward = routeCommittee(mapping, form, request, response);
         } else {
-            routeForward = super.route(mapping, form, request, response);            
-        }
-        
-        if (StringUtils.equals(forward.getPath(), routeForward.getPath())) {
-            GlobalVariables.getUserSession().addObject(Constants.HOLDING_PAGE_MESSAGES, GlobalVariables.getMessageList());
-            forward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
-        } else {
-            forward = routeForward;
+            forward = super.route(mapping, form, request, response);            
         }
         
         return forward;
@@ -841,42 +833,6 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         return ((KraDocumentServiceImpl)KraServiceLocator.getService("kraDocumentService"));
                
     }
-    
-    @Override
-    public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-        throws Exception {
-
-        ActionForward forward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
-        
-        ActionForward approveForward = super.approve(mapping, form, request, response);
-        
-        if (StringUtils.equals(forward.getPath(), approveForward.getPath())) {
-            GlobalVariables.getUserSession().addObject(Constants.HOLDING_PAGE_MESSAGES, GlobalVariables.getMessageList());
-            forward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
-        } else {
-            forward = approveForward;
-        }
-
-        return forward;
-    }
-
-    @Override
-    public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-        HttpServletResponse response) throws Exception {
-        
-        ActionForward forward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
-        
-        ActionForward blanketApproveForward = super.blanketApprove(mapping, form, request, response);
-        
-        if (StringUtils.equals(forward.getPath(), blanketApproveForward.getPath())) {
-            GlobalVariables.getUserSession().addObject(Constants.HOLDING_PAGE_MESSAGES, GlobalVariables.getMessageList());
-            forward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
-        } else {
-            forward = blanketApproveForward;
-        }
-
-        return forward;
-    }
 
     @Override
     protected ActionForward returnToSender(HttpServletRequest request, ActionMapping mapping, KualiDocumentFormBase form) {
@@ -889,6 +845,22 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
             }
         }
         return superForward;
+    }
+    
+    /**
+     * Optional path to send certain documents to the holding page.
+     * @param forward Forward following the basic or portal mapping
+     * @param returnForward Forward calculated by returnToSender
+     * @param holdingPageForward Forward going to the holding page
+     * @return
+     */
+    protected ActionForward routeToHoldingPage(ActionForward forward, ActionForward returnForward, ActionForward holdingPageForward) {
+        if (!StringUtils.equals(forward.getPath(), returnForward.getPath())) {
+            return returnForward;
+        } else {
+            GlobalVariables.getUserSession().addObject(Constants.HOLDING_PAGE_MESSAGES, GlobalVariables.getMessageList());
+            return holdingPageForward;
+        }
     }
 
     public ActionForward sendAdHocRequests(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
