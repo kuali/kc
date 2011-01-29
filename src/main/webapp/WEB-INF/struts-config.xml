@@ -387,6 +387,9 @@
           <forward name="ajaxQuestionnaire" path="/WEB-INF/jsp/questionnaire/QuestionnaireAjax.jsp" />
           <forward name="ajaxQuestionMaintainTable" path="/WEB-INF/jsp/questionnaire/QuestionMaintTableAjax.jsp" />
      </action>    
+     <action path="/maintenanceSponsorTemplate" name="KualiMaintenanceForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/kr/WEB-INF/jsp/KualiMaintenanceDocument.jsp" type="org.kuali.kra.award.maintenance.AwardSponsorTemplateMaintenanceDocumentAction">
+          <forward name="basic" path="/kr/WEB-INF/jsp/KualiMaintenanceDocument.jsp" />
+     </action>    
      
      <action path="/meeting*" name="MeetingForm" type="org.kuali.kra.meeting.Meeting{1}Action" input="/WEB-INF/jsp/meeting/meeting{1}.jsp" attribute="KualiForm">
             <forward name="basic" path="/WEB-INF/jsp/meeting/meeting{1}.jsp" />

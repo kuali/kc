@@ -50,13 +50,10 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
      */
     private static final long serialVersionUID = -3368480537790330757L;
     
-    private static final String PERSON_OBJECT_REFERENCE = "person";
-    
     private static final String ERROR_KEY_PREFIX = "document.newMaintainableObject.add";
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AwardTemplateMaintainableImpl.class); 
 
-    
     public void addMultipleValueLookupResults(MaintenanceDocument document, String collectionName, Collection<PersistableBusinessObject> rawValues, boolean needsBlank, PersistableBusinessObject bo) {
         Collection maintCollection = (Collection) ObjectUtils.getPropertyValue(bo, collectionName);
         String docTypeName = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
