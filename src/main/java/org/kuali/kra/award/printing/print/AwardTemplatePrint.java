@@ -21,8 +21,6 @@ import java.util.List;
 import javax.xml.transform.Source;
 
 import org.kuali.kra.award.printing.AwardPrintType;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.util.PrintingUtils;
 
@@ -38,6 +36,11 @@ import org.kuali.kra.printing.util.PrintingUtils;
 public class AwardTemplatePrint extends AbstractPrint {
 
 	/**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 7247867016510379530L;
+
+    /**
 	 * This method fetches the XSL style-sheets required for transforming the
 	 * generated XML into PDF.
 	 * 
@@ -45,8 +48,7 @@ public class AwardTemplatePrint extends AbstractPrint {
 	 */
 	public List<Source> getXSLTemplates() {
 		List<Source> sourceList = PrintingUtils
-				.getXSLTforReport(AwardPrintType.AWARD_TEMPLATE
-						.getAwardPrintType());
+				.getXSLTforReport(AwardPrintType.AWARD_TEMPLATE.getAwardPrintType());
 		return sourceList;
 	}
 

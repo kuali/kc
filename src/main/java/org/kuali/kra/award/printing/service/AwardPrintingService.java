@@ -17,6 +17,7 @@ package org.kuali.kra.award.printing.service;
 
 import java.util.Map;
 
+import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
@@ -47,6 +48,6 @@ public interface AwardPrintingService {
 	 *             if any errors occur during report generation
 	 */
 	public AttachmentDataSource printAwardReport(
-			KraPersistableBusinessObjectBase awardDocument, String reportName,
+			KraPersistableBusinessObjectBase awardDocument, AwardPrintType awardReportType,
 			Map<String, Object> reportParameters) throws PrintingException;
 }

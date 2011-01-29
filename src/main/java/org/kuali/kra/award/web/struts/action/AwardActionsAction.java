@@ -468,9 +468,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         AwardDocument awardDocument = awardForm.getAwardDocument();
         Award award = awardDocument.getAward();
         AttachmentDataSource dataStream = awardPrintService.printAwardReport(
-                award,
-                AwardPrintType.AWARD_NOTICE_REPORT.getAwardPrintType(),
-                reportParameters);
+                award,AwardPrintType.AWARD_NOTICE_REPORT,reportParameters);
         streamToResponse(dataStream, response);
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
@@ -492,8 +490,8 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         AwardPrintingService awardPrintService = KraServiceLocator
                 .getService(AwardPrintingService.class);
         AttachmentDataSource dataStream = awardPrintService.printAwardReport(
-                awardForm.getAwardDocument().getAward(), AwardPrintType.AWARD_DELTA_REPORT
-                        .getAwardPrintType(), reportParameters);
+                awardForm.getAwardDocument().getAward(), AwardPrintType.AWARD_DELTA_REPORT,
+                reportParameters);
         streamToResponse(dataStream, response);
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
@@ -505,15 +503,13 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
                 .getService(AwardPrintingService.class);
         AttachmentDataSource dataStream = awardPrintService.printAwardReport(
                 awardForm.getAwardDocument().getAward(),
-                AwardPrintType.AWARD_BUDGET_HIERARCHY.getAwardPrintType(),
-                reportParameters);
+                AwardPrintType.AWARD_BUDGET_HIERARCHY,reportParameters);
         streamToResponse(dataStream, response);
         return null;
     }
 
     public ActionForward printHierarchyModification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm)form;
-        //TODO: Add printing service call here
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
 
@@ -538,8 +534,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
                 .getService(AwardPrintingService.class);
         AttachmentDataSource dataStream = awardPrintService.printAwardReport(
                 awardForm.getAwardDocument().getAward(),
-                AwardPrintType.MONEY_AND_END_DATES_HISTORY.getAwardPrintType(),
-                reportParameters);
+                AwardPrintType.MONEY_AND_END_DATES_HISTORY,reportParameters);
         streamToResponse(dataStream, response);
         return null;
     }
@@ -561,8 +556,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
                 .getService(AwardPrintingService.class);
         AttachmentDataSource dataStream = awardPrintService.printAwardReport(
                 awardForm.getAwardDocument().getAward(),
-                AwardPrintType.AWARD_BUDGET_HISTORY_TRANSACTION
-                        .getAwardPrintType(), reportParameters);
+                AwardPrintType.AWARD_BUDGET_HISTORY_TRANSACTION, reportParameters);
         streamToResponse(dataStream, response);
         return null;
     }

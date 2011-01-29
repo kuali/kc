@@ -48,7 +48,15 @@
 				<ref bean="AwardTemplate-methodOfPaymentDescription"/>
 			</list>
 		</property>
-		
+
+	    <property name="collections">
+	      <list>
+	        <bean p:description="Sponsor Template Contacts" p:label="Sponsor Template Contacts" p:name="templateContacts" p:shortLabel="Sponsor Template Contacts" p:summary="Sponsor Template Contacts" parent="CollectionDefinition"/>
+	        <bean p:description="Sponsor Template Comments" p:elementLabel="Sponsor Template Comments" p:label="Sponsor Template Comments" p:name="templateComments" p:shortLabel="Sponsor Template Comments" p:summary="Sponsor Template Comments" parent="CollectionDefinition"/>
+	        <bean p:description="Sponsor Template Terms" p:elementLabel="Sponsor Template Terms" p:label="Sponsor Template Terms" p:name="templateTerms" p:shortLabel="Sponsor Template Terms" p:summary="Sponsor Template Terms" parent="CollectionDefinition"/>
+	        <bean p:description="Sponsor Template Report Terms" p:elementLabel="Sponsor Template Report Terms" p:label="Sponsor Template Report Terms" p:name="templateReportTerms" p:shortLabel="Sponsor Template Report Terms" p:summary="Sponsor Template Report Terms" parent="CollectionDefinition"/>
+	      </list>
+	    </property>
 	</bean>
 
 	<!-- Attribute Definitions -->
@@ -215,7 +223,7 @@
 	<!-- Business Object Inquiry Definition -->
 	<bean id="AwardTemplate-inquiryDefinition" parent="AwardTemplate-inquiryDefinition-parentBean" />
 	<bean id="AwardTemplate-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-		<property name="title" value="SponsorTemplate Code" />
+		<property name="title" value="Sponsor Template Details" />
 		<property name="inquirySections" >
 			<list>
 				<bean parent="InquirySectionDefinition">
@@ -223,22 +231,124 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list>
-							<bean parent="FieldDefinition"
-								p:attributeName="templateCode" 
-								p:forceInquiry="true" />
-							<bean parent="FieldDefinition"
-								p:attributeName="description" />
-							<bean parent="FieldDefinition"
-								p:attributeName="statusCode" />
-							<bean parent="FieldDefinition"
-								p:attributeName="primeSponsorCode" />
-							<bean parent="FieldDefinition"
-								p:attributeName="basisOfPaymentCode" />
-							<bean parent="FieldDefinition"
-								p:attributeName="methodOfPaymentCode" />
+							<bean parent="FieldDefinition" p:attributeName="templateCode" p:forceInquiry="true" />
+							<bean parent="FieldDefinition" p:attributeName="description" />
+							<bean parent="FieldDefinition" p:attributeName="statusCode" />
+							<bean parent="FieldDefinition" p:attributeName="primeSponsorCode" />
+							<bean parent="FieldDefinition" p:attributeName="basisOfPaymentCode" />
+							<bean parent="FieldDefinition" p:attributeName="methodOfPaymentCode" />
 						</list>
 					</property>
 				</bean>
+		        <bean parent="InquirySectionDefinition">
+		          <property name="title" value="Sponsor Template Contacts"/>
+		          <property name="numberOfColumns" value="1"/>
+		          <property name="inquiryFields">
+		            <list>
+		              <bean parent="InquiryCollectionDefinition">
+		                <property name="attributeName" value="templateContacts"/>
+		                <property name="businessObjectClass" value="org.kuali.kra.award.home.AwardTemplateContact"/>
+		                <property name="numberOfColumns" value="3"/>
+		                <property name="summaryTitle" value="Sponsor Contact Type "/>
+		                <property name="summaryFields">
+		                  <list>
+		                    <bean p:attributeName="templateContactId" parent="FieldDefinition"/>
+		                    <bean p:attributeName="roleCode" parent="FieldDefinition"/>
+		                  </list>
+		                </property>
+		                <property name="inquiryFields">
+		                  <list>
+		                    <bean p:attributeName="templateContactId" parent="FieldDefinition"/>
+		                    <bean p:attributeName="roleCode" parent="FieldDefinition"/>
+		                    <bean p:attributeName="rolodexId" parent="FieldDefinition"/>
+		                  </list>
+		                </property>
+		              </bean>
+		            </list>
+		          </property>
+		        </bean>
+		        <bean parent="InquirySectionDefinition">
+		          <property name="title" value="Sponsor Template Comments"/>
+		          <property name="numberOfColumns" value="1"/>
+		          <property name="inquiryFields">
+		            <list>
+		              <bean parent="InquiryCollectionDefinition">
+		                <property name="attributeName" value="templateComments"/>
+		                <property name="businessObjectClass" value="org.kuali.kra.award.home.AwardTemplateComment"/>
+		                <property name="numberOfColumns" value="3"/>
+		                <property name="summaryFields">
+		                  <list>
+		                    <bean p:attributeName="templateCommentsId" parent="FieldDefinition"/>
+		                    <bean p:attributeName="commentTypeCode" parent="FieldDefinition"/>
+		                  </list>
+		                </property>
+		                <property name="inquiryFields">
+		                  <list>
+		                    <bean p:attributeName="templateCommentsId" parent="FieldDefinition"/>
+		                    <bean p:attributeName="commentTypeCode" parent="FieldDefinition"/>
+		                    <bean p:attributeName="comments" parent="FieldDefinition"/>
+		                  </list>
+		                </property>
+		              </bean>
+		            </list>
+		          </property>
+		        </bean>
+		        <bean parent="InquirySectionDefinition">
+		          <property name="title" value="Sponsor Template Terms"/>
+		          <property name="numberOfColumns" value="1"/>
+		          <property name="inquiryFields">
+		            <list>
+		              <bean parent="InquiryCollectionDefinition">
+		                <property name="attributeName" value="templateTerms"/>
+		                <property name="businessObjectClass" value="org.kuali.kra.award.home.AwardTemplateTerm"/>
+		                <property name="numberOfColumns" value="3"/>
+		                <property name="summaryFields">
+		                  <list>
+		                    <bean p:attributeName="awardTemplateTermId" parent="FieldDefinition"/>
+		                    <bean p:attributeName="sponsorTermTypeCode" parent="FieldDefinition"/>
+		                  </list>
+		                </property>
+		                <property name="inquiryFields">
+		                  <list>
+		                    <bean p:attributeName="awardTemplateTermId" parent="FieldDefinition"/>
+		                    <bean p:attributeName="sponsorTermTypeCode" parent="FieldDefinition"/>
+		                    <bean p:attributeName="sponsorTermId" parent="FieldDefinition"/>
+		                  </list>
+		                </property>
+		              </bean>
+		            </list>
+		          </property>
+		        </bean>
+		        <bean parent="InquirySectionDefinition">
+		          <property name="title" value="Sponsor Template Report Terms"/>
+		          <property name="numberOfColumns" value="1"/>
+		          <property name="inquiryFields">
+		            <list>
+		              <bean parent="InquiryCollectionDefinition">
+		                <property name="attributeName" value="templateReportTerms"/>
+		                <property name="businessObjectClass" value="org.kuali.kra.award.home.AwardTemplateReportTerm"/>
+		                <property name="numberOfColumns" value="6"/>
+		                <property name="summaryFields">
+		                  <list>
+		                    <bean p:attributeName="templateReportTermId" parent="FieldDefinition"/>
+		                    <bean p:attributeName="reportClassCode" parent="FieldDefinition"/>
+		                  </list>
+		                </property>
+		                <property name="inquiryFields">
+		                  <list>
+		                    <bean p:attributeName="templateReportTermId" parent="FieldDefinition"/>
+		                    <bean p:attributeName="reportClassCode" parent="FieldDefinition"/>
+		                    <bean p:attributeName="reportCode" parent="FieldDefinition"/>
+		                    <bean p:attributeName="frequencyCode" parent="FieldDefinition"/>
+		                    <bean p:attributeName="frequencyBaseCode" parent="FieldDefinition"/><!--
+		                    <bean p:attributeName="ospFileCopyCode" parent="FieldDefinition"/>
+		                    --><bean p:attributeName="dueDate" parent="FieldDefinition"/>
+		                  </list>
+		                </property>
+		              </bean>
+		            </list>
+		          </property>
+		        </bean>
 			</list>
 		</property>
 	</bean>
@@ -247,6 +357,7 @@
 	<bean id="AwardTemplate-lookupDefinition" parent="AwardTemplate-lookupDefinition-parentBean" />
 	<bean id="AwardTemplate-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Sponsor Template Lookup" />
+        <property name="lookupableID" value="awardTemplateLookupable" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 
 		<property name="defaultSort" >
@@ -288,10 +399,4 @@
 			</list>
 		</property>
 	</bean>
-	<!-- Business Object Lookup Definition --><!--
-	<bean id="AwardTemplate-relationshipDefinition" parent="AwardTemplate-relationshipDefinition-parentBean" />
-	<bean id="AwardTemplate-relationshipDefinition-parentBean" abstract="true" parent="RelationshipDefinition">
-		<property name="resultFields" >
-		</property>
-	</bean>-->
 </beans>
