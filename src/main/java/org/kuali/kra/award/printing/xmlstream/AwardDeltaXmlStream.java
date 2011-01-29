@@ -64,7 +64,6 @@ import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 public class AwardDeltaXmlStream extends AwardBaseStream {
 
 	private static final String SEQUENCE_NUMBER = "sequenceNumber";
-	private static final String TRANSFERSPONSOR_MODIFIED_VALUE = "1";
 	private VersionHistoryService versionHistoryService;
 	private TimeAndMoneyActionSummaryService actionSummaryService;
 
