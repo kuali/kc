@@ -482,4 +482,13 @@
 			<bean class="org.springframework.core.task.SyncTaskExecutor"></bean>
 		</property>		
 	</bean>
+	
+	<bean id="awardTemplateLookupable " class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+  		<property name="lookupableHelperService">
+    		<ref bean="awardTemplateLookupableHelperServiceImpl" />
+  		</property>  		
+	</bean>		
+	<bean id="awardTemplateLookupableHelperServiceImpl" class="org.kuali.kra.award.lookup.AwardTemplateLookupableHelperServiceImpl" parent="lookupableHelperService" scope="prototype">
+  	</bean>
+	
 </beans>

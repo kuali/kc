@@ -187,6 +187,7 @@
 				<value>budgetPeriodLookupable</value>	
 				<value>kimPersonLookupable</value>
 				<value>riceApplicationConfigurationService</value>
+				<value>awardTemplateLookupable</value>
 			</set>
 		</property>
 	</bean>	

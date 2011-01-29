@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardTemplate;
 import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.award.printing.print.AwardBudgetHierarchyPrint;
 import org.kuali.kra.award.printing.print.AwardBudgetHistoryTransactionPrint;
@@ -60,7 +61,7 @@ public class AwardPrintingServiceImpl implements AwardPrintingService {
 	 * generates XML which is then passed to {@link PrintingService} for
 	 * transforming into PDF.
 	 * 
-	 * @param awardDocument
+	 * @param printableBO
 	 *            Award data using which report is generated
 	 * @param reportName
 	 *            report to be generated
@@ -73,46 +74,73 @@ public class AwardPrintingServiceImpl implements AwardPrintingService {
 	 * 
 	 */
 	public AttachmentDataSource printAwardReport(
-			KraPersistableBusinessObjectBase awardDocument, String reportName,
+			KraPersistableBusinessObjectBase printableBO, AwardPrintType awardReportType,
 			Map<String, Object> reportParameters) throws PrintingException {
 		AttachmentDataSource source = null;
 		AbstractPrint printable = null;
-		if (reportName.equals(AwardPrintType.AWARD_DELTA_REPORT
-				.getAwardPrintType())) {
-			printable = getAwardDeltaPrint();
-		} else if (reportName.equals(AwardPrintType.AWARD_NOTICE_REPORT
-				.getAwardPrintType())) {
-			printable = getAwardNoticePrint();
-		} else if (reportName.equals(AwardPrintType.AWARD_TEMPLATE
-				.getAwardPrintType())) {
-			printable = getAwardTemplatePrint();
-		} else if (reportName.equals(AwardPrintType.MONEY_AND_END_DATES_HISTORY
-				.getAwardPrintType())) {
-			printable = getMoneyAndEndDatesHistoryPrint();
-		} else if (reportName.equals(AwardPrintType.AWARD_BUDGET_HIERARCHY
-				.getAwardPrintType())) {
-			printable = getAwardBudgetHierarchyPrint();
-		} else if (reportName
-				.equals(AwardPrintType.AWARD_BUDGET_HISTORY_TRANSACTION
-						.getAwardPrintType())) {
-			printable = getAwardBudgetHistoryTransactionPrint();
+		String repoprtFileNamePrefix= "";
+		switch(awardReportType){
+		    case AWARD_DELTA_REPORT:
+		        printable = getAwardDeltaPrint();
+		        repoprtFileNamePrefix = ((Award)printableBO).getAwardNumber();
+		        break;
+		    case AWARD_NOTICE_REPORT:
+		        printable = getAwardNoticePrint();
+                repoprtFileNamePrefix = ((Award)printableBO).getAwardNumber();
+		        break;
+		    case MONEY_AND_END_DATES_HISTORY:
+		        printable = getMoneyAndEndDatesHistoryPrint();
+                repoprtFileNamePrefix = ((Award)printableBO).getAwardNumber();
+		        break;
+		    case AWARD_BUDGET_HIERARCHY:
+		        printable = getAwardBudgetHierarchyPrint();
+                repoprtFileNamePrefix = ((Award)printableBO).getAwardNumber();
+		        break;
+		    case AWARD_BUDGET_HISTORY_TRANSACTION:
+		        printable = getAwardBudgetHistoryTransactionPrint();
+                repoprtFileNamePrefix = ((Award)printableBO).getAwardNumber();
+		        break;
+            case AWARD_TEMPLATE:
+                printable = getAwardTemplatePrint();
+                repoprtFileNamePrefix = ((AwardTemplate)printableBO).getTemplateCode().toString();
+                break;
+		        
 		}
+//		if (reportName.equals(AwardPrintType.AWARD_DELTA_REPORT
+//				.getAwardPrintType())) {
+//			printable = getAwardDeltaPrint();
+//		} else if (reportName.equals(AwardPrintType.AWARD_NOTICE_REPORT
+//				.getAwardPrintType())) {
+//			printable = getAwardNoticePrint();
+//		} else if (reportName.equals(AwardPrintType.AWARD_TEMPLATE
+//				.getAwardPrintType())) {
+//			printable = getAwardTemplatePrint();
+//		} else if (reportName.equals(AwardPrintType.MONEY_AND_END_DATES_HISTORY
+//				.getAwardPrintType())) {
+//			printable = getMoneyAndEndDatesHistoryPrint();
+//		} else if (reportName.equals(AwardPrintType.AWARD_BUDGET_HIERARCHY
+//				.getAwardPrintType())) {
+//			printable = getAwardBudgetHierarchyPrint();
+//		} else if (reportName
+//				.equals(AwardPrintType.AWARD_BUDGET_HISTORY_TRANSACTION
+//						.getAwardPrintType())) {
+//			printable = getAwardBudgetHistoryTransactionPrint();
+//		}
 		if (printable != null) {
-			printable.setPrintableBusinessObject(awardDocument);
+			printable.setPrintableBusinessObject(printableBO);
 			printable.setReportParameters(reportParameters);
 			source = getPrintingService().print(printable);
-			source.setFileName(getReportName(awardDocument, reportName));
+			source.setFileName(getReportName(repoprtFileNamePrefix, awardReportType.getAwardPrintType()));
 			source.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
 		}
 		return source;
 	}
 
-	protected String getReportName(KraPersistableBusinessObjectBase researchDoc,
-			String reportName) {
-		Award award = ((Award) researchDoc);
-		String awardNumber = award.getAwardNumber();
+	protected String getReportName(String reportFileNamePrefix, String reportName) {
+//		Award award = ((Award) researchDoc);
+//		String awardNumber = award.getAwardNumber();
 
-		StringBuilder reportFullName = new StringBuilder(awardNumber).append(
+		StringBuilder reportFullName = new StringBuilder(reportFileNamePrefix).append(
 				"_").append(reportName.replace(' ', '_')).append(
 				Constants.PDF_FILE_EXTENSION);
 		return reportFullName.toString();

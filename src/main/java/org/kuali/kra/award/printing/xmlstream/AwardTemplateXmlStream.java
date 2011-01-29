@@ -22,25 +22,37 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import noNamespace.BasisPaymentType;
 import noNamespace.CommentType;
+import noNamespace.CompetingRenewalType;
 import noNamespace.ContactType;
+import noNamespace.NonCompetingContType;
+import noNamespace.PaymentMethodType;
 import noNamespace.ReportTermDetailsType;
 import noNamespace.ReportTermType;
+import noNamespace.RolodexDetailsType;
 import noNamespace.SchoolInfoType;
+import noNamespace.SponsorType;
 import noNamespace.TemplateDocument;
+import noNamespace.TemplateMasterData;
+import noNamespace.TemplateStatusType;
+import noNamespace.TermDetailsType;
+import noNamespace.TermType;
 import noNamespace.ReportTermDetailsType.MailCopies;
 import noNamespace.TemplateDocument.Template;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardBasisOfPayment;
+import org.kuali.kra.award.home.AwardMethodOfPayment;
+import org.kuali.kra.award.home.AwardStatus;
 import org.kuali.kra.award.home.AwardTemplate;
 import org.kuali.kra.award.home.AwardTemplateComment;
 import org.kuali.kra.award.home.AwardTemplateContact;
 import org.kuali.kra.award.home.AwardTemplateReportTerm;
 import org.kuali.kra.award.home.AwardTemplateReportTermRecipient;
+import org.kuali.kra.award.home.AwardTemplateTerm;
 import org.kuali.kra.award.home.Distribution;
 import org.kuali.kra.award.paymentreports.Frequency;
 import org.kuali.kra.award.paymentreports.FrequencyBase;
@@ -48,6 +60,9 @@ import org.kuali.kra.award.paymentreports.Report;
 import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.bo.Sponsor;
+import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.printing.xmlstream.XmlStream;
@@ -59,7 +74,6 @@ import org.kuali.rice.kns.service.DateTimeService;
  * Report. The data for XML is derived from {@link ResearchDocumentBase} and
  * {@link Map} of details passed to the class.
  * 
- * @author
  * 
  */
 public class AwardTemplateXmlStream implements XmlStream {
@@ -85,14 +99,12 @@ public class AwardTemplateXmlStream implements XmlStream {
 	public Map<String, XmlObject> generateXmlStream(
 			KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> awardTemplateXmlStream = new HashMap<String, XmlObject>();
-		Award award = (Award) printableBusinessObject;
-		TemplateDocument templateDocument = TemplateDocument.Factory
-				.newInstance();
-		if (award.getAwardTemplate() != null) {
-			templateDocument.setTemplate(getTemplate(award.getAwardTemplate()));
+		AwardTemplate awardTemplate = (AwardTemplate) printableBusinessObject;
+		TemplateDocument templateDocument = TemplateDocument.Factory.newInstance();
+		if (awardTemplate != null) {
+			templateDocument.setTemplate(getTemplate(awardTemplate));
 		}
-		awardTemplateXmlStream.put(AwardPrintType.AWARD_TEMPLATE
-				.getAwardPrintType(), templateDocument);
+		awardTemplateXmlStream.put(AwardPrintType.AWARD_TEMPLATE.getAwardPrintType(), templateDocument);
 		return awardTemplateXmlStream;
 	}
 
@@ -102,14 +114,80 @@ public class AwardTemplateXmlStream implements XmlStream {
 	 */
 	private Template getTemplate(AwardTemplate awardTemplate) {
 		Template template = Template.Factory.newInstance();
+		awardTemplate.refreshNonUpdateableReferences();
+		template.setTemplateMaster(getTemplateMaster(awardTemplate));
 		template.setSchoolInfo(getSchoolInfoType());
 		template.setCommentArray(getCommentType(awardTemplate));
 		template.setContactArray(getContactType(awardTemplate));
+		template.setTermArray(getTerms(awardTemplate));
 		template.setReportArray(getReportTermTypes(awardTemplate));
 		return template;
 	}
 
-	/*
+	private TemplateMasterData getTemplateMaster(AwardTemplate awardTemplate) {
+	    TemplateMasterData templateMasterData = TemplateMasterData.Factory.newInstance();
+	    templateMasterData.setCurrentDate(getDateTimeService().getCurrentCalendar());
+	    templateMasterData.setDescription(awardTemplate.getDescription());
+	    templateMasterData.setTemplateCode(awardTemplate.getTemplateCode());
+	    if(awardTemplate.getBasisOfPaymentCode()!=null){
+	        BasisPaymentType basisPayment = templateMasterData.addNewBasisPayment();
+	        AwardBasisOfPayment awardBasisOfPayment = awardTemplate.getAwardBasisOfPayment();
+	        if(awardBasisOfPayment!=null){
+	            basisPayment.setBasisPaymentCode(awardBasisOfPayment.getBasisOfPaymentCode());
+	            basisPayment.setBasisPaymentDesc(awardBasisOfPayment.getDescription());
+	        }
+	    }
+	    if(awardTemplate.getCompetingRenewalPrpslDueCode()!=null){
+	        CompetingRenewalType competingRenewal = templateMasterData.addNewCompetingRenewal();
+	        competingRenewal.setCompetingRenewalCode(awardTemplate.getCompetingRenewalPrpslDueCode());
+	    }
+	    if(awardTemplate.getNonCompetingContPrpslDueCode()!=null){
+	        NonCompetingContType nonCompetingCont = templateMasterData.addNewNonCompetingCont();
+	        nonCompetingCont.setNonCompetingContCode(awardTemplate.getNonCompetingContPrpslDueCode());
+	    }
+	    if(awardTemplate.getMethodOfPaymentCode()!=null){
+	        AwardMethodOfPayment awardMethodOfPayment = awardTemplate.getAwardMethodOfPayment();
+	        PaymentMethodType paymentMethod = templateMasterData.addNewPaymentMethod();
+	        paymentMethod.setPaymentMethodCode(awardMethodOfPayment.getMethodOfPaymentCode());
+	        paymentMethod.setPaymentMethodDesc(awardMethodOfPayment.getDescription());
+	    }
+	    if(awardTemplate.getPrimeSponsorCode()!=null){
+	        SponsorType sponsorType = templateMasterData.addNewPrimeSponsor();
+	        Sponsor sponsor = awardTemplate.getPrimeSponsor();
+	        sponsorType.setSponsorCode(sponsor.getSponsorCode());
+	        sponsorType.setSponsorName(sponsor.getSponsorName());
+	    }
+	    if(awardTemplate.getStatusCode()!=null){
+	        TemplateStatusType templateStatus = templateMasterData.addNewTemplateStatus();
+	        AwardStatus awardTemplateStatus = awardTemplate.getAwardTemplateStatus();
+	        templateStatus.setStatusCode(Integer.parseInt(awardTemplateStatus.getStatusCode()));
+	        templateStatus.setStatusDesc(awardTemplateStatus.getDescription());
+	    }
+        return templateMasterData;
+    }
+
+    private TermType[] getTerms(AwardTemplate awardTemplate) {
+        List<TermType> termTypes = new ArrayList<TermType>();
+        for (AwardTemplateTerm awardTemplateTerm : awardTemplate.getAwardSponsorTerms()) {
+            TermType termType = TermType.Factory.newInstance();
+            setTermDetails(termType,awardTemplateTerm);
+            termTypes.add(termType);
+        }
+        return termTypes.toArray(new TermType[0]);
+    }
+
+    private void setTermDetails(TermType termType,AwardTemplateTerm awardTemplateTerm) {
+        awardTemplateTerm.refreshNonUpdateableReferences();
+        SponsorTerm sponsorTerm = awardTemplateTerm.getSponsorTerm();
+        if(sponsorTerm!=null){
+            termType.setDescription(awardTemplateTerm.getSponsorTerm().getSponsorTermType().getDescription());
+            TermDetailsType termDetails = termType.addNewTermDetails();
+            termDetails.setTermCode(Integer.parseInt(sponsorTerm.getSponsorTermCode()));
+            termDetails.setTermDescription(sponsorTerm.getDescription());
+        }
+    }
+
+    /*
 	 * This method will set the values to report term types elements and finally
 	 * returns the report term type.It iterates over the Award Template Report
 	 * Term.
@@ -120,12 +198,12 @@ public class AwardTemplateXmlStream implements XmlStream {
 		for (AwardTemplateReportTerm awardTemplateReportTerm : awardTemplate
 				.getTemplateReportTerms()) {
 			reportTermType = ReportTermType.Factory.newInstance();
+			awardTemplateReportTerm.refreshNonUpdateableReferences();
 			ReportClass reportClass = awardTemplateReportTerm.getReportClass();
 			if (reportClass != null && reportClass.getDescription() != null) {
 				reportTermType.setDescription(reportClass.getDescription());
 			}
-			reportTermType
-					.setReportTermDetailsArray(getReportTermDetails(awardTemplateReportTerm));
+			reportTermType.setReportTermDetailsArray(getReportTermDetails(awardTemplateReportTerm));
 		}
 		return reportTermTypes.toArray(new ReportTermType[0]);
 	}
@@ -135,24 +213,20 @@ public class AwardTemplateXmlStream implements XmlStream {
 	 * finally return the array of the report term details type.It iterates over
 	 * the
 	 */
-	private ReportTermDetailsType[] getReportTermDetails(
-			AwardTemplateReportTerm awardTemplateReportTerm) {
+	private ReportTermDetailsType[] getReportTermDetails(AwardTemplateReportTerm awardTemplateReportTerm) {
 		List<ReportTermDetailsType> reportTermDetailsTypes = new ArrayList<ReportTermDetailsType>();
 		ReportTermDetailsType reportTermDetailsType = null;
 		reportTermDetailsType = ReportTermDetailsType.Factory.newInstance();
 		Date dueDate = awardTemplateReportTerm.getDueDate();
 		if (dueDate != null) {
-			reportTermDetailsType.setDueDate(dateTimeService
-					.getCalendar(dueDate));
+			reportTermDetailsType.setDueDate(dateTimeService.getCalendar(dueDate));
 		}
 		setFrequencyBaseDetails(awardTemplateReportTerm, reportTermDetailsType);
 		setFrequencyDetails(awardTemplateReportTerm, reportTermDetailsType);
-		setOspDistributionDetails(awardTemplateReportTerm,
-				reportTermDetailsType);
+		setOspDistributionDetails(awardTemplateReportTerm,reportTermDetailsType);
 		setReportClassDetails(awardTemplateReportTerm, reportTermDetailsType);
 		setReportDetails(awardTemplateReportTerm, reportTermDetailsType);
-		reportTermDetailsType
-				.setMailCopiesArray(getMailCopies(awardTemplateReportTerm));
+		reportTermDetailsType.setMailCopiesArray(getMailCopies(awardTemplateReportTerm));
 		reportTermDetailsTypes.add(reportTermDetailsType);
 		return reportTermDetailsTypes.toArray(new ReportTermDetailsType[0]);
 	}
@@ -240,17 +314,18 @@ public class AwardTemplateXmlStream implements XmlStream {
 	private void setFrequencyBaseDetails(
 			AwardTemplateReportTerm awardTemplateReportTerm,
 			ReportTermDetailsType reportTermDetailsType) {
-		String frequencyBaseCode = awardTemplateReportTerm
-				.getFrequencyBaseCode();
+		String frequencyBaseCode = awardTemplateReportTerm.getFrequencyBaseCode();
 		if (frequencyBaseCode != null) {
 			reportTermDetailsType.setFrequencyBaseCode(Integer
 					.valueOf(frequencyBaseCode));
 		}
-		FrequencyBase frequencyBase = awardTemplateReportTerm
-				.getFrequencyBase();
+		awardTemplateReportTerm.refreshNonUpdateableReferences();
+		FrequencyBase frequencyBase = awardTemplateReportTerm.getFrequencyBase();
+		if(frequencyBase!=null){
 		String description = frequencyBase.getDescription();
-		if (description != null) {
-			reportTermDetailsType.setFrequencyBaseDesc(description);
+    		if (description != null) {
+    			reportTermDetailsType.setFrequencyBaseDesc(description);
+    		}
 		}
 	}
 
@@ -266,21 +341,21 @@ public class AwardTemplateXmlStream implements XmlStream {
 		for (AwardTemplateReportTermRecipient awardTemplateReportTermRecipient : awardTemplateReportTerm
 				.getAwardTemplateReportTermRecipients()) {
 			mailCopies = MailCopies.Factory.newInstance();
-			org.kuali.kra.award.home.ContactType contactType = awardTemplateReportTermRecipient
-					.getContactType();
-			String contactTypeCode = contactType.getContactTypeCode();
-			String contactTypeDescription = contactType.getDescription();
-			if (contactTypeCode != null) {
-				mailCopies.setContactTypeCode(Integer.valueOf(contactTypeCode));
+			awardTemplateReportTermRecipient.refreshNonUpdateableReferences();
+			org.kuali.kra.award.home.ContactType contactType = awardTemplateReportTermRecipient.getContactType();
+			if(contactType!=null){
+    			String contactTypeCode = contactType.getContactTypeCode();
+    			String contactTypeDescription = contactType.getDescription();
+    			if (contactTypeCode != null) {
+    				mailCopies.setContactTypeCode(Integer.valueOf(contactTypeCode));
+    			}
+    			if (contactTypeDescription != null) {
+    				mailCopies.setContactTypeDesc(contactTypeDescription);
+    			}
 			}
-			if (contactTypeDescription != null) {
-				mailCopies.setContactTypeDesc(contactTypeDescription);
-			}
-			Integer numberofmailCopies = awardTemplateReportTermRecipient
-					.getNumberOfCopies();
+			Integer numberofmailCopies = awardTemplateReportTermRecipient.getNumberOfCopies();
 			if (numberofmailCopies != null) {
-				mailCopies
-						.setNumberOfCopies(String.valueOf(numberofmailCopies));
+				mailCopies.setNumberOfCopies(String.valueOf(numberofmailCopies));
 			}
 			Integer rolodexid = awardTemplateReportTermRecipient.getRolodexId();
 			if (rolodexid != null) {
@@ -302,6 +377,7 @@ public class AwardTemplateXmlStream implements XmlStream {
 		for (AwardTemplateContact awardTemplateContact : awardTemplate
 				.getTemplateContacts()) {
 			contactType = ContactType.Factory.newInstance();
+			awardTemplateContact.refreshNonUpdateableReferences();
 			org.kuali.kra.award.home.ContactType type = awardTemplateContact
 					.getContactType();
 			String contactTypeCode = null;
@@ -317,12 +393,53 @@ public class AwardTemplateXmlStream implements XmlStream {
 			if (description != null) {
 				contactType.setContactTypeDesc(description);
 			}
+			setRolodexDetails(contactType,awardTemplateContact);
 			contactTypes.add(contactType);
 		}
 		return contactTypes.toArray(new ContactType[0]);
 	}
 
-	/*
+	private void setRolodexDetails(ContactType contactType, AwardTemplateContact awardTemplateContact) {
+	    if(awardTemplateContact.getRolodexId()!=null){
+	        Rolodex rolodex = awardTemplateContact.getRolodex();
+	        if(rolodex!=null){
+	            RolodexDetailsType rolodexDetails = contactType.addNewRolodexDetails();
+	            rolodexDetails.setAddress1(rolodex.getAddressLine1());
+	            rolodexDetails.setAddress2(rolodex.getAddressLine2());
+	            rolodexDetails.setAddress3(rolodex.getAddressLine3());
+	            rolodexDetails.setCity(rolodex.getCity());
+	            rolodexDetails.setComments(rolodex.getComments());
+	            rolodexDetails.setCountryCode(rolodex.getCountryCode());
+	            rolodexDetails.setCountryDescription(rolodex.getCountryCode());
+	            rolodexDetails.setCounty(rolodex.getCounty());
+	            rolodexDetails.setEmail(rolodex.getEmailAddress());
+	            rolodexDetails.setFax(rolodex.getFaxNumber());
+	            rolodexDetails.setFirstName(rolodex.getFirstName());
+	            rolodexDetails.setLastName(rolodex.getLastName());
+	            rolodexDetails.setMiddleName(rolodex.getMiddleName());
+	            rolodexDetails.setOrganization(rolodex.getOrganization());
+	            rolodexDetails.setOwnedByUnit(rolodex.getOwnedByUnit());
+	            if(rolodex.getUnit()!=null){
+	                rolodexDetails.setOwnedByUnitName(rolodex.getUnit().getUnitName());
+	            }
+	            rolodexDetails.setPhoneNumber(rolodex.getPhoneNumber());
+	            rolodexDetails.setPostalCode(rolodex.getPostalCode());
+	            rolodexDetails.setPrefix(rolodex.getPrefix());
+	            rolodexDetails.setRolodexId(rolodex.getRolodexId().toString());
+	            rolodexDetails.setSponsorCode(rolodex.getSponsorCode());
+	            if(rolodex.getSponsor()!=null){
+	                rolodexDetails.setSponsorName(rolodex.getSponsor().getSponsorName());
+	            }
+	            rolodexDetails.setStateCode(rolodex.getState());
+	            rolodexDetails.setStateDescription(rolodex.getSponsorCode());
+	            rolodexDetails.setSuffix(rolodex.getSuffix());
+	            rolodexDetails.setTitle(rolodex.getTitle());
+	        }
+	        
+	    }
+    }
+
+    /*
 	 * This method will set the values to comment type elements and finally
 	 * return the comment type array. From AwardTemplate get the list of
 	 * AwardTemplateComment and iterates over it.
