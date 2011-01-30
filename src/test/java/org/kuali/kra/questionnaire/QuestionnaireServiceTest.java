@@ -33,13 +33,7 @@ import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
-//@PerSuiteUnitTestData(
-//        @UnitTestData(
-//            sqlFiles = {
-//                @UnitTestFile(filename = "classpath:sql/dml/load_questionnaire_associate_module.sql", delimiter = ";")
-//            }
-//        )
-//    )
+
 
 public class QuestionnaireServiceTest  extends KcUnitTestBase {
     
@@ -126,26 +120,11 @@ public class QuestionnaireServiceTest  extends KcUnitTestBase {
         public void testValidCodes() {
             GlobalVariables.setUserSession(new UserSession("quickstart"));
 
-//            final UnitAuthorizationService unitAuthorizationService = context.mock(UnitAuthorizationService.class);
-//            final ParameterService parameterService = context.mock(ParameterService.class);
             final QuestionnaireServiceImpl questionnaireService = new QuestionnaireServiceImpl();
-//            questionnaireService.setUnitAuthorizationService(unitAuthorizationService);
-//            questionnaireService.setParameterService(parameterService);
-//            final List<String> permissions = new ArrayList<String>();
-//            permissions.add(PermissionConstants.MODIFY_PROPOSAL);
-//            permissions.add(PermissionConstants.MODIFY_PROTOCOL);
-//            context.checking(new Expectations() {{
-//                one(parameterService).getParameterValues(Constants.PARAMETER_MODULE_QUESTIONNAIRE,
-//                        Constants.PARAMETER_COMPONENT_PERMISSION, "associateModuleQuestionnairePermission");
-//                will(returnValue(permissions));
-//                one(unitAuthorizationService).hasPermission("10000000000", "KRA-PD", PermissionConstants.MODIFY_PROPOSAL);
-//                will(returnValue(false));
-//                one(unitAuthorizationService).hasPermission("10000000000", "KC-PROTOCOL",PermissionConstants.MODIFY_PROTOCOL);
-//                will(returnValue(true));
-//            }});
+
 
             List<String> modules = KraServiceLocator.getService(QuestionnaireService.class).getAssociateModules();
-            assertEquals(3, modules.size());
+            //assertEquals(3, modules.size());
             assertEquals(modules.size(), expectedModules.size());
             for (String module : modules ) {
                 assertTrue(expectedModules.contains(module));
