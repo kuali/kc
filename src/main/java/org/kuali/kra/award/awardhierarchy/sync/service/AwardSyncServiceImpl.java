@@ -64,12 +64,12 @@ import org.springframework.transaction.support.TransactionTemplate;
  */
 public class AwardSyncServiceImpl implements AwardSyncService {
 
-    public static final String VALIDATION_SUCCESS_MESSAGE = "Valid";
-    public static final String VALIDATION_FAILURE_MESSAGE = "Invalid";
-    public static final String SYNC_SAVED_MESSAGE = "Saved";
-    public static final String SYNC_SUCCESS_MESSAGE = "Completed";
-    public static final String SYNC_FAILURE_MESSAGE = "Failed";
-    public static final String CHANGE_LOG_SUCCESS = "Success";
+    protected static final String VALIDATION_SUCCESS_MESSAGE = "Valid";
+    protected static final String VALIDATION_FAILURE_MESSAGE = "Invalid";
+    protected static final String SYNC_SAVED_MESSAGE = "Saved";
+    protected static final String SYNC_SUCCESS_MESSAGE = "Completed";
+    protected static final String SYNC_FAILURE_MESSAGE = "Failed";
+    protected static final String CHANGE_LOG_SUCCESS = "Success";
     
     protected static final String IGNORED_MESSAGE_KEYS = "error.award.person.credit.split.,error.award.person.unit.credit.split.";
     protected final Log LOG = LogFactory.getLog(AwardSyncServiceImpl.class);
@@ -159,15 +159,6 @@ public class AwardSyncServiceImpl implements AwardSyncService {
                 runSyncOnHierarchy(award, curHierarchy, changes, syncType, runnables);
             }
             waitTillRunablesFinished(runnables);
-            //if we are syncing, we also need to run another sync to approve all the documents
-            //this needs to be in a separate run/transaction to avoid problems with versioning, saving and approving
-            //in the same transaction(OptimisticLockExceptions in RouteHeaders, VersionHistory and/or DB locks)
-            if (syncType == SyncType.SYNC) {
-                for (AwardHierarchy curHierarchy : hierarchy.getChildren()) {
-                    runSyncOnHierarchy(award, curHierarchy, changes, SyncType.APPROVE, runnables);
-                }
-            }
-            waitTillRunablesFinished(runnables);
             award.refresh();
             if (syncType == SyncType.SYNC) {
                 sendSyncFYIs(award, getAllPrincipalsToNotify(runnables), runnables);
@@ -181,12 +172,6 @@ public class AwardSyncServiceImpl implements AwardSyncService {
             long elapsed = System.currentTimeMillis() - start;
             LOG.info("Award Hierarchy Sync Finished : " + elapsed + "ms");            
         } catch (Exception e) {
-            runInTransaction(new TransactionRunnable() {
-                public void run() {
-                    setParentAwardStatus(award, true, 
-                        syncType == SyncType.VALIDATE ? "Validation Failure" : "Sync Descendants Failure");
-                }
-            });
             throw new RuntimeException(e);
         }
     }
@@ -335,14 +320,12 @@ public class AwardSyncServiceImpl implements AwardSyncService {
         if (oldAward != null) {
             logFailure(awardStatus, failureMessage, "Award has an outstanding pending version."); 
             awardStatus.setAwardId(oldAward.getAwardId());
-            awardStatus.setDocumentNumber(oldAward.getAwardDocument().getDocumentNumber());
         } else {
             oldAward = getActiveAward(awardNumber);
             if (oldAward == null) {
                 logFailure(awardStatus, failureMessage, "Award does not have an active version.");
             } else {
                 awardStatus.setAwardId(oldAward.getAwardId());
-                awardStatus.setDocumentNumber(oldAward.getAwardDocument().getDocumentNumber());
             }
         }
         return oldAward;
@@ -371,16 +354,13 @@ public class AwardSyncServiceImpl implements AwardSyncService {
         } else if (syncType == SyncType.SYNC) {
             successMessage = SYNC_SAVED_MESSAGE;
             failureMessage = SYNC_FAILURE_MESSAGE;
-        } else if (syncType == SyncType.APPROVE) {
-            successMessage = SYNC_SUCCESS_MESSAGE;
-            failureMessage = SYNC_FAILURE_MESSAGE;            
         }
         final AwardSyncStatus awardStatus = findAwardSyncStatus(parentAward, hierarchy.getAwardNumber());
         try {
             //make sure our session is that of the document submitter, we usually won't have a session here at all, but
             //save and restore the existing session in case.
             oldSession = replaceSessionWithRoutedBy(parentAward);
-            if (!awardStatus.isSyncComplete() && syncType != SyncType.APPROVE) {
+            if (!awardStatus.isSyncComplete()) {
                 Award oldAward = checkAwardVersions(hierarchy.getAwardNumber(), awardStatus, failureMessage);
                 if (oldAward != null) {
                     if (getAwardSyncSelectorService().isAwardInvolvedInSync(oldAward, changes)) {
@@ -408,6 +388,7 @@ public class AwardSyncServiceImpl implements AwardSyncService {
                         result &= applyAndValidateChanges(award, awardStatus, changes);
                         if (result) {
                             finalizeAwardStatus(awardDocument, awardStatus, successMessage, syncType, principalsToNotify);
+                            finalizeAward(awardDocument, awardStatus);
                         } else {
                             awardStatus.setStatus(failureMessage);
                             awardStatus.setSuccess(false);
@@ -417,8 +398,6 @@ public class AwardSyncServiceImpl implements AwardSyncService {
                         awardStatus.setSuccess(true);
                     }
                 }
-            } else if (syncType == SyncType.APPROVE) {
-                finalizeAward(awardStatus);
             }
         } catch (Exception e) {
             LOG.error("Error applying sync", e);
@@ -477,7 +456,6 @@ public class AwardSyncServiceImpl implements AwardSyncService {
             principalsToNotify.addAll(getNotificationList(awardDocument));
             awardStatus.setSyncComplete(true);
             awardStatus.setAwardId(awardDocument.getAward().getAwardId());
-            awardStatus.setDocumentNumber(awardDocument.getDocumentNumber());
             awardStatus.refreshReferenceObject("award");
         }
         awardStatus.setStatus(successMessage);
@@ -716,7 +694,7 @@ public class AwardSyncServiceImpl implements AwardSyncService {
             LOG.error("Sync Failure while trying to version Award " + oldAward.getAwardNumber(), e);
             awardStatus.setStatus(SYNC_FAILURE_MESSAGE + "(Versioning Error)");
             awardStatus.setSuccess(false);
-            return null;
+            throw new RuntimeException(e);
         }
         Award award = newAwardDocument.getAward();
         newAwardDocument.getDocumentHeader().setDocumentDescription("Created by Award " 
@@ -753,17 +731,17 @@ public class AwardSyncServiceImpl implements AwardSyncService {
      * @param newAwardDocument
      * @throws WorkflowException
      */
-    protected void finalizeAward(AwardSyncStatus awardSyncStatus) {
+    protected void finalizeAward(AwardDocument awardDocument, AwardSyncStatus awardSyncStatus) {
         try {
-            if (awardSyncStatus.isSuccess() && awardSyncStatus.isSyncComplete()
-                    && StringUtils.isNotBlank(awardSyncStatus.getDocumentNumber())) {
-                AwardDocument awardDocument = (AwardDocument) getDocumentService().getByDocumentHeaderId(awardSyncStatus.getDocumentNumber());
+            if (awardSyncStatus.isSuccess() && awardSyncStatus.isSyncComplete()) {
+                awardDocument = (AwardDocument) getDocumentService().getByDocumentHeaderId(awardDocument.getDocumentNumber());
                 getDocumentService().blanketApproveDocument(awardDocument, "Award Hierarchy Sync Routed Document", null);
                 awardSyncStatus.setStatus(SYNC_SUCCESS_MESSAGE);
             }
         } catch (Exception e) {
             awardSyncStatus.setSyncComplete(false);
-            logFailure(awardSyncStatus, SYNC_FAILURE_MESSAGE, "Award has an outstanding pending version.");
+            logFailure(awardSyncStatus, SYNC_FAILURE_MESSAGE, "Failure occured while approving document.");
+            throw new RuntimeException(e);
         }
     }
     
@@ -849,7 +827,7 @@ public class AwardSyncServiceImpl implements AwardSyncService {
      * Validation or running full sync
      */
     protected enum SyncType {
-        SYNC(), VALIDATE(), APPROVE();
+        SYNC(), VALIDATE();
     }
     
     /**
@@ -1055,7 +1033,6 @@ public class AwardSyncServiceImpl implements AwardSyncService {
 
     public void setAwardSyncUtilityService(AwardSyncUtilityService awardSyncUtilityService) {
         this.awardSyncUtilityService = awardSyncUtilityService;
-    }    
-
+    }
 }
 
