@@ -71,7 +71,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.service.Sponsorable;
 import org.kuali.kra.service.UnitService;
 import org.kuali.kra.timeandmoney.transactions.AwardTransactionType;
@@ -2790,16 +2789,16 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         return null;
     }
 
-    public ProposalPersonRole getProposalEmployeeRole(String personId) {
-        return new ProposalPersonRole();//((AwardPerson)getProposalEmployee(personId)).getContactRole();
+    public ContactRole getProposalEmployeeRole(String personId) {
+        return ((AwardPerson)getProposalEmployee(personId)).getContactRole();
     }
 
     public PersonRolodex getProposalNonEmployee(Integer rolodexId) {
         return getPerson(rolodexId.toString(), false);
     }
 
-    public ProposalPersonRole getProposalNonEmployeeRole(Integer rolodexId) {
-        return new ProposalPersonRole();
+    public ContactRole getProposalNonEmployeeRole(Integer rolodexId) {
+        return ((AwardPerson)getProposalNonEmployee(rolodexId)).getContactRole();
     }
 
     public Date getRequestedEndDateInitial() {

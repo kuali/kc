@@ -740,6 +740,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         BudgetDocument budgetDocument = budgetForm.getDocument();
         Budget budget = budgetDocument.getBudget();
         KraServiceLocator.getService(BudgetPersonService.class).synchBudgetPersonsToProposal(budget);
+        reconcilePersonnelRoles(budgetDocument);
         return mapping.findForward(MAPPING_BASIC);
     }
     
