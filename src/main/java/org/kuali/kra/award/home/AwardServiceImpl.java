@@ -95,6 +95,7 @@ public class AwardServiceImpl implements AwardService {
         AwardDocument newAwardDocument = (AwardDocument) getDocumentService().getNewDocument(AwardDocument.class);
         newAwardDocument.getDocumentHeader().setDocumentDescription(awardDocument.getDocumentHeader().getDocumentDescription());
         newAwardDocument.setAward(newVersion);
+        newVersion.setAwardDocument(newAwardDocument);
         newVersion.setAwardTransactionTypeCode(0);
         newVersion.getSyncChanges().clear();
         newVersion.getSyncStatuses().clear();

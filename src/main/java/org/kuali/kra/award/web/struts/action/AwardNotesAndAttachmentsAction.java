@@ -285,7 +285,8 @@ public class AwardNotesAndAttachmentsAction extends AwardAction {
         if (StringUtils.isNotBlank(parameterName)) {
             awardCommentTypeCode = StringUtils.substringBetween(parameterName, ".awardCommentTypeCode", ".");
         }
-        AwardComment comment = awardForm.getAwardDocument().getAward().getAwardCommentByType(awardCommentTypeCode, false, false);
+        //AwardComment comment = awardForm.getAwardDocument().getAward().getAwardCommentByType(awardCommentTypeCode, false, false);
+        AwardComment comment = awardForm.getAwardDocument().getAward().getAwardComment(Integer.parseInt(awardCommentTypeCode));
         getAwardSyncCreationService().addAwardSyncChange(awardForm.getAwardDocument().getAward(), 
                 new AwardSyncPendingChangeBean(AwardSyncType.ADD_SYNC, comment, "awardComments"));
         return mapping.findForward(Constants.MAPPING_BASIC);
