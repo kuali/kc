@@ -71,6 +71,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
+import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.AwardDirectFandADistributionService;
 import org.kuali.kra.service.AwardReportsService;
 import org.kuali.kra.service.AwardSponsorTermService;
@@ -283,10 +284,13 @@ public class AwardAction extends BudgetParentActionBase {
             getTimeAndMoneyExistenceService().addAwardVersionErrorMessage();
             forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
+
+        Long routeHeaderId = Long.parseLong(awardForm.getDocument().getDocumentNumber());
+        String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_AWARD_ACTIONS_PAGE, "AwardDocument");
         
         ActionForward basicForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
-        return routeToHoldingPage(basicForward, forward, holdingPageForward);
+        return routeToHoldingPage(basicForward, forward, holdingPageForward, returnLocation);
     }
     
     private int isValidSubmission(AwardDocument awardDocument) {
@@ -317,9 +321,12 @@ public class AwardAction extends BudgetParentActionBase {
             getTimeAndMoneyExistenceService().addAwardVersionErrorMessage();
         }
         
+        Long routeHeaderId = Long.parseLong(awardForm.getDocument().getDocumentNumber());
+        String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_AWARD_ACTIONS_PAGE, "AwardDocument");
+        
         ActionForward basicForward = mapping.findForward(Constants.MAPPING_BASIC);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
-        return routeToHoldingPage(basicForward, forward, holdingPageForward);
+        return routeToHoldingPage(basicForward, forward, holdingPageForward, returnLocation);
     }
     
     @Override
@@ -375,9 +382,12 @@ public class AwardAction extends BudgetParentActionBase {
             forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
         
+        Long routeHeaderId = Long.parseLong(awardForm.getDocument().getDocumentNumber());
+        String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_AWARD_ACTIONS_PAGE, "AwardDocument");
+        
         ActionForward basicForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
-        return routeToHoldingPage(basicForward, forward, holdingPageForward);
+        return routeToHoldingPage(basicForward, forward, holdingPageForward, returnLocation);
     }
     
     /**
