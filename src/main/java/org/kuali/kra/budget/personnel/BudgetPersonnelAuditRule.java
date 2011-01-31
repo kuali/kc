@@ -18,6 +18,7 @@ package org.kuali.kra.budget.personnel;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -26,7 +27,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.DocumentAuditRule;
@@ -51,8 +51,8 @@ public class BudgetPersonnelAuditRule extends ResearchDocumentRuleBase implement
         BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent();
         for (BudgetPerson budgetPerson: budget.getBudgetPersons()) {
             if (budgetPerson.getRolodexId() != null) {
-                ProposalPersonRole role = budgetParent.getProposalNonEmployeeRole(budgetPerson.getRolodexId());
-                if (role != null) { budgetPerson.setRole(role.getDescription()); }
+                ContactRole role = budgetParent.getProposalNonEmployeeRole(budgetPerson.getRolodexId());
+                if (role != null) { budgetPerson.setRole(role.getRoleDescription()); }
             } else if (budgetPerson.getPersonId() != null) {
                 PersonRolodex proposalPerson = budgetParent.getProposalEmployee(budgetPerson.getPersonId());
                 if (proposalPerson != null && proposalPerson.isOtherSignificantContributorFlag()) {

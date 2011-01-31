@@ -19,10 +19,10 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 
 /**
  * This class...
@@ -37,10 +37,10 @@ public interface BudgetParent {
     public String getUnitNumber();
     public Unit getUnit();
     public List<PersonRolodex> getPersonRolodexList();
-    public ProposalPersonRole getProposalNonEmployeeRole(Integer rolodexId);
+    public ContactRole getProposalNonEmployeeRole(Integer rolodexId);
     public PersonRolodex getProposalEmployee(String personId);
     public PersonRolodex getProposalNonEmployee(Integer rolodexId);
-    public ProposalPersonRole getProposalEmployeeRole(String personId);
+    public ContactRole getProposalEmployeeRole(String personId);
     public boolean isNih();
     public Map<String, String> getNihDescription();
     public String getHierarchyStatus();
