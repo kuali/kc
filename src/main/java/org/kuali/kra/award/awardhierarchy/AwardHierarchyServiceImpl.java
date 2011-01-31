@@ -125,17 +125,26 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     public AwardHierarchy createNewAwardBasedOnAnotherAwardInHierarchy(AwardHierarchy nodeToCopyFrom, AwardHierarchy targetParentNode) {
         return copyAwardAsChildOfAnotherNode(nodeToCopyFrom, targetParentNode);
     }
-
+    
     public void copyAwardAmountDateInfo(Award source, Award copy) {
         List<AwardAmountInfo> awardAmountInfoList = new ArrayList<AwardAmountInfo>();
-        for(AwardAmountInfo awardAmount : source.getAwardAmountInfos()) {
-            AwardAmountInfo awardAmountInfo = new AwardAmountInfo();
-            awardAmountInfo.setFinalExpirationDate(awardAmount.getFinalExpirationDate());
-            awardAmountInfo.setCurrentFundEffectiveDate(awardAmount.getCurrentFundEffectiveDate());
-            awardAmountInfo.setObligationExpirationDate(awardAmount.getObligationExpirationDate());
-            awardAmountInfo.setAward(copy);
-            awardAmountInfoList.add(awardAmountInfo);
+        AwardAmountInfo initialInfo = new AwardAmountInfo();
+        AwardAmountInfo awardAmount = source.getLastAwardAmountInfo();
+        AwardAmountInfo awardAmountInfo = new AwardAmountInfo();
+        awardAmountInfo.setFinalExpirationDate(awardAmount.getFinalExpirationDate());
+        awardAmountInfo.setCurrentFundEffectiveDate(awardAmount.getCurrentFundEffectiveDate());
+        awardAmountInfo.setObligationExpirationDate(awardAmount.getObligationExpirationDate());
+        initialInfo.setFinalExpirationDate(awardAmount.getFinalExpirationDate());
+        initialInfo.setCurrentFundEffectiveDate(awardAmount.getCurrentFundEffectiveDate());
+        initialInfo.setObligationExpirationDate(awardAmount.getObligationExpirationDate());
+        awardAmountInfo.setAward(copy);
+        initialInfo.setAward(copy);
+        if(awardAmount.getOriginatingAwardVersion() != null) {
+           awardAmountInfo.setOriginatingAwardVersion(1); 
         }
+        awardAmountInfoList.add(initialInfo);
+        awardAmountInfoList.add(awardAmountInfo);
+            
         
         copy.setAwardAmountInfos(awardAmountInfoList);
     }

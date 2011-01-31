@@ -840,7 +840,13 @@ public class AwardAction extends BudgetParentActionBase {
                 //any code for initial transaction and history.
                 transactionDetail  = addTransactionDetails(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT, rootAward.getAwardNumber(), rootAward.getSequenceNumber(),
                         timeAndMoneyDocument.getDocumentNumber(), INITIAL_TRANSACTION_COMMENT, rootAward);
-                addNewAwardAmountInfoForInitialTransaction(rootAward, timeAndMoneyDocument.getDocumentNumber());
+                //need this check so we don't add additional AAI object if Award has been copied and then creating first T&M doc.
+                if(rootAward.getAwardAmountInfos().size() < 2) {
+                    addNewAwardAmountInfoForInitialTransaction(rootAward, timeAndMoneyDocument.getDocumentNumber());
+                }else {
+                    rootAward.getLastAwardAmountInfo().setTimeAndMoneyDocumentNumber(timeAndMoneyDocument.getDocumentNumber());
+                    getBusinessObjectService().save(rootAward);
+                }
                 timeAndMoneyDocument.getAwardAmountTransactions().add(aat);
                 documentService.saveDocument(timeAndMoneyDocument);
                 getBusinessObjectService().save(transactionDetail);
