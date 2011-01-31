@@ -830,6 +830,12 @@
 		    <groupId>org.seleniumhq.selenium</groupId>
 		    <artifactId>selenium</artifactId>
 		    <version>${selenium.version}</version>
+		    <exclusions>
+                <exclusion>
+                    <groupId>org.testng</groupId>
+                    <artifactId>testng</artifactId>
+                </exclusion>
+            </exclusions>
 		</dependency>
 		<dependency>
 		    <groupId>org.seleniumhq.selenium</groupId>
