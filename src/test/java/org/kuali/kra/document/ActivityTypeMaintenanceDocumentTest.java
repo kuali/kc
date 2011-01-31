@@ -29,16 +29,10 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class ActivityTypeMaintenanceDocumentTest extends MaintenanceDocumentTestBase {
     
     private static final String ACTIVITY_TYPE_CODE_1 = Long.toString(System.currentTimeMillis()%1000);
-    private static final String ACTIVITY_TYPE_CODE_2 = Long.toString((System.currentTimeMillis()+1)%1001);
+    private static final String ACTIVITY_TYPE_CODE_2 = Long.toString((System.currentTimeMillis()+2)%1002);
 
     @Override
     public void tearDown() throws Exception {
-//        SQLDataLoader sqlDataLoader = new SQLDataLoader("delete from ACTIVITY_TYPE where ACTIVITY_TYPE_CODE = '99'");
-//        sqlDataLoader.runSql();
-//        sqlDataLoader = new SQLDataLoader("update ACTIVITY_TYPE set description = 'Research' where ACTIVITY_TYPE_CODE = '1'");
-//        sqlDataLoader.runSql();
-//        sqlDataLoader = new SQLDataLoader("commit");
-//        sqlDataLoader.runSql();
 
         super.tearDown();
     }
@@ -129,7 +123,4 @@ public class ActivityTypeMaintenanceDocumentTest extends MaintenanceDocumentTest
         assertEquals(activityType.getDescription(),"test new activity type");
 
     }
-
-
-
 }
