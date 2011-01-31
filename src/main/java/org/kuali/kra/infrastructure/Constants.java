@@ -54,6 +54,7 @@ public interface Constants {
     public static final String MAPPING_HOLDING_PAGE = "kraHoldingPage";
     
     public static final String HOLDING_PAGE_MESSAGES = "holdingPageMessages";
+    public static final String HOLDING_PAGE_RETURN_LOCATION = "holdingPageReturnLocation";
     
     public static final String PROPOSAL_PERSON_BIOGRAPHY_DEFAULT_DOC_TYPE = "DEFAULT_BIOGRAPHY_DOCUMENT_TYPE_CODE";
     public static final String CREDIT_SPLIT_ENABLED_RULE_NAME = "proposaldevelopment.creditsplit.enabled";

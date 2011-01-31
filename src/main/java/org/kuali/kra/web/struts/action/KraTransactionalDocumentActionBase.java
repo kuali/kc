@@ -87,6 +87,7 @@ import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.MessageList;
 import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
@@ -287,6 +288,20 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
             forward += "&" + KEWConstants.BACKDOOR_ID_PARAMETER + "=" + GlobalVariables.getUserSession().getPrincipalName();
         }
         return forward;
+    }
+    
+    /**
+     * Builds the forward URL for the given routeHeaderId.
+     * 
+     * @param routeHeaderId the document id to forward to
+     * @param actionTabName the tab to navigate to
+     * @param documentTypeName the type name of the document
+     * @return the forward URL for the given routeHeaderId
+     */
+    protected String buildActionUrl(Long routeHeaderId, String actionTabName, String documentTypeName) {
+        String returnLocation = buildForwardUrl(routeHeaderId);
+        returnLocation = returnLocation.replaceFirst("docHandler", actionTabName);
+        return returnLocation + "&" + KNSConstants.DOCUMENT_TYPE_NAME + "=" + documentTypeName;
     }
 
     /**
@@ -854,11 +869,12 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
      * @param holdingPageForward Forward going to the holding page
      * @return
      */
-    protected ActionForward routeToHoldingPage(ActionForward forward, ActionForward returnForward, ActionForward holdingPageForward) {
+    protected ActionForward routeToHoldingPage(ActionForward forward, ActionForward returnForward, ActionForward holdingPageForward, String returnLocation) {
         if (!StringUtils.equals(forward.getPath(), returnForward.getPath())) {
             return returnForward;
         } else {
             GlobalVariables.getUserSession().addObject(Constants.HOLDING_PAGE_MESSAGES, GlobalVariables.getMessageList());
+            GlobalVariables.getUserSession().addObject(Constants.HOLDING_PAGE_RETURN_LOCATION, (Object) returnLocation);
             return holdingPageForward;
         }
     }

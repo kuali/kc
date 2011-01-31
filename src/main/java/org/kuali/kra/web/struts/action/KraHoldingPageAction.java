@@ -15,19 +15,14 @@
  */
 package org.kuali.kra.web.struts.action;
 
-import java.util.Map;
-import java.util.Properties;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.service.ResearchDocumentService;
-import org.kuali.rice.ken.util.NotificationConstants;
-import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.document.Document;
@@ -44,7 +39,6 @@ public class KraHoldingPageAction extends KualiAction {
     
     private DocumentService documentService;
     private PersonService<Person> personService;
-    private ResearchDocumentService researchDocumentService;
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -53,9 +47,10 @@ public class KraHoldingPageAction extends KualiAction {
         
         Object documentId = request.getSession().getAttribute(KNSConstants.DOCUMENT_HTTP_SESSION_KEY);
         Document document = getDocumentService().getByDocumentHeaderId(documentId.toString());
-        if (isDocumentPostprocessingComplete(document)) {            
-            Long routeHeaderId = document.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
-            forward = new ActionForward(buildForwardUrl(routeHeaderId), true);
+        if (isDocumentPostprocessingComplete(document)) {
+            String backLocation = (String) GlobalVariables.getUserSession().retrieveObject(Constants.HOLDING_PAGE_RETURN_LOCATION);
+            GlobalVariables.getUserSession().removeObject(Constants.HOLDING_PAGE_RETURN_LOCATION);
+            forward = new ActionForward(backLocation, true);
         }
         
         return forward;
@@ -93,33 +88,6 @@ public class KraHoldingPageAction extends KualiAction {
         return document.getDocumentHeader().hasWorkflowDocument() && !isPessimisticallyLocked;
     }
     
-    /**
-     * Builds the forward URL for the given routeHeaderId.
-     * 
-     * @param routeHeaderId the document id to forward to
-     * @return the forward URL for the given routeHeaderId
-     */
-    private String buildForwardUrl(Long routeHeaderId) {
-        StringBuilder builder = new StringBuilder();
-        builder.append(getResearchDocumentService().getDocHandlerUrl(routeHeaderId));
-        
-        Properties parameters = new Properties();
-        parameters.put(KEWConstants.ROUTEHEADER_ID_PARAMETER, routeHeaderId);
-        parameters.put(KEWConstants.COMMAND_PARAMETER, NotificationConstants.NOTIFICATION_DETAIL_VIEWS.DOC_SEARCH_VIEW);
-        if (GlobalVariables.getUserSession().isBackdoorInUse()) {
-            parameters.put(KEWConstants.BACKDOOR_ID_PARAMETER, GlobalVariables.getUserSession().getPrincipalName());
-        }
-        
-        for (Map.Entry<Object, Object> parameter : parameters.entrySet()) {
-            builder.append("&");
-            builder.append(parameter.getKey());
-            builder.append("=");
-            builder.append(parameter.getValue());
-        }
-        
-        return builder.toString();
-    }
-    
     public DocumentService getDocumentService() {
         if (documentService == null) {
             documentService = KraServiceLocator.getService(DocumentService.class);
@@ -141,17 +109,6 @@ public class KraHoldingPageAction extends KualiAction {
     
     public void setPersonService(PersonService<Person> personService) {
         this.personService = personService;
-    }
-    
-    public ResearchDocumentService getResearchDocumentService() {
-        if (researchDocumentService == null) {
-            researchDocumentService = KraServiceLocator.getService(ResearchDocumentService.class);
-        }
-        return researchDocumentService;
-    }
-    
-    public void setResearchDocumentService(ResearchDocumentService researchDocumentService) {
-        this.researchDocumentService = researchDocumentService;
     }
     
 }
