@@ -26,6 +26,7 @@ import java.util.TreeMap;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.NoticeOfOpportunity;
 import org.kuali.kra.bo.NsfCode;
@@ -1575,7 +1576,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         return null;
     }
 
-    public ProposalPersonRole getProposalEmployeeRole(String personId) {
+    public ContactRole getProposalEmployeeRole(String personId) {
         ProposalPerson principalInvestigator = getPrincipalInvestigator();
         if (principalInvestigator != null && personId.equals(principalInvestigator.getPersonId())) {
             return principalInvestigator.getRole();
@@ -1593,7 +1594,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         return null;
     }
 
-    public ProposalPersonRole getProposalNonEmployeeRole(Integer rolodexId) {
+    public ContactRole getProposalNonEmployeeRole(Integer rolodexId) {
         ProposalPerson principalInvestigator = getPrincipalInvestigator();
         if (principalInvestigator != null && rolodexId.equals(principalInvestigator.getRolodexId())) {
             return principalInvestigator.getRole();
