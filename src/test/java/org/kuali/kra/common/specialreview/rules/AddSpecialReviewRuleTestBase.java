@@ -234,7 +234,7 @@ public abstract class AddSpecialReviewRuleTestBase<T extends SpecialReview<? ext
      * @throws Exception
      */
     @Test
-    public void ktayl() throws Exception {
+    public void testExpirationDateBeforeApprovalDate() throws Exception {
         Document document = getDocument();
 
         T newSpecialReview = getSpecialReview();

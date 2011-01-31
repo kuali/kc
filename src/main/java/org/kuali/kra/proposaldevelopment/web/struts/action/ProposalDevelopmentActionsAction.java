@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -83,6 +84,7 @@ import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraPersistenceStructureService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
+import org.kuali.rice.ken.util.NotificationConstants;
 import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.dto.DocumentDetailDTO;
 import org.kuali.rice.kew.dto.KeyValueDTO;
@@ -176,9 +178,12 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             }
         }
         
+        Long routeHeaderId = Long.parseLong(((ProposalDevelopmentForm) form).getDocument().getDocumentNumber());
+        String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_PROPOSAL_ACTIONS, "ProposalDevelopmentDocument");
+        
         ActionForward basicForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
-        return routeToHoldingPage(basicForward, forward, holdingPageForward);
+        return routeToHoldingPage(basicForward, forward, holdingPageForward, returnLocation);
     }
 
     private ActionForward promptUserForInput(KualiWorkflowDocument workflowDoc, String action, ActionMapping mapping, ActionForm form,
@@ -589,9 +594,12 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             forward = mapping.findForward((Constants.MAPPING_BASIC));
         }
         
+        Long routeHeaderId = Long.parseLong(proposalDevelopmentForm.getDocument().getDocumentNumber());
+        String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_PROPOSAL_ACTIONS, "ProposalDevelopmentDocument");
+        
         ActionForward basicForward = mapping.findForward(Constants.MAPPING_BASIC);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
-        return routeToHoldingPage(basicForward, forward, holdingPageForward);
+        return routeToHoldingPage(basicForward, forward, holdingPageForward, returnLocation);
     }
     
     /**
@@ -1365,9 +1373,12 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         
         ActionForward returnForward = super.blanketApprove(mapping, form, request, response);
         
+        Long routeHeaderId = Long.parseLong(((ProposalDevelopmentForm) form).getDocument().getDocumentNumber());
+        String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_PROPOSAL_ACTIONS, "ProposalDevelopmentDocument");
+        
         ActionForward forward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
-        return routeToHoldingPage(forward, returnForward, holdingPageForward);
+        return routeToHoldingPage(forward, returnForward, holdingPageForward, returnLocation);
     }
 
     @Override
