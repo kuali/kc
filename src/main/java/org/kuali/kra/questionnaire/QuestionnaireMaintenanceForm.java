@@ -43,7 +43,7 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
     private String lookupResultsBOClassName;
     private String docStatus;
    // private List<String> qnaireQuestions;
-    private List<String> qnaireQuestions;
+    private List qnaireQuestions;
     private String lookedUpCollectionName;
     private transient FormFile templateFile;
     // following are ajax related.  consider to move to an ajaxbean
@@ -64,7 +64,7 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
     public QuestionnaireMaintenanceForm() {
         super();
         questionnaireUsages = new ArrayList<QuestionnaireUsage>();
-        qnaireQuestions = new TypedArrayList(String.class);
+        qnaireQuestions = new ArrayList<String>();
         questionNumber = 1;
         
 
@@ -94,7 +94,7 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
         // FIXME : just a temporary soln. it always get the methodtocall='refresh' after it started properly the first time.
         // need to investigate this.
         this.setMethodToCall("");
-        qnaireQuestions = new TypedArrayList(String.class);
+        qnaireQuestions = new TypedArrayList(Object.class);
         // to prevent indexoutofbound exception when populate
         if (this.getDocument() != null) {
             Questionnaire qn = (Questionnaire) ((MaintenanceDocumentBase) this.getDocument()).getNewMaintainableObject()
@@ -188,12 +188,12 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
         return qList;
     }
     
-    public List<String> getQnaireQuestions() {
+    public List getQnaireQuestions() {
     //public List<String> getQnaireQuestions() {
         return qnaireQuestions;
     }
 
-    public void setQnaireQuestions(List<String> qnaireQuestions) {
+    public void setQnaireQuestions(List qnaireQuestions) {
     //public void setQnaireQuestions(List<String> qnaireQuestions) {
         this.qnaireQuestions = qnaireQuestions;
     }
