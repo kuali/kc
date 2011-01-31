@@ -943,6 +943,22 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
      * @return mapping forward
      * @throws Exception
      */
+    public ActionForward timeAndMoney(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+       
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * This method is used to recalculate the Total amounts in the Direct F and A Distribution panel.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return mapping forward
+     * @throws Exception
+     */
     public ActionForward recalculateDirectFandADistributionTotals(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
        
