@@ -30,7 +30,6 @@ public class AwardSyncStatus extends KraPersistableBusinessObjectBase {
     private Long parentAwardId;
     private Long awardId;
     private String awardNumber;
-    private String documentNumber;
     private String status;
     private boolean success;
     private boolean syncComplete;
@@ -156,15 +155,4 @@ public class AwardSyncStatus extends KraPersistableBusinessObjectBase {
     public void setSuccess(boolean success) {
         this.success = success;
     }
-
-    public String getDocumentNumber() {
-        return documentNumber;
-    }
-
-    public void setDocumentNumber(String documentNumber) {
-        this.documentNumber = documentNumber;
-    }
-    
-    
-    
 }
