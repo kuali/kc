@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -45,6 +46,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     private static final String REFERENCE_PERSON = "person";
     private static final String REFERENCE_ROLODEX = "rolodex";
     private static final String REFERENCE_UNIT = "unit";
+    private static final String PROTOCOL_ATTACHMENT_TYPE = "type";
     
     private static final boolean LEAD_UNIT_FLAG_ON = true;
     private static final int PI_CHANGED = 0;
@@ -102,7 +104,6 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
         for(ProtocolPerson protocolPerson : protocol.getProtocolPersons()) {
             if(protocolPerson.isDelete()) {
                 deletedPersons.add(protocolPerson);
-                this.deleteAssociatedPersonnelAttachments(protocolPerson.getProtocolPersonId(), protocol.getAttachmentPersonnels());
             }
         }
         protocol.getProtocolPersons().removeAll(deletedPersons);
@@ -130,6 +131,43 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
                 i.remove();
             }
         }
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.irb.personnel.ProtocolPersonnelService#addProtocolPersonAttachment(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel, int)
+     */
+    public void addProtocolPersonAttachment(Protocol protocol, ProtocolAttachmentPersonnel newAttachment, int selectedPersonIndex) {
+
+        // syncNewFile
+        if (newAttachment.getNewFile() != null && StringUtils.isNotBlank(newAttachment.getNewFile().getFileName())) {
+            final AttachmentFile newFile = AttachmentFile.createFromFormFile(newAttachment.getNewFile());
+            //setting the sequence number to the old file sequence number
+            if (newAttachment.getFile() != null) {
+                newFile.setSequenceNumber(newAttachment.getFile().getSequenceNumber());
+            }
+            newAttachment.setFile(newFile);
+            // set to null, so the subsequent post will not creating new file again
+            newAttachment.setNewFile(null);
+        }
+        //assignDocumentId
+        if (newAttachment.isNew()) {
+            int maxDocId = 0;
+            for (ProtocolPerson person : protocol.getProtocolPersons()) {
+                for (ProtocolAttachmentPersonnel attachment : person.getAttachmentPersonnels()) {
+                    if (attachment.getTypeCode().equals(newAttachment.getTypeCode()) 
+                            && (maxDocId < attachment.getDocumentId())) {
+                        maxDocId = attachment.getDocumentId();
+                    }
+                }
+            }
+            newAttachment.setDocumentId(maxDocId + 1);
+        }
+        
+        newAttachment.setProtocolId(protocol.getProtocolId());
+        newAttachment.setProtocolNumber(protocol.getProtocolNumber());
+        newAttachment.refreshReferenceObject(PROTOCOL_ATTACHMENT_TYPE);
+        protocol.getProtocolPerson(selectedPersonIndex).getAttachmentPersonnels().add(newAttachment);
     }
     
     /**

@@ -24,6 +24,7 @@ import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.protocol.location.ProtocolLocation;
 import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
 import org.kuali.kra.irb.test.mocks.MockProtocolPersonTrainingService;
@@ -117,6 +118,31 @@ public class ProtocolPersonnelServiceTest extends KcUnitTestBase {
         assertEquals(1, protocol.getProtocolPersons().size());
         service.deleteProtocolPerson(protocol);
         assertEquals(0, protocol.getProtocolPersons().size());
+    }
+    
+    /**
+     * This method test adding an attachment to a person on a protocol.
+     */
+    @Test
+    public void testAddProtocolAttachmentPersonnel() {
+        Protocol protocol = new Protocol() {
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {}
+
+            @Override
+            protected ProtocolLocationService getProtocolLocationService() {
+               return new ProtocolLocationService() {
+                public void addDefaultProtocolLocation(Protocol protocol) {}
+                public void addProtocolLocation(Protocol protocol, ProtocolLocation protocolLocation) {}
+                public void clearProtocolLocationAddress(Protocol protocol, int lineNumber) { }
+               };
+            }
+        };
+        ProtocolPerson protocolPerson = getCoInvestigatorPerson();
+        protocol.getProtocolPersons().add(protocolPerson);
+        ProtocolAttachmentPersonnel newAttachment = new ProtocolAttachmentPersonnel();
+        service.addProtocolPersonAttachment(protocol, newAttachment, 0);
+        assertEquals(1, protocol.getProtocolPerson(0).getAttachmentPersonnels().size());
     }
 
     /**

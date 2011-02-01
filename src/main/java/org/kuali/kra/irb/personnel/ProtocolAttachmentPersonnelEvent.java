@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.noteattachment;
+package org.kuali.kra.irb.personnel;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 
-@SuiteClasses({ProtocolAttachmentBaseRuleHelperTest.class,
-    ProtocolAttachmentFileTest.class,
-    ProtocolAttachmentProtocolRuleHelperTest.class,
-    ProtocolAttachmentServiceImplTest.class,
-    ProtocolAttachmentTypeByGroupValuesFinderTest.class})
-@RunWith(Suite.class)
-public class AllUnitTestsSuite {
-//suite for all note attachment tests
+/**
+ * Event triggered when a protocol attachment personnel is modified on a
+ * <code>{@link ProtocolDocument}</code>
+ */
+public interface ProtocolAttachmentPersonnelEvent {
+    
+    public ProtocolAttachmentPersonnel getProtocolAttachmentPersonnel();
+    
+    public int getPersonIndex();
 }
