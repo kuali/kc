@@ -42,6 +42,7 @@ import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 
 /**
@@ -187,26 +188,64 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
     }
 
     @Override
-    public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        ((InstitutionalProposalForm) form).setAuditActivated(true);
-        if (submissionStatus(((InstitutionalProposalForm) form).getInstitutionalProposalDocument()) == ERROR) {
+    public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+        throws Exception {
+        
+        InstitutionalProposalForm proposalForm = (InstitutionalProposalForm) form;
+
+        ActionForward forward = super.approve(mapping, form, request, response);
+        
+        Long routeHeaderId = Long.parseLong(proposalForm.getDocument().getDocumentNumber());
+        String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_INSTITUTIONAL_PROPOSAL_ACTIONS_PAGE, "InstitutionalProposalDocument");
+        
+        ActionForward basicForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
+        return routeToHoldingPage(basicForward, forward, holdingPageForward, returnLocation);
+    }
+
+    @Override
+    public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        InstitutionalProposalForm proposalForm = (InstitutionalProposalForm) form;
+        
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        
+        proposalForm.setAuditActivated(true);
+        if (submissionStatus(proposalForm.getInstitutionalProposalDocument()) == ERROR) {
             return mapping.findForward(Constants.MAPPING_BASIC);
         } else {
-            return super.blanketApprove(mapping, form, request, response);
+            forward = super.blanketApprove(mapping, form, request, response);
         }
+        
+        Long routeHeaderId = Long.parseLong(proposalForm.getDocument().getDocumentNumber());
+        String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_INSTITUTIONAL_PROPOSAL_ACTIONS_PAGE, "InstitutionalProposalDocument");
+        
+        ActionForward basicForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
+        return routeToHoldingPage(basicForward, forward, holdingPageForward, returnLocation);
     }
 	
     
     @Override
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-        ((InstitutionalProposalForm) form).setAuditActivated(true);
-        if (submissionStatus(((InstitutionalProposalForm) form).getInstitutionalProposalDocument()) == ERROR) {
+        throws Exception {
+        
+        InstitutionalProposalForm proposalForm = (InstitutionalProposalForm) form;
+        
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+
+        proposalForm.setAuditActivated(true);
+        if (submissionStatus(proposalForm.getInstitutionalProposalDocument()) == ERROR) {
             return mapping.findForward(Constants.MAPPING_BASIC);
         } else {
-            return super.route(mapping, form, request, response);
+            forward = super.route(mapping, form, request, response);
         }
+        
+        Long routeHeaderId = Long.parseLong(proposalForm.getDocument().getDocumentNumber());
+        String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_INSTITUTIONAL_PROPOSAL_ACTIONS_PAGE, "InstitutionalProposalDocument");
+        
+        ActionForward basicForward = mapping.findForward(Constants.MAPPING_BASIC);
+        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
+        return routeToHoldingPage(basicForward, forward, holdingPageForward, returnLocation);
     }
 
     private int submissionStatus(InstitutionalProposalDocument institutionalProposalDocument) {
