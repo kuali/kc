@@ -15,20 +15,13 @@
  */
 package org.kuali.kra.triage.suite;
 
-import groovy.util.GroovyTestSuite;
-import junit.framework.JUnit4TestAdapter;
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
+import org.kuali.kra.SeleniumUnitTest;
 
-public class GroovySuite extends TestSuite {
-    
-    private static final String TEST_ROOT = "src/test/groovy/org/kuali/kra/";
-    
-    public static Test suite() throws Exception {
-        TestSuite suite = new TestSuite();
-        GroovyTestSuite gsuite = new GroovyTestSuite();
-        suite.addTest(new JUnit4TestAdapter(gsuite.compile(TEST_ROOT + "SeleniumUnitTest.groovy")));
-        return suite;
-     }
-
-}
+@RunWith(Suite.class)
+@SuiteClasses(  {
+    SeleniumUnitTest.class
+})
+public class IntegrationSuite {}
