@@ -60,10 +60,10 @@
 						<fo:table-body>
 							<fo:table-row>
 								<fo:table-cell width="0.2in"><fo:block>&#160;</fo:block></fo:table-cell>
-								<fo:table-cell width="9.0in">
+								<fo:table-cell width="7.5in">
 									<fo:block text-align="center" font-family="Helvetica,Times,Courier" font-size="11pt" font-weight="bold">R&amp;R SUBAWARD BUDGET ATTACHMENT(S) FORM                              </fo:block>
 									<fo:block>&#160;</fo:block>
-									<fo:block font-size="8pt" hyphenate="true" language="en">
+									<fo:block font-size="8pt" hyphenate="true" language="en" wrap-option="wrap">
 										<fo:inline font-weight="bold" font-size="8pt">Instructions:</fo:inline>
                                      On this form, you will attach the R&amp;R Subaward Budget files for your grant application.  Complete the subawardee budget(s) in accordance with the R&amp;R budget instructions.  Please remember that any files you attach must be a Pure Edge document.
                            </fo:block>
@@ -206,12 +206,15 @@
 					<fo:flow flow-name="xsl-region-body">
 						<xsl:for-each select="RR_Budget10:BudgetYear">
 							<xsl:call-template name="SingleYearPart1">
-								<xsl:with-param name="year">1</xsl:with-param>
+								<xsl:with-param name="year"><xsl:value-of select="position()"/></xsl:with-param>
+							</xsl:call-template>
+							<xsl:call-template name="SingleYearPart2">
+								<xsl:with-param name="year"><xsl:value-of select="position()"/></xsl:with-param>
 							</xsl:call-template>
 						</xsl:for-each>
 					</fo:flow>
 				</fo:page-sequence>
-				<fo:page-sequence master-reference="primary" format="1">
+				<!--fo:page-sequence master-reference="primary" format="1">
 					<fo:static-content flow-name="xsl-region-after">
 						<fo:table width="100%" space-before.optimum="0pt" space-after.optimum="0pt" table-layout="fixed">
 							<fo:table-column column-width="proportional-column-width(1)"/>
@@ -239,11 +242,11 @@
 					<fo:flow flow-name="xsl-region-body">
 						<xsl:for-each select="RR_Budget10:BudgetYear">
 							<xsl:call-template name="SingleYearPart2">
-								<xsl:with-param name="year">1</xsl:with-param>
+								<xsl:with-param name="year"><xsl:value-of select="position()"/></xsl:with-param>
 							</xsl:call-template>
 						</xsl:for-each>
 					</fo:flow>
-				</fo:page-sequence>
+				</fo:page-sequence-->
 		
 				<!-- ====================================== new section SUMMARY ===============================-->
 				<fo:page-sequence master-reference="summary" format="1">
@@ -902,7 +905,7 @@
 	<!--==============   Single Year Template ======================================-->
 	<xsl:template name="SingleYearPart1">
 		<xsl:param name="year"/>
-		<fo:block>
+		<fo:block page-break-before="always">
 			<fo:table width="100%" space-before.optimum="0pt" space-after.optimum="0pt">
 				<fo:table-column/>
 				<fo:table-body>
@@ -1961,6 +1964,9 @@
 				</fo:table-body>
 			</fo:table>
 			<fo:block font-size="8pt">RESEARCH &amp; RELATED Budget {A-B} (Funds Requested)</fo:block>
+		</fo:block>
+		<fo:block break-after="page">
+			<xsl:text>&#xA;</xsl:text>
 		</fo:block>
 	</xsl:template>
 	<xsl:template name="SingleYearPart2">
