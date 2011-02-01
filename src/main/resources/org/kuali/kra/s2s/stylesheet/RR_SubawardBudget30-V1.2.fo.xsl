@@ -64,7 +64,7 @@
 						<fo:table-column column-width="0.2in"/>
 						<fo:table-body>
 							<fo:table-row>
-								<fo:table-cell width="9.0in">
+								<fo:table-cell width="7.5in">
 									<fo:block text-align="center" font-family="Helvetica,Times,Courier" font-size="11pt" font-weight="bold">R&amp;R SUBAWARD BUDGET ATTACHMENT(S) FORM                              </fo:block>
 									<fo:block>&#160;</fo:block>
 									<fo:block font-size="8pt" hyphenate="true" language="en">
