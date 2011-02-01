@@ -148,7 +148,6 @@ public class NotesAttachmentsHelper {
     public void prepareView() {
         this.initializePermissions();
         notesService.setProtocolAttachmentUpdateUsersName(form.getProtocolDocument().getProtocol().getAttachmentProtocols());
-        notesService.setProtocolAttachmentUpdateUsersName(form.getProtocolDocument().getProtocol().getAttachmentPersonnels());
         protocolNotepadService.setProtocolNotepadUpdateUsersName(form.getProtocolDocument().getProtocol().getNotepads());
     }
     
@@ -261,10 +260,8 @@ public class NotesAttachmentsHelper {
      * Since multiple attachments can change on a single save, this method must handle all attachment types.
      */
     public void processSave() {
-        this.refreshAttachmentReferences(this.getProtocol().getAttachmentPersonnels());
         this.refreshAttachmentReferences(this.getProtocol().getAttachmentProtocols());
         
-        this.syncNewFiles(this.getProtocol().getAttachmentPersonnels());
         this.syncNewFiles(this.getProtocol().getAttachmentProtocols());
         
         if (this.versioningUtil.versioningRequired()) {
@@ -336,34 +333,6 @@ public class NotesAttachmentsHelper {
     }
     
     /**
-     * Adds the "new" ProtocolAttachmentPersonnel to the Protocol Document.  Before
-     * adding this method executes validation.  If the validation fails the attachment is not added.
-     */
-    void addNewProtocolAttachmentPersonnel() {
-        this.refreshAttachmentReferences(Collections.singletonList(this.getNewAttachmentPersonnel()));
-        this.syncNewFiles(Collections.singletonList(this.getNewAttachmentPersonnel()));
-        
-        this.assignDocumentId(Collections.singletonList(this.getNewAttachmentPersonnel()), 
-                this.createTypeToMaxDocNumber(this.getProtocol().getAttachmentPersonnels()));
-        
-        
-        /*
-         * Since this event isn't created by the framework and this rule isn't executed by the framework,
-         * is it necessary to even create a event?  Does the rule have to implement BusinessRule?  There
-         * doesn't seem to be many advantages to doing these things...
-         */
-        final AddProtocolAttachmentPersonnelRule rule = new AddProtocolAttachmentPersonnelRuleImpl();
-        final AddProtocolAttachmentPersonnelEvent event = new AddProtocolAttachmentPersonnelEvent(this.form.getDocument(), this.newAttachmentPersonnel);
-        
-        if (rule.processAddProtocolAttachmentPersonnelRules(event)) {
-            this.addNewAttachment(this.newAttachmentPersonnel);
-            this.initAttachmentPersonnel();
-        } else {
-            this.newAttachmentPersonnel.setFile(null);
-        }
-    }
-    
-    /**
      * 
      * Deletes an attachment from a protocol based on a type.
      * 
@@ -379,9 +348,6 @@ public class NotesAttachmentsHelper {
         
         if (ProtocolAttachmentProtocol.class.equals(type)) {
             deleted = this.deleteExistingAttachment(attachmentNumber, this.getProtocol().getAttachmentProtocols());
-        } else if (ProtocolAttachmentPersonnel.class.equals(type)) {            
-            this.checkTodeleteFile((ProtocolAttachmentPersonnel)this.getProtocol().getAttachmentPersonnels().get(attachmentNumber));
-            deleted = this.deleteExistingAttachment(attachmentNumber, this.getProtocol().getAttachmentPersonnels());
         } else {
             throw new IllegalArgumentException(UNSUPPORTED_ATTACHMENT_TYPE + type);
         }
@@ -404,8 +370,6 @@ public class NotesAttachmentsHelper {
         
         if (ProtocolAttachmentProtocol.class.equals(type)) {
             attachment = (T) retrieveExistingAttachment(attachmentNumber, this.getProtocol().getAttachmentProtocols());
-        } else if (ProtocolAttachmentPersonnel.class.equals(type)) {
-            attachment = (T) retrieveExistingAttachment(attachmentNumber, this.getProtocol().getAttachmentPersonnels());
         } else {
             throw new IllegalArgumentException(UNSUPPORTED_ATTACHMENT_TYPE + type);
         }

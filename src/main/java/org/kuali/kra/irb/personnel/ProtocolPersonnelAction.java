@@ -41,7 +41,6 @@ import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentService;
-import org.kuali.kra.irb.noteattachment.ProtocolPersonnelAttachmentAdapter;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -60,7 +59,6 @@ public class ProtocolPersonnelAction extends ProtocolAction {
 
 
     private ProtocolAttachmentService protocolAttachmentService;
-    private ProtocolPersonnelAttachmentAdapter protocolPersonnelAttachmentAdapter;
     
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -145,7 +143,23 @@ public class ProtocolPersonnelAction extends ProtocolAction {
      */
     public ActionForward addPersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        return getProtocolPersonnelAttachmentAdapter().addProtocolAttachmentPersonnel(mapping, form, request, response);
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument protocolDocument = protocolForm.getDocument();
+        int selectedPersonIndex = getSelectedPersonIndex(request, protocolDocument);
+        ProtocolPerson protocolPerson = protocolDocument.getProtocol().getProtocolPerson(selectedPersonIndex);
+        ProtocolAttachmentPersonnel newAttachmentPersonnel = protocolForm.getPersonnelHelper().getNewProtocolAttachmentPersonnels().get(selectedPersonIndex);
+        newAttachmentPersonnel.setPersonId(protocolPerson.getProtocolPersonId());
+        newAttachmentPersonnel.setProtocolNumber(protocolPerson.getProtocolNumber());
+        
+        boolean rulePassed =  applyRules(new AddProtocolAttachmentPersonnelEvent(Constants.EMPTY_STRING, protocolForm.getDocument(), 
+                newAttachmentPersonnel, selectedPersonIndex));
+
+        if (rulePassed) {
+            getProtocolPersonnelService().addProtocolPersonAttachment(protocolDocument.getProtocol(), newAttachmentPersonnel, selectedPersonIndex);
+            protocolForm.getPersonnelHelper().getNewProtocolAttachmentPersonnels().set(selectedPersonIndex, new ProtocolAttachmentPersonnel());
+        }
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
@@ -243,7 +257,6 @@ public class ProtocolPersonnelAction extends ProtocolAction {
         if (attachment.getFileId() != null && !getProtocolAttachmentService().isSharedFile(attachment)) {
             ((ProtocolForm) form).getNotesAttachmentsHelper().getFilesToDelete().add(attachment.getFile());
         }
-        protocolDocument.getProtocol().getAttachmentPersonnels().remove(attachment);
         protocolPerson.getAttachmentPersonnels().remove(getSelectedLine(request));
 
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -405,13 +418,6 @@ public class ProtocolPersonnelAction extends ProtocolAction {
         return protocolAttachmentService;
     }
     
-    private ProtocolPersonnelAttachmentAdapter getProtocolPersonnelAttachmentAdapter() {
-        if (protocolPersonnelAttachmentAdapter == null) {
-            protocolPersonnelAttachmentAdapter = new ProtocolPersonnelAttachmentAdapter();
-        }
-        return protocolPersonnelAttachmentAdapter;
-    }
-
     @Override
     public void postSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {

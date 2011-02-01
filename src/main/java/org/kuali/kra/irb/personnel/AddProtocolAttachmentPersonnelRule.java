@@ -13,19 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.noteattachment;
+package org.kuali.kra.irb.personnel;
 
 import org.kuali.rice.kns.rule.BusinessRule;
 
-/**
- * Contains rules for adding {@link ProtocolAttachmentPersonnel ProtocolAttachmentPersonnel}.
- */
-interface AddProtocolAttachmentPersonnelRule extends BusinessRule {
+public interface AddProtocolAttachmentPersonnelRule extends BusinessRule {
 
     /**
-     * Executes the rules for adding a new {@link ProtocolAttachmentPersonnel ProtocolAttachmentPersonnel}.
-     * @param event the add event.
-     * @return if validation passes.
+     * 
+     * This method evaluates to true if ProtocolAttachmentPersonnel object satisfy required fields and business rules.
+     * @param addProtocolAttachmentPersonnelEvent
+     * @return boolean true for valid object and false otherwise.
      */
-    boolean processAddProtocolAttachmentPersonnelRules(AddProtocolAttachmentPersonnelEvent event);
+    boolean processAddProtocolAttachmentPersonnelRules(AddProtocolAttachmentPersonnelEvent addProtocolAttachmentPersonnelEvent);
 }

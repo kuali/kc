@@ -240,8 +240,6 @@ public class ProtocolAttachmentVersioningUtility {
         if (attachment instanceof ProtocolAttachmentProtocol) {
             ((ProtocolAttachmentProtocol)attachment).setDocumentStatusCode(ATTACHMENT_DRAFTED);
             attachment.setDocumentId(getNextDOcumentId(this.form.getDocument().getProtocol().getAttachmentProtocols()));
-        } else {
-            attachment.setDocumentId(getNextDOcumentId(this.form.getDocument().getProtocol().getAttachmentPersonnels()));
         }
         this.form.getDocument().getProtocol().addAttachmentsByType(attachment);
     }
