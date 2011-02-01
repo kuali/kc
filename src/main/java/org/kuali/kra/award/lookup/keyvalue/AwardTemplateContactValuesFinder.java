@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.drools.core.util.StringUtils;
 import org.kuali.kra.award.home.AwardTemplate;
 import org.kuali.kra.award.home.AwardTemplateContact;
 import org.kuali.kra.infrastructure.Constants;
@@ -45,8 +46,21 @@ public class AwardTemplateContactValuesFinder extends ExtendedPersistableBusines
         for (Iterator iter = contacts.iterator(); iter.hasNext();) {
             AwardTemplateContact contact = (AwardTemplateContact) iter.next();     
             contact.refreshReferenceObject("contactType");
-            keyValues.add(new KeyLabelPair(contact.getRoleCode() + Constants.AWARD_TEMP_RECPNT_CONTACT_TYPE_CODE_ROLODEX_ID_SEPARATOR + contact.getRolodexId().toString(), 
-                    contact.getContactType().getDescription() + Constants.AWARD_TEMP_RECPNT_CONTACT_TYPE_CODE_ROLODEX_ID_SEPARATOR + contact.getRolodexId().toString()));       
+            
+            String key = contact.getRoleCode() + Constants.AWARD_TEMP_RECPNT_CONTACT_TYPE_CODE_ROLODEX_ID_SEPARATOR + contact.getRolodexId().toString();
+
+            StringBuffer sb = new StringBuffer(contact.getContactType().getDescription());
+            if (contact.getRolodex() != null) {
+                sb.append(" : ");
+                if (!StringUtils.isEmpty(contact.getRolodex().getFullName())) {
+                    sb.append(contact.getRolodex().getFullName());
+                } else {
+                    sb.append(contact.getRolodex().getOrganization());
+                }
+            }
+            String label = sb.toString();
+            
+            keyValues.add(new KeyLabelPair(key, label)); 
         }
         keyValues.add(0, new KeyLabelPair(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
         return keyValues;
