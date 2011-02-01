@@ -476,7 +476,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         hashMap.put("relatedProjectsIndicator", getRelatedProjectsIndicator());
         hashMap.put("specialReviews", getSpecialReviews());
         hashMap.put("attachmentProtocols", getAttachmentProtocols());
-        hashMap.put("attachmentPersonnels", getAttachmentPersonnels());
         return hashMap;
     }
 
@@ -917,34 +916,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         return getProtocolAttachmentPersonnel();
     }
     
-    /**
-     * @deprecated
-     * add an attachment personnel.
-     * @param attachmentPersonnel the attachment personnel
-     * @throws IllegalArgumentException if attachmentPersonnel is null
-     */
-    @Deprecated
-    private void addAttachmentPersonnel(ProtocolAttachmentPersonnel attachmentPersonnel) {
-        // we don't maintain an attachmentPersonnel collection anymore that used to duplicate data
-        for (ProtocolPerson person : protocolPersons) {
-            if (person.getProtocolPersonId() == attachmentPersonnel.getPersonId()) {
-                ProtocolAttachmentBase.addAttachmentToCollection(attachmentPersonnel, person.getAttachmentPersonnels());
-                return;
-            }
-        }
-    }
-
-    /**
-     * @deprecated
-     * remove an attachment personnel.
-     * @param attachmentPersonnel the attachment personnel
-     * @throws IllegalArgumentException if attachmentPersonnel is null
-     */
-    @Deprecated
-    private void removeAttachmentPersonnel(ProtocolAttachmentPersonnel attachmentPersonnel) {
-        ProtocolAttachmentBase.removeAttachmentFromCollection(attachmentPersonnel, this.getAttachmentPersonnels());
-    }
-    
     private void updateUserFields(KraPersistableBusinessObjectBase bo) {
         String updateUser = GlobalVariables.getUserSession().getPrincipalName();
     
@@ -971,8 +942,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         attachment.setProtocolId(getProtocolId());
         if (attachment instanceof ProtocolAttachmentProtocol) {
             this.addAttachmentProtocol((ProtocolAttachmentProtocol) attachment);
-        } else if (attachment instanceof ProtocolAttachmentPersonnel) {
-            this.addAttachmentPersonnel((ProtocolAttachmentPersonnel) attachment);
         } else {
             throw new IllegalArgumentException("unsupported type: " + attachment.getClass().getName());
         }
@@ -991,8 +960,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         
         if (attachment instanceof ProtocolAttachmentProtocol) {
             this.removeAttachmentProtocol((ProtocolAttachmentProtocol) attachment);
-        } else if (attachment instanceof ProtocolAttachmentPersonnel) {
-            this.removeAttachmentPersonnel((ProtocolAttachmentPersonnel) attachment);
         } else {
             throw new IllegalArgumentException("unsupported type: " + attachment.getClass().getName());
         }
@@ -1184,19 +1151,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         for (ProtocolAttachmentProtocol attachment : attachmentProtocols) {
             attachment.resetPersistenceState();
             attachment.setSequenceNumber(0);
-        }
-    }
-    @Deprecated
-    public void setAttachmentPersonnels(List<ProtocolAttachmentPersonnel> attachmentPersonnels) {
-        for (ProtocolPerson person : protocolPersons) {
-            person.setAttachmentPersonnels(new ArrayList<ProtocolAttachmentPersonnel>());
-        }
-        for (ProtocolAttachmentPersonnel attachment : attachmentPersonnels) {
-            for (ProtocolPerson person : protocolPersons) {
-                if (person.getProtocolPersonId() == attachment.getPersonId()) {
-                    person.getAttachmentPersonnels().add(attachment);
-                }
-            }
         }
     }
     
@@ -1601,15 +1555,17 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
                 protocolSummary.add(attachmentSummary);
             }
         }
-        for (ProtocolAttachmentPersonnel attachment : getAttachmentPersonnels()) {
-            AttachmentSummary attachmentSummary = new AttachmentSummary();
-            attachmentSummary.setAttachmentId(attachment.getId());
-            attachmentSummary.setFileType(attachment.getFile().getType());
-            attachmentSummary.setFileName(attachment.getFile().getName());
-            attachmentSummary.setAttachmentType(attachment.getPerson().getPersonName() + ": " + attachment.getType().getDescription());
-            attachmentSummary.setDescription(attachment.getDescription());
-            attachmentSummary.setDataLength(attachment.getFile().getData() == null ? 0 : attachment.getFile().getData().length);
-            protocolSummary.add(attachmentSummary);
+        for (ProtocolPerson person : getProtocolPersons()) {
+            for (ProtocolAttachmentPersonnel attachment : person.getAttachmentPersonnels()) {
+                AttachmentSummary attachmentSummary = new AttachmentSummary();
+                attachmentSummary.setAttachmentId(attachment.getId());
+                attachmentSummary.setFileType(attachment.getFile().getType());
+                attachmentSummary.setFileName(attachment.getFile().getName());
+                attachmentSummary.setAttachmentType(person.getPersonName() + ": " + attachment.getType().getDescription());
+                attachmentSummary.setDescription(attachment.getDescription());
+                attachmentSummary.setDataLength(attachment.getFile().getData() == null ? 0 : attachment.getFile().getData().length);
+                protocolSummary.add(attachmentSummary);
+            }
         }
     }
 

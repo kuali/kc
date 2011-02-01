@@ -105,23 +105,6 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
     }
     
     /**
-     * Method called when adding an attachment personnel.
-     * 
-     * @param mapping the action mapping
-     * @param form the form.
-     * @param request the request.
-     * @param response the response.
-     * @return an action forward.
-     * @throws Exception if there is a problem executing the request.
-     */
-    public ActionForward addAttachmentPersonnel(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-        HttpServletResponse response) throws Exception {
-        ((ProtocolForm) form).getNotesAttachmentsHelper().addNewProtocolAttachmentPersonnel();
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    /**
      * Method called when viewing an attachment protocol.
      * 
      * @param mapping the action mapping

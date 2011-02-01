@@ -1,4 +1,5 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<c:set var="htmlFormAction" value="maintenanceQ" scope="request" />
 
 <script type="text/javascript">
     function showQuestionType() {
