@@ -1,0 +1,16 @@
+update VALID_NARR_FORMS set FORM_NAME='PHS398_ResearchTrainingProgramPlan-V1.0' where NARRATIVE_TYPE_CODE ='112';
+update VALID_NARR_FORMS set FORM_NAME='PHS398_ResearchTrainingProgramPlan-V1.0' where NARRATIVE_TYPE_CODE ='113';
+update VALID_NARR_FORMS set FORM_NAME='PHS398_ResearchTrainingProgramPlan-V1.0' where NARRATIVE_TYPE_CODE ='114';
+update VALID_NARR_FORMS set FORM_NAME='PHS398_ResearchTrainingProgramPlan-V1.0' where NARRATIVE_TYPE_CODE ='115';
+update VALID_NARR_FORMS set FORM_NAME='PHS398_ResearchTrainingProgramPlan-V1.0' where NARRATIVE_TYPE_CODE ='116';
+update VALID_NARR_FORMS set FORM_NAME='PHS398_ResearchTrainingProgramPlan-V1.0' where NARRATIVE_TYPE_CODE ='117';
+update VALID_NARR_FORMS set FORM_NAME='PHS398_ResearchTrainingProgramPlan-V1.0' where NARRATIVE_TYPE_CODE ='118';
+update VALID_NARR_FORMS set FORM_NAME='PHS398_ResearchTrainingProgramPlan-V1.0' where NARRATIVE_TYPE_CODE ='119';
+update VALID_NARR_FORMS set FORM_NAME='PHS398_ResearchTrainingProgramPlan-V1.0' where NARRATIVE_TYPE_CODE ='120';
+update VALID_NARR_FORMS set FORM_NAME='PHS398_ResearchTrainingProgramPlan-V1.0' where NARRATIVE_TYPE_CODE ='121';
+update VALID_NARR_FORMS set FORM_NAME='PHS398_ResearchTrainingProgramPlan-V1.0' where NARRATIVE_TYPE_CODE ='122';
+update VALID_NARR_FORMS set FORM_NAME='PHS398_ResearchTrainingProgramPlan-V1.0' where NARRATIVE_TYPE_CODE ='123';
+update VALID_NARR_FORMS set FORM_NAME='PHS398_ResearchTrainingProgramPlan-V1.0' where NARRATIVE_TYPE_CODE ='124';
+update VALID_NARR_FORMS set FORM_NAME='PHS398_ResearchTrainingProgramPlan-V1.0' where NARRATIVE_TYPE_CODE ='125';
+update VALID_NARR_FORMS set FORM_NAME='PHS398_ResearchTrainingProgramPlan-V1.0' where NARRATIVE_TYPE_CODE ='126';
+commit;
