@@ -129,6 +129,11 @@
 						    	<th width="14.5%">&nbsp;</th>
 						    </tr>
 					    </c:forEach>
+					    <tr>
+	                        <th width="68.5%"><div align="right">Total Cost Sharing:</div></th>
+	                        <td width="17%"><div align="right"><span class="amount"><fmt:formatNumber value="${KualiForm.document.budget.availableCostSharing}" type="currency" currencySymbol="$" maxFractionDigits="2" /></span></div></td>
+	                        <th width="14.5%">&nbsp;</th>
+                        </tr>
 					</table>
 
 					<div align="center" style="padding-top: 2em;">&nbsp;
