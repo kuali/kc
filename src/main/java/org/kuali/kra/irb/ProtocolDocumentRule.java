@@ -28,8 +28,6 @@ import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaBean;
-import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaRule;
 import org.kuali.kra.irb.actions.assigncmtsched.ExecuteProtocolAssignCmtSchedRule;
 import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedBean;
 import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedRule;
@@ -57,8 +55,11 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionRule;
 import org.kuali.kra.irb.noteattachment.SubmitProtocolAttachmentProtocolRuleImpl;
 import org.kuali.kra.irb.permission.ProtocolPermissionsRule;
+import org.kuali.kra.irb.personnel.AddProtocolAttachmentPersonnelEvent;
+import org.kuali.kra.irb.personnel.AddProtocolAttachmentPersonnelRule;
 import org.kuali.kra.irb.personnel.AddProtocolUnitEvent;
 import org.kuali.kra.irb.personnel.AddProtocolUnitRule;
+import org.kuali.kra.irb.personnel.ProtocolAttachmentPersonnelRule;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelAuditRule;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelService;
 import org.kuali.kra.irb.personnel.ProtocolUnitRule;
@@ -89,9 +90,8 @@ import org.kuali.rice.kns.util.GlobalVariables;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolLocationRule, PermissionsRule, AddProtocolUnitRule, BusinessRuleInterface, ExecuteProtocolSubmitActionRule, ExecuteProtocolAssignCmtSchedRule, ExecuteProtocolAssignReviewersRule, ExecuteProtocolAdminCorrectionRule, ExecuteCommitteeDecisionRule, ExecuteCommitteeDecisionAbstainerRule, ExecuteCommitteeDecisionRecuserRule, ExecuteProtocolModifySubmissionRule, ExecuteProtocolReviewNotRequiredRule {
+public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolLocationRule, PermissionsRule, AddProtocolAttachmentPersonnelRule, AddProtocolUnitRule, BusinessRuleInterface, ExecuteProtocolSubmitActionRule, ExecuteProtocolAssignCmtSchedRule, ExecuteProtocolAssignReviewersRule, ExecuteProtocolAdminCorrectionRule, ExecuteCommitteeDecisionRule, ExecuteCommitteeDecisionAbstainerRule, ExecuteCommitteeDecisionRecuserRule, ExecuteProtocolModifySubmissionRule, ExecuteProtocolReviewNotRequiredRule {
 
-    private static final String PROTOCOL_PIID_FORM_ELEMENT="protocolHelper.personId";
     private static final String PROTOCOL_LUN_FORM_ELEMENT="protocolHelper.leadUnitNumber";
     private static final String ERROR_PROPERTY_ORGANIZATION_ID = "protocolHelper.newProtocolLocation.organizationId";
     private static final String PROTOCOL_DOC_LUN_FORM_ELEMENT = "document.protocolList[0].leadUnitNumber";
@@ -247,6 +247,9 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         return new ProtocolPermissionsRule().processEditPermissionsUserRolesBusinessRules(document, users, editRoles);
     }
 
+    public boolean processAddProtocolAttachmentPersonnelRules(AddProtocolAttachmentPersonnelEvent addProtocolAttachmentPersonnelEvent) {
+        return new ProtocolAttachmentPersonnelRule().processAddProtocolAttachmentPersonnelRules(addProtocolAttachmentPersonnelEvent);
+    }
     /**
      * @see org.kuali.kra.irb.personnel.AddProtocolUnitRule#processAddProtocolUnitBusinessRules(org.kuali.kra.irb.personnel.AddProtocolUnitEvent)
      */
@@ -338,9 +341,5 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
     
     public boolean processReviewNotRequiredRule(ProtocolDocument document, ProtocolReviewNotRequiredBean actionBean) {
         return new ProtocolReviewNotRequiredRule().processReviewNotRequiredRule(document, actionBean);
-    }
-
-    private ProtocolPersonnelService getProtocolPersonnelService() {
-        return KraServiceLocator.getService(ProtocolPersonnelService.class);
     }
 }

@@ -18,6 +18,7 @@ package org.kuali.kra.irb.personnel;
 import java.util.List;
 
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 
 
 public interface ProtocolPersonnelService {
@@ -34,6 +35,14 @@ public interface ProtocolPersonnelService {
      * @param protocol which contains list of ProtocolPersons
      */
     public abstract void deleteProtocolPerson(Protocol protocol);
+    
+    /**
+     * This method add ProtocolPersonAttachment to a Person of the Protocol.
+     * @param protocol - the protocol 
+     * @param newAttachment - the new attachment to be added
+     * @param selectedPersonIndex - the attachment is added to the specific person in the list
+     */
+    public abstract void addProtocolPersonAttachment(Protocol protocol, ProtocolAttachmentPersonnel newAttachment, int selectedPersonIndex);
     
     /**
      * This method adds ProtocolUnit to the List of selected ProtocolPerson.
