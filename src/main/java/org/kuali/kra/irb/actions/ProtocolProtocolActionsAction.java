@@ -123,6 +123,7 @@ import org.kuali.kra.irb.noteattachment.AddProtocolNotepadEvent;
 import org.kuali.kra.irb.noteattachment.AddProtocolNotepadRule;
 import org.kuali.kra.irb.noteattachment.AddProtocolNotepadRuleImpl;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
+import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentService;
 import org.kuali.kra.irb.noteattachment.ProtocolNotepad;
@@ -990,8 +991,12 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         int selectedIndex = getSelectedLine(request);
         AttachmentSummary attachmentSummary = protocolSummary.getAttachments().get(selectedIndex);
         
-        ProtocolAttachmentProtocol attachment = getProtocolAttachmentService().getAttachment(ProtocolAttachmentProtocol.class, 
-                attachmentSummary.getAttachmentId());
+        ProtocolAttachmentBase attachment; 
+        if (attachmentSummary.getAttachmentType().startsWith("Protocol: ")) {
+            attachment = getProtocolAttachmentService().getAttachment(ProtocolAttachmentProtocol.class, attachmentSummary.getAttachmentId());
+        } else {
+            attachment = getProtocolAttachmentService().getAttachment(ProtocolAttachmentPersonnel.class, attachmentSummary.getAttachmentId());
+        }
         AttachmentFile file = attachment.getFile();
         streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
         
