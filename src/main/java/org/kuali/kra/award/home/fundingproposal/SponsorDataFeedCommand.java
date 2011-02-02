@@ -20,18 +20,23 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 
 class SponsorDataFeedCommand extends ProposalDataFeedCommandBase {
 
-    public SponsorDataFeedCommand(Award award, InstitutionalProposal proposal) {
-        super(award, proposal);
+    public SponsorDataFeedCommand(Award award, InstitutionalProposal proposal, FundingProposalMergeType mergeType) {
+        super(award, proposal, mergeType);
     }
 
     @Override
     void performDataFeed() {
-        award.setSponsor(proposal.getSponsor());
-        award.setSponsorCode(proposal.getSponsorCode());
-        award.setPrimeSponsor(proposal.getPrimeSponsor());
-        award.setPrimeSponsorCode(proposal.getPrimeSponsorCode());
-        award.setCfdaNumber(proposal.getCfdaNumber());
-        award.setNsfCode(proposal.getNsfCode());
+        if (mergeType == FundingProposalMergeType.NEWAWARD) {
+            award.setSponsor(proposal.getSponsor());
+            award.setSponsorCode(proposal.getSponsorCode());
+        } 
+        if (mergeType == FundingProposalMergeType.NEWAWARD 
+                || mergeType == FundingProposalMergeType.REPLACE) {
+            award.setPrimeSponsor(proposal.getPrimeSponsor());
+            award.setPrimeSponsorCode(proposal.getPrimeSponsorCode());
+            award.setCfdaNumber(proposal.getCfdaNumber());
+            award.setNsfCode(proposal.getNsfCode());
+        }
     }
 
 }

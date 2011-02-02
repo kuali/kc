@@ -27,8 +27,8 @@ import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSp
 class SpecialReviewDataFeedCommand extends ProposalDataFeedCommandBase {
     private static final String SPECIAL_REVIEW_COMMENT_PATTERN = "Added Special Review from Proposal Number %s for Special Review #%d and Protocol #%s";
     
-    public SpecialReviewDataFeedCommand(Award award, InstitutionalProposal proposal) {
-        super(award, proposal);
+    public SpecialReviewDataFeedCommand(Award award, InstitutionalProposal proposal, FundingProposalMergeType mergeType) {
+        super(award, proposal, mergeType);
     }
 
     @Override
@@ -36,16 +36,7 @@ class SpecialReviewDataFeedCommand extends ProposalDataFeedCommandBase {
         //unsure why, but without the refresh special reviews were often incorrectly empty
         proposal.refreshReferenceObject("specialReviews");
         for(InstitutionalProposalSpecialReview ipSpecialReview: proposal.getSpecialReviews()) {
-            boolean duplicateFound = false;
-            for(AwardSpecialReview awardSpecialReview: award.getSpecialReviews()) {
-                if(isIdentical(awardSpecialReview, ipSpecialReview)) {
-                    duplicateFound = true;
-                    break;
-                }                
-            }
-            if(!duplicateFound) {
-                copySpecialReview(award, proposal, ipSpecialReview);
-            }
+            copySpecialReview(award, proposal, ipSpecialReview);
         }
     }
     
@@ -59,14 +50,6 @@ class SpecialReviewDataFeedCommand extends ProposalDataFeedCommandBase {
         AwardSpecialReview copiedSpecialReview = copySpecialReview(ipSpecialReview);
         award.add(copiedSpecialReview);
         addSpecialReviewComment(award, proposal, copiedSpecialReview);
-    }
-    
-    private boolean isIdentical(AwardSpecialReview awardSpecialReview, InstitutionalProposalSpecialReview ipSpecialReview) {
-        String pattern = "%s:%s";
-        String thisSignature = String.format(pattern, awardSpecialReview.getSpecialReviewTypeCode(), awardSpecialReview.getProtocolNumber());
-        String thatSignature = String.format(pattern, ipSpecialReview.getSpecialReviewTypeCode(), ipSpecialReview.getProtocolNumber());
-        
-        return thisSignature.equalsIgnoreCase(thatSignature);
     }
     
     /**

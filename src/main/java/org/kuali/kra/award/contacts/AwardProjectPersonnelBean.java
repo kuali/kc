@@ -102,7 +102,7 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
      * @return Returns the newAwardPersonUnit.
      */
     public AwardPersonUnit getNewAwardPersonUnit(int projectPersonIndex) {
-        if(newAwardPersonUnits == null | newAwardPersonUnits.length == 0) {
+        if(newAwardPersonUnits == null || newAwardPersonUnits.length < projectPersonIndex+1) {
             initNewAwardPersonUnits();
         }
         return newAwardPersonUnits[projectPersonIndex];

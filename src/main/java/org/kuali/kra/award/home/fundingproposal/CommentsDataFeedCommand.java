@@ -28,19 +28,21 @@ public class CommentsDataFeedCommand extends ProposalDataFeedCommandBase {
     
     private static final String FUNDING_PROPOSAL_ADDED_MSG_PATTERN = "Funding Proposal Number %s was added to Award";
     
-    public CommentsDataFeedCommand(Award award, InstitutionalProposal proposal) {
-        super(award, proposal);
+    public CommentsDataFeedCommand(Award award, InstitutionalProposal proposal, FundingProposalMergeType mergeType) {
+        super(award, proposal, mergeType);
     }
 
     /**
      * @see org.kuali.kra.award.home.fundingproposal.ProposalDataFeedCommandBase#performDataFeed()
      */
     void performDataFeed() {
-        feedProposalComment();
-        feedProposalSummaryComment();
-        feedFandARateComment();
-        feedCostShareComment();
-        feedProposalIPReviewComment();
+        if (mergeType != FundingProposalMergeType.NOCHANGE) {
+            feedProposalComment();
+            feedProposalSummaryComment();
+            feedFandARateComment();
+            feedCostShareComment();
+            feedProposalIPReviewComment();
+        }
     }
     
     void feedProposalComment() {

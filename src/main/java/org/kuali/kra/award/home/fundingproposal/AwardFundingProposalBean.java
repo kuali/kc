@@ -51,6 +51,7 @@ public class AwardFundingProposalBean implements Serializable {
     
     private AwardForm awardForm;
     private InstitutionalProposal newFundingProposal;
+    private String mergeTypeCode;
     
     private List<Award> allAwardsForAwardNumber;
     
@@ -145,6 +146,22 @@ public class AwardFundingProposalBean implements Serializable {
     public void setNewFundingProposal(InstitutionalProposal newFundingProposal) {
         this.newFundingProposal = newFundingProposal;
     }
+    
+    public String getMergeTypeCode() {
+        return mergeTypeCode;
+    }
+
+    public void setMergeTypeCode(String mergeTypeCode) {
+        this.mergeTypeCode = mergeTypeCode;
+    }
+
+    public FundingProposalMergeType getMergeType() {
+        return FundingProposalMergeType.getFundingProposalMergeType(getMergeTypeCode());
+    }
+
+    public void setMergeType(FundingProposalMergeType mergeType) {
+        mergeTypeCode = mergeType.getKey();
+    }    
 
     /**
      * @return
@@ -160,6 +177,7 @@ public class AwardFundingProposalBean implements Serializable {
     private void createNewFundingProposal() {
         newFundingProposal = new InstitutionalProposal();
         newFundingProposal.setProposalNumber(null);
+        mergeTypeCode = FundingProposalMergeType.NOCHANGE.getKey();
     }
     
     /**
@@ -194,19 +212,26 @@ public class AwardFundingProposalBean implements Serializable {
     }
 
     private void performDataFeeds(Award award, InstitutionalProposal proposal) {
-        if (award.isNew() && (award.getSequenceNumber() <= 1)) {
-            new BaseFieldsDataFeedCommand(award, proposal).performDataFeed();
-            new SponsorDataFeedCommand(award, proposal).performDataFeed();
+        boolean newAward = award.isNew() && award.getSequenceNumber() <= 1;
+        FundingProposalMergeType mergeType = null;
+        if (newAward) {
+            mergeType = FundingProposalMergeType.NEWAWARD;
+        } else {
+            mergeType = getMergeType();
         }
-        new CommentsDataFeedCommand(award, proposal).performDataFeed();
-        new SpecialReviewDataFeedCommand(award, proposal).performDataFeed();
-        new CostSharingDataFeedCommand(award, proposal).performDataFeed();
-        new FandARatesDataFeedCommand(award, proposal).performDataFeed();
-        new KeywordsDataFeedCommand(award, proposal).performDataFeed();
-        new LeadUnitDataFeedCommand(award, proposal).performDataFeed();
-        initializeAwardCustomDataIfNecessary(award);
-        new CustomDataDataFeedCommand(award, proposal).performDataFeed();
-        new ProjectPersonnelDataFeedCommand(award, proposal).performDataFeed();
+        if (mergeType != FundingProposalMergeType.NOCHANGE) {
+            new BaseFieldsDataFeedCommand(award, proposal, mergeType).performDataFeed();
+            new SponsorDataFeedCommand(award, proposal, mergeType).performDataFeed();
+            new CommentsDataFeedCommand(award, proposal, mergeType).performDataFeed();
+            new SpecialReviewDataFeedCommand(award, proposal, mergeType).performDataFeed();
+            new CostSharingDataFeedCommand(award, proposal, mergeType).performDataFeed();
+            new FandARatesDataFeedCommand(award, proposal, mergeType).performDataFeed();
+            new KeywordsDataFeedCommand(award, proposal, mergeType).performDataFeed();
+            new LeadUnitDataFeedCommand(award, proposal, mergeType).performDataFeed();
+            initializeAwardCustomDataIfNecessary(award);
+            new CustomDataDataFeedCommand(award, proposal, mergeType).performDataFeed();
+            new ProjectPersonnelDataFeedCommand(award, proposal, mergeType).performDataFeed();
+        }
     }
 
     private boolean validateForAdd() {
