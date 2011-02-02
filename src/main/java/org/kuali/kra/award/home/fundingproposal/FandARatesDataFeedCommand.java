@@ -56,17 +56,19 @@ class FandARatesDataFeedCommand extends ProposalDataFeedCommandBase {
      */
     @Override
     void performDataFeed() {
-        int copyCount = 0;
-        List<InstitutionalProposalUnrecoveredFandA> fAndAs = proposal.getInstitutionalProposalUnrecoveredFandAs();
-        if (ObjectUtils.isNull(fAndAs) || fAndAs.isEmpty()) {
-            fAndAs = findUnrecoveredFandAs();
-        }
-        for (InstitutionalProposalUnrecoveredFandA ipUnrecoveredFandA : fAndAs) {
-            award.add(copyFandA(ipUnrecoveredFandA));
-            copyCount++;
-        }
-        if (copyCount > 0) {
-            addFandARateComment(award, proposal);
+        if (mergeType != FundingProposalMergeType.NOCHANGE) {
+            int copyCount = 0;
+            List<InstitutionalProposalUnrecoveredFandA> fAndAs = proposal.getInstitutionalProposalUnrecoveredFandAs();
+            if (ObjectUtils.isNull(fAndAs) || fAndAs.isEmpty()) {
+                fAndAs = findUnrecoveredFandAs();
+            }
+            for (InstitutionalProposalUnrecoveredFandA ipUnrecoveredFandA : fAndAs) {
+                award.add(copyFandA(ipUnrecoveredFandA));
+                copyCount++;
+            }
+            if (copyCount > 0) {
+                addFandARateComment(award, proposal);
+            }
         }
     }
     

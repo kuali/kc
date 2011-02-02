@@ -29,16 +29,18 @@ class KeywordsDataFeedCommand extends ProposalDataFeedCommandBase {
 
     @Override
     void performDataFeed() {
-        for(InstitutionalProposalScienceKeyword ipKeyword: proposal.getInstitutionalProposalScienceKeywords()) {
-            boolean duplicateFound = false;
-            for(AwardScienceKeyword awardKeyword: award.getKeywords()) {
-                if(isIdentical(awardKeyword, ipKeyword)) {
-                    duplicateFound = true;
-                    break;
-                }                
-            }
-            if(!duplicateFound) {
-                award.addKeyword(copyScienceKeyword(ipKeyword));
+        if (mergeType != FundingProposalMergeType.NOCHANGE) {
+            for(InstitutionalProposalScienceKeyword ipKeyword: proposal.getInstitutionalProposalScienceKeywords()) {
+                boolean duplicateFound = false;
+                for(AwardScienceKeyword awardKeyword: award.getKeywords()) {
+                    if(isIdentical(awardKeyword, ipKeyword)) {
+                        duplicateFound = true;
+                        break;
+                    }                
+                }
+                if(!duplicateFound) {
+                    award.addKeyword(copyScienceKeyword(ipKeyword));
+                }
             }
         }
     }
