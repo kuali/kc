@@ -192,7 +192,7 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         for (BudgetProjectIncome budgetProjectIncome : budgetDocument.getBudget().getBudgetProjectIncomes()) {
             String errorPath = "budgetProjectIncomes[" + i + "]";
             errorMap.addToErrorPath(errorPath);
-            if (!budgetProjectIncome.getProjectIncome().isGreaterThan(new KualiDecimal(0.00))) {
+            if (budgetProjectIncome.getProjectIncome() == null || !budgetProjectIncome.getProjectIncome().isGreaterThan(new KualiDecimal(0.00))) {
                 errorMap.putError("projectIncome", "error.projectIncome.negativeOrZero");
                 valid = false;
             }          
