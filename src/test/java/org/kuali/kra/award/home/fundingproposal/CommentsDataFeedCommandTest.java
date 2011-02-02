@@ -30,7 +30,7 @@ public class CommentsDataFeedCommandTest extends BaseDataFeedCommandTest {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        command = new CommentsDataFeedCommand(award, proposal);
+        command = new CommentsDataFeedCommand(award, proposal, FundingProposalMergeType.REPLACE);
         command.setAwardCommentFactory(awardCommentFactory);
     }
     

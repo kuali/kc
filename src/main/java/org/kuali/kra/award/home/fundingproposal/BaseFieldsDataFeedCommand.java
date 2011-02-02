@@ -20,8 +20,8 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 
 class BaseFieldsDataFeedCommand extends ProposalDataFeedCommandBase {
     
-    public BaseFieldsDataFeedCommand(Award award, InstitutionalProposal proposal) {
-        super(award, proposal);
+    public BaseFieldsDataFeedCommand(Award award, InstitutionalProposal proposal, FundingProposalMergeType mergeType) {
+        super(award, proposal, mergeType);
     }
 
     /**
@@ -29,9 +29,12 @@ class BaseFieldsDataFeedCommand extends ProposalDataFeedCommandBase {
      */
     @Override
     void performDataFeed() {
-        award.setActivityType(proposal.getActivityType());
-        award.setActivityTypeCode(proposal.getActivityTypeCode());
-        award.setTitle(proposal.getTitle());
+        if (mergeType == FundingProposalMergeType.NEWAWARD 
+                || mergeType == FundingProposalMergeType.REPLACE) {
+            award.setActivityType(proposal.getActivityType());
+            award.setActivityTypeCode(proposal.getActivityTypeCode());
+            award.setTitle(proposal.getTitle());
+        }
     }
 
 }

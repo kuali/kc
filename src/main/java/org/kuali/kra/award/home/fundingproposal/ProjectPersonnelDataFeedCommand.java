@@ -33,13 +33,15 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
  */
 class ProjectPersonnelDataFeedCommand extends ProposalDataFeedCommandBase {
     
+    private boolean identicalCreditSplit;
+    
     /**
      * Constructs a ProjectPersonnelDataFeedCommand.java.
      * @param award Award
      * @param proposal InstitutionalProposal
      */
-    public ProjectPersonnelDataFeedCommand(Award award, InstitutionalProposal proposal) {
-        super(award, proposal);
+    public ProjectPersonnelDataFeedCommand(Award award, InstitutionalProposal proposal, FundingProposalMergeType mergeType) {
+        super(award, proposal, mergeType);
     }
 
     /**
@@ -47,10 +49,19 @@ class ProjectPersonnelDataFeedCommand extends ProposalDataFeedCommandBase {
      */
     @Override
     void performDataFeed() {
+        identicalCreditSplit = isCreditSplitIdentical();
+        if (mergeType == FundingProposalMergeType.REPLACE
+                && doesProposalHaveCreditSplitData()
+                && !proposal.getProjectPersons().isEmpty()) {
+            award.getProjectPersons().clear();
+        }
         for (InstitutionalProposalPerson proposalPerson : proposal.getProjectPersons()) {
             AwardPerson existingAwardPerson = findExistingAwardPerson(proposalPerson);
             if (existingAwardPerson != null) {
                 reconcileUnits(proposalPerson, existingAwardPerson);
+                if (mergeType == FundingProposalMergeType.MERGE && !identicalCreditSplit) {
+                    mergeCreditSplit(existingAwardPerson, proposalPerson);
+                }
             } else {
                 award.add(createAwardPerson(proposalPerson));
             }
@@ -69,10 +80,24 @@ class ProjectPersonnelDataFeedCommand extends ProposalDataFeedCommandBase {
     
     private void reconcileUnits(InstitutionalProposalPerson proposalPerson, AwardPerson awardPerson) {
         for (InstitutionalProposalPersonUnit ipPersonUnit : proposalPerson.getUnits()) {
-            if (!awardPerson.hasUnit(ipPersonUnit.getUnitNumber())) {
-                awardPerson.add(createAwardPersonUnit(ipPersonUnit));
+            AwardPersonUnit awardUnit = awardPerson.getUnit(ipPersonUnit.getUnitNumber());
+            if (awardUnit == null) {
+                awardPerson.add(createAwardPersonUnit(awardPerson, ipPersonUnit));
+            } else {
+                if (mergeType == FundingProposalMergeType.MERGE && !identicalCreditSplit) {
+                    mergeUnitCreditSplit(awardUnit, ipPersonUnit);
+                }
             }
         }
+    }
+    
+    private boolean hasLeadUnit(AwardPerson awardPerson) {
+        for (AwardPersonUnit unit : awardPerson.getUnits()) {
+            if (unit.isLeadUnit()) {
+                return true;
+            }
+        }
+        return false;
     }
     
     private AwardPerson createAwardPerson(InstitutionalProposalPerson proposalPerson) {
@@ -98,7 +123,7 @@ class ProjectPersonnelDataFeedCommand extends ProposalDataFeedCommandBase {
         }
         
         for (InstitutionalProposalPersonUnit ipPersonUnit : proposalPerson.getUnits()) {
-            awardPerson.add(createAwardPersonUnit(ipPersonUnit));
+            awardPerson.add(createAwardPersonUnit(awardPerson, ipPersonUnit));
         }
         
         return awardPerson;
@@ -124,11 +149,16 @@ class ProjectPersonnelDataFeedCommand extends ProposalDataFeedCommandBase {
         return awardPersonCreditSplit;
     }
     
-    private AwardPersonUnit createAwardPersonUnit(InstitutionalProposalPersonUnit ipPersonUnit) {
+    private AwardPersonUnit createAwardPersonUnit(AwardPerson awardPerson, InstitutionalProposalPersonUnit ipPersonUnit) {
         AwardPersonUnit awardPersonUnit = new AwardPersonUnit();
         awardPersonUnit.setUnitNumber(ipPersonUnit.getUnitNumber());
         awardPersonUnit.setAutoIncrementSet(ipPersonUnit.isAutoIncrementSet());
-        awardPersonUnit.setLeadUnit(ipPersonUnit.isLeadUnit());
+        if (awardPerson.isPrincipalInvestigator() && !hasLeadUnit(awardPerson) && ipPersonUnit.isLeadUnit()) {
+            awardPersonUnit.setLeadUnit(true);
+            award.setLeadUnit(ipPersonUnit.getUnit());
+        } else {
+            awardPersonUnit.setLeadUnit(false);
+        }
         for (InstitutionalProposalPersonUnitCreditSplit ipPersonUnitCreditSplit : ipPersonUnit.getCreditSplits()) {
             AwardPersonUnitCreditSplit awardPersonUnitCreditSplit = new AwardPersonUnitCreditSplit();
             awardPersonUnitCreditSplit.setAutoIncrementSet(ipPersonUnitCreditSplit.isAutoIncrementSet());
@@ -138,5 +168,102 @@ class ProjectPersonnelDataFeedCommand extends ProposalDataFeedCommandBase {
         }
         return awardPersonUnit;
     }
+    
+    protected void mergeCreditSplit(AwardPerson awardPerson, InstitutionalProposalPerson ipPerson) {
+        for (InstitutionalProposalPersonCreditSplit ipPersonCreditSplit : ipPerson.getCreditSplits()) {
+            for (AwardPersonCreditSplit awardPersonCreditSplit : awardPerson.getCreditSplits()) {
+                if (StringUtils.equals(awardPersonCreditSplit.getInvCreditTypeCode(),
+                        ipPersonCreditSplit.getInvCreditTypeCode())) {
+                    awardPersonCreditSplit.setCredit(awardPersonCreditSplit.getCredit().add(ipPersonCreditSplit.getCredit()));
+                }
+            }
+            
+        }
+    }
+    
+    private void mergeUnitCreditSplit(AwardPersonUnit awardUnit, InstitutionalProposalPersonUnit ipPersonUnit) {
+        for (InstitutionalProposalPersonUnitCreditSplit ipPersonUnitCreditSplit : ipPersonUnit.getCreditSplits()) {
+            for (AwardPersonUnitCreditSplit awardPersonUnitCreditSplit : awardUnit.getCreditSplits()) {
+                if (StringUtils.equals(awardPersonUnitCreditSplit.getInvCreditTypeCode(), 
+                        ipPersonUnitCreditSplit.getInvCreditTypeCode())) {
+                    awardPersonUnitCreditSplit.setCredit(awardPersonUnitCreditSplit.getCredit().add(ipPersonUnitCreditSplit.getCredit()));
+                }
+            }
+        }
+    }
 
+    protected boolean doesProposalHaveCreditSplitData() {
+        for (InstitutionalProposalPerson person : proposal.getProjectPersons()) {
+            if (person.getCreditSplits().size() > 0) {
+                return true;
+            }
+            for (InstitutionalProposalPersonUnit unit : person.getUnits()) {
+                if (unit.getCreditSplits().size() > 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    protected boolean isCreditSplitIdentical() {
+        boolean identical = true;
+        for (InstitutionalProposalPerson person : proposal.getProjectPersons()) {
+            AwardPerson awardPerson = findExistingAwardPerson(person);
+            if (awardPerson == null) {
+                identical = false;
+            } else {
+                for (InstitutionalProposalPersonCreditSplit propCreditSplit : person.getCreditSplits()) {
+                    AwardPersonCreditSplit awardCreditSplit = findCreditSplit(awardPerson, propCreditSplit);
+                    if (awardCreditSplit == null
+                            || !awardCreditSplit.getCredit().equals(propCreditSplit.getCredit())) {
+                        identical = false;
+                    }
+                }
+                for (InstitutionalProposalPersonUnit propUnit : person.getUnits()) {
+                    AwardPersonUnit awardUnit = awardPerson.getUnit(propUnit.getUnitNumber());
+                    if (awardUnit == null) {
+                        identical = false;
+                    } else {
+                        for (InstitutionalProposalPersonUnitCreditSplit propCreditSplit : propUnit.getCreditSplits()) {
+                            AwardPersonUnitCreditSplit awardCreditSplit = findCreditSplit(awardUnit, propCreditSplit);
+                            if (awardCreditSplit == null
+                                    || !awardCreditSplit.getCredit().equals(propCreditSplit.getCredit())) {
+                                identical = false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return identical;
+    }
+    
+    protected AwardPersonCreditSplit findCreditSplit(AwardPerson person, InstitutionalProposalPersonCreditSplit creditSplit) {
+        for (AwardPersonCreditSplit awardCreditSplit : person.getCreditSplits()) {
+            if (StringUtils.equals(awardCreditSplit.getInvCreditTypeCode(), creditSplit.getInvCreditTypeCode())) {
+                return awardCreditSplit;
+            }
+        }
+        return null;
+    }
+
+    protected AwardPersonUnitCreditSplit findCreditSplit(AwardPersonUnit unit, InstitutionalProposalPersonUnitCreditSplit creditSplit) {
+        for (AwardPersonUnitCreditSplit awardCreditSplit : unit.getCreditSplits()) {
+            if (StringUtils.equals(awardCreditSplit.getInvCreditTypeCode(), creditSplit.getInvCreditTypeCode())) {
+                return awardCreditSplit;
+            }
+        }
+        return null;
+    }
+
+
+    protected boolean isIdenticalCreditSplit() {
+        return identicalCreditSplit;
+    }
+
+    protected void setIdenticalCreditSplit(boolean identicalCreditSplit) {
+        this.identicalCreditSplit = identicalCreditSplit;
+    }
+    
 }

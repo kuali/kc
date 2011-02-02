@@ -23,8 +23,8 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceKeyw
 
 class KeywordsDataFeedCommand extends ProposalDataFeedCommandBase {
 
-    public KeywordsDataFeedCommand(Award award, InstitutionalProposal proposal) {
-        super(award, proposal);
+    public KeywordsDataFeedCommand(Award award, InstitutionalProposal proposal, FundingProposalMergeType mergeType) {
+        super(award, proposal, mergeType);
     }
 
     @Override

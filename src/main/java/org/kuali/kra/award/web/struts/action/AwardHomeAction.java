@@ -46,6 +46,7 @@ import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterConstants;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 
@@ -196,6 +197,10 @@ public class AwardHomeAction extends AwardAction {
             Award award = findSelectedAward(request.getParameter(AWARD_ID_PARAMETER_NAME));
             initializeFormWithAward(awardForm, award);
         }
+        //if award is new then we need to not cache values finder results so funding proposal type will be refreshed
+        if (awardForm.getAwardDocument().getAward().isNew()) {
+            ((ActionFormUtilMap) awardForm.getActionFormUtilMap()).clear();
+        }
         
         return actionForward;
     }
@@ -237,7 +242,9 @@ public class AwardHomeAction extends AwardAction {
      */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AwardDocument awardDocument = ((AwardForm)form).getAwardDocument();
+        AwardForm awardForm = (AwardForm) form;
+        AwardDocument awardDocument = awardForm.getAwardDocument();
+        
       //if award is a root Award and direct/indirect view is enabled, then we need to sum the obligated and anticipated totals until we create
         //initial T&M doc.
         if(awardDocument.getAward().getAwardNumber().endsWith("-00001") && isDirectIndirectViewEnabled()) {
@@ -248,6 +255,7 @@ public class AwardHomeAction extends AwardAction {
 //            ((AwardForm) form).getFundingProposalBean().updateProposalStatuses();   // TODO: This save isn't in same transaction as document save
 //        }
         awardDocument.getAward().refreshReferenceObject("sponsor");
+        
         return forward;
     }
     
