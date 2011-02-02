@@ -89,6 +89,8 @@ public class BudgetDocumentRuleTest extends KcUnitTestBase {
         assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
         budgetDoc.getBudget().getBudgetProjectIncome(0).setProjectIncome(new KualiDecimal(0.00));
         assertFalse(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
+        budgetDoc.getBudget().getBudgetProjectIncome(0).setProjectIncome(null);
+        assertFalse(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
     }
 
 }
