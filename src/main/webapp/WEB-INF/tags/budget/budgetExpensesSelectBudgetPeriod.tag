@@ -25,7 +25,7 @@
              <tr>
                <th class="grid"><div align="right">Budget Period:</div></th>                
                <td class="grid" >
-               	<kul:htmlControlAttribute readOnly="false" property="viewBudgetPeriod" attributeEntry="${budgetPeriodAttributes.budgetPeriod} "/>
+               	<kul:htmlControlAttribute readOnly="false" property="viewBudgetPeriod" attributeEntry="${budgetPeriodAttributes.budgetPeriod}" />
                </td>
                <th class="grid"><div align="right">View:</div></th>
                <td class="grid" >
