@@ -42,8 +42,10 @@ abstract class ProposalDataFeedCommandBase {
      * @param newComments
      */
     void appendComments(AwardComment comment, String newComments) {
-        String comments = comment.getComments();
-        comment.setComments(StringUtils.isEmpty(comments) ? newComments : String.format("%s\n%s", comments, newComments));
+        if (!StringUtils.isEmpty(newComments)) {
+            String comments = comment.getComments();
+            comment.setComments(StringUtils.isEmpty(comments) ? newComments : String.format("%s\n%s", comments, newComments));
+        }
     }
     
     /**

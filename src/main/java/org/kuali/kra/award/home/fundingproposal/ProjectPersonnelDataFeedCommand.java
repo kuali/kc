@@ -49,21 +49,23 @@ class ProjectPersonnelDataFeedCommand extends ProposalDataFeedCommandBase {
      */
     @Override
     void performDataFeed() {
-        identicalCreditSplit = isCreditSplitIdentical();
-        if (mergeType == FundingProposalMergeType.REPLACE
-                && doesProposalHaveCreditSplitData()
-                && !proposal.getProjectPersons().isEmpty()) {
-            award.getProjectPersons().clear();
-        }
-        for (InstitutionalProposalPerson proposalPerson : proposal.getProjectPersons()) {
-            AwardPerson existingAwardPerson = findExistingAwardPerson(proposalPerson);
-            if (existingAwardPerson != null) {
-                reconcileUnits(proposalPerson, existingAwardPerson);
-                if (mergeType == FundingProposalMergeType.MERGE && !identicalCreditSplit) {
-                    mergeCreditSplit(existingAwardPerson, proposalPerson);
+        if (mergeType != FundingProposalMergeType.NOCHANGE) {
+            identicalCreditSplit = isCreditSplitIdentical();
+            if (mergeType == FundingProposalMergeType.REPLACE
+                    && doesProposalHaveCreditSplitData()
+                    && !proposal.getProjectPersons().isEmpty()) {
+                award.getProjectPersons().clear();
+            }
+            for (InstitutionalProposalPerson proposalPerson : proposal.getProjectPersons()) {
+                AwardPerson existingAwardPerson = findExistingAwardPerson(proposalPerson);
+                if (existingAwardPerson != null) {
+                    reconcileUnits(proposalPerson, existingAwardPerson);
+                    if (mergeType == FundingProposalMergeType.MERGE && !identicalCreditSplit) {
+                        mergeCreditSplit(existingAwardPerson, proposalPerson);
+                    }
+                } else {
+                    award.add(createAwardPerson(proposalPerson));
                 }
-            } else {
-                award.add(createAwardPerson(proposalPerson));
             }
         }
     }
