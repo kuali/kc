@@ -45,15 +45,15 @@ import org.kuali.rice.kns.util.TypedArrayList;
  * This class is for adding validation rules to maintain Award Template
  */
 public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -3368480537790330757L;
     
-    //private static final String ERROR_KEY_PREFIX = "document.newMaintainableObject.add.templateReportTerms[0].";
-    private static final String ERROR_KEY_PREFIX2 = "document.newMaintainableObject.add.templateReportTerms[";
+    private static final String ERROR_KEY_PREFIX = "document.newMaintainableObject.add.templateReportTerms[";
     
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AwardTemplateMaintainableImpl.class); 
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AwardTemplateMaintainableImpl.class);
 
     public void addMultipleValueLookupResults(MaintenanceDocument document, String collectionName, Collection<PersistableBusinessObject> rawValues, boolean needsBlank, PersistableBusinessObject bo) {
         Collection maintCollection = (Collection) ObjectUtils.getPropertyValue(bo, collectionName);
@@ -105,6 +105,13 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
         }
         // get the new line from the map
         AwardTemplateReportTermRecipient addLine = (AwardTemplateReportTermRecipient) newCollectionLines.get(collectionName);
+        
+        /**
+         * currentIndex is collection index that has been attempted to added, this should be calculated on data, 
+         * but nothing is working out well.        
+         */
+        int currentIndex = 0;
+
         ErrorReporter errorReporter = new ErrorReporter();
         if (addLine != null) {
             // mark the isNewCollectionRecord so the option to delete this line will be presented
@@ -116,7 +123,7 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
             if (StringUtils.isNotEmpty(contactTypeCodeAndRolodexIdString) && addLine.getRolodexId() != null) {
                 //add error only one can be selected
                 addLine.setRolodexNameOrganization("");   
-                String errorKey = ERROR_KEY_PREFIX2 + 0 + "].awardTemplateReportTermRecipients.rolodexId";
+                String errorKey = ERROR_KEY_PREFIX + currentIndex + "].awardTemplateReportTermRecipients.rolodexId";
                 errorReporter.reportError(errorKey, 
                         KeyConstants.ERROR_CAN_NOT_SELECT_BOTH_FIELDS,
                         contactTypeCodeAndRolodexIdString, addLine.getRolodexId().toString());
@@ -140,10 +147,8 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
             } else { 
                 // add error, one of the fields has to be selected
                 addLine.setRolodexNameOrganization("");
-                String errorKey = ERROR_KEY_PREFIX2 + 0 + "].awardTemplateReportTermRecipients.contactTypeCodeAndRolodexId";
-                //System.err.println("errorKey:     " + errorKey);
-                //System.err.println("Traditionals: " + ERROR_KEY_PREFIX + "awardTemplateReportTermRecipients.contactTypeCodeAndRolodexId");
-                
+                String errorKey = ERROR_KEY_PREFIX + currentIndex + "].awardTemplateReportTermRecipients.contactTypeCodeAndRolodexId";
+                System.err.println("errorKey:     " + errorKey);
                 errorReporter.reportError(
                         errorKey, 
                         KeyConstants.ERROR_ONE_FIELD_MUST_BE_SELECTED);
@@ -160,7 +165,7 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
                 for (int i = 0; i < aList.size(); i++) {
                     AwardTemplateReportTermRecipient aRecipient = (AwardTemplateReportTermRecipient) aList.get(i);
                     if (aRecipient.getRolodexId().equals(id)) {
-                        String errorKey = ERROR_KEY_PREFIX2 + 0 + "].awardTemplateReportTermRecipients.rolodexId";
+                        String errorKey = ERROR_KEY_PREFIX + currentIndex + "].awardTemplateReportTermRecipients.rolodexId";
                         errorReporter.reportError(errorKey, 
                                 KeyConstants.ERROR_DUPLICATE_ROLODEX_ID);
                         return; 
