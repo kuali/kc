@@ -21,10 +21,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.distributionincome.BudgetCostShare;
+import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public class BudgetDocumentRuleTest extends KcUnitTestBase {
 
@@ -76,6 +78,17 @@ public class BudgetDocumentRuleTest extends KcUnitTestBase {
         
         
         budgetDoc.getBudget().getBudgetCostShares().clear();
+    }
+    
+    @Test
+    public void testProjectIncomeValidation() {
+        assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
+        BudgetProjectIncome projectIncome = new BudgetProjectIncome();
+        projectIncome.setProjectIncome(new KualiDecimal(5.00));
+        budgetDoc.getBudget().getBudgetProjectIncomes().add(projectIncome);
+        assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
+        budgetDoc.getBudget().getBudgetProjectIncome(0).setProjectIncome(new KualiDecimal(0.00));
+        assertFalse(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
     }
 
 }
