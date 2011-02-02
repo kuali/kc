@@ -24,6 +24,7 @@
 	showDocumentInfo="true"
 	htmlFormAction="proposalDevelopmentBudgetVersions"
 	documentTypeName="ProposalDevelopmentDocument"
+	showTabButtons="true"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="budgetVersions">
   	
