@@ -719,6 +719,31 @@
 		</stylesheet>
 		<pkgName>gov.grants.apply.forms.rrSubawardBudgetV12</pkgName>
 	</Form>
+
+	<Form
+		namespace="http://apply.grants.gov/forms/RR_FedNonFedSubawardBudget10_10-V1.2">
+		<formName>RR_FedNonFedSubawardBudget10_10-V1.2</formName>
+		<mainClass>
+			org.kuali.kra.s2s.generator.impl.RRFedNonFedSubAwardBudget10_10V1_2Generator
+		</mainClass>
+		<stylesheet>
+			org/kuali/kra/s2s/stylesheet/RR_FedNonFedSubawardBudget10_10-V1.2.fo.xsl
+		</stylesheet>
+		<pkgName>gov.grants.apply.forms.rrFedNonFedSubawardBudget1010V12</pkgName>
+	</Form>
+
+	<Form
+		namespace="http://apply.grants.gov/forms/RR_FedNonFedSubawardBudget10_30-V1.2">
+		<formName>RR_FedNonFed_SubawardBudget10_30-V1.2</formName>
+		<mainClass>
+			org.kuali.kra.s2s.generator.impl.RRFedNonFedSubAwardBudget10_30V1_2Generator
+		</mainClass>
+		<stylesheet>
+			org/kuali/kra/s2s/stylesheet/RR_FedNonFedSubawardBudget10_30-V1.2.fo.xsl
+		</stylesheet>
+		<pkgName>gov.grants.apply.forms.rrFedNonFedSubawardBudget1030V12</pkgName>
+	</Form>	
+	
 	<Form namespace="http://apply.grants.gov/forms/SF424_Short-V1.0">
 		<formName>SF424_Short-V1.0</formName>
 		<mainClass>
