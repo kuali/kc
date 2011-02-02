@@ -47,8 +47,8 @@ class FandARatesDataFeedCommand extends ProposalDataFeedCommandBase {
      * @param award
      * @param proposal
      */
-    public FandARatesDataFeedCommand(Award award, InstitutionalProposal proposal) {
-        super(award, proposal);
+    public FandARatesDataFeedCommand(Award award, InstitutionalProposal proposal, FundingProposalMergeType mergeType) {
+        super(award, proposal, mergeType);
     }
    
     /**
@@ -58,21 +58,12 @@ class FandARatesDataFeedCommand extends ProposalDataFeedCommandBase {
     void performDataFeed() {
         int copyCount = 0;
         List<InstitutionalProposalUnrecoveredFandA> fAndAs = proposal.getInstitutionalProposalUnrecoveredFandAs();
-        if (ObjectUtils.isNotNull(fAndAs) || fAndAs.isEmpty()) {
+        if (ObjectUtils.isNull(fAndAs) || fAndAs.isEmpty()) {
             fAndAs = findUnrecoveredFandAs();
         }
         for (InstitutionalProposalUnrecoveredFandA ipUnrecoveredFandA : fAndAs) {
-            boolean duplicateFound = false;
-            for (AwardFandaRate awardFandA : award.getAwardFandaRate()) {
-                if (isIdentical(awardFandA, ipUnrecoveredFandA)) {
-                    duplicateFound = true;
-                    break;
-                }                
-            }
-            if (!duplicateFound) {
-                award.add(copyFandA(ipUnrecoveredFandA));
-                copyCount++;
-            }
+            award.add(copyFandA(ipUnrecoveredFandA));
+            copyCount++;
         }
         if (copyCount > 0) {
             addFandARateComment(award, proposal);
@@ -140,13 +131,6 @@ class FandARatesDataFeedCommand extends ProposalDataFeedCommandBase {
 
     private Integer getFiscalYear(AwardFandaRate awardFandA) {
         return Integer.valueOf(awardFandA.getFiscalYear());
-    }
-
-    private boolean isIdentical(AwardFandaRate awardFandA, InstitutionalProposalUnrecoveredFandA ipFandA) {
-        return awardFandA.getFandaRateTypeCode().equals(ipFandA.getIndirectcostRateTypeCode()) &&
-                awardFandA.getApplicableFandaRate().equals(ipFandA.getApplicableIndirectcostRate()) &&
-                awardFandA.getFiscalYear().equals(ipFandA.getFiscalYear()) &&
-                awardFandA.getOnCampusFlag().equals(ipFandA.getOnCampusFlag());
     }
     
     private String readFiscalYearStartDate() {

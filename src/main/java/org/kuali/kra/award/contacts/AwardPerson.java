@@ -157,18 +157,18 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     }
     
     /**
-     * Determine whether this AwardPerson already has the given unit.
+     * Get the award unit if it exists from this person
      * 
      * @param unitNumber String
-     * @return boolean 
+     * @return AwardPersonUnit 
      */
-    public boolean hasUnit(String unitNumber) {
+    public AwardPersonUnit getUnit(String unitNumber) {
         for (AwardPersonUnit awardPersonUnit : this.getUnits()) {
             if (awardPersonUnit.getUnitNumber().equals(unitNumber)) {
-                return true;
+                return awardPersonUnit;
             }
         }
-        return false;
+        return null;
     }
     
     /**

@@ -22,8 +22,8 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 
 class CustomDataDataFeedCommand extends ProposalDataFeedCommandBase {
     
-    public CustomDataDataFeedCommand(Award award, InstitutionalProposal proposal) {
-        super(award, proposal);
+    public CustomDataDataFeedCommand(Award award, InstitutionalProposal proposal, FundingProposalMergeType mergeType) {
+        super(award, proposal, mergeType);
     }
 
     /**
@@ -31,10 +31,13 @@ class CustomDataDataFeedCommand extends ProposalDataFeedCommandBase {
      */
     @Override
     void performDataFeed() {
-        for (InstitutionalProposalCustomData ipCustomData : proposal.getInstitutionalProposalCustomDataList()) {
-            for (AwardCustomData awardCustomData : award.getAwardCustomDataList()) {
-                if (ipCustomData.getCustomAttributeId().equals(awardCustomData.getCustomAttributeId())) {
-                    awardCustomData.setValue(ipCustomData.getValue());
+        if (mergeType == FundingProposalMergeType.NEWAWARD 
+                || mergeType == FundingProposalMergeType.REPLACE) {
+            for (InstitutionalProposalCustomData ipCustomData : proposal.getInstitutionalProposalCustomDataList()) {
+                for (AwardCustomData awardCustomData : award.getAwardCustomDataList()) {
+                    if (ipCustomData.getCustomAttributeId().equals(awardCustomData.getCustomAttributeId())) {
+                        awardCustomData.setValue(ipCustomData.getValue());
+                    }
                 }
             }
         }

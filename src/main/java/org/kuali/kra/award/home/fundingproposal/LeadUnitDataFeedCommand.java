@@ -8,8 +8,8 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
  *  Feed Proposal Lead unit into Award  
  */
 class LeadUnitDataFeedCommand extends ProposalDataFeedCommandBase {
-    LeadUnitDataFeedCommand(Award award, InstitutionalProposal proposal) {
-        super(award, proposal);
+    LeadUnitDataFeedCommand(Award award, InstitutionalProposal proposal, FundingProposalMergeType mergeType) {
+        super(award, proposal, mergeType);
     }
 
     @Override

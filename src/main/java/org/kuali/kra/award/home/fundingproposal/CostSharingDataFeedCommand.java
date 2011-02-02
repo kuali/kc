@@ -36,8 +36,8 @@ class CostSharingDataFeedCommand extends ProposalDataFeedCommandBase {
     
     private BusinessObjectService businessObjectService;
     
-    public CostSharingDataFeedCommand(Award award, InstitutionalProposal proposal) {
-        super(award, proposal);
+    public CostSharingDataFeedCommand(Award award, InstitutionalProposal proposal, FundingProposalMergeType mergeType) {
+        super(award, proposal, mergeType);
     }
 
     /**
@@ -47,21 +47,12 @@ class CostSharingDataFeedCommand extends ProposalDataFeedCommandBase {
     void performDataFeed() {
         int copyCount = 0;
         List<InstitutionalProposalCostShare> costShares = proposal.getInstitutionalProposalCostShares();
-        if (ObjectUtils.isNotNull(costShares) || costShares.isEmpty()) {
+        if (ObjectUtils.isNull(costShares) || costShares.isEmpty()) {
             costShares = findCostShares();
         }
         for (InstitutionalProposalCostShare ipCostShare : costShares) {
-            boolean duplicateFound = false;
-            for (AwardCostShare awardCostShare : award.getAwardCostShares()) {
-                if (isIdentical(awardCostShare, ipCostShare)) {
-                    duplicateFound = true;
-                    break;
-                }                
-            }
-            if (!duplicateFound) {
-                award.add(copyCostShare(ipCostShare));
-                copyCount++;
-            }
+            award.add(copyCostShare(ipCostShare));
+            copyCount++;
         }
         if (copyCount > 0) {
             addCostShareComment(award, proposal);
@@ -89,13 +80,6 @@ class CostSharingDataFeedCommand extends ProposalDataFeedCommandBase {
         awardCostShare.setFiscalYear(ipCostShare.getFiscalYear());
         
         return awardCostShare;
-    }
-    
-    private boolean isIdentical(AwardCostShare awardCostShare, InstitutionalProposalCostShare ipCostShare) {
-        return awardCostShare.getCostShareTypeCode().equals(ipCostShare.getCostShareTypeCode()) && 
-                awardCostShare.getFiscalYear().equals(ipCostShare.getFiscalYear()) &&
-                awardCostShare.getCommitmentAmount().equals(ipCostShare.getAmount()) &&
-                awardCostShare.getSource().equals(ipCostShare.getSourceAccount());
     }
     
     // TODO This shouldn't be necessary, but for some reason OJB isn't retrieving this reference properly.

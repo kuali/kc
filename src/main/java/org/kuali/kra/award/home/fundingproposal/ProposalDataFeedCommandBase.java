@@ -27,11 +27,13 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 abstract class ProposalDataFeedCommandBase {
     Award award;
     InstitutionalProposal proposal;
+    FundingProposalMergeType mergeType;
     AwardCommentFactory awardCommentFactory;
     
-    ProposalDataFeedCommandBase(Award award, InstitutionalProposal proposal) {
+    ProposalDataFeedCommandBase(Award award, InstitutionalProposal proposal, FundingProposalMergeType mergeType) {
         this.award = award;
         this.proposal = proposal;
+        this.mergeType = mergeType;
         awardCommentFactory = new AwardCommentFactory();
     }
 
