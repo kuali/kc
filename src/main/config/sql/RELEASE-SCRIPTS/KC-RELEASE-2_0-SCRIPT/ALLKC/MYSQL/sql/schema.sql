@@ -10691,17 +10691,17 @@ ALTER TABLE SEQ_PROPOSAL_IP_REVIEW_JOIN_ID auto_increment = 1
 /
 
 # -----------------------------------------------------------------------
-# SEQ_PROPOSAL_NOTEPAD_IDN
+# SEQ_PROPOSAL_NOTEPAD_ID
 # -----------------------------------------------------------------------
-drop table if exists SEQ_PROPOSAL_NOTEPAD_IDN
+drop table if exists SEQ_PROPOSAL_NOTEPAD_ID
 /
 
-CREATE TABLE SEQ_PROPOSAL_NOTEPAD_IDN
+CREATE TABLE SEQ_PROPOSAL_NOTEPAD_ID
 (
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE SEQ_PROPOSAL_NOTEPAD_IDN auto_increment = 1
+ALTER TABLE SEQ_PROPOSAL_NOTEPAD_ID auto_increment = 1
 /
 
 # -----------------------------------------------------------------------
