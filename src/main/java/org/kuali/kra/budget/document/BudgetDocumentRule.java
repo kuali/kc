@@ -33,6 +33,7 @@ import org.kuali.kra.budget.distributionincome.AddBudgetProjectIncomeRule;
 import org.kuali.kra.budget.distributionincome.BudgetCostShare;
 import org.kuali.kra.budget.distributionincome.BudgetCostShareAuditRule;
 import org.kuali.kra.budget.distributionincome.BudgetCostShareRuleImpl;
+import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncomeRuleImpl;
 import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandAAuditRule;
 import org.kuali.kra.budget.nonpersonnel.BudgetExpensesAuditRule;
@@ -67,6 +68,7 @@ import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddBudgetPeriodRule, AddBudgetCostShareRule, AddBudgetProjectIncomeRule, SaveBudgetPeriodRule, DeleteBudgetPeriodRule, GenerateBudgetPeriodRule, DocumentAuditRule, SyncModularBudgetRule {
@@ -183,6 +185,22 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
             errorMap.removeFromErrorPath(errorPath);
             i++;
         }
+        //check project income for values that are not greater than 0
+        GlobalVariables.getErrorMap().removeFromErrorPath("budget");
+        GlobalVariables.getErrorMap().addToErrorPath("budgets[0]"); 
+        i = 0;
+        for (BudgetProjectIncome budgetProjectIncome : budgetDocument.getBudget().getBudgetProjectIncomes()) {
+            String errorPath = "budgetProjectIncomes[" + i + "]";
+            errorMap.addToErrorPath(errorPath);
+            if (!budgetProjectIncome.getProjectIncome().isGreaterThan(new KualiDecimal(0.00))) {
+                errorMap.putError("projectIncome", "error.projectIncome.negativeOrZero");
+                valid = false;
+            }          
+            errorMap.removeFromErrorPath(errorPath);
+            i++;
+        }
+        GlobalVariables.getErrorMap().removeFromErrorPath("budgets[0]");
+        GlobalVariables.getErrorMap().addToErrorPath("budget");
         
         return valid;
     }
