@@ -21,6 +21,7 @@
 <c:set var="proposalTypeAttributes" value="${DataDictionary.ProposalType.attributes}" />
 <c:set var="sponsorAttributes" value="${DataDictionary.Sponsor.attributes}" />
 <c:set var="unitAttributes" value="${DataDictionary.Unit.attributes}" />
+<c:set var="fundingProposalBeanAttributes" value="${DataDictionary.AwardFundingProposalBean.attributes}" />
 
 <kul:tab tabTitle="Funding Proposals" defaultOpen="false" tabErrorKey="document.awardList[0].fundingProposals*,fundingProposalBean.newFundingProposal">
 	<div class="tab-container" align="right">
@@ -29,7 +30,7 @@
 		<table id="fundingProposalAddTable" cellpadding="0" cellspacing="0" summary="Add Funding Proposal">
 		  <c:if test="${!readOnly}">
 			<tr>
-		    	<th width="25%" align="center" scope="row">
+		    	<th align="center" scope="row">
 		    		<div align="right">Add:</div>
 		    	</th>
 		    	<td class="infoline">
@@ -45,7 +46,15 @@
         	  	 				anchor="${tabKey}" />
 		    	 	</div>
 		    	</td>
-		        <td width="25%" class="infoline">
+		    	<td class="infoline">
+		    	    <div align="center">
+		    	        <kul:htmlAttributeLabel attributeEntry="${fundingProposalBeanAttributes.mergeTypeCode}" skipHelpUrl="true"/>
+		    	  	 	&nbsp;
+		    	    	<kul:htmlControlAttribute property="fundingProposalBean.mergeTypeCode"
+		    	    							  attributeEntry="${fundingProposalBeanAttributes.mergeTypeCode}"
+		    	    							  readOnly="false" />
+		    	    </div></td>
+		        <td class="infoline">
 		        	<div align="center">
 						<html:image property="methodToCall.addFundingProposal.anchor${tabKey}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>

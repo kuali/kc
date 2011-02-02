@@ -20,44 +20,40 @@ import junit.framework.Assert;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Sponsor;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 
-public class SponsorDataFeedCommandTest {
+public class SponsorDataFeedCommandTest extends BaseDataFeedCommandTest {
     
-    Award award;
-    InstitutionalProposal proposal;
     private ProposalDataFeedCommandBase command;
     private Sponsor sponsor;
     
     @Before
-    public void setUp() {
-        award = new Award();
-        proposal = new InstitutionalProposal();
-        proposal.setProposalNumber("1234");
-        command = new SponsorDataFeedCommand(award, proposal);
+    public void setUp() throws Exception {
+        super.setUp();
         sponsor = new Sponsor();
         sponsor.setSponsorCode("12345");
         sponsor.setSponsorName("Test Sponsor");
         initializeProposal();
     }
     
-    @After
-    public void tearDown() {
-        award = null;
-        proposal = null;
-        command = null;
-    }
-
     @Test
     public void testSponsorFeed() {
+        command = new SponsorDataFeedCommand(award, proposal, FundingProposalMergeType.NEWAWARD);
         command.performDataFeed();
         Assert.assertEquals(proposal.getSponsorCode(), award.getSponsorCode());
         Assert.assertEquals(proposal.getSponsor().getSponsorCode(), award.getSponsor().getSponsorCode());
         Assert.assertEquals(proposal.getSponsor().getSponsorName(), award.getSponsor().getSponsorName());
         Assert.assertEquals(proposal.getPrimeSponsorCode(), award.getPrimeSponsorCode());
         Assert.assertEquals(proposal.getPrimeSponsor().getSponsorName(), award.getPrimeSponsor().getSponsorName());
+    }
+    
+    @Test
+    public void testReplaceSponsorFeed() {
+        command = new SponsorDataFeedCommand(award, proposal, FundingProposalMergeType.REPLACE);
+        command.performDataFeed();
+        Assert.assertNotSame(proposal.getSponsorCode(), award.getSponsorCode());
+        Assert.assertEquals(proposal.getPrimeSponsorCode(), award.getPrimeSponsorCode());
+        Assert.assertEquals(proposal.getPrimeSponsor().getSponsorName(), award.getPrimeSponsor().getSponsorName());        
     }
     
     private void initializeProposal() {
