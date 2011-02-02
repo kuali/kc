@@ -27,6 +27,7 @@
 	showDocumentInfo="true"
 	htmlFormAction="awardBudgets"
 	documentTypeName="AwardDocument"
+	showTabButtons="true"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="budgets"
   	extraTopButtons="${KualiForm.extraTopButtons}" >
