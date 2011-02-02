@@ -50,7 +50,8 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
      */
     private static final long serialVersionUID = -3368480537790330757L;
     
-    private static final String ERROR_KEY_PREFIX = "document.newMaintainableObject.add.templateReportTerms[0].";
+    //private static final String ERROR_KEY_PREFIX = "document.newMaintainableObject.add.templateReportTerms[0].";
+    private static final String ERROR_KEY_PREFIX2 = "document.newMaintainableObject.add.templateReportTerms[";
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AwardTemplateMaintainableImpl.class); 
 
@@ -114,9 +115,9 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
             //Integer rolodexIdInt = addLine.getRolodexId();
             if (StringUtils.isNotEmpty(contactTypeCodeAndRolodexIdString) && addLine.getRolodexId() != null) {
                 //add error only one can be selected
-                addLine.setRolodexNameOrganization("");                
-                errorReporter.reportError(
-                        ERROR_KEY_PREFIX + "awardTemplateReportTermRecipients.rolodexId", 
+                addLine.setRolodexNameOrganization("");   
+                String errorKey = ERROR_KEY_PREFIX2 + 0 + "].awardTemplateReportTermRecipients.rolodexId";
+                errorReporter.reportError(errorKey, 
                         KeyConstants.ERROR_CAN_NOT_SELECT_BOTH_FIELDS,
                         contactTypeCodeAndRolodexIdString, addLine.getRolodexId().toString());
                 return;
@@ -139,8 +140,12 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
             } else { 
                 // add error, one of the fields has to be selected
                 addLine.setRolodexNameOrganization("");
+                String errorKey = ERROR_KEY_PREFIX2 + 0 + "].awardTemplateReportTermRecipients.contactTypeCodeAndRolodexId";
+                //System.err.println("errorKey:     " + errorKey);
+                //System.err.println("Traditionals: " + ERROR_KEY_PREFIX + "awardTemplateReportTermRecipients.contactTypeCodeAndRolodexId");
+                
                 errorReporter.reportError(
-                        ERROR_KEY_PREFIX + "awardTemplateReportTermRecipients.contactTypeCodeAndRolodexId", 
+                        errorKey, 
                         KeyConstants.ERROR_ONE_FIELD_MUST_BE_SELECTED);
                 return;
             }
@@ -155,8 +160,8 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
                 for (int i = 0; i < aList.size(); i++) {
                     AwardTemplateReportTermRecipient aRecipient = (AwardTemplateReportTermRecipient) aList.get(i);
                     if (aRecipient.getRolodexId().equals(id)) {
-                        errorReporter.reportError(
-                                ERROR_KEY_PREFIX + collectionName, 
+                        String errorKey = ERROR_KEY_PREFIX2 + 0 + "].awardTemplateReportTermRecipients.rolodexId";
+                        errorReporter.reportError(errorKey, 
                                 KeyConstants.ERROR_DUPLICATE_ROLODEX_ID);
                         return; 
                     }
