@@ -45,17 +45,19 @@ class CostSharingDataFeedCommand extends ProposalDataFeedCommandBase {
      */
     @Override
     void performDataFeed() {
-        int copyCount = 0;
-        List<InstitutionalProposalCostShare> costShares = proposal.getInstitutionalProposalCostShares();
-        if (ObjectUtils.isNull(costShares) || costShares.isEmpty()) {
-            costShares = findCostShares();
-        }
-        for (InstitutionalProposalCostShare ipCostShare : costShares) {
-            award.add(copyCostShare(ipCostShare));
-            copyCount++;
-        }
-        if (copyCount > 0) {
-            addCostShareComment(award, proposal);
+        if (mergeType != FundingProposalMergeType.NOCHANGE) {
+            int copyCount = 0;
+            List<InstitutionalProposalCostShare> costShares = proposal.getInstitutionalProposalCostShares();
+            if (ObjectUtils.isNull(costShares) || costShares.isEmpty()) {
+                costShares = findCostShares();
+            }
+            for (InstitutionalProposalCostShare ipCostShare : costShares) {
+                award.add(copyCostShare(ipCostShare));
+                copyCount++;
+            }
+            if (copyCount > 0) {
+                addCostShareComment(award, proposal);
+            }
         }
     }
 

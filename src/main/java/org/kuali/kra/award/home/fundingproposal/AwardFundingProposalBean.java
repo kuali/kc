@@ -212,26 +212,18 @@ public class AwardFundingProposalBean implements Serializable {
     }
 
     private void performDataFeeds(Award award, InstitutionalProposal proposal) {
-        boolean newAward = award.isNew() && award.getSequenceNumber() <= 1;
-        FundingProposalMergeType mergeType = null;
-        if (newAward) {
-            mergeType = FundingProposalMergeType.NEWAWARD;
-        } else {
-            mergeType = getMergeType();
-        }
-        if (mergeType != FundingProposalMergeType.NOCHANGE) {
-            new BaseFieldsDataFeedCommand(award, proposal, mergeType).performDataFeed();
-            new SponsorDataFeedCommand(award, proposal, mergeType).performDataFeed();
-            new CommentsDataFeedCommand(award, proposal, mergeType).performDataFeed();
-            new SpecialReviewDataFeedCommand(award, proposal, mergeType).performDataFeed();
-            new CostSharingDataFeedCommand(award, proposal, mergeType).performDataFeed();
-            new FandARatesDataFeedCommand(award, proposal, mergeType).performDataFeed();
-            new KeywordsDataFeedCommand(award, proposal, mergeType).performDataFeed();
-            new LeadUnitDataFeedCommand(award, proposal, mergeType).performDataFeed();
-            initializeAwardCustomDataIfNecessary(award);
-            new CustomDataDataFeedCommand(award, proposal, mergeType).performDataFeed();
-            new ProjectPersonnelDataFeedCommand(award, proposal, mergeType).performDataFeed();
-        }
+        FundingProposalMergeType mergeType = getMergeType();
+        new BaseFieldsDataFeedCommand(award, proposal, mergeType).performDataFeed();
+        new SponsorDataFeedCommand(award, proposal, mergeType).performDataFeed();
+        new CommentsDataFeedCommand(award, proposal, mergeType).performDataFeed();
+        new SpecialReviewDataFeedCommand(award, proposal, mergeType).performDataFeed();
+        new CostSharingDataFeedCommand(award, proposal, mergeType).performDataFeed();
+        new FandARatesDataFeedCommand(award, proposal, mergeType).performDataFeed();
+        new KeywordsDataFeedCommand(award, proposal, mergeType).performDataFeed();
+        new LeadUnitDataFeedCommand(award, proposal, mergeType).performDataFeed();
+        initializeAwardCustomDataIfNecessary(award);
+        new CustomDataDataFeedCommand(award, proposal, mergeType).performDataFeed();
+        new ProjectPersonnelDataFeedCommand(award, proposal, mergeType).performDataFeed();
     }
 
     private boolean validateForAdd() {

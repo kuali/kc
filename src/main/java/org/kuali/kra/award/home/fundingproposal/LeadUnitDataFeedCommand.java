@@ -14,9 +14,11 @@ class LeadUnitDataFeedCommand extends ProposalDataFeedCommandBase {
 
     @Override
     void performDataFeed() {
-        if (StringUtils.isBlank(award.getLeadUnitNumber())) {
-            award.setLeadUnit(proposal.getLeadUnit());
-            award.setUnitNumber(proposal.getUnitNumber());
+        if (mergeType != FundingProposalMergeType.NOCHANGE) {
+            if (StringUtils.isBlank(award.getLeadUnitNumber())) {
+                award.setLeadUnit(proposal.getLeadUnit());
+                award.setUnitNumber(proposal.getUnitNumber());
+            }
         }
     }
 }

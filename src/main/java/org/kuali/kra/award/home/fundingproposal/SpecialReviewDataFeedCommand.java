@@ -33,10 +33,12 @@ class SpecialReviewDataFeedCommand extends ProposalDataFeedCommandBase {
 
     @Override
     void performDataFeed() {
-        //unsure why, but without the refresh special reviews were often incorrectly empty
-        proposal.refreshReferenceObject("specialReviews");
-        for(InstitutionalProposalSpecialReview ipSpecialReview: proposal.getSpecialReviews()) {
-            copySpecialReview(award, proposal, ipSpecialReview);
+        if (mergeType != FundingProposalMergeType.NOCHANGE) {
+            //unsure why, but without the refresh special reviews were often incorrectly empty
+            proposal.refreshReferenceObject("specialReviews");
+            for(InstitutionalProposalSpecialReview ipSpecialReview: proposal.getSpecialReviews()) {
+                copySpecialReview(award, proposal, ipSpecialReview);
+            }
         }
     }
     
