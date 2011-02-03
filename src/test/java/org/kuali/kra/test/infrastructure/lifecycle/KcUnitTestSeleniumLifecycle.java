@@ -15,12 +15,19 @@
  */
 package org.kuali.kra.test.infrastructure.lifecycle;
 
+import org.kuali.rice.test.web.HtmlUnitUtil;
 import org.openqa.selenium.server.SeleniumServer;
 
 import com.thoughtworks.selenium.DefaultSelenium;
 import com.thoughtworks.selenium.Selenium;
 
 public class KcUnitTestSeleniumLifecycle extends KcUnitTestBaseLifecycle {
+    
+    private static final String SERVER_HOST = "localhost";
+    private static final int SERVER_PORT = 4444;
+    private static final String BROWSER_START_COMMAND = "*firefox";
+    private static final String BROWSER_PROTOCOL = "http";
+    private static final String BROWSER_ADDRESS = "localhost";
     
     private SeleniumServer seleniumServer;
     private Selenium selenium;
@@ -31,12 +38,13 @@ public class KcUnitTestSeleniumLifecycle extends KcUnitTestBaseLifecycle {
     
     @Override
     protected void doPerSuiteStart() throws Throwable {
+        String browserUrl = getBrowserUrl(BROWSER_PROTOCOL, BROWSER_ADDRESS, HtmlUnitUtil.getPort());
+        
         seleniumServer = new SeleniumServer();
         seleniumServer.start();
         
-        selenium = new DefaultSelenium("localhost", 4444, "*firefox", "http://127.0.0.1:9925/");
+        selenium = new DefaultSelenium(SERVER_HOST, SERVER_PORT, BROWSER_START_COMMAND, browserUrl);
         selenium.start();
-        selenium.setTimeout("60000");
     }
     
     @Override
@@ -60,6 +68,10 @@ public class KcUnitTestSeleniumLifecycle extends KcUnitTestBaseLifecycle {
 
     @Override
     protected void doPerTestStop() throws Throwable {
+    }
+    
+    private static String getBrowserUrl(String protocol, String address, int port) {
+        return protocol + "://" + address + ":" + Integer.toString(port) + "/";
     }
 
 }
