@@ -36,6 +36,7 @@ public class KcUnitTestSeleniumLifecycle extends KcUnitTestBaseLifecycle {
         
         selenium = new DefaultSelenium("localhost", 4444, "*firefox", "http://127.0.0.1:9925/");
         selenium.start();
+        selenium.setTimeout("60000");
     }
     
     @Override
