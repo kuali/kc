@@ -238,7 +238,7 @@
 		<property name="maxLength" value="4000" />
 		<property name="required" value="true" />
 		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern" 
+			<bean parent="UTF8AnyCharacterValidationPattern" 
 			      p:allowWhitespace="true" />
 		</property>
 		<property name="control">
