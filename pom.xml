@@ -237,34 +237,6 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.1</version>
 		    </plugin>
-		    <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <version>${failsafe.plugin.version}</version>
-                <configuration>
-                    <useFile>${failsafe.useFile}</useFile>
-                    <testFailureIgnore>${failsafe.testFailureIgnore}</testFailureIgnore>
-                    <test>${failsafe.test}</test>
-                    <forkMode>${failsafe.forkMode}</forkMode>
-                    <reportFormat>${failsafe.reportFormat}</reportFormat>
-                    <argLine>${failsafe.argLine}</argLine>
-                    <aggregate>${failsafe.aggregate}</aggregate>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>run-integration-tests</id>
-                        <goals>
-                            <goal>integration-test</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>verify-integration-tests</id>
-                        <goals>
-                            <goal>verify</goal>
-                        </goals>
-                    </execution>
-		        </executions>
-            </plugin>
 		</plugins>
 	</build>
 
@@ -1446,8 +1418,6 @@
 				<configuration>
 					<useFile>${surefire.useFile}</useFile>
 					<testFailureIgnore>${surefire.testFailureIgnore}</testFailureIgnore>
-					<!-- hopefully only temporary until all our tests are fixed :-) -->
- 					<test>${surefire.test}</test>
 					<forkMode>${surefire.forkMode}</forkMode>
 					<reportFormat>${surefire.reportFormat}</reportFormat>
 					<argLine>${surefire.argLine}</argLine>
@@ -1552,19 +1522,10 @@
     	<surefire.plugin.version>2.6</surefire.plugin.version>
     	<surefire.usefile>false</surefire.usefile>
     	<surefire.testFailureIgnore>false</surefire.testFailureIgnore>
-		<surefire.test>PassSuite</surefire.test>
 		<surefire.forkMode>never</surefire.forkMode>
 		<surefire.reportFormat>plain</surefire.reportFormat>
 		<surefire.argLine>-Xmx1536m -XX:MaxPermSize=512m</surefire.argLine>
 		<surefire.aggregate>true</surefire.aggregate>
-		<failsafe.plugin.version>2.6</failsafe.plugin.version>
-        <failsafe.usefile>false</failsafe.usefile>
-        <failsafe.testFailureIgnore>false</failsafe.testFailureIgnore>
-        <failsafe.test>IntegrationSuite</failsafe.test>
-        <failsafe.forkMode>never</failsafe.forkMode>
-        <failsafe.reportFormat>plain</failsafe.reportFormat>
-        <failsafe.argLine>-Xmx1536m -XX:MaxPermSize=512m</failsafe.argLine>
-        <failsafe.aggregate>true</failsafe.aggregate>
     	<cobertura.maven.plugin.version>2.4</cobertura.maven.plugin.version>
     	<gg.wsdl.location>${basedir}/src/main/resources/wsdl</gg.wsdl.location>
     	<gg.schema.dir>${basedir}/src/main/resources/wsdl/schema</gg.schema.dir>  
