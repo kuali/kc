@@ -34,6 +34,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.kra.rules.ErrorReporter;
+import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.lookup.LookupUtils;
@@ -54,6 +55,8 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
     private static final String ERROR_KEY_PREFIX = "document.newMaintainableObject.add.templateReportTerms[";
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AwardTemplateMaintainableImpl.class);
+    
+    private int columnNumber = 0;
 
     public void addMultipleValueLookupResults(MaintenanceDocument document, String collectionName, Collection<PersistableBusinessObject> rawValues, boolean needsBlank, PersistableBusinessObject bo) {
         Collection maintCollection = (Collection) ObjectUtils.getPropertyValue(bo, collectionName);
@@ -69,6 +72,23 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
         }
         super.addMultipleValueLookupResults(document, collectionName, rawValues, needsBlank, bo);
         
+    }
+    
+    /**
+     * 
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processBeforeAddLine(java.lang.String, java.lang.Class, org.kuali.rice.kns.bo.BusinessObject)
+     */
+    public void processBeforeAddLine(String colName, Class colClass, BusinessObject addBO) {
+        if (colName.contains("[") && colName.contains("]")) {
+            String numString = (String) colName.subSequence(colName.indexOf("[") + 1, colName.indexOf("]"));
+            System.err.println("numString: " + numString);
+            try {
+                this.columnNumber = Integer.parseInt(numString);
+            } catch (Exception e) {
+                //wasn't a number
+            }
+        }
+        super.processBeforeAddLine(colName, colClass, addBO);
     }
     
     /**
@@ -105,12 +125,6 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
         }
         // get the new line from the map
         AwardTemplateReportTermRecipient addLine = (AwardTemplateReportTermRecipient) newCollectionLines.get(collectionName);
-        
-        /**
-         * currentIndex is collection index that has been attempted to added, this should be calculated on data, 
-         * but nothing is working out well.        
-         */
-        int currentIndex = 0;
 
         ErrorReporter errorReporter = new ErrorReporter();
         if (addLine != null) {
@@ -123,7 +137,7 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
             if (StringUtils.isNotEmpty(contactTypeCodeAndRolodexIdString) && addLine.getRolodexId() != null) {
                 //add error only one can be selected
                 addLine.setRolodexNameOrganization("");   
-                String errorKey = ERROR_KEY_PREFIX + currentIndex + "].awardTemplateReportTermRecipients.rolodexId";
+                String errorKey = ERROR_KEY_PREFIX + this.columnNumber + "].awardTemplateReportTermRecipients.rolodexId";
                 errorReporter.reportError(errorKey, 
                         KeyConstants.ERROR_CAN_NOT_SELECT_BOTH_FIELDS,
                         contactTypeCodeAndRolodexIdString, addLine.getRolodexId().toString());
@@ -147,7 +161,7 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
             } else { 
                 // add error, one of the fields has to be selected
                 addLine.setRolodexNameOrganization("");
-                String errorKey = ERROR_KEY_PREFIX + currentIndex + "].awardTemplateReportTermRecipients.contactTypeCodeAndRolodexId";
+                String errorKey = ERROR_KEY_PREFIX + this.columnNumber + "].awardTemplateReportTermRecipients.contactTypeCodeAndRolodexId";
                 System.err.println("errorKey:     " + errorKey);
                 errorReporter.reportError(
                         errorKey, 
@@ -165,7 +179,7 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
                 for (int i = 0; i < aList.size(); i++) {
                     AwardTemplateReportTermRecipient aRecipient = (AwardTemplateReportTermRecipient) aList.get(i);
                     if (aRecipient.getRolodexId().equals(id)) {
-                        String errorKey = ERROR_KEY_PREFIX + currentIndex + "].awardTemplateReportTermRecipients.rolodexId";
+                        String errorKey = ERROR_KEY_PREFIX + this.columnNumber + "].awardTemplateReportTermRecipients.rolodexId";
                         errorReporter.reportError(errorKey, 
                                 KeyConstants.ERROR_DUPLICATE_ROLODEX_ID);
                         return; 
