@@ -143,6 +143,8 @@ public final class KeyConstants {
     public static final String ERROR_BUDGET_START_DATE_MISSING = "error.budgetVersion.startDate.required";
     public static final String ERROR_BUDGET_END_DATE_MISSING = "error.budgetVersion.endDate.required";
     public static final String ERROR_BUDGET_OBLIGATED_AMOUNT_INVALID = "error.award.invalidObligatedAmount";
+    public static final String ERROR_AWARD_BUDGET_START_DATE_MISSING = "error.award.budgetVersion.startDate.required";
+    public static final String ERROR_AWARD_BUDGET_END_DATE_MISSING = "error.award.budgetVersion.endDate.required";
     public static final String ERROR_DOCUMENT_STATUS_NOT_FINAL = "error.document.status.not.final";
 
     //Budget Version warnings
