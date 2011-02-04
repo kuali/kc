@@ -24,10 +24,16 @@ import gov.grants.apply.forms.phs398TrainingBudgetV10.PHS398TrainingBudgetDocume
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.calculator.QueryList;
+import org.kuali.kra.budget.calculator.query.And;
+import org.kuali.kra.budget.calculator.query.Equals;
+import org.kuali.kra.budget.calculator.query.LesserThan;
+import org.kuali.kra.budget.calculator.query.Or;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.budget.rates.TrainingStipendRate;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
@@ -35,18 +41,16 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentS2sQuestionnaireService;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.questionnaire.QuestionnaireQuestion;
-import org.kuali.kra.questionnaire.QuestionnaireService;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.IndirectCostDetails;
 import org.kuali.kra.s2s.generator.bo.IndirectCostInfo;
-import org.kuali.kra.s2s.generator.bo.QuestionnaireAnswer;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
 
@@ -159,22 +163,22 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
 
         //undergrad
         int numPeople = phs398TrainingBudgetYearDataType.getUndergraduateNumFirstYearSophomoreStipends() ;
-        BigDecimal stipendAmountF = getStipendAmount(developmentProposal,UNDERGRADS,0,numPeople);
+        BigDecimal stipendAmountF = getStipendAmount(budgetPeriod,UNDERGRADS,0,numPeople);
         numPeople =  phs398TrainingBudgetYearDataType.getUndergraduateNumJuniorSeniorStipends();
-        BigDecimal stipendAmountJ = getStipendAmount(developmentProposal,UNDERGRADS,1,numPeople);
+        BigDecimal stipendAmountJ = getStipendAmount(budgetPeriod,UNDERGRADS,1,numPeople);
         phs398TrainingBudgetYearDataType.setUndergraduateStipendsRequested(stipendAmountF.add(stipendAmountJ));
 
 //        cumUndergradStipends = cumUndergradStipends.add(phs398TrainingBudgetYearDataType.getUndergraduateStipendsRequested());
 //
         //predoc
         numPeople = phs398TrainingBudgetYearDataType.getPredocSingleDegreeNumFullTime();
-        BigDecimal stipendAmountPreSingFull = getStipendAmount(developmentProposal,PREDOC,0,numPeople);
+        BigDecimal stipendAmountPreSingFull = getStipendAmount(budgetPeriod,PREDOC,0,numPeople);
         numPeople = phs398TrainingBudgetYearDataType.getPredocDualDegreeNumFullTime();
-        BigDecimal stipendAmountPreDualFull = getStipendAmount(developmentProposal,PREDOC,0,numPeople);
+        BigDecimal stipendAmountPreDualFull = getStipendAmount(budgetPeriod,PREDOC,0,numPeople);
         numPeople = phs398TrainingBudgetYearDataType.getPredocSingleDegreeNumShortTerm();
-        BigDecimal stipendAmountPreSingShort = getStipendAmount(developmentProposal,PREDOC,0,numPeople);
+        BigDecimal stipendAmountPreSingShort = getStipendAmount(budgetPeriod,PREDOC,0,numPeople);
         numPeople = phs398TrainingBudgetYearDataType.getPredocDualDegreeNumShortTerm();
-        BigDecimal stipendAmountPreDualShort = getStipendAmount(developmentProposal,PREDOC,0,numPeople);
+        BigDecimal stipendAmountPreDualShort = getStipendAmount(budgetPeriod,PREDOC,0,numPeople);
         
         phs398TrainingBudgetYearDataType.setPredocSingleDegreeStipendsRequested( stipendAmountPreSingFull.add( stipendAmountPreSingShort));
         phs398TrainingBudgetYearDataType.setPredocDualDegreeStipendsRequested(stipendAmountPreDualFull.add( stipendAmountPreDualShort));
@@ -190,44 +194,44 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
         //postdoc
 
         int numPostDocLevel0 = phs398TrainingBudgetYearDataType.getPostdocNumNonDegreeStipendLevel0();
-        BigDecimal stipendAmountNonDeg0 = getStipendAmount(developmentProposal,POSTDOC,0,numPostDocLevel0);
+        BigDecimal stipendAmountNonDeg0 = getStipendAmount(budgetPeriod,POSTDOC,0,numPostDocLevel0);
         numPostDocLevel0 = phs398TrainingBudgetYearDataType.getPostdocNumDegreeStipendLevel0();
-        BigDecimal stipendAmountDeg0 = getStipendAmount(developmentProposal,POSTDOC,0,numPostDocLevel0);
+        BigDecimal stipendAmountDeg0 = getStipendAmount(budgetPeriod,POSTDOC,0,numPostDocLevel0);
         
         int numPostDocLevel1 = phs398TrainingBudgetYearDataType.getPostdocNumNonDegreeStipendLevel1() ;
-        BigDecimal stipendAmountNonDeg1 = getStipendAmount(developmentProposal,POSTDOC,1,numPostDocLevel1);
+        BigDecimal stipendAmountNonDeg1 = getStipendAmount(budgetPeriod,POSTDOC,1,numPostDocLevel1);
         numPostDocLevel1 =  phs398TrainingBudgetYearDataType.getPostdocNumDegreeStipendLevel1();
-        BigDecimal stipendAmountDeg1 = getStipendAmount(developmentProposal,POSTDOC,1,numPostDocLevel1);
+        BigDecimal stipendAmountDeg1 = getStipendAmount(budgetPeriod,POSTDOC,1,numPostDocLevel1);
        
         int numPostDocLevel2 = phs398TrainingBudgetYearDataType.getPostdocNumNonDegreeStipendLevel2() ;
-        BigDecimal stipendAmountNonDeg2 = getStipendAmount(developmentProposal,POSTDOC,2,numPostDocLevel2);
+        BigDecimal stipendAmountNonDeg2 = getStipendAmount(budgetPeriod,POSTDOC,2,numPostDocLevel2);
         numPostDocLevel2 =  phs398TrainingBudgetYearDataType.getPostdocNumDegreeStipendLevel2();
-        BigDecimal stipendAmountDeg2 = getStipendAmount(developmentProposal,POSTDOC,2,numPostDocLevel2);
+        BigDecimal stipendAmountDeg2 = getStipendAmount(budgetPeriod,POSTDOC,2,numPostDocLevel2);
 
         int numPostDocLevel3 = phs398TrainingBudgetYearDataType.getPostdocNumNonDegreeStipendLevel3() ;
-        BigDecimal stipendAmountNonDeg3 = getStipendAmount(developmentProposal,POSTDOC,3,numPostDocLevel3);
+        BigDecimal stipendAmountNonDeg3 = getStipendAmount(budgetPeriod,POSTDOC,3,numPostDocLevel3);
         numPostDocLevel3 =  phs398TrainingBudgetYearDataType.getPostdocNumDegreeStipendLevel3();
-        BigDecimal stipendAmountDeg3 = getStipendAmount(developmentProposal,POSTDOC,3,numPostDocLevel3);
+        BigDecimal stipendAmountDeg3 = getStipendAmount(budgetPeriod,POSTDOC,3,numPostDocLevel3);
 
         int numPostDocLevel4 = phs398TrainingBudgetYearDataType.getPostdocNumNonDegreeStipendLevel4() ;
-        BigDecimal stipendAmountNonDeg4 = getStipendAmount(developmentProposal,POSTDOC,4,numPostDocLevel4);
+        BigDecimal stipendAmountNonDeg4 = getStipendAmount(budgetPeriod,POSTDOC,4,numPostDocLevel4);
         numPostDocLevel4 =  phs398TrainingBudgetYearDataType.getPostdocNumDegreeStipendLevel4();
-        BigDecimal stipendAmountDeg4 = getStipendAmount(developmentProposal,POSTDOC,4,numPostDocLevel4);
+        BigDecimal stipendAmountDeg4 = getStipendAmount(budgetPeriod,POSTDOC,4,numPostDocLevel4);
 
         int numPostDocLevel5 = phs398TrainingBudgetYearDataType.getPostdocNumNonDegreeStipendLevel5() ;
-        BigDecimal stipendAmountNonDeg5 = getStipendAmount(developmentProposal,POSTDOC,5,numPostDocLevel5);
+        BigDecimal stipendAmountNonDeg5 = getStipendAmount(budgetPeriod,POSTDOC,5,numPostDocLevel5);
         numPostDocLevel5 =  phs398TrainingBudgetYearDataType.getPostdocNumDegreeStipendLevel5();
-        BigDecimal stipendAmountDeg5 = getStipendAmount(developmentProposal,POSTDOC,5,numPostDocLevel5);
+        BigDecimal stipendAmountDeg5 = getStipendAmount(budgetPeriod,POSTDOC,5,numPostDocLevel5);
 
         int numPostDocLevel6 = phs398TrainingBudgetYearDataType.getPostdocNumNonDegreeStipendLevel6() ;
-        BigDecimal stipendAmountNonDeg6 = getStipendAmount(developmentProposal,POSTDOC,6,numPostDocLevel6);
+        BigDecimal stipendAmountNonDeg6 = getStipendAmount(budgetPeriod,POSTDOC,6,numPostDocLevel6);
         numPostDocLevel6 =  phs398TrainingBudgetYearDataType.getPostdocNumDegreeStipendLevel6();
-        BigDecimal stipendAmountDeg6 = getStipendAmount(developmentProposal,POSTDOC,6,numPostDocLevel6);
+        BigDecimal stipendAmountDeg6 = getStipendAmount(budgetPeriod,POSTDOC,6,numPostDocLevel6);
 
         int numPostDocLevel7= phs398TrainingBudgetYearDataType.getPostdocNumNonDegreeStipendLevel7() ;
-        BigDecimal stipendAmountNonDeg7 = getStipendAmount(developmentProposal,POSTDOC,7,numPostDocLevel7);
+        BigDecimal stipendAmountNonDeg7 = getStipendAmount(budgetPeriod,POSTDOC,7,numPostDocLevel7);
         numPostDocLevel7 =  phs398TrainingBudgetYearDataType.getPostdocNumDegreeStipendLevel7();
-        BigDecimal stipendAmountDeg7 = getStipendAmount(developmentProposal,POSTDOC,7,numPostDocLevel7);
+        BigDecimal stipendAmountDeg7 = getStipendAmount(budgetPeriod,POSTDOC,7,numPostDocLevel7);
 
         phs398TrainingBudgetYearDataType.setPostdocDegreeStipendsRequested(stipendAmountDeg0.add(stipendAmountDeg1).add(stipendAmountDeg2).add(
                 stipendAmountDeg3).add(stipendAmountDeg4).add(stipendAmountDeg5).add(stipendAmountDeg6).add(stipendAmountDeg7));
@@ -264,9 +268,27 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
         
         
     }
-    private BigDecimal getStipendAmount(DevelopmentProposal developmentProposal, String careerLevel, int experienceLevel, int numPeople) {
-        
-        return BigDecimal.ZERO;
+    private BigDecimal getStipendAmount(BudgetPeriod budgetPeriod, String careerLevel, int experienceLevel, int numPeople) {
+        BudgetDecimal stipendCost = BudgetDecimal.ZERO;
+        List<TrainingStipendRate> trainingStipendRates = (List<TrainingStipendRate>)getBusinessObjectService().findAll(TrainingStipendRate.class);
+        QueryList<TrainingStipendRate> trainingStipendRatesQueryList = new QueryList<TrainingStipendRate>(trainingStipendRates);
+        Equals eqStartDate = new Equals("effectiveDate",budgetPeriod.getStartDate());
+        LesserThan ltStartDate = new LesserThan("effectiveDate",budgetPeriod.getStartDate());
+        Or lessThanOrEqualsStartDate = new Or(eqStartDate,ltStartDate);
+        QueryList<TrainingStipendRate> filteredTrainingStipendRates = trainingStipendRatesQueryList.filter(lessThanOrEqualsStartDate);
+        filteredTrainingStipendRates.sort("effectiveDate", false);
+        Equals eqCareerLevel = new Equals("careerLevel",careerLevel);
+        Equals eqExperienceLevel = new Equals("experienceLevel",experienceLevel);
+        And eqCareerLevelAndeqExperienceLevel = new And(eqCareerLevel,eqExperienceLevel);
+        filteredTrainingStipendRates = filteredTrainingStipendRates.filter(eqCareerLevelAndeqExperienceLevel);
+        if(!filteredTrainingStipendRates.isEmpty()){
+            TrainingStipendRate trainingStipendRate = filteredTrainingStipendRates.get(0);
+            stipendCost = trainingStipendRate.getStipendRate().multiply(new BudgetDecimal(numPeople));
+        }
+        return stipendCost.bigDecimalValue();
+    }
+    private BusinessObjectService getBusinessObjectService() {
+        return KraServiceLocator.getService(BusinessObjectService.class);
     }
     private void setPostDocQuestions(PHS398TrainingBudget trainingBudgetType,
             PHS398TrainingBudgetYearDataType phs398TrainingBudgetYearDataType, DevelopmentProposal developmentProposal,
