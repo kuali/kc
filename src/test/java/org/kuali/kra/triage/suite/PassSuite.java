@@ -484,7 +484,8 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.award.home.fundingproposal.FandARatesDataFeedCommandTest.class,
     org.kuali.kra.award.home.fundingproposal.KeywordsDataFeedCommandTest.class,
     org.kuali.kra.award.home.fundingproposal.ProjectPersonnelDataFeedCommandTest.class,
-    org.kuali.kra.award.home.fundingproposal.SpecialReviewDataFeedCommandTest.class
+    org.kuali.kra.award.home.fundingproposal.SpecialReviewDataFeedCommandTest.class,
+    org.kuali.kra.award.lookup.keyvalue.AwardUnitContactTypeValuesFinderTest.class
 })
 /** these are all the test class where all the test methods are currently passing. */
 public class PassSuite {
