@@ -180,7 +180,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.protocol.reference.ProtocolReferenceServiceTest.class,
     org.kuali.kra.lookup.KraPessimisticLockLookupableHelperServiceImplTest.class,
     org.kuali.kra.award.commitments.AwardFandaRateTest.class,
-    org.kuali.kra.lookup.keyvalue.AbstractTypeValuesFinderTest.class,
+    org.kuali.kra.proposaldevelopment.lookup.keyvalue.AbstractTypeValuesFinderTest.class,
     org.kuali.kra.award.AwardAmountInfoServiceImplTest.class,
     org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentRuleHelperIntegrationTest.class,
     org.kuali.kra.lookup.keyvalue.NsfCodeValuesFinderTest.class,
