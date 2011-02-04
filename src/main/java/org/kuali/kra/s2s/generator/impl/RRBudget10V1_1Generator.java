@@ -183,70 +183,78 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
      */
     private BudgetSummary getBudgetSummary(BudgetSummaryInfo budgetSummaryData) {
 
-        OtherDirectCostInfo otherDirectCosts = budgetSummaryData.getOtherDirectCosts().get(0);
         BudgetSummary budgetSummary = BudgetSummary.Factory.newInstance();
-        budgetSummary.setCumulativeTotalFundsRequestedSeniorKeyPerson(BigDecimal.ZERO);
-        budgetSummary.setCumulativeTotalFundsRequestedPersonnel(BigDecimal.ZERO);
-
-        if (budgetSummaryData.getCumTotalFundsForSrPersonnel() != null) {
-            budgetSummary
-                    .setCumulativeTotalFundsRequestedSeniorKeyPerson(budgetSummaryData
-                            .getCumTotalFundsForSrPersonnel().bigDecimalValue());
-        }
-        if (budgetSummaryData.getCumTotalFundsForOtherPersonnel() != null) {
-            budgetSummary
-                    .setCumulativeTotalFundsRequestedOtherPersonnel(budgetSummaryData
-                            .getCumTotalFundsForOtherPersonnel()
+        OtherDirectCostInfo otherDirectCosts = null;
+        if(budgetSummaryData!=null){  
+            if(budgetSummaryData.getOtherDirectCosts()!=null && budgetSummaryData.getOtherDirectCosts().size() > 0 ){
+                otherDirectCosts = budgetSummaryData.getOtherDirectCosts().get(0);
+            } 
+            if(otherDirectCosts!=null){   
+        
+                budgetSummary.setCumulativeTotalFundsRequestedSeniorKeyPerson(BigDecimal.ZERO);
+                budgetSummary.setCumulativeTotalFundsRequestedPersonnel(BigDecimal.ZERO);
+        
+                if (budgetSummaryData.getCumTotalFundsForSrPersonnel() != null) {
+                    budgetSummary
+                            .setCumulativeTotalFundsRequestedSeniorKeyPerson(budgetSummaryData
+                                    .getCumTotalFundsForSrPersonnel().bigDecimalValue());
+                }
+                if (budgetSummaryData.getCumTotalFundsForOtherPersonnel() != null) {
+                    budgetSummary
+                            .setCumulativeTotalFundsRequestedOtherPersonnel(budgetSummaryData
+                                    .getCumTotalFundsForOtherPersonnel()
+                                    .bigDecimalValue());
+                }
+                if (budgetSummaryData.getCumNumOtherPersonnel() != null) {
+                    budgetSummary.setCumulativeTotalNoOtherPersonnel(budgetSummaryData
+                            .getCumNumOtherPersonnel().intValue());
+                }
+                if (budgetSummaryData.getCumTotalFundsForPersonnel() != null) {
+                    budgetSummary
+                            .setCumulativeTotalFundsRequestedPersonnel(budgetSummaryData
+                                    .getCumTotalFundsForPersonnel().bigDecimalValue());
+                }
+                budgetSummary.setCumulativeTotalFundsRequestedEquipment(budgetSummaryData.getCumEquipmentFunds().bigDecimalValue());
+                budgetSummary.setCumulativeTotalFundsRequestedTravel(budgetSummaryData.getCumTravel().bigDecimalValue());
+                budgetSummary.setCumulativeDomesticTravelCosts(budgetSummaryData.getCumDomesticTravel().bigDecimalValue());
+                budgetSummary.setCumulativeForeignTravelCosts(budgetSummaryData.getCumForeignTravel().bigDecimalValue());
+                budgetSummary.setCumulativeTotalFundsRequestedTraineeCosts(otherDirectCosts.getParticipantTotal().bigDecimalValue());
+                budgetSummary.setCumulativeTraineeStipends(otherDirectCosts.getPartStipends().bigDecimalValue());
+                budgetSummary.setCumulativeTraineeSubsistence(otherDirectCosts.getPartSubsistence().bigDecimalValue());
+                budgetSummary.setCumulativeTraineeTravel(otherDirectCosts.getPartTravel().bigDecimalValue());
+                budgetSummary.setCumulativeTraineeTuitionFeesHealthInsurance(otherDirectCosts.getPartTuition().bigDecimalValue());
+                budgetSummary.setCumulativeOtherTraineeCost(budgetSummaryData.getpartOtherCost().bigDecimalValue());
+                budgetSummary.setCumulativeNoofTrainees(budgetSummaryData.getparticipantCount());
+                budgetSummary.setCumulativeTotalFundsRequestedOtherDirectCosts(otherDirectCosts.gettotalOtherDirect().bigDecimalValue());
+                budgetSummary.setCumulativeMaterialAndSupplies(otherDirectCosts.getmaterials().bigDecimalValue());
+                budgetSummary.setCumulativePublicationCosts(otherDirectCosts.getpublications().bigDecimalValue());
+                budgetSummary.setCumulativeConsultantServices(otherDirectCosts.getConsultants().bigDecimalValue());
+                budgetSummary.setCumulativeADPComputerServices(otherDirectCosts.getcomputer().bigDecimalValue());
+                budgetSummary.setCumulativeSubawardConsortiumContractualCosts(otherDirectCosts.getsubAwards().bigDecimalValue());
+                budgetSummary.setCumulativeEquipmentFacilityRentalFees(otherDirectCosts.getEquipRental().bigDecimalValue());
+                budgetSummary.setCumulativeAlterationsAndRenovations(otherDirectCosts.getAlterations().bigDecimalValue());
+                List<Map<String,String>> cvOthers = otherDirectCosts.getOtherCosts();
+                for (int j = 0; j < cvOthers.size(); j++) {
+                    Map<String, String> hmCosts = cvOthers.get(j);
+                    if (j==0){
+                        budgetSummary.setCumulativeOther1DirectCost(new BigDecimal(hmCosts.get(S2SConstants.KEY_COST).toString()));
+                       } else if (j==1) {
+                           budgetSummary.setCumulativeOther2DirectCost(new BigDecimal(hmCosts.get(S2SConstants.KEY_COST).toString()));
+                       } else {
+                        budgetSummary.setCumulativeOther3DirectCost(new BigDecimal(hmCosts.get(S2SConstants.KEY_COST).toString()));
+                     }
+                }
+                budgetSummary.setCumulativeTotalFundsRequestedDirectCosts(budgetSummaryData
+                                .getCumTotalDirectCosts().bigDecimalValue());
+                budgetSummary.setCumulativeTotalFundsRequestedIndirectCost(budgetSummaryData
+                                .getCumTotalIndirectCosts().bigDecimalValue());
+                budgetSummary.setCumulativeTotalFundsRequestedDirectIndirectCosts(budgetSummaryData
+                                .getCumTotalCosts().bigDecimalValue());
+                if (budgetSummaryData.getCumFee() != null) {
+                    budgetSummary.setCumulativeFee(budgetSummaryData.getCumFee()
                             .bigDecimalValue());
-        }
-        if (budgetSummaryData.getCumNumOtherPersonnel() != null) {
-            budgetSummary.setCumulativeTotalNoOtherPersonnel(budgetSummaryData
-                    .getCumNumOtherPersonnel().intValue());
-        }
-        if (budgetSummaryData.getCumTotalFundsForPersonnel() != null) {
-            budgetSummary
-                    .setCumulativeTotalFundsRequestedPersonnel(budgetSummaryData
-                            .getCumTotalFundsForPersonnel().bigDecimalValue());
-        }
-        budgetSummary.setCumulativeTotalFundsRequestedEquipment(budgetSummaryData.getCumEquipmentFunds().bigDecimalValue());
-        budgetSummary.setCumulativeTotalFundsRequestedTravel(budgetSummaryData.getCumTravel().bigDecimalValue());
-        budgetSummary.setCumulativeDomesticTravelCosts(budgetSummaryData.getCumDomesticTravel().bigDecimalValue());
-        budgetSummary.setCumulativeForeignTravelCosts(budgetSummaryData.getCumForeignTravel().bigDecimalValue());
-        budgetSummary.setCumulativeTotalFundsRequestedTraineeCosts(otherDirectCosts.getParticipantTotal().bigDecimalValue());
-        budgetSummary.setCumulativeTraineeStipends(otherDirectCosts.getPartStipends().bigDecimalValue());
-        budgetSummary.setCumulativeTraineeSubsistence(otherDirectCosts.getPartSubsistence().bigDecimalValue());
-        budgetSummary.setCumulativeTraineeTravel(otherDirectCosts.getPartTravel().bigDecimalValue());
-        budgetSummary.setCumulativeTraineeTuitionFeesHealthInsurance(otherDirectCosts.getPartTuition().bigDecimalValue());
-        budgetSummary.setCumulativeOtherTraineeCost(budgetSummaryData.getpartOtherCost().bigDecimalValue());
-        budgetSummary.setCumulativeNoofTrainees(budgetSummaryData.getparticipantCount());
-        budgetSummary.setCumulativeTotalFundsRequestedOtherDirectCosts(otherDirectCosts.gettotalOtherDirect().bigDecimalValue());
-        budgetSummary.setCumulativeMaterialAndSupplies(otherDirectCosts.getmaterials().bigDecimalValue());
-        budgetSummary.setCumulativePublicationCosts(otherDirectCosts.getpublications().bigDecimalValue());
-        budgetSummary.setCumulativeConsultantServices(otherDirectCosts.getConsultants().bigDecimalValue());
-        budgetSummary.setCumulativeADPComputerServices(otherDirectCosts.getcomputer().bigDecimalValue());
-        budgetSummary.setCumulativeSubawardConsortiumContractualCosts(otherDirectCosts.getsubAwards().bigDecimalValue());
-        budgetSummary.setCumulativeEquipmentFacilityRentalFees(otherDirectCosts.getEquipRental().bigDecimalValue());
-        budgetSummary.setCumulativeAlterationsAndRenovations(otherDirectCosts.getAlterations().bigDecimalValue());
-        List<Map<String,String>> cvOthers = otherDirectCosts.getOtherCosts();
-        for (int j = 0; j < cvOthers.size(); j++) {
-            Map<String, String> hmCosts = cvOthers.get(j);
-            if (j==0){
-                budgetSummary.setCumulativeOther1DirectCost(new BigDecimal(hmCosts.get(S2SConstants.KEY_COST).toString()));
-               } else if (j==1) {
-                   budgetSummary.setCumulativeOther2DirectCost(new BigDecimal(hmCosts.get(S2SConstants.KEY_COST).toString()));
-               } else {
-                budgetSummary.setCumulativeOther3DirectCost(new BigDecimal(hmCosts.get(S2SConstants.KEY_COST).toString()));
-             }
-        }
-        budgetSummary.setCumulativeTotalFundsRequestedDirectCosts(budgetSummaryData
-                        .getCumTotalDirectCosts().bigDecimalValue());
-        budgetSummary.setCumulativeTotalFundsRequestedIndirectCost(budgetSummaryData
-                        .getCumTotalIndirectCosts().bigDecimalValue());
-        budgetSummary.setCumulativeTotalFundsRequestedDirectIndirectCosts(budgetSummaryData
-                        .getCumTotalCosts().bigDecimalValue());
-        if (budgetSummaryData.getCumFee() != null) {
-            budgetSummary.setCumulativeFee(budgetSummaryData.getCumFee()
-                    .bigDecimalValue());
+                }
+            }
         }
         return budgetSummary;
     }

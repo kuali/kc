@@ -298,12 +298,9 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         NodeList budgetYearList =  XPathAPI.selectNodeList(document,"//*[local-name(.) = 'BudgetYear']");
         for(int i=0;i<budgetYearList.getLength();i++){
             Node bgtYearNode = budgetYearList.item(i);
-            Node budgetPeriodNode = XPathAPI.selectSingleNode(bgtYearNode,"BudgetPeriod");
-            if(budgetPeriodNode!=null){
-                String period = budgetPeriodNode.getTextContent();
-                Element newBudgetYearElement = copyElementToName((Element)bgtYearNode,bgtYearNode.getNodeName()+period);
-                bgtYearNode.getParentNode().replaceChild(newBudgetYearElement,bgtYearNode);
-            }
+            String period = getValue(XPathAPI.selectSingleNode(bgtYearNode,"BudgetPeriod"));
+            Element newBudgetYearElement = copyElementToName((Element)bgtYearNode,bgtYearNode.getNodeName()+period);
+            bgtYearNode.getParentNode().replaceChild(newBudgetYearElement,bgtYearNode);
         }
         
         Node oldroot = document.removeChild(document.getDocumentElement());
@@ -467,6 +464,7 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
     private static String getValue(Node node){
         String textValue = "";
         Node child = null;
+        if(node!=null)
         for (child = node.getFirstChild(); child != null;
              child = child.getNextSibling()) {
              if(child.getNodeType()==Node.TEXT_NODE){
