@@ -590,6 +590,24 @@
 		<Message>A description is required for each Equipment budget line item.</Message>
 		<FixLink>budgetVersions</FixLink>
 	</Error> 
+<!--	Proposal RR_Budget10 BudgetSummary validation -->
+
+	<Error>
+		  <MessageKey>/GrantApplication/Forms/RR_Budget10/BudgetSummary</MessageKey>
+		  <Message>Please add a budget to the proposal.</Message>
+		  <FixLink>budgetVersions</FixLink>
+  	</Error> 
+  	<Error>			 
+		<MessageKey>/GrantApplication/Forms/RR_Budget10/BudgetJustificationAttachment</MessageKey>
+		<Message>You must have a BudgetJustification with the proposal. Please attach the BudgetJustification in Abstracts and Attachments window</Message>
+		<FixLink>abstractsAttachments</FixLink>
+	</Error>
+	<Error>			 
+		<MessageKey>/GrantApplication/Forms/RR_Budget10</MessageKey>
+		<Message>RR Budget10 form is not valid. Please attach the required details.</Message>
+		<FixLink>abstractsAttachments</FixLink>
+	</Error>
+	
 	<Error>
 		<MessageKey>/GrantApplication/Forms/RR_FedNonFedBudget/BudgetYear1/Equipment/EquipmentList/EquipmentItem</MessageKey>
 		<Message>A description is required for each Equipment budget line item.</Message>
