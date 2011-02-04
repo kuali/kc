@@ -281,6 +281,9 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         awardBudget.setBudgetDocument(awardBudgetDocument);
         BudgetVersionOverview lastBudgetVersion = getLastBudgetVersion(parentDocument);
         awardBudget.setOnOffCampusFlag(lastBudgetVersion==null?Constants.DEFALUT_CAMUS_FLAG:lastBudgetVersion.getOnOffCampusFlag());
+        if(awardBudgetDocument.getDocumentHeader() != null && awardBudgetDocument.getDocumentHeader().hasWorkflowDocument()){
+            awardBudget.setBudgetInitiator(awardBudgetDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
+        }
         
         BudgetParent budgetParent = parentDocument.getBudgetParent();
         awardBudget.setStartDate(budgetParent.getRequestedStartDateInitial());

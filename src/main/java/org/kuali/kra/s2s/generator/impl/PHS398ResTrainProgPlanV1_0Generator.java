@@ -62,8 +62,8 @@ public class PHS398ResTrainProgPlanV1_0Generator extends S2SBaseFormGenerator{
     private static final int PHS_RES_TRAINING_PLAN_RESP_CONDUCT_SEARCH_116 = 116;
     private static final int PHS_RES_TRAINING_PLAN_PROGRESS_REPORT_117 = 117;
     private static final int PHS_RES_TRAINING_PLAN_HUMAN_SUBJECTS_118 = 118;
-    private static final int PHS_RES_TRAINING_PLAN_SELECT_AGENT_SEARCH_119 = 119;
-    private static final int PHS_RES_TRAINING_PLAN_VERT_ANIMALS_120 = 120;
+    private static final int PHS_RES_TRAINING_PLAN_SELECT_AGENT_SEARCH_120 = 120;
+    private static final int PHS_RES_TRAINING_PLAN_VERT_ANIMALS_119 = 119;
     private static final int PHS_RES_TRAINING_PLAN_PI_LEADERSHIP_PLAN_121 = 121;
     private static final int PHS_RES_TRAINING_PLAN_CONS_CONTRACTUAL_122 = 122;
     private static final int PHS_RES_TRAINING_PLAN_FAC_BIOSKETCHES_123 = 123;
@@ -142,7 +142,7 @@ public class PHS398ResTrainProgPlanV1_0Generator extends S2SBaseFormGenerator{
                          }
                          humanSubjects.setAttFile(attachedFileDataType);
                          break;
-                     case(PHS_RES_TRAINING_PLAN_SELECT_AGENT_SEARCH_119):
+                     case(PHS_RES_TRAINING_PLAN_SELECT_AGENT_SEARCH_120):
                          attachedFileDataType = getAttachedFileType(narrative);
                          SelectAgentResearch selectAgentResearch = researchTrainingProgramPlanAttachments.addNewSelectAgentResearch();
                          if(attachedFileDataType == null){
@@ -150,7 +150,7 @@ public class PHS398ResTrainProgPlanV1_0Generator extends S2SBaseFormGenerator{
                          }
                          selectAgentResearch.setAttFile(attachedFileDataType);
                          break;
-                     case(PHS_RES_TRAINING_PLAN_VERT_ANIMALS_120):
+                     case(PHS_RES_TRAINING_PLAN_VERT_ANIMALS_119):
                          attachedFileDataType = getAttachedFileType(narrative);
                          VertebrateAnimals vertebrateAnimals = researchTrainingProgramPlanAttachments.addNewVertebrateAnimals();
                          if(attachedFileDataType == null){
