@@ -192,13 +192,13 @@
                     p:attributeName="unitNumber"
                     p:forceInquiry="true" />
               <bean parent="FieldDefinition"
+                    p:attributeName="unitName" />
+              <bean parent="FieldDefinition"
                     p:attributeName="parentUnit.unitName" />
-                    <bean parent="FieldDefinition"
+              <bean parent="FieldDefinition"
                     p:attributeName="parentUnit.unitNumber" />
               <bean parent="FieldDefinition"
                     p:attributeName="organization.organizationName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="unitName" />
             </list>
           </property>
         </bean>
