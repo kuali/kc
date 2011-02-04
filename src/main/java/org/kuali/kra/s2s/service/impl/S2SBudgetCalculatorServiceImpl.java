@@ -30,6 +30,7 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetCategoryMap;
 import org.kuali.kra.budget.core.BudgetCategoryMapping;
@@ -619,7 +620,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 			bpData.setTotalIndirectCostSharing(totalCalculatedCostSharing);
 			bpData.setCognizantFedAgency(s2SUtilService.getCognizantFedAgency(pdDoc.getDevelopmentProposal()));
 
-			bpData.setIndirectCosts(getInDirectCosts(budget, budgetPeriod));
+			bpData.setIndirectCosts(getIndirectCosts(budget, budgetPeriod));
 			bpData.setEquipment(getEquipment(budgetPeriod));
 			bpData.setOtherDirectCosts(getOtherDirectCosts(budgetPeriod,
 					S2SConstants.SPONSOR));
@@ -1010,8 +1011,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 	 *            given BudgetPeriod.
 	 * @return IndirectCostInfo for the corresponding BudgetPeriod object.
 	 */
-	// TODO: method too long - should be broken down into smaller units.
-	protected IndirectCostInfo getInDirectCosts(Budget budget,
+	public IndirectCostInfo getIndirectCosts(Budget budget,
 			BudgetPeriod budgetPeriod) {
 		List<IndirectCostDetails> indirectCostDetailList = new ArrayList<IndirectCostDetails>();
 		IndirectCostDetails indirectCostDetails;
@@ -1056,8 +1056,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 				for (BudgetRateAndBase rateBase : lineItem
 						.getBudgetRateAndBaseList()) {
 					RateClass rateClass = rateBase.getRateClass();
-					if (rateClass.getRateClassType().equals(
-							RATE_CLASS_TYPE_OTHER)) {
+					if (rateClass.getRateClassType().equals(RateClassType.OVERHEAD.getRateClassType())) {
 						String rateClassCode = rateClass.getRateClassCode();
 						String rateTypeCode = rateBase.getRateTypeCode();
 						appliedRate = rateBase.getAppliedRate();
@@ -1153,7 +1152,6 @@ public class S2SBudgetCalculatorServiceImpl implements
 	 * @return List<OtherDirectCostInfo> list of OtherDirectCostInfo
 	 *         corresponding to the BudgetPeriod object.
 	 */
-	// TODO: method too long - should be broken down into smaller units.
 	protected List<OtherDirectCostInfo> getOtherDirectCosts(
 			BudgetPeriod budgetPeriod, String sponsor) {
 		OtherDirectCostInfo otherDirectCostInfo = new OtherDirectCostInfo();
