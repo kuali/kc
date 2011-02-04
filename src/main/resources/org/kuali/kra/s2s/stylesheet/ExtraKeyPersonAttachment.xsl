@@ -84,10 +84,12 @@
                                         <fo:table-row>
                                             <fo:table-cell border-style="solid" border-width="1pt" border-color="black" width="15%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
                                                 <fo:block>
-                                                    <fo:inline font-size="9pt" font-weight="bold">Project Role:</fo:inline>
+                                                    <fo:inline font-size="9pt" font-weight="bold">Project</fo:inline>
+                                                    <fo:inline font-size="9pt">&#160;</fo:inline>
+                                                    <fo:inline font-size="9pt" font-weight="bold">Role:</fo:inline>
                                                 </fo:block>
                                             </fo:table-cell>
-                                            <fo:table-cell border-style="solid" border-width="1pt" border-color="black" number-columns-spanned="3" width="85%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
+                                            <fo:table-cell border-style="solid" border-width="1pt" border-color="black" number-columns-spanned="3" width="85%" padding-start="60pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
                                                 <fo:block>
                                                     <xsl:for-each select="ns1:ProjectRole">
                                                         <fo:inline font-size="9pt">
