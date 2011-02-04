@@ -40,12 +40,22 @@ public class AwardBudgetVersionRule extends BudgetVersionRule {
     
     @Override
     public boolean processAddBudgetVersion(AddBudgetVersionEvent event) throws WorkflowException {
-        boolean success =  super.processAddBudgetVersion(event);
+        boolean success = true;
         Budget budget = event.getBudget();
         Award award = (Award) budget.getBudgetParent();
         if(!award.getObligatedTotal().isPositive()){
             GlobalVariables.getErrorMap().putError(event.getErrorPathPrefix(), 
                   KeyConstants.ERROR_BUDGET_OBLIGATED_AMOUNT_INVALID, "Name");
+            success &= false;
+        }
+        if(budget.getStartDate()==null){
+            GlobalVariables.getErrorMap().putError(event.getErrorPathPrefix(), 
+                    KeyConstants.ERROR_AWARD_BUDGET_START_DATE_MISSING);
+            success &= false;
+        }
+        if(budget.getEndDate()==null){
+            GlobalVariables.getErrorMap().putError(event.getErrorPathPrefix(), 
+                    KeyConstants.ERROR_AWARD_BUDGET_END_DATE_MISSING);
             success &= false;
         }
         
