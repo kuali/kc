@@ -384,7 +384,14 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         super.route(mapping, protocolForm, request, response);
         
-        return createSuccessfulSubmitRedirect("Protocol", protocolDocument.getProtocol().getProtocolNumber(), request, mapping, protocolForm);
+        Long routeHeaderId = Long.parseLong(protocolForm.getDocument().getDocumentNumber());
+        String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_PROTOCOL_ACTIONS, "ProtocolDocument");
+        
+        ActionForward basicForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        //ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
+        return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation);
+        //return createSuccessfulSubmitRedirect("Protocol", protocolDocument.getProtocol().getProtocolNumber(), request, mapping, protocolForm);
     }
 
     /**
