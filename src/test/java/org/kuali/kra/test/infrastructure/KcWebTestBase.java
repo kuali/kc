@@ -674,10 +674,7 @@ public abstract class KcWebTestBase extends KcUnitTestBase {
         HtmlImageInput searchBtn = (HtmlImageInput) getElement(lookupPage, "methodToCall.search", "search", "search");
         HtmlPage resultsPage = (HtmlPage) searchBtn.click();
         
-        HtmlImageInput selectAllBtn = (HtmlImageInput) getElement(resultsPage, "methodToCall.selectAll.(::;false;::)", null, null);
-        if (selectAllBtn == null) {
-            selectAllBtn = (HtmlImageInput) getElement(resultsPage, "methodToCall.selectAll.(::;true;::)", null, null);
-        }
+        HtmlImageInput selectAllBtn = (HtmlImageInput) getElement(resultsPage, "methodToCall.selectAll.(::;true;::).x", null, null);
         HtmlPage selectedPage = (HtmlPage) selectAllBtn.click();
         setCheckboxes(selectedPage);
 
