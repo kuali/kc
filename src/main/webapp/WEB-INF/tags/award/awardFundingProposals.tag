@@ -25,45 +25,45 @@
 
 <kul:tab tabTitle="Funding Proposals" defaultOpen="false" tabErrorKey="document.awardList[0].fundingProposals*,fundingProposalBean.newFundingProposal">
 	<div class="tab-container" align="right">
-		<h3><span class="subhead-left">Add Funding Proposals</span></h3>
 	
-		<table id="fundingProposalAddTable" cellpadding="0" cellspacing="0" summary="Add Funding Proposal">
-		  <c:if test="${!readOnly}">
-			<tr>
-		    	<th align="center" scope="row">
-		    		<div align="right">Add:</div>
-		    	</th>
-		    	<td class="infoline">
-		    	  	<div align="center">
-		    	  		<kul:htmlAttributeLabel attributeEntry="${fundingProposalAttributes.proposalNumber}" skipHelpUrl="true"/>
-		    	  	 	&nbsp;
-		    	  	 	<kul:htmlControlAttribute property="fundingProposalBean.newFundingProposal.proposalNumber" 
-		    	  	 								attributeEntry="${fundingProposalAttributes.proposalNumber}"
-		    	  	 								readOnly="false" />		    	  	 	
-        	  	 	<kul:lookup boClassName="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" 
-        	  	 				fieldConversions="proposalId:fundingProposalBean.newFundingProposal.proposalId"  
-        	  	 				lookupParameters="fundingProposalBean.newFundingProposal.proposalNumber:proposalNumber" 
-        	  	 				anchor="${tabKey}" />
-		    	 	</div>
-		    	</td>
-		    	<td class="infoline">
-		    	    <div align="center">
-		    	        <kul:htmlAttributeLabel attributeEntry="${fundingProposalBeanAttributes.mergeTypeCode}" skipHelpUrl="true"/>
-		    	  	 	&nbsp;
-		    	    	<kul:htmlControlAttribute property="fundingProposalBean.mergeTypeCode"
-		    	    							  attributeEntry="${fundingProposalBeanAttributes.mergeTypeCode}"
-		    	    							  readOnly="false" />
-		    	    </div></td>
-		        <td class="infoline">
-		        	<div align="center">
-						<html:image property="methodToCall.addFundingProposal.anchor${tabKey}"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
-					</div>
-		        </td>
-		  	</tr>
-		  </c:if>
-	  	</table>
-	  	
+        <c:if test="${!readOnly}">
+			<h3><span class="subhead-left">Add Funding Proposals</span></h3>
+			<table id="fundingProposalAddTable" cellpadding="0" cellspacing="0" summary="Add Funding Proposal">
+				<tr>
+			    	<th align="center" scope="row">
+			    		<div align="right">Add:</div>
+			    	</th>
+			    	<td class="infoline">
+			    	  	<div align="center">
+			    	  		<kul:htmlAttributeLabel attributeEntry="${fundingProposalAttributes.proposalNumber}" skipHelpUrl="true"/>
+			    	  	 	&nbsp;
+			    	  	 	<kul:htmlControlAttribute property="fundingProposalBean.newFundingProposal.proposalNumber" 
+			    	  	 								attributeEntry="${fundingProposalAttributes.proposalNumber}"
+			    	  	 								readOnly="false" />		    	  	 	
+	        	  	 	<kul:lookup boClassName="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" 
+	        	  	 				fieldConversions="proposalId:fundingProposalBean.newFundingProposal.proposalId"  
+	        	  	 				lookupParameters="fundingProposalBean.newFundingProposal.proposalNumber:proposalNumber" 
+	        	  	 				anchor="${tabKey}" />
+			    	 	</div>
+			    	</td>
+			    	<td class="infoline">
+			    	    <div align="center">
+			    	        <kul:htmlAttributeLabel attributeEntry="${fundingProposalBeanAttributes.mergeTypeCode}" skipHelpUrl="true"/>
+			    	  	 	&nbsp;
+			    	    	<kul:htmlControlAttribute property="fundingProposalBean.mergeTypeCode"
+			    	    							  attributeEntry="${fundingProposalBeanAttributes.mergeTypeCode}"
+			    	    							  readOnly="false" />
+			    	    </div></td>
+			        <td class="infoline">
+			        	<div align="center">
+							<html:image property="methodToCall.addFundingProposal.anchor${tabKey}"
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+						</div>
+			        </td>
+			  	</tr>
+		  	</table>
+        </c:if>
+        
 		<h3><span class="subhead-left">Current Funding Proposals</span></h3>
 		
 		<table id="currentFundingProposalsTable" cellpadding="0" cellspacing="0" summary="Current Funding Proposals">
