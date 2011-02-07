@@ -808,6 +808,12 @@
 		    	</exclusion>
 			</exclusions>
 		</dependency>
+		<!-- Have given the expliciti dependency for rice-api. Should go away once we move to rice milestones -->
+		<dependency>
+			<groupId>org.kuali.rice</groupId>
+			<artifactId>rice-api</artifactId>
+			<version>1.0.3.1-20110119.231919-8</version>
+		</dependency>
 		<!-- the jsp libraries have not been moved over to eclipse as of jetty 7 - this is required for jetty 7 -->
 		<dependency>
 			<groupId>org.mortbay.jetty</groupId>
@@ -910,6 +916,17 @@
 		<dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-tx</artifactId>
+		    <version>${springframework.version}</version>
+		    <exclusions>
+		    	<exclusion>
+		    		<artifactId>commons-logging</artifactId>
+		    		<groupId>commons-logging</groupId>
+		    	</exclusion>
+		    </exclusions>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-aop</artifactId>
 		    <version>${springframework.version}</version>
 		    <exclusions>
 		    	<exclusion>
