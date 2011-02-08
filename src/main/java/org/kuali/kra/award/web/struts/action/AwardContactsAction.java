@@ -74,7 +74,6 @@ public class AwardContactsAction extends AwardAction {
         Award award = awardForm.getAwardDocument().getAward();
         ActionForward forward;
         if (isValidSave(awardForm)) {
-            //processAwardPersonChanges(award);
             setLeadUnitOnAwardFromPILeadUnit(award, awardForm);
             award.initCentralAdminContacts();
             forward = super.save(mapping, form, request, response);
