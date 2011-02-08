@@ -74,7 +74,7 @@ public class AwardContactsAction extends AwardAction {
         Award award = awardForm.getAwardDocument().getAward();
         ActionForward forward;
         if (isValidSave(awardForm)) {
-            processAwardPersonChanges(award);
+            //processAwardPersonChanges(award);
             setLeadUnitOnAwardFromPILeadUnit(award, awardForm);
             award.initCentralAdminContacts();
             forward = super.save(mapping, form, request, response);
@@ -82,65 +82,6 @@ public class AwardContactsAction extends AwardAction {
             forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);            
         }
         return forward;
-    }
-    
-    private void processAwardPersonChanges(Award award) {
-        ArrayList<AwardPerson> PIs = new ArrayList<AwardPerson>();
-        for (AwardPerson formPerson : award.getProjectPersons()) {
-            if (ContactRole.PI_CODE.equals(formPerson.getContactRole().getRoleCode())) {
-                PIs.add(formPerson);
-            }
-        }
-        
-        if (PIs.size() > 1) {
-            AwardPerson formPersonToSwitchToCOI = getPersonToChange(award, PIs);
-            
-            if (formPersonToSwitchToCOI != null) {
-                Map params = new HashMap();
-                params.put("PROP_PERSON_ROLE_ID", ContactRole.COI_CODE);
-                ProposalPersonRole coiRole = (ProposalPersonRole) this.getBusinessObjectService().findByPrimaryKey(ProposalPersonRole.class, params);
-                
-                formPersonToSwitchToCOI.setContactRole(coiRole);
-                formPersonToSwitchToCOI.setContactRoleCode(coiRole.getRoleCode());   
-                if (award.getPrincipalInvestigator().getUnits().get(0) != null 
-                        && award.getPrincipalInvestigator().getUnits().get(0).getUnitNumber() != null) {
-                    award.setUnitNumber(award.getPrincipalInvestigator().getUnits().get(0).getUnitNumber());
-                }
-            }
-        }
-
-    }
-
-    private AwardPerson getPersonToChange(Award award, ArrayList<AwardPerson> PIs) {
-        Map params = new HashMap();
-        params.put("AWARD_ID", award.getAwardId());
-        Award databaseAward = (Award) this.getBusinessObjectService().findByPrimaryKey(Award.class, params);
-        
-        //boolean notFound = true;
-        AwardPerson formPersonToSwitchToCOI = null;
-        
-        Iterator<AwardPerson> PIIterator = PIs.iterator();
-        boolean foundPersonToChange = false;
-        while (PIIterator.hasNext() && !foundPersonToChange){
-            AwardPerson formPerson = PIIterator.next();
-            Iterator<AwardPerson> databasePeople = databaseAward.getProjectPersons().iterator();
-            while (databasePeople.hasNext() && !foundPersonToChange){
-                AwardPerson databasePerson = databasePeople.next();
-                if (formPerson.getAwardContactId().equals(databasePerson.getAwardContactId()) 
-                        && ContactRole.PI_CODE.equals(databasePerson.getContactRole().getRoleCode())) {
-                    //this form person is a PI in the database, therefore this person is the one we need to change, if he wasn't a PI
-                    //in the data base, then that is the newer PI
-                    foundPersonToChange = true;
-                    formPersonToSwitchToCOI = formPerson;
-                }
-            }
-            
-            if (!PIIterator.hasNext() && !foundPersonToChange && PIs.size() > 1) {
-                // we have two new people and both are set to PI, just use the last one to switch to COI
-                formPersonToSwitchToCOI = formPerson;
-            }
-        }
-        return formPersonToSwitchToCOI;
     }
     
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -158,7 +99,7 @@ public class AwardContactsAction extends AwardAction {
     @SuppressWarnings("unchecked")
     private void setLeadUnitOnAwardFromPILeadUnit(Award award, AwardForm awardForm) {
         for (AwardPerson person : award.getProjectPersons()) {
-            if (person.isPrincipalInvestigator()) {
+            if (person.isPrincipalInvestigator() && person.getUnits().size() >= 1) {
                 String unitToUse = person.getUnit(0).getUnitNumber();
                 List<Unit> units = (List<Unit>) getBusinessObjectService().findMatching(Unit.class, 
                         ServiceHelper.getInstance().buildCriteriaMap("UNIT_NUMBER", unitToUse));
