@@ -2790,7 +2790,11 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
 
     public ContactRole getProposalEmployeeRole(String personId) {
-        return ((AwardPerson)getProposalEmployee(personId)).getContactRole();
+        if (getProposalEmployee(personId) != null) {
+            return ((AwardPerson)getProposalEmployee(personId)).getContactRole();
+        } else {
+            return null;
+        }
     }
 
     public PersonRolodex getProposalNonEmployee(Integer rolodexId) {
@@ -2798,7 +2802,11 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
 
     public ContactRole getProposalNonEmployeeRole(Integer rolodexId) {
-        return ((AwardPerson)getProposalNonEmployee(rolodexId)).getContactRole();
+        if (getProposalNonEmployee(rolodexId) != null) {
+            return ((AwardPerson)getProposalNonEmployee(rolodexId)).getContactRole();
+        } else {
+            return null;
+        }
     }
 
     public Date getRequestedEndDateInitial() {
