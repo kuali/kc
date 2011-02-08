@@ -17,7 +17,6 @@ package org.kuali.kra.irb;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -90,11 +89,9 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class Protocol extends KraPersistableBusinessObjectBase implements SequenceOwner<Protocol>, 
                                                                           Permissionable,
                                                                           UnitAclLoadable {
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
-    private static final long serialVersionUID = 1461551957662921433L;
 
+    private static final long serialVersionUID = 4396393806439396971L;
+    
     private static final CharSequence AMENDMENT_LETTER = "A";
     private static final CharSequence RENEWAL_LETTER = "R";
     private static final String DEFAULT_PROTOCOL_TYPE_CODE = "1";
@@ -310,11 +307,11 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
      * null is returned.
      * @return the submission date or null if not yet submitted
      */
-    public Timestamp getSubmissionDate() {
+    public Date getSubmissionDate() {
         // TODO : the last one in the list may not be the last one submitted
         // getProtocolSubmission will get the last one.  SO, this method may not needed.
         // Also, this method only referenced in test once.
-        Timestamp submissionDate = null;
+        Date submissionDate = null;
         if (protocolSubmissions.size() > 0) {
 //            ProtocolSubmission submission = protocolSubmissions.get(protocolSubmissions.size() - 1);
 //            submissionDate = submission.getSubmissionDate();
@@ -997,7 +994,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         this.protocolSubmission.setCommittee(committee);
         
         this.protocolSubmission.setSubmissionNumber(1);
-        this.protocolSubmission.setSubmissionDate(new Timestamp(System.currentTimeMillis()));
+        this.protocolSubmission.setSubmissionDate(new Date(System.currentTimeMillis()));
         this.protocolSubmission.setSubmissionStatusCode("100");
         
         ProtocolSubmissionType submissionType = new ProtocolSubmissionType();

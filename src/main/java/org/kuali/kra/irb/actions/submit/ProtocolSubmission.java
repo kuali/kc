@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -37,8 +37,8 @@ import org.kuali.kra.meeting.ProtocolVoteRecused;
  */
 public class ProtocolSubmission extends ProtocolAssociate { 
 
-    private static final long serialVersionUID = -5443313755174483591L;
-
+    private static final long serialVersionUID = 2158830045312905591L;
+    
     private Long submissionId;
     private Integer submissionNumber; 
     private String scheduleId; 
@@ -49,7 +49,7 @@ public class ProtocolSubmission extends ProtocolAssociate {
     private String submissionTypeQualifierCode;
     private String submissionStatusCode;
     private String protocolReviewTypeCode;
-    private Timestamp submissionDate; 
+    private Date submissionDate; 
     private String comments;
     private String committeeDecisionMotionTypeCode;
     private Integer yesVoteCount; 
@@ -220,11 +220,11 @@ public class ProtocolSubmission extends ProtocolAssociate {
         this.protocolReviewTypeCode = protocolReviewTypeCode;
     }
 
-    public Timestamp getSubmissionDate() {
+    public Date getSubmissionDate() {
         return submissionDate;
     }
 
-    public void setSubmissionDate(Timestamp submissionDate) {
+    public void setSubmissionDate(Date submissionDate) {
         this.submissionDate = submissionDate;
     }
 
