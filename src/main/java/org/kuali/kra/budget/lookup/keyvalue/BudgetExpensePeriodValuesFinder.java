@@ -18,18 +18,29 @@ package org.kuali.kra.budget.lookup.keyvalue;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.award.budget.AwardBudgetService;
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.kns.web.struts.form.MultipleValueLookupForm;
 import org.kuali.rice.core.util.KeyLabelPair;
 
 public class BudgetExpensePeriodValuesFinder extends BudgetPeriodValuesFinder {
-    KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
+    protected Log LOG = LogFactory.getLog(BudgetExpensePeriodValuesFinder.class);
+    
+    protected KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
+    protected AwardBudgetService awardBudgetService = KraServiceLocator.getService(AwardBudgetService.class);
+    protected DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
     
     /**
      * Constructs the list of Budget Periods.  Each entry
@@ -47,7 +58,7 @@ public class BudgetExpensePeriodValuesFinder extends BudgetPeriodValuesFinder {
         List<KeyLabelPair> keyLabelPairs = null;
         
         KualiForm form = GlobalVariables.getKualiForm();
-        if(form instanceof KualiDocumentFormBase) {
+        if (form instanceof KualiDocumentFormBase) {
             Document doc = ((KualiDocumentFormBase) form).getDocument();
             if(doc instanceof BudgetDocument) {
                 List<BudgetPeriod> budgetPeriods = ((BudgetDocument)doc).getBudget().getBudgetPeriods();
@@ -55,22 +66,57 @@ public class BudgetExpensePeriodValuesFinder extends BudgetPeriodValuesFinder {
                     keyLabelPairs = buildKeyLabelPairs(budgetPeriods);
                 }
             }
+        } else if (form instanceof MultipleValueLookupForm) {
+            try {
+                BudgetDocument doc = (BudgetDocument) getDocumentService().getByDocumentHeaderId(((MultipleValueLookupForm) form).getDocNum());
+                List<BudgetPeriod> budgetPeriods = getAwardBudgetService().findBudgetPeriodsFromLinkedProposal(((AwardDocument) doc.getParentDocument()).getAward().getAwardNumber());
+                if (budgetPeriods.size() > 0) {
+                    keyLabelPairs = buildKeyLabelPairs(budgetPeriods);
+                }
+            }
+            catch (WorkflowException e) {
+                LOG.error("Unable to load document for budget period values finder.", e);
+            }
         }
         
-        if(keyLabelPairs == null) {
-            keyLabelPairs = keyValueFinderService.getKeyValues(BudgetPeriod.class, "budgetPeriod", "label");            
+        if (keyLabelPairs != null) {
+            return keyLabelPairs;
+        } else {
+            return new ArrayList<KeyLabelPair>();
         }
-        
-        return keyLabelPairs; 
     }
     
     private List<KeyLabelPair> buildKeyLabelPairs(List<BudgetPeriod> budgetPeriods) {
         List<KeyLabelPair> keyLabelPairs = new ArrayList<KeyLabelPair>();
-        for(BudgetPeriod budgetPeriod: budgetPeriods) {
-            if(budgetPeriod.getBudgetPeriod()!=null){
+        for (BudgetPeriod budgetPeriod : budgetPeriods) {
+            if (budgetPeriod.getBudgetPeriod() != null) {
                 keyLabelPairs.add(new KeyLabelPair(budgetPeriod.getBudgetPeriod(), budgetPeriod.getLabel()));
             }
         }
         return keyLabelPairs;
+    }
+
+    protected KeyValueFinderService getKeyValueFinderService() {
+        return keyValueFinderService;
+    }
+
+    public void setKeyValueFinderService(KeyValueFinderService keyValueFinderService) {
+        this.keyValueFinderService = keyValueFinderService;
+    }
+
+    protected AwardBudgetService getAwardBudgetService() {
+        return awardBudgetService;
+    }
+
+    public void setAwardBudgetService(AwardBudgetService awardBudgetService) {
+        this.awardBudgetService = awardBudgetService;
+    }
+
+    protected DocumentService getDocumentService() {
+        return documentService;
+    }
+
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
     }
 }

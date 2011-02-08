@@ -16,6 +16,7 @@
 package org.kuali.kra.award.budget;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.document.AwardDocument;
@@ -66,4 +67,11 @@ public interface AwardBudgetService extends BudgetCommonService<Award> {
      * @param awardBudgetPeriod
      */
     public void copyLineItemsFromProposalPeriods(Collection rawValues, BudgetPeriod awardBudgetPeriod) throws WorkflowException;
+    
+    /**
+     * Gets all budget periods from proposals that are funding this award.
+     * @param awardNumber
+     * @return
+     */
+    public List<BudgetPeriod> findBudgetPeriodsFromLinkedProposal(String awardNumber);
 }

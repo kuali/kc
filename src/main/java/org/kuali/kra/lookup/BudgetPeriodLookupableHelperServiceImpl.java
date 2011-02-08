@@ -15,37 +15,24 @@
  */
 package org.kuali.kra.lookup;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
-import org.kuali.kra.award.budget.AwardBudgetExt;
-import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
-import org.kuali.kra.budget.core.Budget;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
-import org.kuali.kra.budget.versions.BudgetDocumentVersion;
-import org.kuali.kra.budget.versions.BudgetVersionOverview;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.lookup.LookupUtils;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.web.struts.form.LookupForm;
 
-import edu.mit.coeus.utils.xml.v2.budget.BUDGETDocument.BUDGET;
 
 /**
  * This class...
  */
 public class BudgetPeriodLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+    
+    protected AwardBudgetService awardBudgetService;
+    
     /**
      * 
      * @see org.kuali.core.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map) It calls the
@@ -53,45 +40,65 @@ public class BudgetPeriodLookupableHelperServiceImpl extends KualiLookupableHelp
      */
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         String awardNumber = fieldValues.get("budgetParentId");
-        List<BudgetPeriod> budgetPeriods = findBudgetPeriodsFromLinkedProposal(awardNumber);
+        List<BudgetPeriod> budgetPeriods = getAwardBudgetService().findBudgetPeriodsFromLinkedProposal(awardNumber);
+        filterSearchResults(budgetPeriods, fieldValues);
         return budgetPeriods;
-    }
-    @SuppressWarnings("unchecked")
-    protected List findObjectsWithSingleKey(Class clazz,String key, Object value){
-        Map<String,Object> fieldValues = new HashMap<String,Object>();
-        fieldValues.put(key, value);
-        return (List)getBusinessObjectService().findMatching(clazz, fieldValues);
-    }
-    protected List<BudgetPeriod> findBudgetPeriodsFromLinkedProposal(String awardNumber) {
-        BusinessObjectService businessObjectService = getBusinessObjectService();
-        List<BudgetPeriod> budgetPeriods = new ArrayList<BudgetPeriod>();
-        List<Award> awardVersions = findObjectsWithSingleKey(Award.class, "awardNumber", awardNumber);
-        for (Award award : awardVersions) {
-            List<AwardFundingProposal> fundingProposals = findObjectsWithSingleKey(AwardFundingProposal.class, "awardId",award.getAwardId());
-            for (AwardFundingProposal fundingProposal : fundingProposals) {
-            	if (fundingProposal.isActive()) {
-    	            List<InstitutionalProposal> instProposals = findObjectsWithSingleKey(InstitutionalProposal.class, "proposalNumber", fundingProposal.getProposal().getProposalNumber());
-    	            for (InstitutionalProposal instProp : instProposals) {
-    	                List<ProposalAdminDetails> proposalAdminDetails = findObjectsWithSingleKey(ProposalAdminDetails.class, 
-    	                                                                                "instProposalId",instProp.getProposalId());
-    	                for (ProposalAdminDetails proposalAdminDetail : proposalAdminDetails) {
-    	                    String developmentProposalNumber = proposalAdminDetail.getDevProposalNumber();
-    	                    DevelopmentProposal proposalDevelopmentDocument = businessObjectService.findBySinglePrimaryKey(
-    	                                                                            DevelopmentProposal.class, developmentProposalNumber);
-    	                    List<BudgetDocumentVersion> budgetDocumentVersions =  findObjectsWithSingleKey(BudgetDocumentVersion.class, 
-    	                                                                                "parentDocumentKey", proposalDevelopmentDocument.getProposalDocument().getDocumentNumber());
-    	                    for (BudgetDocumentVersion budgetDocumentVersion : budgetDocumentVersions) {
-    	                        Budget budget = getBusinessObjectService().findBySinglePrimaryKey(ProposalDevelopmentBudgetExt.class, 
-    	                                                                        budgetDocumentVersion.getBudgetVersionOverview().getBudgetId());
-    	                        if(budget.isFinalVersionFlag()){
-    	                            budgetPeriods.addAll(budget.getBudgetPeriods());
-    	                        }
-    	                    }
-    	                }
-    	            }
-            	}
+    }    
+    
+    /**
+     * Using the list of linked budget periods filter the result set by the field values given in the search
+     * @param budgetPeriods
+     * @param fieldValues
+     */
+    protected void filterSearchResults(List<BudgetPeriod> budgetPeriods, Map<String, String> fieldValues) {
+        String instPropNumber = fieldValues.get("institutionalProposalNumber");
+        String instPropVersion = fieldValues.get("institutionalProposalVersion");
+        String budgetPeriod = fieldValues.get("budgetPeriod");
+        String totalCost = fieldValues.get("totalCost");
+        String directCost = fieldValues.get("totalDirectCost");
+        String indirectCost = fieldValues.get("totalIndirectCost");
+        String costSharingAmt = fieldValues.get("costSharingAmount");
+        String underrecoveryAmount = fieldValues.get("underrecoveryAmount");
+        String comments = fieldValues.get("comments");
+        ListIterator<BudgetPeriod> iter = budgetPeriods.listIterator();
+        while (iter.hasNext()) {
+            BudgetPeriod period = iter.next();
+            if (StringUtils.isNotBlank(instPropNumber) 
+                    && !StringUtils.equals(instPropNumber, period.getInstitutionalProposalNumber())) {
+                iter.remove();
+            } else if (StringUtils.isNotBlank(instPropVersion)
+                    && !StringUtils.equals(instPropVersion, period.getInstitutionalProposalVersion().toString())) {
+                iter.remove();
+            } else if (StringUtils.isNotBlank(budgetPeriod)
+                    && !StringUtils.equals(budgetPeriod, period.getBudgetPeriod().toString())) {
+                iter.remove();
+            } else if (StringUtils.isNotBlank(totalCost)
+                    && !StringUtils.equals(totalCost, period.getTotalCost().toString())) {
+                iter.remove();
+            } else if (StringUtils.isNotBlank(directCost)
+                    && !StringUtils.equals(directCost, period.getTotalDirectCost().toString())) {
+                iter.remove();
+            } else if (StringUtils.isNotBlank(indirectCost)
+                    && !StringUtils.equals(indirectCost, period.getTotalIndirectCost().toString())) {
+                iter.remove();
+            } else if (StringUtils.isNotBlank(costSharingAmt)
+                    && !StringUtils.equals(costSharingAmt, period.getCostSharingAmount().toString())) {
+                iter.remove();
+            } else if (StringUtils.isNotBlank(underrecoveryAmount)
+                    && !StringUtils.equals(underrecoveryAmount, period.getUnderrecoveryAmount().toString())) {
+                iter.remove();
+            } else if (StringUtils.isNotBlank(comments)
+                    && !StringUtils.equals(comments, period.getComments())) {
+                iter.remove();
             }
         }
-        return budgetPeriods;
+    }
+
+    protected AwardBudgetService getAwardBudgetService() {
+        return awardBudgetService;
+    }
+
+    public void setAwardBudgetService(AwardBudgetService awardBudgetService) {
+        this.awardBudgetService = awardBudgetService;
     }
 }

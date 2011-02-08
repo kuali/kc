@@ -474,6 +474,7 @@
 	</bean>	
 	<bean id="budgetPeriodLookupableHelperService" class="org.kuali.kra.lookup.BudgetPeriodLookupableHelperServiceImpl" 
  		scope="prototype" parent="lookupableHelperService"> 
+ 		<property name="awardBudgetService" ref="awardBudgetService"/>
   	</bean>		
     <bean id="budgetCategoryService"
 		class="org.kuali.kra.external.budget.service.impl.BudgetCategoryServiceImpl">

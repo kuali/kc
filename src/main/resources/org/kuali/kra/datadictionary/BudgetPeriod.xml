@@ -37,6 +37,8 @@
         <ref bean="BudgetPeriod-totalIndirectCost" />
         <ref bean="BudgetPeriod-underrecoveryAmount" />
         <ref bean="BudgetPeriod-budgetParentId" />
+        <ref bean="BudgetPeriod-institutionalProposalNumber" />
+        <ref bean="BudgetPeriod-institutionalProposalVersion" />
       </list>
     </property>
     <property name="primaryKeys">
@@ -201,6 +203,26 @@
 		<bean parent="HiddenControlDefinition"/>
     </property>
   </bean>
+  
+  <bean id="BudgetPeriod-institutionalProposalNumber" parent="BudgetPeriod-institutionalProposalNumber-parentBean" />
+
+  <bean id="BudgetPeriod-institutionalProposalNumber-parentBean" abstract="true" parent="InstitutionalProposal-proposalNumber-parentBean">
+    <property name="name" value="institutionalProposalNumber" />
+    <property name="label" value="Proposal Number" />
+    <property name="shortLabel" value="Proposal Number" />
+    <property name="summary" value="Proposal Number" />
+    <property name="description" value="Proposal Number" />
+  </bean>  
+
+  <bean id="BudgetPeriod-institutionalProposalVersion" parent="BudgetPeriod-institutionalProposalVersion-parentBean" />
+
+  <bean id="BudgetPeriod-institutionalProposalVersion-parentBean" abstract="true" parent="InstitutionalProposal-sequenceNumber-parentBean">
+    <property name="name" value="institutionalProposalVersion" />
+     <property name="label" value="Proposal Version" />
+    <property name="shortLabel" value="Proposal Version" />
+    <property name="summary" value="Proposal Version" />
+    <property name="description" value="Proposal Version" />
+  </bean>   
 
 <!-- Business Object Inquiry Definition -->
 
@@ -265,31 +287,25 @@
       </bean>
     </property>
     <property name="lookupFields" >
-      <list> 
+      <list>               
         <bean parent="FieldDefinition"
-              p:attributeName="budgetPeriodId"/>
+              p:attributeName="institutionalProposalNumber" />
         <bean parent="FieldDefinition"
-              p:attributeName="budgetPeriod" />
-        <bean parent="FieldDefinition"
-              p:attributeName="versionNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="comments" />
-        <bean parent="FieldDefinition"
-              p:attributeName="costSharingAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="endDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="startDate" />
+              p:attributeName="institutionalProposalVersion" />
+         <bean parent="FieldDefinition"
+              p:attributeName="budgetPeriod" />                                                      
         <bean parent="FieldDefinition"
               p:attributeName="totalCost" />
-        <bean parent="FieldDefinition"
-              p:attributeName="totalCostLimit" />
         <bean parent="FieldDefinition"
               p:attributeName="totalDirectCost" />
         <bean parent="FieldDefinition"
               p:attributeName="totalIndirectCost" />
         <bean parent="FieldDefinition"
+              p:attributeName="costSharingAmount" />
+        <bean parent="FieldDefinition"
               p:attributeName="underrecoveryAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="comments" />
         <bean parent="FieldDefinition"
               p:attributeName="budgetParentId" />
       </list>
@@ -297,31 +313,28 @@
     <property name="resultFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="budgetPeriodId"/>
+              p:attributeName="institutionalProposalNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="institutionalProposalVersion" />        
         <bean parent="FieldDefinition"
               p:attributeName="budgetPeriod"
               p:forceInquiry="true" />
         <bean parent="FieldDefinition"
-              p:attributeName="versionNumber"
-              p:forceInquiry="true" />
+              p:attributeName="startDate" /> 
         <bean parent="FieldDefinition"
-              p:attributeName="comments" />
-        <bean parent="FieldDefinition"
-              p:attributeName="costSharingAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="endDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="startDate" />
+              p:attributeName="endDate" />                           
         <bean parent="FieldDefinition"
               p:attributeName="totalCost" />
-        <bean parent="FieldDefinition"
-              p:attributeName="totalCostLimit" />
         <bean parent="FieldDefinition"
               p:attributeName="totalDirectCost" />
         <bean parent="FieldDefinition"
               p:attributeName="totalIndirectCost" />
         <bean parent="FieldDefinition"
+              p:attributeName="costSharingAmount" />
+        <bean parent="FieldDefinition"
               p:attributeName="underrecoveryAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="comments" />
       </list>
     </property>
   </bean>
