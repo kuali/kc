@@ -59,6 +59,8 @@ public class BudgetPeriod extends BudgetAssociate {
     private Budget budget;
     //this is for lookup from award budget
     private String budgetParentId;
+    private String institutionalProposalNumber;
+    private Integer institutionalProposalVersion;
     
     // This is a BO and hence will not be shared between threads. dateFormatter here is thread safe.
     private SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
@@ -427,5 +429,21 @@ public class BudgetPeriod extends BudgetAssociate {
      */
     public String getBudgetParentId() {
         return budgetParentId;
+    }
+
+    public String getInstitutionalProposalNumber() {
+        return institutionalProposalNumber;
+    }
+
+    public void setInstitutionalProposalNumber(String institutionalProposalNumber) {
+        this.institutionalProposalNumber = institutionalProposalNumber;
+    }
+
+    public Integer getInstitutionalProposalVersion() {
+        return institutionalProposalVersion;
+    }
+
+    public void setInstitutionalProposalVersion(Integer institutionalProposalVersion) {
+        this.institutionalProposalVersion = institutionalProposalVersion;
     }
 }
