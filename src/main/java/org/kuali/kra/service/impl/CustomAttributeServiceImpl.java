@@ -193,7 +193,7 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
      * @see org.kuali.kra.service.CustomAttributeService#setCustomAttributeKeyValue(org.kuali.kra.document.ResearchDocumentBase, java.lang.String, java.lang.String)
      */
     public void setCustomAttributeKeyValue(ResearchDocumentBase document, String attributeName, String networkId) throws Exception {
-        WorkflowDocument workflowDocument = new WorkflowDocument(new NetworkIdDTO(networkId),new Long (Long.parseLong(document.getDocumentHeader().getDocumentNumber()))); 
+        WorkflowDocument workflowDocument = new WorkflowDocument(networkId, Long.parseLong(document.getDocumentHeader().getDocumentNumber())); 
         //WorkflowDocument document = proposalDevelopmentForm.getWorkflowDocument().getInitiatorNetworkId();
         
         // Not sure to delete all the content, but there is no other options
