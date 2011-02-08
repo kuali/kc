@@ -50,14 +50,13 @@ public class EffortReportingServiceImpl implements EffortReportingService {
 		String role = award.getPrincipalInvestigator().getPersonId();
 		return role;
 	}
-
+	
 	/**
 	 * Method checks if the award has a federal sponsor.
 	 * If the award sponsor type code or the prime sponsor type is federal, then
 	 * the document should be routed.
 	 * @see org.kuali.kra.external.effortReporting.service.EffortReportingService#isFederalSponsor(java.lang.String)
 	 */
-	@Override
 	public boolean isFederalSponsor(String financialAccountNumber) {
 		
 		Award award = getAward(financialAccountNumber);
