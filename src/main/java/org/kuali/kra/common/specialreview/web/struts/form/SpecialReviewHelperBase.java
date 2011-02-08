@@ -16,8 +16,6 @@
 package org.kuali.kra.common.specialreview.web.struts.form;
 
 import java.io.Serializable;
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.List;
 
 import org.kuali.kra.bo.SpecialReviewApprovalType;
@@ -99,8 +97,7 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
             if (protocol != null) {
                 specialReview.setApprovalTypeCode(SpecialReviewApprovalType.LINK_TO_IRB);
                 specialReview.setProtocolStatus(protocol.getProtocolStatus().getDescription());
-                Timestamp submissionDate = protocol.getProtocolSubmission().getSubmissionDate();
-                specialReview.setApplicationDate(submissionDate == null ? null : new Date(submissionDate.getTime()));
+                specialReview.setApplicationDate(protocol.getProtocolSubmission().getSubmissionDate());
                 specialReview.setApprovalDate(protocol.getLastApprovalDate() == null ? protocol.getApprovalDate() : protocol.getLastApprovalDate());
                 specialReview.setExpirationDate(protocol.getExpirationDate());
                 // Set Exemption # once we get the mapping

@@ -166,7 +166,7 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
         submission.setProtocolNumber(protocolDocument.getProtocol().getProtocolNumber());
         submission.setSubmissionId(1234L);
         submission.setSubmissionNumber(1);
-        submission.setSubmissionDate(new Timestamp(System.currentTimeMillis()));
+        submission.setSubmissionDate(new Date(System.currentTimeMillis()));
         protocolDocument.getProtocol().getProtocolSubmissions().add(submission);
         
         ProtocolGenericActionBean actionBean = getMockProtocolGenericActionBean();

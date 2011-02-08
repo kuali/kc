@@ -727,7 +727,7 @@
         <field-descriptor name="scheduleIdFk" column="SCHEDULE_ID_FK" jdbc-type="BIGINT" />
         <field-descriptor name="committeeIdFk" column="COMMITTEE_ID_FK" jdbc-type="BIGINT" />
         <field-descriptor name="protocolReviewTypeCode" column="PROTOCOL_REVIEW_TYPE_CODE" jdbc-type="VARCHAR" />
-        <field-descriptor name="submissionDate" column="SUBMISSION_DATE" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="submissionDate" column="SUBMISSION_DATE" jdbc-type="DATE" />
         <field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
         <field-descriptor name="committeeDecisionMotionTypeCode" column="COMM_DECISION_MOTION_TYPE_CODE"  jdbc-type="VARCHAR" />
         <field-descriptor name="yesVoteCount" column="YES_VOTE_COUNT" jdbc-type="INTEGER" />

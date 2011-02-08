@@ -17,7 +17,7 @@ package org.kuali.kra.irb.actions;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +35,6 @@ import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
 import org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem;
 import org.kuali.kra.irb.actions.submit.ProtocolExpeditedReviewCheckListItem;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
@@ -67,7 +66,7 @@ public class ProtocolSubmissionBuilder {
         protocolSubmission.setSequenceNumber(protocol.getSequenceNumber());
         protocolSubmission.setSubmissionNumber(getNextSubmissionNumber(protocol));
         
-        protocolSubmission.setSubmissionDate(new Timestamp(System.currentTimeMillis()));
+        protocolSubmission.setSubmissionDate(new Date(System.currentTimeMillis()));
         protocolSubmission.setSubmissionTypeCode(submissionTypeCode);
         
         ProtocolSubmission oldSubmission = protocol.getProtocolSubmission();
@@ -132,7 +131,7 @@ public class ProtocolSubmissionBuilder {
      * @return the submission
      */
     public ProtocolSubmission create() {
-        protocolSubmission.setSubmissionDate(new Timestamp(System.currentTimeMillis()));
+        protocolSubmission.setSubmissionDate(new Date(System.currentTimeMillis()));
         getBusinessObjectService().save(protocolSubmission);
         protocolSubmission.getProtocol().getProtocolSubmissions().add(protocolSubmission);
 //        if (ProtocolSubmissionType.NOTIFY_IRB.equals(protocolSubmission.getSubmissionTypeCode())) {

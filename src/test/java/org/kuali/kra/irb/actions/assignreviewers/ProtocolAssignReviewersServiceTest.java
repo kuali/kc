@@ -138,7 +138,7 @@ public class ProtocolAssignReviewersServiceTest extends KcUnitTestBase {
         submission.setSubmissionTypeCode(ProtocolSubmissionType.INITIAL_SUBMISSION);
         submission.setSubmissionStatusCode(statusCode);
         submission.setProtocolReviewTypeCode(ProtocolReviewType.FULL_TYPE_CODE);
-        submission.setSubmissionDate(new Timestamp(System.currentTimeMillis()));
+        submission.setSubmissionDate(new Date(System.currentTimeMillis()));
         if (StringUtils.equals(statusCode, ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
             submission.setCommitteeId("1");
         }
