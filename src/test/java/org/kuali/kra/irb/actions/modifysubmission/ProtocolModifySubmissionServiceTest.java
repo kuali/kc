@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.actions.modifysubmission;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.Collections;
 
 import org.jmock.Expectations;
@@ -116,7 +116,7 @@ public class ProtocolModifySubmissionServiceTest extends KcUnitTestBase {
         submission.setSubmissionTypeCode(ProtocolSubmissionType.INITIAL_SUBMISSION);
         submission.setSubmissionStatusCode(ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
         submission.setProtocolReviewTypeCode(protocolReviewTypeCode);
-        submission.setSubmissionDate(new Timestamp(System.currentTimeMillis()));
+        submission.setSubmissionDate(new Date(System.currentTimeMillis()));
         submission.setCommitteeId("1");
         return submission;
     }

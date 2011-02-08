@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.actions.withdraw;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -34,15 +34,12 @@ import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
-import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.service.WorkflowDocument;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * The ProtocolWithdrawService implementation.
@@ -117,7 +114,7 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
 
        
         if (submission != null) {
-            submission.setSubmissionDate(new Timestamp(System.currentTimeMillis()));
+            submission.setSubmissionDate(new Date(System.currentTimeMillis()));
             submission.setSubmissionStatusCode(ProtocolSubmissionStatus.WITHDRAWN);
             // need to finalize any outstanding review documents.
             protocolOnlineReviewService.finalizeOnlineReviews(submission, WITHDRAW_FINALIZE_OLR_ANNOTATION);
