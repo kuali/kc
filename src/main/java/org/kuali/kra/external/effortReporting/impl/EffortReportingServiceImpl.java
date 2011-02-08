@@ -47,8 +47,13 @@ public class EffortReportingServiceImpl implements EffortReportingService {
 	 */
 	public String getProjectDirector(String financialAccountNumber) {
 		Award award = getAward(financialAccountNumber);
-		String role = award.getPrincipalInvestigator().getPersonId();
-		return role;
+		if (ObjectUtils.isNotNull(award)) {
+			String role = award.getPrincipalInvestigator().getPersonId();
+			return role;
+		}
+		else {
+			return null;
+		}
 	}
 	
 	/**
@@ -82,11 +87,10 @@ public class EffortReportingServiceImpl implements EffortReportingService {
 	protected Award getAward(String financialAccountNumber) {
 		List<Award> awards;
         HashMap<String, String> searchCriteria =  new HashMap<String, String>();
-        searchCriteria.put("FIN_ACCOUNT_DOC_NBR", financialAccountNumber);  
+        searchCriteria.put("financialAccountDocumentNumber", financialAccountNumber);  
 		awards = new ArrayList<Award>(businessObjectService.findMatching(Award.class, searchCriteria));
-		if (ObjectUtils.isNotNull(awards)) {
-			Award award = awards.get(0);
-			return award;
+		if (ObjectUtils.isNotNull(awards) && !awards.isEmpty()) {
+			return awards.get(0);
 		} else {
 			return null;
 		}	
