@@ -23,6 +23,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
@@ -88,11 +89,11 @@ public class KraHoldingPageAction extends KualiAction {
         
         // TO DO : have NOT found a consistent indicator of whether a document route is processed or not.
         // so a couple of hacks for now.
-        // docroutelevel > 0 is for Protocol
+        // Protocol implemented isProcessComplete
         // Final status code check is for IP
         return document.getDocumentHeader().hasWorkflowDocument() && !isPessimisticallyLocked
-        && (document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteLevel() > 0
-                || KEWConstants.ROUTE_HEADER_FINAL_CD.equals(document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
+        && ((document instanceof ProtocolDocument ? ((ProtocolDocument)document).isProcessComplete() : 
+                 KEWConstants.ROUTE_HEADER_FINAL_CD.equals(document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus())));
     }
     
     public DocumentService getDocumentService() {

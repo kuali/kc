@@ -384,6 +384,11 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         super.route(mapping, protocolForm, request, response);
         
+        return routeProtocolToHoldingPage(mapping, protocolForm);
+        //return createSuccessfulSubmitRedirect("Protocol", protocolDocument.getProtocol().getProtocolNumber(), request, mapping, protocolForm);
+    }
+
+    private ActionForward routeProtocolToHoldingPage(ActionMapping mapping, ProtocolForm protocolForm) {
         Long routeHeaderId = Long.parseLong(protocolForm.getDocument().getDocumentNumber());
         String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_PROTOCOL_ACTIONS, "ProtocolDocument");
         
@@ -391,9 +396,9 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         //ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
         return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation);
-        //return createSuccessfulSubmitRedirect("Protocol", protocolDocument.getProtocol().getProtocolNumber(), request, mapping, protocolForm);
-    }
 
+    }
+    
     /**
      * Withdraw a previously submitted protocol.
      * 
@@ -1391,9 +1396,10 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 forward = super.approve(mapping, protocolForm, request, response);
                 getProtocolApproveService().grantFullApproval(document.getProtocol(), actionBean);
                 saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-                if (document.getProtocol().isAmendment() || document.getProtocol().isRenewal()) {
-                    forward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
-                }
+//                if (document.getProtocol().isAmendment() || document.getProtocol().isRenewal()) {
+//                    forward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+//                }
+                forward = routeProtocolToHoldingPage(mapping, protocolForm);                                    
                 
                 recordProtocolActionSuccess("Full Approval");
             }
@@ -1431,7 +1437,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         // Question frame work will execute method twice.  so, need to be aware that service will not be executed twice.
         if (request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME) != null) {
             confirmFollowupAction(mapping, form, request, response, KNSConstants.MAPPING_PORTAL);
-            forward = mapping.findForward(KNSConstants.MAPPING_PORTAL);                                    
+            //forward = mapping.findForward(KNSConstants.MAPPING_PORTAL);                                    
+            forward = routeProtocolToHoldingPage(mapping, protocolForm);                                    
         }
         return forward;
     }
@@ -1458,7 +1465,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             if (applyRules(new ProtocolApproveEvent(document, actionBean))) {
                 getProtocolApproveService().grantResponseApproval(document.getProtocol(), actionBean);
                 saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-                forward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+               // forward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+                forward = routeProtocolToHoldingPage(mapping, protocolForm);                                    
                 
                 recordProtocolActionSuccess("Response Approval");
             }

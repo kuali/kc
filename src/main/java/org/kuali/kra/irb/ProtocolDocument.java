@@ -470,4 +470,29 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         this.reRouted = reRouted;
     }
 
+    /**
+     * 
+     * This method is to check whether rice async routing is ok now.   
+     * Close to hack.  called by holdingpageaction
+     * Different document type may have different routing set up, so each document type
+     * can implement its own isProcessComplete
+     * @return
+     */
+    public boolean isProcessComplete() {
+        boolean isComplete = true;
+           if (this.getProtocol().getProtocolStatusCode().equals(ProtocolStatus.SUBMITTED_TO_IRB)) {
+               if (this.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteLevel() == 0) {
+                   isComplete = false;
+               } 
+           } else {
+               // approve/expedited approve/response approve
+               if (!KEWConstants.ROUTE_HEADER_FINAL_CD.equals(this.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus())) {
+                   isComplete = false;
+               } 
+           }
+           
+       return isComplete;
+    }
+    
+
 }
