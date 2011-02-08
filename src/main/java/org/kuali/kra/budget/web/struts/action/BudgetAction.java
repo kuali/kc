@@ -153,17 +153,10 @@ public class BudgetAction extends BudgetActionBase {
         final BudgetForm budgetForm = (BudgetForm) form;
         if(budgetForm.getMethodToCall().equals("close")){
             setupDocumentExit();
-        }else{
-            GlobalVariables.getUserSession().addObject(DocumentAuthorizerBase.USER_SESSION_METHOD_TO_CALL_COMPLETE_OBJECT_KEY,Boolean.FALSE);
         }
         ActionForward actionForward = null;
         
-//        try {
-            actionForward = super.execute(mapping, budgetForm, request, response);    
-//        } 
-//        finally {
-//            this.setAdditionalDocumentHeaderInfo(budgetForm);
-//        }
+        actionForward = super.execute(mapping, budgetForm, request, response);    
         
         if (actionForward != null) {
             if ("summaryTotals".equals(actionForward.getName())) { 
