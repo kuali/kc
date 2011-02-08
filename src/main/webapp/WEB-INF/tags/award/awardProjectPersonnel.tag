@@ -29,7 +29,7 @@
             <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.award.contacts.AwardPersonCreditSplit" altText="help"/></span>
         </h3>
         <kul:innerTab tabTitle="Key Personnel" parentTab="Key Personnel and Credit Split" defaultOpen="true" 
-            tabErrorKey="projectPersonnelBean.contactRoleCode*,projectPersonnelBean.newAwardContact*,document.awardList[0].projectPersons"
+            tabErrorKey="projectPersonnelBean.contactRoleCode*,projectPersonnelBean.newAwardContact*,document.awardList[0].projectPersons,projectPersonnelBean.projectPersonnel[*"
             auditCluster="contactsAuditErrors" tabAuditKey="document.awardList[0].projectPerson*">
 		
     		<table id="contacts-table" cellpadding="0" cellspacing="0" summary="Key Personnel">

@@ -51,6 +51,8 @@ import org.kuali.kra.award.awardhierarchy.sync.AwardSyncPendingChangeBean;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
 import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncService;
 import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncCreationService;
+import org.kuali.kra.award.contacts.AwardPerson;
+import org.kuali.kra.award.contacts.AwardProjectPersonsSaveRule;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
@@ -580,13 +582,37 @@ public class AwardAction extends BudgetParentActionBase {
     protected boolean isValidSave(AwardForm awardForm) {
         AwardDocument awardDocument = (AwardDocument) awardForm.getDocument();
         String leadUnitNumber = awardDocument.getLeadUnitNumber();
-        if (StringUtils.isNotEmpty(leadUnitNumber)) {
+        if (StringUtils.isNotEmpty(leadUnitNumber) && checkNoMoreThanOnePI(awardDocument.getAward())) {
             String userId = GlobalVariables.getUserSession().getPrincipalId();
             UnitAuthorizationService authService = KraServiceLocator.getService(UnitAuthorizationService.class);      
             //List<Unit> userUnits = authService.getUnits(userId, Constants.MODULE_NAMESPACE_AWARD, AwardPermissionConstants.CREATE_AWARD.getAwardPermission());
-            return authService.hasMatchingQualifiedUnits(userId, Constants.MODULE_NAMESPACE_AWARD, AwardPermissionConstants.CREATE_AWARD.getAwardPermission(), leadUnitNumber);
+            return authService.hasMatchingQualifiedUnits(userId, Constants.MODULE_NAMESPACE_AWARD, 
+                    AwardPermissionConstants.CREATE_AWARD.getAwardPermission(), leadUnitNumber);
         }
         return false; 
+    }
+    
+    private boolean checkNoMoreThanOnePI(Award award) {
+        int piCount = 0;
+        int counter = 0;
+        ArrayList<String> fields = new ArrayList<String>();
+        for (AwardPerson p : award.getProjectPersons()) {
+            if (p.isPrincipalInvestigator()) {
+                piCount++;
+                fields.add("projectPersonnelBean.projectPersonnel[" + counter + "].contactRoleCode");
+            }
+            counter++;
+        }
+        boolean valid = piCount <= 1;
+        if (!valid) {
+            //projectPersonnelBean.contactRoleCode
+            //projectPersonnelBean.projectPersonnel[0].contactRoleCode
+            for (String field  : fields) {
+                GlobalVariables.getMessageMap().putError(field, AwardProjectPersonsSaveRule.ERROR_AWARD_PROJECT_PERSON_MULTIPLE_PI_EXISTS);
+            }
+        }
+        
+        return valid;
     }
 
     /**
