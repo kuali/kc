@@ -102,6 +102,7 @@
 		</c:if>
 		
 		<c:forEach var="awardPersonUnit" items="${awardContact.units}" varStatus="awardPersonUnitRowStatus">
+		<input type="hidden" name="award_person_unit.identifier_${awardPersonUnitRowStatus.index}" value="${awardPersonUnit.unit.unitNumber}" />
 		<c:choose>                  
 			<c:when test="${empty awardPersonUnit.ospAdministrators}">
             <tr>
@@ -118,7 +119,7 @@
                 <td valign="middle">
                 	<div align="center">
                 		${awardPersonUnit.unit.unitName}&nbsp;
-                		<kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="'${awardPersonUnit.unit.unitNumber}':unitNumber" anchor="${tabKey}" />
+                		<kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="award_person_unit.identifier_${awardPersonUnitRowStatus.index}:unitNumber" anchor="${tabKey}" />
                 	</div> 
 				</td>
 				<td valign="middle">
@@ -162,7 +163,7 @@
                 		<td valign="middle">
                 			<div align="center">
                 				${awardPersonUnit.unit.unitName}&nbsp;
-                				<kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="'${awardPersonUnit.unit.unitNumber}':unitNumber" anchor="${tabKey}" />
+                				<kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="award_person_unit.identifier_${awardPersonUnitRowStatus.index}:unitNumber" anchor="${tabKey}" />
                 			</div> 
 						</td>
 						<td valign="middle">
