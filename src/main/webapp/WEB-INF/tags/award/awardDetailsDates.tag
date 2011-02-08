@@ -407,6 +407,24 @@
 					           				<fmt:formatNumber currencySymbol="$" type="currency" value="${KualiForm.document.awardList[0].awardAmountInfos[KualiForm.indexOfAwardAmountInfoForDisplay].obligatedTotalIndirect}"/>
 					        			</td>
 					        		</tr>
+					        		<tr>
+					        			<th>
+					            			<div align="right">Anticipated Total:</div>
+					        			</th>
+					        			<th align="left">
+						        			<div>
+						            			<fmt:formatNumber currencySymbol="$" type="currency" value="${KualiForm.document.awardList[0].anticipatedTotal}"/>
+						        			</div>
+					        			</th>
+					        			<th>
+					            			<div align="right">Obligated Total:</div>
+					        			</th>
+					        			<th align="left">
+						        			<div>
+						           				<fmt:formatNumber currencySymbol="$" type="currency" value="${KualiForm.document.awardList[0].obligatedTotal}"/>
+						        			</div>
+					        			</th>
+				        			</tr>
 								</c:when>
 								<c:otherwise>
 								<tr>
@@ -457,6 +475,24 @@
 				            			<kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.indexOfAwardAmountInfoForDisplay}].obligatedTotalIndirect" attributeEntry="${awardAmountInfoAttributes.obligatedTotalIndirect}"/>
 				        			</td>
 		        				</tr>
+		        				<tr>
+				        			<th>
+				            			<div align="right">Anticipated Total:</div>
+				        			</th>
+				        			<th align="left">
+					        			<div>
+					            			<fmt:formatNumber currencySymbol="$" type="currency" value="${KualiForm.document.awardList[0].anticipatedTotal}"/>
+					        			</div>
+				        			</th>
+				        			<th>
+				            			<div align="right">Obligated Total:</div>
+				        			</th>
+				        			<th align="left">
+					        			<div>
+					           				<fmt:formatNumber currencySymbol="$" type="currency" value="${KualiForm.document.awardList[0].obligatedTotal}"/>
+					        			</div>
+				        			</th>
+				        		</tr>
 	        				</c:when>
 							<c:otherwise>
 								<tr>
