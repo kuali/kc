@@ -16,9 +16,12 @@
 package org.kuali.kra.award.budget;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
@@ -26,6 +29,7 @@ import org.kuali.kra.award.budget.document.AwardBudgetDocumentVersion;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
+import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.QueryList;
 import org.kuali.kra.budget.calculator.query.And;
@@ -50,6 +54,10 @@ import org.kuali.kra.budget.versions.BudgetVersionRule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
 import org.kuali.kra.service.DeepCopyPostProcessor;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.DocumentHeader;
@@ -563,4 +571,64 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         getBudgetSummaryService().calculateBudget(awardBudgetPeriod.getBudget());
         
     }
+    
+    /**
+     * Use the business object service to match the criteria passed in
+     * @param clazz
+     * @param key
+     * @param value
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    protected List findObjectsWithSingleKey(Class clazz,String key, Object value){
+        Map<String,Object> fieldValues = new HashMap<String,Object>();
+        fieldValues.put(key, value);
+        return (List) getBusinessObjectService().findMatching(clazz, fieldValues);
+    }
+    
+    /**
+     * @see org.kuali.kra.award.budget.AwardBudgetService#findBudgetPeriodsFromLinkedProposal(java.lang.String)
+     */
+    @SuppressWarnings("unchecked")
+    public List<BudgetPeriod> findBudgetPeriodsFromLinkedProposal(String awardNumber) {
+        BusinessObjectService businessObjectService = getBusinessObjectService();
+        List<BudgetPeriod> budgetPeriods = new ArrayList<BudgetPeriod>();
+        List<Award> awardVersions = findObjectsWithSingleKey(Award.class, "awardNumber", awardNumber);
+        for (Award award : awardVersions) {
+            List<AwardFundingProposal> fundingProposals = findObjectsWithSingleKey(AwardFundingProposal.class, "awardId",award.getAwardId());
+            for (AwardFundingProposal fundingProposal : fundingProposals) {
+                if (fundingProposal.isActive()) {
+                    List<InstitutionalProposal> instProposals = 
+                        findObjectsWithSingleKey(InstitutionalProposal.class, "proposalNumber", fundingProposal.getProposal().getProposalNumber());
+                    for (InstitutionalProposal instProp : instProposals) {
+                        List<ProposalAdminDetails> proposalAdminDetails = findObjectsWithSingleKey(ProposalAdminDetails.class, 
+                                                                                        "instProposalId",instProp.getProposalId());
+                        for (ProposalAdminDetails proposalAdminDetail : proposalAdminDetails) {
+                            String developmentProposalNumber = proposalAdminDetail.getDevProposalNumber();
+                            DevelopmentProposal proposalDevelopmentDocument = businessObjectService.findBySinglePrimaryKey(
+                                                                                    DevelopmentProposal.class, developmentProposalNumber);
+                            List<BudgetDocumentVersion> budgetDocumentVersions =  
+                                findObjectsWithSingleKey(BudgetDocumentVersion.class, 
+                                        "parentDocumentKey", proposalDevelopmentDocument.getProposalDocument().getDocumentNumber());
+                            for (BudgetDocumentVersion budgetDocumentVersion : budgetDocumentVersions) {
+                                Budget budget = getBusinessObjectService().findBySinglePrimaryKey(ProposalDevelopmentBudgetExt.class, 
+                                                                                budgetDocumentVersion.getBudgetVersionOverview().getBudgetId());
+                                if (budget.isFinalVersionFlag()) {
+                                    //if this result set is being used by @see org.kuali.kra.lookup.BudgetPeriodLookupableHelperServiceImpl
+                                    //we need to populate these additional fields so always populate them.
+                                    for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
+                                        budgetPeriod.setInstitutionalProposalNumber(instProp.getProposalNumber());
+                                        budgetPeriod.setInstitutionalProposalVersion(instProp.getSequenceNumber());
+                                        budgetPeriods.add(budgetPeriod);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return budgetPeriods;
+    }
+
 }
