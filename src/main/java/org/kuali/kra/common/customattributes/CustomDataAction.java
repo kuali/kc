@@ -30,8 +30,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.award.AwardForm;
-import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.document.ResearchDocumentBase;
@@ -140,9 +138,8 @@ public class CustomDataAction {
      * @param form
      * @throws Exception
      */
-    @SuppressWarnings("deprecation")
     public static void setCustomAttributeContent(KualiDocumentFormBase form, String attributeName) throws Exception {
         ResearchDocumentBase doc = (ResearchDocumentBase) form.getDocument();
-        getService(CustomAttributeService.class).setCustomAttributeKeyValue(doc, attributeName, form.getWorkflowDocument().getInitiatorNetworkId());
+        getService(CustomAttributeService.class).setCustomAttributeKeyValue(doc, attributeName, form.getWorkflowDocument().getInitiatorPrincipalId());
     }
 }
