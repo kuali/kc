@@ -726,7 +726,8 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         //BO service does not return workflow data, so we must call document service to retrieve the document to test if it is in workflow
         TimeAndMoneyDocument t = timeAndMoneyDocuments.get(timeAndMoneyDocuments.size() -1);
         TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(t.getDocumentNumber());
-        displayEditButton = timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal();
+        displayEditButton = timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal() ||
+                            timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().stateIsCanceled();
 //        if(!getKraWorkflowService().isInWorkflow(timeAndMoneyDocument)){
 //            displayEditButton = Boolean.FALSE;
 //        }
