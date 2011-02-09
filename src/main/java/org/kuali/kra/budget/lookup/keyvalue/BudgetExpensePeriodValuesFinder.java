@@ -71,7 +71,7 @@ public class BudgetExpensePeriodValuesFinder extends BudgetPeriodValuesFinder {
                 BudgetDocument doc = (BudgetDocument) getDocumentService().getByDocumentHeaderId(((MultipleValueLookupForm) form).getDocNum());
                 List<BudgetPeriod> budgetPeriods = getAwardBudgetService().findBudgetPeriodsFromLinkedProposal(((AwardDocument) doc.getParentDocument()).getAward().getAwardNumber());
                 if (budgetPeriods.size() > 0) {
-                    keyLabelPairs = buildKeyLabelPairs(budgetPeriods);
+                    keyLabelPairs = buildKeyLabelPairsForPeriodSearch(budgetPeriods);
                 }
             }
             catch (WorkflowException e) {
@@ -95,6 +95,18 @@ public class BudgetExpensePeriodValuesFinder extends BudgetPeriodValuesFinder {
         }
         return keyLabelPairs;
     }
+    
+    private List<KeyLabelPair> buildKeyLabelPairsForPeriodSearch(List<BudgetPeriod> budgetPeriods) {
+        List<KeyLabelPair> keyLabelPairs = new ArrayList<KeyLabelPair>();
+        List<Integer> uniqueKeys = new ArrayList<Integer>();
+        for (BudgetPeriod budgetPeriod : budgetPeriods) {
+            if (budgetPeriod.getBudgetPeriod() != null && !uniqueKeys.contains(budgetPeriod.getBudgetPeriod())) {
+                uniqueKeys.add(budgetPeriod.getBudgetPeriod());
+                keyLabelPairs.add(new KeyLabelPair(budgetPeriod.getBudgetPeriod(), budgetPeriod.getBudgetPeriod().toString()));
+            }
+        }
+        return keyLabelPairs;
+    }    
 
     protected KeyValueFinderService getKeyValueFinderService() {
         return keyValueFinderService;
