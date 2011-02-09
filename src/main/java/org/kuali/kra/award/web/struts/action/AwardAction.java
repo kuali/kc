@@ -844,6 +844,7 @@ public class AwardAction extends BudgetParentActionBase {
                 awardForm.getAwardDocument().getAward().setAwardDirectFandADistributions
                                     (awardDirectFandADistributionService.
                                             generateDefaultAwardDirectFandADistributionPeriods(awardForm.getAwardDocument().getAward()));
+                getBusinessObjectService().save(awardForm.getAwardDocument().getAward().getAwardDirectFandADistributions());
             }
     
             Map<String, Object> fieldValues = new HashMap<String, Object>();

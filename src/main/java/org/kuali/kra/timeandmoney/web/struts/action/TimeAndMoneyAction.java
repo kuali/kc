@@ -36,6 +36,7 @@ import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
+import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -83,7 +84,6 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
      */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         captureDateChangeTransactions(form);
         captureSingleNodeMoneyTransactions(form);
@@ -235,12 +235,13 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     }
     
     
-    private void captureDateChangeTransactions(ActionForm form) {
+    private void captureDateChangeTransactions(ActionForm form) throws WorkflowException {
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
         TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyForm.getTimeAndMoneyDocument();
         ActivePendingTransactionsService aptService = getActivePendingTransactionsService();
         AwardAmountInfoService awardAmountInfoService = KraServiceLocator.getService(AwardAmountInfoService.class);
         List<AwardAmountInfo> awardAmountInfoObjects = new ArrayList<AwardAmountInfo>();
+        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
         //save rules have not been applied yet so there needs to be a null check on transaction type code before testing the value.
         boolean isNoCostExtension;
         if (timeAndMoneyDocument.getAwardAmountTransactions().get(0).getTransactionTypeCode() == null) {
@@ -259,8 +260,11 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             Award award = aptService.getWorkingAwardVersion(awardHierarchyNode.getValue().getAwardNumber()); 
             //capture any changes of DirectFandADistributions, and add them to the Award working version for persistence.
             if(award.getAwardNumber().equals(timeAndMoneyDocument.getAward().getAwardNumber())) {
-                award.setAwardDirectFandADistributions(timeAndMoneyDocument.getAward().getAwardDirectFandADistributions());
-                getBusinessObjectService().save(award.getAwardDirectFandADistributions());
+                //must use documentService to save the award document. businessObjectService.save() builds deletion award list on T&M doc and we
+                //need it to be wired up on AwardDocument so that any deletes from collection will be caught and persisted correctly.
+                AwardDocument awardDocument = (AwardDocument) documentService.getByDocumentHeaderId(award.getAwardDocument().getDocumentNumber());
+                awardDocument.getAward().setAwardDirectFandADistributions(timeAndMoneyDocument.getAward().getAwardDirectFandADistributions());
+                documentService.saveDocument(awardDocument);
             }
             int index = findAwardHierarchyNodeIndex(awardHierarchyNode);
             AwardAmountInfo aai = awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());
@@ -1066,5 +1070,6 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         
         return forward;
     }
-
+ 
 }
+
