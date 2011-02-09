@@ -49,9 +49,10 @@ public abstract class SpecialReviewTypeValuesFinder extends KeyValuesBase {
      */
     public List<?> getKeyValues() {
         @SuppressWarnings("unchecked")
-        final List<KeyLabelPair> keyValues = createKeyValuesFinder().getKeyValues();
+        List<KeyLabelPair> keyValues = filterActiveSpecialReviewUsageTypes(createKeyValuesFinder().getKeyValues());
+        keyValues.add(0, new KeyLabelPair(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
         
-        return filterActiveSpecialReviewUsageTypes(keyValues);
+        return keyValues;
     }
     
     private KeyValuesFinder createKeyValuesFinder() {
@@ -59,7 +60,7 @@ public abstract class SpecialReviewTypeValuesFinder extends KeyValuesBase {
         valuesFinder.setBusinessObjectClass(SpecialReviewType.class);
         valuesFinder.setKeyAttributeName(SPECIAL_REVIEW_TYPE_CODE_NAME);
         valuesFinder.setLabelAttributeName(SPECIAL_REVIEW_TYPE_CODE_DESCRIPTION);
-        return new PrefixValuesFinder(valuesFinder);
+        return valuesFinder;
     }
     
     private List<KeyLabelPair> filterActiveSpecialReviewUsageTypes(List<KeyLabelPair> unfilteredKeyValues) {
@@ -74,7 +75,7 @@ public abstract class SpecialReviewTypeValuesFinder extends KeyValuesBase {
                     break;
                 }
             }
-            if (itemSpecialReviewUsage == null || itemSpecialReviewUsage.isActive()) {
+            if (itemSpecialReviewUsage != null && itemSpecialReviewUsage.isActive()) {
                 filteredKeyValues.add(item);
             }
         }
