@@ -182,8 +182,11 @@
 						<td colspan="4" width="100%" valign="middle">&nbsp;
 						<div align="center" >
 						<kra:section permission="modifyBudgets">
+						    <c:set var="isLastPeriod" value="${KualiForm.document.budget.budgetPeriods[fn:length(KualiForm.document.budget.budgetPeriods)-1].budgetPeriod == budgetPeriod}"/>
+						    <c:if test="${!isLastPeriod}">
 							<html:image property="methodToCall.applyToLaterPeriods.line${budgetLineItemNumber}.anchor${currentTabIndex}"
-									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-ApplyPeriods.gif' />				
+									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-ApplyPeriods.gif' />
+							</c:if>				
 							<c:if test="${!(budgetCategoryTypeCode == 'P' && not empty KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetPersonnelDetailsList)}" >
 							<html:image property="methodToCall.syncToPeriodCostLimit.line${budgetLineItemNumber}.anchor${currentTabIndex}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-synctocostlimit.gif' />
