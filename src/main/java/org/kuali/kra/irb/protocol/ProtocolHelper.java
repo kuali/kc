@@ -457,8 +457,8 @@ public class ProtocolHelper implements Serializable {
             String protocolNumber = getProtocol().getProtocolNumber();
             
             if (!getSpecialReviewService().isLinkedToSpecialReview(fundingSourceId, fundingSourceType, protocolNumber)) {
-                Date applicationDate = getProtocol().getSubmissionDate();
-                Date approvalDate = getProtocol().getApprovalDate();
+                Date applicationDate = getProtocol().getProtocolSubmission().getSubmissionDate();
+                Date approvalDate = getProtocol().getLastApprovalDate() == null ? getProtocol().getApprovalDate() : getProtocol().getLastApprovalDate();
                 Date expirationDate = getProtocol().getExpirationDate();
                 List<String> exemptionTypeCodes = new ArrayList<String>();
                 for (ProtocolExemptStudiesCheckListItem checkListItem : getProtocol().getProtocolSubmission().getExemptStudiesCheckList()) {

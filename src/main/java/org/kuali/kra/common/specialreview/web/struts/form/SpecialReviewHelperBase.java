@@ -16,6 +16,7 @@
 package org.kuali.kra.common.specialreview.web.struts.form;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.bo.SpecialReviewApprovalType;
@@ -24,6 +25,7 @@ import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolFinderDao;
+import org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -100,7 +102,11 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
                 specialReview.setApplicationDate(protocol.getProtocolSubmission().getSubmissionDate());
                 specialReview.setApprovalDate(protocol.getLastApprovalDate() == null ? protocol.getApprovalDate() : protocol.getLastApprovalDate());
                 specialReview.setExpirationDate(protocol.getExpirationDate());
-                // Set Exemption # once we get the mapping
+                List<String> exemptionTypeCodes = new ArrayList<String>();
+                for (ProtocolExemptStudiesCheckListItem checkListItem : protocol.getProtocolSubmission().getExemptStudiesCheckList()) {
+                    exemptionTypeCodes.add(checkListItem.getExemptStudiesCheckListCode());
+                }
+                specialReview.setExemptionTypeCodes(exemptionTypeCodes);
             }
         }
     }
