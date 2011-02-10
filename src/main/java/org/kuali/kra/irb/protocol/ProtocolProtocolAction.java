@@ -352,7 +352,6 @@ public class ProtocolProtocolAction extends ProtocolAction {
         return (ProtocolLocationService) KraServiceLocator.getService("protocolLocationService");
     }
 
-
     /**
      * This method is linked to ProtocolFundingService to perform the action - Add Protocol Funding Source. Method is called in
      * protocolFundingSources.tag
@@ -394,11 +393,15 @@ public class ProtocolProtocolAction extends ProtocolAction {
      * @return
      * @throws Exception
      */
-    public ActionForward deleteProtocolFundingSource(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    public ActionForward deleteProtocolFundingSource(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+        throws Exception {
+        
         ProtocolForm protocolForm = (ProtocolForm) form;
-        protocolForm.getDocument().getProtocol().getProtocolFundingSources().remove(getLineToDelete(request));
-
+        ProtocolDocument protocolDocument = protocolForm.getDocument();
+        
+        ProtocolFundingSource protocolFundingSource = protocolDocument.getProtocol().getProtocolFundingSources().remove(getLineToDelete(request));
+        protocolForm.getProtocolHelper().getDeletedProtocolFundingSources().add(protocolFundingSource);
+        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
@@ -509,6 +512,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
         ProtocolForm protocolForm = (ProtocolForm) form;
         protocolForm.getProtocolHelper().prepareRequiredFieldsForSave();
         protocolForm.getProtocolHelper().createInitialProtocolAction();
+        protocolForm.getProtocolHelper().syncSpecialReviewsWithFundingSources();
     }
 
     @Override
@@ -516,6 +520,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
         ProtocolForm protocolForm = (ProtocolForm) form;
         protocolForm.getProtocolHelper().prepareRequiredFieldsForSave();
         protocolForm.getProtocolHelper().createInitialProtocolAction();
+        protocolForm.getProtocolHelper().syncSpecialReviewsWithFundingSources();
         
         return super.saveOnClose(mapping, form, request, response);
     }
