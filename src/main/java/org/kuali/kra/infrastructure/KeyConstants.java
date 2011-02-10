@@ -449,7 +449,7 @@ public final class KeyConstants {
     public static final String ERROR_AWARD_REPORT_TERM_RECIPIENT_ITEM_NOT_UNIQUE = "error.awardReportTermRecipientItem.notunique";
     public static final String ERROR_BOTH_SPONSOR_AND_ROLODEX_ARE_SELECTED = "error.both.sponsor.and.rolodex.are.selected";
     public static final String ERROR_BOTH_SPONSOR_AND_ROLODEX_ARE_NOT_SELECTED = "error.both.sponsor.and.rolodex.are.not.selected";
-    
+    public static final String ERROR_REQUIRED_ORGANIZATION_FIELD = "error.organizasion.required";
     //Award System Parameters    
     public static final String MIT_IDC_VALIDATION_ENABLED = "mit.idc.validation.enabled";
     public static final String MIT_IDC_VALIDATION_ENABLED_VALUE_FOR_COMPARISON = "1";
