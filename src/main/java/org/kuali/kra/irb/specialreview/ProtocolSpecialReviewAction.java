@@ -23,14 +23,18 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.specialreview.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * This class represents the Struts Action for Special Review page(ProtocolSpecialReview.jsp).
  */
 public class ProtocolSpecialReviewAction extends ProtocolAction {
+    
+    private static final String CONFIRM_DELETE_SPECIAL_REVIEW_KEY = "confirmDeleteSpecialReview";
 
     /**
      * Adds a Protocol Special Review to the list.
@@ -56,21 +60,42 @@ public class ProtocolSpecialReviewAction extends ProtocolAction {
     }
     
     /**
-     * Deletes a Protocol Special Review from the list.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * Deletes a special review item after confirmation.
+     * 
+     * @param mapping the action mapping
+     * @param form the action form
+     * @param request the request
+     * @param response the response
+     * @return the action forward
+     * @throws Exception if unable to delete the special review
      */
     public ActionForward deleteSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
         throws Exception {
+
+        return confirm(buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_DELETE_SPECIAL_REVIEW_KEY,
+                KeyConstants.QUESTION_SPECIAL_REVIEW_DELETE_CONFIRMATION), CONFIRM_DELETE_SPECIAL_REVIEW_KEY, "");
+    }
+    
+    /**
+     * Deletes a special review item only if the user confirms it.
+     * 
+     * @param mapping the action mapping
+     * @param form the action form
+     * @param request the request
+     * @param response the response
+     * @return the action forward
+     * @throws Exception if unable to delete the special review
+     */
+    public ActionForward confirmDeleteSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+        throws Exception {
         
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolDocument document = protocolForm.getDocument();
-        
-        document.getProtocol().getSpecialReviews().remove(getLineToDelete(request));
+        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        if (CONFIRM_DELETE_SPECIAL_REVIEW_KEY.equals(question)) {
+            ProtocolForm protocolForm = (ProtocolForm) form;
+            ProtocolDocument document = protocolForm.getDocument();
+            
+            document.getProtocol().getSpecialReviews().remove(getLineToDelete(request));
+        }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }

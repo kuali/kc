@@ -56,6 +56,8 @@ public class ProtocolFundingSourceWebTest extends ProtocolWebTestBase {
     private static final String AWARD_FUNDINGSOURCE_ID = "10004";
     private static final String AWARD_FUNDINGSOURCE_NUMBER = "010001-00001";
     private static final String AWARD_FUNDINGSOURCE_NAME = "Award Title";
+    
+    private static final String CONFIRM_DELETE_YES_BUTTON = "methodToCall.processAnswer.button0";
 
     @Test
     public void testAddViewSponsorFundingSourcePage() throws Exception {
@@ -190,6 +192,7 @@ public class ProtocolFundingSourceWebTest extends ProtocolWebTestBase {
         protocolPage = saveDoc(protocolPage);
 
         protocolPage = clickOn(protocolPage, DELETELINE_1_LOCATION);
+        protocolPage = clickOn(protocolPage, CONFIRM_DELETE_YES_BUTTON);
         protocolPage = saveDoc(protocolPage);
         assertContains(protocolPage, "Document was successfully saved.");
         assertContains(protocolPage, SPONSOR_FUNDINGSOURCE_ID);

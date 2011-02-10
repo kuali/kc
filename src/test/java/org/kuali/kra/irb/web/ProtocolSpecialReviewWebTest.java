@@ -66,6 +66,7 @@ public class ProtocolSpecialReviewWebTest extends ProtocolWebTestBase {
     
     private static final String METHODTOCALL_ADDSPECIALREVIEW = "methodToCall.addSpecialReview.anchorSpecialReview";
     private static final String METHODTOCALL_DELETESPECIALREVIEW = "methodToCall.deleteSpecialReview.line0.anchor0.validate0";
+    private static final String METHODTOCALL_CONFIRMDELETESPECIALREVIEW = "methodToCall.processAnswer.button0";
     
     private class Review {
         String type;
@@ -162,6 +163,7 @@ public class ProtocolSpecialReviewWebTest extends ProtocolWebTestBase {
         specialReviewPage = clickOnTab(protocolPage, SPECIAL_REVIEW_LINK_NAME);
         
         specialReviewPage = clickOn(specialReviewPage, METHODTOCALL_DELETESPECIALREVIEW);
+        specialReviewPage = clickOn(specialReviewPage, METHODTOCALL_CONFIRMDELETESPECIALREVIEW);
         List<Review> reviews = new ArrayList<Review>();
         checkTable(specialReviewPage, reviews, 2);
         protocolPage = saveAndSearchDoc(specialReviewPage);

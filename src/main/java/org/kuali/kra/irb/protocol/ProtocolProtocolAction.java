@@ -30,6 +30,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -63,6 +64,8 @@ import org.kuali.rice.kns.util.KNSConstants;
  * tab (web page).
  */
 public class ProtocolProtocolAction extends ProtocolAction {
+    
+    private static final String CONFIRM_DELETE_PROTOCOL_FUNDING_SOURCE_KEY = "confirmDeleteProtocolFundingSource";
 
     /**
      * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
@@ -381,7 +384,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-
+    
     /**
      * This method is linked to ProtocolFundingSourceService to Delete a ProtocolFundingSource. Method is called in
      * protocolFundingSources.tag
@@ -396,11 +399,32 @@ public class ProtocolProtocolAction extends ProtocolAction {
     public ActionForward deleteProtocolFundingSource(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
         throws Exception {
         
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolDocument protocolDocument = protocolForm.getDocument();
+        return confirm(buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_DELETE_PROTOCOL_FUNDING_SOURCE_KEY,
+                KeyConstants.QUESTION_PROTOCOL_FUNDING_SOURCE_DELETE_CONFIRMATION), CONFIRM_DELETE_PROTOCOL_FUNDING_SOURCE_KEY, "");
+    }
+
+    /**
+     * This method is linked to ProtocolFundingSourceService to Delete a ProtocolFundingSource. Method is called in
+     * protocolFundingSources.tag
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward confirmDeleteProtocolFundingSource(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+        throws Exception {
         
-        ProtocolFundingSource protocolFundingSource = protocolDocument.getProtocol().getProtocolFundingSources().remove(getLineToDelete(request));
-        protocolForm.getProtocolHelper().getDeletedProtocolFundingSources().add(protocolFundingSource);
+        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        if (CONFIRM_DELETE_PROTOCOL_FUNDING_SOURCE_KEY.equals(question)) {
+            ProtocolForm protocolForm = (ProtocolForm) form;
+            ProtocolDocument protocolDocument = protocolForm.getDocument();
+            
+            ProtocolFundingSource protocolFundingSource = protocolDocument.getProtocol().getProtocolFundingSources().remove(getLineToDelete(request));
+            protocolForm.getProtocolHelper().getDeletedProtocolFundingSources().add(protocolFundingSource);
+        }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
