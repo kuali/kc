@@ -39,9 +39,10 @@
     <!-- Special Review Services -->
     
     <bean id ="specialReviewService" class ="org.kuali.kra.common.specialreview.service.impl.SpecialReviewServiceImpl">
+   		<property name="awardService" ref="awardService" />
+   		<property name="institutionalProposalService" ref="institutionalProposalService" />
    		<property name="protocolFinderDao" ref="protocolFinderDao" />
    		<property name="documentService" ref="documentService" />
-   		<property name="businessObjectService" ref="businessObjectService" />
     </bean>
 
 </beans>

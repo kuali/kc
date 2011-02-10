@@ -16,10 +16,14 @@
 package org.kuali.kra.irb.protocol;
 
 import java.io.Serializable;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Contactable;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
@@ -28,6 +32,7 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelService;
@@ -40,6 +45,7 @@ import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.RolodexService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.service.UnitService;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -77,6 +83,7 @@ public class ProtocolHelper implements Serializable {
     private ProtocolParticipant newProtocolParticipant;
     
     private boolean editProtocolFundingSourceName = false;
+    private List<ProtocolFundingSource> deletedProtocolFundingSources;
     
     private boolean modifyGeneralInfo = false;
     private boolean modifyFundingSource = false;
@@ -90,6 +97,7 @@ public class ProtocolHelper implements Serializable {
     private transient KcPersonService personService;
     private transient RolodexService rolodexService;
     private transient ProtocolFundingSourceService protocolFundingSourceService;
+    private transient SpecialReviewService specialReviewService;
     
     /**
      * Looks up and returns the ParameterService.
@@ -115,6 +123,13 @@ public class ProtocolHelper implements Serializable {
         }
         return this.protocolFundingSourceService;
     }
+    
+    private SpecialReviewService getSpecialReviewService() {
+        if (this.specialReviewService == null) {
+            this.specialReviewService = KraServiceLocator.getService(SpecialReviewService.class);
+        }
+        return this.specialReviewService;
+    }
 
     public boolean isEditProtocolFundingSourceName() {
         return editProtocolFundingSourceName;
@@ -124,12 +139,21 @@ public class ProtocolHelper implements Serializable {
         this.editProtocolFundingSourceName = editProtocolFundingSourceName;
     }
 
+    public List<ProtocolFundingSource> getDeletedProtocolFundingSources() {
+        return deletedProtocolFundingSources;
+    }
+
+    public void setDeletedProtocolFundingSources(List<ProtocolFundingSource> deletedProtocolFundingSources) {
+        this.deletedProtocolFundingSources = deletedProtocolFundingSources;
+    }
+
     //Must be set to true, in case if order of method call in prepareview() is altered, functionality of billable will not break. 
     private boolean displayBillable = true;
 
     public ProtocolHelper(ProtocolForm form) {
         this.form = form;
         setNewProtocolLocation(new ProtocolLocation());
+        setDeletedProtocolFundingSources(new ArrayList<ProtocolFundingSource>());
     }    
     
     /**
@@ -421,6 +445,39 @@ public class ProtocolHelper implements Serializable {
             protocolAction.setComments(PROTOCOL_CREATED);
             getProtocol().getProtocolActions().add(protocolAction);
         }
+    }
+    
+    /**
+     * Synchronizes the information between this Protocol's Funding Sources and any Institutional Proposal or Award Special Review entries.
+     */
+    public void syncSpecialReviewsWithFundingSources() throws WorkflowException {
+        for (ProtocolFundingSource protocolFundingSource : getProtocol().getProtocolFundingSources()) {
+            String fundingSourceId = protocolFundingSource.getFundingSource();
+            Integer fundingSourceType = protocolFundingSource.getFundingSourceTypeCode();
+            String protocolNumber = getProtocol().getProtocolNumber();
+            
+            if (!getSpecialReviewService().isLinkedToSpecialReview(fundingSourceId, fundingSourceType, protocolNumber)) {
+                Date applicationDate = getProtocol().getSubmissionDate();
+                Date approvalDate = getProtocol().getApprovalDate();
+                Date expirationDate = getProtocol().getExpirationDate();
+                List<String> exemptionTypeCodes = new ArrayList<String>();
+                for (ProtocolExemptStudiesCheckListItem checkListItem : getProtocol().getProtocolSubmission().getExemptStudiesCheckList()) {
+                    exemptionTypeCodes.add(checkListItem.getExemptStudiesCheckListCode());
+                }
+                getSpecialReviewService().addSpecialReviewForProtocolFundingSource(
+                    fundingSourceId, fundingSourceType, protocolNumber, applicationDate, approvalDate, expirationDate, exemptionTypeCodes);
+            }
+        }
+        
+        for (ProtocolFundingSource protocolFundingSource : deletedProtocolFundingSources) {
+            String fundingSourceId = protocolFundingSource.getFundingSource();
+            Integer fundingSourceType = protocolFundingSource.getFundingSourceTypeCode();
+            String protocolNumber = getProtocol().getProtocolNumber();
+            
+            getSpecialReviewService().deleteSpecialReviewForProtocolFundingSource(fundingSourceId, fundingSourceType, protocolNumber);
+        }
+        
+        deletedProtocolFundingSources.clear();
     }
     
     private ProtocolNumberService getProtocolNumberService() {
