@@ -26,16 +26,20 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.specialreview.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * Handles Special Review Actions.
  */
 public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentAction {
+    
+    private static final String CONFIRM_DELETE_SPECIAL_REVIEW_KEY = "confirmDeleteSpecialReview";
     
     private SpecialReviewService specialReviewService;
 
@@ -94,7 +98,24 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
     }
     
     /**
-     * Deletes a special review item.
+     * Deletes a special review item after confirmation.
+     * 
+     * @param mapping the action mapping
+     * @param form the action form
+     * @param request the request
+     * @param response the response
+     * @return the action forward
+     * @throws Exception if unable to delete the special review
+     */
+    public ActionForward deleteSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+        throws Exception {
+
+        return confirm(buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_DELETE_SPECIAL_REVIEW_KEY,
+                KeyConstants.QUESTION_SPECIAL_REVIEW_DELETE_CONFIRMATION), CONFIRM_DELETE_SPECIAL_REVIEW_KEY, "");
+    }
+    
+    /**
+     * Deletes a special review item only if the user confirms it.
      * 
      * @param mapping the action mapping
      * @param form the action form
@@ -103,12 +124,16 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
      * @return the action forward
      * @throws Exception if unable to add the special review
      */
-    public ActionForward deleteSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+    public ActionForward confirmDeleteSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
         throws Exception {
-        
-        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument document = proposalDevelopmentForm.getDocument();
-        document.getDevelopmentProposal().getPropSpecialReviews().remove(getLineToDelete(request));
+
+        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        if (CONFIRM_DELETE_SPECIAL_REVIEW_KEY.equals(question)) {
+            ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+            ProposalDevelopmentDocument document = proposalDevelopmentForm.getDocument();
+            
+            document.getDevelopmentProposal().getPropSpecialReviews().remove(getLineToDelete(request));
+        }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }

@@ -30,12 +30,16 @@ import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.common.specialreview.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * This class represents the Struts Action for Special Review page(AwardSpecialReview.jsp).
  */
 public class AwardSpecialReviewAction extends AwardAction {
+    
+    private static final String CONFIRM_DELETE_SPECIAL_REVIEW_KEY = "confirmDeleteSpecialReview";
     
     private SpecialReviewService specialReviewService;
     
@@ -89,26 +93,47 @@ public class AwardSpecialReviewAction extends AwardAction {
 
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-
+    
     /**
-     * This method deletes the SpecialReview from the list.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * Deletes a special review item after confirmation.
+     * 
+     * @param mapping the action mapping
+     * @param form the action form
+     * @param request the request
+     * @param response the response
+     * @return the action forward
+     * @throws Exception if unable to delete the special review
      */
     public ActionForward deleteSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
         throws Exception {
+
+        return confirm(buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_DELETE_SPECIAL_REVIEW_KEY,
+                KeyConstants.QUESTION_SPECIAL_REVIEW_DELETE_CONFIRMATION), CONFIRM_DELETE_SPECIAL_REVIEW_KEY, "");
+    }
+    
+    /**
+     * Deletes a special review item only if the user confirms it.
+     * 
+     * @param mapping the action mapping
+     * @param form the action form
+     * @param request the request
+     * @param response the response
+     * @return the action forward
+     * @throws Exception if unable to delete the special review
+     */
+    public ActionForward confirmDeleteSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+        throws Exception {
         
-        AwardForm awardForm = (AwardForm) form;
-        AwardDocument document = awardForm.getAwardDocument();
+        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        if (CONFIRM_DELETE_SPECIAL_REVIEW_KEY.equals(question)) {
+            AwardForm awardForm = (AwardForm) form;
+            AwardDocument document = awardForm.getAwardDocument();
+            
+            AwardSpecialReview deletedSpecialReview = document.getAward().getSpecialReviews().remove(getLineToDelete(request));
+            awardForm.getSpecialReviewHelper().getDeletedSpecialReviews().add(deletedSpecialReview);
+        }
         
-        AwardSpecialReview deletedSpecialReview = document.getAward().getSpecialReviews().remove(getLineToDelete(request));
-        awardForm.getSpecialReviewHelper().getDeletedSpecialReviews().add(deletedSpecialReview);
-        
-        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     /**

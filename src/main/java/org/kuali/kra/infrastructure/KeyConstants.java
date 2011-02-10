@@ -44,6 +44,7 @@ public final class KeyConstants {
     public static final String ERROR_SPECIAL_REVIEW_EMPTY_FOR_NOT_APPROVED = "error.special.review.empty.for.not.approved";
     public static final String ERROR_SPECIAL_REVIEW_REQUIRED_FOR_VALID = "error.special.review.required.for.valid";
     public static final String ERROR_SPECIAL_REVIEW_CANNOT_SELECT_EXEMPTION_FOR_VALID = "error.special.review.cannot.select.exemption.for.valid";
+    public static final String QUESTION_SPECIAL_REVIEW_DELETE_CONFIRMATION = "question.special.review.delete.confirmation";
     
     // Abstracts and Attachments errors
     public static final String ERROR_PROPOSAL_ATTACHMENT_NOT_COMPLETE = "error.document.narrativestatuscode.not.complete";
@@ -518,6 +519,7 @@ public final class KeyConstants {
     
     // IRB Protocol Funding Source Validation messages
     public static final String ERROR_PROTOCOL_FUNDING_SOURCE_REQUIRED = "error.protocol.fundingSource.required";
+    public static final String QUESTION_PROTOCOL_FUNDING_SOURCE_DELETE_CONFIRMATION = "question.protocol.fundingSource.delete.confirmation";
     
     //IRB Protocol Search Screen Error Messages
     public static final String ERROR_PROTOCOL_SEARCH_INVALID_DATE = "error.protocol.search.invalid.date";
