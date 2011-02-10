@@ -105,7 +105,7 @@
 	<bean id="AwardReportTermRecipient-contactTypeCode" parent="AwardReportTermRecipient-contactTypeCode-parentBean" />
 	<bean id="AwardReportTermRecipient-contactTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="contactTypeCode" />
-		<property name="required" value="true" />
+		<property name="required" value="false" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Contact Type" />
 		<property name="shortLabel" value="Contact Type" />
