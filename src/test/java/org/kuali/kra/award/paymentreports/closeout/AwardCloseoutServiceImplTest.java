@@ -148,7 +148,7 @@ public class AwardCloseoutServiceImplTest {
      */
     @Test
     public final void testUpdateCloseoutDueDate_allDueDatesAreEqual_And_2DatesAreEqual(){
-        service.updateCloseoutDueDate(closeoutDueDates, new java.util.Date(10000), new java.util.Date(10000), true, REPORT_CLASS_CODE_FINANCIAL_REPORT);
+        service.updateCloseoutDueDate(closeoutDueDates, new java.util.Date(10000), true, REPORT_CLASS_CODE_FINANCIAL_REPORT);
         Assert.assertEquals(new java.util.Date(10000), closeoutDueDates.get(REPORT_CLASS_CODE_FINANCIAL_REPORT));
     }
     
@@ -160,7 +160,7 @@ public class AwardCloseoutServiceImplTest {
      */
     @Test
     public final void testUpdateCloseoutDueDate_allDueDatesAreEqual_And_2DatesAreNotEqual(){
-        service.updateCloseoutDueDate(closeoutDueDates, new java.util.Date(10000), new java.util.Date(10000), false, REPORT_CLASS_CODE_FINANCIAL_REPORT);
+        service.updateCloseoutDueDate(closeoutDueDates, new java.util.Date(10000), false, REPORT_CLASS_CODE_FINANCIAL_REPORT);
         Assert.assertEquals("M", closeoutDueDates.get(REPORT_CLASS_CODE_FINANCIAL_REPORT));
     }
     
@@ -173,7 +173,7 @@ public class AwardCloseoutServiceImplTest {
     @Test
     public final void testUpdateCloseoutDueDate_allDueDatesAreNotEqual_And_2DatesAreEqual(){
         //service.updateCloseoutDueDate(closeoutDueDates, new java.util.Date(10001), new java.util.Date(10000), true, REPORT_CLASS_CODE_FINANCIAL_REPORT);
-        service.updateCloseoutDueDate(closeoutDueDates, new java.util.Date(10001), new java.util.Date(10000), false, REPORT_CLASS_CODE_FINANCIAL_REPORT);
+        service.updateCloseoutDueDate(closeoutDueDates, new java.util.Date(10000), false, REPORT_CLASS_CODE_FINANCIAL_REPORT);
         Assert.assertEquals("M", closeoutDueDates.get(REPORT_CLASS_CODE_FINANCIAL_REPORT));
     }
     
@@ -185,7 +185,7 @@ public class AwardCloseoutServiceImplTest {
      */
     @Test
     public final void testUpdateCloseoutDueDate_allDueDatesAreNotEqual_And_2DatesAreNotEqual(){
-        service.updateCloseoutDueDate(closeoutDueDates, new java.util.Date(10001), new java.util.Date(10000), false, REPORT_CLASS_CODE_FINANCIAL_REPORT);
+        service.updateCloseoutDueDate(closeoutDueDates, new java.util.Date(10000), false, REPORT_CLASS_CODE_FINANCIAL_REPORT);
         Assert.assertEquals("M", closeoutDueDates.get(REPORT_CLASS_CODE_FINANCIAL_REPORT));
     }
     
