@@ -97,9 +97,9 @@
 					</div>
 				  </td>
                   <td align="left" valign="middle">
-					<div align="center">																		
+					<div align="center">								
 						<c:choose>
-							<c:when test="${KualiForm.awardCloseoutBean.closeoutReportTypeUserDefined == KualiForm.document.awardList[0].awardCloseoutItems[status.index].closeoutReportCode }" >
+							<c:when test="${KualiForm.document.awardList[0].awardCloseoutItems[status.index].userDefinedReport }" >
 								<kul:htmlControlAttribute property="document.awardList[0].awardCloseoutItems[${status.index}].dueDate" attributeEntry="${awardCloseoutAttributes.dueDate}" />
 							</c:when>
 							<c:otherwise>

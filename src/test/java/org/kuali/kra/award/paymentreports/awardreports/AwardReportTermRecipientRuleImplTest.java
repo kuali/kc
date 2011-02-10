@@ -68,6 +68,7 @@ public class AwardReportTermRecipientRuleImplTest {
         AwardReportTermRecipient awardReportTermRecipientItem = new AwardReportTermRecipient();        
         Assert.assertFalse(awardReportTermRecipientRuleImpl.areRequiredFieldsComplete(awardReportTermRecipientItem));
         awardReportTermRecipientItem.setContactId(new Long(1));
+        awardReportTermRecipientItem.setRolodexId(new Integer(101));
         Assert.assertTrue(awardReportTermRecipientRuleImpl.areRequiredFieldsComplete(awardReportTermRecipientItem));
         awardReportTermRecipientItem.setRolodexId(5);
         Assert.assertTrue(awardReportTermRecipientRuleImpl.areRequiredFieldsComplete(awardReportTermRecipientItem));
