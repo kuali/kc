@@ -174,7 +174,7 @@
 				</c:forEach>
 				<c:if test="${isLastAward}">
 					<tr>
-		      			<th colspan="7" class="infoline">
+		      			<th colspan="6" class="infoline">
 		      				<div align="right">
 		      					Total:
 		      				</div>
@@ -182,6 +182,8 @@
 		      			<th>
 		      				$<fmt:formatNumber value="${award.totalCostOfFundingProposals}" type="currency" currencySymbol="" maxFractionDigits="2" />
 		      			</th>
+		      			<th></th>
+		      			
 		      		</tr>
 	      		</c:if>
 			</c:forEach>
