@@ -27,15 +27,19 @@ import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.common.specialreview.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * Invokes rules on and applies actions to add, delete, or save SpecialReviews.
  */
 public class InstitutionalProposalSpecialReviewAction extends InstitutionalProposalAction {
+    
+    private static final String CONFIRM_DELETE_SPECIAL_REVIEW_KEY = "confirmDeleteSpecialReview";
     
     private SpecialReviewService specialReviewService;
     
@@ -91,24 +95,45 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
     }
     
     /**
-     * This method deletes the SpecialReview from the list.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * Deletes a special review item after confirmation.
+     * 
+     * @param mapping the action mapping
+     * @param form the action form
+     * @param request the request
+     * @param response the response
+     * @return the action forward
+     * @throws Exception if unable to delete the special review
      */
     public ActionForward deleteSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
         throws Exception {
-        
-        InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
-        InstitutionalProposalDocument document = institutionalProposalForm.getInstitutionalProposalDocument();
-        
-        InstitutionalProposalSpecialReview deletedSpecialReview = document.getInstitutionalProposal().getSpecialReviews().remove(getLineToDelete(request));
-        institutionalProposalForm.getSpecialReviewHelper().getDeletedSpecialReviews().add(deletedSpecialReview);
 
-        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        return confirm(buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_DELETE_SPECIAL_REVIEW_KEY,
+                KeyConstants.QUESTION_SPECIAL_REVIEW_DELETE_CONFIRMATION), CONFIRM_DELETE_SPECIAL_REVIEW_KEY, "");
+    }
+    
+    /**
+     * Deletes a special review item only if the user confirms it.
+     * 
+     * @param mapping the action mapping
+     * @param form the action form
+     * @param request the request
+     * @param response the response
+     * @return the action forward
+     * @throws Exception if unable to delete the special review
+     */
+    public ActionForward confirmDeleteSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+        throws Exception {
+        
+        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        if (CONFIRM_DELETE_SPECIAL_REVIEW_KEY.equals(question)) {
+            InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
+            InstitutionalProposalDocument document = institutionalProposalForm.getInstitutionalProposalDocument();
+            
+            InstitutionalProposalSpecialReview deletedSpecialReview = document.getInstitutionalProposal().getSpecialReviews().remove(getLineToDelete(request));
+            institutionalProposalForm.getSpecialReviewHelper().getDeletedSpecialReviews().add(deletedSpecialReview);
+        }
+            
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     /**
