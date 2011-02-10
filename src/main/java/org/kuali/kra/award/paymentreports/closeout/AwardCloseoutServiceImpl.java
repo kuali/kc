@@ -93,9 +93,8 @@ public class AwardCloseoutServiceImpl implements AwardCloseoutService {
                         dateCalculatedUsingFrequencyOld = dateCalculatedUsingFrequency;
                     }
                 }
-               if (dateCalculatedUsingFrequency != null) {
-                    updateCloseoutDueDate(closeoutDueDates, finalExpirationDate, dateCalculatedUsingFrequency, allDueDatesAreEqual,
-                            closeoutReportTypeCode);
+                if (dateCalculatedUsingFrequency != null) {                    
+                    updateCloseoutDueDate(closeoutDueDates, dateCalculatedUsingFrequency, allDueDatesAreEqual, closeoutReportTypeCode);
                 }
             }
         }
@@ -104,41 +103,17 @@ public class AwardCloseoutServiceImpl implements AwardCloseoutService {
 
     }
     
-    /*
-     * This method checks if finalInvoiceDue is not null and adds it to the final expiration date and returns the calculated date.
-     * This is no longer needed.  
-     */
-//    private Calendar getDateCalculatedUsingFinalInvoiceDue(Award award, Date finalExpirationDate) {
-//        Calendar calendar = getDateTimeService().getCalendar(finalExpirationDate);        
-//        if (award.getFinalInvoiceDue() != null) {
-//            calendar.add(Calendar.DAY_OF_YEAR, award.getFinalInvoiceDue());    
-//        }
-//        return calendar;
-//    }
-    
-    /*
-     * This method updates the due dates for Award Closeout static reports for the case when total number of awardReportTerm objects for the particular 
-     * closeout  report type is 0.
-     *
-     */
-//    protected void updateCloseoutDueDateWhenFilteredListSizeIsZero(Map<String, Object> closeoutDueDates, java.util.Date dateCalculatedUsingFinalInvoiceDue
-//                            , String closeoutReportTypeCode) {        
-//        if (StringUtils.equalsIgnoreCase(getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT
-//                , KeyConstants.CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT).getParameterValue(),closeoutReportTypeCode)) {
-//            closeoutDueDates.put(closeoutReportTypeCode, new Date(dateCalculatedUsingFinalInvoiceDue.getTime()));   
-//        } else {
-//            closeoutDueDates.put(closeoutReportTypeCode, null);    
-//        }
-//    }
-
-    /*
+    /**
+     * 
      * This method updates the due dates for Award Closeout static reports based on allDueDatesAreEqual flag and 
      * by comparing the dateCalculatedUsingFinalInvoiceDue with dateCalculatedUsingFrequency.
-     * 
+     * @param closeoutDueDates
+     * @param dateCalculatedUsingFrequency
+     * @param allDueDatesAreEqual
+     * @param closeoutReportTypeCode
      */
-    protected void updateCloseoutDueDate(Map<String, Object> closeoutDueDates, java.util.Date dateCalculatedUsingFinalInvoiceDue,
+    protected void updateCloseoutDueDate(Map<String, Object> closeoutDueDates, 
             java.util.Date dateCalculatedUsingFrequency, boolean allDueDatesAreEqual, String closeoutReportTypeCode) {
-        //if (allDueDatesAreEqual && dateCalculatedUsingFrequency.equals(dateCalculatedUsingFinalInvoiceDue)) {
         if (allDueDatesAreEqual) {
             closeoutDueDates.put(closeoutReportTypeCode, new Date(dateCalculatedUsingFrequency.getTime()));
         } else {
@@ -168,21 +143,23 @@ public class AwardCloseoutServiceImpl implements AwardCloseoutService {
         }
         return calendar.getTime();
     }
-
-    /*
+    
+    /**
+     * 
      * This method updates the dueDates on AwardCloseout static reports.
-     *
+     * @param awardCloseoutItems
+     * @param closeoutDueDates
      */
-    protected void assignedDueDatesOnAwardCloseouts(List<AwardCloseout> awardCloseoutItems, Map<String, Object> map) {
-        for (AwardCloseout awardCloseout : awardCloseoutItems) {
-            if (map.containsKey(awardCloseout.getCloseoutReportCode())) {
-                if (map.get(awardCloseout.getCloseoutReportCode()) instanceof Date) {
-                    awardCloseout.setDueDate((Date) map.get(awardCloseout.getCloseoutReportCode()));
+    protected void assignedDueDatesOnAwardCloseouts(List<AwardCloseout> awardCloseoutItems, Map<String, Object> closeoutDueDates) {
+        for (AwardCloseout awardCloseout : awardCloseoutItems) {            
+            if (closeoutDueDates.containsKey(awardCloseout.getCloseoutReportCode())) {
+                if (closeoutDueDates.get(awardCloseout.getCloseoutReportCode()) instanceof Date) {
+                    awardCloseout.setDueDate((Date) closeoutDueDates.get(awardCloseout.getCloseoutReportCode()));
                     awardCloseout.setMultiple(false);
-                } else if (map.get(awardCloseout.getCloseoutReportCode()) == null) {
+                } else if (closeoutDueDates.get(awardCloseout.getCloseoutReportCode()) == null) {
                     awardCloseout.setDueDate(null);
                     awardCloseout.setMultiple(false);
-                } else if (StringUtils.equalsIgnoreCase(MULTIPLE,(String) map.get(awardCloseout.getCloseoutReportCode()))) {
+                } else if (StringUtils.equalsIgnoreCase(MULTIPLE,(String) closeoutDueDates.get(awardCloseout.getCloseoutReportCode()))) {
                     awardCloseout.setMultiple(true);
                 }
             }
@@ -265,7 +242,7 @@ public class AwardCloseoutServiceImpl implements AwardCloseoutService {
         Map<String, Object> closeoutDueDates = new HashMap<String, Object>();                
         Date finalExpirationDate = award.getAwardAmountInfos().get(award.getIndexOfLastAwardAmountInfo()).getFinalExpirationDate();
         java.util.Date dateCalculatedUsingFrequency;
-        java.util.Date dateCalculatedUsingFrequencyOld;
+        //java.util.Date dateCalculatedUsingFrequencyOld;
         boolean allDueDatesAreEqual;
         String closeoutReportTypeCode;
         
@@ -277,11 +254,10 @@ public class AwardCloseoutServiceImpl implements AwardCloseoutService {
             closeoutReportTypeCode = kl.getKey().toString();
             allDueDatesAreEqual = true;
             dateCalculatedUsingFrequency = null;
-            dateCalculatedUsingFrequencyOld = null;
+            //dateCalculatedUsingFrequencyOld = null;
             List<AwardReportTerm> awardReportTerms = filterAwardReportTerms(award.getAwardReportTermItems(), closeoutReportTypeCode);
             if (awardReportTerms.size() == 0) {
                 closeoutDueDates.put(closeoutReportTypeCode, null);
-                //updateCloseoutDueDateWhenFilteredListSizeIsZero(closeoutDueDates, dateCalculatedUsingFinalInvoiceDue, closeoutReportTypeCode);
             } else {
                 Calendar calendar = getDateTimeService().getCalendar(finalExpirationDate);
                 java.util.Date dueDate = null;
@@ -289,18 +265,15 @@ public class AwardCloseoutServiceImpl implements AwardCloseoutService {
                     dueDate = calendar.getTime();
                 }
                 for (AwardReportTerm awardReportTerm : awardReportTerms) {
-                    //if (StringUtils.isNotBlank((awardReportTerm.getFrequencyCode()))) {
-                    dateCalculatedUsingFrequency = getCloseoutDueDate(finalExpirationDate, awardReportTerm, calendar);                    
+                    dateCalculatedUsingFrequency = getCloseoutDueDate(finalExpirationDate, awardReportTerm, calendar);  
                     if (dueDate != null && !dueDate.equals(dateCalculatedUsingFrequency)) {
                         allDueDatesAreEqual = false;
                         break;
                     }
                     dueDate = dateCalculatedUsingFrequency;
-                    //}
                 }
-                if (dateCalculatedUsingFrequency != null) {
-                    updateCloseoutDueDate(closeoutDueDates, finalExpirationDate, dateCalculatedUsingFrequency, allDueDatesAreEqual,
-                            closeoutReportTypeCode);
+                if (dateCalculatedUsingFrequency != null) {                    
+                    updateCloseoutDueDate(closeoutDueDates, dateCalculatedUsingFrequency, allDueDatesAreEqual, closeoutReportTypeCode);
                 }
             }
         }
