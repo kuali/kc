@@ -166,7 +166,7 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
         boolean isLinkedToSpecialReviews = false;
         
         for (SpecialReview<?> specialReview : specialReviews) {
-            if (StringUtils.equals(specialReview.getProtocolNumber(), protocolNumber)) {
+            if (StringUtils.startsWith(protocolNumber, specialReview.getProtocolNumber())) {
                 isLinkedToSpecialReviews = true;
                 break;
             }
