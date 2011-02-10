@@ -1014,20 +1014,21 @@
 			gov.grants.apply.forms.nsfApplicationChecklist13V13
 		</pkgName>
 	</Form>
+	-->
+	<!-- Added for new form per JIRA KRACOEUS-4283 -->
 	<Form
-		namespace="http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_1_1-V1.1">
-		<formName>PHS_Fellowship_Supplemental_1_1-V1.1</formName>
+		namespace="http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_1_2-V1.2">
+		<formName>PHS_Fellowship_Supplemental_1_2-V1.2</formName>
 		<mainClass>
-			org.kuali.kra.s2s.generator.impl.PHS398FellowshipSupplementalV1_1Generator
+			org.kuali.kra.s2s.generator.impl.PHS398FellowshipSupplementalV1_2Generator
 		</mainClass>
 		<stylesheet>
-			org/kuali/kra/s2s/stylesheet/PHS_fellowship_supplemental-V1.1.xsl
+			org/kuali/kra/s2s/stylesheet/PHS_fellowship_supplemental-V1.2.xsl
 		</stylesheet>
 		<pkgName>
-			gov.grants.apply.forms.phsFellowshipSupplemental11V11
+			gov.grants.apply.forms.phsFellowshipSupplemental12V12
 		</pkgName>
 	</Form>
-	-->
 	<Form
 		namespace="http://apply.grants.gov/forms/NSF_CoverPage_1_3-V1.3">
 		<formName>NSF_CoverPage_1_3-V1.3</formName>
