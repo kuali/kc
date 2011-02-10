@@ -28,6 +28,7 @@ public class AwardReportTermRecipientRuleImpl extends ResearchDocumentRuleBase
                                             implements AwardReportTermRecipientRule {
     
     private static final String AWARD_REPORT_TERM_RECIPIENT_CONTACT_ID_PROPERTY = "contactId";
+    private static final String AWARD_REPORT_TERM_RECIPIENT_RELODEX_ID_PROPERTY="rolodexId";
     private static final String CONTACT_ERROR_PARM = "Contact (Contact)";
     private static final String ORGANIZATION_ERROR_PARM = "Organization (Organization)";
     
@@ -94,10 +95,11 @@ public class AwardReportTermRecipientRuleImpl extends ResearchDocumentRuleBase
      * @return
      */
     boolean areRequiredFieldsComplete(AwardReportTermRecipient awardReportTermRecipientItem) {        
-        
-        boolean itemValid = awardReportTermRecipientItem.getContactId()!=null || awardReportTermRecipientItem.getRolodexId()!=null;
+        //Commented below line to fix Jira KRACOEUS-4371.
+        //boolean itemValid = awardReportTermRecipientItem.getContactId()!=null || awardReportTermRecipientItem.getRolodexId()!=null;
+        boolean itemValid = awardReportTermRecipientItem.getRolodexId()!=null;
         if(!itemValid){
-            reportError(AWARD_REPORT_TERM_RECIPIENT_CONTACT_ID_PROPERTY, KeyConstants.ERROR_BOTH_SPONSOR_AND_ROLODEX_ARE_NOT_SELECTED, CONTACT_ERROR_PARM, ORGANIZATION_ERROR_PARM);   
+            reportError(AWARD_REPORT_TERM_RECIPIENT_RELODEX_ID_PROPERTY, KeyConstants.ERROR_REQUIRED_ORGANIZATION_FIELD);   
         }
         return itemValid;
     }
