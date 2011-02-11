@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
@@ -44,6 +45,9 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
      * Parameter code for Protocol linking parameters.
      */
     protected static final String PARAMETER_CODE = "Document";
+    
+    private static final String AMENDMENT_KEY = "A";
+    private static final String RENEWAL_KEY = "R";
 
     private static final long serialVersionUID = 4726816248612555502L;
 
@@ -94,11 +98,12 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
      */
     public void prepareProtocolLinkViewFields(T specialReview) {
         if (specialReview != null) {
-            Protocol protocol = getProtocolFinderDao().findCurrentProtocolByNumber(specialReview.getProtocolNumber());
+            Protocol protocol = getProtocolFinderDao().findCurrentProtocolByNumber(getLastApprovedProtocolNumber(specialReview.getProtocolNumber()));
             
             if (protocol != null) {
                 specialReview.setApprovalTypeCode(SpecialReviewApprovalType.LINK_TO_IRB);
                 specialReview.setProtocolStatus(protocol.getProtocolStatus().getDescription());
+                specialReview.setProtocolNumber(protocol.getProtocolNumber());
                 specialReview.setApplicationDate(protocol.getProtocolSubmission().getSubmissionDate());
                 specialReview.setApprovalDate(protocol.getLastApprovalDate() == null ? protocol.getApprovalDate() : protocol.getLastApprovalDate());
                 specialReview.setExpirationDate(protocol.getExpirationDate());
@@ -109,6 +114,18 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
                 specialReview.setExemptionTypeCodes(exemptionTypeCodes);
             }
         }
+    }
+    
+    private String getLastApprovedProtocolNumber(String protocolNumber) {
+        String lastApprovedProtocolNumber = protocolNumber;
+        
+        if (StringUtils.contains(protocolNumber, AMENDMENT_KEY)) {
+            lastApprovedProtocolNumber = StringUtils.substringBefore(protocolNumber, AMENDMENT_KEY);
+        } else if (StringUtils.contains(protocolNumber, RENEWAL_KEY)) {
+            lastApprovedProtocolNumber = StringUtils.substringBefore(protocolNumber, RENEWAL_KEY);
+        }
+        
+        return lastApprovedProtocolNumber;
     }
     
     /**

@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.institutionalproposal.web.struts.action;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -80,14 +82,15 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
     public ActionForward addSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
         InstitutionalProposalDocument document = institutionalProposalForm.getInstitutionalProposalDocument();
-        InstitutionalProposalSpecialReview newSpecialReview = institutionalProposalForm.getSpecialReviewHelper().getNewSpecialReview();
+        InstitutionalProposalSpecialReview specialReview = institutionalProposalForm.getSpecialReviewHelper().getNewSpecialReview();
+        List<InstitutionalProposalSpecialReview> specialReviews = document.getInstitutionalProposal().getSpecialReviews();
         boolean isProtocolLinkingEnabled = institutionalProposalForm.getSpecialReviewHelper().getIsProtocolLinkingEnabled();
         
-        institutionalProposalForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(newSpecialReview);
+        institutionalProposalForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview);
         
-        if (applyRules(new AddSpecialReviewEvent<InstitutionalProposalSpecialReview>(document, newSpecialReview, isProtocolLinkingEnabled))) {
-            newSpecialReview.setSpecialReviewNumber(document.getDocumentNextValue(Constants.SPECIAL_REVIEW_NUMBER));
-            document.getInstitutionalProposal().getSpecialReviews().add(newSpecialReview);
+        if (applyRules(new AddSpecialReviewEvent<InstitutionalProposalSpecialReview>(document, specialReview, specialReviews, isProtocolLinkingEnabled))) {
+            specialReview.setSpecialReviewNumber(document.getDocumentNextValue(Constants.SPECIAL_REVIEW_NUMBER));
+            document.getInstitutionalProposal().getSpecialReviews().add(specialReview);
             institutionalProposalForm.getSpecialReviewHelper().setNewSpecialReview(new InstitutionalProposalSpecialReview());
         }
         
@@ -147,6 +150,8 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
         InstitutionalProposalDocument document = institutionalProposalForm.getInstitutionalProposalDocument();
         
         for (InstitutionalProposalSpecialReview specialReview : document.getInstitutionalProposal().getSpecialReviews()) {
+            institutionalProposalForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview);
+            
             String protocolNumber = specialReview.getProtocolNumber();
             Long fundingSourceId = document.getInstitutionalProposal().getProposalId();
             String fundingSourceType = FundingSourceType.INSTITUTIONAL_PROPOSAL;
