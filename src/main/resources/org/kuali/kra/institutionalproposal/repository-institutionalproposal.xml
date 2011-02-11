@@ -71,13 +71,6 @@
 		<field-descriptor name="nsfCode" column="NSF_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor id="1" name="primeSponsorCode" column="PRIME_SPONSOR_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="initialContractAdmin" column="INITIAL_CONTRACT_ADMIN" jdbc-type="VARCHAR" />
-		<!--
-		<field-descriptor name="ipReviewRequirementTypeCode" column="IP_REVIEW_REQ_TYPE_CODE" jdbc-type="INTEGER" />
-		<field-descriptor name="reviewSubmissionDate" column="REVIEW_SUBMISSION_DATE" jdbc-type="DATE" />
-		<field-descriptor name="reviewReceiveDate" column="REVIEW_RECEIVE_DATE" jdbc-type="DATE" />
-		<field-descriptor name="reviewResultCode" column="REVIEW_RESULT_CODE" jdbc-type="INTEGER" />
-		<field-descriptor name="ipReviewer" column="IP_REVIEWER" jdbc-type="VARCHAR" />
-		-->
 		<field-descriptor name="ipReviewActivityIndicator" column="IP_REVIEW_ACTIVITY_INDICATOR" jdbc-type="VARCHAR" />
 		<field-descriptor name="currentAwardNumber" column="CURRENT_AWARD_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="cfdaNumber" column="CFDA_NUMBER" jdbc-type="VARCHAR" />
@@ -103,11 +96,6 @@
         <collection-descriptor name="proposalIpReviewJoins" proxy="true" orderby="proposalIpReviewJoinId" sort="DESC" element-class-ref="org.kuali.kra.institutionalproposal.ProposalIpReviewJoin" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
             <inverse-foreignkey field-ref="proposalId"/>
         </collection-descriptor>
-        <!--
-		<collection-descriptor name="proposalScienceCode" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceCode" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
-			<inverse-foreignkey field-ref="proposalId"/>
-		</collection-descriptor>
-		-->
 		<collection-descriptor name="institutionalProposalUnitContacts" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalUnitContact" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="proposalId"/>
         </collection-descriptor>
@@ -116,6 +104,8 @@
 		</collection-descriptor>
 		<collection-descriptor name="institutionalProposalUnrecoveredFandAs" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="proposalId"/>
+			<orderby name="fiscalYear" sort="ASC"/>
+			<orderby name="indirectcostRateTypeCode" sort="ASC"/>
 		</collection-descriptor>
 		<collection-descriptor name="institutionalProposalCustomDataList" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="proposalId"/>
