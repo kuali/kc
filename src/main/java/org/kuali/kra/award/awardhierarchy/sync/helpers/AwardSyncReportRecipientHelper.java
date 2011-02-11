@@ -71,7 +71,11 @@ public class AwardSyncReportRecipientHelper extends AwardSyncHelperBase {
     @Override
     protected String getDataDesc(PersistableBusinessObject syncableObject, String attrName) {
         AwardReportTermRecipient recipient = (AwardReportTermRecipient) syncableObject;
-        String retval = recipient.getContactType().getDescription() + DELIMITER;
+        String retval =  "";
+        if (recipient.getContactType() != null) {
+            retval += recipient.getContactType().getDescription();
+        }
+        retval += DELIMITER;
         if (recipient.getRolodex().getFullName() != null) {
             retval += recipient.getRolodex().getFullName();
         } else {
