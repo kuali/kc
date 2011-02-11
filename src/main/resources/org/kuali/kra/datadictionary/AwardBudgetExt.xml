@@ -132,7 +132,7 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Budget Initiator" />
     <property name="shortLabel" value="Initiator" />
-    <property name="maxLength" value="6" />
+    <property name="maxLength" value="60" />
     <property name="validationPattern" >
       	<bean parent="AnyCharacterValidationPattern"/>
     </property>
