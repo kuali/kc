@@ -363,7 +363,7 @@ public abstract class AddSpecialReviewRuleTestBase<T extends SpecialReview<? ext
         rule.setBusinessObjectService(getBusinessObjectService(SPECIAL_REVIEW_TYPE_CODE_ANIMAL_USAGE, APPROVAL_TYPE_CODE_APPROVED, true, false, false, false));
         rule.setProtocolFinderDao(getProtocolFinderDao());
         assertFalse(rule.processRules(addProposalSpecialReviewEvent));
-        assertError(EXPIRATION_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_DATE_LATER);
+        assertError(EXPIRATION_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_DATE_SAME_OR_LATER);
     }
     
     /**
@@ -387,7 +387,7 @@ public abstract class AddSpecialReviewRuleTestBase<T extends SpecialReview<? ext
         rule.setBusinessObjectService(getBusinessObjectService(SPECIAL_REVIEW_TYPE_CODE_ANIMAL_USAGE, APPROVAL_TYPE_CODE_APPROVED, true, false, false, false));
         rule.setProtocolFinderDao(getProtocolFinderDao());
         assertFalse(rule.processRules(addProposalSpecialReviewEvent));
-        assertError(EXPIRATION_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_DATE_LATER);
+        assertError(EXPIRATION_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_DATE_SAME_OR_LATER);
     }
     
     protected BusinessObjectService getBusinessObjectService(final String specialReviewTypeCode, final String approvalTypeCode, 

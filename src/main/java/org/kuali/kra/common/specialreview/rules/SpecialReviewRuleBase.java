@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.common.specialreview.rules;
 
+import java.sql.Date;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -174,6 +175,20 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
     }
     
     /**
+     * Composes the String used when reporting specifics of a ValidSpecialReviewApproval error.
+     * 
+     * @param approval The maintenance document that determines whether a field is required
+     * @return the correct error string for this validSpecialReviewApproval
+     */
+    private String getValidApprovalErrorString(ValidSpecialReviewApproval approval) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(approval.getSpecialReviewType().getDescription());
+        stringBuilder.append("/");
+        stringBuilder.append(approval.getSpecialReviewApprovalType().getDescription());
+        return stringBuilder.toString();
+    }
+    
+    /**
      * Validates the rules that determine whether certain fields are required in certain circumstances.
      * 
      * @param approval The maintenance document that determines whether a field is required
@@ -197,30 +212,19 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
             isValid = false;
             reportError(APPROVAL_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_REQUIRED_FOR_VALID, APPROVAL_DATE_TITLE, errorString);
         }
-        if (approval.isExemptNumberFlag() && CollectionUtils.isEmpty(specialReview.getExemptionTypeCodes())) {
-            isValid = false;
-            reportError(EXEMPTION_TYPE_CODE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_REQUIRED_FOR_VALID, EXEMPTION_TYPE_CODE_TITLE, errorString);
-        }
-        if (!approval.isExemptNumberFlag() && specialReview.getExemptionTypeCodes() != null && !specialReview.getExemptionTypeCodes().isEmpty()) {
-            isValid = false;
-            reportError(EXEMPTION_TYPE_CODE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_CANNOT_SELECT_EXEMPTION_FOR_VALID, errorString);
+        if (approval.isExemptNumberFlag()) {
+            if (CollectionUtils.isEmpty(specialReview.getExemptionTypeCodes())) {
+                isValid = false;
+                reportError(EXEMPTION_TYPE_CODE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_REQUIRED_FOR_VALID, EXEMPTION_TYPE_CODE_TITLE, errorString);
+            }
+        } else {
+            if (!CollectionUtils.isEmpty(specialReview.getExemptionTypeCodes())) {
+                isValid = false;
+                reportError(EXEMPTION_TYPE_CODE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_CANNOT_SELECT_EXEMPTION_FOR_VALID, errorString);
+            }
         }
         
         return isValid;
-    }
-    
-    /**
-     * Composes the String used when reporting specifics of a ValidSpecialReviewApproval error.
-     * 
-     * @param approval The maintenance document that determines whether a field is required
-     * @return the correct error string for this validSpecialReviewApproval
-     */
-    private String getValidApprovalErrorString(ValidSpecialReviewApproval approval) {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(approval.getSpecialReviewType().getDescription());
-        stringBuilder.append("/");
-        stringBuilder.append(approval.getSpecialReviewApprovalType().getDescription());
-        return stringBuilder.toString();
     }
     
     /**
@@ -233,24 +237,37 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
     private boolean validateDateFields(T specialReview, boolean validateProtocol) {
         boolean isValid = true;
         
-        if (specialReview.getApplicationDate() != null && specialReview.getApprovalDate() != null 
-                && specialReview.getApprovalDate().before(specialReview.getApplicationDate())) {
-            isValid = false;
-            reportError(APPROVAL_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_DATE_SAME_OR_LATER, APPROVAL_DATE_TITLE, APPLICATION_DATE_TITLE);
-        }
-        if (specialReview.getApprovalDate() != null && specialReview.getExpirationDate() != null
-                && specialReview.getExpirationDate().before(specialReview.getApprovalDate())) {
-            isValid = false;
-            reportError(EXPIRATION_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_DATE_LATER, EXPIRATION_DATE_TITLE, APPROVAL_DATE_TITLE);
-        }
-        if (specialReview.getApplicationDate() != null && specialReview.getExpirationDate() != null
-                && specialReview.getExpirationDate().before(specialReview.getApplicationDate())) {
-            isValid = false;
-            reportError(EXPIRATION_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_DATE_LATER, EXPIRATION_DATE_TITLE, APPLICATION_DATE_TITLE);
-        }
+        isValid &= validateDateOrder(specialReview.getApplicationDate(), specialReview.getApprovalDate(), APPROVAL_DATE_FIELD, APPLICATION_DATE_TITLE, 
+            APPROVAL_DATE_TITLE);
+        isValid &= validateDateOrder(specialReview.getApprovalDate(), specialReview.getExpirationDate(), EXPIRATION_DATE_FIELD, APPROVAL_DATE_TITLE, 
+            EXPIRATION_DATE_TITLE);
+        isValid &= validateDateOrder(specialReview.getApplicationDate(), specialReview.getExpirationDate(), EXPIRATION_DATE_FIELD, APPLICATION_DATE_TITLE, 
+            EXPIRATION_DATE_TITLE);
+
         if (!SpecialReviewApprovalType.APPROVED.equals(specialReview.getApprovalTypeCode()) && specialReview.getApprovalDate() != null) {
             isValid = false;
             reportError(APPROVAL_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_EMPTY_FOR_NOT_APPROVED, APPROVAL_DATE_TITLE);
+        }
+        
+        return isValid;
+    }
+    
+    /**
+     * Validates that the first date is before or the same as the second date.
+     * 
+     * @param firstDate The first date
+     * @param secondDate The second date
+     * @param errorField The field on which to display the error
+     * @param firstDateTitle The title of the first date field
+     * @param secondDateTitle The title of the second date field
+     * @return
+     */
+    private boolean validateDateOrder(Date firstDate, Date secondDate, String errorField, String firstDateTitle, String secondDateTitle) {
+        boolean isValid = true;
+        
+        if (firstDate != null && secondDate != null && secondDate.before(firstDate)) {
+            isValid = false;
+            reportError(errorField, KeyConstants.ERROR_SPECIAL_REVIEW_DATE_SAME_OR_LATER, secondDateTitle, firstDateTitle);
         }
         
         return isValid;
