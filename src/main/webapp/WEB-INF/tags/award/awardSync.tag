@@ -99,6 +99,7 @@
 <kul:tab tabTitle="Award Hierarchy Sync" auditCluster="awardSyncAuditErrors" tabErrorKey="document.awardList[0].syncChanges[*" defaultOpen="${syncMode || not empty KualiForm.awardDocument.award.syncStatuses}">
     
 	<div class="tab-container" align="left">
+	<c:if test="${!readOnly}">
     <center>
     <c:choose><c:when test="${!syncMode}">
       <html:image property="methodToCall.activateSyncMode" style="margin: 1em;" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-enablesync.gif' alt="Turn on Sync Mode" styleClass="tinybutton" disabled="${readOnly}"/>
@@ -106,6 +107,7 @@
       <html:image property="methodToCall.deactivateSyncMode" style="margin: 1em;" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-disablesync.gif' alt="Turn off Sync Mode" styleClass="tinybutton" disabled="${readOnly}"/>
     </c:otherwise></c:choose>
     </center>
+    </c:if>
 	
 	<c:if test="${syncMode}">
 	  <table cellpadding="0" cellspacing="0">
@@ -156,6 +158,7 @@
               <td class="datacell" style="text-align: center;"><kul:htmlControlAttribute property="document.awardList[0].syncChanges[${i.index}].syncCostSharing" attributeEntry="${syncChangeAttrs.syncCostSharing}"/></td>
 		    </tr>
 		  </c:forEach>
+		  <c:if test="${!readOnly}">
    		    <tr>
    		      <td class="infoline" colspan="8"><html:image property="methodToCall.deleteChanges" 
 	   		     			src='${ConfigProperties.kra.externalizable.images.url}tinybutton-deleteselected.gif' styleClass="tinybutton" disabled="${readOnly}"/>	   		     			
@@ -163,6 +166,7 @@
 	   		     			src='${ConfigProperties.kra.externalizable.images.url}tinybutton-clearselected.gif' styleClass="tinybutton" disabled="${readOnly}"/></span>
 	   		  </td>
    		    </tr>
+		  </c:if>   		    
    		</table>
    		
    		<center style="margin-top: .5em; font-size: 1.3em; color: red;"><c:out value="${KualiForm.awardSyncBean.parentAwardStatus.status}"/></center>

@@ -62,10 +62,17 @@ public class AwardSyncReportHelper extends AwardSyncHelperBase {
     @Override
     protected String getDataDesc(PersistableBusinessObject syncableObject, String attrName) {
         AwardReportTerm term = (AwardReportTerm) syncableObject;
-        return term.getReportClass().getDescription() + DELIMITER
-            + term.getReport().getDescription() + DELIMITER
-            + term.getFrequency().getDescription() + DELIMITER
-            + term.getFrequencyBase().getDescription() + DELIMITER
-            + term.getDistribution().getDescription();
+        String result = term.getReportClass().getDescription()+ DELIMITER
+            + term.getReport().getDescription();
+        if (term.getFrequency() != null) {
+            result += DELIMITER + term.getFrequency().getDescription();
+        }
+        if (term.getFrequencyBase() != null) {
+            result += DELIMITER + term.getFrequencyBase().getDescription();
+        }
+        if (term.getDistribution() != null) {
+            result += DELIMITER + term.getDistribution().getDescription();
+        }
+        return result;
     }     
 }
