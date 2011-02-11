@@ -127,40 +127,15 @@ public abstract class AddSpecialReviewRuleTestBase<T extends SpecialReview<? ext
         newSpecialReview.setProtocolNumber(protocol.getProtocolNumber());
         newSpecialReview.setApplicationDate(new Date(dateFormat.parse("Aug 1, 2007").getTime()));
         newSpecialReview.setApprovalDate(new Date(dateFormat.parse("Aug 21, 2007").getTime()));
-        AddSpecialReviewEvent<T> addSpecialReviewEvent = new AddSpecialReviewEvent<T>(document, newSpecialReview, false);
+        AddSpecialReviewEvent<T> addSpecialReviewEvent = new AddSpecialReviewEvent<T>(document, newSpecialReview, new ArrayList<T>(), false);
         
         rule.setBusinessObjectService(getBusinessObjectService(SPECIAL_REVIEW_TYPE_CODE_ANIMAL_USAGE, APPROVAL_TYPE_CODE_APPROVED, true, false, false, false));
         rule.setProtocolFinderDao(getProtocolFinderDao());
         assertTrue(rule.processRules(addSpecialReviewEvent));
     }
-
+    
     /**
-     * Test adding an proposal special with unspecified approval status . This corresponds to a empty string type code, i.e. the user
-     * didn't select approval status.
-     * 
-     * @throws Exception
-     */
-    @Test
-    public void testBlankApprovalTypeCode() throws Exception {
-        Document document = getDocument();
-
-        T newSpecialReview = getSpecialReview();
-        newSpecialReview.setSpecialReviewTypeCode(SPECIAL_REVIEW_TYPE_CODE_ANIMAL_USAGE);
-        newSpecialReview.setApprovalTypeCode(null);
-        newSpecialReview.setProtocolNumber(protocol.getProtocolNumber());
-        newSpecialReview.setApplicationDate(new Date(dateFormat.parse("Aug 1, 2007").getTime()));
-        newSpecialReview.setApprovalDate(new Date(dateFormat.parse("Aug 21, 2007").getTime()));
-        AddSpecialReviewEvent<T> addSpecialReviewEvent = new AddSpecialReviewEvent<T>(document, newSpecialReview, false);
-        
-        rule.setBusinessObjectService(getBusinessObjectService(SPECIAL_REVIEW_TYPE_CODE_ANIMAL_USAGE, null, false, false, false, false));
-        rule.setProtocolFinderDao(getProtocolFinderDao());
-        assertFalse(rule.processRules(addSpecialReviewEvent));
-        assertError(APPROVAL_TYPE_CODE_FIELD, KeyConstants.ERROR_REQUIRED);
-    }
-
-    /**
-     * Test adding an  special with unspecified special review code . This corresponds to a empty string type code, i.e. the user
-     * didn't select special review code.
+     * Test adding a Special Review with an unspecified special review code.
      * 
      * @throws Exception
      */
@@ -174,16 +149,108 @@ public abstract class AddSpecialReviewRuleTestBase<T extends SpecialReview<? ext
         newSpecialReview.setProtocolNumber(protocol.getProtocolNumber());
         newSpecialReview.setApplicationDate(new Date(dateFormat.parse("Aug 1, 2007").getTime()));
         newSpecialReview.setApprovalDate(new Date(dateFormat.parse("Aug 21, 2007").getTime()));
-        AddSpecialReviewEvent<T> addSpecialReviewEvent = new AddSpecialReviewEvent<T>(document, newSpecialReview, false);
+        AddSpecialReviewEvent<T> addSpecialReviewEvent = new AddSpecialReviewEvent<T>(document, newSpecialReview, new ArrayList<T>(), false);
         
         rule.setBusinessObjectService(getBusinessObjectService(null, APPROVAL_TYPE_CODE_APPROVED, false, false, false, false));
         rule.setProtocolFinderDao(getProtocolFinderDao());
         assertFalse(rule.processRules(addSpecialReviewEvent));
         assertError(SPECIAL_REVIEW_TYPE_CODE_FIELD, KeyConstants.ERROR_REQUIRED);
     }
+
+    /**
+     * Test adding a Special Review with an unspecified approval status.
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testBlankApprovalTypeCode() throws Exception {
+        Document document = getDocument();
+
+        T newSpecialReview = getSpecialReview();
+        newSpecialReview.setSpecialReviewTypeCode(SPECIAL_REVIEW_TYPE_CODE_ANIMAL_USAGE);
+        newSpecialReview.setApprovalTypeCode(null);
+        newSpecialReview.setProtocolNumber(protocol.getProtocolNumber());
+        newSpecialReview.setApplicationDate(new Date(dateFormat.parse("Aug 1, 2007").getTime()));
+        newSpecialReview.setApprovalDate(new Date(dateFormat.parse("Aug 21, 2007").getTime()));
+        AddSpecialReviewEvent<T> addSpecialReviewEvent = new AddSpecialReviewEvent<T>(document, newSpecialReview, new ArrayList<T>(), false);
+        
+        rule.setBusinessObjectService(getBusinessObjectService(SPECIAL_REVIEW_TYPE_CODE_ANIMAL_USAGE, null, false, false, false, false));
+        rule.setProtocolFinderDao(getProtocolFinderDao());
+        assertFalse(rule.processRules(addSpecialReviewEvent));
+        assertError(APPROVAL_TYPE_CODE_FIELD, KeyConstants.ERROR_REQUIRED);
+    }
     
     /**
-     * Test adding a special review with a non-approval (i.e. exempt) approval type but also entering an approval date.
+     * Test adding a Special Review with an unspecified protocol number.
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testProtocolWithBlankProtocolNumber() throws Exception {
+        Document document = getDocument();
+        
+        T newSpecialReview = getSpecialReview();
+        newSpecialReview.setSpecialReviewTypeCode(SPECIAL_REVIEW_TYPE_CODE_ANIMAL_USAGE);
+        newSpecialReview.setApprovalTypeCode(APPROVAL_TYPE_CODE_APPROVED);
+        newSpecialReview.setProtocolNumber(null);
+        newSpecialReview.setApplicationDate(new Date(dateFormat.parse("Aug 1, 2007").getTime()));
+        newSpecialReview.setApprovalDate(new Date(dateFormat.parse("Aug 21, 2007").getTime()));
+        AddSpecialReviewEvent<T> addSpecialReviewEvent = new AddSpecialReviewEvent<T>(document, newSpecialReview, new ArrayList<T>(), false);
+        
+        rule.setBusinessObjectService(getBusinessObjectService(SPECIAL_REVIEW_TYPE_CODE_ANIMAL_USAGE, APPROVAL_TYPE_CODE_APPROVED, true, false, false, false));
+        rule.setProtocolFinderDao(getProtocolFinderDao());
+        assertFalse(rule.processRules(addSpecialReviewEvent));
+        assertError(PROTOCOL_NUMBER_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_REQUIRED_FOR_VALID);
+    }
+    
+    /**
+     * Test adding a Special Review with an approval type but with a blank application date.
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testApprovalWithBlankApplicationDate() throws Exception {
+        Document document = getDocument();
+
+        T newSpecialReview = getSpecialReview();
+        newSpecialReview.setSpecialReviewTypeCode(SPECIAL_REVIEW_TYPE_CODE_ANIMAL_USAGE);
+        newSpecialReview.setApprovalTypeCode(APPROVAL_TYPE_CODE_APPROVED);
+        newSpecialReview.setProtocolNumber(protocol.getProtocolNumber());
+        newSpecialReview.setApplicationDate(null);
+        newSpecialReview.setApprovalDate(new Date(dateFormat.parse("Aug 21, 2007").getTime()));
+        AddSpecialReviewEvent<T> addSpecialReviewEvent = new AddSpecialReviewEvent<T>(document, newSpecialReview, new ArrayList<T>(), false);
+        
+        rule.setBusinessObjectService(getBusinessObjectService(SPECIAL_REVIEW_TYPE_CODE_ANIMAL_USAGE, APPROVAL_TYPE_CODE_APPROVED, true, true, false, false));
+        rule.setProtocolFinderDao(getProtocolFinderDao());
+        assertFalse(rule.processRules(addSpecialReviewEvent));
+        assertError(APPLICATION_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_REQUIRED_FOR_VALID);
+    }
+
+    /**
+     * Test adding a Special Review with an approval type but with a blank approval date.
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testApprovalWithBlankApprovalDate() throws Exception {
+        Document document = getDocument();
+
+        T newSpecialReview = getSpecialReview();
+        newSpecialReview.setSpecialReviewTypeCode(SPECIAL_REVIEW_TYPE_CODE_ANIMAL_USAGE);
+        newSpecialReview.setApprovalTypeCode(APPROVAL_TYPE_CODE_APPROVED);
+        newSpecialReview.setProtocolNumber(protocol.getProtocolNumber());
+        newSpecialReview.setApplicationDate(new Date(dateFormat.parse("Aug 1, 2007").getTime()));
+        newSpecialReview.setApprovalDate(null);
+        AddSpecialReviewEvent<T> addSpecialReviewEvent = new AddSpecialReviewEvent<T>(document, newSpecialReview, new ArrayList<T>(), false);
+        
+        rule.setBusinessObjectService(getBusinessObjectService(SPECIAL_REVIEW_TYPE_CODE_ANIMAL_USAGE, APPROVAL_TYPE_CODE_APPROVED, true, false, true, false));
+        rule.setProtocolFinderDao(getProtocolFinderDao());
+        assertFalse(rule.processRules(addSpecialReviewEvent));
+        assertError(APPROVAL_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_REQUIRED_FOR_VALID);
+    }
+    
+    /**
+     * Test adding a Special Review with a non-approval (i.e. exempt) approval type but also entering an approval date.
      * 
      * @throws Exception
      */
@@ -196,16 +263,63 @@ public abstract class AddSpecialReviewRuleTestBase<T extends SpecialReview<? ext
         newSpecialReview.setApprovalTypeCode(APPROVAL_TYPE_CODE_EXEMPT);
         newSpecialReview.setApplicationDate(new Date(dateFormat.parse("Aug 1, 2007").getTime()));
         newSpecialReview.setApprovalDate(new Date(dateFormat.parse("Aug 21, 2007").getTime()));
-        AddSpecialReviewEvent<T> addSpecialReviewEvent = new AddSpecialReviewEvent<T>(document, newSpecialReview, false);
+        AddSpecialReviewEvent<T> addSpecialReviewEvent = new AddSpecialReviewEvent<T>(document, newSpecialReview, new ArrayList<T>(), false);
         
         rule.setBusinessObjectService(getBusinessObjectService(SPECIAL_REVIEW_TYPE_CODE_ANIMAL_USAGE, APPROVAL_TYPE_CODE_EXEMPT, false, false, false, true));
         rule.setProtocolFinderDao(getProtocolFinderDao());
         assertFalse(rule.processRules(addSpecialReviewEvent));
         assertError(APPROVAL_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_EMPTY_FOR_NOT_APPROVED);
     }
+    
+    /**
+     * Test adding a Special Review with an exempt approval type but also entering no exemption codes.
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testExemptWithBlankExemptionCodes() throws Exception {
+        Document document = getDocument();
+
+        T newSpecialReview = getSpecialReview();
+        newSpecialReview.setSpecialReviewTypeCode(SPECIAL_REVIEW_TYPE_CODE_ANIMAL_USAGE);
+        newSpecialReview.setApprovalTypeCode(APPROVAL_TYPE_CODE_EXEMPT);
+        newSpecialReview.setApplicationDate(new Date(dateFormat.parse("Aug 1, 2007").getTime()));
+        newSpecialReview.setApprovalDate(new Date(dateFormat.parse("Aug 21, 2007").getTime()));
+        newSpecialReview.setExemptionTypeCodes(new ArrayList<String>());
+        AddSpecialReviewEvent<T> addSpecialReviewEvent = new AddSpecialReviewEvent<T>(document, newSpecialReview, new ArrayList<T>(), false);
+        
+        rule.setBusinessObjectService(getBusinessObjectService(SPECIAL_REVIEW_TYPE_CODE_ANIMAL_USAGE, APPROVAL_TYPE_CODE_EXEMPT, false, false, false, true));
+        rule.setProtocolFinderDao(getProtocolFinderDao());
+        assertFalse(rule.processRules(addSpecialReviewEvent));
+        assertError(EXEMPTION_TYPE_CODE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_REQUIRED_FOR_VALID);
+    }
+    
+    /**
+     * Test adding a Special Review with a non-exempt (i.e. approved) approval type but also entering exemption codes.
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testNotExemptWithExemptionCodes() throws Exception {
+        Document document = getDocument();
+
+        T newSpecialReview = getSpecialReview();
+        newSpecialReview.setSpecialReviewTypeCode(SPECIAL_REVIEW_TYPE_CODE_ANIMAL_USAGE);
+        newSpecialReview.setApprovalTypeCode(APPROVAL_TYPE_CODE_APPROVED);
+        newSpecialReview.setProtocolNumber(protocol.getProtocolNumber());
+        newSpecialReview.setApplicationDate(new Date(dateFormat.parse("Aug 1, 2007").getTime()));
+        newSpecialReview.setApprovalDate(new Date(dateFormat.parse("Aug 21, 2007").getTime()));
+        newSpecialReview.setExemptionTypeCodes(Arrays.asList(EXEMPTION_TYPE_CODE_E1, EXEMPTION_TYPE_CODE_E2));
+        AddSpecialReviewEvent<T> addSpecialReviewEvent = new AddSpecialReviewEvent<T>(document, newSpecialReview, new ArrayList<T>(), false);
+        
+        rule.setBusinessObjectService(getBusinessObjectService(SPECIAL_REVIEW_TYPE_CODE_ANIMAL_USAGE, APPROVAL_TYPE_CODE_APPROVED, true, false, true, false));
+        rule.setProtocolFinderDao(getProtocolFinderDao());
+        assertFalse(rule.processRules(addSpecialReviewEvent));
+        assertError(EXEMPTION_TYPE_CODE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_CANNOT_SELECT_EXEMPTION_FOR_VALID);
+    }
 
     /**
-     * Test adding a special review with approval date before application date. 
+     * Test adding a Special Review with approval date before application date. 
      * 
      * @throws Exception
      */
@@ -220,7 +334,7 @@ public abstract class AddSpecialReviewRuleTestBase<T extends SpecialReview<? ext
         // 08/01/2008 > 08/01/2007
         newSpecialReview.setApplicationDate(new Date(dateFormat.parse("Aug 1, 2008").getTime()));
         newSpecialReview.setApprovalDate(new Date(dateFormat.parse("Aug 21, 2007").getTime()));
-        AddSpecialReviewEvent<T> addProposalSpecialReviewEvent = new AddSpecialReviewEvent<T>(document, newSpecialReview, false);
+        AddSpecialReviewEvent<T> addProposalSpecialReviewEvent = new AddSpecialReviewEvent<T>(document, newSpecialReview, new ArrayList<T>(), false);
         
         rule.setBusinessObjectService(getBusinessObjectService(SPECIAL_REVIEW_TYPE_CODE_ANIMAL_USAGE, APPROVAL_TYPE_CODE_APPROVED, true, false, false, false));
         rule.setProtocolFinderDao(getProtocolFinderDao());
@@ -229,7 +343,7 @@ public abstract class AddSpecialReviewRuleTestBase<T extends SpecialReview<? ext
     }
     
     /**
-     * Test adding a special review with expiration date before approval date. 
+     * Test adding a Special Review with expiration date before approval date. 
      * 
      * @throws Exception
      */
@@ -244,7 +358,7 @@ public abstract class AddSpecialReviewRuleTestBase<T extends SpecialReview<? ext
         // 08/01/2008 > 08/01/2007
         newSpecialReview.setApprovalDate(new Date(dateFormat.parse("Aug 1, 2008").getTime()));
         newSpecialReview.setExpirationDate(new Date(dateFormat.parse("Aug 21, 2007").getTime()));
-        AddSpecialReviewEvent<T> addProposalSpecialReviewEvent = new AddSpecialReviewEvent<T>(document, newSpecialReview, false);
+        AddSpecialReviewEvent<T> addProposalSpecialReviewEvent = new AddSpecialReviewEvent<T>(document, newSpecialReview, new ArrayList<T>(), false);
         
         rule.setBusinessObjectService(getBusinessObjectService(SPECIAL_REVIEW_TYPE_CODE_ANIMAL_USAGE, APPROVAL_TYPE_CODE_APPROVED, true, false, false, false));
         rule.setProtocolFinderDao(getProtocolFinderDao());
@@ -253,7 +367,7 @@ public abstract class AddSpecialReviewRuleTestBase<T extends SpecialReview<? ext
     }
     
     /**
-     * Test adding a special review with expiration date before application date. 
+     * Test adding a Special Review with expiration date before application date. 
      * 
      * @throws Exception
      */
@@ -268,103 +382,12 @@ public abstract class AddSpecialReviewRuleTestBase<T extends SpecialReview<? ext
         // 08/01/2008 > 08/01/2007
         newSpecialReview.setApplicationDate(new Date(dateFormat.parse("Aug 1, 2008").getTime()));
         newSpecialReview.setExpirationDate(new Date(dateFormat.parse("Aug 21, 2007").getTime()));
-        AddSpecialReviewEvent<T> addProposalSpecialReviewEvent = new AddSpecialReviewEvent<T>(document, newSpecialReview, false);
+        AddSpecialReviewEvent<T> addProposalSpecialReviewEvent = new AddSpecialReviewEvent<T>(document, newSpecialReview, new ArrayList<T>(), false);
         
         rule.setBusinessObjectService(getBusinessObjectService(SPECIAL_REVIEW_TYPE_CODE_ANIMAL_USAGE, APPROVAL_TYPE_CODE_APPROVED, true, false, false, false));
         rule.setProtocolFinderDao(getProtocolFinderDao());
         assertFalse(rule.processRules(addProposalSpecialReviewEvent));
         assertError(EXPIRATION_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_DATE_LATER);
-    }
-    
-    @Test
-    public void testProtocolWithBlankProtocolNumber() throws Exception {
-        Document document = getDocument();
-        
-        T newSpecialReview = getSpecialReview();
-        newSpecialReview.setSpecialReviewTypeCode(SPECIAL_REVIEW_TYPE_CODE_ANIMAL_USAGE);
-        newSpecialReview.setApprovalTypeCode(APPROVAL_TYPE_CODE_APPROVED);
-        newSpecialReview.setProtocolNumber(null);
-        newSpecialReview.setApplicationDate(new Date(dateFormat.parse("Aug 1, 2007").getTime()));
-        newSpecialReview.setApprovalDate(new Date(dateFormat.parse("Aug 21, 2007").getTime()));
-        AddSpecialReviewEvent<T> addSpecialReviewEvent = new AddSpecialReviewEvent<T>(document, newSpecialReview, false);
-        
-        rule.setBusinessObjectService(getBusinessObjectService(SPECIAL_REVIEW_TYPE_CODE_ANIMAL_USAGE, APPROVAL_TYPE_CODE_APPROVED, true, false, false, false));
-        rule.setProtocolFinderDao(getProtocolFinderDao());
-        assertFalse(rule.processRules(addSpecialReviewEvent));
-        assertError(PROTOCOL_NUMBER_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_REQUIRED_FOR_VALID);
-    }
-
-    @Test
-    public void testApplicationWithBlankApplicationDate() throws Exception {
-        Document document = getDocument();
-
-        T newSpecialReview = getSpecialReview();
-        newSpecialReview.setSpecialReviewTypeCode(SPECIAL_REVIEW_TYPE_CODE_ANIMAL_USAGE);
-        newSpecialReview.setApprovalTypeCode(APPROVAL_TYPE_CODE_APPROVED);
-        newSpecialReview.setProtocolNumber(protocol.getProtocolNumber());
-        newSpecialReview.setApplicationDate(null);
-        newSpecialReview.setApprovalDate(new Date(dateFormat.parse("Aug 21, 2007").getTime()));
-        AddSpecialReviewEvent<T> addSpecialReviewEvent = new AddSpecialReviewEvent<T>(document, newSpecialReview, false);
-        
-        rule.setBusinessObjectService(getBusinessObjectService(SPECIAL_REVIEW_TYPE_CODE_ANIMAL_USAGE, APPROVAL_TYPE_CODE_APPROVED, true, true, false, false));
-        rule.setProtocolFinderDao(getProtocolFinderDao());
-        assertFalse(rule.processRules(addSpecialReviewEvent));
-        assertError(APPLICATION_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_REQUIRED_FOR_VALID);
-    }
-
-    @Test
-    public void testApprovalWithBlankApprovalDate() throws Exception {
-        Document document = getDocument();
-
-        T newSpecialReview = getSpecialReview();
-        newSpecialReview.setSpecialReviewTypeCode(SPECIAL_REVIEW_TYPE_CODE_ANIMAL_USAGE);
-        newSpecialReview.setApprovalTypeCode(APPROVAL_TYPE_CODE_APPROVED);
-        newSpecialReview.setProtocolNumber(protocol.getProtocolNumber());
-        newSpecialReview.setApplicationDate(new Date(dateFormat.parse("Aug 1, 2007").getTime()));
-        newSpecialReview.setApprovalDate(null);
-        AddSpecialReviewEvent<T> addSpecialReviewEvent = new AddSpecialReviewEvent<T>(document, newSpecialReview, false);
-        
-        rule.setBusinessObjectService(getBusinessObjectService(SPECIAL_REVIEW_TYPE_CODE_ANIMAL_USAGE, APPROVAL_TYPE_CODE_APPROVED, true, false, true, false));
-        rule.setProtocolFinderDao(getProtocolFinderDao());
-        assertFalse(rule.processRules(addSpecialReviewEvent));
-        assertError(APPROVAL_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_REQUIRED_FOR_VALID);
-    }
-
-    @Test
-    public void testExemptWithBlankExemptionCodes() throws Exception {
-        Document document = getDocument();
-
-        T newSpecialReview = getSpecialReview();
-        newSpecialReview.setSpecialReviewTypeCode(SPECIAL_REVIEW_TYPE_CODE_ANIMAL_USAGE);
-        newSpecialReview.setApprovalTypeCode(APPROVAL_TYPE_CODE_EXEMPT);
-        newSpecialReview.setApplicationDate(new Date(dateFormat.parse("Aug 1, 2007").getTime()));
-        newSpecialReview.setApprovalDate(new Date(dateFormat.parse("Aug 21, 2007").getTime()));
-        newSpecialReview.setExemptionTypeCodes(new ArrayList<String>());
-        AddSpecialReviewEvent<T> addSpecialReviewEvent = new AddSpecialReviewEvent<T>(document, newSpecialReview, false);
-        
-        rule.setBusinessObjectService(getBusinessObjectService(SPECIAL_REVIEW_TYPE_CODE_ANIMAL_USAGE, APPROVAL_TYPE_CODE_EXEMPT, false, false, false, true));
-        rule.setProtocolFinderDao(getProtocolFinderDao());
-        assertFalse(rule.processRules(addSpecialReviewEvent));
-        assertError(EXEMPTION_TYPE_CODE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_REQUIRED_FOR_VALID);
-    }
-    
-    @Test
-    public void testNotExemptWithExemptionCodes() throws Exception {
-        Document document = getDocument();
-
-        T newSpecialReview = getSpecialReview();
-        newSpecialReview.setSpecialReviewTypeCode(SPECIAL_REVIEW_TYPE_CODE_ANIMAL_USAGE);
-        newSpecialReview.setApprovalTypeCode(APPROVAL_TYPE_CODE_APPROVED);
-        newSpecialReview.setProtocolNumber(protocol.getProtocolNumber());
-        newSpecialReview.setApplicationDate(new Date(dateFormat.parse("Aug 1, 2007").getTime()));
-        newSpecialReview.setApprovalDate(new Date(dateFormat.parse("Aug 21, 2007").getTime()));
-        newSpecialReview.setExemptionTypeCodes(Arrays.asList(EXEMPTION_TYPE_CODE_E1, EXEMPTION_TYPE_CODE_E2));
-        AddSpecialReviewEvent<T> addSpecialReviewEvent = new AddSpecialReviewEvent<T>(document, newSpecialReview, false);
-        
-        rule.setBusinessObjectService(getBusinessObjectService(SPECIAL_REVIEW_TYPE_CODE_ANIMAL_USAGE, APPROVAL_TYPE_CODE_APPROVED, true, false, true, false));
-        rule.setProtocolFinderDao(getProtocolFinderDao());
-        assertFalse(rule.processRules(addSpecialReviewEvent));
-        assertError(EXEMPTION_TYPE_CODE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_CANNOT_SELECT_EXEMPTION_FOR_VALID);
     }
     
     protected BusinessObjectService getBusinessObjectService(final String specialReviewTypeCode, final String approvalTypeCode, 

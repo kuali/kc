@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.irb.specialreview;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -48,11 +50,12 @@ public class ProtocolSpecialReviewAction extends ProtocolAction {
     public ActionForward addSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolDocument document = protocolForm.getDocument();
-        ProtocolSpecialReview newSpecialReview = protocolForm.getSpecialReviewHelper().getNewSpecialReview();
+        ProtocolSpecialReview specialReview = protocolForm.getSpecialReviewHelper().getNewSpecialReview();
+        List<ProtocolSpecialReview> specialReviews = document.getProtocol().getSpecialReviews();
         
-        if (applyRules(new AddSpecialReviewEvent<ProtocolSpecialReview>(document, newSpecialReview, false))) {
-            newSpecialReview.setSpecialReviewNumber(document.getDocumentNextValue(Constants.SPECIAL_REVIEW_NUMBER));
-            document.getProtocol().getSpecialReviews().add(newSpecialReview);
+        if (applyRules(new AddSpecialReviewEvent<ProtocolSpecialReview>(document, specialReview, specialReviews, false))) {
+            specialReview.setSpecialReviewNumber(document.getDocumentNextValue(Constants.SPECIAL_REVIEW_NUMBER));
+            document.getProtocol().getSpecialReviews().add(specialReview);
             protocolForm.getSpecialReviewHelper().setNewSpecialReview(new ProtocolSpecialReview());
         }
         

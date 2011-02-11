@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -82,15 +84,16 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
     public ActionForward addSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument document = proposalDevelopmentForm.getDocument();
-        ProposalSpecialReview newSpecialReview = proposalDevelopmentForm.getSpecialReviewHelper().getNewSpecialReview();
+        ProposalSpecialReview specialReview = proposalDevelopmentForm.getSpecialReviewHelper().getNewSpecialReview();
+        List<ProposalSpecialReview> specialReviews = document.getDevelopmentProposal().getPropSpecialReviews();
         boolean isProtocolLinkingEnabled = proposalDevelopmentForm.getSpecialReviewHelper().getIsProtocolLinkingEnabled();
         
-        proposalDevelopmentForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(newSpecialReview);
+        proposalDevelopmentForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview);
         
         KualiRuleService ruleService = KraServiceLocator.getService(KualiRuleService.class);
-        if (ruleService.applyRules(new AddSpecialReviewEvent<ProposalSpecialReview>(document, newSpecialReview, isProtocolLinkingEnabled))) {
-            newSpecialReview.setSpecialReviewNumber(document.getDocumentNextValue(Constants.PROPOSAL_SPECIALREVIEW_NUMBER));
-            document.getDevelopmentProposal().getPropSpecialReviews().add(newSpecialReview);
+        if (ruleService.applyRules(new AddSpecialReviewEvent<ProposalSpecialReview>(document, specialReview, specialReviews, isProtocolLinkingEnabled))) {
+            specialReview.setSpecialReviewNumber(document.getDocumentNextValue(Constants.PROPOSAL_SPECIALREVIEW_NUMBER));
+            document.getDevelopmentProposal().getPropSpecialReviews().add(specialReview);
             proposalDevelopmentForm.getSpecialReviewHelper().setNewSpecialReview(new ProposalSpecialReview());
         }
         
@@ -136,6 +139,21 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentAction#save(org.apache.struts.action.ActionMapping, 
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalSpecialReview specialReview = proposalDevelopmentForm.getSpecialReviewHelper().getNewSpecialReview();
+        
+        proposalDevelopmentForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview);
+        
+        return super.save(mapping, form, request, response);
     }
     
     /**

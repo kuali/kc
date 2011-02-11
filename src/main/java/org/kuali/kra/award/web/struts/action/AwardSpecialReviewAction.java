@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -80,14 +82,15 @@ public class AwardSpecialReviewAction extends AwardAction {
     public ActionForward addSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument document = awardForm.getAwardDocument();
-        AwardSpecialReview newSpecialReview = awardForm.getSpecialReviewHelper().getNewSpecialReview();
+        AwardSpecialReview specialReview = awardForm.getSpecialReviewHelper().getNewSpecialReview();
+        List<AwardSpecialReview> specialReviews = document.getAward().getSpecialReviews();
         boolean isProtocolLinkingEnabled = awardForm.getSpecialReviewHelper().getIsProtocolLinkingEnabled();
         
-        awardForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(newSpecialReview);
+        awardForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview);
         
-        if (applyRules(new AddSpecialReviewEvent<AwardSpecialReview>(document, newSpecialReview, isProtocolLinkingEnabled))) {
-            newSpecialReview.setSpecialReviewNumber(document.getDocumentNextValue(Constants.SPECIAL_REVIEW_NUMBER));
-            document.getAward().getSpecialReviews().add(newSpecialReview);
+        if (applyRules(new AddSpecialReviewEvent<AwardSpecialReview>(document, specialReview, specialReviews, isProtocolLinkingEnabled))) {
+            specialReview.setSpecialReviewNumber(document.getDocumentNextValue(Constants.SPECIAL_REVIEW_NUMBER));
+            document.getAward().getSpecialReviews().add(specialReview);
             awardForm.getSpecialReviewHelper().setNewSpecialReview(new AwardSpecialReview());
         }
 
@@ -147,6 +150,8 @@ public class AwardSpecialReviewAction extends AwardAction {
         AwardDocument document = awardForm.getAwardDocument();
         
         for (AwardSpecialReview specialReview : document.getAward().getSpecialReviews()) {
+            awardForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview);
+            
             String protocolNumber = specialReview.getProtocolNumber();
             Long fundingSourceId = document.getAward().getAwardId();
             String fundingSourceType = FundingSourceType.AWARD;

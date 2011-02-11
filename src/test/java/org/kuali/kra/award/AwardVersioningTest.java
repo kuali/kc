@@ -184,7 +184,7 @@ public class AwardVersioningTest extends KcUnitTestBase {
     }
     
     private void addSomeAwardSpecialReviewsAndVerifyBaseline(Award awardVersion2) {
-        awardVersion2.add(createSpecialReview(1, "1", "1"));
+        awardVersion2.add(createSpecialReview(1, "2", "1"));
         awardVersion2.add(createSpecialReview(2, "2", "2"));
     }
     
