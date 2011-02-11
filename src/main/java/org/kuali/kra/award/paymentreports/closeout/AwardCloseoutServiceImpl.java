@@ -78,7 +78,6 @@ public class AwardCloseoutServiceImpl implements AwardCloseoutService {
             List<AwardReportTerm> awardReportTerms = filterAwardReportTerms(award.getAwardReportTermItems(), closeoutReportTypeCode);
             if (awardReportTerms.size() == 0) {
                 closeoutDueDates.put(closeoutReportTypeCode, null);
-                //updateCloseoutDueDateWhenFilteredListSizeIsZero(closeoutDueDates, dateCalculatedUsingFinalInvoiceDue, closeoutReportTypeCode);
             } else {
                 Calendar calendar = getDateTimeService().getCalendar(finalExpirationDate);
                 for (AwardReportTerm awardReportTerm : awardReportTerms) {
@@ -261,9 +260,6 @@ public class AwardCloseoutServiceImpl implements AwardCloseoutService {
             } else {
                 Calendar calendar = getDateTimeService().getCalendar(finalExpirationDate);
                 java.util.Date dueDate = null;
-                if ("1".equals(closeoutReportTypeCode)) {
-                    dueDate = calendar.getTime();
-                }
                 for (AwardReportTerm awardReportTerm : awardReportTerms) {
                     dateCalculatedUsingFrequency = getCloseoutDueDate(finalExpirationDate, awardReportTerm, calendar);  
                     if (dueDate != null && !dueDate.equals(dateCalculatedUsingFrequency)) {
