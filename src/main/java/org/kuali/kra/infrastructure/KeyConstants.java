@@ -39,6 +39,7 @@ public final class KeyConstants {
     
     // Special Review
     public static final String ERROR_SPECIAL_REVIEW_PROTOCOL_NUMBER_INVALID = "error.special.review.protocol.number.invalid";
+    public static final String ERROR_SPECIAL_REVIEW_PROTOCOL_NUMBER_DUPLICATE = "error.special.review.protocol.number.duplicate";
     public static final String ERROR_SPECIAL_REVIEW_DATE_SAME_OR_LATER = "error.special.review.date.same.or.later";
     public static final String ERROR_SPECIAL_REVIEW_DATE_LATER = "error.special.review.date.later";
     public static final String ERROR_SPECIAL_REVIEW_EMPTY_FOR_NOT_APPROVED = "error.special.review.empty.for.not.approved";

@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.common.specialreview.rule.event;
 
+import java.util.List;
+
 import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
 import org.kuali.kra.common.specialreview.rule.AddSpecialReviewRule;
@@ -32,6 +34,8 @@ public class AddSpecialReviewEvent<T extends SpecialReview<? extends SpecialRevi
     
     private T specialReview;
     
+    private List<T> specialReviews;
+    
     private boolean isProtocolLinkingEnabled;
     
     /**
@@ -39,11 +43,13 @@ public class AddSpecialReviewEvent<T extends SpecialReview<? extends SpecialRevi
      * 
      * @param document The document containing the Special Review
      * @param specialReview The Special Review object to validate
+     * @param specialReviews The existing Special Review objects
      * @param isProtocolLinkingEnabled Whether or not Protocol linking is enabled
      */
-    public AddSpecialReviewEvent(Document document, T specialReview, boolean isProtocolLinkingEnabled) {
+    public AddSpecialReviewEvent(Document document, T specialReview, List<T> specialReviews, boolean isProtocolLinkingEnabled) {
         super("adding special review to document " + getDocumentId(document), NEW_SPECIAL_REVIEW_FIELD, document);
         this.specialReview = specialReview;
+        this.specialReviews = specialReviews;
         this.isProtocolLinkingEnabled = isProtocolLinkingEnabled;
     }
 
@@ -54,7 +60,15 @@ public class AddSpecialReviewEvent<T extends SpecialReview<? extends SpecialRevi
     public void setSpecialReview(T specialReview) {
         this.specialReview = specialReview;
     }
-    
+
+    public List<T> getSpecialReviews() {
+        return specialReviews;
+    }
+
+    public void setSpecialReviews(List<T> specialReviews) {
+        this.specialReviews = specialReviews;
+    }
+
     public boolean getIsProtocolLinkingEnabled() {
         return isProtocolLinkingEnabled;
     }
