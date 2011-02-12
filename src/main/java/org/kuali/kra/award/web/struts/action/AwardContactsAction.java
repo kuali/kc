@@ -99,13 +99,19 @@ public class AwardContactsAction extends AwardAction {
     private void setLeadUnitOnAwardFromPILeadUnit(Award award, AwardForm awardForm) {
         for (AwardPerson person : award.getProjectPersons()) {
             if (person.isPrincipalInvestigator() && person.getUnits().size() >= 1) {
-                String unitToUse = person.getUnit(0).getUnitNumber();
-                List<Unit> units = (List<Unit>) getBusinessObjectService().findMatching(Unit.class, 
-                        ServiceHelper.getInstance().buildCriteriaMap("UNIT_NUMBER", unitToUse));
-                if (units.size() > 0 && units.get(0) != null) {
-                    Unit leadUnit = units.get(0);
-                    award.setUnitNumber(leadUnit.getUnitNumber());
-                    award.setLeadUnit(leadUnit);
+                AwardPersonUnit selectedUnit = null;
+                for (AwardPersonUnit unit : person.getUnits()) {
+                    if (unit.isLeadUnit()) {
+                        selectedUnit = unit;
+                    }
+                }
+                //if a unit hasn't been selected as lead, use the first unit
+                if (selectedUnit == null) {
+                    selectedUnit = person.getUnit(0);
+                }
+                if (selectedUnit != null) {
+                    award.setUnitNumber(selectedUnit.getUnitNumber());
+                    award.setLeadUnit(selectedUnit.getUnit());
                 } else {
                     award.setUnitNumber(null);
                     award.setLeadUnit(null);
