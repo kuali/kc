@@ -61,12 +61,13 @@ import org.kuali.kra.irb.personnel.AddProtocolUnitEvent;
 import org.kuali.kra.irb.personnel.AddProtocolUnitRule;
 import org.kuali.kra.irb.personnel.ProtocolAttachmentPersonnelRule;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelAuditRule;
-import org.kuali.kra.irb.personnel.ProtocolPersonnelService;
 import org.kuali.kra.irb.personnel.ProtocolUnitRule;
 import org.kuali.kra.irb.personnel.SaveProtocolPersonnelEvent;
 import org.kuali.kra.irb.protocol.funding.AddProtocolFundingSourceEvent;
+import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceAuditRule;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceRule;
+import org.kuali.kra.irb.protocol.funding.SaveProtocolFundingSourceEvent;
 import org.kuali.kra.irb.protocol.location.AddProtocolLocationEvent;
 import org.kuali.kra.irb.protocol.location.AddProtocolLocationRule;
 import org.kuali.kra.irb.protocol.location.ProtocolLocationRule;
@@ -95,6 +96,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
     private static final String PROTOCOL_LUN_FORM_ELEMENT="protocolHelper.leadUnitNumber";
     private static final String ERROR_PROPERTY_ORGANIZATION_ID = "protocolHelper.newProtocolLocation.organizationId";
     private static final String PROTOCOL_DOC_LUN_FORM_ELEMENT = "document.protocolList[0].leadUnitNumber";
+    private static final String SAVE_PROTOCOL_FUNDING_SOURCE_FIELD = "document.protocolList[0].protocolFundingSources";
     private static final String SAVE_SPECIAL_REVIEW_FIELD = "document.protocolList[0].specialReviews";
     
 // TODO : move these static constant up to parent 
@@ -122,6 +124,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         boolean valid = true;
         valid &= processLeadUnitBusinessRules((ProtocolDocument) document);
         valid &= processProtocolLocationBusinessRules((ProtocolDocument) document);
+        valid &= processProtocolFundingSourceBusinessRules((ProtocolDocument) document);
         valid &= processProtocolPersonnelBusinessRules((ProtocolDocument) document);
         valid &= processProtocolCustomDataBusinessRules((ProtocolDocument) document);
         valid &= processProtocolSpecialReviewBusinessRules((ProtocolDocument) document);
@@ -186,6 +189,11 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
             isValid = false;
         }
         return isValid;
+    }
+    
+    private boolean processProtocolFundingSourceBusinessRules(ProtocolDocument document) {
+        List<ProtocolFundingSource> protocolFundingSources = document.getProtocol().getProtocolFundingSources();
+        return processRules(new SaveProtocolFundingSourceEvent(SAVE_PROTOCOL_FUNDING_SOURCE_FIELD, document, protocolFundingSources));
     }
     
     private boolean processProtocolPersonnelBusinessRules(ProtocolDocument document) {
