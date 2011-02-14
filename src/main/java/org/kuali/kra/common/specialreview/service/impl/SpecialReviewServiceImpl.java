@@ -186,6 +186,9 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
         ProtocolDocument document = getProtocolDocument(protocolNumber);
         if (document != null && fundingSourceId != null && StringUtils.isNotBlank(fundingSourceNumber) && NumberUtils.isNumber(fundingSourceTypeCode)) {
             ProtocolFundingSource protocolFundingSource = new ProtocolFundingSource();
+            protocolFundingSource.setProtocolId(document.getProtocol().getProtocolId());
+            protocolFundingSource.setProtocolNumber(document.getProtocol().getProtocolNumber());
+            
             protocolFundingSource.setFundingSource(String.valueOf(fundingSourceId));
             protocolFundingSource.setFundingSourceNumber(fundingSourceNumber);
             protocolFundingSource.setFundingSourceTypeCode(Integer.valueOf(fundingSourceTypeCode));
@@ -259,7 +262,7 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
             }
             specialReview.setComments(NEW_SPECIAL_REVIEW_COMMENT);
             document.getAward().getSpecialReviews().add(specialReview);
-            
+
             getDocumentService().saveDocument(document);
         }
     }

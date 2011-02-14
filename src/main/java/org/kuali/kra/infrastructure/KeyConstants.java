@@ -520,6 +520,8 @@ public final class KeyConstants {
     // IRB Protocol Funding Source Validation messages
     public static final String ERROR_PROTOCOL_FUNDING_SOURCE_REQUIRED = "error.protocol.fundingSource.required";
     public static final String QUESTION_PROTOCOL_FUNDING_SOURCE_DELETE_CONFIRMATION = "question.protocol.fundingSource.delete.confirmation";
+    public static final String ERROR_PROTOCOL_FUNDING_SOURCE_AWARD_LOCKED = "error.protocol.fundingSource.award.locked";
+    public static final String ERROR_PROTOCOL_FUNDING_SOURCE_INSTITUTIONAL_PROPOSAL_LOCKED = "error.protocol.fundingSource.institutional.proposal.locked";
     
     //IRB Protocol Search Screen Error Messages
     public static final String ERROR_PROTOCOL_SEARCH_INVALID_DATE = "error.protocol.search.invalid.date";
