@@ -34,18 +34,15 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.impl.KraDocumentServiceImpl;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
-import org.kuali.rice.core.util.RiceConstants;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.lookup.LookupResultsService;
-import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -301,4 +298,31 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
     protected final boolean applyRules(KualiDocumentEvent event) {
         return getKualiRuleService().applyRules(event);
     }
+    
+    @Override
+    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+        throws Exception {
+        
+        ActionForward forward = super.route(mapping, form, request, response);
+        
+        Long routeHeaderId = Long.parseLong(((CommitteeForm) form).getCommitteeDocument().getDocumentNumber());
+        String returnLocation = buildActionUrl(routeHeaderId, "docHandler", "CommitteeDocument");
+        
+        //ActionForward basicForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
+        return routeToHoldingPage(forward, forward, holdingPageForward, returnLocation);
+    }
+
+    @Override
+    public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ActionForward forward = super.blanketApprove(mapping, form, request, response);
+        Long routeHeaderId = Long.parseLong(((CommitteeForm) form).getCommitteeDocument().getDocumentNumber());
+        String returnLocation = buildActionUrl(routeHeaderId, "docHandler", "CommitteeDocument");
+        
+        //ActionForward basicForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
+        return routeToHoldingPage(forward, forward, holdingPageForward, returnLocation);
+    }
+
 }
