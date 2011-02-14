@@ -111,8 +111,10 @@
 	                	                                 staticOnly="${!enableProtocolLinking}" />
 	                </div></td>
 	                <td align="left" valign="middle" class="infoline"><div align="center">
-                        <kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.exemptionTypeCodes" 
-                                                  attributeEntry="${exemptionAttributes.exemptionTypeCode}" />  			
+                        <kra:dynamicHtmlControlAttribute property="specialReviewHelper.newSpecialReview.exemptionTypeCodes" 
+                                                         attributeEntry="${exemptionAttributes.exemptionTypeCode}" 
+                                                         initialReadOnly="${protocolLinkingReadOnly}" 
+                                                         staticOnly="${!enableProtocolLinking}" />  			
 	                </div></td>
 					<td class="infoline" rowspan="2"><div align="center">
 						<html:image property="methodToCall.addSpecialReview.anchor${tabKey}" 
@@ -203,9 +205,11 @@
                                                          staticOnly="${!enableProtocolLinking}"/>
 	                </div></td>
 	                <td align="left" valign="middle"><div align="center">
-                        <kul:htmlControlAttribute property="${collectionProperty}[${status.index}].exemptionTypeCodes" 
-                                                  attributeEntry="${exemptionAttributes.exemptionTypeCode}" 
-                                                  readOnly="${not canModify}"/>
+                        <kra:dynamicHtmlControlAttribute property="${collectionProperty}[${status.index}].exemptionTypeCodes" 
+                                                         attributeEntry="${exemptionAttributes.exemptionTypeCode}" 
+                                                         initialReadOnly="${protocolLinkingReadOnly}"
+                                                         readOnly="${not canModify}"
+                                                         staticOnly="${!enableProtocolLinking}"/>
 	                </div></td>
 					<td rowspan="2"><div align=center>
                         <c:if test="${canModify}">

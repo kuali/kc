@@ -2659,7 +2659,7 @@ function showHideSpecialReviewProtocolLink(specialReviewTypeCode, idPrefix) {
 		changeObjectVisibility(idPrefix + ".protocolNumber.link.div", "none"); 
 	}
 	
-	enableDisableReadOnlyDynamicHtmlControl(readOnly, new Array(idPrefix + ".approvalTypeCode", idPrefix + ".applicationDate", idPrefix + ".approvalDate", idPrefix + ".expirationDate"));
+	enableDisableReadOnlyDynamicHtmlControl(readOnly, new Array(idPrefix + ".approvalTypeCode", idPrefix + ".applicationDate", idPrefix + ".approvalDate", idPrefix + ".expirationDate", idPrefix + ".exemptionTypeCodes"));
 }
 
 function enableDisableReadOnlyDynamicHtmlControl(readOnly, ids) {
