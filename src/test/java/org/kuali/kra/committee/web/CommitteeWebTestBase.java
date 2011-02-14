@@ -326,25 +326,26 @@ public abstract class CommitteeWebTestBase extends ProtocolWebTestBase {
      * @throws Exception
      */
     protected HtmlPage submit(HtmlPage committeePage) throws Exception {
-        HtmlPage portalPage = clickOn(committeePage, SUBMIT_BUTTON_NAME);
-        HtmlPage centralAdminPage = clickOn(portalPage, CENTRAL_ADMIN_TAB);
-        
-        HtmlPage lookupPage = clickOn(centralAdminPage, "Committee Lookup", "Kuali Portal Index");
-        setFieldValue(lookupPage, COMMITTEE_NAME, DEFAULT_NAME + "*");
-
-        // click on the search button
-        HtmlImageInput searchBtn = (HtmlImageInput) getElement(lookupPage, "methodToCall.search", "search", "search");
-        HtmlPage resultsPage = (HtmlPage) searchBtn.click();
-        HtmlTable table = (HtmlTable) getElement(resultsPage, "row");       
-        HtmlTableBody body = table.getBodies().get(0);
-        List<HtmlTableRow> rows = body.getRows();
-
-        HtmlTableRow row = rows.get(0);
-        List<HtmlTableCell> cells = row.getCells();
-        HtmlTableCell cell = cells.get(0);
-        HtmlAnchor editAnchor = (HtmlAnchor) getFirstChild(cell);
-        HtmlAnchor viewAnchor = (HtmlAnchor) getNextSibling(editAnchor);
-        return (HtmlPage) viewAnchor.click();
+        return clickOn(committeePage, SUBMIT_BUTTON_NAME);
+//        HtmlPage portalPage = clickOn(committeePage, SUBMIT_BUTTON_NAME);
+//        HtmlPage centralAdminPage = clickOn(portalPage, CENTRAL_ADMIN_TAB);
+//        
+//        HtmlPage lookupPage = clickOn(centralAdminPage, "Committee Lookup", "Kuali Portal Index");
+//        setFieldValue(lookupPage, COMMITTEE_NAME, DEFAULT_NAME + "*");
+//
+//        // click on the search button
+//        HtmlImageInput searchBtn = (HtmlImageInput) getElement(lookupPage, "methodToCall.search", "search", "search");
+//        HtmlPage resultsPage = (HtmlPage) searchBtn.click();
+//        HtmlTable table = (HtmlTable) getElement(resultsPage, "row");       
+//        HtmlTableBody body = table.getBodies().get(0);
+//        List<HtmlTableRow> rows = body.getRows();
+//
+//        HtmlTableRow row = rows.get(0);
+//        List<HtmlTableCell> cells = row.getCells();
+//        HtmlTableCell cell = cells.get(0);
+//        HtmlAnchor editAnchor = (HtmlAnchor) getFirstChild(cell);
+//        HtmlAnchor viewAnchor = (HtmlAnchor) getNextSibling(editAnchor);
+//        return (HtmlPage) viewAnchor.click();
     }
     
     /**
