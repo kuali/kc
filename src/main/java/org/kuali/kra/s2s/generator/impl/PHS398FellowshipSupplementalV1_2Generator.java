@@ -118,17 +118,16 @@ public class PHS398FellowshipSupplementalV1_2Generator extends
 	 * This method is used to get PHSFellowshipSupplemental12 XMLObject and set
 	 * the data to it from DevelopmentProposal data.
 	 */
-	private PHSFellowshipSupplemental12 getPHSFellowshipSupplemental12() {
-		PHSFellowshipSupplemental12 phsFellowshipSupplemental = PHSFellowshipSupplemental12.Factory
-				.newInstance();
+	private PHSFellowshipSupplemental12Document getPHSFellowshipSupplemental12() {
+        PHSFellowshipSupplemental12Document phsFellowshipSupplementalDocument = PHSFellowshipSupplemental12Document.Factory.newInstance();
+        PHSFellowshipSupplemental12 phsFellowshipSupplemental = phsFellowshipSupplementalDocument.addNewPHSFellowshipSupplemental12();
 		phsFellowshipSupplemental.setFormVersion(S2SConstants.FORMVERSION_1_2);
 		phsFellowshipSupplemental.setApplicationType(getApplicationType());
 		phsFellowshipSupplemental.setAppendix(getAppendix());
 		phsFellowshipSupplemental.setAdditionalInformation(getAdditionalInformation());
 		phsFellowshipSupplemental.setResearchTrainingPlan(getResearchTrainingPlan());
 		phsFellowshipSupplemental.setBudget(getBudget());
-System.out.println("XXXXXX" + phsFellowshipSupplemental.getDomNode().getNodeName());
-		return phsFellowshipSupplemental;
+		return phsFellowshipSupplementalDocument;
 	}
 
 	/*
@@ -1047,22 +1046,18 @@ System.out.println("XXXXXX" + phsFellowshipSupplemental.getDomNode().getNodeName
 		return getPHSFellowshipSupplemental12();
 	}
 
-	/**
-	 * This method typecasts the given {@link XmlObject} to the required
-	 * generator type and returns back the document of that generator type.
-	 * 
-	 * @param xmlObject
-	 *            which needs to be converted to the document type of the
-	 *            required generator
-	 * @return {@link XmlObject} document of the required generator type
-	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
-	 */
-	public XmlObject getFormObject(XmlObject xmlObject) {
-		PHSFellowshipSupplemental12 phsFellowshipSupplemental = (PHSFellowshipSupplemental12) xmlObject;
-		PHSFellowshipSupplemental12Document phsFellowshipSupplementalDocument = PHSFellowshipSupplemental12Document.Factory
-				.newInstance();
-		phsFellowshipSupplementalDocument
-				.setPHSFellowshipSupplemental12(phsFellowshipSupplemental);
-		return phsFellowshipSupplementalDocument;
-	}
+//	/**
+//	 * This method typecasts the given {@link XmlObject} to the required
+//	 * generator type and returns back the document of that generator type.
+//	 * 
+//	 * @param xmlObject
+//	 *            which needs to be converted to the document type of the
+//	 *            required generator
+//	 * @return {@link XmlObject} document of the required generator type
+//	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
+//	 */
+//	public XmlObject getFormObject(XmlObject xmlObject) {
+//		PHSFellowshipSupplemental12 phsFellowshipSupplemental = (PHSFellowshipSupplemental12) xmlObject;
+//		return phsFellowshipSupplementalDocument;
+//	}
 }
