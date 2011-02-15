@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +30,7 @@ import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.bo.FundingSourceType;
+import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.common.specialreview.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.infrastructure.Constants;
@@ -132,8 +134,7 @@ public class AwardSpecialReviewAction extends AwardAction {
             AwardForm awardForm = (AwardForm) form;
             AwardDocument document = awardForm.getAwardDocument();
             
-            AwardSpecialReview deletedSpecialReview = document.getAward().getSpecialReviews().remove(getLineToDelete(request));
-            awardForm.getSpecialReviewHelper().getDeletedSpecialReviews().add(deletedSpecialReview);
+            document.getAward().getSpecialReviews().remove(getLineToDelete(request));
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -148,31 +149,52 @@ public class AwardSpecialReviewAction extends AwardAction {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument document = awardForm.getAwardDocument();
-        
-        for (AwardSpecialReview specialReview : document.getAward().getSpecialReviews()) {
-            awardForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview);
-            
-            String protocolNumber = specialReview.getProtocolNumber();
-            Long fundingSourceId = document.getAward().getAwardId();
-            String fundingSourceType = FundingSourceType.AWARD;
-            
-            if (!getSpecialReviewService().isLinkedToProtocolFundingSource(protocolNumber, fundingSourceId, fundingSourceType)) {
-                String fundingSourceNumber = document.getAward().getAwardNumber();
-                String fundingSourceName = document.getAward().getSponsorName();
-                String fundingSourceTitle = document.getAward().getTitle();
-                getSpecialReviewService().addProtocolFundingSourceForSpecialReview(
-                    protocolNumber, fundingSourceId, fundingSourceNumber, fundingSourceType, fundingSourceName, fundingSourceTitle);
+        boolean isProtocolLinkingEnabled = awardForm.getSpecialReviewHelper().getIsProtocolLinkingEnabled();
+
+        if (isProtocolLinkingEnabled) {
+            for (AwardSpecialReview specialReview : document.getAward().getSpecialReviews()) {
+                if (SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {
+                    awardForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview);
+                    
+                    String protocolNumber = specialReview.getProtocolNumber();
+                    Long fundingSourceId = document.getAward().getAwardId();
+                    String fundingSourceTypeCode = FundingSourceType.AWARD;
+                    
+                    if (!getSpecialReviewService().isLinkedToProtocolFundingSource(protocolNumber, fundingSourceId, fundingSourceTypeCode)) {
+                        String fundingSourceNumber = document.getAward().getAwardNumber();
+                        String fundingSourceName = document.getAward().getSponsorName();
+                        String fundingSourceTitle = document.getAward().getTitle();
+                        getSpecialReviewService().addProtocolFundingSourceForSpecialReview(
+                            protocolNumber, fundingSourceId, fundingSourceNumber, fundingSourceTypeCode, fundingSourceName, fundingSourceTitle);
+                        awardForm.getSpecialReviewHelper().getLinkedProtocolNumbers().add(protocolNumber);
+                    }
+                }
             }
-        }
-        
-        for (AwardSpecialReview specialReview : awardForm.getSpecialReviewHelper().getDeletedSpecialReviews()) {
-            String protocolNumber = specialReview.getProtocolNumber();
-            Long fundingSourceId = document.getAward().getAwardId();
-            String fundingSourceType = FundingSourceType.AWARD;
             
-            getSpecialReviewService().deleteProtocolFundingSourceForSpecialReview(protocolNumber, fundingSourceId, fundingSourceType);
+            List<String> deletedLinkedProtocolNumbers = new ArrayList<String>();
+            
+            for (String linkedProtocolNumber : awardForm.getSpecialReviewHelper().getLinkedProtocolNumbers()) {
+                Long fundingSourceId = document.getAward().getAwardId();
+                String fundingSourceTypeCode = FundingSourceType.AWARD;
+                
+                boolean isLinkedToSpecialReview = false;
+                for (AwardSpecialReview specialReview : document.getAward().getSpecialReviews()) {
+                    if (SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode()) 
+                        && StringUtils.equals(specialReview.getProtocolNumber(), linkedProtocolNumber)) {
+                        isLinkedToSpecialReview = true;
+                        break;
+                    }
+                }
+                
+                if (!isLinkedToSpecialReview) {
+                    getSpecialReviewService().deleteProtocolFundingSourceForSpecialReview(linkedProtocolNumber, fundingSourceId, fundingSourceTypeCode);
+                    deletedLinkedProtocolNumbers.add(linkedProtocolNumber);
+
+                }
+            }
+            
+            awardForm.getSpecialReviewHelper().getLinkedProtocolNumbers().removeAll(deletedLinkedProtocolNumbers);
         }
-        awardForm.getSpecialReviewHelper().getDeletedSpecialReviews().clear();
 
         return super.save(mapping, form, request, response);
     }

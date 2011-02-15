@@ -26,7 +26,7 @@ import org.kuali.rice.kns.authorization.AuthorizationConstants;
 /**
  * Defines the Special Review Helper for Institutional Proposal.
  */
-public class InstitutionalProposalSpecialReviewHelper extends SpecialReviewHelperBase<InstitutionalProposalSpecialReview> {
+public class SpecialReviewHelper extends SpecialReviewHelperBase<InstitutionalProposalSpecialReview> {
 
     private static final long serialVersionUID = 6509860722698432447L;
 
@@ -38,10 +38,10 @@ public class InstitutionalProposalSpecialReviewHelper extends SpecialReviewHelpe
      * Constructs a SpecialReviewHelper.
      * @param form the container form
      */
-    public InstitutionalProposalSpecialReviewHelper(InstitutionalProposalForm form) {
+    public SpecialReviewHelper(InstitutionalProposalForm form) {
         this.form = form;
         setNewSpecialReview(new InstitutionalProposalSpecialReview());
-        setDeletedSpecialReviews(new ArrayList<InstitutionalProposalSpecialReview>());
+        setLinkedProtocolNumbers(new ArrayList<String>());
     }
 
     @Override

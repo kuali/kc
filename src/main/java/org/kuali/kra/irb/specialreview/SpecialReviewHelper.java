@@ -43,7 +43,7 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProtocolSpecial
     public SpecialReviewHelper(ProtocolForm form) {
         this.form = form;
         setNewSpecialReview(new ProtocolSpecialReview());
-        setDeletedSpecialReviews(new ArrayList<ProtocolSpecialReview>());
+        setLinkedProtocolNumbers(new ArrayList<String>());    
     }
 
     @Override
