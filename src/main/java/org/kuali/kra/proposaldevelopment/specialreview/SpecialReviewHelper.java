@@ -40,7 +40,7 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecial
     public SpecialReviewHelper(ProposalDevelopmentForm form) {
         this.form = form;
         setNewSpecialReview(new ProposalSpecialReview());
-        setDeletedSpecialReviews(new ArrayList<ProposalSpecialReview>());
+        setLinkedProtocolNumbers(new ArrayList<String>());
     }
 
     @Override

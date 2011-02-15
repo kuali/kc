@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.kuali.kra.bo.Contactable;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.common.specialreview.service.SpecialReviewService;
@@ -453,29 +454,33 @@ public class ProtocolHelper implements Serializable {
     public void syncSpecialReviewsWithFundingSources() throws WorkflowException {
         if (getProtocol().isNew()) {
             for (ProtocolFundingSource protocolFundingSource : getProtocol().getProtocolFundingSources()) {
-                String fundingSourceId = protocolFundingSource.getFundingSource();
-                Integer fundingSourceType = protocolFundingSource.getFundingSourceTypeCode();
-                String protocolNumber = getProtocol().getProtocolNumber();
-                
-                if (!getSpecialReviewService().isLinkedToSpecialReview(fundingSourceId, fundingSourceType, protocolNumber)) {
-                    Date applicationDate = getProtocol().getProtocolSubmission().getSubmissionDate();
-                    Date approvalDate = getProtocol().getLastApprovalDate() == null ? getProtocol().getApprovalDate() : getProtocol().getLastApprovalDate();
-                    Date expirationDate = getProtocol().getExpirationDate();
-                    List<String> exemptionTypeCodes = new ArrayList<String>();
-                    for (ProtocolExemptStudiesCheckListItem checkListItem : getProtocol().getProtocolSubmission().getExemptStudiesCheckList()) {
-                        exemptionTypeCodes.add(checkListItem.getExemptStudiesCheckListCode());
+                if (NumberUtils.isNumber(protocolFundingSource.getFundingSource())) {
+                    Long fundingSourceId = Long.valueOf(protocolFundingSource.getFundingSource());
+                    String fundingSourceTypeCode = String.valueOf(protocolFundingSource.getFundingSourceTypeCode());
+                    String protocolNumber = getProtocol().getProtocolNumber();
+                    
+                    if (!getSpecialReviewService().isLinkedToSpecialReview(fundingSourceId, fundingSourceTypeCode, protocolNumber)) {
+                        Date applicationDate = getProtocol().getProtocolSubmission().getSubmissionDate();
+                        Date approvalDate = getProtocol().getLastApprovalDate() == null ? getProtocol().getApprovalDate() : getProtocol().getLastApprovalDate();
+                        Date expirationDate = getProtocol().getExpirationDate();
+                        List<String> exemptionTypeCodes = new ArrayList<String>();
+                        for (ProtocolExemptStudiesCheckListItem checkListItem : getProtocol().getProtocolSubmission().getExemptStudiesCheckList()) {
+                            exemptionTypeCodes.add(checkListItem.getExemptStudiesCheckListCode());
+                        }
+                        getSpecialReviewService().addSpecialReviewForProtocolFundingSource(
+                            fundingSourceId, fundingSourceTypeCode, protocolNumber, applicationDate, approvalDate, expirationDate, exemptionTypeCodes);
                     }
-                    getSpecialReviewService().addSpecialReviewForProtocolFundingSource(
-                        fundingSourceId, fundingSourceType, protocolNumber, applicationDate, approvalDate, expirationDate, exemptionTypeCodes);
                 }
             }
             
             for (ProtocolFundingSource protocolFundingSource : deletedProtocolFundingSources) {
-                String fundingSourceId = protocolFundingSource.getFundingSource();
-                Integer fundingSourceType = protocolFundingSource.getFundingSourceTypeCode();
-                String protocolNumber = getProtocol().getProtocolNumber();
-                
-                getSpecialReviewService().deleteSpecialReviewForProtocolFundingSource(fundingSourceId, fundingSourceType, protocolNumber);
+                if (NumberUtils.isNumber(protocolFundingSource.getFundingSource())) {
+                    Long fundingSourceId = Long.valueOf(protocolFundingSource.getFundingSource());
+                    String fundingSourceTypeCode = String.valueOf(protocolFundingSource.getFundingSourceTypeCode());
+                    String protocolNumber = getProtocol().getProtocolNumber();
+                    
+                    getSpecialReviewService().deleteSpecialReviewForProtocolFundingSource(fundingSourceId, fundingSourceTypeCode, protocolNumber);
+                }
             }
         }
         

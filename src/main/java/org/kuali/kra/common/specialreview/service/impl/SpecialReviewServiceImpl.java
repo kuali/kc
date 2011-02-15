@@ -22,7 +22,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
-import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
@@ -33,17 +32,15 @@ import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
 import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReviewExemption;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
-import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 
 /**
@@ -58,6 +55,7 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
     private InstitutionalProposalService institutionalProposalService;
     private ProtocolFinderDao protocolFinderDao;
     private DocumentService documentService;
+    private BusinessObjectService businessObjectService;
     
     /**
      * {@inheritDoc}
@@ -117,7 +115,7 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
      * {@inheritDoc}
      * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#isLinkedToProtocolFundingSource(java.lang.String, java.lang.Long, java.lang.String)
      */
-    public boolean isLinkedToProtocolFundingSource(String protocolNumber, Long fundingSourceId, String fundingSourceType) {
+    public boolean isLinkedToProtocolFundingSource(String protocolNumber, Long fundingSourceId, String fundingSourceTypeCode) {
         boolean isLinkedToProtocolFundingSource = false;
         
         if (StringUtils.isNotBlank(protocolNumber)) {
@@ -125,7 +123,7 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
             if (protocol != null) {
                 for (ProtocolFundingSource protocolFundingSource : protocol.getProtocolFundingSources()) {
                     if (StringUtils.equals(protocolFundingSource.getFundingSource(), String.valueOf(fundingSourceId)) 
-                        && StringUtils.equals(String.valueOf(protocolFundingSource.getFundingSourceTypeCode()), fundingSourceType)) {
+                        && StringUtils.equals(String.valueOf(protocolFundingSource.getFundingSourceTypeCode()), fundingSourceTypeCode)) {
                         isLinkedToProtocolFundingSource = true;
                         break;
                     }
@@ -138,24 +136,20 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#isLinkedToSpecialReview(java.lang.String, java.lang.Integer, java.lang.String)
+     * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#isLinkedToSpecialReview(java.lang.Long, java.lang.String, java.lang.String)
      */
-    public boolean isLinkedToSpecialReview(String fundingSourceId, Integer fundingSourceType, String protocolNumber) {
+    public boolean isLinkedToSpecialReview(Long fundingSourceId, String fundingSourceTypeCode, String protocolNumber) {
         boolean isLinkedToSpecialReview = false;
         
-        if (StringUtils.equals(FundingSourceType.AWARD, String.valueOf(fundingSourceType))) {
-            if (NumberUtils.isNumber(fundingSourceId)) {
-                Award award = getAwardService().getAward(Long.valueOf(fundingSourceId));
-                if (award != null) {
-                    isLinkedToSpecialReview = isLinkedToSpecialReviews(award.getSpecialReviews(), protocolNumber);
-                }
+        if (StringUtils.equals(FundingSourceType.AWARD, fundingSourceTypeCode)) {
+            Award award = getAwardService().getAward(fundingSourceId);
+            if (award != null) {
+                isLinkedToSpecialReview = isLinkedToSpecialReviews(award.getSpecialReviews(), protocolNumber);
             }
-        } else if (StringUtils.equals(FundingSourceType.INSTITUTIONAL_PROPOSAL, String.valueOf(fundingSourceType))) {
-            if (StringUtils.isNotBlank(fundingSourceId)) {
-                InstitutionalProposal institutionalProposal = getInstitutionalProposalService().getInstitutionalProposal(fundingSourceId);
-                if (institutionalProposal != null) {
-                    isLinkedToSpecialReview = isLinkedToSpecialReviews(institutionalProposal.getSpecialReviews(), protocolNumber);
-                }
+        } else if (StringUtils.equals(FundingSourceType.INSTITUTIONAL_PROPOSAL, fundingSourceTypeCode)) {
+            InstitutionalProposal institutionalProposal = getInstitutionalProposalService().getInstitutionalProposal(String.valueOf(fundingSourceId));
+            if (institutionalProposal != null) {
+                isLinkedToSpecialReview = isLinkedToSpecialReviews(institutionalProposal.getSpecialReviews(), protocolNumber);
             }
         }
         
@@ -166,7 +160,8 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
         boolean isLinkedToSpecialReviews = false;
         
         for (SpecialReview<?> specialReview : specialReviews) {
-            if (StringUtils.equals(specialReview.getProtocolNumber(), protocolNumber)) {
+            if (SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode()) 
+                && StringUtils.equals(specialReview.getProtocolNumber(), protocolNumber)) {
                 isLinkedToSpecialReviews = true;
                 break;
             }
@@ -181,22 +176,22 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
      *      java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
     public void addProtocolFundingSourceForSpecialReview(String protocolNumber, Long fundingSourceId, String fundingSourceNumber, String fundingSourceTypeCode, 
-        String fundingSourceName, String fundingSourceTitle) throws WorkflowException {
+        String fundingSourceName, String fundingSourceTitle) {
         
-        ProtocolDocument document = getProtocolDocument(protocolNumber);
-        if (document != null && fundingSourceId != null && StringUtils.isNotBlank(fundingSourceNumber) && NumberUtils.isNumber(fundingSourceTypeCode)) {
-            ProtocolFundingSource protocolFundingSource = new ProtocolFundingSource();
-            protocolFundingSource.setProtocolId(document.getProtocol().getProtocolId());
-            protocolFundingSource.setProtocolNumber(document.getProtocol().getProtocolNumber());
+        Protocol protocol = getProtocolFinderDao().findCurrentProtocolByNumber(protocolNumber);
+        if (protocol != null && fundingSourceId != null && StringUtils.isNotBlank(fundingSourceNumber) && NumberUtils.isNumber(fundingSourceTypeCode)) {
+            Long protocolId = protocol.getProtocolId();
             
+            ProtocolFundingSource protocolFundingSource = new ProtocolFundingSource();
+            protocolFundingSource.setProtocolId(protocolId);
+            protocolFundingSource.setProtocolNumber(protocolNumber);
             protocolFundingSource.setFundingSource(String.valueOf(fundingSourceId));
             protocolFundingSource.setFundingSourceNumber(fundingSourceNumber);
             protocolFundingSource.setFundingSourceTypeCode(Integer.valueOf(fundingSourceTypeCode));
             protocolFundingSource.setFundingSourceName(fundingSourceName);
             protocolFundingSource.setFundingSourceTitle(fundingSourceTitle);
-            document.getProtocol().getProtocolFundingSources().add(protocolFundingSource);
             
-            getDocumentService().saveDocument(document);
+            getBusinessObjectService().save(protocolFundingSource);
         }
     }
     
@@ -205,49 +200,49 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
      * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#deleteProtocolFundingSourceForSpecialReview(java.lang.String, java.lang.Long, 
      *      java.lang.String)
      */
-    public void deleteProtocolFundingSourceForSpecialReview(String protocolNumber, Long fundingSourceId, String fundingSourceType) throws WorkflowException {
-        ProtocolDocument document = getProtocolDocument(protocolNumber);
-        if (document != null) {
+    public void deleteProtocolFundingSourceForSpecialReview(String protocolNumber, Long fundingSourceId, String fundingSourceTypeCode) {
+        Protocol protocol = getProtocolFinderDao().findCurrentProtocolByNumber(protocolNumber);
+        if (protocol != null) {
             List<ProtocolFundingSource> deletedProtocolFundingSources = new ArrayList<ProtocolFundingSource>();
             
-            for (ProtocolFundingSource protocolFundingSource : document.getProtocol().getProtocolFundingSources()) {
+            for (ProtocolFundingSource protocolFundingSource : protocol.getProtocolFundingSources()) {
                 if (StringUtils.equals(protocolFundingSource.getFundingSource(), String.valueOf(fundingSourceId)) 
-                    && StringUtils.equals(String.valueOf(protocolFundingSource.getFundingSourceTypeCode()), fundingSourceType)) {
+                    && StringUtils.equals(String.valueOf(protocolFundingSource.getFundingSourceTypeCode()), fundingSourceTypeCode)) {
                     deletedProtocolFundingSources.add(protocolFundingSource);
                 }
             }
             
-            for (ProtocolFundingSource deletedProtocolFundingSource : deletedProtocolFundingSources) {
-                document.getProtocol().getProtocolFundingSources().remove(deletedProtocolFundingSource);
-            }
-            
-            getDocumentService().saveDocument(document);
+            getBusinessObjectService().delete(deletedProtocolFundingSources);
         }
     }
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#addSpecialReviewForProtocolFundingSource(java.lang.String, java.lang.Integer, 
+     * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#addSpecialReviewForProtocolFundingSource(java.lang.Long, java.lang.String, 
      *      java.lang.String, java.sql.Date, java.sql.Date, java.sql.Date, java.util.List)
      */
-    public void addSpecialReviewForProtocolFundingSource(String fundingSourceId, Integer fundingSourceType, String protocolNumber, Date applicationDate, 
-        Date approvalDate, Date expirationDate, List<String> exemptionTypeCodes) throws WorkflowException {
+    public void addSpecialReviewForProtocolFundingSource(Long fundingSourceId, String fundingSourceTypeCode, String protocolNumber, Date applicationDate, 
+        Date approvalDate, Date expirationDate, List<String> exemptionTypeCodes) {
         
-        if (StringUtils.equals(FundingSourceType.AWARD, String.valueOf(fundingSourceType))) {
-            AwardDocument document = getAwardDocument(fundingSourceId);
-            addAwardSpecialReview(document, protocolNumber, applicationDate, approvalDate, expirationDate, exemptionTypeCodes);
-        } else if (StringUtils.equals(FundingSourceType.INSTITUTIONAL_PROPOSAL, String.valueOf(fundingSourceType))) {
-            InstitutionalProposalDocument document = getInstitutionalProposalDocument(fundingSourceId);
-            addInstitutionalProposalSpecialReview(document, protocolNumber, applicationDate, approvalDate, expirationDate, exemptionTypeCodes);
+        if (StringUtils.equals(FundingSourceType.AWARD, fundingSourceTypeCode)) {
+            Award award = getAwardService().getAward(fundingSourceId);
+            addAwardSpecialReview(award, protocolNumber, applicationDate, approvalDate, expirationDate, exemptionTypeCodes);
+        } else if (StringUtils.equals(FundingSourceType.INSTITUTIONAL_PROPOSAL, fundingSourceTypeCode)) {
+            InstitutionalProposal institutionalProposal = getInstitutionalProposalService().getInstitutionalProposal(String.valueOf(fundingSourceId));
+            addInstitutionalProposalSpecialReview(institutionalProposal, protocolNumber, applicationDate, approvalDate, expirationDate, exemptionTypeCodes);
         }
     }
     
-    private void addAwardSpecialReview(AwardDocument document, String protocolNumber, Date applicationDate, Date approvalDate, Date expirationDate, 
-        List<String> exemptionTypeCodes) throws WorkflowException {
+    private void addAwardSpecialReview(Award award, String protocolNumber, Date applicationDate, Date approvalDate, Date expirationDate, 
+        List<String> exemptionTypeCodes) {
         
-        if (document != null) {
+        if (award != null) {
+            Long awardId = award.getAwardId();
+            Integer specialReviewNumber = award.getAwardDocument().getDocumentNextValue(Constants.SPECIAL_REVIEW_NUMBER);
+            
             AwardSpecialReview specialReview = new AwardSpecialReview();
-            specialReview.setSpecialReviewNumber(document.getDocumentNextValue(Constants.SPECIAL_REVIEW_NUMBER));
+            specialReview.setAwardId(awardId);
+            specialReview.setSpecialReviewNumber(specialReviewNumber);
             specialReview.setSpecialReviewTypeCode(SpecialReviewType.HUMAN_SUBJECTS);
             specialReview.setApprovalTypeCode(SpecialReviewApprovalType.LINK_TO_IRB);
             specialReview.setProtocolNumber(protocolNumber);
@@ -261,18 +256,21 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
                 specialReview.getSpecialReviewExemptions().add(specialReviewExemption);
             }
             specialReview.setComments(NEW_SPECIAL_REVIEW_COMMENT);
-            document.getAward().getSpecialReviews().add(specialReview);
 
-            getDocumentService().saveDocument(document);
+            getBusinessObjectService().save(specialReview);
         }
     }
     
-    private void addInstitutionalProposalSpecialReview(InstitutionalProposalDocument document, String protocolNumber, Date applicationDate, 
-        Date approvalDate, Date expirationDate, List<String> exemptionTypeCodes) throws WorkflowException {
+    private void addInstitutionalProposalSpecialReview(InstitutionalProposal institutionalProposal, String protocolNumber, Date applicationDate, 
+        Date approvalDate, Date expirationDate, List<String> exemptionTypeCodes) {
         
-        if (document != null) {
+        if (institutionalProposal != null) {
+            Long proposalId = institutionalProposal.getProposalId();
+            Integer specialReviewNumber = institutionalProposal.getInstitutionalProposalDocument().getDocumentNextValue(Constants.SPECIAL_REVIEW_NUMBER);
+            
             InstitutionalProposalSpecialReview specialReview = new InstitutionalProposalSpecialReview();
-            specialReview.setSpecialReviewNumber(document.getDocumentNextValue(Constants.SPECIAL_REVIEW_NUMBER));
+            specialReview.setProposalId(proposalId);
+            specialReview.setSpecialReviewNumber(specialReviewNumber);
             specialReview.setSpecialReviewTypeCode(SpecialReviewType.HUMAN_SUBJECTS);
             specialReview.setApprovalTypeCode(SpecialReviewApprovalType.LINK_TO_IRB);
             specialReview.setProtocolNumber(protocolNumber);
@@ -286,103 +284,52 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
                 specialReview.getSpecialReviewExemptions().add(specialReviewExemption);
             }
             specialReview.setComments(NEW_SPECIAL_REVIEW_COMMENT);
-            document.getInstitutionalProposal().getSpecialReviews().add(specialReview);
             
-            getDocumentService().saveDocument(document);
+            getBusinessObjectService().save(specialReview);
         }
     }
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#deleteSpecialReviewForProtocolFundingSource(java.lang.String, java.lang.Integer, 
+     * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#deleteSpecialReviewForProtocolFundingSource(java.lang.Long, java.lang.String, 
      *      java.lang.String)
      */
-    public void deleteSpecialReviewForProtocolFundingSource(String fundingSourceId, Integer fundingSourceType, String protocolNumber) throws WorkflowException {
-        if (StringUtils.equals(FundingSourceType.AWARD, String.valueOf(fundingSourceType))) {
-            AwardDocument document = getAwardDocument(fundingSourceId);
-            deleteAwardSpecialReview(document, protocolNumber);
-        } else if (StringUtils.equals(FundingSourceType.INSTITUTIONAL_PROPOSAL, String.valueOf(fundingSourceType))) {
-            InstitutionalProposalDocument document = getInstitutionalProposalDocument(fundingSourceId);
-            deleteInstitutionalProposalSpecialReview(document, protocolNumber);
+    public void deleteSpecialReviewForProtocolFundingSource(Long fundingSourceId, String fundingSourceTypeCode, String protocolNumber) {
+        if (StringUtils.equals(FundingSourceType.AWARD, fundingSourceTypeCode)) {
+            Award award = getAwardService().getAward(fundingSourceId);
+            deleteAwardSpecialReview(award, protocolNumber);
+        } else if (StringUtils.equals(FundingSourceType.INSTITUTIONAL_PROPOSAL, fundingSourceTypeCode)) {
+            InstitutionalProposal institutionalProposal = getInstitutionalProposalService().getInstitutionalProposal(String.valueOf(fundingSourceId));
+            deleteInstitutionalProposalSpecialReview(institutionalProposal, protocolNumber);
         }
     }
     
-    private void deleteAwardSpecialReview(AwardDocument document, String protocolNumber) throws WorkflowException {
-        if (document != null) {
+    private void deleteAwardSpecialReview(Award award, String protocolNumber) {
+        if (award != null) {
             List<AwardSpecialReview> deletedSpecialReviews = new ArrayList<AwardSpecialReview>();
             
-            for (AwardSpecialReview specialReview : document.getAward().getSpecialReviews()) {
+            for (AwardSpecialReview specialReview : award.getSpecialReviews()) {
                 if (StringUtils.equals(specialReview.getProtocolNumber(), protocolNumber)) {
                     deletedSpecialReviews.add(specialReview);
                 }
             }
             
-            for (AwardSpecialReview deletedSpecialReview : deletedSpecialReviews) {
-                document.getAward().getSpecialReviews().remove(deletedSpecialReview);
-            }
-            
-            getDocumentService().saveDocument(document);
+            getBusinessObjectService().delete(deletedSpecialReviews);
         }
     }
     
-    private void deleteInstitutionalProposalSpecialReview(InstitutionalProposalDocument document, String protocolNumber) throws WorkflowException {
-        if (document != null) {
+    private void deleteInstitutionalProposalSpecialReview(InstitutionalProposal institutionalProposal, String protocolNumber) {
+        if (institutionalProposal != null) {
             List<InstitutionalProposalSpecialReview> deletedSpecialReviews = new ArrayList<InstitutionalProposalSpecialReview>();
             
-            for (InstitutionalProposalSpecialReview specialReview : document.getInstitutionalProposal().getSpecialReviews()) {
+            for (InstitutionalProposalSpecialReview specialReview : institutionalProposal.getSpecialReviews()) {
                 if (StringUtils.equals(specialReview.getProtocolNumber(), protocolNumber)) {
                     deletedSpecialReviews.add(specialReview);
                 }
             }
             
-            for (InstitutionalProposalSpecialReview deletedSpecialReview : deletedSpecialReviews) {
-                document.getInstitutionalProposal().getSpecialReviews().remove(deletedSpecialReview);
-            }
-            
-            getDocumentService().saveDocument(document);
+            getBusinessObjectService().delete(deletedSpecialReviews);
         }
-    }
-    
-    private AwardDocument getAwardDocument(String awardId) throws WorkflowException {
-        AwardDocument document = null;
-        
-        if (NumberUtils.isNumber(awardId)) {
-            Award award = getAwardService().getAward(Long.valueOf(awardId));
-            if (award != null) {
-                String documentNumber = award.getAwardDocument().getDocumentNumber();
-                document = (AwardDocument) getDocumentService().getByDocumentHeaderId(documentNumber);
-            }
-        }
-        
-        return document;
-    }
-    
-    private InstitutionalProposalDocument getInstitutionalProposalDocument(String institutionalProposalId) throws WorkflowException {
-        InstitutionalProposalDocument document = null;
-        
-        if (StringUtils.isNotBlank(institutionalProposalId)) {
-            InstitutionalProposal institutionalProposal = getInstitutionalProposalService().getInstitutionalProposal(institutionalProposalId);
-            if (institutionalProposal != null) {
-                String documentNumber = institutionalProposal.getInstitutionalProposalDocument().getDocumentNumber();
-                document = (InstitutionalProposalDocument) getDocumentService().getByDocumentHeaderId(documentNumber);
-            }
-        }
-        
-        return document;
-    }
-    
-    private ProtocolDocument getProtocolDocument(String protocolNumber) throws WorkflowException {
-        ProtocolDocument document = null;
-        
-        if (StringUtils.isNotBlank(protocolNumber)) {
-            Protocol protocol = getProtocolFinderDao().findCurrentProtocolByNumber(protocolNumber);
-            if (protocol != null) {
-                String documentNumber = protocol.getProtocolDocument().getDocumentNumber();
-                document = (ProtocolDocument) getDocumentService().getByDocumentHeaderId(documentNumber);
-            }
-        }
-        
-        return document;
     }
     
     public AwardService getAwardService() {
@@ -415,6 +362,14 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
 
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
+    }
+    
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+    
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
 }
