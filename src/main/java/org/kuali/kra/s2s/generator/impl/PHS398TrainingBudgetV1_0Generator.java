@@ -18,8 +18,10 @@ package org.kuali.kra.s2s.generator.impl;
 import java.math.BigDecimal;
 import java.util.List;
 
+import gov.grants.apply.forms.phs398TrainingBudgetV10.PHS398TrainingBudgetDocument;
 import gov.grants.apply.forms.phs398TrainingBudgetV10.PHS398TrainingBudgetYearDataType;
 import gov.grants.apply.forms.phs398TrainingBudgetV10.PHS398TrainingBudgetDocument.PHS398TrainingBudget;
+import gov.grants.apply.forms.phs398TrainingBudgetV10.PHS398TrainingBudgetDocument.PHS398TrainingBudget.BudgetType;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.Organization;
@@ -78,13 +80,17 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
     }
     public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) throws S2SException {
         DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
-        BudgetDocument<DevelopmentProposal> budgetDocument = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc);
-        Budget budget = budgetDocument.getBudget();
-        PHS398TrainingBudget trainingBudgetType = PHS398TrainingBudget.Factory.newInstance();
-        trainingBudgetType.setFormVersion(S2SConstants.FORMVERSION_1_0);
-        setBasicInfo(trainingBudgetType,developmentProposal,budget);
-        setBudgetPeriods(trainingBudgetType,developmentProposal,budget);
-        return null;
+        BudgetDocument<DevelopmentProposal> budgetDocument = s2sBudgetCalculatorService.getFinalBudgetVersion(proposalDevelopmentDocument);
+        PHS398TrainingBudgetDocument trainingBudgetTypeDocument = PHS398TrainingBudgetDocument.Factory.newInstance();
+        PHS398TrainingBudget trainingBudgetType = trainingBudgetTypeDocument.addNewPHS398TrainingBudget();
+        if(budgetDocument!=null){
+            Budget budget = budgetDocument.getBudget();
+            trainingBudgetType.setFormVersion(S2SConstants.FORMVERSION_1_0);
+            trainingBudgetType.setBudgetType(BudgetType.PROJECT);
+            setBasicInfo(trainingBudgetType,developmentProposal,budget);
+            setBudgetPeriods(trainingBudgetType,developmentProposal,budget);
+        }
+        return trainingBudgetTypeDocument;
     }
     private void setBudgetPeriods(PHS398TrainingBudget trainingBudgetType, DevelopmentProposal developmentProposal,Budget budget) {
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
@@ -343,7 +349,10 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
                       String answerStr = answer.getAnswer();
                       Question question = questionnaireQuestion.getQuestion();
                       if(answer!=null){
-                          int answerIntVal = Integer.parseInt(answerStr);
+                          int answerIntVal = 0;
+                          try{
+                              answerIntVal = Integer.parseInt(answerStr);
+                          }catch(NumberFormatException ex){}
                           switch (question.getQuestionId()) {
                                case 86:
                                    if(questionnaireQuestion.getParentQuestionNumber().equals(fullTermNonDegreeParentQuestionnaireId)){
@@ -571,61 +580,62 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
                     String answer = answerBO.getAnswer();
                     Question question = questionnaireQuestion.getQuestion();
                     if(answer!=null){
-                        int answerIntVal = Integer.parseInt(answer);
+                        int answerIntVal=0;
+                        try{
+                            answerIntVal = Integer.parseInt(answer);
+                        }catch(NumberFormatException ex){}
                         switch (question.getQuestionId()) {
                           case 72:
                               //full term undergrad
-                                  phs398TrainingBudgetYearDataType.setUndergraduateNumFullTime(answerIntVal);
-            
+                              phs398TrainingBudgetYearDataType.setUndergraduateNumFullTime(answerIntVal);
                               break;
                           case 73:
-                                //short term undergrad
-                                  phs398TrainingBudgetYearDataType.setUndergraduateNumShortTerm(answerIntVal);
+                            //short term undergrad
+                              phs398TrainingBudgetYearDataType.setUndergraduateNumShortTerm(answerIntVal);
                               break;
                           case 74:
-                                //stipends first year
-                                  undergradFirstYearNum = undergradFirstYearNum + answerIntVal;
+                              //stipends first year
+                              undergradFirstYearNum = undergradFirstYearNum + answerIntVal;
                               break;
                           case 75:
-                                //stipends junior
-                                  undergradJrNum = undergradJrNum + answerIntVal;
-                                 
+                            //stipends junior
+                              undergradJrNum = undergradJrNum + answerIntVal;
                               break;
                           case 77:
                                //full time single degree predoc
-                                    phs398TrainingBudgetYearDataType.setPredocSingleDegreeNumFullTime(answerIntVal);
-                                    preDocCountFull = preDocCountFull + phs398TrainingBudgetYearDataType.getPredocSingleDegreeNumFullTime();
-                                    break;
+                                phs398TrainingBudgetYearDataType.setPredocSingleDegreeNumFullTime(answerIntVal);
+                                preDocCountFull = preDocCountFull + phs398TrainingBudgetYearDataType.getPredocSingleDegreeNumFullTime();
+                                break;
                           case 78:
                                //short term single degree predoc
-                                    phs398TrainingBudgetYearDataType.setPredocSingleDegreeNumShortTerm(answerIntVal);
-                                    preDocCountShort = preDocCountShort + phs398TrainingBudgetYearDataType.getPredocSingleDegreeNumShortTerm();
-                                    break;
+                                phs398TrainingBudgetYearDataType.setPredocSingleDegreeNumShortTerm(answerIntVal);
+                                preDocCountShort = preDocCountShort + phs398TrainingBudgetYearDataType.getPredocSingleDegreeNumShortTerm();
+                                break;
                           case 79:
                                //full term dual degree predoc
-                                    phs398TrainingBudgetYearDataType.setPredocDualDegreeNumFullTime(answerIntVal);
-                                     preDocCountFull = preDocCountFull + phs398TrainingBudgetYearDataType.getPredocDualDegreeNumFullTime();
-                                     break;
+                                phs398TrainingBudgetYearDataType.setPredocDualDegreeNumFullTime(answerIntVal);
+                                 preDocCountFull = preDocCountFull + phs398TrainingBudgetYearDataType.getPredocDualDegreeNumFullTime();
+                                 break;
                           case 80:
                                //short term dual degree predoc
-                                    phs398TrainingBudgetYearDataType.setPredocDualDegreeNumShortTerm(answerIntVal);
-                                    preDocCountShort = preDocCountShort + phs398TrainingBudgetYearDataType.getPredocDualDegreeNumShortTerm();
-                                    break;
+                                phs398TrainingBudgetYearDataType.setPredocDualDegreeNumShortTerm(answerIntVal);
+                                preDocCountShort = preDocCountShort + phs398TrainingBudgetYearDataType.getPredocDualDegreeNumShortTerm();
+                                break;
                           case 95:
                                  //others full term
-                                    phs398TrainingBudgetYearDataType.setOtherNumFullTime(answerIntVal);
+                                phs398TrainingBudgetYearDataType.setOtherNumFullTime(answerIntVal);
                                 break;
                           case 97:
                               //others short term
-                                    phs398TrainingBudgetYearDataType.setOtherNumShortTerm(answerIntVal);
+                                phs398TrainingBudgetYearDataType.setOtherNumShortTerm(answerIntVal);
                                 break;
                          case 96:
                                  //others full term stipend
-                                    otherFullStipends = new BigDecimal(answerIntVal);
+                                otherFullStipends = new BigDecimal(answerIntVal);
                                 break;
                          case 98:
                               //others short term stipend
-                                     otherShortStipends =new BigDecimal(answerIntVal);
+                                 otherShortStipends =new BigDecimal(answerIntVal);
                                 break;
             
                           default:
@@ -655,31 +665,33 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
     private void setCumulativeTuitionCosts(PHS398TrainingBudget trainingBudgetType,
             PHS398TrainingBudgetYearDataType phs398TrainingBudgetYearDataType) {
         
-        BigDecimal cumUndergradStipends = trainingBudgetType.getCumulativeUndergraduateStipendsRequested();
-        BigDecimal cumUndergradTuition = trainingBudgetType.getCumulativeUndergraduateTuitionAndFeesRequested();
-        BigDecimal cumOtherStipends = trainingBudgetType.getCumulativeOtherStipendsRequested();
-        BigDecimal cumOtherTuition = trainingBudgetType.getCumulativeOtherTuitionAndFeesRequested();
-        BigDecimal cumPostDocDegStipends = trainingBudgetType.getCumulativePostdocDegreeStipendsRequested();
+        BigDecimal cumUndergradStipends = checkNullCost(trainingBudgetType.getCumulativeUndergraduateStipendsRequested());
+        BigDecimal cumUndergradTuition = checkNullCost(trainingBudgetType.getCumulativeUndergraduateTuitionAndFeesRequested());
+        BigDecimal cumOtherStipends = checkNullCost(trainingBudgetType.getCumulativeOtherStipendsRequested());
+        BigDecimal cumOtherTuition = checkNullCost(trainingBudgetType.getCumulativeOtherTuitionAndFeesRequested());
+        BigDecimal cumPostDocDegStipends = checkNullCost(trainingBudgetType.getCumulativePostdocDegreeStipendsRequested());
 
-        BigDecimal cumPostDocDegTuition = trainingBudgetType.getCumulativePostdocDegreeTuitionAndFeesRequested();
-        BigDecimal cumPostDocNonDegStipends = trainingBudgetType.getCumulativePostdocNonDegreeStipendsRequested();
-        BigDecimal cumPostDocNonDegTuition = trainingBudgetType.getCumulativePostdocNonDegreeStipendsRequested();
-        BigDecimal cumPostDocTotalStipends = trainingBudgetType.getCumulativePostdocTotalStipendsRequested();
-        BigDecimal cumPostDocTotalTuition = trainingBudgetType.getCumulativePostdocTotalTuitionAndFeesRequested();
-        BigDecimal cumPreDocDualStipends = trainingBudgetType.getCumulativePredocDualDegreeStipendsRequested();
-        BigDecimal cumPreDocDualTuition = trainingBudgetType.getCumulativePredocDualDegreeTuitionAndFeesRequested();
-        BigDecimal cumPreDocSingleStipends = trainingBudgetType.getCumulativePredocSingleDegreeStipendsRequested();
-        BigDecimal cumPreDocSingleTuition = trainingBudgetType.getCumulativePredocSingleDegreeTuitionAndFeesRequested();
-        BigDecimal cumPreDocTotalStipends = trainingBudgetType.getCumulativePredocTotalStipendsRequested();
-        BigDecimal cumPreDocTotalTuition = trainingBudgetType.getCumulativePredocTotalTuitionAndFeesRequested();
-        BigDecimal cumConsCosts = trainingBudgetType.getCumulativeConsortiumTrainingCostsRequested();
-        BigDecimal cumResearchTotalDirectCosts = trainingBudgetType.getCumulativeResearchDirectCostsRequested();
+        BigDecimal cumPostDocDegTuition = checkNullCost(trainingBudgetType.getCumulativePostdocDegreeTuitionAndFeesRequested());
+        BigDecimal cumPostDocNonDegStipends = checkNullCost(trainingBudgetType.getCumulativePostdocNonDegreeStipendsRequested());
+        BigDecimal cumPostDocNonDegTuition = checkNullCost(trainingBudgetType.getCumulativePostdocNonDegreeStipendsRequested());
+        BigDecimal cumPostDocTotalStipends = checkNullCost(trainingBudgetType.getCumulativePostdocTotalStipendsRequested());
+        BigDecimal cumPostDocTotalTuition = checkNullCost(trainingBudgetType.getCumulativePostdocTotalTuitionAndFeesRequested());
+        BigDecimal cumPreDocDualStipends = checkNullCost(trainingBudgetType.getCumulativePredocDualDegreeStipendsRequested());
+        BigDecimal cumPreDocDualTuition = checkNullCost(trainingBudgetType.getCumulativePredocDualDegreeTuitionAndFeesRequested());
+        BigDecimal cumPreDocSingleStipends = checkNullCost(trainingBudgetType.getCumulativePredocSingleDegreeStipendsRequested());
+        BigDecimal cumPreDocSingleTuition = checkNullCost(trainingBudgetType.getCumulativePredocSingleDegreeTuitionAndFeesRequested());
+        BigDecimal cumPreDocTotalStipends = checkNullCost(trainingBudgetType.getCumulativePredocTotalStipendsRequested());
+        BigDecimal cumPreDocTotalTuition = checkNullCost(trainingBudgetType.getCumulativePredocTotalTuitionAndFeesRequested());
+        BigDecimal cumConsCosts = checkNullCost(trainingBudgetType.getCumulativeConsortiumTrainingCostsRequested());
+        BigDecimal cumResearchTotalDirectCosts = checkNullCost(trainingBudgetType.getCumulativeResearchDirectCostsRequested());
         
-        BigDecimal cumTotalOtherDirectCosts = trainingBudgetType.getCumulativeTotalDirectCostsRequested();
-        BigDecimal cumTravelCosts = trainingBudgetType.getCumulativeTraineeTravelRequested();
-        BigDecimal cumTrainingCosts = trainingBudgetType.getCumulativeTrainingRelatedExpensesRequested();
+        BigDecimal cumTotalOtherDirectCosts = checkNullCost(trainingBudgetType.getCumulativeTotalDirectCostsRequested());
+        BigDecimal cumTravelCosts = checkNullCost(trainingBudgetType.getCumulativeTraineeTravelRequested());
+        BigDecimal cumTrainingCosts = checkNullCost(trainingBudgetType.getCumulativeTrainingRelatedExpensesRequested());
 
-        BigDecimal cumTotalIndCosts = trainingBudgetType.getCumulativeTotalIndirectCostsRequested();
+        BigDecimal cumTotalIndCosts = checkNullCost(trainingBudgetType.getCumulativeTotalIndirectCostsRequested());
+        BigDecimal indirectCostFundsRequested1 = checkNullCost(phs398TrainingBudgetYearDataType.getIndirectCostFundsRequested1());
+        BigDecimal indirectCostFundsRequested2 = checkNullCost(phs398TrainingBudgetYearDataType.getIndirectCostFundsRequested2());
         
         
         cumUndergradTuition = cumUndergradTuition.add(phs398TrainingBudgetYearDataType.getUndergraduateTuitionAndFeesRequested());
@@ -693,7 +705,8 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
         cumTrainingCosts = cumTrainingCosts.add(phs398TrainingBudgetYearDataType.getTrainingRelatedExpensesRequested());
         cumTravelCosts =  cumTravelCosts.add(phs398TrainingBudgetYearDataType.getTraineeTravelRequested());
         cumConsCosts = cumConsCosts.add(phs398TrainingBudgetYearDataType.getConsortiumTrainingCostsRequested());
-        cumTotalIndCosts = cumTotalIndCosts.add(phs398TrainingBudgetYearDataType.getIndirectCostFundsRequested1().add(phs398TrainingBudgetYearDataType.getIndirectCostFundsRequested2()));
+        
+        cumTotalIndCosts = cumTotalIndCosts.add(indirectCostFundsRequested1.add(indirectCostFundsRequested2));
         
         trainingBudgetType.setCumulativeUndergraduateStipendsRequested(cumUndergradStipends);
         trainingBudgetType.setCumulativeUndergraduateTuitionAndFeesRequested(cumUndergradTuition);
@@ -734,13 +747,20 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
         trainingBudgetType.setCumulativeTrainingRelatedExpensesRequested(cumTrainingCosts);
         
     }
+    private BigDecimal checkNullCost(BigDecimal cumulativeUndergraduateStipendsRequested) {
+        return cumulativeUndergraduateStipendsRequested==null?BigDecimal.ZERO:cumulativeUndergraduateStipendsRequested;
+    }
     private BudgetDecimal getBudgetPeriodCost(BudgetPeriod budgetPeriod, String costType) {
         BudgetDecimal totalLineItemCost = BudgetDecimal.ZERO;
-        String costElement = parameterService.getParameterValue(ProposalDevelopmentDocument.class, costType);
-        List<BudgetLineItem> budgetLineItems = budgetPeriod.getBudgetLineItems();
-        for (BudgetLineItem budgetLineItem : budgetLineItems) {
-            if(budgetLineItem.getCostElement().equals(costElement)){
-                totalLineItemCost = totalLineItemCost.add(budgetLineItem.getLineItemCost());
+        String costElementsStrValue = parameterService.getParameterValue(ProposalDevelopmentDocument.class, costType);
+        String[] costElements = costElementsStrValue.split(",");
+        for (int i = 0; i < costElements.length; i++) {
+            String costElement = costElements[i];
+            List<BudgetLineItem> budgetLineItems = budgetPeriod.getBudgetLineItems();
+            for (BudgetLineItem budgetLineItem : budgetLineItems) {
+                if(budgetLineItem.getCostElement().equals(costElement)){
+                    totalLineItemCost = totalLineItemCost.add(budgetLineItem.getLineItemCost());
+                }
             }
         }
         return totalLineItemCost;

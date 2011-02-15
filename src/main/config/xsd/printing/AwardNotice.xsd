@@ -635,6 +635,14 @@
 						<xs:element name="CloseOutDateModified" type="xs:string" minOccurs="0"/>
 						<xs:element name="CloseoutDate" type="xs:date" minOccurs="0"/>
 						<xs:element name="ArchiveLocation" type="xs:string" minOccurs="0"/>
+						<xs:element name="FinalInvDueDateModified" type="xs:string" minOccurs="0"/>
+						<xs:element name="FinalInvDueDate" type="xs:date" minOccurs="0"/>
+						<xs:element name="FinalTechDueDateModified" type="xs:string" minOccurs="0"/>
+						<xs:element name="FinalTechDueDate" type="xs:date" minOccurs="0"/>
+						<xs:element name="FinalPatentDueDateModified" type="xs:string" minOccurs="0"/>
+						<xs:element name="FinalPatentDueDate" type="xs:date" minOccurs="0"/>
+						<xs:element name="FinalPropDueDateModified" type="xs:string" minOccurs="0"/>
+						<xs:element name="FinalPropDueDate" type="xs:date" minOccurs="0"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>

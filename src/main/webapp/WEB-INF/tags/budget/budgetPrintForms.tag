@@ -38,11 +38,12 @@
 		                <td align="center" valign="middle">
 		                	<div align="center">
 		                	<c:choose>
-		                		<c:when test="${status.index < 6}">
-		                			<html:multibox property="selectedBudgetPrintFormId" value="${KualiForm.document.budget.budgetPrintForms[status.index].budgetReportId}"/>	
+		                		<c:when test="${status.index < 6}">   							
+									<html:radio property="selectedBudgetPrintFormId" value="${KualiForm.document.budget.budgetPrintForms[status.index].budgetReportId}"/>
 		                		</c:when>
 		                		<c:otherwise>
-		                			<html:multibox property="selectedBudgetPrintFormId" value="${KualiForm.document.budget.budgetPrintForms[status.index].budgetReportId}" disabled="${disableBox}"/>	
+<%--		                		<html:multibox property="selectedBudgetPrintFormId" value="${KualiForm.document.budget.budgetPrintForms[status.index].budgetReportId}" disabled="${disableBox}"/>--%>
+		                			<html:radio property="selectedBudgetPrintFormId" value="${KualiForm.document.budget.budgetPrintForms[status.index].budgetReportId}" disabled="${readOnly}"/>	
 		                		</c:otherwise>
 		                	</c:choose>			                	
 		                	</div>
@@ -50,17 +51,17 @@
 		            </tr>    	
 		    	</c:forEach>		    	
 				<tr>
-					<td colspan="2" class="infoline">
+					<td colspan="3" class="infoline">
 						<div align="center">
 						<html:image property="methodToCall.printBudgetForm"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-printsel.gif' styleClass="tinybutton" alt="Print Selected Forms" onclick="excludeSubmitRestriction=true"/>
 						</div>
 					</td>
-					<td>
+<%--				<td>
 							<div align="center">
 							Select (<html:link href="#" onclick="javascript: selectAllBudgetForms(document);return false">all</html:link> | <html:link href="#" onclick="javascript: unselectAllBudgetForms(document);return false">none</html:link>)
 							</div>						
-					</td>
+					</td>--%>
 				</tr>			                         
 			</tbody>
 			<tbody id="G" style="display: none;" />
