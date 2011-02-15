@@ -164,7 +164,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         boolean isProtocolLinkingEnabled 
             = getParameterService().getIndicatorParameter("KC-PROTOCOL", "Document", "irb.protocol.development.proposal.linking.enabled");
         return processRules(new SaveSpecialReviewEvent<ProposalSpecialReview>(
-            SAVE_SPECIAL_REVIEW_FIELD, proposalDocument, specialReviews, isProtocolLinkingEnabled));
+            SAVE_SPECIAL_REVIEW_FIELD, proposalDocument, specialReviews, isProtocolLinkingEnabled, false));
     }
 
     public boolean processDeleteProposalSiteRules(BasicProposalSiteEvent proposalSiteEvent) {

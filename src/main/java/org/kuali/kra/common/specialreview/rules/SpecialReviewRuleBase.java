@@ -45,6 +45,9 @@ import org.springframework.util.CollectionUtils;
  */
 public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialReviewExemption>> extends ResearchDocumentRuleBase {
     
+    private static final String TYPE_CODE_FIELD = "specialReviewTypeCode";
+    private static final String APPROVAL_TYPE_CODE_FIELD = "approvalTypeCode";
+    
     private static final String PROTOCOL_NUMBER_FIELD = "protocolNumber";
     private static final String PROTOCOL_NUMBER_TITLE = "Protocol Number";
     private static final String APPLICATION_DATE_FIELD = "applicationDate";
@@ -78,8 +81,8 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
         if (validateProtocol && SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {
             rulePassed &= validateProtocolNumber(specialReview, specialReviews, HUMAN_SUBJECTS_LINK_TO_IRB_ERROR_STRING);
         } else {
-            rulePassed &= validateSpecialReviewApprovalFields(specialReview, validateProtocol);
-            rulePassed &= validateDateFields(specialReview, validateProtocol);
+            rulePassed &= validateSpecialReviewApprovalFields(specialReview);
+            rulePassed &= validateDateFields(specialReview);
         }
 
         return rulePassed;
@@ -96,6 +99,7 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
         
         List<T> specialReviews = saveSpecialReviewEvent.getSpecialReviews();
         boolean validateProtocol = saveSpecialReviewEvent.getValidateProtocol();
+        boolean validateLinking = saveSpecialReviewEvent.getValidateLinking();
         
         int i = 0;
         for (T specialReview : specialReviews) {
@@ -104,9 +108,12 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
             GlobalVariables.getMessageMap().addToErrorPath(errorPath);
             if (validateProtocol && SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {
                 rulePassed &= validateProtocolNumber(specialReview, specialReviews, HUMAN_SUBJECTS_LINK_TO_IRB_ERROR_STRING);
+                if (validateLinking) {
+                    rulePassed &= validateLinkingDocument(specialReview);
+                }
             } else {
-                rulePassed &= validateSpecialReviewApprovalFields(specialReview, validateProtocol);
-                rulePassed &= validateDateFields(specialReview, validateProtocol);
+                rulePassed &= validateSpecialReviewApprovalFields(specialReview);
+                rulePassed &= validateDateFields(specialReview);
             }
             GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
         }
@@ -149,25 +156,44 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
     }
     
     /**
+     * Validates whether the Protocol Document to which the given linked Special Review will write is not locked.
+     * 
+     * @param specialReview The special review to validate
+     * @return true if the specialReview is valid, false otherwise
+     */
+    private boolean validateLinkingDocument(T specialReview) {
+        boolean isValid = true;
+        
+        if (StringUtils.isNotBlank(specialReview.getProtocolNumber())) {
+            Protocol protocol = getProtocolFinderDao().findCurrentProtocolByNumber(specialReview.getProtocolNumber());
+            if (protocol != null && !protocol.getProtocolDocument().getPessimisticLocks().isEmpty()) {
+                isValid = false;
+                reportError(PROTOCOL_NUMBER_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_PROTOCOL_LOCKED, specialReview.getProtocolNumber());
+            }
+        }
+        
+        return isValid;
+    }
+    
+    /**
      * Validates the rules surrounding the ValidSpecialReviewApproval.
      * 
      * @param specialReview The special review to validate
-     * @param validateProtocol Whether or not to validate whether the given protocol number refers to an existing Protocol
      * @return true if the specialReview is valid, false otherwise
      */
     @SuppressWarnings("unchecked")
-    private boolean validateSpecialReviewApprovalFields(T specialReview, boolean validateProtocol) {
+    private boolean validateSpecialReviewApprovalFields(T specialReview) {
         boolean isValid = true;
         
         if (StringUtils.isNotBlank(specialReview.getSpecialReviewTypeCode()) && StringUtils.isNotBlank(specialReview.getApprovalTypeCode())) {
             Map<String, String> fieldValues = new HashMap<String, String>();
-            fieldValues.put("specialReviewTypeCode", specialReview.getSpecialReviewTypeCode());
-            fieldValues.put("approvalTypeCode", specialReview.getApprovalTypeCode());
+            fieldValues.put(TYPE_CODE_FIELD, specialReview.getSpecialReviewTypeCode());
+            fieldValues.put(APPROVAL_TYPE_CODE_FIELD, specialReview.getApprovalTypeCode());
             Collection<ValidSpecialReviewApproval> validApprovals = getBusinessObjectService().findMatching(ValidSpecialReviewApproval.class, fieldValues);
 
             for (ValidSpecialReviewApproval validApproval : validApprovals) {
                 String validApprovalErrorString = getValidApprovalErrorString(validApproval);
-                isValid &= validateApprovalFields(validApproval, specialReview, validApprovalErrorString, validateProtocol);
+                isValid &= validateApprovalFields(validApproval, specialReview, validApprovalErrorString);
             }
         }
         
@@ -194,10 +220,9 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
      * @param approval The maintenance document that determines whether a field is required
      * @param specialReview The special review to validate
      * @param errorString The error string for the type / approval of this special review
-     * @param validateProtocol Whether or not to validate whether the given protocol number refers to an existing Protocol
      * @return true if the specialReview is valid, false otherwise
      */
-    private boolean validateApprovalFields(ValidSpecialReviewApproval approval, T specialReview, String errorString, boolean validateProtocol) {
+    private boolean validateApprovalFields(ValidSpecialReviewApproval approval, T specialReview, String errorString) {
         boolean isValid = true;
         
         if (approval.isProtocolNumberFlag() && StringUtils.isBlank(specialReview.getProtocolNumber())) {
@@ -231,10 +256,9 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
      * Validates the interdependencies between the different date fields and the statuses.
      * 
      * @param specialReview The special review object to validate
-     * @param validateProtocol Whether or not to validate the date fields
      * @return true if the specialReview is valid, false otherwise
      */
-    private boolean validateDateFields(T specialReview, boolean validateProtocol) {
+    private boolean validateDateFields(T specialReview) {
         boolean isValid = true;
         
         isValid &= validateDateOrder(specialReview.getApplicationDate(), specialReview.getApprovalDate(), APPROVAL_DATE_FIELD, APPLICATION_DATE_TITLE, 
