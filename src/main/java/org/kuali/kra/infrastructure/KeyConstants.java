@@ -45,6 +45,7 @@ public final class KeyConstants {
     public static final String ERROR_SPECIAL_REVIEW_REQUIRED_FOR_VALID = "error.special.review.required.for.valid";
     public static final String ERROR_SPECIAL_REVIEW_CANNOT_SELECT_EXEMPTION_FOR_VALID = "error.special.review.cannot.select.exemption.for.valid";
     public static final String QUESTION_SPECIAL_REVIEW_DELETE_CONFIRMATION = "question.special.review.delete.confirmation";
+    public static final String ERROR_SPECIAL_REVIEW_PROTOCOL_LOCKED = "error.special.review.protocol.locked";
     
     // Abstracts and Attachments errors
     public static final String ERROR_PROPOSAL_ATTACHMENT_NOT_COMPLETE = "error.document.narrativestatuscode.not.complete";
