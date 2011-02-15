@@ -527,5 +527,28 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
 
     public String getProposalBudgetFlag() {
         return "true";
-    }  
+    }
+    
+    /**
+     * This method is to check whether rice async routing is ok now.   
+     * Close to hack.  called by holdingpageaction
+     * Different document type may have different routing set up, so each document type
+     * can implement its own isProcessComplete
+     * @return
+     */
+    public boolean isProcessComplete() {
+        boolean isComplete = false;
+        
+        if (getDocumentHeader().hasWorkflowDocument()) {
+            String docRouteStatus = getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
+            if (KEWConstants.ROUTE_HEADER_ENROUTE_CD.equals(docRouteStatus) 
+                || KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(docRouteStatus) 
+                || KEWConstants.ROUTE_HEADER_FINAL_CD.equals(docRouteStatus)) {
+                isComplete = true;
+            }
+        }
+           
+        return isComplete;
+    }
+    
 }
