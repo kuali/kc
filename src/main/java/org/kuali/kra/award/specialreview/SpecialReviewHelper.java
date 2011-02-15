@@ -41,7 +41,7 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<AwardSpecialRev
     public SpecialReviewHelper(AwardForm form) {
         this.form = form;
         setNewSpecialReview(new AwardSpecialReview());
-        setDeletedSpecialReviews(new ArrayList<AwardSpecialReview>());
+        setLinkedProtocolNumbers(new ArrayList<String>());
     }
 
     @Override

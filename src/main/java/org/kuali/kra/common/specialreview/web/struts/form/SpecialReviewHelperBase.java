@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
+import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -52,7 +53,8 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
     private static final long serialVersionUID = 4726816248612555502L;
 
     private T newSpecialReview;
-    private List<T> deletedSpecialReviews;
+    
+    private List<String> linkedProtocolNumbers;
 
     private boolean canModifySpecialReview;
     private boolean isProtocolLinkingEnabled;
@@ -67,13 +69,13 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
     public void setNewSpecialReview(T newSpecialReview) {
         this.newSpecialReview = newSpecialReview;
     }
-
-    public List<T> getDeletedSpecialReviews() {
-        return deletedSpecialReviews;
+    
+    public List<String> getLinkedProtocolNumbers() {
+        return linkedProtocolNumbers;
     }
 
-    public void setDeletedSpecialReviews(List<T> deletedSpecialReviews) {
-        this.deletedSpecialReviews = deletedSpecialReviews;
+    public void setLinkedProtocolNumbers(List<String> linkedProtocolNumbers) {
+        this.linkedProtocolNumbers = linkedProtocolNumbers;
     }
 
     public boolean getCanModifySpecialReview() {
@@ -89,6 +91,7 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
      */
     public void prepareView() {
         initializePermissions();
+        initializeLinkedProtocolNumbers();
         initializeProtocolLinkView();
     }
     
@@ -97,44 +100,32 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
      * @param specialReview the Special Review to update
      */
     public void prepareProtocolLinkViewFields(T specialReview) {
-        if (specialReview != null) {
-            Protocol protocol = getProtocolFinderDao().findCurrentProtocolByNumber(getLastApprovedProtocolNumber(specialReview.getProtocolNumber()));
-            
-            if (protocol != null) {
-                specialReview.setApprovalTypeCode(SpecialReviewApprovalType.LINK_TO_IRB);
-                specialReview.setProtocolStatus(protocol.getProtocolStatus().getDescription());
-                specialReview.setProtocolNumber(protocol.getProtocolNumber());
-                specialReview.setApplicationDate(protocol.getProtocolSubmission().getSubmissionDate());
-                specialReview.setApprovalDate(protocol.getLastApprovalDate() == null ? protocol.getApprovalDate() : protocol.getLastApprovalDate());
-                specialReview.setExpirationDate(protocol.getExpirationDate());
-                List<String> exemptionTypeCodes = new ArrayList<String>();
-                for (ProtocolExemptStudiesCheckListItem checkListItem : protocol.getProtocolSubmission().getExemptStudiesCheckList()) {
-                    exemptionTypeCodes.add(checkListItem.getExemptStudiesCheckListCode());
+        if (getIsProtocolLinkingEnabled()) {
+            if (specialReview != null && SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {
+                Protocol protocol = getLastApprovedProtocol(specialReview.getProtocolNumber());
+                
+                if (protocol != null) {
+                    specialReview.setApprovalTypeCode(SpecialReviewApprovalType.LINK_TO_IRB);
+                    specialReview.setProtocolStatus(protocol.getProtocolStatus().getDescription());
+                    specialReview.setProtocolNumber(protocol.getProtocolNumber());
+                    specialReview.setApplicationDate(protocol.getProtocolSubmission().getSubmissionDate());
+                    specialReview.setApprovalDate(protocol.getLastApprovalDate() == null ? protocol.getApprovalDate() : protocol.getLastApprovalDate());
+                    specialReview.setExpirationDate(protocol.getExpirationDate());
+                    List<String> exemptionTypeCodes = new ArrayList<String>();
+                    for (ProtocolExemptStudiesCheckListItem checkListItem : protocol.getProtocolSubmission().getExemptStudiesCheckList()) {
+                        exemptionTypeCodes.add(checkListItem.getExemptStudiesCheckListCode());
+                    }
+                    specialReview.setExemptionTypeCodes(exemptionTypeCodes);
                 }
-                specialReview.setExemptionTypeCodes(exemptionTypeCodes);
             }
         }
     }
     
-    private String getLastApprovedProtocolNumber(String protocolNumber) {
-        String lastApprovedProtocolNumber = protocolNumber;
-        
-        if (StringUtils.contains(protocolNumber, AMENDMENT_KEY)) {
-            lastApprovedProtocolNumber = StringUtils.substringBefore(protocolNumber, AMENDMENT_KEY);
-        } else if (StringUtils.contains(protocolNumber, RENEWAL_KEY)) {
-            lastApprovedProtocolNumber = StringUtils.substringBefore(protocolNumber, RENEWAL_KEY);
-        }
-        
-        return lastApprovedProtocolNumber;
-    }
-    
     /**
-     * Initialize the permissions for viewing/editing the Special Review web page.
+     * Get the existing saved Special Reviews from the form.
+     * @return the list of saved Special Reviews
      */
-    private void initializePermissions() {
-        canModifySpecialReview = hasModifySpecialReviewPermission(getUserIdentifier());
-        isProtocolLinkingEnabled = isProtocolLinkingEnabledForModule();
-    }
+    protected abstract List<T> getSpecialReviews();
     
     /**
      * Can the current user modify Special Review?
@@ -149,8 +140,43 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
      */
     protected abstract boolean isProtocolLinkingEnabledForModule();
     
+    /**
+     * Gets the last approved Protocol, ignoring any amendments or renewals.
+     * @param protocolNumber the number of the Protocol
+     * @return the last approved Protocol
+     */
+    protected Protocol getLastApprovedProtocol(String protocolNumber) {
+        String lastApprovedProtocolNumber = protocolNumber;
+        
+        if (StringUtils.contains(protocolNumber, AMENDMENT_KEY)) {
+            lastApprovedProtocolNumber = StringUtils.substringBefore(protocolNumber, AMENDMENT_KEY);
+        } else if (StringUtils.contains(protocolNumber, RENEWAL_KEY)) {
+            lastApprovedProtocolNumber = StringUtils.substringBefore(protocolNumber, RENEWAL_KEY);
+        }
+        
+        return getProtocolFinderDao().findCurrentProtocolByNumber(lastApprovedProtocolNumber);
+    }
+    
+    /**
+     * Initialize the permissions for viewing/editing the Special Review web page.
+     */
+    private void initializePermissions() {
+        canModifySpecialReview = hasModifySpecialReviewPermission(getUserIdentifier());
+        isProtocolLinkingEnabled = isProtocolLinkingEnabledForModule();
+    }
+    
     private String getUserIdentifier() {
         return GlobalVariables.getUserSession().getPrincipalId();
+    }
+    
+    private void initializeLinkedProtocolNumbers() {
+        if (getIsProtocolLinkingEnabled()) {
+            for (T specialReview : getSpecialReviews()) {
+                if (SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {
+                    linkedProtocolNumbers.add(specialReview.getProtocolNumber());
+                }
+            }
+        }
     }
     
     private void initializeProtocolLinkView() {
@@ -159,12 +185,6 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
             prepareProtocolLinkViewFields(specialReview);
         }
     }
-    
-    /**
-     * Get the existing saved Special Reviews from the form.
-     * @return the list of saved Special Reviews
-     */
-    protected abstract List<T> getSpecialReviews();
     
     public ParameterService getParameterService() {
         if (parameterService == null) {

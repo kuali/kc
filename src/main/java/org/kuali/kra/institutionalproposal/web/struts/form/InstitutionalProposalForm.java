@@ -35,7 +35,7 @@ import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocumen
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShareBean;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalNotepadBean;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandABean;
-import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReviewHelper;
+import org.kuali.kra.institutionalproposal.specialreview.SpecialReviewHelper;
 import org.kuali.kra.medusa.MedusaBean;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
@@ -62,7 +62,7 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
     private String lookupResultsSequenceNumber;
     private String lookupResultsBOClassName;
     
-    private InstitutionalProposalSpecialReviewHelper specialReviewHelper;
+    private SpecialReviewHelper specialReviewHelper;
     private InstitutionalProposalCustomDataFormHelper institutionalProposalCustomDataFormHelper;
     private InstitutionalProposalNotepadBean institutionalProposalNotepadBean;
     private InstitutionalProposalCostShareBean institutionalProposalCostShareBean;
@@ -102,7 +102,7 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
      * This method initialize all form variables
      */
     public void initialize() {
-        specialReviewHelper = new InstitutionalProposalSpecialReviewHelper(this);
+        specialReviewHelper = new SpecialReviewHelper(this);
         institutionalProposalCustomDataFormHelper = new InstitutionalProposalCustomDataFormHelper(this);
         institutionalProposalNotepadBean = new InstitutionalProposalNotepadBean(this);
         institutionalProposalCostShareBean = new InstitutionalProposalCostShareBean(this);
@@ -137,7 +137,7 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
      * Gets the Special Review Helper.
      * @return the Special Review Helper
      */
-    public InstitutionalProposalSpecialReviewHelper getSpecialReviewHelper() {
+    public SpecialReviewHelper getSpecialReviewHelper() {
         return specialReviewHelper;
     }
 
@@ -145,7 +145,7 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
      * Sets the Special Review Helper.
      * @param specialReviewHelper the Special Review Helper
      */
-    public void setSpecialReviewHelper(InstitutionalProposalSpecialReviewHelper specialReviewHelper) {
+    public void setSpecialReviewHelper(SpecialReviewHelper specialReviewHelper) {
         this.specialReviewHelper = specialReviewHelper;
     }
 
