@@ -21,10 +21,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.document.Document;
@@ -77,6 +80,10 @@ public class KraHoldingPageAction extends KualiAction {
      * @return true if the postprocessing is complete, false otherwise
      */
     private boolean isDocumentPostprocessingComplete(Document document) {
+        return document.getDocumentHeader().hasWorkflowDocument() && !isPessimisticallyLocked(document) && isProcessComplete(document);
+    }
+    
+    private boolean isPessimisticallyLocked(Document document) {
         boolean isPessimisticallyLocked = false;
         
         Person pessimisticLockHolder = getPersonService().getPersonByPrincipalName("kr");
@@ -87,13 +94,27 @@ public class KraHoldingPageAction extends KualiAction {
             }
         }
         
-        // TO DO : have NOT found a consistent indicator of whether a document route is processed or not.
-        // so a couple of hacks for now.
-        // Protocol implemented isProcessComplete
-        // Final status code check is for IP
-        return document.getDocumentHeader().hasWorkflowDocument() && !isPessimisticallyLocked
-        && ((document instanceof ProtocolDocument ? ((ProtocolDocument)document).isProcessComplete() : 
-                 KEWConstants.ROUTE_HEADER_FINAL_CD.equals(document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus())));
+        return isPessimisticallyLocked;
+    }
+    
+    // TODO : have NOT found a consistent indicator of whether a document route is processed or not.
+    // so a couple of hacks for now.
+    private boolean isProcessComplete(Document document) {
+        boolean isProcessComplete = false;
+        
+        if (document instanceof AwardDocument) {
+            isProcessComplete = ((AwardDocument) document).isProcessComplete();
+        } else if (document instanceof CommitteeDocument) {
+            isProcessComplete = ((CommitteeDocument) document).isProcessComplete();
+        } else if (document instanceof InstitutionalProposalDocument) {
+            isProcessComplete = ((InstitutionalProposalDocument) document).isProcessComplete();
+        } else if (document instanceof ProposalDevelopmentDocument) {
+            isProcessComplete = ((ProposalDevelopmentDocument) document).isProcessComplete();
+        } else if (document instanceof ProtocolDocument) {
+            isProcessComplete = ((ProtocolDocument) document).isProcessComplete();
+        }
+        
+        return isProcessComplete;
     }
     
     public DocumentService getDocumentService() {
