@@ -18,6 +18,7 @@ package org.kuali.kra.award.printing.xmlstream;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,6 +85,7 @@ public class AwardTemplateXmlStream implements XmlStream {
 	private DateTimeService dateTimeService = null;
 	private static final String SCHOOL_NAME = "SCHOOL_NAME";
 	private static final String SCHOOL_ACRONYM = "SCHOOL_ACRONYM";
+	private String previousDescription="";
 
 	/**
 	 * This method generates XML for Award template Report. It uses data passed
@@ -180,7 +182,10 @@ public class AwardTemplateXmlStream implements XmlStream {
         awardTemplateTerm.refreshNonUpdateableReferences();
         SponsorTerm sponsorTerm = awardTemplateTerm.getSponsorTerm();
         if(sponsorTerm!=null){
+           if(previousDescription.equals("")||!previousDescription.equals(awardTemplateTerm.getSponsorTerm().getSponsorTermType().getDescription())){
             termType.setDescription(awardTemplateTerm.getSponsorTerm().getSponsorTermType().getDescription());
+            previousDescription=awardTemplateTerm.getSponsorTerm().getSponsorTermType().getDescription();
+           }
             TermDetailsType termDetails = termType.addNewTermDetails();
             termDetails.setTermCode(Integer.parseInt(sponsorTerm.getSponsorTermCode()));
             termDetails.setTermDescription(sponsorTerm.getDescription());
@@ -449,29 +454,41 @@ public class AwardTemplateXmlStream implements XmlStream {
 		List<AwardTemplateComment> templateComments = awardTemplate
 				.getTemplateComments();
 		CommentType commentType = null;
-		for (AwardTemplateComment awardTemplateComment : templateComments) {
-			commentType = CommentType.Factory.newInstance();
-			String commentTypeCode = awardTemplateComment.getCommentTypeCode();
-			if (commentTypeCode != null) {
-				commentType.setCommentCode(Integer.valueOf(commentTypeCode)
-						.intValue());
-			}
-			AwardTemplate template = awardTemplateComment.getTemplate();
-			String description = null;
-			if (template != null) {
-				description = template.getDescription();
-			}
-			if (description != null) {
-				commentType.setDescription(description);
-			}
-			String comments = awardTemplateComment.getComments();
-			if (comments != null) {
-				commentType.setComments(comments);
-			}
-			commentTypes.add(commentType);
+		ArrayList templateCommentList=new ArrayList();		
+		HashMap<String,String> templateCommentHm=new HashMap<String,String>();
+		for (AwardTemplateComment awardTemplateComment : templateComments) {		
+            String commentTypeCode = awardTemplateComment.getCommentTypeCode();           
+		    AwardTemplate template = awardTemplateComment.getTemplate();		  
+		    String description = null;
+            if (template != null) {               
+                awardTemplateComment.refreshReferenceObject("commentType");
+                description= awardTemplateComment.getCommentType().getDescription();   
+                templateCommentList.add(description);
+            }
+            String comments = awardTemplateComment.getComments();          
+            if(comments!=null && description!=null){
+                templateCommentHm.put(description, comments);
+            }           
+            		    
 		}
-		return commentTypes.toArray(new CommentType[0]);
+		 Collections.sort(templateCommentList);		
+		 for (int templateComment=0;templateComment<templateCommentList.size();templateComment++){
+             if(templateCommentHm.containsKey(templateCommentList.get(templateComment))==true){
+                 commentType = CommentType.Factory.newInstance();
+                 String comments=(String)templateCommentHm.get(templateCommentList.get(templateComment));
+                 String description =templateCommentList.get(templateComment).toString();
+                 commentType.setDescription(description);
+                 commentType.setComments(comments);    
+                
+             }      
+             commentTypes.add(commentType);           
+        }
+
+	        return commentTypes.toArray(new CommentType[0]);	
 	}
+		
+	
+	
 
 	/*
 	 * This method will set the values to school info attributes and finally
