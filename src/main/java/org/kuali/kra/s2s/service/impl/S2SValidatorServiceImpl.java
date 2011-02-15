@@ -98,7 +98,7 @@ public class S2SValidatorServiceImpl implements S2SValidatorService {
      * @return String which represents XPath of the node
      */
     protected String getXPath(Node node) {
-        if (node.getNodeType() == Node.DOCUMENT_NODE) {
+        if (node==null || node.getNodeType() == Node.DOCUMENT_NODE) {
             return "";
         }
         else {

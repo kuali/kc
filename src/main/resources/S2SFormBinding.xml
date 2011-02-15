@@ -1000,7 +1000,6 @@
 		</stylesheet>
 		<pkgName>gov.grants.apply.forms.phsCoverLetter12V12</pkgName>
 	</Form>
-	<!--
 	<Form
 		namespace="http://apply.grants.gov/forms/NSF_ApplicationChecklist_1_3-V1.3">
 		<formName>NSF_ApplicationChecklist_1_3-V1.3</formName>
@@ -1014,8 +1013,19 @@
 			gov.grants.apply.forms.nsfApplicationChecklist13V13
 		</pkgName>
 	</Form>
-	-->
-	<!-- Added for new form per JIRA KRACOEUS-4283 -->
+	<Form
+		namespace="http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_1_1-V1.1">
+		<formName>PHS_Fellowship_Supplemental_1_1-V1.1</formName>
+		<mainClass>
+			org.kuali.kra.s2s.generator.impl.PHS398FellowshipSupplementalV1_1Generator
+		</mainClass>
+		<stylesheet>
+			org/kuali/kra/s2s/stylesheet/PHS_fellowship_supplemental-V1.1.xsl
+		</stylesheet>
+		<pkgName>
+			gov.grants.apply.forms.phsFellowshipSupplemental11V11
+		</pkgName>
+	</Form>
 	<Form
 		namespace="http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_1_2-V1.2">
 		<formName>PHS_Fellowship_Supplemental_1_2-V1.2</formName>
@@ -1170,8 +1180,28 @@
 			gov.grants.apply.forms.rrsf424SF424BV11
 		</pkgName>
 	</Form>
-	<!-- 	<Form namespace="http://apply.grants.gov/forms/PHS398_TrainingBudget-V1.0" class="edu.mit.coeus.s2s.generator.PHS398TrainingBudgStream" template="edu/mit/coeus/s2s/template/PHS398_TrainingBudget-V1.0.xsl" jaxbpkgname="gov.grants.apply.forms.phs398_trainingbudget_v1" sortindex="160">PHS398 Training Budget V1-0
+	<Form namespace="http://apply.grants.gov/forms/PHS398_TrainingBudget-V1.0">
+		<formName>PHS398_TrainingBudget-V1.0</formName>
+		<mainClass>
+			org.kuali.kra.s2s.generator.impl.PHS398TrainingBudgetV1_0Generator
+		</mainClass>
+		<stylesheet>
+			org/kuali/kra/s2s/stylesheet/PHS398_TrainingBudget-V1.0.xsl
+		</stylesheet>
+		<pkgName>
+			gov.grants.apply.forms.phs398TrainingBudgetV10
+		</pkgName>
 	</Form>
-	<Form namespace="http://apply.grants.gov/forms/PHS398_TrainingSubawardBudget-V1.0" class="edu.mit.coeus.s2s.generator.PHS398TrainingSubAwardBudgStream" template="edu/mit/coeus/s2s/template/PHS398_TrainingSubawardBudget-V1.0.xsl" jaxbpkgname="gov.grants.apply.forms.phs398_trainingsubawardbudget_v1" sortindex="162">PHS398 Training SubAward Budget V1-0
-	 -->
+	<Form namespace="http://apply.grants.gov/forms/PHS398_TrainingSubawardBudget-V1.0">
+		<formName>PHS398_TrainingSubawardBudget-V1.0</formName>
+		<mainClass>
+			org.kuali.kra.s2s.generator.impl.PHS398TrainingSubAwardBudgetV1_0Generator
+		</mainClass>
+		<stylesheet>
+			org/kuali/kra/s2s/stylesheet/PHS398_TrainingSubawardBudget-V1.0.xsl
+		</stylesheet>
+		<pkgName>
+			gov.grants.apply.forms.phs398TrainingBudgetV10
+		</pkgName>
+	</Form>
 </FormBinding>

@@ -112,6 +112,8 @@ import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.printing.xmlstream.XmlStream;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
+import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -204,6 +206,7 @@ public abstract class AwardBaseStream implements XmlStream {
 	protected static final String DOCUMENT_NUMBER = "documentNumber";
 	protected AwardDocument awardDocument = null;
 	protected Award award = null;
+	protected AwardComment awardComment=null;
 	protected AwardAmountInfo awardAmountInfo = null;
 	protected Award prevAward = null;
 	protected AwardAmountInfo prevAwardAmountInfo = null;
@@ -934,6 +937,7 @@ public abstract class AwardBaseStream implements XmlStream {
 		AwardTransactionInfo awardTransactionInfo = AwardTransactionInfo.Factory
 				.newInstance();
 		AwardTransactionType awardTransactionType = awardTransactionInfo.addNewTransactionInfo();
+		AwardAmountTransaction awardAmountTransaction = getAwardAmountTransaction(award.getAwardNumber());
 		if (award.getAwardNumber() != null) {
 			awardTransactionType.setAwardNumber(award.getAwardNumber());
 		}
@@ -945,13 +949,22 @@ public abstract class AwardBaseStream implements XmlStream {
 			awardTransactionType.setAmountSequenceNumber(awardAmountInfo
 					.getSequenceNumber());
 		}
-		// TODO: TransactionTypeCode,TransactionTypeDesc,NoticeDate ,and
-		// TreeLevel --Needs to be done
-		if (award.getAwardComments() != null
-				&& !award.getAwardComments().isEmpty()) {
-			awardTransactionType.setComments(award.getAwardComments().get(0)
-					.getComments());
-		}
+		if (awardAmountTransaction.getTransactionTypeCode() != null) {
+            awardTransactionType.setTransactionTypeCode(awardAmountTransaction
+                    .getTransactionTypeCode());
+        }
+        if (awardAmountTransaction.getAwardTransactionType() != null) {
+            awardTransactionType.setTransactionTypeDesc(awardAmountTransaction
+                    .getAwardTransactionType().getDescription());
+        }
+        if (awardAmountTransaction.getComments() != null) {
+            awardTransactionType.setComments(awardAmountTransaction
+                    .getComments());
+        }
+        if (awardAmountTransaction.getNoticeDate() != null) {
+            awardTransactionType.setNoticeDate(dateTimeService
+                    .getCalendar(awardAmountTransaction.getNoticeDate()));
+        }
 		return awardTransactionInfo;
 	}
 
@@ -3054,5 +3067,27 @@ public abstract class AwardBaseStream implements XmlStream {
      */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+    /*
+     * This method will return the award amount transaction list from
+     * timeAndMoney document,which matches award number given.
+     */
+    private AwardAmountTransaction getAwardAmountTransaction(
+            String awardNumber) {
+        AwardAmountTransaction awardAmountTransaction = null;
+        Map<String, String> timeAndMoneyMap = new HashMap<String, String>();
+        timeAndMoneyMap.put(ROOT_AWARD_NUMBER_PARAMETER, awardNumber);
+        List<TimeAndMoneyDocument> timeAndMoneyDocs = (List<TimeAndMoneyDocument>) businessObjectService
+                .findMatching(TimeAndMoneyDocument.class, timeAndMoneyMap);
+        if (timeAndMoneyDocs != null && !timeAndMoneyDocs.isEmpty()) {
+            TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyDocs.get(0);
+            List<AwardAmountTransaction> awardAmountTransactionList = timeAndMoneyDocument
+                    .getAwardAmountTransactions();
+            if (awardAmountTransactionList != null
+                    && !awardAmountTransactionList.isEmpty()) {
+                awardAmountTransaction = awardAmountTransactionList.get(0);
+            }
+        }
+        return awardAmountTransaction;
     }
 }

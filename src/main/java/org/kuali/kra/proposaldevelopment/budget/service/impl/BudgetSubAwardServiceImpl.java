@@ -313,7 +313,7 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         org.w3c.dom.NodeList lstHashValue = document.getElementsByTagName("glob:HashValue");
 
         if((lstFileName.getLength() != lstFileLocation.getLength()) || (lstFileLocation.getLength() != lstHashValue.getLength())) {
-            throw new RuntimeException("Tag occurances mismatch in XML File");
+//            throw new RuntimeException("Tag occurances mismatch in XML File");
         }
 
         org.w3c.dom.Node fileNode, hashNode, mimeTypeNode;
