@@ -35,6 +35,8 @@ public class SaveSpecialReviewEvent<T extends SpecialReview<? extends SpecialRev
     
     private boolean validateProtocol;
     
+    private boolean validateLinking;
+    
     /**
      * Constructs a SaveSpecialReviewEvent.
      * 
@@ -42,10 +44,11 @@ public class SaveSpecialReviewEvent<T extends SpecialReview<? extends SpecialRev
      * @param document
      * @param specialReview
      */
-    public SaveSpecialReviewEvent(String errorPathPrefix, Document document, List<T> specialReviews, boolean validateProtocol) {
+    public SaveSpecialReviewEvent(String errorPathPrefix, Document document, List<T> specialReviews, boolean validateProtocol, boolean validateLinking) {
         super("saving special review to document " + getDocumentId(document), errorPathPrefix, document);
         this.specialReviews = specialReviews;
         this.validateProtocol = validateProtocol;
+        this.validateLinking = validateLinking;
     }
 
     public List<T> getSpecialReviews() {
@@ -62,6 +65,14 @@ public class SaveSpecialReviewEvent<T extends SpecialReview<? extends SpecialRev
 
     public void setValidateProtocol(boolean validateProtocol) {
         this.validateProtocol = validateProtocol;
+    }
+    
+    public boolean getValidateLinking() {
+        return validateLinking;
+    }
+
+    public void setValidateLinking(boolean validateLinking) {
+        this.validateLinking = validateLinking;
     }
 
     @Override
