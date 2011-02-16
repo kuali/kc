@@ -30,7 +30,7 @@ implements ValuableItem, SequenceAssociate {
     private static final long serialVersionUID = 1L;
 
     private Long proposalCostShareId; 
-    private String fiscalYear; 
+    private String projectPeriod; 
     private KualiDecimal costSharePercentage; 
     private Integer costShareTypeCode; 
     private String sourceAccount; 
@@ -50,12 +50,12 @@ implements ValuableItem, SequenceAssociate {
         this.proposalCostShareId = proposalCostShareId;
     }
 
-    public String getFiscalYear() {
-        return fiscalYear;
+    public String getProjectPeriod() {
+        return projectPeriod;
     }
 
-    public void setFiscalYear(String fiscalYear) {
-        this.fiscalYear = fiscalYear;
+    public void setProjectPeriod(String projectPeriod) {
+        this.projectPeriod = projectPeriod;
     }
 
     public KualiDecimal getCostSharePercentage() {
@@ -135,7 +135,7 @@ implements ValuableItem, SequenceAssociate {
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
         hashMap.put("proposalCostShareId", this.getProposalCostShareId());
-        hashMap.put("fiscalYear", this.getFiscalYear());
+        hashMap.put("projectPeriod", this.getProjectPeriod());
         hashMap.put("costSharePercentage", this.getCostSharePercentage());
         hashMap.put("costShareTypeCode", this.getCostShareTypeCode());
         hashMap.put("sourceAccount", this.getSourceAccount());

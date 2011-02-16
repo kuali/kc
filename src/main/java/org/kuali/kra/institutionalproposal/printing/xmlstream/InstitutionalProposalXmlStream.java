@@ -386,9 +386,9 @@ public class InstitutionalProposalXmlStream extends
 				costSharingType.setCostSharingType(institutionalProposalCostShare.getCostShareTypeCode() + " - " + 
 				        institutionalProposalCostShare.getCostShareType().getDescription());
 			}
-			if (institutionalProposalCostShare.getFiscalYear() != null) {
+			if (institutionalProposalCostShare.getProjectPeriod() != null) {
 				costSharingType.setFY(institutionalProposalCostShare
-						.getFiscalYear());
+						.getProjectPeriod());
 			}
 			if (institutionalProposalCostShare.getSourceAccount() != null) {
 				costSharingType.setSourceAccount(institutionalProposalCostShare

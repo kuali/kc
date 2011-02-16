@@ -560,7 +560,7 @@ public class PrintingTestUtils {
 		AwardCostShare awardCostShare = new AwardCostShare();
 		awardCostShare.setAwardNumber(award.getAwardNumber());
 		awardCostShare.setSequenceNumber(award.getSequenceNumber());
-		awardCostShare.setFiscalYear("2009");
+		awardCostShare.setProjectPeriod("2009");
 		awardCostShare.setCostSharePercentage(new KualiDecimal(23));
 		CostShareType costShareType = new CostShareType();
 		costShareType.setCostShareTypeCode(2);
@@ -968,7 +968,7 @@ public class PrintingTestUtils {
 		AwardCostShare awardCostShare = new AwardCostShare();
 		awardCostShare.setAwardNumber(award.getAwardNumber());
 		awardCostShare.setSequenceNumber(award.getSequenceNumber());
-		awardCostShare.setFiscalYear("2009");
+		awardCostShare.setProjectPeriod("2009");
 		awardCostShare.setCostSharePercentage(new KualiDecimal(23));
 		CostShareType costShareType = new CostShareType();
 		costShareType.setCostShareTypeCode(2);
@@ -1857,7 +1857,7 @@ public class PrintingTestUtils {
 		ipCostShare.setAmount(new KualiDecimal(1000));
 		ipCostShare.setCostSharePercentage(new KualiDecimal(10));
 		ipCostShare.setCostShareTypeCode(1);
-		ipCostShare.setFiscalYear("2009");
+		ipCostShare.setProjectPeriod("2009");
 		ipCostShare.setProposalCostShareId(1L);
 		ipCostShare.setSourceAccount("1");
 		proposal.getInstitutionalProposalCostShares().add(ipCostShare);

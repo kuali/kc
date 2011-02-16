@@ -38,7 +38,7 @@
 		
 						<tr>
 							<th width="5%"><div align="left">&nbsp;</div></th>
-							<th width="17%"><div align="center">Fiscal Year</div></th>
+							<th width="17%"><div align="center">Project Period</div></th>
 							<th width="17%"><div align="center">Percentage</div></th>
 							<th width="29%"><div align="center">Source Account</div></th>
 							<th width="17%"><div align="center">Amount</div></th>					
@@ -49,7 +49,7 @@
 						<tr>
 			            	<th width="50" align="right"><div align="right">Add:</div></th>
 							<td class="infoline"><div align="center">
-			        			<kul:htmlControlAttribute property="newBudgetCostShare.fiscalYear" attributeEntry="${budgetCostShareAttributes.fiscalYear}" />
+			        			<kul:htmlControlAttribute property="newBudgetCostShare.projectPeriod" attributeEntry="${budgetCostShareAttributes.projectPeriod}" />
 			        		</div></td>
 			        		<td class="infoline"><div align="center">
 								<kul:htmlControlAttribute property="newBudgetCostShare.sharePercentage" attributeEntry="${budgetCostShareAttributes.sharePercentage}" styleClass="amount" />						
@@ -73,7 +73,7 @@
 			          			<th><div align="right">${status.index + 1}</div></th>
 			            		
 			            		<td><div align="center">
-									<kul:htmlControlAttribute property="document.budget.budgetCostShare[${status.index}].fiscalYear" attributeEntry="${budgetCostShareAttributes.fiscalYear}" />            				
+									<kul:htmlControlAttribute property="document.budget.budgetCostShare[${status.index}].projectPeriod" attributeEntry="${budgetCostShareAttributes.projectPeriod}" />            				
 			        			</div></td>
 			        			
 			            		<td><div align="center">

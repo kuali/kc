@@ -84,7 +84,7 @@ public class BudgetCostShareRuleImpl implements AddBudgetCostShareRule, BudgetVa
      * @return Validation state; true if all required fields are not null, and if String, not empty
      */
     private boolean areRequiredRulesSatisfied(BudgetCostShare budgetCostShare) {
-        boolean valid = validationHelper.checkRequiredField(budgetCostShare.getFiscalYear(), "budgetCostShare.fiscalYear", "Fiscal Year");
+        boolean valid = validationHelper.checkRequiredField(budgetCostShare.getProjectPeriod(), "budgetCostShare.fiscalYear", "Fiscal Year");
         valid &= validationHelper.checkRequiredField(budgetCostShare.getShareAmount(), "budgetCostShare.shareAmount", "Amount");
         valid &= validationHelper.checkRequiredField(budgetCostShare.getSourceAccount(), "budgetCostShare.sourceAccount", "Source Account");
         

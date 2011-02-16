@@ -80,9 +80,9 @@ public class InstitutionalProposalAddCostShareRuleImpl extends ResearchDocumentR
     */
     public boolean validateCostShareFiscalYearRange(InstitutionalProposalCostShare institutionalProposalCostShare){
         boolean valid = true;
-        if (institutionalProposalCostShare.getFiscalYear() != null) {
+        if (institutionalProposalCostShare.getProjectPeriod() != null) {
             try {
-                int fiscalYear = Integer.parseInt(institutionalProposalCostShare.getFiscalYear());
+                int fiscalYear = Integer.parseInt(institutionalProposalCostShare.getProjectPeriod());
                 if(fiscalYear < Constants.MIN_FISCAL_YEAR || fiscalYear > Constants.MAX_FISCAL_YEAR) {
                     valid = false;
                     reportError(NEW_PROPOSAL_COST_SHARE+".fiscalYear", 

@@ -67,7 +67,7 @@ public class CostSharingDataFeedCommandTest extends BaseDataFeedCommandTest {
         retval.setAmount(new KualiDecimal(200.00));
         retval.setCostSharePercentage(new KualiDecimal(0.05));
         retval.setCostShareType(costShareType);
-        retval.setFiscalYear(fiscalYear);
+        retval.setProjectPeriod(fiscalYear);
         retval.setSourceAccount("abc123");
         return retval;
     }
@@ -77,14 +77,14 @@ public class CostSharingDataFeedCommandTest extends BaseDataFeedCommandTest {
         retval.setCommitmentAmount(new KualiDecimal(100.00));
         retval.setCostSharePercentage(new KualiDecimal(0.05));
         retval.setCostShareType(costShareType);
-        retval.setFiscalYear(fiscalYear);
+        retval.setProjectPeriod(fiscalYear);
         retval.setSource("abc123");
         return retval;
     } 
     
     protected boolean containsCostShare(Award award, InstitutionalProposalCostShare ipCostShare) {
         for (AwardCostShare awardCostShare : award.getAwardCostShares()) {
-            if (StringUtils.equals(awardCostShare.getFiscalYear(), ipCostShare.getFiscalYear())
+            if (StringUtils.equals(awardCostShare.getProjectPeriod(), ipCostShare.getProjectPeriod())
                     && StringUtils.equals(awardCostShare.getSource(), ipCostShare.getSourceAccount())
                     && awardCostShare.getAmount().equals(ipCostShare.getAmount())) {
                 return true;

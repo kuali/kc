@@ -28,7 +28,7 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implem
 
     public static final String DOCUMENT_COMPONENT_ID_KEY = "BUDGET_COST_SHARE_KEY";
     
-    private Integer fiscalYear;
+    private Integer projectPeriod;
     private BudgetDecimal shareAmount;
     private BudgetDecimal sharePercentage;
     private String sourceAccount;
@@ -47,14 +47,14 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implem
     /**
      * 
      * Constructs a BudgetCostShare.java.
-     * @param fiscalYear
+     * @param projectPeriod
      * @param shareAmount
      * @param sharePercentage
      * @param sourceAccount
      */
-    public BudgetCostShare(Integer fiscalYear, BudgetDecimal shareAmount, BudgetDecimal sharePercentage, String sourceAccount) {
+    public BudgetCostShare(Integer projectPeriod, BudgetDecimal shareAmount, BudgetDecimal sharePercentage, String sourceAccount) {
         this();
-        this.fiscalYear = fiscalYear;
+        this.projectPeriod = projectPeriod;
         this.sharePercentage = sharePercentage;
         this.shareAmount = shareAmount;
         this.sourceAccount = sourceAccount;
@@ -73,11 +73,11 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implem
         if (!(obj instanceof BudgetCostShare))
             return false;
         final BudgetCostShare other = (BudgetCostShare) obj;
-        if (fiscalYear == null) {
-            if (other.fiscalYear != null)
+        if (projectPeriod == null) {
+            if (other.projectPeriod != null)
                 return false;
         }
-        else if (!fiscalYear.equals(other.fiscalYear))
+        else if (!projectPeriod.equals(other.projectPeriod))
             return false;
         if (shareAmount == null) {
             if (other.shareAmount != null)
@@ -107,8 +107,8 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implem
      * This method...
      * @return
      */
-    public Integer getFiscalYear() {
-        return fiscalYear;
+    public Integer getProjectPeriod() {
+        return projectPeriod;
     }
 
     /**
@@ -146,7 +146,7 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implem
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((fiscalYear == null) ? 0 : fiscalYear.hashCode());
+        result = prime * result + ((projectPeriod == null) ? 0 : projectPeriod.hashCode());
         result = prime * result + ((shareAmount == null) ? 0 : shareAmount.hashCode());
         result = prime * result + ((sourceAccount == null) ? 0 : sourceAccount.hashCode());
         return result;
@@ -155,10 +155,10 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implem
     /**
      * 
      * This method...
-     * @param fiscalYear
+     * @param projectPeriod
      */
-    public void setFiscalYear(Integer fiscalYear) {
-        this.fiscalYear = fiscalYear;
+    public void setProjectPeriod(Integer projectPeriod) {
+        this.projectPeriod = projectPeriod;
     }
 
     /**
@@ -197,7 +197,7 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implem
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap<String, Object> hashMap = super.toStringMapper();
         hashMap.put("sharePercentage", getSharePercentage());
-        hashMap.put("fiscalYear", getFiscalYear());
+        hashMap.put("projectPeriod", getProjectPeriod());
         hashMap.put("shareAmount", getShareAmount());
         hashMap.put("sourceAccount", getSourceAccount());
         

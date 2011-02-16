@@ -506,7 +506,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             ipCostShare.setCostShareTypeCode(getDefaultCostShareTypeCode());
             ipCostShare.setAmount(new KualiDecimal(budgetCostShare.getShareAmount().bigDecimalValue()));
             ipCostShare.setCostSharePercentage(new KualiDecimal(budgetCostShare.getSharePercentage().bigDecimalValue()));
-            ipCostShare.setFiscalYear(budgetCostShare.getFiscalYear().toString());
+            ipCostShare.setProjectPeriod(budgetCostShare.getProjectPeriod().toString());
             ipCostShare.setSourceAccount(budgetCostShare.getSourceAccount());
             institutionalProposal.add(ipCostShare);
         }

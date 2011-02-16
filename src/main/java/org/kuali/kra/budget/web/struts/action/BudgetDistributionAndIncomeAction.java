@@ -293,11 +293,11 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
      */
     private void setCostShareAddRowDefaults(Budget budget, BudgetCostShare budgetCostShare) {
         BudgetDecimal defaultValue = BudgetDecimal.ZERO;
-        if(budgetCostShare.getFiscalYear() == null) {
-            budgetCostShare.setFiscalYear(0);
+        if(budgetCostShare.getProjectPeriod() == null) {
+            budgetCostShare.setProjectPeriod(0);
         }
         if(budgetCostShare.getShareAmount() == null) {
-            BudgetDecimal shareAmount = budgetCostShare.getFiscalYear() == 0 ? defaultValue : budget.findCostSharingForFiscalYear(budgetCostShare.getFiscalYear());                 
+            BudgetDecimal shareAmount = budgetCostShare.getProjectPeriod() == 0 ? defaultValue : budget.findCostSharingForFiscalYear(budgetCostShare.getProjectPeriod());                 
             budgetCostShare.setShareAmount(shareAmount);
         }
         if(budgetCostShare.getSharePercentage() == null) {
