@@ -109,7 +109,7 @@
 		</collection-descriptor>
 		
 		--><collection-descriptor name="budgetCostShares" proxy="true" element-class-ref="org.kuali.kra.budget.distributionincome.BudgetCostShare" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-			<orderby name="fiscalYear" sort="ASC" /> 
+			<orderby name="projectPeriod" sort="ASC" /> 
 			<inverse-foreignkey field-ref="budgetId"/>
 			<query-customizer
       			class="org.kuali.kra.dao.KraQueryCustomizerDefaultImpl">
@@ -352,12 +352,10 @@
 	<class-descriptor class="org.kuali.kra.budget.distributionincome.BudgetCostShare" table="EPS_PROP_COST_SHARING">
 		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT"  primarykey="true" /> 	
 		<field-descriptor name="documentComponentId" column="COST_SHARE_ID" jdbc-type="INTEGER" primarykey="true"/>
-
-		<field-descriptor name="fiscalYear" column="FISCAL_YEAR" jdbc-type="INTEGER" />
+		<field-descriptor name="projectPeriod" column="PROJECT_PERIOD" jdbc-type="INTEGER" />
 		<field-descriptor name="sourceAccount" column="SOURCE_ACCOUNT" jdbc-type="VARCHAR"/>		
 		<field-descriptor name="shareAmount" column="AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="sharePercentage" column="COST_SHARING_PERCENTAGE" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>		
-		
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>

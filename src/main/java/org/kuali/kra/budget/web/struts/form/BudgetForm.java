@@ -390,6 +390,12 @@ public class BudgetForm extends BudgetVersionFormBase {
     public boolean isCostSharingEditFormVisible() {
         BudgetDocument budgetDocument = getDocument();  
         Budget budget = budgetDocument != null?budgetDocument.getBudget():null;
+        if(budget!= null) {
+            System.err.println("budget.isCostSharingApplicable(): " + (budget.isCostSharingApplicable()));
+            System.err.println("budget.isCostSharingAvailable(): " + (budget.isCostSharingAvailable()));
+        } else {
+            System.err.println("budget is NULL");
+        }
         return budget != null && budget.isCostSharingApplicable() && budget.isCostSharingAvailable(); 
     }
     

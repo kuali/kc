@@ -52,7 +52,7 @@ public class AwardCostShareRuleTest {
         awardCostShareRule = new AwardCostShareRuleImpl();
         awardCostShare = new AwardCostShare();
         awardCostShare.setCostSharePercentage(new KualiDecimal(PERCENTAGE));
-        awardCostShare.setFiscalYear(TEST_FISCAL_YEAR);
+        awardCostShare.setProjectPeriod(TEST_FISCAL_YEAR);
         awardCostShare.setDestination(TEST_DESTINATION);
         awardCostShare.setSource(TEST_SOURCE);
         awardCostShare.setCommitmentAmount(new KualiDecimal(COMMITMENT_AMOUNT));
@@ -100,7 +100,7 @@ public class AwardCostShareRuleTest {
     @Test
     public final void testValidateCostShareFiscalYearRange() {
         Assert.assertTrue(awardCostShareRule.validateCostShareFiscalYearRange(awardCostShare));
-        awardCostShare.setFiscalYear(TEST_INVALID_FISCAL_YEAR);
+        awardCostShare.setProjectPeriod(TEST_INVALID_FISCAL_YEAR);
         Assert.assertFalse(awardCostShareRule.validateCostShareFiscalYearRange(awardCostShare));
         awardCostShare.setSource(TEST_FISCAL_YEAR);
     }

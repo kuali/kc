@@ -75,7 +75,7 @@ public class BudgetCostShareAuditRule implements DocumentAuditRule {
         // Forces inclusion of source account
         for (BudgetCostShare costShare : costShares) {
             source = costShare.getSourceAccount();
-            fiscalYear = costShare.getFiscalYear();
+            fiscalYear = costShare.getProjectPeriod();
             if (null == source || source.length() == 0) {
                 retval = false;
                 getAuditErrors().add(new AuditError("document.budget.budgetCostShare["+i+"].sourceAccount",

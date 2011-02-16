@@ -49,7 +49,7 @@ public class InstitutionalProposalCostShareRuleTest {
         institutionalProposalAddCostShareRule = new InstitutionalProposalAddCostShareRuleImpl();
         institutionalProposalCostShare = new InstitutionalProposalCostShare();
         institutionalProposalCostShare.setCostSharePercentage(new KualiDecimal(PERCENTAGE));
-        institutionalProposalCostShare.setFiscalYear(TEST_FISCAL_YEAR);
+        institutionalProposalCostShare.setProjectPeriod(TEST_FISCAL_YEAR);
         institutionalProposalCostShare.setSourceAccount(TEST_SOURCE);
         institutionalProposalCostShare.setAmount(new KualiDecimal(AMOUNT));
         GlobalVariables.setErrorMap(new ErrorMap());
@@ -83,7 +83,7 @@ public class InstitutionalProposalCostShareRuleTest {
     @Test
     public final void testValidateCostShareFiscalYearRange() {
         Assert.assertTrue(institutionalProposalAddCostShareRule.validateCostShareFiscalYearRange(institutionalProposalCostShare));
-        institutionalProposalCostShare.setFiscalYear(TEST_INVALID_FISCAL_YEAR);
+        institutionalProposalCostShare.setProjectPeriod(TEST_INVALID_FISCAL_YEAR);
         Assert.assertFalse(institutionalProposalAddCostShareRule.validateCostShareFiscalYearRange(institutionalProposalCostShare));
         institutionalProposalCostShare.setSourceAccount(TEST_FISCAL_YEAR);
     }

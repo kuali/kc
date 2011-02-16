@@ -65,7 +65,7 @@ public class AwardCommitmentsActionTest {
         awardCostShare.setCostShareType(new CostShareType());
         awardCostShare.setDestination("testAccount1");
         awardCostShare.setSource("testAccount2");
-        awardCostShare.setFiscalYear("2008");
+        awardCostShare.setProjectPeriod("2008");
         awardCostShare.setCommitmentAmount(new KualiDecimal(34000));
     }
 
