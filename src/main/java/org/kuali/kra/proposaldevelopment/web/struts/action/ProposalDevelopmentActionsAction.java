@@ -597,7 +597,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         Long routeHeaderId = Long.parseLong(proposalDevelopmentForm.getDocument().getDocumentNumber());
         String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_PROPOSAL_ACTIONS, "ProposalDevelopmentDocument");
         
-        ActionForward basicForward = mapping.findForward(Constants.MAPPING_BASIC);
+        ActionForward basicForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
         return routeToHoldingPage(basicForward, forward, holdingPageForward, returnLocation);
     }
