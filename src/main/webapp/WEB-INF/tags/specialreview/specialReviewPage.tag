@@ -216,7 +216,7 @@
                             <html:image property="methodToCall.deleteSpecialReview.line${status.index}.anchor${currentTabIndex}.validate0"
 									    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
                         </c:if>
-                        <c:if test="${enableProtocolLinking and not empty collectionReference[status.index].protocolNumber}">
+                        <c:if test="${protocolLinkingReadOnly and not empty collectionReference[status.index].protocolNumber}">
                             <html:image property="methodToCall.viewSpecialReviewProtocolLink"
                                         src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' alt="View Protocol" styleClass="tinybutton"
                                         onclick="javascript: specialReviewProtocolPop(${KualiForm.document.sessionDocument}, '${action}', 'viewSpecialReviewProtocolLink', ${status.index}, ${KualiForm.formKey});return false" />
