@@ -70,8 +70,7 @@
 					          	
 			  			<c:forEach var="budgetCostShare" items="${KualiForm.document.budget.budgetCostShares}" varStatus="status">
 			          		<tr>
-			          			<th><div align="right">${status.index + 1}</div></th>
-			            		
+			          			<th><div align="right">${status.index + 1}</div></th>		            		
 			            		<td><div align="center">
 									<kul:htmlControlAttribute property="document.budget.budgetCostShare[${status.index}].projectPeriod" attributeEntry="${budgetCostShareAttributes.projectPeriod}" />            				
 			        			</div></td>
