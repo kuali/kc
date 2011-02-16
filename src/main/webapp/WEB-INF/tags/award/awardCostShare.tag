@@ -33,7 +33,7 @@
 				<th scope="row">&nbsp;</th>
 				<th><kul:htmlAttributeLabel attributeEntry="${awardCostShareAttributes.costSharePercentage}" useShortLabel="true" noColon="true" /></th>
 				<th><kul:htmlAttributeLabel attributeEntry="${awardCostShareAttributes.costShareTypeCode}" useShortLabel="true" noColon="true" /></th>
-				<th><kul:htmlAttributeLabel attributeEntry="${awardCostShareAttributes.fiscalYear}" useShortLabel="true" noColon="true"/></th>
+				<th><kul:htmlAttributeLabel attributeEntry="${awardCostShareAttributes.projectPeriod}" useShortLabel="true" noColon="true"/></th>
 				<th><kul:htmlAttributeLabel attributeEntry="${awardCostShareAttributes.source}" useShortLabel="true" noColon="true"/></th>
 				<th><kul:htmlAttributeLabel attributeEntry="${awardCostShareAttributes.destination}" useShortLabel="true" noColon="true"/></th>
 				<th><kul:htmlAttributeLabel attributeEntry="${awardCostShareAttributes.commitmentAmount}" useShortLabel="true" noColon="true"/></th>
@@ -57,7 +57,7 @@
 	            </td>
 	            <td class="infoline">
 	            	<div align="center">
-            	    	<kul:htmlControlAttribute property="costShareFormHelper.newAwardCostShare.fiscalYear" attributeEntry="${awardCostShareAttributes.fiscalYear}"/>
+            	    	<kul:htmlControlAttribute property="costShareFormHelper.newAwardCostShare.projectPeriod" attributeEntry="${awardCostShareAttributes.projectPeriod}"/>
             	  	</div>
 	            </td>
 	            <td class="infoline">
@@ -111,7 +111,7 @@
 	                </td>
 	                <td width="15%" valign="middle">                	
 					<div align="center">
-                  		<kul:htmlControlAttribute property="document.awardList[0].awardCostShares[${status.index}].fiscalYear" attributeEntry="${awardCostShareAttributes.fiscalYear}"/> 
+                  		<kul:htmlControlAttribute property="document.awardList[0].awardCostShares[${status.index}].projectPeriod" attributeEntry="${awardCostShareAttributes.projectPeriod}"/> 
 					</div>
 					</td>
 	                <td width="15%" valign="middle">                	

@@ -36,7 +36,7 @@
 <!--                <ref bean="InstitutionalProposalCostShare-proposalId" />-->
                 <ref bean="InstitutionalProposalCostShare-proposalNumber" />
                 <ref bean="InstitutionalProposalCostShare-sequenceNumber" />
-                <ref bean="InstitutionalProposalCostShare-fiscalYear" />
+                <ref bean="InstitutionalProposalCostShare-projectPeriod" />
                 <ref bean="InstitutionalProposalCostShare-costSharePercentage" />
                 <ref bean="InstitutionalProposalCostShare-costShareTypeCode" />
                 <ref bean="InstitutionalProposalCostShare-sourceAccount" />
@@ -120,12 +120,12 @@
         <property name="description" value="Sequence Number" />
     </bean>
 
-    <bean id="InstitutionalProposalCostShare-fiscalYear" parent="InstitutionalProposalCostShare-fiscalYear-parentBean" />
-    <bean id="InstitutionalProposalCostShare-fiscalYear-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="fiscalYear" />
+    <bean id="InstitutionalProposalCostShare-projectPeriod" parent="InstitutionalProposalCostShare-projectPeriod-parentBean" />
+    <bean id="InstitutionalProposalCostShare-projectPeriod-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="projectPeriod" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Fiscal Year" />
-        <property name="shortLabel" value="Fiscal Year" />
+        <property name="label" value="Project Period" />
+        <property name="shortLabel" value="Project Period" />
         <property name="maxLength" value="4" />
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
@@ -135,8 +135,8 @@
             <bean parent="TextControlDefinition"
                 p:size="5" />
         </property>
-        <property name="summary" value="Fiscal Year" />
-        <property name="description" value="Fiscal Year" />
+        <property name="summary" value="Project Period" />
+        <property name="description" value="Project Period" />
     </bean>
 
     <bean id="InstitutionalProposalCostShare-costSharePercentage" parent="InstitutionalProposalCostShare-costSharePercentage-parentBean" />
@@ -235,7 +235,7 @@
                             <bean parent="FieldDefinition"
                                 p:attributeName="sequenceNumber" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="fiscalYear" />
+                                p:attributeName="projectPeriod" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="costSharePercentage" />
                             <bean parent="FieldDefinition"
@@ -273,7 +273,7 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="sequenceNumber" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="fiscalYear" />
+                    p:attributeName="projectPeriod" />
                 <bean parent="FieldDefinition"
                     p:attributeName="costSharePercentage" />
                 <bean parent="FieldDefinition"
@@ -296,7 +296,7 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="sequenceNumber" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="fiscalYear" />
+                    p:attributeName="projectPeriod" />
                 <bean parent="FieldDefinition"
                     p:attributeName="costSharePercentage" />
                 <bean parent="FieldDefinition"

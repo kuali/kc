@@ -1784,8 +1784,8 @@ public abstract class AwardBaseStream implements XmlStream {
 				costSharingItem.setSequenceNumber(awardCostShare
 						.getSequenceNumber());
 			}
-			if (awardCostShare.getFiscalYear() != null) {
-				costSharingItem.setFiscalYear(awardCostShare.getFiscalYear());
+			if (awardCostShare.getProjectPeriod() != null) {
+				costSharingItem.setFiscalYear(awardCostShare.getProjectPeriod());
 			}
 			if (awardCostShare.getCostSharePercentage() != null) {
 				costSharingItem.setPercentage(awardCostShare

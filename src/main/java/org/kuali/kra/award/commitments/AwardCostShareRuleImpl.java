@@ -107,9 +107,9 @@ public class AwardCostShareRuleImpl extends ResearchDocumentRuleBase implements 
     */
     public boolean validateCostShareFiscalYearRange(AwardCostShare awardCostShare){
         boolean valid = true;
-        if (awardCostShare.getFiscalYear() != null) {
+        if (awardCostShare.getProjectPeriod() != null) {
             try {
-                int fiscalYear = Integer.parseInt(awardCostShare.getFiscalYear());
+                int fiscalYear = Integer.parseInt(awardCostShare.getProjectPeriod());
                 if(fiscalYear < Constants.MIN_FISCAL_YEAR || fiscalYear > Constants.MAX_FISCAL_YEAR) {
                     valid = false;
                     reportError(NEW_AWARD_COST_SHARE+".fiscalYear", 

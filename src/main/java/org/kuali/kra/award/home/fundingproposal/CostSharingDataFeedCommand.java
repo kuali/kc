@@ -79,7 +79,7 @@ class CostSharingDataFeedCommand extends ProposalDataFeedCommandBase {
         awardCostShare.setCostShareTypeCode(ipCostShare.getCostShareTypeCode());
         awardCostShare.setCommitmentAmount(ipCostShare.getAmount());
         awardCostShare.setSource(ipCostShare.getSourceAccount());
-        awardCostShare.setFiscalYear(ipCostShare.getFiscalYear());
+        awardCostShare.setProjectPeriod(ipCostShare.getProjectPeriod());
         
         return awardCostShare;
     }
