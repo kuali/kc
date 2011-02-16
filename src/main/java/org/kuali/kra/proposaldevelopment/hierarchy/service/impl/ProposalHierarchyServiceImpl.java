@@ -965,7 +965,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         BudgetUnrecoveredFandA newUnrecoveredFandA;
         Integer keyHash;
         for (BudgetCostShare costShare : hiddenCostShares) {
-            keyHash = Arrays.hashCode(new Object[]{costShare.getFiscalYear(), costShare.getSourceAccount()});
+            keyHash = Arrays.hashCode(new Object[]{costShare.getProjectPeriod(), costShare.getSourceAccount()});
             newCostShare = newCostShares.get(keyHash);
             if (newCostShare == null) {
                 newCostShare = (BudgetCostShare)ObjectUtils.deepCopy(costShare);

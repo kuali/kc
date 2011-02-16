@@ -229,7 +229,7 @@ public class AwardVersioningTest extends KcUnitTestBase {
         costShare.setCostSharePercentage(new KualiDecimal(costSharePct));
         costShare.setCostShareMet(costShare.getCostSharePercentage());
         costShare.setCostShareTypeCode(1);
-        costShare.setFiscalYear(FISCAL_YEAR);
+        costShare.setProjectPeriod(FISCAL_YEAR);
         costShare.setSource(COST_SHARE_SOURCE);
         costShare.setDestination(destination);
         costShare.setCommitmentAmount(new KualiDecimal(COST_SHARE_COMMIT_AMT));

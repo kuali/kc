@@ -52,25 +52,25 @@ public class BudgetDocumentRuleTest extends KcUnitTestBase {
         assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
         for (int i = 0; i < 5; i++) {
             BudgetCostShare tempCostShare = new BudgetCostShare();
-            tempCostShare.setFiscalYear(2010+i);
+            tempCostShare.setProjectPeriod(2010+i);
             tempCostShare.setShareAmount(new BudgetDecimal(10000.00));
             budgetDoc.getBudget().getBudgetCostShares().add(tempCostShare);
         }
         assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
         
-        budgetDoc.getBudget().getBudgetCostShares().get(0).setFiscalYear(null);
+        budgetDoc.getBudget().getBudgetCostShares().get(0).setProjectPeriod(null);
         assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
         
-        budgetDoc.getBudget().getBudgetCostShares().get(1).setFiscalYear(null);
+        budgetDoc.getBudget().getBudgetCostShares().get(1).setProjectPeriod(null);
         assertFalse(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
         
         budgetDoc.getBudget().getBudgetCostShares().get(1).setSourceAccount("abcd1234");
         assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
         
-        budgetDoc.getBudget().getBudgetCostShares().get(0).setFiscalYear(2010);
+        budgetDoc.getBudget().getBudgetCostShares().get(0).setProjectPeriod(2010);
         assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
         
-        budgetDoc.getBudget().getBudgetCostShares().get(1).setFiscalYear(2010);
+        budgetDoc.getBudget().getBudgetCostShares().get(1).setProjectPeriod(2010);
         assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
         
         budgetDoc.getBudget().getBudgetCostShares().get(1).setSourceAccount(null);

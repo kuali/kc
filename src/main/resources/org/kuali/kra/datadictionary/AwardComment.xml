@@ -72,11 +72,11 @@
     <property name="summary" value="Sequence Number" />
     <property name="description" value="Sequence Number" />
   </bean>
-  <bean id="AwardCostShare-fiscalYear" parent="AwardCostShare-fiscalYear-parentBean" />
+  
+  <bean id="AwardCostShare-projectPeriod" parent="AwardCostShare-projectPeriod-parentBean" />
 
   
   <bean id="AwardComment-checklistPrintFlag" parent="AwardComment-checklistPrintFlag-parentBean" />
-
   <bean id="AwardComment-checklistPrintFlag-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="checklistPrintFlag" />
     <property name="forceUppercase" value="false" />

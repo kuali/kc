@@ -58,7 +58,7 @@ public class AwardCostShareAuditRuleTest {
         AwardCostShare awardCostShare = new AwardCostShare();
         awardCostShare.setCostSharePercentage(new KualiDecimal(PERCENTAGE));
         awardCostShare.setCostShareTypeCode(TEST_COST_SHARE_TYPE);
-        awardCostShare.setFiscalYear(TEST_FISCAL_YEAR);
+        awardCostShare.setProjectPeriod(TEST_FISCAL_YEAR);
         awardCostShare.setDestination(TEST_DESTINATION);
         awardCostShare.setSource(TEST_SOURCE);
         awardCostShare.setCommitmentAmount(new KualiDecimal(COMMITMENT_AMOUNT));
@@ -66,7 +66,7 @@ public class AwardCostShareAuditRuleTest {
         awardCostShare = new AwardCostShare();
         awardCostShare.setCostSharePercentage(new KualiDecimal(PERCENTAGE));
         awardCostShare.setCostShareTypeCode(TEST_COST_SHARE_TYPE);
-        awardCostShare.setFiscalYear(TEST_FISCAL_YEAR_2);
+        awardCostShare.setProjectPeriod(TEST_FISCAL_YEAR_2);
         awardCostShare.setDestination(TEST_DESTINATION);
         awardCostShare.setSource(TEST_SOURCE);
         awardCostShare.setCommitmentAmount(new KualiDecimal(COMMITMENT_AMOUNT));
@@ -88,7 +88,7 @@ public class AwardCostShareAuditRuleTest {
     @Test
     public void testCostShareUniqueCheck() throws Exception {
         assertTrue(awardCostShareAuditRule.validateCostShareDoesNotViolateUniqueConstraint(awardCostShares));
-        awardCostShares.get(1).setFiscalYear(TEST_FISCAL_YEAR);
+        awardCostShares.get(1).setProjectPeriod(TEST_FISCAL_YEAR);
         assertFalse(awardCostShareAuditRule.validateCostShareDoesNotViolateUniqueConstraint(awardCostShares));
     }
     

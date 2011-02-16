@@ -21,7 +21,7 @@
 <!--        <ref bean="BudgetCostShare-proposalNumber" />-->
 <!--        <ref bean="BudgetCostShare-budgetVersionNumber" />-->
         <ref bean="BudgetCostShare-documentComponentId" />
-        <ref bean="BudgetCostShare-fiscalYear" />
+        <ref bean="BudgetCostShare-projectPeriod" />
         <ref bean="BudgetCostShare-shareAmount" />
         <ref bean="BudgetCostShare-sharePercentage" />
         <ref bean="BudgetCostShare-sourceAccount" />
@@ -86,13 +86,13 @@
     <property name="summary" value="Document Component Id" />
     <property name="description" value="Document Component Id" />
   </bean>
-  <bean id="BudgetCostShare-fiscalYear" parent="BudgetCostShare-fiscalYear-parentBean" />
-
-  <bean id="BudgetCostShare-fiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="fiscalYear" />
+  
+  <bean id="BudgetCostShare-projectPeriod" parent="BudgetCostShare-projectPeriod-parentBean" />
+  <bean id="BudgetCostShare-projectPeriod-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="projectPeriod" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Fiscal Year" />
-    <property name="shortLabel" value="Fiscal Year" />
+    <property name="label" value="Project Period" />
+    <property name="shortLabel" value="Project Period" />
     <property name="maxLength" value="4" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern"
@@ -103,11 +103,11 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="Fiscal Year" />
-    <property name="description" value="Fiscal Year" />
+    <property name="summary" value="Project Period" />
+    <property name="description" value="Project Period" />
   </bean>
+  
   <bean id="BudgetCostShare-shareAmount" parent="BudgetCostShare-shareAmount-parentBean" />
-
   <bean id="BudgetCostShare-shareAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="shareAmount" />
     <property name="forceUppercase" value="false" />

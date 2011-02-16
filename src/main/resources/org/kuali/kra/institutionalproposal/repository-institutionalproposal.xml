@@ -219,7 +219,7 @@
 		<field-descriptor name="proposalId" column="PROPOSAL_ID" jdbc-type="INTEGER" access="anonymous"/>
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
-		<field-descriptor name="fiscalYear" column="FISCAL_YEAR" jdbc-type="VARCHAR" />
+		<field-descriptor name="projectPeriod" column="PROJECT_PERIOD" jdbc-type="VARCHAR" />
 		<field-descriptor name="costSharePercentage" column="COST_SHARING_PERCENTAGE" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 		<field-descriptor name="costShareTypeCode" column="COST_SHARING_TYPE_CODE" jdbc-type="INTEGER" />
 		<field-descriptor name="sourceAccount" column="SOURCE_ACCOUNT" jdbc-type="VARCHAR" />

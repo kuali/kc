@@ -33,7 +33,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
     private static final long serialVersionUID = -839007857238262207L;
     
     private Long awardCostShareId;
-    private String fiscalYear;
+    private String projectPeriod;
     private KualiDecimal costSharePercentage;
     private Integer costShareTypeCode;
     private Date verificationDate;
@@ -64,26 +64,25 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
      * @param costShareTypeCode
      */
     @SuppressWarnings("unchecked")
-    public void setCostShareTypeCode(Integer costShareTypeCode){
+    public void setCostShareTypeCode(Integer costShareTypeCode) {
         BusinessObjectService costShareTypeService = getBusinessObjectService();
         Collection<CostShareType> costShareTypes = 
             (Collection<CostShareType>) costShareTypeService.findAll(CostShareType.class);
-        for(CostShareType costShareType : costShareTypes){
-            if(costShareType.getCostShareTypeCode().equals(costShareTypeCode)){
+        for (CostShareType costShareType : costShareTypes) {
+            if (costShareType.getCostShareTypeCode().equals(costShareTypeCode)) {
                 setCostShareType(costShareType);
             }
         }
     }
     
     /**
-     * This method returns the primary key of the Cost Share BO
+     * This method returns the primary key of the Cost Share BO.
      * @return
      */
     public Integer getCostShareTypeCode() {
         if (costShareType == null) {
             return null;
-        }
-        else {
+        } else {
             return costShareType.getCostShareTypeCode();
         }
     }
@@ -102,17 +101,17 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
      * This method...
      * @return
      */
-    public String getFiscalYear() {
-        return fiscalYear;
+    public String getProjectPeriod() {
+        return projectPeriod;
     }
 
 
     /**
      * This method...
-     * @param fiscalYear
+     * @param projectPeriod
      */
-    public void setFiscalYear(String fiscalYear) {
-        this.fiscalYear = fiscalYear;
+    public void setProjectPeriod(String projectPeriod) {
+        this.projectPeriod = projectPeriod;
     }
 
 
@@ -195,7 +194,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
     protected LinkedHashMap<String,Object> toStringMapper() {        
         LinkedHashMap<String,Object> hashMap = super.toStringMapper();
         hashMap.put("awardCostShareId", getAwardCostShareId());
-        hashMap.put("fiscalYear", getFiscalYear());
+        hashMap.put("projectPeriod", getProjectPeriod());
         hashMap.put("costSharePercentage", getCostSharePercentage());
         hashMap.put("source", getSource());
         hashMap.put("destination", getDestination());
@@ -253,7 +252,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
         result = prime * result + ((costShareType == null) ? 0 : costShareType.hashCode());
         result = prime * result + ((costShareTypeCode == null) ? 0 : costShareTypeCode.hashCode());
         result = prime * result + ((destination == null) ? 0 : destination.hashCode());
-        result = prime * result + ((fiscalYear == null) ? 0 : fiscalYear.hashCode());
+        result = prime * result + ((projectPeriod == null) ? 0 : projectPeriod.hashCode());
         result = prime * result + ((source == null) ? 0 : source.hashCode());
         return result;
     }
@@ -309,11 +308,11 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
         }
         else if (!destination.equals(other.destination))
             return false;
-        if (fiscalYear == null) {
-            if (other.fiscalYear != null)
+        if (projectPeriod == null) {
+            if (other.projectPeriod != null)
                 return false;
         }
-        else if (!fiscalYear.equals(other.fiscalYear))
+        else if (!projectPeriod.equals(other.projectPeriod))
             return false;
         if (source == null) {
             if (other.source != null)

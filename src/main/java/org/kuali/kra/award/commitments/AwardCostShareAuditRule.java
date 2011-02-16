@@ -62,7 +62,7 @@ public class AwardCostShareAuditRule implements DocumentAuditRule {
             for (AwardCostShare costShare2 : awardCostShares) {
                 if (costShare1 == costShare2) {
                     continue;
-                } else if (StringUtils.equals(costShare1.getFiscalYear(), costShare2.getFiscalYear()) &&
+                } else if (StringUtils.equals(costShare1.getProjectPeriod(), costShare2.getProjectPeriod()) &&
                         costShare1.getCostShareTypeCode().equals(costShare2.getCostShareTypeCode()) &&
                             StringUtils.equalsIgnoreCase(costShare1.getSource(), costShare2.getSource()) &&
                                 StringUtils.equalsIgnoreCase(costShare1.getDestination(), costShare2.getDestination())) {

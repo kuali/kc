@@ -34,7 +34,7 @@
         <table id="cost-share-table" cellpadding="0" cellspacing="0" summary="Cost Share">
 			<tr>
 				<th scope="row">&nbsp;</th>
-				<th><kul:htmlAttributeLabel attributeEntry="${institutionalProposalCostShareAttributes.fiscalYear}" useShortLabel="true" noColon="true" /></th>
+				<th><kul:htmlAttributeLabel attributeEntry="${institutionalProposalCostShareAttributes.projectPeriod}" useShortLabel="true" noColon="true" /></th>
 				<th><kul:htmlAttributeLabel attributeEntry="${institutionalProposalCostShareAttributes.costShareTypeCode}" useShortLabel="true" noColon="true" /></th>
 				<th><kul:htmlAttributeLabel attributeEntry="${institutionalProposalCostShareAttributes.costSharePercentage}" useShortLabel="true" noColon="true"/></th>
 				<th><kul:htmlAttributeLabel attributeEntry="${institutionalProposalCostShareAttributes.sourceAccount}" useShortLabel="true" noColon="true"/></th>
@@ -46,7 +46,7 @@
             	<th width="50" align="center" scope="row"><div align="center">Add:</div></th>
             	<td class="infoline">
             	  	<div align="center">
-            	  	 	<kul:htmlControlAttribute property="institutionalProposalCostShareBean.newInstitutionalProposalCostShare.fiscalYear" attributeEntry="${institutionalProposalCostShareAttributes.fiscalYear}"/>
+            	  	 	<kul:htmlControlAttribute property="institutionalProposalCostShareBean.newInstitutionalProposalCostShare.projectPeriod" attributeEntry="${institutionalProposalCostShareAttributes.projectPeriod}"/>
             	 	</div>
             	</td>
 	            <td class="infoline">
@@ -86,7 +86,7 @@
 					</th>
 	                <td width="10%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.institutionalProposalList[0].institutionalProposalCostShares[${status.index}].fiscalYear" attributeEntry="${institutionalProposalCostShareAttributes.fiscalYear}"/>
+                		<kul:htmlControlAttribute property="document.institutionalProposalList[0].institutionalProposalCostShares[${status.index}].projectPeriod" attributeEntry="${institutionalProposalCostShareAttributes.projectPeriod}"/>
 					</div>
 					</td>
 	                <td width="20%" valign="middle">

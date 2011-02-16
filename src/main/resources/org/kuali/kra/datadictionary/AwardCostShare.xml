@@ -21,7 +21,7 @@
         <ref bean="AwardCostShare-awardCostShareId" />
         <ref bean="AwardCostShare-awardNumber" />
         <ref bean="AwardCostShare-sequenceNumber" />
-        <ref bean="AwardCostShare-fiscalYear" />
+        <ref bean="AwardCostShare-projectPeriod" />
         <ref bean="AwardCostShare-costSharePercentage" />
         <ref bean="AwardCostShare-costShareTypeCode" />
         <ref bean="AwardCostShare-source" />
@@ -78,13 +78,13 @@
     <property name="summary" value="Sequence Number" />
     <property name="description" value="Sequence Number" />
   </bean>
-  <bean id="AwardCostShare-fiscalYear" parent="AwardCostShare-fiscalYear-parentBean" />
-
-  <bean id="AwardCostShare-fiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="fiscalYear" />
+  
+  <bean id="AwardCostShare-projectPeriod" parent="AwardCostShare-projectPeriod-parentBean" />
+  <bean id="AwardCostShare-projectPeriod-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="projectPeriod" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Fiscal Year" />
-    <property name="shortLabel" value="Fiscal Year" />
+    <property name="label" value="Project Period" />
+    <property name="shortLabel" value="Project Period" />
     <property name="maxLength" value="4" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern"/>
@@ -94,12 +94,11 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="Fiscal Year" />
-    <property name="description" value="Fiscal Year" />
+    <property name="summary" value="Project Period" />
+    <property name="description" value="Project Period" />
   </bean>
   
    <bean id="AwardCostShare-costSharePercentage" parent="AwardCostShare-costSharePercentage-parentBean" />
-
   <bean id="AwardCostShare-costSharePercentage-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="costSharePercentage" />
     <property name="forceUppercase" value="false" />
