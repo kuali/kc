@@ -50,7 +50,7 @@ import org.kuali.kra.s2s.util.S2SConstants;
  */
 public class AttachmentsV1_1Generator extends S2SBaseFormGenerator {
 
-    private static final int NARRATIVECODE_ATTACHMENTS = 8;
+    private static final int NARRATIVECODE_ATTACHMENTS = 61;
 
     /**
      * 
