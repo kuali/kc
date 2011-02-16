@@ -243,7 +243,7 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
         Long routeHeaderId = Long.parseLong(proposalForm.getDocument().getDocumentNumber());
         String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_INSTITUTIONAL_PROPOSAL_ACTIONS_PAGE, "InstitutionalProposalDocument");
         
-        ActionForward basicForward = mapping.findForward(Constants.MAPPING_BASIC);
+        ActionForward basicForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
         return routeToHoldingPage(basicForward, forward, holdingPageForward, returnLocation);
     }

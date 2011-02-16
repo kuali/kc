@@ -719,6 +719,11 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
             forward = super.route(mapping, form, request, response);            
         }
         
+        ActionForward basicForward = mapping.findForward(Constants.MAPPING_BASIC);
+        if (StringUtils.equals(forward.getPath(), basicForward.getPath())) {
+            forward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        }
+        
         return forward;
     }
 
