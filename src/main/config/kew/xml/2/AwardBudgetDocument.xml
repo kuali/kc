@@ -23,6 +23,10 @@
 					<name>DEFAULT_APPROVE</name>
 					<value>false</value>
 				</policy>
+				<policy>
+                    <name>INITIATOR_MUST_ROUTE</name>
+                    <value>false</value>
+                </policy>				
             </policies>
 			<routePaths>
 				<routePath>
