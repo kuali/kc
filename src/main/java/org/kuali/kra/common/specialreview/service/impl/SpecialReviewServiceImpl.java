@@ -180,18 +180,16 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
         
         Protocol protocol = getProtocolFinderDao().findCurrentProtocolByNumber(protocolNumber);
         if (protocol != null && fundingSourceId != null && StringUtils.isNotBlank(fundingSourceNumber) && NumberUtils.isNumber(fundingSourceTypeCode)) {
-            Long protocolId = protocol.getProtocolId();
-            
             ProtocolFundingSource protocolFundingSource = new ProtocolFundingSource();
-            protocolFundingSource.setProtocolId(protocolId);
             protocolFundingSource.setProtocolNumber(protocolNumber);
             protocolFundingSource.setFundingSource(String.valueOf(fundingSourceId));
             protocolFundingSource.setFundingSourceNumber(fundingSourceNumber);
             protocolFundingSource.setFundingSourceTypeCode(Integer.valueOf(fundingSourceTypeCode));
             protocolFundingSource.setFundingSourceName(fundingSourceName);
             protocolFundingSource.setFundingSourceTitle(fundingSourceTitle);
+            protocol.getProtocolFundingSources().add(protocolFundingSource);
             
-            getBusinessObjectService().save(protocolFundingSource);
+            getBusinessObjectService().save(protocol);
         }
     }
     
@@ -237,11 +235,9 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
         List<String> exemptionTypeCodes) {
         
         if (award != null) {
-            Long awardId = award.getAwardId();
             Integer specialReviewNumber = award.getAwardDocument().getDocumentNextValue(Constants.SPECIAL_REVIEW_NUMBER);
             
             AwardSpecialReview specialReview = new AwardSpecialReview();
-            specialReview.setAwardId(awardId);
             specialReview.setSpecialReviewNumber(specialReviewNumber);
             specialReview.setSpecialReviewTypeCode(SpecialReviewType.HUMAN_SUBJECTS);
             specialReview.setApprovalTypeCode(SpecialReviewApprovalType.LINK_TO_IRB);
@@ -256,8 +252,9 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
                 specialReview.getSpecialReviewExemptions().add(specialReviewExemption);
             }
             specialReview.setComments(NEW_SPECIAL_REVIEW_COMMENT);
-
-            getBusinessObjectService().save(specialReview);
+            award.getSpecialReviews().add(specialReview);
+            
+            getBusinessObjectService().save(award);
         }
     }
     
@@ -265,11 +262,9 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
         Date approvalDate, Date expirationDate, List<String> exemptionTypeCodes) {
         
         if (institutionalProposal != null) {
-            Long proposalId = institutionalProposal.getProposalId();
             Integer specialReviewNumber = institutionalProposal.getInstitutionalProposalDocument().getDocumentNextValue(Constants.SPECIAL_REVIEW_NUMBER);
             
             InstitutionalProposalSpecialReview specialReview = new InstitutionalProposalSpecialReview();
-            specialReview.setProposalId(proposalId);
             specialReview.setSpecialReviewNumber(specialReviewNumber);
             specialReview.setSpecialReviewTypeCode(SpecialReviewType.HUMAN_SUBJECTS);
             specialReview.setApprovalTypeCode(SpecialReviewApprovalType.LINK_TO_IRB);
@@ -284,8 +279,9 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
                 specialReview.getSpecialReviewExemptions().add(specialReviewExemption);
             }
             specialReview.setComments(NEW_SPECIAL_REVIEW_COMMENT);
+            institutionalProposal.getSpecialReviews().add(specialReview);
             
-            getBusinessObjectService().save(specialReview);
+            getBusinessObjectService().save(institutionalProposal);
         }
     }
     
