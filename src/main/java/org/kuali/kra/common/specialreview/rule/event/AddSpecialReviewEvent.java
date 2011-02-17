@@ -25,8 +25,8 @@ import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.rice.kns.document.Document;
 
 /**
- * This class represents the event for adding special review.
- * @param <T> The subclass of AbstractSpecialReview
+ * Represents the event for adding a Special Review.
+ * @param <T> The subclass of SpecialReview
  */
 public class AddSpecialReviewEvent<T extends SpecialReview<? extends SpecialReviewExemption>> extends KraDocumentEventBaseExtension {
     

@@ -17,6 +17,7 @@ package org.kuali.kra.irb.protocol.funding;
 
 import java.util.List;
 
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.rice.kns.document.Document;
@@ -24,9 +25,11 @@ import org.kuali.rice.kns.document.Document;
 /**
  * Represents the event for saving a Protocol Funding Source.
  */
-public class SaveProtocolFundingSourceEvent extends KraDocumentEventBaseExtension {
+public class SaveProtocolFundingSourceLinkEvent extends KraDocumentEventBaseExtension {
     
     private List<ProtocolFundingSource> protocolFundingSources;
+    
+    private List<ProtocolFundingSource> deletedProtocolFundingSources;
     
     /**
      * Constructs a SaveProtocolFundingSourceEvent.
@@ -35,9 +38,12 @@ public class SaveProtocolFundingSourceEvent extends KraDocumentEventBaseExtensio
      * @param document
      * @param protocolFundingSources
      */
-    public SaveProtocolFundingSourceEvent(String errorPathPrefix, Document document, List<ProtocolFundingSource> protocolFundingSources) {
-        super("saving protocol funding sources to document " + getDocumentId(document), errorPathPrefix, document);
+    public SaveProtocolFundingSourceLinkEvent(Document document, List<ProtocolFundingSource> protocolFundingSources, 
+        List<ProtocolFundingSource> deletedProtocolFundingSources) {
+        
+        super("saving protocol funding sources to document " + getDocumentId(document), Constants.EMPTY_STRING, document);
         this.protocolFundingSources = protocolFundingSources;
+        this.deletedProtocolFundingSources = deletedProtocolFundingSources;
     }
 
     public List<ProtocolFundingSource> getProtocolFundingSources() {
@@ -48,9 +54,17 @@ public class SaveProtocolFundingSourceEvent extends KraDocumentEventBaseExtensio
         this.protocolFundingSources = protocolFundingSources;
     }
 
+    public List<ProtocolFundingSource> getDeletedProtocolFundingSources() {
+        return deletedProtocolFundingSources;
+    }
+
+    public void setDeletedProtocolFundingSources(List<ProtocolFundingSource> deletedProtocolFundingSources) {
+        this.deletedProtocolFundingSources = deletedProtocolFundingSources;
+    }
+
     @Override
-    public BusinessRuleInterface<SaveProtocolFundingSourceEvent> getRule() {
-        return new SaveProtocolFundingSourceRule();
+    public BusinessRuleInterface<SaveProtocolFundingSourceLinkEvent> getRule() {
+        return new SaveProtocolFundingSourceLinkRule();
     }
     
 }

@@ -254,7 +254,7 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
         boolean isProtocolLinkingEnabled 
             = getParameterService().getIndicatorParameter("KC-PROTOCOL", "Document", "irb.protocol.institute.proposal.linking.enabled");
         return processRules(new SaveSpecialReviewEvent<InstitutionalProposalSpecialReview>(
-            SAVE_SPECIAL_REVIEW_FIELD, proposalDocument, specialReviews, isProtocolLinkingEnabled, true));
+            SAVE_SPECIAL_REVIEW_FIELD, proposalDocument, specialReviews, isProtocolLinkingEnabled));
     }
     
     /**
