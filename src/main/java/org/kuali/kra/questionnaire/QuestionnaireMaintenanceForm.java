@@ -176,8 +176,12 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
                     question.setQuestionNumber(Integer.parseInt(splitstr[3]));
                     question.setParentQuestionNumber(Integer.parseInt(splitstr[4]));
                     question.setConditionFlag("Y".equals(splitstr[5]));
-                    question.setCondition(splitstr[6]);
-                    question.setConditionValue(splitstr[7]);
+                    if (StringUtils.isNotBlank(splitstr[6]) && !splitstr[6].equals("null")) { 
+                        question.setCondition(splitstr[6]);
+                    }
+                    if (StringUtils.isNotBlank(splitstr[7]) && !splitstr[7].equals("null")) { 
+                        question.setConditionValue(splitstr[7]);
+                    }
                     question.setQuestionSeqNumber(Integer.parseInt(splitstr[8]));
                     question.setVersionNumber(Long.parseLong(splitstr[9]));
                     question.setDeleted(splitstr[10]);
