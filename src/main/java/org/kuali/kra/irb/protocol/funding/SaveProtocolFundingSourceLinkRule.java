@@ -16,24 +16,26 @@
 package org.kuali.kra.irb.protocol.funding;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.bo.FundingSourceType;
+import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Runs the rule processing for saving a Protocol Funding Source.
  */
-public class SaveProtocolFundingSourceRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<SaveProtocolFundingSourceEvent> {
+public class SaveProtocolFundingSourceLinkRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<SaveProtocolFundingSourceLinkEvent> {
 
     private static final String FUNDING_SOURCE_NUMBER = "fundingSourceNumber";
     
+    private SpecialReviewService specialReviewService;
     private AwardService awardService;
     private InstitutionalProposalService institutionalProposalService;
     
@@ -41,32 +43,49 @@ public class SaveProtocolFundingSourceRule extends ResearchDocumentRuleBase impl
      * {@inheritDoc}
      * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
      */
-    public boolean processRules(SaveProtocolFundingSourceEvent event) {
+    public boolean processRules(SaveProtocolFundingSourceLinkEvent event) {
         boolean rulePassed = true;
         
-        int i = 0;
         for (ProtocolFundingSource protocolFundingSource : event.getProtocolFundingSources()) {
-            String errorPath = event.getErrorPathPrefix() + "[" + i++ + "]";
-            
-            GlobalVariables.getMessageMap().addToErrorPath(errorPath);
-            Integer fundingSourceType = protocolFundingSource.getFundingSourceTypeCode();
-            String fundingSourceId = protocolFundingSource.getFundingSource();
-            String fundingSourceNumber = protocolFundingSource.getFundingSourceNumber();
-            if (StringUtils.equals(FundingSourceType.AWARD, String.valueOf(fundingSourceType))) {
-                Award award = getAward(fundingSourceId);
-                if (!award.getAwardDocument().getPessimisticLocks().isEmpty()) {
-                    reportError(FUNDING_SOURCE_NUMBER, KeyConstants.ERROR_PROTOCOL_FUNDING_SOURCE_AWARD_LOCKED, fundingSourceNumber);
-                }
-            } else if (StringUtils.equals(FundingSourceType.INSTITUTIONAL_PROPOSAL, String.valueOf(fundingSourceType))) {
-                InstitutionalProposal institutionalProposal = getInstitutionalProposal(fundingSourceId);
-                if (!institutionalProposal.getInstitutionalProposalDocument().getPessimisticLocks().isEmpty()) {
-                    reportError(FUNDING_SOURCE_NUMBER, KeyConstants.ERROR_PROTOCOL_FUNDING_SOURCE_INSTITUTIONAL_PROPOSAL_LOCKED, fundingSourceNumber);
+            if (NumberUtils.isNumber(protocolFundingSource.getFundingSource())) {
+                Long fundingSourceId = Long.valueOf(protocolFundingSource.getFundingSource());
+                String fundingSourceTypeCode = String.valueOf(protocolFundingSource.getFundingSourceTypeCode());
+                String protocolNumber = protocolFundingSource.getProtocolNumber();
+                
+                if (!getSpecialReviewService().isLinkedToSpecialReview(fundingSourceId, fundingSourceTypeCode, protocolNumber)) {
+                    rulePassed &= validateProtocolFundingSource(protocolFundingSource);
                 }
             }
-            GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
+        }
+        
+        for (ProtocolFundingSource protocolFundingSource : event.getDeletedProtocolFundingSources()) {
+            rulePassed &= validateProtocolFundingSource(protocolFundingSource);
         }
         
         return rulePassed;
+    }
+    
+    private boolean validateProtocolFundingSource(ProtocolFundingSource protocolFundingSource) {
+        boolean isValid = true;
+        
+        Integer fundingSourceType = protocolFundingSource.getFundingSourceTypeCode();
+        String fundingSourceId = protocolFundingSource.getFundingSource();
+        String fundingSourceNumber = protocolFundingSource.getFundingSourceNumber();
+        if (StringUtils.equals(FundingSourceType.AWARD, String.valueOf(fundingSourceType))) {
+            Award award = getAward(fundingSourceId);
+            if (!award.getAwardDocument().getPessimisticLocks().isEmpty()) {
+                isValid = false;
+                reportError(FUNDING_SOURCE_NUMBER, KeyConstants.ERROR_PROTOCOL_FUNDING_SOURCE_AWARD_LOCKED, fundingSourceNumber);
+            }
+        } else if (StringUtils.equals(FundingSourceType.INSTITUTIONAL_PROPOSAL, String.valueOf(fundingSourceType))) {
+            InstitutionalProposal institutionalProposal = getInstitutionalProposal(fundingSourceId);
+            if (!institutionalProposal.getInstitutionalProposalDocument().getPessimisticLocks().isEmpty()) {
+                isValid = false;
+                reportError(FUNDING_SOURCE_NUMBER, KeyConstants.ERROR_PROTOCOL_FUNDING_SOURCE_INSTITUTIONAL_PROPOSAL_LOCKED, fundingSourceNumber);
+            }
+        }
+        
+        return isValid;
     }
     
     private Award getAward(String awardId) {
@@ -87,6 +106,17 @@ public class SaveProtocolFundingSourceRule extends ResearchDocumentRuleBase impl
         }
         
         return institutionalProposal;
+    }
+    
+    private SpecialReviewService getSpecialReviewService() {
+        if (specialReviewService == null) {
+            specialReviewService = KraServiceLocator.getService(SpecialReviewService.class);
+        }
+        return specialReviewService;
+    }
+    
+    public void setSpecialReviewService(SpecialReviewService specialReviewService) {
+        this.specialReviewService = specialReviewService;
     }
     
     public AwardService getAwardService() {

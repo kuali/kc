@@ -32,6 +32,7 @@ import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.common.specialreview.rule.event.AddSpecialReviewEvent;
+import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewLinkEvent;
 import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -149,51 +150,55 @@ public class AwardSpecialReviewAction extends AwardAction {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument document = awardForm.getAwardDocument();
+        List<AwardSpecialReview> specialReviews = document.getAward().getSpecialReviews();
+        List<String> linkedProtocolNumbers = awardForm.getSpecialReviewHelper().getLinkedProtocolNumbers();
         boolean isProtocolLinkingEnabled = awardForm.getSpecialReviewHelper().getIsProtocolLinkingEnabled();
 
         if (isProtocolLinkingEnabled) {
-            for (AwardSpecialReview specialReview : document.getAward().getSpecialReviews()) {
-                if (SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {
-                    awardForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview);
-                    
-                    String protocolNumber = specialReview.getProtocolNumber();
+            if (applyRules(new SaveSpecialReviewLinkEvent<AwardSpecialReview>(document, specialReviews, linkedProtocolNumbers))) {
+                for (AwardSpecialReview specialReview : document.getAward().getSpecialReviews()) {
+                    if (SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {
+                        awardForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview);
+                        
+                        String protocolNumber = specialReview.getProtocolNumber();
+                        Long fundingSourceId = document.getAward().getAwardId();
+                        String fundingSourceTypeCode = FundingSourceType.AWARD;
+                        
+                        if (!getSpecialReviewService().isLinkedToProtocolFundingSource(protocolNumber, fundingSourceId, fundingSourceTypeCode)) {
+                            String fundingSourceNumber = document.getAward().getAwardNumber();
+                            String fundingSourceName = document.getAward().getSponsorName();
+                            String fundingSourceTitle = document.getAward().getTitle();
+                            getSpecialReviewService().addProtocolFundingSourceForSpecialReview(
+                                protocolNumber, fundingSourceId, fundingSourceNumber, fundingSourceTypeCode, fundingSourceName, fundingSourceTitle);
+                            awardForm.getSpecialReviewHelper().getLinkedProtocolNumbers().add(protocolNumber);
+                        }
+                    }
+                }
+                
+                List<String> deletedLinkedProtocolNumbers = new ArrayList<String>();
+                
+                for (String linkedProtocolNumber : awardForm.getSpecialReviewHelper().getLinkedProtocolNumbers()) {
                     Long fundingSourceId = document.getAward().getAwardId();
                     String fundingSourceTypeCode = FundingSourceType.AWARD;
                     
-                    if (!getSpecialReviewService().isLinkedToProtocolFundingSource(protocolNumber, fundingSourceId, fundingSourceTypeCode)) {
-                        String fundingSourceNumber = document.getAward().getAwardNumber();
-                        String fundingSourceName = document.getAward().getSponsorName();
-                        String fundingSourceTitle = document.getAward().getTitle();
-                        getSpecialReviewService().addProtocolFundingSourceForSpecialReview(
-                            protocolNumber, fundingSourceId, fundingSourceNumber, fundingSourceTypeCode, fundingSourceName, fundingSourceTitle);
-                        awardForm.getSpecialReviewHelper().getLinkedProtocolNumbers().add(protocolNumber);
+                    boolean isLinkedToSpecialReview = false;
+                    for (AwardSpecialReview specialReview : document.getAward().getSpecialReviews()) {
+                        if (SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode()) 
+                            && StringUtils.equals(specialReview.getProtocolNumber(), linkedProtocolNumber)) {
+                            isLinkedToSpecialReview = true;
+                            break;
+                        }
                     }
-                }
-            }
-            
-            List<String> deletedLinkedProtocolNumbers = new ArrayList<String>();
-            
-            for (String linkedProtocolNumber : awardForm.getSpecialReviewHelper().getLinkedProtocolNumbers()) {
-                Long fundingSourceId = document.getAward().getAwardId();
-                String fundingSourceTypeCode = FundingSourceType.AWARD;
-                
-                boolean isLinkedToSpecialReview = false;
-                for (AwardSpecialReview specialReview : document.getAward().getSpecialReviews()) {
-                    if (SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode()) 
-                        && StringUtils.equals(specialReview.getProtocolNumber(), linkedProtocolNumber)) {
-                        isLinkedToSpecialReview = true;
-                        break;
+                    
+                    if (!isLinkedToSpecialReview) {
+                        getSpecialReviewService().deleteProtocolFundingSourceForSpecialReview(linkedProtocolNumber, fundingSourceId, fundingSourceTypeCode);
+                        deletedLinkedProtocolNumbers.add(linkedProtocolNumber);
+    
                     }
                 }
                 
-                if (!isLinkedToSpecialReview) {
-                    getSpecialReviewService().deleteProtocolFundingSourceForSpecialReview(linkedProtocolNumber, fundingSourceId, fundingSourceTypeCode);
-                    deletedLinkedProtocolNumbers.add(linkedProtocolNumber);
-
-                }
+                awardForm.getSpecialReviewHelper().getLinkedProtocolNumbers().removeAll(deletedLinkedProtocolNumbers);
             }
-            
-            awardForm.getSpecialReviewHelper().getLinkedProtocolNumbers().removeAll(deletedLinkedProtocolNumbers);
         }
 
         return super.save(mapping, form, request, response);
