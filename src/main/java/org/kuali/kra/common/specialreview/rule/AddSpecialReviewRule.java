@@ -22,8 +22,8 @@ import org.kuali.kra.common.specialreview.rules.SpecialReviewRuleBase;
 import org.kuali.kra.rule.BusinessRuleInterface;
 
 /**
- * Runs the rule processing for adding a SpecialReview.
- * @param <T> The subclass of AbstractSpecialReview
+ * Runs the rule processing for adding a Special Review.
+ * @param <T> The subclass of Special Review
  */
 public class AddSpecialReviewRule<T extends SpecialReview<? extends SpecialReviewExemption>> extends SpecialReviewRuleBase<T> 
     implements BusinessRuleInterface<AddSpecialReviewEvent<T>> {

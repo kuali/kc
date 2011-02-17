@@ -17,23 +17,23 @@ package org.kuali.kra.common.specialreview.rule;
 
 import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
-import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewEvent;
+import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewLinkEvent;
 import org.kuali.kra.common.specialreview.rules.SpecialReviewRuleBase;
 import org.kuali.kra.rule.BusinessRuleInterface;
 
 /**
- * Runs the rule processing for saving the Special Reviews.
- * @param <T> The subclass of SpecialReview
+ * Runs the rule processing for saving the Special Review links to the Protocol Funding Sources.
+ * @param <T> The subclass of Special Review
  */
-public class SaveSpecialReviewRule<T extends SpecialReview<? extends SpecialReviewExemption>> extends SpecialReviewRuleBase<T> 
-    implements BusinessRuleInterface<SaveSpecialReviewEvent<T>> {
-
+public class SaveSpecialReviewLinkRule<T extends SpecialReview<? extends SpecialReviewExemption>> extends SpecialReviewRuleBase<T> 
+    implements BusinessRuleInterface<SaveSpecialReviewLinkEvent<T>> {
+    
     /**
      * {@inheritDoc}
      * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
      */
-    public boolean processRules(SaveSpecialReviewEvent<T> event) {
-        return processSaveSpecialReviewEvent(event);
+    public boolean processRules(SaveSpecialReviewLinkEvent<T> event) {
+        return processSaveSpecialReviewLinkEvent(event);
     }
 
 }

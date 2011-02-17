@@ -41,6 +41,7 @@ import org.kuali.kra.irb.protocol.funding.AddProtocolFundingSourceEvent;
 import org.kuali.kra.irb.protocol.funding.LookupProtocolFundingSourceEvent;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceService;
+import org.kuali.kra.irb.protocol.funding.SaveProtocolFundingSourceLinkEvent;
 import org.kuali.kra.irb.protocol.location.AddProtocolLocationEvent;
 import org.kuali.kra.irb.protocol.location.ProtocolLocation;
 import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
@@ -371,9 +372,9 @@ public class ProtocolProtocolAction extends ProtocolAction {
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolDocument protocolDocument = protocolForm.getDocument();
         ProtocolFundingSource fundingSource = protocolForm.getProtocolHelper().getNewFundingSource();
-        List<ProtocolFundingSource> fundingSourceList = protocolDocument.getProtocol().getProtocolFundingSources();
+        List<ProtocolFundingSource> protocolFundingSources = protocolDocument.getProtocol().getProtocolFundingSources();
         AddProtocolFundingSourceEvent event = new AddProtocolFundingSourceEvent(Constants.EMPTY_STRING, protocolDocument,
-            fundingSource, fundingSourceList);
+            fundingSource, protocolFundingSources);
 
         protocolForm.getProtocolHelper().syncFundingSources(protocolDocument.getProtocol());
 
@@ -534,17 +535,35 @@ public class ProtocolProtocolAction extends ProtocolAction {
         super.preSave(mapping, form, request, response);
         
         ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument protocolDocument = protocolForm.getDocument();
+        List<ProtocolFundingSource> protocolFundingSources = protocolDocument.getProtocol().getProtocolFundingSources();
+        List<ProtocolFundingSource> deletedProtocolFundingSources = protocolForm.getProtocolHelper().getDeletedProtocolFundingSources();
+        
         protocolForm.getProtocolHelper().prepareRequiredFieldsForSave();
         protocolForm.getProtocolHelper().createInitialProtocolAction();
-        protocolForm.getProtocolHelper().syncSpecialReviewsWithFundingSources();
+        
+        if (protocolDocument.getProtocol().isNew()) {
+            if (applyRules(new SaveProtocolFundingSourceLinkEvent(protocolDocument, protocolFundingSources, deletedProtocolFundingSources))) {
+                protocolForm.getProtocolHelper().syncSpecialReviewsWithFundingSources();
+            }
+        }
     }
 
     @Override
     protected ActionForward saveOnClose(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument protocolDocument = protocolForm.getDocument();
+        List<ProtocolFundingSource> protocolFundingSources = protocolDocument.getProtocol().getProtocolFundingSources();
+        List<ProtocolFundingSource> deletedProtocolFundingSources = protocolForm.getProtocolHelper().getDeletedProtocolFundingSources();
+        
         protocolForm.getProtocolHelper().prepareRequiredFieldsForSave();
         protocolForm.getProtocolHelper().createInitialProtocolAction();
-        protocolForm.getProtocolHelper().syncSpecialReviewsWithFundingSources();
+        
+        if (protocolDocument.getProtocol().isNew()) {
+            if (applyRules(new SaveProtocolFundingSourceLinkEvent(protocolDocument, protocolFundingSources, deletedProtocolFundingSources))) {
+                protocolForm.getProtocolHelper().syncSpecialReviewsWithFundingSources();
+            }
+        }
         
         return super.saveOnClose(mapping, form, request, response);
     }
