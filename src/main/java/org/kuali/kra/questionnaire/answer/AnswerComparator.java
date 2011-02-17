@@ -78,11 +78,13 @@ public class AnswerComparator implements Comparator<Answer>  {
         List<Answer> answers = new ArrayList<Answer>();
         answers.add(argAnswer);
         Answer thisAnswer = argAnswer;
+        int internalDepth = depth;
         while (thisAnswer.getQuestionnaireQuestion().getParentQuestionNumber() > 0) {
             thisAnswer = thisAnswer.getParentAnswer().get(0);
             answers.add(thisAnswer);
+            ++internalDepth;
         }
-        return answers.get(answers.size() - (depth + 1));
+        return answers.get(answers.size() - (internalDepth));
     }
 
 }

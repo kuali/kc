@@ -184,9 +184,10 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         String retString = "";
         if (question.getQuestionTypeId().equals(new Integer(6))) {
             String className = question.getLookupClass();
-            className = className.substring(className.lastIndexOf(".") + 1);
-            retString = className + PFP + question.getMaxAnswers() + PFP + getLookupReturnType(question.getLookupClass(), question.getLookupReturn()) ;
-
+            if(className!=null){
+                className = className.substring(className.lastIndexOf(".") + 1);
+                retString = className + PFP + question.getMaxAnswers() + PFP + getLookupReturnType(question.getLookupClass(), question.getLookupReturn()) ;
+            }
         }
         else {
             retString = question.getDisplayedAnswers() + PFP + question.getMaxAnswers() + PFP + question.getAnswerMaxLength();
