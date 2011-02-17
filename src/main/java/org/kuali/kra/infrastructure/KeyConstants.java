@@ -416,6 +416,7 @@ public final class KeyConstants {
     //Award Budget
     public static final String ERROR_AWARD_OR_MONEY_DOC_NOT_FINAL = "error.budget.award.not.final";
     public static final String ERROR_AWARD_OBLIGATED_FUNDS = "error.award.obligated.funds";
+    public static final String ERROR_AWARD_UNFINALIZED_BUDGET_EXISTS = "error.budget.unfinalized.exist";
 
     
     //Award Direc F and A Distribution

@@ -19,24 +19,31 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.versions.AddBudgetVersionEvent;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.budget.versions.BudgetVersionRule;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class AwardBudgetVersionRule extends BudgetVersionRule {
 
     BusinessObjectService businessObjectService;
     DocumentService documentService;
+    ParameterService parameterService;
     
     @Override
     public boolean processAddBudgetVersion(AddBudgetVersionEvent event) throws WorkflowException {
@@ -104,10 +111,53 @@ public class AwardBudgetVersionRule extends BudgetVersionRule {
             success &= false;
         }
         
+        success &= hasOutstandingBudgets(event, award);
+        
         
         
         
         return success;
+    }
+    
+    /**
+     * Checks for budgets that have not been posted, cancelled or rejected.
+     * @param event
+     * @param award
+     * @return false if any unfinalized budgets are found
+     * @throws WorkflowException
+     */
+    protected boolean hasOutstandingBudgets(AddBudgetVersionEvent event, Award award) throws WorkflowException {
+        boolean result = true;
+        
+        for (BudgetDocumentVersion budgetVersion : award.getAwardDocument().getBudgetDocumentVersions()) {
+            BudgetVersionOverview version = budgetVersion.getBudgetVersionOverview();
+            AwardBudgetExt awardBudget = getBusinessObjectService().findBySinglePrimaryKey(AwardBudgetExt.class, version.getBudgetId());
+            if (!(StringUtils.equals(awardBudget.getAwardBudgetStatusCode(), getPostedBudgetStatus())
+                    || StringUtils.equals(awardBudget.getAwardBudgetStatusCode(), getRejectedBudgetStatus())
+                    || StringUtils.equals(awardBudget.getAwardBudgetStatusCode(), getCancelledBudgetStatus()))) {
+                result = false;
+                GlobalVariables.getMessageMap().putError(event.getErrorPathPrefix(), 
+                        KeyConstants.ERROR_AWARD_UNFINALIZED_BUDGET_EXISTS, awardBudget.getDocumentDescription());
+            }
+        }
+        
+        return result;
+    }
+    
+    protected String getPostedBudgetStatus() {
+        return getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_POSTED);
+    }
+    
+    protected String getRejectedBudgetStatus() {
+        return getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_REJECTED);
+    }
+    
+    protected String getCancelledBudgetStatus() {
+        return Constants.BUDGET_STATUS_CODE_CANCELLED;    
+    }
+    
+    protected String getParameterValue(String awardBudgetParameter) {
+        return  getParameterService().getParameterValue(AwardBudgetDocument.class, awardBudgetParameter);
     }
     
     /**
@@ -142,5 +192,16 @@ public class AwardBudgetVersionRule extends BudgetVersionRule {
      */
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
+    }
+
+    protected ParameterService getParameterService() {
+        if (parameterService == null) {
+            parameterService = KraServiceLocator.getService(ParameterService.class);
+        }
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }
