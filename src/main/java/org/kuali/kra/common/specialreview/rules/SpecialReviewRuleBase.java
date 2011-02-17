@@ -31,6 +31,7 @@ import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
 import org.kuali.kra.common.specialreview.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewEvent;
+import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewLinkEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
@@ -89,6 +90,28 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
     }
     
     /**
+     * Runs the rules for saving the special reviews that are currently linked to a protocol.
+     *
+     * @param saveSpecialReviewLinkEvent The event invoking the save specialReview rules
+     * @return True if the specialReview is valid, false otherwise
+     */
+    protected boolean processSaveSpecialReviewLinkEvent(SaveSpecialReviewLinkEvent<T> saveSpecialReviewLinkEvent) {
+        boolean rulePassed = true;
+        
+        for (T specialReview : saveSpecialReviewLinkEvent.getSpecialReviews()) {
+            if (SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {
+                rulePassed &= validateLinkingDocument(specialReview.getProtocolNumber());
+            }
+        }
+        
+        for (String linkedProtocolNumber : saveSpecialReviewLinkEvent.getLinkedProtocolNumbers()) {
+            rulePassed &= validateLinkingDocument(linkedProtocolNumber);
+        }
+        
+        return rulePassed;
+    }
+    
+    /**
      * Runs the rules for saving specialReviews.
      * 
      * @param saveSpecialReviewEvent The event invoking the save specialReview rules
@@ -99,7 +122,6 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
         
         List<T> specialReviews = saveSpecialReviewEvent.getSpecialReviews();
         boolean validateProtocol = saveSpecialReviewEvent.getValidateProtocol();
-        boolean validateLinking = saveSpecialReviewEvent.getValidateLinking();
         
         int i = 0;
         for (T specialReview : specialReviews) {
@@ -108,9 +130,6 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
             GlobalVariables.getMessageMap().addToErrorPath(errorPath);
             if (validateProtocol && SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {
                 rulePassed &= validateProtocolNumber(specialReview, specialReviews, HUMAN_SUBJECTS_LINK_TO_IRB_ERROR_STRING);
-                if (validateLinking) {
-                    rulePassed &= validateLinkingDocument(specialReview);
-                }
             } else {
                 rulePassed &= validateSpecialReviewApprovalFields(specialReview);
                 rulePassed &= validateDateFields(specialReview);
@@ -119,6 +138,26 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
         }
         
         return rulePassed;
+    }
+    
+    /**
+     * Validates whether the Protocol Document of the given protocol number is not locked.
+     * 
+     * @param protocolNumber the protocol number
+     * @return true if the specialReview is valid, false otherwise
+     */
+    private boolean validateLinkingDocument(String protocolNumber) {
+        boolean isValid = true;
+        
+        if (StringUtils.isNotBlank(protocolNumber)) {
+            Protocol protocol = getProtocolFinderDao().findCurrentProtocolByNumber(protocolNumber);
+            if (protocol != null && !protocol.getProtocolDocument().getPessimisticLocks().isEmpty()) {
+                isValid = false;
+                reportError(PROTOCOL_NUMBER_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_PROTOCOL_LOCKED, protocolNumber);
+            }
+        }
+        
+        return isValid;
     }
     
     /**
@@ -149,26 +188,6 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
                         reportError(PROTOCOL_NUMBER_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_PROTOCOL_NUMBER_DUPLICATE);
                     }
                 }
-            }
-        }
-        
-        return isValid;
-    }
-    
-    /**
-     * Validates whether the Protocol Document to which the given linked Special Review will write is not locked.
-     * 
-     * @param specialReview The special review to validate
-     * @return true if the specialReview is valid, false otherwise
-     */
-    private boolean validateLinkingDocument(T specialReview) {
-        boolean isValid = true;
-        
-        if (StringUtils.isNotBlank(specialReview.getProtocolNumber())) {
-            Protocol protocol = getProtocolFinderDao().findCurrentProtocolByNumber(specialReview.getProtocolNumber());
-            if (protocol != null && !protocol.getProtocolDocument().getPessimisticLocks().isEmpty()) {
-                isValid = false;
-                reportError(PROTOCOL_NUMBER_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_PROTOCOL_LOCKED, specialReview.getProtocolNumber());
             }
         }
         
