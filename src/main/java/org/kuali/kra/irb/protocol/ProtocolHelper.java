@@ -311,6 +311,7 @@ public class ProtocolHelper implements Serializable {
                     source.getFundingSourceType().getFundingSourceTypeCode().toString(), source.getFundingSource(), source.getFundingSourceNumber(), 
                     source.getFundingSourceName());
             if (syncedSource != null) {
+                source.setProtocol(getProtocol());
                 source.setFundingSource(syncedSource.getFundingSource());
                 source.setFundingSourceNumber(syncedSource.getFundingSourceNumber());
                 source.setFundingSourceName(syncedSource.getFundingSourceName());
