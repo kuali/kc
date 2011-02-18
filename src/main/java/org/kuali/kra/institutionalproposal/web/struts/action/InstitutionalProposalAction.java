@@ -62,7 +62,11 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
-        new AuditActionHelper().auditConditionally((InstitutionalProposalForm)form);
+        
+        if (GlobalVariables.getAuditErrorMap().isEmpty()) {
+            new AuditActionHelper().auditConditionally((InstitutionalProposalForm) form);
+        }
+        
         return actionForward;
     }
     
