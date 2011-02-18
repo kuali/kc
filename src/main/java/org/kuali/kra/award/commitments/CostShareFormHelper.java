@@ -19,11 +19,14 @@ import java.io.Serializable;
 
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.costshare.CostShareFunctions;
+import org.kuali.kra.costshare.CostShareService;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 
 /**
  * This class supports the AwardForm class
  */
-public class CostShareFormHelper implements Serializable { 
+public class CostShareFormHelper implements Serializable, CostShareFunctions { 
     private AwardForm parent;
     
     private AwardCostShare newAwardCostShare;
@@ -73,5 +76,14 @@ public class CostShareFormHelper implements Serializable {
      */
     public Object getData() {
         return getNewAwardCostShare();
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.costshare.CostShareFunctions#getProjectPeriodLabel()
+     */
+    public String getProjectPeriodLabel() {
+        String label = KraServiceLocator.getService(CostShareService.class).getCostShareLabel();
+        return label;
     }
 }
