@@ -104,15 +104,15 @@ public class PHS398FellowshipSupplementalV1_2Generator extends
 	private static final Log LOG = LogFactory
 			.getLog(PHS398FellowshipSupplementalV1_2Generator.class);
 
-    static final int Q_STEMCELLS     = 10006;
-    static final int Q_STEMCELLIND   = 10011;
-    static final int Q_STEMCELLLINES = 10009;
-    static final int Q_HUMANSUBJ     = 1;
-    static final int Q_VERTSUBJ      = 2;
-    static final int Q_HUMANINDEF    = 10002;
-    static final int Q_VERTINDEF     = 10003;
-    static final int Q_CLINICAL      = 10004;
-    static final int Q_CLINICAL3     = 10005;
+    static final int Q_STEMCELLS     = 5;
+    static final int Q_STEMCELLIND   = 6;
+    static final int Q_STEMCELLLINES = 7;
+    static final int Q_HUMANSUBJ     = 10001;
+    static final int Q_VERTSUBJ      = 10002;
+    static final int Q_HUMANINDEF    = 1;
+    static final int Q_VERTINDEF     = 4;
+    static final int Q_CLINICAL      = 2;
+    static final int Q_CLINICAL3     = 3;
     
 	/*
 	 * This method is used to get PHSFellowshipSupplemental12 XMLObject and set
@@ -388,7 +388,16 @@ public class PHS398FellowshipSupplementalV1_2Generator extends
 					specificAims.setAttFile(attachedFileDataType);
 					researchTrainingPlan.setSpecificAims(specificAims);
 					break;
-
+                case RESEARCH_STRATEGY:
+                    attachedFileDataType = getAttachedFileType(narrative);
+                    if(attachedFileDataType == null){
+                        continue;
+                    }
+                    ResearchStrategy researchStrategy = ResearchStrategy.Factory
+                            .newInstance();
+                    researchStrategy.setAttFile(attachedFileDataType);
+                    researchTrainingPlan.setResearchStrategy(researchStrategy);
+                    break;
 				case INCLUSION_ENROLLMENT_REPORT:
 	                attachedFileDataType = getAttachedFileType(narrative);
 	                if(attachedFileDataType == null){
@@ -524,16 +533,6 @@ public class PHS398FellowshipSupplementalV1_2Generator extends
 							.setAttFile(attachedFileDataType);
 					researchTrainingPlan
 							.setResponsibleConductOfResearch(responsibleConductOfResearch);
-					break;
-				case RESEARCH_STRATEGY:
-	                attachedFileDataType = getAttachedFileType(narrative);
-	                if(attachedFileDataType == null){
-	                    continue;
-	                }
-					ResearchStrategy researchStrategy = ResearchStrategy.Factory
-							.newInstance();
-					researchStrategy.setAttFile(attachedFileDataType);
-					researchTrainingPlan.setResearchStrategy(researchStrategy);
 					break;
 				default:
 					break;
