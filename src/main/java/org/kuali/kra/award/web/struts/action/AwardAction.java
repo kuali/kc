@@ -226,7 +226,11 @@ public class AwardAction extends BudgetParentActionBase {
         }
         
         ActionForward actionForward = super.execute(mapping, form, request, response);
-        new AuditActionHelper().auditConditionally((AwardForm)form);
+        
+        if (GlobalVariables.getAuditErrorMap().isEmpty()) {
+            new AuditActionHelper().auditConditionally((AwardForm) form);
+        }
+        
         return actionForward;
     }
 
