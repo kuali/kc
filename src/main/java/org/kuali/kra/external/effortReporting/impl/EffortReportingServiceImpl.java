@@ -71,11 +71,12 @@ public class EffortReportingServiceImpl implements EffortReportingService {
 			String awardSponsorType = award.getSponsor().getSponsorTypeCode();
 			
 			//If the sponsor type or prime sponsor type is federal, then document should be routed, return true.
-			if (awardSponsorType.equals(federalSponsorTypeCode) || (ObjectUtils.isNotNull(award.getPrimeSponsor()) 
+			if ((ObjectUtils.isNotNull(awardSponsorType) && awardSponsorType.equals(federalSponsorTypeCode)) || (ObjectUtils.isNotNull(award.getPrimeSponsor()) 
 				 && award.getPrimeSponsor().getSponsorType().getSponsorTypeCode().equals(federalSponsorTypeCode))) {
 				return true;
 			} 
 		}
+		
 		return false;
 	}
 		
@@ -87,11 +88,12 @@ public class EffortReportingServiceImpl implements EffortReportingService {
 	protected Award getAward(String financialAccountNumber) {
 		List<Award> awards;
         HashMap<String, String> searchCriteria =  new HashMap<String, String>();
-        searchCriteria.put("financialAccountDocumentNumber", financialAccountNumber);  
+        searchCriteria.put("accountNumber", financialAccountNumber);  
 		awards = new ArrayList<Award>(businessObjectService.findMatching(Award.class, searchCriteria));
 		if (ObjectUtils.isNotNull(awards) && !awards.isEmpty()) {
 			return awards.get(0);
 		} else {
+		    LOG.warn("No award found for the corresponding account number.");
 			return null;
 		}	
 	}
