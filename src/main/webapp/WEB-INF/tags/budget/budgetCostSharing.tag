@@ -38,7 +38,7 @@
 		
 						<tr>
 							<th width="5%"><div align="left">&nbsp;</div></th>
-							<th width="17%"><div align="center">Project Period</div></th>
+							<th width="17%"><div align="center">${KualiForm.projectPeriodLabel}</div></th>
 							<th width="17%"><div align="center">Percentage</div></th>
 							<th width="29%"><div align="center">Source Account</div></th>
 							<th width="17%"><div align="center">Amount</div></th>					
