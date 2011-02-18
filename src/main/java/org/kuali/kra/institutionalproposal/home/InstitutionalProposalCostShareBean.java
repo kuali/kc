@@ -17,6 +17,9 @@ package org.kuali.kra.institutionalproposal.home;
 
 import java.io.Serializable;
 
+import org.kuali.kra.costshare.CostShareFunctions;
+import org.kuali.kra.costshare.CostShareService;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.rules.InstitutionalProposalAddCostShareRuleEvent;
 import org.kuali.kra.institutionalproposal.rules.InstitutionalProposalAddCostShareRuleImpl;
@@ -25,7 +28,7 @@ import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposal
 /**
  * This class...
  */
-public class InstitutionalProposalCostShareBean implements Serializable {
+public class InstitutionalProposalCostShareBean implements Serializable, CostShareFunctions {
 
 /**
      * Comment for <code>serialVersionUID</code>
@@ -109,5 +112,14 @@ public class InstitutionalProposalCostShareBean implements Serializable {
                 formBean.init();
             }
             return success;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.costshare.CostShareFunctions#getProjectPeriodLabel()
+     */
+    public String getProjectPeriodLabel() {
+        String label = KraServiceLocator.getService(CostShareService.class).getCostShareLabel();
+        return label;
     }
 }

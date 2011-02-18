@@ -38,6 +38,8 @@ import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.personnel.HierarchyPersonnelSummary;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
+import org.kuali.kra.costshare.CostShareFunctions;
+import org.kuali.kra.costshare.CostShareService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
@@ -58,7 +60,7 @@ import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
-public class BudgetForm extends BudgetVersionFormBase {
+public class BudgetForm extends BudgetVersionFormBase implements CostShareFunctions {
     
     private static final long serialVersionUID = -8853937659597422800L;
     
@@ -925,6 +927,15 @@ public class BudgetForm extends BudgetVersionFormBase {
             tabs = newTabs.toArray(new HeaderNavigation[newTabs.size()]);
         }
         return tabs;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.costshare.CostShareFunctions#getProjectPeriodLabel()
+     */
+    public String getProjectPeriodLabel() {
+        String label = KraServiceLocator.getService(CostShareService.class).getCostShareLabel();
+        return label;
     }
 
 }
