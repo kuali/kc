@@ -26,7 +26,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,12 +38,16 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.bo.FundingSourceType;
+import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.bo.SponsorFormTemplate;
 import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
+import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewLinkEvent;
+import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.common.web.struts.form.ReportHelperBean;
 import org.kuali.kra.common.web.struts.form.ReportHelperBeanContainer;
 import org.kuali.kra.infrastructure.Constants;
@@ -55,6 +58,7 @@ import org.kuali.kra.institutionalproposal.InstitutionalProposalConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
+import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
 import org.kuali.kra.kim.service.KcGroupService;
 import org.kuali.kra.printing.service.CurrentAndPendingReportService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
@@ -73,6 +77,7 @@ import org.kuali.kra.proposaldevelopment.rule.event.ProposalDataOverrideEvent;
 import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentRejectionRule;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStateService;
+import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalDevelopmentRejectionBean;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.s2s.S2SException;
@@ -84,7 +89,6 @@ import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraPersistenceStructureService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
-import org.kuali.rice.ken.util.NotificationConstants;
 import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.dto.DocumentDetailDTO;
 import org.kuali.rice.kew.dto.KeyValueDTO;
@@ -800,47 +804,50 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
         
-        /*
-         * If there is an opportunity, then this is a Grants.gov submission.  
-         */
-        if (proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity() != null) {
-            try{
-                submitS2sApplication(proposalDevelopmentDocument);
-            }catch(S2SException ex){
-                LOG.error(ex.getMessage(), ex);
-                GlobalVariables.getMessageList().add(new ErrorMessage(KeyConstants.ERROR_ON_GRANTS_GOV_SUBMISSION));
-                return mapping.findForward(Constants.MAPPING_BASIC);
+        List<ProposalSpecialReview> specialReviews = proposalDevelopmentDocument.getDevelopmentProposal().getPropSpecialReviews();
+        if (applyRules(new SaveSpecialReviewLinkEvent<ProposalSpecialReview>(proposalDevelopmentDocument, specialReviews, new ArrayList<String>()))) {
+            /*
+             * If there is an opportunity, then this is a Grants.gov submission.  
+             */
+            if (proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity() != null) {
+                try{
+                    submitS2sApplication(proposalDevelopmentDocument);
+                }catch(S2SException ex){
+                    LOG.error(ex.getMessage(), ex);
+                    GlobalVariables.getMessageList().add(new ErrorMessage(KeyConstants.ERROR_ON_GRANTS_GOV_SUBMISSION));
+                    return mapping.findForward(Constants.MAPPING_BASIC);
+                }
             }
-        }
-       
-        if (!(autogenerateInstitutionalProposal() && "X".equals(proposalDevelopmentForm.getResubmissionOption()))) {
-            proposalDevelopmentDocument.getDevelopmentProposal().setSubmitFlag(true);
-
-            ProposalStateService proposalStateService = KraServiceLocator.getService(ProposalStateService.class);
-            if (ProposalState.APPROVED.equals(proposalDevelopmentDocument.getDevelopmentProposal().getProposalStateTypeCode())) {
-                proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(ProposalState.APPROVED_AND_SUBMITTED);
+           
+            if (!(autogenerateInstitutionalProposal() && "X".equals(proposalDevelopmentForm.getResubmissionOption()))) {
+                proposalDevelopmentDocument.getDevelopmentProposal().setSubmitFlag(true);
+    
+                ProposalStateService proposalStateService = KraServiceLocator.getService(ProposalStateService.class);
+                if (ProposalState.APPROVED.equals(proposalDevelopmentDocument.getDevelopmentProposal().getProposalStateTypeCode())) {
+                    proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(ProposalState.APPROVED_AND_SUBMITTED);
+                } else {
+                    proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(
+                            proposalStateService.getProposalStateTypeCode(proposalDevelopmentDocument, false, false));
+                }
             } else {
-                proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(
-                        proposalStateService.getProposalStateTypeCode(proposalDevelopmentDocument, false, false));
+                if (proposalDevelopmentDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+                    proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(ProposalState.APPROVED);
+                } else {
+                    proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(ProposalState.APPROVAL_PENDING);                
+                }
             }
-        } else {
-            if (proposalDevelopmentDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
-                proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(ProposalState.APPROVED);
-            } else {
-                proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(ProposalState.APPROVAL_PENDING);                
+            String pCode = proposalDevelopmentDocument.getDevelopmentProposal().getProposalStateTypeCode();
+            DocumentService documentService = KNSServiceLocator.getDocumentService();
+            documentService.saveDocument(proposalDevelopmentDocument);
+            if( !StringUtils.equals(pCode, proposalDevelopmentDocument.getDevelopmentProposal().getProposalStateTypeCode() )) {
+                proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(pCode);
+                proposalDevelopmentDocument.getDevelopmentProposal().refresh();
+                KraServiceLocator.getService(BusinessObjectService.class).save(proposalDevelopmentDocument.getDevelopmentProposal());
             }
-        }
-        String pCode = proposalDevelopmentDocument.getDevelopmentProposal().getProposalStateTypeCode();
-        DocumentService documentService = KNSServiceLocator.getDocumentService();
-        documentService.saveDocument(proposalDevelopmentDocument);
-        if( !StringUtils.equals(pCode, proposalDevelopmentDocument.getDevelopmentProposal().getProposalStateTypeCode() )) {
-            proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(pCode);
-            proposalDevelopmentDocument.getDevelopmentProposal().refresh();
-            KraServiceLocator.getService(BusinessObjectService.class).save(proposalDevelopmentDocument.getDevelopmentProposal());
-        }
-
-        if (autogenerateInstitutionalProposal()) {
-            generateInstitutionalProposal(proposalDevelopmentForm);
+    
+            if (autogenerateInstitutionalProposal()) {
+                generateInstitutionalProposal(proposalDevelopmentForm);
+            }
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -870,11 +877,13 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                     proposalDevelopmentForm.getInstitutionalProposalToVersion());
             
             persistProposalAdminDetails(proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber(), getActiveProposalId(proposalDevelopmentForm.getInstitutionalProposalToVersion()));
+            persistSpecialReviewProtocolFundingSourceLink(getActiveProposalId(proposalDevelopmentForm.getInstitutionalProposalToVersion()));
         } else {
             String proposalNumber = createInstitutionalProposal(
                     proposalDevelopmentDocument.getDevelopmentProposal(), proposalDevelopmentDocument.getFinalBudgetForThisProposal());
             GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_CREATED, proposalNumber);
             persistProposalAdminDetails(proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber(), getActiveProposalId(proposalNumber));
+            persistSpecialReviewProtocolFundingSourceLink(getActiveProposalId(proposalNumber));
         }
     }
     
@@ -922,6 +931,27 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         proposalAdminDetails.setInstProposalId(instProposalId);
         BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         businessObjectService.save(proposalAdminDetails);
+    }
+    
+    private void persistSpecialReviewProtocolFundingSourceLink(Long institutionalProposalId) {
+        SpecialReviewService specialReviewService = KraServiceLocator.getService(SpecialReviewService.class);
+        
+        InstitutionalProposal institutionalProposal = getBusinessObjectService().findBySinglePrimaryKey(InstitutionalProposal.class, institutionalProposalId);
+        for (InstitutionalProposalSpecialReview specialReview : institutionalProposal.getSpecialReviews()) {
+            if (SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {                
+                String protocolNumber = specialReview.getProtocolNumber();
+                Long fundingSourceId = institutionalProposal.getProposalId();
+                String fundingSourceTypeCode = FundingSourceType.INSTITUTIONAL_PROPOSAL;
+                
+                if (!specialReviewService.isLinkedToProtocolFundingSource(protocolNumber, fundingSourceId, fundingSourceTypeCode)) {
+                    String fundingSourceNumber = institutionalProposal.getProposalNumber();
+                    String fundingSourceName = institutionalProposal.getSponsorName();
+                    String fundingSourceTitle = institutionalProposal.getTitle();
+                    specialReviewService.addProtocolFundingSourceForSpecialReview(
+                        protocolNumber, fundingSourceId, fundingSourceNumber, fundingSourceTypeCode, fundingSourceName, fundingSourceTitle);
+                }
+            }
+        }
     }
     
     /**
