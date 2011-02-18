@@ -34,7 +34,11 @@
         <table id="cost-share-table" cellpadding="0" cellspacing="0" summary="Cost Share">
 			<tr>
 				<th scope="row">&nbsp;</th>
-				<th><kul:htmlAttributeLabel attributeEntry="${institutionalProposalCostShareAttributes.projectPeriod}" useShortLabel="true" noColon="true" /></th>
+				<th>
+					* ${KualiForm.institutionalProposalCostShareBean.projectPeriodLabel }
+					<%--<kul:htmlAttributeLabel attributeEntry="${institutionalProposalCostShareAttributes.projectPeriod}" useShortLabel="true" noColon="true" />--%>
+				</th>
+				
 				<th><kul:htmlAttributeLabel attributeEntry="${institutionalProposalCostShareAttributes.costShareTypeCode}" useShortLabel="true" noColon="true" /></th>
 				<th><kul:htmlAttributeLabel attributeEntry="${institutionalProposalCostShareAttributes.costSharePercentage}" useShortLabel="true" noColon="true"/></th>
 				<th><kul:htmlAttributeLabel attributeEntry="${institutionalProposalCostShareAttributes.sourceAccount}" useShortLabel="true" noColon="true"/></th>
