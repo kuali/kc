@@ -30,7 +30,7 @@
 	<param name="kew.runmode">local</param>
 	<param name="ken.runmode">local</param>
 	
-	<param name="dev.mode">false</param>
+	<param name="dev.mode">true</param>
 
 	<param name="service.namespace">KC</param>
 	<param name="app.namespace">${service.namespace}</param>
