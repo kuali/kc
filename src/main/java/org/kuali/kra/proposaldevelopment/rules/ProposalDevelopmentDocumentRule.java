@@ -125,11 +125,12 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
 
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) document;
 
+        GlobalVariables.getErrorMap().addToErrorPath(DOCUMENT_ERROR_PATH);
+        getDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(
+            document, getMaxDictionaryValidationDepth(), VALIDATION_REQUIRED, CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME);
+        GlobalVariables.getErrorMap().removeFromErrorPath(DOCUMENT_ERROR_PATH);
+        
         GlobalVariables.getErrorMap().addToErrorPath("document.developmentProposalList[0]");
-        // KRACOEUS-641: Changed CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME to false to prevent duplicate error messages
-        final boolean VALIDATION_REQUIRED = true;
-        final boolean CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME = false;
-        getDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(document, getMaxDictionaryValidationDepth(), VALIDATION_REQUIRED, CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME);
         valid &= processProposalRequiredFieldsBusinessRule(proposalDevelopmentDocument);
         valid &= processProtocolCustomDataBusinessRules(proposalDevelopmentDocument);
         
