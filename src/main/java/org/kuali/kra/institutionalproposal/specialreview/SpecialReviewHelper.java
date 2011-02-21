@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.BooleanUtils;
+import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.common.specialreview.web.struts.form.SpecialReviewHelperBase;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
@@ -42,6 +43,18 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<InstitutionalPr
         this.form = form;
         setNewSpecialReview(new InstitutionalProposalSpecialReview());
         setLinkedProtocolNumbers(new ArrayList<String>());
+    }
+    
+    /**
+     * Synchronizes the information between this Institutional Proposal's Special Reviews and the corresponding Protocol Funding Sources.
+     */
+    public void syncProtocolFundingSourcesWithSpecialReviews() {
+        Long fundingSourceId = form.getInstitutionalProposalDocument().getInstitutionalProposal().getProposalId();
+        String fundingSourceTypeCode = FundingSourceType.INSTITUTIONAL_PROPOSAL;
+        String fundingSourceNumber = form.getInstitutionalProposalDocument().getInstitutionalProposal().getProposalNumber();
+        String fundingSourceName = form.getInstitutionalProposalDocument().getInstitutionalProposal().getSponsorName();
+        String fundingSourceTitle = form.getInstitutionalProposalDocument().getInstitutionalProposal().getTitle();
+        syncProtocolFundingSourcesWithSpecialReviews(fundingSourceId, fundingSourceTypeCode, fundingSourceNumber, fundingSourceName, fundingSourceTitle);
     }
 
     @Override

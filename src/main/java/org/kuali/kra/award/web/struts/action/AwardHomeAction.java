@@ -16,6 +16,7 @@
 package org.kuali.kra.award.web.struts.action;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,9 +35,11 @@ import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
 import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
+import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.budget.summary.BudgetSummaryService;
+import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewLinkEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KeywordsService;
@@ -250,6 +253,17 @@ public class AwardHomeAction extends AwardAction {
         if(awardDocument.getAward().getAwardNumber().endsWith("-00001") && isDirectIndirectViewEnabled()) {
             setTotalsOnAward(awardDocument.getAward());
         }
+        
+        awardForm.getSpecialReviewHelper().prepareView();
+        List<AwardSpecialReview> specialReviews = awardDocument.getAward().getSpecialReviews();
+        List<String> linkedProtocolNumbers = awardForm.getSpecialReviewHelper().getLinkedProtocolNumbers();
+        boolean isProtocolLinkingEnabled = awardForm.getSpecialReviewHelper().getIsProtocolLinkingEnabled();
+        if (isProtocolLinkingEnabled) {
+            if (applyRules(new SaveSpecialReviewLinkEvent<AwardSpecialReview>(awardDocument, specialReviews, linkedProtocolNumbers))) {
+                awardForm.getSpecialReviewHelper().syncProtocolFundingSourcesWithSpecialReviews();
+            }
+        }
+        
         ActionForward forward = super.save(mapping, form, request, response);
 //        if(GlobalVariables.getMessageMap().getErrorCount() == 0) {
 //            ((AwardForm) form).getFundingProposalBean().updateProposalStatuses();   // TODO: This save isn't in same transaction as document save
