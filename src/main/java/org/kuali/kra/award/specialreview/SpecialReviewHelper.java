@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.kuali.kra.award.AwardForm;
+import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.common.specialreview.web.struts.form.SpecialReviewHelperBase;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 
@@ -42,6 +43,18 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<AwardSpecialRev
         this.form = form;
         setNewSpecialReview(new AwardSpecialReview());
         setLinkedProtocolNumbers(new ArrayList<String>());
+    }
+    
+    /**
+     * Synchronizes the information between this Award's Special Reviews and the corresponding Protocol Funding Sources.
+     */
+    public void syncProtocolFundingSourcesWithSpecialReviews() {
+        Long fundingSourceId = form.getAwardDocument().getAward().getAwardId();
+        String fundingSourceTypeCode = FundingSourceType.AWARD;
+        String fundingSourceNumber = form.getAwardDocument().getAward().getAwardNumber();
+        String fundingSourceName = form.getAwardDocument().getAward().getSponsorName();
+        String fundingSourceTitle = form.getAwardDocument().getAward().getTitle();
+        syncProtocolFundingSourcesWithSpecialReviews(fundingSourceId, fundingSourceTypeCode, fundingSourceNumber, fundingSourceName, fundingSourceTitle);
     }
 
     @Override
