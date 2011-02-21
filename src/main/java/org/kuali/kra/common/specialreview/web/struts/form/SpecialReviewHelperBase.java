@@ -24,6 +24,7 @@ import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
+import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolFinderDao;
@@ -61,6 +62,7 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
     
     private transient ParameterService parameterService;
     private transient ProtocolFinderDao protocolFinderDao;
+    private transient SpecialReviewService specialReviewService;
     
     public T getNewSpecialReview() {
         return newSpecialReview;
@@ -158,6 +160,53 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
     }
     
     /**
+     * Synchronizes the information between the Special Reviews and the corresponding Protocol Funding Sources.
+     * 
+     * @param fundingSourceId  The id of the Institutional Proposal or Award in which the Special Review is added/saved
+     * @param fundingSourceTypeCode The type code (for either Institutional Proposal or Award) of the entity in which the Special Review is added/saved
+     * @param fundingSourceNumber The human-readable number of the Institutional Proposal or Award in which the Special Review is added/saved
+     * @param fundingSourceName The name of the Institutional Proposal or Award in which the Special Review is added/saved
+     * @param fundingSourceTitle The title of the Institutional Proposal or Award in which the Special Review is added/saved
+     */
+    protected void syncProtocolFundingSourcesWithSpecialReviews(Long fundingSourceId, String fundingSourceTypeCode, String fundingSourceNumber, 
+        String fundingSourceName, String fundingSourceTitle) {
+        
+        for (T specialReview : getSpecialReviews()) {
+            if (SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {
+                prepareProtocolLinkViewFields(specialReview);
+                
+                String protocolNumber = specialReview.getProtocolNumber();
+                if (!getSpecialReviewService().isLinkedToProtocolFundingSource(protocolNumber, fundingSourceId, fundingSourceTypeCode)) {
+                    getSpecialReviewService().addProtocolFundingSourceForSpecialReview(
+                        protocolNumber, fundingSourceId, fundingSourceNumber, fundingSourceTypeCode, fundingSourceName, fundingSourceTitle);
+                    linkedProtocolNumbers.add(protocolNumber);
+                }
+            }
+        }
+        
+        List<String> deletedLinkedProtocolNumbers = new ArrayList<String>();
+        
+        for (String linkedProtocolNumber : linkedProtocolNumbers) {
+            boolean isLinkedToSpecialReview = false;
+            for (T specialReview : getSpecialReviews()) {
+                if (SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode()) 
+                    && StringUtils.equals(specialReview.getProtocolNumber(), linkedProtocolNumber)) {
+                    isLinkedToSpecialReview = true;
+                    break;
+                }
+            }
+            
+            if (!isLinkedToSpecialReview) {
+                getSpecialReviewService().deleteProtocolFundingSourceForSpecialReview(linkedProtocolNumber, fundingSourceId, fundingSourceTypeCode);
+                deletedLinkedProtocolNumbers.add(linkedProtocolNumber);
+
+            }
+        }
+        
+        linkedProtocolNumbers.removeAll(deletedLinkedProtocolNumbers);
+    }
+    
+    /**
      * Initialize the permissions for viewing/editing the Special Review web page.
      */
     private void initializePermissions() {
@@ -206,6 +255,17 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
 
     public void setProtocolFinderDao(ProtocolFinderDao protocolFinderDao) {
         this.protocolFinderDao = protocolFinderDao;
+    }
+    
+    public SpecialReviewService getSpecialReviewService() {
+        if (specialReviewService == null) {
+            specialReviewService = KraServiceLocator.getService(SpecialReviewService.class);
+        }
+        return specialReviewService;
+    }
+
+    public void setSpecialReviewService(SpecialReviewService specialReviewService) {
+        this.specialReviewService = specialReviewService;
     }
     
 }
