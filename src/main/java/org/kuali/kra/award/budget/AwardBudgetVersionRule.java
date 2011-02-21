@@ -111,53 +111,10 @@ public class AwardBudgetVersionRule extends BudgetVersionRule {
             success &= false;
         }
         
-        success &= hasOutstandingBudgets(event, award);
-        
         
         
         
         return success;
-    }
-    
-    /**
-     * Checks for budgets that have not been posted, cancelled or rejected.
-     * @param event
-     * @param award
-     * @return false if any unfinalized budgets are found
-     * @throws WorkflowException
-     */
-    protected boolean hasOutstandingBudgets(AddBudgetVersionEvent event, Award award) throws WorkflowException {
-        boolean result = true;
-        
-        for (BudgetDocumentVersion budgetVersion : award.getAwardDocument().getBudgetDocumentVersions()) {
-            BudgetVersionOverview version = budgetVersion.getBudgetVersionOverview();
-            AwardBudgetExt awardBudget = getBusinessObjectService().findBySinglePrimaryKey(AwardBudgetExt.class, version.getBudgetId());
-            if (!(StringUtils.equals(awardBudget.getAwardBudgetStatusCode(), getPostedBudgetStatus())
-                    || StringUtils.equals(awardBudget.getAwardBudgetStatusCode(), getRejectedBudgetStatus())
-                    || StringUtils.equals(awardBudget.getAwardBudgetStatusCode(), getCancelledBudgetStatus()))) {
-                result = false;
-                GlobalVariables.getMessageMap().putError(event.getErrorPathPrefix(), 
-                        KeyConstants.ERROR_AWARD_UNFINALIZED_BUDGET_EXISTS, awardBudget.getDocumentDescription());
-            }
-        }
-        
-        return result;
-    }
-    
-    protected String getPostedBudgetStatus() {
-        return getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_POSTED);
-    }
-    
-    protected String getRejectedBudgetStatus() {
-        return getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_REJECTED);
-    }
-    
-    protected String getCancelledBudgetStatus() {
-        return Constants.BUDGET_STATUS_CODE_CANCELLED;    
-    }
-    
-    protected String getParameterValue(String awardBudgetParameter) {
-        return  getParameterService().getParameterValue(AwardBudgetDocument.class, awardBudgetParameter);
     }
     
     /**

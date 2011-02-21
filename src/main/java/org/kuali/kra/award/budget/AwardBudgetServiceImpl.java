@@ -65,6 +65,7 @@ import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.ObjectUtils;
@@ -74,6 +75,8 @@ import org.springframework.util.ObjectUtils;
  */
 public class AwardBudgetServiceImpl implements AwardBudgetService {
 
+    private final static String BUDGET_VERSION_ERROR_PREFIX = "document.parentDocument.budgetDocumentVersion";
+    
     private ParameterService parameterService;
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
@@ -242,6 +245,10 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
     public BudgetDocument<Award> getNewBudgetVersion(BudgetParentDocument parentBudgetDocument, String documentDescription)
         throws WorkflowException {
         
+        if (checkForOutstandingBudgets(parentBudgetDocument)) {
+            return null;
+        }
+        
         AwardDocument parentDocument = (AwardDocument)parentBudgetDocument;
         AwardBudgetDocument awardBudgetDocument;
         awardBudgetDocument = createNewBudgetDocument(documentDescription, parentDocument,false);
@@ -304,7 +311,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         awardBudget.setBudgetStatus(this.parameterService.getParameterValue(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_STATUS_IN_PROGRESS));
 
         boolean success = new AwardBudgetVersionRule().processAddBudgetVersion(
-                    new AddBudgetVersionEvent("document.parentDocument.budgetDocumentVersion",
+                    new AddBudgetVersionEvent(BUDGET_VERSION_ERROR_PREFIX,
                             awardBudgetDocument.getParentDocument(),awardBudget));
         if(!success)
             return null;
@@ -525,6 +532,11 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
     }
 
     public BudgetDocument<Award> copyBudgetVersion(BudgetDocument<Award> budgetDocument) throws WorkflowException {
+        
+        if (checkForOutstandingBudgets(budgetDocument.getParentDocument())) {
+            return null;
+        }
+
         return getBudgetService().copyBudgetVersion(budgetDocument);
     }
 
@@ -630,5 +642,41 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         }
         return budgetPeriods;
     }
-
+    
+    /**
+     * Checks for budgets that have not been posted, cancelled or rejected.
+     * @param event
+     * @param award
+     * @return false if any unfinalized budgets are found
+     * @throws WorkflowException
+     */
+    protected boolean checkForOutstandingBudgets(BudgetParentDocument parentDoc) throws WorkflowException {
+        boolean result = true;
+        
+        for (BudgetDocumentVersion budgetVersion : parentDoc.getBudgetDocumentVersions()) {
+            BudgetVersionOverview version = budgetVersion.getBudgetVersionOverview();
+            AwardBudgetExt awardBudget = getBusinessObjectService().findBySinglePrimaryKey(AwardBudgetExt.class, version.getBudgetId());
+            if (!(StringUtils.equals(awardBudget.getAwardBudgetStatusCode(), getPostedBudgetStatus())
+                    || StringUtils.equals(awardBudget.getAwardBudgetStatusCode(), getRejectedBudgetStatus())
+                    || StringUtils.equals(awardBudget.getAwardBudgetStatusCode(), getCancelledBudgetStatus()))) {
+                result = false;
+                GlobalVariables.getMessageMap().putError(BUDGET_VERSION_ERROR_PREFIX, 
+                        KeyConstants.ERROR_AWARD_UNFINALIZED_BUDGET_EXISTS, awardBudget.getDocumentDescription());
+            }
+        }
+        
+        return result;
+    }
+    
+    protected String getPostedBudgetStatus() {
+        return getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_POSTED);
+    }
+    
+    protected String getRejectedBudgetStatus() {
+        return getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_REJECTED);
+    }
+    
+    protected String getCancelledBudgetStatus() {
+        return Constants.BUDGET_STATUS_CODE_CANCELLED;    
+    }
 }
