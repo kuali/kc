@@ -1,0 +1,3 @@
+-- The following command must be run together with the commands in TBL_PROTOCOL --
+-- Adding it here for convenience --
+-- ALTER TABLE PROTOCOL_DOCUMENT MODIFY (DOCUMENT_NUMBER VARCHAR2(40));
