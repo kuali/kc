@@ -1,0 +1,3 @@
+-- The following command must be run together with the commands in TBL_EPS_PROPOSAL --
+-- Adding it here for convenience --
+-- ALTER TABLE EPS_PROPOSAL_DOCUMENT MODIFY (DOCUMENT_NUMBER VARCHAR2(40));
