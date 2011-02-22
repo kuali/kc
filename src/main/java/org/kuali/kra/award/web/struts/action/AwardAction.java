@@ -1185,18 +1185,28 @@ public class AwardAction extends BudgetParentActionBase {
      */
     ActionForward handleDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                                   HttpServletResponse response, AwardForm awardForm) throws Exception {
+
+        ActionForward forward = null;
+        
         String command = awardForm.getCommand();
-        ActionForward forward;
         if (KEWConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
             loadDocumentInForm(request, awardForm);
             String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
             ActionForward baseForward = mapping.findForward(Constants.MAPPING_COPY_PROPOSAL_PAGE);
             forward = new ActionForward(buildForwardStringForActionListCommand(
                     baseForward.getPath(),awardForm.getDocument().getDocumentNumber()));
+        } else if (Constants.MAPPING_AWARD_ACTIONS_PAGE.equals(command)) {
+            loadDocument(awardForm);
         } else {
-        forward = super.docHandler(mapping, form, request, response);
+            forward = super.docHandler(mapping, form, request, response);
         }
+        
         awardForm.getAwardDocument().populateCustomAttributes();
+        
+        if (Constants.MAPPING_AWARD_ACTIONS_PAGE.equals(command)) {
+            forward = awardActions(mapping, awardForm, request, response);
+        }
+        
         return forward;
     }
    
