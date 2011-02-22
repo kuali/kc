@@ -16,10 +16,13 @@
 package org.kuali.kra.award.home.fundingproposal;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.home.Award;
@@ -30,7 +33,9 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -48,10 +53,11 @@ public class AwardFundingProposalBean implements Serializable {
     private static final String FUNDING_PROPOSAL_INADEQUATE_PERMISSIONS = "error.fundingproposal.noPermission";
     private static final String FUNDING_PROPOSAL_ALREADY_ADDED= "error.fundingProposal.alreadyAdded";
     private static final String FUNDING_PROPOSAL_INVALID_STATUS= "error.fundingProposal.invalidStatus";
-    
+    private static final String FUNDING_PROPOSAL_INVALID_DEVELOPMENTPROPOSAL_STATUS = "error.fundingProposal.developmentProposal.approvalPendingSubmitted";
     private AwardForm awardForm;
     private InstitutionalProposal newFundingProposal;
     private String mergeTypeCode;
+
     
     private List<Award> allAwardsForAwardNumber;
     
@@ -270,9 +276,49 @@ public class AwardFundingProposalBean implements Serializable {
             String proposalStatus = newFundingProposal.getProposalStatus().getDescription();
             GlobalVariables.getMessageMap().putError(FUNDING_PROPOSAL_ERROR_KEY, 
                     FUNDING_PROPOSAL_INVALID_STATUS, proposalStatus);
+        }if(isInvalidAssociatedDevelopmentProposal()) {
+            valid=false;
+            GlobalVariables.getMessageMap().putError(FUNDING_PROPOSAL_ERROR_KEY, 
+                    FUNDING_PROPOSAL_INVALID_DEVELOPMENTPROPOSAL_STATUS);
         }
         return valid;
     }
+    
+    private boolean isInvalidAssociatedDevelopmentProposal() {
+        boolean isApprovePending = false;
+        Collection<DevelopmentProposal> devProposals = getDevelopmentProposals(getNewFundingProposal());
+        for (DevelopmentProposal developmentProposal : devProposals) {
+            if ("5".equals(developmentProposal.getProposalStateTypeCode())) {
+                isApprovePending = true;
+                break;
+            }
+        }
+        return isApprovePending;
+    }
+    
+    /*
+     * find any version of IP that has PD with approve pending
+     */
+    @SuppressWarnings("unchecked")
+    protected Collection<DevelopmentProposal> getDevelopmentProposals(InstitutionalProposal instProposal) {
+        //find any dev prop linked to any version of this inst prop
+        Collection<DevelopmentProposal> devProposals = new ArrayList<DevelopmentProposal>();
+        List<ProposalAdminDetails> proposalAdminDetails = (List<ProposalAdminDetails>) getBusinessObjectService().findMatchingOrderBy(ProposalAdminDetails.class, 
+                                                                getFieldValues("instProposalId", instProposal.getProposalId()), "devProposalNumber", true);
+        if(proposalAdminDetails.size() > 0) {
+            String latestDevelopmentProposalDocNumber = proposalAdminDetails.get(proposalAdminDetails.size() - 1).getDevProposalNumber();
+            DevelopmentProposal devProp = (DevelopmentProposal)getBusinessObjectService().findBySinglePrimaryKey(DevelopmentProposal.class, latestDevelopmentProposalDocNumber);
+            devProposals.add(devProp);
+        }
+        return devProposals;
+    }
+    
+    protected Map<String, Object> getFieldValues(String key, Object value){
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(key, value);
+        return fieldValues;
+    }
+    
     
     private boolean validProposalStatus() {
         

@@ -228,18 +228,24 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
     /*
      * find any version of IP that has PD with approve pending
      */
+    @SuppressWarnings("unchecked")
     protected Collection<DevelopmentProposal> getDevelopmentProposals(InstitutionalProposal instProposal) {
         //find any dev prop linked to any version of this inst prop
         Collection<DevelopmentProposal> devProposals = new ArrayList<DevelopmentProposal>();
-        Collection<InstitutionalProposal> proposalVersions = businessObjectService.findMatching(InstitutionalProposal.class, getFieldValues("proposalNumber", instProposal.getProposalNumber()));
-        for (InstitutionalProposal ip : proposalVersions) {
-            Collection<ProposalAdminDetails> proposalAdminDetails = businessObjectService.findMatching(ProposalAdminDetails.class, getFieldValues("instProposalId", ip.getProposalId()));
-            for (ProposalAdminDetails proposalAdminDetail : proposalAdminDetails) {
-                proposalAdminDetail.refreshReferenceObject("developmentProposal");
-                devProposals.add(proposalAdminDetail.getDevelopmentProposal());
-            }
+        List<ProposalAdminDetails> proposalAdminDetails = (List<ProposalAdminDetails>) businessObjectService.findMatchingOrderBy(ProposalAdminDetails.class, 
+                                                                getFieldValues("instProposalId", instProposal.getProposalId()), "devProposalNumber", true);
+        if(proposalAdminDetails.size() > 0) {
+            String latestDevelopmentProposalDocNumber = proposalAdminDetails.get(proposalAdminDetails.size() - 1).getDevProposalNumber();
+            DevelopmentProposal devProp = (DevelopmentProposal)businessObjectService.findBySinglePrimaryKey(DevelopmentProposal.class, latestDevelopmentProposalDocNumber);
+            devProposals.add(devProp);
         }
         return devProposals;
+    }
+    
+    private String getDevelopmentProposalDocumentNumberFromDescription(String proposalDescription) {
+        String[] splitProposalDescription = proposalDescription.split(" ");
+        String returnVal = splitProposalDescription[splitProposalDescription.length - 1];
+        return returnVal;
     }
 
     protected Map<String, Object> getFieldValues(String key, Object value){
