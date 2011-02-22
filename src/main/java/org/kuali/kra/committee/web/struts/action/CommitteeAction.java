@@ -201,22 +201,30 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
         String command = committeeForm.getCommand();
         
         if (KEWConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
-             String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
-             Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
-             committeeForm.setDocument(retrievedDocument);
-             request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);
-             forward = mapping.findForward(Constants.MAPPING_BASIC);
-             forward = new ActionForward(forward.getPath()+ "?" + KNSConstants.PARAMETER_DOC_ID + "=" + docIdRequestParameter);  
-        } 
-        else {
-             forward = super.docHandler(mapping, form, request, response);
+            String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
+            Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
+            committeeForm.setDocument(retrievedDocument);
+            request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);
+            forward = mapping.findForward(Constants.MAPPING_BASIC);
+            forward = new ActionForward(forward.getPath()+ "?" + KNSConstants.PARAMETER_DOC_ID + "=" + docIdRequestParameter);  
+        } else if ("committeeActions".equals(command)) {
+            String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
+            Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
+            committeeForm.setDocument(retrievedDocument);
+            loadDocument(committeeForm);
+            request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);
+        } else {
+            forward = super.docHandler(mapping, form, request, response);
         }
 
         if (KEWConstants.INITIATE_COMMAND.equals(committeeForm.getCommand())) {
             committeeForm.getCommitteeDocument().initialize();
-        } 
-        else {
+        } else {
             committeeForm.initialize();
+        }
+        
+        if ("committeeActions".equals(command)) {
+            forward = committeeActions(mapping, committeeForm, request, response);
         }
         
         return forward;
@@ -306,7 +314,7 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
         ActionForward forward = super.route(mapping, form, request, response);
         
         Long routeHeaderId = Long.parseLong(((CommitteeForm) form).getCommitteeDocument().getDocumentNumber());
-        String returnLocation = buildActionUrl(routeHeaderId, "docHandler", "CommitteeDocument");
+        String returnLocation = buildActionUrl(routeHeaderId, "committeeActions", "CommitteeDocument");
         
         //ActionForward basicForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
@@ -318,7 +326,7 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
             HttpServletResponse response) throws Exception {
         ActionForward forward = super.blanketApprove(mapping, form, request, response);
         Long routeHeaderId = Long.parseLong(((CommitteeForm) form).getCommitteeDocument().getDocumentNumber());
-        String returnLocation = buildActionUrl(routeHeaderId, "docHandler", "CommitteeDocument");
+        String returnLocation = buildActionUrl(routeHeaderId, "committeeActions", "CommitteeDocument");
         
         //ActionForward basicForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
