@@ -118,14 +118,21 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             loadDocumentInForm(request, proposalDevelopmentForm);
             forward = mapping.findForward(Constants.MAPPING_COPY_PROPOSAL_PAGE);
             forward = new ActionForward(forward.getPath()+ "?" + KNSConstants.PARAMETER_DOC_ID + "=" + request.getParameter(KNSConstants.PARAMETER_DOC_ID));  
+        } else if (Constants.MAPPING_PROPOSAL_ACTIONS.equals(command)) {
+            loadDocument(proposalDevelopmentForm);
+            forward = actions(mapping, proposalDevelopmentForm, request, response);
         } else {
-             forward = super.docHandler(mapping, form, request, response);
+            forward = super.docHandler(mapping, form, request, response);
         }
 
         if (KEWConstants.INITIATE_COMMAND.equals(proposalDevelopmentForm.getCommand())) {
             proposalDevelopmentForm.getDocument().initialize();
-        }else{
+        } else {
             proposalDevelopmentForm.initialize();
+        }
+        
+        if (Constants.MAPPING_PROPOSAL_ACTIONS.equals(command)) {
+            forward = actions(mapping, proposalDevelopmentForm, request, response);
         }
         
         return forward;

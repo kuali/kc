@@ -300,8 +300,10 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
      */
     protected String buildActionUrl(Long routeHeaderId, String actionTabName, String documentTypeName) {
         String returnLocation = buildForwardUrl(routeHeaderId);
-        returnLocation = returnLocation.replaceFirst("docHandler", actionTabName);
-        return returnLocation + "&" + KNSConstants.DOCUMENT_TYPE_NAME + "=" + documentTypeName;
+        returnLocation = returnLocation.replaceFirst(NotificationConstants.NOTIFICATION_DETAIL_VIEWS.DOC_SEARCH_VIEW, actionTabName);
+        returnLocation += "&" + KNSConstants.DOCUMENT_TYPE_NAME + "=" + documentTypeName;
+        returnLocation += "&" + "viewDocument=false";
+        return returnLocation;
     }
 
     /**
