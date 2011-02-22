@@ -647,11 +647,11 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
      * Checks for budgets that have not been posted, cancelled or rejected.
      * @param event
      * @param award
-     * @return false if any unfinalized budgets are found
+     * @return true if any unfinalized budgets are found
      * @throws WorkflowException
      */
     protected boolean checkForOutstandingBudgets(BudgetParentDocument parentDoc) throws WorkflowException {
-        boolean result = true;
+        boolean result = false;
         
         for (BudgetDocumentVersion budgetVersion : parentDoc.getBudgetDocumentVersions()) {
             BudgetVersionOverview version = budgetVersion.getBudgetVersionOverview();
@@ -659,7 +659,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
             if (!(StringUtils.equals(awardBudget.getAwardBudgetStatusCode(), getPostedBudgetStatus())
                     || StringUtils.equals(awardBudget.getAwardBudgetStatusCode(), getRejectedBudgetStatus())
                     || StringUtils.equals(awardBudget.getAwardBudgetStatusCode(), getCancelledBudgetStatus()))) {
-                result = false;
+                result = true;
                 GlobalVariables.getMessageMap().putError(BUDGET_VERSION_ERROR_PREFIX, 
                         KeyConstants.ERROR_AWARD_UNFINALIZED_BUDGET_EXISTS, awardBudget.getDocumentDescription());
             }
