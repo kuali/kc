@@ -152,8 +152,10 @@
 	                	<div align="center">
 	                  	<kul:htmlControlAttribute property="newBudgetLineItems[${catCodes}].lineItemCost" attributeEntry="${lineItemCostAttribute.lineItemCost}" styleClass="amount" /> 
 	                	</div>
-					</td>		
-	                <td valign="middle" class="darkInfoline">&nbsp;</td>                	
+					</td>
+					<c:if test="${!proposalBudgetFlag}">		
+	                   <td valign="middle" class="darkInfoline">&nbsp;</td>
+                    </c:if>               	
 					<td class="darkInfoline">
 						<c:if test="${!readOnly}" >
 						<div align="center">
