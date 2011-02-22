@@ -306,15 +306,31 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
      */
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-        ActionForward forward = super.docHandler(mapping, form, request, response);
+        throws Exception {
+        
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
         InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) institutionalProposalForm.getDocument();
+        
+        ActionForward forward = null;
+        
+        String command = institutionalProposalForm.getCommand();
+        if (Constants.MAPPING_INSTITUTIONAL_PROPOSAL_ACTIONS_PAGE.equals(command)) {
+            loadDocument(institutionalProposalForm);
+            forward = institutionalProposalActions(mapping, form, request, response);
+        } else {
+            forward = super.docHandler(mapping, form, request, response);
+        }
+
         if (!(request.getParameter("docOpenedFromIPSearch") == null)) {
             if (request.getParameter("docOpenedFromIPSearch").equals("true")) {
                 institutionalProposalDocument.setDocOpenedFromIPSearch(true);
             }
-     }
+        }
+        
+        if (Constants.MAPPING_INSTITUTIONAL_PROPOSAL_ACTIONS_PAGE.equals(command)) {
+            forward = institutionalProposalActions(mapping, form, request, response);
+        }
+        
         return forward;
     }
 

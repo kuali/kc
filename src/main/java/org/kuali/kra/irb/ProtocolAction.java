@@ -348,20 +348,30 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         String command = protocolForm.getCommand();
 
         if (KEWConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
-             String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
-             Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
-             protocolForm.setDocument(retrievedDocument);
-             request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);
-             forward = mapping.findForward(Constants.MAPPING_COPY_PROPOSAL_PAGE);
-             forward = new ActionForward(forward.getPath()+ "?" + KNSConstants.PARAMETER_DOC_ID + "=" + docIdRequestParameter);  
+            String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
+            Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
+            protocolForm.setDocument(retrievedDocument);
+            request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);
+            forward = mapping.findForward(Constants.MAPPING_COPY_PROPOSAL_PAGE);
+            forward = new ActionForward(forward.getPath()+ "?" + KNSConstants.PARAMETER_DOC_ID + "=" + docIdRequestParameter);  
+        } else if (Constants.MAPPING_PROTOCOL_ACTIONS.equals(command)) {
+            String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
+            Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
+            protocolForm.setDocument(retrievedDocument);
+            request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);
+            loadDocument(protocolForm);
         } else {
-             forward = super.docHandler(mapping, form, request, response);
+            forward = super.docHandler(mapping, form, request, response);
         }
 
         if (KEWConstants.INITIATE_COMMAND.equals(protocolForm.getCommand())) {
             protocolForm.getDocument().initialize();
-        }else{
+        } else {
             protocolForm.initialize();
+        }
+        
+        if (Constants.MAPPING_PROTOCOL_ACTIONS.equals(command)) {
+            forward = protocolActions(mapping, protocolForm, request, response);
         }
         
         return forward;
