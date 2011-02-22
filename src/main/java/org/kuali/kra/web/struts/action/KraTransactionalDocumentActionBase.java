@@ -51,6 +51,7 @@ import org.apache.struts.action.ActionRedirect;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.authorization.Task;
+import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
@@ -59,7 +60,10 @@ import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
+import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.ResearchDocumentService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.service.impl.KraDocumentServiceImpl;
@@ -87,7 +91,6 @@ import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.MessageList;
 import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.RiceKeyConstants;
-import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
@@ -721,9 +724,13 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
             forward = super.route(mapping, form, request, response);            
         }
         
-        ActionForward basicForward = mapping.findForward(Constants.MAPPING_BASIC);
-        if (StringUtils.equals(forward.getPath(), basicForward.getPath())) {
-            forward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        // Only forward to Portal if it will eventually go to the holding page
+        if (form instanceof ProposalDevelopmentForm || form instanceof InstitutionalProposalForm || form instanceof AwardForm 
+            || form instanceof ProtocolForm || form instanceof CommitteeForm) {
+            ActionForward basicForward = mapping.findForward(Constants.MAPPING_BASIC);
+            if (StringUtils.equals(forward.getPath(), basicForward.getPath())) {
+                forward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+            }
         }
         
         return forward;
