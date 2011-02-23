@@ -23,9 +23,18 @@ import org.kuali.rice.kns.rule.BusinessRule;
 public interface InstitutionalProposalAddCostShareRule extends BusinessRule {
 
     /**
-     * This method...
+     * This method checks the Cost Share fields for validity.  Used for adding
      * @param institutionalProposalAddCostShareRuleEvent
-     * @return
+     * @return true if valid, false otherwise
      */
     boolean processAddInstitutionalProposalCostShareBusinessRules(InstitutionalProposalAddCostShareRuleEvent institutionalProposalAddCostShareRuleEvent);
+    
+    /**
+     * 
+     * This method checks the Cost Share fields for validity. Used for saving the form.
+     * @param institutionalProposalAddCostShareRuleEvent
+     * @param i The collection index to be processed
+     * @return true if valid, false otherwise
+     */
+    boolean processInstitutionalProposalCostShareBusinessRules(InstitutionalProposalAddCostShareRuleEvent institutionalProposalAddCostShareRuleEvent, int i);
 }

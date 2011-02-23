@@ -107,7 +107,7 @@ public class AwardCostShareRuleImpl extends ResearchDocumentRuleBase implements 
     * @param AwardCostShare, ErrorMap
     * @return Boolean
     */
-    public boolean validateCostShareFiscalYearRange(AwardCostShare awardCostShare){
+    public boolean validateCostShareFiscalYearRange(AwardCostShare awardCostShare) {
         boolean valid = true;
         String projectPeriodField = fieldStarter + ".projectPeriod";
         if (awardCostShare.getProjectPeriod() != null) {
@@ -128,7 +128,7 @@ public class AwardCostShareRuleImpl extends ResearchDocumentRuleBase implements 
         return valid;
     }
     
-    private String getProjectPeriodLabel(){
+    private String getProjectPeriodLabel() {
         String label = KraServiceLocator.getService(CostShareService.class).getCostShareLabel();
         return label;
     }

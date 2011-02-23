@@ -34,6 +34,7 @@ import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCusto
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalSaveCustomDataRuleEvent;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceKeyword;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
 import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
@@ -89,6 +90,7 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
         retval &= processInstitutionalProposalPersonUnitCreditSplitBusinessRules(document);
         retval &= processKeywordBusinessRule(document);
         retval &= processAccountIdBusinessRule(document);
+        retval &= processCostShareRules(document);
         return retval;
     }    
     
@@ -291,7 +293,21 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
         boolean retVal = false;
         retVal = event.getRule().processRules(event);
         return retVal;
-    }    
+    }   
+    
+    private boolean processCostShareRules(Document document) {
+        boolean valid = true;
+        InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
+        String errorPath = "institutionalProposal";
+        int i = 0;
+        List<InstitutionalProposalCostShare> costShares = institutionalProposalDocument.getInstitutionalProposal().getInstitutionalProposalCostShares();
+        for (InstitutionalProposalCostShare costShare : costShares) {
+            InstitutionalProposalAddCostShareRuleEvent event = new InstitutionalProposalAddCostShareRuleEvent(errorPath, institutionalProposalDocument, costShare);
+            valid &= new InstitutionalProposalAddCostShareRuleImpl().processInstitutionalProposalCostShareBusinessRules(event, i);
+            i++;
+        }
+        return valid;
+    }
     
 
 }
