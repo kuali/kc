@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kra.bo.CostShareType;
+import org.kuali.kra.costshare.CostShareService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -32,14 +33,16 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class AwardCostShareRuleImpl extends ResearchDocumentRuleBase implements AwardCostShareRule {
 
     
-    private static final String NEW_AWARD_COST_SHARE = "newAwardCostShare";
-    AwardCostShare awardCostShare;
+    //private static final String NEW_AWARD_COST_SHARE = "costShareFormHelper.newAwardCostShare";
+    private AwardCostShare awardCostShare;
+    private String fieldStarter = "";
     
     /**
      * @see org.kuali.kra.award.commitments.AwardCostShareRule#processCostShareBusinessRules
      * (org.kuali.kra.award.commitments.AwardCostShareRuleEvent)
      */
     public boolean processCostShareBusinessRules(AwardCostShareRuleEvent awardCostShareRuleEvent, int i) {
+        this.fieldStarter = "document.awardList[0].awardCostShares[" + i + "]";
         this.awardCostShare = awardCostShareRuleEvent.getCostShareForValidation();
         return processCommonValidations(awardCostShare);
     }
@@ -51,7 +54,7 @@ public class AwardCostShareRuleImpl extends ResearchDocumentRuleBase implements 
      */
     public boolean processAddCostShareBusinessRules(AwardCostShareRuleEvent awardCostShareRuleEvent) {
         this.awardCostShare = awardCostShareRuleEvent.getCostShareForValidation();
-        
+        this.fieldStarter = "costShareFormHelper.newAwardCostShare";
         boolean isValid = processCommonValidations(awardCostShare);
         
         // test if percentage is valid
@@ -89,11 +92,10 @@ public class AwardCostShareRuleImpl extends ResearchDocumentRuleBase implements 
     */
     public boolean validateCostShareSourceAndDestinationForEquality(AwardCostShare awardCostShare){
         boolean valid = true;
-        if(awardCostShare.getSource() != null && awardCostShare.getDestination() != null){
-            if(awardCostShare.getSource().equals(awardCostShare.getDestination())) {
+        if (awardCostShare.getSource() != null && awardCostShare.getDestination() != null) {
+            if (awardCostShare.getSource().equals(awardCostShare.getDestination())) {
                 valid = false;
-                reportError(NEW_AWARD_COST_SHARE+".source", 
-                        KeyConstants.ERROR_SOURCE_DESTINATION);
+                reportError(fieldStarter + ".source", KeyConstants.ERROR_SOURCE_DESTINATION);
             }
         }
         return valid;
@@ -107,50 +109,54 @@ public class AwardCostShareRuleImpl extends ResearchDocumentRuleBase implements 
     */
     public boolean validateCostShareFiscalYearRange(AwardCostShare awardCostShare){
         boolean valid = true;
+        String projectPeriodField = fieldStarter + ".projectPeriod";
+        
+        System.err.println("projectPeriodField: " + projectPeriodField);
         if (awardCostShare.getProjectPeriod() != null) {
             try {
                 int fiscalYear = Integer.parseInt(awardCostShare.getProjectPeriod());
-                if(fiscalYear < Constants.MIN_FISCAL_YEAR || fiscalYear > Constants.MAX_FISCAL_YEAR) {
+                if (fiscalYear < Constants.MIN_FISCAL_YEAR || fiscalYear > Constants.MAX_FISCAL_YEAR) {
                     valid = false;
-                    reportError(NEW_AWARD_COST_SHARE+".fiscalYear", 
-                            KeyConstants.ERROR_FISCAL_YEAR_RANGE);
+                    reportError(projectPeriodField, KeyConstants.ERROR_FISCAL_YEAR_RANGE, getProjectPeriodLabel());
                 }
             } catch (NumberFormatException e) {
                 valid = false;
-                reportError(NEW_AWARD_COST_SHARE+".fiscalYear", 
-                        KeyConstants.ERROR_FISCAL_YEAR_INCORRECT_FORMAT);
+                reportError(projectPeriodField, KeyConstants.ERROR_FISCAL_YEAR_INCORRECT_FORMAT, getProjectPeriodLabel());
             }
-        }
-        else {
+        } else {
             valid = false;
-            reportError(NEW_AWARD_COST_SHARE+".fiscalYear", 
-                    KeyConstants.ERROR_FISCAL_YEAR_REQUIRED);
+            reportError(projectPeriodField, KeyConstants.ERROR_FISCAL_YEAR_REQUIRED, getProjectPeriodLabel());
         }
         return valid;
+    }
+    
+    private String getProjectPeriodLabel(){
+        String label = KraServiceLocator.getService(CostShareService.class).getCostShareLabel();
+        return label;
     }
 
     private boolean validatePercentage(KualiDecimal percentage) {
         boolean isValid = true;
-        if (percentage!=null && percentage.isLessThan(new KualiDecimal(0))) {
+        if (percentage != null && percentage.isLessThan(new KualiDecimal(0))) {
             isValid = false;
-            this.reportError(Constants.COST_SHARE_ADD_ACTION_PROPERTY_KEY + ".costSharePercentage", KeyConstants.ERROR_COST_SHARE_PERCENTAGE_RANGE);
+            this.reportError(fieldStarter + ".costSharePercentage", KeyConstants.ERROR_COST_SHARE_PERCENTAGE_RANGE);
         }
         return isValid;
     }
     
     private boolean validateCostShareType(Integer costShareTypeCode) {
         boolean isValid = true;
+        String costShareTypeCodeField = fieldStarter + ".costShareTypeCode";
         if (costShareTypeCode == null) {
             isValid = false;
-            this.reportError(Constants.COST_SHARE_ADD_ACTION_PROPERTY_KEY + ".costShareTypeCode", KeyConstants.ERROR_COST_SHARE_TYPE_REQUIRED);
-        }
-        else {
+            this.reportError(costShareTypeCodeField, KeyConstants.ERROR_COST_SHARE_TYPE_REQUIRED);
+        } else {
             BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
             Map<String,Integer> fieldValues = new HashMap<String,Integer>();
             fieldValues.put("costShareTypeCode", costShareTypeCode);
             if (businessObjectService.countMatching(CostShareType.class, fieldValues) != 1) {
                 isValid = false;
-                this.reportError(Constants.COST_SHARE_ADD_ACTION_PROPERTY_KEY + ".costShareTypeCode", KeyConstants.ERROR_COST_SHARE_TYPE_INVALID, new String[] { costShareTypeCode.toString() });
+                this.reportError(costShareTypeCodeField, KeyConstants.ERROR_COST_SHARE_TYPE_INVALID, new String[] { costShareTypeCode.toString() });
             }
         }
         return isValid;
@@ -158,22 +164,22 @@ public class AwardCostShareRuleImpl extends ResearchDocumentRuleBase implements 
 
     private boolean validateCommitmentAmount(KualiDecimal commitmentAmount) {
         boolean isValid = true;
+        String commitmentAmountField = fieldStarter + ".commitmentAmount";
         if (commitmentAmount == null) {
             isValid = false;
-            this.reportError(Constants.COST_SHARE_ADD_ACTION_PROPERTY_KEY + ".commitmentAmount", KeyConstants.ERROR_COST_SHARE_COMMITMENT_AMOUNT_REQUIRED);
-        }
-        else if (commitmentAmount.isLessThan(new KualiDecimal(0))) {
+            this.reportError(commitmentAmountField, KeyConstants.ERROR_COST_SHARE_COMMITMENT_AMOUNT_REQUIRED);
+        } else if (commitmentAmount.isLessThan(new KualiDecimal(0))) {
             isValid = false;
-            this.reportError(Constants.COST_SHARE_ADD_ACTION_PROPERTY_KEY + ".commitmentAmount", KeyConstants.ERROR_COST_SHARE_COMMITMENT_AMOUNT_INVALID, new String[] { commitmentAmount.toString() });
+            this.reportError(commitmentAmountField, KeyConstants.ERROR_COST_SHARE_COMMITMENT_AMOUNT_INVALID, new String[] { commitmentAmount.toString() });
         }
         return isValid;
     }
 
     private boolean validateCostShareMet(KualiDecimal costShareMet) {
         boolean isValid = true;
-        if (costShareMet!=null && costShareMet.isLessThan(new KualiDecimal(0))) {
+        if (costShareMet != null && costShareMet.isLessThan(new KualiDecimal(0))) {
             isValid = false;
-            this.reportError(Constants.COST_SHARE_ADD_ACTION_PROPERTY_KEY + ".costShareMet", KeyConstants.ERROR_COST_SHARE_MET_INVALID, new String[] { costShareMet.toString() });
+            this.reportError(fieldStarter + ".costShareMet", KeyConstants.ERROR_COST_SHARE_MET_INVALID, new String[] { costShareMet.toString() });
         }
         return isValid;
     }
