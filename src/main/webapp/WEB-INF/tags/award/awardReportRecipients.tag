@@ -80,7 +80,7 @@
 	        </td>	        
 	        <td width="5%" valign="middle">
 	        <div align="center">
-	            <kul:htmlControlAttribute property="document.awardList[0].awardReportTermItems[${index}].awardReportTermRecipients[${status.index}].rolodexId" attributeEntry="${awardReportTermRecipientAttributes.rolodexId}" />
+	            <input type="hidden" name="document.awardList[0].awardReportTermItems[${index}].awardReportTermRecipients[${status.index}].rolodexId" value="${KualiForm.document.awardList[0].awardReportTermItems[index].awardReportTermRecipients[status.index].rolodexId}"/>
 	        	<c:choose><c:when test="${not empty KualiForm.document.awardList[0].awardReportTermItems[index].awardReportTermRecipients[status.index].rolodex.fullName}">
 	        	  <c:out value="${KualiForm.document.awardList[0].awardReportTermItems[index].awardReportTermRecipients[status.index].rolodex.fullName}"/>
 	        	</c:when><c:otherwise>
