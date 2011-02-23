@@ -570,7 +570,9 @@
 									<fo:inline color="#FFFFFF">&#160;</fo:inline>
 								</xsl:when>
 								<xsl:otherwise>
+								<xsl:if test="//RR_KeyPersonExpanded:AdditionalProfilesAttached/RR_KeyPersonExpanded:AdditionalProfileAttached">
 									<xsl:value-of select="//RR_KeyPersonExpanded:SupportsAttached/RR_KeyPersonExpanded:SupportAttached/att:FileName"/>
+								</xsl:if>
 								</xsl:otherwise>
 							</xsl:choose>
 						</fo:block>
@@ -582,7 +584,9 @@
 									<fo:inline color="#FFFFFF">&#160;</fo:inline>
 								</xsl:when>
 								<xsl:otherwise>
+								<xsl:if test="//RR_KeyPersonExpanded:AdditionalProfilesAttached/RR_KeyPersonExpanded:AdditionalProfileAttached">
 									<xsl:value-of select="//RR_KeyPersonExpanded:SupportsAttached/RR_KeyPersonExpanded:SupportAttached/att:MimeType"/>
+								</xsl:if>
 								</xsl:otherwise>
 							</xsl:choose>
 						</fo:block>
@@ -616,18 +620,50 @@
 						<fo:block background-color="transparent" color="#000000" font-size="8pt" font-style="normal" font-family="Helvetica" font-weight="bold"> Sketch(es) (Senior/Key Person)</fo:block>
 					</fo:block-container>
 					<fo:block-container background-color="transparent" border-style="none" position="absolute" left="138.66666666666669px" hyphenate="true" language="en" keep-together="always" top="586.6666666666667px" height="13.333333333333334px" width="185.63636363636365px">
+					<xsl:choose>
+					<xsl:when test="//RR_KeyPersonExpanded:AdditionalProfilesAttached/RR_KeyPersonExpanded:AdditionalProfileAttached">
 						<fo:block background-color="transparent" color="#000000" font-size="8pt" font-style="normal" font-family="Helvetica" font-weight="bold">Filename</fo:block>
+					</xsl:when>
+					<xsl:otherwise>
+						<fo:block background-color="transparent">&#160;</fo:block>
+					</xsl:otherwise>
+					</xsl:choose>
 					</fo:block-container>
 					<fo:block-container background-color="transparent" border-style="none" position="absolute" left="138.66666666666669px" hyphenate="true" language="en" keep-together="always" top="616.6666666666667px" height="13.333333333333334px" width="185.63636363636365px">
+					<xsl:choose>
+					<xsl:when test="//RR_KeyPersonExpanded:AdditionalProfilesAttached/RR_KeyPersonExpanded:AdditionalProfileAttached">
 						<fo:block background-color="transparent" color="#000000" font-size="8pt" font-style="normal" font-family="Helvetica" font-weight="bold">MimeType</fo:block>
+					</xsl:when>
+					<xsl:otherwise>
+						<fo:block background-color="transparent">&#160;</fo:block>
+					</xsl:otherwise>
+					</xsl:choose>
 					</fo:block-container>
 					<!--Block below is for the label named LABEL32-->
+									
 					<fo:block-container background-color="transparent" border-style="none" position="absolute" left="4.242424242424242px" hyphenate="true" language="en" keep-together="always" top="601.39393939393943px" height="13.333333333333334px" width="212.72727272727275px">
-						<fo:block background-color="transparent" color="#000000" font-size="8pt" font-style="normal" font-family="Helvetica" font-weight="bold">Additional Current and</fo:block>
+					<xsl:choose>
+						<xsl:when test="//RR_KeyPersonExpanded:AdditionalProfilesAttached/RR_KeyPersonExpanded:AdditionalProfileAttached">
+							<fo:block background-color="transparent" color="#000000" font-size="8pt" font-style="normal" font-family="Helvetica" font-weight="bold">Additional Current and</fo:block>
+						</xsl:when>
+						<xsl:otherwise>
+							<fo:block background-color="transparent">&#160;</fo:block>
+						</xsl:otherwise>
+					</xsl:choose>
 					</fo:block-container>
 					<fo:block-container background-color="transparent" border-style="none" position="absolute" left="4.242424242424242px" hyphenate="true" language="en" keep-together="always" top="611.39393939393943px" height="13.333333333333334px" width="212.72727272727275px">
-						<fo:block background-color="transparent" color="#000000" font-size="8pt" font-style="normal" font-family="Helvetica" font-weight="bold">Pending Support(s)</fo:block>
+					<xsl:choose>
+						<xsl:when test="//RR_KeyPersonExpanded:AdditionalProfilesAttached/RR_KeyPersonExpanded:AdditionalProfileAttached">
+							<fo:block background-color="transparent" color="#000000" font-size="8pt" font-style="normal" font-family="Helvetica" font-weight="bold">Pending Support(s)</fo:block>
+						</xsl:when>
+						<xsl:otherwise>
+							<fo:block background-color="transparent">&#160;</fo:block>
+						</xsl:otherwise>
+					</xsl:choose>
 					</fo:block-container>
+					
+					
+					
 					<!--Block below is for the label named LabelAtt01-->
 					<fo:block-container background-color="transparent" border-style="none" position="absolute" left="21.212121212121215px" hyphenate="true" language="en" keep-together="always" top="350.90909090909093px" height="13.333333333333334px" width="115.15151515151516px">
 						<fo:block background-color="transparent" color="#000000" font-size="8pt" font-style="normal" font-family="Helvetica" font-weight="normal">1) Please attach Attachment 1</fo:block>

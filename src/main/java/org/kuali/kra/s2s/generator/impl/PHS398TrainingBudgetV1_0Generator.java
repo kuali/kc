@@ -553,22 +553,6 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
         BigDecimal otherFullStipends = BigDecimal.ZERO;
         BigDecimal otherShortStipends = BigDecimal.ZERO;
         
-        /*
-         * 
-         *     IF (ai_period = 1) then
-        ls_parent := '(2,5,8,11,53,54,56)';
-    elsif (ai_period = 2) then
-        ls_parent := '(59,60,63,66,108,109,111)';
-    elsif (ai_period = 3) then
-        ls_parent := '(114,115,118,121,164,165,167)';
-    elsif (ai_period = 4) then
-        ls_parent := '(170,171,174,177,219,220,222)';
-    elsif (ai_period = 5) then
-         ls_parent := '(225,226,229,232,274,275,277)';
-
-         * 
-         */
-        
         BigDecimal cumOtherStipends = trainingBudgetType.getCumulativeOtherStipendsRequested();
         List<AnswerHeader> answerHeaders = findQuestionnaireWithAnswers(developmentProposal,budgetPeriod.getBudgetPeriod());
         if(answerHeaders!=null)

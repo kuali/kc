@@ -75,12 +75,13 @@ public class RRKeyPersonExpandedV1_1Generator extends
 					attachedFileDataType = getAttachedFileType(narrative);
 					if (attachedFileDataType != null) {
 						bioSketchAttached.setBioSketchAttached(attachedFileDataType);
+						rrKeyPersonExpanded.setBioSketchsAttached(bioSketchAttached);
 						break;
 					}
 				}
 			}
 		}
-        rrKeyPersonExpanded.setBioSketchsAttached(bioSketchAttached);
+        
 		for (Narrative narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
 			if (narrative.getNarrativeTypeCode() != null) {
