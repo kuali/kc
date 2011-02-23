@@ -121,7 +121,7 @@ public class AwardFandaRateRule  extends ResearchDocumentRuleBase implements Add
         }else if(awardFandaRate.getFiscalYear().length()!=FISCAL_YEAR_LENGTH){
             rulePassed = false;
             reportError(propertyPrefix+FISCAL_YEAR_STRING
-                    , KeyConstants.ERROR_FISCAL_YEAR_INCORRECT_FORMAT);
+                    , KeyConstants.ERROR_FISCAL_YEAR_INCORRECT_FORMAT, "Fiscal Year");
         }else{
             try{
                 Integer.parseInt(awardFandaRate.getFiscalYear());
