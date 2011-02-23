@@ -62,7 +62,7 @@ public class AwardReportTermRecipient extends KraPersistableBusinessObjectBase i
      * Constructs a AwardReportTerm.java.
      */
     public AwardReportTermRecipient() { 
-
+        numberOfCopies = 1;
     } 
     
     /**
