@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CostShareType;
+import org.kuali.kra.costshare.CostShareService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -34,15 +35,32 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class InstitutionalProposalAddCostShareRuleImpl extends ResearchDocumentRuleBase implements
         InstitutionalProposalAddCostShareRule {
 
-    private static final String NEW_PROPOSAL_COST_SHARE = Constants.IP_COST_SHARE_ADD_ACTION_PROPERTY_KEY;
-    InstitutionalProposalCostShare institutionalProposalCostShare;
-
+    //private static final String NEW_PROPOSAL_COST_SHARE = Constants.IP_COST_SHARE_ADD_ACTION_PROPERTY_KEY;
+    private InstitutionalProposalCostShare institutionalProposalCostShare;
+    private String fieldStarter = "";
+    private boolean displayNullFieldErrors = true;
+    
     /**
-     * This method checks the Cost Share fields for validity.
-     * @param awardCostShareRuleEvent
-     * @return true if valid, false otherwise
+     * 
+     * @see org.kuali.kra.institutionalproposal.rules.InstitutionalProposalAddCostShareRule#processAddInstitutionalProposalCostShareBusinessRules(org.kuali.kra.institutionalproposal.rules.InstitutionalProposalAddCostShareRuleEvent)
      */
     public boolean processAddInstitutionalProposalCostShareBusinessRules(InstitutionalProposalAddCostShareRuleEvent institutionalProposalAddCostShareRuleEvent) {
+        this.fieldStarter = "institutionalProposalCostShareBean.newInstitutionalProposalCostShare";
+        this.displayNullFieldErrors = true;
+        return proccessRules(institutionalProposalAddCostShareRuleEvent);
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.institutionalproposal.rules.InstitutionalProposalAddCostShareRule#processInstitutionalProposalCostShareBusinessRules(org.kuali.kra.institutionalproposal.rules.InstitutionalProposalAddCostShareRuleEvent, int)
+     */
+    public boolean processInstitutionalProposalCostShareBusinessRules(InstitutionalProposalAddCostShareRuleEvent institutionalProposalAddCostShareRuleEvent, int i) {
+        this.fieldStarter = "document.institutionalProposalList[0].institutionalProposalCostShares["  + i + "]";
+        this.displayNullFieldErrors = false;
+        return proccessRules(institutionalProposalAddCostShareRuleEvent);
+    }
+    
+    private boolean proccessRules(InstitutionalProposalAddCostShareRuleEvent institutionalProposalAddCostShareRuleEvent) {
         this.institutionalProposalCostShare = institutionalProposalAddCostShareRuleEvent.getCostShareForValidation();
         
         boolean isValid = processCommonValidations(institutionalProposalCostShare);
@@ -80,50 +98,57 @@ public class InstitutionalProposalAddCostShareRuleImpl extends ResearchDocumentR
     */
     public boolean validateCostShareFiscalYearRange(InstitutionalProposalCostShare institutionalProposalCostShare){
         boolean valid = true;
+        String projectPeriodField = this.fieldStarter + ".projectPeriod";
         if (institutionalProposalCostShare.getProjectPeriod() != null) {
             try {
-                int fiscalYear = Integer.parseInt(institutionalProposalCostShare.getProjectPeriod());
-                if(fiscalYear < Constants.MIN_FISCAL_YEAR || fiscalYear > Constants.MAX_FISCAL_YEAR) {
+                int projectPeriod = Integer.parseInt(institutionalProposalCostShare.getProjectPeriod());
+                if (projectPeriod < Constants.MIN_FISCAL_YEAR || projectPeriod > Constants.MAX_FISCAL_YEAR) {
                     valid = false;
-                    reportError(NEW_PROPOSAL_COST_SHARE+".fiscalYear", 
-                            KeyConstants.ERROR_IP_FISCAL_YEAR_RANGE);
+                    reportError(projectPeriodField, KeyConstants.ERROR_IP_FISCAL_YEAR_RANGE, getProjectPeriodLabel());
                 }
             } catch (NumberFormatException e) {
                 valid = false;
-                reportError(NEW_PROPOSAL_COST_SHARE+".fiscalYear", 
-                        KeyConstants.ERROR_IP_FISCAL_YEAR_INCORRECT_FORMAT);
+                reportError(projectPeriodField, KeyConstants.ERROR_IP_FISCAL_YEAR_INCORRECT_FORMAT, getProjectPeriodLabel());
+            }
+        } else {
+            valid = false;
+            if (displayNullFieldErrors) {
+                reportError(projectPeriodField, KeyConstants.ERROR_IP_FISCAL_YEAR_REQUIRED, getProjectPeriodLabel());
             }
         }
-        else {
-            valid = false;
-            reportError(NEW_PROPOSAL_COST_SHARE+".fiscalYear", 
-                    KeyConstants.ERROR_IP_FISCAL_YEAR_REQUIRED);
-        }
         return valid;
+    }
+    
+    private String getProjectPeriodLabel() {
+        String label = KraServiceLocator.getService(CostShareService.class).getCostShareLabel();
+        return label;
     }
 
     private boolean validatePercentage(KualiDecimal percentage) {
         boolean isValid = true;
-        if (percentage!=null && percentage.isLessThan(new KualiDecimal(0))) {
+        String costSharePercentageField = this.fieldStarter + ".costSharePercentage";
+        if (percentage != null && percentage.isLessThan(new KualiDecimal(0))) {
             isValid = false;
-            this.reportError(Constants.IP_COST_SHARE_ADD_ACTION_PROPERTY_KEY + ".costSharePercentage", KeyConstants.ERROR_COST_SHARE_PERCENTAGE_RANGE);
+            this.reportError(costSharePercentageField, KeyConstants.ERROR_COST_SHARE_PERCENTAGE_RANGE);
         }
         return isValid;
     }
     
     private boolean validateCostShareType(Integer costShareTypeCode) {
         boolean isValid = true;
+        String costShareTypeCodeField = this.fieldStarter + ".costShareTypeCode";
         if (costShareTypeCode == null) {
             isValid = false;
-            this.reportError(Constants.IP_COST_SHARE_ADD_ACTION_PROPERTY_KEY + ".costShareTypeCode", KeyConstants.ERROR_IP_COST_SHARE_TYPE_REQUIRED);
-        }
-        else {
+            if (displayNullFieldErrors) {
+                this.reportError(costShareTypeCodeField, KeyConstants.ERROR_IP_COST_SHARE_TYPE_REQUIRED);
+            }
+        } else {
             BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
             Map<String,Integer> fieldValues = new HashMap<String,Integer>();
             fieldValues.put("costShareTypeCode", costShareTypeCode);
             if (businessObjectService.countMatching(CostShareType.class, fieldValues) != 1) {
                 isValid = false;
-                this.reportError(Constants.IP_COST_SHARE_ADD_ACTION_PROPERTY_KEY + ".costShareTypeCode", KeyConstants.ERROR_IP_COST_SHARE_TYPE_INVALID, new String[] { costShareTypeCode.toString() });
+                this.reportError(costShareTypeCodeField, KeyConstants.ERROR_IP_COST_SHARE_TYPE_INVALID, new String[] { costShareTypeCode.toString() });
             }
         }
         return isValid;
@@ -131,22 +156,28 @@ public class InstitutionalProposalAddCostShareRuleImpl extends ResearchDocumentR
 
     private boolean validateAmount(KualiDecimal commitmentAmount) {
         boolean isValid = true;
+        String commitmentAmountField = this.fieldStarter + ".amount";
+        System.err.println("commitmentAmountField: " + commitmentAmountField);
         if (commitmentAmount == null) {
             isValid = false;
-            this.reportError(Constants.IP_COST_SHARE_ADD_ACTION_PROPERTY_KEY + ".commitmentAmount", KeyConstants.ERROR_IP_COST_SHARE_COMMITMENT_AMOUNT_REQUIRED);
-        }
-        else if (commitmentAmount.isLessThan(new KualiDecimal(0))) {
+            if (displayNullFieldErrors) {
+                this.reportError(commitmentAmountField, KeyConstants.ERROR_IP_COST_SHARE_COMMITMENT_AMOUNT_REQUIRED);
+            }
+        } else if (commitmentAmount.isLessThan(new KualiDecimal(0))) {
             isValid = false;
-            this.reportError(Constants.IP_COST_SHARE_ADD_ACTION_PROPERTY_KEY + ".commitmentAmount", KeyConstants.ERROR_IP_COST_SHARE_COMMITMENT_AMOUNT_INVALID, new String[] { commitmentAmount.toString() });
+            this.reportError(commitmentAmountField, KeyConstants.ERROR_IP_COST_SHARE_COMMITMENT_AMOUNT_INVALID, new String[] { commitmentAmount.toString() });
         }
         return isValid;
     }
     
     private boolean validateSourceAccount(String sourceAccount) {
         boolean isValid = true;
+        String sourceAccountField = this.fieldStarter + ".sourceAccount";
         if (StringUtils.isEmpty(sourceAccount)) {
             isValid = false;
-            this.reportError(Constants.IP_COST_SHARE_ADD_ACTION_PROPERTY_KEY + ".sourceAccount", KeyConstants.ERROR_IP_COST_SHARE_SOURCE_ACCOUNT_REQUIRED);
+            if (displayNullFieldErrors) {
+                this.reportError(sourceAccountField, KeyConstants.ERROR_IP_COST_SHARE_SOURCE_ACCOUNT_REQUIRED);
+            }
         }
         
         return isValid;
