@@ -110,8 +110,6 @@ public class AwardCostShareRuleImpl extends ResearchDocumentRuleBase implements 
     public boolean validateCostShareFiscalYearRange(AwardCostShare awardCostShare){
         boolean valid = true;
         String projectPeriodField = fieldStarter + ".projectPeriod";
-        
-        System.err.println("projectPeriodField: " + projectPeriodField);
         if (awardCostShare.getProjectPeriod() != null) {
             try {
                 int fiscalYear = Integer.parseInt(awardCostShare.getProjectPeriod());
