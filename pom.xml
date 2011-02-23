@@ -1531,6 +1531,7 @@
 		<surefire.argLine>-Xmx1536m -XX:MaxPermSize=512m</surefire.argLine>
 		<surefire.aggregate>true</surefire.aggregate>
     	<cobertura.maven.plugin.version>2.4</cobertura.maven.plugin.version>
+    	<cobertura.maxmem>512M</cobertura.maxmem>
     	<gg.wsdl.location>${basedir}/src/main/resources/wsdl</gg.wsdl.location>
     	<gg.schema.dir>${basedir}/src/main/resources/wsdl/schema</gg.schema.dir>
 	</properties>
