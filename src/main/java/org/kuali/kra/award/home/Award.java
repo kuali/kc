@@ -88,6 +88,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
                                                                         Permissionable, SequenceOwner<Award>,
                                                                         BudgetParent, Sponsorable {
     public static final String DEFAULT_AWARD_NUMBER = "000000-00000";
+    public static final String BLANK_COMMENT = "";
     
     private static final String YES_FLAG = "Y";
     private static final int TOTAL_STATIC_REPORTS = 4;
@@ -144,6 +145,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private int indexOfLastAwardAmountInfo;
     private String financialAccountDocumentNumber;
     private Date financialAccountCreationDate;
+    private static boolean newVersion;
    
 
     private Integer templateCode; 
@@ -259,6 +261,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         setTransferSponsorIndicator(YES_FLAG);
         awardComments = new TypedArrayList(AwardComment.class);
         setCurrentActionComments("");
+        setNewVersion(false);
     }
     
     /**
@@ -266,9 +269,13 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     * @return
     */
     private Map<String, AwardComment> getCommentMap() {
-        if (commentMap == null) {
+        if (commentMap == null || getNewVersion()) {
             commentMap = new HashMap<String, AwardComment>();
             for (AwardComment ac : awardComments) {
+                if (getNewVersion() && ac.getCommentType().getCommentTypeCode().equals(Constants.CURRENT_ACTION_COMMENT_TYPE_CODE))
+                { 
+                    ac.setComments(BLANK_COMMENT);               
+                }
                 commentMap.put(ac.getCommentType().getCommentTypeCode(), ac);
             }
         }
@@ -1288,7 +1295,14 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      * @param noticeDate The noticeDate to set.
      */
     public void setNoticeDate(Date noticeDate) {
-        this.noticeDate = noticeDate;
+        if (getNewVersion())
+        {
+            this.noticeDate = null;
+        }
+        else
+        {
+            this.noticeDate = noticeDate;
+        }
     }
 
     /**
@@ -1304,9 +1318,39 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      * @param currentActionComments The currentActionComments to set.
      */
     public void setCurrentActionComments(String currentActionComments) {
-        this.currentActionComments = currentActionComments;
+        if (getNewVersion())
+        {
+            this.currentActionComments = BLANK_COMMENT;
+        }
+        else
+        {
+            this.currentActionComments = currentActionComments;                        
+        }
     }
     
+    /**
+     * sets newVersion to specified value
+     * @param newVersion  the newVersion to be set
+     */
+    public void setNewVersion (boolean newVersion)
+    {
+        this.newVersion = newVersion;
+        if (this.newVersion)
+        {
+            commentMap = getCommentMap();
+            setCurrentActionComments(BLANK_COMMENT);
+            setNoticeDate(null);
+        }
+    }
+
+    /**
+     * Gets the newVersion attribute
+     * @return Returns the newVersion attribute
+     */
+    public boolean getNewVersion ()
+    {
+        return this.newVersion;
+    }
     
 
     /**
