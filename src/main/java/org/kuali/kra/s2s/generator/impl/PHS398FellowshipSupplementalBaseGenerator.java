@@ -60,6 +60,7 @@ public abstract class PHS398FellowshipSupplementalBaseGenerator extends
 	protected static final int SUBMITTED_DIFF_INST = 28;
 	protected static final int FORMER_INST = 29;
 	protected static final int SENIOR = 36;
+	protected static final int SUPP_FUNDING_REQ = 37;
 	protected static final int SUPP_FUNDING_AMT = 38;
 	protected static final int SUPP_MONTHS = 51;
 	protected static final int SUPP_SOURCE = 41;
