@@ -1,5 +1,5 @@
 /*
-mb * Copyright 2005-2010 The Kuali Foundation.
+ * Copyright 2005-2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,7 +54,6 @@ import gov.grants.apply.forms.phsFellowshipSupplemental12V12.PHSFellowshipSupple
 import gov.grants.apply.forms.phsFellowshipSupplemental12V12.PHSFellowshipSupplemental12Document.PHSFellowshipSupplemental12.Sponsors;
 import gov.grants.apply.forms.phsFellowshipSupplemental12V12.PHSFellowshipSupplemental12Document.PHSFellowshipSupplemental12.Sponsors.SponsorCosponsorInformation;
 
-import gov.grants.apply.forms.sf424V20.SF424Document.SF424.RevisionType;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin0Max100DataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
@@ -84,8 +83,6 @@ import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentS2sQuestionnaireService;
-import org.kuali.kra.proposaldevelopment.service.impl.ProposalDevelopmentS2sQuestionnaireServiceImpl;
-import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.kra.questionnaire.answer.Answer;
@@ -108,26 +105,26 @@ public class PHS398FellowshipSupplementalV1_2Generator extends
 	private static final Log LOG = LogFactory
 			.getLog(PHS398FellowshipSupplementalV1_2Generator.class);
 
+    static final int Q_HUMANINDEF    = 1;
+    static final int Q_CLINICAL      = 2;
+    static final int Q_CLINICAL3     = 3;
+    static final int Q_VERTINDEF     = 4;
     static final int Q_STEMCELLS     = 5;
     static final int Q_STEMCELLIND   = 6;
     static final int Q_STEMCELLLINES = 7;
     static final int Q_HUMANSUBJ     = 10001;
     static final int Q_VERTSUBJ      = 10002;
-    static final int Q_HUMANINDEF    = 1;
-    static final int Q_VERTINDEF     = 4;
-    static final int Q_CLINICAL      = 2;
-    static final int Q_CLINICAL3     = 3;
     static final int Q_DEGREE_SOUGHT = 42;
     static final int Q_DEGREE_DATE   = 35;
     static final int Q_DEGREE_TYPE   = 15;
     static final int Q_DEGREE_TYPE2  = 99;
     static final int Q_CUR_PRIOR_NRSA = 31;
     static final int Q_FIELD_OF_TRAINING = 22;
-//TODO
-    static final int Q_CONCURRENT    = 999;
 
     protected static final int SPONSOR_COSPONSOR = 134;
 
+    static final String TUITION_COST_ELEMENTS_RA = "422310";
+    static final String TUITION_COST_ELEMENTS_Other = "420111";
 	/*
 	 * This method is used to get PHSFellowshipSupplemental12 XMLObject and set
 	 * the data to it from DevelopmentProposal data.
@@ -145,14 +142,13 @@ public class PHS398FellowshipSupplementalV1_2Generator extends
 		return phsFellowshipSupplementalDocument;
 	}
 
-	/*
-	 * This method is used to get Budget XMLObject and set the data to it from
-	 * ProposalYnq based on questionId and answers.
-	 */
-	private Budget getBudget() {
-		Budget budget = Budget.Factory.newInstance();
-//		Map<Integer, String> budgetMap = new HashMap<Integer, String>();
-
+    /*
+     * This method is used to get Budget XMLObject and set the data to it from
+     * ProposalYnq based on questionId and answers.
+     */
+    private Budget getBudget() {
+        Budget budget = Budget.Factory.newInstance();
+        Map<Integer, String> budgetMap = new HashMap<Integer, String>();
         List<AnswerHeader> answers = findQuestionnaireWithAnswers(pdDoc.getDevelopmentProposal());
         for (AnswerHeader answerHeader : answers) {
             Questionnaire questionnaire = answerHeader.getQuestionnaire();
@@ -162,260 +158,192 @@ public class PHS398FellowshipSupplementalV1_2Generator extends
                 String answer = answerBO.getAnswer();
                 Question question = questionnaireQuestion.getQuestion();
                 if (answer != null){
-System.out.println("\nBBBBB budget thingy, question id = " + question.getQuestionId() + ", question = " + question.getQuestion() + ", answer = " + answer);
-/*                    switch (question.getQuestionId()) {
-                        case Q_HUMANSUBJ:
-                            if ("y".equals(answer.toLowerCase())) {
-                                researchTrainingPlan.setHumanSubjectsInvolved(YesNoDataType.Y_YES);
-                            }
+                    switch (question.getQuestionId()) {
+                        case SENIOR:
+                            budgetMap.put(SENIOR, answer);
                             break;
-                        case Q_HUMANINDEF:
-                            if ("y".equals(answer.toLowerCase())) {
-                                researchTrainingPlan.setHumanSubjectsIndefinite(YesNoDataType.Y_YES);
-                            }
+                        case SUPP_FUNDING_REQ:
+                            budgetMap.put(SUPP_FUNDING_REQ, answer);
                             break;
-                        case Q_VERTSUBJ:
-                            if ("y".equals(answer.toLowerCase())) {
-                                researchTrainingPlan.setVertebrateAnimalsUsed(YesNoDataType.Y_YES);
-                            }
+                        case SUPP_SOURCE:
+                            budgetMap.put(SUPP_SOURCE, answer);
                             break;
-                        case Q_VERTINDEF:
-                            if ("y".equals(answer.toLowerCase())) {
-                                researchTrainingPlan.setVertebrateAnimalsIndefinite(YesNoDataType.Y_YES);
-                            }
+                        case SUPP_FUNDING_AMT:
+                            budgetMap.put(SUPP_FUNDING_AMT, answer);
                             break;
-                        case Q_CLINICAL:
-                            if ("y".equals(answer.toLowerCase())) {
-                                researchTrainingPlan.setClinicalTrial(YesNoDataType.Y_YES);
-                            }
+                        case SUPP_MONTHS:
+                            budgetMap.put(SUPP_MONTHS, answer);
                             break;
-                        case Q_CLINICAL3:
-                            if ("y".equals(answer.toLowerCase())) {
-                                researchTrainingPlan.setPhase3ClinicalTrial(YesNoDataType.Y_YES);
-                            }
+                        case SUPP_TYPE:
+                            budgetMap.put(SUPP_TYPE, answer);
                             break;
-                            
+                        case SALARY_MONTH:
+                            budgetMap.put(SALARY_MONTH, answer);
+                            break;
+                        case ACAD_PERIOD:
+                            budgetMap.put(ACAD_PERIOD, answer);
+                            break;
+                        case BASE_SALARY:
+                            budgetMap.put(BASE_SALARY, answer);
+                            break;
                         default:
                             break;
+                    }
+                }
+            }
+        }
+        budget.setTuitionAndFeesRequested(YesNoDataType.N_NO);
+        getInstitutionalBaseSalary(budget, budgetMap);
+        getFederalStipendRequested(budget);
+        getSupplementationFromOtherSources(budget, budgetMap);
+        setTuitionRequestedYears(budget);
+        return budget;
+    }
+
+    /*
+     * This method is used to get TuitionRequestedYears data to Budget XMLObject
+     * from List of BudgetLineItem based on CostElement value of
+     * TUITION_COST_ELEMENTS
+     */
+    private void setTuitionRequestedYears(Budget budget) {
+        BudgetDocument budgetDoc = getBudgetDocument();
+        if (budgetDoc == null) {
+            return;
+        }
+        BudgetDecimal tuitionTotal = BudgetDecimal.ZERO;
+        for (BudgetPeriod budgetPeriod : budgetDoc.getBudget().getBudgetPeriods()) {
+            BudgetDecimal tuition = BudgetDecimal.ZERO;
+            for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
+                if (TUITION_COST_ELEMENTS_RA.equals(budgetLineItem.getCostElementBO().getCostElement()) ||
+                        TUITION_COST_ELEMENTS_Other.equals(budgetLineItem.getCostElementBO().getCostElement())) {
+                    tuition = tuition.add(budgetLineItem.getLineItemCost());
+                }
+            }
+            tuitionTotal = tuitionTotal.add(tuition);
+            switch (budgetPeriod.getBudgetPeriod()) {
+            case 1:
+                budget.setTuitionRequestedYear1(tuition.bigDecimalValue());
+                break;
+            case 2:
+                budget.setTuitionRequestedYear2(tuition.bigDecimalValue());
+                break;
+            case 3:
+                budget.setTuitionRequestedYear3(tuition.bigDecimalValue());
+                break;
+            case 4:
+                budget.setTuitionRequestedYear4(tuition.bigDecimalValue());
+                break;
+            case 5:
+                budget.setTuitionRequestedYear5(tuition.bigDecimalValue());
+                break;
+            case 6:
+                budget.setTuitionRequestedYear6(tuition.bigDecimalValue());
+                break;
+            default:
+                break;
+            }
+        }
+        budget.setTuitionRequestedTotal(tuitionTotal.bigDecimalValue());
+        if (!tuitionTotal.equals(BudgetDecimal.ZERO)) {
+            budget.setTuitionAndFeesRequested(YesNoDataType.Y_YES);
+        }
+    }
+
+    /*
+     * This method is used to set data to SupplementationFromOtherSources
+     * XMLObject from budgetMap data for Budget
+     */
+    private void getSupplementationFromOtherSources(Budget budget, Map<Integer, String> budgetMap) {
+        if (budgetMap.get(SUPP_FUNDING_REQ) != null
+                && budgetMap.get(SUPP_FUNDING_REQ).toString().equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {
+            SupplementationFromOtherSources supplementationFromOtherSources = 
+                SupplementationFromOtherSources.Factory.newInstance();
+            if (budgetMap.get(SUPP_SOURCE) != null) {
+                supplementationFromOtherSources.setSource(budgetMap.get(SUPP_SOURCE).toString());
+            }
+            if (budgetMap.get(SUPP_FUNDING_AMT) != null) {
+                supplementationFromOtherSources.setAmount(new BigDecimal(budgetMap.get(SUPP_FUNDING_AMT).toString()));
+            }
+            if (budgetMap.get(SUPP_MONTHS) != null) {
+                supplementationFromOtherSources.setNumberOfMonths(new BigDecimal(budgetMap.get(SUPP_MONTHS).toString()));
+            }
+            if (budgetMap.get(SUPP_TYPE) != null) {
+                supplementationFromOtherSources.setType(budgetMap.get(SUPP_TYPE).toString());
+            }
+            budget.setSupplementationFromOtherSources(supplementationFromOtherSources);
+        }
+    }
+
+    /*
+     * This method is used to get FederalStipendRequested XMLObject and set
+     * additional information data to it.
+     */
+    private void getFederalStipendRequested(Budget budget) {
+        FederalStipendRequested federalStipendRequested = 
+            FederalStipendRequested.Factory.newInstance();
+        BudgetDocument budgetDoc = getBudgetDocument();
+        if (budgetDoc != null) {
+            org.kuali.kra.budget.core.Budget pBudget = budgetDoc.getBudget();
+            BudgetDecimal sumOfLineItemCost = BudgetDecimal.ZERO;
+            BudgetDecimal numberOfMonths = BudgetDecimal.ZERO;
+            for (BudgetPeriod budgetPeriod : pBudget.getBudgetPeriods()) {
+                if (budgetPeriod.getBudgetPeriod() == 1) {
+                    for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
+                        if (budgetLineItem.getCostElementBO().getCostElement().equals(STIPEND_COST_ELEMENTS)) {
+                            sumOfLineItemCost = sumOfLineItemCost.add(budgetLineItem.getLineItemCost());
+                            numberOfMonths = numberOfMonths.add(getNumberOfMonths(
+                                    budgetLineItem.getStartDate(), budgetLineItem.getEndDate()));
                         }
                     }
-             }  //switch question id
-        }   //for num questions
-		
-		
-		
-		for (Answer questionnaireAnswer : s2sUtilService
-				.getQuestionnaireAnswers(pdDoc, QUESTIONNAIRE_ID_1)) {
-			String answer = questionnaireAnswer.getAnswer();
-			if (answer != null) {
-				switch (questionnaireAnswer.getQuestionNumber()) {
-				case SENIOR:
-					budgetMap.put(SENIOR, answer);
-					break;
-				case SUPP_SOURCE:
-					budgetMap.put(SUPP_SOURCE, answer);
-					break;
-				case SUPP_FUNDING_AMT:
-					budgetMap.put(SUPP_FUNDING_AMT, answer);
-					break;
-				case SUPP_MONTHS:
-					budgetMap.put(SUPP_MONTHS, answer);
-					break;
-				case SUPP_TYPE:
-					budgetMap.put(SUPP_TYPE, answer);
-					break;
-				case SALARY_MONTH:
-					budgetMap.put(SALARY_MONTH, answer);
-					break;
-				case ACAD_PERIOD:
-					budgetMap.put(ACAD_PERIOD, answer);
-					break;
-				case BASE_SALARY:
-					budgetMap.put(BASE_SALARY, answer);
-					break;
-				default:
-					break;
-*/				}
-			}
-		}
-		budget.setTuitionAndFeesRequested(YesNoDataType.N_NO);
-//		budget
-//				.setInstitutionalBaseSalary(getInstitutionalBaseSalary(budgetMap));
-//		budget.setFederalStipendRequested(getFederalStipendRequested());
-//		budget
-//				.setSupplementationFromOtherSources(getSupplementationFromOtherSources(budgetMap));
-		setTuitionRequestedYears(budget);
-		return budget;
-	}
+                }
+            }
+            federalStipendRequested.setAmount(sumOfLineItemCost.bigDecimalValue());
+            federalStipendRequested.setNumberOfMonths(numberOfMonths.bigDecimalValue());
+        }
+    }
 
-	/*
-	 * This method is used to get TuitionRequestedYears data to Budget XMLObject
-	 * from List of BudgetLineItem based on CostElement value of
-	 * TUITION_COST_ELEMENTS
-	 */
-	private void setTuitionRequestedYears(Budget budget) {
-		BudgetDocument budgetDoc = getBudgetDocument();
-		if (budgetDoc == null) {
-			return;
-		}
-		BudgetDecimal tuitionTotal = BudgetDecimal.ZERO;
-		for (BudgetPeriod budgetPeriod : budgetDoc.getBudget()
-				.getBudgetPeriods()) {
-			BudgetDecimal tuition = BudgetDecimal.ZERO;
-			for (BudgetLineItem budgetLineItem : budgetPeriod
-					.getBudgetLineItems()) {
-				if (budgetLineItem.getCostElementBO().getCostElement().equals(
-						TUITION_COST_ELEMENTS)) {
-					tuition = tuition.add(budgetLineItem.getLineItemCost());
-				}
-			}
-			tuitionTotal = tuitionTotal.add(tuition);
-			switch (budgetPeriod.getBudgetPeriod()) {
-			case 1:
-				budget.setTuitionRequestedYear1(tuition.bigDecimalValue());
-				break;
-			case 2:
-				budget.setTuitionRequestedYear2(tuition.bigDecimalValue());
-				break;
-			case 3:
-				budget.setTuitionRequestedYear3(tuition.bigDecimalValue());
-				break;
-			case 4:
-				budget.setTuitionRequestedYear4(tuition.bigDecimalValue());
-				break;
-			case 5:
-				budget.setTuitionRequestedYear5(tuition.bigDecimalValue());
-				break;
-			case 6:
-				budget.setTuitionRequestedYear6(tuition.bigDecimalValue());
-				break;
-			default:
-				break;
-			}
-		}
-		budget.setTuitionRequestedTotal(tuitionTotal.bigDecimalValue());
-		if (!tuitionTotal.equals(BudgetDecimal.ZERO)) {
-			budget.setTuitionAndFeesRequested(YesNoDataType.Y_YES);
-		}
-	}
+    /*
+     * This method is used to get final version of BudgetDocument from
+     * s2SBudgetCalculatorService using pdDoc
+     */
+    private BudgetDocument getBudgetDocument() {
+        BudgetDocument budgetDoc = null;
+        try {
+            budgetDoc = s2SBudgetCalculatorService.getFinalBudgetVersion(pdDoc);
+        } catch (S2SException e) {
+            LOG.error("Error while getting Budget", e);
+        }
+        return budgetDoc;
+    }
 
-	/*
-	 * This method is used to set data to SupplementationFromOtherSources
-	 * XMLObject from budgetMap data for Budget
-	 */
-	private SupplementationFromOtherSources getSupplementationFromOtherSources(
-			Map<Integer, String> budgetMap) {
-		SupplementationFromOtherSources supplementationFromOtherSources = SupplementationFromOtherSources.Factory
-				.newInstance();
-		if (budgetMap.get(SENIOR) != null
-				&& budgetMap.get(SENIOR).toString().equals(
-						S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {
-			if (budgetMap.get(SUPP_SOURCE) != null) {
-				supplementationFromOtherSources.setSource(budgetMap.get(
-						SUPP_SOURCE).toString());
-			}
-			if (budgetMap.get(SUPP_FUNDING_AMT) != null) {
-				supplementationFromOtherSources.setAmount(new BigDecimal(
-						budgetMap.get(SUPP_FUNDING_AMT).toString()));
-			}
-			if (budgetMap.get(SUPP_MONTHS) != null) {
-				supplementationFromOtherSources
-						.setNumberOfMonths(new BigDecimal(budgetMap.get(
-								SUPP_MONTHS).toString()));
-			}
-			if (budgetMap.get(SUPP_TYPE) != null) {
-				supplementationFromOtherSources.setType(budgetMap
-						.get(SUPP_TYPE).toString());
-			}
-		}
-		return supplementationFromOtherSources;
-	}
-
-	/*
-	 * This method is used to get FederalStipendRequested XMLObject and set
-	 * additional information data to it.
-	 */
-	private FederalStipendRequested getFederalStipendRequested() {
-		FederalStipendRequested federalStipendRequested = FederalStipendRequested.Factory
-				.newInstance();
-		BudgetDocument budgetDoc = getBudgetDocument();
-		if (budgetDoc == null) {
-			return federalStipendRequested;
-		}
-		org.kuali.kra.budget.core.Budget budget = budgetDoc.getBudget();
-		BudgetDecimal sumOfLineItemCost = BudgetDecimal.ZERO;
-		BudgetDecimal numberOfMonths = BudgetDecimal.ZERO;
-		for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
-			if (budgetPeriod.getBudgetPeriod() == 1) {
-				for (BudgetLineItem budgetLineItem : budgetPeriod
-						.getBudgetLineItems()) {
-					if (budgetLineItem.getCostElementBO().getCostElement()
-							.equals(STIPEND_COST_ELEMENTS)) {
-						sumOfLineItemCost = sumOfLineItemCost
-								.add(budgetLineItem.getLineItemCost());
-						numberOfMonths = numberOfMonths.add(getNumberOfMonths(
-								budgetLineItem.getStartDate(), budgetLineItem
-										.getEndDate()));
-					}
-				}
-			}
-		}
-		federalStipendRequested.setAmount(sumOfLineItemCost.bigDecimalValue());
-		federalStipendRequested.setNumberOfMonths(numberOfMonths
-				.bigDecimalValue());
-		return federalStipendRequested;
-	}
-
-	/*
-	 * This method is used to get final version of BudgetDocument from
-	 * s2SBudgetCalculatorService using pdDoc
-	 */
-	private BudgetDocument getBudgetDocument() {
-		BudgetDocument budgetDoc = null;
-		try {
-			budgetDoc = s2SBudgetCalculatorService.getFinalBudgetVersion(pdDoc);
-		} catch (S2SException e) {
-			LOG.error("Error while getting Budget", e);
-		}
-		return budgetDoc;
-	}
-
-	/*
-	 * This method is used to set data to InstitutionalBaseSalary XMLObject from
-	 * budgetMap data for Budget
-	 */
-	private InstitutionalBaseSalary getInstitutionalBaseSalary(
-			Map<Integer, String> budgetMap) {
-		InstitutionalBaseSalary institutionalBaseSalary = InstitutionalBaseSalary.Factory
-				.newInstance();
-		if (budgetMap.get(SENIOR) != null
-				&& budgetMap.get(SENIOR).toString().equals(
-						S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {
-			if (budgetMap.get(BASE_SALARY) != null) {
-				institutionalBaseSalary.setAmount(new BigDecimal(budgetMap.get(
-						BASE_SALARY).toString()));
-			}
-			if (budgetMap.get(ACAD_PERIOD) != null) {
-				institutionalBaseSalary.setAcademicPeriod(AcademicPeriod.Enum
-						.forString(budgetMap.get(ACAD_PERIOD).toString()));
-			}
-			if (budgetMap.get(SALARY_MONTH) != null) {
-				institutionalBaseSalary.setNumberOfMonths(new BigDecimal(
-						budgetMap.get(SALARY_MONTH).toString()));
-			}
-		}
-		return institutionalBaseSalary;
-	}
+    /*
+     * This method is used to set data to InstitutionalBaseSalary XMLObject from
+     * budgetMap data for Budget
+     */
+    private void getInstitutionalBaseSalary(Budget budget, Map<Integer, String> budgetMap) {
+        InstitutionalBaseSalary institutionalBaseSalary = InstitutionalBaseSalary.Factory.newInstance();
+        if (budgetMap.get(SENIOR) != null
+                && budgetMap.get(SENIOR).toString().equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {
+            if (budgetMap.get(BASE_SALARY) != null) {
+                institutionalBaseSalary.setAmount(new BigDecimal(budgetMap.get(BASE_SALARY).toString()));
+            }
+            if (budgetMap.get(ACAD_PERIOD) != null) {
+                institutionalBaseSalary.setAcademicPeriod(AcademicPeriod.Enum.forString(budgetMap.get(ACAD_PERIOD).toString()));
+            }
+            if (budgetMap.get(SALARY_MONTH) != null) {
+                institutionalBaseSalary.setNumberOfMonths(new BigDecimal(budgetMap.get(SALARY_MONTH).toString()));
+            }
+            budget.setInstitutionalBaseSalary(institutionalBaseSalary);
+        }
+    }
 
 	/*
 	 * This method used to set data to ResearchTrainingPlan XMLObject from
 	 * DevelopmentProposal
 	 */
 	private ResearchTrainingPlan getResearchTrainingPlan() {
-		ResearchTrainingPlan researchTrainingPlan = ResearchTrainingPlan.Factory
-				.newInstance();
+		ResearchTrainingPlan researchTrainingPlan = ResearchTrainingPlan.Factory.newInstance();
 		setHumanSubjectInvolvedAndVertebrateAnimalUsed(researchTrainingPlan);
-		setQuestionnareAnswerForResearchTrainingPlan(researchTrainingPlan);
 		setNarrativeDataForResearchTrainingPlan(researchTrainingPlan);
 		return researchTrainingPlan;
 	}
@@ -631,49 +559,6 @@ System.out.println("\nBBBBB budget thingy, question id = " + question.getQuestio
         return sponsors;
     }
 
-	/**
-	 * This method is used to set QuestionnareAnswer data to
-	 * ResearchTrainingPlan XMLObject
-	 * 
-	 * @param researchTrainingPlan
-	 */
-	private void setQuestionnareAnswerForResearchTrainingPlan(
-			ResearchTrainingPlan researchTrainingPlan) {
-		for (Answer questionnaireAnswer : s2sUtilService
-				.getQuestionnaireAnswers(pdDoc, QUESTIONNAIRE_ID_1)) {
-			String answer = questionnaireAnswer.getAnswer();
-			if (answer != null) {
-				switch (questionnaireAnswer.getQuestionNumber()) {
-				case HUMAN:
-					researchTrainingPlan
-							.setHumanSubjectsIndefinite(answer
-									.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES
-									: YesNoDataType.N_NO);
-					break;
-				case VERT:
-					researchTrainingPlan
-							.setVertebrateAnimalsIndefinite(answer
-									.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES
-									: YesNoDataType.N_NO);
-					break;
-				case CLINICAL:
-					researchTrainingPlan
-							.setClinicalTrial(answer
-									.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES
-									: YesNoDataType.N_NO);
-					break;
-				case PHASE3CLINICAL:
-					researchTrainingPlan
-							.setPhase3ClinicalTrial(answer
-									.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES
-									: YesNoDataType.N_NO);
-					break;
-				default:
-					break;
-				}
-			}
-		}
-	}
 
 	/**
 	 * This method is used to set HumanSubjectInvoved and VertebrateAnimalUsed
@@ -765,10 +650,11 @@ System.out.println("\nBBBBB budget thingy, question id = " + question.getQuestio
 	private AdditionalInformation getAdditionalInformation() {
 		AdditionalInformation additionalInformation = AdditionalInformation.Factory.newInstance();
 		StemCells stemCells = StemCells.Factory.newInstance();
-        additionalInformation.setFieldOfTraining(getFieldOfTraining(null));
         additionalInformation.setAlernatePhoneNumber("None");
 		GraduateDegreeSought graduateDegreeSought = GraduateDegreeSought.Factory.newInstance();
 		boolean setGradDegree = false;
+		ArrayList<String> cellLinesList = new ArrayList<String>(Arrays.asList(stemCells.getCellLinesArray())); 
+        boolean setCellLines = false;
 		additionalInformation.setConcurrentSupport(YesNoDataType.N_NO);  // default
         additionalInformation.setCurrentPriorNRSASupportIndicator(YesNoDataType.N_NO);
 		ProposalPerson principalInvestigator = s2sUtilService.getPrincipalInvestigator(pdDoc);
@@ -778,8 +664,7 @@ System.out.println("\nBBBBB budget thingy, question id = " + question.getQuestio
 additionalInformation.setCitizenship(CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S);
 			}
 //TODO			additionalInformation.setAlernatePhoneNumber(principalInvestigator.getSecondaryOfficePhone());
-additionalInformation.setAlernatePhoneNumber("919-999-1111");
-System.out.println("\nDDDDD data, prin Inv cit = " + principalInvestigator.getCountryOfCitizenship() + ", citizenship = " + additionalInformation.getCitizenship() + ", alt phone # = " + additionalInformation.getAlernatePhoneNumber());              
+//additionalInformation.setAlernatePhoneNumber("919-999-1111");
 		}
 		
 		List<AnswerHeader> answers = findQuestionnaireWithAnswers(pdDoc.getDevelopmentProposal());
@@ -798,18 +683,15 @@ System.out.println("\nDDDDD data, prin Inv cit = " + principalInvestigator.getCo
 	                                    : YesNoDataType.N_NO);
 		                    break;
 		                case Q_STEMCELLIND:
+		                    // NOTE: the following indicator is set backwards, i.e. question answered yes 
+		                    // gets set in form as No.  (Different wording of questions....) 
                             stemCells.setStemCellsIndicator(answer.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y) 
-                                        ? YesNoDataType.Y_YES
-                                        : YesNoDataType.N_NO);
+                                        ? YesNoDataType.N_NO
+                                        : YesNoDataType.Y_YES);
 		                    break;
 		                case Q_STEMCELLLINES:
-String[] temp2 = stemCells.getCellLinesArray();		                    
-System.out.println("\nSSSSS stem cells list = " + stemCells.getCellLinesArray());		                    
-		                    List<String> cellLinesList = Arrays.asList(stemCells.getCellLinesArray());
 		                    cellLinesList.add(answer);
-		                    stemCells.setCellLinesArray((String[]) cellLinesList.toArray());
 		                    break;
-	            
 		                case Q_DEGREE_SOUGHT:
 		                    setGradDegree = answer.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y);
                             break;
@@ -819,24 +701,32 @@ System.out.println("\nSSSSS stem cells list = " + stemCells.getCellLinesArray())
                             break;
 		                case Q_DEGREE_TYPE:
                         case Q_DEGREE_TYPE2:
-//testing...                            
-answer = "PHD: Doctor of Philosophy";
-                            DegreeTypeDataType.Enum degreeType = getDegreeSought(answer);
-                            if (degreeType == null) {
+answer = "OTH: Other";                            
+                            DegreeTypeDataType.Enum degreeSought = null;
+                            try {
+                                degreeSought = degreeSought.forString(answer);
+                            }
+                            catch (Exception e) {
+                            }
+                            
+                            if (degreeSought == null) {
                                 // problem converting, so don't set degree type in form
                                 setGradDegree = false;
                             } else {
-		                        graduateDegreeSought.setDegreeType(degreeType);
+		                        graduateDegreeSought.setDegreeType(degreeSought);
                             }
 //TODO
                             break;
 		                case Q_FIELD_OF_TRAINING:
-		                    additionalInformation.setFieldOfTraining(getFieldOfTraining(answer));
-		                    break;
-		                case Q_CONCURRENT:
-		                    additionalInformation.setConcurrentSupport(answer.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y) 
-                                        ? YesNoDataType.Y_YES
-                                        : YesNoDataType.N_NO);
+		                    FieldOfTrainingDataType.Enum fieldOfTraining = null;
+		                    try {
+		                        fieldOfTraining = fieldOfTraining.forString(answer);
+		                    } catch (Exception e) {
+		                    }
+		                    if (fieldOfTraining == null) {
+		                        fieldOfTraining = FieldOfTrainingDataType.X_8000_OTHER_PREDOMINANTLY_CLINICAL_RESEARCH_TRAINING;
+		                    }
+		                    additionalInformation.setFieldOfTraining(fieldOfTraining);
 		                    break;
                         case Q_CUR_PRIOR_NRSA:
                             additionalInformation.setCurrentPriorNRSASupportIndicator(answer.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y) 
@@ -849,6 +739,7 @@ answer = "PHD: Doctor of Philosophy";
 	             }  //switch question id
 	        }   //for num questions
 		}
+		stemCells.setCellLinesArray((String[]) cellLinesList.toArray(new String[0]));
 		additionalInformation.setStemCells(stemCells);
 		if (setGradDegree) {
 		    additionalInformation.setGraduateDegreeSought(graduateDegreeSought);
@@ -1147,32 +1038,6 @@ answer = "PHD: Doctor of Philosophy";
 		return monthCount;
 	}
 
-	private DegreeTypeDataType.Enum getDegreeSought(String answer) {
-        DegreeTypeDataType.Enum degreeSought = null;
-System.out.println("\nDDDDDDD degree = " + answer);  
-        try {
-            degreeSought = degreeSought.forString(answer);
-        }
-        catch (Exception e) {
-        }
-	    return degreeSought;
-	}
-
-
-    private FieldOfTrainingDataType.Enum getFieldOfTraining(String answer) {
-        FieldOfTrainingDataType.Enum fieldOfTraining = null;
-System.out.println("\nFFFFF field of training = " + answer);  
-        try {
-            fieldOfTraining = fieldOfTraining.forString(answer);
-        } catch (Exception e) {
-        }
-        if (fieldOfTraining == null) {
-            fieldOfTraining = FieldOfTrainingDataType.X_8000_OTHER_PREDOMINANTLY_CLINICAL_RESEARCH_TRAINING;
-        }
-        return fieldOfTraining;
-    }
-
-	
 	/**
 	 * This method creates {@link XmlObject} of type
 	 * {@link PHSFellowshipSupplementalDocument} by populating data from the
