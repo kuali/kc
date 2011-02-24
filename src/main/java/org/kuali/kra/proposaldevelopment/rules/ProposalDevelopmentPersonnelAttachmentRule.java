@@ -25,7 +25,9 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.PropPerDocType;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AddPersonnelAttachmentRule;
@@ -33,7 +35,9 @@ import org.kuali.kra.proposaldevelopment.rule.SavePersonnelAttachmentRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddPersonnelAttachmentEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SavePersonnelAttachmentEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.ParameterService;
 
 public class ProposalDevelopmentPersonnelAttachmentRule extends ResearchDocumentRuleBase implements AddPersonnelAttachmentRule, SavePersonnelAttachmentRule {
     public static final String OTHER_DOCUMENT_TYPE_DESCRIPTION = "Other";
@@ -48,6 +52,8 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends ResearchDocument
     public static String buildErrorPath(String endPath) {
         return NEW_PROP_PERSON_BIO_PREFIX + endPath;
     }
+    private transient KcAttachmentService kcAttachmentService;
+    private transient ParameterService parameterService;
 
     /**
      * @see org.kuali.kra.proposaldevelopment.rule.AddPersonnelAttachmentRule#processAddPersonnelAttachmentBusinessRules(org.kuali.kra.proposaldevelopment.rule.event.AddPersonnelAttachmentEvent)
@@ -68,6 +74,23 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends ResearchDocument
         if (StringUtils.isBlank(proposalPersonBiography.getFileName())) {
             rulePassed = false;
             reportError(buildErrorPath(PERSONNEL_ATTACHMENT_FILE), KeyConstants.ERROR_REQUIRED_FOR_FILE_NAME, FILE_NAME_PARM);
+        }
+        
+        // Checking attachment file name for invalid characters.
+        String attachmentFileName = proposalPersonBiography.getFileName();
+        KcAttachmentService attachmentService = getKcAttachmentService();
+        if (!attachmentService.isValidFileName(attachmentFileName)) {
+            String parameter = getParameterService().
+                getParameterValue(ProposalDevelopmentDocument.class, Constants.INVALID_FILE_NAME_CHECK_PARAMETER);
+            if (Constants.INVALID_FILE_NAME_ERROR_CODE.equals(parameter)) {
+                rulePassed &= false;
+                reportError(buildErrorPath(PERSONNEL_ATTACHMENT_FILE), KeyConstants.INVALID_FILE_NAME,
+                        attachmentFileName, attachmentService.getOffendingChars());
+            } else {
+                rulePassed &= true;
+                reportWarning(buildErrorPath(PERSONNEL_ATTACHMENT_FILE), KeyConstants.INVALID_FILE_NAME,
+                        attachmentFileName, attachmentService.getOffendingChars());
+            }
         }
         
         rulePassed &= checkForDescriptionWhenTypeIsOther(proposalPersonBiography);
@@ -141,4 +164,26 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends ResearchDocument
         
         return rulePassed;
     }
+    
+    /**
+     * This method returns the kc attachment service
+     * @return
+     */
+    protected KcAttachmentService getKcAttachmentService() {
+        if(this.kcAttachmentService == null) {
+            this.kcAttachmentService = KraServiceLocator.getService(KcAttachmentService.class);
+        }
+        return this.kcAttachmentService;
+    }
+    /**
+     * Gets the parameter service.
+     * @see org.kuali.kra.rules.ResearchDocumentRuleBase#getParameterService()
+     */
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null ) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);             
+        }
+        return this.parameterService;
+    }
+    
 }

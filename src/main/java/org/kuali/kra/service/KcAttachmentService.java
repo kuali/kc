@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.service;
 
+import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.KcAttachment;
 
 /**
@@ -28,4 +29,18 @@ public interface KcAttachmentService {
      * @return
      */
     String getFileTypeIcon(KcAttachment attachment);
+    
+   
+    /**
+     * This method checks to see if the file name has spurious characters.
+     * @param fileName
+     * @return
+     */
+    boolean isValidFileName(String fileName);
+    
+    /**
+     * This method returns the invalid characters in the file name.
+     * @return
+     */
+    String getOffendingChars();
 }

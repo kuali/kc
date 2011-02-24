@@ -16,9 +16,13 @@
 package org.kuali.kra.service.impl;
 
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.KcAttachment;
 import org.kuali.kra.service.KcAttachmentService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * KC Attachment Service Implementation.
@@ -27,7 +31,7 @@ public class KcAttachmentServiceImpl implements KcAttachmentService {
     
     private Map<String, String> mimeTypeIcons;
     private String defaultIcon;
-
+    private String offendingChars;
     /**
      * Currently determining the icon based only on the mime type and using the default icon
      * if a mime type is not mapped in mimeTypeIcons. The full attachment is being passed here
@@ -59,4 +63,31 @@ public class KcAttachmentServiceImpl implements KcAttachmentService {
         this.defaultIcon = defaultIcon;
     }
 
+    /**
+     * Checking to see if attachment files have invalid characters in the file name.
+     * @see org.kuali.kra.service.KcAttachmentService#isValidFileName(org.apache.struts.upload.FormFile)
+     */
+    public boolean isValidFileName(String fileName) {
+        if (ObjectUtils.isNotNull(fileName)) {
+            String regex = "(['`%~@#$!^\\s&:>\\/<+*(){}|\"\\\\,?])";
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(fileName);
+
+            if (matcher.find()) {
+                setOffendingChars(matcher.group(1));
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    protected void setOffendingChars(String offendingChars) {
+        this.offendingChars = offendingChars;
+    }
+    
+    public String getOffendingChars() {
+        // TODO Auto-generated method stub
+        return offendingChars; 
+
+    }
 }

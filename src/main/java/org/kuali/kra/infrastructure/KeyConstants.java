@@ -705,7 +705,8 @@ public final class KeyConstants {
     public static final String ERROR_MISSING_PRINCIPAL_INVESTIGATOR = "error.proposalLog.noPi";
     public static final String ERROR_INVALID_PI = "error.proposalLog.invalidPi";
     public static final String ERROR_MISSING_SPONSOR_CODE = "error.proposalLog.noSponsorCode";
-    
+    public static final String INVALID_FILE_NAME = "error.institutionalProposal.NotesAndAttachments.invalidFileName";
+
     // Institutional Proposal Actions
     public static final String QUESTION_UNLOCK_FUNDED_AWARDS = "question.unlock.fundedAwards";
     public static final String ERROR_VALIDATION_ERRORS_EXIST = "error.institutionalproposal.validationFailed";

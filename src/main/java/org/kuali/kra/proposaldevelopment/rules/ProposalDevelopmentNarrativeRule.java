@@ -44,11 +44,13 @@ import org.kuali.kra.proposaldevelopment.rule.SaveNarrativesRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddNarrativeEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -72,6 +74,8 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
     
     private transient KcPersonService kcPersonService;
     private transient PersonService<Person> personService;
+    private transient ParameterService parameterService;
+    private transient KcAttachmentService  kcAttachmentService;
     
     /**
      * This method is used to validate narratives and institute proposal attachments before adding.
@@ -99,6 +103,24 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
         if (StringUtils.isBlank(narrative.getFileName())) {
             rulePassed = false;
             reportError("newNarrative.narrativeFile", KeyConstants.ERROR_REQUIRED_FOR_FILE_NAME, "File Name");
+        }
+        
+        // Checking attachment file name for invalid characters.
+        String attachmentFileName = narrative.getFileName();
+        KcAttachmentService attachmentService = getKcAttachmentService();
+            if (!attachmentService.isValidFileName(attachmentFileName)) {
+            String parameter = getParameterService().
+                               getParameterValue(ProposalDevelopmentDocument.class, Constants.INVALID_FILE_NAME_CHECK_PARAMETER);
+           
+            if (Constants.INVALID_FILE_NAME_ERROR_CODE.equals(parameter)) {
+                rulePassed &= false;
+                reportError("newNarrative.moduleStatusCode", KeyConstants.INVALID_FILE_NAME,
+                        attachmentFileName, attachmentService.getOffendingChars());
+            } else {
+                rulePassed &= true;
+                reportWarning("newNarrative.moduleStatusCode", KeyConstants.INVALID_FILE_NAME,
+                        attachmentFileName, attachmentService.getOffendingChars());
+            }
         }
         
         map.addToErrorPath("newNarrative");
@@ -337,6 +359,28 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
             }
         }
         return true;
+    }
+    
+    
+    /**
+     * This method gets the attachment service
+     * @return
+     */
+    protected KcAttachmentService getKcAttachmentService() {
+        if(this.kcAttachmentService == null) {
+            this.kcAttachmentService = KraServiceLocator.getService(KcAttachmentService.class);
+        }
+        return this.kcAttachmentService;
+    }
+    /**
+     * Gets the parameter service.
+     * @see org.kuali.kra.rules.ResearchDocumentRuleBase#getParameterService()
+     */
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null ) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);             
+        }
+        return this.parameterService;
     }
     
     /**
