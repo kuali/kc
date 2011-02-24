@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
@@ -34,6 +35,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AddInstituteAttachmentRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddInstituteAttachmentEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -45,6 +47,7 @@ public class ProposalDevelopmentInstituteAttachmentRule extends ResearchDocument
     private static final String NARRATIVE_TYPE_CODE = "narrativeTypeCode";
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentInstituteAttachmentRule.class);
     private ParameterService parameterService;
+    private transient KcAttachmentService kcAttachmentService;
     
     /**
      * Looks up and returns the ParameterService.
@@ -108,10 +111,26 @@ public class ProposalDevelopmentInstituteAttachmentRule extends ResearchDocument
         }
         if (StringUtils.isBlank(narrative.getFileName())) {
             rulePassed = false;
-            reportError(errorPath+".narrativeFile", KeyConstants.ERROR_REQUIRED_FOR_FILE_NAME, "File Name");
+            reportError(errorPath + ".narrativeFile", KeyConstants.ERROR_REQUIRED_FOR_FILE_NAME, "File Name");
         }
     
-
+        // Checking attachment file name for invalid characters.
+        String attachmentFileName = narrative.getFileName();
+        KcAttachmentService attachmentService = getKcAttachmentService();
+        if (!attachmentService.isValidFileName(attachmentFileName)) {
+            String parameter = getParameterService().
+                getParameterValue(ProposalDevelopmentDocument.class, Constants.INVALID_FILE_NAME_CHECK_PARAMETER);
+            if (Constants.INVALID_FILE_NAME_ERROR_CODE.equals(parameter)) {
+                rulePassed &= false;
+                reportError(errorPath + ".narrativeFile", KeyConstants.INVALID_FILE_NAME, 
+                        attachmentFileName, attachmentService.getOffendingChars());
+            } else {
+                rulePassed &= true;
+                reportWarning(errorPath + ".narrativeFile", KeyConstants.INVALID_FILE_NAME,
+                        attachmentFileName, attachmentService.getOffendingChars());
+            }
+        }
+        
         return rulePassed;
     }
     
@@ -130,4 +149,14 @@ public class ProposalDevelopmentInstituteAttachmentRule extends ResearchDocument
         
     }
 
+    /**
+     * This method returns the kc attachment service
+     * @return
+     */
+    protected KcAttachmentService getKcAttachmentService() {
+        if(this.kcAttachmentService == null) {
+            this.kcAttachmentService = KraServiceLocator.getService(KcAttachmentService.class);
+        }
+        return this.kcAttachmentService;
+    }
 }

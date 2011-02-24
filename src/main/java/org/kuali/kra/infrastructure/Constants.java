@@ -74,6 +74,9 @@ public interface Constants {
     public static final String PERSONNEL_ATTACHMENT_TYPE_NAME = "Personnel Attachment";
     public static final String PROPOSAL_ATTACHMENT_TYPE_NAME = "Proposal Attachment";
     public static final String NEW_NARRATIVE_USER_RIGHTS_PROPERTY_KEY = "newNarrativeUserRight";
+    public static final String INVALID_FILE_NAME_ERROR_CODE = "2";
+    public static final String INVALID_FILE_NAME_CHECK_PARAMETER = "INVALID_FILE_NAME_CHECK";
+    public static final String INVALID_FILE_NAME_ERROR_TAB = "institutionalProposalNotepadBean.newInstitutionalProposalNotepad.invalidFileName";
 
     public static final String PERSON_ROLE_PARAMETER_PREFIX = "personrole.";
     public static final String NIH_SPONSOR_ACRONYM = "NIH";
