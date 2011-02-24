@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.sql.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -430,6 +431,7 @@ public class AwardHomeAction extends AwardAction {
 
     private ActionForward createAndSaveNewAwardVersion(HttpServletResponse response, AwardForm awardForm,
                                                         AwardDocument awardDocument, Award award) throws Exception {
+        awardForm.getAwardDocument().getAward().setNewVersion(true); 
         AwardDocument newAwardDocument = getAwardService().createNewAwardVersion(awardForm.getAwardDocument());
         getDocumentService().saveDocument(newAwardDocument);
         getVersionHistoryService().createVersionHistory(newAwardDocument.getAward(), VersionStatus.PENDING,
