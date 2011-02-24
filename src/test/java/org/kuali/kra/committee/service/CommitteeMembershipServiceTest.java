@@ -327,10 +327,10 @@ public class CommitteeMembershipServiceTest {
      * @return Collection&lt;ResearchArea&gt;
      */
     private Collection<ResearchArea>  getResearchAreas() {
-        Collection<ResearchArea> researchAreas = new ArrayList();
-        researchAreas.add(new ResearchArea(RESEARCH_AREA_CODE_1, null, null));
-        researchAreas.add(new ResearchArea(RESEARCH_AREA_CODE_3, null, null));
-        researchAreas.add(new ResearchArea(RESEARCH_AREA_CODE_5, null, null));
+        Collection<ResearchArea> researchAreas = new ArrayList<ResearchArea>();
+        researchAreas.add(new ResearchArea(RESEARCH_AREA_CODE_1, null, null, true));
+        researchAreas.add(new ResearchArea(RESEARCH_AREA_CODE_3, null, null, true));
+        researchAreas.add(new ResearchArea(RESEARCH_AREA_CODE_5, null, null, true));
         return researchAreas;
     }
 }
