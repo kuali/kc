@@ -1907,7 +1907,8 @@
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
 		<field-descriptor name="hasChildrenFlag" column="HAS_CHILDREN_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="parentResearchAreaCode" column="PARENT_RESEARCH_AREA_CODE" jdbc-type="VARCHAR"/>
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" locking="false"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
