@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,6 +37,7 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -48,6 +51,8 @@ import org.kuali.kra.institutionalproposal.rules.InstitutionalProposalNoteAddEve
 import org.kuali.kra.institutionalproposal.rules.InstitutionalProposalNoteEventBase.ErrorType;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalVersioningService;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.kra.service.KeywordsService;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
@@ -58,6 +63,7 @@ import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.RiceKeyConstants;
@@ -69,10 +75,11 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
  */
 public class InstitutionalProposalHomeAction extends InstitutionalProposalAction {
 	private static final Log LOG = LogFactory.getLog(InstitutionalProposalHomeAction.class);
-	
     private static final String VERSION_EDITPENDING_PROMPT_KEY = "message.award.version.editpending.prompt";
 
     private InstitutionalProposalNotepadBean institutionalProposalNotepadBean;
+    private KcAttachmentService kcAttachmentService;
+    private ParameterService parameterService;
     
     /**
      * Constructs a InstitutionalProposalHomeAction.java.
@@ -110,6 +117,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
 	        		
 	        		
 	        		FormFile attachmentFile = institutionalProposalForm.getAttachmentFile();
+	        		
 	                if (attachmentFile == null) {
 	                    GlobalVariables.getMessageMap().putError(
 	                            String.format("%s.%s",
@@ -117,6 +125,21 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
 	                                    KNSConstants.NOTE_ATTACHMENT_FILE_PROPERTY_NAME),
 	                            RiceKeyConstants.ERROR_UPLOADFILE_NULL);
 	                }
+	                
+	                KcAttachmentService attachmentService = getKcAttachmentService();
+	                // Checking attachment file name for invalid characters.
+	                if (!attachmentService.isValidFileName(attachmentFile.getFileName())) {
+	                    String parameter = getParameterService().
+                            getParameterValue(ProposalDevelopmentDocument.class, Constants.INVALID_FILE_NAME_CHECK_PARAMETER);
+                        if (Constants.INVALID_FILE_NAME_ERROR_CODE.equals(parameter)) {
+                            GlobalVariables.getMessageMap().putError(Constants.INVALID_FILE_NAME_ERROR_TAB, KeyConstants.INVALID_FILE_NAME, 
+	                                                                attachmentFile.getFileName(), attachmentService.getOffendingChars());
+                        } else {
+                            GlobalVariables.getMessageMap().putWarning(Constants.INVALID_FILE_NAME_ERROR_TAB, KeyConstants.INVALID_FILE_NAME, 
+                                                                    attachmentFile.getFileName(), attachmentService.getOffendingChars());
+                        }
+	              }
+	                
 	                
 	                Note newNote = new Note();
 	                newNote.setNoteText("Default text, will never be shown to user.");
@@ -439,7 +462,28 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
     protected ProposalLogService getProposalLogService() {
         return KraServiceLocator.getService(ProposalLogService.class);
     }
-
+    
+    /**
+     * This method gets the attachment service
+     * @return
+     */
+    protected KcAttachmentService getKcAttachmentService() {
+        if(this.kcAttachmentService == null) {
+            this.kcAttachmentService = KraServiceLocator.getService(KcAttachmentService.class);
+        }
+        return this.kcAttachmentService;
+    }
+    /**
+     * Gets the parameter service.
+     * @see org.kuali.kra.rules.ResearchDocumentRuleBase#getParameterService()
+     */
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null ) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);             
+        }
+        return this.parameterService;
+    }
+    
 	@Override
 	public ActionForward downloadBOAttachment(ActionMapping mapping,
 			ActionForm form, HttpServletRequest request,
