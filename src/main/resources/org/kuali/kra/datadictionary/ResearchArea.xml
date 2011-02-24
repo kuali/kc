@@ -33,6 +33,7 @@
 				<ref bean="ResearchArea-parentResearchAreaCode"/>
 				<ref bean="ResearchArea-hasChildrenFlag"/>
 				<ref bean="ResearchArea-description"/>
+                <ref bean="ResearchArea-active"/>
 				<ref bean="ResearchArea-versionNumber"/>
 			</list>
 		</property>
@@ -98,6 +99,15 @@
 		<property name="description" value="Description"/>
 	</bean>
 
+    <bean id="ResearchArea-active" parent="ResearchArea-active-parentBean"/>
+    <bean abstract="true" id="ResearchArea-active-parentBean" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="active"/>
+        <property name="label" value="Active"/>
+        <property name="shortLabel" value="Active"/>
+        <property name="summary" value="Active"/>
+        <property name="description" value="Active"/>
+    </bean>
+
 	<bean id="ResearchArea-versionNumber" parent="ResearchArea-versionNumber-parentBean"/>
 	<bean abstract="true" id="ResearchArea-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
 	</bean>
@@ -117,6 +127,7 @@
 							<bean p:attributeName="parentResearchAreaCode" parent="FieldDefinition"/>
 							<bean p:attributeName="hasChildrenFlag" parent="FieldDefinition"/>
 							<bean p:attributeName="description" parent="FieldDefinition"/>
+                            <bean p:attributeName="active" parent="FieldDefinition"/>
 						</list>
 					</property>
 				</bean>
@@ -148,6 +159,7 @@
 				<bean p:attributeName="parentResearchAreaCode" parent="FieldDefinition"/>
 				<bean p:attributeName="hasChildrenFlag" parent="FieldDefinition"/>
 				<bean p:attributeName="description" parent="FieldDefinition"/>
+                <bean p:attributeName="active" parent="FieldDefinition"/>
 			</list>
 		</property>
 	</bean>

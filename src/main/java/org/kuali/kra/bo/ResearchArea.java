@@ -22,7 +22,8 @@ public class ResearchArea extends KraPersistableBusinessObjectBase {
     private String researchAreaCode; 
     private String parentResearchAreaCode; 
     private boolean hasChildrenFlag; 
-    private String description; 
+    private String description;
+    private boolean active;
     
     
     /*
@@ -35,11 +36,13 @@ public class ResearchArea extends KraPersistableBusinessObjectBase {
         super();
     }
     
-    public ResearchArea(String researchAreaCode, String parentResearchAreaCode, String description){
+    public ResearchArea(String researchAreaCode, String parentResearchAreaCode, String description, boolean active){
         super();
         this.researchAreaCode = researchAreaCode;
         this.parentResearchAreaCode = parentResearchAreaCode;
         this.description = description;
+        this.active = active;
+        this.hasChildrenFlag = false;
     }
 
     public String getResearchAreaCode() {
@@ -74,6 +77,13 @@ public class ResearchArea extends KraPersistableBusinessObjectBase {
         this.parentResearchAreaCode = parentResearchAreaCode;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
     @Override 
     protected LinkedHashMap toStringMapper() {
@@ -82,6 +92,8 @@ public class ResearchArea extends KraPersistableBusinessObjectBase {
         hashMap.put("description", getDescription());
         hashMap.put("hasChildrenFlag", getHasChildrenFlag());
         hashMap.put("parentResearchAreaCode", getParentResearchAreaCode());
+        hashMap.put("active", isActive());
+        hashMap.put("verNum", getVersionNumber());
         return hashMap;
     }
 

@@ -166,7 +166,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.budget.document.ObjectUtilsTest.class,
     org.kuali.kra.proposaldevelopment.lookup.keyvalue.CopyBudgetVersionsValuesFinderTest.class,
     org.kuali.kra.budget.service.JobCodeServiceTest.class,
-    org.kuali.kra.dao.ResearchAreaDaoTest.class,
     org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubawardRuleTest.class,
     org.kuali.kra.award.web.struts.action.AwardPaymentReportsAndTermsActionTest.class,
     org.kuali.kra.committee.rules.CommitteeScheduleTimeRuleTest.class,

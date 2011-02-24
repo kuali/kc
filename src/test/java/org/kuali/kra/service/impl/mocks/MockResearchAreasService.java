@@ -35,7 +35,7 @@ public class MockResearchAreasService implements ResearchAreasService {
         return null;
     }
 
-    public String getSubResearchAreasForTreeView(String researchAreaCode) {
+    public String getSubResearchAreasForTreeView(String researchAreaCode, boolean activeOnly) {
         // TODO Auto-generated method stub
         return null;
     }

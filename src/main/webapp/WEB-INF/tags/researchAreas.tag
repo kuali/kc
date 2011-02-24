@@ -4,6 +4,11 @@
 <c:set var="questionnaireAttributes" value="${DataDictionary.Questionnaire.attributes}" />
 
 <div class="tab-container" align="left" >
+    <div style = "margin-bottom: 10px">
+        <center>
+            <input id="showhidebutton" type="image" src="kr/images/tinybutton-showinact.gif" /> 
+        </center>
+    </div>
     <div style = "border: 1px solid #BDBDBD; margin-left : 10px; margin-right : 10px" >
         <h3>
             <span class="subhead-left"> Research Areas Hierarchy </span>
@@ -52,6 +57,9 @@
                                     <td class="infoline">
                                         <b>Research Area</b>
                                     </td> 
+                                    <td class="infoline">
+                                        <b>Active</b>
+                                    </td>
                                     <td class="infoline" style="width:65px;">
                                         <b>Action</b>
                                     </td>
@@ -68,6 +76,9 @@
                                     </td>
                                     <td>
                                         <input type="text" name="m3" value="" style="width:100%;" />
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" name="m4" checked/>
                                     </td>
                                     <th class="infoline" style="text-align:center;">
                                         <input type="image" id="add0" src="static/images/tinybutton-add1.gif" />  
