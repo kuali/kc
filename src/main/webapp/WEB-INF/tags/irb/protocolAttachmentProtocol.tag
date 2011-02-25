@@ -358,7 +358,7 @@
 									<html:image property="methodToCall.viewAttachmentProtocol.line${itrStatus.index}.anchor${currentTabIndex}"
 										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
 										alt="View Protocol Attachment" onclick="excludeSubmitRestriction = true;"/>
-									<kra:permission value="${KualiForm.notesAttachmentsHelper.modifyAttachments}">
+									<kra:permission value="${KualiForm.notesAttachmentsHelper.modifyAttachments and (not KualiForm.document.protocolList[0].renewalWithoutAmendment or attachmentProtocol.documentStatusCode != '2')}">
 										<input class="tinybutton" type="image"
 											src='${ConfigProperties.kra.externalizable.images.url}tinybutton-replace.gif'
 											id="replaceButton${itrStatus.index}"
