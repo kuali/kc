@@ -41,7 +41,7 @@ public abstract class ModifyAmendmentAuthorizer extends ModifyProtocolAuthorizer
         Protocol protocol = task.getProtocol();
         boolean hasPermission = super.isAuthorized(userId, task);
 
-        if (hasPermission && isAmendmentOrRenewal(protocol)) {
+        if (hasPermission && isAmendmentOrRenewal(protocol) && !protocol.isRenewalWithoutAmendment()) {
             hasPermission = canModifyModule(protocol, moduleTypeCode);
         }
 
