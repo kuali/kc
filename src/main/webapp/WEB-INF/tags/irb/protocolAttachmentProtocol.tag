@@ -22,7 +22,7 @@
 <c:set var="action" value="protocolNoteAndAttachment" />
 <c:set var="attachmentProtocols" value="${KualiForm.document.protocolList[0].attachmentProtocols}"/>
 
-<kul:tab tabTitle="Protocol Attachments" tabItemCount="${fn:length(KualiForm.document.protocolList[0].activeAttachmentProtocols)}" defaultOpen="false" tabErrorKey="notesAttachmentsHelper.newAttachmentProtocol.*" transparentBackground="true" tabAuditKey="document.protocolList[0].attachmentProtocols*">
+<kul:tab tabTitle="Protocol Attachments" tabItemCount="${fn:length(KualiForm.document.protocolList[0].activeAttachmentProtocolsNoDelete)}" defaultOpen="false" tabErrorKey="notesAttachmentsHelper.newAttachmentProtocol.*" transparentBackground="true" tabAuditKey="document.protocolList[0].attachmentProtocols*">
 	<div class="tab-container" align="center">
    		<kra:permission value="${modify}">
 	   		<h3>

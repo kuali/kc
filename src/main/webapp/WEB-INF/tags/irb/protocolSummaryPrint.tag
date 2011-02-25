@@ -216,7 +216,7 @@
              </table>
 		</div>	
 		  
-		<c:if test="${fn:length(KualiForm.document.protocolList[0].activeAttachmentProtocols) > 0 or fn:length(KualiForm.document.protocolList[0].attachmentPersonnels) > 0}">
+		<c:if test="${fn:length(KualiForm.document.protocolList[0].activeAttachmentProtocolsNoDelete) > 0 or fn:length(KualiForm.document.protocolList[0].attachmentPersonnels) > 0}">
             <h3 style="${h3BkColor}">
                 <span class="subhead-left-black"><a href="#" id ="attachmentControl" class="printSubpanel"><img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a>
                 Attachments </span>
@@ -224,12 +224,12 @@
 	        <div id="attachmentContent" class="printSubpanelContent" style="padding-left: 15px;">   
             <table cellpadding="0" cellspacing="0" summary="print forms">
         </c:if>
-	    <c:if test="${fn:length(KualiForm.document.protocolList[0].activeAttachmentProtocols) > 0}">
+	    <c:if test="${fn:length(KualiForm.document.protocolList[0].activeAttachmentProtocolsNoDelete) > 0}">
 	            <tr>
 	                <td class="tab-subhead" colspan="3">Protocol Attachments</td>
 	            </tr>
 	
-	            <c:forEach var="protocolAttachment" items="${KualiForm.document.protocolList[0].activeAttachmentProtocols}" varStatus="status">
+	            <c:forEach var="protocolAttachment" items="${KualiForm.document.protocolList[0].activeAttachmentProtocolsNoDelete}" varStatus="status">
 	                <tr>
 	                    <td colspan="2">
 	                        ${protocolAttachment.description} - ${protocolAttachment.status.description} (${protocolAttachment.file.name})
@@ -269,7 +269,7 @@
 	          </c:forEach>
            </c:if>
 						                         
-	        <c:if test="${fn:length(KualiForm.document.protocolList[0].activeAttachmentProtocols) > 0 or fn:length(KualiForm.document.protocolList[0].attachmentPersonnels) > 0}">
+	        <c:if test="${fn:length(KualiForm.document.protocolList[0].activeAttachmentProtocolsNoDelete) > 0 or fn:length(KualiForm.document.protocolList[0].attachmentPersonnels) > 0}">
                 </table>
                 </div>
             </c:if>

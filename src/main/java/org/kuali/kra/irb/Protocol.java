@@ -96,6 +96,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     private static final CharSequence RENEWAL_LETTER = "R";
     private static final String DEFAULT_PROTOCOL_TYPE_CODE = "1";
     private static final String NEXT_ACTION_ID_KEY = "actionId";
+    private static final String DELETED_DOCUMENT = "3";
     
     private Long protocolId; 
     private String protocolNumber; 
@@ -1372,7 +1373,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
                 attachmentProtocols.add(attachment);
                 attachment.setProtocol(this);
             }
-            if ("3".equals(attachment.getDocumentStatusCode()) 
+            if (DELETED_DOCUMENT.equals(attachment.getDocumentStatusCode()) 
                     && KraServiceLocator.getService(ProtocolAttachmentService.class).isNewAttachmentVersion((ProtocolAttachmentProtocol) attachment)) {
                 attachmentProtocols.add(attachment);
                 attachment.setProtocol(this);
@@ -1541,7 +1542,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
 
     private void addAttachmentSummaries(ProtocolSummary protocolSummary) {
         for (ProtocolAttachmentProtocol attachment : getActiveAttachmentProtocols()) {
-            if (!StringUtils.equals(attachment.getDocumentStatusCode(), "3")) {
+         //   if (!StringUtils.equals(attachment.getDocumentStatusCode(), DELETED_DOCUMENT)) {
                 AttachmentSummary attachmentSummary = new AttachmentSummary();
                 attachmentSummary.setAttachmentId(attachment.getId());
                 attachmentSummary.setFileType(attachment.getFile().getType());
@@ -1550,7 +1551,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
                 attachmentSummary.setDescription(attachment.getDescription());
                 attachmentSummary.setDataLength(attachment.getFile().getData() == null ? 0 : attachment.getFile().getData().length);
                 protocolSummary.add(attachmentSummary);
-            }
+         //   }
         }
         for (ProtocolPerson person : getProtocolPersons()) {
             for (ProtocolAttachmentPersonnel attachment : person.getAttachmentPersonnels()) {
@@ -1726,7 +1727,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         for (ProtocolAttachmentProtocol attachment1 : getAttachmentProtocols()) {
             if ("1".equals(attachment1.getDocumentStatusCode())) {
                 activeAttachments.add(attachment1);
-            } else if ("2".equals(attachment1.getDocumentStatusCode()) || "3".equals(attachment1.getDocumentStatusCode())) {
+            } else if ("2".equals(attachment1.getDocumentStatusCode()) || DELETED_DOCUMENT.equals(attachment1.getDocumentStatusCode())) {
             //else if ("2".equals(attachment1.getDocumentStatusCode())) {
                 boolean isActive = true;
                 for (ProtocolAttachmentProtocol attachment2 : getAttachmentProtocols()) {
@@ -1743,6 +1744,18 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
                 }
             } else {
                 attachment1.setActive(false);
+            }
+        }
+        return activeAttachments;
+    }
+    
+    public List<ProtocolAttachmentProtocol> getActiveAttachmentProtocolsNoDelete() {
+        List<ProtocolAttachmentProtocol> activeAttachments = new ArrayList<ProtocolAttachmentProtocol>();
+        for (ProtocolAttachmentProtocol attachment : getActiveAttachmentProtocols()) {
+            if (!DELETED_DOCUMENT.equals(attachment.getDocumentStatusCode())) {
+                activeAttachments.add(attachment);
+            } else {
+                attachment.setActive(false);
             }
         }
         return activeAttachments;
