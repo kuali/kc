@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.UnitAclLoadable;
@@ -1215,10 +1216,24 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         for (ProtocolAmendRenewModule module : modules) {
             merge(amendment, module.getProtocolModuleTypeCode());
         }
+        if (amendment.isRenewalWithoutAmendment() && isRenewalWithNewAttachment(amendment)) {
+            merge(amendment, ProtocolModule.ADD_MODIFY_ATTACHMENTS);
+        }
         mergeProtocolSubmission(amendment);
         mergeProtocolAction(amendment);
     }
 
+    private boolean isRenewalWithNewAttachment(Protocol renewal) {
+        boolean hasNewAttachment = false;
+        for (ProtocolAttachmentProtocol attachment : renewal.getAttachmentProtocols()) {
+            if ("1".equals(attachment.getDocumentStatusCode())) {
+                hasNewAttachment = true;
+                break;
+            }
+        }
+        return hasNewAttachment;
+    }
+    
     /**
      * 
      * This method merges the data of a specific module of the amended protocol into this protocol.
@@ -1689,6 +1704,10 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     
     public boolean isRenewal() {
         return protocolNumber.contains(RENEWAL_LETTER);
+    }
+    
+    public boolean isRenewalWithoutAmendment() {
+        return isRenewal() && CollectionUtils.isEmpty(this.getProtocolAmendRenewal().getModules());
     }
     
     /**
