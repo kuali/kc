@@ -97,8 +97,7 @@ public class CommitteeBatchCorrespondenceServiceTest extends KcUnitTestBase {
       // assert CommitteeBatchCorrespondenceDetail
       assertEquals(1, committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().size());
       assertEquals(committeeBatchCorrespondence.getCommitteeBatchCorrespondenceId(), committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().get(0).getCommitteeBatchCorrespondenceId());
-      //assertEquals("Renewal Reminder Letter #1", committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().get(0).getProtocolAction().getComments());
-      assertEquals("Renewal Reminder Letter #2", committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().get(0).getProtocolAction().getComments());
+      assertEquals("Renewal Reminder Letter #1", committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().get(0).getProtocolAction().getComments());
     }
 
     /**
@@ -161,7 +160,7 @@ public class CommitteeBatchCorrespondenceServiceTest extends KcUnitTestBase {
         };
         protocol1.setProtocolNumber(PROTOCOL_NUMBER);
         protocol1.setSequenceNumber(SEQUENCE_NUMBER);
-        protocol1.setExpirationDate(new Date(DateUtils.addDays(new Date(System.currentTimeMillis()), 16).getTime())); 
+        protocol1.setExpirationDate(new Date(DateUtils.addDays(new Date(System.currentTimeMillis()), 17).getTime())); 
         protocol1.setProtocolActions(new ArrayList<ProtocolAction>());
         ProtocolAction protocolAction1 = new ProtocolAction();
         protocolAction1.setActionDate(new Timestamp(DateUtils.addDays(new Date(System.currentTimeMillis()), -2).getTime()));
