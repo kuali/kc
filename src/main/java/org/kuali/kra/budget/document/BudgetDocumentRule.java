@@ -57,6 +57,7 @@ import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.BudgetRateAuditRule;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
+import org.kuali.kra.costshare.CostShareRuleResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.budget.modular.SyncModularBudgetRule;
@@ -71,7 +72,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
-public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddBudgetPeriodRule, AddBudgetCostShareRule, AddBudgetProjectIncomeRule, SaveBudgetPeriodRule, DeleteBudgetPeriodRule, GenerateBudgetPeriodRule, DocumentAuditRule, SyncModularBudgetRule {
+public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implements AddBudgetPeriodRule, AddBudgetCostShareRule, AddBudgetProjectIncomeRule, SaveBudgetPeriodRule, DeleteBudgetPeriodRule, GenerateBudgetPeriodRule, DocumentAuditRule, SyncModularBudgetRule {
 
     /** 
      * @see org.kuali.kra.budget.distributionincome.AddBudgetCostShareRule#processAddBudgetCostShareBusinessRules(org.kuali.kra.budget.distributionincome.AddBudgetCostShareEvent)
@@ -181,7 +182,13 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
                         valid = false;
                     }
                 }
-            }            
+            }        
+            
+            //validate project period stuff            
+            String currentField = "document.budget.budgetCostShare[" + i + "].projectPeriod";
+            boolean validationCheck = this.validateProjectPeriod(budgetCostShare.getProjectPeriod(), currentField);            
+            valid &= validationCheck;
+            
             errorMap.removeFromErrorPath(errorPath);
             i++;
         }
