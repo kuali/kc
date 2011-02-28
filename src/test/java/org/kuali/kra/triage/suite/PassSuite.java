@@ -487,7 +487,13 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.award.lookup.keyvalue.AwardUnitContactTypeValuesFinderTest.class,
     org.kuali.kra.s2s.generator.impl.PHS398ResTrainProgPlanV1_0GeneratorTest.class,
     org.kuali.kra.award.budget.AwardBudgetServiceImplTest.class,
-    org.kuali.kra.costshare.CostShareServiceTest.class
+    org.kuali.kra.costshare.CostShareServiceTest.class,
+    // 3 selenium tests example for IRB & Committee.  remove them if they cause issues
+    org.kuali.kra.committee.selenium.CommitteeCompleteTest.class,
+    // need to run CommitteeCompleteTest first to set up committee which will be referenced by ProtocolSubmitTest
+    org.kuali.kra.irb.selenium.ProtocolSubmitTest.class,
+    org.kuali.kra.irb.selenium.ProtocolProtocolPageTest.class
+    
 })
 /** these are all the test class where all the test methods are currently passing. */
 public class PassSuite {
