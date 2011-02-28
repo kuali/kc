@@ -23,11 +23,11 @@ import com.thoughtworks.selenium.Selenium;
 
 public class KcUnitTestSeleniumLifecycle extends KcUnitTestBaseLifecycle {
     
-    private static final String SERVER_HOST = "127.0.0.1";
+    private static final String SERVER_HOST = "localhost";
     private static final int SERVER_PORT = 4444;
     private static final String BROWSER_START_COMMAND = "*firefox";
     private static final String BROWSER_PROTOCOL = "http";
-    private static final String BROWSER_ADDRESS = "127.0.0.1";
+    private static final String BROWSER_ADDRESS = "localhost";
     
     private SeleniumServer seleniumServer;
     private Selenium selenium;
