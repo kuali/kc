@@ -24,9 +24,9 @@ import org.kuali.rice.kns.rule.BusinessRule;
 public class AddBudgetCostShareEvent extends KraDocumentEventBase {
     private static final Log LOG = LogFactory.getLog(AddBudgetCostShareEvent.class);
     
-    private BudgetDistributionAndIncomeComponent budgetCostShare;
+    private BudgetCostShare budgetCostShare;
     
-    public AddBudgetCostShareEvent(String description, String errorPathPrefix, Document document, BudgetDistributionAndIncomeComponent budgetCostShare) {
+    public AddBudgetCostShareEvent(String description, String errorPathPrefix, Document document, BudgetCostShare budgetCostShare) {
         super(description, errorPathPrefix, document);
         this.budgetCostShare = budgetCostShare;
     }
@@ -47,7 +47,7 @@ public class AddBudgetCostShareEvent extends KraDocumentEventBase {
         return ((AddBudgetCostShareRule) rule).processAddBudgetCostShareBusinessRules(this);
     }
 
-    public BudgetDistributionAndIncomeComponent getBudgetCostShare() {
+    public BudgetCostShare getBudgetCostShare() {
         return budgetCostShare;
     }
 
