@@ -16,6 +16,8 @@
 package org.kuali.kra.budget.distributionincome;
 
 import org.kuali.kra.budget.document.BudgetDocumentContainer;
+import org.kuali.kra.costshare.CostShareService;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
@@ -42,14 +44,17 @@ public class BudgetCostShareRuleImpl implements AddBudgetCostShareRule, BudgetVa
      * @see org.kuali.kra.budget.distributionincome.AddBudgetCostShareRule#processAddBudgetCostSharingRules(org.kuali.kra.budget.distributionincome.AddBudgetCostShareEvent)
      */
     public boolean processAddBudgetCostShareBusinessRules(AddBudgetCostShareEvent budgetCostShareEvent) {
-        return !areDuplicatesPresent(budgetCostShareEvent.getBudgetCostShare());
+        boolean retVal = !areDuplicatesPresent(budgetCostShareEvent.getBudgetCostShare());
+        retVal &= validateProjectPeriod(budgetCostShareEvent);
+        return retVal;
     }
 
     /**
      * @see org.kuali.kra.budget.distributionincome.BudgetValidationCostShareRule#processBudgetValidationCostShareBusinessRules(org.kuali.kra.budget.distributionincome.BudgetValidationCostShareEvent)
      */
     public boolean processBudgetValidationCostShareBusinessRules(BudgetValidationCostShareEvent budgetCostShareEvent) {
-        return areRequiredRulesSatisfied(budgetCostShareEvent.getBudgetCostShare());
+        boolean retVal = areRequiredRulesSatisfied(budgetCostShareEvent.getBudgetCostShare());
+        return retVal;
     }
 
     /**
@@ -61,20 +66,21 @@ public class BudgetCostShareRuleImpl implements AddBudgetCostShareRule, BudgetVa
     private boolean areDuplicatesPresent(BudgetDistributionAndIncomeComponent testBudgetCostShare) {
         boolean duplicate = false;
         
-        if(testBudgetCostShare == null) {
+        if (testBudgetCostShare == null) {
             return duplicate;
         }
         
         KualiForm form = GlobalVariables.getKualiForm();
-        if(form instanceof BudgetDocumentContainer) {
+        if (form instanceof BudgetDocumentContainer) {
             BudgetDocumentContainer budgetContainerForm = (BudgetDocumentContainer) form;
             
-            for(BudgetDistributionAndIncomeComponent budgetCostShare: budgetContainerForm.getBudgetDocument().getBudget().getBudgetCostShares()) {
+            for (BudgetDistributionAndIncomeComponent budgetCostShare : budgetContainerForm.getBudgetDocument().getBudget().getBudgetCostShares()) {
                 duplicate = checkForDuplicateFields(testBudgetCostShare, budgetCostShare);
-                if(duplicate) { break; }
+                if (duplicate) { 
+                    break; 
+                }
             }            
         }
-
         return duplicate;
     }
 	
@@ -99,18 +105,38 @@ public class BudgetCostShareRuleImpl implements AddBudgetCostShareRule, BudgetVa
      */
 	private boolean checkForDuplicateFields(BudgetDistributionAndIncomeComponent testBudgetCostShare, BudgetDistributionAndIncomeComponent budgetCostShare) {
         boolean duplicate = testBudgetCostShare.equals(budgetCostShare);
-        if(duplicate) {
+        if (duplicate) {
             GlobalVariables.getErrorMap().putError("newCostShare.*", ADD_ERROR_KEY, "A Cost Share with the same Fiscal Year, Source Account and Amount exists in the table");
         }
         return duplicate;
     }
-
+	
+	/**
+	 * 
+	 * @see org.kuali.kra.budget.distributionincome.BudgetCostShareAllocationRule#processBudgetCostShareAllocationBusinessRules(org.kuali.kra.budget.distributionincome.BudgetCostShareAllocationEvent)
+	 */
     public boolean processBudgetCostShareAllocationBusinessRules(BudgetCostShareAllocationEvent budgetCostShareEvent) {
         boolean unallocatedCostSharingExists = budgetCostShareEvent.getBudgetDocument().getBudget().getUnallocatedCostSharing().isNonZero();
         if (unallocatedCostSharingExists) {
             GlobalVariables.getErrorMap().putError("document.budgetCostShare*", ADD_ERROR_KEY, "Cost share allocation doesn't total available cost sharing");
         }
         return unallocatedCostSharingExists;
+    }
+    
+    private boolean validateProjectPeriod(AddBudgetCostShareEvent budgetCostShareEvent) {
+        Integer projectPeriod = budgetCostShareEvent.getBudgetCostShare().getProjectPeriod();
+        //The Project Period (Project Period) may only consist of digits. There must be exactly 4 character(s).
+        if (projectPeriod == null || projectPeriod < 1000 || projectPeriod > 9999) {
+            GlobalVariables.getErrorMap().putError("newBudgetCostShare.projectPeriod", ADD_ERROR_KEY, 
+                    getProjectPeriodLabel() + " may only consist of digits. There must be exactly 4 character(s).");
+            return false;
+        }
+        return true;
+    }
+    
+    private String getProjectPeriodLabel() {
+        String label = KraServiceLocator.getService(CostShareService.class).getCostShareLabel();
+        return label;
     }
 
 }
