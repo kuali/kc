@@ -20,19 +20,17 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CostShareType;
-import org.kuali.kra.costshare.CostShareService;
-import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.costshare.CostShareRuleResearchDocumentBase;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class...
  */
-public class InstitutionalProposalAddCostShareRuleImpl extends ResearchDocumentRuleBase implements
+public class InstitutionalProposalAddCostShareRuleImpl extends CostShareRuleResearchDocumentBase implements
         InstitutionalProposalAddCostShareRule {
 
     //private static final String NEW_PROPOSAL_COST_SHARE = Constants.IP_COST_SHARE_ADD_ACTION_PROPERTY_KEY;
@@ -97,6 +95,9 @@ public class InstitutionalProposalAddCostShareRuleImpl extends ResearchDocumentR
     * @return Boolean
     */
     public boolean validateCostShareFiscalYearRange(InstitutionalProposalCostShare institutionalProposalCostShare){
+        String projectPeriodField = this.fieldStarter + ".projectPeriod";
+        return this.validateProjectPeriod(institutionalProposalCostShare.getProjectPeriod(), projectPeriodField);
+        /*
         boolean valid = true;
         String projectPeriodField = this.fieldStarter + ".projectPeriod";
         if (institutionalProposalCostShare.getProjectPeriod() != null) {
@@ -117,12 +118,14 @@ public class InstitutionalProposalAddCostShareRuleImpl extends ResearchDocumentR
             }
         }
         return valid;
+        */
     }
     
+    /*
     private String getProjectPeriodLabel() {
         String label = KraServiceLocator.getService(CostShareService.class).getCostShareLabel();
         return label;
-    }
+    }*/
 
     private boolean validatePercentage(KualiDecimal percentage) {
         boolean isValid = true;
