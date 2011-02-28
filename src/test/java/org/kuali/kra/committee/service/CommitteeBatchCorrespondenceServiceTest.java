@@ -97,7 +97,8 @@ public class CommitteeBatchCorrespondenceServiceTest extends KcUnitTestBase {
       // assert CommitteeBatchCorrespondenceDetail
       assertEquals(1, committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().size());
       assertEquals(committeeBatchCorrespondence.getCommitteeBatchCorrespondenceId(), committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().get(0).getCommitteeBatchCorrespondenceId());
-      assertEquals("Renewal Reminder Letter #1", committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().get(0).getProtocolAction().getComments());
+      //assertEquals("Renewal Reminder Letter #1", committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().get(0).getProtocolAction().getComments());
+      assertEquals("Renewal Reminder Letter #2", committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().get(0).getProtocolAction().getComments());
     }
 
     /**
