@@ -19,18 +19,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kra.bo.CostShareType;
-import org.kuali.kra.costshare.CostShareService;
-import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.costshare.CostShareRuleResearchDocumentBase;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class...
  */
-public class AwardCostShareRuleImpl extends ResearchDocumentRuleBase implements AwardCostShareRule {
+public class AwardCostShareRuleImpl extends CostShareRuleResearchDocumentBase implements AwardCostShareRule {
 
     
     //private static final String NEW_AWARD_COST_SHARE = "costShareFormHelper.newAwardCostShare";
@@ -108,6 +106,9 @@ public class AwardCostShareRuleImpl extends ResearchDocumentRuleBase implements 
     * @return Boolean
     */
     public boolean validateCostShareFiscalYearRange(AwardCostShare awardCostShare) {
+        String projectPeriodField = fieldStarter + ".projectPeriod";
+        return this.validateProjectPeriod(awardCostShare.getProjectPeriod(), projectPeriodField);
+        /*
         boolean valid = true;
         String projectPeriodField = fieldStarter + ".projectPeriod";
         if (awardCostShare.getProjectPeriod() != null) {
@@ -126,12 +127,14 @@ public class AwardCostShareRuleImpl extends ResearchDocumentRuleBase implements 
             reportError(projectPeriodField, KeyConstants.ERROR_FISCAL_YEAR_REQUIRED, getProjectPeriodLabel());
         }
         return valid;
+        */
     }
     
+    /*
     private String getProjectPeriodLabel() {
         String label = KraServiceLocator.getService(CostShareService.class).getCostShareLabel();
         return label;
-    }
+    }*/
 
     private boolean validatePercentage(KualiDecimal percentage) {
         boolean isValid = true;
