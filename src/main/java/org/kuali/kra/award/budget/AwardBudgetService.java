@@ -74,4 +74,12 @@ public interface AwardBudgetService extends BudgetCommonService<Award> {
      * @return
      */
     public List<BudgetPeriod> findBudgetPeriodsFromLinkedProposal(String awardNumber);
+    
+    /**
+     * Return a list of the award budget status codes that are considered inactive,
+     * currently cancelled, rejected and do not post. This is used to determine
+     * which budgets to display by default.
+     * @return
+     */
+    public List<String> getInactiveBudgetStatus();
 }
