@@ -94,14 +94,9 @@
 								<wsdlOption>
 								    <noAddressBinding>true</noAddressBinding>
 									<wsdl>${gg.wsdl.location}/AccountCreationService.wsdl</wsdl>
-									<bindingFiles>
-                          				<bindingFile>${basedir}/src/main/resources/wsdl/account.xml</bindingFile>
-                        			</bindingFiles>
 									<extraargs>
 								    	<extraarg>-verbose</extraarg>
 								    	<extraarg>-validate</extraarg>
-								    	<extraarg>-wsdlLocation</extraarg>
-								    	<extraarg>${account.wsdl.packaged.location}</extraarg>
 								    </extraargs>
 								</wsdlOption>
 							</wsdlOptions>
@@ -1539,6 +1534,5 @@
     	<cobertura.maxmem>512M</cobertura.maxmem>
     	<gg.wsdl.location>${basedir}/src/main/resources/wsdl</gg.wsdl.location>
     	<gg.schema.dir>${basedir}/src/main/resources/wsdl/schema</gg.schema.dir>
-    	<account.wsdl.packaged.location>wsdl/AccountCreationService.wsdl</account.wsdl.packaged.location>  
 	</properties>
 </project>
