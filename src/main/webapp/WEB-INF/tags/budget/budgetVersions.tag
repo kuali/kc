@@ -16,6 +16,45 @@
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
+<c:if test="${!proposalBudgetFlag}">
+<script type="text/javascript" src="scripts/jquery/jquery.js"></script>
+<script language="javascript">
+  var $jq = jQuery.noConflict();
+
+  function displayOfInactiveStatuses(checkbox) {
+	  var statuses = [
+	        <c:forEach items="${KualiForm.awardBudgetInactiveStatuses}" var="statusCode" varStatus="idx">
+	           '${statusCode}'
+	           <c:if test="${idx.index < fn:length(KualiForm.awardBudgetInactiveStatuses)-1}">
+	              ,
+	           </c:if>
+		   </c:forEach>
+		   ];
+	  $jq('#budget-versions-table').find('select[name$="awardBudgetStatusCode"]').each(function() {
+		  if (statuses.indexOf($jq(this).val()) != -1) {
+			  if ($jq(checkbox).is(':checked')) {
+			  	$jq(this).parent().parent().parent().parent().show();
+			  	if ($jq(this).parent().parent().parent().parent().prev().val() == 'OPEN') {
+			  		$jq(this).parent().parent().parent().parent().next().show();
+			  	}
+			  } else {
+				$jq(this).parent().parent().parent().parent().hide();
+				$jq(this).parent().parent().parent().parent().next().hide();
+			  }
+		  }
+	  });
+  }
+
+  $jq(document).ready(function() {
+	  $jq('tr.showAllRow').show();
+	  displayOfInactiveStatuses($jq('input[name=showAllBudgetVersions]'));
+	  $jq('input[name=showAllBudgetVersions]').click(function () {
+		  displayOfInactiveStatuses(this);
+	  });
+  });
+</script>
+</c:if>
+
 <%@ attribute name="budgetDocumentVersions" required="true" type="java.util.List"%>
 <%@ attribute name="pathToVersions" required="true"%>
 <%@ attribute name="requestedStartDateInitial" required="true" %>
@@ -149,7 +188,7 @@
 				</c:if>
 					<html:hidden property="tabStates(${versionTab})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
 					
-          		<tr>
+          		<tr class="budgetline">
            			<td align="right" class="tab-subhead" scope="row">
            				<div align="center">
            					<c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
@@ -247,12 +286,18 @@
          		</tr>
          		</tbody>
           	</c:forEach>
+            <c:if test="${!proposalBudgetFlag}">
+          	<tr class="showAllRow" style="display:none;">
+          	  <td class="infoline" style="text-align:right;" colspan="9"><html:checkbox name="KualiForm" property="showAllBudgetVersions">Show All Budgets</html:checkbox></td>
+          	</tr>
+          	</c:if>
         </table>
 	</div> 
 </kul:tab>
 <c:if test="${proposalBudgetFlag or empty awardBudgetPage}">
   <kul:panelFooter />
 </c:if>
+<c:if test="${proposalBudgetFlag}">
 <c:choose>                    	
 	<c:when test="${readonly}">
 		<img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" onLoad="toggleFinalCheckboxesAndDisable(document);" />
@@ -260,4 +305,5 @@
 	<c:otherwise>
 		<img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" onLoad="toggleFinalCheckboxes(document); setupBudgetStatuses(document);" />
 	</c:otherwise>
-</c:choose>                      
+</c:choose>
+</c:if>
