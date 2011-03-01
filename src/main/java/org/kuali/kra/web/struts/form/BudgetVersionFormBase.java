@@ -17,12 +17,16 @@ package org.kuali.kra.web.struts.form;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.award.budget.AwardBudgetService;
+import org.kuali.kra.award.budget.AwardBudgetStatus;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
 
 /**
@@ -36,6 +40,7 @@ public abstract class BudgetVersionFormBase extends KraTransactionalDocumentForm
     private boolean auditActivated;
     private String activePanelName;
     private boolean saveAfterCopy;
+    private boolean showAllBudgetVersions;
 
     private String proposalHierarchyIndirectObjectCode;
 
@@ -63,6 +68,7 @@ public abstract class BudgetVersionFormBase extends KraTransactionalDocumentForm
         super.reset(mapping, request);
         this.setLookupResultsSequenceNumber(null);
         this.setLookupResultsBOClassName(null);
+        this.setShowAllBudgetVersions(false);
     }
     
     // Getters and setters
@@ -191,6 +197,20 @@ public abstract class BudgetVersionFormBase extends KraTransactionalDocumentForm
 		this.lookedUpCollectionName = lookedUpCollectionName;
 	}
 
+    public boolean isShowAllBudgetVersions() {
+        return showAllBudgetVersions;
+    }
+
+    public void setShowAllBudgetVersions(boolean showAllBudgetVersions) {
+        this.showAllBudgetVersions = showAllBudgetVersions;
+    }
+
+    /**
+     * @see org.kuali.kra.award.budget.AwardBudgetService#getInactiveBudgetStatus()
+     */
+    public List<String> getAwardBudgetInactiveStatuses() {
+        return KraServiceLocator.getService(AwardBudgetService.class).getInactiveBudgetStatus();
+    }
 
     
 }

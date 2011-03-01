@@ -668,6 +668,19 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         return result;
     }
     
+    /**
+     * 
+     * @see org.kuali.kra.award.budget.AwardBudgetService#getInactiveBudgetStatus()
+     */
+    public List<String> getInactiveBudgetStatus() {
+        List<String> result = new ArrayList<String>();
+        result.add(getRejectedBudgetStatus());
+        result.add(getCancelledBudgetStatus());
+        result.add(getDoNotPostBudgetStatus());
+        result.add(getDisapprovedBudgetStatus());
+        return result;
+    }
+    
     protected String getPostedBudgetStatus() {
         return getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_POSTED);
     }
@@ -678,5 +691,13 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
     
     protected String getCancelledBudgetStatus() {
         return Constants.BUDGET_STATUS_CODE_CANCELLED;    
+    }
+    
+    protected String getDisapprovedBudgetStatus() {
+        return Constants.BUDGET_STATUS_CODE_DISAPPROVED;
+    }
+    
+    protected String getDoNotPostBudgetStatus() {
+        return getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_DO_NOT_POST);
     }
 }
