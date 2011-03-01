@@ -95,8 +95,7 @@
     <property name="shortLabel" value="Project Period" />
     <property name="maxLength" value="4" />
     <property name="validationPattern" >
-      <bean parent="NumericValidationPattern"
-            p:exactLength="4" />
+      <bean parent="NumericValidationPattern" />
     </property>
     <property name="required" value="false" />
     <property name="control" >
