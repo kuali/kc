@@ -38,8 +38,9 @@ public abstract class CostShareRuleResearchDocumentBase extends ResearchDocument
         boolean valid = true;
         if (projectPeriod != null) {
             try {
-                int fiscalYear = Integer.parseInt(projectPeriod.toString());
-                if (fiscalYear < Constants.MIN_FISCAL_YEAR || fiscalYear > Constants.MAX_FISCAL_YEAR) {
+                int projectPeriodInt = Integer.parseInt(projectPeriod.toString());
+                //if the project period is greater than 999 then validate it as a year, other wise, we are being flexible.
+                if (projectPeriodInt > 999 && (projectPeriodInt < Constants.MIN_FISCAL_YEAR || projectPeriodInt > Constants.MAX_FISCAL_YEAR)) {
                     valid = false;
                     reportError(projectPeriodField, KeyConstants.ERROR_FISCAL_YEAR_RANGE, getProjectPeriodLabel());
                 }
