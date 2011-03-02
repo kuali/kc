@@ -301,7 +301,8 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         Long questionnaireRefId = KraServiceLocator.getService(SequenceAccessorService.class).getNextAvailableSequenceNumber(
                 "SEQ_QUESTIONNAIRE_REF_ID");
         questionnaire.setQuestionnaireRefId(questionnaireRefId);
-        questionnaire.setIsFinal(false);
+        // inherit from previous version when start editing
+//        questionnaire.setIsFinal(false);
         oldQuestionnaire.setQuestionnaireRefId(questionnaireRefId);
         String questions = assembleQuestions(qnForm);
         String usages = assembleUsages(((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject()
@@ -322,8 +323,8 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
 
         ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getBusinessObject())
         .setDocumentNumber(((MaintenanceDocumentBase) qnForm.getDocument()).getDocumentNumber());
-        ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getBusinessObject())
-        .setIsFinal(true);
+//        ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getBusinessObject())
+//        .setIsFinal(true);
         setupQuestionAndUsage(form);
         qnForm.setNewQuestionnaireUsage(new QuestionnaireUsage());
         ActionForward forward = super.route(mapping, form, request, response);
@@ -342,8 +343,8 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         }
         ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getBusinessObject())
         .setDocumentNumber(((MaintenanceDocumentBase) qnForm.getDocument()).getDocumentNumber());
-        ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getBusinessObject())
-        .setIsFinal(true);
+//        ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getBusinessObject())
+//        .setIsFinal(true);
         setupQuestionAndUsage(form);
         ActionForward forward = super.blanketApprove(mapping, form, request, response);
         return forward;

@@ -17,11 +17,13 @@ package org.kuali.kra.questionnaire;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
@@ -35,35 +37,71 @@ import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KNSConstants;
 
-import java.util.Collections;
-
 /**
  * 
  * This class is mainly to override edit/copy action urls and create 'view' url.
  * Also, sort search results.
  */
 public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+
+    private static final long serialVersionUID = 1800678175555048310L;
     private static final String VIEW = "view";
-    private static final String DOCHANDLER_VIEW_LINK = "%s/DocHandler.do?command=displayDocSearchView&readOnly=true&docId=%s";
+    private static final String DOCHANDLER_LINK = "%s/DocHandler.do?command=displayDocSearchView&docId=%s";
     private static final String MAINTENANCE = "maintenance";
     private static final String NEW_MAINTENANCE = "../maintenanceQn";
     private static final String DOC_ROUTE_STATUS = "docRouteStatus";
     private static final String QUESTIONNAIRE_ID = "questionnaireId";
     private DocumentService documentService;
     private QuestionnaireAuthorizationService questionnaireAuthorizationService;
-    private List<Integer> questionnaireMaintenanceDocs;
+    private List<MaintenanceDocumentBase> questionnaireMaintenanceDocs;
+    private List<MaintenanceDocumentBase> newQuestionnaireDocs;
+    private List<Integer> questionnaireIds;
+    private String isActive;
 
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        questionnaireMaintenanceDocs = getQuestionnaireDocs();
+        isActive = fieldValues.get("isFinal");
+        getQuestionnaireDocs();
         List<? extends BusinessObject> searchResults = super.getSearchResults(fieldValues);
         if (CollectionUtils.isNotEmpty(searchResults)) {
             Collections.sort((List<Questionnaire>) searchResults);
             Collections.reverse((List<Questionnaire>) searchResults);
         }
-        return searchResults;
+        return getCurrentVersionQuestionnaires(searchResults);
     }
 
+    /*
+     * only get the current version for search results
+     */
+    private List<? extends BusinessObject> getCurrentVersionQuestionnaires(List<? extends BusinessObject> searchResults) {
+        List<Questionnaire> questionnaires = new ArrayList<Questionnaire>();
+        int qId = 0;
+        for (BusinessObject questionnaire : searchResults) {
+            if (qId != ((Questionnaire) questionnaire).getQuestionnaireId()) {
+                qId = ((Questionnaire) questionnaire).getQuestionnaireId();
+                if (isCurrent((Questionnaire) questionnaire)) {
+                    questionnaires.add((Questionnaire) questionnaire);
+                }
+            }
+        }
+        for (MaintenanceDocumentBase doc : newQuestionnaireDocs) {
+            Questionnaire questionnaire = (Questionnaire) doc.getNewMaintainableObject().getBusinessObject();
+            questionnaires.add(questionnaire);
+        }
+
+        return questionnaires;
+
+    }
+
+    /*
+     * the criteria may filter out the current version of questionnaire, so has to make sure the
+     * search results is indeed the current version.
+     */
+    private boolean isCurrent(Questionnaire questionnaire) {
+        Questionnaire currentQnaire = getQuestionnaireById(questionnaire.getQuestionnaireId());
+        return questionnaire.getQuestionnaireRefId().equals(currentQnaire.getQuestionnaireRefId());
+    }
+    
     // TODO : Maybe we need a versioning history for Questionnaire, so we don't have to do this.
     protected Questionnaire getQuestionnaireById(Integer questionnaireId) {
         Questionnaire questionnaire = null;
@@ -87,33 +125,55 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
-        Questionnaire questionnaire = getQuestionnaireById(((Questionnaire) businessObject).getQuestionnaireId());
+        Questionnaire questionnaire = (Questionnaire) businessObject;
         boolean hasModifyPermission = questionnaireAuthorizationService.hasPermission(PermissionConstants.MODIFY_QUESTIONNAIRE);
         boolean hasViewPermission = hasModifyPermission
                 || questionnaireAuthorizationService.hasPermission(PermissionConstants.VIEW_QUESTIONNAIRE);
-        if (!questionnaire.getQuestionnaireRefId().equals(((Questionnaire) businessObject).getQuestionnaireRefId())) {
-            if (hasViewPermission) {
-                htmlDataList.add(getViewLink(businessObject));
-            }
+        if (hasModifyPermission && questionnaire.getQuestionnaireId() != null
+                && (CollectionUtils.isEmpty(questionnaireIds) || !questionnaireIds.contains(questionnaire.getQuestionnaireId()))) {
+            htmlDataList.add(getHtmlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
         }
-        else {
-            if (hasModifyPermission && (CollectionUtils.isEmpty(questionnaireMaintenanceDocs) || !questionnaireMaintenanceDocs.contains(questionnaire.getQuestionnaireId()))) {
-                htmlDataList.add(getHtmlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
-            }
-            if (hasViewPermission) {
-                htmlDataList.add(getViewLink(businessObject));
-            }
+        if (hasModifyPermission
+                && (questionnaire.getQuestionnaireId() == null || (!CollectionUtils.isEmpty(questionnaireIds) && questionnaireIds
+                        .contains(questionnaire.getQuestionnaireId())))) {
+            AnchorHtmlData htmlData = (AnchorHtmlData) getHtmlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL,
+                    pkNames);
+            String workflowUrl = getKualiConfigurationService().getPropertyString(KNSConstants.WORKFLOW_URL_KEY);
+            htmlData.setHref(String.format(DOCHANDLER_LINK, workflowUrl, getDocumentNumber(questionnaire)));
+            htmlData.setDisplayText("resume edit");
+            htmlDataList.add(htmlData);
         }
-        if (hasModifyPermission) {
+        if (hasViewPermission && questionnaire.getQuestionnaireId() != null) {
+            htmlDataList.add(getViewLink(businessObject));
+        }
+        if (hasModifyPermission && questionnaire.getQuestionnaireId() != null) {
             htmlDataList.add(getHtmlData(businessObject, KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames));
         }
         return htmlDataList;
     }
 
+    /*
+     * for new questionnaire, documentnumber is from questionaire
+     * for 'edit', documentnumber should be from the saved maintenance doc
+     */
+    private String getDocumentNumber (Questionnaire questionnaire) {
+        String docNumber = null;
+        if (questionnaire.getQuestionnaireId() == null) {
+            docNumber = questionnaire.getDocumentNumber();
+        } else {
+            for (MaintenanceDocumentBase doc : questionnaireMaintenanceDocs) {
+                if (((Questionnaire) doc.getNewMaintainableObject().getBusinessObject()).getQuestionnaireId().equals(questionnaire.getQuestionnaireId())) {
+                    docNumber = doc.getDocumentNumber();
+                }
+            }
+        }
+        return docNumber;
+    }
+    
     protected AnchorHtmlData getViewLink(BusinessObject businessObject) {
         AnchorHtmlData htmlData = new AnchorHtmlData();
         String workflowUrl = getKualiConfigurationService().getPropertyString(KNSConstants.WORKFLOW_URL_KEY);
-        htmlData.setHref(String.format(DOCHANDLER_VIEW_LINK, workflowUrl, ((Questionnaire) businessObject).getDocumentNumber()));
+        htmlData.setHref(String.format(DOCHANDLER_LINK, workflowUrl, ((Questionnaire) businessObject).getDocumentNumber()).replace("&docId", "&readOnly=true&docId"));
 
         htmlData.setDisplayText(VIEW);
         return htmlData;        
@@ -130,15 +190,21 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
      * If questionnaire is being edited, then it should not allow 'edit' until this is approved or cancelled 
      * Call this method one time for each search because this list maybe changed from search to search.
      */
-    protected List<Integer> getQuestionnaireDocs() {
-        List<Integer> questionnaireDocs = new ArrayList<Integer>();
-        Map<String, String> fieldValues = new HashMap<String, String>();
+    protected void getQuestionnaireDocs() {
+        questionnaireMaintenanceDocs = new ArrayList<MaintenanceDocumentBase>();
+        newQuestionnaireDocs = new ArrayList<MaintenanceDocumentBase>();
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        questionnaireIds = new ArrayList<Integer>();
 
-        fieldValues.put(KEWPropertyConstants.NAME, getMaintenanceDocumentDictionaryService().getDocumentTypeName(Questionnaire.class));
-        DocumentType docType = ((List<DocumentType>) getBusinessObjectService().findMatching(DocumentType.class, fieldValues))
-                .get(0);
+        fieldValues.put(KEWPropertyConstants.NAME, getMaintenanceDocumentDictionaryService().getDocumentTypeName(
+                Questionnaire.class));
+        List<Long> docTypeIds = new ArrayList<Long>();
+        for (DocumentType docType : (List<DocumentType>) getBusinessObjectService().findMatching(DocumentType.class, fieldValues)) {
+            docTypeIds.add(docType.getDocumentTypeId());
+        }
+
         fieldValues.clear();
-        fieldValues.put(KEWPropertyConstants.DOCUMENT_TYPE_ID, docType.getDocumentTypeId().toString());
+        fieldValues.put(KEWPropertyConstants.DOCUMENT_TYPE_ID, docTypeIds);
         fieldValues.put(DOC_ROUTE_STATUS, KEWConstants.ROUTE_HEADER_SAVED_CD);
         List<DocumentRouteHeaderValue> docHeaders = (List<DocumentRouteHeaderValue>) getBusinessObjectService().findMatching(
                 DocumentRouteHeaderValue.class, fieldValues);
@@ -147,14 +213,22 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
                 MaintenanceDocumentBase doc = (MaintenanceDocumentBase) documentService.getByDocumentHeaderId(docHeader
                         .getRouteHeaderId().toString());
                 if (doc.getNewMaintainableObject().getMaintenanceAction().equals(KNSConstants.MAINTENANCE_EDIT_ACTION)) {
-                    questionnaireDocs.add(((Questionnaire) doc.getNewMaintainableObject().getBusinessObject()).getQuestionnaireId());
+                    questionnaireIds.add(((Questionnaire) doc.getNewMaintainableObject().getBusinessObject()).getQuestionnaireId());
+                    questionnaireMaintenanceDocs.add(doc);
+                } else if (doc.getNewMaintainableObject().getMaintenanceAction().equals(KNSConstants.MAINTENANCE_NEW_ACTION)) {
+                    // new questionnaire which is not approved yet.
+                    Questionnaire questionnaire = (Questionnaire) doc.getNewMaintainableObject().getBusinessObject();
+                    if (StringUtils.isBlank(isActive)
+                            || (KNSConstants.NO_INDICATOR_VALUE.equals(isActive) && !questionnaire.getIsFinal())
+                            || (KNSConstants.YES_INDICATOR_VALUE.equals(isActive) && questionnaire.getIsFinal())) {
+                        newQuestionnaireDocs.add(doc);
+                    }
                 }
             }
         }
         catch (Exception e) {
 
         }
-        return questionnaireDocs;
     }
 
     public void setQuestionnaireAuthorizationService(QuestionnaireAuthorizationService questionnaireAuthorizationService) {
