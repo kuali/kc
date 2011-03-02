@@ -173,7 +173,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
      */
     private List<ProtocolAmendRenewal> protocolAmendRenewals;
     
-    private boolean correctionMode = false;
+    private transient boolean correctionMode = false;
     
     private transient DateTimeService dateTimeService;
     private transient SequenceAccessorService sequenceAccessorService;
