@@ -107,6 +107,7 @@ public class QuestionnaireAnswerServiceTest {
         Questionnaire questionnaire = new Questionnaire();
         questionnaire.setQuestionnaireId(questionnaireId);
         questionnaire.setQuestionnaireRefId(id);
+        questionnaire.setIsFinal(true);
         questionnaire.setSequenceNumber(sequenceNumber);
         List<QuestionnaireQuestion> questionnaireQuestions = new ArrayList<QuestionnaireQuestion>();
         questionnaireQuestions.add(createQuestionnaireQuestion(1));
