@@ -385,8 +385,8 @@ public class PrintingTestUtils {
 		awardAmountInfo.setAmountObligatedToDate(new KualiDecimal(2000L));
 		awardAmountInfo.setAntDistributableAmount(new KualiDecimal(3000L));
 		awardAmountInfo.setAnticipatedChange(new KualiDecimal(23L));
-		awardAmountInfo.setAnticipatedChangeDirect(2L);
-		awardAmountInfo.setAnticipatedChangeIndirect(3L);
+		awardAmountInfo.setAnticipatedChangeDirect(new KualiDecimal(2L));
+		awardAmountInfo.setAnticipatedChangeIndirect(new KualiDecimal(3L));
 		awardAmountInfo.setAnticipatedTotalAmount(new KualiDecimal(3000L));
 		awardAmountInfo.setAnticipatedTotalDirect(new KualiDecimal(2));
 		awardAmountInfo.setAnticipatedTotalIndirect(new KualiDecimal(3));
@@ -401,8 +401,8 @@ public class PrintingTestUtils {
 				.currentTimeMillis()));
 		awardAmountInfo.setObliDistributableAmount(new KualiDecimal(3000L));
 		awardAmountInfo.setObligatedChange(new KualiDecimal(324L));
-		awardAmountInfo.setObligatedChangeDirect(234L);
-		awardAmountInfo.setObligatedChangeIndirect(3434L);
+		awardAmountInfo.setObligatedChangeDirect(new KualiDecimal(234L));
+		awardAmountInfo.setObligatedChangeIndirect(new KualiDecimal(3434L));
 		awardAmountInfo.setObligatedTotalDirect(new KualiDecimal(3));
 		awardAmountInfo.setObligatedTotalIndirect(new KualiDecimal(34));
 		awardAmountInfo.setObligationExpirationDate(new Date(System
@@ -420,8 +420,8 @@ public class PrintingTestUtils {
 		awardAmountInfoForNextSeq.setAntDistributableAmount(new KualiDecimal(
 				3000L));
 		awardAmountInfoForNextSeq.setAnticipatedChange(new KualiDecimal(23L));
-		awardAmountInfoForNextSeq.setAnticipatedChangeDirect(2L);
-		awardAmountInfoForNextSeq.setAnticipatedChangeIndirect(3L);
+		awardAmountInfoForNextSeq.setAnticipatedChangeDirect(new KualiDecimal(2L));
+		awardAmountInfoForNextSeq.setAnticipatedChangeIndirect(new KualiDecimal(3L));
 		awardAmountInfoForNextSeq.setAnticipatedTotalAmount(new KualiDecimal(
 				3000L));
 		awardAmountInfoForNextSeq
@@ -440,8 +440,8 @@ public class PrintingTestUtils {
 		awardAmountInfoForNextSeq.setObliDistributableAmount(new KualiDecimal(
 				3000L));
 		awardAmountInfoForNextSeq.setObligatedChange(new KualiDecimal(324L));
-		awardAmountInfoForNextSeq.setObligatedChangeDirect(234L);
-		awardAmountInfoForNextSeq.setObligatedChangeIndirect(3434L);
+		awardAmountInfoForNextSeq.setObligatedChangeDirect(new KualiDecimal(234L));
+		awardAmountInfoForNextSeq.setObligatedChangeIndirect(new KualiDecimal(3434L));
 		awardAmountInfoForNextSeq.setObligatedTotalDirect(new KualiDecimal(3));
 		awardAmountInfoForNextSeq
 				.setObligatedTotalIndirect(new KualiDecimal(34));
@@ -793,8 +793,8 @@ public class PrintingTestUtils {
 		awardAmountInfo.setAmountObligatedToDate(new KualiDecimal(2000L));
 		awardAmountInfo.setAntDistributableAmount(new KualiDecimal(3000L));
 		awardAmountInfo.setAnticipatedChange(new KualiDecimal(23L));
-		awardAmountInfo.setAnticipatedChangeDirect(2L);
-		awardAmountInfo.setAnticipatedChangeIndirect(3L);
+		awardAmountInfo.setAnticipatedChangeDirect(new KualiDecimal(2L));
+		awardAmountInfo.setAnticipatedChangeIndirect(new KualiDecimal(3L));
 		awardAmountInfo.setAnticipatedTotalAmount(new KualiDecimal(3000L));
 		awardAmountInfo.setAnticipatedTotalDirect(new KualiDecimal(2));
 		awardAmountInfo.setAnticipatedTotalIndirect(new KualiDecimal(3));
@@ -809,8 +809,8 @@ public class PrintingTestUtils {
 				.currentTimeMillis()));
 		awardAmountInfo.setObliDistributableAmount(new KualiDecimal(3000L));
 		awardAmountInfo.setObligatedChange(new KualiDecimal(324L));
-		awardAmountInfo.setObligatedChangeDirect(234L);
-		awardAmountInfo.setObligatedChangeIndirect(3434L);
+		awardAmountInfo.setObligatedChangeDirect(new KualiDecimal(234L));
+		awardAmountInfo.setObligatedChangeIndirect(new KualiDecimal(3434L));
 		awardAmountInfo.setObligatedTotalDirect(new KualiDecimal(3));
 		awardAmountInfo.setObligatedTotalIndirect(new KualiDecimal(34));
 		awardAmountInfo.setObligationExpirationDate(new Date(System
@@ -828,8 +828,8 @@ public class PrintingTestUtils {
 		awardAmountInfoForNextSeq.setAntDistributableAmount(new KualiDecimal(
 				3000L));
 		awardAmountInfoForNextSeq.setAnticipatedChange(new KualiDecimal(23L));
-		awardAmountInfoForNextSeq.setAnticipatedChangeDirect(2L);
-		awardAmountInfoForNextSeq.setAnticipatedChangeIndirect(3L);
+		awardAmountInfoForNextSeq.setAnticipatedChangeDirect(new KualiDecimal(2L));
+		awardAmountInfoForNextSeq.setAnticipatedChangeIndirect(new KualiDecimal(3L));
 		awardAmountInfoForNextSeq.setAnticipatedTotalAmount(new KualiDecimal(
 				3000L));
 		awardAmountInfoForNextSeq
@@ -848,8 +848,8 @@ public class PrintingTestUtils {
 		awardAmountInfoForNextSeq.setObliDistributableAmount(new KualiDecimal(
 				3000L));
 		awardAmountInfoForNextSeq.setObligatedChange(new KualiDecimal(324L));
-		awardAmountInfoForNextSeq.setObligatedChangeDirect(234L);
-		awardAmountInfoForNextSeq.setObligatedChangeIndirect(3434L);
+		awardAmountInfoForNextSeq.setObligatedChangeDirect(new KualiDecimal(234L));
+		awardAmountInfoForNextSeq.setObligatedChangeIndirect(new KualiDecimal(3434L));
 		awardAmountInfoForNextSeq.setObligatedTotalDirect(new KualiDecimal(3));
 		awardAmountInfoForNextSeq
 				.setObligatedTotalIndirect(new KualiDecimal(34));
