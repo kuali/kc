@@ -17,25 +17,28 @@ package org.kuali.kra.award.budget.document.authorizer;
 
 
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.document.BudgetDocument;
 
 import org.kuali.kra.budget.document.authorization.BudgetTask;
 import org.kuali.kra.budget.document.authorizer.BudgetAuthorizer;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.kew.KraDocumentRejectionService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * This authorizer determines if the user has the permission
- * to reject a proposal.  You can reject if:
- * 1) The document is not at route level 0. ( initiated )
- * 2) You have an approval pending on the document.
- * 3) The document state is enroute.
- * 
+ * to cancel an award budget. This is only for after the 
+ * budget has been submitted into workflow and is to
+ * authorize the routing user to pull back the budget
+ * using a super user action
  * 
  */
-public class RejectAwardBudgetAuthorizer extends BudgetAuthorizer {
+public class CancelAwardBudgetAuthorizer extends BudgetAuthorizer {
 
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(RejectAwardBudgetAuthorizer.class);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CancelAwardBudgetAuthorizer.class);
     
     private KraDocumentRejectionService kraDocumentRejectionService;
     
@@ -47,7 +50,7 @@ public class RejectAwardBudgetAuthorizer extends BudgetAuthorizer {
         KualiWorkflowDocument workDoc = doc.getDocumentHeader().getWorkflowDocument();
         return !workDoc.getRouteHeader().isCompleteRequested() 
             && !getKraDocumentRejectionService().isDocumentOnInitialNode(doc) 
-            && workDoc.isApprovalRequested() 
+            && StringUtils.equals(username, workDoc.getRoutedByPrincipalId())
             && workDoc.stateIsEnroute();
     }
     
