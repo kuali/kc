@@ -208,15 +208,18 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL, protocolForm.getDocument().getProtocol());
+        AuditActionHelper auditActionHelper = new AuditActionHelper();
         
         if (isAuthorized(task)) {
-            this.preSave(mapping, form, request, response);
-            actionForward = super.save(mapping, form, request, response);
-            this.postSave(mapping, form, request, response);
-            
-            if (KNSConstants.SAVE_METHOD.equals(protocolForm.getMethodToCall()) && protocolForm.isAuditActivated() 
-                    && GlobalVariables.getMessageMap().hasNoErrors()) {
-                actionForward = mapping.findForward("protocolActions");
+            if (!protocolForm.getProtocolDocument().getProtocol().isCorrectionMode() || auditActionHelper.auditUnconditionally(protocolForm.getDocument())) {
+                this.preSave(mapping, form, request, response);
+                actionForward = super.save(mapping, form, request, response);
+                this.postSave(mapping, form, request, response);
+                
+                if (KNSConstants.SAVE_METHOD.equals(protocolForm.getMethodToCall()) && protocolForm.isAuditActivated() 
+                        && GlobalVariables.getMessageMap().hasNoErrors()) {
+                    actionForward = mapping.findForward("protocolActions");
+                }
             }
         }
 
