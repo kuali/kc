@@ -1933,15 +1933,22 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
 
         ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         
-        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_ADMIN_CORRECTION, protocolForm.getProtocolDocument().getProtocol());
+        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_ADMIN_CORRECTION, protocolDocument.getProtocol());
         if (isAuthorized(task)) {
-            if (applyRules(new ProtocolAdminCorrectionEvent(protocolForm.getProtocolDocument(), protocolForm.getActionHelper()
+            if (applyRules(new ProtocolAdminCorrectionEvent(protocolDocument, protocolForm.getActionHelper()
                         .getProtocolAdminCorrectionBean()))) {
-                protocolForm.getProtocolDocument().getProtocol().setCorrectionMode(true); 
+                protocolDocument.getProtocol().setCorrectionMode(true); 
                 protocolForm.getProtocolHelper().prepareView();
-                
+
+                AdminCorrectionBean adminCorrectionBean = protocolForm.getActionHelper().getProtocolAdminCorrectionBean();
+                protocolDocument.updateProtocolStatus(ProtocolActionType.ADMINISTRATIVE_CORRECTION, adminCorrectionBean.getComments());
+
+                AdminCorrectionService adminCorrectionService = KraServiceLocator.getService(AdminCorrectionService.class);
+                adminCorrectionService.sendCorrectionNotification(protocolDocument.getProtocol(), adminCorrectionBean);
+
                 recordProtocolActionSuccess("Make Administrative Correction");
                 
                 return mapping.findForward(PROTOCOL_TAB);
@@ -1951,32 +1958,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return forward;  
     }
 
-    public ActionForward submitAdminCorrection(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
-        protocolForm.setAuditActivated(true);
-
-        AuditActionHelper auditActionHelper = new AuditActionHelper();
-        if (auditActionHelper.auditUnconditionally(protocolDocument)) {
-            protocolDocument.getProtocol().setCorrectionMode(false); 
-            AdminCorrectionBean adminCorrectionBean = protocolForm.getActionHelper().getProtocolAdminCorrectionBean();
-            protocolForm.getProtocolDocument().updateProtocolStatus(ProtocolActionType.ADMINISTRATIVE_CORRECTION, adminCorrectionBean.getComments());
-             
-            AdminCorrectionService adminCorrectionService = KraServiceLocator.getService(AdminCorrectionService.class);
-            adminCorrectionService.sendCorrectionNotification(protocolDocument.getProtocol(), adminCorrectionBean);
-            
-            recordProtocolActionSuccess("Submit Administrative Correction");
-            protocolForm.setAuditActivated(false);
-        } else {
-            GlobalVariables.getMessageMap().clearErrorMessages();
-            GlobalVariables.getMessageMap().putError("datavalidation", KeyConstants.ERROR_ADMIN_CORRECTION_SUBMISSION,  new String[] {});
-        }
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);  
-    }
-    
     public ActionForward undoLastAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
