@@ -34,8 +34,8 @@ public class ArgValueLookupServiceImplTest extends KcUnitTestBase{
 
     private ArgValueLookupService argValueLookupService = null;
     
-    private static String expectedArgumentNames = ",AppointmentTypes;AppointmentTypes,PI_Question;PI_Question,PeriodTypes;PeriodTypes,ProjectRoles;ProjectRoles,Sponsor_routing;Sponsor_routing,human_subjects;human_subjects,interest_revenue;interest_revenue,revenue;revenue,yes_no_flag;yes_no_flag";
-
+    private static String expectedArgumentNames = ",AcademicAppointmentPeriod;AcademicAppointmentPeriod,AppointmentTypes;AppointmentTypes,FieldOfTraining;FieldOfTraining,GraduateLevelDegree;GraduateLevelDegree,KirschsteinLevel;KirschsteinLevel,KirschsteinType;KirschsteinType,PI_Question;PI_Question,PeriodTypes;PeriodTypes,ProjectRoles;ProjectRoles,Sponsor_routing;Sponsor_routing,human_subjects;human_subjects,interest_revenue;interest_revenue,revenue;revenue,yes_no_flag;yes_no_flag";
+    
     @Before
     public void setUp() throws Exception {
         super.setUp();
