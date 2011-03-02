@@ -278,12 +278,10 @@ public class AwardBudgetHistoryTransaction extends AwardBudgetBaseStream {
 					.getAnticipatedChange().bigDecimalValue());
 		}
 		if (awardAmount.getAnticipatedChangeDirect() != null) {
-			amountInfoType.setAnticipatedChangeDirect(BigDecimal
-					.valueOf(awardAmount.getAnticipatedChangeDirect()));
+			amountInfoType.setAnticipatedChangeDirect(awardAmount.getAnticipatedChangeDirect().bigDecimalValue());
 		}
 		if (awardAmount.getAnticipatedChangeIndirect() != null) {
-			amountInfoType.setAnticipatedChangeIndirect(BigDecimal
-					.valueOf(awardAmount.getAnticipatedChangeIndirect()));
+			amountInfoType.setAnticipatedChangeIndirect(awardAmount.getAnticipatedChangeIndirect().bigDecimalValue());
 		}
 		if (awardAmount.getAntDistributableAmount() != null) {
 			amountInfoType.setAnticipatedDistributableAmt(awardAmount
