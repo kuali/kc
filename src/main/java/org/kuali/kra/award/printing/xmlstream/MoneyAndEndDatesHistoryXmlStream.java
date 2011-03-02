@@ -163,20 +163,16 @@ public class MoneyAndEndDatesHistoryXmlStream extends AwardBaseStream {
 					.getCalendar(awardAmountInfo.getFinalExpirationDate()));
 		}
 		if (awardAmountInfo.getObligatedChangeDirect() != null) {
-			amountInfoType.setObligatedChangeDirect(new BigDecimal(
-					awardAmountInfo.getObligatedChangeDirect()));
+			amountInfoType.setObligatedChangeDirect(awardAmountInfo.getObligatedChangeDirect().bigDecimalValue());
 		}
 		if (awardAmountInfo.getObligatedChangeIndirect() != null) {
-			amountInfoType.setObligatedChangeIndirect(new BigDecimal(
-					awardAmountInfo.getObligatedChangeIndirect()));
+			amountInfoType.setObligatedChangeIndirect(awardAmountInfo.getObligatedChangeIndirect().bigDecimalValue());
 		}
 		if (awardAmountInfo.getAnticipatedChangeDirect() != null) {
-			amountInfoType.setAnticipatedChangeDirect(new BigDecimal(
-					awardAmountInfo.getAnticipatedChangeDirect()));
+			amountInfoType.setAnticipatedChangeDirect(awardAmountInfo.getAnticipatedChangeDirect().bigDecimalValue());
 		}
 		if (awardAmountInfo.getAnticipatedChangeIndirect() != null) {
-			amountInfoType.setAnticipatedChangeIndirect(new BigDecimal(
-					awardAmountInfo.getAnticipatedChangeIndirect()));
+			amountInfoType.setAnticipatedChangeIndirect(awardAmountInfo.getAnticipatedChangeIndirect().bigDecimalValue());
 		}
 		String enableAwdAntOblDirectIndirectCost = getAwardParameterValue(OBLIGATED_DIRECT_INDIRECT_COST_CONSTANT);
 		amountInfoType

@@ -1300,24 +1300,24 @@ public abstract class AwardBaseStream implements XmlStream {
 					amountInfoType.setTotalEndDate(totalEndDate);
 				}
 			}
-			BigDecimal obligatedChangeDirect = getObligatedChangeDirect();
+			KualiDecimal obligatedChangeDirect = getObligatedChangeDirect();
 			if (obligatedChangeDirect != null) {
-				amountInfoType.setObligatedChangeDirect(obligatedChangeDirect);
+				amountInfoType.setObligatedChangeDirect(obligatedChangeDirect.bigDecimalValue());
 			}
-			BigDecimal obligatedChangeIndirect = getObligatedChangeIndirect();
+			KualiDecimal obligatedChangeIndirect = getObligatedChangeIndirect();
 			if (obligatedChangeIndirect != null) {
 				amountInfoType
-						.setObligatedChangeIndirect(obligatedChangeIndirect);
+						.setObligatedChangeIndirect(obligatedChangeIndirect.bigDecimalValue());
 			}
-			BigDecimal anticipatedChangeDirect = getAnticipatedChangeDirect();
+			KualiDecimal anticipatedChangeDirect = getAnticipatedChangeDirect();
 			if (anticipatedChangeDirect != null) {
 				amountInfoType
-						.setAnticipatedChangeDirect(anticipatedChangeDirect);
+						.setAnticipatedChangeDirect(anticipatedChangeDirect.bigDecimalValue());
 			}
-			BigDecimal anticipatedChangeIndirect = getAnticipatedChangeIndirect();
+			KualiDecimal anticipatedChangeIndirect = getAnticipatedChangeIndirect();
 			if (anticipatedChangeIndirect != null) {
 				amountInfoType
-						.setAnticipatedChangeIndirect(anticipatedChangeIndirect);
+						.setAnticipatedChangeIndirect(anticipatedChangeIndirect.bigDecimalValue());
 			}
 			BigDecimal anticipatedTotalDirect = getAnticipatedTotalDirect();
 			if (anticipatedTotalDirect != null) {
@@ -2072,13 +2072,10 @@ public abstract class AwardBaseStream implements XmlStream {
 	/*
 	 * This method will get the Anticipated Change Indirect of award Amount Info
 	 */
-	private BigDecimal getAnticipatedChangeIndirect() {
-		BigDecimal anticipatedChangeIndirect = null;
+	private KualiDecimal getAnticipatedChangeIndirect() {
+		KualiDecimal anticipatedChangeIndirect = null;
 		if (awardAmountInfo.getAnticipatedChangeIndirect() != null) {
-			anticipatedChangeIndirect = new BigDecimal(awardAmountInfo
-					.getAnticipatedChangeIndirect());
-			anticipatedChangeIndirect = anticipatedChangeIndirect.setScale(2,
-					BigDecimal.ROUND_HALF_DOWN);
+			anticipatedChangeIndirect = awardAmountInfo.getAnticipatedChangeIndirect();
 		}
 		return anticipatedChangeIndirect;
 	}
@@ -2086,13 +2083,10 @@ public abstract class AwardBaseStream implements XmlStream {
 	/*
 	 * This method will get the anticipated change direct of award Amount Info
 	 */
-	private BigDecimal getAnticipatedChangeDirect() {
-		BigDecimal anticipatedChangeDirect = null;
+	private KualiDecimal getAnticipatedChangeDirect() {
+	    KualiDecimal anticipatedChangeDirect = null;
 		if (awardAmountInfo.getAnticipatedChangeDirect() != null) {
-			anticipatedChangeDirect = new BigDecimal(awardAmountInfo
-					.getAnticipatedChangeDirect());
-			anticipatedChangeDirect = anticipatedChangeDirect.setScale(2,
-					BigDecimal.ROUND_HALF_DOWN);
+			anticipatedChangeDirect = awardAmountInfo.getAnticipatedChangeDirect();
 		}
 		return anticipatedChangeDirect;
 	}
@@ -2128,13 +2122,10 @@ public abstract class AwardBaseStream implements XmlStream {
 	/*
 	 * This method will get the obligated change indirect of award amount info
 	 */
-	private BigDecimal getObligatedChangeIndirect() {
-		BigDecimal obligatedChangeIndirect = null;
+	private KualiDecimal getObligatedChangeIndirect() {
+	    KualiDecimal obligatedChangeIndirect = null;
 		if (awardAmountInfo.getObligatedChangeIndirect() != null) {
-			obligatedChangeIndirect = new BigDecimal(awardAmountInfo
-					.getObligatedChangeIndirect());
-			obligatedChangeIndirect = obligatedChangeIndirect.setScale(2,
-					BigDecimal.ROUND_HALF_DOWN);
+			obligatedChangeIndirect = awardAmountInfo.getObligatedChangeIndirect();
 		}
 		return obligatedChangeIndirect;
 	}
@@ -2142,13 +2133,10 @@ public abstract class AwardBaseStream implements XmlStream {
 	/*
 	 * This method will get the obligated change direct of award amount info
 	 */
-	private BigDecimal getObligatedChangeDirect() {
-		BigDecimal obligatedChangeDirect = null;
+	private KualiDecimal getObligatedChangeDirect() {
+	    KualiDecimal obligatedChangeDirect = null;
 		if (awardAmountInfo.getObligatedChangeDirect() != null) {
-			obligatedChangeDirect = new BigDecimal(awardAmountInfo
-					.getObligatedChangeDirect());
-			obligatedChangeDirect = obligatedChangeDirect.setScale(2,
-					BigDecimal.ROUND_HALF_DOWN);
+			obligatedChangeDirect = awardAmountInfo.getObligatedChangeDirect();
 		}
 		return obligatedChangeDirect;
 	}

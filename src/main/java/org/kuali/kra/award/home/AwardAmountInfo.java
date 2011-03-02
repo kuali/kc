@@ -45,10 +45,10 @@ public class AwardAmountInfo extends AwardAssociate{
     private boolean eomProcessFlag; 
     private KualiDecimal anticipatedChange; 
     private KualiDecimal obligatedChange; 
-    private Long obligatedChangeDirect; 
-    private Long obligatedChangeIndirect; 
-    private Long anticipatedChangeDirect; 
-    private Long anticipatedChangeIndirect; 
+    private KualiDecimal obligatedChangeDirect; 
+    private KualiDecimal obligatedChangeIndirect; 
+    private KualiDecimal anticipatedChangeDirect; 
+    private KualiDecimal anticipatedChangeIndirect; 
     private KualiDecimal anticipatedTotalDirect; 
     private KualiDecimal anticipatedTotalIndirect; 
     private KualiDecimal obligatedTotalDirect; 
@@ -187,35 +187,35 @@ public class AwardAmountInfo extends AwardAssociate{
         this.obligatedChange = obligatedChange;
     }
 
-    public Long getObligatedChangeDirect() {
+    public KualiDecimal getObligatedChangeDirect() {
         return obligatedChangeDirect;
     }
 
-    public void setObligatedChangeDirect(Long obligatedChangeDirect) {
+    public void setObligatedChangeDirect(KualiDecimal obligatedChangeDirect) {
         this.obligatedChangeDirect = obligatedChangeDirect;
     }
 
-    public Long getObligatedChangeIndirect() {
+    public KualiDecimal getObligatedChangeIndirect() {
         return obligatedChangeIndirect;
     }
 
-    public void setObligatedChangeIndirect(Long obligatedChangeIndirect) {
+    public void setObligatedChangeIndirect(KualiDecimal obligatedChangeIndirect) {
         this.obligatedChangeIndirect = obligatedChangeIndirect;
     }
 
-    public Long getAnticipatedChangeDirect() {
+    public KualiDecimal getAnticipatedChangeDirect() {
         return anticipatedChangeDirect;
     }
 
-    public void setAnticipatedChangeDirect(Long anticipatedChangeDirect) {
+    public void setAnticipatedChangeDirect(KualiDecimal anticipatedChangeDirect) {
         this.anticipatedChangeDirect = anticipatedChangeDirect;
     }
 
-    public Long getAnticipatedChangeIndirect() {
+    public KualiDecimal getAnticipatedChangeIndirect() {
         return anticipatedChangeIndirect;
     }
 
-    public void setAnticipatedChangeIndirect(Long anticipatedChangeIndirect) {
+    public void setAnticipatedChangeIndirect(KualiDecimal anticipatedChangeIndirect) {
         this.anticipatedChangeIndirect = anticipatedChangeIndirect;
     }
 
