@@ -36,7 +36,7 @@ public class ValidRates extends KraPersistableBusinessObjectBase {
     private KualiDecimal offCampusRate;
     private String rateClassType;
     private String adjustmentKey;
-    private Integer icrRateCode;
+    private String icrRateCode;
 
     /**
      * 
@@ -55,11 +55,11 @@ public class ValidRates extends KraPersistableBusinessObjectBase {
         return validRatesId;
     }
 
-    public Integer getIcrRateCode() {
+    public String getIcrRateCode() {
         return icrRateCode;
     }
 
-    public void setIcrRateCode(Integer icrRateCode) {
+    public void setIcrRateCode(String icrRateCode) {
         this.icrRateCode = icrRateCode;
     }
     
