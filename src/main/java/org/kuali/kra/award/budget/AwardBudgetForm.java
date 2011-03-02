@@ -75,6 +75,7 @@ public class AwardBudgetForm extends BudgetForm {
         extraButtons.clear();
         AwardBudgetDocument doc = this.getAwardBudgetDocument();
         String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
+        String krImageURL = Constants.KR_EXTERNALIZABLE_IMAGES_URI_KEY;
         
         TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);
         if (tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new AwardBudgetTask(TaskName.TOGGLE_AWARD_BUDGET_STATUS, doc))) {
@@ -89,6 +90,10 @@ public class AwardBudgetForm extends BudgetForm {
         if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new BudgetTask("awardBudget", "rejectBudget", doc))) {
             addExtraButton("methodToCall.reject", KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_reject.gif", "Reject");
         }
+        if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new BudgetTask("awardBudget", "cancelBudget", doc))) {
+            addExtraButton("methodToCall.cancel", KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(krImageURL) + "buttonsmall_cancel.gif", "Cancel");
+        }
+        
         return extraButtons;
     }
     
