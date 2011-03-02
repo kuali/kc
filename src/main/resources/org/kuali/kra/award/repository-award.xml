@@ -468,7 +468,7 @@
 		<field-descriptor name="offCampusRate" column="OFF_CAMPUS_RATE" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="rateClassType" column="RATE_CLASS_TYPE" jdbc-type="VARCHAR" />
 		<field-descriptor name="adjustmentKey" column="ADJUSTMENT_KEY" jdbc-type="VARCHAR" />
-		<field-descriptor name="icrRateCode" column="ICR_RATE_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="icrRateCode" column="ICR_RATE_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
