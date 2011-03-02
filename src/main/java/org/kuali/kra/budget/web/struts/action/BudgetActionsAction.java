@@ -63,6 +63,7 @@ import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class BudgetActionsAction extends BudgetAction implements AuditModeAction {
     private static final String CONTENT_TYPE_XML = "text/xml";
@@ -445,6 +446,24 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         boolean auditPassed = new AuditActionHelper().auditUnconditionally(awardBudgetDocument);
         getAwardBudgetService().processDisapproval(awardBudgetDocument);   
         return super.disapprove(mapping, form, request, response);
+    }
+    
+    /**
+     * Cancel that calls superUserCancel if the document is in route and the current user is the routed by user of the document.
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#cancel(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        AwardBudgetDocument awardBudgetDocument = ((AwardBudgetForm)form).getAwardBudgetDocument();
+        KualiWorkflowDocument workflowDoc = awardBudgetDocument.getDocumentHeader().getWorkflowDocument();
+        if (workflowDoc.stateIsEnroute()
+                && StringUtils.equals(GlobalVariables.getUserSession().getPrincipalId(), workflowDoc.getRoutedByPrincipalId())) {
+            workflowDoc.superUserCancel("Cancelled by Routed By User");
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        } else {
+            return super.cancel(mapping, form, request, response);
+        }
     }
     
     private boolean isValidForSubmission(AwardBudgetDocument awardBudgetDocument) {
