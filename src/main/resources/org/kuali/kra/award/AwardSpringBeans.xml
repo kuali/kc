@@ -522,4 +522,36 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="parameterService" ref="parameterService"/>
 	</bean>
+	
+	<bean id="cfdaNumberServiceJavaExporter" class="org.kuali.rice.ksb.messaging.KSBExporter">
+		<property name="serviceDefinition">
+			<bean class="org.kuali.rice.ksb.messaging.JavaServiceDefinition">
+				<property name="service" ref="cfdaNumberService" />
+				<property name="serviceNameSpaceURI" value="KC" />
+				<property name="localServiceName" value="cfdaNumberService" />
+				<property name="serviceInterface"
+					value="org.kuali.kra.external.Cfda.service.CfdaNumberService" />
+				<property name="busSecurity" value="false" />
+				<property name="retryAttempts" value="1" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="cfdaNumberServiceSoapExporter" class="org.kuali.rice.ksb.messaging.KSBExporter">
+		<property name="serviceDefinition">
+			<bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+				<property name="service" ref="cfdaNumberService" />
+				<property name="serviceNameSpaceURI" value="KC" />
+				<property name="localServiceName" value="cfdaNumberSoapService" />
+				<property name="busSecurity" value="false" />
+				<property name="jaxWsService" value="true" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="cfdaNumberService"
+		class="org.kuali.kra.external.Cfda.service.impl.CfdaNumberServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
+	
 </beans>
