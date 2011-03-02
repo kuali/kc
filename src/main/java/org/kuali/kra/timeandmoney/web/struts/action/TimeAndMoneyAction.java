@@ -442,6 +442,10 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         newAwardAmountInfo.setAnticipatedTotalAmount(awardAmountInfo.getAnticipatedTotalAmount());
         newAwardAmountInfo.setAnticipatedTotalDirect(awardAmountInfo.getAnticipatedTotalDirect());
         newAwardAmountInfo.setAnticipatedTotalIndirect(awardAmountInfo.getAnticipatedTotalIndirect());
+        newAwardAmountInfo.setObligatedChangeDirect(new KualiDecimal(0));
+        newAwardAmountInfo.setObligatedChangeIndirect(new KualiDecimal(0));
+        newAwardAmountInfo.setAnticipatedChangeDirect(new KualiDecimal(0));
+        newAwardAmountInfo.setAnticipatedChangeIndirect(new KualiDecimal(0));
         newAwardAmountInfo.setOriginatingAwardVersion(award.getSequenceNumber());
 
         

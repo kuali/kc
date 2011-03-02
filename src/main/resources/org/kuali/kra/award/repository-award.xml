@@ -1141,10 +1141,10 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="anticipatedChange" column="ANTICIPATED_CHANGE" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="obligatedChange" column="OBLIGATED_CHANGE" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
-		<field-descriptor name="obligatedChangeDirect" column="OBLIGATED_CHANGE_DIRECT" jdbc-type="DECIMAL" />
-		<field-descriptor name="obligatedChangeIndirect" column="OBLIGATED_CHANGE_INDIRECT" jdbc-type="DECIMAL" />
-		<field-descriptor name="anticipatedChangeDirect" column="ANTICIPATED_CHANGE_DIRECT" jdbc-type="DECIMAL" />
-		<field-descriptor name="anticipatedChangeIndirect" column="ANTICIPATED_CHANGE_INDIRECT" jdbc-type="DECIMAL" />
+		<field-descriptor name="obligatedChangeDirect" column="OBLIGATED_CHANGE_DIRECT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="obligatedChangeIndirect" column="OBLIGATED_CHANGE_INDIRECT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="anticipatedChangeDirect" column="ANTICIPATED_CHANGE_DIRECT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="anticipatedChangeIndirect" column="ANTICIPATED_CHANGE_INDIRECT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 		<field-descriptor name="anticipatedTotalDirect" column="ANTICIPATED_TOTAL_DIRECT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 		<field-descriptor name="anticipatedTotalIndirect" column="ANTICIPATED_TOTAL_INDIRECT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 		<field-descriptor name="obligatedTotalDirect" column="OBLIGATED_TOTAL_DIRECT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>

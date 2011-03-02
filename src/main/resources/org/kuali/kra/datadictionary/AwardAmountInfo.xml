@@ -313,9 +313,12 @@
         <property name="label" value="Obligated Change Direct" />
         <property name="shortLabel" value="Obligated Change Direct" />
         <property name="maxLength" value="22" />
-        <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
+         <property name="validationPattern" >
+	      	<bean parent="FixedPointValidationPattern"
+	            p:precision="12"
+	            p:scale="2"
+	            p:allowNegative="true" />
+    	</property>
         <property name="control" >
             <bean parent="TextControlDefinition"
                 p:size="10" />
@@ -331,9 +334,12 @@
         <property name="label" value="Obligated Change Indirect" />
         <property name="shortLabel" value="Obligated Change Indirect" />
         <property name="maxLength" value="22" />
-        <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
+         <property name="validationPattern" >
+	      	<bean parent="FixedPointValidationPattern"
+	            p:precision="12"
+	            p:scale="2"
+	            p:allowNegative="true" />
+    	</property>
         <property name="control" >
             <bean parent="TextControlDefinition"
                 p:size="10" />
@@ -349,9 +355,12 @@
         <property name="label" value="Anticipated Change Direct" />
         <property name="shortLabel" value="Anticipated Change Direct" />
         <property name="maxLength" value="22" />
-        <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
+         <property name="validationPattern" >
+	      	<bean parent="FixedPointValidationPattern"
+	            p:precision="12"
+	            p:scale="2"
+	            p:allowNegative="true" />
+    	</property>
         <property name="control" >
             <bean parent="TextControlDefinition"
                 p:size="10" />
@@ -367,9 +376,12 @@
         <property name="label" value="Anticipated Change Indirect" />
         <property name="shortLabel" value="Anticipated Change Indirect" />
         <property name="maxLength" value="22" />
-        <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
+         <property name="validationPattern" >
+	      	<bean parent="FixedPointValidationPattern"
+	            p:precision="12"
+	            p:scale="2"
+	            p:allowNegative="true" />
+    	</property>
         <property name="control" >
             <bean parent="TextControlDefinition"
                 p:size="10" />
