@@ -96,12 +96,14 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             if (answerHeaderMap.containsKey(questionnaireUsage.getQuestionnaire().getQuestionnaireId())) {
                 answerHeaders.add(answerHeaderMap.get(questionnaireUsage.getQuestionnaire().getQuestionnaireId()));
                 if (!questionnaireUsage.getQuestionnaire().getQuestionnaireRefId().equals(
-                        answerHeaderMap.get(questionnaireUsage.getQuestionnaire().getQuestionnaireId()).getQuestionnaireRefIdFk())) {
+                        answerHeaderMap.get(questionnaireUsage.getQuestionnaire().getQuestionnaireId()).getQuestionnaireRefIdFk())
+                        // the current qnaire is "Active"
+                        && questionnaireUsage.getQuestionnaire().getIsFinal()) {
                     answerHeaderMap.get(questionnaireUsage.getQuestionnaire().getQuestionnaireId()).setNewerVersionPublished(true);
                 }
             }
             else {
-                if (!finalDoc || isCurrentQuestionnaire(questionnaireUsage.getQuestionnaire())) {
+                if ((!finalDoc || isCurrentQuestionnaire(questionnaireUsage.getQuestionnaire())) && questionnaireUsage.getQuestionnaire().getIsFinal()) {
                     // filter out an not saved and usage is not include in current qn
                     answerHeaders.add(setupAnswerForQuestionnaire(questionnaireUsage.getQuestionnaire(), moduleQuestionnaireBean));
                 }
@@ -225,7 +227,9 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         fieldValues.put("questionnaireId", questionnaire.getQuestionnaireId().toString());
         List<Questionnaire> questionnaires = (List<Questionnaire>) businessObjectService.findMatchingOrderBy(Questionnaire.class,
                 fieldValues, "sequenceNumber", false);
+        // "isFinal" is used to check whether the questionnaire is 'Active' or not.
         return questionnaire.getQuestionnaireRefId().equals(questionnaires.get(0).getQuestionnaireRefId());
+         //   && questionnaire.getIsFinal();
     }
 
     /**
