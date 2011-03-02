@@ -289,7 +289,9 @@ $(document).ready(function() {
 
 	$(document).ajaxComplete(function() {
 			$("#loading").hide();
-		});	
+		});
+	
+	loadFirstLevel();
 
 }); // $(document).ready
 
@@ -1157,16 +1159,6 @@ $("#listcontrol00").click(function() {
 	$(".hierarchydetail:not(#listcontent00)").slideUp(300);
 	$("#listcontent00").slideToggle(300);
 });
-
-$(document).ready(function() {
-
-	// performance test
-		loadFirstLevel();
-		$("#listcontent00").show();
-		// //$("#listcontent00").slideToggle(300);
-		// $("#listcontrol00").show();
-	})
-$("#loading").hide();
 
 /**
  * This method inquieres with the server if the research area exists.
