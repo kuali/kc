@@ -1413,25 +1413,27 @@ function setupBudgetStatuses(document) {
 
 
 function setupBudgetStatusSummary(document) {
-	  var finalVersionFlag = document.getElementById('document.finalVersionFlag');
+	  var finalVersionFlag = document.getElementById('document.budget.finalVersionFlag');
 	  var temp = document.getElementById('hack');
 	  var hackIndex = getIndex(temp);
 	  var finalVersionFlagIndex = getIndex(finalVersionFlag);
 	  var statusHidden = document.KualiForm.elements[hackIndex + 1];
 	  var status = document.KualiForm.elements[hackIndex + 2];
 	  var finalVersionFlagHidden = document.KualiForm.elements[finalVersionFlagIndex + 1];
-	  if(finalVersionFlag.checked) {
-	  	statusHidden.disabled=true;
-	  	status.disabled=false;
-	  } else {
-	  	statusHidden.disabled=false;
-	  	status.disabled=true;
+	  if (finalVersionFlag != null) { //if not read only
+	    if(finalVersionFlag.checked) {
+	  	  statusHidden.disabled=true;
+	  	  status.disabled=false;
+	    } else {
+	   	  statusHidden.disabled=false;
+	  	  status.disabled=true;
+	    }
 	  }
 	 }
 
 function toggleFinalCheckboxSummary(document) {
 	var completed = false;
-	var finalVersionFlag = document.getElementById('document.finalVersionFlag');
+	var finalVersionFlag = document.getElementById('document.budget.finalVersionFlag');
 	var finalVersionFlagIndex = getIndex(finalVersionFlag);
 	var finalVersionFlagHidden = document.KualiForm.elements[finalVersionFlagIndex + 2];
 	var temp = document.getElementById('hack');
