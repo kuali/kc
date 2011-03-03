@@ -21,8 +21,9 @@
 <c:set var="awardContactAttributes" value="${DataDictionary.AwardContact.attributes}" />
 
 <%-- kra:section permission="modifyAward" --%>
-<kul:tab defaultOpen="false" tabItemCount="${KualiForm.sponsorContactsBean.sponsorContactsCount}" 
-				tabTitle="Sponsor Contacts" tabErrorKey="sponsorContactsBean.newAwardContact*,document.awardList[0].sponsorContacts*,document.award.awardTemplate*" >
+<kul:tab defaultOpen="false" tabItemCount="${KualiForm.sponsorContactsBean.sponsorContactsCount}" useRiceAuditMode="true"
+				tabTitle="Sponsor Contacts" tabErrorKey="sponsorContactsBean.newAwardContact*,document.awardList[0].sponsorContact*,document.award.awardTemplate*" 
+				auditCluster="contactsAuditErrors" tabAuditKey="document.awardList[0].sponsorContact*">
 	<div class="tab-container" align="center">
 		<h3>
 			<span class="subhead-left">Sponsor Contacts</span>
