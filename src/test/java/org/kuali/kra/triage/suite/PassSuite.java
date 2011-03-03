@@ -487,7 +487,8 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.award.lookup.keyvalue.AwardUnitContactTypeValuesFinderTest.class,
     org.kuali.kra.s2s.generator.impl.PHS398ResTrainProgPlanV1_0GeneratorTest.class,
     org.kuali.kra.award.budget.AwardBudgetServiceImplTest.class,
-    org.kuali.kra.costshare.CostShareServiceTest.class
+    org.kuali.kra.costshare.CostShareServiceTest.class,
+    org.kuali.kra.award.contacts.AwardSponsorContactAuditRuleTest.class
 })
 /** these are all the test class where all the test methods are currently passing. */
 public class PassSuite {
