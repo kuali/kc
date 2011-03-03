@@ -15,43 +15,30 @@
  */
 package org.kuali.kra.test.infrastructure.lifecycle;
 
-import org.kuali.rice.test.web.HtmlUnitUtil;
-import org.openqa.selenium.server.SeleniumServer;
-
-import com.thoughtworks.selenium.DefaultSelenium;
-import com.thoughtworks.selenium.Selenium;
+import org.openqa.selenium.Speed;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class KcUnitTestSeleniumLifecycle extends KcUnitTestBaseLifecycle {
     
-    private static final String SERVER_HOST = "localhost";
-    private static final int SERVER_PORT = 4444;
-    private static final String BROWSER_START_COMMAND = "*firefox";
-    private static final String BROWSER_PROTOCOL = "http";
-    private static final String BROWSER_ADDRESS = "localhost";
+    private WebDriver driver;
     
-    private SeleniumServer seleniumServer;
-    private Selenium selenium;
-    
-    public Selenium getSelenium() {
-        return selenium;
+    /**
+     * Returns the current Web Driver.
+     * @return the current Web Driver
+     */
+    public WebDriver getWebDriver() {
+        return driver;
     }
     
     @Override
     protected void doPerSuiteStart() throws Throwable {
-        String browserUrl = getBrowserUrl(BROWSER_PROTOCOL, BROWSER_ADDRESS, HtmlUnitUtil.getPort());
-        
-        seleniumServer = new SeleniumServer();
-        seleniumServer.start();
-        
-        selenium = new DefaultSelenium(SERVER_HOST, SERVER_PORT, BROWSER_START_COMMAND, browserUrl);
-        selenium.start();
+        driver = new FirefoxDriver();
     }
     
     @Override
     protected void doPerSuiteStop() throws Throwable {
-        selenium.stop();
-        
-        seleniumServer.stop();
+        driver.quit();
     }
 
     @Override
@@ -68,10 +55,6 @@ public class KcUnitTestSeleniumLifecycle extends KcUnitTestBaseLifecycle {
 
     @Override
     protected void doPerTestStop() throws Throwable {
-    }
-    
-    private static String getBrowserUrl(String protocol, String address, int port) {
-        return protocol + "://" + address + ":" + Integer.toString(port) + "/";
     }
 
 }
