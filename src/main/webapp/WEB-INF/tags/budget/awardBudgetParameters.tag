@@ -118,5 +118,3 @@
         </table>
     </div>
 </kul:tabTop>
-<%-- initialize status of final checkbox and budget status. --%>
-<img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" onLoad="setupBudgetStatusSummary(document);" />
