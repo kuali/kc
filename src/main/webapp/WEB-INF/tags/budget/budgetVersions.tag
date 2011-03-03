@@ -116,6 +116,7 @@
             <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.versions.BudgetVersionOverview" altText="help"/></span>
         </h3>
         <table id="budget-versions-table" cellpadding="0" cellspacing="0" summary="Budget Versions">
+            <thead>
 			<tr>
 				<th scope="row">&nbsp;</th>
 				<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${budgetVersionOverviewAttributes.documentDescription}" useShortLabel="true" noColon="true" /></div></th>
@@ -162,6 +163,7 @@
 				</td>
           	</tr>
           	</kra:section>
+          	</thead>
           	
           	<c:forEach var="budgetVersion" items="${budgetDocumentVersions}" varStatus="status">
           		<c:set var="version" value="${pathToVersions}.budgetDocumentVersion[${status.index}].budgetVersionOverview" />
@@ -188,6 +190,7 @@
 				</c:if>
 					<html:hidden property="tabStates(${versionTab})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
 					
+				<tbody>
           		<tr class="budgetline">
            			<td align="right" class="tab-subhead" scope="row">
            				<div align="center">
@@ -246,6 +249,7 @@
 	           			</td>
 	           		</kra:section>
          		</tr>
+         		</tbody>
          		<tbody style="${displayStyle}" id = "tab-${versionTab}-div">
 	         		<tr>
             		<th align="right" scope="row">&nbsp;</th>
