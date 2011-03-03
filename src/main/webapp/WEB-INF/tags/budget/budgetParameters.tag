@@ -182,7 +182,9 @@
                 		else {formItem.selectedIndex = selIdx}
                 	}
                 	function assignOnOffCampusIndex(document) {
-                		selIdx = document.getElementById('document.budget.onOffCampusFlag').selectedIndex;
+                    	if (document.getElementById('document.budget.onOffCampusFlag') != null) {
+                			selIdx = document.getElementById('document.budget.onOffCampusFlag').selectedIndex;
+                    	}
                 	}
                 </script>          		
      		</tr>
