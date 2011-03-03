@@ -37,6 +37,7 @@ import org.kuali.kra.award.contacts.AwardPersonCreditSplitAuditRule;
 import org.kuali.kra.award.contacts.AwardProjectPersonsAuditRule;
 import org.kuali.kra.award.contacts.AwardProjectPersonsSaveRule;
 import org.kuali.kra.award.contacts.AwardProjectPersonsSaveRuleImpl;
+import org.kuali.kra.award.contacts.AwardSponsorContactAuditRule;
 import org.kuali.kra.award.contacts.SaveAwardProjectPersonsRuleEvent;
 import org.kuali.kra.award.customdata.AwardCustomDataRuleImpl;
 import org.kuali.kra.award.customdata.AwardSaveCustomDataRuleEvent;
@@ -549,6 +550,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         retval &= new AwardPersonCreditSplitAuditRule().processRunAuditBusinessRules(document);
         retval &= new AwardSubawardAuditRule().processRunAuditBusinessRules(document);
         retval &= new AwardSyncAuditRule().processRunAuditBusinessRules(document);
+        retval &= new AwardSponsorContactAuditRule().processRunAuditBusinessRules(document);
          
         return retval;
         
