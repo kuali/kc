@@ -41,9 +41,8 @@ public class CfdaNumberServiceImpl implements CfdaNumberService {
     public String getCfdaNumber(String financialAccountNumber) {
         
         Award award = getAward(financialAccountNumber);
-        String cfdaNumber = award.getCfdaNumber();
-        if (ObjectUtils.isNotNull(cfdaNumber)) {
-            return cfdaNumber;
+        if (ObjectUtils.isNotNull(award) && ObjectUtils.isNotNull(award.getCfdaNumber())) {
+            return award.getCfdaNumber();
         } else {
             return null;
         }
