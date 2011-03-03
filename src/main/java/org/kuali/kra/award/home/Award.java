@@ -90,7 +90,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public static final String DEFAULT_AWARD_NUMBER = "000000-00000";
     public static final String BLANK_COMMENT = "";
     
-    private static final String YES_FLAG = "Y";
+    private static final String NO_FLAG = "N";
     private static final int TOTAL_STATIC_REPORTS = 4;
     private static final int MAX_NBR_AWD_HIERARCHY_TEMP_OBJECTS = 100;
     private static final String DEFAULT_GROUP_CODE_FOR_CENTRAL_ADMIN_CONTACTS = "C";
@@ -250,15 +250,15 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private void initializeAwardWithDefaultValues(){
         setAwardNumber(DEFAULT_AWARD_NUMBER);
         setSequenceNumber(1);
-        setApprovedEquipmentIndicator(YES_FLAG);
-        setApprovedForeignTripIndicator(YES_FLAG);
-        setSubContractIndicator(YES_FLAG);
-        setCostSharingIndicator(YES_FLAG);
-        setIdcIndicator(YES_FLAG);
-        setPaymentScheduleIndicator(YES_FLAG);
-        setScienceCodeIndicator(YES_FLAG);
-        setSpecialReviewIndicator(YES_FLAG);
-        setTransferSponsorIndicator(YES_FLAG);
+        setApprovedEquipmentIndicator(NO_FLAG);
+        setApprovedForeignTripIndicator(NO_FLAG);
+        setSubContractIndicator(NO_FLAG);
+        setCostSharingIndicator(NO_FLAG);
+        setIdcIndicator(NO_FLAG);
+        setPaymentScheduleIndicator(NO_FLAG);
+        setScienceCodeIndicator(NO_FLAG);
+        setSpecialReviewIndicator(NO_FLAG);
+        setTransferSponsorIndicator(NO_FLAG);
         awardComments = new TypedArrayList(AwardComment.class);
         setCurrentActionComments("");
         setNewVersion(false);
