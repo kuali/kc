@@ -52,8 +52,10 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentS2sQuestionnaireService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.questionnaire.Questionnaire;
+import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
@@ -92,6 +94,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     private SponsorService sponsorService;
     private NarrativeService narrativeService;
     private CitizenshipTypeService citizenshipTypeService;
+    private ProposalDevelopmentS2sQuestionnaireService proposalDevelopmentS2sQuestionnaireService;
 	private static final String SUBMISSION_TYPE_CODE = "submissionTypeCode";
 	private static final String SUBMISSION_TYPE_DESCRIPTION = "submissionTypeDescription";
 	private static final String PROPOSAL_YNQ_STATE_REVIEW = "EO";
@@ -778,6 +781,29 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 		}
 		return questionnaireAnswers;
 	}
+    public List<Answer> getQuestionnaireAnswers(DevelopmentProposal developmentProposal,String namespace,String formname) {
+        List<AnswerHeader> answerHeaders = getProposalDevelopmentS2sQuestionnaireService().getProposalAnswerHeaderForForm(developmentProposal,namespace, formname);
+        List<Answer> questionnaireAnswers = new ArrayList<Answer>();
+        for (AnswerHeader answerHeader : answerHeaders) {
+            Questionnaire questionnaire = answerHeader.getQuestionnaire();
+            List<QuestionnaireQuestion> questionnaireQuestions = questionnaire.getQuestionnaireQuestions();
+            for (QuestionnaireQuestion questionnaireQuestion : questionnaireQuestions) {
+                Answer questionAnswer = getAnswer(questionnaireQuestion,answerHeader);
+                questionnaireAnswers.add(questionAnswer);
+            }
+        }
+        return questionnaireAnswers;
+    }
+    
+    protected Answer getAnswer(QuestionnaireQuestion questionnaireQuestion,AnswerHeader answerHeader) {
+        List<Answer> answers = answerHeader.getAnswers();
+        for (Answer answer : answers) {
+            if(answer.getQuestionnaireQuestionsIdFk().equals(questionnaireQuestion.getQuestionnaireQuestionsId())){
+                return answer;
+            }
+        }
+        return null;
+    }
 
 	/*
 	 * Finds the {@link Questionnaire} with Highest Sequence Number
@@ -1046,5 +1072,22 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     public Enum getCitizenship(ProposalPerson proposalPerson) {
         CitizenshipType citizenship = proposalPerson.getPerson().getExtendedAttributes().getCitizenshipType();
         return this.citizenshipTypeService.getEnumValueOfCitizenshipType(citizenship);
+    }
+
+    /**
+     * Gets the proposalDevelopmentS2sQuestionnaireService attribute. 
+     * @return Returns the proposalDevelopmentS2sQuestionnaireService.
+     */
+    public ProposalDevelopmentS2sQuestionnaireService getProposalDevelopmentS2sQuestionnaireService() {
+        return proposalDevelopmentS2sQuestionnaireService;
+    }
+
+    /**
+     * Sets the proposalDevelopmentS2sQuestionnaireService attribute value.
+     * @param proposalDevelopmentS2sQuestionnaireService The proposalDevelopmentS2sQuestionnaireService to set.
+     */
+    public void setProposalDevelopmentS2sQuestionnaireService(
+            ProposalDevelopmentS2sQuestionnaireService proposalDevelopmentS2sQuestionnaireService) {
+        this.proposalDevelopmentS2sQuestionnaireService = proposalDevelopmentS2sQuestionnaireService;
     }
 }

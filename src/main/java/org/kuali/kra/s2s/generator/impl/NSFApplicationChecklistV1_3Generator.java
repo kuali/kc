@@ -31,6 +31,7 @@ import java.util.List;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.questionnaire.answer.Answer;
+import org.kuali.kra.s2s.generator.S2SQuestionnairing;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 /**
@@ -41,8 +42,7 @@ import org.kuali.kra.s2s.util.S2SConstants;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class NSFApplicationChecklistV1_3Generator extends
-		NSFApplicationChecklistBaseGenerator {
+public class NSFApplicationChecklistV1_3Generator extends NSFApplicationChecklistBaseGenerator implements S2SQuestionnairing{
 
 	private static String QUESTIONNAIRE_ANSWER_YES = "Y";
 	private static String QUESTIONNAIRE_ANSWER_NO = "N";
@@ -97,12 +97,10 @@ public class NSFApplicationChecklistV1_3Generator extends
 	 */
 	private void setQuestionnaireAnswers(CoverSheet coverSheet,
 			ProjectNarrative projectNarrative) {
-		List<Answer> answers = s2sUtilService.getQuestionnaireAnswers(pdDoc,QUESTIONNAIRE_ID_1025);
+		List<Answer> answers = s2sUtilService.getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(),getNamespace(),getFormName());
 		for (Answer answer : answers) {
-			switch (answer.getQuestionNumber()) {
+			switch (answer.getQuestion().getQuestionId()) {
 			case PRELIMINARY:
-				// related to submission of preliminary app
-				// default
 				YesNoNotApplicableDataType.Enum yesNoNotApplicableDataType = YesNoNotApplicableDataType.N_NO;
 				if (QUESTIONNAIRE_ANSWER_YES.equals(answer.getAnswer())) {
 					yesNoNotApplicableDataType = YesNoNotApplicableDataType.Y_YES;
@@ -328,5 +326,13 @@ public class NSFApplicationChecklistV1_3Generator extends
 		nsfChecklistDocument.setNSFApplicationChecklist13(nsfChecklist);
 		return nsfChecklistDocument;
 	}
+
+    public String getFormName() {
+        return "NSF_ApplicationChecklist_1_3-V1.3";
+    }
+
+    public String getNamespace() {
+        return "http://apply.grants.gov/forms/NSF_ApplicationChecklist_1_3-V1.3";
+    }
 
 }

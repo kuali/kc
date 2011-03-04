@@ -122,8 +122,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 		Budget budget = Budget.Factory.newInstance();
 		Map<Integer, String> budgetMap = new HashMap<Integer, String>();
 
-		for (Answer questionnaireAnswer : s2sUtilService
-				.getQuestionnaireAnswers(pdDoc, QUESTIONNAIRE_ID_1)) {
+		for (Answer questionnaireAnswer : s2sUtilService.getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(),getNamespace(),getFormName())) {
 			String answer = questionnaireAnswer.getAnswer();
 			if (answer != null) {
 				switch (questionnaireAnswer.getQuestionNumber()) {
@@ -534,8 +533,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 	 */
 	private void setQuestionnareAnswerForResearchTrainingPlan(
 			ResearchTrainingPlan researchTrainingPlan) {
-		for (Answer questionnaireAnswer : s2sUtilService
-				.getQuestionnaireAnswers(pdDoc, QUESTIONNAIRE_ID_1)) {
+		for (Answer questionnaireAnswer : s2sUtilService.getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), getNamespace(),getFormName())) {
 			String answer = questionnaireAnswer.getAnswer();
 			if (answer != null) {
 				switch (questionnaireAnswer.getQuestionNumber()) {
@@ -619,8 +617,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 			additionalInformation.setAlernatePhoneNumber(principalInvestigator
 					.getSecondaryOfficePhone());
 		}
-		for (Answer questionnaireAnswer : s2sUtilService
-				.getQuestionnaireAnswers(pdDoc, QUESTIONNAIRE_ID_1)) {
+		for (Answer questionnaireAnswer : s2sUtilService.getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), getNamespace(),getFormName())) {
 			String answer = questionnaireAnswer.getAnswer();
 			if (answer != null) {
 				switch (questionnaireAnswer.getQuestionNumber()) {
@@ -763,8 +760,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 		List<CurrentPriorNRSASupport> currentPriorNRSASupportList = new ArrayList<CurrentPriorNRSASupport>();
 		List<Answer> answerList = new ArrayList<Answer>();
 		String nsrSupport = null;
-		for (Answer questionnaireAnswer : s2sUtilService
-				.getQuestionnaireAnswers(pdDoc, QUESTIONNAIRE_ID_1)) {
+		for (Answer questionnaireAnswer : s2sUtilService.getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(),getNamespace(),getFormName())) {
 			int questionId = questionnaireAnswer.getQuestionNumber();
 			String answer = questionnaireAnswer.getAnswer();
 			if (answer != null) {
@@ -1026,4 +1022,12 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 				.setPHSFellowshipSupplemental11(phsFellowshipSupplemental);
 		return phsFellowshipSupplementalDocument;
 	}
+
+    public String getFormName() {
+        return "PHS_Fellowship_Supplemental_1_1-V1.1";
+    }
+
+    public String getNamespace() {
+        return "http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_1_1-V1.1";
+    }
 }

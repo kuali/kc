@@ -15,8 +15,11 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+import java.util.List;
+
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
+import org.kuali.kra.s2s.generator.S2SQuestionnairing;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
 
@@ -27,7 +30,7 @@ import org.kuali.kra.s2s.service.S2SUtilService;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public abstract class PHS398FellowshipSupplementalBaseGenerator extends
-		S2SBaseFormGenerator {
+		S2SBaseFormGenerator implements S2SQuestionnairing{
 
 	protected S2SUtilService s2sUtilService;
 	protected S2SBudgetCalculatorService s2SBudgetCalculatorService;

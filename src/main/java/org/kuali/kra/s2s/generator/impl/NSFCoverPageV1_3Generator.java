@@ -33,6 +33,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.questionnaire.answer.Answer;
+import org.kuali.kra.s2s.generator.S2SQuestionnairing;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 /**
@@ -43,7 +44,7 @@ import org.kuali.kra.s2s.util.S2SConstants;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class NSFCoverPageV1_3Generator extends NSFCoverPageBaseGenerator {
+public class NSFCoverPageV1_3Generator extends NSFCoverPageBaseGenerator implements S2SQuestionnairing{
 
 	/**
 	 * 
@@ -111,7 +112,7 @@ public class NSFCoverPageV1_3Generator extends NSFCoverPageBaseGenerator {
 		OtherInfo otherInfo = OtherInfo.Factory.newInstance();
 		PIInfo pInfo = PIInfo.Factory.newInstance();
 		for (Answer questionnaireAnswer : s2sUtilService
-				.getQuestionnaireAnswers(pdDoc,QUESTIONNAIRE_ID_2)) {
+				.getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(),getNamespace(),getFormName())) {
 			String answer = questionnaireAnswer.getAnswer();
 			int questionId = questionnaireAnswer.getQuestionNumber();
 			if (answer != null) {
@@ -276,4 +277,12 @@ public class NSFCoverPageV1_3Generator extends NSFCoverPageBaseGenerator {
 		nsfCoverPage13Document.setNSFCoverPage13(nsfCoverPage13);
 		return nsfCoverPage13Document;
 	}
+
+    public String getFormName() {
+        return "NSF_CoverPage_1_3-V1.3";
+    }
+
+    public String getNamespace() {
+        return "http://apply.grants.gov/forms/NSF_CoverPage_1_3-V1.3";
+    }
 }
