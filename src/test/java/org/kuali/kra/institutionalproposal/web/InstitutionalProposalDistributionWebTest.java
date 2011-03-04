@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.institutionalproposal.htmlunitwebtest;
+package org.kuali.kra.institutionalproposal.web;
 
 import java.io.IOException;
 
@@ -36,7 +36,7 @@ public class InstitutionalProposalDistributionWebTest extends InstitutionalPropo
     /**
      * The set up method calls the parent super method and gets the 
      * Institutional Proposal Home page after that.
-     * @see org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalWebTestBase#setUp()
+     * @see org.kuali.kra.institutionalproposal.web.InstitutionalProposalWebTestBase#setUp()
      */
     @Before
     public void setUp() throws Exception {
