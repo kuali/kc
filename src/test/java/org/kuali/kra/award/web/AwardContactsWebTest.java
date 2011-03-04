@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.institutionalproposal.contacts;
+package org.kuali.kra.award.web;
 
 import java.io.IOException;
 
-import org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalWebTestBase;
 
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlImageInput;
@@ -27,7 +26,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlSelect;
 /**
  * This class loads the Award SpecialReview tab page
  */
-public abstract class InstitutionalProposalContactsWebTest extends InstitutionalProposalWebTestBase {
+public abstract class AwardContactsWebTest extends AwardWebTestBase {
     private static final String ROLE_CODE_FIELD_ID = "roleCode";
 
     protected static final String CONTACTS_LINK_NAME = "contacts.x";
@@ -52,7 +51,7 @@ public abstract class InstitutionalProposalContactsWebTest extends Institutional
         super.setUp();
         javascriptEnabled = webClient.isJavaScriptEnabled();
         webClient.setJavaScriptEnabled(false);
-        contactsPage = clickOnTab(getProposalHomePage(), CONTACTS_LINK_NAME);
+        contactsPage = clickOnTab(getAwardHomePage(), CONTACTS_LINK_NAME);
     }
     
     @Override
@@ -131,7 +130,7 @@ public abstract class InstitutionalProposalContactsWebTest extends Institutional
      * @return
      * 
      */
-    protected HtmlPage getProposalContactsPage() {
+    protected HtmlPage getAwardContactsPage() {
         return contactsPage;
     }
 
