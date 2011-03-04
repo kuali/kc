@@ -1,1 +1,0 @@
-update custom_attribute set lookup_class = 'org.kuali.kra.bo.KcPerson' where lookup_class = 'org.kuali.kra.bo.Person';
