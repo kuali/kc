@@ -44,6 +44,22 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
     private BusinessObjectService businessObjectService;
     private KcPersonService kcPersonService;
     
+    
+    /**
+     * 
+     * @see org.kuali.kra.budget.personnel.BudgetPersonService#addBudgetPerson(org.kuali.kra.budget.core.Budget, org.kuali.kra.budget.personnel.BudgetPerson)
+     */
+    public void addBudgetPerson(Budget budget, BudgetPerson budgetPerson) {
+        if (budgetPerson.getPersonId() != null) {
+            //add budget person or adds new budget persons for each appointment the
+            //employee has
+            addBudgetEmployee(budget, budgetPerson);
+        } else {
+            populateBudgetPersonData(budget, budgetPerson);
+            budget.addBudgetPerson(budgetPerson);
+        }
+    }
+    
     /**
      * @see org.kuali.kra.budget.personnel.BudgetPersonService#populateBudgetPersonData(org.kuali.kra.budget.core.Budget, org.kuali.kra.budget.personnel.BudgetPerson)
      */
@@ -86,32 +102,7 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
                 }
                 if (!present) {
                     if (proposalPerson.getPersonId() != null) {
-                        //if its a person, get all available appointments
-                        //and add each appointment as a separate BudgetPerson
-                        KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(proposalPerson.getPersonId());
-                        List<PersonAppointment> appointments = kcPerson.getExtendedAttributes().getPersonAppointments();
-                        boolean added = false;
-                        for (PersonAppointment appointment : appointments) {
-                            if (isAppointmentApplicableToBudget(budget, appointment)) {
-                                BudgetPerson newBudgetPerson = new BudgetPerson(proposalPerson);
-                                newBudgetPerson.setJobCode(appointment.getJobCode());
-                                newBudgetPerson.setJobTitle(appointment.getJobTitle());
-                                newBudgetPerson.setCalculationBase(appointment.getSalary());
-                                newBudgetPerson.setEffectiveDate(appointment.getStartDate());
-                                newBudgetPerson.setAppointmentType(appointment.getAppointmentType());
-                                newBudgetPerson.setAppointmentTypeCode(appointment.getTypeCode());
-                                populateBudgetPersonData(budget, newBudgetPerson);
-                                budget.addBudgetPerson(newBudgetPerson);
-                                added = true;
-                            }
-                        }
-                        //if we didn't find an appointment that was applicable, add
-                        //person without appointment information
-                        if (!added) {
-                            BudgetPerson newBudgetPerson = new BudgetPerson(proposalPerson);
-                            populateBudgetPersonData(budget, newBudgetPerson);
-                            budget.addBudgetPerson(newBudgetPerson);
-                        }
+                        addBudgetEmployee(budget, new BudgetPerson(proposalPerson));
                     } else {
                         BudgetPerson newBudgetPerson = new BudgetPerson(proposalPerson);
                         populateBudgetPersonData(budget, newBudgetPerson);
@@ -120,6 +111,37 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
                     //
                 }
             }
+        }
+    }
+    
+    protected void addBudgetEmployee(Budget budget, BudgetPerson budgetPerson) {
+        //if its a person, get all available appointments
+        //and add each appointment as a separate BudgetPerson
+        KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(budgetPerson.getPersonId());
+        List<PersonAppointment> appointments = kcPerson.getExtendedAttributes().getPersonAppointments();
+        boolean added = false;
+        for (PersonAppointment appointment : appointments) {
+            if (isAppointmentApplicableToBudget(budget, appointment)) {
+                BudgetPerson newBudgetPerson = new BudgetPerson();
+                newBudgetPerson.setPersonId(budgetPerson.getPersonId());
+                newBudgetPerson.setPersonName(budgetPerson.getPersonName());
+                newBudgetPerson.setNonEmployeeFlag(budgetPerson.getNonEmployeeFlag());
+                newBudgetPerson.setJobCode(appointment.getJobCode());
+                newBudgetPerson.setJobTitle(appointment.getJobTitle());
+                newBudgetPerson.setCalculationBase(appointment.getSalary());
+                newBudgetPerson.setEffectiveDate(appointment.getStartDate());
+                newBudgetPerson.setAppointmentType(appointment.getAppointmentType());
+                newBudgetPerson.setAppointmentTypeCode(appointment.getTypeCode());
+                populateBudgetPersonData(budget, newBudgetPerson);
+                budget.addBudgetPerson(newBudgetPerson);
+                added = true;
+            }
+        }
+        //if we didn't find an appointment that was applicable, add
+        //person without appointment information
+        if (!added) {
+            populateBudgetPersonData(budget, budgetPerson);
+            budget.addBudgetPerson(budgetPerson);
         }
     }
     
