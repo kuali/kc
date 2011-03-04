@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.institutionalproposal.htmlunitwebtest;
+package org.kuali.kra.award.web;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,7 +21,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.HtmlUnitUtil;
 import org.kuali.kra.infrastructure.Constants;
@@ -33,9 +32,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTable;
 import com.gargoylesoftware.htmlunit.html.HtmlTableCell;
 import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
 
-// There appears to be no staging data for Institutional Proposal web tests, so ignore this test until the data is put in.
-@Ignore
-public class InstitutionalProposalSpecialReviewWebTest extends InstitutionalProposalWebTestBase {
+public class AwardSpecialReviewWebTest extends AwardWebTestBase {
 
     private static final String TABLE_ID = "specialReviewTableId";
     
@@ -65,10 +62,10 @@ public class InstitutionalProposalSpecialReviewWebTest extends InstitutionalProp
     private static final String NEW_EXEMPTION_TYPE_CODES_FIELD = "specialReviewHelper.newSpecialReview.exemptionTypeCodes";
     private static final String NEW_COMMENTS_FIELD = "specialReviewHelper.newSpecialReview.comments";
     
-    private static final String EXEMPTION_TYPE_CODES_FIELD = "document.institutionalProposalList[0].specialReviews[0].exemptionTypeCodes";
+    private static final String EXEMPTION_TYPE_CODES_FIELD = "document.awardList[0].specialReviews[0].exemptionTypeCodes";
     
     private static final String METHODTOCALL_ADDSPECIALREVIEW = "methodToCall.addSpecialReview.anchorSpecialReview";
-    private static final String METHODCOCALL_DELETESPECIALREVIEW = "methodToCall.deleteSpecialReview.line0.anchor0";
+    private static final String METHODTOCALL_DELETESPECIALREVIEW = "methodToCall.deleteSpecialReview.line0.anchor0.validate0";
     private static final String METHODTOCALL_CONFIRMDELETESPECIALREVIEW = "methodToCall.processAnswer.button0";
     
     private class Review {
@@ -109,20 +106,20 @@ public class InstitutionalProposalSpecialReviewWebTest extends InstitutionalProp
      */
     @Test
     public void testAddApprovedSpecialReview() throws Exception {
-        HtmlPage proposalPage = getProposalHomePage();
-        HtmlPage specialReviewPage = clickOnTab(proposalPage, SPECIAL_REVIEW_LINK_NAME);
+        HtmlPage awardPage = getAwardHomePage();
+        HtmlPage specialReviewPage = clickOnTab(awardPage, SPECIAL_REVIEW_LINK_NAME);
         setApprovedSpecialReviewFields(specialReviewPage);
         specialReviewPage = clickOn(specialReviewPage, METHODTOCALL_ADDSPECIALREVIEW);
         assertTrue(!hasError(specialReviewPage));
-        
+
         List<Review> reviews = new ArrayList<Review>();
         reviews.add(
                 new Review(SPECIAL_REVIEW_TYPE_ANIMAL_USAGE_NAME, APPROVAL_TYPE_APPROVED_NAME, PROTOCOL_NUMBER, APPLICATION_DATE, APPROVAL_DATE, 
                            EXPIRATION_DATE, Collections.<String>emptyList(), COMMENTS));
         checkTable(specialReviewPage, reviews, 3);
         
-        proposalPage = saveAndSearchDoc(specialReviewPage);
-        specialReviewPage = clickOnTab(proposalPage, SPECIAL_REVIEW_LINK_NAME);
+        awardPage = saveAndSearchDoc(specialReviewPage);
+        specialReviewPage = clickOnTab(awardPage, SPECIAL_REVIEW_LINK_NAME);
         
         checkTable(specialReviewPage, reviews, 3);
     }
@@ -132,8 +129,8 @@ public class InstitutionalProposalSpecialReviewWebTest extends InstitutionalProp
      */
     @Test
     public void testAddExemptSpecialReview() throws Exception {
-        HtmlPage proposalPage = getProposalHomePage();
-        HtmlPage specialReviewPage = clickOnTab(proposalPage, SPECIAL_REVIEW_LINK_NAME);
+        HtmlPage awardPage = getAwardHomePage();
+        HtmlPage specialReviewPage = clickOnTab(awardPage, SPECIAL_REVIEW_LINK_NAME);
         setExemptSpecialReviewFields(specialReviewPage);
         specialReviewPage = clickOn(specialReviewPage, METHODTOCALL_ADDSPECIALREVIEW);
         assertTrue(!hasError(specialReviewPage));
@@ -144,8 +141,8 @@ public class InstitutionalProposalSpecialReviewWebTest extends InstitutionalProp
                            EXPIRATION_DATE, Collections.singletonList(EXEMPTION_TYPE_E1_NAME), COMMENTS));
         checkTable(specialReviewPage, reviews, 3);
         
-        proposalPage = saveAndSearchDoc(specialReviewPage);
-        specialReviewPage = clickOnTab(proposalPage, SPECIAL_REVIEW_LINK_NAME);
+        awardPage = saveAndSearchDoc(specialReviewPage);
+        specialReviewPage = clickOnTab(awardPage, SPECIAL_REVIEW_LINK_NAME);
         
         checkTable(specialReviewPage, reviews, 3);
     }
@@ -156,25 +153,25 @@ public class InstitutionalProposalSpecialReviewWebTest extends InstitutionalProp
      */
     @Test
     public void testDeleteSpecialReview() throws Exception {
-        HtmlPage proposalPage = getProposalHomePage();
-        HtmlPage specialReviewPage = clickOnTab(proposalPage, SPECIAL_REVIEW_LINK_NAME);
+        HtmlPage awardPage = getAwardHomePage();
+        HtmlPage specialReviewPage = clickOnTab(awardPage, SPECIAL_REVIEW_LINK_NAME);
         setApprovedSpecialReviewFields(specialReviewPage);
         specialReviewPage = clickOn(specialReviewPage, METHODTOCALL_ADDSPECIALREVIEW);
         assertTrue(!hasError(specialReviewPage));
         
-        proposalPage = saveAndSearchDoc(specialReviewPage);
-        specialReviewPage = clickOnTab(proposalPage, SPECIAL_REVIEW_LINK_NAME);
+        awardPage = saveAndSearchDoc(specialReviewPage);
+        specialReviewPage = clickOnTab(awardPage, SPECIAL_REVIEW_LINK_NAME);
         
-        specialReviewPage = clickOn(specialReviewPage, METHODCOCALL_DELETESPECIALREVIEW);
+        specialReviewPage = clickOn(specialReviewPage, METHODTOCALL_DELETESPECIALREVIEW);
         specialReviewPage = clickOn(specialReviewPage, METHODTOCALL_CONFIRMDELETESPECIALREVIEW);
         List<Review> reviews = new ArrayList<Review>();
         checkTable(specialReviewPage, reviews, 2);
-        proposalPage = saveAndSearchDoc(specialReviewPage);
-        specialReviewPage = clickOnTab(proposalPage, SPECIAL_REVIEW_LINK_NAME);
+        awardPage = saveAndSearchDoc(specialReviewPage);
+        specialReviewPage = clickOnTab(awardPage, SPECIAL_REVIEW_LINK_NAME);
         
         checkTable(specialReviewPage, reviews, 2);
-        proposalPage = saveAndSearchDoc(specialReviewPage);
-        specialReviewPage = clickOnTab(proposalPage, SPECIAL_REVIEW_LINK_NAME);
+        awardPage = saveAndSearchDoc(specialReviewPage);
+        specialReviewPage = clickOnTab(awardPage, SPECIAL_REVIEW_LINK_NAME);
         
         checkTable(specialReviewPage, reviews, 2);
     }
@@ -185,8 +182,8 @@ public class InstitutionalProposalSpecialReviewWebTest extends InstitutionalProp
      */
     @Test
     public void testAddErrorSpecialReview() throws Exception {
-        HtmlPage proposalPage = getProposalHomePage();
-        HtmlPage specialReviewPage = clickOnTab(proposalPage, SPECIAL_REVIEW_LINK_NAME);
+        HtmlPage awardPage = getAwardHomePage();
+        HtmlPage specialReviewPage = clickOnTab(awardPage, SPECIAL_REVIEW_LINK_NAME);
         specialReviewPage = clickOn(specialReviewPage, METHODTOCALL_ADDSPECIALREVIEW);
         assertTrue(hasError(specialReviewPage));
         assertTrue(this.getErrors(specialReviewPage, "tab-SpecialReview-div").size() == 2);
@@ -277,5 +274,5 @@ public class InstitutionalProposalSpecialReviewWebTest extends InstitutionalProp
         
         assertTrue(expectedValue + " was not selected", found);
     }
-    
+
 }
