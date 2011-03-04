@@ -15,6 +15,7 @@ function void deleteNewProtocolSubmission(ProtocolUndoActionMapping protocolActi
 
 function void resetProtocolStatusCode(ProtocolUndoActionMapping protocolAction) {
     protocolAction.getProtocol().setProtocolStatusCode(protocolAction.getProtocolAction().getPrevProtocolStatusCode());  
+    protocolAction.getProtocol().refreshReferenceObject("protocolStatus");
 } 
 
 rule "fn_assign_to_agenda"
