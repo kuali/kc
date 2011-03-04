@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.htmlunitwebtest;
+package org.kuali.kra.award.web;
 
 
 import org.junit.After;
@@ -41,7 +41,7 @@ public class AwardTimeAndMoneyWebTest extends AwardWebTestBase{
     /**
      * The set up method calls the parent super method and gets the 
      * award Time and Money page after that.
-     * @see org.kuali.kra.award.htmlunitwebtest.AwardWebTestBase#setUp()
+     * @see org.kuali.kra.award.web.AwardWebTestBase#setUp()
      */
     @Before
     public void setUp() throws Exception {
@@ -51,7 +51,7 @@ public class AwardTimeAndMoneyWebTest extends AwardWebTestBase{
 
     /**
      * This method calls parent tear down method and than sets awardTimeAndMoneyPage to null
-     * @see org.kuali.kra.award.htmlunitwebtest.AwardWebTestBase#tearDown()
+     * @see org.kuali.kra.award.web.AwardWebTestBase#tearDown()
      */
     @After
     public void tearDown() throws Exception {

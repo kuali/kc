@@ -13,11 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.htmlunitwebtest;
+package org.kuali.kra.award.web;
 
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -26,23 +23,23 @@ import org.junit.Test;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 /**
- * This class loads the Award SpecialReview tab page
+ * This is the integration test for Award Actions Page.
  */
-public class AwardPaymentsAndTermsWebTest extends AwardWebTestBase {
-    protected static final String PAYMENT_REPORTS_AND_TERMS_LINK_NAME = "paymentReportsAndTerms";
-    private static final Log LOG = LogFactory.getLog(AwardPaymentsAndTermsWebTest.class);
+public class AwardActionsWebTest extends AwardWebTestBase {
+protected static final String ACTIONS_LINK_NAME = "awardActions";
     
-    protected HtmlPage paymentReportsAndTermsPage;
+    protected HtmlPage awardActionsPage; 
     
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        paymentReportsAndTermsPage = clickOnTab(getAwardHomePage(), PAYMENT_REPORTS_AND_TERMS_LINK_NAME);        
+        getAwardHomePage().getWebClient().setJavaScriptEnabled(false);
+        awardActionsPage = clickOnTab(getAwardHomePage(), ACTIONS_LINK_NAME);
     }
     
     @After
     public void tearDown() throws Exception {
-        paymentReportsAndTermsPage = null;
+        awardActionsPage = null;
         super.tearDown();
     }
  
@@ -51,13 +48,7 @@ public class AwardPaymentsAndTermsWebTest extends AwardWebTestBase {
      * 
      */
     protected HtmlPage getAwardPaymentReportsAndTermsPage() {
-        return paymentReportsAndTermsPage;
-    }
-    
-    protected void dumpPage() {
-        if(LOG.isDebugEnabled()) {
-            LOG.debug(paymentReportsAndTermsPage);
-        }
+        return awardActionsPage;
     }
     
     /** prevents init errors from not having a test method. */

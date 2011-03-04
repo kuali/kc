@@ -13,8 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.htmlunitwebtest;
+package org.kuali.kra.award.web;
 
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -23,23 +26,23 @@ import org.junit.Test;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 /**
- * This is the integration test for Award Actions Page.
+ * This class loads the Award SpecialReview tab page
  */
-public class AwardActionsWebTest extends AwardWebTestBase {
-protected static final String ACTIONS_LINK_NAME = "awardActions";
+public class AwardPaymentsAndTermsWebTest extends AwardWebTestBase {
+    protected static final String PAYMENT_REPORTS_AND_TERMS_LINK_NAME = "paymentReportsAndTerms";
+    private static final Log LOG = LogFactory.getLog(AwardPaymentsAndTermsWebTest.class);
     
-    protected HtmlPage awardActionsPage; 
+    protected HtmlPage paymentReportsAndTermsPage;
     
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        getAwardHomePage().getWebClient().setJavaScriptEnabled(false);
-        awardActionsPage = clickOnTab(getAwardHomePage(), ACTIONS_LINK_NAME);
+        paymentReportsAndTermsPage = clickOnTab(getAwardHomePage(), PAYMENT_REPORTS_AND_TERMS_LINK_NAME);        
     }
     
     @After
     public void tearDown() throws Exception {
-        awardActionsPage = null;
+        paymentReportsAndTermsPage = null;
         super.tearDown();
     }
  
@@ -48,7 +51,13 @@ protected static final String ACTIONS_LINK_NAME = "awardActions";
      * 
      */
     protected HtmlPage getAwardPaymentReportsAndTermsPage() {
-        return awardActionsPage;
+        return paymentReportsAndTermsPage;
+    }
+    
+    protected void dumpPage() {
+        if(LOG.isDebugEnabled()) {
+            LOG.debug(paymentReportsAndTermsPage);
+        }
     }
     
     /** prevents init errors from not having a test method. */
