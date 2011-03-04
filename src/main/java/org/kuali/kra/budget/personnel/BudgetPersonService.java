@@ -45,5 +45,13 @@ public interface BudgetPersonService {
     public void synchBudgetPersonsToProposal(Budget budget);
 
     public BudgetPerson findBudgetPerson(BudgetPersonnelDetails budgetPersonnelDetails);
+    
+    /**
+     * Adds a new budget person and adds default info. If the budget person is an employee/person
+     * then will also create a budget person for each applicable appointment that person has
+     * @param budget
+     * @param budgetPerson
+     */
+    public void addBudgetPerson(Budget budget, BudgetPerson budgetPerson);
 
 }
