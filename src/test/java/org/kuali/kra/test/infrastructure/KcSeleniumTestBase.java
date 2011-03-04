@@ -28,10 +28,15 @@ import org.junit.runner.notification.RunListener;
 import org.kuali.kra.test.infrastructure.lifecycle.KcUnitTestSeleniumLifecycle;
 import org.kuali.rice.test.web.HtmlUnitUtil;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.RenderedWebElement;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Clock;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.SystemClock;
+import org.openqa.selenium.support.ui.Wait;
+
+import com.google.common.base.Function;
 
 @RunWith(KcSeleniumTestRunner.class)
 public class KcSeleniumTestBase extends KcUnitTestBase {
@@ -81,17 +86,17 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
     }
     
     @Before
-    public void seleniumBeforeTest() throws Exception {
+    public void seleniumBeforeTest() {
         LIFECYCLE.startPerTest(transactional);
     }
     
     @After
-    public void seleniumAfterTest() throws Exception {
+    public void seleniumAfterTest() {
         LIFECYCLE.stopPerTest();
     }
     
     /**
-     * This method returns the <code>RunListener</code> needed to ensure the KC persistent lifecycles shut down properly
+     * This method returns the {@code RunListener} needed to ensure the KC persistent lifecycles shut down properly
      * @return the RunListener responsible for shutting down all KC persistent lifecycles
      */
     public static RunListener getRunListener() {
@@ -109,7 +114,7 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
     /**
      * Checks for the Login web page and if it exists, logs the user in.
      */
-    protected void login() {
+    protected final void login() {
         login(QUICKSTART_USER);
     }
     
@@ -118,7 +123,7 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
      * 
      * @param username the user's id
      */
-    protected void login(String username) {
+    protected final void login(final String username) {
         if (StringUtils.equals(driver.getTitle(), "Login")) {
             set("__login_user", username);
             click("//input[@value='Login']");
@@ -193,45 +198,44 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
 
     /**
      * Gets the value of a control field.
-     * <p>
-     * The test will fail for any of the following reasons:
-     * <ul>
-     * <li>The HTML control element was not found</li>
-     * </ul>
      *
-     * @param locator the XPath location of the HTML element to click on
-     * @return the value of the HTML element
+     * @param locator the id, partial name, partial title, or partial link name of the element to click on
+     * @return the value of the element
      */
-    protected final String get(String locator) {
-        assertElementExists(locator);
+    protected final String get(final String locator) {
         return getElement(locator).getValue();
     }
     
     /**
      * Sets the value of a control field.
-     * <p>
-     * The test will fail for any of the following reasons:
-     * <ul>
-     * <li>The HTML control element was not found</li>
-     * </ul>
      *
-     * @param locator the XPath location of the HTML element to click on
-     * @param value the value to set the HTML element to
+     * @param locator the id, partial name, partial title, or partial link name of the element to click on
+     * @param value the new value of the element
      */
-    protected final void set(String locator, String value) {
-        assertElementExists(locator);
+    protected final void set(final String locator, final String value) {
         WebElement element = getElement(locator);
         String elementType = element.getAttribute("type");
         
         if (StringUtils.equals(elementType, "radio")) {
-            List<WebElement> radios = getElementsByName(locator);
-            for (WebElement radio : radios) {
-                String radioValue = radio.getValue();
-                if (StringUtils.equals(radioValue, value)) {
-                    radio.click();
-                    break;
+            WebElement radio = new ElementExistsWaiter(locator + " with value " + value + " not found").until(
+                new Function<WebDriver, WebElement>() {
+                    public WebElement apply(WebDriver driver) {
+                        WebElement element = null;
+                        
+                        for (WebElement radio : getElementsByName(locator)) {
+                            String radioValue = radio.getValue();
+                            if (StringUtils.equals(radioValue, value)) {
+                                element = radio;
+                                break;
+                            }
+                        }
+                        
+                        return element;
+                    }
                 }
-            }
+            );
+            
+            radio.click();
         } else {
             element.clear();
             element.sendKeys(value);
@@ -240,40 +244,27 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
     }
 
     /**
-     * Clicks on an HTML element in the web page indicated by the <code>locator</code>.  A locator is either:
-     * <ol>
-     * <li>An exact value matching an <code>id</code> attribute</li>
-     * <li>A value that is contained in a <code>name</code> attribute</li>
-     * <li>A value that is contained in a <code>title</code> attribute</li>
-     * </ol>
+     * Clicks on an element in the web page.
      * <p>
-     * Using any of the <code>click()</code> methods is the preferred way to click on an HTML element due to the login process.  If the login web page is 
+     * Using any of the {@code click()} methods is the preferred way to click on an element due to the login process.  If the login web page is 
      * encountered, the user will be automatically logged in and the given button will be clicked.
      *
-     * @param locator the exact id, partial name, or partial title of the HTML element to click on
+     * @param locator the id, partial name, partial title, or partial link name of the element to click on
      */
-    protected final void click(String locator) {
+    protected final void click(final String locator) {
         click(locator, null);
     }
     
     /**
-     * Clicks on an HTML element in the web page indicated by the <code>locator</code>.  A locator is either:
-     * <ol>
-     * <li>An exact value matching an <code>id</code> attribute</li>
-     * <li>A value that is contained in a <code>name</code> attribute</li>
-     * <li>A value that is contained in a <code>title</code> attribute</li>
-     * </ol>
+     * Clicks on an element in the web page, asserting that the next page contains {@code nextPageTitle}.
      * <p>
-     * Using any of the <code>click()</code> methods is the preferred way to click on an HTML element due to the login process.  If the login web page is 
+     * Using any of the {@code click()} methods is the preferred way to click on an HTML element due to the login process.  If the login web page is 
      * encountered, the user will be automatically logged in and the given button will be clicked.
-     * <p>
-     * If the <code>nextPageTitle</code> is not null, the test case will fail if the next web page doesn't have the expected title.
      *
-     * @param locator the exact id, partial name, or partial title of the HTML element to click on
-     * @param nextPageTitle the expected title of the new web page (may be null)
+     * @param locator the id, partial name, partial title, or partial link name of the element to click on
+     * @param nextPageTitle the expected title of the next web page (may be null)
      */
-    protected final void click(String locator, String nextPageTitle) {
-        assertElementExists(locator);
+    protected final void click(final String locator, final String nextPageTitle) {
         getElement(locator).click();
         
         login();
@@ -284,15 +275,86 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
     }
     
     /**
+     * Opens the tab with index {@code index} on the web page.  The {@code index} should be a number between {@code 0} and the number of active 
+     * tabs on the page.  It does not count inactive hidden tabs on the page.
+     *
+     * @param index the index of the tab on the web page
+     */
+    protected final void openTab(final int index) {
+        WebElement tab = new ElementExistsWaiter("Tab with index " + index + " not found on page").until(
+            new Function<WebDriver, WebElement>() {
+                public WebElement apply(WebDriver driver) {
+                    WebElement tab = null;
+                    
+                    List<WebElement> tabs = getElementsByName("methodToCall.toggleTab");
+                    if (0 <= index && index < tabs.size()) {
+                        tab = tabs.get(index);
+                    }
+                    
+                    return tab;
+                }
+            }
+        );
+        
+        clickTab(tab, "open");
+    }
+    
+    /**
+     * Closes the tab with index {@code index} on the web page.  The {@code index} should be a number between {@code 0} and the number of active 
+     * tabs on the page.  It does not count inactive hidden tabs on the page.
+     *
+     * @param index the index of the tab on the web page
+     */
+    protected final void closeTab(final int index) {
+        WebElement tab = new ElementExistsWaiter("Tab with index " + index + " not found on page").until(
+            new Function<WebDriver, WebElement>() {
+                public WebElement apply(WebDriver driver) {
+                    WebElement tab = null;
+                    
+                    List<WebElement> tabs = getElementsByName("methodToCall.toggleTab");
+                    if (0 <= index && index < tabs.size()) {
+                        tab = tabs.get(index);
+                    }
+                    
+                    return tab;
+                }
+            }
+        );
+
+        clickTab(tab, "close");
+    }
+    
+    /**
+     * Clicks the {@code tab} that contains the text {@code command} (typically 'open' or 'close').
+     * 
+     * @param tab the tab to click
+     * @param command the instruction to either open or close the tab
+     */
+    private void clickTab(final WebElement tab, final String command) {
+        String tabTitle = tab.getAttribute("title");
+        
+        if (StringUtils.contains(tabTitle, command)) {
+            tab.click();
+        }
+    }
+    
+    /**
      * Gets the document number from a document's web page.  It is expected to be in an HTML table in a table labeled "headerarea".
      *
      * @return the document's number
      */
     protected final String getDocumentNumber() {
-        String locator = "//div[@id='headerarea']/div/table/tbody/tr[1]/td[1]";
+        final String locator = "//div[@id='headerarea']/div/table/tbody/tr[1]/td[1]";
         
-        assertNotNull(locator + " not found", getElementByXPath(locator));
-        return getElementByXPath(locator).getText();
+        WebElement documentNumber = new ElementExistsWaiter(locator + " not found").until(
+            new Function<WebDriver, WebElement>() {
+                public WebElement apply(WebDriver driver) {
+                    return getElementByXPath(locator);
+                }
+            }
+        );
+        
+        return documentNumber.getText();
     }
     
     /**
@@ -304,16 +366,10 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
      * <li>The first item in the results is returned</li>
      * <li>The document number link is clicked on</li>
      * </ol>
-     * <p>
-     * The test will fail for any of the following reasons:
-     * <ul>
-     * <li>The Doc Search button was not found</li>
-     * <li>There was no data returned in the search</li>
-     * </ul>
      *
      * @param documentNumber the document number to search for
      */
-    protected final void docSearch(String documentNumber) {
+    protected final void docSearch(final String documentNumber) {
         openPortalPage();
         
         click("Document Search");
@@ -333,18 +389,15 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
      * <li>The first item in the results is returned</li>
      * <li>The web page resulting from clicking on "Return Value" is returned</li>
      * </ol>
-     * To find the Lookup button, the name attribute of all Lookup buttons are examined to see if it contains the given <code>tag</code>.  Make sure to pick 
-     * a <code>tag</code> that is unique for that Lookup.
+     * To find the Lookup button, the name attribute of all Lookup buttons are examined to see if it contains the given {@code tag}.  Make sure to pick 
+     * a {@code tag} that is unique for that Lookup.
      * <p>
-     * The test will fail for any of the following reasons:
-     * <ul>
-     * <li>The Lookup button was not found</li>
-     * <li>There was no data returned in the search</li>
-     * </ul>
+     * Using any of the {@code lookup()} methods is the preferred way to perform a lookup due to the login process.  If the login web page is 
+     * encountered, the user will be automatically logged in and the lookup will be performed.
      *
-     * @param tag identifies the Lookup button to click on.
+     * @param tag identifies the Lookup button to click on
      */
-    protected final void lookup(String tag) {
+    protected final void lookup(final String tag) {
        lookup(tag, null, null);
     }
 
@@ -356,24 +409,21 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
      * <li>In the Lookup web page, the search button is clicked on</li>
      * <li>The first item in the results is returned</li>
      * </ol>
-     * To find the Lookup button, the name attribute of all Lookup buttons are examined to see if it contains the given <code>tag</code>.  Make sure to pick 
-     * a <code>tag</code> that is unique for that Lookup.
+     * To find the Lookup button, the name attribute of all Lookup buttons are examined to see if it contains the given {@code tag}.  Make sure to pick 
+     * a {@code tag} that is unique for that Lookup.
      * <p>
-     * The test will fail for any of the following reasons:
-     * <ul>
-     * <li>The Lookup button was not found</li>
-     * <li>There was no data returned in the search</li>
-     * </ul>
+     * Using any of the {@code lookup()} methods is the preferred way to perform a lookup due to the login process.  If the login web page is 
+     * encountered, the user will be automatically logged in and the lookup will be performed.
      *
-     * @param tag identifies the Lookup button to click on.
-     * @param searchFieldId the id of the search field (may be null).
-     * @param searchFieldValue the value to insert into the search field (may be null if id is null).
+     * @param tag identifies the Lookup button to click on
+     * @param searchFieldId the id of the search field (may be null)
+     * @param searchFieldValue the value to insert into the search field (may be null if id is null)
      */
-    protected final void lookup(String tag, String searchFieldId, String searchFieldValue) {    
+    protected final void lookup(final String tag, final String searchFieldId, final String searchFieldValue) {    
         clickLookup(tag);
 
         if (searchFieldId != null) {
-            assertTrue("searchValue is null", searchFieldValue != null);
+            assertNotNull("searchValue is null", searchFieldValue);
             set(searchFieldId, searchFieldValue);
         }
 
@@ -392,18 +442,15 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
      * <li>The "Select All from All Pages" button is clicked on</li>
      * <li>The web page resulting from clicking on "Return Selected" is returned</li>
      * </ol>
-     * To find the Lookup button, the name attribute of all Lookup buttons are examined to see if it contains the given <code>tag</code>.  Make sure to pick 
-     * a <code>tag</code> that is unique for that Lookup.
+     * To find the Lookup button, the name attribute of all Lookup buttons are examined to see if it contains the given {@code tag}.  Make sure to pick 
+     * a {@code tag} that is unique for that Lookup.
      * <p>
-     * The test will fail for any of the following reasons:
-     * <ul>
-     * <li>The Lookup button was not found</li>
-     * <li>There was no data returned in the search</li>
-     * </ul>
-     *
-     * @param tag identifies the Lookup button to click on.
+     * Using any of the {@code multiLookup()} methods is the preferred way to perform a lookup due to the login process.  If the login web page is 
+     * encountered, the user will be automatically logged in and the lookup will be performed.
+     * 
+     * @param tag identifies the Lookup button to click on
      */
-    protected final void multiLookup(String tag) {
+    protected final void multiLookup(final String tag) {
         multiLookup(tag, null, null);
     }
 
@@ -416,24 +463,21 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
      * <li>The "Select All from All Pages" button is clicked on</li>
      * <li>The web page resulting from clicking on "Return Selected" is returned</li>
      * </ol>
-     * To find the Lookup button, the name attribute of all Lookup buttons are examined to see if it contains the given <code>tag</code>.  Make sure to pick 
-     * a <code>tag</code> that is unique for that Lookup.
+     * To find the Lookup button, the name attribute of all Lookup buttons are examined to see if it contains the given {@code tag}.  Make sure to pick 
+     * a {@code tag} that is unique for that Lookup.
      * <p>
-     * The test will fail for any of the following reasons:
-     * <ul>
-     * <li>The Lookup button was not found</li>
-     * <li>There was no data returned in the search</li>
-     * </ul>
+     * Using any of the {@code multiLookup()} methods is the preferred way to perform a lookup due to the login process.  If the login web page is 
+     * encountered, the user will be automatically logged in and the lookup will be performed.
      *
-     * @param tag identifies the Lookup button to click on.
-     * @param searchFieldId the id of the search field (may be null).
-     * @param searchFieldValue the value to insert into the search field (may be null if id is null).
+     * @param tag identifies the Lookup button to click on
+     * @param searchFieldId the id of the search field (may be null)
+     * @param searchFieldValue the value to insert into the search field (may be null if id is null)
      */
-    protected void multiLookup(String tag, String searchFieldId, String searchFieldValue) {
+    protected final void multiLookup(final String tag, final String searchFieldId, final String searchFieldValue) {
         clickLookup(tag);
 
         if (searchFieldId != null) {
-            assertTrue("searchValue is null", searchFieldValue != null);
+            assertNotNull("searchValue is null", searchFieldValue);
             set(searchFieldId, searchFieldValue);
         }
 
@@ -447,22 +491,22 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
     }
     
     /**
-     * Gets a Lookup HTML element.  The searching for Lookup HTML elements
-     * is a special case.  This is because it lacks an id attribute and because
-     * the value of its name attribute is extremely long and cryptic. To find
-     * a Lookup element, the value of the name attribute is examined to see if
-     * it contains the given id.  Lookup HTML elements always contain some data
-     * in the name attribute that is specific to the Lookup.
+     * Clicks a Lookup element that has a name attribute containing {@code tag}.
      *
-     * @param element the parent HTML element to search.
-     * @param tag the tag to compare against Lookup HTML name attributes.
-     * @return the Lookup's HTML element or null if not found.
+     * @param tag identifies the Lookup button to click on
      */
-    private final void clickLookup(String tag) {
+    private void clickLookup(final String tag) {
         final String locator = "//input[starts-with(@name,'methodToCall.performLookup')and contains(@name,'" + tag + "')]";
 
-        assertNotNull(locator + " not found", getElementByXPath(locator));
-        getElementByXPath(locator).click();
+        WebElement lookup = new ElementExistsWaiter(locator + " not found").until(
+            new Function<WebDriver, WebElement>() {
+                public WebElement apply(WebDriver driver) {
+                    return getElementByXPath(locator);
+                }
+            }
+        );
+        
+        lookup.click();
         
         login();
     }
@@ -489,7 +533,7 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
     }
 
     /**
-     * Closes a document, optionally saving if <code>save</code> is set to true.
+     * Closes a document, optionally saving if {@code save} is set to true.
      *
      * @param save whether or not the document should be saved before closing
      */
@@ -499,7 +543,7 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
         }
         
         click(CLOSE_BUTTON);
-        
+        // TODO: this may or may not show up depending on the document, but getElement will never return null...
         if (getElement("methodToCall.processAnswer.button1") != null) {
             click("methodToCall.processAnswer.button1");
         }
@@ -532,77 +576,71 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
     }
     
     /**
-     * Asserts that <code>locator</code> exists on the page.
+     * Asserts that the value of the element identified by {@code locator} contains {@code value}.
      * 
-     * @param locator the XPath location of the HTML element to verify
-     */
-    protected final void assertElementExists(String locator) {
-        assertNotNull(locator + " not found", getElement(locator));
-    }
-    
-    /**
-     * Asserts that <code>locator</code> does <b>not</b> exist on the page.
-     * 
-     * @param locator the XPath location of the HTML element to verify
-     */
-    protected final void assertElementDoesNotExist(String locator) {
-        assertNull(locator + " found", getElement(locator));
-    }
-    
-    
-    /**
-     * Asserts that the value of the element indicated by <code>locator</code> contains <code>value</code>.
-     * 
-     * @param locator the XPath location of the HTML element to verify
-     * @param value the value to look for in the element.
+     * @param locator the id, partial name, partial title, or partial link name of the element to search for
+     * @param value the value to look for in the element
      */
     protected final void assertElementContains(String locator, String value) {
         clickExpandAll();
 
-        assertElementExists(locator);
         WebElement element = getElement(locator);
-        
         assertTrue("Element " + locator + " does not contain " + value, StringUtils.contains(element.getValue(), value)); 
     }
     
     /**
-     * Asserts that the web page does <b>not</b> contain <code>text</code>.
+     * Asserts that the value of the element identified by {@code locator} does <b>not</b> contain {@code value}.
      * 
-     * @param locator the XPath location of the HTML element to verify
-     * @param value the value to look for in the element.
+     * @param locator the id, partial name, partial title, or partial link name of the element to search for
+     * @param value the value to look for in the element
      */
     protected final void assertElementDoesNotContain(String locator, String value) {
         clickExpandAll();
         
-        assertElementExists(locator);
         WebElement element = getElement(locator);
-
         assertFalse("Element " + locator + " contains " + value, StringUtils.contains(element.getValue(), value)); 
     }
 
     /**
-     * Asserts that the web page contains <code>text</code>.
+     * Asserts that the web page contains {@code text}.
      * 
      * @param text the string to look for in the web page.
      */
-    protected final void assertPageContains(String text) {
+    protected final void assertPageContains(final String text) {
         clickExpandAll();
-
-        assertNotNull("Page does not contain " + text, getElementByText(text)); 
+        
+        new ElementExistsWaiter("Page does not contain " + text).until(
+            new Function<WebDriver, WebElement>() {
+                public WebElement apply(WebDriver driver) {
+                    return getElementByText(text);
+                }
+            }
+        ); 
     }
     
     /**
-     * Asserts that the web page does <b>not</b> contain <code>text</code>.
+     * Asserts that the web page does <b>not</b> contain {@code text}.
      * 
      * @param text the string to look for in the web page.
      */
-    protected final void assertPageDoesNotContain(String text) {
+    protected final void assertPageDoesNotContain(final String text) {
         clickExpandAll();
-
-        assertNull("Page contains " + text, getElementByText(text)); 
+        
+        new ElementDoesNotExistWaiter("Page contains " + text).until(
+            new Function<WebDriver, WebElement>() {
+                public WebElement apply(WebDriver driver) {
+                    return getElementByText(text);
+                }
+            }
+         );
     }
     
-    protected final void assertTitleContains(String title) {
+    /**
+     * Asserts that the web page title contains {@code title}.
+     * 
+     * @param title the title to look for in the web page.
+     */
+    protected final void assertTitleContains(final String title) {
         String pageSource = driver.getPageSource();
         
         if (!StringUtils.contains(pageSource, title)) {
@@ -614,7 +652,12 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
         assertTrue("Page does not contain " + title, StringUtils.contains(pageSource, title));
     }
     
-    protected final void assertTitleDoesNotContain(String title) {
+    /**
+     * Asserts that the web page title does <b>not</b> contain {@code title}.
+     * 
+     * @param title the title to look for in the web page.
+     */
+    protected final void assertTitleDoesNotContain(final String title) {
         String pageSource = driver.getPageSource();
         
         if (StringUtils.contains(pageSource, title)) {
@@ -627,54 +670,52 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
     }
     
     /**
-     * Assert that the list of options contains <code>text</code>.
+     * Assert that the list of options identified by {@code locator} contains {@code text}.
      *
-     * @param locator the XPath location of the select options
+     * @param locator the id, partial name, partial title, or partial link name of the element to search for
      * @param text the string to look for in the select options
      */
-    protected final void assertSelectOptionsContains(String locator, String text) {
-        WebElement element = getElement(locator);
-        List<WebElement> options = element.findElements(By.tagName("option"));
+    protected final void assertSelectOptionsContains(final String locator, final String text) {
+        Select select = new Select(getElement(locator));
         
         List<String> selectedValues = new ArrayList<String>();
-        for (WebElement option : options) {
-            if (option.isSelected()) {
-                selectedValues.add(option.getText());
-            }
+        for (WebElement option : select.getAllSelectedOptions()) {
+            selectedValues.add(option.getText());
         }
         
-        assertTrue("Select options do not contain " + text, selectedValues.contains(text));
+        assertTrue("Selected options for " + locator + " do not contain " + text, selectedValues.contains(text));
     }
     
     /**
      * Asserts that the Expanded Text Area is providing a popup window in which to change its value.  Verifies that the that this is working properly by 
      * performing the following:
      * <ol>
-     * <li>The text area is set to the <code>originalText</code> value</li>
+     * <li>The text area is set to the {@code originalText} value</li>
      * <li>The pencil button is clicked on, opening in a popup window</li>
-     * <li>The text in the popup window is examined to verify that it is equal to <code>originalText</code></li>
-     * <li>The popup window text area is changed to <code>expandedAreaText</code></li>
+     * <li>The text in the popup window is examined to verify that it is equal to {@code originalText}</li>
+     * <li>The popup window text area is changed to {@code expandedAreaText}</li>
      * <li>The "Continue" button is clicked on, closing the popup window</li>
-     * <li>The resulting web page is examined to verify that the text area has changed to the value of <code>expandedAreaText</code></li>
+     * <li>The resulting web page is examined to verify that the text area has changed to the value of {@code expandedAreaText}</li>
      * </ol>
-     * <p>
-     * The test will fail for any of the following reasons:
-     * <ul>
-     * <li>The text area element was not found</li>
-     * <li>The pencil button was not found</li>
-     * <li>The popup did not appear</li>
-     * <li>The setting of <code>originalText</code> did not transfer to the popup window text area</li>
-     * <li>The saving of <code>expandedAreaText</code> did not transfer to the text area</li>
-     * </ul>
      *
      * @param textAreaId identifies the text area
      * @param originalText the string to set the original text area to
      * @param expandedAreaText the string to set in the popup window text area
      */
-    protected final void assertExpandedTextArea(String textAreaId, String originalText, String expandedAreaText) {
+    protected final void assertExpandedTextArea(final String textAreaId, final String originalText, final String expandedAreaText) {
         set(textAreaId, originalText);
+        
+        final String locator = "//input[starts-with(@name,'methodToCall.updateTextArea') and contains(@name, '" + textAreaId + "')]";
+        
+        WebElement textAreaButton = new ElementExistsWaiter("Expand button for " + textAreaId + " not found").until(
+            new Function<WebDriver, WebElement>() {
+                public WebElement apply(WebDriver driver) {
+                    return getElementByXPath(locator);
+                }
+            }
+        );
 
-        click("//input[starts-with(@name,'methodToCall.updateTextArea') and contains(@name, '" + textAreaId + "')]");
+        textAreaButton.click();
         
         driver.switchTo().window("null");
         
@@ -682,17 +723,17 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
 
         set(textAreaId, expandedAreaText);
         
-        click("methodToCall.postTextAreaToParent.anchor");
+        click("methodToCall.postTextAreaToParent");
 
         assertEquals(expandedAreaText, get(textAreaId));
     }
     
     /**
-     * Asserts that all of the Help hyperlinks on a web page (identified by the <code>helpWindow</code> target) are bringing up a page with the appropriate
+     * Asserts that all of the Help links on a web page (identified by the {@code helpWindow} target) are bringing up a page with the appropriate
      * Help Page title.
      */
     protected final void assertHelpLinks() {
-        List<WebElement> helpLinks = driver.findElements(By.xpath("//node()[@target='helpWindow']"));
+        List<WebElement> helpLinks = getElementsByXPath("//node()[@target='helpWindow']");
         for (WebElement helpLink : helpLinks) {
             helpLink.click();
             assertTitleContains(HELP_PAGE_TITLE);
@@ -700,135 +741,140 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
     }
     
     /**
-     * Asserts that the text in the table identified by <code>id</code> at row <code>row</code> and column <code>column</code> matches the given 
-     * <code>text</code>.
+     * Asserts that the text in the table identified by {@code id} at row {@code row} and column {@code column} matches the given 
+     * {@code text}.
      *
      * @param id identifies the table to search
      * @param row the 0-valued row number to search
      * @param column the 0-valued column number to search
      * @param text the text to verify
      */
-    protected final void assertTableCellValue(String id, int row, int column, String text) {
+    protected final void assertTableCellValue(final String id, final int row, final int column, final String text) {
         String rowString = String.valueOf(row + 1);
         String columnString = String.valueOf(column + 1);
         
-        WebElement cell = null;
+        final String locator = "//table[@id='" + id + "']//tr[" + rowString + "]/td[" + columnString + "]";
         
-        try {
-            cell = driver.findElement(By.xpath("//table[@id='" + id + "']//tr[" + rowString + "]/td[" + columnString + "]"));
-        
-            assertEquals(text + " not found for table " + id + " at row " + rowString + " and column " + columnString, text, cell.getText());
-        } catch (NoSuchElementException nsee) {
-            assertNotNull("Cannot find cell for table " + id + " at row " + rowString + " and column " + columnString, cell);
-        }
+        new ElementExistsWaiter(text + " not found for table " + id + " at row " + rowString + " and column " + columnString).until(
+            new Function<WebDriver, Boolean>() {
+                public Boolean apply(WebDriver driver) {
+                    WebElement cell = getElementByXPath(locator);
+                    return cell != null && StringUtils.equals(text, cell.getText());
+                }
+            }
+        );
     }
     
     /**
-     * Assert that the page contains one or more errors.
+     * Asserts that the page contains one or more errors.
      */
     protected final void assertPageErrors() {
         clickExpandAll();
         
-        assertTrue("Page does not contain errors", getElementByText("error(s) found on page") != null || getElementByText("Errors Found in Document") != null 
-                || getElementByText("Kuali :: Incident Report") != null);
+        new ElementExistsWaiter("Page does not contain errors").until(
+            new Function<WebDriver, Boolean>() {
+                public Boolean apply(WebDriver driver) {
+                    return getElementByText(ERRORS_FOUND_ON_PAGE) != null 
+                        || getElementByText("Errors Found in Document") != null 
+                        || getElementByText("Kuali :: Incident Report") != null;
+                }
+            }
+        );
     }
     
     /**
-     * Assert that the page contains no errors.
+     * Asserts that the page contains no errors.
      */
     protected final void assertNoPageErrors() {
         clickExpandAll();
         
-        assertFalse("Page contains errors", getElementByText("error(s) found on page") != null || getElementByText("Errors Found in Document") != null
-                || getElementByText("Kuali :: Incident Report") != null);
+        new ElementDoesNotExistWaiter("Page contains errors").until(
+            new Function<WebDriver, Boolean>() {
+                public Boolean apply(WebDriver driver) {
+                    return getElementByText(ERRORS_FOUND_ON_PAGE) != null 
+                        || getElementByText("Errors Found in Document") != null 
+                        || getElementByText("Kuali :: Incident Report") != null;
+                }
+            }
+        );
     }
     
     /**
-     * Determines if any of the errors contains the given text string.
+     * Asserts that one or more of the errors contained in {@code panelId} contains {@code text}.
      *
-     * @param errors the list of errors.
-     * @param text the string to compare against.
-     * @return true if any of errors contains the text string; otherwise false.
+     * @param panelId the id attribute of the panel
+     * @param text the string to look for in the errors
      */
-    protected final boolean assertError(String panelId, String text) {
-        boolean errorMatches = false;
+    protected final void assertError(final String panelId, final String expectedText) {
+        clickExpandAll();
         
-        List<WebElement> errors = getErrors(panelId);
-        for (WebElement error : errors) {
-            if (StringUtils.contains(error.getValue(), text)) {
-                errorMatches = true;
-                break;
-            }
+        List<String> errorValues = new ArrayList<String>();
+        for (WebElement error : getErrors(panelId)) {
+            errorValues.add(error.getValue());
         }
         
-        return errorMatches;
+        assertTrue("Errors in " + panelId + " do not contain " + expectedText, errorValues.contains(expectedText));
     }
 
     /**
-     * Gets the error messages for a specific panel.  If an operation
-     * results in an error, those errors are displayed in specific panel,
-     * i.e. tab.  Each panel is contained within an HTML div tag that has
-     * a unique id, i.e. the HTML id attribute.
+     * Asserts that there are {@code expectedErrorCount} errors contained in {@code panelId}.
      *
-     * @param page the HTML web page.
-     * @param panelId the unique id of the panel.
-     * @return the list of error strings (may be empty).
+     * @param panelId the id attribute of the panel
+     * @param expectedErrorCount the number of errors expected on the page
      */
-    protected final void assertErrors(String panelId, String expectedErrorCount) {
+    protected final void assertErrorCount(final String panelId, final int expectedErrorCount) {
         clickExpandAll();
         
         List<WebElement> errors = getErrors(panelId);
-        
-        assertEquals("Expected error count did not match actual error count", expectedErrorCount, errors.size());
+        assertEquals("Error count of " + errors.size() + " did not match the expected error count of " + expectedErrorCount, expectedErrorCount, errors.size());
     }
     
     /**
      * Opens the Portal Web Page. The portal page is the starting point for many web tests in order to simulate a user.
      */
-    private final void openPortalPage() {
+    private void openPortalPage() {
         driver.get(BROWSER_PROTOCOL + "://" + BROWSER_ADDRESS + ":" + HtmlUnitUtil.getPort().toString() + "/" + PORTAL_ADDRESS);
     }
     
     /**
-     * Gets an HTML element in the web page.  To find the HTML element, the following algorithm is used:
+     * Gets an element in the web page.  To find the element, the following algorithm is used:
      * <ol>
-     * <li>Search for a HTML element with an <b>id</b> attribute that matches the given id.</li>
-     * <li>If not found, search for the first HTML element with a <b>name</b> attribute that matches.</li>
-     * <li>If not found, search for the first HTML element with a <b>title</b> attribute that matches.</li>
+     * <li>Search for an active element with an {@code id} attribute that matches {@code locator}</li>
+     * <li>If not found, search for the first active element with a {@code name} attribute that contains {@code locator}</li>
+     * <li>If not found, search for the first active element with a {@code title} attribute that contains {@code locator}</li>
+     * <li>If not found, search for the first active link element containing {@code locator}</li>
      * </ol>
      *
-     * @param id the id of the HTML attribute.
-     * @return the HTML element or null if not found.
+     * @param locator the id, partial name, partial title, or partial link name of the element to search for
      */
-    private final WebElement getElement(String locator) {
-        WebElement element = getElementById(locator);
-        
-        if (element == null) {
-            element = getElementByName(locator);
-            if (element == null) {
-                element = getElementByTitle(locator);
-                if (element == null) {
-                    element = getElementByLinkText(locator);
+    private WebElement getElement(final String locator) {
+        return new ElementExistsWaiter(locator + " not found").until(
+            new Function<WebDriver, WebElement>() {
+                public WebElement apply(WebDriver driver) {
+                    WebElement element = getElementById(locator);
+                    
+                    if (element == null) {
+                        element = getElementByName(locator);
+                        if (element == null) {
+                            element = getElementByTitle(locator);
+                            if (element == null) {
+                                element = getElementByLinkText(locator);
+                            }
+                        }
+                    }
+                    
+                    return element;
                 }
             }
-        }
-        
-        return element;
+        );
     }
     
     /**
-     * Gets an HTML element in the web page.  Searches the web page for
-     * an HTML element whose id attribute matches the given id.
-     *
-     * HTML web pages may contain Inline Frames (iframes) which are not expanded
-     * within HtmlUnit.  The inline frames contain inner web pages that must
-     * also be searched.
-     *
-     * @param page the HTML web page to search.
-     * @param id the id to search for.
-     * @return the HTML element or null if not found.
+     * Gets the first active element in the web page with an {@code id} attribute that matches {@code id}.
+     * 
+     * @param id the id of the element to search for
      */
-    private final WebElement getElementById(String id) {
+    private WebElement getElementById(final String id) {
         WebElement element = null;
         
         List<WebElement> elements = getElementsById(id);
@@ -840,15 +886,11 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
     }
 
     /**
-     * Gets an HTML element in a parent HTML element.  Searches the parent HTML
-     * element for the first HTML element whose name attribute matches the given name.
-     *
-     * @param element the parent HTML element to search.
-     * @param name the name to search for.
-     * @param startsWith if true, only match against the start of the name.
-     * @return the HTML element or null if not found.
+     * Gets the first active element in the web page with a {@code name} attribute that contains {@code name}.
+     * 
+     * @param name the partial name of the element to search for
      */
-    private final WebElement getElementByName(String name) {
+    private WebElement getElementByName(final String name) {
         WebElement element = null;
         
         List<WebElement> elements = getElementsByName(name);
@@ -860,14 +902,11 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
     }
     
     /**
-     * Gets an HTML element in a parent HTML element.  Searches the parent HTML
-     * element for the first HTML element whose title attribute matches the given title.
-     *
-     * @param element the parent HTML element to search.
-     * @param title the title to search for.
-     * @return the HTML element or null if not found.
+     * Gets the first active element in the web page with a {@code title} attribute that contains {@code title}.
+     * 
+     * @param title the partial title of the element to search for
      */
-    private final WebElement getElementByTitle(String title) {
+    private WebElement getElementByTitle(final String title) {
         WebElement element = null;
         
         List<WebElement> elements = getElementsByTitle(title);
@@ -878,7 +917,12 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
         return element;
     }
     
-    private final WebElement getElementByLinkText(String linkText) {
+    /**
+     * Gets the first active element in the web page with link text that contains {@code linkText}.
+     * 
+     * @param linkText the partial link text of the element to search for
+     */
+    private WebElement getElementByLinkText(final String linkText) {
         WebElement element = null;
         
         List<WebElement> elements = getElementsByLinkText(linkText);
@@ -889,7 +933,12 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
         return element;
     }
     
-    private final WebElement getElementByXPath(String xPath) {
+    /**
+     * Gets the first active element in the web page that matches the XPath in {@code xPath}.
+     * 
+     * @param xPath an XPath expression for the element to search for
+     */
+    private WebElement getElementByXPath(final String xPath) {
         WebElement element = null;
         
         List<WebElement> elements = getElementsByXPath(xPath);
@@ -900,7 +949,12 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
         return element;
     }
     
-    private final WebElement getElementByText(String text) {
+    /**
+     * Gets the first active element in the web page with text that contains {@code text}.
+     * 
+     * @param text the text in the element to search for
+     */
+    private WebElement getElementByText(final String text) {
         WebElement element = null;
         
         List<WebElement> elements = getElementsByText(text);
@@ -911,7 +965,12 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
         return element;
     }
     
-    private final List<WebElement> getElementsById(String id) {
+    /**
+     * Gets all active elements in the web page with an {@code id} attribute that matches {@code id}.
+     * 
+     * @param id the id of the element to search for
+     */
+    private List<WebElement> getElementsById(final String id) {
         List<WebElement> elements = getActiveElementsById(id);
         
         if (switchToIFramePortlet()) {
@@ -921,20 +980,29 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
         return elements;
     }
     
-    private final List<WebElement> getActiveElementsById(String id) {
-        List<WebElement> activeElements = new ArrayList<WebElement>();
+    /**
+     * Gets all active elements in the current frame with an {@code id} attribute that matches {@code id}.
+     * 
+     * @param id the id of the element to search for
+     */
+    private List<WebElement> getActiveElementsById(final String id) {
+        List<WebElement> elements = new ArrayList<WebElement>();
 
-        List<WebElement> elements = driver.findElements(By.id(id));
-        for (WebElement element : elements) {
+        for (WebElement element : driver.findElements(By.id(id))) {
             if (((RenderedWebElement) element).isDisplayed()) {
-                activeElements.add(element);
+                elements.add(element);
             }
         }
         
-        return activeElements;
+        return elements;
     }
     
-    private final List<WebElement> getElementsByName(String name) {
+    /**
+     * Gets all active elements in the web page with a {@code name} attribute that contains {@code name}.
+     * 
+     * @param name the partial name of the element to search for
+     */
+    private List<WebElement> getElementsByName(final String name) {
         List<WebElement> elements = getActiveElementsByName(name);
         
         if (switchToIFramePortlet()) {
@@ -944,20 +1012,29 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
         return elements;
     }
     
-    private final List<WebElement> getActiveElementsByName(String name) {
-        List<WebElement> activeElements = new ArrayList<WebElement>();
+    /**
+     * Gets all active elements in the current frame with a {@code name} attribute that contains {@code name}.
+     * 
+     * @param name the partial name of the element to search for
+     */
+    private List<WebElement> getActiveElementsByName(final String name) {
+        List<WebElement> elements = new ArrayList<WebElement>();
 
-        List<WebElement> elements = driver.findElements(By.xpath(getAttributeContainsXPath("name", name)));
-        for (WebElement element : elements) {
+        for (WebElement element : driver.findElements(By.xpath(getAttributeContainsXPath("name", name)))) {
             if (((RenderedWebElement) element).isDisplayed()) {
-                activeElements.add(element);
+                elements.add(element);
             }
         }
         
-        return activeElements;
+        return elements;
     }
     
-    private final List<WebElement> getElementsByTitle(String title) {
+    /**
+     * Gets all active elements in the web page with a {@code title} attribute that contains {@code title}.
+     * 
+     * @param title the partial title of the element to search for
+     */
+    private List<WebElement> getElementsByTitle(final String title) {
         List<WebElement> elements = getActiveElementsByTitle(title);
         
         if (switchToIFramePortlet()) {
@@ -967,20 +1044,29 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
         return elements;
     }
     
-    private final List<WebElement> getActiveElementsByTitle(String title) {
-        List<WebElement> activeElements = new ArrayList<WebElement>();
+    /**
+     * Gets all active elements in the current frame with a {@code title} attribute that contains {@code title}.
+     * 
+     * @param title the partial title of the element to search for
+     */
+    private List<WebElement> getActiveElementsByTitle(final String title) {
+        List<WebElement> elements = new ArrayList<WebElement>();
 
-        List<WebElement> elements = driver.findElements(By.xpath(getAttributeContainsXPath("title", title)));
-        for (WebElement element : elements) {
+        for (WebElement element : driver.findElements(By.xpath(getAttributeContainsXPath("title", title)))) {
             if (((RenderedWebElement) element).isDisplayed()) {
-                activeElements.add(element);
+                elements.add(element);
             }
         }
         
-        return activeElements;
+        return elements;
     }
     
-    private final List<WebElement> getElementsByLinkText(String linkText) {
+    /**
+     * Gets all active elements in the web page with link text that contains {@code linkText}.
+     * 
+     * @param linkText the partial link text of the element to search for
+     */
+    private List<WebElement> getElementsByLinkText(final String linkText) {
         List<WebElement> elements = getActiveElementsByLinkText(linkText);
         
         if (switchToIFramePortlet()) {
@@ -990,20 +1076,29 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
         return elements;
     }
     
-    private final List<WebElement> getActiveElementsByLinkText(String linkText) {
-        List<WebElement> activeElements = new ArrayList<WebElement>();
+    /**
+     * Gets all active elements in the current frame with link text that contains {@code linkText}.
+     * 
+     * @param linkText the partial link text of the element to search for
+     */
+    private List<WebElement> getActiveElementsByLinkText(final String linkText) {
+        List<WebElement> elements = new ArrayList<WebElement>();
 
-        List<WebElement> elements = driver.findElements(By.partialLinkText(linkText));
-        for (WebElement element : elements) {
+        for (WebElement element : driver.findElements(By.partialLinkText(linkText))) {
             if (((RenderedWebElement) element).isDisplayed()) {
-                activeElements.add(element);
+                elements.add(element);
             }
         }
         
-        return activeElements;
+        return elements;
     }
     
-    private final List<WebElement> getElementsByXPath(String xPath) {
+    /**
+     * Gets all active elements in the web page that match the XPath in {@code xPath}.
+     * 
+     * @param xPath an XPath expression for the element to search for
+     */
+    private List<WebElement> getElementsByXPath(final String xPath) {
         List<WebElement> elements = getActiveElementsByXPath(xPath);
         
         if (switchToIFramePortlet()) {
@@ -1013,20 +1108,29 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
         return elements;
     }
     
-    private final List<WebElement> getActiveElementsByXPath(String xPath) {
-        List<WebElement> activeElements = new ArrayList<WebElement>();
+    /**
+     * Gets all active elements in the current frame that match the XPath in {@code xPath}.
+     * 
+     * @param xPath an XPath expression for the element to search for
+     */
+    private List<WebElement> getActiveElementsByXPath(final String xPath) {
+        List<WebElement> elements = new ArrayList<WebElement>();
 
-        List<WebElement> elements = driver.findElements(By.xpath(xPath));
-        for (WebElement element : elements) {
+        for (WebElement element : driver.findElements(By.xpath(xPath))) {
             if (((RenderedWebElement) element).isDisplayed()) {
-                activeElements.add(element);
+                elements.add(element);
             }
         }
         
-        return activeElements;
+        return elements;
     }
     
-    private final List<WebElement> getElementsByText(String text) {
+    /**
+     * Gets all active elements in the web page with text that contains {@code text}.
+     * 
+     * @param text the text in the element to search for
+     */
+    private List<WebElement> getElementsByText(final String text) {
         List<WebElement> elements = getActiveElementsByText(text);
         
         if (switchToIFramePortlet()) {
@@ -1036,19 +1140,28 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
         return elements;
     }
     
-    private final List<WebElement> getActiveElementsByText(String text) {
-        List<WebElement> activeElements = new ArrayList<WebElement>();
+    /**
+     * Gets all active elements in the current frame with text that contains {@code text}.
+     * 
+     * @param text the text in the element to search for
+     */
+    private List<WebElement> getActiveElementsByText(final String text) {
+        List<WebElement> elements = new ArrayList<WebElement>();
 
-        List<WebElement> elements = driver.findElements(By.xpath("//*[contains(text(), '" + text + "')]"));
-        for (WebElement element : elements) {
+        for (WebElement element : driver.findElements(By.xpath("//*[contains(text(), '" + text + "')]"))) {
             if (((RenderedWebElement) element).isDisplayed()) {
-                activeElements.add(element);
+                elements.add(element);
             }
         }
         
-        return activeElements;
+        return elements;
     }
     
+    /**
+     * Attempts to switch to KC's inner frame, named 'iframeportlet'.
+     *
+     * @return true if the driver successfully switched to the inner frame, false otherwise
+     */
     private boolean switchToIFramePortlet() {
         boolean switchToIFramePortletSuccessful = true;
         
@@ -1061,12 +1174,131 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
         return switchToIFramePortletSuccessful;
     }
     
-    private String getAttributeContainsXPath(String attribute, String locator) {
-        return "//*[contains(@" + attribute + ", '" + locator + "')]";
+   /**
+    * Returns the XPath string that searches for elements that have an {@code attribute} that contains {@code text}.
+    * 
+    * @param attribute the name of the attribute
+    * @param text the text to search for in the attribute
+    * @return an XPath expression for elements that have an {@code attribute} that contains {@code text}
+    */
+    private String getAttributeContainsXPath(final String attribute, final String text) {
+        return "//*[contains(@" + attribute + ", '" + text + "')]";
     }
     
-    private List<WebElement> getErrors(String panelId) {
-        return driver.findElements(By.xpath("//div[@id='" + panelId + "']//div[@style='display: list-item; margin-left: 20px;']"));
+    /**
+     * Returns the list of elements that contain errors in the element identified by {@code panelId}.
+     * 
+     * @param panelId the id attribute of the panel
+     * @return a list of errors contained in {@code panelId}
+     */
+    private List<WebElement> getErrors(final String panelId) {
+        return getElementsByXPath("//div[@id='" + panelId + "']//div[@style='display: list-item; margin-left: 20px;']");
+    }
+    
+    /**
+     * Implements a {@code Wait<WebDriver>} class for waiting for elements (especially Ajax elements) to appear on the page within a specified timeout.  
+     * Modified from {@code WebDriverWait} in order to integrate custom JUnit4 assertion messages. 
+     * 
+     * @see org.openqa.selenium.support.ui.Wait
+     * @see org.openqa.selenium.support.ui.WebDriverWait
+     */
+    private class ElementExistsWaiter implements Wait<WebDriver> {
+        
+        private final Clock clock = new SystemClock();
+        private final long testTimeOut = 10000;
+        private final long sleepTimeOut = 500;
+        
+        private String message;
+        
+        protected ElementExistsWaiter(String message) {
+            this.message = message;
+        }
+        
+        /**
+         * {@inheritDoc}
+         * @see org.openqa.selenium.support.ui.Wait#until(com.google.common.base.Function)
+         */
+        public <T> T until(Function<WebDriver, T> exists) {
+            long end = clock.laterBy(testTimeOut);
+            while (clock.isNowBefore(end)) {
+                T value = exists.apply(driver);
+                
+                if (value != null) {
+                    if (Boolean.class.equals(value.getClass())) {
+                        if (Boolean.TRUE.equals(value)) {
+                            return value;
+                        }
+                    } else {
+                        return value;
+                    }
+                }
+                
+                sleep();
+            }
+            
+            throw new AssertionError(message);
+        }
+        
+        private void sleep() {
+            try {
+                Thread.sleep(sleepTimeOut);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+    
+    /**
+     * Implements a {@code Wait<WebDriver>} class for waiting for elements (especially Ajax elements) to not appear on the page within a specified timeout.  
+     * Modified from {@code WebDriverWait} in order to integrate custom JUnit4 assertion messages and add the not condition. 
+     * 
+     * @see org.openqa.selenium.support.ui.Wait
+     * @see org.openqa.selenium.support.ui.WebDriverWait
+     */
+    private class ElementDoesNotExistWaiter implements Wait<WebDriver> {
+        
+        private final Clock clock = new SystemClock();
+        private final long testTimeOut = 1000;
+        private final long sleepTimeOut = 500;
+        
+        private String message;
+        
+        protected ElementDoesNotExistWaiter(String message) {
+            this.message = message;
+        }
+        
+        /**
+         * {@inheritDoc}
+         * @see org.openqa.selenium.support.ui.Wait#until(com.google.common.base.Function)
+         */
+        public <T> T until(Function<WebDriver, T> exists) {
+            long end = clock.laterBy(testTimeOut);
+            while (clock.isNowBefore(end)) {
+                T value = exists.apply(driver);
+                
+                if (value != null) {
+                    if (Boolean.class.equals(value.getClass())) {
+                        if (Boolean.TRUE.equals(value)) {
+                            throw new AssertionError(message);
+                        }
+                    } else {
+                        throw new AssertionError(message);
+                    }
+                }
+                
+                sleep();
+            }
+            
+            return null;
+        }
+        
+        private void sleep() {
+            try {
+                Thread.sleep(sleepTimeOut);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
     }
 
 }

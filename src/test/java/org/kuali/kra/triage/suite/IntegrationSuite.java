@@ -19,9 +19,13 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 import org.kuali.kra.SeleniumUnitTest;
+import org.kuali.kra.committee.web.CommitteeCompleteSeleniumTest;
+import org.kuali.kra.irb.web.ProtocolCompleteSeleniumTest;
 
 @RunWith(Suite.class)
 @SuiteClasses(  {
-    SeleniumUnitTest.class
+    SeleniumUnitTest.class,
+    CommitteeCompleteSeleniumTest.class,
+    ProtocolCompleteSeleniumTest.class
 })
 public class IntegrationSuite {}
