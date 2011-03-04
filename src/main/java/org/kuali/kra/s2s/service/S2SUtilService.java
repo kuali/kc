@@ -239,13 +239,12 @@ public interface S2SUtilService {
 	 * Finds all the Questionnaire Answers associates with provided
 	 * ProposalNumber and questionnaireId.
 	 * 
-	 * @param pdDoc
-	 * @param questionnaireId
+	 * @param DevelopmentProposal
+	 * @param namespace
+	 * @param formname
 	 * @return List of Questionnaire {@link Answer}.
 	 */
-	public List<Answer> getQuestionnaireAnswers(
-			ProposalDevelopmentDocument pdDoc,Integer questionnaireId);
-	
+    public List<Answer> getQuestionnaireAnswers(DevelopmentProposal developmentProposal,String namespace,String formname);
 	/**
 	 * Finds all the co-investigators associated with the provided pdDoc.
 	 * @param ProposalDevelopmentDocument

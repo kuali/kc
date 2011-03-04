@@ -810,8 +810,7 @@ answer = "OTH: Other";
 		List<CurrentPriorNRSASupport> currentPriorNRSASupportList = new ArrayList<CurrentPriorNRSASupport>();
 		List<Answer> answerList = new ArrayList<Answer>();
 		String nsrSupport = null;
-		for (Answer questionnaireAnswer : s2sUtilService
-				.getQuestionnaireAnswers(pdDoc, QUESTIONNAIRE_ID_1)) {
+		for (Answer questionnaireAnswer : s2sUtilService.getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(),getNamespace(),getFormName())) {
 			int questionId = questionnaireAnswer.getQuestionNumber();
 			String answer = questionnaireAnswer.getAnswer();
 			if (answer != null) {
@@ -1054,4 +1053,12 @@ answer = "OTH: Other";
 		this.pdDoc = proposalDevelopmentDocument;
 		return getPHSFellowshipSupplemental12();
 	}
+
+    public String getFormName() {
+        return "PHS_Fellowship_Supplemental_1_2-V1.2";
+    }
+
+    public String getNamespace() {
+        return "http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_1_2-V1.2";
+    }
 }
