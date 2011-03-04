@@ -753,8 +753,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
      */
     private void populateAndAddBudgetPerson(BudgetPerson budgetPerson, BudgetDocument budgetDocument, BudgetPersonService budgetPersonService) {
         Budget budget = budgetDocument.getBudget();
-        budgetPersonService.populateBudgetPersonData(budget, budgetPerson);
-        budget.addBudgetPerson(budgetPerson);
+        budgetPersonService.addBudgetPerson(budget, budgetPerson);
     }
     
     /**
