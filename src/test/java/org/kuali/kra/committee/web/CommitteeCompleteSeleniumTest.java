@@ -64,20 +64,22 @@ public class CommitteeCompleteSeleniumTest extends CommitteeSeleniumTestBase {
         
         click("methodToCall.addCommitteeMembership");
         
-        clickExpandAll();
+        openTab(0);
         
+        openTab(1);
         set("document.committeeList[0].committeeMemberships[" + index + "].membershipTypeCode", "Voting member");
         set("document.committeeList[0].committeeMemberships[" + index + "].termStartDate", startDate);
         set("document.committeeList[0].committeeMemberships[" + index + "].termEndDate", endDate);
         
+        openTab(3);
         set("committeeHelper.newCommitteeMembershipRoles[" + index + "].membershipRoleCode", role);
         set("committeeHelper.newCommitteeMembershipRoles[" + index + "].startDate", startDate);
         set("committeeHelper.newCommitteeMembershipRoles[" + index + "].endDate", endDate);
         click("methodToCall.addCommitteeMembershipRole.document.committeeList[0].committeeMemberships[" + index + "].line" + index);
 
-        clickExpandAll();
-        
+        openTab(4);
         lookupResearchArea(researchAreaCode);
+        
         saveDocument();
         assertSave();
     }
