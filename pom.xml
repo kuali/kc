@@ -94,9 +94,14 @@
 								<wsdlOption>
 								    <noAddressBinding>true</noAddressBinding>
 									<wsdl>${gg.wsdl.location}/AccountCreationService.wsdl</wsdl>
+									<bindingFiles>
+                          				<bindingFile>${basedir}/src/main/resources/wsdl/account_jaxb.xml</bindingFile>
+                        			</bindingFiles>
 									<extraargs>
 								    	<extraarg>-verbose</extraarg>
 								    	<extraarg>-validate</extraarg>
+								    	<extraarg>-wsdlLocation</extraarg>
+								    	<extraarg>${account.wsdl.packaged.location}</extraarg>
 								    </extraargs>
 								</wsdlOption>
 							</wsdlOptions>
@@ -121,7 +126,23 @@
       					<artifactId>xercesImpl</artifactId>    
       					<version>2.8.1</version>
      				</dependency>
-                </dependencies>
+     				<!-- Need to have this dependency to avoid the internal exception
+     				java.lang.ClassCastException: org.apache.xml.dtm.ref.DTMManagerDefault 
+     				cannot be cast to org.apache.xml.dtm.DTMManager, finally leading to 
+     				org.apache.cxf.tools.common.ToolException: 
+     				Could not find any node with the XPath expression: //wsdl:definitions-->
+					<dependency>
+					    <groupId>xalan</groupId>
+					    <artifactId>xalan</artifactId>
+					    <version>2.7.1</version>
+					    <exclusions>
+					    	<exclusion>
+					    		<artifactId>xml-apis</artifactId>
+					    		<groupId>xml-apis</groupId>
+					    	</exclusion>
+					    </exclusions>
+					</dependency>    				
+                </dependencies>	
 			</plugin>
 			<plugin>
 			    <groupId>org.apache.maven.plugins</groupId>
@@ -1535,5 +1556,6 @@
     	<cobertura.maxmem>512M</cobertura.maxmem>
     	<gg.wsdl.location>${basedir}/src/main/resources/wsdl</gg.wsdl.location>
     	<gg.schema.dir>${basedir}/src/main/resources/wsdl/schema</gg.schema.dir>
+    	<account.wsdl.packaged.location>wsdl/AccountCreationService.wsdl</account.wsdl.packaged.location>  
 	</properties>
 </project>
