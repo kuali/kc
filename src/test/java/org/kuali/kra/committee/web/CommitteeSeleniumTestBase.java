@@ -55,13 +55,22 @@ public class CommitteeSeleniumTestBase extends KcSeleniumTestBase {
     private static final String DEFAULT_ADV_SUBMISSION_DAYS_REQUIRED = "1";
     private static final String DEFAULT_RESEARCH_AREA_CODE = "000001";
     
-    /**
-     * @see org.kuali.kra.KraWebTestBase#getLoginUserName()
-     */
-    protected String getLoginUserName() {
-        return "chew";
-    }
+    private static final String DEFAULT_USER = "chew";
+
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
         
+        setLoginUser(DEFAULT_USER);
+    }
+
+    @Override
+    public void tearDown() throws Exception {
+        setLoginUser(null);
+        
+        super.tearDown();
+    }
+
     /**
      * Creates a new instance of the Committee page, filling in all required values, and saving.
      */
