@@ -129,7 +129,6 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
         if (StringUtils.equals(KEWConstants.ROUTE_HEADER_PROCESSED_CD, statusChangeEvent.getNewRouteStatus())){
             this.setAwardHierarchyItems(getAwardHierarchyService().getAwardHierarchy(rootAwardNumber, getOrder()));
             this.setAwardNumber(rootAwardNumber);  
-            
             Award tmpAward = getCurrentAward(this);
             this.setAward(tmpAward);
             if(tmpAward != null) {
@@ -419,6 +418,26 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
      */
     public void setOrder(List<String> order) {
         this.order = order;
+    }
+    
+    /**
+     * This method is to check whether rice async routing is ok now.   
+     * Close to hack.  called by holdingpageaction
+     * Different document type may have different routing set up, so each document type
+     * can implement its own isProcessComplete
+     * @return
+     */
+    public boolean isProcessComplete() {
+        boolean isComplete = false;
+        
+        if (getDocumentHeader().hasWorkflowDocument()) {
+            String docRouteStatus = getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
+            if (KEWConstants.ROUTE_HEADER_FINAL_CD.equals(docRouteStatus)) {
+                isComplete = true;
+            }
+        }
+           
+        return isComplete;
     }
     
     
