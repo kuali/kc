@@ -67,6 +67,7 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
 import org.kuali.kra.service.ResearchDocumentService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.service.impl.KraDocumentServiceImpl;
+import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
 import org.kuali.kra.web.struts.authorization.WebAuthorizationService;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.core.util.RiceConstants;
@@ -726,7 +727,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         
         // Only forward to Portal if it will eventually go to the holding page
         if (form instanceof ProposalDevelopmentForm || form instanceof InstitutionalProposalForm || form instanceof AwardForm 
-            || form instanceof ProtocolForm || form instanceof CommitteeForm) {
+            || form instanceof ProtocolForm || form instanceof CommitteeForm || form instanceof TimeAndMoneyForm) {
             ActionForward basicForward = mapping.findForward(Constants.MAPPING_BASIC);
             if (StringUtils.equals(forward.getPath(), basicForward.getPath())) {
                 forward = mapping.findForward(KNSConstants.MAPPING_PORTAL);

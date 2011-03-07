@@ -28,6 +28,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.document.Document;
@@ -112,6 +113,8 @@ public class KraHoldingPageAction extends KualiAction {
             isProcessComplete = ((ProposalDevelopmentDocument) document).isProcessComplete();
         } else if (document instanceof ProtocolDocument) {
             isProcessComplete = ((ProtocolDocument) document).isProcessComplete();
+        }else if (document instanceof TimeAndMoneyDocument) {
+            isProcessComplete = ((TimeAndMoneyDocument) document).isProcessComplete();
         }
         
         return isProcessComplete;
