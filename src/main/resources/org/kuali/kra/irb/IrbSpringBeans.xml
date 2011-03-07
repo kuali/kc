@@ -680,6 +680,8 @@
         <property name="kraLookupDao" ref="kraLookupDao" />
         <property name="protocolFinderDao" ref="protocolFinderDao" />
         <property name="sequenceAccessorService" ref="sequenceAccessorService" />
+        <property name="questionnaireAnswerService" ref="questionnaireAnswerService" />
+        <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
     <bean id="protocolNumberService" class="org.kuali.kra.irb.protocol.ProtocolNumberServiceImpl">

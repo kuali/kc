@@ -111,6 +111,8 @@ public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingSe
             Questionnaire questionnaire = getQuestionnaire(printOption.getQuestionnaireRefId());
             reportParameters.put("questionnaireId", questionnaire.getQuestionnaireId());
             reportParameters.put("template", questionnaire.getTemplate());
+            // will be used by amendquestionnaire
+            reportParameters.put("moduleSubItemCode", printOption.getSubItemCode());
             if (CoeusSubModule.PROTOCOL_SUBMISSION.equals(printOption.getSubItemCode())) {
                 reportParameters.put(PROTOCOL_NUMBER, printOption.getItemKey());
                 reportParameters.put(SUBMISSION_NUMBER, printOption.getSubItemKey());

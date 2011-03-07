@@ -15,16 +15,25 @@
  */
 package org.kuali.kra.irb.questionnaire;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.ProtocolForm;
+import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewModule;
+import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.questionnaire.QuestionnaireHelperBase;
+import org.kuali.kra.questionnaire.answer.Answer;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -91,6 +100,109 @@ public class QuestionnaireHelper extends QuestionnaireHelperBase {
         }
         return moduleQuestionnaireBean;
 
+    }
+
+    public void populateAnswers() {
+        if (isAmendQuestionnaire()) {
+            super.populateAnswers();
+            List <AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
+            ModuleQuestionnaireBean moduleBean = getAmendModuleBean();
+            answerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleBean);
+            if (!answerHeaders.isEmpty() && answerHeaders.get(0).getAnswerHeaderId() == null){
+                // this is based on usage association, and it is not saved qn answer.
+                answerHeaders = new ArrayList<AnswerHeader>();
+            }
+            if (answerHeaders.isEmpty()) {
+                answerHeaders = getAnswerHeadersForCurrentProtocol(moduleBean);
+            } 
+            if (!answerHeaders.isEmpty()) {
+                getAnswerHeaders().addAll(answerHeaders);
+                resetHeaderLabels();
+           }     
+
+        } else {
+            super.populateAnswers();
+        }
+    }
+
+    private ModuleQuestionnaireBean getAmendModuleBean() {
+        ModuleQuestionnaireBean moduleBean = getModuleQnBean();
+        moduleBean.setModuleSubItemCode(CoeusSubModule.ZERO_SUBMODULE);
+        return moduleBean;
+
+    }
+    
+    /**
+     * need to override to take care of "0' modulesubitemcode for amend questionnaire
+     * @see org.kuali.kra.questionnaire.QuestionnaireHelperBase#updateQuestionnaireAnswer(int)
+     */
+    public void updateQuestionnaireAnswer(int answerHeaderIndex) {
+        AnswerHeader answerHeader = getAnswerHeaders().get(answerHeaderIndex);
+        if (isAmendQuestionnaire() && CoeusSubModule.ZERO_SUBMODULE.equals(answerHeader.getModuleSubItemCode())) {
+            ModuleQuestionnaireBean moduleBean = getAmendModuleBean();
+            if (UPDATE_WITH_NO_ANSWER_COPY.equals(answerHeader.getUpdateOption())) {
+                // no copy
+                getAnswerHeaders().remove(answerHeaderIndex);
+                getAnswerHeaders().add(answerHeaderIndex,
+                        getQuestionnaireAnswerService().getNewVersionAnswerHeader(moduleBean, answerHeader.getQuestionnaire()));
+            }
+            else {
+                AnswerHeader newAnswerHeader = getQuestionnaireAnswerService().getNewVersionAnswerHeader(moduleBean,
+                        answerHeader.getQuestionnaire());
+                getQuestionnaireAnswerService().copyAnswerToNewVersion(answerHeader, newAnswerHeader);
+                getAnswerHeaders().remove(answerHeaderIndex);
+                getAnswerHeaders().add(answerHeaderIndex, newAnswerHeader);
+            }
+            resetHeaderLabels();
+        } else {
+            super.updateQuestionnaireAnswer(answerHeaderIndex);
+        }
+
+    }
+
+
+    /*
+     * Get the current protocol that the amend/renewal is from.  Then get its
+     * answerheader for amend questionnaire to use.
+     */
+    private List <AnswerHeader> getAnswerHeadersForCurrentProtocol(ModuleQuestionnaireBean moduleBean) {
+        List <AnswerHeader> answerHeaders;    
+        // try to retrieve from original protocol
+        Protocol currentProtocol = getProtocolFinder().findCurrentProtocolByNumber(getProtocol().getProtocolNumber().substring(0, 10));
+        moduleBean.setModuleItemKey(currentProtocol.getProtocolNumber());
+        moduleBean.setModuleSubItemKey(currentProtocol.getSequenceNumber().toString());
+        answerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleBean);
+        if (!answerHeaders.isEmpty()) {
+            Protocol protocol = getProtocol();
+            for (AnswerHeader answerHeader : answerHeaders) {
+                for (Answer answer : answerHeader.getAnswers()) {
+                    answer.setAnswerHeaderIdFk(null);
+                    answer.setId(null);
+                }
+                answerHeader.setAnswerHeaderId(null);
+                answerHeader.setModuleItemKey(protocol.getProtocolNumber());
+                answerHeader.setModuleSubItemKey(protocol.getSequenceNumber().toString());
+            }
+        }
+        return answerHeaders;
+    }
+    
+    private ProtocolFinderDao getProtocolFinder() {
+        return KraServiceLocator.getService(ProtocolFinderDao.class);
+    }
+
+    private boolean isAmendQuestionnaire() {
+        Protocol protocol = getProtocol();
+        boolean isAmendQuestionnaire = false;
+        if (protocol.isAmendment() || protocol.isRenewal()) {
+            for (ProtocolAmendRenewModule module : protocol.getProtocolAmendRenewal().getModules()) {
+                if (ProtocolModule.QUESTIONNAIRE.equals(module.getProtocolModuleTypeCode())) {
+                    isAmendQuestionnaire = true;
+                    break;
+                }
+            }
+        }
+        return isAmendQuestionnaire;
     }
 
     private Protocol getProtocol() {

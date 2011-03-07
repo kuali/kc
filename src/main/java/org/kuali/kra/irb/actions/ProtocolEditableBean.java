@@ -32,6 +32,7 @@ public class ProtocolEditableBean extends ProtocolActionBean implements Serializ
     private boolean protocolPersonnelEnabled = false;
     private boolean othersEnabled = false;
     private boolean protocolPermissionsEnabled = false;
+    private boolean questionnaireEnabled = false;
     
     /**
      * Constructs a ProtocolEditableBean.
@@ -127,6 +128,14 @@ public class ProtocolEditableBean extends ProtocolActionBean implements Serializ
 
     public void setProtocolPermissionsEnabled(boolean protocolPermissionsEnabled) {
         this.protocolPermissionsEnabled = protocolPermissionsEnabled;
+    }
+
+    public boolean getQuestionnaireEnabled() {
+        return questionnaireEnabled;
+    }
+
+    public void setQuestionnaireEnabled(boolean questionnaireEnabled) {
+        this.questionnaireEnabled = questionnaireEnabled;
     }
 
 }

@@ -66,6 +66,7 @@ import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
 import org.kuali.kra.irb.protocol.participant.ProtocolParticipant;
 import org.kuali.kra.irb.protocol.reference.ProtocolReference;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
+import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReview;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReviewExemption;
 import org.kuali.kra.irb.summary.AdditionalInfoSummary;
@@ -78,6 +79,11 @@ import org.kuali.kra.irb.summary.ProtocolSummary;
 import org.kuali.kra.irb.summary.ResearchAreaSummary;
 import org.kuali.kra.irb.summary.SpecialReviewSummary;
 import org.kuali.kra.meeting.CommitteeScheduleAttendance;
+import org.kuali.kra.questionnaire.answer.Answer;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
+import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -1274,6 +1280,66 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.PROTOCOL_PERMISSIONS)) {
             mergeProtocolPermissions(amendment);
         }
+        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.QUESTIONNAIRE)) {
+            mergeProtocolQuestionnaire(amendment);
+        }
+    }
+
+    private void mergeProtocolQuestionnaire(Protocol amendment) {
+        // TODO : what if user did not edit questionnaire at all, then questionnaire will be wiped out ?
+        removeOldQuestionnaire();
+        amendQuestionnaire(amendment);
+    }
+
+    /*
+     * remove existing questionnaire from current 
+     */
+    private void removeOldQuestionnaire() {
+
+        List <AnswerHeader> answerHeaders = getAnswerHeaderForProtocol(this);
+        if (!answerHeaders.isEmpty() && answerHeaders.get(0).getAnswerHeaderId() != null){
+            getBusinessObjectService().delete(answerHeaders);
+        }
+    }
+    
+    /*
+     * add questionnaire answer from amendment to protocol
+     */
+    private void amendQuestionnaire(Protocol amendment) {
+
+        List <AnswerHeader> answerHeaders = getAnswerHeaderForProtocol(amendment);
+        if (!answerHeaders.isEmpty()){
+            for (AnswerHeader answerHeader : answerHeaders) {
+                for (Answer answer : answerHeader.getAnswers()) {
+                    answer.setAnswerHeaderIdFk(null);
+                    answer.setId(null);
+                }
+                answerHeader.setAnswerHeaderId(null);
+                answerHeader.setModuleItemKey(this.getProtocolNumber());
+                answerHeader.setModuleSubItemKey(this.getSequenceNumber().toString());
+            }
+            getBusinessObjectService().save(answerHeaders);
+        }
+ 
+    }
+    
+    /*
+     * get submit for review questionnaire answerheaders
+     */
+    private List <AnswerHeader> getAnswerHeaderForProtocol(Protocol protocol) {
+        ModuleQuestionnaireBean moduleQuestionnaireBean = new ProtocolModuleQuestionnaireBean(protocol);
+        moduleQuestionnaireBean.setModuleSubItemCode("0");
+        List <AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
+        answerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
+        return answerHeaders;
+    }
+    
+    protected QuestionnaireAnswerService getQuestionnaireAnswerService() {
+        return KraServiceLocator.getService(QuestionnaireAnswerService.class);
+    }
+
+    protected BusinessObjectService getBusinessObjectService() {
+        return KraServiceLocator.getService(BusinessObjectService.class);
     }
 
     @SuppressWarnings("unchecked")
