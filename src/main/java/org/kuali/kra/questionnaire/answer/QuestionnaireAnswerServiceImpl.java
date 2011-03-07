@@ -637,7 +637,8 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             List<AnswerHeader> headers = new ArrayList<AnswerHeader>();
             for (AnswerHeader answerHeader : answerHeaders) {
                 if (!(CoeusSubModule.PROTOCOL_SUBMISSION.equals(answerHeader.getModuleSubItemCode()) && answerHeader.getModuleItemKey().equals(originalProtocolNumber))
-                        && (CoeusSubModule.ZERO_SUBMODULE.equals(answerHeader.getModuleSubItemCode()) || answerHeader.getModuleItemKey().equals(protocolNumber))) {
+                        && answerHeader.getModuleItemKey().equals(protocolNumber)) {
+                   // && (CoeusSubModule.ZERO_SUBMODULE.equals(answerHeader.getModuleSubItemCode()) || answerHeader.getModuleItemKey().equals(protocolNumber))) {
                     headers.add(answerHeader);
                 }
             }

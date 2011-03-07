@@ -1969,7 +1969,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         recordProtocolActionSuccess("Undo Last Action");
         
-        if(!updatedDocument.getDocumentNumber().equals(protocolForm.getDocId())) { 
+        if (!updatedDocument.getDocumentNumber().equals(protocolForm.getDocId())) {
             protocolForm.setDocId(updatedDocument.getDocumentNumber());
             loadDocument(protocolForm);
             protocolForm.getProtocolHelper().prepareView();

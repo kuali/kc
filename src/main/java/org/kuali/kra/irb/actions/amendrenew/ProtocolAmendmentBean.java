@@ -35,6 +35,7 @@ public class ProtocolAmendmentBean extends ProtocolEditableBean {
     private boolean protocolPersonnel = false;
     private boolean others = false;
     private boolean protocolPermissions = false;
+    private boolean questionnaire = false;
     
     /**
      * Constructs a ProtocolAmendmentBean.
@@ -151,6 +152,15 @@ public class ProtocolAmendmentBean extends ProtocolEditableBean {
                getProtocolReferencesAndOtherIdentifiers() ||
                getSpecialReview() ||
                getSubjects() ||
-               getProtocolPermissions();
+               getProtocolPermissions() ||
+               getQuestionnaire();
+    }
+
+    public boolean getQuestionnaire() {
+        return questionnaire;
+    }
+
+    public void setQuestionnaire(boolean questionnaire) {
+        this.questionnaire = questionnaire;
     }
 }

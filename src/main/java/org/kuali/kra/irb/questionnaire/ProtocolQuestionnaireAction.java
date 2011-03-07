@@ -258,8 +258,18 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
         
         ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocolNumber,
             (protocolNumber.contains("A") || protocolNumber.contains("R")) ? CoeusSubModule.AMENDMENT_RENEWAL : CoeusSubModule.ZERO_SUBMODULE, sequenceNumber, true);
+        // TODO : should handle this more smoothly.  maybe in service, change the fieldvalues map of subitemcode to a list
+        // so bos.findmatching will find all the matching codes in the list 
         protocolForm.getQuestionnaireHelper().setAnswerHeaders(
                 getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean));
+        if (protocolNumber.contains("A") || protocolNumber.contains("R")) {
+            moduleQuestionnaireBean.setModuleSubItemCode(CoeusSubModule.ZERO_SUBMODULE);
+            List<AnswerHeader> answerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
+            if (!answerHeaders.isEmpty()) {
+                protocolForm.getQuestionnaireHelper().getAnswerHeaders().addAll(answerHeaders);
+            }
+        }
+      // protocolForm.getQuestionnaireHelper().populateAnswers();
 
         protocolForm.getQuestionnaireHelper().setAnswerHeaders(
                 getAnsweredQuestionnaire(protocolForm.getQuestionnaireHelper().getAnswerHeaders()));

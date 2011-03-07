@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -134,6 +134,16 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
         // versioning questionnaire answer
         List<AnswerHeader> newAnswerHeaders = questionnaireAnswerService.versioningQuestionnaireAnswer(new ProtocolModuleQuestionnaireBean(protocolDocument.getProtocol())
             , newProtocol.getSequenceNumber());
+        if (newProtocol.isAmendment() || (newProtocol.isRenewal() && !newProtocol.isRenewalWithoutAmendment())) {
+            ProtocolModuleQuestionnaireBean moduleBean = new ProtocolModuleQuestionnaireBean(protocolDocument.getProtocol());
+            moduleBean.setModuleSubItemCode(CoeusSubModule.ZERO_SUBMODULE);
+            List<AnswerHeader> newAmendAnswerHeaders = questionnaireAnswerService.versioningQuestionnaireAnswer(moduleBean
+            , newProtocol.getSequenceNumber());
+            if (!newAmendAnswerHeaders.isEmpty()) {
+                newAnswerHeaders.addAll(newAmendAnswerHeaders);
+            }
+            
+        }
         if (!newAnswerHeaders.isEmpty()) {
             businessObjectService.save(newAnswerHeaders);
         }
