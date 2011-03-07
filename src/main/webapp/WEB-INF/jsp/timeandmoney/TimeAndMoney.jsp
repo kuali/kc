@@ -64,7 +64,13 @@ var kualiElements = kualiForm.elements;
 	<c:set var="extraButtonAlt" value="Edit or Version"/>
 </c:if>
 
-<kul:documentControls transactionalDocument="true" suppressRoutingControls="false" 
+
+<c:if test="${readOnly}">
+	<c:set var="extraButtons" value="${KualiForm.extraButtons}" scope="request"/>
+</c:if>
+
+<kul:documentControls transactionalDocument="true" suppressRoutingControls="false"
+													extraButtons="${extraButtons}"
 													extraButtonSource="${extraButtonSource}" 
 													extraButtonProperty="${extraButtonProperty}"
 													extraButtonAlt="${extraButtonAlt}" />
