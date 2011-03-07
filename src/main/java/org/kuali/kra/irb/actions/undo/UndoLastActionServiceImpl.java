@@ -127,6 +127,10 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
             protocolDocument.setReRouted(true);
             documentService.saveDocument(protocolDocument);
             documentService.routeDocument(protocolDocument, Constants.PROTOCOL_UNDO_APPROVE_ANNOTATION, null);
+        } else if (currentWorkflowDocument != null && currentWorkflowDocument.stateIsSaved() && lastPerformedAction != null 
+                && (ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED.equals(lastPerformedAction.getProtocolActionTypeCode()) 
+                        || ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED.equals(lastPerformedAction.getProtocolActionTypeCode()))) {
+            documentService.routeDocument(protocolDocument, Constants.PROTOCOL_UNDO_APPROVE_ANNOTATION, null);            
         } 
         
         return protocolDocument;
