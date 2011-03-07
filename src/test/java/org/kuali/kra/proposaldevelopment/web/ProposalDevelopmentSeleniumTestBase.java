@@ -39,21 +39,23 @@ public class ProposalDevelopmentSeleniumTestBase extends KcSeleniumTestBase {
     private static final String DOCUMENT_DESCRIPTION_ID = "document.documentHeader.documentDescription";
     private static final String PROPOSAL_DEVELOPMENT_LIST_PREFIX = "document.developmentProposalList[0].";
     private static final String PROPOSAL_DEVELOPMENT_SPONSOR_CODE_ID = PROPOSAL_DEVELOPMENT_LIST_PREFIX + "sponsorCode";
-    private static final String PROPOSAL_DEVELOPMENT_TITLE_ID = PROPOSAL_DEVELOPMENT_LIST_PREFIX + "title";
+    private static final String PROPOSAL_DEVELOPMENT_TYPE_CODE_ID = PROPOSAL_DEVELOPMENT_LIST_PREFIX + "proposalTypeCode";
     private static final String PROPOSAL_DEVELOPMENT_REQUESTED_START_DATE_ID = PROPOSAL_DEVELOPMENT_LIST_PREFIX + "requestedStartDateInitial";
+    private static final String PROPOSAL_DEVELOPMENT_OWNED_BY_UNIT_ID = PROPOSAL_DEVELOPMENT_LIST_PREFIX + "ownedByUnitNumber";
     private static final String PROPOSAL_DEVELOPMENT_REQUESTED_END_DATE_ID = PROPOSAL_DEVELOPMENT_LIST_PREFIX + "requestedEndDateInitial";
     private static final String PROPOSAL_DEVELOPMENT_ACTIVITY_TYPE_CODE_ID = PROPOSAL_DEVELOPMENT_LIST_PREFIX + "activityTypeCode";
-    private static final String PROPOSAL_DEVELOPMENT_TYPE_CODE_ID = PROPOSAL_DEVELOPMENT_LIST_PREFIX + "proposalTypeCode";
-    private static final String PROPOSAL_DEVELOPMENT_OWNED_BY_UNIT_ID = PROPOSAL_DEVELOPMENT_LIST_PREFIX + "ownedByUnitNumber";
+    private static final String PROPOSAL_DEVELOPMENT_TITLE_ID = PROPOSAL_DEVELOPMENT_LIST_PREFIX + "title";
     
     private static final String DEFAULT_DOCUMENT_DESCRIPTION = "Proposal Development Web Test";
     private static final String DEFAULT_SPONSOR_CODE = "005770";
-    private static final String DEFAULT_TITLE = "Project title";
+    private static final String DEFAULT_TYPE_CODE = "New";
     private static final String DEFAULT_REQUESTED_START_DATE = "08/14/2007";
+    private static final String DEFAULT_OWNED_BY_UNIT = "000001 - University";
     private static final String DEFAULT_REQUESTED_END_DATE = "08/21/2007";
-    private static final String DEFAULT_ACTIVITY_TYPE = "2"; // Dept Research
-    private static final String DEFAULT_TYPE_CODE = "1"; // New
-    private static final String DEFAULT_OWNED_BY_UNIT = "000001";
+    private static final String DEFAULT_ACTIVITY_TYPE = "Research";
+    private static final String DEFAULT_TITLE = "Project title";
+    
+    private static final String SUBMIT_TO_SPONSOR_BUTTON = "methodToCall.submitToSponsor";
         
     /**
      * Creates a new instance of the Proposal Development page, filling in all required values, and saving.
@@ -76,12 +78,12 @@ public class ProposalDevelopmentSeleniumTestBase extends KcSeleniumTestBase {
     protected void setDefaultRequiredFields() {
         set(DOCUMENT_DESCRIPTION_ID, DEFAULT_DOCUMENT_DESCRIPTION);
         set(PROPOSAL_DEVELOPMENT_SPONSOR_CODE_ID, DEFAULT_SPONSOR_CODE);
-        set(PROPOSAL_DEVELOPMENT_TITLE_ID, DEFAULT_TITLE);
+        set(PROPOSAL_DEVELOPMENT_TYPE_CODE_ID, DEFAULT_TYPE_CODE);
         set(PROPOSAL_DEVELOPMENT_REQUESTED_START_DATE_ID, DEFAULT_REQUESTED_START_DATE);
+        set(PROPOSAL_DEVELOPMENT_OWNED_BY_UNIT_ID, DEFAULT_OWNED_BY_UNIT);
         set(PROPOSAL_DEVELOPMENT_REQUESTED_END_DATE_ID, DEFAULT_REQUESTED_END_DATE);
         set(PROPOSAL_DEVELOPMENT_ACTIVITY_TYPE_CODE_ID, DEFAULT_ACTIVITY_TYPE);
-        set(PROPOSAL_DEVELOPMENT_TYPE_CODE_ID, DEFAULT_TYPE_CODE);
-        set(PROPOSAL_DEVELOPMENT_OWNED_BY_UNIT_ID, DEFAULT_OWNED_BY_UNIT);
+        set(PROPOSAL_DEVELOPMENT_TITLE_ID, DEFAULT_TITLE);
     }
     
     /**
@@ -152,6 +154,22 @@ public class ProposalDevelopmentSeleniumTestBase extends KcSeleniumTestBase {
      */
     protected void clickProposalDevelopmentActionsPage() {
         click(ACTIONS_LINK_NAME);
+    }
+    
+    protected void lookupEmployeeKeyPersonnel(String personId, String role) {
+        lookup("newPersonId", "personId", personId);
+        
+        set("newProposalPerson.proposalPersonRoleId", role);
+    }
+    
+    protected void lookupNonEmployeeKeyPersonnel(String personId, String role) {
+        lookup("newRolodexId", "rolodexId", personId);
+        
+        set("newProposalPerson.proposalPersonRoleId", role);
+    }
+    
+    protected void submitToSponsor() {
+        click(SUBMIT_TO_SPONSOR_BUTTON);
     }
 
 }

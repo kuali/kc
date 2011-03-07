@@ -41,7 +41,7 @@ import com.google.common.base.Function;
 @RunWith(KcSeleniumTestRunner.class)
 public class KcSeleniumTestBase extends KcUnitTestBase {
     
-    protected static final String QUICKSTART_USER = "quickstart";
+    protected static final String DEFAULT_USER = "quickstart";
     
     protected static WebDriver driver;
     
@@ -51,7 +51,6 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
     private static final String BROWSER_PROTOCOL = "http";
     private static final String BROWSER_ADDRESS = "127.0.0.1";
     private static final String PORTAL_ADDRESS = "kc-dev/portal.jsp";
-    private static final String TIMEOUT = "60000";
     
     private static final String RESEARCHER_TAB_TITLE = "Researcher";
     private static final String UNIT_TAB_TITLE = "Unit";
@@ -65,11 +64,17 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
     private static final String METHOD_TO_CALL_PREFIX = "methodToCall";
     private static final String SAVE_BUTTON = METHOD_TO_CALL_PREFIX + DOT + "save";
     private static final String RELOAD_BUTTON = METHOD_TO_CALL_PREFIX + DOT + "reload";
-    private static final String ROUTE_BUTTON = METHOD_TO_CALL_PREFIX + DOT + "route";
     private static final String CLOSE_BUTTON = METHOD_TO_CALL_PREFIX + DOT + "close";
+    private static final String ROUTE_BUTTON = METHOD_TO_CALL_PREFIX + DOT + "route";
+    private static final String APPROVE_BUTTON = METHOD_TO_CALL_PREFIX + DOT + "approve";
+    private static final String BLANKET_APPROVE_BUTTON = METHOD_TO_CALL_PREFIX + DOT + "blanketApprove";
     
     private static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
     private static final String SAVE_SUCCESS_MESSAGE = "Document was successfully saved";
+    private static final String ROUTE_SUCCESS_MESSAGE = "Document was successfully submitted";
+    private static final String SUBMIT_SUCCESS_MESSAGE = "Document was successfully approved";
+    
+    private String loginUser;
     
     @BeforeClass
     public static final void seleniumBeforeClass() {
@@ -103,29 +108,24 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
         return RUN_LISTENER;
     }
     
-    /**
-     * Returns the timeout value to wait for a page to load.  May be overridden by subclasses.
-     * @return the timeout value for page loads
-     */
-    protected String getTimeoutValue() {
-        return TIMEOUT;
+    public final String getLoginUser() {
+        return loginUser;
+    }
+    
+    public final void setLoginUser(String loginUser) {
+        this.loginUser = loginUser;
     }
     
     /**
      * Checks for the Login web page and if it exists, logs the user in.
      */
     protected final void login() {
-        login(QUICKSTART_USER);
-    }
-    
-    /**
-     * Checks for the Login web page and if it exists, logs the user in.
-     * 
-     * @param username the user's id
-     */
-    protected final void login(final String username) {
+        if (StringUtils.isBlank(loginUser)) {
+            setLoginUser(DEFAULT_USER);
+        }
+        
         if (StringUtils.equals(driver.getTitle(), "Login")) {
-            set("__login_user", username);
+            set("__login_user", getLoginUser());
             click("//input[@value='Login']");
         }
     }
@@ -203,44 +203,108 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
      * @return the value of the element
      */
     protected final String get(final String locator) {
-        return getElement(locator).getValue();
+        return get(locator, false);
+    }
+    
+    /**
+     * Gets the value of a control field.
+     *
+     * @param locator the id, name, title, or link name of the element to click on depending on the value of {@code exact}
+     * @param exact whether the locator should match exactly
+     * @return the value of the element
+     */
+    protected final String get(final String locator, final boolean exact) {
+        return getElement(locator, exact).getValue();
     }
     
     /**
      * Sets the value of a control field.
      *
-     * @param locator the id, partial name, partial title, or partial link name of the element to click on
+     * @param locator the id, partial name, partial title, or partial link name of the element to set
      * @param value the new value of the element
      */
     protected final void set(final String locator, final String value) {
-        WebElement element = getElement(locator);
+        set(locator, false, value);
+    }
+    
+    /**
+     * Sets the value of a control field.
+     *
+     * @param locator the id, name, title, or link name of the element to set depending on the value of {@code exact}
+     * @param exact whether the locator should match exactly
+     * @param value the new value of the element
+     */
+    protected final void set(final String locator, final boolean exact, final String value) {
+        WebElement element = getElement(locator, exact);
+        String tagName = element.getTagName();
         String elementType = element.getAttribute("type");
         
-        if (StringUtils.equals(elementType, "radio")) {
-            WebElement radio = new ElementExistsWaiter(locator + " with value " + value + " not found").until(
-                new Function<WebDriver, WebElement>() {
-                    public WebElement apply(WebDriver driver) {
-                        WebElement element = null;
-                        
-                        for (WebElement radio : getElementsByName(locator)) {
-                            String radioValue = radio.getValue();
-                            if (StringUtils.equals(radioValue, value)) {
-                                element = radio;
-                                break;
-                            }
-                        }
-                        
-                        return element;
-                    }
-                }
-            );
-            
-            radio.click();
+        if (StringUtils.equals(tagName, "input") && StringUtils.equals(elementType, "checkbox")) {
+            element.click();
+        } else if (StringUtils.equals(tagName, "input") && StringUtils.equals(elementType, "radio")) {
+            setRadio(locator, exact, value);
+        } else if (StringUtils.equals(tagName, "select")) {
+            setSelect(element, value);
         } else {
             element.clear();
             element.sendKeys(value);
         }
         
+    }
+    
+    /**
+     * Sets the value of a radio button.
+     * 
+     * @param locator the id, name, title, or link name of the element to set depending on the value of {@code exact}
+     * @param exact whether the locator should match exactly
+     * @param value the new value of the element
+     */
+    private final void setRadio(final String locator, final boolean exact, final String value) {
+        WebElement radio = new ElementExistsWaiter(locator + " with value " + value + " not found").until(
+            new Function<WebDriver, WebElement>() {
+                public WebElement apply(WebDriver driver) {
+                    WebElement inputElement = null;
+                    
+                    for (WebElement radio : getElementsByName(locator, exact)) {
+                        String radioValue = radio.getValue();
+                        if (StringUtils.equals(radioValue, value)) {
+                            inputElement = radio;
+                            break;
+                        }
+                    }
+                    
+                    return inputElement;
+                }
+            }
+        );
+        radio.click();
+    }
+    
+    /**
+     * Sets the value of a select.
+     * 
+     * @param element the located parent element
+     * @param value the new value of the element
+     */
+    private void setSelect(final WebElement element, final String value) {
+        WebElement option = new ElementExistsWaiter("The option with value " + value + " not found").until(
+            new Function<WebDriver, WebElement>() {
+                public WebElement apply(WebDriver driver) {
+                    WebElement optionElement = null;
+                    
+                    for (WebElement option : element.findElements(By.tagName("option"))) {
+                        String optionText = option.getText();
+                        if (StringUtils.contains(optionText, value)) {
+                            optionElement = option;
+                            break;
+                        }
+                    }
+                    
+                    return optionElement;
+                }
+            }
+        );
+        option.setSelected();
     }
 
     /**
@@ -252,7 +316,20 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
      * @param locator the id, partial name, partial title, or partial link name of the element to click on
      */
     protected final void click(final String locator) {
-        click(locator, null);
+        click(locator, false, null);
+    }
+    
+    /**
+     * Clicks on an element in the web page.
+     * <p>
+     * Using any of the {@code click()} methods is the preferred way to click on an element due to the login process.  If the login web page is 
+     * encountered, the user will be automatically logged in and the given button will be clicked.
+     *
+     * @param locator the id, name, title, or link name of the element to click on depending on the value of {@code exact}
+     * @param exact whether the locator should match exactly
+     */
+    protected final void click(final String locator, final boolean exact) {
+        click(locator, exact, null);
     }
     
     /**
@@ -261,11 +338,12 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
      * Using any of the {@code click()} methods is the preferred way to click on an HTML element due to the login process.  If the login web page is 
      * encountered, the user will be automatically logged in and the given button will be clicked.
      *
-     * @param locator the id, partial name, partial title, or partial link name of the element to click on
+     * @param locator the id, name, title, or link name of the element to click on depending on the value of {@code exact}
+     * @param exact whether the locator should match exactly
      * @param nextPageTitle the expected title of the next web page (may be null)
      */
-    protected final void click(final String locator, final String nextPageTitle) {
-        getElement(locator).click();
+    protected final void click(final String locator, final boolean exact, final String nextPageTitle) {
+        getElement(locator, exact).click();
         
         login();
         
@@ -286,7 +364,7 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
                 public WebElement apply(WebDriver driver) {
                     WebElement tab = null;
                     
-                    List<WebElement> tabs = getElementsByName("methodToCall.toggleTab");
+                    List<WebElement> tabs = getElementsByName("methodToCall.toggleTab", false);
                     if (0 <= index && index < tabs.size()) {
                         tab = tabs.get(index);
                     }
@@ -311,7 +389,7 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
                 public WebElement apply(WebDriver driver) {
                     WebElement tab = null;
                     
-                    List<WebElement> tabs = getElementsByName("methodToCall.toggleTab");
+                    List<WebElement> tabs = getElementsByName("methodToCall.toggleTab", false);
                     if (0 <= index && index < tabs.size()) {
                         tab = tabs.get(index);
                     }
@@ -378,7 +456,7 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
         
         click("methodToCall.search");
         
-        click(documentNumber);
+        click(documentNumber, true);
     }
     
     /**
@@ -544,7 +622,7 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
         
         click(CLOSE_BUTTON);
         // TODO: this may or may not show up depending on the document, but getElement will never return null...
-        if (getElement("methodToCall.processAnswer.button1") != null) {
+        if (getElement("methodToCall.processAnswer.button1", true) != null) {
             click("methodToCall.processAnswer.button1");
         }
     }
@@ -568,11 +646,39 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
     }
     
     /**
+     * Approves the document.
+     */
+    protected final void approveDocument() {
+        click(APPROVE_BUTTON);
+    }
+    
+    /**
+     * Blanket approves the document.
+     */
+    protected final void blanketApproveDocument() {
+        click(BLANKET_APPROVE_BUTTON);
+    }
+    
+    /**
      * Asserts that the document has been saved with no errors.
      */
     protected final void assertSave() {
         assertPageDoesNotContain(ERRORS_FOUND_ON_PAGE);
         assertPageContains(SAVE_SUCCESS_MESSAGE);
+    }
+    
+    /**
+     * Asserts that the document has been routed with no errors.
+     */
+    protected final void assertRoute() {
+        assertPageContains(ROUTE_SUCCESS_MESSAGE);
+    }
+    
+    /**
+     * Asserts that the document has been approved with no errors.
+     */
+    protected final void assertApprove() {
+        assertPageContains(SUBMIT_SUCCESS_MESSAGE);
     }
     
     /**
@@ -582,9 +688,20 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
      * @param value the value to look for in the element
      */
     protected final void assertElementContains(String locator, String value) {
+        assertElementContains(locator, false, value);
+    }
+    
+    /**
+     * Asserts that the value of the element identified by {@code locator} matches {@code value} depending on the value of {@code exact}.
+     * 
+     * @param locator the id, name, title, or link name of the element to search for, exactness depending on the value of {@code exact}
+     * @param exact whether the locator should match exactly
+     * @param value the value to look for in the element
+     */
+    protected final void assertElementContains(final String locator, final boolean exact, final String value) {
         clickExpandAll();
 
-        WebElement element = getElement(locator);
+        WebElement element = getElement(locator, exact);
         assertTrue("Element " + locator + " does not contain " + value, StringUtils.contains(element.getValue(), value)); 
     }
     
@@ -594,10 +711,21 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
      * @param locator the id, partial name, partial title, or partial link name of the element to search for
      * @param value the value to look for in the element
      */
-    protected final void assertElementDoesNotContain(String locator, String value) {
+    protected final void assertElementDoesNotContain(final String locator, final String value) {
+        assertElementDoesNotContain(locator, false, value);
+    }
+    
+    /**
+     * Asserts that the value of the element identified by {@code locator} does <b>not</b> match {@code value} depending on the value of {@code exact}.
+     * 
+     * @param locator the id, name, title, or link name of the element to search for, exactness depending on the value of {@code exact}
+     * @param exact whether the locator should match exactly
+     * @param value the value to look for in the element
+     */
+    protected final void assertElementDoesNotContain(final String locator, final boolean exact, final String value) {
         clickExpandAll();
         
-        WebElement element = getElement(locator);
+        WebElement element = getElement(locator, exact);
         assertFalse("Element " + locator + " contains " + value, StringUtils.contains(element.getValue(), value)); 
     }
 
@@ -676,7 +804,18 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
      * @param text the string to look for in the select options
      */
     protected final void assertSelectOptionsContains(final String locator, final String text) {
-        Select select = new Select(getElement(locator));
+        assertSelectOptionsContains(locator, false, text);
+    }
+    
+    /**
+     * Assert that the list of options identified by {@code locator} matches {@code text} depending on the value of {@code exact}.
+     *
+     * @param locator the id, name, title, or link name of the element to search for, exactness depending on the value of {@code exact}.
+     * @param exact whether the locator should match exactly
+     * @param text the string to look for in the select options
+     */
+    protected final void assertSelectOptionsContains(final String locator, final boolean exact, final String text) {
+        Select select = new Select(getElement(locator, exact));
         
         List<String> selectedValues = new ArrayList<String>();
         for (WebElement option : select.getAllSelectedOptions()) {
@@ -840,25 +979,27 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
      * Gets an element in the web page.  To find the element, the following algorithm is used:
      * <ol>
      * <li>Search for an active element with an {@code id} attribute that matches {@code locator}</li>
-     * <li>If not found, search for the first active element with a {@code name} attribute that contains {@code locator}</li>
-     * <li>If not found, search for the first active element with a {@code title} attribute that contains {@code locator}</li>
-     * <li>If not found, search for the first active link element containing {@code locator}</li>
+     * <li>If not found, search for the first active element with a {@code name} attribute that matches {@code locator} depending on the value of {@code exact}</li>
+     * <li>If not found, search for the first active element with a {@code title} attribute that matches {@code locator} depending on the value of {@code exact}</li>
+     * <li>If not found, search for the first active link element that matches {@code locator} depending on the value of {@code exact}</li>
      * </ol>
      *
-     * @param locator the id, partial name, partial title, or partial link name of the element to search for
+     * @param locator the id, name, title, or link name of the element to search for
+     * @param exact whether the name, title, or link name should match exactly
+     * @return the first matching element
      */
-    private WebElement getElement(final String locator) {
+    private WebElement getElement(final String locator, final boolean exact) {
         return new ElementExistsWaiter(locator + " not found").until(
             new Function<WebDriver, WebElement>() {
                 public WebElement apply(WebDriver driver) {
                     WebElement element = getElementById(locator);
                     
                     if (element == null) {
-                        element = getElementByName(locator);
+                        element = getElementByName(locator, exact);
                         if (element == null) {
-                            element = getElementByTitle(locator);
+                            element = getElementByTitle(locator, exact);
                             if (element == null) {
-                                element = getElementByLinkText(locator);
+                                element = getElementByLinkText(locator, exact);
                             }
                         }
                     }
@@ -873,6 +1014,7 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
      * Gets the first active element in the web page with an {@code id} attribute that matches {@code id}.
      * 
      * @param id the id of the element to search for
+     * @return the first matching element
      */
     private WebElement getElementById(final String id) {
         WebElement element = null;
@@ -886,14 +1028,16 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
     }
 
     /**
-     * Gets the first active element in the web page with a {@code name} attribute that contains {@code name}.
+     * Gets the first active element in the web page with a {@code name} attribute that matches {@code name} depending on the value of {@code exact}.
      * 
-     * @param name the partial name of the element to search for
+     * @param name the name of the element to search for
+     * @param exact whether the title should match exactly
+     * @return the first matching element
      */
-    private WebElement getElementByName(final String name) {
+    private WebElement getElementByName(final String name, final boolean exact) {
         WebElement element = null;
         
-        List<WebElement> elements = getElementsByName(name);
+        List<WebElement> elements = getElementsByName(name, exact);
         if (!elements.isEmpty()) {
             element = elements.get(0);
         }
@@ -902,14 +1046,16 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
     }
     
     /**
-     * Gets the first active element in the web page with a {@code title} attribute that contains {@code title}.
+     * Gets the first active element in the web page with a {@code title} attribute that matches {@code title} depending on the value of {@code exact}.
      * 
-     * @param title the partial title of the element to search for
+     * @param title the title of the element to search for
+     * @param exact whether the title should match exactly
+     * @return the first matching element
      */
-    private WebElement getElementByTitle(final String title) {
+    private WebElement getElementByTitle(final String title, final boolean exact) {
         WebElement element = null;
         
-        List<WebElement> elements = getElementsByTitle(title);
+        List<WebElement> elements = getElementsByTitle(title, exact);
         if (!elements.isEmpty()) {
             element = elements.get(0);
         }
@@ -918,14 +1064,16 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
     }
     
     /**
-     * Gets the first active element in the web page with link text that contains {@code linkText}.
+     * Gets the first active element in the web page with link text that matches {@code linkText} depending on the value of {@code exact}.
      * 
-     * @param linkText the partial link text of the element to search for
+     * @param linkText the link text of the element to search for
+     * @param exact whether the title should match exactly
+     * @return the first matching element
      */
-    private WebElement getElementByLinkText(final String linkText) {
+    private WebElement getElementByLinkText(final String linkText, final boolean exact) {
         WebElement element = null;
         
-        List<WebElement> elements = getElementsByLinkText(linkText);
+        List<WebElement> elements = getElementsByLinkText(linkText, exact);
         if (!elements.isEmpty()) {
             element = elements.get(0);
         }
@@ -937,6 +1085,7 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
      * Gets the first active element in the web page that matches the XPath in {@code xPath}.
      * 
      * @param xPath an XPath expression for the element to search for
+     * @return the first matching element
      */
     private WebElement getElementByXPath(final String xPath) {
         WebElement element = null;
@@ -953,6 +1102,7 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
      * Gets the first active element in the web page with text that contains {@code text}.
      * 
      * @param text the text in the element to search for
+     * @return the first matching element
      */
     private WebElement getElementByText(final String text) {
         WebElement element = null;
@@ -969,8 +1119,11 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
      * Gets all active elements in the web page with an {@code id} attribute that matches {@code id}.
      * 
      * @param id the id of the element to search for
+     * @return a list of matching elements
      */
     private List<WebElement> getElementsById(final String id) {
+        driver.switchTo().defaultContent();
+        
         List<WebElement> elements = getActiveElementsById(id);
         
         if (switchToIFramePortlet()) {
@@ -984,6 +1137,7 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
      * Gets all active elements in the current frame with an {@code id} attribute that matches {@code id}.
      * 
      * @param id the id of the element to search for
+     * @return a list of matching elements
      */
     private List<WebElement> getActiveElementsById(final String id) {
         List<WebElement> elements = new ArrayList<WebElement>();
@@ -998,107 +1152,149 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
     }
     
     /**
-     * Gets all active elements in the web page with a {@code name} attribute that contains {@code name}.
+     * Gets all active elements in the web page with a {@code name} attribute that matches {@code name} depending on the value of {@code exact}.
      * 
      * @param name the partial name of the element to search for
+     * @param exact whether the title should match exactly
+     * @return a list of matching elements
      */
-    private List<WebElement> getElementsByName(final String name) {
-        List<WebElement> elements = getActiveElementsByName(name);
+    private List<WebElement> getElementsByName(final String name, final boolean exact) {
+        driver.switchTo().defaultContent();
+        
+        List<WebElement> elements = getActiveElementsByName(name, exact);
         
         if (switchToIFramePortlet()) {
-            elements.addAll(getActiveElementsByName(name));
+            elements.addAll(getActiveElementsByName(name, exact));
         }
         
         return elements;
     }
     
     /**
-     * Gets all active elements in the current frame with a {@code name} attribute that contains {@code name}.
+     * Gets all active elements in the current frame with a {@code name} attribute that matches {@code name} depending on the value of {@code exact}.
      * 
-     * @param name the partial name of the element to search for
+     * @param name the name of the element to search for
+     * @param exact whether the name should match exactly
+     * @return a list of matching elements
      */
-    private List<WebElement> getActiveElementsByName(final String name) {
+    private List<WebElement> getActiveElementsByName(final String name, final boolean exact) {
+        List<WebElement> activeElements = new ArrayList<WebElement>();
+        
         List<WebElement> elements = new ArrayList<WebElement>();
+        if (exact) {
+            elements.addAll(driver.findElements(By.name(name)));
+        } else {
+            elements.addAll(driver.findElements(By.xpath(getAttributeContainsXPath("name", name))));
+        }
 
-        for (WebElement element : driver.findElements(By.xpath(getAttributeContainsXPath("name", name)))) {
+        for (WebElement element : elements) {
             if (((RenderedWebElement) element).isDisplayed()) {
-                elements.add(element);
+                activeElements.add(element);
             }
         }
         
-        return elements;
+        return activeElements;
     }
     
     /**
-     * Gets all active elements in the web page with a {@code title} attribute that contains {@code title}.
+     * Gets all active elements in the web page with a {@code title} attribute that matches {@code title} depending on the value of {@code exact}.
      * 
-     * @param title the partial title of the element to search for
+     * @param title the title of the element to search for
+     * @param exact whether the title should match exactly
+     * @return a list of matching elements
      */
-    private List<WebElement> getElementsByTitle(final String title) {
-        List<WebElement> elements = getActiveElementsByTitle(title);
+    private List<WebElement> getElementsByTitle(final String title, final boolean exact) {
+        driver.switchTo().defaultContent();
+        
+        List<WebElement> elements = getActiveElementsByTitle(title, exact);
         
         if (switchToIFramePortlet()) {
-            elements.addAll(getActiveElementsByTitle(title));
+            elements.addAll(getActiveElementsByTitle(title, exact));
         }
         
         return elements;
     }
     
     /**
-     * Gets all active elements in the current frame with a {@code title} attribute that contains {@code title}.
+     * Gets all active elements in the current frame with a {@code title} attribute matches {@code title} depending on the value of {@code exact}.
      * 
-     * @param title the partial title of the element to search for
+     * @param title the title of the element to search for
+     * @param exact whether the title should match exactly
+     * @return a list of matching elements
      */
-    private List<WebElement> getActiveElementsByTitle(final String title) {
+    private List<WebElement> getActiveElementsByTitle(final String title, final boolean exact) {
+        List<WebElement> activeElements = new ArrayList<WebElement>();
+        
         List<WebElement> elements = new ArrayList<WebElement>();
+        if (exact) {
+            elements.addAll(driver.findElements(By.xpath("//*[@title = '" + title + "']")));
+        } else {
+            elements.addAll(driver.findElements(By.xpath(getAttributeContainsXPath("title", title))));
+        }
 
-        for (WebElement element : driver.findElements(By.xpath(getAttributeContainsXPath("title", title)))) {
+        for (WebElement element : elements) {
             if (((RenderedWebElement) element).isDisplayed()) {
-                elements.add(element);
+                activeElements.add(element);
             }
         }
         
-        return elements;
+        return activeElements;
     }
     
     /**
-     * Gets all active elements in the web page with link text that contains {@code linkText}.
+     * Gets all active elements in the web page with link text that matches {@code linkText} depending on the value of {@code exact}.
      * 
-     * @param linkText the partial link text of the element to search for
+     * @param linkText the link text of the element to search for
+     * @param exact whether the link text should match exactly
+     * @return a list of matching elements
      */
-    private List<WebElement> getElementsByLinkText(final String linkText) {
-        List<WebElement> elements = getActiveElementsByLinkText(linkText);
+    private List<WebElement> getElementsByLinkText(final String linkText, final boolean exact) {
+        driver.switchTo().defaultContent();
+        
+        List<WebElement> elements = getActiveElementsByLinkText(linkText, exact);
         
         if (switchToIFramePortlet()) {
-            elements.addAll(getActiveElementsByLinkText(linkText));
+            elements.addAll(getActiveElementsByLinkText(linkText, exact));
         }
         
         return elements;
     }
     
     /**
-     * Gets all active elements in the current frame with link text that contains {@code linkText}.
+     * Gets all active elements in the current frame with link text that matches {@code linkText} depending on the value of {@code exact}.
      * 
-     * @param linkText the partial link text of the element to search for
+     * @param linkText the link text of the element to search for
+     * @param exact whether the link text should match exactly
+     * @return a list of matching elements
      */
-    private List<WebElement> getActiveElementsByLinkText(final String linkText) {
+    private List<WebElement> getActiveElementsByLinkText(final String linkText, final boolean exact) {
+        List<WebElement> activeElements = new ArrayList<WebElement>();
+        
         List<WebElement> elements = new ArrayList<WebElement>();
+        if (exact) {
+            elements.addAll(driver.findElements(By.linkText(linkText)));
+        } else {
+            elements.addAll(driver.findElements(By.partialLinkText(linkText)));
+        }
 
-        for (WebElement element : driver.findElements(By.partialLinkText(linkText))) {
+        for (WebElement element : elements) {
             if (((RenderedWebElement) element).isDisplayed()) {
-                elements.add(element);
+                activeElements.add(element);
             }
         }
         
-        return elements;
+        return activeElements;
     }
     
     /**
      * Gets all active elements in the web page that match the XPath in {@code xPath}.
      * 
      * @param xPath an XPath expression for the element to search for
+     * @return a list of matching elements
      */
     private List<WebElement> getElementsByXPath(final String xPath) {
+        driver.switchTo().defaultContent();
+        
         List<WebElement> elements = getActiveElementsByXPath(xPath);
         
         if (switchToIFramePortlet()) {
@@ -1112,6 +1308,7 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
      * Gets all active elements in the current frame that match the XPath in {@code xPath}.
      * 
      * @param xPath an XPath expression for the element to search for
+     * @return a list of matching elements
      */
     private List<WebElement> getActiveElementsByXPath(final String xPath) {
         List<WebElement> elements = new ArrayList<WebElement>();
@@ -1129,8 +1326,11 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
      * Gets all active elements in the web page with text that contains {@code text}.
      * 
      * @param text the text in the element to search for
+     * @return a list of matching elements
      */
     private List<WebElement> getElementsByText(final String text) {
+        driver.switchTo().defaultContent();
+        
         List<WebElement> elements = getActiveElementsByText(text);
         
         if (switchToIFramePortlet()) {
@@ -1144,6 +1344,7 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
      * Gets all active elements in the current frame with text that contains {@code text}.
      * 
      * @param text the text in the element to search for
+     * @return a list of matching elements
      */
     private List<WebElement> getActiveElementsByText(final String text) {
         List<WebElement> elements = new ArrayList<WebElement>();

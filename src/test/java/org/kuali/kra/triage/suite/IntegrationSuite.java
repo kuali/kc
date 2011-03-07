@@ -19,13 +19,19 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 import org.kuali.kra.SeleniumUnitTest;
+import org.kuali.kra.award.web.AwardCompleteSeleniumTest;
 import org.kuali.kra.committee.web.CommitteeCompleteSeleniumTest;
+import org.kuali.kra.institutionalproposal.web.InstitutionalProposalCompleteSeleniumTest;
 import org.kuali.kra.irb.web.ProtocolCompleteSeleniumTest;
+import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentCompleteSeleniumTest;
 
 @RunWith(Suite.class)
 @SuiteClasses(  {
     SeleniumUnitTest.class,
+    AwardCompleteSeleniumTest.class,
     CommitteeCompleteSeleniumTest.class,
+    InstitutionalProposalCompleteSeleniumTest.class,
+    ProposalDevelopmentCompleteSeleniumTest.class,
     ProtocolCompleteSeleniumTest.class
 })
 public class IntegrationSuite {}
