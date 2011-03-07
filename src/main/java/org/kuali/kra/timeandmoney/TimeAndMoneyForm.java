@@ -584,24 +584,6 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         return KraServiceLocator.getService(KualiConfigurationService.class);
     }
     
-    /**
-     * This is a utility method to add a new button to the extra buttons
-     * collection.
-     *   
-     * @param property
-     * @param source
-     * @param altText
-     */ 
-    protected void addExtraButton(String property, String source, String altText){
-        
-        ExtraButton newButton = new ExtraButton();
-        
-        newButton.setExtraButtonProperty(property);
-        newButton.setExtraButtonSource(source);
-        newButton.setExtraButtonAltText(altText);
-        
-        extraButtons.add(newButton);
-    }
     
     /**
      * 
@@ -733,6 +715,52 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
 //        }
         return displayEditButton;
     }
+    
+    @Override
+    public List<ExtraButton> getExtraButtons() {
+        // clear out the extra buttons array
+        extraButtons.clear();
+        String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
+        String reloadImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_reload.gif";
+        addExtraButton("methodToCall.reload", reloadImage, "Reload");
+        
+        return extraButtons;
+    }
+    
+    /**
+     * This is a utility method to add a new button to the extra buttons
+     * collection.
+     *   
+     * @param property
+     * @param source
+     * @param altText
+     */ 
+    protected void addExtraButton(String property, String source, String altText){
+        addExtraButton(property, source, altText,null);
+    }
+    /**
+     * This is a utility method to add a new button to the extra buttons
+     * collection.
+     *   
+     * @param property
+     * @param source
+     * @param altText
+     */ 
+    protected void addExtraButton(String property, String source, String altText,String extraButtonOnclick){
+        
+        ExtraButton newButton = new ExtraButton();
+        
+        newButton.setExtraButtonProperty(property);
+        newButton.setExtraButtonSource(source);
+        newButton.setExtraButtonAltText(altText);
+        if(extraButtonOnclick!=null){
+            newButton.setExtraButtonOnclick(extraButtonOnclick);
+        }
+        
+        extraButtons.add(newButton);
+    }
+    
+    
     
     
 

@@ -515,8 +515,16 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             throws Exception {
         ActionForward actionForward;
         save(mapping, form, request, response);
+        TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
+        TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyForm.getTimeAndMoneyDocument();
         actionForward = super.route(mapping, form, request, response);  
-        return actionForward;
+        
+        Long routeHeaderId = Long.parseLong(timeAndMoneyForm.getDocument().getDocumentNumber());
+        String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_AWARD_TIME_AND_MONEY_PAGE, "TimeAndMoneyDocument");
+        
+        ActionForward basicForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
+        return routeToHoldingPage(basicForward, actionForward, holdingPageForward, returnLocation);
     }
     
     
@@ -650,8 +658,12 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
         TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyForm.getTimeAndMoneyDocument();
-        
+        String command = timeAndMoneyForm.getCommand();
+
         ActionForward forward = handleDocument(mapping, form, request, response, timeAndMoneyForm);
+//        if ("timeAndMoney".equals(command)) {
+//            forward = home(mapping, timeAndMoneyForm, request, response);
+//        }
         timeAndMoneyForm.initializeFormOrDocumentBasedOnCommand();        
         String rootAwardNumber = timeAndMoneyForm.getTimeAndMoneyDocument().getRootAwardNumber();
                 
@@ -697,7 +709,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     public ActionForward handleDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                                   HttpServletResponse response, TimeAndMoneyForm timeAndMoneyForm) throws Exception {
         String command = timeAndMoneyForm.getCommand();
-        ActionForward forward;        
+        ActionForward forward = null;        
         if (KEWConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
             String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
             Document retrievedDocument = getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
@@ -706,8 +718,14 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             ActionForward baseForward = mapping.findForward(Constants.MAPPING_COPY_PROPOSAL_PAGE);
             forward = new ActionForward(buildForwardStringForActionListCommand(
                     baseForward.getPath(),docIdRequestParameter));  
-        } else {
-        forward = super.docHandler(mapping, form, request, response);
+        } else if (Constants.MAPPING_AWARD_TIME_AND_MONEY_PAGE.equals(command)) {
+            loadDocument(timeAndMoneyForm);
+        }else {
+            forward = super.docHandler(mapping, form, request, response);
+        }
+        
+        if (Constants.MAPPING_AWARD_TIME_AND_MONEY_PAGE.equals(command)) {
+            forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
         
         return forward;
@@ -980,6 +998,14 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     public BusinessObjectService getBusinessObjectService() {
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         return businessObjectService;
+    }
+    
+    public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+    throws Exception {
+
+        ActionForward forward = super.reload(mapping, form, request, response);
+
+        return forward;
     }
     
     /**
