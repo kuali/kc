@@ -85,13 +85,13 @@ public class ProtocolDeleteServiceTest extends KcUnitTestBase {
         ProtocolDocument amendmentDocument = (ProtocolDocument) getDocumentService().getByDocumentHeaderId(docNbr);
         
         List<String> modules = protocolAmendRenewService.getAvailableModules(protocolDocument.getProtocol().getProtocolNumber());
-        assertEquals(9, modules.size());
+        assertEquals(10, modules.size());
         
         ProtocolDeleteBean protocolDeleteBean = getMockProtocolDeleteBean();
         service.delete(amendmentDocument.getProtocol(), protocolDeleteBean);
         
         modules = protocolAmendRenewService.getAvailableModules(protocolDocument.getProtocol().getProtocolNumber());
-        assertEquals(11, modules.size());
+        assertEquals(12, modules.size());
     }
     
     private ProtocolDeleteBean getMockProtocolDeleteBean() {
@@ -144,6 +144,8 @@ public class ProtocolDeleteServiceTest extends KcUnitTestBase {
             
             allowing(bean).getProtocolPermissions();
             will(returnValue(true));
+            allowing(bean).getQuestionnaire();
+            will(returnValue(false));
         }});
         
         return bean;

@@ -287,6 +287,8 @@ public class ProtocolRouteTest extends KcUnitTestBase {
             
             allowing(bean).getProtocolPermissions();
             will(returnValue(false));
+            allowing(bean).getQuestionnaire();
+            will(returnValue(false));
         }});
         
         return bean;

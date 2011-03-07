@@ -38,6 +38,7 @@
 				<ref bean="ProtocolAmendmentBean-protocolPersonnel" />
 				<ref bean="ProtocolAmendmentBean-others" />
                 <ref bean="ProtocolAmendmentBean-protocolPermissions" />
+                <ref bean="ProtocolAmendmentBean-questionnaire" />
 			</list>
 		</property>
 	</bean>
@@ -149,6 +150,15 @@
 	    <property name="shortLabel" value="Others" />
 	    <property name="summary" value="Others" />
 	    <property name="description" value="Others" />
+	</bean>
+	
+	<bean id="ProtocolAmendmentBean-questionnaire" parent="ProtocolAmendmentBean-questionnaire-parentBean" />
+	<bean id="ProtocolAmendmentBean-questionnaire-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+	    <property name="name" value="questionnaire" />
+	    <property name="label" value="Questionnaire" />
+	    <property name="shortLabel" value="Questionnaire" />
+	    <property name="summary" value="Questionnaire" />
+	    <property name="description" value="Questionnaire" />
 	</bean>
 	
     <bean id="ProtocolAmendmentBean-protocolPermissions" parent="ProtocolAmendmentBean-protocolPermissions-parentBean" />
