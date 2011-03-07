@@ -28,12 +28,15 @@ import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.copy.ProtocolCopyService;
-import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
-import org.kuali.kra.irb.personnel.ProtocolPerson;
+import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
+import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -59,7 +62,8 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
     private KraLookupDao kraLookupDao;
     private ProtocolFinderDao protocolFinderDao;
     private SequenceAccessorService sequenceAccessorService;
-    
+    private QuestionnaireAnswerService questionnaireAnswerService;
+    private BusinessObjectService businessObjectService;
     /**
      * Set the Document Service.
      * @param documentService
@@ -353,8 +357,29 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
             protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), ProtocolModule.PROTOCOL_PERMISSIONS);
             amendmentEntry.removeModule(ProtocolModule.PROTOCOL_PERMISSIONS);
         }
+        if (amendmentBean.getQuestionnaire()) {
+            amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.QUESTIONNAIRE));
+        } else {
+            // TODO : need further work for merge
+            removeEditedQuestionaire(protocol);
+            // protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()),
+            // ProtocolModule.QUESTIONNAIRE);
+            amendmentEntry.removeModule(ProtocolModule.QUESTIONNAIRE);
+        }
+
     }
-    
+
+    private void removeEditedQuestionaire(Protocol protocol) {
+        ModuleQuestionnaireBean moduleQuestionnaireBean = new ProtocolModuleQuestionnaireBean(protocol);
+        moduleQuestionnaireBean.setModuleSubItemCode("0");
+        List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
+        answerHeaders = questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);
+        if (!answerHeaders.isEmpty() && answerHeaders.get(0).getAnswerHeaderId() != null) {
+            businessObjectService.delete(answerHeaders);
+        }
+
+    }
+
     /**
      * Create a module entry.
      * @param amendmentEntry
@@ -472,6 +497,7 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
         moduleTypeCodes.add(ProtocolModule.SPECIAL_REVIEW);
         moduleTypeCodes.add(ProtocolModule.SUBJECTS);
         moduleTypeCodes.add(ProtocolModule.PROTOCOL_PERMISSIONS);
+        moduleTypeCodes.add(ProtocolModule.QUESTIONNAIRE);
         return moduleTypeCodes;
     }
 
@@ -511,5 +537,13 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
             }
         }
         return workflowDocument;
+    }
+
+    public void setQuestionnaireAnswerService(QuestionnaireAnswerService questionnaireAnswerService) {
+        this.questionnaireAnswerService = questionnaireAnswerService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }

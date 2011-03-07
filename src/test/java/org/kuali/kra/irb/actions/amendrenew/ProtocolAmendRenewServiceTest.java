@@ -34,8 +34,10 @@ import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.copy.ProtocolCopyService;
 import org.kuali.kra.irb.test.ProtocolFactory;
+import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 
@@ -62,6 +64,8 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
         service.setKraLookupDao(KraServiceLocator.getService(KraLookupDao.class));
         service.setProtocolFinderDao(KraServiceLocator.getService(ProtocolFinderDao.class));
         service.setSequenceAccessorService(KraServiceLocator.getService(SequenceAccessorService.class));
+        service.setQuestionnaireAnswerService(KraServiceLocator.getService(QuestionnaireAnswerService.class));
+        service.setBusinessObjectService(KraServiceLocator.getService(BusinessObjectService.class));
     }
 
     @After
@@ -73,7 +77,7 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
     
     @Test
     public void testAmendment() throws Exception {
-        ProtocolAmendmentBean protocolAmendmentBean = getMockProtocolAmendmentBean(false, false, false, true, false, true, false, false, false, false, false);
+        ProtocolAmendmentBean protocolAmendmentBean = getMockProtocolAmendmentBean(false, false, false, true, false, true, false, false, false, false, false, false);
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
         String docNbr = service.createAmendment(protocolDocument, protocolAmendmentBean);
@@ -101,7 +105,7 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
     
     @Test
     public void testRenewalWithAmendment() throws Exception {
-        ProtocolAmendmentBean protocolAmendmentBean = getMockProtocolAmendmentBean(false, false, false, true, false, true, false, false, false, false, false);
+        ProtocolAmendmentBean protocolAmendmentBean = getMockProtocolAmendmentBean(false, false, false, true, false, true, false, false, false, false, false, false);
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
         String docNbr = service.createRenewalWithAmendment(protocolDocument, protocolAmendmentBean);
@@ -181,13 +185,13 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
      */
     @Test
     public void testAvailableModules() throws Exception {
-        ProtocolAmendmentBean protocolAmendmentBean = getMockProtocolAmendmentBean(false, false, false, true, false, true, true, false, false, false, false);
+        ProtocolAmendmentBean protocolAmendmentBean = getMockProtocolAmendmentBean(false, false, false, true, false, true, true, false, false, false, false, false);
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument("0906000001");
         
         service.createAmendment(protocolDocument, protocolAmendmentBean);
         
         List<String> modules = service.getAvailableModules("0906000001");
-        assertEquals(8, modules.size());
+        assertEquals(9, modules.size());
         assertTrue(modules.contains(ProtocolModule.FUNDING_SOURCE));
         assertTrue(modules.contains(ProtocolModule.GENERAL_INFO));
         assertTrue(modules.contains(ProtocolModule.OTHERS));
@@ -196,12 +200,13 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
         assertTrue(modules.contains(ProtocolModule.SPECIAL_REVIEW));
         assertTrue(modules.contains(ProtocolModule.SUBJECTS));
         assertTrue(modules.contains(ProtocolModule.PROTOCOL_PERMISSIONS));
+        assertTrue(modules.contains(ProtocolModule.QUESTIONNAIRE));
     }
     
     private ProtocolAmendmentBean getMockProtocolAmendmentBean(final boolean generalInfo, final boolean fundingSource, 
             final boolean protocolReferencesAndOtherIdentifiers, final boolean protocolOrganizations, final boolean subjects, 
             final boolean addModifyAttachments, final boolean areasOfResearch, final boolean specialReview, final boolean protocolPersonnel, 
-            final boolean others, final boolean protocolPermissions) {
+            final boolean others, final boolean protocolPermissions, final boolean questionnaire) {
         
         final ProtocolAmendmentBean bean = context.mock(ProtocolAmendmentBean.class);
         
@@ -241,6 +246,8 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
             
             allowing(bean).getProtocolPermissions();
             will(returnValue(protocolPermissions));
+            allowing(bean).getQuestionnaire();
+            will(returnValue(questionnaire));
         }});
         
         return bean;

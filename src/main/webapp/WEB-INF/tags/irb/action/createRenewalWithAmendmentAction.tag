@@ -118,6 +118,17 @@
 	            					    Others
 	            					</td>
 	            				</tr>
+	            				<tr>
+	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
+	            					    <kul:htmlControlAttribute property="actionHelper.protocolRenewAmendmentBean.questionnaire" 
+	            					                              attributeEntry="${attributes.questionnaire}" 
+	            					                              disabled="${!KualiForm.actionHelper.protocolRenewAmendmentBean.questionnaireEnabled}" />
+	            					    Questionnaire
+	            					</td>
+	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
+	            					    &nbsp;
+	            					</td>
+	            				</tr>
 	            			</tbody>
                 		</table>
             		</td>

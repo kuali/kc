@@ -627,6 +627,9 @@ public class ActionHelper implements Serializable {
             else if (StringUtils.equals(ProtocolModule.PROTOCOL_PERMISSIONS, module.getProtocolModuleTypeCode())) {
                 amendmentBean.setProtocolPermissions(true);
             }
+            else if (StringUtils.equals(ProtocolModule.QUESTIONNAIRE, module.getProtocolModuleTypeCode())) {
+                amendmentBean.setQuestionnaire(true);
+            }
         }
     }
 
@@ -700,6 +703,9 @@ public class ActionHelper implements Serializable {
         }
         else if (StringUtils.equals(ProtocolModule.PROTOCOL_PERMISSIONS,moduleTypeCode)) {
             amendmentBean.setProtocolPermissionsEnabled(true);
+        }
+        else if (StringUtils.equals(ProtocolModule.QUESTIONNAIRE,moduleTypeCode)) {
+            amendmentBean.setQuestionnaireEnabled(true);
         }
     }
 
@@ -2012,7 +2018,9 @@ public class ActionHelper implements Serializable {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("moduleItemCode", CoeusModule.IRB_MODULE_CODE);
         fieldValues.put("moduleItemKey", moduleItemKey);
-        fieldValues.put("moduleSubItemCode", moduleSubItemCode);
+        if (!moduleItemKey.contains("A") && !moduleItemKey.contains("R") && !getProtocol().isAmendment() && !getProtocol().isRenewal()) {
+            fieldValues.put("moduleSubItemCode", moduleSubItemCode);
+        }
         fieldValues.put("moduleSubItemKey", moduleSubItemKey);
         return getBusinessObjectService().countMatching(AnswerHeader.class, fieldValues);
         
@@ -2566,8 +2574,8 @@ public class ActionHelper implements Serializable {
     private void initPrintQuestionnaire() {
         setQuestionnairesToPrints(new ArrayList<QuestionnairePrintOption>());
         ModuleQuestionnaireBean moduleQuestionnaireBean = new ProtocolModuleQuestionnaireBean(getProtocol());
-       // List<AnswerHeader> answerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
-        List<AnswerHeader> answerHeaders = getQuestionnaireAnswerService().getAnswerHeadersForProtocol(getProtocol().getProtocolNumber());
+        //answerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
+        List<AnswerHeader> answerHeaders  = getQuestionnaireAnswerService().getAnswerHeadersForProtocol(getProtocol().getProtocolNumber());
         setupQnPrintOption(answerHeaders);
     }
 
@@ -2633,9 +2641,10 @@ public class ActionHelper implements Serializable {
      */
     private boolean isCurrentRegularQn(AnswerHeader answerHeader) {
         boolean isCurrentQn = false;
-        if (getProtocol().isAmendment() || getProtocol().isRenewal()) {
+        if ((getProtocol().isAmendment() || getProtocol().isRenewal()) && !answerHeader.getModuleItemKey().equals(getProtocol().getProtocolNumber())) {
             Map keyValues = new HashMap();
             keyValues.put("protocolNumber", answerHeader.getModuleItemKey());
+          //  keyValues.put("protocolNumber", getProtocol().getProtocolNumber());
             Protocol prevProtocol = null;
             // if this is an A/R protocol, then need to find the original protocol that the A/R first merged into.
             for (Protocol protocol : ((List<Protocol>) businessObjectService.findMatchingOrderBy(Protocol.class, keyValues,

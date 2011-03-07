@@ -35,7 +35,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public abstract class QuestionnaireHelperBase implements Serializable {
 
     private static final long serialVersionUID = 180986754611233315L;
-    private static final String UPDATE_WITH_NO_ANSWER_COPY = "1";
+    protected static final String UPDATE_WITH_NO_ANSWER_COPY = "1";
     private boolean answerQuestionnaire = false;
     private List<AnswerHeader> answerHeaders;
     private List<String> headerLabels;

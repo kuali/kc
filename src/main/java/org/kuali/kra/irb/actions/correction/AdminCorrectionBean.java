@@ -60,7 +60,8 @@ public class AdminCorrectionBean extends ProtocolEditableBean {
             getSpecialReviewEnabled() && 
             getProtocolPersonnelEnabled() && 
             getOthersEnabled() &&
-            getProtocolPermissionsEnabled());
+            getProtocolPermissionsEnabled() &&
+            getQuestionnaireEnabled());
     }
 
 }
