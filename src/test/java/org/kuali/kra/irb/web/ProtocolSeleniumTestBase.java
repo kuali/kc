@@ -41,7 +41,7 @@ public class ProtocolSeleniumTestBase extends KcSeleniumTestBase {
     private static final String PROTOCOL_PRINCIPAL_INVESTIGATOR_ID_ID = "protocolHelper.personId";
     
     private static final String DEFAULT_DOCUMENT_DESCRIPTION = "Protocol Document";
-    private static final String DEFAULT_PROTOCOL_TYPE_CODE = "1";//test of option "Standard"
+    private static final String DEFAULT_PROTOCOL_TYPE_CODE = "Standard";
     private static final String DEFAULT_PROTOCOL_TITLE = "New protocol test";
     private static final String DEFAULT_PRINCIPAL_INVESTIGATOR_ID = "10000000004";
     
@@ -153,20 +153,6 @@ public class ProtocolSeleniumTestBase extends KcSeleniumTestBase {
      */
     protected void clickProtocolActionsPage() {
         click(PROTOCOL_ACTIONS_LINK_NAME);
-    }
-    
-    protected void lookupResearchArea(String researchAreaCode) {
-        multiLookup("protocolResearchAreas", "researchAreaCode", researchAreaCode);
-    }
-    
-    protected void lookupOrganization(String organizationId) {
-        lookup("protocolHelper.newProtocolLocation.organizationId", "organizationId", organizationId);
-    }
-    
-    protected void lookupFundingSource(String fundingSourceTypeCode, String fundingSourceIdField, String fundingSourceIdValue) {
-        set("protocolHelper.newFundingSource.fundingSourceTypeCode", "Unit");
-        
-        lookup("methodToCall.performFundingSourceLookup", fundingSourceIdField, fundingSourceIdValue);
     }
     
     protected void assertSubmit() {
