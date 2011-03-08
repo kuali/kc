@@ -70,9 +70,9 @@
       <td><fmt:formatDate pattern="MM/dd/yyyy" value="${node.extraInfo.obligationExpirationDate}"/></td>
     </tr>
     <tr>
-      <th style="text-align: right;">Anticipated Amount:</th>
+      <th style="text-align: right;">Anticipated Cumulative:</th>
       <td><fmt:formatNumber type="currency" value="${node.extraInfo.anticipatedTotalAmount}"/></td>
-      <th style="text-align: right;">Obligated Amount:</th>
+      <th style="text-align: right;">Obligated Cumulative:</th>
       <td><fmt:formatNumber type="currency" value="${node.extraInfo.amountObligatedToDate}"/></td>
     </tr>
     <tr>
