@@ -34,22 +34,24 @@ public class ProtocolSeleniumTestBase extends KcSeleniumTestBase {
     private static final String NOTES_AND_ATTACHMENTS_LINK_NAME = "noteAndAttachment";
     private static final String PROTOCOL_ACTIONS_LINK_NAME = "protocolActions";
     
+    private static final String PERSON_ID_TAG = "protocolHelper.personId";
+    
     private static final String DOCUMENT_DESCRIPTION_ID = "document.documentHeader.documentDescription";
-    private static final String PROTOCOL_LIST_PREFIX = "document.protocolList[0].";
-    private static final String PROTOCOL_TYPE_CODE_ID = PROTOCOL_LIST_PREFIX + "protocolTypeCode";
-    private static final String PROTOCOL_TITLE_ID = PROTOCOL_LIST_PREFIX + "title";
-    private static final String PROTOCOL_PRINCIPAL_INVESTIGATOR_ID_ID = "protocolHelper.personId";
+    private static final String LIST_PREFIX = "document.protocolList[0].";
+    private static final String TYPE_CODE_ID = LIST_PREFIX + "protocolTypeCode";
+    private static final String TITLE_ID = LIST_PREFIX + "title";
+    private static final String PERSON_ID = "personId";
+    private static final String SUBMISSION_TYPE_CODE_ID = "actionHelper.protocolSubmitAction.submissionTypeCode";
+    private static final String REVIEW_TYPE_CODE_ID = "actionHelper.protocolSubmitAction.protocolReviewTypeCode";
     
     private static final String DEFAULT_DOCUMENT_DESCRIPTION = "Protocol Document";
-    private static final String DEFAULT_PROTOCOL_TYPE_CODE = "Standard";
-    private static final String DEFAULT_PROTOCOL_TITLE = "New protocol test";
-    private static final String DEFAULT_PRINCIPAL_INVESTIGATOR_ID = "10000000004";
+    private static final String DEFAULT_TYPE_CODE = "Standard";
+    private static final String DEFAULT_TITLE = "New protocol test";
+    private static final String DEFAULT_PERSON_ID = "10000000004";
+    private static final String DEFAULT_SUBMISSION_TYPE = "Initial Protocol Application for Approval";
+    private static final String DEFAULT_SUBMISSION_REVIEW_TYPE = "Full";
     
-    private static final String PROTOCOL_SUBMISSION_TYPE_CODE_ID = "actionHelper.protocolSubmitAction.submissionTypeCode";
-    private static final String PROTOCOL_REVIEW_TYPE_CODE_ID = "actionHelper.protocolSubmitAction.protocolReviewTypeCode";
-    
-    private static final String DEFAULT_PROTOCOL_SUBMISSION_TYPE = "Initial Protocol Application for Approval";
-    private static final String DEFAULT_PROTOCOL_SUBMISSION_REVIEW_TYPE = "Full";
+    private static final String SUBMIT_FOR_REVIEW_BUTTON = "methodToCall.submitForReview";
     
     /**
      * Creates a new instance of the Protocol page, filling in all required values, and saving.
@@ -75,8 +77,8 @@ public class ProtocolSeleniumTestBase extends KcSeleniumTestBase {
         
         setSubmissionRequiredFields();
         
-        click("methodToCall.submitForReview");
-        assertSubmit();
+        click(SUBMIT_FOR_REVIEW_BUTTON);
+        assertRoute();
     }
 
     /**
@@ -84,9 +86,9 @@ public class ProtocolSeleniumTestBase extends KcSeleniumTestBase {
      */
     protected void setDefaultRequiredFields(){
         set(DOCUMENT_DESCRIPTION_ID, DEFAULT_DOCUMENT_DESCRIPTION);
-        set(PROTOCOL_TYPE_CODE_ID, DEFAULT_PROTOCOL_TYPE_CODE);
-        set(PROTOCOL_TITLE_ID, DEFAULT_PROTOCOL_TITLE);
-        lookup(PROTOCOL_PRINCIPAL_INVESTIGATOR_ID_ID, "personId", DEFAULT_PRINCIPAL_INVESTIGATOR_ID);
+        set(TYPE_CODE_ID, DEFAULT_TYPE_CODE);
+        set(TITLE_ID, DEFAULT_TITLE);
+        lookup(PERSON_ID_TAG, PERSON_ID, DEFAULT_PERSON_ID);
     }
     
     /**
@@ -95,8 +97,8 @@ public class ProtocolSeleniumTestBase extends KcSeleniumTestBase {
     protected void setSubmissionRequiredFields() {
         clickExpandAll();
         
-        set(PROTOCOL_SUBMISSION_TYPE_CODE_ID, DEFAULT_PROTOCOL_SUBMISSION_TYPE);
-        set(PROTOCOL_REVIEW_TYPE_CODE_ID, DEFAULT_PROTOCOL_SUBMISSION_REVIEW_TYPE);
+        set(SUBMISSION_TYPE_CODE_ID, DEFAULT_SUBMISSION_TYPE);
+        set(REVIEW_TYPE_CODE_ID, DEFAULT_SUBMISSION_REVIEW_TYPE);
     }
     
     /**
@@ -153,10 +155,6 @@ public class ProtocolSeleniumTestBase extends KcSeleniumTestBase {
      */
     protected void clickProtocolActionsPage() {
         click(PROTOCOL_ACTIONS_LINK_NAME);
-    }
-    
-    protected void assertSubmit() {
-        assertPageContains("Document was successfully submitted");
     }
     
 }

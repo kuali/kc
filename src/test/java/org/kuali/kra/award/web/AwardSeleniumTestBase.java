@@ -37,29 +37,31 @@ public abstract class AwardSeleniumTestBase extends KcSeleniumTestBase {
     private static final String ACTIONS_LINK_NAME = "awardActions";
     private static final String MEDUSA_LINK_NAME = "medusa";
     
+    private static final String TIME_AND_MONEY_LINK_NAME = "methodToCall.timeAndMoney";
+    private static final String RETURN_TO_AWARD_LINK_NAME = "methodToCall.returnToAward";
+    
     private static final String DOCUMENT_DESCRIPTION_ID = "document.documentHeader.documentDescription";
-    private static final String AWARD_LIST_PREFIX = "document.awardList[0].";
-    private static final String AWARD_TRANSACTION_TYPE_CODE_ID = AWARD_LIST_PREFIX + "awardTransactionTypeCode";
-    private static final String UNIT_NUMBER_ID = AWARD_LIST_PREFIX + "unitNumber";
-    private static final String ACTIVITY_TYPE_CODE_ID = AWARD_LIST_PREFIX + "activityTypeCode";
-    private static final String STATUS_CODE_ID = AWARD_LIST_PREFIX + "statusCode";
-    private static final String AWARD_TYPE_CODE_ID = AWARD_LIST_PREFIX + "awardTypeCode";
-    private static final String TITLE_ID = AWARD_LIST_PREFIX + "title";
-    private static final String SPONSOR_CODE_ID = AWARD_LIST_PREFIX + "sponsorCode";
-    private static final String PRIME_SPONSOR_CODE_ID = AWARD_LIST_PREFIX + "primeSponsorCode";
-    private static final String SPONSOR_AWARD_NUMBER_ID = AWARD_LIST_PREFIX + "sponsorAwardNumber";
-    private static final String MODIFICATION_NUMBER_ID = AWARD_LIST_PREFIX + "modificationNumber";
-
-    private static final String BEGIN_DATE_ID = AWARD_LIST_PREFIX + "beginDate";
-    private static final String CURRENT_FUND_EFFECTIVE_DATE_ID = AWARD_LIST_PREFIX + "awardAmountInfos[0].currentFundEffectiveDate";
-    private static final String FINAL_EXPIRATION_DATE_ID = AWARD_LIST_PREFIX + "awardAmountInfos[0].finalExpirationDate";
-    private static final String OBLIGATION_EXPIRATION_DATE_ID = AWARD_LIST_PREFIX + "awardAmountInfos[0].obligationExpirationDate";
+    private static final String LIST_PREFIX = "document.awardList[0].";
+    private static final String TRANSACTION_TYPE_CODE_ID = LIST_PREFIX + "awardTransactionTypeCode";
+    private static final String UNIT_NUMBER_ID = LIST_PREFIX + "unitNumber";
+    private static final String ACTIVITY_TYPE_CODE_ID = LIST_PREFIX + "activityTypeCode";
+    private static final String STATUS_CODE_ID = LIST_PREFIX + "statusCode";
+    private static final String TYPE_CODE_ID = LIST_PREFIX + "awardTypeCode";
+    private static final String TITLE_ID = LIST_PREFIX + "title";
+    private static final String SPONSOR_CODE_ID = LIST_PREFIX + "sponsorCode";
+    private static final String PRIME_SPONSOR_CODE_ID = LIST_PREFIX + "primeSponsorCode";
+    private static final String SPONSOR_AWARD_NUMBER_ID = LIST_PREFIX + "sponsorAwardNumber";
+    private static final String MODIFICATION_NUMBER_ID = LIST_PREFIX + "modificationNumber";
+    private static final String BEGIN_DATE_ID = LIST_PREFIX + "beginDate";
+    private static final String CURRENT_FUND_EFFECTIVE_DATE_ID = LIST_PREFIX + "awardAmountInfos[0].currentFundEffectiveDate";
+    private static final String FINAL_EXPIRATION_DATE_ID = LIST_PREFIX + "awardAmountInfos[0].finalExpirationDate";
+    private static final String OBLIGATION_EXPIRATION_DATE_ID = LIST_PREFIX + "awardAmountInfos[0].obligationExpirationDate";
     
     private static final String DEFAULT_DOCUMENT_DESCRIPTION = "Award Development Web Test";
-    private static final String DEFAULT_AWARD_TRANSACTION_TYPE = "New";
+    private static final String DEFAULT_TRANSACTION_TYPE = "New";
     private static final String DEFAULT_ACTIVITY_TYPE = "Research";
     private static final String DEFAULT_STATUS = "Active";
-    private static final String DEFAULT_AWARD_TYPE = "Grant";
+    private static final String DEFAULT_TYPE = "Grant";
     private static final String DEFAULT_TITLE = "Award Title";
     private static final String DEFAULT_SPONSOR_CODE = "005979";
     private static final String DEFAULT_SPONSOR_AWARD_NUMBER = "1R01CA123456";
@@ -89,11 +91,11 @@ public abstract class AwardSeleniumTestBase extends KcSeleniumTestBase {
      */
     private void setDefaultRequiredFields() {
         set(DOCUMENT_DESCRIPTION_ID, DEFAULT_DOCUMENT_DESCRIPTION);
-        set(AWARD_TRANSACTION_TYPE_CODE_ID, DEFAULT_AWARD_TRANSACTION_TYPE);
+        set(TRANSACTION_TYPE_CODE_ID, DEFAULT_TRANSACTION_TYPE);
         set(UNIT_NUMBER_ID, AwardFixtureFactory.UNIVERSITY_UNIT_NUMBER);
         set(ACTIVITY_TYPE_CODE_ID, DEFAULT_ACTIVITY_TYPE);
         set(STATUS_CODE_ID, DEFAULT_STATUS);
-        set(AWARD_TYPE_CODE_ID, DEFAULT_AWARD_TYPE);
+        set(TYPE_CODE_ID, DEFAULT_TYPE);
         set(TITLE_ID, DEFAULT_TITLE);
         set(SPONSOR_CODE_ID, DEFAULT_SPONSOR_CODE);
         set(PRIME_SPONSOR_CODE_ID, DEFAULT_SPONSOR_CODE);
@@ -175,20 +177,18 @@ public abstract class AwardSeleniumTestBase extends KcSeleniumTestBase {
         click(MEDUSA_LINK_NAME);
     }
     
-    protected void lookupSponsorTemplate(String sponsorTemplateCode) {
-        lookup("document.award.templateCode", "templateCode", sponsorTemplateCode);
+    /**
+     * Open the Time & Money document associated with this Award.
+     */
+    protected void openTimeAndMoneyDocument() {
+        click(TIME_AND_MONEY_LINK_NAME);
     }
     
-    protected void lookupEmployeeContact(String personId, String role) {
-        lookup("projectPersonnelBean.personId", "personId", personId);
-        
-        set("projectPersonnelBean.contactRoleCode", role);
-    }
-    
-    protected void lookupNonEmployeeContact(String personId, String role) {
-        lookup("projectPesonnelBean.rolodexId", "rolodexId", personId);
-        
-        set("newProposalPerson.proposalPersonRoleId", role);
+    /**
+     * Return to the Award document from the Time & Money document.
+     */
+    protected void returnToAwardDocument() {
+        click(RETURN_TO_AWARD_LINK_NAME);
     }
 
 }
