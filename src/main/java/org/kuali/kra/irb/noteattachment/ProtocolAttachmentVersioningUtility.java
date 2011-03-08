@@ -22,13 +22,10 @@ import java.util.List;
 
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
-import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
-import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -202,7 +199,9 @@ public class ProtocolAttachmentVersioningUtility {
                     ((ProtocolAttachmentProtocol) attachment).setChanged(true);
                 } else {
 
-                    attachmentProtocols.add(createFileVersionOnAttachment(attachment, isReplaceFile));
+                    if (!isChangeDeletedAtt((List<ProtocolAttachmentProtocol>)attachments, attachment.getDocumentId())) {
+                        attachmentProtocols.add(createFileVersionOnAttachment(attachment, isReplaceFile));
+                    }
                     restoreAttachment((ProtocolAttachmentProtocol) persistedAttachment, (ProtocolAttachmentProtocol) attachment);
                 }
             } else if (ATTACHMENT_DRAFTED.equals(((ProtocolAttachmentProtocol) attachment).getDocumentStatusCode())
@@ -216,6 +215,21 @@ public class ProtocolAttachmentVersioningUtility {
         // attachments.removeAll(removeAttachmentProtocols);
         return createVersion;
     }
+    
+    /*
+     * check if the attachment is deleted and also some date change, for example 'description'
+     * then don'e create new version because the deleted already has a new version
+     */
+    private boolean isChangeDeletedAtt(List<ProtocolAttachmentProtocol>attachments, Integer documentId) {
+        boolean isChangedDelete = false;
+        for (ProtocolAttachmentProtocol attachment : attachments) {
+            if (documentId.equals(attachment.getDocumentId()) && "3".equals(attachment.getDocumentStatusCode())) {
+                isChangedDelete = true;
+                break;
+            }
+        }
+        return isChangedDelete;
+    }   
     
     /*
      * Since the finalized attachment should not be changed.  we can't remove it from attachments and then add the persisted one
