@@ -199,6 +199,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     private transient boolean lookupActionNotifyIRBProtocol;
     private transient boolean lookupActionRequestProtocol;
     private transient boolean lookupProtocolPersonId;
+    private transient boolean mergeAmendment;
     
     public String getInitiatorLastUpdated() {
         return initiatorLastUpdated;
@@ -1835,9 +1836,15 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     }
     
     public List<ProtocolAttachmentProtocol> getActiveAttachmentProtocolsNoDelete() {
+        List<Integer> documentIds = new ArrayList<Integer>();
         List<ProtocolAttachmentProtocol> activeAttachments = new ArrayList<ProtocolAttachmentProtocol>();
         for (ProtocolAttachmentProtocol attachment : getActiveAttachmentProtocols()) {
-            if (!DELETED_DOCUMENT.equals(attachment.getDocumentStatusCode())) {
+            if (DELETED_DOCUMENT.equals(attachment.getDocumentStatusCode())) {
+                documentIds.add(attachment.getDocumentId());
+            }
+        }
+        for (ProtocolAttachmentProtocol attachment : getActiveAttachmentProtocols()) {
+            if (documentIds.isEmpty() || !documentIds.contains(attachment.getDocumentId())) {
                 activeAttachments.add(attachment);
             } else {
                 attachment.setActive(false);
@@ -1934,5 +1941,13 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     public boolean isFollowupAction(String actionTypeCode) {
         return (getLastProtocolAction() == null || StringUtils.isBlank(getLastProtocolAction().getFollowupActionCode())) ? false 
                 : actionTypeCode.equals(getLastProtocolAction().getFollowupActionCode());
+    }
+
+    public boolean isMergeAmendment() {
+        return mergeAmendment;
+    }
+
+    public void setMergeAmendment(boolean mergeAmendment) {
+        this.mergeAmendment = mergeAmendment;
     }
 }
