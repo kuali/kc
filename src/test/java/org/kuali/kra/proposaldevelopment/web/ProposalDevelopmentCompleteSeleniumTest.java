@@ -19,19 +19,32 @@ import org.junit.Test;
 import org.kuali.kra.infrastructure.TestUtilities;
 
 public class ProposalDevelopmentCompleteSeleniumTest extends ProposalDevelopmentSeleniumTestBase {
+    
+    private static final String PERSON_ID_TAG = "newPersonId";
 
+    private static final String PERSON_ID_ID = "personId";
+    private static final String PERSON_ROLE_ID_ID = "newProposalPerson.proposalPersonRoleId";
+    private static final String PERSON_YNQS_ID = "document.developmentProposalList[0].proposalPersons[0].proposalPersonYnqs[%d].answer";
+    private static final String CREDIT_SPLITS_ID = "document.developmentProposalList[0].investigator[0].creditSplits[%d].credit";
+    private static final String UNIT_CREDIT_SPLITS_ID = "document.developmentProposalList[0].investigator[0].units[0].creditSplits[%d].credit";
     private static final String GRADUATE_STUDENT_COUNT_ID = "customAttributeValues(id4)";
     private static final String BILLING_ELEMENT_ID = "customAttributeValues(id1)";
+    private static final String YNQS_ID = "document.developmentProposalList[0].proposalYnq[%d].answer";
     private static final String USERNAME_FIELD_ID = "newProposalUser.username";
     private static final String ROLENAME_FIELD_ID = "newProposalUser.roleName";
     private static final String ADD_PROPOSAL_USER_ID = "methodToCall.addProposalUser";
     
+    private static final String NICHOLAS_MAJORS_PERSON_ID = "10000000004";
+    private static final String PI_CONTACT_ROLE = "Principal Investigator";
     private static final String APPROVER = "jtester";
     private static final String VIEWER_ROLENAME = "Viewer";
     private static final String YES_RADIO_FIELD_VALUE = "Y";
     private static final String NO_RADIO_FIELD_VALUE = "N";
     private static final String NA_RADIO_FIELD_VALUE = "X";
-    private static final String CREDIT_SPLIT_VALUE = "100.00";
+    private static final String TOTAL_CREDIT_SPLIT = "100.00";
+    
+    private static final String INSERT_PROPOSAL_PERSON = "methodToCall.insertProposalPerson";
+    private static final String YES_BUTTON = "methodToCall.processAnswer.button0";
 
     @Test
     public void testProposalDevelopmentComplete() throws Exception {
@@ -51,25 +64,23 @@ public class ProposalDevelopmentCompleteSeleniumTest extends ProposalDevelopment
     private void addKeyPersonnel() {
         clickProposalDevelopmentKeyPersonnelPage();
 
-        lookupEmployeeKeyPersonnel("10000000004", "Principal Investigator");
-        click("methodToCall.insertProposalPerson");
+        lookup(PERSON_ID_TAG, PERSON_ID_ID, NICHOLAS_MAJORS_PERSON_ID);
+        set(PERSON_ROLE_ID_ID, PI_CONTACT_ROLE);
+        click(INSERT_PROPOSAL_PERSON);
         
         openTab(0);
         
         openTab(4);
-        set("document.developmentProposalList[0].proposalPersons[0].proposalPersonYnqs[0].answer", YES_RADIO_FIELD_VALUE);
-        set("document.developmentProposalList[0].proposalPersons[0].proposalPersonYnqs[1].answer", NO_RADIO_FIELD_VALUE);
-        set("document.developmentProposalList[0].proposalPersons[0].proposalPersonYnqs[2].answer", YES_RADIO_FIELD_VALUE);
-        set("document.developmentProposalList[0].proposalPersons[0].proposalPersonYnqs[3].answer", NO_RADIO_FIELD_VALUE);
-        set("document.developmentProposalList[0].proposalPersons[0].proposalPersonYnqs[4].answer", NO_RADIO_FIELD_VALUE);
-        set("document.developmentProposalList[0].investigator[0].creditSplits[0].credit", CREDIT_SPLIT_VALUE);
-        set("document.developmentProposalList[0].investigator[0].creditSplits[1].credit", CREDIT_SPLIT_VALUE);
-        set("document.developmentProposalList[0].investigator[0].creditSplits[2].credit", CREDIT_SPLIT_VALUE);
-        set("document.developmentProposalList[0].investigator[0].creditSplits[3].credit", CREDIT_SPLIT_VALUE);
-        set("document.developmentProposalList[0].investigator[0].units[0].creditSplits[0].credit", CREDIT_SPLIT_VALUE);
-        set("document.developmentProposalList[0].investigator[0].units[0].creditSplits[1].credit", CREDIT_SPLIT_VALUE);
-        set("document.developmentProposalList[0].investigator[0].units[0].creditSplits[2].credit", CREDIT_SPLIT_VALUE);
-        set("document.developmentProposalList[0].investigator[0].units[0].creditSplits[3].credit", CREDIT_SPLIT_VALUE);
+        set(String.format(PERSON_YNQS_ID, 0), YES_RADIO_FIELD_VALUE);
+        set(String.format(PERSON_YNQS_ID, 1), NO_RADIO_FIELD_VALUE);
+        set(String.format(PERSON_YNQS_ID, 2), YES_RADIO_FIELD_VALUE);
+        set(String.format(PERSON_YNQS_ID, 3), NO_RADIO_FIELD_VALUE);
+        set(String.format(PERSON_YNQS_ID, 4), NO_RADIO_FIELD_VALUE);
+        
+        for (int i = 0; i < 4; i++) {
+            set(String.format(CREDIT_SPLITS_ID, i), TOTAL_CREDIT_SPLIT);
+            set(String.format(UNIT_CREDIT_SPLITS_ID, i), TOTAL_CREDIT_SPLIT);
+        }
     }
     
     private void addCustomData() {
@@ -86,40 +97,40 @@ public class ProposalDevelopmentCompleteSeleniumTest extends ProposalDevelopment
         clickProposalDevelopmentQuestionsPage();
 
         openTab(0);
-        set("document.developmentProposalList[0].proposalYnq[20].answer", YES_RADIO_FIELD_VALUE);
+        set(String.format(YNQS_ID, 20), YES_RADIO_FIELD_VALUE);
         
         openTab(1);
-        set("document.developmentProposalList[0].proposalYnq[0].answer", NO_RADIO_FIELD_VALUE);
-        set("document.developmentProposalList[0].proposalYnq[1].answer", NO_RADIO_FIELD_VALUE);
-        set("document.developmentProposalList[0].proposalYnq[2].answer", NO_RADIO_FIELD_VALUE);
-        set("document.developmentProposalList[0].proposalYnq[3].answer", NO_RADIO_FIELD_VALUE);
-        set("document.developmentProposalList[0].proposalYnq[4].answer", NO_RADIO_FIELD_VALUE);
-        set("document.developmentProposalList[0].proposalYnq[5].answer", NA_RADIO_FIELD_VALUE);
-        set("document.developmentProposalList[0].proposalYnq[6].answer", NO_RADIO_FIELD_VALUE);
-        set("document.developmentProposalList[0].proposalYnq[7].answer", NO_RADIO_FIELD_VALUE);
-        set("document.developmentProposalList[0].proposalYnq[8].answer", NO_RADIO_FIELD_VALUE);
-        set("document.developmentProposalList[0].proposalYnq[9].answer", NO_RADIO_FIELD_VALUE);
-        set("document.developmentProposalList[0].proposalYnq[10].answer", NO_RADIO_FIELD_VALUE);
-        set("document.developmentProposalList[0].proposalYnq[11].answer", NO_RADIO_FIELD_VALUE);
-        set("document.developmentProposalList[0].proposalYnq[12].answer", NO_RADIO_FIELD_VALUE);
-        set("document.developmentProposalList[0].proposalYnq[13].answer", NO_RADIO_FIELD_VALUE);
-        set("document.developmentProposalList[0].proposalYnq[14].answer", NO_RADIO_FIELD_VALUE);
-        set("document.developmentProposalList[0].proposalYnq[15].answer", NA_RADIO_FIELD_VALUE);
-        set("document.developmentProposalList[0].proposalYnq[16].answer", NA_RADIO_FIELD_VALUE);
-        set("document.developmentProposalList[0].proposalYnq[17].answer", NO_RADIO_FIELD_VALUE);
-        set("document.developmentProposalList[0].proposalYnq[18].answer", NO_RADIO_FIELD_VALUE);
-        set("document.developmentProposalList[0].proposalYnq[19].answer", NO_RADIO_FIELD_VALUE);
-        set("document.developmentProposalList[0].proposalYnq[21].answer", NO_RADIO_FIELD_VALUE);
-        set("document.developmentProposalList[0].proposalYnq[22].answer", NO_RADIO_FIELD_VALUE);
-        set("document.developmentProposalList[0].proposalYnq[23].answer", YES_RADIO_FIELD_VALUE);
-        set("document.developmentProposalList[0].proposalYnq[24].answer", NO_RADIO_FIELD_VALUE);
-        set("document.developmentProposalList[0].proposalYnq[25].answer", NO_RADIO_FIELD_VALUE);
-        set("document.developmentProposalList[0].proposalYnq[26].answer", NO_RADIO_FIELD_VALUE);
-        set("document.developmentProposalList[0].proposalYnq[27].answer", NO_RADIO_FIELD_VALUE);
-        set("document.developmentProposalList[0].proposalYnq[28].answer", NO_RADIO_FIELD_VALUE);
-        set("document.developmentProposalList[0].proposalYnq[29].answer", NO_RADIO_FIELD_VALUE);
-        set("document.developmentProposalList[0].proposalYnq[30].answer", NO_RADIO_FIELD_VALUE);
-        set("document.developmentProposalList[0].proposalYnq[31].answer", NO_RADIO_FIELD_VALUE);
+        set(String.format(YNQS_ID, 0), NO_RADIO_FIELD_VALUE);
+        set(String.format(YNQS_ID, 1), NO_RADIO_FIELD_VALUE);
+        set(String.format(YNQS_ID, 2), NO_RADIO_FIELD_VALUE);
+        set(String.format(YNQS_ID, 3), NO_RADIO_FIELD_VALUE);
+        set(String.format(YNQS_ID, 4), NO_RADIO_FIELD_VALUE);
+        set(String.format(YNQS_ID, 5), NA_RADIO_FIELD_VALUE);
+        set(String.format(YNQS_ID, 6), NO_RADIO_FIELD_VALUE);
+        set(String.format(YNQS_ID, 7), NO_RADIO_FIELD_VALUE);
+        set(String.format(YNQS_ID, 8), NO_RADIO_FIELD_VALUE);
+        set(String.format(YNQS_ID, 9), NO_RADIO_FIELD_VALUE);
+        set(String.format(YNQS_ID, 10), NO_RADIO_FIELD_VALUE);
+        set(String.format(YNQS_ID, 11), NO_RADIO_FIELD_VALUE);
+        set(String.format(YNQS_ID, 12), NO_RADIO_FIELD_VALUE);
+        set(String.format(YNQS_ID, 13), NO_RADIO_FIELD_VALUE);
+        set(String.format(YNQS_ID, 14), NO_RADIO_FIELD_VALUE);
+        set(String.format(YNQS_ID, 15), NA_RADIO_FIELD_VALUE);
+        set(String.format(YNQS_ID, 16), NA_RADIO_FIELD_VALUE);
+        set(String.format(YNQS_ID, 17), NO_RADIO_FIELD_VALUE);
+        set(String.format(YNQS_ID, 18), NO_RADIO_FIELD_VALUE);
+        set(String.format(YNQS_ID, 19), NO_RADIO_FIELD_VALUE);
+        set(String.format(YNQS_ID, 21), NO_RADIO_FIELD_VALUE);
+        set(String.format(YNQS_ID, 22), NO_RADIO_FIELD_VALUE);
+        set(String.format(YNQS_ID, 23), YES_RADIO_FIELD_VALUE);
+        set(String.format(YNQS_ID, 24), NO_RADIO_FIELD_VALUE);
+        set(String.format(YNQS_ID, 25), NO_RADIO_FIELD_VALUE);
+        set(String.format(YNQS_ID, 26), NO_RADIO_FIELD_VALUE);
+        set(String.format(YNQS_ID, 27), NO_RADIO_FIELD_VALUE);
+        set(String.format(YNQS_ID, 28), NO_RADIO_FIELD_VALUE);
+        set(String.format(YNQS_ID, 29), NO_RADIO_FIELD_VALUE);
+        set(String.format(YNQS_ID, 30), NO_RADIO_FIELD_VALUE);
+        set(String.format(YNQS_ID, 31), NO_RADIO_FIELD_VALUE);
     }
     
     private void addPermissions() {
@@ -134,14 +145,14 @@ public class ProposalDevelopmentCompleteSeleniumTest extends ProposalDevelopment
         clickProposalDevelopmentActionsPage();
 
         routeDocument();
-        click("methodToCall.processAnswer.button0");
+        click(YES_BUTTON);
         assertRoute();
         
         blanketApproveDocument();
         assertApprove();
         
         submitToSponsor();
-        click("methodToCall.processAnswer.button0");
+        click(YES_BUTTON);
     }
 
 }

@@ -26,6 +26,7 @@ import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runner.notification.RunListener;
 import org.kuali.kra.test.infrastructure.lifecycle.KcUnitTestSeleniumLifecycle;
+import org.kuali.rice.kns.util.NumberUtils;
 import org.kuali.rice.test.web.HtmlUnitUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.RenderedWebElement;
@@ -60,14 +61,13 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
     
     private static final String HELP_PAGE_TITLE = "Kuali Research Administration Online Help";
     
-    private static final String DOT = ".";
-    private static final String METHOD_TO_CALL_PREFIX = "methodToCall";
-    private static final String SAVE_BUTTON = METHOD_TO_CALL_PREFIX + DOT + "save";
-    private static final String RELOAD_BUTTON = METHOD_TO_CALL_PREFIX + DOT + "reload";
-    private static final String CLOSE_BUTTON = METHOD_TO_CALL_PREFIX + DOT + "close";
-    private static final String ROUTE_BUTTON = METHOD_TO_CALL_PREFIX + DOT + "route";
-    private static final String APPROVE_BUTTON = METHOD_TO_CALL_PREFIX + DOT + "approve";
-    private static final String BLANKET_APPROVE_BUTTON = METHOD_TO_CALL_PREFIX + DOT + "blanketApprove";
+    private static final String METHOD_TO_CALL_PREFIX = "methodToCall.";
+    private static final String SAVE_BUTTON = METHOD_TO_CALL_PREFIX + "save";
+    private static final String RELOAD_BUTTON = METHOD_TO_CALL_PREFIX + "reload";
+    private static final String CLOSE_BUTTON = METHOD_TO_CALL_PREFIX + "close";
+    private static final String ROUTE_BUTTON = METHOD_TO_CALL_PREFIX + "route";
+    private static final String APPROVE_BUTTON = METHOD_TO_CALL_PREFIX + "approve";
+    private static final String BLANKET_APPROVE_BUTTON = METHOD_TO_CALL_PREFIX + "blanketApprove";
     
     private static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
     private static final String SAVE_SUCCESS_MESSAGE = "Document was successfully saved";
@@ -880,6 +880,25 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
     }
     
     /**
+     * Asserts that the row count of the table identified by {@code id} matches {@code expectedRowCount}.
+     *
+     * @param id identifies the table to search
+     * @param expectedRowCount the row count to verify
+     */
+    protected final void assertTableRowCount(final String id, final int expectedRowCount) {
+        final String locator = "//table[@id='" + id + "']/tbody/tr";
+        
+        new ElementExistsWaiter("Actual row count did not match the expected row count of " + expectedRowCount).until(
+            new Function<WebDriver, Boolean>() {
+                public Boolean apply(WebDriver driver) {
+                    List<WebElement> rows = getElementsByXPath(locator);
+                    return NumberUtils.equals(expectedRowCount, rows.size());
+                }
+            }
+        );
+    }
+    
+    /**
      * Asserts that the text in the table identified by {@code id} at row {@code row} and column {@code column} matches the given 
      * {@code text}.
      *
@@ -891,8 +910,8 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
     protected final void assertTableCellValue(final String id, final int row, final int column, final String text) {
         String rowString = String.valueOf(row + 1);
         String columnString = String.valueOf(column + 1);
-        
-        final String locator = "//table[@id='" + id + "']//tr[" + rowString + "]/td[" + columnString + "]";
+
+        final String locator = "//table[@id='" + id + "']/tbody/tr[" + rowString + "]/td[" + columnString + "]";
         
         new ElementExistsWaiter(text + " not found for table " + id + " at row " + rowString + " and column " + columnString).until(
             new Function<WebDriver, Boolean>() {
