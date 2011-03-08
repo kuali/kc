@@ -26,10 +26,10 @@
         
         <table cellpAdding="0" cellspacing="0" summary="">
 		  	<tr>
-		    	<th><div align="right">*Award ID:</div></th>
+		    	<th><div align="right">Award ID:</div></th>
 		    	<td>${KualiForm.awardForSummaryPanelDisplay.awardNumber}&nbsp;</td>
 		    	<th>
-		    		<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.awardTypeCode}" /></div>
+		    		<div align="right">Award Type:</div>
 		      	</th>
 		    	<td>
 		    		<c:out value="${KualiForm.awardForSummaryPanelDisplay.awardType.description}" />
@@ -38,14 +38,14 @@
 		  	</tr>
 		  	<tr>
 		    	<th>
-		    		<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.sponsorCode}" /></div>
+		    		<div align="right">Sponsor ID:</div>
 		      	</th>
 		    	<td>
 		    		<c:out value="${KualiForm.awardForSummaryPanelDisplay.sponsor.sponsorName}" />
 		    		<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.sponsorCode" attributeEntry="${awardAttributes.sponsorCode}" readOnlyAlternateDisplay="${KualiForm.awardForSummaryPanelDisplay.sponsor.sponsorName}"readOnly="true" />-->
 		    	</td>
 		    	<th>
-		    		<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.activityTypeCode}" /></div>
+		    		<div align="right">Activity Type</div>
 		    	</th>
 		    	<td>
 		    		<c:out value="${KualiForm.awardForSummaryPanelDisplay.activityType.description}" />
@@ -71,7 +71,7 @@
 		  	<tr>
 		    	<th>
 		    		<div align="right">
-		        		<kul:htmlAttributeLabel attributeEntry="${awardAttributes.statusCode}" />
+		        		Award Status:
 		      		</div>
 		      	</th>
 		    	<td>
@@ -84,7 +84,7 @@
 		  	<tr>
 		    	<th>
 		    		<div align="right">
-		        		<kul:htmlAttributeLabel attributeEntry="${awardAttributes.title}" />
+		        		Title:
 		      		</div>
 		      	</th>
 		    	<td colspan="3">
@@ -107,7 +107,8 @@
         <table cellpadding="0" cellspacing="0" summary="">
 	    	<tr>
 	        	<th>
-	            	<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.sponsorCode}" /></div>
+	            	<!--  <div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.sponsorCode}" /></div>-->
+	            	<div align="right">Sponsor</div>
 	        	</th>
 	        	<td colspan="3">
 	        		<c:out value="${KualiForm.awardForSummaryPanelDisplay.sponsorCode}" />
@@ -131,7 +132,7 @@
         		</td>
 	        <tr>	        	
 				<th>
-					<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.finalExpirationDate}" /></div>
+					<div align="right">Project End Date:</div>
         		</th>
         		<td align="left" valign="middle">
         			<c:out value="${KualiForm.awardForSummaryPanelDisplay.awardAmountInfos[KualiForm.awardForSummaryPanelDisplay.indexOfAwardAmountInfoForDisplay].finalExpirationDate}" />
