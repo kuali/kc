@@ -162,7 +162,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     }
 
     /**
-     * Inject <code>{@AddBudgetVersionRule}</code> singleton
+     * Inject <code>{@link AddBudgetVersionRule}</code> singleton
      * 
      * @return AddBudgetVersionRule
      */
