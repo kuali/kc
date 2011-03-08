@@ -654,17 +654,18 @@ public class PHS398FellowshipSupplementalV1_2Generator extends
 		GraduateDegreeSought graduateDegreeSought = GraduateDegreeSought.Factory.newInstance();
 		boolean setGradDegree = false;
 		ArrayList<String> cellLinesList = new ArrayList<String>(Arrays.asList(stemCells.getCellLinesArray())); 
-        boolean setCellLines = false;
 		additionalInformation.setConcurrentSupport(YesNoDataType.N_NO);  // default
         additionalInformation.setCurrentPriorNRSASupportIndicator(YesNoDataType.N_NO);
 		ProposalPerson principalInvestigator = s2sUtilService.getPrincipalInvestigator(pdDoc);
 		if (principalInvestigator != null) {
 			if (principalInvestigator.getCountryOfCitizenship() != null) {
-//TODO				additionalInformation.setCitizenship(CitizenshipDataType.Enum.forString(principalInvestigator.getCountryOfCitizenship()));
-additionalInformation.setCitizenship(CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S);
+				additionalInformation.setCitizenship(CitizenshipDataType.Enum.forString(principalInvestigator.getCountryOfCitizenship()));
+			} else {
+			    additionalInformation.setCitizenship(CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S);
 			}
-//TODO			additionalInformation.setAlernatePhoneNumber(principalInvestigator.getSecondaryOfficePhone());
-//additionalInformation.setAlernatePhoneNumber("919-999-1111");
+			if(principalInvestigator.getSecondaryOfficePhone() != null) {
+			    additionalInformation.setAlernatePhoneNumber(principalInvestigator.getSecondaryOfficePhone());
+			}
 		}
 		
 		List<AnswerHeader> answers = findQuestionnaireWithAnswers(pdDoc.getDevelopmentProposal());
@@ -701,7 +702,6 @@ additionalInformation.setCitizenship(CitizenshipDataType.PERMANENT_RESIDENT_OF_U
                             break;
 		                case Q_DEGREE_TYPE:
                         case Q_DEGREE_TYPE2:
-answer = "OTH: Other";                            
                             DegreeTypeDataType.Enum degreeSought = null;
                             try {
                                 degreeSought = degreeSought.forString(answer);
@@ -715,7 +715,6 @@ answer = "OTH: Other";
                             } else {
 		                        graduateDegreeSought.setDegreeType(degreeSought);
                             }
-//TODO
                             break;
 		                case Q_FIELD_OF_TRAINING:
 		                    FieldOfTrainingDataType.Enum fieldOfTraining = null;
