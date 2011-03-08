@@ -37,14 +37,14 @@ public class ProposalDevelopmentSeleniumTestBase extends KcSeleniumTestBase {
     private static final String ACTIONS_LINK_NAME = "actions";
     
     private static final String DOCUMENT_DESCRIPTION_ID = "document.documentHeader.documentDescription";
-    private static final String PROPOSAL_DEVELOPMENT_LIST_PREFIX = "document.developmentProposalList[0].";
-    private static final String PROPOSAL_DEVELOPMENT_SPONSOR_CODE_ID = PROPOSAL_DEVELOPMENT_LIST_PREFIX + "sponsorCode";
-    private static final String PROPOSAL_DEVELOPMENT_TYPE_CODE_ID = PROPOSAL_DEVELOPMENT_LIST_PREFIX + "proposalTypeCode";
-    private static final String PROPOSAL_DEVELOPMENT_REQUESTED_START_DATE_ID = PROPOSAL_DEVELOPMENT_LIST_PREFIX + "requestedStartDateInitial";
-    private static final String PROPOSAL_DEVELOPMENT_OWNED_BY_UNIT_ID = PROPOSAL_DEVELOPMENT_LIST_PREFIX + "ownedByUnitNumber";
-    private static final String PROPOSAL_DEVELOPMENT_REQUESTED_END_DATE_ID = PROPOSAL_DEVELOPMENT_LIST_PREFIX + "requestedEndDateInitial";
-    private static final String PROPOSAL_DEVELOPMENT_ACTIVITY_TYPE_CODE_ID = PROPOSAL_DEVELOPMENT_LIST_PREFIX + "activityTypeCode";
-    private static final String PROPOSAL_DEVELOPMENT_TITLE_ID = PROPOSAL_DEVELOPMENT_LIST_PREFIX + "title";
+    private static final String LIST_PREFIX = "document.developmentProposalList[0].";
+    private static final String SPONSOR_CODE_ID = LIST_PREFIX + "sponsorCode";
+    private static final String TYPE_CODE_ID = LIST_PREFIX + "proposalTypeCode";
+    private static final String REQUESTED_START_DATE_ID = LIST_PREFIX + "requestedStartDateInitial";
+    private static final String OWNED_BY_UNIT_ID = LIST_PREFIX + "ownedByUnitNumber";
+    private static final String REQUESTED_END_DATE_ID = LIST_PREFIX + "requestedEndDateInitial";
+    private static final String ACTIVITY_TYPE_CODE_ID = LIST_PREFIX + "activityTypeCode";
+    private static final String TITLE_ID = LIST_PREFIX + "title";
     
     private static final String DEFAULT_DOCUMENT_DESCRIPTION = "Proposal Development Web Test";
     private static final String DEFAULT_SPONSOR_CODE = "005770";
@@ -77,13 +77,13 @@ public class ProposalDevelopmentSeleniumTestBase extends KcSeleniumTestBase {
      */
     protected void setDefaultRequiredFields() {
         set(DOCUMENT_DESCRIPTION_ID, DEFAULT_DOCUMENT_DESCRIPTION);
-        set(PROPOSAL_DEVELOPMENT_SPONSOR_CODE_ID, DEFAULT_SPONSOR_CODE);
-        set(PROPOSAL_DEVELOPMENT_TYPE_CODE_ID, DEFAULT_TYPE_CODE);
-        set(PROPOSAL_DEVELOPMENT_REQUESTED_START_DATE_ID, DEFAULT_REQUESTED_START_DATE);
-        set(PROPOSAL_DEVELOPMENT_OWNED_BY_UNIT_ID, DEFAULT_OWNED_BY_UNIT);
-        set(PROPOSAL_DEVELOPMENT_REQUESTED_END_DATE_ID, DEFAULT_REQUESTED_END_DATE);
-        set(PROPOSAL_DEVELOPMENT_ACTIVITY_TYPE_CODE_ID, DEFAULT_ACTIVITY_TYPE);
-        set(PROPOSAL_DEVELOPMENT_TITLE_ID, DEFAULT_TITLE);
+        set(SPONSOR_CODE_ID, DEFAULT_SPONSOR_CODE);
+        set(TYPE_CODE_ID, DEFAULT_TYPE_CODE);
+        set(REQUESTED_START_DATE_ID, DEFAULT_REQUESTED_START_DATE);
+        set(OWNED_BY_UNIT_ID, DEFAULT_OWNED_BY_UNIT);
+        set(REQUESTED_END_DATE_ID, DEFAULT_REQUESTED_END_DATE);
+        set(ACTIVITY_TYPE_CODE_ID, DEFAULT_ACTIVITY_TYPE);
+        set(TITLE_ID, DEFAULT_TITLE);
     }
     
     /**
@@ -156,18 +156,9 @@ public class ProposalDevelopmentSeleniumTestBase extends KcSeleniumTestBase {
         click(ACTIONS_LINK_NAME);
     }
     
-    protected void lookupEmployeeKeyPersonnel(String personId, String role) {
-        lookup("newPersonId", "personId", personId);
-        
-        set("newProposalPerson.proposalPersonRoleId", role);
-    }
-    
-    protected void lookupNonEmployeeKeyPersonnel(String personId, String role) {
-        lookup("newRolodexId", "rolodexId", personId);
-        
-        set("newProposalPerson.proposalPersonRoleId", role);
-    }
-    
+    /**
+     * Submit this Proposal Development to the Sponsor.
+     */
     protected void submitToSponsor() {
         click(SUBMIT_TO_SPONSOR_BUTTON);
     }
