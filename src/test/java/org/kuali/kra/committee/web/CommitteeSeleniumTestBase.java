@@ -30,18 +30,21 @@ public class CommitteeSeleniumTestBase extends KcSeleniumTestBase {
     private static final String MEMBERS_LINK_NAME = "committeeMembership";
     private static final String ACTIONS_LINK_NAME = "committeeActions";
     
+    private static final String RESEARCH_AREAS_TAG = "committeeResearchAreas";
+    
     private static final String DOCUMENT_DESCRIPTION_ID = "document.documentHeader.documentDescription";
-    private static final String COMMITTEE_LIST_PREFIX = "document.committeeList[0].";
-    private static final String COMMITTEE_ID_ID = COMMITTEE_LIST_PREFIX + "committeeId";
-    private static final String COMMITTEE_NAME_ID = COMMITTEE_LIST_PREFIX + "committeeName";
-    private static final String COMMITTEE_HOME_UNIT_NUMBER_ID = COMMITTEE_LIST_PREFIX + "homeUnitNumber";
-    private static final String COMMITTEE_TYPE_CODE_ID = COMMITTEE_LIST_PREFIX + "committeeTypeCode";
-    private static final String COMMITTEE_DESCRIPTION_ID = COMMITTEE_LIST_PREFIX + "committeeDescription";
-    private static final String COMMITTEE_SCHEDULE_DESCRIPTION_ID = COMMITTEE_LIST_PREFIX + "scheduleDescription";
-    private static final String COMMITTEE_MIN_MEMBERS_REQUIRED_ID = COMMITTEE_LIST_PREFIX + "minimumMembersRequired";
-    private static final String COMMITTEE_REVIEW_TYPE_CODE_ID = COMMITTEE_LIST_PREFIX + "reviewTypeCode";
-    private static final String COMMITTEE_MAX_PROTOCOLS_ID = COMMITTEE_LIST_PREFIX + "maxProtocols";
-    private static final String COMMITTEE_ADV_SUBMISSION_DAYS_REQUIRED_ID = COMMITTEE_LIST_PREFIX + "advancedSubmissionDaysRequired";
+    private static final String LIST_PREFIX = "document.committeeList[0].";
+    private static final String ID_ID = LIST_PREFIX + "committeeId";
+    private static final String NAME_ID = LIST_PREFIX + "committeeName";
+    private static final String HOME_UNIT_NUMBER_ID = LIST_PREFIX + "homeUnitNumber";
+    private static final String TYPE_CODE_ID = LIST_PREFIX + "committeeTypeCode";
+    private static final String DESCRIPTION_ID = LIST_PREFIX + "committeeDescription";
+    private static final String SCHEDULE_DESCRIPTION_ID = LIST_PREFIX + "scheduleDescription";
+    private static final String MINIMUM_MEMBERS_REQUIRED_ID = LIST_PREFIX + "minimumMembersRequired";
+    private static final String REVIEW_TYPE_CODE_ID = LIST_PREFIX + "reviewTypeCode";
+    private static final String MAX_PROTOCOLS_ID = LIST_PREFIX + "maxProtocols";
+    private static final String ADVANCED_SUBMISSION_DAYS_REQUIRED_ID = LIST_PREFIX + "advancedSubmissionDaysRequired";
+    private static final String RESEARCH_AREA_CODE_ID = "researchAreaCode";
     
     private static final String DEFAULT_DOCUMENT_DESCRIPTION = "Committee Web Test";
     private static final String DEFAULT_NAME = "Committee Test ";
@@ -49,10 +52,10 @@ public class CommitteeSeleniumTestBase extends KcSeleniumTestBase {
     private static final String DEFAULT_TYPE = "IRB";
     private static final String DEFAULT_DESCRIPTION = "xxx";
     private static final String DEFAULT_SCHEDULE_DESCRIPTION = "foo";
-    private static final String DEFAULT_MIN_MEMBERS_REQUIRED = "3";
+    private static final String DEFAULT_MINIMUM_MEMBERS_REQUIRED = "3";
     private static final String DEFAULT_REVIEW_TYPE = "Full";
     private static final String DEFAULT_MAX_PROTOCOLS = "10";
-    private static final String DEFAULT_ADV_SUBMISSION_DAYS_REQUIRED = "1";
+    private static final String DEFAULT_ADVANCED_SUBMISSION_DAYS_REQUIRED = "1";
     private static final String DEFAULT_RESEARCH_AREA_CODE = "000001";
     
     private static final String DEFAULT_USER = "chew";
@@ -93,18 +96,17 @@ public class CommitteeSeleniumTestBase extends KcSeleniumTestBase {
         String committeeId = getNextCommitteeID();
         
         set(DOCUMENT_DESCRIPTION_ID, DEFAULT_DOCUMENT_DESCRIPTION);
-        set(COMMITTEE_ID_ID, committeeId);
-        set(COMMITTEE_NAME_ID, DEFAULT_NAME + committeeId);
-        set(COMMITTEE_HOME_UNIT_NUMBER_ID, DEFAULT_HOME_UNIT_NUMBER);
-        set(COMMITTEE_TYPE_CODE_ID, DEFAULT_TYPE);
-        set(COMMITTEE_DESCRIPTION_ID, DEFAULT_DESCRIPTION);
-        set(COMMITTEE_SCHEDULE_DESCRIPTION_ID, DEFAULT_SCHEDULE_DESCRIPTION);
-        set(COMMITTEE_MIN_MEMBERS_REQUIRED_ID, DEFAULT_MIN_MEMBERS_REQUIRED);
-        set(COMMITTEE_REVIEW_TYPE_CODE_ID, DEFAULT_REVIEW_TYPE);
-        set(COMMITTEE_MAX_PROTOCOLS_ID, DEFAULT_MAX_PROTOCOLS);
-        set(COMMITTEE_ADV_SUBMISSION_DAYS_REQUIRED_ID, DEFAULT_ADV_SUBMISSION_DAYS_REQUIRED);
-        
-        lookupResearchArea(DEFAULT_RESEARCH_AREA_CODE);
+        set(ID_ID, committeeId);
+        set(NAME_ID, DEFAULT_NAME + committeeId);
+        set(HOME_UNIT_NUMBER_ID, DEFAULT_HOME_UNIT_NUMBER);
+        set(TYPE_CODE_ID, DEFAULT_TYPE);
+        set(DESCRIPTION_ID, DEFAULT_DESCRIPTION);
+        set(SCHEDULE_DESCRIPTION_ID, DEFAULT_SCHEDULE_DESCRIPTION);
+        set(MINIMUM_MEMBERS_REQUIRED_ID, DEFAULT_MINIMUM_MEMBERS_REQUIRED);
+        set(REVIEW_TYPE_CODE_ID, DEFAULT_REVIEW_TYPE);
+        set(MAX_PROTOCOLS_ID, DEFAULT_MAX_PROTOCOLS);
+        set(ADVANCED_SUBMISSION_DAYS_REQUIRED_ID, DEFAULT_ADVANCED_SUBMISSION_DAYS_REQUIRED);
+        multiLookup(RESEARCH_AREAS_TAG, RESEARCH_AREA_CODE_ID, DEFAULT_RESEARCH_AREA_CODE);
     }
     
     /**
@@ -142,18 +144,6 @@ public class CommitteeSeleniumTestBase extends KcSeleniumTestBase {
      */
     protected void clickCommitteeActionsPage() {
         click(ACTIONS_LINK_NAME);
-    }
-    
-    protected void lookupResearchArea(String researchAreaCode) {
-        multiLookup("committeeResearchAreas", "researchAreaCode", researchAreaCode);
-    }
-    
-    protected void lookupEmployeeCommitteeMember(String personId) {
-        lookup("committeeHelper.newCommitteeMembership.personId", "personId", personId);
-    }
-    
-    protected void lookupNonEmployeeCommitteeMember(String personId) {
-        lookup("committeeHelper.newCommitteeMembership.rolodexId", "rolodexId", personId);
     }
 
 }
