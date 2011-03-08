@@ -163,6 +163,10 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
         copyRequiredProperties(srcDoc, newDoc);
         copyAdditionalProperties(srcDoc, newDoc);
         copyProtocolLists(srcDoc, newDoc);
+        if (isAmendmentRenewal && !srcDoc.getProtocol().isAmendment() && !srcDoc.getProtocol().isAmendment()) {
+            removeDeletedAttachment(newDoc.getProtocol());
+            
+        }
         newDoc.getProtocol().setProtocolNumber(protocolNumber);
         copyCustomDataAttributeValues(srcDoc, newDoc);
         
@@ -193,7 +197,29 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
         
         return newDoc;
     }
-    
+
+    private void removeDeletedAttachment(Protocol protocol) {
+        List<Integer> documentIds = new ArrayList<Integer>();
+        List<ProtocolAttachmentProtocol> attachments = new ArrayList<ProtocolAttachmentProtocol>();
+        for (ProtocolAttachmentProtocol attachment : protocol.getAttachmentProtocols()) {
+            attachment.setProtocol(protocol);
+            if ("3".equals(attachment.getDocumentStatusCode())) {
+                documentIds.add(attachment.getDocumentId());
+            }
+        }
+        if (!documentIds.isEmpty()) {
+            for (ProtocolAttachmentProtocol attachment : protocol.getAttachmentProtocols()) {
+                attachment.setProtocol(protocol);
+                if (!documentIds.contains(attachment.getDocumentId())) {
+                    attachments.add(attachment);
+                }
+            }
+            protocol.setAttachmentProtocols(attachments);
+        }
+        
+    }
+
+
     /**
      * This method initializes the personId of the person and person attachments for the newly created protocol.
      * @param protocol

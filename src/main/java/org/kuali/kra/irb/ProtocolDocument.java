@@ -263,6 +263,7 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         try {
             // workflowdocument is null, so need to use documentservice to retrieve it
             currentProtocol.setProtocolDocument((ProtocolDocument)getDocumentService().getByDocumentHeaderId(currentProtocol.getProtocolDocument().getDocumentNumber()));
+            currentProtocol.setMergeAmendment(true);
             newProtocolDocument = getProtocolVersionService().versionProtocolDocument(currentProtocol.getProtocolDocument());
         } catch (Exception e) {
             throw new ProtocolMergeException(e);
@@ -301,6 +302,7 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
             }
         }
     }
+
 
     private ProtocolVersionService getProtocolVersionService() {
         return KraServiceLocator.getService(ProtocolVersionService.class);

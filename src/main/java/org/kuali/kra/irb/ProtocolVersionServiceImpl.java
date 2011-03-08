@@ -105,7 +105,7 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
      
         materializeCollections(protocolDocument.getProtocol());
         Protocol newProtocol = versioningService.createNewVersion(protocolDocument.getProtocol());
-      
+        removeDeletedAttachment(newProtocol);
         ProtocolDocument newProtocolDocument = getNewProtocolDocument();
         newProtocolDocument.getDocumentHeader().setDocumentDescription(protocolDocument.getDocumentHeader().getDocumentDescription());
       
@@ -150,6 +150,38 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
         
         return newProtocolDocument;
     }
+    
+    /*
+     * If the deleted att exist in previous version, then it will be removed from the new version.
+     * It has to be done here before the attachment is saved.  if it is done after attachment is saved, 
+     * then the 'delete' will also delete 'attachmentfile'; and ojb will also deleted any attachments that
+     * are referenced to this attachmentfile.
+     * add a transient 'mergeAmendment' in protocol.  so , then is done only when mergeamendment and a new merged protocol is created.
+     */
+    private void removeDeletedAttachment(Protocol protocol) {
+        List<Integer> documentIds = new ArrayList<Integer>();
+        List<ProtocolAttachmentProtocol> attachments = new ArrayList<ProtocolAttachmentProtocol>();
+        List<ProtocolAttachmentProtocol> delAttachments = new ArrayList<ProtocolAttachmentProtocol>();
+        for (ProtocolAttachmentProtocol attachment : protocol.getAttachmentProtocols()) {
+            attachment.setProtocol(protocol);
+            if ("3".equals(attachment.getDocumentStatusCode())) {
+                documentIds.add(attachment.getDocumentId());
+            }
+        }
+        if (!documentIds.isEmpty()) {
+            for (ProtocolAttachmentProtocol attachment : protocol.getAttachmentProtocols()) {
+                attachment.setProtocol(protocol);
+                if (!documentIds.contains(attachment.getDocumentId())) {
+                    attachments.add(attachment);
+                } else {
+                    delAttachments.add(attachment);
+                }
+            }
+            protocol.setAttachmentProtocols(attachments);
+          //  protocol.getAttachmentProtocols().addAll(attachments);
+        }
+    }
+
     /*
      * seems that deepcopy is not really create new instance for copied obj.  this is really confusing
      */
