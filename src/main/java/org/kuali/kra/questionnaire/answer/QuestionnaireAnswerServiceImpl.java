@@ -96,10 +96,18 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             if (answerHeaderMap.containsKey(questionnaireUsage.getQuestionnaire().getQuestionnaireId())) {
                 answerHeaders.add(answerHeaderMap.get(questionnaireUsage.getQuestionnaire().getQuestionnaireId()));
                 if (!questionnaireUsage.getQuestionnaire().getQuestionnaireRefId().equals(
-                        answerHeaderMap.get(questionnaireUsage.getQuestionnaire().getQuestionnaireId()).getQuestionnaireRefIdFk())
+                        answerHeaderMap.get(questionnaireUsage.getQuestionnaire().getQuestionnaireId()).getQuestionnaireRefIdFk())) {
                         // the current qnaire is "Active"
-                        && questionnaireUsage.getQuestionnaire().getIsFinal()) {
-                    answerHeaderMap.get(questionnaireUsage.getQuestionnaire().getQuestionnaireId()).setNewerVersionPublished(true);
+                    if (questionnaireUsage.getQuestionnaire().getIsFinal()) {
+                        answerHeaderMap.get(questionnaireUsage.getQuestionnaire().getQuestionnaireId()).setNewerVersionPublished(
+                                true);
+                        answerHeaderMap.get(questionnaireUsage.getQuestionnaire().getQuestionnaireId()).setActiveQuestionnaire(
+                                true);
+                    }
+                    else {
+                        answerHeaderMap.get(questionnaireUsage.getQuestionnaire().getQuestionnaireId()).setActiveQuestionnaire(
+                                false);
+                    }
                 }
             }
             else {
