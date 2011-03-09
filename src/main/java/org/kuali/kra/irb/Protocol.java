@@ -20,6 +20,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.UnitAclLoadable;
+import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.committee.bo.Committee;
@@ -1264,7 +1266,13 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
             mergePersonnel(amendment);
         }
         else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.ADD_MODIFY_ATTACHMENTS)) {
-            mergeAttachments(amendment);
+            if (amendment.isAmendment() || amendment.isRenewal()
+                    || (!amendment.getAttachmentProtocols().isEmpty() && this.getAttachmentProtocols().isEmpty())) {
+                mergeAttachments(amendment);
+            }
+            else {
+                restoreAttachments(this);
+            }
         }
         else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.PROTOCOL_REFERENCES)) {
             mergeReferences(amendment);
@@ -1466,6 +1474,53 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         mergeNotepads(amendment);
     }
 
+    /*
+     * This is to restore attachments from protocol to amendment when 'attachment' section is unselected.
+     * The attachment in amendment may have been modified.
+     * delete 'attachment' need to be careful.
+     *  - if the 'file' is also used in other 'finalized' attachment, then should remove this file reference from attachment
+     *    otherwise, the delete will also delete any attachment that reference to this file
+     */
+    @SuppressWarnings("unchecked")
+    private void restoreAttachments(Protocol protocol) {
+        List<ProtocolAttachmentProtocol> attachmentProtocols = new ArrayList<ProtocolAttachmentProtocol>();
+        List<ProtocolAttachmentProtocol> deleteAttachments = new ArrayList<ProtocolAttachmentProtocol>();
+        List<AttachmentFile> deleteFiles = new ArrayList<AttachmentFile>();
+        
+        for (ProtocolAttachmentProtocol attachment : this.getAttachmentProtocols()) {
+            if ("2".equals(attachment.getDocumentStatusCode())) {
+                attachmentProtocols.add(attachment);
+           // } else if ("1".equals(attachment.getDocumentStatusCode())) {
+            } else {
+                // in amendment, "1" & "3" must be new attachment because "3"
+                // will not be copied from original protocol
+                deleteAttachments.add(attachment);
+                if (!fileIsReferencedByOther(attachment.getFileId())) {
+                    deleteFiles.add(attachment.getFile());
+                }
+                attachment.setFileId(null);
+            }
+        }
+        if (!deleteAttachments.isEmpty()) {
+            getBusinessObjectService().save(deleteAttachments);
+            if (!deleteFiles.isEmpty()) {
+                getBusinessObjectService().delete(deleteFiles);
+            }
+            getBusinessObjectService().delete(deleteAttachments);
+        }
+        this.getAttachmentProtocols().clear();
+        this.getAttachmentProtocols().addAll(attachmentProtocols);
+        
+        mergeNotepads(protocol);
+    }
+
+    private boolean fileIsReferencedByOther(Long fileId) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("fileId", fileId.toString());
+        return getBusinessObjectService().countMatching(ProtocolAttachmentProtocol.class, fieldValues) > 1;
+        
+    }
+    
     private void mergeNotepads(Protocol amendment) {
         List <ProtocolNotepad> notepads = new ArrayList<ProtocolNotepad>();
         if (amendment.getNotepads() != null) {
