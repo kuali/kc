@@ -1,0 +1,1 @@
+ALTER TABLE RATE_CLASS modify ICR_TYPE_CODE varchar(2);
