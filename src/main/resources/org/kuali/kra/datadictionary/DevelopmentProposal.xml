@@ -197,7 +197,7 @@
 		<property name="required" value="true" />
 		<property name="summary" value="The End Date of the Proposal" />
 		<property name="description"
-			value="The date the project period will terminate. Use the date format (mm/dd/yyyy)" />
+			value="The date the project period will terminate." />
 	</bean>
 
 	<bean id="DevelopmentProposal-activityTypeCode" parent="DevelopmentProposal-activityTypeCode-parentBean" />
