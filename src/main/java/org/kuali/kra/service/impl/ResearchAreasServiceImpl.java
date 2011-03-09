@@ -116,6 +116,8 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
     
     /**
      * The format is as follows:
+     * <pre>
+     * {@code
      * <RaChanges>
      *   <RaChangesElement>
      *       <RaCreate>
@@ -142,6 +144,8 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
      *       </RaDelete>
      *   </RaChangesElement>
      * </RaChanges>
+     * }
+     * </pre>
      * @throws SAXException 
      * @throws IOException 
      * @throws ParserConfigurationException 
