@@ -25,15 +25,15 @@ public class RateClass extends KraPersistableBusinessObjectBase {
 	private String rateClassType;
 	private String rateClassTypeDescription;
 	private RateClassType rateClassTypeT;
-	private Integer icrTypeCode;
+	private String icrTypeCode;
 	
 	
 
-	public Integer getIcrTypeCode() {
+	public String getIcrTypeCode() {
         return icrTypeCode;
     }
 
-    public void setIcrTypeCode(Integer icrTypeCode) {
+    public void setIcrTypeCode(String icrTypeCode) {
         this.icrTypeCode = icrTypeCode;
     }
 
