@@ -61,6 +61,8 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
     
     private static final String HELP_PAGE_TITLE = "Kuali Research Administration Online Help";
     
+    private static final String CREATE_MAINTENANCE_DOCUMENT_LINK = "maintenance.do?businessObjectClassName=%s&methodToCall=start";
+    
     private static final String METHOD_TO_CALL_PREFIX = "methodToCall.";
     private static final String SAVE_BUTTON = METHOD_TO_CALL_PREFIX + "save";
     private static final String RELOAD_BUTTON = METHOD_TO_CALL_PREFIX + "reload";
@@ -590,6 +592,32 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
     }
     
     /**
+     * Creates a new maintenance document based on {@code className} and verifies that the next page has the title {@code nextPageTitle}.
+     * 
+     * @param className the BO class name of this maintenance document
+     * @param nextPageTitle the title of the maintenance document on the next page
+     */
+    protected final void createNewMaintenanceDocument(String className, String nextPageTitle) {
+        final String locator = "//a[@href = '" + String.format(CREATE_MAINTENANCE_DOCUMENT_LINK, className) + "']";
+        
+        WebElement createNewButton = new ElementExistsWaiter(locator + " not found").until(
+            new Function<WebDriver, WebElement>() {
+                public WebElement apply(WebDriver driver) {
+                    return getElementByXPath(locator);
+                }
+            }
+        );
+        
+        createNewButton.click();
+        
+        login();
+        
+        if (nextPageTitle != null) {
+            assertTitleContains(nextPageTitle);
+        }
+    }
+    
+    /**
      * Reload a document by clicking on the Reload button.
      */
     protected final void reloadDocument() {
@@ -687,7 +715,7 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
      * @param locator the id, partial name, partial title, or partial link name of the element to search for
      * @param value the value to look for in the element
      */
-    protected final void assertElementContains(String locator, String value) {
+    protected final void assertElementContains(final String locator, final String value) {
         assertElementContains(locator, false, value);
     }
     
@@ -958,7 +986,7 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
     }
     
     /**
-     * Asserts that one or more of the errors contained in {@code panelId} contains {@code text}.
+     * Asserts that one or more of the errors contained in {@code panelId} contains {@code expectedText}.
      *
      * @param panelId the id attribute of the panel
      * @param text the string to look for in the errors
