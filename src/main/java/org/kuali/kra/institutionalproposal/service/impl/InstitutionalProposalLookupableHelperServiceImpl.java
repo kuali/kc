@@ -53,6 +53,9 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
     private static final String MERGE_PROPOSAL_LOG_ACTION = "mergeProposalLog.do";
     private static final String AWARD_HOME_ACTION = "awardHome.do";
     private static final String OPEN = "open";
+    private static final String STAT_PENDING = "1";  // Pending
+    private static final String STAT_FUNDED  = "2";  // Funded
+    private static final String STAT_REV_REQ = "6";  // Revision Requested
     
     private boolean includeMainSearchCustomActionUrls;
     private boolean includeMergeCustomActionUrls;
@@ -158,55 +161,51 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
         return returnLocation != null && returnLocation.contains(AWARD_HOME_ACTION);
     }
     
+    /* 
+     * Filters will set flag in IP indicating that they should not be selectable
+     * in an Award-based search if they are already linked, if they are Approval Pending Submitted, or if
+     * they are not of status 1, 2, or 4. We do this here (instead of in the IP object itself) because
+     * this object knows the origin of the lookup, and can easily determine if the IP is already linked.
+     */
+    /*
+     * This method filters out IP's which are already linked to proposals
+     */
     @SuppressWarnings("unchecked")
     protected void filterAlreadyLinkedProposals(List<? extends BusinessObject> searchResults, Map<String, String> fieldValues) {
         List<Long> linkedProposals = (List<Long>) GlobalVariables.getUserSession().retrieveObject(Constants.LINKED_FUNDING_PROPOSALS_KEY);
         if (linkedProposals == null) { return; }
-        int indexToRemove = -1;
         for (Long linkedProposalId : linkedProposals) {
             for (int j = 0; j < searchResults.size(); j++) {
                 InstitutionalProposal institutionalProposal = (InstitutionalProposal) searchResults.get(j);
                 if (linkedProposalId.equals(institutionalProposal.getProposalId())) {
-                    indexToRemove = j;
+                    institutionalProposal.setShowReturnLink(false);
                     break;
                 }
-            }
-            if (indexToRemove != -1) {
-                searchResults.remove(indexToRemove);
-                indexToRemove = -1;
             }
         }
     }
     
     /*
-     * This method is filter out INSP which is generated from PD whose ProposeStateType is "Approval Pending Submitted"
+     * This method filters out IP's which were generated from PD whose ProposeStateType is "Approval Pending Submitted"
      */
     protected void filterApprovedPendingSubmitProposals(List<? extends BusinessObject> searchResults) {
-        List<BusinessObject> removeResults = new ArrayList<BusinessObject>();
         for (int j = 0; j < searchResults.size(); j++) {
             if (isDevelopmentProposalAppPendingSubmitted((InstitutionalProposal) searchResults.get(j))) {
-                removeResults.add(searchResults.get(j));
+                ((InstitutionalProposal)searchResults.get(j)).setShowReturnLink(false);
             }
-        }
-        if (!removeResults.isEmpty()) {
-            searchResults.removeAll(removeResults);
         }
     }
 
     /*
-     * This method is to filter for valid status codes of 1,2,6
+     * This method is to filter out IP's not having valid status codes of 1,2,6
      */
     protected void filterInvalidProposalStatus(List<? extends BusinessObject> searchResults) {
-        List<BusinessObject> removeResults = new ArrayList<BusinessObject>();
-        String[] validStatuses = new String[] {"1","2","6"};        
+        String[] validStatuses = new String[] {STAT_PENDING, STAT_FUNDED, STAT_REV_REQ};        
         List<String> validCodesToFilter = Arrays.asList(validStatuses);   
         for (int j = 0; j < searchResults.size(); j++) {
             if (!validCodesToFilter.contains(((InstitutionalProposal) searchResults.get(j)).getStatusCode().toString())) {
-                removeResults.add(searchResults.get(j));
+                ((InstitutionalProposal)searchResults.get(j)).setShowReturnLink(false);
             }
-        }
-        if (!removeResults.isEmpty()) {
-            searchResults.removeAll(removeResults);
         }
     }
 
@@ -285,6 +284,12 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
         String href  = UrlFactory.parameterizeUrl("../" + MERGE_PROPOSAL_LOG_ACTION, parameters);
         htmlData.setHref(href);
         return htmlData;
+    }
+
+    @Override
+    public boolean isResultReturnable(BusinessObject object) {
+        InstitutionalProposal institutionalProposal = (InstitutionalProposal)object;
+        return institutionalProposal.getShowReturnLink();
     }
 
 }
