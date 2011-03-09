@@ -128,6 +128,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     private Integer awardTypeCode; 
     private String newDescription;
     private String proposalSequenceStatus;
+    private boolean showReturnLink;
     
     private NoticeOfOpportunity noticeOfOpportunity; 
     private ProposalType proposalType; 
@@ -198,6 +199,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         setProposalSequenceStatus(VersionStatus.PENDING.toString());
         setStatusCode(1);//default value for all IP's
         projectPersons = new ArrayList<InstitutionalProposalPerson>();
+        showReturnLink = true; // we usually show proposal in lookup
     }
     
     protected void initializeCollections() {
@@ -1675,6 +1677,13 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         return lookupPersonNumber;
     }
     
+    public void setShowReturnLink(boolean val) {
+        showReturnLink = val;
+    }
+    public boolean getShowReturnLink() {
+        return showReturnLink;
+    }
+
     /**
      * This method returns the combined number of units for all project personnel.
      * @return
