@@ -116,7 +116,11 @@ public class QuestionnaireHelper extends QuestionnaireHelperBase {
                 answerHeaders = getAnswerHeadersForCurrentProtocol(moduleBean);
             } 
             if (!answerHeaders.isEmpty()) {
-                getAnswerHeaders().addAll(answerHeaders);
+                for (AnswerHeader answerHeader : answerHeaders) {
+                    if (answerHeader.isActiveQuestionnaire()) {
+                       getAnswerHeaders().add(answerHeader);
+                    }
+                }
                 resetHeaderLabels();
            }     
 
