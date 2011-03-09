@@ -67,7 +67,7 @@
     <property name="shortLabel" value="ICR type code" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+      <bean parent="AlphaNumericValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
