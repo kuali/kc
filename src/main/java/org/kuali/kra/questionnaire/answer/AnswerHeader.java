@@ -44,6 +44,7 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
     private boolean newerVersionPublished = false;
     private String updateOption;
     private String showQuestions;
+    transient private boolean activeQuestionnaire = true;
 
     public AnswerHeader() {
         super();
@@ -258,6 +259,14 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
 
     public void setShowQuestions(String showQuestions) {
         this.showQuestions = showQuestions;
+    }
+
+    public boolean isActiveQuestionnaire() {
+        return activeQuestionnaire;
+    }
+
+    public void setActiveQuestionnaire(boolean activeQuestionnaire) {
+        this.activeQuestionnaire = activeQuestionnaire;
     }
 
 
