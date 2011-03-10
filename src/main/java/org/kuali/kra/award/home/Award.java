@@ -3116,4 +3116,12 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public void setSyncStatuses(List<AwardSyncStatus> syncStatuses) {
         this.syncStatuses = syncStatuses;
     }
+    /*
+     * Used by Current Report to determine if award in Active, Pending, or Hold state.
+     */
+    private static String reportedStatus = "1 3 6";
+    public boolean isActiveVersion() {
+        return (reportedStatus.indexOf(getAwardStatus().getStatusCode()) != -1);
+    }
+
 }
