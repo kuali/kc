@@ -9,6 +9,7 @@ import java.util.Map;
 import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardStatus;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.common.printing.CurrentReportBean;
 import org.kuali.kra.dao.CurrentReportDao;
@@ -39,7 +40,8 @@ public class CurrentReportDaoOjb extends BaseReportDaoOjb implements CurrentRepo
     private CurrentReportBean buildReportBean(AwardPerson awardPerson) throws WorkflowException {
         Award award = awardPerson.getAward();
         CurrentReportBean bean = null;
-        if(shouldDataBeIncluded(award.getAwardDocument()) 
+        if(shouldDataBeIncluded(award.getAwardDocument())
+                && award.isActiveVersion()
                 && ObjectUtils.equals(getActiveAwardVersionSequenceNumber(award.getAwardNumber()), award.getSequenceNumber())) {
             bean = new CurrentReportBean(awardPerson);
         }
