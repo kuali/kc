@@ -603,7 +603,10 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
             CommitteeScheduleMinute newReviewComment = reviewCommentsBean.getNewReviewComment();
             List<CommitteeScheduleMinute> reviewComments = reviewCommentsBean.getReviewComments();
             List<CommitteeScheduleMinute> deletedReviewComments = reviewCommentsBean.getDeletedReviewComments();
-            
+            if (protocolForm.getEditingMode().get(TaskName.MAINTAIN_PROTOCOL_ONLINEREVIEWS) == null) {
+                newReviewComment.setPrivateCommentFlag(true);
+                newReviewComment.setFinalFlag(false);
+            }
             getReviewCommentsService().addReviewComment(newReviewComment, reviewComments, document.getProtocolOnlineReview());
             getReviewCommentsService().saveReviewComments(reviewComments, deletedReviewComments);
             getDocumentService().saveDocument(document);

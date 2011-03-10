@@ -37,8 +37,10 @@
                     <th><div align="left">&nbsp;</div></th> 
                     <kul:htmlAttributeHeaderCell literalLabel="Standard Comment" scope="col" />
                     <kul:htmlAttributeHeaderCell literalLabel="Comment" scope="col" />
-                    <kul:htmlAttributeHeaderCell literalLabel="Private" scope="col" />
-                    <kul:htmlAttributeHeaderCell literalLabel="Final" scope="col" />
+                    <c:if test = "${KualiForm.editingMode['maintainProtocolOnlineReviews'] or readOnly}">                    
+                        <kul:htmlAttributeHeaderCell literalLabel="Private" scope="col" />
+                        <kul:htmlAttributeHeaderCell literalLabel="Final" scope="col" />
+                    </c:if>
                     <kul:htmlAttributeHeaderCell literalLabel="Last Updated By" scope = "col"/>
                     <kul:htmlAttributeHeaderCell literalLabel="Created By" scope = "col"/>
                     <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
@@ -70,6 +72,8 @@
                                                         attributeEntry="${minutesAttributes.minuteEntry}" readOnly = "${readOnly}" />
                        
                     </td>
+                    
+                    <c:if test = "${KualiForm.editingMode['maintainProtocolOnlineReviews'] or readOnly}">                    
                                      
                     <td valign="middle" style="text-align:center">
                         <c:choose>
@@ -94,7 +98,7 @@
                         	</c:otherwise>
                         </c:choose>
                     </td>
-                    
+                    </c:if>
                     <td>&nbsp;</td>
 					<td>&nbsp;</td>
                     <td>
@@ -145,6 +149,7 @@
 	                                </td>
 	                            </c:otherwise>
 	                        </c:choose>
+	                        <c:if test = "${KualiForm.editingMode['maintainProtocolOnlineReviews'] or readOnly}">                    
 	                                                
 			                <td style="text-align:center; vertical-align:middle">
 	                            
@@ -161,7 +166,7 @@
 	                                                      readOnly="${readOnly}" />
 	                            
 	                        </td>
-	                        
+	                        </c:if>
 	                        <td style="text-align:center; vertical-align:middle">
 	                        	<kul:htmlControlAttribute property="${property}.reviewComments[${status.index}].updateUserFullName" 
 	                                                      attributeEntry="${minutesAttributes.updateUser}"
