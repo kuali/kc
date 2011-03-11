@@ -18,8 +18,10 @@ package org.kuali.kra.timeandmoney.web.struts.action;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,14 +57,20 @@ import org.kuali.kra.timeandmoney.transactions.TransactionRuleImpl;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.kns.document.authorization.DocumentPresentationController;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.ParameterConstants;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     
@@ -1099,6 +1107,55 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         forward = new ActionForward(forwardString, true);
         
         return forward;
+    }
+    
+    /**
+     * @see org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase#populateAuthorizationFields(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    // Overriding this because KraTransactionalDocumentActionBase assumes the authorizer is of type KcDocumentAuthorizerBase
+    protected void populateAuthorizationFields(KualiDocumentFormBase formBase) {
+        if (formBase.isFormDocumentInitialized()) {
+            Document document = formBase.getDocument();
+            Person user = GlobalVariables.getUserSession().getPerson();
+            DocumentPresentationController documentPresentationController = KNSServiceLocator.getDocumentHelperService().getDocumentPresentationController(document);
+            DocumentAuthorizer documentAuthorizer = getDocumentHelperService().getDocumentAuthorizer(document);
+            Set<String> documentActions =  documentPresentationController.getDocumentActions(document);
+            documentActions = documentAuthorizer.getDocumentActions(document, user, documentActions);
+
+            if (getDataDictionaryService().getDataDictionary().getDocumentEntry(document.getClass().getName()).getUsePessimisticLocking()) {
+                documentActions = getPessimisticLockService().getDocumentActions(document, user, documentActions);
+            }
+            
+            Set<String> editModes = new HashSet<String>();
+            if (!documentAuthorizer.canOpen(document, user)) {
+                editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
+            } else if (documentActions.contains(KNSConstants.KUALI_ACTION_CAN_EDIT)) {
+                editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
+            } else {
+                editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
+            }
+            Map editMode = this.convertSetToMap(editModes);
+            if (getDataDictionaryService().getDataDictionary().getDocumentEntry(document.getClass().getName()).getUsePessimisticLocking()) {
+                editMode = getPessimisticLockService().establishLocks(document, editMode, user);
+            }
+            
+            // We don't want to use KNS way to determine can edit document overview
+            // It should be the same as can edit
+            if (editMode.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY)) {
+                if (!documentActions.contains(KNSConstants.KUALI_ACTION_CAN_EDIT__DOCUMENT_OVERVIEW)) {
+                    documentActions.add(KNSConstants.KUALI_ACTION_CAN_EDIT__DOCUMENT_OVERVIEW);
+                }
+            } else {
+                if (documentActions.contains(KNSConstants.KUALI_ACTION_CAN_EDIT__DOCUMENT_OVERVIEW)) {
+                    documentActions.remove(KNSConstants.KUALI_ACTION_CAN_EDIT__DOCUMENT_OVERVIEW);
+                }
+            }
+            formBase.setDocumentActions(convertSetToMap(documentActions));
+            formBase.setEditingMode(editMode);
+        }
+        
     }
  
 }
