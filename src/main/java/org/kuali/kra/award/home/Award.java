@@ -216,8 +216,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     
     private transient boolean awardInMultipleNodeHierarchy;
 
-    private transient boolean sponsorIsNih;
-    private transient Map<String, String> nihDescriptions;
+    private transient boolean sponsorNihMultiplePi;
 
     private transient List<AwardHierarchyTempObject> awardHierarchyTempObjects;
 
@@ -424,20 +423,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
 
     /**
-     * @param sponsorIsNih
-     */
-    public void setNih(boolean sponsorIsNih) {
-        this.sponsorIsNih = sponsorIsNih;
-    }
-
-    /**
-     * @param nihDescriptionMap
-     */
-    public void setNihDescription(Map<String, String> nihDescriptionMap) {
-        this.nihDescriptions = nihDescriptionMap;
-    }
-
-    /**
      *
      * @param sponsorCode
      */
@@ -561,6 +546,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         if (this.getPrincipalInvestigator() != null) {
             aList.add(this.getPrincipalInvestigator());
         }
+        aList.addAll(this.getMultiplePis());
         aList.addAll(this.getCoInvestigators());
         aList.addAll(this.getKeyPersons());
         return aList;    
@@ -582,13 +568,13 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
     
     /**
-     * This method returns all PIs and co-PIs.
+     * This method returns all co-PIs.
      * @return
      */
     public List<AwardPerson> getCoInvestigators() {
         List<AwardPerson> coInvestigators = new ArrayList<AwardPerson>();
         for (AwardPerson person: projectPersons) {
-            if (person.isCoInvestigator()) {
+            if (person.isCoInvestigator() && !(isSponsorNihMultiplePi() && person.isMultiplePi())) {
                 coInvestigators.add(person);
             }
         }
@@ -597,7 +583,24 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
     
     /**
-     * This method returns all PIs and co-PIs.
+     * When the sponsor is in the NIH multiple PI hierarchy this will return any multiple pis, otherwise, empty list.
+     * @return
+     */
+    public List<AwardPerson> getMultiplePis() {
+        List<AwardPerson> multiplePis = new ArrayList<AwardPerson>();
+        if (isSponsorNihMultiplePi()) {
+            for (AwardPerson person : projectPersons) {
+                if (person.isCoInvestigator() && person.isMultiplePi()) {
+                    multiplePis.add(person);
+                }
+            }
+            Collections.sort(multiplePis);
+        }
+        return multiplePis;
+    }
+    
+    /**
+     * This method returns all key persons
      * @return
      */
     public List<AwardPerson> getKeyPersons() {
@@ -2803,10 +2806,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         return "2";
     }
 
-    public Map<String, String> getNihDescription() {
-        return nihDescriptions;
-    }
-
     public List getPersonRolodexList() {
         return getProjectPersons();
     }
@@ -2866,8 +2865,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         return getLeadUnit();
     }
 
-    public boolean isNih() {
-        return sponsorIsNih;
+    public boolean isSponsorNihMultiplePi() {
+        return sponsorNihMultiplePi;
     }
 
     public void setBudgetStatus(String budgetStatus) {
@@ -3116,6 +3115,11 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public void setSyncStatuses(List<AwardSyncStatus> syncStatuses) {
         this.syncStatuses = syncStatuses;
     }
+
+    public void setSponsorNihMultiplePi(boolean sponsorNihMultiplePi) {
+        this.sponsorNihMultiplePi = sponsorNihMultiplePi;
+    }
+
     /*
      * Used by Current Report to determine if award in Active, Pending, or Hold state.
      */

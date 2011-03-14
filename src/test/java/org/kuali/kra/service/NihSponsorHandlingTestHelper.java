@@ -36,14 +36,6 @@ class NihSponsorHandlingTestHelper {
         verifyNihMultiplePiSponsorFound(getSponsorHierarchyNodes().get(1));
     }
 
-    public void testNihDescriptionsAssigned() {
-        sponsorable.setNihDescription(kpService.loadKeyPersonnelRoleDescriptions(true));
-        Assert.assertEquals(3, sponsorable.getNihDescription().size());
-        Assert.assertEquals("PI/Contact", sponsorable.getNihDescription().get("PI"));
-        Assert.assertEquals("PI/Multiple", sponsorable.getNihDescription().get("COI"));
-        Assert.assertEquals("Key Person", sponsorable.getNihDescription().get("KP"));
-    }
-
     private void init() {
         prepareSponsorHierarchy();
     }

@@ -63,11 +63,6 @@ public class NihSponsorHandlingUnitTest {
       helper.testIsSponsorNihMultiplePi_DevelopmentProposal_SponsorAdded();
     }
 
-    @Test
-    public void testNIHDescriptionsAssigned() {
-        helper.testNihDescriptionsAssigned();
-    }
-
     private List<ProposalPersonRole> defineRoles() {
         List<ProposalPersonRole> roles = new ArrayList<ProposalPersonRole>();
         ProposalPersonRole role = new ProposalPersonRole();

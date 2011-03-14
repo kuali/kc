@@ -23,13 +23,18 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.impl.KeyPersonnelServiceImpl;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -45,12 +50,21 @@ public class KeyPersonnelServiceTest extends KcUnitTestBase {
     private ProposalDevelopmentDocument document;
     private ProposalDevelopmentDocument blankDocument;
     private DocumentService documentService = null;
+    private ParameterService parameterService;
+    
+    protected static final String NIH_SPONSOR_CODE = "000340";
+    protected static final String NON_NIH_SPONSOR_CODE = "000500";
+    
+    protected static final String COI_ROLE_ID = "COI";
+    protected static final String NIH_COI_PARAM = "personrole.nih.coi";
+    protected static final String NIH_MPI_PARAM = "personrole.nih.coi.mpi";
     
     @Before
     public void setUp() throws Exception {
         super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         documentService = KNSServiceLocator.getDocumentService();
+        parameterService = KraServiceLocator.getService(ParameterService.class);
         document = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
         blankDocument =(ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
     }
@@ -136,6 +150,40 @@ public class KeyPersonnelServiceTest extends KcUnitTestBase {
         }
     }
     
+    @Test
+    public void testPersonnelRoleDescCoi() {
+        document.getDevelopmentProposal().setSponsorCode(NON_NIH_SPONSOR_CODE);
+        ProposalPerson person = new ProposalPerson();
+        person.setProposalPersonRoleId(COI_ROLE_ID);
+        //setting to true as it should be ignored for non-nih sponsors
+        person.setMultiplePi(true);
+        person.setDevelopmentProposal(document.getDevelopmentProposal());
+        assertEquals(getBusinessObjectService().findBySinglePrimaryKey(ProposalPersonRole.class, COI_ROLE_ID).getRoleDescription(), 
+                getKeyPersonnelService().getPersonnelRoleDesc(person));        
+    }
+    
+    
+    @Test
+    public void testPersonnelRoleDescCoiNih() {
+        document.getDevelopmentProposal().setSponsorCode(NIH_SPONSOR_CODE);
+        ProposalPerson person = new ProposalPerson();
+        person.setProposalPersonRoleId(COI_ROLE_ID);
+        person.setDevelopmentProposal(document.getDevelopmentProposal());
+        assertEquals(parameterService.getParameterValue(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, NIH_COI_PARAM), 
+                getKeyPersonnelService().getPersonnelRoleDesc(person));        
+    }
+    
+    @Test
+    public void testPersonnelRoleDescMpi() {
+        document.getDevelopmentProposal().setSponsorCode(NIH_SPONSOR_CODE);
+        ProposalPerson person = new ProposalPerson();
+        person.setProposalPersonRoleId(COI_ROLE_ID);
+        person.setMultiplePi(true);
+        person.setDevelopmentProposal(document.getDevelopmentProposal());
+        assertEquals(parameterService.getParameterValue(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, NIH_MPI_PARAM), 
+                getKeyPersonnelService().getPersonnelRoleDesc(person));        
+    }
+    
     
     /**
      * Locate the <code>{@link KeyPersonnelService}</code>
@@ -143,8 +191,8 @@ public class KeyPersonnelServiceTest extends KcUnitTestBase {
      * @return KeyPersonnelService
      * @see KraTestBase#getService(Class)
      */
-    private KeyPersonnelService getKeyPersonnelService() {
-        return getService(KeyPersonnelService.class);
+    private KeyPersonnelServiceImpl getKeyPersonnelService() {
+        return (KeyPersonnelServiceImpl) KraServiceLocator.getService(KeyPersonnelService.class);
     }
 
 }

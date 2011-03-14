@@ -14,6 +14,9 @@
  limitations under the License.
 --%>
 <script src="scripts/jquery/jquery.js"></script>
+<script>
+  $jq = jQuery.noConflict();
+</script>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ page import="java.util.HashMap" %>
 
@@ -62,29 +65,44 @@
                 <th class="grid"><div align="right">*Proposal Role:</div></th>
                 <td class="grid" >
 <c:set var="roleIdAttribute" value="${proposalPersonAttributes.proposalPersonRoleId}" />
-<c:if test="${KualiForm.document.developmentProposalList[0].nih}">
+<c:if test="${KualiForm.document.developmentProposalList[0].sponsorNihMultiplePi}">
   <c:set var="roleIdAttribute" value="${proposalPersonAttributes.nonNihProposalPersonRoleId}" />
 </c:if>
-                  <kul:htmlControlAttribute property="newProposalPerson.proposalPersonRoleId" attributeEntry="${proposalPersonAttributes.proposalPersonRoleId}" 
-                    onchange="proposalRoleChange(this);"/>
+                  <kul:htmlControlAttribute property="newProposalPerson.proposalPersonRoleId" attributeEntry="${proposalPersonAttributes.proposalPersonRoleId}" />
                 </td>
                 <th class="grid" id="projectRoleHeader"><div align="right">*Key Person Role<div id="projectRoleRequiredDesc">(Only for Key Persons)</div>:</div></th>
                 <td class="grid" id="projectRoleField">
                   <kul:htmlControlAttribute property="newProposalPerson.projectRole" attributeEntry="${proposalPersonAttributes.projectRole}"/>
                 </td>
+                <c:if test="${KualiForm.document.developmentProposalList[0].sponsorNihMultiplePi}">
+                <th class="grid" id="multiPiHeader"><div align="right">Multiple PI:</div></th>
+                <td class="grid" id="multiPiField">
+                  <kul:htmlControlAttribute property="newProposalPerson.multiplePi" attributeEntry="${proposalPersonAttributes.multiplePi}"/>
+                </td>
+                </c:if>
                 <script type="text/javascript">
                   function proposalRoleChange(formItem) {
-                      if ( $(formItem).val() == 'KP' ) {
-                          $('#projectRoleHeader').show();
-                          $('#projectRoleField').show();
+                      if ( $jq(formItem).val() == 'KP' ) {
+                          $jq('#projectRoleHeader').show();
+                          $jq('#projectRoleField').show();
                       } else {
-                          $('#projectRoleHeader').hide();
-                          $('#projectRoleField').hide();
+                          $jq('#projectRoleHeader').hide();
+                          $jq('#projectRoleField').hide();
+                      }
+                      if ( $jq(formItem).val() == 'COI' ) {
+                          $jq('#multiPiHeader').show();
+                          $jq('#multiPiField').show();
+                      } else {
+                          $jq('#multiPiHeader').hide();
+                          $jq('#multiPiField').hide();
                       }
                   }
-                  $(document).ready(function() {
-                      proposalRoleChange('#newProposalPerson\\.proposalPersonRoleId');
-                      $('#projectRoleRequiredDesc').hide();
+                  $jq(document).ready(function() {
+                      proposalRoleChange($jq(jq('newProposalPerson.proposalPersonRoleId')));
+                      $jq('#projectRoleRequiredDesc').hide();
+                      $jq(jq('newProposalPerson.proposalPersonRoleId')).change(function() {
+                          proposalRoleChange(this);
+                      });
                   });
                 </script>
               </tr>

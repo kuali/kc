@@ -187,6 +187,7 @@ public class AwardAction extends BudgetParentActionBase {
                    awardDocument.setDocOpenedFromAwardSearch(true);
                }
         }
+        
         return forward;
     }
 
@@ -711,11 +712,6 @@ public class AwardAction extends BudgetParentActionBase {
         
         award.initCentralAdminContacts();
 
-        if (sponsorService.isSponsorNihMultiplePi(award)) {
-            award.setNihDescription(getKeyPersonnelService().loadKeyPersonnelRoleDescriptions(true));
-        } else {
-            award.setNihDescription(null);
-        }
         return mapping.findForward(Constants.MAPPING_AWARD_CONTACTS_PAGE);
     }
 
@@ -1220,6 +1216,12 @@ public class AwardAction extends BudgetParentActionBase {
         }
         
         return forward;
+    }
+    
+    protected void loadDocument(KualiDocumentFormBase kualiForm) throws WorkflowException {
+        super.loadDocument(kualiForm);
+        Award award = ((AwardForm) kualiForm).getAwardDocument().getAward();
+        award.setSponsorNihMultiplePi(getSponsorService().isSponsorNihMultiplePi(award));
     }
    
    /**
