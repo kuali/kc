@@ -86,32 +86,6 @@
            		</td>
            		<kra-b:swapProposalDevelopmentEditModes/>
         	</tr>
-        		<%--
-			        	<tr>
-							<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.budgetStatus}" /></div></th>
-			                <td>
-			                	<html:hidden name="KualiForm" property="document.budget.budgetStatus" disabled="true" />
-			                	<kul:htmlControlAttribute property="document.budget.budgetStatus" readOnly="${readOnly}" attributeEntry="${proposalDevelopmentAttributes.budgetStatus}"  styleClass="fixed-size-200-select"/>
-			                </td>
-			           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.residualFunds}" /></div></th>
-			           		<td>
-			           			<kul:htmlControlAttribute property="document.budget.residualFunds" attributeEntry="${budgetAttributes.residualFunds}" styleClass="amount"/>
-			           		</td>
-			        	</tr>
-			     		<tr>
-			     		    <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.finalVersionFlag}" noColon="true" /></div></th>
-			           		<td>
-			           			<kul:htmlControlAttribute property="document.budget.finalVersionFlag" attributeEntry="${budgetAttributes.finalVersionFlag}" onclick="javascript: confirmFinalizeVersion(document, ${KualiForm.document.budget.parentDocument.numberOfVersions})" />
-			           			<html:hidden name="KualiForm" property="document.budget.finalVersionFlag" disabled="true" />
-			           		</td>
-			           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.urRateClassCode}" /></div></th>
-			                <td>
-			                	<kul:htmlControlAttribute property="document.budget.urRateClassCode" readOnly="${readOnly}" attributeEntry="${budgetAttributes.urRateClassCode}"  styleClass="fixed-size-200-select"/>
-			                	<input type="hidden" name="urRateClassCodePrevValue" value="${KualiForm.document.budget.urRateClassCode}">
-			                </td>
-			     		</tr>
-			     		
-			     	--%>
 			<tr>
 				<kra-b:swapProposalDevelopmentEditModes/>
      			<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.budgetStatus}" /></div></th>
