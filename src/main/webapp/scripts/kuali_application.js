@@ -1572,32 +1572,6 @@ function setupVersionsPage(document) {
 	}
 }
 
-function confirmFinalizeVersion(document, numVersions) {
-	for (var i = 0; i < document.KualiForm.elements.length; i++) {
-		var e = document.KualiForm.elements[i];
-		if (e.name == 'document.finalVersionFlag') {
-			if (e.checked == true) {
-				for (var j = 0; j < numVersions; j++) {
-	  				var finalVersionFlag = document.getElementById('finalVersionFlag' + j);
-	  				if (finalVersionFlag != null && finalVersionFlag.value == 'Yes') {
-	  					if (confirm("You are changing the final version.  Are you sure?")) {
-	  						var updateFinalVersion = document.getElementById('updateFinalVersion');
-	  						updateFinalVersion.value = 'Yes';
-	  					} else {
-	  						e.checked = false;
-	  					}
-	  				}
-				}
-			} else {
-				var updateFinalVersion = document.getElementById('updateFinalVersion');
-	  			updateFinalVersion.value = 'No';
-			}
-		}
-	}
-	
-}
-
-
 function selectAllBudgetForms(document) {
     var j = 0;
 	for (var i = 0; i < document.KualiForm.elements.length; i++) {
