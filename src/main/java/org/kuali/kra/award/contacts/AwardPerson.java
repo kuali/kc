@@ -25,7 +25,10 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.personnel.PersonRolodex;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
+import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
+import org.kuali.kra.service.Sponsorable;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -48,6 +51,8 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     @AwardSyncableProperty
     private List<AwardPersonUnit> units;
     private List<AwardPersonCreditSplit> creditSplits;
+    @AwardSyncableProperty
+    private boolean multiplePi;
     
     public AwardPerson() {
         super();
@@ -331,5 +336,17 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
         } else {
             return this.getPerson().getFirstName().compareTo(o.getPerson().getFirstName());
         }
+    }
+    public boolean isMultiplePi() {
+        return multiplePi;
+    }
+    public void setMultiplePi(boolean multiplePi) {
+        this.multiplePi = multiplePi;
+    }
+    public Sponsorable getParent() {
+        return getAward();
+    }
+    public String getInvestigatorRoleDescription() {
+        return KraServiceLocator.getService(KeyPersonnelService.class).getPersonnelRoleDesc(this);
     }
 }

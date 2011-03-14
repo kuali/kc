@@ -367,6 +367,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
             //  ipForm.getInstitutionalProposalDocument().getInstitutionalProposal().doProposalLogDataFeed(proposalLog);
             getProposalLogService().promoteProposalLog(proposalLog.getProposalNumber());
         }
+        ip.setSponsorNihMultiplePi(getSponsorService().isSponsorNihMultiplePi(ip));
         return forward;
     }
 

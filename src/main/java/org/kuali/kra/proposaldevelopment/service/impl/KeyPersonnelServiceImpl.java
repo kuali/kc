@@ -29,12 +29,14 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.PersonDegree;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.Ynq;
+import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
@@ -54,6 +56,7 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.YnqService;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -76,7 +79,8 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     private BusinessObjectService businessObjectService;
     private NarrativeService narrativeService;
     private YnqService ynqService;
-    private ParameterService parameterService;    
+    private ParameterService parameterService;
+    private SponsorService sponsorService;
 
     /**
      * Part of a complete breakfast, it has everything you need to populate Key Personnel into a <code>{@link ProposalDevelopmentDocument}</code>
@@ -200,6 +204,9 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
             }
             populateCreditTypes(person);
 
+            if (!this.isCoInvestigator(person)) {
+                person.setMultiplePi(false);
+            }
         }
 
         person.refreshReferenceObject("role");
@@ -758,7 +765,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         if (sponsor != null && sponsor.getAcronym() != null && isSponsorNihMultiplePi(document)) {
             parameterName = "personrole.nih.pi";
         }
-        return this.parameterService.getParameterValue(KC_GENERIC_PARAMETER_NAMESPACE, KC_ALL_PARAMETER_DETAIL_TYPE_CODE, parameterName);
+        return getRoleDescriptionParameterValue(parameterName);
     }
     
     public boolean isSponsorNihMultiplePi(ProposalDevelopmentDocument document){
@@ -779,20 +786,41 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     }
 
     protected SponsorService getSponsorService() {
-        return KraServiceLocator.getService(SponsorService.class);
+        return sponsorService;
     }
 
-    protected String findRoleDescription(ProposalPersonRole role, boolean sponsorIsNih) {
+    protected String findRoleDescription(ContactRole role, boolean sponsorIsNih) {
         String parmName = createRoleDescriptionParameterName(role, sponsorIsNih ? NIH_PARM_KEY : "");
-        return parameterService.getParameterValue(KC_GENERIC_PARAMETER_NAMESPACE, KC_ALL_PARAMETER_DETAIL_TYPE_CODE, parmName);
+        return getRoleDescriptionParameterValue(parmName);
+    }
+    
+    protected String getRoleDescriptionParameterValue(String parmName) {
+        return parameterService.getParameterValue(KC_GENERIC_PARAMETER_NAMESPACE, KC_ALL_PARAMETER_DETAIL_TYPE_CODE, parmName);        
     }
 
-    protected String createRoleDescriptionParameterName(ProposalPersonRole role, String nihToken) {
-        return String.format("%s%s%s", PERSON_ROLE_PARAMETER_PREFIX, nihToken, role.getProposalPersonRoleId().toLowerCase());
+    protected String createRoleDescriptionParameterName(ContactRole role, String nihToken) {
+        return String.format("%s%s%s", PERSON_ROLE_PARAMETER_PREFIX, nihToken, role.getRoleCode().toLowerCase());
     }
     
     protected boolean hasBeenRoutedOrCanceled(ProposalDevelopmentDocument document) {
         KualiWorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
         return !workflowDoc.stateIsInitiated() && !workflowDoc.stateIsSaved();
+    }
+    
+    public String getPersonnelRoleDesc(PersonRolodex person) {
+        if (getSponsorService().isSponsorNihMultiplePi(person.getParent())) {
+            String parmName = createRoleDescriptionParameterName(person.getContactRole(), NIH_PARM_KEY);
+            if (StringUtils.equals(person.getContactRole().getRoleCode(), ContactRole.COI_CODE)
+                    && person.isMultiplePi()) {
+                parmName += ".mpi";
+            }
+            return getRoleDescriptionParameterValue(parmName);
+        } else {
+            return person.getContactRole().getRoleDescription();
+        }
+    }
+    
+    public void setSponsorService(SponsorService sponsorService) {
+        this.sponsorService = sponsorService;
     }
 }

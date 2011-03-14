@@ -591,6 +591,7 @@
         <field-descriptor name="optInCertificationStatus" column="OPT_IN_CERTIFICATION_STATUS" jdbc-type="CHAR" />
         <field-descriptor name="projectRole" column="PROJECT_ROLE" jdbc-type="VARCHAR" />
         <field-descriptor name="ordinalPosition" column="ORDINAL_POSITION" jdbc-type="INTEGER" />
+        <field-descriptor name="multiplePi" column="MULTIPLE_PI" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
          
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
@@ -628,6 +629,9 @@
 		</reference-descriptor>
 		<field-descriptor name="hierarchyProposalNumber" column="HIERARCHY_PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="hiddenInHierarchy" column="HIDE_IN_HIERARCHY" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+   	    <reference-descriptor name="developmentProposal" class-ref="org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal" auto-retrieve="true" auto-update="none" auto-delete="none">
+		   <foreignkey field-ref="proposalNumber" />
+	    </reference-descriptor>		
     </class-descriptor>
 
     <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalInvestigatorCertification" table="PROPOSAL_INV_CERTIFICATION">

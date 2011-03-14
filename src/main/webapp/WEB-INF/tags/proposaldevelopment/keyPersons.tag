@@ -52,35 +52,16 @@
 
 	<kul:checkErrors keyMatch="document.developmentProposalList[0].proposalPersons[${status.index}]*,newProposalPersonDegree[${status.index}]*" auditMatch="document.developmentProposalList[0].proposalPersons[${status.index}]*"/>
 	<c:set var="isOpen" value="${hasErrors ? true : isOpen}"/>
-	<c:choose>
-		<c:when test="${KualiForm.document.developmentProposalList[0].nih}">
-			<c:set var="nihdescription" value="${KualiForm.document.developmentProposalList[0].nihDescription}" />
-			<c:set var="desc" value="${nihdescription[person.role.proposalPersonRoleId]}" />
 			
-			<kul:tab tabTitle="${fn:substring(person.fullName, 0, 22)}"
-		         tabDescription="${desc}${extraButtonSource}"
-		         leftSideHtmlProperty="${proposalPersonProperty}.delete" 
-		         leftSideHtmlAttribute="${proposalPersonAttributes.delete}" 
-		     	 leftSideHtmlDisabled="false"
-		         defaultOpen="${hasErrors}" 
-		         transparentBackground="${transparent}"> 
-		         <kra-pd:person proposalPerson="${proposalPersonProperty}" personIndex="${status.index}"/>
-		     </kul:tab>
-	     </c:when>
-     	<c:otherwise>
-     	<c:set var="descri" value="${person.role.description}" />
-			<kul:tab tabTitle="${fn:substring(person.fullName, 0, 22)}"
-			         tabDescription="${descri}${extraButtonSource}"
-			         leftSideHtmlProperty="${proposalPersonProperty}.delete" 
-			         leftSideHtmlAttribute="${proposalPersonAttributes.delete}" 
-			     	 leftSideHtmlDisabled="false" 
-			          defaultOpen="${hasErrors}" 
-			         transparentBackground="${transparent}"> 
-			   
-			    <kra-pd:person proposalPerson="${proposalPersonProperty}" personIndex="${status.index}"/>
-			</kul:tab>
-		</c:otherwise>
-      </c:choose>
+	<kul:tab tabTitle="${fn:substring(person.fullName, 0, 22)}"
+         tabDescription="${person.investigatorRoleDescription}${extraButtonSource}"
+         leftSideHtmlProperty="${proposalPersonProperty}.delete" 
+         leftSideHtmlAttribute="${proposalPersonAttributes.delete}" 
+     	 leftSideHtmlDisabled="false"
+         defaultOpen="${hasErrors}" 
+         transparentBackground="${transparent}"> 
+         <kra-pd:person proposalPerson="${proposalPersonProperty}" personIndex="${status.index}"/>
+     </kul:tab>
  </c:forEach>
 
 <c:if test="${not empty KualiForm.creditSplitEnabled and KualiForm.creditSplitEnabled}">

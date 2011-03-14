@@ -16,6 +16,7 @@
 <%@ include file="/WEB-INF/jsp/proposaldevelopment/proposalPerson.jsp"%>
 <c:set var="readOnly" value="${not KualiForm.editingMode['modifyProposal']}" scope="request" /> 
 <c:set var="keypersonrole" value="<%=org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE%>" />
+<c:set var="coirole" value="<%=org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE%>" />
 <c:choose>
 <c:when test="${empty KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].fullName}">
 <c:set var="parentTabName" value="" />
@@ -224,7 +225,8 @@
                                                 readOnly="${!personEditableFields['facultyFlag']}" />
                     </label></td>
                   </tr>
-     <c:if test="${KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].proposalPersonRoleId == keypersonrole}">
+     <c:choose>
+       <c:when test="${KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].proposalPersonRoleId == keypersonrole}">
     
                   <tr>
                   <th align="left" nowrap="nowrap" width="15%"> <div align="right">*<kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.projectRole}"  /></div></th>
@@ -245,7 +247,18 @@
          </c:if>
           
            </tr>
-       </c:if>                  
+       </c:when>
+       <c:when test="${KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].proposalPersonRoleId == coirole && KualiForm.document.developmentProposal.sponsorNihMultiplePi}">
+                  <tr>
+                  <th align="left" nowrap="nowrap" width="15%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.multiplePi}"  /></div></th>
+                    <td align="left" colspan="3"><kul:htmlControlAttribute property="${proposalPerson}.multiplePi" 
+                                                                     attributeEntry="${proposalPersonAttributes.multiplePi}" 
+                                                                       readOnly="${!personEditableFields['multiplePi'] }" />
+                    </td>
+                  </tr>
+                         
+	   </c:when>
+	 </c:choose>
                   <tr>
                     <th colspan="4">Education</th>
                   </tr>

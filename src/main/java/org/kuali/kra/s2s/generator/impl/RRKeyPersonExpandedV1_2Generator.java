@@ -51,6 +51,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonComparator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.kra.service.SponsorService;
 
 /**
  * This class generates RRKeyPersonExpanded xml object. It uses xmlbeans for
@@ -385,13 +386,17 @@ public class RRKeyPersonExpandedV1_2Generator extends
 		if (keyPerson.getEraCommonsUserName() != null) {
 			profileKeyPerson.setCredential(keyPerson.getEraCommonsUserName());
 		}
-		if (keyPerson.getProposalPersonRoleId().equals(CO_INVESTIGATOR)) {
-			if(NIH.equals(pdDoc.getDevelopmentProposal().getSponsorName())){
-				profileKeyPerson.setProjectRole(ProjectRoleDataType.PD_PI);
-			}else{
-				profileKeyPerson.setProjectRole(ProjectRoleDataType.CO_PD_PI);
-			}
-		} else {
+        if (keyPerson.getProposalPersonRoleId().equals(CO_INVESTIGATOR)) {
+            if(KraServiceLocator.getService(SponsorService.class).isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal())){
+                if (keyPerson.isMultiplePi()) {
+                    profileKeyPerson.setProjectRole(ProjectRoleDataType.PD_PI);
+                } else {
+                    profileKeyPerson.setProjectRole(ProjectRoleDataType.CO_PD_PI);
+                }
+            }else{
+                profileKeyPerson.setProjectRole(ProjectRoleDataType.CO_PD_PI);
+            }
+        } else {
 			setProjectRoleCategoryToProfile(keyPerson, profileKeyPerson);
 		}
 	}

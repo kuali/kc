@@ -22,12 +22,15 @@ import java.util.List;
 import java.sql.Date;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.service.Sponsorable;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -41,6 +44,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class ProposalPerson extends KraPersistableBusinessObjectBase implements CreditSplitable, PersonRolodex {
     private static final long serialVersionUID = -4110005875629288373L;
 
+    private DevelopmentProposal developmentProposal;
     private boolean conflictOfInterestFlag;
     private boolean otherSignificantContributorFlag;
     private KualiDecimal percentageEffort;
@@ -65,6 +69,8 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     private boolean unitdelete;
     private String projectRole;
     private Integer ordinalPosition;
+    
+    private boolean multiplePi;
 
     private String hierarchyProposalNumber;
     private boolean hiddenInHierarchy;
@@ -650,31 +656,38 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
+        }
 
         // Assume if obj is a String, then it must represent the PERSON_ID or ROLODEX_ID
         if (obj instanceof String) {
             return (obj.equals(getPersonId()) || obj.equals(getRolodexId()));
         }
         
-        if (getClass() != obj.getClass())
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         ProposalPerson other = (ProposalPerson) obj;
         if (personId == null) {
-            if (other.personId != null)
+            if (other.personId != null) {
                 return false;
+            }
         }
-        else if (!personId.equals(other.personId))
+        else if (!personId.equals(other.personId)) {
             return false;
+        }
         if (rolodexId == null) {
-            if (other.rolodexId != null)
+            if (other.rolodexId != null) {
                 return false;
+            }
         }
-        else if (!rolodexId.equals(other.rolodexId))
+        else if (!rolodexId.equals(other.rolodexId)) {
             return false;
+        }
         return true;
     }
 
@@ -2037,5 +2050,32 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
      */
     public void setHiddenInHierarchy(boolean hiddenInHierarchy) {
         this.hiddenInHierarchy = hiddenInHierarchy;
+    }
+
+    public ContactRole getContactRole() {
+        return getRole();
+    }
+
+    public boolean isMultiplePi() {
+        return multiplePi;
+    }
+
+    public void setMultiplePi(boolean multiplePi) {
+        this.multiplePi = multiplePi;
+    }
+
+    public DevelopmentProposal getDevelopmentProposal() {
+        return developmentProposal;
+    }
+
+    public void setDevelopmentProposal(DevelopmentProposal developmentProposal) {
+        this.developmentProposal = developmentProposal;
+    }
+
+    public Sponsorable getParent() {
+        return getDevelopmentProposal();
+    }
+    public String getInvestigatorRoleDescription() {
+        return KraServiceLocator.getService(KeyPersonnelService.class).getPersonnelRoleDesc(this);
     }
 }

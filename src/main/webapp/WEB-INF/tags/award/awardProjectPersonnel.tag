@@ -15,10 +15,14 @@
 --%>
 <%-- member of AwardContacts.jsp --%>
 <script src="scripts/jquery/jquery.js"></script>
+<script>
+ $jq = jQuery.noConflict();
+</script>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="awardPersonAttributes" value="${DataDictionary.AwardPerson.attributes}" />
 <c:set var="keyPersonRoleConstant" value="<%=org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE%>" />
+<c:set var="coiRoleConstant" value="<%=org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE%>" />
 
 <%-- kra:section permission="modifyAward" --%>
 <kul:tab tabTitle="Key Personnel and Credit Split" tabItemCount="${KualiForm.projectPersonnelBean.projectPersonnelCount}" defaultOpen="false" 
@@ -82,27 +86,44 @@
                         ${KualiForm.valueFinderResultDoNotCache}
     	        		<div align="center">
     		        		<kul:htmlControlAttribute property="projectPersonnelBean.contactRoleCode" 
-    	                									attributeEntry="${awardPersonAttributes.contactRoleCode}" onchange="proposalRoleChange(this, 'normal');"/><br/>
+    	                									attributeEntry="${awardPersonAttributes.contactRoleCode}" onchange="proposalRoleChange(this, 400);"/><br/>
     	                	<span class="keypersononly">
     					    *<kul:htmlAttributeLabel attributeEntry="${awardPersonAttributes.keyPersonRole}" useShortLabel="true" noColon="false" />
     					    <span class="noscriptonly">(Required for Key Persons only)</span> 
     				         <kul:htmlControlAttribute property="projectPersonnelBean.newAwardContact.keyPersonRole" 
     										           attributeEntry="${awardPersonAttributes.keyPersonRole}"/>
     					    </span>
+    					    <c:if test="${KualiForm.document.awardList[0].sponsorNihMultiplePi}">
+    					    <span class="coionly">
+    					    <kul:htmlAttributeLabel attributeEntry="${awardPersonAttributes.multiplePi}" noColon="false" />
+    				         <kul:htmlControlAttribute property="projectPersonnelBean.newAwardContact.multiplePi" 
+    										           attributeEntry="${awardPersonAttributes.multiplePi}"/>    					    
+    					    </span>
+    					    </c:if>
                         <script type="text/javascript">
                           function proposalRoleChange(formItem, speed) {
-                              if ( $(formItem).val() == 'KP' ) {
-                                  $('.keypersononly').slideDown(speed);
+                              if ($jq(formItem).val() == '${keyPersonRoleConstant}') {
+                                  $jq(formItem).siblings('.keypersononly').slideDown(speed);
                               } else {
-                                  $('.keypersononly').slideUp(speed);
+                            	  $jq(formItem).siblings('.keypersononly').slideUp(speed);
+                              }
+                              if ($jq(formItem).val() == '${coiRoleConstant}') {
+                            	  $jq(formItem).siblings('.coionly').slideDown(speed);
+                              } else {
+                            	  $jq(formItem).siblings('.coionly').slideUp(speed);
                               }
                           }
-                          $(document).ready(function() {
-                              proposalRoleChange('#projectPersonnelBean\\.contactRoleCode', 'now');
-                              $('.noscriptonly').hide();
+                          $jq(document).ready(function() {
+                        	  $jq('.noscriptonly').hide();
+                              $jq('.keypersononly').hide();
+                              $jq('.coionly').hide();
+                              $jq(document).find("[id$='contactRoleCode']").each(function() {
+                              	proposalRoleChange(this, 0);
+                              });
                           });
                         </script>
                         ${KualiForm.valueFinderResultCache}
+                        </div>
     	        	</td>
     	        	<td class="infoline">
     	        		<div align="center">
@@ -159,36 +180,21 @@
     	                	${KualiForm.valueFinderResultDoNotCache}
     	                	<div align="center">
     	                	 	<kul:htmlControlAttribute property="projectPersonnelBean.projectPersonnel[${awardContactRowStatus.index}].contactRoleCode" 
-    	                			attributeEntry="${awardPersonAttributes.contactRoleCode}" onchange="existingRoleChange(this, 'normal', ${awardContactRowStatus.index});"/><br/>
+    	                			attributeEntry="${awardPersonAttributes.contactRoleCode}" onchange="proposalRoleChange(this, 400);"/><br/>
 	
-    	                		<c:set var="classNameScript" value="keyPeson${awardContactRowStatus.index}" />
-   	                			<span class="${classNameScript}">
+   	                			<span class="keypersononly">
 	    					    	*<kul:htmlAttributeLabel attributeEntry="${awardPersonAttributes.keyPersonRole}" useShortLabel="true" noColon="false" />
 		    					    <span class="noscriptonly">(Required for Key Persons only)</span> 
 		    				        <kul:htmlControlAttribute property="projectPersonnelBean.projectPersonnel[${awardContactRowStatus.index}].keyPersonRole" 
 		    										           attributeEntry="${awardPersonAttributes.keyPersonRole}"/>
 	    					    </span>
-	    					    <c:if test="${KualiForm.document.awardList[0].projectPersons[awardContactRowStatus.index].contactRole.roleCode != keyPersonRoleConstant}">
-	    					    	<script type="text/javascript">
-		    					    	var scriptSpanName1='<c:out value=".${classNameScript}" />';
-		    					    	$(scriptSpanName1).slideUp('normal');
-	    					    	</script>
+	    					    <c:if test="${KualiForm.document.awardList[0].sponsorNihMultiplePi}">
+	    					    <span class="coionly">
+	    					    	<kul:htmlAttributeLabel attributeEntry="${awardPersonAttributes.multiplePi}" noColon="false" />
+		    				        <kul:htmlControlAttribute property="projectPersonnelBean.projectPersonnel[${awardContactRowStatus.index}].multiplePi" 
+		    										           attributeEntry="${awardPersonAttributes.multiplePi}"/>	    					    
+	    					    </span>
 	    					    </c:if>
-    	                		<script type="text/javascript">
-		                          function existingRoleChange(formItem, speed, indexOfContact) {
-			                          var scriptSpanName='.keyPeson' + indexOfContact;
-		                              if ( $(formItem).val() == 'KP' ) {
-		                                  $(scriptSpanName).slideDown(speed);
-		                              } else {
-		                                  $(scriptSpanName).slideUp(speed);
-		                              }
-		                          }
-		                          $(document).ready(function() {
-		                        	  existingRoleChange('#projectPersonnelBean\\.projectPersonnel[${awardContactRowStatus.index}]\\.contactRoleCode', 'now');
-		                              $('.noscriptonly').hide();
-		                          });
-		                        </script>
-
     	                	</div>
     	                	${KualiForm.valueFinderResultCache}
     	                	 
