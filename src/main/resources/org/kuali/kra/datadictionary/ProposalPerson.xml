@@ -78,6 +78,7 @@
         <ref bean="ProposalPerson-fedrDebrFlag" />
         <ref bean="ProposalPerson-fedrDelqFlag" />
         <ref bean="ProposalPerson-projectRole" />
+        <ref bean="ProposalPerson-multiplePi" />
         <ref bean="ProposalPerson-eraCommonsUserName" />
         <ref bean="ProposalPerson-city" />
         <ref bean="ProposalPerson-county" />
@@ -450,6 +451,15 @@
     <property name="summary" value="Key Person Role" />
     <property name="description" value="Key Person Role" />
   </bean>
+  <bean id="ProposalPerson-multiplePi" parent="ProposalPerson-multiplePi-parentBean" />
+
+  <bean id="ProposalPerson-multiplePi-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="multiplePi" />
+    <property name="label" value="Multiple PI" />
+    <property name="shortLabel" value="MultiPI" />
+    <property name="summary" value="Multiple PI" />
+    <property name="description" value="Multiple PI" />
+  </bean>  
   <bean id="ProposalPerson-eraCommonsUserName" parent="ProposalPerson-eraCommonsUserName-parentBean" />
 
   <bean id="ProposalPerson-eraCommonsUserName-parentBean" abstract="true" parent="KcPerson-eraCommonsUserName">

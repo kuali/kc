@@ -20,6 +20,7 @@
 <%@ attribute name="institutionalProposalContact" required="true" type="org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson" %>
 <%@ attribute name="institutionalProposalContactRowStatusIndex" required="true" %>
 <c:set var="keypersonrole" value="<%=org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE%>" />
+<c:set var="coirole" value="<%=org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE%>" />
 
 <c:set var="institutionalProposalPersonAttributes" value="${DataDictionary.InstitutionalProposalPerson.attributes}" />
 
@@ -77,7 +78,19 @@
 				<kul:htmlControlAttribute property="document.institutionalProposalList[0].projectPersons[${institutionalProposalContactRowStatusIndex}].keyPersonRole" 
 										attributeEntry="${institutionalProposalPersonAttributes.keyPersonRole}"/>		    
 		    </td>
-		   </c:when><c:otherwise>
+		   </c:when>
+		   <c:when test="${KualiForm.document.institutionalProposalList[0].projectPersons[institutionalProposalContactRowStatusIndex].contactRole.roleCode == coirole && KualiForm.document.institutionalProposalList[0].sponsorNihMultiplePi}">
+		    <th class="infoline">
+		    	<div align="right">
+					<kul:htmlAttributeLabel attributeEntry="${institutionalProposalPersonAttributes.multiplePi}" noColon="false" />
+				</div>
+		    </th> 
+		    <td>
+				<kul:htmlControlAttribute property="document.institutionalProposalList[0].projectPersons[${institutionalProposalContactRowStatusIndex}].multiplePi" 
+										attributeEntry="${institutionalProposalPersonAttributes.multiplePi}"/>		    
+		    </td>
+		   </c:when>		   
+		   <c:otherwise>
 			<th class="infoline">&nbsp;</th>
 			<td>&nbsp;</td>
 		   </c:otherwise>

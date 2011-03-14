@@ -29,10 +29,13 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalLockService;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
@@ -329,9 +332,24 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
         
         if (Constants.MAPPING_INSTITUTIONAL_PROPOSAL_ACTIONS_PAGE.equals(command)) {
             forward = institutionalProposalActions(mapping, form, request, response);
-        }
-        
+        }  
+       
         return forward;
+    }
+    
+    /**
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#loadDocument(KualiDocumentFormBase)
+     */
+    @Override
+    protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        super.loadDocument(kualiDocumentFormBase);
+        InstitutionalProposal proposal = ((InstitutionalProposalForm) kualiDocumentFormBase).getInstitutionalProposalDocument().getInstitutionalProposal();
+        proposal.setSponsorNihMultiplePi(getSponsorService().isSponsorNihMultiplePi(proposal));
+        //work around to make sure project person reference to inst prop is to the same instance as the document has
+        //without this the references were different causing issues when the sponsor was changed.
+        if (!proposal.getProjectPersons().isEmpty()) {
+            proposal.getProjectPersons().get(0);
+        }
     }
 
     
@@ -378,6 +396,10 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
     @Override
     protected PessimisticLockService getPessimisticLockService() {
         return KraServiceLocator.getService(InstitutionalProposalLockService.class);
+    }
+    
+    protected SponsorService getSponsorService() {
+        return KraServiceLocator.getService(SponsorService.class);
     }
     
 }

@@ -42,7 +42,7 @@ public class AwardPersonProjectRolesValuesFinder extends AwardContactsProjectRol
         final AwardDocument awardDocument = ((AwardForm) GlobalVariables.getKualiForm()).getAwardDocument();
 
         Sponsorable sponsorable = awardDocument.getAward();
-        Map<String, String> roleDescriptions = getKeyPersonnelService().loadKeyPersonnelRoleDescriptions(sponsorable.isNih());
+        Map<String, String> roleDescriptions = getKeyPersonnelService().loadKeyPersonnelRoleDescriptions(sponsorable.isSponsorNihMultiplePi());
 
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", "select"));

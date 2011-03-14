@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.budget.personnel;
 
+import org.kuali.kra.award.home.ContactRole;
+import org.kuali.kra.service.Sponsorable;
+
 /**
  * This class...
  */
@@ -24,4 +27,8 @@ public interface PersonRolodex {
     public String getFullName();
     public boolean isOtherSignificantContributorFlag();
     public String getProjectRole();
+    public ContactRole getContactRole();
+    public boolean isMultiplePi();
+    public Sponsorable getParent();
+    public String getInvestigatorRoleDescription();
 }

@@ -270,6 +270,8 @@ public class AwardHomeAction extends AwardAction {
 //            ((AwardForm) form).getFundingProposalBean().updateProposalStatuses();   // TODO: This save isn't in same transaction as document save
 //        }
         awardDocument.getAward().refreshReferenceObject("sponsor");
+        Award award = awardDocument.getAward();
+        award.setSponsorNihMultiplePi(getSponsorService().isSponsorNihMultiplePi(award));
         
         return forward;
     }
