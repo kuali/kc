@@ -44,7 +44,7 @@ public class InstitutionalProposalPersonProjectRolesValuesFinder extends Institu
         final InstitutionalProposalDocument institutionalProposalDocument = ((InstitutionalProposalForm) GlobalVariables.getKualiForm()).getInstitutionalProposalDocument();
 
         Sponsorable sponsorable = institutionalProposalDocument.getInstitutionalProposal();
-        Map<String, String> roleDescriptions = getKeyPersonnelService().loadKeyPersonnelRoleDescriptions(sponsorable.isNih());
+        Map<String, String> roleDescriptions = getKeyPersonnelService().loadKeyPersonnelRoleDescriptions(sponsorable.isSponsorNihMultiplePi());
 
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", "select"));

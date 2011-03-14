@@ -1,5 +1,6 @@
 package org.kuali.kra.service.impl.adapters;
 
+import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
@@ -101,5 +102,9 @@ public class KeyPersonnelServiceAdapter implements KeyPersonnelService {
 
     public Map<String, String> loadKeyPersonnelRoleDescriptions(boolean sponsorIsNih) {
         return null;  
+    }
+
+    public String getPersonnelRoleDesc(PersonRolodex person) {
+        return null;
     }
 }

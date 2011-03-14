@@ -262,10 +262,6 @@ public class AwardContactsAction extends AwardAction {
         SponsorService sponsorService = getSponsorService();
         Award award = getAward(form);
 
-        if (sponsorService.isSponsorNihMultiplePi(award)) {
-            award.setNihDescription(getKeyPersonnelService().loadKeyPersonnelRoleDescriptions(true));
-        }
-
         return actionForward;
     }
 

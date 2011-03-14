@@ -168,6 +168,7 @@
 		<property name="kcPersonService">
 			<ref bean="kcPersonService" />
 		</property>
+		<property name="sponsorService" ref="sponsorService"/>
 	</bean>
 
 	<bean id="proposalPersonBiographyService"

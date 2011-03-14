@@ -43,6 +43,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
+import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
@@ -131,7 +132,6 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private List<YnqGroupName> ynqGroupNames;
 //    private List<BudgetDocumentVersion> budgetDocumentVersions;
     private String creationStatusCode;
-    private boolean nih;
     private Map<String, String> nihDescription;
     private boolean sponsorNihMultiplePi;
     private boolean sponsorNihOsc;
@@ -152,6 +152,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private String hierarchyBudgetType;
     private transient ParameterService parameterService;
     private transient ProposalHierarchyService proposalHierarchyService;
+    private transient KeyPersonnelService keyPersonnelService;
     
     
     
@@ -175,6 +176,13 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
             this.proposalHierarchyService = KraServiceLocator.getService(ProposalHierarchyService.class);        
         }
         return this.proposalHierarchyService;
+    }
+    
+    protected KeyPersonnelService getKeyPersonnelService() {
+        if (keyPersonnelService == null) {
+            keyPersonnelService = KraServiceLocator.getService(KeyPersonnelService.class);
+        }
+        return keyPersonnelService;
     }
     
     /**
@@ -333,6 +341,12 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
                     && person.getProposalPersonRoleId().equals(proposalPersons.get(i - 1).getProposalPersonRoleId()));
             person.setMoveDownAllowed(i < (proposalPersons.size() - 1)
                     && person.getProposalPersonRoleId().equals(proposalPersons.get(i + 1).getProposalPersonRoleId()));
+            if (isSponsorNihMultiplePi() && getKeyPersonnelService().isCoInvestigator(person)) {
+                person.setMoveUpAllowed(person.isMoveUpAllowed() 
+                        && person.isMultiplePi() == proposalPersons.get(i - 1).isMultiplePi());
+                person.setMoveDownAllowed(person.isMoveDownAllowed() 
+                        && person.isMultiplePi() == proposalPersons.get(i + 1).isMultiplePi());
+            }
         }
     }
 
@@ -1080,6 +1094,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
      */
     public void addProposalPerson(ProposalPerson p) {
         p.setProposalPersonNumber(this.getProposalDocument().getDocumentNextValue(Constants.PROPOSAL_PERSON_NUMBER));
+        p.setDevelopmentProposal(this);
         getProposalPersons().add(p);
     }
 
@@ -1700,14 +1715,6 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 //        return this.getBudgetDocumentVersions().size();
 //    }
 
-
-    public boolean isNih() {
-        return nih;
-    }
-
-    public void setNih(boolean nih) {
-        this.nih = nih;
-    }
 
     public Map<String, String> getNihDescription() {
         return nihDescription;

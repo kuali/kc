@@ -161,6 +161,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     @SkipVersioning
     private List<AwardFundingProposal> awardFundingProposals;
     private Map<String, InstitutionalProposalComment> commentMap;
+    private boolean sponsorNihMultiplePi;
     
     private transient Unit lookupUnit;
     private transient String lookupUnitName;
@@ -1543,7 +1544,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         ipPersonUnit.setLeadUnit(true);
         ipPersonUnit.initializeDefaultCreditSplits();
         ipPerson.add(ipPersonUnit);
-        
+        ipPerson.setInstitutionalProposal(this);
     }
     
     public UnitService getUnitService() {
@@ -1556,26 +1557,6 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     
     private void updateFundingStatus() {
         setStatusCode(awardFundingProposals.size() > 0 ? PROPOSAL_FUNDED_STATUS_CODE : PROPOSAL_PENDING_STATUS_CODE);
-    }
-
-    public Map<String, String> getNihDescription() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public boolean isNih() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    public void setNih(boolean isNih) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    public void setNihDescription(Map<String, String> descriptionMap) {
-        // TODO Auto-generated method stub
-        
     }
 
     public NsfCode getNsfCodeBo() {
@@ -1693,6 +1674,14 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         for (InstitutionalProposalPerson person: projectPersons)
             count += person.getUnits().size();
         return count;
+    }
+
+    public boolean isSponsorNihMultiplePi() {
+        return sponsorNihMultiplePi;
+    }
+
+    public void setSponsorNihMultiplePi(boolean sponsorNihMultiplePi) {
+        this.sponsorNihMultiplePi = sponsorNihMultiplePi;
     }
     
 }

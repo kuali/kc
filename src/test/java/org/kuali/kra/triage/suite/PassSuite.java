@@ -413,7 +413,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.proposaldevelopment.web.SponsorProgramInformationPanelWebTest.class,
     org.kuali.kra.irb.actions.notification.ProtocolNotificationTemplateRuleTest.class,
     org.kuali.kra.questionnaire.print.QuestionnairePrintingServiceTest.class,
-    org.kuali.kra.service.NihSponsorHandlingIntegrationTest.class,
     org.kuali.kra.rules.CustomAttributeDocumentMaintenanceDocumentRuleTest.class,
     org.kuali.kra.service.impl.AwardScheduleGenerationServiceImplTest.class,
     org.kuali.kra.questionnaire.question.QuestionAuthorizationServiceTest.class,

@@ -24,10 +24,13 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.personnel.PersonRolodex;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalContact;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
+import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
+import org.kuali.kra.service.Sponsorable;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public class InstitutionalProposalPerson extends InstitutionalProposalContact implements PersonRolodex  { 
@@ -47,6 +50,7 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
     private String keyPersonRole;
     private List<InstitutionalProposalPersonUnit> units;
     private List<InstitutionalProposalPersonCreditSplit> creditSplits;
+    private boolean multiplePi;
     
     public InstitutionalProposalPerson() {
         super();
@@ -322,6 +326,18 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
     /** {@inheritDoc}  */
     public void resetPersistenceState() {
         this.setInstitutionalProposalContactId(null);
+    }
+    public boolean isMultiplePi() {
+        return multiplePi;
+    }
+    public void setMultiplePi(boolean multiplePi) {
+        this.multiplePi = multiplePi;
+    }
+    public Sponsorable getParent() {
+        return this.getInstitutionalProposal();
+    }
+    public String getInvestigatorRoleDescription() {
+        return KraServiceLocator.getService(KeyPersonnelService.class).getPersonnelRoleDesc(this);
     }
 
 }

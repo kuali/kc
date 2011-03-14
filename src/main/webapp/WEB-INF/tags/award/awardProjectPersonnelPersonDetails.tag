@@ -20,6 +20,7 @@
 <%@ attribute name="awardContact" required="true" type="org.kuali.kra.award.contacts.AwardPerson" %>
 <%@ attribute name="awardContactRowStatusIndex" required="true" %>
 <c:set var="keypersonrole" value="<%=org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE%>" />
+<c:set var="coirole" value="<%=org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE%>" />
 
 <c:set var="awardPersonAttributes" value="${DataDictionary.AwardPerson.attributes}" />
 

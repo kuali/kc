@@ -48,6 +48,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonComparator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.kra.service.SponsorService;
 
 /**
  * Class for generating the XML object for grants.gov RRKeyPersonV1.0. Form is generated using XMLBean classes and is based on
@@ -260,7 +261,15 @@ public class RRKeyPersonV1_0Generator extends RRKeyPersonBaseGenerator {
                     profileKeyPerson.setCredential(keyPerson.getEraCommonsUserName());
                 }
                 if (keyPerson.getProposalPersonRoleId().equals(CO_INVESTIGATOR)) {
-                    profileKeyPerson.setProjectRole(ProjectRoleDataType.CO_PD_PI);
+                    if(KraServiceLocator.getService(SponsorService.class).isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal())){
+                        if (keyPerson.isMultiplePi()) {
+                            profileKeyPerson.setProjectRole(ProjectRoleDataType.PD_PI);
+                        } else {
+                            profileKeyPerson.setProjectRole(ProjectRoleDataType.CO_PD_PI);
+                        }
+                    }else{
+                        profileKeyPerson.setProjectRole(ProjectRoleDataType.CO_PD_PI);
+                    }
                 }
                 else {
                     profileKeyPerson.setProjectRole(ProjectRoleDataType.OTHER_SPECIFY);

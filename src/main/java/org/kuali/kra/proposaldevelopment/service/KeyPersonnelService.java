@@ -18,6 +18,7 @@ package org.kuali.kra.proposaldevelopment.service;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
@@ -209,4 +210,5 @@ public interface KeyPersonnelService {
      */
     public Map<String, String> loadKeyPersonnelRoleDescriptions(boolean sponsorIsNih);
 
+    public String getPersonnelRoleDesc(PersonRolodex person);
 }

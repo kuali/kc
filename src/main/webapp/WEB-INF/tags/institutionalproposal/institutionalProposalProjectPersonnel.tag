@@ -17,7 +17,12 @@
 
 <%-- member of InstitutionalProposalContacts.jsp --%>
 <script src="scripts/jquery/jquery.js"></script>
+<script type="text/javascript">
+  $jq = jQuery.noConflict();
+</script>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<c:set var="keyPersonRoleConstant" value="<%=org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE%>" />
+<c:set var="coiRoleConstant" value="<%=org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE%>" />
 
 <c:set var="institutionalProposalPersonAttributes" value="${DataDictionary.InstitutionalProposalPerson.attributes}" />
 <c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
@@ -78,24 +83,41 @@
                     ${KualiForm.valueFinderResultDoNotCache}
 	        		<div align="center">
 		        		<kul:htmlControlAttribute property="projectPersonnelBean.contactRoleCode" 
-	                									attributeEntry="${institutionalProposalPersonAttributes.contactRoleCode}" onchange="proposalRoleChange(this, 'normal');"/><br/>
+	                									attributeEntry="${institutionalProposalPersonAttributes.contactRoleCode}" onchange="proposalRoleChange(this, 400);"/><br/>
 	                	<span class="keypersononly">
 					    *<kul:htmlAttributeLabel attributeEntry="${institutionalProposalPersonAttributes.keyPersonRole}" useShortLabel="true" noColon="false" /><span class="noscriptonly">(Required for Key Persons only)</span> 
 				         <kul:htmlControlAttribute property="projectPersonnelBean.newInstitutionalProposalContact.keyPersonRole" 
 										           attributeEntry="${institutionalProposalPersonAttributes.keyPersonRole}"/>
 					    </span>
+					    <c:if test="${KualiForm.document.institutionalProposalList[0].sponsorNihMultiplePi}">
+					    <span class="coionly">
+ 					     <kul:htmlAttributeLabel attributeEntry="${institutionalProposalPersonAttributes.multiplePi}" noColon="false" /> 
+				         <kul:htmlControlAttribute property="projectPersonnelBean.newInstitutionalProposalContact.multiplePi" 
+										           attributeEntry="${institutionalProposalPersonAttributes.multiplePi}"/>
+					     
+					    </span>
+					    </c:if>
                     <script type="text/javascript">
-                      function proposalRoleChange(formItem, speed) {
-                          if ( $(formItem).val() == 'KP' ) {
-                              $('.keypersononly').slideDown(speed);
-                          } else {
-                              $('.keypersononly').slideUp(speed);
-                          }
-                      }
-                      $(document).ready(function() {
-                          proposalRoleChange('#projectPersonnelBean\\.contactRoleCode', 'now');
-                          $('.noscriptonly').hide();
-                      });
+                    function proposalRoleChange(formItem, speed) {
+                        if ($jq(formItem).val() == '${keyPersonRoleConstant}') {
+                            $jq(formItem).siblings('.keypersononly').slideDown(speed);
+                        } else {
+                      	  $jq(formItem).siblings('.keypersononly').slideUp(speed);
+                        }
+                        if ($jq(formItem).val() == '${coiRoleConstant}') {
+                      	  $jq(formItem).siblings('.coionly').slideDown(speed);
+                        } else {
+                      	  $jq(formItem).siblings('.coionly').slideUp(speed);
+                        }
+                    }
+                    $jq(document).ready(function() {
+                  	  $jq('.noscriptonly').hide();
+                        $jq('.keypersononly').hide();
+                        $jq('.coionly').hide();
+                        $jq(document).find("[id$='contactRoleCode']").each(function() {
+                        	proposalRoleChange(this, 0);
+                        });
+                    });
                     </script>
                     ${KualiForm.valueFinderResultCache}
 	        	</td>
@@ -152,14 +174,7 @@
 					</td>
 	                <td valign="middle">
 	                	<div align="center">
-                            <c:set var="isNih" value="${KualiForm.document.institutionalProposalList[0].nih}" />
-                            <c:if test="${isNih}">
-                                <c:set var="roleDescription" value="${KualiForm.document.institutionalProposalList[0].nihDescription[institutionalProposalContact.contactRole.roleCode]}" />
-                            </c:if>
-                            <c:if test="${!isNih}">
-                                <c:set var="roleDescription" value="${institutionalProposalContact.contactRole.description}" />
-                            </c:if>
-	                		${roleDescription}&nbsp;
+							${institutionalProposalContact.investigatorRoleDescription}
 	                	</div> 
 					</td>
 					<td valign="middle">
