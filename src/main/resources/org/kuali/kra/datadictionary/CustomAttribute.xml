@@ -183,7 +183,7 @@
     <property name="shortLabel" value="Lookup Return" />
     <property name="maxLength" value="30" />
     <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
