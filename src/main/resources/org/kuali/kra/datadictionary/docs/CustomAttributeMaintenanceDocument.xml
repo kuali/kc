@@ -46,7 +46,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="dataLength"/>
         <bean parent="MaintainableFieldDefinition" p:name="dataTypeCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="defaultValue"/>
-        <bean parent="MaintainableFieldDefinition" p:name="groupName" p:required="false"/>
+        <bean parent="MaintainableFieldDefinition" p:name="groupName" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="label" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="lookupClass"/>
         <bean parent="MaintainableFieldDefinition" p:name="lookupReturn"/>

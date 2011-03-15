@@ -37,6 +37,7 @@ public class CustomAttribute extends KraPersistableBusinessObjectBase {
 
 	public CustomAttribute(){
 		super();
+		groupName = "General";
 	}
 
 	public Integer getId() {
