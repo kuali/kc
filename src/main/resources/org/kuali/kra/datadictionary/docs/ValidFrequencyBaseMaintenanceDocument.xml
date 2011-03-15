@@ -18,6 +18,7 @@
 	<bean id="ValidFrequencyBaseMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.award.paymentreports.ValidFrequencyBase"/>
 		<property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
+		<property name="allowsRecordDeletion" value="true"/>
 		<property name="maintainableSections">
 			<list>
 				<ref bean="ValidFrequencyBaseMaintenanceDocument-EditValidFrequencyBase"/>
