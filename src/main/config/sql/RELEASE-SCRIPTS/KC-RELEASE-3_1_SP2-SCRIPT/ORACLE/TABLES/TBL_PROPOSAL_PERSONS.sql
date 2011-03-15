@@ -1,0 +1,1 @@
+alter table PROPOSAL_PERSONS add MULTIPLE_PI CHAR(1);
