@@ -29,13 +29,17 @@ import org.kuali.kra.infrastructure.Constants;
 public class OpenAwardBudgetAuthorizer extends AwardAuthorizer {
  
     /**
-     * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
+     * {@inheritDoc}
+     * @see org.kuali.kra.award.document.authorizer.AwardAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.award.document.authorization.AwardTask)
      */
     public boolean isAuthorized(String userId, AwardTask task) {
         AwardDocument doc = task.getAward().getAwardDocument();
         
-        return kraWorkflowService.hasWorkflowPermission(userId, doc) || 
-                hasUnitPermission(userId, doc.getLeadUnitNumber(), Constants.MODULE_NAMESPACE_AWARD_BUDGET, AwardPermissionConstants.MODIFY_AWARD_BUDGET.getAwardPermission()) ||       
-                hasUnitPermission(userId, doc.getLeadUnitNumber(), Constants.MODULE_NAMESPACE_AWARD_BUDGET, AwardPermissionConstants.VIEW_AWARD_BUDGET.getAwardPermission());       
+        return hasUnitPermission(userId, doc.getLeadUnitNumber(), Constants.MODULE_NAMESPACE_AWARD_BUDGET, 
+                    AwardPermissionConstants.MODIFY_AWARD_BUDGET.getAwardPermission())
+            || hasUnitPermission(userId, doc.getLeadUnitNumber(), Constants.MODULE_NAMESPACE_AWARD_BUDGET, 
+                    AwardPermissionConstants.VIEW_AWARD_BUDGET.getAwardPermission())
+            || kraWorkflowService.hasWorkflowPermission(userId, doc);       
     }
+    
 }
