@@ -232,7 +232,7 @@ public abstract class AwardBaseStream implements XmlStream {
 		awardType.setAwardComments(getAwardComments());
 		awardType.setAwardAmountInfo(getAwardAmountInfo());
 		awardType.setAwardTransactionInfo(getAwardTransactionInfo());
-		awardType.setAwardScienceCodes(getAwardScienceCodes());
+		awardType.setAwardScienceCodes(getAwardScienceCodes());		
 		awardType.setAwardTermsDetails(getAwardTermsDetails());
 		awardType.setAwardReportingDetails(getAwardReportingDetails());
 		awardType.setAwardSpecialItems(getAwardSpecialItems());
@@ -1073,13 +1073,14 @@ public abstract class AwardBaseStream implements XmlStream {
 				scienceCodeDetailType.setCode(awardScienceKeyword
 						.getScienceKeywordCode());
 			}
-			if (awardScienceKeyword.getScienceKeywordDescription() != null) {
+			if (awardScienceKeyword.getScienceKeyword().getDescription() != null) {
 				scienceCodeDetailType.setDescription(awardScienceKeyword
-						.getScienceKeywordDescription());
+						.getScienceKeyword().getDescription());				
 			}
+			scienceCodeDetailTypes.add(scienceCodeDetailType);
 		}
 		awardScienceCodes.setScienceCodeDetailArray(scienceCodeDetailTypes
-				.toArray(new ScienceCodeDetailType[0]));
+				.toArray(new ScienceCodeDetailType[0]));		
 		return awardScienceCodes;
 	}
 
