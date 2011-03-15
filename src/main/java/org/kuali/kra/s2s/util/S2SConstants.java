@@ -72,7 +72,7 @@ public interface S2SConstants {
     public static final String STATUS_PROCESSING = "Processing";
     public static final String STATUS_VALIDATED = "Validated";
     public static final String STATUS_RECEIVED_BY_AGENCY = "Received by Agency";
-    public static final String STATUS_REJECTED_WITH_ERRORS = "Rejected with Errors";
+    public static final String STATUS_REJECTED_WITH_ERRORS = "REJECTED_WITH_ERRORS";
 	public static final String FORMVERSION_1_3 = "1.3";
     public static final String SUB_AWARD_BUDGET_NOT_FOUND = "budget.subaward.notfound";
     public static final String FORMVERSION_1_4 = "1.4";
