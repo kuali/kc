@@ -124,6 +124,7 @@
     <property name="label" value="Group Name" />
     <property name="shortLabel" value="Group Name" />
     <property name="maxLength" value="250" />
+    <property name="required" value="true" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"
             p:allowWhitespace="true" />
