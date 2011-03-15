@@ -53,6 +53,7 @@
 		<property name="label" value="ICR rate Code" />
 		<property name="shortLabel" value="ICR Rate Code" />
 		<property name="maxLength" value="3" />
+		<property name="required" value="false" />
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
