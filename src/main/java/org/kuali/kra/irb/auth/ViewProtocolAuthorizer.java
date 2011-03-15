@@ -24,10 +24,12 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 public class ViewProtocolAuthorizer extends ProtocolAuthorizer {
 
     /**
+     * {@inheritDoc}
      * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
      */
     public boolean isAuthorized(String userId, ProtocolTask task) {
-        return hasPermission(userId, task.getProtocol(), PermissionConstants.VIEW_PROTOCOL) ||
-        kraWorkflowService.hasWorkflowPermission(userId, task.getProtocol().getProtocolDocument());
+        return hasPermission(userId, task.getProtocol(), PermissionConstants.VIEW_PROTOCOL)
+            || kraWorkflowService.hasWorkflowPermission(userId, task.getProtocol().getProtocolDocument());
     }
+    
 }
