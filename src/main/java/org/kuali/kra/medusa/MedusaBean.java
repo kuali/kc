@@ -16,15 +16,12 @@
 package org.kuali.kra.medusa;
 
 import java.io.Serializable;
-import java.text.ParseException;
 import java.util.List;
+import java.util.Collections;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 import org.kuali.kra.medusa.service.MedusaService;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
 public class MedusaBean implements Serializable{
 
@@ -104,8 +101,17 @@ public class MedusaBean implements Serializable{
         }else if(StringUtils.equalsIgnoreCase("1", getMedusaViewRadio())){
             setParentNodes(getMedusaService().getMedusaByAward(getModuleName(), getModuleIdentifier()));    
         } 
-        
+        sortNodes(parentNodes);
         return parentNodes;
+    }
+    
+    private void sortNodes(List<MedusaNode> nodes){
+        Collections.sort(nodes, new MedusaNodeComparator());
+        for(MedusaNode mNode: nodes){
+            if(!mNode.getChildNodes().isEmpty()){
+                sortNodes(mNode.getChildNodes());
+            }
+        }
     }
 
     public void setParentNodes(List<MedusaNode> parentNodes) {
