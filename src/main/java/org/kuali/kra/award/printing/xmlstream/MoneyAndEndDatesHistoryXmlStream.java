@@ -68,7 +68,7 @@ public class MoneyAndEndDatesHistoryXmlStream extends AwardBaseStream {
 				.newInstance();
 		int rowNo = 1;
 		int seqNo = 0;
-		for (AwardAmountInfo awardAmountInfo : award.getAwardAmountInfos()) {
+		for (AwardAmountInfo awardAmountInfo : awardDocument.getAward().getAwardAmountInfos()) {
 			if (seqNo != awardAmountInfo.getSequenceNumber()) {
 				setMoneyHistoryInfos(amountInfoTypes, awardAmountInfo, rowNo);
 				setMoneyHistoryTransactionInfos(awardTransactionTypes,
@@ -101,7 +101,7 @@ public class MoneyAndEndDatesHistoryXmlStream extends AwardBaseStream {
 			AwardTransactionType awardTransactionType = AwardTransactionType.Factory
 					.newInstance();
 
-			awardTransactionType.setAwardNumber(award.getAwardNumber());
+			awardTransactionType.setAwardNumber(awardDocument.getAward().getAwardNumber());
 			awardTransactionType.setTransactionTypeCode(awardAmountTransaction
 					.getTransactionTypeCode());
 			// TODO: need to set TransactionTypeDesc
@@ -232,8 +232,8 @@ public class MoneyAndEndDatesHistoryXmlStream extends AwardBaseStream {
 
 	protected AwardHeaderType getAwardHeaderType() {
 		AwardHeaderType awardHeaderType = AwardHeaderType.Factory.newInstance();
-		if (award.getAwardNumber() != null) {
-			awardHeaderType.setAwardNumber(award.getAwardNumber());
+		if (awardDocument.getAward().getAwardNumber() != null) {
+			awardHeaderType.setAwardNumber(awardDocument.getAward().getAwardNumber());
 		}
 		return awardHeaderType;
 	}

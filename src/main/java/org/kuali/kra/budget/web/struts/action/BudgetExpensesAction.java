@@ -313,6 +313,28 @@ public class BudgetExpensesAction extends BudgetAction {
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+    /**
+     * 
+     * This method does the sync to Period Cost Limit
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward syncDirectCostLimitYes(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetForm budgetForm = (BudgetForm) form;
+        Budget budget = budgetForm.getBudgetDocument().getBudget();        
+        int sltdLineItem = getSelectedLine(request);
+        int sltdBudgetPeriod = budgetForm.getViewBudgetPeriod()-1;
+        BudgetPeriod budgetPeriod = budget.getBudgetPeriod(sltdBudgetPeriod);
+        if (new BudgetExpenseRule().processCheckLineItemDates(budgetPeriod, sltdLineItem)) {
+            getCalculationService().syncToPeriodDirectCostLimit(budget, budget.getBudgetPeriod(sltdBudgetPeriod), 
+                    budget.getBudgetPeriod(sltdBudgetPeriod).getBudgetLineItem(sltdLineItem));
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
 
     public ActionForward syncToPeriodCostLimit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
@@ -325,6 +347,19 @@ public class BudgetExpensesAction extends BudgetAction {
                         "syncCostLimitYes","");
         }else{
             return syncCostLimitYes(mapping, form, request, response);
+        }
+    }
+    public ActionForward syncToPeriodDirectCostLimit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetForm budgetForm = (BudgetForm) form;
+        Budget budget = budgetForm.getBudgetDocument().getBudget();        
+        int sltdBudgetPeriod = budgetForm.getViewBudgetPeriod()-1;
+        BudgetPeriod budgetPeriod = budget.getBudgetPeriod(sltdBudgetPeriod);
+        if(budgetPeriod.getTotalDirectCost().isGreaterThan(budgetPeriod.getTotalDirectCostLimit())) {
+            return confirm(buildParameterizedConfirmationQuestion(mapping, form, request, response, 
+                        "syncDirectCostLimitYes", "confirmation.periodTotalDirectCost.greaterThan.costLimit"),
+                        "syncDirectCostLimitYes","");
+        }else{
+            return syncDirectCostLimitYes(mapping, form, request, response);
         }
     }
     

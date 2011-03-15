@@ -143,7 +143,13 @@ public interface BudgetCalculationService {
      * @param budgetLineItem {@link BudgetLineItem} instance to examine amounts for synchronization
      */
     public void updatePersonnelBudgetRate(BudgetLineItem budgetLineItem);    
-    
+    /**
+     * This method is to adjust the line item cost to total direct cost limit of a period
+     * @param budget
+     * @param budgetPeriod
+     * @param budgetLineItem
+     */
+    public void syncToPeriodDirectCostLimit(Budget budget, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem);
     
     public BudgetForm getBudgetFormFromGlobalVariables();
 

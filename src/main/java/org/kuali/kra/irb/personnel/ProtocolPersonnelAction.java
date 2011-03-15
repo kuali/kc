@@ -388,6 +388,16 @@ public class ProtocolPersonnelAction extends ProtocolAction {
                     protocolForm.getPermissionsHelper().resetUserStates();
                 }
             }
+            else if (!protocolPerson.isPrincipalInvestigator() &&
+                    (!protocolPerson.getPersonId().equals(protocol.getPrincipalInvestigatorId()))) {
+               
+                if (protocolPerson.getPersonId() != null) {
+                    // Assign the Other Role To Viewer the AGGREGATOR role.
+                    KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
+                    kraAuthService.addRole(protocolPerson.getPersonId(), RoleConstants.PROTOCOL_VIEWER, protocol);
+                    protocolForm.getPermissionsHelper().resetUserStates();
+                }
+            }
         }
 
         Map keyMap = new HashMap();

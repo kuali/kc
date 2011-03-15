@@ -31,6 +31,7 @@
         <ref bean="Budget-startDate"/>
         <ref bean="Budget-totalCost"/>
         <ref bean="Budget-totalCostLimit"/>
+        <ref bean="Budget-totalDirectCostLimit"/>
         <ref bean="Budget-totalDirectCost"/>
         <ref bean="Budget-totalIndirectCost"/>
         <ref bean="Budget-underrecoveryAmount"/>
@@ -151,6 +152,16 @@
     <property name="summary" value="Total Cost Limit"/>
     <property name="description" value="Total Cost Limit"/>
   </bean>
+  <bean id="Budget-totalDirectCostLimit" parent="Budget-totalDirectCostLimit-parentBean"/>
+
+  <bean id="Budget-totalDirectCostLimit-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
+    <property name="name" value="totalDirectCostLimit"/>
+    <property name="label" value="Total Direct Cost Limit"/>
+    <property name="shortLabel" value="Total Direct Cost Limit"/>
+    <property name="summary" value="Total Direct Cost Limit"/>
+    <property name="description" value="Total Direct Cost Limit"/>
+  </bean>
+
   <bean id="Budget-totalDirectCost" parent="Budget-totalDirectCost-parentBean"/>
 
   <bean id="Budget-totalDirectCost-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
@@ -299,6 +310,7 @@
 	        <bean p:attributeName="startDate" parent="FieldDefinition" />
 	        <bean p:attributeName="totalCost" parent="FieldDefinition" />
 	        <bean p:attributeName="totalCostLimit" parent="FieldDefinition" />
+	        <bean p:attributeName="totalDirectCostLimit" parent="FieldDefinition" />
 	        <bean p:attributeName="totalDirectCost" parent="FieldDefinition" />
 	        <bean p:attributeName="totalIndirectCost" parent="FieldDefinition" />
 	        <bean p:attributeName="underrecoveryAmount" parent="FieldDefinition" />
@@ -324,6 +336,7 @@
 	        <bean p:attributeName="startDate" parent="FieldDefinition" />
 	        <bean p:attributeName="totalCost" parent="FieldDefinition" />
 	        <bean p:attributeName="totalCostLimit" parent="FieldDefinition" />
+	        <bean p:attributeName="totalDirectCostLimit" parent="FieldDefinition" />
 	        <bean p:attributeName="totalDirectCost" parent="FieldDefinition" />
 	        <bean p:attributeName="totalIndirectCost" parent="FieldDefinition" />
 	        <bean p:attributeName="underrecoveryAmount" parent="FieldDefinition" />

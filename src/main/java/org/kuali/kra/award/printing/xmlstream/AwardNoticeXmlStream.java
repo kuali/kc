@@ -74,10 +74,11 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 	private static final String TERMS = "terms";
 	private static final String SPECIAL_REVIEW = "specialReview";
 	private static final String SUBCONTRACT = "subcontract";
-	private static final String SCIENCE_CODE = "scienceCode";
+	private static final String SCIENCE_CODE = "keywords";
 	private static final String PROPOSAL_DUE = "proposalDue";
 	private static final String PAYMENT = "payment";
 	private static final String INDIRECT_COST = "indirectCost";
+	private static final String FUNDING_SUMMARY="fundingSummary";
 	private static final String HIERARCHY_INFO = "hierarchyInfo";
 	private static final String FOREIGN_TRAVEL = "foreignTravel";
 	private static final String FLOW_THRU = "flowThru";
@@ -138,7 +139,7 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 		awardType.setAwardOtherDatas(getAwardOtherDatas());
 		awardType.setAwardBudgetDetails(getAwardBudgetDetails());
 		awardType.setAwardFundingSummary(getAwardFundingSummary());
-		awardType.setChildAwardDetails(getChildAwardDetails());
+		awardType.setChildAwardDetails(getChildAwardDetails());		
 		return awardType;
 	}
 
@@ -194,7 +195,7 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 			paymentSchedulesList.add(paymentSchedule);
 		}
 		awardPaymentSchedules.setPaymentScheduleArray(paymentSchedulesList
-				.toArray(new PaymentSchedule[0]));
+				.toArray(new PaymentSchedule[0]));		
 		return awardPaymentSchedules;
 	}
 
@@ -360,6 +361,9 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 			printRequirement
 					.setForeignTravelRequired(getPrintRequirementTypeRequired(
 							reportParameters, FOREIGN_TRAVEL));
+			printRequirement
+			        .setFundingSummaryRequired(getPrintRequirementTypeRequired(
+			                reportParameters, FUNDING_SUMMARY));
 			printRequirement
 					.setHierarchyInfoRequired(getPrintRequirementTypeRequired(
 							reportParameters, HIERARCHY_INFO));
