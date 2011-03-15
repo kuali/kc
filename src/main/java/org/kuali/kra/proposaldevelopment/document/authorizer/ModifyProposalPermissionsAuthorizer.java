@@ -64,8 +64,7 @@ public class ModifyProposalPermissionsAuthorizer extends ProposalAuthorizer {
                 && kraWorkflowService.isInWorkflow(doc)) {
             // once workflowed (OSP Administrator and Aggregator have ADD_PROPOSAL_VIEWER permission)
             hasPermission = true;
-        }
-        else if (kraWorkflowService.hasWorkflowPermission(userId, doc) 
+        } else if (kraWorkflowService.hasWorkflowPermission(userId, doc) 
                 && kraWorkflowService.isEnRoute(doc)) {
             // Approvers (users in workflow) have permission while EnRoute
             hasPermission = true;
