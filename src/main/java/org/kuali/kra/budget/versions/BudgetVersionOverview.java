@@ -60,6 +60,7 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     private BudgetDecimal totalDirectCost;
     private BudgetDecimal totalIndirectCost;
     private BudgetDecimal totalCostLimit;
+    private BudgetDecimal totalDirectCostLimit;
     private BudgetDecimal underrecoveryAmount;
     private String comments;
     private boolean descriptionUpdatable;
@@ -543,6 +544,22 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
         else if (!urRateClassCode.equals(other.urRateClassCode))
             return false;
         return true;
+    }
+
+    /**
+     * Gets the totalDirectCostLimit attribute. 
+     * @return Returns the totalDirectCostLimit.
+     */
+    public BudgetDecimal getTotalDirectCostLimit() {
+        return totalDirectCostLimit;
+    }
+
+    /**
+     * Sets the totalDirectCostLimit attribute value.
+     * @param totalDirectCostLimit The totalDirectCostLimit to set.
+     */
+    public void setTotalDirectCostLimit(BudgetDecimal totalDirectCostLimit) {
+        this.totalDirectCostLimit = totalDirectCostLimit;
     }
     
 }

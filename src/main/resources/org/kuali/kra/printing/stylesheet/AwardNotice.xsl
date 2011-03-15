@@ -6531,8 +6531,8 @@ or ( ../PrintRequirement/SubcontractRequired  = 1  and  starts-with(  AwardDetai
 											<fo:inline font-family="Arial" font-size="12pt"
 												font-weight="bold">
 												<xsl:text>Payment:</xsl:text>
-											</fo:inline>
-											<xsl:for-each select="AwardDetails">
+											</fo:inline>											
+											<xsl:for-each select="AwardDetails">											     
 												<xsl:for-each select="OtherHeaderDetails">
 													<fo:inline-container>
 														<fo:block>
@@ -6836,8 +6836,406 @@ or ( ../PrintRequirement/SubcontractRequired  = 1  and  starts-with(  AwardDetai
 														</fo:table>
 													</xsl:if>
 												</xsl:for-each>
-											</xsl:for-each>
-										</xsl:if>
+											</xsl:for-each>																				
+										<xsl:for-each select="AwardReportingDetails">
+													<xsl:for-each select="ReportDetails">
+														<xsl:for-each select="ReportTermDetails">
+															<xsl:if test="ReportClassCode = 6">
+																<fo:inline-container>
+																	<fo:block>
+																		<xsl:text>&#x2029;</xsl:text>
+																	</fo:block>
+																</fo:inline-container>
+																<fo:table font-family="Arial" padding-top="10pt"
+																	table-layout="fixed" width="100%" border-spacing="2pt">
+																	<fo:table-column column-width="160" />
+																	<fo:table-column column-width="proportional-column-width(1)" />
+																	<fo:table-body start-indent="0pt">
+																		<fo:table-row>
+																			<fo:table-cell font-family="Arial"
+																				font-size="9pt" font-weight="bold" padding-bottom="1pt"
+																				padding="0pt" display-align="center">
+																				<fo:block>
+																					<fo:block />
+																					<fo:inline font-family="Arial">
+																						<xsl:text>Type of Report: </xsl:text>
+																					</fo:inline>
+																				</fo:block>
+																			</fo:table-cell>
+																			<fo:table-cell font-family="Arial"
+																				font-size="9pt" font-weight="normal" padding-bottom="1pt"
+																				padding="0pt" text-align="left" display-align="center">
+																				<fo:block>
+																					<fo:inline-container>
+																						<fo:block>
+																							<xsl:text>&#x2029;</xsl:text>
+																						</fo:block>
+																					</fo:inline-container>
+																					<fo:block white-space="pre"
+																						white-space-collapse="false" wrap-option="wrap"
+																						white-space-treatment="ignore-if-surrounding-linefeed"
+																						margin="0pt">
+																						<fo:block>
+																							<xsl:for-each select="ReportCodeDesc">
+																								<xsl:variable name="value-of-template">
+																									<xsl:apply-templates />
+																								</xsl:variable>
+																								<xsl:choose>
+																									<xsl:when
+																										test="contains(string($value-of-template),'&#x2029;')">
+																										<fo:block>
+																											<xsl:copy-of select="$value-of-template" />
+																										</fo:block>
+																									</xsl:when>
+																									<xsl:otherwise>
+																										<fo:inline>
+																											<xsl:copy-of select="$value-of-template" />
+																										</fo:inline>
+																									</xsl:otherwise>
+																								</xsl:choose>
+																							</xsl:for-each>
+																						</fo:block>
+																					</fo:block>
+																				</fo:block>
+																			</fo:table-cell>
+																		</fo:table-row>
+																		<fo:table-row>
+																			<fo:table-cell font-family="Arial"
+																				font-size="9pt" font-weight="bold" padding-bottom="1pt"
+																				padding="0pt" display-align="center">
+																				<fo:block>
+																					<fo:block />
+																					<fo:inline>
+																						<xsl:text>Frequency:</xsl:text>
+																					</fo:inline>
+																				</fo:block>
+																			</fo:table-cell>
+																			<fo:table-cell font-family="Arial"
+																				font-size="9pt" font-weight="normal" padding-bottom="1pt"
+																				padding="0pt" text-align="left" display-align="center">
+																				<fo:block>
+																					<fo:inline-container>
+																						<fo:block>
+																							<xsl:text>&#x2029;</xsl:text>
+																						</fo:block>
+																					</fo:inline-container>
+																					<fo:block white-space="pre"
+																						white-space-collapse="false" wrap-option="wrap"
+																						white-space-treatment="ignore-if-surrounding-linefeed"
+																						margin="0pt">
+																						<fo:block>
+																							<xsl:for-each select="FrequencyCodeDesc">
+																								<xsl:variable name="value-of-template">
+																									<xsl:apply-templates />
+																								</xsl:variable>
+																								<xsl:choose>
+																									<xsl:when
+																										test="contains(string($value-of-template),'&#x2029;')">
+																										<fo:block>
+																											<xsl:copy-of select="$value-of-template" />
+																										</fo:block>
+																									</xsl:when>
+																									<xsl:otherwise>
+																										<fo:inline>
+																											<xsl:copy-of select="$value-of-template" />
+																										</fo:inline>
+																									</xsl:otherwise>
+																								</xsl:choose>
+																							</xsl:for-each>
+																						</fo:block>
+																					</fo:block>
+																				</fo:block>
+																			</fo:table-cell>
+																		</fo:table-row>
+																		<fo:table-row>
+																			<fo:table-cell font-family="Arial"
+																				font-size="9pt" font-weight="bold" padding-bottom="1pt"
+																				padding="0pt" display-align="center">
+																				<fo:block>
+																					<fo:block />
+																					<fo:inline>
+																						<xsl:text>Frequency Basis</xsl:text>
+																					</fo:inline>
+																					<fo:inline padding-top="10pt">
+																						<xsl:text>: </xsl:text>
+																					</fo:inline>
+																				</fo:block>
+																			</fo:table-cell>
+																			<fo:table-cell font-family="Arial"
+																				font-size="9pt" font-weight="normal" padding-bottom="1pt"
+																				padding="0pt" text-align="left" display-align="center">
+																				<fo:block>
+																					<fo:inline-container>
+																						<fo:block>
+																							<xsl:text>&#x2029;</xsl:text>
+																						</fo:block>
+																					</fo:inline-container>
+																					<fo:block white-space="pre"
+																						white-space-collapse="false" wrap-option="wrap"
+																						white-space-treatment="ignore-if-surrounding-linefeed"
+																						margin="0pt">
+																						<fo:block>
+																							<xsl:for-each select="FrequencyBaseDesc">
+																								<xsl:variable name="value-of-template">
+																									<xsl:apply-templates />
+																								</xsl:variable>
+																								<xsl:choose>
+																									<xsl:when
+																										test="contains(string($value-of-template),'&#x2029;')">
+																										<fo:block>
+																											<xsl:copy-of select="$value-of-template" />
+																										</fo:block>
+																									</xsl:when>
+																									<xsl:otherwise>
+																										<fo:inline>
+																											<xsl:copy-of select="$value-of-template" />
+																										</fo:inline>
+																									</xsl:otherwise>
+																								</xsl:choose>
+																							</xsl:for-each>
+																						</fo:block>
+																					</fo:block>
+																				</fo:block>
+																			</fo:table-cell>
+																		</fo:table-row>
+																		<fo:table-row>
+																			<fo:table-cell font-family="Arial"
+																				font-size="9pt" font-weight="bold" padding-bottom="1pt"
+																				padding="0pt" display-align="center">
+																				<fo:block>
+																					<fo:block />
+																					<xsl:if test="DueDate != &apos;1900-01-01+00:00&apos;">
+																						<fo:inline>
+																							<xsl:text> Due Date:</xsl:text>
+																						</fo:inline>
+																					</xsl:if>
+																				</fo:block>
+																			</fo:table-cell>
+																			<fo:table-cell font-family="Arial"
+																				font-size="9pt" font-weight="normal" padding-bottom="1pt"
+																				padding="0pt" text-align="left" display-align="center">
+																				<fo:block>
+																					<xsl:if test="DueDate != &apos;1900-01-01+00:00&apos;">
+																						<xsl:for-each select="DueDate">
+																							<fo:inline>
+																								<xsl:value-of
+																									select="format-number(number(substring(string(string(.)), 6, 2)), '00')" />
+																								<xsl:text>/</xsl:text>
+																								<xsl:value-of
+																									select="format-number(number(substring(string(string(.)), 9, 2)), '00')" />
+																								<xsl:text>/</xsl:text>
+																								<xsl:value-of
+																									select="format-number(number(substring(string(string(string(.))), 1, 4)), '0000')" />
+																							</fo:inline>
+																						</xsl:for-each>
+																					</xsl:if>
+																				</fo:block>
+																			</fo:table-cell>
+																		</fo:table-row>
+																		<fo:table-row>
+																			<fo:table-cell font-family="Arial"
+																				font-size="9pt" font-weight="bold" padding-bottom="1pt"
+																				padding="0pt" display-align="center">
+																				<fo:block>
+																					<fo:block />
+																					<fo:inline padding-top="10pt">
+																						<xsl:text>OSP Distribution:</xsl:text>
+																					</fo:inline>
+																				</fo:block>
+																			</fo:table-cell>
+																			<fo:table-cell font-family="Arial"
+																				font-size="9pt" font-weight="normal" padding-bottom="1pt"
+																				padding="0pt" text-align="left" display-align="center">
+																				<fo:block>
+																					<fo:inline-container>
+																						<fo:block>
+																							<xsl:text>&#x2029;</xsl:text>
+																						</fo:block>
+																					</fo:inline-container>
+																					<fo:block white-space="pre"
+																						white-space-collapse="false" wrap-option="wrap"
+																						white-space-treatment="ignore-if-surrounding-linefeed"
+																						margin="0pt">
+																						<fo:block>
+																							<xsl:for-each select="OSPDistributionDesc">
+																								<xsl:variable name="value-of-template">
+																									<xsl:apply-templates />
+																								</xsl:variable>
+																								<xsl:choose>
+																									<xsl:when
+																										test="contains(string($value-of-template),'&#x2029;')">
+																										<fo:block>
+																											<xsl:copy-of select="$value-of-template" />
+																										</fo:block>
+																									</xsl:when>
+																									<xsl:otherwise>
+																										<fo:inline>
+																											<xsl:copy-of select="$value-of-template" />
+																										</fo:inline>
+																									</xsl:otherwise>
+																								</xsl:choose>
+																							</xsl:for-each>
+																						</fo:block>
+																					</fo:block>
+																				</fo:block>
+																			</fo:table-cell>
+																		</fo:table-row>
+																		<fo:table-row>
+																			<fo:table-cell padding="0"
+																				padding-bottom="0" padding-top="0"
+																				number-columns-spanned="2" display-align="center">
+																				<fo:block>
+																					<xsl:if test="MailCopies/NumberOfCopies &gt;0">
+																						<fo:inline-container>
+																							<fo:block>
+																								<xsl:text>&#x2029;</xsl:text>
+																							</fo:block>
+																						</fo:inline-container>
+																						<xsl:if test="MailCopies">
+																							<fo:table font-family="Arial"
+																								table-layout="fixed" width="100%"
+																								border-spacing="2pt">
+																								<fo:table-column column-width="proportional-column-width(1)" />
+																								<fo:table-column column-width="proportional-column-width(1)" />
+																								<fo:table-body start-indent="0pt">
+																									<xsl:for-each select="MailCopies">
+																										<fo:table-row>
+																											<fo:table-cell font-family="Arial"
+																												font-size="9pt" font-weight="normal"
+																												padding-bottom="0" number-columns-spanned="2"
+																												padding="0" display-align="center">
+																												<fo:block>
+																													<fo:inline-container>
+																														<fo:block>
+																															<xsl:text>&#x2029;</xsl:text>
+																														</fo:block>
+																													</fo:inline-container>
+																													<fo:block white-space="pre"
+																														white-space-collapse="false" wrap-option="wrap"
+																														white-space-treatment="ignore-if-surrounding-linefeed"
+																														margin="0pt">
+																														<fo:block>
+																															<fo:inline>
+																																<xsl:text>Mail </xsl:text>
+																															</fo:inline>
+																															<xsl:for-each select="NumberOfCopies">
+																																<xsl:variable name="value-of-template">
+																																	<xsl:apply-templates />
+																																</xsl:variable>
+																																<xsl:choose>
+																																	<xsl:when
+																																		test="contains(string($value-of-template),'&#x2029;')">
+																																		<fo:block>
+																																			<xsl:copy-of select="$value-of-template" />
+																																		</fo:block>
+																																	</xsl:when>
+																																	<xsl:otherwise>
+																																		<fo:inline>
+																																			<xsl:copy-of select="$value-of-template" />
+																																		</fo:inline>
+																																	</xsl:otherwise>
+																																</xsl:choose>
+																															</xsl:for-each>
+																															<fo:inline>
+																																<xsl:text>&#160;</xsl:text>
+																															</fo:inline>
+																															<xsl:choose>
+																																<xsl:when test="NumberOfCopies &gt; 1">
+																																	<fo:inline>
+																																		<xsl:text>copies</xsl:text>
+																																	</fo:inline>
+																																</xsl:when>
+																																<xsl:when test="NumberOfCopies &lt;2">
+																																	<fo:inline>
+																																		<xsl:text>copy</xsl:text>
+																																	</fo:inline>
+																																</xsl:when>
+																															</xsl:choose>
+																															<fo:inline>
+																																<xsl:text> to </xsl:text>
+																															</fo:inline>
+																															<xsl:for-each select="RolodexName">
+																																<xsl:variable name="value-of-template">
+																																	<xsl:apply-templates />
+																																</xsl:variable>
+																																<xsl:choose>
+																																	<xsl:when
+																																		test="contains(string($value-of-template),'&#x2029;')">
+																																		<fo:block>
+																																			<xsl:copy-of select="$value-of-template" />
+																																		</fo:block>
+																																	</xsl:when>
+																																	<xsl:otherwise>
+																																		<fo:inline>
+																																			<xsl:copy-of select="$value-of-template" />
+																																		</fo:inline>
+																																	</xsl:otherwise>
+																																</xsl:choose>
+																															</xsl:for-each>
+																															<fo:inline>
+																																<xsl:text>&#160; </xsl:text>
+																															</fo:inline>
+																															<xsl:for-each select="RolodexOrganization">
+																																<xsl:variable name="value-of-template">
+																																	<xsl:apply-templates />
+																																</xsl:variable>
+																																<xsl:choose>
+																																	<xsl:when
+																																		test="contains(string($value-of-template),'&#x2029;')">
+																																		<fo:block>
+																																			<xsl:copy-of select="$value-of-template" />
+																																		</fo:block>
+																																	</xsl:when>
+																																	<xsl:otherwise>
+																																		<fo:inline>
+																																			<xsl:copy-of select="$value-of-template" />
+																																		</fo:inline>
+																																	</xsl:otherwise>
+																																</xsl:choose>
+																															</xsl:for-each>
+																															<fo:inline>
+																																<xsl:text>&#160; (For complete address, see following address page Rolodex ID&#160; </xsl:text>
+																															</fo:inline>
+																															<xsl:for-each select="RolodexId">
+																																<xsl:variable name="value-of-template">
+																																	<xsl:apply-templates />
+																																</xsl:variable>
+																																<xsl:choose>
+																																	<xsl:when
+																																		test="contains(string($value-of-template),'&#x2029;')">
+																																		<fo:block>
+																																			<xsl:copy-of select="$value-of-template" />
+																																		</fo:block>
+																																	</xsl:when>
+																																	<xsl:otherwise>
+																																		<fo:inline>
+																																			<xsl:copy-of select="$value-of-template" />
+																																		</fo:inline>
+																																	</xsl:otherwise>
+																																</xsl:choose>
+																															</xsl:for-each>
+																															<fo:inline>
+																																<xsl:text> )</xsl:text>
+																															</fo:inline>
+																														</fo:block>
+																													</fo:block>
+																												</fo:block>
+																											</fo:table-cell>
+																										</fo:table-row>
+																									</xsl:for-each>
+																								</fo:table-body>
+																							</fo:table>
+																						</xsl:if>
+																					</xsl:if>
+																				</fo:block>
+																			</fo:table-cell>
+																		</fo:table-row>
+																	</fo:table-body>
+																</fo:table>
+															</xsl:if>
+														</xsl:for-each>
+													</xsl:for-each>
+												</xsl:for-each>
 										<xsl:if
 											test="not (starts-with(  AwardDetails/PaymentScheduleIndicator  , &quot;N&quot;)) and count(  AwardPaymentSchedules/PaymentSchedule  )  &gt; 0">
 											<fo:inline font-family="Arial" font-size="9pt"
@@ -6879,7 +7277,7 @@ or ( ../PrintRequirement/SubcontractRequired  = 1  and  starts-with(  AwardDetai
 																			<xsl:text>Amount</xsl:text>
 																		</fo:inline>
 																	</fo:block>
-																</fo:table-cell>
+																</fo:table-cell>																
 															</fo:table-row>
 														</fo:table-header>
 														<fo:table-body start-indent="0pt">
@@ -6921,13 +7319,50 @@ or ( ../PrintRequirement/SubcontractRequired  = 1  and  starts-with(  AwardDetai
 																			</xsl:for-each>
 																		</fo:block>
 																	</fo:table-cell>
-																</fo:table-row>
+																</fo:table-row>															   
 															</xsl:for-each>
-														</fo:table-body>
-													</fo:table>
-												</xsl:if>
-											</xsl:for-each>
-										</xsl:if>
+															    <fo:table-row>
+															        <fo:table-cell>
+																		<fo:block>
+																			<fo:inline>
+																				<xsl:text>&#160;</xsl:text>																				
+																			</fo:inline>
+																		</fo:block>
+																	</fo:table-cell>
+														        </fo:table-row>														  
+														        <fo:table-row font-family="Arial" font-size="9pt"
+																       font-weight="bold">
+																      <fo:table-cell padding="2pt"
+																	      display-align="center">
+																	      <fo:block />
+																      </fo:table-cell>
+																      <fo:table-cell padding="2pt"
+																	      display-align="center">
+																	     <fo:block>
+																		    <fo:inline font-weight="bold">
+																			    <xsl:text>Total:</xsl:text>
+																		    </fo:inline>
+																	     </fo:block>
+																    </fo:table-cell>
+																    <fo:table-cell padding="2pt"
+																	display-align="center">
+																	     <fo:block>
+																		    <fo:inline font-weight="normal">
+																				<xsl:text>$</xsl:text>
+																		    </fo:inline>
+																		    <fo:inline font-weight="normal">
+																				<xsl:value-of
+																						select="format-number(number(sum(//PaymentSchedule/Amount)), '#,###,###,##0.00')" />																					
+																		    </fo:inline>
+																	    </fo:block>
+																   </fo:table-cell>																
+															    </fo:table-row>
+													</fo:table-body>
+												</fo:table>
+											</xsl:if>
+										</xsl:for-each>
+									</xsl:if>
+									</xsl:if>
 										<xsl:if test="../PrintRequirement/PaymentRequired  = 1">
 											<fo:inline-container>
 												<fo:block>
@@ -8666,6 +9101,7 @@ or ( ../PrintRequirement/SubcontractRequired  = 1  and  starts-with(  AwardDetai
 												</xsl:if>
 											</xsl:for-each>
 										</xsl:if>
+									</xsl:if>
 										<fo:block />
 										<xsl:if
 											test="../PrintRequirement/FundingSummaryRequired  = &quot;1&quot;">
@@ -9080,8 +9516,7 @@ or ( ../PrintRequirement/SubcontractRequired  = 1  and  starts-with(  AwardDetai
 														leader-length="100%" color="black" />
 												</fo:block>
 											</xsl:for-each>
-										</xsl:if>
-									</xsl:if>
+										</xsl:if>									
 								</xsl:for-each>
 							</xsl:for-each>
 						</xsl:for-each>

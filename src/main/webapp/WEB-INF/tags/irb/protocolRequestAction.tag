@@ -204,10 +204,24 @@
             <kra-irb-action:undoLastAction />
             <kra-irb-action:manageReviewComments />
             <kra-irb-action:manageNotes />
-		</c:if>
+		</c:if>		
+		 <c:if test="${!KualiForm.document.protocol.active and showActions}">		     	     
+		     <table cellpadding="0" cellspacing="0" summary="">
+				<tr>
+					<td>	
+						<div align="left">		     	
+		   					<p>No actions available for a canceled protocol document. </p>		   					
+						</div>
+					</td>
+				</tr>
+			</table> 
+		</c:if>    
 	</div>
 
+
+      
     <div class="tab-container"  align="center">
+    <c:if test="${KualiForm.document.protocol.active and showActions}">
         <kul:innerTab tabTitle="Unavailable Actions" parentTab="" defaultOpen="false" useCurrentTabIndexAsKey="true" overrideDivClass="innerTab-h3head">
             <div class="innerTab-container" align="left">
             <c:if test="${KualiForm.document.protocol.active and showActions}">
@@ -473,8 +487,25 @@
 				                                                 <p>
 				                                                 Only PI can perform this action." />
 	                                                     
-		    </c:if>
-		    </div>
+		    </c:if>		   	
+		   	</div>
         </kul:innerTab>
+        </c:if>       
     </div>
+    <c:if test="${!KualiForm.document.protocol.active and showActions}">
+         	<div class="tab-container"  align="center">
+				<h3> 
+					<span class="subhead-left">Unavailable Actions</span>					
+				</h3>  	     
+			     <table cellpadding="0" cellspacing="0" summary="">
+					<tr>
+						<td>	
+							<div align="left">   			     	
+			   					<p>No actions available for a canceled protocol document. </p>			   					
+							</div>
+						</td>
+					</tr>
+				</table> 
+			</div>
+		</c:if>
 </kul:tabTop>

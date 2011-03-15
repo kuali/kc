@@ -1193,12 +1193,14 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
                     fundsRequested.setNonFederal(costInfo.getCostSharing().bigDecimalValue());
                     fundsRequested.setTotalFedNonFed(costInfo.getCost().add(costInfo.getCostSharing()).bigDecimalValue());
 
-                    // prepare the totals
+                    //  equipmentList.setNonFederal(costInfo.getCostSharing().bigDecimalValue());
+                    //  equipmentList.setTotalFedNonFed(costInfo.getCost().add(costInfo.getCostSharing()).bigDecimalValue());   
+                    //  prepare the totals
                     totalFund.setFederalSummary(totalFund.getFederalSummary().add(costInfo.getCost().bigDecimalValue()));
                     totalFund.setNonFederalSummary(totalFund.getNonFederalSummary()
                             .add(costInfo.getCostSharing().bigDecimalValue()));
 
-                    equipmentList.setFundsRequested(fundsRequested);
+                    equipmentList.setFundsRequested(fundsRequested);                   
                     equipmentArrayList.add(equipmentList);
                 }
                 totalFund.setTotalFedNonFedSummary(totalFund.getFederalSummary().add(totalFund.getNonFederalSummary()));
@@ -1305,7 +1307,10 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
 			equipmentList = AdditionalEquipmentList.EquipmentList.Factory
 					.newInstance();
 			equipmentList.setFundsRequested(costInfo.getCost()
-					.bigDecimalValue());
+					.bigDecimalValue());			
+			equipmentList.setNonFederal(costInfo.getCostSharing().bigDecimalValue());
+			equipmentList.setTotalFedNonFed(costInfo.getCost().add(costInfo.getCostSharing()).bigDecimalValue());        
+	
 			equipmentList
 					.setEquipmentItem(costInfo.getDescription() != null ? costInfo
 							.getDescription()
