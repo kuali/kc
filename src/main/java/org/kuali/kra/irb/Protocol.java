@@ -1470,10 +1470,35 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
             }
         }
         getAttachmentProtocols().addAll(attachmentProtocols);
-        
+        removeDeletedAttachment();
         mergeNotepads(amendment);
     }
 
+    /*
+     * the deleted attachment will not be merged
+     */
+    private void removeDeletedAttachment() {
+        List<Integer> documentIds = new ArrayList<Integer>();
+        List<ProtocolAttachmentProtocol> attachments = new ArrayList<ProtocolAttachmentProtocol>();
+        for (ProtocolAttachmentProtocol attachment : this.getAttachmentProtocols()) {
+            attachment.setProtocol(this);
+            if ("3".equals(attachment.getDocumentStatusCode())) {
+                documentIds.add(attachment.getDocumentId());
+            }
+        }
+        if (!documentIds.isEmpty()) {
+            for (ProtocolAttachmentProtocol attachment : this.getAttachmentProtocols()) {
+                attachment.setProtocol(this);
+                if (!documentIds.contains(attachment.getDocumentId())) {
+                    attachments.add(attachment);
+                } 
+            }
+            this.setAttachmentProtocols(new ArrayList<ProtocolAttachmentProtocol>());
+            this.getAttachmentProtocols().addAll(attachments);
+        }
+    }
+
+    
     /*
      * This is to restore attachments from protocol to amendment when 'attachment' section is unselected.
      * The attachment in amendment may have been modified.
