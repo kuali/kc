@@ -76,7 +76,6 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
             fieldValues1.put("rootAwardNumber", getRootAwardNumberForDocumentSearch(award.getAwardNumber()));
             docs = (List<TimeAndMoneyDocument>)businessObjectService.findMatchingOrderBy(TimeAndMoneyDocument.class, fieldValues1, "documentNumber", true);
             timeAndMoneyHistory.put(buildForwardUrl(award.getAwardDocument().getDocumentHeader().getWorkflowDocument().getRouteHeaderId(), award.getAwardDocument().getDocumentNumber()), buildAwardDescriptionLine(award, null, docs.get(docs.size() -1)));
-           // timeAndMoneyHistory.put(buildDocumentUrl(award.getAwardDocument().getDocumentNumber()), buildAwardDescriptionLine(award, null, docs.get(docs.size() -1)));
             for(TimeAndMoneyDocument tempDoc: docs){
                 TimeAndMoneyDocument doc = (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(tempDoc.getDocumentNumber());
                 List<AwardAmountTransaction> awardAmountTransactions = doc.getAwardAmountTransactions();
@@ -92,7 +91,6 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
                                         if(awardAmountTransactions.size()>0){
                                             awardAmountTransaction = awardAmountTransactions.get(0);
                                             timeAndMoneyHistory.put(buildForwardUrl(doc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId(), doc.getDocumentNumber()), 
-                                            //timeAndMoneyHistory.put(buildDocumentUrl(doc.getDocumentNumber()), 
                                                     buildAwardDescriptionLine(award, awardAmountInfo, docs.get(docs.size() -1)) + " comments: " + awardAmountTransaction.getComments());
                                         } 
                                         fieldValues5.put("destinationAwardNumber", awardAmountInfo.getAwardNumber());
@@ -123,7 +121,6 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
                                         if(awardAmountTransactions.size()>0){
                                             awardAmountTransaction = awardAmountTransactions.get(0);
                                             timeAndMoneyHistory.put(buildForwardUrl(doc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId(), doc.getDocumentNumber()),
-                                            //timeAndMoneyHistory.put(buildDocumentUrl(doc.getDocumentNumber()),
                                                     buildAwardDescriptionLine(award, awardAmountInfo, docs.get(docs.size() -1)) + " comments: " + awardAmountTransaction.getComments());
                                         } 
                                         List<TransactionDetail> transactionDetails = new ArrayList<TransactionDetail>();
@@ -170,7 +167,6 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
                                     if(awardAmountTransactions.size()>0){
                                         awardAmountTransaction = awardAmountTransactions.get(0);
                                         timeAndMoneyHistory.put(buildForwardUrl(doc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId(), doc.getDocumentNumber()),
-                                        //timeAndMoneyHistory.put(buildDocumentUrl(doc.getDocumentNumber()),        
                                                 buildAwardDescriptionLine(award, awardAmountInfo, docs.get(docs.size() -1)) + " comments: " + awardAmountTransaction.getComments());
                                     } 
                                     fieldValues4.put("sourceAwardNumber", awardAmountInfo.getAwardNumber());
@@ -216,7 +212,6 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         for(Award award : awardVersionList) {
             AwardVersionHistory awardVersionHistory = new AwardVersionHistory();
             awardVersionHistory.setDocumentUrl(buildForwardUrl(award.getAwardDocument().getDocumentHeader().getWorkflowDocument().getRouteHeaderId(), award.getAwardDocument().getDocumentNumber()));
-            //awardVersionHistory.setDocumentUrl(buildDocumentUrl(award.getAwardDocument().getDocumentNumber()));
             awardVersionHistory.setAwardDescriptionLine(buildNewAwardDescriptionLine(award));
             awardVersionHistory.setTimeAndMoneyDocumentHistoryList(getDocHistoryAndValidInfosAssociatedWithAwardVersion(docs, award.getAwardAmountInfos(), award));
             
@@ -235,7 +230,6 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
             TimeAndMoneyDocumentHistory docHistory = new TimeAndMoneyDocumentHistory();
             docHistory.setTimeAndMoneyDocument(doc);
             docHistory.setDocumentUrl(buildForwardUrl(doc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId(), doc.getDocumentNumber()));
-            //docHistory.setDocumentUrl(buildDocumentUrl(doc.getDocumentNumber()));
             docHistory.setTimeAndMoneyDocumentDescriptionLine(buildNewTimeAndMoneyDescriptionLine(doc));
             docHistory.setValidAwardAmountInfoHistoryList(retrieveAwardAmountInfosFromPrimaryTransactions(doc, validInfos));
             timeAndMoneyDocumentHistoryList.add(docHistory);
@@ -477,27 +471,6 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         returnString.append(DASH);
         returnString.append("00001");  
         return returnString.toString();
-    }
-    
-    protected String buildDocumentUrl(String documentNumber){
-        StringBuilder sb = new StringBuilder();
-        sb.append("<a href=\"");
-        sb.append("kew/");
-        sb.append(KEWConstants.DOC_HANDLER_REDIRECT_PAGE);
-        sb.append("?");
-        sb.append(KEWConstants.COMMAND_PARAMETER);
-        sb.append("=");
-        sb.append(KEWConstants.DOCSEARCH_COMMAND);
-        sb.append("&");
-        sb.append(KEWConstants.ROUTEHEADER_ID_PARAMETER);
-        sb.append("=");
-        sb.append(documentNumber);
-        sb.append("\"");
-        sb.append("target=\"_blank\"");//open url in new window for inspection.
-        sb.append(">");
-        sb.append(documentNumber);
-        sb.append("</a>");
-        return sb.toString();
     }
     
     protected String buildAwardDescriptionLine(Award award, AwardAmountInfo awardAmountInfo, TimeAndMoneyDocument timeAndMoneyDocument) {
