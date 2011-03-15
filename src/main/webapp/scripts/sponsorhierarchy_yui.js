@@ -105,8 +105,10 @@ function sponsorHierarchy() {
 		
 		if (childrenNode.length == 0 || !childrenNode[0].isLeaf)  {
 		//alert (childrenNode[0]+childrenNode[0].isLeaf+" ln "+leafNode)
-        var sLabel = window.prompt("Enter a name for the new group: ", ""),
-            oChildNode;
+        var sLabel = window.prompt("Enter a name for the new group: ", "");
+        while (sLabel.indexOf(":") != -1) {
+        	sLabel = window.prompt("The new group name cannot contain ':'. \n\r Enter a name for the new group: ", sLabel);
+        }
 		sLabel = sLabel.trim();
 		if (sLabel.length > 50) {
 		  sLabel = sLabel.substring(0,50);
@@ -147,6 +149,9 @@ function sponsorHierarchy() {
 		}
 		var nodeDesc = oCurrentTextNode.description;
         var sLabel = window.prompt("Enter a new name for this group: ", nodeDesc);
+        while (sLabel.indexOf(":") != -1) {
+        	sLabel = window.prompt("The new group name cannot contain ':'. \n\r Enter a new name for this group: ", sLabel);
+        }
 		sLabel = sLabel.trim();
 		if (sLabel.length > 50) {
 		  sLabel = sLabel.substring(0,50);
