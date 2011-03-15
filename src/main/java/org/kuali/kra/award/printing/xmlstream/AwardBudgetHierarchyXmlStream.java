@@ -65,7 +65,7 @@ public class AwardBudgetHierarchyXmlStream extends AwardBudgetBaseStream {
 		awardNoticeDocument.setAwardNotice(awardNotice);
 		awardNoticeDocument.setAwardNotice(awardNotice);
 		budgetHierarchyMap.put(AwardPrintType.AWARD_BUDGET_HIERARCHY
-				.getAwardPrintType(), awardNotice);
+				.getAwardPrintType(), awardNoticeDocument);
 		return budgetHierarchyMap;
 	}
 

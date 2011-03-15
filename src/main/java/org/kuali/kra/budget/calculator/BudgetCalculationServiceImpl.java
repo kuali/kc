@@ -835,6 +835,17 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         }
     }
 
+    public void syncToPeriodDirectCostLimit(Budget budget, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem) {
+        BudgetPeriodCalculator periodCalculator = new BudgetPeriodCalculator();
+        periodCalculator.syncToPeriodDirectCostLimit(budget, budgetPeriod, budgetLineItem);
+        List<String> errors = periodCalculator.getErrorMessages();
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        if(!errors.isEmpty()){
+            for (String error : errors) {
+                errorMap.putError("document.budgetPeriod[" + (budgetPeriod.getBudgetPeriod() - 1) + "].budgetLineItem["+ (budgetLineItem.getLineItemNumber() - 1) +"].lineItemCost", error);
+            }
+        }
+    }
     public void applyToLaterPeriods(Budget budget, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem) {
         BudgetPeriodCalculator periodCalculator = new BudgetPeriodCalculator();
         periodCalculator.applyToLaterPeriods(budget, budgetPeriod, budgetLineItem);

@@ -51,7 +51,9 @@
                         <nobr>
                             <kul:htmlControlAttribute property="${property}.approvalDate" 
                                                       attributeEntry="${attributes.approvalDate}" 
-                                                      readOnly="${datesReadOnly}" />
+                                                      readOnly="${datesReadOnly}"                                                      
+                                                      onchange="loadExpeditedDates('${property}.approvalDate', '${property}.expirationDate');" />
+                                                      
                         </nobr>
                     </td>
                 </tr>

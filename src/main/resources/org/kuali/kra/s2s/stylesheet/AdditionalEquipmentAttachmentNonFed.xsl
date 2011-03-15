@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:n1="http://apply.grants.gov/coeus/AdditionalEquipment" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <xsl:variable name="fo:layout-master-set">
+
+  <xsl:variable name="fo:layout-master-set">
         <fo:layout-master-set>
-            <fo:simple-page-master master-name="default-page" page-height="8.5in" page-width="11in" margin-left="0.25in" margin-right="0.25in">
-                <fo:region-body margin-top="0.5in" margin-bottom="0.5in" />
+        	<fo:simple-page-master master-name="default-page" page-height="11in" page-width="8.5in" margin-left="0.6in" margin-right="0.6in">
+                <fo:region-body margin-top="0.79in" margin-bottom="0.79in" />
             </fo:simple-page-master>
         </fo:layout-master-set>
     </xsl:variable>
@@ -37,36 +38,34 @@
                                         </fo:inline>
                                     </xsl:for-each>
                                 </xsl:for-each>
-                            </fo:block>
-                        </fo:block>
-                        <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
+                            </fo:block>                        
                             <fo:block>
                                 <xsl:for-each select="n1:AdditionalEquipmentList">
-                                    <fo:table width="100%" space-before.optimum="1pt" space-after.optimum="2pt">
-                                        <fo:table-column column-width="proportional-column-width(44)" />
-                                        <fo:table-column column-width="proportional-column-width(20)" />
-                                        <fo:table-column column-width="proportional-column-width(18)" />
-                                        <fo:table-column column-width="proportional-column-width(18)" />
+                                    <fo:table width="100%" space-before.optimum="1pt" space-after.optimum="4pt">
+                                        <fo:table-column />
+                                        <fo:table-column />
+                                        <fo:table-column />
+                                        <fo:table-column />
                                         <fo:table-header>
                                             <fo:table-row>
-                                                <fo:table-cell border-style="solid" border-width="1pt" border-color="black" width="44%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
+                                                <fo:table-cell border-style="solid" border-width="1pt" border-color="black"  padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
                                                     <fo:block>
                                                         <fo:inline font-weight="bold">Equipment Item</fo:inline>
                                                     </fo:block>
                                                 </fo:table-cell>
-                                                <fo:table-cell border-style="solid" border-width="1pt" border-color="black" width="20%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
+                                                <fo:table-cell border-style="solid" border-width="1pt" border-color="black" padding-start="20pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
                                                     <fo:block>
-                                                        <fo:inline font-weight="bold">Total (Fed + Non-Fed)</fo:inline>
+                                                        <fo:inline font-weight="bold">Non-Federal</fo:inline>
                                                     </fo:block>
                                                 </fo:table-cell>
-                                                <fo:table-cell border-style="solid" border-width="1pt" border-color="black" width="18%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
+                                                <fo:table-cell border-style="solid" border-width="1pt" border-color="black"  padding-start="20pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
                                                     <fo:block>
                                                         <fo:inline font-weight="bold">Federal</fo:inline>
                                                     </fo:block>
                                                 </fo:table-cell>
-                                                <fo:table-cell border-style="solid" border-width="1pt" border-color="black" width="18%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
+                                                <fo:table-cell border-style="solid" border-width="1pt" border-color="black"  padding-start="10pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
                                                     <fo:block>
-                                                        <fo:inline font-weight="bold">Non-Federal</fo:inline>
+                                                        <fo:inline font-weight="bold">Total (Fed+Non-Fed)</fo:inline>
                                                     </fo:block>
                                                 </fo:table-cell>
                                             </fo:table-row>
@@ -74,28 +73,28 @@
                                         <fo:table-body>
                                             <xsl:for-each select="n1:EquipmentList">
                                                 <fo:table-row>
-                                                    <fo:table-cell border-style="solid" border-width="1pt" border-color="black" width="44%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
+                                                 <fo:table-cell border-style="solid" border-width="1pt" border-color="black" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
                                                         <fo:block>
                                                             <xsl:for-each select="n1:EquipmentItem">
                                                                 <xsl:apply-templates />
                                                             </xsl:for-each>
                                                         </fo:block>
-                                                    </fo:table-cell>
-                                                    <fo:table-cell border-style="solid" border-width="1pt" border-color="black" width="20%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
+                                                    </fo:table-cell> 
+                                                    <fo:table-cell border-style="solid" border-width="1pt" border-color="black" padding-start="20pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
                                                         <fo:block>
-                                                            <xsl:for-each select="n1:TotalFedNonFed">$<xsl:value-of select="format-number(number(string(.)), '#,###,###,##0.00')" />
+                                                            <xsl:for-each select="n1:NonFederal">$<xsl:value-of select="format-number(number(string(.)), '#,###,###,##0.00')" />
                                                             </xsl:for-each>
                                                         </fo:block>
                                                     </fo:table-cell>
-                                                    <fo:table-cell border-style="solid" border-width="1pt" border-color="black" width="18%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
+                                                    <fo:table-cell border-style="solid" border-width="1pt" border-color="black" padding-start="20pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
                                                         <fo:block>
                                                             <xsl:for-each select="n1:FundsRequested">$<xsl:value-of select="format-number(number(string(.)), '#,###,###,##0.00')" />
                                                             </xsl:for-each>
                                                         </fo:block>
                                                     </fo:table-cell>
-                                                    <fo:table-cell border-style="solid" border-width="1pt" border-color="black" width="18%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
+                                                    <fo:table-cell border-style="solid" border-width="1pt" border-color="black" padding-start="10pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
                                                         <fo:block>
-                                                            <xsl:for-each select="n1:NonFederal">$<xsl:value-of select="format-number(number(string(.)), '#,###,###,##0.00')" />
+                                                            <xsl:for-each select="n1:TotalFedNonFed">$<xsl:value-of select="format-number(number(string(.)), '#,###,###,##0.00')" />
                                                             </xsl:for-each>
                                                         </fo:block>
                                                     </fo:table-cell>

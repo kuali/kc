@@ -30,13 +30,14 @@
           		<th width="5%"><div align="center">&nbsp;</div></th> 
           		<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.startDate}" noColon="true" /></div></th>
           		<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.endDate}" noColon="true" /></div></th>
-          		<th width="12%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.totalCost}" noColon="true" /></div></th>
+          		<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.totalCost}" noColon="true" /></div></th>
           		<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.totalDirectCost}" noColon="true" /></div></th>
           		<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.totalIndirectCost}"noColon="true" /></div></th>
-          		<th width="12%"> <div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.underrecoveryAmount}" noColon="true" /></div></th>
-          		<th width="12%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.costSharingAmount}" noColon="true" /></div></th>
+          		<th width="10%"> <div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.underrecoveryAmount}" noColon="true" /></div></th>
+          		<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.costSharingAmount}" noColon="true" /></div></th>
           		<th width="9%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.totalCostLimit}" noColon="true" /></div></th>
-          		<th width="10%"><div align="center">Actions</div></th>
+          		<th width="9%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.totalDirectCostLimit}" noColon="true" /></div></th>
+          		<th width="7%"><div align="center">Actions</div></th>
           	
           	</tr> 
           	
@@ -56,7 +57,7 @@
                 	<kul:htmlControlAttribute property="newBudgetPeriod.endDate" attributeEntry="${budgetPeriodAttributes.endDate}" />
                 	</div>
                 </td>
-                <td width="12%" valign="middle" class="infoline">                	
+                <td width="10%" valign="middle" class="infoline">                	
                 	<div align="center">
                   	<kul:htmlControlAttribute property="newBudgetPeriod.totalCost" attributeEntry="${budgetPeriodAttributes.totalCost}" styleClass="amount" /> 
                 	</div>
@@ -71,12 +72,12 @@
              	    <kul:htmlControlAttribute property="newBudgetPeriod.totalIndirectCost" attributeEntry="${budgetPeriodAttributes.totalIndirectCost}" styleClass="amount"/> 
                 	</div>
                 </td>
-                <td width="12%" valign="middle" class="infoline">
+                <td width="10%" valign="middle" class="infoline">
                  	<div align="center">
 	                <kul:htmlControlAttribute property="newBudgetPeriod.underrecoveryAmount" attributeEntry="${budgetPeriodAttributes.underrecoveryAmount}" styleClass="amount"/> 
                 	</div>
                 </td>
-                <td width="12%" valign="middle" class="infoline">
+                <td width="10%" valign="middle" class="infoline">
                 	<div align="center">
  	                <kul:htmlControlAttribute property="newBudgetPeriod.costSharingAmount" attributeEntry="${budgetPeriodAttributes.costSharingAmount}" styleClass="amount"/> 
                 	</div>
@@ -86,8 +87,13 @@
  	                <kul:htmlControlAttribute property="newBudgetPeriod.totalCostLimit" attributeEntry="${budgetPeriodAttributes.totalCostLimit}" styleClass="amount"/> 
                 	</div>
                 </td>
+                <td width="9%" valign="middle" class="infoline">
+                	<div align="center">
+ 	                <kul:htmlControlAttribute property="newBudgetPeriod.totalDirectCostLimit" attributeEntry="${budgetPeriodAttributes.totalDirectCostLimit}" styleClass="amount"/> 
+                	</div>
+                </td>
 				<td class="infoline">
-					<div width="10%" align="center">
+					<div width="7%" align="center">
 						<html:image property="methodToCall.addBudgetPeriod.anchor${tabKey}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton" />
 					</div>
@@ -119,7 +125,7 @@
                 		<kul:htmlControlAttribute property="document.budget.budgetPeriods[${status.index}].endDate" attributeEntry="${budgetPeriodAttributes.endDate}" />
 					</div>
 	                </td>
-	                <td width="12%" valign="middle">                	
+	                <td width="10%" valign="middle">                	
 					<div align="center">
                   		<kul:htmlControlAttribute property="document.budget.budgetPeriods[${status.index}].totalCost" attributeEntry="${budgetPeriodAttributes.totalCost}" styleClass="amount" readOnly="${periodReadOnly}"/> 
 					</div>
@@ -134,12 +140,12 @@
 	                	<kul:htmlControlAttribute property="document.budget.budgetPeriods[${status.index}].totalIndirectCost" attributeEntry="${budgetPeriodAttributes.totalIndirectCost}" styleClass="amount"  readOnly="${periodReadOnly}"/>
 					</div>
 	                </td>
-	                <td width="12%" valign="middle">
+	                <td width="10%" valign="middle">
 					<div align="center">
 	                	<kul:htmlControlAttribute property="document.budget.budgetPeriods[${status.index}].underrecoveryAmount" attributeEntry="${budgetPeriodAttributes.underrecoveryAmount}" styleClass="amount" readOnly="${periodReadOnly}"/>
 					</div>
 	                </td>
-	                <td width="12%" valign="middle">
+	                <td width="10%" valign="middle">
 					<div align="center">
 	                	<kul:htmlControlAttribute property="document.budget.budgetPeriods[${status.index}].costSharingAmount" attributeEntry="${budgetPeriodAttributes.costSharingAmount}" styleClass="amount" readOnly="${periodReadOnly}"/>
 					</div>
@@ -149,7 +155,12 @@
  	                	<kul:htmlControlAttribute property="document.budget.budgetPeriods[${status.index}].totalCostLimit" attributeEntry="${budgetPeriodAttributes.totalCostLimit}" styleClass="amount" readOnly="${readOnly}"/>
                 	</div>
                 	</td>
-					<td width="10%">
+	                <td width="9%" valign="middle">
+                	<div align="center">
+ 	                	<kul:htmlControlAttribute property="document.budget.budgetPeriods[${status.index}].totalDirectCostLimit" attributeEntry="${budgetPeriodAttributes.totalDirectCostLimit}" styleClass="amount" readOnly="${readOnly}"/>
+                	</div>
+                	</td>
+					<td width="7%">
 					<div align="center">&nbsp;
 						<kra:section permission="modifyBudgets"> 
 		          		<c:choose>
@@ -194,7 +205,7 @@
                 		<strong> <fmt:formatDate value="${KualiForm.document.budget.summaryPeriodEndDate}" pattern="MM/dd/yyyy" /> </strong>
                 	</div>
                 </td>
-                <td width="12%" valign="middle" class="infoline">                	
+                <td width="10%" valign="middle" class="infoline">                	
                 	<div align="center">
                 	    <strong> <kul:htmlControlAttribute property="document.budget.totalCost" attributeEntry="${budgetPeriodAttributes.totalCost}" styleClass="amount" readOnly="true"/> </strong>
                 	</div>
@@ -210,14 +221,19 @@
                 	    <strong> <kul:htmlControlAttribute property="document.budget.totalIndirectCost" attributeEntry="${budgetPeriodAttributes.totalIndirectCost}" styleClass="amount" readOnly="true"/> </strong>
                 	</div>
                 </td>
-                <td width="12%" valign="middle" class="infoline">
+                <td width="10%" valign="middle" class="infoline">
                  	<div align="center">
                 	    <strong> <kul:htmlControlAttribute property="document.budget.underrecoveryAmount" attributeEntry="${budgetPeriodAttributes.underrecoveryAmount}" styleClass="amount" readOnly="true"/> </strong>
                 	</div>
                 </td>
-                <td width="12%" valign="middle" class="infoline">
+                <td width="10%" valign="middle" class="infoline">
                 	<div align="center">
                 	    <strong> <kul:htmlControlAttribute property="document.budget.costSharingAmount" attributeEntry="${budgetPeriodAttributes.costSharingAmount}" styleClass="amount" readOnly="true"/> </strong>
+                	</div>
+                </td>
+                <td width="9%" valign="middle" class="infoline">
+                	<div align="center">
+                	    <strong> &nbsp; </strong>
                 	</div>
                 </td>
                 <td width="9%" valign="middle" class="infoline">
@@ -253,7 +269,7 @@
                 		 <fmt:formatDate value="${KualiForm.document.budget.prevBudget.endDate}" pattern="MM/dd/yyyy" /> 
                 	</div>
                 </td>
-                <td width="12%" valign="middle" class="infoline">                	
+                <td width="10%" valign="middle" class="infoline">                	
                 	<div align="center">
                 	     <kul:htmlControlAttribute property="document.budget.prevBudget.totalCost" attributeEntry="${budgetPeriodAttributes.totalCost}" styleClass="amount" readOnly="true"/> 
                 	</div>
@@ -269,12 +285,12 @@
                 	     <kul:htmlControlAttribute property="document.budget.prevBudget.totalIndirectCost" attributeEntry="${budgetPeriodAttributes.totalIndirectCost}" styleClass="amount" readOnly="true"/> 
                 	</div>
                 </td>
-                <td width="12%" valign="middle" class="infoline">
+                <td width="10%" valign="middle" class="infoline">
                  	<div align="center">
                 	     <kul:htmlControlAttribute property="document.budget.prevBudget.underrecoveryAmount" attributeEntry="${budgetPeriodAttributes.underrecoveryAmount}" styleClass="amount" readOnly="true"/> 
                 	</div>
                 </td>
-                <td width="12%" valign="middle" class="infoline">
+                <td width="10%" valign="middle" class="infoline">
                 	<div align="center">
                 	     <kul:htmlControlAttribute property="document.budget.prevBudget.costSharingAmount" attributeEntry="${budgetPeriodAttributes.costSharingAmount}" styleClass="amount" readOnly="true"/> 
                 	</div>
@@ -284,11 +300,13 @@
                 	     &nbsp; 
                 	</div>
                 </td>
+                <td width="9%" valign="middle" class="infoline">
+                	<div align="center">
+                	     &nbsp; 
+                	</div>
+                </td>
           	</tr>    
-          	
-          	
-          	
-          	          	<tr>
+         	<tr>
           		<td width="5%" class="infoline"> 
           			<div align="center">
           				<strong>Obligated Total:</strong>

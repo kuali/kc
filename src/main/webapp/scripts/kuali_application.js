@@ -1892,6 +1892,66 @@ function loadFrequencyBaseCode(frequencyCodeFieldName, frequencyBaseCodeFieldNam
 
 }
 
+/**
+ * Function for Finding Expedicted Date
+ * @param approveDateElementId
+ * @param expiredDateElementId
+ * @return
+ */
+function loadExpeditedDates(approveDateElementId,expiredDateElementId){	
+	
+	var dateValue = document.getElementById(approveDateElementId).value;
+	
+	if(dateValue!= null){		
+		if(checkdate(dateValue)){		
+			var myDate = new Date(dateValue);		
+			myDate.setDate(myDate.getDate() - 1);
+			myDate.setYear((myDate.getFullYear() + 1));
+				var MM = myDate.getMonth()+1;
+				var DD = myDate.getDate();
+				var YY = myDate.getFullYear();
+				  if(MM<10) MM="0"+MM;
+				  if(DD<10) DD="0"+DD;
+				  //alert(MM+"/"+DD+"/"+YY);				
+				  var nextYearDate = MM+"/"+DD+"/"+YY;			
+			//alert('updated my date:'+ myDate );								
+			document.getElementById(expiredDateElementId).value=nextYearDate;
+		}
+	}
+			
+}
+
+/**
+*
+* Validate Date Field script 
+* //Basic check for format validity=mm/dd/yyyy
+* //Detailed check for valid date ranges(Feb 30 or..)
+**/
+
+function checkdate(input){	
+	var validformat=/^\d{2}\/\d{2}\/\d{4}$/ 	
+	var returnval=true;
+	if(!validformat.test(input)){
+		returnval=false;
+		alert("Invalid Date Format. Please correct and submit again.");
+		return false;
+	}
+	else{ 
+		var monthfield=input.split("/")[0];
+		var dayfield=input.split("/")[1];
+		var yearfield=input.split("/")[2];
+		var dayobj = new Date(yearfield, monthfield-1, dayfield);
+		if ((dayobj.getMonth()+1!=monthfield)||(dayobj.getDate()!=dayfield)||(dayobj.getFullYear()!=yearfield)){
+			returnval=false;
+			alert("Invalid Day, Month, or Year range detected. Please correct and submit again.");
+			return false;
+		}		
+	}	
+	return returnval;
+}
+
+
+
 /*
  * Based upon the selected committe, load the scheduled dates for that committee
  * into the drop-down menu for scheduled dates.
