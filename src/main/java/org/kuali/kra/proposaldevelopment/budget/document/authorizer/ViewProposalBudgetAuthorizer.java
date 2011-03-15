@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.budget.document.authorizer;
 
-import org.kuali.kra.authorization.Task;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.authorization.BudgetTask;
 import org.kuali.kra.budget.document.authorizer.BudgetAuthorizer;
@@ -31,14 +30,17 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 public class ViewProposalBudgetAuthorizer extends BudgetAuthorizer {
  
     /**
-     * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
+     * {@inheritDoc}
+     * @see org.kuali.kra.budget.document.authorizer.BudgetAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.budget.document.authorization.BudgetTask)
      */
     public boolean isAuthorized(String userId, BudgetTask task) {
         
         BudgetDocument budgetDocument = task.getBudgetDocument();
-        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument)budgetDocument.getParentDocument();
+        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) budgetDocument.getParentDocument();
         
-        return kraWorkflowService.hasWorkflowPermission(userId, doc) ||
-            hasParentPermission(userId, doc, PermissionConstants.VIEW_BUDGET);
-        }
+        return hasParentPermission(userId, doc, PermissionConstants.VIEW_BUDGET) 
+            || kraWorkflowService.hasWorkflowPermission(userId, doc);
+            
+    }
+    
 }

@@ -28,13 +28,16 @@ import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 public class BudgetOpenAuthorizer extends ProposalAuthorizer {
  
     /**
-     * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
+     * {@inheritDoc}
+     * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(java.lang.String, 
+     *      org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask)
      */
     public boolean isAuthorized(String userId, ProposalTask task) {
-        
         ProposalDevelopmentDocument doc = task.getDocument();
         
-        return kraWorkflowService.hasWorkflowPermission(userId, doc) ||
-               hasProposalPermission(userId, doc, PermissionConstants.VIEW_BUDGET);
+        return hasProposalPermission(userId, doc, PermissionConstants.VIEW_BUDGET) 
+            || kraWorkflowService.hasWorkflowPermission(userId, doc);
+               
     }
+    
 }

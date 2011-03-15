@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorizer;
 
-import org.kuali.kra.authorization.Task;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.infrastructure.PermissionConstants;
@@ -32,7 +31,9 @@ import org.kuali.kra.proposaldevelopment.document.authorization.NarrativeTask;
 public class NarrativeReadAuthorizer extends NarrativeAuthorizer {
 
     /**
-     * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
+     * {@inheritDoc}
+     * @see org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeAuthorizer#isAuthorized(java.lang.String, 
+     *      org.kuali.kra.proposaldevelopment.document.authorization.NarrativeTask)
      */
     public boolean isAuthorized(String userId, NarrativeTask task) {
           
@@ -45,15 +46,17 @@ public class NarrativeReadAuthorizer extends NarrativeAuthorizer {
           
         boolean hasPermission = false;
         if (hasProposalPermission(userId, doc, PermissionConstants.VIEW_NARRATIVE)) {
-            hasPermission = hasNarrativeRight(userId, narrative, NarrativeRight.VIEW_NARRATIVE_RIGHT) ||
-                            hasNarrativeRight(userId, narrative, NarrativeRight.MODIFY_NARRATIVE_RIGHT);
+            hasPermission = hasNarrativeRight(userId, narrative, NarrativeRight.VIEW_NARRATIVE_RIGHT)
+                         || hasNarrativeRight(userId, narrative, NarrativeRight.MODIFY_NARRATIVE_RIGHT);
         }
         
-        if(!hasPermission) {
-            hasPermission = kraWorkflowService.hasWorkflowPermission(userId, doc) ||  
-            hasUnitPermission(userId, doc.getDevelopmentProposal().getOwnedByUnitNumber(), Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, PermissionConstants.VIEW_NARRATIVE);     
+        if (!hasPermission) {
+            hasPermission = hasUnitPermission(userId, doc.getDevelopmentProposal().getOwnedByUnitNumber(), Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, 
+                                PermissionConstants.VIEW_NARRATIVE) 
+                         || kraWorkflowService.hasWorkflowPermission(userId, doc);
         }
        
         return hasPermission;
     }
+    
 }
