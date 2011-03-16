@@ -509,6 +509,10 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         List<Object> list = new ArrayList<Object>();
         // force to materialize - jira 1644 only happen for disapproved doc ??
         for (ProposalPerson proposalperson : newDoc.getDevelopmentProposal().getProposalPersons()) {
+            //KRACOEUS-4545 - set the proposal reference on the person to the new proposal as OJB will try 
+            //to rematerialize this reference to the old one during fixProposalNumber otherwise.
+            //tried doing this via reflection, but it didn't seem to trigger the OJB proxy.
+            proposalperson.setDevelopmentProposal(newDoc.getDevelopmentProposal());
             for (ProposalPersonUnit proposalPersonUnit : proposalperson.getUnits()) {
                 ObjectUtils.materializeObjects(proposalPersonUnit.getCreditSplits());
             }
@@ -584,11 +588,11 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                         }
                     } else {
                         fixProposalNumbers(value, proposalNumber, list);
-                    }   
+                    }
                 }
             }
         }
-    }
+    } 
     
     /**
      * Is the given method a getter method for a property?  Must conform to
