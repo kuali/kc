@@ -80,12 +80,21 @@
                         </c:if>
 
 						<c:if test="${not empty customAttributeDocument.customAttribute.lookupClass}">
-                            <c:out value="${customAttributeValue}" />
+						  <c:out value="${customAttributeValue}" />
+						  <c:choose>
+						   <c:when test="${customAttributeDocument.customAttribute.lookupClass eq 'org.kuali.kra.bo.ArgValueLookup'}"> 
+								<kul:lookup boClassName="${customAttributeDocument.customAttribute.lookupClass}" 
+									lookupParameters="'${customAttributeDocument.customAttribute.lookupReturn}':argumentName"
+									fieldConversions="value:${customAttributeId}," 
+									fieldLabel="${customAttributeDocument.customAttribute.label}"  anchor="${tabKey}" />		
+						   </c:when>
+						   <c:otherwise>
 							<kul:lookup boClassName="${customAttributeDocument.customAttribute.lookupClass}" fieldConversions="${customAttributeDocument.customAttribute.lookupReturn}:${customAttributeId}," fieldLabel="${customAttributeDocument.customAttribute.label}"  anchor="${tabKey}" />
-						
-						    <c:if test="${not empty customAttributeValue}">
-                                <html:image property="methodToCall.clearLookupValue" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" title="Clear Lookup Value" alt="Clear Lookup Value" value="${customAttributeDocument.customAttributeId}" styleClass="tinybutton"/>
-                            </c:if>
+						   </c:otherwise>
+                          </c:choose>
+						  <c:if test="${not empty customAttributeValue}">
+                            <html:image property="methodToCall.clearLookupValue" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" title="Clear Lookup Value" alt="Clear Lookup Value" value="${customAttributeDocument.customAttributeId}" styleClass="tinybutton"/>
+                          </c:if>
 						</c:if>
 						
 						<c:if test="${customAttributeDocument.customAttribute.customAttributeDataType.description == 'Date'}">
