@@ -454,7 +454,7 @@ public class BudgetPeriod extends BudgetAssociate {
      * @return Returns the totalDirectCostLimit.
      */
     public BudgetDecimal getTotalDirectCostLimit() {
-        return totalDirectCostLimit;
+        return totalDirectCostLimit == null ? BudgetDecimal.ZERO : totalDirectCostLimit;
     }
 
     /**
