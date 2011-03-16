@@ -296,26 +296,26 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         
         if( validComments && getKraWorkflowService().isUserApprovalRequested(prDoc, GlobalVariables.getUserSession().getPrincipalId())) {
             //then the status must be final.
-            if (prDoc.getProtocolOnlineReview().getProtocolReviewer().isPersonIdProtocolReviewer(GlobalVariables.getUserSession().getPrincipalId(),false) && !StringUtils.equals(prDoc.getProtocolOnlineReview().getProtocolOnlineReviewStatusCode(),ProtocolOnlineReviewStatus.FINAL_STATUS_CD)) {
-                Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-                Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
-                String callerString = String.format("approveOnlineReview.%s.anchor%s",prDoc.getDocumentNumber(),0);
-                if(question == null){
-                   return this.performQuestionWithoutInput(mapping, form, request, response, UPDATE_REVIEW_STATUS_TO_FINAL,getKualiConfigurationService().getPropertyString(KeyConstants.QUESTION_CONFIRM_UPDATE_REVIEW_TO_FINAL), KNSConstants.CONFIRMATION_QUESTION, callerString, "");
-                 } 
-                else if((UPDATE_REVIEW_STATUS_TO_FINAL.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked))  {
-                    //nothing to do.
-                }
-                else
-                {
-                    prDoc.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.FINAL_STATUS_CD);
-                    getBusinessObjectService().save(prDoc.getProtocolOnlineReview());
-                    getDocumentService().saveDocument(prDoc);
-                    statusIsOk = true;
-                }
-            } else {
+//            if (prDoc.getProtocolOnlineReview().getProtocolReviewer().isPersonIdProtocolReviewer(GlobalVariables.getUserSession().getPrincipalId(),false) && !StringUtils.equals(prDoc.getProtocolOnlineReview().getProtocolOnlineReviewStatusCode(),ProtocolOnlineReviewStatus.FINAL_STATUS_CD)) {
+//                Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+//                Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+//                String callerString = String.format("approveOnlineReview.%s.anchor%s",prDoc.getDocumentNumber(),0);
+//                if(question == null){
+//                   return this.performQuestionWithoutInput(mapping, form, request, response, UPDATE_REVIEW_STATUS_TO_FINAL,getKualiConfigurationService().getPropertyString(KeyConstants.QUESTION_CONFIRM_UPDATE_REVIEW_TO_FINAL), KNSConstants.CONFIRMATION_QUESTION, callerString, "");
+//                 } 
+//                else if((UPDATE_REVIEW_STATUS_TO_FINAL.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked))  {
+//                    //nothing to do.
+//                }
+//                else
+//                {
+//                    prDoc.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.FINAL_STATUS_CD);
+//                    getBusinessObjectService().save(prDoc.getProtocolOnlineReview());
+//                    getDocumentService().saveDocument(prDoc);
+//                    statusIsOk = true;
+//                }
+//            } else {
                 statusIsOk = true;
-            }
+//            }
         }
         
         if (!validComments || !statusIsOk) {
