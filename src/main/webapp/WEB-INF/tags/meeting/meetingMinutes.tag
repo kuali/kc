@@ -70,6 +70,8 @@
 				<kul:htmlAttributeHeaderCell literalLabel="Standard Review Comment" scope="col" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${committeeScheduleMinuteAttributes.privateCommentFlag}" scope="col" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${committeeScheduleMinuteAttributes.finalFlag}" scope="col" />
+                <kul:htmlAttributeHeaderCell literalLabel="Last Updated By" scope = "col"/>
+                <kul:htmlAttributeHeaderCell literalLabel="Created By" scope = "col"/>
 				<c:if test="${!readOnly}">
 					<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
 				</c:if>
@@ -185,6 +187,8 @@
 	               		    <kul:htmlControlAttribute property="meetingHelper.newCommitteeScheduleMinute.finalFlag" attributeEntry="${committeeScheduleMinuteAttributes.finalFlag}" />
 	            	    </div>
 				    </td>
+                    <td>&nbsp;</td>
+					<td>&nbsp;</td>
 	
 				    <td align="left" valign="middle" class="infoline" width="10%">
 					    <div align=center>
@@ -229,6 +233,23 @@
 	               		    <kul:htmlControlAttribute property="meetingHelper.committeeSchedule.committeeScheduleMinutes[${status.index}].finalFlag" attributeEntry="${committeeScheduleMinuteAttributes.finalFlag}" />
 	            	    </div>
 				    </td>
+				    
+	                        <td style="text-align:center; vertical-align:middle">
+	                        	<kul:htmlControlAttribute property="meetingHelper.committeeSchedule.committeeScheduleMinutes[${status.index}].updateUserFullName" 
+	                                                      attributeEntry="${committeeScheduleMinuteAttributes.updateUser}"
+	                                                      readOnly="true" />  <kul:htmlControlAttribute property="meetingHelper.committeeSchedule.committeeScheduleMinutes[${status.index}].updateTimestamp" 
+	                                                      attributeEntry="${committeeScheduleMinuteAttributes.updateTimestamp}"
+	                                                      readOnly="true" />
+	                        </td>
+	                        
+	                        <td style="text-align:center; vertical-align:middle">
+	                        	<kul:htmlControlAttribute property="meetingHelper.committeeSchedule.committeeScheduleMinutes[${status.index}].createUserFullName" 
+	                                                      attributeEntry="${committeeScheduleMinuteAttributes.createUser}"
+	                                                      readOnly="true" /> <kul:htmlControlAttribute property="meetingHelper.committeeSchedule.committeeScheduleMinutes[${status.index}].createTimestamp" 
+	                                                      attributeEntry="${committeeScheduleMinuteAttributes.createTimestamp}"
+	                                                      readOnly="true" />
+	                        </td>
+				    
                     <c:if test="${!readOnly}">
 						<td>
 							<div align=center>&nbsp;					

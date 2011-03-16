@@ -42,6 +42,8 @@
                     <kul:htmlAttributeHeaderCell literalLabel="Comment" scope="col" />
                     <kul:htmlAttributeHeaderCell literalLabel="Private" scope="col" />
                     <kul:htmlAttributeHeaderCell literalLabel="Final" scope="col" />
+                    <kul:htmlAttributeHeaderCell literalLabel="Last Updated By" scope = "col"/>
+                    <kul:htmlAttributeHeaderCell literalLabel="Created By" scope = "col"/>
                     <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
                 </tr>
                                         
@@ -75,6 +77,8 @@
 				        <kul:htmlControlAttribute property="${property}.newReviewComment.finalFlag" 
                                                   attributeEntry="${attributes.finalFlag}" />
                     </td>
+                    <td>&nbsp;</td>
+					<td>&nbsp;</td>
                 
                     <td>
                         <div align="center">
@@ -132,6 +136,22 @@
 	                            <kul:htmlControlAttribute property="${property}.reviewComments[${status.index}].finalFlag" 
 	                                                      attributeEntry="${attributes.finalFlag}"
 	                                                      readOnly="${reviewCommentReadOnly}" />
+	                        </td>
+
+	                        <td style="text-align:center; vertical-align:middle">
+	                        	<kul:htmlControlAttribute property="${property}.reviewComments[${status.index}].updateUserFullName" 
+	                                                      attributeEntry="${attributes.updateUser}"
+	                                                      readOnly="true" />  <kul:htmlControlAttribute property="${property}.reviewComments[${status.index}].updateTimestamp" 
+	                                                      attributeEntry="${attributes.updateTimestamp}"
+	                                                      readOnly="true" />
+	                        </td>
+	                        
+	                        <td style="text-align:center; vertical-align:middle">
+	                        	<kul:htmlControlAttribute property="${property}.reviewComments[${status.index}].createUserFullName" 
+	                                                      attributeEntry="${attributes.createUser}"
+	                                                      readOnly="true" /> <kul:htmlControlAttribute property="${property}.reviewComments[${status.index}].createTimestamp" 
+	                                                      attributeEntry="${attributes.createTimestamp}"
+	                                                      readOnly="true" />
 	                        </td>
 	                                                
 	                        <td>
