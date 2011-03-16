@@ -33,7 +33,9 @@
                                         <kul:htmlAttributeHeaderCell literalLabel="Comment" scope="col" />
                                         <kul:htmlAttributeHeaderCell literalLabel="Private" scope="col" />
                                         <kul:htmlAttributeHeaderCell literalLabel="Final" scope = "col"/>
-                                    </tr>
+                                        <kul:htmlAttributeHeaderCell literalLabel="Last Updated By" scope = "col"/>
+                                        <kul:htmlAttributeHeaderCell literalLabel="Created By" scope = "col"/>
+                                      </tr>
                                     <c:forEach items="${KualiForm.actionHelper.reviewComments}" var="comment" varStatus="status">
                                         <c:if test="${comment.canView}">
                                             <c:set var="displayCount" value="${displayCount + 1}"/>
@@ -71,6 +73,22 @@
 	                                            <td style="text-align:center; vertical-align:middle">
 	                                                <kul:htmlControlAttribute property="actionHelper.reviewComments[${status.index}].finalFlag" 
 	                                                      attributeEntry="${minutesAttributes.finalFlag}"
+	                                                      readOnly="true" />
+	                                            </td>
+
+	                                            <td style="text-align:center; vertical-align:middle">
+	                        	                     <kul:htmlControlAttribute property="actionHelper.reviewComments[${status.index}].updateUserFullName" 
+	                                                      attributeEntry="${minutesAttributes.updateUser}"
+	                                                      readOnly="true" />  <kul:htmlControlAttribute property="actionHelper.reviewComments[${status.index}].updateTimestamp" 
+	                                                      attributeEntry="${minutesAttributes.updateTimestamp}"
+	                                                      readOnly="true" />
+	                                            </td>
+	                        
+	                                            <td style="text-align:center; vertical-align:middle">
+	                        	                     <kul:htmlControlAttribute property="actionHelper.reviewComments[${status.index}].createUserFullName" 
+	                                                      attributeEntry="${minutesAttributes.createUser}"
+	                                                      readOnly="true" /> <kul:htmlControlAttribute property="actionHelper.reviewComments[${status.index}].createTimestamp" 
+	                                                      attributeEntry="${minutesAttributes.createTimestamp}"
 	                                                      readOnly="true" />
 	                                            </td>
 	                                            
