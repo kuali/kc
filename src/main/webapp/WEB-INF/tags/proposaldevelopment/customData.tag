@@ -72,7 +72,17 @@
                 		<input id="${customAttributeId}" type="text" name="${customAttributeId}" value='${customAttributeValue}' style="${customAttributeErrorStyle}"/>
 
 						<c:if test="${not empty customAttributeDocument.customAttribute.lookupClass}">
+						 <c:choose>
+						   <c:when test="${customAttributeDocument.customAttribute.lookupClass eq 'org.kuali.kra.bo.ArgValueLookup'}">
+							<kul:lookup boClassName="${customAttributeDocument.customAttribute.lookupClass}" 
+								lookupParameters="'${customAttributeDocument.customAttribute.lookupReturn}':argumentName"
+								fieldConversions="value:${customAttributeId}," 
+								fieldLabel="${customAttributeDocument.customAttribute.label}"  anchor="${tabKey}" />
+						   </c:when>
+						   <c:otherwise>						   
 							<kul:lookup boClassName="${customAttributeDocument.customAttribute.lookupClass}" fieldConversions="${customAttributeDocument.customAttribute.lookupReturn}:${customAttributeId}," fieldLabel="${customAttributeDocument.customAttribute.label}"  anchor="${tabKey}"/>
+					       </c:otherwise>
+					     </c:choose>
 						</c:if>
 					
 						<c:if test="${customAttributeDocument.customAttribute.customAttributeDataType.description == 'Date'}">
