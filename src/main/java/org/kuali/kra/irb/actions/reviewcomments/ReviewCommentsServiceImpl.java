@@ -179,6 +179,8 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
         newReviewComment.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
         newReviewComment.setCreateTimestamp(dateTimeService.getCurrentTimestamp());
         newReviewComment.setUpdateUser(GlobalVariables.getUserSession().getPrincipalName());
+        // TO show update timestamp after 'add'
+        newReviewComment.setUpdateTimestamp(dateTimeService.getCurrentTimestamp());
 
         reviewComments.add(newReviewComment);
     }

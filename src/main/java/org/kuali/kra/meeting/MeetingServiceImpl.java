@@ -473,6 +473,8 @@ public class MeetingServiceImpl implements MeetingService {
         meetingHelper.getNewCommitteeScheduleMinute().setCreateUser(principalName);
         meetingHelper.getNewCommitteeScheduleMinute().setUpdateUser(principalName);
         meetingHelper.getNewCommitteeScheduleMinute().setCreateTimestamp(createTimestamp);
+        // set this up for display when 'add'
+        meetingHelper.getNewCommitteeScheduleMinute().setUpdateTimestamp(createTimestamp);
         
         if (MinuteEntryType.ATTENDANCE.equals(minuteEntryTypeCode)) {
             addAttendanceMinuteEntry(meetingHelper);
