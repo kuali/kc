@@ -308,13 +308,13 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
 //                }
 //                else
 //                {
-//                    prDoc.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.FINAL_STATUS_CD);
-//                    getBusinessObjectService().save(prDoc.getProtocolOnlineReview());
-//                    getDocumentService().saveDocument(prDoc);
-//                    statusIsOk = true;
+                    prDoc.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.FINAL_STATUS_CD);
+                    getBusinessObjectService().save(prDoc.getProtocolOnlineReview());
+                    getDocumentService().saveDocument(prDoc);
+                    statusIsOk = true;
 //                }
 //            } else {
-                statusIsOk = true;
+//                statusIsOk = true;
 //            }
         }
         
