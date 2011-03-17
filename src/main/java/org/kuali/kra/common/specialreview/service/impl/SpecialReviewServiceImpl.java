@@ -113,17 +113,18 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#isLinkedToProtocolFundingSource(java.lang.String, java.lang.Long, java.lang.String)
+     * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#isLinkedToProtocolFundingSource(java.lang.String, java.lang.String, 
+     *      java.lang.String)
      */
-    public boolean isLinkedToProtocolFundingSource(String protocolNumber, Long fundingSourceId, String fundingSourceTypeCode) {
+    public boolean isLinkedToProtocolFundingSource(String protocolNumber, String fundingSourceNumber, String fundingSourceTypeCode) {
         boolean isLinkedToProtocolFundingSource = false;
         
         if (StringUtils.isNotBlank(protocolNumber)) {
             Protocol protocol = getProtocolFinderDao().findCurrentProtocolByNumber(protocolNumber);
             if (protocol != null) {
                 for (ProtocolFundingSource protocolFundingSource : protocol.getProtocolFundingSources()) {
-                    if (StringUtils.equals(protocolFundingSource.getFundingSource(), String.valueOf(fundingSourceId)) 
-                        && StringUtils.equals(String.valueOf(protocolFundingSource.getFundingSourceTypeCode()), fundingSourceTypeCode)) {
+                    if (StringUtils.equals(protocolFundingSource.getFundingSourceNumber(), fundingSourceNumber) 
+                        && StringUtils.equals(protocolFundingSource.getFundingSourceTypeCode(), fundingSourceTypeCode)) {
                         isLinkedToProtocolFundingSource = true;
                         break;
                     }
@@ -133,21 +134,21 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
         
         return isLinkedToProtocolFundingSource;
     }
-    
+
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#isLinkedToSpecialReview(java.lang.Long, java.lang.String, java.lang.String)
+     * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#isLinkedToSpecialReview(java.lang.String, java.lang.String, java.lang.String)
      */
-    public boolean isLinkedToSpecialReview(Long fundingSourceId, String fundingSourceTypeCode, String protocolNumber) {
+    public boolean isLinkedToSpecialReview(String fundingSourceNumber, String fundingSourceTypeCode, String protocolNumber) {
         boolean isLinkedToSpecialReview = false;
         
         if (StringUtils.equals(FundingSourceType.AWARD, fundingSourceTypeCode)) {
-            Award award = getAwardService().getAward(fundingSourceId);
+            Award award = getAward(fundingSourceNumber);
             if (award != null) {
                 isLinkedToSpecialReview = isLinkedToSpecialReviews(award.getSpecialReviews(), protocolNumber);
             }
         } else if (StringUtils.equals(FundingSourceType.INSTITUTIONAL_PROPOSAL, fundingSourceTypeCode)) {
-            InstitutionalProposal institutionalProposal = getInstitutionalProposalService().getInstitutionalProposal(String.valueOf(fundingSourceId));
+            InstitutionalProposal institutionalProposal = getInstitutionalProposal(fundingSourceNumber);
             if (institutionalProposal != null) {
                 isLinkedToSpecialReview = isLinkedToSpecialReviews(institutionalProposal.getSpecialReviews(), protocolNumber);
             }
@@ -169,22 +170,21 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
         
         return isLinkedToSpecialReviews;
     }
-    
+
     /**
      * {@inheritDoc}
      * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#addProtocolFundingSourceForSpecialReview(java.lang.String, java.lang.String, 
-     *      java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+     *      java.lang.String, java.lang.String, java.lang.String)
      */
-    public void addProtocolFundingSourceForSpecialReview(String protocolNumber, Long fundingSourceId, String fundingSourceNumber, String fundingSourceTypeCode, 
+    public void addProtocolFundingSourceForSpecialReview(String protocolNumber, String fundingSourceNumber, String fundingSourceTypeCode, 
         String fundingSourceName, String fundingSourceTitle) {
         
         Protocol protocol = getProtocolFinderDao().findCurrentProtocolByNumber(protocolNumber);
-        if (protocol != null && fundingSourceId != null && StringUtils.isNotBlank(fundingSourceNumber) && NumberUtils.isNumber(fundingSourceTypeCode)) {
+        if (protocol != null && StringUtils.isNotBlank(fundingSourceNumber) && NumberUtils.isNumber(fundingSourceTypeCode)) {
             ProtocolFundingSource protocolFundingSource = new ProtocolFundingSource();
             protocolFundingSource.setProtocolNumber(protocolNumber);
-            protocolFundingSource.setFundingSource(String.valueOf(fundingSourceId));
             protocolFundingSource.setFundingSourceNumber(fundingSourceNumber);
-            protocolFundingSource.setFundingSourceTypeCode(Integer.valueOf(fundingSourceTypeCode));
+            protocolFundingSource.setFundingSourceTypeCode(fundingSourceTypeCode);
             protocolFundingSource.setFundingSourceName(fundingSourceName);
             protocolFundingSource.setFundingSourceTitle(fundingSourceTitle);
             protocol.getProtocolFundingSources().add(protocolFundingSource);
@@ -192,20 +192,20 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
             getBusinessObjectService().save(protocol);
         }
     }
-    
+
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#deleteProtocolFundingSourceForSpecialReview(java.lang.String, java.lang.Long, 
+     * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#deleteProtocolFundingSourceForSpecialReview(java.lang.String, java.lang.String, 
      *      java.lang.String)
      */
-    public void deleteProtocolFundingSourceForSpecialReview(String protocolNumber, Long fundingSourceId, String fundingSourceTypeCode) {
+    public void deleteProtocolFundingSourceForSpecialReview(String protocolNumber, String fundingSourceNumber, String fundingSourceTypeCode) {
         Protocol protocol = getProtocolFinderDao().findCurrentProtocolByNumber(protocolNumber);
         if (protocol != null) {
             List<ProtocolFundingSource> deletedProtocolFundingSources = new ArrayList<ProtocolFundingSource>();
             
             for (ProtocolFundingSource protocolFundingSource : protocol.getProtocolFundingSources()) {
-                if (StringUtils.equals(protocolFundingSource.getFundingSource(), String.valueOf(fundingSourceId)) 
-                    && StringUtils.equals(String.valueOf(protocolFundingSource.getFundingSourceTypeCode()), fundingSourceTypeCode)) {
+                if (StringUtils.equals(protocolFundingSource.getFundingSourceNumber(), fundingSourceNumber) 
+                    && StringUtils.equals(protocolFundingSource.getFundingSourceTypeCode(), fundingSourceTypeCode)) {
                     deletedProtocolFundingSources.add(protocolFundingSource);
                 }
             }
@@ -216,17 +216,17 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#addSpecialReviewForProtocolFundingSource(java.lang.Long, java.lang.String, 
+     * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#addSpecialReviewForProtocolFundingSource(java.lang.String, java.lang.String, 
      *      java.lang.String, java.sql.Date, java.sql.Date, java.sql.Date, java.util.List)
      */
-    public void addSpecialReviewForProtocolFundingSource(Long fundingSourceId, String fundingSourceTypeCode, String protocolNumber, Date applicationDate, 
+    public void addSpecialReviewForProtocolFundingSource(String fundingSourceNumber, String fundingSourceTypeCode, String protocolNumber, Date applicationDate, 
         Date approvalDate, Date expirationDate, List<String> exemptionTypeCodes) {
         
         if (StringUtils.equals(FundingSourceType.AWARD, fundingSourceTypeCode)) {
-            Award award = getAwardService().getAward(fundingSourceId);
+            Award award = getAward(fundingSourceNumber);
             addAwardSpecialReview(award, protocolNumber, applicationDate, approvalDate, expirationDate, exemptionTypeCodes);
         } else if (StringUtils.equals(FundingSourceType.INSTITUTIONAL_PROPOSAL, fundingSourceTypeCode)) {
-            InstitutionalProposal institutionalProposal = getInstitutionalProposalService().getInstitutionalProposal(String.valueOf(fundingSourceId));
+            InstitutionalProposal institutionalProposal = getInstitutionalProposal(fundingSourceNumber);
             addInstitutionalProposalSpecialReview(institutionalProposal, protocolNumber, applicationDate, approvalDate, expirationDate, exemptionTypeCodes);
         }
     }
@@ -284,18 +284,18 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
             getBusinessObjectService().save(institutionalProposal);
         }
     }
-    
+
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#deleteSpecialReviewForProtocolFundingSource(java.lang.Long, java.lang.String, 
+     * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#deleteSpecialReviewForProtocolFundingSource(java.lang.String, java.lang.String, 
      *      java.lang.String)
      */
-    public void deleteSpecialReviewForProtocolFundingSource(Long fundingSourceId, String fundingSourceTypeCode, String protocolNumber) {
+    public void deleteSpecialReviewForProtocolFundingSource(String fundingSourceNumber, String fundingSourceTypeCode, String protocolNumber) {
         if (StringUtils.equals(FundingSourceType.AWARD, fundingSourceTypeCode)) {
-            Award award = getAwardService().getAward(fundingSourceId);
+            Award award = getAward(fundingSourceNumber);
             deleteAwardSpecialReview(award, protocolNumber);
         } else if (StringUtils.equals(FundingSourceType.INSTITUTIONAL_PROPOSAL, fundingSourceTypeCode)) {
-            InstitutionalProposal institutionalProposal = getInstitutionalProposalService().getInstitutionalProposal(String.valueOf(fundingSourceId));
+            InstitutionalProposal institutionalProposal = getInstitutionalProposal(fundingSourceNumber);
             deleteInstitutionalProposalSpecialReview(institutionalProposal, protocolNumber);
         }
     }
@@ -326,6 +326,28 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
             
             getBusinessObjectService().delete(deletedSpecialReviews);
         }
+    }
+    
+    private Award getAward(String fundingSourceNumber) {
+        Award award = null;
+        
+        List<Award> awards = getAwardService().findAwardsForAwardNumber(fundingSourceNumber);
+        
+        if (!awards.isEmpty()) {
+            award = awards.get(awards.size() - 1);
+        }
+        
+        return award;
+    }
+    
+    private InstitutionalProposal getInstitutionalProposal(String fundingSourceNumber) {
+        InstitutionalProposal institutionalProposal = getInstitutionalProposalService().getActiveInstitutionalProposalVersion(fundingSourceNumber);
+        
+        if (institutionalProposal == null) {
+            institutionalProposal = getInstitutionalProposalService().getPendingInstitutionalProposalVersion(fundingSourceNumber);
+        }
+
+        return institutionalProposal;
     }
     
     public AwardService getAwardService() {

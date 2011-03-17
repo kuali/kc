@@ -15,8 +15,9 @@
  */
 package org.kuali.kra.irb.protocol.funding;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.bo.FundingSourceType;
@@ -47,14 +48,12 @@ public class SaveProtocolFundingSourceLinkRule extends ResearchDocumentRuleBase 
         boolean rulePassed = true;
         
         for (ProtocolFundingSource protocolFundingSource : event.getProtocolFundingSources()) {
-            if (NumberUtils.isNumber(protocolFundingSource.getFundingSource())) {
-                Long fundingSourceId = Long.valueOf(protocolFundingSource.getFundingSource());
-                String fundingSourceTypeCode = String.valueOf(protocolFundingSource.getFundingSourceTypeCode());
-                String protocolNumber = protocolFundingSource.getProtocolNumber();
-                
-                if (!getSpecialReviewService().isLinkedToSpecialReview(fundingSourceId, fundingSourceTypeCode, protocolNumber)) {
-                    rulePassed &= validateProtocolFundingSource(protocolFundingSource);
-                }
+            String fundingSourceNumber = protocolFundingSource.getFundingSourceNumber();
+            String fundingSourceTypeCode = protocolFundingSource.getFundingSourceTypeCode();
+            String protocolNumber = protocolFundingSource.getProtocolNumber();
+            
+            if (!getSpecialReviewService().isLinkedToSpecialReview(fundingSourceNumber, fundingSourceTypeCode, protocolNumber)) {
+                rulePassed &= validateProtocolFundingSource(protocolFundingSource);
             }
         }
         
@@ -68,17 +67,16 @@ public class SaveProtocolFundingSourceLinkRule extends ResearchDocumentRuleBase 
     private boolean validateProtocolFundingSource(ProtocolFundingSource protocolFundingSource) {
         boolean isValid = true;
         
-        Integer fundingSourceType = protocolFundingSource.getFundingSourceTypeCode();
-        String fundingSourceId = protocolFundingSource.getFundingSource();
+        String fundingSourceType = protocolFundingSource.getFundingSourceTypeCode();
         String fundingSourceNumber = protocolFundingSource.getFundingSourceNumber();
         if (StringUtils.equals(FundingSourceType.AWARD, String.valueOf(fundingSourceType))) {
-            Award award = getAward(fundingSourceId);
+            Award award = getAward(fundingSourceNumber);
             if (!award.getAwardDocument().getPessimisticLocks().isEmpty()) {
                 isValid = false;
                 reportError(FUNDING_SOURCE_NUMBER, KeyConstants.ERROR_PROTOCOL_FUNDING_SOURCE_AWARD_LOCKED, fundingSourceNumber);
             }
         } else if (StringUtils.equals(FundingSourceType.INSTITUTIONAL_PROPOSAL, String.valueOf(fundingSourceType))) {
-            InstitutionalProposal institutionalProposal = getInstitutionalProposal(fundingSourceId);
+            InstitutionalProposal institutionalProposal = getInstitutionalProposal(fundingSourceNumber);
             if (!institutionalProposal.getInstitutionalProposalDocument().getPessimisticLocks().isEmpty()) {
                 isValid = false;
                 reportError(FUNDING_SOURCE_NUMBER, KeyConstants.ERROR_PROTOCOL_FUNDING_SOURCE_INSTITUTIONAL_PROPOSAL_LOCKED, fundingSourceNumber);
@@ -88,23 +86,25 @@ public class SaveProtocolFundingSourceLinkRule extends ResearchDocumentRuleBase 
         return isValid;
     }
     
-    private Award getAward(String awardId) {
+    private Award getAward(String fundingSourceNumber) {
         Award award = null;
         
-        if (StringUtils.isNotBlank(awardId)) {
-            award = getAwardService().getAward(Long.valueOf(awardId));
+        List<Award> awards = getAwardService().findAwardsForAwardNumber(fundingSourceNumber);
+        
+        if (!awards.isEmpty()) {
+            award = awards.get(awards.size() - 1);
         }
         
         return award;
     }
     
-    private InstitutionalProposal getInstitutionalProposal(String institutionalProposalId) {
-        InstitutionalProposal institutionalProposal = null;
+    private InstitutionalProposal getInstitutionalProposal(String fundingSourceNumber) {
+        InstitutionalProposal institutionalProposal = getInstitutionalProposalService().getActiveInstitutionalProposalVersion(fundingSourceNumber);
         
-        if (StringUtils.isNotBlank(institutionalProposalId)) {
-            institutionalProposal = getInstitutionalProposalService().getInstitutionalProposal(institutionalProposalId);
+        if (institutionalProposal == null) {
+            institutionalProposal = getInstitutionalProposalService().getPendingInstitutionalProposalVersion(fundingSourceNumber);
         }
-        
+
         return institutionalProposal;
     }
     

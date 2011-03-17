@@ -943,15 +943,14 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         for (InstitutionalProposalSpecialReview specialReview : institutionalProposal.getSpecialReviews()) {
             if (SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {                
                 String protocolNumber = specialReview.getProtocolNumber();
-                Long fundingSourceId = institutionalProposal.getProposalId();
+                String fundingSourceNumber = institutionalProposal.getProposalNumber();
                 String fundingSourceTypeCode = FundingSourceType.INSTITUTIONAL_PROPOSAL;
                 
-                if (!specialReviewService.isLinkedToProtocolFundingSource(protocolNumber, fundingSourceId, fundingSourceTypeCode)) {
-                    String fundingSourceNumber = institutionalProposal.getProposalNumber();
+                if (!specialReviewService.isLinkedToProtocolFundingSource(protocolNumber, fundingSourceNumber, fundingSourceTypeCode)) {
                     String fundingSourceName = institutionalProposal.getSponsorName();
                     String fundingSourceTitle = institutionalProposal.getTitle();
                     specialReviewService.addProtocolFundingSourceForSpecialReview(
-                        protocolNumber, fundingSourceId, fundingSourceNumber, fundingSourceTypeCode, fundingSourceName, fundingSourceTitle);
+                        protocolNumber, fundingSourceNumber, fundingSourceTypeCode, fundingSourceName, fundingSourceTitle);
                 }
             }
         }

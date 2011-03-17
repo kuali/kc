@@ -69,7 +69,7 @@ public class ProtocolFundingSourceRule extends ResearchDocumentRuleBase implemen
         String fundingSourceNumber = fundingSource.getFundingSourceNumber();
         String fundingSourceName =  fundingSource.getFundingSourceName();
 
-        if (fundingSourceType == null || StringUtils.isBlank(fundingSourceType.getDescription())) {
+        if (StringUtils.isBlank(fundingSource.getFundingSourceTypeCode())) {
             isValid = false;
             reportError(Constants.PROTOCOL_FUNDING_SOURCE_TYPE_CODE_FIELD, KeyConstants.ERROR_PROTOCOL_FUNDING_SOURCE_TYPE_NOT_FOUND); 
         }
@@ -79,10 +79,10 @@ public class ProtocolFundingSourceRule extends ResearchDocumentRuleBase implemen
         } else if (fundingSourceType != null && !getProtocolFundingSourceService().isValidIdForType(fundingSource)) {
             isValid = false;
             reportError(Constants.PROTOCOL_FUNDING_SOURCE_NUMBER_FIELD, KeyConstants.ERROR_PROTOCOL_FUNDING_SOURCE_NUMBER_INVALID_FOR_TYPE, 
-                    fundingSource.getFundingSourceType().getDescription(), fundingSourceNumber);      
+                    fundingSourceType.getDescription(), fundingSourceNumber);      
         }         
-        if (StringUtils.isBlank(fundingSourceName) && fundingSource.getFundingSourceTypeCode() != null 
-                && getProtocolFundingSourceService().updateSourceNameEditable(fundingSource.getFundingSourceTypeCode().toString())) {
+        if (StringUtils.isBlank(fundingSourceName) && StringUtils.isNotBlank(fundingSource.getFundingSourceTypeCode())
+                && getProtocolFundingSourceService().isEditable(fundingSource.getFundingSourceTypeCode())) {
             isValid = false;
             reportError(Constants.PROTOCOL_FUNDING_SOURCE_NAME_FIELD, KeyConstants.ERROR_PROTOCOL_FUNDING_SOURCE_NAME_NOT_FOUND);         
         }

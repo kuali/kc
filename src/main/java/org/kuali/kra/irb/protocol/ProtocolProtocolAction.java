@@ -488,21 +488,19 @@ public class ProtocolProtocolAction extends ProtocolAction {
      * @throws Exception
      */
     public ActionForward performFundingSourceLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+        HttpServletResponse response) throws Exception {
+        
         ActionForward returnAction = null;
-        Integer typeCode = null;
 
         ProtocolForm protocolForm = (ProtocolForm) form;
 
-        if (protocolForm.getProtocolHelper().getNewFundingSource().getFundingSourceType() != null) {
-            typeCode = protocolForm.getProtocolHelper().getNewFundingSource().getFundingSourceType().getFundingSourceTypeCode();
-        }
+        String fundingSourceTypeCode = protocolForm.getProtocolHelper().getNewFundingSource().getFundingSourceTypeCode();
 
-        LookupProtocolFundingSourceEvent event = new LookupProtocolFundingSourceEvent(Constants.EMPTY_STRING, ((ProtocolForm) form).getDocument(), typeCode, 
-                ProtocolEventBase.ErrorType.HARDERROR);
+        LookupProtocolFundingSourceEvent event = new LookupProtocolFundingSourceEvent(
+            Constants.EMPTY_STRING, ((ProtocolForm) form).getDocument(), fundingSourceTypeCode, ProtocolEventBase.ErrorType.HARDERROR);
 
         if (applyRules(event)) {
-            Entry<String, String> entry = getProtocolFundingSourceService().getLookupParameters(typeCode);
+            Entry<String, String> entry = getProtocolFundingSourceService().getLookupParameters(fundingSourceTypeCode);
 
             String boClassName = entry.getKey();
             String fieldConversions = entry.getValue();

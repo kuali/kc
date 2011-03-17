@@ -17,6 +17,7 @@ package org.kuali.kra.irb.protocol.funding;
 
 import java.util.Collection;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -26,7 +27,6 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.DocumentAuditRule;
 import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.NumberUtils;
 
 public class ProtocolFundingSourceAuditRule extends ResearchDocumentRuleBase implements DocumentAuditRule {
     
@@ -65,11 +65,11 @@ public class ProtocolFundingSourceAuditRule extends ResearchDocumentRuleBase imp
         return isValid;
     }
     
-    private boolean getProtocolContainsFundingSource(Protocol protocol, Integer fundingSourceTypeCode) {
+    private boolean getProtocolContainsFundingSource(Protocol protocol, String fundingSourceTypeCode) {
         boolean contains = false;
         
         for (ProtocolFundingSource protocolFundingSource : protocol.getProtocolFundingSources()) {
-            if (NumberUtils.equals(fundingSourceTypeCode, protocolFundingSource.getFundingSourceTypeCode())) {
+            if (StringUtils.equals(fundingSourceTypeCode, protocolFundingSource.getFundingSourceTypeCode())) {
                 contains = true;
                 break;
             }

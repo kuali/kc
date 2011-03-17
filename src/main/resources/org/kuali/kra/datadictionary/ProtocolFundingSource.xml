@@ -40,7 +40,6 @@
 				<ref bean="ProtocolFundingSource-protocolNumber" />
 				<ref bean="ProtocolFundingSource-sequenceNumber" />
 				<ref bean="ProtocolFundingSource-fundingSourceTypeCode" />
-                <ref bean="ProtocolFundingSource-fundingSource" />
                 <ref bean="ProtocolFundingSource-fundingSourceNumber" />
                 <ref bean="ProtocolFundingSource-fundingSourceName" />
                 <ref bean="ProtocolFundingSource-fundingSourceTitle" />
@@ -148,24 +147,6 @@
 		<property name="summary" value="Funding Source Type Code" />
 		<property name="description" value="Funding Source Type Code" />
 	</bean>
-
-	<bean id="ProtocolFundingSource-fundingSource" parent="ProtocolFundingSource-fundingSource-parentBean" />
-	<bean id="ProtocolFundingSource-fundingSource-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="fundingSource" />
-		<property name="required" value="true" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Funding Id" />
-		<property name="shortLabel" value="Funding Id" />
-		<property name="maxLength" value="200" />
-		<property name="validationPattern" >
-			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
-		</property>
-		<property name="control" >
-            <bean parent="HiddenControlDefinition"/>
-        </property>
-		<property name="summary" value="Funding Source Id" />
-		<property name="description" value="Funding Source Id" />
-	</bean>
 	
 	<bean id="ProtocolFundingSource-fundingSourceNumber" parent="ProtocolFundingSource-fundingSourceNumber-parentBean" />
 	<bean id="ProtocolFundingSource-fundingSourceNumber-parentBean" abstract="true" parent="AttributeDefinition">
@@ -250,7 +231,7 @@
 							<bean parent="FieldDefinition"
 								p:attributeName="fundingSourceTypeCode" />
 							<bean parent="FieldDefinition"
-								p:attributeName="fundingSource" />
+								p:attributeName="fundingSourceNumber" />
 						</list>
 					</property>
 				</bean>
@@ -282,7 +263,7 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="fundingSourceTypeCode" />
 				<bean parent="FieldDefinition"
-					p:attributeName="fundingSource" />
+					p:attributeName="fundingSourceNumber" />
 			</list>
 		</property>
 		<property name="resultFields" >
@@ -299,7 +280,7 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="fundingSourceTypeCode" />
 				<bean parent="FieldDefinition"
-					p:attributeName="fundingSource" />
+					p:attributeName="fundingSourceNumber" />
 			</list>
 		</property>
 	</bean>

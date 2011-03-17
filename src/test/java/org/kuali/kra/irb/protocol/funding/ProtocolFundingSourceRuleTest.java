@@ -55,15 +55,15 @@ public class ProtocolFundingSourceRuleTest {
     @Before
     public void setUp() throws Exception {
         fundingSponsorSourceType = new FundingSourceType();
-        fundingSponsorSourceType.setFundingSourceTypeCode(1);
+        fundingSponsorSourceType.setFundingSourceTypeCode("1");
         fundingSponsorSourceType.setFundingSourceTypeFlag(true);
         fundingSponsorSourceType.setDescription("Sponsor");
         
-        goodFundingSource = new ProtocolFundingSource("123", fundingSponsorSourceType,"NAME","TITLE");
-        badFundingSourceNoId = new ProtocolFundingSource("", fundingSponsorSourceType,"123",null);
-        badFundingSourceNoName = new ProtocolFundingSource("123", fundingSponsorSourceType,"",null);
-        badFundingSourceNoType = new ProtocolFundingSource("123", null,"123",null);
-        badFundingSourceInvalidId = new ProtocolFundingSource("100", fundingSponsorSourceType,"COOLNESS",null);
+        goodFundingSource = new ProtocolFundingSource("123", FundingSourceType.SPONSOR, "NAME", "TITLE");
+        badFundingSourceNoId = new ProtocolFundingSource("", FundingSourceType.SPONSOR, "123", null);
+        badFundingSourceNoName = new ProtocolFundingSource("123", FundingSourceType.SPONSOR, "", null);
+        badFundingSourceNoType = new ProtocolFundingSource("123", null, "123", null);
+        badFundingSourceInvalidId = new ProtocolFundingSource("100", FundingSourceType.SPONSOR, "COOLNESS", null);
         
         duplicateList.add(goodFundingSource);
  
@@ -165,7 +165,7 @@ public class ProtocolFundingSourceRuleTest {
             allowing(service).isValidIdForType(badFundingSourceInvalidId); 
             will(returnValue(false));
 
-            allowing(service).updateSourceNameEditable(fundingSponsorSourceType.getFundingSourceTypeCode().toString());
+            allowing(service).isEditable(fundingSponsorSourceType.getFundingSourceTypeCode());
             will(returnValue(true));
 
         }});

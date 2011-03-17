@@ -149,7 +149,7 @@
                                 src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
                         </c:if>
                         
-                        <c:if test="${(protocolFundingSource.viewableFundingSource)}">
+                        <c:if test="${(protocolFundingSource.fundingSourceLookupable)}">
    
                                <html:image property="methodToCall.viewProtocolFundingSource.line${status.index}.anchor${currentTabIndex}"
                                 alt="view funding source"

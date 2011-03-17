@@ -30,7 +30,6 @@ import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.SpecialReviewType;
-import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolStatus;
@@ -88,7 +87,7 @@ public class ProtocolSummaryTest extends KcUnitTestBase {
     private static final String RA_CODE = "09.101";
     private static final String FILE_NAME = "foo.doc";
 
-    private static final String FUNDING_SOURCE = "funding source";
+    private static final String FUNDING_SOURCE_NUMBER = "333";
     private static final String FUNDING_SOURCE_NAME = "funding name";
     private static final String FUNDING_SOURCE_TITLE = "funding title";
     private static final String FUNDING_DESCRIPTION = "funding description";
@@ -216,7 +215,7 @@ public class ProtocolSummaryTest extends KcUnitTestBase {
         assertEquals(FILE_NAME, summary.getAttachments().get(0).getFileName());
         
         assertEquals(1, summary.getFundingSources().size());
-        assertEquals(FUNDING_SOURCE, summary.getFundingSources().get(0).getFundingSource());
+        assertEquals(FUNDING_SOURCE_NUMBER, summary.getFundingSources().get(0).getFundingSource());
         assertEquals(FUNDING_SOURCE_NAME, summary.getFundingSources().get(0).getFundingSourceName());
         assertEquals(FUNDING_DESCRIPTION, summary.getFundingSources().get(0).getFundingSourceType());
         assertEquals(FUNDING_SOURCE_TITLE, summary.getFundingSources().get(0).getFundingSourceTitle());
@@ -371,7 +370,7 @@ public class ProtocolSummaryTest extends KcUnitTestBase {
         
         ProtocolFundingSource fundingSource = new ProtocolFundingSource();
         fundingSource.setFundingSourceType(fundingType);
-        fundingSource.setFundingSource(FUNDING_SOURCE);
+        fundingSource.setFundingSourceNumber(FUNDING_SOURCE_NUMBER);
         fundingSource.setFundingSourceName(FUNDING_SOURCE_NAME);
         fundingSource.setFundingSourceTitle(FUNDING_SOURCE_TITLE);
         protocol.getProtocolFundingSources().add(fundingSource);
