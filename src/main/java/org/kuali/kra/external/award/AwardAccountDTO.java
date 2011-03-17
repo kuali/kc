@@ -36,8 +36,29 @@ public class AwardAccountDTO implements Serializable {
     private Long awardId;
     private String sponsorCode;
     private Long institutionalproposalId;
+    private String awardTitle;
+    private String primeSponsorCode;
+    private String primeSponsorName;
     
    
+    public String getAwardTitle() {
+        return awardTitle;
+    }
+    public void setAwardTitle(String awardTitle) {
+        this.awardTitle = awardTitle;
+    }
+    public String getPrimeSponsorCode() {
+        return primeSponsorCode;
+    }
+    public void setPrimeSponsorCode(String primeSponsorCode) {
+        this.primeSponsorCode = primeSponsorCode;
+    }
+    public String getPrimeSponsorName() {
+        return primeSponsorName;
+    }
+    public void setPrimeSponsorName(String primeSponsorName) {
+        this.primeSponsorName = primeSponsorName;
+    }
     public String getProposalFederalPassThroughAgencyNumber() {
         return proposalFederalPassThroughAgencyNumber;
     }
