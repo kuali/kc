@@ -4841,7 +4841,9 @@ or  substring(  AwardDetails/ApprvdSubcontractIndicator , 2 ) = &quot;1&quot;">
 										test="../PrintRequirement/CostSharingRequired != 0 and AwardDetails/CostSharingIndicator != &quot;N0&quot; or ( AwardDetails/CostSharingIndicator = &quot;N0&quot; and string-length(AwardCostSharing/Comments) &gt;= 1 )">
 										<fo:inline font-family="Arial" font-size="12pt"
 											font-weight="bold">
+											<fo:block>
 											<xsl:text>Cost Sharing:</xsl:text>
+											</fo:block>
 										</fo:inline>
 										<xsl:for-each select="AwardCostSharing">
 											<fo:inline-container>
@@ -8485,30 +8487,12 @@ or ( ../PrintRequirement/CloseoutRequired = 1 and  count(  CloseOutDeadlines  ) 
 												</xsl:for-each>
 											</xsl:for-each>
 										</xsl:for-each>
-										<fo:inline font-family="Verdana" font-size="9pt"
-											font-weight="bold">
-											<xsl:text>&#160;</xsl:text>
+										
+										
+										<fo:inline font-family="Arial" font-size="9pt"
+													font-weight="bold">
+													<xsl:text> Account Number:</xsl:text>
 										</fo:inline>
-										<fo:block>
-											<fo:leader leader-pattern="space" />
-										</fo:block>
-										<fo:inline-container>
-											<fo:block>
-												<xsl:text>&#x2029;</xsl:text>
-											</fo:block>
-										</fo:inline-container>
-										<fo:block margin="0pt">
-											<fo:block>
-												<fo:inline font-family="Arial" font-size="9pt"
-													font-weight="bold">
-													<xsl:text>Account Number:</xsl:text>
-												</fo:inline>
-												<fo:inline font-family="Verdana" font-size="9pt"
-													font-weight="bold">
-													<xsl:text>&#160;</xsl:text>
-												</fo:inline>
-											</fo:block>
-										</fo:block>
 									</fo:block>
 								</fo:table-cell>
 								<fo:table-cell padding-bottom="0" padding-left="0"
@@ -8563,13 +8547,45 @@ or ( ../PrintRequirement/CloseoutRequired = 1 and  count(  CloseOutDeadlines  ) 
 								</fo:table-cell>
 							</fo:table-row>
 							<fo:table-row>
-								<fo:table-cell font-family="Arial" padding-top="0"
-									padding="2pt" text-align="left" display-align="before">
-									<fo:block />
+							<fo:table-cell padding-top="0" padding="2pt"
+									text-align="left" display-align="before">
+									<fo:block>
+										<fo:inline font-family="Arial" font-size="9pt"
+											font-weight="bold">
+											<xsl:text>PI:</xsl:text>
+										</fo:inline>
+									</fo:block>
 								</fo:table-cell>
 								<fo:table-cell padding-left="0" padding-top="0"
-									padding="2pt" text-align="left" display-align="after">
-									<fo:block />
+									padding="2pt" text-align="left" display-align="before">
+									<fo:block>
+										<xsl:for-each select="AwardNotice">
+											<xsl:for-each select="Award">
+												<xsl:for-each select="AwardDetails">
+													<xsl:for-each select="AwardHeader">
+														<xsl:for-each select="PIName">
+															<xsl:variable name="value-of-template">
+																<xsl:apply-templates />
+															</xsl:variable>
+															<xsl:choose>
+																<xsl:when
+																	test="contains(string($value-of-template),'&#x2029;')">
+																	<fo:block font-family="Arial" font-size="9pt">
+																		<xsl:copy-of select="$value-of-template" />
+																	</fo:block>
+																</xsl:when>
+																<xsl:otherwise>
+																	<fo:inline font-family="Arial" font-size="9pt">
+																		<xsl:copy-of select="$value-of-template" />
+																	</fo:inline>
+																</xsl:otherwise>
+															</xsl:choose>
+														</xsl:for-each>
+													</xsl:for-each>
+												</xsl:for-each>
+											</xsl:for-each>
+										</xsl:for-each>
+									</fo:block>
 								</fo:table-cell>
 								<fo:table-cell padding-right="6pt" padding-top="0"
 									padding="2pt" text-align="right" display-align="before">
