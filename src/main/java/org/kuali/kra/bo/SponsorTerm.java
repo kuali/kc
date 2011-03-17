@@ -17,6 +17,8 @@ package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 /**
  * This class is business object representation of a Sponsor Term
  */
@@ -105,6 +107,14 @@ public class SponsorTerm extends KraPersistableBusinessObjectBase {
         this.description = description;
     }
 
+    /**
+     * Gets the description attribute. 
+     * @return Returns the description.
+     */
+    public String getEscapedDescription() {
+        return StringEscapeUtils.escapeHtml(description);
+    }
+    
     /**
      * Gets the sponsorTermType attribute. 
      * @return Returns the sponsorTermType.
