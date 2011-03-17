@@ -60,6 +60,15 @@ public class AwardAccountServiceImpl implements AwardAccountService {
             awardAccountDTO.setSponsorCode(award.getSponsorCode());
             awardAccountDTO.setSponsorName(award.getSponsorName());
             awardAccountDTO.setFederalSponsor(isFederalSponsor(award));
+            awardAccountDTO.setAwardTitle(award.getTitle());
+            awardAccountDTO.setPrimeSponsorCode(award.getPrimeSponsorCode());
+            // where is the prime sponsor agency number?
+            if(ObjectUtils.isNotNull(award.getPrimeSponsor())) {
+                awardAccountDTO.setPrimeSponsorName(award.getPrimeSponsor().getSponsorName());
+            }
+            else {
+                awardAccountDTO.setPrimeSponsorName("");
+            }
             
         } else {
             awardAccountDTO.setErrorMessage("There is no award with the financial account number " + financialAccountNumber);
