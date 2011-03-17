@@ -23,13 +23,18 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.common.permissions.web.bean.AssignedRole;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
@@ -49,7 +54,10 @@ import org.kuali.kra.irb.protocol.reference.ProtocolReference;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReview;
 import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.service.SponsorService;
+import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
@@ -74,11 +82,11 @@ import org.w3.x2001.protocolSummarySchema.ProtocolRolesType;
 import org.w3.x2001.protocolSummarySchema.ProtocolSpecialReviewType;
 import org.w3.x2001.protocolSummarySchema.ProtocolSubjectsType;
 import org.w3.x2001.protocolSummarySchema.ProtocolSummaryDocument;
+import org.w3.x2001.protocolSummarySchema.ProtocolSummaryDocument.ProtocolSummary;
+import org.w3.x2001.protocolSummarySchema.ProtocolSummaryDocument.ProtocolSummary.PrintRequirement;
 import org.w3.x2001.protocolSummarySchema.ProtocolUnitsType;
 import org.w3.x2001.protocolSummarySchema.ProtocolUserRolesType;
 import org.w3.x2001.protocolSummarySchema.SchoolInfoType;
-import org.w3.x2001.protocolSummarySchema.ProtocolSummaryDocument.ProtocolSummary;
-import org.w3.x2001.protocolSummarySchema.ProtocolSummaryDocument.ProtocolSummary.PrintRequirement;
 
 /**
  * This class is to generate Protocol Summary Xml file
@@ -87,6 +95,12 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
     private static final String OTHER = "9";
     private static final String SCHOOL_NAME = "SCHOOL_NAME";
     private static final String SCHOOL_ACRONYM = "SCHOOL_ACRONYM";
+    
+    private SponsorService sponsorService;
+    private UnitService unitService;
+    private BusinessObjectService businessObjectService;
+    private InstitutionalProposalService institutionalProposalService;
+    private AwardService awardService;
 
 
     /**
@@ -442,10 +456,10 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
         List<ProtocolFundingSource> protocolFundngSources = protocol.getProtocolFundingSources();
         for (ProtocolFundingSource fundingSourceBean : protocolFundngSources) {
             ProtocolFundingSourceType protocolFundingSourceType = protocolSummary.addNewProtocolFundingSources();
-            protocolFundingSourceType.setFundingSource(fundingSourceBean.getFundingSource());
-            protocolFundingSourceType.setFundingSourceTypeCode(fundingSourceBean.getFundingSourceTypeCode());
-            String title= getFundingSourceNameOrTitle(fundingSourceBean);
-            if(title!=null){
+            protocolFundingSourceType.setFundingSource(fundingSourceBean.getFundingSourceNumber());
+            protocolFundingSourceType.setFundingSourceTypeCode(Integer.valueOf(fundingSourceBean.getFundingSourceTypeCode()));
+            String title = getFundingSourceNameOrTitle(fundingSourceBean);
+            if (title != null) {
                 protocolFundingSourceType.setTitle(title);
             }
             if(fundingSourceBean.getFundingSourceType()!=null){
@@ -457,28 +471,59 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
         }
     }
     
-    private String getFundingSourceNameOrTitle(ProtocolFundingSource fundingSourceBean){
-//        fundingSourceBean.refreshNonUpdateableReferences();
-        String title=null;
-        Integer fundingSourceTypeCode = fundingSourceBean.getFundingSourceTypeCode();
-        switch(fundingSourceTypeCode){
-            case(1):
-                fundingSourceBean.refreshReferenceObject("fundingSponsor");
-                return fundingSourceBean.getFundingSponsor().getSponsorName();
-            case(2):
-                fundingSourceBean.refreshReferenceObject("fundingUnit");
-                return fundingSourceBean.getFundingUnit().getUnitName();
-            case(4):
-                fundingSourceBean.refreshReferenceObject("fundingDevelopmentProposal");
-                return fundingSourceBean.getFundingDevelopmentProposal().getTitle();
-            case(5):
-                fundingSourceBean.refreshReferenceObject("fundingInstitutionalProposal");
-                return fundingSourceBean.getFundingInstitutionalProposal().getTitle();
-            case(6):
-                fundingSourceBean.refreshReferenceObject("fundingAward");
-                return fundingSourceBean.getFundingAward().getTitle();
+    private String getFundingSourceNameOrTitle(ProtocolFundingSource fundingSourceBean) {
+        String title = null;
+        
+        String fundingSourceTypeCode = fundingSourceBean.getFundingSourceTypeCode();
+        if (FundingSourceType.SPONSOR.equals(fundingSourceTypeCode)) {
+            title = getSponsorName(fundingSourceBean.getFundingSourceNumber());
+        } else if (FundingSourceType.UNIT.equals(fundingSourceTypeCode)) {
+            title = getUnitName(fundingSourceBean.getFundingSourceNumber());
+        } else if (FundingSourceType.PROPOSAL_DEVELOPMENT.equals(fundingSourceTypeCode)) {
+            title = getDevelopmentProposalTitle(fundingSourceBean.getFundingSourceNumber());
+        } else if (FundingSourceType.INSTITUTIONAL_PROPOSAL.equals(fundingSourceTypeCode)) {
+            title = getInstitutionalProposalTitle(fundingSourceBean.getFundingSourceNumber());
+        } else if (FundingSourceType.AWARD.equals(fundingSourceTypeCode)) {
+            title = getAwardTitle(fundingSourceBean.getFundingSourceNumber());
         }
+
         return title;
+    }
+    
+    private String getSponsorName(String fundingSourceNumber) {
+        return getSponsorService().getSponsorName(fundingSourceNumber);
+    }
+    
+    private String getUnitName(String fundingSourceNumber) {
+        return getUnitService().getUnitName(fundingSourceNumber);
+    }
+    
+    private String getDevelopmentProposalTitle(String fundingSourceNumber) {
+        DevelopmentProposal developmentProposal = getBusinessObjectService().findBySinglePrimaryKey(DevelopmentProposal.class, fundingSourceNumber);
+        
+        return developmentProposal == null ? null : developmentProposal.getTitle();
+    }
+    
+    private String getInstitutionalProposalTitle(String fundingSourceNumber) {
+        InstitutionalProposal institutionalProposal = getInstitutionalProposalService().getActiveInstitutionalProposalVersion(fundingSourceNumber);
+        
+        if (institutionalProposal == null) {
+            institutionalProposal = getInstitutionalProposalService().getPendingInstitutionalProposalVersion(fundingSourceNumber);
+        }
+
+        return institutionalProposal == null ? null : institutionalProposal.getTitle();
+    }
+    
+    private String getAwardTitle(String fundingSourceNumber) {
+        Award award = null;
+        
+        List<Award> awards = getAwardService().findAwardsForAwardNumber(fundingSourceNumber);
+        
+        if (!awards.isEmpty()) {
+            award = awards.get(awards.size() - 1);
+        }
+        
+        return award == null ? null : award.getTitle();
     }
 
     private void setProtocolResearchAreas(ProtocolSummary protocolSummary, Protocol protocol) {
@@ -658,6 +703,61 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
                 protocolDetailsType.setInvestigator(protocolPerson.getPersonName());
             }
         }        
+    }
+
+    public SponsorService getSponsorService() {
+        if (sponsorService == null) {
+            sponsorService = KraServiceLocator.getService(SponsorService.class);
+        }
+        return sponsorService;
+    }
+
+    public void setSponsorService(SponsorService sponsorService) {
+        this.sponsorService = sponsorService;
+    }
+
+    public UnitService getUnitService() {
+        if (unitService == null) {
+            unitService = KraServiceLocator.getService(UnitService.class);
+        }
+        return unitService;
+    }
+
+    public void setUnitService(UnitService unitService) {
+        this.unitService = unitService;
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        if (businessObjectService == null) {
+            businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        }
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    public InstitutionalProposalService getInstitutionalProposalService() {
+        if (institutionalProposalService == null) {
+            institutionalProposalService = KraServiceLocator.getService(InstitutionalProposalService.class);
+        }
+        return institutionalProposalService;
+    }
+
+    public void setInstitutionalProposalService(InstitutionalProposalService institutionalProposalService) {
+        this.institutionalProposalService = institutionalProposalService;
+    }
+
+    public AwardService getAwardService() {
+        if (awardService == null) {
+            awardService = KraServiceLocator.getService(AwardService.class);
+        }
+        return awardService;
+    }
+
+    public void setAwardService(AwardService awardService) {
+        this.awardService = awardService;
     }
 
 }

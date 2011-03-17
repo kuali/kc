@@ -40,7 +40,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 public class FundingSourceTypeServiceTest {
     
     private static final String FUNDING_TYPE_ID = "fundingSourceTypeCode";
-    private static final String FUNDING_TYPE_VALID_ID_VALUE = "1";
+    private static final String FUNDING_TYPE_VALID_ID_VALUE = "6";
     private static final String FUNDING_TYPE_INVALID_ID_VALUE = "100001";
 
     private Mockery context = new JUnit4Mockery();
@@ -87,7 +87,7 @@ public class FundingSourceTypeServiceTest {
         if (isValid) {
             ret =  new FundingSourceType();
             ret.setDescription("Award");
-            ret.setFundingSourceTypeCode(1);
+            ret.setFundingSourceTypeCode("6");
 
         } 
         return ret;

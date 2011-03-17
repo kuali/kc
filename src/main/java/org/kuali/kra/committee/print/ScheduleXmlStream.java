@@ -32,7 +32,6 @@ import org.kuali.kra.bo.Unit;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.service.CommitteeMembershipService;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
@@ -48,12 +47,12 @@ import org.kuali.kra.meeting.CommitteeScheduleAttendance;
 import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
 import org.kuali.kra.service.KcPersonService;
 
-import edu.mit.irb.irbnamespace.ScheduleDocument;
 import edu.mit.irb.irbnamespace.InvestigatorDocument.Investigator;
 import edu.mit.irb.irbnamespace.PersonDocument.Person;
 import edu.mit.irb.irbnamespace.ProtocolMasterDataDocument.ProtocolMasterData;
 import edu.mit.irb.irbnamespace.ProtocolSubmissionDocument.ProtocolSubmission;
 import edu.mit.irb.irbnamespace.ProtocolSummaryDocument.ProtocolSummary;
+import edu.mit.irb.irbnamespace.ScheduleDocument;
 import edu.mit.irb.irbnamespace.ScheduleDocument.Schedule;
 import edu.mit.irb.irbnamespace.ScheduleDocument.Schedule.Attendents;
 import edu.mit.irb.irbnamespace.ScheduleDocument.Schedule.NextSchedule;
@@ -235,8 +234,8 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
                 protocolFundingSourceBean.refreshNonUpdateableReferences();
                 edu.mit.irb.irbnamespace.ProtocolSummaryDocument.ProtocolSummary.FundingSource fundingSource = protocolSummary
                         .addNewFundingSource();
-                fundingSourceCode = protocolFundingSourceBean.getFundingSource();
-                fundingSourceTypeCode = protocolFundingSourceBean.getFundingSourceTypeCode();
+                fundingSourceCode = protocolFundingSourceBean.getFundingSourceNumber();
+                fundingSourceTypeCode = Integer.valueOf(protocolFundingSourceBean.getFundingSourceTypeCode());
                 fundingSourceName = getFundingSourceNameForType(fundingSourceTypeCode, fundingSourceCode);
 
                 fundingSource.setFundingSourceName(fundingSourceName);

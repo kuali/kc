@@ -17,89 +17,75 @@ package org.kuali.kra.irb.protocol.funding;
 
 import java.util.Map.Entry;
 
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.protocol.ProtocolProtocolAction;
 
 /**
- * This Service provides the required API for performing a multi-type lookup for funding sources. Business rules used by the View,
- * And business rule management for a a protocol's funding source list.
+ * Provides the required API for performing a multi-type lookup for funding sources, business rules used by the View, and business rule management for a 
+ * protocol's funding source list.
  */
 public interface ProtocolFundingSourceService {
-    
-    /**
-     * This method deletes ProtocolFundingSource from the List at specified position(lineNumber)
-     * @param protocol which contains list of ProtocolFundingSources
-     * @param lineNumber to be deleted
-     */
-    void deleteProtocolFundingSource(Protocol protocol, int lineNumber);
 
     /**
+     * Updates the name and title for a Protocol funding source.
      * 
-     * This method is used used by Ajax and the action to set the name and title for a funding source.
-     * @param typeCode
-     * @param source
-     * @param number
-     * @param name
-     * @return
+     * @param fundingSourceTypeCode the type code of the funding source
+     * @param fundingSourceNumber the human-readable number of the funding source
+     * @param fundingSourceName the name of the funding source
+     * @return an instance of a Protocol funding source
      */
-    ProtocolFundingSource updateProtocolFundingSource(String typeCode, String source, String number, String name);
+    ProtocolFundingSource updateProtocolFundingSource(String fundingSourceTypeCode, String fundingSourceNumber, String fundingSourceName);
     
     /**
+     * Checks if the identifier contained in {@code protocolFundingSource} is valid for the type (e.g. for type Unit, verifies whether it has a valid unit 
+     * number).
      * 
-     * This method checks if funding source id is valid for the type (e.g. If type is Unit, is it a valid UnitNumber)
-     * @param source
-     * @return
+     * @param protocolFundingSource the Protocol funding source to validate
+     * @return true if the Protocol funding source has a valid identifier, false otherwise
      */
-    boolean isValidIdForType(ProtocolFundingSource source);
-    
-
-    /**
-     * This method returns lookup parameters to create a fundingSource lookup URL based on funding source type.
-     * @param fundingSourceTypeCode Integer
-     * @return
-     */
-    Entry<String, String> getLookupParameters(Integer fundingSourceTypeCode);
+    boolean isValidIdForType(ProtocolFundingSource protocolFundingSource);
     
     /**
+     * Returns lookup parameters to create a funding source lookup URL based its type.
      * 
-     * This method creates the actual lookup URL for a funding source lookup
-     * @param parameter
-     * @param boClassName
-     * @param fieldConversions
-     * @return
+     * @param fundingSourceTypeCode the type code of the funding source
+     * @return a map of lookup parameters
+     */
+    Entry<String, String> getLookupParameters(String fundingSourceTypeCode);
+    
+    /**
+     * Modifies the generic lookup URL contained in {@code parameter} to include the {@code boClassName} and {@code fieldConversions}.
+     * 
+     * @param parameter the generic lookup URL
+     * @param boClassName the class name used in the lookup
+     * @param fieldConversions the field conversions between the lookup and the page
+     * @return a lookup URL specific to the given parameters
      */
     String updateLookupParameter(String parameter, String boClassName, String fieldConversions);
         
     /**
+     * Creates a view URL for the Protocol funding source.
      * 
-     * This method is used by protocolFundingSource Lookup action to create view URL based on funding source type
-     * @param protocolFundingSource
-     * @param action
-     * @return
+     * @param protocolFundingSource the funding source to view
+     * @param action a back reference back to the action
+     * @return a valid URL to view the funding source
      * @throws Exception
      */
     String getViewProtocolFundingSourceUrl(ProtocolFundingSource protocolFundingSource, ProtocolProtocolAction action) throws Exception;
     
     /**
+     * Returns whether the name attribute is editable according to {@code fundingSourceTypeCode}.
      * 
-     * This method is used by Ajax call to make fundingSource Name editable for certain types of funding sources
-     * @param fundingTypeCode
-     * @return
+     * @param fundingSourceTypeCode the type code of the funding source
+     * @return true if the name attribute is editable, false otherwise
      */
-    boolean updateSourceNameEditable(String fundingTypeCode);
+    boolean isEditable(String fundingSourceTypeCode);
     
     /**
+     * Returns whether a lookup can be performed according to {@code fundingSourceTypeCode}.
      * 
-     * This method used to set the view button based on funding type and configuration
-     * @param fundingTypeCode
-     * @return
+     * @param fundingSourceTypeCode the type code of the funding source
+     * @return true if a lookup can be performed, false otherwise
      */
-    boolean isViewable(int fundingTypeCode);
+    boolean isLookupable(String fundingSourceTypeCode);
     
-    /**
-     * This method is used to determine whether lookups should be performed based on type.
-     * @param fundingTypeCode
-     * @return
-     */
-    boolean isLookupable(String fundingTypeCode);
 }

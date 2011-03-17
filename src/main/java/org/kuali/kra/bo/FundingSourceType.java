@@ -19,28 +19,26 @@ import java.util.LinkedHashMap;
 
 public class FundingSourceType extends KraPersistableBusinessObjectBase {
 
+    public static final String SPONSOR = "1";
+    public static final String UNIT = "2";
+    public static final String OTHER = "3";
+    public static final String PROPOSAL_DEVELOPMENT = "4";
     public static final String INSTITUTIONAL_PROPOSAL = "5";
     public static final String AWARD = "6";
-    
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
-    private static final long serialVersionUID = 1L;
 
-    private Integer fundingSourceTypeCode;
+    private String fundingSourceTypeCode;
     private String description;
     private boolean fundingSourceTypeFlag;
 
 
     public FundingSourceType() {
-
     }
 
-    public Integer getFundingSourceTypeCode() {
+    public String getFundingSourceTypeCode() {
         return fundingSourceTypeCode;
     }
 
-    public void setFundingSourceTypeCode(Integer fundingSourceTypeCode) {
+    public void setFundingSourceTypeCode(String fundingSourceTypeCode) {
         this.fundingSourceTypeCode = fundingSourceTypeCode;
     }
 
@@ -60,7 +58,6 @@ public class FundingSourceType extends KraPersistableBusinessObjectBase {
         this.fundingSourceTypeFlag = fundingSourceTypeFlag;
     }
 
-
     @Override
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
@@ -69,32 +66,47 @@ public class FundingSourceType extends KraPersistableBusinessObjectBase {
         hashMap.put("fundingSourceTypeFlag", getFundingSourceTypeFlag());
         return hashMap;
     }
-    
-    @Override
-    public boolean equals(Object obj) {
-        boolean isEqual=true;
-        if (obj==null || !(obj instanceof FundingSourceType)) {
-             return false;
-        }
-        
-        FundingSourceType fundingSourceType = (FundingSourceType) obj;
-        if (!fundingSourceType.getDescription().equalsIgnoreCase(getDescription())) {
-            isEqual=false;
-        } else if (fundingSourceType.getFundingSourceTypeCode().intValue() != getFundingSourceTypeCode().intValue()) {
-            isEqual=false;
-        } else if (fundingSourceType.getFundingSourceTypeFlag() != getFundingSourceTypeFlag()) {
-            isEqual=false;
-        }
-        return isEqual;
-    }
-        
+
     @Override
     public int hashCode() {
-          final int PRIME = 31;
-          int result = 1;
-          result = PRIME * result + ((this.getDescription() == null) ? 0 : this.getDescription().hashCode());
-          result = PRIME * result + ((this.getFundingSourceTypeCode() == null) ? 0 : this.getFundingSourceTypeCode().hashCode());
-          return result;
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((description == null) ? 0 : description.hashCode());
+        result = prime * result + ((fundingSourceTypeCode == null) ? 0 : fundingSourceTypeCode.hashCode());
+        result = prime * result + (fundingSourceTypeFlag ? 1231 : 1237);
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        FundingSourceType other = (FundingSourceType) obj;
+        if (description == null) {
+            if (other.description != null) {
+                return false;
+            }
+        } else if (!description.equalsIgnoreCase(other.description)) {
+            return false;
+        }
+        if (fundingSourceTypeCode == null) {
+            if (other.fundingSourceTypeCode != null) {
+                return false;
+            }
+        } else if (!fundingSourceTypeCode.equals(other.fundingSourceTypeCode)) {
+            return false;
+        }
+        if (fundingSourceTypeFlag != other.fundingSourceTypeFlag) {
+            return false;
+        }
+        return true;
     }
 
 }

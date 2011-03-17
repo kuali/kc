@@ -54,53 +54,52 @@ public interface SpecialReviewService {
     Long getViewSpecialReviewProtocolRouteHeaderId(String protocolNumber) throws Exception;
     
     /**
-     * Determines whether the given Protocol contains a Funding Source linking to the Institutional Proposal or Award corresponding to the given id.
+     * Determines whether the given Protocol contains a Funding Source linking to the Institutional Proposal or Award corresponding to the given number.
      * 
      * @param protocolNumber The number of the Protocol in which to check for the Funding Source
-     * @param fundingSourceId The id of the Institutional Proposal or Award to check for
+     * @param fundingSourceNumber The number of the Institutional Proposal or Award to check for
      * @param fundingSourceTypeCode The type code (for either Institutional Proposal or Award) to check for
      * @return
      */
-    boolean isLinkedToProtocolFundingSource(String protocolNumber, Long fundingSourceId, String fundingSourceTypeCode);
+    boolean isLinkedToProtocolFundingSource(String protocolNumber, String fundingSourceNumber, String fundingSourceTypeCode);
     
     /**
      * Determines whether the given Institutional Proposal or Award Protocol contains a Special Review linking to the given protocol number.
      * 
-     * @param fundingSourceId The id of the Institutional Proposal or Award in which to check for the Special Review
+     * @param fundingSourceNumber The number of the Institutional Proposal or Award in which to check for the Special Review
      * @param fundingSourceTypeCode The type code (for either Institutional Proposal or Award) in which to check for the Special Review
      * @param protocolNumber The number of the Protocol to check for
      * @return
      */
-    boolean isLinkedToSpecialReview(Long fundingSourceId, String fundingSourceTypeCode, String protocolNumber);
+    boolean isLinkedToSpecialReview(String fundingSourceNumber, String fundingSourceTypeCode, String protocolNumber);
     
     /**
      * Creates a Protocol Funding Source from a Special Review contained in either an Institutional Proposal or Award and adds it to the Protocol.
      * 
      * @param protocolNumber The number of the Protocol to which to add the new Funding Source
-     * @param fundingSourceId The id of the Institutional Proposal or Award in which the Special Review is added/saved
      * @param fundingSourceNumber The human-readable number of the Institutional Proposal or Award in which the Special Review is added/saved
      * @param fundingSourceTypeCode The type code (for either Institutional Proposal or Award) of the entity in which the Special Review is added/saved
      * @param fundingSourceName The name of the Institutional Proposal or Award in which the Special Review is added/saved
      * @param fundingSourceTitle The title of the Institutional Proposal or Award in which the Special Review is added/saved
      * @throws WorkflowException
      */
-    void addProtocolFundingSourceForSpecialReview(String protocolNumber, Long fundingSourceId, String fundingSourceNumber, String fundingSourceTypeCode, 
-        String fundingSourceName, String fundingSourceTitle);
+    void addProtocolFundingSourceForSpecialReview(String protocolNumber, String fundingSourceNumber, String fundingSourceTypeCode, String fundingSourceName, 
+        String fundingSourceTitle);
     
     /**
      * Deletes the Protocol Funding Sources associated with the Special Review being deleted.
      * 
      * @param protocolNumber The number of the Protocol to which to delete the Funding Sources
-     * @param fundingSourceId The id of the Institutional Proposal or Award in which the Special Review is deleted
+     * @param fundingSourceNumber The number of the Institutional Proposal or Award in which the Special Review is deleted
      * @param fundingSourceTypeCode The type code (for either Institutional Proposal or Award) of the entity in which the Special Review is deleted
      * @throws WorkflowException
      */
-    void deleteProtocolFundingSourceForSpecialReview(String protocolNumber, Long fundingSourceId, String fundingSourceTypeCode);
+    void deleteProtocolFundingSourceForSpecialReview(String protocolNumber, String fundingSourceNumber, String fundingSourceTypeCode);
 
     /**
      * Creates an Institutional Proposal or Award Special Review based on the given Protocol and adds it to the specified Institutional Proposal or Award.
      * 
-     * @param fundingSourceId The ID of the Institutional Proposal or Award
+     * @param fundingSourceNumber The number of the Institutional Proposal or Award
      * @param fundingSourceTypeCode The type code (for either Institutional Proposal or Award)
      * @param protocolNumber The number of the given Protocol
      * @param applicationDate The application date (submission date) of the given Protocol
@@ -109,16 +108,16 @@ public interface SpecialReviewService {
      * @param exemptionTypeCodes The exemption type codes of the given Protocol
      * @throws WorkflowException
      */
-    void addSpecialReviewForProtocolFundingSource(Long fundingSourceId, String fundingSourceTypeCode, String protocolNumber, Date applicationDate, 
+    void addSpecialReviewForProtocolFundingSource(String fundingSourceNumber, String fundingSourceTypeCode, String protocolNumber, Date applicationDate, 
         Date approvalDate, Date expirationDate, List<String> exemptionTypeCodes);
     
     /**
-     * Deletes the Institutional Proposal Special Review associated with the Protocol Funding Soruce being deleted.
+     * Deletes the Institutional Proposal Special Review associated with the Protocol Funding Source being deleted.
      * 
-     * @param fundingSourceId The id of the Institutional Proposal or Award to which to delete the Special Review
+     * @param fundingSourceNumber The number of the Institutional Proposal or Award to which to delete the Special Review
      * @param fundingSourceTypeCode The type code (for either Institutional Proposal or Award) to which to delete the Special Review
      * @param protocolNumber The number of the Protocol in which the Funding Source is deleted
      * @throws WorkflowException
      */
-    void deleteSpecialReviewForProtocolFundingSource(Long fundingSourceId, String fundingSourceTypeCode, String protocolNumber);
+    void deleteSpecialReviewForProtocolFundingSource(String fundingSourceNumber, String fundingSourceTypeCode, String protocolNumber);
 }

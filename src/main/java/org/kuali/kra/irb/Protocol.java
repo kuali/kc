@@ -1694,7 +1694,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         for (ProtocolFundingSource source : getProtocolFundingSources()) {
             FundingSourceSummary fundingSourceSummary = new FundingSourceSummary();
             fundingSourceSummary.setFundingSourceType(source.getFundingSourceType().getDescription());
-            fundingSourceSummary.setFundingSource(source.getFundingSource());
+            fundingSourceSummary.setFundingSource(source.getFundingSourceNumber());
             fundingSourceSummary.setFundingSourceNumber(source.getFundingSourceNumber());
             fundingSourceSummary.setFundingSourceName(source.getFundingSourceName());
             fundingSourceSummary.setFundingSourceTitle(source.getFundingSourceTitle());
