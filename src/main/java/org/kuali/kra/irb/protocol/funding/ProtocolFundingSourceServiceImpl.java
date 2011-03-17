@@ -30,11 +30,10 @@ import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.protocol.ProtocolProtocolAction;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.LookupableDevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.service.LookupableDevelopmentProposalService;
 import org.kuali.kra.service.FundingSourceTypeService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.UnitService;
@@ -47,11 +46,9 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.NumberUtils;
 
 /**
- * This Service implementation provides the required logic for performing a multi-type lookup for funding sources. 
- * And business rule management for a a protocol's funding source list.
+ * Implements ProtocolFundingSource.
  */
 public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceService {
 
@@ -67,13 +64,12 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
     private static final String AWARD_ID = "awardId";
     private static final String AWARD_NUMBER = "awardNumber";
     
-    private static String MAINT_DOC_LOOKUP_URL_PREFIX= "${kuali.docHandler.url.prefix}/kr/";
+    private static final String MAINT_DOC_LOOKUP_URL_PREFIX = "${kuali.docHandler.url.prefix}/kr/";
 
     private FundingSourceTypeService fundingSourceTypeService;
     private SponsorService sponsorService;
     private UnitService unitService;
     private InstitutionalProposalService institutionalProposalService;
-    private LookupableDevelopmentProposalService lookupableDevelopmentProposalService;
     private AwardService awardService;
     
     private LookupableHelperService protocolLookupableHelperService;
@@ -81,13 +77,10 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
     private ParameterService parameterService;
     private BusinessObjectService businessObjectService;
     
-    private Map<Integer, FundingSourceLookup> fundingEnumMap;
-    
     /**
      * This enum captures the elements for fundingSource for managing the multi type lookup.
-     * It is inherently tightly coupled with the primary keyvalues of the FundingSourceTable.
      */
-    enum FundingSourceLookup {
+    private enum FundingSourceLookup {
         
         /**
          * Lookup parameters for Sponsor.
@@ -96,7 +89,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
                                Constants.EMPTY_STRING,
                                SPONSOR_CODE,
                                SPONSOR_NAME,
-                               Constants.EMPTY_STRING, 1),
+                               Constants.EMPTY_STRING),
         
         /**
          * Lookup parameters for Unit.
@@ -105,16 +98,16 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
                                Constants.EMPTY_STRING,
                                UNIT_NUMBER,
                                UNIT_NAME,
-                               Constants.EMPTY_STRING, 2),
+                               Constants.EMPTY_STRING),
         
         /**
          * Lookup parameters for Other.  This is a free text category.
          */
-        OTHER                 (Object.class,                      
+        OTHER                 (Object.class,
                                Constants.EMPTY_STRING,
                                Constants.EMPTY_STRING,
                                Constants.EMPTY_STRING,
-                               Constants.EMPTY_STRING, 3),
+                               Constants.EMPTY_STRING),
         
         /**
          * Lookup parameters for Development Proposal.
@@ -123,7 +116,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
                                Constants.EMPTY_STRING,
                                PROPOSAL_NUMBER,
                                BO_SPONSOR_NAME,
-                               TITLE, 4),
+                               TITLE),
         
         /**
          * Lookup parameters for Institutional Proposal.
@@ -132,7 +125,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
                                PROPOSAL_ID,
                                PROPOSAL_NUMBER,
                                BO_SPONSOR_NAME,
-                               TITLE, 5),
+                               TITLE),
         
         /**
          * Lookup parameters for Award.
@@ -141,14 +134,13 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
                                AWARD_ID,
                                AWARD_NUMBER,
                                BO_SPONSOR_NAME,
-                               TITLE, 6);
+                               TITLE);
 
         private final Class<?> clazz;
         private final String keyCode;
         private final String number;
         private final String name;
         private final String title;
-        private final int typeCode;
 
         /**
          * Constructs a FundingSourceLookup.
@@ -157,15 +149,13 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
          * @param number The displayed user-readable number
          * @param name The name of the funding source
          * @param title The title of the funding source
-         * @param typeCode The number type code of the lookup
          */
-        FundingSourceLookup(Class<?> clazz, String keyCode, String number, String name, String title, Integer typeCode) {
+        FundingSourceLookup(Class<?> clazz, String keyCode, String number, String name, String title) {
             this.clazz = clazz;
             this.keyCode = keyCode;
             this.number = number;
             this.title = title;
             this.name = name;
-            this.typeCode = typeCode;
         }
         
         public Class<?> getBOClass() {
@@ -188,253 +178,250 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
             return name;
         }
         
-        public int getTypeCode() {
-            return typeCode;
-        }   
-    }
-    
-    public ProtocolFundingSourceServiceImpl() {
-        initFundingTypeMap();
-        
-    }
-    
-    protected void initFundingTypeMap() {
-        fundingEnumMap = new HashMap<Integer, FundingSourceLookup>();
-        fundingEnumMap.put(FundingSourceLookup.AWARD.getTypeCode(), FundingSourceLookup.AWARD);
-        fundingEnumMap.put(FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getTypeCode(), FundingSourceLookup.INSTITUTIONAL_PROPOSAL);
-        fundingEnumMap.put(FundingSourceLookup.OTHER.getTypeCode(), FundingSourceLookup.OTHER);
-        fundingEnumMap.put(FundingSourceLookup.PROPOSAL_DEVELOPMENT.getTypeCode(), FundingSourceLookup.PROPOSAL_DEVELOPMENT);
-        fundingEnumMap.put(FundingSourceLookup.SPONSOR.getTypeCode(), FundingSourceLookup.SPONSOR);
-        fundingEnumMap.put(FundingSourceLookup.UNIT.getTypeCode(), FundingSourceLookup.UNIT);
     }
 
-    /** {@inheritDoc} */
-    public void deleteProtocolFundingSource(Protocol protocol, int lineNumber) {
-        protocol.getProtocolFundingSources().remove(lineNumber);
-    }
-
-
-    /** {@inheritDoc} */
-    public ProtocolFundingSource updateProtocolFundingSource(String typeCode, String source, String number, String name) {
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceService#updateProtocolFundingSource(java.lang.String, java.lang.String, java.lang.String)
+     */
+    public ProtocolFundingSource updateProtocolFundingSource(String fundingSourceTypeCode, String fundingSourceNumber, String fundingSourceName) {
         ProtocolFundingSource protocolFundingSource = null;
-        FundingSourceType fundingSourceType = getFundingSourceTypeService().getFundingSourceType(typeCode);
 
-        int fundingTypeCode = Integer.valueOf(typeCode);
-        if (fundingTypeCode == FundingSourceLookup.SPONSOR.getTypeCode()) {
-            protocolFundingSource = buildSponsorFundingSource(fundingSourceType, source, number);
-        } else if (fundingTypeCode == FundingSourceLookup.UNIT.getTypeCode()) {
-            protocolFundingSource = buildUnitFundingSource(fundingSourceType, source, number);
-        } else if (fundingTypeCode == FundingSourceLookup.AWARD.getTypeCode() && isAwardLinkEnabled()) {
-            protocolFundingSource = buildAwardFundingSource(fundingSourceType, source, number, name);
-        } else if (fundingTypeCode == FundingSourceLookup.PROPOSAL_DEVELOPMENT.getTypeCode() && isDevelopmentProposalLinkEnabled()) {
-            protocolFundingSource = buildProposalDevelopmentFundingSource(fundingSourceType, source, number, name);
-        } else if (fundingTypeCode == FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getTypeCode() && isInstitionalProposalLinkEnabled()) {
-            protocolFundingSource = buildInstitutionalProposalFundingSource(fundingSourceType, source, number, name);
+        if (FundingSourceType.SPONSOR.equals(fundingSourceTypeCode)) {
+            protocolFundingSource = buildSponsorFundingSource(fundingSourceNumber);
+        } else if (FundingSourceType.UNIT.equals(fundingSourceTypeCode)) {
+            protocolFundingSource = buildUnitFundingSource(fundingSourceNumber);
+        } else if (FundingSourceType.PROPOSAL_DEVELOPMENT.equals(fundingSourceTypeCode) && isDevelopmentProposalLinkEnabled()) {
+            protocolFundingSource = buildProposalDevelopmentFundingSource(fundingSourceNumber, fundingSourceName);
+        } else if (FundingSourceType.INSTITUTIONAL_PROPOSAL.equals(fundingSourceTypeCode) && isInstitionalProposalLinkEnabled()) {
+            protocolFundingSource = buildInstitutionalProposalFundingSource(fundingSourceNumber, fundingSourceName);
+        } else if (FundingSourceType.AWARD.equals(fundingSourceTypeCode) && isAwardLinkEnabled()) {
+            protocolFundingSource = buildAwardFundingSource(fundingSourceNumber, fundingSourceName);
         } else {
-            protocolFundingSource = buildOtherFundingSource(fundingSourceType, source, number, name);
+            protocolFundingSource = buildOtherFundingSource(fundingSourceTypeCode, fundingSourceNumber, fundingSourceName);
         }
         
         return protocolFundingSource;
     }
     
-    /*
-     * Builds a funding source for a Sponsor
+    /**
+     * Builds a Protocol funding source for a Sponsor.
+     * 
+     * @param fundingSourceNumber the human-readable number for the funding source
+     * @return an instance of a Protocol funding source
      */
-    protected ProtocolFundingSource buildSponsorFundingSource(FundingSourceType fundingSourceType, String source, String sourceNumber) {
-        ProtocolFundingSource protocolFundingSource = null;
+    private ProtocolFundingSource buildSponsorFundingSource(String fundingSourceNumber) {
+        ProtocolFundingSource fundingSource = null;
         
-        if (fundingSourceType != null && (StringUtils.isNotBlank(source) || StringUtils.isNotBlank(sourceNumber))) {
-            String fundingSource = StringUtils.isNotEmpty(sourceNumber) ? sourceNumber : source;
-            String fundingSourceName = getSponsorService().getSponsorName(fundingSource);
+        if (StringUtils.isNotBlank(fundingSourceNumber)) {
+            String fundingSourceName = getSponsorService().getSponsorName(fundingSourceNumber);
             String fundingSourceTitle = Constants.EMPTY_STRING;
-            protocolFundingSource = new ProtocolFundingSource(fundingSource, fundingSource, fundingSourceType, fundingSourceName, fundingSourceTitle); 
+            fundingSource = new ProtocolFundingSource(fundingSourceNumber, FundingSourceType.SPONSOR, fundingSourceName, fundingSourceTitle); 
         }
         
-        return protocolFundingSource;
+        return fundingSource;
     }
-        
-    
-    /*
-     * Builds a funding source for a Unit
-     */
-    protected ProtocolFundingSource buildUnitFundingSource(FundingSourceType fundingSourceType, String source, String sourceNumber) {
-        ProtocolFundingSource protocolFundingSource = null;
-        
-        if (fundingSourceType != null && (StringUtils.isNotBlank(source) || StringUtils.isNotBlank(sourceNumber))) {
-            String fundingSource = StringUtils.isNotBlank(sourceNumber) ? sourceNumber : source;
-            String fundingSourceName = getUnitService().getUnitName(fundingSource);
-            String fundingSourceTitle = Constants.EMPTY_STRING;
-            protocolFundingSource = new ProtocolFundingSource(fundingSource, fundingSource, fundingSourceType, fundingSourceName, fundingSourceTitle); 
-        }
-        
-        return protocolFundingSource;
-    }
-    
-    /*
-     * Builds a funding source for any other entry
-     */
-    protected ProtocolFundingSource buildOtherFundingSource(FundingSourceType fundingSourceType, String source, String sourceNumber, String sourceName) {
-        ProtocolFundingSource protocolFundingSource = null;
-        
-        if (fundingSourceType != null && (StringUtils.isNotBlank(source) || StringUtils.isNotBlank(sourceNumber))) {
-            String fundingSource = StringUtils.isNotEmpty(sourceNumber) ? sourceNumber: source;
-            String fundingSourceName = sourceName;
-            String fundingSourceTitle = Constants.EMPTY_STRING;
-            protocolFundingSource = new ProtocolFundingSource(fundingSource, fundingSource, fundingSourceType, fundingSourceName, fundingSourceTitle);
-        }
-        
-        return protocolFundingSource;
-    }
-    
-    /*
-     * Builds a funding source for a Proposal Development
-     */
-    protected ProtocolFundingSource buildProposalDevelopmentFundingSource(FundingSourceType fundingSourceType, String source, String sourceNumber, 
-            String sourceName) {
-        ProtocolFundingSource protocolFundingSource = null;
 
-        if (StringUtils.isNotBlank(source) || StringUtils.isNotBlank(sourceNumber)) {
-            String fundingSource = StringUtils.isNotBlank(sourceNumber) ? sourceNumber : source;
-            String fundingSourceName = sourceName;
+    /**
+     * Builds a Protocol funding source for a Unit.
+     * 
+     * @param fundingSourceNumber the human-readable number for the funding source
+     * @return an instance of a Protocol funding source
+     */
+    private ProtocolFundingSource buildUnitFundingSource(String fundingSourceNumber) {
+        ProtocolFundingSource fundingSource = null;
+        
+        if (StringUtils.isNotBlank(fundingSourceNumber)) {
+            String fundingSourceName = getUnitService().getUnitName(fundingSourceNumber);
             String fundingSourceTitle = Constants.EMPTY_STRING;
-            LookupableDevelopmentProposal devProposal = getLookupableDevelopmentProposalService().getLookupableDevelopmentProposal(fundingSource);
+            fundingSource = new ProtocolFundingSource(fundingSourceNumber, FundingSourceType.UNIT, fundingSourceName, fundingSourceTitle); 
+        }
+        
+        return fundingSource;
+    }
+    
+    /**
+     * Builds a Protocol funding source for a Development Proposal.
+     * 
+     * @param fundingSourceNumber the human-readable number for the funding source
+     * @param fundingSourceName the name of the funding source
+     * @return an instance of a Protocol funding source
+     */
+    private ProtocolFundingSource buildProposalDevelopmentFundingSource(String fundingSourceNumber, String fundingSourceName) {
+        ProtocolFundingSource fundingSource = null;
+
+        if (StringUtils.isNotBlank(fundingSourceNumber)) {
+            String fundingSourceTitle = Constants.EMPTY_STRING;
+            DevelopmentProposal devProposal = getDevelopmentProposal(fundingSourceNumber);
             if (devProposal != null) {
                 fundingSourceName = devProposal.getSponsorName();
                 fundingSourceTitle = devProposal.getTitle();
             }
-            protocolFundingSource = new ProtocolFundingSource(fundingSource, fundingSource, fundingSourceType, fundingSourceName, fundingSourceTitle); 
+            fundingSource = new ProtocolFundingSource(fundingSourceNumber, FundingSourceType.PROPOSAL_DEVELOPMENT, fundingSourceName, fundingSourceTitle); 
         }
         
-        return protocolFundingSource;
-    }
-    
-    /*
-     * Builds a funding source for an Institutional Proposal
-     */
-    protected ProtocolFundingSource buildInstitutionalProposalFundingSource(FundingSourceType fundingSourceType, String source, String sourceNumber, 
-            String sourceName) {
-        ProtocolFundingSource protocolFundingSource = null;
-        
-        if (StringUtils.isNotBlank(source) || StringUtils.isNotBlank(sourceNumber)) {
-            String fundingSource = source;
-            String fundingSourceNumber = sourceNumber;
-            String fundingSourceName = sourceName;
-            String fundingSourceTitle = Constants.EMPTY_STRING;
-            InstitutionalProposal instProposal = getInstitutionalProposal(source, sourceNumber);
-            if (instProposal != null) {
-                fundingSource = String.valueOf(instProposal.getProposalId());
-                fundingSourceNumber = instProposal.getProposalNumber();
-                fundingSourceName = instProposal.getSponsorName();
-                fundingSourceTitle = instProposal.getTitle();
-            }
-            protocolFundingSource = new ProtocolFundingSource(fundingSource, fundingSourceNumber, fundingSourceType, fundingSourceName, fundingSourceTitle); 
-        }
-        
-        return protocolFundingSource;
-    }
-    
-    /*
-     * Retrieves an Institutional Proposal, favoring the ID (source) but using the number (sourceNumber) as backup
-     */
-    protected InstitutionalProposal getInstitutionalProposal(String source, String sourceNumber) {
-        InstitutionalProposal institutionalProposal = null;
-        if (StringUtils.isNotBlank(source) && StringUtils.isNumeric(source)) {
-            institutionalProposal = getInstitutionalProposalService().getInstitutionalProposal(source);
-        } else if (sourceNumber != null) {
-            institutionalProposal = getInstitutionalProposalService().getActiveInstitutionalProposalVersion(sourceNumber);
-        }
-        return institutionalProposal;
-    }
-    
-    /*
-     * Builds a funding source for an Award
-     */
-    protected ProtocolFundingSource buildAwardFundingSource(FundingSourceType fundingSourceType, String source, String sourceNumber, String sourceName) {
-        ProtocolFundingSource protocolFundingSource = null;
-        
-        if (StringUtils.isNotBlank(source) || StringUtils.isNotBlank(sourceNumber)) {
-            String fundingSource = source;
-            String fundingSourceNumber = sourceNumber;
-            String fundingSourceName = sourceName;
-            String fundingSourceTitle = Constants.EMPTY_STRING;
-            Award award  = getAward(source, sourceNumber);
-            if (award != null) {
-                fundingSource = String.valueOf(award.getAwardId());
-                fundingSourceNumber = award.getAwardNumber();
-                fundingSourceName = award.getSponsorName();
-                fundingSourceTitle = award.getTitle();
-            }
-            protocolFundingSource = new ProtocolFundingSource(fundingSource, fundingSourceNumber, fundingSourceType, fundingSourceName, fundingSourceTitle); 
-        }
-        
-        return protocolFundingSource;
-    }
-    
-    /*
-     * Retrieves a matching Award, first preferring the ID (source) and then searching the number (sourceNumber).
-     */
-    protected Award getAward(String source, String sourceNumber) {
-        Award award = null;
-        if (source != null && StringUtils.isNotBlank(source) && StringUtils.isNumeric(source)) {
-            award = getAwardService().getAward(Long.parseLong(source));
-        } else if (sourceNumber != null) {
-            List<Award> results = getAwardService().findAwardsForAwardNumber(sourceNumber);
-            if (!results.isEmpty()) {
-                award = results.get(0);
-            }
-        }
-        return award;
+        return fundingSource;
     }
 
     /**
-     *  Validates fundingorg.kuali.kra.irb.protocol.funding.for code provided.
-     * @see org.kuali.kra.iorg.kuali.kra.irb.protocol.funding.lFundingSourceService#isValidIdForType(org.kuali.kra.irb.protocol.funding.ProtocolFundingSource)
+     * Retrieves a Development Proposal using {@code fundingSourceNumber} for identification.
+     * 
+     * @param fundingSourceNumber the human-readable number for the funding source
+     * @return the latest Development Proposal matching {@code fundingSourceNumber}
      */
-    public boolean isValidIdForType(ProtocolFundingSource source) {
+    private DevelopmentProposal getDevelopmentProposal(String fundingSourceNumber) {
+        return getBusinessObjectService().findBySinglePrimaryKey(DevelopmentProposal.class, fundingSourceNumber);
+    }
+    
+    /**
+     * Builds a Protocol funding source for an Institutional Proposal.
+     * 
+     * @param fundingSourceNumber the human-readable number for the funding source
+     * @param fundingSourceName the name of the funding source
+     * @return an instance of a Protocol funding source
+     */
+    private ProtocolFundingSource buildInstitutionalProposalFundingSource(String fundingSourceNumber, String fundingSourceName) {
+        ProtocolFundingSource fundingSource = null;
+        
+        if (StringUtils.isNotBlank(fundingSourceNumber)) {
+            String fundingSourceTitle = Constants.EMPTY_STRING;
+            InstitutionalProposal instProposal = getInstitutionalProposal(fundingSourceNumber);
+            if (instProposal != null) {
+                fundingSourceName = instProposal.getSponsorName();
+                fundingSourceTitle = instProposal.getTitle();
+            }
+            fundingSource = new ProtocolFundingSource(fundingSourceNumber, FundingSourceType.INSTITUTIONAL_PROPOSAL, fundingSourceName, fundingSourceTitle); 
+        }
+        
+        return fundingSource;
+    }
+
+    /**
+     * Retrieves an Institutional Proposal using {@code fundingSourceNumber} for identification.
+     * 
+     * @param fundingSourceNumber the human-readable number for the funding source
+     * @return the latest Institutional Proposal matching {@code fundingSourceNumber}
+     */
+    private InstitutionalProposal getInstitutionalProposal(String fundingSourceNumber) {
+        InstitutionalProposal institutionalProposal = getInstitutionalProposalService().getActiveInstitutionalProposalVersion(fundingSourceNumber);
+        
+        if (institutionalProposal == null) {
+            institutionalProposal = getInstitutionalProposalService().getPendingInstitutionalProposalVersion(fundingSourceNumber);
+        }
+
+        return institutionalProposal;
+    }
+    
+    /**
+     * Builds a Protocol funding source for an Award.
+     * 
+     * @param fundingSourceNumber the human-readable number for the funding source
+     * @param fundingSourceName the name of the funding source
+     * @return an instance of a Protocol funding source
+     */
+    private ProtocolFundingSource buildAwardFundingSource(String fundingSourceNumber, String fundingSourceName) {
+        ProtocolFundingSource fundingSource = null;
+        
+        if (StringUtils.isNotBlank(fundingSourceNumber)) {
+            String fundingSourceTitle = Constants.EMPTY_STRING;
+            Award award  = getAward(fundingSourceNumber);
+            if (award != null) {
+                fundingSourceName = award.getSponsorName();
+                fundingSourceTitle = award.getTitle();
+            }
+            fundingSource = new ProtocolFundingSource(fundingSourceNumber, FundingSourceType.AWARD, fundingSourceName, fundingSourceTitle); 
+        }
+        
+        return fundingSource;
+    }
+
+    /**
+     * Retrieves an Award using {@code fundingSourceNumber} for identification.
+     * 
+     * @param fundingSourceNumber the human-readable number for the funding source
+     * @return the latest Award matching {@code fundingSourceNumber}
+     */
+    private Award getAward(String fundingSourceNumber) {
+        Award award = null;
+        
+        List<Award> awards = getAwardService().findAwardsForAwardNumber(fundingSourceNumber);
+        
+        if (!awards.isEmpty()) {
+            award = awards.get(awards.size() - 1);
+        }
+        
+        return award;
+    }
+    
+    /**
+     * Builds a Protocol funding source for any other entry.
+     * 
+     * @param fundingSourceTypeCode the type code of the funding source
+     * @param fundingSourceNumber the human-readable number for the funding source
+     * @param fundingSourceName the name of the funding source
+     * @return an instance of a Protocol funding source
+     */
+    private ProtocolFundingSource buildOtherFundingSource(String fundingSourceTypeCode, String fundingSourceNumber, String fundingSourceName) {
+        ProtocolFundingSource fundingSource = null;
+        
+        FundingSourceType fundingSourceType = getFundingSourceTypeService().getFundingSourceType(fundingSourceTypeCode);
+        
+        if (fundingSourceType != null && StringUtils.isNotBlank(fundingSourceNumber)) {
+            fundingSource = new ProtocolFundingSource(fundingSourceNumber, fundingSourceTypeCode, fundingSourceName, Constants.EMPTY_STRING);
+        }
+        
+        return fundingSource;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceService#isValidIdForType(org.kuali.kra.irb.protocol.funding.ProtocolFundingSource)
+     */
+    public boolean isValidIdForType(ProtocolFundingSource protocolFundingSource) {
         boolean valid = false;
 
-        if (source != null && source.getFundingSourceTypeCode() != null)  {
-            Integer typeCode = source.getFundingSourceTypeCode();
-            if (typeCode.equals(FundingSourceLookup.OTHER.getTypeCode())) {
+        if (protocolFundingSource != null && StringUtils.isNotBlank(protocolFundingSource.getFundingSourceTypeCode()))  {
+            String fundingSourceTypeCode = protocolFundingSource.getFundingSourceTypeCode();
+            if (FundingSourceType.OTHER.equals(fundingSourceTypeCode)) {
                 valid = true;
-            } else if (typeCode.equals(FundingSourceLookup.PROPOSAL_DEVELOPMENT.getTypeCode())
-                    && !isDevelopmentProposalLinkEnabled()) {
+            } else if (FundingSourceType.PROPOSAL_DEVELOPMENT.equals(fundingSourceTypeCode) && !isDevelopmentProposalLinkEnabled()) {
                 valid = true;
-            } else if (typeCode.equals(FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getTypeCode())
-                    && !isInstitionalProposalLinkEnabled()) {
+            } else if (FundingSourceType.INSTITUTIONAL_PROPOSAL.equals(fundingSourceTypeCode) && !isInstitionalProposalLinkEnabled()) {
                 valid = true;
-            } else if (typeCode.equals(FundingSourceLookup.AWARD.getTypeCode())
-                    && !isAwardLinkEnabled()) {
+            } else if (FundingSourceType.AWARD.equals(fundingSourceTypeCode) && !isAwardLinkEnabled()) {
                 valid = true;
             } else {
-                String src = source.getFundingSource();
-                String number = source.getFundingSourceNumber();
-                String name = source.getFundingSourceName();
+                String number = protocolFundingSource.getFundingSourceNumber();
+                String name = protocolFundingSource.getFundingSourceName();
                 
-                ProtocolFundingSource testSrc = updateProtocolFundingSource(typeCode.toString(), src, number, name);       
+                ProtocolFundingSource source = updateProtocolFundingSource(fundingSourceTypeCode.toString(), number, name);       
                 
-                if (testSrc != null && (StringUtils.isNotBlank(testSrc.getFundingSourceName()))) {
+                if (source != null && (StringUtils.isNotBlank(source.getFundingSourceName()))) {
                     valid = true;
                 }
             }
         }
+        
         return valid;
     }
 
-    /** {@inheritDoc} */
-    public Entry<String, String>  getLookupParameters(Integer fundingSourceTypeCode) {        
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceService#getLookupParameters(java.lang.String)
+     */
+    public Entry<String, String> getLookupParameters(String fundingSourceTypeCode) {        
         HashMap<String, String> boAndFields = new HashMap<String, String>();
         FundingSourceLookup sourceLookup = FundingSourceLookup.OTHER;
         
-        if (fundingSourceTypeCode.equals(FundingSourceLookup.UNIT.getTypeCode())) {
+        if (FundingSourceType.UNIT.equals(fundingSourceTypeCode)) {
             sourceLookup = FundingSourceLookup.UNIT;
-        } else if (fundingSourceTypeCode.equals(FundingSourceLookup.SPONSOR.getTypeCode())) {
+        } else if (FundingSourceType.SPONSOR.equals(fundingSourceTypeCode)) {
             sourceLookup = FundingSourceLookup.SPONSOR;
-        } else if (fundingSourceTypeCode.equals(FundingSourceLookup.AWARD.getTypeCode())) {
+        } else if (FundingSourceType.AWARD.equals(fundingSourceTypeCode)) {
             sourceLookup = FundingSourceLookup.AWARD;
-        } else if (fundingSourceTypeCode.equals(FundingSourceLookup.PROPOSAL_DEVELOPMENT.getTypeCode())) {
+        } else if (FundingSourceType.PROPOSAL_DEVELOPMENT.equals(fundingSourceTypeCode)) {
             sourceLookup = FundingSourceLookup.PROPOSAL_DEVELOPMENT;
-        } else if (fundingSourceTypeCode.equals(FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getTypeCode())) {
+        } else if (FundingSourceType.INSTITUTIONAL_PROPOSAL.equals(fundingSourceTypeCode)) {
             sourceLookup = FundingSourceLookup.INSTITUTIONAL_PROPOSAL;
         } else {
             throw new IllegalArgumentException(
@@ -449,39 +436,49 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
         return boAndFields.entrySet().iterator().next();
     }
     
-    protected String createCustomFieldConversions(FundingSourceLookup sourceLookup) {
+    /**
+     * Create the custom field conversion string for the lookup based on {@code fundingSourceLookup}.
+     *
+     * @param fundingSourceLookup the lookup definition to construct the lookup string for
+     * @return a lookup field conversion string
+     */
+    private String createCustomFieldConversions(FundingSourceLookup fundingSourceLookup) {
         StringBuffer fieldConversions = new StringBuffer();
-        if (sourceLookup != FundingSourceLookup.OTHER) {
-            // Not all funding sources have a key code and instead use a number
-            if (StringUtils.isNotBlank(sourceLookup.getKeyCode())) {
-                fieldConversions.append(sourceLookup.getKeyCode() + Constants.COLON);
+        if (fundingSourceLookup != FundingSourceLookup.OTHER) {
+            // Only some funding sources require a key code for proper lookup
+            // This value is unused and goes to a dummy field
+            if (StringUtils.isNotBlank(fundingSourceLookup.getKeyCode())) {
+                fieldConversions.append(fundingSourceLookup.getKeyCode() + Constants.COLON);
                 fieldConversions.append(Constants.PROTOCOL_FUNDING_SOURCE_ID_FIELD + Constants.COMMA);
             }
             
-            fieldConversions.append(sourceLookup.getNumber() + Constants.COLON);
+            fieldConversions.append(fundingSourceLookup.getNumber() + Constants.COLON);
             fieldConversions.append(Constants.PROTOCOL_FUNDING_SOURCE_NUMBER_FIELD + Constants.COMMA);
             
-            fieldConversions.append(sourceLookup.getName() + Constants.COLON);
+            fieldConversions.append(fundingSourceLookup.getName() + Constants.COLON);
             fieldConversions.append(Constants.PROTOCOL_FUNDING_SOURCE_NAME_FIELD);
             
             // Not all funding sources have a title
-            if (StringUtils.isNotBlank(sourceLookup.getTitle())) {
+            if (StringUtils.isNotBlank(fundingSourceLookup.getTitle())) {
                 fieldConversions.append(Constants.COMMA);
-                fieldConversions.append(sourceLookup.getTitle() + Constants.COLON);
+                fieldConversions.append(fundingSourceLookup.getTitle() + Constants.COLON);
                 fieldConversions.append(Constants.PROTOCOL_FUNDING_SOURCE_TITLE_FIELD);
             }
         }
         return fieldConversions.toString();
     }
     
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceService#updateLookupParameter(java.lang.String, java.lang.String, java.lang.String)
+     */
     public String updateLookupParameter(String parameter, String boClassName, String fieldConversions) {
         StringBuffer fullParameterBuffer = new StringBuffer(parameter);
-        int start = fullParameterBuffer.indexOf(KNSConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL)+KNSConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL.length();
+        int start = fullParameterBuffer.indexOf(KNSConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL) + KNSConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL.length();
         int end = fullParameterBuffer.indexOf(KNSConstants.METHOD_TO_CALL_BOPARM_RIGHT_DEL);        
         fullParameterBuffer.replace(start, end, boClassName);
 
-        start = fullParameterBuffer.indexOf(KNSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL)+KNSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL.length();
+        start = fullParameterBuffer.indexOf(KNSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL) + KNSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL.length();
         end = fullParameterBuffer.indexOf(KNSConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL);        
         fullParameterBuffer.replace(start, end, fieldConversions);
         
@@ -494,52 +491,56 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
      *      org.kuali.kra.irb.protocol.funding.ProtocolFundingSource, org.kuali.kra.irb.protocol.ProtocolProtocolAction)
      */
     public String getViewProtocolFundingSourceUrl(ProtocolFundingSource protocolFundingSource, ProtocolProtocolAction action) throws Exception {
-        Integer fundingCode = protocolFundingSource.getFundingSourceType().getFundingSourceTypeCode();
-        String retUrl = null;
+        String fundingSourceTypeCode = protocolFundingSource.getFundingSourceTypeCode();
+        String fundingSourceNumber = protocolFundingSource.getFundingSourceNumber();
+        String viewUrl = null;
         
-        if (fundingCode.equals(FundingSourceLookup.SPONSOR.getTypeCode())) {
+        if (FundingSourceType.SPONSOR.equals(fundingSourceTypeCode)) {
             Sponsor sponsor = new Sponsor();
-            sponsor.setSponsorCode(protocolFundingSource.getFundingSourceNumber());
-            retUrl = buildViewMaintenanceFundingSourceUrl(sponsor, FundingSourceLookup.SPONSOR.getNumber());
-        } else  if (fundingCode.equals(FundingSourceLookup.UNIT.getTypeCode())) {
+            sponsor.setSponsorCode(fundingSourceNumber);
+            viewUrl = buildViewMaintenanceFundingSourceUrl(sponsor, FundingSourceLookup.SPONSOR.getNumber());
+        } else if (FundingSourceType.UNIT.equals(fundingSourceTypeCode)) {
             Unit unit = new Unit();
-            unit.setUnitNumber(protocolFundingSource.getFundingSourceNumber());
-            retUrl = buildViewMaintenanceFundingSourceUrl(unit, FundingSourceLookup.UNIT.getNumber());
-        } else if (fundingCode.equals(FundingSourceLookup.PROPOSAL_DEVELOPMENT.getTypeCode())) {
-            String documentNumber = protocolFundingSource.getFundingDevelopmentProposal().getProposalDocument().getDocumentNumber();
-            retUrl = buildViewTransactionalFundingSourceUrl(documentNumber, action);
-        } else if (fundingCode.equals(FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getTypeCode())) {
-            String documentNumber = protocolFundingSource.getFundingInstitutionalProposal().getInstitutionalProposalDocument().getDocumentNumber();
-            retUrl = buildViewTransactionalFundingSourceUrl(documentNumber, action);
-        } else if (fundingCode.equals(FundingSourceLookup.AWARD.getTypeCode())) {
-            String documentNumber = protocolFundingSource.getFundingAward().getAwardDocument().getDocumentNumber();
-            retUrl = buildViewTransactionalFundingSourceUrl(documentNumber, action);
+            unit.setUnitNumber(fundingSourceNumber);
+            viewUrl = buildViewMaintenanceFundingSourceUrl(unit, FundingSourceLookup.UNIT.getNumber());
+        } else if (FundingSourceType.PROPOSAL_DEVELOPMENT.equals(fundingSourceTypeCode)) {
+            DevelopmentProposal developmentProposal = getDevelopmentProposal(fundingSourceNumber);
+            String documentNumber = developmentProposal.getProposalDocument().getDocumentNumber();
+            viewUrl = buildViewTransactionalFundingSourceUrl(documentNumber, action);
+        } else if (FundingSourceType.INSTITUTIONAL_PROPOSAL.equals(fundingSourceTypeCode)) {
+            InstitutionalProposal institutionalProposal = getInstitutionalProposal(fundingSourceNumber);
+            String documentNumber = institutionalProposal.getInstitutionalProposalDocument().getDocumentNumber();
+            viewUrl = buildViewTransactionalFundingSourceUrl(documentNumber, action);
+        } else if (FundingSourceType.AWARD.equals(fundingSourceTypeCode)) {
+            Award award = getAward(fundingSourceNumber);
+            String documentNumber = award.getAwardDocument().getDocumentNumber();
+            viewUrl = buildViewTransactionalFundingSourceUrl(documentNumber, action);
         }
         
-        return retUrl;
+        return viewUrl;
     }
     
     /**
-     * Builds a url to a view-only maintenance document for a funding source.
+     * Builds a URL to a view-only maintenance document for a funding source.
      * 
-     * @param businessObject
-     * @param propertyName
-     * @return
+     * @param businessObject the maintenance document's business object
+     * @param propertyName the primary key of the business object
+     * @return the URL to view the maintenance document
      */
-    protected String buildViewMaintenanceFundingSourceUrl(BusinessObject businessObject, String propertyName) {
+    private String buildViewMaintenanceFundingSourceUrl(BusinessObject businessObject, String propertyName) {
         HtmlData forward = getProtocolLookupableHelperService().getInquiryUrl(businessObject, propertyName);
         return Utilities.substituteConfigParameters(MAINT_DOC_LOOKUP_URL_PREFIX + ((HtmlData.AnchorHtmlData) forward).getHref());
     }
     
     /**
-     * Builds a url to a view-only transactional document for a funding source.
+     * Builds a URL to a view-only transactional document for a funding source.
      * 
-     * @param document
-     * @param action
-     * @return
+     * @param documentNumber the number of the document
+     * @param action a back reference back to the action
+     * @return the URL to view the transactional document
      * @throws Exception
      */
-    protected String buildViewTransactionalFundingSourceUrl(String documentNumber, ProtocolProtocolAction action) throws Exception {
+    private String buildViewTransactionalFundingSourceUrl(String documentNumber, ProtocolProtocolAction action) throws Exception {
         Document document = getDocumentService().getByDocumentHeaderId(documentNumber);
         Long routeHeaderId = document.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
         
@@ -558,22 +559,38 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
         return builder.toString();
     }
 
-    protected boolean isDevelopmentProposalLinkEnabled() {
+    /**
+     * Returns whether the Protocol to Development Proposal link is enabled.
+     * 
+     * @return true if the Protocol to Development Proposal link is enabled
+     */
+    private boolean isDevelopmentProposalLinkEnabled() {
         return this.isLinkEnabled(Constants.ENABLE_PROTOCOL_TO_DEV_PROPOSAL_LINK);     
     }
     
-    protected boolean isInstitionalProposalLinkEnabled() {
+    /**
+     * Returns whether the Protocol to Institutional Proposal link is enabled.
+     * 
+     * @return true if the Protocol to Institutional Proposal link is enabled
+     */
+    private boolean isInstitionalProposalLinkEnabled() {
         return this.isLinkEnabled(Constants.ENABLE_PROTOCOL_TO_PROPOSAL_LINK);       
     }
     
-    protected boolean isAwardLinkEnabled() {
+    /**
+     * Returns whether the Protocol to Award link is enabled.
+     * 
+     * @return true if the Protocol to Award link is enabled
+     */
+    private boolean isAwardLinkEnabled() {
         return this.isLinkEnabled(Constants.ENABLE_PROTOCOL_TO_AWARD_LINK);          
     }
     
     /**
-     * Gets if a protocol doc can be linked to another transactional document in the system.
+     * Returns whether a Protocol can be linked to another transactional document in the system.
+     * 
      * @param link the parameter name
-     * @return true if link enabled, false otherwise
+     * @return true if the link is enabled, false otherwise
      */
     protected boolean isLinkEnabled(String link) {
         assert link != null : "link is null";
@@ -591,67 +608,46 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceService#updateSourceNameEditable(java.lang.String)
+     * @see org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceService#isEditable(java.lang.String)
      */
-    public boolean updateSourceNameEditable(String fundingTypeCode) {
+    public boolean isEditable(String fundingSourceTypeCode) {
         boolean isEditable = true;
         
-        if (NumberUtils.isNumber(fundingTypeCode)) {
-            Integer typeCode =  Integer.valueOf(fundingTypeCode);
-            if (NumberUtils.equals(FundingSourceLookup.SPONSOR.getTypeCode(), typeCode)) {
-                isEditable = false;
-            } else if (NumberUtils.equals(FundingSourceLookup.UNIT.getTypeCode(), typeCode)) {
-                isEditable = false;
-            } else if (NumberUtils.equals(FundingSourceLookup.PROPOSAL_DEVELOPMENT.getTypeCode(), typeCode) && isDevelopmentProposalLinkEnabled()) {
-                isEditable = false;
-            } else if (NumberUtils.equals(FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getTypeCode(), typeCode) && isInstitionalProposalLinkEnabled()) {
-                isEditable = false;
-            } else if (NumberUtils.equals(FundingSourceLookup.AWARD.getTypeCode(), typeCode) && isAwardLinkEnabled()) {
-                isEditable = false;
-            }
+        if (FundingSourceType.SPONSOR.equals(fundingSourceTypeCode)) {
+            isEditable = false;
+        } else if (FundingSourceType.UNIT.equals(fundingSourceTypeCode)) {
+            isEditable = false;
+        } else if (FundingSourceType.PROPOSAL_DEVELOPMENT.equals(fundingSourceTypeCode) && isDevelopmentProposalLinkEnabled()) {
+            isEditable = false;
+        } else if (FundingSourceType.INSTITUTIONAL_PROPOSAL.equals(fundingSourceTypeCode) && isInstitionalProposalLinkEnabled()) {
+            isEditable = false;
+        } else if (FundingSourceType.AWARD.equals(fundingSourceTypeCode) && isAwardLinkEnabled()) {
+            isEditable = false;
         }
+        
         return isEditable;
     }
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceService#isViewable(int)
+     * @see org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceService#isLookupable(java.lang.String)
      */
-    public boolean isViewable(int fundingTypeCode) {
-        boolean ret = false;
-        if (fundingTypeCode == FundingSourceLookup.UNIT.getTypeCode()) {
-            ret = true;
-        } else if (fundingTypeCode == FundingSourceLookup.SPONSOR.getTypeCode()) {
-            ret = true;
-        } else if ((fundingTypeCode == FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getTypeCode()) && isInstitionalProposalLinkEnabled()) {
-            ret = true;
-        } else if ((fundingTypeCode == FundingSourceLookup.AWARD.getTypeCode()) && isAwardLinkEnabled()) {
-            ret = true;
-        } else if ((fundingTypeCode == FundingSourceLookup.PROPOSAL_DEVELOPMENT.getTypeCode()) && isDevelopmentProposalLinkEnabled()) {
-            ret = true;
-        } 
-        return ret;
-    }
-    
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceService#isLookupable(int)
-     */
-    public boolean isLookupable(String typeCode) {
-        try {
-            int fundingTypeCode = Integer.valueOf(typeCode);
-            if (fundingTypeCode == FundingSourceLookup.SPONSOR.getTypeCode() 
-                    || fundingTypeCode == FundingSourceLookup.UNIT.getTypeCode()
-                    || (fundingTypeCode == FundingSourceLookup.AWARD.getTypeCode() && isAwardLinkEnabled())
-                    || (fundingTypeCode == FundingSourceLookup.PROPOSAL_DEVELOPMENT.getTypeCode() && isDevelopmentProposalLinkEnabled())
-                    || (fundingTypeCode == FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getTypeCode() && isInstitionalProposalLinkEnabled())) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (NumberFormatException e) {
-            return false;
+    public boolean isLookupable(String fundingSourceTypeCode) {
+        boolean isLookupable = false;
+        
+        if (FundingSourceType.SPONSOR.equals(fundingSourceTypeCode)) {
+            isLookupable = true;
+        } else if (FundingSourceType.UNIT.equals(fundingSourceTypeCode)) {
+            isLookupable = true;
+        } else if (FundingSourceType.AWARD.equals(fundingSourceTypeCode) && isAwardLinkEnabled()) {
+            isLookupable = true;
+        } else if (FundingSourceType.PROPOSAL_DEVELOPMENT.equals(fundingSourceTypeCode) && isDevelopmentProposalLinkEnabled()) {
+            isLookupable = true;
+        } else if (FundingSourceType.INSTITUTIONAL_PROPOSAL.equals(fundingSourceTypeCode) && isInstitionalProposalLinkEnabled()) {
+            isLookupable = true;
         }
+        
+        return isLookupable;
     }
 
     public FundingSourceTypeService getFundingSourceTypeService() {
@@ -684,14 +680,6 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
     
     public void setInstitutionalProposalService(InstitutionalProposalService institutionalProposalService) {
         this.institutionalProposalService = institutionalProposalService;
-    }
-
-    public LookupableDevelopmentProposalService getLookupableDevelopmentProposalService() {
-        return lookupableDevelopmentProposalService;
-    }
-    
-    public void setLookupableDevelopmentProposalService(LookupableDevelopmentProposalService lookupableDevelopmentProposalService) {
-        this.lookupableDevelopmentProposalService = lookupableDevelopmentProposalService;
     }
     
     public AwardService getAwardService() {

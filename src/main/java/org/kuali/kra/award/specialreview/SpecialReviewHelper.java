@@ -49,12 +49,11 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<AwardSpecialRev
      * Synchronizes the information between this Award's Special Reviews and the corresponding Protocol Funding Sources.
      */
     public void syncProtocolFundingSourcesWithSpecialReviews() {
-        Long fundingSourceId = form.getAwardDocument().getAward().getAwardId();
-        String fundingSourceTypeCode = FundingSourceType.AWARD;
         String fundingSourceNumber = form.getAwardDocument().getAward().getAwardNumber();
+        String fundingSourceTypeCode = FundingSourceType.AWARD;
         String fundingSourceName = form.getAwardDocument().getAward().getSponsorName();
         String fundingSourceTitle = form.getAwardDocument().getAward().getTitle();
-        syncProtocolFundingSourcesWithSpecialReviews(fundingSourceId, fundingSourceTypeCode, fundingSourceNumber, fundingSourceName, fundingSourceTitle);
+        syncProtocolFundingSourcesWithSpecialReviews(fundingSourceNumber, fundingSourceTypeCode, fundingSourceName, fundingSourceTitle);
     }
 
     @Override

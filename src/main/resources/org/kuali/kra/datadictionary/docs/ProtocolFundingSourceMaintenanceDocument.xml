@@ -52,7 +52,7 @@
 				<bean parent="MaintainableFieldDefinition" p:name="protocolNumber" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="sequenceNumber" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="fundingSourceTypeCode" p:required="true"/>
-				<bean parent="MaintainableFieldDefinition" p:name="fundingSource" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="fundingSourceNumber" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
 			</list>
 		</property>

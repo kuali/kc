@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.irb.protocol.funding;
 
+import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceServiceImpl.FundingSourceLookup;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
@@ -30,7 +30,7 @@ public class LookupProtocolFundingSourceRule extends ResearchDocumentRuleBase im
     private final ErrorReporter errorReporter = new ErrorReporter();
     
     /**
-     * ${@inheritDoc}
+     * {@inheritDoc}
      * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
      */
     public boolean processRules(LookupProtocolFundingSourceEvent event) {
@@ -48,17 +48,17 @@ public class LookupProtocolFundingSourceRule extends ResearchDocumentRuleBase im
     
     /**
      * Throws a validation error if the lookup is of type Other or an unknown type.
-     * @param typeCode
+     * @param fundingSourceTypeCode
      * @return
      */
-    private boolean isValidLookup(Integer typeCode) {
+    private boolean isValidLookup(String fundingSourceTypeCode) {
         boolean isValid = true;
      
-        if (!typeCode.equals(FundingSourceLookup.SPONSOR.getTypeCode())
-                && !typeCode.equals(FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getTypeCode())
-                && !typeCode.equals(FundingSourceLookup.AWARD.getTypeCode())
-                && !typeCode.equals(FundingSourceLookup.PROPOSAL_DEVELOPMENT.getTypeCode())
-                && !typeCode.equals(FundingSourceLookup.UNIT.getTypeCode())) { 
+        if (!FundingSourceType.SPONSOR.equals(fundingSourceTypeCode)
+                && !FundingSourceType.UNIT.equals(fundingSourceTypeCode)
+                && !FundingSourceType.PROPOSAL_DEVELOPMENT.equals(fundingSourceTypeCode)
+                && !FundingSourceType.INSTITUTIONAL_PROPOSAL.equals(fundingSourceTypeCode)
+                && !FundingSourceType.AWARD.equals(fundingSourceTypeCode)) { 
             errorReporter.reportError(Constants.PROTOCOL_FUNDING_SOURCE_TYPE_CODE_FIELD, KeyConstants.ERROR_FUNDING_LOOKUP_UNAVAIL);
             isValid = false;
         }   

@@ -50,8 +50,8 @@ public class ProtocolMergeTest extends KcUnitTestBase {
     private static final String REF1 = "amendment ref 1";
     private static final String REF2 = "amendment ref 2";
     
-    private static final Integer UNIT_FUNDING_SOURCE = 2;
-    private static final Integer OTHER_FUNDING_SOURCE = 3;
+    private static final String UNIT_FUNDING_SOURCE = "2";
+    private static final String OTHER_FUNDING_SOURCE = "3";
     
     private static final String RESEARCH_AREA_1 = "47.0699";
     private static final String RESEARCH_AREA_2 = "41.0699";
@@ -120,7 +120,7 @@ public class ProtocolMergeTest extends KcUnitTestBase {
         assertEquals(OTHER_FUNDING_SOURCE, protocol.getProtocolFundingSources().get(1).getFundingSourceTypeCode());
     }
       
-    private ProtocolFundingSource createFundingSource(Integer fundingSourceType) {
+    private ProtocolFundingSource createFundingSource(String fundingSourceType) {
         ProtocolFundingSource fundingSource = new ProtocolFundingSource();
         fundingSource.setFundingSourceTypeCode(fundingSourceType);
         return fundingSource;

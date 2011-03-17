@@ -162,23 +162,22 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
     /**
      * Synchronizes the information between the Special Reviews and the corresponding Protocol Funding Sources.
      * 
-     * @param fundingSourceId  The id of the Institutional Proposal or Award in which the Special Review is added/saved
-     * @param fundingSourceTypeCode The type code (for either Institutional Proposal or Award) of the entity in which the Special Review is added/saved
      * @param fundingSourceNumber The human-readable number of the Institutional Proposal or Award in which the Special Review is added/saved
+     * @param fundingSourceTypeCode The type code (for either Institutional Proposal or Award) of the entity in which the Special Review is added/saved
      * @param fundingSourceName The name of the Institutional Proposal or Award in which the Special Review is added/saved
      * @param fundingSourceTitle The title of the Institutional Proposal or Award in which the Special Review is added/saved
      */
-    protected void syncProtocolFundingSourcesWithSpecialReviews(Long fundingSourceId, String fundingSourceTypeCode, String fundingSourceNumber, 
-        String fundingSourceName, String fundingSourceTitle) {
+    protected void syncProtocolFundingSourcesWithSpecialReviews(String fundingSourceNumber, String fundingSourceTypeCode, String fundingSourceName, 
+        String fundingSourceTitle) {
         
         for (T specialReview : getSpecialReviews()) {
             if (SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {
                 prepareProtocolLinkViewFields(specialReview);
                 
                 String protocolNumber = specialReview.getProtocolNumber();
-                if (!getSpecialReviewService().isLinkedToProtocolFundingSource(protocolNumber, fundingSourceId, fundingSourceTypeCode)) {
+                if (!getSpecialReviewService().isLinkedToProtocolFundingSource(protocolNumber, fundingSourceNumber, fundingSourceTypeCode)) {
                     getSpecialReviewService().addProtocolFundingSourceForSpecialReview(
-                        protocolNumber, fundingSourceId, fundingSourceNumber, fundingSourceTypeCode, fundingSourceName, fundingSourceTitle);
+                        protocolNumber, fundingSourceNumber, fundingSourceTypeCode, fundingSourceName, fundingSourceTitle);
                     linkedProtocolNumbers.add(protocolNumber);
                 }
             }
@@ -197,7 +196,7 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
             }
             
             if (!isLinkedToSpecialReview) {
-                getSpecialReviewService().deleteProtocolFundingSourceForSpecialReview(linkedProtocolNumber, fundingSourceId, fundingSourceTypeCode);
+                getSpecialReviewService().deleteProtocolFundingSourceForSpecialReview(linkedProtocolNumber, fundingSourceNumber, fundingSourceTypeCode);
                 deletedLinkedProtocolNumbers.add(linkedProtocolNumber);
 
             }
