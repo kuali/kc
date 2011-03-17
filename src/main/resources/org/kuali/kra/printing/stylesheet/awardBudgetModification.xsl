@@ -660,10 +660,10 @@
 												</fo:block>
 											</fo:inline-container>
 											<fo:table font-family="tim" font-size="9pt" table-layout="fixed" width="100%" border-spacing="2pt">
-												<fo:table-column column-width="8%"/>
-												<fo:table-column column-width="8%"/>
-												<fo:table-column column-width="8%"/>
-												<fo:table-column column-width="76%"/>
+												<fo:table-column column-width="proportional-column-width(1)"/>
+												<fo:table-column column-width="proportional-column-width(1)"/>
+												<fo:table-column column-width="proportional-column-width(1)"/>
+												<fo:table-column column-width="proportional-column-width(1)"/>
 												<fo:table-body start-indent="0pt">
 													<fo:table-row>
 														<fo:table-cell padding="2pt" display-align="center">
