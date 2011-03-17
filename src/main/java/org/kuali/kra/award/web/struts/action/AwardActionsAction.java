@@ -470,7 +470,8 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         AttachmentDataSource dataStream = awardPrintService.printAwardReport(
                 award,AwardPrintType.AWARD_NOTICE_REPORT,reportParameters);
         streamToResponse(dataStream, response);
-        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        //return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        return null;
     }
 
     public ActionForward printChangeReport(ActionMapping mapping,
@@ -493,7 +494,8 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
                 awardForm.getAwardDocument().getAward(), AwardPrintType.AWARD_DELTA_REPORT,
                 reportParameters);
         streamToResponse(dataStream, response);
-        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        //return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        return null;
     }
 
     public ActionForward printHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
