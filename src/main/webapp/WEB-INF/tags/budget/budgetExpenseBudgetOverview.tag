@@ -48,6 +48,12 @@
 		<c:set var="cumTotalCost" value="${cumTotalCost + krafn:getBigDecimal(budgetPeriodObj.totalCost)}" />
 	</c:forEach>
 </c:if>
+<c:set var="cumTotalDirectCost" value="0" />
+<c:if test="${fn:length(KualiForm.document.budget.budgetPeriods) > 0}">
+	<c:forEach var="budgetPeriodObj" items="${KualiForm.document.budget.budgetPeriods}" >
+		<c:set var="cumDirectTotalCost" value="${cumTotalDirectCost + krafn:getBigDecimal(budgetPeriodObj.totalDirectCost)}" />
+	</c:forEach>
+</c:if>
 
 <div id="workarea">
     <c:set var="currentTotalCostLimit" value="${krafn:getBigDecimal(KualiForm.document.budget.totalCostLimit)}" />
@@ -55,11 +61,10 @@
 	<c:set var="previousTotalCost" value="${krafn:getBigDecimal(KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].totalCost)}" />
 	<c:set var="showWarnings" value="${(currentTotalCostLimit > 0 && cumTotalCost > currentTotalCostLimit) || (previousTotalCostLimit > 0 && previousTotalCost > previousTotalCostLimit)}" />
     
-    <c:set var="currentTotalDirectCostLimit" value="${krafn:getBigDecimal(KualiForm.document.budget.totalDirectCostLimit)}" />
+    <c:set var="currentTotalDirectCostLimit"  value="${krafn:getBigDecimal(KualiForm.document.budget.totalDirectCostLimit)}" />
 	<c:set var="previousTotalDirectCostLimit" value="${krafn:getBigDecimal(KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].totalDirectCostLimit)}" />
-    <c:set var="totalDirectCost" value="${krafn:getBigDecimal(KualiForm.document.budget.totalDirectCost)}" />
 	<c:set var="previousTotalDirectCost" value="${krafn:getBigDecimal(KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].totalDirectCost)}" />
-	<c:set var="showDirectCostLimitWarnings" value="${(currentTotalDirectCostLimit > 0 && totalDirectCost > currentTotalDirectCostLimit) || (previousTotalDirectCostLimit > 0 && previousTotalDirectCost > previousTotalDirectCostLimit)}" />
+	<c:set var="showDirectCostLimitWarnings" value="${(currentTotalDirectCostLimit > 0 && cumDirectTotalCost > currentTotalDirectCostLimit) || (previousTotalDirectCostLimit > 0 && previousTotalDirectCost > previousTotalDirectCostLimit)}" />
 	
 	<c:choose>
 	    <c:when test="${isTop}">
