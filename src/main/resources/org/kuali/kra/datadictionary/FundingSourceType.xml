@@ -48,7 +48,7 @@
 			<bean parent="NumericValidationPattern"/>
 		</property>
 		<property name="control">
-			<bean p:size="10" parent="TextControlDefinition"/>
+			<bean p:size="3" parent="TextControlDefinition"/>
 		</property>
 		<property name="summary" value="Funding Source Type Code"/>
 		<property name="description" value="Funding Source Type Code"/>

@@ -35,8 +35,8 @@ function updateSourceNameEditable(fundingSourceTypeCodeFieldName, fundingSourceN
 		var dwrReply = {
 			callback:function(data) {
 				if ( data != null ) {
-					allowEdit = data;
-					if (allowEdit == true) {
+					isEditable = data;
+					if ( isEditable ) {
 					   	changeObjectVisibility( fundingSourceNameFieldName + ".edit.div", "block" );
 					   	changeObjectVisibility( fundingSourceNameFieldName + ".display.div", "none" );
 					} else {
@@ -50,7 +50,7 @@ function updateSourceNameEditable(fundingSourceTypeCodeFieldName, fundingSourceN
 				changeObjectVisibility( fundingSourceNameFieldName + ".error.div", "block" );
 			}
 		};
-		ProtocolFundingSourceService.updateSourceNameEditable(fundingSourceTypeCode, dwrReply);
+		ProtocolFundingSourceService.isEditable(fundingSourceTypeCode, dwrReply);
 		loadFundingSourceNameTitle(fundingSourceTypeCodeFieldName, fundingSourceNumberFieldName, fundingSourceNameFieldName, fundingSourceTitleFieldName);
 	}
 }
@@ -116,7 +116,7 @@ function loadFundingSourceNameTitle(fundingSourceTypeCodeField, fundingSourceNum
 				changeObjectVisibility( fundingSourceNameFieldName + ".error.div", "block" );
 			}
 		};
-		ProtocolFundingSourceService.updateProtocolFundingSource(fundingSourceTypeCode, fundingSource, fundingSourceNumber, fundingSourceName, dwrReply);
+		ProtocolFundingSourceService.updateProtocolFundingSource(fundingSourceTypeCode, fundingSourceNumber, fundingSourceName, dwrReply);
 		
 	}
 }

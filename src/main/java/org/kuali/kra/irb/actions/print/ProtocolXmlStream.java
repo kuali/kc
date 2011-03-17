@@ -328,8 +328,8 @@ public class ProtocolXmlStream extends PrintBaseXmlStream {
         List<ProtocolFundingSource> vecFundingSource = protocol.getProtocolFundingSources();
         for (ProtocolFundingSource protocolFundingSourceBean : vecFundingSource) {
             FundingSource fundingSource = protocolType.addNewFundingSource();
-            fundingSourceCode = protocolFundingSourceBean.getFundingSource();
-            fundingSourceTypeCode = protocolFundingSourceBean.getFundingSourceTypeCode();
+            fundingSourceCode = protocolFundingSourceBean.getFundingSourceNumber();
+            fundingSourceTypeCode = Integer.valueOf(protocolFundingSourceBean.getFundingSourceTypeCode());
             fundingSourceName = getFundingSourceNameForType(fundingSourceTypeCode, fundingSourceCode);
             fundingSource.setFundingSourceName(fundingSourceName);
             if (protocolFundingSourceBean.getFundingSourceType() == null){

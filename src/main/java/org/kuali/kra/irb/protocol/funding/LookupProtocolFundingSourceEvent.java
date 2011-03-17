@@ -26,30 +26,28 @@ import org.kuali.rice.kns.document.Document;
  * 
  */
 public class LookupProtocolFundingSourceEvent extends ProtocolEventBase<LookupProtocolFundingSourceRule> {
-
     
-    public static final String MSG = "looking up a funding source for Protocol document ";
-    
-    private Integer fundingSourceTypeCode;
+    private String fundingSourceTypeCode;
 
-    public LookupProtocolFundingSourceEvent(String errorPathPrefix, ProtocolDocument document, Integer fundingSourceTypeCode, ErrorType type) {
-        super(MSG + getDocumentId(document), errorPathPrefix, document, type);
+    public LookupProtocolFundingSourceEvent(String errorPathPrefix, ProtocolDocument document, String fundingSourceTypeCode, ErrorType type) {
+        super("looking up a funding source for Protocol document " + getDocumentId(document), errorPathPrefix, document, type);
         this.fundingSourceTypeCode = fundingSourceTypeCode;
     }
     
-    public LookupProtocolFundingSourceEvent(String errorPathPrefix, Document document, Integer fundingSourceTypeCode, ErrorType type) {
-        this(errorPathPrefix, (ProtocolDocument)document, fundingSourceTypeCode, type);
+    public LookupProtocolFundingSourceEvent(String errorPathPrefix, Document document, String fundingSourceTypeCode, ErrorType type) {
+        this(errorPathPrefix, (ProtocolDocument) document, fundingSourceTypeCode, type);
     }
     
     public LookupProtocolFundingSourceRule getRule() {
         return new LookupProtocolFundingSourceRule();
     }
     
-    public Integer getFundingSourceTypeCode() {
+    public String getFundingSourceTypeCode() {
         return fundingSourceTypeCode;
     }
 
-    public void setFundingSourceTypeCode(Integer fundingSourceTypeCode) {
+    public void setFundingSourceTypeCode(String fundingSourceTypeCode) {
         this.fundingSourceTypeCode = fundingSourceTypeCode;
     }
+    
 }

@@ -28,11 +28,6 @@ import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.protocol.funding.AddProtocolFundingSourceEvent;
-import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
-import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceRule;
-import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceService;
-import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceServiceImpl.FundingSourceLookup;
 import org.kuali.kra.rules.TemplateRuleTest;
 
 public class AddProtocolFundingSourceTest {
@@ -58,16 +53,13 @@ public class AddProtocolFundingSourceTest {
      */
     @Before
     public void setUp() throws Exception {
-        FundingSourceType fsType = new FundingSourceType();
-        fsType.setFundingSourceTypeCode(FundingSourceLookup.SPONSOR.getTypeCode());
-        fsType.setDescription(FundingSourceLookup.SPONSOR.getName());
-        fundingSource = new ProtocolFundingSource(goodFundingSourceId, fsType, goodFundingSourceName, "" );
+        fundingSource = new ProtocolFundingSource(goodFundingSourceId, FundingSourceType.SPONSOR, goodFundingSourceName, "" );
         protocolFundingSources = new ArrayList<ProtocolFundingSource>();
         protocolFundingSources.add(fundingSource);
         
         emptyProtocolFundingSources = new ArrayList<ProtocolFundingSource>();
         
-        badFundingSource= new ProtocolFundingSource(badFundingSourceId, fsType, badFundingSourceName, "" );
+        badFundingSource = new ProtocolFundingSource(badFundingSourceId, FundingSourceType.SPONSOR, badFundingSourceName, "" );
 
     }  
     
@@ -174,7 +166,7 @@ public class AddProtocolFundingSourceTest {
             new  TemplateRuleTest<AddProtocolFundingSourceEvent, ProtocolFundingSourceRule> (){            
                 @Override
                 protected void prerequisite() {        
-                    fundingSource.setFundingSourceType(null);
+                    fundingSource.setFundingSourceTypeCode(null);
                     event = new AddProtocolFundingSourceEvent(Constants.EMPTY_STRING, doc, fundingSource, protocolFundingSources);
                     rule = new ProtocolFundingSourceRule();
                     rule.setBusinessObjectService(null);
@@ -216,7 +208,7 @@ public class AddProtocolFundingSourceTest {
           will(returnValue(true));
           one(protocolFundingSourceService).isValidIdForType(badFundingSource); 
           will(returnValue(false));
-          allowing(protocolFundingSourceService).updateSourceNameEditable(fundingSource.getFundingSourceTypeCode().toString());
+          allowing(protocolFundingSourceService).isEditable(fundingSource.getFundingSourceTypeCode());
           will(returnValue(true));
         }});
         return protocolFundingSourceService;
