@@ -75,7 +75,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
             //to get all docs, we must pass the root award number for the subject award.
             fieldValues1.put("rootAwardNumber", getRootAwardNumberForDocumentSearch(award.getAwardNumber()));
             docs = (List<TimeAndMoneyDocument>)businessObjectService.findMatchingOrderBy(TimeAndMoneyDocument.class, fieldValues1, "documentNumber", true);
-            timeAndMoneyHistory.put(buildForwardUrl(award.getAwardDocument().getDocumentHeader().getWorkflowDocument().getRouteHeaderId(), award.getAwardDocument().getDocumentNumber()), buildAwardDescriptionLine(award, null, docs.get(docs.size() -1)));
+            timeAndMoneyHistory.put(buildForwardUrl(award.getAwardDocument().getDocumentNumber()), buildAwardDescriptionLine(award, null, docs.get(docs.size() -1)));
             for(TimeAndMoneyDocument tempDoc: docs){
                 TimeAndMoneyDocument doc = (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(tempDoc.getDocumentNumber());
                 List<AwardAmountTransaction> awardAmountTransactions = doc.getAwardAmountTransactions();
@@ -90,7 +90,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
                                     if(StringUtils.equalsIgnoreCase(doc.getDocumentNumber(),awardAmountInfo.getTimeAndMoneyDocumentNumber())){ 
                                         if(awardAmountTransactions.size()>0){
                                             awardAmountTransaction = awardAmountTransactions.get(0);
-                                            timeAndMoneyHistory.put(buildForwardUrl(doc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId(), doc.getDocumentNumber()), 
+                                            timeAndMoneyHistory.put(buildForwardUrl(doc.getDocumentNumber()), 
                                                     buildAwardDescriptionLine(award, awardAmountInfo, docs.get(docs.size() -1)) + " comments: " + awardAmountTransaction.getComments());
                                         } 
                                         fieldValues5.put("destinationAwardNumber", awardAmountInfo.getAwardNumber());
@@ -120,7 +120,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
                                     if(StringUtils.equalsIgnoreCase(doc.getDocumentNumber(),awardAmountInfo.getTimeAndMoneyDocumentNumber())){ 
                                         if(awardAmountTransactions.size()>0){
                                             awardAmountTransaction = awardAmountTransactions.get(0);
-                                            timeAndMoneyHistory.put(buildForwardUrl(doc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId(), doc.getDocumentNumber()),
+                                            timeAndMoneyHistory.put(buildForwardUrl(doc.getDocumentNumber()),
                                                     buildAwardDescriptionLine(award, awardAmountInfo, docs.get(docs.size() -1)) + " comments: " + awardAmountTransaction.getComments());
                                         } 
                                         List<TransactionDetail> transactionDetails = new ArrayList<TransactionDetail>();
@@ -166,7 +166,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
                                 if(awardAmountInfo.getTransactionId() == null) {
                                     if(awardAmountTransactions.size()>0){
                                         awardAmountTransaction = awardAmountTransactions.get(0);
-                                        timeAndMoneyHistory.put(buildForwardUrl(doc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId(), doc.getDocumentNumber()),
+                                        timeAndMoneyHistory.put(buildForwardUrl(doc.getDocumentNumber()),
                                                 buildAwardDescriptionLine(award, awardAmountInfo, docs.get(docs.size() -1)) + " comments: " + awardAmountTransaction.getComments());
                                     } 
                                     fieldValues4.put("sourceAwardNumber", awardAmountInfo.getAwardNumber());
@@ -211,7 +211,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         removeCanceledDocs(docs);
         for(Award award : awardVersionList) {
             AwardVersionHistory awardVersionHistory = new AwardVersionHistory();
-            awardVersionHistory.setDocumentUrl(buildForwardUrl(award.getAwardDocument().getDocumentHeader().getWorkflowDocument().getRouteHeaderId(), award.getAwardDocument().getDocumentNumber()));
+            awardVersionHistory.setDocumentUrl(buildForwardUrl(award.getAwardDocument().getDocumentNumber()));
             awardVersionHistory.setAwardDescriptionLine(buildNewAwardDescriptionLine(award));
             awardVersionHistory.setTimeAndMoneyDocumentHistoryList(getDocHistoryAndValidInfosAssociatedWithAwardVersion(docs, award.getAwardAmountInfos(), award));
             
@@ -229,7 +229,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         for(TimeAndMoneyDocument doc : awardVersionDocs) {
             TimeAndMoneyDocumentHistory docHistory = new TimeAndMoneyDocumentHistory();
             docHistory.setTimeAndMoneyDocument(doc);
-            docHistory.setDocumentUrl(buildForwardUrl(doc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId(), doc.getDocumentNumber()));
+            docHistory.setDocumentUrl(buildForwardUrl(doc.getDocumentNumber()));
             docHistory.setTimeAndMoneyDocumentDescriptionLine(buildNewTimeAndMoneyDescriptionLine(doc));
             docHistory.setValidAwardAmountInfoHistoryList(retrieveAwardAmountInfosFromPrimaryTransactions(doc, validInfos));
             timeAndMoneyDocumentHistoryList.add(docHistory);
@@ -577,9 +577,10 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
      * @param routeHeaderId
      * @return String
      */
-    protected String buildForwardUrl(Long routeHeaderId, String documentNumber) {
+    protected String buildForwardUrl(String documentNumber) {
         ResearchDocumentService researchDocumentService = KraServiceLocator.getService(ResearchDocumentService.class);
-        String forward = researchDocumentService.getDocHandlerUrl(routeHeaderId);
+        Long longDocumentNumber = Long.parseLong(documentNumber.trim());
+        String forward = researchDocumentService.getDocHandlerUrl(longDocumentNumber);
         forward = forward.replaceFirst(DEFAULT_TAB, ALTERNATE_OPEN_TAB);
         if (forward.indexOf("?") == -1) {
             forward += "?";
@@ -587,7 +588,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         else {
             forward += "&";
         }
-        forward += KEWConstants.ROUTEHEADER_ID_PARAMETER + "=" + routeHeaderId;
+        forward += KEWConstants.ROUTEHEADER_ID_PARAMETER + "=" + longDocumentNumber;
         forward += "&" + KEWConstants.COMMAND_PARAMETER + "=" + NotificationConstants.NOTIFICATION_DETAIL_VIEWS.DOC_SEARCH_VIEW;
         if (GlobalVariables.getUserSession().isBackdoorInUse()) {
             forward += "&" + KEWConstants.BACKDOOR_ID_PARAMETER + "=" + GlobalVariables.getUserSession().getPrincipalName();
