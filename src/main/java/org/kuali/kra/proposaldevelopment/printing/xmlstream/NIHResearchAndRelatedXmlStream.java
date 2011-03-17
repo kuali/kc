@@ -54,6 +54,7 @@ import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.OtherDirect
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -458,8 +459,8 @@ public class NIHResearchAndRelatedXmlStream extends
 			}
 		}
 		proposalPersonType.setAcademicFundingMonths(academicMonths.bigDecimalValue().setScale(2));
-		proposalPersonType.setSummerFundingMonths(summerMonths.bigDecimalValue().setScale(2));
-		proposalPersonType.setFundingMonths(calendarMonths.bigDecimalValue().setScale(2));
+		proposalPersonType.setSummerFundingMonths(summerMonths.bigDecimalValue().setScale(2));		
+		proposalPersonType.setFundingMonths(calendarMonths.bigDecimalValue().setScale(2, RoundingMode.HALF_UP));
 		return proposalPersonType;
 	}
 

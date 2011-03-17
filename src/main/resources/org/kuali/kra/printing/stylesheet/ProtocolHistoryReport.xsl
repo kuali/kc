@@ -331,7 +331,125 @@
                                     </fo:table-row>
                                 </fo:table-body>
                             </fo:table>
-                            <xsl:for-each select="n1:Protocol">
+<!-- pasting -->
+								<xsl:if test="ps:ProtocolSummary/ps:ProtocolActions">
+									<fo:table border="0" table-layout="fixed" width="100%" border-spacing="-1pt">
+										<fo:table-column column-width="proportional-column-width(1)"/>
+										<fo:table-column column-width="proportional-column-width(1)"/>
+										<fo:table-column column-width="proportional-column-width(1)"/>
+										<fo:table-header start-indent="0pt">
+											<fo:table-row border="0" font-family="Arial" font-size="10pt" font-weight="bold">
+												<fo:table-cell border="0" padding="0" height="10" text-align="left" display-align="center">
+													<fo:block>
+														<fo:inline font-family="Arial" font-size="12pt" font-weight="bold">
+															<xsl:text>Actions</xsl:text>
+														</fo:inline>
+													</fo:block>
+												</fo:table-cell>
+												<fo:table-cell border="0" padding="0" height="10" display-align="center">
+													<fo:block/>
+												</fo:table-cell>
+												<fo:table-cell border="0" padding="0" height="10" display-align="center">
+													<fo:block/>
+												</fo:table-cell>
+											</fo:table-row>
+											<fo:table-row font-family="Arial" font-size="10pt" font-weight="bold">
+												<fo:table-cell border="solid 1pt gray" padding="0" display-align="center">
+													<fo:block>
+														<fo:inline font-family="Arial" font-size="10pt">
+															<xsl:text>Description</xsl:text>
+														</fo:inline>
+													</fo:block>
+												</fo:table-cell>
+												<fo:table-cell border="solid 1pt gray" padding="0" display-align="center">
+													<fo:block>
+														<fo:inline font-family="Arial" font-size="10pt">
+															<xsl:text>Comments</xsl:text>
+														</fo:inline>
+													</fo:block>
+												</fo:table-cell>
+												<fo:table-cell border="solid 1pt gray" padding="0" display-align="center">
+													<fo:block>
+														<fo:inline font-family="Arial" font-size="10pt">
+															<xsl:text>Action Date</xsl:text>
+														</fo:inline>
+													</fo:block>
+												</fo:table-cell>
+											</fo:table-row>
+										</fo:table-header>
+										<fo:table-body start-indent="0pt">
+											<xsl:for-each select="ps:ProtocolSummary">
+												<xsl:for-each select="ps:ProtocolActions">
+													<fo:table-row font-family="Arial" font-size="10pt">
+														<fo:table-cell border="solid 1pt gray" padding="0" display-align="center">
+															<fo:block>
+																<xsl:for-each select="ps:ProtocolActionTypeDesc">
+																	<xsl:variable name="value-of-template">
+																		<xsl:apply-templates/>
+																	</xsl:variable>
+																	<xsl:choose>
+																		<xsl:when test="contains(string($value-of-template),'&#x2029;')">
+																			<fo:block>
+																				<xsl:copy-of select="$value-of-template"/>
+																			</fo:block>
+																		</xsl:when>
+																		<xsl:otherwise>
+																			<fo:inline>
+																				<xsl:copy-of select="$value-of-template"/>
+																			</fo:inline>
+																		</xsl:otherwise>
+																	</xsl:choose>
+																</xsl:for-each>
+															</fo:block>
+														</fo:table-cell>
+														<fo:table-cell border="solid 1pt gray" padding="0" display-align="center">
+															<fo:block>
+																<xsl:for-each select="ps:Comments">
+																	<xsl:variable name="value-of-template">
+																		<xsl:apply-templates/>
+																	</xsl:variable>
+																	<xsl:choose>
+																		<xsl:when test="contains(string($value-of-template),'&#x2029;')">
+																			<fo:block>
+																				<xsl:copy-of select="$value-of-template"/>
+																			</fo:block>
+																		</xsl:when>
+																		<xsl:otherwise>
+																			<fo:inline>
+																				<xsl:copy-of select="$value-of-template"/>
+																			</fo:inline>
+																		</xsl:otherwise>
+																	</xsl:choose>
+																</xsl:for-each>
+															</fo:block>
+														</fo:table-cell>
+														<fo:table-cell border="solid 1pt gray" padding="0" display-align="center">
+															<fo:block>
+																<xsl:choose>
+																	<xsl:when test="ps:ActionDate  = &quot;&quot;"/>
+																	<xsl:otherwise>
+																		<xsl:for-each select="ps:ActionDate">
+																			<fo:inline>
+																				<xsl:value-of select="format-number(number(substring(string(string(.)), 6, 2)), '00')"/>
+																				<xsl:text>/</xsl:text>
+																				<xsl:value-of select="format-number(number(substring(string(string(.)), 9, 2)), '00')"/>
+																				<xsl:text>/</xsl:text>
+																				<xsl:value-of select="format-number(number(substring(string(string(string(.))), 1, 4)), '0000')"/>
+																			</fo:inline>
+																		</xsl:for-each>
+																	</xsl:otherwise>
+																</xsl:choose>
+															</fo:block>
+														</fo:table-cell>
+													</fo:table-row>
+												</xsl:for-each>
+											</xsl:for-each>
+										</fo:table-body>
+									</fo:table>
+								</xsl:if>
+<!-- End -->
+
+<!--                             <xsl:for-each select="n1:Protocol">
                                 <xsl:for-each select="n1:Submissions">
                                     <xsl:for-each select="n1:Minutes">
                                         <xsl:choose>
@@ -492,6 +610,7 @@
                                 </fo:table-body>
                             </fo:table>
                         </xsl:for-each>
+                        -->
                     </fo:block>
                 </fo:flow>
             </fo:page-sequence>
