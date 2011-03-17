@@ -134,7 +134,7 @@ public class AwardDeltaXmlStream extends AwardBaseStream {
 			List<AwardAmountTransaction> awardAmountTransactions = getAwardAmountTransactions(awardNumber);
 			boolean transactionIdFound = false;
 			for (AwardAmountTransaction timeAndMoneyActionSummary : awardAmountTransactions) {
-				if (transactionId.equals(timeAndMoneyActionSummary.getAwardAmountTransactionId())) {
+				if (transactionId != null && transactionId.equals(timeAndMoneyActionSummary.getAwardAmountTransactionId())) {
 					transactionIdFound = true;
 				}
 				if (transactionIdFound) {
