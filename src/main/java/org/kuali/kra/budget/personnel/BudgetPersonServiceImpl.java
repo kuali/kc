@@ -129,7 +129,9 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
                 newBudgetPerson.setJobCode(appointment.getJobCode());
                 newBudgetPerson.setJobTitle(appointment.getJobTitle());
                 newBudgetPerson.setCalculationBase(appointment.getSalary());
-                newBudgetPerson.setEffectiveDate(appointment.getStartDate());
+                // use budget start date instead of appointment start date to prepopulate effective date
+                BudgetParent proposal = budget.getBudgetDocument().getParentDocument().getBudgetParent();
+                budgetPerson.setEffectiveDate(proposal.getRequestedStartDateInitial());
                 newBudgetPerson.setAppointmentType(appointment.getAppointmentType());
                 newBudgetPerson.setAppointmentTypeCode(appointment.getTypeCode());
                 populateBudgetPersonData(budget, newBudgetPerson);
