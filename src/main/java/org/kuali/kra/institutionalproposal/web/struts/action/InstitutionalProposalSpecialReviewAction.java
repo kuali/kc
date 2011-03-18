@@ -46,6 +46,17 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
     private SpecialReviewService specialReviewService;
     
     @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = super.execute(mapping, form, request, response);
+        
+        InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
+        
+        institutionalProposalForm.getSpecialReviewHelper().prepareView();
+        
+        return forward;
+    }
+    
+    @Override
     @SuppressWarnings("unchecked")
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
         throws Exception {
