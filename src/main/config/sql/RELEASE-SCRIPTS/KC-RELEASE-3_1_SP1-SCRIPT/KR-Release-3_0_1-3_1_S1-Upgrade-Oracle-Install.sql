@@ -11,5 +11,6 @@ spool KC-Release-3_0-3_0_1-Upgrade-Oracle-Install.log
 @ORACLE/DML/DML_BS5_KREW_RULE_T.SQL.sql
 @ORACLE/DML/DML_BS5_KRIM_APP_ADMIN.sql
 @ORACLE/DML/DML_BS5_KRIM_GROUP_MBR_T.sql
+@ORACLE/DML/DML_BS7_KRNS_PARM_T.sql
 commit;
 exit;
