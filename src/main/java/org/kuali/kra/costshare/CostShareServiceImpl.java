@@ -16,6 +16,7 @@
 package org.kuali.kra.costshare;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.service.ParameterService;
 
 /**
@@ -23,24 +24,41 @@ import org.kuali.rice.kns.service.ParameterService;
  */
 public class CostShareServiceImpl implements CostShareService {
     
-    private static final String PARAM_LABEL_NAME = "CostShareProjectPeriodNameLabel";
+    private static final String PARAM_LABEL_NAME = "CostShareProjectPeriodNameLabel"; 
     
-    private static final String NAMESPACE = "KC-GEN";
-    private static final String DETAIL_TYPE_CODE = "All"; 
+    private static final String STANDARD_COST_SHARE_LABEL_FISCAL_YEAR = "Fiscal Year";
+    private static final String STANDARD_COST_SHARE_LABEL_PROJECT_PERIOD = "Project Period";
     
-    private ParameterService parameterService;
-    
-    private String label = null;
-    private Boolean validateAsFiscalYear = null;
+    private ParameterService parameterService; 
+    private String label;
 
     /**
      * @see org.kuali.kra.costshare.CostShareService#getCostShareLabel()
      */
-    public String getCostShareLabel() {
-        if (label == null) {
-            label = this.getParameterService().getParameterValue(NAMESPACE, DETAIL_TYPE_CODE, PARAM_LABEL_NAME);
+    public String getCostShareLabel(boolean resetSession) {
+        if (label == null || resetSession) {
+            label = this.getParameterService().getParameterValue(Constants.KC_GENERIC_PARAMETER_NAMESPACE, 
+                    Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, PARAM_LABEL_NAME);
         }
         return label;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.costshare.CostShareService#validateProjectPeriodAsFiscalYear()
+     */
+    public boolean validateProjectPeriodAsFiscalYear(boolean resetSession) {
+        boolean retVal = StringUtils.equalsIgnoreCase(STANDARD_COST_SHARE_LABEL_FISCAL_YEAR, getCostShareLabel(resetSession));
+        return retVal;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.costshare.CostShareService#validateProjectPeriodAsProjectPeriod()
+     */
+    public boolean validateProjectPeriodAsProjectPeriod(boolean resetSession) {
+        boolean retVal = StringUtils.equalsIgnoreCase(STANDARD_COST_SHARE_LABEL_PROJECT_PERIOD, getCostShareLabel(resetSession));
+        return retVal;
     }
 
     public ParameterService getParameterService() {
