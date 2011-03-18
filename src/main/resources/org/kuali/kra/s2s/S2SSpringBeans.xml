@@ -138,6 +138,9 @@
 		<property name="citizenshipTypeService">
 			<ref bean="citizenshipTypeService" />
 		</property>
+		<property name="proposalDevelopmentS2sQuestionnaireService">
+			<ref bean="proposalDevelopmentS2sQuestionnaireService" />
+		</property>
 		
 	</bean>
 
