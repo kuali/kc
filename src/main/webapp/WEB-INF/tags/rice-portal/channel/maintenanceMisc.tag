@@ -23,7 +23,6 @@
     <li><portal:portalLink displayTitle="true" title="Module Names" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.CoeusModule&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     <li>Negotiation Activity Type</li>
     <li>Negotiation Status</li>
-    <li>Organization Type</li>
     <li><portal:portalLink displayTitle="true" title="Research Areas" url="researchAreas.do" /></li>
 	<li>Rule Functions</li>
     <li>Rule Functions Argument</li>
