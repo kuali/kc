@@ -30,10 +30,14 @@ import org.kuali.rice.kns.util.AuditError;
 
 public class S2SErrorHandler {
     private static Map<String, AuditError> auditErrorMap;
-
+    private static final String ERROR_MAP_FILE = "/S2SErrorMessages.xml";
+    private static final String ERROR_MAP_FILE_V2="/org/kuali/kra/s2s/s2sform/S2SErrorMessagesV2.xml";
     public static AuditError getError(String key) {
         if (auditErrorMap == null) {
-            loadErrors();
+        	auditErrorMap = new HashMap<String, AuditError>();
+            loadErrors(ERROR_MAP_FILE);
+            if((new S2SErrorHandler().getClass().getResourceAsStream(ERROR_MAP_FILE_V2))!=null)
+            loadErrors(ERROR_MAP_FILE_V2);
         }
         AuditError error = auditErrorMap.get(key);
         AuditError defaultError = new AuditError(Constants.NO_FIELD, key + " is not valid", Constants.GRANTS_GOV_PAGE + "."
@@ -41,15 +45,13 @@ public class S2SErrorHandler {
         return error == null ? defaultError : error;
     }
 
-    private static void loadErrors() {
+    private static void loadErrors(String errorMapFile) {
         InputStream stream = null;
         try {
-            stream = new S2SErrorHandler().getClass().getResourceAsStream("/S2SErrorMessages.xml");
+            stream = new S2SErrorHandler().getClass().getResourceAsStream(errorMapFile);
             org.w3c.dom.Document errorsDocument = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(stream);
             Document document = new DOMBuilder().build(errorsDocument);
             Element root = document.getRootElement();
-
-            auditErrorMap = new HashMap<String, AuditError>();
             for (Iterator errorsElementIt = root.getChildren("Error").iterator(); errorsElementIt.hasNext();) {
                 Element errorElement = (Element) errorsElementIt.next();
                 String errorKey = errorElement.getChildTextTrim("ErrorKey");
@@ -61,7 +63,7 @@ public class S2SErrorHandler {
                 AuditError s2sError = new AuditError(errorKey == null ? Constants.NO_FIELD : errorKey, errorMessage, errorFixLink);
                 auditErrorMap.put(messageKey, s2sError);
             }
-            //            }
+           //            }
         }
         catch (Exception ex) {
             ex.printStackTrace();
