@@ -25,7 +25,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.DocumentAuditRule;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -66,29 +65,31 @@ public class BudgetPeriodAuditRule extends ResearchDocumentRuleBase {
         
         int i = 0;
         for (final BudgetPeriod budgetPeriod : budgetDocument.getBudget().getBudgetPeriods()) {
-            if (budgetPeriod.getStartDate().before(projectStartDate)) {
+            Date budgetPeriodStartDate = budgetPeriod.getStartDate();
+            Date budgetPeriodEndDate = budgetPeriod.getEndDate();
+            if (budgetPeriodStartDate != null && budgetPeriodStartDate.before(projectStartDate)) {
                 retval = false;
                 this.addBudgetPeriodDateAuditError(new AuditError("document.budgetPeriods[" + i + "].startDate",
                     KeyConstants.AUDIT_ERROR_BUDGETPERIOD_START_BEFORE_PROJECT_START_DATE,
-                    Constants.BUDGET_PERIOD_PAGE + "." + Constants.BUDGET_PERIOD_PANEL_ANCHOR, new String[] {Integer.toString(i+1)}));
+                    Constants.BUDGET_PERIOD_PAGE + "." + Constants.BUDGET_PERIOD_PANEL_ANCHOR, new String[] {Integer.toString(i + 1)}));
             }
-            if (budgetPeriod.getEndDate().after(projectEndDate)) {
+            if (budgetPeriodEndDate != null && budgetPeriodEndDate.after(projectEndDate)) {
                 retval = false;
                 this.addBudgetPeriodDateAuditError(new AuditError("document.budgetPeriods[" + i + "].endDate",
                     KeyConstants.AUDIT_ERROR_BUDGETPERIOD_END_AFTER_PROJECT_END_DATE,
-                    Constants.BUDGET_PERIOD_PAGE + "." + Constants.BUDGET_PERIOD_PANEL_ANCHOR, new String[] {Integer.toString(i+1)}));              
+                    Constants.BUDGET_PERIOD_PAGE + "." + Constants.BUDGET_PERIOD_PANEL_ANCHOR, new String[] {Integer.toString(i + 1)}));              
             }
 
-            if (i == 0 && budgetPeriod.getStartDate().after(projectStartDate)) {
+            if (i == 0 && (budgetPeriodStartDate != null && budgetPeriodStartDate.after(projectStartDate))) {
                 this.addBudgetPeriodDateAuditWarning(new AuditError("document.budgetPeriods[" + i + "].startDate",
                     KeyConstants.AUDIT_WARNING_BUDGETPERIOD_START_AFTER_PROJECT_START_DATE,
-                    Constants.BUDGET_PERIOD_PAGE + "." + Constants.BUDGET_PERIOD_PANEL_ANCHOR, new String[] {Integer.toString(i+1)}));
+                    Constants.BUDGET_PERIOD_PAGE + "." + Constants.BUDGET_PERIOD_PANEL_ANCHOR, new String[] {Integer.toString(i + 1)}));
             }
             
-            if (i == budgetDocument.getBudget().getBudgetPeriods().size() - 1 && budgetPeriod.getEndDate().before(projectEndDate)) {
+            if (i == budgetDocument.getBudget().getBudgetPeriods().size() - 1 && (budgetPeriodEndDate != null && budgetPeriodEndDate.before(projectEndDate))) {
                 this.addBudgetPeriodDateAuditWarning(new AuditError("document.budgetPeriods[" + i + "].endDate",
                     KeyConstants.AUDIT_WARNING_BUDGETPERIOD_END_BEFORE_PROJECT_END_DATE,
-                    Constants.BUDGET_PERIOD_PAGE + "." + Constants.BUDGET_PERIOD_PANEL_ANCHOR, new String[] {Integer.toString(i+1)}));
+                    Constants.BUDGET_PERIOD_PAGE + "." + Constants.BUDGET_PERIOD_PANEL_ANCHOR, new String[] {Integer.toString(i + 1)}));
             }
             i++;
         }
