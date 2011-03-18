@@ -156,11 +156,9 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 			}
 		}
 		budget.setTuitionAndFeesRequested(YesNoDataType.N_NO);
-		budget
-				.setInstitutionalBaseSalary(getInstitutionalBaseSalary(budgetMap));
+		budget.setInstitutionalBaseSalary(getInstitutionalBaseSalary(budgetMap));
 		budget.setFederalStipendRequested(getFederalStipendRequested());
-		budget
-				.setSupplementationFromOtherSources(getSupplementationFromOtherSources(budgetMap));
+		budget.setSupplementationFromOtherSources(getSupplementationFromOtherSources(budgetMap));
 		setTutionRequestedYears(budget);
 		return budget;
 	}
@@ -1001,7 +999,12 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 	public XmlObject getFormObject(
 			ProposalDevelopmentDocument proposalDevelopmentDocument) {
 		this.pdDoc = proposalDevelopmentDocument;
-		return getPHSFellowshipSupplemental11();
+        PHSFellowshipSupplemental11 phsFellowshipSupplemental = getPHSFellowshipSupplemental11();
+        PHSFellowshipSupplemental11Document phsFellowshipSupplementalDocument = PHSFellowshipSupplemental11Document.Factory
+                .newInstance();
+        phsFellowshipSupplementalDocument
+                .setPHSFellowshipSupplemental11(phsFellowshipSupplemental);
+        return phsFellowshipSupplementalDocument;
 	}
 
 	/**
