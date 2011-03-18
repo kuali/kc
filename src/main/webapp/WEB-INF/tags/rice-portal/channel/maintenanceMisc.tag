@@ -20,7 +20,6 @@
   <ul class="chan">
     <li><portal:portalLink displayTitle="true" title="Closeout Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.paymentreports.closeout.CloseoutReportType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     <li><portal:portalLink displayTitle="true" title="Current Locks" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kns.document.authorization.PessimisticLock&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
-    <li>Investigators Credit Type</li>
     <li><portal:portalLink displayTitle="true" title="Module Names" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.CoeusModule&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     <li>Negotiation Activity Type</li>
     <li>Negotiation Status</li>
