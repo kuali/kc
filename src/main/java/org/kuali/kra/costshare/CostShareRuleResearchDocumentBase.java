@@ -56,7 +56,7 @@ public abstract class CostShareRuleResearchDocumentBase extends ResearchDocument
     }
     
     private String getProjectPeriodLabel() {
-        String label = KraServiceLocator.getService(CostShareService.class).getCostShareLabel();
+        String label = KraServiceLocator.getService(CostShareService.class).getCostShareLabel(false);
         return label;
     }
 
