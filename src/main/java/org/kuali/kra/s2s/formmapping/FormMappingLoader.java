@@ -36,6 +36,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 
+
+
 /**
  * This class is used to bind the S2SFormBinding.xml and get the information about the namespace , mainclass , stylesheet and
  * package name.
@@ -48,6 +50,7 @@ public class FormMappingLoader {
     private static Map<String, FormMappingInfo> bindings;
     private static Map<Integer, List<String>> sortedNameSpaces;
     private static final String BINDING_FILE_NAME = "/S2SFormBinding.xml";
+    private static final String BINDING_FILE_NAME_V2="/org/kuali/kra/s2s/s2sform/S2SFormBinding-V2.xml";
     private static final String NAMESPACE = "namespace";
     private static final String MAIN_CLASS = "mainClass";
     private static final String STYLE_SHEET = "stylesheet";
@@ -88,7 +91,11 @@ public class FormMappingLoader {
     public Map<String, FormMappingInfo> getBindings() {
         if (bindings == null) {
             synchronized (FormMappingLoader.class) {
-                loadBindings();
+            	bindings = new Hashtable<String, FormMappingInfo>();
+                sortedNameSpaces = new TreeMap<Integer, List<String>>();
+                loadBindings(BINDING_FILE_NAME);
+                if((new FormMappingLoader().getClass().getResourceAsStream(BINDING_FILE_NAME_V2))!=null)
+                loadBindings(BINDING_FILE_NAME_V2);
             }
         }
         return bindings;
@@ -99,18 +106,16 @@ public class FormMappingLoader {
      * 
      * This method is used to load the bindings from S2SFormBinding.xml file
      */
-    private void loadBindings() {
+    private void loadBindings(String BindingFile) {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         Document document = null;
         DocumentBuilder builder;
         Integer defaultSortIndex = Integer.valueOf(DEFAULT_SORT_INDEX);
-        bindings = new Hashtable<String, FormMappingInfo>();
-        sortedNameSpaces = new TreeMap<Integer, List<String>>();
-        sortedNameSpaces.put(defaultSortIndex, new ArrayList<String>());
-
+        if(!sortedNameSpaces.containsKey(defaultSortIndex))
+        	sortedNameSpaces.put(defaultSortIndex, new ArrayList<String>());
         try {
             builder = factory.newDocumentBuilder();
-            document = builder.parse(new FormMappingLoader().getClass().getResourceAsStream(BINDING_FILE_NAME));
+            document = builder.parse(new FormMappingLoader().getClass().getResourceAsStream(BindingFile));
         }
         catch (ParserConfigurationException e) {
             LOG.error(S2SConstants.ERROR_MESSAGE, e);
