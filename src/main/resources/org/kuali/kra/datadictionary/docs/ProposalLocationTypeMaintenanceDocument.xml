@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="ProposalLocationTypeMaintenanceDocument" parent="ProposalLocationTypeMaintenanceDocument-parentBean"/>
+
+  <bean id="ProposalLocationTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalLocationType"/>
+    <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
+    <property name="maintainableSections">
+      <list>
+        <ref bean="ProposalLocationTypeMaintenanceDocument-EditProposalLocationTypes"/>
+      </list>
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>locationTypeCode</value>
+      </list>
+    </property>
+    
+    
+    
+    
+    
+    <property name="documentTypeName" value="ProposalLocationTypeMaintenanceDocument"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    
+    
+  </bean>
+
+  <!-- Maintenance Section Definitions -->
+
+
+  <bean id="ProposalLocationTypeMaintenanceDocument-EditProposalLocationTypes" parent="ProposalLocationTypeMaintenanceDocument-EditProposalLocationTypes-parentBean"/>
+
+  <bean id="ProposalLocationTypeMaintenanceDocument-EditProposalLocationTypes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Proposal Location Types"/>
+    <property name="title" value="Edit Proposal Location Types"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="locationTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="locationTypeDesc" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
+      </list>
+    </property>
+  </bean>
+</beans>
