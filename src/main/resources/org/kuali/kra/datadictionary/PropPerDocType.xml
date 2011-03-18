@@ -92,7 +92,7 @@
   <bean id="PropPerDocType-lookupDefinition" parent="PropPerDocType-lookupDefinition-parentBean"/>
 
   <bean abstract="true" id="PropPerDocType-lookupDefinition-parentBean" parent="LookupDefinition">
-    <property name="title" value="Science Code Lookup"/>
+    <property name="title" value="Person Document Type Code Lookup"/>
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
 
     <property name="defaultSort">
