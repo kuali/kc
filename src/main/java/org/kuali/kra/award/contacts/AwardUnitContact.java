@@ -110,7 +110,12 @@ public class AwardUnitContact extends AwardContact {
     
     public String getUnitNumberForDisplay() {
         if (unitAdministratorUnitNumber == null) {
-            return getPerson().getUnit().getUnitNumber();
+            try{
+                return getPerson().getUnit().getUnitNumber();
+            }
+            catch(NullPointerException nxp){
+                return "";
+            }
         }else {
             return unitAdministratorUnitNumber;
         }
