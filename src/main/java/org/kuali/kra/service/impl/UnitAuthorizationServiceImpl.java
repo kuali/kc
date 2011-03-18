@@ -46,20 +46,32 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
     private IdentityManagementService identityManagementService; 
     private RoleManagementService roleManagementService;
     
+    protected IdentityManagementService getIdentityManagementService() {
+        return identityManagementService;
+    }
+    
     public void setIdentityManagementService(IdentityManagementService identityManagementService) {
         this.identityManagementService = identityManagementService;
+    }
+    
+    protected RoleManagementService getRoleManagementService() {
+        return roleManagementService;
     }
 
     public void setRoleManagementService(RoleManagementService roleManagementService) {
         this.roleManagementService = roleManagementService;
     }
 
-    /**
-     * Set the Unit Service.  Injected by Spring.
-     * @param unitService the Unit Service
-     */
+    protected UnitService getUnitService() {
+        return unitService;
+    }
+    
     public void setUnitService(UnitService unitService) {
         this.unitService = unitService;
+    }
+    
+    protected SystemAuthorizationService getSystemAuthorizationService() {
+        return systemAuthorizationService;
     }
     
     public void setSystemAuthorizationService(SystemAuthorizationService systemAuthorizationService) {
