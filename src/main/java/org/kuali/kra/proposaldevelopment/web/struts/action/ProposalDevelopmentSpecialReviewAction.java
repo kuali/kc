@@ -44,6 +44,17 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
     private static final String CONFIRM_DELETE_SPECIAL_REVIEW_KEY = "confirmDeleteSpecialReview";
     
     private SpecialReviewService specialReviewService;
+    
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = super.execute(mapping, form, request, response);
+        
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        
+        proposalDevelopmentForm.getSpecialReviewHelper().prepareView();
+        
+        return forward;
+    }
 
     @Override
     @SuppressWarnings("unchecked")

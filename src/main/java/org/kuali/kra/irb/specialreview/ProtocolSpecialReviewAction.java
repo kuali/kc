@@ -37,6 +37,17 @@ import org.kuali.rice.kns.util.KNSConstants;
 public class ProtocolSpecialReviewAction extends ProtocolAction {
     
     private static final String CONFIRM_DELETE_SPECIAL_REVIEW_KEY = "confirmDeleteSpecialReview";
+    
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = super.execute(mapping, form, request, response);
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        
+        protocolForm.getSpecialReviewHelper().prepareView();
+        
+        return forward;
+    }
 
     /**
      * Adds a Protocol Special Review to the list.
