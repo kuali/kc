@@ -658,12 +658,12 @@ public class PHS398FellowshipSupplementalV1_2Generator extends
         additionalInformation.setCurrentPriorNRSASupportIndicator(YesNoDataType.N_NO);
 		ProposalPerson principalInvestigator = s2sUtilService.getPrincipalInvestigator(pdDoc);
 		if (principalInvestigator != null) {
-			if (principalInvestigator.getCountryOfCitizenship() != null) {
+			if (principalInvestigator.getCountryOfCitizenship() != null && principalInvestigator.getCountryOfCitizenship().length()>0) {
 				additionalInformation.setCitizenship(CitizenshipDataType.Enum.forString(principalInvestigator.getCountryOfCitizenship()));
 			} else {
 			    additionalInformation.setCitizenship(CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S);
 			}
-			if(principalInvestigator.getSecondaryOfficePhone() != null) {
+			if(principalInvestigator.getSecondaryOfficePhone() != null && principalInvestigator.getSecondaryOfficePhone().length()>0) {
 			    additionalInformation.setAlernatePhoneNumber(principalInvestigator.getSecondaryOfficePhone());
 			}
 		}
