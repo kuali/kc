@@ -75,6 +75,7 @@
 						   <c:when test="${customAttributeDocument.customAttribute.lookupClass eq 'org.kuali.kra.bo.ArgValueLookup'}">
 							<kul:lookup boClassName="${customAttributeDocument.customAttribute.lookupClass}" 
 								lookupParameters="'${customAttributeDocument.customAttribute.lookupReturn}':argumentName"
+								readOnlyFields="argumentName"
 								fieldConversions="value:${customAttributeId}," 
 								fieldLabel="${customAttributeDocument.customAttribute.label}"  anchor="${tabKey}" />
 						   </c:when>
