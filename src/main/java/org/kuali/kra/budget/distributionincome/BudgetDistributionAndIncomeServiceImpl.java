@@ -20,13 +20,16 @@ import org.kuali.kra.budget.RateDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.Budget.FiscalYearSummary;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.rates.BudgetRate;
+import org.kuali.kra.costshare.CostShareService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.service.ParameterService;
 
 public class BudgetDistributionAndIncomeServiceImpl implements BudgetDistributionAndIncomeService {
 
     private ParameterService parameterService;
+    private CostShareService costShareService;
     
     /**
      * Sets the ParameterService.
@@ -34,6 +37,10 @@ public class BudgetDistributionAndIncomeServiceImpl implements BudgetDistributio
      */ 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+    
+    public void setCostShareService(CostShareService costShareService) {
+        this.costShareService = costShareService;
     }
     
     
@@ -57,11 +64,21 @@ public class BudgetDistributionAndIncomeServiceImpl implements BudgetDistributio
      * @see org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeService#initializeCostSharingCollectionDefaults(org.kuali.kra.budget.core.Budget)
      */
     public void initializeCostSharingCollectionDefaults(Budget budget) {
-        if(budget.isCostSharingApplicable() && budget.isCostSharingAvailable() && budget.getBudgetCostShares().size() == 0 && !isBudgetFinalAndComplete(budget)) {
-           for(FiscalYearSummary fiscalYearSummary: budget.getFiscalYearCostShareTotals()) {
-               budget.add(createBudgetCostShare(fiscalYearSummary));  
-           }
-       }
+        System.err.println("Got to initializeCostSharingCollectionDefaults");
+        if (budget.isCostSharingApplicable() && budget.isCostSharingAvailable() && budget.getBudgetCostShares().size() == 0
+                && !isBudgetFinalAndComplete(budget)) {
+            if (this.costShareService.validateProjectPeriodAsFiscalYear(false)){
+                for (FiscalYearSummary fiscalYearSummary : budget.getFiscalYearCostShareTotals()) {
+                    budget.add(createBudgetCostShare(fiscalYearSummary));
+                }
+            } else if (this.costShareService.validateProjectPeriodAsProjectPeriod(false)) {
+                int counter = 1;
+                for (BudgetPeriod period : budget.getBudgetPeriods()) {
+                    budget.add(createBudgetCostShare(counter, period.getCostSharingAmount()));
+                    counter ++;
+                }
+            }
+        }
     }
     
     /**
@@ -120,6 +137,10 @@ public class BudgetDistributionAndIncomeServiceImpl implements BudgetDistributio
      */
     protected BudgetCostShare createBudgetCostShare(FiscalYearSummary fiscalYearSummary) {
         return new BudgetCostShare(fiscalYearSummary.getFiscalYear(), fiscalYearSummary.getCostShare(), new BudgetDecimal(0.00), null);
+    }
+    
+    protected BudgetCostShare createBudgetCostShare(int projectPeriod, BudgetDecimal costShare) {
+        return new BudgetCostShare(projectPeriod, costShare, new BudgetDecimal(0.00), null);
     }
     
     /**

@@ -221,9 +221,7 @@ public class BudgetAction extends BudgetActionBase {
         BudgetForm savedBudgetForm = (BudgetForm) form;
         BudgetDocument savedBudgetDoc = savedBudgetForm.getDocument();
         refreshBudgetDocumentVersion(savedBudgetDoc);
-        getBusinessObjectService().save(savedBudgetDoc.getParentDocument().getBudgetDocumentVersions());
-        
-
+        getBusinessObjectService().save(savedBudgetDoc.getParentDocument().getBudgetDocumentVersions());       
 
         final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
         if (budgetForm.toBudgetVersionsPage()
@@ -242,9 +240,6 @@ public class BudgetAction extends BudgetActionBase {
                 forward = mapping.findForward("budgetActions");
             }
         }
-//        if (budgetForm.isAuditActivated()) {
-//            forward = mapping.findForward("budgetActions");
-//        }
 
         return forward;
     }

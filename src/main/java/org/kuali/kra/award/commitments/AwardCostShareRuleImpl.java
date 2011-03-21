@@ -102,32 +102,14 @@ public class AwardCostShareRuleImpl extends CostShareRuleResearchDocumentBase im
    /**
     *
     * Test fiscal year for valid range.
-    * @param AwardCostShare, ErrorMap
+    * @param AwardCostShare
     * @return Boolean
     */
     public boolean validateCostShareFiscalYearRange(AwardCostShare awardCostShare) {
         String projectPeriodField = fieldStarter + ".projectPeriod";
+        //int numberOfProjectPeriods = 51;
+        //return this.validateProjectPeriod(awardCostShare.getProjectPeriod(), projectPeriodField, numberOfProjectPeriods);
         return this.validateProjectPeriod(awardCostShare.getProjectPeriod(), projectPeriodField);
-        /*
-        boolean valid = true;
-        String projectPeriodField = fieldStarter + ".projectPeriod";
-        if (awardCostShare.getProjectPeriod() != null) {
-            try {
-                int fiscalYear = Integer.parseInt(awardCostShare.getProjectPeriod());
-                if (fiscalYear < Constants.MIN_FISCAL_YEAR || fiscalYear > Constants.MAX_FISCAL_YEAR) {
-                    valid = false;
-                    reportError(projectPeriodField, KeyConstants.ERROR_FISCAL_YEAR_RANGE, getProjectPeriodLabel());
-                }
-            } catch (NumberFormatException e) {
-                valid = false;
-                reportError(projectPeriodField, KeyConstants.ERROR_FISCAL_YEAR_INCORRECT_FORMAT, getProjectPeriodLabel());
-            }
-        } else {
-            valid = false;
-            reportError(projectPeriodField, KeyConstants.ERROR_FISCAL_YEAR_REQUIRED, getProjectPeriodLabel());
-        }
-        return valid;
-        */
     }
     
     /*

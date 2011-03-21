@@ -97,28 +97,6 @@ public class InstitutionalProposalAddCostShareRuleImpl extends CostShareRuleRese
     public boolean validateCostShareFiscalYearRange(InstitutionalProposalCostShare institutionalProposalCostShare){
         String projectPeriodField = this.fieldStarter + ".projectPeriod";
         return this.validateProjectPeriod(institutionalProposalCostShare.getProjectPeriod(), projectPeriodField);
-        /*
-        boolean valid = true;
-        String projectPeriodField = this.fieldStarter + ".projectPeriod";
-        if (institutionalProposalCostShare.getProjectPeriod() != null) {
-            try {
-                int projectPeriod = Integer.parseInt(institutionalProposalCostShare.getProjectPeriod());
-                if (projectPeriod < Constants.MIN_FISCAL_YEAR || projectPeriod > Constants.MAX_FISCAL_YEAR) {
-                    valid = false;
-                    reportError(projectPeriodField, KeyConstants.ERROR_IP_FISCAL_YEAR_RANGE, getProjectPeriodLabel());
-                }
-            } catch (NumberFormatException e) {
-                valid = false;
-                reportError(projectPeriodField, KeyConstants.ERROR_IP_FISCAL_YEAR_INCORRECT_FORMAT, getProjectPeriodLabel());
-            }
-        } else {
-            valid = false;
-            if (displayNullFieldErrors) {
-                reportError(projectPeriodField, KeyConstants.ERROR_IP_FISCAL_YEAR_REQUIRED, getProjectPeriodLabel());
-            }
-        }
-        return valid;
-        */
     }
     
     /*
