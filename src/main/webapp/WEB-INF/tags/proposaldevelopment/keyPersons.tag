@@ -16,10 +16,14 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="proposalPersonAttributes" value="${DataDictionary.ProposalPerson.attributes}" />
+<c:set var="readOnly" value="${not KualiForm.editingMode['modifyProposal']}" scope="request" /> 
 <div id="workarea">
 <c:set var="personIndex" value="0" />
 <c:forEach items="${KualiForm.document.developmentProposalList[0].proposalPersons}" var="person" varStatus="status">
     <c:set var="proposalPersonProperty" value="document.developmentProposalList[0].proposalPersons[${status.index}]" />
+    <c:if test="${not readOnly}">
+        <c:set var="leftSideHtmlProperty" value="${proposalPersonProperty}.delete" />
+    </c:if>
     <c:set var="transparent" value="false" />
 	
 	<c:choose>
@@ -55,7 +59,7 @@
 			
 	<kul:tab tabTitle="${fn:substring(person.fullName, 0, 22)}"
          tabDescription="${person.investigatorRoleDescription}${extraButtonSource}"
-         leftSideHtmlProperty="${proposalPersonProperty}.delete" 
+         leftSideHtmlProperty="${leftSideHtmlProperty}" 
          leftSideHtmlAttribute="${proposalPersonAttributes.delete}" 
      	 leftSideHtmlDisabled="false"
          defaultOpen="${hasErrors}" 
