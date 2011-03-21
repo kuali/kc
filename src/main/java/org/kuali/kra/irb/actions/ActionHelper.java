@@ -319,6 +319,8 @@ public class ActionHelper implements Serializable {
     private List<QuestionnairePrintOption> questionnairesToPrints;
     // flag if versioned protocol questionnaire exist
     private boolean summaryQuestionnaireExist;
+    private boolean hideReviewerName;
+    private boolean hideSubmissionReviewerName;
 
     /**
      * Constructs an ActionHelper.
@@ -819,6 +821,7 @@ public class ActionHelper implements Serializable {
         canAddReopenEnrollmentReviewerComments = hasReopenEnrollmentRequestLastAction();
         canAddSuspendReviewerComments = hasSuspendRequestLastAction();
         canAddTerminateReviewerComments = hasTerminateRequestLastAction();
+        hideReviewerName = checkToHideReviewName();
         
         initSummaryDetails();
         initSubmissionDetails();
@@ -2265,6 +2268,8 @@ public class ActionHelper implements Serializable {
         }
         setReviewComments(getReviewerCommentsService().getReviewerComments(getProtocol().getProtocolNumber(),
                 currentSubmissionNumber));
+        hideSubmissionReviewerName = checkToHideSubmissionReviewerName();
+
         setProtocolReviewers(getReviewerCommentsService().getProtocolReviewers(getProtocol().getProtocolNumber(),
                 currentSubmissionNumber));
         setAbstainees(getCommitteeDecisionService().getAbstainers(getProtocol().getProtocolNumber(), currentSubmissionNumber));
@@ -2774,4 +2779,38 @@ public class ActionHelper implements Serializable {
         this.protocolAbandonBean = protocolAbandonBean;
     }
 
+    public boolean isHideReviewerName() {
+        return hideReviewerName;
+    }
+
+    public void setHideReviewerName(boolean hideReviewerName) {
+        this.hideReviewerName = hideReviewerName;
+    }
+    
+    private boolean checkToHideSubmissionReviewerName() {
+        boolean isHide = true;
+        for (CommitteeScheduleMinute reviewComment : getReviewComments()) {
+            if (reviewComment.isDisplayReviewerName()) {
+                isHide = false;
+                break;
+            }
+        }
+        return isHide;
+    }
+    
+    private boolean checkToHideReviewName() {
+        boolean isHide = true;
+        if (getProtocol().getProtocolSubmission().getSubmissionId() != null) {
+            isHide = getReviewerCommentsService().setHideReviewerName(getProtocol(), getProtocol().getProtocolSubmission().getSubmissionNumber());
+        }
+        return isHide;
+    }
+
+    public boolean isHideSubmissionReviewerName() {
+        return hideSubmissionReviewerName;
+    }
+
+    public void setHideSubmissionReviewerName(boolean hideSubmissionReviewerName) {
+        this.hideSubmissionReviewerName = hideSubmissionReviewerName;
+    }
 }

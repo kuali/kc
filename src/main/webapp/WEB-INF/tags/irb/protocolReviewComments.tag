@@ -33,11 +33,13 @@
                                         <kul:htmlAttributeHeaderCell literalLabel="Comment" scope="col" />
                                         <kul:htmlAttributeHeaderCell literalLabel="Private" scope="col" />
                                         <kul:htmlAttributeHeaderCell literalLabel="Final" scope = "col"/>
+                    <c:if test="${not KualiForm.actionHelper.hideReviewerName}">
                                         <kul:htmlAttributeHeaderCell literalLabel="Last Updated By" scope = "col"/>
                                         <kul:htmlAttributeHeaderCell literalLabel="Created By" scope = "col"/>
+                    </c:if>
                                       </tr>
                                     <c:forEach items="${KualiForm.actionHelper.reviewComments}" var="comment" varStatus="status">
-                                        <c:if test="${comment.canView}">
+                                        <c:if test="${comment.displayReviewerName}">
                                             <c:set var="displayCount" value="${displayCount + 1}"/>
 	                                        <tr>
 	                                            <th class="infoline" align="right" >
@@ -76,6 +78,9 @@
 	                                                      readOnly="true" />
 	                                            </td>
 
+                    <c:if test="${not KualiForm.actionHelper.hideReviewerName}">
+                        <c:choose>
+                            <c:when test="${KualiForm.actionHelper.reviewComments[status.index].displayReviewerName}">
 	                                            <td style="text-align:center; vertical-align:middle">
 	                        	                     <kul:htmlControlAttribute property="actionHelper.reviewComments[${status.index}].updateUserFullName" 
 	                                                      attributeEntry="${minutesAttributes.updateUser}"
@@ -91,7 +96,13 @@
 	                                                      attributeEntry="${minutesAttributes.createTimestamp}"
 	                                                      readOnly="true" />
 	                                            </td>
-	                                            
+                            </c:when>
+                            <c:otherwise>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </c:otherwise>
+                        </c:choose>
+	                    </c:if>                        
 	                                        </tr>
 	                                   </c:if>
                                     </c:forEach>    

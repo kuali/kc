@@ -2193,11 +2193,13 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 
                 reviewCommentsBean.setNewReviewComment(new CommitteeScheduleMinute(MinuteEntryType.PROTOCOL));
             }
+            reviewCommentsBean.setHideReviewerName(getReviewCommentsService().setHideReviewerName(reviewCommentsBean.getReviewComments()));            
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+
     /**
      * Moves up a review comment in the bean indicated by the task name in the request.
      * 
@@ -2266,7 +2268,12 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             List<CommitteeScheduleMinute> deletedReviewComments = reviewCommentsBean.getDeletedReviewComments();
             
             getReviewCommentsService().deleteReviewComment(reviewComments, lineNumber, deletedReviewComments);
-        }
+            if (reviewComments.isEmpty()) {
+                reviewCommentsBean.setHideReviewerName(true);
+            } else {
+                reviewCommentsBean.setHideReviewerName(getReviewCommentsService().setHideReviewerName(reviewCommentsBean.getReviewComments()));
+            }
+       }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }

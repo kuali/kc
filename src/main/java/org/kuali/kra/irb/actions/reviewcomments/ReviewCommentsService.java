@@ -120,4 +120,16 @@ public interface ReviewCommentsService {
      */
     void saveReviewComments(List<CommitteeScheduleMinute> reviewComments, List<CommitteeScheduleMinute> deletedReviewComments);
 
+    /**
+     * Retrieve IRB_DISPLAY_REVIEWER_NAME parameter to see if to hide reviewer name.
+     * This method...
+     * @param principalId
+     * @param protocolSubmission
+     * @return
+     */
+    boolean isHideReviewerName();    
+
+    boolean setHideReviewerName(Protocol protocol, int submissionNumber);
+    
+    boolean setHideReviewerName(List<CommitteeScheduleMinute> reviewComments);
 }
