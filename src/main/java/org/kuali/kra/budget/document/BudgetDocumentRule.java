@@ -186,7 +186,8 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
             
             //validate project period stuff            
             String currentField = "document.budget.budgetCostShare[" + i + "].projectPeriod";
-            boolean validationCheck = this.validateProjectPeriod(budgetCostShare.getProjectPeriod(), currentField);            
+            int numberOfProjectPeriods = budgetDocument.getBudget().getBudgetPeriods().size();
+            boolean validationCheck = this.validateProjectPeriod(budgetCostShare.getProjectPeriod(), currentField, numberOfProjectPeriods);            
             valid &= validationCheck;
             
             errorMap.removeFromErrorPath(errorPath);

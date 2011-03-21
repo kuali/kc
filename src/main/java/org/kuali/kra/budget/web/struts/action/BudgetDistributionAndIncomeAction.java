@@ -252,7 +252,8 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
      * @return
      */
     private AddBudgetCostShareEvent createAddRuleEvent(BudgetForm budgetForm, BudgetCostShare budgetCostShare) {
-        return new AddBudgetCostShareEvent("Add BudgetCostShare Event", Constants.EMPTY_STRING, budgetForm.getBudgetDocument(), budgetCostShare);
+        return new AddBudgetCostShareEvent("Add BudgetCostShare Event", Constants.EMPTY_STRING, budgetForm.getBudgetDocument(), 
+                budgetCostShare, budgetForm.getBudgetDocument());
     }
     
     /**

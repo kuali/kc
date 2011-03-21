@@ -27,22 +27,35 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  */
 public abstract class CostShareRuleResearchDocumentBase extends ResearchDocumentRuleBase {
     
+    private CostShareService costShareService;
+    
     /**
      * 
      * This method validate the project period field.
      * @param projectPeriod
      * @param projectPeriodField
+     * @param numberOfProjectPeriods
      * @return
      */
-    public boolean validateProjectPeriod(Object projectPeriod, String projectPeriodField) {
+    public boolean validateProjectPeriod(Object projectPeriod, String projectPeriodField, int numberOfProjectPeriods) {
         boolean valid = true;
         if (projectPeriod != null) {
             try {
                 int projectPeriodInt = Integer.parseInt(projectPeriod.toString());
-                //if the project period is greater than 999 then validate it as a year, other wise, we are being flexible.
-                if (projectPeriodInt > 999 && (projectPeriodInt < Constants.MIN_FISCAL_YEAR || projectPeriodInt > Constants.MAX_FISCAL_YEAR)) {
-                    valid = false;
-                    reportError(projectPeriodField, KeyConstants.ERROR_FISCAL_YEAR_RANGE, getProjectPeriodLabel());
+                
+                if (validateAsFiscalYear()) {
+                    if (projectPeriodInt < Constants.MIN_FISCAL_YEAR || projectPeriodInt > Constants.MAX_FISCAL_YEAR) {
+                        valid = false;
+                        reportError(projectPeriodField, KeyConstants.ERROR_FISCAL_YEAR_RANGE, getProjectPeriodLabel());
+                    }
+                } else if (validateAsProjectPeriod() && numberOfProjectPeriods > -1) {
+                    if (projectPeriodInt <= 0 || projectPeriodInt > numberOfProjectPeriods) {
+                        valid = false;
+                        String[] params = {getProjectPeriodLabel(), String.valueOf(numberOfProjectPeriods)};
+                        reportError(projectPeriodField, KeyConstants.ERROR_PROJECT_PERIOD_RANGE, params);
+                    }
+                } else {
+                    //the project period is not a project period nor is it a fiscal year, no validation requirements at this time.
                 }
             } catch (NumberFormatException e) {
                 valid = false;
@@ -55,9 +68,38 @@ public abstract class CostShareRuleResearchDocumentBase extends ResearchDocument
         return valid;
     }
     
+    /**
+     * 
+     * This method...
+     * @param projectPeriod
+     * @param projectPeriodField
+     * @return
+     */
+    public boolean validateProjectPeriod(Object projectPeriod, String projectPeriodField) {
+        return validateProjectPeriod(projectPeriod, projectPeriodField, -1);
+    }
+    
+    private CostShareService getCostShareService() {
+        if (costShareService == null) {
+            costShareService = KraServiceLocator.getService(CostShareService.class);
+        }
+        return costShareService;
+    }
+    
     private String getProjectPeriodLabel() {
-        String label = KraServiceLocator.getService(CostShareService.class).getCostShareLabel(false);
+        String label = getCostShareService().getCostShareLabel(false);
         return label;
+    }
+    
+    private boolean validateAsFiscalYear() {
+        boolean retVal = getCostShareService().validateProjectPeriodAsFiscalYear(false);
+        return retVal;
+    }
+    
+    private boolean validateAsProjectPeriod() {
+        boolean retVal = getCostShareService().validateProjectPeriodAsProjectPeriod(false);
+        return retVal;
+        
     }
 
 }

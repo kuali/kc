@@ -17,6 +17,7 @@ package org.kuali.kra.budget.distributionincome;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.BusinessRule;
@@ -25,10 +26,13 @@ public class AddBudgetCostShareEvent extends KraDocumentEventBase {
     private static final Log LOG = LogFactory.getLog(AddBudgetCostShareEvent.class);
     
     private BudgetCostShare budgetCostShare;
+    private BudgetDocument budgetDocument;
     
-    public AddBudgetCostShareEvent(String description, String errorPathPrefix, Document document, BudgetCostShare budgetCostShare) {
+    public AddBudgetCostShareEvent(String description, String errorPathPrefix, Document document, BudgetCostShare budgetCostShare, 
+            BudgetDocument budgetDocument) {
         super(description, errorPathPrefix, document);
         this.budgetCostShare = budgetCostShare;
+        this.budgetDocument = budgetDocument;
     }
 
     @Override
@@ -49,6 +53,10 @@ public class AddBudgetCostShareEvent extends KraDocumentEventBase {
 
     public BudgetCostShare getBudgetCostShare() {
         return budgetCostShare;
+    }
+    
+    public BudgetDocument getBudgetDocument() {
+        return this.budgetDocument;
     }
 
 }
