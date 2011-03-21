@@ -375,6 +375,7 @@ public final class KeyConstants {
     
     //Award Cost Share
     public static final String ERROR_FISCAL_YEAR_RANGE = "error.awardCostShare.fiscalYear.range";
+    public static final String ERROR_PROJECT_PERIOD_RANGE = "error.awardCostShare.projectPeriod.range";
     public static final String ERROR_FISCAL_YEAR_REQUIRED = "error.awardCostShare.fiscalYear.required";
     public static final String ERROR_SOURCE_DESTINATION = "error.awardCostShare.source.destination";
     public static final String ERROR_DUPLICATE_ENTRY = "error.awardCostShare.duplicate.entry";

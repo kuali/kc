@@ -137,6 +137,7 @@ public class BudgetCostShareRuleImpl extends CostShareRuleResearchDocumentBase i
 
     private boolean validateProjectPeriod(AddBudgetCostShareEvent budgetCostShareEvent) {
         String projectPeriodField = "newBudgetCostShare.projectPeriod";
-        return this.validateProjectPeriod(budgetCostShareEvent.getBudgetCostShare().getProjectPeriod(), projectPeriodField);
+        int numberOfProjectPeriods = budgetCostShareEvent.getBudgetDocument().getBudget().getBudgetPeriods().size();
+        return this.validateProjectPeriod(budgetCostShareEvent.getBudgetCostShare().getProjectPeriod(), projectPeriodField, numberOfProjectPeriods);
     }
 }
