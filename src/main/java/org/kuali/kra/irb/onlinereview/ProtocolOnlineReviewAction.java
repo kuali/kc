@@ -37,6 +37,8 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
+import org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService;
+import org.kuali.kra.irb.actions.notification.ReviewCompleteEvent;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
@@ -326,6 +328,8 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
             getDocumentService().approveDocument(prDoc, "", null);
             protocolForm.getOnlineReviewsActionHelper().init(true);
             recordOnlineReviewActionSuccess("approved", prDoc);
+            // TODO : only send to this reviewer, not the other unapproved review ?
+//            getProtocolActionsNotificationService().sendActionsNotification(protocolForm.getProtocolDocument().getProtocol(), new ReviewCompleteEvent(protocolForm.getProtocolDocument().getProtocol()));
             if (!protocolForm.getEditingMode().containsKey("maintainProtocolOnlineReviews")) {
                 return mapping.findForward(KNSConstants.MAPPING_PORTAL);
             }
@@ -337,6 +341,9 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         
     }
 
+    private ProtocolActionsNotificationService getProtocolActionsNotificationService() {
+        return KraServiceLocator.getService(ProtocolActionsNotificationService.class);
+    }
     /**
      * 
      * @param mapping the mapping associated with this action.

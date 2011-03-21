@@ -30,6 +30,6 @@ public interface ProtocolAssignReviewersService {
      * @param protocolSubmission the protocol submission
      * @param reviewerBeans the list of reviewers
      */
-    void assignReviewers(ProtocolSubmission protocolSubmission, List<ProtocolReviewerBean> reviewerBeans);
+    void assignReviewers(ProtocolSubmission protocolSubmission, List<ProtocolReviewerBean> reviewerBeans) throws Exception;
     
 }
