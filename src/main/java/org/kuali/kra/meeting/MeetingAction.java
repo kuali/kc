@@ -29,6 +29,7 @@ import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.meeting.MeetingEventBase.ErrorType;
 import org.kuali.rice.kns.exception.AuthorizationException;
@@ -314,6 +315,8 @@ public class MeetingAction extends KualiAction {
         if (StringUtils.isNotBlank(command) && "viewProtocolSubmission".equals(command)) {
             forward = viewProtocolSubmission(mapping, form, request, response);
         }
+        ((MeetingForm) form).getMeetingHelper().setHideReviewerName(getReviewerCommentsService().setHideReviewerName(((MeetingForm) form).getMeetingHelper().getCommitteeSchedule().getCommitteeScheduleMinutes()));
+
         return forward;
     }
 
@@ -345,5 +348,8 @@ public class MeetingAction extends KualiAction {
         return KraServiceLocator.getService(MeetingService.class);
     }
 
+    private ReviewCommentsService getReviewerCommentsService() {
+        return KraServiceLocator.getService(ReviewCommentsService.class);
+    }
 
 }

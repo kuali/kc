@@ -41,8 +41,10 @@
                         <kul:htmlAttributeHeaderCell literalLabel="Private" scope="col" />
                         <kul:htmlAttributeHeaderCell literalLabel="Final" scope="col" />
                     </c:if>
+                    <c:if test="${not KualiForm.onlineReviewsActionHelper.reviewCommentsBeans[reviewIndex].hideReviewerName}">
                     <kul:htmlAttributeHeaderCell literalLabel="Last Updated By" scope = "col"/>
                     <kul:htmlAttributeHeaderCell literalLabel="Created By" scope = "col"/>
+                    </c:if>
                     <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
                 </tr>
                         
@@ -99,8 +101,10 @@
                         </c:choose>
                     </td>
                     </c:if>
+                    <c:if test="${not KualiForm.onlineReviewsActionHelper.reviewCommentsBeans[reviewIndex].hideReviewerName}">
                     <td>&nbsp;</td>
 					<td>&nbsp;</td>
+					</c:if>
                     <td>
                         <div align="center">
                             <c:if test = "${!readOnly}">
@@ -167,6 +171,10 @@
 	                            
 	                        </td>
 	                        </c:if>
+                    <c:if test="${not KualiForm.onlineReviewsActionHelper.reviewCommentsBeans[reviewIndex].hideReviewerName}">
+                       <c:choose>
+                            <c:when test="${KualiForm.onlineReviewsActionHelper.reviewCommentsBeans[reviewIndex].reviewComments[status.index].displayReviewerName}">
+	          	                        
 	                        <td style="text-align:center; vertical-align:middle">
 	                        	<kul:htmlControlAttribute property="${property}.reviewComments[${status.index}].updateUserFullName" 
 	                                                      attributeEntry="${minutesAttributes.updateUser}"
@@ -182,7 +190,13 @@
 	                                                      attributeEntry="${minutesAttributes.createTimestamp}"
 	                                                      readOnly="true" />
 	                        </td>
-	                        
+                            </c:when>
+                            <c:otherwise>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </c:otherwise>
+                        </c:choose>
+	              </c:if>          
 	                        <td>
 	                            <div align="center">&nbsp;
 	                            	<nobr>
