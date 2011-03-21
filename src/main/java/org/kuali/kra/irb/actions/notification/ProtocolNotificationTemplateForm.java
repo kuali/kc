@@ -32,6 +32,8 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
 public class ProtocolNotificationTemplateForm extends KualiForm {
 
     private static final long serialVersionUID = 6043169784839779473L;
+    private static final String ASSIGN_REVIEWER = "901";
+    private static final String REVIEW_COMPLETE = "902";
 
     private List<ProtocolNotificationTemplate> notificationTemplates;
 
@@ -75,6 +77,9 @@ public class ProtocolNotificationTemplateForm extends KualiForm {
         templates.add(getTemplate(ProtocolActionType.REQUEST_TO_CLOSE_ENROLLMENT, "CloseEnrollmentNotification.xsl"));
         templates.add(getTemplate(ProtocolActionType.IRB_ACKNOWLEDGEMENT, "IrbAcknowledgementNotification.xsl"));
         templates.add(getTemplate(ProtocolActionType.ABANDON_PROTOCOL, "AbandonProtocolNotification.xsl"));
+        templates.add(getTemplate(ProtocolActionType.ASSIGN_TO_AGENDA, "AssignToAgendaReviewerNotification.xsl"));
+        templates.add(getTemplate(ASSIGN_REVIEWER, "AssignReviewerNotification.xsl"));
+        templates.add(getTemplate(REVIEW_COMPLETE, "ReviewCompleteNotification.xsl"));
 
         return templates;
     }
@@ -85,6 +90,18 @@ public class ProtocolNotificationTemplateForm extends KualiForm {
         template.setFileName(fileName);
         template.setNotificationTemplate(getFileContent("/org/kuali/kra/irb/notification/stylesheet/"+fileName));
         template.refreshReferenceObject("protocolActionType");
+        if (actionTypeCode.equals(AssignReviewerEvent.ASSIGN_REVIEWER)) {
+            ProtocolActionType actionType = new ProtocolActionType();
+            actionType.setProtocolActionTypeCode(actionTypeCode);
+            actionType.setDescription("Assign Reviewer");
+            template.setProtocolActionType(actionType);
+        }
+        if (actionTypeCode.equals(ReviewCompleteEvent.REVIEW_COMPLETE)) {
+            ProtocolActionType actionType = new ProtocolActionType();
+            actionType.setProtocolActionTypeCode(actionTypeCode);
+            actionType.setDescription("Review Complete");
+            template.setProtocolActionType(actionType);
+        }
         return template;
 
     }

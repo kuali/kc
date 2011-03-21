@@ -31,6 +31,8 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.ProtocolSubmissionBuilder;
 import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService;
+import org.kuali.kra.irb.actions.notification.AssignReviewerEvent;
+import org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -53,6 +55,7 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
     private ProtocolFinderDao protocolFinderDao;
     private BusinessObjectService businessObjectService;
     private ProtocolAssignReviewersService protocolAssignReviewersService;
+    private ProtocolActionsNotificationService protocolActionsNotificationService;
     
     /**
      * Set the Document Service.
@@ -198,7 +201,11 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
         businessObjectService.delete(protocol.getProtocolDocument().getPessimisticLocks());
         protocol.getProtocolDocument().getPessimisticLocks().clear();
         documentService.saveDocument(protocol.getProtocolDocument());
-        
+
+        // It is already called assignreviewerservice, so don't need this ?
+//        if (!submitAction.getReviewers().isEmpty()) {
+//            protocolActionsNotificationService.sendActionsNotification(protocol, new AssignReviewerEvent(protocol));
+//        }
         protocol.refresh();
     }
     
@@ -338,5 +345,9 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
                 submissionBuilder.addExpeditedReviewCheckListItem(item.getExpeditedReviewCheckListCode());
             }
         }
+    }
+
+    public void setProtocolActionsNotificationService(ProtocolActionsNotificationService protocolActionsNotificationService) {
+        this.protocolActionsNotificationService = protocolActionsNotificationService;
     }
 }

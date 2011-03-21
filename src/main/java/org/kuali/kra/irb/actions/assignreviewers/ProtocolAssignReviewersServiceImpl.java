@@ -21,6 +21,8 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
+import org.kuali.kra.irb.actions.notification.AssignReviewerEvent;
+import org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
@@ -29,6 +31,8 @@ import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
+import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails.SubmissionChecklistInfo;
+
 /**
  * Implementation of the ProtocolAssignReviewersService.
  */
@@ -36,13 +40,14 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
     
     private BusinessObjectService businessObjectService;
     private ProtocolOnlineReviewService protocolOnlineReviewService;
-    
+    private ProtocolActionsNotificationService protocolActionsNotificationService;
+
     /**
      * {@inheritDoc}
      * @see org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService#assignReviewers(org.kuali.kra.irb.actions.submit.ProtocolSubmission, 
      *      java.util.List)
      */
-    public void assignReviewers(ProtocolSubmission protocolSubmission, List<ProtocolReviewerBean> protocolReviewerBeans)  {
+    public void assignReviewers(ProtocolSubmission protocolSubmission, List<ProtocolReviewerBean> protocolReviewerBeans) throws Exception  {
         if (protocolSubmission != null) {
             for (ProtocolReviewerBean bean : protocolReviewerBeans) {
                 if (StringUtils.isNotBlank(bean.getReviewerTypeCode())) {
@@ -60,7 +65,14 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
                 }
             }
            
-            businessObjectService.save(protocolSubmission);
+            businessObjectService.save(protocolSubmission); 
+            // TODO : how should we handle, new addtion, existing, removed and even empty list
+            // For example : do we send "removed" message.  Do we send message for existing reviewer again ?
+            // this method also called by submittoirbforreview
+//            if (protocolSubmission.getCommitteeIdFk() != null && protocolSubmission.getScheduleIdFk() != null) {
+//                protocolActionsNotificationService.sendActionsNotification(protocolSubmission.getProtocol(), new AssignReviewerEvent(protocolSubmission.getProtocol()));
+//            }
+
         }
     }
     
@@ -109,6 +121,10 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
      */
     public void setProtocolOnlineReviewService(ProtocolOnlineReviewService protocolOnlineReviewService) {
         this.protocolOnlineReviewService = protocolOnlineReviewService;
+    }
+
+    public void setProtocolActionsNotificationService(ProtocolActionsNotificationService protocolActionsNotificationService) {
+        this.protocolActionsNotificationService = protocolActionsNotificationService;
     }
     
 }
