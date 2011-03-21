@@ -249,7 +249,7 @@ public interface Constants {
     public static final String S2S_SUBMISSIONTYPE_CODE_KEY="document.developmentProposalList[0].s2sOpportunity.s2sSubmissionTypeCode";
     public static final String GRANTS_GOV_PANEL_ANCHOR  = "Opportunity";
     public static final String GRANTS_GOV_OPPORTUNITY_PANEL = "GrantsGov";
-    public static final String ABSTRACTS_AND_ATTACHMENTS_PANEL ="AbstractsAndAttachments";
+    public static final String ABSTRACTS_AND_ATTACHMENTS_PANEL ="Abstracts and Attachments";
     public static final String OPPORTUNITY_ID_KEY="document.developmentProposalList[0].programAnnouncementNumber";
     public static final String OPPORTUNITY_TITLE_KEY="document.developmentProposalList[0].programAnnouncementTitle";
     public static final String CFDA_NUMBER_KEY="document.cfdaNumber";
