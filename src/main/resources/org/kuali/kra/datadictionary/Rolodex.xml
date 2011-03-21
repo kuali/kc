@@ -270,12 +270,14 @@
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Organization"/>
     <property name="shortLabel" value="Organization"/>
-    <property name="maxLength" value="80"/>
+    <property name="maxLength" value="200"/>
     <property name="validationPattern">
       <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
     </property>
     <property name="control">
-      <bean p:size="80" parent="TextControlDefinition"/>
+      <bean parent="TextareaControlDefinition" 
+            p:rows="5"
+            p:cols="40" />
     </property>
     <property name="summary" value="Organization"/>
     <property name="description" value="Organization"/>
