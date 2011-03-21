@@ -36,6 +36,7 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
@@ -82,6 +83,7 @@ public class OnlineReviewsActionHelper implements Serializable {
     
     private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(OnlineReviewsActionHelper.class);
     private static final String REVIEW_DOCUMENT_DESCRIPTION_FORMAT = "Review Protocol:%s, PI:%s";
+    private boolean hideReviewerName;
     
     /**
      * Constructs a OnlineReviewActionHelper.java.
@@ -111,6 +113,7 @@ public class OnlineReviewsActionHelper implements Serializable {
                     String piLastName = principalInvestigator.getLastName();
                     this.newReviewDocumentDescription = getProtocolOnlineReviewService().getProtocolOnlineReviewDocumentDescription(protocolDocument.getProtocol().getProtocolNumber(),piLastName);
                 } 
+                List<String> reviewerIds = getReviewerIds();
                 for (ProtocolOnlineReviewDocument pDoc : protocolOnlineReviewDocuments) {
                     Map<String,Object> pDocMap = new LinkedHashMap<String,Object>();
                     documentHelperMap.put(pDoc.getDocumentNumber(), pDocMap);
@@ -129,7 +132,7 @@ public class OnlineReviewsActionHelper implements Serializable {
                    
                     ReviewCommentsBean commentsBean = new ReviewCommentsBean(Constants.EMPTY_STRING);
                     commentsBean.setReviewComments(pDoc.getProtocolOnlineReview().getCommitteeScheduleMinutes());
-                 
+                  //  commentsBean.setHideReviewerName(getReviewerCommentsService().setHideReviewerName(commentsBean.getReviewComments()));
                     pDocMap.put(REVIEWER_COMMENTS_MAP_KEY, commentsBean);
                     reviewCommentsBeans.add(commentsBean);
                     
@@ -138,9 +141,20 @@ public class OnlineReviewsActionHelper implements Serializable {
             }
             
         }
+        for (ReviewCommentsBean commentsBean : reviewCommentsBeans) {
+            commentsBean.setHideReviewerName(getReviewerCommentsService().setHideReviewerName(commentsBean.getReviewComments()));            
+        }
+ 
     }
     
-    
+    private List<String> getReviewerIds() {
+        List<String> reviewerIds = new ArrayList<String>();
+        for (ProtocolOnlineReviewDocument pDoc : protocolOnlineReviewDocuments) {
+            reviewerIds.add(pDoc.getProtocolOnlineReview().getProtocolReviewer().getPersonId());
+        }
+        return reviewerIds;
+
+    }
     
     /**
      * This method...
@@ -503,6 +517,18 @@ public class OnlineReviewsActionHelper implements Serializable {
             }
             form.setEditingMode(convertSetToMap(editModes));
         }
+    }
+
+    private ReviewCommentsService getReviewerCommentsService() {
+        return KraServiceLocator.getService(ReviewCommentsService.class);
+    }
+
+    public boolean isHideReviewerName() {
+        return hideReviewerName;
+    }
+
+    public void setHideReviewerName(boolean hideReviewerName) {
+        this.hideReviewerName = hideReviewerName;
     }
     
 }

@@ -70,8 +70,10 @@
 				<kul:htmlAttributeHeaderCell literalLabel="Standard Review Comment" scope="col" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${committeeScheduleMinuteAttributes.privateCommentFlag}" scope="col" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${committeeScheduleMinuteAttributes.finalFlag}" scope="col" />
+                <c:if test="${not KualiForm.meetingHelper.hideReviewerName}">
                 <kul:htmlAttributeHeaderCell literalLabel="Last Updated By" scope = "col"/>
                 <kul:htmlAttributeHeaderCell literalLabel="Created By" scope = "col"/>
+                </c:if>
 				<c:if test="${!readOnly}">
 					<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
 				</c:if>
@@ -187,9 +189,10 @@
 	               		    <kul:htmlControlAttribute property="meetingHelper.newCommitteeScheduleMinute.finalFlag" attributeEntry="${committeeScheduleMinuteAttributes.finalFlag}" />
 	            	    </div>
 				    </td>
+                <c:if test="${not KualiForm.meetingHelper.hideReviewerName}">
                     <td>&nbsp;</td>
 					<td>&nbsp;</td>
-	
+	            </c:if>
 				    <td align="left" valign="middle" class="infoline" width="10%">
 					    <div align=center>
 					        <html:image property="methodToCall.addCommitteeScheduleMinute.anchor${tabKey}"
@@ -233,7 +236,10 @@
 	               		    <kul:htmlControlAttribute property="meetingHelper.committeeSchedule.committeeScheduleMinutes[${status.index}].finalFlag" attributeEntry="${committeeScheduleMinuteAttributes.finalFlag}" />
 	            	    </div>
 				    </td>
+                <c:if test="${not KualiForm.meetingHelper.hideReviewerName}">
 				    
+                   <c:choose>
+                       <c:when test="${KualiForm.meetingHelper.committeeSchedule.committeeScheduleMinutes[status.index].displayReviewerName}">
 	                        <td style="text-align:center; vertical-align:middle">
 	                        	<kul:htmlControlAttribute property="meetingHelper.committeeSchedule.committeeScheduleMinutes[${status.index}].updateUserFullName" 
 	                                                      attributeEntry="${committeeScheduleMinuteAttributes.updateUser}"
@@ -249,7 +255,13 @@
 	                                                      attributeEntry="${committeeScheduleMinuteAttributes.createTimestamp}"
 	                                                      readOnly="true" />
 	                        </td>
-				    
+                       </c:when>
+                       <c:otherwise>
+                     <td>&nbsp;</td>
+					<td>&nbsp;</td>
+                       </c:otherwise>
+                   </c:choose>
+				    </c:if>
                     <c:if test="${!readOnly}">
 						<td>
 							<div align=center>&nbsp;					
