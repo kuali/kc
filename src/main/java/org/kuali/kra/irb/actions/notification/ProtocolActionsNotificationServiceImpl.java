@@ -35,6 +35,8 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.print.ProtocolXmlStream;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.ken.service.NotificationService;
 import org.kuali.rice.ken.util.Util;
@@ -62,6 +64,7 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
     private KualiConfigurationService kualiConfigurationService;
     private ProtocolXmlStream protocolXmlStream;
     private DocumentService documentService;
+    private ProtocolOnlineReviewService protocolOnlineReviewService;
     /**
      * 
      * @see org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService#sendActionsNotification(org.kuali.kra.irb.Protocol,
@@ -166,6 +169,27 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
 
     }
     
+    public void addReviewerToRecipients(Element recipients, Protocol protocol, List<String> userNames) {
+        try {
+            for (ProtocolOnlineReview protocolOnlineReview  : protocolOnlineReviewService.getProtocolReviews(protocol.getProtocolSubmission().getSubmissionId())) {
+                KcPerson reviewer = protocolOnlineReview.getProtocolReviewer().getPerson();
+                
+                if (StringUtils.isNotBlank(reviewer.getUserName())
+                        && (StringUtils.isBlank(protocol.getPrincipalInvestigator().getPersonId()) || !reviewer.getUserName().equals(
+                                protocol.getPrincipalInvestigator().getPerson().getUserName()))) {
+                    if (!userNames.contains(reviewer.getUserName())) {
+                        XmlHelper.appendXml(recipients, "<user>" + reviewer.getUserName() + "</user>");
+                        userNames.add(reviewer.getUserName());
+                    }
+                }
+            }
+        }
+        catch (Exception e) {
+
+        }
+
+    }
+
     public void setNotificationService(NotificationService notificationService) {
         this.notificationService = notificationService;
     }
@@ -226,6 +250,11 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
 
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
+    }
+
+
+    public void setProtocolOnlineReviewService(ProtocolOnlineReviewService protocolOnlineReviewService) {
+        this.protocolOnlineReviewService = protocolOnlineReviewService;
     }
 
 }

@@ -50,5 +50,7 @@ public interface ProtocolActionsNotificationService {
      * @param protocol
      */
     void addInitiatorToRecipients(Element recipients, Protocol protocol, List<String> userNames);
+    void addReviewerToRecipients(Element recipients, Protocol protocol, List<String> userNames);
+    
 
 }

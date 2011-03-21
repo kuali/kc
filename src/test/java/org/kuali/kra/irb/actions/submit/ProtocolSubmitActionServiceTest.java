@@ -183,6 +183,8 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
                 
             if (committee==null)
                 committee =  createCommittee(committeeId).getCommittee();
+            committee.refreshReferenceObject("committeeType");
+            submitAction.setCommitteeId(committee.getCommitteeId());
         }
 
         protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
@@ -202,6 +204,7 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
         verifySubmission(protocolSubmission, protocolDocument.getProtocol(), submitAction);
     }
     
+
     /*
      * Get a couple of exempt check list items.
      */

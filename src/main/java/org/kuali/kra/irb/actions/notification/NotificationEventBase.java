@@ -26,8 +26,12 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.rice.kew.util.XmlHelper;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -92,6 +96,11 @@ public abstract class NotificationEventBase {
         // Based on kcirb-252 : no Irb Admin for release 3.  may added later.
         getProtocolActionsNotificationService().addIrbAdminToRecipients(recipients, getProtocol(), userNames);
         getProtocolActionsNotificationService().addInitiatorToRecipients(recipients, getProtocol(), userNames);
+        if (getActionTypeCode().equals(ProtocolActionType.ASSIGN_TO_AGENDA) || getActionTypeCode().equals(AssignReviewerEvent.ASSIGN_REVIEWER)
+                || getActionTypeCode().equals(ReviewCompleteEvent.REVIEW_COMPLETE)) {
+            getProtocolActionsNotificationService().addReviewerToRecipients(recipients, getProtocol(), userNames);
+           
+        }
 
     }
 
@@ -143,5 +152,7 @@ public abstract class NotificationEventBase {
     private BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);
     }
+
+
 
 }

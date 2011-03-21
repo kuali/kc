@@ -18,15 +18,22 @@ package org.kuali.kra.irb.actions.assignagenda;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
+import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.CommitteeDocument;
+import org.kuali.kra.committee.test.CommitteeFactory;
+import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -36,11 +43,13 @@ import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -66,7 +75,8 @@ import org.kuali.rice.kns.util.GlobalVariables;
 //}))
 
 public class ProtocolAssignToAgendaServiceTest extends KcUnitTestBase {
-    
+    private static final String COMMITTEE_ID = "699";
+
     private DocumentService documentService;
     private ProtocolActionService protocolActionService;
     private ProtocolAssignToAgendaService protocolAssignToAgendaService;
@@ -114,6 +124,11 @@ public class ProtocolAssignToAgendaServiceTest extends KcUnitTestBase {
     public void testAssignToAgenda() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         ProtocolSubmission submission = createSubmission(protocolDocument.getProtocol(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
+        Committee committee = getCommittee();
+        committee.refreshReferenceObject("committeeType");
+        submission.setCommittee(committee);
+        submission.setCommitteeIdFk(committee.getId());
+        submission.setCommitteeId(committee.getCommitteeId());
         protocolDocument.getProtocol().getProtocolSubmissions().add(submission);
         ProtocolForm form = new ProtocolForm();
         ActionHelper actionHelper = new ActionHelper(form);
@@ -125,6 +140,47 @@ public class ProtocolAssignToAgendaServiceTest extends KcUnitTestBase {
         protocolAssignToAgendaService.assignToAgenda(protocolDocument.getProtocol(), actionBean);
         assertTrue(true);
     }
+
+    private Committee getCommittee() throws WorkflowException {
+        
+        Map<String,Object> keymap = new HashMap<String,Object>();
+        keymap.put("committeeId", COMMITTEE_ID);
+        List<Committee> comms = (List<Committee>)businessObjectService.findMatching(Committee.class, keymap);
+        Committee committee = new Committee();
+        if( comms.size() == 1 )
+            committee = comms.get(0);
+            
+        if (committee==null)
+            committee =  createCommittee(COMMITTEE_ID).getCommittee();
+        committee.refreshReferenceObject("committeeType");
+       // submitAction.setCommitteeId(committee.getCommitteeId());
+        return committee;
+    
+    }
+    
+    private CommitteeDocument createCommittee(String committeeId) throws WorkflowException {
+        
+        CommitteeDocument committeeDocument = CommitteeFactory.createCommitteeDocument(committeeId);
+        Committee committee = committeeDocument.getCommittee();
+        CommitteeSchedule schedule = new CommitteeSchedule();
+        schedule.setScheduleId("1");
+        schedule.setPlace("my office");
+        schedule.setEndTime(new Timestamp(System.currentTimeMillis() + 100));
+        schedule.setScheduledDate(new Date(System.currentTimeMillis()));
+        schedule.setStartTime(new Timestamp(System.currentTimeMillis() - 100));
+        schedule.setFilter(false);
+        schedule.setMaxProtocols(committee.getMaxProtocols());
+        schedule.setTime(new Timestamp(System.currentTimeMillis()));
+        schedule.setViewTime(new Time12HrFmt(new Timestamp(System.currentTimeMillis())));
+        schedule.setProtocolSubDeadline(new Date(System.currentTimeMillis() - 500));
+        schedule.setScheduleStatusCode(1);
+        committee.getCommitteeSchedules().add(schedule);
+//        addMembers(committee);
+        documentService.saveDocument(committeeDocument);
+        documentService.routeDocument(committeeDocument, "Test Routing", new ArrayList());
+        return committeeDocument;
+    }
+
 
     @Test
     public void testIsAssignedToAgenda1() throws Exception {
