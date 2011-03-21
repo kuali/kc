@@ -50,13 +50,14 @@ public class AwardAccountServiceImpl implements AwardAccountService {
         AwardAccountDTO awardAccountDTO = new AwardAccountDTO();
         if (ObjectUtils.isNotNull(award)) {
             awardAccountDTO.setProposalFederalPassThroughAgencyNumber(award.getSponsorCode());
-            // sponsor award id same as sponsor award number?
+            //sponsor award id same as sponsor award number
             awardAccountDTO.setGrantNumber(award.getSponsorAwardNumber());
             // how to get IP id from award
             awardAccountDTO.setInstitutionalproposalId(getProposalId(award));
             awardAccountDTO.setAwardId(award.getAwardId());
             awardAccountDTO.setProjectDirector(award.getPrincipalInvestigator().getPersonId());
-            awardAccountDTO.setProposalNumber(award.getProposalNumber());
+            // send the award number which is the proposal number on the KFS side
+            awardAccountDTO.setProposalNumber(award.getAwardNumber());
             awardAccountDTO.setSponsorCode(award.getSponsorCode());
             awardAccountDTO.setSponsorName(award.getSponsorName());
             awardAccountDTO.setFederalSponsor(isFederalSponsor(award));
@@ -97,7 +98,7 @@ public class AwardAccountServiceImpl implements AwardAccountService {
      * the document should be routed.
      * @see org.kuali.kra.external.award.AwardAccountService#isFederalSponsor(java.lang.String)
      */
-    public boolean isFederalSponsor(Award award) {
+    protected boolean isFederalSponsor(Award award) {
        
         String federalSponsorTypeCode = parameterService.getParameterValue(AwardDocument.class, Constants.FEDERAL_SPONSOR_TYPE_CODE);
         String awardSponsorType = award.getSponsor().getSponsorTypeCode();
