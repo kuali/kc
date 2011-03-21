@@ -42,8 +42,10 @@
                     <kul:htmlAttributeHeaderCell literalLabel="Comment" scope="col" />
                     <kul:htmlAttributeHeaderCell literalLabel="Private" scope="col" />
                     <kul:htmlAttributeHeaderCell literalLabel="Final" scope="col" />
-                    <kul:htmlAttributeHeaderCell literalLabel="Last Updated By" scope = "col"/>
-                    <kul:htmlAttributeHeaderCell literalLabel="Created By" scope = "col"/>
+                    <c:if test="${not bean.hideReviewerName}">
+                        <kul:htmlAttributeHeaderCell literalLabel="Last Updated By" scope = "col"/>
+                        <kul:htmlAttributeHeaderCell literalLabel="Created By" scope = "col"/>
+                    </c:if>
                     <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
                 </tr>
                                         
@@ -77,9 +79,10 @@
 				        <kul:htmlControlAttribute property="${property}.newReviewComment.finalFlag" 
                                                   attributeEntry="${attributes.finalFlag}" />
                     </td>
-                    <td>&nbsp;</td>
-					<td>&nbsp;</td>
-                
+                    <c:if test="${not bean.hideReviewerName}">
+                        <td>&nbsp;</td>
+					    <td>&nbsp;</td>
+                    </c:if>
                     <td>
                         <div align="center">
                             <html:image property="methodToCall.addReviewComment.taskName${taskName}.anchor${tabKey}"
@@ -137,6 +140,9 @@
 	                                                      attributeEntry="${attributes.finalFlag}"
 	                                                      readOnly="${reviewCommentReadOnly}" />
 	                        </td>
+                    <c:if test="${not bean.hideReviewerName}">
+                       <c:choose>
+                            <c:when test="${bean.reviewComments[status.index].displayReviewerName}">
 
 	                        <td style="text-align:center; vertical-align:middle">
 	                        	<kul:htmlControlAttribute property="${property}.reviewComments[${status.index}].updateUserFullName" 
@@ -153,7 +159,13 @@
 	                                                      attributeEntry="${attributes.createTimestamp}"
 	                                                      readOnly="true" />
 	                        </td>
-	                                                
+                            </c:when>
+                            <c:otherwise>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </c:otherwise>
+                        </c:choose>
+	                </c:if>                                
 	                        <td>
 	                            <div align="center">&nbsp;
 	                            	<nobr>

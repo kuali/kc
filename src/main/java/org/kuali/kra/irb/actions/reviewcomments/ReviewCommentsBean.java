@@ -34,7 +34,7 @@ public class ReviewCommentsBean implements Serializable {
     private CommitteeScheduleMinute newReviewComment;
     private List<CommitteeScheduleMinute> reviewComments;
     private List<CommitteeScheduleMinute> deletedReviewComments;
-    
+    private boolean hideReviewerName;
     /**
      * Constructs a ReviewerCommentsBean.
      */
@@ -73,6 +73,14 @@ public class ReviewCommentsBean implements Serializable {
     
     public void setDeletedReviewComments(List<CommitteeScheduleMinute> deletedReviewComments) {
         this.deletedReviewComments = deletedReviewComments;
+    }
+
+    public boolean isHideReviewerName() {
+        return hideReviewerName;
+    }
+
+    public void setHideReviewerName(boolean hideReviewerName) {
+        this.hideReviewerName = hideReviewerName;
     }
     
 }

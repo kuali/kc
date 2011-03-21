@@ -27,6 +27,7 @@ import org.kuali.kra.committee.document.authorization.CommitteeScheduleTask;
 import org.kuali.kra.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -63,6 +64,7 @@ public class MeetingHelper implements Serializable {
     private String viewId;
     private Boolean printRooster;
     private Boolean printFutureScheduledMeeting;
+    private boolean hideReviewerName;
 
     public MeetingHelper(MeetingForm form) {
         this.form = form;
@@ -79,6 +81,7 @@ public class MeetingHelper implements Serializable {
         correspondences = new ArrayList<ProtocolCorrespondence>() ;
         printRooster = new Boolean(false);
         printFutureScheduledMeeting = new Boolean(false);
+ //       hideReviewerName = getReviewerCommentsService().isHideReviewerName();
         initDeletedList();
     }
 
@@ -416,4 +419,19 @@ public class MeetingHelper implements Serializable {
     public void setPrintFutureScheduledMeeting(Boolean printFutureScheduledMeeting) {
         this.printFutureScheduledMeeting = printFutureScheduledMeeting;
     }
+
+    private ReviewCommentsService getReviewerCommentsService() {
+        return KraServiceLocator.getService(ReviewCommentsService.class);
+    }
+
+    public boolean isHideReviewerName() {
+        return hideReviewerName;
+    }
+
+
+    public void setHideReviewerName(boolean hideReviewerName) {
+        this.hideReviewerName = hideReviewerName;
+    }
+    
+
 }
