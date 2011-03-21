@@ -84,6 +84,7 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase im
     private transient String createUserFullName;
     @SkipVersioning
     private transient String updateUserFullName;
+    private transient boolean displayReviewerName;
 
     /**
      * Constructs a CommitteeScheduleMinute.
@@ -516,5 +517,14 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase im
         }
         
         return copy;
-    }    
+    }
+
+    public boolean isDisplayReviewerName() {
+        return displayReviewerName;
+    }
+
+    public void setDisplayReviewerName(boolean displayReviewerName) {
+        this.displayReviewerName = displayReviewerName;
+    }
+
 }
