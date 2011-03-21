@@ -178,6 +178,9 @@
 		<property name="parameterService">
 			<ref bean="parameterService"/>
 		</property>
+		<property name="costShareService">
+			<ref bean="costShareService"/>
+		</property>
 	</bean>
 
     <!-- Budget Authorizers -->
