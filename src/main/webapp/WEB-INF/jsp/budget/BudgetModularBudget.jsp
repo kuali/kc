@@ -34,7 +34,7 @@
 	
 	<kra:uncollapsable tabTitle="Select Modular Budget Period">
   		<div align="center">
-  			<label for="budget period">Budget Period:</label>
+  			<label for="modularSelectedPeriod">Budget Period:</label>
   			<html:select property="modularSelectedPeriod">
   				<html:option value="0">View All</html:option>
   				<c:forEach var="budgetPeriod" items="${KualiForm.document.budget.budgetPeriods}" varStatus="status">
