@@ -106,7 +106,7 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
     }
 
     /**
-     * add 'copy' link to actions list
+     * add open, copy and medusa links to actions list
      * @see org.kuali.kra.lookup.KraLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
      */
     @Override
@@ -114,9 +114,9 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
         AwardDocument document = ((Award) businessObject).getAwardDocument();
-        htmlDataList.add(getOpenLink(document));
-        addCopyLink(businessObject, pkNames, htmlDataList, COPY_HREF_PATTERN, KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL);
-        htmlDataList.add(getMedusaLink(document, false));
+        htmlDataList.add(getOpenLink((Award) businessObject, document.isPlaceHolderDocument() ? true : false));
+        htmlDataList.add(getCopyLink((Award) businessObject, document.isPlaceHolderDocument() ? true : false));
+        htmlDataList.add(getMedusaLink((Award) businessObject, document.isPlaceHolderDocument() ? true : false));
         return htmlDataList;
     }
 
@@ -171,25 +171,59 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
     }
 
     /**
-     * @param document
+     * @param award
      * @return
      */
-    protected AnchorHtmlData getOpenLink(Document document) {
-        AwardDocument awardDocument = (AwardDocument) document;
+    protected AnchorHtmlData getOpenLink(Award award, Boolean viewOnly) {
+        AwardDocument awardDocument = award.getAwardDocument();
         AnchorHtmlData htmlData = new AnchorHtmlData();
         htmlData.setDisplayText("open");
         Properties parameters = new Properties();
         parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, KNSConstants.DOC_HANDLER_METHOD);
         parameters.put(KNSConstants.PARAMETER_COMMAND, KEWConstants.DOCSEARCH_COMMAND);
         parameters.put(KNSConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
-        parameters.put("viewDocument", "true");
+        parameters.put("viewDocument", viewOnly.toString());
         parameters.put("docOpenedFromAwardSearch", "true");
-        parameters.put("docId", document.getDocumentNumber());
+        parameters.put("docId", awardDocument.getDocumentNumber());
+        parameters.put("placeHolderAwardId", award.getAwardId().toString());
         String href = UrlFactory.parameterizeUrl("../"+getHtmlAction(), parameters);
         htmlData.setHref(href);
         return htmlData;
     }
     
+    protected AnchorHtmlData getMedusaLink(Award award, Boolean readOnly) {
+        AnchorHtmlData htmlData = new AnchorHtmlData();
+        htmlData.setDisplayText(MEDUSA);
+        Properties parameters = new Properties();
+        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, "medusa");
+        parameters.put(KNSConstants.PARAMETER_COMMAND, KEWConstants.DOCSEARCH_COMMAND);
+        parameters.put(KNSConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
+        parameters.put("viewDocument", readOnly.toString());
+        parameters.put("docId", award.getAwardDocument().getDocumentNumber());
+        parameters.put("docOpenedFromAwardSearch", "true");
+        parameters.put("placeHolderAwardId", award.getAwardId().toString());
+        String href  = UrlFactory.parameterizeUrl("../"+getHtmlAction(), parameters);
+        
+        htmlData.setHref(href);
+        return htmlData;
+    }    
+    
+    protected AnchorHtmlData getCopyLink(Award award, Boolean readOnly) {
+        AnchorHtmlData htmlData = new AnchorHtmlData();
+        htmlData.setDisplayText("copy");
+        Properties parameters = new Properties();
+        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, "awardActions");
+        parameters.put(KNSConstants.PARAMETER_COMMAND, KEWConstants.DOCSEARCH_COMMAND);
+        parameters.put(KNSConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
+        parameters.put("viewDocument", readOnly.toString());
+        parameters.put("docId", award.getAwardDocument().getDocumentNumber());
+        parameters.put("docOpenedFromAwardSearch", "true");
+        parameters.put("placeHolderAwardId", award.getAwardId().toString());
+        String href  = UrlFactory.parameterizeUrl("../"+getHtmlAction(), parameters);
+        
+        htmlData.setHref(href);
+        return htmlData;
+    }      
     
     protected void addCopyLink(BusinessObject businessObject, List<String> pkNames, List<HtmlData> htmlDataList, String hrefPattern, String methodToCall) {
         AnchorHtmlData htmlData = getUrlData(businessObject, methodToCall, pkNames);
@@ -323,5 +357,7 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
         }
         return returnVal;       
     }
+    
+
 
 }

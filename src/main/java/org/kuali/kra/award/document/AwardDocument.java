@@ -99,7 +99,6 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
     public static final String DOCUMENT_TYPE_CODE = "AWRD";
     
     private boolean canEdit;
-    private boolean docOpenedFromAwardSearch;
     
     private List<Award> awardList;
     private List<BudgetDocumentVersion> budgetDocumentVersions;
@@ -612,22 +611,6 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         
         getInstitutionalProposalService().defundInstitutionalProposals(proposalsToUpdate, 
                 this.getAward().getAwardNumber(), this.getAward().getSequenceNumber());
-    }
-    
-    /**
-     * Gets the docOpenedFromAwardSearch attribute. 
-     * @return Returns the docOpenedFromAwardSearch.
-     */
-    public boolean isDocOpenedFromAwardSearch() {
-        return docOpenedFromAwardSearch;
-    }
-
-    /**
-     * Sets the docOpenedFromAwardSearch attribute value.
-     * @param docOpenedFromAwardSearch The docOpenedFromAwardSearch to set.
-     */
-    public void setDocOpenedFromAwardSearch(boolean docOpenedFromAwardSearch) {
-        this.docOpenedFromAwardSearch = docOpenedFromAwardSearch;
     }
     
     /**

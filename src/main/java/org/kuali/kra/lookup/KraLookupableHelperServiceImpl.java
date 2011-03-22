@@ -39,7 +39,7 @@ public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelp
 
     private static final String COLUMN = ":";
     private static final String VIEW = "view";
-    private static final String MEDUSA = "medusa";
+    protected static final String MEDUSA = "medusa";
     /**
      * create 'edit' link
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
