@@ -509,8 +509,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
      * This method...
      */
     private int findAwardHierarchyNodeIndex(Entry<String, AwardHierarchyNode> awardHierarchyNode) {
-        String reverseAwardNumber = StringUtils.reverse(awardHierarchyNode.getValue().getAwardNumber());
-        String i= StringUtils.substring(reverseAwardNumber, 0, StringUtils.indexOf(reverseAwardNumber, ZERO));
+        String i = awardHierarchyNode.getValue().getAwardNumber().replaceAll("\\d*\\-0*", "");
         int index = Integer.parseInt(StringUtils.reverse(i));
         return index;
     }
