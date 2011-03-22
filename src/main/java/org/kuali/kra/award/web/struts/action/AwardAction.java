@@ -179,27 +179,22 @@ public class AwardAction extends BudgetParentActionBase {
             GlobalVariables.getMessageList().add("error.award.awardhierarchy.sync.locked", parentSyncAward.getDocumentNumber());
             awardForm.setViewOnly(true);
         }
-        handlePlaceHolderDocument(request, awardDocument);
+        handlePlaceHolderDocument(awardForm, awardDocument);
         awardForm.initializeFormOrDocumentBasedOnCommand();
         setBooleanAwardInMultipleNodeHierarchyOnForm (awardDocument.getAward());
-        if (!(request.getParameter("docOpenedFromAwardSearch") == null)) {
-               if (request.getParameter("docOpenedFromAwardSearch").equals("true")) {
-                   awardDocument.setDocOpenedFromAwardSearch(true);
-               }
-        }
         
         return forward;
     }
 
-    private void handlePlaceHolderDocument(HttpServletRequest request, AwardDocument awardDocument) {
+    private void handlePlaceHolderDocument(AwardForm form, AwardDocument awardDocument) {
         if(awardDocument.isPlaceHolderDocument()) {
-            String awardNumberRequestParameter = request.getParameter("awardNumber");
+            Long awardId = form.getPlaceHolderAwardId();
             //If it is a placeholder document, we want to initialize it with the award that the user is viewing
             int currentAwardIndex = -1;
             Award currentAward = null;
             for(Award award : awardDocument.getAwardList()) {
                 currentAwardIndex++;
-                if(StringUtils.equals(award.getAwardNumber(), awardNumberRequestParameter)) {
+                if(ObjectUtils.equals(award.getAwardId(), awardId)) {
                 	currentAward = award;
                     break;
                 }
@@ -1239,6 +1234,7 @@ public class AwardAction extends BudgetParentActionBase {
         AwardDocument retrievedDocument = (AwardDocument) KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
         awardForm.setDocument(retrievedDocument);
         request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);
+        handlePlaceHolderDocument(awardForm, retrievedDocument);        
     }
     
     /**
