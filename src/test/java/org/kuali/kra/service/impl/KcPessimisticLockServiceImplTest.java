@@ -27,12 +27,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kns.document.authorization.PessimisticLock;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
 
 @RunWith(JMock.class)
@@ -92,7 +90,7 @@ public class KcPessimisticLockServiceImplTest {
         final ParameterService parameterService = context.mock(ParameterService.class);
         context.checking(new Expectations() {{
             one(parameterService).getParameterValue(ProposalDevelopmentDocument.class, 
-                                                        KeyConstants.PESSIMISTIC_LOCKING_EXPIRATION_AGE); 
+                                                        Constants.PESSIMISTIC_LOCKING_EXPIRATION_AGE); 
             will(returnValue("1440"));
         }});
         pessimisticLockService.setParameterService(parameterService);
