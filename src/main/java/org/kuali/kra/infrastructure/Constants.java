@@ -93,6 +93,8 @@ public interface Constants {
     public static final String MODULE_NAMESPACE_INSTITUTIONAL_PROPOSAL = "KC-IP";
     public static final String MODULE_NAMESPACE_AWARD = "KC-AWARD"; 
     
+    public static final String PESSIMISTIC_LOCKING_EXPIRATION_AGE = "pessimisticLocking.expirationAge";
+    
     public static final String PARAMETER_COMPONENT_DOCUMENT = "Document";
     public static final String INSTITUTE_NARRATIVE_TYPE_GROUP_CODE = "O";
     public static final String PROPOSAL_NARRATIVE_TYPE_GROUP_CODE = "P";    

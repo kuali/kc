@@ -18,13 +18,11 @@ package org.kuali.kra.service.impl;
 import java.util.Collection;
 
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.KcPessimisticLockService;
 import org.kuali.rice.kns.document.authorization.PessimisticLock;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -120,7 +118,7 @@ public class KcPessimisticLockServiceImpl implements KcPessimisticLockService {
      */
     protected int getLockExpirationAge() {
         try {
-            String timeoutStr = getParameterValue(KeyConstants.PESSIMISTIC_LOCKING_EXPIRATION_AGE);
+            String timeoutStr = getParameterValue(Constants.PESSIMISTIC_LOCKING_EXPIRATION_AGE);
             return Integer.parseInt(timeoutStr);
         } catch (Exception ex) {
             return DEFAULT_EXPIRATION_AGE;
