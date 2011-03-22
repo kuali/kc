@@ -189,6 +189,9 @@ public class AwardForm extends BudgetVersionFormBase
 
     private boolean syncMode;
     private AwardSyncBean awardSyncBean;
+    
+    private Long placeHolderAwardId;
+    private boolean docOpenedFromAwardSearch;
 
     private transient ParameterService parameterService;
 
@@ -1238,7 +1241,7 @@ public class AwardForm extends BudgetVersionFormBase
     
     public boolean getDisplayEditButton() {
         boolean displayEditButton = !isViewOnly();
-        if (getDocument().isDocOpenedFromAwardSearch()) {
+        if (isDocOpenedFromAwardSearch()) {
             displayEditButton = true;
         }else {
             displayEditButton = !isViewOnly();
@@ -1422,5 +1425,21 @@ public class AwardForm extends BudgetVersionFormBase
         HeaderNavigation[] result = new HeaderNavigation[resultList.size()];
         resultList.toArray(result);
         return result;
+    }
+
+    public Long getPlaceHolderAwardId() {
+        return placeHolderAwardId;
+    }
+
+    public void setPlaceHolderAwardId(Long placeHolderAwardId) {
+        this.placeHolderAwardId = placeHolderAwardId;
+    }
+
+    public boolean isDocOpenedFromAwardSearch() {
+        return docOpenedFromAwardSearch;
+    }
+
+    public void setDocOpenedFromAwardSearch(boolean docOpenedFromAwardSearch) {
+        this.docOpenedFromAwardSearch = docOpenedFromAwardSearch;
     }
 }
