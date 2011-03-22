@@ -469,11 +469,12 @@
     <property name="shortLabel" value="Sponsor Template" />
     <property name="maxLength" value="6" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="NumericValidationPattern" />
     </property>
     <property name="required" value="false" />
     <property name="control" >
-		<bean parent="HiddenControlDefinition"/>
+		<bean parent="TextControlDefinition" 
+		      p:size="6" />
     </property>
     <property name="summary" value="Sponsor Template Code" />
     <property name="description" value="Pre-defined Sponsor Template to sync" />
