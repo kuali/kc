@@ -14,10 +14,10 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<c:set var="awardAttributes" value="${DataDictionary.AwardDocument.attributes}" />
+<c:set var="awardAttributes" value="${DataDictionary.Award.attributes}" />
 <c:set var="action" value="awardTemplateSync" />
 
-<kul:tab tabTitle="Sponsor Template" defaultOpen="false" tabErrorKey="document.award.awardTemplate*">
+<kul:tab tabTitle="Sponsor Template" defaultOpen="false" tabErrorKey="document.award*">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Sponsor Template</span>
@@ -27,8 +27,10 @@
                 <th width="50" align="center" scope="row"><div align="center">Select:</div></th>
             	<td class="infoline">
             		<div align="left">
-            		<kul:htmlControlAttribute property="document.award.templateCode" attributeEntry="${awardAttributes.templateCode}" />
-                    <c:out value="${KualiForm.document.award.awardTemplate.description}"/>
+            		<kul:htmlControlAttribute property="document.award.templateCode" attributeEntry="${awardAttributes.templateCode}" readOnly="true" />
+                    <c:if test="${not empty KualiForm.document.award.awardTemplate}">
+                        : <c:out value="${KualiForm.document.award.awardTemplate.description}"/>
+                    </c:if>
                     <c:if test="${!readOnly}">
                         <kul:lookup boClassName="org.kuali.kra.award.home.AwardTemplate" 
                         fieldConversions="templateCode:document.award.templateCode,description:document.award.awardTemplate.description" anchor="${currentTabIndex}"/>
