@@ -1081,7 +1081,7 @@ public class KcPerson implements Contactable, BusinessObject {
         assert selector != null : "selector is null";
         
         if (values == null) {
-            selector.notFoundValue();
+            return selector.notFoundValue();
         }
         
         for (A a : values) {
