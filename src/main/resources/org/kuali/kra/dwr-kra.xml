@@ -146,5 +146,9 @@
 			<include method="getFrequencyForAjaxCall" />
 			<include method="getFrequencyBaseForAjaxCall" />
 		</create>
+		<create creator="spring" javascript="S2SService">
+			<param name="beanName" value="s2SService" />
+			<include method="getStatusDetails" />
+		</create>
 	</allow>
 </dwr>
