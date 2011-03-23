@@ -64,6 +64,20 @@
 						<td>
 							<kul:htmlControlAttribute property="document.developmentProposalList[0].s2sAppSubmission[${submissionToBeDisplayed-1}].status" 
                                                       attributeEntry="${s2sAppSubmissionAttributes.status}" readOnly="true" />
+							<a href="javascript:showS2SAppSubmissionStatusDetails('${KualiForm.document.developmentProposal.proposalNumber}', '${KualiForm.document.developmentProposalList[0].s2sAppSubmission[submissionToBeDisplayed-1].ggTrackingId}')">
+								<img src="${ConfigProperties.kr.externalizable.images.url}openreadonly_greenarrow01.png" alt="s2s status" styleClass="globalbuttons"/>
+							</a>                                                      
+							<div   id='s2s_status_popup' name='s2s_status_popup' style='display:none; position: absolute;width: 500px; height: 250px;'>
+								<table  cellspacing="0" cellpadding="0" border="0"><th align="left">Grants.Gov Submission Status</th>
+									<tr><td>
+										<div id="s2s_status_detail"></div>
+									</td></tr>
+									<tr><td align=center>
+										<div align="center"><img  align="middle" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif" alt="s2s status" styleClass="globalbuttons"
+												onclick="hideStatusDetails()" /></div>
+									</td></tr>
+								</table>
+							</div>                                                      
 						</td>
 					</tr>
 	

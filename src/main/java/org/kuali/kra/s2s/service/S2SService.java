@@ -84,7 +84,7 @@ public interface S2SService {
 	 *            Proposal number.
 	 * @throws S2SException
 	 */
-	public Object getStatusDetails(String ggTrackingId, String proposalNumber)
+	public String getStatusDetails(String ggTrackingId, String proposalNumber)
 			throws S2SException;
 
 	/**
