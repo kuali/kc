@@ -34,9 +34,11 @@ public class CostShareServiceTest extends KcUnitTestBase {
     
     private CostShareService costShareService;
     private CostShareServiceImpl costShareServiceImpl;
+    private ParameterService ps;
 
     @Before
     public void setUp() throws Exception {
+        ps = KraServiceLocator.getService(ParameterService.class);
         costShareService = KraServiceLocator.getService(CostShareService.class);
         costShareServiceImpl = (CostShareServiceImpl) KraServiceLocator.getService(CostShareService.class);
     }
@@ -45,10 +47,16 @@ public class CostShareServiceTest extends KcUnitTestBase {
     public void tearDown() throws Exception {
         costShareService = null;
         costShareServiceImpl = null;
+        ps = null;
     }
 
     @Test
     public void testGetCostShareLabel() {
+        
+        ps.setParameterForTesting(this.getClass(), "CostShareProjectPeriodNameLabel", "Project Period");
+        String newParm = costShareService.getCostShareLabel(true);
+        ps.clearCache();
+        
         String result = costShareService.getCostShareLabel(false);
         assertEquals("Project Period", result);
     }
@@ -66,9 +74,7 @@ public class CostShareServiceTest extends KcUnitTestBase {
     }
     
     @Test
-    public void testSwitchParmAndReTestValidations() {
-        ParameterService ps = KraServiceLocator.getService(ParameterService.class);
-        
+    public void testSwitchParmAndReTestValidations() {        
         String fiscalYearParm = "FisCal Year";
         ps.setParameterForTesting(this.getClass(), "CostShareProjectPeriodNameLabel", fiscalYearParm);
         String newParm = costShareService.getCostShareLabel(true);
