@@ -61,12 +61,7 @@ function RaChanges() {
 		// just in case - the nextRaChangeProcessIdx array is cleared to ensure that no change is missed.
 		nextRaChangeProcessIdx = 0;
 
-		if (active) {
-	    	getRaChangesElement(idx, code).updateActiveIndicator = "true";
-			
-		} else {
-	    	getRaChangesElement(idx, code).updateActiveIndicator = "false";
-		}
+    	getRaChangesElement(idx, code).updateActiveIndicator = active;
 	}
 	
 	/**
@@ -88,11 +83,11 @@ function RaChanges() {
 	 * @param idx - html element id index of the research area to be deleted
 	 * @param code - the research area code of the research area to be deleted
 	 */
-	this.delete = function(idx, code) {
+	this.markDeleted = function(idx, code) {
 		// just in case - the nextRaChangeProcessIdx array is cleared to ensure that no change is missed.
 		nextRaChangeProcessIdx = 0;
 
-		getRaChangesElement(idx, code).delete = "DELETE";
+		getRaChangesElement(idx, code).deleteIndicator = "DELETE";
 	}
 	
 	/**
@@ -208,7 +203,7 @@ function RaChanges() {
 		this.updateDescription = "";
 		this.updateActiveIndicator = "";
 		this.updateParent = new Object;
-		this.delete = "";
+		this.deleteIndicator = "";
 	
 		/**
 		 * Private method to which returns the changes for this research area in an xml like format.
@@ -217,7 +212,7 @@ function RaChanges() {
 		 */
 		this.toString = function() {
 			var string = "<RaChangesElement>";
-			if (this.delete > "") {
+			if (this.deleteIndicator > "") {
 				if (researchAreaExistsOnServer(code, "")) {
 				    string = string + "<RaDelete><Code>" + escape(this.code) + "</Code></RaDelete>";
 				}
@@ -580,7 +575,7 @@ function tbodyTag(name, id) {
 							parentRACode = getResearchAreaCode($(liId).parents(
 									'li:eq(0)'));
 						}
-						raChanges.delete(idx, getResearchAreaCode($(liId)));
+						raChanges.markDeleted(idx, getResearchAreaCode($(liId)));
 						if (deletedNodes == '') {
 							deletedNodes = getResearchAreaCode($(liId));
 						} else {
@@ -707,6 +702,7 @@ function getTableHeader() {
 function getEditRow(name, id) {
 	// 3rd tr
 	var idx = id.substring(4);
+	var raCode = getResearchAreaCode($("#" + id));
 	var trTag1 = $('<tr></tr>');
 	var tag1 = $('<th style="text-align:right;"></th>').html('Edit:');
 	var tdTag1;
@@ -723,7 +719,7 @@ function getEditRow(name, id) {
 	}
 	trTag1.html(tag1);
 	tdTag1.appendTo(trTag1);
-	tdTag1 = $('<td></td>').html(getResearchAreaCode($("#" + id)));
+	tdTag1 = $('<td></td>').html(raCode);
 	tdTag1.appendTo(trTag1);
 	tdTag1 = $('<td></td>')
 			.html(
@@ -731,16 +727,22 @@ function getEditRow(name, id) {
 							'<input type="text" name="m3" style="width:100%;" readonly="true"/>')
 							.attr("id", "cdesc" + idx).attr(
 									"value",
-									getResearchAreaDescription(
-											getResearchAreaCode($("#" + id)),
-											name)));
+									getResearchAreaDescription(raCode, name)));
 	tdTag1.appendTo(trTag1);
 	if (isActive($("#" + id))) {
 	    tdTag1 = $('<td></td>').html( $('<input type="checkbox" name="m4" checked/>').attr("id", "checkActive" + idx));
 	} else {
 	    tdTag1 = $('<td></td>').html( $('<input type="checkbox" name="m4"/>').attr("id", "checkActive" + idx));
 	}
-	tdTag1.click(function() {raChanges.updateActiveIndicator(idx, getResearchAreaCode($("#" + id)), $('#checkActive' + idx).attr('checked'))});
+	tdTag1.click(function() {
+		if ($('#checkActive' + idx).attr('checked')) {
+			raChanges.updateActiveIndicator(idx, raCode, 'true');
+		} else {
+			raChanges.updateActiveIndicator(idx, raCode, 'false');
+		    $('input[id^=checkActive]', 'li#' + id).attr('checked', false);
+		    $('input[id^=activeflag]', 'li#' + id).val('false');
+		}
+    });
 	tdTag1.appendTo(trTag1);
 	tag1 = $('<th class="infoline" style="text-align:center;"></th>');
 	var editlink = $(
@@ -765,7 +767,7 @@ function getEditRow(name, id) {
 						header.html(newdesc);
 						$("#itemText" + $(this).attr("id").substring(6)).html(
 								newdesc);
-						raChanges.updateDescription($(this).attr("id").substring(6), getResearchAreaCode($("#" + id)),desc);
+						raChanges.updateDescription($(this).attr("id").substring(6), raCode, desc);
 						// lots of trouble to update the description on item, so
 						// add
 						// additional 'div' tag for this purposes.
@@ -981,6 +983,7 @@ function setupListItem(code, name, activeflag) {
  */
 function loadChildrenRA(nodeName, tagId) {
 	var parentNode = $("#" + tagId);
+	var parentActiveFlag = $('#activeflag' + tagId.substring(11)).val();
 	var liNode = parentNode.parents('li:eq(0)');
 	var ulNode = liNode.children('ul:eq(0)');
 	var inputNodev;
@@ -1044,11 +1047,20 @@ function loadChildrenRA(nodeName, tagId) {
 													.attr("name", "racode" + icur)
 													.attr("value", racode);
 											hidracode.appendTo(detDiv);
-											var hidactiveflag = $(
-										            '<input type="hidden" id = "activeflag" name = "activeflag" />')
-										            .attr("id", "activeflag" + icur).attr(
-										                    "name", "activeflag" + icur)
-										            .attr("value", activeflag);
+											// check if parent active flag was unselected by user
+											if ((activeflag == 'true') && (parentActiveFlag == 'false')) {
+												var hidactiveflag = $(
+									            '<input type="hidden" id = "activeflag" name = "activeflag" />')
+									            .attr("id", "activeflag" + icur).attr(
+									                    "name", "activeflag" + icur)
+									            .attr("value", "false");
+											} else {
+												var hidactiveflag = $(
+									            '<input type="hidden" id = "activeflag" name = "activeflag" />')
+									            .attr("id", "activeflag" + icur).attr(
+									                    "name", "activeflag" + icur)
+									            .attr("value", activeflag);
+											}
 									        hidactiveflag.appendTo(detDiv);	    			
 											tag
 													.click(function() {
