@@ -110,7 +110,7 @@ public class KRAS2SServiceImpl implements S2SService {
 	 * @see org.kuali.kra.s2s.service.S2SService#getStatusDetails(java.lang.String,
 	 *      java.lang.String)
 	 */
-	public Object getStatusDetails(String ggTrackingId, String proposalNumber)
+	public String getStatusDetails(String ggTrackingId, String proposalNumber)
 			throws S2SException {
 		Object statusDetail = null;
 		GetApplicationStatusDetailResponse applicationStatusDetailResponse;
@@ -119,7 +119,7 @@ public class KRAS2SServiceImpl implements S2SService {
 		if (applicationStatusDetailResponse != null) {
 			statusDetail = applicationStatusDetailResponse.getDetailedStatus();
 		}
-		return statusDetail;
+		return statusDetail.toString();
 	}
 
 	/**

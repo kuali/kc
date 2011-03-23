@@ -424,11 +424,38 @@ function checkGrantsGovStatusOnSponsorChange(proposalNumber, sponsorCodeFieldNam
 	};
 	ProposalDevelopmentService.isGrantsGovEnabledOnSponsorChange(proposalNumber, sponsorCode, dwrReply);
 }
-
 function enableGrantsGov(enable) {
 	$j('input[name$="navigateTo.grantsGov"]').attr("disabled", !enable);
 }
 
+function showS2SAppSubmissionStatusDetails(proposalNumber,trackingId) {
+	//alert(proposalNumber);
+	var dwrReply = {
+			callback:function(data) {
+				//alert(data);
+				displayStatusDetails(data);
+			},
+			errorHandler:function( errorMessage ) {
+				//alert("da da da");
+				window.status = errorMessage;
+			},
+			cache : false,
+			async : false,
+			timeout : 1000
+	};
+	//alert(trackingId);
+	S2SService.getStatusDetails( trackingId,proposalNumber,dwrReply);
+}
+
+function displayStatusDetails(data){
+	//alert(data);
+	document.getElementById('s2s_status_detail').innerHTML=data;
+	changeObjectVisibility("s2s_status_popup","block");
+}
+function hideStatusDetails(){
+	//alert(data);
+	changeObjectVisibility("s2s_status_popup","none");
+}
 /*
  * Load the Budget Category Code based on Object Code(Cost Element)
  */ 
