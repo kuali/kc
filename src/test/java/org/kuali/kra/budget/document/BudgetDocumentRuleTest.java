@@ -55,6 +55,7 @@ public class BudgetDocumentRuleTest extends KcUnitTestBase {
     public void testBudgetProjectIncomeBusinessRule() throws Exception {
         
         ParameterService ps = KraServiceLocator.getService(ParameterService.class);
+        ps.clearCache();
         ps.setParameterForTesting(CostShareServiceTest.class, "CostShareProjectPeriodNameLabel", "Fiscal Year");        
         CostShareService costShareService = KraServiceLocator.getService(CostShareService.class);
         costShareService.getCostShareLabel(true);
