@@ -87,6 +87,7 @@ public class InstitutionalProposalCostShareRuleTest extends KcUnitTestBase {
     @Test
     public final void testValidateCostShareFiscalYearRange() {
         ParameterService ps = KraServiceLocator.getService(ParameterService.class);
+        ps.clearCache();
         ps.setParameterForTesting(CostShareServiceTest.class, "CostShareProjectPeriodNameLabel", "Fiscal Year");        
         CostShareService costShareService = KraServiceLocator.getService(CostShareService.class);
         costShareService.getCostShareLabel(true);
