@@ -86,6 +86,10 @@ public abstract class CostShareRuleResearchDocumentBase extends ResearchDocument
         return costShareService;
     }
     
+    public void setCostShareService(CostShareService costShareService) {
+        this.costShareService = costShareService;
+    }
+    
     private String getProjectPeriodLabel() {
         String label = getCostShareService().getCostShareLabel(false);
         return label;
