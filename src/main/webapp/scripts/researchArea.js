@@ -736,7 +736,12 @@ function getEditRow(name, id) {
 	}
 	tdTag1.click(function() {
 		if ($('#checkActive' + idx).attr('checked')) {
-			raChanges.updateActiveIndicator(idx, raCode, 'true');
+			if ((ulTagId == 'researcharea') || ($('#activeflag' + ulTagId.substring(2)).val() == 'true')) {
+			    raChanges.updateActiveIndicator(idx, raCode, 'true');
+			} else {
+				$('#checkActive' + idx).attr('checked', false);
+				alert('Parent node must be active');
+			}
 		} else {
 			raChanges.updateActiveIndicator(idx, raCode, 'false');
 		    $('input[id^=checkActive]', 'li#' + id).attr('checked', false);
