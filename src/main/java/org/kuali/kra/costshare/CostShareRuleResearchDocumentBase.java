@@ -41,7 +41,7 @@ public abstract class CostShareRuleResearchDocumentBase extends ResearchDocument
         boolean valid = true;
         if (projectPeriod != null) {
             try {
-                int projectPeriodInt = Integer.parseInt(projectPeriod.toString());
+                int projectPeriodInt = Integer.parseInt(projectPeriod.toString().trim());
                 
                 if (validateAsFiscalYear()) {
                     if (projectPeriodInt < Constants.MIN_FISCAL_YEAR || projectPeriodInt > Constants.MAX_FISCAL_YEAR) {
