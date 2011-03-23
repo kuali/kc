@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -100,6 +101,11 @@ public class AwardNotepadBean implements Serializable {
      */
     public boolean addNote(AwardNotepadBean awardNotepadBean) throws Exception {
         AwardNotepad note = awardNotepadBean.getNewAwardNotepad();
+               
+        if(StringUtils.isBlank(note.getComments())){
+            note.setComments("&nbsp");
+        }
+        
         Calendar cl = Calendar.getInstance();
         note.setCreateTimestamp(new Timestamp(cl.getTime().getTime()));
         note.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
