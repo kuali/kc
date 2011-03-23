@@ -23,10 +23,13 @@ import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.distributionincome.BudgetCostShare;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.costshare.CostShareService;
+import org.kuali.kra.costshare.CostShareServiceTest;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public class BudgetDocumentRuleTest extends KcUnitTestBase {
@@ -50,12 +53,18 @@ public class BudgetDocumentRuleTest extends KcUnitTestBase {
     
     @Test
     public void testBudgetProjectIncomeBusinessRule() throws Exception {
+        
+        ParameterService ps = KraServiceLocator.getService(ParameterService.class);
+        ps.setParameterForTesting(CostShareServiceTest.class, "CostShareProjectPeriodNameLabel", "Fiscal Year");        
+        CostShareService costShareService = KraServiceLocator.getService(CostShareService.class);
+        costShareService.getCostShareLabel(true);
+        budgetDocRule.setCostShareService(costShareService);
+        
         assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
         for (int i = 0; i < 5; i++) {
             BudgetCostShare tempCostShare = new BudgetCostShare();
-            //Integer projectPeriod = 2010+(i+1);
-            //tempCostShare.setProjectPeriod(projectPeriod);
-            tempCostShare.setProjectPeriod(1);
+            Integer projectPeriod = 2010+(i+1);
+            tempCostShare.setProjectPeriod(projectPeriod);
             tempCostShare.setShareAmount(new BudgetDecimal(10000.00));
             budgetDoc.getBudget().getBudgetCostShares().add(tempCostShare);
         }
@@ -64,25 +73,25 @@ public class BudgetDocumentRuleTest extends KcUnitTestBase {
         BudgetPeriod budgetPeriod = new BudgetPeriod();
         budgetDoc.getBudget().add(budgetPeriod);
         
-        //assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
+        assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
         
         budgetDoc.getBudget().getBudgetCostShares().get(0).setProjectPeriod(null);
         assertFalse(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
         
-        //budgetDoc.getBudget().getBudgetCostShares().get(0).setProjectPeriod(1984);
-        //assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
+        budgetDoc.getBudget().getBudgetCostShares().get(0).setProjectPeriod(1984);
+        assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
         
         budgetDoc.getBudget().getBudgetCostShares().get(1).setSourceAccount("abcd1234");
-        //assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
+        assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
         
         budgetDoc.getBudget().getBudgetCostShares().get(0).setProjectPeriod(2010);
-        //assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
+        assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
         
         budgetDoc.getBudget().getBudgetCostShares().get(1).setProjectPeriod(2010);
-        //assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
+        assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
         
-        //budgetDoc.getBudget().getBudgetCostShares().get(1).setSourceAccount(null);
-        //assertFalse(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
+        budgetDoc.getBudget().getBudgetCostShares().get(1).setSourceAccount(null);
+        assertFalse(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
         
         
         budgetDoc.getBudget().getBudgetCostShares().clear();

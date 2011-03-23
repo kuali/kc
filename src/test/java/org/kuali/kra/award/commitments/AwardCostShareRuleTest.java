@@ -23,6 +23,7 @@ import org.kuali.kra.award.commitments.AwardCostShare;
 import org.kuali.kra.award.commitments.AwardCostShareRuleEvent;
 import org.kuali.kra.award.commitments.AwardCostShareRuleImpl;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.costshare.CostShareService;
 import org.kuali.kra.costshare.CostShareServiceTest;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -106,10 +107,17 @@ public class AwardCostShareRuleTest extends KcUnitTestBase {
      */
     @Test
     public final void testValidateCostShareFiscalYearRange() {
+        
+        ParameterService ps = KraServiceLocator.getService(ParameterService.class);
+        ps.setParameterForTesting(CostShareServiceTest.class, "CostShareProjectPeriodNameLabel", "Fiscal Year");        
+        CostShareService costShareService = KraServiceLocator.getService(CostShareService.class);
+        costShareService.getCostShareLabel(true);
+        awardCostShareRule.setCostShareService(costShareService);
+        
         Assert.assertTrue(awardCostShareRule.validateCostShareFiscalYearRange(awardCostShare));
-        //awardCostShare.setProjectPeriod(TEST_INVALID_FISCAL_YEAR);
-        //Assert.assertFalse(awardCostShareRule.validateCostShareFiscalYearRange(awardCostShare));
-        //awardCostShare.setSource(TEST_FISCAL_YEAR);
+        awardCostShare.setProjectPeriod(TEST_INVALID_FISCAL_YEAR);
+        Assert.assertFalse(awardCostShareRule.validateCostShareFiscalYearRange(awardCostShare));
+        awardCostShare.setSource(TEST_FISCAL_YEAR);
     }
     
     
