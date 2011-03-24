@@ -31,7 +31,12 @@ public class KcAttachmentServiceImpl implements KcAttachmentService {
     
     private Map<String, String> mimeTypeIcons;
     private String defaultIcon;
-    private String offendingChars;
+    private String invalidCharacters;
+   
+    private static final String REPLACEMENT_CHARACTER = "_";
+    //Exclude everything but numbers, alphabets, dots, hyphens and underscores
+    private static final String REGEX_TITLE_FILENAME_PATTERN = "([^0-9a-zA-Z\\.\\-_])";
+    
     /**
      * Currently determining the icon based only on the mime type and using the default icon
      * if a mime type is not mapped in mimeTypeIcons. The full attachment is being passed here
@@ -62,32 +67,51 @@ public class KcAttachmentServiceImpl implements KcAttachmentService {
     public void setDefaultIcon(String defaultIcon) {
         this.defaultIcon = defaultIcon;
     }
-
+    
     /**
-     * Checking to see if attachment files have invalid characters in the file name.
-     * @see org.kuali.kra.service.KcAttachmentService#isValidFileName(org.apache.struts.upload.FormFile)
+     * This method checks to see if string has invalid characters in it.
+     * @see org.kuali.kra.service.KcAttachmentService#hasInvalidCharacters(java.lang.String)
      */
-    public boolean isValidFileName(String fileName) {
-        if (ObjectUtils.isNotNull(fileName)) {
-            String regex = "(['`%~@#$!^\\s&:>\\/<+*(){}|\"\\\\,?])";
-            Pattern pattern = Pattern.compile(regex);
-            Matcher matcher = pattern.matcher(fileName);
-
+    public boolean hasInvalidCharacters(String text) {
+       
+        if (ObjectUtils.isNotNull(text)) {
+            
+            Pattern pattern = Pattern.compile(REGEX_TITLE_FILENAME_PATTERN);
+            Matcher matcher = pattern.matcher(text);
+            // Not null and invalid chars found 
             if (matcher.find()) {
-                setOffendingChars(matcher.group(1));
-                return false;
+                setInvalidCharacters(matcher.group(1));
+                return true;
             }
         }
-        return true;
+        // if text is null, return false. Null checks
+        //for file names are done in other places and description
+        // text can be null.
+        return false;    
     }
     
-    protected void setOffendingChars(String offendingChars) {
-        this.offendingChars = offendingChars;
+    public String getInvalidCharacters() {
+        return invalidCharacters;
     }
-    
-    public String getOffendingChars() {
-        // TODO Auto-generated method stub
-        return offendingChars; 
 
+    public void setInvalidCharacters(String invalidCharacters) {
+        this.invalidCharacters = invalidCharacters;
     }
+
+    /**
+     * This method checks string for invalid characters and replaces with underscores.
+     * @see org.kuali.kra.service.KcAttachmentService#checkAndReplaceInvalidCharacters(java.lang.String)
+     */
+    public String checkAndReplaceInvalidCharacters(String text) {
+     
+        String cleanText = text;
+        if (ObjectUtils.isNotNull(text)) {
+            String regex = REGEX_TITLE_FILENAME_PATTERN;
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(text);
+            cleanText = matcher.replaceAll(REPLACEMENT_CHARACTER);
+        }
+        return cleanText;
+    }
+
 }

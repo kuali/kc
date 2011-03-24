@@ -45,6 +45,8 @@ public class ProposalDevelopmentInstituteAttachmentRule extends ResearchDocument
     private static final String INSTITUTE = "Institute";
     private static final String NEW_INSTITUTE_ATTACHMENT = "newInstituteAttachment";
     private static final String NARRATIVE_TYPE_CODE = "narrativeTypeCode";
+    private static final String NARRATIVE_FILE = ".narrativeFile";
+    private static final String NARRATIVE_DESCRIPTION = ".moduleTitle";
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentInstituteAttachmentRule.class);
     private ParameterService parameterService;
     private transient KcAttachmentService kcAttachmentService;
@@ -111,23 +113,28 @@ public class ProposalDevelopmentInstituteAttachmentRule extends ResearchDocument
         }
         if (StringUtils.isBlank(narrative.getFileName())) {
             rulePassed = false;
-            reportError(errorPath + ".narrativeFile", KeyConstants.ERROR_REQUIRED_FOR_FILE_NAME, "File Name");
+            reportError(errorPath + NARRATIVE_FILE, KeyConstants.ERROR_REQUIRED_FOR_FILE_NAME, "File Name");
         }
     
+        KcAttachmentService attachmentService = getKcAttachmentService();
+        //checking for invalid characters in description text
+        if(attachmentService.hasInvalidCharacters(narrative.getModuleTitle())) {
+            rulePassed &= false;   
+            reportError(errorPath + NARRATIVE_DESCRIPTION, KeyConstants.INVALID_TEXT, attachmentService.getInvalidCharacters());
+        }
         // Checking attachment file name for invalid characters.
         String attachmentFileName = narrative.getFileName();
-        KcAttachmentService attachmentService = getKcAttachmentService();
-        if (!attachmentService.isValidFileName(attachmentFileName)) {
+        if (attachmentService.hasInvalidCharacters(attachmentFileName)) {
             String parameter = getParameterService().
                 getParameterValue(ProposalDevelopmentDocument.class, Constants.INVALID_FILE_NAME_CHECK_PARAMETER);
             if (Constants.INVALID_FILE_NAME_ERROR_CODE.equals(parameter)) {
                 rulePassed &= false;
-                reportError(errorPath + ".narrativeFile", KeyConstants.INVALID_FILE_NAME, 
-                        attachmentFileName, attachmentService.getOffendingChars());
+                reportError(errorPath + NARRATIVE_FILE, KeyConstants.INVALID_FILE_NAME, 
+                        attachmentFileName, attachmentService.getInvalidCharacters());
             } else {
                 rulePassed &= true;
-                reportWarning(errorPath + ".narrativeFile", KeyConstants.INVALID_FILE_NAME,
-                        attachmentFileName, attachmentService.getOffendingChars());
+                reportWarning(errorPath + NARRATIVE_FILE, KeyConstants.INVALID_FILE_NAME,
+                        attachmentFileName, attachmentService.getInvalidCharacters());
             }
         }
         

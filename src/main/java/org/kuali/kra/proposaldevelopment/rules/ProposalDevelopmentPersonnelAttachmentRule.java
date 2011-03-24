@@ -47,6 +47,7 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends ResearchDocument
     private static final String FILE_NAME_PARM = "File Name";
     private static final String NEW_PROP_PERSON_BIO_PREFIX = "newPropPersonBio.";
     private static final String PERSONNEL_ATTACHMENT_FILE = "personnelAttachmentFile";
+    private static final String PERSONNEL_DESCRIPTION = "description";
     private static final String PROPOSAL_PERSON_NUMBER = "proposalPersonNumber";
     
     public static String buildErrorPath(String endPath) {
@@ -75,21 +76,27 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends ResearchDocument
             rulePassed = false;
             reportError(buildErrorPath(PERSONNEL_ATTACHMENT_FILE), KeyConstants.ERROR_REQUIRED_FOR_FILE_NAME, FILE_NAME_PARM);
         }
-        
+                
+        KcAttachmentService attachmentService = getKcAttachmentService();
+        //Checking the description for invalid characters
+        if(attachmentService.hasInvalidCharacters(proposalPersonBiography.getDescription())) {
+            rulePassed &= false;   
+            reportError(buildErrorPath(PERSONNEL_DESCRIPTION), KeyConstants.INVALID_TEXT, attachmentService.getInvalidCharacters());
+        }
+
         // Checking attachment file name for invalid characters.
         String attachmentFileName = proposalPersonBiography.getFileName();
-        KcAttachmentService attachmentService = getKcAttachmentService();
-        if (!attachmentService.isValidFileName(attachmentFileName)) {
+        if (attachmentService.hasInvalidCharacters(attachmentFileName)) {
             String parameter = getParameterService().
                 getParameterValue(ProposalDevelopmentDocument.class, Constants.INVALID_FILE_NAME_CHECK_PARAMETER);
             if (Constants.INVALID_FILE_NAME_ERROR_CODE.equals(parameter)) {
                 rulePassed &= false;
                 reportError(buildErrorPath(PERSONNEL_ATTACHMENT_FILE), KeyConstants.INVALID_FILE_NAME,
-                        attachmentFileName, attachmentService.getOffendingChars());
+                        attachmentFileName, attachmentService.getInvalidCharacters());
             } else {
                 rulePassed &= true;
                 reportWarning(buildErrorPath(PERSONNEL_ATTACHMENT_FILE), KeyConstants.INVALID_FILE_NAME,
-                        attachmentFileName, attachmentService.getOffendingChars());
+                        attachmentFileName, attachmentService.getInvalidCharacters());
             }
         }
         

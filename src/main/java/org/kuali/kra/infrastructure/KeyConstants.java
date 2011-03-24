@@ -477,6 +477,7 @@ public final class KeyConstants {
     public static final String ERROR_REQUIRED_ORGANIZATION = "error.required.organization";
     public static final String ERROR_PAYMENT_AND_INVOICE_COMMENT_NOT_ALLOWED = "error.invalid.award.payment.invoice.comment.comment.not.allowed";
     public static final String ERROR_PAYMENT_AND_INVOICE_COMMENT_REQUIRED = "error.invalid.award.payment.invoice.comment.required";
+    public static final String ERROR_ACCOUNT_NUMBER_ALREADY_EXISTS = "error.award.duplicateAccountNumber";
     
     //Award account creation validation error messages
     public static final String AWARD_NO_VALID_EFFECTIVE_DATE = "error.award.createAccount.invalid.effectiveDate";
@@ -705,7 +706,8 @@ public final class KeyConstants {
     public static final String ERROR_MISSING_PRINCIPAL_INVESTIGATOR = "error.proposalLog.noPi";
     public static final String ERROR_INVALID_PI = "error.proposalLog.invalidPi";
     public static final String ERROR_MISSING_SPONSOR_CODE = "error.proposalLog.noSponsorCode";
-    public static final String INVALID_FILE_NAME = "error.institutionalProposal.NotesAndAttachments.invalidFileName";
+    public static final String INVALID_FILE_NAME = "error.institutionalProposal.notesAndAttachments.fileName.invalid";
+    public static final String INVALID_TEXT = "error.institutionalProposal.notesAndAttachments.description.invalid";
 
     // Institutional Proposal Actions
     public static final String QUESTION_UNLOCK_FUNDED_AWARDS = "question.unlock.fundedAwards";
