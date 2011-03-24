@@ -20,6 +20,9 @@
 <c:set var="awardAttributes" value="${DataDictionary.Award.attributes}" />
 <c:set var="awardAmountInfoAttributes" value="${DataDictionary.AwardAmountInfo.attributes}" />
 <c:set var="awardCurrentActionCommentAttributes" value="${DataDictionary.AwardComment.attributes}" />
+
+<c:set var="docInSavedState" value="${KualiForm.awardDocument.saved}" />
+
 <kul:tab tabTitle="Details & Dates" defaultOpen="true" tabErrorKey="document.awardList[0].awardTransactionTypeCode,document.award.version, document.awardList[0].statusCode,document.awardList[0].activityTypeCode,document.awardList[0].awardTypeCode,document.awardList[0].title,document.awardList[0].beginDate,document.awardList[0].awardAmountInfos[0].finalExpirationDate,document.awardList[0].awardEffectiveDate,document.awardList[0].awardExecutionDate,document.awardList[0].sponsorCode,document.awardList[0].unitNumber, detailsAndDatesFormHelper*,document.awardList[0].awardAmountInfos[${KualiForm.document.award.indexOfLastAwardAmountInfo}].*,document.awardList[0].modificationNumber,document.awardList[0].cfdaNumber">
 
 <!-- Institution -->
@@ -60,7 +63,6 @@
     	<th><div align="right">Award ID:</div></th>
     	<td>${KualiForm.awardDocument.award.awardNumber}&nbsp;</td>
 
-        <c:set var="docInSavedState" value="${KualiForm.awardDocument.saved}" />
         <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.unitNumber}" skipHelpUrl="true"/></div></th>
     	<td align="left" valign="middle">
             <kul:htmlControlAttribute property="document.awardList[0].unitNumber" attributeEntry="${awardAttributes.unitNumber}" readOnly="${readOnly or docInSavedState}" /> <%-- need AJAX lookup of unit name onblur --%>
@@ -149,10 +151,14 @@
             <div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.sponsorCode}" /></div>
         </th>
         <td>
-        	<kul:htmlControlAttribute property="document.awardList[0].sponsorCode" attributeEntry="${awardAttributes.sponsorCode}" onblur="loadSponsorName('document.awardList[0].sponsorCode', 'sponsorName');"/>
+        	<kul:htmlControlAttribute property="document.awardList[0].sponsorCode" attributeEntry="${awardAttributes.sponsorCode}" 
+        	                          onblur="loadSponsorName('document.awardList[0].sponsorCode', 'sponsorName');" readOnly="${readOnly}" />
         	<c:if test="${!readOnly}">
-        	   <kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:document.awardList[0].sponsorCode,sponsorName:document.awardList[0].sponsor.sponsorName" anchor="${tabKey}" />
+                <kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:document.awardList[0].sponsorCode,sponsorName:document.awardList[0].sponsor.sponsorName" anchor="${tabKey}" />
             </c:if>
+	        <c:if test="${!docInSavedState or readOnly}">
+	           <html:hidden property="document.awardList[0].sponsorCode" />
+	        </c:if>
             <kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="document.awardList[0].sponsorCode:sponsorCode" anchor="${tabKey}" />
             <div id="sponsorName.div" >
             	<c:if test="${!empty KualiForm.document.awardList[0].sponsorCode}">
@@ -171,11 +177,17 @@
             <div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.primeSponsorCode}" /></div>
         </th>
         <td>
-        	<kul:htmlControlAttribute property="document.awardList[0].primeSponsorCode" attributeEntry="${awardAttributes.primeSponsorCode}" onblur="loadSponsorName('document.awardList[0].primeSponsorCode', 'primeSponsorName');" />
+        	<kul:htmlControlAttribute property="document.awardList[0].primeSponsorCode" attributeEntry="${awardAttributes.primeSponsorCode}" 
+        	                          onblur="loadSponsorName('document.awardList[0].primeSponsorCode', 'primeSponsorName');" readOnly="${readOnly}" />
         	<c:if test="${!readOnly}">
-        	   <kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:document.awardList[0].primeSponsorCode,sponsorName:document.awardList[0].primeSponsor.sponsorName" anchor="${tabKey}" />
+                <kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:document.awardList[0].primeSponsorCode,sponsorName:document.awardList[0].primeSponsor.sponsorName" anchor="${tabKey}" />
             </c:if>
-            <kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="document.awardList[0].primeSponsorCode:sponsorCode" anchor="${tabKey}" />
+            <c:if test="${!docInSavedState or readOnly}">
+               <html:hidden property="document.awardList[0].primeSponsorCode" />
+            </c:if>
+            <c:if test="${docInSavedState or ((!docInSavedState or readOnly) and !empty KualiForm.document.awardList[0].primeSponsorCode)}">
+                <kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="document.awardList[0].primeSponsorCode:sponsorCode" anchor="${tabKey}" />
+            </c:if>
             <div id="primeSponsorName.div">
             	<c:if test="${!empty KualiForm.document.awardList[0].primeSponsorCode}">
             		<c:choose>
