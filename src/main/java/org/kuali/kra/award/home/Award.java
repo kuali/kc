@@ -371,6 +371,30 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         return returnVal;
     }
     
+    public int getIndexOfAwardAmountInfoForDisplayFromTimeAndMoneyDocNumber(String docNum) throws WorkflowException {
+        AwardAmountInfo aai = getAwardAmountInfoService().fetchLastAwardAmountInfoForDocNum(this, docNum);
+        int returnVal = 0;
+        int index = 0;
+        if(aai.getAwardAmountInfoId() != null && this.isAwardInMultipleNodeHierarchy()) {
+            this.refreshReferenceObject("awardAmountInfos");
+        }
+        if(isAwardInitialCopy()) {
+            //if it's copied, on initialization we want to return index of last AwardAmountInfo in collection.
+            returnVal = getAwardAmountInfos().size() - 1;
+        }else {
+            for(AwardAmountInfo awardAmountInfo : getAwardAmountInfos()) {
+                if(awardAmountInfo.getAwardAmountInfoId() == null && aai.getAwardAmountInfoId() == null) {
+                    returnVal = index;
+                }else if(awardAmountInfo.getAwardAmountInfoId().equals(aai.getAwardAmountInfoId())) {
+                    returnVal = index;
+                }else {
+                    index++;
+                }
+            }
+        }
+        return returnVal;
+    }
+    
     /**
      * If the Award is copied then initially the AwardAmountInfos will have two entries without AwardAmountInfoId's.  We need to recognize this
      * so we can display the correct data on initialization.
