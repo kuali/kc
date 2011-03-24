@@ -352,6 +352,8 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
                          awardBudgetPersonnelDetails.getObligatedAmount().add(
                             awardBudgetPersonnelDetails.getSalaryRequested().add(
                                     awardBudgetPersonnelDetails.getCostSharingAmount())));
+                    awardBudgetPersonnelDetails.setPercentCharged(BudgetDecimal.ZERO);
+                    awardBudgetPersonnelDetails.setPercentEffort(BudgetDecimal.ZERO);
                     awardBudgetPersonnelDetails.setSalaryRequested(BudgetDecimal.ZERO);
                     awardBudgetPersonnelDetails.setCostSharingAmount(BudgetDecimal.ZERO);
                 }
