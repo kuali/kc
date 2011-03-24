@@ -127,23 +127,23 @@
 					<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.currentFundEffectiveDate}" /></div>
         		</th>
         		<td align="left" valign="middle">
-        			<c:out value="${KualiForm.awardForSummaryPanelDisplay.awardAmountInfos[KualiForm.awardForSummaryPanelDisplay.indexOfAwardAmountInfoForDisplay].currentFundEffectiveDate}" />
-        			<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.awardAmountInfos[${KualiForm.awardForSummaryPanelDisplay.indexOfAwardAmountInfoForDisplay}].currentFundEffectiveDate" attributeEntry="${awardAmountInfoAttributes.currentFundEffectiveDate}" readOnly="true" />-->
+        			<c:out value="${KualiForm.awardForSummaryPanelDisplay.awardAmountInfos[KualiForm.indexOfAwardAmountInfoForDisplay].currentFundEffectiveDate}" />
+        			<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.awardAmountInfos[${KualiForm.indexOfAwardAmountInfoForDisplay}].currentFundEffectiveDate" attributeEntry="${awardAmountInfoAttributes.currentFundEffectiveDate}" readOnly="true" />-->
         		</td>
 	        <tr>	        	
 				<th>
 					<div align="right">Project End Date:</div>
         		</th>
         		<td align="left" valign="middle">
-        			<c:out value="${KualiForm.awardForSummaryPanelDisplay.awardAmountInfos[KualiForm.awardForSummaryPanelDisplay.indexOfAwardAmountInfoForDisplay].finalExpirationDate}" />
-        			<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.awardAmountInfos[${KualiForm.awardForSummaryPanelDisplay.indexOfAwardAmountInfoForDisplay}].finalExpirationDate" attributeEntry="${awardAmountInfoAttributes.finalExpirationDate}" readOnly="true" />-->
+        			<c:out value="${KualiForm.awardForSummaryPanelDisplay.awardAmountInfos[KualiForm.indexOfAwardAmountInfoForDisplay].finalExpirationDate}" />
+        			<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.awardAmountInfos[${KualiForm.indexOfAwardAmountInfoForDisplay}].finalExpirationDate" attributeEntry="${awardAmountInfoAttributes.finalExpirationDate}" readOnly="true" />-->
         		</td>
         		<th>
 					<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.obligationExpirationDate}" /></div>
         		</th>
         		<td align="left" valign="middle">
-        			<c:out value="${KualiForm.awardForSummaryPanelDisplay.awardAmountInfos[KualiForm.awardForSummaryPanelDisplay.indexOfAwardAmountInfoForDisplay].obligationExpirationDate}" />
-        			<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.awardAmountInfos[${KualiForm.awardForSummaryPanelDisplay.indexOfAwardAmountInfoForDisplay}].obligationExpirationDate" attributeEntry="${awardAmountInfoAttributes.obligationExpirationDate}" readOnly="true" />-->
+        			<c:out value="${KualiForm.awardForSummaryPanelDisplay.awardAmountInfos[KualiForm.indexOfAwardAmountInfoForDisplay].obligationExpirationDate}" />
+        			<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.awardAmountInfos[${KualiForm.indexOfAwardAmountInfoForDisplay}].obligationExpirationDate" attributeEntry="${awardAmountInfoAttributes.obligationExpirationDate}" readOnly="true" />-->
         		</td>	        	
 	        </tr>
 	        <tr>	        	
@@ -151,15 +151,15 @@
 					<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.anticipatedTotalAmount}" /></div>
         		</th>
         		<td align="left" valign="middle">
-        			<c:out value="${KualiForm.awardForSummaryPanelDisplay.awardAmountInfos[KualiForm.awardForSummaryPanelDisplay.indexOfAwardAmountInfoForDisplay].anticipatedTotalAmount}" />
-        			<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.awardAmountInfos[${KualiForm.awardForSummaryPanelDisplay.indexOfAwardAmountInfoForDisplay}].anticipatedTotalAmount" attributeEntry="${awardAmountInfoAttributes.anticipatedTotalAmount}" readOnly="true" />-->
+        			<c:out value="${KualiForm.awardForSummaryPanelDisplay.awardAmountInfos[KualiForm.indexOfAwardAmountInfoForDisplay].anticipatedTotalAmount}" />
+        			<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.awardAmountInfos[${KualiForm.indexOfAwardAmountInfoForDisplay}].anticipatedTotalAmount" attributeEntry="${awardAmountInfoAttributes.anticipatedTotalAmount}" readOnly="true" />-->
         		</td>
         		<th>
 					<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.amountObligatedToDate}" /></div>
         		</th>
         		<td align="left" valign="middle">
-        			<c:out value="${KualiForm.awardForSummaryPanelDisplay.awardAmountInfos[KualiForm.awardForSummaryPanelDisplay.indexOfAwardAmountInfoForDisplay].amountObligatedToDate}" />
-        			<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.awardAmountInfos[${KualiForm.awardForSummaryPanelDisplay.indexOfAwardAmountInfoForDisplay}].amountObligatedToDate" attributeEntry="${awardAmountInfoAttributes.amountObligatedToDate}" readOnly="true" />-->
+        			<c:out value="${KualiForm.awardForSummaryPanelDisplay.awardAmountInfos[KualiForm.indexOfAwardAmountInfoForDisplay].amountObligatedToDate}" />
+        			<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.awardAmountInfos[${KualiForm.indexOfAwardAmountInfoForDisplay}].amountObligatedToDate" attributeEntry="${awardAmountInfoAttributes.amountObligatedToDate}" readOnly="true" />-->
         		</td>
 	        </tr>
         </table>	

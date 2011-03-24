@@ -132,9 +132,9 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
             Award tmpAward = getCurrentAward(this);
             this.setAward(tmpAward);
             if(tmpAward != null) {
-                getAwardHierarchyService().populateAwardHierarchyNodes(this.getAwardHierarchyItems(), this.getAwardHierarchyNodes(), tmpAward.getAwardNumber(), tmpAward.getSequenceNumber().toString());
+                getAwardHierarchyService().populateAwardHierarchyNodesForTandMDoc(this.getAwardHierarchyItems(), this.getAwardHierarchyNodes(), tmpAward.getAwardNumber(), tmpAward.getSequenceNumber().toString(), getDocumentNumber());
             } else {
-                getAwardHierarchyService().populateAwardHierarchyNodes(this.getAwardHierarchyItems(), this.getAwardHierarchyNodes(), null, null);
+                getAwardHierarchyService().populateAwardHierarchyNodesForTandMDoc(this.getAwardHierarchyItems(), this.getAwardHierarchyNodes(), null, null, getDocumentNumber());
             }
             getActivePendingTransactionsService().approveTransactions(this, awardAmountTransactions.get(0));
         }

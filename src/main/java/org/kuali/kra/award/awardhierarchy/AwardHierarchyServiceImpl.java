@@ -677,6 +677,76 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         }  
     }
     
+    /**
+     * 
+     * @throws WorkflowException 
+     * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#populateAwardHierarchyNodes(java.util.Map, java.util.Map)
+     */
+    public void populateAwardHierarchyNodesForTandMDoc(Map<String, AwardHierarchy> awardHierarchyItems, Map<String, AwardHierarchyNode> awardHierarchyNodes, String currentAwardNumber, String currentSequenceNumber, String docNum) {
+        AwardHierarchyNode awardHierarchyNode;
+        String tmpAwardNumber = null;
+        
+        for(Entry<String, AwardHierarchy> awardHierarchy:awardHierarchyItems.entrySet()){
+            tmpAwardNumber = awardHierarchy.getValue().getAwardNumber();
+            awardHierarchyNode = new AwardHierarchyNode();
+            awardHierarchyNode.setAwardNumber(tmpAwardNumber);
+            awardHierarchyNode.setParentAwardNumber(awardHierarchy.getValue().getParentAwardNumber());
+            awardHierarchyNode.setRootAwardNumber(awardHierarchy.getValue().getRootAwardNumber());
+            
+            //Award award = null;
+            VersionHistory pendingVersionHistory = null;
+            //For the current award, we should always show only the pending version if it exists
+//            if(StringUtils.isNotEmpty(currentAwardNumber) && StringUtils.isNotEmpty(currentSequenceNumber) && StringUtils.equals(tmpAwardNumber, currentAwardNumber)) {
+                pendingVersionHistory = versionHistoryService.findPendingVersion(Award.class, currentAwardNumber, currentSequenceNumber);
+//                if(pendingVersionHistory != null) {
+//                    award = (Award) pendingVersionHistory.getSequenceOwner();
+//                }
+//            }
+            Award award = activePendingTransactionsService.getWorkingAwardVersion(tmpAwardNumber);
+//            if(award == null) {
+//                award = activeAward;  
+//            }  
+
+            AwardAmountInfo awardAmountInfo = awardAmountInfoService.fetchLastAwardAmountInfoForDocNum(award, docNum);            
+            
+            awardHierarchyNode.setFinalExpirationDate(awardAmountInfo.getFinalExpirationDate());
+            awardHierarchyNode.setLeadUnitName(award.getUnitName());
+            awardHierarchyNode.setPrincipalInvestigatorName(award.getPrincipalInvestigatorName());
+            awardHierarchyNode.setAccountNumber(award.getAccountNumber());
+            awardHierarchyNode.setAwardStatusCode(award.getStatusCode());
+            awardHierarchyNode.setObliDistributableAmount(awardAmountInfo.getObliDistributableAmount());
+            awardHierarchyNode.setAmountObligatedToDate(awardAmountInfo.getAmountObligatedToDate());
+            awardHierarchyNode.setObligatedTotalDirect(awardAmountInfo.getObligatedTotalDirect());
+            awardHierarchyNode.setObligatedTotalIndirect(awardAmountInfo.getObligatedTotalIndirect());
+            awardHierarchyNode.setAnticipatedTotalAmount(awardAmountInfo.getAnticipatedTotalAmount());
+            awardHierarchyNode.setAnticipatedTotalDirect(awardAmountInfo.getAnticipatedTotalDirect());
+            awardHierarchyNode.setAnticipatedTotalIndirect(awardAmountInfo.getAnticipatedTotalIndirect());
+            awardHierarchyNode.setAntDistributableAmount(awardAmountInfo.getAntDistributableAmount());
+            awardHierarchyNode.setCurrentFundEffectiveDate(awardAmountInfo.getCurrentFundEffectiveDate());
+            //awardHierarchyNode.setCurrentFundEffectiveDate(award.getAwardEffectiveDate());
+            awardHierarchyNode.setObligationExpirationDate(awardAmountInfo.getObligationExpirationDate());
+            awardHierarchyNode.setProjectStartDate(award.getBeginDate());
+            awardHierarchyNode.setTitle(award.getTitle());
+            awardHierarchyNode.setAwardId(award.getAwardId());
+            
+            String documentNumber = award.getAwardDocument().getDocumentNumber();
+            boolean awardDocumentFinalStatus = false;
+            try {
+                Document awardDocument = documentService.getByDocumentHeaderId(documentNumber);
+                awardDocumentFinalStatus = (awardDocument != null) ? awardDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal() : false;
+            } catch(WorkflowException e) {
+                throw uncheckedException(e);
+            }
+            
+            awardHierarchyNode.setAwardDocumentNumber(documentNumber);
+            if(!awardDocumentFinalStatus && pendingVersionHistory != null && award != null && !pendingVersionHistory.getSequenceOwnerSequenceNumber().equals(award.getSequenceNumber())) {
+                awardDocumentFinalStatus = true;   
+            }
+            awardHierarchyNode.setAwardDocumentFinalStatus(new Boolean(awardDocumentFinalStatus));
+            awardHierarchyNodes.put(awardHierarchyNode.getAwardNumber(), awardHierarchyNode);
+        }  
+    }
+    
     public void createNodeMapsOnFormForSummaryPanel(Map<String, AwardHierarchyNode> awardHierarchyNodes, Map<String, String> previousNodeMap, Map<String, String> nextNodeMap) {
         List <AwardHierarchy> sortedList = new ArrayList<AwardHierarchy>();
         AwardHierarchy rootNode = loadFullHierarchyFromAnyNode(getRootNode(awardHierarchyNodes).getAwardNumber());
