@@ -79,63 +79,25 @@ public class AwardAmountInfoServiceImpl implements AwardAmountInfoService {
         }
     return validAwardAmountInfos.get(validAwardAmountInfos.size() -1);
 }
-
-//    }
-//    /**
-//     * This method fetches the Award Amount Info object that is to be displayed in UI for Award.  
-//     * The rules are:
-//     * 1)the Award Amount Infos awardNumber and versionNumber must match the Award BO
-//     * 2)The Award Amount Infos timeAndMoneyDocumentNumber must be null or from a T&M document that has been finalized
-//     * Users don't want this data to apply to Award until the T&M document has been approved.
-//     * @param award
-//     * @return
-//     * @throws WorkflowException 
-//     * @throws WorkflowException 
-//     */
-//    @SuppressWarnings("unchecked")
-//    public AwardAmountInfo fetchLastAwardAmountInfoForAwardVersionAndFinalizedTandMDocumentNumber(Award award) {
-//        Map<String, Object> fieldValues = new HashMap<String, Object>();
-//        fieldValues.put("awardNumber", award.getAwardNumber());
-//        fieldValues.put("sequenceNumber", award.getSequenceNumber());
-//        //fieldValues.put("awardId",award.getAwardId());
-//        List<AwardAmountInfo> awardAmountInfos = 
-//            (List<AwardAmountInfo>)getBusinessObjectService().findMatchingOrderBy(AwardAmountInfo.class, fieldValues, "awardAmountInfoId", true);
-//        List<AwardAmountInfo> validAwardAmountInfos = new ArrayList<AwardAmountInfo>();
-//        //add this check for initial award creation.....the Award Amount Info object has not been persisted yet.
-//        if(awardAmountInfos.size() == 0 && award.getSequenceNumber() > 1) {
-//            return award.getAwardAmountInfos().get(award.getAwardAmountInfos().size() - 1);
-//        }else if(awardAmountInfos.size() == 0) {
-//            return award.getAwardAmountInfos().get(0);
-//        } else {
-//            for(AwardAmountInfo aai : awardAmountInfos) {
-//                //the aai needs to be added if it is created on initialization, or in the case of a root node we add a new one for initial money transaction.
-//                //if an award has been versioned, the initial transaction will be the first index in list.
-//                if(aai.getTimeAndMoneyDocumentNumber() == null || (aai.getAwardNumber().endsWith("-00001") && awardAmountInfos.indexOf(aai) == 1)
-//                        || (aai.getAwardNumber().endsWith("-00001") && awardAmountInfos.indexOf(aai) == 0 && aai.getSequenceNumber() > 1)) {
-//                    validAwardAmountInfos.add(aai);
-//                }else {
-//                    Map<String, Object> fieldValues1 = new HashMap<String, Object>();
-//                    fieldValues1.put("documentNumber", aai.getTimeAndMoneyDocumentNumber());
-//                    List<TimeAndMoneyDocument> timeAndMoneyDocuments =
-//                        (List<TimeAndMoneyDocument>)getBusinessObjectService().findMatching(TimeAndMoneyDocument.class, fieldValues1);
-//                    try {
-//                    TimeAndMoneyDocument timeAndMoneyDocument = 
-//                        (TimeAndMoneyDocument)getDocumentService().getByDocumentHeaderId(timeAndMoneyDocuments.get(0).getDocumentHeader().getDocumentNumber());
-//                    if(timeAndMoneyDocument.getDocumentHeader().hasWorkflowDocument()) {
-//                        if(timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
-//                            validAwardAmountInfos.add(aai);
-//                        }
-//                    }
-//                    }catch (WorkflowException e) {
-//                        LOG.error(e.getMessage(), e);
-//                    }
-//            
-//                }
-//            }
-//        }
-//        return validAwardAmountInfos.get(validAwardAmountInfos.size() -1);
-//
-//    }
+    
+    public AwardAmountInfo fetchLastAwardAmountInfoForDocNum(Award award, String docNum){
+        List<AwardAmountInfo> validAwardAmountInfos = new ArrayList<AwardAmountInfo>();
+        int docNumIntValue = Integer.parseInt(docNum.trim());
+        
+        for(AwardAmountInfo aai : award.getAwardAmountInfos()) {
+            if(aai.getTimeAndMoneyDocumentNumber() == null || (aai.getAwardNumber().endsWith("-00001") &&                   
+                    award.getAwardAmountInfos().indexOf(aai) == 1)) {
+                validAwardAmountInfos.add(aai);
+            }else {
+                if(Integer.parseInt(aai.getTimeAndMoneyDocumentNumber().trim()) > docNumIntValue) {
+                    break;
+                }else{
+                    validAwardAmountInfos.add(aai);
+                }
+            }
+        }
+            return validAwardAmountInfos.get(validAwardAmountInfos.size() -1);
+    }
     
     
     /**
