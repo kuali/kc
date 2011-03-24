@@ -15,19 +15,26 @@
  */
 package org.kuali.kra.bo;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.sql.Timestamp;
+import java.util.List;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectExtension;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public abstract class KraPersistableBusinessObjectBase extends PersistableBusinessObjectBase {
+    
+    private static final String EXTENSION_OBJECT_KEY = "extensionObjectKey";
 
     private transient KcPersonService kcPersonService;
     
@@ -36,6 +43,7 @@ public abstract class KraPersistableBusinessObjectBase extends PersistableBusine
     private boolean updateUserSet;
 
     /**
+     * {@inheritDoc}
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert()
      */
     @Override
@@ -43,6 +51,41 @@ public abstract class KraPersistableBusinessObjectBase extends PersistableBusine
         super.beforeInsert(persistenceBroker);
         this.setVersionNumber(new Long(0));
         setUpdateFields();
+        
+        if (extension != null) {
+            GlobalVariables.getUserSession().addObject(EXTENSION_OBJECT_KEY, extension);
+            setExtension(null);
+        }
+    }
+    
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#afterInsert(org.apache.ojb.broker.PersistenceBroker)
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    public void afterInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+        PersistableBusinessObjectExtension newExtension 
+            = (PersistableBusinessObjectExtension) GlobalVariables.getUserSession().retrieveObject(EXTENSION_OBJECT_KEY);
+        
+        if (newExtension != null) {
+            List<String> primaryKeyFieldNames = getPersistenceStructureService().listPrimaryKeyFieldNames(getClass());
+            for (String primaryKeyFieldName : primaryKeyFieldNames) {
+                try {
+                    Method thisPrimaryKeyGetter = PropertyUtils.getReadMethod(PropertyUtils.getPropertyDescriptor(this, primaryKeyFieldName));
+                    Method extensionPrimaryKeySetter = PropertyUtils.getWriteMethod(PropertyUtils.getPropertyDescriptor(newExtension, primaryKeyFieldName));
+                    extensionPrimaryKeySetter.invoke(newExtension, thisPrimaryKeyGetter.invoke(this));
+                } catch (NoSuchMethodException nsme) {
+                    throw new PersistenceBrokerException("Could not find accessor for " + primaryKeyFieldName + " in an extension object", nsme);
+                } catch (InvocationTargetException ite) {
+                    throw new PersistenceBrokerException("Could not invoke accessor for " + primaryKeyFieldName + " on an extension object", ite);
+                } catch (IllegalAccessException iae) {
+                    throw new PersistenceBrokerException("Illegal access when invoking " + primaryKeyFieldName + " accessor on an extension object", iae);
+                }
+            }
+            extension = newExtension;
+            GlobalVariables.getUserSession().removeObject(EXTENSION_OBJECT_KEY);
+        }
     }
 
     /**
