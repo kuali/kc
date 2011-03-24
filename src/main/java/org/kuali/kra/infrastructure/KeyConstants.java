@@ -368,6 +368,8 @@ public final class KeyConstants {
     // Award Details and Dates
     public static final String ERROR_INVALID_AWARD_TRANSFERRING_SPONSOR = "error.sponsor.invalid";
     public static final String ERROR_ANTICIPATED_AMOUNT = "error.anticipated.amount";
+    public static final String ERROR_OBLIGATED_AMOUNT_NEGATIVE = "error.award.obligated.negative";
+    public static final String ERROR_ANTICIPATED_AMOUNT_NEGATIVE = "error.award.anticipated.negative";
     public static final String ERROR_DUPLICATE_AWARD_TRANSFERRING_SPONSOR = "error.sponsor.duplicate";
     public static final String ERROR_AWARD_EFFECTIVE_DATE = "error.award.effective.date";
     public static final String ERROR_OBLIGATION_EXPIRATION_DATE = "error.obligation.expiration.date";

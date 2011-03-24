@@ -380,6 +380,18 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
             reportError(TIME_AND_MONEY_TRANSACTION, KeyConstants.ERROR_NET_TOTALS_TRANSACTION);
             valid = false;
         }
+        if (awardHierarchyNode.getAmountObligatedToDate().isGreaterThan(awardHierarchyNode.getAnticipatedTotalAmount())) {
+            reportError(TIME_AND_MONEY_TRANSACTION, KeyConstants.ERROR_ANTICIPATED_AMOUNT);
+            valid = false;
+        }
+        if (awardHierarchyNode.getAmountObligatedToDate().isLessThan(KualiDecimal.ZERO)) {
+            reportError(TIME_AND_MONEY_TRANSACTION, KeyConstants.ERROR_OBLIGATED_AMOUNT_NEGATIVE);
+            valid = false;
+        }
+        if (awardHierarchyNode.getAnticipatedTotalAmount().isLessThan(KualiDecimal.ZERO)) {
+            reportError(TIME_AND_MONEY_TRANSACTION, KeyConstants.ERROR_ANTICIPATED_AMOUNT_NEGATIVE);
+            valid = false;            
+        }
         return valid;
     }
     
