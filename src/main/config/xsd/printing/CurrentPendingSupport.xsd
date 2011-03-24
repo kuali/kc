@@ -31,6 +31,8 @@
 							<xs:element name="Agency" type="xs:string" minOccurs="0"/>
 							<xs:element name="PI" type="xs:string" minOccurs="0"/>
 							<xs:element name="Title" type="xs:string" minOccurs="0"/>
+							<xs:element name="TotalDirectCost" type="xs:decimal" minOccurs="0"/>
+							<xs:element name="TotalIndirectCost" type="xs:decimal" minOccurs="0"/>
 							<xs:element name="TotalRequested" type="xs:decimal" minOccurs="0"/>
 							<xs:element name="EffectiveDate" type="xs:date" minOccurs="0"/>
 							<xs:element name="EndDate" type="xs:date" minOccurs="0"/>
