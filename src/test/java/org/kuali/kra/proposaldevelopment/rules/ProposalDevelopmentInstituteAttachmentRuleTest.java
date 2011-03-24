@@ -49,7 +49,7 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
     private static final String NO = "N";
     private static final String SYSTEM_GENERATED = "systemGenerated";
     private static final String NARRATIVE_TYPE_GROUP = "narrativeTypeGroup";
-    private static final String STRING_151_CHARS_LONG = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis tortor. Morbi sollicitudin, leo a faucibus aliquet, nisl velit vulputate sed.";
+    private static final String STRING_151_CHARS_LONG = "Lorem_ipsum_dolor_sit_amet_consectetur_adipiscing_elit._Suspendisse_quis_tortor._Morbi_sollicitudin_leo_a_faucibus_aliquet_nisl_velit_vulputate_sed_awk.";
     private ProposalDevelopmentInstituteAttachmentRule rule = null;
     private List<NarrativeType> narrativeTypes;
     private List<NarrativeStatus> narrativeStatuses;
@@ -127,7 +127,7 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
 
         TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_INSTITUTE_ATTACHMENT+".moduleTitle");
         assertTrue(errors.size() == 1);
-        
+        System.out.println("errors: "+ errors.size());
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_MAX_LENGTH);
 }

@@ -44,6 +44,7 @@ import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.AttachmentData;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.s2s.validator.S2SErrorHandler;
+import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
@@ -62,6 +63,8 @@ public abstract class S2SAdobeFormAttachmentBaseGenerator extends S2SBaseFormGen
     protected static final String LOCAL_NAME = "RR_Budget";
     protected static final String ERROR1_PROPERTY_KEY = "s2sSubawardBudgetV1-2_10000";
     protected static final String ERROR2_PROPERTY_KEY = "s2sSubawardBudget_10002";
+    private transient static KcAttachmentService  kcAttachmentService;
+
     /**
      * This method convert node of form in to a Document
      * 
@@ -148,10 +151,25 @@ public abstract class S2SAdobeFormAttachmentBaseGenerator extends S2SBaseFormGen
      */
     protected static final String prepareAttName(BudgetSubAwards budgetSubAwards) {
         StringBuilder attachmentName = new StringBuilder();
-        attachmentName.append(budgetSubAwards.getBudgetId()+"-");
-        attachmentName.append(budgetSubAwards.getOrganizationName()+"-");
+        
+        attachmentName.append(budgetSubAwards.getBudgetId() + "-");
+        //checking organization name and replacing invalid characters
+        // with underscores.
+        String cleanSubAwardOrganizationName = getKcAttachmentService().checkAndReplaceInvalidCharacters(budgetSubAwards.getOrganizationName());
+        attachmentName.append(cleanSubAwardOrganizationName + "-");
         attachmentName.append(budgetSubAwards.getSubAwardNumber());
         return attachmentName.toString();
+    }
+    
+    /**
+     * This method gets the attachment service
+     * @return
+     */
+    protected static KcAttachmentService getKcAttachmentService() {
+        if (kcAttachmentService == null) {
+            kcAttachmentService = KraServiceLocator.getService(KcAttachmentService.class);
+        }
+        return kcAttachmentService;
     }
     
     /**

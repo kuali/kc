@@ -128,17 +128,18 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
 	                
 	                KcAttachmentService attachmentService = getKcAttachmentService();
 	                // Checking attachment file name for invalid characters.
-	                if (!attachmentService.isValidFileName(attachmentFile.getFileName())) {
+	                if (attachmentService.hasInvalidCharacters(attachmentFile.getFileName())) {
 	                    String parameter = getParameterService().
-                            getParameterValue(ProposalDevelopmentDocument.class, Constants.INVALID_FILE_NAME_CHECK_PARAMETER);
+                            getParameterValue(ProposalDevelopmentDocument.class, Constants.INVALID_FILE_NAME_CHECK_PARAMETER);    
+                        
                         if (Constants.INVALID_FILE_NAME_ERROR_CODE.equals(parameter)) {
                             GlobalVariables.getMessageMap().putError(Constants.INVALID_FILE_NAME_ERROR_TAB, KeyConstants.INVALID_FILE_NAME, 
-	                                                                attachmentFile.getFileName(), attachmentService.getOffendingChars());
+	                                                                attachmentFile.getFileName(), attachmentService.getInvalidCharacters());
                         } else {
                             GlobalVariables.getMessageMap().putWarning(Constants.INVALID_FILE_NAME_ERROR_TAB, KeyConstants.INVALID_FILE_NAME, 
-                                                                    attachmentFile.getFileName(), attachmentService.getOffendingChars());
+                                                                    attachmentFile.getFileName(), attachmentService.getInvalidCharacters());
                         }
-	              }
+	                }
 	                
 	                
 	                Note newNote = new Note();
