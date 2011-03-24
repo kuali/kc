@@ -159,7 +159,7 @@ public class InstitutionalProposalCustomDataFormHelper extends CustomDataHelperB
             }
             institutionalProposalForm.getCustomDataHelper().setCustomAttributeGroups(customAttributeGroups);
         }  
-            return mapping.findForward(MAPPING_CUSTOM_DATA);
+        return mapping.findForward(MAPPING_CUSTOM_DATA);
     }
     
     /**
@@ -213,24 +213,25 @@ public class InstitutionalProposalCustomDataFormHelper extends CustomDataHelperB
                                                             InstitutionalProposalForm institutionalProposalForm,
                                                             Map<String, CustomAttributeDocument> customAttributeDocuments) {
         for(Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry:customAttributeDocuments.entrySet()) {
+            String temp = customAttributeDocumentEntry.getValue().getCustomAttribute().getValue();
             institutionalProposalForm.getCustomDataHelper().getCustomAttributeValues()
-                .put("id" + customAttributeDocumentEntry.getValue().getCustomAttributeId().toString(), new String[]{null});       
-           String groupName = customAttributeDocumentEntry.getValue().getCustomAttribute().getGroupName();
-           if (StringUtils.isEmpty(groupName)) {
-               groupName = "No Group";
-           }
+                .put("id" + customAttributeDocumentEntry.getValue().getCustomAttributeId().toString(), (temp == null ? new String[]{null} : new String[]{temp}));       
+            String groupName = customAttributeDocumentEntry.getValue().getCustomAttribute().getGroupName();
+            if (StringUtils.isEmpty(groupName)) {
+                groupName = "No Group";
+            }
             List<CustomAttributeDocument> customAttributeDocumentList = customAttributeGroups.get(groupName);
-                if (customAttributeDocumentList == null) {
-                    customAttributeDocumentList = new ArrayList<CustomAttributeDocument>();
-                    customAttributeGroups.put(groupName, customAttributeDocumentList);
-                }
-                customAttributeDocumentList.add(customAttributeDocuments.get(customAttributeDocumentEntry.getValue().getCustomAttributeId().toString()));
+            if (customAttributeDocumentList == null) {
+                customAttributeDocumentList = new ArrayList<CustomAttributeDocument>();
+                customAttributeGroups.put(groupName, customAttributeDocumentList);
+            }
+            customAttributeDocumentList.add(customAttributeDocuments.get(customAttributeDocumentEntry.getValue().getCustomAttributeId().toString()));
         }
         populateCustomDataValuesFromParentMap();
     }
     
     /**
-     * This class is being used as a workaround to a struts issue that will not allow indexing into a list of string primatives from JSP.
+     * This class is being used as a workaround to a struts issue that will not allow indexing into a list of string primitives from JSP.
      * The only purpose of this class is to hold a string object with getters and setters so the tag file can call into index of ArrayList
      * and getValue().
      */
