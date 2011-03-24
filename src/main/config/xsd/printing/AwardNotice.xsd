@@ -408,6 +408,7 @@
 						<xs:element name="IDCIndicator" type="xs:string" minOccurs="0"/>
 						<xs:element name="TransferSponsorIndicator" type="xs:string" minOccurs="0"/>
 						<xs:element name="CostSharingIndicator" type="xs:string" minOccurs="0"/>
+						<xs:element name="CostSharingProjectPeriodFieldDescription" type="xs:string" minOccurs="0"/>
 						<xs:element name="SpecialReviewIndicator" type="xs:string" minOccurs="0"/>
 						<xs:element name="ScienceCodeIndicator" type="xs:string" minOccurs="0"/>
 					</xs:sequence>

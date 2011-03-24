@@ -20,6 +20,7 @@
 				<xs:element name="SchoolInfo" type="IPSchoolInfoType" minOccurs="0"/>
 				<xs:element name="DisclosureItem" type="IPDisclosureItemType" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element name="keyPersons" type="IPKeyPersonType" maxOccurs="unbounded"/>
+				<xs:element name="costSharingProjectPeriodFieldDescription" type="xs:string" minOccurs="0"/>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
