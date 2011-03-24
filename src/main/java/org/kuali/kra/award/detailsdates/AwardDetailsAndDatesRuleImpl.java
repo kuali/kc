@@ -33,6 +33,7 @@ public class AwardDetailsAndDatesRuleImpl extends ResearchDocumentRuleBase imple
     
     private static final String SPONSOR_CODE_PROPERTY_NAME = "detailsAndDatesFormHelper.newAwardTransferringSponsor.sponsorCode";
     private static final String ANTICIPATED_AMOUNT_PROPERTY_NAME = "awardAmountInfos[0].anticipatedTotalAmount";
+    private static final String OBLIGATED_AMOUNT_PROPERTY_NAME = "awardAmountInfos[0].amountObligatedToDate";
     private static final String AWARD_EFFECTIVE_DATE_PROPERTY_NAME = "awardEffectiveDate";
     private static final String OBLIGATION_EXPIRATION_DATE_PROPERTY_NAME = "obligationExpirationDate";
     
@@ -78,6 +79,14 @@ public class AwardDetailsAndDatesRuleImpl extends ResearchDocumentRuleBase imple
         if(award.getAnticipatedTotal().isLessThan(award.getObligatedTotal())) {
             valid = false;
             reportError(ANTICIPATED_AMOUNT_PROPERTY_NAME, KeyConstants.ERROR_ANTICIPATED_AMOUNT);
+        }
+        if (award.getObligatedTotal().isLessThan(KualiDecimal.ZERO)) {
+            valid = false;
+            reportError(OBLIGATED_AMOUNT_PROPERTY_NAME, KeyConstants.ERROR_OBLIGATED_AMOUNT_NEGATIVE);
+        }
+        if (award.getAnticipatedTotal().isLessThan(KualiDecimal.ZERO)) {
+            valid = false;
+            reportError(ANTICIPATED_AMOUNT_PROPERTY_NAME, KeyConstants.ERROR_ANTICIPATED_AMOUNT_NEGATIVE);
         }
         if(award.getObligatedTotal().isGreaterThan(new KualiDecimal(0)) &&
                 //award.getAwardEffectiveDate() == null) {
