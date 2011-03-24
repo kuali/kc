@@ -29,18 +29,26 @@ public interface KcAttachmentService {
      * @return
      */
     String getFileTypeIcon(KcAttachment attachment);
-    
    
-    /**
-     * This method checks to see if the file name has spurious characters.
-     * @param fileName
-     * @return
-     */
-    boolean isValidFileName(String fileName);
     
     /**
      * This method returns the invalid characters in the file name.
      * @return
      */
-    String getOffendingChars();
+    String getInvalidCharacters();
+   
+    /**
+     * This method checks strings for invalid characters.
+     * @param text
+     * @return
+     */
+    boolean hasInvalidCharacters(String text);
+        
+    /**
+     * This method checks for invalid characters in strings and replaces
+     * them with underscores.
+     * @param text
+     * @return
+     */
+    String checkAndReplaceInvalidCharacters(String text);
 }

@@ -353,10 +353,12 @@ public interface Constants {
     public static final String CUSTOM_ERROR = "error.custom";
     public static final String SUBAWARD_FILE_REQUIERED = "newSubAward.subAwardFile.required";
     public static final String SUBAWARD_FILE = "newSubAward.subAwardFile";
+    public static final String SUBAWARD_FILE_INVALID = "newSubAward.subAwardFile.inValid";
     public static final String SUBAWARD_FILE_NOT_POPULATED = "newSubAward.subAwardFile.notExtracted";
     public static final String SUBAWARD_ORG_NAME = "newSubAward.organizationName";
     public static final String SUBAWARD_ORG_NAME_REQUIERED = "newSubAward.organizationName.required";
-
+    public static final String SUBAWARD_ORG_NAME_INVALID = "newSubAward.organizationName.invalid";
+    
     // sponsor hierarchy
     public static final String HIERARCHY_NAME = "hierarchyName";
     public static final String SPONSOR_CODE = "sponsorCode";
@@ -386,6 +388,7 @@ public interface Constants {
     public static final String MAPPING_AWARD_MEDUSA_PAGE = "medusa";
     public static final String MAPPING_REPORTS_TAB = "reports";
     public static final String MAPPING_AWARD_BUDGET_VERSIONS_PAGE = "budgets";
+    public static final String AWARD_CREATE_ACCOUNT_FEATURE = "ON";
     
     public static final String AWARD_SEQUENCE_AWARD_NUMBER = "SEQ_AWARD_AWARD_NUMBER";
     
