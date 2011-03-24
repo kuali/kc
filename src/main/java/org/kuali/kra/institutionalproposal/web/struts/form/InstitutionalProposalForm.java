@@ -81,6 +81,7 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
     private transient String[] selectedAwardFundingProposals;
     
     private boolean viewFundingSource;
+    private boolean docOpenedFromIPSearch;
     
     /**
      * 
@@ -114,6 +115,7 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
         reportHelperBean = new ReportHelperBean(this);
         unitContactsBean = new InstitutionalProposalUnitContactsBean(this);
         centralAdminContactsBean = new InstitutionalProposalCentralAdminContactsBean(this);
+        docOpenedFromIPSearch = false;
     }
     
     /**
@@ -414,7 +416,7 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
     public boolean getDisplayEditButton() {
         boolean displayEditButton;
         InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) getDocument();
-        if (institutionalProposalDocument.isDocOpenedFromIPSearch()) {
+        if (isDocOpenedFromIPSearch()) {
             displayEditButton = true;
         }else {
             displayEditButton = !isViewOnly();
@@ -430,7 +432,14 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
     public void setViewFundingSource(boolean viewFundingSource) {
         this.viewFundingSource = viewFundingSource;
     }
-  
+
+    public boolean isDocOpenedFromIPSearch() {
+        return docOpenedFromIPSearch;
+    }
+    public void setDocOpenedFromIPSearch(boolean docOpened) {
+        docOpenedFromIPSearch = docOpened;
+    }
+    
     @Override
     public HeaderNavigation[] getHeaderNavigationTabs() {
         

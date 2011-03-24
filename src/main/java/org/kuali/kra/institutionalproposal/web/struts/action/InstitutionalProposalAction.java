@@ -326,7 +326,7 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
 
         if (!(request.getParameter("docOpenedFromIPSearch") == null)) {
             if (request.getParameter("docOpenedFromIPSearch").equals("true")) {
-                institutionalProposalDocument.setDocOpenedFromIPSearch(true);
+                institutionalProposalForm.setDocOpenedFromIPSearch(true);
             }
         }
         

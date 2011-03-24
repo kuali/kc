@@ -58,7 +58,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 @COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
 public class InstitutionalProposalDocument extends ResearchDocumentBase {
     private static final Log LOG = LogFactory.getLog(InstitutionalProposalDocument.class);
-    private boolean docOpenedFromIPSearch;
+
     /**
      * Comment for <code>DOCUMENT_TYPE_CODE</code>
      */
@@ -226,22 +226,6 @@ public class InstitutionalProposalDocument extends ResearchDocumentBase {
         }
 
         return null;
-    }
-    
-    /**
-     * Gets the docOpenedFromIPSearch attribute. 
-     * @return Returns the docOpenedFromIPSearch.
-     */
-    public boolean isDocOpenedFromIPSearch() {
-        return docOpenedFromIPSearch;
-    }
-    
-    /**
-     * Sets the docOpenedFromIPSearch attribute value.
-     * @param docOpenedFromIPSearch The docOpenedFromIPSearch to set.
-     */
-    public void setDocOpenedFromIPSearch(boolean docOpenedFromIPSearch) {
-        this.docOpenedFromIPSearch = docOpenedFromIPSearch;
     }
     
     /**
