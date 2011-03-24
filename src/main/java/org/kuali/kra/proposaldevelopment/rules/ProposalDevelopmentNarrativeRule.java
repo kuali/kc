@@ -53,6 +53,7 @@ import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 
 /**
@@ -105,21 +106,28 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
             reportError("newNarrative.narrativeFile", KeyConstants.ERROR_REQUIRED_FOR_FILE_NAME, "File Name");
         }
         
-        // Checking attachment file name for invalid characters.
         String attachmentFileName = narrative.getFileName();
         KcAttachmentService attachmentService = getKcAttachmentService();
-            if (!attachmentService.isValidFileName(attachmentFileName)) {
+        
+        // Checking the description for invalid characters.
+        if (attachmentService.hasInvalidCharacters(narrative.getModuleTitle())) {
+            rulePassed &= false;
+            reportError("newNarrative.moduleTitle", KeyConstants.INVALID_TEXT, attachmentService.getInvalidCharacters());
+        }
+ 
+        // Checking attachment file name for invalid characters.
+        if (attachmentService.hasInvalidCharacters(attachmentFileName)) {
             String parameter = getParameterService().
                                getParameterValue(ProposalDevelopmentDocument.class, Constants.INVALID_FILE_NAME_CHECK_PARAMETER);
            
             if (Constants.INVALID_FILE_NAME_ERROR_CODE.equals(parameter)) {
                 rulePassed &= false;
-                reportError("newNarrative.moduleStatusCode", KeyConstants.INVALID_FILE_NAME,
-                        attachmentFileName, attachmentService.getOffendingChars());
+                reportError("newNarrative.narrativeFile", KeyConstants.INVALID_FILE_NAME,
+                        attachmentFileName, attachmentService.getInvalidCharacters());
             } else {
                 rulePassed &= true;
-                reportWarning("newNarrative.moduleStatusCode", KeyConstants.INVALID_FILE_NAME,
-                        attachmentFileName, attachmentService.getOffendingChars());
+                reportWarning("newNarrative.narrativeFile", KeyConstants.INVALID_FILE_NAME,
+                        attachmentFileName, attachmentService.getInvalidCharacters());
             }
         }
         
