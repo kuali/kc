@@ -69,10 +69,9 @@ public class InstitutionalProposalCustomDataAction extends InstitutionalProposal
      */
     public void copyCustomDataToInstitutionalProposal(InstitutionalProposalForm institutionalProposalForm) {
         institutionalProposalForm.getCustomDataHelper().populateCustomAttributeValuesMap();
-        if(institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().getInstitutionalProposalCustomDataList().size() == 0 ||
-                institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().getInstitutionalProposalCustomDataList().get(0).getCustomAttribute() == null) {
+        if (institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().getInstitutionalProposalCustomDataList().size() == 0) {
             copyCustomDataToNewInstitutionalProposal(institutionalProposalForm);
-        }else {
+        } else {
             copyCustomDataToExistingInstitutionalProposal(institutionalProposalForm);
         }
     }
