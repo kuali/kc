@@ -736,7 +736,7 @@ function getEditRow(name, id) {
 	}
 	tdTag1.click(function() {
 		if ($('#checkActive' + idx).attr('checked')) {
-			if ((ulTagId == 'researcharea') || ($('#activeflag' + ulTagId.substring(2)).val() == 'true')) {
+			if ((ulTagId == 'researcharea') || ($('#checkActive' + ulTagId.substring(2)).attr('checked'))) {
 			    raChanges.updateActiveIndicator(idx, raCode, 'true');
 			} else {
 				$('#checkActive' + idx).attr('checked', false);

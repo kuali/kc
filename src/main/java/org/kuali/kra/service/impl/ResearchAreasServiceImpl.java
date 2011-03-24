@@ -165,9 +165,11 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
             // delete before create to allow a research area code to be deleted and reused for a new entry.
             if (details.containsKey("RaDelete")) {
                 ResearchArea researchArea = businessObjectService.findBySinglePrimaryKey(ResearchArea.class, details.get("RaDelete").get("Code"));
-                businessObjectService.delete(researchArea);
-                deleteChildrenResearchAreas(details.get("RaDelete").get("Code"));
-                updateHasChildrenFlag(researchArea.getParentResearchAreaCode());
+                if (researchArea != null) {
+                    businessObjectService.delete(researchArea);
+                    deleteChildrenResearchAreas(details.get("RaDelete").get("Code"));
+                    updateHasChildrenFlag(researchArea.getParentResearchAreaCode());
+                }
             }
             if (details.containsKey("RaCreate")) {
                 boolean active = StringUtils.equalsIgnoreCase(details.get("RaCreate").get("Active"), "true") ? true : false;
