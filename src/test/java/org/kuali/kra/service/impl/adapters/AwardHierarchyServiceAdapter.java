@@ -92,4 +92,11 @@ public class AwardHierarchyServiceAdapter implements AwardHierarchyService {
         // TODO Auto-generated method stub
         
     }
+
+    public void populateAwardHierarchyNodesForTandMDoc(Map<String, AwardHierarchy> awardHierarchyItems,
+            Map<String, AwardHierarchyNode> awardHierarchyNodes, String currentAwardNumber, String currentSequenceNumber,
+            String docNum) {
+        // TODO Auto-generated method stub
+        
+    }
 }
