@@ -2821,7 +2821,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private PersonRolodex getPerson(String personId, boolean personFindFlag) {
         List<AwardPerson> awardPersons = getProjectPersons();
         for (AwardPerson awardPerson : awardPersons) {
-            if(awardPerson.getPersonId().equals(personId)){
+            // rearranged order of condition to handle null personId
+            if ((personId != null) && personId.equals(awardPerson.getPersonId())) {
                 if(personFindFlag && awardPerson.isEmployee()){
                     return awardPerson;
                 }else{
@@ -2841,7 +2842,13 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
 
     public PersonRolodex getProposalNonEmployee(Integer rolodexId) {
-        return getPerson(rolodexId.toString(), false);
+        List<AwardPerson> awardPersons = getProjectPersons();
+        for (AwardPerson awardPerson : awardPersons) {
+            if(awardPerson.getRolodexId().equals(rolodexId)){
+                return awardPerson;
+            }
+        }
+        return null;
     }
 
     public ContactRole getProposalNonEmployeeRole(Integer rolodexId) {
