@@ -2868,7 +2868,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public PersonRolodex getProposalNonEmployee(Integer rolodexId) {
         List<AwardPerson> awardPersons = getProjectPersons();
         for (AwardPerson awardPerson : awardPersons) {
-            if(awardPerson.getRolodexId().equals(rolodexId)){
+            if (rolodexId.equals(awardPerson.getRolodexId())){
                 return awardPerson;
             }
         }
