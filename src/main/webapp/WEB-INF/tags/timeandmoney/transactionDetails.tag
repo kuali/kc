@@ -24,7 +24,7 @@
      		<c:set var="idValue" value="${awardAmountInfoHistory.primaryDetail.transactionDetailId}" />
        	</c:when>
        	<c:otherwise>
-       		<c:set var="tabTitleAttribute" value="Transaction ID:" />
+       		<c:set var="tabTitleAttribute" value="Transaction Details ID:" />
      		<c:set var="idValue" value="${awardAmountInfoHistory.primaryDetail.transactionDetailId}" />
        	</c:otherwise>
  </c:choose>
