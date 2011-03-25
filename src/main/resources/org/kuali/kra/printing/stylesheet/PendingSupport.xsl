@@ -64,7 +64,9 @@
 									<fo:table-column column-width="50pt"/>
 									<fo:table-column column-width="42pt"/>
 									<fo:table-column column-width="100pt"/>
-									<fo:table-column column-width="70pt"/>
+									<fo:table-column column-width="60pt"/>
+									<fo:table-column column-width="55pt"/>
+									<fo:table-column column-width="60pt"/>
 									<fo:table-column column-width="44pt"/>
 									<fo:table-column column-width="44pt"/>
 									<fo:table-column column-width="42pt"/>
@@ -101,6 +103,20 @@
 													</fo:inline>
 												</fo:block>
 											</fo:table-cell>
+											<fo:table-cell border="solid 0.3pt black" font-size="6" padding="4pt" padding-right="4pt" text-align="left" display-align="center">
+												<fo:block>
+													<fo:inline font-weight="bold">
+														<xsl:text>Total Direct Cost</xsl:text>
+													</fo:inline>
+												</fo:block>
+											</fo:table-cell>
+											<fo:table-cell border="solid 0.3pt black" font-size="6" padding="4pt" padding-right="4pt" text-align="left" display-align="center">
+												<fo:block>
+													<fo:inline font-weight="bold">
+														<xsl:text>Total F&amp;A Cost</xsl:text>
+													</fo:inline>
+												</fo:block>
+											</fo:table-cell>																						
 											<fo:table-cell border="solid 0.3pt black" font-size="6" padding="4pt" padding-right="4pt" text-align="left" display-align="center">
 												<fo:block>
 													<fo:inline font-weight="bold">
@@ -248,6 +264,30 @@
 															</xsl:for-each>
 														</fo:block>
 													</fo:table-cell>
+													<fo:table-cell border="solid 0.3pt black" font-size="6" padding="4pt" padding-right="4pt" text-align="right" display-align="center">
+														<fo:block>
+															<xsl:for-each select="TotalDirectCost">
+																<fo:inline>
+																	<xsl:text>$</xsl:text>
+																</fo:inline>
+																<fo:inline>
+																	<xsl:value-of select="format-number(number(string(.)), '#,###,###,##0.00')"/>
+																</fo:inline>
+															</xsl:for-each>
+														</fo:block>
+													</fo:table-cell>
+													<fo:table-cell border="solid 0.3pt black" font-size="6" padding="4pt" padding-right="4pt" text-align="right" display-align="center">
+														<fo:block>
+															<xsl:for-each select="TotalIndirectCost">
+																<fo:inline>
+																	<xsl:text>$</xsl:text>
+																</fo:inline>
+																<fo:inline>
+																	<xsl:value-of select="format-number(number(string(.)), '#,###,###,##0.00')"/>
+																</fo:inline>
+															</xsl:for-each>
+														</fo:block>
+													</fo:table-cell>																										
 													<fo:table-cell border="solid 0.3pt black" font-size="6" padding="4pt" padding-right="4pt" text-align="right" display-align="center">
 														<fo:block>
 															<xsl:for-each select="TotalRequested">
