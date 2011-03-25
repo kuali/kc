@@ -442,13 +442,13 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             ipPersonCreditSplit.setNewCollectionRecord(pdPersonCreditSplit.isNewCollectionRecord());
             ipPerson.add(ipPersonCreditSplit);
         }
-        ipPerson.setEmailAddress(pdPerson.getEmailAddress());
+        //ipPerson.setEmailAddress(pdPerson.getEmailAddress());
         ipPerson.setFaculty(pdPerson.getFacultyFlag());
         ipPerson.setFullName(pdPerson.getFullName());
         ipPerson.setKeyPersonRole(pdPerson.getProjectRole());
         ipPerson.setNewCollectionRecord(pdPerson.isNewCollectionRecord());
         //ipPerson.setPerson(pdPerson.getPerson());
-        ipPerson.setPhoneNumber(pdPerson.getPhoneNumber());
+        //ipPerson.setPhoneNumber(pdPerson.getPhoneNumber());
         ipPerson.setRoleCode(pdPerson.getRole().getRoleCode());
         ipPerson.setTotalEffort(pdPerson.getPercentageEffort());
         ipPerson.setMultiplePi(pdPerson.isMultiplePi());
