@@ -202,29 +202,31 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
     }
     
     private boolean processAccountIdBusinessRule(Document document) {
+        System.err.println("Got to processAccountIdBusinessRule");
+        boolean retVal = true;
         InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
         InstitutionalProposal institutionalProposal = institutionalProposalDocument.getInstitutionalProposal();
-        
-        String accountNumber = institutionalProposal.getCurrentAccountNumber();
+
+        String ipAccountNumber = institutionalProposal.getCurrentAccountNumber();
         String awardNumber = institutionalProposal.getCurrentAwardNumber();
-        if (!StringUtils.isEmpty(awardNumber) && !StringUtils.isEmpty(accountNumber)) {
+        if (!StringUtils.isEmpty(awardNumber) && !StringUtils.isEmpty(ipAccountNumber)) {
             BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
-            Map<String,String> fieldValues = new HashMap<String,String>();
+            Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put("awardNumber", awardNumber);
             Collection awardCol = boService.findMatching(Award.class, fieldValues);
-            if ( !awardCol.isEmpty()) {
+            if (!awardCol.isEmpty()) {
                 Award award = (Award) (awardCol.toArray())[0];
                 String awardAccountNumber = award.getAccountNumber();
-                if (!StringUtils.equalsIgnoreCase(accountNumber, awardAccountNumber)) {
-                   GlobalVariables.getMessageMap().putError(
-                           "document.institutionalProposalList.currentAccountNumber", 
-                           "error.institutionalProposal.accountNumber.invalid",
-                           accountNumber);
-                    return false;
+                System.err.println("awardAccountNumber:" + awardAccountNumber);
+                if (!StringUtils.equalsIgnoreCase(ipAccountNumber, awardAccountNumber)) {
+                    GlobalVariables.getMessageMap().putError("document.institutionalProposal.currentAccountNumber",
+                            "error.institutionalProposal.accountNumber.invalid", ipAccountNumber);
+                    retVal = false;
                 }
             }
         }
-        return true;
+        System.err.println("About to return " + (retVal));
+        return retVal;
     }
     
     /**
