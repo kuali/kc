@@ -22,14 +22,46 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.rule.event.ResubmissionRuleEvent;
+import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
+/**
+ * On a Proposal Development resubmission, determines whether a new Institutional Proposal should be generated.
+ */
 public class ProposalDevelopmentResubmissionPromptAction extends ProposalDevelopmentActionsAction {
     
+    /**
+     * Proceeds with submitting this Proposal Development document to the sponsor once it determines whether to generate the Institutional Proposal.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward proceed(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        super.submitToSponsor(mapping, form, request, response);
-        return mapping.findForward(Constants.MAPPING_PROPOSAL_ACTIONS);
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument document = proposalDevelopmentForm.getDocument();
+        String submissionOption = proposalDevelopmentForm.getResubmissionOption();
+        
+        if (applyRules(new ResubmissionRuleEvent(document, submissionOption))) {
+            super.submitToSponsor(mapping, form, request, response);
+            forward = mapping.findForward(Constants.MAPPING_PROPOSAL_ACTIONS);
+        }
+        
+        return forward;
     }
     
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentActionsAction#cancel(org.apache.struts.action.ActionMapping, 
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(Constants.MAPPING_PROPOSAL_ACTIONS);
     }
