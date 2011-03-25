@@ -124,6 +124,12 @@ public class PendingProposalXmlStream extends CurrentAndPendingBaseStream {
 	        if (bean.getProposalTitle() != null) {
 	            pendingSupport.setTitle(bean.getProposalTitle());
 	        }
+	        if (bean.getTotalDirectCostTotal() != null) {
+	            pendingSupport.setTotalDirectCost(bean.getTotalDirectCostTotal().bigDecimalValue());
+	        }
+	        if (bean.getTotalIndirectCostTotal() != null) {
+	            pendingSupport.setTotalIndirectCost(bean.getTotalIndirectCostTotal().bigDecimalValue());
+	        }
 	        if (bean.getTotalRequestedCost() != null) {
 	            pendingSupport.setTotalRequested(bean.getTotalRequestedCost().bigDecimalValue());
 	        }
