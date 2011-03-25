@@ -26,7 +26,7 @@ http://www.osedu.org/licenses/ECL-2.0
     auditCount="0"
     headerTabActive="actions">
 
-<kul:tabTop tabTitle="Resubmission Options" defaultOpen="true">
+<kul:tabTop tabTitle="Resubmission Options" defaultOpen="true" tabErrorKey="resubmissionOption">
 
     <div class="tab-container" align="center">
         <h3>
