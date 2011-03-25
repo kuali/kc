@@ -4885,7 +4885,7 @@ or ( ../PrintRequirement/SubcontractRequired  = 1  and  starts-with(  AwardDetai
 																							display-align="center">
 																							<fo:block>
 																								<fo:inline font-weight="bold">
-																									<xsl:text>FY</xsl:text>
+																									<xsl:value-of select="/AwardNotice/Award/AwardDetails/CostSharingProjectPeriodFieldDescription"/>
 																								</fo:inline>
 																							</fo:block>
 																						</fo:table-cell>

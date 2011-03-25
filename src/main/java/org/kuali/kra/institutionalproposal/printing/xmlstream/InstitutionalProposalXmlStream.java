@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import noNamespace.ActivityType;
 import noNamespace.AnticipatedAwardType;
@@ -60,7 +61,9 @@ import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.common.specialreview.bo.SpecialReview;
+import org.kuali.kra.costshare.CostShareService;
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.ProposalStatus;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnit;
@@ -132,7 +135,7 @@ public class InstitutionalProposalXmlStream extends
 		xmlObjectList.put(
 				InstitutionalProposalPrintType.INSTITUTIONAL_PROPOSAL_REPORT
 						.getInstitutionalProposalPrintType(),
-				instituteProposalDocument);
+				instituteProposalDocument);		
 		return xmlObjectList;
 	}
 
@@ -179,8 +182,14 @@ public class InstitutionalProposalXmlStream extends
 		instituteProposalXmlObject.setDisclosureItemArray(disclosureItemTypes);
 		instituteProposalXmlObject.setKeyPersonsArray(getKeyPersons(
 				institutionalProposal));
+		instituteProposalXmlObject.setCostSharingProjectPeriodFieldDescription(getProjectPeriodFieldDescription());
 		return instituteProposalXmlObject;
 	}
+	
+	private String getProjectPeriodFieldDescription() {
+        String retVal =  KraServiceLocator.getService(CostShareService.class).getCostShareLabel(false);
+        return retVal;
+    }
 
 	/*
 	 * This method will set the values to key person type.It Iterate over
