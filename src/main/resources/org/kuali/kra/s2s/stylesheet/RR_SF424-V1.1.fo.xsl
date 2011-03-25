@@ -1026,7 +1026,7 @@
                         <!-- Project Title                -->
                         <!-- ============================ -->
                         <fo:table-cell hyphenate="true" language="en"
-                         number-columns-spanned="5"
+                         number-columns-spanned="4"
                          padding-start="3pt"
                          padding-end="3pt"
                          padding-before="1pt"
@@ -1045,7 +1045,7 @@
                         <!-- Project Affected Areas       -->
                         <!-- ============================ -->
                         <fo:table-cell hyphenate="true" language="en"
-                         number-columns-spanned="5"
+                         number-columns-spanned="4"
                          padding-start="3pt"
                          padding-end="3pt"
                          padding-before="1pt"
@@ -1235,7 +1235,7 @@
                         <!-- Project Director Information -->
                         <!-- ============================ -->
                         <fo:table-cell hyphenate="true" language="en"
-                         number-columns-spanned="5"
+                         number-columns-spanned="4"
                          padding-start="3pt"
                          padding-end="3pt"
                          padding-before="1pt"
@@ -1952,7 +1952,7 @@
                      <!-- ============================ -->
                      <fo:table-row>
                         <fo:table-cell hyphenate="true" language="en"
-                         number-columns-spanned="5"
+                         number-columns-spanned="2"
                          padding-start="3pt"
                          padding-end="3pt"
                          padding-before="1pt"
@@ -2084,7 +2084,7 @@
                      </fo:table-row>
                      <fo:table-row>
                         <fo:table-cell hyphenate="true" language="en"
-                         number-columns-spanned="5"
+                         number-columns-spanned="2"
                          padding-start="3pt"
                          padding-end="3pt"
                          padding-before="1pt"
@@ -2105,7 +2105,7 @@
                      
                      <fo:table-row>
                         <fo:table-cell hyphenate="true" language="en"
-                         number-columns-spanned="5"
+                         number-columns-spanned="2"
                          padding-start="3pt"
                          padding-end="3pt"
                          padding-before="1pt"
@@ -2123,7 +2123,7 @@
                      
                      <fo:table-row>
                         <fo:table-cell hyphenate="true" language="en"
-                         number-columns-spanned="5"
+                         number-columns-spanned="2"
                          padding-start="3pt"
                          padding-end="3pt"
                          padding-before="1pt"

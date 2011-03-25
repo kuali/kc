@@ -209,6 +209,7 @@ public class AwardTemplateXmlStream implements XmlStream {
 				reportTermType.setDescription(reportClass.getDescription());
 			}
 			reportTermType.setReportTermDetailsArray(getReportTermDetails(awardTemplateReportTerm));
+			reportTermTypes.add(reportTermType);
 		}
 		return reportTermTypes.toArray(new ReportTermType[0]);
 	}
