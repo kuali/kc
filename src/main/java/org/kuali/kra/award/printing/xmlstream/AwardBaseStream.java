@@ -15,13 +15,11 @@
  */
 package org.kuali.kra.award.printing.xmlstream;
 
-import java.awt.image.AreaAveragingScaleFilter;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -46,6 +44,7 @@ import noNamespace.TermType2;
 import noNamespace.AwardNoticeDocument.AwardNotice;
 import noNamespace.AwardNoticeDocument.AwardNotice.AODetails;
 import noNamespace.AwardNoticeDocument.AwardNotice.PrintRequirement;
+import noNamespace.AwardType.AwardCloseOutDeadlines;
 import noNamespace.AwardType.AwardComments;
 import noNamespace.AwardType.AwardContacts;
 import noNamespace.AwardType.AwardCostSharing;
@@ -59,7 +58,7 @@ import noNamespace.AwardType.AwardScienceCodes;
 import noNamespace.AwardType.AwardSpecialItems;
 import noNamespace.AwardType.AwardTermsDetails;
 import noNamespace.AwardType.AwardTransactionInfo;
-import noNamespace.AwardType.CloseOutDeadlines;
+import noNamespace.AwardType.AwardCloseOutDeadlines.CloseOutDeadlines;
 import noNamespace.AwardType.AwardContacts.ContactDetails;
 import noNamespace.AwardType.AwardCostSharing.CostSharingItem;
 import noNamespace.AwardType.AwardDetails.OtherHeaderDetails;
@@ -69,13 +68,13 @@ import noNamespace.AwardType.AwardPaymentSchedules.PaymentSchedule;
 import noNamespace.AwardType.AwardSpecialItems.Equipment;
 import noNamespace.AwardType.AwardSpecialItems.ForeignTravel;
 import noNamespace.AwardType.AwardSpecialItems.Subcontract;
-import noNamespace.AwardType.AwardSpecialItems.SubcontractFundingSource;
 import noNamespace.AwardType.AwardTransferringSponsors.TransferringSponsor;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.commitments.AwardCostShare;
+import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
@@ -106,6 +105,7 @@ import org.kuali.kra.bo.SponsorTermType;
 import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.bo.State;
 import org.kuali.kra.bo.UnitAdministrator;
+import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.printing.util.PrintingUtils;
@@ -225,7 +225,7 @@ public abstract class AwardBaseStream implements XmlStream {
 
 	protected noNamespace.AwardType getAward() {
 		noNamespace.AwardType awardType = noNamespace.AwardType.Factory
-				.newInstance();
+				.newInstance();	
 		awardType.setAwardDetails(getAwardDetails());
 		awardType.setAwardInvestigators(getAwardInvestigators());
 		awardType.setAwardKeyPersons(getKeyPersons());
@@ -238,7 +238,7 @@ public abstract class AwardBaseStream implements XmlStream {
 		awardType.setAwardSpecialItems(getAwardSpecialItems());
 		awardType.setAwardCostSharing(getAwardCostSharing());
 		awardType.setAwardIndirectCosts(getAwardIndirectCosts());
-		awardType.setCloseOutDeadlines(getCloseOutDeadlines());
+		awardType.setAwardCloseOutDeadlines(getAwardCloseOutDeadlines());
 		awardType.setAwardContacts(getAwardContacts());
 		awardType.setAwardFundingProposals(getAwardFundingProposals());
 		return awardType;
@@ -483,7 +483,7 @@ public abstract class AwardBaseStream implements XmlStream {
 		}
 		if (award.getModificationNumber() != null) {
 			awardHeaderType
-					.setModificationNumber(award.getModificationNumber());
+					.setModificationNumber(award.getModificationNumber());			
 		}
 		if (award.getNsfCode() != null) {
 			awardHeaderType.setNSFCode(award.getNsfCode());
@@ -708,64 +708,96 @@ public abstract class AwardBaseStream implements XmlStream {
 	 * 
 	 * @return returns CloseOut Deadlines XmlObject
 	 */
-	protected CloseOutDeadlines getCloseOutDeadlines() {
-		CloseOutDeadlines closeOutDeadlines = CloseOutDeadlines.Factory
-				.newInstance();
-		AwardCloseout awardCloseout = null;
+	protected AwardCloseOutDeadlines getAwardCloseOutDeadlines() {
+		AwardCloseOutDeadlines awardcloseOutDeadlines = AwardCloseOutDeadlines.Factory.newInstance();
+		
+
 		List<AwardCloseout> awardCloseoutItems = award.getAwardCloseoutItems();
 		AwardCloseout preAwardCloseout = null;
 		if (prevAward != null && !prevAward.getAwardCloseoutItems().isEmpty()) {
 			preAwardCloseout = prevAward.getAwardCloseoutItems().get(0);
 		}
+		List<CloseOutDeadlines> closeOutDeadlines = new ArrayList<CloseOutDeadlines>();
 		if (awardCloseoutItems != null && !awardCloseoutItems.isEmpty()) {
-			awardCloseout = awardCloseoutItems.get(0);
-		}
-		if (awardCloseout != null) {
-			if (awardCloseout.getSequenceNumber() != null) {
-				closeOutDeadlines.setSequenceNumber(awardCloseout
-						.getSequenceNumber());
+			if (awardCloseoutItems.get(0).getSequenceNumber() != null) {
+				awardcloseOutDeadlines.setSequenceNumber(awardCloseoutItems.get(0).getSequenceNumber());
+
+
+
+
+
+
+
+
 			}
-			if (awardCloseout.getAwardNumber() != null) {
-				closeOutDeadlines
-						.setAwardNumber(awardCloseout.getAwardNumber());
+			if (awardCloseoutItems.get(0).getAwardNumber() != null) {
+				awardcloseOutDeadlines
+						.setAwardNumber(awardCloseoutItems.get(0).getAwardNumber());
+
 			}
-			if (awardCloseout.getFinalSubmissionDate() != null) {
-				Calendar finalSubmissionDate = dateTimeService
-						.getCalendar(awardCloseout.getFinalSubmissionDate());
-				closeOutDeadlines.setFinalPropSubDate(finalSubmissionDate);
-			}
-			if (preAwardCloseout != null) {
-				String finalPropSubDateModified = getFinalProbSubDateModified(
-						awardCloseout, preAwardCloseout);
-				if (finalPropSubDateModified != null) {
-					closeOutDeadlines
-							.setFinalPropSubDateModified(finalPropSubDateModified);
+			if(award.getArchiveLocation()!=null)
+				awardcloseOutDeadlines.setArchiveLocation(award.getArchiveLocation());
+			if(award.getCloseoutDate()!=null)
+				awardcloseOutDeadlines.setArchiveDate(dateTimeService.getCalendar(award.getCloseoutDate()));
+			
+			for (AwardCloseout awardCloseout:awardCloseoutItems ){
+				CloseOutDeadlines closeOutDeadline = CloseOutDeadlines.Factory.newInstance();		
+				
+				if (awardCloseout.getCloseoutReportType() != null) {
+					closeOutDeadline.setFinalReportType(awardCloseout.getCloseoutReportName());
 				}
-			} else if (awardCloseout.getFinalSubmissionDate() != null) {
-				closeOutDeadlines.setFinalPropSubDateModified(String
-						.valueOf(awardCloseout.getFinalSubmissionDate()));
-			}
-			if (awardCloseout.getDueDate() != null) {
-				Calendar closeoutDate = dateTimeService
-						.getCalendar(awardCloseout.getDueDate());
-				closeOutDeadlines.setCloseoutDate(closeoutDate);
-			}
-			if (preAwardCloseout != null) {
-				String closeOutDateModified = getCloseOutDateModified(
-						awardCloseout, preAwardCloseout);
-				if (closeOutDateModified != null) {
-					closeOutDeadlines
-							.setCloseOutDateModified(closeOutDateModified);
+				if (awardCloseout.getDueDate() != null) {
+					Calendar closeoutDate = dateTimeService
+							.getCalendar(awardCloseout.getDueDate());
+					closeOutDeadline.setFinalDueDate(closeoutDate);
+
+
+
+
+
+
+
+
+
+
+
 				}
-			} else if (awardCloseout.getDueDate() != null) {
-				closeOutDeadlines.setCloseOutDateModified(String
-						.valueOf(awardCloseout.getDueDate()));
+				if (preAwardCloseout != null) {
+					String closeOutDateModified = getCloseOutDateModified(
+							awardCloseout, preAwardCloseout);
+					if (closeOutDateModified != null) {
+						closeOutDeadline
+								.setFinalDueDateModified(closeOutDateModified);
+					}
+				} else if (awardCloseout.getDueDate() != null) {
+					closeOutDeadline.setFinalDueDateModified(String
+							.valueOf(awardCloseout.getDueDate()));
+				}
+				if (awardCloseout.getFinalSubmissionDate() != null) {
+					Calendar finalSubmissionDate = dateTimeService
+							.getCalendar(awardCloseout.getFinalSubmissionDate());
+					closeOutDeadline.setFinalSubDate(finalSubmissionDate);
+				}
+				if (preAwardCloseout != null) {
+					String finalPropSubDateModified = getFinalProbSubDateModified(
+							awardCloseout, preAwardCloseout);
+					if (finalPropSubDateModified != null) {
+						closeOutDeadline.setFinalSubDateModified(finalPropSubDateModified);
+					}
+				} else if (awardCloseout.getFinalSubmissionDate() != null) {
+					closeOutDeadline.setFinalSubDateModified(String
+							.valueOf(awardCloseout.getFinalSubmissionDate()));
+				}
+				closeOutDeadlines.add(closeOutDeadline);
 			}
-			// TODO :
-			// FinalInvSubDateModified,FinalInvSubDate,FinalTechSubDateModified,FinalTechSubDate,FinalPatentSubDateModified,FinalPatentSubDate,ArchiveLocation
-			// -Needs to done
+
+
+
 		}
-		return closeOutDeadlines;
+
+		awardcloseOutDeadlines.setCloseOutDeadlinesArray(closeOutDeadlines
+				.toArray(new CloseOutDeadlines[0]));
+		return awardcloseOutDeadlines;
 	}
 
 	/**
@@ -786,24 +818,25 @@ public abstract class AwardBaseStream implements XmlStream {
 		BudgetDocument budgetDocument = getBudgetDocument();
 		List<IndirectCostSharingItem> indirectCostSharingItems = new ArrayList<IndirectCostSharingItem>();
 		if (budgetDocument != null
-				&& budgetDocument.getBudget().getBudgetUnrecoveredFandAs() != null) {
-			for (BudgetUnrecoveredFandA budgetUnrecoveredFandA : budgetDocument
-					.getBudget().getBudgetUnrecoveredFandAs()) {
-				IndirectCostSharingItem indirectCostSharingItem = IndirectCostSharingItem.Factory
-						.newInstance();
-				indirectCostSharingItem.setAwardNumber(award.getAwardNumber());
-				indirectCostSharingItem.setSequenceNumber(award.getSequenceNumber());
-				indirectCostSharingItem.setFiscalYear(String.valueOf(budgetUnrecoveredFandA.getFiscalYear()));
-				indirectCostSharingItem
-						.setApplicableRate(budgetUnrecoveredFandA
-								.getApplicableRate().bigDecimalValue());
-				boolean campus = (budgetUnrecoveredFandA.getOnCampusFlag() != null && budgetUnrecoveredFandA
-						.getOnCampusFlag().equals(ON_CAMPUS_FLAG_SET)) ? true: false;
-				indirectCostSharingItem.setCampus(campus);
-				indirectCostSharingItem.setSourceAccount(budgetUnrecoveredFandA.getSourceAccount());
-				indirectCostSharingItem.setUnderRecoveryAmount(budgetUnrecoveredFandA.getAmount().bigDecimalValue());
-				indirectCostSharingItems.add(indirectCostSharingItem);
-			}
+				&& award.getAwardFandaRate()!= null) {			    
+            for (AwardFandaRate awardFandaRate : award.getAwardFandaRate()) {
+                IndirectCostSharingItem indirectCostSharingItem = IndirectCostSharingItem.Factory
+                        .newInstance();
+                indirectCostSharingItem.setSequenceNumber(award.getSequenceNumber());               
+                indirectCostSharingItem.setFiscalYear(String.valueOf(awardFandaRate.getFiscalYear()));              
+                indirectCostSharingItem
+                        .setApplicableRate(awardFandaRate.getApplicableFandaRate().bigDecimalValue());                               
+                boolean campus = (awardFandaRate.getOnCampusFlag() != null && awardFandaRate
+                        .getOnCampusFlag().equals(ON_CAMPUS_FLAG_SET)) ? true: false;
+                indirectCostSharingItem.setCampus(campus);
+                indirectCostSharingItem.setSourceAccount(awardFandaRate.getSourceAccount());                
+                indirectCostSharingItem.setUnderRecoveryAmount(awardFandaRate.getUnderrecoveryOfIndirectCost().bigDecimalValue());
+                indirectCostSharingItem.setDestinationAccount(awardFandaRate.getDestinationAccount());
+                indirectCostSharingItem.setStartDate(dateTimeService.getCalendar(awardFandaRate.getStartDate()));
+                indirectCostSharingItem.setEndDate(dateTimeService.getCalendar(awardFandaRate.getEndDate()));                
+                indirectCostSharingItems.add(indirectCostSharingItem);
+                indirectCostSharingItem.setIDCRateDescription(awardFandaRate.getFandaRateType().getDescription());
+            }
 		}
 		awardIndirectCost
 				.setIndirectCostSharingItemArray(indirectCostSharingItems
@@ -2470,8 +2503,8 @@ public abstract class AwardBaseStream implements XmlStream {
 			otherHeaderDetails.setSpecialEBRateOnCampus(award.getSpecialEbRateOnCampus().bigDecimalValue());
 		}
 		if (award.getAwardSpecialRate() != null
-				&& award.getAwardSpecialRate().getComments() != null) {
-			otherHeaderDetails.setSpecialRateComments(award.getAwardSpecialRate().getComments());
+				&& award.getAwardSpecialRate().getComments() != null) {		  
+			otherHeaderDetails.setSpecialRateComments(award.getAwardBenefitsRateComment().getComments());
 		}
 		KualiDecimal bdecPreAwardAuthorizedAmt = award
 				.getPreAwardAuthorizedAmount() == null ? KualiDecimal.ZERO
