@@ -3343,7 +3343,7 @@
 																					<fo:table-cell padding="2pt" display-align="center">
 																						<fo:block>
 																							<fo:inline font-weight="bold">
-																								<xsl:text>Fiscal Year</xsl:text>
+																								<xsl:value-of select="/InstituteProposal/costSharingProjectPeriodFieldDescription"/>
 																							</fo:inline>
 																						</fo:block>
 																					</fo:table-cell>

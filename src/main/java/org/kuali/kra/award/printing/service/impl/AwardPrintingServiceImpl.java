@@ -130,6 +130,7 @@ public class AwardPrintingServiceImpl implements AwardPrintingService {
 			printable.setPrintableBusinessObject(printableBO);
 			printable.setReportParameters(reportParameters);
 			source = getPrintingService().print(printable);
+			
 			source.setFileName(getReportName(repoprtFileNamePrefix, awardReportType.getAwardPrintType()));
 			source.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
 		}
