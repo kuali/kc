@@ -4902,7 +4902,7 @@ or  substring(  AwardDetails/ApprvdSubcontractIndicator , 2 ) = &quot;1&quot;">
 																								display-align="center">
 																								<fo:block>
 																									<fo:inline font-weight="bold">
-																										<xsl:text>FY</xsl:text>
+																										<xsl:value-of select="/AwardNotice/Award/AwardDetails/CostSharingProjectPeriodFieldDescription"/>
 																									</fo:inline>
 																								</fo:block>
 																							</fo:table-cell>

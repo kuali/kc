@@ -108,6 +108,8 @@ import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.costshare.CostShareService;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.printing.xmlstream.XmlStream;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
@@ -1216,9 +1218,15 @@ public abstract class AwardBaseStream implements XmlStream {
 		awardDetailsType.setIDCIndicator(getIndicator(award.getAwardFandaRate()));
 		awardDetailsType.setTransferSponsorIndicator(getIndicator(award.getAwardTransferringSponsors()));
 		awardDetailsType.setCostSharingIndicator(getIndicator(award.getAwardCostShares()));
+		awardDetailsType.setCostSharingProjectPeriodFieldDescription(getProjectPeriodFieldDescription());	
 		awardDetailsType.setSpecialReviewIndicator(getIndicator(award.getSpecialReviews()));
 		awardDetailsType.setScienceCodeIndicator(getIndicator(award.getKeywords()));
 		return awardDetailsType;
+	}
+	
+	private String getProjectPeriodFieldDescription() {
+	    String retVal =  KraServiceLocator.getService(CostShareService.class).getCostShareLabel(false);
+	    return retVal;
 	}
 	
 	private String getIndicator(List list){
