@@ -18,7 +18,7 @@
 <c:set var="institutionalProposalAttributes" value="${DataDictionary.InstitutionalProposal.attributes}" />
 
 
-<kul:tab tabTitle="Financial" defaultOpen="false" tabErrorKey="document.institutionalProposalList[0].requestedStartDateInitial,document.institutionalProposalList[0].requestedStartDateTotal,document.institutionalProposalList[0].requestedStartDateInitial,document.institutionalProposalList[0].totalDirectCostInitial,document.institutionalProposalList[0].requestedEndDateInitial,document.institutionalProposalList[0].totalDirectCostTotal,document.institutionalProposalList[0].totalIndirectCostInitial,document.institutionalProposalList[0].totalIndirectCostTotal">
+<kul:tab tabTitle="Financial" defaultOpen="false" tabErrorKey="document.institutionalProposalList[0].requestedStartDateInitial,document.institutionalProposalList[0].requestedStartDateTotal,document.institutionalProposalList[0].requestedStartDateInitial,document.institutionalProposalList[0].totalDirectCostInitial,document.institutionalProposalList[0].requestedEndDateInitial,document.institutionalProposalList[0].totalDirectCostTotal,document.institutionalProposalList[0].totalIndirectCostInitial,document.institutionalProposalList[0].totalIndirectCostTotal,document.institutionalProposal.currentAccountNumber">
 	<!-- Institution -->
 
 <div class="tab-container" align="center">
