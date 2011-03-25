@@ -77,7 +77,7 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 	private static final String SCIENCE_CODE = "keywords";
 	private static final String PROPOSAL_DUE = "proposalDue";
 	private static final String PAYMENT = "payment";
-	private static final String INDIRECT_COST = "indirectCost";
+	private static final String INDIRECT_COST = "fACost";
 	private static final String FUNDING_SUMMARY="fundingSummary";
 	private static final String HIERARCHY_INFO = "hierarchyInfo";
 	private static final String FOREIGN_TRAVEL = "foreignTravel";
