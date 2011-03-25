@@ -3532,6 +3532,7 @@
                                           
                                        </fo:block>
 								<fo:inline font-size="8pt" font-weight="bold">List items and dollar amount for each item exceeding $5,000</fo:inline>
+								<xsl:if test="RR_FedNonFedBudget:RR_FedNonFedBudget:Equipment/RR_FedNonFedBudget:EquipmentList">
 								<fo:table width="100%" space-before.optimum="1pt" space-after.optimum="2pt">
 									<fo:table-column column-width="proportional-column-width(3)"/>
 									<fo:table-column column-width="proportional-column-width(50)"/>
@@ -3621,6 +3622,7 @@
 										</xsl:for-each>
 									</fo:table-body>
 								</fo:table>
+								</xsl:if>
 								<fo:table width="100%" space-before.optimum="1pt" space-after.optimum="2pt">
 									<fo:table-column column-width="proportional-column-width(53)"/>
 									<fo:table-column column-width="proportional-column-width(16)"/>
