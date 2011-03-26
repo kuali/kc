@@ -118,9 +118,9 @@ public class ProposalDevelopmentInstituteAttachmentRule extends ResearchDocument
     
         KcAttachmentService attachmentService = getKcAttachmentService();
         //checking for invalid characters in description text
-        if(attachmentService.hasInvalidCharacters(narrative.getModuleTitle())) {
-            rulePassed &= false;   
-            reportError(errorPath + NARRATIVE_DESCRIPTION, KeyConstants.INVALID_TEXT, attachmentService.getInvalidCharacters());
+        if (attachmentService.hasInvalidCharacters(narrative.getModuleTitle())) {
+            rulePassed &= true;   
+            reportWarning(errorPath + NARRATIVE_DESCRIPTION, KeyConstants.INVALID_TEXT, attachmentService.getInvalidCharacters());
         }
         // Checking attachment file name for invalid characters.
         String attachmentFileName = narrative.getFileName();
