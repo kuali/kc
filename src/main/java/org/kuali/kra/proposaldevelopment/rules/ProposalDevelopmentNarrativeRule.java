@@ -108,11 +108,10 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
         
         String attachmentFileName = narrative.getFileName();
         KcAttachmentService attachmentService = getKcAttachmentService();
-        
         // Checking the description for invalid characters.
         if (attachmentService.hasInvalidCharacters(narrative.getModuleTitle())) {
-            rulePassed &= false;
-            reportError("newNarrative.moduleTitle", KeyConstants.INVALID_TEXT, attachmentService.getInvalidCharacters());
+            rulePassed &= true;
+            reportWarning("newNarrative.moduleTitle", KeyConstants.INVALID_TEXT, attachmentService.getInvalidCharacters());
         }
  
         // Checking attachment file name for invalid characters.
