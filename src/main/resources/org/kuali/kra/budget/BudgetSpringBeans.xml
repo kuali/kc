@@ -153,6 +153,7 @@
 		<property name="businessObjectService" ref="businessObjectService" />
         <property name="documentService" ref="documentService" />
         <property name="budgetSummaryService" ref="budgetSummaryService" />
+        <property name="budgetCalculationService" ref="budgetCalculationService" />
 	</bean>
 
 	
