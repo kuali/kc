@@ -262,8 +262,16 @@
 		                    			<td align="left" width="12%">${budgetVersion.budgetVersionOverview.residualFunds}&nbsp;</td>
 									</c:when>
 									<c:otherwise>
-		                    			<th width="1%" nowrap>&nbsp;</th>
-		                    			<td align="left" width="12%">&nbsp;</td>
+		                    			<c:choose>
+											<c:when test="${not empty awardBudgetPage}">
+												<th width="1%" nowrap>Award Version</th>
+		                    					<td align="left" width="12%">${KualiForm.document.award.sequenceNumber}</td>
+											</c:when>
+											<c:otherwise>
+												<th width="1%" nowrap>&nbsp;</th>
+		                    					<td align="left" width="12%">&nbsp;</td>
+											</c:otherwise>
+										</c:choose>
 									</c:otherwise>
 								</c:choose>
 	                    		<th width="40%" nowrap><div align="right">F&A Rate Type:</div></th>
