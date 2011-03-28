@@ -1,3 +1,6 @@
+set echo on;
+spool POST-3_0_1-KR-2011-01-26-ORACLE.log
+
 -- Check for pre-existing group membership
 DECLARE
 	DUMMY NUMBER;
@@ -11,6 +14,6 @@ BEGIN
                 (select grp_id from krim_grp_t where GRP_NM = 'IRBAdmin' and NMSPC_CD = 'KC-WKFLW'), 
                 (select prncpl_id from krim_prncpl_t where prncpl_nm = 'kr'), 'P', NULL, NULL, NULL);
 END;
-
+/
 
 COMMIT;
