@@ -31,6 +31,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.calculator.QueryList;
 import org.kuali.kra.budget.calculator.query.And;
 import org.kuali.kra.budget.calculator.query.Equals;
@@ -82,6 +83,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
     private DocumentService documentService;
     private BudgetService<Award> budgetService;
     private BudgetSummaryService budgetSummaryService;
+    private BudgetCalculationService budgetCalculationService;
 
     /**
      * @see org.kuali.kra.award.budget.AwardBudgetService#post(org.kuali.kra.award.budget.document.AwardBudgetDocument)
@@ -477,6 +479,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         saveDocument(awardBudgetDocument);
     }
 
+    @SuppressWarnings("unchecked")
     protected void copyProposalBudgetLineItemsToAwardBudget(BudgetPeriod awardBudgetPeriod, BudgetPeriod proposalBudgetPeriod) {
         List awardBudgetLineItems = awardBudgetPeriod.getBudgetLineItems();
         List<BudgetLineItem> lineItems = proposalBudgetPeriod.getBudgetLineItems();
@@ -517,6 +520,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
                 awardBudgetPersonnelLineItems.add(awardBudgetPerDetails);
             }
             awardBudgetLineItems.add(awardBudgetLineItem);
+            getBudgetCalculationService().populateCalculatedAmount(awardBudgetPeriod.getBudget(), awardBudgetLineItem);
         }
     }
     
@@ -581,9 +585,8 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
             BudgetPeriod proposalPeriod = (BudgetPeriod)iter.next();
             copyProposalBudgetLineItemsToAwardBudget(awardBudgetPeriod, proposalPeriod);
         }
-        getDocumentService().saveDocument(awardBudgetPeriod.getBudget().getBudgetDocument());
+        getDocumentService().saveDocument(awardBudgetPeriod.getBudget().getBudgetDocument());        
         getBudgetSummaryService().calculateBudget(awardBudgetPeriod.getBudget());
-        
     }
     
     /**
@@ -702,4 +705,12 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
     protected String getDoNotPostBudgetStatus() {
         return getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_DO_NOT_POST);
     }
+    
+    protected BudgetCalculationService getBudgetCalculationService() {
+        return budgetCalculationService;
+    }
+
+    public void setBudgetCalculationService(BudgetCalculationService budgetCalculationService) {
+        this.budgetCalculationService = budgetCalculationService;
+    }    
 }
