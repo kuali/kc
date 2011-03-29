@@ -15,12 +15,14 @@
  */
 package org.kuali.kra.rules;
 
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import java.util.regex.Pattern;
+
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class overrides the custom route and custom approve methods of the MaintenanceDocument processing to check the length of the
@@ -42,6 +44,7 @@ public class SponsorMaintenanceDocumentRule extends KraMaintenanceDocumentRuleBa
     }
 
     /**
+     * {@inheritDoc}
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     @Override
@@ -50,6 +53,7 @@ public class SponsorMaintenanceDocumentRule extends KraMaintenanceDocumentRuleBa
     }
 
     /**
+     * {@inheritDoc}
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     @Override
@@ -66,13 +70,13 @@ public class SponsorMaintenanceDocumentRule extends KraMaintenanceDocumentRuleBa
     private boolean checkSponsorCode(MaintenanceDocument document) {
         boolean valid = true;
         Sponsor sponsor = (Sponsor) document.getNewMaintainableObject().getBusinessObject();
-        if (!sponsor.getSponsorCode().matches(SPONSOR_CODE_REGEX)) {
-            String errorLabel = KraServiceLocator.getService(DataDictionaryService.class).getAttributeErrorLabel(Sponsor.class,
-                    SPONSOR_CODE_FIELD_NAME);
-            GlobalVariables.getErrorMap().putError(SPONSOR_CODE_ERROR_PROPERTY_NAME, KeyConstants.ERROR_INVALID_FORMAT_WITH_FORMAT,
-                    new String[] { errorLabel, sponsor.getSponsorCode(), SPONSOR_CODE_FORMAT_DESCRIPTION });
+        if (sponsor.getSponsorCode() != null && !Pattern.matches(SPONSOR_CODE_REGEX, sponsor.getSponsorCode())) {
+            String errorLabel = KraServiceLocator.getService(DataDictionaryService.class).getAttributeErrorLabel(Sponsor.class, SPONSOR_CODE_FIELD_NAME);
+            GlobalVariables.getMessageMap().putError(SPONSOR_CODE_ERROR_PROPERTY_NAME, KeyConstants.ERROR_INVALID_FORMAT_WITH_FORMAT, errorLabel, 
+                    sponsor.getSponsorCode(), SPONSOR_CODE_FORMAT_DESCRIPTION);
             valid = false;
         }
         return valid;
     }
+    
 }
