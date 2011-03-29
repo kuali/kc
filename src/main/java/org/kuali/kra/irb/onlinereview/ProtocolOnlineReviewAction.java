@@ -329,7 +329,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
             protocolForm.getOnlineReviewsActionHelper().init(true);
             recordOnlineReviewActionSuccess("approved", prDoc);
             // TODO : only send to this reviewer, not the other unapproved review ?
-//            getProtocolActionsNotificationService().sendActionsNotification(protocolForm.getProtocolDocument().getProtocol(), new ReviewCompleteEvent(protocolForm.getProtocolDocument().getProtocol()));
+            getProtocolActionsNotificationService().sendActionsNotification(protocolForm.getProtocolDocument().getProtocol(), new ReviewCompleteEvent(protocolForm.getProtocolDocument().getProtocol()));
             if (!protocolForm.getEditingMode().containsKey("maintainProtocolOnlineReviews")) {
                 return mapping.findForward(KNSConstants.MAPPING_PORTAL);
             }
