@@ -34,6 +34,7 @@ public class ReviewCommentsBean implements Serializable {
     private CommitteeScheduleMinute newReviewComment;
     private List<CommitteeScheduleMinute> reviewComments;
     private List<CommitteeScheduleMinute> deletedReviewComments;
+    // flag to hide reviewer name for this bean.
     private boolean hideReviewerName;
     /**
      * Constructs a ReviewerCommentsBean.

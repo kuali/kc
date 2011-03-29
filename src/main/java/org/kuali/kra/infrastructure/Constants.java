@@ -491,6 +491,10 @@ public interface Constants {
     public static final String PROPERTY_PROTOCOL_NUMBER = "protocolNumber";
     public static final String PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION = "IRB_COMM_SELECTION_DURING_SUBMISSION";
     public static final String PARAMETER_IRB_DISPLAY_REVIEWER_NAME = "IRB_DISPLAY_REVIEWER_NAME";
+    public static final String PARAMETER_IRB_DISPLAY_REVIEWER_NAME_TO_PI = "IRB_DISPLAY_REVIEWER_NAME_TO_PI";
+    public static final String PARAMETER_IRB_DISPLAY_REVIEWER_NAME_TO_OTHERS = "IRB_DISPLAY_REVIEWER_NAME_TO_OTHERS";
+    public static final String PARAMETER_IRB_DISPLAY_REVIEWER_NAME_TO_REVIEWERS = "IRB_DISPLAY_REVIEWER_NAME_TO_REVIEWERS";
+    public static final String PARAMETER_IRB_DISPLAY_REVIEWER_NAME_TO_ACTIVE_COMMITTEE_MEMBERS = "IRB_DISPLAY_REVIEWER_NAME_TO_ACTIVE_COMMITTEE_MEMBERS";
     
     public static final String PROTOCOL_FUNDING_SOURCE_TYPE_CODE_FIELD = "protocolHelper.newFundingSource.fundingSourceTypeCode";
     public static final String PROTOCOL_FUNDING_SOURCE_ID_FIELD = "protocolHelper.newFundingSource.fundingSource";
