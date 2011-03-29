@@ -61,7 +61,7 @@
     </property>
     <property name="control">
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.questionnaire.CoeusModuleValuesFinder" />
+            p:valuesFinderClass="org.kuali.kra.bo.CustomAttributeValuesFinder" />
     </property>
     <property name="summary" value="Document Type Code"/>
     <property name="description" value="Document Type Code"/>
