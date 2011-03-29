@@ -19,12 +19,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.web.ui.Row;
 
 /**
  * Question specific lookupable helper service methods.
@@ -40,6 +42,31 @@ public class QuestionLookupableHelperServiceImpl extends KualiLookupableHelperSe
 
     
     private transient QuestionAuthorizationService questionAuthorizationService;
+    
+
+    /**
+     * Don't show the option to select active/inactive questions since Question is being versioned 
+     * and we only want active questions in questionnaires.
+     * 
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getRows()
+     */
+    @Override
+    public List<Row> getRows() {
+        // TODO: Use a dedicated parameter to determine if only active questions are to be displayed.  
+        if ((getParameters().containsKey("multipleValues") && StringUtils.equals(((String[]) this.getParameters().get("multipleValues"))[0], "Yes"))
+                || (getParameters().containsKey("multipleValues") && StringUtils.equals(((String[]) this.getParameters().get("multipleValues"))[0], "true"))
+                || (getParameters().containsKey("conversionFields") &&  !StringUtils.isEmpty(((String[]) this.getParameters().get("conversionFields"))[0]))) {
+            List<Row> retRows = new ArrayList<Row>();
+            for (Row row : super.getRows()) {
+                if (!"status".equals(row.getFields().get(0).getPropertyName())) {
+                    retRows.add(row);
+                }
+            }
+            return retRows;
+        } else {
+            return super.getRows();
+        }
+    }
 
     /**
      * Since Question is being versioned, the lookup should only return active versions of the question
@@ -50,6 +77,11 @@ public class QuestionLookupableHelperServiceImpl extends KualiLookupableHelperSe
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         fieldValues.put("sequenceStatus", SEQUENCE_STATUS_CURRENT);
+        // TODO: Use a dedicated parameter to determine if only active questions are to be displayed.  
+        if ((getParameters().containsKey("multipleValues") && StringUtils.equals(((String[]) this.getParameters().get("multipleValues"))[0], "Yes"))
+                || (getParameters().containsKey("conversionFields") &&  !StringUtils.isEmpty(((String[]) this.getParameters().get("conversionFields"))[0]))) {
+            fieldValues.put("status", "A");
+        }        
         return super.getSearchResults(fieldValues);
     }
     
