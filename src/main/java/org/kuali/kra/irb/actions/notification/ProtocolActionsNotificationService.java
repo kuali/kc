@@ -50,6 +50,15 @@ public interface ProtocolActionsNotificationService {
      * @param protocol
      */
     void addInitiatorToRecipients(Element recipients, Protocol protocol, List<String> userNames);
+    
+    /**
+     * 
+     * This method is to add the reviewers to the recipient list.  This is for 'assign to agenda',
+     * 'assign reviewer' and 'review complete'
+     * @param recipients
+     * @param protocol
+     * @param userNames
+     */
     void addReviewerToRecipients(Element recipients, Protocol protocol, List<String> userNames);
     
 

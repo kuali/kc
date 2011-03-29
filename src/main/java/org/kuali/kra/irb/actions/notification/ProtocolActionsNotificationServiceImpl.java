@@ -93,6 +93,10 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
                 messageBody = messageBody.replace("submissionId=", "submissionId="+protocol.getProtocolSubmission().getSubmissionId());
                 messageBody = messageBody.replace("../", applicationUrl + "/");
             } 
+            if (ReviewCompleteEvent.REVIEW_COMPLETE.equals(notificationEvent.getActionTypeCode())) {
+                // this url is needed for embedded mode
+                messageBody = messageBody.replace("reviewerNameHolder", GlobalVariables.getUserSession().getPerson().getName());
+            } 
             messageBody = messageBody.replace("$amp;", "&amp;");
             
             message.setTextContent(messageBody);
@@ -125,13 +129,13 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
         for (String id : ids) {
             KcPerson kcPersons = kcPersonService.getKcPersonByPersonId(id);
             try {
-                if (StringUtils.isNotBlank(kcPersons.getUserName())
-                        && (StringUtils.isBlank(protocol.getPrincipalInvestigator().getPersonId()) || !kcPersons.getUserName()
-                                .equals(protocol.getPrincipalInvestigator().getPerson().getUserName()))) {
-                    if (!userNames.contains(kcPersons.getUserName())) {
+                if (StringUtils.isNotBlank(kcPersons.getUserName()) && !userNames.contains(kcPersons.getUserName())) {
+//                        && (userNames.isEmpty() || StringUtils.isBlank(protocol.getPrincipalInvestigator().getPersonId()) || !kcPersons.getUserName()
+//                                .equals(protocol.getPrincipalInvestigator().getPerson().getUserName()))) {
+                   // if (!userNames.contains(kcPersons.getUserName())) {
                         XmlHelper.appendXml(recipients, "<user>" + kcPersons.getUserName() + "</user>");
                         userNames.add(kcPersons.getUserName());
-                    }
+                  //  }
                 }
             }
             catch (Exception e) {
@@ -169,6 +173,10 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
 
     }
     
+    /**
+     * 
+     * @see org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService#addReviewerToRecipients(org.w3c.dom.Element, org.kuali.kra.irb.Protocol, java.util.List)
+     */
     public void addReviewerToRecipients(Element recipients, Protocol protocol, List<String> userNames) {
         try {
             for (ProtocolOnlineReview protocolOnlineReview  : protocolOnlineReviewService.getProtocolReviews(protocol.getProtocolSubmission().getSubmissionId())) {
