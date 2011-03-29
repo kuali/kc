@@ -626,7 +626,6 @@
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="protocolFinderDao" ref="protocolFinderDao" />
         <property name="protocolAssignReviewersService" ref="protocolAssignReviewersService" />
-        <property name="protocolActionsNotificationService" ref="protocolActionsNotificationService" />
     </bean>
     
     <bean id="protocolWithdrawService" class="org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawServiceImpl">

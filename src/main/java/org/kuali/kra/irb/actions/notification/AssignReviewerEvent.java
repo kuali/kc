@@ -18,6 +18,10 @@ package org.kuali.kra.irb.actions.notification;
 import org.kuali.kra.irb.Protocol;
 import org.w3c.dom.Element;
 
+/**
+ * 
+ * This class is the event for Assign reviewer notification.
+ */
 public class AssignReviewerEvent extends NotificationEventBase {
     public static final String ASSIGN_REVIEWER = "901";
 
@@ -41,7 +45,7 @@ public class AssignReviewerEvent extends NotificationEventBase {
      * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getTitle()
      */
     public String getTitle() {
-        return "Protocol " + getProtocol().getProtocolNumber() + " Assign Reviewer";
+        return "IRB Protocol Reviewer added";
     }
 
     public String getTemplatePath() {
@@ -56,4 +60,26 @@ public class AssignReviewerEvent extends NotificationEventBase {
     public String getActionTypeCode() {
         return ASSIGN_REVIEWER;
     }
+    
+    @Override
+    public boolean isReviewerNotification() {
+        return true;    
+    }
+
+    @Override
+    public boolean isInvestigatorIncluded() {
+        return false;    
+    }
+    
+    @Override
+    public boolean isIrbAdminIncluded() {
+        return false;    
+    }
+
+    @Override
+    public boolean isReviewerIncluded() {
+        return true;    
+    }
+
+
 }
