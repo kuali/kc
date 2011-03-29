@@ -80,28 +80,33 @@ public abstract class NotificationEventBase {
     public void getRecipients(Element recipients) {
         // TODO : based on kcirb-252 : all protocolperson but "SP" are default recipients
         List<String> userNames = new ArrayList<String>();
-        try {
-            for (ProtocolPerson protocolPerson : protocol.getProtocolPersons()) {
-                if (!"SP".equals(protocolPerson.getProtocolPersonRoleId()) && StringUtils.isNotBlank(protocolPerson.getPersonId())) {
-                    // rolodex does not have username
-                    XmlHelper.appendXml(recipients, "<user>" + protocolPerson.getPerson().getUserName() + "</user>");
-                    userNames.add(protocolPerson.getPerson().getUserName());
-                    // recipientUser.setTextContent(protocol.getPrincipalInvestigator().getPerson().getUserName());
+        if (isInvestigatorIncluded()) {
+            try {
+                for (ProtocolPerson protocolPerson : protocol.getProtocolPersons()) {
+                    if (!"SP".equals(protocolPerson.getProtocolPersonRoleId())
+                            && StringUtils.isNotBlank(protocolPerson.getPersonId())) {
+                        // rolodex does not have username
+                        XmlHelper.appendXml(recipients, "<user>" + protocolPerson.getPerson().getUserName() + "</user>");
+                        userNames.add(protocolPerson.getPerson().getUserName());
+                        // recipientUser.setTextContent(protocol.getPrincipalInvestigator().getPerson().getUserName());
+                    }
                 }
             }
-        } catch (Exception e) {
-            LOG.info("Protocol withdraw - get recipeint - exception " + e.getStackTrace());
+            catch (Exception e) {
+                LOG.info("Protocol Notification - get recipeint - exception " + e.getStackTrace());
 
+            }
         }
         // Based on kcirb-252 : no Irb Admin for release 3.  may added later.
-        getProtocolActionsNotificationService().addIrbAdminToRecipients(recipients, getProtocol(), userNames);
-        getProtocolActionsNotificationService().addInitiatorToRecipients(recipients, getProtocol(), userNames);
-        if (getActionTypeCode().equals(ProtocolActionType.ASSIGN_TO_AGENDA) || getActionTypeCode().equals(AssignReviewerEvent.ASSIGN_REVIEWER)
-                || getActionTypeCode().equals(ReviewCompleteEvent.REVIEW_COMPLETE)) {
-            getProtocolActionsNotificationService().addReviewerToRecipients(recipients, getProtocol(), userNames);
-           
+        if (isIrbAdminIncluded()) {
+            getProtocolActionsNotificationService().addIrbAdminToRecipients(recipients, getProtocol(), userNames);
         }
-
+        if (!isReviewerNotification()) {
+            getProtocolActionsNotificationService().addInitiatorToRecipients(recipients, getProtocol(), userNames);
+        }
+        if (isReviewerIncluded()) {
+            getProtocolActionsNotificationService().addReviewerToRecipients(recipients, getProtocol(), userNames);           
+        }
     }
 
     private ProtocolActionsNotificationService getProtocolActionsNotificationService() {
@@ -149,10 +154,25 @@ public abstract class NotificationEventBase {
         
     }
 
+    public boolean isReviewerNotification() {
+        return false;    
+    }
+    
     private BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);
     }
 
+    public boolean isInvestigatorIncluded() {
+        return true;    
+    }
+    
+    public boolean isIrbAdminIncluded() {
+        return true;    
+    }
+
+    public boolean isReviewerIncluded() {
+        return false;    
+    }
 
 
 }

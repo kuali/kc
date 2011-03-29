@@ -97,7 +97,7 @@ public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgenda
             protocolActionService.updateProtocolStatus(protocolAction, protocol);
             documentService.saveDocument(protocol.getProtocolDocument());
             // sendWithdrawNotification(protocol);
-//            protocolActionsNotificationService.sendActionsNotification(protocol, new AssignToAgendaEvent(protocol));
+            protocolActionsNotificationService.sendActionsNotification(protocol, new AssignToAgendaEvent(protocol));
         } 
     }
 
