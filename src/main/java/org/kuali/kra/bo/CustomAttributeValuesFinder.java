@@ -46,6 +46,7 @@ public class CustomAttributeValuesFinder extends KeyValuesBase {
             List<String> validTypes = KraServiceLocator.getService(ParameterService.class).getParameterValues(Constants.KC_GENERIC_PARAMETER_NAMESPACE,
                     Constants.CUSTOM_ATTRIBUTE_DOCUMENT_DETAIL_TYPE_CODE, Constants.CUSTOM_ATTRIBUTE_DOCUMENT_PARAM_NAME);
             List<KeyLabelPair> newList = new ArrayList<KeyLabelPair>();
+            newList.add(new KeyLabelPair("", "select"));
             for (String documentType : validTypes) {
                 String[] params = documentType.split(EQUAL_CHAR);
                 newList.add(new KeyLabelPair(params[0].replace(" ", "+"), params[1]));
