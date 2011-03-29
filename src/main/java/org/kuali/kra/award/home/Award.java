@@ -215,6 +215,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private String sponsorName;
     
     private transient boolean awardInMultipleNodeHierarchy;
+    private transient boolean awardHasAssociatedTandMOrIsVersioned;
 
     private transient boolean sponsorNihMultiplePi;
 
@@ -3120,6 +3121,14 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
 
     public void setAwardInMultipleNodeHierarchy(boolean awardInMultipleNodeHierarchy) {
         this.awardInMultipleNodeHierarchy = awardInMultipleNodeHierarchy;
+    }
+    
+    public boolean isAwardHasAssociatedTandMOrIsVersioned() {
+        return awardHasAssociatedTandMOrIsVersioned;
+    }
+
+    public void setAwardHasAssociatedTandMOrIsVersioned(boolean awardHasAssociatedTandMOrIsVersioned) {
+        this.awardHasAssociatedTandMOrIsVersioned = awardHasAssociatedTandMOrIsVersioned;
     }
 
     public boolean isSyncChild() {
