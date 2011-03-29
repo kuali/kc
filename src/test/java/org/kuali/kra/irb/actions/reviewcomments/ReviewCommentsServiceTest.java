@@ -17,7 +17,9 @@ package org.kuali.kra.irb.actions.reviewcomments;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -26,12 +28,23 @@ import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.ProtocolFinderDao;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.MinuteEntryType;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.rice.kim.service.RoleService;
+import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class ReviewCommentsServiceTest extends KcUnitTestBase {
     
@@ -287,6 +300,206 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
         assertEquals(THIRD_COMMENT, thirdReviewComment.getMinuteEntry());
     }
     
+    /**
+     * 
+     * This method test sethidereviewername with protocol as argument
+     * @throws Exception
+     */
+    @Test
+    public void testHideReviewerNameProtocolFalse() throws Exception {
+        List<CommitteeScheduleMinute> reviewComments = new ArrayList<CommitteeScheduleMinute>();
+        
+        CommitteeScheduleMinute firstNewReviewComment = new CommitteeScheduleMinute();
+        firstNewReviewComment.setCommScheduleMinutesId(1L);
+        firstNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
+        firstNewReviewComment.setMinuteEntry(FIRST_COMMENT);
+        firstNewReviewComment.setCreateUser("majors");
+        reviewComments.add(firstNewReviewComment);
+        
+        CommitteeScheduleMinute secondNewReviewComment = new CommitteeScheduleMinute();
+        secondNewReviewComment.setCommScheduleMinutesId(2L);
+        secondNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
+        secondNewReviewComment.setMinuteEntry(SECOND_COMMENT);
+        secondNewReviewComment.setCreateUser("quickstart");
+        reviewComments.add(secondNewReviewComment);
+        
+        service.setParameterService(getMockParameterService() );       
+        service.setKimRoleManagementService(getMockRoleService());
+        
+        service.setKcPersonService(getMockKcPersonService());
+        Protocol protocol = new Protocol();
+        protocol.setProtocolNumber("001");
+        service.setProtocolFinderDao(getProtocolFinderDao(reviewComments));
+        assertFalse(service.setHideReviewerName(protocol, 1));
+        assertTrue(firstNewReviewComment.isDisplayReviewerName());
+        assertTrue(secondNewReviewComment.isDisplayReviewerName());
+    }
+
+    /**
+     * 
+     * This method test sethidereviewername with protocol as argument
+     * With "jtester" who should not see reviewer name
+     * @throws Exception
+     */
+    @Test
+    public void testHideReviewerNameProtocolTrue() throws Exception {
+        GlobalVariables.setUserSession(new UserSession("jtester"));
+        List<CommitteeScheduleMinute> reviewComments = new ArrayList<CommitteeScheduleMinute>();
+        
+        CommitteeScheduleMinute firstNewReviewComment = new CommitteeScheduleMinute();
+        firstNewReviewComment.setCommScheduleMinutesId(1L);
+        firstNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
+        firstNewReviewComment.setMinuteEntry(FIRST_COMMENT);
+        firstNewReviewComment.setCreateUser("majors");
+        reviewComments.add(firstNewReviewComment);
+        
+        CommitteeScheduleMinute secondNewReviewComment = new CommitteeScheduleMinute();
+        secondNewReviewComment.setCommScheduleMinutesId(2L);
+        secondNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
+        secondNewReviewComment.setMinuteEntry(SECOND_COMMENT);
+        secondNewReviewComment.setCreateUser("quickstart");
+        reviewComments.add(secondNewReviewComment);
+        
+        service.setParameterService(getMockParameterService() );       
+        service.setKimRoleManagementService(getMockRoleService());
+        
+        service.setKcPersonService(getMockKcPersonService());
+        Protocol protocol = new Protocol();
+        protocol.setProtocolNumber("001");
+        service.setProtocolFinderDao(getProtocolFinderDao(reviewComments));
+        assertTrue(service.setHideReviewerName(protocol, 1));
+        assertFalse(firstNewReviewComment.isDisplayReviewerName());
+        assertFalse(secondNewReviewComment.isDisplayReviewerName());
+    }
+
+    /**
+     * 
+     * This method test sethidereviewername with protocol as argument
+     * With "majors" who only see his reviewer name
+     * @throws Exception
+     */
+    @Test
+    public void testHideReviewerNameProtocolFalsePartial() throws Exception {
+        GlobalVariables.setUserSession(new UserSession("majors"));
+        List<CommitteeScheduleMinute> reviewComments = new ArrayList<CommitteeScheduleMinute>();
+        
+        CommitteeScheduleMinute firstNewReviewComment = new CommitteeScheduleMinute();
+        firstNewReviewComment.setCommScheduleMinutesId(1L);
+        firstNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
+        firstNewReviewComment.setMinuteEntry(FIRST_COMMENT);
+        firstNewReviewComment.setCreateUser("majors");
+        reviewComments.add(firstNewReviewComment);
+        
+        CommitteeScheduleMinute secondNewReviewComment = new CommitteeScheduleMinute();
+        secondNewReviewComment.setCommScheduleMinutesId(2L);
+        secondNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
+        secondNewReviewComment.setMinuteEntry(SECOND_COMMENT);
+        secondNewReviewComment.setCreateUser("quickstart");
+        reviewComments.add(secondNewReviewComment);
+        
+        service.setParameterService(getMockParameterService() );       
+        service.setKimRoleManagementService(getMockRoleService());
+        
+        service.setKcPersonService(getMockKcPersonService());
+        Protocol protocol = new Protocol();
+        protocol.setProtocolNumber("001");
+        service.setProtocolFinderDao(getProtocolFinderDao(reviewComments));
+        assertFalse(service.setHideReviewerName(protocol, 1));
+        assertTrue(firstNewReviewComment.isDisplayReviewerName());
+        assertFalse(secondNewReviewComment.isDisplayReviewerName());
+    }
+
+    @Test
+    public void testHideReviewerNameFalse() throws Exception {
+        List<CommitteeScheduleMinute> reviewComments = new ArrayList<CommitteeScheduleMinute>();
+        
+        CommitteeScheduleMinute firstNewReviewComment = new CommitteeScheduleMinute();
+        firstNewReviewComment.setCommScheduleMinutesId(1L);
+        firstNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
+        firstNewReviewComment.setMinuteEntry(FIRST_COMMENT);
+        firstNewReviewComment.setCreateUser("majors");
+        reviewComments.add(firstNewReviewComment);
+        
+        CommitteeScheduleMinute secondNewReviewComment = new CommitteeScheduleMinute();
+        secondNewReviewComment.setCommScheduleMinutesId(2L);
+        secondNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.ACTION_ITEM);
+        secondNewReviewComment.setMinuteEntry(SECOND_COMMENT);
+        secondNewReviewComment.setCreateUser("quickstart");
+        reviewComments.add(secondNewReviewComment);
+        
+        service.setParameterService(getMockParameterService() );       
+        service.setKimRoleManagementService(getMockRoleService());
+        
+        service.setKcPersonService(getMockKcPersonService());
+        
+        assertFalse(service.setHideReviewerName(reviewComments));
+        assertTrue(firstNewReviewComment.isDisplayReviewerName());
+        assertTrue(secondNewReviewComment.isDisplayReviewerName());
+    }
+ 
+    /**
+     * 
+     * This method is to test partially reviewer name os viewable
+     * @throws Exception
+     */
+    @Test
+    public void testHideReviewerNameFalsePartial() throws Exception {
+        GlobalVariables.setUserSession(new UserSession("majors"));
+        List<CommitteeScheduleMinute> reviewComments = new ArrayList<CommitteeScheduleMinute>();
+        
+        CommitteeScheduleMinute firstNewReviewComment = new CommitteeScheduleMinute();
+        firstNewReviewComment.setCommScheduleMinutesId(1L);
+        firstNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
+        firstNewReviewComment.setMinuteEntry(FIRST_COMMENT);
+        firstNewReviewComment.setCreateUser("majors");
+        reviewComments.add(firstNewReviewComment);
+        
+        CommitteeScheduleMinute secondNewReviewComment = new CommitteeScheduleMinute();
+        secondNewReviewComment.setCommScheduleMinutesId(2L);
+        secondNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.ACTION_ITEM);
+        secondNewReviewComment.setMinuteEntry(SECOND_COMMENT);
+        secondNewReviewComment.setCreateUser("quickstart");
+        reviewComments.add(secondNewReviewComment);
+        
+        service.setParameterService(getMockParameterService() );       
+        service.setKimRoleManagementService(getMockRoleService());
+        
+        service.setKcPersonService(getMockKcPersonService());
+        
+        assertFalse(service.setHideReviewerName(reviewComments));
+        assertTrue(firstNewReviewComment.isDisplayReviewerName());
+        assertFalse(secondNewReviewComment.isDisplayReviewerName());
+    }
+ 
+    @Test
+    public void testHideReviewerNameTrue() throws Exception {
+        GlobalVariables.setUserSession(new UserSession("jtester"));
+        List<CommitteeScheduleMinute> reviewComments = new ArrayList<CommitteeScheduleMinute>();
+        
+        CommitteeScheduleMinute firstNewReviewComment = new CommitteeScheduleMinute();
+        firstNewReviewComment.setCommScheduleMinutesId(1L);
+        firstNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
+        firstNewReviewComment.setMinuteEntry(FIRST_COMMENT);
+        firstNewReviewComment.setCreateUser("majors");
+        reviewComments.add(firstNewReviewComment);
+        
+        CommitteeScheduleMinute secondNewReviewComment = new CommitteeScheduleMinute();
+        secondNewReviewComment.setCommScheduleMinutesId(2L);
+        secondNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.ACTION_ITEM);
+        secondNewReviewComment.setMinuteEntry(SECOND_COMMENT);
+        secondNewReviewComment.setCreateUser("quickstart");
+        reviewComments.add(secondNewReviewComment);
+        
+        service.setParameterService(getMockParameterService() );       
+        service.setKimRoleManagementService(getMockRoleService());
+        
+        service.setKcPersonService(getMockKcPersonService());
+        
+        assertTrue(service.setHideReviewerName(reviewComments));
+        assertFalse(firstNewReviewComment.isDisplayReviewerName());
+        assertFalse(secondNewReviewComment.isDisplayReviewerName());
+    }
+
     private DateTimeService getMockDateTimeService() {
         final DateTimeService service = context.mock(DateTimeService.class);
         
@@ -297,5 +510,73 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
         
         return service;
     }
+
+    private ParameterService getMockParameterService() {
+        final ParameterService parameterService = context.mock(ParameterService.class);
+        
+        context.checking(new Expectations() {{
+            allowing(parameterService).getParameterValue(ProtocolDocument.class, Constants.PARAMETER_IRB_DISPLAY_REVIEWER_NAME_TO_PI);
+            will(returnValue("0"));
+            allowing(parameterService).getParameterValue(ProtocolDocument.class, Constants.PARAMETER_IRB_DISPLAY_REVIEWER_NAME_TO_OTHERS);
+            will(returnValue("0"));
+            allowing(parameterService).getParameterValue(ProtocolDocument.class, Constants.PARAMETER_IRB_DISPLAY_REVIEWER_NAME_TO_REVIEWERS);
+            will(returnValue("0"));
+            allowing(parameterService).getParameterValue(ProtocolDocument.class, Constants.PARAMETER_IRB_DISPLAY_REVIEWER_NAME_TO_ACTIVE_COMMITTEE_MEMBERS);
+            will(returnValue("0"));
+        }});
+        return parameterService;
+    }
+    
+    private RoleService getMockRoleService() {
+        final RoleService kimRoleManagementService = context.mock(RoleService.class);
+        final Set<String> adminIds = new HashSet<String>();
+        adminIds.add("10000000001");
+        context.checking(new Expectations() {{
+            allowing(kimRoleManagementService).getRoleMemberPrincipalIds("KC-UNT", RoleConstants.IRB_ADMINISTRATOR,
+                    null);
+            will(returnValue(adminIds));
+        }});
+        return kimRoleManagementService;
+    }
+
+    private KcPersonService getMockKcPersonService() {
+        final KcPersonService kcPersonService = context.mock(KcPersonService.class);
+        final KcPerson kcPerson = new KcPerson() {
+            public String getUserName() {
+                
+                return "quickstart";
+            }
+
+        };
+        kcPerson.setPersonId("10000000001");
+        
+        context.checking(new Expectations() {{
+            allowing(kcPersonService).getKcPersonByPersonId("10000000001");
+            will(returnValue(kcPerson));
+        }});
+        return kcPersonService;
+    }
+
+    private ProtocolFinderDao getProtocolFinderDao(List<CommitteeScheduleMinute> reviewComments) {
+        final ProtocolFinderDao protocolFinderDao = context.mock(ProtocolFinderDao.class);
+        final List<ProtocolSubmission> submissions= new ArrayList<ProtocolSubmission>();
+        ProtocolSubmission submission = new ProtocolSubmission() {
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {
+                // do nothing
+            }
+
+        };
+        submission.setCommitteeScheduleMinutes(reviewComments);
+        submission.setProtocolNumber("001");
+        submission.setSubmissionNumber(1);
+        submissions.add(submission);
+        context.checking(new Expectations() {{
+            allowing(protocolFinderDao).findProtocolSubmissions("001", 1);
+            will(returnValue(submissions));
+        }});
+        return protocolFinderDao;
+    }
+
 
 }

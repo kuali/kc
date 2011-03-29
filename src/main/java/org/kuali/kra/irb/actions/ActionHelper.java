@@ -2787,6 +2787,9 @@ public class ActionHelper implements Serializable {
         this.hideReviewerName = hideReviewerName;
     }
     
+    /*
+     * check if to display reviewer name for any of the review comments of the submission selected in submission details..
+     */
     private boolean checkToHideSubmissionReviewerName() {
         boolean isHide = true;
         for (CommitteeScheduleMinute reviewComment : getReviewComments()) {
@@ -2798,6 +2801,9 @@ public class ActionHelper implements Serializable {
         return isHide;
     }
     
+    /*
+     * check if to display reviewer name for any of the review comments of current submission.
+     */
     private boolean checkToHideReviewName() {
         boolean isHide = true;
         if (getProtocol().getProtocolSubmission().getSubmissionId() != null) {
