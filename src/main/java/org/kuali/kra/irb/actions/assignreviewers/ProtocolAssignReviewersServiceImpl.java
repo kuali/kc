@@ -31,8 +31,6 @@ import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails.SubmissionChecklistInfo;
-
 /**
  * Implementation of the ProtocolAssignReviewersService.
  */
@@ -48,12 +46,14 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
      *      java.util.List)
      */
     public void assignReviewers(ProtocolSubmission protocolSubmission, List<ProtocolReviewerBean> protocolReviewerBeans) throws Exception  {
+        boolean sendNotification = false;
         if (protocolSubmission != null) {
             for (ProtocolReviewerBean bean : protocolReviewerBeans) {
                 if (StringUtils.isNotBlank(bean.getReviewerTypeCode())) {
                     if (!protocolOnlineReviewService.isProtocolReviewer(bean.getPersonId(), bean.getNonEmployeeFlag(), protocolSubmission)) {
                         
                         createReviewer(protocolSubmission, bean);
+                        sendNotification = true;
                     } else {
                         updateReviewer(protocolSubmission, bean);
                     }
@@ -69,7 +69,7 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
             // TODO : how should we handle, new addtion, existing, removed and even empty list
             // For example : do we send "removed" message.  Do we send message for existing reviewer again ?
             // this method also called by submittoirbforreview
-//            if (protocolSubmission.getCommitteeIdFk() != null && protocolSubmission.getScheduleIdFk() != null) {
+//            if (sendNotification && protocolSubmission.getCommitteeIdFk() != null && protocolSubmission.getScheduleIdFk() != null) {
 //                protocolActionsNotificationService.sendActionsNotification(protocolSubmission.getProtocol(), new AssignReviewerEvent(protocolSubmission.getProtocol()));
 //            }
 
