@@ -2435,12 +2435,12 @@ Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,
 	<xsl:template name="double-backslash">
 		<xsl:param name="text"/>
 		<xsl:param name="text-length"/>
-		<xsl:variable name="text-after-bs" select="substring-after($text, ''\'')"/>
+		<xsl:variable name="text-after-bs" select="substring-after($text, \'\'\\\'\')"/>
 		<xsl:variable name="text-after-bs-length" select="string-length($text-after-bs)"/>
 		<xsl:choose>
 			<xsl:when test="$text-after-bs-length = 0">
 				<xsl:choose>
-					<xsl:when test="substring($text, $text-length) = ''\''">
+					<xsl:when test="substring($text, $text-length) = \'\'\\\'\'">
 						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\'')"/>
 					</xsl:when>
 					<xsl:otherwise>
