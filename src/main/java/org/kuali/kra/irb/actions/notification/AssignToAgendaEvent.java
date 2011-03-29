@@ -19,6 +19,10 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.w3c.dom.Element;
 
+/**
+ * 
+ * This class is the event for Assign to agenda reviewer notification.
+ */
 public class AssignToAgendaEvent  extends NotificationEventBase {
 
         public AssignToAgendaEvent() {
@@ -41,7 +45,7 @@ public class AssignToAgendaEvent  extends NotificationEventBase {
          * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getTitle()
          */
         public String getTitle() {
-            return "Protocol " + getProtocol().getProtocolNumber() + " Assign To Agenda";
+            return "Protocol assigned to agenda";
         }
 
         public String getTemplatePath() {
@@ -56,4 +60,16 @@ public class AssignToAgendaEvent  extends NotificationEventBase {
         public String getActionTypeCode() {
             return ProtocolActionType.ASSIGN_TO_AGENDA;
         }
+
+        @Override
+        public boolean isReviewerNotification() {
+            return true;    
+        }
+
+        @Override
+        public boolean isReviewerIncluded() {
+            return true;    
+        }
+
+
 }

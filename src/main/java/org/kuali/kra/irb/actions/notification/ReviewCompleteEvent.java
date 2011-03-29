@@ -18,6 +18,10 @@ package org.kuali.kra.irb.actions.notification;
 import org.kuali.kra.irb.Protocol;
 import org.w3c.dom.Element;
 
+/**
+ * 
+ * This class is the event for Complete protocol online review notification.
+ */
 public class ReviewCompleteEvent extends NotificationEventBase {
     public static final String REVIEW_COMPLETE = "902";
 
@@ -56,4 +60,15 @@ public class ReviewCompleteEvent extends NotificationEventBase {
     public String getActionTypeCode() {
         return REVIEW_COMPLETE;
     }
+
+    @Override
+    public boolean isReviewerNotification() {
+        return true;    
+    }
+    
+    @Override
+    public boolean isInvestigatorIncluded() {
+        return false;    
+    }
+    
 }
