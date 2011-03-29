@@ -211,7 +211,7 @@ end
 rule "Create new Renewal"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "102", protocolStatusCode in ("200", "201", "202", "203", "300", "301", "302", "308", "311", "305"))
+	protocolAction : ProtocolActionMapping(actionTypeCode == "102", protocolStatusCode in ("200", "201", "202", "300", "301", "302", "308", "311", "305"))
 then	
 	setAction(protocolAction, true);
 end
