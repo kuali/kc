@@ -147,7 +147,7 @@ public class AwardForm extends BudgetVersionFormBase
     private MedusaBean medusaBean;
     
     private boolean auditActivated;
-    private boolean awardInMultipleNodeHierarchy;
+    //private boolean awardInMultipleNodeHierarchy;
     private CustomDataHelper customDataHelper = new CustomDataHelper(this);
     private PermissionsHelper permissionsHelper;
     private SpecialReviewHelper specialReviewHelper;
@@ -521,14 +521,22 @@ public class AwardForm extends BudgetVersionFormBase
     public boolean isAwardInMultipleNodeHierarchy() {
         return getDocument().getAward().isAwardInMultipleNodeHierarchy();
     }
-
+    
     /**
-     * Sets the awardInMultipleNodeHierarchy attribute value.
-     * @param awardInMultipleNodeHierarchy The awardInMultipleNodeHierarchy to set.
+     * Gets the awardInMultipleNodeHierarchy attribute. 
+     * @return Returns the awardInMultipleNodeHierarchy.
      */
-    public void setAwardInMultipleNodeHierarchy(boolean awardInMultipleNodeHierarchy) {
-        this.awardInMultipleNodeHierarchy = awardInMultipleNodeHierarchy;
+    public boolean isAwardHasAssociatedTandMOrIsVersioned() {
+        return getDocument().getAward().isAwardHasAssociatedTandMOrIsVersioned();
     }
+
+//    /**
+//     * Sets the awardInMultipleNodeHierarchy attribute value.
+//     * @param awardInMultipleNodeHierarchy The awardInMultipleNodeHierarchy to set.
+//     */
+//    public void setAwardInMultipleNodeHierarchy(boolean awardInMultipleNodeHierarchy) {
+//        this.awardInMultipleNodeHierarchy = awardInMultipleNodeHierarchy;
+//    }
     
     /**
      * Gets the indexOfAwardAmountInfoWithHighestTransactionId attribute. 

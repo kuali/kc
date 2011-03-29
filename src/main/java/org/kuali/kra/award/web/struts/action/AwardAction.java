@@ -182,6 +182,7 @@ public class AwardAction extends BudgetParentActionBase {
         handlePlaceHolderDocument(awardForm, awardDocument);
         awardForm.initializeFormOrDocumentBasedOnCommand();
         setBooleanAwardInMultipleNodeHierarchyOnForm (awardDocument.getAward());
+        setBooleanAwardHasTandMOrIsVersioned(awardDocument.getAward());
         
         return forward;
     }
@@ -656,6 +657,7 @@ public class AwardAction extends BudgetParentActionBase {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDocument = (AwardDocument) awardForm.getDocument();
         setBooleanAwardInMultipleNodeHierarchyOnForm (awardDocument.getAward());
+        setBooleanAwardHasTandMOrIsVersioned(awardDocument.getAward());
         AwardAmountInfoService awardAmountInfoService = KraServiceLocator.getService(AwardAmountInfoService.class);
         int index = awardAmountInfoService.fetchIndexOfAwardAmountInfoWithHighestTransactionId(awardDocument.getAward().getAwardAmountInfos());
         
@@ -690,6 +692,30 @@ public class AwardAction extends BudgetParentActionBase {
             }
         }
     }
+    
+    
+    /**
+     * If an Award has associated Time and Money document or been versioned and no previous version has been edited in a Time and Money document, 
+     * then we want the money and date fields on Award to be read only.
+     * @param awardDocument
+     * @param awardForm
+     */
+    public void setBooleanAwardHasTandMOrIsVersioned (Award award) {
+        boolean previousVersionHasBeenEditedInTandMDocument = false;
+        List<Award> awards = getAwardVersions(award.getAwardNumber());
+        for(Award awardVersion : awards) {
+            if(awardVersion.getSequenceNumber() == 1 && awardVersion.getAwardAmountInfos().size() > 2){
+                previousVersionHasBeenEditedInTandMDocument = true;
+                break;
+            }else if(awardVersion.getSequenceNumber() > 1 && awardVersion.getAwardAmountInfos().size() > 1){
+                previousVersionHasBeenEditedInTandMDocument = true;
+                break;
+            }
+        }
+        award.setAwardHasAssociatedTandMOrIsVersioned(previousVersionHasBeenEditedInTandMDocument);
+    }
+    
+    
 
     /**
      *
@@ -917,6 +943,12 @@ public class AwardAction extends BudgetParentActionBase {
         newAwardAmountInfo.setOriginatingAwardVersion(rootAward.getSequenceNumber());
         rootAward.getAwardAmountInfos().add(newAwardAmountInfo);
         getBusinessObjectService().save(rootAward);
+    }
+    
+    public List<Award> getAwardVersions(String awardNumber) {
+        BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
+        List<Award> awards = (List<Award>)businessObjectService.findMatchingOrderBy(Award.class, getHashMapToFindActiveAward(awardNumber), "sequenceNumber", true);   
+        return awards;
     }
     
     public Award getWorkingAwardVersion(String goToAwardNumber) {
