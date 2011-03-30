@@ -81,6 +81,15 @@ public class QuestionnaireMaintenanceDocumentRule extends MaintenanceDocumentRul
             valid = false;
 
         }
+        
+        for (QuestionnaireQuestion questionnaireQuestion : newQuestionnaire.getQuestionnaireQuestions()) {
+            if ((questionnaireQuestion.getQuestion() != null) && ("I".equals(questionnaireQuestion.getQuestion().getStatus()))) {
+                errorMap.putError("document.newMaintainableObject.businessObject.question" 
+                        + newQuestionnaire.getQuestionnaireQuestions().indexOf(questionnaireQuestion)
+                        , KeyConstants.ERROR_QUESTIONNAIRE_QUESTION_INACTIVE, questionnaireQuestion.getQuestion().getQuestion());
+                valid = false;
+            }
+        }
         return valid;
 
     }
