@@ -21,6 +21,7 @@ import static org.hamcrest.CoreMatchers.not;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -54,6 +55,9 @@ public class QuestionLookupableHelperServiceTest extends KcUnitTestBase {
         super.setUp();
         questionLookupableHelperServiceImpl = (QuestionLookupableHelperServiceImpl) KraServiceLocator.getService("questionLookupableHelperService");
         questionLookupableHelperServiceImpl.setBusinessObjectClass(Question.class);
+        Map<String, String[]> parameters = new HashMap<String, String[]>();
+        parameters.put("multipleValues", new String[] {"Yes"});
+        questionLookupableHelperServiceImpl.setParameters(parameters );
         documentService = KraServiceLocator.getService(DocumentService.class);
         GlobalVariables.setUserSession(new UserSession("quickstart"));
     }
