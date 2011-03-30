@@ -9,7 +9,7 @@ ADD (VALID_SP_REV_APPROVAL_ID NUMBER(12, 0));
 UPDATE VALID_SP_REV_APPROVAL sra1 
 SET VALID_SP_REV_APPROVAL_ID = (select VALID_SP_REV_APPROVAL_ID from (select min(rownum) VALID_SP_REV_APPROVAL_ID, SPECIAL_REVIEW_CODE, APPROVAL_TYPE_CODE 
 from valid_sp_rev_approval group by SPECIAL_REVIEW_CODE, approval_type_code) sra2 
-where sra2.approval_type_code = sra1.approval_type_code and sra2.special_review_code = sra1.special_review_code)
+where sra2.approval_type_code = sra1.approval_type_code and sra2.special_review_code = sra1.special_review_code);
 
 COMMIT;
 
