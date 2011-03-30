@@ -68,7 +68,6 @@ public abstract class BudgetVersionFormBase extends KraTransactionalDocumentForm
         super.reset(mapping, request);
         this.setLookupResultsSequenceNumber(null);
         this.setLookupResultsBOClassName(null);
-        this.setShowAllBudgetVersions(false);
     }
     
     // Getters and setters
