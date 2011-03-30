@@ -78,12 +78,7 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends ResearchDocument
         }
                 
         KcAttachmentService attachmentService = getKcAttachmentService();
-        //Checking the description for invalid characters
-        if(attachmentService.hasInvalidCharacters(proposalPersonBiography.getDescription())) {
-            rulePassed &= true;   
-            reportWarning(buildErrorPath(PERSONNEL_DESCRIPTION), KeyConstants.INVALID_TEXT, attachmentService.getInvalidCharacters());
-        }
-
+       
         // Checking attachment file name for invalid characters.
         String attachmentFileName = proposalPersonBiography.getFileName();
         if (attachmentService.hasInvalidCharacters(attachmentFileName)) {
