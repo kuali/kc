@@ -46,7 +46,7 @@ fi
 
 dbtype=`getChoice 'Enter Database Type' ORACLE MYSQL`
 
-version=`getChoice 'Enter Version' NEW 2.0 3.0`
+version=`getChoice 'Enter Version' NEW 3.0 3.0.1`
 
 un=`getAnswer 'Enter KC Database Username'`
 
@@ -55,6 +55,14 @@ pw=`getAnswer 'Enter KC Database Password'`
 if [ "${dbtype}" = "ORACLE" ]
 then
 	DBSvrNm=`getAnswer 'Enter KC Database TNS Name'`
+	if [ "${DBSvrNm}" = "_" ]
+	then
+		DBSvrNm=''
+	else
+		DBSvrNm="@${DBSvrNm}"
+	fi
+else
+	DBSvrNm=`getAnswer 'Enter KC Schema Name'`
 fi
 
 if [ "${mode}" = "EMBED" ]
@@ -64,76 +72,72 @@ then
 	if [ "${dbtype}" = "ORACLE" ]
 	then
 		RiceDBSvrNm=`getAnswer 'Enter Rice Database TNS Name'`
+	else
+		RiceDBSvrNm=`getAnswer 'Enter Rice Schema Name'`
 	fi
-fi
-
-if [ "${DBSvrNm}" = "_" ]
-then
-	DBSvrNm=''
+	if [ "${RiceDBSvrNm}" = "_" ]
+	then
+		RiceDBSvrNm=''
+	else
+		RiceDBSvrNm="@${RiceDBSvrNm}"
+	fi
 else
-	DBSvrNm="@${DBSvrNm}"
-fi
-
-if [ "${RiceDBSvrNm}" = "_" ]
-then
-	RiceDBSvrNm=''
-else
-	RiceDBSvrNm="@${RiceDBSvrNm}"
+	Riceun="${un}"
+	Ricepw="${pw}"
+	RiceDBSvrNm="${DBSvrNm}"
 fi
 
 case "${dbtype}" in
 	"ORACLE")
 		if [ "${version}" = "NEW" ]
 		then
-			cd KC-RELEASE-2_0-SCRIPT
+			cd KC-RELEASE-3_0-CLEAN/oracle
 			if [ "${mode}" = "BUNDLE" ]
 			then
-				sqlplus "${un}"/"${pw}${DBSvrNm}" < KR-Release-1_0_2-Server-Oracle-Install.sql
-				sqlplus "${un}"/"${pw}${DBSvrNm}" < KC-Release-2_0-Base-Bundled-Oracle-Install.sql
-				sqlplus "${un}"/"${pw}${DBSvrNm}" < KC-Release-2_0-Base-Rice-Oracle-Install.sql
+				sqlplus "${un}"/"${pw}${DBSvrNm}" < oracle_bundled.sql
 			else
 				if [ "${mode}" = "EMBED" ]
 				then
 					if [ "${InstRice}" = "Y" ]
 					then
-						sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-Release-1_0_2-Server-Oracle-Install.sql
+						sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < oracle_server.sql
 					fi
-					sqlplus "${un}"/"${pw}${DBSvrNm}" < KR-Release-1_0_2-Client-Oracle-Install.sql
-					sqlplus "${un}"/"${pw}${DBSvrNm}" < KC-Release-2_0-Base-Bundled-Oracle-Install.sql
-					sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KC-Release-2_0-Base-Rice-Oracle-Install.sql
+					sqlplus "${un}"/"${pw}${DBSvrNm}" < oracle_client.sql
 				fi
 			fi
-			mv *.log ../LOGS/
-			cd ..
+			mv *.log ../../LOGS/
+			cd ../..
 		fi
 
-		if [ "${version}" = "2.0" ] || [ "${version}" = "NEW" ]
+		if [ "${version}" = "3.0" ] || [ "${version}" = "NEW" ]
 		then
-			cd KC-RELEASE-3_0-SCRIPT
-			if [ "${mode}" = "BUNDLE" ]
+			cd KC-RELEASE-3_0_1-SCRIPT
+			sqlplus "${un}"/"${pw}${DBSvrNm}" < KC-Release-3_0-3_0_1-Upgrade-Oracle-Install.sql
+			mv *.log ../LOGS/
+			cd .. 
+		fi
+		
+		if [ "${version}" = "3.0.1" ] || [ "${version}" = "3.0" ] || [ "${version}" = "NEW" ]
+		then
+			cd KC-RELEASE-3_1_SP1-SCRIPT
+			sqlplus "${un}"/"${pw}${DBSvrNm}" < KC-Release-3_0_1-3_1_S1-Upgrade-Oracle-Install.sql
+			sqlplus "${un}"/"${pw}${DBSvrNm}" < KR-Release-3_0_1-3_1_S1-Upgrade-Oracle-Install.sql
+			if [ "${InstRice}" = "Y" ] || [ "${mode}" = "BUNDLE" ]
 			then
-				sqlplus "${un}"/"${pw}${DBSvrNm}" < RICE-1_0_2-1_0_3/update_final_oracle.sql
-				sqlplus "${un}"/"${pw}${DBSvrNm}" < KC-Release-2_0-3_0-Upgrade-Oracle-Install.sql
-				sqlplus "${un}"/"${pw}${DBSvrNm}" < KR-Release-2_0-3_0-Upgrade-Oracle-Install.sql
-			else 
-				if [ "${mode}" = "EMBED" ]
-				then
-					if [ "${InstRice}" = "Y" ]
-					then
-						sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < RICE-1_0_2-1_0_3/update_final_oracle.sql
-					fi
-					sqlplus "${un}"/"${pw}${DBSvrNm}" < RICE-1_0_2-1_0_3/update_client_final_oracle.sql
-					sqlplus "${un}"/"${pw}${DBSvrNm}" < KC-Release-2_0-3_0-Upgrade-Oracle-Install.sql
-					sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-Release-2_0-3_0-Upgrade-Oracle-Install.sql
-				fi
+				sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-Server-Release-1_0_3-1_0_3_1-Upgrade-Oracle-Install.sql
 			fi
 			mv *.log ../LOGS/
 			cd ..
-		fi
-		cd KC-RELEASE-3_0_1-SCRIPT
-		sqlplus "${un}"/"${pw}${DBSvrNm}" < KC-Release-3_0-3_0_1-Upgrade-Oracle-Install.sql
-		mv *.log ../LOGS/
-		cd .. ;;
+			
+			cd KC-RELEASE-3_1_SP2-SCRIPT
+			sqlplus "${un}"/"${pw}${DBSvrNm}" < KC-RELEASE-3_1_SP2-Upgrade-ORACLE.sql
+			if [ "${InstRice}" = "Y" ] || [ "${mode}" = "BUNDLE" ]
+			then
+				sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-RELEASE-3_1_SP2-Upgrade-ORACLE.sql
+			fi
+			mv *.log ../LOGS/
+			cd ..
+		fi ;;
 	"MYSQL")
 		if [ "${version}" = "NEW" ]
 		then
