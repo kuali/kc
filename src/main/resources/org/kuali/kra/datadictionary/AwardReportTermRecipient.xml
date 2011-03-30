@@ -129,7 +129,6 @@
 	<bean id="AwardReportTermRecipient-rolodexId" parent="AwardReportTermRecipient-rolodexId-parentBean" />
 	<bean id="AwardReportTermRecipient-rolodexId-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="rolodexId" />
-		<property name="required" value="true" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Name/Organization" />
 		<property name="shortLabel" value="Name/Organization" />
