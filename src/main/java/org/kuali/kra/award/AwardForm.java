@@ -1450,4 +1450,19 @@ public class AwardForm extends BudgetVersionFormBase
     public void setDocOpenedFromAwardSearch(boolean docOpenedFromAwardSearch) {
         this.docOpenedFromAwardSearch = docOpenedFromAwardSearch;
     }
+    
+    /**
+     * 
+     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#getEditingMode()
+     */
+    @Override
+    public Map getEditingMode() {
+        Map editingMode = super.getEditingMode();
+        System.err.println("getNavigateTo: " + this.getNavigateTo());
+        if ("budgets".equals(this.getNavigateTo())) {
+            editingMode.put("viewOnly", false);
+            editingMode.put("modifyCompletedBudgets", true);
+        }
+        return editingMode;
+    }
 }
