@@ -25,7 +25,7 @@ make_file()
 			else
 				printf '\. '
 			fi
-			echo "${thisDB}/${thisDir}/${thisFile}"
+			echo "${thisFile}"
 		done
 	done
 	echo "commit;\nexit;"
