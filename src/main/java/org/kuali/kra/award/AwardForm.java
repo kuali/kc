@@ -1459,6 +1459,7 @@ public class AwardForm extends BudgetVersionFormBase
     public Map getEditingMode() {
         Map editingMode = super.getEditingMode();
         System.err.println("getNavigateTo: " + this.getNavigateTo());
+        //the budget panel has fields that are editable reagardless of the award's editibablity because of the budget form.
         if ("budgets".equals(this.getNavigateTo())) {
             editingMode.put("viewOnly", false);
             editingMode.put("modifyCompletedBudgets", true);
