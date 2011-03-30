@@ -575,6 +575,8 @@ public class BudgetAction extends BudgetActionBase {
         if(budgetForm.isAuditActivated()) {
             forwardUrl = StringUtils.replace(forwardUrl, "Award.do?", "Actions.do?");
         }
+        //add showAllBudgetVersion to the url to persist that flag until they leave the document
+        forwardUrl = StringUtils.replace(forwardUrl, ".do?", ".do?showAllBudgetVersions=" + budgetForm.isShowAllBudgetVersions() + "&");
         
         return new ActionForward(forwardUrl, true);
     }
