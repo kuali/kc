@@ -36,7 +36,9 @@
 		    </th>
 		    <td width="5%" valign="middle" class="infoline">
 		    <div align="center">
+		    	${KualiForm.valueFinderResultDoNotCache}
 	            <kul:htmlControlAttribute property="awardReportsBean.newAwardReportTermRecipient[${index}].contactId" attributeEntry="${awardReportTermRecipientAttributes.contactId}" />
+	            ${KualiForm.valueFinderResultCache}
 	        </div>    
 	        </td>	        
 	        <td width="5%" valign="middle" class="infoline">

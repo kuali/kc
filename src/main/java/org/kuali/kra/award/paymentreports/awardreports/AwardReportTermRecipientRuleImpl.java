@@ -95,9 +95,7 @@ public class AwardReportTermRecipientRuleImpl extends ResearchDocumentRuleBase
      * @return
      */
     boolean areRequiredFieldsComplete(AwardReportTermRecipient awardReportTermRecipientItem) {        
-        //Commented below line to fix Jira KRACOEUS-4371.
-        //boolean itemValid = awardReportTermRecipientItem.getContactId()!=null || awardReportTermRecipientItem.getRolodexId()!=null;
-        boolean itemValid = awardReportTermRecipientItem.getRolodexId()!=null;
+        boolean itemValid = awardReportTermRecipientItem.getContactId() != null || awardReportTermRecipientItem.getRolodexId() != null;
         if(!itemValid){
             reportError(AWARD_REPORT_TERM_RECIPIENT_RELODEX_ID_PROPERTY, KeyConstants.ERROR_REQUIRED_ORGANIZATION_FIELD);   
         }

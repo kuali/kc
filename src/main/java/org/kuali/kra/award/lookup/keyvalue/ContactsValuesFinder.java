@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -62,13 +63,16 @@ public class ContactsValuesFinder extends KeyValuesBase {
 //        refreshAwardSponsorContacts(awardSponsorContacts);
         
         for(AwardSponsorContact awardSponsorContact : awardSponsorContacts){                      
-            //if(awardId.equals(awardSponsorContact.getAward().getAwardId())){
-                if (awardSponsorContact.getContactRole() == null) {
-                    awardSponsorContact.refreshReferenceObject("contactRole");
-                }
-                keyValues.add(new KeyLabelPair(awardSponsorContact.getAwardContactId()
-                        ,awardSponsorContact.getContactRole().getRoleDescription() + " - " + awardSponsorContact.getContactOrganizationName()));    
-            //}
+            if (awardSponsorContact.getContactRole() == null) {
+                awardSponsorContact.refreshReferenceObject("contactRole");
+            }
+            String desc = awardSponsorContact.getContactRole().getRoleDescription() + " - ";
+            if (StringUtils.isNotBlank(awardSponsorContact.getFullName())) {
+                desc += awardSponsorContact.getFullName();
+            } else {
+                desc += awardSponsorContact.getContactOrganizationName();
+            }
+            keyValues.add(new KeyLabelPair(awardSponsorContact.getAwardContactId(), desc));    
         }        
                 
         return keyValues;
