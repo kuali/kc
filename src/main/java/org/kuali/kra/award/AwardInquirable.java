@@ -19,20 +19,28 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javassist.bytecode.ConstantAttribute;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardHierarchyUIService;
+import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
+import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class AwardInquirable extends KualiInquirableImpl {
     
-    private static final String COLUMN_CODE = "%3A";
-   
+    private static final Log LOG = LogFactory.getLog(AwardInquirable.class);
+
     @Override
     public List<Section> getSections(BusinessObject bo) {
         List<Section> sections = new ArrayList<Section>();
@@ -43,91 +51,73 @@ public class AwardInquirable extends KualiInquirableImpl {
         section.setNumberOfColumns(2);
         
         AwardHierarchyUIService service = getAwardHierarchyUIService();
-        String awardRecord = null;
+        Award award = (Award) bo;
+        AwardHierarchyNode awardNode = null;
         try {
-            awardRecord = service.getAwardRecord((Award)bo);
-        }catch (ParseException e) {
-            e.printStackTrace();
+            awardNode = service.getRootAwardNode(award);
+        }
+        catch (ParseException e) {
+            // TODO Auto-generated catch block
+            LOG.error("Error parsing award information" ,e);
         }
         
-        String awardNumber = awardRecord.substring(0, awardRecord.indexOf(COLUMN_CODE));
-        awardRecord = awardRecord.substring(awardRecord.indexOf(COLUMN_CODE));
+        // Adding the section title
+        String sectionTitle = "";
+        sectionTitle += awardNode.getAwardNumber();
+        sectionTitle += KNSConstants.BLANK_SPACE;
+        sectionTitle += Constants.COLON;
+        sectionTitle += KNSConstants.BLANK_SPACE;
         
-        String text1 = null;
+        if (ObjectUtils.isNotNull(award.getAccountNumber())) {
+            sectionTitle += awardNode.getAccountNumber();
+            sectionTitle += KNSConstants.BLANK_SPACE;
+            sectionTitle += Constants.COLON;
+            sectionTitle += KNSConstants.BLANK_SPACE;
+        }
+        if (ObjectUtils.isNotNull(awardNode.getPrincipalInvestigatorName())) {
+            sectionTitle += awardNode.getPrincipalInvestigatorName();
+            sectionTitle += KNSConstants.BLANK_SPACE;
+            sectionTitle += Constants.COLON;
+            sectionTitle += KNSConstants.BLANK_SPACE;
+        } 
+        if (ObjectUtils.isNotNull(awardNode.getLeadUnitName())) {
+            sectionTitle += awardNode.getLeadUnitName();
+        }
         
-        awardRecord = awardRecord.substring(3, awardRecord.length());
-        text1 = awardRecord.substring(0, awardRecord.indexOf(COLUMN_CODE));
-        section.setSectionTitle(awardNumber + text1);
-        
-        String text2 = null;        
-        awardRecord = awardRecord.substring(awardRecord.indexOf(COLUMN_CODE), awardRecord.length());
-        awardRecord = awardRecord.substring(3, awardRecord.length());
-        text2 = awardRecord.substring(0, awardRecord.indexOf(COLUMN_CODE));
-        
-        awardRecord = awardRecord.substring(awardRecord.indexOf(COLUMN_CODE), awardRecord.length());
-        awardRecord = awardRecord.substring(3, awardRecord.length());
-        String text3 = awardRecord.substring(0, awardRecord.indexOf(COLUMN_CODE));
-        
-        awardRecord = awardRecord.substring(awardRecord.indexOf(COLUMN_CODE), awardRecord.length());
-        awardRecord = awardRecord.substring(3, awardRecord.length());
-        String text4 = awardRecord.substring(0, awardRecord.indexOf(COLUMN_CODE));
-        
-        awardRecord = awardRecord.substring(awardRecord.indexOf(COLUMN_CODE), awardRecord.length());
-        awardRecord = awardRecord.substring(3, awardRecord.length());
-        String text5 = awardRecord.substring(0, awardRecord.indexOf(COLUMN_CODE));
-        
-        awardRecord = awardRecord.substring(awardRecord.indexOf(COLUMN_CODE), awardRecord.length());
-        awardRecord = awardRecord.substring(3, awardRecord.length());
-        String text6 = awardRecord.substring(0, awardRecord.indexOf(COLUMN_CODE));
-        
-        awardRecord = awardRecord.substring(awardRecord.indexOf(COLUMN_CODE), awardRecord.length());
-        awardRecord = awardRecord.substring(3, awardRecord.length());
-        String text7 = awardRecord.substring(0, awardRecord.indexOf(COLUMN_CODE));
-        
-        awardRecord = awardRecord.substring(awardRecord.indexOf(COLUMN_CODE), awardRecord.length());
-        awardRecord = awardRecord.substring(3, awardRecord.length());
-        String text8 = awardRecord.substring(0, awardRecord.indexOf(COLUMN_CODE));
-        
-        awardRecord = awardRecord.substring(awardRecord.indexOf(COLUMN_CODE), awardRecord.length());
-        awardRecord = awardRecord.substring(3, awardRecord.length());
-        String text9 = awardRecord.substring(0, awardRecord.indexOf(COLUMN_CODE));
-        
-        awardRecord = awardRecord.substring(awardRecord.indexOf(COLUMN_CODE), awardRecord.length());
-        awardRecord = awardRecord.substring(3, awardRecord.length());
-        String text10 = awardRecord.substring(0, awardRecord.indexOf(COLUMN_CODE));
-        
-        awardRecord = awardRecord.substring(awardRecord.indexOf(COLUMN_CODE), awardRecord.length());
-        awardRecord = awardRecord.substring(3, awardRecord.length());
-        String text11 = awardRecord.substring(0, awardRecord.indexOf(COLUMN_CODE));
-        
-        awardRecord = awardRecord.substring(awardRecord.indexOf(COLUMN_CODE), awardRecord.length());
-        awardRecord = awardRecord.substring(3, awardRecord.length());
-        String text12 = awardRecord.substring(0, awardRecord.indexOf(COLUMN_CODE));
-        
-        awardRecord = awardRecord.substring(awardRecord.indexOf(COLUMN_CODE), awardRecord.length());
-        awardRecord = awardRecord.substring(3, awardRecord.length());
-        String text13 = awardRecord.substring(0, awardRecord.indexOf(COLUMN_CODE));
-        
-        Row row1 = new Row();        
-        addField(text12, row1, "projectStartDate", "Project Start Date");
-        addField(text2, row1, "obligationStartDate", "Obligation Start Date");
-        
-        Row row2 = new Row();        
-        addField(text4, row2, "projectEndDate", "Project End Date");
-        addField(text3, row2, "obligationEndDate", "Obligation End Date");
-        
-        Row row3 = new Row();
-        addField(text6, row3, "anticipatedAmount", "Anticipated Amount");
-        addField(text5, row3, "obligatedAmount", "Obligated Amount");
-        
-        Row row4 = new Row();
-        addField(text13, row4, "title", "Title");
-        
+        section.setSectionTitle(sectionTitle);
+
+        //Adding the rows to the sections
         section.setRows(new ArrayList<Row>());
+        Row row1 = new Row();
+        addField(awardNode.getProjectStartDate() + "", row1, "projectStartDate", "Project Start Date");
+        addField(awardNode.getCurrentFundEffectiveDate() + "", row1, "obligationStartDate", "Obligation Start Date");
         section.getRows().add(row1);
+
+        Row row2 = new Row();        
+        addField(awardNode.getFinalExpirationDate() + "", row2, "projectEndDate", "Project End Date");
+        addField(awardNode.getObligationExpirationDate() + "", row2, "obligationEndDate", "Obligation End Date");
         section.getRows().add(row2);
+
+        Row row3 = new Row(); 
+        addField(awardNode.getAnticipatedTotalAmount() + "", row3, "anticipatedAmount", "Anticipated Amount");
+        addField(awardNode.getAmountObligatedToDate() + "", row3, "obligatedAmount", "Obligated Amount");
         section.getRows().add(row3);
+
+        Row row4 = new Row();
+        addField(awardNode.getTitle(), row4, "title", "Title");
+        addField(award.getSponsorAwardNumber(), row4, "sponsorAwardNumber", "Sponsor Award Number");
         section.getRows().add(row4);
+
+        Row row5 = new Row();
+        addField(award.getAwardNumber(), row5, "awardNumber", "Award Number");
+        addField(award.getAwardStatus().getStatusCode() + "", row5, "awardStatusCode", "Award Status Code");
+        section.getRows().add(row5);
+
+        Row row6 = new Row();
+        addField(award.getOspAdministratorName(), row6, "ospAdminName", "OSP Administrator Name");
+        addField(award.getCloseoutDate() + "", row6, "closeoutDate", "Closeout Date");
+        section.getRows().add(row6);
+
         sections.add(section);
         return sections;
     }
@@ -146,7 +136,7 @@ public class AwardInquirable extends KualiInquirableImpl {
         field.setFieldLabel(fieldLabel);        
         field.setFieldType(Field.TEXT);
         if(StringUtils.equalsIgnoreCase(text, " &nbsp; ")){
-            text="";
+            text = "";
         }
         field.setPropertyValue(text);        
         row1.getFields().add(field);

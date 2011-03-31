@@ -69,6 +69,12 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
         return TAG_H3_START + buildCompleteRecord(awardNumber, aNode) + TAG_H3_END; 
     }
 
+    public AwardHierarchyNode getRootAwardNode(Award award) {
+        String awardNumber = award.getAwardNumber();
+        AwardHierarchyNode awardNode = getAwardHierarchyNodes(awardNumber, awardNumber, award.getSequenceNumber().toString()).get(awardNumber);
+        return awardNode;
+    }
+    
     /*
      * This method builds a string record for a single hierarchy node. 
      * This string will be parsed by the java script in the UI for display.  
@@ -123,6 +129,8 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
         return buildCompleteRecord(awardNumber, getAwardHierarchyNodes(award.getAwardNumber(), award.getAwardNumber(), award.getSequenceNumber().toString()).get(awardNumber));
     }
 
+   
+    
     /*
      * This method appends a date field to string buffer object for view.
      */
@@ -258,6 +266,8 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
         this.awardHierarchyService = awardHierarchyService;
     }
 
+    
+    
 
 
 }
