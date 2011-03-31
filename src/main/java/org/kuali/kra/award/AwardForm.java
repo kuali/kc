@@ -1459,9 +1459,17 @@ public class AwardForm extends BudgetVersionFormBase
     public Map getEditingMode() {
         Map editingMode = super.getEditingMode();
         //the budget panel has fields that are editable reagardless of the award's editibablity because of the budget form.
+        final String VIEW_ONLY = "viewOnly";
+        final String MODIFY_BUDGETS = "modifyCompletedBudgets";
         if ("budgets".equals(this.getNavigateTo())) {
-            editingMode.put("viewOnly", false);
-            editingMode.put("modifyCompletedBudgets", true);
+            if (editingMode.containsKey(VIEW_ONLY)) {
+                editingMode.remove(VIEW_ONLY);
+            }
+            if (editingMode.containsKey(MODIFY_BUDGETS)) {
+                editingMode.remove(MODIFY_BUDGETS);
+            }
+            editingMode.put(VIEW_ONLY, false);
+            editingMode.put(MODIFY_BUDGETS, true);
         }
         return editingMode;
     }
