@@ -1,7 +1,7 @@
 set define off
 UPDATE PROTO_CORRESP_TEMPL 
 SET CORRESPONDENCE_TEMPLATE = empty_clob()
-WHERE PROTO_CORRESP_TEMPL_ID = '10024';
+WHERE PROTO_CORRESP_TYPE_CODE = 4 and COMMITTEE_ID='DEFAULT';
 
 DECLARE
 data CLOB; 
@@ -9,7 +9,7 @@ buffer VARCHAR2(30000);
 BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
 WHERE
-PROTO_CORRESP_TEMPL_ID = '10024' FOR UPDATE;
+PROTO_CORRESP_TYPE_CODE = 4 and COMMITTEE_ID='DEFAULT' FOR UPDATE;
 buffer := '<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:n1="http://irb.mit.edu/irbnamespace" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xsl:variable name="fo:layout-master-set">
@@ -325,7 +325,7 @@ DECLARE    data CLOB; buffer VARCHAR2(30000);
 BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
 WHERE
-PROTO_CORRESP_TEMPL_ID = '10024' FOR UPDATE;
+PROTO_CORRESP_TYPE_CODE = 4 and COMMITTEE_ID='DEFAULT' FOR UPDATE;
 buffer := '                                                            <fo:inline font-size="10pt"> reviewed the above mentioned protocol and determined that substantive revisions are required. These revisions are noted below.&#160; If you agree with all of the committee&apos;s revisions, incorporate them in a revised protocol and/or consent form and submit it to the </fo:inline>
                                                             <xsl:for-each select="n1:Protocol">
                                                                 <xsl:for-each select="n1:Submissions">
@@ -557,7 +557,7 @@ DECLARE    data CLOB; buffer VARCHAR2(30000);
 BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
 WHERE
-PROTO_CORRESP_TEMPL_ID = '10024' FOR UPDATE;
+PROTO_CORRESP_TYPE_CODE = 4 and COMMITTEE_ID='DEFAULT' FOR UPDATE;
 buffer := '                                                                            </fo:block>
                                                                         </fo:block>
                                                                     </fo:block>
@@ -585,7 +585,7 @@ END;
 
 UPDATE PROTO_CORRESP_TEMPL 
 SET CORRESPONDENCE_TEMPLATE = empty_clob()
-WHERE PROTO_CORRESP_TEMPL_ID = '10026';
+WHERE PROTO_CORRESP_TYPE_CODE = 6 and COMMITTEE_ID='DEFAULT';
 
 DECLARE
 data CLOB; 
@@ -593,7 +593,7 @@ buffer VARCHAR2(30000);
 BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
 WHERE
-PROTO_CORRESP_TEMPL_ID = '10026' FOR UPDATE;
+PROTO_CORRESP_TYPE_CODE = 6 and COMMITTEE_ID='DEFAULT' FOR UPDATE;
 buffer := '<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:n1="http://irb.mit.edu/irbnamespace" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xsl:variable name="fo:layout-master-set">
@@ -906,7 +906,7 @@ data CLOB;
 buffer VARCHAR2(30000);
 BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE PROTO_CORRESP_TEMPL_ID = '10026' FOR UPDATE;
+WHERE PROTO_CORRESP_TYPE_CODE = 6 and COMMITTEE_ID='DEFAULT' FOR UPDATE;
 buffer := '                                                                                    <xsl:value-of select="format-number(number(substring(string(.), 1, 4)), ''0000'')" />
                                                                                 </fo:inline>
                                                                             </xsl:if>
@@ -1137,7 +1137,7 @@ END;
 DECLARE    data CLOB; buffer VARCHAR2(30000);
 BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE PROTO_CORRESP_TEMPL_ID = '10026' FOR UPDATE;
+WHERE PROTO_CORRESP_TYPE_CODE = 6 and COMMITTEE_ID='DEFAULT' FOR UPDATE;
 buffer := '                                                                                                                    <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                                                                                                         <fo:block>
                                                                                                                             <fo:inline font-size="10pt">
@@ -2667,5 +2667,5 @@ buffer := '		</xsl:otherwise>
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-commit;
+
 COMMIT;
