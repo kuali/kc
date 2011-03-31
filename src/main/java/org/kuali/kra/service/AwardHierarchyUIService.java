@@ -18,6 +18,7 @@ package org.kuali.kra.service;
 import java.text.ParseException;
 
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 
 /**
  * 
@@ -59,5 +60,12 @@ public interface AwardHierarchyUIService {
     public String getAwardRecord(Award award) throws ParseException;
     
 
-
+    /**
+     * This method returns the root award node of the award
+     * @param award
+     * @return
+     * @throws ParseException
+     */
+    public AwardHierarchyNode getRootAwardNode(Award award) throws ParseException;
+    
 }
