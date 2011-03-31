@@ -74,7 +74,6 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
      */
     public boolean processAddPendingTransactionBusinessRules(AddTransactionRuleEvent event) {
         List<Award> awards = processTransactions(event.getTimeAndMoneyDocument());
-      
         Award award = getLastSourceAwardReferenceInAwards(awards, event.getPendingTransactionItemForValidation().getSourceAwardNumber());
         //if source award is "External, the award will be null and we don't need to validate these amounts.
         boolean validObligatedFunds = true;
@@ -82,6 +81,8 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
         if(!(award == null)) {
             validObligatedFunds = validateSourceObligatedFunds(event.getPendingTransactionItemForValidation(), award);
             validAnticipatedFunds = validateSourceAnticipatedFunds(event.getPendingTransactionItemForValidation(), award);
+            //need to remove the award amount info created from this process transactions call so there won't be a double entry in collection.
+            award.refreshReferenceObject("awardAmountInfos");
         }
         
         boolean validFunds = validateAnticipatedGreaterThanObligated (event);
@@ -148,6 +149,7 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
                 reportError(OBLIGATED_AMOUNT_PROPERTY, KeyConstants.ERROR_TOTAL_AMOUNT_INVALID, activeAward.getAwardNumber());
                 valid = false;
             }
+            award.refreshReferenceObject("awardAmountInfos");
         }
         //remove the Transaction from the document.
         event.getTimeAndMoneyDocument().getPendingTransactions().remove(event.getTimeAndMoneyDocument().getPendingTransactions().size() - 1);
@@ -171,6 +173,7 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
                 reportError(CURRENT_FUND_EFFECTIVE_DATE, KeyConstants.ERROR_DATE_NOT_SET, activeAward.getAwardNumber());
                 valid = false;
             }
+            award.refreshReferenceObject("awardAmountInfos");
         }
         //remove the Transaction from the document.
         event.getTimeAndMoneyDocument().getPendingTransactions().remove(event.getTimeAndMoneyDocument().getPendingTransactions().size() - 1);
