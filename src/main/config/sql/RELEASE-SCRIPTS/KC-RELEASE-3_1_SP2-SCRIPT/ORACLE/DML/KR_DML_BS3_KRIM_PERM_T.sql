@@ -5,6 +5,6 @@ insert into krim_perm_t values (1182, sys_guid(), 1, '15', 'KC-T', 'Save Time An
 insert into krim_perm_t values (1183, sys_guid(), 1, '5', 'KC-T', 'Submit Time And Money Document', 'Submit a Time and Money Document', 'Y');
 insert into krim_perm_t values (1184, sys_guid(), 1, '40', 'KC-T', 'Open Time And Money Document', 'Open a Time and Money Document', 'Y');
 insert into krim_perm_t values (1185, sys_guid(), 1, '14', 'KC-T', 'Cancel Time And Money Document', 'Cancel a Time and Money Document', 'Y');
-insert into krim_perm_t values (1186, sys_guid(), 1, '1001', 'KC-T', 'View Time And Money Document', 'View a Time and Money Document', 'Y');
+insert into krim_perm_t values (1186, sys_guid(), 1, '10008', 'KC-T', 'View Time And Money Document', 'View a Time and Money Document', 'Y');
 
 COMMIT;
