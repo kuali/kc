@@ -121,9 +121,9 @@ case "${dbtype}" in
 		then
 			cd KC-RELEASE-3_1_SP1-SCRIPT
 			sqlplus "${un}"/"${pw}${DBSvrNm}" < KC-Release-3_0_1-3_1_S1-Upgrade-Oracle-Install.sql
-			sqlplus "${un}"/"${pw}${DBSvrNm}" < KR-Release-3_0_1-3_1_S1-Upgrade-Oracle-Install.sql
 			if [ "${InstRice}" = "Y" ] || [ "${mode}" = "BUNDLE" ]
 			then
+				sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-Release-3_0_1-3_1_S1-Upgrade-Oracle-Install.sql
 				sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-Server-Release-1_0_3-1_0_3_1-Upgrade-Oracle-Install.sql
 			fi
 			mv *.log ../LOGS/
