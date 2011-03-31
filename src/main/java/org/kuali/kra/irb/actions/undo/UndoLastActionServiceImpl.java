@@ -27,6 +27,7 @@ import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.copy.ProtocolCopyService;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -41,6 +42,7 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
     private DocumentService documentService;
     private BusinessObjectService businessObjectService;
     private ProtocolVersionService protocolVersionService;
+    private ReviewCommentsService reviewCommentsService;
     
     public void setProtocolActionService(ProtocolActionService protocolActionService) {
         this.protocolActionService = protocolActionService;
@@ -131,6 +133,8 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
                 && (ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED.equals(lastPerformedAction.getProtocolActionTypeCode()) 
                         || ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED.equals(lastPerformedAction.getProtocolActionTypeCode()))) {
             documentService.routeDocument(protocolDocument, Constants.PROTOCOL_UNDO_APPROVE_ANNOTATION, null);            
+            businessObjectService.delete(reviewCommentsService.getReviewerComments(protocolDocument.getProtocol().getProtocolNumber(),
+                    protocolDocument.getProtocol().getProtocolSubmission().getSubmissionNumber()));
         } 
         
         return protocolDocument;
@@ -138,6 +142,10 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    public void setReviewCommentsService(ReviewCommentsService reviewCommentsService) {
+        this.reviewCommentsService = reviewCommentsService;
     }
     
 }
