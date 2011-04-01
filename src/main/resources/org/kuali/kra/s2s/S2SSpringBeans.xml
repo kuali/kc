@@ -141,7 +141,6 @@
 		<property name="proposalDevelopmentS2sQuestionnaireService">
 			<ref bean="proposalDevelopmentS2sQuestionnaireService" />
 		</property>
-		
 	</bean>
 
 	<bean id="s2SBudgetCalculatorService"
