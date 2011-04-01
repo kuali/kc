@@ -138,59 +138,56 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
         
         return new ArrayList<ProtocolSubmission>(submissions);
     }
-    /**
-     * 
-     * 
-     */
-    @SuppressWarnings("unchecked")
-    public List<ProtocolSubmission> getProtocolSubmissionsLookupSequence(String protocolNumber) throws Exception{        
-           HashMap<String, Object> fieldValues = new HashMap<String, Object>();
-           fieldValues.put(PROTOCOL_NUMBER, protocolNumber);
-           Collection<ProtocolSubmission> submissions = businessObjectService.findMatching(ProtocolSubmission.class, fieldValues);
-           Set<Integer> setSubmissionNumber = new HashSet<Integer>();
-         
-           List<ProtocolSubmission> protocolSubmissionResult = new ArrayList<ProtocolSubmission>();
-           for (ProtocolSubmission protocolsubResult : submissions) {
-               setSubmissionNumber.add(protocolsubResult.getSubmissionNumber());
-           }        
-           for(Integer submissionNumber : setSubmissionNumber){
-               List<ProtocolSubmission> temperoryList=null;
-               int SubmissionSequenceNumber=0;
-               for (ProtocolSubmission protocolsubmissionData : submissions) {
 
+    private List<ProtocolSubmission> getProtocolSubmissionsLookupList(String protocolNumber,List<ProtocolSubmission> protocolSubmissionList) throws Exception{
+           Collection<ProtocolSubmission> submissions = protocolSubmissionList;
+           List<ProtocolSubmission> protocolSubmissionLookupDataList = new ArrayList<ProtocolSubmission>();
+           for (ProtocolSubmission protocolSubmissionData : submissions) {
+               if(protocolNumber.equals(protocolSubmissionData.getProtocolNumber())){
+                  protocolSubmissionLookupDataList.add(protocolSubmissionData);}
+           }               
+           Set<Integer> submissionNumberList = new HashSet<Integer>();         
+           List<ProtocolSubmission> protocolSubmissionLookupResult = new ArrayList<ProtocolSubmission>();
+           for (ProtocolSubmission protocolSubmissionResult : protocolSubmissionLookupDataList) {
+               submissionNumberList.add(protocolSubmissionResult.getSubmissionNumber());
+           }        
+           for(Integer submissionNumber : submissionNumberList){
+               List<ProtocolSubmission> submissionList=null;
+               int submissionSequenceNumber=0;
+               for (ProtocolSubmission protocolsubmissionData : protocolSubmissionLookupDataList) {
                    if(protocolsubmissionData.getSubmissionNumber().equals(submissionNumber)){
-                       if (protocolsubmissionData.getSequenceNumber() >= SubmissionSequenceNumber) {
-                           SubmissionSequenceNumber=protocolsubmissionData.getSequenceNumber(); 
-                           temperoryList=new ArrayList<ProtocolSubmission>(); 
-                           temperoryList.add(protocolsubmissionData);
-                       }
-                       
+                       if (protocolsubmissionData.getSequenceNumber() >= submissionSequenceNumber) {
+                           submissionSequenceNumber=protocolsubmissionData.getSequenceNumber(); 
+                           submissionList=new ArrayList<ProtocolSubmission>(); 
+                           submissionList.add(protocolsubmissionData);
+                       }                       
                    }
                } 
-               if(temperoryList!=null){
-                   protocolSubmissionResult.add(temperoryList.get(0));
+               if(submissionList!=null){
+                   protocolSubmissionLookupResult.add(submissionList.get(0));
                }
            }
-           return new ArrayList<ProtocolSubmission>(protocolSubmissionResult);
+           return new ArrayList<ProtocolSubmission>(protocolSubmissionLookupResult);
        }
     
     /**
      * 
      * @see org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService#getProtocolSubmissionsLookupData(java.util.List)
      */
-    public List<ProtocolSubmission> getProtocolSubmissionsLookupData(List<ProtocolSubmission> protocolSbmissionList) throws Exception{        
-        Collection<ProtocolSubmission> submissions = protocolSbmissionList;
+    public List<ProtocolSubmission> getProtocolSubmissionsLookupData(List<ProtocolSubmission> protocolSubmissionList) throws Exception{        
+        Collection<ProtocolSubmission> submissions = protocolSubmissionList;
         List<ProtocolSubmission> protocolSubmissionsLookupResult = new ArrayList<ProtocolSubmission>();
-        Set<String> setProtocolNumber = new HashSet<String>();       
+        Set<String> submissionProtocolNumberList = new HashSet<String>();       
         
-        for (ProtocolSubmission protocolsubResult : submissions) {
-            setProtocolNumber.add(protocolsubResult.getProtocolNumber());
+        for (ProtocolSubmission protocolSubmissionData : submissions) {
+            submissionProtocolNumberList.add(protocolSubmissionData.getProtocolNumber());
         }        
-        for(String submissionProtocolNumber : setProtocolNumber){
-            List<ProtocolSubmission> temperoryLookupList = getProtocolSubmissionsLookupSequence(submissionProtocolNumber);
+        for(String submissionProtocolNumber : submissionProtocolNumberList){
+            List<ProtocolSubmission> protocolSubmissionLookupList=null;
+            protocolSubmissionLookupList = getProtocolSubmissionsLookupList(submissionProtocolNumber,protocolSubmissionList);
            
-            if((temperoryLookupList!=null)&&(temperoryLookupList.size()>0)){
-                protocolSubmissionsLookupResult.addAll(temperoryLookupList);
+            if((protocolSubmissionLookupList!=null)&&(protocolSubmissionLookupList.size()>0)){
+                protocolSubmissionsLookupResult.addAll(protocolSubmissionLookupList);
             }
         }
         return new ArrayList<ProtocolSubmission>(protocolSubmissionsLookupResult);
