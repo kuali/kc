@@ -20,7 +20,9 @@
 
 <c:set var="budgetModularAttributes" value="${DataDictionary.BudgetModular.attributes}" />
 <c:set var="budgetModularIdcAttributes" value="${DataDictionary.BudgetModularIdc.attributes}" />
-
+<c:if test="${empty periodNum}">
+	<c:set var="periodNum" value="0"/>	
+</c:if>
 <c:choose>
 	<c:when test="${periodNum > 0}">
 		<c:set var="periodDisplay" value="true"/>
