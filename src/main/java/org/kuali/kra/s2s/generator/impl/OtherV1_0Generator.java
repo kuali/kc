@@ -63,19 +63,6 @@ public class OtherV1_0Generator extends OtherBaseGenerator {
      * @return AttachedFileDataType[] based on the narrative type code.
      */
     private AttachedFileDataType[] getAttachedFileDataTypes() {
-
-//        List<AttachedFileDataType> attachedFileDataTypeList = new ArrayList<AttachedFileDataType>();
-//        AttachedFileDataType attachedFileDataType = null;
-//        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-//            if (narrative.getNarrativeTypeCode() != null
-//                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == OTHER_ATTACHMENTS_FORM) {
-//            	attachedFileDataType = getAttachedFileType(narrative);
-//            	if(attachedFileDataType != null){
-//            		attachedFileDataTypeList.add(attachedFileDataType);
-//            	}
-//            }
-//        }
-//        return attachedFileDataTypeList.toArray(new AttachedFileDataType[0]);
         return getAttachedFileDataTypes(""+OTHER_ATTACHMENTS_FORM);
     }
 

@@ -594,6 +594,9 @@
        <!--  <property name="protocolDao">
             <ref bean="protocolDao" />
         </property> -->
+        <property name="protocolSubmitActionService">
+            <ref bean="protocolSubmitActionService" />
+        </property>
         <property name="kcPersonService">
             <ref bean="kcPersonService" />
         </property>

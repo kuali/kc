@@ -583,10 +583,8 @@ public class KRAS2SServiceImpl implements S2SService {
 			List<AttachmentData> attList, ProposalDevelopmentDocument pdDoc,
 			List<AuditError> auditErrors) throws S2SException {
 		boolean validationSucceeded = true;
-		DevelopmentProposal developmentProposal = pdDoc
-				.getDevelopmentProposal();
-		List<S2sOppForms> opportunityForms = developmentProposal
-				.getS2sOppForms();
+		DevelopmentProposal developmentProposal = pdDoc.getDevelopmentProposal();
+		List<S2sOppForms> opportunityForms = developmentProposal.getS2sOppForms();
 		if (opportunityForms.isEmpty()) {
 			developmentProposal.refreshReferenceObject("s2sOppForms");
 		}
@@ -600,10 +598,8 @@ public class KRAS2SServiceImpl implements S2SService {
 			FormMappingInfo info = null;
 			S2SBaseFormGenerator s2sFormGenerator = null;
 			try {
-				info = new FormMappingLoader().getFormInfo(opportunityForm
-						.getOppNameSpace());
-				s2sFormGenerator = (S2SBaseFormGenerator)s2SFormGeneratorService.getS2SGenerator(info
-						.getNameSpace());
+				info = new FormMappingLoader().getFormInfo(opportunityForm.getOppNameSpace());
+				s2sFormGenerator = (S2SBaseFormGenerator)s2SFormGeneratorService.getS2SGenerator(info.getNameSpace());
 			} catch (S2SGeneratorNotFoundException e) {
 				continue;
 			}
