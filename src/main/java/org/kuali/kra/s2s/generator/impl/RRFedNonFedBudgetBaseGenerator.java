@@ -34,7 +34,7 @@ public abstract class RRFedNonFedBudgetBaseGenerator extends S2SBaseFormGenerato
     public static final String OTHERPERSONNEL_SECRETARIAL = "Sec";
     public static final String OTHERCOST_DESCRIPTION = "Other";
     public static final int ADDITIONAL_KEYPERSONS_ATTACHMENT = 11;
-    public static final int BUDGET_JUSTIFICATION_ATTACHMENT = 7;
+    public static final int BUDGET_JUSTIFICATION_ATTACHMENT = 131;
     public static final int ADDITIONAL_EQUIPMENT_ATTACHMENT = 12;
     
     protected static final int OTHERPERSONNEL_MAX_ALLOWED = 6;

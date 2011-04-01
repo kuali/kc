@@ -94,13 +94,13 @@ public class ProtocolSubmissionLookupableHelperServiceImpl extends KraLookupable
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         super.setBackLocationDocFormKey(fieldValues);
         List<ProtocolSubmission> submissionLookupData=(List<ProtocolSubmission>)super.getSearchResults(fieldValues);
-        try {              
-             if((submissionLookupData!=null)&& (submissionLookupData.size()>0)){                            
-                 submissionLookupData=protocolSubmitActionService.getProtocolSubmissionsLookupData(submissionLookupData);       
-             }
-        }catch (Exception e){           
-            LOG.info("submissionLookupData Lookup : " + submissionLookupData.size() + " parsing error");
-        }         
+        try{
+            if((submissionLookupData!=null)&& (submissionLookupData.size()>0)){                            
+                 submissionLookupData=protocolSubmitActionService.getProtocolSubmissionsLookupData(submissionLookupData);   
+            }             
+        }catch (Exception e) {
+           LOG.info("submissionLookupData Lookup : " + submissionLookupData.size() + " parsing error");
+        }            
         return submissionLookupData;
     }   
     

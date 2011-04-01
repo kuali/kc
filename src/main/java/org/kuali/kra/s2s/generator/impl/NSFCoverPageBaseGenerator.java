@@ -34,7 +34,7 @@ public abstract class NSFCoverPageBaseGenerator extends S2SBaseFormGenerator {
 	protected static final String QUESTION_ID_BEGIN_INVESTIGATOR = "12";
 	protected static final String QUESTION_ID_EXPLORATORY_RESEARCH = "14";
 	protected static final String QUESTION_ID_HISTORIC_PLACES = "G6";
-	protected static final String PROPOSAL_YNQ_LOBBYING_ACTIVITIES = "H4";
+	protected static final String PROPOSAL_YNQ_LOBBYING_ACTIVITIES = "P1";
 	protected static final String QUESTION_ID_RESOLUTION_GRAPHICS = "20";
 	protected static final String PRINCIPAL_INVESTIGATOR = "PI";
 	protected static final String PI_C0_INVESTIGATOR = "COI";
@@ -42,12 +42,13 @@ public abstract class NSFCoverPageBaseGenerator extends S2SBaseFormGenerator {
 	protected static final int PROPRIETARY_INFORMATION = 14;
 
 	protected static final int PROGRAM_ANNOUNCEMENT_NUMBER_MAX_LENGTH = 40;
-	protected static final int QUESTION_CURRENT_PI = 52;
-	protected static final int QUESTION_BEGIN_INVESTIGATOR = 53;
-	protected static final int QUESTION_EARLY_CONCEPT_GRANT = 54;
-	protected static final int QUESTION_RAPIDRESPONSE_GRANT = 55;
-	protected static final int QUESTION_ACCOMPLISHMENT_RENEWAL = 56;
-	protected static final int QUESTION_RESOLUTION_GRAPHICS = 57;
+	protected static final int QUESTION_CURRENT_PI = 1;
+	protected static final int QUESTION_BEGIN_INVESTIGATOR = 2;
+	protected static final int QUESTION_EARLY_CONCEPT_GRANT = 4;
+	protected static final int QUESTION_RAPIDRESPONSE_GRANT = 3;
+	protected static final int QUESTION_ACCOMPLISHMENT_RENEWAL = 5;
+	protected static final int QUESTION_RESOLUTION_GRAPHICS = 6;
+	
 	protected static final int SINGLE_COPY_DOCUMENT = 87;
 	protected static final Integer QUESTIONNAIRE_ID_2 = 2;
 
