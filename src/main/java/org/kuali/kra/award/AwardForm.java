@@ -1450,27 +1450,4 @@ public class AwardForm extends BudgetVersionFormBase
     public void setDocOpenedFromAwardSearch(boolean docOpenedFromAwardSearch) {
         this.docOpenedFromAwardSearch = docOpenedFromAwardSearch;
     }
-    
-    /**
-     * 
-     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#getEditingMode()
-     */
-    @Override
-    public Map getEditingMode() {
-        Map editingMode = super.getEditingMode();
-        //the budget panel has fields that are editable reagardless of the award's editibablity because of the budget form.
-        final String VIEW_ONLY = "viewOnly";
-        final String MODIFY_BUDGETS = "modifyCompletedBudgets";
-        if ("budgets".equals(this.getNavigateTo())) {
-            if (editingMode.containsKey(VIEW_ONLY)) {
-                editingMode.remove(VIEW_ONLY);
-            }
-            if (editingMode.containsKey(MODIFY_BUDGETS)) {
-                editingMode.remove(MODIFY_BUDGETS);
-            }
-            editingMode.put(VIEW_ONLY, false);
-            editingMode.put(MODIFY_BUDGETS, true);
-        }
-        return editingMode;
-    }
 }
