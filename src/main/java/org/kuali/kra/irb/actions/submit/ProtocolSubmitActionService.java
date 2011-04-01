@@ -55,4 +55,22 @@ public interface ProtocolSubmitActionService {
      * @throws Exception 
      */
     void submitToIrbForReview(Protocol protocol, ProtocolSubmitAction submitAction) throws Exception;
+    
+//    /**
+//     * 
+//     * This method for getting ProtocolSubmissionsLookup from given protocolNumber...
+//     * @param protocolNumber
+//     * @return
+//     * @throws Exception
+//     */
+//    public List<ProtocolSubmission> getProtocolSubmissionsLookupSequence(String protocolNumber) throws Exception;
+    
+    /**
+     * 
+     * This method for getting ProtocolSubmissionsLookup from given ProtocolSubmission list...
+     * @param protocolSbmissionList
+     * @return
+     * @throws Exception
+     */
+    public List<ProtocolSubmission> getProtocolSubmissionsLookupData(List<ProtocolSubmission> protocolSbmissionList) throws Exception;
 }

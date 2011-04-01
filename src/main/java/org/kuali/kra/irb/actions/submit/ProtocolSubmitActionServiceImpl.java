@@ -19,8 +19,10 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
@@ -43,6 +45,7 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
     
     private static final String PROTOCOL_NUMBER = "protocolNumber";
     private static final String SUBMISSION_NUMBER = "submissionNumber";
+    private static final String SEQUENCE_NUMBER = "sequenceNumber";
 
     private static final String SUBMIT_TO_IRB = "Submitted to IRB";
     
@@ -121,7 +124,7 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
         
         return new ArrayList<ProtocolSubmission>(submissions);
     }
-    
+   
     /**
      * {@inheritDoc}
      * @see org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService#getProtocolSubmissions(java.lang.String, java.lang.String)
@@ -135,7 +138,64 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
         
         return new ArrayList<ProtocolSubmission>(submissions);
     }
+    /**
+     * 
+     * 
+     */
+    @SuppressWarnings("unchecked")
+    public List<ProtocolSubmission> getProtocolSubmissionsLookupSequence(String protocolNumber) throws Exception{        
+           HashMap<String, Object> fieldValues = new HashMap<String, Object>();
+           fieldValues.put(PROTOCOL_NUMBER, protocolNumber);
+           Collection<ProtocolSubmission> submissions = businessObjectService.findMatching(ProtocolSubmission.class, fieldValues);
+           Set<Integer> setSubmissionNumber = new HashSet<Integer>();
+         
+           List<ProtocolSubmission> protocolSubmissionResult = new ArrayList<ProtocolSubmission>();
+           for (ProtocolSubmission protocolsubResult : submissions) {
+               setSubmissionNumber.add(protocolsubResult.getSubmissionNumber());
+           }        
+           for(Integer submissionNumber : setSubmissionNumber){
+               List<ProtocolSubmission> temperoryList=null;
+               int SubmissionSequenceNumber=0;
+               for (ProtocolSubmission protocolsubmissionData : submissions) {
 
+                   if(protocolsubmissionData.getSubmissionNumber().equals(submissionNumber)){
+                       if (protocolsubmissionData.getSequenceNumber() >= SubmissionSequenceNumber) {
+                           SubmissionSequenceNumber=protocolsubmissionData.getSequenceNumber(); 
+                           temperoryList=new ArrayList<ProtocolSubmission>(); 
+                           temperoryList.add(protocolsubmissionData);
+                       }
+                       
+                   }
+               } 
+               if(temperoryList!=null){
+                   protocolSubmissionResult.add(temperoryList.get(0));
+               }
+           }
+           return new ArrayList<ProtocolSubmission>(protocolSubmissionResult);
+       }
+    
+    /**
+     * 
+     * @see org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService#getProtocolSubmissionsLookupData(java.util.List)
+     */
+    public List<ProtocolSubmission> getProtocolSubmissionsLookupData(List<ProtocolSubmission> protocolSbmissionList) throws Exception{        
+        Collection<ProtocolSubmission> submissions = protocolSbmissionList;
+        List<ProtocolSubmission> protocolSubmissionsLookupResult = new ArrayList<ProtocolSubmission>();
+        Set<String> setProtocolNumber = new HashSet<String>();       
+        
+        for (ProtocolSubmission protocolsubResult : submissions) {
+            setProtocolNumber.add(protocolsubResult.getProtocolNumber());
+        }        
+        for(String submissionProtocolNumber : setProtocolNumber){
+            List<ProtocolSubmission> temperoryLookupList = getProtocolSubmissionsLookupSequence(submissionProtocolNumber);
+           
+            if((temperoryLookupList!=null)&&(temperoryLookupList.size()>0)){
+                protocolSubmissionsLookupResult.addAll(temperoryLookupList);
+            }
+        }
+        return new ArrayList<ProtocolSubmission>(protocolSubmissionsLookupResult);
+    }
+    
     /**
      * When a protocol is submitted for review, an action entry must be added to the protocol. 
      * This action entry is a history of the major events that have occurred during the life
