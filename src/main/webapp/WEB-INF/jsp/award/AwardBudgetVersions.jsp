@@ -89,33 +89,38 @@
 		        <input type="hidden" name="prevOnOffCampusFlag" value="${KualiForm.document.budgetVersionOverview.onOffCampusFlag}">
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.urRateClassCode}" /></div></th>
                 <td>
-                	<kul:htmlControlAttribute property="document.budgetVersionOverview.urRateClassCode" readOnly="${readOnly}" attributeEntry="${budgetAttributes.urRateClassCode}"  styleClass="fixed-size-200-select"/>
+                	<kul:htmlControlAttribute property="document.budgetVersionOverview.urRateClassCode" readOnly="${viewOnly}" attributeEntry="${budgetAttributes.urRateClassCode}"  styleClass="fixed-size-200-select"/>
                 	<input type="hidden" name="urRateClassCodePrevValue" value="${KualiForm.document.budgetVersionOverview.urRateClassCode}">
                 </td>
         	</tr>
         	<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.onOffCampusFlag}" /></div></th>
                 <td >
-                	<kul:htmlControlAttribute property="document.budgetVersionOverview.onOffCampusFlag" attributeEntry="${budgetAttributes.onOffCampusFlag}" readOnlyAlternateDisplay="${KualiForm.document.budgetVersionOverview.onOffCampusFlagDescription}"/>
+                	<kul:htmlControlAttribute property="document.budgetVersionOverview.onOffCampusFlag" attributeEntry="${budgetAttributes.onOffCampusFlag}" readOnlyAlternateDisplay="${KualiForm.document.budgetVersionOverview.onOffCampusFlagDescription}" readOnly="${viewOnly}"/>
                 </td>
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.ohRateClassCode}" /></div></th>
            		<td>
-           			<kul:htmlControlAttribute property="document.budgetVersionOverview.ohRateClassCode" readOnly="${readOnly}" attributeEntry="${budgetAttributes.ohRateClassCode}"  styleClass="fixed-size-200-select"/>
+           			<kul:htmlControlAttribute property="document.budgetVersionOverview.ohRateClassCode" readOnly="${viewOnly}" attributeEntry="${budgetAttributes.ohRateClassCode}"  styleClass="fixed-size-200-select" />
            			<input type="hidden" name="ohRateClassCodePrevValue" value="${KualiForm.document.budgetVersionOverview.ohRateClassCode}">
            		</td>
         	</tr>
         	<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardBudgetAttributes.description}" /></div></th>
                 <td colspan="3">
-                	<kul:htmlControlAttribute property="document.budgetVersionOverview.description" attributeEntry="${awardBudgetAttributes.description}"/>
+                	<kul:htmlControlAttribute property="document.budgetVersionOverview.description" attributeEntry="${awardBudgetAttributes.description}" readOnly="${viewOnly}"/>
                 </td>
         	</tr>
         	<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.comments}" /></div></th>
                 <td colspan="3">
-                	<kul:htmlControlAttribute property="document.budgetVersionOverview.comments" attributeEntry="${budgetAttributes.comments}"/>
+                	<kul:htmlControlAttribute property="document.budgetVersionOverview.comments" attributeEntry="${budgetAttributes.comments}" readOnly="${viewOnly}"/>
                 </td>
         	</tr>
+        	<Tr>
+        		<Td colspan="4">
+        			viewOnly : ${viewOnly}
+        		</Td>
+        	</Tr>
         </table>
     </div>
 </kul:tabTop>
