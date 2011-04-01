@@ -17,11 +17,13 @@ package org.kuali.kra.irb;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.service.KcPersonService;
@@ -29,6 +31,7 @@ import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.ui.Field;
@@ -47,13 +50,27 @@ public class ProtocolSubmissionLookupableHelperServiceImpl extends KraLookupable
     private static final String DOC_TYPE_NAME_PARAM = "&docTypeName=";
     private KraAuthorizationService kraAuthorizationService;
     private KcPersonService kcPersonService;
+    private ProtocolSubmitActionService protocolSubmitActionService;
+   
+        
+   
 
+    public void setProtocolSubmitActionService(ProtocolSubmitActionService protocolSubmitActionService) {
+        this.protocolSubmitActionService = protocolSubmitActionService;
+    }
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+      
+    
     /**
      * This method is to add 'edit' and 'view' link for protocol submission lookup result.
      * 
      * @see org.kuali.kra.lookup.KraLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject,
      *      java.util.List)
      */
+    
+       
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
@@ -72,6 +89,23 @@ public class ProtocolSubmissionLookupableHelperServiceImpl extends KraLookupable
         }
         return htmlDataList;
     }
+  
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        super.setBackLocationDocFormKey(fieldValues);
+        List<ProtocolSubmission> submissionLookupData=(List<ProtocolSubmission>)super.getSearchResults(fieldValues);
+        try {              
+             if((submissionLookupData!=null)&& (submissionLookupData.size()>0)){                            
+                 submissionLookupData=protocolSubmitActionService.getProtocolSubmissionsLookupData(submissionLookupData);       
+             }
+        }catch (Exception e){           
+            LOG.info("submissionLookupData Lookup : " + submissionLookupData.size() + " parsing error");
+        }         
+        return submissionLookupData;
+    }   
+    
+    
+    
 
     /*
      * create the view link url for protocolsubmission
@@ -84,6 +118,10 @@ public class ProtocolSubmissionLookupableHelperServiceImpl extends KraLookupable
         viewHtmlData.setHref(href);
         return viewHtmlData;
     }
+    
+    
+    
+    
 
     public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
@@ -109,6 +147,8 @@ public class ProtocolSubmissionLookupableHelperServiceImpl extends KraLookupable
     }
 
 
+           
+  
     /**
      * This method is for several fields that does not have inquiry created by lookup frame work.
      * Also, disable inquiry link for protocol title & schedule date.
@@ -168,7 +208,7 @@ public class ProtocolSubmissionLookupableHelperServiceImpl extends KraLookupable
         for (Row row : rows) {
             for (Field field : row.getFields()) {
                 if (PROTOCOL_TITLE.equals(field.getPropertyName()) || COMMITTEE_SCHEDULE_SCHEDULE_DATE.equals(field.getPropertyName())) {
-                    // to disable lookup/inquiry display
+                   
                     field.setQuickFinderClassNameImpl(KNSConstants.EMPTY_STRING);                 
                 }
             }

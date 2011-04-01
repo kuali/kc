@@ -930,8 +930,7 @@ public abstract class AwardBaseStream implements XmlStream {
 //		CommentDetailsType commentDetailsType = CommentDetailsType.Factory
 //				.newInstance();
 		for (AwardComment awardComment : award.getAwardComments()) {
-		    CommentType awardCommentType = awardComment.getCommentType();
-		    if(awardCommentType.getAwardCommentScreenFlag()){
+		    CommentType awardCommentType = awardComment.getCommentType();		   
     		    CommentType2 commentType = awardComments.addNewComment();
     		    CommentDetailsType commentDetailsType = commentType.addNewCommentDetails();
     			if (awardComment.getAwardNumber() != null) {
@@ -954,8 +953,7 @@ public abstract class AwardBaseStream implements XmlStream {
     				commentDetailsType.setPrintChecklist(awardComment
     						.getChecklistPrintFlag());
     			}
-    			commentType.setCommentDetails(commentDetailsType);
-		    }
+    			commentType.setCommentDetails(commentDetailsType);		    
 		}
 		return awardComments;
 	}
@@ -2519,10 +2517,18 @@ public abstract class AwardBaseStream implements XmlStream {
 				: award.getPreAwardAuthorizedAmount();
 		otherHeaderDetails.setPreAwardAuthorizedAmt(bdecPreAwardAuthorizedAmt
 				.bigDecimalValue().setScale(2, BigDecimal.ROUND_HALF_DOWN));
+		KualiDecimal bdecPreAwardAuthorizedAmtModified = award
+                .getPreAwardInstitutionalAuthorizedAmount() == null ? KualiDecimal.ZERO
+                 : award.getPreAwardInstitutionalAuthorizedAmount();
+		otherHeaderDetails.setPreAwardAuthorizedAmtModifeid(bdecPreAwardAuthorizedAmtModified
+		        .bigDecimalValue().setScale(2, BigDecimal.ROUND_HALF_DOWN).toString());
 		if (award.getPreAwardEffectiveDate() != null) {
-			Calendar preAwardEffectiveDate = dateTimeService.getCalendar(award
-					.getPreAwardEffectiveDate());
-			otherHeaderDetails.setPreAwardEffectiveDate(preAwardEffectiveDate);
+		    Calendar preAwardEffectiveDate = dateTimeService.getCalendar(award
+            .getPreAwardEffectiveDate());
+		    otherHeaderDetails.setPreAwardEffectiveDate(preAwardEffectiveDate); 
+		}       
+		if(award.getPreAwardInstitutionalEffectiveDate()!=null){                   
+		    otherHeaderDetails.setPreAwardEffectiveDateModifeid(dateTimeService.toDateString(award.getPreAwardInstitutionalEffectiveDate()));
 		}
 		if (prevAward != null) {
 			String preAwardAuthorizedAmtModified = getPreAwardAuthorizedAmountModified();
