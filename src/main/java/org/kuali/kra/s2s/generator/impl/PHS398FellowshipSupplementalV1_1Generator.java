@@ -106,8 +106,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 		phsFellowshipSupplemental.setFormVersion(S2SConstants.FORMVERSION_1_1);
 		phsFellowshipSupplemental.setApplicationType(getApplicationType());
 		phsFellowshipSupplemental.setAppendix(getAppendix());
-		phsFellowshipSupplemental
-				.setAdditionalInformation(getAdditionalInformation());
+		phsFellowshipSupplemental.setAdditionalInformation(getAdditionalInformation());
 		phsFellowshipSupplemental
 				.setResearchTrainingPlan(getResearchTrainingPlan());
 		phsFellowshipSupplemental.setBudget(getBudget());
@@ -156,9 +155,13 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 			}
 		}
 		budget.setTuitionAndFeesRequested(YesNoDataType.N_NO);
-		budget.setInstitutionalBaseSalary(getInstitutionalBaseSalary(budgetMap));
+		if(getInstitutionalBaseSalary(budgetMap)!=null){
+		    budget.setInstitutionalBaseSalary(getInstitutionalBaseSalary(budgetMap));
+		}
 		budget.setFederalStipendRequested(getFederalStipendRequested());
-		budget.setSupplementationFromOtherSources(getSupplementationFromOtherSources(budgetMap));
+		if(getSupplementationFromOtherSources(budgetMap)!=null){
+		    budget.setSupplementationFromOtherSources(getSupplementationFromOtherSources(budgetMap));
+		}
 		setTutionRequestedYears(budget);
 		return budget;
 	}
@@ -220,11 +223,11 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 	 */
 	private SupplementationFromOtherSources getSupplementationFromOtherSources(
 			Map<Integer, String> budgetMap) {
-		SupplementationFromOtherSources supplementationFromOtherSources = SupplementationFromOtherSources.Factory
-				.newInstance();
+	    SupplementationFromOtherSources supplementationFromOtherSources=null;
 		if (budgetMap.get(SENIOR) != null
 				&& budgetMap.get(SENIOR).toString().equals(
 						S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {
+	        supplementationFromOtherSources = SupplementationFromOtherSources.Factory.newInstance();
 			if (budgetMap.get(SUPP_SOURCE) != null) {
 				supplementationFromOtherSources.setSource(budgetMap.get(
 						SUPP_SOURCE).toString());
@@ -232,6 +235,8 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 			if (budgetMap.get(SUPP_FUNDING_AMT) != null) {
 				supplementationFromOtherSources.setAmount(new BigDecimal(
 						budgetMap.get(SUPP_FUNDING_AMT).toString()));
+			}else{
+			    supplementationFromOtherSources.setAmount(null);
 			}
 			if (budgetMap.get(SUPP_MONTHS) != null) {
 				supplementationFromOtherSources
@@ -301,14 +306,16 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 	 */
 	private InstitutionalBaseSalary getInstitutionalBaseSalary(
 			Map<Integer, String> budgetMap) {
-		InstitutionalBaseSalary institutionalBaseSalary = InstitutionalBaseSalary.Factory
-				.newInstance();
+	    InstitutionalBaseSalary institutionalBaseSalary=null;
 		if (budgetMap.get(SENIOR) != null
 				&& budgetMap.get(SENIOR).toString().equals(
 						S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {
+	        institutionalBaseSalary = InstitutionalBaseSalary.Factory.newInstance();
 			if (budgetMap.get(BASE_SALARY) != null) {
 				institutionalBaseSalary.setAmount(new BigDecimal(budgetMap.get(
 						BASE_SALARY).toString()));
+			}else{
+			    institutionalBaseSalary.setAmount(null);
 			}
 			if (budgetMap.get(ACAD_PERIOD) != null) {
 				institutionalBaseSalary.setAcademicPeriod(AcademicPeriod.Enum
@@ -531,10 +538,15 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 	 */
 	private void setQuestionnareAnswerForResearchTrainingPlan(
 			ResearchTrainingPlan researchTrainingPlan) {
+	    researchTrainingPlan.setHumanSubjectsIndefinite(YesNoDataType.N_NO);
+        researchTrainingPlan.setVertebrateAnimalsIndefinite(YesNoDataType.N_NO);
+        researchTrainingPlan.setHumanSubjectsIndefinite(YesNoDataType.N_NO);
+        researchTrainingPlan.setClinicalTrial(YesNoDataType.N_NO);
+        researchTrainingPlan.setPhase3ClinicalTrial(YesNoDataType.N_NO);
 		for (Answer questionnaireAnswer : s2sUtilService.getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), getNamespace(),getFormName())) {
 			String answer = questionnaireAnswer.getAnswer();
 			if (answer != null) {
-				switch (questionnaireAnswer.getQuestionNumber()) {
+				switch (questionnaireAnswer.getQuestionnaireQuestion().getQuestion().getQuestionId()) {
 				case HUMAN:
 					researchTrainingPlan
 							.setHumanSubjectsIndefinite(answer
@@ -599,31 +611,29 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 	 * AdditionalInformation XMLObject from DevelopmentProposal, ProposalYnq
 	 */
 	private AdditionalInformation getAdditionalInformation() {
-		AdditionalInformation additionalInformation = AdditionalInformation.Factory
-				.newInstance();
+		AdditionalInformation additionalInformation = AdditionalInformation.Factory.newInstance();
 		StemCells stemCells = StemCells.Factory.newInstance();
-		GraduateDegreeSought graduateDegreeSought = GraduateDegreeSought.Factory
-				.newInstance();
-		ProposalPerson principalInvestigator = s2sUtilService
-				.getPrincipalInvestigator(pdDoc);
+	    stemCells.setIsHumanStemCellsInvolved(YesNoDataType.N_NO);
+	    stemCells.setStemCellsIndicator(YesNoDataType.N_NO);
+		GraduateDegreeSought graduateDegreeSought = GraduateDegreeSought.Factory.newInstance();
+		ProposalPerson principalInvestigator = s2sUtilService.getPrincipalInvestigator(pdDoc);
 		if (principalInvestigator != null) {
-			if (principalInvestigator.getCountryOfCitizenship() != null) {
-				additionalInformation.setCitizenship(CitizenshipDataType.Enum
-						.forString(principalInvestigator
-								.getCountryOfCitizenship()));
+			if (principalInvestigator.getCountryOfCitizenship() != null && !principalInvestigator.getCountryOfCitizenship().equals(""))  {
+				additionalInformation.setCitizenship(
+				        CitizenshipDataType.Enum.forString(principalInvestigator.getCountryOfCitizenship()));
+			}else{
+			    additionalInformation.setCitizenship(CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S);
 			}
-			additionalInformation.setAlernatePhoneNumber(principalInvestigator
-					.getSecondaryOfficePhone());
+			additionalInformation.setAlernatePhoneNumber(principalInvestigator.getSecondaryOfficePhone());
 		}
 		for (Answer questionnaireAnswer : s2sUtilService.getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), getNamespace(),getFormName())) {
 			String answer = questionnaireAnswer.getAnswer();
 			if (answer != null) {
-				switch (questionnaireAnswer.getQuestionNumber()) {
+				switch (questionnaireAnswer.getQuestionnaireQuestion().getQuestion().getQuestionId()) {
 				case FIELD_TRAINING:
 					if (!answer.toUpperCase().equals(SUB_CATEGORY_NOT_FOUND)) {
-						additionalInformation
-								.setFieldOfTraining(FieldOfTrainingDataType.Enum
-										.forString(answer));
+					    FieldOfTrainingDataType.Enum e = FieldOfTrainingDataType.Enum.forString(answer);
+						additionalInformation.setFieldOfTraining(e);
 					}
 					break;
 				case NRSA_SUPPORT:
@@ -648,8 +658,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 									: YesNoDataType.N_NO);
 					break;
 				case CELLLINEIND:
-					stemCells
-							.setStemCellsIndicator(answer
+					stemCells.setStemCellsIndicator(answer
 									.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES
 									: YesNoDataType.N_NO);
 					break;
@@ -682,7 +691,9 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 			}
 		}
 		additionalInformation.setStemCells(stemCells);
-		additionalInformation.setGraduateDegreeSought(graduateDegreeSought);
+		if(graduateDegreeSought.getDegreeType()!=null){
+		    additionalInformation.setGraduateDegreeSought(graduateDegreeSought);
+		}
 		additionalInformation
 				.setCurrentPriorNRSASupportArray(getCurrentPriorNRSASupportArray());
 		additionalInformation.setConcurrentSupport(YesNoDataType.N_NO);
