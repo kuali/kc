@@ -352,6 +352,16 @@
  		scope="prototype" parent="lookupableHelperService">
   	</bean>
   	
+	<bean id="activeFlagLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+  		<property name="lookupableHelperService">
+    		<ref bean="activeFlagLookupableHelperServiceImpl" />
+  		</property>  		
+	</bean>	
+	
+	<bean id="activeFlagLookupableHelperServiceImpl" class="org.kuali.kra.lookup.ActiveFlagLookupableHelperServiceImpl" 
+ 		scope="prototype" parent="lookupableHelperService">
+  	</bean>
+  	
   	<bean id="copyPeriodsQuestion" class="org.kuali.kra.question.CopyPeriodsQuestion" scope="prototype" />
   	
   	<!-- bean id="budgetPrintService" class="org.kuali.kra.proposaldevelopment.budget.service.impl.BudgetPrintServiceDummyImpl"-->

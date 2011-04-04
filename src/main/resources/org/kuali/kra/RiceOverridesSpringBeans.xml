@@ -163,6 +163,7 @@
 				<value>nonOrganizationalRolodexLookupable</value>
 				<value>budgetExpenseLookupable</value>
 				<value>onOffCampusLookupable</value>
+				<value>activeFlagLookupable</value>
 				<value>copyPeriodsQuestion</value>
 				<value>sponsorLookupable</value>	
 				<value>pessimisticLockLookupable</value>	

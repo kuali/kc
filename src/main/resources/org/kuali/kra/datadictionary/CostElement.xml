@@ -5,7 +5,6 @@
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
   <bean id="CostElement" parent="CostElement-parentBean" />
-
   <bean id="CostElement-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.budget.core.CostElement" />
 		<property name="objectLabel" value="Cost Element" />
@@ -25,6 +24,7 @@
         <ref bean="CostElement-onOffCampusFlag" />
         <ref bean="CostElement-budgetCategoryTypeCode" />
         <ref bean="CostElement-versionNumber" />
+        <ref bean="CostElement-activeFlag"/>
       </list>
     </property>
     <property name="relationships" >
@@ -55,7 +55,6 @@
 
 
   <bean id="CostElement-costElement" parent="CostElement-costElement-parentBean" />
-
   <bean id="CostElement-costElement-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="costElement" />
     <property name="forceUppercase" value="false" />
@@ -72,8 +71,8 @@
     <property name="summary" value="Object Code Name" />
     <property name="description" value="Object Code Name" />
   </bean>
-  <bean id="CostElement-budgetCategoryCode" parent="CostElement-budgetCategoryCode-parentBean" />
 
+  <bean id="CostElement-budgetCategoryCode" parent="CostElement-budgetCategoryCode-parentBean" />
   <bean id="CostElement-budgetCategoryCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetCategoryCode" />
     <property name="forceUppercase" value="false" />
@@ -90,19 +89,19 @@
     <property name="summary" value="Budget Category Code" />
     <property name="description" value="Budget Category Code" />
   </bean>
-  <bean id="CostElement-budgetCategory.description" parent="CostElement-budgetCategory.description-parentBean" />
 
+  <bean id="CostElement-budgetCategory.description" parent="CostElement-budgetCategory.description-parentBean" />
   <bean id="CostElement-budgetCategory.description-parentBean" abstract="true" parent="BudgetCategory-description">
     <property name="name" value="budgetCategory.description" />
     <property name="label" value="Budget Category" />
     <property name="shortLabel" value="Budget Category" />
   </bean>
-  <bean id="CostElement-description" parent="CostElement-description-parentBean" />
 
+  <bean id="CostElement-description" parent="CostElement-description-parentBean" />
   <bean id="CostElement-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
   </bean>
-  <bean id="CostElement-onOffCampusFlag" parent="CostElement-onOffCampusFlag-parentBean" />
 
+  <bean id="CostElement-onOffCampusFlag" parent="CostElement-onOffCampusFlag-parentBean" />
   <bean id="CostElement-onOffCampusFlag-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="onOffCampusFlag" />
     <property name="forceUppercase" value="false" />
@@ -118,8 +117,8 @@
     <property name="summary" value="On Campus" />
     <property name="description" value="On Campus" />
   </bean>
-  <bean id="CostElement-budgetCategoryTypeCode" parent="CostElement-budgetCategoryTypeCode-parentBean" />
 
+  <bean id="CostElement-budgetCategoryTypeCode" parent="CostElement-budgetCategoryTypeCode-parentBean" />
   <bean id="CostElement-budgetCategoryTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetCategoryTypeCode" />
     <property name="forceUppercase" value="false" />
@@ -135,8 +134,25 @@
     <property name="summary" value="Budget Category Type" />
     <property name="description" value="Budget Category Type" />
   </bean>
-  <bean id="CostElement-versionNumber" parent="CostElement-versionNumber-parentBean" />
 
+  <bean id="CostElement-activeFlag" parent="CostElement-activeFlag-parentBean" />
+  <bean id="CostElement-activeFlag-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="activeFlag" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Active" />
+    <property name="shortLabel" value="Active" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="Active" />
+    <property name="description" value="Active" />
+  </bean>
+  
+  <bean id="CostElement-versionNumber" parent="CostElement-versionNumber-parentBean" />
   <bean id="CostElement-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
   </bean>
 
@@ -144,7 +160,6 @@
 
 
   <bean id="CostElement-inquiryDefinition" parent="CostElement-inquiryDefinition-parentBean" />
-
   <bean id="CostElement-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Object Code" />
     <property name="inquirySections" >
@@ -163,6 +178,8 @@
                     p:attributeName="description" />
               <bean parent="FieldDefinition"
                     p:attributeName="onOffCampusFlag" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="activeFlag" />
             </list>
           </property>
         </bean>
@@ -174,7 +191,6 @@
 
 
   <bean id="CostElement-lookupDefinition" parent="CostElement-lookupDefinition-parentBean" />
-
   <bean id="CostElement-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Object Code Lookup" />
     <property name="lookupableID" value="budgetExpenseLookupable" />
@@ -196,6 +212,8 @@
               p:attributeName="budgetCategoryCode" />
         <bean parent="FieldDefinition"
               p:attributeName="budgetCategoryTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="activeFlag" />
       </list>
     </property>
     <property name="resultFields" >
@@ -209,6 +227,8 @@
               p:attributeName="description" />
         <bean parent="FieldDefinition"
               p:attributeName="onOffCampusFlag" />
+        <bean parent="FieldDefinition"
+              p:attributeName="activeFlag" />
       </list>
     </property>
   </bean>
