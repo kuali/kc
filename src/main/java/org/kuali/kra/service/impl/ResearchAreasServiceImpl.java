@@ -42,6 +42,19 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
 
     private static final String COLUMN_CODE_1 = "%3A";
     private static final String COLUMN_CODE_2 = "%4A";
+    private static final String DELETE_RESEARCH_AREA = "RaDelete";
+    private static final String CREATE_RESEARCH_AREA = "RaCreate";
+    private static final String UPDATE_PARENT_RESEARCH_AREA = "RaUpdateParent";
+    private static final String UPDATE_RESEARCH_AREA_ACTIVE_FLAG = "RaUpdateActiveIndicator";
+    private static final String UPDATE_RESEARCH_AREA_DESCRIPTION = "RaUpdateDescription";
+    private static final String RESEARCH_AREA_CODE = "researchAreaCode";
+    private static final String CODE = "Code";
+    private static final String TRUE = "true";
+    private static final String ACTIVE = "Active";
+    private static final String DESCRIPTION = "Description";
+    private static final String PARENT_CODE = "ParentCode";
+    private static final String PARENT_RESEARCH_AREA_CODE = "parentResearchAreaCode";
+    private static final String NEW_PARENT = "NewParent";
     private BusinessObjectService businessObjectService;
     
     /**
@@ -64,11 +77,11 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
     protected List<ResearchArea> getSubResearchAreas(String researchAreaCode, boolean activeOnly) {
         List<ResearchArea> researchAreasList = new ArrayList<ResearchArea>();
         Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("parentResearchAreaCode", researchAreaCode);
+        fieldValues.put(PARENT_RESEARCH_AREA_CODE, researchAreaCode);
         if (activeOnly) {
             fieldValues.put("active", activeOnly);
         }
-        researchAreasList.addAll(businessObjectService.findMatchingOrderBy(ResearchArea.class, fieldValues, "researchAreaCode", true));
+        researchAreasList.addAll(businessObjectService.findMatchingOrderBy(ResearchArea.class, fieldValues, RESEARCH_AREA_CODE, true));
         return researchAreasList;
     }
 
@@ -78,7 +91,7 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
      */
     public boolean isResearchAreaExist(String researchAreaCode, String researchAreas) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("researchAreaCode", researchAreaCode);
+        fieldValues.put(RESEARCH_AREA_CODE, researchAreaCode);
         boolean isExist = businessObjectService.findByPrimaryKey(ResearchArea.class, fieldValues) != null;
         if (isExist && StringUtils.isNotBlank(researchAreas)) {
             for (String raCode : researchAreas.split(";")) {
@@ -163,40 +176,40 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
         for (Element raChange : raChanges) {
             Map<String, Map<String, String>> details = getRaChangeDetails(raChange);
             // delete before create to allow a research area code to be deleted and reused for a new entry.
-            if (details.containsKey("RaDelete")) {
-                ResearchArea researchArea = businessObjectService.findBySinglePrimaryKey(ResearchArea.class, details.get("RaDelete").get("Code"));
+            if (details.containsKey(DELETE_RESEARCH_AREA)) {
+                ResearchArea researchArea = businessObjectService.findBySinglePrimaryKey(ResearchArea.class, details.get(DELETE_RESEARCH_AREA).get(CODE));
                 if (researchArea != null) {
                     businessObjectService.delete(researchArea);
-                    deleteChildrenResearchAreas(details.get("RaDelete").get("Code"));
+                    deleteChildrenResearchAreas(details.get(DELETE_RESEARCH_AREA).get(CODE));
                     updateHasChildrenFlag(researchArea.getParentResearchAreaCode());
                 }
             }
-            if (details.containsKey("RaCreate")) {
-                boolean active = StringUtils.equalsIgnoreCase(details.get("RaCreate").get("Active"), "true") ? true : false;
-                ResearchArea researchArea = new ResearchArea(details.get("RaCreate").get("Code"), details.get("RaCreate")
-                        .get("ParentCode"), details.get("RaCreate").get("Description"), active);
+            if (details.containsKey(CREATE_RESEARCH_AREA)) {
+                boolean active = StringUtils.equalsIgnoreCase(details.get(CREATE_RESEARCH_AREA).get(ACTIVE), TRUE) ? true : false;
+                ResearchArea researchArea = new ResearchArea(details.get(CREATE_RESEARCH_AREA).get(CODE), details.get(CREATE_RESEARCH_AREA)
+                        .get(PARENT_CODE), details.get(CREATE_RESEARCH_AREA).get(DESCRIPTION), active);
                 businessObjectService.save(researchArea);
-                setHasChildrenFlag(details.get("RaCreate").get("ParentCode"), true);
+                setHasChildrenFlag(details.get(CREATE_RESEARCH_AREA).get(PARENT_CODE), true);
 
             }
-            if (details.containsKey("RaUpdateDescription")) {
-                ResearchArea researchArea = businessObjectService.findBySinglePrimaryKey(ResearchArea.class, details.get("RaUpdateDescription").get("Code"));
-                researchArea.setDescription(details.get("RaUpdateDescription").get("Description"));
+            if (details.containsKey(UPDATE_RESEARCH_AREA_DESCRIPTION)) {
+                ResearchArea researchArea = businessObjectService.findBySinglePrimaryKey(ResearchArea.class, details.get(UPDATE_RESEARCH_AREA_DESCRIPTION).get(CODE));
+                researchArea.setDescription(details.get(UPDATE_RESEARCH_AREA_DESCRIPTION).get(DESCRIPTION));
                 businessObjectService.save(researchArea);
             }
-            if (details.containsKey("RaUpdateActiveIndicator")) {
-                boolean active = StringUtils.equalsIgnoreCase(details.get("RaUpdateActiveIndicator").get("Active"), "true") ? true : false;
-                ResearchArea researchArea = businessObjectService.findBySinglePrimaryKey(ResearchArea.class, details.get("RaUpdateActiveIndicator").get("Code"));
+            if (details.containsKey(UPDATE_RESEARCH_AREA_ACTIVE_FLAG)) {
+                boolean active = StringUtils.equalsIgnoreCase(details.get(UPDATE_RESEARCH_AREA_ACTIVE_FLAG).get(ACTIVE), TRUE) ? true : false;
+                ResearchArea researchArea = businessObjectService.findBySinglePrimaryKey(ResearchArea.class, details.get(UPDATE_RESEARCH_AREA_ACTIVE_FLAG).get(CODE));
                 researchArea.setActive(active);
                 businessObjectService.save(researchArea);
-                inactivateChildrenResearchAreas(details.get("RaUpdateActiveIndicator").get("Code"));
+                inactivateChildrenResearchAreas(details.get(UPDATE_RESEARCH_AREA_ACTIVE_FLAG).get(CODE));
             }
-            if (details.containsKey("RaUpdateParent")) {
-                ResearchArea researchArea = businessObjectService.findBySinglePrimaryKey(ResearchArea.class, details.get("RaUpdateParent").get("Code"));
-                researchArea.setParentResearchAreaCode(details.get("RaUpdateParent").get("NewParent"));
+            if (details.containsKey(UPDATE_PARENT_RESEARCH_AREA)) {
+                ResearchArea researchArea = businessObjectService.findBySinglePrimaryKey(ResearchArea.class, details.get(UPDATE_PARENT_RESEARCH_AREA).get(CODE));
+                researchArea.setParentResearchAreaCode(details.get(UPDATE_PARENT_RESEARCH_AREA).get(NEW_PARENT));
                 businessObjectService.save(researchArea);
-                setHasChildrenFlag(details.get("RaUpdateParent").get("NewParent"), true);
-                updateHasChildrenFlag(details.get("RaUpdateParent").get("OldParent"));
+                setHasChildrenFlag(details.get(UPDATE_PARENT_RESEARCH_AREA).get(NEW_PARENT), true);
+                updateHasChildrenFlag(details.get(UPDATE_PARENT_RESEARCH_AREA).get("OldParent"));
             }
         }
     }
@@ -208,7 +221,7 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
     @SuppressWarnings("unchecked")
     private void deleteChildrenResearchAreas(String parentResearchAreaCode) {
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("parentResearchAreaCode", parentResearchAreaCode);
+        fieldValues.put(PARENT_RESEARCH_AREA_CODE, parentResearchAreaCode);
         List<ResearchArea> researchAreas = (List<ResearchArea>) businessObjectService.findMatching(ResearchArea.class, fieldValues);
         for (ResearchArea researchArea: researchAreas) {
             deleteChildrenResearchAreas(researchArea.getResearchAreaCode());
@@ -223,7 +236,7 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
     @SuppressWarnings("unchecked")
     private void inactivateChildrenResearchAreas(String parentResearchAreaCode) {
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("parentResearchAreaCode", parentResearchAreaCode);
+        fieldValues.put(PARENT_RESEARCH_AREA_CODE, parentResearchAreaCode);
         List<ResearchArea> researchAreas = (List<ResearchArea>) businessObjectService.findMatching(ResearchArea.class, fieldValues);
         for (ResearchArea researchArea: researchAreas) {
             inactivateChildrenResearchAreas(researchArea.getResearchAreaCode());
@@ -238,7 +251,7 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
      */
     private void updateHasChildrenFlag(String researchAreaCode) {
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("parentResearchAreaCode", researchAreaCode);
+        fieldValues.put(PARENT_RESEARCH_AREA_CODE, researchAreaCode);
         if (businessObjectService.countMatching(ResearchArea.class, fieldValues) > 0) {
             setHasChildrenFlag(researchAreaCode, true);
         } else {
