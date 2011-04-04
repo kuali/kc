@@ -127,7 +127,9 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 		if (sponsor != null) {
 			rrsf424.setFederalAgencyName(sponsor.getSponsorName());
 		}
-		rrsf424.setCFDANumber(pdDoc.getDevelopmentProposal().getCfdaNumber());
+		if(pdDoc.getDevelopmentProposal().getCfdaNumber()!=null){
+	        rrsf424.setCFDANumber(pdDoc.getDevelopmentProposal().getCfdaNumber());
+		}
 		if (pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle() != null) {
 			String announcementTitle;
 			if (pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle()
