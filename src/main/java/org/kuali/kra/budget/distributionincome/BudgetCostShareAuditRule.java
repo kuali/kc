@@ -15,27 +15,35 @@
  */
 package org.kuali.kra.budget.distributionincome;
 
-import static org.kuali.rice.kns.util.GlobalVariables.getAuditErrorMap;
-
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
+import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.Budget.FiscalYearSummary;
+import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.costshare.CostShareRuleResearchDocumentBase;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.DocumentAuditRule;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
-import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.core.Budget.FiscalYearSummary;
-import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
 
-public class BudgetCostShareAuditRule implements DocumentAuditRule {
+import static org.kuali.rice.kns.util.GlobalVariables.getAuditErrorMap;
+
+/**
+ * 
+ * This class handels the budget cost share rules.
+ */
+public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase implements DocumentAuditRule {
     public static final String BUDGET_COST_SHARE_ERROR_KEY = "budgetCostShareAuditErrors";
-
+    
+    /**
+     * 
+     * @see org.kuali.rice.kns.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.kns.document.Document)
+     */
     public boolean processRunAuditBusinessRules(Document document) {
-        Budget budget = ((BudgetDocument)document).getBudget();
+        Budget budget = ((BudgetDocument) document).getBudget();
 
         // Returns if cost sharing is not applicable
         if (!budget.isCostSharingApplicable()) {
@@ -49,93 +57,91 @@ public class BudgetCostShareAuditRule implements DocumentAuditRule {
         // Forces full allocation of cost sharing
         if (budget.getUnallocatedCostSharing().isNonZero() && budget.isCostSharingEnforced()) {
             retval = false;
-            if (costShares.size() ==0) {
-                getAuditErrors().add(new AuditError("document.budget.budgetCostShare",
-                        KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_UNALLOCATED_NOT_ZERO,
-                        Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_COST_SHARE_PANEL_ANCHOR,
-                        params));
-                
+            if (costShares.size() == 0) {
+                getAuditErrors()
+                        .add(
+                                new AuditError("document.budget.budgetCostShare",
+                                    KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_UNALLOCATED_NOT_ZERO,
+                                    Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_COST_SHARE_PANEL_ANCHOR,
+                                    params));
+
             }
-            for (int i=0;i<costShares.size();i++) {
-                getAuditErrors().add(new AuditError("document.budget.budgetCostShare["+i+"].shareAmount",
-                        KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_UNALLOCATED_NOT_ZERO,
-                        Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_COST_SHARE_PANEL_ANCHOR,
-                        params));
+            for (int i = 0; i < costShares.size(); i++) {
+                getAuditErrors()
+                        .add(
+                                new AuditError("document.budget.budgetCostShare[" + i + "].shareAmount",
+                                    KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_UNALLOCATED_NOT_ZERO,
+                                    Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_COST_SHARE_PANEL_ANCHOR,
+                                    params));
             }
         }
         String source = null;
         Integer fiscalYear = null;
-        
+
         List<Integer> validFiscalYears = new ArrayList<Integer>();
         for (FiscalYearSummary fys : budget.getFiscalYearCostShareTotals()) {
             validFiscalYears.add(fys.getFiscalYear());
         }
-        
-        int i=0;
+
+        int i = 0;
         // Forces inclusion of source account
         for (BudgetCostShare costShare : costShares) {
             source = costShare.getSourceAccount();
             fiscalYear = costShare.getProjectPeriod();
             if (null == source || source.length() == 0) {
                 retval = false;
-                getAuditErrors().add(new AuditError("document.budget.budgetCostShare["+i+"].sourceAccount",
-                                                    KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_SOURCE_MISSING,
-                                                    Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_COST_SHARE_PANEL_ANCHOR,
-                                                    params));
+                getAuditErrors()
+                        .add(
+                                new AuditError("document.budget.budgetCostShare[" + i + "].sourceAccount",
+                                    KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_SOURCE_MISSING,
+                                    Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_COST_SHARE_PANEL_ANCHOR,
+                                    params));
             }
-            if (null == fiscalYear || fiscalYear.intValue() <= 0) {
-                retval = false;
-                getAuditErrors().add(new AuditError("document.budget.budgetCostShare["+i+"].fiscalYear",
-                                                    KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_FISCALYEAR_MISSING,
-                                                    Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_COST_SHARE_PANEL_ANCHOR,
-                                                    params));
+            int numberOfProjectPeriods = -1;
+            if (budget.getBudgetPeriods() != null) {
+                numberOfProjectPeriods = budget.getBudgetPeriods().size();
             }
-            
-            //ensure fiscal year is within the project period
-            if (fiscalYear != null && !validFiscalYears.contains(fiscalYear)) {
-                retval = false;
-                getAuditWarnings().add(new AuditError("document.budget.budgetCostShare["+i+"].fiscalYear",
-                                     KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_FISCALYEAR_INVALID,
-                                     Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_COST_SHARE_PANEL_ANCHOR,
-                                     new String[]{fiscalYear.toString()}));
-                                     
-            }            
+            validateProjectPeriod(fiscalYear, "document.budget.budgetCostShare[" + i + "].projectPeriod", numberOfProjectPeriods);
             i++;
         }
         return retval;
     }
-    
+
     /**
      * This method is a convenience method for obtaining audit errors.
+     * 
      * @return List of AuditError instances
-     */    
+     */
     private List<AuditError> getAuditErrors() {
         return getAuditProblems(Constants.AUDIT_ERRORS);
     }
-    
+
     /**
      * This method is a convenience method for obtaining audit warnings.
+     * 
      * @return List of AuditError instances
      */
     private List<AuditError> getAuditWarnings() {
         return getAuditProblems(Constants.AUDIT_WARNINGS);
     }
-    
+
     /**
-     * This method should only be called if an audit error is intending to be added because it will actually 
-     * add a <code>{@link List<AuditError>}</code> to the auditErrorMap.
+     * This method should only be called if an audit error is intending to be added because it will actually add a
+     * <code>{@link List<AuditError>}</code> to the auditErrorMap.
+     * 
      * @return List of AuditError instances
      */
     private List<AuditError> getAuditProblems(String problemType) {
         List<AuditError> auditErrors = new ArrayList<AuditError>();
-        
+
         if (!getAuditErrorMap().containsKey(BUDGET_COST_SHARE_ERROR_KEY)) {
-            getAuditErrorMap().put(BUDGET_COST_SHARE_ERROR_KEY, new AuditCluster(Constants.BUDGET_COST_SHARE_PANEL_NAME, auditErrors, problemType));
+            getAuditErrorMap().put(BUDGET_COST_SHARE_ERROR_KEY,
+                    new AuditCluster(Constants.BUDGET_COST_SHARE_PANEL_NAME, auditErrors, problemType));
         }
         else {
             auditErrors = ((AuditCluster) getAuditErrorMap().get(BUDGET_COST_SHARE_ERROR_KEY)).getAuditErrorList();
         }
-        
+
         return auditErrors;
     }
 
