@@ -167,7 +167,6 @@ public final class KeyConstants {
     public static final String QUESTION_SYNC_ALL_RATES = "document.question.syncAllRates.text";
     public static final String QUESTION_RESET_RATES = "document.question.resetRates.text";
     public static final String QUESTION_RESET_ALL_RATES = "document.question.resetAllRates.text";
-    public static final String QUESTION_RATES_CHANGED = "document.question.saveChangedRates.text";
     
     // KRA Proposal Permission 
     public static final String QUESTION_DELETE_PROPOSAL_USER_CONFIRMATION = "document.question.deleteProposalUser.text";
