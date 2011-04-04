@@ -116,11 +116,6 @@
                 	<kul:htmlControlAttribute property="document.budgetVersionOverview.comments" attributeEntry="${budgetAttributes.comments}" readOnly="${viewOnly}"/>
                 </td>
         	</tr>
-        	<Tr>
-        		<Td colspan="4">
-        			viewOnly : ${viewOnly}
-        		</Td>
-        	</Tr>
         </table>
     </div>
 </kul:tabTop>

@@ -258,53 +258,52 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
      * {@inheritDoc}
      */
     @Override
-    public ActionForward save(ActionMapping mapping,
-        ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         final AwardForm awardForm = (AwardForm) form;
-        // check audit rules.  If there is error, then budget can't have complete status
+        // check audit rules. If there is error, then budget can't have complete status
         boolean valid = true;
-        
         if (awardForm.isSaveAfterCopy()) {
-            final List<BudgetDocumentVersion> overviews
-                = awardForm.getAwardDocument().getBudgetDocumentVersions();
+            final List<BudgetDocumentVersion> overviews = awardForm.getAwardDocument().getBudgetDocumentVersions();
             final BudgetDocumentVersion copiedDocumentOverview = overviews.get(overviews.size() - 1);
             BudgetVersionOverview copiedOverview = copiedDocumentOverview.getBudgetVersionOverview();
             final String copiedName = copiedOverview.getDocumentDescription();
             copiedOverview.setDocumentDescription("copied placeholder");
             BufferedLogger.debug("validating ", copiedName);
-            valid = getBudgetService().isBudgetVersionNameValid(
-                awardForm.getAwardDocument(), copiedName);
+            valid = getBudgetService().isBudgetVersionNameValid(awardForm.getAwardDocument(), copiedName);
             copiedOverview.setDocumentDescription(copiedName);
             awardForm.setSaveAfterCopy(!valid);
         }
 
-        if(awardForm.isAuditActivated()) {
-            valid &= getBudgetService().validateBudgetAuditRuleBeforeSaveBudgetVersion(
-                awardForm.getAwardDocument());
-    
+        if (awardForm.isAuditActivated()) {
+            valid &= getBudgetService().validateBudgetAuditRuleBeforeSaveBudgetVersion(awardForm.getAwardDocument());
             if (!valid) {
                 // set up error message to go to validate panel
                 final int errorBudgetVersion = this.getTentativeFinalBudgetVersion(awardForm);
-                if(errorBudgetVersion != -1) {
-                    GlobalVariables.getErrorMap().putError("document.developmentProposalList[0].budgetVersionOverview["
-                        + (errorBudgetVersion-1) +"].budgetStatus",
-                        KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
+                if (errorBudgetVersion != -1) {
+                    GlobalVariables.getErrorMap().putError(
+                            "document.developmentProposalList[0].budgetVersionOverview[" + (errorBudgetVersion - 1)
+                                    + "].budgetStatus", KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
                 }
                 return mapping.findForward(Constants.MAPPING_BASIC);
             }
         }
 
-//        this.setProposalStatus(pdForm.getDocument());
-        //this.setBudgetStatuses(pdForm.getDocument());
+        // this.setProposalStatus(pdForm.getDocument());
+        // this.setBudgetStatuses(pdForm.getDocument());
         final ActionForward forward = super.save(mapping, form, request, response);
-            
-            //Need to facilitate releasing the Budget locks if user is redirected to Actions page
-            if(forward != null && forward.getName().equalsIgnoreCase("actions")) {
-                awardForm.setMethodToCall("actions");
-            }
-            
-            return forward;
+
+        // Need to facilitate releasing the Budget locks if user is redirected to Actions page
+        if (forward != null && forward.getName().equalsIgnoreCase("actions")) {
+            awardForm.setMethodToCall("actions");
+        }
+        
+        //force the save the award budgets
+        if (awardForm.getAwardDocument().getBudgetDocumentVersions() != null 
+                && !awardForm.getAwardDocument().getBudgetDocumentVersions().isEmpty()) {
+            this.getBusinessObjectService().save(awardForm.getAwardDocument().getBudgetDocumentVersions());
+        }
+
+        return forward;
     }
     
     private int getTentativeFinalBudgetVersion(AwardForm awardForm) {
