@@ -28,6 +28,7 @@ public class CostElement extends KraPersistableBusinessObjectBase implements Com
 	private String description;
 	private Boolean onOffCampusFlag;
 	private String budgetCategoryTypeCode;
+    private Boolean activeFlag;
 	private List<ValidCeRateType> validCeRateTypes;
 	private BudgetCategory budgetCategory;
 	
@@ -66,6 +67,14 @@ public class CostElement extends KraPersistableBusinessObjectBase implements Com
 		this.onOffCampusFlag = onOffCampusFlag;
 	}
 
+    public Boolean getActiveFlag() {
+        return activeFlag;
+    }
+
+    public void setActiveFlag(Boolean activeFlag) {
+        this.activeFlag = activeFlag;
+    }
+
 
 	@Override 
 	protected LinkedHashMap toStringMapper() {
@@ -74,6 +83,7 @@ public class CostElement extends KraPersistableBusinessObjectBase implements Com
 		hashMap.put("budgetCategoryCode", getBudgetCategoryCode());
 		hashMap.put("description", getDescription());
 		hashMap.put("onOffCampusFlag", getOnOffCampusFlag());
+        hashMap.put("activeFlag", getActiveFlag());
 		return hashMap;
 	}
 
@@ -86,7 +96,7 @@ public class CostElement extends KraPersistableBusinessObjectBase implements Com
     }
 
     /**
-     * This is for totals page to sort it by costelement
+     * This is for totals page to sort it by CostElement
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     public int compareTo(Object o) {
