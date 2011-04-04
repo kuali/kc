@@ -18,9 +18,14 @@ package org.kuali.kra.web.struts.action;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.ResearchAreasService;
+import org.kuali.kra.web.struts.form.ResearchAreasForm;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 
@@ -72,6 +77,46 @@ public class ResearchAreasAction extends KualiAction {
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         return mapping.findForward(KNSConstants.MAPPING_PORTAL);
+    }
+
+    private void setResearchAreas(ActionForm form) {
+        ResearchAreasForm researchAreaForm = (ResearchAreasForm)form;
+        if (StringUtils.isNotBlank(researchAreaForm.getAddRA()) && researchAreaForm.getAddRA().equals("Y")) {
+            if (KraServiceLocator.getService(ResearchAreasService.class).isResearchAreaExist(researchAreaForm.getResearchAreaCode(), researchAreaForm.getDeletedRas())) {
+                researchAreaForm.setResearchAreas("<h3>true</h3>");
+            }else {
+                researchAreaForm.setResearchAreas("<h3>false</h3>");
+            }
+        } else if (StringUtils.isNotBlank(researchAreaForm.getAddRA()) && researchAreaForm.getAddRA().equals("S")) {
+            try {
+                KraServiceLocator.getService(ResearchAreasService.class).saveResearchAreas(researchAreaForm.getSqlScripts());
+                String error = (String) GlobalVariables.getUserSession().retrieveObject("raError");
+                if (StringUtils.isNotBlank(error)) {
+                    researchAreaForm.setResearchAreas("<h3>" + error + "</h3>");
+                    GlobalVariables.getUserSession().addObject("raError", (Object) null);
+                } else {
+                    researchAreaForm.setResearchAreas("<h3>Success</h3>");
+                }
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (StringUtils.isNotBlank(researchAreaForm.getAddRA()) && researchAreaForm.getAddRA().equals("A")) {
+            researchAreaForm.setResearchAreas(KraServiceLocator.getService(ResearchAreasService.class).getSubResearchAreasForTreeView(
+                    researchAreaForm.getResearchAreaCode(), true));
+        } else {
+            researchAreaForm.setResearchAreas(KraServiceLocator.getService(ResearchAreasService.class).getSubResearchAreasForTreeView(
+                    researchAreaForm.getResearchAreaCode(), false));
+        }
+    }
+
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        // TODO Auto-generated method stub
+        ActionForward forward = super.execute(mapping, form, request, response);
+        setResearchAreas(form);
+        return forward;
     }
 
 }
