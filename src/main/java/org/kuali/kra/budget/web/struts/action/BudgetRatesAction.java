@@ -20,7 +20,6 @@ import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
@@ -29,7 +28,6 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
-import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.BudgetRatesService;
 import org.kuali.kra.budget.rates.RateClassType;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
@@ -48,7 +46,6 @@ public class BudgetRatesAction extends BudgetAction {
     private static final String CONFIRM_SYNC_ALL_RATES = "confirmSyncAllRates";
     private static final String CONFIRM_RESET_RATES = "confirmResetRates";
     private static final String CONFIRM_RESET_ALL_RATES = "confirmResetAllRates";
-    private static final String CONFIRM_RATES_CHANGED = "confirmRatesChange";
 
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -60,41 +57,11 @@ public class BudgetRatesAction extends BudgetAction {
             GlobalVariables.setKualiForm((KualiForm)form);
         }
         budget.setRateSynced(false);
-        
-        boolean ratesChanged = false;
-        for (BudgetRate rate : budget.getBudgetRates()) {
-            if (rate.isRateChanged()) {
-                ratesChanged = true;
-                break;
-            }
-        }
-        if (ratesChanged) {
-            return confirm(buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_RATES_CHANGED, 
-                    KeyConstants.QUESTION_RATES_CHANGED, ""), CONFIRM_RATES_CHANGED, "");
-        } else {
-            ActionForward forward = super.save(mapping, form, request, response);
-            if ((!budgetForm.getMethodToCall().equals("save") && budgetForm.isAuditActivated())) forward = mapping.findForward("rates_save");
-            return forward;
-        }
+
+        ActionForward forward = super.save(mapping, form, request, response);
+        if ((!budgetForm.getMethodToCall().equals("save") && budgetForm.isAuditActivated())) forward = mapping.findForward("rates_save");
+        return forward;
     }
-    
-    /**
-     * Action called when saving modified rates
-     * 
-     * @param mapping 
-     * @param form
-     * @param request
-     * @param response
-     * @return ActionForward instance for forwarding to the tab.
-     */
-    public ActionForward confirmRatesChange(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
-            HttpServletResponse response) throws Exception {
-        Budget budget = ((BudgetForm) form).getBudgetDocument().getBudget();
-        for (BudgetRate rate : budget.getBudgetRates()) {
-            rate.setRateChanged(false);
-        }
-        return save(mapping, form, request, response);
-    }    
     
     /**
      * 
