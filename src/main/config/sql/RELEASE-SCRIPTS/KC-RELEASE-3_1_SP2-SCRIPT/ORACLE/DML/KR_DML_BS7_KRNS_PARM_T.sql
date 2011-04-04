@@ -9,6 +9,15 @@ INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM
 UPDATE KRNS_PARM_T set TXT = 'Co-Investigator' where PARM_DTL_TYP_CD = 'All' and PARM_NM = 'personrole.nih.coi' and parm_TYP_CD = 'CONFG';
 
 Insert into KRNS_PARM_T (APPL_NMSPC_CD, nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd)
-  Values ('KC', 'KC-PROTOCOL', 'Document', 'IRB_DISPLAY_REVIEWER_NAME', sys_guid(), 1, 'CONFG', '1', 'Indicator to display reviewer name for protocol review comments.', 'A');
+    Values ('KC', 'KC-PROTOCOL', 'Document', 'IRB_DISPLAY_REVIEWER_NAME_TO_PI', sys_guid(), 1, 'CONFG', '1', 'Display Reviewer Name to PI', 'A');
 
+Insert into KRNS_PARM_T (APPL_NMSPC_CD, nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd)
+    Values ('KC', 'KC-PROTOCOL', 'Document', 'IRB_DISPLAY_REVIEWER_NAME_TO_OTHERS', sys_guid(), 1, 'CONFG', '1', 'Display Reviewer Name to Other Protocol Personnel', 'A');
+
+Insert into KRNS_PARM_T (APPL_NMSPC_CD, nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd)
+    Values ('KC', 'KC-PROTOCOL', 'Document', 'IRB_DISPLAY_REVIEWER_NAME_TO_REVIEWERS', sys_guid(), 1, 'CONFG', '1', 'Display Reviewer Name to Primary and Secondary Reviewers', 'A');
+
+Insert into KRNS_PARM_T (APPL_NMSPC_CD, nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd)
+    Values ('KC', 'KC-PROTOCOL', 'Document', 'IRB_DISPLAY_REVIEWER_NAME_TO_ACTIVE_COMMITTEE_MEMBERS', sys_guid(), 1, 'CONFG', '1', 'Display Reviewer Name to Active Committee Members', 'A');
+    
 COMMIT;
