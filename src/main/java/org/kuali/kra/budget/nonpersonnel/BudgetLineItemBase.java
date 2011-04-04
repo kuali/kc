@@ -49,7 +49,7 @@ public abstract class BudgetLineItemBase extends BudgetAssociate {
 	private Boolean onOffCampusFlag;
 	private Date startDate;
 	private BudgetDecimal underrecoveryAmount = BudgetDecimal.ZERO;
-	
+
     private String budgetCategoryCode;
     private Integer basedOnLineItem;
     private Integer quantity;
@@ -66,6 +66,14 @@ public abstract class BudgetLineItemBase extends BudgetAssociate {
     
 	public String getGroupName() {
         return groupName;
+    }
+
+	public String getCostElementName() {
+	    if (costElementBO != null) {
+	        return costElementBO.getDescription();
+	    } else {
+            return "";
+	    }
     }
 
     public void setGroupName(String groupName) {
