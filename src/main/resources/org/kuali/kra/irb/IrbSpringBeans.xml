@@ -811,7 +811,6 @@
         <property name="documentService" ref="documentService" />
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="protocolVersionService" ref="protocolVersionService" />        
-        <property name="reviewCommentsService" ref="reviewCommentsService" />        
     </bean>
 
     <bean id="committeeBatchCorrespondenceService" class="org.kuali.kra.committee.service.impl.CommitteeBatchCorrespondenceServiceImpl">
