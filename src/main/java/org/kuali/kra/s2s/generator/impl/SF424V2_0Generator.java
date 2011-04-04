@@ -224,7 +224,9 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
         if (pdDoc.getDevelopmentProposal().getSponsor() != null) {
             sf424V2.setAgencyName(pdDoc.getDevelopmentProposal().getSponsor().getSponsorName());
         }
-        sf424V2.setCFDANumber(pdDoc.getDevelopmentProposal().getCfdaNumber());
+        if(pdDoc.getDevelopmentProposal().getCfdaNumber()!=null){
+            sf424V2.setCFDANumber(pdDoc.getDevelopmentProposal().getCfdaNumber());
+        }
         if (pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle() != null) {
             String announcementTitle;
             if (pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle().length() > PROGRAM_ANNOUNCEMENT_TITLE_LENGTH) {
