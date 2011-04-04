@@ -104,7 +104,9 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 		rrsf42412.setProjectTitle(getProjectTitle());
 		rrsf42412.setProposedProjectPeriod(getProjectPeriod());
 		rrsf42412.setCongressionalDistrict(getCongDistrict());
-		rrsf42412.setCFDANumber(pdDoc.getDevelopmentProposal().getCfdaNumber());
+		if(pdDoc.getDevelopmentProposal().getCfdaNumber()!=null){
+		    rrsf42412.setCFDANumber(pdDoc.getDevelopmentProposal().getCfdaNumber());
+		}
 		rrsf42412.setActivityTitle(getActivityTitle());
 		setFederalId(rrsf42412);
 		rrsf42412.setPDPIContactInfo(getPDPI());
