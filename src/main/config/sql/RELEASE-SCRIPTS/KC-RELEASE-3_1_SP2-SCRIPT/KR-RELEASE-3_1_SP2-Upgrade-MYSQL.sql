@@ -7,5 +7,4 @@
 \. MYSQL/DML/KR_DML_BS6_KRIM_ROLE_MBR_T.sql
 \. MYSQL/DML/KR_DML_BS7_KRIM_ROLE_MBR_ATTR_DATA_T.sql
 \. MYSQL/DML/KR_DML_BS7_KRNS_PARM_T.sql
-commit;
-exit;
+commit;\nexit;
