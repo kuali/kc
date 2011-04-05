@@ -80,7 +80,6 @@
 			</c:if>
 						
     	   	<c:out value="${selectedCostElement}"/>
-			<bean:write name="KualiForm" property="document.budget.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].costElementName" />&nbsp;
 			<input type="hidden" name="document.budget.budgetCategoryTypeLineItem[${budgetLineItemNumber}]" value="${budgetCategoryTypeCode}">
 			<kul:directInquiry boClassName="org.kuali.kra.budget.core.CostElement" inquiryParameters="document.budget.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].costElement:costElement" anchor="${tabKey}"/>	
 		</div>
