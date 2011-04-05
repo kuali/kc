@@ -15,56 +15,61 @@
  */
 package org.kuali.kra.committee.service;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.authorization.Task;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.lookup.CommitteeScheduleLookupableHelperServiceImpl;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class CommitteeScheduleLookupHelperServiceTest extends KcUnitTestBase {
+    
     private static final String EDIT_URL = "../meetingManagement.do?scheduleId=102&methodToCall=start&readOnly=false";
     private static final String VIEW_URL = "../meetingManagement.do?scheduleId=102&methodToCall=start&readOnly=true";
     private static final String COMMITTEE_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.committee.bo.Committee&methodToCall=start&id=103";
-    CommitteeScheduleLookupableHelperServiceImpl committeeScheduleLookupableHelperServiceImpl;
+    
+    private CommitteeScheduleLookupableHelperServiceImpl service;
+    
+    private Mockery context = new JUnit4Mockery();
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        committeeScheduleLookupableHelperServiceImpl = (CommitteeScheduleLookupableHelperServiceImpl) KraServiceLocator
-                .getService("committeeScheduleLookupableHelperService");
-        committeeScheduleLookupableHelperServiceImpl.setBusinessObjectClass(CommitteeSchedule.class);
+        
+        service = new CommitteeScheduleLookupableHelperServiceImpl();
+        service.setBusinessObjectClass(CommitteeSchedule.class);
+        service.setTaskAuthorizationService(getMockTaskAuthorizationService());
         GlobalVariables.setUserSession(new UserSession("quickstart"));
     }
 
     @After
     public void tearDown() throws Exception {
         super.tearDown();
-        committeeScheduleLookupableHelperServiceImpl = null;
+        
+        service = null;
         GlobalVariables.setUserSession(null);
     }
 
     /**
-     * 
-     * This method to check the 'edit'/'view' links is correct
+     * Check if 'edit'/'view' urls are set up properly for 'committeeId'.
      */
     @Test
     public void testGetCustomActionUrl() {
-        List pkNames = new ArrayList();
-        pkNames.add("committeeId");
-        // tried to use mock for taskAuthorizationService, but it did not work out
-
-        List<HtmlData> actionUrls = committeeScheduleLookupableHelperServiceImpl.getCustomActionUrls(initCommitteeSchedule(),pkNames);
-        assertTrue(actionUrls.size()==2);
+        List<HtmlData> actionUrls = service.getCustomActionUrls(initCommitteeSchedule(), Collections.singletonList("committeeId"));
+        assertEquals(2, actionUrls.size());
         assertTrue(actionUrls.get(0).getDisplayText().equals("edit"));
         assertEquals(((HtmlData.AnchorHtmlData) actionUrls.get(0)).getHref(), EDIT_URL);                
         assertTrue(actionUrls.get(1).getDisplayText().equals("view"));
@@ -73,12 +78,11 @@ public class CommitteeScheduleLookupHelperServiceTest extends KcUnitTestBase {
     }
 
     /**
-     * 
-     * This method is to test if inquiry url is set up properly for 'committeeId'
+     * Check if inquiry url is set up properly for 'committeeId'.
      */
     @Test
     public void testGetInquiryUrl() {
-        HtmlData inquiryUrl = committeeScheduleLookupableHelperServiceImpl.getInquiryUrl(initCommitteeSchedule(), "committee.committeeId");
+        HtmlData inquiryUrl = service.getInquiryUrl(initCommitteeSchedule(), "committee.committeeId");
         assertEquals(((HtmlData.AnchorHtmlData) inquiryUrl).getHref(), COMMITTEE_INQ_URL);
     }
 
@@ -94,6 +98,17 @@ public class CommitteeScheduleLookupHelperServiceTest extends KcUnitTestBase {
         committeeSchedule.setId(102L);
         committeeSchedule.setCommittee(committee);
         return committeeSchedule;
-
     }
+    
+    private TaskAuthorizationService getMockTaskAuthorizationService() {
+        final TaskAuthorizationService service = context.mock(TaskAuthorizationService.class);
+        
+        context.checking(new Expectations() {{
+            one(service).isAuthorized(with(any(String.class)), with(any(Task.class)));
+            will(returnValue(true));
+        }});
+        
+        return service;
+    }
+    
 }

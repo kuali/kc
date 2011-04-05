@@ -443,4 +443,27 @@
     	<property name="persistenceStructureServiceOjb" ref="persistenceStructureServiceOjb" />
 	</bean>
 
+	<bean id="transactionAdvisor" class="org.springframework.transaction.interceptor.TransactionAttributeSourceAdvisor">
+		<property name="classFilter" ref="transactionAdvisorClassFilter" />
+		<property name="transactionInterceptor" ref="transactionInterceptor" />
+	</bean>
+	
+	<bean id="transactionAdvisorClassFilter" class="org.kuali.rice.kns.util.spring.ClassOrMethodAnnotationFilter">
+	   <constructor-arg value="org.springframework.transaction.annotation.Transactional" />
+	</bean>
+	
+	<bean id="transactionInterceptor" class="org.kuali.rice.core.database.KualiTransactionInterceptor">
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="transactionAttributeSource" ref="transactionAttributeSource" />
+	</bean>
+	
+	<bean id="transactionAttributeSource" class="org.kuali.rice.kns.util.spring.AnnotationAndNameMatchingTransactionAttributeSource">
+		<property name="annotationTransactionAttributeSource" ref="annotationTransactionAttributeSource" />
+		<property name="transactionTimeout" value="${transaction.timeout}" />
+	</bean>
+	
+	<bean id="annotationTransactionAttributeSource" class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource" />
+	
+	<bean id="commonDefaultAdvisorAutoProxyCreator" class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />
+
 </beans>
