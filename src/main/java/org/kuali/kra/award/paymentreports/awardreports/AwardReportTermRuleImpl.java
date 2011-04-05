@@ -61,8 +61,9 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
     }
     
     private boolean processCommonValidations(AwardReportTermRuleEvent event) {
-        AwardReportTerm awardReportTermItem = event.getAwardReportTermItemForValidation();        
-        List<AwardReportTerm> items = event.getAward().getAwardReportTermItems();
+        GenericAwardReportTerm awardReportTermItem = event.getAwardReportTermItemForValidation();        
+        List<? extends GenericAwardReportTerm> items = 
+            (List<? extends GenericAwardReportTerm>) event.getAward().getAwardReportTermItems();
         return isUnique(items, awardReportTermItem);
     }
     
@@ -76,9 +77,9 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
      * @param awardReportTermItem
      * @return
      */
-    protected boolean isUnique(List<AwardReportTerm> awardReportTermItems, AwardReportTerm awardReportTermItem) {
+    protected boolean isUnique(List<? extends GenericAwardReportTerm> awardReportTermItems, GenericAwardReportTerm awardReportTermItem) {
         boolean duplicateFound = false;
-        for(AwardReportTerm listItem: awardReportTermItems) {
+        for(GenericAwardReportTerm listItem: awardReportTermItems) {
             duplicateFound = awardReportTermItem != listItem && listItem.equalsInitialFields(awardReportTermItem);
             if(duplicateFound) {
                 break;
@@ -98,12 +99,9 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
      * @param equipmentItem
      * @return
      */
-    protected boolean areRequiredFieldsComplete(AwardReportTerm awardReportTermItem) {
+    protected boolean areRequiredFieldsComplete(GenericAwardReportTerm awardReportTermItem) {
         
         boolean itemValid = isReportCodeFieldComplete(awardReportTermItem);
-        
-//        itemValid &= isFrequencyCodeFieldComplete(awardReportTermItem);
-//        itemValid &= isFrequencyBaseCodeFieldComplete(awardReportTermItem);
         itemValid &= isDistributionFieldComplete(awardReportTermItem);
         itemValid &= isFrequencyManadatory(awardReportTermItem);
         return itemValid;
@@ -119,7 +117,7 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
      * @param awardReportTerm
      * @return
      */
-    protected boolean isReportCodeFieldComplete(AwardReportTerm awardReportTermItem){
+    protected boolean isReportCodeFieldComplete(GenericAwardReportTerm awardReportTermItem){
         boolean itemValid = awardReportTermItem.getReportCode() != null;
         
         if(!itemValid) {            
@@ -129,7 +127,7 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
         return itemValid;
     }
     
-    protected boolean isFrequencyCodeFieldComplete(AwardReportTerm awardReportTermItem){
+    protected boolean isFrequencyCodeFieldComplete(GenericAwardReportTerm awardReportTermItem){
         boolean itemValid = awardReportTermItem.getFrequencyCode() != null;
         
         if(!itemValid) {            
@@ -137,9 +135,10 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
         }
         
         return itemValid;
+        
     }
     
-    protected boolean isFrequencyBaseCodeFieldComplete(AwardReportTerm awardReportTermItem){
+    protected boolean isFrequencyBaseCodeFieldComplete(GenericAwardReportTerm awardReportTermItem){
         boolean itemValid = awardReportTermItem.getFrequencyBaseCode() != null;
         
         if(!itemValid) {            
@@ -149,7 +148,7 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
         return itemValid;
     }
     
-    protected boolean isDistributionFieldComplete(AwardReportTerm awardReportTermItem) {
+    protected boolean isDistributionFieldComplete(GenericAwardReportTerm awardReportTermItem) {
         boolean itemValid = true;
         if (StringUtils.isBlank(awardReportTermItem.getOspDistributionCode()) && frequencyExist(awardReportTermItem)
                 && frequencyBaseExist(awardReportTermItem)) {
@@ -160,17 +159,17 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
         return itemValid;
     }
       
-    private boolean frequencyExist(AwardReportTerm awardReportTermItem) {
+    private boolean frequencyExist(GenericAwardReportTerm awardReportTermItem) {
         return StringUtils.isNotBlank(awardReportTermItem.getFrequencyCode()) 
             && !EMPTY_CODE.equals(awardReportTermItem.getFrequencyCode());
     }
  
-    private boolean frequencyBaseExist(AwardReportTerm awardReportTermItem) {
+    private boolean frequencyBaseExist(GenericAwardReportTerm awardReportTermItem) {
         return StringUtils.isNotBlank(awardReportTermItem.getFrequencyBaseCode()) 
             && !EMPTY_CODE.equals(awardReportTermItem.getFrequencyBaseCode());
     }
 
-    protected boolean isFrequencyManadatory(AwardReportTerm awardReportTermItem) {
+    protected boolean isFrequencyManadatory(GenericAwardReportTerm awardReportTermItem) {
         boolean itemValid = true;
         if (StringUtils.isNotBlank(awardReportTermItem.getOspDistributionCode()) && !frequencyExist(awardReportTermItem)) {
             reportError(AWARD_REPORT_TERM_FREQUENCY_CODE_PROPERTY, KeyConstants.ERROR_REQUIRED, FREQUENCY_CODE_ERROR_PARM);
@@ -178,6 +177,19 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
         }
 
         return itemValid;
+    }
+    
+    /**
+     * 
+     * This method is used to validate new AwardTemplateReportTerms on the Sponsor Template maint doc
+     * using the same rules Award uses.
+     * @param awardReportTerm
+     * @param existingItems
+     * @return
+     */
+    public boolean processAwardReportTermBusinessRules(GenericAwardReportTerm awardReportTerm,
+            List<? extends GenericAwardReportTerm> existingItems) {
+        return areRequiredFieldsComplete(awardReportTerm) && isUnique(existingItems, awardReportTerm);
     }
 
 }

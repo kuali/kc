@@ -19,14 +19,17 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.paymentreports.Frequency;
 import org.kuali.kra.award.paymentreports.FrequencyBase;
 import org.kuali.kra.award.paymentreports.Report;
 import org.kuali.kra.award.paymentreports.ReportClass;
+import org.kuali.kra.award.paymentreports.awardreports.GenericAwardReportTerm;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.TypedArrayList;
 
-public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase{ 
+public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase implements GenericAwardReportTerm { 
 	
 	/**
      * Comment for <code>serialVersionUID</code>
@@ -420,6 +423,41 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase{
         managedLists.add(getAwardReportTermRecipients());
         return managedLists;
     }
+
+    /**
+     * Unlike <CODE>equals(Object)</CODE>, this method only compares the fields a user has to fill in in order to add
+     * a new <CODE>AwardReportTerm</CODE>: Report Type, Frequency, Frequency Base, OSP File Copy, and Due Date.
+     * @param otherReportTerm
+     * @return
+     */
+    public boolean equalsInitialFields(GenericAwardReportTerm otherReportTerm) {
+        boolean isEqual = true;
+
+        if (otherReportTerm == null) {
+            isEqual = false;
+        }
+        else if (!StringUtils.equals(getReportClassCode(), otherReportTerm.getReportClassCode())) {
+            isEqual = false;
+        } 
+        else if (!StringUtils.equals(getReportCode(), otherReportTerm.getReportCode())) {
+                isEqual = false;
+        }
+        else if (!StringUtils.equals(getFrequencyCode(), otherReportTerm.getFrequencyCode())) {
+            isEqual = false;
+        }
+        else if (!StringUtils.equals(getFrequencyBaseCode(), otherReportTerm.getFrequencyBaseCode())) {
+            isEqual = false;
+        }
+        else if (!StringUtils.equals(getOspDistributionCode(), otherReportTerm.getOspDistributionCode())) {
+            isEqual = false;
+        }
+        else if (!ObjectUtils.equals(getDueDate(), otherReportTerm.getDueDate())) {
+            isEqual = false;
+        }
+        
+        return isEqual;
+    }
+
   
 
 }
