@@ -73,28 +73,28 @@
 						<list>
 							<bean parent="MaintainableFieldDefinition" p:name="reportClassCode" p:required="true"/>
 							<bean parent="MaintainableFieldDefinition" p:name="reportCode" p:required="true"/>
-							<bean parent="MaintainableFieldDefinition" p:name="frequencyCode" p:required="true"/>
-							<bean parent="MaintainableFieldDefinition" p:name="frequencyBaseCode" p:required="true"/>
-							<bean parent="MaintainableFieldDefinition" p:name="ospDistributionCode" p:required="true"/>
+							<bean parent="MaintainableFieldDefinition" p:name="frequencyCode" p:required="false"/>
+							<bean parent="MaintainableFieldDefinition" p:name="frequencyBaseCode" p:required="false"/>
+							<bean parent="MaintainableFieldDefinition" p:name="ospDistributionCode" p:required="false"/>
 						</list>
 					</property>
 					<property name="attributeToHighlightOnDuplicateKey" value="reportClassCode"/>
 					<property name="duplicateIdentificationFields">
 						<list>
-							<bean parent="MaintainableFieldDefinition" p:name="reportClassCode" p:required="true"/>
-							<bean parent="MaintainableFieldDefinition" p:name="reportCode" p:required="true"/>
-							<bean parent="MaintainableFieldDefinition" p:name="frequencyCode" p:required="true"/>
-							<bean parent="MaintainableFieldDefinition" p:name="frequencyBaseCode" p:required="true"/>
-							<bean parent="MaintainableFieldDefinition" p:name="ospDistributionCode" p:required="true"/>
+							<bean parent="MaintainableFieldDefinition" p:name="reportClassCode"/>
+							<bean parent="MaintainableFieldDefinition" p:name="reportCode"/>
+							<bean parent="MaintainableFieldDefinition" p:name="frequencyCode"/>
+							<bean parent="MaintainableFieldDefinition" p:name="frequencyBaseCode"/>
+							<bean parent="MaintainableFieldDefinition" p:name="ospDistributionCode"/>
 						</list>
 					</property>
 					<property name="maintainableFields">
 						<list>
 							<bean parent="MaintainableFieldDefinition" p:name="reportClassCode" p:required="true"/>
 							<bean parent="MaintainableFieldDefinition" p:name="reportCode" p:required="true"/>
-							<bean parent="MaintainableFieldDefinition" p:name="frequencyCode" p:required="true"/>
-							<bean parent="MaintainableFieldDefinition" p:name="frequencyBaseCode" p:required="true"/>
-							<bean parent="MaintainableFieldDefinition" p:name="ospDistributionCode" p:required="true"/>
+							<bean parent="MaintainableFieldDefinition" p:name="frequencyCode" p:required="false"/>
+							<bean parent="MaintainableFieldDefinition" p:name="frequencyBaseCode" p:required="false"/>
+							<bean parent="MaintainableFieldDefinition" p:name="ospDistributionCode" p:required="false"/>
 							<bean parent="MaintainableFieldDefinition" p:name="dueDate" p:required="false"/>
 							<bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
 						</list>
