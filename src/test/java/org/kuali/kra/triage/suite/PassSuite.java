@@ -210,7 +210,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.committee.service.CommitteeMembershipServiceTest.class,
     org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalProjectPersonsSaveRuleImplTest.class,
     org.kuali.kra.award.MinimalAwardTest.class,
-    org.kuali.kra.award.awardhierarchy.AwardHierarchyServiceImplIntegrationTest.class,
     org.kuali.kra.irb.ProtocolDocumentRuleTest.class,
     org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewTest.class,
     org.kuali.kra.irb.actions.submit.ProtocolActionAjaxServiceTest.class,

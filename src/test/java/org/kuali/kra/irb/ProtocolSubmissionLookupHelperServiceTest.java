@@ -24,12 +24,13 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
@@ -37,19 +38,23 @@ import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class ProtocolSubmissionLookupHelperServiceTest extends KcUnitTestBase {
-
-    ProtocolSubmissionLookupableHelperServiceImpl protocolSubmissionLookupableHelperServiceImpl;
+    
     private static final String EDIT_URL ="../protocolProtocol.do?viewDocument=false&docId=101&submissionId=102&docTypeName=ProtocolDocument&methodToCall=docHandler&command=displayDocSearchView";
     private static final String VIEW_URL ="../protocolProtocol.do?viewDocument=true&docId=101&submissionId=102&docTypeName=ProtocolDocument&methodToCall=docHandler&command=displayDocSearchView";
     private static final String PROTOCOL_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.irb.Protocol&methodToCall=start&protocolId=104";
     private static final String COMMITTEE_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.committee.bo.Committee&methodToCall=start&id=103";
     private static final String PERSON_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.bo.KcPerson&personId=10000000001&methodToCall=start";
     private static final String ROLODEX_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.bo.Rolodex&rolodexId=1727&methodToCall=start";
+    
+    private ProtocolSubmissionLookupableHelperServiceImpl protocolSubmissionLookupableHelperServiceImpl;
+    
     private Mockery context = new JUnit4Mockery();
+    
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        protocolSubmissionLookupableHelperServiceImpl = (ProtocolSubmissionLookupableHelperServiceImpl)KraServiceLocator.getService("protocolSubmissionLookupableHelperService");
+        
+        protocolSubmissionLookupableHelperServiceImpl = new ProtocolSubmissionLookupableHelperServiceImpl();
         protocolSubmissionLookupableHelperServiceImpl.setBusinessObjectClass(ProtocolSubmission.class);
         GlobalVariables.setUserSession(new UserSession("quickstart"));
    }
@@ -57,6 +62,7 @@ public class ProtocolSubmissionLookupHelperServiceTest extends KcUnitTestBase {
     @After
     public void tearDown() throws Exception {
         super.tearDown();
+        
         protocolSubmissionLookupableHelperServiceImpl = null;
         GlobalVariables.setUserSession(null);
     }
@@ -98,7 +104,16 @@ public class ProtocolSubmissionLookupHelperServiceTest extends KcUnitTestBase {
      */
     @Test
     public void testGetInquiryUrl() {
-        ProtocolSubmission protocolSubmission = initProtocolSubmission();
+        final ProtocolSubmission protocolSubmission = initProtocolSubmission();
+        
+        final KcPersonService kcPersonService = context.mock(KcPersonService.class);
+        final String principalId = GlobalVariables.getUserSession().getPrincipalId();
+        context.checking(new Expectations() {{
+            one(kcPersonService).getKcPersonByPersonId(principalId);
+            will(returnValue(KcPerson.fromPersonId(principalId)));
+        }});
+        protocolSubmissionLookupableHelperServiceImpl.setKcPersonService(kcPersonService);
+        
         HtmlData inquiryUrl = protocolSubmissionLookupableHelperServiceImpl.getInquiryUrl(protocolSubmission, "protocolNumber");
         assertEquals(((HtmlData.AnchorHtmlData) inquiryUrl).getHref(), PROTOCOL_INQ_URL);
         inquiryUrl = protocolSubmissionLookupableHelperServiceImpl.getInquiryUrl(protocolSubmission, "committeeId");
