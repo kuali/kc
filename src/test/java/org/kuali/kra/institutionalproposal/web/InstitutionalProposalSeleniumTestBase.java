@@ -61,7 +61,7 @@ public abstract class InstitutionalProposalSeleniumTestBase extends KcSeleniumTe
     private static final String IP_DEFAULT_DOCUMENT_DESCRIPTION = "Institutional Proposal Web Test";
     private static final String IP_DEFAULT_STATUS = "Pending";
     private static final String IP_DEFAULT_PROPOSAL_TYPE = "New";
-    private static final String IP_DEFAULT_ACTIVITY_TYPE = "Research";
+    private static final String IP_DEFAULT_ACTIVITY_TYPE = "Instruction";
     private static final String IP_DEFAULT_PROJECT_TITLE = "Test Project";
     private static final String IP_DEFAULT_SPONSOR_CODE = "005891";
     
