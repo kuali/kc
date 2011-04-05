@@ -43,7 +43,9 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
     private String lookupResultsBOClassName;
     private String docStatus;
    // private List<String> qnaireQuestions;
-    private List qnaireQuestions;
+    // "List" without parameter will cause Notserializableexception; so add "transient" here
+    // List<String> will cause cast exception see kcirb-1306
+    private transient List qnaireQuestions;
     private String lookedUpCollectionName;
     private transient FormFile templateFile;
     // following are ajax related.  consider to move to an ajaxbean
@@ -320,7 +322,6 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
     public void setValue(String value) {
         this.value = value;
     }
-
 
 
 }
