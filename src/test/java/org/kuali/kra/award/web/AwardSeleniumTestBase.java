@@ -52,14 +52,14 @@ public abstract class AwardSeleniumTestBase extends KcSeleniumTestBase {
     private static final String PRIME_SPONSOR_CODE_ID = LIST_PREFIX + "primeSponsorCode";
     private static final String SPONSOR_AWARD_NUMBER_ID = LIST_PREFIX + "sponsorAwardNumber";
     private static final String MODIFICATION_NUMBER_ID = LIST_PREFIX + "modificationNumber";
-    private static final String BEGIN_DATE_ID = LIST_PREFIX + "beginDate";
+    private static final String EFFECTIVE_DATE_ID = LIST_PREFIX + "awardEffectiveDate";
     private static final String CURRENT_FUND_EFFECTIVE_DATE_ID = LIST_PREFIX + "awardAmountInfos[0].currentFundEffectiveDate";
     private static final String FINAL_EXPIRATION_DATE_ID = LIST_PREFIX + "awardAmountInfos[0].finalExpirationDate";
     private static final String OBLIGATION_EXPIRATION_DATE_ID = LIST_PREFIX + "awardAmountInfos[0].obligationExpirationDate";
     
     private static final String DEFAULT_DOCUMENT_DESCRIPTION = "Award Development Web Test";
     private static final String DEFAULT_TRANSACTION_TYPE = "New";
-    private static final String DEFAULT_ACTIVITY_TYPE = "Research";
+    private static final String DEFAULT_ACTIVITY_TYPE = "Instruction";
     private static final String DEFAULT_STATUS = "Active";
     private static final String DEFAULT_TYPE = "Grant";
     private static final String DEFAULT_TITLE = "Award Title";
@@ -101,7 +101,7 @@ public abstract class AwardSeleniumTestBase extends KcSeleniumTestBase {
         set(PRIME_SPONSOR_CODE_ID, DEFAULT_SPONSOR_CODE);
         set(SPONSOR_AWARD_NUMBER_ID, DEFAULT_SPONSOR_AWARD_NUMBER);
         set(MODIFICATION_NUMBER_ID, DEFAULT_MODIFICATION_NUMBER);
-        set(BEGIN_DATE_ID, DEFAULT_BEGIN_DATE);
+        set(EFFECTIVE_DATE_ID, DEFAULT_BEGIN_DATE);
         set(CURRENT_FUND_EFFECTIVE_DATE_ID, DEFAULT_BEGIN_DATE);
         set(FINAL_EXPIRATION_DATE_ID, DEFAULT_END_DATE);
         set(OBLIGATION_EXPIRATION_DATE_ID, DEFAULT_MIDDLE_DATE);

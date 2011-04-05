@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://127.0.0.1:8080/kc-dev" />
+<title>InstitutionalProposalSaveTest</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">InstitutionalProposalSaveTest</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/kc-dev/portal.do?selectedTab=portalResearcherBody</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Central Admin</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[@title='Proposal Log']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectFrame</td>
+	<td>iframeportlet</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.documentHeader.documentDescription']</td>
+	<td>Proposal Log Web Test</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//select[@id='document.newMaintainableObject.proposalTypeCode']</td>
+	<td>label=New</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.newMaintainableObject.title']</td>
+	<td>Test Project</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.performLookup.(!!org.kuali.rice.kim.bo.Person!!).((())).((``)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).(::::;;::::).anchor4</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>principalName</td>
+	<td>majors</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@name='methodToCall.search' and @value='search']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=return value</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.newMaintainableObject.leadUnit']</td>
+	<td>000001</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.blanketApprove</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Central Admin</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[@title='Institutional Proposal']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectFrame</td>
+	<td>iframeportlet</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@name='methodToCall.search' and @value='search']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=select</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.documentHeader.documentDescription']</td>
+	<td>Institutional Proposal Web Test</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>tab-InstitutionalProposal-imageToggle</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//select[@id='document.institutionalProposalList[0].activityTypeCode']</td>
+	<td>label=Instruction</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>tab-SponsorProgramInformation-imageToggle</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.institutionalProposalList[0].sponsorCode']</td>
+	<td>005891</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.save</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

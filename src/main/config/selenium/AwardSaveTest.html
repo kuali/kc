@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://127.0.0.1:8080/kc-dev" />
+<title>AwardSaveTest</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">AwardSaveTest</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/kc-dev/portal.jsp</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Central Admin</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[@title='Award']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectFrame</td>
+	<td>iframeportlet</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.documentHeader.documentDescription']</td>
+	<td>Award Development Web Test</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//select[@id='document.awardList[0].awardTransactionTypeCode']</td>
+	<td>label=New</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.awardList[0].unitNumber']</td>
+	<td>000001</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//select[@id='document.awardList[0].activityTypeCode']</td>
+	<td>label=Instruction</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//select[@id='document.awardList[0].statusCode']</td>
+	<td>label=Active</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//select[@id='document.awardList[0].awardTypeCode']</td>
+	<td>label=Grant</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//textarea[@id='document.awardList[0].title']</td>
+	<td>Award Title</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.awardList[0].sponsorCode']</td>
+	<td>005979</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//div[@id='tab-DetailsDates:Institution-div']/table/tbody/tr[5]/td/table/tbody/tr/td</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.awardList[0].primeSponsorCode']</td>
+	<td>005979</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.awardList[0].sponsorAwardNumber']</td>
+	<td>1R01CA123456</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.awardList[0].modificationNumber']</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.awardList[0].awardEffectiveDate']</td>
+	<td>03/01/2009</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.awardList[0].awardAmountInfos[0].currentFundEffectiveDate']</td>
+	<td>03/01/2009</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.awardList[0].awardAmountInfos[0].finalExpirationDate']</td>
+	<td>09/01/2010</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.awardList[0].awardAmountInfos[0].obligationExpirationDate']</td>
+	<td>04/01/2009</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.save</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

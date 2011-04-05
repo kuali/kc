@@ -52,7 +52,7 @@ public class ProposalDevelopmentSeleniumTestBase extends KcSeleniumTestBase {
     private static final String DEFAULT_REQUESTED_START_DATE = "08/14/2007";
     private static final String DEFAULT_OWNED_BY_UNIT = "000001 - University";
     private static final String DEFAULT_REQUESTED_END_DATE = "08/21/2007";
-    private static final String DEFAULT_ACTIVITY_TYPE = "Research";
+    private static final String DEFAULT_ACTIVITY_TYPE = "Instruction";
     private static final String DEFAULT_TITLE = "Project title";
     
     private static final String SUBMIT_TO_SPONSOR_BUTTON = "methodToCall.submitToSponsor";
