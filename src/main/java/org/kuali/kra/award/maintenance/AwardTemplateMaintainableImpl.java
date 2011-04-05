@@ -25,8 +25,7 @@ import org.kuali.kra.award.home.AwardTemplate;
 import org.kuali.kra.award.home.AwardTemplateReportTerm;
 import org.kuali.kra.award.home.AwardTemplateReportTermRecipient;
 import org.kuali.kra.award.home.ValidBasisMethodPayment;
-import org.kuali.kra.award.paymentreports.ValidClassReportFrequency;
-import org.kuali.kra.award.paymentreports.ValidFrequencyBase;
+import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRuleImpl;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.kra.infrastructure.Constants;
@@ -39,6 +38,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
 
@@ -100,9 +100,7 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
             ErrorReporter errorReporter = new ErrorReporter();
             AwardTemplateReportTerm awardTemplateReportTerm = (AwardTemplateReportTerm) newCollectionLines.get(collectionName);
             if (awardTemplateReportTerm != null) {
-                if (!isValid(awardTemplateReportTerm)) {
-                    reportReportTermError(errorReporter, awardTemplateReportTerm);
-                } else {
+                if (isValid(awardTemplateReportTerm)) {
                     super.addNewLineToCollection(collectionName);
                 }
             }
@@ -240,37 +238,6 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
         Collection<ValidBasisMethodPayment> validBasisMethodPayments = businessObjectService.findMatching(ValidBasisMethodPayment.class, validBasisOfPaymentsParams);
         return !validBasisMethodPayments.isEmpty();
     }
-    /**
-     * This method is to report error on the GlobalError
-     * @param errorReporter
-     * @param awardTemplateReportTerm
-     */
-    private void reportReportTermError(ErrorReporter errorReporter, AwardTemplateReportTerm awardTemplateReportTerm) {
-        awardTemplateReportTerm.refreshNonUpdateableReferences();
-        errorReporter.reportError("document.newMaintainableObject.add.templateReportTerms", KeyConstants.INVALID_REPORT_FREQUENCY,
-                new String[]{awardTemplateReportTerm.getReportClass().getDescription(),awardTemplateReportTerm.getReport().getDescription(),
-                awardTemplateReportTerm.getFrequency().getDescription(),awardTemplateReportTerm.getFrequencyBase().getDescription()});
-    }
-    /**
-     * 
-     * This method is to check whether the selected values for ReportTerm 
-     * @param awardTemplateReportTerm
-     * @return
-     */
-    private boolean isValid(AwardTemplateReportTerm awardTemplateReportTerm) {
-        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        Map<String, String> classReportFreqParams = new HashMap<String, String>();
-        classReportFreqParams.put("reportClassCode", awardTemplateReportTerm.getReportClassCode());
-        classReportFreqParams.put("reportCode", awardTemplateReportTerm.getReportCode());
-        classReportFreqParams.put("frequencyCode", awardTemplateReportTerm.getFrequencyCode());
-        Collection<ValidClassReportFrequency> coll = businessObjectService.findMatching(ValidClassReportFrequency.class, classReportFreqParams);
-        Map<String, String> freqBaseParams = new HashMap<String, String>();
-        freqBaseParams.put("frequencyBaseCode", awardTemplateReportTerm.getFrequencyBaseCode());
-        freqBaseParams.put("frequencyCode", awardTemplateReportTerm.getFrequencyCode());
-        Collection<ValidFrequencyBase> validFrequencyBases = businessObjectService.findMatching(ValidFrequencyBase.class, freqBaseParams);
-        
-        return !coll.isEmpty() && !validFrequencyBases.isEmpty();
-    }
     
     /**
      * @see org.kuali.rice.kns.maintenance.Maintainable#refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document)
@@ -290,6 +257,14 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
 //                proposalLog.setLeadUnit(proposalLog.getkcPerson().getContactOrganizationName());
 //            }
 //        }
+    }
+    
+    protected boolean isValid(AwardTemplateReportTerm reportTerm) {
+        GlobalVariables.getMessageMap().addToErrorPath("document.newMaintainableObject.add.templateReportTerms");
+        boolean result = new AwardReportTermRuleImpl().processAwardReportTermBusinessRules(reportTerm, 
+                ((AwardTemplate) getBusinessObject()).getAwardReportTermItems());
+        GlobalVariables.getMessageMap().removeFromErrorPath("document.newMaintainableObject.add.templateReportTerms");
+        return result;
     }
    
 }
