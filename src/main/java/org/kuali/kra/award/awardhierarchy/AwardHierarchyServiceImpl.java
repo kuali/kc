@@ -655,7 +655,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
             awardHierarchyNode.setCurrentFundEffectiveDate(awardAmountInfo.getCurrentFundEffectiveDate());
             //awardHierarchyNode.setCurrentFundEffectiveDate(award.getAwardEffectiveDate());
             awardHierarchyNode.setObligationExpirationDate(awardAmountInfo.getObligationExpirationDate());
-            awardHierarchyNode.setProjectStartDate(award.getBeginDate());
+            awardHierarchyNode.setProjectStartDate(award.getAwardEffectiveDate());
             awardHierarchyNode.setTitle(award.getTitle());
             awardHierarchyNode.setAwardId(award.getAwardId());
             
@@ -725,7 +725,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
             awardHierarchyNode.setCurrentFundEffectiveDate(awardAmountInfo.getCurrentFundEffectiveDate());
             //awardHierarchyNode.setCurrentFundEffectiveDate(award.getAwardEffectiveDate());
             awardHierarchyNode.setObligationExpirationDate(awardAmountInfo.getObligationExpirationDate());
-            awardHierarchyNode.setProjectStartDate(award.getBeginDate());
+            awardHierarchyNode.setProjectStartDate(award.getAwardEffectiveDate());
             awardHierarchyNode.setTitle(award.getTitle());
             awardHierarchyNode.setAwardId(award.getAwardId());
             
