@@ -117,11 +117,11 @@
 	        	</td>	        	       		
 	        </tr>	        	
 				<th>
-					<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.beginDate}" /></div>
+					<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.awardEffectiveDate}" /></div>
         		</th>
         		<td align="left" valign="middle">
-        			<c:out value="${KualiForm.awardForSummaryPanelDisplay.beginDate}" />
-        			<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.beginDate" attributeEntry="${awardAttributes.beginDate}" readOnly="true" />-->
+        			<c:out value="${KualiForm.awardForSummaryPanelDisplay.awardEffectiveDate}" />
+        			<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.awardEffectiveDate" attributeEntry="${awardAttributes.awardEffectiveDate}" readOnly="true" />-->
 				</td>
 				<th>
 					<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.currentFundEffectiveDate}" /></div>

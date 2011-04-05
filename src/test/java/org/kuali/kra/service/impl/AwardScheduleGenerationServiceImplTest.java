@@ -113,7 +113,7 @@ public class AwardScheduleGenerationServiceImplTest {
         award.setProjectEndDate(new java.sql.Date(calendar.getTimeInMillis()));
         calendar.clear();
         calendar.set(START_DATE_YEAR_2009, Calendar.JUNE, FIRST_DAY_OF_MONTH);
-        award.setBeginDate(new java.sql.Date(calendar.getTimeInMillis()));
+        award.setAwardEffectiveDate(new java.sql.Date(calendar.getTimeInMillis()));
     }
     
     @Test

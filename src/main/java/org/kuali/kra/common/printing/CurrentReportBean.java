@@ -87,7 +87,7 @@ public class CurrentReportBean extends ReportBean {
         this.sponsorAwardNumber = award.getSponsorAwardNumber();
         this.awardTitle = award.getTitle();
         this.awardAmount = award.calculateObligatedDistributedAmountTotal();
-        this.projectStartDate = award.getBeginDate();
+        this.projectStartDate = award.getAwardEffectiveDate();
         this.projectEndDate = award.findLatestFinalExpirationDate();
     }
 

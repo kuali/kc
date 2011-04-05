@@ -144,7 +144,7 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         }
         
         //effective date
-        Date effectiveDate = award.getBeginDate(); 
+        Date effectiveDate = award.getAwardEffectiveDate(); 
         GregorianCalendar dateEffective = new GregorianCalendar();
         dateEffective.setTime(effectiveDate);
         XMLGregorianCalendar gregorianDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(dateEffective);

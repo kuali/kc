@@ -44,7 +44,7 @@ function updateBaseDateDisplay(selectBox) {
 	if (jQuery(selectBox).val() == 1) {
 		baseDate = "<fmt:formatDate value='${KualiForm.document.award.awardExecutionDate}' pattern='MM/dd/yyyy' />";
 	} else if (jQuery(selectBox).val() == 2) {
-		baseDate = "<fmt:formatDate value='${KualiForm.document.award.beginDate}' pattern='MM/dd/yyyy' />";
+		baseDate = "<fmt:formatDate value='${KualiForm.document.award.awardEffectiveDate}' pattern='MM/dd/yyyy' />";
 	} else if (jQuery(selectBox).val() == 3) {
 		baseDate = "<fmt:formatDate value='${KualiForm.document.award.lastAwardAmountInfo.obligationExpirationDate}' pattern='MM/dd/yyyy' />";
 	} else if (jQuery(selectBox).val() == 4) {
