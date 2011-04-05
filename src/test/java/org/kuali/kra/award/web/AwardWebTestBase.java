@@ -60,10 +60,10 @@ public abstract class AwardWebTestBase extends KcWebTestBase {
     protected static final String STATUS_CODE_ID = AWARD_ID_PREFIX + "statusCode";
     protected static final String MOD_NUMBER_ID = AWARD_ID_PREFIX + "modificationNumber";
     protected static final String SPONSOR_AWARD_NUMBER_ID = AWARD_ID_PREFIX + "sponsorAwardNumber";
-    protected static final String AWARD_EXEC_DATE_ID = AWARD_ID_PREFIX + "awardAmountInfos[0].obligationExpirationDate";
-    protected static final String AWARD_EFF_DATE_ID = AWARD_ID_PREFIX + "awardAmountInfos[0].currentFundEffectiveDate";
+    protected static final String OBLIG_END_DATE_ID = AWARD_ID_PREFIX + "awardAmountInfos[0].obligationExpirationDate";
+    protected static final String OBLIG_START_DATE = AWARD_ID_PREFIX + "awardAmountInfos[0].currentFundEffectiveDate";
     protected static final String ACTIVITY_TYPE_CODE_ID = AWARD_ID_PREFIX + "activityTypeCode";
-    protected static final String BEGIN_DATE_ID = AWARD_ID_PREFIX + "beginDate";
+    protected static final String AWARD_EFFECTIVE_DATE = AWARD_ID_PREFIX + "awardEffectiveDate";
     protected static final String PROJECT_END_DATE_ID = AWARD_ID_PREFIX + "awardAmountInfos[0].finalExpirationDate";
     protected static final String AWARD_TRANSACTION_TYPE_CODE = AWARD_ID_PREFIX + "awardTransactionTypeCode";
     
@@ -166,10 +166,10 @@ public abstract class AwardWebTestBase extends KcWebTestBase {
         setFieldValue(page, MOD_NUMBER_ID, ONE);
         setFieldValue(page, SPONSOR_AWARD_NUMBER_ID, SPONSOR_AWARD_NUMBER);
         setFieldValue(page, SPONSOR_AWARD_NUMBER_ID, SPONSOR_AWARD_NUMBER);
-        setFieldValue(page, AWARD_EXEC_DATE_ID, DATE_VALUE_AFTER);
-        setFieldValue(page, AWARD_EFF_DATE_ID, DATE_VALUE);
+        setFieldValue(page, OBLIG_END_DATE_ID, DATE_VALUE_AFTER);
+        setFieldValue(page, OBLIG_START_DATE, DATE_VALUE);
         setFieldValue(page, ACTIVITY_TYPE_CODE_ID, ONE);
-        setFieldValue(page, BEGIN_DATE_ID, DATE_VALUE);
+        setFieldValue(page, AWARD_EFFECTIVE_DATE, DATE_VALUE);
         setFieldValue(page, PROJECT_END_DATE_ID, END_DATE_VALUE);
         setFieldValue(page, AWARD_TRANSACTION_TYPE_CODE, ONE);
         setFieldValue(page, UNIT_NUMBER, AwardFixtureFactory.UNIVERSITY_UNIT_NUMBER);

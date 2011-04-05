@@ -839,13 +839,13 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         errorMap.addToErrorPath(AWARD_ERROR_PATH);
 
         boolean success = true;
-        if (award.getBeginDate() != null 
+        if (award.getAwardEffectiveDate() != null 
                 && award.getAwardAmountInfos().get(award.getIndexOfLastAwardAmountInfo()).getFinalExpirationDate() != null) {
-            if (award.getBeginDate().after(
+            if (award.getAwardEffectiveDate().after(
                     award.getAwardAmountInfos().get(award.getIndexOfLastAwardAmountInfo()).getFinalExpirationDate())) {
                 success = false;
                 errorMap.putError("awardAmountInfos["+award.getIndexOfLastAwardAmountInfo()+"].finalExpirationDate", KeyConstants.ERROR_END_DATE_PRIOR_START_DATE,
-                        new String[] {"Project End Date", "Project Begin Date"});
+                        new String[] {"Project End Date", "Project Start Date"});
             }
         }
         if (award.getAwardAmountInfos().get(award.getIndexOfLastAwardAmountInfo()).getCurrentFundEffectiveDate() != null 

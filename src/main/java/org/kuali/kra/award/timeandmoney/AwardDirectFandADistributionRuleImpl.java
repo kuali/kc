@@ -334,7 +334,7 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
      */
     boolean isTargetStartAfterProjectStartDate(AwardDirectFandADistributionRuleEvent awardDirectFandADistributionRuleEvent) {
         Date targetStartDate = awardDirectFandADistribution.getStartDate();
-        Date projectStartDate = awardDirectFandADistributionRuleEvent.getTimeAndMoneyDocument().getAward().getBeginDate();
+        Date projectStartDate = awardDirectFandADistributionRuleEvent.getTimeAndMoneyDocument().getAward().getAwardEffectiveDate();
         boolean valid = true;
         if (!(projectStartDate == null)) {
             if (projectStartDate.after(targetStartDate)) {

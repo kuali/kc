@@ -153,10 +153,10 @@
     <bean id="AwardAmountInfo-currentFundEffectiveDate" parent="AwardAmountInfo-currentFundEffectiveDate-parentBean" />
     <bean id="AwardAmountInfo-currentFundEffectiveDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
         <property name="name" value="currentFundEffectiveDate" />
-        <property name="label" value="Obligation Start" />
-        <property name="shortLabel" value="Obligation Start" />
-        <property name="summary" value="Obligation Start" />
-        <property name="description" value="Obligation Start" />
+        <property name="label" value="Obligation Start Date" />
+        <property name="shortLabel" value="Obligation Start Date" />
+        <property name="summary" value="Obligation Start Date" />
+        <property name="description" value="Obligation Start Date" />
     </bean>
 
     <bean id="AwardAmountInfo-amountObligatedToDate" parent="AwardAmountInfo-amountObligatedToDate-parentBean" />

@@ -175,7 +175,7 @@ public class AwardCreateAccountRule {
      * @return
      */
     private boolean isValidEffectiveDate(Award award) {
-        if (award.getBeginDate() == null) {
+        if (award.getAwardEffectiveDate() == null) {
             GlobalVariables.getMessageMap().putError(AWARD_EFFECTIVE_DATE_NOT_SPECIFIED, 
                                                     KeyConstants.AWARD_NO_VALID_EFFECTIVE_DATE);
             return false;

@@ -132,7 +132,7 @@ public class AwardDirectFandADistributionRuleTest {
      */
     public void setAwardDatesToDefault() {
         Calendar calendar = Calendar.getInstance();
-        award.setBeginDate(new Date(calendar.getTime().getTime()));
+        award.setAwardEffectiveDate(new Date(calendar.getTime().getTime()));
         calendar.add(Calendar.YEAR, TWO);
         calendar.add(Calendar.MONTH, SIX);
         award.setProjectEndDate(new Date(calendar.getTime().getTime()));

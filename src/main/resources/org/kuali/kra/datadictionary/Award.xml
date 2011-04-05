@@ -592,22 +592,22 @@
   
   <bean id="Award-beginDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
     <property name="name" value="beginDate" />
-    <property name="label" value="Project Start Date" />
-    <property name="shortLabel" value="Project Start Date" />
+    <property name="label" value="Modification Date" />
+    <property name="shortLabel" value="Modification Date" />
     <property name="required" value="false" />
-    <property name="summary" value="The Start Date of the Project" />
-    <property name="description" value="The date the project period will begin." />
+    <property name="summary" value="Modification Date" />
+    <property name="description" value="Modification Date" />
   </bean>
   
   <bean id="Award-awardEffectiveDate" parent="Award-awardEffectiveDate-parentBean" />
   
   <bean id="Award-awardEffectiveDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
     <property name="name" value="awardEffectiveDate" />
-    <property name="label" value="Obligation Start Date" />
-    <property name="shortLabel" value="Start Date" />
+    <property name="label" value="Project Start Date" />
+    <property name="shortLabel" value="Project Start Date" />
     <property name="required" value="false" />
-    <property name="summary" value="The Start Date of the Budget" />
-    <property name="description" value="The date the budget period will begin." />
+    <property name="summary" value="Project Start Date" />
+    <property name="description" value="Project Start Date" />
   </bean>
   
   <bean id="Award-awardExecutionDate" parent="Award-awardExecutionDate-parentBean" />
