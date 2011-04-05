@@ -42,7 +42,7 @@ import org.kuali.kra.award.paymentreports.awardreports.reporting.AwardReporting;
  * This class represents the AwardReportTerm business object 
  * 
  */
-public class AwardReportTerm extends AwardAssociate  { 
+public class AwardReportTerm extends AwardAssociate implements GenericAwardReportTerm { 
     
     /**
      * Comment for <code>serialVersionUID</code>
@@ -176,7 +176,7 @@ public class AwardReportTerm extends AwardAssociate  {
      * @param otherReportTerm
      * @return
      */
-    public boolean equalsInitialFields(AwardReportTerm otherReportTerm) {
+    public boolean equalsInitialFields(GenericAwardReportTerm otherReportTerm) {
         boolean isEqual = true;
 
         if (otherReportTerm == null) {

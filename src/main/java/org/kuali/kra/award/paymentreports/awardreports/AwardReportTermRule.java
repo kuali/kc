@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.award.paymentreports.awardreports;
 
+import java.util.List;
+
 import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
@@ -37,4 +39,5 @@ public interface AwardReportTermRule extends BusinessRule {
      * @return
      */
     boolean processAddAwardReportTermBusinessRules(AddAwardReportTermRuleEvent event);
+    
 }
