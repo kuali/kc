@@ -1,0 +1,2 @@
+\. MYSQL/DML/KC_DML_BS1_SPONSOR_FORM_TEMPLATES.sql
+commit;\nexit;
