@@ -29,9 +29,9 @@
         </h3>
         <table id="Direct-FandA-Funds-Distribution-table" cellpadding="0" cellspacing="0" summary="Direct F and A Distribution">
 			<tr>
-				<th width="30%" align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.beginDate}" useShortLabel="true" noColon="false" /></th>
+				<th width="30%" align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.awardEffectiveDate}" useShortLabel="true" noColon="false" /></th>
 				<td  width="20%" align="left">          	  
-        			<kul:htmlControlAttribute property="document.award.beginDate" attributeEntry="${awardAttributes.beginDate}" readOnly="true" />   	 
+        			<kul:htmlControlAttribute property="document.award.awardEffectiveDate" attributeEntry="${awardAttributes.awardEffectiveDate}" readOnly="true" />   	 
             	</td>
 				<th width="30%" align="right"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.finalExpirationDate}" useShortLabel="true" noColon="false" /></th>
 				<td  width="20%" align="left">          	  

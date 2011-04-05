@@ -304,14 +304,14 @@
 <table cellpAdding="0" cellspacing="0" summary="">
 				 <tr>
 					<th>
-						<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.beginDate}" /></div>
+						<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.awardEffectiveDate}" /></div>
 			        </th>
 			        <td align="left" valign="middle">
-			        	<kul:htmlControlAttribute property="document.awardList[0].beginDate" attributeEntry="${awardAttributes.beginDate}" />
+			        	<kul:htmlControlAttribute property="document.awardList[0].awardEffectiveDate" attributeEntry="${awardAttributes.awardEffectiveDate}" />
 					</td>
 					
         			<th>
-						<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.awardEffectiveDate}" /></div>
+						<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.currentFundEffectiveDate}" /></div>
         			</th>
 		<c:choose>
 			<c:when test="${KualiForm.awardHasAssociatedTandMOrIsVersioned}">				
@@ -379,10 +379,10 @@
 			            <kul:htmlControlAttribute property="document.awardList[0].awardExecutionDate" attributeEntry="${awardAttributes.awardExecutionDate}" />
 			        </td>
 			        <th>
-			            &nbsp;
+			            <div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.beginDate}" /></div>
 			        </th>
 			        <td align="left" valign="middle">
-			            &nbsp;
+			            <kul:htmlControlAttribute property="document.awardList[0].beginDate" attributeEntry="${awardAttributes.beginDate}" />
 			        </td>
 			    </tr>
 			        <c:choose>
