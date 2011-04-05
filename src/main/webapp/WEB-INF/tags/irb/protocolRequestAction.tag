@@ -267,6 +267,8 @@
                                                          canPerformAction="${KualiForm.actionHelper.canGrantExemptionUnavailable}" 
                                                          reason="Protocol review type must be Exempt.
                                                                  <p>
+                                                                 Protocol is not renewal and not amendment
+                                                                 <p>
                                                                  Protocol submission status must be Submitted To Committee or In Agenda." />
 	            <kra-irb-action:genericUnavailableAction tabTitle="Approve Action"
                                                          canPerformAction="${KualiForm.actionHelper.canApproveFullUnavailable}" 
