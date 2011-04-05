@@ -24,33 +24,31 @@ import org.junit.Test;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.lookup.CommitteeLookupableHelperServiceImpl;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 
 public class CommitteeLookupHelperServiceTest extends KcUnitTestBase {
+    
     private static final int NUMBER_LOOKUP_CRITERIA_FIELDS = 9;
     private static final String EDIT_URL = "../committeeCommittee.do?committeeId=100&docTypeName=CommitteeDocument&methodToCall=docHandler&command=initiate";
-    CommitteeLookupableHelperServiceImpl committeeLookupableHelperServiceImpl;
+    
+    private CommitteeLookupableHelperServiceImpl committeeLookupableHelperServiceImpl;
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        committeeLookupableHelperServiceImpl = (CommitteeLookupableHelperServiceImpl) KraServiceLocator
-                .getService("committeeLookupableHelperService");
+        
+        committeeLookupableHelperServiceImpl = new CommitteeLookupableHelperServiceImpl();
         committeeLookupableHelperServiceImpl.setBusinessObjectClass(Committee.class);
-        GlobalVariables.setUserSession(new UserSession("quickstart"));
     }
 
     @After
     public void tearDown() throws Exception {
         super.tearDown();
+        
         committeeLookupableHelperServiceImpl = null;
-        GlobalVariables.setUserSession(null);
     }
 
     /**
@@ -60,7 +58,6 @@ public class CommitteeLookupHelperServiceTest extends KcUnitTestBase {
      */
     @Test
     public void testGetRows() {
-
         List<Row> rows = committeeLookupableHelperServiceImpl.getRows();
         assertEquals(rows.size(), NUMBER_LOOKUP_CRITERIA_FIELDS);
         for (Row row : rows) {

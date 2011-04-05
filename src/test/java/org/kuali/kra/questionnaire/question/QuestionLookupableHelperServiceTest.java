@@ -53,7 +53,7 @@ public class QuestionLookupableHelperServiceTest extends KcUnitTestBase {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        questionLookupableHelperServiceImpl = (QuestionLookupableHelperServiceImpl) KraServiceLocator.getService("questionLookupableHelperService");
+        questionLookupableHelperServiceImpl = new QuestionLookupableHelperServiceImpl();
         questionLookupableHelperServiceImpl.setBusinessObjectClass(Question.class);
         Map<String, String[]> parameters = new HashMap<String, String[]>();
         parameters.put("multipleValues", new String[] {"Yes"});

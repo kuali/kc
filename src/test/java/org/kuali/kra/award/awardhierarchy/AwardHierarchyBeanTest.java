@@ -15,28 +15,41 @@
  */
 package org.kuali.kra.award.awardhierarchy;
 
+import java.util.ArrayList;
+import java.util.Map;
+
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.AwardForm;
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.service.ServiceHelper;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 
 public class AwardHierarchyBeanTest {
+    
+    private static final String ROOT_AWARD_NUMBER = "100001-00001";
+    private static final String UNKNOWN_TARGET_NODE_AWARD_NUMBER = "123456-78901";
+    
     private AwardHierarchyBean bean;
     private AwardHierarchyServiceImpl service;
     private Award rootAward;
-    static final String UNKNOWN_TARGET_NODE_AWARD_NUMBER = "123456-78901";
-    private static final String CHILD_AWARD_NUMBER = "100001-00002";
-    private static final String ROOT_AWARD_NUMBER = "100001-00001";
+    
+    private Mockery context = new JUnit4Mockery();
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         service = new AwardHierarchyServiceImpl();
-        service.setAwardNumberService(new AwardHierarchyTestHelper.MockAwardNumberService());
-        service.setBusinessObjectService(new AwardHierarchyTestHelper.MockBusinessObjectService());
-        service.setDocumentService(new AwardHierarchyTestHelper.MockDocumentService());
-        service.setVersioningService(new AwardHierarchyTestHelper.MockVersioningService());
+        service.setBusinessObjectService(getMockBusinessObjectService());
+        service.setDocumentService(getMockDocumentService());
         rootAward = new Award();
         rootAward.setAwardNumber(ROOT_AWARD_NUMBER);
         createAwardHierarchyBean();
@@ -79,4 +92,32 @@ public class AwardHierarchyBeanTest {
         }
 
     }
+    
+    private BusinessObjectService getMockBusinessObjectService() {
+        final BusinessObjectService service = context.mock(BusinessObjectService.class);
+
+        context.checking(new Expectations() {{
+            Map<String, Object> fieldValues = ServiceHelper.getInstance().buildCriteriaMap("documentDescription", AwardDocument.PLACEHOLDER_DOC_DESCRIPTION);
+            one(service).findMatching(DocumentHeader.class, fieldValues);
+            will(returnValue(new ArrayList<DocumentHeader>()));
+            
+            Map<String, Object> primaryKeys = ServiceHelper.getInstance().buildCriteriaMap("awardNumber", ROOT_AWARD_NUMBER);
+            allowing(service).findByPrimaryKey(AwardHierarchy.class, primaryKeys);
+            will(returnValue(null));
+        }});
+        
+        return service;
+    }
+    
+    private DocumentService getMockDocumentService() throws WorkflowException {
+        final DocumentService service = context.mock(DocumentService.class);
+        
+        context.checking(new Expectations() {{
+            one(service).getNewDocument(AwardDocument.class);
+            will(returnValue(null));
+        }});
+        
+        return service;
+    }
+
 }
