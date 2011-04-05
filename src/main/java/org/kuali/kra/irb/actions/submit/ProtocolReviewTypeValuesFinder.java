@@ -27,28 +27,15 @@ import org.kuali.rice.core.util.KeyLabelPair;
  * submitting a protocol to the IRB office for review.
  */
 public class ProtocolReviewTypeValuesFinder extends IrbActionsKeyValuesBase {
-    // kcirb-1318 : "renewal" can't be exempt.  so, remove it from drop down by
-    // using jstl getOptions with a parameter.
-    private String protocolNumber;
-
+    
     @SuppressWarnings("unchecked")
     public List<KeyLabelPair> getKeyValues() {
         Collection<ProtocolReviewType> protocolReviewTypes = this.getKeyValuesService().findAll(ProtocolReviewType.class);
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", "select"));
         for (ProtocolReviewType protocolReviewType : protocolReviewTypes) {
-            if (!ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE.equals(protocolReviewType.getReviewTypeCode()) || !getProtocolNumber().contains("R")) {
-                keyValues.add(new KeyLabelPair(protocolReviewType.getReviewTypeCode(), protocolReviewType.getDescription()));
-            }
+            keyValues.add(new KeyLabelPair(protocolReviewType.getReviewTypeCode(), protocolReviewType.getDescription()));
         }
         return keyValues;
-    }
-
-    public String getProtocolNumber() {
-        return protocolNumber;
-    }
-
-    public void setProtocolNumber(String protocolNumber) {
-        this.protocolNumber = protocolNumber;
     }
 }

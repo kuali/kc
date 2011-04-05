@@ -15,12 +15,8 @@
  */
 package org.kuali.kra.irb.auth;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 
 /**
  * Determine if a user can assign a protocol to a committee/schedule.
@@ -31,7 +27,8 @@ public class ProtocolGrantExemptionAuthorizer extends ProtocolAuthorizer {
      * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
      */
     public boolean isAuthorized(String userId, ProtocolTask task) {
-        return canExecuteAction(task.getProtocol(), ProtocolActionType.GRANT_EXEMPTION) &&
+        return !task.getProtocol().isAmendment() && !task.getProtocol().isRenewal() &&
+               canExecuteAction(task.getProtocol(), ProtocolActionType.GRANT_EXEMPTION) &&
                hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_PROTOCOL_SUBMISSIONS);
     }
 }
