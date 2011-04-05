@@ -66,7 +66,6 @@ import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.ResearchDocumentService;
 import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.kra.service.impl.KraDocumentServiceImpl;
 import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
 import org.kuali.kra.web.struts.authorization.WebAuthorizationService;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
@@ -84,6 +83,7 @@ import org.kuali.rice.kns.exception.AuthorizationException;
 import org.kuali.rice.kns.exception.UnknownDocumentIdException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.PessimisticLockService;
@@ -859,9 +859,8 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         return businessObject;
     }
 
-    private KraDocumentServiceImpl getKraDocumentService() {
-        return ((KraDocumentServiceImpl)KraServiceLocator.getService("kraDocumentService"));
-               
+    private DocumentService getKraDocumentService() {
+        return (DocumentService) KraServiceLocator.getService("kraDocumentService"); 
     }
 
     @Override

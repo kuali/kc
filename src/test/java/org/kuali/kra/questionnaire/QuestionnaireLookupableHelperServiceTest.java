@@ -39,16 +39,16 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class QuestionnaireLookupableHelperServiceTest  extends KcUnitTestBase {
+public class QuestionnaireLookupableHelperServiceTest extends KcUnitTestBase {
 
-    QuestionnaireLookupableHelperServiceImpl questionnaireLookupableHelperServiceImpl;
+    private QuestionnaireLookupableHelperServiceImpl questionnaireLookupableHelperServiceImpl;
     private DocumentService documentService;
     private Mockery context = new JUnit4Mockery();
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        questionnaireLookupableHelperServiceImpl = (QuestionnaireLookupableHelperServiceImpl)KraServiceLocator.getService("questionnaireLookupableHelperService");
+        questionnaireLookupableHelperServiceImpl = new QuestionnaireLookupableHelperServiceImpl();
         questionnaireLookupableHelperServiceImpl.setBusinessObjectClass(Questionnaire.class);
         documentService = KraServiceLocator.getService(DocumentService.class);
         GlobalVariables.setUserSession(new UserSession("quickstart"));

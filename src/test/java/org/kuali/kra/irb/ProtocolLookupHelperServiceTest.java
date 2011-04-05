@@ -26,10 +26,12 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.test.ProtocolFactory;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
@@ -41,8 +43,7 @@ import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 
 public class ProtocolLookupHelperServiceTest extends KcUnitTestBase {
-
-    ProtocolLookupableHelperServiceImpl protocolLookupableHelperServiceImpl;
+    
     private static final String EDIT_URL ="../protocolProtocol.do?viewDocument=false&docId=101&docTypeName=ProtocolDocument&methodToCall=docHandler&command=displayDocSearchView";
     private static final String VIEW_URL ="../protocolProtocol.do?viewDocument=true&docId=101&docTypeName=ProtocolDocument&methodToCall=docHandler&command=displayDocSearchView";
     private static final String COPY_URL = "../DocCopyHandler.do?docId=101&command=displayDocSearchView&documentTypeName=ProtocolDocument";
@@ -54,13 +55,15 @@ public class ProtocolLookupHelperServiceTest extends KcUnitTestBase {
      * Count of all lookup rows, including one row for all hidden non-lookup fields
      */
     private static final int NUMBER_LOOKUP_CRITERIA_FIELDS = 23;
+
+    private ProtocolLookupableHelperServiceImpl protocolLookupableHelperServiceImpl;
     
     private Mockery context = new JUnit4Mockery();
     
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        protocolLookupableHelperServiceImpl = (ProtocolLookupableHelperServiceImpl)KraServiceLocator.getService("protocolLookupableHelperService");
+        protocolLookupableHelperServiceImpl = new ProtocolLookupableHelperServiceImpl();
         protocolLookupableHelperServiceImpl.setBusinessObjectClass(Protocol.class);
         GlobalVariables.setUserSession(new UserSession("quickstart"));
    }
@@ -113,6 +116,15 @@ public class ProtocolLookupHelperServiceTest extends KcUnitTestBase {
     @Test
     public void testGetInquiryUrl() {
         Protocol protocol = initProtocol();
+        
+        final KcPersonService kcPersonService = context.mock(KcPersonService.class);
+        final String principalId = GlobalVariables.getUserSession().getPrincipalId();
+        context.checking(new Expectations() {{
+            one(kcPersonService).getKcPersonByPersonId(principalId);
+            will(returnValue(KcPerson.fromPersonId(principalId)));
+        }});
+        protocolLookupableHelperServiceImpl.setKcPersonService(kcPersonService);
+        
         HtmlData inquiryUrl = protocolLookupableHelperServiceImpl.getInquiryUrl(protocol, "leadUnitNumber");
         assertEquals(((HtmlData.AnchorHtmlData) inquiryUrl).getHref(), UNIT_INQ_URL);
         inquiryUrl = protocolLookupableHelperServiceImpl.getInquiryUrl(protocol, "investigator");
