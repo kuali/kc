@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://127.0.0.1:8080/kc-dev" />
+<title>ProtocolSaveTest</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">ProtocolSaveTest</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/kc-dev/portal.jsp</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Researcher</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Create Protocol</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectFrame</td>
+	<td>iframeportlet</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.documentHeader.documentDescription']</td>
+	<td>Protocol Document</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//textarea[@id='document.protocolList[0].title']</td>
+	<td>New protocol test</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.performLookup.(!!org.kuali.kra.bo.KcPerson!!).(((personId:protocolHelper.personId,fullName:protocolHelper.principalInvestigatorName,unit.unitNumber:protocolHelper.lookupUnitNumber,unit.unitName:protocolHelper.lookupUnitName))).((``)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).(::::;;::::).anchor</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>personId</td>
+	<td>10000000004</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@name='methodToCall.search' and @value='search']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=return value</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.save</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

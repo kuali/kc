@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://127.0.0.1:8080/kc-dev" />
+<title>ProposalDevelopmentSaveTest</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">ProposalDevelopmentSaveTest</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/kc-dev/portal.jsp</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Researcher</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Create Proposal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectFrame</td>
+	<td>iframeportlet</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.documentHeader.documentDescription']</td>
+	<td>Proposal Development Web Test</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.developmentProposalList[0].sponsorCode']</td>
+	<td>005770</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//select[@id='document.developmentProposalList[0].proposalTypeCode']</td>
+	<td>label=New</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.developmentProposalList[0].requestedStartDateInitial']</td>
+	<td>08/14/2007</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//select[@id='document.developmentProposalList[0].ownedByUnitNumber']</td>
+	<td>label=000001 - University</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.developmentProposalList[0].requestedEndDateInitial']</td>
+	<td>08/21/2007</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//select[@id='document.developmentProposalList[0].activityTypeCode']</td>
+	<td>label=Instruction</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//textarea[@id='document.developmentProposalList[0].title']</td>
+	<td>Project title</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.save</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>
