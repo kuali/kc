@@ -47,20 +47,9 @@
                     </th>
                     <td>
                         <nobr>
-                             <jsp:useBean id="paramMap" class="java.util.HashMap"/>
-                            <c:set target="${paramMap}" property="protocolNumber" value="${KualiForm.document.protocolList[0].protocolNumber}"  />
-                            <html:select property="actionHelper.protocolSubmitAction.protocolReviewTypeCode" onchange="updateCheckList('actionHelper.protocolSubmitAction.protocolReviewTypeCode')">
-                            <c:forEach items="${krafn:getOptionList('org.kuali.kra.irb.actions.submit.ProtocolReviewTypeValuesFinder', paramMap)}" var="option">
-                            <c:choose>
-                                <c:when test="${KualiForm.actionHelper.protocolSubmitAction.protocolReviewTypeCode == option.key}">
-                                    <option value="${option.key}" selected>${option.label}</option>
-                                </c:when>
-                                <c:otherwise>
-                                    <option value="${option.key}">${option.label}</option>
-                                </c:otherwise>
-                            </c:choose>
-                            </c:forEach>
-                            </html:select>
+                        <kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.protocolReviewTypeCode" 
+                                                  attributeEntry="${attributes.protocolReviewTypeCode}" 
+                                                  onchange="updateCheckList('actionHelper.protocolSubmitAction.protocolReviewTypeCode')" />
                         </nobr>
                     </td>
                 </tr>
