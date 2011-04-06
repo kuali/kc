@@ -75,8 +75,8 @@
 				</c:choose>
 			</c:forEach> 
 		
-			<c:if test="${empty costElementOptions}" >
-				<c:set var="costElementOptions" value="document.budget.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].costElementName" />
+			<c:if test="${empty selectedCostElement}" >
+				<c:set var="selectedCostElement" value="${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].costElementName}" /> 
 			</c:if>
 						
     	   	<c:out value="${selectedCostElement}"/>
