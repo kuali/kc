@@ -436,6 +436,11 @@
 		<Message>Please answer the International Activities question.</Message>
 		<FixLink>questions</FixLink>
 	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo_1_2/AbstractAttachments</MessageKey>
+		<Message>/GrantApplication/Forms/RR_OtherProjectInfo_1_2/ProjectSummaryAttachments is not valid, Validation errors exist. Please correct these errors prior to submitting to Grants.gov.</Message>
+		<FixLink>abstractsAttachments</FixLink>
+	</Error>
 	<!-- # RRKeyPersonExpanded- -->
 	<Error>
 		<MessageKey>/GrantApplication/Forms/RR_KeyPersonExpanded/KeyPerson/Profile/BioSketchsAttached</MessageKey>
