@@ -702,7 +702,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         if (awardForm.getEditingMode().get("createAwardAccount").equals("true")) {
             boolean rulePassed = new AwardCreateAccountRule().processAwardCreateAccountRules(award);
             if (rulePassed) {
-                AccountCreationClient client = KraServiceLocator.getService("accountCreationClient");
+                AccountCreationClient client = (AccountCreationClient) KraServiceLocator.getService("accountCreationClient");
                 /*
                  * If account hasn't already been created, create it or
                  * display an error
