@@ -15,13 +15,16 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.S2SQuestionnairing;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
+import org.kuali.rice.kns.service.ParameterService;
 
 /**
  * This abstract class has methods that are common to all the versions of
@@ -34,6 +37,8 @@ public abstract class PHS398FellowshipSupplementalBaseGenerator extends
 
 	protected S2SUtilService s2sUtilService;
 	protected S2SBudgetCalculatorService s2SBudgetCalculatorService;
+	protected ParameterService parameterService;
+    
 	protected static final int APPENDIX = 96;
 	protected static final int HUMAN = 1;
 	protected static final int VERT = 4;
@@ -96,8 +101,8 @@ public abstract class PHS398FellowshipSupplementalBaseGenerator extends
 	protected static final String NSR_SUPPORT_YES = "Yes";
 	protected static final String QUESTION_ANSWER_NO = "N";
 	
-	protected static final String TUITION_COST_ELEMENTS = "Tuition Cost Elements";
-	protected static final String STIPEND_COST_ELEMENTS = "Stipend Cost Elements";
+	protected static final String TUITION_COST_ELEMENTS = "TUITION_COST_ELEMENTS";
+	protected static final String STIPEND_COST_ELEMENTS = "STIPEND_COST_ELEMENTS";
 	protected static final char STRING_SEPRATOR = '-';
 	protected static final String SUB_CATEGORY_NOT_FOUND = "SUB CATEGORY NOT FOUND";
 	protected static final String PROPOSAL_TYPE_CODE_NEW7 = "7";
@@ -108,8 +113,17 @@ public abstract class PHS398FellowshipSupplementalBaseGenerator extends
 	 */
 	public PHS398FellowshipSupplementalBaseGenerator() {
 		s2sUtilService = KraServiceLocator.getService(S2SUtilService.class);
-		s2SBudgetCalculatorService = KraServiceLocator
-				.getService(S2SBudgetCalculatorService.class);
+		s2SBudgetCalculatorService = KraServiceLocator.getService(S2SBudgetCalculatorService.class);
+		parameterService = KraServiceLocator.getService(ParameterService.class);
 	}
+    protected List<String> getCostElementsByParam(String costElementParam) {
+        String costElementsParamValue = parameterService.getParameterValue(ProposalDevelopmentDocument.class, costElementParam);
+        String[] costElements = costElementsParamValue.split(",");
+        List<String> costElementList = new ArrayList<String>();
+        for (int i = 0; i < costElements.length; i++) {
+            costElementList.add(costElements[i]);
+        }
+        return costElementList;
+    }
 
 }
