@@ -180,10 +180,8 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 		for (BudgetPeriod budgetPeriod : budgetDoc.getBudget()
 				.getBudgetPeriods()) {
 			BudgetDecimal tution = BudgetDecimal.ZERO;
-			for (BudgetLineItem budgetLineItem : budgetPeriod
-					.getBudgetLineItems()) {
-				if (budgetLineItem.getCostElementBO().getCostElement().equals(
-						TUITION_COST_ELEMENTS)) {
+			for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
+				if (getCostElementsByParam(TUITION_COST_ELEMENTS).contains(budgetLineItem.getCostElementBO().getCostElement())) {
 					tution = tution.add(budgetLineItem.getLineItemCost());
 				}
 			}
@@ -217,7 +215,8 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 		}
 	}
 
-	/*
+
+    /*
 	 * This method is used to set data to SupplementationFromOtherSources
 	 * XMLObject from budgetMap data for Budget
 	 */
@@ -267,22 +266,16 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 		BudgetDecimal numberOfMonths = BudgetDecimal.ZERO;
 		for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
 			if (budgetPeriod.getBudgetPeriod() == 1) {
-				for (BudgetLineItem budgetLineItem : budgetPeriod
-						.getBudgetLineItems()) {
-					if (budgetLineItem.getCostElementBO().getCostElement()
-							.equals(STIPEND_COST_ELEMENTS)) {
-						sumOfLineItemCost = sumOfLineItemCost
-								.add(budgetLineItem.getLineItemCost());
-						numberOfMonths = numberOfMonths.add(getNumberOfMonths(
-								budgetLineItem.getStartDate(), budgetLineItem
-										.getEndDate()));
+				for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
+					if (getCostElementsByParam(STIPEND_COST_ELEMENTS).contains(budgetLineItem.getCostElementBO().getCostElement())) {
+						sumOfLineItemCost = sumOfLineItemCost.add(budgetLineItem.getLineItemCost());
+						numberOfMonths = numberOfMonths.add(getNumberOfMonths(budgetLineItem.getStartDate(), budgetLineItem.getEndDate()));
 					}
 				}
 			}
 		}
 		federalStipendRequested.setAmount(sumOfLineItemCost.bigDecimalValue());
-		federalStipendRequested.setNumberOfMonths(numberOfMonths
-				.bigDecimalValue());
+		federalStipendRequested.setNumberOfMonths(numberOfMonths.bigDecimalValue());
 		return federalStipendRequested;
 	}
 

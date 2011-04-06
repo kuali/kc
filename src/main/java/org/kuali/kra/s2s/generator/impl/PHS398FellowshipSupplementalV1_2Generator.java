@@ -279,8 +279,7 @@ public class PHS398FellowshipSupplementalV1_2Generator extends
      * additional information data to it.
      */
     private void getFederalStipendRequested(Budget budget) {
-        FederalStipendRequested federalStipendRequested = 
-            FederalStipendRequested.Factory.newInstance();
+        FederalStipendRequested federalStipendRequested = FederalStipendRequested.Factory.newInstance();
         BudgetDocument budgetDoc = getBudgetDocument();
         if (budgetDoc != null) {
             org.kuali.kra.budget.core.Budget pBudget = budgetDoc.getBudget();
@@ -299,6 +298,8 @@ public class PHS398FellowshipSupplementalV1_2Generator extends
             }
             federalStipendRequested.setAmount(sumOfLineItemCost.bigDecimalValue());
             federalStipendRequested.setNumberOfMonths(numberOfMonths.bigDecimalValue());
+            budget.setFederalStipendRequested(federalStipendRequested);
+            
         }
     }
 
