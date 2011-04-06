@@ -19,6 +19,7 @@ import javax.xml.datatype.DatatypeConfigurationException;
 
 import org.kuali.kra.award.home.Award;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.service.DocumentService;
 
 public interface AccountCreationClient {
 
@@ -29,4 +30,6 @@ public interface AccountCreationClient {
      * @throws WorkflowException
      */
     void createAwardAccount(Award award)throws DatatypeConfigurationException, WorkflowException;
+    
+    void setDocumentService(DocumentService documentService);
 }

@@ -19,6 +19,7 @@ package org.kuali.kra.external.award.impl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.integration.cg.service.AccountCreationService;
+import org.kuali.kra.external.award.AccountCreationClient;
 import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 
 
@@ -33,6 +34,15 @@ public final class AccountCreationKSBClientImpl extends AccountCreationClientBas
     private static final Log LOG = LogFactory.getLog(AccountCreationKSBClientImpl.class);
     
     private AccountCreationKSBClientImpl() {  }
+    
+    public static AccountCreationClient getInstance() {
+      if (ksbClient == null)
+          ksbClient = new AccountCreationKSBClientImpl();
+      return ksbClient;
+    }
+
+    private static AccountCreationKSBClientImpl ksbClient;
+
 
     @Override
     protected AccountCreationService getServiceHandle() {
