@@ -152,4 +152,5 @@
 	<param name="kim.show.blank.qualifiers">false</param>
 	<!-- needed for services used for KC- KFS integration -->
 	<param name="kfs.accountcreation.webservice.endpoint">http://stg.kfs.kuali.org/kfs-stg/remoting/accountCreationServiceSOAP</param>
+	<param name="shared.rice">false</param>
 </config>

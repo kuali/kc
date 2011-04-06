@@ -491,7 +491,8 @@
 	</bean>
 
 	<bean id="accountCreationClient"
-		class="org.kuali.kra.external.award.impl.AccountCreationClientImpl">
+		class="org.kuali.kra.external.award.AccountCreationClientFactoryBean">
+		<property name="sharedRice" value="${shared.rice}" />
 		<property name="documentService" ref="documentService" />
 	</bean>
 
