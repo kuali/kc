@@ -24,6 +24,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.integration.cg.service.AccountCreationService;
 import org.kuali.kfs.integration.cg.service.AccountCreationServiceSOAP;
+import org.kuali.kra.external.award.AccountCreationClient;
 
 
 
@@ -40,6 +41,14 @@ public final class AccountCreationClientImpl extends AccountCreationClientBase {
     private AccountCreationClientImpl() {
     }
 
+    public static AccountCreationClient getInstance() {
+        if (client == null)
+            client = new AccountCreationClientImpl();
+        return client;
+      }
+
+    private static AccountCreationClientImpl client;
+      
     static
     {
         ClassLoader cl = Thread.currentThread().getContextClassLoader();
