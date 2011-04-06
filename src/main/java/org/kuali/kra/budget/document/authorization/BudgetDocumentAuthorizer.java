@@ -27,9 +27,14 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.service.WorkflowDocument;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * This class is the Budget Document Authorizer.  It determines the edit modes and
@@ -132,6 +137,9 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
      * @return true if has permission; otherwise false
      */
     private boolean canExecuteBudgetTask(String userId, BudgetDocument budgetDocument, String taskName) {
+        //reloads the parent using the doc service if the workflow document is null
+        //this is needed as some budget tasks must check the workflow doc for perms
+        reloadParentIfNoWorkflow(budgetDocument);
         String taskGroupName = getTaskGroupName();
         Task task = createNewBudgetTask(taskGroupName,taskName, budgetDocument);       
         TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
@@ -226,5 +234,46 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
             }
         }
         return false;
+    }
+    
+    /**
+     * 
+     * Checks to see if the parent document has a valid workflow document(loaded from rice, not ojb)
+     * as some authorizers must check the parent docs workflow permssion.
+     * @param budgetDocument
+     */
+    @SuppressWarnings("unchecked")
+    private void reloadParentIfNoWorkflow(BudgetDocument budgetDocument) {
+        BudgetParentDocument parentDoc = budgetDocument.getParentDocument();
+        KualiWorkflowDocument workflowDocument = getWorkflowDocument(parentDoc);
+        if (workflowDocument == null) {
+            try {
+                parentDoc = 
+                    (BudgetParentDocument) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(parentDoc.getDocumentNumber());
+                if (parentDoc != null) {
+                    budgetDocument.setParentDocument(parentDoc);
+                }
+            } catch (WorkflowException e) { 
+                // we can't easily report or handle the error here and
+                // if we can't load the parent document there are bigger problems
+                // and it will be reported later
+            }
+        }
+    } 
+    
+    private KualiWorkflowDocument getWorkflowDocument(Document doc) {
+        KualiWorkflowDocument workflowDocument = null;
+        if (doc != null) {
+            DocumentHeader header = doc.getDocumentHeader();
+            if (header != null) {
+                try {
+                    workflowDocument = header.getWorkflowDocument();
+                } 
+                catch (RuntimeException ex) {
+                    // do nothing; there is no workflow document
+                }
+            }
+        }     
+        return workflowDocument;
     }
 }

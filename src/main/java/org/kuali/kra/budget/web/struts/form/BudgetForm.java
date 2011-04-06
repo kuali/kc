@@ -900,7 +900,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
         BudgetParentDocument parentDocument = getDocument().getParentDocument();
         boolean hideRatesTab = false;
         boolean hideHierarchyTab = true;
-        if(parentDocument.getClass() == ProposalDevelopmentDocument.class){
+        if(parentDocument != null && parentDocument.getClass() == ProposalDevelopmentDocument.class){
             hideHierarchyTab = !((ProposalDevelopmentDocument)parentDocument).getDevelopmentProposal().isInHierarchy();
         }
         
