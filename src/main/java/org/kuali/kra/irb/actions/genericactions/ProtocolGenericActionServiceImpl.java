@@ -16,7 +16,9 @@
 package org.kuali.kra.irb.actions.genericactions;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolVersionService;
@@ -31,7 +33,9 @@ import org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
+import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -220,15 +224,15 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
     
     private ProtocolDocument getReturnedVersionedDocument(Protocol protocol) throws Exception {
         documentService.cancelDocument(protocol.getProtocolDocument(), "Protocol document cancelled - protocol has been returned for revisions.");
-        protocolOnlineReviewService.finalizeOnlineReviews(protocol.getProtocolSubmission(), 
-                "Protocol Review finalized - protocol has been returned for revisions.");
+//        protocolOnlineReviewService.finalizeOnlineReviews(protocol.getProtocolSubmission(), 
+//                "Protocol Review finalized - protocol has been returned for revisions.");
         
         return getVersionedDocument(protocol);
     }
     
     private ProtocolDocument getVersionedDocument(Protocol protocol) throws Exception {
         ProtocolDocument newDocument = protocolVersionService.versionProtocolDocument(protocol.getProtocolDocument());
-        
+        protocolOnlineReviewService.moveOnlineReviews(protocol.getProtocolSubmission(), newDocument.getProtocol().getProtocolSubmission());
         newDocument.getProtocol().setProtocolSubmission(null);
         newDocument.getProtocol().setApprovalDate(null);
         newDocument.getProtocol().setLastApprovalDate(null);

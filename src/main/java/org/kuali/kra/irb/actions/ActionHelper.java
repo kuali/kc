@@ -469,6 +469,7 @@ public class ActionHelper implements Serializable {
         ProtocolGenericActionBean bean = new ProtocolGenericActionBean(this, errorPropertyKey);
         
         bean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        bean.getReviewCommentsBean().setHideReviewerName(getReviewCommentsService().setHideReviewerName(bean.getReviewCommentsBean().getReviewComments()));            
         ProtocolAction protocolAction = findProtocolAction(actionTypeCode, getProtocol().getProtocolActions(), getProtocol().getProtocolSubmission());
         if (protocolAction != null) {
             bean.setComments(protocolAction.getComments());
@@ -478,6 +479,10 @@ public class ActionHelper implements Serializable {
         return bean;
     }
     
+    private ReviewCommentsService getReviewCommentsService() {
+        return KraServiceLocator.getService(ReviewCommentsService.class);
+    }
+
     private ProtocolApproveBean buildProtocolApproveBean(String actionTypeCode, String errorPropertyKey) throws Exception {
         
         ProtocolApproveBean bean = new ProtocolApproveBean(this, errorPropertyKey);
@@ -858,7 +863,6 @@ public class ActionHelper implements Serializable {
     
     private List<CommitteeScheduleMinute> getCopiedReviewComments() {
         List<CommitteeScheduleMinute> clonedMinutes = new ArrayList<CommitteeScheduleMinute>();
-        
         Long scheduleIdFk = getProtocol().getProtocolSubmission().getScheduleIdFk();
         List<CommitteeScheduleMinute> minutes = getCommitteeScheduleService().getMinutesBySchedule(scheduleIdFk);
         if (CollectionUtils.isNotEmpty(minutes)) {
