@@ -1960,23 +1960,36 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 
     public ActionForward undoLastAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        
+
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
         UndoLastActionBean undoLastActionBean = protocolForm.getActionHelper().getUndoLastActionBean();
+        String lastActionType = undoLastActionBean.getLastPerformedAction().getProtocolActionTypeCode();
+
         UndoLastActionService undoLastActionService = KraServiceLocator.getService(UndoLastActionService.class);
-        ProtocolDocument updatedDocument = undoLastActionService.undoLastAction(protocolDocument, undoLastActionBean);  
-        
+        ProtocolDocument updatedDocument = undoLastActionService.undoLastAction(protocolDocument, undoLastActionBean);
+
         recordProtocolActionSuccess("Undo Last Action");
-        
+
         if (!updatedDocument.getDocumentNumber().equals(protocolForm.getDocId())) {
             protocolForm.setDocId(updatedDocument.getDocumentNumber());
             loadDocument(protocolForm);
             protocolForm.getProtocolHelper().prepareView();
             return mapping.findForward(PROTOCOL_TAB);
         }
-        
+        if (ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED.equals(lastActionType)
+                || ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED.equals(lastActionType)) {
+            // undo SMR/SRR may need to create & route onln revw document,
+            // this will need some time.   also, some change in db may not be viewable 
+            // before document is routed.  so, add this holding page for undo SMR/SRR.
+//            protocolForm.setActionHelper(new ActionHelper(protocolForm));
+//
+//            protocolForm.getActionHelper().prepareView();
+            return routeProtocolToHoldingPage(mapping, protocolForm);
+        }
+
         return mapping.findForward(Constants.MAPPING_BASIC);
+
     }
     
     public ActionForward submitCommitteeDecision(ActionMapping mapping, ActionForm form, HttpServletRequest request,
