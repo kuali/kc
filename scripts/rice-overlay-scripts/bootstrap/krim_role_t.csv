@@ -40,6 +40,8 @@
 "1169","Award Budget Approver","KC-AB","Award Budget Approver - the role grants permissions to edit and approve award budget","1002","Y","7FF7129A9E55061FE040007F01001C34","1"
 "1170","Award Budget Modifier","KC-AB","Award Budget Modifier - the role grants permissions to modify or view award budget at departmental level","1001","Y","7FF7129A9E56061FE040007F01001C34","1"
 "1171","Award Budget Viewer","KC-AB","Award Budget Viewer - the role grants permissions to view award budget at departmental level","1001","Y","7FF7129A9E57061FE040007F01001C34","1"
+"1172","Time And Money Viewer","KC-T","View Time And Money Document","1002","Y","9E235741BAF39B01E040DC0A1F8A1AFF","1"
+"1173","Time And Money Modifier","KC-T","Modify Time And Money Document","1002","Y","9E235741BAF49B01E040DC0A1F8A1AFF","1"
 "1186","Create Temporary Proposal Log","KC-IP","Create Temporary Proposal Log","1002","Y","8671B2874885B8C6E040007F01003692","1"
 "1187","Create Proposal Log","KC-IP","Create Proposal Log","1002","Y","8671B287488CB8C6E040007F01003692","1"
 "1188","Modify Proposal Log","KC-IP","Modify Proposal Log","1002","Y","8671B2874893B8C6E040007F01003692","1"
