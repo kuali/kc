@@ -21,6 +21,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kra.infrastructure.Constants;
@@ -30,9 +31,12 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectExtension;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public abstract class KraPersistableBusinessObjectBase extends PersistableBusinessObjectBase {
+    
+    private static final int UPDATE_USER_LENGTH = 60;
     
     private static final String EXTENSION_OBJECT_KEY = "extensionObjectKey";
 
@@ -107,29 +111,32 @@ public abstract class KraPersistableBusinessObjectBase extends PersistableBusine
      */
     private void setUpdateFields() {
         if (!isUpdateUserSet()) {
-            String updateUser = GlobalVariables.getUserSession().getPrincipalName();
-
-            // Since the UPDATE_USER column is only VACHAR(60), we need to truncate this string if it's longer than 60 characters
-            if (updateUser.length() > 60) {
-                updateUser = updateUser.substring(0, 60);
-            }
-
-            setUpdateUser(updateUser);
+            setUpdateUser(GlobalVariables.getUserSession().getPrincipalName());
         }
-        setUpdateTimestamp(((DateTimeService)KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
+        setUpdateTimestamp(((DateTimeService) KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
     }
 
     public Timestamp getUpdateTimestamp() {
-    	return updateTimestamp;
+        return updateTimestamp;
     }
+    
     public void setUpdateTimestamp(Timestamp updateTimestamp) {
-    	this.updateTimestamp = updateTimestamp;
+        this.updateTimestamp = updateTimestamp;
     }
+    
     public String getUpdateUser() {
-    	return updateUser;
+        return updateUser;
     }
+    
+    /**
+     * Sets the update user, making sure it is not the system user and truncating the name so it will fit.
+     *
+     * @param updateUser the user who updated this object
+     */
     public void setUpdateUser(String updateUser) {
-    	this.updateUser = updateUser;
+        if (!KNSConstants.SYSTEM_USER.equals(updateUser)) {
+            this.updateUser = StringUtils.substring(updateUser, 0, UPDATE_USER_LENGTH);
+        }
     }
 
     /**

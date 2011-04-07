@@ -463,19 +463,14 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
     
     /**
      * Update the User and Timestamp for the business object.
-     * @param doc the business object
+     * @param bo the business object
      */
-    private void updateUserTimestamp(KraPersistableBusinessObjectBase bo) {
+    private void setUpdateFields(KraPersistableBusinessObjectBase bo) {
         String updateUser = GlobalVariables.getUserSession().getPrincipalName();
-    
-        // Since the UPDATE_USER column is only VACHAR(60), we need to truncate this string if it's longer than 60 characters
-        if (updateUser.length() > 60) {
-            updateUser = updateUser.substring(0, 60);
-        }
-        bo.setUpdateTimestamp((getService(DateTimeService.class)).getCurrentTimestamp());
         bo.setUpdateUser(updateUser);
+        bo.setUpdateTimestamp((getService(DateTimeService.class)).getCurrentTimestamp());
         if (bo instanceof ProposalAbstract) {
-            ProposalAbstract abstractBo = (ProposalAbstract)bo;
+            ProposalAbstract abstractBo = (ProposalAbstract) bo;
             abstractBo.setTimestampDisplay((getService(DateTimeService.class)).getCurrentTimestamp());
             abstractBo.setUploadUserDisplay(updateUser);
         }
@@ -505,7 +500,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
                     
         // if the rule evaluation passed, let's add it
         if (rulePassed) {
-            updateUserTimestamp(proposalAbstract);
+            setUpdateFields(proposalAbstract);
             proposalAbstract.setTimestampDisplay((getService(DateTimeService.class)).getCurrentTimestamp());
             proposalAbstract.setUploadUserDisplay(GlobalVariables.getUserSession().getPrincipalName());
             proposalDevelopmentForm.getDocument().getDevelopmentProposal().getProposalAbstracts().add(proposalAbstract);
