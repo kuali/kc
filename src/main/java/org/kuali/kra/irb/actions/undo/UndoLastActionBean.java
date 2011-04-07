@@ -31,7 +31,7 @@ public class UndoLastActionBean extends ProtocolActionBean implements Serializab
 
     private static final long serialVersionUID = 801139767436741048L;
     
-    private static final String[] NOT_UNDOABLE_ACTIONS = {ProtocolActionType.PROTOCOL_CREATED, ProtocolActionType.SUBMIT_TO_IRB, ProtocolActionType.RENEWAL_CREATED, ProtocolActionType.AMENDMENT_CREATED, ProtocolActionType.EXPIRED, ProtocolActionType.WITHDRAWN, ProtocolActionType.APPROVED, ProtocolActionType.ADMINISTRATIVE_CORRECTION, ProtocolActionType.DEFERRED};
+    private static final String[] NOT_UNDOABLE_ACTIONS = {ProtocolActionType.PROTOCOL_CREATED, ProtocolActionType.SUBMIT_TO_IRB, ProtocolActionType.RENEWAL_CREATED, ProtocolActionType.AMENDMENT_CREATED, ProtocolActionType.WITHDRAWN, ProtocolActionType.APPROVED, ProtocolActionType.ADMINISTRATIVE_CORRECTION, ProtocolActionType.DEFERRED};
     private static final String AMEND = "A";
     private static final String RENEW = "R";
     
@@ -72,6 +72,7 @@ public class UndoLastActionBean extends ProtocolActionBean implements Serializab
     }
 
     public static boolean isActionUndoable(String actionTypeCode) {
+        // TODO : why static. then use class instance to access method ?
         for(int i=0; i <NOT_UNDOABLE_ACTIONS.length; i++) {
             if(actionTypeCode.equalsIgnoreCase(NOT_UNDOABLE_ACTIONS[i])) {
                 return false;
@@ -113,7 +114,11 @@ public class UndoLastActionBean extends ProtocolActionBean implements Serializab
     public boolean canUndoLastAction() {
         ProtocolAction action = getLastPerformedAction();
         if(action != null){
-            return isActionUndoable(action.getProtocolActionTypeCode()) || isActionProtocolApproval(action, action.getProtocolNumber()) || isProtocolDeleted(getProtocol());
+            // filter out protocol merged from renewal/amendment
+            if (!((action.getProtocolActionTypeCode().equals(ProtocolActionType.APPROVED) || action.getProtocolActionTypeCode().equals(ProtocolActionType.APPROVED))
+                    && (action.getComments().startsWith("Renewal-") || action.getComments().startsWith("Amendment-")))) {
+                return isActionUndoable(action.getProtocolActionTypeCode()) || isActionProtocolApproval(action, action.getProtocolNumber()) || isProtocolDeleted(getProtocol());
+            }
         }
         return false;
     }
