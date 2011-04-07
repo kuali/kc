@@ -42,16 +42,8 @@ public class KraMaintainableImpl extends KualiMaintainableImpl {
     public void prepareForSave() {
         super.prepareForSave();
         if ((businessObject != null) && (businessObject instanceof KraPersistableBusinessObjectBase)) {
-
-            String updateUser = GlobalVariables.getUserSession().getPrincipalName();
-
-            // Since the UPDATE_USER column is only VACHAR(60), we need to truncate this string if it's longer than 60 characters
-            if (updateUser.length() > 60) {
-                updateUser = updateUser.substring(0, 60);
-            }
-            
-            ((KraPersistableBusinessObjectBase)businessObject).setUpdateUser(updateUser);
-            ((KraPersistableBusinessObjectBase)businessObject).setUpdateUserSet(true);
+            ((KraPersistableBusinessObjectBase) businessObject).setUpdateUser(GlobalVariables.getUserSession().getPrincipalName());
+            ((KraPersistableBusinessObjectBase) businessObject).setUpdateUserSet(true);
 
             // This is a solution to enable the lookreturn have a proper dropdown list ?
             if (businessObject instanceof CustomAttribute && StringUtils.isNotBlank(((CustomAttribute)businessObject).getLookupClass())) {
