@@ -196,4 +196,14 @@ public interface ProtocolOnlineReviewService {
      * @return String to be used in the description.
      */
     String getProtocolOnlineReviewDocumentDescription( String protocolNumber, String piName );
+    
+    /**
+     * 
+     * This method is to get the online reviews, loop through them and reassign them to new protocol.
+     * When do SMR/SRR, a new protocol will be versioned.  Attach the existing OLR to the new protocol submission.
+     * @param submission
+     * @param newSubmission
+     */
+    void moveOnlineReviews(ProtocolSubmission submission, ProtocolSubmission newSubmission);
+
 }

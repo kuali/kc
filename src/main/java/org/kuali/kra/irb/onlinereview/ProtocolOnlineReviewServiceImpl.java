@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -534,6 +535,25 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         }
     }
     
+    /**
+     * 
+     * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#moveOnlineReviews(org.kuali.kra.irb.actions.submit.ProtocolSubmission, org.kuali.kra.irb.actions.submit.ProtocolSubmission)
+     */
+    public void moveOnlineReviews(ProtocolSubmission submission, ProtocolSubmission newSubmission) {
+        newSubmission.setProtocolOnlineReviews(new ArrayList<ProtocolOnlineReview>());
+        for (ProtocolOnlineReview review : submission.getProtocolOnlineReviews()) {
+            review.setProtocol(newSubmission.getProtocol());
+            review.setProtocolId(newSubmission.getProtocol().getProtocolId());
+            review.setSubmissionIdFk(newSubmission.getSubmissionId());
+            if (CollectionUtils.isNotEmpty(review.getCommitteeScheduleMinutes())) {
+                for (CommitteeScheduleMinute comment : review.getCommitteeScheduleMinutes()) {
+                    comment.setProtocolIdFk(review.getProtocolId());
+                }
+            }
+            newSubmission.getProtocolOnlineReviews().add(review);
+        }
+    }
+
     
     /*
      * Getters and setters for needed services.
