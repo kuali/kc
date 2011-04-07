@@ -68,7 +68,10 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
                 awardPerson.getUnits().add(new AwardPersonUnit(awardPerson, getAward().getLeadUnit(), true));
             } else {
                 if(awardPerson.isEmployee() && !awardPerson.isKeyPerson()) {
-                    awardPerson.getUnits().add(new AwardPersonUnit(awardPerson, awardPerson.getPerson().getUnit(), false));
+                    // no reason to add null unit, it just confuses things...
+                    if (awardPerson.getPerson().getUnit() != null) {
+                        awardPerson.getUnits().add(new AwardPersonUnit(awardPerson, awardPerson.getPerson().getUnit(), false));
+                    }
                 }
             }
             return awardPerson;
@@ -222,7 +225,7 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
     private AwardPersonUnitRuleAddEvent generateAddPersonUnitEvent(AwardPerson projectPerson, int addUnitPersonIndex) {
         return new AwardPersonUnitRuleAddEvent("AwardPersonUnitRuleAddEvent", "projectPersonnelBean.newAwardPersonUnit", getDocument(), 
                 projectPerson, newAwardPersonUnits[addUnitPersonIndex], addUnitPersonIndex);
-}
+    }
 
     private AwardProjectPersonRuleAddEvent generateAddProjectPersonEvent() {
         return new AwardProjectPersonRuleAddEvent("AddAwardProjectPersonRuleEvent", "projectPersonnelBean.newAwardContact", getDocument(), 
@@ -252,8 +255,8 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
     private void setLeadUnitSelectionStates(String unitName) {
         AwardPerson awardPerson = findPrincipalInvestigator();
         if(awardPerson != null) {
-            for(AwardPersonUnit associatedUnit: awardPerson.getUnits()) {
-                associatedUnit.setLeadUnit(associatedUnit.getUnit().getUnitName().equals(unitName));
+            for(AwardPersonUnit associatedUnit: awardPerson.getUnits()) {                
+                associatedUnit.setLeadUnit(unitName.equals(associatedUnit.getUnit().getUnitName()));
             }
         }
     }    
