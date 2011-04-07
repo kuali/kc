@@ -693,23 +693,17 @@ public class NotesAttachmentsHelper {
     
     void updateUserFieldsIfNecessary(ProtocolNotepad currentNote) {
         if (currentNote.isEditable()) {
-                updateUserFields(currentNote);
+                setUpdateFields(currentNote);
         }
     }
 
     /**
      * Update the User and Timestamp for the business object.
-     * @param doc the business object
+     * @param bo the business object
      */
-    private void updateUserFields(KraPersistableBusinessObjectBase bo) {
-        String updateUser = GlobalVariables.getUserSession().getPrincipalName();
-    
-        // Since the UPDATE_USER column is only VACHAR(60), we need to truncate this string if it's longer than 60 characters
-        if (updateUser.length() > 60) {
-            updateUser = updateUser.substring(0, 60);
-        }
+    private void setUpdateFields(KraPersistableBusinessObjectBase bo) {
+        bo.setUpdateUser(GlobalVariables.getUserSession().getPrincipalName());
         bo.setUpdateTimestamp(dateTimeService.getCurrentTimestamp());
-        bo.setUpdateUser(updateUser);
     }
 
     /**
@@ -717,7 +711,7 @@ public class NotesAttachmentsHelper {
      * @param notepad the notepad to add.
      */
     private void addNewNotepad(ProtocolNotepad notepad) {
-        updateUserFields(notepad);
+        setUpdateFields(notepad);
         // set notepad to be editable
         notepad.setEditable(true);
         this.getProtocol().getNotepads().add(notepad);
