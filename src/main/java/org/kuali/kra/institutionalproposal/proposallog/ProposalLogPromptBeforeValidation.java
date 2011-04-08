@@ -21,7 +21,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogService;
+import org.kuali.kra.institutionalproposal.proposallog.service.impl.ProposalLogServiceImpl;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.rule.PromptBeforeValidation;
 import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -86,6 +89,10 @@ public class ProposalLogPromptBeforeValidation extends PromptBeforeValidationBas
                     boolean merge = this.askOrAnalyzeYesNoQuestion("mergeQuestion" + index, text.toString());
                     if (merge) {
                         proposalLog.setProposalLogToMerge(pLog.getProposalNumber());
+                        // the calls below will save to the object that will update the database
+                        ProposalLog proposalLogToModify = (ProposalLog) ((MaintenanceDocument)document).getNewMaintainableObject().getBusinessObject();
+                        proposalLogToModify.setProposalLogToMerge(pLog.getProposalNumber());
+                        proposalLogToModify.setMergedWith(pLog.getProposalNumber()); 
                         break;
                     }
                     oldProposalNumberLength = pLog.getProposalNumber().length();

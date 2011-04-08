@@ -27,6 +27,7 @@ import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogService;
+import org.kuali.kra.institutionalproposal.proposallog.service.impl.ProposalLogServiceImpl;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.kra.service.KcPersonService;
 
@@ -69,6 +70,9 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
     private ProposalLogType proposalLogType;
     
     private String proposalLogToMerge;
+    
+    private String mergedWith;
+    private String instProposalNumber;
     
     private transient KcPersonService kcPersonService;
     
@@ -328,6 +332,26 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
         this.proposalLogToMerge = proposalLogToMerge;
     }
     
+    public String getMergedWith()
+    {
+        return mergedWith;
+    }
+    
+    public void setMergedWith(String mergedWith)
+    {
+        this.mergedWith = mergedWith;
+    }
+
+    public String getInstProposalNumber()
+    {
+        return instProposalNumber;
+    }
+    
+    public void setInstProposalNumber(String instProposalNumber)
+    {
+        this.instProposalNumber = instProposalNumber;
+    }
+   
     /* End getters and setters */
     
     
@@ -337,13 +361,27 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert()
      */
-    @Override
+    @Override 
     public void beforeInsert(PersistenceBroker persistenceBroker) {
         super.beforeInsert(persistenceBroker);
         setSponsorName();
         mergeTemporaryLog();
     }
 
+    @Override
+    public void afterInsert(PersistenceBroker persistenceBroker) 
+    {
+        // this will update the associated temporary log to indicate that it was
+        // merged with the current permanent log
+        if (getMergedWith() != null)
+        {
+            super.afterInsert(persistenceBroker);
+            KraServiceLocator.getService(ProposalLogService.class).updateMergedTempLog(getMergedWith(), getProposalNumber() );
+        }
+        return;
+    }
+    
+    
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert()
      */
@@ -390,6 +428,8 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
         hashMap.put(LOG_STATUS, this.getLogStatus());
         hashMap.put("comments", this.getComments());
         hashMap.put("deadlineDate", this.getDeadlineDate());
+        hashMap.put("mergedWith", this.getMergedWith());
+        hashMap.put("instProposalNumber", this.getInstProposalNumber());
         return hashMap;
     }
     
