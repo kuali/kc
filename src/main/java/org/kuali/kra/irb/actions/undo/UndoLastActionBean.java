@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.ProtocolAction;
@@ -115,7 +116,7 @@ public class UndoLastActionBean extends ProtocolActionBean implements Serializab
         ProtocolAction action = getLastPerformedAction();
         if(action != null){
             // filter out protocol merged from renewal/amendment
-            if (!((action.getProtocolActionTypeCode().equals(ProtocolActionType.APPROVED) || action.getProtocolActionTypeCode().equals(ProtocolActionType.APPROVED))
+            if (StringUtils.isBlank(action.getComments()) || !((action.getProtocolActionTypeCode().equals(ProtocolActionType.APPROVED) || action.getProtocolActionTypeCode().equals(ProtocolActionType.APPROVED))
                     && (action.getComments().startsWith("Renewal-") || action.getComments().startsWith("Amendment-")))) {
                 return isActionUndoable(action.getProtocolActionTypeCode()) || isActionProtocolApproval(action, action.getProtocolNumber()) || isProtocolDeleted(getProtocol());
             }
