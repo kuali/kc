@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.test.infrastructure.lifecycle;
 
-import org.openqa.selenium.Speed;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
