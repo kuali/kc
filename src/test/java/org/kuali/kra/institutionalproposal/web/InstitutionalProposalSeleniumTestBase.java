@@ -119,13 +119,13 @@ public abstract class InstitutionalProposalSeleniumTestBase extends KcSeleniumTe
     protected void setDefaultRequiredFields() {
         set(DOCUMENT_DESCRIPTION_ID, IP_DEFAULT_DOCUMENT_DESCRIPTION);
         
-        openTab(1);
+        openTab("Institutional Proposal");
         set(IP_STATUS_CODE_ID, IP_DEFAULT_STATUS);
         set(IP_PROPOSAL_TYPE_CODE_ID, IP_DEFAULT_PROPOSAL_TYPE);
         set(IP_ACTIVITY_TYPE_CODE_ID, IP_DEFAULT_ACTIVITY_TYPE);
         set(IP_TITLE_ID, IP_DEFAULT_PROJECT_TITLE);
         
-        openTab(2);
+        openTab("Sponsor Program Information");
         set(IP_SPONSOR_CODE_ID, IP_DEFAULT_SPONSOR_CODE);
     }
     
