@@ -24,6 +24,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
@@ -134,7 +135,7 @@ public abstract class KraPersistableBusinessObjectBase extends PersistableBusine
      * @param updateUser the user who updated this object
      */
     public void setUpdateUser(String updateUser) {
-        if (!KNSConstants.SYSTEM_USER.equals(updateUser)) {
+        if (this instanceof VersionHistory || !KNSConstants.SYSTEM_USER.equals(updateUser)) {
             this.updateUser = StringUtils.substring(updateUser, 0, UPDATE_USER_LENGTH);
         }
     }
