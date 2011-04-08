@@ -56,6 +56,7 @@ import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCusto
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
+import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogService;
 import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
@@ -825,7 +826,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void setStatusCode(Integer statusCode) {
         this.statusCode = statusCode;
     }
-
+    
     public String getScienceCodeIndicator() {
         return scienceCodeIndicator;
     }
@@ -1449,7 +1450,9 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     @Override
     public void afterInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
         super.afterInsert(persistenceBroker);
-        updateProposalIpReviewJoin();
+        updateProposalIpReviewJoin();        
+        // This method links the institutional proposal with the merged proposal log
+        KraServiceLocator.getService(ProposalLogService.class).updateMergedInstProposal(proposalId, proposalNumber );
     }
     
     /**
@@ -1477,6 +1480,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         getBusinessObjectService().save(proposalIpReviewJoin);
         this.setProposalIpReviewJoin(proposalIpReviewJoin);
     }
+    
     
     /**
      * This method lazy inits ActivityType

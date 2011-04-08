@@ -36,4 +36,13 @@ public interface ProposalLogService {
      */
     void promoteProposalLog(String proposalNumber);
 
+    /**
+     * links merged temporary proposal log and permanent proposal log
+     */
+    void updateMergedTempLog(String tempProposalNumber, String permProposalNumber);
+    
+    /**
+     * links merged institutional proposal and proposal log
+     */    
+    void updateMergedInstProposal(Long proposalId, String proposalNumber);
 }
