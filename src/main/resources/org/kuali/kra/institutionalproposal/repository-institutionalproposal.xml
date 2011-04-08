@@ -677,6 +677,8 @@
         <field-descriptor name="proposalLogTypeCode" column="PROPOSAL_LOG_TYPE_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="title" column="TITLE" jdbc-type="VARCHAR" />
         <field-descriptor name="piId" column="PI_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="mergedWith" column="MERGED_WITH" jdbc-type="VARCHAR" />
+        <field-descriptor name="instProposalNumber" column="INST_PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER" />
         <field-descriptor name="piName" column="PI_NAME" jdbc-type="VARCHAR" />
         <field-descriptor name="leadUnit" column="LEAD_UNIT" jdbc-type="VARCHAR" />
