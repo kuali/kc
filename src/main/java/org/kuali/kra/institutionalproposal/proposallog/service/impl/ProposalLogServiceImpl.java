@@ -15,9 +15,12 @@
  */
 package org.kuali.kra.institutionalproposal.proposallog.service.impl;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.kra.bo.CostShareType;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLogUtils;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogService;
@@ -38,7 +41,7 @@ public class ProposalLogServiceImpl implements ProposalLogService {
     public void mergeProposalLog(String proposalNumber) {
         updateProposalLogStatus(proposalNumber, ProposalLogUtils.getProposalLogMergedStatusCode());
     }
-    
+        
     /**
      * Update the state of the log entry for the given proposal number to reflect that it has been promoted
      * to an Institutional Proposal.
@@ -61,12 +64,36 @@ public class ProposalLogServiceImpl implements ProposalLogService {
         this.getBusinessObjectService().save(proposalLog);
     }
 
+    public void updateMergedTempLog(String tempProposalNumber, String permProposalNumber) {
+        Map<String, String> criteria = new HashMap<String, String>();
+        criteria.put("proposalNumber", tempProposalNumber);
+        ProposalLog proposalLog = (ProposalLog) this.getBusinessObjectService().findByPrimaryKey(ProposalLog.class, criteria);
+        proposalLog.setMergedWith(permProposalNumber);
+        this.getBusinessObjectService().save(proposalLog);
+    }        
+    
+    public void updateMergedInstProposal(Long proposalId, String proposalNumber)
+    {
+        // insert proposalId into PROPOSAL_LOG.INST_PROPOSAL_NUMBER
+        // where proposalNumber = PROPOSAL_LOG.PROPOSAL_NUMBER
+        Map<String, String> criteria = new HashMap<String, String>();
+        criteria.put("proposalNumber", proposalNumber);
+        ProposalLog proposalLog = 
+            (ProposalLog) this.getBusinessObjectService().findByPrimaryKey(ProposalLog.class, criteria);
+        if (proposalLog == null) {
+            throw new IllegalArgumentException("Can't update proposal log institutional proposal number: " + proposalNumber + " not found.");
+        }
+        proposalLog.setInstProposalNumber(proposalId.toString());
+        this.getBusinessObjectService().save(proposalLog);
+        
+    }
+    
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-
+    
     protected BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
-    
+
 }

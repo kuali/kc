@@ -43,6 +43,8 @@
                 <ref bean="ProposalLog-proposalTypeCode" />
                 <ref bean="ProposalLog-title" />
                 <ref bean="ProposalLog-piId" />
+                <ref bean="ProposalLog-mergedWith" />
+                <ref bean="ProposalLog-instProposalNumber" />
                 <ref bean="ProposalLog-person.userName" />
                 <ref bean="ProposalLog-rolodexId" />
                 <ref bean="ProposalLog-leadUnit" />
@@ -337,7 +339,43 @@
         <property name="summary" value="Deadline Date" />
         <property name="description" value="Deadline Date" />
     </bean>
-    
+
+    <bean id="ProposalLog-mergedWith" parent="ProposalLog-mergedWith-parentBean" />
+    <bean id="ProposalLog-mergedWith-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="mergedWith" />
+        <property name="label" value="Merged With Prop Log" />
+        <property name="shortLabel" value="Merged With Prop Log" />
+        <property name="maxLength" value="200" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" 
+                p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="40" />
+        </property>
+        <property name="summary" value="Merged With Prop Log" />
+        <property name="description" value="Merged With Prop Log" />
+    </bean>
+
+    <bean id="ProposalLog-instProposalNumber" parent="ProposalLog-instProposalNumber-parentBean" />
+    <bean id="ProposalLog-instProposalNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="instProposalNumber" />
+        <property name="label" value="Created Institutional Proposal" />
+        <property name="shortLabel" value="Created Institutional Proposal" />
+        <property name="maxLength" value="200" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" 
+                p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="40" />
+        </property>
+        <property name="summary" value="Created Institutional Proposal" />
+        <property name="description" value="Created Institutional Proposal" />
+    </bean>
+
     <bean id="ProposalLog-createUser" parent="ProposalLog-createUser-parentBean" />
     <bean id="ProposalLog-createUser-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="createUser" />
@@ -436,6 +474,10 @@
                             <bean parent="FieldDefinition"
                                 p:attributeName="logStatus" />
                             <bean parent="FieldDefinition"
+                                p:attributeName="mergedWith" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="instProposalNumber" />
+                            <bean parent="FieldDefinition"
                                 p:attributeName="proposalTypeCode" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="title" />
@@ -481,6 +523,10 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="logStatus" />
                 <bean parent="FieldDefinition"
+                    p:attributeName="mergedWith" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="instProposalNumber" />
+                <bean parent="FieldDefinition"
                     p:attributeName="proposalTypeCode" />
                 <bean parent="FieldDefinition"
                     p:attributeName="title" />
@@ -497,7 +543,7 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="comments" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="deadlineDate" />
+                    p:attributeName="deadlineDate" />                    
             </list>
         </property>
         <property name="resultFields" >
