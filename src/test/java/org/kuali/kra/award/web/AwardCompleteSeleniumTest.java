@@ -43,7 +43,7 @@ public class AwardCompleteSeleniumTest extends AwardSeleniumTestBase {
     public void testAwardComplete() {
         createAward();
         
-        openTab(10);
+        openTab("Sponsor Template");
         lookup(TEMPLATE_CODE_TAG, TEMPLATE_CODE_ID, TEST_SPONSOR_TEMPLATE_CODE);
         click(YES_BUTTON);
         click(YES_BUTTON);
@@ -58,7 +58,7 @@ public class AwardCompleteSeleniumTest extends AwardSeleniumTestBase {
     private void addContacts() {
         clickAwardContactsPage();
 
-        openTab(0);
+        openTab("Key Personnel and Credit Split");
         lookup(PERSON_ID_TAG, PERSON_ID_ID, NICHOLAS_MAJORS_PERSON_ID);
         set(CONTACT_ROLE_CODE_ID, PI_CONTACT_ROLE);
         click(ADD_PERSON_BUTTON);
@@ -72,10 +72,10 @@ public class AwardCompleteSeleniumTest extends AwardSeleniumTestBase {
     private void addCustomData() {
         clickAwardCustomDataPage();
         
-        openTab(0);
+        openTab("Personnel Items for Review");
         set(GRADUATE_STUDENT_COUNT_ID, TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
         
-        openTab(2);
+        openTab("asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf");
         set(BILLING_ELEMENT_ID, TestUtilities.BILLING_ELEMENT_VALUE);
     }
     

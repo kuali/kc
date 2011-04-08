@@ -35,6 +35,7 @@ public class ProposalDevelopmentCompleteSeleniumTest extends ProposalDevelopment
     private static final String ADD_PROPOSAL_USER_ID = "methodToCall.addProposalUser";
     
     private static final String NICHOLAS_MAJORS_PERSON_ID = "10000000004";
+    private static final String NICHOLAS_MAJORS_NAME = "Nicholas Majors";
     private static final String PI_CONTACT_ROLE = "Principal Investigator";
     private static final String APPROVER = "jtester";
     private static final String VIEWER_ROLENAME = "Viewer";
@@ -68,9 +69,9 @@ public class ProposalDevelopmentCompleteSeleniumTest extends ProposalDevelopment
         set(PERSON_ROLE_ID_ID, PI_CONTACT_ROLE);
         click(INSERT_PROPOSAL_PERSON);
         
-        openTab(0);
+        openTab(NICHOLAS_MAJORS_NAME);
         
-        openTab(4);
+        openTab(NICHOLAS_MAJORS_NAME + ": Certify");
         set(String.format(PERSON_YNQS_ID, 0), YES_RADIO_FIELD_VALUE);
         set(String.format(PERSON_YNQS_ID, 1), NO_RADIO_FIELD_VALUE);
         set(String.format(PERSON_YNQS_ID, 2), YES_RADIO_FIELD_VALUE);
@@ -86,20 +87,20 @@ public class ProposalDevelopmentCompleteSeleniumTest extends ProposalDevelopment
     private void addCustomData() {
         clickProposalDevelopmentCustomDataPage();
 
-        openTab(0);
+        openTab("Personnel Items for Review");
         set(GRADUATE_STUDENT_COUNT_ID, TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
         
-        openTab(2);
+        openTab("asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf");
         set(BILLING_ELEMENT_ID, TestUtilities.BILLING_ELEMENT_VALUE);
     }
     
     private void addQuestions() {
         clickProposalDevelopmentQuestionsPage();
 
-        openTab(0);
+        openTab("Grants gov Agency Specific Questions");
         set(String.format(YNQS_ID, 20), YES_RADIO_FIELD_VALUE);
         
-        openTab(1);
+        openTab("Proposal Questions");
         set(String.format(YNQS_ID, 0), NO_RADIO_FIELD_VALUE);
         set(String.format(YNQS_ID, 1), NO_RADIO_FIELD_VALUE);
         set(String.format(YNQS_ID, 2), NO_RADIO_FIELD_VALUE);

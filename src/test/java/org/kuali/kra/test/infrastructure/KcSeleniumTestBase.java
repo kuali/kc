@@ -64,6 +64,9 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
     private static final String CREATE_MAINTENANCE_DOCUMENT_LINK = "maintenance.do?businessObjectClassName=%s&methodToCall=start";
     
     private static final String METHOD_TO_CALL_PREFIX = "methodToCall.";
+    private static final String SHOW_ALL_TABS_BUTTON = METHOD_TO_CALL_PREFIX + "showAllTabs";
+    private static final String HIDE_ALL_TABS_BUTTON = METHOD_TO_CALL_PREFIX + "hideAllTabs";
+    private static final String TOGGLE_TAB_BUTTON = METHOD_TO_CALL_PREFIX + "toggleTab";
     private static final String SAVE_BUTTON = METHOD_TO_CALL_PREFIX + "save";
     private static final String RELOAD_BUTTON = METHOD_TO_CALL_PREFIX + "reload";
     private static final String CLOSE_BUTTON = METHOD_TO_CALL_PREFIX + "close";
@@ -188,14 +191,14 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
      * Click the Expand All button.
      */
     protected final void clickExpandAll() {
-        click("methodToCall.showAllTabs");
+        click(SHOW_ALL_TABS_BUTTON);
     }
     
     /**
      * Click the Collapse All button.
      */
     protected final void clickCollapseAll() {
-        click("methodToCall.hideAllTabs");
+        click(HIDE_ALL_TABS_BUTTON);
     }
 
     /**
@@ -355,6 +358,25 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
     }
     
     /**
+     * Opens the tab with id containing {@code tabTitle} on the web page.  The {@code tabTitle} is similar to the display text of the tab but has all non-word
+     * characters removed.  It is also used in the id of the element, where it is the text between "tab-" and "-imageToggle".  For formatting purposes, 
+     * {@code tabTitle} can be separated with spaces which will be removed on search.
+     *
+     * @param tabTitle the title of the tab on the web page
+     */
+    protected final void openTab(final String tabTitle) {
+        WebElement tab = new ElementExistsWaiter("Tab with title " + tabTitle + " not found on page").until(
+            new Function<WebDriver, WebElement>() {
+                public WebElement apply(WebDriver driver) {
+                    return getElementById(getTabId(tabTitle));
+                }
+            }
+        );
+
+        clickTab(tab, "open");
+    }
+    
+    /**
      * Opens the tab with index {@code index} on the web page.  The {@code index} should be a number between {@code 0} and the number of active 
      * tabs on the page.  It does not count inactive hidden tabs on the page.
      *
@@ -365,20 +387,39 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
             new Function<WebDriver, WebElement>() {
                 public WebElement apply(WebDriver driver) {
                     WebElement tab = null;
-                    
-                    List<WebElement> tabs = getElementsByName("methodToCall.toggleTab", false);
+
+                    List<WebElement> tabs = getElementsByName(TOGGLE_TAB_BUTTON, false);
                     if (0 <= index && index < tabs.size()) {
                         tab = tabs.get(index);
                     }
-                    
+
                     return tab;
                 }
             }
         );
-        
+
         clickTab(tab, "open");
     }
-    
+
+    /**
+     * Closes the tab with id containing {@code tabTitle} on the web page.  The {@code tabTitle} is similar to the display text of the tab but has all non-word
+     * characters removed.  It is also used in the id of the element, where it is the text between "tab-" and "-imageToggle".  For formatting purposes, 
+     * {@code tabTitle} can be separated with spaces which will be removed on search.
+     *
+     * @param tabTitle the title of the tab on the web page
+     */
+    protected final void closeTab(final String tabTitle) {
+        WebElement tab = new ElementExistsWaiter("Tab with title " + tabTitle + " not found on page").until(
+            new Function<WebDriver, WebElement>() {
+                public WebElement apply(WebDriver driver) {
+                    return getElementById(getTabId(tabTitle));
+                }
+            }
+        );
+
+        clickTab(tab, "close");
+    }
+
     /**
      * Closes the tab with index {@code index} on the web page.  The {@code index} should be a number between {@code 0} and the number of active 
      * tabs on the page.  It does not count inactive hidden tabs on the page.
@@ -391,7 +432,7 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
                 public WebElement apply(WebDriver driver) {
                     WebElement tab = null;
                     
-                    List<WebElement> tabs = getElementsByName("methodToCall.toggleTab", false);
+                    List<WebElement> tabs = getElementsByName(TOGGLE_TAB_BUTTON, false);
                     if (0 <= index && index < tabs.size()) {
                         tab = tabs.get(index);
                     }
@@ -402,6 +443,15 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
         );
 
         clickTab(tab, "close");
+    }
+    
+    /**
+     * Returns the generated id of a tab based on the {@code tabTitle}, which appears between "tab-" and "-imageToggle" and without whitespace.
+     * 
+     * @param tabTitle the title of the tab on the web page
+     */
+    private String getTabId(final String tabTitle) {
+        return "tab-" + StringUtils.deleteWhitespace(tabTitle) + "-imageToggle";
     }
     
     /**

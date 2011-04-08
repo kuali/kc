@@ -35,10 +35,10 @@ public class InstitutionalProposalCompleteSeleniumTest extends InstitutionalProp
     private void addCustomData() {
         clickInstitutionalProposalCustomDataPage();
 
-        openTab(0);
+        openTab("Personnel Items for Review");
         set(GRADUATE_STUDENT_COUNT_ID, TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
         
-        openTab(2);
+        openTab("asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf");
         set(BILLING_ELEMENT_ID, TestUtilities.BILLING_ELEMENT_VALUE);
     }
     
