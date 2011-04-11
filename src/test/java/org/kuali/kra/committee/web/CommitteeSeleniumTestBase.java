@@ -47,7 +47,7 @@ public class CommitteeSeleniumTestBase extends KcSeleniumTestBase {
     private static final String RESEARCH_AREA_CODE_ID = "researchAreaCode";
     
     private static final String DEFAULT_DOCUMENT_DESCRIPTION = "Committee Web Test";
-    private static final String DEFAULT_NAME = "Committee Test";
+    private static final String DEFAULT_NAME = " Committee";
     private static final String DEFAULT_HOME_UNIT_NUMBER = "000001";
     private static final String DEFAULT_TYPE = "IRB";
     private static final String DEFAULT_DESCRIPTION = "xxx";
@@ -97,7 +97,7 @@ public class CommitteeSeleniumTestBase extends KcSeleniumTestBase {
         
         set(DOCUMENT_DESCRIPTION_ID, DEFAULT_DOCUMENT_DESCRIPTION);
         set(ID_ID, committeeId);
-        set(NAME_ID, DEFAULT_NAME);
+        set(NAME_ID, committeeId + DEFAULT_NAME);
         set(HOME_UNIT_NUMBER_ID, DEFAULT_HOME_UNIT_NUMBER);
         set(TYPE_CODE_ID, DEFAULT_TYPE);
         set(DESCRIPTION_ID, DEFAULT_DESCRIPTION);
