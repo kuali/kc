@@ -118,6 +118,9 @@ public class AwardInquirable extends KualiInquirableImpl {
         addField(award.getCloseoutDate() + "", row6, "closeoutDate", "Closeout Date");
         section.getRows().add(row6);
 
+        Row row7 = new Row();
+        addField(award.getCfdaNumber(), row7, "cfdaNumber", "CFDA Number");
+        section.getRows().add(row7);
         sections.add(section);
         return sections;
     }
