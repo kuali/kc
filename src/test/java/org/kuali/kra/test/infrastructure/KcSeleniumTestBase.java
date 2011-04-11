@@ -397,7 +397,7 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
                 }
             }
         );
-
+        
         clickTab(tab, "open");
     }
 
@@ -461,11 +461,22 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
      * @param command the instruction to either open or close the tab
      */
     private void clickTab(final WebElement tab, final String command) {
-        String tabTitle = tab.getAttribute("title");
-        
-        if (StringUtils.contains(tabTitle, command)) {
-            tab.click();
-        }
+        new ElementExistsWaiter("Cannot " + command + " given tab").until(
+            new Function<WebDriver, Boolean>() {
+                public Boolean apply(WebDriver driver) {
+                    boolean isClicked = false;
+                    
+                    String tabTitle = tab.getAttribute("title");
+                    if (StringUtils.contains(tabTitle, command)) {
+                        tab.click();
+                    } else {
+                        isClicked = true;
+                    }
+                    
+                    return isClicked;
+                }
+            }
+        );
     }
     
     /**
@@ -626,7 +637,7 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
      * @param tag identifies the Lookup button to click on
      */
     private void clickLookup(final String tag) {
-        final String locator = "//input[starts-with(@name,'methodToCall.performLookup')and contains(@name,'" + tag + "')]";
+        final String locator = "//input[starts-with(@name,'methodToCall.performLookup') and contains(@name,'" + tag + "')]";
 
         WebElement lookup = new ElementExistsWaiter(locator + " not found").until(
             new Function<WebDriver, WebElement>() {
@@ -637,7 +648,7 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
         );
         
         lookup.click();
-        
+
         login();
     }
     
@@ -671,6 +682,7 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
      * Reload a document by clicking on the Reload button.
      */
     protected final void reloadDocument() {
+        waitForFormLoad();
         click(RELOAD_BUTTON);
     }
 
@@ -678,6 +690,7 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
      * Save a document by clicking on the Save button.
      */
     protected final void saveDocument() {
+        waitForFormLoad();
         click(SAVE_BUTTON);
     }
     
@@ -685,6 +698,7 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
      * Closes a document without saving.
      */
     protected final void closeDocument() {
+        waitForFormLoad();
         closeDocument(false);
     }
 
@@ -720,6 +734,7 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
      * Routes the document.
      */
     protected final void routeDocument() {
+        waitForFormLoad();
         click(ROUTE_BUTTON);
     }
     
@@ -727,6 +742,7 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
      * Approves the document.
      */
     protected final void approveDocument() {
+        waitForFormLoad();
         click(APPROVE_BUTTON);
     }
     
@@ -734,6 +750,7 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
      * Blanket approves the document.
      */
     protected final void blanketApproveDocument() {
+        waitForFormLoad();
         click(BLANKET_APPROVE_BUTTON);
     }
     
@@ -1070,6 +1087,26 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
      */
     private void openPortalPage() {
         driver.get(BROWSER_PROTOCOL + "://" + BROWSER_ADDRESS + ":" + HtmlUnitUtil.getPort().toString() + "/" + PORTAL_ADDRESS);
+    }
+    
+    /**
+     * Waits for the form to load by checking for the existence of "formComplete."
+     */
+    private void waitForFormLoad() {
+        new ElementExistsWaiter("Page did not load").until(
+            new Function<WebDriver, Boolean>() {
+                public Boolean apply(WebDriver driver) {
+                    boolean isFormComplete = false;
+                    
+                    WebElement element = driver.findElement(By.id("formComplete"));
+                    if (element != null) {
+                        isFormComplete = true;
+                    }
+                    
+                    return isFormComplete;
+                }
+            }
+        );
     }
     
     /**

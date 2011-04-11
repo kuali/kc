@@ -99,22 +99,34 @@ public class CommitteeCompleteSeleniumTest extends CommitteeSeleniumTestBase {
         }
         
         click(ADD_MEMBERSHIP_BUTTON);
+        int tabidx = index * 5;
         
-        openTab(0);
-        
-        openTab(1);
+        openTab(tabidx);
+        openTab(tabidx + 1);
         set(String.format(MEMBERSHIP_TYPE_CODE_ID, index), VOTING_CHAIR_MEMBERSHIP_TYPE);
         set(String.format(TERM_START_DATE_ID, index), startDate);
         set(String.format(TERM_END_DATE_ID, index), endDate);
         
-        openTab(3);
+        openTab(tabidx + 3);
         set(String.format(MEMBERSHIP_ROLE_CODE_ID, index), role);
         set(String.format(START_DATE_ID, index), startDate);
         set(String.format(END_DATE_ID, index), endDate);
         click(String.format(ADD_MEMBERSHIP_ROLE_BUTTON, index, index));
 
-        openTab(4);
+        openTab(tabidx + 4);
+        if (index > 1) {
+            closeTab(9);
+        } 
+        if (index > 0) {
+            closeTab(4);
+        }
         multiLookup(RESEARCH_AREAS_TAG, RESEARCH_AREA_CODE_ID, researchAreaCode);
+        if (index > 1) {
+            openTab(9);
+        } 
+        if (index > 0) {
+            openTab(4);
+        }
         
         saveDocument();
         assertSave();
