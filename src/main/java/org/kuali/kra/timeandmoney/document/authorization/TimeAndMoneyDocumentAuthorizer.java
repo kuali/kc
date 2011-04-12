@@ -41,7 +41,6 @@ public class TimeAndMoneyDocumentAuthorizer extends TransactionalDocumentAuthori
             Map<String, String> attributes) {
         super.addRoleQualification(primaryBusinessObjectOrDocument, attributes);
         TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) primaryBusinessObjectOrDocument;
-        timeAndMoneyDocument.setAward(getWorkingAwardVersion(timeAndMoneyDocument.getRootAwardNumber()));
         if (timeAndMoneyDocument.getAward() != null 
                 && timeAndMoneyDocument.getAward().getLeadUnit() != null) {
             attributes.put(KcKimAttributes.UNIT_NUMBER, timeAndMoneyDocument.getAward().getLeadUnit().getUnitNumber());
