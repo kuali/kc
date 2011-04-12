@@ -27,7 +27,6 @@
   	extraTopButtons="${KualiForm.extraTopButtons}"
   	auditCount="0"
   	showTabButtons="true">
-  	<c:set target = "${KualiForm.editingMode}" property="viewOnly" value = "true"/>
   	
   	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Budget Actions" /></div>
 
