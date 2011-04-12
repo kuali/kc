@@ -76,6 +76,7 @@ import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ProposalDataOverrideEvent;
 import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentRejectionRule;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStateService;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalDevelopmentRejectionBean;
@@ -127,6 +128,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     private static final String DOCUMENT_APPROVE_QUESTION = "DocApprove";
     private static final String DOCUMENT_ROUTE_QUESTION="DocRoute";
     private static final String DOCUMENT_REJECT_QUESTION="DocReject";
+    private static final String DOCUMENT_DELETE_QUESTION="ProposalDocDelete";
     
     private static final String CONFIRM_SUBMISSION_WITH_WARNINGS_KEY = "submitApplication";
     private static final String EMPTY_STRING = "";
@@ -1507,8 +1509,22 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                 ParameterConstants.DOCUMENT_COMPONENT,
                 KeyConstants.AUTOGENERATE_INSTITUTIONAL_PROPOSAL_PARAM);
     }
-
     
+    public ActionForward deleteProposal(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        if (((ProposalDevelopmentForm) form).getDocument().getDevelopmentProposal().isInHierarchy()) {
+            GlobalVariables.getMessageList().add(new ErrorMessage(KeyConstants.ERROR_DELETE_PROPOSAL_IN_HIERARCHY));
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+        StrutsConfirmation question = 
+            buildParameterizedConfirmationQuestion(mapping, form, request, response, DOCUMENT_DELETE_QUESTION, KeyConstants.QUESTION_DELETE_PROPOSAL);
+        return confirm(question, "confirmDeleteProposal", "");
+    }
+    
+    public ActionForward confirmDeleteProposal(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm propDevForm = (ProposalDevelopmentForm) form;
+        KraServiceLocator.getService(ProposalDevelopmentService.class).deleteProposal(propDevForm.getDocument());
+        return mapping.findForward("portal");
+    }
 }
     
     

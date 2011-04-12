@@ -67,6 +67,7 @@ public final class KeyConstants {
     
     // Proposal Development Questions
     public static final String QUESTION_CONFIRM_CLEAR_DELIVERY_ADDRESS_INFO="document.question.clearDeliveryAddress.text";
+    public static final String QUESTION_DELETE_PROPOSAL="document.question.deleteProposal.text";
     
     //Proposal Development Custome Attribute Date
     public static final String ERROR_DATE="error.date";
@@ -277,6 +278,9 @@ public final class KeyConstants {
     public static final String ERROR_SUBMIT_TO_SPONSOR_PERMISSONS = "error.proposalDevelopment.permission.submitToSponsor";
     public static final String MESSAGE_INSTITUTIONAL_PROPOSAL_NOT_CREATED_INROUTE = "message.institutionalproposal.not.created.inroute";
     public static final String ERROR_PROPOSAL_DEVELOPMENT_RESUBMISSION_PROMPT_OPTION_REQUIRED = "error.proposalDevelopment.resubmission.prompt.option.required";
+    
+    // delete proposal
+    public static final String ERROR_DELETE_PROPOSAL_IN_HIERARCHY="error.proposalDevelopment.deleteproposal.inhierarchy";
     
     // budget rates
     public static final String ERROR_REQUIRED_APPLICABLE_RATE = "error.required.applicableRate";

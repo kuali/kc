@@ -124,6 +124,10 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         } else {
             forward = super.docHandler(mapping, form, request, response);
         }
+        
+        if (proposalDevelopmentForm.getDocument().isProposalDeleted()) {
+            return mapping.findForward("deleted");
+        }
 
         if (KEWConstants.INITIATE_COMMAND.equals(proposalDevelopmentForm.getCommand())) {
             proposalDevelopmentForm.getDocument().initialize();

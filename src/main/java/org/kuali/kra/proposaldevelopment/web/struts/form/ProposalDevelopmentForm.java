@@ -292,32 +292,34 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         super.populateHeaderFields(workflowDocument);
         
         ProposalDevelopmentDocument pd = getDocument();
-        ProposalState proposalState = (pd == null) ? null : pd.getDevelopmentProposal().getProposalState();
-        HeaderField docStatus = new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.workflowDocumentStatus", proposalState == null? "" : proposalState.getDescription());
-        
-        getDocInfo().set(1, docStatus);
-        
-        if (pd.getDevelopmentProposal().getSponsor() == null) {
-            getDocInfo().add(new HeaderField("DataDictionary.Sponsor.attributes.sponsorName", ""));
-        } else {
-            getDocInfo().add(new HeaderField("DataDictionary.Sponsor.attributes.sponsorName", pd.getDevelopmentProposal().getSponsor().getSponsorName()));
-        }
-        
-        if (getKeyPersonnelService().hasPrincipalInvestigator(pd)) {
-            boolean found = false;
+        if (!pd.isProposalDeleted()) {
+            ProposalState proposalState = (pd == null) ? null : pd.getDevelopmentProposal().getProposalState();
+            HeaderField docStatus = new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.workflowDocumentStatus", proposalState == null? "" : proposalState.getDescription());
             
-            for(Iterator<ProposalPerson> person_it = pd.getDevelopmentProposal().getInvestigators().iterator();
-                person_it.hasNext() && !found; ){
-                ProposalPerson investigator = person_it.next();
+            getDocInfo().set(1, docStatus);
+            
+            if (pd.getDevelopmentProposal().getSponsor() == null) {
+                getDocInfo().add(new HeaderField("DataDictionary.Sponsor.attributes.sponsorName", ""));
+            } else {
+                getDocInfo().add(new HeaderField("DataDictionary.Sponsor.attributes.sponsorName", pd.getDevelopmentProposal().getSponsor().getSponsorName()));
+            }
+            
+            if (getKeyPersonnelService().hasPrincipalInvestigator(pd)) {
+                boolean found = false;
                 
-                if (getKeyPersonnelService().isPrincipalInvestigator(investigator)) {
-                    found = true; // Will break out of the loop as soon as the PI is found
-                    getDocInfo().add(new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.principalInvestigator", investigator.getFullName()));
+                for(Iterator<ProposalPerson> person_it = pd.getDevelopmentProposal().getInvestigators().iterator();
+                    person_it.hasNext() && !found; ){
+                    ProposalPerson investigator = person_it.next();
+                    
+                    if (getKeyPersonnelService().isPrincipalInvestigator(investigator)) {
+                        found = true; // Will break out of the loop as soon as the PI is found
+                        getDocInfo().add(new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.principalInvestigator", investigator.getFullName()));
+                    }
                 }
             }
-        }
-        else {
-            getDocInfo().add(new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.principalInvestigator", EMPTY_STRING));
+            else {
+                getDocInfo().add(new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.principalInvestigator", EMPTY_STRING));
+            }
         }
         
     }
@@ -1122,6 +1124,11 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new ProposalTask("rejectProposal",doc))) {
             String resubmissionImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_reject.gif";
             addExtraButton("methodToCall.reject", resubmissionImage, "Reject");
+        }
+        
+        if (tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new ProposalTask("deleteProposal", doc))) {
+            String deleteProposalImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_deleteproposal.gif";
+            addExtraButton("methodToCall.deleteProposal", deleteProposalImage, "Delete Proposal");
         }
         
         return extraButtons;

@@ -24,15 +24,21 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncServiceImpl;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.budget.core.BudgetService;
+import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.bo.ProposalBudgetStatus;
 import org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter;
 import org.kuali.kra.proposaldevelopment.bo.ProposalOverview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
@@ -41,7 +47,7 @@ import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.service.KraPersistenceStructureService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.kra.service.VersionHistoryService;
-import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -49,13 +55,12 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.WebUtils;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 // TODO : extends PersistenceServiceStructureImplBase is a hack to temporarily resolve get class descriptor.
 public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentService {
+    
+    protected final Log LOG = LogFactory.getLog(AwardSyncServiceImpl.class);
     private BusinessObjectService businessObjectService;
     private UnitAuthorizationService unitAuthService;
     private KraPersistenceStructureService kraPersistenceStructureService;
@@ -403,5 +408,52 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         enableGrantsGov &= sponsor != null && StringUtils.equals(sponsor.getSponsorTypeCode(), "0");
         return enableGrantsGov;
     }
+    
+    /**
+     * 
+     * @see org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService#deleteProposal(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
+     */
+    public void deleteProposal(ProposalDevelopmentDocument proposalDocument) throws WorkflowException {
+        for (BudgetDocumentVersion budgetVersion : proposalDocument.getBudgetDocumentVersions()) {
+            deleteProposalBudget(budgetVersion.getDocumentNumber());
+        }
+        //remove budget statuses as they are not referenced via ojb, but there is a
+        //database constraint that requires removing these first
+        Map<String, Object> keyValues = new HashMap<String, Object>();
+        keyValues.put("proposalNumber", proposalDocument.getDevelopmentProposal().getProposalNumber());
+        getBusinessObjectService().deleteMatching(ProposalBudgetStatus.class, keyValues);
+        proposalDocument.getDevelopmentProposalList().clear();
+        proposalDocument.getBudgetDocumentVersions().clear();
+        proposalDocument.setProposalDeleted(true);
+        
+        //because the devproplist was cleared above the dev prop and associated BOs will be
+        //deleted upon save
+        getBusinessObjectService().save(proposalDocument); 
+        getDocumentService().cancelDocument(proposalDocument, "Delete Proposal");
+    }
+    
+    protected void deleteProposalBudget(String budgetDocumentNumber) {
+        try {
+            BudgetDocument document = 
+                (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocumentNumber);
+            document.getBudgets().clear();
+            document.setBudgetDeleted(true);
+            getDocumentService().saveDocument(document);
+        }
+        catch (WorkflowException e) {
+            LOG.warn("Error getting budget document to delete", e);
+        }
+        
+    }
+
+    protected DocumentService getDocumentService() {
+        return documentService;
+    }
+
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
+    
+    
     
 }

@@ -48,6 +48,7 @@ public interface TaskName {
     public static final String PROPOSAL_HIERARCHY_CHILD_ACKNOWLEDGE_ACTION="proposal.hierarchyChildAcknowledgeAction";
     public static final String PROPOSAL_ADD_NOTE_ATTACHMENT = "proposalAddNoteAttachment";
     public static final String ANSWER_PROPOSAL_QUESTIONNAIRE = "answerProposalQuestionnaire";
+    public static final String DELETE_PROPOSAL = "deleteProposal";
     
     /*
      * Narrative Tasks.

@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.SponsorFormTemplate;
 import org.kuali.kra.bo.SponsorFormTemplateList;
@@ -150,7 +151,7 @@ public class ProposalDevelopmentPrintingServiceImpl implements
 		// check if sponsor forms isEmpty
 		if (!sponsorFormTemplates.isEmpty()) {
 			// if exists - check if sponsor code has changed
-			if (!sponsorCode.equalsIgnoreCase(sponsorFormTemplates.get(0)
+			if (StringUtils.equalsIgnoreCase(sponsorCode, sponsorFormTemplates.get(0)
 					.getSponsorCode())) {
 				sponsorFormTemplates.clear();
 			}

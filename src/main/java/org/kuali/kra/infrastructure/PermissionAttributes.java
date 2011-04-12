@@ -64,6 +64,7 @@ public class PermissionAttributes {
     private static final String DOC_ACTION_MODIFY_SUBMISSION_DETAILS = "modify_submission_details";
     private static final String DOC_ACTION_ADMIN_CORRECTION = "admin_correction";
     private static final String DOC_ACTION_POST_AWARD_BUDGET = "post_award_budget";
+    private static final String DOC_ACTION_DELETE_PROPOSAL = "delete_proposal";
     
     private static final Map<String, HashMap<String, String>> attributesMap;
     
@@ -121,6 +122,11 @@ public class PermissionAttributes {
         attributes.put(ATTR_DOCUMENT_ACTION, DOC_ACTION_SUBMIT_TO_SPONSOR); 
         tempAttributesMap.put(PermissionConstants.SUBMIT_TO_SPONSOR, attributes);
         attributes = new HashMap<String, String>(); 
+        
+        attributes.put(ATTR_DOCUMENT_TYPE_NAME, DOC_TYPE_PROPOSAL_DEVELOPMENT); 
+        attributes.put(ATTR_DOCUMENT_ACTION, DOC_ACTION_DELETE_PROPOSAL); 
+        tempAttributesMap.put(PermissionConstants.DELETE_PROPOSAL, attributes);
+        attributes = new HashMap<String, String>();         
         
         attributes.put(ATTR_DOCUMENT_TYPE_NAME, DOC_TYPE_PROPOSAL_DEVELOPMENT); 
         attributes.put(ATTR_DOCUMENT_ACTION, DOC_ACTION_ADD_VIEWER); 
