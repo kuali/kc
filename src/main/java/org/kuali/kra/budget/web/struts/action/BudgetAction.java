@@ -106,6 +106,9 @@ public class BudgetAction extends BudgetActionBase {
             budgetForm.initialize();
         }
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        if (budgetDocument.isBudgetDeleted()) {
+            return mapping.findForward("deleted");
+        }
         Budget budget = budgetDocument.getBudget();
         copyLineItemToPersonnelDetails(budgetDocument);
         if (budget.getActivityTypeCode().equals("x")) {

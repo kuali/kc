@@ -382,6 +382,10 @@
                     <name>INITIATOR_MUST_ROUTE</name>
                     <value>false</value>
                 </policy>
+				<policy>
+                    <name>INITIATOR_MUST_CANCEL</name>
+                    <value>false</value>
+                </policy>                
                 <policy>
                 	<name>DOCUMENT_STATUS_POLICY</name>
                 	<stringValue>app</stringValue>
@@ -514,6 +518,7 @@
 	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
     
 		<rule>
+			<name>ApprovalForHierarchyChildren</name>
       		<documentType>ProposalDevelopmentDocument</documentType>
       		<ruleTemplate>HierarchyParentDispositionApproval</ruleTemplate>
       		<description>System User Approval for Hierarchy children.</description>
@@ -528,6 +533,7 @@
     	</rule>
 
 		<rule>
+			<name>CustomApprovalRouting</name>
 			<documentType>ProposalDevelopmentDocument</documentType>
 			<ruleTemplate>CustomApproval</ruleTemplate>
 			<description>Custom approval routing</description>
@@ -556,6 +562,7 @@
 		</rule>
 		
 		<rule>
+			<name>ApprovalRuleForBLIIDC</name>
 			<documentType>ProposalDevelopmentDocument</documentType>
 			<ruleTemplate>DepartmentalApproval</ruleTemplate>
 			<description>Departmental Approval Routing Rule for BL-IIDC</description>
