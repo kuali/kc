@@ -128,6 +128,7 @@
           <forward name="proposalMedusa" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentMedusa.jsp" />
           <forward name="ajaxProposalSummary" path="/WEB-INF/jsp/proposalhierarchy/ProposalHierarchyProposalSummary.jsp" />
           <forward name="ajaxBudgetSummary" path="/WEB-INF/jsp/proposalhierarchy/ProposalHierarchyBudgetSummary.jsp" />
+          <forward name="deleted" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentDeleted.jsp"/>
       </action>
 
  		<action path="/unitHierarchy" name="UnitHierarchyForm" type="org.kuali.kra.web.struts.action.UnitHierarchyAction" scope="request">
@@ -185,6 +186,7 @@
           <forward name="personnelRates" path="/WEB-INF/jsp/budget/BudgetPersonnelRates.jsp" />
           <forward name="personnelDetails" path="/WEB-INF/jsp/budget/BudgetPersonnelDetails.jsp" />
           <forward name="hierarchy" path="/WEB-INF/jsp/budget/BudgetProposalHierarchy.jsp" />
+          <forward name="deleted" path="/WEB-INF/jsp/budget/BudgetDeleted.jsp" />
       </action>
 
       <action path="/DocCopyHandler" name="DocHandlerForm" scope="request" parameter="methodToCall"

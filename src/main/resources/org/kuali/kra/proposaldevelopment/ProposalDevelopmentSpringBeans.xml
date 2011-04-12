@@ -34,6 +34,7 @@
 		<property name="budgetService" ref="budgetService" />
 		<property name="parameterService" ref="parameterService" />
 		<property name="versionHistoryService" ref="versionHistoryService" />
+		<property name="documentService" ref="documentService" />
 	</bean>
 
 	<bean id="proposalDevelopmentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
@@ -334,6 +335,13 @@
 				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.AnswerProposalQuestionnaireAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="answerProposalQuestionnaire" />
                 </bean>
+                
+				<bean
+					class="org.kuali.kra.proposaldevelopment.document.authorizer.DeleteProposalAuthorizer"
+					parent="parentProposalAuthorizer">
+					<property name="taskName" value="deleteProposal" />
+					<property name="requiresWritableDoc" value="true" />
+				</bean>
 				
 			</list>
 		</property>

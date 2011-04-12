@@ -55,6 +55,7 @@ public class BudgetDocument<T extends BudgetParent> extends ResearchDocumentBase
     private String parentDocumentTypeCode;
     private BudgetParentDocument<T> parentDocument;
     private List<Budget> budgets;
+    private boolean budgetDeleted;
     
     public BudgetDocument(){
         super();
@@ -152,9 +153,8 @@ public class BudgetDocument<T extends BudgetParent> extends ResearchDocumentBase
     @SuppressWarnings("unchecked")
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
-        for ( Budget curBudget : budgets ) {
-            managedLists.addAll(curBudget.buildListOfDeletionAwareLists());
-        }
+        managedLists.addAll(getBudget().buildListOfDeletionAwareLists());
+        managedLists.add(budgets);
         return managedLists;
     }
 
@@ -196,8 +196,10 @@ public class BudgetDocument<T extends BudgetParent> extends ResearchDocumentBase
      * @return Budget
      */
     public Budget getBudget(){
-        if(getBudgets().isEmpty()){
+        if(getBudgets().isEmpty() && !isBudgetDeleted()){
             budgets.add(new ProposalDevelopmentBudgetExt());
+        } else if (isBudgetDeleted()) {
+            return new ProposalDevelopmentBudgetExt();
         }
         return budgets.get(0);
     }
@@ -298,6 +300,12 @@ public class BudgetDocument<T extends BudgetParent> extends ResearchDocumentBase
     
     public void documentHasBeenRejected( String reason ) {
         
+    }
+    public boolean isBudgetDeleted() {
+        return budgetDeleted;
+    }
+    public void setBudgetDeleted(boolean budgetDeleted) {
+        this.budgetDeleted = budgetDeleted;
     }
     
 }

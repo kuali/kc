@@ -26,6 +26,7 @@ import org.kuali.kra.bo.Unit;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 
 public interface ProposalDevelopmentService {
@@ -71,6 +72,14 @@ public interface ProposalDevelopmentService {
      * @return
      */
     public boolean isGrantsGovEnabledOnSponsorChange(String proposalNumber, String sponsorCode);
+    
+    /**
+     * 
+     * Deletes the proposal and any budgets associated with this document and then cancels document
+     * @param proposalDocument
+     * @throws WorkflowException
+     */
+    public void deleteProposal(ProposalDevelopmentDocument proposalDocument) throws WorkflowException;
 
 
 }

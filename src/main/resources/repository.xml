@@ -17,6 +17,7 @@
 	<!-- Proposal Development Document and Children -->
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" table="EPS_PROPOSAL_DOCUMENT">
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="proposalDeleted" column="PROPOSAL_DELETED" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" jdbc-type="VARCHAR"/>
     	<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />

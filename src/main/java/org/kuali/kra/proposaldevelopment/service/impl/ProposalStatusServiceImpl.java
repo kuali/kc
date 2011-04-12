@@ -90,14 +90,16 @@ public class ProposalStatusServiceImpl implements ProposalStatusService {
     }
     
     public void loadBudgetStatus(DevelopmentProposal proposal) {
-        ProposalBudgetStatus proposalStatus = getProposalStatus(proposal.getProposalNumber());
-        if (proposalStatus != null) {
-            proposal.setBudgetStatus(proposalStatus.getBudgetStatusCode());
-            if (proposalStatus.getBudgetStatus() != null) {
-                proposal.setBudgetStatusDescription(proposalStatus.getBudgetStatus().getDescription());
-            }
-            else {
-                proposal.setBudgetStatusDescription("Unset");
+        if (proposal != null) {
+            ProposalBudgetStatus proposalStatus = getProposalStatus(proposal.getProposalNumber());
+            if (proposalStatus != null) {
+                proposal.setBudgetStatus(proposalStatus.getBudgetStatusCode());
+                if (proposalStatus.getBudgetStatus() != null) {
+                    proposal.setBudgetStatusDescription(proposalStatus.getBudgetStatus().getDescription());
+                }
+                else {
+                    proposal.setBudgetStatusDescription("Unset");
+                }
             }
         }
     }
