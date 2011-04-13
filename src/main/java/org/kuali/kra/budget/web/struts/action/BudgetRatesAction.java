@@ -28,6 +28,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
+import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.BudgetRatesService;
 import org.kuali.kra.budget.rates.RateClassType;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
@@ -46,6 +47,8 @@ public class BudgetRatesAction extends BudgetAction {
     private static final String CONFIRM_SYNC_ALL_RATES = "confirmSyncAllRates";
     private static final String CONFIRM_RESET_RATES = "confirmResetRates";
     private static final String CONFIRM_RESET_ALL_RATES = "confirmResetAllRates";
+    private static final String CONFIRM_RATE_CHANGE = "confirmRateChange";
+    private static final String REJECT_RATE_CHANGE = "rejectRateChange";
 
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -57,6 +60,10 @@ public class BudgetRatesAction extends BudgetAction {
             GlobalVariables.setKualiForm((KualiForm)form);
         }
         budget.setRateSynced(false);
+        
+        if (haveRatesBeenChanged(budget)) {
+            return askConfirmRateChange(mapping, budgetForm, request, response);
+        }
 
         ActionForward forward = super.save(mapping, form, request, response);
         if ((!budgetForm.getMethodToCall().equals("save") && budgetForm.isAuditActivated())) forward = mapping.findForward("rates_save");
@@ -258,6 +265,43 @@ public class BudgetRatesAction extends BudgetAction {
         getBudgetRatesService().viewLocation(budgetForm.getViewLocation(),budgetForm.getViewBudgetPeriod(), budget);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-
+    
+    private boolean haveRatesBeenChanged(Budget budget) {
+        for (BudgetRate rate : budget.getBudgetRates()) {
+            if (rate.isRateChanged()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public ActionForward askConfirmRateChange(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        return confirm(buildParameterizedConfirmationQuestion(mapping, form, request, response, 
+                CONFIRM_RATE_CHANGE, KeyConstants.QUESTION_RATE_CHANGED), CONFIRM_RATE_CHANGE, REJECT_RATE_CHANGE);        
+    }
+    
+    public ActionForward confirmRateChange(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        BudgetForm budgetForm = (BudgetForm) form;
+        Budget budget = budgetForm.getBudgetDocument().getBudget();
+        for (BudgetRate rate : budget.getBudgetRates()) {
+            rate.setRateChanged(false);
+        }
+        return this.save(mapping, budgetForm, request, response);
+    }
+    
+    public ActionForward rejectRateChange(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        BudgetForm budgetForm = (BudgetForm) form;
+        Budget budget = budgetForm.getBudgetDocument().getBudget();
+        for (BudgetRate rate : budget.getBudgetRates()) {
+            rate.setRateChanged(false);
+            rate.setExactApplicableRate(rate.getOldApplicableRate());
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    
 }
 
