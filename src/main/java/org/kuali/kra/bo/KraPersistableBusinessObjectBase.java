@@ -27,6 +27,9 @@ import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.questionnaire.QuestionnaireQuestion;
+import org.kuali.kra.questionnaire.QuestionnaireUsage;
+import org.kuali.kra.questionnaire.question.QuestionExplanation;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectExtension;
@@ -135,7 +138,12 @@ public abstract class KraPersistableBusinessObjectBase extends PersistableBusine
      * @param updateUser the user who updated this object
      */
     public void setUpdateUser(String updateUser) {
-        if (this instanceof VersionHistory || !KNSConstants.SYSTEM_USER.equals(updateUser)) {
+        if (this instanceof VersionHistory || !KNSConstants.SYSTEM_USER.equals(updateUser) || this instanceof QuestionExplanation
+        // kcirb-1350 : added 3 for Questionnaire & Question maintenance.  When 'approve' these maint doc, their collections
+        // bo's 'updateuser' will not be set.  Try to update before blanketapprove or route;
+        // but it only works for QuestionnaireMaintenanceDocumentAction.   QuestionMaintenanceDocumentAction is not handling route/blanketapprove
+        // so, make all work around here.        
+                || this instanceof QuestionnaireQuestion || this instanceof QuestionnaireUsage ) {
             this.updateUser = StringUtils.substring(updateUser, 0, UPDATE_USER_LENGTH);
         }
     }
