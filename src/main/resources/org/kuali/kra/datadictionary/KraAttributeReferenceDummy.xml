@@ -28,6 +28,7 @@
         <ref bean="KraAttributeReferenceDummy-sequenceNumber" />
         <ref bean="KraAttributeReferenceDummy-sourceAccount" />
         <ref bean="KraAttributeReferenceDummy-checkBox" />
+        <ref bean="KraAttributeReferenceDummy-sortId" />
       </list>
     </property>
   </bean>
@@ -355,6 +356,23 @@
     <property name="shortLabel" value="Check Box" />
     <property name="summary" value="Check Box" />
     <property name="description" value="Check Box" />
+  </bean>
+  
+  <bean id="KraAttributeReferenceDummy-sortId" parent="KraAttributeReferenceDummy-sortId-parentBean" />
+  <bean id="KraAttributeReferenceDummy-sortId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="sortId" />
+    <property name="label" value="Sort ID" />
+    <property name="shortLabel" value="Sort ID" />
+    <property name="summary" value="Sort ID" />
+    <property name="description" value="Sort ID" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern">
+        <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control">
+        <bean parent="TextControlDefinition" 
+              p:size="12" />
+    </property>
   </bean>
   
 </beans>

@@ -18,12 +18,10 @@ package org.kuali.kra.proposaldevelopment.bo;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.KraSortablePersistableBusinessObjectBase;
 import org.kuali.kra.bo.Ynq;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.YnqConstants;
 
-public class ProposalYnq extends KraPersistableBusinessObjectBase implements Comparable<ProposalYnq>{
+public class ProposalYnq extends KraSortablePersistableBusinessObjectBase implements Comparable<ProposalYnq>{
 
 	private String proposalNumber;
 	private String questionId;
@@ -143,6 +141,14 @@ public class ProposalYnq extends KraPersistableBusinessObjectBase implements Com
     }
     
     public int compareTo(ProposalYnq proposalYnq) {
-        return this.getQuestionId().compareTo(proposalYnq.getQuestionId());
+        int comparator;
+        
+        if (getSortId() != null && proposalYnq.getSortId() != null) {
+            comparator = getSortId().compareTo(proposalYnq.getSortId());
+        } else {
+            comparator = getQuestionId().compareTo(proposalYnq.getQuestionId());
+        }
+        
+        return comparator;
     }
 }

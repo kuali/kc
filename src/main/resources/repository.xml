@@ -104,6 +104,7 @@
 
 		<collection-descriptor name="proposalYnqs" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalYnq" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="proposalNumber"/>
+			<orderby name="sortId" sort="ASC" />
 		</collection-descriptor>
 
 		<!-- KEYWORD panel -->
@@ -830,6 +831,7 @@
 	<class-descriptor class="org.kuali.kra.bo.SpecialReviewType" table="SPECIAL_REVIEW">
 		<field-descriptor name="specialReviewTypeCode" column="SPECIAL_REVIEW_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="sortId" column="SORT_ID" jdbc-type="INTEGER" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
@@ -1164,6 +1166,7 @@
 		<field-descriptor name="answer" column="ANSWER" jdbc-type="CHAR" />
 		<field-descriptor name="explanation" column="EXPLANATION" jdbc-type="CLOB"/>
 		<field-descriptor name="reviewDate" column="REVIEW_DATE" jdbc-type="DATE"/>
+		<field-descriptor name="sortId" column="SORT_ID" jdbc-type="INTEGER" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
@@ -1188,6 +1191,7 @@
 		<field-descriptor name="noOfAnswers" column="NO_OF_ANSWERS" jdbc-type="INTEGER"/>
 		<field-descriptor name="questionType" column="QUESTION_TYPE" jdbc-type="VARCHAR" />
 		<field-descriptor name="status" column="STATUS" jdbc-type="VARCHAR" />
+		<field-descriptor name="sortId" column="SORT_ID" jdbc-type="INTEGER" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />

@@ -33,6 +33,7 @@
         <ref bean="Ynq-explanationRequiredFor" />
         <ref bean="Ynq-dateRequiredFor" />
         <ref bean="Ynq-groupName" />
+        <ref bean="Ynq-sortId" />
         <ref bean="Ynq-versionNumber" />
       </list>
     </property>
@@ -193,10 +194,12 @@
     <property name="summary" value="Group Name" />
     <property name="description" value="Group Name" />
   </bean>
+  
+  <bean id="Ynq-sortId" parent="Ynq-sortId-parentBean" />
+  <bean id="Ynq-sortId-parentBean" abstract="true" parent="KraAttributeReferenceDummy-sortId" />
+    
   <bean id="Ynq-versionNumber" parent="Ynq-versionNumber-parentBean" />
-
-  <bean id="Ynq-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-  </bean>
+  <bean id="Ynq-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber" />
 
 <!-- Business Object Inquiry Definition -->
 

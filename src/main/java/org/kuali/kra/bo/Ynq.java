@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.kuali.rice.kns.util.TypedArrayList;
 
-public class Ynq extends KraPersistableBusinessObjectBase {
+public class Ynq extends KraSortablePersistableBusinessObjectBase {
 
 	private String questionId;
 	private String dateRequiredFor;
