@@ -17,6 +17,7 @@ package org.kuali.kra.budget.rates;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kra.bo.AbstractInstituteRate;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.RateClassType;
@@ -31,6 +32,7 @@ public abstract class AbstractBudgetRate extends AbstractInstituteRate implement
     private Budget budget;
 	private BudgetDecimal applicableRate;
     private BudgetDecimal oldApplicableRate;
+    private boolean rateChanged;
     private String viewLocation;
     private boolean displayLocation = true;
     private String budgetPeriod;
@@ -92,6 +94,9 @@ public abstract class AbstractBudgetRate extends AbstractInstituteRate implement
     
     public void setApplicableRate(BudgetDecimal applicableRate) {
         setOldApplicableRate(this.applicableRate);
+        if (!ObjectUtils.equals(this.applicableRate, applicableRate)) {
+            setRateChanged(true);
+        }
         this.applicableRate = applicableRate;
 	}
 
@@ -267,5 +272,13 @@ public abstract class AbstractBudgetRate extends AbstractInstituteRate implement
         else if (!viewLocation.equals(other.viewLocation))
             return false;
         return true;
+    }
+
+    public boolean isRateChanged() {
+        return rateChanged;
+    }
+
+    public void setRateChanged(boolean rateChanged) {
+        this.rateChanged = rateChanged;
     }
 }
