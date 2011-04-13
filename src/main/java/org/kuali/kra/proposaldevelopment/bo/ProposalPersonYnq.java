@@ -17,11 +17,10 @@ package org.kuali.kra.proposaldevelopment.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.KraSortablePersistableBusinessObjectBase;
 import org.kuali.kra.bo.Ynq;
-import org.kuali.kra.lookup.keyvalue.YnqAnswersValuesFinder;
 
-public class ProposalPersonYnq extends KraPersistableBusinessObjectBase {
+public class ProposalPersonYnq extends KraSortablePersistableBusinessObjectBase {
 
 	private Integer proposalPersonNumber;
 	private String proposalNumber;

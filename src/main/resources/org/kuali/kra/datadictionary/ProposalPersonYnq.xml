@@ -20,6 +20,7 @@
         <ref bean="ProposalPersonYnq-questionId" />
         <ref bean="ProposalPersonYnq-answer" />
         <ref bean="ProposalPersonYnq-dummyAnswer" />
+        <ref bean="ProposalPersonYnq-sortId" />
       </list>
     </property>
   </bean>
@@ -104,6 +105,9 @@
     <property name="summary" value="Answer" />
     <property name="description" value="Answer" />
   </bean>
+  
+  <bean id="ProposalPersonYnq-sortId" parent="ProposalPersonYnq-sortId-parentBean" />
+  <bean id="ProposalPersonYnq-sortId-parentBean" abstract="true" parent="KraAttributeReferenceDummy-sortId" />
 
 <!-- Business Object Lookup Definition -->
 
