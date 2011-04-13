@@ -28,19 +28,17 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder;
-import org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KeyValuesService;
 
 /**
  * Provides a value finder for module-specific configuration of Special Review Types.
  */
 public abstract class SpecialReviewTypeValuesFinder extends KeyValuesBase {
 
-    private static final String SPECIAL_REVIEW_TYPE_CODE_NAME = "specialReviewTypeCode";
-    private static final String SPECIAL_REVIEW_TYPE_CODE_DESCRIPTION = "description";
     private static final String MODULE_CODE_NAME = "moduleCode";
     
+    private KeyValuesService keyValuesService;
     private BusinessObjectService businessObjectService;
     
     /**
@@ -48,19 +46,21 @@ public abstract class SpecialReviewTypeValuesFinder extends KeyValuesBase {
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List<?> getKeyValues() {
-        @SuppressWarnings("unchecked")
-        List<KeyLabelPair> keyValues = filterActiveSpecialReviewUsageTypes(createKeyValuesFinder().getKeyValues());
+        List<KeyLabelPair> keyValues = filterActiveSpecialReviewUsageTypes(createKeyValues());
         keyValues.add(0, new KeyLabelPair(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
         
         return keyValues;
     }
     
-    private KeyValuesFinder createKeyValuesFinder() {
-        PersistableBusinessObjectValuesFinder valuesFinder = new PersistableBusinessObjectValuesFinder();
-        valuesFinder.setBusinessObjectClass(SpecialReviewType.class);
-        valuesFinder.setKeyAttributeName(SPECIAL_REVIEW_TYPE_CODE_NAME);
-        valuesFinder.setLabelAttributeName(SPECIAL_REVIEW_TYPE_CODE_DESCRIPTION);
-        return valuesFinder;
+    @SuppressWarnings("unchecked")
+    private List<KeyLabelPair> createKeyValues() {
+        Collection<SpecialReviewType> specialReviewTypes = getKeyValuesService().findAllOrderBy(SpecialReviewType.class, "sortId", true);
+        
+        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        for (SpecialReviewType specialReviewType : specialReviewTypes) {
+            keyValues.add(new KeyLabelPair(specialReviewType.getSpecialReviewTypeCode(), specialReviewType.getDescription()));                            
+        }       
+        return keyValues;
     }
     
     private List<KeyLabelPair> filterActiveSpecialReviewUsageTypes(List<KeyLabelPair> unfilteredKeyValues) {
@@ -95,6 +95,17 @@ public abstract class SpecialReviewTypeValuesFinder extends KeyValuesBase {
         fieldValues.put(MODULE_CODE_NAME, getModuleCode());
         
         return getBusinessObjectService().findMatching(SpecialReviewUsage.class, fieldValues);
+    }
+    
+    public KeyValuesService getKeyValuesService() {
+        if (keyValuesService == null) {
+            keyValuesService = (KeyValuesService) KraServiceLocator.getService(KeyValuesService.class);
+        }
+        return keyValuesService;
+    }
+    
+    public void setKeyValuesService(KeyValuesService keyValuesService) {
+        this.keyValuesService = keyValuesService;
     }
     
     public BusinessObjectService getBusinessObjectService() {

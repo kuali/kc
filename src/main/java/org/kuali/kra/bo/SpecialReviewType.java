@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 /**
  * Defines the type of the Special Review.
  */
-public class SpecialReviewType extends KraPersistableBusinessObjectBase {
+public class SpecialReviewType extends KraSortablePersistableBusinessObjectBase {
     
     /**
      * The Human Subjects Special Review type.

@@ -19,6 +19,7 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -40,7 +41,6 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
-import java.util.Collections;
 public class YnqServiceImpl implements YnqService {
 
     private BusinessObjectService businessObjectService;
@@ -62,6 +62,7 @@ public class YnqServiceImpl implements YnqService {
     }
 
     /**
+     * {@inheritDoc}
      * @see org.kuali.kra.proposaldevelopment.service.YnqService#getYnq(java.lang.String)
      */
     @SuppressWarnings("unchecked")
@@ -73,10 +74,11 @@ public class YnqServiceImpl implements YnqService {
         questionTypeMap.put("status", Constants.STATUS_ACTIVE); 
 
         // get YNQs sorted by group and question id
-        Collection<Ynq> allTypes = getBusinessObjectService().findMatchingOrderBy(Ynq.class, questionTypeMap, "questionId", false);
+        Collection<Ynq> allTypes = getBusinessObjectService().findMatchingOrderBy(Ynq.class, questionTypeMap, "sortId", true);
         List<Ynq> ynqs = new ArrayList<Ynq>();
         ynqs.addAll(allTypes);
-        Collections.sort(ynqs, new GroupNameComparator());   // this preserves the question ID ordering because Collections.sort is "guaranteed to be stable: equal elements will not be reordered as a result of the sort." (see javadoc)
+        // Preserves the sort ID ordering because Collections.sort is "guaranteed to be stable: equal elements will not be reordered as a result of the sort."
+        Collections.sort(ynqs, new GroupNameComparator());
         /* also filter all questions based on effective date - current date >= effective date */
         /* - Effective date filter currently not used
         Date currentDate = getDateTimeService().getCurrentSqlDateMidnight();
@@ -95,18 +97,15 @@ public class YnqServiceImpl implements YnqService {
     protected class GroupNameComparator implements Comparator<Ynq> {
 
         public int compare(Ynq o1, Ynq o2) {
-            int retValue;
-            String groupName1 = o1==null ? null : o1.getQuestionId();
-            String groupName2 = o2==null ? null : o2.getQuestionId();
+            int comparator;
             
-            if (groupName1 == null) {
-                retValue = -1;
-            }
-            else {
-                retValue = groupName1.compareTo(groupName2);
+            if (o1.getSortId() != null && o2.getSortId() != null) {
+                comparator = o1.getSortId().compareTo(o2.getSortId());
+            } else {
+                comparator = o1.getQuestionId().compareTo(o2.getQuestionId());
             }
             
-            return retValue;
+            return comparator;
         }
     }
     
@@ -210,6 +209,7 @@ public class YnqServiceImpl implements YnqService {
             proposalYnq.setQuestionId(type.getQuestionId());
             proposalYnq.setYnq(type); 
             setRequiredFields(type, proposalYnq);
+            proposalYnq.setSortId(type.getSortId());
             proposalYnqs.add(proposalYnq);
             /* add distinct group names */
             setGroupName(type.getGroupName(), ynqGroupNames);

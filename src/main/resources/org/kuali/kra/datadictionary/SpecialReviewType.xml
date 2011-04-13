@@ -42,6 +42,7 @@
             <list>
                 <ref bean="SpecialReviewType-specialReviewTypeCode" />
                 <ref bean="SpecialReviewType-description" />
+                <ref bean="SpecialReviewType-sortId" />
                 <ref bean="SpecialReviewType-versionNumber" />
             </list>
         </property>
@@ -70,6 +71,9 @@
     <bean id="SpecialReviewType-description" parent="SpecialReviewType-description-parentBean" />
     <bean id="SpecialReviewType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description" />
 
+    <bean id="SpecialReviewType-sortId" parent="SpecialReviewType-sortId-parentBean" />
+    <bean id="SpecialReviewType-sortId-parentBean" abstract="true" parent="KraAttributeReferenceDummy-sortId" />
+    
     <bean id="SpecialReviewType-versionNumber" parent="SpecialReviewType-versionNumber-parentBean" />
     <bean id="SpecialReviewType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber" />
 
