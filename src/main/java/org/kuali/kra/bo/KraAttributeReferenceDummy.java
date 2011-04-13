@@ -40,6 +40,7 @@ public class KraAttributeReferenceDummy extends AttributeReferenceDummy {
     private Integer sequenceNumber;
     private String sourceAccount;
     private Boolean checkBox;
+    private Long sortId;
 
 
     /**
@@ -204,4 +205,13 @@ public class KraAttributeReferenceDummy extends AttributeReferenceDummy {
     public void setCheckBox(Boolean checkBox) {
         this.checkBox = checkBox;
     }
+
+    public Long getSortId() {
+        return sortId;
+    }
+
+    public void setSortId(Long sortId) {
+        this.sortId = sortId;
+    }
+
 }
