@@ -83,7 +83,7 @@ public class QuestionnaireLookupableHelperServiceTest extends KcUnitTestBase {
         List<? extends BusinessObject> searchResults = questionnaireLookupableHelperServiceImpl.getSearchResults(new HashMap());
         //Assert.assertEquals(searchResults.size(), 2);
         // only the current. 
-        assertEquals(35, searchResults.size());
+        assertEquals(36, searchResults.size());
         // newer one will be at the top
         Questionnaire questionnaire = (Questionnaire)searchResults.get(0);
         Assert.assertEquals(questionnaire.getName(), "test2");
