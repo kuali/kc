@@ -517,7 +517,7 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
         context.checking(new Expectations() {{
             allowing(parameterService).getParameterValue(ProtocolDocument.class, Constants.PARAMETER_IRB_DISPLAY_REVIEWER_NAME_TO_PI);
             will(returnValue("0"));
-            allowing(parameterService).getParameterValue(ProtocolDocument.class, Constants.PARAMETER_IRB_DISPLAY_REVIEWER_NAME_TO_OTHERS);
+            allowing(parameterService).getParameterValue(ProtocolDocument.class, Constants.PARAMETER_IRB_DISPLAY_REVIEWER_NAME_TO_OTHER_PROTOCOL_PERSONNEL);
             will(returnValue("0"));
             allowing(parameterService).getParameterValue(ProtocolDocument.class, Constants.PARAMETER_IRB_DISPLAY_REVIEWER_NAME_TO_REVIEWERS);
             will(returnValue("0"));
