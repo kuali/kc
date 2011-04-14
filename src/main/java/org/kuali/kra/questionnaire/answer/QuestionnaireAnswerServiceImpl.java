@@ -194,7 +194,9 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
      */
     public List<AnswerHeader> getQuestionnaireAnswer(ModuleQuestionnaireBean moduleQuestionnaireBean) {
         Map<Integer, AnswerHeader> answerHeaderMap = new HashMap<Integer, AnswerHeader>();
-        for (AnswerHeader answerHeader : retrieveAnswerHeaders(moduleQuestionnaireBean)) {
+        List<AnswerHeader> answers = retrieveAnswerHeaders(moduleQuestionnaireBean);
+        System.err.println("getQuestionnaireAnswer  answers.size(): " + answers.size());
+        for (AnswerHeader answerHeader : answers) {
             if (!answerHeaderMap.containsKey(answerHeader.getQuestionnaire().getQuestionnaireId())
                     || answerHeaderMap.get(answerHeader.getQuestionnaire().getQuestionnaireId()).getQuestionnaireRefIdFk() < answerHeader
                             .getQuestionnaireRefIdFk()) {

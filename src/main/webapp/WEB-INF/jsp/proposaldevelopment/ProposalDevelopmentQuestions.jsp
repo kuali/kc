@@ -39,7 +39,6 @@
   	<div align="right"><kul:help documentTypeName="ProposalDevelopmentDocument" pageName="Questions" /></div>
 	<div id = "workarea">
 	<kra-pd:proposalDevelopmentQuestionnaireAnswers bean = "${KualiForm.questionnaireHelper}" property = "questionnaireHelper"/>
-
 	
 	<c:set var = "forceTabNonTransparent" value = "true"/>
   	<c:if test="${fn:length(KualiForm.questionnaireHelper.answerHeaders) == 0}">

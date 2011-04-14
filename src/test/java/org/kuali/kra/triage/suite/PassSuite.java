@@ -488,7 +488,8 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.costshare.CostShareServiceTest.class,
     org.kuali.kra.award.contacts.AwardSponsorContactAuditRuleTest.class,
     org.kuali.kra.budget.personnel.BudgetPersonServiceTest.class,
-    org.kuali.kra.bo.SponsorMaintainableImplTest.class
+    org.kuali.kra.bo.SponsorMaintainableImplTest.class,
+    org.kuali.kra.proposaldevelopment.ProposalPersonQuestionnaireTest.class
 })
 /** these are all the test class where all the test methods are currently passing. */
 public class PassSuite {

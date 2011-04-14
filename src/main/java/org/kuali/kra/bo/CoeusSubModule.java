@@ -24,6 +24,7 @@ public class CoeusSubModule extends KraPersistableBusinessObjectBase {
     public static final String PROTOCOL_SUBMISSION = "2";
     public static final String ZERO_SUBMODULE = "0";
     public static final String PROPOSAL_S2S_SUBMODULE = "2";
+    public static final String PROPOSAL_PERSON_CERTIFICATION = "3";
 
     private Integer coeusSubModuleId; 
     private String moduleCode; 
