@@ -59,7 +59,7 @@ public abstract class KraPersistableBusinessObjectBase extends PersistableBusine
         super.beforeInsert(persistenceBroker);
         this.setVersionNumber(new Long(0));
         setUpdateFields();
-        
+
         if (extension != null) {
             GlobalVariables.getUserSession().addObject(EXTENSION_OBJECT_KEY, extension);
             setExtension(null);
@@ -115,7 +115,14 @@ public abstract class KraPersistableBusinessObjectBase extends PersistableBusine
      */
     private void setUpdateFields() {
         if (!isUpdateUserSet()) {
-            setUpdateUser(GlobalVariables.getUserSession().getPrincipalName());
+            String principalName = GlobalVariables.getUserSession().getPrincipalName();
+            
+            String lastPrincipalId = (String) GlobalVariables.getUserSession().retrieveObject(Constants.LAST_ACTION_PRINCIPAL_ID);
+            if (StringUtils.isNotBlank(lastPrincipalId)) {
+                principalName = getKcPersonService().getKcPersonByPersonId(lastPrincipalId).getUserName();
+            }
+            
+            setUpdateUser(principalName);
         }
         setUpdateTimestamp(((DateTimeService) KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
     }
@@ -138,12 +145,7 @@ public abstract class KraPersistableBusinessObjectBase extends PersistableBusine
      * @param updateUser the user who updated this object
      */
     public void setUpdateUser(String updateUser) {
-        if (this instanceof VersionHistory || !KNSConstants.SYSTEM_USER.equals(updateUser) || this instanceof QuestionExplanation
-        // kcirb-1350 : added 3 for Questionnaire & Question maintenance.  When 'approve' these maint doc, their collections
-        // bo's 'updateuser' will not be set.  Try to update before blanketapprove or route;
-        // but it only works for QuestionnaireMaintenanceDocumentAction.   QuestionMaintenanceDocumentAction is not handling route/blanketapprove
-        // so, make all work around here.        
-                || this instanceof QuestionnaireQuestion || this instanceof QuestionnaireUsage ) {
+        if (this instanceof VersionHistory || !KNSConstants.SYSTEM_USER.equals(updateUser)) {
             this.updateUser = StringUtils.substring(updateUser, 0, UPDATE_USER_LENGTH);
         }
     }

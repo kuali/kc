@@ -33,6 +33,8 @@ public interface Constants {
     public static final String HTML_FORM_ACTION = "htmlFormAction";
     public static final Integer APPROVAL_STATUS = 2;
     public static final String MAINTENANCE_NEW_ACTION = "New";
+    
+    public static final String LAST_ACTION_PRINCIPAL_ID = "lastActionPrincipalId";
 
     public static final String KEY_PERSON_ROLE = "KP";
     public static final String PRINCIPAL_INVESTIGATOR_ROLE = "PI";
