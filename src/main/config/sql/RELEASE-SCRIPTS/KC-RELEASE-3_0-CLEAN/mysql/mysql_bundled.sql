@@ -1,8 +1,3 @@
-select 'Dropping schema...';
-drop schema if exists kcptd;
-select 'Creating schema...';
-create schema kcptd;
-use kcptd;
 \. krrelease/sql/schema.sql
 \. kcrelease/sql/schema.sql
 select "Running krrelease/datasql/KREN_CHNL_T.sql..."; 
