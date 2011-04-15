@@ -14,7 +14,7 @@ Requirements:
 	* On Windows with Tomcat running as a service, the best location is usually c:\kuali\main\ptd
 	* To use a different location, open kc-ptd.war and create an "alt.config.location" parameter in /WEB-INF/classes/META-INF/kc-config-build.xml.
 	* You SHOULD also be able to pass a java parameter of alt.config.location to your j2ee container (not guaranteed to work)
-	(NOTE: This file also contains the "build.environment" parameter referenced in the external kc-config.xml file as "environment")
+	(NOTE: This file also contains the "environment" parameter referenced in the external kc-config.xml file)
 
 3. Edit parameters in the external kc-config.xml (that you just placed in step #2) as desired.
 	* You will at least need to fill in the following parameters with your database connection information: datasource.url, datasource.username, datasource.password.
@@ -38,10 +38,10 @@ Requirements:
 8. Ingest the KEW documents
 	* Click the System Admin tab and then select XML Ingester from the Workflow pane.
 	* Find the KEW zip files in the distribution package
-		* They are located under KC-RELEASE-2_0-SCRIPT and KC-RELEASE-3_0-SCRIPT subdirectories under db_scripts
-	* If you did a NEW install, you should ingest both 2.0 and 3.0 KEW zip files (in that order)
-	* If you upgraded a 2.0 version of KC then only ingest the 3.0 KEW zip file
-	* Ingestion can take several minutes per zip file, so it is recommended to only do one at a time
+		* The Full-KC-KEW.zip contains ALL current KEW files
+		* If you only want new/changed KEW files they can be found under their respective release subdirectories
+		* If you ingest individual zips rather than Full-KC-KEW.zip, be sure to ingest them in order of release
+	* Ingestion can take from several minutes to over 10 minutes, depending on the size of the zip file
 
 *** MySQL changes to external kc-config.xml file -- adjust datasource.url as needed to fit your install:
 

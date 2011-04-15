@@ -1,12 +1,11 @@
-KC Release Version 3.0
-------------------------
+KC Release Version 3.1 M2
+-------------------------
 
 KC database release contains all SQL scripts needed to 
-install a new schema or upgrade a KC 2.0 database using 
+install a new schema or upgrade a KC 3.0.x database using 
 rice bundled or embedded mode with the database objects 
 (tables, constraints, bootstrap data) for the KC application.
-
-The scripts to upgrade Rice from 1.0.2 to 1.0.3 are also included.  
+ 
 If installing in an embedded rice environment you will be prompted 
 to install/upgrade rice.  If your Rice server has been upgraded 
 already you will answer no to the question. 
@@ -31,7 +30,7 @@ Make sure oracle user has following privileges
 	
 Note: a users DEFAULT TABLESPACE is set with the CREATE USER statement or ALTER USER statement. The TABLESPACE should not be the SYSTEM tablespace.
 
-Run: KC_Install.bat
+Run: KC_Install.bat (or KC_Install.sh)
 
 NOTE: A New install will COMPLETELY clear data from any existing KC tables in this schema!
 
@@ -41,7 +40,7 @@ Installation Steps - MySQL
 
 Installation has been tested with mysql client.
 
-Set the following setting in MySQL
+Set the following settings in MySQL
 
 max_allowed_packet=1M
 transaction-isolation=READ-COMMITTED
@@ -67,11 +66,9 @@ Make sure MySQL user has following privileges on the schema
 	* Create_tmp_table
 	* Lock_tables
 
-Edit KC-Release-2_0-Bundled-MySql-Install.sql change kcprd to username
+Run: KC_Install.bat (or KC_Install.sh)
 
-Run: KC_Install.bat
-
-NOTE: A New install will COMPLETELY clear data from any existing KC tables in this schema!
+NOTE: Be sure the schema is empty before installation.
 
 KC_Install.bat Usage
 --------------------------
@@ -96,6 +93,6 @@ Review .log files for installation errors
 Install Demonstration Data
 --------------------------
 
-The demonstration data can be found in the db_scripts/demo-data/<Database> folder.  Run the KC_DEMO.sql and KR_DEMO.sql
+The demonstration data can be found in the db_scripts/<Release-Version>/demo-data/<Database> folder.  Run the KC_DEMO.sql and KR_DEMO.sql
 in your Kuali Coeus and Kuali Rice database schemas respectively.  If you are running in bundled mode they will be run 
 in the same schema. 
