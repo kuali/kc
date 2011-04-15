@@ -17,7 +17,7 @@
 <c:set var="awardAttributes" value="${DataDictionary.Award.attributes}" />
 <c:set var="action" value="awardTemplateSync" />
 
-<kul:tab tabTitle="Sponsor Template" defaultOpen="false" tabErrorKey="document.award*">
+<kul:tab tabTitle="Sponsor Template" defaultOpen="false" tabErrorKey="document.award.awardTemplate*">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Sponsor Template</span>
