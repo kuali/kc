@@ -222,55 +222,120 @@
                 Attachments </span>
             </h3>
 	        <div id="attachmentContent" class="printSubpanelContent" style="padding-left: 15px;">   
-            <table cellpadding="0" cellspacing="0" summary="print forms">
         </c:if>
 	    <c:if test="${fn:length(KualiForm.document.protocolList[0].activeAttachmentProtocolsNoDelete) > 0}">
+	        <table cellpadding="0" cellspacing="0" summary="protocol attachments print form" style="padding-top: 10px;">
 	            <tr>
-	                <td class="tab-subhead" colspan="3">Protocol Attachments</td>
-	            </tr>
-	
-	            <c:forEach var="protocolAttachment" items="${KualiForm.document.protocolList[0].activeAttachmentProtocolsNoDelete}" varStatus="status">
-	                <tr>
-	                    <td colspan="2">
-	                        ${protocolAttachment.description} - ${protocolAttachment.status.description} (${protocolAttachment.file.name})
-	                        <%--<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocols[${status.index}].file.fileName"
-	                                                  attributeEntry="${protocolAttachmentBaseAttributes.description}"
-	                                                  readOnly="true" /> --%>
-	                    </td>
-			            <td align="center" valign="middle">
-	                        <div align="center">
-	                             <html:image property="methodToCall.viewProtocolAttachment.line${status.index}.anchor${currentTabIndex}"
-										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' 
-										alt="View Attachment" onclick="excludeSubmitRestriction = true;" styleClass="tinybutton"/>
-						     </div>
-					     </td>
-	                    
-	                </tr>     
-	            </c:forEach>
-           </c:if>
-           <c:if test="${fn:length(KualiForm.document.protocolList[0].attachmentPersonnels) > 0}">
-           	    <tr>
-                    <td class="tab-subhead" colspan="3">Personnel Attachments</td>
+                    <td class="tab-subhead">Protocol Attachments</td>
                 </tr>
-           	    <c:forEach var="attachmentPersonnel" items="${KualiForm.document.protocolList[0].attachmentPersonnels}" varStatus="status">
-           		    <tr>
-	                    <td colspan="2">
-	                        ${attachmentPersonnel.description} - ${attachmentPersonnel.type.description} (${attachmentPersonnel.file.name})
-	                    </td>
-			            <td align="center" valign="middle">
-	                        <div align="center">
-	                             <html:image property="methodToCall.viewProtocolPersonnelAttachment.line${status.index}.anchor${currentTabIndex}"
-										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' 
-										alt="View Attachment" onclick="excludeSubmitRestriction = true;" styleClass="tinybutton"/>
-						     </div>
-					     </td>
-	                    
+                <tr>
+                <td>
+			        <table id="protocolActionPrint-protocolAttachment-table" cellpadding="0" cellspacing="0" summary="print forms" class="tablesorter" style="border-collapse:collapse;">
+			            <thead>
+				            <tr>
+				                <th class="tab-subhead" style="width: 24%;">Description<img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></th>
+				                <th class="tab-subhead" style="width: 22%;">Status/File name<img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></th>
+				                <th class="tab-subhead" style="width: 13%;">Last Updated<img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></th>
+				                <th class="tab-subhead" style="width: 13%;">Last Updated By<img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></th>
+				                <th class="tab-subhead" style="width: 20%;">Attachment Type<img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></th>
+				                <th class="tab-subhead" style="width: 8%;">&nbsp;</th>
+				            </tr>
+                        </thead>
+                        <tbody>	
+		            <c:forEach var="protocolAttachment" items="${KualiForm.document.protocolList[0].activeAttachmentProtocolsNoDelete}" varStatus="status">
+
+			                <tr>
+			                    <td>
+			                        ${protocolAttachment.description}
+			                        <%--<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocols[${status.index}].file.fileName"
+			                                                  attributeEntry="${protocolAttachmentBaseAttributes.description}"
+			                                                  readOnly="true" /> --%>
+			                    </td>
+			                    <td>
+			                       ${protocolAttachment.status.description} (${protocolAttachment.file.name})
+			                    </td>
+			                    <td>
+			                        <fmt:formatDate value="${protocolAttachment.updateTimestamp}" pattern="MM/dd/yyyy KK:mm a" />                      
+			                    </td>
+			                    <td>
+			                       ${protocolAttachment.updateUser}
+			                    </td>
+			                    <td>
+			                       ${protocolAttachment.type.description}
+			                    </td>
+			                    
+					            <td align="center" valign="middle">
+			                        <div align="center">
+			                             <html:image property="methodToCall.viewProtocolAttachment.line${status.index}.anchor${currentTabIndex}"
+												src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' 
+												alt="View Attachment" onclick="excludeSubmitRestriction = true;" styleClass="tinybutton"/>
+								     </div>
+							     </td>
+			                    
+			                </tr>     
+
+		            </c:forEach>
+		                </tbody>
+	                </table>
+	            </td>
+	            </tr>
+	        </table>    
+        </c:if>
+           <c:if test="${fn:length(KualiForm.document.protocolList[0].attachmentPersonnels) > 0}">
+                <table cellpadding="0" cellspacing="0" summary="personnel attachments print form" style="padding-top: 10px;">
+	                <tr>
+	                    <td class="tab-subhead">Personnel Attachments</td>
 	                </tr>
-	          </c:forEach>
+	                <tr>
+                    <td>           
+                        <table id="protocolActionPrint-personnelAttachment-table" cellpadding="0" cellspacing="0" summary="print forms" class="tablesorter" style="border-collapse:collapse;">
+			                <thead>
+				                <tr>
+				                    <th class="tab-subhead" style="width: 24%;">Description<img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></th>
+				                    <th class="tab-subhead" style="width: 22%;">File name<img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></th>
+				                    <th class="tab-subhead" style="width: 13%;">Last Updated<img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></th>
+				                    <th class="tab-subhead" style="width: 13%;">Last Updated By<img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></th>
+				                    <th class="tab-subhead" style="width: 20%;">Attachment Type<img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></th>
+				                    <th class="tab-subhead" style="width: 8%;">&nbsp;</th>
+				                </tr>
+			                </thead>
+			                <tbody>
+		           	    <c:forEach var="attachmentPersonnel" items="${KualiForm.document.protocolList[0].attachmentPersonnels}" varStatus="status">
+			           		    <tr>
+				                    <td>
+				                        ${attachmentPersonnel.description}
+				                    </td>
+				                    <td>
+				                        ${attachmentPersonnel.file.name}
+				                    </td>
+				                    <td>
+				                        <fmt:formatDate value="${attachmentPersonnel.updateTimestamp}" pattern="MM/dd/yyyy KK:mm a" />  
+				                    </td>
+				                    <td>
+				                        ${attachmentPersonnel.updateUser}
+				                    </td>
+				                    <td>
+				                        ${attachmentPersonnel.type.description} 
+				                    </td>
+						            <td align="center" valign="middle">
+				                        <div align="center">
+				                             <html:image property="methodToCall.viewProtocolPersonnelAttachment.line${status.index}.anchor${currentTabIndex}"
+													src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' 
+													alt="View Attachment" onclick="excludeSubmitRestriction = true;" styleClass="tinybutton"/>
+									     </div>
+								     </td>
+				                    
+				                </tr>
+	                    </c:forEach>
+	                       </tbody>
+                        </table>
+                    </td>	
+                    </tr>           
+	           </table>
+	          
            </c:if>
 						                         
 	        <c:if test="${fn:length(KualiForm.document.protocolList[0].activeAttachmentProtocolsNoDelete) > 0 or fn:length(KualiForm.document.protocolList[0].attachmentPersonnels) > 0}">
-                </table>
                 </div>
             </c:if>
 		  
