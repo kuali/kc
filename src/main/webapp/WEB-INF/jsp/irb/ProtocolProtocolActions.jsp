@@ -16,7 +16,7 @@
 <%@ page import="org.kuali.kra.infrastructure.Constants"%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<script src="scripts/jquery/jquery.js"></script>
+<script type="text/javascript" src="scripts/jquery/jquery.js"></script>
 <script type="text/javascript">
    var $j = jQuery.noConflict();
 </script>
@@ -25,7 +25,8 @@
     <link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
     <link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />
     <script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
-    <script type="text/javascript" src="scripts/jquery/CalendarPopup.js"></script>
+    <script type="text/javascript" src="scripts/jquery/CalendarPopup.js"></script> 
+    <script type="text/javascript" src="scripts/jquery/jquery.tablesorter.js"></script>     
 
 <c:set var="protocolAttributes" value="${DataDictionary.ProtocolDocument.attributes}" />
 <c:set var="showActions" value="${empty DocumentPessimisticLockMessages}" scope="request"/>
@@ -114,9 +115,15 @@
     		                $j(this).html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
     		            }
     		        );
-    		    $j(".printQnSubpanelContent").hide();       		
-
-    		      					
+    		    $j(".printQnSubpanelContent").hide();  
+    		    
+    		    $j("#protocolActionPrint-protocolAttachment-table").tablesorter({         
+                    // pass the headers argument and assing a object         
+                       headers: {             // assign the first column (we start counting zero)             
+                           5: {                 // disable it by setting the property sorter to false                 
+                              sorter: false  },             
+                          }
+                      });    		      					
 		});
 
  </script>
