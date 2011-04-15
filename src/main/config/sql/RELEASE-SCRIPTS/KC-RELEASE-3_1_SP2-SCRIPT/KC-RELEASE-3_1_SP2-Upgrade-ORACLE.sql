@@ -1,4 +1,6 @@
-set define off\nset sqlblanklines on\nspool KC-RELEASE-3_1_SP2-Upgrade-ORACLE-Install.log
+set define off
+set sqlblanklines on
+spool KC-RELEASE-3_1_SP2-Upgrade-ORACLE-Install.log
 @ORACLE/SEQUENCES/KC_SEQ_All.sql
 @ORACLE/TABLES/KC_TBL_AWARD.sql
 @ORACLE/TABLES/KC_TBL_AWARD_AMOUNT_INFO.sql
@@ -61,4 +63,5 @@ set define off\nset sqlblanklines on\nspool KC-RELEASE-3_1_SP2-Upgrade-ORACLE-In
 @ORACLE/DML/KC_DML_BS7_PERSON_EDITABLE_FIELDS.sql
 @ORACLE/DML/KC_DML_BS7_PROTOCOL_MODULES.sql
 @ORACLE/DML/KC_DML_BS7_PROTO_CORRESP_TEMPL.sql
-commit;\nexit;
+commit;
+exit;

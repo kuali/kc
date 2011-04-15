@@ -117,6 +117,11 @@ case "${dbtype}" in
 			cd .. 
 		fi
 		
+		cd INSTALL-SHARED/ORACLE
+		sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR_SEQ_BS.sql
+		mv *.log ../../LOGS/
+		cd ../..
+		
 		if [ "${version}" = "3.0.1" ] || [ "${version}" = "3.0" ] || [ "${version}" = "NEW" ]
 		then
 			cd KC-RELEASE-3_1_SP1-SCRIPT
@@ -137,7 +142,13 @@ case "${dbtype}" in
 			fi
 			mv *.log ../LOGS/
 			cd ..
-		fi ;;
+		fi 
+		
+		cd INSTALL-SHARED/ORACLE
+		sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR_CLEAN_SEQ_BS.sql
+		mv *.log ../../LOGS/
+		cd ../.. ;;
+		
 	"MYSQL")
 		if [ "${version}" = "NEW" ]
 		then

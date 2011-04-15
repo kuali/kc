@@ -1,8 +1,3 @@
-select 'Dropping schema...';
-drop schema if exists kcptd;
-select 'Creating schema...';
-create schema kcptd;
-use kcptd;
 \. kcrelease/sql/schema.sql
 select "Running kcrelease/datasql/ABSTRACT_TYPE.sql..."; 
 \. kcrelease/datasql/ABSTRACT_TYPE.sql
