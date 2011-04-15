@@ -1,7 +1,6 @@
 set define off 
 set sqlblanklines on 
 spool kr_demo.log
-@KR_DEMO1_KREN_PRODCR_T.sql
 @KR_DEMO1_KREW_ACTN_ITM_T.sql 
 @KR_DEMO1_KREW_ACTN_RQST_T.sql 
 @KR_DEMO1_KREW_ACTN_TKN_T.sql 
