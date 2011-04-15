@@ -442,6 +442,11 @@
 		<property name="persistenceStructureServiceJpa" ref="persistenceStructureServiceJpa" />
     	<property name="persistenceStructureServiceOjb" ref="persistenceStructureServiceOjb" />
 	</bean>
+	
+	<bean id="kcPostProcessorService" class="org.kuali.kra.service.impl.KcPostProcessorServiceImpl" >
+        <property name="documentService" ref="documentService" />
+        <property name="dateTimeService" ref="dateTimeService" />
+	</bean>
 
 	<bean id="transactionAdvisor" class="org.springframework.transaction.interceptor.TransactionAttributeSourceAdvisor">
 		<property name="classFilter" ref="transactionAdvisorClassFilter" />
