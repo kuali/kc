@@ -27,12 +27,15 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.common.permissions.Permissionable;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class encapsulates the notion of a protocol review. Essentially 
@@ -55,7 +58,8 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
     private Long protocolOnlineReviewDeterminationRecommendationCode;
     private Date dateDue;
     private Date dateRequested;
-    
+    private String actionsPerformed;
+
     private Protocol protocol;
     private ProtocolSubmission protocolSubmission;
     private ProtocolReviewer protocolReviewer;
@@ -550,4 +554,82 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
         }
         return resultDueDate;
     }
+
+    public String getActionsPerformed() {
+        return actionsPerformed;
+    }
+
+    public void setActionsPerformed(String actionsPerformed) {
+        this.actionsPerformed = actionsPerformed;
+    }
+    
+    /**
+     * 
+     * This method is to add action performed for this OLR.  This used as audit trail and be used when undo
+     * action.
+     * @param action
+     */
+    public void addActionPerformed(String action) {
+        if (StringUtils.isBlank(this.actionsPerformed)) {
+            this.actionsPerformed = action + Constants.COLON + GlobalVariables.getUserSession().getPrincipalName();
+        } else {
+            this.actionsPerformed = this.actionsPerformed + Constants.SEMI_COLON + action + Constants.COLON + GlobalVariables.getUserSession().getPrincipalName();
+        }
+        
+    }
+    
+//    public boolean isLastActionReviewerApproved() {
+//        return isStatusMatched(KEWConstants.ROUTE_HEADER_ENROUTE_CD);
+//    }
+//    
+//    public boolean isLastActionAdminApproved() {
+//        return isStatusMatched(KEWConstants.ROUTE_HEADER_FINAL_CD);
+//    }
+    
+    /**
+     * check if the OLR is reviewer or admin approved.  Then decided what's to do with the versioned
+     * OLR doc
+     */
+    public boolean isStatusMatched(String docStatus) {
+        boolean isMatched = false;
+        if (StringUtils.isNotBlank(actionsPerformed)) {
+            String[] actions = actionsPerformed.split(Constants.SEMI_COLON);
+            String[] finalizeAction = actions[actions.length - 1].split(Constants.COLON);
+            if (finalizeAction.length == 4) {
+                isMatched = StringUtils.equals(finalizeAction[1], docStatus) && StringUtils.equals(finalizeAction[2], ProtocolOnlineReviewStatus.FINAL_STATUS_CD);
+            }
+        }
+        return isMatched;
+        
+    }
+    
+    /*
+     * get the reviewer user name of the last action performed if last action is reviewer approve OLR doc.
+     */
+    
+    /**
+     * get the reviewer user name of the last action performed if last action is reviewer approve OLR doc.
+     */
+    public String getReviewerUserName() {
+        String[] actions = actionsPerformed.split(Constants.SEMI_COLON);
+        String[] approveAction = actions[actions.length - 2].split(Constants.COLON);
+        return approveAction[1];
+    }
+    
+    /**
+     * after undo last action, OLR will be versioned.  remove the last actionperformed from "actionsPerformed"
+     * In case, this OLR is finalized again and undo.
+     */
+    public void removeLastAction() {
+        int idx = -1;
+        if (StringUtils.isNotEmpty(actionsPerformed)) {
+            idx = actionsPerformed.lastIndexOf(Constants.SEMI_COLON);
+        }
+        if (idx < 0) {
+            actionsPerformed = Constants.EMPTY_STRING;
+        } else {
+            actionsPerformed = actionsPerformed.substring(0, idx);
+        }
+    }
+
 }
