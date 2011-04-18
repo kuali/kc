@@ -813,6 +813,8 @@
         <property name="protocolVersionService" ref="protocolVersionService" />        
    		<property name = "reviewCommentsService" ref = "reviewCommentsService"/>
         <property name="protocolOnlineReviewService" ref="protocolOnlineReviewService"/>
+		<property name="routeHeaderService" ref="routeHeaderService"/>
+		<property name="identityManagementService" ref="identityManagementService"/>
     </bean>
 
     <bean id="committeeBatchCorrespondenceService" class="org.kuali.kra.committee.service.impl.CommitteeBatchCorrespondenceServiceImpl">
