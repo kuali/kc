@@ -24,6 +24,7 @@ import org.kuali.kra.committee.web.CommitteeCompleteSeleniumTest;
 import org.kuali.kra.institutionalproposal.web.InstitutionalProposalCompleteSeleniumTest;
 import org.kuali.kra.irb.web.ProtocolCompleteSeleniumTest;
 import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentCompleteSeleniumTest;
+import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentDeleteProposalTest;
 
 @RunWith(Suite.class)
 @SuiteClasses(  {
@@ -32,6 +33,7 @@ import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentCompleteSelenium
     CommitteeCompleteSeleniumTest.class,
     InstitutionalProposalCompleteSeleniumTest.class,
     ProposalDevelopmentCompleteSeleniumTest.class,
-    ProtocolCompleteSeleniumTest.class
+    ProtocolCompleteSeleniumTest.class,
+    ProposalDevelopmentDeleteProposalTest.class
 })
 public class IntegrationSuite {}
