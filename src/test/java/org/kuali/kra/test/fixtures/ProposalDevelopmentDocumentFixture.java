@@ -21,6 +21,8 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kns.service.DocumentService;
 
@@ -112,6 +114,10 @@ public enum ProposalDevelopmentDocumentFixture {
         document.getDevelopmentProposal().setActivityTypeCode(activityTypeCode);
         document.getDevelopmentProposal().setProposalTypeCode(proposalTypeCode);
         document.getDevelopmentProposal().setOwnedByUnitNumber(ownedByUnit);
+        
+        for (ProposalSite site : document.getDevelopmentProposal().getProposalSites()) {
+            site.setSiteNumber(document.getDocumentNextValue(Constants.PROPOSAL_LOCATION_SEQUENCE_NUMBER));
+        }
     }
     
     private DocumentService getDocumentService() {  

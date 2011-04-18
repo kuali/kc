@@ -16,6 +16,7 @@
 package org.kuali.kra.proposaldevelopment.web;
 
 import org.junit.Test;
+import org.kuali.kra.budget.web.BudgetSeleniumHelper;
 import org.kuali.kra.infrastructure.TestUtilities;
 
 public class ProposalDevelopmentCompleteSeleniumTest extends ProposalDevelopmentSeleniumTestBase {
@@ -34,18 +35,32 @@ public class ProposalDevelopmentCompleteSeleniumTest extends ProposalDevelopment
     private static final String ROLENAME_FIELD_ID = "newProposalUser.roleName";
     private static final String ADD_PROPOSAL_USER_ID = "methodToCall.addProposalUser";
     
-    private static final String NICHOLAS_MAJORS_PERSON_ID = "10000000004";
-    private static final String NICHOLAS_MAJORS_NAME = "Nicholas Majors";
-    private static final String PI_CONTACT_ROLE = "Principal Investigator";
-    private static final String APPROVER = "jtester";
-    private static final String VIEWER_ROLENAME = "Viewer";
-    private static final String YES_RADIO_FIELD_VALUE = "Y";
-    private static final String NO_RADIO_FIELD_VALUE = "N";
-    private static final String NA_RADIO_FIELD_VALUE = "X";
-    private static final String TOTAL_CREDIT_SPLIT = "100.00";
+    protected static final String NICHOLAS_MAJORS_PERSON_ID = "10000000004";
+    protected static final String NICHOLAS_MAJORS_NAME = "Nicholas Majors";
+    protected static final String PI_CONTACT_ROLE = "Principal Investigator";
+    protected static final String APPROVER = "jtester";
+    protected static final String VIEWER_ROLENAME = "Viewer";
+    protected static final String YES_RADIO_FIELD_VALUE = "Y";
+    protected static final String NO_RADIO_FIELD_VALUE = "N";
+    protected static final String NA_RADIO_FIELD_VALUE = "X";
+    protected static final String TOTAL_CREDIT_SPLIT = "100.00";
     
-    private static final String INSERT_PROPOSAL_PERSON = "methodToCall.insertProposalPerson";
-    private static final String YES_BUTTON = "methodToCall.processAnswer.button0";
+    protected static final String INSERT_PROPOSAL_PERSON = "methodToCall.insertProposalPerson";
+    protected static final String YES_BUTTON = "methodToCall.processAnswer.button0";
+    
+    protected static final String NEW_BUDGET_VERSION_NAME_ID = "newBudgetVersionName";
+    protected static final String ADD_NEW_BUDGET_ID = "methodToCall.addBudgetVersion";
+    //append index of budget (ie. 0, 1, 2)
+    protected static final String OPEN_BUDGET_ID = "methodToCall.openBudgetVersion.line";
+    protected static final String BUDGET_VERSION_NAME = "Ver1";
+    protected static final String JOB_CODE = "AA023";
+    protected static final String SALARY_AMOUNT = "100000";
+    protected static final String JOB_CODE_NAME = "Faculty Salaries Non-Tenured - On";
+    protected static final String PERCENT_CHARGED = "100";
+    protected static final String PERCENT_EFFORT = "100";
+    protected static final String LINE_ITEM_DESC1 = "Equipment - Not MTDC";
+    protected static final String LINE_ITEM_DESC2 = "Travel";
+    protected static final String LINE_ITEM_AMT = "1000";
 
     @Test
     public void testProposalDevelopmentComplete() throws Exception {
@@ -57,12 +72,14 @@ public class ProposalDevelopmentCompleteSeleniumTest extends ProposalDevelopment
         
         addQuestions();
         
+        addBudget();
+        
         addPermissions();
 
         submit();
     }
     
-    private void addKeyPersonnel() {
+    protected void addKeyPersonnel() {
         clickProposalDevelopmentKeyPersonnelPage();
 
         lookup(PERSON_ID_TAG, PERSON_ID_ID, NICHOLAS_MAJORS_PERSON_ID);
@@ -84,7 +101,7 @@ public class ProposalDevelopmentCompleteSeleniumTest extends ProposalDevelopment
         }
     }
     
-    private void addCustomData() {
+    protected void addCustomData() {
         clickProposalDevelopmentCustomDataPage();
 
         openTab("Personnel Items for Review");
@@ -94,7 +111,7 @@ public class ProposalDevelopmentCompleteSeleniumTest extends ProposalDevelopment
         set(BILLING_ELEMENT_ID, TestUtilities.BILLING_ELEMENT_VALUE);
     }
     
-    private void addQuestions() {
+    protected void addQuestions() {
         clickProposalDevelopmentQuestionsPage();
 
         openTab("Grants gov Agency Specific Questions");
@@ -134,7 +151,35 @@ public class ProposalDevelopmentCompleteSeleniumTest extends ProposalDevelopment
         set(String.format(YNQS_ID, 31), NO_RADIO_FIELD_VALUE);
     }
     
-    private void addPermissions() {
+    protected void addBudget() {
+        clickProposalDevelopmentBudgetVersionsPage();
+        set(NEW_BUDGET_VERSION_NAME_ID, BUDGET_VERSION_NAME);
+        click(ADD_NEW_BUDGET_ID);
+        assertSelectorContains(".budgetline td", BUDGET_VERSION_NAME);
+        click(OPEN_BUDGET_ID + "0");
+        BudgetSeleniumHelper budgetHelper = new BudgetSeleniumHelper();
+        budgetHelper.clickBudgetPersonnelTab();
+        budgetHelper.setPersonDetails(0, JOB_CODE, SALARY_AMOUNT);
+        saveDocument();
+        clickExpandAll();
+        budgetHelper.addPersonnelDetail(NICHOLAS_MAJORS_NAME, JOB_CODE, JOB_CODE_NAME);
+        budgetHelper.setPersonPercents(0, 0, 0, PERCENT_EFFORT, PERCENT_CHARGED);
+        budgetHelper.clickNonPersonnelTab();
+        budgetHelper.addLineItem(0, LINE_ITEM_DESC1, "1", LINE_ITEM_AMT);
+        budgetHelper.addLineItem(1, LINE_ITEM_DESC2, null, LINE_ITEM_AMT);
+        saveDocument();
+        budgetHelper.returnToProposal();
+        clickProposalDevelopmentBudgetVersionsPage();
+        markBudgetVersionComplete(0);
+    }
+    
+    protected void markBudgetVersionComplete(int budgetIndex) {
+        click("document.budgetDocumentVersion[0].budgetVersionOverview.finalVersionFlag");
+        set("document.budgetDocumentVersion[0].budgetVersionOverview.budgetStatus", "Complete");
+    }
+    
+    
+    protected void addPermissions() {
         clickProposalDevelopmentPermissionsPage();
         
         set(USERNAME_FIELD_ID, APPROVER);
@@ -142,7 +187,7 @@ public class ProposalDevelopmentCompleteSeleniumTest extends ProposalDevelopment
         click(ADD_PROPOSAL_USER_ID);
     }
     
-    private void submit() {
+    protected void submit() {
         clickProposalDevelopmentActionsPage();
 
         routeDocument();
