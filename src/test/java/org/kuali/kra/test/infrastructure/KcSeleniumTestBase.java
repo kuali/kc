@@ -786,6 +786,18 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
         assertElementContains(locator, false, value);
     }
     
+    protected final void assertSelectorContains(final String locator, final String regex) {
+        List<WebElement> elements = driver.findElements(By.cssSelector(locator));
+        
+        for (WebElement element : elements) {
+            if (element.getText() != null && element.getText().matches(regex)) {
+                //we found it in one of the elements returned. Sufficient
+                return;
+            }
+        }
+        assertTrue("Element " + locator + " does not contain " + regex, false);
+    }
+    
     /**
      * Asserts that the value of the element identified by {@code locator} matches {@code value} depending on the value of {@code exact}.
      * 
