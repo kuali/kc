@@ -32,6 +32,7 @@ import static org.kuali.kra.logging.FormattedLogger.debug;
 import static org.kuali.kra.logging.FormattedLogger.warn;
 import static org.kuali.rice.kns.util.KNSConstants.METHOD_TO_CALL_ATTRIBUTE;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -58,11 +59,15 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPrintingService;
+import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonQuestionnaireHelper;
+import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonQuestionnaireHelperComparator;
 import org.kuali.kra.proposaldevelopment.rule.event.AddKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.CalculateCreditSplitEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ChangeKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveKeyPersonEvent;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentPersonQuestionnaireService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -92,8 +97,18 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
        
         ActionForward retval = super.execute(mapping, form, request, response);
         prepare(form, request);
+
+        List<ProposalPerson> keyPersonnel = ((ProposalDevelopmentForm) form).getDocument().getDevelopmentProposal().getProposalPersons();
+        //setAnswerHeaders(keyPersonnel);
+        
         return retval;
     }
+    
+    //private void setAnswerHeaders(List<ProposalPerson> proposalPersons) {
+      //  for (ProposalPerson person : proposalPersons) {
+        //    getProposalDevelopmentPersonQuestionnaireService().setAnswerHeaders(person);
+        //}
+    //}
     
     public ActionForward moveDown(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         List<ProposalPerson> keyPersonnel = ((ProposalDevelopmentForm) form).getDocument().getDevelopmentProposal().getProposalPersons();
@@ -141,7 +156,10 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         catch (Exception e) {
             warn(MISSING_PARAM_MSG, CREDIT_SPLIT_ENABLED_RULE_NAME);
             warn(e.getMessage());
-        }        
+        }     
+        
+        List<ProposalPerson> keyPersonnel = ((ProposalDevelopmentForm) form).getDocument().getDevelopmentProposal().getProposalPersons();
+        //setAnswerHeaders(keyPersonnel);
     }
 
     
@@ -281,6 +299,11 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             getKeyPersonnelService().populateProposalPerson(pdform.getNewProposalPerson(), document);
             sort(document.getDevelopmentProposal().getProposalPersons(), new ProposalPersonComparator());
             sort(document.getDevelopmentProposal().getInvestigators(), new ProposalPersonComparator());
+            
+            ProposalPersonQuestionnaireHelper helper = new ProposalPersonQuestionnaireHelper(pdform, pdform.getNewProposalPerson());
+            pdform.getProposalPersonQuestionnaireHelpers().add(helper);
+            sort(pdform.getProposalPersonQuestionnaireHelpers(), new ProposalPersonQuestionnaireHelperComparator());
+            
             pdform.setNewProposalPerson(new ProposalPerson());
             pdform.setNewRolodexId("");
             pdform.setNewPersonId("");
@@ -478,6 +501,14 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         // if the rule evaluation passed, then save. It is possible that invoking save without checking rules first will
         // let the document save anyhow, so let's check first.
         if (rulePassed) {
+            //save the answer headers
+            List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
+            for (ProposalPersonQuestionnaireHelper helper : pdform.getProposalPersonQuestionnaireHelpers() ){
+                answerHeaders.addAll(helper.getAnswerHeaders());
+            }
+            if (!answerHeaders.isEmpty()) {
+                this.getBusinessObjectService().save(answerHeaders);
+            }
             return super.save(mapping, form, request, response);
         }
         return mapping.findForward(MAPPING_BASIC);
@@ -633,6 +664,10 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     @Override
     protected BusinessObjectService getBusinessObjectService() {
         return getService(BusinessObjectService.class);
+    }
+    
+    protected ProposalDevelopmentPersonQuestionnaireService getProposalDevelopmentPersonQuestionnaireService() {
+        return getService(ProposalDevelopmentPersonQuestionnaireService.class);
     }
     
     private void swapAdjacentPersonnel(List<ProposalPerson> keyPersonnel, int index1, MoveOperationEnum op) {

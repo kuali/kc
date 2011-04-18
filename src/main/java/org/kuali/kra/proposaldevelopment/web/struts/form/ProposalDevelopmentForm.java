@@ -73,6 +73,7 @@ import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentQuestionnaireHelper;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentS2sQuestionnaireHelper;
+import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonQuestionnaireHelper;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.specialreview.SpecialReviewHelper;
@@ -191,6 +192,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     
     private ProposalDevelopmentQuestionnaireHelper proposalDevelopmentQuestionnaireHelper;
     private ProposalDevelopmentS2sQuestionnaireHelper proposalDevelopmentS2sQuestionnaireHelper;
+    private List<ProposalPersonQuestionnaireHelper> proposalPersonQuestionnaireHelpers;
 
    
     public ProposalDevelopmentForm() {
@@ -249,6 +251,12 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         setProposalDevelopmentRejectionBean(new ProposalDevelopmentRejectionBean());
         setQuestionnaireHelper(new ProposalDevelopmentQuestionnaireHelper(this));
         setS2sQuestionnaireHelper(new ProposalDevelopmentS2sQuestionnaireHelper(this));
+        
+        proposalPersonQuestionnaireHelpers = new ArrayList<ProposalPersonQuestionnaireHelper>();
+        for (ProposalPerson person : this.getDocument().getDevelopmentProposal().getProposalPersons()) {
+            ProposalPersonQuestionnaireHelper helper = new ProposalPersonQuestionnaireHelper(this, person);
+            proposalPersonQuestionnaireHelpers.add(helper);
+        }
     }
 
     /**
@@ -285,6 +293,20 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         if (getActionFormUtilMap() instanceof ActionFormUtilMap) {
             ((ActionFormUtilMap) getActionFormUtilMap()).clear();
         }       
+    }
+    
+    /**
+     * 
+     * This method helps debug the http request object.  It prints the values in the request.
+     * @param request
+     */
+    private void printRequest(HttpServletRequest request) {
+        System.err.println("*****************");
+        for (Object param : request.getParameterMap().keySet()) {
+            Object value = request.getParameter(param.toString());
+            System.err.println("Key: " + param.toString() + "  value: " + value.toString());
+        }
+        System.err.println("*****************");
     }
     
     @Override
@@ -1745,6 +1767,10 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     
     private QuestionnaireAnswerService getQuestionnaireAnswerService() {
         return KraServiceLocator.getService(QuestionnaireAnswerService.class);
+    }
+    
+    public List<ProposalPersonQuestionnaireHelper> getProposalPersonQuestionnaireHelpers() {
+        return this.proposalPersonQuestionnaireHelpers;
     }
 
 

@@ -20,12 +20,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonModuleQuestionnaireBean;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentPersonQuestionnaireService;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 
@@ -35,19 +37,29 @@ import org.kuali.rice.kns.service.BusinessObjectService;
  */
 public class ProposalDevelopmentPersonQuestionnaireServiceImpl implements ProposalDevelopmentPersonQuestionnaireService {
     
+
     private static final String PROPOSAL_PERSON_QUESTIONNAIRE_NAME = "Proposal Person Certification";
     
     private BusinessObjectService businessObjectService;
+    private QuestionnaireAnswerService questionnaireAnswerService;
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentPersonQuestionnaireServiceImpl.class);
     
+    /**
+     * 
+     * @see org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentPersonQuestionnaireService#getBaseQuestionnaire()
+     */
     public Questionnaire getBaseQuestionnaire() {
         Map params = new HashMap();
         params.put("NAME", PROPOSAL_PERSON_QUESTIONNAIRE_NAME);
-        Questionnaire questionnaire = (Questionnaire)this.businessObjectService.findByPrimaryKey(Questionnaire.class, params);
+        Questionnaire questionnaire = (Questionnaire) this.businessObjectService.findByPrimaryKey(Questionnaire.class, params);
         return questionnaire;
     }
     
+    /**
+     * 
+     * @see org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentPersonQuestionnaireService#getNewAnswerHeader(org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonModuleQuestionnaireBean)
+     */
     public AnswerHeader getNewAnswerHeader(ProposalPersonModuleQuestionnaireBean proposalPersonModuleQuestionnaireBean) {
         Questionnaire questionnaire = getBaseQuestionnaire();
         
@@ -77,14 +89,35 @@ public class ProposalDevelopmentPersonQuestionnaireServiceImpl implements Propos
         return header;
     }
     
+    /**
+     * 
+     * @see org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentPersonQuestionnaireService#getNewAnswerHeaders(org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonModuleQuestionnaireBean)
+     */
     public List<AnswerHeader> getNewAnswerHeaders(ProposalPersonModuleQuestionnaireBean proposalPersonModuleQuestionnaireBean) {
         List<AnswerHeader> headers = new ArrayList<AnswerHeader>();
         headers.add(getNewAnswerHeader(proposalPersonModuleQuestionnaireBean));
         return headers;
     }
     
+    /**
+     * 
+     * @see org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentPersonQuestionnaireService#getAnswerHeaders(org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
+     */
+    public List<AnswerHeader> getAnswerHeaders(ProposalPerson proposalPerson) {
+        ProposalPersonModuleQuestionnaireBean bean = new ProposalPersonModuleQuestionnaireBean(proposalPerson.getDevelopmentProposal(), proposalPerson);
+        //`.pull from the DB
+        List<AnswerHeader> headers = questionnaireAnswerService.getQuestionnaireAnswer(bean);
+        if (headers == null || headers.isEmpty()) {
+            headers = this.getNewAnswerHeaders(bean);
+        }
+        return headers;
+    }
+    
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-
+    
+    public void setQuestionnaireAnswerService(QuestionnaireAnswerService questionnaireAnswerService) {
+        this.questionnaireAnswerService = questionnaireAnswerService;
+    }
 }

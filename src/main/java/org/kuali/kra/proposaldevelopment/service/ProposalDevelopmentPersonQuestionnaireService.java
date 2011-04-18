@@ -17,6 +17,7 @@ package org.kuali.kra.proposaldevelopment.service;
 
 import java.util.List;
 
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
@@ -42,6 +43,21 @@ public interface ProposalDevelopmentPersonQuestionnaireService {
      */
     AnswerHeader getNewAnswerHeader(ProposalPersonModuleQuestionnaireBean proposalPersonModuleQuestionnaireBean);
     
+    /**
+     * 
+     * This method...
+     * @param proposalPersonModuleQuestionnaireBean
+     * @return
+     */
     List<AnswerHeader> getNewAnswerHeaders(ProposalPersonModuleQuestionnaireBean proposalPersonModuleQuestionnaireBean);
+    
+    /**
+     * 
+     * This method returns a list of AnswerHeader object, if the person already has a collection in the DB, it returns that.
+     * Otherwise a new list is returned.
+     * @param proposalPerson
+     * @return
+     */
+    List<AnswerHeader> getAnswerHeaders(ProposalPerson proposalPerson);
 
 }
