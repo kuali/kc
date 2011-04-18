@@ -386,14 +386,22 @@
 <c:choose>
  <c:when test="${certificationRequired == 'Y'  || !KualiForm.editingMode['modifyProposal']}">
    	<tr>
-	<td colspan=4>
-  <kul:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="false"  auditCluster="keyPersonnelAuditErrors" tabAuditKey="document.developmentProposalList[0].proposalPersons[${personIndex}]*">
-     <table class=tab cellpadding=0 cellspacing="0" summary="" >
-     <kra-pd:personYnqSection proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
-    </table>
- </kul:innerTab>
-   </td>
-  </tr>
+		<td colspan=4>
+  			<kul:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="false"  auditCluster="keyPersonnelAuditErrors" tabAuditKey="document.developmentProposalList[0].proposalPersons[${personIndex}]*">
+     			<table class=tab cellpadding=0 cellspacing="0" summary="" >
+     				<kra-pd:personYnqSection proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
+    			</table>
+ 			</kul:innerTab>
+   		</td>
+  	</tr>
+  	<tr>
+		<td colspan=4>
+			<c:set var="answerHeaderIndex" value="0" />
+			<c:set var="property" value="proposalPersonQuestionnaireHelpers[${personIndex}]" />
+			<c:set var="bean" value="${KualiForm.proposalPersonQuestionnaireHelpers[personIndex]}" />
+			<kra-questionnaire:questionnaireAnswersInnerTab bean = "${bean}" property = "${property}" answerHeaderIndex = "${answerHeaderIndex}" parentTab="${parentTabName}"/>
+		</td>
+	</tr>
   </c:when>
   <c:otherwise>
      <c:choose>

@@ -29,6 +29,8 @@ import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentPersonQuestionnaireService;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.Sponsorable;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -141,6 +143,12 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     private transient boolean moveDownAllowed;
     private transient boolean moveUpAllowed;
     private transient KcPersonService kcPersonService;
+    
+    /**
+     * This list is not automatically populated by the ORM by design.
+     * Call ProposalDevelopmentPersonQuestionnaireService.setAnswerHeaders() to set this list.
+     */
+    //private List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
     
     public boolean isMoveDownAllowed() {
         return moveDownAllowed;
@@ -2078,4 +2086,12 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     public String getInvestigatorRoleDescription() {
         return KraServiceLocator.getService(KeyPersonnelService.class).getPersonnelRoleDesc(this);
     }
+
+    //public List<AnswerHeader> getAnswerHeaders() {
+      //  return answerHeaders;
+    //}
+
+   // public void setAnswerHeaders(List<AnswerHeader> answerHeaders) {
+     //   this.answerHeaders = answerHeaders;
+    //}
 }

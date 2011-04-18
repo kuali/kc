@@ -15,10 +15,12 @@
  */
 package org.kuali.kra.proposaldevelopment.questionnaire;
 
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentPersonQuestionnaireService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 
@@ -44,6 +46,20 @@ public class ProposalPersonQuestionnaireHelper extends ProposalDevelopmentQuesti
         super(form);
         setProposalPerson(proposalPerson);
         this.populateAnswers();
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.questionnaire.QuestionnaireHelperBase#populateAnswers()
+     */
+    @Override
+    public void populateAnswers() {
+        setAnswerHeaders(getProposalDevelopmentPersonQuestionnaireService().getAnswerHeaders(getProposalPerson()));
+        resetHeaderLabels();
+    }
+    
+    private ProposalDevelopmentPersonQuestionnaireService getProposalDevelopmentPersonQuestionnaireService() {
+        return KraServiceLocator.getService(ProposalDevelopmentPersonQuestionnaireService.class);
     }
     
     
