@@ -750,7 +750,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
      * @throws Exception
      */
     public ActionForward addTransaction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+        captureDateChangeTransactions(form);
         ((TimeAndMoneyForm) form).getTransactionBean().addPendingTransactionItem();
         return mapping.findForward(Constants.MAPPING_BASIC);        
     }
@@ -766,7 +766,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
      * @throws Exception
      */
     public ActionForward deleteTransaction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+        captureDateChangeTransactions(form);
         ((TimeAndMoneyForm) form).getTransactionBean().deletePendingTransactionItem(getLineToDelete(request));
         return mapping.findForward(Constants.MAPPING_BASIC);        
     }
@@ -943,6 +943,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     public ActionForward addAwardDirectFandADistribution(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
+        captureDateChangeTransactions(form);
         timeAndMoneyForm.getAwardDirectFandADistributionBean()
                     .addAwardDirectFandADistribution(((TimeAndMoneyForm) form).getAwardDirectFandADistributionBean());    
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -961,6 +962,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     public ActionForward deleteAwardDirectFandADistribution(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
+        captureDateChangeTransactions(form);
         timeAndMoneyForm.getTimeAndMoneyDocument().getAward().getAwardDirectFandADistributions().remove(getLineToDelete(request));
         timeAndMoneyForm.getAwardDirectFandADistributionBean().updateBudgetPeriodsAfterDelete(timeAndMoneyForm.getTimeAndMoneyDocument().getAward().getAwardDirectFandADistributions());
         return mapping.findForward(Constants.MAPPING_BASIC);
