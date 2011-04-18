@@ -38,11 +38,17 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewStatus;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
+import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
+import org.kuali.rice.kew.service.WorkflowDocument;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -56,7 +62,8 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
     private ProtocolVersionService protocolVersionService;
     private ReviewCommentsService reviewCommentsService;
     private ProtocolOnlineReviewService protocolOnlineReviewService;
-
+    private RouteHeaderService routeHeaderService;
+    private IdentityManagementService identityManagementService;
     public void setProtocolActionService(ProtocolActionService protocolActionService) {
         this.protocolActionService = protocolActionService;
     }
@@ -129,7 +136,9 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
                   && (ProtocolActionType.APPROVED.equals(lastPerformedAction.getProtocolActionTypeCode()) 
                           || ProtocolActionType.EXPEDITE_APPROVAL.equals(lastPerformedAction.getProtocolActionTypeCode()))) {
             //currentWorkflowDocument.returnToPreviousRouteLevel("Undo Last Action", currentWorkflowDocument.getDocRouteLevel() - 1);
+            ProtocolSubmission oldSubmission = protocolDocument.getProtocol().getProtocolSubmission();
             protocolDocument = protocolVersionService.versionProtocolDocument(protocolDocument);
+//            protocolOnlineReviewService.moveOnlineReviews(oldSubmission, protocolDocument.getProtocol().getProtocolSubmission());
             protocolDocument.getProtocol().refreshReferenceObject("protocolStatus");
             
             // to force it to retrieve from list.
@@ -141,13 +150,15 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
             
             protocolDocument.setReRouted(true);
             documentService.saveDocument(protocolDocument);
+            convertReviewComments(protocolDocument.getProtocol());            
             documentService.routeDocument(protocolDocument, Constants.PROTOCOL_UNDO_APPROVE_ANNOTATION, null);
-        } else if (currentWorkflowDocument != null && currentWorkflowDocument.stateIsSaved() && lastPerformedAction != null 
+            updateProtocolReviews(protocolDocument.getProtocol());
+       } else if (currentWorkflowDocument != null && currentWorkflowDocument.stateIsSaved() && lastPerformedAction != null 
                 && (ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED.equals(lastPerformedAction.getProtocolActionTypeCode()) 
                         || ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED.equals(lastPerformedAction.getProtocolActionTypeCode()))) {
             convertReviewComments(protocolDocument.getProtocol());            
             documentService.routeDocument(protocolDocument, Constants.PROTOCOL_UNDO_APPROVE_ANNOTATION, null);            
-//            updateProtocolReviews(protocolDocument.getProtocol());
+            updateProtocolReviews(protocolDocument.getProtocol());
         } 
         
         return protocolDocument;
@@ -156,7 +167,7 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
     /*
      * create onlr review as needed
      */
-    private void updateProtocolReviews(Protocol protocol) {
+    private void updateProtocolReviews(Protocol protocol) throws Exception {
         Protocol oldProtocol = getOldProtocol(protocol);
         if (CollectionUtils.isNotEmpty(oldProtocol.getProtocolSubmission().getProtocolOnlineReviews())) {
             createOnlnReviews(protocol, oldProtocol);
@@ -177,45 +188,91 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
     /*
      * create & route onlnreview doc for the new versioned protocol
      */
-    private void createOnlnReviews(Protocol protocol, Protocol oldProtocol) {
-        String routeAnnotation = "Online Review Requested by PI during protocol submission.";
+    private void createOnlnReviews(Protocol protocol, Protocol oldProtocol) throws Exception {
+        String routeAnnotation = "Recreate Online Review for undo action.";
         boolean initialApproval = false;
         Date dateRequested = null;
         Date dateDue = null;
         String sessionPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
         ProtocolSubmission protocolSubmission = protocol.getProtocolSubmission();
-        try {
-            for (ProtocolOnlineReview onlineReview : oldProtocol.getProtocolSubmission().getProtocolOnlineReviews()) {
-                ProtocolOnlineReviewDocument oldDoc = (ProtocolOnlineReviewDocument) documentService
-                        .getByDocumentHeaderId(onlineReview.getProtocolOnlineReviewDocument().getDocumentNumber());
-                if (!KEWConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(oldDoc.getDocumentHeader().getWorkflowDocument()
-                        .getRouteHeader().getDocRouteStatus())) {
-                    ProtocolOnlineReview copiedReview = (ProtocolOnlineReview) ObjectUtils.deepCopy(onlineReview);
-                    ProtocolReviewer reviewer = getReviewer(onlineReview, protocol);
-                    setNewOnlnReview(copiedReview, reviewer, protocol);
+        for (ProtocolOnlineReview onlineReview : oldProtocol.getProtocolSubmission().getProtocolOnlineReviews()) {
+            ProtocolOnlineReviewDocument oldDoc = (ProtocolOnlineReviewDocument) documentService.getByDocumentHeaderId(onlineReview
+                    .getProtocolOnlineReviewDocument().getDocumentNumber());
+            if (!KEWConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(oldDoc.getDocumentHeader().getWorkflowDocument().getRouteHeader()
+                    .getDocRouteStatus())) {
+                ProtocolOnlineReview copiedReview = (ProtocolOnlineReview) ObjectUtils.deepCopy(onlineReview);
+                ProtocolReviewer reviewer = getReviewer(onlineReview, protocol);
+                setNewOnlnReview(copiedReview, reviewer, protocol);
 
-                    ProtocolOnlineReviewDocument document = protocolOnlineReviewService.createAndRouteProtocolOnlineReviewDocument(
-                            protocolSubmission, reviewer, oldDoc.getDocumentHeader().getDocumentDescription(), oldDoc
-                                    .getDocumentHeader().getExplanation(), oldDoc.getDocumentHeader()
-                                    .getOrganizationDocumentNumber(), routeAnnotation, initialApproval, dateRequested, dateDue,
-                            sessionPrincipalId);
-                    copiedReview.setProtocolOnlineReviewDocument(document);
-                    document.setProtocolOnlineReview(copiedReview);
+                ProtocolOnlineReviewDocument document = protocolOnlineReviewService.createAndRouteProtocolOnlineReviewDocument(
+                        protocolSubmission, reviewer, oldDoc.getDocumentHeader().getDocumentDescription(), oldDoc
+                                .getDocumentHeader().getExplanation(), oldDoc.getDocumentHeader().getOrganizationDocumentNumber(),
+                        routeAnnotation, initialApproval, dateRequested, dateDue, sessionPrincipalId);
+                copiedReview.setProtocolOnlineReviewDocument(document);
+                document.setProtocolOnlineReview(copiedReview);
+                if (isAsyncComplete(document.getDocumentNumber(), 2)) {
                     documentService.saveDocument(document);
-                    // updateOlrComments(onlineReview.getProtocolOnlineReviewId(), copiedReview.getProtocolOnlineReviewId(),
-                    // protocol.getProtocolId());
-                    protocolSubmission.getProtocolOnlineReviews().add(document.getProtocolOnlineReview());
                 }
+                // updateOlrComments(onlineReview.getProtocolOnlineReviewId(), copiedReview.getProtocolOnlineReviewId(),
+                // protocol.getProtocolId());
+                resetOnlineReviewStatus(document);
+                protocolSubmission.getProtocolOnlineReviews().add(document.getProtocolOnlineReview());
             }
         }
-        catch (Exception e) {
-
-        }
-        // protocol.getProtocolSubmission().setScheduleIdFk(oldProtocol.getProtocolSubmission().getScheduleIdFk());
-        // businessObjectService.save(protocol);
 
     }
 
+    /*
+     * Restore Protocol OLR doc status to the status before it was being finalized.
+     * OLR doc is finalized when protocol is versioned.
+     */
+    private void resetOnlineReviewStatus(ProtocolOnlineReviewDocument document) throws Exception {
+        if (document.getProtocolOnlineReview().isStatusMatched(KEWConstants.ROUTE_HEADER_ENROUTE_CD)) {
+            if (isAsyncComplete(document.getDocumentNumber(), 2)) {
+                document.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.FINAL_STATUS_CD);
+                String principalId = identityManagementService.getPrincipalByPrincipalName(
+                        document.getProtocolOnlineReview().getReviewerUserName()).getPrincipalId();
+
+                WorkflowDocument workflowDocument = new WorkflowDocument(principalId, Long.parseLong(document.getDocumentNumber()));
+                workflowDocument.approve("approve for undo");
+            }
+        } else if (document.getProtocolOnlineReview().isStatusMatched(KEWConstants.ROUTE_HEADER_FINAL_CD)) {
+            if (isAsyncComplete(document.getDocumentNumber(), 2)) {
+
+                final String principalId = identityManagementService.getPrincipalByPrincipalName(KNSConstants.SYSTEM_USER)
+                        .getPrincipalId();
+                WorkflowDocument workflowDocument = new WorkflowDocument(principalId, Long.parseLong(document.getDocumentNumber()));
+
+                workflowDocument.superUserApprove("Finalize for undo");
+
+
+            }
+        }
+        document.getProtocolOnlineReview().removeLastAction();
+    }
+
+    /*
+     * try to check if async wkflw process is completely.  Mainly, route olr doc in this case.
+     */
+    private boolean isAsyncComplete(String docId, int numbActionTaken) {
+        // try {
+        boolean isComplete = false;
+        int numberOfWaits = 0;
+        while (numberOfWaits++ < 100 && !isComplete) {
+            try {
+                DocumentRouteHeaderValue document = routeHeaderService.getRouteHeader(Long.parseLong(docId));
+                isComplete = document.getActionsTaken().size() == numbActionTaken;
+                if (!isComplete) {
+                    System.out.println("Wait Async to complete " + docId + " " + numberOfWaits);
+                    Thread.sleep(200);
+                }
+            } catch (Exception e) {
+            }
+        }
+        return isComplete;
+    }
+
+    
     /*
      * set up reviewer for onlnreview document creation.  reviewer is based on old onlnreview
      */
@@ -247,9 +304,7 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
                 comment.setProtocolIdFk(protocol.getProtocolId());
                 comment.setProtocolOnlineReviewIdFk(null);
             }
-        }
-
-       
+        }       
     }
     
     /*
@@ -276,6 +331,14 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
 
     public void setProtocolOnlineReviewService(ProtocolOnlineReviewService protocolOnlineReviewService) {
         this.protocolOnlineReviewService = protocolOnlineReviewService;
+    }
+
+    public void setRouteHeaderService(RouteHeaderService routeHeaderService) {
+        this.routeHeaderService = routeHeaderService;
+    }
+
+    public void setIdentityManagementService(IdentityManagementService identityManagementService) {
+        this.identityManagementService = identityManagementService;
     }
     
 }

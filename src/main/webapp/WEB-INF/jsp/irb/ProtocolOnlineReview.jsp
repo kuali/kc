@@ -43,6 +43,10 @@
 
 <c:choose>
 	<c:when test = "${KualiForm.editingMode['maintainProtocolOnlineReviews']}">
+	
+	<c:choose>
+	    <c:when test = "${KualiForm.onlineReviewAllowed}">
+
 	<!--  IRB ADMIN VIEW  -->
 		<kul:tabTop tabTitle="Create New Online Review" defaultOpen="true" tabErrorKey="${Constants.DOCUMENT_ERRORS},onlineReviewsActionHelper.new*" >
 			<div class="tab-container" align=center>
@@ -57,9 +61,22 @@
 				<kra-irb-olr:onlineReview renderIndex = "${status.index}" documentNumber="${review.documentNumber}"/>
 			</kul:tab>
 		</c:forEach>
+
+
+	    </c:when>
+	    <c:otherwise>
+
+			<kra-irb-olr:onlineReviewNotAllowed />
+
+	    </c:otherwise>
+	</c:choose>
+
+
 	</c:when>
 
 	<c:otherwise>
+	<c:choose>
+	    <c:when test = "${KualiForm.onlineReviewAllowed}">
 		<!--  PROTOCOL ONLINE REVIEWER VIEW -->
 		<c:set var="protocolOnlineReviewDocument" value="${KualiForm.onlineReviewsActionHelper.documentForCurrentUser}"/> 
 		<c:set var="indexForReviewer" value = "${KualiForm.onlineReviewsActionHelper.documentIndexForCurrentUser}"/>	
@@ -68,10 +85,22 @@
 			<kra-irb-olr:onlineReview renderIndex = "${KualiForm.onlineReviewsActionHelper.documentIndexForCurrentUser}" documentNumber="${protocolOnlineReviewDocument.documentNumber}" />
 		</kul:tabTop>
 
+	    </c:when>
+	    <c:otherwise>
+
+			<kra-irb-olr:onlineReviewNotAllowed />
+	    </c:otherwise>
+	</c:choose>
+
+
+
 	</c:otherwise>
 </c:choose>
 
+<c:if test = "${KualiForm.onlineReviewAllowed}">
+
 <kul:panelFooter />
+</c:if>
 <%-- <kul:panelFooter /> --%>
 	<kul:documentControls 
 		transactionalDocument="true"

@@ -410,6 +410,8 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
 
             final String principalId = identityManagementService.getPrincipalByPrincipalName(KNSConstants.SYSTEM_USER).getPrincipalId();
             WorkflowDocument workflowDocument = new WorkflowDocument(principalId, Long.parseLong(protocolOnlineReviewDocument.getDocumentNumber()));
+            ProtocolOnlineReview review = protocolOnlineReviewDocument.getProtocolOnlineReview();
+            review.addActionPerformed("Finalize:"+workflowDocument.getRouteHeader().getDocRouteStatus()+":"+review.getProtocolOnlineReviewStatusCode());
 
             
             if (workflowDocument.stateIsEnroute()
@@ -521,6 +523,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
     public void finalizeOnlineReviews(ProtocolSubmission submission, String annotation) {
         //get the online reviews, loop through them and finalize them if necessary.
         for(ProtocolOnlineReview review : submission.getProtocolOnlineReviews()) {
+//            review.addActionPerformed("Finalize:"+review.getProtocolOnlineReviewDocument().getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()+":"+review.getProtocolOnlineReviewStatusCode());
             finalizeOnlineReviewDocument(review.getProtocolOnlineReviewDocument(), submission, annotation);
         }
     }
