@@ -385,15 +385,19 @@
 
 <c:choose>
  <c:when test="${certificationRequired == 'Y'  || !KualiForm.editingMode['modifyProposal']}">
-   	<tr>
-		<td colspan=4>
-  			<kul:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="false"  auditCluster="keyPersonnelAuditErrors" tabAuditKey="document.developmentProposalList[0].proposalPersons[${personIndex}]*">
-     			<table class=tab cellpadding=0 cellspacing="0" summary="" >
-     				<kra-pd:personYnqSection proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
-    			</table>
- 			</kul:innerTab>
-   		</td>
-  	</tr>
+ 	<c:choose>
+ 		<c:when test="${KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].anyYNQsAnswered}">
+		   	<tr>
+				<td colspan=4>
+		  			<kul:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="false"  auditCluster="keyPersonnelAuditErrors" tabAuditKey="document.developmentProposalList[0].proposalPersons[${personIndex}]*">
+		     			<table class=tab cellpadding=0 cellspacing="0" summary="" >
+		     				<kra-pd:personYnqSection proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
+		    			</table>
+		 			</kul:innerTab>
+		   		</td>
+		  	</tr>
+		</c:when>
+  	</c:choose>
   	<tr>
 		<td colspan=4>
 			<c:set var="answerHeaderIndex" value="0" />
@@ -417,13 +421,29 @@
           </div>
        </td>
      </tr>
+     
+   <c:choose>
+ 		<c:when test="${KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].anyYNQsAnswered}">  
+		   <tr>
+			<td>
+		    	<table class=tab cellpadding=0 cellspacing="0" summary="" >
+		        	<kra-pd:personYnqSection proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
+		      	</table>
+		   	</td>
+		   </tr>
+	   </c:when>
+   </c:choose>
+   
    <tr>
-     <td>
-       <table class=tab cellpadding=0 cellspacing="0" summary="" >
-        <kra-pd:personYnqSection proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
-      </table>
-   </td>
-   </tr>
+		<td>
+			<c:set var="answerHeaderIndex" value="0" />
+			<c:set var="property" value="proposalPersonQuestionnaireHelpers[${personIndex}]" />
+			<c:set var="bean" value="${KualiForm.proposalPersonQuestionnaireHelpers[personIndex]}" />
+			<kra-questionnaire:questionnaireAnswersInnerTab bean = "${bean}" property = "$property}" answerHeaderIndex = "${answerHeaderIndex}" parentTab="${parentTabName}"/>
+		</td>
+	</tr>
+   
+   
    </div>
    </table>
    </kul:innerTab>

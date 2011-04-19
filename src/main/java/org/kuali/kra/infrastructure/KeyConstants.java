@@ -84,7 +84,7 @@ public final class KeyConstants {
     public static final String ERROR_CREDIT_SPLIT_UPBOUND = "error.creditSplit.upbound";
     public static final String ERROR_DELETE_LEAD_UNIT = "error.deleteLeadUnit";
     public static final String ERROR_ADD_EXISTING_UNIT = "error.addExistingUnit";
-    public static final String ERROR_YNQ_INCOMPLETE = "error.ynqIncomplete";
+    public static final String ERROR_PROPOSAL_PERSON_CERTIFICATION_INCOMPLETE = "error.proposalperson.certfication.incomplete";
     public static final String ERROR_INVALID_YEAR = "error.invalid.year";
     public static final String ERROR_INVALID_UNIT = "error.invalid.unit";
     public static final String ERROR_SELECT_UNIT="error.select.unit";
