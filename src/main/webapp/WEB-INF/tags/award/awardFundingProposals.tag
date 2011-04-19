@@ -211,7 +211,8 @@
 		      					Total:
 		      				</div>
 		      			</th>
-		      			<th>
+		      			<%-- To fix JIRA KRACOEUS-4366 --%>
+		      			<th align="right" style="padding-right:2px">
 		      				$<fmt:formatNumber value="${award.totalCostOfFundingProposals}" type="currency" currencySymbol="" maxFractionDigits="2" />
 		      			</th>
 		      			<th></th>
