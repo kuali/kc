@@ -27,6 +27,7 @@ import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.util.BeanPropertyComparator;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.springframework.transaction.annotation.Transactional;
+import org.kuali.kra.infrastructure.Constants;
 
 /**
  * Lookup wrapper class to modify lookup results of <code>{@link NonOrganizationalRolodex}</code> lookups
