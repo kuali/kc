@@ -27,23 +27,31 @@ import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_KEY;
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_LOWBOUND;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_UNITS_UPBOUND;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_YNQ_INCOMPLETE;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PROPOSAL_PERSON_CERTIFICATION_INCOMPLETE;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.collections.keyvalue.DefaultMapEntry;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonModuleQuestionnaireBean;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
+import org.kuali.kra.questionnaire.QuestionnaireService;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.DocumentAuditRule;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -105,7 +113,9 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
         for (ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
             if (shouldValidateYesNoQuestions(person) && !validateYesNoQuestions(person)) {
                 retval = false;
-                error = new AuditError("document.developmentProposalList[0].proposalPersons["+count+"]", ERROR_YNQ_INCOMPLETE, KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR, new String[]{person.getFullName()});
+                //                      document.developmentProposalList[0].proposalPersons[${personIndex}]*
+                error = new AuditError("document.developmentProposalList[0].proposalPersons["+count+"]", ERROR_PROPOSAL_PERSON_CERTIFICATION_INCOMPLETE, KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR, new String[]{person.getFullName()});
+                System.err.println("document.developmentProposalList[0].proposalPersons["+count+"]");
                 getAuditErrors().add(error);
             }
             count++;
@@ -141,10 +151,18 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
     private boolean validateYesNoQuestions(ProposalPerson investigator) {
         boolean retval = true;
         
+        ProposalPersonModuleQuestionnaireBean bean = new ProposalPersonModuleQuestionnaireBean(investigator.getDevelopmentProposal(), investigator);
+        List<AnswerHeader> headers = KraServiceLocator.getService(QuestionnaireAnswerService.class).getQuestionnaireAnswer(bean);
+        
+        for (AnswerHeader head : headers) {
+            retval &= head.getCompleted();
+        }
+        /*
         for (ProposalPersonYnq question : investigator.getProposalPersonYnqs()) {
            
             retval &= isNotBlank(question.getAnswer());
         }
+        */
                
         return retval;
     }

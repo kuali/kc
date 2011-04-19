@@ -418,6 +418,8 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
                         person_it.remove();
                         proposal.getInvestigators().remove(person);
                         proposal.removePersonnelAttachmentForDeletedPerson(person);
+                        ProposalPersonQuestionnaireHelper helper = new ProposalPersonQuestionnaireHelper(pdform, person);
+                        pdform.getAnswerHeadersToDelete().addAll(helper.getAnswerHeaders());
                     }
                 }
             }
@@ -503,12 +505,31 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         if (rulePassed) {
             //save the answer headers
             List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
-            for (ProposalPersonQuestionnaireHelper helper : pdform.getProposalPersonQuestionnaireHelpers() ){
-                answerHeaders.addAll(helper.getAnswerHeaders());
+            for (ProposalPersonQuestionnaireHelper helper : pdform.getProposalPersonQuestionnaireHelpers()) {
+                //doing this check to make sure the person wasn't automatically deleted after adding.
+                if (pdform.getDocument().getDevelopmentProposal().getProposalPersons().contains(helper.getProposalPerson())) {
+                    answerHeaders.addAll(helper.getAnswerHeaders());
+                }
             }
             if (!answerHeaders.isEmpty()) {
                 this.getBusinessObjectService().save(answerHeaders);
             }
+            
+            /**
+             * Simply deleting pdform.getAnswerHeadersToDelete() causes an OLE, with the error saying that OJB thinks
+             * the object has already been deleted or modified by another user.  This avoids that situation.
+             */
+            if (!pdform.getAnswerHeadersToDelete().isEmpty()) {
+                List<AnswerHeader> freshHeaders = new ArrayList<AnswerHeader>();
+                for (AnswerHeader header : pdform.getAnswerHeadersToDelete()) {
+                    Map primaryKeys = new HashMap();
+                    primaryKeys.put("QUESTIONNAIRE_ANSWER_HEADER_ID", header.getAnswerHeaderId());
+                    freshHeaders.add((AnswerHeader) this.getBusinessObjectService().findByPrimaryKey(AnswerHeader.class, primaryKeys));
+                }
+                this.getBusinessObjectService().delete(freshHeaders);
+                pdform.getAnswerHeadersToDelete().clear();
+            }
+            
             return super.save(mapping, form, request, response);
         }
         return mapping.findForward(MAPPING_BASIC);
