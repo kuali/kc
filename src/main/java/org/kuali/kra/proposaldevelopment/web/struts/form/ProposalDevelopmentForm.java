@@ -79,6 +79,7 @@ import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.specialreview.SpecialReviewHelper;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalDevelopmentRejectionBean;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
@@ -193,6 +194,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private ProposalDevelopmentQuestionnaireHelper proposalDevelopmentQuestionnaireHelper;
     private ProposalDevelopmentS2sQuestionnaireHelper proposalDevelopmentS2sQuestionnaireHelper;
     private List<ProposalPersonQuestionnaireHelper> proposalPersonQuestionnaireHelpers;
+    private List<AnswerHeader> answerHeadersToDelete;
 
    
     public ProposalDevelopmentForm() {
@@ -257,6 +259,8 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
             ProposalPersonQuestionnaireHelper helper = new ProposalPersonQuestionnaireHelper(this, person);
             proposalPersonQuestionnaireHelpers.add(helper);
         }
+        
+        answerHeadersToDelete = new ArrayList<AnswerHeader>();
     }
 
     /**
@@ -1771,6 +1775,10 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     
     public List<ProposalPersonQuestionnaireHelper> getProposalPersonQuestionnaireHelpers() {
         return this.proposalPersonQuestionnaireHelpers;
+    }
+    
+    public List<AnswerHeader> getAnswerHeadersToDelete() {
+        return this.answerHeadersToDelete;
     }
 
 
