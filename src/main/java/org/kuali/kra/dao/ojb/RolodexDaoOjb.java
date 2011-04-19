@@ -84,6 +84,8 @@ public class RolodexDaoOjb extends LookupDaoOjb implements RolodexDao {
         
         retval.addNotNull("firstName");
         retval.addNotNull("lastName");
+        //retval.addNotEqualToField("active", "No");\
+        retval.addNotEqualTo("active", Boolean.FALSE);
         
         LOG.info("NonOrganizationalQuery" + retval);
         

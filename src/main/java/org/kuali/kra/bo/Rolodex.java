@@ -49,7 +49,8 @@ public class Rolodex extends KraPersistableBusinessObjectBase implements Contact
     private Unit unit;
     private Sponsor sponsor;
     private String createUser;
-    
+    private Boolean active;// = Boolean.TRUE;
+
     public String getCreateUser() {
         return createUser;
     }
@@ -292,6 +293,14 @@ public class Rolodex extends KraPersistableBusinessObjectBase implements Contact
         return sponsor;
     }
     
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+    
     /**
      * Gets the full name is format (Last, First Middle)
      * 
@@ -354,6 +363,7 @@ public class Rolodex extends KraPersistableBusinessObjectBase implements Contact
 		hashMap.put("state", getState());
 		hashMap.put("suffix", getSuffix());
 		hashMap.put("title", getTitle());
+		hashMap.put("active", getActive());
 		return hashMap;
 	}
 
