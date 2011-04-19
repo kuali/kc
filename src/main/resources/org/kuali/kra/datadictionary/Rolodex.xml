@@ -41,6 +41,7 @@
         <ref bean="Rolodex-countryCode"/>
         <ref bean="Rolodex-suffix"/>
         <ref bean="Rolodex-title"/>
+        <ref bean="Rolodex-active"/>
         <ref bean="Rolodex-versionNumber"/>
       </list>
     </property>
@@ -444,6 +445,17 @@
     <property name="summary" value="Title"/>
     <property name="description" value="Title"/>
   </bean>
+  
+  <bean id="Rolodex-active" parent="Rolodex-active-parentBean"/>
+
+  <bean id="Rolodex-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+		<property name="name" value="active" />
+		<property name="label" value="Active" />
+		<property name="shortLabel" value="Active" />
+		<property name="summary" value="Active" />
+		<property name="description" value="Active" />
+   </bean>
+  
   <bean id="Rolodex-versionNumber" parent="Rolodex-versionNumber-parentBean"/>
 
   <bean abstract="true" id="Rolodex-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
@@ -488,6 +500,7 @@
               <bean p:attributeName="sponsor.sponsorName" parent="FieldDefinition"/>
               <bean p:attributeName="suffix" parent="FieldDefinition"/>
               <bean p:attributeName="title" parent="FieldDefinition"/>
+              <bean p:attributeName="active" parent="FieldDefinition"/>
             </list>
           </property>
         </bean>
@@ -525,6 +538,7 @@
         <bean p:attributeName="emailAddress" parent="FieldDefinition"/>
         <bean p:attributeName="sponsorAddressFlag" parent="FieldDefinition"/>
         <bean p:attributeName="sponsorCode" parent="FieldDefinition"/>
+         <bean p:attributeName="active" parent="FieldDefinition"/>
       </list>
     </property>
     <property name="resultFields">
@@ -544,6 +558,7 @@
         <bean p:attributeName="emailAddress" parent="FieldDefinition"/>
         <bean p:attributeName="sponsorAddressFlag" parent="FieldDefinition"/>
         <bean p:attributeName="sponsorCode" parent="FieldDefinition"/>
+         <bean p:attributeName="active" parent="FieldDefinition"/>
       </list>
     </property>
   </bean>

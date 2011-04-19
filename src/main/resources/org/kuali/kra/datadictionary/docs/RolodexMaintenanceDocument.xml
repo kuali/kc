@@ -59,6 +59,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="state"/>
         <bean parent="MaintainableFieldDefinition" p:name="suffix"/>
         <bean parent="MaintainableFieldDefinition" p:name="title"/>
+         <bean parent="MaintainableFieldDefinition" p:name="active"/>
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>
     </property>
