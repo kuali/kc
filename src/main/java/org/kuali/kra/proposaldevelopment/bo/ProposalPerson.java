@@ -2086,12 +2086,19 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     public String getInvestigatorRoleDescription() {
         return KraServiceLocator.getService(KeyPersonnelService.class).getPersonnelRoleDesc(this);
     }
-
-    //public List<AnswerHeader> getAnswerHeaders() {
-      //  return answerHeaders;
-    //}
-
-   // public void setAnswerHeaders(List<AnswerHeader> answerHeaders) {
-     //   this.answerHeaders = answerHeaders;
-    //}
+    
+    /**
+     * 
+     * This method determines if any of this person's YNQs have been answered.  If so, return yes.
+     * Otherwise return no.
+     * @return
+     */
+    public boolean getAnyYNQsAnswered() {
+        for (ProposalPersonYnq ynq : this.getProposalPersonYnqs()) {
+            if (!StringUtils.isEmpty(ynq.getAnswer())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
