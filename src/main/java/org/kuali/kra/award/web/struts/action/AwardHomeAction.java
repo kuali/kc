@@ -53,6 +53,7 @@ import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 
 /**
@@ -209,6 +210,7 @@ public class AwardHomeAction extends AwardAction {
         return actionForward;
     }
     
+
     /**
      * This takes care of populating the ScienceKeywords in keywords list after the selected Keywords returns from <code>multilookup</code>
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(org.apache.struts.action.ActionMapping, 
