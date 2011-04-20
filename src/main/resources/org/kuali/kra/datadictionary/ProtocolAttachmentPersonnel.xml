@@ -85,6 +85,7 @@
 
 	<bean id="ProtocolAttachmentPersonnel-description" parent="ProtocolAttachmentPersonnel-description-parentBean" />
 	<bean id="ProtocolAttachmentPersonnel-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+	    <property name="required" value="true"/>
 		<property name="control" >
 			<bean parent="TextareaControlDefinition"
 	            p:rows="3"

@@ -143,9 +143,18 @@
 						</div>
 					</th>
 	         		<td align="left" valign="middle">
-	                	<div align="left">
-	                		<kul:htmlControlAttribute property="notesAttachmentsHelper.newAttachmentProtocol.description" attributeEntry="${protocolAttachmentProtocolAttributes.description}"/>
-		            	</div>
+                        <div align="left">
+                            <c:set var="property" value="notesAttachmentsHelper.newAttachmentProtocol.description" />
+                                   
+                            <%-- attachment description error handling logic start--%>
+                            <kul:checkErrors keyMatch="${property}" auditMatch="${property}"/>
+                            <%-- attachment type description handling logic start--%>
+                            <kul:htmlControlAttribute property="notesAttachmentsHelper.newAttachmentProtocol.description" attributeEntry="${protocolAttachmentProtocolAttributes.description}"/>
+                            
+                            <c:if test="${hasErrors}">
+                                <kul:fieldShowErrorIcon />
+                            </c:if>
+                        </div>
 					</td>
 	         	</tr>
 	         	<tr>
