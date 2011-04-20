@@ -304,7 +304,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
      * This method helps debug the http request object.  It prints the values in the request.
      * @param request
      */
-    private void printRequest(HttpServletRequest request) {
+    public static void printRequest(HttpServletRequest request) {
         System.err.println("*****************");
         for (Object param : request.getParameterMap().keySet()) {
             Object value = request.getParameter(param.toString());
