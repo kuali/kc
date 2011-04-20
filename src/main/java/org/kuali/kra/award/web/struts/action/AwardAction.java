@@ -406,7 +406,6 @@ public class AwardAction extends BudgetParentActionBase {
         checkAwardNumber(award);
         String userId = GlobalVariables.getUserSession().getPrincipalName();
         
-        if (isValidSave(awardForm)) {
             boolean savingNewAward = award.getAwardId() == null;
             
             forward = super.save(mapping, form, request, response);
@@ -434,10 +433,6 @@ public class AwardAction extends BudgetParentActionBase {
             //now we need to save the hierarchy changes
             getBusinessObjectService().save(award.getSyncChanges());
             awardForm.getAwardSyncBean().getConfirmedPendingChanges().clear();
-        } else {
-            GlobalVariables.getErrorMap().putError("document.awardList[0].unitNumber", KeyConstants.ERROR_AWARD_LEAD_UNIT_NOT_AUTHORIZED,  new String[] {userId, awardForm.getAwardDocument().getLeadUnitNumber()});
-            forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
-        }
 
         return forward;
     }
@@ -588,7 +583,7 @@ public class AwardAction extends BudgetParentActionBase {
             UnitAuthorizationService authService = KraServiceLocator.getService(UnitAuthorizationService.class);      
             //List<Unit> userUnits = authService.getUnits(userId, Constants.MODULE_NAMESPACE_AWARD, AwardPermissionConstants.CREATE_AWARD.getAwardPermission());
             return authService.hasMatchingQualifiedUnits(userId, Constants.MODULE_NAMESPACE_AWARD, 
-                    AwardPermissionConstants.CREATE_AWARD.getAwardPermission(), leadUnitNumber);
+                    AwardPermissionConstants.MODIFY_AWARD.getAwardPermission(), leadUnitNumber);
         }
         return false; 
     }
@@ -754,12 +749,15 @@ public class AwardAction extends BudgetParentActionBase {
     
     @SuppressWarnings("deprecation")
     public ActionForward timeAndMoney(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception{
-        
+        AwardForm awardForm = (AwardForm) form;
         ActionForward actionForward;
-        this.save(mapping, form, request, response);
+        //if award document is view only then we don't need to save document before opening T&M document.
+        if(!awardForm.getEditingMode().containsKey("viewOnly") || awardForm.getEditingMode().containsKey("fullEntry")){
+            this.save(mapping, form, request, response);
+        }
         
         if(GlobalVariables.getErrorMap().hasNoErrors()){
-            AwardForm awardForm = (AwardForm) form;
+            //AwardForm awardForm = (AwardForm) form;
             DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
             boolean firstTimeAndMoneyDocCreation = Boolean.TRUE;
             TransactionDetail transactionDetail = null;
