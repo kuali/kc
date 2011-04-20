@@ -54,7 +54,6 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonComparator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
@@ -68,6 +67,7 @@ import org.kuali.kra.proposaldevelopment.rule.event.SaveKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentPersonQuestionnaireService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.print.QuestionnairePrintingService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -732,7 +732,39 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         return returnValue;
     }
     
+    public ActionForward printQuestionnaireAnswer(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        // TODO : this is only available after questionnaire is saved ?
+        ActionForward forward = mapping.findForward(MAPPING_BASIC);
+        Map<String, Object> reportParameters = new HashMap<String, Object>();
+        
+        ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument document = pdform.getDocument();
+        
+        final int personIndex = this.getSelectedLine(request);
+        
+        ProposalPerson person = document.getDevelopmentProposal().getProposalPerson(personIndex);
+        ProposalPersonQuestionnaireHelper helper = new ProposalPersonQuestionnaireHelper(pdform, person);
+        AnswerHeader header = helper.getAnswerHeaders().get(0);
+        
+        // TODO : a flag to check whether to print answer or not
+        // for release 3 : if questionnaire questions has answer, then print answer. 
+        
+        
+        reportParameters.put("questionnaireId", header.getQuestionnaire().getQuestionnaireId());
+        reportParameters.put("template", header.getQuestionnaire().getTemplate());
+
+        AttachmentDataSource dataStream = getQuestionnairePrintingService().printQuestionnaireAnswer(document.getDevelopmentProposal(), reportParameters);
+        if (dataStream.getContent() != null) {
+            streamToResponse(dataStream, response);
+            forward = null;
+        }
+        
+        return forward;
+    }   
     
+    protected QuestionnairePrintingService getQuestionnairePrintingService() {
+        return KraServiceLocator.getService(QuestionnairePrintingService.class);
+    }
 }
-
-

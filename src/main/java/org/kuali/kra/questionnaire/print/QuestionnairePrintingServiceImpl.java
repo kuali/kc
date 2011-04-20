@@ -73,8 +73,8 @@ public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingSe
      * @see org.kuali.kra.questionnaire.print.QuestionnairePrintingService#printQuestionnaireAnswer(KewPersistableBusinessObjectBase,
      *      java.util.Map)
      */
-    public AttachmentDataSource printQuestionnaireAnswer(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters)
-            throws PrintingException {
+    public AttachmentDataSource printQuestionnaireAnswer(KraPersistableBusinessObjectBase printableBusinessObject, 
+            Map<String, Object> reportParameters) throws PrintingException {
         AttachmentDataSource source = null;
         AbstractPrint printable = getQuestionnairePrint();
         if (printable != null) {
