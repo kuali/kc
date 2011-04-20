@@ -37,19 +37,19 @@
 		  	</tr>
 		  	<tr>
 		    	<th>
-		    		<div align="right">Sponsor ID:</div>
-		      	</th>
-		    	<td>
-		    		<c:out value="${KualiForm.awardForSummaryPanelDisplay.sponsor.sponsorName}" />
-		    		<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.sponsorCode" attributeEntry="${awardAttributes.sponsorCode}" readOnlyAlternateDisplay="${KualiForm.awardForSummaryPanelDisplay.sponsor.sponsorName}"readOnly="true" />-->
-		    	</td>
-		    	<th>
 		    		<div align="right">Sponsor Award ID:</div>
 		      	</th>
 		    	<td>
 		    		<c:out value="${KualiForm.awardForSummaryPanelDisplay.sponsorAwardNumber}" />
 		    		<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.sponsorAwardNumber" attributeEntry="${awardAttributes.sponsorAwardNumber}" readOnlyAlternateDisplay="${KualiForm.awardForSummaryPanelDisplay.sponsorAwardNumber}"readOnly="true" />-->
 		    	</td>
+		    	<th>
+		    		<div align="right">Activity Type</div>
+		    	</th>
+		    	<td>
+		    		<c:out value="${KualiForm.awardForSummaryPanelDisplay.activityType.description}" />
+		    		<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.activityTypeCode" attributeEntry="${awardAttributes.activityTypeCode}" readOnlyAlternateDisplay="${KualiForm.awardForSummaryPanelDisplay.activityType.description}"readOnly="true" />-->
+				</td>
 		  	</tr>
 		  	<tr>
 		    	<th>
@@ -77,13 +77,8 @@
 		    		<c:out value="${KualiForm.awardForSummaryPanelDisplay.awardStatus.description}" />
 		    		<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.statusCode" attributeEntry="${awardAttributes.statusCode}" readOnlyAlternateDisplay="${KualiForm.awardForSummaryPanelDisplay.awardStatus.description}" readOnly="true" />-->
 		      	</td>
-		    	<th>
-		    		<div align="right">Activity Type</div>
-		    	</th>
-		    	<td>
-		    		<c:out value="${KualiForm.awardForSummaryPanelDisplay.activityType.description}" />
-		    		<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.activityTypeCode" attributeEntry="${awardAttributes.activityTypeCode}" readOnlyAlternateDisplay="${KualiForm.awardForSummaryPanelDisplay.activityType.description}"readOnly="true" />-->
-				</td>
+		    	<th>&nbsp;</th>
+		    	<td align="left" valign="middle">&nbsp;</td>
 		  	</tr>
 		  	<tr>
 		    	<th>
