@@ -85,7 +85,7 @@ public class ProtocolAttachmentPersonnelRule extends ResearchDocumentRuleBase im
     }
 
     private boolean validDescription(String description, String typeCode, String propertyName) {
-        if (StringUtils.isEmpty(description) && OTHER_TYPE_CODE.equals(typeCode)) {
+        if (StringUtils.isEmpty(description)) {
             GlobalVariables.getMessageMap().putError(propertyName, 
                     KeyConstants.ERROR_PROTOCOL_ATTACHMENT_PERSONNEL_INVALID_DESCRIPTION);
             return false;
