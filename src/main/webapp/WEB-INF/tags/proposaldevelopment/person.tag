@@ -404,7 +404,9 @@
 			<c:set var="property" value="proposalPersonQuestionnaireHelpers[${personIndex}]" />
 			<c:set var="bean" value="${KualiForm.proposalPersonQuestionnaireHelpers[personIndex]}" />
 			<c:set var ="completed" value="${KualiForm.proposalPersonQuestionnaireHelpers[personIndex].answerHeaders[0].allQuestionsAnswered}"/>
-			<kra-questionnaire:questionnaireAnswersInnerTab bean = "${bean}" property = "${property}" answerHeaderIndex = "${answerHeaderIndex}" parentTab="${parentTabName}" completed="${completed }"/>
+			<kra-questionnaire:questionnaireAnswersInnerTab bean = "${bean}" property = "${property}" 
+				answerHeaderIndex = "${answerHeaderIndex}" parentTab="${parentTabName}" completed="${completed }"
+				personIndex="${personIndex }"/>
 		</td>
 	</tr>
   </c:when>
@@ -441,7 +443,9 @@
 			<c:set var="property" value="proposalPersonQuestionnaireHelpers[${personIndex}]" />
 			<c:set var="bean" value="${KualiForm.proposalPersonQuestionnaireHelpers[personIndex]}" />
 			<c:set var ="completed" value="${KualiForm.proposalPersonQuestionnaireHelpers[personIndex].answerHeaders[0].allQuestionsAnswered}"/>
-			<kra-questionnaire:questionnaireAnswersInnerTab bean = "${bean}" property = "${property}" answerHeaderIndex = "${answerHeaderIndex}" parentTab="${parentTabName}" completed="${completed}"/>
+			<kra-questionnaire:questionnaireAnswersInnerTab bean = "${bean}" property = "${property}" 
+				answerHeaderIndex = "${answerHeaderIndex}" parentTab="${parentTabName}" completed="${completed}" 
+				personIndex="${personIndex }"/>
 		</td>
 	</tr>
    
