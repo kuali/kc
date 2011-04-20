@@ -21,6 +21,7 @@
 <%@ attribute name="forceNonTransparent" required="false" %>
 <%@ attribute name="parentTab" required="true" %>
 <%@ attribute name="completed" required="true" %>
+<%@ attribute name="personIndex" required="true" %>
 
 <c:if test = "${empty forceNonTransparent}">
 	<c:set var = "forceNonTransparent" value = "false"/>
@@ -69,7 +70,7 @@
             <span class="subhead-left"><a href="#" id ="questionpanelcontrol:${property}:${answerHeaderIndex}" class="questionpanel"><img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a>
                 Questions </span>
  	        <span class="subhead-right">
- 	        <html:image property="methodToCall.printQuestionnaireAnswer.${property}.line${answerHeaderIndex}.anchor"
+ 	        <html:image property="methodToCall.printQuestionnaireAnswer.${property}.line${personIndex}.anchor"
 	src='${ConfigProperties.kra.externalizable.images.url}tinybutton-printdark.gif' styleClass="tinybutton"
    alt="Print Questionnaire Answer" onclick="excludeSubmitRestriction = true;"/> 
    <a title="[Help]help" target="helpWindow" href="${ConfigProperties.application.url}/kr/help.do?methodToCall=getBusinessObjectHelpText&amp;businessObjectClassName=org.kuali.kra.questionnaire.question.Question">
