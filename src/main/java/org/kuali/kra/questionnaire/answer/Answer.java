@@ -183,6 +183,8 @@ public class Answer extends KraPersistableBusinessObjectBase {
         hashMap.put("questionNumber", this.getQuestionNumber());
         hashMap.put("answerNumber", this.getAnswerNumber());
         hashMap.put("answer", this.getAnswer());
+        hashMap.put("matchedChild", this.matchedChild);
+        hashMap.put("this.getParentAnswer().size()", this.getParentAnswer() == null ? 0 : this.getParentAnswer().size());
         return hashMap;
     }
 

@@ -403,7 +403,8 @@
 			<c:set var="answerHeaderIndex" value="0" />
 			<c:set var="property" value="proposalPersonQuestionnaireHelpers[${personIndex}]" />
 			<c:set var="bean" value="${KualiForm.proposalPersonQuestionnaireHelpers[personIndex]}" />
-			<kra-questionnaire:questionnaireAnswersInnerTab bean = "${bean}" property = "${property}" answerHeaderIndex = "${answerHeaderIndex}" parentTab="${parentTabName}"/>
+			<c:set var ="completed" value="${KualiForm.proposalPersonQuestionnaireHelpers[personIndex].answerHeaders[0].allQuestionsAnswered}"/>
+			<kra-questionnaire:questionnaireAnswersInnerTab bean = "${bean}" property = "${property}" answerHeaderIndex = "${answerHeaderIndex}" parentTab="${parentTabName}" completed="${completed }"/>
 		</td>
 	</tr>
   </c:when>
@@ -411,7 +412,7 @@
      <c:choose>
       <c:when test="${KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].optInCertificationStatus == 'Y'}"> 
    	  <tr><td colspan=4>
-      <kul:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="false" auditCluster="keyPersonnelAuditErrors" tabAuditKey="document.developmentProposalList[0].proposalPersons[${personIndex}]*" >
+      <kul:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="false" auditCluster="keyPersonnelAuditErrors" tabAuditKey="proposalPersonQuestionnaireHelpers[[${personIndex}].answerHeaders[0].answers[0].answer*" >
       <div class="innerTab-container" align="left">
        <table class=tab cellpadding=0 cellspacing="0" summary=""> 
       <tr>
@@ -439,7 +440,8 @@
 			<c:set var="answerHeaderIndex" value="0" />
 			<c:set var="property" value="proposalPersonQuestionnaireHelpers[${personIndex}]" />
 			<c:set var="bean" value="${KualiForm.proposalPersonQuestionnaireHelpers[personIndex]}" />
-			<kra-questionnaire:questionnaireAnswersInnerTab bean = "${bean}" property = "$property}" answerHeaderIndex = "${answerHeaderIndex}" parentTab="${parentTabName}"/>
+			<c:set var ="completed" value="${KualiForm.proposalPersonQuestionnaireHelpers[personIndex].answerHeaders[0].allQuestionsAnswered}"/>
+			<kra-questionnaire:questionnaireAnswersInnerTab bean = "${bean}" property = "${property}" answerHeaderIndex = "${answerHeaderIndex}" parentTab="${parentTabName}" completed="${completed}"/>
 		</td>
 	</tr>
    
