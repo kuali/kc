@@ -112,7 +112,7 @@
 	    	<tr>
 	        	<th>
 	            	<!--  <div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.sponsorCode}" /></div>-->
-	            	<div align="right">Sponsor</div>
+	            	<div align="right">Sponsor:</div>
 	        	</th>
 	        	<td colspan="3">
 	        		<c:out value="${KualiForm.awardForSummaryPanelDisplay.sponsorCode}" />
@@ -123,30 +123,27 @@
 				<th>
 					<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.awardEffectiveDate}" /></div>
         		</th>
-        		<td align="left" valign="middle">
-        			<c:out value="${KualiForm.awardForSummaryPanelDisplay.awardEffectiveDate}" />
+        		<td align="left" valign="middle" >
+        			<fmt:formatDate pattern="MM/dd/yyyy" value="${KualiForm.awardForSummaryPanelDisplay.awardEffectiveDate}" />
         			<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.awardEffectiveDate" attributeEntry="${awardAttributes.awardEffectiveDate}" readOnly="true" />-->
 				</td>
 				<th>
 					<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.currentFundEffectiveDate}" /></div>
         		</th>
         		<td align="left" valign="middle">
-        			<c:out value="${KualiForm.awardForSummaryPanelDisplay.awardAmountInfos[KualiForm.indexOfAwardAmountInfoForDisplay].currentFundEffectiveDate}" />
+        			<fmt:formatDate pattern="MM/dd/yyyy" value="${KualiForm.awardForSummaryPanelDisplay.awardAmountInfos[KualiForm.indexOfAwardAmountInfoForDisplay].currentFundEffectiveDate}" />
         			<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.awardAmountInfos[${KualiForm.indexOfAwardAmountInfoForDisplay}].currentFundEffectiveDate" attributeEntry="${awardAmountInfoAttributes.currentFundEffectiveDate}" readOnly="true" />-->
         		</td>
 	        <tr>	        	
-				<th>
-					<div align="right">Project End Date:</div>
-        		</th>
-        		<td align="left" valign="middle">
-        			<c:out value="${KualiForm.awardForSummaryPanelDisplay.awardAmountInfos[KualiForm.indexOfAwardAmountInfoForDisplay].finalExpirationDate}" />
-        			<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.awardAmountInfos[${KualiForm.indexOfAwardAmountInfoForDisplay}].finalExpirationDate" attributeEntry="${awardAmountInfoAttributes.finalExpirationDate}" readOnly="true" />-->
+				<th style="text-align: right;">Project End Date:</th>
+   				<td>
+   					<fmt:formatDate pattern="MM/dd/yyyy" value="${KualiForm.awardForSummaryPanelDisplay.awardAmountInfos[KualiForm.indexOfAwardAmountInfoForDisplay].finalExpirationDate}" />
         		</td>
         		<th>
 					<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.obligationExpirationDate}" /></div>
         		</th>
         		<td align="left" valign="middle">
-        			<c:out value="${KualiForm.awardForSummaryPanelDisplay.awardAmountInfos[KualiForm.indexOfAwardAmountInfoForDisplay].obligationExpirationDate}" />
+        			<fmt:formatDate pattern="MM/dd/yyyy" value="${KualiForm.awardForSummaryPanelDisplay.awardAmountInfos[KualiForm.indexOfAwardAmountInfoForDisplay].obligationExpirationDate}" />
         			<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.awardAmountInfos[${KualiForm.indexOfAwardAmountInfoForDisplay}].obligationExpirationDate" attributeEntry="${awardAmountInfoAttributes.obligationExpirationDate}" readOnly="true" />-->
         		</td>	        	
 	        </tr>
@@ -155,14 +152,14 @@
 					<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.anticipatedTotalAmount}" /></div>
         		</th>
         		<td align="left" valign="middle">
-        			<c:out value="${KualiForm.awardForSummaryPanelDisplay.awardAmountInfos[KualiForm.indexOfAwardAmountInfoForDisplay].anticipatedTotalAmount}" />
+        			<fmt:formatNumber type="currency"  value="${KualiForm.awardForSummaryPanelDisplay.awardAmountInfos[KualiForm.indexOfAwardAmountInfoForDisplay].anticipatedTotalAmount}" />
         			<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.awardAmountInfos[${KualiForm.indexOfAwardAmountInfoForDisplay}].anticipatedTotalAmount" attributeEntry="${awardAmountInfoAttributes.anticipatedTotalAmount}" readOnly="true" />-->
         		</td>
         		<th>
 					<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.amountObligatedToDate}" /></div>
         		</th>
         		<td align="left" valign="middle">
-        			<c:out value="${KualiForm.awardForSummaryPanelDisplay.awardAmountInfos[KualiForm.indexOfAwardAmountInfoForDisplay].amountObligatedToDate}" />
+        			<fmt:formatNumber type="currency"  value="${KualiForm.awardForSummaryPanelDisplay.awardAmountInfos[KualiForm.indexOfAwardAmountInfoForDisplay].amountObligatedToDate}" />
         			<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.awardAmountInfos[${KualiForm.indexOfAwardAmountInfoForDisplay}].amountObligatedToDate" attributeEntry="${awardAmountInfoAttributes.amountObligatedToDate}" readOnly="true" />-->
         		</td>
 	        </tr>
@@ -181,10 +178,10 @@
 	        		<div align="left">
 	        		<c:choose>
 	        			<c:when test="${fn:length(KualiForm.awardForSummaryPanelDisplay.awardApprovedSubawards)==0}">
-	        				N
+	        				No
 	        			</c:when>
 	        			<c:otherwise>
-	        				Y
+	        				Yes
 	        			</c:otherwise>
 	        		</c:choose>
 	        		</div>
@@ -196,10 +193,10 @@
         			<div align="left">
         			<c:choose>
 	        			<c:when test="${fn:length(KualiForm.awardForSummaryPanelDisplay.paymentScheduleItems)==0}">
-	        				N
+	        				No
 	        			</c:when>
 	        			<c:otherwise>
-	        				Y
+	        				Yes
 	        			</c:otherwise>
 	        		</c:choose>
 	        		</div>
@@ -212,10 +209,10 @@
 	        		<div align="left">
 					<c:choose>
 	        			<c:when test="${fn:length(KualiForm.awardForSummaryPanelDisplay.approvedEquipmentItems)==0}">
-	        				N
+	        				No
 	        			</c:when>
 	        			<c:otherwise>
-	        				Y
+	        				Yes
 	        			</c:otherwise>
 	        		</c:choose>
 					</div>
@@ -227,10 +224,10 @@
        				<div align="left">
        				<c:choose>
 	        			<c:when test="${fn:length(KualiForm.awardForSummaryPanelDisplay.awardTransferringSponsors)==0}">
-	        				N
+	        				No
 	        			</c:when>
 	        			<c:otherwise>
-	        				Y
+	        				Yes
 	        			</c:otherwise>
 	        		</c:choose>
        				</div>
@@ -243,10 +240,10 @@
 	        		<div align="left">
 	        		<c:choose>
 	        			<c:when test="${fn:length(KualiForm.awardForSummaryPanelDisplay.approvedForeignTravelTrips)==0}">
-	        				N
+	        				No
 	        			</c:when>
 	        			<c:otherwise>
-	        				Y
+	        				Yes
 	        			</c:otherwise>
 	        		</c:choose>
 	        		</div>
@@ -258,10 +255,10 @@
         			<div align="left">
         			<c:choose>
 	        			<c:when test="${fn:length(KualiForm.awardForSummaryPanelDisplay.awardCostShares)==0}">
-	        				N
+	        				No
 	        			</c:when>
 	        			<c:otherwise>
-	        				Y
+	        				Yes
 	        			</c:otherwise>
 	        		</c:choose>
 	        		</div>
@@ -275,10 +272,10 @@
 	        		<div align="left">
 	        		<c:choose>
 	        			<c:when test="${fn:length(KualiForm.awardForSummaryPanelDisplay.awardFandaRate)==0}">
-	        				N
+	        				No
 	        			</c:when>
 	        			<c:otherwise>
-	        				Y
+	        				Yes
 	        			</c:otherwise>
 	        		</c:choose>
 	        		</div>
@@ -300,13 +297,13 @@
 	        	</th>
 	        </tr>
 	        <tr>
-	        	<td>
+	        	<td style="text-align: center;">
 	        		<c:if test="${KualiForm.awardForSummaryPanelDisplay.principalInvestigatorName != null}" >
 	        			<c:out value="${KualiForm.awardForSummaryPanelDisplay.principalInvestigatorName} (Principal Investigator)" />
 	        		</c:if>
 	        		&nbsp;
 	        	</td>
-	        	<td>
+	        	<td style="text-align: center;">
 	        		<c:forEach var="leadUnit" items="${KualiForm.awardForSummaryPanelDisplay.principalInvestigator.units}" varStatus="status">
 	        			<c:out value="${KualiForm.awardForSummaryPanelDisplay.principalInvestigator.units[status.index].unit.unitName}" />	        			
         				<c:if test="${KualiForm.awardForSummaryPanelDisplay.principalInvestigator.units[status.index].leadUnit}" >
@@ -318,10 +315,10 @@
 	        
 	        	<c:forEach var="coInvestigator" items="${KualiForm.awardForSummaryPanelDisplay.coInvestigators}" varStatus="status">
 	        	<tr>
-	        		<td>
+	        		<td style="text-align: center;">
 	        			<c:out value="${KualiForm.awardForSummaryPanelDisplay.coInvestigators[status.index].fullName} (Co-Investigator)" />&nbsp;
         			</td>
-        			<td>
+        			<td style="text-align: center;">
 	        			<c:forEach var="unit" items="${coInvestigator.units}" varStatus="status">
 	        				<c:out value="${coInvestigator.units[status.index].unit.unitName}" /><br>	        			
 	        			</c:forEach>
@@ -331,19 +328,16 @@
 	        	
 	        	<c:forEach var="keyPerson" items="${KualiForm.awardForSummaryPanelDisplay.keyPersons}" varStatus="status">
 	        	<tr>
-	        		<td>
+	        		<td style="text-align: center;">
 	        			<c:out value="${KualiForm.awardForSummaryPanelDisplay.keyPersons[status.index].fullName} (Key Person)" />&nbsp;
         			</td>
-        			<td>
+        			<td style="text-align: center;">
 	        			<c:forEach var="unit" items="${keyPerson.units}" varStatus="status">
 	        				<c:out value="${keyPerson.units[status.index].unit.unitName}" /><br>	        			
 	        			</c:forEach>
         			</td>
 	        	</tr>
-	        	</c:forEach>
-	        
-	        	
-	        	
+	        	</c:forEach>	        	
 	        </tr>	
 	    </table>    	
    				<html:image property="methodToCall.goToPreviousAward.anchor${tabKey}"
