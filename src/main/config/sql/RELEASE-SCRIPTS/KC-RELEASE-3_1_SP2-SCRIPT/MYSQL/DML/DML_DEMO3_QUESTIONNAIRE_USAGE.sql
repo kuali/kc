@@ -4,7 +4,7 @@ INSERT INTO QUESTIONNAIRE_USAGE (QUESTIONNAIRE_USAGE_ID,MODULE_ITEM_CODE,MODULE_
 SELECT MAX(ID),3,2,(select QUESTIONNAIRE_REF_ID from QUESTIONNAIRE b where QUESTIONNAIRE_ID=2 and sequence_number=
                                                 (select max(sequence_number) from questionnaire p where p.questionnaire_id=b.questionnaire_id)),1,0,
                                                 'NSF Cover page  s2s form supporting questions', 
-                NOW(), 'KCDBA',1,UUID(),'N' FROM SEQ_QUESTIONNAIRE_REF_ID;
+                NOW(), 'admin',1,UUID(),'N' FROM SEQ_QUESTIONNAIRE_REF_ID;
 
 INSERT INTO SEQ_QUESTIONNAIRE_REF_ID VALUES (NULL);
 INSERT INTO QUESTIONNAIRE_USAGE (QUESTIONNAIRE_USAGE_ID,MODULE_ITEM_CODE,MODULE_SUB_ITEM_CODE,QUESTIONNAIRE_REF_ID_FK,QUESTIONNAIRE_SEQUENCE_NUMBER,RULE_ID, 
@@ -12,7 +12,7 @@ INSERT INTO QUESTIONNAIRE_USAGE (QUESTIONNAIRE_USAGE_ID,MODULE_ITEM_CODE,MODULE_
 SELECT MAX(ID),3,2,(select QUESTIONNAIRE_REF_ID from QUESTIONNAIRE b where QUESTIONNAIRE_ID=3 and sequence_number=
                                                 (select max(sequence_number) from questionnaire p where p.questionnaire_id=b.questionnaire_id)),1,0,
                                                 'PHS398 Training Budget V1-0', 
-                NOW(), 'KCDBA',1,UUID(),'Y' FROM SEQ_QUESTIONNAIRE_REF_ID;
+                NOW(), 'admin',1,UUID(),'Y' FROM SEQ_QUESTIONNAIRE_REF_ID;
 
 INSERT INTO SEQ_QUESTIONNAIRE_REF_ID VALUES (NULL);
 INSERT INTO QUESTIONNAIRE_USAGE (QUESTIONNAIRE_USAGE_ID,MODULE_ITEM_CODE,MODULE_SUB_ITEM_CODE,QUESTIONNAIRE_REF_ID_FK,QUESTIONNAIRE_SEQUENCE_NUMBER,RULE_ID, 
@@ -20,7 +20,7 @@ INSERT INTO QUESTIONNAIRE_USAGE (QUESTIONNAIRE_USAGE_ID,MODULE_ITEM_CODE,MODULE_
 SELECT MAX(ID),3,2,(select QUESTIONNAIRE_REF_ID from QUESTIONNAIRE b where QUESTIONNAIRE_ID=4 and sequence_number=
                                                 (select max(sequence_number) from questionnaire p where p.questionnaire_id=b.questionnaire_id)),1,0,
                                                 'PHS Fellowship Form V1-2', 
-                NOW(), 'KCDBA',1,UUID(),'Y' FROM SEQ_QUESTIONNAIRE_REF_ID;
+                NOW(), 'admin',1,UUID(),'Y' FROM SEQ_QUESTIONNAIRE_REF_ID;
 
 INSERT INTO SEQ_QUESTIONNAIRE_REF_ID VALUES (NULL);
 INSERT INTO QUESTIONNAIRE_USAGE (QUESTIONNAIRE_USAGE_ID,MODULE_ITEM_CODE,MODULE_SUB_ITEM_CODE,QUESTIONNAIRE_REF_ID_FK,QUESTIONNAIRE_SEQUENCE_NUMBER,RULE_ID, 
@@ -28,4 +28,4 @@ INSERT INTO QUESTIONNAIRE_USAGE (QUESTIONNAIRE_USAGE_ID,MODULE_ITEM_CODE,MODULE_
 SELECT MAX(ID),3,2,(select QUESTIONNAIRE_REF_ID from QUESTIONNAIRE b where QUESTIONNAIRE_ID=1 and sequence_number=
                                                 (select max(sequence_number) from questionnaire p where p.questionnaire_id=b.questionnaire_id)),1,0,
                                                 'PHS Fellowship Form V1-1', 
-                NOW(), 'KCDBA',1,UUID(),'Y' FROM SEQ_QUESTIONNAIRE_REF_ID;
+                NOW(), 'admin',1,UUID(),'Y' FROM SEQ_QUESTIONNAIRE_REF_ID;
