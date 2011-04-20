@@ -113,9 +113,12 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
         for (ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
             if (shouldValidateYesNoQuestions(person) && !validateYesNoQuestions(person)) {
                 retval = false;
-                //                      document.developmentProposalList[0].proposalPersons[${personIndex}]*
-                error = new AuditError("document.developmentProposalList[0].proposalPersons["+count+"]", ERROR_PROPOSAL_PERSON_CERTIFICATION_INCOMPLETE, KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR, new String[]{person.getFullName()});
-                System.err.println("document.developmentProposalList[0].proposalPersons["+count+"]");
+                //error = new AuditError("document.developmentProposalList[0].proposalPersons["+count+"]", ERROR_PROPOSAL_PERSON_CERTIFICATION_INCOMPLETE, KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR, new String[]{person.getFullName()});
+                //proposalPersonQuestionnaireHelpers[0]Proposal Person Certification0
+                error = new AuditError("proposalPersonQuestionnaireHelpers[" + count + "].answerHeaders[0].answers[0].answer", 
+                        ERROR_PROPOSAL_PERSON_CERTIFICATION_INCOMPLETE, 
+                        KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR,
+                        new String[]{person.getFullName()});
                 getAuditErrors().add(error);
             }
             count++;
@@ -155,7 +158,7 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
         List<AnswerHeader> headers = KraServiceLocator.getService(QuestionnaireAnswerService.class).getQuestionnaireAnswer(bean);
         
         for (AnswerHeader head : headers) {
-            retval &= head.getCompleted();
+            retval &= head.getAllQuestionsAnswered();
         }
         /*
         for (ProposalPersonYnq question : investigator.getProposalPersonYnqs()) {

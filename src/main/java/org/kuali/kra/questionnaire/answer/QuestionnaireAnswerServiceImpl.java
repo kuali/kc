@@ -505,7 +505,9 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     public boolean isQuestionnaireAnswerComplete(List<Answer> answers) {
 
         boolean isComplete = true;
+        System.err.println("answers.size: " + answers.size());
         for (Answer answer : answers) {
+            System.err.println(answer.toString());
             if (YES.equals(answer.getMatchedChild()) && StringUtils.isBlank(answer.getAnswer()) && answer.getAnswerNumber() == 1) {
                 isComplete = false;
                 break;
