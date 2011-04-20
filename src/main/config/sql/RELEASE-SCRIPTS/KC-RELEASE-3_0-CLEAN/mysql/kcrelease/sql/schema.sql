@@ -11660,7 +11660,7 @@ CREATE TABLE SEQ_VALID_NARR_FORMS_ID
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE SEQ_VALID_NARR_FORMS_ID auto_increment = 281
+ALTER TABLE SEQ_VALID_NARR_FORMS_ID auto_increment = 283
 /
 
 # -----------------------------------------------------------------------
@@ -11731,5 +11731,33 @@ CREATE TABLE USER_CHANNEL_SUBSCRIPTIONS_SEQ
 ) ENGINE MyISAM
 /
 ALTER TABLE USER_CHANNEL_SUBSCRIPTIONS_SEQ auto_increment = 1000
+/
+
+# -----------------------------------------------------------------------
+# SEQUENCE_IPPCS_ID
+# -----------------------------------------------------------------------
+drop table if exists SEQUENCE_IPPCS_ID
+/
+
+CREATE TABLE SEQUENCE_IPPCS_ID
+(
+    id bigint(19) not null auto_increment, primary key (id) 
+) ENGINE MyISAM
+/
+ALTER TABLE SEQUENCE_IPPCS_ID auto_increment = 1
+/
+
+# -----------------------------------------------------------------------
+# SEQUENCE_AWARD_ID
+# -----------------------------------------------------------------------
+drop table if exists SEQUENCE_AWARD_ID
+/
+
+CREATE TABLE SEQUENCE_AWARD_ID
+(
+    id bigint(19) not null auto_increment, primary key (id) 
+) ENGINE MyISAM
+/
+ALTER TABLE SEQUENCE_AWARD_ID auto_increment = 1000
 /
 delimiter ;

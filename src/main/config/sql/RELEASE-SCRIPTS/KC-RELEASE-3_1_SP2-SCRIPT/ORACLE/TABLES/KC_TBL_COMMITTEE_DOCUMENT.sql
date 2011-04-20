@@ -1,3 +1,0 @@
--- The following command must be run together with the commands in TBL_COMMITTEE --
--- Adding it here for convenience --
--- ALTER TABLE COMMITTEE_DOCUMENT MODIFY (DOCUMENT_NUMBER VARCHAR2(40));

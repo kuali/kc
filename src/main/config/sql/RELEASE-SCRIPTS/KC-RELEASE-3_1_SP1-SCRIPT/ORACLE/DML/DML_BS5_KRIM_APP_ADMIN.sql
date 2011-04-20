@@ -8,6 +8,11 @@ UPDATE KRIM_ROLE_T
 SET NMSPC_CD = 'KC-SYS'
 WHERE ROLE_NM = 'Application Administrator' AND NMSPC_CD = 'KC-AWARD';
 
+-- CORRECTION TO KRIM_ROLE_PERM_T TO CLEAR DUPLICATE ENTRY INTRODUCED IN 2.0
+-- SET PERM_ID = 183 WHERE ROLE_PERM_ID = 1115;
+UPDATE KRIM_ROLE_PERM_T SET PERM_ID = (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Full Unmask Field' AND NMSPC_CD = 'KR-SYS' AND DESC_TXT = 'Authorizes users to view the entire Tax Identification Number on the Payee ACH document and Inquiry.') 
+WHERE ROLE_PERM_ID = (SELECT MIN(ROLE_PERM_ID) FROM KRIM_ROLE_PERM_T WHERE ROLE_PERM_ID IN (SELECT ROLE_PERM_ID FROM KRIM_ROLE_PERM_T WHERE ROLE_ID = (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Manager' AND NMSPC_CD = 'KC-SYS') AND PERM_ID = (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Full Unmask Field' AND NMSPC_CD = 'KR-SYS' AND DESC_TXT = 'Authorizes users to view the entire Tax Identification Number on the Person document and inquiry.')));
+
 --assign Blanket Approve Document permission to Appliction Administrator role
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 VALUES (KRIM_ROLE_PERM_ID_BS_S.nextval, sys_guid(), 1, (select role_id from krim_role_t where ROLE_NM = 'Application Administrator' and NMSPC_CD = 'KC-SYS'),
@@ -17,138 +22,138 @@ VALUES (KRIM_ROLE_PERM_ID_BS_S.nextval, sys_guid(), 1, (select role_id from krim
 --assign Save Document to Appliction Administrator role
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 VALUES (KRIM_ROLE_PERM_ID_BS_S.nextval, sys_guid(), 1, (select role_id from krim_role_t where ROLE_NM = 'Application Administrator' and NMSPC_CD = 'KC-SYS'),
-    (select PERM_ID from KRIM_PERM_T where NM='Save Document' and perm_id = 1086), 'Y');
+    (select PERM_ID from KRIM_PERM_T where NM='Save Document' and nmspc_cd = 'KC-SYS'), 'Y');
 
 --assign Delete Note / Attachment to Appliction Administrator role
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 VALUES (KRIM_ROLE_PERM_ID_BS_S.nextval, sys_guid(), 1, (select role_id from krim_role_t where ROLE_NM = 'Application Administrator' and NMSPC_CD = 'KC-SYS'),
-    (select PERM_ID from KRIM_PERM_T where NM='Delete Note / Attachment' and perm_id = 1087), 'Y');
+    (select PERM_ID from KRIM_PERM_T where NM='Delete Note / Attachment' and nmspc_cd = 'KC-SYS'), 'Y');
 
 
 --assign Initiate Document to Appliction Administrator role
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 VALUES (KRIM_ROLE_PERM_ID_BS_S.nextval, sys_guid(), 1, (select role_id from krim_role_t where ROLE_NM = 'Application Administrator' and NMSPC_CD = 'KC-SYS'),
-    (select PERM_ID from KRIM_PERM_T where NM='Initiate Document' and perm_id = 1091), 'Y');
+    (select PERM_ID from KRIM_PERM_T where NM='Initiate Document' and nmspc_cd = 'KC-SYS' and desc_txt = 'Authorizes the initiation of KC Simple Maintenance documents.'), 'Y');
 
 --assign Assign Role to Appliction Administrator role
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 VALUES (KRIM_ROLE_PERM_ID_BS_S.nextval, sys_guid(), 1, (select role_id from krim_role_t where ROLE_NM = 'Application Administrator' and NMSPC_CD = 'KC-SYS'),
-    (select PERM_ID from KRIM_PERM_T where NM='Assign Role' and perm_id = 1092), 'Y');
+    (select PERM_ID from KRIM_PERM_T where NM='Assign Role' and nmspc_cd = 'KC-SYS'), 'Y');
 
 --assign Grant Permission to Appliction Administrator role
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 VALUES (KRIM_ROLE_PERM_ID_BS_S.nextval, sys_guid(), 1, (select role_id from krim_role_t where ROLE_NM = 'Application Administrator' and NMSPC_CD = 'KC-SYS'),
-    (select PERM_ID from KRIM_PERM_T where NM='Grant Permission' and perm_id = 1093), 'Y');
+    (select PERM_ID from KRIM_PERM_T where NM='Grant Permission' and nmspc_cd = 'KC-SYS'), 'Y');
 
 --assign Grant Responsibility to Appliction Administrator role
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 VALUES (KRIM_ROLE_PERM_ID_BS_S.nextval, sys_guid(), 1, (select role_id from krim_role_t where ROLE_NM = 'Application Administrator' and NMSPC_CD = 'KC-SYS'),
-    (select PERM_ID from KRIM_PERM_T where NM='Grant Responsibility' and perm_id = 1094), 'Y');
+    (select PERM_ID from KRIM_PERM_T where NM='Grant Responsibility' and nmspc_cd = 'KC-SYS'), 'Y');
 
 --assign Maintain System Parameter to Appliction Administrator role
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 VALUES (KRIM_ROLE_PERM_ID_BS_S.nextval, sys_guid(), 1, (select role_id from krim_role_t where ROLE_NM = 'Application Administrator' and NMSPC_CD = 'KC-SYS'),
-    (select PERM_ID from KRIM_PERM_T where NM='Maintain System Parameter' and perm_id = 1095), 'Y');
+    (select PERM_ID from KRIM_PERM_T where NM='Maintain System Parameter' and nmspc_cd = 'KC-SYS'), 'Y');
 
 --assign Maintain System Parameter to Appliction Administrator role
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 VALUES (KRIM_ROLE_PERM_ID_BS_S.nextval, sys_guid(), 1, (select role_id from krim_role_t where ROLE_NM = 'Application Administrator' and NMSPC_CD = 'KC-SYS'),
-    (select PERM_ID from KRIM_PERM_T where NM='Maintain System Parameter' and perm_id = 163), 'Y');
+    (select PERM_ID from KRIM_PERM_T where NM='Maintain System Parameter' and nmspc_cd = 'KR-SYS'), 'Y');
 
 --assign Full Unmask Field to Appliction Administrator role
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 VALUES (KRIM_ROLE_PERM_ID_BS_S.nextval, sys_guid(), 1, (select role_id from krim_role_t where ROLE_NM = 'Application Administrator' and NMSPC_CD = 'KC-SYS'),
-    (select PERM_ID from KRIM_PERM_T where NM='Full Unmask Field' and perm_id = 183), 'Y');
+    (select PERM_ID from KRIM_PERM_T where NM='Full Unmask Field' and nmspc_cd = 'KR-SYS' and desc_txt = 'Authorizes users to view the entire Tax Identification Number on the Payee ACH document and Inquiry.'), 'Y');
 
 --assign View Other Action List to Appliction Administrator role
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 VALUES (KRIM_ROLE_PERM_ID_BS_S.nextval, sys_guid(), 1, (select role_id from krim_role_t where ROLE_NM = 'Application Administrator' and NMSPC_CD = 'KC-SYS'),
-    (select PERM_ID from KRIM_PERM_T where NM='View Other Action List' and perm_id = 1096), 'Y');
+    (select PERM_ID from KRIM_PERM_T where NM='View Other Action List' and nmspc_cd = 'KR-WKFLW' and desc_txt = 'Authorizes users to access other user''s action lists via the Help Desk Action List Login.'), 'Y');
 
 --assign Unrestricted Document Search to Appliction Administrator role
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 VALUES (KRIM_ROLE_PERM_ID_BS_S.nextval, sys_guid(), 1, (select role_id from krim_role_t where ROLE_NM = 'Application Administrator' and NMSPC_CD = 'KC-SYS'),
-    (select PERM_ID from KRIM_PERM_T where NM='Unrestricted Document Search' and perm_id = 1097), 'Y');
+    (select PERM_ID from KRIM_PERM_T where NM='Unrestricted Document Search' and nmspc_cd = 'KR-WKFLW' and desc_txt = 'Allows power users to bypass the security associated with certain document types to limit the result set.'), 'Y');
 
 --assign Full Unmask Field to Appliction Administrator role
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 VALUES (KRIM_ROLE_PERM_ID_BS_S.nextval, sys_guid(), 1, (select role_id from krim_role_t where ROLE_NM = 'Application Administrator' and NMSPC_CD = 'KC-SYS'),
-    (select PERM_ID from KRIM_PERM_T where NM='Full Unmask Field' and perm_id = 306), 'Y');
+    (select PERM_ID from KRIM_PERM_T where NM='Full Unmask Field' and nmspc_cd = 'KR-SYS' and desc_txt = 'Authorizes users to view the entire Tax Identification Number on the Person document and inquiry.'), 'Y');
 
 --assign Initiate Document to Appliction Administrator role
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 VALUES (KRIM_ROLE_PERM_ID_BS_S.nextval, sys_guid(), 1, (select role_id from krim_role_t where ROLE_NM = 'Application Administrator' and NMSPC_CD = 'KC-SYS'),
-    (select PERM_ID from KRIM_PERM_T where NM='Initiate Document' and perm_id = 149), 'Y');
+    (select PERM_ID from KRIM_PERM_T where NM='Initiate Document' and nmspc_cd = 'KR-SYS'), 'Y');
 
 --assign Blanket Approve ProposalDevelopmentDocument to Appliction Administrator role
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 VALUES (KRIM_ROLE_PERM_ID_BS_S.nextval, sys_guid(), 1, (select role_id from krim_role_t where ROLE_NM = 'Application Administrator' and NMSPC_CD = 'KC-SYS'),
-    (select PERM_ID from KRIM_PERM_T where NM='Blanket Approve ProposalDevelopmentDocument' and perm_id = 1098), 'Y');
+    (select PERM_ID from KRIM_PERM_T where NM='Blanket Approve ProposalDevelopmentDocument' and nmspc_cd = 'KC-PD'), 'Y');
 
 --assign Blanket Approve ProtocolDocument to Appliction Administrator role
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 VALUES (KRIM_ROLE_PERM_ID_BS_S.nextval, sys_guid(), 1, (select role_id from krim_role_t where ROLE_NM = 'Application Administrator' and NMSPC_CD = 'KC-SYS'),
-    (select PERM_ID from KRIM_PERM_T where NM='Blanket Approve ProtocolDocument' and perm_id = 1099), 'Y');
+    (select PERM_ID from KRIM_PERM_T where NM='Blanket Approve ProtocolDocument' and nmspc_cd = 'KC-PROTOCOL'), 'Y');
 
 --assign Blanket Approve CommitteeDocument to Appliction Administrator role
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 VALUES (KRIM_ROLE_PERM_ID_BS_S.nextval, sys_guid(), 1, (select role_id from krim_role_t where ROLE_NM = 'Application Administrator' and NMSPC_CD = 'KC-SYS'),
-    (select PERM_ID from KRIM_PERM_T where NM='Blanket Approve CommitteeDocument' and perm_id = 1100), 'Y');
+    (select PERM_ID from KRIM_PERM_T where NM='Blanket Approve CommitteeDocument' and nmspc_cd = 'KC-PROTOCOL'), 'Y');
 
 --assign Blanket Approve AwardDocument to Appliction Administrator role
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 VALUES (KRIM_ROLE_PERM_ID_BS_S.nextval, sys_guid(), 1, (select role_id from krim_role_t where ROLE_NM = 'Application Administrator' and NMSPC_CD = 'KC-SYS'),
-    (select PERM_ID from KRIM_PERM_T where NM='Blanket Approve AwardDocument' and perm_id = 1101), 'Y');
+    (select PERM_ID from KRIM_PERM_T where NM='Blanket Approve AwardDocument' and nmspc_cd = 'KC-AWARD'), 'Y');
 
 
 --assign Blanket Approve TimeAndMoneyDocument to Appliction Administrator role
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 VALUES (KRIM_ROLE_PERM_ID_BS_S.nextval, sys_guid(), 1, (select role_id from krim_role_t where ROLE_NM = 'Application Administrator' and NMSPC_CD = 'KC-SYS'),
-    (select PERM_ID from KRIM_PERM_T where NM='Blanket Approve TimeAndMoneyDocument' and perm_id = 1103), 'Y');
+    (select PERM_ID from KRIM_PERM_T where NM='Blanket Approve TimeAndMoneyDocument' and nmspc_cd = 'KC-AWARD'), 'Y');
 
 
 --assign administer routing for document permission to Appliction Administrator role
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 VALUES (KRIM_ROLE_PERM_ID_BS_S.nextval, sys_guid(), 1, (select role_id from krim_role_t where ROLE_NM = 'Application Administrator' and NMSPC_CD = 'KC-SYS'),
-    (select PERM_ID from KRIM_PERM_T where NM='Administer Routing for Document' and perm_id = 1082), 'Y');
+    (select PERM_ID from KRIM_PERM_T where NM='Administer Routing for Document' and nmspc_cd = 'KC-SYS'), 'Y');
 
 --assign modify entity permission to Application Administrator role
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 VALUES (KRIM_ROLE_PERM_ID_BS_S.nextval, sys_guid(), 1, (select role_id from krim_role_t where ROLE_NM = 'Application Administrator' and NMSPC_CD = 'KC-SYS'),
-    (select PERM_ID from KRIM_PERM_T where NM='Modify Entity' and perm_id = 153), 'Y');
+    (select PERM_ID from KRIM_PERM_T where NM='Modify Entity' and nmspc_cd = 'KR-SYS'), 'Y');
 
 --assign populate group permission to Application Administrator role
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 VALUES (KRIM_ROLE_PERM_ID_BS_S.nextval, sys_guid(), 1, (select role_id from krim_role_t where ROLE_NM = 'Application Administrator' and NMSPC_CD = 'KC-SYS'),
-    (select PERM_ID from KRIM_PERM_T where NM='Populate Group' and perm_id = 155), 'Y');
+    (select PERM_ID from KRIM_PERM_T where NM='Populate Group' and nmspc_cd = 'KR-SYS' and desc_txt = 'Authorizes users to modify the information on the Assignees Tab of the Group Document and the Group section of the Membership Tab on the Person Document for groups with namespaces beginning with KR.'), 'Y');
 
 --assign cancel document permission to Application Administrator role
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 VALUES (KRIM_ROLE_PERM_ID_BS_S.nextval, sys_guid(), 1, (select role_id from krim_role_t where ROLE_NM = 'Application Administrator' and NMSPC_CD = 'KC-SYS'),
-    (select PERM_ID from KRIM_PERM_T where NM='Cancel Document'and perm_id = 167), 'Y');
+    (select PERM_ID from KRIM_PERM_T where NM='Cancel Document'and nmspc_cd = 'KUALI'), 'Y');
 
 --assign copy document permission to Application Administrator role
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 VALUES (KRIM_ROLE_PERM_ID_BS_S.nextval, sys_guid(), 1, (select role_id from krim_role_t where ROLE_NM = 'Application Administrator' and NMSPC_CD = 'KC-SYS'),
-    (select PERM_ID from KRIM_PERM_T where NM='Copy Document'and perm_id = 156), 'Y');
+    (select PERM_ID from KRIM_PERM_T where NM='Copy Document'and nmspc_cd = 'KUALI'), 'Y');
 
 --assign edit document permission to Application Administrator role
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 VALUES (KRIM_ROLE_PERM_ID_BS_S.nextval, sys_guid(), 1, (select role_id from krim_role_t where ROLE_NM = 'Application Administrator' and NMSPC_CD = 'KC-SYS'),
-    (select PERM_ID from KRIM_PERM_T where NM='Edit Document' and perm_id = 180), 'Y');
+    (select MIN(PERM_ID) from KRIM_PERM_T where NM='Edit Document' and nmspc_cd = 'KUALI'), 'Y');
 
 --assign log in permission to Application Administrator role
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 VALUES (KRIM_ROLE_PERM_ID_BS_S.nextval, sys_guid(), 1, (select role_id from krim_role_t where ROLE_NM = 'Application Administrator' and NMSPC_CD = 'KC-SYS'),
-    (select PERM_ID from KRIM_PERM_T where NM='Log In'and perm_id = 174), 'Y');
+    (select PERM_ID from KRIM_PERM_T where NM='Log In'and nmspc_cd = 'KUALI'), 'Y');
 
 --assign route document permission to Application Administrator role
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 VALUES (KRIM_ROLE_PERM_ID_BS_S.nextval, sys_guid(), 1, (select role_id from krim_role_t where ROLE_NM = 'Application Administrator' and NMSPC_CD = 'KC-SYS'),
-    (select PERM_ID from KRIM_PERM_T where NM='Route Document'and perm_id = 168), 'Y');
+    (select PERM_ID from KRIM_PERM_T where NM='Route Document'and nmspc_cd = 'KUALI'), 'Y');
 
 --assign Populate KC Groups permission to Application Administrator role
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 VALUES (KRIM_ROLE_PERM_ID_BS_S.nextval, sys_guid(), 1, (select role_id from krim_role_t where ROLE_NM = 'Application Administrator' and NMSPC_CD = 'KC-SYS'),
-    (select PERM_ID from KRIM_PERM_T where NM='Populate KC Groups'and perm_id = 1210), 'Y');
+    (select PERM_ID from KRIM_PERM_T where NM='Populate KC Groups'and nmspc_cd = 'KC-SYS'), 'Y');
 
