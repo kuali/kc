@@ -66,7 +66,7 @@
     <tr>
       <th style="text-align: right;">Project End Date:</th>
       <td><fmt:formatDate pattern="MM/dd/yyyy" value="${node.extraInfo.finalExpirationDate}"/></td>
-      <th style="text-align: right;">Obligation End Date</th>
+      <th style="text-align: right;">Obligation End Date:</th>
       <td><fmt:formatDate pattern="MM/dd/yyyy" value="${node.extraInfo.obligationExpirationDate}"/></td>
     </tr>
     <tr>
