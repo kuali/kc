@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.drools.core.util.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.questionnaire.Questionnaire;
 
@@ -268,6 +269,18 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
     public void setActiveQuestionnaire(boolean activeQuestionnaire) {
         this.activeQuestionnaire = activeQuestionnaire;
     }
-
-
+    
+    /**
+     * 
+     * This method programatically checks to make sure all the answers have a value in the answer string.
+     * @return
+     */
+    public boolean getAllQuestionsAnswered() {
+        for (Answer answer : getAnswers()) {
+            if (StringUtils.isEmpty(answer.getAnswer())) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

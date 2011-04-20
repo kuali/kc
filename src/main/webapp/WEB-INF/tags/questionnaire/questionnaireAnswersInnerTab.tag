@@ -20,6 +20,7 @@
 <%@ attribute name="answerHeaderIndex" required="true" %>
 <%@ attribute name="forceNonTransparent" required="false" %>
 <%@ attribute name="parentTab" required="true" %>
+<%@ attribute name="completed" required="true" %>
 
 <c:if test = "${empty forceNonTransparent}">
 	<c:set var = "forceNonTransparent" value = "false"/>
@@ -36,7 +37,7 @@
         </c:if>
     
     <c:choose>
-    <c:when test="${bean.answerHeaders[answerHeaderIndex].completed}">
+    <c:when test="${completed}">
      	<c:set var="tabTitle" value="${bean.headerLabels[answerHeaderIndex]} (Complete) ${inactivate}" />
     </c:when>
     <c:otherwise>
