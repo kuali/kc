@@ -1,6 +1,6 @@
 set define off 
 set sqlblanklines on 
-spool KC-Release-3_0-3_0_1-Upgrade-Oracle-Install.log
+spool KC-Release-3_0_1-3_1_S1-Upgrade-Oracle-Install.log
 @ORACLE/SEQUENCES/SEQ_ALL.sql
 @ORACLE/TABLES/TBL_AWARD.sql
 @ORACLE/TABLES/TBL_AWARD_CUSTOM_DATA.sql

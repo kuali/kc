@@ -1,7 +1,7 @@
 delete from PROTO_CORRESP_TEMPL where PROTO_CORRESP_TYPE_CODE =  10 and COMMITTEE_ID='DEFAULT';
 delete from PROTO_CORRESP_TEMPL where PROTO_CORRESP_TYPE_CODE =  9 and COMMITTEE_ID='DEFAULT';
 insert into SEQ_PROTO_CORRESP_TEMPL values (null);
-insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,UPDATE_TIMESTAMP,UPDATE_USER,OBJ_ID,CORRESPONDENCE_TEMPLATE) select max(ID), 10,'DEFAULT','10-ScheduleMinutes.xslt',now(),user(),uuid(),
+insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,UPDATE_TIMESTAMP,UPDATE_USER,OBJ_ID,CORRESPONDENCE_TEMPLATE) select max(ID), 10,'DEFAULT','10-ScheduleMinutes.xslt',now(),'admin',uuid(),
 '<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:n1="http://irb.mit.edu/irbnamespace">
     <xsl:key name="MinuteType" match="n1:Schedule/n1:Minutes" use="n1:EntrySortCode"/>
@@ -560,7 +560,7 @@ Absentees</fo:inline></xsl:if>
 ' FROM SEQ_PROTO_CORRESP_TEMPL;
 
 insert into SEQ_PROTO_CORRESP_TEMPL values (null);
-insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,UPDATE_TIMESTAMP,UPDATE_USER,OBJ_ID,CORRESPONDENCE_TEMPLATE) select max(ID), 9,'DEFAULT','9-AgendaReport.xslt',now(),user(),uuid(),
+insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,UPDATE_TIMESTAMP,UPDATE_USER,OBJ_ID,CORRESPONDENCE_TEMPLATE) select max(ID), 9,'DEFAULT','9-AgendaReport.xslt',now(),'admin',uuid(),
 '<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:n1="http://irb.mit.edu/irbnamespace" xmlns:xdt="http://www.w3.org/2005/xpath-datatypes" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:fo="http://www.w3.org/1999/XSL/Format">
     <xsl:output version="1.0" method="xml" encoding="UTF-8" indent="no"/>

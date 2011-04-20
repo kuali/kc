@@ -65,7 +65,7 @@ else
 	DBSvrNm=`getAnswer 'Enter KC Schema Name'`
 fi
 
-if [ "${mode}" = "EMBED" ]
+if [ "${mode}" = "EMBED" ] && [ "${InstRice}" = "Y" ]
 then
 	Riceun=`getAnswer 'Enter Rice Database Username'`
 	Ricepw=`getAnswer 'Enter Rice Database Password'`
@@ -152,55 +152,63 @@ case "${dbtype}" in
 	"MYSQL")
 		if [ "${version}" = "NEW" ]
 		then
-			cd KC-RELEASE-2_0-SCRIPT
+			cd KC-RELEASE-3_0-CLEAN/mysql
 			if [ "${mode}" = "BUNDLE" ]
 			then
-				mysql -u ${un} -p${pw} -D ${un} -s -f < KR-Release-1_0_2-Server-MySql-Install.sql > KC-Release-1_0_2-Server-MySql-Install.log 2>&1
-				mysql -u ${un} -p${pw} -D ${un} -s -f < KC-Release-2_0-Base-Bundled-MySql-Install.sql > KC-Release-2_0-Base-Bundled-MySql-Install.log 2>&1
-				mysql -u ${un} -p${pw} -D ${un} -s -f < KC-Release-2_0-Base-Rice-MySql-Install.sql > KC-Release-2_0-Base-Rice-MySql-Install.log 2>&1
+				mysql -u ${un} -p${pw} -D ${un} -s -f < mysql_bundled.sql
 			else 
 				if [ "${mode}" = "EMBED" ]
 				then
 					if [ "${InstRice}" = "Y" ]
 					then
-						mysql -u ${Riceun} -p${Ricepw} -D ${Riceun} -s < KR-Release-1_0_2-Server-MySql-Install.sql > KR-Release-1_0_2-Server-MySql-Install.log 2>&1
+						mysql -u ${Riceun} -p${Ricepw} -D ${Riceun} -s < mysql_server.sql
 					fi
-					mysql -u ${un} -p${pw} -D ${un} -s -f < KR-Release-1_0_2-Client-MySql-Install.sql > KR-Release-1_0_2-Client-MySql-Install.log 2>&1
-					mysql -u ${un} -p${pw} -D ${un} -s -f < KC-Release-2_0-Base-Bundled-MySql-Install.sql > KC-Release-2_0-Base-Bundled-MySql-Install.log 2>&1
-					mysql -u ${Riceun} -p${Ricepw} -D ${Riceun} -s -f < KC-Release-2_0-Base-Rice-MySql-Install.sql > KC-Release-2_0-Base-Rice-MySql-Install.log 2>&1
+					mysql -u ${un} -p${pw} -D ${un} -s -f < mysql_client.sql
 				fi
 			fi
-			mv *.log ../LOGS/
-			cd ..
+            mv *.log ../../LOGS/
+            cd ../..
 		fi
+		
+		if [ "${version}" = "3.0" ] || [ "${version}" = "NEW" ]
+        then
+            cd KC-RELEASE-3_0_1-SCRIPT
+            mysql -u ${un} -p${pw} -D ${un} -s -f < KC-Release-3_0-3_0_1-Upgrade-Mysql-Install.sql > KC-Release-3_0-3_0_1-Upgrade-Mysql-Install.log 2>&1
+            mv *.log ../LOGS/
+            cd .. 
+        fi
+        
+        cd INSTALL-SHARED/MYSQL
+        mysql -u ${Riceun} -p${Ricepw} -D ${Riceun} -s < KR_SEQ_BS.sql > KR_SEQ_BS-Mysql-Install.log 2>&1
+        mv *.log ../../LOGS/
+        cd ../..
 
-		if [ "${version}" = "2.0" ] || [ "${version}" = "NEW" ]
+		if [ "${version}" = "3.0.1" ] || [ "${version}" = "3.0" ] || [ "${version}" = "NEW" ]
 		then
-			cd KC-RELEASE-3_0-SCRIPT
-			if [ "${mode}" = "BUNDLE" ]
+			cd KC-RELEASE-3_1_SP1-SCRIPT
+			mysql -u ${un} -p${pw} -D ${un} -s -f < KC-Release-3_0_1-3_1_S1-Upgrade-Mysql-Install.sql > KC-Release-3_0_1-3_1_S1-Upgrade-Mysql-Install.log 2>&1
+			if [ "${InstRice}" = "Y" ] || "${mode}" = "BUNDLE" ]
 			then
-				mysql -u ${un} -p${pw} -D ${un} -s -f < RICE-1_0_2-1_0_3/update_final_mysql.sql > update_final_mysql.log 2>&1
-				mysql -u ${un} -p${pw} -D ${un} -s -f < KC-Release-2_0-3_0-Upgrade-MySql-Install.sql > KC-Release-2_0-3_0-Upgrade-MySql-Install.log 2>&1
-				mysql -u ${un} -p${pw} -D ${un} -s -f < KR-Release-2_0-3_0-Upgrade-MySql-Install.sql > KR-Release-2_0-3_0-Upgrade-MySql-Install.log 2>&1
-			else
-				if [ "${mode}" = "EMBED" ]
-				then
-					if [ "${InstRice}" = "Y" ]
-					then
-						mysql -u ${Riceun} -p${Ricepw} -D ${Riceun} -s -f < RICE-1_0_2-1_0_3/update_final_mysql.sql > update_final_mysql.log 2>&1
-					fi
-					mysql -u ${un} -p${pw} -D ${un} -s -f < RICE-1_0_2-1_0_3/update_client_final_mysql.sql > update_client_final_mysql.sql 2>&1
-					mysql -u ${un} -p${pw} -D ${un} -s -f < KC-Release-2_0-3_0-Upgrade-MySql-Install.sql > KC-Release-2_0-3_0-Upgrade-MySql-Install.log 2>&1
-					mysql -u ${Riceun} -p${Ricepw} -D ${Riceun} -s -f < KR-Release-2_0-3_0-Upgrade-MySql-Install.sql > KC-Release-2_0-3_0-Upgrade-MySql-Install.log 2>&1
-				fi
+			    mysql -u ${Riceun} -p${Ricepw} -D ${Riceun} -s < KR-Release-3_0_1-3_1_S1-Upgrade-Mysql-Install.sql > KR-Release-3_0_1-3_1_S1-Upgrade-Mysql-Install.log 2>&1
+                mysql -u ${Riceun} -p${Ricepw} -D ${Riceun} -s < KR-Server-Release-1_0_3-1_0_3_1-Upgrade-Mysql-Install.sql > KR-Server-Release-1_0_3_1-Upgrade-Mysql-Install.log 2>&1
 			fi
-			mv *.log ../LOGS/
-			cd ..
+            mv *.log ../LOGS/
+            cd ..
+            
+            cd KC-RELEASE-3_1_SP2-SCRIPT
+            mysql -u ${un} -p${pw} -D ${un} -s -f < KC-RELEASE-3_1_SP2-Upgrade-MYSQL.sql > KC-RELEASE-3_1_SP2-Upgrade-MYSQL-Install.log 2>&1
+            if [ "${InstRice}" = "Y" ] || [ "${mode}" = "BUNDLE" ]
+            then
+                mysql -u ${Riceun} -p${Ricepw} -D ${Riceun} -s < KR-RELEASE-3_1_SP2-Upgrade-MYSQL.sql > KR-RELEASE-3_1_SP2-Upgrade-MYSQL-Install.log 2>&1
+            fi
+            mv *.log ../LOGS/
+            cd ..
 		fi
-		cd KC-RELEASE-3_0_1-SCRIPT
-		mysql -u ${un} -p${pw} -D ${un} -s -f < KC-Release-3_0-3_0_1-Upgrade-MySql-Install.sql > KC-Release-3_0-3_0_1-Upgrade-MySql-Install.log 2>&1
-		mv *.log ../LOGS/
-		cd .. ;;
+		
+        cd INSTALL-SHARED/MYSQL
+        mysql -u ${Riceun} -p${Ricepw} -D ${Riceun} -s < KR_CLEAN_SEQ_BS.sql > KR_CLEAN_SEQ_BS-Mysql-Install.log 2>&1
+        mv *.log ../../LOGS/
+        cd ../.. ;;
 esac
 
 cd LOGS

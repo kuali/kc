@@ -13,7 +13,9 @@ make_file()
 {
 	if [ "${thisDB}" = "ORACLE" ]
 	then
-		echo "set define off\nset sqlblanklines on\nspool ${logFile}"
+		echo "set define off"
+		echo "set sqlblanklines on"
+		echo "spool ${logFile}"
 	fi
 	for thisDir in ${sql_dirs}
 	do
@@ -28,7 +30,11 @@ make_file()
 			echo "${thisFile}"
 		done
 	done
-	echo "commit;\nexit;"
+	echo "commit;"
+	if [ "${thisDB}" = "ORACLE" ]
+    then
+        echo "exit;"
+    fi
 }
 
 for thisApp in ${app_names}
