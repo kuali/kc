@@ -52,7 +52,9 @@ public class RolodexDaoOjbTest extends KcUnitTestBase {
         assertFalse(-1 == criteria.toString().indexOf("LIKE NATIONAL%"));
         assertFalse(-1 == criteria.toString().indexOf("firstName IS NOT NULL"));
         assertFalse(-1 == criteria.toString().indexOf("lastName IS NOT NULL"));
-        assertEquals(criteria.toString(), "[UPPER(organization) LIKE NATIONAL%, firstName IS NOT NULL , lastName IS NOT NULL ]");
+        assertFalse(-1 == criteria.toString().indexOf("active <> false"));
+        
+        assertEquals(criteria.toString(), "[UPPER(organization) LIKE NATIONAL%, firstName IS NOT NULL , lastName IS NOT NULL , active <> false]");
     }
 
     @Test(expected=IllegalArgumentException.class)
