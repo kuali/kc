@@ -35,12 +35,15 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
+import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.ProposalComment;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposalComment;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalNotepad;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalNotepadBean;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceKeyword;
@@ -74,20 +77,20 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
  * This class...
  */
 public class InstitutionalProposalHomeAction extends InstitutionalProposalAction {
-	private static final Log LOG = LogFactory.getLog(InstitutionalProposalHomeAction.class);
+    private static final Log LOG = LogFactory.getLog(InstitutionalProposalHomeAction.class);
     private static final String VERSION_EDITPENDING_PROMPT_KEY = "message.award.version.editpending.prompt";
 
     private InstitutionalProposalNotepadBean institutionalProposalNotepadBean;
     private KcAttachmentService kcAttachmentService;
     private ParameterService parameterService;
-    
+
     /**
      * Constructs a InstitutionalProposalHomeAction.java.
      */
     public InstitutionalProposalHomeAction() {
         institutionalProposalNotepadBean = new InstitutionalProposalNotepadBean();
     }
-    
+
     /**
      * This method is used to add a new Award Cost Share.
      * 
@@ -100,74 +103,74 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
      */
     public ActionForward addNote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-    	InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
+        InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
         if (applyRules(new InstitutionalProposalNoteAddEvent(Constants.EMPTY_STRING, ((InstitutionalProposalForm) form)
                 .getDocument(), institutionalProposalForm.getInstitutionalProposalNotepadBean()
                 .getNewInstitutionalProposalNotepad(), ErrorType.HARDERROR))) {
-        	InstitutionalProposalNotepad notepad = institutionalProposalForm.getInstitutionalProposalNotepadBean().getNewInstitutionalProposalNotepad();
-        	if (institutionalProposalForm.getAttachmentFile() != null) {
-        		if (!notepad.isBoNotesSupport()) {
-        			throw new RuntimeException("to add attachments, the DD file for InstitutionalProposalNotepad must be configured for boNotesEnabled=true");
-        		}
-        		else {
-	        		List<Note> boNotes = notepad.getBoNotes();
-	        		if (!boNotes.isEmpty()) {
-	        			throw new IllegalStateException("IP already has an attachment for the note"); 
-	        		}
-	        		
-	        		
-	        		FormFile attachmentFile = institutionalProposalForm.getAttachmentFile();
-	        		
-	                if (attachmentFile == null) {
-	                    GlobalVariables.getMessageMap().putError(
-	                            String.format("%s.%s",
-	                                    KNSConstants.NEW_DOCUMENT_NOTE_PROPERTY_NAME,
-	                                    KNSConstants.NOTE_ATTACHMENT_FILE_PROPERTY_NAME),
-	                            RiceKeyConstants.ERROR_UPLOADFILE_NULL);
-	                }
-	                
-	                KcAttachmentService attachmentService = getKcAttachmentService();
-	                // Checking attachment file name for invalid characters.
-	                if (attachmentService.hasInvalidCharacters(attachmentFile.getFileName())) {
-	                    String parameter = getParameterService().
+            InstitutionalProposalNotepad notepad = institutionalProposalForm.getInstitutionalProposalNotepadBean().getNewInstitutionalProposalNotepad();
+            if (institutionalProposalForm.getAttachmentFile() != null) {
+                if (!notepad.isBoNotesSupport()) {
+                    throw new RuntimeException("to add attachments, the DD file for InstitutionalProposalNotepad must be configured for boNotesEnabled=true");
+                }
+                else {
+                    List<Note> boNotes = notepad.getBoNotes();
+                    if (!boNotes.isEmpty()) {
+                        throw new IllegalStateException("IP already has an attachment for the note"); 
+                    }
+                    
+                    
+                    FormFile attachmentFile = institutionalProposalForm.getAttachmentFile();
+                    
+                    if (attachmentFile == null) {
+                        GlobalVariables.getMessageMap().putError(
+                                String.format("%s.%s",
+                                        KNSConstants.NEW_DOCUMENT_NOTE_PROPERTY_NAME,
+                                        KNSConstants.NOTE_ATTACHMENT_FILE_PROPERTY_NAME),
+                                RiceKeyConstants.ERROR_UPLOADFILE_NULL);
+                    }
+                    
+                    KcAttachmentService attachmentService = getKcAttachmentService();
+                    // Checking attachment file name for invalid characters.
+                    if (attachmentService.hasInvalidCharacters(attachmentFile.getFileName())) {
+                        String parameter = getParameterService().
                             getParameterValue(ProposalDevelopmentDocument.class, Constants.INVALID_FILE_NAME_CHECK_PARAMETER);    
                         
                         if (Constants.INVALID_FILE_NAME_ERROR_CODE.equals(parameter)) {
                             GlobalVariables.getMessageMap().putError(Constants.INVALID_FILE_NAME_ERROR_TAB, KeyConstants.INVALID_FILE_NAME, 
-	                                                                attachmentFile.getFileName(), attachmentService.getInvalidCharacters());
+                                                                    attachmentFile.getFileName(), attachmentService.getInvalidCharacters());
                         } else {
                             GlobalVariables.getMessageMap().putWarning(Constants.INVALID_FILE_NAME_ERROR_TAB, KeyConstants.INVALID_FILE_NAME, 
                                                                     attachmentFile.getFileName(), attachmentService.getInvalidCharacters());
                         }
-	                }
-	                
-	                
-	                Note newNote = new Note();
-	                newNote.setNoteText("Default text, will never be shown to user.");
-	                newNote.setNoteTypeCode(KNSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
-	                newNote.setNotePostedTimestampToCurrent();
-	                Attachment attachment = null;
-	                if (attachmentFile != null && !StringUtils.isBlank(attachmentFile.getFileName())) {
-	                    if (attachmentFile.getFileSize() == 0) {
-	                        GlobalVariables.getMessageMap().putError(
-	                                String.format("%s.%s",
-	                                        KNSConstants.NEW_DOCUMENT_NOTE_PROPERTY_NAME,
-	                                        KNSConstants.NOTE_ATTACHMENT_FILE_PROPERTY_NAME),
-	                                RiceKeyConstants.ERROR_UPLOADFILE_EMPTY,
-	                                attachmentFile.getFileName());
-	                    }
-	                    else {
-	                        String attachmentType = null;
-	                        attachment = getAttachmentService().createAttachment(notepad, attachmentFile.getFileName(), attachmentFile.getContentType(), attachmentFile.getFileSize(), attachmentFile.getInputStream(), attachmentType);
-	                    }
-	                    // create a new note from the data passed in
-	                    Note tmpNote = getNoteService().createNote(newNote, notepad);
-	                    tmpNote.refresh();
-	                    notepad.addNote(tmpNote);
-	                    tmpNote.addAttachment(attachment);
-	                }
-        		}
-        	}
+                    }
+                    
+                    
+                    Note newNote = new Note();
+                    newNote.setNoteText("Default text, will never be shown to user.");
+                    newNote.setNoteTypeCode(KNSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
+                    newNote.setNotePostedTimestampToCurrent();
+                    Attachment attachment = null;
+                    if (attachmentFile != null && !StringUtils.isBlank(attachmentFile.getFileName())) {
+                        if (attachmentFile.getFileSize() == 0) {
+                            GlobalVariables.getMessageMap().putError(
+                                    String.format("%s.%s",
+                                            KNSConstants.NEW_DOCUMENT_NOTE_PROPERTY_NAME,
+                                            KNSConstants.NOTE_ATTACHMENT_FILE_PROPERTY_NAME),
+                                    RiceKeyConstants.ERROR_UPLOADFILE_EMPTY,
+                                    attachmentFile.getFileName());
+                        }
+                        else {
+                            String attachmentType = null;
+                            attachment = getAttachmentService().createAttachment(notepad, attachmentFile.getFileName(), attachmentFile.getContentType(), attachmentFile.getFileSize(), attachmentFile.getInputStream(), attachmentType);
+                        }
+                        // create a new note from the data passed in
+                        Note tmpNote = getNoteService().createNote(newNote, notepad);
+                        tmpNote.refresh();
+                        notepad.addNote(tmpNote);
+                        tmpNote.addAttachment(attachment);
+                    }
+                }
+            }
             institutionalProposalNotepadBean.addNote(((InstitutionalProposalForm) form).getInstitutionalProposalNotepadBean());
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -244,10 +247,10 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
      */
     public ActionForward recalculateTotals(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-       
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     /**
      * This takes care of populating the ScienceKeywords in keywords list after the selected Keywords returns from <code>multilookup</code>
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(org.apache.struts.action.ActionMapping, 
@@ -274,8 +277,8 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
-    }  
-    
+    }
+
     /**
      * 
      * This method...
@@ -285,7 +288,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
     protected KeywordsService getKeywordService(){
         return KraServiceLocator.getService(KeywordsService.class);
     }
-    
+
     /**
      * 
      * Clears the Mailing Name and Address selected from Delivery info panel.
@@ -305,9 +308,9 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
             institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().setRolodexId(null);
             institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().setRolodex(null);
         }
-      return mapping.findForward("basic");
+        return mapping.findForward("basic");
     }
-    
+
     /**
      * This method is used to handle the edit button action on an ACTIVE Institutional Proposal. If no Pending version exists for the same
      * proposalNumber, a new IP version is created. If a Pending version exists, the user is prompted as to whether she would
@@ -328,7 +331,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         InstitutionalProposalDocument institutionalProposalDocument = institutionalProposalForm.getInstitutionalProposalDocument();
         InstitutionalProposal institutionalProposal = institutionalProposalDocument.getInstitutionalProposal();
         InstitutionalProposal pendingProposal = findPendingVersion(institutionalProposal.getProposalNumber());
-        
+
         ActionForward forward;
         if (pendingProposal != null) {
             Object question = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
@@ -339,19 +342,35 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         }
         return forward;
     }
-    
+
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
-        super.createDocument(kualiDocumentFormBase);
+        super.createDocument(kualiDocumentFormBase);      
         InstitutionalProposalForm ipForm = (InstitutionalProposalForm) kualiDocumentFormBase;
         ProposalLog proposalLog = retrieveProposalLog(ipForm.getProposalNumber());
+        
+        // sets ip deadline date to prop log deadline date
+        CommentType ct = new CommentType();
+        ct.setCommentTypeCode(Constants.PROPOSAL_SUMMARY_COMMENT_TYPE_CODE);
+        ct.setDescription("From Proposal Log");
+        ct.setChecklistFlag(false);
+        ct.setTemplateFlag(false);
+        ct.setAwardCommentScreenFlag(false);
+        ipForm.getInstitutionalProposalDocument().getInstitutionalProposal().setDeadlineDate(proposalLog.getDeadlineDate());
+        InstitutionalProposalComment ipCmt = new InstitutionalProposalComment(Constants.PROPOSAL_SUMMARY_COMMENT_TYPE_CODE);
+        ipCmt.setCommentType(ct);
+        ipCmt.setComments(proposalLog.getComments());
+        ipCmt.setProposalNumber(proposalLog.getProposalNumber()); 
+        ipCmt.setProposalId(ipForm.getInstitutionalProposalDocument().getInstitutionalProposal().getProposalId());        
+        ipForm.getInstitutionalProposalDocument().getInstitutionalProposal().add(ipCmt);
+        ipForm.getInstitutionalProposalDocument().getInstitutionalProposal().setProposalNumber(proposalLog.getProposalNumber());
         if (proposalLog != null) {
             ipForm.getInstitutionalProposalDocument().getInstitutionalProposal().doProposalLogDataFeed(proposalLog);
-          //  getProposalLogService().promoteProposalLog(proposalLog.getProposalNumber());
+            // getProposalLogService().promoteProposalLog(proposalLog.getProposalNumber());
         }
     }
-    
-    
+
+
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -409,10 +428,10 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
     private void reinitializeForm(InstitutionalProposalForm institutionalProposalForm, InstitutionalProposalDocument document) throws WorkflowException {
         institutionalProposalForm.populateHeaderFields(document.getDocumentHeader().getWorkflowDocument());
         institutionalProposalForm.setDocument(document);
-        //document.setDocumentSaveAfterAwardLookupEditOrVersion(true);
+        // document.setDocumentSaveAfterAwardLookupEditOrVersion(true);
         institutionalProposalForm.initialize();
     }
-    
+
     private String makeDocumentOpenUrl(InstitutionalProposalDocument newInstitutionalProposalDocument) {
         String workflowUrl = getKualiConfigurationService().getPropertyString(KNSConstants.WORKFLOW_URL_KEY);
         String url = String.format("%s/DocHandler.do?command=displayDocSearchView&docId=%s", 
@@ -486,15 +505,15 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         return this.parameterService;
     }
     
-	@Override
-	public ActionForward downloadBOAttachment(ActionMapping mapping,
-			ActionForm form, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+    @Override
+    public ActionForward downloadBOAttachment(ActionMapping mapping,
+            ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
         int attachmentIndex = selectedAttachmentIndex(request);
         InstitutionalProposalForm ipForm = (InstitutionalProposalForm) form;
         InstitutionalProposalDocument institutionalProposalDocument = ipForm.getInstitutionalProposalDocument();
         if (!WebUtils.canViewNoteAttachment(institutionalProposalDocument, null)) {
-        	throw new AuthenticationException("Unable to view attachment.");
+            throw new AuthenticationException("Unable to view attachment.");
         }
         List<InstitutionalProposalNotepad> notepads = institutionalProposalDocument.getInstitutionalProposal().getInstitutionalProposalNotepads();
         
@@ -502,7 +521,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
 
 
         if (attachmentIndex >= 0) {
-        	// each IPNotepad has only one KNS note attached to it, and a KNS attachment is attached to that note
+            // each IPNotepad has only one KNS note attached to it, and a KNS attachment is attached to that note
             Note note = noteParent.getBoNote(0);
             Attachment attachment = note.getAttachment();
             //make sure attachment is setup with backwards reference to note (rather then doing this we could also just call the attachment service (with a new method that took in the note)
@@ -516,5 +535,5 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
             return null;
         }
         
-        return mapping.findForward(RiceConstants.MAPPING_BASIC);	}
+        return mapping.findForward(RiceConstants.MAPPING_BASIC);    }
 }
