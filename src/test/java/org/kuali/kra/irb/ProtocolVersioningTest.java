@@ -179,6 +179,7 @@ public class ProtocolVersioningTest extends KcUnitTestBase {
         ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol(ver1.getProtocol());
         attachment.setTypeCode("1");
         attachment.setDocumentId(1);
+        attachment.setDescription("desc1");
         attachment.setFile(new AttachmentFile("junk.txt", "txt", new byte[]{0, 1, 2, 3, 4, 5}));
         return attachment;
     }
@@ -187,6 +188,7 @@ public class ProtocolVersioningTest extends KcUnitTestBase {
         ProtocolAttachmentProtocol attachment2 = new ProtocolAttachmentProtocol(ver1.getProtocol());
         attachment2.setTypeCode("2");
         attachment2.setDocumentId(1);      
+        attachment2.setDescription("desc2");
         attachment2.setFile(new AttachmentFile("more_junk.java", "java", new byte[]{0}));
         return attachment2;
     }
