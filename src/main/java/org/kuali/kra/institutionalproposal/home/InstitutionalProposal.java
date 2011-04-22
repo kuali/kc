@@ -18,6 +18,7 @@ package org.kuali.kra.institutionalproposal.home;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -56,6 +57,7 @@ import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCusto
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
+import org.kuali.kra.institutionalproposal.proposallog.ProposalLogUtils;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogService;
 import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
@@ -67,90 +69,91 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
-public class InstitutionalProposal extends KraPersistableBusinessObjectBase implements KeywordsManager<InstitutionalProposalScienceKeyword>,
-                                                                                            SequenceOwner<InstitutionalProposal>, Sponsorable { 
-    
+public class InstitutionalProposal extends KraPersistableBusinessObjectBase implements
+        KeywordsManager<InstitutionalProposalScienceKeyword>, SequenceOwner<InstitutionalProposal>, Sponsorable {
+
     public static final String PROPOSAL_ID_PROPERTY_STRING = "proposalId";
     public static final String PROPOSAL_NUMBER_PROPERTY_STRING = "proposalNumber";
     public static final String PROPOSAL_SEQUENCE_STATUS_PROPERTY_STRING = "proposalSequenceStatus";
-    
+
     private static final long serialVersionUID = 1L;
     private static final Integer PROPOSAL_PENDING_STATUS_CODE = 1;
     private static final Integer PROPOSAL_FUNDED_STATUS_CODE = 2;
-    
+
     private InstitutionalProposalDocument institutionalProposalDocument;
-    private Long proposalId; 
-    private String proposalNumber; 
-    private String sponsorProposalNumber; 
-    private Integer sequenceNumber; 
-    private Integer proposalTypeCode; 
-    private String currentAccountNumber; 
-    private String title; 
-    private String sponsorCode; 
-    private Integer rolodexId; 
-    private String noticeOfOpportunityCode; 
-    private Integer gradStudHeadcount; 
-    private KualiDecimal gradStudPersonMonths; 
-    private boolean typeOfAccount; 
-    private String activityTypeCode; 
-    private Date requestedStartDateInitial; 
-    private Date requestedStartDateTotal; 
-    private Date requestedEndDateInitial; 
-    private Date requestedEndDateTotal; 
+    private Long proposalId;
+    private String proposalNumber;
+    private String sponsorProposalNumber;
+    private Integer sequenceNumber;
+    private Integer proposalTypeCode;
+    private String currentAccountNumber;
+    private String title;
+    private String sponsorCode;
+    private Integer rolodexId;
+    private String noticeOfOpportunityCode;
+    private Integer gradStudHeadcount;
+    private KualiDecimal gradStudPersonMonths;
+    private boolean typeOfAccount;
+    private String activityTypeCode;
+    private Date requestedStartDateInitial;
+    private Date requestedStartDateTotal;
+    private Date requestedEndDateInitial;
+    private Date requestedEndDateTotal;
     private String fiscalMonth;
     private String fiscalYear;
-    private KualiDecimal totalDirectCostInitial; 
-    private KualiDecimal totalDirectCostTotal; 
-    private KualiDecimal totalIndirectCostInitial; 
-    private KualiDecimal totalIndirectCostTotal; 
-    private String numberOfCopies; 
-    private Date deadlineDate; 
+    private KualiDecimal totalDirectCostInitial;
+    private KualiDecimal totalDirectCostTotal;
+    private KualiDecimal totalIndirectCostInitial;
+    private KualiDecimal totalIndirectCostTotal;
+    private String numberOfCopies;
+    private Date deadlineDate;
     private Date createTimeStamp;
-    private String deadlineType; 
-    private String mailBy; 
-    private String mailType; 
-    private String mailAccountNumber; 
+    private String deadlineType;
+    private String mailBy;
+    private String mailType;
+    private String mailAccountNumber;
     private String mailDescription;
-    private Boolean subcontractFlag; 
-    private String costSharingIndicator; 
-    private String idcRateIndicator; 
-    private String specialReviewIndicator; 
-    private Integer statusCode; 
+    private Boolean subcontractFlag;
+    private String costSharingIndicator;
+    private String idcRateIndicator;
+    private String specialReviewIndicator;
+    private Integer statusCode;
     private String unitNumber;
-    private String scienceCodeIndicator; 
+    private String scienceCodeIndicator;
     private String nsfCode;
     private NsfCode nsfCodeBo;
-    private String primeSponsorCode; 
-    private String initialContractAdmin; 
-    private String ipReviewActivityIndicator; 
-    private String currentAwardNumber; 
-    private String cfdaNumber; 
-    private String opportunity; 
-    private Integer awardTypeCode; 
+    private String primeSponsorCode;
+    private String initialContractAdmin;
+    private String ipReviewActivityIndicator;
+    private String currentAwardNumber;
+    private String cfdaNumber;
+    private String opportunity;
+    private Integer awardTypeCode;
     private String newDescription;
     private String proposalSequenceStatus;
     private boolean showReturnLink;
-    
-    private NoticeOfOpportunity noticeOfOpportunity; 
-    private ProposalType proposalType; 
-    private Rolodex rolodex; 
-    private Sponsor sponsor; 
+    private String instProposalNumber;
+
+    private NoticeOfOpportunity noticeOfOpportunity;
+    private ProposalType proposalType;
+    private Rolodex rolodex;
+    private Sponsor sponsor;
     private Sponsor primeSponsor;
     private String sponsorName;
-    private ActivityType activityType; 
-    private AwardType awardType; 
+    private ActivityType activityType;
+    private AwardType awardType;
     private ProposalStatus proposalStatus;
     private Unit leadUnit;
     private KcPerson ospAdministrator;
-    private InstitutionalProposalScienceKeyword proposalScienceKeyword; 
-    private InstitutionalProposalCostShare proposalCostSharing; 
-    //private AwardFundingProposals awardFundingProposals; 
-    private InstitutionalProposalPersonCreditSplit proposalPerCreditSplit; 
-    private ProposalUnitCreditSplit proposalUnitCreditSplit; 
-    private List<InstitutionalProposalComment> proposalComments; 
+    private InstitutionalProposalScienceKeyword proposalScienceKeyword;
+    private InstitutionalProposalCostShare proposalCostSharing;
+    // private AwardFundingProposals awardFundingProposals;
+    private InstitutionalProposalPersonCreditSplit proposalPerCreditSplit;
+    private ProposalUnitCreditSplit proposalUnitCreditSplit;
+    private List<InstitutionalProposalComment> proposalComments;
     private IntellectualPropertyReview intellectualPropertyReview;
-    
-    private List<ProposalIpReviewJoin> proposalIpReviewJoins; 
+
+    private List<ProposalIpReviewJoin> proposalIpReviewJoins;
     private List<InstitutionalProposalPerson> projectPersons;
     private List<InstitutionalProposalUnitContact> institutionalProposalUnitContacts;
     private List<InstitutionalProposalCustomData> institutionalProposalCustomDataList;
@@ -163,28 +166,27 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     private List<AwardFundingProposal> awardFundingProposals;
     private Map<String, InstitutionalProposalComment> commentMap;
     private boolean sponsorNihMultiplePi;
-    
+
     private transient Unit lookupUnit;
     private transient String lookupUnitName;
     private transient String lookupUnitNumber;
     private transient String lookupPersonNumber;
 
-    public InstitutionalProposal() { 
+    public InstitutionalProposal() {
         super();
         initializeInstitutionalProposalWithDefaultValues();
         initializeCollections();
         calculateFiscalMonthAndYearFields();
-    } 
-    
+    }
+
     /**
      * 
-     * This method sets the default values for initial persistence as part of skeleton.
-     * As various panels are developed; corresponding field initializations should be removed from
-     * this method.  
+     * This method sets the default values for initial persistence as part of skeleton. As various panels are developed;
+     * corresponding field initializations should be removed from this method.
      */
-    private void initializeInstitutionalProposalWithDefaultValues(){
+    private void initializeInstitutionalProposalWithDefaultValues() {
         setSequenceNumber(1);
-        //setSponsorCode("005852");
+        // setSponsorCode("005852");
         setCostSharingIndicator("0");
         setIdcRateIndicator("0");
         setSpecialReviewIndicator("0");
@@ -192,18 +194,18 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         ipReviewActivityIndicator = "A";
         Calendar cl = Calendar.getInstance();
         setCreateTimeStamp(new Date(cl.getTime().getTime()));
-        //setProposalNumber("1");
+        // setProposalNumber("1");
         setTotalDirectCostInitial(new KualiDecimal(0));
         setTotalDirectCostTotal(new KualiDecimal(0));
         setTotalIndirectCostInitial(new KualiDecimal(0));
         setTotalIndirectCostTotal(new KualiDecimal(0));
         newDescription = getDefaultNewDescription();
         setProposalSequenceStatus(VersionStatus.PENDING.toString());
-        setStatusCode(1);//default value for all IP's
+        setStatusCode(1);// default value for all IP's
         projectPersons = new ArrayList<InstitutionalProposalPerson>();
         showReturnLink = true; // we usually show proposal in lookup
     }
-    
+
     protected void initializeCollections() {
         institutionalProposalCustomDataList = new ArrayList<InstitutionalProposalCustomData>();
         institutionalProposalNotepads = new ArrayList<InstitutionalProposalNotepad>();
@@ -217,7 +219,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         institutionalProposalUnitContacts = new ArrayList<InstitutionalProposalUnitContact>();
         proposalComments = new ArrayList<InstitutionalProposalComment>();
     }
-    
+
     public void setDefaultInitialContractAdmin() {
         if (!StringUtils.isBlank(getUnitNumber())) {
             List<UnitAdministrator> unitAdministrators = getUnitService().retrieveUnitAdministratorsByUnitNumber(getUnitNumber());
@@ -228,23 +230,23 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
             }
         }
     }
-    
+
     public void deactivateFundingProposals() {
         for (AwardFundingProposal fundingProposal : this.getAwardFundingProposals()) {
             fundingProposal.setActive(false);
         }
     }
-    
+
     public void activateFundingProposals() {
         for (AwardFundingProposal fundingProposal : this.getAwardFundingProposals()) {
             fundingProposal.setActive(true);
         }
     }
-    
+
     public boolean isActiveVersion() {
         return this.getProposalSequenceStatus().equals(VersionStatus.ACTIVE.toString());
     }
-    
+
     /**
      * Is this Proposal funded by the given Award number and version?
      * @param awardNumber String
@@ -253,16 +255,16 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
      */
     public boolean isFundedByAward(String awardNumber, Integer awardSequence) {
         for (AwardFundingProposal awardFundingProposal : this.getAwardFundingProposals()) {
-            if (awardFundingProposal.getAward().getAwardNumber().equals(awardNumber) 
+            if (awardFundingProposal.getAward().getAwardNumber().equals(awardNumber)
                     && awardFundingProposal.getAward().getSequenceNumber().equals(awardSequence)) {
                 return true;
             }
         }
         return false;
     }
-    
+
     /**
-     * This method calculates fiscal Month and fiscal Year fields.  It also adds leading 0 to Month if needed.
+     * This method calculates fiscal Month and fiscal Year fields. It also adds leading 0 to Month if needed.
      */
     private void calculateFiscalMonthAndYearFields() {
         Calendar cl = Calendar.getInstance();
@@ -275,7 +277,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         setFiscalYear(Integer.toString(cl.get(Calendar.YEAR)));
 
     }
-    
+
     /**
      * This method returns a business object service
      * @return
@@ -294,7 +296,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         }
         return institutionalProposalDocument;
     }
-    
+
     /**
      * Sets the institutionalProposalDocument attribute value.
      * @param institutionalProposalDocument The institutionalProposalDocument to set.
@@ -302,19 +304,19 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void setInstitutionalProposalDocument(InstitutionalProposalDocument institutionalProposalDocument) {
         this.institutionalProposalDocument = institutionalProposalDocument;
     }
-    
+
     /**
      * Add an AwardFundingProposal
      * 
-     * The Award "owns" the relationship, so this method should not be called directly. Instead, this method will be called 
-     * when an InstitutionalProposal is linked to an Award from Award maintenance.  
+     * The Award "owns" the relationship, so this method should not be called directly. Instead, this method will be called when an
+     * InstitutionalProposal is linked to an Award from Award maintenance.
      * 
      * @param afp
      */
     public void add(AwardFundingProposal afp) {
         awardFundingProposals.add(afp);
     }
-    
+
     /**
      * This method...
      * @param institutionaProposalNotepad
@@ -325,7 +327,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         institutionalProposalNotepads.add(institutionalProposalNotepad);
         institutionalProposalNotepad.setInstitutionalProposal(this);
     }
-    
+
     /**
      * This method...
      * @param institutionalProposalCostShare
@@ -334,7 +336,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         institutionalProposalCostShare.setInstitutionalProposal(this);
         institutionalProposalCostShares.add(institutionalProposalCostShare);
     }
-    
+
     /**
      * This method...
      * @param institutionalProposalUnrecoveredFandA
@@ -343,84 +345,90 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         institutionalProposalUnrecoveredFandA.setInstitutionalProposal(this);
         institutionalProposalUnrecoveredFandAs.add(institutionalProposalUnrecoveredFandA);
     }
-    
+
     /**
      * This method 
      * @return
      */
-     public KualiDecimal getTotalInitialCost() {
+    public KualiDecimal getTotalInitialCost() {
         KualiDecimal returnValue = new KualiDecimal(0);
         returnValue = returnValue.add(totalDirectCostInitial);
         returnValue = returnValue.add(totalIndirectCostInitial);
         return returnValue;
     }
-     
-     /**
-      * This method 
-      * @return
-      */
-      public KualiDecimal getTotalCost() {
-         KualiDecimal returnValue = new KualiDecimal(0);
-         returnValue = returnValue.add(totalDirectCostTotal);
-         returnValue = returnValue.add(totalIndirectCostTotal);
-         return returnValue;
-     }
-      
-      /**
-       * This method calculates the total value of a list of ValuableItems
-       * @param valuableItems
-       * @return The total value
-       */
-      KualiDecimal getTotalAmount(List<? extends ValuableItem> valuableItems) {
-          KualiDecimal returnVal = new KualiDecimal(0.00);
-          for(ValuableItem item : valuableItems) {
-              KualiDecimal amount = item.getAmount() != null ? item.getAmount() : new KualiDecimal(0.00);
-              returnVal = returnVal.add(amount);
-          }
-          return returnVal;
-      }
-      
-      /**
-       * This method calls getTotalAmount to calculate the total of all Commitment Amounts.
-       * @return
-       */
-       public KualiDecimal getTotalCostShareAmount() {
-          return getTotalAmount(institutionalProposalCostShares);
-      }
-       
-       /**
-        * This method calls getTotalAmount to calculate the total of all Unrecovered FandAs.
-        * @return
-        */
-        public KualiDecimal getTotalUnrecoveredFandAAmount() {
-           return getTotalAmount(institutionalProposalUnrecoveredFandAs);
-       }
-      
-     /**
-      * Gets the specialReviews attribute. 
-      * @return Returns the specialReviews.
-      */
-     public List<InstitutionalProposalSpecialReview> getSpecialReviews() {
-         return specialReviews;
-     }
 
-     /**
-      * Sets the specialReviews attribute value.
-      * @param specialReviews The specialReviews to set.
-      */
-     public void setSpecialReviews(List<InstitutionalProposalSpecialReview> specialReviews) {
-         this.specialReviews = specialReviews;
-     }
-    
     /**
-     * Gets the institutionalProposalCustomDataList attribute. 
+     * This method
+     * 
+     * @return
+     */
+    public KualiDecimal getTotalCost() {
+        KualiDecimal returnValue = new KualiDecimal(0);
+        returnValue = returnValue.add(totalDirectCostTotal);
+        returnValue = returnValue.add(totalIndirectCostTotal);
+        return returnValue;
+    }
+
+    /**
+     * This method calculates the total value of a list of ValuableItems
+     * 
+     * @param valuableItems
+     * @return The total value
+     */
+    KualiDecimal getTotalAmount(List<? extends ValuableItem> valuableItems) {
+        KualiDecimal returnVal = new KualiDecimal(0.00);
+        for (ValuableItem item : valuableItems) {
+            KualiDecimal amount = item.getAmount() != null ? item.getAmount() : new KualiDecimal(0.00);
+            returnVal = returnVal.add(amount);
+        }
+        return returnVal;
+    }
+
+    /**
+     * This method calls getTotalAmount to calculate the total of all Commitment Amounts.
+     * 
+     * @return
+     */
+    public KualiDecimal getTotalCostShareAmount() {
+        return getTotalAmount(institutionalProposalCostShares);
+    }
+
+    /**
+     * This method calls getTotalAmount to calculate the total of all Unrecovered FandAs.
+     * 
+     * @return
+     */
+    public KualiDecimal getTotalUnrecoveredFandAAmount() {
+        return getTotalAmount(institutionalProposalUnrecoveredFandAs);
+    }
+
+    /**
+     * Gets the specialReviews attribute.
+     * 
+     * @return Returns the specialReviews.
+     */
+    public List<InstitutionalProposalSpecialReview> getSpecialReviews() {
+        return specialReviews;
+    }
+
+    /**
+     * Sets the specialReviews attribute value.
+     * 
+     * @param specialReviews The specialReviews to set.
+     */
+    public void setSpecialReviews(List<InstitutionalProposalSpecialReview> specialReviews) {
+        this.specialReviews = specialReviews;
+    }
+
+    /**
+     * Gets the institutionalProposalCustomDataList attribute.
+     * 
      * @return Returns the institutionalProposalCustomDataList.
      */
     public List<InstitutionalProposalCustomData> getInstitutionalProposalCustomDataList() {
         return institutionalProposalCustomDataList;
     }
-    
-    
+
 
     /**
      * Gets the institutionalProposalNotepads attribute. 
@@ -437,8 +445,8 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void setInstitutionalProposalNotepads(List<InstitutionalProposalNotepad> institutionalProposalNotepads) {
         this.institutionalProposalNotepads = institutionalProposalNotepads;
     }
-    
-    
+
+
     /**
      * Sets the institutionalProposalCustomDataList attribute value.
      * @param institutionalProposalCustomDataList The institutionalProposalCustomDataList to set.
@@ -446,9 +454,8 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void setInstitutionalProposalCustomDataList(List<InstitutionalProposalCustomData> institutionalProposalCustomDataList) {
         this.institutionalProposalCustomDataList = institutionalProposalCustomDataList;
     }
-    
-    
-    
+
+
     /**
      * Gets the institutionalProposalScienceKeywords attribute. 
      * @return Returns the institutionalProposalScienceKeywords.
@@ -461,7 +468,8 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
      * Sets the institutionalProposalScienceKeywords attribute value.
      * @param institutionalProposalScienceKeywords The institutionalProposalScienceKeywords to set.
      */
-    public void setInstitutionalProposalScienceKeywords(List<InstitutionalProposalScienceKeyword> institutionalProposalScienceKeywords) {
+    public void setInstitutionalProposalScienceKeywords(
+            List<InstitutionalProposalScienceKeyword> institutionalProposalScienceKeywords) {
         this.institutionalProposalScienceKeywords = institutionalProposalScienceKeywords;
     }
 
@@ -473,7 +481,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         projectPersons.add(projectPerson);
         projectPerson.setInstitutionalProposal(this);
     }
-    
+
     /**
      * Add an Institutional Proposal Unit or Central Administration contact
      * @param awardUnitContact
@@ -482,41 +490,41 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         institutionalProposalUnitContacts.add(institutionalProposalUnitContact);
         institutionalProposalUnitContact.setInstitutionalProposal(this);
     }
-    
+
     /**
      * @return
      */
     public KcPerson getOspAdministrator() {
-        for(InstitutionalProposalUnitContact contact: getInstitutionalProposalUnitContacts()) {
-            if(contact.isOspAdministrator()) {
+        for (InstitutionalProposalUnitContact contact : getInstitutionalProposalUnitContacts()) {
+            if (contact.isOspAdministrator()) {
                 ospAdministrator = contact.getPerson();
                 break;
             }
         }
         return ospAdministrator;
     }
-    
+
     /**
      * @param institutionalProposalUnitContacts
      */
     public void setInstitutionalProposalUnitContacts(List<InstitutionalProposalUnitContact> institutionalProposalUnitContacts) {
         this.institutionalProposalUnitContacts = institutionalProposalUnitContacts;
     }
-    
+
     /**
      * @return
      */
     public List<InstitutionalProposalUnitContact> getInstitutionalProposalUnitContacts() {
         return institutionalProposalUnitContacts;
     }
-    
+
     /**
      * @return
      */
     public int getInstitutionalProposalContactsCount() {
         return institutionalProposalUnitContacts.size();
     }
-    
+
     public Long getProposalId() {
         return proposalId;
     }
@@ -676,7 +684,8 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void setTotalDirectCostInitial(KualiDecimal totalDirectCostInitial) {
         if (totalDirectCostInitial == null) {
             this.totalDirectCostInitial = KualiDecimal.ZERO;
-        } else {
+        }
+        else {
             this.totalDirectCostInitial = totalDirectCostInitial;
         }
     }
@@ -688,7 +697,8 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void setTotalDirectCostTotal(KualiDecimal totalDirectCostTotal) {
         if (totalDirectCostTotal == null) {
             this.totalDirectCostTotal = KualiDecimal.ZERO;
-        } else {
+        }
+        else {
             this.totalDirectCostTotal = totalDirectCostTotal;
         }
     }
@@ -700,7 +710,8 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void setTotalIndirectCostInitial(KualiDecimal totalIndirectCostInitial) {
         if (totalIndirectCostInitial == null) {
             this.totalIndirectCostInitial = KualiDecimal.ZERO;
-        } else {
+        }
+        else {
             this.totalIndirectCostInitial = totalIndirectCostInitial;
         }
     }
@@ -712,7 +723,8 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void setTotalIndirectCostTotal(KualiDecimal totalIndirectCostTotal) {
         if (totalIndirectCostTotal == null) {
             this.totalIndirectCostTotal = KualiDecimal.ZERO;
-        } else {
+        }
+        else {
             this.totalIndirectCostTotal = totalIndirectCostTotal;
         }
     }
@@ -760,7 +772,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public Unit getLeadUnit() {
         return leadUnit;
     }
-    
+
     public String getMailAccountNumber() {
         return mailAccountNumber;
     }
@@ -768,8 +780,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void setMailAccountNumber(String mailAccountNumber) {
         this.mailAccountNumber = mailAccountNumber;
     }
-    
-    
+
 
     /**
      * Gets the mailDescription attribute. 
@@ -826,7 +837,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void setStatusCode(Integer statusCode) {
         this.statusCode = statusCode;
     }
-    
+
     public String getScienceCodeIndicator() {
         return scienceCodeIndicator;
     }
@@ -898,7 +909,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void setAwardTypeCode(Integer awardTypeCode) {
         this.awardTypeCode = awardTypeCode;
     }
-    
+
     public ProposalStatus getProposalStatus() {
         if (proposalStatus == null && statusCode != null) {
             this.refreshReferenceObject("proposalStatus");
@@ -938,12 +949,11 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     }
 
     /**
-     * This method violates our policy of not calling a service in a getter.
-     * This will only call the service once to set a sponsor when a sponsor code exists, 
-     * but no sponsor was fetched
+     * This method violates our policy of not calling a service in a getter. This will only call the service once to set a sponsor
+     * when a sponsor code exists, but no sponsor was fetched
      * 
-     * Seems like a persistence design issue to me. Why wouldn't Sponsor:Award be a 1:M 
-     * relationship handled automagically by the persistence framework? 
+     * Seems like a persistence design issue to me. Why wouldn't Sponsor:Award be a 1:M relationship handled automagically by the
+     * persistence framework?
      * 
      * @return
      */
@@ -958,7 +968,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         this.sponsor = sponsor;
         this.sponsorCode = sponsor != null ? sponsor.getSponsorCode() : null;
     }
-    
+
     // Note: following the pattern of Sponsor, this getter indirectly calls a service.
     // Is there a better way?
     public Sponsor getPrimeSponsor() {
@@ -967,7 +977,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         }
         return primeSponsor;
     }
-    
+
     /**
      * checks if a sponsor code needs refreshing.
      * @param code the code
@@ -975,8 +985,8 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
      * @return true if needs refreshing
      */
     private static boolean outOfSync(String code, Sponsor spon) {
-        return spon == null && !StringUtils.isEmpty(code)
-            || (spon != null && !StringUtils.equals(spon.getSponsorCode(), code)) && !StringUtils.isEmpty(code);
+        return spon == null && !StringUtils.isEmpty(code) || (spon != null && !StringUtils.equals(spon.getSponsorCode(), code))
+                && !StringUtils.isEmpty(code);
     }
 
     public void setPrimeSponsor(Sponsor primeSponsor) {
@@ -985,25 +995,25 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     }
 
     public InstitutionalProposalPerson getPrincipalInvestigator() {
-        for (InstitutionalProposalPerson proposalPerson: this.getProjectPersons()) {
+        for (InstitutionalProposalPerson proposalPerson : this.getProjectPersons()) {
             if (proposalPerson.isPrincipalInvestigator()) {
                 return proposalPerson;
             }
         }
         return null;
     }
-    
+
     public void setPrincipalInvestigator(InstitutionalProposalPerson proposalPerson) {
         proposalPerson.setRoleCode(ContactRole.PI_CODE);
         this.getProjectPersons().add(proposalPerson);
     }
-    
+
     public String getSponsorName() {
         Sponsor tempSponsor = getSponsor();
         sponsorName = tempSponsor != null ? tempSponsor.getSponsorName() : null;
         return sponsorName;
     }
-    
+
     public ActivityType getActivityType() {
         if (activityType == null && activityTypeCode != null) {
             this.refreshReferenceObject("activityType");
@@ -1018,22 +1028,22 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public AwardType getAwardType() {
         return awardType;
     }
-    
-    /** 
+
+    /**
      * @return Returns the awards.
      */
     public List<AwardFundingProposal> getAwardFundingProposals() {
         return awardFundingProposals;
     }
-    
+
     public AwardFundingProposal getAwardFundingProposal(int index) {
         return getAwardFundingProposals().get(index);
     }
-    
+
     public boolean getAwardFundingProposalsExist() {
         return getAwardFundingProposals().size() > 0;
     }
-    
+
     /**
      * Get the list of only Active AwardFundingProposals.
      * @return List<AwardFundingProposal> the list.
@@ -1051,7 +1061,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void setAwardType(AwardType awardType) {
         this.awardType = awardType;
     }
-    
+
     /**
      * Gets the fiscalMonth attribute. 
      * @return Returns the fiscalMonth.
@@ -1083,7 +1093,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void setFiscalYear(String fiscalYear) {
         this.fiscalYear = fiscalYear;
     }
-    
+
     /**
      * This method finds the lead unit number, if any
      * @return
@@ -1106,13 +1116,13 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public String getLeadUnitNumber() {
         return getUnitNumber();
     }
-    
+
     /**
      * This method...
      * @param unitNumber
      */
     public void setLeadUnitNumber(String unitNumber) {
-        this.unitNumber = unitNumber;    
+        this.unitNumber = unitNumber;
     }
 
     /**
@@ -1121,7 +1131,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void setAwardFundingProposals(List<AwardFundingProposal> awardFundingProposals) {
         this.awardFundingProposals = awardFundingProposals;
     }
-    
+
     public InstitutionalProposalScienceKeyword getProposalScienceKeyword() {
         return proposalScienceKeyword;
     }
@@ -1137,18 +1147,14 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void setProposalCostSharing(InstitutionalProposalCostShare proposalCostSharing) {
         this.proposalCostSharing = proposalCostSharing;
     }
-    
-    
+
 
     /*
-    public AwardFundingProposals getAwardFundingProposals() {
-        return awardFundingProposals;
-    }
-
-    public void setAwardFundingProposals(AwardFundingProposals awardFundingProposals) {
-        this.awardFundingProposals = awardFundingProposals;
-    }
-    */
+     * public AwardFundingProposals getAwardFundingProposals() { return awardFundingProposals; }
+     * 
+     * public void setAwardFundingProposals(AwardFundingProposals awardFundingProposals) { this.awardFundingProposals =
+     * awardFundingProposals; }
+     */
 
     /**
      * Gets the projectPersons attribute. 
@@ -1189,7 +1195,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void setProposalComments(List<InstitutionalProposalComment> proposalComments) {
         this.proposalComments = proposalComments;
     }
-    
+
     public IntellectualPropertyReview getIntellectualPropertyReview() {
         return intellectualPropertyReview;
     }
@@ -1197,7 +1203,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void setIntellectualPropertyReview(IntellectualPropertyReview intellectualPropertyReview) {
         this.intellectualPropertyReview = intellectualPropertyReview;
     }
-    
+
     public List<ProposalIpReviewJoin> getProposalIpReviewJoins() {
         return proposalIpReviewJoins;
     }
@@ -1212,11 +1218,11 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         }
         return null;
     }
-    
+
     public void setProposalIpReviewJoin(ProposalIpReviewJoin proposalIpReviewJoin) {
         this.proposalIpReviewJoins.add(0, proposalIpReviewJoin);
     }
-    
+
     /**
      * Gets the institutionalProposalCostShares attribute. 
      * @return Returns the institutionalProposalCostShares.
@@ -1265,11 +1271,11 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void setCreateTimeStamp(Date createTimeStamp) {
         this.createTimeStamp = createTimeStamp;
     }
-    
+
     public String getDefaultNewDescription() {
         return "(select)";
     }
-    
+
     public String getNewDescription() {
         return newDescription;
     }
@@ -1277,19 +1283,19 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void setNewDescription(String newDescription) {
         this.newDescription = newDescription;
     }
-    
-    //public Timestamp getUpdateTimestamp() {
-      //  return super.getUpdateTimestamp();
-    //}
-    //public void setUpdateTimestamp(Timestamp updateTimestamp) {
-        //super.setUpdateTimestamp(updateTimestamp);
-    //}//
-    //public String getUpdateUser() {
-        //return super.getUpdateUser();
-    //}
-    //public void setUpdateUser(String updateUser) {
-        //super.setUpdateUser(updateUser);
-    //}
+
+    // public Timestamp getUpdateTimestamp() {
+    // return super.getUpdateTimestamp();
+    // }
+    // public void setUpdateTimestamp(Timestamp updateTimestamp) {
+    // super.setUpdateTimestamp(updateTimestamp);
+    // }//
+    // public String getUpdateUser() {
+    // return super.getUpdateUser();
+    // }
+    // public void setUpdateUser(String updateUser) {
+    // super.setUpdateUser(updateUser);
+    // }
 
     public String getProposalSequenceStatus() {
         return proposalSequenceStatus;
@@ -1300,11 +1306,12 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     }
 
     /** {@inheritDoc} */
-    @Override 
+    @Override
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
         hashMap.put("proposalId", this.getProposalId());
         hashMap.put("proposalNumber", this.getProposalNumber());
+        hashMap.put("instProposalNumber", this.getInstProposalNumber());
         hashMap.put("sponsorProposalNumber", this.getSponsorProposalNumber());
         hashMap.put("sequenceNumber", this.getSequenceNumber());
         hashMap.put("proposalTypeCode", this.getProposalTypeCode());
@@ -1351,13 +1358,13 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void addSpecialReview(InstitutionalProposalSpecialReview specialReview) {
         specialReview.setSequenceOwner(this);
         getSpecialReviews().add(specialReview);
-        
+
     }
 
     public InstitutionalProposalSpecialReview getSpecialReview(int index) {
         return getSpecialReviews().get(index);
     }
-    
+
     /**
      * Gets the keywords attribute. 
      * @return Returns the keywords.
@@ -1373,12 +1380,14 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void setKeywords(List<InstitutionalProposalScienceKeyword> institutionalProposalScienceKeywords) {
         this.institutionalProposalScienceKeywords = institutionalProposalScienceKeywords;
     }
+
     /**
      * Add selected science keyword to award science keywords list.
      * @see org.kuali.kra.document.KeywordsManager#addKeyword(org.kuali.kra.bo.ScienceKeyword)
      */
     public void addKeyword(ScienceKeyword scienceKeyword) {
-        InstitutionalProposalScienceKeyword institutionalProposalScienceKeyword = new InstitutionalProposalScienceKeyword(this, scienceKeyword);
+        InstitutionalProposalScienceKeyword institutionalProposalScienceKeyword = new InstitutionalProposalScienceKeyword(this,
+            scienceKeyword);
         getKeywords().add(institutionalProposalScienceKeyword);
     }
 
@@ -1389,7 +1398,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public InstitutionalProposalScienceKeyword getKeyword(int index) {
         return getKeywords().get(index);
     }
-    
+
     /**
      * @see org.kuali.kra.SequenceOwner#getOwnerSequenceNumber()
      */
@@ -1401,7 +1410,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
      * @see org.kuali.kra.SequenceOwner#incrementSequenceNumber()
      */
     public void incrementSequenceNumber() {
-       this.sequenceNumber++; 
+        this.sequenceNumber++;
     }
 
     /**
@@ -1415,7 +1424,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
      * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
      */
     public void setSequenceOwner(InstitutionalProposal newOwner) {
-       // no-op
+        // no-op
     }
 
     /**
@@ -1436,25 +1445,28 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void resetPersistenceState() {
         this.proposalId = null;
     }
-    
+
     /**
      * @see org.kuali.kra.SequenceOwner#getName()
      */
     public String getVersionNameField() {
         return "proposalNumber";
     }
-    
+
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert()
      */
     @Override
     public void afterInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
         super.afterInsert(persistenceBroker);
-        updateProposalIpReviewJoin();        
+        updateProposalIpReviewJoin();
         // This method links the institutional proposal with the merged proposal log
-        KraServiceLocator.getService(ProposalLogService.class).updateMergedInstProposal(proposalId, proposalNumber );
+        if (proposalId != null && proposalNumber != null)
+        {
+            KraServiceLocator.getService(ProposalLogService.class).updateMergedInstProposal(proposalId, proposalNumber);
+        }
     }
-    
+
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#afterLookup()
      */
@@ -1462,12 +1474,13 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
         super.afterLookup(persistenceBroker);
     }
-    
+
     protected void updateProposalIpReviewJoin() {
         ProposalIpReviewJoin proposalIpReviewJoin = this.getProposalIpReviewJoin();
         if (ObjectUtils.isNotNull(proposalIpReviewJoin.getProposalIpReviewJoinId())) {
             proposalIpReviewJoin.setProposalIpReviewJoinId(null);
-        } else {
+        }
+        else {
             IntellectualPropertyReview ipReview = new IntellectualPropertyReview();
             ipReview.setSequenceNumber(0);
             ipReview.setProposalNumber(this.getProposalNumber());
@@ -1480,8 +1493,8 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         getBusinessObjectService().save(proposalIpReviewJoin);
         this.setProposalIpReviewJoin(proposalIpReviewJoin);
     }
-    
-    
+
+
     /**
      * This method lazy inits ActivityType
      * @return
@@ -1492,11 +1505,11 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
                 Map<String, Object> identifiers = new HashMap<String, Object>();
                 identifiers.put("activityTypeCode", activityTypeCode);
                 activityType = (ActivityType) getBusinessObjectService().findByPrimaryKey(ActivityType.class, identifiers);
-            }            
+            }
         }
         return activityType;
     }
-    
+
     /**
      * This method lazy inits ProposalType
      * @return
@@ -1507,11 +1520,11 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
                 Map<String, Object> identifiers = new HashMap<String, Object>();
                 identifiers.put("proposalTypeCode", proposalTypeCode);
                 proposalType = (ProposalType) getBusinessObjectService().findByPrimaryKey(ProposalType.class, identifiers);
-            }            
+            }
         }
         return proposalType;
-    } 
-    
+    }
+
     /**
      * Populate properties on this InstitutionalProposal with the respective properties from ProposalLog.
      * 
@@ -1532,13 +1545,14 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         InstitutionalProposalPerson ipPerson = new InstitutionalProposalPerson();
         if (proposalLog.getPerson() != null) {
             ipPerson.setPerson(proposalLog.getPerson());
-        } else if (proposalLog.getRolodex() != null) {
+        }
+        else if (proposalLog.getRolodex() != null) {
             ipPerson.setRolodex(proposalLog.getRolodex());
         }
         initializeDefaultPrincipalInvestigator(ipPerson);
         this.setPrincipalInvestigator(ipPerson);
     }
-    
+
     private void initializeDefaultPrincipalInvestigator(InstitutionalProposalPerson ipPerson) {
         ipPerson.setProposalNumber(this.getProposalNumber());
         ipPerson.setSequenceNumber(this.getSequenceNumber());
@@ -1550,15 +1564,15 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         ipPerson.add(ipPersonUnit);
         ipPerson.setInstitutionalProposal(this);
     }
-    
+
     public UnitService getUnitService() {
         return (UnitService) KraServiceLocator.getService(UnitService.class);
     }
-    
+
     protected BusinessObjectService getBusinessObjectService() {
         return (BusinessObjectService) KraServiceLocator.getService(BusinessObjectService.class);
     }
-    
+
     private void updateFundingStatus() {
         setStatusCode(awardFundingProposals.size() > 0 ? PROPOSAL_FUNDED_STATUS_CODE : PROPOSAL_PENDING_STATUS_CODE);
     }
@@ -1570,40 +1584,41 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void setNsfCodeBo(NsfCode nsfCodeBo) {
         this.nsfCodeBo = nsfCodeBo;
     }
-    
+
     public KcPerson getInitialContractAdminUser() {
         if (!StringUtils.isBlank(this.getInitialContractAdmin())) {
             try {
                 return this.getKcPersonService().getKcPersonByPersonId(this.getInitialContractAdmin());
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 // TODO temp unit test fix
             }
         }
         return null;
     }
-    
+
     /* Comments methods. ORM treats comments as a list, so we lazy-copy them to a map for faster access from the getters. */
-    
+
     public InstitutionalProposalComment getSummaryComment() {
         return getInstitutionalProposalCommentByType(Constants.PROPOSAL_SUMMARY_COMMENT_TYPE_CODE, true);
     }
-    
+
     public InstitutionalProposalComment getDeliveryComment() {
         return getInstitutionalProposalCommentByType(Constants.PROPOSAL_COMMENT_TYPE_CODE, true);
     }
-    
+
     public InstitutionalProposalComment getCostShareComment() {
         return getInstitutionalProposalCommentByType(Constants.COST_SHARE_COMMENT_TYPE_CODE, true);
     }
-    
+
     public InstitutionalProposalComment getUnrecoveredFandAComment() {
         return getInstitutionalProposalCommentByType(Constants.FANDA_RATE_COMMENT_TYPE_CODE, true);
     }
-    
+
     public InstitutionalProposalComment getGeneralComment() {
         return getInstitutionalProposalCommentByType(Constants.PROPOSAL_IP_REVIEW_COMMENT_TYPE_CODE, true);
     }
-    
+
     public InstitutionalProposalComment getInstitutionalProposalCommentByType(String commentTypeCode, boolean createNew) {
         InstitutionalProposalComment ipComment = getCommentMap().get(commentTypeCode);
         if (ipComment == null && createNew) {
@@ -1614,12 +1629,12 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         }
         return ipComment;
     }
-    
+
     public void add(InstitutionalProposalComment ipComment) {
         proposalComments.add(ipComment);
         ipComment.setInstitutionalProposal(this);
     }
-    
+
     private Map<String, InstitutionalProposalComment> getCommentMap() {
         if (commentMap == null) {
             commentMap = new HashMap<String, InstitutionalProposalComment>();
@@ -1630,6 +1645,26 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         return commentMap;
     }
 
+    /**
+     * 
+     * This method retrieves PROPOSAL_LOG.INST_PROPOSAL_NUMBER
+     * from the DB for the current proposal number
+     */
+    void retrieveInstProposalNumberFromDB()
+    {
+        Map<String, String> criteria = new HashMap<String, String>();
+        criteria.put("proposalNumber", proposalNumber);
+        ProposalLog proposalLog = (ProposalLog)getBusinessObjectService().findByPrimaryKey(ProposalLog.class, criteria);
+        if (proposalLog == null)
+        {
+            instProposalNumber = null;
+        }
+        else
+        {
+            instProposalNumber = proposalLog.getInstProposalNumber();
+        }
+    }
+    
     public void setLookupUnit(Unit lookupUnit) {
         this.lookupUnit = lookupUnit;
     }
@@ -1661,21 +1696,33 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public String getLookupPersonNumber() {
         return lookupPersonNumber;
     }
-    
+
     public void setShowReturnLink(boolean val) {
         showReturnLink = val;
     }
+
     public boolean getShowReturnLink() {
         return showReturnLink;
     }
+    
+    public String getInstProposalNumber(){
+        retrieveInstProposalNumberFromDB();
+        return instProposalNumber;
+    }
+    
+    public void setInstProposalNumber(String instProposalNumber){
+        this.instProposalNumber = instProposalNumber;
+    }
+   
 
     /**
      * This method returns the combined number of units for all project personnel.
+     * 
      * @return
      */
     public int getTotalUnitCount() {
         int count = 0;
-        for (InstitutionalProposalPerson person: projectPersons)
+        for (InstitutionalProposalPerson person : projectPersons)
             count += person.getUnits().size();
         return count;
     }
@@ -1687,5 +1734,5 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void setSponsorNihMultiplePi(boolean sponsorNihMultiplePi) {
         this.sponsorNihMultiplePi = sponsorNihMultiplePi;
     }
-    
+
 }
