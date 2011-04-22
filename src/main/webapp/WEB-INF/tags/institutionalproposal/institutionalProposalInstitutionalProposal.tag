@@ -48,8 +48,14 @@
     	<th width="400">
     		<div align="right">Fiscal Month/Year:</div>
     	</th>
-    	<td colspan="3">
+    	<td>
     		${KualiForm.institutionalProposalDocument.institutionalProposal.fiscalMonth}/${KualiForm.institutionalProposalDocument.institutionalProposal.fiscalYear}&nbsp;
+    	</td>
+    	<th width="400">
+    		<div align="right">Created from Prop Log:</div>
+    	</th>
+    	<td>
+    		${KualiForm.institutionalProposalDocument.institutionalProposal.instProposalNumber}&nbsp;
     	</td>
   	</tr>
   	<tr>
