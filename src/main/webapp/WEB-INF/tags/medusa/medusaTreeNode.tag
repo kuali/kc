@@ -23,7 +23,7 @@
   <c:when test="${node.type == 'DP'}">
     <c:if test="${KualiForm.medusaBean.moduleName == node.type && KualiForm.medusaBean.moduleIdentifier == node.bo.proposalNumber}">
       <c:set var="showOpen" value="0"/>
-      <c:set var="currentDoc" value="1"/>
+      <c:set var="currentDoc" value="true"/>
     </c:if>  
     <span class="medusaNode"><a name="${node.type}-${node.bo.proposalNumber}-${showOpen}"><img src="static/images/developmentproposal12.gif" />Development Proposal ${node.bo.proposalNumber}</a></span><!-- hack for treeview --><a></a>
   </c:when>
