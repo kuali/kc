@@ -80,12 +80,10 @@ public class ProposalLogServiceImpl implements ProposalLogService {
         criteria.put("proposalNumber", proposalNumber);
         ProposalLog proposalLog = 
             (ProposalLog) this.getBusinessObjectService().findByPrimaryKey(ProposalLog.class, criteria);
-        if (proposalLog == null) {
-            throw new IllegalArgumentException("Can't update proposal log institutional proposal number: " + proposalNumber + " not found.");
-        }
-        proposalLog.setInstProposalNumber(proposalId.toString());
-        this.getBusinessObjectService().save(proposalLog);
-        
+        if (proposalLog != null) {
+            proposalLog.setInstProposalNumber(proposalId.toString());
+            this.getBusinessObjectService().save(proposalLog);
+        }        
     }
     
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
