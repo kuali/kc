@@ -9,4 +9,4 @@ spool KR-RELEASE-3_1_SP3-Upgrade-ORACLE-Install.log
 @ORACLE/DML/KR_DML_BS3_KRIM_ROLE_PERM_T.sql
 @ORACLE/DML/KR_DML_BS4_KRIM_ROLE_MBR_ATTR_DATA_T.sql
 commit;
-exit;
+exit
