@@ -15,38 +15,36 @@
  */
 package org.kuali.kra.institutionalproposal.web;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.infrastructure.TestUtilities;
+import org.kuali.kra.test.infrastructure.KcSeleniumTestBase;
 
-public class InstitutionalProposalCompleteSeleniumTest extends InstitutionalProposalSeleniumTestBase {
+public class InstitutionalProposalCompleteSeleniumTest extends KcSeleniumTestBase {
     
-    private static final String GRADUATE_STUDENT_COUNT_ID = "institutionalProposalCustomDataFormHelper.customDataValues[3].value";
-    private static final String BILLING_ELEMENT_ID = "institutionalProposalCustomDataFormHelper.customDataValues[0].value";
+    private InstitutionalProposalSeleniumHelper helper;
+    
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+        
+        helper = InstitutionalProposalSeleniumHelper.instance(driver);
+    }
+    
+    @After
+    public void tearDown() throws Exception {
+        helper = null;
+        
+        super.tearDown();
+    }
     
     @Test
     public void testInstitutionalProposalComplete() {
-        createInstitutionalProposal();
+        helper.createInstitutionalProposal();
         
-        addCustomData();
+        helper.addCustomData();
         
-        submit();
-    }
-    
-    private void addCustomData() {
-        clickInstitutionalProposalCustomDataPage();
-
-        openTab("Personnel Items for Review");
-        set(GRADUATE_STUDENT_COUNT_ID, TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
-        
-        openTab("asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf");
-        set(BILLING_ELEMENT_ID, TestUtilities.BILLING_ELEMENT_VALUE);
-    }
-    
-    private void submit() {
-        clickInstitutionalProposalActionsPage();
-
-        routeDocument();
-        assertRoute();
+        helper.submit();
     }
     
 }

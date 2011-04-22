@@ -7,10 +7,12 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import org.apache.commons.lang.time.DateUtils;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.test.infrastructure.KcSeleniumTestBase;
 
-public class CommitteeCompleteSeleniumTest extends CommitteeSeleniumTestBase {
+public class CommitteeCompleteSeleniumTest extends KcSeleniumTestBase {
     
     private static final String PERSON_ID_TAG = "committeeHelper.newCommitteeMembership.personId";
     private static final String ROLODEX_ID_TAG = "committeeHelper.newCommitteeMembership.rolodexId";
@@ -56,35 +58,46 @@ public class CommitteeCompleteSeleniumTest extends CommitteeSeleniumTestBase {
     private String endDate;
     private String firstScheduleDate;
     private DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+    
+    private CommitteeSeleniumHelper helper;
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
+        
+        helper = CommitteeSeleniumHelper.instance(driver);
         setupDates();
+    }
+    
+    @After
+    public void tearDown() throws Exception {
+        helper = null;
+        
+        super.tearDown();
     }
 
     @Test
     public void testCommitteeComplete() throws Exception {
-        createCommittee();
+        helper.createCommittee();
 
         addMembers();
         
         addSchedules();
         
-        routeDocument();
+        helper.routeDocument();
         
         assertMembers();
         assertSchedule();
         
-        String documentNumber = getDocumentNumber();
-        docSearch(documentNumber);
+        String documentNumber = helper.getDocumentNumber();
+        helper.docSearch(documentNumber);
         
         assertMembers();
         assertSchedule();
     }
 
     private void addMembers() {
-        clickCommitteeMembersPage();
+        helper.clickCommitteeMembersPage();
         
         addMember(0, true, NICHOLAS_MAJORS_PERSON_ID, CHAIR_MEMBERSHIP_ROLE, PERSONAL_CULINARY_SERVICES_OTHER_RESEARCH_AREA_CODE);
         addMember(1, true, ALLYSON_CATE_PERSON_ID, IRB_ADMINISTRATOR_MEMBERSHIP_ROLE, AGRICULTURAL_PRODUCTION_OPERATIONS_RESEARCH_AREA_CODE);        
@@ -93,61 +106,61 @@ public class CommitteeCompleteSeleniumTest extends CommitteeSeleniumTestBase {
     
     private void addMember(int index, boolean isEmployee, String personId, String role, String researchAreaCode) {
         if (isEmployee) {
-            lookup(PERSON_ID_TAG, PERSON_ID_ID, personId);
+            helper.lookup(PERSON_ID_TAG, PERSON_ID_ID, personId);
         } else {
-            lookup(ROLODEX_ID_TAG, ROLODEX_ID_ID, personId);
+            helper.lookup(ROLODEX_ID_TAG, ROLODEX_ID_ID, personId);
         }
         
-        click(ADD_MEMBERSHIP_BUTTON);
+        helper.click(ADD_MEMBERSHIP_BUTTON);
         int tabidx = index * 5;
         
-        openTab(tabidx);
-        openTab(tabidx + 1);
-        set(String.format(MEMBERSHIP_TYPE_CODE_ID, index), VOTING_CHAIR_MEMBERSHIP_TYPE);
-        set(String.format(TERM_START_DATE_ID, index), startDate);
-        set(String.format(TERM_END_DATE_ID, index), endDate);
+        helper.openTab(tabidx);
+        helper.openTab(tabidx + 1);
+        helper.set(String.format(MEMBERSHIP_TYPE_CODE_ID, index), VOTING_CHAIR_MEMBERSHIP_TYPE);
+        helper.set(String.format(TERM_START_DATE_ID, index), startDate);
+        helper.set(String.format(TERM_END_DATE_ID, index), endDate);
         
-        openTab(tabidx + 3);
-        set(String.format(MEMBERSHIP_ROLE_CODE_ID, index), role);
-        set(String.format(START_DATE_ID, index), startDate);
-        set(String.format(END_DATE_ID, index), endDate);
-        click(String.format(ADD_MEMBERSHIP_ROLE_BUTTON, index, index));
+        helper.openTab(tabidx + 3);
+        helper.set(String.format(MEMBERSHIP_ROLE_CODE_ID, index), role);
+        helper.set(String.format(START_DATE_ID, index), startDate);
+        helper.set(String.format(END_DATE_ID, index), endDate);
+        helper.click(String.format(ADD_MEMBERSHIP_ROLE_BUTTON, index, index));
 
-        openTab(tabidx + 4);
+        helper.openTab(tabidx + 4);
         if (index > 1) {
-            closeTab(9);
+            helper.closeTab(9);
         } 
         if (index > 0) {
-            closeTab(4);
+            helper.closeTab(4);
         }
-        multiLookup(RESEARCH_AREAS_TAG, RESEARCH_AREA_CODE_ID, researchAreaCode);
+        helper.multiLookup(RESEARCH_AREAS_TAG, RESEARCH_AREA_CODE_ID, researchAreaCode);
         if (index > 1) {
-            openTab(9);
+            helper.openTab(9);
         } 
         if (index > 0) {
-            openTab(4);
+            helper.openTab(4);
         }
         
-        saveDocument();
-        assertSave();
+        helper.saveDocument();
+        helper.assertSave();
     }
     
     private void addSchedules() {
-        clickCommitteeSchedulePage();
+        helper.clickCommitteeSchedulePage();
         
-        set(SCHEDULE_START_DATE_ID, startDate);
-        set(RECURRENCE_TYPE_ID, RECURRENCE_TYPE);
-        set(SCHEDULE_END_DATE_ID, endDate);
-        click(ADD_EVENT_BUTTON);
-        saveDocument();
-        assertSave();
+        helper.set(SCHEDULE_START_DATE_ID, startDate);
+        helper.set(RECURRENCE_TYPE_ID, RECURRENCE_TYPE);
+        helper.set(SCHEDULE_END_DATE_ID, endDate);
+        helper.click(ADD_EVENT_BUTTON);
+        helper.saveDocument();
+        helper.assertSave();
     }
     
     private void assertMembers() {
-        clickCommitteeMembersPage();
+        helper.clickCommitteeMembersPage();
         
-        click(SHOW_ALL_MEMBERS_BUTTON);
-        clickExpandAll();
+        helper.click(SHOW_ALL_MEMBERS_BUTTON);
+        helper.clickExpandAll();
         
         assertMember(NICHOLAS_MAJORS_NAME, CHAIR_MEMBERSHIP_ROLE, PERSONAL_CULINARY_SERVICES_OTHER_NAME);
         assertMember(ALLYSON_CATE_NAME, IRB_ADMINISTRATOR_MEMBERSHIP_ROLE, AGRICULTURAL_PRODUCTION_OPERATIONS_NAME);
@@ -155,15 +168,15 @@ public class CommitteeCompleteSeleniumTest extends CommitteeSeleniumTestBase {
     }
     
     private void assertMember(String name, String role, String researchArea) {
-        assertPageContains(name);
-        assertPageContains(role);
-        assertPageContains(researchArea);
+        helper.assertPageContains(name);
+        helper.assertPageContains(role);
+        helper.assertPageContains(researchArea);
     }
     
     private void assertSchedule() {
-        clickCommitteeSchedulePage();
+        helper.clickCommitteeSchedulePage();
         
-        assertPageContains(firstScheduleDate);
+        helper.assertPageContains(firstScheduleDate);
     }
     
     private void setupDates() {

@@ -17,27 +17,46 @@ package org.kuali.kra;
 
 import java.util.Date;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentSeleniumHelper;
 import org.kuali.kra.test.infrastructure.KcSeleniumTestBase;
 
 public class SeleniumUnitTest extends KcSeleniumTestBase {
+    
+    private ProposalDevelopmentSeleniumHelper helper;
+    
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+        
+        helper = ProposalDevelopmentSeleniumHelper.instance(driver);
+    }
+    
+    @After
+    public void tearDown() throws Exception {
+        helper = null;
+        
+        super.tearDown();
+    }
 
     @Test
     public void testSeleniumUnit() throws Exception {
-        clickResearcherTab();
+        helper.clickResearcherTab();
         
-        click("Create Proposal");
+        helper.click("Create Proposal");
         
-        set("document.documentHeader.documentDescription", "ProposalDevelopmentDocumentTest");
-        set("document.developmentProposalList[0].sponsorCode", "005770");
-        set("document.developmentProposalList[0].title", "project title");
-        set("document.developmentProposalList[0].requestedStartDateInitial", String.format("%tD", new Date()));
-        set("document.developmentProposalList[0].requestedEndDateInitial", String.format("%tD", new Date()));
-        set("document.developmentProposalList[0].proposalTypeCode", "New");
-        set("document.developmentProposalList[0].ownedByUnitNumber", "000001 - University");
-        set("document.developmentProposalList[0].activityTypeCode", "Instruction");
+        helper.set("document.documentHeader.documentDescription", "ProposalDevelopmentDocumentTest");
+        helper.set("document.developmentProposalList[0].sponsorCode", "005770");
+        helper.set("document.developmentProposalList[0].title", "project title");
+        helper.set("document.developmentProposalList[0].requestedStartDateInitial", String.format("%tD", new Date()));
+        helper.set("document.developmentProposalList[0].requestedEndDateInitial", String.format("%tD", new Date()));
+        helper.set("document.developmentProposalList[0].proposalTypeCode", "New");
+        helper.set("document.developmentProposalList[0].ownedByUnitNumber", "000001 - University");
+        helper.set("document.developmentProposalList[0].activityTypeCode", "Instruction");
         
-        closeAndSearchDocument();
+        helper.closeAndSearchDocument();
     }
 
 }
