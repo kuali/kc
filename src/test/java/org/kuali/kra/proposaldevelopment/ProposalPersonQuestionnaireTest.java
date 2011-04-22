@@ -63,6 +63,7 @@ public class ProposalPersonQuestionnaireTest extends KcUnitTestBase {
     private static final String q3 = "If this is a NIH/NSF proposal have you submitted the required financial disclosures in the web based Coeus Conflict of Interest module?";
     private static final String q4 = "Have lobbying activities been conducted on behalf of this proposal?";
     private static final String q5 = "Are you currently debarred, suspended, proposed for debarment, declared ineligible or voluntarily excluded from current transactions by a federal department or agency?";
+    private static final String q6 = "Are you familiar with the requirements of the Procurement Liabilities Act?";
 
     @Before
     public void setUp() throws Exception {
@@ -167,13 +168,14 @@ public class ProposalPersonQuestionnaireTest extends KcUnitTestBase {
     @Test
     public void testQuestionnaire() {
         Questionnaire questionnaire = proposalDevelopmentPersonQuestionnaireService.getBaseQuestionnaire();
-        assertEquals(5, questionnaire.getQuestionnaireQuestions().size());
+        assertEquals(6, questionnaire.getQuestionnaireQuestions().size());
         
         boolean q1Found = false;
         boolean q2Found = false;
         boolean q3Found = false;
         boolean q4Found = false;
         boolean q5Found = false;
+        boolean q6Found = false;
         
         for (QuestionnaireQuestion q : questionnaire.getQuestionnaireQuestions()) {
             
@@ -192,6 +194,9 @@ public class ProposalPersonQuestionnaireTest extends KcUnitTestBase {
             } else if (StringUtils.equals(q5, q.getQuestion().getQuestion())) {
                 assertEquals("1", q.getQuestion().getAnswerMaxLength().toString());
                 q5Found = true;
+            } else if (StringUtils.equals(q6, q.getQuestion().getQuestion())) {
+                assertEquals("1", q.getQuestion().getAnswerMaxLength().toString());
+                q6Found = true;
             } else {
                 assertTrue("Unknown Question: " + q.getQuestion().getQuestion(), false);
             }
@@ -201,14 +206,14 @@ public class ProposalPersonQuestionnaireTest extends KcUnitTestBase {
         assertTrue(q3Found);
         assertTrue(q4Found);
         assertTrue(q5Found);
-        
+        assertTrue(q6Found);
     }
     
     @Test
     public void testGetNewAnswerHeader() throws Exception{
         ProposalPersonModuleQuestionnaireBean bean = new ProposalPersonModuleQuestionnaireBean(proposal, getPerson());
         AnswerHeader header = proposalDevelopmentPersonQuestionnaireService.getNewAnswerHeader(bean);
-        assertEquals(5, header.getAnswers().size());
+        assertEquals(6, header.getAnswers().size());
 
         for(Answer answer : header.getAnswers()) {
             answer.setAnswer("1");
@@ -220,13 +225,14 @@ public class ProposalPersonQuestionnaireTest extends KcUnitTestBase {
         List<AnswerHeader> headers = questionnaireAnswerService.getQuestionnaireAnswer(bean);
         assertEquals(1, headers.size());
         List<Answer> answers = headers.get(0).getAnswers();
-        assertEquals(5, answers.size());
+        assertEquals(6, answers.size());
         
         boolean q1Found = false;
         boolean q2Found = false;
         boolean q3Found = false;
         boolean q4Found = false;
         boolean q5Found = false;
+        boolean q6Found = false;
         for(Answer answer : answers) {
             Question thisQuestion = answer.getQuestion();
             if (StringUtils.equals(q1, thisQuestion.getQuestion())) {
@@ -244,6 +250,9 @@ public class ProposalPersonQuestionnaireTest extends KcUnitTestBase {
             } else if (StringUtils.equals(q5, thisQuestion.getQuestion())) {
                 assertEquals("1", thisQuestion.getAnswerMaxLength().toString());
                 q5Found = true;
+            } else if (StringUtils.equals(q6, thisQuestion.getQuestion())) {
+                assertEquals("1", thisQuestion.getAnswerMaxLength().toString());
+                q6Found = true;
             } else {
                 assertTrue("Unknown Question: " + thisQuestion.getQuestion(), false);
             }
