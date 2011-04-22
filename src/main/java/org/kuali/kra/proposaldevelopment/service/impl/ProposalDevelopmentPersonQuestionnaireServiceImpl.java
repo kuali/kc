@@ -79,7 +79,7 @@ public class ProposalDevelopmentPersonQuestionnaireServiceImpl implements Propos
             answer.setQuestion(q.getQuestion());
             answer.setQuestionnaireQuestion(q);
             answer.setQuestionnaireQuestionsIdFk(q.getQuestionnaireQuestionsId());
-            answer.setQuestionNumber(q.getQuestion().getQuestionId());
+            answer.setQuestionNumber(q.getQuestionNumber());
             answer.setQuestionRefIdFk(q.getQuestion().getQuestionRefId());
             answer.setAnswerNumber(q.getQuestionNumber());
             answers.add(answer);
