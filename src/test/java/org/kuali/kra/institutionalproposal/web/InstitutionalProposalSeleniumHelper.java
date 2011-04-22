@@ -15,12 +15,14 @@
  */
 package org.kuali.kra.institutionalproposal.web;
 
-import org.kuali.kra.test.infrastructure.KcSeleniumTestBase;
+import org.kuali.kra.infrastructure.TestUtilities;
+import org.kuali.kra.test.infrastructure.KcSeleniumHelper;
+import org.openqa.selenium.WebDriver;
 
 /**
- * Base class for all integration tests for Institutional Proposals.
+ * Provides methods for creating an Institutional Development document, clicking on tabs, and populating fields.
  */
-public abstract class InstitutionalProposalSeleniumTestBase extends KcSeleniumTestBase {
+public class InstitutionalProposalSeleniumHelper extends KcSeleniumHelper {
     
     private static final String PROPOSAL_LOG_PAGE_TITLE = "Kuali :: Proposal Log";
     
@@ -52,6 +54,8 @@ public abstract class InstitutionalProposalSeleniumTestBase extends KcSeleniumTe
     private static final String IP_PROPOSAL_TYPE_CODE_ID = IP_LIST_PREFIX + "proposalTypeCode";
     private static final String IP_TITLE_ID = IP_LIST_PREFIX + "title";
     private static final String IP_SPONSOR_CODE_ID = IP_LIST_PREFIX + "sponsorCode";
+    private static final String IP_GRADUATE_STUDENT_COUNT_ID = "institutionalProposalCustomDataFormHelper.customDataValues[3].value";
+    private static final String IP_BILLING_ELEMENT_ID = "institutionalProposalCustomDataFormHelper.customDataValues[0].value";
     
     private static final String PL_DEFAULT_PROPSAL_TYPE = "New";
     private static final String PL_DEFAULT_TITLE = "Test Project";
@@ -65,7 +69,70 @@ public abstract class InstitutionalProposalSeleniumTestBase extends KcSeleniumTe
     private static final String IP_DEFAULT_PROJECT_TITLE = "Test Project";
     private static final String IP_DEFAULT_SPONSOR_CODE = "005891";
     
-    protected final void createProposalLog() {
+    private static InstitutionalProposalSeleniumHelper helper;
+    
+    public static InstitutionalProposalSeleniumHelper instance(WebDriver driver) {
+        if (helper == null) {
+            helper = new InstitutionalProposalSeleniumHelper(driver);
+        }
+        return helper;
+    }
+    
+    private InstitutionalProposalSeleniumHelper(WebDriver driver) {
+        super(driver);
+    }
+    
+    /**
+     * Navigate to the Institutional Proposal Home page.
+     */
+    public void clickInstitutionalProposalHomePage() {
+        click(HOME_LINK_NAME);
+    }
+    
+    /**
+     * Navigate to the Institutional Proposal Contacts page.
+     */
+    public void clickInstitutionalProposalContactsPage() {
+        click(CONTACTS_LINK_NAME);
+    }
+    
+    /**
+     * Navigate to the Institutional Proposal Custom Data page.
+     */
+    public void clickInstitutionalProposalCustomDataPage() {
+        click(CUSTOM_DATA_LINK_NAME);
+    }
+    
+    /**
+     * Navigate to the Institutional Proposal Special Review page.
+     */
+    public void clickInstitutionalProposalSpecialReviewPage() {
+        click(SPECIAL_REVIEW_LINK_NAME);
+    }
+    
+    /**
+     * Navigate to the Institutional Proposal Intellectual Property Review page.
+     */
+    public void clickInstitutionalProposalIntellectualPropertyReviewPage() {
+        click(INTELLECTUAL_PROPERTY_REVIEW);
+    }
+    
+    /**
+     * Navigate to the Institutional Proposal Distribution page.
+     */
+    public void clickInstitutionalProposalDistributionPage() {
+        click(DISTRIBUTION_LINK_NAME);
+    }
+    
+    /**
+     * Navigate to the Institutional Proposal Actions page.
+     */
+    public void clickInstitutionalProposalActionsPage() {
+        click(ACTIONS_LINK_NAME);
+    }
+    
+    
+    public final void createProposalLog() {
         clickCentralAdminTab();
         
         click(CREATE_PROPOSAL_LOG_LINK_NAME);
@@ -84,7 +151,7 @@ public abstract class InstitutionalProposalSeleniumTestBase extends KcSeleniumTe
     /**
      * Creates a new instance of the Institutional Proposal page, filling in all required values, and saving.
      */
-    protected final void createInstitutionalProposal() {
+    public final void createInstitutionalProposal() {
         clickCentralAdminTab();
         
         createProposalLog();
@@ -103,7 +170,7 @@ public abstract class InstitutionalProposalSeleniumTestBase extends KcSeleniumTe
     /**
      * Looks up and returns the Proposal Log to be associated with a new Institutional Proposal.
      */
-    protected final void lookupProposalLog() {    
+    public final void lookupProposalLog() {    
         click(CREATE_INSTITUTIONAL_PROPOSAL_LINK_NAME);
 
         click("methodToCall.search");
@@ -116,7 +183,7 @@ public abstract class InstitutionalProposalSeleniumTestBase extends KcSeleniumTe
     /**
      * Sets the Institutional Proposal's required fields to legal default values.
      */
-    protected void setDefaultRequiredFields() {
+    private void setDefaultRequiredFields() {
         set(DOCUMENT_DESCRIPTION_ID, IP_DEFAULT_DOCUMENT_DESCRIPTION);
         
         openTab("Institutional Proposal");
@@ -130,52 +197,26 @@ public abstract class InstitutionalProposalSeleniumTestBase extends KcSeleniumTe
     }
     
     /**
-     * Navigate to the Institutional Proposal Home page.
+     * Adds default Custom Data.
      */
-    protected void clickInstitutionalProposalHomePage() {
-        click(HOME_LINK_NAME);
+    public void addCustomData() {
+        clickInstitutionalProposalCustomDataPage();
+
+        openTab("Personnel Items for Review");
+        set(IP_GRADUATE_STUDENT_COUNT_ID, TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
+        
+        openTab("asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf");
+        set(IP_BILLING_ELEMENT_ID, TestUtilities.BILLING_ELEMENT_VALUE);
     }
     
     /**
-     * Navigate to the Institutional Proposal Contacts page.
+     * Submits this Institutional Proposal.
      */
-    protected void clickInstitutionalProposalContactsPage() {
-        click(CONTACTS_LINK_NAME);
-    }
-    
-    /**
-     * Navigate to the Institutional Proposal Custom Data page.
-     */
-    protected void clickInstitutionalProposalCustomDataPage() {
-        click(CUSTOM_DATA_LINK_NAME);
-    }
-    
-    /**
-     * Navigate to the Institutional Proposal Special Review page.
-     */
-    protected void clickInstitutionalProposalSpecialReviewPage() {
-        click(SPECIAL_REVIEW_LINK_NAME);
-    }
-    
-    /**
-     * Navigate to the Institutional Proposal Intellectual Property Review page.
-     */
-    protected void clickInstitutionalProposalIntellectualPropertyReviewPage() {
-        click(INTELLECTUAL_PROPERTY_REVIEW);
-    }
-    
-    /**
-     * Navigate to the Institutional Proposal Distribution page.
-     */
-    protected void clickInstitutionalProposalDistributionPage() {
-        click(DISTRIBUTION_LINK_NAME);
-    }
-    
-    /**
-     * Navigate to the Institutional Proposal Actions page.
-     */
-    protected void clickInstitutionalProposalActionsPage() {
-        click(ACTIONS_LINK_NAME);
+    public void submit() {
+        clickInstitutionalProposalActionsPage();
+
+        routeDocument();
+        assertRoute();
     }
 
 }
