@@ -50,6 +50,7 @@ import org.kuali.kra.maintenance.KraMaintenanceDocument;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.xmlstream.XmlStream;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.kra.questionnaire.QuestionnaireService;
@@ -177,11 +178,16 @@ public class QuestionnaireXmlStream implements XmlStream {
                 setModuleUsage(moduleQuestionnaireBean,questionnaireType);
             }
             String moduleCode = moduleQuestionnaireBean.getModuleItemCode();
-            if(moduleCode!=null){
-                if(moduleCode.equals(CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE)){
-                    setDevProposalInfo((DevelopmentProposal)printableBusinessObject,questionnaireType);
-                }else if(moduleCode.equals(CoeusModule.IRB_MODULE_CODE)){
-                    setProtocolInfo((Protocol)printableBusinessObject,questionnaireType);
+            String moduleSubcode = moduleQuestionnaireBean.getModuleSubItemCode();
+            if (moduleCode != null) {
+                if (moduleCode.equals(CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE)  && "0".equals(moduleSubcode)) {
+                    setDevProposalInfo((DevelopmentProposal) printableBusinessObject,questionnaireType);
+                } else if (moduleCode.equals(CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE)  
+                        && CoeusSubModule.PROPOSAL_PERSON_CERTIFICATION.equals(moduleSubcode)) {
+                    ProposalPerson person = (ProposalPerson) printableBusinessObject;
+                    setDevProposalInfo(person.getDevelopmentProposal(),questionnaireType);
+                } else if (moduleCode.equals(CoeusModule.IRB_MODULE_CODE)) {
+                    setProtocolInfo((Protocol) printableBusinessObject,questionnaireType);
                 }
             }
         }
@@ -330,6 +336,12 @@ public class QuestionnaireXmlStream implements XmlStream {
             moduleItemKey = developmentProposal.getProposalNumber();
             moduleSubItemCode = (String) params.get("coeusModuleSubItemCode");
             moduleSubItemKey = "0";
+        } else if (printableBusinessObject instanceof ProposalPerson) {
+            ProposalPerson person = (ProposalPerson) printableBusinessObject;
+            moduleItemCode = CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE;
+            moduleItemKey = person.getProposalPersonNumber().toString();
+            moduleSubItemCode = CoeusSubModule.PROPOSAL_PERSON_CERTIFICATION;
+            moduleSubItemKey = "0";
         }
         return new ModuleQuestionnaireBean(moduleItemCode,moduleItemKey,moduleSubItemCode,moduleSubItemKey, false);
                 
@@ -414,7 +426,6 @@ public class QuestionnaireXmlStream implements XmlStream {
             }
 
         }
-        
         org.kuali.kra.questionnaire.Questionnaire toSortQuestionnaire = null;
         if (answerHeaders!=null && answerHeaders.size() > 0) {
             for (AnswerHeader header : answerHeaders) {
@@ -463,14 +474,11 @@ public class QuestionnaireXmlStream implements XmlStream {
                                         if (name != null) {
                                             if (name.trim().equalsIgnoreCase("Y")) {
                                                 answerDescription = "Yes";
-                                            }
-                                            else if (name.trim().equalsIgnoreCase("N")) {
+                                            } else if (name.trim().equalsIgnoreCase("N")) {
                                                 answerDescription = "No";
-                                            }
-                                            else if (name.trim().equalsIgnoreCase("X")) {
+                                            } else if (name.trim().equalsIgnoreCase("X")) {
                                                 answerDescription = "None";
-                                            }
-                                            else {
+                                            } else {
                                                 answerDescription = name;
                                             }
                                         }
