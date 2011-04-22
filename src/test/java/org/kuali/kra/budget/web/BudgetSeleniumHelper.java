@@ -18,77 +18,80 @@ package org.kuali.kra.budget.web;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.kra.test.infrastructure.KcSeleniumTestBase;
+import org.kuali.kra.test.infrastructure.KcSeleniumHelper;
+import org.openqa.selenium.WebDriver;
 
 /**
- * Helper provides methods for creating a budget document in the selenium framework.
- * Provides methods for clicking on tabs and populating various portions of the
- * budget.
- * 
- * This is not complete yet as it is primarily a proof of concept for a new
- * way to organize the selenium web tests.
+ * Provides methods for creating a Budget document, clicking on tabs, and populating fields.
  */
-public class BudgetSeleniumHelper extends KcSeleniumTestBase {
+public class BudgetSeleniumHelper extends KcSeleniumHelper {
     
-    protected static final String VERSIONS_LINK_NAME = "versions";
-    protected static final String PARAMETERS_LINK_NAME = "parameters";
-    protected static final String RATES_LINK_NAME = "rates";
-    protected static final String SUMMARY_LINK_NAME = "summaryTotals";
-    protected static final String PERSONNEL_LINK_NAME = "personnel";
-    protected static final String NON_PERSONNEL_LINK_NAME = "expenses";
-    protected static final String DIST_AND_INCOME_LINK_NAME = "distributionAndIncome";
-    protected static final String MODULAR_BUDGET_LINK_NAME = "modularBudget";
-    protected static final String ACTIONS_LINK_NAME = "budgetActions";
-    protected static final String RETURN_TO_PROPOSAL = "methodToCall.returnToProposal";
+    private static final String VERSIONS_LINK_NAME = "versions";
+    private static final String PARAMETERS_LINK_NAME = "parameters";
+    private static final String RATES_LINK_NAME = "rates";
+    private static final String SUMMARY_LINK_NAME = "summaryTotals";
+    private static final String PERSONNEL_LINK_NAME = "personnel";
+    private static final String NON_PERSONNEL_LINK_NAME = "expenses";
+    private static final String DISTRIBUTION_AND_INCOME_LINK_NAME = "distributionAndIncome";
+    private static final String MODULAR_BUDGET_LINK_NAME = "modularBudget";
+    private static final String ACTIONS_LINK_NAME = "budgetActions";
     
-    protected static final String BUDGET_STATUS_ID = "document.parentDocument.budgetDocumentVersion[0].budgetVersionOverview.budgetStatus";
-    protected static final String FINAL_FLAG_ID = "document.parentDocument.budgetDocumentVersion[0].budgetVersionOverview.finalVersionFlag";
+    private static final String LIST_PREFIX = "document.budget.";
+    private static final String BUDGET_RATES_PREFIX = "budgetRates";
+    private static final String APPLICABLE_RATE_ID = "applicableRate";
+    private static final String BUDGET_PERIOD_PREFIX = LIST_PREFIX + "budgetPeriod";
+    private static final String NEW_LINE_ITEM_PREFIX = "newBudgetLineItems";
+    private static final String NEW_PERSON_TAG = "newBudgetPersons";
+    private static final String PERSON_ID_ID = "personId";
+    private static final String NEW_ROLODEX_TAG = "newBudgetRolodexes";
+    private static final String ROLODEX_ID_ID = "rolodexId";
+    private static final String BUDGET_PERSON_LIST_PREFIX = LIST_PREFIX + "budgetPersons";
+    private static final String PERSON_JOB_CODE_ID = "jobCode";
+    private static final String PERSON_SALARY_ID = "calculationBase";
+    private static final String NEW_PERSON_ID = "newBudgetPersonnelDetails.personSequenceNumber";
+    private static final String COST_ELEMENT_ID = "costElement";
+    private static final String NEW_COST_ELEMENT_ID = NEW_LINE_ITEM_PREFIX + "[0]." + COST_ELEMENT_ID;
+    private static final String BUDGET_LINE_ITEM_PREFIX = "budgetLineItem";
+    private static final String PERSONNEL_DETAILS_PREFIX = "budgetPersonnelDetailsList";
+    private static final String PERCENT_EFFORT_ID = "percentEffort";
+    private static final String PERCENT_CHARGED_ID = "percentCharged";
+    private static final String LINE_ITEM_COST_ID = "lineItemCost";
+    private static final String ITEM_QUANTITY_ID = "quantity";
+    private static final String COST_SHARE_PREFIX = LIST_PREFIX + "budgetCostShare";
+    private static final String UNRECOVERED_FA_PREFIX = LIST_PREFIX + "budgetUnrecoveredFandA";
+    private static final String ACCOUNT_ID_ID = "ACCOUNT_ID";
+    private static final String AMOUNT_ID_ID = "AMOUNT_ID";
+
+    private static final String DEFAULT_JOB_CODE = "AA023";
+    private static final String DEFAULT_SALARY_AMOUNT = "100000";
+    private static final String DEFAULT_PI_NAME = "Nicholas Majors";
+    private static final String DEFAULT_JOB_CODE_NAME = "Faculty Salaries Non-Tenured - On";
+    private static final String DEFAULT_PERCENT_CHARGED = "100";
+    private static final String DEFAULT_PERCENT_EFFORT = "100";
+    private static final String DEFAULT_LINE_ITEM_DESC1 = "Equipment - Not MTDC";
+    private static final String DEFAULT_LINE_ITEM_QUANTITY1 = "1";
+    private static final String DEFAULT_LINE_ITEM_DESC2 = "Travel";
+    private static final String DEFAULT_LINE_ITEM_QUANTITY2 = null;
+    private static final String DEFAULT_LINE_ITEM_AMT = "1000";
     
-    protected static final String LIST_PREFIX = "document.budget.";
-    protected static final String BUDGET_PERIOD_PREFIX = LIST_PREFIX + "budgetPeriod";
-    protected static final String NEW_LINE_ITEM_PREFIX = "newBudgetLineItems";
+    private static final String ADD_NEW_PERSON_BUTTON = "addPersonnelLineItem.budgetCategoryTypeCodeP";
+    private static final String ADD_BUDGET_LINE_ITEM_BUTTON = "addBudgetLineItem.budgetCategoryTypeCode";
+    private static final String RETURN_TO_PROPOSAL_BUTTON = "methodToCall.returnToProposal";
     
-    protected static final String BUDGET_RATES_PREFIX = "budgetRates";
-    protected static final String RATE_ID = "applicableRate";
+    private static BudgetSeleniumHelper helper;
     
-    protected static final String PERSON_LOOKUP_NAME = "KcPerson";    
-    protected static final String ROLODEX_LOOKUP_NAME = "NonOrganizationalRolodex";
+    private Map<Integer, String> lineItemTypeIdxToTypeCode;
     
-    
-    protected static final String BUDGET_PERSON_LIST_PREFIX = LIST_PREFIX + "budgetPersons";
-    protected static final String PERSON_JOB_CODE_ID = "jobCode";
-    protected static final String PERSON_APPOINTMENT_CODE_ID = "appointmentTypeCode";
-    protected static final String PERSON_SALARY_ID = "calculationBase";
-    protected static final String EFFECTIVE_DATE_ID = "effectiveDate";
-    protected static final String NEW_PERSON_ID = "newBudgetPersonnelDetails.personSequenceNumber";
-    protected static final String COST_ELEMENT_ID = "costElement";
-    protected static final String NEW_COST_ELEMENT = NEW_LINE_ITEM_PREFIX + "[0]." + COST_ELEMENT_ID;
-    protected static final String ADD_NEW_PERSON_LINK_NAME = "addPersonnelLineItem.budgetCategoryTypeCodeP";
-    protected static final String BUDGET_LINE_ITEM_PREFIX = "budgetLineItem";
-    protected static final String PERSONNEL_DETAILS_PREFIX = "budgetPersonnelDetailsList";
-    protected static final String PERCENT_EFFORT_ID = "percentEffort";
-    protected static final String PERCENT_CHARGED_ID = "percentCharged";
-    protected static final String APPLY_TO_LATER_PERIODS = "applyToLaterPeriods.line";
-    
-    protected static final String LINE_ITEM_COST_ID = "lineItemCost";
-    protected static final String ITEM_QUANTITY_ID = "quantity";
-    //without the type qualifier (append E,T or other)
-    protected static final String ADD_BUDGET_LINE_ITEM = "addBudgetLineItem.budgetCategoryTypeCode";
-    
-    protected Map<Integer, String> lineItemTypeIdxToTypeCode;
-    
-    protected static final String COST_SHARE_PREFIX = LIST_PREFIX + "budgetCostShare";
-    protected static final String UNRECOVERED_FA_PREFIX = LIST_PREFIX + "budgetUnrecoveredFandA";
-    protected static final String ACCOUNT_ID = "sourceAccount";
-    protected static final String AMOUNT_ID ="amount";
-    
-    /**
-     * Right now the web driver is a static property on KcSeleniumTestBase
-     * and as long as this is used within a test extending from KcSeleniumTestBase it should be
-     * set, but if this changes we will need to accept the web driver here
-     * Constructs a BudgetSeleniumHelper.java.
-     */
-    public BudgetSeleniumHelper() {
+    public static BudgetSeleniumHelper instance(WebDriver driver) {
+        if (helper == null) {
+            helper = new BudgetSeleniumHelper(driver);
+        }
+        return helper;
+    }
+
+    private BudgetSeleniumHelper(WebDriver driver) {
+        super(driver);
+        
         lineItemTypeIdxToTypeCode = new HashMap<Integer, String>();
         lineItemTypeIdxToTypeCode.put(0, "E");
         lineItemTypeIdxToTypeCode.put(1, "T");
@@ -97,12 +100,110 @@ public class BudgetSeleniumHelper extends KcSeleniumTestBase {
     }
     
     /**
+     * Navigate to the Budget Versions page.
+     */
+    public void clickBudgetVersionsTab() {
+        click(VERSIONS_LINK_NAME);
+    }
+    
+    /**
+     * Navigate to the Budget Parameters page.
+     */
+    public void clickBudgetParametersTab() {
+        click(PARAMETERS_LINK_NAME);
+    }
+    
+    /**
+     * Navigate to the Budget Rates page.
+     */
+    public void clickBudgetRatesTab() {
+        click(RATES_LINK_NAME);
+    }
+    
+    /**
+     * Navigate to the Budget Summary page.
+     */
+    public void clickBudgetSummaryTab() {
+        click(SUMMARY_LINK_NAME);
+    }
+    
+    /**
+     * Navigate to the Budget Personnel page.
+     */
+    public void clickBudgetPersonnelTab() {
+        click(PERSONNEL_LINK_NAME);
+    }
+    
+    /**
+     * Navigate to the Budget Non-Personnel page.
+     */
+    public void clickBudgetNonPersonnelTab() {
+        click(NON_PERSONNEL_LINK_NAME);
+    }
+    
+    /**
+     * Navigate to the Budget Distribution & Income page.
+     */
+    public void clickBudgetDistributionAndIncomeTab() {
+        click(DISTRIBUTION_AND_INCOME_LINK_NAME);
+    }
+
+    /**
+     * Navigate to the Budget Modular Budget page.
+     */
+    public void clickBudgetModularBudgetTab() {
+        click(MODULAR_BUDGET_LINK_NAME);
+    }
+    
+    /**
+     * Navigate to the Budget Actions page.
+     */
+    public void clickBudgetActionsTab() {
+        click(ACTIONS_LINK_NAME);
+    }
+    
+    /**
+     * Return to the Proposal Development.
+     */
+    public void returnToProposal() {
+        click(RETURN_TO_PROPOSAL_BUTTON);
+    }
+    
+    /**
+     * Adds a new person to this Budget.
+     */
+    public void addPersonnel() {
+        clickBudgetPersonnelTab();
+        
+        setPersonDetails(0, DEFAULT_JOB_CODE, DEFAULT_SALARY_AMOUNT);
+        
+        saveDocument();
+        
+        clickExpandAll();
+        addPersonnelDetail(DEFAULT_PI_NAME, DEFAULT_JOB_CODE, DEFAULT_JOB_CODE_NAME);
+        setPersonPercents(0, 0, 0, DEFAULT_PERCENT_EFFORT, DEFAULT_PERCENT_CHARGED);
+    }
+    
+    /**
+     * Adds new line items to this Budget.
+     */
+    public void addNonPersonnel() {
+        clickBudgetNonPersonnelTab();
+        
+        addLineItem(0, DEFAULT_LINE_ITEM_DESC1, DEFAULT_LINE_ITEM_QUANTITY1, DEFAULT_LINE_ITEM_AMT);
+        addLineItem(1, DEFAULT_LINE_ITEM_DESC2, DEFAULT_LINE_ITEM_QUANTITY2, DEFAULT_LINE_ITEM_AMT);
+        
+        saveDocument();
+    }
+    
+    
+    /**
      * Set the rate at the specified index.
      * @param index
      * @param rate
      */
     public void setRate(int index, String rate) {
-        set(LIST_PREFIX + BUDGET_RATES_PREFIX + "[" + index + "]." + RATE_ID, rate);
+        set(LIST_PREFIX + BUDGET_RATES_PREFIX + "[" + index + "]." + APPLICABLE_RATE_ID, rate);
     }
     
     /**
@@ -110,7 +211,7 @@ public class BudgetSeleniumHelper extends KcSeleniumTestBase {
      * @param personId
      */
     public void addPerson(String personId) {
-        multiLookup(PERSON_LOOKUP_NAME, "personId", personId);
+        multiLookup(NEW_PERSON_TAG, PERSON_ID_ID, personId);
     }
     
     /**
@@ -118,7 +219,7 @@ public class BudgetSeleniumHelper extends KcSeleniumTestBase {
      * @param rolodexId
      */
     public void addRolodex(String rolodexId) {
-        multiLookup(ROLODEX_LOOKUP_NAME, "rolodexId", rolodexId);
+        multiLookup(NEW_ROLODEX_TAG, ROLODEX_ID_ID, rolodexId);
     }
     
     /**
@@ -141,12 +242,12 @@ public class BudgetSeleniumHelper extends KcSeleniumTestBase {
      */
     public void addPersonnelDetail(String personName, String jobCode, String jobCodeName) {
         set(NEW_PERSON_ID, personName + " - " + jobCode);
-        set(NEW_COST_ELEMENT, jobCodeName);
-        click(ADD_NEW_PERSON_LINK_NAME);
+        set(NEW_COST_ELEMENT_ID, jobCodeName);
+        click(ADD_NEW_PERSON_BUTTON);
     }
     
     /**
-     * Populate the percent effor and changed for the person.
+     * Populate the percent effort and changed for the person.
      * @param budgetPeriod
      * @param lineItem
      * @param detailsIdx
@@ -173,7 +274,7 @@ public class BudgetSeleniumHelper extends KcSeleniumTestBase {
         set(prefix + COST_ELEMENT_ID, itemDescription);
         set(prefix + LINE_ITEM_COST_ID, amount);
         set(prefix + ITEM_QUANTITY_ID, quantity);
-        click(ADD_BUDGET_LINE_ITEM + lineItemTypeIdxToTypeCode.get(itemTypeIdx));
+        click(ADD_BUDGET_LINE_ITEM_BUTTON + lineItemTypeIdxToTypeCode.get(itemTypeIdx));
     }
     
     /**
@@ -184,9 +285,9 @@ public class BudgetSeleniumHelper extends KcSeleniumTestBase {
      */
     public void populateCostShare(int index, String account, String amount) {
         String prefix = COST_SHARE_PREFIX + "[" + index + "].";
-        set(prefix + "ACCOUNT_ID", account);
+        set(prefix + ACCOUNT_ID_ID, account);
         if (amount != null) {
-            set(prefix + "AMOUNT_ID", amount);
+            set(prefix + AMOUNT_ID_ID, amount);
         }
     }
     
@@ -198,21 +299,10 @@ public class BudgetSeleniumHelper extends KcSeleniumTestBase {
      */
     public void populateUnrecoveredFandA(int index, String account, String amount) {
         String prefix = UNRECOVERED_FA_PREFIX + "[" + index + "].";
-        set(prefix + "ACCOUNT_ID", account);
+        set(prefix + ACCOUNT_ID_ID, account);
         if (amount != null) {
-            set(prefix + "AMOUNT_ID", amount);
+            set(prefix + AMOUNT_ID_ID, amount);
         }
     }
     
-    public void clickBudgetPersonnelTab() {
-        click(PERSONNEL_LINK_NAME);
-    }
-    
-    public void clickNonPersonnelTab() {
-        click(NON_PERSONNEL_LINK_NAME);
-    }
-    
-    public void returnToProposal() {
-        click(RETURN_TO_PROPOSAL);
-    }
 }

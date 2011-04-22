@@ -1,14 +1,33 @@
 package org.kuali.kra.irb.web;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.test.infrastructure.KcSeleniumTestBase;
 
-public class ProtocolCompleteSeleniumTest extends ProtocolSeleniumTestBase {
+public class ProtocolCompleteSeleniumTest extends KcSeleniumTestBase {
+    
+    private ProtocolSeleniumHelper helper;
+    
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+        
+        helper = ProtocolSeleniumHelper.instance(driver);
+    }
+    
+    @After
+    public void tearDown() throws Exception {
+        helper = null;
+        
+        super.tearDown();
+    }
 
 	@Test
 	public void testProtocolComplete() throws Exception {
-	    createProtocol();
+	    helper.createProtocol();
 
-        submitProtocol();
+        helper.submit();
 	}
 
 }

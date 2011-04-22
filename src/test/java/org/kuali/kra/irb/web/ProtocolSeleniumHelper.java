@@ -15,12 +15,13 @@
  */
 package org.kuali.kra.irb.web;
 
-import org.kuali.kra.test.infrastructure.KcSeleniumTestBase;
+import org.kuali.kra.test.infrastructure.KcSeleniumHelper;
+import org.openqa.selenium.WebDriver;
 
 /**
- * Base class for all integration tests for Protocols.
+ * Provides methods for creating a Protocol document, clicking on tabs, and populating fields.
  */
-public class ProtocolSeleniumTestBase extends KcSeleniumTestBase {
+public class ProtocolSeleniumHelper extends KcSeleniumHelper {
     
     private static final String PAGE_TITLE = "Kuali :: KC Protocol";
     
@@ -53,10 +54,79 @@ public class ProtocolSeleniumTestBase extends KcSeleniumTestBase {
     
     private static final String SUBMIT_FOR_REVIEW_BUTTON = "methodToCall.submitForReview";
     
+    private static ProtocolSeleniumHelper helper;
+    
+    public static ProtocolSeleniumHelper instance(WebDriver driver) {
+        if (helper == null) {
+            helper = new ProtocolSeleniumHelper(driver);
+        }
+        return helper;
+    }
+    
+    private ProtocolSeleniumHelper(WebDriver driver) {
+        super(driver);
+    }
+    
+    /**
+     * Navigate to the Protocol Protocol page.
+     */
+    public void clickProtocolProtocolPage() {
+        click(PROTOCOL_LINK_NAME);
+    }
+    
+    /**
+     * Navigate to the Protocol Personnel page.
+     */
+    public void clickProtocolPersonnelPage() {
+        click(PERSONNEL_LINK_NAME);
+    }
+    
+    /**
+     * Navigate to the Protocol Questionnaire page.
+     */
+    public void clickProtocolQuestionnairePage() {
+        click(QUESTIONNAIRE_LINK_NAME);
+    }
+    
+    /**
+     * Navigate to the Protocol Custom Data page.
+     */
+    public void clickProtocolCustomDataPage() {
+        click(CUSTOM_DATA_LINK_NAME);
+    }
+    
+    /**
+     * Navigate to the Protocol Special Review page.
+     */
+    public void clickProtocolSpecialReviewPage() {
+        click(SPECIAL_REVIEW_LINK_NAME);
+    }
+    
+    /**
+     * Navigate to the Protocol Permissions page.
+     */
+    public void clickProtocolPermissionsPage() {
+        click(PERMISSIONS_LINK_NAME);
+    }
+    
+    /**
+     * Navigate to the Protocol Notes & Attachments page.
+     */
+    public void clickProtocolNotesAndAttachmentsPage() {
+        click(NOTES_AND_ATTACHMENTS_LINK_NAME);
+    }
+    
+    /**
+     * Navigate to the Protocol Actions page.
+     */
+    public void clickProtocolActionsPage() {
+        click(PROTOCOL_ACTIONS_LINK_NAME);
+    }
+    
     /**
      * Creates a new instance of the Protocol page, filling in all required values, and saving.
      */
-    protected final void createProtocol() {
+    public void createProtocol() {
         clickResearcherTab();
         
         click(CREATE_PROTOCOL_LINK_NAME);
@@ -68,11 +138,10 @@ public class ProtocolSeleniumTestBase extends KcSeleniumTestBase {
         assertSave();
     }
     
-    
     /**
-     * Submits an already created Protocol and returns to the Protocol Action page.
+     * Submits this Protocol.
      */
-    protected final void submitProtocol() throws Exception {
+    public void submit() throws Exception {
         clickProtocolActionsPage();
         
         setSubmissionRequiredFields();
@@ -84,7 +153,7 @@ public class ProtocolSeleniumTestBase extends KcSeleniumTestBase {
     /**
      * Sets the Protocol's required fields to legal default values.
      */
-    protected void setDefaultRequiredFields(){
+    private void setDefaultRequiredFields(){
         set(DOCUMENT_DESCRIPTION_ID, DEFAULT_DOCUMENT_DESCRIPTION);
         set(TYPE_CODE_ID, DEFAULT_TYPE_CODE);
         set(TITLE_ID, DEFAULT_TITLE);
@@ -94,67 +163,11 @@ public class ProtocolSeleniumTestBase extends KcSeleniumTestBase {
     /**
      * Sets the Protocol's submission fields to legal default values.
      */
-    protected void setSubmissionRequiredFields() {
+    private void setSubmissionRequiredFields() {
         clickExpandAll();
         
         set(SUBMISSION_TYPE_CODE_ID, DEFAULT_SUBMISSION_TYPE);
         set(REVIEW_TYPE_CODE_ID, DEFAULT_SUBMISSION_REVIEW_TYPE);
-    }
-    
-    /**
-     * Navigate to the Protocol Protocol page.
-     */
-    protected void clickProtocolProtocolPage() {
-        click(PROTOCOL_LINK_NAME);
-    }
-    
-    /**
-     * Navigate to the Protocol Personnel page.
-     */
-    protected void clickProtocolPersonnelPage() {
-        click(PERSONNEL_LINK_NAME);
-    }
-    
-    /**
-     * Navigate to the Protocol Questionnaire page.
-     */
-    protected void clickProtocolQuestionnairePage() {
-        click(QUESTIONNAIRE_LINK_NAME);
-    }
-    
-    /**
-     * Navigate to the Protocol Custom Data page.
-     */
-    protected void clickProtocolCustomDataPage() {
-        click(CUSTOM_DATA_LINK_NAME);
-    }
-    
-    /**
-     * Navigate to the Protocol Special Review page.
-     */
-    protected void clickProtocolSpecialReviewPage() {
-        click(SPECIAL_REVIEW_LINK_NAME);
-    }
-    
-    /**
-     * Navigate to the Protocol Permissions page.
-     */
-    protected void clickProtocolPermissionsPage() {
-        click(PERMISSIONS_LINK_NAME);
-    }
-    
-    /**
-     * Navigate to the Protocol Notes & Attachments page.
-     */
-    protected void clickProtocolNotesAndAttachmentsPage() {
-        click(NOTES_AND_ATTACHMENTS_LINK_NAME);
-    }
-    
-    /**
-     * Navigate to the Protocol Actions page.
-     */
-    protected void clickProtocolActionsPage() {
-        click(PROTOCOL_ACTIONS_LINK_NAME);
     }
     
 }

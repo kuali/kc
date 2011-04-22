@@ -15,14 +15,28 @@
  */
 package org.kuali.kra.maintenance;
 
-import org.kuali.kra.test.infrastructure.KcSeleniumTestBase;
+import org.kuali.kra.test.infrastructure.KcSeleniumHelper;
+import org.openqa.selenium.WebDriver;
 
 /**
  * Base class for all integration tests for maintenance documents.
  */
-public class MaintenanceDocumentSeleniumTestBase extends KcSeleniumTestBase {
+public class MaintenanceDocumentSeleniumHelper extends KcSeleniumHelper {
     
     private static final String PAGE_TITLE = "Kuali :: Lookup";
+    
+    private static MaintenanceDocumentSeleniumHelper helper;
+    
+    public static MaintenanceDocumentSeleniumHelper instance(WebDriver driver) {
+        if (helper == null) {
+            helper = new MaintenanceDocumentSeleniumHelper(driver);
+        }
+        return helper;
+    }
+    
+    private MaintenanceDocumentSeleniumHelper(WebDriver driver) {
+        super(driver);
+    }
     
     /**
      * Creates a new instance of the maintenance document with a title of {@code documentTitle}.
@@ -31,7 +45,7 @@ public class MaintenanceDocumentSeleniumTestBase extends KcSeleniumTestBase {
      * @param className the BO class name of this maintenance document
      * @param nextPageTitle the title of the maintenance document on the next page
      */
-    protected void createMaintenanceDocument(String documentTitle, String className, String nextPageTitle) {
+    public void createMaintenanceDocument(String documentTitle, String className, String nextPageTitle) {
         lookupMaintenanceDocument(documentTitle);
         
         createNewMaintenanceDocument(className, nextPageTitle);
@@ -42,7 +56,7 @@ public class MaintenanceDocumentSeleniumTestBase extends KcSeleniumTestBase {
      * 
      * @param documentTitle the title of the document to open
      */
-    protected void lookupMaintenanceDocument(String documentTitle) {
+    public void lookupMaintenanceDocument(String documentTitle) {
         clickMaintenanceTab();
         
         click(documentTitle);
