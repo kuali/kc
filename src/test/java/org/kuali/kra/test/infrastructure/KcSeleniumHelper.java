@@ -752,31 +752,6 @@ public abstract class KcSeleniumHelper {
     }
     
     /**
-     * Asserts that the CSS selector identified by {@code cssSelector} contains {@code value}.
-     * 
-     * @param cssSelector the CSS selector of element to search for
-     * @param value the value to look for in the element
-     */
-    public final void assertSelectorContains(final String cssSelector, final String value) {
-        new ElementExistsWaiter("CSS selector " + cssSelector + " does not contain " + value).until(
-            new Function<WebDriver, Boolean>() {
-                public Boolean apply(WebDriver driver) {
-                    boolean selectorContains = false;
-                    
-                    for (WebElement element : getElementsByCssSelector(cssSelector)) {
-                        if (element.getText() != null && element.getText().matches(value)) {
-                            selectorContains = true;
-                            break;
-                        }
-                    }
-
-                    return selectorContains;
-                }
-            }
-        );
-    }
-    
-    /**
      * Asserts that the value of the element identified by {@code locator} matches {@code value} depending on the value of {@code exact}.
      * 
      * @param locator the id, name, title, or link name of the element to search for, exactness depending on the value of {@code exact}
@@ -812,6 +787,56 @@ public abstract class KcSeleniumHelper {
         
         WebElement element = getElement(locator, exact);
         assertFalse("Element " + locator + " contains " + value, StringUtils.contains(element.getValue(), value)); 
+    }
+    
+    /**
+     * Asserts that the CSS selector identified by {@code cssSelector} contains {@code value}.
+     * 
+     * @param cssSelector the CSS selector of element to search for
+     * @param value the value to look for in the element
+     */
+    public final void assertSelectorContains(final String cssSelector, final String value) {
+        new ElementExistsWaiter("CSS selector " + cssSelector + " does not contain " + value).until(
+            new Function<WebDriver, Boolean>() {
+                public Boolean apply(WebDriver driver) {
+                    boolean selectorContains = false;
+                    
+                    for (WebElement element : getElementsByCssSelector(cssSelector)) {
+                        if (element.getText() != null && element.getText().matches(value)) {
+                            selectorContains = true;
+                            break;
+                        }
+                    }
+
+                    return selectorContains;
+                }
+            }
+        );
+    }
+    
+    /**
+     * Asserts that the CSS selector identified by {@code cssSelector} does not contain {@code value}.
+     * 
+     * @param cssSelector the CSS selector of element to search for
+     * @param value the value to look for in the element
+     */
+    public final void assertSelectorDoesNotContain(final String cssSelector, final String value) {
+        new ElementDoesNotExistWaiter("CSS selector " + cssSelector + " contains " + value).until(
+            new Function<WebDriver, Boolean>() {
+                public Boolean apply(WebDriver driver) {
+                    boolean selectorDoesNotContain = true;
+                    
+                    for (WebElement element : getElementsByCssSelector(cssSelector)) {
+                        if (element.getText() != null && element.getText().matches(value)) {
+                            selectorDoesNotContain = false;
+                            break;
+                        }
+                    }
+
+                    return selectorDoesNotContain;
+                }
+            }
+        );
     }
 
     /**
