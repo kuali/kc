@@ -95,16 +95,4 @@ public class ProposalDevelopmentYNQRuleTest extends ProposalDevelopmentRuleTestB
 
         assertTrue(rule.processProposalYNQBusinessRule(document, true));
     }
-
-    /**
-     * Test routing proposal ynq.
-     * 
-     * @throws Exception
-     */
-    @Test
-    public void testRoutingProposalPersonYnq() throws Exception {
-
-        ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
-        assertTrue(rule.processProposalPersonYNQBusinessRule(document));
-    }
 }

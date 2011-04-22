@@ -111,8 +111,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) document;
 
         retval &= super.processCustomRouteDocumentBusinessRules(document);
-        
-        retval &= processProposalPersonYNQBusinessRule(proposalDevelopmentDocument);
+        retval &= new KeyPersonnelAuditRule().processRunAuditBusinessRules(document);
 
         return retval;
     }
@@ -184,38 +183,6 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
 
     public boolean processDeleteCongressionalDistrictRules(DeleteProposalCongressionalDistrictEvent deleteCongressionalDistrictEvent) {
         return new ProposalDevelopmentCongressionalDistrictRule().processDeleteCongressionalDistrictRules(deleteCongressionalDistrictEvent);
-    }
-
-    /**
-    *
-    * Validate proposal person questions rule. 
-    * Answers are mandatory for routing
-    * @param proposalDevelopmentDocument
-    * @return
-    */
-    
-
-    public boolean processProposalPersonYNQBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        boolean valid = true;
-        //checkErrors();
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-        int i = 0;
-        List<ProposalPerson> proposalPersons = proposalDevelopmentDocument.getDevelopmentProposal().getInvestigators();
-        for (ProposalPerson proposalPerson : proposalPersons) {
-            List<ProposalPersonYnq> proposalPersonYnqs = proposalPerson.getProposalPersonYnqs();
-            String errorPath = "proposalPerson[" + i + "]";
-            errorMap.addToErrorPath(errorPath);
-            for (ProposalPersonYnq proposalPersonYnq : proposalPersonYnqs) {
-                /* look for answers - required for routing */
-                if(StringUtils.isBlank(proposalPersonYnq.getAnswer())) {
-                    valid = false;
-                    errorMap.putError("answer", KeyConstants.ERROR_REQUIRED_ANSWER);
-                }
-            }
-            errorMap.removeFromErrorPath(errorPath);
-            i++;
-        }
-        return valid;
     }
 
     /**
