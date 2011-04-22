@@ -620,30 +620,34 @@
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
-			<xs:element name="CloseOutDeadlines" minOccurs="0">
+			   <xs:element name="AwardCloseOutDeadlines" minOccurs="0">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element name="AwardNumber" type="xs:string" minOccurs="0"/>
-						<xs:element name="SequenceNumber" type="xs:int" minOccurs="0"/>
-						<xs:element name="FinalInvSubDateModified" type="xs:string" minOccurs="0"/>
-						<xs:element name="FinalInvSubDate" type="xs:date" minOccurs="0"/>
-						<xs:element name="FinalTechSubDateModified" type="xs:string" minOccurs="0"/>
-						<xs:element name="FinalTechSubDate" type="xs:date" minOccurs="0"/>
-						<xs:element name="FinalPatentSubDateModified" type="xs:string" minOccurs="0"/>
-						<xs:element name="FinalPatentSubDate" type="xs:date" minOccurs="0"/>
-						<xs:element name="FinalPropSubDateModified" type="xs:string" minOccurs="0"/>
-						<xs:element name="FinalPropSubDate" type="xs:date" minOccurs="0"/>
-						<xs:element name="CloseOutDateModified" type="xs:string" minOccurs="0"/>
-						<xs:element name="CloseoutDate" type="xs:date" minOccurs="0"/>
-						<xs:element name="ArchiveLocation" type="xs:string" minOccurs="0"/>
-						<xs:element name="FinalInvDueDateModified" type="xs:string" minOccurs="0"/>
-						<xs:element name="FinalInvDueDate" type="xs:date" minOccurs="0"/>
-						<xs:element name="FinalTechDueDateModified" type="xs:string" minOccurs="0"/>
-						<xs:element name="FinalTechDueDate" type="xs:date" minOccurs="0"/>
-						<xs:element name="FinalPatentDueDateModified" type="xs:string" minOccurs="0"/>
-						<xs:element name="FinalPatentDueDate" type="xs:date" minOccurs="0"/>
-						<xs:element name="FinalPropDueDateModified" type="xs:string" minOccurs="0"/>
-						<xs:element name="FinalPropDueDate" type="xs:date" minOccurs="0"/>
+					<xs:element name="ArchiveLocation" type="xs:string"
+										minOccurs="0" />
+					<xs:element name="ArchiveDate" type="xs:date"
+										minOccurs="0" />
+					<xs:element name="AwardNumber" type="xs:string"
+										minOccurs="0" />
+					<xs:element name="SequenceNumber" type="xs:int"
+										minOccurs="0" />
+						<xs:element name="CloseOutDeadlines" minOccurs="0"
+							maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="FinalReportType" type="xs:string"
+										minOccurs="0" />
+									<xs:element name="FinalDueDate" type="xs:date"
+										minOccurs="0" />
+									<xs:element name="FinalSubDate" type="xs:date"
+										minOccurs="0" />
+									<xs:element name="FinalSubDateModified" type="xs:string"
+										minOccurs="0" />
+									<xs:element name="FinalDueDateModified" type="xs:string"
+										minOccurs="0" />	
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
