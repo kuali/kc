@@ -46,7 +46,7 @@ fi
 
 dbtype=`getChoice 'Enter Database Type' ORACLE MYSQL`
 
-version=`getChoice 'Enter Version' NEW 3.0 3.0.1`
+version=`getChoice 'Enter Version' NEW 3.0 3.0.1 3.1M2`
 
 un=`getAnswer 'Enter KC Database Username'`
 
@@ -63,6 +63,10 @@ then
 	fi
 else
 	DBSvrNm=`getAnswer 'Enter KC Schema Name'`
+	if [ "${DBSvrNm}" = "_" ]
+	then
+		DBSvrNm="${un}"
+	fi
 fi
 
 if [ "${mode}" = "EMBED" ] && [ "${InstRice}" = "Y" ]
@@ -72,14 +76,18 @@ then
 	if [ "${dbtype}" = "ORACLE" ]
 	then
 		RiceDBSvrNm=`getAnswer 'Enter Rice Database TNS Name'`
+		if [ "${RiceDBSvrNm}" = "_" ]
+		then
+			RiceDBSvrNm=''
+		else
+			RiceDBSvrNm="@${RiceDBSvrNm}"
+		fi
 	else
 		RiceDBSvrNm=`getAnswer 'Enter Rice Schema Name'`
-	fi
-	if [ "${RiceDBSvrNm}" = "_" ]
-	then
-		RiceDBSvrNm=''
-	else
-		RiceDBSvrNm="@${RiceDBSvrNm}"
+		if [ "${RiceDBSvrNm}" = "_" ]
+		then
+			RiceDBSvrNm="${Riceun}"
+		fi
 	fi
 else
 	Riceun="${un}"
@@ -144,6 +152,18 @@ case "${dbtype}" in
 			cd ..
 		fi 
 		
+		if [ "${version}" = "3.1M2" ] || [ "${version}" = "3.0.1" ] || [ "${version}" = "3.0" ] || [ "${version}" = "NEW" ]
+		then
+			cd KC-RELEASE-3_1_SP3-SCRIPT
+			sqlplus "${un}"/"${pw}${DBSvrNm}" < KC-RELEASE-3_1_SP3-Upgrade-ORACLE.sql
+			if [ "${InstRice}" = "Y" ] || [ "${mode}" = "BUNDLE" ]
+			then
+				sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-RELEASE-3_1_SP3-Upgrade-ORACLE.sql
+			fi
+			mv *.log ../LOGS/
+			cd ..
+		fi 
+		
 		cd INSTALL-SHARED/ORACLE
 		sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR_CLEAN_SEQ_BS.sql
 		mv *.log ../../LOGS/
@@ -155,15 +175,15 @@ case "${dbtype}" in
 			cd KC-RELEASE-3_0-CLEAN/mysql
 			if [ "${mode}" = "BUNDLE" ]
 			then
-				mysql -u ${un} -p${pw} -D ${un} -s -f < mysql_bundled.sql
+				mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < mysql_bundled.sql
 			else 
 				if [ "${mode}" = "EMBED" ]
 				then
 					if [ "${InstRice}" = "Y" ]
 					then
-						mysql -u ${Riceun} -p${Ricepw} -D ${Riceun} -s < mysql_server.sql
+						mysql -u ${Riceun} -p${Ricepw} -D ${RiceDBSvrNm} -s < mysql_server.sql
 					fi
-					mysql -u ${un} -p${pw} -D ${un} -s -f < mysql_client.sql
+					mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < mysql_client.sql
 				fi
 			fi
             mv *.log ../../LOGS/
@@ -173,40 +193,52 @@ case "${dbtype}" in
 		if [ "${version}" = "3.0" ] || [ "${version}" = "NEW" ]
         then
             cd KC-RELEASE-3_0_1-SCRIPT
-            mysql -u ${un} -p${pw} -D ${un} -s -f < KC-Release-3_0-3_0_1-Upgrade-Mysql-Install.sql > KC-Release-3_0-3_0_1-Upgrade-Mysql-Install.log 2>&1
+            mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < KC-Release-3_0-3_0_1-Upgrade-Mysql-Install.sql > KC-Release-3_0-3_0_1-Upgrade-Mysql-Install.log 2>&1
             mv *.log ../LOGS/
             cd .. 
         fi
         
         cd INSTALL-SHARED/MYSQL
-        mysql -u ${Riceun} -p${Ricepw} -D ${Riceun} -s < KR_SEQ_BS.sql > KR_SEQ_BS-Mysql-Install.log 2>&1
+        mysql -u ${Riceun} -p${Ricepw} -D ${RiceDBSvrNm} -s < KR_SEQ_BS.sql > KR_SEQ_BS-Mysql-Install.log 2>&1
         mv *.log ../../LOGS/
         cd ../..
 
 		if [ "${version}" = "3.0.1" ] || [ "${version}" = "3.0" ] || [ "${version}" = "NEW" ]
 		then
 			cd KC-RELEASE-3_1_SP1-SCRIPT
-			mysql -u ${un} -p${pw} -D ${un} -s -f < KC-Release-3_0_1-3_1_S1-Upgrade-Mysql-Install.sql > KC-Release-3_0_1-3_1_S1-Upgrade-Mysql-Install.log 2>&1
+			mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < KC-Release-3_0_1-3_1_S1-Upgrade-Mysql-Install.sql > KC-Release-3_0_1-3_1_S1-Upgrade-Mysql-Install.log 2>&1
 			if [ "${InstRice}" = "Y" ] || "${mode}" = "BUNDLE" ]
 			then
-			    mysql -u ${Riceun} -p${Ricepw} -D ${Riceun} -s < KR-Release-3_0_1-3_1_S1-Upgrade-Mysql-Install.sql > KR-Release-3_0_1-3_1_S1-Upgrade-Mysql-Install.log 2>&1
-                mysql -u ${Riceun} -p${Ricepw} -D ${Riceun} -s < KR-Server-Release-1_0_3-1_0_3_1-Upgrade-Mysql-Install.sql > KR-Server-Release-1_0_3_1-Upgrade-Mysql-Install.log 2>&1
+			    mysql -u ${Riceun} -p${Ricepw} -D ${RiceDBSvrNm} -s < KR-Release-3_0_1-3_1_S1-Upgrade-Mysql-Install.sql > KR-Release-3_0_1-3_1_S1-Upgrade-Mysql-Install.log 2>&1
+                mysql -u ${Riceun} -p${Ricepw} -D ${RiceDBSvrNm} -s < KR-Server-Release-1_0_3-1_0_3_1-Upgrade-Mysql-Install.sql > KR-Server-Release-1_0_3_1-Upgrade-Mysql-Install.log 2>&1
 			fi
             mv *.log ../LOGS/
             cd ..
             
             cd KC-RELEASE-3_1_SP2-SCRIPT
-            mysql -u ${un} -p${pw} -D ${un} -s -f < KC-RELEASE-3_1_SP2-Upgrade-MYSQL.sql > KC-RELEASE-3_1_SP2-Upgrade-MYSQL-Install.log 2>&1
+            mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < KC-RELEASE-3_1_SP2-Upgrade-MYSQL.sql > KC-RELEASE-3_1_SP2-Upgrade-MYSQL-Install.log 2>&1
             if [ "${InstRice}" = "Y" ] || [ "${mode}" = "BUNDLE" ]
             then
-                mysql -u ${Riceun} -p${Ricepw} -D ${Riceun} -s < KR-RELEASE-3_1_SP2-Upgrade-MYSQL.sql > KR-RELEASE-3_1_SP2-Upgrade-MYSQL-Install.log 2>&1
+                mysql -u ${Riceun} -p${Ricepw} -D ${RiceDBSvrNm} -s < KR-RELEASE-3_1_SP2-Upgrade-MYSQL.sql > KR-RELEASE-3_1_SP2-Upgrade-MYSQL-Install.log 2>&1
+            fi
+            mv *.log ../LOGS/
+            cd ..
+		fi
+		
+		if [ "${version}" = "3.1M2" ] || [ "${version}" = "3.0.1" ] || [ "${version}" = "3.0" ] || [ "${version}" = "NEW" ]
+		then
+            cd KC-RELEASE-3_1_SP3-SCRIPT
+            mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < KC-RELEASE-3_1_SP3-Upgrade-MYSQL.sql > KC-RELEASE-3_1_SP3-Upgrade-MYSQL-Install.log 2>&1
+            if [ "${InstRice}" = "Y" ] || [ "${mode}" = "BUNDLE" ]
+            then
+                mysql -u ${Riceun} -p${Ricepw} -D ${RiceDBSvrNm} -s < KR-RELEASE-3_1_SP3-Upgrade-MYSQL.sql > KR-RELEASE-3_1_SP3-Upgrade-MYSQL-Install.log 2>&1
             fi
             mv *.log ../LOGS/
             cd ..
 		fi
 		
         cd INSTALL-SHARED/MYSQL
-        mysql -u ${Riceun} -p${Ricepw} -D ${Riceun} -s < KR_CLEAN_SEQ_BS.sql > KR_CLEAN_SEQ_BS-Mysql-Install.log 2>&1
+        mysql -u ${Riceun} -p${Ricepw} -D ${RiceDBSvrNm} -s < KR_CLEAN_SEQ_BS.sql > KR_CLEAN_SEQ_BS-Mysql-Install.log 2>&1
         mv *.log ../../LOGS/
         cd ../.. ;;
 esac
