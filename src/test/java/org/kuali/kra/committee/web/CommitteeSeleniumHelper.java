@@ -15,12 +15,13 @@
  */
 package org.kuali.kra.committee.web;
 
-import org.kuali.kra.test.infrastructure.KcSeleniumTestBase;
+import org.kuali.kra.test.infrastructure.KcSeleniumHelper;
+import org.openqa.selenium.WebDriver;
 
 /**
- * Base class for all integration tests for Committees.
+ * Provides methods for creating a Committee document, clicking on tabs, and populating fields.
  */
-public class CommitteeSeleniumTestBase extends KcSeleniumTestBase {
+public class CommitteeSeleniumHelper extends KcSeleniumHelper {
     
     private static final String PAGE_TITLE = "Kuali :: Committee Document";
     
@@ -58,26 +59,60 @@ public class CommitteeSeleniumTestBase extends KcSeleniumTestBase {
     private static final String DEFAULT_ADVANCED_SUBMISSION_DAYS_REQUIRED = "1";
     private static final String DEFAULT_RESEARCH_AREA_CODE = "000001";
     
-    private static final String DEFAULT_USER = "chew";
-
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
-        
-        setLoginUser(DEFAULT_USER);
+    private static CommitteeSeleniumHelper helper;
+    
+    public static CommitteeSeleniumHelper instance(WebDriver driver) {
+        if (helper == null) {
+            helper = new CommitteeSeleniumHelper(driver);
+        }
+        return helper;
     }
-
-    @Override
-    public void tearDown() throws Exception {
-        setLoginUser(null);
-        
-        super.tearDown();
+    
+    private CommitteeSeleniumHelper(WebDriver driver) {
+        super(driver);
     }
-
+    
+    /**
+     * This method returns the committee ID for the next committee that is created.
+     *  
+     * @return String - containing the next available committee ID
+     */
+    private String getNextCommitteeID() {
+        return String.valueOf(System.currentTimeMillis());
+    }
+    
+    /**
+     * Navigate to the Committee Committee page.
+     */
+    public void clickCommitteeCommitteePage() {
+        click(COMMITTEE_LINK_NAME);
+    }
+    
+    /**
+     * Navigate to the Committee Members page.
+     */
+    public void clickCommitteeMembersPage() {
+        click(MEMBERS_LINK_NAME);
+    }
+    
+    /**
+     * Navigate to the Committee Schedule page.
+     */
+    public void clickCommitteeSchedulePage() {
+        click(SCHEDULE_LINK_NAME);
+    }
+    
+    /**
+     * Navigate to the Committee Actions page.
+     */
+    public void clickCommitteeActionsPage() {
+        click(ACTIONS_LINK_NAME);
+    }
+    
     /**
      * Creates a new instance of the Committee page, filling in all required values, and saving.
      */
-    protected final void createCommittee() {
+    public final void createCommittee() {
         clickCentralAdminTab();
         
         click(CREATE_COMMITTEE_LINK_NAME);
@@ -92,7 +127,7 @@ public class CommitteeSeleniumTestBase extends KcSeleniumTestBase {
     /**
      * Sets the Committee's required fields to legal default values.
      */
-    protected void setDefaultRequiredFields() {
+    private void setDefaultRequiredFields() {
         String committeeId = getNextCommitteeID();
         
         set(DOCUMENT_DESCRIPTION_ID, DEFAULT_DOCUMENT_DESCRIPTION);
@@ -107,43 +142,6 @@ public class CommitteeSeleniumTestBase extends KcSeleniumTestBase {
         set(MAX_PROTOCOLS_ID, DEFAULT_MAX_PROTOCOLS);
         set(ADVANCED_SUBMISSION_DAYS_REQUIRED_ID, DEFAULT_ADVANCED_SUBMISSION_DAYS_REQUIRED);
         multiLookup(RESEARCH_AREAS_TAG, RESEARCH_AREA_CODE_ID, DEFAULT_RESEARCH_AREA_CODE);
-    }
-    
-    /**
-     * This method returns the committee ID for the next committee that is created.
-     *  
-     * @return String - containing the next available committee ID
-     */
-    protected String getNextCommitteeID() {
-        return String.valueOf(System.currentTimeMillis());
-    }
-    
-    /**
-     * Navigate to the Committee Committee page.
-     */
-    protected void clickCommitteeCommitteePage() {
-        click(COMMITTEE_LINK_NAME);
-    }
-    
-    /**
-     * Navigate to the Committee Members page.
-     */
-    protected void clickCommitteeMembersPage() {
-        click(MEMBERS_LINK_NAME);
-    }
-    
-    /**
-     * Navigate to the Committee Schedule page.
-     */
-    protected void clickCommitteeSchedulePage() {
-        click(SCHEDULE_LINK_NAME);
-    }
-    
-    /**
-     * Navigate to the Committee Actions page.
-     */
-    protected void clickCommitteeActionsPage() {
-        click(ACTIONS_LINK_NAME);
     }
 
 }

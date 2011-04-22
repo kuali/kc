@@ -15,60 +15,77 @@
  */
 package org.kuali.kra.proposaldevelopment.web;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.budget.web.BudgetSeleniumHelper;
+import org.kuali.kra.test.infrastructure.KcSeleniumTestBase;
 
-public class ProposalDevelopmentDeleteProposalTest extends ProposalDevelopmentCompleteSeleniumTest {
-
+public class ProposalDevelopmentDeleteProposalTest extends KcSeleniumTestBase {
+    
+    private ProposalDevelopmentSeleniumHelper proposalDevelopmentHelper;
+    private BudgetSeleniumHelper budgetHelper;
+    
     private String proposalDocumentNumber;
     
-    //override complete test from parent so we don't test the same thing again.
-    public void testProposalDevelopmentComplete() throws Exception {
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
         
+        proposalDevelopmentHelper = ProposalDevelopmentSeleniumHelper.instance(driver);
+        budgetHelper = BudgetSeleniumHelper.instance(driver);
+    }
+    
+    @After
+    public void tearDown() throws Exception {
+        proposalDevelopmentHelper = null;
+        budgetHelper = null;
+        
+        super.tearDown();
     }
     
     @Test
     public void testDeleteProposal() {
         proposalDocumentNumber = createProposal();
         
-        deleteProposal();
+        proposalDevelopmentHelper.clickProposalDevelopmentActionsPage();
+        proposalDevelopmentHelper.click("deleteProposal");
+        proposalDevelopmentHelper.click("processAnswer.button0");
         
-        this.docSearch(proposalDocumentNumber);
-        this.assertSelectorContains("div.topblurb table td", "The Development Proposal has been deleted.");
+        proposalDevelopmentHelper.docSearch(proposalDocumentNumber);
+        proposalDevelopmentHelper.assertSelectorContains("div.topblurb table td", "The Development Proposal has been deleted.");
     }
     
     @Test
     public void testDeleteHierarchy() {
         proposalDocumentNumber = createProposal();
         
-        clickProposalDevelopmentActionsPage();
-        clickExpandAll();
-        click("createHierarchy");
+        proposalDevelopmentHelper.clickProposalDevelopmentActionsPage();
+        proposalDevelopmentHelper.clickExpandAll();
+        proposalDevelopmentHelper.click("createHierarchy");
+        proposalDevelopmentHelper.click("deleteProposal");
+        proposalDevelopmentHelper.assertSelectorContains("div.left-errmsg", "A Proposal is in Hierarchy so it can not be deleted.");
+    }
+    
+    private String createProposal() {
+        proposalDevelopmentHelper.createProposalDevelopment();
+        
+        proposalDevelopmentHelper.addKeyPersonnel();
+        
+        proposalDevelopmentHelper.addCustomData();
+        
+        proposalDevelopmentHelper.addQuestions();
+        
+        proposalDevelopmentHelper.addPermissions();
+        
+        proposalDevelopmentHelper.addBudget();
+        proposalDevelopmentHelper.openBudget(0);
+        budgetHelper.addPersonnel();
+        budgetHelper.addNonPersonnel();
+        budgetHelper.returnToProposal();
+        proposalDevelopmentHelper.finalizeBudget(0);
+        
+        return proposalDevelopmentHelper.getDocumentNumber();        
+    }
 
-        clickProposalDevelopmentActionsPage();
-        click("deleteProposal");
-        assertSelectorContains("div.left-errmsg", "A Proposal is in Hierarchy so it can not be deleted.");
-    }
-    
-    public String createProposal() {
-        createProposalDevelopment();
-        
-        addKeyPersonnel();
-        
-        addCustomData();
-        
-        addQuestions();
-        
-        addPermissions();
-        
-        addBudget();
-        
-        return getDocumentNumber();        
-    }
-    
-    protected void deleteProposal() {
-        clickProposalDevelopmentActionsPage();
-        click("deleteProposal");
-        click("processAnswer.button0");
-    }
 }
