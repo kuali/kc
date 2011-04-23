@@ -380,6 +380,7 @@ public class ActionHelper implements Serializable {
         committeeDecision = new CommitteeDecision(this);
         committeeDecision.init();
         committeeDecision.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        committeeDecision.getReviewCommentsBean().setHideReviewerName(getReviewCommentsService().setHideReviewerName(committeeDecision.getReviewCommentsBean().getReviewComments()));            
         protocolModifySubmissionBean = new ProtocolModifySubmissionBean(this);
         protocolDeferBean = buildProtocolGenericActionBean(ProtocolActionType.DEFERRED, 
                 Constants.PROTOCOL_DEFER_ACTION_PROPERTY_KEY);
@@ -858,6 +859,7 @@ public class ActionHelper implements Serializable {
         protocolTerminateBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         protocolPermitDataAnalysisBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         committeeDecision.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        committeeDecision.getReviewCommentsBean().setHideReviewerName(getReviewCommentsService().setHideReviewerName(committeeDecision.getReviewCommentsBean().getReviewComments()));            
         protocolDeferBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         protocolManageReviewCommentsBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
     }
