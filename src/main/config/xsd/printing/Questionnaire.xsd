@@ -90,6 +90,9 @@
 		<xs:sequence>
 			<xs:element name="Title" type="xs:string"/>
 			<xs:element name="Investigator" type="Person"/>
+			<xs:element name="ProposalPersonUsed" type="xs:int"/>
+			<xs:element name="ProposalPersonName" type="xs:string"/>
+			<xs:element name="ProposalPersonRole" type="xs:string"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Person">
