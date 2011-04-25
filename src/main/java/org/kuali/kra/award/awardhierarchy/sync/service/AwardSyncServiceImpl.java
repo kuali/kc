@@ -138,6 +138,7 @@ public class AwardSyncServiceImpl implements AwardSyncService {
     protected void runSync(final Award award, final SyncType syncType) {
         long start = System.currentTimeMillis();
         LOG.debug("Award Hierarchy Sync Starting");
+        UserSession oldSession = replaceSessionWithRoutedBy(award);
         try {
             List<SyncRunnable> runnables = new ArrayList<SyncRunnable>();
             runInTransaction(new TransactionRunnable() {
@@ -173,6 +174,8 @@ public class AwardSyncServiceImpl implements AwardSyncService {
             LOG.info("Award Hierarchy Sync Finished : " + elapsed + "ms");            
         } catch (Exception e) {
             throw new RuntimeException(e);
+        } finally {
+            GlobalVariables.setUserSession(oldSession);
         }
     }
     
