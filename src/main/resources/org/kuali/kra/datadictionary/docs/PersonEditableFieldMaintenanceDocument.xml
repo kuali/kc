@@ -12,7 +12,7 @@
     </property>
     <property name="lockingKeys">
       <list>
-        <value>fieldName</value>
+        <value>personEditableFieldId</value>
       </list>
     </property>
     
@@ -37,6 +37,7 @@
     <property name="title" value="Specify the Field Name"/>
     <property name="maintainableItems">
       <list>
+        <bean parent="MaintainableFieldDefinition" p:name="moduleCode" p:noLookup="true" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="fieldName" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="active"/>
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>

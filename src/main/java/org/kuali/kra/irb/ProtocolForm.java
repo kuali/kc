@@ -497,4 +497,8 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         }
         return onlineReviewTabEnabled;
     }
+    
+    public String getModuleCode() {
+        return CoeusModule.IRB_MODULE_CODE;
+    }
 }

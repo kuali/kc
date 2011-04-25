@@ -389,7 +389,7 @@ public class ProtocolPersonnelAction extends ProtocolAction {
                 }
             }
             else if (!protocolPerson.isPrincipalInvestigator() &&
-                    (!protocolPerson.getPersonId().equals(protocol.getPrincipalInvestigatorId()))) {
+                    (!StringUtils.equals(protocolPerson.getPersonId(),protocol.getPrincipalInvestigatorId()))) {
                
                 if (protocolPerson.getPersonId() != null) {
                     // Assign the Other Role To Viewer the AGGREGATOR role.

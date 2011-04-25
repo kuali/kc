@@ -38,6 +38,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.PersonEditableField;
@@ -125,7 +126,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private String newPersonId;
     private Narrative newNarrative;
     private FormFile narrativeFile;
-    private Map<String, Boolean> personEditableFields;
     private boolean showMaintenanceLinks;
     private ProposalAbstract newProposalAbstract;
     private ProposalPersonBiography newPropPersonBio;
@@ -564,44 +564,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 
     private BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);
-    }
-
-    /**
-     * Creates the list of <code>{@link PersonEditableField}</code> field names.
-     */
-    public void populatePersonEditableFields() {
-        debug("Adding PersonEditableFields");
-
-        setPersonEditableFields(new HashMap<String, Boolean>());
-
-        @SuppressWarnings("unchecked")
-        Collection<PersonEditableField> fields = getBusinessObjectService().findAll(PersonEditableField.class);
-        for (PersonEditableField field : fields) {
-            debug("found field " + field.getFieldName());
-            getPersonEditableFields().put(field.getFieldName(), Boolean.valueOf(field.isActive()));
-        }
-    }
-
-    /**
-     * Write access to <code>{@link Map}</code> containing persisted <code>{@link PersonEditableField}</code> BO instances.
-     *
-     * @param fields
-     */
-    public void setPersonEditableFields(Map<String, Boolean> fields) {
-        personEditableFields = fields;
-    }
-
-    /**
-     * Get persisted <code>{@link PersonEditableField}</code> BO instances as a <code>{@link Map}</code>. If the <code>{@link Map}</code> containing them is
-     *  <code>null</code>, then it gets populated here.
-     *
-     * @return Map containing person editable fields
-     */
-    public Map<String, Boolean> getPersonEditableFields() {
-        if (personEditableFields == null) {
-            populatePersonEditableFields();
-        }
-        return personEditableFields;
     }
 
     @SuppressWarnings("unchecked")
@@ -1779,6 +1741,10 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     
     public List<AnswerHeader> getAnswerHeadersToDelete() {
         return this.answerHeadersToDelete;
+    }
+
+    public String getModuleCode() {
+        return CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE;
     }
 
 
