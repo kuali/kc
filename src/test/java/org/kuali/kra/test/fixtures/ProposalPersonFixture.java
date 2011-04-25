@@ -27,6 +27,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
+import org.kuali.kra.service.PersonEditableService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -168,7 +169,10 @@ public enum ProposalPersonFixture {
     }
 
     public ProposalPerson getPerson() {
-        ProposalPerson retval = getService(KeyPersonnelService.class).createProposalPersonFromPersonId(personId);
+       // ProposalPerson retval = getService(KeyPersonnelService.class).createProposalPersonFromPersonId(personId);
+        ProposalPerson retval = new ProposalPerson();
+        retval.setPersonId(personId);
+        getService(PersonEditableService.class).populateContactFieldsFromPersonId(retval);
         retval.setProposalPersonRoleId(roleId);
         retval.setPercentageEffort(new KualiDecimal(100.0));
         return retval;

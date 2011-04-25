@@ -16,21 +16,20 @@
 package org.kuali.kra.proposaldevelopment.bo;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.sql.Date;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.PersonEditableInterface;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
-import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentPersonQuestionnaireService;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.Sponsorable;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -43,7 +42,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * @author $Author: gmcgrego $
  * @version $Revision: 1.42 $
  */
-public class ProposalPerson extends KraPersistableBusinessObjectBase implements CreditSplitable, PersonRolodex {
+public class ProposalPerson extends KraPersistableBusinessObjectBase implements CreditSplitable, PersonRolodex, PersonEditableInterface {
     private static final long serialVersionUID = -4110005875629288373L;
 
     private DevelopmentProposal developmentProposal;

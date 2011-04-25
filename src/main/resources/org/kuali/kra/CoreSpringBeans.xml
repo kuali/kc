@@ -564,4 +564,14 @@
 			<ref bean="parameterService" />
 		</property>
 	</bean>
+	
+	<bean id="personEditableService" class="org.kuali.kra.service.impl.PersonEditableServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="kcPersonService">
+			<ref bean="kcPersonService" />
+		</property>
+	</bean>
+	
 </beans>

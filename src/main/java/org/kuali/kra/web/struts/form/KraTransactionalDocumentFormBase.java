@@ -15,19 +15,26 @@
  */
 package org.kuali.kra.web.struts.form;
 
+import static org.kuali.kra.logging.BufferedLogger.debug;
+
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.bo.PersonEditableField;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.SoftError;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase;
 import org.kuali.rice.kns.document.authorization.PessimisticLock;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -48,7 +55,8 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
     private boolean popupViewOnly;
     
     private boolean medusaOpenedDoc;
-    
+    private Map<String, Boolean> personEditableFields;
+   
     public String getActionName() {
         return actionName;
     }
@@ -237,4 +245,59 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
         extraButtons.add(newButton);
     }
 
+    public Map<String, Boolean> getPersonEditableFields() {
+        if (personEditableFields == null) {
+            populatePersonEditableFields();
+        }
+        return personEditableFields;
+    }
+
+    public void setPersonEditableFields(Map<String, Boolean> personEditableFields) {
+        this.personEditableFields = personEditableFields;
+    }
+    
+    /**
+     * Creates the list of <code>{@link PersonEditableField}</code> field names.
+     */
+    public void populatePersonEditableFields() {
+        // TODO : should refactor this editablefields related to parent class, so it can be shared by other 
+        // modules
+        debug("Adding PersonEditableFields");
+
+        setPersonEditableFields(new HashMap<String, Boolean>());
+
+        @SuppressWarnings("unchecked")
+     //   Collection<PersonEditableField> fields = getBusinessObjectService().findAll(PersonEditableField.class);
+        Map fieldValues = new HashMap();
+        fieldValues.put("moduleCode", getModuleCode());
+        Collection<PersonEditableField> fields = getBusinessObjectService().findMatching(PersonEditableField.class, fieldValues);
+        for (PersonEditableField field : fields) {
+            debug("found field " + field.getFieldName());
+                getPersonEditableFields().put(field.getFieldName(), Boolean.valueOf(field.isActive()));
+        }
+        // if "All" is implemented
+//        fieldValues.clear();
+//        fieldValues.put("moduleCode", "0");
+//        fields = getBusinessObjectService().findMatching(PersonEditableField.class, fieldValues);
+//        for (PersonEditableField field : fields) {
+//            debug("found field " + field.getFieldName());
+//            if (!getPersonEditableFields().containsKey(field.getFieldName())) {
+//                getPersonEditableFields().put(field.getFieldName(), Boolean.valueOf(field.isActive()));
+//            }
+//        }
+
+    }
+
+    private BusinessObjectService getBusinessObjectService() {
+        return KraServiceLocator.getService(BusinessObjectService.class);
+    }
+
+    /**
+     * 
+     * This method should be overriden by modules that is using person editable field.
+     * @return
+     */
+    public String getModuleCode() {
+        return "0";
+    }
 }

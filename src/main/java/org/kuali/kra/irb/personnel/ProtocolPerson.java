@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.personnel;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -22,13 +23,14 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.AffiliationType;
 import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.bo.PersonEditableInterface;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAssociate;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.service.KcPersonService;
 
-public class ProtocolPerson extends ProtocolAssociate {
+public class ProtocolPerson extends ProtocolAssociate implements PersonEditableInterface {
 
     private static final long serialVersionUID = 3226064839786525909L;
     private Integer protocolPersonId;
@@ -54,7 +56,69 @@ public class ProtocolPerson extends ProtocolAssociate {
     private String previousPersonRoleId;
     private transient KcPersonService kcPersonService;
     private transient KcPerson kcPerson;
+// editable fields
+    private String socialSecurityNumber;
+    private String lastName;
+    private String firstName;
+    private String middleName;
+    private String fullName;
+    private String priorName;
+    private String userName;
+    private String emailAddress;
+    private Date dateOfBirth;
+    private Integer age;
+    private Integer ageByFiscalYear;
+    private String gender;
+    private String race;
+    private String educationLevel;
+    private String degree;
+    private String major;
+    private Boolean handicappedFlag;
+    private String handicapType;
+    private Boolean veteranFlag;
+    private String veteranType;
+    private String visaCode;
+    private String visaType;
+    private Date visaRenewalDate;
+    private Boolean hasVisa;
+    private String officeLocation;
+    private String officePhone;
+    private String secondaryOfficeLocation;
+    private String secondaryOfficePhone;
+    private String school;
+    private String yearGraduated;
+    private String directoryDepartment;
+    private String saluation;
+    private String countryOfCitizenship;
+    private String primaryTitle;
+    private String directoryTitle;
+    private String homeUnit;
+    private Boolean facultyFlag;
+    private Boolean graduateStudentStaffFlag;
+    private Boolean researchStaffFlag;
+    private Boolean serviceStaffFlag;
+    private Boolean supportStaffFlag;
+    private Boolean otherAcademicGroupFlag;
+    private Boolean medicalStaffFlag;
+    private Boolean vacationAccrualFlag;
+    private Boolean onSabbaticalFlag;
+    private String idProvided;
+    private String idVerified;
+    private String addressLine1;
+    private String addressLine2;
+    private String addressLine3;
+    private String city;
+    private String county;
+    private String state;
+    private String postalCode;
+    private String countryCode;
+    private String faxNumber;
+    private String pagerNumber;
+    private String mobilePhoneNumber;
+    private String eraCommonsUserName;
 
+    
+    
     public ProtocolPerson() {
         this.protocolUnits = new ArrayList<ProtocolUnit>();
         this.attachmentPersonnels = new ArrayList<ProtocolAttachmentPersonnel>();
@@ -439,13 +503,482 @@ public class ProtocolPerson extends ProtocolAssociate {
     }
     
     public String getLastName() {
-        if (this.personId!=null) {
-            return getPerson().getLastName();
-        } else if (getRolodex()!=null) {
-            return getRolodex().getLastName();
-        } else {
-            return null;
-        }
+//        if (this.personId!=null) {
+//            return getPerson().geeptLastName();
+//        } else if (getRolodex()!=null) {
+//            return getRolodex().getLastName();
+//        } else {
+//            return null;
+//        }
+          return lastName;
+    }
+
+    public String getSocialSecurityNumber() {
+        return socialSecurityNumber;
+    }
+
+    public void setSocialSecurityNumber(String socialSecurityNumber) {
+        this.socialSecurityNumber = socialSecurityNumber;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getPriorName() {
+        return priorName;
+    }
+
+    public void setPriorName(String priorName) {
+        this.priorName = priorName;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public Integer getAgeByFiscalYear() {
+        return ageByFiscalYear;
+    }
+
+    public void setAgeByFiscalYear(Integer ageByFiscalYear) {
+        this.ageByFiscalYear = ageByFiscalYear;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getRace() {
+        return race;
+    }
+
+    public void setRace(String race) {
+        this.race = race;
+    }
+
+    public String getEducationLevel() {
+        return educationLevel;
+    }
+
+    public void setEducationLevel(String educationLevel) {
+        this.educationLevel = educationLevel;
+    }
+
+    public String getDegree() {
+        return degree;
+    }
+
+    public void setDegree(String degree) {
+        this.degree = degree;
+    }
+
+    public String getMajor() {
+        return major;
+    }
+
+    public void setMajor(String major) {
+        this.major = major;
+    }
+
+    public Boolean getHandicappedFlag() {
+        return handicappedFlag;
+    }
+
+    public void setHandicappedFlag(Boolean handicappedFlag) {
+        this.handicappedFlag = handicappedFlag;
+    }
+
+    public String getHandicapType() {
+        return handicapType;
+    }
+
+    public void setHandicapType(String handicapType) {
+        this.handicapType = handicapType;
+    }
+
+    public Boolean getVeteranFlag() {
+        return veteranFlag;
+    }
+
+    public void setVeteranFlag(Boolean veteranFlag) {
+        this.veteranFlag = veteranFlag;
+    }
+
+    public String getVeteranType() {
+        return veteranType;
+    }
+
+    public void setVeteranType(String veteranType) {
+        this.veteranType = veteranType;
+    }
+
+    public String getVisaCode() {
+        return visaCode;
+    }
+
+    public void setVisaCode(String visaCode) {
+        this.visaCode = visaCode;
+    }
+
+    public String getVisaType() {
+        return visaType;
+    }
+
+    public void setVisaType(String visaType) {
+        this.visaType = visaType;
+    }
+
+    public Date getVisaRenewalDate() {
+        return visaRenewalDate;
+    }
+
+    public void setVisaRenewalDate(Date visaRenewalDate) {
+        this.visaRenewalDate = visaRenewalDate;
+    }
+
+    public Boolean getHasVisa() {
+        return hasVisa;
+    }
+
+    public void setHasVisa(Boolean hasVisa) {
+        this.hasVisa = hasVisa;
+    }
+
+    public String getOfficeLocation() {
+        return officeLocation;
+    }
+
+    public void setOfficeLocation(String officeLocation) {
+        this.officeLocation = officeLocation;
+    }
+
+    public String getOfficePhone() {
+        return officePhone;
+    }
+
+    public void setOfficePhone(String officePhone) {
+        this.officePhone = officePhone;
+    }
+
+    public String getSecondaryOfficeLocation() {
+        return secondaryOfficeLocation;
+    }
+
+    public void setSecondaryOfficeLocation(String secondaryOfficeLocation) {
+        this.secondaryOfficeLocation = secondaryOfficeLocation;
+    }
+
+    public String getSecondaryOfficePhone() {
+        return secondaryOfficePhone;
+    }
+
+    public void setSecondaryOfficePhone(String secondaryOfficePhone) {
+        this.secondaryOfficePhone = secondaryOfficePhone;
+    }
+
+    public String getSchool() {
+        return school;
+    }
+
+    public void setSchool(String school) {
+        this.school = school;
+    }
+
+    public String getYearGraduated() {
+        return yearGraduated;
+    }
+
+    public void setYearGraduated(String yearGraduated) {
+        this.yearGraduated = yearGraduated;
+    }
+
+    public String getDirectoryDepartment() {
+        return directoryDepartment;
+    }
+
+    public void setDirectoryDepartment(String directoryDepartment) {
+        this.directoryDepartment = directoryDepartment;
+    }
+
+    public String getSaluation() {
+        return saluation;
+    }
+
+    public void setSaluation(String saluation) {
+        this.saluation = saluation;
+    }
+
+    public String getCountryOfCitizenship() {
+        return countryOfCitizenship;
+    }
+
+    public void setCountryOfCitizenship(String countryOfCitizenship) {
+        this.countryOfCitizenship = countryOfCitizenship;
+    }
+
+    public String getPrimaryTitle() {
+        return primaryTitle;
+    }
+
+    public void setPrimaryTitle(String primaryTitle) {
+        this.primaryTitle = primaryTitle;
+    }
+
+    public String getDirectoryTitle() {
+        return directoryTitle;
+    }
+
+    public void setDirectoryTitle(String directoryTitle) {
+        this.directoryTitle = directoryTitle;
+    }
+
+    public String getHomeUnit() {
+        return homeUnit;
+    }
+
+    public void setHomeUnit(String homeUnit) {
+        this.homeUnit = homeUnit;
+    }
+
+    public Boolean getFacultyFlag() {
+        return facultyFlag;
+    }
+
+    public void setFacultyFlag(Boolean facultyFlag) {
+        this.facultyFlag = facultyFlag;
+    }
+
+    public Boolean getGraduateStudentStaffFlag() {
+        return graduateStudentStaffFlag;
+    }
+
+    public void setGraduateStudentStaffFlag(Boolean graduateStudentStaffFlag) {
+        this.graduateStudentStaffFlag = graduateStudentStaffFlag;
+    }
+
+    public Boolean getResearchStaffFlag() {
+        return researchStaffFlag;
+    }
+
+    public void setResearchStaffFlag(Boolean researchStaffFlag) {
+        this.researchStaffFlag = researchStaffFlag;
+    }
+
+    public Boolean getServiceStaffFlag() {
+        return serviceStaffFlag;
+    }
+
+    public void setServiceStaffFlag(Boolean serviceStaffFlag) {
+        this.serviceStaffFlag = serviceStaffFlag;
+    }
+
+    public Boolean getSupportStaffFlag() {
+        return supportStaffFlag;
+    }
+
+    public void setSupportStaffFlag(Boolean supportStaffFlag) {
+        this.supportStaffFlag = supportStaffFlag;
+    }
+
+    public Boolean getOtherAcademicGroupFlag() {
+        return otherAcademicGroupFlag;
+    }
+
+    public void setOtherAcademicGroupFlag(Boolean otherAcademicGroupFlag) {
+        this.otherAcademicGroupFlag = otherAcademicGroupFlag;
+    }
+
+    public Boolean getMedicalStaffFlag() {
+        return medicalStaffFlag;
+    }
+
+    public void setMedicalStaffFlag(Boolean medicalStaffFlag) {
+        this.medicalStaffFlag = medicalStaffFlag;
+    }
+
+    public Boolean getVacationAccrualFlag() {
+        return vacationAccrualFlag;
+    }
+
+    public void setVacationAccrualFlag(Boolean vacationAccrualFlag) {
+        this.vacationAccrualFlag = vacationAccrualFlag;
+    }
+
+    public Boolean getOnSabbaticalFlag() {
+        return onSabbaticalFlag;
+    }
+
+    public void setOnSabbaticalFlag(Boolean onSabbaticalFlag) {
+        this.onSabbaticalFlag = onSabbaticalFlag;
+    }
+
+    public String getIdProvided() {
+        return idProvided;
+    }
+
+    public void setIdProvided(String idProvided) {
+        this.idProvided = idProvided;
+    }
+
+    public String getIdVerified() {
+        return idVerified;
+    }
+
+    public void setIdVerified(String idVerified) {
+        this.idVerified = idVerified;
+    }
+
+    public String getAddressLine1() {
+        return addressLine1;
+    }
+
+    public void setAddressLine1(String addressLine1) {
+        this.addressLine1 = addressLine1;
+    }
+
+    public String getAddressLine2() {
+        return addressLine2;
+    }
+
+    public void setAddressLine2(String addressLine2) {
+        this.addressLine2 = addressLine2;
+    }
+
+    public String getAddressLine3() {
+        return addressLine3;
+    }
+
+    public void setAddressLine3(String addressLine3) {
+        this.addressLine3 = addressLine3;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCounty() {
+        return county;
+    }
+
+    public void setCounty(String county) {
+        this.county = county;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
+
+    public String getFaxNumber() {
+        return faxNumber;
+    }
+
+    public void setFaxNumber(String faxNumber) {
+        this.faxNumber = faxNumber;
+    }
+
+    public String getPagerNumber() {
+        return pagerNumber;
+    }
+
+    public void setPagerNumber(String pagerNumber) {
+        this.pagerNumber = pagerNumber;
+    }
+
+    public String getMobilePhoneNumber() {
+        return mobilePhoneNumber;
+    }
+
+    public void setMobilePhoneNumber(String mobilePhoneNumber) {
+        this.mobilePhoneNumber = mobilePhoneNumber;
+    }
+
+    public String getEraCommonsUserName() {
+        return eraCommonsUserName;
+    }
+
+    public void setEraCommonsUserName(String eraCommonsUserName) {
+        this.eraCommonsUserName = eraCommonsUserName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
     
 }

@@ -450,12 +450,17 @@
 	</class-descriptor>
 
     <class-descriptor class="org.kuali.kra.bo.PersonEditableField" table="PERSON_EDITABLE_FIELDS">
-        <field-descriptor name="fieldName" column="FIELD_NAME" jdbc-type="VARCHAR" primarykey="true" />
+        <field-descriptor name="personEditableFieldId" column="PERSON_EDITABLE_FIELD_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PERSON_EDITABLE_FIELD" autoincrement="true"/>
+        <field-descriptor name="moduleCode" column="MODULE_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="fieldName" column="FIELD_NAME" jdbc-type="VARCHAR" />
 		<field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <reference-descriptor name="coeusModule" class-ref="org.kuali.kra.bo.CoeusModule" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="moduleCode"/>
+        </reference-descriptor>
     </class-descriptor>
 
     <class-descriptor class="org.kuali.kra.bo.KcPersonExtendedAttributes" table="PERSON_EXT_T">
