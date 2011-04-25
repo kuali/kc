@@ -81,20 +81,20 @@ public class KeyPersonnelServiceTest extends KcUnitTestBase {
         assertTrue(blankDocument.getDevelopmentProposal().getInvestigatorCreditTypes().size() > 0);
     }
     
-    @Test 
-    public void createProposalPersonFromNullPersonId() {
-        try {
-            getKeyPersonnelService().createProposalPersonFromPersonId(null);
-        } catch(IllegalArgumentException iae) {
-            assertTrue(iae.getMessage().equalsIgnoreCase("the personId is null or empty"));
-        }
-        
-    }
-
-    @Test 
-    public void createProposalPersonFromNullRolodexId() {
-        assertNull(getKeyPersonnelService().createProposalPersonFromRolodexId(null));
-    }
+//    @Test 
+//    public void createProposalPersonFromNullPersonId() {
+//        try {
+//            getKeyPersonnelService().createProposalPersonFromPersonId(null);
+//        } catch(IllegalArgumentException iae) {
+//            assertTrue(iae.getMessage().equalsIgnoreCase("the personId is null or empty"));
+//        }
+//        
+//    }
+//
+//    @Test 
+//    public void createProposalPersonFromNullRolodexId() {
+//        assertNull(getKeyPersonnelService().createProposalPersonFromRolodexId(null));
+//    }
 
 
     

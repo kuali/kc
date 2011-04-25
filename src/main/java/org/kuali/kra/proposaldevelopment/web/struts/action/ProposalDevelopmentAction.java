@@ -49,8 +49,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.irb.ProtocolForm;
-import org.kuali.kra.irb.actions.ProtocolSubmissionBeanBase;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
@@ -68,19 +66,17 @@ import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalRoleTemplateService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.kra.questionnaire.answer.SaveQuestionnaireAnswerEvent;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.service.PrintService;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.PersonEditableService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -691,6 +687,10 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
      */
     protected KeyPersonnelService getKeyPersonnelService() {
         return KraServiceLocator.getService(KeyPersonnelService.class);
+    }   
+    
+    protected PersonEditableService getPersonEditableService() {
+        return KraServiceLocator.getService(PersonEditableService.class);
     }   
     
     /**

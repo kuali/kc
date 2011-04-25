@@ -56,6 +56,8 @@ public class PersonnelHelper implements Serializable {
     public void prepareView() {
         initializePermissions(getProtocol());    
         initializeTrainingSection();
+        getForm().populatePersonEditableFields();
+
     }
     
     private Protocol getProtocol() {
