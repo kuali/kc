@@ -536,48 +536,48 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
      * @param rolodexId
      * @return ProposalPerson
      */
-    public ProposalPerson createProposalPersonFromRolodexId(String rolodexId) {
-        Map valueMap = new HashMap();
-        valueMap.put("rolodexId", rolodexId);
-        Collection<Rolodex> rolodexes = getBusinessObjectService().findMatching(Rolodex.class, valueMap);
-
-        if (rolodexes == null || rolodexes.size() < 1) {
-            return null;
-        }
-
-        ProposalPerson prop_person = new ProposalPerson();
-
-        for (Rolodex rolodex : rolodexes) {
-            prop_person.setRolodexId(rolodex.getRolodexId());
-            prop_person.setAddressLine1(rolodex.getAddressLine1());
-            prop_person.setAddressLine2(rolodex.getAddressLine2());
-            prop_person.setAddressLine3(rolodex.getAddressLine3());
-            prop_person.setCity(rolodex.getCity());
-            prop_person.setCountryCode(rolodex.getCountryCode());
-            prop_person.setCounty(rolodex.getCounty());
-            prop_person.setEmailAddress(rolodex.getEmailAddress());
-            prop_person.setFaxNumber(rolodex.getFaxNumber());
-            prop_person.setFirstName(rolodex.getFirstName());
-            prop_person.setLastName(rolodex.getLastName());
-            prop_person.setMiddleName(rolodex.getMiddleName());
-            prop_person.setOfficePhone(rolodex.getPhoneNumber());
-            prop_person.setPostalCode(rolodex.getPostalCode());
-            prop_person.setState(rolodex.getState());
-            prop_person.setPrimaryTitle(rolodex.getTitle());
-            prop_person.setFullName("");
-            if (isNotBlank(rolodex.getFirstName())) {
-                prop_person.setFullName(rolodex.getFirstName());
-            }
-            if (isNotBlank(rolodex.getMiddleName())) {
-                prop_person.setFullName(prop_person.getFullName() + " " + rolodex.getMiddleName());                     
-            }
-            if (isNotBlank(rolodex.getLastName())) {
-                prop_person.setFullName(prop_person.getFullName() + " " + rolodex.getLastName());                     
-            }
-        }
-
-        return prop_person;
-    }
+//    public ProposalPerson createProposalPersonFromRolodexId(String rolodexId) {
+//        Map valueMap = new HashMap();
+//        valueMap.put("rolodexId", rolodexId);
+//        Collection<Rolodex> rolodexes = getBusinessObjectService().findMatching(Rolodex.class, valueMap);
+//
+//        if (rolodexes == null || rolodexes.size() < 1) {
+//            return null;
+//        }
+//
+//        ProposalPerson prop_person = new ProposalPerson();
+//
+//        for (Rolodex rolodex : rolodexes) {
+//            prop_person.setRolodexId(rolodex.getRolodexId());
+//            prop_person.setAddressLine1(rolodex.getAddressLine1());
+//            prop_person.setAddressLine2(rolodex.getAddressLine2());
+//            prop_person.setAddressLine3(rolodex.getAddressLine3());
+//            prop_person.setCity(rolodex.getCity());
+//            prop_person.setCountryCode(rolodex.getCountryCode());
+//            prop_person.setCounty(rolodex.getCounty());
+//            prop_person.setEmailAddress(rolodex.getEmailAddress());
+//            prop_person.setFaxNumber(rolodex.getFaxNumber());
+//            prop_person.setFirstName(rolodex.getFirstName());
+//            prop_person.setLastName(rolodex.getLastName());
+//            prop_person.setMiddleName(rolodex.getMiddleName());
+//            prop_person.setOfficePhone(rolodex.getPhoneNumber());
+//            prop_person.setPostalCode(rolodex.getPostalCode());
+//            prop_person.setState(rolodex.getState());
+//            prop_person.setPrimaryTitle(rolodex.getTitle());
+//            prop_person.setFullName("");
+//            if (isNotBlank(rolodex.getFirstName())) {
+//                prop_person.setFullName(rolodex.getFirstName());
+//            }
+//            if (isNotBlank(rolodex.getMiddleName())) {
+//                prop_person.setFullName(prop_person.getFullName() + " " + rolodex.getMiddleName());                     
+//            }
+//            if (isNotBlank(rolodex.getLastName())) {
+//                prop_person.setFullName(prop_person.getFullName() + " " + rolodex.getLastName());                     
+//            }
+//        }
+//
+//        return prop_person;
+//    }
 
     /**
      * Uses a <code>personId</code> obtained from the <code>{@link KcPerson}</code> lookup on the 
@@ -586,89 +586,89 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
      * @param personId
      * @return ProposalPerson
      */
-    public ProposalPerson createProposalPersonFromPersonId(String personId) {
-        ProposalPerson prop_person = new ProposalPerson();
-        
-        DateFormat dateFormat = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT_PATTERN);
-
-        KcPerson person = this.kcPersonService.getKcPersonByPersonId(personId);
-        prop_person.setPersonId(personId);
-        prop_person.setSocialSecurityNumber(person.getSocialSecurityNumber());
-        prop_person.setLastName(person.getLastName());
-        prop_person.setFirstName(person.getFirstName());
-        prop_person.setMiddleName(person.getMiddleName());
-        prop_person.setFullName(person.getFullName());
-        prop_person.setPriorName(person.getPriorName());
-        prop_person.setUserName(person.getUserName());
-        prop_person.setEmailAddress(person.getEmailAddress());
-        //prop_person.setDateOfBirth(person.getDateOfBirth());
-        try{
-            java.util.Date dobUtil = dateFormat.parse(person.getDateOfBirth());
-            prop_person.setDateOfBirth(new java.sql.Date(dobUtil.getYear(), dobUtil.getMonth(), dobUtil.getDate()));
-        }catch(Exception e){
-            //invalid date
-            prop_person.setDateOfBirth(null);
-        }
-        prop_person.setAge(person.getAge());
-        prop_person.setAgeByFiscalYear(person.getAgeByFiscalYear());
-        prop_person.setGender(person.getGender());
-        prop_person.setRace(person.getRace());
-        prop_person.setEducationLevel(person.getEducationLevel());
-        prop_person.setDegree(person.getDegree());
-        prop_person.setMajor(person.getMajor());
-        prop_person.setHandicappedFlag(person.getHandicappedFlag());
-        prop_person.setHandicapType(person.getHandicapType());
-        prop_person.setVeteranFlag(person.getVeteranFlag());
-        prop_person.setVeteranType(person.getVeteranType());
-        prop_person.setVisaCode(person.getVisaCode());
-        prop_person.setVisaType(person.getVisaType());
-        //prop_person.setVisaRenewalDate(person.getVisaRenewalDate());
-        try{
-            java.util.Date visaUtil = dateFormat.parse(person.getVisaRenewalDate());
-            prop_person.setVisaRenewalDate(new java.sql.Date(visaUtil.getYear(), visaUtil.getMonth(), visaUtil.getDate()));
-        }catch(Exception e){
-            //invalid date
-            prop_person.setVisaRenewalDate(null);
-        }
-        prop_person.setHasVisa(person.getHasVisa());
-        prop_person.setOfficeLocation(person.getOfficeLocation());
-        prop_person.setOfficePhone(person.getOfficePhone());
-        prop_person.setSecondaryOfficeLocation(person.getSecondaryOfficeLocation());
-        prop_person.setSecondaryOfficePhone(person.getSecondaryOfficePhone());
-        prop_person.setSchool(person.getSchool());
-        prop_person.setYearGraduated(person.getYearGraduated());
-        prop_person.setDirectoryDepartment(person.getDirectoryDepartment());
-        prop_person.setSaluation(person.getSaluation());
-        prop_person.setCountryOfCitizenship(person.getCountryOfCitizenship());
-        prop_person.setPrimaryTitle(person.getPrimaryTitle());
-        prop_person.setDirectoryTitle(person.getDirectoryTitle());
-        prop_person.setHomeUnit(person.getOrganizationIdentifier());
-        prop_person.setFacultyFlag(person.getFacultyFlag());
-        prop_person.setGraduateStudentStaffFlag(person.getGraduateStudentStaffFlag());
-        prop_person.setResearchStaffFlag(person.getResearchStaffFlag());
-        prop_person.setServiceStaffFlag(person.getServiceStaffFlag());
-        prop_person.setSupportStaffFlag(person.getSupportStaffFlag());
-        prop_person.setOtherAcademicGroupFlag(person.getOtherAcademicGroupFlag());
-        prop_person.setMedicalStaffFlag(person.getMedicalStaffFlag());
-        prop_person.setVacationAccrualFlag(person.getVacationAccrualFlag());
-        prop_person.setOnSabbaticalFlag(person.getOnSabbaticalFlag());
-        prop_person.setIdProvided(person.getIdProvided());
-        prop_person.setIdVerified(person.getIdVerified());
-        prop_person.setAddressLine1(person.getAddressLine1());
-        prop_person.setAddressLine2(person.getAddressLine2());
-        prop_person.setAddressLine3(person.getAddressLine3());
-        prop_person.setCity(person.getCity());
-        prop_person.setCounty(person.getCounty());
-        prop_person.setState(person.getState());
-        prop_person.setPostalCode(person.getPostalCode());
-        prop_person.setCountryCode(person.getCountryCode());
-        prop_person.setFaxNumber(person.getFaxNumber());
-        prop_person.setPagerNumber(person.getPagerNumber());
-        prop_person.setMobilePhoneNumber(person.getMobilePhoneNumber());
-        prop_person.setEraCommonsUserName(person.getEraCommonsUserName());
-
-        return prop_person;
-    }
+//    public ProposalPerson createProposalPersonFromPersonId(String personId) {
+//        ProposalPerson prop_person = new ProposalPerson();
+//        
+//        DateFormat dateFormat = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT_PATTERN);
+//
+//        KcPerson person = this.kcPersonService.getKcPersonByPersonId(personId);
+//        prop_person.setPersonId(personId);
+//        prop_person.setSocialSecurityNumber(person.getSocialSecurityNumber());
+//        prop_person.setLastName(person.getLastName());
+//        prop_person.setFirstName(person.getFirstName());
+//        prop_person.setMiddleName(person.getMiddleName());
+//        prop_person.setFullName(person.getFullName());
+//        prop_person.setPriorName(person.getPriorName());
+//        prop_person.setUserName(person.getUserName());
+//        prop_person.setEmailAddress(person.getEmailAddress());
+//        //prop_person.setDateOfBirth(person.getDateOfBirth());
+//        try{
+//            java.util.Date dobUtil = dateFormat.parse(person.getDateOfBirth());
+//            prop_person.setDateOfBirth(new java.sql.Date(dobUtil.getYear(), dobUtil.getMonth(), dobUtil.getDate()));
+//        }catch(Exception e){
+//            //invalid date
+//            prop_person.setDateOfBirth(null);
+//        }
+//        prop_person.setAge(person.getAge());
+//        prop_person.setAgeByFiscalYear(person.getAgeByFiscalYear());
+//        prop_person.setGender(person.getGender());
+//        prop_person.setRace(person.getRace());
+//        prop_person.setEducationLevel(person.getEducationLevel());
+//        prop_person.setDegree(person.getDegree());
+//        prop_person.setMajor(person.getMajor());
+//        prop_person.setHandicappedFlag(person.getHandicappedFlag());
+//        prop_person.setHandicapType(person.getHandicapType());
+//        prop_person.setVeteranFlag(person.getVeteranFlag());
+//        prop_person.setVeteranType(person.getVeteranType());
+//        prop_person.setVisaCode(person.getVisaCode());
+//        prop_person.setVisaType(person.getVisaType());
+//        //prop_person.setVisaRenewalDate(person.getVisaRenewalDate());
+//        try{
+//            java.util.Date visaUtil = dateFormat.parse(person.getVisaRenewalDate());
+//            prop_person.setVisaRenewalDate(new java.sql.Date(visaUtil.getYear(), visaUtil.getMonth(), visaUtil.getDate()));
+//        }catch(Exception e){
+//            //invalid date
+//            prop_person.setVisaRenewalDate(null);
+//        }
+//        prop_person.setHasVisa(person.getHasVisa());
+//        prop_person.setOfficeLocation(person.getOfficeLocation());
+//        prop_person.setOfficePhone(person.getOfficePhone());
+//        prop_person.setSecondaryOfficeLocation(person.getSecondaryOfficeLocation());
+//        prop_person.setSecondaryOfficePhone(person.getSecondaryOfficePhone());
+//        prop_person.setSchool(person.getSchool());
+//        prop_person.setYearGraduated(person.getYearGraduated());
+//        prop_person.setDirectoryDepartment(person.getDirectoryDepartment());
+//        prop_person.setSaluation(person.getSaluation());
+//        prop_person.setCountryOfCitizenship(person.getCountryOfCitizenship());
+//        prop_person.setPrimaryTitle(person.getPrimaryTitle());
+//        prop_person.setDirectoryTitle(person.getDirectoryTitle());
+//        prop_person.setHomeUnit(person.getOrganizationIdentifier());
+//        prop_person.setFacultyFlag(person.getFacultyFlag());
+//        prop_person.setGraduateStudentStaffFlag(person.getGraduateStudentStaffFlag());
+//        prop_person.setResearchStaffFlag(person.getResearchStaffFlag());
+//        prop_person.setServiceStaffFlag(person.getServiceStaffFlag());
+//        prop_person.setSupportStaffFlag(person.getSupportStaffFlag());
+//        prop_person.setOtherAcademicGroupFlag(person.getOtherAcademicGroupFlag());
+//        prop_person.setMedicalStaffFlag(person.getMedicalStaffFlag());
+//        prop_person.setVacationAccrualFlag(person.getVacationAccrualFlag());
+//        prop_person.setOnSabbaticalFlag(person.getOnSabbaticalFlag());
+//        prop_person.setIdProvided(person.getIdProvided());
+//        prop_person.setIdVerified(person.getIdVerified());
+//        prop_person.setAddressLine1(person.getAddressLine1());
+//        prop_person.setAddressLine2(person.getAddressLine2());
+//        prop_person.setAddressLine3(person.getAddressLine3());
+//        prop_person.setCity(person.getCity());
+//        prop_person.setCounty(person.getCounty());
+//        prop_person.setState(person.getState());
+//        prop_person.setPostalCode(person.getPostalCode());
+//        prop_person.setCountryCode(person.getCountryCode());
+//        prop_person.setFaxNumber(person.getFaxNumber());
+//        prop_person.setPagerNumber(person.getPagerNumber());
+//        prop_person.setMobilePhoneNumber(person.getMobilePhoneNumber());
+//        prop_person.setEraCommonsUserName(person.getEraCommonsUserName());
+//
+//        return prop_person;
+//    }
 
     /**
      * Accessor method for dependency injection

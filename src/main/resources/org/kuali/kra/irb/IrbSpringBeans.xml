@@ -94,9 +94,7 @@
         <property name="protocolPersonTrainingService">
             <ref bean="protocolPersonTrainingService" />
         </property>        
-        <property name="kraAuthorizationService">
-            <ref bean="kraAuthorizationService" />
-        </property>        
+        <property name="personEditableService" ref="personEditableService" />
     </bean> 
 
     <bean id="protocolPersonTrainingService" class="org.kuali.kra.irb.personnel.ProtocolPersonTrainingServiceImpl">

@@ -97,7 +97,7 @@ public interface KeyPersonnelService {
      * @param personId
      * @return ProposalPerson
      */
-    public ProposalPerson createProposalPersonFromPersonId(String personId);
+    //public ProposalPerson createProposalPersonFromPersonId(String personId);
 
     /**
      * Uses a <code>rolodexId</code> obtained from the <code>{@link KcPerson}</code> or <code>{@link Rolodex}</code> lookup on the 
@@ -106,7 +106,7 @@ public interface KeyPersonnelService {
      * @param rolodexId
      * @return ProposalPerson
      */
-    public ProposalPerson createProposalPersonFromRolodexId(String rolodexId);
+   // public ProposalPerson createProposalPersonFromRolodexId(String rolodexId);
 
     /**
      * Determines if a given {@link ProposalPerson} instance is considered a PI. This is done by comparing the {@link ProposalPersonRole} of the

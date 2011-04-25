@@ -220,10 +220,16 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalPerson person = null;
         
         if (!isBlank(pdform.getNewRolodexId())) {
-            person = getKeyPersonnelService().createProposalPersonFromRolodexId(pdform.getNewRolodexId());
+           // person = getKeyPersonnelService().createProposalPersonFromRolodexId(pdform.getNewRolodexId());
+            person = new ProposalPerson();
+            person.setRolodexId(Integer.parseInt(pdform.getNewRolodexId()));
+            getPersonEditableService().populateContactFieldsFromRolodexId(person);
         }
         else if (!isBlank(pdform.getNewPersonId())) {
-            person = getKeyPersonnelService().createProposalPersonFromPersonId(pdform.getNewPersonId());
+          //  person = getKeyPersonnelService().createProposalPersonFromPersonId(pdform.getNewPersonId());
+            person = new ProposalPerson();
+            person.setPersonId(pdform.getNewPersonId());
+            getPersonEditableService().populateContactFieldsFromPersonId(person);
         }
         
         if (person != null) {

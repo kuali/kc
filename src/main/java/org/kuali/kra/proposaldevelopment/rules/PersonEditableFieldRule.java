@@ -21,6 +21,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.Collection;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.PersonEditableField;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -53,13 +54,23 @@ public class PersonEditableFieldRule extends MaintenanceDocumentRuleBase {
                 PersonEditableField newField = (PersonEditableField) getNewBo();
                 
                 for (PersonEditableField existingField : (Collection<PersonEditableField>) getBusinessObjectService().findAll(PersonEditableField.class)) {
-                    if(ObjectUtils.equalByKeys(existingField, newField)) {
-                        GlobalVariables.getErrorMap().putError(PERSON_EDITABLE_FIELD_NAME_PROPERTY_KEY, ERROR_PERSON_EDITABLE_FIELD_EXISTS, existingField.getFieldName());
+                    if(StringUtils.equals(existingField.getFieldName(), newField.getFieldName()) && StringUtils.equals(existingField.getModuleCode(), newField.getModuleCode())) {
+                        GlobalVariables.getMessageMap().putError(PERSON_EDITABLE_FIELD_NAME_PROPERTY_KEY, ERROR_PERSON_EDITABLE_FIELD_EXISTS, existingField.getFieldName(), existingField.getCoeusModule().getDescription());
                         retval = false;
                         break;
                     }
                 }
-            }
+            } else if (document.isEdit()) {
+                PersonEditableField newField = (PersonEditableField) getNewBo();
+                
+                for (PersonEditableField existingField : (Collection<PersonEditableField>) getBusinessObjectService().findAll(PersonEditableField.class)) {
+                    if(!ObjectUtils.equalByKeys(newField, existingField) && StringUtils.equals(existingField.getFieldName(), newField.getFieldName()) && StringUtils.equals(existingField.getModuleCode(), newField.getModuleCode())) {
+                        GlobalVariables.getMessageMap().putError(PERSON_EDITABLE_FIELD_NAME_PROPERTY_KEY, ERROR_PERSON_EDITABLE_FIELD_EXISTS, existingField.getFieldName(), existingField.getCoeusModule().getDescription());
+                        retval = false;
+                        break;
+                    }
+                }
+            } 
             
             return retval;
         }
