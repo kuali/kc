@@ -227,6 +227,7 @@ public class ProposalDevelopmentSeleniumHelper extends KcSeleniumHelper {
         set(String.format(PERSON_YNQS_ID, 2), YES_RADIO_FIELD_VALUE);
         set(String.format(PERSON_YNQS_ID, 3), NO_RADIO_FIELD_VALUE);
         set(String.format(PERSON_YNQS_ID, 4), NO_RADIO_FIELD_VALUE);
+        set(String.format(PERSON_YNQS_ID, 5), YES_RADIO_FIELD_VALUE);
         
         for (int i = 0; i < 4; i++) {
             set(String.format(CREDIT_SPLITS_ID, i), DEFAULT_TOTAL_CREDIT_SPLIT);
