@@ -185,7 +185,7 @@ public class QuestionnaireXmlStream implements XmlStream {
                 } else if (moduleCode.equals(CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE)  
                         && CoeusSubModule.PROPOSAL_PERSON_CERTIFICATION.equals(moduleSubcode)) {
                     ProposalPerson person = (ProposalPerson) printableBusinessObject;
-                    setDevProposalInfo(person.getDevelopmentProposal(),questionnaireType);
+                    setDevProposalInfo(person,questionnaireType);
                 } else if (moduleCode.equals(CoeusModule.IRB_MODULE_CODE)) {
                     setProtocolInfo((Protocol) printableBusinessObject,questionnaireType);
                 }
@@ -219,11 +219,31 @@ public class QuestionnaireXmlStream implements XmlStream {
         if(proposalBean!=null){
             ProposalInfoType proposalInfo = questionnaireType.addNewProposalInfo();
             proposalInfo.setTitle(proposalBean.getTitle());
+            proposalInfo.setProposalPersonUsed(0);
             String investigatorName = proposalBean.getPrincipalInvestigatorName();
             if(investigatorName!=null){
                 Person personInfo = proposalInfo.addNewInvestigator();
                 personInfo.setFullname(investigatorName);
+            }  
+        }
+    }
+    
+    private void setDevProposalInfo(ProposalPerson person, Questionnaire questionnaireType) {
+        DevelopmentProposal proposalBean = person.getDevelopmentProposal();
+        if (proposalBean != null) {
+            ProposalInfoType proposalInfo = questionnaireType.addNewProposalInfo();
+            proposalInfo.setTitle(proposalBean.getTitle());
+            String investigatorName = proposalBean.getPrincipalInvestigatorName();
+            if (investigatorName != null) {
+                Person personInfo = proposalInfo.addNewInvestigator();
+                personInfo.setFullname(investigatorName);
             }
+            String personName = person.getFullName();
+            String personRole = person.getRole().getDescription();
+            proposalInfo.setProposalPersonUsed(1);
+            proposalInfo.setProposalPersonName(personName);
+            proposalInfo.setProposalPersonRole(personRole);
+            
         }
     }
 

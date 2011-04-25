@@ -461,18 +461,85 @@
 											</fo:table-row>
 										</fo:table-body>
 									</fo:table>
+										<xsl:if test="/Questionnaire/ProposalInfo/ProposalPersonUsed &gt; 0">
+											<fo:table>
+												<fo:table-column column-width="120"/>
+												<fo:table-column column-width="247"/>
+												<fo:table-column column-width="150pt"/>
+												<fo:table-column column-width="332"/>
+												<fo:table-body start-indent="0pt">
+													<fo:table-row>
+														<fo:table-cell font-size="9pt" font-weight="bold" padding="2pt" text-align="justify" display-align="before">
+															<fo:block>
+																<fo:inline>
+																	<xsl:text>Proposal Person:</xsl:text>
+																</fo:inline>
+															</fo:block>
+														</fo:table-cell>
+														<fo:table-cell padding="2pt" display-align="center">
+															<fo:block>
+																<xsl:for-each select="Questionnaire">
+																	<xsl:for-each select="ProposalInfo">
+																		<xsl:for-each select="ProposalPersonName">
+																			<xsl:variable name="value-of-template">
+																				<xsl:apply-templates/>
+																			</xsl:variable>
+																			<xsl:choose>
+																				<xsl:when test="contains(string($value-of-template),'&#x2029;')">
+																					<fo:block>
+																						<xsl:copy-of select="$value-of-template"/>
+																					</fo:block>
+																				</xsl:when>
+																				<xsl:otherwise>
+																					<fo:inline>
+																						<xsl:copy-of select="$value-of-template"/>
+																					</fo:inline>
+																				</xsl:otherwise>
+																			</xsl:choose>
+																		</xsl:for-each>
+																	</xsl:for-each>
+																</xsl:for-each>
+															</fo:block>
+														</fo:table-cell>
+														<fo:table-cell font-size="9pt" font-weight="bold" padding="2pt" text-align="justify" display-align="before">
+															<fo:block>
+																<fo:inline>
+																	<xsl:text>Person Role:</xsl:text>
+																</fo:inline>
+															</fo:block>
+														</fo:table-cell>
+														<fo:table-cell padding="2pt" display-align="center">
+															<fo:block>
+																<xsl:for-each select="Questionnaire">
+																	<xsl:for-each select="ProposalInfo">
+																		<xsl:for-each select="ProposalPersonRole">
+																			<xsl:variable name="value-of-template">
+																				<xsl:apply-templates/>
+																			</xsl:variable>
+																			<xsl:choose>
+																				<xsl:when test="contains(string($value-of-template),'&#x2029;')">
+																					<fo:block>
+																						<xsl:copy-of select="$value-of-template"/>
+																					</fo:block>
+																				</xsl:when>
+																				<xsl:otherwise>
+																					<fo:inline>
+																						<xsl:copy-of select="$value-of-template"/>
+																					</fo:inline>
+																				</xsl:otherwise>
+																			</xsl:choose>
+																		</xsl:for-each>
+																	</xsl:for-each>
+																</xsl:for-each>
+															</fo:block>
+														</fo:table-cell>															
+													</fo:table-row>
+												</fo:table-body>
+											</fo:table>
+										</xsl:if>
 									<fo:block/>
 								</xsl:when>
 							</xsl:choose>
-							<fo:block/>
-							<fo:block>
-								<fo:leader leader-pattern="space"/>
-							</fo:block>
-							<fo:inline-container>
-								<fo:block>
-									<xsl:text>&#x2029;</xsl:text>
-								</fo:block>
-							</fo:inline-container>
 							<fo:block margin="0pt">
 								<fo:block>
 									<fo:inline-container>
