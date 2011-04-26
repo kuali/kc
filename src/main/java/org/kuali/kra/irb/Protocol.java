@@ -53,6 +53,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
+import org.kuali.kra.irb.noteattachment.ProtocolAttachmentFilter;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentService;
@@ -175,6 +176,8 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
   
     private ProtocolSubmission protocolSubmission;
     
+
+    
     /*
      * There should only be zero or one entry in the protocolAmendRenewals
      * list.  It is because of OJB that a list is used instead of a single item.
@@ -185,6 +188,9 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     
     private transient DateTimeService dateTimeService;
     private transient SequenceAccessorService sequenceAccessorService;
+    
+    //Used to filter protocol attachments
+    private transient ProtocolAttachmentFilter protocolAttachmentFilter;    
 
     // passed in req param submissionid.  used to check if irb ack is needed
     // this link is from protocosubmission or notify irb message
@@ -2023,5 +2029,37 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
 
     public void setMergeAmendment(boolean mergeAmendment) {
         this.mergeAmendment = mergeAmendment;
+    }
+
+    public ProtocolAttachmentFilter getProtocolAttachmentFilter() {
+        return protocolAttachmentFilter;
+    }
+
+    public void setProtocolAttachmentFilter(ProtocolAttachmentFilter protocolAttachmentFilter) {
+        this.protocolAttachmentFilter = protocolAttachmentFilter;
+    }
+    
+    public List<ProtocolAttachmentProtocol> getFilteredAttachmentProtocols() {
+        List<ProtocolAttachmentProtocol> filteredAttachments = new ArrayList<ProtocolAttachmentProtocol>();
+        ProtocolAttachmentFilter attachmentFilter = getProtocolAttachmentFilter();
+        if (attachmentFilter != null && attachmentFilter.getFilterBy() != null &&
+                !"".equalsIgnoreCase(attachmentFilter.getFilterBy().trim())) {
+            
+            for (ProtocolAttachmentProtocol attachment1 : getAttachmentProtocols()) {
+                if ((attachment1.getTypeCode()).equals(attachmentFilter.getFilterBy())) {
+                    filteredAttachments.add(attachment1);
+                }
+            }
+           
+        } else {
+            filteredAttachments = getAttachmentProtocols();
+        }
+        
+        if (attachmentFilter != null && attachmentFilter.getSortBy() != null &&
+            !"".equalsIgnoreCase(attachmentFilter.getSortBy().trim())) {
+            Collections.sort(filteredAttachments, attachmentFilter.getProtocolAttachmentComparator()); 
+        }   
+        
+        return filteredAttachments;
     }
 }
