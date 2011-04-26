@@ -62,6 +62,7 @@ public class NotesAttachmentsHelper {
     
     private ProtocolAttachmentProtocol newAttachmentProtocol;
     private ProtocolAttachmentPersonnel newAttachmentPersonnel;
+    private ProtocolAttachmentFilter newAttachmentFilter;
     private List<AttachmentFile> FilesToDelete;
     
     private ProtocolNotepad newProtocolNotepad;
@@ -72,6 +73,8 @@ public class NotesAttachmentsHelper {
     private boolean viewRestricted;
     
     private boolean manageNotesOpen;
+    
+
 
     /**
      * Constructs a helper setting the dependencies to default values.
@@ -477,6 +480,13 @@ public class NotesAttachmentsHelper {
         this.setNewAttachmentPersonnel(new ProtocolAttachmentPersonnel(this.getProtocol()));
     }
     
+    /**
+     * initializes a new attachment filter
+     */
+    private void initAttachmentFilter() {
+        this.setNewAttachmentFilter(new ProtocolAttachmentFilter());
+    }
+    
     /** 
      * refreshes a given Collection of attachment's references that can change.
      * @param attachments the attachments.
@@ -730,6 +740,21 @@ public class NotesAttachmentsHelper {
     
     public boolean isManageNotesOpen() {
         return this.manageNotesOpen;
+    }
+
+    public ProtocolAttachmentFilter getNewAttachmentFilter() {
+        if (newAttachmentFilter == null) {
+            this.initAttachmentFilter();
+        }
+        return newAttachmentFilter;
+    }
+
+    public void setNewAttachmentFilter(ProtocolAttachmentFilter newAttachmentFilter) {
+        this.newAttachmentFilter = newAttachmentFilter;
+    }
+    
+    public void addNewProtocolAttachmentFilter() {
+        this.getProtocol().setProtocolAttachmentFilter(getNewAttachmentFilter());
     }
 
 }
