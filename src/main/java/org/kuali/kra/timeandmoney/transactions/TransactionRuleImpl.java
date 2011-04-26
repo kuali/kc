@@ -84,12 +84,16 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
             //need to remove the award amount info created from this process transactions call so there won't be a double entry in collection.
             award.refreshReferenceObject("awardAmountInfos");
         }
+        boolean requiredFieldsComplete = areRequiredFieldsComplete(event.getPendingTransactionItemForValidation());
         
-        boolean validFunds = validateAnticipatedGreaterThanObligated (event);
-        boolean validDates = validateObligatedDateIsSet(event);
+        boolean validFunds = false;
+        boolean validDates = false;
+        if(requiredFieldsComplete){
+            validFunds = validateAnticipatedGreaterThanObligated (event);
+            validDates = validateObligatedDateIsSet(event);
+        }
         
-        return areRequiredFieldsComplete(event.getPendingTransactionItemForValidation()) && processCommonValidations(event) && 
-        validObligatedFunds && validAnticipatedFunds && validFunds && validDates;        
+        return requiredFieldsComplete && processCommonValidations(event) && validObligatedFunds && validAnticipatedFunds && validFunds && validDates;        
     }
     
     /**

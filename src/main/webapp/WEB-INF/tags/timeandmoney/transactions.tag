@@ -17,7 +17,7 @@
 
 <c:set var="pendingTransactionAttributes" value="${DataDictionary.PendingTransaction.attributes}" />
 
-<kul:tab tabTitle="Transactions (${KualiForm.document.awardNumber})" defaultOpen="false" tabErrorKey="document.newAwardAmountTransaction*,transactionBean.newPendingTransaction.obligatedAmount,transactionBean.newPendingTransaction.anticipatedAmount" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
+<kul:tab tabTitle="Transactions (${KualiForm.document.awardNumber})" defaultOpen="false" tabErrorKey="document.newAwardAmountTransaction*,transactionBean.newPendingTransaction.obligatedAmount,transactionBean.newPendingTransaction.anticipatedAmount,transactionBean.newPendingTransaction.sourceAwardNumber,transactionBean.newPendingTransaction.destinationAwardNumber" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left"> Transaction</span>
