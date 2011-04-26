@@ -64,7 +64,6 @@
         <bean parent="MaintainableFieldDefinition" p:name="scienceMisconductComplDate"/>
         <bean parent="MaintainableFieldDefinition" p:name="telexNumber"/>
         <bean parent="MaintainableFieldDefinition" p:name="vendorCode"/>
-        <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>
     </property>
   </bean>
