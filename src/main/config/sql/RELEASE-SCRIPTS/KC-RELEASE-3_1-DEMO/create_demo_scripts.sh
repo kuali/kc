@@ -5,7 +5,7 @@ main_dir=`basename $main_dir`
 demo_version="${main_dir%-*}"
 base_version="${demo_version#KC-*}"
 
-app_names='KC KR'
+app_names='KR KRC KC'
 db_types='ORACLE MYSQL'
 
 make_file()
