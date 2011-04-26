@@ -54,7 +54,9 @@
 
 	<c:set var="extraButtonSource" value="${moveUpBtn} ${moveDownBtn}" />
 
-	<kul:checkErrors keyMatch="document.developmentProposalList[0].proposalPersons[${status.index}]*,newProposalPersonDegree[${status.index}]*" auditMatch="document.developmentProposalList[0].proposalPersons[${status.index}]*"/>
+	<kul:checkErrors 
+		keyMatch="document.developmentProposalList[0].proposalPersons[${status.index}]*,newProposalPersonDegree[${status.index}]*,proposalPersonQuestionnaireHelpers[${status.index}].answerHeaders[0].answers[0].answer" 
+		auditMatch="document.developmentProposalList[0].proposalPersons[${status.index}]*"/>
 	<c:set var="isOpen" value="${hasErrors ? true : isOpen}"/>
 			
 	<kul:tab tabTitle="${fn:substring(person.fullName, 0, 22)}"
