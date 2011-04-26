@@ -109,17 +109,26 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
         boolean retval = true;
         int count = 0;
         AuditError error = null;
-        
+        final String errorStarter = "proposalPersonQuestionnaireHelpers[";
+        final String errorFinish = "].answerHeaders[0].answers[0].answer";
+        final String errorLink = KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR;
         for (ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
             if (shouldValidateYesNoQuestions(person) && !validateYesNoQuestions(person)) {
                 retval = false;
-                //error = new AuditError("document.developmentProposalList[0].proposalPersons["+count+"]", ERROR_PROPOSAL_PERSON_CERTIFICATION_INCOMPLETE, KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR, new String[]{person.getFullName()});
-                //proposalPersonQuestionnaireHelpers[0]Proposal Person Certification0
-                error = new AuditError("proposalPersonQuestionnaireHelpers[" + count + "].answerHeaders[0].answers[0].answer", 
-                        ERROR_PROPOSAL_PERSON_CERTIFICATION_INCOMPLETE, 
-                        KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR,
-                        new String[]{person.getFullName()});
+                String errorKey = errorStarter + count + errorFinish;
+                
+                /**
+                 * This is so the error displays on the audit log.
+                 */
+                error = new AuditError(errorKey, ERROR_PROPOSAL_PERSON_CERTIFICATION_INCOMPLETE, 
+                        errorLink, new String[]{person.getFullName()});
                 getAuditErrors().add(error);
+                
+                /**
+                * this is for displaying the error on the applicable tab.
+                */
+                reportError(errorKey, ERROR_PROPOSAL_PERSON_CERTIFICATION_INCOMPLETE,
+                        new String[]{person.getFullName()});
             }
             count++;
         }
