@@ -15,33 +15,46 @@
  */
 package org.kuali.kra.award.home.fundingproposal;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
 import org.kuali.kra.bo.ScienceKeyword;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceKeyword;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 class KeywordsDataFeedCommand extends ProposalDataFeedCommandBase {
-
+    
     public KeywordsDataFeedCommand(Award award, InstitutionalProposal proposal, FundingProposalMergeType mergeType) {
         super(award, proposal, mergeType);
     }
+    
 
     @Override
     void performDataFeed() {
         if (mergeType != FundingProposalMergeType.NOCHANGE) {
-            for(InstitutionalProposalScienceKeyword ipKeyword: proposal.getInstitutionalProposalScienceKeywords()) {
-                boolean duplicateFound = false;
-                for(AwardScienceKeyword awardKeyword: award.getKeywords()) {
-                    if(isIdentical(awardKeyword, ipKeyword)) {
-                        duplicateFound = true;
-                        break;
-                    }                
-                }
-                if(!duplicateFound) {
-                    award.addKeyword(copyScienceKeyword(ipKeyword));
+            Map<String, String> criteria = new HashMap<String, String>();
+            criteria.put(InstitutionalProposal.PROPOSAL_NUMBER_PROPERTY_STRING, proposal.getProposalNumber());
+            Collection <InstitutionalProposalScienceKeyword> results = KraServiceLocator.getService(BusinessObjectService.class).findMatching(InstitutionalProposalScienceKeyword.class, criteria);
+            if(results!=null){
+                for(InstitutionalProposalScienceKeyword ipKeyword: results) {
+                    boolean duplicateFound = false;
+                    for(AwardScienceKeyword awardKeyword: award.getKeywords()) {
+                        if(isIdentical(awardKeyword, ipKeyword)) {
+                            duplicateFound = true;
+                            break;
+                        }                
+                    }
+                    if(!duplicateFound) {
+                        award.addKeyword(copyScienceKeyword(ipKeyword));
+                    }
                 }
             }
+           
         }
     }
 
@@ -59,4 +72,5 @@ class KeywordsDataFeedCommand extends ProposalDataFeedCommandBase {
         
         return keyword;
     }
+    
 }
