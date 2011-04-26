@@ -339,6 +339,24 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
             notepad.setEditable(false);
         }
     }
-    
+
+    /**
+     * Method called when updating the attachment filter
+     * 
+     * @param mapping the action mapping
+     * @param form the form.
+     * @param request the request.
+     * @param response the response.
+     * @return an action forward.
+     * @throws Exception if there is a problem executing the request.
+     */
+    public ActionForward updateAttachmentFilter(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+        HttpServletResponse response) throws Exception {
+        
+        ((ProtocolForm) form).getNotesAttachmentsHelper().addNewProtocolAttachmentFilter();
+        //request.getSession().setAttribute("_pa_attachment_filter", ((ProtocolForm) form).getNotesAttachmentsHelper().getNewAttachmentFilter());
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }    
     
 }

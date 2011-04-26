@@ -17,10 +17,12 @@
 
 <c:set var="protocolAttachmentProtocolAttributes" value="${DataDictionary.ProtocolAttachmentProtocol.attributes}" />
 <c:set var="attachmentFileAttributes" value="${DataDictionary.AttachmentFile.attributes}" />
+<c:set var="protocolAttachmentFilterAttributes" value="${DataDictionary.ProtocolAttachmentFilter.attributes}" />
 <c:set var="notesAttachmentsHelper" value="${KualiForm.notesAttachmentsHelper}" />
 <c:set var="modify" value="${KualiForm.notesAttachmentsHelper.modifyAttachments}" />
 <c:set var="action" value="protocolNoteAndAttachment" />
 <c:set var="attachmentProtocols" value="${KualiForm.document.protocolList[0].attachmentProtocols}"/>
+<c:set var="filteredAttachmentProtocols" value="${KualiForm.document.protocolList[0].filteredAttachmentProtocols}"/>
 
 <kul:tab tabTitle="Protocol Attachments" tabItemCount="${fn:length(KualiForm.document.protocolList[0].activeAttachmentProtocolsNoDelete)}" defaultOpen="false" tabErrorKey="notesAttachmentsHelper.newAttachmentProtocol.*" transparentBackground="true" tabAuditKey="document.protocolList[0].attachmentProtocols*">
 	<div class="tab-container" align="center">
@@ -190,11 +192,85 @@
 			</table>
 		</kra:permission>
 		
-		<c:forEach var="attachmentProtocol" items="${attachmentProtocols}" varStatus="itrStatus">
+		<c:if test="${not empty attachmentProtocols}">
+
+
+		<!--  Attached Items sub-panel -->
+		<br/>
+        <h3>
+	        <span class="subhead-left">Attached Items</span>
+	        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol" altText="help"/></span>        
+        </h3>
+        
+            <table cellpadding="4" cellspacing="0" summary="">
+                <tr>
+                    <td style="border: none; width: 30%;">
+                        <div align="right">
+                            Show:
+                        </div>
+                    </td style="border: none; width: 20%;">
+                    <td align="left" valign="middle" style="border: none;">
+                        <div align="left">
+                            <kul:htmlControlAttribute property="notesAttachmentsHelper.newAttachmentFilter.filterBy" attributeEntry="${protocolAttachmentFilterAttributes.filterBy}" />
+                        </div>
+                    </td>
+                    <td style="border: none; width: 10%;">
+                        <div align="right">
+                            Sort By:
+                        </div>
+                    </td>
+                    <td align="left" valign="middle" style="border: none; width: 40%;">
+                        <div align="left">
+                            <kul:htmlControlAttribute property="notesAttachmentsHelper.newAttachmentFilter.sortBy" attributeEntry="${protocolAttachmentFilterAttributes.sortBy}" />
+                        </div>
+                    </td>                    
+                </tr>
+                <tr>
+                    <td colspan="4" class="infoline" style="border: none;">
+                        <div align="center">
+                            <html:image property="methodToCall.updateAttachmentFilter.anchor${tabKey}"
+                            src="${ConfigProperties.kra.externalizable.images.url}tinybutton-filter.gif" styleClass="tinybutton"/>
+                        </div>
+                    </td>
+                </tr>                
+            </table>
+        <table cellpadding="4" cellspacing="0" summary="">
+        
+		<c:forEach var="attachmentProtocol" items="${filteredAttachmentProtocols}" varStatus="itrStatus">
+        
+          <!--  Display logic to show the correct attribute being sorted on in the attachment header -->
+          <c:choose>
+            <c:when test="${KualiForm.document.protocolList[0].protocolAttachmentFilter.sortBy eq 'UPBY'}">
+                <c:set var="sortDisplay" value="${attachmentProtocol.updateUserFullName}"/>
+            </c:when>
+            <c:when test="${KualiForm.document.protocolList[0].protocolAttachmentFilter.sortBy eq 'LAUP'}">
+                <c:set var="sortDisplay">
+                    <fmt:formatDate value="${attachmentProtocol.updateTimestamp}" pattern="MM/dd/yyyy KK:mm a" />                      
+                </c:set>
+            </c:when>
+            <c:when test="${KualiForm.document.protocolList[0].protocolAttachmentFilter.sortBy eq 'DESC'}">
+                <c:set var="sortDisplay" >
+                    <c:choose>
+                        <c:when test="${fn:length(attachmentProtocol.description) > 29}">
+                            <c:out value="${fn:substring(attachmentProtocol.description, 0, 29)}..." />
+                        </c:when>
+                        <c:otherwise>
+                            <c:out value="${attachmentProtocol.description}" />
+                        </c:otherwise>
+                    </c:choose>
+                </c:set>
+            </c:when>                        
+            <c:otherwise>
+                <c:set var="sortDisplay" value="${attachmentProtocol.status.description}"/>
+            </c:otherwise>
+          </c:choose>	
+          	
 		  <c:choose>
 		    <c:when test="${attachmentProtocol.active}">
+		      <tr>
+		        <td>
 		             <c:set var="modify" value="${KualiForm.notesAttachmentsHelper.modifyAttachments and attachmentProtocol.documentStatusCode != '3' and (not KualiForm.document.protocolList[0].renewalWithoutAmendment or attachmentProtocol.documentStatusCode != '2')}" />
-		    			<kul:innerTab tabTitle="${attachmentProtocol.type.description} - ${attachmentProtocol.status.description}" parentTab="Protocol Attachments(${size})" defaultOpen="false" tabErrorKey="document.protocolList[0].attachmentProtocols[${itrStatus.index}]*,document.protocolList[0].attachmentProtocols[${itrStatus.index}]*" useCurrentTabIndexAsKey="true" tabAuditKey="document.protocolList[0].attachmentProtocols[${itrStatus.index}]*" auditCluster="NoteAndAttachmentAuditErrors">
+		    			<kul:innerTab tabTitle="${attachmentProtocol.type.description} - ${sortDisplay}" parentTab="Protocol Attachments(${size})" defaultOpen="false" tabErrorKey="document.protocolList[0].attachmentProtocols[${itrStatus.index}]*,document.protocolList[0].attachmentProtocols[${itrStatus.index}]*" useCurrentTabIndexAsKey="true" tabAuditKey="document.protocolList[0].attachmentProtocols[${itrStatus.index}]*" auditCluster="NoteAndAttachmentAuditErrors">
 				<div class="innerTab-container" align="left">
             		<table class=tab cellpadding=0 cellspacing="0" summary="">
 						<tr>
@@ -389,7 +465,8 @@
          		</div>
          	</kul:innerTab>
 		    
-		    
+		        </td>
+		      </tr>
 		    </c:when>
 		    <c:otherwise>
 		      <html:hidden property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].typeCode" value="${KualiForm.document.protocolList[0].attachmentProtocols[itrStatus.index].typeCode}" />
@@ -403,5 +480,7 @@
 		    </c:otherwise>
 		  </c:choose>
 		</c:forEach>
+		</table>
+		</c:if>
      </div>		
 </kul:tab>
