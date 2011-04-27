@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.summary;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 public class AttachmentSummary implements Serializable {
 
@@ -29,6 +30,9 @@ public class AttachmentSummary implements Serializable {
     private boolean fileNameChanged;
     private String attachmentType;
     private String description;
+    
+    private String updateUser;
+    private Timestamp updateTimestamp;
 
     public AttachmentSummary() {
         
@@ -89,5 +93,21 @@ public class AttachmentSummary implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getUpdateUser() {
+        return updateUser;
+    }
+
+    public void setUpdateUser(String updateUser) {
+        this.updateUser = updateUser;
+    }
+
+    public Timestamp getUpdateTimestamp() {
+        return updateTimestamp;
+    }
+
+    public void setUpdateTimestamp(Timestamp updateTimestamp) {
+        this.updateTimestamp = updateTimestamp;
     }
 }
