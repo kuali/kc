@@ -352,7 +352,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         // sets ip deadline date to prop log deadline date
         CommentType ct = new CommentType();
         ct.setCommentTypeCode(Constants.PROPOSAL_SUMMARY_COMMENT_TYPE_CODE);
-        ct.setDescription("From Proposal Log");
+        ct.setDescription("description");
         ct.setChecklistFlag(false);
         ct.setTemplateFlag(false);
         ct.setAwardCommentScreenFlag(false);
@@ -361,7 +361,9 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         ipCmt.setCommentType(ct);
         ipCmt.setComments(proposalLog.getComments());
         ipCmt.setProposalNumber(proposalLog.getProposalNumber()); 
-        ipCmt.setProposalId(ipForm.getInstitutionalProposalDocument().getInstitutionalProposal().getProposalId());        
+        ipCmt.setProposalId(ipForm.getInstitutionalProposalDocument().getInstitutionalProposal().getProposalId());
+        ipCmt.setInstitutionalProposal(ipForm.getInstitutionalProposalDocument().getInstitutionalProposal());
+        ipCmt.getInstitutionalProposal().setProposalNumber(proposalLog.getProposalNumber());
         ipForm.getInstitutionalProposalDocument().getInstitutionalProposal().add(ipCmt);
         ipForm.getInstitutionalProposalDocument().getInstitutionalProposal().setProposalNumber(proposalLog.getProposalNumber());
         if (proposalLog != null) {
