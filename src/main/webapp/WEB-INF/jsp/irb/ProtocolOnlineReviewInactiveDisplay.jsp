@@ -19,7 +19,7 @@
 
 <script src="scripts/jquery/jquery.js"></script>
 <script type="text/javascript">
-    var jq = jQuery.noConflict();
+    var $j = jQuery.noConflict();
 </script>
 
 
@@ -128,6 +128,19 @@
 		/>
 
 
-<script language="javascript">enableJavaScript()</script>
+<script language="javascript">
+//enableJavaScript()
 
+$j(document).ready(function() {
+
+	$j("#globalbuttons").find('input').each(function() {
+              //alert($j(this).attr("name"));
+              if ($j(this).attr("name") != 'methodToCall.close') {
+            	  $j(this).hide();
+              } 
+          });
+
+    });
+
+</script>
 </kul:documentPage>
