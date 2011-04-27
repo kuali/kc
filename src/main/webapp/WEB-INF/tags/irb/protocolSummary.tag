@@ -141,30 +141,44 @@
 <table cellpadding="0" cellspacing="0">
     <tbody>
         <tr>
-            <td style="background-color: rgb(195, 195, 195); font-weight: bold;" colspan="5">Attachments:</td>
+            <td style="background-color: rgb(195, 195, 195); font-weight: bold;" colspan="7">Attachments:</td>
         </tr>
         <tr>
-            <th style="width: 5%;">&nbsp;</th>
-            <td class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);width:20%">File Name</td>
-            <td class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);width:20%">Attachment Type</td>
-            <td class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);width:50%">Description</td>
-            <td class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);width:5%">Action</td>              
-        </tr>
-        <c:forEach items="${protocolSummary.attachments}" var="attachment" varStatus="status">
-            <tr>
-                <th style="width:50px">${status.index + 1}</th>
-                <td class="${attachment.fileNameChanged ? 'changed' : ''}">${attachment.fileName}</td>
-                <td><div aligh="left">${attachment.attachmentType}</div></td>
-                <td><div aligh="left">${attachment.description}</div></td>
-                <td style="width:90%">
-                    <html:image property="methodToCall.viewAttachmentProtocol.line${status.index}.anchor${currentTabIndex}"
-                                src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' 
-                                styleClass="tinybutton"
-                                alt="View Protocol Attachment" 
-                                onclick="excludeSubmitRestriction = true;"/>
-                </td>
-           </tr>
-        </c:forEach>
+            <td style="padding: 0px;">
+                <table id="protocolActionSummary-protocolAttachment-table" cellpadding="0" cellspacing="0" class="tablesorter" style="border-collapse:collapse;">
+                    <thead>            
+				        <tr>
+				            <th style="width: 5%;">&nbsp;</th>
+				            <th class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);width:20%" valign="middle">File Name<img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></td>
+				            <th class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);width:20%" valign="middle">Attachment Type<img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></td>
+				            <th class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);width:30%" valign="middle">Description<img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></td>
+				            <th class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);width:10%" valign="middle">Last Updated<img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></td>
+				            <th class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);width:10%" valign="middle">Last Updated By<img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></td>                        
+				            <th class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);width:5%" valign="middle">Action</td>              
+				        </tr>
+			        </thead>
+			        <tbody>
+				        <c:forEach items="${protocolSummary.attachments}" var="attachment" varStatus="status">
+				            <tr>
+				                <th style="width:50px">&nbsp;</th>
+				                <td class="${attachment.fileNameChanged ? 'changed' : ''}">${attachment.fileName}</td>
+				                <td><div align="left">${attachment.attachmentType}</div></td>
+				                <td><div align="left">${attachment.description}</div></td>
+				                <td><div align="left"><fmt:formatDate value="${attachment.updateTimestamp}" pattern="MM/dd/yyyy KK:mm a" /></div></td>
+				                <td><div align="left">${attachment.updateUser}</div></td>
+				                <td style="width:90%">
+				                    <html:image property="methodToCall.viewAttachmentProtocol.line${status.index}.anchor${currentTabIndex}"
+				                                src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' 
+				                                styleClass="tinybutton"
+				                                alt="View Protocol Attachment" 
+				                                onclick="excludeSubmitRestriction = true;"/>
+				                </td>
+				           </tr>
+				        </c:forEach>
+			        </tbody>
+	           </table>
+	        </td>
+	    </tr>
     </tbody>
 </table>
     
