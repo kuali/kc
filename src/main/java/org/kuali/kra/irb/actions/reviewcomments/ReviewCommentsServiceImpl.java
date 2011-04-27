@@ -140,7 +140,7 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
                 for (CommitteeScheduleMinute minute : protocolSubmission.getCommitteeScheduleMinutes()) {
                     String minuteEntryTypeCode = minute.getMinuteEntryTypeCode();
                     // need to check current minute entry; otherwise may have minutes from previous version comittee
-                    if (MinuteEntryType.PROTOCOL.equals(minuteEntryTypeCode) && isCurrentMinuteEntry(minute)) {
+                    if ((MinuteEntryType.PROTOCOL.equals(minuteEntryTypeCode) || MinuteEntryType.PROTOCOL_REVIEWER_COMMENT.equals(minuteEntryTypeCode)) && isCurrentMinuteEntry(minute)) {
                         reviewComments.add(minute);
                     }
                 }

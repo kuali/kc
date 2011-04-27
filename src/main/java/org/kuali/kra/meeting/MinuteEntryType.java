@@ -28,6 +28,7 @@ public class MinuteEntryType extends KraPersistableBusinessObjectBase implements
     public static final String ATTENDANCE = "2";
     public static final String PROTOCOL = "3";
     public static final String ACTION_ITEM = "4";
+    public static final String PROTOCOL_REVIEWER_COMMENT = "6";
     
     private static final long serialVersionUID = 3106451618464691958L;
 
