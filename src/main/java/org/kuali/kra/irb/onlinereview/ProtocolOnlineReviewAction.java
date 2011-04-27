@@ -618,11 +618,12 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
                 newReviewComment.setPrivateCommentFlag(true);
                 newReviewComment.setFinalFlag(false);
             }
+            newReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL_REVIEWER_COMMENT);
             getReviewCommentsService().addReviewComment(newReviewComment, reviewComments, document.getProtocolOnlineReview());
             getReviewCommentsService().saveReviewComments(reviewComments, deletedReviewComments);
             getDocumentService().saveDocument(document);
             
-            reviewCommentsBean.setNewReviewComment(new CommitteeScheduleMinute(MinuteEntryType.PROTOCOL));
+            reviewCommentsBean.setNewReviewComment(new CommitteeScheduleMinute(MinuteEntryType.PROTOCOL_REVIEWER_COMMENT));
         }
         
         //protocolForm.getOnlineReviewsActionHelper().init(true);
