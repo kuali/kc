@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.paymentreports.Report;
 import org.kuali.kra.award.paymentreports.ValidClassReportFrequency;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.util.KeyLabelPair;
@@ -127,20 +128,22 @@ public class ReportCodeValuesFinder extends KeyValuesBase {
      * @param uniqueValidClassReportFrequencies
      * @return
      */
-    protected List<KeyLabelPair> getKeyValues(
-            Set<String> uniqueValidClassReportFrequencies){
+    protected List<KeyLabelPair> getKeyValues(Set<String> uniqueValidClassReportFrequencies) {
         
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("","select"));
         ValidClassReportFrequency validClassReportFrequency = new ValidClassReportFrequency();
-        for(String reportCode: uniqueValidClassReportFrequencies){        
+        for (String reportCode : uniqueValidClassReportFrequencies) {        
             validClassReportFrequency.setReportCode(reportCode);
             validClassReportFrequency.refreshReferenceObject("report");
-            keyValues.add(new KeyLabelPair(validClassReportFrequency.getReportCode().toString()
-                    , validClassReportFrequency.getReport().getDescription()));            
+            
+            String reportReportCode = validClassReportFrequency.getReportCode().toString();
+            Report report = validClassReportFrequency.getReport();
+            String reportDescription = report.getDescription() + (report.getFinalReportFlag() ? " (Final Report)" : "");
+            keyValues.add(new KeyLabelPair(reportReportCode, reportDescription));
         }
      
-        GlobalVariables.getUserSession().addObject("awreport"+getReportClassCode(), keyValues);
+        GlobalVariables.getUserSession().addObject("awreport" + getReportClassCode(), keyValues);
         return keyValues;
     }
    
