@@ -37,7 +37,9 @@ public class MinuteEntryTypeValuesFinder extends KeyValuesBase {
 
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         for (MinuteEntryType minuteEntryType : getMinuteEntryTypes()) {
-            keyValues.add(new KeyLabelPair(minuteEntryType.getMinuteEntryTypeCode(), minuteEntryType.getDescription()));
+            if (!MinuteEntryType.PROTOCOL_REVIEWER_COMMENT.equals(minuteEntryType.getMinuteEntryTypeCode())) {
+                keyValues.add(new KeyLabelPair(minuteEntryType.getMinuteEntryTypeCode(), minuteEntryType.getDescription()));
+            }
         }
         keyValues.add(0, new KeyLabelPair("", "select"));
         return keyValues;

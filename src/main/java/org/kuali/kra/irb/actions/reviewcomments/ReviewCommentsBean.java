@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.MinuteEntryType;
 
@@ -66,6 +67,8 @@ public class ReviewCommentsBean implements Serializable {
     
     public void setReviewComments(List<CommitteeScheduleMinute> reviewComments) {
         this.reviewComments = reviewComments;
+        this.setHideReviewerName(getReviewCommentsService().setHideReviewerName(this.reviewComments));            
+
     }
     
     public List<CommitteeScheduleMinute> getDeletedReviewComments() {
@@ -84,4 +87,8 @@ public class ReviewCommentsBean implements Serializable {
         this.hideReviewerName = hideReviewerName;
     }
     
+    private ReviewCommentsService getReviewCommentsService() {
+        return KraServiceLocator.getService(ReviewCommentsService.class);
+    }
+
 }
