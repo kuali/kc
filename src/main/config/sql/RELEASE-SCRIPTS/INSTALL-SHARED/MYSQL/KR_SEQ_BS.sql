@@ -48,6 +48,16 @@ begin
   prepare alter_seq_stmt from @alter_seq;
   execute alter_seq_stmt;
   deallocate prepare alter_seq_stmt;
+  
+  select ifnull(max(cast(GRP_ID as SIGNED)),'1') + 1 into l_new_seq from KRIM_GRP_T where cast(GRP_ID as SIGNED) < 10000;
+  set @create_seq := 'CREATE TABLE KRIM_GRP_ID_BS_S (id bigint(19) not null auto_increment, primary key (id)) ENGINE MyISAM';
+  prepare create_seq_stmt from @create_seq;
+  execute create_seq_stmt;
+  deallocate prepare create_seq_stmt;
+  set @alter_seq := concat('ALTER TABLE KRIM_GRP_ID_BS_S auto_increment = ', l_new_seq);
+  prepare alter_seq_stmt from @alter_seq;
+  execute alter_seq_stmt;
+  deallocate prepare alter_seq_stmt;
 
   select ifnull(max(cast(GRP_MBR_ID as SIGNED)),'1') + 1 into l_new_seq from KRIM_GRP_MBR_T where cast(GRP_MBR_ID as SIGNED) < 10000;
   set @create_seq := 'CREATE TABLE KRIM_GRP_MBR_ID_BS_S (id bigint(19) not null auto_increment, primary key (id)) ENGINE MyISAM';

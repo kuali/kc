@@ -1,0 +1,4 @@
+INSERT INTO KRIM_GRP_T (GRP_ID, GRP_NM, NMSPC_CD, GRP_DESC, KIM_TYP_ID, ACTV_IND, LAST_UPDT_DT, OBJ_ID) 
+  VALUES (KRIM_GRP_ID_BS_S.NEXTVAL, 'QuestionnaireAdmin', 'KC-WKFLW', 'Questionnaire Blanket Approver', 1, 'Y', SYSDATE, SYS_GUID());
+  
+COMMIT;

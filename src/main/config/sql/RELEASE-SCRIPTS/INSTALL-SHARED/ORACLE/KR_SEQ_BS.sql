@@ -24,6 +24,10 @@ begin
 		union (select max(to_number(ATTR_DATA_ID)) as ID from KRIM_PERM_ATTR_DATA_T where to_number(ATTR_DATA_ID) < 10000));
 	execute immediate 'CREATE SEQUENCE KRIM_ATTR_DATA_ID_BS_S START WITH ' || l_new_seq || 
 		' MAXVALUE 99999999 MINVALUE 1 NOCYCLE NOCACHE NOORDER';
+	
+	select nvl(max(to_number(GRP_ID)),'1') + 1 into l_new_seq from KRIM_GRP_T where to_number(GRP_ID) < 10000;
+    execute immediate 'CREATE SEQUENCE KRIM_GRP_ID_BS_S START WITH ' || l_new_seq || 
+        ' MAXVALUE 99999999 MINVALUE 1 NOCYCLE NOCACHE NOORDER';
 
 	select nvl(max(to_number(GRP_MBR_ID)),'1') + 1 into l_new_seq from KRIM_GRP_MBR_T where to_number(GRP_MBR_ID) < 10000;
 	execute immediate 'CREATE SEQUENCE KRIM_GRP_MBR_ID_BS_S START WITH ' || l_new_seq || 
