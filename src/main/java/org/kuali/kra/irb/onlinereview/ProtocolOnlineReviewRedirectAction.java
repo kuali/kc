@@ -24,14 +24,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.ProtocolForm;
-import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 
 public class ProtocolOnlineReviewRedirectAction extends KraTransactionalDocumentActionBase  {
 
@@ -54,13 +53,35 @@ public class ProtocolOnlineReviewRedirectAction extends KraTransactionalDocument
             Long protocolId = protocolOnlineReviewForm.getDocument().getProtocolOnlineReview().getProtocolId();
             keymap.put( "protocolId", protocolOnlineReviewForm.getDocument().getProtocolOnlineReview().getProtocolId() );
             Protocol protocol = (Protocol)getBusinessObjectService().findByPrimaryKey(Protocol.class, keymap );
-            response.sendRedirect(String.format("protocolOnlineReview.do?methodToCall=startProtocolOnlineReview&%s=%s",PROTOCOL_DOCUMENT_NUMBER,protocol.getProtocolDocument().getDocumentNumber()));
+            if (isOnlineReviewEnabled(form, protocol)) {
+                response.sendRedirect(String.format("protocolOnlineReview.do?methodToCall=startProtocolOnlineReview&%s=%s",PROTOCOL_DOCUMENT_NUMBER,protocol.getProtocolDocument().getDocumentNumber()));
+            } else {
+                return mapping.findForward("displayNoOnlineReview");                
+            }
         } else {
             return mapping.findForward("displayInactive");
         }
         return null;
     }
     
+    
+    private boolean isOnlineReviewEnabled(ActionForm form, Protocol protocol) { 
+        String principalId = GlobalVariables.getUserSession().getPrincipalId();
+        ProtocolSubmission submission = protocol.getProtocolSubmission();
+        boolean isUserOnlineReviewer = getProtocolOnlineReviewService().isProtocolReviewer(principalId, false, submission);
+        boolean isProtocolInStateToBeReviewed = getProtocolOnlineReviewService().isProtocolInStateToBeReviewed(protocol);
+        boolean isUserIrbAdmin = getKraAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), "KC-UNT", "IRB Administrator"); 
+        return isProtocolInStateToBeReviewed && (isUserOnlineReviewer || isUserIrbAdmin);
+    }
+    
+    private KraAuthorizationService getKraAuthorizationService() {
+        return KraServiceLocator.getService(KraAuthorizationService.class);
+    }
+
+    private ProtocolOnlineReviewService getProtocolOnlineReviewService() {
+        return KraServiceLocator.getService(ProtocolOnlineReviewService.class);
+    }
+
     public ActionForward startProtocolOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
         throws Exception {
         Map<String, String> fieldValues = new HashMap<String, String>();
@@ -68,6 +89,16 @@ public class ProtocolOnlineReviewRedirectAction extends KraTransactionalDocument
         ((ProtocolOnlineReviewForm) form).setDocument(getDocumentService().getByDocumentHeaderId(
                 protocolOnlineReviewDocumentNumber));
             return mapping.findForward("displayInactive");
+    }
+
+
+    @Override
+    public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        // TODO Auto-generated method stub
+      //  return super.close(mapping, form, request, response);
+        
+        return mapping.findForward(KNSConstants.MAPPING_PORTAL);
     }
 
     

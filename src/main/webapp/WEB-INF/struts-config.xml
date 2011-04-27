@@ -341,6 +341,7 @@
       <action path="/protocolOnlineReviewRedirect" name="ProtocolOnlineReviewForm" input="/WEB-INF/jsp/irb/ProtocolOnlineReview.jsp" type="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewRedirectAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
         <forward name="basic" path="/WEB-INF/jsp/irb/ProtocolOnlineReview.jsp" />
         <forward name="displayInactive" path = "/WEB-INF/jsp/irb/ProtocolOnlineReviewInactiveDisplay.jsp"/>
+        <forward name="displayNoOnlineReview" path = "/WEB-INF/jsp/irb/ProtocolNoOnlineReview.jsp"/>   
 	    &protocol_forwards;
       </action>
       
