@@ -22,7 +22,11 @@
 <c:set var="action" value="proposalDevelopmentAbstractsAttachments" />
 <c:set var="label" value="Internal Attachments" />
 
-<kul:tab tabTitle="${label} (${fn:length(KualiForm.document.developmentProposalList[0].instituteAttachments)})" defaultOpen="false" tabErrorKey="document.developmentProposalList[0].instituteAttachment*,newInstituteAttachment*">
+<kul:tab tabTitle="${label} (${fn:length(KualiForm.document.developmentProposalList[0].instituteAttachments)})" defaultOpen="false" 
+	tabErrorKey="document.developmentProposalList[0].instituteAttachment*,newInstituteAttachment*"
+	auditCluster="proposalDevelopmentInstitutionalAttachmentErrors"
+	tabAuditKey="document.developmentProposalList[0].instituteAttachment*,newInstituteAttachment*">
+	
 	<div class="tab-container" align="center">
         <c:set var="sectionLabel" value="Internal Attachments" />
 	   
