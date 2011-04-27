@@ -52,7 +52,7 @@
 <c:set var="viewOnly" value="${not KualiForm.editingMode['modifyProposal']}" />
 <kra:section permission="modifyProposal">
 <c:if test="${not isHierarchyParent}">
-    <kra:uncollapsable tabTitle="Add Key Personnel" tabErrorKey="newProposalPerson*" auditCluster="keyPersonnelAuditErrors" tabAuditKey="newProposalPerson*">
+    <kra:uncollapsable tabTitle="Add Key Person" tabErrorKey="newProposalPerson*" auditCluster="keyPersonnelAuditErrors" tabAuditKey="newProposalPerson*">
           <div align="center">
             <table  cellpadding="0" cellspacing="0" class="grid" summary="">
               <tr>
@@ -120,7 +120,7 @@
            
             <br>
             <html:image property="methodToCall.clearProposalPerson" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" title="Clear Fields" alt="Clear Fields" styleClass="tinybutton"/>
-            <html:image property="methodToCall.insertProposalPerson" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-addpers.gif" title="Add Proposal Person" alt="Add Proposal Person" styleClass="tinybutton"/>
+            <html:image property="methodToCall.insertProposalPerson" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-addperson.gif" title="Add Proposal Person" alt="Add Proposal Person" styleClass="tinybutton"/>
             <c:choose>
             <c:when test="${KualiForm.document.developmentProposalList[0].sponsorNihMultiplePi}">
             <br>
