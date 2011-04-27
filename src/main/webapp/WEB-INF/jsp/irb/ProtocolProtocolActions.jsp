@@ -123,7 +123,17 @@
                            5: {                 // disable it by setting the property sorter to false                 
                               sorter: false  },             
                           }
-                      });    		      					
+                      });   
+    		    
+                $j("#protocolActionSummary-protocolAttachment-table").tablesorter({         
+                    // pass the headers argument and assing a object         
+                       headers: {             // assign the first column (we start counting zero)             
+                           0: {                 // disable it by setting the property sorter to false                 
+                              sorter: false  },   
+                           6: {
+                        	  sorter: false  },
+                          }
+                      });    		    
 		});
 
  </script>

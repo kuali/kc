@@ -1712,6 +1712,8 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
                 attachmentSummary.setAttachmentType("Protocol: " + attachment.getType().getDescription());
                 attachmentSummary.setDescription(attachment.getDescription());
                 attachmentSummary.setDataLength(attachment.getFile().getData() == null ? 0 : attachment.getFile().getData().length);
+                attachmentSummary.setUpdateTimestamp(attachment.getUpdateTimestamp());
+                attachmentSummary.setUpdateUser(attachment.getUpdateUser());
                 protocolSummary.add(attachmentSummary);
          //   }
         }
@@ -1724,6 +1726,8 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
                 attachmentSummary.setAttachmentType(person.getPersonName() + ": " + attachment.getType().getDescription());
                 attachmentSummary.setDescription(attachment.getDescription());
                 attachmentSummary.setDataLength(attachment.getFile().getData() == null ? 0 : attachment.getFile().getData().length);
+                attachmentSummary.setUpdateTimestamp(attachment.getUpdateTimestamp());
+                attachmentSummary.setUpdateUser(attachment.getUpdateUser());                
                 protocolSummary.add(attachmentSummary);
             }
         }
