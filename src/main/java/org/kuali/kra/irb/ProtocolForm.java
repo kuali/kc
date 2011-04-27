@@ -21,7 +21,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
@@ -154,7 +153,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         ProtocolOnlineReviewService onlineReviewService = getProtocolOnlineReviewService();
         List<HeaderNavigation> resultList = new ArrayList<HeaderNavigation>();
         boolean onlineReviewTabEnabled = false;
-        boolean hasOnlineReview = false;
+
         if (getProtocolDocument() != null && getProtocolDocument().getProtocol() != null) {
             String principalId = GlobalVariables.getUserSession().getPrincipalId();
             ProtocolSubmission submission = getProtocolDocument().getProtocol().getProtocolSubmission();
@@ -162,22 +161,15 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
             boolean isProtocolInStateToBeReviewed = onlineReviewService.isProtocolInStateToBeReviewed(getProtocolDocument().getProtocol());
             boolean isUserIrbAdmin = getKraAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), "KC-UNT", "IRB Administrator"); 
             onlineReviewTabEnabled = isProtocolInStateToBeReviewed && (isUserOnlineReviewer || isUserIrbAdmin);
-            hasOnlineReview = CollectionUtils.isNotEmpty(submission.getProtocolOnlineReviews()) && (isUserOnlineReviewer || isUserIrbAdmin);
         }
         
             //We have to copy the HeaderNavigation elements into a new collection as the 
             //List returned by DD is it's cached copy of the header navigation list.
         for (HeaderNavigation nav : navigation) {
             if (StringUtils.equals(nav.getHeaderTabNavigateTo(),ONLINE_REVIEW_NAV_TO)) {
-                if (!hasOnlineReview) {
-                    nav.setDisabled(!onlineReviewTabEnabled);
-                   
-                } else {
-               // nav.setDisabled(!onlineReviewTabEnabled);
-               // if (onlineReviewTabEnabled || ((!onlineReviewTabEnabled) && (!HIDE_ONLINE_REVIEW_WHEN_DISABLED))) {
-                    nav.setDisabled(false);
+                nav.setDisabled(!onlineReviewTabEnabled);
+                if (onlineReviewTabEnabled || ((!onlineReviewTabEnabled) && (!HIDE_ONLINE_REVIEW_WHEN_DISABLED))) {
                     resultList.add(nav);
-               // }
                 }
             } else if (StringUtils.equals(nav.getHeaderTabNavigateTo(),CUSTOM_DATA_NAV_TO)) {
                 boolean displayTab = this.getCustomDataHelper().canDisplayCustomDataTab();
@@ -481,23 +473,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         addExtraButton("methodToCall.sendAdHocRequests", sendAdHocRequestsImage, "Send AdHoc Requests");
         return extraButtons;
     }
- 
-    public boolean isOnlineReviewAllowed() {
-        
-        ProtocolOnlineReviewService onlineReviewService = getProtocolOnlineReviewService();
-        boolean onlineReviewTabEnabled = false;
-
-        if (getProtocolDocument() != null && getProtocolDocument().getProtocol() != null) {
-            String principalId = GlobalVariables.getUserSession().getPrincipalId();
-            ProtocolSubmission submission = getProtocolDocument().getProtocol().getProtocolSubmission();
-            boolean isUserOnlineReviewer = onlineReviewService.isProtocolReviewer(principalId, false, submission);
-            boolean isProtocolInStateToBeReviewed = onlineReviewService.isProtocolInStateToBeReviewed(getProtocolDocument().getProtocol());
-            boolean isUserIrbAdmin = getKraAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), "KC-UNT", "IRB Administrator"); 
-            onlineReviewTabEnabled = isProtocolInStateToBeReviewed && (isUserOnlineReviewer || isUserIrbAdmin);
-        }
-        return onlineReviewTabEnabled;
-    }
-    
+     
     public String getModuleCode() {
         return CoeusModule.IRB_MODULE_CODE;
     }
