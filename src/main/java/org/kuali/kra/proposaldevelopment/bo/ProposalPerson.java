@@ -313,6 +313,16 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     public Integer getProposalPersonNumber() {
         return this.proposalPersonNumber;
     }
+    
+    /**
+     * 
+     * This method returns the concatation of proposalNumber + "|" + proposalPersonNumber.
+     * Those two fields are the combined primary key on the table.
+     * @return
+     */
+    public String getUniqueId(){
+        return this.getProposalNumber() + "|" + this.getProposalPersonNumber();
+    }
 
     /**
      * Sets the value of proposalPersonNumber
