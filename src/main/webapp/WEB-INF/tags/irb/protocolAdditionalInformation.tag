@@ -17,9 +17,10 @@
 
 <c:set var="commentDisplayLength" value="<%=org.kuali.kra.infrastructure.Constants.PROTOCOL_REFERENCE_COMMENT_LENGTH%>" />
 
-<kul:tab tabTitle="Additional Information" defaultOpen="false" tabErrorKey="document.protocolList[0].fda*,document.protocolList[0].billable*,document.protocolList[0].referenceNumber*,document.protocolList[0].description*,document.protocolList[0].protocolReferences*,newProtocolReference*" auditCluster="additionalInformationAuditErrors" tabAuditKey="document.protocolList[0].newDescription*" useRiceAuditMode="true">
+<kul:tab tabTitle="Additional Information" defaultOpen="false" tabErrorKey="document.protocolList[0].protocolResearchAreas.inactive.*,document.protocolList[0].fda*,document.protocolList[0].billable*,document.protocolList[0].referenceNumber*,document.protocolList[0].description*,document.protocolList[0].protocolReferences*,newProtocolReference*" auditCluster="additionalInformationAuditErrors" tabAuditKey="document.protocolList[0].newDescription*" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
 	
+					
 		<%--Area of Research --%>
     	<h3>
     		<span class="subhead-left">Area of Research</span>
@@ -51,24 +52,42 @@
 	              </tr>
 	        </kra:permission>
 
-            <logic:iterate name="KualiForm" id="protocolResearchAreas" property="document.protocolList[0].protocolResearchAreas" indexId="ctr" >
-              <tr>
-                <td class="infoline"><div align="center">
-                	<b>${ctr+1}</b>
-                </div></td>
-                <td>
-                	${KualiForm.document.protocolList[0].protocolResearchAreas[ctr].researchAreas.researchAreaCode}:${KualiForm.document.protocolList[0].protocolResearchAreas[ctr].researchAreas.description}
-                </td>
-                <kra:permission value="${KualiForm.protocolHelper.modifyAreasOfResearch}">
-	                <td><div align="center">
-						<html:image property="methodToCall.deleteProtocolResearchArea.line${ctr}.anchor${currentTabIndex}"
-									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>   
-	                </div></td>
-	            </kra:permission>   
-              </tr>
-            </logic:iterate>
-            
-        </table>
+			<%-- Set the initial value of the error key prefix that is built up in the following loop based on testing for indices --%>
+			<c:set var="inactiveAreasErrorKeyPrefix" value="document.protocolList[0].protocolResearchAreas.inactive." scope="request"/>
+			<logic:iterate name="KualiForm" id="protocolResearchAreas"
+				property="document.protocolList[0].protocolResearchAreas"
+				indexId="ctr">
+				<tr>
+					<td class="infoline"><div align="center">
+							<b>${ctr+1}</b>
+						</div>
+					</td>
+					<td>
+						${KualiForm.document.protocolList[0].protocolResearchAreas[ctr].researchAreas.researchAreaCode}:${KualiForm.document.protocolList[0].protocolResearchAreas[ctr].researchAreas.description}
+						<!--- error handling --> <%-- Check if the research area indexed by the current iteration is an error key, and if so show the error icon --%>
+						<kul:checkErrors keyMatch="${inactiveAreasErrorKeyPrefix}${ctr}.*" />
+						<c:if test="${hasErrors}">
+							<%-- display the error icon --%>
+							<kul:fieldShowErrorIcon />
+							<%-- build up the error key prefix by appending the current index --%>
+							<c:set var="inactiveAreasErrorKeyPrefix"
+								value="${inactiveAreasErrorKeyPrefix}${ctr}." scope="request" />
+						</c:if></td>
+						
+					<kra:permission
+						value="${KualiForm.protocolHelper.modifyAreasOfResearch}">
+						<td><div align="center">
+								<html:image
+									property="methodToCall.deleteProtocolResearchArea.line${ctr}.anchor${currentTabIndex}"
+									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif'
+									styleClass="tinybutton" />
+							</div>
+						</td>
+					</kra:permission>
+				</tr>
+			</logic:iterate>
+
+		</table>
         <%--End of Area of Research --%> 
         
         <br/>
