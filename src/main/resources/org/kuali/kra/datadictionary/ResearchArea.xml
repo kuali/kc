@@ -151,6 +151,7 @@
 				<bean p:attributeName="parentResearchAreaCode" parent="FieldDefinition"/>
 				<bean p:attributeName="hasChildrenFlag" parent="FieldDefinition"/>
 				<bean p:attributeName="description" parent="FieldDefinition"/>
+				<bean p:attributeName="active" p:defaultValue="Y" parent="FieldDefinition" />
 			</list>
 		</property>
 		<property name="resultFields">

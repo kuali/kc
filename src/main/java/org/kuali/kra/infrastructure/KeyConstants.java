@@ -654,6 +654,9 @@ public final class KeyConstants {
     public static final String ERROR_FUNDING_LOOKUP_UNAVAIL = "error.protocolFundingSource.fundingSourceLookup.invalid";
     public static final String ERROR_FUNDING_LOOKUP_NOT_FOUND = "error.protocolFundingSource.fundingSourceLookup.notFound";
     
+    // IRB Protocol Research Area Validation Messages
+    public static final String ERROR_PROTOCOL_RESEARCH_AREA_INACTIVE = "error.protocol.researchArea.inactive";
+    
     // Permissions
     public static final String ERROR_DUPLICATE_PERMISSIONS_USER = "error.duplicate.permissionsUser";
     public static final String ERROR_PERMISSIONS_LAST_ADMINSTRATOR = "error.permissions.last.administrator";

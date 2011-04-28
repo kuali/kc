@@ -15,11 +15,15 @@
  */
 package org.kuali.kra.irb;
 
+import java.util.Vector;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.service.DictionaryValidationService;
@@ -32,6 +36,9 @@ public class ProtocolDocumentRuleTest extends ProtocolRuleTestBase {
 
     private static final String PROTOCOL_LUN_FORM_ELEMENT="protocolHelper.leadUnitNumber";
     private static final String ERROR_PROPERTY_ORGANIZATION_ID = "protocolHelper.newProtocolLocation.organizationId"; 
+    private static final String INACTIVE_RESEARCH_AREAS_PREFIX = "document.protocolList[0].protocolResearchAreas.inactive";
+    private static final String SEPERATOR = ".";
+    
     private ProtocolDocumentRule rule = null;
     private DictionaryValidationService dictionaryValidationService = null;
 
@@ -94,6 +101,73 @@ public class ProtocolDocumentRuleTest extends ProtocolRuleTestBase {
         document.getProtocol().getProtocolLocations().clear();
         assertFalse(rule.processProtocolLocationBusinessRules(document));
         assertError(ERROR_PROPERTY_ORGANIZATION_ID, KeyConstants.ERROR_PROTOCOL_LOCATION_SHOULD_EXIST);
+    }
+    
+    /**
+     * This method tests the logic for validating that all research areas associated with a protocol are active.
+     * Specifically it tests 3 different cases: 
+     *      1. Protocol has no research areas -- should give no error as rule is satisfied trivially.
+     *      2. Protocol has research areas and all are active -- should give no error
+     *      3. Protocol has research areas and some are inactive -- should give a single error with the error-property correctly encoding the
+     *              indices of the inactive areas.
+     */
+    @Test
+    public void testProcessProtocolResearchAreaBusinessRules() throws Exception {
+        ProtocolDocument document = getNewProtocolDocument();
+        setProtocolRequiredFields(document);
+        // check case 1
+        assertTrue(rule.processProtocolResearchAreaBusinessRules(document));
+        
+        // check case 2
+        ProtocolResearchArea dummyPRA0 = new ProtocolResearchArea();
+        ResearchArea dummyRA0 = new ResearchArea();
+        dummyRA0.setActive(true);
+        dummyPRA0.setResearchAreas(dummyRA0);
+        
+        ProtocolResearchArea dummyPRA1 = new ProtocolResearchArea();
+        ResearchArea dummyRA1 = new ResearchArea();
+        dummyRA1.setActive(true);
+        dummyPRA1.setResearchAreas(dummyRA1);
+        
+        ProtocolResearchArea dummyPRA2 = new ProtocolResearchArea();
+        ResearchArea dummyRA2 = new ResearchArea();
+        dummyRA2.setActive(true);
+        dummyPRA2.setResearchAreas(dummyRA2);
+        
+        ProtocolResearchArea dummyPRA3 = new ProtocolResearchArea();
+        ResearchArea dummyRA3 = new ResearchArea();
+        dummyRA3.setActive(true);
+        dummyPRA3.setResearchAreas(dummyRA3);
+        
+        Vector<ProtocolResearchArea> pras = new Vector<ProtocolResearchArea>();
+        pras.add(dummyPRA0);
+        pras.add(dummyPRA1);
+        pras.add(dummyPRA2);
+        pras.add(dummyPRA3);
+        
+        document.getProtocol().setProtocolResearchAreas(pras);
+        
+        assertTrue(document.getProtocol().getProtocolResearchAreas(0).getResearchAreas().isActive());
+        assertTrue(document.getProtocol().getProtocolResearchAreas(1).getResearchAreas().isActive());
+        assertTrue(document.getProtocol().getProtocolResearchAreas(2).getResearchAreas().isActive());
+        assertTrue(document.getProtocol().getProtocolResearchAreas(3).getResearchAreas().isActive());
+        
+        assertTrue(rule.processProtocolResearchAreaBusinessRules(document));
+        
+        // check case 3
+        assertTrue(document.getProtocol().getProtocolResearchAreas(0).getResearchAreas().isActive());
+        
+        dummyRA1.setActive(false);
+        assertFalse(document.getProtocol().getProtocolResearchAreas(1).getResearchAreas().isActive());
+        
+        assertTrue(document.getProtocol().getProtocolResearchAreas(2).getResearchAreas().isActive());
+        
+        dummyRA3.setActive(false);
+        assertFalse(document.getProtocol().getProtocolResearchAreas(3).getResearchAreas().isActive());
+        
+        assertFalse(rule.processProtocolResearchAreaBusinessRules(document));
+        String errorPropertyKey = INACTIVE_RESEARCH_AREAS_PREFIX + SEPERATOR + "1.3.";
+        assertError(errorPropertyKey, KeyConstants.ERROR_PROTOCOL_RESEARCH_AREA_INACTIVE);
     }
 
 }

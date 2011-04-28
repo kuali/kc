@@ -72,6 +72,7 @@ import org.kuali.kra.irb.protocol.location.ProtocolLocationRule;
 import org.kuali.kra.irb.protocol.reference.AddProtocolReferenceEvent;
 import org.kuali.kra.irb.protocol.reference.AddProtocolReferenceRule;
 import org.kuali.kra.irb.protocol.reference.ProtocolReferenceRule;
+import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchAreaAuditRule;
 import org.kuali.kra.irb.questionnaire.ProtocolQuestionnaireAuditRule;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReview;
@@ -95,6 +96,8 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
     private static final String ERROR_PROPERTY_ORGANIZATION_ID = "protocolHelper.newProtocolLocation.organizationId";
     private static final String PROTOCOL_DOC_LUN_FORM_ELEMENT = "document.protocolList[0].leadUnitNumber";
     private static final String SAVE_SPECIAL_REVIEW_FIELD = "document.protocolList[0].specialReviews";
+    private static final String SEPERATOR = ".";
+    private static final String INACTIVE_RESEARCH_AREAS_PREFIX = "document.protocolList[0].protocolResearchAreas.inactive";
     
 // TODO : move these static constant up to parent 
     @Override
@@ -119,12 +122,53 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
 
         boolean valid = true;
+        valid &= processProtocolResearchAreaBusinessRules((ProtocolDocument) document);        
         valid &= processLeadUnitBusinessRules((ProtocolDocument) document);
         valid &= processProtocolLocationBusinessRules((ProtocolDocument) document);
         valid &= processProtocolPersonnelBusinessRules((ProtocolDocument) document);
         valid &= processProtocolCustomDataBusinessRules((ProtocolDocument) document);
         valid &= processProtocolSpecialReviewBusinessRules((ProtocolDocument) document);
         return valid;
+    }
+
+    /**
+     * This method will check if all the research areas that have been added to the protocol are indeed active.
+     * @param document
+     * @return
+     */
+    public boolean processProtocolResearchAreaBusinessRules(ProtocolDocument document) {
+        // declare the flag for inactive areas
+        boolean inactiveFound = false;
+        // declare the StringBuffer instance that will accumulate the indices of the inactive research areas
+        StringBuffer inactiveResearchAreaIndices = new StringBuffer();
+        Protocol protocol = document.getProtocol();
+        // get the list of research areas from the protocol BO
+        List<ProtocolResearchArea> pras = protocol.getProtocolResearchAreas();
+        // iterate over all the research areas for this protocol looking for inactive research areas
+        if(null != pras) {
+            // declare the counter for the index of research area
+            int raIndex = 0;
+            for (ProtocolResearchArea protocolResearchArea : pras) {
+                if(!(protocolResearchArea.getResearchAreas().isActive())) {
+                    // set the flag for inactive areas
+                    inactiveFound = true;
+                    // append the index to the inactive area indices list
+                    inactiveResearchAreaIndices.append(raIndex).append(SEPERATOR);
+                }
+                // increment the research area index counter
+                raIndex++;
+            }
+        }
+        // check if we found any inactive research areas in the above loop, if so then report as a single error key 
+        // that is suffixed by the list of indices of the inactive areas we accumulated in the above loop
+        if(inactiveFound) {
+            // append the above accumulated indices to the error key prefix 
+            String protocolResearchAreaInactiveErrorPropertyKey = INACTIVE_RESEARCH_AREAS_PREFIX + SEPERATOR + inactiveResearchAreaIndices.toString();
+            // report as a single error (even if the error may contain multiple indices in its suffix)
+            reportError(protocolResearchAreaInactiveErrorPropertyKey, KeyConstants.ERROR_PROTOCOL_RESEARCH_AREA_INACTIVE);
+        }
+        // finally the return value for the validation rules framework
+        return !inactiveFound;
     }
 
     /**
