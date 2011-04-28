@@ -359,7 +359,7 @@ public class QuestionnaireXmlStream implements XmlStream {
         } else if (printableBusinessObject instanceof ProposalPerson) {
             ProposalPerson person = (ProposalPerson) printableBusinessObject;
             moduleItemCode = CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE;
-            moduleItemKey = person.getProposalPersonNumber().toString();
+            moduleItemKey = person.getUniqueId();
             moduleSubItemCode = CoeusSubModule.PROPOSAL_PERSON_CERTIFICATION;
             moduleSubItemKey = "0";
         }
