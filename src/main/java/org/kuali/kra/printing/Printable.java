@@ -65,4 +65,8 @@ public interface Printable extends Serializable {
 	 * @return Map of Attachment pdf bytes with bookmark names.
 	 */
 	public Map<String, byte[]> getAttachments();
+	
+	public boolean applyWaterMark();
+	
+	public WaterMarkable getWaterMarkable();
 }
