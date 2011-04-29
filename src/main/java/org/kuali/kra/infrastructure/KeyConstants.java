@@ -216,7 +216,7 @@ public final class KeyConstants {
     public static final String ERROR_IF_GRANTS_GOV_IS_DISABLED = "error.grantsgov.disabled";
     
     public static final String ERROR_PRINTING_UNKNOWN = "error.printing.unknown";
-    
+    public static final String ERROR_IF_COMPETITION_ID_IS_INVALID="error.s2sopportunity.competitionIdInvalid";
     // Grants.gov System Parameters
     public static final String S2S_REVISIONTYPE_OTHER = "s2s.revisiontype.other";
     public static final String S2S_SUBMISSIONTYPE_CHANGEDCORRECTED = "s2s.submissiontype.changedCorrected";

@@ -31,6 +31,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
+import org.kuali.kra.printing.WaterMarkable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class KCTestPrintable extends PersistableBusinessObjectBase implements
@@ -81,6 +82,16 @@ public class KCTestPrintable extends PersistableBusinessObjectBase implements
 	}
 
     public Map<String, Source> getXSLTemplateWithBookmarks() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public boolean applyWaterMark() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    public WaterMarkable getWaterMarkable() {
         // TODO Auto-generated method stub
         return null;
     }

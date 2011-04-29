@@ -406,6 +406,21 @@
 		<FixLink>abstractsAttachments</FixLink>
 	</Error>
 	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo/EquipmentAttachments</MessageKey>
+		<Message>You must have an Equipment with the proposal. Please attach the Equipment in Abstracts and Attachments window</Message>
+		<FixLink>abstractsAttachments</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo/FacilitiesAttachments</MessageKey>
+		<Message>You must have Facilities with the proposal. Please attach the Facilities in Abstracts and Attachments window</Message>
+		<FixLink>abstractsAttachments</FixLink>
+	</Error> 
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo/BibliographyAttachments</MessageKey>
+		<Message>You must have a Bibliography  with the proposal. Please attach the Bibliography in Abstracts and Attachments window</Message>
+		<FixLink>abstractsAttachments</FixLink>
+	</Error>		
+	<Error>
 		<MessageKey>/GrantApplication/Forms/RR_Budget/BudgetYear1/BudgetJustificationAttachment</MessageKey>
 		<Message>You must have a BudgetJustification with the proposal. Please attach the BudgetJustification in Abstracts and Attachments window</Message>
 		<FixLink>abstractsAttachments</FixLink>
@@ -436,11 +451,58 @@
 		<Message>Please answer the International Activities question.</Message>
 		<FixLink>questions</FixLink>
 	</Error>
+	<!-- # RR_OtherProjectInfo_1_2- -->
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo_1_2/ProjectNarrativeAttachments</MessageKey>
+		<Message>You must have a Narrative with the proposal. Please attach the Narrative in Abstracts and Attachments window</Message>
+		<FixLink>abstractsAttachments</FixLink>
+	</Error>	
 	<Error>
 		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo_1_2/AbstractAttachments</MessageKey>
-		<Message>/GrantApplication/Forms/RR_OtherProjectInfo_1_2/ProjectSummaryAttachments is not valid, Validation errors exist. Please correct these errors prior to submitting to Grants.gov.</Message>
+		<Message>You must have a ProjectSummary with the proposal. Please attach the ProjectSummary in Abstracts and Attachments window</Message>
+		<FixLink>abstractsAttachments</FixLink>
+	</Error>	
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo_1_2/EquipmentAttachments</MessageKey>
+		<Message>You must have an Equipment with the proposal. Please attach the Equipment in Abstracts and Attachments window</Message>
 		<FixLink>abstractsAttachments</FixLink>
 	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo_1_2/FacilitiesAttachments</MessageKey>
+		<Message>You must have Facilities with the proposal. Please attach the Facilities in Abstracts and Attachments window</Message>
+		<FixLink>abstractsAttachments</FixLink>
+	</Error> 
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo_1_2/BibliographyAttachments</MessageKey>
+		<Message>You must have a Bibliography  with the proposal. Please attach the Bibliography in Abstracts and Attachments window</Message>
+		<FixLink>abstractsAttachments</FixLink>
+	</Error>	
+	<!-- # RR_OtherProjectInfo_1_3- -->
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo_1_3/ProjectNarrativeAttachments</MessageKey>
+		<Message>You must have a Narrative with the proposal. Please attach the Narrative in Abstracts and Attachments window</Message>
+		<FixLink>abstractsAttachments</FixLink>
+	</Error>	
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo_1_3/AbstractAttachments</MessageKey>
+		<Message>You must have a ProjectSummary with the proposal. Please attach the ProjectSummary in Abstracts and Attachments window</Message>
+		<FixLink>abstractsAttachments</FixLink>
+	</Error>	
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo_1_3/EquipmentAttachments</MessageKey>
+		<Message>You must have an Equipment with the proposal. Please attach the Equipment in Abstracts and Attachments window</Message>
+		<FixLink>abstractsAttachments</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo_1_3/FacilitiesAttachments</MessageKey>
+		<Message>You must have Facilities with the proposal. Please attach the Facilities in Abstracts and Attachments window</Message>
+		<FixLink>abstractsAttachments</FixLink>
+	</Error> 
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo_1_3/BibliographyAttachments</MessageKey>
+		<Message>You must have a Bibliography  with the proposal. Please attach the Bibliography in Abstracts and Attachments window</Message>
+		<FixLink>abstractsAttachments</FixLink>
+	</Error>	
 	<!-- # RRKeyPersonExpanded- -->
 	<Error>
 		<MessageKey>/GrantApplication/Forms/RR_KeyPersonExpanded/KeyPerson/Profile/BioSketchsAttached</MessageKey>
