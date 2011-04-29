@@ -107,7 +107,7 @@
 		<property name="required" value="false" />
 		<property name="control" >
       		<bean parent="SelectControlDefinition"
-            	p:valuesFinderClass="org.kuali.kra.committee.lookup.keyvalue.CommitteeIdValuesFinder"
+            	p:valuesFinderClass="org.kuali.kra.committee.lookup.keyvalue.CommitteeIdByUnitValuesFinder"
                 p:includeKeyInLabel="false" />
 		</property>
 		<property name="summary" value="Committee" />
