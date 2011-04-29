@@ -98,7 +98,8 @@ public class ProtocolSubmissionLookupableHelperServiceImpl extends KraLookupable
             if((submissionLookupData!=null)&& (submissionLookupData.size()>0)){                            
                  submissionLookupData=protocolSubmitActionService.getProtocolSubmissionsLookupData(submissionLookupData);   
             }             
-        }catch (Exception e) {
+        }
+        catch (Exception e) {
            LOG.info("submissionLookupData Lookup : " + submissionLookupData.size() + " parsing error");
         }            
         return submissionLookupData;

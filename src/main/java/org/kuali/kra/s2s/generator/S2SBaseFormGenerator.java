@@ -63,8 +63,9 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
     public static final String DESCRIPTION = "DESCRIPTION";
     public static final String TITLE = "TITLE";
     public static final String MODULE_NUMBER = "M";
+    public static final String ABSTRACT_TYPE_CODE="16";
     private static final String NARRATIVE_ATTACHMENT_LIST = "narrativeAttachmentList";
-    
+       
     protected static final int ORGANIZATON_NAME_MAX_LENGTH = 60;
     protected static final int DUNS_NUMBER_MAX_LENGTH = 13;
     protected static final int PRIMARY_TITLE_MAX_LENGTH = 45;

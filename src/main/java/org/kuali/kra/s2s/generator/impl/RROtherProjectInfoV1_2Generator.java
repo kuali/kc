@@ -395,22 +395,21 @@ public class RROtherProjectInfoV1_2Generator extends
 		AttachedFileDataType attachedFileDataType;
         ProjectNarrativeAttachments projectNarrativeAttachments = ProjectNarrativeAttachments.Factory.newInstance();
         AbstractAttachments abstractAttachments = AbstractAttachments.Factory.newInstance();
+        EquipmentAttachments equipmentAttachments = EquipmentAttachments.Factory.newInstance();
+        FacilitiesAttachments facilitiesAttachments = FacilitiesAttachments.Factory.newInstance();
+        BibliographyAttachments bibliographyAttachments = BibliographyAttachments.Factory.newInstance();
 		for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
 			if (narrative.getNarrativeTypeCode() != null) {
 			    attachedFileDataType = getAttachedFileType(narrative);
 			    switch(Integer.parseInt(narrative.getNarrativeTypeCode())){
 			        case(EQUIPMENT_ATTACHMENT):
-    			        if(attachedFileDataType != null){
-    			            EquipmentAttachments equipmentAttachments = EquipmentAttachments.Factory.newInstance();
-    			            equipmentAttachments.setEquipmentAttachment(attachedFileDataType);
-    			            rrOtherProjectInfo.setEquipmentAttachments(equipmentAttachments);
+    			        if(attachedFileDataType != null){    			           
+    			            equipmentAttachments.setEquipmentAttachment(attachedFileDataType);    			        
     			        }
 			        break;
 			        case(FACILITIES_ATTACHMENT):
-    			        if(attachedFileDataType != null){
-    			            FacilitiesAttachments facilitiesAttachments = FacilitiesAttachments.Factory.newInstance();
-    			            facilitiesAttachments.setFacilitiesAttachment(attachedFileDataType);
-    			            rrOtherProjectInfo.setFacilitiesAttachments(facilitiesAttachments);
+    			        if(attachedFileDataType != null){    			           
+    			            facilitiesAttachments.setFacilitiesAttachment(attachedFileDataType);    			           
     			        }
 			        break;
 			        case(NARRATIVE_ATTACHMENT):
@@ -419,10 +418,8 @@ public class RROtherProjectInfoV1_2Generator extends
     			        }
 			        break;
 			        case(BIBLIOGRAPHY_ATTACHMENT):
-    			        if(attachedFileDataType != null){
-    			            BibliographyAttachments bibliographyAttachments = BibliographyAttachments.Factory.newInstance();
-    			            bibliographyAttachments.setBibliographyAttachment(attachedFileDataType);
-    			            rrOtherProjectInfo.setBibliographyAttachments(bibliographyAttachments);
+    			        if(attachedFileDataType != null){    			           
+    			            bibliographyAttachments.setBibliographyAttachment(attachedFileDataType);    			           
     			        }
 		            break;
 			        case(ABSTRACT_PROJECT_SUMMARY_ATTACHMENT):
@@ -439,6 +436,9 @@ public class RROtherProjectInfoV1_2Generator extends
 		}
         rrOtherProjectInfo.setProjectNarrativeAttachments(projectNarrativeAttachments);
         rrOtherProjectInfo.setAbstractAttachments(abstractAttachments);
+        rrOtherProjectInfo.setEquipmentAttachments(equipmentAttachments);
+        rrOtherProjectInfo.setFacilitiesAttachments(facilitiesAttachments);
+        rrOtherProjectInfo.setBibliographyAttachments(bibliographyAttachments);
 		if (isOtherAttachmentsExists) {
 			setOtherAttachments(rrOtherProjectInfo);
 		}
