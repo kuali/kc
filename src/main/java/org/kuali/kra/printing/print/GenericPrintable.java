@@ -9,6 +9,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
+import org.kuali.kra.printing.WaterMarkable;
 
 public class GenericPrintable implements Printable {
 
@@ -58,5 +59,17 @@ public class GenericPrintable implements Printable {
 	public Map<String, byte[]> renderXML() throws PrintingException {
 		return streamMap;
 	}
+    public boolean applyWaterMark(){
+        return false;
+    }
+    
+    public WaterMarkable getWaterMarkable(){
+        if(applyWaterMark()){
+            throw new RuntimeException("Watermarkable not implemented");
+        }else{
+            return null;
+        }
+    }
+	
 
 }

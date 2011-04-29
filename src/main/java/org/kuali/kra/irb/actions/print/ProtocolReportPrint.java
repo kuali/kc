@@ -20,6 +20,7 @@ import java.util.List;
 
 import javax.xml.transform.Source;
 
+import org.kuali.kra.printing.WaterMarkable;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.util.PrintingUtils;
 
@@ -49,5 +50,15 @@ public abstract class ProtocolReportPrint extends AbstractPrint{
                 .getXSLTforReport(getProtocolPrintType());
         return sourceList;
     }
-
+    
+    @Override
+    public boolean applyWaterMark() {
+        return true;
+    }
+    @Override
+    public WaterMarkable getWaterMarkable() {
+        ProtocolPrintWaterMark prtocolPrintWaterMark = new ProtocolPrintWaterMark();
+        prtocolPrintWaterMark.setPersistableBusinessObject(getPrintableBusinessObject());
+        return prtocolPrintWaterMark;
+    }
 }

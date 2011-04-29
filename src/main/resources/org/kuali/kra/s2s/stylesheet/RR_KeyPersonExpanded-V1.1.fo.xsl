@@ -428,9 +428,51 @@
 						<fo:block>&#160;</fo:block>
 					</fo:block>
 					<!--========== End of PDPI========================================================================-->
-					<xsl:for-each select="RR_KeyPersonExpanded:KeyPerson/RR_KeyPersonExpanded:Profile">
-						<xsl:call-template name="KPTemplate"/>
+					<xsl:for-each select="RR_KeyPersonExpanded:KeyPerson[1]/RR_KeyPersonExpanded:Profile">
+						 <xsl:call-template name="KPTemplate">
+                 			 <xsl:with-param name="number">1</xsl:with-param>
+                  		 </xsl:call-template>  
 					</xsl:for-each>
+					<xsl:for-each select="RR_KeyPersonExpanded:KeyPerson[2]/RR_KeyPersonExpanded:Profile">
+                		 <fo:block break-after="page">
+                    	 	<xsl:text>&#xA;</xsl:text>
+                 		 </fo:block>
+                 		 <xsl:call-template name="KPTemplate">
+                 			 <xsl:with-param name="number">2</xsl:with-param>
+                  		</xsl:call-template>              
+                  	</xsl:for-each>
+                  	<xsl:for-each select="RR_KeyPersonExpanded:KeyPerson[3]/RR_KeyPersonExpanded:Profile">                
+                 		 <xsl:call-template name="KPTemplate">
+                		  	<xsl:with-param name="number">3</xsl:with-param>
+                  		</xsl:call-template>            
+                  	</xsl:for-each>
+                   <xsl:for-each select="RR_KeyPersonExpanded:KeyPerson[4]/RR_KeyPersonExpanded:Profile">
+                 		<fo:block break-after="page">
+                     		<xsl:text>&#xA;</xsl:text>
+                 	    </fo:block>
+                  		<xsl:call-template name="KPTemplate">
+                 			 <xsl:with-param name="number">4</xsl:with-param>
+                 	    </xsl:call-template>              
+                   </xsl:for-each>
+                  <xsl:for-each select="RR_KeyPersonExpanded:KeyPerson[5]/RR_KeyPersonExpanded:Profile">
+                  		<xsl:call-template name="KPTemplate">
+                 			 <xsl:with-param name="number">5</xsl:with-param>
+                 		</xsl:call-template>              
+                  </xsl:for-each>
+                 <xsl:for-each select="RR_KeyPersonExpanded:KeyPerson[6]/RR_KeyPersonExpanded:Profile">
+                 		 <fo:block break-after="page">
+                   			  <xsl:text>&#xA;</xsl:text>
+                 		 </fo:block>
+                 		 <xsl:call-template name="KPTemplate">
+                 			<xsl:with-param name="number">6</xsl:with-param>
+                  		 </xsl:call-template>               
+                  </xsl:for-each>
+               	  <xsl:for-each select="RR_KeyPersonExpanded:KeyPerson[7]/RR_KeyPersonExpanded:Profile">
+                  		<xsl:call-template name="KPTemplate">
+                	 		 <xsl:with-param name="number">7</xsl:with-param>
+                 	    </xsl:call-template>            
+                  </xsl:for-each>
+				
 				</fo:flow>
 			</fo:page-sequence>
 			<fo:page-sequence master-reference="default-page" format="1">
@@ -620,46 +662,18 @@
 						<fo:block background-color="transparent" color="#000000" font-size="8pt" font-style="normal" font-family="Helvetica" font-weight="bold"> Sketch(es) (Senior/Key Person)</fo:block>
 					</fo:block-container>
 					<fo:block-container background-color="transparent" border-style="none" position="absolute" left="138.66666666666669px" hyphenate="true" language="en" keep-together="always" top="586.6666666666667px" height="13.333333333333334px" width="185.63636363636365px">
-					<xsl:choose>
-					<xsl:when test="//RR_KeyPersonExpanded:AdditionalProfilesAttached/RR_KeyPersonExpanded:AdditionalProfileAttached">
 						<fo:block background-color="transparent" color="#000000" font-size="8pt" font-style="normal" font-family="Helvetica" font-weight="bold">Filename</fo:block>
-					</xsl:when>
-					<xsl:otherwise>
-						<fo:block background-color="transparent">&#160;</fo:block>
-					</xsl:otherwise>
-					</xsl:choose>
 					</fo:block-container>
 					<fo:block-container background-color="transparent" border-style="none" position="absolute" left="138.66666666666669px" hyphenate="true" language="en" keep-together="always" top="616.6666666666667px" height="13.333333333333334px" width="185.63636363636365px">
-					<xsl:choose>
-					<xsl:when test="//RR_KeyPersonExpanded:AdditionalProfilesAttached/RR_KeyPersonExpanded:AdditionalProfileAttached">
 						<fo:block background-color="transparent" color="#000000" font-size="8pt" font-style="normal" font-family="Helvetica" font-weight="bold">MimeType</fo:block>
-					</xsl:when>
-					<xsl:otherwise>
-						<fo:block background-color="transparent">&#160;</fo:block>
-					</xsl:otherwise>
-					</xsl:choose>
 					</fo:block-container>
 					<!--Block below is for the label named LABEL32-->
 									
 					<fo:block-container background-color="transparent" border-style="none" position="absolute" left="4.242424242424242px" hyphenate="true" language="en" keep-together="always" top="601.39393939393943px" height="13.333333333333334px" width="212.72727272727275px">
-					<xsl:choose>
-						<xsl:when test="//RR_KeyPersonExpanded:AdditionalProfilesAttached/RR_KeyPersonExpanded:AdditionalProfileAttached">
 							<fo:block background-color="transparent" color="#000000" font-size="8pt" font-style="normal" font-family="Helvetica" font-weight="bold">Additional Current and</fo:block>
-						</xsl:when>
-						<xsl:otherwise>
-							<fo:block background-color="transparent">&#160;</fo:block>
-						</xsl:otherwise>
-					</xsl:choose>
 					</fo:block-container>
 					<fo:block-container background-color="transparent" border-style="none" position="absolute" left="4.242424242424242px" hyphenate="true" language="en" keep-together="always" top="611.39393939393943px" height="13.333333333333334px" width="212.72727272727275px">
-					<xsl:choose>
-						<xsl:when test="//RR_KeyPersonExpanded:AdditionalProfilesAttached/RR_KeyPersonExpanded:AdditionalProfileAttached">
 							<fo:block background-color="transparent" color="#000000" font-size="8pt" font-style="normal" font-family="Helvetica" font-weight="bold">Pending Support(s)</fo:block>
-						</xsl:when>
-						<xsl:otherwise>
-							<fo:block background-color="transparent">&#160;</fo:block>
-						</xsl:otherwise>
-					</xsl:choose>
 					</fo:block-container>
 					
 					
@@ -771,6 +785,7 @@
 	</xsl:template>
 	<!--========================================= KP Template ====================================-->
 	<xsl:template name="KPTemplate">
+	  <xsl:param name="number"/>
 		<fo:block font-size="8pt">
 			<!--table for Senior/Key person  information-->
 			<fo:table width="100%" border-style="solid" border-width="1pt" border-top-width="1.5pt" border-color="black" border-bottom-width="1.5pt">
@@ -781,7 +796,7 @@
 						<fo:table-cell padding-before="2pt" padding-after="2pt">
 							<fo:block text-align="center">
 								<fo:inline font-weight="bold">PROFILE - Senior/Key Person</fo:inline>
-								<fo:inline text-decoration="underline" font-weight="bold" color="black">&#160;</fo:inline>
+								<fo:inline text-decoration="underline" font-weight="bold" color="black">&#160;<xsl:value-of select="$number"/></fo:inline>
 							</fo:block>
 						</fo:table-cell>
 					</fo:table-row>

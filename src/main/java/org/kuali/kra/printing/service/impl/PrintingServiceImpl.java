@@ -48,6 +48,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.service.PrintingService;
+import org.kuali.kra.printing.service.WaterMarkService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.rice.kns.service.DateTimeService;
 
@@ -77,6 +78,7 @@ public class PrintingServiceImpl implements PrintingService {
 	private static final Log LOG = LogFactory.getLog(PrintingServiceImpl.class);
 
 	private DateTimeService dateTimeService = null;
+	private WaterMarkService waterMarkService;
 
 	/**
 	 * This method receives a {@link Printable} object, generates XML for it,
@@ -104,14 +106,14 @@ public class PrintingServiceImpl implements PrintingService {
 				for (Source source : printableArtifact.getXSLTemplates()) {
 					xslCount++;
 					StreamSource xslt = (StreamSource) source;
-					createPdfWithFOP(streamMap, pdfByteMap, fopFactory, xslCount, xslt);
+					createPdfWithFOP(streamMap, pdfByteMap, fopFactory, xslCount, xslt,printableArtifact);
 
 				}
 			}else if(printableArtifact.getXSLTemplateWithBookmarks()!=null){
 			    Map<String,Source> templatesWithBookmarks = printableArtifact.getXSLTemplateWithBookmarks();
 			    for (Map.Entry<String, Source> templatesWithBookmark : templatesWithBookmarks.entrySet()){
                     StreamSource xslt = (StreamSource) templatesWithBookmark.getValue();
-                    createPdfWithFOP(streamMap, pdfByteMap, fopFactory, xslCount, xslt,templatesWithBookmark.getKey());
+                    createPdfWithFOP(streamMap, pdfByteMap, fopFactory, xslCount, xslt,templatesWithBookmark.getKey(),printableArtifact);
 			    }
                 
 			}
@@ -144,21 +146,18 @@ public class PrintingServiceImpl implements PrintingService {
      * @throws TransformerException
      */
     protected void createPdfWithFOP(Map<String, byte[]> streamMap, Map<String, byte[]> pdfByteMap, FopFactory fopFactory,
-            int xslCount, StreamSource xslt) throws FOPException, TransformerException {
-        createPdfWithFOP(streamMap, pdfByteMap, fopFactory, xslCount, xslt,null);
+            int xslCount, StreamSource xslt,Printable printableArtifact) throws FOPException, TransformerException {
+        createPdfWithFOP(streamMap, pdfByteMap, fopFactory, xslCount, xslt,null,printableArtifact);
     }
     protected void createPdfWithFOP(Map<String, byte[]> streamMap, Map<String, byte[]> pdfByteMap, FopFactory fopFactory,
-            int xslCount, StreamSource xslt,String bookmark) throws FOPException, TransformerException {
+            int xslCount, StreamSource xslt,String bookmark,Printable printableArtifact) throws FOPException, TransformerException {
         TransformerFactory factory = TransformerFactory.newInstance();
         Transformer transformer = factory.newTransformer(xslt);
-        for (Map.Entry<String, byte[]> xmlData : streamMap
-        		.entrySet()) {
+        for (Map.Entry<String, byte[]> xmlData : streamMap.entrySet()) {
         	ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        	ByteArrayInputStream inputStream = new ByteArrayInputStream(
-        			xmlData.getValue());
+        	ByteArrayInputStream inputStream = new ByteArrayInputStream(xmlData.getValue());
         	Source src = new StreamSource(inputStream);
-        	Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF,
-        			outputStream);
+        	Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF,outputStream);
         	Result res = new SAXResult(fop.getDefaultHandler());
         	transformer.transform(src, res);
         	byte[] pdfBytes = outputStream.toByteArray();

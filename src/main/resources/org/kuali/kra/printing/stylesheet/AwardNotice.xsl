@@ -9217,7 +9217,7 @@ or ( ../PrintRequirement/SubcontractRequired  = 1  and  starts-with(  AwardDetai
 											</fo:block>
 											<fo:inline font-family="Arial" font-size="12pt"
 												font-weight="bold">
-												<xsl:text>Address list for Account Number</xsl:text>
+												<xsl:text>Sponsor Contacts for Account</xsl:text>
 											</fo:inline>
 											<fo:inline font-size="12pt">
 												<xsl:text>&#160;</xsl:text>
@@ -9312,7 +9312,7 @@ or ( ../PrintRequirement/SubcontractRequired  = 1  and  starts-with(  AwardDetai
 																				<fo:block>
 																					<fo:inline font-family="Arial" font-size="9pt"
 																						font-weight="bold" text-decoration="underline">
-																						<xsl:text>Contact Type:</xsl:text>
+																						<xsl:text>Project Role:</xsl:text>
 																					</fo:inline>
 																					<xsl:for-each select="ContactTypeDesc">
 																						<fo:inline>

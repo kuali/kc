@@ -652,7 +652,7 @@ public abstract class AwardBaseStream implements XmlStream {
 			}
 			if (awardSponsorContact.getContactOrganizationName() != null) {
 				contactDetails.setContactTypeDesc(awardSponsorContact
-						.getContactOrganizationName());
+						.getContactRole().getRoleDescription());	
 			}
 			contactDetails
 					.setRolodexDetails(getRolodexDetails(awardSponsorContact));
