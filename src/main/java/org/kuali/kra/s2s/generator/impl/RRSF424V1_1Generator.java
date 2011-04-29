@@ -40,6 +40,7 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType.Enum;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
@@ -57,6 +58,7 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
@@ -142,12 +144,17 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 		}
 		rrsf424.setProjectTitle(devProp.getTitle());
 		ProposalSite performingOrganization = devProp
-				.getPerformingOrganization();
+				.getPerformingOrganization();		
 		if (performingOrganization != null
-				&& performingOrganization.getRolodex() != null) {
-			String state = performingOrganization.getRolodex().getState();
-			rrsf424.setLocation(state);
-		}
+                && devProp.getProposalAbstracts() != null) {   
+		    List<ProposalAbstract> proposalAbstractList = devProp.getProposalAbstracts();	
+		    String state="";		   
+		    for (ProposalAbstract proposalAbstract : proposalAbstractList) {
+		         if( proposalAbstract.getAbstractTypeCode().equals(ABSTRACT_TYPE_CODE))		         
+		            state = proposalAbstract.getAbstractDetails();		
+		        }
+		    rrsf424.setLocation(state);
+        }	
 		rrsf424.setProposedProjectPeriod(getProjectPeriod());
 		rrsf424.setCongressionalDistrict(getCongDistrict());
 		rrsf424.setPDPIContactInfo(getPDPI());

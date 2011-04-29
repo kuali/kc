@@ -138,6 +138,11 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
         
         return new ArrayList<ProtocolSubmission>(submissions);
     }
+        
+    /**
+     * 
+     * @see org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService#getProtocolSubmissionsLookupSequence(java.lang.String)
+     */
 
     private List<ProtocolSubmission> getProtocolSubmissionsLookupList(String protocolNumber,List<ProtocolSubmission> protocolSubmissionList) throws Exception{
            Collection<ProtocolSubmission> submissions = protocolSubmissionList;

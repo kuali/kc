@@ -156,15 +156,14 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
                     .bigDecimalValue();
             budgetYear.setDirectCosts(directCosts);
             IndirectCosts indirectCosts = getIndirectCosts(periodInfo);
-            budgetYear.setIndirectCosts(indirectCosts);
+            if (indirectCosts != null) {
+                budgetYear.setIndirectCosts(indirectCosts);
+                budgetYear.setTotalCosts(periodInfo.getDirectCostsTotal().bigDecimalValue().add(indirectCosts.getTotalIndirectCosts()));
+            }else{
+                budgetYear.setTotalCosts(periodInfo.getDirectCostsTotal().bigDecimalValue());
+            }
             budgetYear.setCognizantFederalAgency(periodInfo
                     .getCognizantFedAgency());
-            if(indirectCosts != null){
-                budgetYear.setTotalCosts(directCosts.add(indirectCosts.getTotalIndirectCosts()));
-            }else{
-                budgetYear.setTotalCosts(periodInfo.getTotalCosts()
-                        .bigDecimalValue());
-            }
         }
     }
 

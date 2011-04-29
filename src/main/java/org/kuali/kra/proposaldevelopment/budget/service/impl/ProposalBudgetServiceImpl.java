@@ -17,11 +17,13 @@ package org.kuali.kra.proposaldevelopment.budget.service.impl;
 
 import java.util.ArrayList;
 
+import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.versions.AddBudgetVersionEvent;
 import org.kuali.kra.budget.versions.BudgetVersionRule;
 import org.kuali.kra.infrastructure.Constants;
@@ -39,6 +41,8 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
     private DocumentService documentService;
     private ParameterService parameterService;
     private BudgetService<DevelopmentProposal> budgetService;
+    private BudgetCalculationService budgetCalculationService;
+    
 
     public BudgetDocument<DevelopmentProposal> getNewBudgetVersion(BudgetParentDocument<DevelopmentProposal> parentDocument,
             String documentDescription) throws WorkflowException {
@@ -75,6 +79,10 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
         parentDocument.refreshReferenceObject("budgetDocumentVersions");
         return budgetDocument;
     }
+    public boolean isCalculationRequired(BudgetPeriod budgetPeriod){
+        return true;
+    }
+
     /**
      * This method...
      * @param budgetDocument
@@ -136,6 +144,27 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
      */
     public BudgetService<DevelopmentProposal> getBudgetService() {
         return budgetService;
+    }
+
+    public void recalculateBudget(Budget budget) {
+        budgetCalculationService.calculateBudget(budget);
+    }
+    /**
+     * Sets the budgetCalculationService attribute value.
+     * @param budgetCalculationService The budgetCalculationService to set.
+     */
+    public void setBudgetCalculationService(BudgetCalculationService budgetCalculationService) {
+        this.budgetCalculationService = budgetCalculationService;
+    }
+    /**
+     * Gets the budgetCalculationService attribute. 
+     * @return Returns the budgetCalculationService.
+     */
+    public BudgetCalculationService getBudgetCalculationService() {
+        return budgetCalculationService;
+    }
+    public void calculateBudget(Budget budget) {
+        budgetCalculationService.calculateBudget(budget);
     }
 
 }
