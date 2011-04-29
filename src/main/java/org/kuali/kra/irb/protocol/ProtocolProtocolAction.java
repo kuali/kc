@@ -34,6 +34,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.ProtocolDocumentRule;
 import org.kuali.kra.irb.ProtocolEventBase;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
@@ -125,7 +126,11 @@ public class ProtocolProtocolAction extends ProtocolAction {
             ProtocolResearchAreaService service = (ProtocolResearchAreaService) KraServiceLocator
                     .getService("protocolResearchAreaService");
             service.addProtocolResearchArea(protocolDocument.getProtocol(), (Collection<ResearchArea>) selectedBOs);
+            // finally do validation and error reporting for inactive research areas
+            (new ProtocolDocumentRule()).processProtocolResearchAreaBusinessRules(protocolDocument);
         }
+        
+        
     }
     
     
@@ -271,9 +276,9 @@ public class ProtocolProtocolAction extends ProtocolAction {
     public ActionForward deleteProtocolResearchArea(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-
         protocolForm.getDocument().getProtocol().getProtocolResearchAreas().remove(getLineToDelete(request));
-
+        // finally do validation and error reporting for inactive research areas
+        (new ProtocolDocumentRule()).processProtocolResearchAreaBusinessRules(protocolForm.getDocument());
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
