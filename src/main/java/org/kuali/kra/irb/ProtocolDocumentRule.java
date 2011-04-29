@@ -137,37 +137,27 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
      * @return
      */
     public boolean processProtocolResearchAreaBusinessRules(ProtocolDocument document) {
-        // declare the flag for inactive areas
         boolean inactiveFound = false;
-        // declare the StringBuffer instance that will accumulate the indices of the inactive research areas
         StringBuffer inactiveResearchAreaIndices = new StringBuffer();
-        Protocol protocol = document.getProtocol();
-        // get the list of research areas from the protocol BO
-        List<ProtocolResearchArea> pras = protocol.getProtocolResearchAreas();
+        
+        List<ProtocolResearchArea> pras = document.getProtocol().getProtocolResearchAreas();
         // iterate over all the research areas for this protocol looking for inactive research areas
-        if(null != pras) {
-            // declare the counter for the index of research area
+        if(CollectionUtils.isNotEmpty(pras)) {
             int raIndex = 0;
             for (ProtocolResearchArea protocolResearchArea : pras) {
                 if(!(protocolResearchArea.getResearchAreas().isActive())) {
-                    // set the flag for inactive areas
                     inactiveFound = true;
-                    // append the index to the inactive area indices list
                     inactiveResearchAreaIndices.append(raIndex).append(SEPERATOR);
                 }
-                // increment the research area index counter
                 raIndex++;
             }
         }
-        // check if we found any inactive research areas in the above loop, if so then report as a single error key 
-        // that is suffixed by the list of indices of the inactive areas we accumulated in the above loop
-        if(inactiveFound) {
-            // append the above accumulated indices to the error key prefix 
+        // if we found any inactive research areas in the above loop, report as a single error key suffixed by the list of indices of the inactive areas
+        if(inactiveFound) { 
             String protocolResearchAreaInactiveErrorPropertyKey = INACTIVE_RESEARCH_AREAS_PREFIX + SEPERATOR + inactiveResearchAreaIndices.toString();
-            // report as a single error (even if the error may contain multiple indices in its suffix)
             reportError(protocolResearchAreaInactiveErrorPropertyKey, KeyConstants.ERROR_PROTOCOL_RESEARCH_AREA_INACTIVE);
         }
-        // finally the return value for the validation rules framework
+        
         return !inactiveFound;
     }
 
