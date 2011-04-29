@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 import org.junit.After;
@@ -139,7 +140,7 @@ public class ProtocolDocumentRuleTest extends ProtocolRuleTestBase {
         dummyRA3.setActive(true);
         dummyPRA3.setResearchAreas(dummyRA3);
         
-        Vector<ProtocolResearchArea> pras = new Vector<ProtocolResearchArea>();
+        ArrayList<ProtocolResearchArea> pras = new ArrayList<ProtocolResearchArea>();
         pras.add(dummyPRA0);
         pras.add(dummyPRA1);
         pras.add(dummyPRA2);
