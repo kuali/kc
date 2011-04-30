@@ -73,6 +73,7 @@ import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.infrastructure.CitizenshipTypes;
 import org.kuali.kra.proposaldevelopment.ProposalDevelopmentUtils;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -610,13 +611,25 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 	    stemCells.setStemCellsIndicator(YesNoDataType.N_NO);
 		GraduateDegreeSought graduateDegreeSought = GraduateDegreeSought.Factory.newInstance();
 		ProposalPerson principalInvestigator = s2sUtilService.getPrincipalInvestigator(pdDoc);
-		if (principalInvestigator != null) {
-			if (principalInvestigator.getCountryOfCitizenship() != null && !principalInvestigator.getCountryOfCitizenship().equals(""))  {
-				additionalInformation.setCitizenship(
-				        CitizenshipDataType.Enum.forString(principalInvestigator.getCountryOfCitizenship()));
-			}else{
-			    additionalInformation.setCitizenship(CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S);
+		for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal()
+				.getProposalPersons()) {
+			if (proposalPerson.isInvestigator()) {
+					
+				CitizenshipTypes citizenShip=s2sUtilService.getCitizenship(proposalPerson);
+				if(citizenShip.getCitizenShip().trim().equals(CitizenshipDataType.NON_U_S_CITIZEN_WITH_TEMPORARY_VISA.toString())){
+					additionalInformation.setCitizenship(CitizenshipDataType.NON_U_S_CITIZEN_WITH_TEMPORARY_VISA);
+				}
+				else if(citizenShip.getCitizenShip().trim().equals(CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S.toString())){
+					additionalInformation.setCitizenship(CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S);
+				}
+				else if(citizenShip.getCitizenShip().trim().equals(CitizenshipDataType.U_S_CITIZEN_OR_NONCITIZEN_NATIONAL.toString())){
+					additionalInformation.setCitizenship(CitizenshipDataType.U_S_CITIZEN_OR_NONCITIZEN_NATIONAL);
+				}
+				
+				
 			}
+		}
+		if (principalInvestigator != null) {
 			additionalInformation.setAlernatePhoneNumber(principalInvestigator.getSecondaryOfficePhone());
 		}
 		for (Answer questionnaireAnswer : s2sUtilService.getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), getNamespace(),getFormName())) {

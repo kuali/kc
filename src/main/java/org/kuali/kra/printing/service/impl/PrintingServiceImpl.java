@@ -45,10 +45,11 @@ import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.service.PrintingService;
-import org.kuali.kra.printing.service.WaterMarkService;
+import org.kuali.kra.printing.service.WatermarkService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.rice.kns.service.DateTimeService;
 
@@ -78,9 +79,17 @@ public class PrintingServiceImpl implements PrintingService {
 	private static final Log LOG = LogFactory.getLog(PrintingServiceImpl.class);
 
 	private DateTimeService dateTimeService = null;
-	private WaterMarkService waterMarkService;
+	private WatermarkService watermarkService;
+	
+	public WatermarkService getWatermarkService() {
+        return  KraServiceLocator.getService(WatermarkService.class);      
+    }
 
-	/**
+    public void setWatermarkService(WatermarkService watermarkService) {
+        this.watermarkService = watermarkService;
+    }
+
+    /**
 	 * This method receives a {@link Printable} object, generates XML for it,
 	 * transforms into PDF after applying style-sheet and returns the PDF bytes
 	 * as {@link AttachmentDataSource}
@@ -114,7 +123,7 @@ public class PrintingServiceImpl implements PrintingService {
 			    for (Map.Entry<String, Source> templatesWithBookmark : templatesWithBookmarks.entrySet()){
                     StreamSource xslt = (StreamSource) templatesWithBookmark.getValue();
                     createPdfWithFOP(streamMap, pdfByteMap, fopFactory, xslCount, xslt,templatesWithBookmark.getKey(),printableArtifact);
-			    }
+                 }
                 
 			}
 
@@ -226,11 +235,25 @@ public class PrintingServiceImpl implements PrintingService {
 			    }
 			}
 		}
+		
 		printablePdf = new PrintableAttachment();
 		byte[] mergedPdfBytes = mergePdfBytes(pdfBaosList, bookmarksList,headerFooterRequired);
-		
-		// If there is a stylesheet issue, the pdf bytes will be null. To avoid an exception
-		// initialize to an empty array before sending the content back
+		Printable printableArtifactObject;
+		if(printableArtifactList!=null && printableArtifactList.size()>0){
+		    printableArtifactObject = printableArtifactList.get(0);		
+    		try {  
+    		    if(printableArtifactObject.applyWatermark()){    
+        		     mergedPdfBytes = getWatermarkService().applyWatermark(mergedPdfBytes, printableArtifactObject.getWatermarkable().getWatermark());
+//        	    	 mergedPdfBytes = watermarkService.applyWatermark( mergedPdfBytes,watermark.getWatermarkable().getWatermark());
+    		    }
+             }
+             catch (Exception e) {
+                 LOG.error("Exception Occuring in printServiceImpl.. Water mark Exception: ",e);    
+             }
+		}
+
+        // If there is a stylesheet issue, the pdf bytes will be null. To avoid an exception
+        // initialize to an empty array before sending the content back
 		if (mergedPdfBytes == null) {
 			mergedPdfBytes = new byte[0];
 		}
@@ -266,8 +289,9 @@ public class PrintingServiceImpl implements PrintingService {
 	 * @return
 	 * @throws PrintingException
 	 */
-	protected byte[] mergePdfBytes(List<byte[]> pdfBytesList,
-			List<String> bookmarksList,boolean headerFooterRequired) throws PrintingException {
+    
+    protected byte[] mergePdfBytes(List<byte[]> pdfBytesList,
+		List<String> bookmarksList,boolean headerFooterRequired) throws PrintingException {
 		Document document = null;
 		PdfWriter writer = null;
 		ByteArrayOutputStream mergedPdfReport = new ByteArrayOutputStream();
@@ -328,8 +352,10 @@ public class PrintingServiceImpl implements PrintingService {
 				if(footer!=null){
 				    document.setFooter(footer);
 				}
+				// writer.setPageEvent(new Watermark());  //  add watermark object here
 				document.open();
 			}
+						
 			PdfContentByte cb = writer.getDirectContent();
 			int pageCount = 0;
 			while (pageCount < nop) {
@@ -342,6 +368,7 @@ public class PrintingServiceImpl implements PrintingService {
 						.getImportedPage(reader, pageCount);
 
 				cb.addTemplate(page, 1, 0, 0, 1, 0, 0);
+				
 
 				PdfOutline root = cb.getRootOutline();
 				if (pageCount == 1) {
@@ -365,6 +392,9 @@ public class PrintingServiceImpl implements PrintingService {
 		return null;
 	}
 
+	
+	
+	
 	protected String formateCalendar(Calendar calendar) {
 		DateFormat dateFormat = new SimpleDateFormat("M/d/yy h:mm a");
 		return dateFormat.format(calendar.getTime());

@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -46,8 +45,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.AuditCluster;
@@ -148,8 +145,6 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
      * */
     public void syncBudgetRatesForRateClassType(String rateClassType, BudgetDocument<T> budgetDocument) {
         Budget budget = budgetDocument.getBudget();
-
-        if(isOutOfSync(budget)) {
             populateInstituteRates(budgetDocument);
             
             Map<String, AbstractInstituteRate> mapOfExistingBudgetProposalRates = mapRatesToKeys(budget.getBudgetRates()); 
@@ -160,11 +155,6 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
             replaceBudgetRatesForRateClassType(rateClassType, budgetDocument, budget.getBudgetLaRates(), budget.getInstituteLaRates());
             syncVersionNumber(mapOfExistingBudgetProposalRates, budget.getBudgetRates());
             syncVersionNumber(mapOfExistingBudgetProposalLaRates, budget.getBudgetLaRates());
-        } else {
-            List<RateClass> rateClasses = budget.getRateClasses();            
-            syncBudgetRatesForRateClassType(rateClasses, rateClassType, getInstituteRates(budgetDocument), budget.getBudgetRates());
-            syncBudgetRatesForRateClassType(rateClasses, rateClassType, getInstituteLaRates(budgetDocument), budget.getBudgetLaRates());
-        }
     }    
     
     /**

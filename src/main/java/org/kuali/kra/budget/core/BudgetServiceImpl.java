@@ -31,6 +31,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
+import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.budget.calculator.QueryList;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.calculator.query.Equals;
@@ -73,6 +74,7 @@ import org.kuali.rice.kns.service.PessimisticLockService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.format.FormatException;
 
@@ -326,6 +328,47 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     
     public boolean checkActivityTypeChange(BudgetParentDocument<T> budgetParentDoc, Budget budget) {
         return checkActivityTypeChange(getSavedProposalRates(budget), budgetParentDoc.getBudgetParent().getActivityTypeCode());
+    }
+    public boolean checkRateChange(Collection<BudgetRate> allPropRates,List<AwardFandaRate> awardFandaRate,List ebRates){
+    	if (CollectionUtils.isNotEmpty(allPropRates)) {
+    		List<String> awardRates=new ArrayList();
+			List<String> matchAwardRates=new ArrayList();
+			List<String> matchAwardEbRates=new ArrayList();
+			Equals equalsAwardClassType = new Equals("rateClassCode", "1");
+			QueryList matchAwardFnRate = new QueryList(allPropRates).filter(equalsAwardClassType);
+			Equals equalsAwardClassTypes = new Equals("rateClassCode", "5");
+			QueryList matchAwardBenfitRate = new QueryList(allPropRates).filter(equalsAwardClassTypes);
+    		for(AwardFandaRate awardrate:awardFandaRate){
+     			awardRates.add(awardrate.getApplicableFandaRate().toString());
+     			Equals equalsAwardRate = new Equals("instituteRate", awardrate.getApplicableFandaRate());
+     	        QueryList matchAwardFnRates = new QueryList(matchAwardFnRate).filter(equalsAwardRate);
+     	            if (CollectionUtils.isNotEmpty(matchAwardFnRates)){
+    	            	for(int index=0;index<matchAwardFnRates.size();index++){
+    	            		if(!matchAwardRates.contains(matchAwardFnRates.get(index).toString())){
+    	            			matchAwardRates.add(matchAwardFnRates.get(index).toString());
+    	            			break;
+    	            		}
+    	            	}
+    	            }
+    		}      	 
+    		for(int ebRate=0;ebRate<ebRates.size();ebRate++){
+    			KualiDecimal specialEbRate=(KualiDecimal)ebRates.get(ebRate);
+    			Equals equalsAwardEbRate = new Equals("instituteRate",specialEbRate);
+    			QueryList matchAwardBenfitRates = new QueryList(matchAwardBenfitRate).filter(equalsAwardEbRate);  
+    	            if (CollectionUtils.isNotEmpty(matchAwardBenfitRates)){
+    	            	for(int index=0;index<matchAwardBenfitRates.size();index++){
+    	            		if(!matchAwardEbRates.contains(matchAwardBenfitRates.get(index).toString())){
+    	            			matchAwardEbRates.add(matchAwardBenfitRates.get(index).toString());
+    	            			break;
+    	            		}
+    	            	}
+    	            }
+    		}
+    		if(matchAwardRates.size()!=awardRates.size()||matchAwardEbRates.size()!=ebRates.size()){
+    			 return true;
+    		}
+     	}
+    	 return false;
     }
     
     public boolean ValidInflationCeRate(BudgetLineItemBase budgetLineItem) {

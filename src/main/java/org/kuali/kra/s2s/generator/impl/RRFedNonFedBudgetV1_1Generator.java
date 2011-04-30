@@ -1635,8 +1635,13 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
                 int keyPersonCount = 0;
                 for (KeyPersonInfo keyPerson : periodInfo.getKeyPersons()) {
                     KeyPersonDataType keyPersonDataType = KeyPersonDataType.Factory.newInstance();
-                    keyPersonDataType.setName(globLibV20Generator.getHumanNameDataType(keyPerson));
-                    keyPersonDataType.setProjectRole(keyPerson.getRole());
+                    keyPersonDataType.setName(globLibV20Generator.getHumanNameDataType(keyPerson));                
+                    if(keyPerson.getKeyPersonRole()!=null){
+                        keyPersonDataType.setProjectRole(keyPerson.getKeyPersonRole());
+                    }
+                    else {
+                        keyPersonDataType.setProjectRole(keyPerson.getRole());                        
+                    }
                     keyPersonDataType.setCompensation(getCompensation(keyPerson));
                     keyPersonDataTypeArray[keyPersonCount] = keyPersonDataType;
                     keyPersonCount++;

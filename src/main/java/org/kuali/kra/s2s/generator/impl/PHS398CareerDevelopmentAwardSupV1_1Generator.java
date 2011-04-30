@@ -51,6 +51,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.infrastructure.CitizenshipTypes;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -87,22 +88,25 @@ public class PHS398CareerDevelopmentAwardSupV1_1Generator extends
 	}
 
 	private Enum getCitizenshipDataType() {
-		String citizenSource = "1";
-		String piCitizenShipValue = s2sUtilService.getParameterValue(PI_CUSTOM_DATA);
-		if (piCitizenShipValue != null) {
-			citizenSource = piCitizenShipValue;
+		for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal()
+				.getProposalPersons()) {
+			if (proposalPerson.isInvestigator()) {
+					
+				CitizenshipTypes citizenShip=s2sUtilService.getCitizenship(proposalPerson);
+				if(citizenShip.getCitizenShip().trim().equals(CitizenshipDataType.NON_U_S_CITIZEN_WITH_TEMPORARY_VISA.toString())){
+					return CitizenshipDataType.NON_U_S_CITIZEN_WITH_TEMPORARY_VISA;
+				}
+				else if(citizenShip.getCitizenShip().trim().equals(CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S.toString())){
+					return CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S;
+				}
+				else if(citizenShip.getCitizenShip().trim().equals(CitizenshipDataType.U_S_CITIZEN_OR_NONCITIZEN_NATIONAL.toString())){
+					return CitizenshipDataType.U_S_CITIZEN_OR_NONCITIZEN_NATIONAL;
+				}
+				
+				
+			}
 		}
-		Enum citizenship = CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S;
-        for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
-            if (proposalPerson.isInvestigator()) {
-                if (citizenSource.equals("0")) {
-                    citizenship = s2sUtilService.getCitizenship(proposalPerson);
-                } else {
-                    // TODO fetch warehouse person
-                }
-            }
-        }
-		return citizenship;
+		return CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S;
 	}
 
 	private ApplicationType getApplicationType() {

@@ -16,6 +16,7 @@
 package org.kuali.kra.service;
 
 import org.kuali.kra.bo.CitizenshipType;
+import org.kuali.kra.infrastructure.CitizenshipTypes;
 
 import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDataType.Enum;
 
@@ -33,5 +34,6 @@ public interface CitizenshipTypeService {
      * @throws IllegalArgumentException If an invalid CitizenshipType is passed in.
      */
     public Enum getEnumValueOfCitizenshipType(CitizenshipType citizenshipType) throws IllegalArgumentException;
+    public CitizenshipTypes getCitizenshipDataFromExternalSource();
 
 }

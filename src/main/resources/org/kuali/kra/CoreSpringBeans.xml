@@ -385,10 +385,16 @@
 		</property>
 	</bean>
 
-	<bean id="printingService" class="org.kuali.kra.printing.service.impl.PrintingServiceImpl">
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
+	<bean id="watermarkService" class="org.kuali.kra.printing.service.impl.WatermarkServiceImpl">	
+	</bean>
+
+	<bean id="printingService" class="org.kuali.kra.printing.service.impl.PrintingServiceImpl" >
+		<property name="dateTimeService">  <ref bean="dateTimeService" />
+		</property>		
+
+		<property name="watermarkService">  <ref bean="watermarkService" />
 		</property>
+				
 	</bean>
 
 	<bean id="printBaseXmlStream" class="org.kuali.kra.printing.xmlstream.PrintBaseXmlStream"
