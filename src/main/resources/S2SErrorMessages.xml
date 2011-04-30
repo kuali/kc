@@ -503,6 +503,7 @@
 		<Message>You must have a Bibliography  with the proposal. Please attach the Bibliography in Abstracts and Attachments window</Message>
 		<FixLink>abstractsAttachments</FixLink>
 	</Error>	
+>>>>>>> .merge-right.r11858
 	<!-- # RRKeyPersonExpanded- -->
 	<Error>
 		<MessageKey>/GrantApplication/Forms/RR_KeyPersonExpanded/KeyPerson/Profile/BioSketchsAttached</MessageKey>

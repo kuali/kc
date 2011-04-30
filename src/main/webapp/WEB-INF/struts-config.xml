@@ -254,6 +254,8 @@
           <forward name="budgetActions" path="/WEB-INF/jsp/budget/BudgetActions.jsp" redirect="false" />
           <forward name="personnelRates" path="/WEB-INF/jsp/budget/BudgetPersonnelRates.jsp" />
           <forward name="personnelDetails" path="/WEB-INF/jsp/budget/BudgetPersonnelDetails.jsp" />
+          <forward name="lookUpPage" path="/kew/DocumentSearch.do?" redirect="true"/>
+          
       </action>
       <action path="/awardBudgets" name="AwardForm" input="/WEB-INF/jsp/award/AwardBudgetVersions.jsp" type="org.kuali.kra.award.web.struts.action.AwardBudgetsAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
       	  <forward name="basic" path="/WEB-INF/jsp/award/AwardBudgetVersions.jsp" />

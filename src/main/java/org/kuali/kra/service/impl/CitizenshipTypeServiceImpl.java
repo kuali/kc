@@ -19,6 +19,7 @@ import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDa
 import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDataType.Enum;
 
 import org.kuali.kra.bo.CitizenshipType;
+import org.kuali.kra.infrastructure.CitizenshipTypes;
 import org.kuali.kra.service.CitizenshipTypeService;
 
 /**
@@ -52,5 +53,12 @@ public class CitizenshipTypeServiceImpl implements CitizenshipTypeService {
         }
         return retVal;
     }
+
+	public CitizenshipTypes getCitizenshipDataFromExternalSource() {
+		// TODO  generate data for citizenship
+		throw new RuntimeException("Method not implemented");
+		
+	}
+   
 
 }

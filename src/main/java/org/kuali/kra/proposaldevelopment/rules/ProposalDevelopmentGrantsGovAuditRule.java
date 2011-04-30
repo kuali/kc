@@ -30,6 +30,7 @@ import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.s2s.service.S2SValidatorService;
 import org.kuali.kra.s2s.service.impl.KRAS2SServiceImpl;
+import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.DocumentAuditRule;
 import org.kuali.rice.kns.service.ParameterService;
@@ -37,12 +38,8 @@ import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.GlobalVariables;
 public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule{
-	
-    private ParameterService parameterService;
-   
-
 	private static final Log LOG = LogFactory.getLog(ProposalDevelopmentGrantsGovAuditRule.class);
-
+    private ParameterService parameterService;
     /**
      * Looks up and returns the ParameterService.
      * @return the parameter service. 
@@ -71,7 +68,7 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
             valid &= false;
             auditErrors.add(new AuditError("document.developmentProposalList[0].s2sOpportunity.revisionCode", KeyConstants.ERROR_IF_PROPOSALTYPE_IS_REVISION, Constants.GRANTS_GOV_PAGE + "." + Constants.GRANTS_GOV_PANEL_ANCHOR));
         }
-        if(proposalDevelopmentDocument.getDevelopmentProposal().getNihDescription()!=null&& proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getCompetetionId().equals("ADOBE-FORMS-A")){
+        if((getSponsorService().isSponsorNihOsc(proposalDevelopmentDocument.getDevelopmentProposal())|| getSponsorService().isSponsorNihMultiplePi(proposalDevelopmentDocument.getDevelopmentProposal()))&& proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getCompetetionId().equals("ADOBE-FORMS-A")){
         	auditErrors.add(new AuditError("document.developmentProposalList[0].s2sOpportunity.competetionId", KeyConstants.ERROR_IF_COMPETITION_ID_IS_INVALID, Constants.GRANTS_GOV_PAGE + "." + Constants.GRANTS_GOV_PANEL_ANCHOR));
         	valid= false;
         }
@@ -90,7 +87,9 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
         }
         return valid;
     }
-
+    private SponsorService getSponsorService() {
+        return KraServiceLocator.getService(SponsorService.class);
+    }
     private S2SService getS2sValidatorService() {
         return KraServiceLocator.getService(S2SService.class);
     }

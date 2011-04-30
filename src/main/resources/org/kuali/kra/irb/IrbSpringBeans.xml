@@ -589,9 +589,6 @@
     </bean> 
     <bean id="protocolSubmissionLookupableHelperService" class="org.kuali.kra.irb.ProtocolSubmissionLookupableHelperServiceImpl" 
         scope="prototype" parent="lookupableHelperService">
-       <!--  <property name="protocolDao">
-            <ref bean="protocolDao" />
-        </property> -->
         <property name="protocolSubmitActionService">
             <ref bean="protocolSubmitActionService" />
         </property>

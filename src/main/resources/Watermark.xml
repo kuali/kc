@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Copyright 2005-2010 The Kuali Foundation.
+# 
+# Licensed under the Educational Community License, Version 1.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+# http://www.opensource.org/licenses/ecl1.php
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+    Document   : watermark.xml
+    Created on : April 11, 2011,
+    Description: Purpose of the document follows.
+-->
+
+<!--
+Following status should have DRAFT, this is across
+
+100	Pending/In Progress
+101	Submitted to IRB
+102	Specific Minor Revisions Required
+103	Deferred
+104	Substantive Revisions Required
+105	Amendment in Progress
+106	Renewal in Progress
+
+Following should have 'Approved' at the top margin with expiration date.
+
+200	Active - Open to Enrollment
+201	Active - Closed to Enrollment
+202	Active - Data Analysis Only
+
+Following status should have 'Invalid' Across
+
+203	Exempt
+300	Closed Administratively for lack of response
+301	Closed by Investigator
+302	Suspended by Investigator
+303	Do Not Use - delete later - Terminated by Investigator
+304	Withdrawn
+305	Expired
+306	Disapproved
+307	Terminated by IRB
+308	Suspended by IRB
+309	Not Human Subjects Research
+310	IRB review not required
+311	Suspended by DSMB
+-->
+
+<!DOCTYPE DECORATIONS SYSTEM 'Watermark.dtd'>
+<DECORATIONS>
+    
+  
+<DECORATION>
+    <STATUS>77</STATUS>
+    <WATERMARK TYPE="TEXT" FONT-SIZE="25" FONT-COLOR="#00FF00">WaterMark text</WATERMARK>
+</DECORATION>
+
+
+<DECORATION>
+    <STATUS>100</STATUS>
+    <WATERMARK  TYPE="TEXT">APPROVAL PENDING</WATERMARK>
+</DECORATION>
+
+<DECORATION>
+    <STATUS>101</STATUS>
+    <WATERMARK  TYPE="TEXT">APPROVAL PENDING</WATERMARK>
+</DECORATION>
+
+<DECORATION>
+    <STATUS>102</STATUS>
+    <WATERMARK  TYPE="TEXT">APPROVAL PENDING</WATERMARK>
+</DECORATION>
+
+<DECORATION>
+    <STATUS>103</STATUS>
+    <WATERMARK  TYPE="TEXT">APPROVAL PENDING</WATERMARK>
+</DECORATION>
+
+<DECORATION>
+    <STATUS>104</STATUS>
+    <WATERMARK  TYPE="TEXT">APPROVAL PENDING</WATERMARK>
+</DECORATION>
+
+<DECORATION>
+    <STATUS>105</STATUS>
+    <WATERMARK  TYPE="TEXT">APPROVAL PENDING</WATERMARK>
+</DECORATION>
+
+<DECORATION>
+    <STATUS>106</STATUS>
+    <WATERMARK  TYPE="TEXT">APPROVAL PENDING</WATERMARK>
+</DECORATION>
+
+
+<DECORATION>
+    <STATUS>300</STATUS>
+    <WATERMARK  TYPE="TEXT">IRB Approval Expired</WATERMARK>
+</DECORATION>
+
+<DECORATION>
+    <STATUS>301</STATUS>
+    <WATERMARK  TYPE="TEXT">IRB Approval Expired</WATERMARK>
+</DECORATION>
+
+<DECORATION>
+    <STATUS>302</STATUS>
+    <WATERMARK  TYPE="TEXT">IRB Approval Expired</WATERMARK>
+</DECORATION>
+
+<DECORATION>
+    <STATUS>303</STATUS>
+    <WATERMARK  TYPE="TEXT">Invalid</WATERMARK>
+</DECORATION>
+
+<DECORATION>
+    <STATUS>75</STATUS>
+    <WATERMARK  TYPE="TEXT">APPROVAL PENDING</WATERMARK>
+</DECORATION>
+
+<DECORATION>
+    <STATUS>304</STATUS> 
+    <WATERMARK  TYPE="TEXT" FONT-SIZE="25">KC APPROVAL PENDING</WATERMARK>
+</DECORATION>
+
+
+<DECORATION>
+    <STATUS>305</STATUS>
+    <WATERMARK  TYPE="TEXT">IRB Approval Expired</WATERMARK>
+</DECORATION>
+
+<DECORATION>
+    <STATUS>306</STATUS>
+    <WATERMARK  TYPE="TEXT">Invalid</WATERMARK>
+</DECORATION>
+
+<DECORATION>
+    <STATUS>307</STATUS>
+    <WATERMARK  TYPE="TEXT">IRB Approval Expired</WATERMARK>
+</DECORATION>
+
+<DECORATION>
+    <STATUS>308</STATUS>
+    <WATERMARK  TYPE="TEXT">IRB Approval Expired</WATERMARK>
+</DECORATION>
+
+<DECORATION>
+    <STATUS>309</STATUS>
+    <WATERMARK  TYPE="TEXT">IRB Oversight Not Required</WATERMARK>
+</DECORATION>
+
+<DECORATION>
+    <STATUS>310</STATUS>
+    <WATERMARK  TYPE="TEXT">IRB Oversight Not Required</WATERMARK>
+</DECORATION>
+
+<DECORATION>
+    <STATUS>311</STATUS>
+    <WATERMARK  TYPE="TEXT">IRB Approval Expired</WATERMARK>
+</DECORATION>
+
+<!--Use this(-2) status to display INVALID across pdf for older sequences -->
+<DECORATION>
+    <STATUS>-2</STATUS>
+    <WATERMARK TYPE="TEXT" FONT-COLOR="#CE437D">INVALID</WATERMARK>
+</DECORATION>
+
+</DECORATIONS>

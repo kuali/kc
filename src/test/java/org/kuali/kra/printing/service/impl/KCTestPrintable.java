@@ -17,8 +17,6 @@ package org.kuali.kra.printing.service.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -27,10 +25,9 @@ import java.util.Map;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.printing.Printable;
-import org.kuali.kra.printing.PrintingException;
+import org.kuali.kra.util.watermark.Watermarkable;
 import org.kuali.kra.printing.WaterMarkable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
@@ -86,12 +83,12 @@ public class KCTestPrintable extends PersistableBusinessObjectBase implements
         return null;
     }
 
-    public boolean applyWaterMark() {
+    public boolean applyWatermark() {
         // TODO Auto-generated method stub
         return false;
     }
 
-    public WaterMarkable getWaterMarkable() {
+    public Watermarkable getWatermarkable() {
         // TODO Auto-generated method stub
         return null;
     }
