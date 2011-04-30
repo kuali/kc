@@ -20,6 +20,7 @@ import java.util.Calendar;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.service.S2SUtilService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 
 /**
@@ -34,7 +35,7 @@ public abstract class NSFCoverPageBaseGenerator extends S2SBaseFormGenerator {
 	protected static final String QUESTION_ID_BEGIN_INVESTIGATOR = "12";
 	protected static final String QUESTION_ID_EXPLORATORY_RESEARCH = "14";
 	protected static final String QUESTION_ID_HISTORIC_PLACES = "G6";
-	protected static final String PROPOSAL_YNQ_LOBBYING_ACTIVITIES = "P1";
+	protected static final String PROPOSAL_YNQ_LOBBYING_ACTIVITIES = "P4";
 	protected static final String QUESTION_ID_RESOLUTION_GRAPHICS = "20";
 	protected static final String PRINCIPAL_INVESTIGATOR = "PI";
 	protected static final String PI_C0_INVESTIGATOR = "COI";
@@ -51,8 +52,11 @@ public abstract class NSFCoverPageBaseGenerator extends S2SBaseFormGenerator {
 	
 	protected static final int SINGLE_COPY_DOCUMENT = 87;
 	protected static final Integer QUESTIONNAIRE_ID_2 = 2;
-
+	protected static final String ORGANIZATION_ID_PARAMETER = "organizationId";
+	protected static final String LOBBYING_QUESTION_ID = "H0";
+	protected static final String ANSWER_INDICATOR_VALUE="Y";
 	protected S2SUtilService s2sUtilService;
+	protected BusinessObjectService businessObjectService;
 
 	/**
 	 * 
@@ -61,6 +65,7 @@ public abstract class NSFCoverPageBaseGenerator extends S2SBaseFormGenerator {
 	public NSFCoverPageBaseGenerator() {
 		dateTimeService = KraServiceLocator.getService(DateTimeService.class);
 		s2sUtilService = KraServiceLocator.getService(S2SUtilService.class);
+		businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
 	}
 
 	/**

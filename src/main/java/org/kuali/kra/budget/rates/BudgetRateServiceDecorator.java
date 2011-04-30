@@ -270,7 +270,7 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
             ratesOutOfSync=filteredEbRates.size()!=1;
             if(!ratesOutOfSync){
                 BudgetRate budgetEbOnCampusRate = filteredEbRates.get(0);
-                ratesOutOfSync = budgetEbOnCampusRate.getApplicableRate().bigDecimalValue().equals(specialEbRateOnCampus.bigDecimalValue());
+                ratesOutOfSync = !budgetEbOnCampusRate.getApplicableRate().bigDecimalValue().equals(specialEbRateOnCampus.bigDecimalValue());
             }
         }
         KualiDecimal specialEbRateOffCampus = award.getSpecialEbRateOffCampus();
@@ -281,7 +281,7 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
             ratesOutOfSync=filteredOffCampusEbRates.size()!=1;
             if(!ratesOutOfSync){
                 BudgetRate budgetEbOnCampusRate = filteredOffCampusEbRates.get(0);
-                ratesOutOfSync = budgetEbOnCampusRate.getApplicableRate().bigDecimalValue().equals(specialEbRateOffCampus.bigDecimalValue());
+                ratesOutOfSync = !budgetEbOnCampusRate.getApplicableRate().bigDecimalValue().equals(specialEbRateOffCampus.bigDecimalValue());
             }
         }
 

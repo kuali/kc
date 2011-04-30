@@ -37,7 +37,9 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
+import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.core.BudgetService;
@@ -62,8 +64,10 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.LookupResultsService;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
  * Struts Action class for requests from the Budget Versions page.
@@ -72,7 +76,8 @@ public class BudgetVersionsAction extends BudgetAction {
     private static final String TOGGLE_TAB = "toggleTab";
     private static final String CONFIRM_SYNCH_BUDGET_RATE = "confirmSynchBudgetRate";
     private static final String NO_SYNCH_BUDGET_RATE = "noSynchBudgetRate";
-    
+    private static final String CONFIRM_SYNCH_AWARD_RATES = "confirmSynchAwardRates";
+    private static final String NO_SYNCH_AWARD_RATES = "noSynchAwardRates";
     /**
      * Main execute method that is run. Populates A map of rate types in the {@link HttpServletRequest} instance to be used
      * in the JSP. The map is called <code>rateClassMap</code> this is set everytime execute is called in this class. This should only
@@ -108,10 +113,36 @@ public class BudgetVersionsAction extends BudgetAction {
         final ActionForward forward = super.docHandler(mapping, form, request, response);
         final BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        Budget budget = budgetDocument.getBudget();
         BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
         budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(parentDocument.getBudgetDocumentVersions()));
         setBudgetStatuses(parentDocument);
-        
+        BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
+        Collection<BudgetRate> allPropRates = budgetService.getSavedProposalRates(budget);
+	      if(parentDocument.getBudgetParent() instanceof Award){
+	    	Award award=(Award)parentDocument.getBudgetParent();
+	    	List ebRates =new ArrayList();
+	    	if(award.getSpecialEbRateOffCampus()!=null)
+	    		ebRates.add(award.getSpecialEbRateOffCampus());
+	    	if(award.getAwardDocument().getAward().getSpecialEbRateOnCampus()!=null)
+	    		ebRates.add(award.getAwardDocument().getAward().getSpecialEbRateOnCampus());
+	        List<AwardFandaRate> fandaRates = award.getAwardFandaRate();
+	    	if(budgetService.checkRateChange(allPropRates, fandaRates,ebRates)){
+	        	StrutsConfirmation question=syncAwardBudgetRateConfirmationQuestion(mapping, form, request, response,
+	                    KeyConstants.QUESTION_SYNCH_AWARD_RATE);
+	        	 question.setCaller(((KualiForm) question.getForm()).getMethodToCall());
+	        	 Object buttonClicked = question.getRequest().getParameter(QUESTION_CLICKED_BUTTON);
+	        	 if (buttonClicked==null||ConfirmationQuestion.YES.equals(buttonClicked)){
+	        	return confirm(syncAwardBudgetRateConfirmationQuestion(mapping, form, request, response,
+	                    KeyConstants.QUESTION_SYNCH_AWARD_RATE), CONFIRM_SYNCH_AWARD_RATES, NO_SYNCH_AWARD_RATES);
+	        	 }
+	        	 else{
+	        		   return mapping.findForward(Constants.MAPPING_LOOKUP_PAGE);
+	        		 
+	        	 }
+	        }
+	    	
+	    }
         final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
         tdcValidator.validateGeneratingWarnings(parentDocument);
 
@@ -155,21 +186,25 @@ public class BudgetVersionsAction extends BudgetAction {
      */
     public ActionForward openBudgetVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
+        
         BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
         
         if (!"TRUE".equals(budgetForm.getEditingMode().get(AuthorizationConstants.EditMode.VIEW_ONLY))) {
             save(mapping, form, request, response);
         }
         BudgetDocument budgetDoc = budgetForm.getDocument();
+        
         Budget budget = budgetDoc.getBudget();
         BudgetParentDocument pdDoc = budgetDoc.getParentDocument();
         BudgetParent budgetParent = pdDoc.getBudgetParent();
+        
         BudgetDocumentVersion budgetDocumentToOpen = pdDoc.getBudgetDocumentVersion(getSelectedLine(request));
         BudgetVersionOverview budgetToOpen = budgetDocumentToOpen.getBudgetVersionOverview();
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
         BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
         Budget budgetOpen = budgetDocument.getBudget();
         Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+        
         
         Collection<BudgetRate> allPropRates = budgetService.getSavedProposalRates(budgetOpen);
         if(getBudgetRateService().performSyncFlag(budgetDocument)){
@@ -201,7 +236,23 @@ public class BudgetVersionsAction extends BudgetAction {
     public ActionForward noSynchBudgetRate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return synchBudgetRate(mapping, form, request, response, false);
     }
-
+    public ActionForward confirmSynchAwardRates(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return synchAwardBudgetRate(mapping, form, request, response, true);
+    }
+    public ActionForward noSynchAwardRates(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return synchAwardBudgetRate(mapping, form, request, response, false);
+    }
+    private ActionForward synchAwardBudgetRate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, boolean confirm) throws Exception {
+        BudgetForm budgetForm = (BudgetForm) form;
+        BudgetDocument budgetDoc = budgetForm.getDocument();
+        BudgetParentDocument pdDoc = budgetDoc.getParentDocument();
+        Long routeHeaderId = budgetDoc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+        String forward = buildForwardUrl(routeHeaderId);
+        if (confirm) {
+            forward = forward.replace("awardBudgetParameters.do?", "awardBudgetParameters.do?syncBudgetRate=Y&");
+         }
+        return new ActionForward(forward, true);
+    }
     private ActionForward synchBudgetRate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, boolean confirm) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDoc = budgetForm.getDocument();
@@ -355,6 +406,11 @@ public class BudgetVersionsAction extends BudgetAction {
     private StrutsConfirmation syncBudgetRateConfirmationQuestion(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response, String message) throws Exception {
         return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_SYNCH_BUDGET_RATE,
+                message, "");
+    }
+    private StrutsConfirmation syncAwardBudgetRateConfirmationQuestion(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response, String message) throws Exception {
+        return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_SYNCH_AWARD_RATES,
                 message, "");
     }
     /**

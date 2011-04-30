@@ -25,16 +25,23 @@ import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin1Max100DataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.bo.Organization;
+import org.kuali.kra.bo.OrganizationYnq;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq;
+import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.s2s.generator.S2SQuestionnairing;
 import org.kuali.kra.s2s.util.S2SConstants;
+
 
 /**
  * 
@@ -191,9 +198,49 @@ public class NSFCoverPageV1_3Generator extends NSFCoverPageBaseGenerator impleme
 				}
 			}
 		}
+		Organization organization = getOrganizationFromDevelopmentProposal(pdDoc.getDevelopmentProposal());
+		List<OrganizationYnq> organizationYnqs = null;
+		if (organization != null && organization.getOrganizationId() != null) {
+			organizationYnqs = getOrganizationYNQ(organization
+					.getOrganizationId());
+		}
+		for (OrganizationYnq organizationYnq : organizationYnqs) {
+			if (organizationYnq.getQuestionId().equals(LOBBYING_QUESTION_ID)) {
+					if(getAnswerFromOrganizationYnq(organizationYnq)){
+						return YesNoDataType.Y_YES;
+					}
+			}
+		}
 		return answer;
 	}
-
+	  /*
+     * This method return true if question is answered otherwise false .
+     */
+    protected boolean getAnswerFromOrganizationYnq(OrganizationYnq organizationYnq) {
+        return organizationYnq.getAnswer().equals(ANSWER_INDICATOR_VALUE) ? true : false;
+    }
+	 /*
+     * This method will get the list of Organization YNQ for given question id.
+     */
+    private List<OrganizationYnq> getOrganizationYNQ(String questionId) {
+        OrganizationYnq organizationYnq = null;
+        Map<String, String> organizationYnqMap = new HashMap<String, String>();
+        organizationYnqMap.put(ORGANIZATION_ID_PARAMETER, questionId);
+        List<OrganizationYnq> organizationYnqs = (List<OrganizationYnq>) businessObjectService.findMatching(OrganizationYnq.class,
+                organizationYnqMap);
+        return organizationYnqs;
+    }
+	/*
+     * This method will get the Organization from the Development proposal.
+     */
+    private Organization getOrganizationFromDevelopmentProposal(DevelopmentProposal developmentProposal) {
+        Organization organization = null;
+        ProposalSite proposalSite = developmentProposal.getApplicantOrganization();
+        if (proposalSite != null) {
+            organization = proposalSite.getOrganization();
+        }
+        return organization;
+    }
 	/**
 	 * 
 	 * This method returns DivisionCode and ProgramCode information for the

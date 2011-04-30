@@ -30,6 +30,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
+import org.kuali.kra.infrastructure.CitizenshipTypes;
 import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.bo.State;
 
@@ -298,6 +299,6 @@ public interface S2SUtilService {
      * @param proposalPerson
      * @return
      */
-    public Enum getCitizenship(ProposalPerson proposalPerson);
+    public CitizenshipTypes getCitizenship(ProposalPerson proposalPerson);
 
 }

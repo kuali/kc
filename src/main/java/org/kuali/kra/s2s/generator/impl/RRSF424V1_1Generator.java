@@ -143,18 +143,15 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 			rrsf424.setActivityTitle(announcementTitle);
 		}
 		rrsf424.setProjectTitle(devProp.getTitle());
-		ProposalSite performingOrganization = devProp
-				.getPerformingOrganization();		
-		if (performingOrganization != null
-                && devProp.getProposalAbstracts() != null) {   
-		    List<ProposalAbstract> proposalAbstractList = devProp.getProposalAbstracts();	
-		    String state="";		   
-		    for (ProposalAbstract proposalAbstract : proposalAbstractList) {
-		         if( proposalAbstract.getAbstractTypeCode().equals(ABSTRACT_TYPE_CODE))		         
-		            state = proposalAbstract.getAbstractDetails();		
-		        }
-		    rrsf424.setLocation(state);
-        }	
+		if (devProp.getProposalAbstracts() != null) {   
+           List<ProposalAbstract> proposalAbstractList = devProp.getProposalAbstracts(); 
+           String state="";     
+           for (ProposalAbstract proposalAbstract : proposalAbstractList) {
+               if( proposalAbstract.getAbstractTypeCode().equals(AREAS_AFFECTED_ABSTRACT_TYPE_CODE))           
+                   state = proposalAbstract.getAbstractDetails();  
+               }
+           rrsf424.setLocation(state);
+        }
 		rrsf424.setProposedProjectPeriod(getProjectPeriod());
 		rrsf424.setCongressionalDistrict(getCongDistrict());
 		rrsf424.setPDPIContactInfo(getPDPI());

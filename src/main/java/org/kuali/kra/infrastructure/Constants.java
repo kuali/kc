@@ -56,6 +56,7 @@ public interface Constants {
     public static final String MAPPING_INSTITUTE_ATTACHMENT_RIGHTS_PAGE = "instituteAttachmentRights";
     public static final String MAPPING_RESUBMISSION_PROMPT = "resubmissionPrompt";
     public static final String MAPPING_HOLDING_PAGE = "kraHoldingPage";
+    public static final String MAPPING_LOOKUP_PAGE ="lookUpPage";
     
     public static final String HOLDING_PAGE_MESSAGES = "holdingPageMessages";
     public static final String HOLDING_PAGE_RETURN_LOCATION = "holdingPageReturnLocation";
