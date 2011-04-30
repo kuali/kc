@@ -26,7 +26,6 @@
       <list>
         <ref bean="AwardBudgetPeriodExt-totalCostLimit" />
         <ref bean="AwardBudgetPeriodExt-obligatedAmount" />
-        <ref bean="AwardBudgetPeriodExt-totalFringeAmount" />
       </list>
     </property>
   </bean>
@@ -42,15 +41,6 @@
     <property name="description" value="Obligated amount from award amount info"/>
   </bean>
 
-  <bean id="AwardBudgetPeriodExt-totalFringeAmount" parent="AwardBudgetPeriodExt-totalFringeAmount-parentBean"/>
-
-  <bean id="AwardBudgetPeriodExt-totalFringeAmount-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
-    <property name="name" value="totalFringeAmount"/>
-    <property name="label" value="Total Fringe Amount"/>
-    <property name="shortLabel" value="Total Fringe Amount"/>
-    <property name="summary" value="Total Fringe amount from award amount info"/>
-    <property name="description" value="Total Fringe amount from award amount info"/>
-  </bean>
 
   <bean id="AwardBudgetPeriodExt-totalCostLimit" parent="AwardBudgetPeriodExt-totalCostLimit-parentBean" />
 
@@ -79,8 +69,6 @@
                     p:attributeName="totalCostLimit" />
               <bean parent="FieldDefinition"
                     p:attributeName="obligatedAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="totalFringeAmount" />
             </list>
           </property>
         </bean>
@@ -107,8 +95,6 @@
                     p:attributeName="totalCostLimit" />
               <bean parent="FieldDefinition"
                     p:attributeName="obligatedAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="totalFringeAmount" />
       </list>
     </property>
     <property name="resultFields" >
