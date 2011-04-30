@@ -982,19 +982,23 @@ public abstract class AwardBaseStream implements XmlStream {
 			awardTransactionType.setAmountSequenceNumber(awardAmountInfo
 					.getSequenceNumber());
 		}
-		if (awardAmountTransaction.getTransactionTypeCode() != null) {
+		if (awardAmountTransaction !=null
+		        && awardAmountTransaction.getTransactionTypeCode() != null) {
             awardTransactionType.setTransactionTypeCode(awardAmountTransaction
                     .getTransactionTypeCode());
         }
-        if (awardAmountTransaction.getAwardTransactionType() != null) {
+        if (awardAmountTransaction !=null
+                && awardAmountTransaction.getAwardTransactionType() != null) {
             awardTransactionType.setTransactionTypeDesc(awardAmountTransaction
                     .getAwardTransactionType().getDescription());
         }
-        if (awardAmountTransaction.getComments() != null) {
+        if (awardAmountTransaction !=null
+                && awardAmountTransaction.getComments() != null) {
             awardTransactionType.setComments(awardAmountTransaction
                     .getComments());
         }
-        if (awardAmountTransaction.getNoticeDate() != null) {
+        if (awardAmountTransaction !=null
+                && awardAmountTransaction.getNoticeDate() != null) {
             awardTransactionType.setNoticeDate(dateTimeService
                     .getCalendar(awardAmountTransaction.getNoticeDate()));
         }

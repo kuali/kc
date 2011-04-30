@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.printing.print;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -30,6 +29,7 @@ import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.WaterMarkable;
 import org.kuali.kra.printing.xmlstream.XmlStream;
+import org.kuali.kra.util.watermark.Watermarkable;
 
 /**
  * This class provides all the objects required for printing reports. It
@@ -137,17 +137,23 @@ public abstract class AbstractPrint implements Printable {
     public List<Source> getXSLTemplates(){
         return null;
     }
-    
-    public boolean applyWaterMark(){
+	/**
+	 * This methord for checking watermark is enable or disable
+	 * @see org.kuali.kra.printing.Printable#applyWatermark()
+	 */
+    public boolean applyWatermark(){
         return false;
     }
-    
-    public WaterMarkable getWaterMarkable(){
-        if(applyWaterMark()){
+    /**
+     * 
+     *This methord for getting the watermark object .
+     */
+    public Watermarkable getWatermarkable(){
+        if(applyWatermark()){
             throw new RuntimeException("Watermarkable not implemented");
         }else{
             return null;
         }
     }
-	
+
 }

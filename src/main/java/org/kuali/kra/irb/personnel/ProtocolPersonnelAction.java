@@ -375,8 +375,7 @@ public class ProtocolPersonnelAction extends ProtocolAction {
         Protocol protocol = protocolForm.getDocument().getProtocol();
         
         for (ProtocolPerson protocolPerson : protocol.getProtocolPersons()) {
-            if (protocolPerson.isPrincipalInvestigator() &&
-                    (protocolPerson.getPersonId() != protocol.getPrincipalInvestigatorId())) {
+            if (protocolPerson.isPrincipalInvestigator() && !protocolPerson.getPersonId().equals(protocol.getPrincipalInvestigatorId())) {
                 // reset PI from cached getter
                 protocol.setPrincipalInvestigatorId(null);
 

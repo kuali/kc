@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
+import static org.kuali.rice.kns.util.KNSConstants.QUESTION_CLICKED_BUTTON;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -29,6 +32,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
+import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.budget.core.Budget;
@@ -53,12 +57,14 @@ import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.LookupResultsService;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
  * Struts Action class for the Propsoal Development Budget Versions page
@@ -160,8 +166,28 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         BudgetVersionOverview budgetToOpen = budgetDocumentToOpen.getBudgetVersionOverview();
         Collection<BudgetRate> allBudgetRates = budgetService.getSavedProposalRates(budgetToOpen);
         BudgetParent budgetParent = awardDocument.getBudgetParent();
+        List<AwardFandaRate> fandaRates = awardForm.getAwardDocument().getAward().getAwardFandaRate();
+        List ebRates =new ArrayList();
+        if(awardForm.getAwardDocument().getAward().getSpecialEbRateOffCampus()!=null)
+        	ebRates.add(awardForm.getAwardDocument().getAward().getSpecialEbRateOffCampus());
+        if(awardForm.getAwardDocument().getAward().getSpecialEbRateOnCampus()!=null)
+        	ebRates.add(awardForm.getAwardDocument().getAward().getSpecialEbRateOnCampus());
         if(budgetParent.getRequestedStartDateInitial()==null || budgetParent.getRequestedEndDateInitial()==null){
             return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+        
+        if(budgetService.checkRateChange(allBudgetRates, fandaRates,ebRates)){
+        	StrutsConfirmation question=syncBudgetRateConfirmationQuestion(mapping, form, request, response,
+                    KeyConstants.QUESTION_SYNCH_AWARD_RATE);
+        	 question.setCaller(((KualiForm) question.getForm()).getMethodToCall());
+        	 Object buttonClicked = question.getRequest().getParameter(QUESTION_CLICKED_BUTTON);
+        	 if (buttonClicked==null||ConfirmationQuestion.YES.equals(buttonClicked)){
+        	return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
+                    KeyConstants.QUESTION_SYNCH_AWARD_RATE), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
+        	 }
+        	 else{
+        		 return mapping.findForward(Constants.MAPPING_BASIC);
+        	 }
         }
         if (budgetService.checkActivityTypeChange(allBudgetRates, budgetParent.getActivityTypeCode())) {
             return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
@@ -216,7 +242,10 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         String forward = buildForwardUrl(routeHeaderId);
         if (confirm) {
             budgetDocument.getBudget().setActivityTypeCode(awardDoc.getBudgetParent().getActivityTypeCode());
-            forward = forward.replace("budgetParameters.do?", "budgetParameters.do?syncBudgetRate=Y&");
+            Budget budget = budgetDocument.getBudget();
+          
+          budget.setRateClassTypesReloaded(false);
+          forward = forward.replace("awardBudgetParameters.do?", "awardBudgetParameters.do?syncBudgetRate=Y&");
         }
         if (awardForm.isAuditActivated()) {
             forward = StringUtils.replace(forward, "budgetParameters.do?", "budgetParameters.do?auditActivated=true&");

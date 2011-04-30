@@ -67,15 +67,15 @@ public abstract class PHS398FellowshipSupplementalBaseGenerator extends
 	protected static final int OTHER_MDOT = 21;
 	protected static final int SUBMITTED_DIFF_INST = 28;
 	protected static final int FORMER_INST = 29;
-	protected static final int SENIOR = 36;
-	protected static final int SUPP_FUNDING_REQ = 37;
-	protected static final int SUPP_FUNDING_AMT = 38;
-	protected static final int SUPP_MONTHS = 51;
-	protected static final int SUPP_SOURCE = 41;
-	protected static final int SUPP_TYPE = 40;
-	protected static final int SALARY_MONTH = 50;
-	protected static final int ACAD_PERIOD = 48;
-	protected static final int BASE_SALARY = 47;
+	protected static final int SENIOR = 72;
+	protected static final int SUPP_FUNDING_REQ = 73;
+	protected static final int SUPP_FUNDING_AMT = 74;
+	protected static final int SUPP_MONTHS = 75;
+	protected static final int SUPP_SOURCE = 77;
+	protected static final int SUPP_TYPE = 76;
+	protected static final int SALARY_MONTH = 122;
+	protected static final int ACAD_PERIOD = 121;
+	protected static final int BASE_SALARY = 120;
 
 	protected static final int INTRODUCTION_TO_APPLICATION = 97;
 	protected static final int SPECIFIC_AIMS = 98;

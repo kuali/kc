@@ -33,6 +33,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetCommonService;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeService;
@@ -122,9 +123,8 @@ public class BudgetAction extends BudgetActionBase {
             ((BudgetForm)GlobalVariables.getKualiForm()).setUrRateClassCodePrevValue(budget.getUrRateClassCode());
         }
         
-        if (budgetDocument.getParentDocument() instanceof AwardDocument) {
+        if (budgetDocument.getParentDocument() instanceof AwardDocument && StringUtils.isNotBlank(budgetForm.getSyncBudgetRate()) && budgetForm.getSyncBudgetRate().equals("Y")) {
             getBudgetRatesService().syncParentDocumentRates(budgetDocument);
-            //budgetForm.setSyncBudgetRate("");
             getBudgetSummaryService().calculateBudget(budget);
         }
         
@@ -139,8 +139,6 @@ public class BudgetAction extends BudgetActionBase {
     private BudgetRatesService<BudgetParent> getBudgetRatesService() {
         return KraServiceLocator.getService(BudgetRatesService.class);
     }
-
-
     public List<HeaderNavigation> getBudgetHeaderNavigatorList(){
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
         DocumentEntry docEntry = dataDictionaryService.getDataDictionary().getDocumentEntry(BudgetDocument.class.getName());
@@ -725,6 +723,6 @@ public class BudgetAction extends BudgetActionBase {
         }
         return forward;
     }
-    
+   
     
 }

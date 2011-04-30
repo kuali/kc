@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.s2s.service.impl;
 
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDataType;
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDataType.Enum;
+
+
 
 import java.sql.Date;
 import java.text.DateFormat;
@@ -75,7 +75,7 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterConstants;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.StateService;
-
+import org.kuali.kra.infrastructure.CitizenshipTypes;
 /**
  * 
  * 
@@ -115,7 +115,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 	private static final String SEQUENCE_NUMBER="sequenceNumber";
 	private static final String QUESTIONNAIRE_ID="questionnaireId";
 	private static final String QUESTIONNAIRE_REF_ID_FK="questionnaireRefIdFk";
-
+	private static final String PI_CUSTOM_DATA = "PI_CITIZENSHIP_FROM_CUSTOM_DATA";
 	/**
 	 * This method creates and returns Map of submission details like submission
 	 * type, description and Revision code
@@ -1069,11 +1069,34 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      * @see org.kuali.kra.s2s.service.S2SUtilService#getCitizenship(org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
      * 
      */
-    public Enum getCitizenship(ProposalPerson proposalPerson) {
-        CitizenshipType citizenship = proposalPerson.getPerson().getExtendedAttributes().getCitizenshipType();
-        return this.citizenshipTypeService.getEnumValueOfCitizenshipType(citizenship);
-    }
+    public CitizenshipTypes getCitizenship(ProposalPerson proposalPerson){
+    String citizenSource = "1";
+	String piCitizenShipValue = getParameterValue(PI_CUSTOM_DATA);
+	if (piCitizenShipValue != null) {
+		citizenSource = piCitizenShipValue; 
+	}
+	  if (citizenSource.equals("0")) {
+		  CitizenshipTypes citizenShipType=citizenshipTypeService.getCitizenshipDataFromExternalSource();
+		  return  citizenShipType;
+      } else {
+    	  CitizenshipType citizenShip=proposalPerson.getPerson().getExtendedAttributes().getCitizenshipType();
+    	  CitizenshipTypes retVal = null;
+    	  String citizenShipCode=String.valueOf(citizenShip.getCitizenshipTypeCode());
+    	  if(citizenShipCode.equals(parameterService.getParameterValue("KC-GEN","A","NON_US_CITIZEN_WITH_TEMPORARY_VISA_TYPE_CODE"))){
+    		 return  CitizenshipTypes.NON_US_CITIZEN_WITH_TEMPORARY_VISA;
+    	  }
+    	  else if(citizenShipCode.equals(parameterService.getParameterValue("KC-GEN","A","PERMANENT_RESIDENT_OF_US_TYPE_CODE"))){
+    		  return CitizenshipTypes.PERMANENT_RESIDENT_OF_US;
+    	  }
+    	  else if(citizenShipCode.equals( parameterService.getParameterValue("KC-GEN","A","US_CITIZEN_OR_NONCITIZEN_NATIONAL_TYPE_CODE"))){
+    		  return CitizenshipTypes.US_CITIZEN_OR_NONCITIZEN_NATIONAL;
+    	  }
+    	  else{
+    		  throw new IllegalArgumentException("Invalid citizenship type provided");
+    	  }
 
+      }
+    }
     /**
      * Gets the proposalDevelopmentS2sQuestionnaireService attribute. 
      * @return Returns the proposalDevelopmentS2sQuestionnaireService.

@@ -21,8 +21,8 @@ import java.util.Map;
 
 import javax.xml.transform.Source;
 
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.util.watermark.Watermarkable;
 
 /**
  * 
@@ -66,7 +66,16 @@ public interface Printable extends Serializable {
 	 */
 	public Map<String, byte[]> getAttachments();
 	
-	public boolean applyWaterMark();
-	
-	public WaterMarkable getWaterMarkable();
+	/**
+	 * 
+	 * This method for checking if watermark is enable or disable...
+	 * @return
+	 */
+	public boolean applyWatermark();
+	/**
+	 *  
+	 * This method for setting the appropriate watermark...
+	 * @return
+	 */
+	public Watermarkable getWatermarkable();
 }
