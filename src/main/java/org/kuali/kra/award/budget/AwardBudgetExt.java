@@ -46,9 +46,11 @@ public class AwardBudgetExt extends Budget {
     private String budgetInitiator;
     private BudgetVersionOverview prevBudget;
     private List<BudgetDecimal> budgetsTotals;
+    private List<AwardBudgetLimit> awardBudgetLimits;
     
-    public AwardBudgetExt() { 
+    public AwardBudgetExt() {
         super();
+        awardBudgetLimits = new ArrayList<AwardBudgetLimit>();
     } 
     public AwardBudgetPeriodExt getNewBudgetPeriod(){
         return new AwardBudgetPeriodExt();
@@ -182,7 +184,7 @@ public class AwardBudgetExt extends Budget {
     }
     
     public BudgetVersionOverview getPrevBudget() {
-        if (prevBudget == null) {
+        if (prevBudget == null && this.getBudgetDocument() != null) {
             Integer version = 0;
             for (BudgetDocumentVersion budgetDocumentVersion : this.getBudgetDocument().getParentDocument().getBudgetDocumentVersions()) {
                 for (BudgetVersionOverview budgetVersionOverview : budgetDocumentVersion.getBudgetVersionOverviews()) {
@@ -233,6 +235,12 @@ public class AwardBudgetExt extends Budget {
         String rebudgetTypeCode = KraServiceLocator.getService(ParameterService.class).
                     getParameterValue(AwardBudgetDocument.class,KeyConstants.AWARD_BUDGET_TYPE_REBUDGET);
         return Boolean.toString(getAwardBudgetTypeCode().equals(rebudgetTypeCode));
+    }
+    public List<AwardBudgetLimit> getAwardBudgetLimits() {
+        return awardBudgetLimits;
+    }
+    public void setAwardBudgetLimits(List<AwardBudgetLimit> awardBudgetLimits) {
+        this.awardBudgetLimits = awardBudgetLimits;
     }
 
 }

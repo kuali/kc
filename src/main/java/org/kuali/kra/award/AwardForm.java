@@ -31,6 +31,7 @@ import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyBean;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyTempObject;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncBean;
+import org.kuali.kra.award.budget.BudgetLimitSummaryHelper;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.commitments.CostShareFormHelper;
 import org.kuali.kra.award.contacts.AwardCentralAdminContactsBean;
@@ -192,6 +193,7 @@ public class AwardForm extends BudgetVersionFormBase
     
     private Long placeHolderAwardId;
     private boolean docOpenedFromAwardSearch;
+    private BudgetLimitSummaryHelper budgetLimitSummary;
 
     private transient ParameterService parameterService;
 
@@ -258,6 +260,7 @@ public class AwardForm extends BudgetVersionFormBase
         syncMode = false;
         awardSyncBean = new AwardSyncBean(this);
         setDirectIndirectViewEnabled(getParameterService().getParameterValue(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST"));
+        budgetLimitSummary = new BudgetLimitSummaryHelper();
     }
 
     /**
@@ -1282,58 +1285,8 @@ public class AwardForm extends BudgetVersionFormBase
     public void setCurrentSeqNumber(String currentSeqNumber) {
         this.currentSeqNumber = currentSeqNumber;
     }
-
-    public List<List<BudgetDecimal>> getPersonnelBudgetLimits() {
-        return personnelBudgetLimits;
-    }
-
-    public void setPersonnelBudgetLimits(List<List<BudgetDecimal>> personnelBudgetLimits) {
-        this.personnelBudgetLimits = personnelBudgetLimits;
-    }
-
-    public List<List<BudgetDecimal>> getNonPersonnelBudgetLimits() {
-        return nonPersonnelBudgetLimits;
-    }
-
-    public void setNonPersonnelBudgetLimits(List<List<BudgetDecimal>> nonPersonnelBudgetLimits) {
-        this.nonPersonnelBudgetLimits = nonPersonnelBudgetLimits;
-    }
     
-    public List<String> getPersonnelLabel() {
-        List<String> personnelLabels = new ArrayList<String>();
-        personnelLabels.add(0, "Salary");
-        personnelLabels.add(1, "Fringe");
-        personnelLabels.add(2, "Calculated Direct Cost");
-        personnelLabels.add(3, "Personnel Subtotal");
-        return personnelLabels;
-    }
 
-    public List<String> getNonPersonnelLabel() {
-        List<String> nonPersonnelLabels = new ArrayList<String>();
-        nonPersonnelLabels.add(0, "Equipment");
-        nonPersonnelLabels.add(1, "Travel");
-        nonPersonnelLabels.add(2, "Participant Support");
-        nonPersonnelLabels.add(3, "Other Direct");
-        nonPersonnelLabels.add(4, "Calculated Direct Cost");
-        nonPersonnelLabels.add(5, "Non-Personnel Subtotal");
-        return nonPersonnelLabels;
-    }
-
-    public List<String> getTotalLabel() {
-        List<String> personnelLabels = new ArrayList<String>();
-        personnelLabels.add(0, "TOTAL DIRECT COSTS");
-        personnelLabels.add(1, "TOTAL F&A COSTS");
-        personnelLabels.add(2, "TOTAL COSTS");
-        return personnelLabels;
-    }
-
-    public List<List<BudgetDecimal>> getTotalBudgetLimits() {
-        return totalBudgetLimits;
-    }
-
-    public void setTotalBudgetLimits(List<List<BudgetDecimal>> totalBudgetLimits) {
-        this.totalBudgetLimits = totalBudgetLimits;
-    }
     
     public String getCanCreateAward() {
         Boolean aFlag = this.getEditingMode().containsKey(Constants.CAN_CREATE_AWARD_KEY);
@@ -1449,5 +1402,13 @@ public class AwardForm extends BudgetVersionFormBase
 
     public void setDocOpenedFromAwardSearch(boolean docOpenedFromAwardSearch) {
         this.docOpenedFromAwardSearch = docOpenedFromAwardSearch;
+    }
+
+    public BudgetLimitSummaryHelper getBudgetLimitSummary() {
+        return budgetLimitSummary;
+    }
+
+    public void setBudgetLimitSummary(BudgetLimitSummaryHelper budgetLimitSummary) {
+        this.budgetLimitSummary = budgetLimitSummary;
     }
 }

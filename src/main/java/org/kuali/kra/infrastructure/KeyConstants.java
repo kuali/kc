@@ -260,6 +260,8 @@ public final class KeyConstants {
     public static final String AUDIT_ERROR_BUDGET_DISTRIBUTION_DUPLICATE_UNRECOVERED_FA = "error.budget.distribution.duplicate.unrecoveredFA";
     public static final String AUDIT_ERROR_COMMENTS_REQUIRED_FOR_REBUDGET = "error.budget.comments.required.for.rebudget";
     public static final String AUDIT_ERROR_TOTAL_COST = "error.budget.total.cost";
+    public static final String AUDIT_ERROR_COST_LIMIT = "error.budget.cost.limit";
+    public static final String AUDIT_ERROR_COST_LIMITS_CHANGED = "error.budget.cost.limits.changed";
 
     // Copy proposal
     public static final String ERROR_LEAD_UNIT_REQUIRED = "error.leadUnit.required";
@@ -380,6 +382,10 @@ public final class KeyConstants {
     public static final String ERROR_DUPLICATE_AWARD_TRANSFERRING_SPONSOR = "error.sponsor.duplicate";
     public static final String ERROR_AWARD_EFFECTIVE_DATE = "error.award.effective.date";
     public static final String ERROR_OBLIGATION_EXPIRATION_DATE = "error.obligation.expiration.date";
+    
+    //Award Budget
+    public static final String WARNING_AWARD_BUDGET_LIMIT_LESSTHAN_OBLIGATED = "warning.awardbudget.limit.lessthan.obligated";
+    public static final String ERROR_AWARD_BUDGET_COST_LIMIT_EXCEEDS_OBLIGATED = "error.awardbudget.limit.exceeds.obligated";
     
     //Award Cost Share
     public static final String ERROR_FISCAL_YEAR_RANGE = "error.awardCostShare.fiscalYear.range";

@@ -15,14 +15,20 @@
  */
 package org.kuali.kra.web.struts.action;
 
+import java.util.Iterator;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.event.DocumentAuditEvent;
 import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.util.AuditCluster;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
@@ -31,6 +37,10 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 public final class AuditActionHelper {
     
     private final KualiRuleService ruleService; 
+    
+    public enum ValidationState {
+        ERROR, WARNING, OK;
+    }    
     
     /**
      * ctor that sets the used services.
@@ -133,4 +143,34 @@ public final class AuditActionHelper {
         }
         return true;
     }
+    
+    /**
+     * Runs validation conditionally or otherwise depending on the unconditionally param
+     * and then if the validation returns false, checks the audit clusters for any error
+     * clusters. Then depending returns OK, WARNING or ERROR.
+     * @param <T>
+     * @param form
+     * @param unconditionally
+     * @return
+     */
+    public <T extends KualiDocumentFormBase & Auditable> ValidationState isValidSubmission(final T form, boolean unconditionally) {
+        ValidationState result = ValidationState.OK;
+        boolean auditPassed;
+        if (unconditionally) {
+            auditPassed = auditUnconditionally(form);
+        } else {
+            auditPassed = auditConditionally(form);
+        }
+        if (!auditPassed) {
+            result = ValidationState.WARNING;
+            for (Iterator iter = GlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();) {
+                AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(iter.next());
+                if (!StringUtils.equalsIgnoreCase(auditCluster.getCategory(), Constants.AUDIT_WARNINGS)) {
+                    result = ValidationState.ERROR;
+                    break;
+                }
+            }
+        }
+        return result;
+    }    
 }
