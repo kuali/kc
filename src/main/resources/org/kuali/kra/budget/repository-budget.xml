@@ -1103,6 +1103,9 @@
 		<reference-descriptor name="awardBudgetType" class-ref="org.kuali.kra.award.budget.AwardBudgetType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="awardBudgetTypeCode"/>
 		</reference-descriptor>
+		<collection-descriptor name="awardBudgetLimits" proxy="true" element-class-ref="org.kuali.kra.award.budget.AwardBudgetLimit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="budgetId"/>
+        </collection-descriptor>
 	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.award.budget.AwardBudgetVersionOverviewExt" table="AWARD_BUDGET_EXT">
 		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" primarykey="true" />
@@ -1209,4 +1212,18 @@
 			<foreignkey field-ref="budgetPersonnelCalculatedAmountId"/>
 		</reference-descriptor>
 	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.award.budget.AwardBudgetLimit" table="AWARD_BUDGET_LIMIT">
+		<field-descriptor name="budgetLimitId" column="BUDGET_LIMIT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_AWRD_BDGT_LMT_ID" />
+		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" access="anonymous"/>
+		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="limitTypeCode" column="LIMIT_TYPE" jdbc-type="VARCHAR" />
+		<field-descriptor name="limit" column="LIMIT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />	
+	</class-descriptor>
+re	
 </descriptor-repository>

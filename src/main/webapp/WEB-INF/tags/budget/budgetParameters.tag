@@ -32,7 +32,7 @@
 	</c:if>
 </c:forEach>
  
-<kul:tabTop tabTitle="Budget Overview" defaultOpen="true" tabErrorKey="budgetParameters*,document.budget.residualFunds,document.budget.totalCostLimit,document.budget.totalDirectCostLimit,budgetVersionOverview[*" auditCluster="budgetParametersOverviewWarnings" tabAuditKey="document.budget.totalCostLimit">
+<kul:tabTop tabTitle="Budget Overview" defaultOpen="true" tabErrorKey="budgetParameters*,document.budget.residualFunds,document.budget.totalCostLimit,document.budget.totalDirectCostLimit,budgetVersionOverview[*" auditCluster="budgetParametersOverviewWarnings,awardBudgetCostLimitAuditErrors" tabAuditKey="document.budget.totalCostLimit,document.budget.awardBudgetLimits">
 	<div class="tab-container" align="center">
 	
 		<kra:softError softErrorKey="projectDatesChanged" />

@@ -21,6 +21,7 @@ import java.util.List;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.BudgetCommonService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
@@ -82,4 +83,12 @@ public interface AwardBudgetService extends BudgetCommonService<Award> {
      * @return
      */
     public List<String> getInactiveBudgetStatus();
+    
+    /**
+     * Populates the passed in limit summary given the award document. Will not overwrite or recalculate
+     * previously stored budgets in the summary if they are the same budget as in the award document.
+     * @param limitSummary
+     * @param awardDocument
+     */
+    void populateBudgetLimitSummary(BudgetLimitSummaryHelper limitSummary, AwardDocument awardDocument);
 }
