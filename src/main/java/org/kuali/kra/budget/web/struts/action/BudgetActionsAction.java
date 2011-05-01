@@ -53,6 +53,7 @@ import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.proposaldevelopment.budget.service.BudgetPrintService;
 import org.kuali.kra.proposaldevelopment.budget.service.BudgetSubAwardService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
+import org.kuali.kra.web.struts.action.AuditActionHelper.ValidationState;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -389,10 +390,9 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         AwardBudgetDocument awardBudgetDocument = ((AwardBudgetForm) form).getAwardBudgetDocument();
-        boolean success = isValidForSubmission(awardBudgetDocument);
         ((AwardBudgetForm) form).setAuditActivated(true);
-        boolean auditPassed = new AuditActionHelper().auditUnconditionally(awardBudgetDocument);
-        if (auditPassed) {
+        ValidationState state = new AuditActionHelper().isValidSubmission((AwardBudgetForm) form, true);
+        if (state != ValidationState.ERROR) {
             getAwardBudgetService().processSubmision(awardBudgetDocument);
             return super.route(mapping, form, request, response);
         }

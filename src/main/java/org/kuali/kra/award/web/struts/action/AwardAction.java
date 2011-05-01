@@ -51,6 +51,9 @@ import org.kuali.kra.award.awardhierarchy.sync.AwardSyncPendingChangeBean;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
 import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncService;
 import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncCreationService;
+import org.kuali.kra.award.budget.AwardBudgetExt;
+import org.kuali.kra.award.budget.AwardBudgetService;
+import org.kuali.kra.award.budget.BudgetLimitSummaryHelper;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardProjectPersonsSaveRule;
 import org.kuali.kra.award.document.AwardDocument;
@@ -90,6 +93,7 @@ import org.kuali.kra.timeandmoney.history.TransactionDetailType;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
+import org.kuali.kra.web.struts.action.AuditActionHelper.ValidationState;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -125,6 +129,7 @@ public class AwardAction extends BudgetParentActionBase {
     private static final String COMFIRMATION_PARAM_STRING = "After Award {0} information is synchronized, make sure that the Award Sponsor Contacts information is also synchronized with the same sponsor template. Failing to do so will result in data inconsistency. Are you sure you want to replace current {0} information with selected {1} template information?";
 
     private ParameterService parameterService;
+    private transient AwardBudgetService awardBudgetService;
     
     private static final Log LOG = LogFactory.getLog( AwardAction.class );
     
@@ -148,9 +153,6 @@ public class AwardAction extends BudgetParentActionBase {
         AwardTemplateSyncScope.COMMENTS_TAB
         };
 
-    private static final int OK = 0;
-    private static final int WARNING = 1;
-    private static final int ERROR = 2;
     private static final int NINE = 9;
     private static final int ZERO = 0;
     private static final String DOCUMENT_ROUTE_QUESTION="DocRoute";
@@ -296,23 +298,6 @@ public class AwardAction extends BudgetParentActionBase {
         return routeToHoldingPage(basicForward, forward, holdingPageForward, returnLocation);
     }
     
-    private int isValidSubmission(AwardDocument awardDocument) {
-        int state = OK;
-        boolean auditPassed = new AuditActionHelper().auditUnconditionally(awardDocument);
-        if (!auditPassed) {
-            state = WARNING;
-            for (Iterator iter = GlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();) {
-                AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(iter.next());
-                if (!StringUtils.equalsIgnoreCase(auditCluster.getCategory(), Constants.AUDIT_WARNINGS)) {
-                    state = ERROR;
-                    GlobalVariables.getErrorMap().putError("noKey", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
-                    break;
-                }
-            }
-        }
-        return state;
-    }
-    
     protected ActionForward submitAward(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
@@ -342,19 +327,19 @@ public class AwardAction extends BudgetParentActionBase {
         Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
         String methodToCall = ((KualiForm) form).getMethodToCall();
         
-        int status = isValidSubmission(awardForm.getAwardDocument());
+        ValidationState status = new AuditActionHelper().isValidSubmission(awardForm, true);
         
-        if (status == WARNING) {
-            if(status == WARNING && question == null){
+        if (status == ValidationState.WARNING) {
+            if(question == null){
                 return this.performQuestionWithoutInput(mapping, form, request, response, DOCUMENT_ROUTE_QUESTION, "Validation Warning Exists. Are you sure want to submit to workflow routing.", KNSConstants.CONFIRMATION_QUESTION, methodToCall, "");
             } else if(DOCUMENT_ROUTE_QUESTION.equals(question) && ConfirmationQuestion.YES.equals(buttonClicked)) {
                 return submitAward(mapping, form, request, response);
-            } else{
+            } else {
                 return forward;
             }    
         }
         
-        if(status == OK){
+        if(status == ValidationState.OK){
            return submitAward(mapping, form, request, response);
         } else {
             GlobalVariables.getErrorMap().clear(); 
@@ -372,8 +357,8 @@ public class AwardAction extends BudgetParentActionBase {
         if (getTimeAndMoneyExistenceService().validateTimeAndMoneyRule(awardForm.getAwardDocument().getAward(),
                 awardForm.getAwardHierarchyNodes())) {
             awardForm.setAuditActivated(true);
-            int status = isValidSubmission(awardForm.getAwardDocument());
-            if (status == ERROR) {
+            ValidationState status = new AuditActionHelper().isValidSubmission(awardForm, true);
+            if (status == ValidationState.ERROR) {
                 GlobalVariables.getMessageMap().clearErrorMessages();
                 GlobalVariables.getMessageMap().putError("datavalidation", KeyConstants.ERROR_WORKFLOW_SUBMISSION, new String[] {});
                 forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
@@ -1203,8 +1188,18 @@ public class AwardAction extends BudgetParentActionBase {
      */
     public ActionForward budgets(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) {
-        getBudgetLimit(form);
+        AwardForm awardForm = (AwardForm) form;
+        getAwardBudgetService().populateBudgetLimitSummary(awardForm.getBudgetLimitSummary(), awardForm.getAwardDocument());
+        defaultCostLimit(awardForm.getAwardDocument());
         return mapping.findForward(Constants.MAPPING_AWARD_BUDGET_VERSIONS_PAGE);
+    }
+    
+    protected void defaultCostLimit(AwardDocument awardDocument) {
+        Award award = awardDocument.getAward();
+        if (award.getTotalCostBudgetLimit().getLimit() == null) {
+            KualiDecimal obligatedAmount = awardDocument.getAward().getObligatedTotal(); 
+            award.getTotalCostBudgetLimit().setLimit(new KualiDecimal(obligatedAmount.bigDecimalValue()));
+        }  
     }
 
     /**
@@ -1652,52 +1647,6 @@ public class AwardAction extends BudgetParentActionBase {
     
     /**
      * 
-     * This method set up data for budget limit panel
-     * @param form
-     */
-    protected void getBudgetLimit(ActionForm form) {
-        AwardForm awardForm = (AwardForm) form;
-        if (awardForm.getAwardDocument().getBudgetVersionOverview() != null
-                && awardForm.getAwardDocument().getBudgetVersionOverview().getBudgetId() != null) {
-            List<Map<String, List<BudgetDecimal>>> budgetLimits = KraServiceLocator.getService(BudgetCalculationService.class)
-                    .getBudgetLimitsTotals(awardForm.getAwardDocument().getBudgetVersionOverview().getBudgetId().toString());
-            awardForm.setPersonnelBudgetLimits(convertPersonnelToList(budgetLimits.get(0)));
-            awardForm.setNonPersonnelBudgetLimits(convertNonPersonnelToList(budgetLimits.get(1)));
-            awardForm.setTotalBudgetLimits(convertTotalToList(budgetLimits.get(2)));
-        }
-
-    }
-    
-    private List<List<BudgetDecimal>> convertPersonnelToList(Map <String, List<BudgetDecimal>> map )  {
-        List<List<BudgetDecimal>> retList = new ArrayList<List<BudgetDecimal>>();
-        retList.add(0, map.get("Salary"));
-        retList.add(1, map.get("Fringe"));
-        retList.add(2, map.get("CalculatedCost"));
-        retList.add(3, map.get("Totals"));
-        return retList;
-    }
-    
-    private List<List<BudgetDecimal>> convertNonPersonnelToList(Map <String, List<BudgetDecimal>> map )  {
-        List<List<BudgetDecimal>> retList = new ArrayList<List<BudgetDecimal>>();
-        retList.add(0, map.get("E"));
-        retList.add(1, map.get("T"));
-        retList.add(2, map.get("S"));
-        retList.add(3, map.get("O"));
-        retList.add(4, map.get("CalculatedCost"));
-        retList.add(5, map.get("Totals"));
-        return retList;
-    }
-    
-    private List<List<BudgetDecimal>> convertTotalToList(Map <String, List<BudgetDecimal>> map )  {
-        List<List<BudgetDecimal>> retList = new ArrayList<List<BudgetDecimal>>();
-        retList.add(0, map.get("Direct"));
-        retList.add(1, map.get("FAndA"));
-        retList.add(2, map.get("Totals"));
-        return retList;
-    }
-    
-    /**
-     * 
      * This should be called when an add or delete action is called that might be added to the sync queue.
      * It checks to ensure that syncMode is already enabled and will return an ActionForward for
      * the question or for the returnForward specified by the caller.
@@ -1816,4 +1765,11 @@ public class AwardAction extends BudgetParentActionBase {
     protected AwardSyncService getAwardSyncService() {
         return KraServiceLocator.getService(AwardSyncService.class);
     }
+
+    protected AwardBudgetService getAwardBudgetService() {
+        if (awardBudgetService == null) {
+            awardBudgetService = KraServiceLocator.getService(AwardBudgetService.class);
+        }
+        return awardBudgetService;
+    } 
 }
