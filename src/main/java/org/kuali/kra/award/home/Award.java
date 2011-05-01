@@ -34,6 +34,7 @@ import org.kuali.kra.award.awardhierarchy.AwardHierarchyTempObject;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncStatus;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
+import org.kuali.kra.award.budget.AwardBudgetLimit;
 import org.kuali.kra.award.commitments.AwardCostShare;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.contacts.AwardPerson;
@@ -204,6 +205,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
 
     private List<AwardFundingProposal> fundingProposals;
     
+    private List<AwardBudgetLimit> awardBudgetLimits;
+    
     // Additional fields for lookup
     private Unit leadUnit;
     private String unitNumber;
@@ -230,7 +233,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private transient AwardHierarchyService awardHierarchyService;
     
     private transient List<AwardUnitContact> centralAdminContacts;
-
+    
     /**
      * 
      * Constructs an Award BO.
@@ -2021,6 +2024,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         projectPersons = new ArrayList<AwardPerson>();
         awardUnitContacts = new ArrayList<AwardUnitContact>();
         sponsorContacts = new ArrayList<AwardSponsorContact>();
+        awardBudgetLimits = new ArrayList<AwardBudgetLimit>();
 
         fundingProposals = new ArrayList<AwardFundingProposal>();
         initializeAwardHierarchyTempObjects();
@@ -3166,6 +3170,38 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private static String reportedStatus = "1 3 6";
     public boolean isActiveVersion() {
         return (reportedStatus.indexOf(getAwardStatus().getStatusCode()) != -1);
+    }
+
+    public List<AwardBudgetLimit> getAwardBudgetLimits() {
+        return awardBudgetLimits;
+    }
+
+    public void setAwardBudgetLimits(List<AwardBudgetLimit> awardBudgetLimits) {
+        this.awardBudgetLimits = awardBudgetLimits;
+    }
+    
+    public AwardBudgetLimit getTotalCostBudgetLimit() {
+        return getSpecificBudgetLimit(AwardBudgetLimit.LIMIT_TYPE.TOTAL_COST);
+    }
+    
+    public AwardBudgetLimit getDirectCostBudgetLimit() {
+        return getSpecificBudgetLimit(AwardBudgetLimit.LIMIT_TYPE.DIRECT_COST);
+    }
+    
+    public AwardBudgetLimit getIndirectCostBudgetLimit() {
+        return getSpecificBudgetLimit(AwardBudgetLimit.LIMIT_TYPE.INDIRECT_COST);
+    }
+    
+    protected AwardBudgetLimit getSpecificBudgetLimit(AwardBudgetLimit.LIMIT_TYPE type) {
+        for (AwardBudgetLimit limit : getAwardBudgetLimits()) {
+            if (limit.getLimitType() == type) {
+                return limit;
+            }
+        }
+        AwardBudgetLimit limit = new AwardBudgetLimit(type);
+        getAwardBudgetLimits().add(limit);
+        return limit;
+        
     }
 
 }

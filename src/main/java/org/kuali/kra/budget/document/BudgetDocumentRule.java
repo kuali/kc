@@ -23,6 +23,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.budget.AwardBudgeCostTotalAuditRule;
 import org.kuali.kra.award.budget.AwardBudgetBudgetTypeAuditRule;
+import org.kuali.kra.award.budget.AwardBudgetCostLimitAuditRule;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.BudgetParent;
@@ -471,6 +472,7 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
         if (!Boolean.valueOf(((BudgetDocument)document).getParentDocument().getProposalBudgetFlag())){
             retval &= new AwardBudgetBudgetTypeAuditRule().processRunAuditBusinessRules(document);
             retval &= new AwardBudgeCostTotalAuditRule().processRunAuditBusinessRules(document);
+            retval &= new AwardBudgetCostLimitAuditRule().processRunAuditBusinessRules(document);
         }
         if (retval) {
             processRunAuditBudgetVersionRule(((BudgetDocument) document).getParentDocument());
