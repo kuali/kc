@@ -75,7 +75,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public static final String PROPOSAL_ID_PROPERTY_STRING = "proposalId";
     public static final String PROPOSAL_NUMBER_PROPERTY_STRING = "proposalNumber";
     public static final String PROPOSAL_SEQUENCE_STATUS_PROPERTY_STRING = "proposalSequenceStatus";
-
+    public static final String PROPOSAL_NUMBER_TEST_DEFAULT_STRING = "1234";
     private static final long serialVersionUID = 1L;
     private static final Integer PROPOSAL_PENDING_STATUS_CODE = 1;
     private static final Integer PROPOSAL_FUNDED_STATUS_CODE = 2;
