@@ -109,6 +109,25 @@
 		                                                                                  attributeEntry="${protocolReviewerAttributes.reviewerTypeCode}" readOnly = "${readOnly}"/>
 				</td>
               </tr>
+ 			  <tr>
+              
+              	<th width = "25%" class="grid">
+                	<div align="right">
+                		Explanation:
+                	</div>
+                </th>
+                <td colspan="3">
+	                    <div align="left">
+	                     
+	                        Online Review can be edited/viewed only if the following conditions are met :
+	                        <font color = "red"><p> 
+	                        <li>The protocol submission status is 'Submitted to committee' or 'In Agenda'. </li>	                        
+	                        <li>You must be an Irb Admin or assigned reviewer.</li>
+	                        </p></font>
+	                        
+	                        </div>
+                </td>
+               </tr>
          	</table>
 	
 	</kul:tab>
