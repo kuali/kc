@@ -1218,7 +1218,7 @@
 		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" access="anonymous"/>
 		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="limitTypeCode" column="LIMIT_TYPE" jdbc-type="VARCHAR" />
-		<field-descriptor name="limit" column="LIMIT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="limit" column="LIMIT_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
 
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
