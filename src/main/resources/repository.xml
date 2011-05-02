@@ -1197,6 +1197,7 @@
 		<field-descriptor name="noOfAnswers" column="NO_OF_ANSWERS" jdbc-type="INTEGER"/>
 		<field-descriptor name="questionType" column="QUESTION_TYPE" jdbc-type="VARCHAR" />
 		<field-descriptor name="status" column="STATUS" jdbc-type="VARCHAR" />
+		<field-descriptor name="campusCode" column="CAMPUS_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="sortId" column="SORT_ID" jdbc-type="INTEGER" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
@@ -1426,6 +1427,7 @@
 		<field-descriptor name="parentUnitNumber" column="PARENT_UNIT_NUMBER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="organizationId" column="ORGANIZATION_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="unitName" column="UNIT_NAME" jdbc-type="VARCHAR"/>
+		<field-descriptor name="campusCode" column="CAMPUS_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
