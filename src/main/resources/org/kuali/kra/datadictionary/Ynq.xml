@@ -33,6 +33,7 @@
         <ref bean="Ynq-explanationRequiredFor" />
         <ref bean="Ynq-dateRequiredFor" />
         <ref bean="Ynq-groupName" />
+        <ref bean="Ynq-campusCode" />
         <ref bean="Ynq-sortId" />
         <ref bean="Ynq-versionNumber" />
       </list>
@@ -195,6 +196,9 @@
     <property name="description" value="Group Name" />
   </bean>
   
+  <bean id="Ynq-campusCode" parent="Ynq-campusCode-parentBean" />
+  <bean id="Ynq-campusCode-parentBean" abstract="true" parent="KraAttributeReferenceDummy-campusCode" />
+  
   <bean id="Ynq-sortId" parent="Ynq-sortId-parentBean" />
   <bean id="Ynq-sortId-parentBean" abstract="true" parent="KraAttributeReferenceDummy-sortId" />
     
@@ -234,6 +238,8 @@
                     p:attributeName="dateRequiredFor" />
               <bean parent="FieldDefinition"
                     p:attributeName="groupName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="campusCode" />
             </list>
           </property>
         </bean>
@@ -295,6 +301,8 @@
               p:attributeName="dateRequiredFor" />
         <bean parent="FieldDefinition"
               p:attributeName="groupName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="campusCode" />
       </list>
     </property>
     <property name="resultFields" >
@@ -306,6 +314,8 @@
               p:attributeName="description" />
         <bean parent="FieldDefinition"
               p:attributeName="groupName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="campusCode" />
         <bean parent="FieldDefinition"
               p:attributeName="effectiveDate" />
       </list>
