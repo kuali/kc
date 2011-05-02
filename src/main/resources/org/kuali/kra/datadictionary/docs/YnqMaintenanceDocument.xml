@@ -47,6 +47,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="explanationRequiredFor"/>
         <bean parent="MaintainableFieldDefinition" p:name="dateRequiredFor"/>
         <bean parent="MaintainableFieldDefinition" p:name="groupName" p:required="true" p:defaultValue="General Y/N Questions"/>
+        <bean parent="MaintainableFieldDefinition" p:name="campusCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="sortId" />
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>
