@@ -159,7 +159,7 @@
 
         
     <class-descriptor class="org.kuali.kra.irb.protocol.research.ProtocolResearchArea" table="PROTOCOL_RESEARCH_AREAS">
-        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROTOCOL_RESEARCH_AREAS_ID" autoincrement="true"/>
+        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
         <field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT"/>
         <field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
@@ -238,11 +238,11 @@
     </class-descriptor>
 
     <class-descriptor class="org.kuali.kra.irb.protocol.reference.ProtocolReference" table="PROTOCOL_REFERENCES">       
-        <field-descriptor name="protocolReferenceId" column="PROTOCOL_REFERENCE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROTOCOL_REFERENCES_ID" autoincrement="true"/>
+        <field-descriptor name="protocolReferenceId" column="PROTOCOL_REFERENCE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
         <field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT"/>
         <field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
-        <field-descriptor name="protocolReferenceNumber" column="PROTOCOL_REFERENCE_NUMBER" jdbc-type="INTEGER" sequence-name="SEQ_PROTOCOL_REFERENCES_ID" autoincrement="true"/>
+        <field-descriptor name="protocolReferenceNumber" column="PROTOCOL_REFERENCE_NUMBER" jdbc-type="INTEGER" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
         <field-descriptor name="protocolReferenceTypeCode" column="PROTOCOL_REFERENCE_TYPE_CODE" jdbc-type="INTEGER"/>
         <field-descriptor name="referenceKey" column="REFERENCE_KEY" jdbc-type="VARCHAR" />
         <field-descriptor name="applicationDate" column="APPLICATION_DATE" jdbc-type="DATE" />
@@ -492,7 +492,7 @@
     </class-descriptor>
     
     <class-descriptor class="org.kuali.kra.irb.specialreview.ProtocolSpecialReview" table="PROTOCOL_SPECIAL_REVIEW">
-        <field-descriptor name="protocolSpecialReviewId" column="PROTOCOL_SPECIAL_REVIEW_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROTOCOL_SPECIAL_REVIEW_ID"/>
+        <field-descriptor name="protocolSpecialReviewId" column="PROTOCOL_SPECIAL_REVIEW_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROTOCOL_ID"/>
         <field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" access="anonymous"/>
         <field-descriptor name="specialReviewNumber" column="SPECIAL_REVIEW_NUMBER" jdbc-type="INTEGER" />
         <field-descriptor name="specialReviewTypeCode" column="SPECIAL_REVIEW_CODE" jdbc-type="VARCHAR" />
@@ -521,7 +521,7 @@
     </class-descriptor>
     
     <class-descriptor class="org.kuali.kra.irb.specialreview.ProtocolSpecialReviewExemption" table="PROTOCOL_EXEMPT_NUMBER">
-        <field-descriptor name="protocolSpecialReviewExemptionId" column="PROTOCOL_EXEMPT_NUMBER_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROTOCOL_EXEMPT_NUMBER_ID"/>
+        <field-descriptor name="protocolSpecialReviewExemptionId" column="PROTOCOL_EXEMPT_NUMBER_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROTOCOL_ID"/>
         <field-descriptor name="protocolSpecialReviewId" column="PROTOCOL_SPECIAL_REVIEW_ID" jdbc-type="BIGINT" access="anonymous"/>
         <field-descriptor name="exemptionTypeCode" column="EXEMPTION_TYPE_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
@@ -1170,7 +1170,7 @@
     </class-descriptor>
 
     <class-descriptor class="org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate" table="PROTO_CORRESP_TEMPL">
-        <field-descriptor name="protoCorrespTemplId" column="PROTO_CORRESP_TEMPL_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_PROTO_CORRESP_TEMPL" autoincrement="true" />
+        <field-descriptor name="protoCorrespTemplId" column="PROTO_CORRESP_TEMPL_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true" />
         <field-descriptor name="protoCorrespTypeCode" column="PROTO_CORRESP_TYPE_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="committeeId" column="COMMITTEE_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR" />
@@ -1238,7 +1238,7 @@
     
     
     	<class-descriptor class="org.kuali.kra.irb.actions.submit.ValidProtoSubRevType" table="VALID_PROTO_SUB_REV_TYPE">
-		<field-descriptor name="validProtoSubRevTypeId" column="VALID_PROTO_SUB_REV_TYPE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_VALID_SUBM_REVW_TYPE_QUAL" autoincrement="true"/>
+		<field-descriptor name="validProtoSubRevTypeId" column="VALID_PROTO_SUB_REV_TYPE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
 		<field-descriptor name="submissionTypeCode" column="SUBMISSION_TYPE_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="protocolReviewTypeCode" column="PROTOCOL_REVIEW_TYPE_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -1254,7 +1254,7 @@
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.irb.actions.submit.ValidProtoSubTypeQual" table="VALID_PROTO_SUB_TYPE_QUAL">
-		<field-descriptor name="validProtoSubTypeQualId" column="VALID_PROTO_SUB_TYPE_QUAL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_VALID_SUBM_REVW_TYPE_QUAL" autoincrement="true"/>
+		<field-descriptor name="validProtoSubTypeQualId" column="VALID_PROTO_SUB_TYPE_QUAL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
 		<field-descriptor name="submissionTypeCode" column="SUBMISSION_TYPE_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="submissionTypeQualCode" column="SUBMISSION_TYPE_QUAL_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />

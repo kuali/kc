@@ -25,8 +25,8 @@
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kra.committee.bo.CommitteeSchedule" table="COMM_SCHEDULE">
-	    <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMM_SCHEDULE_ID" autoincrement="true"/>
-		<field-descriptor name="scheduleId" column="SCHEDULE_ID" jdbc-type="VARCHAR" sequence-name="SEQ_COMM_SCHEDULE_ID" autoincrement="true"/>
+	    <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMMITTEE_ID" autoincrement="true"/>
+		<field-descriptor name="scheduleId" column="SCHEDULE_ID" jdbc-type="VARCHAR" sequence-name="SEQ_COMMITTEE_ID" autoincrement="true"/>
 		<field-descriptor name="committeeIdFk" column="COMMITTEE_ID_FK" jdbc-type="BIGINT" />
 		<field-descriptor name="scheduledDate" column="SCHEDULED_DATE" jdbc-type="DATE" />
 		<field-descriptor name="place" column="PLACE" jdbc-type="VARCHAR" />
@@ -229,7 +229,7 @@
     </class-descriptor>
     
     <class-descriptor class="org.kuali.kra.committee.bo.CommitteeResearchArea" table="COMM_RESEARCH_AREAS">
-		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMM_RESEARCH_AREAS_ID" autoincrement="true"/>
+		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMMITTEE_ID" autoincrement="true"/>
 		<field-descriptor name="committeeIdFk" column="COMMITTEE_ID_FK" jdbc-type="BIGINT"/>
 		<field-descriptor name="researchAreaCode" column="RESEARCH_AREA_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
