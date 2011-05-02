@@ -56,7 +56,7 @@ public class ProtocolOnlineReviewRedirectAction extends KraTransactionalDocument
             if (isOnlineReviewEnabled(form, protocol)) {
                 response.sendRedirect(String.format("protocolOnlineReview.do?methodToCall=startProtocolOnlineReview&%s=%s",PROTOCOL_DOCUMENT_NUMBER,protocol.getProtocolDocument().getDocumentNumber()));
             } else {
-                return mapping.findForward("displayNoOnlineReview");                
+                return mapping.findForward("displayInactive");                
             }
         } else {
             return mapping.findForward("displayInactive");
