@@ -1089,7 +1089,7 @@
 															<fo:table-body start-indent="0pt">
 																<xsl:for-each select="term">
 																	<fo:table-row>
-																		<fo:table-cell padding-left="20pt" padding="2pt" display-align="center">
+																		<fo:table-cell padding-left="20pt" padding="0" padding-bottom="0" padding-top="0" display-align="center">
 																			<fo:block>
 																				<xsl:for-each select="Description">
 																					<xsl:variable name="value-of-template">
@@ -1112,7 +1112,7 @@
 																		</fo:table-cell>
 																	</fo:table-row>
 																	<fo:table-row>
-																		<fo:table-cell padding-left="20pt" padding="2pt" display-align="center">
+																		<fo:table-cell padding-left="20pt" padding="0" padding-bottom="0" padding-top="0" display-align="center">
 																			<fo:block>
 																				<fo:inline-container>
 																					<fo:block>
@@ -1126,14 +1126,14 @@
 																						<fo:table-body start-indent="0pt">
 																							<xsl:for-each select="TermDetails">
 																								<fo:table-row>
-																									<fo:table-cell padding-left="20pt" padding="2pt" display-align="center">
+																									<fo:table-cell padding-left="20pt" padding="0" padding-bottom="0" padding-top="0" display-align="center">
 																										<fo:block>
 																											<fo:inline>
 																												<xsl:text>-</xsl:text>
 																											</fo:inline>
 																										</fo:block>
 																									</fo:table-cell>
-																									<fo:table-cell padding-left="20pt" padding="2pt" display-align="center">
+																									<fo:table-cell padding-left="20pt" padding="0" padding-bottom="0" padding-top="0" display-align="center">
 																										<fo:block>
 																											<xsl:for-each select="TermDescription">
 																												<xsl:variable name="value-of-template">
