@@ -154,6 +154,7 @@
         <property name="documentService" ref="documentService" />
         <property name="budgetSummaryService" ref="budgetSummaryService" />
         <property name="budgetCalculationService" ref="budgetCalculationService" />
+        <property name="versionHistoryService" ref="versionHistoryService" />
 	</bean>
 
 	

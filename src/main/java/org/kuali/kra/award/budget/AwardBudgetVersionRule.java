@@ -47,20 +47,23 @@ public class AwardBudgetVersionRule extends BudgetVersionRule {
     
     @Override
     public boolean processAddBudgetVersion(AddBudgetVersionEvent event) throws WorkflowException {
+        //cannot check data on budget here because when creating an award budget the budget could be
+        //saved when copying the previously posted budget which means even if the rules here fail, the
+        //budget will already have been created. So must check the rules against the award only.
+        //Also the budget is null in the event when this is called right now.
         boolean success = true;
-        Budget budget = event.getBudget();
-        Award award = (Award) budget.getBudgetParent();
+        Award award = ((AwardDocument) event.getDocument()).getAward();
         if(!award.getObligatedTotal().isPositive()){
             GlobalVariables.getErrorMap().putError(event.getErrorPathPrefix(), 
                   KeyConstants.ERROR_BUDGET_OBLIGATED_AMOUNT_INVALID, "Name");
             success &= false;
         }
-        if(budget.getStartDate()==null){
+        if(award.getRequestedStartDateInitial() == null){
             GlobalVariables.getErrorMap().putError(event.getErrorPathPrefix(), 
                     KeyConstants.ERROR_AWARD_BUDGET_START_DATE_MISSING);
             success &= false;
         }
-        if(budget.getEndDate()==null){
+        if(award.getRequestedEndDateInitial() == null){
             GlobalVariables.getErrorMap().putError(event.getErrorPathPrefix(), 
                     KeyConstants.ERROR_AWARD_BUDGET_END_DATE_MISSING);
             success &= false;

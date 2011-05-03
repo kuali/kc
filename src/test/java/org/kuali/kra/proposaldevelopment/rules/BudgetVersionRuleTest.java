@@ -131,6 +131,10 @@ public class BudgetVersionRuleTest {
         public void setBudgetDocumentVersions(List<BudgetDocumentVersion> budgetVersionOverviews) {
             overviews = budgetVersionOverviews;
         }
+        
+        public void refreshBudgetDocumentVersions() {
+            
+        }
     }
 }
 

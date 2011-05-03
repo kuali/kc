@@ -52,10 +52,12 @@ public class AwardSeleniumHelper extends KcSeleniumHelper {
     private static final String PRIME_SPONSOR_CODE_ID = LIST_PREFIX + "primeSponsorCode";
     private static final String SPONSOR_AWARD_NUMBER_ID = LIST_PREFIX + "sponsorAwardNumber";
     private static final String MODIFICATION_NUMBER_ID = LIST_PREFIX + "modificationNumber";
-    private static final String EFFECTIVE_DATE_ID = LIST_PREFIX + "awardEffectiveDate";
-    private static final String CURRENT_FUND_EFFECTIVE_DATE_ID = LIST_PREFIX + "awardAmountInfos[0].currentFundEffectiveDate";
-    private static final String FINAL_EXPIRATION_DATE_ID = LIST_PREFIX + "awardAmountInfos[0].finalExpirationDate";
-    private static final String OBLIGATION_EXPIRATION_DATE_ID = LIST_PREFIX + "awardAmountInfos[0].obligationExpirationDate";
+    public static final String EFFECTIVE_DATE_ID = LIST_PREFIX + "awardEffectiveDate";
+    public static final String CURRENT_FUND_EFFECTIVE_DATE_ID = LIST_PREFIX + "awardAmountInfos[0].currentFundEffectiveDate";
+    public static final String FINAL_EXPIRATION_DATE_ID = LIST_PREFIX + "awardAmountInfos[0].finalExpirationDate";
+    public static final String OBLIGATION_EXPIRATION_DATE_ID = LIST_PREFIX + "awardAmountInfos[0].obligationExpirationDate";
+    public static final String ANTICIPATED_AMOUNT_ID = LIST_PREFIX + "awardAmountInfos[0].anticipatedTotalAmount";
+    public static final String OBLIGATED_AMOUNT_ID = LIST_PREFIX + "awardAmountInfos[0].amountObligatedToDate";
     private static final String TEMPLATE_CODE_TAG = "document.award.templateCode";
     private static final String PERSON_ID_TAG = "projectPersonnelBean.personId";
     private static final String TEMPLATE_CODE_ID = "templateCode";
@@ -65,6 +67,10 @@ public class AwardSeleniumHelper extends KcSeleniumHelper {
     private static final String UNIT_CREDIT_SPLITS_ID = "document.awardList[0].projectPersons[0].units[0].creditSplits[%d].credit";
     private static final String GRADUATE_STUDENT_COUNT_ID = "customDataHelper.customDataValues[3].value";
     private static final String BILLING_ELEMENT_ID = "customDataHelper.customDataValues[0].value";
+    
+    public static final String BUDGET_NAME_ID = "newBudgetVersionName";
+    public static final String ADD_BUDGET_NAME = "addBudgetVersion";
+    public static final String OPEN_BUDGET_NAME = "openBudgetVersion.line";
     
     private static final String DEFAULT_DOCUMENT_DESCRIPTION = "Award Development Web Test";
     private static final String DEFAULT_TRANSACTION_TYPE = "New";

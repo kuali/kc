@@ -993,7 +993,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         }
         documentService.saveDocument(budgetDocument);
         documentService.routeDocument(budgetDocument, "Route to Final", new ArrayList());
-        budgetDocument.getParentDocument().refreshReferenceObject("budgetDocumentVersions");
+        budgetDocument.getParentDocument().refreshBudgetDocumentVersions();
     }
     
     /**

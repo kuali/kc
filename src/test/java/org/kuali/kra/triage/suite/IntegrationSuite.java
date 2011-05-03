@@ -19,6 +19,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 import org.kuali.kra.SeleniumUnitTest;
+import org.kuali.kra.award.web.AwardBudgetBasicSeleniumTest;
 import org.kuali.kra.award.web.AwardCompleteSeleniumTest;
 import org.kuali.kra.committee.web.CommitteeCompleteSeleniumTest;
 import org.kuali.kra.institutionalproposal.web.InstitutionalProposalCompleteSeleniumTest;
@@ -34,6 +35,7 @@ import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentDeleteProposalTe
     InstitutionalProposalCompleteSeleniumTest.class,
     ProposalDevelopmentCompleteSeleniumTest.class,
     ProtocolCompleteSeleniumTest.class,
-    ProposalDevelopmentDeleteProposalTest.class
+    ProposalDevelopmentDeleteProposalTest.class,
+    AwardBudgetBasicSeleniumTest.class
 })
 public class IntegrationSuite {}

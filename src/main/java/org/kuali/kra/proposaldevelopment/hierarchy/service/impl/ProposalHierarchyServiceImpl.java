@@ -1285,7 +1285,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     }
     
     protected void finalizeHierarchySync(ProposalDevelopmentDocument pdDoc) throws ProposalHierarchyException {
-        pdDoc.refreshReferenceObject("budgetDocumentVersions");
+        pdDoc.refreshBudgetDocumentVersions();
         try {
             documentService.saveDocument(pdDoc);
         }

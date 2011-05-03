@@ -77,6 +77,8 @@ public class BudgetSeleniumHelper extends KcSeleniumHelper {
     private static final String ADD_NEW_PERSON_BUTTON = "addPersonnelLineItem.budgetCategoryTypeCodeP";
     private static final String ADD_BUDGET_LINE_ITEM_BUTTON = "addBudgetLineItem.budgetCategoryTypeCode";
     private static final String RETURN_TO_PROPOSAL_BUTTON = "methodToCall.returnToProposal";
+    private static final String RETURN_TO_AWARD_BUTTON = "methodToCall.returnToAward";
+    private static final String POST_BUDGET_BUTTON = "methodToCall.postAwardBudget";
     
     private static BudgetSeleniumHelper helper;
     
@@ -167,6 +169,13 @@ public class BudgetSeleniumHelper extends KcSeleniumHelper {
      */
     public void returnToProposal() {
         click(RETURN_TO_PROPOSAL_BUTTON);
+    }
+    
+    /**
+     * Return to the Award.
+     */
+    public void returnToAward() {
+        click(RETURN_TO_AWARD_BUTTON);
     }
     
     /**
@@ -303,6 +312,10 @@ public class BudgetSeleniumHelper extends KcSeleniumHelper {
         if (amount != null) {
             set(prefix + AMOUNT_ID_ID, amount);
         }
+    }
+    
+    public void postBudget() {
+        click(POST_BUDGET_BUTTON);
     }
     
 }
