@@ -623,6 +623,7 @@ public final class KeyConstants {
     public static final String ERROR_COMMITTEE_MEMBERSHIP_ROLE_MISSING = "error.committee.membership.role.missing";
     public static final String ERROR_COMMITTEE_MEMBERSHIP_ROLE_DUPLICATE = "error.committee.membership.role.duplicate";
     public static final String ERROR_COMMITTEE_MEMBERSHIP_EXPERTISE_MISSING = "error.committee.membership.expertise.missing";
+    public static final String ERROR_COMMITTEE_MEMBERSHIP_EXPERTISE_INACTIVE = "error.committee.membership.expertise.inactive";
     
     
     public static final String SOFT_ERRORS_KEY = "SOFT_ERRORS_KEY";
