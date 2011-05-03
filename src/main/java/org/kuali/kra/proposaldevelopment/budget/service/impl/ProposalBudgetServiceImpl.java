@@ -76,7 +76,7 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
         
         saveBudgetDocument(budgetDocument);
         budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocument.getDocumentNumber());
-        parentDocument.refreshReferenceObject("budgetDocumentVersions");
+        parentDocument.refreshBudgetDocumentVersions();
         return budgetDocument;
     }
     public boolean isCalculationRequired(BudgetPeriod budgetPeriod){

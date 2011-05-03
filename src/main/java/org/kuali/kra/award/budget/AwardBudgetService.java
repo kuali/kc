@@ -26,6 +26,7 @@ import org.kuali.kra.budget.core.BudgetCommonService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.rice.kew.exception.WorkflowException;
 
 public interface AwardBudgetService extends BudgetCommonService<Award> {
@@ -91,4 +92,6 @@ public interface AwardBudgetService extends BudgetCommonService<Award> {
      * @param awardDocument
      */
     void populateBudgetLimitSummary(BudgetLimitSummaryHelper limitSummary, AwardDocument awardDocument);
+    
+    List<BudgetDocumentVersion> getAllBudgetsForAward(AwardDocument awardDocument);
 }

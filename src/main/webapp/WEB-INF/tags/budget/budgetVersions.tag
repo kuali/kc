@@ -265,7 +265,7 @@
 		                    			<c:choose>
 											<c:when test="${not empty awardBudgetPage}">
 												<th width="1%" nowrap>Award Version</th>
-		                    					<td align="left" width="12%">${KualiForm.document.award.sequenceNumber}</td>
+		                    					<td align="left" width="12%">${budgetVersion.parentDocument.award.sequenceNumber}</td>
 											</c:when>
 											<c:otherwise>
 												<th width="1%" nowrap>&nbsp;</th>

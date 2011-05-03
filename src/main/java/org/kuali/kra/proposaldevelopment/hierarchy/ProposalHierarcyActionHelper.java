@@ -216,7 +216,7 @@ public class ProposalHierarcyActionHelper {
     
     private boolean validateChildCandidate(DevelopmentProposal proposal) {
         boolean valid = true;
-        proposal.getProposalDocument().refreshReferenceObject("budgetDocumentVersions");
+        proposal.getProposalDocument().refreshBudgetDocumentVersions();
         if (proposal.isInHierarchy()) {
             GlobalVariables.getMessageMap().putError(FIELD_CHILD_NUMBER, ERROR_LINK_ALREADY_MEMBER, new String[0]);
             return false;
