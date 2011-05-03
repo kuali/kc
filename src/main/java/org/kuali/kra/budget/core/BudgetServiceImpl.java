@@ -696,7 +696,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         }
         
         saveBudgetDocument(budgetDocument);
-        budgetDocument.getParentDocument().refreshReferenceObject("budgetDocumentVersions");
+        budgetDocument.getParentDocument().refreshBudgetDocumentVersions();
         return budgetDocument;
     }
     

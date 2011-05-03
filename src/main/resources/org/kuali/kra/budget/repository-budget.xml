@@ -1068,7 +1068,10 @@
     	<reference-descriptor name="documentHeader" class-ref="org.kuali.rice.kns.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<foreignkey field-ref="documentNumber" />
     	</reference-descriptor>
-    	
+		<reference-descriptor name="parentDocument" class-ref="org.kuali.kra.budget.document.BudgetParentDocument" 
+							auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="parentDocumentKey"/>
+	    </reference-descriptor>    	
     	<collection-descriptor name="budgetVersionOverviews" proxy="true" element-class-ref="org.kuali.kra.award.budget.AwardBudgetVersionOverviewExt" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="documentNumber" />
     	</collection-descriptor>

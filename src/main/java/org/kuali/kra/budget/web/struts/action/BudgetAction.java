@@ -31,7 +31,10 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactRole;
+import org.kuali.kra.bo.versioning.VersionHistory;
+import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetCommonService;
 import org.kuali.kra.budget.core.BudgetParent;
@@ -66,6 +69,7 @@ import org.kuali.kra.proposaldevelopment.budget.service.BudgetSubAwardService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarcyActionHelper;
 import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
+import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.web.struts.action.BudgetActionBase;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -73,6 +77,7 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
+import org.kuali.rice.kns.document.DocumentBase;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.rule.event.DocumentAuditEvent;
@@ -309,7 +314,6 @@ public class BudgetAction extends BudgetActionBase {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
-//        proposal.refreshReferenceObject("budgetDocumentVersions");
         budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(parentDocument.getBudgetDocumentVersions()));
         setBudgetStatuses(parentDocument);
         return mapping.findForward(Constants.BUDGET_VERSIONS_PAGE);
@@ -569,10 +573,19 @@ public class BudgetAction extends BudgetActionBase {
         assert budgetForm != null : "the form is null";
         
         final DocumentService docService = KraServiceLocator.getService(DocumentService.class);
-        final String docNumber = budgetForm.getDocument().getParentDocument().getDocumentNumber();
+        Award award = ((AwardDocument) budgetForm.getBudgetDocument().getParentDocument()).getAward();
         
-        final BudgetParentDocument pdDoc = (BudgetParentDocument) docService.getByDocumentHeaderId(docNumber);
-        String forwardUrl = buildForwardUrl(pdDoc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
+        //find the newest, uncanceled award document to return to
+        String docNumber = budgetForm.getBudgetDocument().getParentDocument().getDocumentNumber();
+        List<VersionHistory> versions = KraServiceLocator.getService(VersionHistoryService.class).loadVersionHistory(Award.class, award.getAwardNumber());
+        for (VersionHistory version : versions) {
+            if (version.getSequenceOwnerSequenceNumber() > award.getSequenceNumber() &&
+                    version.getStatus() != VersionStatus.CANCELED) {
+                docNumber = ((Award) version.getSequenceOwner()).getAwardDocument().getDocumentNumber();
+            }
+        }
+        final AwardDocument awardDocument = (AwardDocument) docService.getByDocumentHeaderId(docNumber);
+        String forwardUrl = buildForwardUrl(awardDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
         if(budgetForm.isAuditActivated()) {
             forwardUrl = StringUtils.replace(forwardUrl, "Award.do?", "Actions.do?");
         }

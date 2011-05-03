@@ -18,7 +18,9 @@ package org.kuali.kra.award.budget;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +31,7 @@ import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
+import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.calculator.QueryList;
@@ -54,6 +57,7 @@ import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDet
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
 import org.kuali.kra.service.DeepCopyPostProcessor;
+import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.Document;
@@ -78,6 +82,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
     private BudgetService<Award> budgetService;
     private BudgetSummaryService budgetSummaryService;
     private BudgetCalculationService budgetCalculationService;
+    private VersionHistoryService versionHistoryService;
 
     /**
      * @see org.kuali.kra.award.budget.AwardBudgetService#post(org.kuali.kra.award.budget.document.AwardBudgetDocument)
@@ -266,6 +271,11 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
      */
     protected AwardBudgetDocument createNewBudgetDocument(String documentDescription, AwardDocument parentDocument,boolean rebudget)
             throws WorkflowException {
+        boolean success = new AwardBudgetVersionRule().processAddBudgetVersion(
+                new AddBudgetVersionEvent(BUDGET_VERSION_ERROR_PREFIX,
+                        parentDocument,documentDescription));
+        if(!success)
+            return null;        
         Integer budgetVersionNumber = parentDocument.getNextBudgetVersionNumber();
         AwardBudgetDocument awardBudgetDocument;
         if(isPostedBudgetExist(parentDocument)){
@@ -276,7 +286,6 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
             copyObligatedAmountToLineItems(awardBudgetDocument,obligatedChangeAmount);
 //            saveBudgetDocument(awardBudgetDocument,false);
 //            awardBudgetDocument = (AwardBudgetDocument) documentService.getByDocumentHeaderId(awardBudgetDocument.getDocumentNumber());
-//            parentDocument.refreshReferenceObject("budgetDocumentVersions");
 
         }else{
             awardBudgetDocument = (AwardBudgetDocument) documentService.getNewDocument(AwardBudgetDocument.class);
@@ -306,12 +315,6 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         awardBudget.setModularBudgetFlag(this.parameterService.getIndicatorParameter(BudgetDocument.class, Constants.BUDGET_DEFAULT_MODULAR_FLAG));
         awardBudget.setBudgetStatus(this.parameterService.getParameterValue(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_STATUS_IN_PROGRESS));
 
-        boolean success = new AwardBudgetVersionRule().processAddBudgetVersion(
-                    new AddBudgetVersionEvent(BUDGET_VERSION_ERROR_PREFIX,
-                            awardBudgetDocument.getParentDocument(),awardBudget));
-        if(!success)
-            return null;
-
         awardBudget.setRateClassTypesReloaded(true);
         awardBudget.setTotalCostLimit(getTotalCostLimit(parentDocument));
         copyBudgetLimits(awardBudgetDocument, parentDocument);
@@ -320,7 +323,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         }
         saveBudgetDocument(awardBudgetDocument,rebudget);
         awardBudgetDocument = (AwardBudgetDocument) documentService.getByDocumentHeaderId(awardBudgetDocument.getDocumentNumber());
-        parentDocument.refreshReferenceObject("budgetDocumentVersions");
+        parentDocument.refreshBudgetDocumentVersions();
 
         return awardBudgetDocument;
     }
@@ -754,7 +757,20 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
             }
         }
         return result;
-    }       
+    }     
+    
+    public List<BudgetDocumentVersion> getAllBudgetsForAward(AwardDocument awardDocument) {
+        HashSet<BudgetDocumentVersion> result = new HashSet<BudgetDocumentVersion>();
+        List<VersionHistory> versions = getVersionHistoryService().loadVersionHistory(Award.class, awardDocument.getAward().getAwardNumber());
+        for (VersionHistory version : versions) {
+            if (version.getSequenceOwnerSequenceNumber() <= awardDocument.getAward().getSequenceNumber()) {
+                result.addAll(((Award) version.getSequenceOwner()).getAwardDocument().getActualBudgetDocumentVersions());
+            }
+        }
+        List<BudgetDocumentVersion> listResult = new ArrayList<BudgetDocumentVersion>(result);
+        Collections.sort(listResult);
+        return listResult;
+    }
     
     protected String getPostedBudgetStatus() {
         return getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_POSTED);
@@ -782,6 +798,14 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
 
     public void setBudgetCalculationService(BudgetCalculationService budgetCalculationService) {
         this.budgetCalculationService = budgetCalculationService;
-    }    
+    }
+
+    protected VersionHistoryService getVersionHistoryService() {
+        return versionHistoryService;
+    }
+
+    public void setVersionHistoryService(VersionHistoryService versionHistoryService) {
+        this.versionHistoryService = versionHistoryService;
+    }
     
 }

@@ -573,5 +573,10 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     public void setProposalDeleted(boolean proposalDeleted) {
         this.proposalDeleted = proposalDeleted;
     }
+
+    public void refreshBudgetDocumentVersions() {
+        this.refreshReferenceObject("budgetDocumentVersions");
+        
+    }
     
 }

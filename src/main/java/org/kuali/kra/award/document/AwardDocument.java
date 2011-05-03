@@ -27,6 +27,7 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncService;
+import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.document.authorization.AwardTask;
@@ -101,6 +102,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
     private boolean canEdit;
     
     private List<Award> awardList;
+    private List<BudgetDocumentVersion> actualBudgetDocumentVersions;
     private List<BudgetDocumentVersion> budgetDocumentVersions;
     
     private static final String RETURN_TO_AWARD_ALT_TEXT = "return to award";
@@ -283,6 +285,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         awardList = new ArrayList<Award>();
         awardList.add(new Award());
         budgetDocumentVersions = new ArrayList<BudgetDocumentVersion>();
+        actualBudgetDocumentVersions = new ArrayList<BudgetDocumentVersion>();
         populateCustomAttributes();
     }
     
@@ -386,7 +389,10 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
     }
 
      public List<BudgetDocumentVersion> getBudgetDocumentVersions() {
-        return this.budgetDocumentVersions;
+        if (budgetDocumentVersions == null || budgetDocumentVersions.isEmpty()) {
+            budgetDocumentVersions = KraServiceLocator.getService(AwardBudgetService.class).getAllBudgetsForAward(this);
+        }
+        return budgetDocumentVersions;
     }
 
     public void setBudgetDocumentVersions(List<BudgetDocumentVersion> budgetDocumentVersions) {
@@ -631,6 +637,19 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         }
            
         return isComplete;
+    }
+
+    public List<BudgetDocumentVersion> getActualBudgetDocumentVersions() {
+        return actualBudgetDocumentVersions;
+    }
+
+    public void setActualBudgetDocumentVersions(List<BudgetDocumentVersion> actualBudgetDocumentVersions) {
+        this.actualBudgetDocumentVersions = actualBudgetDocumentVersions;
+    }
+
+    public void refreshBudgetDocumentVersions() {
+        this.refreshReferenceObject("actualBudgetDocumentVersions");
+        budgetDocumentVersions.clear();
     }
 
 }
