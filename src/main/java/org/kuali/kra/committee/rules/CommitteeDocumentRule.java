@@ -19,12 +19,14 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
 import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.lookup.keyvalue.CommitteeIdValuesFinder;
@@ -39,6 +41,8 @@ import org.kuali.kra.committee.rule.event.CommitteeScheduleEventBase.ErrorType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
@@ -73,6 +77,8 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
     private static final String PROPERTY_NAME_RESEARCH_AREA_CODE = "committeeHelper.newCommitteeMembershipExpertise[%1$s].researchAreaCode";
     private static final Log LOG = LogFactory.getLog(CommitteeDocumentRule.class);
 
+    private static final String SEPERATOR = ".";
+    private static final String INACTIVE_AREAS_OF_EXPERTISE_PREFIX = "document.committeeList[0].committeeMemberships[%1$s].areasOfExpertise.inactive";
 
     private static final boolean VALIDATION_REQUIRED = true;
     
@@ -124,6 +130,11 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
         
         return valid;
     }
+    
+    
+    
+    
+    
     /**
      * Verify that the committee id is not the DEFAULT_CORRESPONDENCE_TEMPLATE constant.  
      * This value is reserved for the default protocol correspondence template.
@@ -323,7 +334,7 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
             if (isValid) {
                 isValid &= hasNoTermOverlap(committeeMemberships, committeeMembership, membershipIndex);
             }
-
+            isValid &= checkResearchAreasForCommitteeMember(committeeMembership, membershipIndex);
         }
         return isValid;
     }
@@ -571,6 +582,40 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
         }
                 
         return hasExpertise;
+    }
+    
+    
+    /**
+     * This method will check if all the research areas that have been added to a committee member as 'area of expertise' are indeed active.
+     * It is declared public because it will be invoked from the action class for committee members as well.
+     * @param document
+     * @return
+     */
+    public boolean checkResearchAreasForCommitteeMember(CommitteeMembership committeeMember, int membershipIndex) {
+        
+        boolean inactiveFound = false;
+        StringBuffer inactiveResearchAreaIndices = new StringBuffer();
+        
+        List<CommitteeMembershipExpertise> cmes = committeeMember.getMembershipExpertise();
+        // iterate over all the research areas for this committee member looking for inactive research areas
+        if(CollectionUtils.isNotEmpty(cmes)) {
+            int raIndex = 0;
+            for (CommitteeMembershipExpertise cme : cmes) {
+                if(!(cme.getResearchArea().isActive())) {
+                    inactiveFound = true;
+                    inactiveResearchAreaIndices.append(raIndex).append(SEPERATOR);
+                }
+                raIndex++;
+            }
+        }
+        // if we found any inactive research areas in the above loop, report as a single error key suffixed by the list of indices of the inactive areas
+        if(inactiveFound) { 
+            String committeeMemberInactiveAreasOfExpertiseErrorPropertyKey = 
+                String.format(INACTIVE_AREAS_OF_EXPERTISE_PREFIX, membershipIndex)+ SEPERATOR + inactiveResearchAreaIndices.toString();
+            reportError(committeeMemberInactiveAreasOfExpertiseErrorPropertyKey, KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_EXPERTISE_INACTIVE);
+        }
+        
+        return !inactiveFound;
     }
 
     /**

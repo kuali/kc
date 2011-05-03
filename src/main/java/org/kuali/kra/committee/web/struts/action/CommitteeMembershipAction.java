@@ -40,11 +40,13 @@ import org.kuali.kra.committee.rule.event.AddCommitteeMembershipEvent;
 import org.kuali.kra.committee.rule.event.AddCommitteeMembershipRoleEvent;
 import org.kuali.kra.committee.rule.event.DeleteCommitteeMemberEvent;
 import org.kuali.kra.committee.rule.event.CommitteeMemberEventBase.ErrorType;
+import org.kuali.kra.committee.rules.CommitteeDocumentRule;
 import org.kuali.kra.committee.service.CommitteeMembershipService;
 import org.kuali.kra.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.committee.web.struts.form.CommitteeHelper;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.ProtocolDocumentRule;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.util.KNSConstants;
 
@@ -225,6 +227,8 @@ public class CommitteeMembershipAction extends CommitteeAction {
         CommitteeMembership committeeMembership = committeeForm.getCommitteeDocument().getCommittee().getCommitteeMemberships().get(membershipIndex);
         if (lookupResultsBOClass.isAssignableFrom(ResearchArea.class)) {
             getCommitteeMembershipService().addCommitteeMembershipExpertise(committeeMembership, (Collection) selectedBOs);
+            // finally do validation and error reporting for inactive research areas
+            (new CommitteeDocumentRule()).checkResearchAreasForCommitteeMember(committeeMembership, membershipIndex);
         }
     }
     
@@ -243,9 +247,10 @@ public class CommitteeMembershipAction extends CommitteeAction {
             HttpServletResponse response) throws Exception {
         CommitteeForm committeeForm = (CommitteeForm) form;
         Committee committee = committeeForm.getCommitteeDocument().getCommittee();
-        
-        getCommitteeMembershipService().deleteCommitteeMembershipExpertise(committee, getSelectedMembershipIndex(request), getSelectedLine(request));
-
+        int membershipIndex = getSelectedMembershipIndex(request);
+        getCommitteeMembershipService().deleteCommitteeMembershipExpertise(committee, membershipIndex, getSelectedLine(request));
+        // finally do validation and error reporting for inactive research areas
+        (new CommitteeDocumentRule()).checkResearchAreasForCommitteeMember(committee.getCommitteeMemberships().get(membershipIndex), membershipIndex);
         return mapping.findForward(MAPPING_BASIC);
     }
     
