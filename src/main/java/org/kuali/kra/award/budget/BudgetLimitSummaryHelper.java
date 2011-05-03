@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.budget;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,8 +33,9 @@ import org.kuali.kra.budget.rates.RateType;
 /**
  * Helper class that simplifies building the award budget limits summary panel.
  */
-public class BudgetLimitSummaryHelper {
+public class BudgetLimitSummaryHelper implements Serializable {
     
+    private static final long serialVersionUID = -3504648775976043270L;
     private Budget currentBudget;
     private Budget previousBudget;
     

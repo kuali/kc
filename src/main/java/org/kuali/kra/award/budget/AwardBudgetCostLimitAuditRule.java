@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.budget.BudgetDecimal;
@@ -147,7 +146,7 @@ public class AwardBudgetCostLimitAuditRule implements DocumentAuditRule {
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         
         if (!getAuditErrorMap().containsKey(auditKey)) {
-            getAuditErrorMap().put(auditKey, new AuditCluster(Constants.BUDGET_PERIOD_PANEL_NAME, auditErrors, problemType));
+            getAuditErrorMap().put(auditKey, new AuditCluster("Award Budget Limits", auditErrors, problemType));
         }
         else {
             auditErrors = ((AuditCluster) getAuditErrorMap().get(auditKey)).getAuditErrorList();
