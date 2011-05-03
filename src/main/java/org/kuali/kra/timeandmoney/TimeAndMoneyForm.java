@@ -379,6 +379,12 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         this.controlForAwardHierarchyView = controlForAwardHierarchyView;
     }
     
+    
+    public boolean isCancelOrFinalStatus () {
+        return this.getDocument().getDocumentHeader().getWorkflowDocument().stateIsCanceled() ||
+                this.getDocument().getDocumentHeader().getWorkflowDocument().stateIsFinal();
+    }
+
     public boolean isInSingleNodeHierarchy () {
         boolean returnValue = false;
         if (getOrder().size() == 1) {

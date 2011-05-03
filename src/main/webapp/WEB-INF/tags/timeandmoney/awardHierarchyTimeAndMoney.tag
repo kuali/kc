@@ -128,7 +128,16 @@
 			<c:otherwise>						
 				<input type="hidden" id="directIndirectViewEnabled" name="directIndirectViewEnabled" value="0" />					
 			</c:otherwise>
-		</c:choose>			
+		</c:choose>	
+		
+		<c:choose>				
+			<c:when test="${KualiForm.cancelOrFinalStatus}" >						
+				<input type="hidden" id="cancelOrFinalStatus" name="cancelOrFinalStatus" value="1" />					
+			</c:when>
+			<c:otherwise>						
+				<input type="hidden" id="cancelOrFinalStatus" name="cancelOrFinalStatus" value="0" />					
+			</c:otherwise>
+		</c:choose>					
 
 		<c:if test="${KualiForm.inSingleNodeHierarchy}" >
 			<input type="hidden" id="controlForAwardHierarchyView" name="controlForAwardHierarchyView" value="2" />
