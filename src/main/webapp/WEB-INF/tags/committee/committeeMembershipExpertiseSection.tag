@@ -9,7 +9,7 @@
                           parentTab="${parentTabValue}" 
                           defaultOpen="false"
                           useCurrentTabIndexAsKey="true" 
-                          tabErrorKey="committeeHelper.newCommitteeMembershipExpertise[${memberIndex}].*,document.committeeList[0].committeeMemberships[${memberIndex}].membershipExpertise*">
+                          tabErrorKey="committeeHelper.newCommitteeMembershipExpertise[${memberIndex}].*,document.committeeList[0].committeeMemberships[${memberIndex}].areasOfExpertise.inactive.*,document.committeeList[0].committeeMemberships[${memberIndex}].membershipExpertise*">
                 <div class="innerTab-container" align="left">
                     <table id="membership-expertise-table-${memberIndex}" cellpadding=0 cellspacing=0 class="datatable" summary="View/edit committee membership expertise">
                     
@@ -48,6 +48,8 @@
                         <%-- New data --%>
 
                         <%-- Existing data --%>
+                        <%-- Set the initial value of the error key prefix that is built up in the following loop based on testing for indices --%>
+						<c:set var="inactiveAreasErrorKeyPrefix" value="document.committeeList[0].committeeMemberships[${memberIndex}].areasOfExpertise.inactive." scope="request"/>
                         <c:forEach var="membershipExpertise" items="${KualiForm.document.committeeList[0].committeeMemberships[memberIndex].membershipExpertise}" varStatus="status">
                             <tr>
                                 <th class="infoline">
@@ -55,8 +57,16 @@
                                 </th>
                                 <td align="left" valign="middle">
                                     <div align="left">
-                                        ${membershipExpertise.researchAreaCode} ${membershipExpertise.researchArea.description} 
-                                    </div>
+                                        ${membershipExpertise.researchAreaCode} ${membershipExpertise.researchArea.description}
+                                         <!--- error handling --> <%-- Check if the research area indexed by the current iteration is an error key, and if so show the error icon --%>
+										<kul:checkErrors keyMatch="${inactiveAreasErrorKeyPrefix}${status.index}.*" />
+										<c:if test="${hasErrors}">
+										<%-- display the error icon --%>
+										<kul:fieldShowErrorIcon />
+										<%-- build up the error key prefix by appending the current index --%>
+										<c:set var="inactiveAreasErrorKeyPrefix" value="${inactiveAreasErrorKeyPrefix}${status.index}." scope="request" />
+									</c:if> 
+                                    </div>                                   
                                 </td>
  
                                 <c:if test="${!readOnly}">

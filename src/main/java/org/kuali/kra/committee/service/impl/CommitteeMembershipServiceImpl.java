@@ -35,6 +35,9 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.meeting.CommitteeScheduleAttendance;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
+/**
+ * This class...
+ */
 public class CommitteeMembershipServiceImpl implements CommitteeMembershipService {
 
     @SuppressWarnings("unused")
@@ -104,16 +107,31 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
      */
     public void addCommitteeMembershipExpertise(CommitteeMembership committeeMembership, Collection<ResearchArea> researchAreas) {
         for (ResearchArea researchArea: researchAreas) {
-            CommitteeMembershipExpertise membershipExpertise = new CommitteeMembershipExpertise();
-            membershipExpertise.setResearchAreaCode(researchArea.getResearchAreaCode());
-            membershipExpertise.setCommitteeMembershipIdFk(committeeMembership.getCommitteeMembershipId());
-
-            membershipExpertise.refreshReferenceObject(REFERENCE_RESEARCH_AREA);
-            
-            if (!committeeMembership.getMembershipExpertise().contains(membershipExpertise)) {
+            // check if the research area is not already included in expertise for the committee member
+            if(!isDuplicateResearchArea(committeeMembership, researchArea)) {
+                CommitteeMembershipExpertise membershipExpertise = new CommitteeMembershipExpertise();
+                membershipExpertise.setResearchAreaCode(researchArea.getResearchAreaCode());
+                membershipExpertise.setCommitteeMembershipIdFk(committeeMembership.getCommitteeMembershipId());
+                membershipExpertise.refreshReferenceObject(REFERENCE_RESEARCH_AREA);
+                
                 committeeMembership.getMembershipExpertise().add(membershipExpertise);
             }
         }
+    }
+    
+    /**
+     * This method is a private helper method to prevent duplicate research areas in committee member's expertise
+     * @param committeeMembership
+     * @param researchArea
+     * @return
+     */
+    private boolean isDuplicateResearchArea(CommitteeMembership committeeMembership, ResearchArea researchArea){
+        for(CommitteeMembershipExpertise cme: (committeeMembership.getMembershipExpertise())){
+            if(researchArea.equals(cme.getResearchArea())){
+                return true;
+            }
+        }
+        return false;
     }
    
     /**
@@ -161,7 +179,6 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
                 }
             }
         }
-
         return isAttendance;
     }
 
@@ -173,7 +190,6 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
         Map fieldMap = new HashMap();
         fieldMap.put("committeeId",committeeId);
         return (List<ProtocolSubmission>) businessObjectService.findMatching(ProtocolSubmission.class, fieldMap);
-        
     }
     
     
