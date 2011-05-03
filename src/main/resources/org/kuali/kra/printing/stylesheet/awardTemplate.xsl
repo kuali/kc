@@ -1084,7 +1084,7 @@
 														</fo:block>
 													</fo:inline-container>
 													<xsl:if test="term">
-														<fo:table table-layout="fixed" width="100%" border-spacing="2pt">
+														<fo:table table-layout="fixed" width="100%" border-spacing="0pt">
 															<fo:table-column column-width="90%"/>
 															<fo:table-body start-indent="0pt">
 																<xsl:for-each select="term">
@@ -1171,7 +1171,7 @@
 										</fo:table-cell>
 									</fo:table-row>
 									<fo:table-row>
-										<fo:table-cell padding="2pt" display-align="center">
+										<fo:table-cell padding="0" padding-bottom="0" padding-top="0" display-align="center">
 											<fo:block/>
 										</fo:table-cell>
 									</fo:table-row>
