@@ -162,7 +162,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         }
         
         AwardDocument awardDocument = awardForm.getAwardDocument();
-        awardDocument.refreshReferenceObject("budgetDocumentVersions");
+        awardDocument.refreshBudgetDocumentVersions();
         BudgetDocumentVersion budgetDocumentToOpen = awardDocument.getBudgetDocumentVersion(getSelectedLine(request));
         BudgetVersionOverview budgetToOpen = budgetDocumentToOpen.getBudgetVersionOverview();
         Collection<BudgetRate> allBudgetRates = budgetService.getSavedProposalRates(budgetToOpen);

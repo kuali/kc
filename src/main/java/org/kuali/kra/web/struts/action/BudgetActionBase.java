@@ -170,7 +170,7 @@ public class BudgetActionBase extends KraTransactionalDocumentActionBase {
         }
         BudgetCommonService<BudgetParent> budgetService = getBudgetCommonService(budgetParentDocument);
         BudgetDocument newBudgetDoc = budgetService.copyBudgetVersion(budgetDocToCopy);
-        budgetParentDocument.refreshReferenceObject("budgetDocumentVersions");
+        budgetParentDocument.refreshBudgetDocumentVersions();
         List<BudgetDocumentVersion> budgetVersions = budgetParentDocument.getBudgetDocumentVersions();
         for (BudgetDocumentVersion budgetDocumentVersion : budgetVersions) {
             BudgetVersionOverview versionOverview = budgetDocumentVersion.getBudgetVersionOverview();

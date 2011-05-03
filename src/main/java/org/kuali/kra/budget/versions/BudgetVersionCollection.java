@@ -29,4 +29,6 @@ public interface BudgetVersionCollection {
     public List<BudgetDocumentVersion> getBudgetDocumentVersions();
 
     public void setBudgetDocumentVersions(List<BudgetDocumentVersion> budgetDocumentVersions);
+    
+    void refreshBudgetDocumentVersions();
 }
