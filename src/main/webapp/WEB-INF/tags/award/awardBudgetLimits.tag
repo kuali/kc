@@ -126,7 +126,7 @@ function collapseAll() {
 			 <tbody id="G${anchorIndex}" class="expandableArea" style="display: none;">
 			 <c:forEach var="objectCode" items="${personnelObjectCodes}">
 			    <c:set var="currentTotal" value="${budgetSummary.currentObjectCodePersonnelFringeTotals[objectCode.costElement] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.currentObjectCodePersonnelFringeTotals[objectCode.costElement])}"/>
-			    <c:set var="previousTotal" value="${budgetSummary.currentObjectCodePersonnelFringeTotals[objectCode.costElement] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.currentObjectCodePersonnelFringeTotals[objectCode.costElement])}"/>			    
+			    <c:set var="previousTotal" value="${budgetSummary.previousObjectCodePersonnelFringeTotals[objectCode.costElement] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.previousObjectCodePersonnelFringeTotals[objectCode.costElement])}"/>			    
 			    <c:set var="total" value="${currentTotal + previousTotal}"/>
 			 	<tr>
 			 		<td>&nbsp;</td>
