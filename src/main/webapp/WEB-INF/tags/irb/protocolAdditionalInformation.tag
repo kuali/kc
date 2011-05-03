@@ -70,9 +70,9 @@
 							<%-- display the error icon --%>
 							<kul:fieldShowErrorIcon />
 							<%-- build up the error key prefix by appending the current index --%>
-							<c:set var="inactiveAreasErrorKeyPrefix"
-								value="${inactiveAreasErrorKeyPrefix}${ctr}." scope="request" />
-						</c:if></td>
+							<c:set var="inactiveAreasErrorKeyPrefix" value="${inactiveAreasErrorKeyPrefix}${ctr}." scope="request" />
+						</c:if>
+					</td>
 						
 					<kra:permission
 						value="${KualiForm.protocolHelper.modifyAreasOfResearch}">

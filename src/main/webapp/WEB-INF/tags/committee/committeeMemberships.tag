@@ -27,11 +27,12 @@
 
 <div id="workarea">
 <c:forEach items="${KualiForm.document.committee.committeeMemberships}" var="membership" varStatus="status">
+	<c:set var="committeeMembershipInactiveExpertiseProperty" value="document.committeeList[0].committeeMemberships[${status.index}].areasOfExpertise.inactive" />
     <c:set var="committeeMembershipProperty" value="document.committeeList[0].committeeMemberships[${status.index}]" />
     <c:set var="committeeMembershipRoleProperty" value="committeeHelper.newCommitteeMembershipRoles[${status.index}]" />
     <c:set var="committeeMembershipExpertiseProperty" value="committeeHelper.newCommitteeMembershipExpertise[${status.index}]" />
 
-    <kul:checkErrors keyMatch="${committeeMembershipProperty}.*,${committeeMembershipRoleProperty}.*,${committeeMembershipExpertiseProperty}.*" />
+    <kul:checkErrors keyMatch="${committeeMembershipInactiveExpertiseProperty}.*,${committeeMembershipProperty}.*,${committeeMembershipRoleProperty}.*,${committeeMembershipExpertiseProperty}.*" />
 
     <c:if test="${!KualiForm.committeeHelper.showActiveMembersOnly || !membership.wasInactiveAtLastSave || hasErrors || KualiForm.committeeHelper.memberIndex == status.index}">
         
@@ -76,7 +77,7 @@
             
         <kul:tab tabTitle="${tabTitleValue}"
                  tabErrorKey="${committeeMembershipProperty}.delete"
-                 innerTabErrorKey="${committeeMembershipProperty}.*,${committeeMembershipRoleProperty}.*,${committeeMembershipExpertiseProperty}.*"
+                 innerTabErrorKey="${committeeMembershipInactiveExpertiseProperty}.*,${committeeMembershipProperty}.*,${committeeMembershipRoleProperty}.*,${committeeMembershipExpertiseProperty}.*"
                  auditCluster="requiredFieldsAuditErrors" 
                  tabAuditKey="" 
                  useRiceAuditMode="true"
