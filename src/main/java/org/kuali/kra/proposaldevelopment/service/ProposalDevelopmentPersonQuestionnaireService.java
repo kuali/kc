@@ -30,29 +30,6 @@ public interface ProposalDevelopmentPersonQuestionnaireService {
     
     /**
      * 
-     * This method...
-     * @return
-     */
-    Questionnaire getBaseQuestionnaire();
-    
-    /**
-     * 
-     * This method...
-     * @param proposalPersonModuleQuestionnaireBean
-     * @return
-     */
-    AnswerHeader getNewAnswerHeader(ProposalPersonModuleQuestionnaireBean proposalPersonModuleQuestionnaireBean);
-    
-    /**
-     * 
-     * This method...
-     * @param proposalPersonModuleQuestionnaireBean
-     * @return
-     */
-    List<AnswerHeader> getNewAnswerHeaders(ProposalPersonModuleQuestionnaireBean proposalPersonModuleQuestionnaireBean);
-    
-    /**
-     * 
      * This method returns a list of AnswerHeader object, if the person already has a collection in the DB, it returns that.
      * Otherwise a new list is returned.
      * @param proposalPerson

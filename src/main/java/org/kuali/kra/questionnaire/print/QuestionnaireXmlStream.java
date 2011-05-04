@@ -171,9 +171,9 @@ public class QuestionnaireXmlStream implements XmlStream {
             }
             questionnaireType.setQuestionnaireName(questionnaire.getName());
             questionnaireType.setQuestionnaireDesc(questionnaire.getDescription());
-            setQuestionInfoData(questionnaire, moduleQuestionnaireBean,questionnaireType,questionnaireCompletionFlag);
+            setQuestionInfoData(questionnaire, moduleQuestionnaireBean,questionnaireType,questionnaireCompletionFlag, printableBusinessObject);
             setUserOption(params,questionnaireType);
-            setAnswerInfo(moduleQuestionnaireBean,questionnaireType);
+            setAnswerInfo(printableBusinessObject,moduleQuestionnaireBean,questionnaireType);
             if(moduleQuestionnaireBean!=null && moduleQuestionnaireBean.getModuleItemCode() != null) {
                 setModuleUsage(moduleQuestionnaireBean,questionnaireType);
             }
@@ -246,16 +246,23 @@ public class QuestionnaireXmlStream implements XmlStream {
             
         }
     }
-
+    
     /**
      * 
      * This method is to set the Answer details to Questionnaire XMLBeans object
+     * @param printableBusinessObject
      * @param moduleQuestionnaireBean
      * @param questionnaireType
      */
-    private void setAnswerInfo(ModuleQuestionnaireBean moduleQuestionnaireBean, Questionnaire questionnaireType) {
+    private void setAnswerInfo(KraPersistableBusinessObjectBase printableBusinessObject, ModuleQuestionnaireBean moduleQuestionnaireBean, 
+            Questionnaire questionnaireType) {
         AnswerHeaderType answerHeader = questionnaireType.addNewAnswerHeader();
-        answerHeader.setModuleKey(moduleQuestionnaireBean.getModuleItemKey());
+        if (printableBusinessObject instanceof ProposalPerson) {
+            ProposalPerson person = (ProposalPerson) printableBusinessObject;
+            answerHeader.setModuleKey(person.getDevelopmentProposal().getProposalNumber());
+        } else {
+            answerHeader.setModuleKey(moduleQuestionnaireBean.getModuleItemKey());
+        }
         answerHeader.setSubModuleKey(moduleQuestionnaireBean.getModuleSubItemKey());
     }
 
@@ -433,8 +440,8 @@ public class QuestionnaireXmlStream implements XmlStream {
     }
 
     private void setQuestionInfoData(org.kuali.kra.questionnaire.Questionnaire questionnaire,
-            ModuleQuestionnaireBean moduleQuestionnaireBean, Questionnaire questionnaireType, boolean questionnaireCompletionFlag)
-            throws PrintingException {
+            ModuleQuestionnaireBean moduleQuestionnaireBean, Questionnaire questionnaireType, boolean questionnaireCompletionFlag,
+            KraPersistableBusinessObjectBase printableBusinessObject) throws PrintingException {
         List<AnswerHeader> answerHeaders = null;
         org.kuali.kra.questionnaire.Questionnaire answeredQuestionnaire = null;
         if (moduleQuestionnaireBean != null) {
@@ -488,14 +495,21 @@ public class QuestionnaireXmlStream implements XmlStream {
                                         questionnaireQuestion.getQuestionnaireQuestionsId())
                                         && answer.getQuestionNumber().equals(questionnaireQuestion.getQuestionNumber())
                                         && answer.getQuestionRefIdFk().equals(questionnaireQuestion.getQuestionRefIdFk())) {
+                                    boolean updateQuestionDescription = printableBusinessObject instanceof ProposalPerson;
                                     if (answer.getAnswer() != null) {
                                         isAnswerPresent = true;
                                         String name = answer.getAnswer().trim();
                                         if (name != null) {
                                             if (name.trim().equalsIgnoreCase("Y")) {
                                                 answerDescription = "Yes";
+                                                //if (updateQuestionDescription) {
+                                                  //  questionInfo.setQuestion(questionnaireQuestion.getQuestion().getAffirmativeStatementConversion());
+                                                //}
                                             } else if (name.trim().equalsIgnoreCase("N")) {
                                                 answerDescription = "No";
+                                                //if (updateQuestionDescription) {
+                                                  //  questionInfo.setQuestion(questionnaireQuestion.getQuestion().getNegativeStatementConversion());
+                                                //}
                                             } else if (name.trim().equalsIgnoreCase("X")) {
                                                 answerDescription = "None";
                                             } else {
@@ -509,6 +523,8 @@ public class QuestionnaireXmlStream implements XmlStream {
 
                             }
                         }
+                        //we don't print answers on the proposal person printout
+                        //if ((isAnswerPresent || !questionnaireCompletionFlag) && !(printableBusinessObject instanceof ProposalPerson)) {
                         if (isAnswerPresent || !questionnaireCompletionFlag) {
                             AnswerInfoType answerInfo = questionInfo.addNewAnswerInfo();
                             answerInfo.setAnswerNumber(selectedAnswer);
