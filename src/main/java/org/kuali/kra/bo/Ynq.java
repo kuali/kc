@@ -32,8 +32,6 @@ public class Ynq extends KraSortablePersistableBusinessObjectBase {
 	private Integer noOfAnswers;
 	private String questionType;
 	private String status;
-	private String campusCode;
-	
     private List<YnqExplanation> ynqExplanations;
 
 	public Ynq(){
@@ -113,13 +111,6 @@ public class Ynq extends KraSortablePersistableBusinessObjectBase {
 		this.status = status;
 	}
 
-    public String getCampusCode() {
-        return campusCode;
-    }
-    
-    public void setCampusCode(String campusCode) {
-        this.campusCode = campusCode;
-    }
 
 	@Override 
 	protected LinkedHashMap toStringMapper() {
@@ -133,7 +124,6 @@ public class Ynq extends KraSortablePersistableBusinessObjectBase {
 		hashMap.put("noOfAnswers", getNoOfAnswers());
 		hashMap.put("questionType", getQuestionType());
 		hashMap.put("status", getStatus());
-		hashMap.put("campusCode", getCampusCode());
 		return hashMap;
 	}
 
