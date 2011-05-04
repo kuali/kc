@@ -34,6 +34,7 @@ import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonModuleQuest
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonQuestionnaireHelper;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentPersonQuestionnaireService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
+import org.kuali.kra.proposaldevelopment.service.impl.ProposalDevelopmentPersonQuestionnaireServiceImpl;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.questionnaire.QuestionnaireQuestion;
@@ -52,6 +53,7 @@ public class ProposalPersonQuestionnaireTest extends KcUnitTestBase {
     private BusinessObjectService businessObjectService;
     private QuestionnaireAnswerService questionnaireAnswerService;
     private ProposalDevelopmentPersonQuestionnaireService proposalDevelopmentPersonQuestionnaireService;
+    private ProposalDevelopmentPersonQuestionnaireServiceImpl proposalDevelopmentPersonQuestionnaireServiceImpl;
     private DocumentService documentService;
     private ProposalDevelopmentService proposalDevelopmentService;
     private DevelopmentProposal proposal;
@@ -70,6 +72,7 @@ public class ProposalPersonQuestionnaireTest extends KcUnitTestBase {
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         questionnaireAnswerService = KraServiceLocator.getService(QuestionnaireAnswerService.class);
         proposalDevelopmentPersonQuestionnaireService = KraServiceLocator.getService(ProposalDevelopmentPersonQuestionnaireService.class);
+        proposalDevelopmentPersonQuestionnaireServiceImpl = (ProposalDevelopmentPersonQuestionnaireServiceImpl) KraServiceLocator.getService(ProposalDevelopmentPersonQuestionnaireService.class);
         documentService = KraServiceLocator.getService(DocumentService.class);
         proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
         proposal = getDocument().getDevelopmentProposal();//throw this one away
@@ -167,7 +170,7 @@ public class ProposalPersonQuestionnaireTest extends KcUnitTestBase {
     
     @Test
     public void testQuestionnaire() {
-        Questionnaire questionnaire = proposalDevelopmentPersonQuestionnaireService.getBaseQuestionnaire();
+        Questionnaire questionnaire = proposalDevelopmentPersonQuestionnaireServiceImpl.getBaseQuestionnaire();
         assertEquals(6, questionnaire.getQuestionnaireQuestions().size());
         
         boolean q1Found = false;
@@ -178,7 +181,8 @@ public class ProposalPersonQuestionnaireTest extends KcUnitTestBase {
         boolean q6Found = false;
         
         for (QuestionnaireQuestion q : questionnaire.getQuestionnaireQuestions()) {
-            
+            //assertFalse(StringUtils.isEmpty(q.getQuestion().getAffirmativeStatementConversion()));
+            //assertFalse(StringUtils.isEmpty(q.getQuestion().getNegativeStatementConversion()));
             if (StringUtils.equals(q1, q.getQuestion().getQuestion())) {
                 assertEquals("1", q.getQuestion().getAnswerMaxLength().toString());
                 q1Found = true;
@@ -212,7 +216,7 @@ public class ProposalPersonQuestionnaireTest extends KcUnitTestBase {
     @Test
     public void testGetNewAnswerHeader() throws Exception{
         ProposalPersonModuleQuestionnaireBean bean = new ProposalPersonModuleQuestionnaireBean(proposal, getPerson());
-        AnswerHeader header = proposalDevelopmentPersonQuestionnaireService.getNewAnswerHeader(bean);
+        AnswerHeader header = proposalDevelopmentPersonQuestionnaireServiceImpl.getNewAnswerHeader(bean);
         assertEquals(6, header.getAnswers().size());
 
         for(Answer answer : header.getAnswers()) {

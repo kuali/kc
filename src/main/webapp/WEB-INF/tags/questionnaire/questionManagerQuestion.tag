@@ -88,5 +88,25 @@
                                           attributeEntry="${DataDictionary.Question.attributes.regulation}" />
             </td>
         </tr>
+        <%--
+        <tr>
+            <th align="right" valign="middle">
+                <kul:htmlAttributeLabel attributeEntry="${DataDictionary.Question.attributes.affirmativeStatementConversion}" />
+            </th>
+            <td align="left" valign="middle" colspan="3">
+                <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.affirmativeStatementConversion" 
+                                          attributeEntry="${DataDictionary.Question.attributes.affirmativeStatementConversion}" />
+            </td>
+        </tr>
+        <tr>
+            <th align="right" valign="middle">
+                <kul:htmlAttributeLabel attributeEntry="${DataDictionary.Question.attributes.negativeStatementConversion}" />
+            </th>
+            <td align="left" valign="middle" colspan="3">
+                <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.negativeStatementConversion" 
+                                          attributeEntry="${DataDictionary.Question.attributes.negativeStatementConversion}" />
+            </td>
+        </tr>
+         --%>
     </table>
 </div>

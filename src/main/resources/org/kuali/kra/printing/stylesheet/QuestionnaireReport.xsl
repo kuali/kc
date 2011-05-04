@@ -534,6 +534,37 @@
 															</fo:block>
 														</fo:table-cell>															
 													</fo:table-row>
+													<fo:table-row>
+														<fo:table-cell number-columns-spanned="4" padding="2pt" display-align="left">
+															<fo:table>
+																<fo:table-column column-width="75%"/>
+																<fo:table-column column-width="25%"/>
+																<fo:table-body>
+																	<fo:table-row>
+																		<fo:table-cell padding="2pt" display-align="left">
+																			<fo:block>
+																				My signature below certifies that I hereby authorize MIT to submit the above referenced proposal as an institutionally
+																				authorized proposal. 
+																			</fo:block>
+																			<fo:block>
+																				Further, as a Principal Investigator/Co-Principal Investigator/Co-Investigator I certify that:
+																			</fo:block>
+																			<fo:block>
+																				<xsl:text>&#160;</xsl:text>
+																			</fo:block>
+																			<fo:block>
+																				Please contact your department head, center or laboratory director, or Vice-President for research if you cannot certify the following:
+																			</fo:block>
+																		</fo:table-cell>
+																		<fo:table-cell padding="2pt" display-align="left">
+																			<fo:block>
+																			</fo:block>
+																		</fo:table-cell>
+																	</fo:table-row>																	
+																</fo:table-body>
+															</fo:table>
+														</fo:table-cell>
+													</fo:table-row>
 												</fo:table-body>
 											</fo:table>
 										</xsl:if>
@@ -754,11 +785,65 @@
 								</fo:block>
 							</fo:block>
 						</xsl:for-each>
+						<xsl:if test="/Questionnaire/ProposalInfo/ProposalPersonUsed &gt; 0">
+							<fo:block><xsl:text>&#160;</xsl:text></fo:block>
+							<fo:table table-layout="fixed" width="100%" border-spacing="2pt">
+								<fo:table-column column-width="5%"/>
+								<fo:table-column column-width="55%"/>
+								<fo:table-column column-width="5%"/>
+								<fo:table-column column-width="30%"/>
+								<fo:table-column column-width="10%"/>
+								<fo:table-body start-indent="0pt">
+									<fo:table-row>
+										<fo:table-cell>
+											<fo:block><xsl:text>&#160;</xsl:text></fo:block>
+										</fo:table-cell>
+										<fo:table-cell border-bottom-style="solid" font-weight="bold">
+											<fo:block><xsl:text>&#160;</xsl:text></fo:block>
+										</fo:table-cell>
+										<fo:table-cell>
+											<fo:block><xsl:text>&#160;</xsl:text></fo:block>
+										</fo:table-cell>
+										<fo:table-cell border-bottom-style="solid" font-weight="bold">
+											<fo:block><xsl:text>&#160;</xsl:text></fo:block>
+										</fo:table-cell>
+										<fo:table-cell>
+											<fo:block><xsl:text>&#160;</xsl:text></fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+									<fo:table-row>
+										<fo:table-cell>
+											<fo:block><xsl:text>&#160;</xsl:text></fo:block>
+										</fo:table-cell>
+										<fo:table-cell font-size="9pt" font-weight="bold" padding="2pt" text-align="Right" display-align="before">
+											<fo:block>
+												<fo:inline>
+													<xsl:text>Signature</xsl:text>
+												</fo:inline>
+											</fo:block>
+										</fo:table-cell>
+										<fo:table-cell>
+											<fo:block><xsl:text>&#160;</xsl:text></fo:block>
+										</fo:table-cell>
+										<fo:table-cell font-size="9pt" font-weight="bold" padding="2pt" text-align="justify" display-align="before">
+											<fo:block>
+												<fo:inline>
+													<xsl:text>Date</xsl:text>
+												</fo:inline>
+											</fo:block>
+										</fo:table-cell>
+										<fo:table-cell>
+											<fo:block><xsl:text>&#160;</xsl:text></fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+								</fo:table-body>
+							</fo:table>
+						</xsl:if>
 					</fo:block>
 					<fo:block id="SV_RefID_PageTotal"/>
 				</fo:flow>
 			</fo:page-sequence>
-		</fo:root>
+		</fo:root>		
 	</xsl:template>
 	<xsl:template match="Questionnaire">
 		<xsl:variable name="value-of-template">
