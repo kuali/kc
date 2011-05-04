@@ -609,6 +609,7 @@ public final class KeyConstants {
     public static final String ERROR_COMMITTEE_DUPLICATE_ID = "error.committee.duplicateId";
     public static final String ERROR_COMMITTEE_DUPLICATE_NAME = "error.committee.duplicateName";
     public static final String ERROR_COMMITTEE_INVALID_ID = "error.committee.invalidId";
+    public static final String ERROR_COMMITTEE_RESEARCH_AREA_INACTIVE = "error.committee.researchArea.inactive";
     
     //CommitteeMembership Messages
     public static final String ERROR_COMMITTEE_MEMBERSHIP_PERSON_NOT_SPECIFIED = "error.committee.membership.person.not.specified";

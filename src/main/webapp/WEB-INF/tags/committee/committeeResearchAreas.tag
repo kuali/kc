@@ -18,7 +18,7 @@
 <c:set var="action" value="committeeCommittee" />
 <c:set var="readOnly" value="${!KualiForm.committeeHelper.modifyCommittee}" />
 
-<kul:tab tabTitle="Area of Research" defaultOpen="true" tabErrorKey="committeeResearchAreas*">
+<kul:tab tabTitle="Area of Research" defaultOpen="true" tabErrorKey="document.committeeList[0].committeeResearchAreas.inactive.*,committeeResearchAreas*">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Area of Research</span>
@@ -47,13 +47,24 @@
 	            </tr>
             </c:if>
             
+            <%-- Set the initial value of the error key prefix that is built up in the following loop based on testing for indices --%>
+			<c:set var="inactiveAreasErrorKeyPrefix" value="document.committeeList[0].committeeResearchAreas.inactive." scope="request"/>
         	<c:forEach var="researchArea" items="${KualiForm.document.committee.committeeResearchAreas}" varStatus="status">
 	             <tr>
 	                <th class="infoline">
 						<c:out value="${status.index+1}" />
 					</th>
 		            <td align="left" valign="middle">
-		               ${researchArea.researchArea.researchAreaCode}&nbsp;${researchArea.researchArea.description}
+		               	${researchArea.researchArea.researchAreaCode}&nbsp;${researchArea.researchArea.description}
+		               	<!--- error handling --> 
+		               	<%-- Check if the research area indexed by the current iteration is an error key, and if so show the error icon --%>
+						<kul:checkErrors keyMatch="${inactiveAreasErrorKeyPrefix}${status.index}.*" />
+						<c:if test="${hasErrors}">
+							<%-- display the error icon --%>
+							<kul:fieldShowErrorIcon />
+							<%-- build up the error key prefix by appending the current index --%>
+							<c:set var="inactiveAreasErrorKeyPrefix" value="${inactiveAreasErrorKeyPrefix}${status.index}." scope="request" />
+						</c:if>
 					</td>
 					<c:if test="${!readOnly}">
 	                    <td>

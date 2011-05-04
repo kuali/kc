@@ -28,6 +28,7 @@ import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
 import org.kuali.kra.committee.bo.CommitteeMembershipRole;
+import org.kuali.kra.committee.bo.CommitteeResearchArea;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.lookup.keyvalue.CommitteeIdValuesFinder;
 import org.kuali.kra.committee.rule.AddCommitteeMembershipRoleRule;
@@ -42,7 +43,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
@@ -78,8 +78,12 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
     private static final Log LOG = LogFactory.getLog(CommitteeDocumentRule.class);
 
     private static final String SEPERATOR = ".";
-    private static final String INACTIVE_AREAS_OF_EXPERTISE_PREFIX = "document.committeeList[0].committeeMemberships[%1$s].areasOfExpertise.inactive";
-
+    private static final String PROPERTY_NAME_INACTIVE_AREAS_OF_EXPERTISE_PREFIX = "document.committeeList[0].committeeMemberships[%1$s].areasOfExpertise.inactive";
+    private static final String INACTIVE_RESEARCH_AREAS_PREFIX = "document.committeeList[0].committeeResearchAreas.inactive";
+    private static final String COMMITTEE_ID_FIELD = "document.committeeList[0].committeeId";
+    private static final String COMMITTEE_NAME_FIELD = "document.committeeList[0].committeeName";
+    private static final String COMMITTEE_HOME_UNIT_NUMBER_FIELD = "document.committeeList[0].homeUnitNumber";
+    
     private static final boolean VALIDATION_REQUIRED = true;
     
     // KRACOEUS-641: Changed CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME to false to prevent duplicate error messages
@@ -117,20 +121,50 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
          */
         getDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(document, getMaxDictionaryValidationDepth(), VALIDATION_REQUIRED, CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME);
         valid &= GlobalVariables.getErrorMap().isEmpty();
+        GlobalVariables.getErrorMap().removeFromErrorPath("document");
         
         valid &= validateCommitteeId((CommitteeDocument) document);
         valid &= validateUniqueCommitteeId((CommitteeDocument) document);
         valid &= validateUniqueCommitteeName((CommitteeDocument) document);
         valid &= validateHomeUnit((CommitteeDocument) document);
-        
-        GlobalVariables.getErrorMap().removeFromErrorPath("document");
-
+        valid &= processCommitteeResearchAreaBusinessRules((CommitteeDocument) document);     
         valid &= validateCommitteeMemberships((CommitteeDocument) document);
         valid &= processScheduleRules((CommitteeDocument) document);
         
         return valid;
     }
     
+    
+    /**
+     * This method will check if all the research areas that have been added to the committee are indeed active.
+     * It is declared public because it will be invoked from the action class for committee as well.
+     * @param document
+     * @return
+     */
+    public boolean processCommitteeResearchAreaBusinessRules(CommitteeDocument document) {
+        boolean inactiveFound = false;
+        StringBuffer inactiveResearchAreaIndices = new StringBuffer();
+        
+        List<CommitteeResearchArea> cras = document.getCommittee().getCommitteeResearchAreas();
+        // iterate over all the research areas for this committee looking for inactive research areas
+        if(CollectionUtils.isNotEmpty(cras)) {
+            int raIndex = 0;
+            for (CommitteeResearchArea committeeResearchArea : cras) {
+                if(!(committeeResearchArea.getResearchAreas().isActive())) {
+                    inactiveFound = true;
+                    inactiveResearchAreaIndices.append(raIndex).append(SEPERATOR);
+                }
+                raIndex++;
+            }
+        }
+        // if we found any inactive research areas in the above loop, report as a single error key suffixed by the list of indices of the inactive areas
+        if(inactiveFound) { 
+            String committeeResearchAreaInactiveErrorPropertyKey = INACTIVE_RESEARCH_AREAS_PREFIX + SEPERATOR + inactiveResearchAreaIndices.toString();
+            reportError(committeeResearchAreaInactiveErrorPropertyKey, KeyConstants.ERROR_COMMITTEE_RESEARCH_AREA_INACTIVE);
+        }
+        
+        return !inactiveFound;
+    }
     
     
     
@@ -144,8 +178,7 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
     private boolean validateCommitteeId(CommitteeDocument document) {
         Committee committee = document.getCommittee();
         if (StringUtils.equalsIgnoreCase(committee.getCommitteeId(), Constants.DEFAULT_CORRESPONDENCE_TEMPLATE)) {
-            reportError(Constants.COMMITTEE_PROPERTY_KEY + "List[0].committeeId", 
-                    KeyConstants.ERROR_COMMITTEE_INVALID_ID);
+            reportError(COMMITTEE_ID_FIELD, KeyConstants.ERROR_COMMITTEE_INVALID_ID);
             return false;
         } else {
             return true;
@@ -193,8 +226,7 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
             }
         }
         if (!valid) {
-            reportError(Constants.COMMITTEE_PROPERTY_KEY + "List[0].committeeId",
-                    KeyConstants.ERROR_COMMITTEE_DUPLICATE_ID);            
+            reportError(COMMITTEE_ID_FIELD, KeyConstants.ERROR_COMMITTEE_DUPLICATE_ID);            
         }
         return valid;
     }
@@ -287,8 +319,7 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
             if (StringUtils.equalsIgnoreCase(committeeIdNamePair.getLabel(), committee.getCommitteeName()) 
                     && StringUtils.isNotBlank((String) committeeIdNamePair.getKey()) 
                     && !StringUtils.equalsIgnoreCase((String) committeeIdNamePair.getKey(), committee.getCommitteeId())) {
-                reportError(Constants.COMMITTEE_PROPERTY_KEY + "List[0].committeeName",
-                        KeyConstants.ERROR_COMMITTEE_DUPLICATE_NAME);            
+                reportError(COMMITTEE_NAME_FIELD, KeyConstants.ERROR_COMMITTEE_DUPLICATE_NAME);            
                 return false;
             }
         }
@@ -313,8 +344,7 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
             Unit homeUnit = unitService.getUnit(homeUnitNumber);
             if (homeUnit == null) {
                 valid = false;
-                reportError(Constants.COMMITTEE_PROPERTY_KEY + "List[0].homeUnitNumber", 
-                            KeyConstants.ERROR_INVALID_UNIT, homeUnitNumber);
+                reportError(COMMITTEE_HOME_UNIT_NUMBER_FIELD, KeyConstants.ERROR_INVALID_UNIT, homeUnitNumber);
             }
         }
         
@@ -611,7 +641,7 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
         // if we found any inactive research areas in the above loop, report as a single error key suffixed by the list of indices of the inactive areas
         if(inactiveFound) { 
             String committeeMemberInactiveAreasOfExpertiseErrorPropertyKey = 
-                String.format(INACTIVE_AREAS_OF_EXPERTISE_PREFIX, membershipIndex)+ SEPERATOR + inactiveResearchAreaIndices.toString();
+                String.format(PROPERTY_NAME_INACTIVE_AREAS_OF_EXPERTISE_PREFIX, membershipIndex)+ SEPERATOR + inactiveResearchAreaIndices.toString();
             reportError(committeeMemberInactiveAreasOfExpertiseErrorPropertyKey, KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_EXPERTISE_INACTIVE);
         }
         
