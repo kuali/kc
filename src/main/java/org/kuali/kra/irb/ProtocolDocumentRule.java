@@ -84,6 +84,7 @@ import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * Main Business Rule class for <code>{@link ProtocolDocument}</code>. Responsible for delegating rules to independent rule classes.

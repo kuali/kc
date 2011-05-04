@@ -28,11 +28,13 @@ import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.document.authorization.CommitteeTask;
+import org.kuali.kra.committee.rules.CommitteeDocumentRule;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.irb.ProtocolDocumentRule;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.service.impl.VersioningServiceImpl;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -79,6 +81,8 @@ public class CommitteeCommitteeAction extends CommitteeAction {
             Class lookupResultsBOClass, Collection<PersistableBusinessObject> selectedBOs) {
         if (lookupResultsBOClass.isAssignableFrom(ResearchArea.class)) {
             getCommitteeService().addResearchAreas(committeeForm.getCommitteeDocument().getCommittee(), (Collection) selectedBOs);
+            // finally do validation and error reporting for inactive research areas
+            (new CommitteeDocumentRule()).processCommitteeResearchAreaBusinessRules(committeeForm.getCommitteeDocument());
         }
     }
     
@@ -102,6 +106,8 @@ public class CommitteeCommitteeAction extends CommitteeAction {
         if (isAuthorized(task)) {   
             committee.getCommitteeResearchAreas().remove(getLineToDelete(request));
         }
+        // finally do validation and error reporting for inactive research areas
+        (new CommitteeDocumentRule()).processCommitteeResearchAreaBusinessRules(committeeForm.getCommitteeDocument());
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 

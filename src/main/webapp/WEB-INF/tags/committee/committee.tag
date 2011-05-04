@@ -5,7 +5,9 @@
 <c:set var="className" value="org.kuali.kra.committee.document.CommitteeDocument" />
 <c:set var="readOnly" value="${!KualiForm.committeeHelper.modifyCommittee}" scope="request" />
 
-<kul:tab tabTitle="Committee" defaultOpen="true" tabErrorKey="document.committee*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.title" useRiceAuditMode="true">
+<kul:tab tabTitle="Committee" defaultOpen="true" tabErrorKey="document.committeeList[0].advancedSubmissionDaysRequired,document.committeeList[0].committeeId,document.committeeList[0].committeeName,document.committeeList[0].committeeTypeCode,document.committeeList[0].homeUnitNumber,document.committeeList[0].maxProtocols,document.committeeList[0].minimumMembersRequired,document.committeeList[0].reviewTypeCode" 
+					auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.title" useRiceAuditMode="true">
+					
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Committee</span>
