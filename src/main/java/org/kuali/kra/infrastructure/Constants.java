@@ -621,6 +621,8 @@ public interface Constants {
     public static final String QUESTION_EXPLANATION = "E";
     public static final String QUESTION_POLICY = "P";
     public static final String QUESTION_REGULATION = "R";
+    public static final String QUESTION_AFFIRMATIVE_QUESTION_CONVERSION = "A";
+    public static final String QUESTION_NEGATIVE_QUESTION_CONVERSION = "N";
     
     public static final int QUESTION_RESPONSE_TYPE_YES_NO = 1;
     public static final int QUESTION_RESPONSE_TYPE_YES_NO_NA = 2;

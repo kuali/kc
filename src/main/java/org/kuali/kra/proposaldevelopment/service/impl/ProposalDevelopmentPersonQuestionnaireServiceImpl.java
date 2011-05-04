@@ -15,8 +15,11 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -47,18 +50,29 @@ public class ProposalDevelopmentPersonQuestionnaireServiceImpl implements Propos
     
     /**
      * 
-     * @see org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentPersonQuestionnaireService#getBaseQuestionnaire()
+     * This method...
+     * @return
      */
-    public Questionnaire getBaseQuestionnaire() {
+    public Questionnaire getBaseQuestionnaire() throws IllegalArgumentException {
         Map params = new HashMap();
         params.put("NAME", PROPOSAL_PERSON_QUESTIONNAIRE_NAME);
-        Questionnaire questionnaire = (Questionnaire) this.businessObjectService.findByPrimaryKey(Questionnaire.class, params);
-        return questionnaire;
+        String sortField = "SEQUENCE_NUMBER";
+        boolean sortAscending = false; 
+        Collection<Questionnaire> questionnaireCollection = this.businessObjectService.findMatchingOrderBy(Questionnaire.class, params, sortField, sortAscending);
+        if (questionnaireCollection.size() > 0) {
+            Questionnaire questionnaire = questionnaireCollection.iterator().next();
+            System.err.println(questionnaire);
+            return questionnaire;
+        } else {
+            throw new IllegalArgumentException("No questionnaires found!");
+        }
     }
     
     /**
      * 
-     * @see org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentPersonQuestionnaireService#getNewAnswerHeader(org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonModuleQuestionnaireBean)
+     * This method...
+     * @param proposalPersonModuleQuestionnaireBean
+     * @return
      */
     public AnswerHeader getNewAnswerHeader(ProposalPersonModuleQuestionnaireBean proposalPersonModuleQuestionnaireBean) {
         Questionnaire questionnaire = getBaseQuestionnaire();
@@ -91,9 +105,11 @@ public class ProposalDevelopmentPersonQuestionnaireServiceImpl implements Propos
     
     /**
      * 
-     * @see org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentPersonQuestionnaireService#getNewAnswerHeaders(org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonModuleQuestionnaireBean)
+     * This method...
+     * @param proposalPersonModuleQuestionnaireBean
+     * @return
      */
-    public List<AnswerHeader> getNewAnswerHeaders(ProposalPersonModuleQuestionnaireBean proposalPersonModuleQuestionnaireBean) {
+    private List<AnswerHeader> getNewAnswerHeaders(ProposalPersonModuleQuestionnaireBean proposalPersonModuleQuestionnaireBean) {
         List<AnswerHeader> headers = new ArrayList<AnswerHeader>();
         headers.add(getNewAnswerHeader(proposalPersonModuleQuestionnaireBean));
         return headers;

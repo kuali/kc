@@ -51,7 +51,11 @@
                 <ref bean="Question-versionNumber" />
                 <ref bean="Question-explanation" />
                 <ref bean="Question-policy" />
-                <ref bean="Question-regulation" />
+                <ref bean="Question-regulation" /> 
+                <!-- 
+                <ref bean="Question-affirmativeStatementConversion" />
+                <ref bean="Question-negativeStatementConversion" />
+                 -->
             </list>
         </property>
     </bean>
@@ -357,8 +361,48 @@
         </property>
         <property name="summary" value="Regulation" />
         <property name="description" value="Regulation" />
+    </bean> 
+    <!-- 
+    <bean id="Question-affirmativeStatementConversion" parent="Question-affirmativeStatementConversion-parentBean" />
+    <bean id="Question-affirmativeStatementConversion-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="affirmativeStatementConversion" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Affirmative Statement" />
+        <property name="shortLabel" value="Affirmative Statement" />
+        <property name="maxLength" value="2000" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern"
+                p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextareaControlDefinition"
+                p:rows="2"
+                p:cols="120" />
+        </property>
+        <property name="summary" value="Affirmative Statement" />
+        <property name="description" value="Affirmative Statement" />
     </bean>
-
+    
+    <bean id="Question-negativeStatementConversion" parent="Question-negativeStatementConversion-parentBean" />
+    <bean id="Question-negativeStatementConversion-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="negativeStatementConversion" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Negative Statement" />
+        <property name="shortLabel" value="Negative Statement" />
+        <property name="maxLength" value="2000" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern"
+                p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextareaControlDefinition"
+                p:rows="2"
+                p:cols="120" />
+        </property>
+        <property name="summary" value="Negative Statement" />
+        <property name="description" value="Negative Statement" />
+    </bean>
+ -->
     <!-- Business Object Inquiry Definition -->
     <bean id="Question-inquiryDefinition" parent="Question-inquiryDefinition-parentBean" />
     <bean id="Question-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
