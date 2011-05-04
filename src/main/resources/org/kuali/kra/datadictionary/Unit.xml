@@ -25,7 +25,6 @@
         <ref bean="Unit-organizationId" />
         <ref bean="Unit-organization.organizationName" />
         <ref bean="Unit-unitName" />
-        <ref bean="Unit-campusCode" />
         <ref bean="Unit-versionNumber" />
       </list>
     </property>
@@ -170,9 +169,6 @@
     <property name="summary" value="Unit Name" />
     <property name="description" value="Unit Name" />
   </bean>
-  <bean id="Unit-campusCode" parent="Unit-campusCode-parentBean" />
-  
-  <bean id="Unit-campusCode-parentBean" abstract="true" parent="KraAttributeReferenceDummy-campusCode" />
   <bean id="Unit-versionNumber" parent="Unit-versionNumber-parentBean" />
 
   <bean id="Unit-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
@@ -203,8 +199,6 @@
                     p:attributeName="parentUnit.unitNumber" />
               <bean parent="FieldDefinition"
                     p:attributeName="organization.organizationName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="campusCode" />
             </list>
           </property>
         </bean>
@@ -255,8 +249,6 @@
               p:attributeName="organizationId" />
         <bean parent="FieldDefinition"
               p:attributeName="unitName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="campusCode" />
       </list>
     </property>
     <property name="resultFields" >
@@ -270,8 +262,6 @@
               p:attributeName="organization.organizationName" />
         <bean parent="FieldDefinition"
               p:attributeName="unitName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="campusCode" />
       </list>
     </property>
   </bean>
