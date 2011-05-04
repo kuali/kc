@@ -112,9 +112,15 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends K
         auditRule = null;
         super.tearDown();
     }
+    
+    private ProposalDevelopmentDocument getNewProposalDevelopmentDocument() throws Exception {
+        ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
+        document.getDevelopmentProposal().setPrimeSponsorCode("000100");
+        return document;
+    }
 
     @Test public void testValidDate() throws Exception {
-        ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
+        ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
 
         document.getDevelopmentProposal().setDeadlineDate(tomorrow);;
         assertTrue("Audit Rule shouldn't produce any audit errors", auditRule.processRunAuditBusinessRules(document));
@@ -122,13 +128,13 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends K
     }
 
     @Test public void testEmptyDate() throws Exception {
-        ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
+        ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
 
         validateAuditRule(document, KeyConstants.WARNING_EMPTY_DEADLINE_DATE);
     }
 
     @Test public void testPastDate() throws Exception {
-        ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
+        ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
 
         // Create a date in the past - yesterday
         Calendar calendar = new GregorianCalendar();
@@ -140,7 +146,7 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends K
     }
     
     @Test public void testRequireSponsorIdWhenRenewal() throws Exception {
-        ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
+        ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         DevelopmentProposal proposal = document.getDevelopmentProposal();
         proposal.setDeadlineDate(tomorrow);
         proposal.setProposalTypeCode(proposalTypeCodeRenewal);
@@ -161,7 +167,7 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends K
     }
 
     @Test public void testRequireSponsorIdWhenResubmission() throws Exception {
-        ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
+        ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         DevelopmentProposal proposal = document.getDevelopmentProposal();
         proposal.setDeadlineDate(tomorrow);
         proposal.setProposalTypeCode(proposalTypeCodeResubmission);
