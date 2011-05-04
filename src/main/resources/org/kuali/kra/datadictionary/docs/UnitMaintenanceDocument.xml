@@ -40,7 +40,6 @@
         <bean parent="MaintainableFieldDefinition" p:name="parentUnitNumber" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="organizationId" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="unitName" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="campusCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>
     </property>

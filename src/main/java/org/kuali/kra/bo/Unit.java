@@ -19,8 +19,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.rice.kns.bo.Campus;
-
 /**
  * This class is a Unit
  */
@@ -31,10 +29,9 @@ public class Unit extends KraPersistableBusinessObjectBase {
     private String parentUnitNumber;
     private String organizationId;
     private String unitName;
-    private String campusCode;
-    
     private Unit parentUnit;
     private List<UnitAdministrator> unitAdministrators;
+
     private Organization organization;
 
     public Unit() {
@@ -79,13 +76,6 @@ public class Unit extends KraPersistableBusinessObjectBase {
         this.unitName = unitName;
     }
 
-    public String getCampusCode() {
-        return campusCode;
-    }
-    
-    public void setCampusCode(String campusCode) {
-        this.campusCode = campusCode;
-    }
 
     @SuppressWarnings("unchecked")
     @Override 
@@ -95,7 +85,6 @@ public class Unit extends KraPersistableBusinessObjectBase {
         hashMap.put("parentUnitNumber", getParentUnitNumber());
         hashMap.put("organizationId", getOrganizationId());
         hashMap.put("unitName", getUnitName());
-        hashMap.put("campusCode", getCampusCode());
         return hashMap;
     }
 
