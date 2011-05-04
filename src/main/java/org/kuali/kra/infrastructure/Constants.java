@@ -108,6 +108,7 @@ public interface Constants {
     public static final String ABSTRACTS_PROPERTY_KEY = "newProposalAbstract";
     public static final String SPONSOR_PROPOSAL_NUMBER_PROPERTY_KEY = "sponsorProposalNumber";
     public static final String DEADLINE_DATE_KEY = "document.developmentProposalList[0].deadlineDate";
+    public static final String PRIME_SPONSOR_KEY = "document.developmentProposalList[0].primeSponsorCode";
     public static final String PROJECT_TITLE_KEY = "document.developmentProposalList[0].title";
     public static final String SPONSOR_PROPOSAL_NUMBER_LABEL = "Sponsor Proposal ID";
 

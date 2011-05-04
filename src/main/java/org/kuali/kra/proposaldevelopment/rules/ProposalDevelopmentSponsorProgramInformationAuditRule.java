@@ -17,10 +17,13 @@ package org.kuali.kra.proposaldevelopment.rules;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -30,6 +33,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.DocumentAuditRule;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
@@ -43,6 +47,7 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
     
     private ParameterService parameterService;
     private ProposalDevelopmentService proposalDevelopmentService;
+    private BusinessObjectService businessObjectService;
     
     public ProposalDevelopmentSponsorProgramInformationAuditRule() {
         getParameterService();
@@ -67,6 +72,17 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
             auditErrors.add(new AuditError(Constants.DEADLINE_DATE_KEY, KeyConstants.WARNING_EMPTY_DEADLINE_DATE, Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
         } else if (proposal.getDeadlineDate().before(new Date(System.currentTimeMillis()))) {
             auditErrors.add(new AuditError(Constants.DEADLINE_DATE_KEY, KeyConstants.WARNING_PAST_DEADLINE_DATE, Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
+        }
+        
+        if (StringUtils.isEmpty(proposal.getPrimeSponsorCode())) {
+            auditErrors.add(new AuditError(Constants.PRIME_SPONSOR_KEY, KeyConstants.WARNING_EMPTY_PRIME_SPONSOR_ID, Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
+        } else {
+            Map<String, String> primaryKeys = new HashMap<String, String>();
+            primaryKeys.put("sponsorCode", proposal.getPrimeSponsorCode());
+            Sponsor sp = (Sponsor)getBusinessObjectService().findByPrimaryKey(Sponsor.class, primaryKeys);
+            if (sp == null) {
+                auditErrors.add(new AuditError(Constants.PRIME_SPONSOR_KEY, KeyConstants.WARNING_EMPTY_PRIME_SPONSOR_ID, Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
+            }
         }
         
         if (auditErrors.size() > 0) {
@@ -190,4 +206,16 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
     public void setProposalDevelopmentService(ProposalDevelopmentService proposalDevelopmentService) {
         this.proposalDevelopmentService = proposalDevelopmentService;
     }
+
+    public BusinessObjectService getBusinessObjectService() {
+        if (this.businessObjectService == null) {
+            this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);        
+        }
+        return this.businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+    
 }

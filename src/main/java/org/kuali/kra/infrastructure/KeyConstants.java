@@ -31,6 +31,7 @@ public final class KeyConstants {
     public static final String ERROR_REQUIRED_PROPOSAL_SPONSOR_ID = "error.required.proposalSponsorId";
     public static final String ERROR_NIH_SPONSOR_PROJECT_TITLE_LENGTH = "error.nih.sponsor.project.title.length";
     public static final String WARNING_EMPTY_DEADLINE_DATE = "warning.empty.deadline.date";
+    public static final String WARNING_EMPTY_PRIME_SPONSOR_ID = "warning.empty.primesponsorid";
     public static final String WARNING_PAST_DEADLINE_DATE = "warning.past.deadline.date";
     public static final String WARNING_ACTIVITY_TYPE_CHANGED = "warning.activityType.changed";
     public static final String ERROR_START_DATE_AFTER_END_DATE = "error.start.date.after.end.date";
