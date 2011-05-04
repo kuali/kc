@@ -15,9 +15,13 @@
  */
 package org.kuali.kra.committee.rules;
 
+import java.util.ArrayList;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.bo.ResearchArea;
+import org.kuali.kra.committee.bo.CommitteeResearchArea;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.util.ErrorMap;
@@ -28,6 +32,9 @@ import org.kuali.rice.kns.util.GlobalVariables;
  */
 public class CommitteeRuleTest extends CommitteeRuleTestBase {
 
+    private static final String INACTIVE_RESEARCH_AREAS_PREFIX = "document.committeeList[0].committeeResearchAreas.inactive";
+    private static final String SEPERATOR = ".";
+    
     private CommitteeDocumentRule rule;
 
     @Before
@@ -130,4 +137,71 @@ public class CommitteeRuleTest extends CommitteeRuleTestBase {
         assertTrue(errorMap.containsMessageKey(KeyConstants.ERROR_INVALID_UNIT));
     }
     
+    /**
+     * This method tests the logic for validating that all research areas associated with a committee are active.
+     * Specifically it tests 3 different cases: 
+     *      1. Committee has no research areas -- should give no error as rule is satisfied trivially.
+     *      2. Committee has research areas and all are active -- should give no error
+     *      3. Committee has research areas and some are inactive -- should give a single error with the error-property correctly encoding the
+     *              indices of the inactive areas.
+     */
+    @Test
+    public void testProcessCommitteeResearchAreaBusinessRules() throws Exception {
+        CommitteeDocument document = getNewCommitteeDocument();
+        setCommitteeProperties(document);
+        // check case 1
+        assertTrue(rule.processCommitteeResearchAreaBusinessRules(document));
+        
+        // check case 2
+        CommitteeResearchArea dummyCRA0 = new CommitteeResearchArea();
+        ResearchArea dummyRA0 = new ResearchArea();
+        dummyRA0.setActive(true);
+        dummyCRA0.setResearchAreas(dummyRA0);
+        
+        CommitteeResearchArea dummyCRA1 = new CommitteeResearchArea();
+        ResearchArea dummyRA1 = new ResearchArea();
+        dummyRA1.setActive(true);
+        dummyCRA1.setResearchAreas(dummyRA1);
+        
+        CommitteeResearchArea dummyCRA2 = new CommitteeResearchArea();
+        ResearchArea dummyRA2 = new ResearchArea();
+        dummyRA2.setActive(true);
+        dummyCRA2.setResearchAreas(dummyRA2);
+        
+        CommitteeResearchArea dummyCRA3 = new CommitteeResearchArea();
+        ResearchArea dummyRA3 = new ResearchArea();
+        dummyRA3.setActive(true);
+        dummyCRA3.setResearchAreas(dummyRA3);
+        
+        ArrayList<CommitteeResearchArea> cras = new ArrayList<CommitteeResearchArea>();
+        cras.add(dummyCRA0);
+        cras.add(dummyCRA1);
+        cras.add(dummyCRA2);
+        cras.add(dummyCRA3);
+        
+        document.getCommittee().setCommitteeResearchAreas(cras);
+        
+        assertTrue(document.getCommittee().getCommitteeResearchAreas().get(0).getResearchAreas().isActive());
+        assertTrue(document.getCommittee().getCommitteeResearchAreas().get(1).getResearchAreas().isActive());
+        assertTrue(document.getCommittee().getCommitteeResearchAreas().get(2).getResearchAreas().isActive());
+        assertTrue(document.getCommittee().getCommitteeResearchAreas().get(3).getResearchAreas().isActive());
+        
+        assertTrue(rule.processCommitteeResearchAreaBusinessRules(document));
+        
+        // check case 3
+        assertTrue(document.getCommittee().getCommitteeResearchAreas().get(0).getResearchAreas().isActive());
+        
+        dummyRA1.setActive(false);
+        assertFalse(document.getCommittee().getCommitteeResearchAreas().get(1).getResearchAreas().isActive());
+        
+        assertTrue(document.getCommittee().getCommitteeResearchAreas().get(2).getResearchAreas().isActive());
+        
+        dummyRA3.setActive(false);
+        assertFalse(document.getCommittee().getCommitteeResearchAreas().get(3).getResearchAreas().isActive());
+        
+        assertFalse(rule.processCommitteeResearchAreaBusinessRules(document));
+        String errorPropertyKey = INACTIVE_RESEARCH_AREAS_PREFIX + SEPERATOR + "1.3.";
+        assertError(errorPropertyKey, KeyConstants.ERROR_COMMITTEE_RESEARCH_AREA_INACTIVE);
+    }
+
 }
