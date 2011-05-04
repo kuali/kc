@@ -323,6 +323,7 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
         member.setTermEndDate(new Date(System.currentTimeMillis() + 10000));
         member.setMembershipTypeCode(membershipTypeCode);
         CommitteeMembershipExpertise expertise = new CommitteeMembershipExpertise();
+        expertise.getResearchArea().setActive(true);
         expertise.setResearchAreaCode(MEMBER_EXPERTISE_CODE);
         member.getMembershipExpertise().add(expertise); 
         member.setMembershipId("0");
