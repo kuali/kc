@@ -79,25 +79,6 @@
     <property name="summary" value="Description" />
     <property name="description" value="Description" />
   </bean>
-  <bean id="KraAttributeReferenceDummy-campusCode" parent="KraAttributeReferenceDummy-campusCode-parentBean" />
-
-  <bean id="KraAttributeReferenceDummy-campusCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="campusCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Campus" />
-    <property name="shortLabel" value="Campus" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern">
-      <bean parent="AlphaNumericValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder"
-            p:includeKeyInLabel="false" />
-    </property>
-    <property name="summary" value="Campus" />
-    <property name="description" value="Campus" />
-  </bean>
   <bean id="KraAttributeReferenceDummy-city" parent="KraAttributeReferenceDummy-city-parentBean" />
 
   <bean id="KraAttributeReferenceDummy-city-parentBean" abstract="true" parent="AttributeDefinition">
