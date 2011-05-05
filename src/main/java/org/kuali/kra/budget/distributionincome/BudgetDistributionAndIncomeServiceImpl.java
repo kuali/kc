@@ -64,7 +64,6 @@ public class BudgetDistributionAndIncomeServiceImpl implements BudgetDistributio
      * @see org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeService#initializeCostSharingCollectionDefaults(org.kuali.kra.budget.core.Budget)
      */
     public void initializeCostSharingCollectionDefaults(Budget budget) {
-        System.err.println("Got to initializeCostSharingCollectionDefaults");
         if (budget.isCostSharingApplicable() && budget.isCostSharingAvailable() && budget.getBudgetCostShares().size() == 0
                 && !isBudgetFinalAndComplete(budget)) {
             if (this.costShareService.validateProjectPeriodAsFiscalYear(false)){
@@ -75,7 +74,7 @@ public class BudgetDistributionAndIncomeServiceImpl implements BudgetDistributio
                 int counter = 1;
                 for (BudgetPeriod period : budget.getBudgetPeriods()) {
                     budget.add(createBudgetCostShare(counter, period.getCostSharingAmount()));
-                    counter ++;
+                    counter++;
                 }
             }
         }
