@@ -18,13 +18,16 @@ package org.kuali.kra.award.budget;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.SortedMap;
 
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -47,6 +50,14 @@ public class AwardBudgetExt extends Budget {
     private BudgetVersionOverview prevBudget;
     private List<BudgetDecimal> budgetsTotals;
     private List<AwardBudgetLimit> awardBudgetLimits;
+    
+    private SortedMap<CostElement, BudgetDecimal> objectCodeBudgetTotals;
+    private SortedMap<RateType, BudgetDecimal> calculatedExpenseBudgetTotals;
+    private SortedMap<String, BudgetDecimal> totalBudgetSummaryTotals;
+    private SortedMap<String, BudgetDecimal> objectCodePersonnelFringeBudgetTotals;
+    private SortedMap<RateType, BudgetDecimal> personnelCalculatedExpenseBudgetTotals;
+    private SortedMap<RateType, BudgetDecimal> nonPersonnelCalculatedExpenseBudgetTotals;
+    
     
     public AwardBudgetExt() {
         super();
@@ -241,6 +252,43 @@ public class AwardBudgetExt extends Budget {
     }
     public void setAwardBudgetLimits(List<AwardBudgetLimit> awardBudgetLimits) {
         this.awardBudgetLimits = awardBudgetLimits;
+    }
+    public SortedMap<CostElement, BudgetDecimal> getObjectCodeBudgetTotals() {
+        return objectCodeBudgetTotals;
+    }
+    public void setObjectCodeBudgetTotals(SortedMap<CostElement, BudgetDecimal> objectCodeBudgetTotals) {
+        this.objectCodeBudgetTotals = objectCodeBudgetTotals;
+    }
+    public SortedMap<RateType, BudgetDecimal> getCalculatedExpenseBudgetTotals() {
+        return calculatedExpenseBudgetTotals;
+    }
+    public void setCalculatedExpenseBudgetTotals(SortedMap<RateType, BudgetDecimal> calculatedExpenseBudgetTotals) {
+        this.calculatedExpenseBudgetTotals = calculatedExpenseBudgetTotals;
+    }
+    public SortedMap<String, BudgetDecimal> getTotalBudgetSummaryTotals() {
+        return totalBudgetSummaryTotals;
+    }
+    public void setTotalBudgetSummaryTotals(SortedMap<String, BudgetDecimal> totalBudgetSummaryTotals) {
+        this.totalBudgetSummaryTotals = totalBudgetSummaryTotals;
+    }
+    public SortedMap<String, BudgetDecimal> getObjectCodePersonnelFringeBudgetTotals() {
+        return objectCodePersonnelFringeBudgetTotals;
+    }
+    public void setObjectCodePersonnelFringeBudgetTotals(SortedMap<String, BudgetDecimal> objectCodePersonnelFringeBudgetTotals) {
+        this.objectCodePersonnelFringeBudgetTotals = objectCodePersonnelFringeBudgetTotals;
+    }
+    public SortedMap<RateType, BudgetDecimal> getPersonnelCalculatedExpenseBudgetTotals() {
+        return personnelCalculatedExpenseBudgetTotals;
+    }
+    public void setPersonnelCalculatedExpenseBudgetTotals(SortedMap<RateType, BudgetDecimal> personnelCalculatedExpenseBudgetTotals) {
+        this.personnelCalculatedExpenseBudgetTotals = personnelCalculatedExpenseBudgetTotals;
+    }
+    public SortedMap<RateType, BudgetDecimal> getNonPersonnelCalculatedExpenseBudgetTotals() {
+        return nonPersonnelCalculatedExpenseBudgetTotals;
+    }
+    public void setNonPersonnelCalculatedExpenseBudgetTotals(
+            SortedMap<RateType, BudgetDecimal> nonPersonnelCalculatedExpenseBudgetTotals) {
+        this.nonPersonnelCalculatedExpenseBudgetTotals = nonPersonnelCalculatedExpenseBudgetTotals;
     }
 
 }
