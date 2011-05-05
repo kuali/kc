@@ -65,6 +65,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
      */
     @SuppressWarnings("unchecked")
     public void setCostShareTypeCode(Integer costShareTypeCode) {
+        this.costShareTypeCode = costShareTypeCode;
         BusinessObjectService costShareTypeService = getBusinessObjectService();
         Collection<CostShareType> costShareTypes = 
             (Collection<CostShareType>) costShareTypeService.findAll(CostShareType.class);
@@ -83,7 +84,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
         if (costShareType == null) {
             return null;
         } else {
-            return costShareType.getCostShareTypeCode();
+            return costShareTypeCode;
         }
     }
 
@@ -94,7 +95,6 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
      */
     public void setCostShareType(CostShareType costShareType) {
         this.costShareType = costShareType;
-        this.costShareTypeCode = costShareType.getCostShareTypeCode();
     }
 
     /**
