@@ -317,6 +317,8 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
                 return mapping.findForward(Constants.MAPPING_BASIC);
             }
         }
+        
+        calculateTotalCostLimit(awardForm.getAwardDocument().getAward());
 
         // this.setProposalStatus(pdForm.getDocument());
         // this.setBudgetStatuses(pdForm.getDocument());
@@ -334,6 +336,17 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         }
 
         return forward;
+    }
+    
+    private void calculateTotalCostLimit(Award award) {
+        AwardBudgetLimit directLimit = award.getDirectCostBudgetLimit();
+        AwardBudgetLimit indirectLimit = award.getIndirectCostBudgetLimit();
+        AwardBudgetLimit totalLimit = award.getTotalCostBudgetLimit();
+        if (directLimit.getLimit() != null || indirectLimit.getLimit() != null) {
+            KualiDecimal newTotal = directLimit.getLimit() != null ? directLimit.getLimit() : KualiDecimal.ZERO;
+            newTotal = newTotal.add(indirectLimit.getLimit() != null ? indirectLimit.getLimit() : KualiDecimal.ZERO);
+            totalLimit.setLimit(newTotal);
+        }
     }
     
     private int getTentativeFinalBudgetVersion(AwardForm awardForm) {

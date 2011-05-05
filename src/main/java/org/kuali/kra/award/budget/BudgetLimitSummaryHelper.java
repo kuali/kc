@@ -16,7 +16,6 @@
 package org.kuali.kra.award.budget;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -25,7 +24,6 @@ import java.util.TreeSet;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetCategoryType;
 import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.budget.rates.RateType;
@@ -36,8 +34,8 @@ import org.kuali.kra.budget.rates.RateType;
 public class BudgetLimitSummaryHelper implements Serializable {
     
     private static final long serialVersionUID = -3504648775976043270L;
-    private Budget currentBudget;
-    private Budget previousBudget;
+    private AwardBudgetExt currentBudget;
+    private AwardBudgetExt previousBudget;
     
     /**
      * Returns a map of costelements by category type from both current and previous budgets.
@@ -80,7 +78,7 @@ public class BudgetLimitSummaryHelper implements Serializable {
      */
     @SuppressWarnings("unchecked")
     public Map<CostElement, BudgetDecimal> getCurrentObjectCodeTotals() {
-        return (Map<CostElement, BudgetDecimal>) getSumOfElements(getCurrentBudget().getObjectCodeTotals());
+        return getCurrentBudget().getObjectCodeBudgetTotals();
     }
     
     /**
@@ -89,7 +87,7 @@ public class BudgetLimitSummaryHelper implements Serializable {
      */
     @SuppressWarnings("unchecked")
     public Map<CostElement, BudgetDecimal> getPreviousObjectCodeTotals() {
-        return (Map<CostElement, BudgetDecimal>) getSumOfElements(getPreviousBudget().getObjectCodeTotals());
+        return getPreviousBudget().getObjectCodeBudgetTotals();
     }
     
     /**
@@ -98,7 +96,7 @@ public class BudgetLimitSummaryHelper implements Serializable {
      */
     @SuppressWarnings("unchecked")
     public Map<String, BudgetDecimal> getCurrentSummaryTotals() {
-        return (Map<String, BudgetDecimal>) getSumOfElements(getCurrentBudget().getBudgetSummaryTotals());
+        return getCurrentBudget().getTotalBudgetSummaryTotals();
     }    
 
     /**
@@ -107,7 +105,7 @@ public class BudgetLimitSummaryHelper implements Serializable {
      */
     @SuppressWarnings("unchecked")
     public Map<String, BudgetDecimal> getPreviousSummaryTotals() {
-        return (Map<String, BudgetDecimal>) getSumOfElements(getPreviousBudget().getBudgetSummaryTotals());
+        return getPreviousBudget().getTotalBudgetSummaryTotals();
     }  
     
     /**
@@ -116,7 +114,7 @@ public class BudgetLimitSummaryHelper implements Serializable {
      */
     @SuppressWarnings("unchecked")
     public Map<String, BudgetDecimal> getCurrentObjectCodePersonnelFringeTotals() {
-        return (Map<String, BudgetDecimal>) getSumOfElements(getCurrentBudget().getObjectCodePersonnelFringeTotals());
+        return getCurrentBudget().getObjectCodePersonnelFringeBudgetTotals();
     }
     
     /**
@@ -125,7 +123,7 @@ public class BudgetLimitSummaryHelper implements Serializable {
      */
     @SuppressWarnings("unchecked")
     public Map<String, BudgetDecimal> getPreviousObjectCodePersonnelFringeTotals() {
-        return (Map<String, BudgetDecimal>) getSumOfElements(getPreviousBudget().getObjectCodePersonnelFringeTotals());
+        return getPreviousBudget().getObjectCodePersonnelFringeBudgetTotals();
     }
     
     /**
@@ -153,7 +151,7 @@ public class BudgetLimitSummaryHelper implements Serializable {
      */
     @SuppressWarnings("unchecked")
     public Map<RateType, BudgetDecimal> getCurrentPersonnelCalculatedExpenseTotals() {
-        return (Map<RateType, BudgetDecimal>) getSumOfElements(getCurrentBudget().getPersonnelCalculatedExpenseTotals());
+        return getCurrentBudget().getPersonnelCalculatedExpenseBudgetTotals();
     }     
     
     /**
@@ -162,7 +160,7 @@ public class BudgetLimitSummaryHelper implements Serializable {
      */
     @SuppressWarnings("unchecked")
     public Map<RateType, BudgetDecimal> getPreviousPersonnelCalculatedExpenseTotals() {
-        return (Map<RateType, BudgetDecimal>) getSumOfElements(getPreviousBudget().getPersonnelCalculatedExpenseTotals());
+        return getPreviousBudget().getPersonnelCalculatedExpenseBudgetTotals();
     }
     
     /**
@@ -190,7 +188,7 @@ public class BudgetLimitSummaryHelper implements Serializable {
      */
     @SuppressWarnings("unchecked")
     public Map<RateType, BudgetDecimal> getCurrentNonPersonnelCalculatedExpenseTotals() {
-        return (Map<RateType, BudgetDecimal>) getSumOfElements(getCurrentBudget().getNonPersonnelCalculatedExpenseTotals());        
+        return getCurrentBudget().getNonPersonnelCalculatedExpenseBudgetTotals();        
     }
     
     /**
@@ -199,7 +197,7 @@ public class BudgetLimitSummaryHelper implements Serializable {
      */
     @SuppressWarnings("unchecked")
     public Map<RateType, BudgetDecimal> getPreviousNonPersonnelCalculatedExpenseTotals() {
-        return (Map<RateType, BudgetDecimal>) getSumOfElements(getPreviousBudget().getNonPersonnelCalculatedExpenseTotals());        
+        return getPreviousBudget().getNonPersonnelCalculatedExpenseBudgetTotals();        
     }
     
     /**
@@ -228,43 +226,16 @@ public class BudgetLimitSummaryHelper implements Serializable {
         return total;
     }    
     
-    /**
-     * Sums up the list of budget decimals included in the map and returns those totals.
-     * This is used to sum up the summary totals included in the budget which is a  list
-     * of totals per budget period
-     * @param map
-     * @return
-     */
-    protected Map<? extends Object, BudgetDecimal> getSumOfElements(Map<? extends Object, List<BudgetDecimal>> map) {
-        Map<Object, BudgetDecimal> result = new TreeMap<Object, BudgetDecimal>();
-        for (Map.Entry<? extends Object, List<BudgetDecimal>> entry : map.entrySet()) {
-            BudgetDecimal total = BudgetDecimal.ZERO;
-            for (BudgetDecimal amt : entry.getValue()) {
-                total = total.add(amt);
-            }
-            //if the key is a string and has a comma, remove everything after the comma
-            //this is for items aggregated by object code and person id. For this summary
-            //we only care about the object code
-            Object key = entry.getKey();
-            if (key instanceof String) {
-                String strKey = (String) entry.getKey();
-                key = strKey.replaceAll(",.*", "");
-            }
-            result.put(key, total);
-        }
-        return result;
-    }
-    
-    public Budget getCurrentBudget() {
+    public AwardBudgetExt getCurrentBudget() {
         return currentBudget;
     }
-    public void setCurrentBudget(Budget currentBudget) {
+    public void setCurrentBudget(AwardBudgetExt currentBudget) {
         this.currentBudget = currentBudget;
     }
-    public Budget getPreviousBudget() {
+    public AwardBudgetExt getPreviousBudget() {
         return previousBudget;
     }
-    public void setPreviousBudget(Budget previousBudget) {
+    public void setPreviousBudget(AwardBudgetExt previousBudget) {
         this.previousBudget = previousBudget;
     }
     

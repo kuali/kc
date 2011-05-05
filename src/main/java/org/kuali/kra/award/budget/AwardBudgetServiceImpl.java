@@ -17,6 +17,7 @@ package org.kuali.kra.award.budget;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -27,6 +28,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.budget.calculator.AwardBudgetCalculationService;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -81,7 +83,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
     private DocumentService documentService;
     private BudgetService<Award> budgetService;
     private BudgetSummaryService budgetSummaryService;
-    private BudgetCalculationService budgetCalculationService;
+    private AwardBudgetCalculationService awardBudgetCalculationService;
     private VersionHistoryService versionHistoryService;
 
     /**
@@ -321,6 +323,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         if (awardBudget.getTotalCostLimit().equals(BudgetDecimal.ZERO) && isPostedBudgetExist(parentDocument)) {
             rebudget = true;
         }
+        getAwardBudgetCalculationService().calculateBudget(awardBudgetDocument.getBudget());
         saveBudgetDocument(awardBudgetDocument,rebudget);
         awardBudgetDocument = (AwardBudgetDocument) documentService.getByDocumentHeaderId(awardBudgetDocument.getDocumentNumber());
         parentDocument.refreshBudgetDocumentVersions();
@@ -536,7 +539,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
                 awardBudgetPersonnelLineItems.add(awardBudgetPerDetails);
             }
             awardBudgetLineItems.add(awardBudgetLineItem);
-            getBudgetCalculationService().populateCalculatedAmount(awardBudgetPeriod.getBudget(), awardBudgetLineItem);
+            getAwardBudgetCalculationService().populateCalculatedAmount(awardBudgetPeriod.getBudget(), awardBudgetLineItem);
         }
     }
     
@@ -711,53 +714,60 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
      * @see org.kuali.kra.award.budget.AwardBudgetService#populateBudgetLimitSummary(org.kuali.kra.award.budget.BudgetLimitSummaryHelper, org.kuali.kra.award.document.AwardDocument)
      */
     public void populateBudgetLimitSummary(BudgetLimitSummaryHelper summary, AwardDocument awardDocument) {
+        
         AwardBudgetExt currentBudget = getCurrentBudget(awardDocument);
         if (summary.getCurrentBudget() == null 
                 || !ObjectUtils.equals(summary.getCurrentBudget(), currentBudget)) {
-            KraServiceLocator.getService(BudgetCalculationService.class).calculateBudgetSummaryTotals(currentBudget);
+            getAwardBudgetCalculationService().calculateBudgetSummaryTotals(currentBudget, false);
             summary.setCurrentBudget(currentBudget);
         }
         AwardBudgetExt prevBudget = getPreviousBudget(awardDocument);
         if (summary.getPreviousBudget() == null
                 || !ObjectUtils.equals(summary.getPreviousBudget(), prevBudget)) {
-            KraServiceLocator.getService(BudgetCalculationService.class).calculateBudgetSummaryTotals(prevBudget);
+            getAwardBudgetCalculationService().calculateBudgetSummaryTotals(prevBudget, true);
             summary.setPreviousBudget(prevBudget);
         }
     }
 
     /**
-     * Returns the current budget for the award document
+     * Returns the current budget for the award. Must be inprogress, submitted or to be posted
+     * to be the current budget.
      * @param awardDocument
      * @return
      */
     protected AwardBudgetExt getCurrentBudget(AwardDocument awardDocument) {
-        AwardBudgetExt result = null;
-        if (awardDocument.getBudgetVersionOverview() != null) {
-            result = 
-                getBusinessObjectService().findBySinglePrimaryKey(AwardBudgetExt.class, awardDocument.getBudgetVersionOverview().getBudgetId());
-        }
-        if (result == null) {
-            result = new AwardBudgetExt();
-        }
-        return result;
+        return getNewestBudgetByStatus(awardDocument, 
+                Arrays.asList(new String[]{Constants.BUDGET_STATUS_CODE_IN_PROGRESS, Constants.BUDGET_STATUS_CODE_SUBMITTED, Constants.BUDGET_STATUS_CODE_TO_BE_POSTED}));
     }
     
     /**
-     * Returns the previous budget for this award document
+     * Returns the previous budget for this award document which will be the newest posted budget
      * @param awardDocument
      * @return
      */
     protected AwardBudgetExt getPreviousBudget(AwardDocument awardDocument) {
-        AwardBudgetExt currentBudget = getCurrentBudget(awardDocument);
-        AwardBudgetExt result = new AwardBudgetExt();
-        if (currentBudget != null && currentBudget.getPrevBudget() != null) {
-            AwardBudgetExt prevBudget = getBusinessObjectService().findBySinglePrimaryKey(AwardBudgetExt.class, currentBudget.getPrevBudget().getBudgetId());
-            if (prevBudget != null) {
-                result = prevBudget;
+        return getNewestBudgetByStatus(awardDocument, Arrays.asList(new String[]{getPostedBudgetStatus()}));
+    }         
+    
+    protected AwardBudgetExt getNewestBudgetByStatus(AwardDocument awardDocument, List<String> statuses) { 
+        AwardBudgetVersionOverviewExt budgetVersion = null;
+        for (BudgetDocumentVersion version : awardDocument.getBudgetDocumentVersions()) {
+            AwardBudgetVersionOverviewExt curVersion = (AwardBudgetVersionOverviewExt) version.getBudgetVersionOverview();
+            if (statuses.contains(curVersion.getAwardBudgetStatusCode())) {
+                if (budgetVersion == null || curVersion.getBudgetVersionNumber() > budgetVersion.getBudgetVersionNumber()) {
+                    budgetVersion = curVersion;
+                }
             }
         }
-        return result;
-    }     
+        AwardBudgetExt result = null;
+        if (budgetVersion != null) {
+            result = getBusinessObjectService().findBySinglePrimaryKey(AwardBudgetExt.class, budgetVersion.getBudgetId());
+        }
+        if (result == null) {
+            result = new AwardBudgetExt();
+        }
+        return result;        
+    }
     
     public List<BudgetDocumentVersion> getAllBudgetsForAward(AwardDocument awardDocument) {
         HashSet<BudgetDocumentVersion> result = new HashSet<BudgetDocumentVersion>();
@@ -791,14 +801,6 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
     protected String getDoNotPostBudgetStatus() {
         return getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_DO_NOT_POST);
     }
-    
-    protected BudgetCalculationService getBudgetCalculationService() {
-        return budgetCalculationService;
-    }
-
-    public void setBudgetCalculationService(BudgetCalculationService budgetCalculationService) {
-        this.budgetCalculationService = budgetCalculationService;
-    }
 
     protected VersionHistoryService getVersionHistoryService() {
         return versionHistoryService;
@@ -806,6 +808,14 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
 
     public void setVersionHistoryService(VersionHistoryService versionHistoryService) {
         this.versionHistoryService = versionHistoryService;
+    }
+
+    protected AwardBudgetCalculationService getAwardBudgetCalculationService() {
+        return awardBudgetCalculationService;
+    }
+
+    public void setAwardBudgetCalculationService(AwardBudgetCalculationService awardBudgetCalculationService) {
+        this.awardBudgetCalculationService = awardBudgetCalculationService;
     }
     
 }
