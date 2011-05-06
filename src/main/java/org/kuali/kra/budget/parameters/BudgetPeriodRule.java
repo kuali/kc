@@ -400,30 +400,31 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
         errorMap.putError(errorProperty, errorKey, getErrorParameter());
     }
     
-    private String compareDate(Date periodStartDate, Date periodEndDate, Date previousPeriodEndDate){
+    private String compareDate(Date periodStartDate, Date periodEndDate, Date previousPeriodEndDate) {
         String returnErrorValue = null;
-        LOG.info("prd st dt "+periodStartDate.getTime()+periodEndDate.getTime()+getProjectStartDate().getTime()+getProjectEndDate().getTime());
-        if(periodStartDate.after(getProjectEndDate())) {
-            LOG.info("ERROR_PERIOD_START_AFTER_PROJECT_END"+periodStartDate+getProjectEndDate());
-            returnErrorValue = "ERROR_PERIOD_START_AFTER_PROJECT_END"; 
-        }else if(periodStartDate.before(getProjectStartDate())) {
-            LOG.info("ERROR_PERIOD_START_BEFORE_PROJECT_START"+periodStartDate+getProjectStartDate());
+        LOG.info("prd st dt " + periodStartDate.getTime() + periodEndDate.getTime() + getProjectStartDate().getTime()
+                + getProjectEndDate().getTime());
+        if (periodStartDate.after(getProjectEndDate())) {
+            LOG.info("ERROR_PERIOD_START_AFTER_PROJECT_END" + periodStartDate + getProjectEndDate());
+            returnErrorValue = "ERROR_PERIOD_START_AFTER_PROJECT_END";
+        } else if (periodStartDate.before(getProjectStartDate())) {
+            LOG.info("ERROR_PERIOD_START_BEFORE_PROJECT_START" + periodStartDate + getProjectStartDate());
             returnErrorValue = "ERROR_PERIOD_START_BEFORE_PROJECT_START";
-        }else if(periodEndDate.before(getProjectStartDate())) {
-            LOG.info("ERROR_PERIOD_END_BEFORE_PROJECT_START"+periodEndDate+getProjectStartDate());
-            returnErrorValue = "ERROR_PERIOD_END_BEFORE_PROJECT_START"; 
-        }else if(periodEndDate.after(getProjectEndDate())) {
-            LOG.info("ERROR_PERIOD_END_AFTER_PROJECT_END"+periodEndDate+getProjectEndDate());
-            returnErrorValue = "ERROR_PERIOD_END_AFTER_PROJECT_END"; 
-        }else if(periodStartDate.after(periodEndDate)) {
-            LOG.info("ERROR_PERIOD_START_AFTER_PERIOD_END"+periodStartDate+periodEndDate);
-            returnErrorValue = "ERROR_PERIOD_START_AFTER_PERIOD_END"; 
-        }else if(previousPeriodEndDate != null && periodStartDate.before(previousPeriodEndDate)) {
-            LOG.info("ERROR_PERIOD_START_BEFORE_PREVIOUS_END"+previousPeriodEndDate+periodStartDate);
-            returnErrorValue = "ERROR_PERIOD_START_BEFORE_PREVIOUS_END"; 
-        }else if(previousPeriodEndDate != null && periodEndDate.before(previousPeriodEndDate)) {
-            LOG.info("ERROR_PERIOD_END_BEFORE_PREVIOUS_END"+previousPeriodEndDate+periodEndDate);
-            returnErrorValue = "ERROR_PERIOD_END_BEFORE_PREVIOUS_END"; 
+        } else if (periodEndDate.before(getProjectStartDate())) {
+            LOG.info("ERROR_PERIOD_END_BEFORE_PROJECT_START" + periodEndDate + getProjectStartDate());
+            returnErrorValue = "ERROR_PERIOD_END_BEFORE_PROJECT_START";
+        } else if (periodEndDate.after(getProjectEndDate())) {
+            LOG.info("ERROR_PERIOD_END_AFTER_PROJECT_END" + periodEndDate + getProjectEndDate());
+            returnErrorValue = "ERROR_PERIOD_END_AFTER_PROJECT_END";
+        } else if (periodStartDate.after(periodEndDate)) {
+            LOG.info("ERROR_PERIOD_START_AFTER_PERIOD_END" + periodStartDate + periodEndDate);
+            returnErrorValue = "ERROR_PERIOD_START_AFTER_PERIOD_END";
+        } else if (previousPeriodEndDate != null && !periodStartDate.after(previousPeriodEndDate)) {
+            LOG.info("ERROR_PERIOD_START_BEFORE_PREVIOUS_END" + previousPeriodEndDate + periodStartDate);
+            returnErrorValue = "ERROR_PERIOD_START_BEFORE_PREVIOUS_END";
+        } else if (previousPeriodEndDate != null && !periodEndDate.after(previousPeriodEndDate)) {
+            LOG.info("ERROR_PERIOD_END_BEFORE_PREVIOUS_END" + previousPeriodEndDate + periodEndDate);
+            returnErrorValue = "ERROR_PERIOD_END_BEFORE_PREVIOUS_END";
         }
         return returnErrorValue;
     }
