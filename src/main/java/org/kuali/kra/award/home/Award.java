@@ -2409,6 +2409,14 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         }
         return returnValue;
     }
+        
+    public KualiDecimal getObligatedDistributableTotal() {
+        KualiDecimal returnValue = KualiDecimal.ZERO;
+        if (getLastAwardAmountInfo().getObliDistributableAmount() != null) {
+            returnValue = getLastAwardAmountInfo().getObliDistributableAmount();
+        }
+        return returnValue;
+    }
     
     /**
      * Gets the obligatedTotal attribute. 

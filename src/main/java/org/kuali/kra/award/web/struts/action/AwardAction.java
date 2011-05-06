@@ -1197,7 +1197,7 @@ public class AwardAction extends BudgetParentActionBase {
     protected void defaultCostLimit(AwardDocument awardDocument) {
         Award award = awardDocument.getAward();
         if (award.getTotalCostBudgetLimit().getLimit() == null) {
-            KualiDecimal obligatedAmount = awardDocument.getAward().getObligatedTotal(); 
+            KualiDecimal obligatedAmount = awardDocument.getAward().getObligatedDistributableTotal(); 
             award.getTotalCostBudgetLimit().setLimit(new KualiDecimal(obligatedAmount.bigDecimalValue()));
         }  
     }

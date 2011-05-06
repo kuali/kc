@@ -301,7 +301,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         retval &= processAwardDetailsAndDatesSaveRules(document);
         retval &= processDateBusinessRule(errorMap, awardDocument);
         retval &=processKeywordBusinessRule(awardDocument);
-        retval &= processBudgetLimitBusinessRule(awardDocument);
         
         return retval;
     }
@@ -895,14 +894,5 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         }
         
         return valid;
-    }
-    
-    private boolean processBudgetLimitBusinessRule(AwardDocument awardDocument) {
-        boolean result = true;
-        if (awardDocument.getAward().getTotalCostBudgetLimit().getLimit() != null 
-                && awardDocument.getAward().getTotalCostBudgetLimit().getLimit().isGreaterThan(awardDocument.getAward().getObligatedTotal())) {
-            reportError("document.award.totalCostBudgetLimit", KeyConstants.ERROR_AWARD_BUDGET_COST_LIMIT_EXCEEDS_OBLIGATED);
-        }
-        return result;
     }
 }
