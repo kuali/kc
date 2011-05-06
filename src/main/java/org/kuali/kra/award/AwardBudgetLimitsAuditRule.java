@@ -43,12 +43,20 @@ public class AwardBudgetLimitsAuditRule implements DocumentAuditRule {
         boolean result = true;
         Award award = ((AwardDocument) document).getAward();
         List<AuditError> auditErrors = new ArrayList<AuditError>(); 
-        if (award.getTotalCostBudgetLimit().getLimit() != null 
-                && award.getTotalCostBudgetLimit().getLimit().isLessThan(award.getObligatedTotal())) {
-            result = false;
-            auditErrors.add(new AuditError("document.award.totalCostBudgetLimit.limit",
-                    KeyConstants.WARNING_AWARD_BUDGET_LIMIT_LESSTHAN_OBLIGATED,
-                    Constants.MAPPING_AWARD_BUDGET_VERSIONS_PAGE + "." + "BudgetLimits"));
+        if (award.getTotalCostBudgetLimit().getLimit() != null) {
+            if (award.getTotalCostBudgetLimit().getLimit().isGreaterThan(award.getObligatedDistributableTotal())) {
+                result = false;
+                auditErrors.add(new AuditError("document.award.totalCostBudgetLimit.limit",
+                        KeyConstants.WARNING_AWARD_BUDGET_COST_LIMIT_EXCEEDS_OBLIGATED,
+                        Constants.MAPPING_AWARD_BUDGET_VERSIONS_PAGE + "." + "BudgetLimits",
+                        new String[]{award.getAwardNumber()}));                
+            }
+            if (award.getTotalCostBudgetLimit().getLimit().isLessThan(award.getObligatedDistributableTotal())) {
+                result = false;
+                auditErrors.add(new AuditError("document.award.totalCostBudgetLimit.limit",
+                        KeyConstants.WARNING_AWARD_BUDGET_LIMIT_LESSTHAN_OBLIGATED,
+                        Constants.MAPPING_AWARD_BUDGET_VERSIONS_PAGE + "." + "BudgetLimits"));
+            }
         }
         reportAndCreateAuditCluster(auditErrors);
         return result;

@@ -386,7 +386,7 @@ public final class KeyConstants {
     
     //Award Budget
     public static final String WARNING_AWARD_BUDGET_LIMIT_LESSTHAN_OBLIGATED = "warning.awardbudget.limit.lessthan.obligated";
-    public static final String ERROR_AWARD_BUDGET_COST_LIMIT_EXCEEDS_OBLIGATED = "error.awardbudget.limit.exceeds.obligated";
+    public static final String WARNING_AWARD_BUDGET_COST_LIMIT_EXCEEDS_OBLIGATED = "warning.awardbudget.limit.exceeds.obligated";
     
     //Award Cost Share
     public static final String ERROR_FISCAL_YEAR_RANGE = "error.awardCostShare.fiscalYear.range";
