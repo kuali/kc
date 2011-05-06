@@ -53,7 +53,7 @@ public class AwardBudgetVersionRule extends BudgetVersionRule {
         //Also the budget is null in the event when this is called right now.
         boolean success = true;
         Award award = ((AwardDocument) event.getDocument()).getAward();
-        if(!award.getObligatedTotal().isPositive()){
+        if(!award.getObligatedDistributableTotal().isPositive()){
             GlobalVariables.getErrorMap().putError(event.getErrorPathPrefix(), 
                   KeyConstants.ERROR_BUDGET_OBLIGATED_AMOUNT_INVALID, "Name");
             success &= false;

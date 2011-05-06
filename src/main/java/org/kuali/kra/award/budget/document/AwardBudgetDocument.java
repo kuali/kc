@@ -60,7 +60,7 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
     public void initialize() {
         Award award = getParentDocument().getBudgetParent();
         AwardBudgetExt awardBudget = getAwardBudget();
-        awardBudget.setObligatedTotal(new BudgetDecimal(award.getObligatedTotal().bigDecimalValue()));
+        awardBudget.setObligatedTotal(new BudgetDecimal(award.getObligatedDistributableTotal().bigDecimalValue()));
         List<BudgetRate> budgetRates = awardBudget.getBudgetRates();
         populateBudgetRateTypes(awardBudget,budgetRates);
     }
