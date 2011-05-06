@@ -1207,7 +1207,7 @@
     </class-descriptor>
     
     <class-descriptor class="org.kuali.kra.irb.correspondence.BatchCorrespondenceDetail" table="BATCH_CORRESPONDENCE_DETAIL">
-        <field-descriptor name="batchCorrespondenceDetailId" column="BATCH_CORRESPONDENCE_DETAIL_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_BATCH_CORRESPONDENCE" autoincrement="true"/>
+        <field-descriptor name="batchCorrespondenceDetailId" column="BATCH_CORRESPONDENCE_DETAIL_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
         <field-descriptor name="batchCorrespondenceTypeCode" column="BATCH_CORRESPONDENCE_TYPE_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="protoCorrespTypeCode" column="PROTO_CORRESP_TYPE_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="daysToEvent" column="DAYS_TO_EVENT" jdbc-type="INTEGER" />
@@ -1223,7 +1223,7 @@
     
     
     <class-descriptor class="org.kuali.kra.irb.actions.notification.ProtocolNotificationTemplate" table="PROTO_NOTIFICATION_TEMPL">
-        <field-descriptor name="notificationTemplateId" column="NOTIFICATION_TEMPL_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_PROTO_NOTIFICATION_TEMPL" autoincrement="true" />
+        <field-descriptor name="notificationTemplateId" column="NOTIFICATION_TEMPL_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true" />
         <field-descriptor name="actionTypeCode" column="ACTION_TYPE_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR" />
         <field-descriptor name="notificationTemplate" column="NOTIFICATION_TEMPLATE" jdbc-type="LONGVARBINARY" />
