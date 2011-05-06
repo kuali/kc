@@ -79,6 +79,8 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
     private Set<String> irbAdminIds;
     private List<String> irbAdminUserNames;
     private List<String> reviewerIds;
+    private Set<String> viewerIds;
+    private Set<String> aggregatorIds;
     private boolean displayReviewerNameToPi;
     private boolean displayReviewerNameToOtherPersonnel;
     private boolean displayReviewerNameToReviewers;
@@ -456,9 +458,11 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
 //        }
         else {
             if ((isDisplayReviewerNameToReviewers() && isReviewer(reviewComment, person.getPrincipalId())) || 
-                    (isDisplayReviewerNameToPi() && isPrincipalInvestigator(reviewComment, person.getPrincipalId()))
+                    (isDisplayReviewerNameToPi() && (isPrincipalInvestigator(reviewComment, person.getPrincipalId())
+                            || getProtocolAggregators().contains(person.getPrincipalId()) || getProtocolViewers().contains(person.getPrincipalId()) ))
                     || (isDisplayReviewerNameToActiveMembers() && getActiveMemberId(reviewComment).contains(person.getPrincipalId()))
-                || (isDisplayReviewerNameToOtherPersonnel() && getOtherPersonnelIds(reviewComment).contains(person.getPrincipalId()))) {
+                || (isDisplayReviewerNameToOtherPersonnel() && (getOtherPersonnelIds(reviewComment).contains(person.getPrincipalId())
+                        || getProtocolAggregators().contains(person.getPrincipalId()) || getProtocolViewers().contains(person.getPrincipalId()) ))) {
                 canViewName = true;
             }
         }
@@ -567,6 +571,26 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
             KcPerson kcPerson = kcPersonService.getKcPersonByPersonId(id);
             irbAdminUserNames.add(kcPerson.getUserName());
         }
+    }
+
+    private Set<String> getProtocolAggregators() {
+        if (CollectionUtils.isEmpty(aggregatorIds)) {
+            aggregatorIds = (Set<String>) kimRoleManagementService.getRoleMemberPrincipalIds("KC-PROTOCOL", RoleConstants.PROTOCOL_AGGREGATOR,
+                    null);
+            
+        }
+        return aggregatorIds;
+        
+    }
+
+    private Set<String> getProtocolViewers() {
+        if (CollectionUtils.isEmpty(viewerIds)) {
+            viewerIds = (Set<String>) kimRoleManagementService.getRoleMemberPrincipalIds("KC-PROTOCOL", RoleConstants.PROTOCOL_VIEWER,
+                    null);
+            
+        }
+        return viewerIds;
+        
     }
 
 
