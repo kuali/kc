@@ -420,7 +420,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
     }
     
     protected BudgetDecimal getTotalCostLimit(AwardDocument awardDocument) {
-        KualiDecimal obligatedTotal = awardDocument.getAward().getObligatedTotal();
+        KualiDecimal obligatedTotal = awardDocument.getAward().getObligatedDistributableTotal();
         KualiDecimal costLimit = awardDocument.getAward().getTotalCostBudgetLimit().getLimit(); 
         BudgetDecimal postedTotalAmount = getPostedTotalAmount(awardDocument);
         if (costLimit == null || costLimit.isGreaterEqual(obligatedTotal)) {
