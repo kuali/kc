@@ -190,5 +190,11 @@ public class TimeAndMoneyDocumentRule extends ResearchDocumentRuleBase implement
         // TODO Auto-generated method stub
         return false;
     }
+
+    public boolean processSingleNodeTransactionBusinessRules(AwardHierarchyNode awardHierarchyNode, AwardAmountInfo aai,
+            TimeAndMoneyDocument doc) {
+        // TODO Auto-generated method stub
+        return false;
+    }
     
 }
