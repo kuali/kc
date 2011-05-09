@@ -81,8 +81,7 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
     private List<String> reviewerIds;
     private Set<String> viewerIds;
     private Set<String> aggregatorIds;
-    private boolean displayReviewerNameToPi;
-    private boolean displayReviewerNameToOtherPersonnel;
+    private boolean displayReviewerNameToPersonnel;
     private boolean displayReviewerNameToReviewers;
     private boolean displayReviewerNameToActiveMembers;
  
@@ -401,9 +400,8 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
 
 
     private void getReviewerNameParams() {
-        displayReviewerNameToPi = isDisplayReviewerName(Constants.PARAMETER_IRB_DISPLAY_REVIEWER_NAME_TO_PI);  
         displayReviewerNameToActiveMembers = isDisplayReviewerName(Constants.PARAMETER_IRB_DISPLAY_REVIEWER_NAME_TO_ACTIVE_COMMITTEE_MEMBERS);  
-        displayReviewerNameToOtherPersonnel = isDisplayReviewerName(Constants.PARAMETER_IRB_DISPLAY_REVIEWER_NAME_TO_OTHER_PROTOCOL_PERSONNEL);  
+        displayReviewerNameToPersonnel = isDisplayReviewerName(Constants.PARAMETER_IRB_DISPLAY_REVIEWER_NAME_TO_PROTOCOL_PERSONNEL);  
         displayReviewerNameToReviewers = isDisplayReviewerName(Constants.PARAMETER_IRB_DISPLAY_REVIEWER_NAME_TO_REVIEWERS);  
     }
 
@@ -457,11 +455,9 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
             }
 //        }
         else {
-            if ((isDisplayReviewerNameToReviewers() && isReviewer(reviewComment, person.getPrincipalId())) || 
-                    (isDisplayReviewerNameToPi() && (isPrincipalInvestigator(reviewComment, person.getPrincipalId())
-                            || getProtocolAggregators().contains(person.getPrincipalId()) || getProtocolViewers().contains(person.getPrincipalId()) ))
+            if ((isDisplayReviewerNameToReviewers() && isReviewer(reviewComment, person.getPrincipalId()))  
                     || (isDisplayReviewerNameToActiveMembers() && getActiveMemberId(reviewComment).contains(person.getPrincipalId()))
-                || (isDisplayReviewerNameToOtherPersonnel() && (getOtherPersonnelIds(reviewComment).contains(person.getPrincipalId())
+                || (isDisplayReviewerNameToPersonnel() && (getPersonnelIds(reviewComment).contains(person.getPrincipalId())
                         || getProtocolAggregators().contains(person.getPrincipalId()) || getProtocolViewers().contains(person.getPrincipalId()) ))) {
                 canViewName = true;
             }
@@ -484,21 +480,19 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
         return activeMemberIds;
     }
 
-    private List<String> getOtherPersonnelIds(CommitteeScheduleMinute reviewComment) {
-        List<String> otherPersonnelIds = new ArrayList<String>();
+    private List<String> getPersonnelIds(CommitteeScheduleMinute reviewComment) {
+        List<String> PersonnelIds = new ArrayList<String>();
         if (reviewComment.getProtocol() != null) {
             for (ProtocolPerson person : reviewComment.getProtocol().getProtocolPersons()) {
-                if (!person.isPrincipalInvestigator()) {
-                    if (StringUtils.isNotBlank(person.getPersonId())) {
-                        otherPersonnelIds.add(person.getPersonId());
-                    }
-                    else {
-                        otherPersonnelIds.add(person.getRolodexId().toString());
-                    }
+                if (StringUtils.isNotBlank(person.getPersonId())) {
+                    PersonnelIds.add(person.getPersonId());
+                }
+                else {
+                    PersonnelIds.add(person.getRolodexId().toString());
                 }
             }
         }
-        return otherPersonnelIds;
+        return PersonnelIds;
     }
 
     
@@ -632,20 +626,12 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
         this.reviewerIds = reviewerIds;
     }
 
-    public boolean isDisplayReviewerNameToPi() {
-        return displayReviewerNameToPi;
+    public boolean isDisplayReviewerNameToPersonnel() {
+        return displayReviewerNameToPersonnel;
     }
 
-    public void setDisplayReviewerNameToPi(boolean displayReviewerNameToPi) {
-        this.displayReviewerNameToPi = displayReviewerNameToPi;
-    }
-
-    public boolean isDisplayReviewerNameToOtherPersonnel() {
-        return displayReviewerNameToOtherPersonnel;
-    }
-
-    public void setDisplayReviewerNameToOtherPersonnel(boolean displayReviewerNameToOtherPersonnel) {
-        this.displayReviewerNameToOtherPersonnel = displayReviewerNameToOtherPersonnel;
+    public void setDisplayReviewerNameToPersonnel(boolean displayReviewerNameToPersonnel) {
+        this.displayReviewerNameToPersonnel = displayReviewerNameToPersonnel;
     }
 
     public boolean isDisplayReviewerNameToReviewers() {
