@@ -137,7 +137,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                 !awardHierarchyNode.getObligatedTotalIndirect().equals(aai.getObligatedTotalIndirect()) ||
                     !awardHierarchyNode.getAnticipatedTotalDirect().equals(aai.getAnticipatedTotalDirect()) ||
                         !awardHierarchyNode.getAnticipatedTotalIndirect().equals(aai.getAnticipatedTotalIndirect())){
-            if(transactionRuleImpl.processParameterEnabledRules(awardHierarchyNode, aai)){
+            if(transactionRuleImpl.processParameterEnabledRules(awardHierarchyNode, aai, timeAndMoneyDocument)){
                 ActivePendingTransactionsService aptService = getActivePendingTransactionsService();
                 Map<String, AwardAmountTransaction> awardAmountTransactionItems = new HashMap<String, AwardAmountTransaction>();
                 List<Award> awardItems = new ArrayList<Award>();
@@ -182,7 +182,11 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                 pendingTransaction.setObligatedAmount((obligatedChangeDirect.add(obligatedChangeIndirect)).abs());
                 pendingTransaction.setAnticipatedAmount((anticipatedChangeDirect.add(anticipatedChangeIndirect)).abs());
                 pendingTransaction.setDocumentNumber(timeAndMoneyDocument.getDocumentNumber());
+                pendingTransaction.setProcessedFlag(true);
                 timeAndMoneyDocument.getPendingTransactions().add(pendingTransaction);
+                for(PendingTransaction penTran : timeAndMoneyDocument.getPendingTransactions()) {
+                    penTran.setDocumentNumber(timeAndMoneyDocument.getDocumentNumber());
+                }
                 getBusinessObjectService().save(timeAndMoneyDocument.getPendingTransactions());//need pending transaction to have a primarykey value
                 aptService.processSingleNodeMoneyTransaction(timeAndMoneyDocument, timeAndMoneyDocument.getAwardAmountTransactions().get(0),
                 awardAmountTransactionItems, awardItems, moneyTransactionDetailItems);
@@ -205,7 +209,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         pendingTransaction.setComments("Single Node Money Transaction");
         if(!awardHierarchyNode.getAmountObligatedToDate().equals(aai.getAmountObligatedToDate())
                 || !awardHierarchyNode.getAnticipatedTotalAmount().equals(aai.getAnticipatedTotalAmount())){
-            if(transactionRuleImpl.processParameterDisabledRules(awardHierarchyNode, aai)){
+            if(transactionRuleImpl.processParameterDisabledRules(awardHierarchyNode, aai, timeAndMoneyDocument)){
                 ActivePendingTransactionsService aptService = getActivePendingTransactionsService();
                 Map<String, AwardAmountTransaction> awardAmountTransactionItems = new HashMap<String, AwardAmountTransaction>();
                 List<Award> awardItems = new ArrayList<Award>();
@@ -230,7 +234,11 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                 pendingTransaction.setObligatedAmount(obligatedChange.abs());
                 pendingTransaction.setAnticipatedAmount(anticipatedChange.abs());
                 pendingTransaction.setDocumentNumber(timeAndMoneyDocument.getDocumentNumber());
+                pendingTransaction.setProcessedFlag(true);
                 timeAndMoneyDocument.getPendingTransactions().add(pendingTransaction);
+                for(PendingTransaction penTran : timeAndMoneyDocument.getPendingTransactions()) {
+                    penTran.setDocumentNumber(timeAndMoneyDocument.getDocumentNumber());
+                }
                 getBusinessObjectService().save(timeAndMoneyDocument.getPendingTransactions());//need pending transaction to have a primarykey value
                 aptService.processSingleNodeMoneyTransaction(timeAndMoneyDocument, timeAndMoneyDocument.getAwardAmountTransactions().get(0),
                 awardAmountTransactionItems, awardItems, moneyTransactionDetailItems);

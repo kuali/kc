@@ -17,6 +17,7 @@ package org.kuali.kra.timeandmoney.transactions;
 
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
+import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
@@ -42,5 +43,5 @@ public interface TransactionRule extends BusinessRule {
     boolean processAddPendingTransactionBusinessRules(AddTransactionRuleEvent event);
 
     
-    boolean processSingleNodeTransactionBusinessRules (AwardHierarchyNode awardHierarchyNode, AwardAmountInfo aai);
+    boolean processSingleNodeTransactionBusinessRules (AwardHierarchyNode awardHierarchyNode, AwardAmountInfo aai, TimeAndMoneyDocument doc);
 }

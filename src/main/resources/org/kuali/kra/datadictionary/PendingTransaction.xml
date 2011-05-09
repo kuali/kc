@@ -46,6 +46,7 @@
                 <ref bean="PendingTransaction-anticipatedIndirectAmount" />
                 <ref bean="PendingTransaction-comments" />
                 <ref bean="PendingTransaction-versionNumber" />
+                <ref bean="PendingTransaction-processedFlag" />
             </list>
         </property>
     </bean>
@@ -264,6 +265,15 @@
         <property name="summary" value="Comments" />
         <property name="description" value="Comments" />
     </bean>
+    
+    <bean id="PendingTransaction-processedFlag" parent="PendingTransaction-processedFlag-parentBean" />
+    <bean id="PendingTransaction-processedFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+        <property name="name" value="processedFlag" />
+        <property name="label" value="Processed Flag" />
+        <property name="shortLabel" value="Processed Flag" />
+        <property name="summary" value="Processed Flag" />
+        <property name="description" value="Processed Flag" />
+    </bean>
 
     <bean id="PendingTransaction-versionNumber" parent="PendingTransaction-versionNumber-parentBean" />
     <bean id="PendingTransaction-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
@@ -301,6 +311,8 @@
                                 p:attributeName="anticipatedIndirectAmount" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="comments" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="processedFlag" />
                         </list>
                     </property>
                 </bean>
@@ -341,6 +353,8 @@
                     p:attributeName="anticipatedIndirectAmount" />
                 <bean parent="FieldDefinition"
                     p:attributeName="comments" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="processedFlag" />
             </list>
         </property>
         <property name="resultFields" >
@@ -366,6 +380,8 @@
                     p:attributeName="anticipatedIndirectAmount" />
                 <bean parent="FieldDefinition"
                     p:attributeName="comments" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="processedFlag" />
             </list>
         </property>
     </bean>
