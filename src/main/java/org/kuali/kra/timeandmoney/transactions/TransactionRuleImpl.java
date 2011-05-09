@@ -80,9 +80,11 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
         //if source award is "External, the award will be null and we don't need to validate these amounts.
         boolean validObligatedFunds = true;
         boolean validAnticipatedFunds = true;
+        boolean validTotalCostLimit = true;
         if(!(award == null)) {
             validObligatedFunds = validateSourceObligatedFunds(event.getPendingTransactionItemForValidation(), award);
             validAnticipatedFunds = validateSourceAnticipatedFunds(event.getPendingTransactionItemForValidation(), award);
+            validTotalCostLimit = validateAwardTotalCostLimit(event.getPendingTransactionItemForValidation(), award);
             //need to remove the award amount info created from this process transactions call so there won't be a double entry in collection.
             award.refreshReferenceObject("awardAmountInfos");
         }
@@ -95,7 +97,8 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
             validDates = validateObligatedDateIsSet(event);
         }
         
-        return requiredFieldsComplete && processCommonValidations(event) && validObligatedFunds && validAnticipatedFunds && validFunds && validDates;        
+        return requiredFieldsComplete && processCommonValidations(event) && validObligatedFunds  
+            && validAnticipatedFunds && validFunds && validDates && validTotalCostLimit;        
     }
     
     /**
@@ -250,6 +253,17 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
         return valid;
     }
     
+    private boolean validateAwardTotalCostLimit(PendingTransaction pendingTransaction, Award award) {
+        AwardAmountInfo awardAmountInfo = award.getAwardAmountInfos().get(award.getAwardAmountInfos().size() -1);
+        KualiDecimal obliDistributableAmount = awardAmountInfo.getObliDistributableAmount().subtract(pendingTransaction.getObligatedAmount());
+        if (award.getTotalCostBudgetLimit().getLimit() != null
+                && award.getTotalCostBudgetLimit().getLimit().isGreaterThan(obliDistributableAmount)) {
+            reportWarning(OBLIGATED_AMOUNT_PROPERTY, KeyConstants.WARNING_TRANSACTION_OBLI_LESS_THAN_BUDGET_LIMIT, new String[]{award.getAwardNumber()});
+        }
+        return true;
+        
+    }
+    
     private boolean processCommonValidations(TransactionRuleEvent event) {
         PendingTransaction pendingTransactionItem = event.getPendingTransactionItemForValidation();
         List<PendingTransaction> items = event.getTimeAndMoneyDocument().getPendingTransactions();
@@ -371,6 +385,7 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
             reportError(TIME_AND_MONEY_TRANSACTION, KeyConstants.ERROR_NET_TOTALS_TRANSACTION);
             valid = false;
         }
+        valid &= validateAwardTotalCostLimit(awardHierarchyNode, aai.getAward());
         if (!doc.isInitialSave()) {//this save rule cannot be called on initial save from creation from Award Document.
             if (doc.getAwardAmountTransactions().size() > 0) { 
                     if(doc.getAwardAmountTransactions().get(0).getTransactionTypeCode() == null) {
@@ -410,6 +425,7 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
             reportError(TIME_AND_MONEY_TRANSACTION, KeyConstants.ERROR_ANTICIPATED_AMOUNT_NEGATIVE);
             valid = false;            
         }
+        valid &= validateAwardTotalCostLimit(awardHierarchyNode, aai.getAward());
         if (!doc.isInitialSave()) {//this save rule cannot be called on initial save from creation from Award Document.
             if (doc.getAwardAmountTransactions().size() > 0) { 
                     if(doc.getAwardAmountTransactions().get(0).getTransactionTypeCode() == null) {
@@ -420,6 +436,15 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
             }
         }
         return valid;
+    }
+    
+    protected boolean validateAwardTotalCostLimit(AwardHierarchyNode awardHierarchyNode, Award award) {
+        if (award.getTotalCostBudgetLimit().getLimit() != null
+                && award.getTotalCostBudgetLimit().getLimit().isGreaterThan(awardHierarchyNode.getObliDistributableAmount())) {
+            reportWarning(TIME_AND_MONEY_TRANSACTION, KeyConstants.WARNING_TRANSACTION_OBLI_LESS_THAN_BUDGET_LIMIT, 
+                    new String[]{award.getAwardNumber()});
+        }
+        return true;
     }
     
     /*
