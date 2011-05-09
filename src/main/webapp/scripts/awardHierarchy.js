@@ -190,6 +190,14 @@
         var text14 = item_text.substring(0,item_text.indexOf("%3A")).trim();
         item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
         var text15 = item_text.substring(0,item_text.indexOf("%3A")).trim();
+        item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
+        var text16 = item_text.substring(0,item_text.indexOf("%3A")).trim();
+        item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
+        var text17 = item_text.substring(0,item_text.indexOf("%3A")).trim();
+        item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
+        var text18 = item_text.substring(0,item_text.indexOf("%3A")).trim();
+        item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
+        var text19 = item_text.substring(0,item_text.indexOf("%3A")).trim();
         
         var racodereverse = revString(racode);
         var index = racodereverse.indexOf("0");
@@ -199,7 +207,7 @@
         
       	var abc = "<table style=\"border: medium none ; width: " + tblWidth + "%; border-collapse: collapse;\"><tbody><tr><td align='left' style=\"border: medium none ; border-collapse: collapse; vertical-align: top;\">"+txtImage+"&nbsp;"+text1
       				+ "</td><td align='right' style='border: medium none ; border-collapse: collapse; vertical-align: top;'>"
-      				+ "<a href='awardHome.do?methodToCall=docHandler&docId=" + text15 + "&awardNumber=" + racode + "&command=displayDocSearchView' target='_blank'><img src='static/images/tinybutton-open.gif' /></a>"
+      				+ "<a href='awardHome.do?methodToCall=docHandler&docId=" + text19 + "&awardNumber=" + racode + "&command=displayDocSearchView' target='_blank'><img src='static/images/tinybutton-open.gif' /></a>"
       				+ "</td></tr></tbody></table>"; 
       	return abc; 
     }
