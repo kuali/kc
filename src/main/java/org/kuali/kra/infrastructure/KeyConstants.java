@@ -815,8 +815,7 @@ public final class KeyConstants {
     public static final String ERROR_OBLIGATED_END_DATE = "error.obligated.end.date";
     public static final String ERROR_NET_TOTALS_TRANSACTION = "error.net.totals.transaction";
     public static final String ERROR_DIRECT_INDIRECT_TRANSACTION = "error.direct.indirect.transaction";
-
-
+    public static final String WARNING_TRANSACTION_OBLI_LESS_THAN_BUDGET_LIMIT = "warning.transaction.obligated.less.than.limit";
 
 
     
