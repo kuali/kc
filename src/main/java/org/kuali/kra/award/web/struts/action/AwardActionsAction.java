@@ -134,7 +134,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
             HttpServletResponse response, String awardDocumentNumber, String awardNumber) throws Exception {
         //super.populateAwardHierarchy(form);
         AwardForm awardForm = (AwardForm)form;
-        response.sendRedirect("awardHierarchyFullView.do?methodToCall=openWindow&awardDocumentNumber=" + awardDocumentNumber + "&awardNumber=" + awardNumber);
+        response.sendRedirect("awardHierarchyFullView.do?methodToCall=openWindow&awardDocumentNumber=" + awardDocumentNumber + "&awardNumber=" + awardNumber + "&docTypeName=" + awardForm.getDocTypeName());
       
         return null;
     }

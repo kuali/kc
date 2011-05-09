@@ -28,7 +28,7 @@
     	<h3> 
     		<span class="subhead-left">Hierarchy Actions</span>  
     		<span class="subhead-right">
-    			<a href="${pageContext.request.contextPath}/awardHierarchyFullView.do?command=redirectAwardHierarchyFullViewForPopup&awardDocumentNumber=${awardDocumentNumber}&awardNumber=${awardNumber}" target="_blank" >
+    			<a href="${pageContext.request.contextPath}/awardHierarchyFullView.do?command=redirectAwardHierarchyFullViewForPopup&awardDocumentNumber=${awardDocumentNumber}&awardNumber=${awardNumber}&docTypeName=${KualiForm.docTypeName}" target="_blank" >
     			<img align="top" width="80" height="15" alt="Open Window" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-openwindow.gif" styleClass="tinybutton" />
     			<kul:help businessObjectClassName="org.kuali.kra.award.awardhierarchy.AwardHierarchy" altText="help"/>
 			</span>

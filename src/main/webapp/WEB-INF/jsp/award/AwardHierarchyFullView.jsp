@@ -29,6 +29,7 @@ http://www.osedu.org/licenses/ECL-2.0
 <c:set var="action" value="awardHierarchy" />
 <input type="hidden" property="viewOnly" id="viewOnly" name="viewOnly" value="${readOnly}" />
 <input type="hidden" id = "canCreateAward" name="canCreateAward" value="${KualiForm.canCreateAward}" />
+<input type="hidden" property="docTypeName" name="docTypeName" value="${KualiForm.docTypeName}" />
 
 <kul:tabTop tabTitle="Award Hierarchy" defaultOpen="true">
 
