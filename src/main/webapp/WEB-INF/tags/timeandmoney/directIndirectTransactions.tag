@@ -20,7 +20,7 @@
 <kul:tab tabTitle="Transactions (${KualiForm.document.awardNumber})" defaultOpen="false" tabErrorKey="document.newAwardAmountTransaction*,transactionBean.newPendingTransaction.obligatedAmount,transactionBean.newPendingTransaction.anticipatedAmount" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
-    		<span class="subhead-left"> Transaction</span>
+    		<span class="subhead-left">Pending Transactions</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.timeandmoney.transactions.PendingTransaction" altText="help"/></span>
         </h3>
         
@@ -100,6 +100,7 @@
             
             <%-- Existing data --%>
         	<c:forEach var="pendingTransaction" items="${KualiForm.document.pendingTransactions}" varStatus="status">
+        	<c:if test="${pendingTransaction.processedFlag == false}">
 	             <tr>
 					<th class="infoline">
 						<c:out value="${status.index+1}" />
@@ -165,8 +166,98 @@
 					</c:if>
                   </td>
 	            </tr>
+	          </c:if>
         	</c:forEach>
         	<%-- Existing data --%>
         </table>
     </div>
+    
+    
+    
+    <div class="tab-container" align="center">
+    	<h3>
+    		<span class="subhead-left"> Processed Transactions</span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.timeandmoney.transactions.PendingTransaction" altText="help"/></span>
+        </h3>
+        
+        <table cellpadding="0" cellspacing="0" summary="">
+        <c:set var="isRouted" value="${KualiForm.document.documentRouteStatus}" />
+          	<%-- Header --%>
+          	<tr>
+          		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" />
+          		<kul:htmlAttributeHeaderCell attributeEntry="${pendingTransactionAttributes.transactionId}" scope="col" />
+          		<kul:htmlAttributeHeaderCell attributeEntry="${pendingTransactionAttributes.comments}" scope="col" />
+          		<kul:htmlAttributeHeaderCell attributeEntry="${pendingTransactionAttributes.sourceAwardNumber}" scope="col" />          		
+          		<kul:htmlAttributeHeaderCell attributeEntry="${pendingTransactionAttributes.destinationAwardNumber}" scope="col" />
+          		<kul:htmlAttributeHeaderCell attributeEntry="${pendingTransactionAttributes.obligatedDirectAmount}" scope="col" />
+          		<kul:htmlAttributeHeaderCell attributeEntry="${pendingTransactionAttributes.obligatedIndirectAmount}" scope="col" />
+          		<kul:htmlAttributeHeaderCell attributeEntry="${pendingTransactionAttributes.anticipatedDirectAmount}" scope="col" />        		
+          		<kul:htmlAttributeHeaderCell attributeEntry="${pendingTransactionAttributes.anticipatedIndirectAmount}" scope="col" />        		
+          		<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
+          	</tr> 
+          	<%-- Header --%>
+            
+            <%-- Existing data --%>
+        	<c:forEach var="pendingTransaction" items="${KualiForm.document.pendingTransactions}" varStatus="status">
+        	<c:if test="${pendingTransaction.processedFlag == true}">
+	             <tr>
+					<th class="infoline">
+						<c:out value="${status.index+1}" />
+					</th>
+                  <td align="left" valign="middle">
+					<div align="center">
+                		<kul:htmlControlAttribute property="document.pendingTransactions[${status.index}].transactionId" attributeEntry="${pendingTransactionAttributes.awardAmountTransactionId}"  readOnly="true" />
+					</div>
+				  </td>
+				  <td align="left" valign="middle">
+					<div align="center">
+                		<kul:htmlControlAttribute property="document.pendingTransactions[${status.index}].comments" attributeEntry="${pendingTransactionAttributes.comments}"  readOnly="${isRouted}" />
+					</div>
+				  </td>
+                  <td align="left" valign="middle">
+					<div align="center">                		
+                	<c:choose>
+                		<c:when test="${KualiForm.document.pendingTransactions[status.index].sourceAwardNumber == '000000-00000'}" >
+                			<c:out value = "External" />
+                		</c:when>
+                		<c:otherwise>
+                			<kul:htmlControlAttribute property="document.pendingTransactions[${status.index}].sourceAwardNumber" attributeEntry="${pendingTransactionAttributes.sourceAwardNumber}"  readOnly="true" />
+                		</c:otherwise>
+                	</c:choose>	                		
+					</div>
+				  </td>
+                  <td align="left" valign="middle">
+					<div align="center">
+                		<kul:htmlControlAttribute property="document.pendingTransactions[${status.index}].destinationAwardNumber" attributeEntry="${pendingTransactionAttributes.destinationAwardNumber}"  readOnly="true" />
+					</div>
+				  </td>
+                  <td align="left" valign="middle">
+					<div align="center">
+                		<kul:htmlControlAttribute property="document.pendingTransactions[${status.index}].obligatedDirectAmount" attributeEntry="${pendingTransactionAttributes.obligatedDirectAmount}"  readOnly="true" />
+					</div>
+				  </td>
+				  <td align="left" valign="middle">
+					<div align="center">
+                		<kul:htmlControlAttribute property="document.pendingTransactions[${status.index}].obligatedIndirectAmount" attributeEntry="${pendingTransactionAttributes.obligatedIndirectAmount}"  readOnly="true" />
+					</div>
+				  </td>
+                  <td align="left" valign="middle">
+					<div align="center">
+                		<kul:htmlControlAttribute property="document.pendingTransactions[${status.index}].anticipatedDirectAmount" attributeEntry="${pendingTransactionAttributes.anticipatedDirectAmount}" readOnly="true" />
+					</div>
+				  </td>
+                  <td align="left" valign="middle">
+					<div align="center">
+                		<kul:htmlControlAttribute property="document.pendingTransactions[${status.index}].anticipatedIndirectAmount" attributeEntry="${pendingTransactionAttributes.anticipatedIndirectAmount}" readOnly="true" />
+					</div>
+				  </td>
+	            </tr>
+	          </c:if>
+        	</c:forEach>
+        	<%-- Existing data --%>
+        </table>
+    </div>
+    
+    
+    
 </kul:tab>

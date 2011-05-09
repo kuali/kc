@@ -54,6 +54,8 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
     private static final String DESTINATION_AWARD_ERROR_PARM = "Destination Award (Destination Award)";
     private static final String TOTALS = "totals";
     private static final String TIME_AND_MONEY_TRANSACTION = "timeAndMoneyTransaction";
+    private static final String NEW_AWARD_AMOUNT_TRANSACTION = "newAwardAmountTransaction";
+    private static final String TRANSACTION_TYPE_CODE = ".transactionTypeCode";
     
     private ParameterService parameterService;
 
@@ -106,12 +108,12 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
      *      b)The exception to this rule is if doing so does not affect the total amount.  The net affect of this is moving money from idc to dc or
      *        vice versa.
      */
-    public boolean processSingleNodeTransactionBusinessRules (AwardHierarchyNode awardHierarchyNode, AwardAmountInfo aai) {
+    public boolean processSingleNodeTransactionBusinessRules (AwardHierarchyNode awardHierarchyNode, AwardAmountInfo aai, TimeAndMoneyDocument doc) {
         boolean returnValue;
         if(isDirectIndirectViewEnabled()) {
-            returnValue = processParameterEnabledRules(awardHierarchyNode, aai);
+            returnValue = processParameterEnabledRules(awardHierarchyNode, aai, doc);
         } else {
-            returnValue = processParameterDisabledRules(awardHierarchyNode, aai);
+            returnValue = processParameterDisabledRules(awardHierarchyNode, aai, doc);
         }
         return returnValue;
     }
@@ -342,7 +344,7 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
      * @param aai
      * @return
      */
-    public boolean processParameterEnabledRules(AwardHierarchyNode awardHierarchyNode, AwardAmountInfo aai) {
+    public boolean processParameterEnabledRules(AwardHierarchyNode awardHierarchyNode, AwardAmountInfo aai, TimeAndMoneyDocument doc) {
         boolean valid = true;
         KualiDecimal obligatedDirectChange = awardHierarchyNode.getObligatedTotalDirect().subtract(aai.getObligatedTotalDirect());
         KualiDecimal obligatedIndirectChange = awardHierarchyNode.getObligatedTotalIndirect().subtract(aai.getObligatedTotalIndirect());
@@ -369,6 +371,15 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
             reportError(TIME_AND_MONEY_TRANSACTION, KeyConstants.ERROR_NET_TOTALS_TRANSACTION);
             valid = false;
         }
+        if (!doc.isInitialSave()) {//this save rule cannot be called on initial save from creation from Award Document.
+            if (doc.getAwardAmountTransactions().size() > 0) { 
+                    if(doc.getAwardAmountTransactions().get(0).getTransactionTypeCode() == null) {
+                        valid = false;
+                        reportError(NEW_AWARD_AMOUNT_TRANSACTION+TRANSACTION_TYPE_CODE, 
+                            KeyConstants.ERROR_TRANSACTION_TYPE_CODE_REQUIRED);
+                    }
+            }
+        }
         return valid;
     }
     
@@ -378,7 +389,7 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
      * @param aai
      * @return
      */
-    public boolean processParameterDisabledRules(AwardHierarchyNode awardHierarchyNode, AwardAmountInfo aai) {
+    public boolean processParameterDisabledRules(AwardHierarchyNode awardHierarchyNode, AwardAmountInfo aai, TimeAndMoneyDocument doc) {
         boolean valid = true;
         KualiDecimal obligatedChange = awardHierarchyNode.getAmountObligatedToDate().subtract(aai.getAmountObligatedToDate());
         KualiDecimal anticipatedChange = awardHierarchyNode.getAnticipatedTotalAmount().subtract(aai.getAnticipatedTotalAmount());
@@ -398,6 +409,15 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
         if (awardHierarchyNode.getAnticipatedTotalAmount().isLessThan(KualiDecimal.ZERO)) {
             reportError(TIME_AND_MONEY_TRANSACTION, KeyConstants.ERROR_ANTICIPATED_AMOUNT_NEGATIVE);
             valid = false;            
+        }
+        if (!doc.isInitialSave()) {//this save rule cannot be called on initial save from creation from Award Document.
+            if (doc.getAwardAmountTransactions().size() > 0) { 
+                    if(doc.getAwardAmountTransactions().get(0).getTransactionTypeCode() == null) {
+                        valid = false;
+                        reportError(NEW_AWARD_AMOUNT_TRANSACTION+TRANSACTION_TYPE_CODE, 
+                            KeyConstants.ERROR_TRANSACTION_TYPE_CODE_REQUIRED);
+                    }
+            }
         }
         return valid;
     }

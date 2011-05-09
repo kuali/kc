@@ -38,13 +38,19 @@ import org.kuali.kra.timeandmoney.history.TransactionDetailType;
 import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 import org.kuali.kra.timeandmoney.transactions.PendingTransaction;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public class ActivePendingTransactionsServiceImpl implements ActivePendingTransactionsService {
     
     BusinessObjectService businessObjectService;
     AwardAmountInfoService awardAmountInfoService;
+    @SuppressWarnings("unchecked")
+    private PersonService personService;
 
     /**
      * 
@@ -55,16 +61,17 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         Map<String, AwardAmountTransaction> awardAmountTransactionItems = new HashMap<String, AwardAmountTransaction>();
         List<Award> awardItems = new ArrayList<Award>();
         List<TransactionDetail> transactionDetailItems = new ArrayList<TransactionDetail>();
+        replaceSessionWithRoutedBy(doc);//replace usersession so update user is logged in user rather than kr.
         //if Single node, we don't need to process transactions since they have already been processed when created.
-        if (doc.getAwardHierarchyNodes().size() > 1) {
+        //if (doc.getAwardHierarchyNodes().size() > 1) {
             List<AwardAmountTransaction> awardAmountTransactions = processTransactions(doc, newAwardAmountTransaction,
                     awardAmountTransactionItems, awardItems, transactionDetailItems);
             performSave(doc, transactionDetailItems, awardItems, awardAmountTransactions);
-        }else {
-            businessObjectService.save(transactionDetailItems);
-            businessObjectService.save(awardItems);
-            businessObjectService.save(doc);
-        }
+        //}else {
+            //businessObjectService.save(transactionDetailItems);
+            //businessObjectService.save(awardItems);
+            //businessObjectService.save(doc);
+        //}
     }
 
     /**
@@ -85,39 +92,42 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         updatedPendingTransactions.addAll(doc.getPendingTransactions());
         
         for(PendingTransaction pendingTransaction: doc.getPendingTransactions()){
-            Map<String, AwardHierarchyNode> awardHierarchyNodes = doc.getAwardHierarchyNodes();
-            AwardHierarchyNode sourceAwardNode = awardHierarchyNodes.get(pendingTransaction.getSourceAwardNumber());
-            AwardHierarchyNode destinationAwardNode = awardHierarchyNodes.get(pendingTransaction.getDestinationAwardNumber());            
-            AwardHierarchyNode parentNode = new AwardHierarchyNode();
-            //
-            if(StringUtils.equalsIgnoreCase(pendingTransaction.getSourceAwardNumber(),Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT)){
-                //working
-                processPendingTransactionWhenSourceIsExternal(doc, newAwardAmountTransaction, updatedPendingTransactions, transactionDetailItems
-                        , awardAmountTransactionItems, awardItems, pendingTransaction, awardHierarchyNodes, destinationAwardNode);   
-                
+            if(pendingTransaction.getProcessedFlag() == false) {
+                Map<String, AwardHierarchyNode> awardHierarchyNodes = doc.getAwardHierarchyNodes();
+                AwardHierarchyNode sourceAwardNode = awardHierarchyNodes.get(pendingTransaction.getSourceAwardNumber());
+                AwardHierarchyNode destinationAwardNode = awardHierarchyNodes.get(pendingTransaction.getDestinationAwardNumber());            
+                AwardHierarchyNode parentNode = new AwardHierarchyNode();
+                pendingTransaction.setProcessedFlag(true);
                 //
-            }else if(StringUtils.equalsIgnoreCase(pendingTransaction.getDestinationAwardNumber(),Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT)){
-                processPendingTransactionWhenDestinationIsExternal(doc, newAwardAmountTransaction, updatedPendingTransactions, transactionDetailItems
-                        , awardAmountTransactionItems, awardItems, pendingTransaction, awardHierarchyNodes, sourceAwardNode); 
+                if(StringUtils.equalsIgnoreCase(pendingTransaction.getSourceAwardNumber(),Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT)){
+                    //working
+                    processPendingTransactionWhenSourceIsExternal(doc, newAwardAmountTransaction, updatedPendingTransactions, transactionDetailItems
+                            , awardAmountTransactionItems, awardItems, pendingTransaction, awardHierarchyNodes, destinationAwardNode);   
+                    
+                    //
+                }else if(StringUtils.equalsIgnoreCase(pendingTransaction.getDestinationAwardNumber(),Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT)){
+                    processPendingTransactionWhenDestinationIsExternal(doc, newAwardAmountTransaction, updatedPendingTransactions, transactionDetailItems
+                            , awardAmountTransactionItems, awardItems, pendingTransaction, awardHierarchyNodes, sourceAwardNode); 
+                    
+                    //tests for parent child relationship when pushing money down to children
+                }else if(parentChildRelationshipExists(sourceAwardNode.getAwardNumber(), destinationAwardNode.getAwardNumber(), awardHierarchyNodes, parentNode)){                
+                    processPendingTransactionWhenParentChildRelationShipExists(doc, newAwardAmountTransaction, updatedPendingTransactions, parentNode
+                            , transactionDetailItems, awardAmountTransactionItems, awardItems, pendingTransaction, awardHierarchyNodes,
+                            sourceAwardNode, destinationAwardNode); 
+                    
+                    //tests for child parent relationship when pushing money up to a parent award.
+                }else if(childParentRelationshipExists(destinationAwardNode.getAwardNumber(), sourceAwardNode.getAwardNumber(), awardHierarchyNodes, parentNode)){                
+                    processPendingTransactionWhenChildParentRelationShipExists(doc, newAwardAmountTransaction, updatedPendingTransactions, parentNode
+                            , transactionDetailItems, awardAmountTransactionItems, awardItems, pendingTransaction, awardHierarchyNodes,
+                            sourceAwardNode, destinationAwardNode); 
                 
-                //tests for parent child relationship when pushing money down to children
-            }else if(parentChildRelationshipExists(sourceAwardNode.getAwardNumber(), destinationAwardNode.getAwardNumber(), awardHierarchyNodes, parentNode)){                
-                processPendingTransactionWhenParentChildRelationShipExists(doc, newAwardAmountTransaction, updatedPendingTransactions, parentNode
-                        , transactionDetailItems, awardAmountTransactionItems, awardItems, pendingTransaction, awardHierarchyNodes,
-                        sourceAwardNode, destinationAwardNode); 
+                }else{processPendingTransactionWithIndirectRelationship(doc, newAwardAmountTransaction, updatedPendingTransactions, transactionDetailItems, awardAmountTransactionItems
+                            , awardItems, pendingTransaction, sourceAwardNode, destinationAwardNode);
+                }
                 
-                //tests for child parent relationship when pushing money up to a parent award.
-            }else if(childParentRelationshipExists(destinationAwardNode.getAwardNumber(), sourceAwardNode.getAwardNumber(), awardHierarchyNodes, parentNode)){                
-                processPendingTransactionWhenChildParentRelationShipExists(doc, newAwardAmountTransaction, updatedPendingTransactions, parentNode
-                        , transactionDetailItems, awardAmountTransactionItems, awardItems, pendingTransaction, awardHierarchyNodes,
-                        sourceAwardNode, destinationAwardNode); 
-            
-            }else{processPendingTransactionWithIndirectRelationship(doc, newAwardAmountTransaction, updatedPendingTransactions, transactionDetailItems, awardAmountTransactionItems
-                        , awardItems, pendingTransaction, sourceAwardNode, destinationAwardNode);
+                updatedPendingTransactions.remove(pendingTransaction);
+                pendingTransactionsToBeDeleted.add(pendingTransaction);
             }
-            
-            updatedPendingTransactions.remove(pendingTransaction);
-            pendingTransactionsToBeDeleted.add(pendingTransaction);
         }
         
         
@@ -188,38 +198,40 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         updatedPendingTransactions.addAll(doc.getPendingTransactions());
         
         for(PendingTransaction pendingTransaction: doc.getPendingTransactions()){
-            Map<String, AwardHierarchyNode> awardHierarchyNodes = doc.getAwardHierarchyNodes();
-            AwardHierarchyNode sourceAwardNode = awardHierarchyNodes.get(pendingTransaction.getSourceAwardNumber());
-            AwardHierarchyNode destinationAwardNode = awardHierarchyNodes.get(pendingTransaction.getDestinationAwardNumber());            
-            AwardHierarchyNode parentNode = new AwardHierarchyNode();
-            //
-            if(StringUtils.equalsIgnoreCase(pendingTransaction.getSourceAwardNumber(),Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT)){
-                processPendingTransactionWhenSourceIsExternal(doc, newAwardAmountTransaction, updatedPendingTransactions, transactionDetailItems
-                        , awardAmountTransactionItems, awardItems, pendingTransaction, awardHierarchyNodes, destinationAwardNode);   
-                
+            if(pendingTransaction.getProcessedFlag() == false) {
+                Map<String, AwardHierarchyNode> awardHierarchyNodes = doc.getAwardHierarchyNodes();
+                AwardHierarchyNode sourceAwardNode = awardHierarchyNodes.get(pendingTransaction.getSourceAwardNumber());
+                AwardHierarchyNode destinationAwardNode = awardHierarchyNodes.get(pendingTransaction.getDestinationAwardNumber());            
+                AwardHierarchyNode parentNode = new AwardHierarchyNode();
                 //
-            }else if(StringUtils.equalsIgnoreCase(pendingTransaction.getDestinationAwardNumber(),Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT)){
-                processPendingTransactionWhenDestinationIsExternal(doc, newAwardAmountTransaction, updatedPendingTransactions, transactionDetailItems
-                        , awardAmountTransactionItems, awardItems, pendingTransaction, awardHierarchyNodes, sourceAwardNode); 
+                if(StringUtils.equalsIgnoreCase(pendingTransaction.getSourceAwardNumber(),Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT)){
+                    processPendingTransactionWhenSourceIsExternal(doc, newAwardAmountTransaction, updatedPendingTransactions, transactionDetailItems
+                            , awardAmountTransactionItems, awardItems, pendingTransaction, awardHierarchyNodes, destinationAwardNode);   
+                    
+                    //
+                }else if(StringUtils.equalsIgnoreCase(pendingTransaction.getDestinationAwardNumber(),Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT)){
+                    processPendingTransactionWhenDestinationIsExternal(doc, newAwardAmountTransaction, updatedPendingTransactions, transactionDetailItems
+                            , awardAmountTransactionItems, awardItems, pendingTransaction, awardHierarchyNodes, sourceAwardNode); 
+                    
+                    //tests for parent child relationship when pushing money down to children
+                }else if(parentChildRelationshipExists(sourceAwardNode.getAwardNumber(), destinationAwardNode.getAwardNumber(), awardHierarchyNodes, parentNode)){                
+                    processPendingTransactionWhenParentChildRelationShipExists(doc, newAwardAmountTransaction, updatedPendingTransactions, parentNode
+                            , transactionDetailItems, awardAmountTransactionItems, awardItems, pendingTransaction, awardHierarchyNodes,
+                            sourceAwardNode, destinationAwardNode); 
+                    
+                    //tests for child parent relationship when pushing money up to a parent award.
+                }else if(childParentRelationshipExists(destinationAwardNode.getAwardNumber(), sourceAwardNode.getAwardNumber(), awardHierarchyNodes, parentNode)){                
+                    processPendingTransactionWhenChildParentRelationShipExists(doc, newAwardAmountTransaction, updatedPendingTransactions, parentNode
+                            , transactionDetailItems, awardAmountTransactionItems, awardItems, pendingTransaction, awardHierarchyNodes,
+                            sourceAwardNode, destinationAwardNode); 
                 
-                //tests for parent child relationship when pushing money down to children
-            }else if(parentChildRelationshipExists(sourceAwardNode.getAwardNumber(), destinationAwardNode.getAwardNumber(), awardHierarchyNodes, parentNode)){                
-                processPendingTransactionWhenParentChildRelationShipExists(doc, newAwardAmountTransaction, updatedPendingTransactions, parentNode
-                        , transactionDetailItems, awardAmountTransactionItems, awardItems, pendingTransaction, awardHierarchyNodes,
-                        sourceAwardNode, destinationAwardNode); 
+                }else{processPendingTransactionWithIndirectRelationship(doc, newAwardAmountTransaction, updatedPendingTransactions, transactionDetailItems, awardAmountTransactionItems
+                            , awardItems, pendingTransaction, sourceAwardNode, destinationAwardNode);
+                }
                 
-                //tests for child parent relationship when pushing money up to a parent award.
-            }else if(childParentRelationshipExists(destinationAwardNode.getAwardNumber(), sourceAwardNode.getAwardNumber(), awardHierarchyNodes, parentNode)){                
-                processPendingTransactionWhenChildParentRelationShipExists(doc, newAwardAmountTransaction, updatedPendingTransactions, parentNode
-                        , transactionDetailItems, awardAmountTransactionItems, awardItems, pendingTransaction, awardHierarchyNodes,
-                        sourceAwardNode, destinationAwardNode); 
-            
-            }else{processPendingTransactionWithIndirectRelationship(doc, newAwardAmountTransaction, updatedPendingTransactions, transactionDetailItems, awardAmountTransactionItems
-                        , awardItems, pendingTransaction, sourceAwardNode, destinationAwardNode);
+                updatedPendingTransactions.remove(pendingTransaction);
+                pendingTransactionsToBeDeleted.add(pendingTransaction);
             }
-            
-            updatedPendingTransactions.remove(pendingTransaction);
-            pendingTransactionsToBeDeleted.add(pendingTransaction);
         }
         
         return awardItems;
@@ -624,7 +636,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
             
             //probably don't need these transaction details added.
             handleIntermediateNodeDownTransaction(pendingTransaction, parentAwardNumber, awardAmountTransactionItems, awardItems, updatedPendingTransactions, newAwardAmountTransaction, doc.getDocumentNumber());
-//            addTransactionDetails(parentAwardNumber, destinationAwardNumber
+//            addTransactionDetails(doc, parentAwardNumber, destinationAwardNumber
 //                    ,doc.getAward().getSequenceNumber(), pendingTransaction, doc.getAwardNumber(), doc.getDocumentNumber(), transactionDetailItems, TransactionDetailType.INTERMEDIATE);
             transactionDetailList.add(createTransactionDetail(parentAwardNumber, destinationAwardNumber
                     ,doc.getAward().getSequenceNumber(), pendingTransaction, doc.getAwardNumber(), doc.getDocumentNumber(), TransactionDetailType.INTERMEDIATE));
@@ -1261,6 +1273,29 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
             award = (CollectionUtils.isEmpty(awards) ? null : awards.get(0));
         }
         return award;
+    }
+    
+    /**
+     * Replace the UserSession with one for the user who routed the parent award.
+     * @param parentAward
+     * @return
+     */
+    protected UserSession replaceSessionWithRoutedBy(TimeAndMoneyDocument doc) {
+        String routedByUserId = doc.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId();
+        Person person = getPersonService().getPerson(routedByUserId);
+        UserSession oldSession = GlobalVariables.getUserSession();
+        GlobalVariables.setUserSession(new UserSession(person.getPrincipalName()));
+        return oldSession;
+    }
+    
+    @SuppressWarnings("unchecked")
+    protected PersonService getPersonService() {
+        return personService;
+    }
+
+    @SuppressWarnings("unchecked")
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
     }
     
 

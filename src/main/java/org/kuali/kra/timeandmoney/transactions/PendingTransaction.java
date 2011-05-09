@@ -38,6 +38,7 @@ public class PendingTransaction extends KraPersistableBusinessObjectBase {
     private KualiDecimal anticipatedDirectAmount;
     private KualiDecimal anticipatedIndirectAmount;
     private String comments;
+    private Boolean processedFlag = Boolean.FALSE;
     
     
     
@@ -242,6 +243,25 @@ public class PendingTransaction extends KraPersistableBusinessObjectBase {
     public void setAnticipatedIndirectAmount(KualiDecimal anticipatedIndirectAmount) {
         this.anticipatedIndirectAmount = anticipatedIndirectAmount;
     }
+
+    /**
+     * Gets the processedFlag attribute. 
+     * @return Returns the processedFlag.
+     */
+    public Boolean getProcessedFlag() {
+        return processedFlag;
+    }
+
+    /**
+     * Sets the processedFlag attribute value.
+     * @param processedFlag The processedFlag to set.
+     */
+    public void setProcessedFlag(Boolean processedFlag) {
+        this.processedFlag = processedFlag;
+    }
+
+    
+    
     
     
     
