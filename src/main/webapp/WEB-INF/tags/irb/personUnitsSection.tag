@@ -66,8 +66,10 @@
 				                <td align="left" valign="middle" class="infoline">
 									<div align=left>
 			                    		<kul:htmlControlAttribute property="personnelHelper.newProtocolPersonUnits[${personIndex}].unitNumber"
-			                    		                          attributeEntry="${unitAttributes.unitNumber}" 
-			                    		                          onblur="loadUnitNameTo('personnelHelper.newProtocolPersonUnits[${personIndex}].unitNumber','personnelHelper.newProtocolPersonUnits[${personIndex}].unitName');" />
+			                    			attributeEntry="${unitAttributes.unitNumber}" 
+			                    		    onblur="ajaxLoad('getUnitName','personnelHelper.newProtocolPersonUnits[${personIndex}].unitNumber', 'personnelHelper.newProtocolPersonUnits[${personIndex}].unitName');" 
+			                    		/>
+			                    		<%--   onblur="loadUnitNameTo('personnelHelper.newProtocolPersonUnits[${personIndex}].unitNumber','personnelHelper.newProtocolPersonUnits[${personIndex}].unitName');" />  --%>
 			                      	</div>
 			                        <span class="fineprint"></span> 
 								</td>

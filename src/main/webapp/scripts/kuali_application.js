@@ -2686,9 +2686,13 @@ function closeQuestionnairePop() {
 
 }
 
+
+
 function ajaxLoad(methodToCall, codeField, fieldToUpdate) {
-	codeField = codeField.replace(/\./g, "\\.");
-	fieldToUpdate = fieldToUpdate.replace(/\./g, "\\.");
+	//codeField = codeField.replace(/\./g, "\\.");
+	codeField = codeField.replace(/([ #;&,.+*~\':"!^$[\]()=>|\/@])/g, "\\$1");
+	//fieldToUpdate = fieldToUpdate.replace(/\./g, "\\.");
+	fieldToUpdate = fieldToUpdate.replace(/([ #;&,.+*~\':"!^$[\]()=>|\/@])/g, "\\$1");
 	$j.ajax( {
 		url : 'jqueryAjax.do',
 		type : 'POST',
@@ -2701,8 +2705,12 @@ function ajaxLoad(methodToCall, codeField, fieldToUpdate) {
 			alert('Error loading XML document');
 		},
 		success : function(xml) {
-			$j(xml).find('h3').each(function() {
+			$j(xml).find('#ret_value').each(function() {
 				$j('#'+fieldToUpdate+'\\.div').html($j(this).html());
+
+				});
+			$j(xml).find('#code_value').each(function() {
+				$j('#'+ codeField).val($j(this).html());
 
 				});
 		}
