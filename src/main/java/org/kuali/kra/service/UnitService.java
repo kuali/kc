@@ -26,7 +26,18 @@ import org.kuali.kra.bo.UnitAdministrator;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+/**
+ * This class...
+ */
 public interface UnitService {
+    
+    /**
+     * This method does a case insensitive search keyed on <code>unitNumber</code>, and
+     * returns the matching unit object. If there is no match, then <code>null</code> is returned.
+     * @param unitNumber
+     * @return the unit or null if not found.
+     */
+    public Unit getUnitCaseInsensitive(String unitNumber);
     
     /**
      * This method returns the Unit name for a given Unit Number.
@@ -71,6 +82,13 @@ public interface UnitService {
      */
     public String getSubUnitsForTreeView(String unitNumber);
 
+    
+    /**
+     * This method returns the top level unit in a hierarchy.
+     * @return the top level unit
+     */
+    public Unit getTopUnit();
+    
     /**
      * 
      * This method is to set up the initial load for unut hierarchy
