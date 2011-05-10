@@ -77,7 +77,7 @@
 
   <bean id="Unit-unitNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="unitNumber" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Unit Number" />
     <property name="shortLabel" value="Unit Number" />
     <property name="maxLength" value="8" />

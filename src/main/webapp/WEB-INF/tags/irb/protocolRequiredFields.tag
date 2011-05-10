@@ -131,7 +131,7 @@
                     <c:if test="${empty KualiForm.document.protocolList[0].protocolId}">
                     	<kul:htmlControlAttribute property="protocolHelper.leadUnitNumber" 
 						 attributeEntry="${protocolAttributes.leadUnitNumber}"  
-						 onblur="ajaxLoad('getUnitName','protocolHelper.leadUnitNumber','protocolHelper.leadUnitName');"/> 
+						 onblur="ajaxLoad('getUnitName','protocolHelper.leadUnitNumber', 'protocolHelper.leadUnitName');"/> 
 						<%--   onblur="loadUnitNameTo('protocolHelper.leadUnitNumber','protocolHelper.leadUnitName');"/> --%>
 				
 				</td>

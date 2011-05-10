@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.UnitService;
@@ -36,7 +37,7 @@ public class JqueryAjaxAction extends KualiDocumentActionBase {
 
     /**
      * 
-     * This method to get the unit name for Protocol lead unit ajax.
+     * This method uses the case-insensitive lookup method of the unit service to get the unit name using the unit number
      * @param mapping
      * @param form
      * @param request
@@ -49,13 +50,21 @@ public class JqueryAjaxAction extends KualiDocumentActionBase {
     throws Exception {
         
         JqueryAjaxForm ajaxForm = (JqueryAjaxForm)form;
-        String unitName = getUnitService().getUnitName(ajaxForm.getCode());
+        Unit unit = getUnitService().getUnitCaseInsensitive(ajaxForm.getCode());
+        String unitName = null;
+        if(null != unit){
+            unitName = unit.getUnitName();
+            if(null != unit.getUnitNumber()){
+                ajaxForm.setCode(unit.getUnitNumber());
+            }
+        }
         if (unitName == null && StringUtils.isNotBlank(ajaxForm.getCode())) {
             unitName = "<span style='color: red;'>not found</span>";
         }
         ajaxForm.setReturnVal(unitName);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+    
     
     private UnitService getUnitService() {
         return KraServiceLocator.getService(UnitService.class);

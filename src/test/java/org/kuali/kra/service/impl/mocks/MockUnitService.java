@@ -77,6 +77,19 @@ public class MockUnitService implements UnitService {
         }
         return subUnits;
     }
+    
+    
+    /**
+     * @see org.kuali.kra.service.UnitService#getUnitCaseInsensitive(java.lang.String)
+     */
+    public Unit getUnitCaseInsensitive(String unitNumber) {
+        for (Unit unit : units) {
+            if (StringUtils.equals(unitNumber.toUpperCase(), unit.getUnitNumber().toUpperCase())) {
+                return unit;
+            }
+        }
+        return null;
+    }
 
     /**
      * @see org.kuali.kra.service.UnitService#getUnit(java.lang.String)
@@ -113,6 +126,8 @@ public class MockUnitService implements UnitService {
         // TODO Auto-generated method stub
         return null;
     }
+    
+    
 
     public String getInitialUnitsForUnitHierarchy() {
         // TODO Auto-generated method stub
@@ -132,4 +147,11 @@ public class MockUnitService implements UnitService {
     public int getMaxUnitTreeDepth() {
         return 10;
     }
+
+    public Unit getTopUnit() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+ 
 }

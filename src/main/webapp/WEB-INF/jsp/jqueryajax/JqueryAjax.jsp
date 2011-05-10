@@ -10,11 +10,10 @@
 <body>
 <html:form styleId="kualiForm" method="post"
     action="/jqueryAjax.do" enctype=""
-    onsubmit="return hasFormAlreadyBeenSubmitted();"> 
-<h3>
-		${KualiForm.returnVal}
-</h3>
-
+    onsubmit="return hasFormAlreadyBeenSubmitted();">
+     
+<span id = "ret_value">	${KualiForm.returnVal} </span>
+<span id = "code_value">${KualiForm.code} </span>
 
 
 </html:form>

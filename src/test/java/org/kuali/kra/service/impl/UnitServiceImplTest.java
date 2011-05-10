@@ -36,7 +36,8 @@ public class UnitServiceImplTest extends KcUnitTestBase {
     
     private static final String UNIVERSITY_UNIT_NUMBER = "000001";
     private static final String CARDIOLOGY_UNIT_NUMBER = "IN-CARD";
-    
+    private static final String BLOOMINGTON_UNIT_NUMBER_PROPER_CASE = "BL-BL";
+    private static final String BLOOMINGTON_UNIT_NUMBER_CASE_CHANGED = "bL-Bl";
     
 
     @Before
@@ -62,6 +63,15 @@ public class UnitServiceImplTest extends KcUnitTestBase {
     public void testGetUnits() {
         Collection<Unit> units = unitService.getUnits();
         assertEquals(13, units.size());
+    }
+    
+    @Test
+    public void testGetUnitCaseInsensitive() {
+        Unit unit1 = unitService.getUnitCaseInsensitive(BLOOMINGTON_UNIT_NUMBER_CASE_CHANGED);
+        Unit unit2 = unitService.getUnitCaseInsensitive(BLOOMINGTON_UNIT_NUMBER_PROPER_CASE);
+        assertNotNull(unit1);
+        assertNotNull(unit2);
+        assertEquals(unit1, unit2);
     }
 
     @Test
