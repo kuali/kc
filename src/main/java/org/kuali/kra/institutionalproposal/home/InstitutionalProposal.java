@@ -1533,8 +1533,12 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void doProposalLogDataFeed(ProposalLog proposalLog) {
         this.setProposalNumber(proposalLog.getProposalNumber());
         this.setDeadlineDate(proposalLog.getDeadlineDate());
-        this.setFiscalMonth(proposalLog.getFiscalMonth().toString());
-        this.setFiscalYear(proposalLog.getFiscalYear().toString());
+        /**
+         * per KRACOEUS-4647 we don't want to pull the log's month/year, we want to calculate it fresh.
+         */
+        this.calculateFiscalMonthAndYearFields();
+        //this.setFiscalMonth(proposalLog.getFiscalMonth().toString());
+        //this.setFiscalYear(proposalLog.getFiscalYear().toString());
         this.setProposalTypeCode(Integer.parseInt(proposalLog.getProposalTypeCode()));
         this.setStatusCode(1);
         this.setSponsorCode(proposalLog.getSponsorCode());
