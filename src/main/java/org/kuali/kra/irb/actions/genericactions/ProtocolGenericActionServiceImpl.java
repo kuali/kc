@@ -28,6 +28,8 @@ import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGene
 import org.kuali.kra.irb.actions.notification.DeferEvent;
 import org.kuali.kra.irb.actions.notification.IrbAcknowledgementEvent;
 import org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService;
+import org.kuali.kra.irb.actions.notification.SpecificMinorRevisionsEvent;
+import org.kuali.kra.irb.actions.notification.SubstantiveRevisionsRequiredEvent;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
@@ -106,14 +108,16 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
     /**{@inheritDoc}**/
     public ProtocolDocument returnForSMR(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, ProtocolStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED);
-        
+        protocolActionsNotificationService.sendActionsNotification(protocol, new SpecificMinorRevisionsEvent(protocol));
+
         return getReturnedVersionedDocument(protocol);
     }
     
     /**{@inheritDoc}**/
     public ProtocolDocument returnForSRR(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, ProtocolStatus.SUBSTANTIVE_REVISIONS_REQUIRED);
-        
+        protocolActionsNotificationService.sendActionsNotification(protocol, new SubstantiveRevisionsRequiredEvent(protocol));
+
         return getReturnedVersionedDocument(protocol);
     }
     
