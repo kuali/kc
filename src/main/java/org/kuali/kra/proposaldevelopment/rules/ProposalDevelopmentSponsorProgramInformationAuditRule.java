@@ -140,11 +140,7 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
         }
         auditErrors = new ArrayList<AuditError>();
         
-        if (StringUtils.isEmpty(proposal.getPrimeSponsorCode())) {
-            auditErrors.add(new AuditError(Constants.PRIME_SPONSOR_KEY, KeyConstants.ERROR_EMPTY_PRIME_SPONSOR_ID, 
-                    Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
-            valid &= false;
-        } else {
+        if (!StringUtils.isEmpty(proposal.getPrimeSponsorCode())) {
             Map<String, String> primaryKeys = new HashMap<String, String>();
             primaryKeys.put("sponsorCode", proposal.getPrimeSponsorCode());
             Sponsor sp = (Sponsor) getBusinessObjectService().findByPrimaryKey(Sponsor.class, primaryKeys);
