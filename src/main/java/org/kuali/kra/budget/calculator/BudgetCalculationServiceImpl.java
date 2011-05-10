@@ -223,6 +223,22 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
             budgetLineItem.setDirectCost(calcDirectCost.add(personnelLineItemTotal));
             budgetLineItem.setTotalCostSharingAmount(calcTotalCostSharing.add(personnelTotalCostSharing));
             budgetLineItem.setIndirectCost(calcIndirectCost);
+
+            boolean lineItemCalcAmntsOutOfDate = false;
+            if (budgetLineItem.getBudgetCalculatedAmounts().size() == totalCalculatedCost.size()) {
+                for (BudgetLineItemCalculatedAmount lineItemCalAmt : budgetLineItem.getBudgetLineItemCalculatedAmounts()) {
+                    String rateKey = lineItemCalAmt.getRateClassCode()+":"+lineItemCalAmt.getRateTypeCode();
+                    if (!totalCalculatedCost.containsKey(rateKey)) {
+                        lineItemCalcAmntsOutOfDate = true;
+                        break;
+                    }
+                }
+            } else {
+                lineItemCalcAmntsOutOfDate = true;
+            }
+            if (lineItemCalcAmntsOutOfDate) {
+                rePopulateCalculatedAmount(budget, budgetLineItemToCalc);
+            }
             
             List <BudgetLineItemCalculatedAmount> budgetLineItemCalculatedAmounts = budgetLineItem.getBudgetLineItemCalculatedAmounts();
             if (CollectionUtils.isNotEmpty(budgetLineItemCalculatedAmounts)) {
