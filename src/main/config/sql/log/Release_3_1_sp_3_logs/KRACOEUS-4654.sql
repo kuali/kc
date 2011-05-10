@@ -1,0 +1,1 @@
+update narrative_type set allow_multiple = 'N' where narrative_type_code = 120;
