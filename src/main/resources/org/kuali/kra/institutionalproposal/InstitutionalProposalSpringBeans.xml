@@ -157,12 +157,6 @@
     <bean id="proposalLogService" class="org.kuali.kra.institutionalproposal.proposallog.service.impl.ProposalLogServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
-    
-    <bean id="unitService" class="org.kuali.kra.service.impl.UnitServiceImpl">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
-	</bean>
 
 	<bean id="proposalLogPiDerivedRoleTypeService"
 		class="org.kuali.kra.institutionalproposal.proposallog.service.impl.ProposalLogPiDerivedRoleTypeServiceImpl">

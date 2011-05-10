@@ -25,6 +25,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
+import org.kuali.kra.dao.UnitLookupDao;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -41,16 +42,31 @@ public class UnitServiceImpl implements UnitService {
     private static final String COLUMN = ":";
     private static final String SEPARATOR = ";1;";
     private static final String DASH = "-";
-    private static final String UNIT_NUBMER = "unitNumber";
+    private static final String UNIT_NUMBER = "unitNumber";
     private static final String DEFAULT_GROUP_FLAG = "defaultGroupFlag";
     private int numberOfUnits;
+    private UnitLookupDao unitLookupDao;
+   
+    
+    
+    /**
+     * @see org.kuali.kra.service.UnitService#getUnitCaseInsensitive(java.lang.String)
+     */
+    public Unit getUnitCaseInsensitive(String unitNumber){
+        Unit unit = null;
+        if (StringUtils.isNotEmpty(unitNumber)) {
+            unit = this.getUnitLookupDao().findUnitbyNumberCaseInsensitive(unitNumber);
+        }
+        return unit;
+    }
+    
+    
 
     /**
      * @see org.kuali.kra.service.UnitService#getUnitName(java.lang.String)
      */
     public String getUnitName(String unitNumber) {
         String unitName = null;
-
         Map<String, String> primaryKeys = new HashMap<String, String>();
         if (StringUtils.isNotEmpty(unitNumber)) {
             primaryKeys.put("unitNumber", unitNumber);
@@ -149,6 +165,9 @@ public class UnitServiceImpl implements UnitService {
         
     }
     
+    /**
+     * @see org.kuali.kra.service.UnitService#getTopUnit()
+     */
     public Unit getTopUnit() {
         Unit topUnit = null;
 
@@ -227,7 +246,7 @@ public class UnitServiceImpl implements UnitService {
     public List<UnitAdministrator> retrieveUnitAdministratorsByUnitNumber(String unitNumber) {
         this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> queryMap = new HashMap<String, String>();
-        queryMap.put(UNIT_NUBMER, unitNumber);
+        queryMap.put(UNIT_NUMBER, unitNumber);
         List<UnitAdministrator> unitAdministrators = 
             (List<UnitAdministrator>) getBusinessObjectService().findMatching(UnitAdministrator.class, queryMap);
         return unitAdministrators;
@@ -247,5 +266,14 @@ public class UnitServiceImpl implements UnitService {
          */
         return getBusinessObjectService().findAll(Unit.class).size();
     }
+    
+    public UnitLookupDao getUnitLookupDao() {
+        return unitLookupDao;
+    }
+
+    public void setUnitLookupDao(UnitLookupDao unitLookupDao) {
+        this.unitLookupDao = unitLookupDao;
+    }
+    
     
 }

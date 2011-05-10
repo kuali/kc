@@ -50,7 +50,12 @@
                         <span class="fineprint"></span> </td>
 
                     <td class="infoline"><div align=left>
-                      <kul:htmlControlAttribute attributeEntry="${unitAttributes.unitNumber}" property="newProposalPersonUnit[${personIndex}].unitNumber" onblur="loadUnitName('newProposalPersonUnit[${personIndex}].unitNumber');" />
+                      <kul:htmlControlAttribute 
+                      		attributeEntry="${unitAttributes.unitNumber}" 
+                      		property="newProposalPersonUnit[${personIndex}].unitNumber" 
+                      		onblur="ajaxLoad('getUnitName','newProposalPersonUnit[${personIndex}].unitNumber', 'newProposalPersonUnit[${personIndex}].unitName');"
+                      />
+                      	<%--   onblur="loadUnitName('newProposalPersonUnit[${personIndex}].unitNumber');" /> --%>
                       </div>
                         <span class="fineprint"></span> </td>
                     <td class="infoline"><div align=center><html:image property="methodToCall.insertUnit.${proposalPerson}.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Unit" alt="Add Unit" styleClass="tinybutton"/></div></td>
