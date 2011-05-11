@@ -1150,6 +1150,7 @@
 	<class-descriptor class="org.kuali.kra.award.budget.AwardBudgetPeriodExt" table="AWARD_BUDGET_PERIOD_EXT">
 		<field-descriptor name="budgetPeriodId" column="BUDGET_PERIOD_NUMBER" jdbc-type="BIGINT" primarykey="true" />
 		<field-descriptor name="obligatedAmount" column="OBLIGATED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion" />
+		<field-descriptor name="totalFringeAmount" column="TOTAL_FRINGE_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -1159,6 +1160,24 @@
 		</reference-descriptor>
 		<collection-descriptor name="budgetLineItems" proxy="true" element-class-ref="org.kuali.kra.award.budget.AwardBudgetLineItemExt" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="budgetPeriodId"/> 
+		</collection-descriptor>
+		<collection-descriptor name="awardBudgetPeriodFringeAmounts" proxy="true" element-class-ref="org.kuali.kra.award.budget.AwardBudgetPeriodSummaryCalculatedAmount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="budgetPeriodId"/>
+			<query-customizer class="org.kuali.kra.dao.KraQueryCustomizerDefaultImpl">
+	          <attribute
+	              attribute-name="rateClassType"
+	              attribute-value="E"
+	          /> 
+	          </query-customizer>
+		</collection-descriptor>
+		<collection-descriptor name="awardBudgetPeriodFnAAmounts" proxy="true" element-class-ref="org.kuali.kra.award.budget.AwardBudgetPeriodSummaryCalculatedAmount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="budgetPeriodId"/>
+			<query-customizer class="org.kuali.kra.dao.KraQueryCustomizerDefaultImpl">
+	          <attribute
+	              attribute-name="rateClassType"
+	              attribute-value="O"
+	          /> 
+	          </query-customizer>
 		</collection-descriptor>
 	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.award.budget.AwardBudgetLineItemExt" table="AWARD_BUDGET_DETAILS_EXT">
@@ -1228,5 +1247,24 @@
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />	
 	</class-descriptor>
-re	
+	
+	<class-descriptor class="org.kuali.kra.award.budget.AwardBudgetPeriodSummaryCalculatedAmount" table="AWD_BGT_PER_SUM_CALC_AMT">
+		<field-descriptor name="awardBudgetPeriodSummaryCalculatedAmountId" column="AWD_BGT_PER_SUM_CALC_AMT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_BGT_SUM_PER_CALC_AMT_ID"/>
+		<field-descriptor name="budgetPeriodId" column="BUDGET_PERIOD_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="costElement" column="COST_ELEMENT" jdbc-type="VARCHAR" />
+		<field-descriptor name="onOffCampusFlag" column="ON_OFF_CAMPUS_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="rateClassType" column="RATE_CLASS_TYPE" jdbc-type="VARCHAR" />
+		<field-descriptor name="calculatedCost" column="CALCULATED_COST" jdbc-type="DECIMAL"  conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="calculatedCostSharing" column="CALCULATED_COST_SHARING" jdbc-type="DECIMAL"  conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="budgetPeriod" class-ref="org.kuali.kra.award.budget.AwardBudgetPeriodExt" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="budgetPeriodId"/>
+		</reference-descriptor>
+		<reference-descriptor name="costElement" class-ref="org.kuali.kra.budget.core.CostElement" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="costElement"/>
+		</reference-descriptor> 
+	</class-descriptor>	
 </descriptor-repository>

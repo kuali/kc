@@ -40,9 +40,11 @@ public class AwardBudgetForm extends BudgetForm {
     private static final long serialVersionUID = 9001767909548738932L;
     private String awardInMultipleNodeHierarchy;
     private String budgetParentId;
-
+    private AwardBudgetPeriodSummaryCalculatedAmount awardBudgetPeriodSummaryCalculatedAmount;
+    
     public AwardBudgetForm() {
         super();
+        awardBudgetPeriodSummaryCalculatedAmount = new AwardBudgetPeriodSummaryCalculatedAmount();
     }
     public void initialize() {
         super.initialize();
@@ -163,6 +165,21 @@ public class AwardBudgetForm extends BudgetForm {
         Timestamp ts = getBudgetDocument().getDocumentHeader().getWorkflowDocument().getCreateDate();
         String updateDateStr = KNSServiceLocator.getDateTimeService().toString(ts, "hh:mm a MM/dd/yyyy");
         return new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.createDate", updateDateStr);
+    }
+    /**
+     * Gets the awardBudgetPeriodSummaryCalculatedAmount attribute. 
+     * @return Returns the awardBudgetPeriodSummaryCalculatedAmount.
+     */
+    public AwardBudgetPeriodSummaryCalculatedAmount getAwardBudgetPeriodSummaryCalculatedAmount() {
+        return awardBudgetPeriodSummaryCalculatedAmount;
+    }
+    /**
+     * Sets the awardBudgetPeriodSummaryCalculatedAmount attribute value.
+     * @param awardBudgetPeriodSummaryCalculatedAmount The awardBudgetPeriodSummaryCalculatedAmount to set.
+     */
+    public void setAwardBudgetPeriodSummaryCalculatedAmount(
+            AwardBudgetPeriodSummaryCalculatedAmount awardBudgetPeriodSummaryCalculatedAmount) {
+        this.awardBudgetPeriodSummaryCalculatedAmount = awardBudgetPeriodSummaryCalculatedAmount;
     }
     
 }

@@ -83,6 +83,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
     private DocumentService documentService;
     private BudgetService<Award> budgetService;
     private BudgetSummaryService budgetSummaryService;
+    private BudgetCalculationService budgetCalculationService;
     private AwardBudgetCalculationService awardBudgetCalculationService;
     private VersionHistoryService versionHistoryService;
 
@@ -245,16 +246,15 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
      * 
      * @see org.kuali.kra.budget.core.BudgetCommonService#getNewBudgetVersion(org.kuali.kra.budget.document.BudgetParentDocument, java.lang.String)
      */
-    public BudgetDocument<Award> getNewBudgetVersion(BudgetParentDocument parentBudgetDocument, String documentDescription)
-        throws WorkflowException {
+    public BudgetDocument<Award> getNewBudgetVersion(BudgetParentDocument<Award> parentBudgetDocument, String documentDescription)
+    throws WorkflowException {
         
         if (checkForOutstandingBudgets(parentBudgetDocument)) {
             return null;
         }
         
         AwardDocument parentDocument = (AwardDocument)parentBudgetDocument;
-        AwardBudgetDocument awardBudgetDocument;
-        awardBudgetDocument = createNewBudgetDocument(documentDescription, parentDocument,false);
+        AwardBudgetDocument awardBudgetDocument = createNewBudgetDocument(documentDescription, parentDocument,false);
 
         return awardBudgetDocument;
     }
@@ -288,6 +288,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
             copyObligatedAmountToLineItems(awardBudgetDocument,obligatedChangeAmount);
 //            saveBudgetDocument(awardBudgetDocument,false);
 //            awardBudgetDocument = (AwardBudgetDocument) documentService.getByDocumentHeaderId(awardBudgetDocument.getDocumentNumber());
+//            parentDocument.refreshReferenceObject("budgetDocumentVersions");
 
         }else{
             awardBudgetDocument = (AwardBudgetDocument) documentService.getNewDocument(AwardBudgetDocument.class);
@@ -801,7 +802,6 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
     protected String getDoNotPostBudgetStatus() {
         return getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_DO_NOT_POST);
     }
-
     protected VersionHistoryService getVersionHistoryService() {
         return versionHistoryService;
     }
@@ -818,4 +818,87 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         this.awardBudgetCalculationService = awardBudgetCalculationService;
     }
     
+    protected BudgetCalculationService getBudgetCalculationService() {
+        return budgetCalculationService;
+    }
+
+    public void setBudgetCalculationService(BudgetCalculationService budgetCalculationService) {
+        this.budgetCalculationService = budgetCalculationService;
+    }
+    public boolean isBudgetSummaryPeriodCalcAmountChanged(BudgetPeriod budgetPeriod){
+        Budget budget = budgetPeriod.getBudget();
+        List<AwardBudgetPeriodSummaryCalculatedAmount> budgetPeriodSumamryCalcAmts= ((AwardBudgetPeriodExt)budgetPeriod).getAwardBudgetPeriodFringeAmounts();
+        if(budgetPeriodSumamryCalcAmts.isEmpty()) 
+            return true;
+        BudgetDecimal periodFringeTotal = getPeriodFringeTotal(budgetPeriod, budget);
+        return periodFringeTotal.equals(((AwardBudgetPeriodExt)budgetPeriod).getTotalFringeAmount());
+    }
+
+    /**
+     * This method...
+     * @param budgetPeriod
+     * @param budget
+     * @return
+     */
+    private BudgetDecimal getPeriodFringeTotal(BudgetPeriod budgetPeriod, Budget budget) {
+        if(budget.getBudgetSummaryTotals()==null || budget.getBudgetSummaryTotals().get("personnelFringeTotals")==null) return BudgetDecimal.ZERO;
+        BudgetDecimal periodFringeTotal = budget.getBudgetSummaryTotals().get("personnelFringeTotals").get(budgetPeriod.getBudgetPeriod()-1);
+        return periodFringeTotal;
+    }
+
+    public void recalculateBudget(Budget budget) {
+        List<BudgetPeriod> awardBudgetPeriods = budget.getBudgetPeriods();
+        for (BudgetPeriod budgetPeriod : awardBudgetPeriods) {
+            removeBudgetSummaryPeriodCalcAmounts(budgetPeriod);
+        }
+        budgetCalculationService.calculateBudget(budget);
+        budgetCalculationService.calculateBudgetSummaryTotals(budget);
+    }
+
+    public void calculateBudgetOnSave(Budget budget) {
+//        budgetCalculationService.calculateBudget(budget);
+        budgetCalculationService.calculateBudgetSummaryTotals(budget);
+        List<BudgetPeriod> awardBudgetPeriods = budget.getBudgetPeriods();
+        for (BudgetPeriod awardBudgetPeriod : awardBudgetPeriods) {
+            AwardBudgetPeriodExt budgetPeriod = (AwardBudgetPeriodExt)awardBudgetPeriod;
+            BudgetDecimal periodFringeTotal = getPeriodFringeTotal(budgetPeriod, budget);
+            budgetPeriod.setTotalDirectCost(budgetPeriod.getTotalDirectCost().subtract(periodFringeTotal).add(budgetPeriod.getTotalFringeAmount()));
+            budgetPeriod.setTotalCost(budgetPeriod.getTotalDirectCost().add(budgetPeriod.getTotalIndirectCost()));
+        }
+        setBudgetCostsFromPeriods(budget);
+    }
+    /**
+     * 
+     * This method sets the budget document's costs from the budget periods' costs.
+     * This method modifies the passed in budget document.
+     * 
+     * @param budget the budget document to set the costs on.
+     */
+    protected void setBudgetCostsFromPeriods(final Budget budget) {
+        assert budget != null : "The document is null";
+
+        budget.setTotalDirectCost(budget.getSumDirectCostAmountFromPeriods());
+        budget.setTotalIndirectCost(budget.getSumIndirectCostAmountFromPeriods());
+        budget.setTotalCost(budget.getSumTotalCostAmountFromPeriods());
+        budget.setUnderrecoveryAmount(budget.getSumUnderreoveryAmountFromPeriods());
+        budget.setCostSharingAmount(budget.getSumCostSharingAmountFromPeriods());
+    }
+
+    public boolean isBudgetSummaryCalcAmountsChanged(Budget budget) {
+        List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
+        for (BudgetPeriod budgetPeriod : budgetPeriods) {
+            if(isBudgetSummaryPeriodCalcAmountChanged(budgetPeriod)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void removeBudgetSummaryPeriodCalcAmounts(BudgetPeriod budgetPeriod) {
+        AwardBudgetPeriodExt awardBudgetPeriod = (AwardBudgetPeriodExt)budgetPeriod;
+        awardBudgetPeriod.setTotalFringeAmount(null);
+        awardBudgetPeriod.getAwardBudgetPeriodFringeAmounts().clear();
+        awardBudgetPeriod.getAwardBudgetPeriodFnAAmounts().clear();
+
+    }
 }

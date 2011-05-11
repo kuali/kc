@@ -27,6 +27,10 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetCommonService;
+import org.kuali.kra.budget.core.BudgetCommonServiceFactory;
+import org.kuali.kra.budget.core.BudgetParent;
+import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
@@ -80,13 +84,8 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
 
         /* get all period one line items */
-        Map budgetLineItemMap = new HashMap();
 
         List<BudgetLineItem> budgetLineItems = new ArrayList<BudgetLineItem>();
-        List<BudgetLineItem> newLineItems = new ArrayList<BudgetLineItem>();
-        List<BudgetPersonnelDetails> newPersonnelItems = new ArrayList<BudgetPersonnelDetails>();
-        HashMap newBudgetLineItems = new HashMap();
-        HashMap newBudgetPersonnelLineItems = new HashMap();
         int period1Duration=0;
         BudgetPeriod budgetPeriod1=null;
         for(BudgetPeriod budgetPeriod: budgetPeriods) {
@@ -171,8 +170,6 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
      * @see org.kuali.kra.budget.summary.BudgetSummaryService#generateBudgetPeriods()
      */
     public void generateBudgetPeriods(Budget budget,List<BudgetPeriod> budgetPeriods) {
-//        Period> budgetPeriods, Date projectStartDate, Date projectEndDate
-//        List<BudgetPeriod> budgetPeriods = new ArrayList<BudgetPeriod>();
         Date projectStartDate = budget.getStartDate();
         Date projectEndDate = budget.getEndDate();
         boolean budgetPeriodExists = true;
@@ -286,7 +283,11 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
 
     /* call budget calculation service to calculate budget */
     public void calculateBudget(Budget budget) {
-        getBudgetCalculationService().calculateBudget(budget);
+        getBudgetCommonService(budget.getBudgetDocument().getParentDocument()).recalculateBudget(budget);
+    }
+
+    protected BudgetCommonService<BudgetParent> getBudgetCommonService(BudgetParentDocument parentBudgetDocument) {
+        return BudgetCommonServiceFactory.createInstance(parentBudgetDocument);
     }
 
     public void deleteBudgetPeriod(Budget budget, int delPeriod) {
@@ -362,7 +363,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
                             if (periodLineItem.getCostElementBO() == null) {
                                 periodLineItem.refreshReferenceObject("costElementBO");
                             }
-                            periodPersonnelDetail.setOnOffCampusFlag(periodPersonnelDetail.getCostElementBO().getOnOffCampusFlag()); 
+                            periodPersonnelDetail.setOnOffCampusFlag(periodLineItem.getCostElementBO().getOnOffCampusFlag()); 
                         } else {
                             periodPersonnelDetail.setOnOffCampusFlag(onOffCampusFlag.equalsIgnoreCase(Constants.ON_CAMUS_FLAG));                 
                         }
@@ -397,11 +398,6 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
                     budgetLineItem.setStartDate(newStartDate);
                     budgetLineItem.setEndDate(newEndDate);
                     budgetLineItem.setBasedOnLineItem(budgetLineItem.getLineItemNumber());
-//                    List<BudgetPersonnelDetails> budgetPersonnelDetails = budgetLineItem.getBudgetPersonnelDetailsList();
-//                    for(BudgetPersonnelDetails budgetPersonnelDetail: budgetPersonnelDetails) {
-//                        budgetPersonnelDetail.setStartDate(newStartDate);
-//                        budgetPersonnelDetail.setEndDate(newEndDate);
-//                    }
                 }
                 adjustStartEndDatesForPersonnelLineItems(budgetLineItems);
            }       
@@ -586,20 +582,6 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
           }
       
         }
-//        if (isLeapYear(prevDate) && prevDate.compareTo(getLeapDay(prevDate)) >= 0 && !isLeapYear(newStartDate)) {
-//            if (newStartDate.after(startDate)) {
-//                // shift non-leap year date
-//                newStartDate = add(newStartDate, -1);                
-//                newEndDate = add(newEndDate, -1);                                
-//            }
-//        } else if (isLeapYear(newStartDate) && newStartDate.compareTo(getLeapDay(newStartDate)) >= 0 && !isLeapYear(prevDate)) {
-//            if (newEndDate.before(endDate)) {
-//                // shift leap year date
-//                newStartDate = add(newStartDate, 1);                
-//                newEndDate = add(newEndDate, 1);                                
-//            }
-//            
-//        }
         boolean isLeapDayInNewPeriod = isLeapDaysInPeriod(newStartDate, newEndDate);
 
         if (leapDayInPeriod && !isLeapDayInNewPeriod) {

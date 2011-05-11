@@ -26,6 +26,7 @@ import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
@@ -289,6 +290,31 @@ public class AwardBudgetExt extends Budget {
     public void setNonPersonnelCalculatedExpenseBudgetTotals(
             SortedMap<RateType, BudgetDecimal> nonPersonnelCalculatedExpenseBudgetTotals) {
         this.nonPersonnelCalculatedExpenseBudgetTotals = nonPersonnelCalculatedExpenseBudgetTotals;
+    }
+    
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List deletionAwareList = super.buildListOfDeletionAwareLists();
+        List<AwardBudgetPeriodSummaryCalculatedAmount> awardBudgetPeriodSummaryCalculatedAmounts = new ArrayList<AwardBudgetPeriodSummaryCalculatedAmount>();
+        for (BudgetPeriod persistableBusinessObject : getBudgetPeriods()) {
+            awardBudgetPeriodSummaryCalculatedAmounts.addAll(((AwardBudgetPeriodExt)persistableBusinessObject).getAwardBudgetPeriodFringeAmounts());
+            awardBudgetPeriodSummaryCalculatedAmounts.addAll(((AwardBudgetPeriodExt)persistableBusinessObject).getAwardBudgetPeriodFnAAmounts());
+        }
+        deletionAwareList.add(awardBudgetPeriodSummaryCalculatedAmounts);
+        return deletionAwareList;
+    }
+    /**
+     * Gets the sum of the Direct Cost Amount for all budget periods.
+     * @return the amount
+     */
+    public BudgetDecimal getSumDirectCostAmountFromPeriods() {
+        
+        BudgetDecimal amount = BudgetDecimal.ZERO;
+        for (final BudgetPeriod period : this.getBudgetPeriods()) {
+            amount = amount.add(period.getTotalDirectCost());
+        }
+        
+        return amount;
     }
 
 }
