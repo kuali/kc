@@ -17,10 +17,11 @@ package org.kuali.kra.budget.core;
 
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.rice.kew.exception.WorkflowException;
 
 /**
- * This class...
+ * This interface has services which required different implementations in AwardBudget and ProposalBudget modules 
  */
 public interface BudgetCommonService<T extends BudgetParent> {
     /**
@@ -39,5 +40,41 @@ public interface BudgetCommonService<T extends BudgetParent> {
      * @throws WorkflowException
      */
     public BudgetDocument<T> copyBudgetVersion(BudgetDocument<T> budgetDocument) throws WorkflowException;
+    
+    /**
+     * This method is to check whether Budget Summary calculated amounts for a BudgetPeriod 
+     * have been modified on AwardBudgetSummary screen
+     * @param budgetPeriod
+     * @return true if there is any change
+     */
+    public boolean isBudgetSummaryPeriodCalcAmountChanged(BudgetPeriod budgetPeriod);
+    
+    /**
+     * 
+     * This method is recalculate the budget. For Proposal Budget, recalcuate is same as calculate. 
+     * For Award Budget, it removes Award Budget Sumamry Calc Amounts before the calculation 
+     * @param budget
+     */
+    public void recalculateBudget(Budget budget);
+    /**
+     * 
+     * This method will take care of summing up all line item costs or summary line items to Period totals
+     * @param budget
+     */
+    public void calculateBudgetOnSave(Budget budget);
+    /**
+     * 
+     * This method is to check whether Budget Summary calculated amounts have been modified on AwardBudgetSummary screen
+     * @param budget
+     * @return true if there is any change
+     */
+    public boolean isBudgetSummaryCalcAmountsChanged(Budget budget);
+    
+    /**
+     * 
+     * This method will clear the BudgetSumamryPeriodCalcAmounts
+     * @param budgetPeriod
+     */
+    public void removeBudgetSummaryPeriodCalcAmounts(BudgetPeriod budgetPeriod);
 
 }
