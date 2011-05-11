@@ -5,6 +5,7 @@
 <li class="open" style="text-align: left;">
 <c:set var="showOpen" value="1"/>
 <c:set var="currentDoc" value="false"/>
+<c:set var="currentDoc_firstOpen" value="true"/>
 <c:choose>
   <c:when test="${node.type == 'IP'}">
     <c:if test="${KualiForm.medusaBean.moduleName == node.type && KualiForm.medusaBean.moduleIdentifier == node.bo.proposalId}">
@@ -29,10 +30,11 @@
   </c:when>
 </c:choose>
 <c:choose>
-	<c:when test="${currentDoc}">
+	<c:when test="${currentDoc && currentDoc_firstOpen} ">
   		<div class="medusaDetails medusaDetailsLoaded">
     		 <kra-m:medusaNodeView node="${node}"/>
   		</div>
+  		<c:set var="currentDoc_firstOpen" value="false"/>
 	</c:when>
 	<c:otherwise>
 		<div class="medusaDetails" style="display:none;"></div>
