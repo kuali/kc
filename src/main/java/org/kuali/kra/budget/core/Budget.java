@@ -445,7 +445,6 @@ public class Budget extends BudgetVersionOverview {
         List<BudgetModular> budgetModular = new ArrayList<BudgetModular>();
         
         for (BudgetPeriod budgetPeriod: getBudgetPeriods()) {
-            // managedLists.addAll(buildDeletionAwareListsByPeriod(budgetPeriod));
             if (ObjectUtils.isNotNull(budgetPeriod.getBudgetModular())) {
                 budgetModularIdcs.addAll(budgetPeriod.getBudgetModular().getBudgetModularIdcs());
                 budgetModular.add(budgetPeriod.getBudgetModular());
@@ -463,6 +462,10 @@ public class Budget extends BudgetVersionOverview {
                 }
             }
         }
+
+//        for (BudgetPeriod budgetPeriod: getBudgetPeriods()) {
+//            managedLists.addAll(budgetPeriod.buildListOfDeletionAwareLists());
+//        }
         List<BudgetSubAwardFiles> subAwardFiles = new ArrayList<BudgetSubAwardFiles>();
         List<BudgetSubAwardAttachment> subAwardAttachments = new ArrayList<BudgetSubAwardAttachment>();
         for (BudgetSubAwards budgetSubAward : getBudgetSubAwards()) {
@@ -1443,7 +1446,7 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
      * Gets the sum of the Direct Cost Amount for all budget periods.
      * @return the amount
      */
-    public final BudgetDecimal getSumDirectCostAmountFromPeriods() {
+    public BudgetDecimal getSumDirectCostAmountFromPeriods() {
         
         BudgetDecimal amount = BudgetDecimal.ZERO;
         for (final BudgetPeriod period : this.getBudgetPeriods()) {

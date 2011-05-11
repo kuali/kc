@@ -36,9 +36,13 @@ import org.kuali.kra.budget.calculator.query.And;
 import org.kuali.kra.budget.calculator.query.Equals;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetCategoryType;
+import org.kuali.kra.budget.core.BudgetCommonService;
+import org.kuali.kra.budget.core.BudgetCommonServiceFactory;
+import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeService;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase;
@@ -89,7 +93,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                 if(budget.getOhRateClassCode()!=null && form!=null && budget.getBudgetPeriods().size() > budgetPeriod.getBudgetPeriod()){
                     workOhCode = form.getOhRateClassCodePrevValue();
                 }
-                calculateBudgetPeriod(budget, budgetPeriod);
+                calculateBudgetPeriod(budget, budgetPeriod,false);
                 if(budget.getOhRateClassCode()!=null && form!=null && budget.getBudgetPeriods().size() > budgetPeriod.getBudgetPeriod()){
                         // this should be set at the last period, otherwise, only the first period will be updated properly because lots of places check prevohrateclass
                     ohRateClassCodePrevValue = form.getOhRateClassCodePrevValue();
@@ -125,8 +129,6 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         
         if(isLineItemsEmpty && !budgetLineItemDeleted){
             final Map<Object, Object> fieldValues = new HashMap<Object, Object>();
-//            fieldValues.put("proposalNumber", budgetPeriod.getProposalNumber());
-//            fieldValues.put("budgetVersionNumber", budgetPeriod.getBudgetVersionNumber());
 
             fieldValues.put("budgetId", budgetPeriod.getBudgetId());
             fieldValues.put("budgetPeriod", budgetPeriod.getBudgetPeriod());
@@ -140,8 +142,6 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         return true;
     }
     protected void copyLineItemToPersonnelDetails(BudgetLineItem budgetLineItem, BudgetPersonnelDetails budgetPersonnelDetails) {
-//        budgetPersonnelDetails.setProposalNumber(budgetLineItem.getProposalNumber());
-//        budgetPersonnelDetails.setBudgetVersionNumber(budgetLineItem.getBudgetVersionNumber());
         budgetPersonnelDetails.setBudgetId(budgetLineItem.getBudgetId());
         budgetPersonnelDetails.setBudgetPeriod(budgetLineItem.getBudgetPeriod());
         budgetPersonnelDetails.setLineItemNumber(budgetLineItem.getLineItemNumber());
@@ -310,7 +310,13 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     }
 
     public void calculateBudgetPeriod(Budget budget, BudgetPeriod budgetPeriod){
+        calculateBudgetPeriod(budget, budgetPeriod,true);
+    }
+    public void calculateBudgetPeriod(Budget budget, BudgetPeriod budgetPeriod,boolean deleteSummaryCalcAmtsFlag){
         if (isCalculationRequired(budget.isBudgetLineItemDeleted(), budgetPeriod)){
+            if(deleteSummaryCalcAmtsFlag){
+                getBudgetCommonService(budget).removeBudgetSummaryPeriodCalcAmounts(budgetPeriod);
+            }
             new BudgetPeriodCalculator().calculate(budget, budgetPeriod);
         }
     }
@@ -329,7 +335,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
      * @param budget the budget document
      */
     protected void syncCostsToBudget(final Budget budget){
-        assert budget != null : "The document was null";
+        assert budget != null : "The budget was null";
         
         this.initCostDependentItems(budget);
         this.ensureBudgetPeriodHasSyncedCosts(budget);
@@ -342,15 +348,15 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
      * 
      * @param budget the budget document
      */
-    protected void initCostDependentItems(final Budget document) {
-        assert document != null : "The document was null";
+    protected void initCostDependentItems(final Budget budget) {
+        assert budget != null : "The budget was null";
         
-        if (!this.isPositiveTotalUnderreoveryAmount(document)) {
-            this.initUnrecoveredFandAs(document);
+        if (!this.isPositiveTotalUnderreoveryAmount(budget)) {
+            this.initUnrecoveredFandAs(budget);
         }
         
-        if (!this.isPositiveTotalCostSharingAmount(document)) {
-            this.initCostSharing(document);
+        if (!this.isPositiveTotalCostSharingAmount(budget)) {
+            this.initCostSharing(budget);
         }
     }
     
@@ -401,16 +407,16 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
      * This method sets the budget document's costs from the budget periods' costs.
      * This method modifies the passed in budget document.
      * 
-     * @param document the budget document to set the costs on.
+     * @param budget the budget document to set the costs on.
      */
-    protected void setBudgetCostsFromPeriods(final Budget document) {
-        assert document != null : "The document is null";
+    protected void setBudgetCostsFromPeriods(final Budget budget) {
+        assert budget != null : "The document is null";
 
-        document.setTotalDirectCost(document.getSumDirectCostAmountFromPeriods());
-        document.setTotalIndirectCost(document.getSumIndirectCostAmountFromPeriods());
-        document.setTotalCost(document.getSumTotalCostAmountFromPeriods());
-        document.setUnderrecoveryAmount(document.getSumUnderreoveryAmountFromPeriods());
-        document.setCostSharingAmount(document.getSumCostSharingAmountFromPeriods());
+        budget.setTotalDirectCost(budget.getSumDirectCostAmountFromPeriods());
+        budget.setTotalIndirectCost(budget.getSumIndirectCostAmountFromPeriods());
+        budget.setTotalCost(budget.getSumTotalCostAmountFromPeriods());
+        budget.setUnderrecoveryAmount(budget.getSumUnderreoveryAmountFromPeriods());
+        budget.setCostSharingAmount(budget.getSumCostSharingAmountFromPeriods());
     }
     
     /**
@@ -532,6 +538,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                 }
                 
                 for (BudgetPeriod budgetPeriod: budget.getBudgetPeriods()) {
+                    budgetPeriod.setBudget(budget);
                     QueryList lineItemQueryList = new QueryList();
                     lineItemQueryList.addAll(budgetPeriod.getBudgetLineItems());
                     Equals objectCodeEquals = new Equals("costElement", personnelCostElement.getCostElement());
@@ -570,7 +577,6 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                             }
                             
                             //Calculate the Fringe Totals for each Person
-                            BudgetDecimal personFringeTotalsForCurrentPeriod = BudgetDecimal.ZERO;
                             if (!objectCodePersonnelFringeTotals.containsKey(matchingLineItem.getCostElement()+","+budgetPersonnelDetails.getPersonId())) {
                                 // set up for all periods and put into map
                                 List <BudgetDecimal> periodFringeTotals = new ArrayList<BudgetDecimal>();
@@ -579,20 +585,22 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                                 }
                                 objectCodePersonnelFringeTotals.put(matchingLineItem.getCostElement()+","+budgetPersonnelDetails.getPersonId(), periodFringeTotals); 
                             }   
-                            
+                            BudgetDecimal personFringeTotalsForCurrentPeriod = BudgetDecimal.ZERO;
+//                            if(!isSummaryCalcAmountChanged(budget,budgetPeriod)){
                             //Calculate the Fringe Totals for that Person (cumulative fringe for all occurrences of the person)
-                            for(Object person : personOccurrencesForSameObjectCode) {
-                                BudgetPersonnelDetails personOccurrence = (BudgetPersonnelDetails) person;
-                                for(BudgetPersonnelCalculatedAmount calcExpenseAmount : personOccurrence.getBudgetPersonnelCalculatedAmounts()) {
-                                    calcExpenseAmount.refreshReferenceObject("rateClass");
-                                    //Check for Employee Benefits RateClassType
-                                    if(calcExpenseAmount.getRateClass().getRateClassType().equalsIgnoreCase("E")) {
-                                        personFringeTotalsForCurrentPeriod = personFringeTotalsForCurrentPeriod.add(calcExpenseAmount.getCalculatedCost());
+                                for(Object person : personOccurrencesForSameObjectCode) {
+                                    BudgetPersonnelDetails personOccurrence = (BudgetPersonnelDetails) person;
+                                    for(BudgetPersonnelCalculatedAmount calcExpenseAmount : personOccurrence.getBudgetPersonnelCalculatedAmounts()) {
+                                        calcExpenseAmount.refreshReferenceObject("rateClass");
+                                        //Check for Employee Benefits RateClassType
+                                        if(calcExpenseAmount.getRateClass().getRateClassType().equalsIgnoreCase("E")) {
+                                            personFringeTotalsForCurrentPeriod = personFringeTotalsForCurrentPeriod.add(calcExpenseAmount.getCalculatedCost());
+                                        }
                                     }
                                 }
-                            }
-                            objectCodePersonnelFringeTotals.get(matchingLineItem.getCostElement()+","+budgetPersonnelDetails.getPersonId()).set(budgetPeriod.getBudgetPeriod() - 1, personFringeTotalsForCurrentPeriod);
-                            //subTotalsBySubSection.get("personnelFringeTotals").set(budgetPeriod.getBudgetPeriod() - 1, ((BudgetDecimal) (subTotalsBySubSection.get("personnelFringeTotals").get(budgetPeriod.getBudgetPeriod() - 1))).add(personFringeTotalsForCurrentPeriod));
+                                objectCodePersonnelFringeTotals.get(matchingLineItem.getCostElement()+","+budgetPersonnelDetails.getPersonId()).set(budgetPeriod.getBudgetPeriod() - 1, personFringeTotalsForCurrentPeriod);
+                                //subTotalsBySubSection.get("personnelFringeTotals").set(budgetPeriod.getBudgetPeriod() - 1, ((BudgetDecimal) (subTotalsBySubSection.get("personnelFringeTotals").get(budgetPeriod.getBudgetPeriod() - 1))).add(personFringeTotalsForCurrentPeriod));
+//                            }
                             
                             if (objectCodePersonnelFringeTotalsByPeriod.add(budgetPeriod.getBudgetPeriod().toString() + ","+ matchingLineItem.getCostElement()+","+budgetPersonnelDetails.getPersonId())) {
                                 subTotalsBySubSection.get("personnelFringeTotals").set(budgetPeriod.getBudgetPeriod() - 1, ((BudgetDecimal) (subTotalsBySubSection.get("personnelFringeTotals").get(budgetPeriod.getBudgetPeriod() - 1))).add(personFringeTotalsForCurrentPeriod));
@@ -657,8 +665,29 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         budget.setPersonnelCalculatedExpenseTotals(personnelCalculatedExpenseTotals);
         budget.setNonPersonnelCalculatedExpenseTotals(nonPersonnelCalculatedExpenseTotals);
         calculateNonPersonnelSummaryTotals(budget);
+        populateBudgetPeriodSummaryCalcAmounts(budget);
     }  
-    
+    @SuppressWarnings("unchecked")
+    protected BudgetCommonService<BudgetParent> getBudgetCommonService(Budget budget) {
+        return BudgetCommonServiceFactory.createInstance(budget.getBudgetDocument().getParentDocument());
+    }
+    private boolean isSummaryCalcAmountChanged(Budget budget,BudgetPeriod budgetPeriod){
+        BudgetCommonService<BudgetParent> budgetService = getBudgetCommonService(budget);
+        return !budgetService.isBudgetSummaryPeriodCalcAmountChanged(budgetPeriod);
+    }
+    private void populateBudgetPeriodSummaryCalcAmounts(Budget budget) {
+        List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
+        for (BudgetPeriod budgetPeriod : budgetPeriods) {
+            if(!isSummaryCalcAmountChanged(budget,budgetPeriod)){
+                budgetPeriod.populateSummaryCalcAmounts();
+            }else{
+                removeAllPersonnelFringeLineItemTotals(budget,budgetPeriod);
+            }
+        }
+    }
+    private void removeAllPersonnelFringeLineItemTotals(Budget budget, BudgetPeriod budgetPeriod) {
+        
+    }
     protected void calculateNonPersonnelSummaryTotals(Budget budget) {
         for(BudgetCategoryType budgetCategoryType : budget.getObjectCodeListByBudgetCategoryType().keySet()) {
             if(!StringUtils.equals(budgetCategoryType.getBudgetCategoryTypeCode(), "P")) {
@@ -908,6 +937,10 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     public void updatePersonnelBudgetRate(BudgetLineItem budgetLineItem){
         int j = 0;
         for(BudgetPersonnelDetails budgetPersonnelDetails: budgetLineItem.getBudgetPersonnelDetailsList()){
+            if(budgetPersonnelDetails.getCostElement()==null){
+                budgetPersonnelDetails.setCostElement(budgetLineItem.getCostElement());
+                budgetPersonnelDetails.setCostElementBO(budgetLineItem.getCostElementBO());
+            }
             j=0;
             for(BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount:budgetPersonnelDetails.getBudgetPersonnelCalculatedAmounts()){
                 Boolean updatedApplyRateFlag = null;

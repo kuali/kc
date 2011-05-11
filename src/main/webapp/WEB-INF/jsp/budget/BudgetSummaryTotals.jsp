@@ -15,24 +15,34 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="extraTopButtons" value="${KualiForm.extraTotalsTopButtons}" scope="request"/>
-
+<c:set var="documentTypeName" value="reload" scope="request"/>
+<bean:define id="proposalBudgetFlag" name="KualiForm" property="document.proposalBudgetFlag"/>
+<c:if test="${not proposalBudgetFlag}">
+	<c:set target="${KualiForm.documentActions}" property="canReload" value="true"/>
+	<c:set var="documentTypeName" value="${KualiForm.headerDispatch}"/>
+</c:if> 
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="${KualiForm.actionPrefix}SummaryTotals"
 	documentTypeName="${KualiForm.docTypeName}"
-  	headerDispatch="reload" 
+  	headerDispatch="${documentTypeName}" 
   	headerTabActive="summaryTotals"
   	extraTopButtons="${extraTopButtons}">
   	
   	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Summary" /></div>
-
-<kra-b:budgetSummaryTotals headerDispatch="reload" /> 
-
+   	<c:choose>
+		<c:when test="${proposalBudgetFlag}">
+			<kra-b:budgetSummaryTotals headerDispatch="reload" /> 
+		</c:when>
+		<c:otherwise>
+			<kra-b:awardBudgetSummaryTotals/> 
+		</c:otherwise>
+	</c:choose>
 <kul:documentControls 
-		transactionalDocument="true" 
+		transactionalDocument="false" 
 		suppressRoutingControls="true" 
 		extraButtons="${extraButtons}"
-		viewOnly="true"
+		viewOnly="${proposalBudgetFlag}"
 		suppressCancelButton="true"
 />
 

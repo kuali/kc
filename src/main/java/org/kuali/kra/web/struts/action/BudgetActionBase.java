@@ -189,7 +189,7 @@ public class BudgetActionBase extends KraTransactionalDocumentActionBase {
      * @param parentBudgetDocument
      * @return
      */
-    private BudgetCommonService<BudgetParent> getBudgetCommonService(BudgetParentDocument parentBudgetDocument) {
+    protected BudgetCommonService<BudgetParent> getBudgetCommonService(BudgetParentDocument parentBudgetDocument) {
         return BudgetCommonServiceFactory.createInstance(parentBudgetDocument);
     }
 

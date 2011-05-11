@@ -32,9 +32,11 @@ import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.nonpersonnel.AbstractBudgetCalculatedAmount;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemBase;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.parameters.BudgetPeriodType;
 import org.kuali.kra.infrastructure.DeepCopyIgnore;
 import org.kuali.kra.infrastructure.DeepCopyIgnoreScopes;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 
 public class BudgetPersonnelDetails extends BudgetLineItemBase {
     
@@ -304,5 +306,4 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
     public AbstractBudgetCalculatedAmount getNewBudgetPersonnelCalculatedAmount() {
         return new BudgetPersonnelCalculatedAmount();
     }
-    
 }
