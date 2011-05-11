@@ -125,76 +125,78 @@
 	                    <c:set var="displayStyle" value="display: none;"/>
 	                </c:if>
                     <html:hidden property="tabStates(${versionTab})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
-                    
-			    	<tr>
-			    	    <td align="right" class="tab-subhead" scope="row">
-	                        <div align="center">
-	                            <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
-	                                <html:image property="methodToCall.toggleTab.tab${versionTab}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" title="close ${tabTitle}" alt="close ${tabTitle}" styleClass="tinybutton"  styleId="tab-${versionTab}-imageToggle" onclick="javascript: return toggleTab(document, '${versionTab}'); " />
-	                            </c:if>
-	                            <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
-	                                <html:image  property="methodToCall.toggleTab.tab${versionTab}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" title="open ${tabTitle}" alt="open ${tabTitle}" styleClass="tinybutton" styleId="tab-${versionTab}-imageToggle" onclick="javascript: return toggleTab(document, '${versionTab}'); " />
-	                            </c:if>
-	                        </div>
-                        </td>
-						<td class="tab-subhead">
-							 <div align="center">${fundingProposal.award.sequenceNumber}</div>
-				    	</td>
-				    	<td class="tab-subhead">
-				    		<kul:htmlControlAttribute property="${awardExpr}.fundingProposals[${fundingProposalRowStatus.index}].proposal.principalInvestigator.fullName" 
+
+					<c:if test="${fundingProposal.active == 'true'}">
+			    		<tr>
+			    	    	<td align="right" class="tab-subhead" scope="row">
+	                        	<div align="center">
+	                            	<c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
+	                                	<html:image property="methodToCall.toggleTab.tab${versionTab}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" title="close ${tabTitle}" alt="close ${tabTitle}" styleClass="tinybutton"  styleId="tab-${versionTab}-imageToggle" onclick="javascript: return toggleTab(document, '${versionTab}'); " />
+		                            </c:if>
+		                            <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
+	    	                            <html:image  property="methodToCall.toggleTab.tab${versionTab}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" title="open ${tabTitle}" alt="open ${tabTitle}" styleClass="tinybutton" styleId="tab-${versionTab}-imageToggle" onclick="javascript: return toggleTab(document, '${versionTab}'); " />
+	        	                    </c:if>
+	            	            </div>
+                    	    </td>
+							<td class="tab-subhead">
+								 <div align="center">${fundingProposal.award.sequenceNumber}</div>
+					    	</td>
+					    	<td class="tab-subhead">
+					    		<kul:htmlControlAttribute property="${awardExpr}.fundingProposals[${fundingProposalRowStatus.index}].proposal.principalInvestigator.fullName" 
 													  attributeEntry="${fundingProposalAttributes.initialContractAdmin}" readOnly="true" />							 
-				    	</td>
-				    	<td class="tab-subhead">
-				    		<kul:htmlControlAttribute property="${awardExpr}.fundingProposals[${fundingProposalRowStatus.index}].proposal.leadUnit.unitNumber" 
+					    	</td>
+					    	<td class="tab-subhead">
+				    			<kul:htmlControlAttribute property="${awardExpr}.fundingProposals[${fundingProposalRowStatus.index}].proposal.leadUnit.unitNumber" 
 																attributeEntry="${unitAttributes.unitNumber}" readOnly="true" />
-							&nbsp;-&nbsp;
-							<kul:htmlControlAttribute property="${awardExpr}.fundingProposals[${fundingProposalRowStatus.index}].proposal.leadUnit.unitName" 
+								&nbsp;-&nbsp;
+								<kul:htmlControlAttribute property="${awardExpr}.fundingProposals[${fundingProposalRowStatus.index}].proposal.leadUnit.unitName" 
 																attributeEntry="${unitAttributes.unitName}" readOnly="true" />
-				    	</td>
-				    	<td class="tab-subhead">
-				    		<kul:htmlControlAttribute property="${awardExpr}.fundingProposals[${fundingProposalRowStatus.index}].proposal.sponsorCode" 
+					    	</td>
+					    	<td class="tab-subhead">
+					    		<kul:htmlControlAttribute property="${awardExpr}.fundingProposals[${fundingProposalRowStatus.index}].proposal.sponsorCode" 
 																attributeEntry="${sponsorAttributes.sponsorNumber}" readOnly="true" />
-							&nbsp;
-							<kul:htmlControlAttribute property="${awardExpr}.fundingProposals[${fundingProposalRowStatus.index}].proposal.sponsorName" 
+								&nbsp;
+								<kul:htmlControlAttribute property="${awardExpr}.fundingProposals[${fundingProposalRowStatus.index}].proposal.sponsorName" 
 																attributeEntry="${sponsorAttributes.sponsorName}" readOnly="true" />
-				    	</td>
-				    	<td class="tab-subhead">
-				    		<div align="center">
-								<kul:htmlControlAttribute property="${awardExpr}.fundingProposals[${fundingProposalRowStatus.index}].proposal.requestedStartDateTotal" 
+				    		</td>
+				    		<td class="tab-subhead">
+				    			<div align="center">
+									<kul:htmlControlAttribute property="${awardExpr}.fundingProposals[${fundingProposalRowStatus.index}].proposal.requestedStartDateTotal" 
 																attributeEntry="${fundingProposalAttributes.requestedStartDateTotal}" readOnly="true" />
-							</div>															    		
-				    	</td>
-				    	<td class="tab-subhead">
-				    		<div align="center">
-								<kul:htmlControlAttribute property="${awardExpr}.fundingProposals[${fundingProposalRowStatus.index}].proposal.requestedEndDateTotal" 
+								</div>															    		
+					    	</td>
+					    	<td class="tab-subhead">
+					    		<div align="center">
+									<kul:htmlControlAttribute property="${awardExpr}.fundingProposals[${fundingProposalRowStatus.index}].proposal.requestedEndDateTotal" 
 																	attributeEntry="${fundingProposalAttributes.requestedEndDateTotal}" readOnly="true" />
-							</div>    		
-				    	</td>
-				    	<td class="tab-subhead">
-				    		<div align="right">
-				    			$<fmt:formatNumber value="${award.fundingProposals[fundingProposalRowStatus.index].proposal.totalCost}" type="currency" currencySymbol="" maxFractionDigits="2" />
-				    		</div>   		
-				    	</td>
-				        <td class="tab-subhead">
-				        	<div align="center">
-				        		<c:set var="deleteEnabled" value ="${isLastAward && KualiForm.document.editable}" />
-				        		<c:if test="${ deleteEnabled && !readOnly}">
-				        		  <c:choose>
-				        		      <c:when test="${fundingProposal.persisted}">
-				        		          <img class='nobord' src='${ConfigProperties.kr.externalizable.images.url}tinybutton-delete2.gif' styleClass='tinybutton'/>
-				        		      </c:when>
-				        		      <c:otherwise>
-									       <html:image property="methodToCall.deleteAwardFundingProposal.line${fundingProposalRowStatus.index}.anchor${currentTabIndex}"
-									       src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton" />
-									  </c:otherwise>
-							     </c:choose>
-								</c:if>
-								<c:if test="${ !deleteEnabled || readOnly}">
-									&nbsp;
-								</c:if>
-							</div>
-				        </td>
-		      		</tr>
+								</div>    		
+				    		</td>
+					    	<td class="tab-subhead">
+					    		<div align="right">
+					    			$<fmt:formatNumber value="${award.fundingProposals[fundingProposalRowStatus.index].proposal.totalCost}" type="currency" currencySymbol="" maxFractionDigits="2" />
+					    		</div>   		
+					    	</td>
+				    	    <td class="tab-subhead">
+				        		<div align="center">
+				        			<c:set var="deleteEnabled" value ="${isLastAward && KualiForm.document.editable}" />
+				        			<c:if test="${ deleteEnabled && !readOnly}">
+					        		  <c:choose>
+					        		      <c:when test="${fundingProposal.persisted}">
+					        		          <img class='nobord' src='${ConfigProperties.kr.externalizable.images.url}tinybutton-delete2.gif' styleClass='tinybutton'/>
+					        		      </c:when>
+					        		      <c:otherwise>
+										       <html:image property="methodToCall.deleteAwardFundingProposal.line${fundingProposalRowStatus.index}.anchor${currentTabIndex}"
+										       src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton" />
+										  </c:otherwise>
+							    	 </c:choose>
+									</c:if>
+									<c:if test="${ !deleteEnabled || readOnly}">
+										&nbsp;
+									</c:if>
+								</div>
+				    	    </td>
+			      		</tr>
+					</c:if>
 		      		<tbody style="${displayStyle}" id = "tab-${versionTab}-div">
 			      		<tr>
 			      			<td colspan="9" class="infoline">

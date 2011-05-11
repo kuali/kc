@@ -20,7 +20,7 @@
 <c:set var="awardAttributes" value="${DataDictionary.Award.attributes}" />
 <c:set var="awardFundingProposalAtrributes" value="${DataDictionary.AwardFundingProposal.attributes}" />
 
-<kul:tab tabTitle="Funded Awards" defaultOpen="false" tabErrorKey="">
+<kul:tab tabTitle="Funded Awards" defaultOpen="false" tabErrorKey="selectedAwardFunding*">
 
 <div class="tab-container" align="center">
 
