@@ -41,7 +41,7 @@
 		                    	<td>
 		                      		<kul:htmlControlAttribute property="${protocolPerson}.fullName" 
 		                      								  attributeEntry="${personAttributes.fullName}" 
-		                                                      readOnly="${!personEditableFields['fullName'] }"/> 
+		                                                      readOnly="${viewOnly || !personEditableFields['fullName']}"/> 
 		                    	</td>
 		                    	<th width="15%">
 									<div align="right">
@@ -50,7 +50,7 @@
 								</th>
 		                    	<td align="left" width="30%">
 		                    		<kul:htmlControlAttribute property="${protocolPerson}.userName" 
-		                    		attributeEntry="${personAttributes.userName}" readOnly="${!personEditableFields['userName'] }"/>
+		                    		attributeEntry="${personAttributes.userName}" readOnly="${viewOnly || !personEditableFields['userName'] }"/>
 		                    	</td>
 		                  	</tr>
 		                	<tr>
@@ -62,7 +62,7 @@
 		                    	<td>
 		                      		<kul:htmlControlAttribute property="${protocolPerson}.emailAddress" 
 		                      								  attributeEntry="${personAttributes.emailAddress}" 
-		                                                      readOnly="${!personEditableFields['emailAddress'] }"/> 
+		                                                      readOnly="${viewOnly || !personEditableFields['emailAddress'] }"/> 
 		                    	</td>
 		                    	<th width="15%">
 									<div align="right">
@@ -71,7 +71,7 @@
 								</th>
 		                    	<td align="left" width="30%">
 		                    		<kul:htmlControlAttribute property="${protocolPerson}.officePhone" 
-		                    		attributeEntry="${personAttributes.officePhone}" readOnly="${!personEditableFields['officePhone'] }"/>
+		                    		attributeEntry="${personAttributes.officePhone}" readOnly="${viewOnly || !personEditableFields['officePhone'] }"/>
 		                    	</td>
 		                  	</tr>
 		                	<tr>
@@ -83,7 +83,7 @@
 		                    	<td>
 		                      		<kul:htmlControlAttribute property="${protocolPerson}.primaryTitle" 
 		                      								  attributeEntry="${personAttributes['extendedAttributes.primaryTitle']}" 
-		                                                      readOnly="${!personEditableFields['primaryTitle'] }"/> 
+		                                                      readOnly="${viewOnly || !personEditableFields['primaryTitle'] }"/> 
 		                    	</td>
 		                    	<th width="15%">
 									<div align="right">
@@ -92,7 +92,7 @@
 								</th>
 		                    	<td width="30%">
 		                    		<kul:htmlControlAttribute property="${protocolPerson}.directoryTitle" 
-		                    		attributeEntry="${personAttributes['extendedAttributes.directoryTitle']}" readOnly="${!personEditableFields['directoryTitle'] }"/>
+		                    		attributeEntry="${personAttributes['extendedAttributes.directoryTitle']}" readOnly="${viewOnly || !personEditableFields['directoryTitle'] }"/>
 		                    	</td>
 		                  	</tr>
 		                	<tr>
@@ -104,7 +104,7 @@
 		                    	<td>
 		                      		<kul:htmlControlAttribute property="${protocolPerson}.homeUnit" 
 		                      								  attributeEntry="${personAttributes.organizationIdentifier}" 
-		                                                      readOnly="${!personEditableFields['homeUnit'] }"/> 
+		                                                      readOnly="${viewOnly || !personEditableFields['homeUnit'] }"/> 
 		                    	</td>
 		                    	<th width="15%">
 									<div align="right">
@@ -113,7 +113,7 @@
 								</th>
 		                    	<td align="left" width="30%">
 		                    		<kul:htmlControlAttribute property="${protocolPerson}.school" 
-		                    		attributeEntry="${personAttributes['extendedAttributes.school']}" readOnly="${!personEditableFields['school'] }"/>
+		                    		attributeEntry="${personAttributes['extendedAttributes.school']}" readOnly="${viewOnly || !personEditableFields['school'] }"/>
 		                    	</td>
 		                  	</tr>
 		                	<tr>
@@ -125,7 +125,7 @@
 		                    	<td>
 		                      		<kul:htmlControlAttribute property="${protocolPerson}.eraCommonsUserName" 
 		                      								  attributeEntry="${personAttributes.eraCommonsUserName}" 
-		                                                      readOnly="${!personEditableFields['eraCommonsUserName'] }"/> 
+		                                                      readOnly="${viewOnly || !personEditableFields['eraCommonsUserName'] }"/> 
 		                    	</td>
 		                    	<th width="15%">
 									<div align="right">
@@ -134,7 +134,7 @@
 								</th>
 		                    	<td align="left" width="30%">
 		                    		<kul:htmlControlAttribute property="${protocolPerson}.faxNumber" 
-		                    		attributeEntry="${personAttributes.faxNumber}" readOnly="${!personEditableFields['faxNumber'] }"/>
+		                    		attributeEntry="${personAttributes.faxNumber}" readOnly="${viewOnly || !personEditableFields['faxNumber'] }"/>
 		                    	</td>
 		                  	</tr>
 		                	<tr>
@@ -146,7 +146,7 @@
 		                    	<td>
 		                      		<kul:htmlControlAttribute property="${protocolPerson}.pagerNumber" 
 		                      								  attributeEntry="${personAttributes.pagerNumber}" 
-		                                                      readOnly="${!personEditableFields['pagerNumber'] }"/> 
+		                                                      readOnly="${viewOnly || !personEditableFields['pagerNumber'] }"/> 
 		                    	</td>
 		                    	<th width="15%">
 									<div align="right">
@@ -155,7 +155,7 @@
 								</th>
 		                    	<td align="left" width="30%">
 		                    		<kul:htmlControlAttribute property="${protocolPerson}.mobilePhoneNumber" 
-		                    		attributeEntry="${personAttributes.mobilePhoneNumber}" readOnly="${!personEditableFields['mobilePhoneNumber'] }"/>
+		                    		attributeEntry="${personAttributes.mobilePhoneNumber}" readOnly="${viewOnly || !personEditableFields['mobilePhoneNumber'] }"/>
 		                    	</td>
 		                  	</tr>
 		                	<tr>
@@ -167,7 +167,7 @@
 		                    	<td>
 		                      		<kul:htmlControlAttribute property="${protocolPerson}.officeLocation" 
 		                      								  attributeEntry="${personAttributes['extendedAttributes.officeLocation']}" 
-		                                                      readOnly="${!personEditableFields['officeLocation'] }"/> 
+		                                                      readOnly="${viewOnly || !personEditableFields['officeLocation'] }"/> 
 		                    	</td>
 		                    	<th width="15%">
 									<div align="right">
@@ -176,7 +176,7 @@
 								</th>
 		                    	<td align="left" width="30%">
 		                    		<kul:htmlControlAttribute property="${protocolPerson}.secondaryOfficeLocation" 
-		                    		attributeEntry="${personAttributes['extendedAttributes.secondaryOfficeLocation']}" readOnly="${!personEditableFields['secondaryOfficeLocation'] }"/>
+		                    		attributeEntry="${personAttributes['extendedAttributes.secondaryOfficeLocation']}" readOnly="${viewOnly || !personEditableFields['secondaryOfficeLocation'] }"/>
 		                    	</td>
 		                  	</tr>
 		                	<tr>
@@ -188,7 +188,7 @@
 		                    	<td>
 		                      		<kul:htmlControlAttribute property="${protocolPerson}.addressLine1" 
 		                      								  attributeEntry="${personAttributes.addressLine1}" 
-		                                                      readOnly="${!personEditableFields['addressLine1'] }"/> 
+		                                                      readOnly="${viewOnly || !personEditableFields['addressLine1'] }"/> 
 		                    	</td>
 		                    	<th> 
 									<div align="right">
@@ -198,7 +198,7 @@
 		                    	<td>
 		                      		<kul:htmlControlAttribute property="${protocolPerson}.addressLine2" 
 		                      								  attributeEntry="${personAttributes.addressLine2}" 
-		                                                      readOnly="${!personEditableFields['addressLine2'] }"/> 
+		                                                      readOnly="${viewOnly || !personEditableFields['addressLine2'] }"/> 
 		                    	</td>
 		                  	</tr>
 		                	<tr>
@@ -210,7 +210,7 @@
 		                    	<td>
 		                      		<kul:htmlControlAttribute property="${protocolPerson}.addressLine3" 
 		                      								  attributeEntry="${personAttributes.addressLine3}" 
-		                                                      readOnly="${!personEditableFields['addressLine3'] }"/> 
+		                                                      readOnly="${viewOnly || !personEditableFields['addressLine3'] }"/> 
 		                    	</td>
 		                    	<th width="15%">
 									<div align="right">
@@ -219,7 +219,7 @@
 								</th>
 		                    	<td align="left" width="30%">
 		                    		<kul:htmlControlAttribute property="${protocolPerson}.city" 
-		                    		attributeEntry="${personAttributes.city}" readOnly="${!personEditableFields['city'] }"/>
+		                    		attributeEntry="${personAttributes.city}" readOnly="${viewOnly || !personEditableFields['city'] }"/>
 		                    	</td>
 		                  	</tr>
 		                	<tr>
@@ -230,7 +230,7 @@
 								</th>
 		                    	<td align="left" width="30%">
 		                    		<kul:htmlControlAttribute property="${protocolPerson}.county" 
-		                    		attributeEntry="${personAttributes['extendedAttributes.county']}" readOnly="${!personEditableFields['county'] }"/>
+		                    		attributeEntry="${personAttributes['extendedAttributes.county']}" readOnly="${viewOnly || !personEditableFields['county'] }"/>
 		                    	</td>
 		                    	<th width="15%">
 									<div align="right">
@@ -239,7 +239,7 @@
 								</th>
 		                    	<td align="left" width="30%">
 		                    		<kul:htmlControlAttribute property="${protocolPerson}.state" 
-		                    		attributeEntry="${personAttributes.state}" readOnly="${!personEditableFields['state'] }"/>
+		                    		attributeEntry="${personAttributes.state}" readOnly="${viewOnly || !personEditableFields['state'] }"/>
 		                    	</td>
 		                  	</tr>
 		                	<tr>
@@ -251,7 +251,7 @@
 		                    	<td>
 		                      		<kul:htmlControlAttribute property="${protocolPerson}.postalCode" 
 		                      								  attributeEntry="${personAttributes.postalCode}" 
-		                                                      readOnly="${!personEditableFields['postalCode'] }"/> 
+		                                                      readOnly="${viewOnly || !personEditableFields['postalCode'] }"/> 
 		                    	</td>
 		                    	<th width="15%">
 									<div align="right">
@@ -260,7 +260,7 @@
 								</th>
 		                    	<td align="left" width="30%">
 		                    		<kul:htmlControlAttribute property="${protocolPerson}.countryCode" 
-		                    		attributeEntry="${personAttributes.countryCode}" readOnly="${!personEditableFields['countryCode'] }"/>
+		                    		attributeEntry="${personAttributes.countryCode}" readOnly="${viewOnly || !personEditableFields['countryCode'] }"/>
 		                    	</td>
 		                  	</tr>
 
