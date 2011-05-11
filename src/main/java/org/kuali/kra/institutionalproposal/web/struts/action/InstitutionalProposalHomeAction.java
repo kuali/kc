@@ -34,6 +34,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.bo.versioning.VersionStatus;
@@ -409,7 +410,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
                                                                                                          IOException {
         InstitutionalProposal newVersion = getVersioningService().createNewVersion(institutionalProposal);
         newVersion.setProposalSequenceStatus(VersionStatus.PENDING.toString());
-        newVersion.setAwardFundingProposals(new ArrayList<AwardFundingProposal>());
+        newVersion.setAwardFundingProposals(transferFundingProposals(institutionalProposal, newVersion));
         InstitutionalProposalDocument newInstitutionalProposalDocument = 
             (InstitutionalProposalDocument) getDocumentService().getNewDocument(InstitutionalProposalDocument.class);
         newInstitutionalProposalDocument.getDocumentHeader().setDocumentDescription(institutionalProposalDocument.getDocumentHeader().getDocumentDescription());
@@ -537,5 +538,18 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
             return null;
         }
         
-        return mapping.findForward(RiceConstants.MAPPING_BASIC);    }
+        return mapping.findForward(RiceConstants.MAPPING_BASIC);    
+    }
+
+    /*
+     * copy AwardFundingProposal objects from old IP to new one, deactivating old ones in the process.
+     */
+    private ArrayList<AwardFundingProposal> transferFundingProposals(InstitutionalProposal oldIP, InstitutionalProposal newIP) {
+        ArrayList<AwardFundingProposal> newFundingProposals = new ArrayList<AwardFundingProposal>();
+        for (AwardFundingProposal afpp:oldIP.getAwardFundingProposals()) {
+            newFundingProposals.add(new AwardFundingProposal(afpp.getAward(), newIP));
+            afpp.setActive(false);
+        }
+        return newFundingProposals;
+    }
 }
