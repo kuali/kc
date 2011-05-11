@@ -55,6 +55,7 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
     
     private static final String CONFIRM_UNLOCK_SELECTED = "confirmUnlockSelected";
     private static final String CONFIRM_UNLOCK_SELECTED_KEY = "confirmUnlockSelectedKey";
+    private static final String ERROR_SELECTING_FUNDING_PROPS = "error.fundingproposal.unlockNoSelection";
     /** {@inheritDoc} */
 	public ActionForward activate(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
@@ -74,7 +75,13 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
     /** {@inheritDoc} */
     public ActionForward unlockSelected(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
         throws Exception {
-        return confirm(buildUnlockSelectedConfirmationQuestion(mapping, form, request, response), CONFIRM_UNLOCK_SELECTED, "");
+        InstitutionalProposalForm iForm = (InstitutionalProposalForm) form;
+        if (iForm.getSelectedAwardFundingProposals() == null || iForm.getSelectedAwardFundingProposals().length == 0) {
+            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath("selectedAwardFundingProposals", ERROR_SELECTING_FUNDING_PROPS);
+            return mapping.findForward(Constants.MAPPING_INSTITUTIONAL_PROPOSAL_ACTIONS_PAGE);
+        } else {
+            return confirm(buildUnlockSelectedConfirmationQuestion(mapping, form, request, response), CONFIRM_UNLOCK_SELECTED, "");
+        }
     }
     
     /** {@inheritDoc} */
