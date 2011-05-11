@@ -354,7 +354,6 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
         HttpServletResponse response) throws Exception {
         
         ((ProtocolForm) form).getNotesAttachmentsHelper().addNewProtocolAttachmentFilter();
-        //request.getSession().setAttribute("_pa_attachment_filter", ((ProtocolForm) form).getNotesAttachmentsHelper().getNewAttachmentFilter());
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }    

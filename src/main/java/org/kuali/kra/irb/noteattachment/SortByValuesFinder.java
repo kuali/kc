@@ -18,13 +18,20 @@ package org.kuali.kra.irb.noteattachment;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 
-
+/**
+ * 
+ * This class provides a values finder for the fields used to sort
+ * attachment tables.  
+ */
 public class SortByValuesFinder extends KeyValuesBase {
 
+    /**
+     * 
+     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     */
     public List<KeyLabelPair> getKeyValues() {
         
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();

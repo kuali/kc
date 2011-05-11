@@ -2043,24 +2043,26 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         this.protocolAttachmentFilter = protocolAttachmentFilter;
     }
     
+    
+    /**
+     * 
+     * This method returns a list of attachments which respect the sort filter
+     * @return a filtered list of protocol attachments
+     */
     public List<ProtocolAttachmentProtocol> getFilteredAttachmentProtocols() {
         List<ProtocolAttachmentProtocol> filteredAttachments = new ArrayList<ProtocolAttachmentProtocol>();
         ProtocolAttachmentFilter attachmentFilter = getProtocolAttachmentFilter();
-        if (attachmentFilter != null && attachmentFilter.getFilterBy() != null &&
-                !"".equalsIgnoreCase(attachmentFilter.getFilterBy().trim())) {
-            
+        if (attachmentFilter != null && StringUtils.isNotBlank(attachmentFilter.getFilterBy())) {            
             for (ProtocolAttachmentProtocol attachment1 : getAttachmentProtocols()) {
                 if ((attachment1.getTypeCode()).equals(attachmentFilter.getFilterBy())) {
                     filteredAttachments.add(attachment1);
                 }
             }
-           
         } else {
             filteredAttachments = getAttachmentProtocols();
         }
         
-        if (attachmentFilter != null && attachmentFilter.getSortBy() != null &&
-            !"".equalsIgnoreCase(attachmentFilter.getSortBy().trim())) {
+        if (attachmentFilter != null && StringUtils.isNotBlank(attachmentFilter.getSortBy())) {
             Collections.sort(filteredAttachments, attachmentFilter.getProtocolAttachmentComparator()); 
         }   
         
