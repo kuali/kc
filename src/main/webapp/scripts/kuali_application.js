@@ -2772,3 +2772,23 @@ function specialReviewProtocolPop(sessionDocument, action, methodToCall, line, d
 	    "specialReviewProtocolWindow", 
 		"width=800, height=750, scrollbars=yes, resizable=yes");   
 }
+function updateFringeCalcAmounts(budgetPeriodFringeTotal,budgetPeriod,calcAmontsCount){
+	var fringeTotal = DWRUtil.getValue("document.budget.budgetPeriods["+(budgetPeriod-1)+"].totalFringeAmount");
+	if(budgetPeriodFringeTotal!=fringeTotal){
+		for(var i= 0; i < calcAmontsCount; i++) {
+			DWRUtil.setValue("document.budget.budgetPeriods["+(budgetPeriod-1)+"].awardBudgetPeriodFringeAmounts["+i+"].calculatedCost","");
+		}
+		changeObjectVisibility("personnelFringeCalc"+(budgetPeriod-1)+".div.object","none");
+		changeObjectVisibility("personnelFringeTotal.div.object","none");
+	}
+}
+function updateFringeTotal(budgetPeriod,calcAmontsCount){
+	var fringeTotal=0;
+	for(var i= 0; i < calcAmontsCount; i++) {
+		var fringeAmount = DWRUtil.getValue("document.budget.budgetPeriods["+(budgetPeriod-1)+"].awardBudgetPeriodFringeAmounts["+i+"].calculatedCost");
+		fringeTotal+=parseFloat(fringeAmount);
+	}
+	DWRUtil.setValue("document.budget.budgetPeriods["+(budgetPeriod-1)+"].totalFringeAmount",fringeTotal);
+	changeObjectVisibility("personnelFringeCalc"+(budgetPeriod-1)+".div.object","none");
+	changeObjectVisibility("personnelFringeTotal.div.object","none");
+}

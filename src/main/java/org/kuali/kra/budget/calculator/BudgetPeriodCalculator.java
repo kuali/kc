@@ -30,8 +30,12 @@ import org.kuali.kra.budget.calculator.query.LesserThan;
 import org.kuali.kra.budget.calculator.query.NotEquals;
 import org.kuali.kra.budget.calculator.query.Or;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetCommonService;
+import org.kuali.kra.budget.core.BudgetCommonServiceFactory;
+import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase;
@@ -75,7 +79,6 @@ public class BudgetPeriodCalculator {
         for (BudgetLineItem budgetLineItem : cvLineItemDetails) {
             budgetCalculationService.calculateBudgetLineItem(budget, budgetLineItem);
             budgetPeriod.setTotalDirectCost(budgetPeriod.getTotalDirectCost().add(budgetLineItem.getDirectCost()));
-            //add line item indirect costs to budget period.
             budgetPeriod.setTotalIndirectCost(budgetPeriod.getTotalIndirectCost().add(budgetLineItem.getIndirectCost()));
             budgetPeriod.setTotalCost(budgetPeriod.getTotalCost().add(budgetLineItem.getDirectCost().add(budgetLineItem.getIndirectCost())));
             budgetPeriod.setUnderrecoveryAmount(budgetPeriod.getUnderrecoveryAmount().add(budgetLineItem.getUnderrecoveryAmount()));
@@ -84,6 +87,10 @@ public class BudgetPeriodCalculator {
         if(budget.getOhRateClassCode()!=null && budgetCalculationService.getBudgetFormFromGlobalVariables()!=null){
             budgetCalculationService.getBudgetFormFromGlobalVariables().setOhRateClassCodePrevValue(budget.getOhRateClassCode());
         }        
+    }
+
+    protected BudgetCommonService<BudgetParent> getBudgetCommonService(BudgetParentDocument parentBudgetDocument) {
+        return BudgetCommonServiceFactory.createInstance(parentBudgetDocument);
     }
 
     public void applyToLaterPeriods(Budget budget, BudgetPeriod currentBudgetPeriod, BudgetLineItem currentBudgetLineItem) {
@@ -123,9 +130,6 @@ public class BudgetPeriodCalculator {
                             budgetLineItemToBeApplied.setCostElement(prevBudgetLineItem.getCostElement());
                             budgetLineItemToBeApplied.refreshReferenceObject("costElementBO");
                             budgetLineItemToBeApplied.setBudgetCategoryCode(budgetLineItemToBeApplied.getCostElementBO().getBudgetCategoryCode());
-    //                        budgetLineItemToBeApplied.setCostElement(prevBudgetLineItem.getCostElement());
-    //                        budgetLineItemToBeApplied.setCostElementBO(prevBudgetLineItem.getCostElementBO());
-    //                        budgetCalculationService.rePopulateCalculatedAmount(budget, budgetLineItemToBeApplied);
                         }
                         budgetLineItemToBeApplied.setLineItemCost(lineItemCost);
                     } else {
@@ -194,8 +198,6 @@ public class BudgetPeriodCalculator {
 
                 
                 budgetLineItem.setBasedOnLineItem(prevBudgetLineItem.getLineItemNumber());
-                //budgetLineItem.setLineItemNumber(budget.getHackedDocumentNextValue(Constants.BUDGET_LINEITEM_NUMBER));                    
-                //budgetLineItem.setLineItemSequence(budgetLineItem.getLineItemNumber());
                 budgetLineItem.setVersionNumber(null);
                 
                 if (prevBudgetLineItem.getApplyInRateFlag()){
@@ -214,10 +216,7 @@ public class BudgetPeriodCalculator {
                     budgetPersonnelDetail.getBudgetCalculatedAmounts().clear();
                     budgetPersonnelDetail.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
                     budgetPersonnelDetail.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
-                    //budgetPersonnelDetail.setLineItemNumber(budgetLineItem.getLineItemNumber());
                     budgetPersonnelDetail.setLineItemSequence(getBudgetDocument(budget).getHackedDocumentNextValue(Constants.BUDGET_PERSON_LINE_SEQUENCE_NUMBER));
-                    //budgetPersonnelDetail.setStartDate(budgetPeriod.getStartDate());
-                    //budgetPersonnelDetail.setEndDate(budgetPeriod.getEndDate());
                     
                     personnelDuration=KraServiceLocator.getService(DateTimeService.class).dateDiff(budgetPersonnelDetail.getStartDate(), budgetPersonnelDetail.getEndDate(), false);
                     gap=KraServiceLocator.getService(DateTimeService.class).dateDiff(prevBudgetLineItem.getStartDate(), budgetPersonnelDetail.getStartDate(), false);
@@ -345,184 +344,6 @@ public class BudgetPeriodCalculator {
             }
         }
     }
-    
-    /*
-     * 
-     *    
-     *    
-     public void syncToDirectCostLimit() {
-        //if the display is in Group by mode do not perform this function
-        if(groupByMode) {
-            return ;
-        }
-        
-        budgetPeriodBean.setTotalDirectCostLimit(Double.parseDouble(budgetPeriodForm.txtDirectCostLimit.getValue()));
-        
-        int selectedRow;
-        selectedRow = budgetPeriodForm.tblPeriodLineItem.getSelectedRow();
-        //If no line item is selected, disp msg "Please select a line item."
-        if(selectedRow < 0) {
-            CoeusOptionPane.showInfoDialog(coeusMessageResources.parseMessageKey(
-                    SELECT_LINE_ITEM));
-            return ;
-        }
-        
-        //If cost element is null disp msg "Cannot perform this operation if cost element is not present."
-        if(budgetPeriodTableModel.getValueAt(selectedRow, COST_ELEMENT_COLUMN) == null ||
-                budgetPeriodTableModel.getValueAt(selectedRow, COST_ELEMENT_COLUMN).equals(EMPTY_STRING)) {
-            CoeusOptionPane.showInfoDialog(coeusMessageResources.parseMessageKey(
-                    COST_ELEMENT_NOT_PRESENT));
-            return ;
-        }
-        
-        BudgetDetailBean budgetDetailBean = (BudgetDetailBean)vecBudgetLineItem.get(selectedRow);
-        
-        Equals eqBudgetPeriod = new Equals("budgetPeriod", new Integer(budgetDetailBean.getBudgetPeriod()));
-        Equals eqLINumber = new Equals("lineItemNumber", new Integer(budgetDetailBean.getLineItemNumber()));
-        And eqBudgetPeriodAndEqLINumber = new And(eqBudgetPeriod, eqLINumber);
-        CoeusVector vecPersonnel = null;
-        try{
-            
-            vecPersonnel= queryEngine.executeQuery(queryKey, BudgetPersonnelDetailsBean.class, eqBudgetPeriodAndEqLINumber);
-            
-            //if person_details_flag is "Y", disp msg "Cannot perform this operation on a line item with personel budget details."
-            if(vecPersonnel != null && vecPersonnel.size() > 0) {
-                CoeusOptionPane.showInfoDialog(coeusMessageResources.parseMessageKey(
-                        CANNOT_PERFORM_THIS_OPERATION_ON_PERSONNEL_LINE_ITEM));
-                return ;
-            }
-            
-            //if cost_limit is 0 disp msg "Cost limit for this period is set to 0. Cannot sync a line item cost to zero limit."
-            if(budgetPeriodBean.getTotalDirectCostLimit() == 0) {
-                CoeusOptionPane.showInfoDialog(coeusMessageResources.parseMessageKey(
-                        CANNOT_SYNC_TO_ZERO_DIRECT_COST_LIMIT));
-                if(budgetPeriodForm.tblPeriodLineItem.getRowCount() > 0){
-                    budgetPeriodEditor.stopCellEditing();
-                    budgetPeriodForm.tblPeriodLineItem.setRowSelectionInterval(selectedRow,selectedRow);
-                    budgetPeriodForm.tblPeriodLineItem.setColumnSelectionInterval(COST_COLUMN, COST_COLUMN);
-                    budgetPeriodForm.tblPeriodLineItem.scrollRectToVisible(
-                            budgetPeriodForm.tblPeriodLineItem.getCellRect(selectedRow ,COST_COLUMN, true));
-                }
-                return ;
-            }
-            
-            saveFormData();
-            calculate(queryKey, budgetPeriodBean.getBudgetPeriod());
-            setRefreshRequired(true);
-            refresh();
-            if(budgetPeriodForm.tblPeriodLineItem.getRowCount() > 0){
-                budgetPeriodEditor.stopCellEditing();
-                budgetPeriodForm.tblPeriodLineItem.setRowSelectionInterval(selectedRow,selectedRow);
-                budgetPeriodForm.tblPeriodLineItem.setColumnSelectionInterval(COST_COLUMN, COST_COLUMN);
-                budgetPeriodForm.tblPeriodLineItem.scrollRectToVisible(
-                        budgetPeriodForm.tblPeriodLineItem.getCellRect(selectedRow ,COST_COLUMN, true));
-            }
-            budgetDetailBean = (BudgetDetailBean)vecBudgetLineItem.get(selectedRow);
-            
-            //If total_direct_cost equals total_direct_cost_limit, disp msg "Direct cost and total direct cost limit for this period is already in sync."
-            double totalDirectCost = budgetPeriodBean.getTotalDirectCost();
-            double directCostLimit = budgetPeriodBean.getTotalDirectCostLimit();
-            
-            if(totalDirectCost == directCostLimit) {
-                CoeusOptionPane.showInfoDialog(coeusMessageResources.parseMessageKey(
-                    TOTAL_DIRECT_COST_ALREADY_IN_SYNC));
-                if(budgetPeriodForm.tblPeriodLineItem.getRowCount() > 0){
-                    budgetPeriodEditor.stopCellEditing();
-                    budgetPeriodForm.tblPeriodLineItem.setRowSelectionInterval(selectedRow,selectedRow);
-                    budgetPeriodForm.tblPeriodLineItem.setColumnSelectionInterval(COST_COLUMN, COST_COLUMN);
-                    budgetPeriodForm.tblPeriodLineItem.scrollRectToVisible(
-                            budgetPeriodForm.tblPeriodLineItem.getCellRect(selectedRow ,COST_COLUMN, true));
-                }
-                return ;
-            }
-            
-            //If total_direct_cost > direct_cost_limit disp msg "Period direct cost is greater than the direct cost limit for this period.Do you want to reduce this line item cost to make the direct cost same as direct cost limit"
-            if(totalDirectCost > directCostLimit) {
-                int selection = CoeusOptionPane.showQuestionDialog((coeusMessageResources.parseMessageKey(
-                        REDUCE_LINE_ITEM_COST_TO_DIRECT_COST)), CoeusOptionPane.OPTION_YES_NO, CoeusOptionPane.DEFAULT_YES);
-                if(selection == CoeusOptionPane.SELECTION_NO) {
-                    if(budgetPeriodForm.tblPeriodLineItem.getRowCount() > 0){
-                        budgetPeriodEditor.stopCellEditing();
-                        budgetPeriodForm.tblPeriodLineItem.setRowSelectionInterval(selectedRow,selectedRow);
-                        budgetPeriodForm.tblPeriodLineItem.setColumnSelectionInterval(COST_COLUMN, COST_COLUMN);
-                        budgetPeriodForm.tblPeriodLineItem.scrollRectToVisible(
-                                budgetPeriodForm.tblPeriodLineItem.getCellRect(selectedRow ,COST_COLUMN, true));
-                    }
-                    return ;
-                }
-            }
-            
-            //Continuing with Sync
-            //Set the Difference as TotalDirectCostLimit minus DirectCost.
-            double difference = directCostLimit - totalDirectCost;
-            double lineItemCost = budgetDetailBean.getLineItemCost();
-            double multifactor;
-            
-            //If line_item_cost is 0 then set the value of line_item_cost in line_items to 10000.
-            if(lineItemCost == 0) {
-                budgetDetailBean.setLineItemCost(10000);
-                budgetDetailBean.setAcType(TypeConstants.UPDATE_RECORD);
-                queryEngine.update(queryKey, budgetDetailBean);
-                budgetPeriodTableModel.fireTableCellUpdated(selectedRow, COST_COLUMN);
-            }
-            
-            calculate(queryKey, budgetPeriodBean.getBudgetPeriod());
-            
-            CoeusVector vecCalAmts = queryEngine.executeQuery(queryKey, BudgetDetailCalAmountsBean.class, eqBudgetPeriodAndEqLINumber);
-            
-            double totalCost = budgetDetailBean.getLineItemCost() +
-                    vecCalAmts.sum("calculatedCost", new NotEquals("rateClassType",RateClassTypeConstants.OVERHEAD));
-            //If the lineItemCost <> 0, set multfactor to TotalCost divided by lineItemCost otherwise multfactor is TotalCost divided by 10000
-            if(lineItemCost != 0) {
-                multifactor = totalCost / lineItemCost;
-            }else {
-                multifactor = totalCost / 10000;
-                budgetDetailBean.setLineItemCost(0);
-                budgetDetailBean.setAcType(TypeConstants.UPDATE_RECORD);
-                queryEngine.update(queryKey, budgetDetailBean);
-                calculate(queryKey, budgetPeriodBean.getBudgetPeriod());
-                totalCost = 0;
-            }
-            
-            if((totalCost + difference) < 0) {
-                CoeusOptionPane.showErrorDialog(
-                        coeusMessageResources.parseMessageKey(INSUFFICIENT_AMOUNT_TO_SYNC_DIRECT_COST));
-                if(budgetPeriodForm.tblPeriodLineItem.getRowCount() > 0){
-                    budgetPeriodEditor.stopCellEditing();
-                    budgetPeriodForm.tblPeriodLineItem.setRowSelectionInterval(selectedRow,selectedRow);
-                    budgetPeriodForm.tblPeriodLineItem.setColumnSelectionInterval(COST_COLUMN, COST_COLUMN);
-                    budgetPeriodForm.tblPeriodLineItem.scrollRectToVisible(
-                            budgetPeriodForm.tblPeriodLineItem.getCellRect(selectedRow ,COST_COLUMN, true));
-                }
-                return ;
-            }
-            
-            //Set New Cost
-            double newCost = lineItemCost + (difference / multifactor);
-            budgetDetailBean.setLineItemCost(newCost);
-            
-            budgetDetailBean.setAcType(TypeConstants.UPDATE_RECORD);
-            queryEngine.update(queryKey, budgetDetailBean);
-        }catch (CoeusException coeusException) {
-            coeusException.printStackTrace();
-        }
-        calculate(queryKey, budgetPeriodBean.getBudgetPeriod());
-        setRefreshRequired(true);
-        refresh();
-        if(budgetPeriodForm.tblPeriodLineItem.getRowCount() > 0){
-            budgetPeriodEditor.stopCellEditing();
-            budgetPeriodForm.tblPeriodLineItem.setRowSelectionInterval(selectedRow,selectedRow);
-            budgetPeriodForm.tblPeriodLineItem.setColumnSelectionInterval(COST_COLUMN, COST_COLUMN);
-            budgetPeriodForm.tblPeriodLineItem.scrollRectToVisible(
-                    budgetPeriodForm.tblPeriodLineItem.getCellRect(selectedRow ,COST_COLUMN, true));
-        }
-    }    
- 
-     * 
-     * 
-     */
-    
-    
     
     public void syncToPeriodDirectCostLimit(Budget budget, BudgetPeriod budgetPeriodBean, BudgetLineItem budgetDetailBean) {
         // If total_cost equals total_cost_limit, disp msg "Cost limit and total cost for this period is already in sync."

@@ -29,9 +29,12 @@ import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.infrastructure.DeepCopyIgnore;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.util.DateUtils;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class BudgetPeriod extends BudgetAssociate {
     private static final long serialVersionUID = -7318331486891820078L;
@@ -463,5 +466,9 @@ public class BudgetPeriod extends BudgetAssociate {
      */
     public void setTotalDirectCostLimit(BudgetDecimal totalDirectCostLimit) {
         this.totalDirectCostLimit = totalDirectCostLimit;
+    }
+
+    public void populateSummaryCalcAmounts() {
+        //dummy method to support populating sumamry calc amounts in award budget. This dNot applied to proposal budget
     }
 }

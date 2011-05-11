@@ -116,6 +116,9 @@
 		<property name="parameterService">
 			<ref bean="parameterService"/>
 		</property>
+		<property name="budgetCalculationService">
+			<ref bean="budgetCalculationService"/>
+		</property>
     </bean>
       			
     <bean id="budgetService" class="org.kuali.kra.budget.core.BudgetServiceImpl">
@@ -153,6 +156,7 @@
 		<property name="businessObjectService" ref="businessObjectService" />
         <property name="documentService" ref="documentService" />
         <property name="budgetSummaryService" ref="budgetSummaryService" />
+        <property name="budgetCalculationService" ref="budgetCalculationService" />
         <property name="awardBudgetCalculationService" ref="awardBudgetCalculationService" />
         <property name="versionHistoryService" ref="versionHistoryService" />
 	</bean>

@@ -24,14 +24,46 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.award.budget.AwardBudgetService;
+import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetCommonService;
+import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 
 public class BudgetSummaryTotalsAction extends BudgetAction {
     private static final Log LOG = LogFactory.getLog(BudgetSummaryTotalsAction.class);
 
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        return super.execute(mapping, form, request, response);
+    }
+    @Override
+    public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        ActionForward actionForward = super.reload(mapping, form, request, response);
+        Budget budget = getBudget(form);
+        getBudgetCommonService(budget.getBudgetDocument().getParentDocument()).recalculateBudget(budget);
+        return actionForward;
+    }
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        Budget budget = getBudget(form);
+        BudgetCommonService<BudgetParent> budgetService = getBudgetCommonService(((BudgetForm)form).getBudgetDocument().getParentDocument());
+        budgetService.calculateBudgetOnSave(budget);
+        return super.save(mapping, form, request, response);
+    }
+    private AwardBudgetService getAwardBudgetService() {
+        return KraServiceLocator.getService(AwardBudgetService.class);
+    }
+    private BudgetCalculationService getBudgetCalaculationService() {
+        return KraServiceLocator.getService(BudgetCalculationService.class);
+    }
     public ActionForward previousPeriodSet(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         if(StringUtils.isNotEmpty(request.getParameter("periodStartIndex")) && 
                 StringUtils.isNotEmpty(request.getParameter("periodEndIndex"))) {
@@ -53,9 +85,7 @@ public class BudgetSummaryTotalsAction extends BudgetAction {
     }
     
     public ActionForward nextPeriodSet(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        Budget budget = budgetDocument.getBudget();
+        Budget budget = getBudget(form);
         
         if(StringUtils.isNotEmpty(request.getParameter("periodStartIndex")) && 
                 StringUtils.isNotEmpty(request.getParameter("periodEndIndex"))) {
@@ -78,6 +108,17 @@ public class BudgetSummaryTotalsAction extends BudgetAction {
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    /**
+     * This method...
+     * @param form
+     * @return
+     */
+    private Budget getBudget(ActionForm form) {
+        BudgetForm budgetForm = (BudgetForm) form;
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        Budget budget = budgetDocument.getBudget();
+        return budget;
     }
 
 

@@ -26,6 +26,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kra.award.budget.AwardBudgetLineItemExt;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 
 public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaintainable {
     
@@ -215,5 +216,4 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     public AbstractBudgetCalculatedAmount getNewBudgetLineItemCalculatedAmount() {
         return new BudgetLineItemCalculatedAmount();
     }
-
 }

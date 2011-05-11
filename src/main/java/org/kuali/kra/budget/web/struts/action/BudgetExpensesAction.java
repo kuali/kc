@@ -391,6 +391,7 @@ public class BudgetExpensesAction extends BudgetAction {
         Budget budget = budgetForm.getBudgetDocument().getBudget();        
         int selectedPeriod = budgetForm.getViewBudgetPeriod().intValue();
         BudgetPeriod budgetPeriod = budget.getBudgetPeriod(selectedPeriod-1);
+        budgetPeriod.setBudget(budget);
         for(BudgetLineItem budgetLineItem:budgetPeriod.getBudgetLineItems()){
             getCalculationService().updatePersonnelBudgetRate(budgetLineItem);
         }

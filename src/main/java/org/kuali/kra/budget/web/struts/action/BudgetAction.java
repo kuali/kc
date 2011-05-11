@@ -130,7 +130,7 @@ public class BudgetAction extends BudgetActionBase {
         
         if (budgetDocument.getParentDocument() instanceof AwardDocument && StringUtils.isNotBlank(budgetForm.getSyncBudgetRate()) && budgetForm.getSyncBudgetRate().equals("Y")) {
             getBudgetRatesService().syncParentDocumentRates(budgetDocument);
-            getBudgetSummaryService().calculateBudget(budget);
+            getBudgetCommonService(budgetDocument.getParentDocument()).calculateBudgetOnSave(budget);
         }
         
         reconcileBudgetStatus(budgetForm);
@@ -222,7 +222,7 @@ public class BudgetAction extends BudgetActionBase {
         final BudgetDocument budgetDoc = budgetForm.getDocument();
         fixDocHeaderVersion(budgetDoc);
         Budget budget = budgetDoc.getBudget();
-        getBudgetSummaryService().calculateBudget(budget);
+        getBudgetCommonService(budgetDoc.getParentDocument()).calculateBudgetOnSave(budget);
         ActionForward forward = super.save(mapping, form, request, response);
         BudgetForm savedBudgetForm = (BudgetForm) form;
         BudgetDocument savedBudgetDoc = savedBudgetForm.getDocument();
@@ -314,6 +314,7 @@ public class BudgetAction extends BudgetActionBase {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
+//        proposal.refreshReferenceObject("budgetDocumentVersions");
         budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(parentDocument.getBudgetDocumentVersions()));
         setBudgetStatuses(parentDocument);
         return mapping.findForward(Constants.BUDGET_VERSIONS_PAGE);

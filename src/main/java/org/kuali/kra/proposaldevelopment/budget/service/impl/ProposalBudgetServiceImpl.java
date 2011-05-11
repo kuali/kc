@@ -79,7 +79,7 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
         parentDocument.refreshBudgetDocumentVersions();
         return budgetDocument;
     }
-    public boolean isCalculationRequired(BudgetPeriod budgetPeriod){
+    public boolean isBudgetSummaryPeriodCalcAmountChanged(BudgetPeriod budgetPeriod){
         return true;
     }
 
@@ -163,8 +163,17 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
     public BudgetCalculationService getBudgetCalculationService() {
         return budgetCalculationService;
     }
-    public void calculateBudget(Budget budget) {
+    public void calculateBudgetOnSave(Budget budget) {
         budgetCalculationService.calculateBudget(budget);
+    }
+    public boolean isBudgetSummaryCalcAmountsChanged(Budget budget) {
+        return false;
+    }
+    /**
+     * Do nothing for proposal budget
+     * @see org.kuali.kra.budget.core.BudgetCommonService#removeBudgetSummaryPeriodCalcAmounts(org.kuali.kra.budget.parameters.BudgetPeriod)
+     */
+    public void removeBudgetSummaryPeriodCalcAmounts(BudgetPeriod budgetPeriod) {
     }
 
 }
