@@ -18,6 +18,12 @@ package org.kuali.kra.irb.noteattachment;
 import java.io.Serializable;
 import java.util.Comparator;
 
+/**
+ * 
+ * This class is a business object which represents the 
+ * Protocol Attachment Filter.  This filter is used to limit
+ * and sort protocol attachments.
+ */
 public class ProtocolAttachmentFilter implements Serializable {
 
     private static final long serialVersionUID = 53138457226971783L;
@@ -38,12 +44,17 @@ public class ProtocolAttachmentFilter implements Serializable {
         this.sortBy = sortBy;
     }
     
+    /**
+     * 
+     * This method returns a comparator used to sort protocol attachments
+     * @return a comparator used to sort protocol attachments
+     */
     public Comparator<ProtocolAttachmentProtocol> getProtocolAttachmentComparator() {
         return new ProtocolAttachmentComparatorFactory().getProtocolAttachmentComparator(getSortBy());
     }
     
     
-}
+
 
 class ProtocolAttachmentComparatorFactory {
     public Comparator<ProtocolAttachmentProtocol> getProtocolAttachmentComparator(String sortBy) {
@@ -61,38 +72,40 @@ class ProtocolAttachmentComparatorFactory {
     }
 }
 
-class ProtocolAttachmentDescriptionComparator implements Comparator<ProtocolAttachmentProtocol>
-{
-
-    public int compare(ProtocolAttachmentProtocol arg0, ProtocolAttachmentProtocol arg1) {
-        return arg0.getDescription().compareTo(arg1.getDescription());
+    private class ProtocolAttachmentDescriptionComparator implements Comparator<ProtocolAttachmentProtocol>
+    {
+    
+        public int compare(ProtocolAttachmentProtocol arg0, ProtocolAttachmentProtocol arg1) {
+            return arg0.getDescription().compareTo(arg1.getDescription());
+        }
+        
     }
     
-}
-
-class ProtocolAttachmentStatusComparator implements Comparator<ProtocolAttachmentProtocol>
-{
-
-    public int compare(ProtocolAttachmentProtocol o1, ProtocolAttachmentProtocol o2) {
-        return o1.getStatusCode().compareTo(o2.getStatusCode());
+    private class ProtocolAttachmentStatusComparator implements Comparator<ProtocolAttachmentProtocol>
+    {
+    
+        public int compare(ProtocolAttachmentProtocol o1, ProtocolAttachmentProtocol o2) {
+            return o1.getStatusCode().compareTo(o2.getStatusCode());
+        }
+        
     }
     
-}
-
-class ProtocolAttachmentLastUpdatedComparator implements Comparator<ProtocolAttachmentProtocol>
-{
-
-    public int compare(ProtocolAttachmentProtocol o1, ProtocolAttachmentProtocol o2) {
-        return o1.getUpdateTimestamp().compareTo(o2.getUpdateTimestamp());
+    private class ProtocolAttachmentLastUpdatedComparator implements Comparator<ProtocolAttachmentProtocol>
+    {
+    
+        public int compare(ProtocolAttachmentProtocol o1, ProtocolAttachmentProtocol o2) {
+            return o1.getUpdateTimestamp().compareTo(o2.getUpdateTimestamp());
+        }
+        
     }
     
-}
-
-class ProtocolAttachmentLastUpdatedByComparator implements Comparator<ProtocolAttachmentProtocol>
-{
-
-    public int compare(ProtocolAttachmentProtocol o1, ProtocolAttachmentProtocol o2) {
-        return o1.getUpdateUserFullName().compareTo(o2.getUpdateUserFullName());
-    }
+    private class ProtocolAttachmentLastUpdatedByComparator implements Comparator<ProtocolAttachmentProtocol>
+    {
     
+        public int compare(ProtocolAttachmentProtocol o1, ProtocolAttachmentProtocol o2) {
+            return o1.getUpdateUserFullName().compareTo(o2.getUpdateUserFullName());
+        }
+        
+    }
+
 }
