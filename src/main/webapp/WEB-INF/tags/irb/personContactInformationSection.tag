@@ -24,6 +24,7 @@
 		<bean:define id="parentTabName" name="KualiForm" property="${protocolPerson}.personName"/>
 	</c:otherwise>
 </c:choose>
+	<c:set var="viewOnly" value="${not KualiForm.personnelHelper.modifyPersonnel}" scope="request"/>
 
 <table cellpadding=0 cellspacing=0 summary="">
  	<tr>
