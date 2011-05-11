@@ -50,7 +50,7 @@ public class CommitteeIdByUnitValuesFinder extends KeyValuesBase {
      * Returns the committees that the user is eligible to choose from.
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings("unchecked" )
     public List getKeyValues() {
         Collection<Committee> committees = KraServiceLocator.getService(BusinessObjectService.class).findAll(Committee.class);
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
@@ -78,13 +78,10 @@ public class CommitteeIdByUnitValuesFinder extends KeyValuesBase {
      */
     private Set<String> getUserUnitIds() {
         Set<String> unitIds = new HashSet<String>();
-        Contactable kcPerson = getKcPerson();
-        UnitService unitService = getUnitService();
         
-        Unit homeUnit = kcPerson.getUnit();
-        String homeUnitId = homeUnit.getUnitNumber();
+        String homeUnitId = getKcPerson().getUnit().getUnitNumber();
         unitIds.add(homeUnitId);
-        List<Unit> subUnits = unitService.getAllSubUnits(homeUnitId);
+        List<Unit> subUnits = getUnitService().getAllSubUnits(homeUnitId);
         
         if(CollectionUtils.isNotEmpty(subUnits)) {
             for (Unit unit : subUnits) {
@@ -119,11 +116,8 @@ public class CommitteeIdByUnitValuesFinder extends KeyValuesBase {
      * we use the principal id of the kim user to lookup the kc person.
      * @return the KcPerson reference
      */
-    private Contactable getKcPerson() {
-        UserSession userSession = GlobalVariables.getUserSession();
-        Person person = userSession.getPerson();
-        String principalId = person.getPrincipalId();
-        return getPersonService().getKcPersonByPersonId(principalId);        
+    private Contactable getKcPerson() {  
+        return getPersonService().getKcPersonByPersonId(GlobalVariables.getUserSession().getPerson().getPrincipalId()); 
     }
 
 }
