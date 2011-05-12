@@ -1,0 +1,217 @@
+<!--
+/*
+ * Copyright 2005-2010 The Kuali Foundation
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.osedu.org/licenses/ECL-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="NotificationTypeRecipient" parent="NotificationTypeRecipient-parentBean" />
+    <bean id="NotificationTypeRecipient-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.common.notification.bo.NotificationTypeRecipient" />
+        <property name="objectLabel" value="Notification Type Recipient" />
+        <property name="inquiryDefinition" >
+            <ref bean="NotificationTypeRecipient-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="NotificationTypeRecipient-lookupDefinition" />
+        </property>
+        <property name="titleAttribute" value="notificationTypeRecipientId" />
+        <property name="attributes" >
+            <list>
+                <ref bean="NotificationTypeRecipient-notificationTypeRecipientId" />
+                <ref bean="NotificationTypeRecipient-notificationTypeId" />
+                <ref bean="NotificationTypeRecipient-roleId" />
+                <ref bean="NotificationTypeRecipient-roleQualifier" />
+                <ref bean="NotificationTypeRecipient-toOrCC" />
+                <ref bean="NotificationTypeRecipient-versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    
+    <bean id="NotificationTypeRecipient-notificationTypeRecipientId" parent="NotificationTypeRecipient-notificationTypeRecipientId-parentBean" />
+    <bean id="NotificationTypeRecipient-notificationTypeRecipientId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="notificationTypeRecipientId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Notification Type Recipient Id" />
+        <property name="shortLabel" value="Notification Type Recipient Id" />
+        <property name="maxLength" value="6" />
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" 
+                  p:size="6"/>
+        </property>
+        <property name="summary" value="Notification Type Recipient Id" />
+        <property name="description" value="Notification Type Recipient Id" />
+    </bean>
+
+    <bean id="NotificationTypeRecipient-notificationTypeId" parent="NotificationTypeRecipient-notificationTypeId-parentBean" />
+    <bean id="NotificationTypeRecipient-notificationTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="notificationTypeId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Notification Type Id" />
+        <property name="shortLabel" value="Notification Type Id" />
+        <property name="maxLength" value="6" />
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" 
+                  p:size="6"/>
+        </property>
+        <property name="summary" value="Notification Type Id" />
+        <property name="description" value="Notification Type Id" />
+    </bean>
+    
+    <bean id="NotificationTypeRecipient-roleId" parent="NotificationTypeRecipient-roleId-parentBean" />
+    <bean id="NotificationTypeRecipient-roleId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="roleId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Role" />
+        <property name="shortLabel" value="Role" />
+        <property name="required" value="true" />
+        <property name="maxLength" value="40" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="SelectControlDefinition"
+                  p:businessObjectClass="org.kuali.rice.kim.bo.impl.RoleImpl"
+                  p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+                  p:includeKeyInLabel="false"
+                  p:includeBlankRow="false"
+                  p:keyAttribute="roleId"
+                  p:labelAttribute="roleName" />
+        </property>
+        <property name="summary" value="Role" />
+        <property name="description" value="Role" />
+    </bean>
+    
+    <bean id="NotificationTypeRecipient-roleQualifier" parent="NotificationTypeRecipient-roleQualifier-parentBean" />
+    <bean id="NotificationTypeRecipient-roleQualifier-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="roleQualifier" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Role Qualifier" />
+        <property name="shortLabel" value="Role Qualifier" />
+        <property name="required" value="true" />
+        <property name="maxLength" value="200" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextareaControlDefinition"
+                  p:rows="5"
+                  p:cols="40" />
+        </property>
+        <property name="summary" value="Role Qualifier" />
+        <property name="description" value="Role Qualifier" />
+    </bean>
+    
+    <bean id="NotificationTypeRecipient-toOrCC" parent="NotificationTypeRecipient-toOrCC-parentBean" />
+    <bean id="NotificationTypeRecipient-toOrCC-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="toOrCC" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="To or CC" />
+        <property name="shortLabel" value="To or CC" />
+        <property name="required" value="true" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="org.kuali.kra.common.notification.lookup.keyvalue.ToOrCCValuesFinder"
+                  p:includeKeyInLabel="false" />
+        </property>
+        <property name="summary" value="To or CC" />
+        <property name="description" value="To or CC" />
+    </bean>
+  
+    <bean id="NotificationTypeRecipient-versionNumber" parent="NotificationTypeRecipient-versionNumber-parentBean" />
+    <bean id="NotificationTypeRecipient-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber" />
+
+    <!-- Business Object Inquiry Definition -->
+    
+    <bean id="NotificationTypeRecipient-inquiryDefinition" parent="NotificationTypeRecipient-inquiryDefinition-parentBean" />
+    <bean id="NotificationTypeRecipient-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Valid Notification Role" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Notification Type" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+                            <bean parent="FieldDefinition" 
+                                  p:attributeName="notificationTypeRecipientId" 
+                                  p:forceInquiry="true" />
+                            <bean parent="FieldDefinition" 
+                                  p:attributeName="notificationTypeId" 
+                                  p:forceInquiry="true" />
+                            <bean parent="FieldDefinition" 
+                                  p:attributeName="roleId" />
+                            <bean parent="FieldDefinition" 
+                                  p:attributeName="roleQualifier" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+
+    <bean id="NotificationTypeRecipient-lookupDefinition" parent="NotificationTypeRecipient-lookupDefinition-parentBean" />
+    <bean id="NotificationTypeRecipient-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Valid Notification Role Lookup" />
+        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+        <property name="defaultSort" >
+            <bean parent="SortDefinition" />
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition" 
+                      p:attributeName="notificationTypeRecipientId" 
+                      p:forceLookup="true" />
+	            <bean parent="FieldDefinition" 
+	                  p:attributeName="notificationTypeId" 
+	                  p:forceLookup="true" />
+	            <bean parent="FieldDefinition" 
+	                  p:attributeName="roleId" />
+	            <bean parent="FieldDefinition" 
+	                  p:attributeName="roleQualifier" />
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+                <bean parent="FieldDefinition" 
+                      p:attributeName="notificationTypeRecipientId" 
+                      p:forceInquiry="true" />
+	            <bean parent="FieldDefinition" 
+	                  p:attributeName="notificationTypeId" 
+	                  p:forceInquiry="true" />
+	            <bean parent="FieldDefinition" 
+	                  p:attributeName="roleId" />
+	            <bean parent="FieldDefinition" 
+	                  p:attributeName="roleQualifier" />
+            </list>
+        </property>
+    </bean>
+    
+</beans>
