@@ -32,13 +32,16 @@ import java.util.Map;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.OrganizationYnq;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentPersonQuestionnaireService;
 import org.kuali.kra.questionnaire.answer.Answer;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.s2s.generator.S2SQuestionnairing;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -122,6 +125,7 @@ public class NSFCoverPageV1_3Generator extends NSFCoverPageBaseGenerator impleme
 				.getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(),getNamespace(),getFormName())) {
 			String answer = questionnaireAnswer.getAnswer();
 			int questionId = questionnaireAnswer.getQuestionNumber();
+			
 			if (answer != null) {
 				switch (questionId) {
 				case QUESTION_CURRENT_PI:
@@ -179,23 +183,29 @@ public class NSFCoverPageV1_3Generator extends NSFCoverPageBaseGenerator impleme
 	 */
 	private YesNoDataType.Enum getLobbyingAnswer() {
 		YesNoDataType.Enum answer = YesNoDataType.N_NO;
+		
 		for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal()
 				.getProposalPersons()) {
-			if (proposalPerson.getProposalPersonRoleId() != null
+		  	if (proposalPerson.getProposalPersonRoleId() != null
 					&& proposalPerson.getProposalPersonRoleId().equals(
 							PRINCIPAL_INVESTIGATOR)
 					|| proposalPerson.getProposalPersonRoleId().equals(
 							PI_C0_INVESTIGATOR)) {
-				for (ProposalPersonYnq personYnq : proposalPerson
-						.getProposalPersonYnqs()) {
-					if (personYnq != null
-							&& PROPOSAL_YNQ_LOBBYING_ACTIVITIES
-									.equals(personYnq.getQuestionId())
-							&& S2SConstants.PROPOSAL_YNQ_ANSWER_Y
-									.equals(personYnq.getAnswer())) {
-						return YesNoDataType.Y_YES;
-					}
-				}
+		  	List<AnswerHeader> headers=getProposalDevelopmentPersonQuestionnaireService().getAnswerHeaders(proposalPerson);
+		  	AnswerHeader answerHeader=headers.get(0);
+		  	List <Answer> certificationAnswers=answerHeader.getAnswers();
+		  	
+		  	for(Answer certificatonAnswer : certificationAnswers){
+		  	    if (certificatonAnswer != null
+		  	            && PROPOSAL_YNQ_LOBBYING_ACTIVITIES
+		  	            .equals(certificatonAnswer.getQuestion().getQuestionId().toString())
+		  	            && S2SConstants.PROPOSAL_YNQ_ANSWER_Y
+		  	            .equals(certificatonAnswer.getAnswer())) {
+		  	        return YesNoDataType.Y_YES;
+		  	    }
+		  	    
+		  	}
+  
 			}
 		}
 		Organization organization = getOrganizationFromDevelopmentProposal(pdDoc.getDevelopmentProposal());
@@ -213,6 +223,9 @@ public class NSFCoverPageV1_3Generator extends NSFCoverPageBaseGenerator impleme
 		}
 		return answer;
 	}
+	  private ProposalDevelopmentPersonQuestionnaireService getProposalDevelopmentPersonQuestionnaireService() {
+	        return KraServiceLocator.getService(ProposalDevelopmentPersonQuestionnaireService.class);
+	    }
 	  /*
      * This method return true if question is answered otherwise false .
      */

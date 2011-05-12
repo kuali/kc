@@ -62,6 +62,7 @@
   	<li><portal:portalLink displayTitle="true" title="Unit Administrator" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.UnitAdministrator&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li></li>  
   	<li><portal:portalLink displayTitle="true" title="Unit Administrator Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.UnitAdministratorType&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li></li>  
   	<li><portal:portalLink displayTitle="true" title="Yes/No Questions" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.Ynq&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+  	<li><portal:portalLink displayTitle="true" title="Watermark" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.Watermark&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
   </ul>
 </div>
 <channel:portalChannelBottom />

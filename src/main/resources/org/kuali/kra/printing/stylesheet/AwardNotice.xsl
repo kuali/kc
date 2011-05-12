@@ -862,8 +862,8 @@
 								<fo:table-column column-width="proportional-column-width(1)" />
 								<fo:table-column column-width="proportional-column-width(1)" />
 								<fo:table-column column-width="proportional-column-width(1)" />
-								<fo:table-column column-width="20%" />
-								<fo:table-column column-width="19%" />
+								<fo:table-column column-width="16%" />
+								<fo:table-column column-width="23%" />
 								<fo:table-body font-family="Arial" font-size="9pt"
 									font-weight="normal" start-indent="0pt">
 									<fo:table-row font-family="Arial" font-size="9pt"
@@ -1390,7 +1390,7 @@
 								</fo:block>
 							<fo:table font-family="Arial" font-size="9pt"
 								table-layout="fixed" width="100%" border-spacing="2pt">
-								<fo:table-column column-width="13%" />
+								<fo:table-column column-width="15%" />
 								<fo:table-column column-width="proportional-column-width(1)" />
 								<fo:table-column column-width="proportional-column-width(1)" />
 								<fo:table-column column-width="proportional-column-width(1)" />
@@ -1479,10 +1479,10 @@
 							</fo:inline-container>
 							<fo:table table-layout="fixed" width="100%"
 								border-spacing="2pt">
-								<fo:table-column column-width="13%" />
-								<fo:table-column column-width="48%" />
-								<fo:table-column column-width="20%" />
-								<fo:table-column column-width="19%" />
+								<fo:table-column column-width="15%" />
+								<fo:table-column column-width="46%" />
+								<fo:table-column column-width="16%" />
+								<fo:table-column column-width="23%" />
 								<fo:table-body start-indent="0pt">
 									<fo:table-row>
 										<fo:table-cell font-family="Arial" font-size="9pt"
@@ -1587,8 +1587,8 @@
 								</fo:inline-container>	
 							<fo:table font-family="Arial" font-size="9pt"
 								table-layout="fixed" width="100%" border-spacing="2pt">
-								<fo:table-column column-width="13%" />
-								<fo:table-column column-width="87%" />
+								<fo:table-column column-width="15%" />
+								<fo:table-column column-width="85%" />
 								<fo:table-body start-indent="0pt">
 									<fo:table-row>
 										<fo:table-cell font-family="Arial" font-size="9pt"
@@ -1652,8 +1652,8 @@
 							</fo:inline-container>
 							<fo:table table-layout="fixed" width="100%"
 								border-spacing="2pt">
-								<fo:table-column column-width="13%" />
-								<fo:table-column column-width="87%" />
+								<fo:table-column column-width="15%" />
+								<fo:table-column column-width="85%" />
 								<fo:table-body start-indent="0pt">
 									<fo:table-row>
 										<fo:table-cell font-family="Arial" font-size="9pt"
@@ -1752,8 +1752,8 @@
 							</fo:inline-container>
 							<fo:table font-family="Arial" font-size="9pt"
 								table-layout="fixed" width="100%" border-spacing="2pt">
-								<fo:table-column column-width="13%" />
-								<fo:table-column column-width="87%" />
+								<fo:table-column column-width="15%" />
+								<fo:table-column column-width="85%" />
 								<fo:table-body start-indent="0pt">
 									<fo:table-row>
 										<fo:table-cell font-family="Arial" font-size="9pt"
@@ -3143,11 +3143,10 @@
 							</fo:block>
 							<fo:table table-layout="fixed" width="100%"
 								border-spacing="2pt">
-								<fo:table-column column-width="31%" />
-								<fo:table-column column-width="25%" />
+							    <fo:table-column column-width="15%" />
+								<fo:table-column column-width="41%" />
 								<fo:table-column column-width="17%" />
-								<fo:table-column column-width="27%" />
-								<fo:table-body start-indent="0pt">
+								<fo:table-column column-width="27%" />								<fo:table-body start-indent="0pt">
 									<fo:table-row>
 										<fo:table-cell font-family="Arial" font-size="9pt"
 											font-weight="bold" padding="2pt" display-align="center">
@@ -3693,10 +3692,7 @@
 										<fo:block>
 											<xsl:text>&#x2029;</xsl:text>
 										</fo:block>
-									</fo:inline-container>
-									<fo:block>
-											<xsl:text>&#160;</xsl:text>
-									</fo:block>
+									</fo:inline-container>									
 									<fo:table table-layout="fixed" width="100%"
 										border-spacing="2pt">
 										<fo:table-column column-width="proportional-column-width(1)" />
@@ -3717,10 +3713,10 @@
 										</fo:inline-container>
 										<fo:table font-family="Arial" table-layout="fixed"
 											width="100%" border-spacing="2pt">
-											<fo:table-column column-width="31%" />
-											<fo:table-column column-width="25%" />
-											<fo:table-column column-width="17%" />
-											<fo:table-column column-width="27%" />
+											<fo:table-column column-width="20%" />
+											<fo:table-column column-width="36%" />
+											<fo:table-column column-width="10%" />
+											<fo:table-column column-width="34%" />
 											<fo:table-body start-indent="0pt">
 												<fo:table-row font-family="Arial">
 													<fo:table-cell font-family="Arial" font-size="9pt"

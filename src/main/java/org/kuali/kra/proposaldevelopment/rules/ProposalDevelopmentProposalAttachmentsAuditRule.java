@@ -30,6 +30,8 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.service.SponsorService;
 
 public class ProposalDevelopmentProposalAttachmentsAuditRule  implements DocumentAuditRule{
     
@@ -47,11 +49,33 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule  implements Documen
              }
              i++;
             }
+            if(getSponsorService().isSponsorNihMultiplePi(proposalDevelopmentDocument.getDevelopmentProposal())){
+                boolean attachment = true;                 
+                for( ProposalPerson proposalPerson: proposalDevelopmentDocument.getDevelopmentProposal().getInvestigators()){
+                    if(proposalPerson.isMultiplePi()){  
+                        for (Narrative narrative : proposalDevelopmentDocument.getDevelopmentProposal().getNarratives()) {                                       
+                             if(narrative.getNarrativeTypeCode() != null 
+                                     &&  Integer.parseInt(narrative.getNarrativeTypeCode()) == Constants.PHS_RESTRAININGPLAN_PILEADERSHIPPLAN_ATTACHMENT
+                                     ||  Integer.parseInt(narrative.getNarrativeTypeCode()) == Constants.PHS_RESEARCHPLAN_MULTIPLEPILEADERSHIPPLAN){
+                                attachment = false;
+                                break;
+                             }
+                         }
+                    }
+                }   
+                if(attachment) {
+                    valid=false;
+                    auditErrors.add(new AuditError("document.developmentProposalList[0].narrative", KeyConstants.ERROR_PROPOSAL_ATTACHMENT_NOT_FOUND, Constants.ATTACHMENTS_PAGE));
+                }
+            }  
             if (auditErrors.size() > 0) {
                 GlobalVariables.getAuditErrorMap().put("proposalAttachmentsAuditWarnings", new AuditCluster(Constants.ABSTRACTS_AND_ATTACHMENTS_PANEL, auditErrors, Constants.AUDIT_ERRORS));
             }
             
             
             return valid;
+    }
+    private SponsorService getSponsorService() {
+        return KraServiceLocator.getService(SponsorService.class);
     }
 }

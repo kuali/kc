@@ -22,58 +22,50 @@
 package org.kuali.kra.util.watermark;
 
 
-
-
-
-
 import java.awt.Color;
-
-import com.lowagie.text.pdf.GrayColor;
-
+/**
+ * 
+ * This interface is used to store all constants for 
+ * watermarking purpose.
+ * 
+ */
 public interface WatermarkConstants {
     
-    //XML Constants - 
-    public static final String DECORATIONS = "DECORATIONS";
-    public static final String DECORATION = "DECORATION";
-    public static final String STATUS = "STATUS";
-    public static final String HEADER = "HEADER";
-    public static final String FOOTER = "FOOTER";
-    public static final String WATERMARK = "WATERMARK";
+    //Default Constants - 
+  
     public static final String ALIGN = "ALIGN";
     public static final String TYPE = "TYPE";
     public static final String FONT = "FONT";
-    //public static final int FONT = Font.TIMES_ROMAN;
     public static final String BOLD = Font.BOLD;
     public static final String FONT_COLOR= "FONT-COLOR";
     public static final String FONT_SIZE = "FONT-SIZE";
     
-    
-    
-    //Font FONT113 = new Font(Font.TIMES_ROMAN, 52, Font.BOLD, new GrayColor(0.75f));
-  //XML Edits - 
     public static final String ALIGN_RIGHT = "RIGHT";
     public static final String ALIGN_LEFT = "LEFT";
     public static final String ALIGN_CENTER = "CENTER";
+    public static final String DECORATIONS = "DECORATIONS";
+    public static final String DECORATION = "DECORATION";
+    public static final String STATUS = "STATUS";
+    public static final String WATERMARK = "WATERMARK";
     
-    public static final int DEFAULT_FONT_SIZE = 10;
+   
+    
+    public static final int DEFAULT_FONT_SIZE = 25;
+    public static final String DEFAULT_FONT_SIZE_CHAR = "25";
     public static final int DEFAULT_WATERMARK_FONT_SIZE = 50;
     
     public static final Color DEFAULT_COLOR = Color.BLACK;
     public static final Color DEFAULT_WATERMARK_COLOR = Color.LIGHT_GRAY;
     
-    public static final String WATERMARK_TYPE_TEXT = "TEXT";
-    
+    public static final String WATERMARK_TYPE_TEXT = "TEXT";    
     public static final String WATERMARK_TYPE_IMAGE = "IMAGE";
-    public static final boolean WATERMARK_PROTOCOL_STATUS = true;
     
-    public static final boolean WATERMARK_PROPOSAL_STATUS = false;
     /**
      * Multiply this with Font Size to get the font width.
      * (i.e. the font width is 0.4 times the font size)
      * this is only an average value. 
      * M or W will infact have more width than I.
      */
-    public static final float CHAR_WIDTH_CONSTANT = 0.4f;
-    
+    public static final float CHAR_WIDTH_CONSTANT = 0.4f;    
     public static final int MARGIN = 25;
 }

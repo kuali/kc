@@ -23,7 +23,6 @@ import javax.xml.transform.Source;
 import org.kuali.kra.printing.WaterMarkable;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.util.PrintingUtils;
-import org.kuali.kra.util.watermark.WatermarkConstants;
 import org.kuali.kra.util.watermark.Watermarkable;
 
 /**
@@ -52,19 +51,24 @@ public abstract class ProtocolReportPrint extends AbstractPrint{
                 .getXSLTforReport(getProtocolPrintType());
         return sourceList;
     }
-    
+    /**
+     * This method is to enable watermark.
+     *  Overriding AbstractPrint method isWatermarkEnabled()
+     *  @return boolean
+     */
     @Override
-    public boolean applyWatermark() {
-        boolean watermarkActiveStatus=WatermarkConstants.WATERMARK_PROTOCOL_STATUS;        
-        return watermarkActiveStatus;      
-        
+    public boolean isWatermarkEnabled() {       
+        return true;         
     }
-    
+    /**
+     * This method for getting watermark for protocol report printing.
+     *  Overriding AbstractPrint method getWatermarkable
+     *  @return prtocolPrintWatermark
+     */
     @Override
     public Watermarkable getWatermarkable() {
         ProtocolPrintWatermark prtocolPrintWatermark = new ProtocolPrintWatermark();
         prtocolPrintWatermark.setPersistableBusinessObject(getPrintableBusinessObject());
-        prtocolPrintWatermark.setWatermarkBean(prtocolPrintWatermark.getWatermark());    
         return prtocolPrintWatermark;
     }
 

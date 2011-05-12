@@ -68,14 +68,16 @@ public interface Printable extends Serializable {
 	
 	/**
 	 * 
-	 * This method for checking if watermark is enable or disable...
-	 * @return
+	 * This method returns whether to enable or disable watermark
+	 *in the report.
+	 * @return boolean Value
 	 */
-	public boolean applyWatermark();
+	public boolean isWatermarkEnabled();
 	/**
 	 *  
-	 * This method for setting the appropriate watermark...
-	 * @return
+	 * This method for setting the appropriate watermark
+	 * with respect to the document.
+	 * @return Watermarkable
 	 */
 	public Watermarkable getWatermarkable();
 }
