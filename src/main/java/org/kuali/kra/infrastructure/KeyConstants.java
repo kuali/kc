@@ -38,6 +38,10 @@ public final class KeyConstants {
     
     public static final String QUESTION_DELETE_CONFIRMATION = "document.question.delete.text";
     
+    // Notification
+    public static final String ERROR_NOTIFICATION_MODULE_CODE_ACTION_CODE_COMBINATION_EXISTS = "error.notification.moduleCode.actionCode.combination.exists";
+    public static final String ERROR_NOTIFICATION_ROLE_ID_ROLE_QUALIFIER_COMBINATION_EXISTS = "error.notification.roleId.roleQualifier.combination.exists";
+    
     // Special Review
     public static final String ERROR_SPECIAL_REVIEW_PROTOCOL_NUMBER_INVALID = "error.special.review.protocol.number.invalid";
     public static final String ERROR_SPECIAL_REVIEW_PROTOCOL_NUMBER_DUPLICATE = "error.special.review.protocol.number.duplicate";
