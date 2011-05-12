@@ -81,7 +81,8 @@ import com.lowagie.text.pdf.PdfWriter;
  */
 public class PrintingServiceImpl implements PrintingService {
 
-	private static final Log LOG = LogFactory.getLog(PrintingServiceImpl.class);
+
+    private static final Log LOG = LogFactory.getLog(PrintingServiceImpl.class);
 
 	private DateTimeService dateTimeService = null;
 	private WatermarkService watermarkService;
@@ -111,8 +112,8 @@ public class PrintingServiceImpl implements PrintingService {
 			throws PrintingException {
 		try {
 	        Map<String, byte[]> streamMap = printableArtifact.renderXML();
-			String loggingEnable = kualiConfigurationService.getPropertyString("print.logging.enable");
-			if(loggingEnable!=null && loggingEnable.equalsIgnoreCase("Yes"))
+			String loggingEnable = kualiConfigurationService.getPropertyString(Constants.PRINT_LOGGING_ENABLE);
+			if(loggingEnable!=null && Boolean.parseBoolean(loggingEnable))
 			   logPrintDetails(streamMap);
 			
 			Map<String, byte[]> pdfByteMap = new LinkedHashMap<String, byte[]>();

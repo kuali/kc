@@ -695,4 +695,6 @@ public interface Constants {
     public static final String PROTOCOL_QUESTIONNAIRE_PANEL_ANCHOR = "Questionnaire";
     public static final String PROTOCOL_QUESTIONNAIRE_KEY = "questionnaireHelper.answerHeaders[0].answers[0].answer";
 
+    public static final String PRINT_LOGGING_ENABLE = "print.logging.enable";
+
 }
