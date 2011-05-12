@@ -127,6 +127,7 @@ public class PHS398FellowshipSupplementalV1_2Generator extends
 
     static final String TUITION_COST_ELEMENTS_RA = "422310";
     static final String TUITION_COST_ELEMENTS_Other = "420111";
+    
 	/*
 	 * This method is used to get PHSFellowshipSupplemental12 XMLObject and set
 	 * the data to it from DevelopmentProposal data.
@@ -216,8 +217,7 @@ public class PHS398FellowshipSupplementalV1_2Generator extends
         for (BudgetPeriod budgetPeriod : budgetDoc.getBudget().getBudgetPeriods()) {
             BudgetDecimal tuition = BudgetDecimal.ZERO;
             for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-                if (TUITION_COST_ELEMENTS_RA.equals(budgetLineItem.getCostElementBO().getCostElement()) ||
-                        TUITION_COST_ELEMENTS_Other.equals(budgetLineItem.getCostElementBO().getCostElement())) {
+                if (getCostElementsByParam(TUITION_COST_ELEMENTS).contains(budgetLineItem.getCostElementBO().getCostElement())) {
                     tuition = tuition.add(budgetLineItem.getLineItemCost());
                 }
             }
@@ -290,7 +290,7 @@ public class PHS398FellowshipSupplementalV1_2Generator extends
             for (BudgetPeriod budgetPeriod : pBudget.getBudgetPeriods()) {
                 if (budgetPeriod.getBudgetPeriod() == 1) {
                     for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-                        if (budgetLineItem.getCostElementBO().getCostElement().equals(STIPEND_COST_ELEMENTS)) {
+                            if (getCostElementsByParam(STIPEND_COST_ELEMENTS).contains(budgetLineItem.getCostElementBO().getCostElement())) {
                             sumOfLineItemCost = sumOfLineItemCost.add(budgetLineItem.getLineItemCost());
                             numberOfMonths = numberOfMonths.add(getNumberOfMonths(
                                     budgetLineItem.getStartDate(), budgetLineItem.getEndDate()));

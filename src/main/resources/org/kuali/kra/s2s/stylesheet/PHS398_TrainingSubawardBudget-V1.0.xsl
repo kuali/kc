@@ -11,10 +11,343 @@
 			</fo:simple-page-master>
 		</fo:layout-master-set>
 	</xsl:variable>
+	
 	<xsl:template match="/">
 		<fo:root>
 			<xsl:copy-of select="$fo:layout-master-set"/>
-			<fo:page-sequence master-reference="default-page" initial-page-number="1" format="1">
+			  <fo:page-sequence master-reference="default-page" initial-page-number="1" format="1">
+			  
+			  <fo:flow flow-name="xsl-region-body">
+				<fo:table width="100%">
+						<fo:table-column column-width="0.2in"/>
+						<fo:table-column/>
+						<fo:table-column column-width="0.2in"/>
+						<fo:table-body>
+							<fo:table-row>
+								<fo:table-cell width="0.2in"><fo:block>&#160;</fo:block></fo:table-cell>
+								<fo:table-cell width="7.0in">
+									<fo:block text-align="center" font-family="Helvetica,Times,Courier" font-size="11pt" font-weight="bold">PHS398 TRAINING SUBAWARD BUDGET ATTACHMENT(S) FORM                              </fo:block>
+									<fo:block>&#160;</fo:block>
+									<fo:block font-size="8pt" hyphenate="true" language="en">
+										<fo:inline font-weight="bold" font-size="8pt">Instructions:</fo:inline>
+                           On this form, you will attach the PHS398 Training Subaward Budget files for your grant application.  Complete the subaward budget(s) in accordance with the PHS398 Training budget instructions.  Please remember that any files you attach must be a Pure Edge document.
+                           </fo:block>
+									<fo:block line-height="4pt">&#160;</fo:block>
+									<fo:block>&#160;</fo:block>
+									<fo:block>&#160;</fo:block>
+									<fo:block font-size="8pt" hyphenate="true" language="en">
+										<fo:inline font-weight="bold" font-size="8pt">Important:</fo:inline>  
+                           Please attach your subaward budget file(s) with the file name of the subaward organization.  Each file name must be unique. 
+                           </fo:block>
+									<fo:block>&#160;</fo:block>
+								</fo:table-cell>
+								<fo:table-cell width="0.2in"><fo:block>&#160;</fo:block></fo:table-cell>
+							</fo:table-row>
+						</fo:table-body>
+					</fo:table>
+					<fo:table width="100%">
+						<fo:table-column/>
+						<fo:table-body>
+					<xsl:if test="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT1!=''">
+					<fo:table-row>
+						<fo:table-cell>
+						<fo:table width="100%">
+							<fo:table-body>
+								<fo:table-row>
+									<fo:table-cell>
+										<xsl:attribute name="line-height">15pt</xsl:attribute>
+										<xsl:attribute name="hyphenate">true</xsl:attribute>
+										<xsl:attribute name="font-weight">bold</xsl:attribute>
+										<xsl:attribute name="font-size">8pt</xsl:attribute>
+										<fo:block>
+											1) Please attach Attachment 1
+					                      		
+										</fo:block>
+									</fo:table-cell>
+									<fo:table-cell>
+										<xsl:attribute name="line-height">15pt</xsl:attribute>
+										<xsl:attribute name="hyphenate">true</xsl:attribute>
+										<xsl:attribute name="font-size">8pt</xsl:attribute>
+										<fo:block>
+											<xsl:value-of select="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT1" />
+										</fo:block>
+									</fo:table-cell>
+								</fo:table-row>
+							</fo:table-body>
+						</fo:table>
+						</fo:table-cell>
+						</fo:table-row>
+					</xsl:if>
+					<xsl:if test="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT2!=''">
+					<fo:table-row>
+						<fo:table-cell>
+						<fo:table width="100%">
+							<fo:table-body>
+								<fo:table-row>
+									<fo:table-cell>
+										<xsl:attribute name="line-height">15pt</xsl:attribute>
+										<xsl:attribute name="hyphenate">true</xsl:attribute>
+										<xsl:attribute name="font-weight">bold</xsl:attribute>
+										<xsl:attribute name="font-size">8pt</xsl:attribute>
+										<fo:block>
+											2) Please attach Attachment 2
+					                      		
+										</fo:block>
+									</fo:table-cell>
+									<fo:table-cell>
+									    <xsl:attribute name="line-height">15pt</xsl:attribute>
+										<xsl:attribute name="hyphenate">true</xsl:attribute>
+										<xsl:attribute name="font-size">8pt</xsl:attribute>
+										<fo:block>
+											<xsl:value-of select="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT2" />
+										</fo:block>
+									</fo:table-cell>
+								</fo:table-row>
+							</fo:table-body>
+						</fo:table>
+						</fo:table-cell>
+						</fo:table-row>
+					</xsl:if>
+					<xsl:if test="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT3!=''">
+					<fo:table-row>
+						<fo:table-cell>
+						<fo:table width="100%">
+							<fo:table-body>
+								<fo:table-row>
+									<fo:table-cell>
+										<xsl:attribute name="line-height">15pt</xsl:attribute>
+										<xsl:attribute name="hyphenate">true</xsl:attribute>
+										<xsl:attribute name="font-weight">bold</xsl:attribute>
+										<xsl:attribute name="font-size">8pt</xsl:attribute>
+										<fo:block>
+											3) Please attach Attachment 3
+					                      		
+										</fo:block>
+									</fo:table-cell>
+									<fo:table-cell>
+										<xsl:attribute name="line-height">15pt</xsl:attribute>
+										<xsl:attribute name="hyphenate">true</xsl:attribute>
+										<xsl:attribute name="font-size">8pt</xsl:attribute>
+										<fo:block>
+											<xsl:value-of select="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT3" />
+										</fo:block>
+									</fo:table-cell>
+								</fo:table-row>
+							</fo:table-body>
+						</fo:table>
+						</fo:table-cell>
+						</fo:table-row>
+					</xsl:if>
+					<xsl:if test="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT4!=''">
+					<fo:table-row>
+						<fo:table-cell>
+						<fo:table width="100%">
+							<fo:table-body>
+								<fo:table-row>
+									<fo:table-cell>
+										<xsl:attribute name="line-height">15pt</xsl:attribute>
+										<xsl:attribute name="hyphenate">true</xsl:attribute>
+										<xsl:attribute name="font-weight">bold</xsl:attribute>
+										<xsl:attribute name="font-size">8pt</xsl:attribute>
+										<fo:block>
+											4) Please attach Attachment 4
+					                      		
+										</fo:block>
+									</fo:table-cell>
+									<fo:table-cell>
+								    	<xsl:attribute name="line-height">15pt</xsl:attribute>
+										<xsl:attribute name="hyphenate">true</xsl:attribute>
+										<xsl:attribute name="font-size">8pt</xsl:attribute>
+										<fo:block>
+											<xsl:value-of select="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT4" />
+										</fo:block>
+									</fo:table-cell>
+								</fo:table-row>
+							</fo:table-body>
+						</fo:table>
+						</fo:table-cell>
+						</fo:table-row>
+					</xsl:if>
+					<xsl:if test="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT5!=''">
+					<fo:table-row>
+						<fo:table-cell>
+						<fo:table width="100%">
+							<fo:table-body>
+								<fo:table-row>
+									<fo:table-cell>
+										<xsl:attribute name="line-height">15pt</xsl:attribute>
+										<xsl:attribute name="hyphenate">true</xsl:attribute>
+										<xsl:attribute name="font-weight">bold</xsl:attribute>
+										<xsl:attribute name="font-size">8pt</xsl:attribute>
+										<fo:block>
+											5) Please attach Attachment 5
+					                      		
+										</fo:block>
+									</fo:table-cell>
+									<fo:table-cell>
+									    <xsl:attribute name="line-height">15pt</xsl:attribute>
+										<xsl:attribute name="hyphenate">true</xsl:attribute>
+										<xsl:attribute name="font-size">8pt</xsl:attribute>
+										<fo:block>
+											<xsl:value-of select="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT5" />
+										</fo:block>
+									</fo:table-cell>
+								</fo:table-row>
+							</fo:table-body>
+						</fo:table>
+						</fo:table-cell>
+						</fo:table-row>
+					</xsl:if>
+					<xsl:if test="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT6!=''">
+					<fo:table-row>
+						<fo:table-cell>
+						<fo:table width="100%">
+							<fo:table-body>
+								<fo:table-row>
+									<fo:table-cell>
+										<xsl:attribute name="line-height">15pt</xsl:attribute>
+										<xsl:attribute name="hyphenate">true</xsl:attribute>
+										<xsl:attribute name="font-weight">bold</xsl:attribute>
+										<xsl:attribute name="font-size">8pt</xsl:attribute>
+										<fo:block>
+											6) Please attach Attachment 6
+					       			</fo:block>
+									</fo:table-cell>
+									<fo:table-cell>
+									    <xsl:attribute name="line-height">15pt</xsl:attribute>
+										<xsl:attribute name="hyphenate">true</xsl:attribute>
+										<xsl:attribute name="font-size">8pt</xsl:attribute>
+										<fo:block>
+											<xsl:value-of select="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT6" />
+										</fo:block>
+									</fo:table-cell>
+								</fo:table-row>
+							</fo:table-body>
+						</fo:table>
+						</fo:table-cell>
+						</fo:table-row>
+					</xsl:if>
+					<xsl:if test="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT7!=''">
+					<fo:table-row>
+						<fo:table-cell>
+						<fo:table width="100%">
+							<fo:table-body>
+								<fo:table-row>
+									<fo:table-cell>
+										<xsl:attribute name="line-height">15pt</xsl:attribute>
+										<xsl:attribute name="hyphenate">true</xsl:attribute>
+										<xsl:attribute name="font-weight">bold</xsl:attribute>
+										<xsl:attribute name="font-size">8pt</xsl:attribute>
+										<fo:block>
+											7) Please attach Attachment 7
+					             		</fo:block>
+									</fo:table-cell>
+									<fo:table-cell>
+									    <xsl:attribute name="line-height">15pt</xsl:attribute>
+										<xsl:attribute name="hyphenate">true</xsl:attribute>
+										<xsl:attribute name="font-size">8pt</xsl:attribute>
+										<fo:block>
+											<xsl:value-of select="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT7" />
+										</fo:block>
+									</fo:table-cell>
+								</fo:table-row>
+							</fo:table-body>
+						</fo:table>
+						</fo:table-cell>
+						</fo:table-row>
+					</xsl:if>
+					<xsl:if test="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT8!=''">
+					<fo:table-row>
+						<fo:table-cell>
+						<fo:table width="100%">
+							<fo:table-body>
+								<fo:table-row>
+									<fo:table-cell>
+										<xsl:attribute name="line-height">15pt</xsl:attribute>
+										<xsl:attribute name="hyphenate">true</xsl:attribute>
+										<xsl:attribute name="font-weight">bold</xsl:attribute>
+										<xsl:attribute name="font-size">8pt</xsl:attribute>
+										<fo:block>
+											8) Please attach Attachment 8
+					             		</fo:block>
+									</fo:table-cell>
+									<fo:table-cell>
+								    	<xsl:attribute name="line-height">15pt</xsl:attribute>
+										<xsl:attribute name="hyphenate">true</xsl:attribute>
+										<xsl:attribute name="font-size">8pt</xsl:attribute>
+										<fo:block>
+											<xsl:value-of select="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT8" />
+										</fo:block>
+									</fo:table-cell>
+								</fo:table-row>
+							</fo:table-body>
+						</fo:table>
+						</fo:table-cell>
+						</fo:table-row>
+					</xsl:if>
+					<xsl:if test="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT9!=''">
+					<fo:table-row>
+						<fo:table-cell>
+						<fo:table width="100%">
+							<fo:table-body>
+								<fo:table-row>
+									<fo:table-cell>
+										<xsl:attribute name="line-height">15pt</xsl:attribute>
+										<xsl:attribute name="hyphenate">true</xsl:attribute>
+										<xsl:attribute name="font-weight">bold</xsl:attribute>
+										<xsl:attribute name="font-size">8pt</xsl:attribute>
+										<fo:block>
+											9) Please attach Attachment 9
+					             		</fo:block>
+									</fo:table-cell>
+									<fo:table-cell>
+									    <xsl:attribute name="line-height">15pt</xsl:attribute>
+										<xsl:attribute name="hyphenate">true</xsl:attribute>
+										<xsl:attribute name="font-size">8pt</xsl:attribute>
+										<fo:block>
+											<xsl:value-of select="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT9" />
+										</fo:block>
+									</fo:table-cell>
+								</fo:table-row>
+							</fo:table-body>
+						</fo:table>
+						</fo:table-cell>
+						</fo:table-row>
+					</xsl:if>
+					<xsl:if test="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT10!=''">
+						<fo:table-row>
+						<fo:table-cell>
+						<fo:table width="100%">
+							<fo:table-body>
+								<fo:table-row>
+									<fo:table-cell>
+										<xsl:attribute name="line-height">15pt</xsl:attribute>
+										<xsl:attribute name="hyphenate">true</xsl:attribute>
+										<xsl:attribute name="font-weight">bold</xsl:attribute>
+										<xsl:attribute name="font-size">8pt</xsl:attribute>
+										<fo:block>
+											10) Please attach Attachment 10
+					             		</fo:block>
+									</fo:table-cell>
+									<fo:table-cell>
+									    <xsl:attribute name="line-height">15pt</xsl:attribute>
+										<xsl:attribute name="hyphenate">true</xsl:attribute>
+										<xsl:attribute name="font-size">8pt</xsl:attribute>
+										<fo:block>
+											<xsl:value-of select="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT10" />
+										</fo:block>
+									</fo:table-cell>
+								</fo:table-row>
+							</fo:table-body>
+						</fo:table>
+						</fo:table-cell>
+						</fo:table-row>
+					</xsl:if>
+					</fo:table-body>
+					</fo:table>
+				</fo:flow>
+			</fo:page-sequence>
+			<fo:page-sequence master-reference="default-page" initial-page-number="2" format="1">
 				<fo:flow flow-name="xsl-region-body">
 					<fo:block>
 						<fo:inline-container>

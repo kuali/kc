@@ -50,6 +50,7 @@ public final class KeyConstants {
     
     // Abstracts and Attachments errors
     public static final String ERROR_PROPOSAL_ATTACHMENT_NOT_COMPLETE = "error.document.narrativestatuscode.not.complete";
+    public static final String ERROR_PROPOSAL_ATTACHMENT_NOT_FOUND = "error.document.narrative.not.present";
 
     // Proposal Types System Parameter Names
     public static final String PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW = "proposaldevelopment.proposaltype.new";
@@ -218,7 +219,7 @@ public final class KeyConstants {
     
     public static final String ERROR_PRINTING_UNKNOWN = "error.printing.unknown";
     public static final String ERROR_IF_COMPETITION_ID_IS_INVALID="error.s2sopportunity.competitionIdInvalid";
-    // Grants.gov System Parameters
+   // Grants.gov System Parameters
     public static final String S2S_REVISIONTYPE_OTHER = "s2s.revisiontype.other";
     public static final String S2S_SUBMISSIONTYPE_CHANGEDCORRECTED = "s2s.submissiontype.changedCorrected";
     public static final String S2S_SUBMISSIONTYPE_APPLICATION = "s2s.submissiontype.application";

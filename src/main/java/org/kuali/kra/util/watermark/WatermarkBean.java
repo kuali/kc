@@ -21,38 +21,55 @@
 package org.kuali.kra.util.watermark;
 
 
-import java.util.ArrayList;
-import java.util.List;
 
+/**
+ * 
+ * This class for setting watermark text,font and Type.
+ *
+ */
 public class WatermarkBean {
     
-    /**
-     * status code for the watermark
-     */
-    private String status;    
- 
-    /**
-     * watermark decoration collection
-     */
-    private List watermark;
-
-    public List getWatermark() {
-        return watermark;
-    }
-
-    public void setWatermark(CommonBean commonBean) {
-        if(watermark == null){
-            watermark = new ArrayList(3);
-        }
-        watermark.add(commonBean);
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
     
+    private String text;
+   
+    private String type;    
+    
+    private Font font;    
+  
+
+    public String getText() {
+        return text;
+    }
+/**
+ * 
+ * This method for set text.
+ * @param text
+ */
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public String getType() {
+        return type;
+    }
+/**
+ * 
+ * This method for set Type.
+ * @param type
+ */
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Font getFont() {
+        return font;
+    }
+/**
+ * 
+ * This method for set Font.
+ * @param font
+ */
+    public void setFont(Font font) {
+        this.font = font;
+    }
 }
