@@ -15,7 +15,7 @@
  */
 /*
  * Font.java
- * Created on Apri1 11, 2011, 5:10 PM
+ * Created on Apri1 11, 2011, 
  * To change this template, choose Tools | Template Manager
  * and open the template in the editor.
  */
@@ -23,16 +23,20 @@
 package org.kuali.kra.util.watermark;
 
 
-
-
 import java.awt.Color;
+import java.lang.reflect.Field;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.lowagie.text.pdf.BaseFont;
-import java.lang.reflect.Field;
-
+/**
+ * 
+ * This class for setting the font details.
+ * Here we setting the color, font size, and type of FONT.
+ */
 public class Font {
     
-
+    private static final Log LOG = LogFactory.getLog(Font.class);
     public static String BOLD;
     /**
      * fontName name
@@ -52,7 +56,11 @@ public class Font {
     public String getFont() {
         return fontName;
     }
-
+/**
+ * 
+ * This method for setting the font size.
+ * @default font size is 50
+ */
     public void setFont(String font) {
         this.fontName = font;
     }
@@ -60,7 +68,12 @@ public class Font {
     public Color getColor() {
         return color;
     }
-
+/**
+ * 
+ * This method for setting the color to font.
+ * Default font color is Color.LIGHT_GRAY.
+ * @param strColor
+ */
     public void setColor(String strColor) {
         if (strColor == null) {
             color = WatermarkConstants.DEFAULT_COLOR;
@@ -72,9 +85,9 @@ public class Font {
             try {
                 final Field f = Color.class.getField(strColor);
                 color = (Color) f.get(null);
-            } catch (Exception exception) {
-              
-                color = WatermarkConstants.DEFAULT_COLOR;
+            } catch (Exception exception) {              
+                color = WatermarkConstants.DEFAULT_WATERMARK_COLOR;
+                LOG.error("Exception occured in WatermarkFont.. NumberFormatException: "+exception);   
             }
         }
         
@@ -91,12 +104,17 @@ public class Font {
     public void setSize(int size) {
         this.size = size;
     }
-    
+    /**
+     * 
+     * This method for setting the Font details
+     * Here set the basic FONT(TIMES_BOLD, WINANSI, EMBEDDED).
+     * @return BaseFont
+     */
     public BaseFont getBaseFont(){
         try {
-//          return BaseFont.createFont(BaseFont.HELVETICA, BaseFont.WINANSI, BaseFont.EMBEDDED);
             return BaseFont.createFont(BaseFont.TIMES_BOLD, BaseFont.WINANSI, BaseFont.EMBEDDED);
         }catch (Exception exception) {
+            LOG.error("Exception occured in Watermark getBaseFont. BaseFontException: "+exception); 
             return null;
         }
     }

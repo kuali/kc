@@ -15,10 +15,12 @@
  */
 package org.kuali.kra.util.watermark;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-
 
 public interface Watermarkable {
-    public KraPersistableBusinessObjectBase getPersistableBusinessObject();
+    /**
+     * 
+     * This method sets the appropriate watermark 
+     * bean with respect to the module.
+     */
     public WatermarkBean getWatermark();
 }

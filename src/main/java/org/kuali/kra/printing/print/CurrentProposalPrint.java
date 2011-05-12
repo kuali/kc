@@ -47,15 +47,26 @@ public class CurrentProposalPrint extends AbstractPrint {
 		return sourceList;
 	}
 
-    public boolean applyWatermark() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    public Watermarkable getWatermarkable() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	/**
+     * 
+     * This methord for checking watermark is enable or disable
+     * for this document.
+     */
+     public boolean isWatermarkEnabled(){
+         return false;
+     }
+     /**
+      * This methord for getting the watermark.
+      * @see org.kuali.kra.printing.Printable#getWatermarkable()
+      * return watermarkable
+      */
+     public Watermarkable getWatermarkable(){
+         if(isWatermarkEnabled()){
+             throw new RuntimeException("Watermarkable not implemented");
+         }else{
+             return null;
+         }
+     }
 
    
 

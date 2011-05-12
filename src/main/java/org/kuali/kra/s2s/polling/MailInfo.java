@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.s2s.polling;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kns.mail.MailMessage;
 
 //import org.kuali.core.mail.MailMessage;
@@ -185,8 +186,10 @@ public class MailInfo {
     private MailMessage createMailMessage(){
         mailMessage = new MailMessage();
         mailMessage.addToAddress(to);
-        mailMessage.addCcAddress(cc);
-        mailMessage.addBccAddress(bcc);
+        if(StringUtils.isNotBlank(cc))
+            mailMessage.addCcAddress(cc);
+        if(StringUtils.isNotBlank(bcc))
+            mailMessage.addBccAddress(bcc);
         mailMessage.setMessage(message);
         mailMessage.setSubject(subject);
         return mailMessage;

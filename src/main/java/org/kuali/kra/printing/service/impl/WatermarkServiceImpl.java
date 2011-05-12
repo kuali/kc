@@ -15,30 +15,40 @@
  */
 package org.kuali.kra.printing.service.impl;
 
+import java.awt.Color;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.net.MalformedURLException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.printing.service.WatermarkService;
-import org.kuali.kra.util.watermark.CommonBean;
-import org.kuali.kra.util.watermark.Decorator;
 import org.kuali.kra.util.watermark.WatermarkBean;
-import org.kuali.kra.util.watermark.WatermarkDecorator;
+import org.kuali.kra.util.watermark.WatermarkConstants;
 
+import com.lowagie.text.BadElementException;
 import com.lowagie.text.DocumentException;
+import com.lowagie.text.Element;
+import com.lowagie.text.Image;
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.PdfStamper;
+/**
+ * 
+ * This class for implementing the watermark service mthods,
+ * which decorates the PDF Data with the appropriate watermark 
+ * and return that pdfByte Array
+ */
+public class WatermarkServiceImpl implements WatermarkService { 
 
-public class WatermarkServiceImpl implements WatermarkService {
-    
-    private static final Log LOG = LogFactory.getLog(PrintingServiceImpl.class);
-  
-    
+
+    private static final Log LOG = LogFactory.getLog(WatermarkServiceImpl.class);   
+   
+    /**
+     * This method for applying watermark to the pdf
+     * @return pdfFileData
+     */
     public byte[] applyWatermark(byte[] pdfBytes, WatermarkBean  watermarkBean) throws Exception {
      
         byte[] pdfFileData = pdfBytes;
@@ -48,37 +58,38 @@ public class WatermarkServiceImpl implements WatermarkService {
                 ByteArrayOutputStream byteArrayOutputStream = attachWatermarking(watermarkBean, pdfFileData);
                 pdfFileData = byteArrayOutputStream.toByteArray();
             }
-        } catch (Exception e) {
-            LOG.error("Exception occured in WatermarkServiceImpl.. Water mark Exception: ",e);            
+        } catch (Exception exception) {
+            LOG.error("Exception occured in WatermarkServiceImpl. Water mark Exception: "+exception.getMessage());            
         }
   
         return pdfFileData;
     }
-  
     
+      
+   
     /**
-     * decorates the pdf
-     * @param decoratorBean encapsulates all decorations for the pdf
+     * This method for attach watermark with PDF
+     * with the help of PdfReader and PdfStamper
      * @param pdfContent pdfContent 
      * @throws DocumentException throws this exception if cannot decorate the pdf
-     * @throws java.io.IOException throws this exception if cannot open/read the pdf contents
+     * @return byteArrayOutputStream
      */
-    @SuppressWarnings("unchecked")
-    public ByteArrayOutputStream attachWatermarking(WatermarkBean watermarkBean, byte pdfContent[])throws DocumentException, IOException {
-        List listDecorations = new ArrayList();  
+    public ByteArrayOutputStream attachWatermarking(WatermarkBean watermarkBean, byte pdfContent[]) {
         
-        if(watermarkBean.getWatermark() != null && !watermarkBean.getWatermark().isEmpty()) {
-            for(int index = 0; index < watermarkBean.getWatermark().size(); index++) {
-                listDecorations.add(new WatermarkDecorator((CommonBean)watermarkBean.getWatermark().get(index)));
-            }
-            
-        }
-        
-        PdfReader reader = new PdfReader(pdfContent);
+        PdfReader pdfReader;
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        PdfStamper pdfStamp = new PdfStamper(reader, byteArrayOutputStream);
-        decorateWatermark(pdfStamp, listDecorations);
-        
+        PdfStamper pdfStamp;
+        try {
+            pdfReader = new PdfReader(pdfContent);
+            pdfStamp = new PdfStamper(pdfReader, byteArrayOutputStream);
+            decorateWatermark(pdfStamp, watermarkBean);
+        }
+        catch (IOException decorateWatermark) {
+            LOG.error("Exception occured in WatermarkServiceImpl. Water mark Exception: "+decorateWatermark.getMessage());
+        }        
+        catch (DocumentException documentException) {
+            LOG.error("Exception occured in WatermarkServiceImpl. Water mark Exception: "+documentException.getMessage());
+        }         
         return byteArrayOutputStream;
     }
     
@@ -86,43 +97,90 @@ public class WatermarkServiceImpl implements WatermarkService {
     
     /**
      * 
-     * This method for Decorates the PDF...
+     * This method for Decorating the PDF with watermark.
      * @param pdfStamper - wrapper for pdf content byte and assists in decorating PDF
-     * @param lstDecorations
-     * @throws throws this exception if any error occurs while decorating the document
-     * @throws java.io.IOException throws this exception if cannot open/read the file for decoration
-     * 
+     * LOg the exception if cannot open/read the file for decoration     
      */
-    @SuppressWarnings("unchecked")
-    public void decorateWatermark(PdfStamper pdfStamper, List listDecorations)throws DocumentException, IOException {
-        PdfReader pDFReader = pdfStamper.getReader();        
-        int pageCount = pDFReader.getNumberOfPages();
+    public void decorateWatermark(PdfStamper watermarkPdfStamper, WatermarkBean watermarkBean) {
+        PdfReader pdfReader = watermarkPdfStamper.getReader();        
+        int pageCount = pdfReader.getNumberOfPages();
         int pdfPageNumber = 0;
-        
-        Decorator decorator;
         
         PdfContentByte pdfContents;
         Rectangle rectangle;
         int pageHeight, pageWidth;
         while (pdfPageNumber < pageCount) {
             pdfPageNumber++;
-            pdfContents = pdfStamper.getOverContent(pdfPageNumber);
-            rectangle = pDFReader.getPageSizeWithRotation(pdfPageNumber);
+            pdfContents = watermarkPdfStamper.getOverContent(pdfPageNumber);
+            rectangle = pdfReader.getPageSizeWithRotation(pdfPageNumber);
             pageHeight = (int)rectangle.getHeight();
             pageWidth = (int)rectangle.getWidth();
-            
-            for(int index=0; index < listDecorations.size(); index++) {
-                decorator = (Decorator)listDecorations.get(index);
-                if(decorator instanceof WatermarkDecorator) {
-                    pdfContents = pdfStamper.getUnderContent(pdfPageNumber);
-                }
-                decorator.decorate(pdfContents, pageWidth, pageHeight);
-                
-            }
+            pdfContents = watermarkPdfStamper.getUnderContent(pdfPageNumber);               
+                decoratePdfWatermark(pdfContents, pageWidth, pageHeight,watermarkBean);
+        }        
+        try {
+            watermarkPdfStamper.close();
         }
-        
-        pdfStamper.close();
+        catch (IOException decorateWatermark) {
+            LOG.error("Exception occured in WatermarkServiceImpl. decorateWatermark Exception: "+decorateWatermark.getMessage());
+        }        
+        catch (DocumentException documentException) {
+            LOG.error("Exception occured in WatermarkServiceImpl. decorateWatermark Exception: "+documentException.getMessage());
+        }       
         
     }
-        
+     /**
+      * This method is for setting the properties of watermark.
+      * @param pdfContentByte
+      * @param pageWidth
+      * @param pageHeight
+      * @param watermarkBean
+      */
+    public void decoratePdfWatermark(PdfContentByte pdfContentByte, int pageWidth, int pageHeight,WatermarkBean watermarkBean) {
+        float x, y, x1, y1, angle;
+        try{           
+            if(watermarkBean.getType().equalsIgnoreCase(WatermarkConstants.WATERMARK_TYPE_IMAGE)) {
+                Image image = Image.getInstance(watermarkBean.getText());
+                float height = image.getPlainHeight();
+                float width = image.getPlainWidth();
+                image.setAbsolutePosition((pageWidth - width)/2, (pageHeight - height)/2);
+                pdfContentByte.addImage(image);
+                return;
+            }
+
+            pdfContentByte.beginText();            
+            pdfContentByte.setFontAndSize(watermarkBean.getFont().getBaseFont(), watermarkBean.getFont().getSize());
+            Color fillColor = watermarkBean.getFont().getColor() == null ? WatermarkConstants.DEFAULT_WATERMARK_COLOR : watermarkBean.getFont().getColor();
+            pdfContentByte.setColorFill(fillColor);            
+                int textWidth = (int)pdfContentByte.getEffectiveStringWidth(watermarkBean.getText(), false);
+                int diagonal = (int)Math.sqrt((pageWidth * pageWidth) + (pageHeight * pageHeight));
+                int pivotPoint = (diagonal - textWidth)/2;
+                
+                angle = (float)Math.atan((float)pageHeight/pageWidth);
+               
+                x = (float)(pivotPoint * pageWidth)/diagonal;
+                y = (float)(pivotPoint * pageHeight)/diagonal;
+                              
+                x1 = (float)(((float)watermarkBean.getFont().getSize()/2) * Math.sin(angle));
+                y1 = (float)(((float)watermarkBean.getFont().getSize()/2) * Math.cos(angle));
+            
+            pdfContentByte.showTextAligned(Element.ALIGN_LEFT, watermarkBean.getText(), x+x1, y-y1, (float)Math.toDegrees(angle));
+            pdfContentByte.endText();
+            
+        }catch (BadElementException badElementException) {  
+            
+            LOG.error("WatermarkDecoratorImpl  Error found: "+ badElementException.getMessage());
+        }catch (DocumentException documentException) {
+            
+            LOG.error("WatermarkDecoratorImpl Error found: "+documentException.getMessage());      
+        }
+        catch (MalformedURLException malformedURLException) {
+            LOG.error("WatermarkDecoratorImpl Error MalformedURLException: "+malformedURLException.getMessage());
+        }
+        catch (IOException exception) {
+            LOG.error("WatermarkDecoratorImpl Error IOException: "+exception.getMessage());
+        }
+    }
+    
+    
 }

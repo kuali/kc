@@ -83,7 +83,7 @@ public class KCTestPrintable extends PersistableBusinessObjectBase implements
         return null;
     }
 
-    public boolean applyWatermark() {
+    public boolean isWatermarkEnabled() {
         // TODO Auto-generated method stub
         return false;
     }

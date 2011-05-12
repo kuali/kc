@@ -400,34 +400,41 @@ public class RROtherProjectInfoV1_3Generator extends
         AttachedFileDataType attachedFileDataType;
         ProjectNarrativeAttachments projectNarrativeAttachments = ProjectNarrativeAttachments.Factory.newInstance();
         AbstractAttachments abstractAttachments = AbstractAttachments.Factory.newInstance();
-        EquipmentAttachments equipmentAttachments = EquipmentAttachments.Factory.newInstance();
-        FacilitiesAttachments facilitiesAttachments = FacilitiesAttachments.Factory.newInstance();
-        BibliographyAttachments bibliographyAttachments = BibliographyAttachments.Factory.newInstance();
         for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null) {
-                attachedFileDataType = getAttachedFileType(narrative);
+            if (narrative.getNarrativeTypeCode() != null) {               
                 switch(Integer.parseInt(narrative.getNarrativeTypeCode())){
                     case(EQUIPMENT_ATTACHMENT):
-                        if(attachedFileDataType != null){                           
-                            equipmentAttachments.setEquipmentAttachment(attachedFileDataType);                            
+                        attachedFileDataType = getAttachedFileType(narrative);
+                        if(attachedFileDataType != null){
+                            EquipmentAttachments equipmentAttachments = EquipmentAttachments.Factory.newInstance();
+                            equipmentAttachments.setEquipmentAttachment(attachedFileDataType);
+                            rrOtherProjectInfo.setEquipmentAttachments(equipmentAttachments);
                         }
                     break;
                     case(FACILITIES_ATTACHMENT):
-                        if(attachedFileDataType != null){                          
-                            facilitiesAttachments.setFacilitiesAttachment(attachedFileDataType);                           
+                        attachedFileDataType = getAttachedFileType(narrative);
+                        if(attachedFileDataType != null){
+                            FacilitiesAttachments facilitiesAttachments = FacilitiesAttachments.Factory.newInstance();
+                            facilitiesAttachments.setFacilitiesAttachment(attachedFileDataType);
+                            rrOtherProjectInfo.setFacilitiesAttachments(facilitiesAttachments);
                         }
                     break;
                     case(NARRATIVE_ATTACHMENT):
+                        attachedFileDataType = getAttachedFileType(narrative);
                         if(attachedFileDataType != null){
                             projectNarrativeAttachments.setProjectNarrativeAttachment(attachedFileDataType);
                         }
                     break;
                     case(BIBLIOGRAPHY_ATTACHMENT):
-                        if(attachedFileDataType != null){                            
-                            bibliographyAttachments.setBibliographyAttachment(attachedFileDataType);                           
+                        attachedFileDataType = getAttachedFileType(narrative);
+                        if(attachedFileDataType != null){
+                            BibliographyAttachments bibliographyAttachments = BibliographyAttachments.Factory.newInstance();
+                            bibliographyAttachments.setBibliographyAttachment(attachedFileDataType);
+                            rrOtherProjectInfo.setBibliographyAttachments(bibliographyAttachments);
                         }
                     break;
                     case(ABSTRACT_PROJECT_SUMMARY_ATTACHMENT):
+                        attachedFileDataType = getAttachedFileType(narrative);
                         if(attachedFileDataType != null){
                             abstractAttachments.setAbstractAttachment(attachedFileDataType);
                         }
@@ -441,9 +448,6 @@ public class RROtherProjectInfoV1_3Generator extends
         }
         rrOtherProjectInfo.setProjectNarrativeAttachments(projectNarrativeAttachments);
         rrOtherProjectInfo.setAbstractAttachments(abstractAttachments);
-        rrOtherProjectInfo.setEquipmentAttachments(equipmentAttachments);
-        rrOtherProjectInfo.setFacilitiesAttachments(facilitiesAttachments);
-        rrOtherProjectInfo.setBibliographyAttachments(bibliographyAttachments);
         if (isOtherAttachmentsExists) {
             setOtherAttachments(rrOtherProjectInfo);
         }

@@ -1599,9 +1599,13 @@ public class S2SBudgetCalculatorServiceImpl implements
 						equipCostInfo.setCategory(budgetCategoryMap
 								.getDescription());
 						equipCostInfo.setCategoryType(budgetCategoryMap
-								.getCategoryType());
-						equipCostInfo.setDescription(lineItem
-								.getLineItemDescription());
+								.getCategoryType());						
+						if(lineItem.getLineItemDescription()!=null)
+						    equipCostInfo.setDescription(lineItem
+	                                .getLineItemDescription());						
+						else
+						    equipCostInfo.setDescription(lineItem
+						            .getCostElementBO().getDescription()); 
 						totalEquipFund = totalEquipFund.add(lineItem
 								.getLineItemCost());
 						totalEquipNonFund = totalEquipNonFund.add(lineItem
@@ -1620,8 +1624,12 @@ public class S2SBudgetCalculatorServiceImpl implements
 									.getDescription());
 							equipCostInfo.setCategoryType(budgetCategoryMap
 									.getCategoryType());
-							equipCostInfo.setDescription(lineItem
-									.getLineItemDescription());
+							if(lineItem.getLineItemDescription()!=null)
+	                            equipCostInfo.setDescription(lineItem
+	                                    .getLineItemDescription());	                       
+	                        else 
+	                            equipCostInfo.setDescription(lineItem
+	                                    .getCostElementBO().getDescription());	                        
 							equipCostInfo.setCost(lineItem.getLineItemCost());
 							equipCostInfo.setCostSharing(lineItem
 									.getCostSharingAmount());
