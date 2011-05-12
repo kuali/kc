@@ -15,19 +15,19 @@
  */
 package org.kuali.kra.proposaldevelopment.questionnaire;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
-import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentPersonQuestionnaireService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.kra.questionnaire.QuestionnaireHelperBase;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 
 /**
  * This class...
  */
-public class ProposalPersonQuestionnaireHelper extends ProposalDevelopmentQuestionnaireHelper {
+public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -37,31 +37,18 @@ public class ProposalPersonQuestionnaireHelper extends ProposalDevelopmentQuesti
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalPersonQuestionnaireHelper.class);
     
     private ProposalPerson proposalPerson;
+    
+    private ProposalDevelopmentForm proposalDevelopmentForm;
 
     /**
      * Constructs a ProposalPersonQuestionnaireHelper.java.
      * @param form
      */
     public ProposalPersonQuestionnaireHelper(ProposalDevelopmentForm form, ProposalPerson proposalPerson) {
-        super(form);
-        setProposalPerson(proposalPerson);
+        this.proposalDevelopmentForm = form;
+        this.setProposalPerson(proposalPerson);
         this.populateAnswers();
-    }
-    
-    /**
-     * 
-     * @see org.kuali.kra.questionnaire.QuestionnaireHelperBase#populateAnswers()
-     */
-    @Override
-    public void populateAnswers() {
-        setAnswerHeaders(getProposalDevelopmentPersonQuestionnaireService().getAnswerHeaders(getProposalPerson()));
-        resetHeaderLabels();
-    }
-    
-    private ProposalDevelopmentPersonQuestionnaireService getProposalDevelopmentPersonQuestionnaireService() {
-        return KraServiceLocator.getService(ProposalDevelopmentPersonQuestionnaireService.class);
-    }
-    
+    }    
     
     
     public ProposalPerson getProposalPerson() {
@@ -78,7 +65,7 @@ public class ProposalPersonQuestionnaireHelper extends ProposalDevelopmentQuesti
 
     /**
      * 
-     * @see org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentQuestionnaireHelper#getModuleQnBean()
+     * @see org.kuali.kra.questionnaire.QuestionnaireHelperBase#getModuleQnBean()
      */
     @Override
     public ModuleQuestionnaireBean getModuleQnBean() {
@@ -104,4 +91,37 @@ public class ProposalPersonQuestionnaireHelper extends ProposalDevelopmentQuesti
         setAnswerQuestionnaire(getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task));
     }
 
+    @Override
+    public String getModuleCode() {
+        return CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE;
+    }
+    
+    /**
+     * 
+     * This method returns the ProposalDevelopmentDocument if it is valid, otherwise throws an illegal argument exception
+     * @return
+     */
+    protected ProposalDevelopmentDocument getProposalDevelopmentDocument() {
+        ProposalDevelopmentDocument document = proposalDevelopmentForm.getDocument();
+        if (document == null || document.getDevelopmentProposal() == null) {
+            throw new IllegalArgumentException("invalid (null) ProposalDevelopmentDocument in ProposalDevelopmentForm");
+        }
+        return document;
+    }
+    
+    /**
+     * Gets the proposalDevelopmentForm attribute. 
+     * @return Returns the proposalDevelopmentForm.
+     */
+    public ProposalDevelopmentForm getProposalDevelopmentForm() {
+        return proposalDevelopmentForm;
+    }
+
+    /**
+     * Sets the proposalDevelopmentForm attribute value.
+     * @param proposalDevelopmentForm The proposalDevelopmentForm to set.
+     */
+    public void setProposalDevelopmentForm(ProposalDevelopmentForm proposalDevelopmentForm) {
+        this.proposalDevelopmentForm = proposalDevelopmentForm;
+    }
 }

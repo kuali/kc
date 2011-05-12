@@ -64,9 +64,9 @@ import org.kuali.kra.proposaldevelopment.rule.event.AddKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.CalculateCreditSplitEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ChangeKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveKeyPersonEvent;
-import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentPersonQuestionnaireService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.questionnaire.print.QuestionnairePrintingService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiRuleService;
@@ -313,10 +313,17 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             pdform.setNewProposalPerson(new ProposalPerson());
             pdform.setNewRolodexId("");
             pdform.setNewPersonId("");
+            
+            List<AnswerHeader> answerHeaders = this.getQuestionnaireAnswerService().getQuestionnaireAnswer(helper.getModuleQnBean());
+            helper.setAnswerHeaders(answerHeaders);
 
         }  
 
         return mapping.findForward(MAPPING_BASIC);
+    }
+    
+    protected QuestionnaireAnswerService getQuestionnaireAnswerService() {
+        return KraServiceLocator.getService(QuestionnaireAnswerService.class);
     }
 
     /**
@@ -510,15 +517,15 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         // let the document save anyhow, so let's check first.
         if (rulePassed) {
             //save the answer headers
-            List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
+            List<AnswerHeader> answerHeadersToSave = new ArrayList<AnswerHeader>();
             for (ProposalPersonQuestionnaireHelper helper : pdform.getProposalPersonQuestionnaireHelpers()) {
                 //doing this check to make sure the person wasn't automatically deleted after adding.
                 if (pdform.getDocument().getDevelopmentProposal().getProposalPersons().contains(helper.getProposalPerson())) {
-                    answerHeaders.addAll(helper.getAnswerHeaders());
+                    answerHeadersToSave.addAll(helper.getAnswerHeaders());
                 }
             }
-            if (!answerHeaders.isEmpty()) {
-                this.getBusinessObjectService().save(answerHeaders);
+            if (!answerHeadersToSave.isEmpty()) {
+                this.getBusinessObjectService().save(answerHeadersToSave);
             }
             
             /**
@@ -691,10 +698,6 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     @Override
     protected BusinessObjectService getBusinessObjectService() {
         return getService(BusinessObjectService.class);
-    }
-    
-    protected ProposalDevelopmentPersonQuestionnaireService getProposalDevelopmentPersonQuestionnaireService() {
-        return getService(ProposalDevelopmentPersonQuestionnaireService.class);
     }
     
     private void swapAdjacentPersonnel(List<ProposalPerson> keyPersonnel, int index1, MoveOperationEnum op) {

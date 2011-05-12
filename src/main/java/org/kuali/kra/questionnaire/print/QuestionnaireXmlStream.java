@@ -502,14 +502,14 @@ public class QuestionnaireXmlStream implements XmlStream {
                                         if (name != null) {
                                             if (name.trim().equalsIgnoreCase("Y")) {
                                                 answerDescription = "Yes";
-                                                //if (updateQuestionDescription) {
-                                                  //  questionInfo.setQuestion(questionnaireQuestion.getQuestion().getAffirmativeStatementConversion());
-                                                //}
+                                                if (updateQuestionDescription) {
+                                                  questionInfo.setQuestion(questionnaireQuestion.getQuestion().getAffirmativeStatementConversion());
+                                                }
                                             } else if (name.trim().equalsIgnoreCase("N")) {
                                                 answerDescription = "No";
-                                                //if (updateQuestionDescription) {
-                                                  //  questionInfo.setQuestion(questionnaireQuestion.getQuestion().getNegativeStatementConversion());
-                                                //}
+                                                if (updateQuestionDescription) {
+                                                    questionInfo.setQuestion(questionnaireQuestion.getQuestion().getNegativeStatementConversion());
+                                                }
                                             } else if (name.trim().equalsIgnoreCase("X")) {
                                                 answerDescription = "None";
                                             } else {
@@ -524,8 +524,8 @@ public class QuestionnaireXmlStream implements XmlStream {
                             }
                         }
                         //we don't print answers on the proposal person printout
-                        //if ((isAnswerPresent || !questionnaireCompletionFlag) && !(printableBusinessObject instanceof ProposalPerson)) {
-                        if (isAnswerPresent || !questionnaireCompletionFlag) {
+                        if ((isAnswerPresent || !questionnaireCompletionFlag) && !(printableBusinessObject instanceof ProposalPerson)) {
+                        //if (isAnswerPresent || !questionnaireCompletionFlag) {
                             AnswerInfoType answerInfo = questionInfo.addNewAnswerInfo();
                             answerInfo.setAnswerNumber(selectedAnswer);
                             answerInfo.setAnswer(answerDescription);

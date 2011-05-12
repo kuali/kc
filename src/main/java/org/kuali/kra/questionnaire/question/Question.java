@@ -251,8 +251,7 @@ public class Question extends KraPersistableBusinessObjectBase implements Compar
     public void setRegulation(String regulation) {
         setExplanation(regulation, Constants.QUESTION_REGULATION);
     }
-    /*
-     * these four functions are needed for printing changes.
+
     public String getAffirmativeStatementConversion() {
         return getExplanation(Constants.QUESTION_AFFIRMATIVE_QUESTION_CONVERSION);
     }
@@ -268,7 +267,6 @@ public class Question extends KraPersistableBusinessObjectBase implements Compar
     public void setNegativeStatementConversion(String negativeStatementConversion) {
         setExplanation(negativeStatementConversion, Constants.QUESTION_NEGATIVE_QUESTION_CONVERSION);
     }
-    */
     
     /**
      * This method returns the question explanation (explanation, policy, or regulation).
