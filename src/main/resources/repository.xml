@@ -2136,5 +2136,38 @@
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 	</class-descriptor>
 	
+	<class-descriptor class="org.kuali.kra.common.notification.bo.NotificationType" table="NOTIFICATION_TYPE">
+        <field-descriptor name="notificationTypeId" column="NOTIFICATION_TYPE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_NOTIFICATION_TYPE_ID" autoincrement="true" />
+        <field-descriptor name="moduleCode" column="MODULE_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="actionCode" column="ACTION_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="subject" column="SUBJECT" jdbc-type="VARCHAR" />
+        <field-descriptor name="message" column="MESSAGE" jdbc-type="VARCHAR" />
+        <field-descriptor name="promptUser" column="PROMPT_USER" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+        <field-descriptor name="sendNotification" column="SEND_NOTIFICATION" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+        <field-descriptor name="systemGenerated" column="SYSTEM_GENERATED" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <reference-descriptor name="coeusModule" class-ref="org.kuali.kra.bo.CoeusModule" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="moduleCode"/>
+        </reference-descriptor>
+        <collection-descriptor name="notificationTypeRecipients" proxy="true" element-class-ref="org.kuali.kra.common.notification.bo.NotificationTypeRecipient" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+            <inverse-foreignkey field-ref="notificationTypeId"/>
+        </collection-descriptor>
+    </class-descriptor>
+    
+    <class-descriptor class="org.kuali.kra.common.notification.bo.NotificationTypeRecipient" table="NOTIFICATION_TYPE_RECIPIENT">
+        <field-descriptor name="notificationTypeRecipientId" column="NOTIFICATION_TYPE_RECIPIENT_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_NOTIFICATION_TYPE_ID" autoincrement="true" />
+        <field-descriptor name="notificationTypeId" column="NOTIFICATION_TYPE_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="roleId" column="ROLE_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="roleQualifier" column="ROLE_QUALIFIER" jdbc-type="VARCHAR" />
+        <field-descriptor name="toOrCC" column="TO_OR_CC" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>
 	
 </descriptor-repository>
