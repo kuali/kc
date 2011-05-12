@@ -35,7 +35,7 @@ public abstract class NSFCoverPageBaseGenerator extends S2SBaseFormGenerator {
 	protected static final String QUESTION_ID_BEGIN_INVESTIGATOR = "12";
 	protected static final String QUESTION_ID_EXPLORATORY_RESEARCH = "14";
 	protected static final String QUESTION_ID_HISTORIC_PLACES = "G6";
-	protected static final String PROPOSAL_YNQ_LOBBYING_ACTIVITIES = "P4";
+	protected static final String PROPOSAL_YNQ_LOBBYING_ACTIVITIES = "10088";
 	protected static final String QUESTION_ID_RESOLUTION_GRAPHICS = "20";
 	protected static final String PRINCIPAL_INVESTIGATOR = "PI";
 	protected static final String PI_C0_INVESTIGATOR = "COI";

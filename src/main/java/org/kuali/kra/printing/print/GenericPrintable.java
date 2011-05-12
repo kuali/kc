@@ -60,22 +60,23 @@ public class GenericPrintable implements Printable {
 	}
 	
 	/**
-	 * 
-	 * This methord for checking watermark is enable or disable
-	 */
-	 public boolean applyWatermark(){
-	     return false;
-	 }
-	 /**
-	  * This methord for getting the watermark.
-	  * @see org.kuali.kra.printing.Printable#getWatermarkable()
-	  */
-	 public Watermarkable getWatermarkable(){
-	     if(applyWatermark()){
-	         throw new RuntimeException("Watermarkable not implemented");
-	     }else{
-	         return null;
-	     }
-	 }
-
+     * 
+     * This methord for checking watermark is enable or disable
+     * for this document.
+     */
+     public boolean isWatermarkEnabled(){
+         return false;
+     }
+     /**
+      * This methord for getting the watermark.
+      * @see org.kuali.kra.printing.Printable#getWatermarkable()
+      * return watermarkable
+      */
+     public Watermarkable getWatermarkable(){
+         if(isWatermarkEnabled()){
+             throw new RuntimeException("Watermarkable not implemented");
+         }else{
+             return null;
+         }
+     }
 }

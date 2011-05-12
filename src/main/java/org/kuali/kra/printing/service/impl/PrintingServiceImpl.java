@@ -16,14 +16,18 @@
 package org.kuali.kra.printing.service.impl;
 
 import java.awt.Color;
+import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +56,7 @@ import org.kuali.kra.printing.service.PrintingService;
 import org.kuali.kra.printing.service.WatermarkService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -81,6 +86,8 @@ public class PrintingServiceImpl implements PrintingService {
 	private DateTimeService dateTimeService = null;
 	private WatermarkService watermarkService;
 	
+	private KualiConfigurationService kualiConfigurationService;
+	
 	public WatermarkService getWatermarkService() {
         return  KraServiceLocator.getService(WatermarkService.class);      
     }
@@ -103,7 +110,11 @@ public class PrintingServiceImpl implements PrintingService {
 	protected Map<String, byte[]> getPrintBytes(Printable printableArtifact)
 			throws PrintingException {
 		try {
-			Map<String, byte[]> streamMap = printableArtifact.renderXML();
+	        Map<String, byte[]> streamMap = printableArtifact.renderXML();
+			String loggingEnable = kualiConfigurationService.getPropertyString("print.logging.enable");
+			if(loggingEnable!=null && loggingEnable.equalsIgnoreCase("Yes"))
+			   logPrintDetails(streamMap);
+			
 			Map<String, byte[]> pdfByteMap = new LinkedHashMap<String, byte[]>();
 
 			FopFactory fopFactory = FopFactory.newInstance();
@@ -141,7 +152,8 @@ public class PrintingServiceImpl implements PrintingService {
 		} catch (TransformerException e) {
 			LOG.error(e.getMessage(), e);
 			throw new PrintingException(e.getMessage(), e);
-		}
+		} 
+		
 	}
 
     /**
@@ -242,13 +254,13 @@ public class PrintingServiceImpl implements PrintingService {
 		if(printableArtifactList!=null && printableArtifactList.size()>0){
 		    printableArtifactObject = printableArtifactList.get(0);		
     		try {  
-    		    if(printableArtifactObject.applyWatermark()){    
+    		    if(printableArtifactObject.isWatermarkEnabled()){    
         		     mergedPdfBytes = getWatermarkService().applyWatermark(mergedPdfBytes, printableArtifactObject.getWatermarkable().getWatermark());
 //        	    	 mergedPdfBytes = watermarkService.applyWatermark( mergedPdfBytes,watermark.getWatermarkable().getWatermark());
     		    }
              }
              catch (Exception e) {
-                 LOG.error("Exception Occuring in printServiceImpl.. Water mark Exception: ",e);    
+                 LOG.error("Exception Occured in printServiceImpl. Water mark Exception: ",e);    
              }
 		}
 
@@ -437,4 +449,39 @@ public class PrintingServiceImpl implements PrintingService {
 		sb.append(whiteSpace);
 		return sb.toString();
 	}
+	protected void logPrintDetails(Map<String, byte[]> xmlStreamMap)throws PrintingException{
+	    byte[] xmlBytes = null;
+        String xmlString=null;
+        String loggingDirectory = kualiConfigurationService.getPropertyString("print.logging.directory");
+	    Iterator<String> it = xmlStreamMap.keySet().iterator();
+	    if(loggingDirectory!=null){
+	    try {
+	    while (it.hasNext()) {
+             String key = (String) it.next();
+             xmlBytes=xmlStreamMap.get(key);
+             xmlString= new String(xmlBytes);
+             String dateString = getDateTimeService().getCurrentTimestamp().toString();
+             String reportName=StringUtils.deleteWhitespace(key);
+             String createdTime=StringUtils.replaceChars(StringUtils.deleteWhitespace(dateString), ":", "_");
+             
+             File file = new File(loggingDirectory+reportName+createdTime+".xml");
+             
+             BufferedWriter out = new BufferedWriter(new FileWriter(file));
+             out.write(xmlString);
+             out.close();
+         }
+	    }catch (IOException e){
+            LOG.error(e.getMessage(), e);
+            throw new PrintingException(e.getMessage(), e); 
+        }
+	    }
+	}
+
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
+    }
+
+    public KualiConfigurationService getKualiConfigurationService() {
+        return kualiConfigurationService;
+    }
 }

@@ -21,9 +21,6 @@ import gov.grants.apply.forms.phsFellowshipSupplemental11V11.FieldOfTrainingData
 import gov.grants.apply.forms.phsFellowshipSupplemental11V11.PHSFellowshipSupplemental11Document;
 import gov.grants.apply.forms.phsFellowshipSupplemental11V11.PHSFellowshipSupplemental11Document.PHSFellowshipSupplemental11;
 import gov.grants.apply.forms.phsFellowshipSupplemental11V11.PHSFellowshipSupplemental11Document.PHSFellowshipSupplemental11.AdditionalInformation;
-import gov.grants.apply.forms.phsFellowshipSupplemental11V11.PHSFellowshipSupplemental11Document.PHSFellowshipSupplemental11.ApplicationType;
-import gov.grants.apply.forms.phsFellowshipSupplemental11V11.PHSFellowshipSupplemental11Document.PHSFellowshipSupplemental11.Budget;
-import gov.grants.apply.forms.phsFellowshipSupplemental11V11.PHSFellowshipSupplemental11Document.PHSFellowshipSupplemental11.ResearchTrainingPlan;
 import gov.grants.apply.forms.phsFellowshipSupplemental11V11.PHSFellowshipSupplemental11Document.PHSFellowshipSupplemental11.AdditionalInformation.ActivitiesPlannedUnderThisAward;
 import gov.grants.apply.forms.phsFellowshipSupplemental11V11.PHSFellowshipSupplemental11Document.PHSFellowshipSupplemental11.AdditionalInformation.ConcurrentSupportDescription;
 import gov.grants.apply.forms.phsFellowshipSupplemental11V11.PHSFellowshipSupplemental11Document.PHSFellowshipSupplemental11.AdditionalInformation.CurrentPriorNRSASupport;
@@ -31,11 +28,14 @@ import gov.grants.apply.forms.phsFellowshipSupplemental11V11.PHSFellowshipSupple
 import gov.grants.apply.forms.phsFellowshipSupplemental11V11.PHSFellowshipSupplemental11Document.PHSFellowshipSupplemental11.AdditionalInformation.FellowshipTrainingAndCareerGoals;
 import gov.grants.apply.forms.phsFellowshipSupplemental11V11.PHSFellowshipSupplemental11Document.PHSFellowshipSupplemental11.AdditionalInformation.GraduateDegreeSought;
 import gov.grants.apply.forms.phsFellowshipSupplemental11V11.PHSFellowshipSupplemental11Document.PHSFellowshipSupplemental11.AdditionalInformation.StemCells;
+import gov.grants.apply.forms.phsFellowshipSupplemental11V11.PHSFellowshipSupplemental11Document.PHSFellowshipSupplemental11.ApplicationType;
 import gov.grants.apply.forms.phsFellowshipSupplemental11V11.PHSFellowshipSupplemental11Document.PHSFellowshipSupplemental11.ApplicationType.TypeOfApplication;
+import gov.grants.apply.forms.phsFellowshipSupplemental11V11.PHSFellowshipSupplemental11Document.PHSFellowshipSupplemental11.Budget;
 import gov.grants.apply.forms.phsFellowshipSupplemental11V11.PHSFellowshipSupplemental11Document.PHSFellowshipSupplemental11.Budget.FederalStipendRequested;
 import gov.grants.apply.forms.phsFellowshipSupplemental11V11.PHSFellowshipSupplemental11Document.PHSFellowshipSupplemental11.Budget.InstitutionalBaseSalary;
-import gov.grants.apply.forms.phsFellowshipSupplemental11V11.PHSFellowshipSupplemental11Document.PHSFellowshipSupplemental11.Budget.SupplementationFromOtherSources;
 import gov.grants.apply.forms.phsFellowshipSupplemental11V11.PHSFellowshipSupplemental11Document.PHSFellowshipSupplemental11.Budget.InstitutionalBaseSalary.AcademicPeriod;
+import gov.grants.apply.forms.phsFellowshipSupplemental11V11.PHSFellowshipSupplemental11Document.PHSFellowshipSupplemental11.Budget.SupplementationFromOtherSources;
+import gov.grants.apply.forms.phsFellowshipSupplemental11V11.PHSFellowshipSupplemental11Document.PHSFellowshipSupplemental11.ResearchTrainingPlan;
 import gov.grants.apply.forms.phsFellowshipSupplemental11V11.PHSFellowshipSupplemental11Document.PHSFellowshipSupplemental11.ResearchTrainingPlan.InclusionEnrollmentReport;
 import gov.grants.apply.forms.phsFellowshipSupplemental11V11.PHSFellowshipSupplemental11Document.PHSFellowshipSupplemental11.ResearchTrainingPlan.InclusionOfChildren;
 import gov.grants.apply.forms.phsFellowshipSupplemental11V11.PHSFellowshipSupplemental11Document.PHSFellowshipSupplemental11.ResearchTrainingPlan.InclusionOfWomenAndMinorities;
@@ -74,12 +74,17 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.CitizenshipTypes;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.ProposalDevelopmentUtils;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentS2sQuestionnaireService;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
+import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.kra.questionnaire.answer.Answer;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -611,6 +616,9 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 	    stemCells.setStemCellsIndicator(YesNoDataType.N_NO);
 		GraduateDegreeSought graduateDegreeSought = GraduateDegreeSought.Factory.newInstance();
 		ProposalPerson principalInvestigator = s2sUtilService.getPrincipalInvestigator(pdDoc);
+		ArrayList<String> cellLinesList = new ArrayList<String>(Arrays.asList(stemCells.getCellLinesArray())); 
+		QuestionnaireQuestion questionnaireQuestion = null;
+        AnswerHeader answerHeader = null;
 		for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal()
 				.getProposalPersons()) {
 			if (proposalPerson.isInvestigator()) {
@@ -634,6 +642,18 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 		}
 		for (Answer questionnaireAnswer : s2sUtilService.getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), getNamespace(),getFormName())) {
 			String answer = questionnaireAnswer.getAnswer();
+			questionnaireQuestion = questionnaireAnswer.getQuestionnaireQuestion();
+			answerHeader = (AnswerHeader) questionnaireAnswer.getAnswerHeader();
+			   if(questionnaireAnswer.getQuestionnaireQuestion().getQuestion().getQuestionId().equals(STEMCELLLINES)){  
+			       List<Answer> answerList=getAnswers(questionnaireQuestion,answerHeader);                      
+                   for (Answer questionnaireAnswerBO: answerList) {
+                       String questionnaireSubAnswer =  questionnaireAnswerBO.getAnswer();
+                       if(questionnaireSubAnswer!=null)
+                         cellLinesList.add(questionnaireSubAnswer);
+                       stemCells.addCellLines(questionnaireSubAnswer);
+                   }
+			   }
+			   
 			if (answer != null) {
 				switch (questionnaireAnswer.getQuestionnaireQuestion().getQuestion().getQuestionId()) {
 				case FIELD_TRAINING:
@@ -668,13 +688,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 									.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES
 									: YesNoDataType.N_NO);
 					break;
-				case STEMCELLLINES:
-					List<String> cellLinesList = Arrays.asList(stemCells
-							.getCellLinesArray());
-					cellLinesList.add(answer);
-					stemCells.setCellLinesArray((String[]) cellLinesList
-							.toArray());
-					break;
+			
 				case DEGREE_TYPE_SOUGHT:
 					graduateDegreeSought.setDegreeType(DegreeTypeDataType.Enum
 							.forString(answer));
@@ -1049,5 +1063,25 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 
     public String getNamespace() {
         return "http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_1_1-V1.1";
+    }
+    private List<Answer> getAnswers(QuestionnaireQuestion questionnaireQuestion, AnswerHeader answerHeader) {
+        List<Answer> answers = answerHeader.getAnswers();
+        List<Answer> answerList=new ArrayList<Answer>();
+        for (Answer answer : answers) {
+            if(answer.getQuestionnaireQuestionsIdFk().equals(questionnaireQuestion.getQuestionnaireQuestionsId())){               
+                answerList.add(answer);
+            }
+        }
+        if(answerList!=null)
+            return answerList;        
+        return null;
+    }
+    private List<AnswerHeader> findQuestionnaireWithAnswers(DevelopmentProposal developmentProposal) {
+        ProposalDevelopmentS2sQuestionnaireService questionnaireAnswerService = getProposalDevelopmentS2sQuestionnaireService();
+        return questionnaireAnswerService.getProposalAnswerHeaderForForm(developmentProposal, 
+                "http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_1_1-V1.1", "PHS_Fellowship_Supplemental_1_1-V1.1");
+    }
+    private ProposalDevelopmentS2sQuestionnaireService getProposalDevelopmentS2sQuestionnaireService() {
+        return KraServiceLocator.getService(ProposalDevelopmentS2sQuestionnaireService.class);
     }
 }
