@@ -867,11 +867,5 @@
 		<property name = "questionnaireAnswerService" ref = "questionnaireAnswerService"/>
 		<property name = "questionnaireService" ref = "questionnaireService"/>
 	</bean>
-	
-	<bean id = "proposalDevelopmentPersonQuestionnaireService"
-		class = "org.kuali.kra.proposaldevelopment.service.impl.ProposalDevelopmentPersonQuestionnaireServiceImpl">
-		<property name = "businessObjectService" ref = "businessObjectService"/>
-		<property name = "questionnaireAnswerService" ref = "questionnaireAnswerService"/>
-	</bean>
 
 </beans>
