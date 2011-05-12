@@ -39,9 +39,10 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentPersonQuestionnaireService;
+import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.s2s.generator.S2SQuestionnairing;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -191,7 +192,9 @@ public class NSFCoverPageV1_3Generator extends NSFCoverPageBaseGenerator impleme
 							PRINCIPAL_INVESTIGATOR)
 					|| proposalPerson.getProposalPersonRoleId().equals(
 							PI_C0_INVESTIGATOR)) {
-		  	List<AnswerHeader> headers=getProposalDevelopmentPersonQuestionnaireService().getAnswerHeaders(proposalPerson);
+		  	  ProposalPersonModuleQuestionnaireBean moduleQuestionnaireBean = 
+		            new ProposalPersonModuleQuestionnaireBean(pdDoc.getDevelopmentProposal(), proposalPerson);
+		  	List<AnswerHeader> headers=getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
 		  	AnswerHeader answerHeader=headers.get(0);
 		  	List <Answer> certificationAnswers=answerHeader.getAnswers();
 		  	
@@ -223,10 +226,11 @@ public class NSFCoverPageV1_3Generator extends NSFCoverPageBaseGenerator impleme
 		}
 		return answer;
 	}
-	  private ProposalDevelopmentPersonQuestionnaireService getProposalDevelopmentPersonQuestionnaireService() {
-	        return KraServiceLocator.getService(ProposalDevelopmentPersonQuestionnaireService.class);
-	    }
-	  /*
+	  private QuestionnaireAnswerService getQuestionnaireAnswerService() {
+        return KraServiceLocator.getService(QuestionnaireAnswerService.class);
+    }
+
+    /*
      * This method return true if question is answered otherwise false .
      */
     protected boolean getAnswerFromOrganizationYnq(OrganizationYnq organizationYnq) {
