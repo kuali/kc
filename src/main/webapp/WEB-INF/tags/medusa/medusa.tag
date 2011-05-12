@@ -65,10 +65,11 @@
 </table>
 
 <c:if test="${not empty KualiForm.medusaBean.parentNodes}" >   
+<c:set var="openned" value="false" scope="request"/>
 <div style = "background:#e4e4e4; margin: 10px 0pt 0pt; clear: left; position: relative; text-align: left;" >     
   <ul id="medusaview" class="filetree stripeli treeview medusatree"  >
 		<c:forEach items="${KualiForm.medusaBean.parentNodes}" var="node">
-			<kra-m:medusaTreeNode node="${node}"/>
+			<kra-m:medusaTreeNode node="${node}" openned="${openned}"/>
 		</c:forEach>
   </ul>
   <div id="medusadetails" class="medusadetails">

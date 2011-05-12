@@ -1,11 +1,12 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <%@ attribute name="node" required="true" type="org.kuali.kra.medusa.MedusaNode"%>
+<%@ attribute name="openned" required="true" type="Boolean"%>
 
 <li class="open" style="text-align: left;">
 <c:set var="showOpen" value="1"/>
 <c:set var="currentDoc" value="false"/>
-<c:set var="currentDoc_firstOpen" value="true"/>
+
 <c:choose>
   <c:when test="${node.type == 'IP'}">
     <c:if test="${KualiForm.medusaBean.moduleName == node.type && KualiForm.medusaBean.moduleIdentifier == node.bo.proposalId}">
@@ -29,12 +30,13 @@
     <span class="medusaNode"><a name="${node.type}-${node.bo.proposalNumber}-${showOpen}"><img src="static/images/developmentproposal12.gif" />Development Proposal ${node.bo.proposalNumber}</a></span><!-- hack for treeview --><a></a>
   </c:when>
 </c:choose>
+
 <c:choose>
-	<c:when test="${currentDoc && currentDoc_firstOpen} ">
+	<c:when test="${currentDoc && !openned}">
   		<div class="medusaDetails medusaDetailsLoaded">
     		 <kra-m:medusaNodeView node="${node}"/>
   		</div>
-  		<c:set var="currentDoc_firstOpen" value="false"/>
+  		<c:set var="openned" value="true" scope="request"/>
 	</c:when>
 	<c:otherwise>
 		<div class="medusaDetails" style="display:none;"></div>
@@ -45,7 +47,7 @@
 <c:if test="${not empty node.childNodes}">
 <ul>
 <c:forEach items="${node.childNodes}" var="childNode">
-  <kra-m:medusaTreeNode node="${childNode}"/>
+  <kra-m:medusaTreeNode node="${childNode}" openned="${openned}"/>
 </c:forEach>
 </ul>
 </c:if>
