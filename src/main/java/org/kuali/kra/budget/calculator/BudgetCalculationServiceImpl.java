@@ -935,7 +935,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     }
 
     public void updatePersonnelBudgetRate(BudgetLineItem budgetLineItem){
-        int j = 0;
+        int j = 0; 
         for(BudgetPersonnelDetails budgetPersonnelDetails: budgetLineItem.getBudgetPersonnelDetailsList()){
             if(budgetPersonnelDetails.getCostElement()==null){
                 budgetPersonnelDetails.setCostElement(budgetLineItem.getCostElement());
