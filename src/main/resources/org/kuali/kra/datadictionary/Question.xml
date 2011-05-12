@@ -52,10 +52,8 @@
                 <ref bean="Question-explanation" />
                 <ref bean="Question-policy" />
                 <ref bean="Question-regulation" /> 
-                <!-- 
                 <ref bean="Question-affirmativeStatementConversion" />
                 <ref bean="Question-negativeStatementConversion" />
-                 -->
             </list>
         </property>
     </bean>
@@ -362,7 +360,7 @@
         <property name="summary" value="Regulation" />
         <property name="description" value="Regulation" />
     </bean> 
-    <!-- 
+    
     <bean id="Question-affirmativeStatementConversion" parent="Question-affirmativeStatementConversion-parentBean" />
     <bean id="Question-affirmativeStatementConversion-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="affirmativeStatementConversion" />
@@ -402,7 +400,7 @@
         <property name="summary" value="Negative Statement" />
         <property name="description" value="Negative Statement" />
     </bean>
- -->
+    
     <!-- Business Object Inquiry Definition -->
     <bean id="Question-inquiryDefinition" parent="Question-inquiryDefinition-parentBean" />
     <bean id="Question-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">

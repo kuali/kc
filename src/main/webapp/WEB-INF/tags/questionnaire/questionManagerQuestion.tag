@@ -88,7 +88,6 @@
                                           attributeEntry="${DataDictionary.Question.attributes.regulation}" />
             </td>
         </tr>
-        <%--
         <tr>
             <th align="right" valign="middle">
                 <kul:htmlAttributeLabel attributeEntry="${DataDictionary.Question.attributes.affirmativeStatementConversion}" />
@@ -107,6 +106,5 @@
                                           attributeEntry="${DataDictionary.Question.attributes.negativeStatementConversion}" />
             </td>
         </tr>
-         --%>
     </table>
 </div>
