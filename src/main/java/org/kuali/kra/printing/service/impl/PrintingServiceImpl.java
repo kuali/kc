@@ -89,13 +89,6 @@ public class PrintingServiceImpl implements PrintingService {
 	
 	private KualiConfigurationService kualiConfigurationService;
 	
-	public WatermarkService getWatermarkService() {
-        return  KraServiceLocator.getService(WatermarkService.class);      
-    }
-
-    public void setWatermarkService(WatermarkService watermarkService) {
-        this.watermarkService = watermarkService;
-    }
 
     /**
 	 * This method receives a {@link Printable} object, generates XML for it,
@@ -484,5 +477,21 @@ public class PrintingServiceImpl implements PrintingService {
 
     public KualiConfigurationService getKualiConfigurationService() {
         return kualiConfigurationService;
+    }
+
+    /**
+     * Gets the watermarkService attribute. 
+     * @return Returns the watermarkService.
+     */
+    public WatermarkService getWatermarkService() {
+        return watermarkService;
+    }
+
+    /**
+     * Sets the watermarkService attribute value.
+     * @param watermarkService The watermarkService to set.
+     */
+    public void setWatermarkService(WatermarkService watermarkService) {
+        this.watermarkService = watermarkService;
     }
 }
