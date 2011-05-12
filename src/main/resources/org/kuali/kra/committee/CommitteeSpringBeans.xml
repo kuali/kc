@@ -38,17 +38,13 @@
 	</bean>
 
 	<bean id="committeePrintingService"
-		class="org.kuali.kra.committee.service.impl.CommitteePrintingServiceImpl" scope="prototype">
+		class="org.kuali.kra.committee.service.impl.CommitteePrintingServiceImpl" scope="prototype" parent="printingService">
 		<property name="committeeTemplatePrint" ref="committeeTemplatePrint" />
 		<property name="scheduleTemplatePrint" ref="scheduleTemplatePrint" />
 		<property name="protocolCorrespondenceTemplatePrint" ref="protocolCorrespondenceTemplatePrint" />
 		<property name="committeeRosterPrint" ref="committeeRosterPrint" />
 		<property name="committeeFutureScheduledMeetingsPrint" ref="committeeFutureScheduledMeetingsPrint" />
 		<property name="protocolBatchCorrespondencePrint" ref="protocolBatchCorrespondencePrint" />
-
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
 	</bean>
 	<bean id="irbPrintXmlUtilService"
 		class="org.kuali.kra.committee.print.IrbPrintXmlUtilServiceImpl">

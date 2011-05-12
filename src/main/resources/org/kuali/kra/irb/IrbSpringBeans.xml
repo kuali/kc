@@ -869,16 +869,11 @@
             </property>
         </bean>
         <bean id="protocolPrintingService"
-            class="org.kuali.kra.irb.actions.print.ProtocolPrintingServiceImpl">
+            class="org.kuali.kra.irb.actions.print.ProtocolPrintingServiceImpl" parent="printingService">
             <property name="protocolFullProtocolPrint" ref="protocolFullProtocolPrint" />
             <property name="protocolHistoryPrint" ref="protocolHistoryPrint" />
             <property name="protocolReviewCommentsPrint" ref="protocolReviewCommentsPrint" />
             <property name="protocolSummaryViewPrint" ref="protocolSummaryViewPrint" />
-            <property name="kualiConfigurationService">  <ref bean="kualiConfigurationService" />
-			</property>		
-            <property name="dateTimeService">
-                <ref bean="dateTimeService" />
-            </property>
         </bean>
 
         <bean id="protocolFullProtocolPrint"

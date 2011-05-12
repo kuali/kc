@@ -410,11 +410,11 @@
 	<bean id="printingService" class="org.kuali.kra.printing.service.impl.PrintingServiceImpl" >
 		<property name="dateTimeService">  <ref bean="dateTimeService" />
 		</property>	
-		<property name="watermarkService">
-			<ref bean="watermarkService" />
-		</property>
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
+		</property>
+		<property name="watermarkService">
+			<ref bean="watermarkService" />
 		</property>
 	</bean>
 
