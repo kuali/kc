@@ -34,6 +34,13 @@
 	<param name="s2s.truststore.password">truststore password</param>
 	<param name="grants.gov.s2s.host">grants.gov host</param>
 	<param name="grants.gov.s2s.port">grants.gov port</param>
+	
+	<!-- Logging print Configuration -->
+	<param name="print.logging.directory">log directory path</param>
+	<param name="print.logging.enable">"true" to enable logging</param>
+	
+	
+	
 
 	<!-- Java mail properties -->
 	<param name="mail.from">mail.from@kuali.org</param>

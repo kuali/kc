@@ -30,4 +30,9 @@
 	
 	<param name="rice.portal.links.showRiceServerConfig">true</param>
 	<param name="rice.portal.logout.redirectUrl">${rice.app.url}/logout.do</param>
+	
+	<!-- Logging print Configuration -->
+	<param name="print.logging.directory">log directory path</param>
+	<param name="print.logging.enable">"true" to enable logging</param>
+	
 </config>
