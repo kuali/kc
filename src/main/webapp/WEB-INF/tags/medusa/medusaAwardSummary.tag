@@ -107,19 +107,29 @@
       <th colspan="2">Investigators</th>
       <th colspan="2">Units</th>
     </tr>
-    <c:forEach items="${node.bo.projectPersons}" var="person">
+    
       <tr>
         <td style="text-align: center;" colspan="2">
-           <c:out value="${person.fullName}"/> 
-           <c:if test="${person.principalInvestigator}">(Principal Investigator)</c:if>
+           <c:out value="${node.bo.principalInvestigatorName}"/> (Principal Investigator)
+        </td>
+        <td style="text-align: center;" colspan="2">
+            <c:out value="${node.bo.leadUnit.unitNumber} : ${node.bo.leadUnit.unitName}"/>(Lead Unit)
+            <br/>
+        </td>
+      </tr>
+    <c:forEach items="${node.bo.projectPersons}" var="person">
+      <c:if test="${!person.principalInvestigator}">
+      <tr>
+        <td style="text-align: center;" colspan="2">
+            <c:out value="${person.fullName}"/>
         </td>
         <td style="text-align: center;" colspan="2">
           <c:forEach items="${person.units}" var="unit">
             <c:out value="${unit.unitNumber} : ${unit.unitName}"/>
-            <c:if test="${unit.leadUnit}">(Lead Unit)</c:if>
             <br/>
           </c:forEach>
         </td>
       </tr>
+      </c:if>
     </c:forEach>
   </table>
