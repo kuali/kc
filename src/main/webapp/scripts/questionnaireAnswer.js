@@ -61,6 +61,15 @@
 				    $j(this).hide();
 			    }
 			});
+    
+    // this is for root-node, for PD/opportunity/forname equivalency.  not ready yet.  so, comment out
+//    $j('input[id^=childDisplay-0]').each(
+//			function() {
+//			    if ($j(this).attr("value") == 'N') {
+//				    $j(this).parents('table[id^=table-0]').hide();
+//			    }
+//			});
+
 
     /*
      * set up 'change' event trigger for answer fields.
@@ -130,9 +139,11 @@
         $j("table[id^="+prefix+"-]").each(                           
     			function() {
                     var conditionDiv = $j("#"+$j(this).attr("id")+" .condition:nth(0)");
-                    if (isNaN(conditionDiv.children('input:eq(1)').attr("value"))) {
+                    var condVal = conditionDiv.children('input:eq(1)').attr("value");
+                    if (condVal == "" || isNaN(condVal)) {
                    		$j(this).show();                   		
                    		$j("#childDisplay"+conditionDiv.children('input:eq(1)').attr("id").substring(9)).attr("value","Y");
+                        var qidx = $j(this).attr("id").substring(prefix.length+1);
                    		$j("#"+formProperty+"\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.matchedChild").attr("value","Y");
                   		showChildren(conditionDiv.children('input:eq(1)').attr("id").substring(10),formProperty);
                     } 
