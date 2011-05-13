@@ -64,7 +64,7 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
         super.setUp();
         
         service = new ReviewCommentsServiceImpl();
-        service.setDateTimeService(getMockDateTimeService());
+//        service.setDateTimeService(getMockDateTimeService());
     }
     
     @Override
@@ -84,7 +84,8 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
         CommitteeScheduleMinute firstNewReviewComment = new CommitteeScheduleMinute();
         firstNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
         firstNewReviewComment.setMinuteEntry(FIRST_COMMENT);
-        
+        service.setDateTimeService(getMockDateTimeService());
+       
         service.addReviewComment(firstNewReviewComment, reviewComments, protocolDocument.getProtocol());
         
         assertEquals(1, reviewComments.size());
@@ -361,7 +362,7 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
         reviewComments.add(secondNewReviewComment);
         
         service.setParameterService(getMockParameterService() );       
-        service.setKimRoleManagementService(getMockRoleService());
+        service.setKimRoleManagementService(getMockRoleService1());
         
         service.setKcPersonService(getMockKcPersonService());
         Protocol protocol = new Protocol();
@@ -398,7 +399,7 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
         reviewComments.add(secondNewReviewComment);
         
         service.setParameterService(getMockParameterService() );       
-        service.setKimRoleManagementService(getMockRoleService());
+        service.setKimRoleManagementService(getMockRoleService1());
         
         service.setKcPersonService(getMockKcPersonService());
         Protocol protocol = new Protocol();
@@ -462,7 +463,7 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
         reviewComments.add(secondNewReviewComment);
         
         service.setParameterService(getMockParameterService() );       
-        service.setKimRoleManagementService(getMockRoleService());
+        service.setKimRoleManagementService(getMockRoleService1());
         
         service.setKcPersonService(getMockKcPersonService());
         
@@ -491,7 +492,7 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
         reviewComments.add(secondNewReviewComment);
         
         service.setParameterService(getMockParameterService() );       
-        service.setKimRoleManagementService(getMockRoleService());
+        service.setKimRoleManagementService(getMockRoleService1());
         
         service.setKcPersonService(getMockKcPersonService());
         
@@ -533,6 +534,27 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
             allowing(kimRoleManagementService).getRoleMemberPrincipalIds("KC-UNT", RoleConstants.IRB_ADMINISTRATOR,
                     null);
             will(returnValue(adminIds));
+        }});
+        return kimRoleManagementService;
+    }
+    private RoleService getMockRoleService1() {
+        final RoleService kimRoleManagementService = context.mock(RoleService.class);
+        final Set<String> adminIds = new HashSet<String>();
+        adminIds.add("10000000001");
+        final Set<String> aggregatorIds = new HashSet<String>();
+        aggregatorIds.add("10000000002");
+        final Set<String> viewerId = new HashSet<String>();
+        viewerId.add("10000000003");
+        context.checking(new Expectations() {{
+            allowing(kimRoleManagementService).getRoleMemberPrincipalIds("KC-UNT", RoleConstants.IRB_ADMINISTRATOR,
+                    null);
+            will(returnValue(adminIds));
+            allowing(kimRoleManagementService).getRoleMemberPrincipalIds("KC-PROTOCOL", RoleConstants.PROTOCOL_AGGREGATOR,
+                    null);
+            will(returnValue(aggregatorIds));
+            allowing(kimRoleManagementService).getRoleMemberPrincipalIds("KC-PROTOCOL", RoleConstants.PROTOCOL_VIEWER,
+                    null);
+            will(returnValue(viewerId));
         }});
         return kimRoleManagementService;
     }
