@@ -185,24 +185,26 @@ public class CustomDataHelper extends CustomDataHelperBase {
                                                        Map<String, CustomAttributeDocument> customAttributeDocuments) {
         List<AwardCustomData> awardCustomDataList = awardForm.getAwardDocument().getAward().getAwardCustomDataList();
         for(Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry:customAttributeDocuments.entrySet()) {
-            AwardCustomData loopAwardCustomData = new AwardCustomData();
+            AwardCustomData loopAwardCustomData = null;
             for(AwardCustomData awardCustomData : awardCustomDataList){
                 if(awardCustomData.getCustomAttributeId() == (long) customAttributeDocumentEntry.getValue().getCustomAttribute().getId()){
                     loopAwardCustomData = awardCustomData;
                     break;
                 }
             }
-            awardForm.getCustomDataHelper().getCustomAttributeValues()
-            .put("id" + customAttributeDocumentEntry.getValue().getCustomAttributeId().toString(), new String[] {loopAwardCustomData.getValue()});
-            String groupName = 
-                customAttributeDocuments.get(loopAwardCustomData.getCustomAttributeId().toString()).getCustomAttribute().getGroupName();
-            List<CustomAttributeDocument> customAttributeDocumentList = customAttributeGroups.get(groupName);   
+            if (loopAwardCustomData != null) {
+                awardForm.getCustomDataHelper().getCustomAttributeValues()
+                .put("id" + customAttributeDocumentEntry.getValue().getCustomAttributeId().toString(), new String[] {loopAwardCustomData.getValue()});
+                String groupName = 
+                    customAttributeDocuments.get(loopAwardCustomData.getCustomAttributeId().toString()).getCustomAttribute().getGroupName();
+                List<CustomAttributeDocument> customAttributeDocumentList = customAttributeGroups.get(groupName);   
                 if (customAttributeDocumentList == null) {
                     customAttributeDocumentList = new ArrayList<CustomAttributeDocument>();
                     customAttributeGroups.put(groupName, customAttributeDocumentList);
                 }
                 customAttributeDocumentList.add(customAttributeDocuments.get(loopAwardCustomData.getCustomAttributeId().toString()));
-             }
+            }
+        }
         populateCustomDataValuesFromParentMap();
     }
     
