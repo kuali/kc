@@ -156,7 +156,7 @@ public class ProposalPersonQuestionnaireTest extends KcUnitTestBase {
         
     }
     
-//    /@Test
+    @Test
     public void testProposalPersonModuleQuestionnaireBean() {
         ProposalPersonModuleQuestionnaireBean bean = new ProposalPersonModuleQuestionnaireBean(proposal, getPerson());
         assertEquals(CoeusSubModule.PROPOSAL_PERSON_CERTIFICATION, bean.getModuleItemCode());
@@ -164,8 +164,8 @@ public class ProposalPersonQuestionnaireTest extends KcUnitTestBase {
     
     @Test
     public void testQuestionnaire() {
-        /*
-        Questionnaire questionnaire = proposalDevelopmentPersonQuestionnaireServiceImpl.getBaseQuestionnaire();
+        AnswerHeader header = questionnaireAnswerService.getQuestionnaireAnswer(questionnaireHelper.getModuleQnBean()).get(0);
+        Questionnaire questionnaire = header.getQuestionnaire();
         assertEquals(6, questionnaire.getQuestionnaireQuestions().size());
         
         boolean q1Found = false;
@@ -176,8 +176,8 @@ public class ProposalPersonQuestionnaireTest extends KcUnitTestBase {
         boolean q6Found = false;
         
         for (QuestionnaireQuestion q : questionnaire.getQuestionnaireQuestions()) {
-            //assertFalse(StringUtils.isEmpty(q.getQuestion().getAffirmativeStatementConversion()));
-            //assertFalse(StringUtils.isEmpty(q.getQuestion().getNegativeStatementConversion()));
+            assertFalse(StringUtils.isEmpty(q.getQuestion().getAffirmativeStatementConversion()));
+            assertFalse(StringUtils.isEmpty(q.getQuestion().getNegativeStatementConversion()));
             if (StringUtils.equals(q1, q.getQuestion().getQuestion())) {
                 assertEquals("1", q.getQuestion().getAnswerMaxLength().toString());
                 q1Found = true;
@@ -206,24 +206,21 @@ public class ProposalPersonQuestionnaireTest extends KcUnitTestBase {
         assertTrue(q4Found);
         assertTrue(q5Found);
         assertTrue(q6Found);
-        */
     }
     
-//    /@Test
+    @Test
     public void testGetNewAnswerHeader() throws Exception{
-        /*
-        ProposalPersonModuleQuestionnaireBean bean = new ProposalPersonModuleQuestionnaireBean(proposal, getPerson());
-        AnswerHeader header = proposalDevelopmentPersonQuestionnaireServiceImpl.getNewAnswerHeader(bean);
+        AnswerHeader header = questionnaireAnswerService.getQuestionnaireAnswer(questionnaireHelper.getModuleQnBean()).get(0);
         assertEquals(6, header.getAnswers().size());
 
         for(Answer answer : header.getAnswers()) {
             answer.setAnswer("1");
         }
         
-        this.businessObjectService.save(header.getAnswers());
+        this.businessObjectService.save(header);
         
         //ProposalPersonModuleQuestionnaireBean bean = new ProposalPersonModuleQuestionnaireBean(proposal, getPerson());
-        List<AnswerHeader> headers = questionnaireAnswerService.getQuestionnaireAnswer(bean);
+        List<AnswerHeader> headers = questionnaireAnswerService.getQuestionnaireAnswer(questionnaireHelper.getModuleQnBean());
         assertEquals(1, headers.size());
         List<Answer> answers = headers.get(0).getAnswers();
         assertEquals(6, answers.size());
@@ -263,6 +260,6 @@ public class ProposalPersonQuestionnaireTest extends KcUnitTestBase {
         assertTrue(q3Found);
         assertTrue(q4Found);
         assertTrue(q5Found);
-        */
+
     }
 }
