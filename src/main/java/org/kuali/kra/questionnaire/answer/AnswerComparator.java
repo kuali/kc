@@ -46,13 +46,13 @@ public class AnswerComparator implements Comparator<Answer>  {
         } else if (ans1.getQuestionnaireQuestion().getParentQuestionNumber() != 0
                 && argAnswer.getQuestionnaireQuestion().getParentQuestionNumber() == 0) {
             retVal = getRootAnswer(ans1).getQuestionnaireQuestion().getQuestionSeqNumber().compareTo(argAnswer.getQuestionnaireQuestion().getQuestionSeqNumber());
-        } else if (ans1.getQuestionnaireQuestion().getParentQuestionNumber() != 0
-                && argAnswer.getQuestionnaireQuestion().getParentQuestionNumber() != 0) {
-            if (ObjectUtils.equals(getRootAnswer(ans1).getQuestionNumber(), getRootAnswer(argAnswer).getQuestionNumber())) {
-                retVal = compareAtSameDepth(ans1, argAnswer);
-            } else {
-                retVal = getRootAnswer(ans1).getQuestionnaireQuestion().getQuestionSeqNumber().compareTo(getRootAnswer(argAnswer).getQuestionnaireQuestion().getQuestionSeqNumber());
-            }
+//        } else if (ans1.getQuestionnaireQuestion().getParentQuestionNumber() != 0
+//                && argAnswer.getQuestionnaireQuestion().getParentQuestionNumber() != 0) {
+//            if (ObjectUtils.equals(getRootAnswer(ans1).getQuestionNumber(), getRootAnswer(argAnswer).getQuestionNumber())) {
+//                retVal = compareAtSameDepth(ans1, argAnswer);
+//            } else {
+//                retVal = getRootAnswer(ans1).getQuestionnaireQuestion().getQuestionSeqNumber().compareTo(getRootAnswer(argAnswer).getQuestionnaireQuestion().getQuestionSeqNumber());
+//            }
         } else {
             retVal = 0;
         }
