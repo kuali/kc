@@ -449,20 +449,38 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
     private boolean canViewName(CommitteeScheduleMinute reviewComment) {
         boolean canViewName = false;
         Person person = GlobalVariables.getUserSession().getPerson();
-//        if (hideReviewerName) {
-            if (isIrbAdmin(person.getPrincipalId()) || isCreator(reviewComment, person.getPrincipalName())) {
-                canViewName = true;
-            }
-//        }
+        // if (hideReviewerName) {
+        if (isIrbAdmin(person.getPrincipalId()) || isCreator(reviewComment, person.getPrincipalName())) {
+            canViewName = true;
+        }
+        // }
         else {
-            if ((isDisplayReviewerNameToReviewers() && isReviewer(reviewComment, person.getPrincipalId()))  
-                    || (isDisplayReviewerNameToActiveMembers() && getActiveMemberId(reviewComment).contains(person.getPrincipalId()))
-                || (isDisplayReviewerNameToPersonnel() && (getPersonnelIds(reviewComment).contains(person.getPrincipalId())
-                        || getProtocolAggregators().contains(person.getPrincipalId()) || getProtocolViewers().contains(person.getPrincipalId()) ))) {
+            // if protocol personnel, then only if display to personnel is set to true
+            if (isProtocolPersonnelOrHasProtocolRole(reviewComment)) {
+                if (isDisplayReviewerNameToPersonnel()) {
+                    canViewName = true;
+                }
+            }
+            // must be non protocol personnel
+            else if ((isDisplayReviewerNameToReviewers() && isReviewer(reviewComment, person.getPrincipalId()))
+                    || (isDisplayReviewerNameToActiveMembers() && getActiveMemberId(reviewComment)
+                            .contains(person.getPrincipalId()))) {
+                // only if display to personnel is true or is not protocol personnel
                 canViewName = true;
             }
+
         }
         return canViewName;
+    }
+    
+    /*
+     * check if user is protocol personnel or has permission as aggregator or viewer
+     */
+    private boolean isProtocolPersonnelOrHasProtocolRole(CommitteeScheduleMinute reviewComment) {
+        Person person = GlobalVariables.getUserSession().getPerson();
+        return getPersonnelIds(reviewComment).contains(person.getPrincipalId())
+                || getProtocolAggregators().contains(person.getPrincipalId())
+                || getProtocolViewers().contains(person.getPrincipalId());
     }
     
     private List<String> getActiveMemberId(CommitteeScheduleMinute reviewComment) {
