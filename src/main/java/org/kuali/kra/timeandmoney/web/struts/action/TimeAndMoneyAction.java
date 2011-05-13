@@ -43,6 +43,7 @@ import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardDirectFandADistributionService;
+import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
@@ -1039,7 +1040,9 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
         TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyForm.getTimeAndMoneyDocument();
-        this.save(mapping, form, request, response);
+        if(!getKraWorkflowService().isInWorkflow(timeAndMoneyDocument)){
+            this.save(mapping, form, request, response);
+        }
         
         AwardDocument awardDocument = timeAndMoneyDocument.getAward().getAwardDocument();
                 
@@ -1047,6 +1050,10 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
 
         String forward = buildForwardUrl(routeHeaderId);
         return new ActionForward(forward, true);
+    }
+    
+    protected KraWorkflowService getKraWorkflowService() {
+        return KraServiceLocator.getService(KraWorkflowService.class);
     }
     
     /**
