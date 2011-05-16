@@ -20,14 +20,14 @@
 	-->
 
 	<!-- globally used properties -->
-	<property name="bun.username" value="KCBND"/>
-	<property name="bun.password" value="bnd174kc"/>
-	<property name="tst.username" value="KCUNT"/>
-	<property name="tst.password" value="unt174kc"/>
-	<property name="emb.client.username" value="KCDEV"/>
-	<property name="emb.client.password" value="dev174kc"/>
-	<property name="emb.server.username" value="KRDEV"/>
-	<property name="emb.server.password" value="dev174kr"/>
+	<property name="bun.username" value="BUNDLE DB USERID"/>
+	<property name="bun.password" value="BUNDLE DB PASSWORD"/>
+	<property name="tst.username" value="UNIT DB USERID"/>
+	<property name="tst.password" value="UNIT DB PASSWORD"/>
+	<property name="emb.client.username" value="EMBEDDED CLIENT DB USERID"/>
+	<property name="emb.client.password" value="EMBEDDED CLIENT DB PASSWORD"/>
+	<property name="emb.server.username" value="EMBEDDED SERVER DB USERID"/>
+	<property name="emb.server.password" value="EMBEDDED SERVER DB PASSWORD"/>
 
 	<!-- oracle properties -->
 	<property name="sqlplus.location" value="sqlplus"/>
