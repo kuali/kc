@@ -2426,7 +2426,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public KualiDecimal getBudgetTotalCostLimit() {
         AwardBudgetLimit limit = getTotalCostBudgetLimit();
         KualiDecimal obliTotal = getObligatedDistributableTotal();
-        if (limit != null && limit.getLimit().isLessEqual(obliTotal)) {
+        if (limit.getLimit() != null && limit.getLimit().isLessEqual(obliTotal)) {
             return limit.getLimit();
         } else {
             return obliTotal;
