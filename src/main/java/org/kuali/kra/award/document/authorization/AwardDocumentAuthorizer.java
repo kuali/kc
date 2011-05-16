@@ -133,9 +133,10 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         // if document is in processed or final state
         if (status.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_PROCESSED_CD) 
                 || status.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_FINAL_CD)) {
-            String awardAccountParameter = getParameterService().getParameterValue(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "AWARD_CREATE_ACCOUNT");
+            String awardAccountParameter = getParameterService().getParameterValue(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, 
+                                                                                    Constants.FIN_SYSTEM_INTEGRATION_ON_OFF_PARAMETER);
             // if the integration parameter is ON
-            if (awardAccountParameter.equalsIgnoreCase("ON")) {
+            if (awardAccountParameter.equalsIgnoreCase(Constants.FIN_SYSTEM_INTEGRATION_ON)) {
                 IdentityManagementService identityManagementService 
                     = KraServiceLocator.getService(IdentityManagementService.class);
                 AttributeSet set = new AttributeSet();
