@@ -21,6 +21,8 @@
 <c:set var="reviewerAttributes" value="${DataDictionary.ProtocolReviewerBean.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
 
+<jsp:useBean id="paramMap" class="java.util.HashMap"/>
+
 <kra:permission value="${KualiForm.actionHelper.canSubmitProtocol}">
 
 <kul:innerTab tabTitle="Submit for Review" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolSubmitAction*">
@@ -64,31 +66,62 @@
                         <kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.submissionQualifierTypeCode" attributeEntry="${attributes.submissionQualifierTypeCode}" />
                     </td>
                 </tr>
-                
                 <c:if test="${KualiForm.actionHelper.showCommittee}">
+	                <c:set var="hasCommitteeError" value="false"/>
+	                <c:set var="fieldName" value="actionHelper.protocolSubmitAction.committeeId" />
+	                <c:forEach items="${ErrorPropertyList}" var="key">
+	                    <c:if test="${key eq fieldName }">
+	                        <c:set var="hasCommitteeError" value="true"/>
+	                    </c:if>
+	                </c:forEach>                
 	                <tr>
 	                	<th width="15%"> 
 	                        <div align="right">
 	                            <kul:htmlAttributeLabel attributeEntry="${attributes.committeeId}" />
 	                        </div>
 	                    </th>
+	                    <c:set target="${paramMap}" property="protocolLeadUnit" value="${KualiForm.document.protocolList[0].leadUnitNumber}" />
+	                    <c:set target="${paramMap}" property="docRouteStatus" value="${KualiForm.document.documentHeader.workflowDocument.routeHeader.docRouteStatus}" />
 	                    <c:choose>
 	                        <c:when test="${KualiForm.actionHelper.showCommittee}">
 	                            <td>
-			                        <kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.committeeId" 
-			                                                  attributeEntry="${attributes.committeeId}" 
-			                                                  onchange="loadScheduleDates('actionHelper.protocolSubmitAction.committeeId', 'actionHelper.protocolSubmitAction.scheduleId');" />
+				                    <html:select property="actionHelper.protocolSubmitAction.committeeId" onchange="loadScheduleDates('actionHelper.protocolSubmitAction.committeeId', 'actionHelper.protocolSubmitAction.scheduleId');" >                               
+				                        <c:forEach items="${krafn:getOptionList('org.kuali.kra.committee.lookup.keyvalue.CommitteeIdByUnitValuesFinder', paramMap)}" var="option">
+				                            <c:choose>                      
+				                                <c:when test="${KualiForm.actionHelper.protocolSubmitAction.committeeId == option.key}">
+				                                    <option value="${option.key}" selected="selected">${option.label}</option>
+				                                </c:when>
+				                                <c:otherwise>                               
+				                                    <c:out value="${option.label}"/>
+				                                    <option value="${option.key}">${option.label}</option>
+				                                </c:otherwise>
+				                            </c:choose>                                                
+				                        </c:forEach>
+				                    </html:select>	                            
 	                    	    </td>
 	                        </c:when>
 	                    	<c:otherwise>
 	                    		 <td colspan="3">
-	                    		     <kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.committeeId" 
-			                                                  attributeEntry="${attributes.committeeId}" />
+                                    <html:select property="actionHelper.protocolSubmitAction.committeeId" >                               
+                                        <c:forEach items="${krafn:getOptionList('org.kuali.kra.committee.lookup.keyvalue.CommitteeIdByUnitValuesFinder', paramMap)}" var="option">
+                                            <c:choose>                      
+                                                <c:when test="${KualiForm.actionHelper.protocolSubmitAction.committeeId == option.key}">
+                                                    <option value="${option.key}" selected="selected">${option.label}</option>
+                                                </c:when>
+                                                <c:otherwise>                               
+                                                    <c:out value="${option.label}"/>
+                                                    <option value="${option.key}">${option.label}</option>
+                                                </c:otherwise>
+                                            </c:choose>                                                
+                                        </c:forEach>
+                                    </html:select>
 			                     </td>
 	                    	</c:otherwise>
-	                    </c:choose>
-	                   
-	                    
+                        </c:choose>	                    	
+	                    <c:if test="${hasCommitteeError}">
+	                        <kul:fieldShowErrorIcon />
+	                    </c:if>	                    	
+    
 		                    <th width="20%"> 
 		                        <div align="right">
 		                              <kul:htmlAttributeLabel attributeEntry="${attributes.scheduleId}" />
