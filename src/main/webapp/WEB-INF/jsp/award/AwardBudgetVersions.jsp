@@ -65,10 +65,10 @@
                 	<kul:htmlControlAttribute property="document.budgetVersionOverview.budgetVersionNumber" attributeEntry="${budgetAttributes.budgetVersionNumber}" readOnly="true"/>
                 </td>
        			<th>
-           			<div align="right">Obligated Distributable Total:</div>
+           			<div align="right">Budget Total Cost Limit:</div>
        			</th>
            		<td>
-           			<bean:write name="KualiForm" property="document.budgetParent.obligatedDistributableTotal"/> 
+           			<bean:write name="KualiForm" property="document.budgetParent.budgetTotalCostLimit"/> 
            		</td>
         	</tr>
         	<tr>

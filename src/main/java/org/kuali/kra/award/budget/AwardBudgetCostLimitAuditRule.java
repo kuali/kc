@@ -20,17 +20,23 @@ import static org.kuali.rice.kns.util.GlobalVariables.getAuditErrorMap;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.ObjectUtils;
+import org.kuali.kra.award.budget.calculator.AwardBudgetCalculationService;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.DocumentAuditRule;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * 
@@ -40,48 +46,53 @@ import org.kuali.rice.kns.util.AuditError;
 public class AwardBudgetCostLimitAuditRule implements DocumentAuditRule {
     public static final String AWARD_BUDGET_COST_LIMIT_ERROR_KEY = "awardBudgetCostLimitAuditErrors";
     public static final String AWARD_BUDGET_COST_LIMIT_WARNING_KEY = "awardBudgetCostLimitAuditWarnings";
+    
+    private BusinessObjectService businessObjectService;
+    private AwardBudgetCalculationService awardBudgetCalculationService;
+    private AwardBudgetService awardBudgetService;
 
     public boolean processRunAuditBusinessRules(Document document) {
         AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument) document;
         AwardBudgetExt budget = (AwardBudgetExt)((BudgetDocument)document).getBudget();
 
+        Award currentAward = getAwardBudgetService().getActiveOrNewestAward(((AwardDocument) awardBudgetDocument.getParentDocument()).getAward().getAwardNumber());
         boolean valid = true;
-        if (!limitsMatch(((AwardDocument) awardBudgetDocument.getParentDocument()).getAward().getAwardBudgetLimits(),
-                budget.getAwardBudgetLimits())) {
-            getAuditWarnings().add(new AuditError("document.budget.awardBudgetLimits",
-                    KeyConstants.AUDIT_ERROR_COST_LIMITS_CHANGED,
-                    Constants.BUDGET_PERIOD_PAGE + "." + "BudgetPeriodsTotals"));
-            valid = false;  
-            
+        valid &= limitsMatch(currentAward.getAwardBudgetLimits(),
+                budget.getAwardBudgetLimits());
+        
+        AwardBudgetExt prevBudget = loadBudget(budget.getPrevBudget());
+        if (prevBudget != null) {
+            getAwardBudgetCalculationService().calculateBudgetSummaryTotals(prevBudget, true);
         }
-        AwardBudgetLimit directLimit = getBudgetLimit(AwardBudgetLimit.LIMIT_TYPE.DIRECT_COST, budget.getAwardBudgetLimits());
-        BudgetDecimal totalDirect = budget.getTotalDirectCost();
-        if (budget.getPrevBudget() != null) {
-            totalDirect = totalDirect.add(budget.getPrevBudget().getTotalDirectCost());
+        
+        for (AwardBudgetLimit budgetLimit : budget.getAwardBudgetLimits()) {
+            if (budgetLimit.getLimitType() == AwardBudgetLimit.LIMIT_TYPE.TOTAL_COST) {
+                //total cost is validated as the budget change total so ignore here
+                continue;
+            }
+            if (budgetLimit.getLimit() != null) {
+                BudgetDecimal total = (BudgetDecimal) ObjectUtils.getPropertyValue(budget, budgetLimit.getLimitType().getBudgetProperty());
+                if (prevBudget != null) {
+                    total = total.add((BudgetDecimal) ObjectUtils.getPropertyValue(budget, budgetLimit.getLimitType().getBudgetProperty()));
+                }
+                if (total.isGreaterThan(budgetLimit.getLimit())) {
+                    getAuditErrors().add(new AuditError("document.budget." + budgetLimit.getLimitType().getBudgetProperty(),
+                            KeyConstants.AUDIT_ERROR_COST_LIMIT,
+                            Constants.BUDGET_PERIOD_PAGE + "." + "BudgetPeriodsTotals",
+                            new String[]{budgetLimit.getLimitType().getDesc(), budgetLimit.getLimit().toString()}));
+                    valid = false;
+                }
+            }
         }
-        if (directLimit.getLimit() != null 
-                && !totalDirect.isLessEqual(directLimit.getLimit())) {
-            getAuditErrors().add(new AuditError("document.budget.totalDirectCost",
-                    KeyConstants.AUDIT_ERROR_COST_LIMIT,
-                    Constants.BUDGET_PERIOD_PAGE + "." + "BudgetPeriodsTotals",
-                    new String[]{"Total Direct", directLimit.getLimit().toString()}));
-            valid = false;  
-        }
-        AwardBudgetLimit indirectLimit = getBudgetLimit(AwardBudgetLimit.LIMIT_TYPE.INDIRECT_COST, budget.getAwardBudgetLimits());
-        BudgetDecimal totalIndirect = budget.getTotalIndirectCost();
-        if (budget.getPrevBudget() != null) {
-            totalIndirect = totalIndirect.add(budget.getPrevBudget().getTotalIndirectCost());
-        }
-        if (indirectLimit.getLimit() != null 
-                && !totalIndirect.isLessEqual(indirectLimit.getLimit())) {
-            getAuditErrors().add(new AuditError("document.budget.totalIndirectCost",
-                    KeyConstants.AUDIT_ERROR_COST_LIMIT,
-                    Constants.BUDGET_PERIOD_PAGE + "." + "BudgetPeriodsTotals",
-                    new String[]{"Total F&A", indirectLimit.getLimit().toString()}));
-            valid = false;
-        } 
-
         return valid;
+    }
+    
+    private AwardBudgetExt loadBudget(BudgetVersionOverview budgetOverview) {
+        AwardBudgetExt retval = null;
+        if (budgetOverview != null) {
+            retval = getBusinessObjectService().findBySinglePrimaryKey(AwardBudgetExt.class, budgetOverview.getBudgetId());
+        }
+        return retval;
     }
     
     /**
@@ -122,18 +133,24 @@ public class AwardBudgetCostLimitAuditRule implements DocumentAuditRule {
      */
     protected boolean limitsMatch(List<AwardBudgetLimit> awardLimits, List<AwardBudgetLimit> budgetLimits) {
         if (awardLimits.size() != budgetLimits.size()) {
-            return false;
+            getAuditWarnings().add(new AuditError("document.budget.awardBudgetLimits",
+                    KeyConstants.AUDIT_ERROR_COST_LIMITS_CHANGED,
+                    Constants.BUDGET_PERIOD_PAGE + "." + "BudgetPeriodsTotals"));
         }
         
         for (AwardBudgetLimit limit : awardLimits) {
             AwardBudgetLimit budgetLimit = getBudgetLimit(limit.getLimitType(), budgetLimits);
             if (budgetLimit == null 
-                    || !ObjectUtils.equals(limit.getLimit(), budgetLimit.getLimit())) {
-                return false;
+                    || !org.apache.commons.lang.ObjectUtils.equals(limit.getLimit(), budgetLimit.getLimit())) {
+               getAuditWarnings().add(new AuditError("document.budget.awardBudgetLimits",
+                        KeyConstants.AUDIT_ERROR_SPECIFIC_COST_LIMITS_CHANGED,
+                        Constants.BUDGET_PERIOD_PAGE + "." + "BudgetPeriodsTotals",
+                        new String[]{budgetLimit.getLimitType().getDesc(), 
+                            budgetLimit == null || budgetLimit.getLimit() == null ? "N/A" : budgetLimit.getLimit().toString(), 
+                            limit.getLimit() == null ? "N/A" : limit.getLimit().toString()}));
             }
         }
         return true;
-        
     }
     
     
@@ -153,6 +170,39 @@ public class AwardBudgetCostLimitAuditRule implements DocumentAuditRule {
         }
         
         return auditErrors;
+    }
+
+    protected BusinessObjectService getBusinessObjectService() {
+        if (businessObjectService == null) {
+            businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        }
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    protected AwardBudgetCalculationService getAwardBudgetCalculationService() {
+        if (awardBudgetCalculationService == null) {
+            awardBudgetCalculationService = KraServiceLocator.getService(AwardBudgetCalculationService.class);
+        }
+        return awardBudgetCalculationService;
+    }
+
+    public void setAwardBudgetCalculationService(AwardBudgetCalculationService awardBudgetCalculationService) {
+        this.awardBudgetCalculationService = awardBudgetCalculationService;
+    }
+
+    protected AwardBudgetService getAwardBudgetService() {
+        if (awardBudgetService == null) {
+            awardBudgetService = KraServiceLocator.getService(AwardBudgetService.class);
+        }
+        return awardBudgetService;
+    }
+
+    public void setAwardBudgetService(AwardBudgetService awardBudgetService) {
+        this.awardBudgetService = awardBudgetService;
     }
     
     

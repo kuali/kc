@@ -34,6 +34,7 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.bo.versioning.VersionHistory;
+import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.calculator.QueryList;
@@ -319,8 +320,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         awardBudget.setBudgetStatus(this.parameterService.getParameterValue(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_STATUS_IN_PROGRESS));
 
         awardBudget.setRateClassTypesReloaded(true);
-        awardBudget.setTotalCostLimit(getTotalCostLimit(parentDocument));
-        copyBudgetLimits(awardBudgetDocument, parentDocument);
+        setBudgetLimits(awardBudgetDocument, parentDocument);
         if (awardBudget.getTotalCostLimit().equals(BudgetDecimal.ZERO) && isPostedBudgetExist(parentDocument)) {
             rebudget = true;
         }
@@ -332,8 +332,9 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         return awardBudgetDocument;
     }
     
-    protected void copyBudgetLimits(AwardBudgetDocument awardBudgetDocument, AwardDocument parentDocument) {
+    public void setBudgetLimits(AwardBudgetDocument awardBudgetDocument, AwardDocument parentDocument) {
         AwardBudgetExt awardBudget = awardBudgetDocument.getAwardBudget();
+        awardBudget.setTotalCostLimit(getTotalCostLimit(parentDocument));
         awardBudget.getAwardBudgetLimits().clear();
         for (AwardBudgetLimit limit : parentDocument.getAward().getAwardBudgetLimits()) {
             awardBudget.getAwardBudgetLimits().add(new AwardBudgetLimit(limit));
@@ -419,8 +420,11 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         }
         return postedBudget;
     }
-    
-    protected BudgetDecimal getTotalCostLimit(AwardDocument awardDocument) {
+
+    /**
+     * @see org.kuali.kra.award.budget.AwardBudgetService#getTotalCostLimit(org.kuali.kra.award.document.AwardDocument)
+     */
+    public BudgetDecimal getTotalCostLimit(AwardDocument awardDocument) {
         KualiDecimal obligatedTotal = awardDocument.getAward().getObligatedDistributableTotal();
         KualiDecimal costLimit = awardDocument.getAward().getTotalCostBudgetLimit().getLimit(); 
         BudgetDecimal postedTotalAmount = getPostedTotalAmount(awardDocument);
@@ -431,6 +435,11 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         }
     }
     
+    /**
+     * Gets the total posted amount from previously posted budgets
+     * @param awardDocument
+     * @return
+     */
     protected BudgetDecimal getPostedTotalAmount(AwardDocument awardDocument) {
         List<BudgetDocumentVersion> documentVersions = awardDocument.getBudgetDocumentVersions();
         String postedStatusCode = getAwardPostedStatusCode();
@@ -566,7 +575,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         //award document
         ((AwardBudgetExt) budgetDocument.getBudget()).getAwardBudgetLimits().clear();
         BudgetDocument<Award> newBudgetDocument = getBudgetService().copyBudgetVersion(budgetDocument);
-        copyBudgetLimits((AwardBudgetDocument) newBudgetDocument, (AwardDocument) newBudgetDocument.getParentDocument());
+        setBudgetLimits((AwardBudgetDocument) newBudgetDocument, (AwardDocument) newBudgetDocument.getParentDocument());
         return newBudgetDocument;
     }
 
@@ -781,6 +790,25 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         List<BudgetDocumentVersion> listResult = new ArrayList<BudgetDocumentVersion>(result);
         Collections.sort(listResult);
         return listResult;
+    }
+    
+    public Award getActiveOrNewestAward(String awardNumber) {
+        List<VersionHistory> versions = getVersionHistoryService().loadVersionHistory(Award.class, awardNumber);
+        VersionHistory newest = null;
+        for (VersionHistory version: versions) {
+            if (version.getStatus() == VersionStatus.ACTIVE) {
+                newest = version;
+                break;
+            } else if (newest == null || (version.getStatus() != VersionStatus.CANCELED && version.getSequenceOwnerSequenceNumber() > newest.getSequenceOwnerSequenceNumber())) {
+                newest = version;
+            }  
+        }
+        if (newest != null) {
+            return (Award) newest.getSequenceOwner();
+        } else {
+            return null;
+        }
+        
     }
     
     protected String getPostedBudgetStatus() {
