@@ -19,24 +19,28 @@ import java.util.LinkedHashMap;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.rice.kns.bo.PersistableAttachment;
 /**
  * 
  * This class for fetching watermark object from database.
  */
-public class Watermark extends KraPersistableBusinessObjectBase {
+public class Watermark extends KraPersistableBusinessObjectBase implements PersistableAttachment{
     private static final long serialVersionUID = 7376543184312622270L;
 	
 	private Long watermarkId;
 
+	private String fileName;
+    private String contentType;
+    private byte[] attachmentContent;
 	private String statusCode;	
     private String watermarkText;
 	private boolean watermarkStatus;
 	private String fontSize;
-	private String fontColour;
+	private String fontColor;
 	private String watermarkType;
-	private byte[] attachmentImage;
-	private FormFile watermarkImageFile;
-	
+	private FormFile templateFile;
+
+	    
 	public Long getWatermarkId() {
         return watermarkId;
     }
@@ -46,27 +50,13 @@ public class Watermark extends KraPersistableBusinessObjectBase {
         this.watermarkId = watermarkId;
     }
 
-   
-  
-    public FormFile getWatermarkImageFile() {
-        return watermarkImageFile;
+    public FormFile getTemplateFile() {
+        return templateFile;
     }
-
-
-    public void setWatermarkImageFile(FormFile watermarkImageFile) {
-        this.watermarkImageFile = watermarkImageFile;
+    
+    public void setTemplateFile(FormFile templateFile) {
+        this.templateFile = templateFile;
     }
-
-
-    public byte[] getAttachmentImage() {
-        return this.attachmentImage;
-    }
-
-
-    public void setAttachmentImage(byte[] attachmentImage) {
-        this.attachmentImage = attachmentImage;
-    }
-
 
     public String getFontSize() {
         return fontSize;
@@ -78,13 +68,13 @@ public class Watermark extends KraPersistableBusinessObjectBase {
     }
 
 
-    public String getFontColour() {
-        return fontColour;
+    public String getFontColor() {
+        return fontColor;
     }
 
 
-    public void setFontColour(String fontColour) {
-        this.fontColour = fontColour;
+    public void setFontColor(String fontColor) {
+        this.fontColor = fontColor;
     }
 
 
@@ -96,10 +86,6 @@ public class Watermark extends KraPersistableBusinessObjectBase {
     public void setWatermarkType(String watermarkType) {
         this.watermarkType = watermarkType;
     }
-
-
-   
-
 
     public String getStatusCode() {
         return statusCode;
@@ -129,26 +115,50 @@ public class Watermark extends KraPersistableBusinessObjectBase {
     }
 
 
-
     public void setWatermarkStatus(boolean watermarkStatus) {
         this.watermarkStatus = watermarkStatus;
     }
 
+    public byte[] getAttachmentContent() {
+        return this.attachmentContent;
+    }
+
+    public void setAttachmentContent(byte[] attachmentContent) {
+        this.attachmentContent = attachmentContent;
+    }
+
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
   
     @Override
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap propMap = new LinkedHashMap();
 		propMap.put("watermarkId", this.getWatermarkId());
-
 		propMap.put("statusCode", this.getStatusCode());
 		propMap.put("watermarkText", this.getWatermarkText());
 		propMap.put("watermarkStatus", this.isWatermarkStatus());
 		propMap.put("watermarkType", this.getWatermarkType());
 		propMap.put("fontSize", this.getFontSize());
-		propMap.put("fontColour", this.getFontColour());
+		propMap.put("fontColor", this.getFontColor());
 		propMap.put("updateTimestamp", this.getUpdateTimestamp());
 		propMap.put("updateUser", this.getUpdateUser());
-		propMap.put("watermarkImageFile", this.getWatermarkImageFile());
 		return propMap;
 	}
+
+
+  
 }
