@@ -47,13 +47,62 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
         VersionHistory versionHistory = new VersionHistory(sequenceOwner, versionStatus, userId, new Date(new java.util.Date().getTime()));
         
         List<VersionHistory> list = new ArrayList<VersionHistory>();
-        if(versionStatus == VersionStatus.ACTIVE || versionStatus == VersionStatus.CANCELED) {
-            resetExistingVersionsToArchived(sequenceOwner, list, versionStatus);
-        }
         list.add(versionHistory);
         bos.save(list);
         return versionHistory;
     }
+    
+    /**
+     * @see org.kuali.kra.service.VersionHistoryService#createVersionHistory(org.kuali.kra.SequenceOwner, org.kuali.kra.bo.versioning.VersionStatus, java.lang.String)
+     */
+    public VersionHistory updateVersionHistoryOnRouteToFinal(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner, VersionStatus versionStatus, String userId) {
+        List<VersionHistory> existingEntries = loadVersionHistory(sequenceOwner.getClass(), getVersionName(sequenceOwner));
+        VersionHistory activeVersionHistory = getActiveVersionHistory(existingEntries);
+        VersionHistory pendingVersionHistory = getPendingVersionHistory(existingEntries);
+        if(!(activeVersionHistory == null)) {
+            activeVersionHistory.setStatus(VersionStatus.ARCHIVED);
+            bos.save(activeVersionHistory);
+        }
+        if(!(pendingVersionHistory == null)) {
+            pendingVersionHistory.setStatus(VersionStatus.ACTIVE);
+            bos.save(pendingVersionHistory);
+        }
+        return pendingVersionHistory;
+    }
+    
+    /**
+     * @see org.kuali.kra.service.VersionHistoryService#createVersionHistory(org.kuali.kra.SequenceOwner, org.kuali.kra.bo.versioning.VersionStatus, java.lang.String)
+     */
+    public VersionHistory updateVersionHistoryOnCancel(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner, VersionStatus versionStatus, String userId) {
+        List<VersionHistory> existingEntries = loadVersionHistory(sequenceOwner.getClass(), getVersionName(sequenceOwner));
+        VersionHistory pendingVersionHistory = getPendingVersionHistory(existingEntries);
+        if(!(pendingVersionHistory == null)) {
+            pendingVersionHistory.setStatus(VersionStatus.CANCELED);
+            bos.save(pendingVersionHistory);
+        }
+        return pendingVersionHistory;
+    }
+    
+    private VersionHistory getPendingVersionHistory (List<VersionHistory> list) {
+        VersionHistory returnVal = null;
+        for(VersionHistory vh : list) {
+            if(vh.getStatus().equals(VersionStatus.PENDING)) {
+                returnVal = vh;
+            }
+        }
+        return returnVal;
+    }
+    
+    private VersionHistory getActiveVersionHistory (List<VersionHistory> list) {
+        VersionHistory returnVal = null;
+        for(VersionHistory vh : list) {
+            if(vh.getStatus().equals(VersionStatus.ACTIVE)) {
+                returnVal = vh;
+            }
+        }
+        return returnVal;
+    }
+
 
     /**
      * @see org.kuali.kra.service.VersionHistoryService#findActiveVersion(java.lang.Class, java.lang.String)

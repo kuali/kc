@@ -33,6 +33,24 @@ public interface VersionHistoryService {
     VersionHistory createVersionHistory(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner, VersionStatus versionStatus, String userId);
     
     /**
+     * Create a new VersiionHistory entry
+     * @param sequenceOwner
+     * @param versionStatus
+     * @param userId
+     * @return
+     */
+    VersionHistory updateVersionHistoryOnRouteToFinal(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner, VersionStatus versionStatus, String userId);
+    
+    /**
+     * Create a new VersiionHistory entry
+     * @param sequenceOwner
+     * @param versionStatus
+     * @param userId
+     * @return
+     */
+    VersionHistory updateVersionHistoryOnCancel(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner, VersionStatus versionStatus, String userId);
+    
+    /**
      * Find the active VersionHistory for a given SequenceOwner type and version name
      * @param klass
      * @param versionName
