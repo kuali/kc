@@ -23,7 +23,6 @@ import java.util.List;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.irb.actions.abandon.ProtocolAbandonServiceImpl;
 
 /**
  * 
@@ -137,7 +136,7 @@ public class AnswerComparator implements Comparator<Answer>  {
     }
 
     /*
-     * get all the ancestors of this qnswer's question.  then reverse to list from root to leaf question.
+     * get all the ancestors of this answer's question.  then reverse to list from root to leaf question.
      */
     private List<Answer> getAncestors(Answer argAnswer) {
         List<Answer> answers = new ArrayList<Answer>();
