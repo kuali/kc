@@ -18,6 +18,8 @@
 <c:set var="attributes" value="${DataDictionary.ProtocolAssignCmtSchedBean.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
 
+<jsp:useBean id="paramMap" class="java.util.HashMap"/>
+
 <kra:permission value="${KualiForm.actionHelper.canAssignCmtSched}">
 
 <kul:innerTab tabTitle="Assign to Committee and Schedule" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.assignCmtSchedBean*">
@@ -31,9 +33,21 @@
 	                    </div>
 	                </th>
 	                <td style="width : 150px">
-			            <kul:htmlControlAttribute property="actionHelper.assignCmtSchedBean.committeeId" 
-			                                      attributeEntry="${attributes.committeeId}" 
-			                                      onchange="onlyLoadScheduleDates('actionHelper.assignCmtSchedBean.committeeId', 'actionHelper.assignCmtSchedBean.scheduleId');" />
+                        <c:set target="${paramMap}" property="currentCommitteeId" value="${KualiForm.actionHelper.assignCmtSchedBean.committeeId}" />
+                        <c:set target="${paramMap}" property="docRouteStatus" value="${KualiForm.document.documentHeader.workflowDocument.routeHeader.docRouteStatus}" />	                
+                        <html:select property="actionHelper.protocolSubmitAction.committeeId" onchange="onlyLoadScheduleDates('actionHelper.assignCmtSchedBean.committeeId', 'actionHelper.assignCmtSchedBean.scheduleId');" >                               
+                            <c:forEach items="${krafn:getOptionList('org.kuali.kra.committee.lookup.keyvalue.CommitteeIdByUnitValuesFinder', paramMap)}" var="option" >
+                                <c:choose>                      
+                                    <c:when test="${KualiForm.actionHelper.assignCmtSchedBean.committeeId == option.key}">
+                                        <option value="${option.key}" selected="selected">${option.label}</option>
+                                    </c:when>
+                                    <c:otherwise>                               
+                                        <c:out value="${option.label}"/>
+                                        <option value="${option.key}">${option.label}</option>
+                                    </c:otherwise>
+                                </c:choose>                                                
+                            </c:forEach>
+                        </html:select>
 	                </td>
 	               
 		            <th style="width: 150px"> 
