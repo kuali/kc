@@ -2419,6 +2419,21 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
     
     /**
+     * Returns the obligated distributable total or the total cost limit
+     * whichever is less.
+     * @return
+     */
+    public KualiDecimal getBudgetTotalCostLimit() {
+        AwardBudgetLimit limit = getTotalCostBudgetLimit();
+        KualiDecimal obliTotal = getObligatedDistributableTotal();
+        if (limit != null && limit.getLimit().isLessEqual(obliTotal)) {
+            return limit.getLimit();
+        } else {
+            return obliTotal;
+        }
+    }
+    
+    /**
      * Gets the obligatedTotal attribute. 
      * @return Returns the obligatedTotal.
      */

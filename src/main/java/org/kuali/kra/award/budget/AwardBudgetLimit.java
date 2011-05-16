@@ -107,14 +107,24 @@ public class AwardBudgetLimit extends AwardAssociate {
     }
     
     public static enum LIMIT_TYPE {
-        TOTAL_COST("totalCost"), DIRECT_COST("directCost"), INDIRECT_COST("indirectCost");
+        TOTAL_COST("totalCost", "Total", "totalCost"), DIRECT_COST("directCost", "Total Direct", "totalDirectCost"), INDIRECT_COST("indirectCost", "Total F&A", "totalIndirectCost");
         
         private String type;
-        private LIMIT_TYPE(String type) {
+        private String desc;
+        private String budgetProperty;
+        private LIMIT_TYPE(String type, String desc, String budgetProperty) {
             this.type = type;
+            this.desc = desc;
+            this.budgetProperty = budgetProperty;
         }
         public String getType() {
             return type;
+        }
+        public String getDesc() {
+            return desc;
+        }
+        public String getBudgetProperty() {
+            return budgetProperty;
         }
     }
 

@@ -301,6 +301,7 @@ public class AwardBudgetExt extends Budget {
             awardBudgetPeriodSummaryCalculatedAmounts.addAll(((AwardBudgetPeriodExt)persistableBusinessObject).getAwardBudgetPeriodFnAAmounts());
         }
         deletionAwareList.add(awardBudgetPeriodSummaryCalculatedAmounts);
+        deletionAwareList.add(awardBudgetLimits);
         return deletionAwareList;
     }
     /**

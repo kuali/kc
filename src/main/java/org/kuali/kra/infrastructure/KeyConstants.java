@@ -268,6 +268,7 @@ public final class KeyConstants {
     public static final String AUDIT_ERROR_TOTAL_COST = "error.budget.total.cost";
     public static final String AUDIT_ERROR_COST_LIMIT = "error.budget.cost.limit";
     public static final String AUDIT_ERROR_COST_LIMITS_CHANGED = "error.budget.cost.limits.changed";
+    public static final String AUDIT_ERROR_SPECIFIC_COST_LIMITS_CHANGED = "error.budget.specific.cost.limit.changed";
 
     // Copy proposal
     public static final String ERROR_LEAD_UNIT_REQUIRED = "error.leadUnit.required";
