@@ -94,4 +94,28 @@ public interface AwardBudgetService extends BudgetCommonService<Award> {
     void populateBudgetLimitSummary(BudgetLimitSummaryHelper limitSummary, AwardDocument awardDocument);
     
     List<BudgetDocumentVersion> getAllBudgetsForAward(AwardDocument awardDocument);
+
+    /**
+     * 
+     * Get the total cost limit from the award. Returns the less of the obligated distributable amount or the total cost limit.
+     * @param awardDocument
+     * @return
+     */
+    BudgetDecimal getTotalCostLimit(AwardDocument awardDocument);
+    
+    /**
+     * Populates the budget limits from the award. This includes total cost limit and
+     * specific budget limits (direct and F&A currently)
+     * @param awardBudgetDocument
+     * @param parentDocument
+     */
+    void setBudgetLimits(AwardBudgetDocument awardBudgetDocument, AwardDocument parentDocument); 
+    
+    /**
+     * Returns the active award or if none exist, the newest non-cancelled award.
+     * @param awardNumber
+     * @return
+     */
+    Award getActiveOrNewestAward(String awardNumber);
+    
 }

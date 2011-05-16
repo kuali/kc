@@ -69,7 +69,7 @@ function collapseAll() {
                 <th width="14%"><div align="center">Limits</div></th>
                 <th width="14%"><div align="center">Budget Change</div></th>
                 <th width="14%"><div align="center">Previous Budget</div></th>
-                <th width="14%"><div align="center">Obligated Total</div></th>
+                <th width="14%"><div align="center">Budget Total</div></th>
              </tr>
              <c:set var="curTotal" value="${budgetSummary.currentSummaryTotals['personnelSalaryTotals'] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.currentSummaryTotals['personnelSalaryTotals'])}" />
              <c:set var="prevTotal" value="${budgetSummary.previousSummaryTotals['personnelSalaryTotals'] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.previousSummaryTotals['personnelSalaryTotals'])}" />
@@ -198,7 +198,7 @@ function collapseAll() {
                 <th><div align="center">Limits</div></th>
                 <th><div align="center">Budget Change</div></th>
                 <th><div align="center">Previous Budget</div></th>
-                <th><div align="center">Obligated Total</div></th>
+                <th><div align="center">Budget Total</div></th>
              </tr>
 			<c:forEach var="objectCodeByTypeEntry" items="${budgetSummary.combinedObjectCodeListByCategory}">
 			 <c:set var="catType" value="${objectCodeByTypeEntry.key}"/>

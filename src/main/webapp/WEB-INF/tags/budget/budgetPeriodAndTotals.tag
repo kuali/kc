@@ -313,7 +313,7 @@
          	<tr>
           		<td width="5%" class="infoline"> 
           			<div align="center">
-          				<strong>Obligated Total:</strong>
+          				<strong>Budget Total:</strong>
           			</div> 
           		</td> 
                 <td width="10%" valign="middle" class="infoline">
