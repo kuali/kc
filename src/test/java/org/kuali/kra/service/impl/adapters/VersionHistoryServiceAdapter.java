@@ -36,6 +36,18 @@ public class VersionHistoryServiceAdapter implements VersionHistoryService {
 
     public VersionHistory findPendingVersion(Class<? extends SequenceOwner> klass, String versionName, String sequenceNumber) {
         return null;
+    }
+
+    public VersionHistory updateVersionHistoryOnCancel(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner,
+            VersionStatus versionStatus, String userId) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public VersionHistory updateVersionHistoryOnRouteToFinal(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner,
+            VersionStatus versionStatus, String userId) {
+        // TODO Auto-generated method stub
+        return null;
     }   
     
 }
