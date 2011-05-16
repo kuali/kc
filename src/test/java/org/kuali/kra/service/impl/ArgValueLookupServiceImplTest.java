@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.service.impl;
 
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,7 +36,7 @@ public class ArgValueLookupServiceImplTest extends KcUnitTestBase{
 
     private ArgValueLookupService argValueLookupService = null;
     
-    private static String expectedArgumentNames = ",AcademicAppointmentPeriod;AcademicAppointmentPeriod,AppointmentTypes;AppointmentTypes,FieldOfTraining;FieldOfTraining,GraduateLevelDegree;GraduateLevelDegree,KirschsteinLevel;KirschsteinLevel,KirschsteinType;KirschsteinType,PI_Question;PI_Question,PeriodTypes;PeriodTypes,ProjectRoles;ProjectRoles,Sponsor_routing;Sponsor_routing,human_subjects;human_subjects,interest_revenue;interest_revenue,revenue;revenue,yes_no_flag;yes_no_flag";
+    private static String expectedArgumentNames = ",AcademicAppointmentPeriod;AcademicAppointmentPeriod,AppointmentTypes;AppointmentTypes,FieldOfTraining;FieldOfTraining,FieldOfTraining-Broad;FieldOfTraining-Broad,FieldOfTraining-SubCategory;FieldOfTraining-SubCategory,GraduateLevelDegree;GraduateLevelDegree,GraduateLevelDegree1-2;GraduateLevelDegree1-2,Kirschstein-NRSAAwardTYPE;Kirschstein-NRSAAwardTYPE,Kirschstein-NRSASupportLevel;Kirschstein-NRSASupportLevel,KirschsteinLevel;KirschsteinLevel,KirschsteinType;KirschsteinType,PI_Question;PI_Question,PeriodTypes;PeriodTypes,ProjectRoles;ProjectRoles,Sponsor_routing;Sponsor_routing,human_subjects;human_subjects,interest_revenue;interest_revenue,revenue;revenue,yes_no_flag;yes_no_flag";
     
     @Before
     public void setUp() throws Exception {
@@ -54,9 +56,16 @@ public class ArgValueLookupServiceImplTest extends KcUnitTestBase{
      */
     @Test
     public void testGetArgumentNames() throws Exception {
+        boolean success = true;
         String argumentNames = argValueLookupService.getArgumentNames();
-        int exists = argumentNames.indexOf(expectedArgumentNames);
-        assertFalse(exists==-1);
-//        assertEquals(expectedArgumentNames, argumentNames);
+        String[] argumentNamesArray = argumentNames.split(",");
+        String[] expectedArgumentNamesArray = expectedArgumentNames.split(",");
+        List<String> argumentNamesList = java.util.Arrays.asList(argumentNamesArray); 
+        for (int i = 0; i < expectedArgumentNamesArray.length; i++) {
+            if(success && !argumentNamesList.contains(expectedArgumentNamesArray[i])){
+                success = false;
+            }
+        }
+        assertTrue(success);
     }
 }
