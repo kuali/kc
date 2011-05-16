@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <%@ attribute name="node" required="true" type="org.kuali.kra.medusa.MedusaNode"%>
-<%@ attribute name="openned" required="true" type="Boolean"%>
+<%@ attribute name="openned" required="true"%>
 
 <li class="open" style="text-align: left;">
 <c:set var="showOpen" value="1"/>
