@@ -240,12 +240,16 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
             LOG.debug(String.format("********************* Status Change: from %s to %s", statusChangeEvent.getOldRouteStatus(), newStatus));
         }
         
-        if (KEWConstants.ROUTE_HEADER_FINAL_CD.equalsIgnoreCase(newStatus) || KEWConstants.ROUTE_HEADER_PROCESSED_CD.equalsIgnoreCase(newStatus)) {
-            getVersionHistoryService().createVersionHistory(getAward(), VersionStatus.ACTIVE, GlobalVariables.getUserSession().getPrincipalName());
+       // if (KEWConstants.ROUTE_HEADER_FINAL_CD.equalsIgnoreCase(newStatus) || KEWConstants.ROUTE_HEADER_PROCESSED_CD.equalsIgnoreCase(newStatus)) {
+        if (KEWConstants.ROUTE_HEADER_FINAL_CD.equalsIgnoreCase(newStatus)) {
+
+            //getVersionHistoryService().createVersionHistory(getAward(), VersionStatus.ACTIVE, GlobalVariables.getUserSession().getPrincipalName());
+            getVersionHistoryService().updateVersionHistoryOnRouteToFinal(getAward(), VersionStatus.ACTIVE, GlobalVariables.getUserSession().getPrincipalName());
         }
         if (newStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_CANCEL_CD) || newStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
             revertFundedProposals();
-            getVersionHistoryService().createVersionHistory(getAward(), VersionStatus.CANCELED, GlobalVariables.getUserSession().getPrincipalName());
+            //getVersionHistoryService().createVersionHistory(getAward(), VersionStatus.CANCELED, GlobalVariables.getUserSession().getPrincipalName());
+            getVersionHistoryService().updateVersionHistoryOnCancel(getAward(), VersionStatus.CANCELED, GlobalVariables.getUserSession().getPrincipalName());
         }
         
         //reset Award List with updated document - in some scenarios the change in status is not reflected.
