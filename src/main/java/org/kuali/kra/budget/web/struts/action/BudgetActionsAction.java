@@ -36,6 +36,9 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.kra.award.budget.AwardBudgetForm;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
+import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.BudgetException;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -64,14 +67,17 @@ import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class BudgetActionsAction extends BudgetAction implements AuditModeAction {
     private static final String CONTENT_TYPE_XML = "text/xml";
     private static final String XML_FILE_EXTENSION = "xml";
     private static final String CONTENT_TYPE_PDF = "application/pdf";
+    private static final String UPDATE_COST_LIMITS_QUESTION = "UpdateCostLimitsQuestion";
     private BudgetJustificationService budgetJustificationService;
     private static final Log LOG = LogFactory.getLog(BudgetActionsAction.class);
+    
     
 
     /**
@@ -390,6 +396,24 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         AwardBudgetDocument awardBudgetDocument = ((AwardBudgetForm) form).getAwardBudgetDocument();
+        Award currentAward = getAwardBudgetService().getActiveOrNewestAward(((AwardDocument) awardBudgetDocument.getParentDocument()).getAward().getAwardNumber());
+        BudgetDecimal newCostLimit = getAwardBudgetService().getTotalCostLimit(currentAward.getAwardDocument());
+        if (!newCostLimit.equals(awardBudgetDocument.getBudget().getTotalCostLimit())) {
+            Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+            Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+            String methodToCall = ((KualiForm) form).getMethodToCall();
+            if(question == null){
+                return performQuestionWithoutInput(mapping, form, request, response, UPDATE_COST_LIMITS_QUESTION, 
+                        "Award Budget Total Cost Limit has changed from " + awardBudgetDocument.getBudget().getTotalCostLimit().toString() + "" +
+                                " to " + newCostLimit.toString() + ". Would you like to update the cost limits before submitting?", 
+                        KNSConstants.CONFIRMATION_QUESTION, methodToCall, "");
+            } else if(UPDATE_COST_LIMITS_QUESTION.equals(question) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+                getAwardBudgetService().setBudgetLimits(awardBudgetDocument, currentAward.getAwardDocument());
+                return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+            } else {
+                //do nothing and continue with route
+            }    
+        }
         ((AwardBudgetForm) form).setAuditActivated(true);
         ValidationState state = new AuditActionHelper().isValidSubmission((AwardBudgetForm) form, true);
         if (state != ValidationState.ERROR) {
