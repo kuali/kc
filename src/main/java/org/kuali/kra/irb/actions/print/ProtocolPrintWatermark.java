@@ -30,6 +30,8 @@ import org.kuali.kra.util.watermark.WatermarkBean;
 import org.kuali.kra.util.watermark.WatermarkConstants;
 import org.kuali.kra.util.watermark.Watermarkable;
 import org.kuali.rice.kns.service.BusinessObjectService;
+
+import com.lowagie.text.Image;
 /**
  * 
  * This class for setting watermark to the protocol related reports.
@@ -92,13 +94,22 @@ public class ProtocolPrintWatermark implements Watermarkable {
             watermark = watermarks.iterator().next();
         }           
         if(watermark!=null && watermark.isWatermarkStatus())
-        {  
+        {   
             try {
                 String watermarkFontSize=watermark.getFontSize() == null ? WatermarkConstants.DEFAULT_FONT_SIZE_CHAR :watermark.getFontSize();
-                String watermarkFontColour=watermark.getFontColour() == null ? WatermarkConstants.FONT_COLOR :watermark.getFontColour();
+                String watermarkFontColour=watermark.getFontColor() == null ? WatermarkConstants.FONT_COLOR :watermark.getFontColor();
                 watermarkBean.setType(watermark.getWatermarkType() == null ? WatermarkConstants.WATERMARK_TYPE_TEXT :watermark.getWatermarkType());
+               
                 watermarkBean.setFont(getWatermarkFont(WatermarkConstants.FONT,watermarkFontSize,watermarkFontColour));
-                watermarkBean.setText(watermark.getWatermarkText());           
+                watermarkBean.setText(watermark.getWatermarkText());  
+                if(watermarkBean.getType().equals(WatermarkConstants.WATERMARK_TYPE_IMAGE)){
+                    watermarkBean.setText(watermark.getFileName());
+                    byte[] imageData     = watermark.getAttachmentContent();
+                    if(imageData!=null){
+                        Image imageFile = Image.getInstance(imageData);                   
+                        watermarkBean.setFileImage(imageFile);
+                    }
+                }
                
             }catch (Exception e) {
                 LOG.error("Exception Occured in (ProtocolPrintWatermark) :",e); }          
@@ -107,6 +118,7 @@ public class ProtocolPrintWatermark implements Watermarkable {
         return null; 
     }
    
+ 
     /**
      * 
      * This method for setting the font details to the watermark Object.

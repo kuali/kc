@@ -24,9 +24,8 @@
            <ref bean="Watermark-watermarkStatus" />
             <ref bean="Watermark-watermarkType" />
              <ref bean="Watermark-fontSize" />
-              <ref bean="Watermark-fontColour" />
-<!--               <ref bean="Watermark-attachmentImage" />-->
-  					<ref bean="Watermark-watermarkImageFile" />
+              <ref bean="Watermark-fontColor" />
+  			   <ref bean="Watermark-templateFile" />
         	   <ref bean="Watermark-versionNumber" />
       </list>
     </property>
@@ -54,7 +53,7 @@
     <property name="description" value="Watermark Code" />
   </bean>
   
-  
+ 
   <!-- This FileControlDefinition should be removed once a bug in Rice is fixed.
         In other words, the Rice Team forgot to add the FileControlDefinition to
         their XML configuration. -->
@@ -62,12 +61,11 @@
         class="org.kuali.rice.kns.datadictionary.control.FileControlDefinition"
         abstract="true"
     />
- <bean id="Watermark-watermarkImageFile" parent="Watermark-watermarkImageFile-parentBean" />
-
-  <bean id="Watermark-watermarkImageFile-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="watermarkImageFile" />
+ <bean id="Watermark-templateFile" parent="Watermark-templateFile-parentBean" />
+  <bean id="Watermark-templateFile-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="templateFile" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Attachment" />
+    <property name="label" value="Attachment Image" />
     <property name="shortLabel" value="Attachment" />
     <property name="maxLength" value="150" />
     <property name="required" value="false" />
@@ -76,32 +74,15 @@
             p:size="100" />
     </property>
     <property name="summary" value="Attachment" />
-    <property name="description" value="Watermark Form Template" />
+    <property name="description" value="Watermark Image File" />
   </bean>
-
-<!--  <bean id="Watermark-attachmentImage" parent="Watermark-attachmentImage-parentBean" />-->
-<!---->
-<!--  <bean id="Watermark-attachmentImage-parentBean" abstract="true" parent="AttributeDefinition">-->
-<!--    <property name="name" value="attachmentImage" />-->
-<!--    <property name="forceUppercase" value="false" />-->
-<!--    <property name="label" value="AttachmentImage" />-->
-<!--    <property name="shortLabel" value="AttachmentImage" />-->
-<!--    <property name="maxLength" value="150" />-->
-<!--    <property name="required" value="false" />-->
-<!--    <property name="control" >-->
-<!--      <bean parent="FileControlDefinition"-->
-<!--            p:size="100" />-->
-<!--    </property>-->
-<!--    <property name="summary" value="Attachment" />-->
-<!--    <property name="description" value="Watermark Image" />-->
-<!--  </bean>-->
   
   
   <bean id="Watermark-statusCode" parent="Watermark-statusCode-parentBean" />
   <bean id="Watermark-statusCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="statusCode" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="status Code" />
+    <property name="label" value="Status Code" />
     <property name="shortLabel" value="Watermark status Code" />
     <property name="maxLength" value="4" />
     <property name="validationPattern" >
@@ -111,8 +92,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="status Code" />
-    <property name="description" value="status Code" />
+    <property name="summary" value="Status Code" />
+    <property name="description" value="Status Code" />
   </bean>
   
   <bean id="Watermark-fontSize" parent="Watermark-fontSize-parentBean" />
@@ -133,12 +114,12 @@
     <property name="description" value="Font Size" />
   </bean>
   
-  <bean id="Watermark-fontColour" parent="Watermark-fontColour-parentBean" />
-  <bean id="Watermark-fontColour-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="fontColour" />
+  <bean id="Watermark-fontColor" parent="Watermark-fontColor-parentBean" />
+  <bean id="Watermark-fontColor-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="fontColor" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Font Colour" />
-    <property name="shortLabel" value="Watermark font Colour" />
+    <property name="label" value="Font Color" />
+    <property name="shortLabel" value="Watermark Font Color" />
     <property name="maxLength" value="12" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"
@@ -148,8 +129,8 @@
       <bean parent="TextControlDefinition"
             p:size="15" />
     </property>
-    <property name="summary" value="Font Colour" />
-    <property name="description" value="Font Colour" />
+    <property name="summary" value="Font Color" />
+    <property name="description" value="Font Color" />
   </bean>
   
   <bean id="Watermark-watermarkText" parent="Watermark-watermarkText-parentBean" />
@@ -157,7 +138,7 @@
   <bean id="Watermark-watermarkText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="watermarkText" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="watermark Text" />
+    <property name="label" value="Watermark Text" />
     <property name="shortLabel" value="watermark Text" />
     <property name="maxLength" value="80" />
     <property name="validationPattern" >
@@ -192,9 +173,9 @@
  <bean id="Watermark-watermarkStatus" parent="Watermark-watermarkStatus-parentBean" />
     <bean id="Watermark-watermarkStatus-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
 	    <property name="name" value="watermarkStatus" />
-	    <property name="label" value="Watermark Actice Status" />
-	    <property name="shortLabel" value="Watermark Actice Flag" />
-	    <property name="summary" value="Watermark Actice Status" />
+	    <property name="label" value="Watermark Active Status" />
+	    <property name="shortLabel" value="Watermark Active Flag" />
+	    <property name="summary" value="Watermark Active Status" />
 	    <property name="description" value="Validate Watermark Status is Active or not" />
     </bean>
   
@@ -218,7 +199,6 @@
             <list>
               <bean parent="FieldDefinition"
                     p:attributeName="watermarkId" />
-<!--                    p:forceInquiry="true" />-->
               <bean parent="FieldDefinition"
                     p:attributeName="statusCode" />
               <bean parent="FieldDefinition"
@@ -230,9 +210,9 @@
               <bean parent="FieldDefinition"
                     p:attributeName="fontSize" />
               <bean parent="FieldDefinition"
-                    p:attributeName="fontColour" /> 
-              <bean parent="FieldDefinition"
-                    p:attributeName="watermarkImageFile" />                    
+                    p:attributeName="fontColor" /> 
+<!--              <bean parent="FieldDefinition"-->
+<!--                    p:attributeName="templateFile" />                    -->
               
             </list>
           </property>
@@ -280,9 +260,9 @@
          <bean parent="FieldDefinition"
               p:attributeName="fontSize" />
          <bean parent="FieldDefinition"
-              p:attributeName="fontColour" />
+              p:attributeName="fontColor" />
          <bean parent="FieldDefinition"
-              p:attributeName="watermarkImageFile" />
+              p:attributeName="templateFile" />
         
       </list>
     </property>

@@ -391,7 +391,7 @@ public class RRKeyPersonExpandedV1_2Generator extends
                 if (keyPerson.isMultiplePi()) {
                     profileKeyPerson.setProjectRole(ProjectRoleDataType.PD_PI);
                 } else {
-                    profileKeyPerson.setProjectRole(ProjectRoleDataType.CO_PD_PI);
+                    profileKeyPerson.setProjectRole(ProjectRoleDataType.CO_INVESTIGATOR);
                 }
             }else{
                 profileKeyPerson.setProjectRole(ProjectRoleDataType.CO_PD_PI);

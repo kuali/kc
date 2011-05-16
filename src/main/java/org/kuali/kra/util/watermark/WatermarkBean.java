@@ -20,6 +20,8 @@
 
 package org.kuali.kra.util.watermark;
 
+import com.lowagie.text.Image;
+
 
 
 /**
@@ -34,9 +36,23 @@ public class WatermarkBean {
    
     private String type;    
     
-    private Font font;    
+    private Font font; 
+    
+    private Image fileImage;
   
 
+    public Image getFileImage() {
+        return fileImage;
+    }
+    
+    /**
+     * 
+     * This method for set Image.
+     * @param font
+     */
+    public void setFileImage(Image fileImage) {
+        this.fileImage = fileImage;
+    }
     public String getText() {
         return text;
     }
