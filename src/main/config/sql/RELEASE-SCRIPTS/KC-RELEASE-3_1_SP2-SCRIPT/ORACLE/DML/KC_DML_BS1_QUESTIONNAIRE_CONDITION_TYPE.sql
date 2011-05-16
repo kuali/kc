@@ -1,12 +1,35 @@
-insert into QUESTIONNAIRE_CONDITION_TYPE values('1','Contains text value',sysdate,'admin',1,sys_guid());
-insert into QUESTIONNAIRE_CONDITION_TYPE values('2','Begins with text',sysdate,'admin',1,sys_guid());
-insert into QUESTIONNAIRE_CONDITION_TYPE values('3','Ends with text',sysdate,'admin',1,sys_guid());
-insert into QUESTIONNAIRE_CONDITION_TYPE values('4','Matches text',sysdate,'admin',1,sys_guid());
-insert into QUESTIONNAIRE_CONDITION_TYPE values('5','Less than number',sysdate,'admin',1,sys_guid());
-insert into QUESTIONNAIRE_CONDITION_TYPE values('6','Less than or equals number',sysdate,'admin',1,sys_guid());
-insert into QUESTIONNAIRE_CONDITION_TYPE values('7','Equals number',sysdate,'admin',1,sys_guid());
-insert into QUESTIONNAIRE_CONDITION_TYPE values('8','Not Equal to number',sysdate,'admin',1,sys_guid());
-insert into QUESTIONNAIRE_CONDITION_TYPE values('9','Greater than or equals number',sysdate,'admin',1,sys_guid());
-insert into QUESTIONNAIRE_CONDITION_TYPE values('10','Greater than number',sysdate,'admin',1,sys_guid());
-insert into QUESTIONNAIRE_CONDITION_TYPE values('11','Before date',sysdate,'admin',1,sys_guid());
-insert into QUESTIONNAIRE_CONDITION_TYPE values('12','After date',sysdate,'admin',1,sys_guid());
+insert into QUESTIONNAIRE_CONDITION_TYPE (QUEST_CONDITION_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID) 
+    values ('1','Contains text value',SYSDATE,'admin',1,SYS_GUID());
+
+insert into QUESTIONNAIRE_CONDITION_TYPE (QUEST_CONDITION_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID) 
+    values ('2','Begins with text',SYSDATE,'admin',1,SYS_GUID());
+
+insert into QUESTIONNAIRE_CONDITION_TYPE (QUEST_CONDITION_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID) 
+    values ('3','Ends with text',SYSDATE,'admin',1,SYS_GUID());
+
+insert into QUESTIONNAIRE_CONDITION_TYPE (QUEST_CONDITION_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID) 
+    values ('4','Matches text',SYSDATE,'admin',1,SYS_GUID());
+
+insert into QUESTIONNAIRE_CONDITION_TYPE (QUEST_CONDITION_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID) 
+    values ('5','Less than number',SYSDATE,'admin',1,SYS_GUID());
+
+insert into QUESTIONNAIRE_CONDITION_TYPE (QUEST_CONDITION_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID) 
+    values ('6','Less than or equals number',SYSDATE,'admin',1,SYS_GUID());
+
+insert into QUESTIONNAIRE_CONDITION_TYPE (QUEST_CONDITION_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID) 
+    values ('7','Equals number',SYSDATE,'admin',1,SYS_GUID());
+
+insert into QUESTIONNAIRE_CONDITION_TYPE (QUEST_CONDITION_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID) 
+    values ('8','Not Equal to number',SYSDATE,'admin',1,SYS_GUID());
+
+insert into QUESTIONNAIRE_CONDITION_TYPE (QUEST_CONDITION_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID) 
+    values ('9','Greater than or equals number',SYSDATE,'admin',1,SYS_GUID());
+
+insert into QUESTIONNAIRE_CONDITION_TYPE (QUEST_CONDITION_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID) 
+    values ('10','Greater than number',SYSDATE,'admin',1,SYS_GUID());
+
+insert into QUESTIONNAIRE_CONDITION_TYPE (QUEST_CONDITION_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID) 
+    values ('11','Before date',SYSDATE,'admin',1,SYS_GUID());
+
+insert into QUESTIONNAIRE_CONDITION_TYPE (QUEST_CONDITION_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID) 
+    values ('12','After date',SYSDATE,'admin',1,SYS_GUID());
