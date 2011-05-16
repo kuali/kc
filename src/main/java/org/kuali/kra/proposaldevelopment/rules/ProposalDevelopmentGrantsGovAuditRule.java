@@ -68,7 +68,11 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
             valid &= false;
             auditErrors.add(new AuditError("document.developmentProposalList[0].s2sOpportunity.revisionCode", KeyConstants.ERROR_IF_PROPOSALTYPE_IS_REVISION, Constants.GRANTS_GOV_PAGE + "." + Constants.GRANTS_GOV_PANEL_ANCHOR));
         }
-        if((getSponsorService().isSponsorNihOsc(proposalDevelopmentDocument.getDevelopmentProposal())|| getSponsorService().isSponsorNihMultiplePi(proposalDevelopmentDocument.getDevelopmentProposal()))&& proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getCompetetionId().equals("ADOBE-FORMS-A")){
+        if((getSponsorService().isSponsorNihOsc(proposalDevelopmentDocument.getDevelopmentProposal())|| 
+                    getSponsorService().isSponsorNihMultiplePi(proposalDevelopmentDocument.getDevelopmentProposal()))&& 
+                    proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity()!=null &&
+                    proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getCompetetionId()!=null &&
+                    proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getCompetetionId().equals("ADOBE-FORMS-A")){
         	auditErrors.add(new AuditError("document.developmentProposalList[0].s2sOpportunity.competetionId", KeyConstants.ERROR_IF_COMPETITION_ID_IS_INVALID, Constants.GRANTS_GOV_PAGE + "." + Constants.GRANTS_GOV_PANEL_ANCHOR));
         	valid= false;
         }
