@@ -395,7 +395,6 @@ public interface Constants {
     public static final String MAPPING_AWARD_MEDUSA_PAGE = "medusa";
     public static final String MAPPING_REPORTS_TAB = "reports";
     public static final String MAPPING_AWARD_BUDGET_VERSIONS_PAGE = "budgets";
-    public static final String AWARD_CREATE_ACCOUNT_FEATURE = "ON";
     
     public static final String AWARD_SEQUENCE_AWARD_NUMBER = "SEQ_AWARD_AWARD_NUMBER";
     
@@ -403,6 +402,21 @@ public interface Constants {
     public static final String DEFAULT_TXN_TYPE_COPIED_AWARD = "TXN_TYPE_DEF_COPIED_AWARD";
     public static final String DEF_CURRENT_ACTION_COMMENT_COPIED_AWARD = "Copied Award" ;
     
+    // financial system integration
+    public static final String FIN_SYSTEM_INTEGRATION_ON_OFF_PARAMETER = "FIN_SYSTEM_INTEGRATION_ON";
+    public static final String FIN_SYSTEM_INTEGRATION_ON = "ON";
+    //CFDA
+    public static final int MAX_ALLOWABLE_CFDA_PGM_TITLE_NAME = 300;
+    public static final String CFDA_MAINT_TYP_ID_AUTOMATIC = "Automatic";
+    public static final String CFDA_MAINT_TYP_ID_MANUAL = "Manual";
+    public static final String CFDA_GOV_URL_PARAMETER = "CFDA_GOV_URL";
+    public static final String CFDA_GOV_LOGIN_USERNAME = "anonymous";
+    public static final String CFDA_CRON_START_TIME_PARAMETER = "CFDA_BATCH_JOB_CRON_START_TIME";
+    public static final String CFDA_BATCH_JOB_CRON_EXPRESSION_PARAMETER = "CFDA_BATCH_JOB_CRON_EXPRESSION";
+    public static final String DEFAULT_CRON_EXPRESSION = "0 5 * * * ?";
+
+
+
     //Award Hierarchy Sync
     public static final String AWARD_APPLY_SYNC_NODE_NAME = "ApplySync";
     public static final String AWARD_RERUN_SYNC_VALIDATION_NODE_NAME = "hasSync";
