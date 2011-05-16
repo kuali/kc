@@ -122,11 +122,32 @@ public class ProposalNarrativeTypeValuesFinder extends PersistableBusinessObject
             String proposalNarrativeTypeGroup = this.getParameterService().getParameterValue(ProposalDevelopmentDocument.class, Constants.PROPOSAL_NARRATIVE_TYPE_GROUP);
             Map<String,String> queryMap = new HashMap<String,String>();
             queryMap.put("narrativeTypeGroup", proposalNarrativeTypeGroup);
-            queryMap.put("systemGenerated", "N");
+//            queryMap.put("systemGenerated", "N");
+            List<ValidNarrForms> validNarrativeForms = (List<ValidNarrForms>)getBusinessObjectService().findAll(ValidNarrForms.class);
+            List<NarrativeType> allNarrativeTypes = (List)getBusinessObjectService().findMatching(getBusinessObjectClass(), queryMap);
+            validS2SFormNarratives = removeValidNarrativeForms(allNarrativeTypes,validNarrativeForms);
             //return boService.findMatchingOrderBy(getBusinessObjectClass(), queryMap, "narrativeTypeCode", true);
-            validS2SFormNarratives = (List)getBusinessObjectService().findMatching(getBusinessObjectClass(), queryMap);
         }
         return validS2SFormNarratives;
+    }
+
+
+    private List<NarrativeType> removeValidNarrativeForms(List<NarrativeType> narrativeTypes,List<ValidNarrForms> validNarrativeForms) {
+        List<NarrativeType> filteredNarrativeTypes = new ArrayList<NarrativeType>();
+        populateGenericValidNarrativeTypes(filteredNarrativeTypes);
+        for (NarrativeType narrativeType : narrativeTypes) {
+            boolean exists = false;
+            for (ValidNarrForms validNarrForm : validNarrativeForms) {
+                if(validNarrForm.getNarrativeTypeCode().equals(narrativeType.getNarrativeTypeCode())){
+                    exists = true;
+                    break;
+                }
+            }
+            if(!exists){
+                filteredNarrativeTypes.add(narrativeType);
+            }
+        }
+        return filteredNarrativeTypes;
     }
 
     private boolean isS2sCandidate(DevelopmentProposal developmentProposal) {

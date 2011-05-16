@@ -18,7 +18,6 @@ package org.kuali.kra.printing.service.impl;
 import java.awt.Color;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -140,12 +139,15 @@ public class WatermarkServiceImpl implements WatermarkService {
         float x, y, x1, y1, angle;
         try{           
             if(watermarkBean.getType().equalsIgnoreCase(WatermarkConstants.WATERMARK_TYPE_IMAGE)) {
-                Image image = Image.getInstance(watermarkBean.getText());
-                float height = image.getPlainHeight();
-                float width = image.getPlainWidth();
-                image.setAbsolutePosition((pageWidth - width)/2, (pageHeight - height)/2);
-                pdfContentByte.addImage(image);
+                Image watermarkImage = Image.getInstance(watermarkBean.getFileImage());   
+                if(watermarkImage!= null ){
+                    float height = watermarkImage.getPlainHeight();
+                    float width = watermarkImage.getPlainWidth();
+                    watermarkImage.setAbsolutePosition((pageWidth - width)/2, (pageHeight - height)/2);
+                    pdfContentByte.addImage(watermarkImage);
+                }
                 return;
+                
             }
 
             pdfContentByte.beginText();            
@@ -174,12 +176,9 @@ public class WatermarkServiceImpl implements WatermarkService {
             
             LOG.error("WatermarkDecoratorImpl Error found: "+documentException.getMessage());      
         }
-        catch (MalformedURLException malformedURLException) {
-            LOG.error("WatermarkDecoratorImpl Error MalformedURLException: "+malformedURLException.getMessage());
-        }
-        catch (IOException exception) {
-            LOG.error("WatermarkDecoratorImpl Error IOException: "+exception.getMessage());
-        }
+//        catch (MalformedURLException malformedURLException) {
+//            LOG.error("WatermarkDecoratorImpl Error MalformedURLException: "+malformedURLException.getMessage());
+//        }
     }
     
     

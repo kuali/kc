@@ -46,7 +46,6 @@
         <property name="maintainableItems" >
             <list>
             
-       
                 <bean parent="MaintainableFieldDefinition"
                     p:name="statusCode"
                     p:required="true" />
@@ -61,9 +60,9 @@
                <bean parent="MaintainableFieldDefinition"
                     p:name="fontSize"  />
                <bean parent="MaintainableFieldDefinition"
-                    p:name="fontColour" />
+                    p:name="fontColor" />
                <bean parent="MaintainableFieldDefinition"
-                    p:name="watermarkImageFile" />
+                    p:name="templateFile" />
                <bean parent="MaintainableFieldDefinition"
                     p:name="versionNumber" />
             </list>
