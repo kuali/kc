@@ -335,6 +335,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
     public void setBudgetLimits(AwardBudgetDocument awardBudgetDocument, AwardDocument parentDocument) {
         AwardBudgetExt awardBudget = awardBudgetDocument.getAwardBudget();
         awardBudget.setTotalCostLimit(getTotalCostLimit(parentDocument));
+        awardBudget.setObligatedTotal(new BudgetDecimal(parentDocument.getAward().getBudgetTotalCostLimit().bigDecimalValue()));
         awardBudget.getAwardBudgetLimits().clear();
         for (AwardBudgetLimit limit : parentDocument.getAward().getAwardBudgetLimits()) {
             awardBudget.getAwardBudgetLimits().add(new AwardBudgetLimit(limit));
@@ -426,7 +427,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
      */
     public BudgetDecimal getTotalCostLimit(AwardDocument awardDocument) {
         KualiDecimal obligatedTotal = awardDocument.getAward().getObligatedDistributableTotal();
-        KualiDecimal costLimit = awardDocument.getAward().getTotalCostBudgetLimit().getLimit(); 
+        KualiDecimal costLimit = awardDocument.getAward().getTotalCostBudgetLimit(); 
         BudgetDecimal postedTotalAmount = getPostedTotalAmount(awardDocument);
         if (costLimit == null || costLimit.isGreaterEqual(obligatedTotal)) {
             return new BudgetDecimal(obligatedTotal.bigDecimalValue()).subtract(postedTotalAmount);

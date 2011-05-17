@@ -318,7 +318,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
             }
         }
         
-        calculateTotalCostLimit(awardForm.getAwardDocument().getAward());
+        calculateTotalCostLimit(awardForm);
 
         // this.setProposalStatus(pdForm.getDocument());
         // this.setBudgetStatuses(pdForm.getDocument());
@@ -338,14 +338,13 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         return forward;
     }
     
-    private void calculateTotalCostLimit(Award award) {
-        AwardBudgetLimit directLimit = award.getDirectCostBudgetLimit();
-        AwardBudgetLimit indirectLimit = award.getIndirectCostBudgetLimit();
-        AwardBudgetLimit totalLimit = award.getTotalCostBudgetLimit();
-        if (directLimit.getLimit() != null || indirectLimit.getLimit() != null) {
-            KualiDecimal newTotal = directLimit.getLimit() != null ? directLimit.getLimit() : KualiDecimal.ZERO;
-            newTotal = newTotal.add(indirectLimit.getLimit() != null ? indirectLimit.getLimit() : KualiDecimal.ZERO);
-            totalLimit.setLimit(newTotal);
+    private void calculateTotalCostLimit(AwardForm awardForm) {
+        KualiDecimal directLimit = awardForm.getAwardBudgetLimitsBean().getDirectCostBudgetLimit();
+        KualiDecimal indirectLimit = awardForm.getAwardBudgetLimitsBean().getIndirectCostBudgetLimit();
+        if (directLimit != null || indirectLimit != null) {
+            KualiDecimal newTotal = directLimit != null ? directLimit : KualiDecimal.ZERO;
+            newTotal = newTotal.add(indirectLimit != null ? indirectLimit : KualiDecimal.ZERO);
+            awardForm.getAwardBudgetLimitsBean().setTotalCostBudgetLimit(newTotal);
         }
     }
     
