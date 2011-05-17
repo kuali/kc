@@ -403,10 +403,11 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
             Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
             String methodToCall = ((KualiForm) form).getMethodToCall();
             if(question == null){
-                return performQuestionWithoutInput(mapping, form, request, response, UPDATE_COST_LIMITS_QUESTION, 
-                        "Award Budget Total Cost Limit has changed from " + awardBudgetDocument.getBudget().getTotalCostLimit().toString() + "" +
-                                " to " + newCostLimit.toString() + ". Would you like to update the cost limits before submitting?", 
-                        KNSConstants.CONFIRMATION_QUESTION, methodToCall, "");
+                KualiConfigurationService kualiConfiguration = KNSServiceLocator.getKualiConfigurationService();
+                return confirm(buildParameterizedConfirmationQuestion(mapping, form, request, response, UPDATE_COST_LIMITS_QUESTION,
+                        KeyConstants.QUESTION_TOTALCOSTLIMIT_CHANGED, 
+                        new String[]{awardBudgetDocument.getBudget().getTotalCostLimit().toString(), newCostLimit.toString()}), 
+                        methodToCall, methodToCall);
             } else if(UPDATE_COST_LIMITS_QUESTION.equals(question) && ConfirmationQuestion.YES.equals(buttonClicked)) {
                 getAwardBudgetService().setBudgetLimits(awardBudgetDocument, currentAward.getAwardDocument());
                 return mapping.findForward(Constants.MAPPING_AWARD_BASIC);

@@ -1190,16 +1190,14 @@ public class AwardAction extends BudgetParentActionBase {
             , HttpServletRequest request, HttpServletResponse response) {
         AwardForm awardForm = (AwardForm) form;
         getAwardBudgetService().populateBudgetLimitSummary(awardForm.getBudgetLimitSummary(), awardForm.getAwardDocument());
-        defaultCostLimit(awardForm.getAwardDocument());
         return mapping.findForward(Constants.MAPPING_AWARD_BUDGET_VERSIONS_PAGE);
     }
     
-    protected void defaultCostLimit(AwardDocument awardDocument) {
-        Award award = awardDocument.getAward();
-        if (award.getTotalCostBudgetLimit().getLimit() == null) {
-            KualiDecimal obligatedAmount = awardDocument.getAward().getObligatedDistributableTotal(); 
-            award.getTotalCostBudgetLimit().setLimit(new KualiDecimal(obligatedAmount.bigDecimalValue()));
-        }  
+    protected void defaultCostLimit(AwardForm awardForm) {
+        if (awardForm.getAwardBudgetLimitsBean().getTotalCostBudgetLimit() == null) {
+            KualiDecimal obligatedAmount = awardForm.getAwardDocument().getAward().getObligatedDistributableTotal(); 
+            awardForm.getAwardBudgetLimitsBean().setTotalCostBudgetLimit(obligatedAmount);
+        }
     }
 
     /**

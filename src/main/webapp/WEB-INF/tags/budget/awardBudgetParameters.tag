@@ -65,7 +65,7 @@
            			<div align="right">Budget Total Cost Limit:</div>
        			</th>
            		<td>
-           			<bean:write name="KualiForm" property="document.parentDocument.budgetParent.budgetTotalCostLimit"/> 
+           			<bean:write name="KualiForm" property="document.budget.obligatedTotal"/> 
            		</td>
         	</tr>
         	<tr>

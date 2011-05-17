@@ -73,7 +73,7 @@ public class AwardBudgetCostLimitAuditRule implements DocumentAuditRule {
             if (budgetLimit.getLimit() != null) {
                 BudgetDecimal total = (BudgetDecimal) ObjectUtils.getPropertyValue(budget, budgetLimit.getLimitType().getBudgetProperty());
                 if (prevBudget != null) {
-                    total = total.add((BudgetDecimal) ObjectUtils.getPropertyValue(budget, budgetLimit.getLimitType().getBudgetProperty()));
+                    total = total.add((BudgetDecimal) ObjectUtils.getPropertyValue(prevBudget, budgetLimit.getLimitType().getBudgetProperty()));
                 }
                 if (total.isGreaterThan(budgetLimit.getLimit())) {
                     getAuditErrors().add(new AuditError("document.budget." + budgetLimit.getLimitType().getBudgetProperty(),
@@ -121,7 +121,7 @@ public class AwardBudgetCostLimitAuditRule implements DocumentAuditRule {
             }
         }
         //return empty budget limit to simplify logic above
-        return new AwardBudgetLimit();
+        return new AwardBudgetLimit(type);
     }
     
     /**
@@ -132,10 +132,11 @@ public class AwardBudgetCostLimitAuditRule implements DocumentAuditRule {
      * @return
      */
     protected boolean limitsMatch(List<AwardBudgetLimit> awardLimits, List<AwardBudgetLimit> budgetLimits) {
-        if (awardLimits.size() != budgetLimits.size()) {
+        if (awardLimits.size() < budgetLimits.size()) {
             getAuditWarnings().add(new AuditError("document.budget.awardBudgetLimits",
                     KeyConstants.AUDIT_ERROR_COST_LIMITS_CHANGED,
                     Constants.BUDGET_PERIOD_PAGE + "." + "BudgetPeriodsTotals"));
+            return true;
         }
         
         for (AwardBudgetLimit limit : awardLimits) {
@@ -147,7 +148,7 @@ public class AwardBudgetCostLimitAuditRule implements DocumentAuditRule {
                         Constants.BUDGET_PERIOD_PAGE + "." + "BudgetPeriodsTotals",
                         new String[]{budgetLimit.getLimitType().getDesc(), 
                             budgetLimit == null || budgetLimit.getLimit() == null ? "N/A" : budgetLimit.getLimit().toString(), 
-                            limit.getLimit() == null ? "N/A" : limit.getLimit().toString()}));
+                            limit == null || limit.getLimit() == null ? "N/A" : limit.getLimit().toString()}));
             }
         }
         return true;

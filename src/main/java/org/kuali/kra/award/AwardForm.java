@@ -31,6 +31,7 @@ import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyBean;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyTempObject;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncBean;
+import org.kuali.kra.award.budget.AwardBudgetLimitsBean;
 import org.kuali.kra.award.budget.BudgetLimitSummaryHelper;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.commitments.CostShareFormHelper;
@@ -146,6 +147,7 @@ public class AwardForm extends BudgetVersionFormBase
     private AwardNotepadBean awardNotepadBean;
     private AwardAttachmentFormBean awardAttachmentFormBean;
     private MedusaBean medusaBean;
+    private AwardBudgetLimitsBean awardBudgetLimitsBean;
     
     private boolean auditActivated;
     //private boolean awardInMultipleNodeHierarchy;
@@ -261,6 +263,7 @@ public class AwardForm extends BudgetVersionFormBase
         awardSyncBean = new AwardSyncBean(this);
         setDirectIndirectViewEnabled(getParameterService().getParameterValue(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST"));
         budgetLimitSummary = new BudgetLimitSummaryHelper();
+        awardBudgetLimitsBean = new AwardBudgetLimitsBean(this);
     }
 
     /**
@@ -1410,5 +1413,13 @@ public class AwardForm extends BudgetVersionFormBase
 
     public void setBudgetLimitSummary(BudgetLimitSummaryHelper budgetLimitSummary) {
         this.budgetLimitSummary = budgetLimitSummary;
+    }
+
+    public AwardBudgetLimitsBean getAwardBudgetLimitsBean() {
+        return awardBudgetLimitsBean;
+    }
+
+    public void setAwardBudgetLimitsBean(AwardBudgetLimitsBean awardBudgetLimitsBean) {
+        this.awardBudgetLimitsBean = awardBudgetLimitsBean;
     }
 }
