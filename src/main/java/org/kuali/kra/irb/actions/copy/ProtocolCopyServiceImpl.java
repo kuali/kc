@@ -335,6 +335,8 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
         destProtocol.setProtocolFundingSources((List<ProtocolFundingSource>) deepCopy(srcProtocol.getProtocolFundingSources()));
         destProtocol.setProtocolPersons((List<ProtocolPerson>) deepCopy(srcProtocol.getProtocolPersons()));
         destProtocol.setSpecialReviews((List<ProtocolSpecialReview>) deepCopy(srcProtocol.getSpecialReviews()));
+        // must make following call to copy exemption codes (transient objects don't get copied)
+        destProtocol.cleanupSpecialReviews(srcProtocol);
         destProtocol.setAttachmentProtocols((List<ProtocolAttachmentProtocol>) deepCopy(srcProtocol.getAttachmentProtocols()));
         destProtocol.setNotepads((List<ProtocolNotepad>) deepCopy(srcProtocol.getNotepads()));
     }
