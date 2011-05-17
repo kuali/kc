@@ -31,6 +31,10 @@ public class NotificationTypeRecipient extends KraPersistableBusinessObjectBase 
     private String roleId;
     private String roleQualifier;
     private String toOrCC;
+    
+    // Non-persistent field for tracking the qualifier value.
+    // Consider a new class for 'instances' of type recipients with an eye toward JPA.
+    private String qualifierValue;
 
     public Long getNotificationTypeRecipientId() {
         return notificationTypeRecipientId;
@@ -70,6 +74,14 @@ public class NotificationTypeRecipient extends KraPersistableBusinessObjectBase 
 
     public void setToOrCC(String toOrCC) {
         this.toOrCC = toOrCC;
+    }
+
+    public String getQualifierValue() {
+        return qualifierValue;
+    }
+
+    public void setQualifierValue(String qualifierValue) {
+        this.qualifierValue = qualifierValue;
     }
 
     @Override
