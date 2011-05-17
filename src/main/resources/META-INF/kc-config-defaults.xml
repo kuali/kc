@@ -117,6 +117,11 @@
 	<!-- Turn off KEW use of quartz db to avoid db clear issues -->
 	<param name="useQuartzDatabase">false</param>
 
+	<!-- KC quartz table prefix -->
+	<param name="kcQuartzDatabasePrefix">KC_QRTZ_</param>
+	<!-- User the kc batch jobs run as -->
+	<param name="batchJobUserName">kc</param>
+	
 	<param name="documentSearch.resultProcessor.class.name">org.kuali.kra.proposaldevelopment.document.search.ProposalDocumentSearchResultProcessor</param>
 
 	<!-- Java mail properties -->
