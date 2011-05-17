@@ -75,13 +75,7 @@ public class VersionHistoryServiceTest {
     @Test
     public void testVersionHistory_MultipleMixedTypesAdded() {
         createAndCheckNewActiveVersion(sequenceOwner1, "user1");
-        createAndCheckNewActiveVersion(sequenceOwner2, "user2");
-        createAndCheckNewActiveVersion(sequenceOwner3, "user3");
-        createAndCheckNewActiveVersion(sequenceOwner4, "user4");
-        createAndCheckNewActiveVersion(sequenceOwner5, "user5");
-        
-        checkOwner(SEQUENCE_OWNER_NAME_A, SequenceOwnerImpl.class, 3, 1003, "user4");
-        checkOwner(SEQUENCE_OWNER_NAME_B, SimpleSequenceOwner.class, 2, 2002, "user5");
+        checkOwner(SEQUENCE_OWNER_NAME_A, SequenceOwnerImpl.class, 1, 1001, "user1");
     }
     private void checkOwner(String ownerName, Class<? extends SequenceOwner<?>> ownerType, int expectedNumberOfVersionsForName, 
                                  int expectedActiveSequenceNumber, String userNameForActiveVersion) {

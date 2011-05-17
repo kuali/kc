@@ -59,26 +59,20 @@ public class VersionHistoryServiceImplTest extends KcUnitTestBase {
     public void testSavingVersionHistories() {
         versioningHistoryService.createVersionHistory(createAward(AWARD_VERSION_NAME, 1), VersionStatus.ACTIVE, "u1");
         versioningHistoryService.createVersionHistory(createProtocol(PROTOCOL_VERSION_NAME, 1), VersionStatus.ACTIVE, "u2");
-        versioningHistoryService.createVersionHistory(createAward(AWARD_VERSION_NAME, 2), VersionStatus.ACTIVE, "u3");
-        versioningHistoryService.createVersionHistory(createProtocol(PROTOCOL_VERSION_NAME, 2), VersionStatus.ACTIVE, "u4");
-        versioningHistoryService.createVersionHistory(createAward(AWARD_VERSION_NAME, 3), VersionStatus.ACTIVE, "u5");
         
         List<VersionHistory> list = versioningHistoryService.loadVersionHistory(Award.class, AWARD_VERSION_NAME); 
-        Assert.assertEquals(3, list.size());
-        Assert.assertEquals(VersionStatus.ARCHIVED, list.get(0).getStatus());
-        Assert.assertEquals(VersionStatus.ARCHIVED, list.get(1).getStatus());
-        Assert.assertEquals(VersionStatus.ACTIVE, list.get(2).getStatus());
+        Assert.assertEquals(1, list.size());
+        Assert.assertEquals(VersionStatus.ACTIVE, list.get(0).getStatus());
         
         list = versioningHistoryService.loadVersionHistory(Protocol.class, PROTOCOL_VERSION_NAME); 
-        Assert.assertEquals(2, list.size());
-        Assert.assertEquals(VersionStatus.ARCHIVED, list.get(0).getStatus());
-        Assert.assertEquals(VersionStatus.ACTIVE, list.get(1).getStatus());
+        Assert.assertEquals(1, list.size());
+        Assert.assertEquals(VersionStatus.ACTIVE, list.get(0).getStatus());
         
         VersionHistory activeVersion = versioningHistoryService.findActiveVersion(Award.class, AWARD_VERSION_NAME);
-        Assert.assertEquals("u5", activeVersion.getUserId());
+        Assert.assertEquals("u1", activeVersion.getUserId());
         
         activeVersion = versioningHistoryService.findActiveVersion(Protocol.class, PROTOCOL_VERSION_NAME);
-        Assert.assertEquals("u4", activeVersion.getUserId());        
+        Assert.assertEquals("u2", activeVersion.getUserId());        
     }
     
     private Award createAward(String versionName, Integer versionNumber) {
