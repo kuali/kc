@@ -2068,4 +2068,18 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         
         return filteredAttachments;
     }
+
+    public void cleanupSpecialReviews(Protocol srcProtocol) {
+        List<ProtocolSpecialReview> srcSpecialReviews = srcProtocol.getSpecialReviews();
+        List<ProtocolSpecialReview> dstSpecialReviews = getSpecialReviews();
+        for (int i=0; i < srcSpecialReviews.size(); i++) {
+            ProtocolSpecialReview srcSpecialReview = srcSpecialReviews.get(i);
+            ProtocolSpecialReview dstSpecialReview = dstSpecialReviews.get(i);
+            List<String> exemptionCodeCopy = new ArrayList<String>();
+            for (String s: srcSpecialReview.getExemptionTypeCodes()) {
+                exemptionCodeCopy.add(new String(s));
+            }
+            dstSpecialReview.setExemptionTypeCodes(exemptionCodeCopy);
+        }
+    }
 }
