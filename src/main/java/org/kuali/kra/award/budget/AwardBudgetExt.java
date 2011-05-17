@@ -138,7 +138,8 @@ public class AwardBudgetExt extends Budget {
     }
 
     /**
-     * Gets the obligatedTotal attribute. 
+     * Gets the obligatedTotal attribute - which actually contains the BudgetTotalCostLimit which is
+     * the lesser of the obligated distributable amount and the award total cost budget limit. 
      * @return Returns the obligatedTotal.
      */
     public BudgetDecimal getObligatedTotal() {
@@ -146,7 +147,8 @@ public class AwardBudgetExt extends Budget {
     }
 
     /**
-     * Sets the obligatedTotal attribute value.
+     * Sets the obligatedTotal attribute value -  which should actually be the BudgetTotalCostLimit which is
+     * the lesser of the obligated distributable amount and the award total cost budget limit.
      * @param obligatedTotal The obligatedTotal to set.
      */
     public void setObligatedTotal(BudgetDecimal obligatedAmount) {

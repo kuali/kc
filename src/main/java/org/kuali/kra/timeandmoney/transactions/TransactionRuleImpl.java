@@ -256,8 +256,8 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
     private boolean validateAwardTotalCostLimit(PendingTransaction pendingTransaction, Award award) {
         AwardAmountInfo awardAmountInfo = award.getAwardAmountInfos().get(award.getAwardAmountInfos().size() -1);
         KualiDecimal obliDistributableAmount = awardAmountInfo.getObliDistributableAmount().subtract(pendingTransaction.getObligatedAmount());
-        if (award.getTotalCostBudgetLimit().getLimit() != null
-                && award.getTotalCostBudgetLimit().getLimit().isGreaterThan(obliDistributableAmount)) {
+        if (award.getTotalCostBudgetLimit() != null
+                && award.getTotalCostBudgetLimit().isGreaterThan(obliDistributableAmount)) {
             reportWarning(OBLIGATED_AMOUNT_PROPERTY, KeyConstants.WARNING_TRANSACTION_OBLI_LESS_THAN_BUDGET_LIMIT, new String[]{award.getAwardNumber()});
         }
         return true;
@@ -439,8 +439,8 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
     }
     
     protected boolean validateAwardTotalCostLimit(AwardHierarchyNode awardHierarchyNode, Award award) {
-        if (award.getTotalCostBudgetLimit().getLimit() != null
-                && award.getTotalCostBudgetLimit().getLimit().isGreaterThan(awardHierarchyNode.getObliDistributableAmount())) {
+        if (award.getTotalCostBudgetLimit() != null
+                && award.getTotalCostBudgetLimit().isGreaterThan(awardHierarchyNode.getObliDistributableAmount())) {
             reportWarning(TIME_AND_MONEY_TRANSACTION, KeyConstants.WARNING_TRANSACTION_OBLI_LESS_THAN_BUDGET_LIMIT, 
                     new String[]{award.getAwardNumber()});
         }

@@ -297,7 +297,7 @@ function collapseAll() {
               <c:set var="curDirect" value="${krafn:getBigDecimal(budgetSummary.currentBudget.totalDirectCost)}"/>
               <c:set var="prevDirect" value="${krafn:getBigDecimal(budgetSummary.previousBudget.totalDirectCost)}"/>
               <td colspan="2" class="infoline" style="text-align:right;"><strong>TOTAL DIRECT COSTS</strong></td>
-              <td class="infoline" style="text-align:right;"><strong><kul:htmlControlAttribute property="document.award.directCostBudgetLimit.limit" attributeEntry="${budgetLimitAttributes.limit}" styleClass="amount" readOnly="${readOnly}"/></strong></td>
+              <td class="infoline" style="text-align:right;"><strong><kul:htmlControlAttribute property="awardBudgetLimitsBean.directCostBudgetLimit" attributeEntry="${budgetLimitAttributes.limit}" styleClass="amount" readOnly="${readOnly}"/></strong></td>
               <td class="infoline" style="text-align:right;"><strong><fmt:formatNumber value="${curDirect}" type="currency" currencySymbol="$"  minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/></strong></td>
               <td class="infoline" style="text-align:right;"><strong><fmt:formatNumber value="${prevDirect}" type="currency" currencySymbol="$"  minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/></strong></td>
               <td class="infoline" style="text-align:right;"><strong><fmt:formatNumber value="${curDirect + prevDirect}" type="currency" currencySymbol="$"  minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/></strong></td>
@@ -306,7 +306,7 @@ function collapseAll() {
               <c:set var="curDirect" value="${krafn:getBigDecimal(budgetSummary.currentBudget.totalIndirectCost)}"/>
               <c:set var="prevDirect" value="${krafn:getBigDecimal(budgetSummary.previousBudget.totalIndirectCost)}"/>
               <td colspan="2" class="infoline" style="text-align:right;"><strong>TOTAL F&A COSTS</strong></td>
-              <td class="infoline" style="text-align:right;"><strong><kul:htmlControlAttribute property="document.award.indirectCostBudgetLimit.limit" attributeEntry="${budgetLimitAttributes.limit}" styleClass="amount" readOnly="${readOnly}"/></strong></td>
+              <td class="infoline" style="text-align:right;"><strong><kul:htmlControlAttribute property="awardBudgetLimitsBean.indirectCostBudgetLimit" attributeEntry="${budgetLimitAttributes.limit}" styleClass="amount" readOnly="${readOnly}"/></strong></td>
               <td class="infoline" style="text-align:right;"><strong><fmt:formatNumber value="${curDirect}" type="currency" currencySymbol="$"  minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/></strong></td>
               <td class="infoline" style="text-align:right;"><strong><fmt:formatNumber value="${prevDirect}" type="currency" currencySymbol="$"  minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/></strong></td>
               <td class="infoline" style="text-align:right;"><strong><fmt:formatNumber value="${curDirect + prevDirect}" type="currency" currencySymbol="$"  minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/></strong></td>
@@ -315,7 +315,7 @@ function collapseAll() {
               <c:set var="curDirect" value="${krafn:getBigDecimal(budgetSummary.currentBudget.totalCost)}"/>
               <c:set var="prevDirect" value="${krafn:getBigDecimal(budgetSummary.previousBudget.totalCost)}"/>
               <td colspan="2" class="infoline" style="text-align:right;"><strong>TOTAL COSTS</strong></td>
-              <td class="infoline" style="text-align:right;"><strong><kul:htmlControlAttribute property="document.award.totalCostBudgetLimit.limit" attributeEntry="${budgetLimitAttributes.limit}" styleClass="amount" readOnly="${readOnly}"/></strong></td>
+              <td class="infoline" style="text-align:right;"><strong><kul:htmlControlAttribute property="awardBudgetLimitsBean.totalCostBudgetLimit" attributeEntry="${budgetLimitAttributes.limit}" styleClass="amount" readOnly="${readOnly}"/></strong></td>
               <td class="infoline" style="text-align:right;"><strong><fmt:formatNumber value="${curDirect}" type="currency" currencySymbol="$"  minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/></strong></td>
               <td class="infoline" style="text-align:right;"><strong><fmt:formatNumber value="${prevDirect}" type="currency" currencySymbol="$"  minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/></strong></td>
               <td class="infoline" style="text-align:right;"><strong><fmt:formatNumber value="${curDirect + prevDirect}" type="currency" currencySymbol="$"  minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/></strong></td>
