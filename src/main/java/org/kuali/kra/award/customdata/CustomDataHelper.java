@@ -114,18 +114,32 @@ public class CustomDataHelper extends CustomDataHelperBase {
      * Data Tab and on Reload.
      */
     public void populateCustomDataValuesFromParentMap() {
-        if(customDataValues.size() == 0) {
-            for(Map.Entry<String, String[]> customAttributeValue:getCustomAttributeValues().entrySet()) {
+        // Significant hack here, to give space in case users create non-sequential Custom Attribute Id's.
+        // Avoids array out of bounds exceptions.
+//      if(customDataValues.size() == 0) {
+            customDataValues = new ArrayList<AwardStringObjectBO>(maxCustomAttributeIndex());
+            for(int i=0; i<=maxCustomAttributeIndex(); i++) {
                 AwardStringObjectBO tempAwardStringObjectBO = new AwardStringObjectBO();
                 tempAwardStringObjectBO.setValue("");
                 customDataValues.add(tempAwardStringObjectBO);
             }
-        }
+//      }
         for(Map.Entry<String, String[]> customAttributeValue:getCustomAttributeValues().entrySet()) {
             customDataValues.get(Integer.parseInt(customAttributeValue.getKey().substring(2)) - 1).setValue(customAttributeValue.getValue()[0]);
         }
     }
-    
+
+    private int maxCustomAttributeIndex() {
+        int index = 0;
+        for(Map.Entry<String, String[]> customAttributeValue : getCustomAttributeValues().entrySet()) {
+            int tempIndex = Integer.parseInt(customAttributeValue.getKey().substring(2)) - 1;
+            if (tempIndex > index) {
+                index = tempIndex;
+            }
+        }
+        return index;
+    }
+
     /**
      * This method copies data out of Array of AwardStringObjectBo into parent collection which is in turn copied into collection of 
      * AwardCustomData objects on Award for data persitence.
@@ -194,7 +208,7 @@ public class CustomDataHelper extends CustomDataHelperBase {
             }
             if (loopAwardCustomData != null) {
                 awardForm.getCustomDataHelper().getCustomAttributeValues()
-                .put("id" + customAttributeDocumentEntry.getValue().getCustomAttributeId().toString(), new String[] {loopAwardCustomData.getValue()});
+                    .put("id" + customAttributeDocumentEntry.getValue().getCustomAttributeId().toString(), new String[] {loopAwardCustomData.getValue()});
                 String groupName = 
                     customAttributeDocuments.get(loopAwardCustomData.getCustomAttributeId().toString()).getCustomAttribute().getGroupName();
                 List<CustomAttributeDocument> customAttributeDocumentList = customAttributeGroups.get(groupName);   
@@ -221,19 +235,19 @@ public class CustomDataHelper extends CustomDataHelperBase {
         for(Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry:customAttributeDocuments.entrySet()) {
             awardForm.getCustomDataHelper().getCustomAttributeValues()
                 .put("id" + customAttributeDocumentEntry.getValue().getCustomAttributeId().toString(), new String[] {""});       
-           String groupName = customAttributeDocumentEntry.getValue().getCustomAttribute().getGroupName();
+            String groupName = customAttributeDocumentEntry.getValue().getCustomAttribute().getGroupName();
             List<CustomAttributeDocument> customAttributeDocumentList = customAttributeGroups.get(groupName);
-                if (customAttributeDocumentList == null) {
-                    customAttributeDocumentList = new ArrayList<CustomAttributeDocument>();
-                    customAttributeGroups.put(groupName, customAttributeDocumentList);
-                }
-                customAttributeDocumentList.add(customAttributeDocuments.get(customAttributeDocumentEntry.getValue().getCustomAttributeId().toString()));
+            if (customAttributeDocumentList == null) {
+                customAttributeDocumentList = new ArrayList<CustomAttributeDocument>();
+                customAttributeGroups.put(groupName, customAttributeDocumentList);
+            }
+            customAttributeDocumentList.add(customAttributeDocuments.get(customAttributeDocumentEntry.getValue().getCustomAttributeId().toString()));
         }
         populateCustomDataValuesFromParentMap();
     }
 
     /**
-     * This class is being used as a workaround to a struts issue that will not allow indexing into a list of string primatives from JSP.
+     * This class is being used as a workaround to a struts issue that will not allow indexing into a list of string primitives from JSP.
      * The only purpose of this class is to hold a string object with getters and setters so the tag file can call into index of ArrayList
      * and getValue().
      */
