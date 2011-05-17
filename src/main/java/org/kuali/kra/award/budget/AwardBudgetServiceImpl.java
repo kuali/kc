@@ -784,7 +784,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         HashSet<BudgetDocumentVersion> result = new HashSet<BudgetDocumentVersion>();
         List<VersionHistory> versions = getVersionHistoryService().loadVersionHistory(Award.class, awardDocument.getAward().getAwardNumber());
         for (VersionHistory version : versions) {
-            if (version.getSequenceOwnerSequenceNumber() <= awardDocument.getAward().getSequenceNumber()) {
+            if (version.getSequenceOwnerSequenceNumber() <= awardDocument.getAward().getSequenceNumber() && !(version.getSequenceOwner() == null)) {
                 result.addAll(((Award) version.getSequenceOwner()).getAwardDocument().getActualBudgetDocumentVersions());
             }
         }
