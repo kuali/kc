@@ -198,9 +198,9 @@
 		<reference-descriptor name="awardTransactionType" class-ref="org.kuali.kra.timeandmoney.transactions.AwardTransactionType" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="awardTransactionTypeCode"/>
 		</reference-descriptor>
-		<reference-descriptor name="cfdaNumber" class-ref="org.kuali.kra.award.home.CFDA" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<!--<reference-descriptor name="cfdaNumber" class-ref="org.kuali.kra.award.home.CFDA" auto-retrieve="true" auto-update="none" auto-delete="none">
         	<foreignkey field-ref="cfdaNumber" />
-    	</reference-descriptor>
+    	</reference-descriptor>-->
         <reference-descriptor name="leadUnit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="unitNumber"/>
 		</reference-descriptor>
