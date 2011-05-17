@@ -155,6 +155,7 @@ public final class KeyConstants {
     public static final String ERROR_AWARD_BUDGET_START_DATE_MISSING = "error.award.budgetVersion.startDate.required";
     public static final String ERROR_AWARD_BUDGET_END_DATE_MISSING = "error.award.budgetVersion.endDate.required";
     public static final String ERROR_DOCUMENT_STATUS_NOT_FINAL = "error.document.status.not.final";
+    public static final String QUESTION_TOTALCOSTLIMIT_CHANGED = "document.question.totalCostLimit.changed";
 
     //Budget Version warnings
     public static final String WARNING_BUDGET_VERSION_MODULAR_INVALID_TDC = "warning.budgetVersion.Modular.InvalidTotalDirectCost";
@@ -391,8 +392,7 @@ public final class KeyConstants {
     public static final String ERROR_OBLIGATION_EXPIRATION_DATE = "error.obligation.expiration.date";
     
     //Award Budget
-    public static final String WARNING_AWARD_BUDGET_LIMIT_LESSTHAN_OBLIGATED = "warning.awardbudget.limit.lessthan.obligated";
-    public static final String WARNING_AWARD_BUDGET_COST_LIMIT_EXCEEDS_OBLIGATED = "warning.awardbudget.limit.exceeds.obligated";
+    public static final String WARNING_AWARD_BUDGET_COSTLIMIT_NOTEQUAL_OBLIGATED = "warning.awardbudget.limitNotEqual.obligated";
     
     //Award Cost Share
     public static final String ERROR_FISCAL_YEAR_RANGE = "error.awardCostShare.fiscalYear.range";

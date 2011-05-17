@@ -2424,10 +2424,10 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      * @return
      */
     public KualiDecimal getBudgetTotalCostLimit() {
-        AwardBudgetLimit limit = getTotalCostBudgetLimit();
+        KualiDecimal limit = getTotalCostBudgetLimit();
         KualiDecimal obliTotal = getObligatedDistributableTotal();
-        if (limit.getLimit() != null && limit.getLimit().isLessEqual(obliTotal)) {
-            return limit.getLimit();
+        if (limit != null && limit.isLessEqual(obliTotal)) {
+            return limit;
         } else {
             return obliTotal;
         }
@@ -3203,16 +3203,16 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         this.awardBudgetLimits = awardBudgetLimits;
     }
     
-    public AwardBudgetLimit getTotalCostBudgetLimit() {
-        return getSpecificBudgetLimit(AwardBudgetLimit.LIMIT_TYPE.TOTAL_COST);
+    public KualiDecimal getTotalCostBudgetLimit() {
+        return getSpecificBudgetLimit(AwardBudgetLimit.LIMIT_TYPE.TOTAL_COST).getLimit();
     }
     
-    public AwardBudgetLimit getDirectCostBudgetLimit() {
-        return getSpecificBudgetLimit(AwardBudgetLimit.LIMIT_TYPE.DIRECT_COST);
+    public KualiDecimal getDirectCostBudgetLimit() {
+        return getSpecificBudgetLimit(AwardBudgetLimit.LIMIT_TYPE.DIRECT_COST).getLimit();
     }
     
-    public AwardBudgetLimit getIndirectCostBudgetLimit() {
-        return getSpecificBudgetLimit(AwardBudgetLimit.LIMIT_TYPE.INDIRECT_COST);
+    public KualiDecimal getIndirectCostBudgetLimit() {
+        return getSpecificBudgetLimit(AwardBudgetLimit.LIMIT_TYPE.INDIRECT_COST).getLimit();
     }
     
     protected AwardBudgetLimit getSpecificBudgetLimit(AwardBudgetLimit.LIMIT_TYPE type) {
@@ -3221,10 +3221,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
                 return limit;
             }
         }
-        AwardBudgetLimit limit = new AwardBudgetLimit(type);
-        getAwardBudgetLimits().add(limit);
-        return limit;
-        
+        return new AwardBudgetLimit(type);
     }
 
 }
