@@ -35,7 +35,7 @@
                            http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
                            http://www.springframework.org/schema/util
                            http://www.springframework.org/schema/util/spring-util-2.5.xsd">
-                           
+  	
     <bean id="awardModuleConfiguration" parent="awardModuleConfiguration-parentBean" />
 	
     <bean id="awardModuleConfiguration-parentBean" class="org.kuali.rice.kns.bo.ModuleConfiguration" abstract="true">
@@ -556,6 +556,69 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="parameterService" ref="parameterService" />
 	</bean>
+	
+	<bean id="cfdaService" class="org.kuali.kra.external.Cfda.service.impl.CfdaServiceImpl">
+		<property name="parameterService" ref="parameterService"/>
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="dateTimeService" ref="dateTimeService" />
+	</bean>
+	
+	<bean id="cfdaNotificationService" class="org.kuali.kra.external.Notifications.service.impl.CfdaNotificationServiceImpl">
+		<property name="notificationService" ref="notificationService" />
+		 <property name="notificationTemplates">
+			<list>
+			    <value>/org/kuali/kra/external/Cfda/cfda_notification.xml</value>
+            </list>
+		</property>
+	</bean>
+	
+	<!-- Quartz configuration for CFDA batch job-->
+	<!-- Use JobDetail here since the MethodInvokingJobDetailFactoryBean does not support persistent storage-->
+	<bean id="cfdaBatchJobDetail" class="org.quartz.JobDetail" >
+		<property name="jobClass" value="org.kuali.kra.external.Cfda.CfdaBatchJob" />
+		<property name="name" value="cfdaBatchJobDetail" />
+	</bean>
+	
+	<bean id="cfdaTrigger" class="org.kuali.kra.external.Cfda.CfdaCronTrigger">
+		<property name="jobDetail" ref="cfdaBatchJobDetail" />
+		<property name="parameterService" ref="parameterService" />
+	</bean>
+
+	<bean id="schedulerFactory" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref local="cfdaTrigger"/>
+			</list>
+		</property>
+		<!-- Injecting these services into the scheduler factory so it can be added to the job context 
+		which is passed to the executeInternal method of the job class.
+		-->
+		<property name= "schedulerContextAsMap">
+			<map>
+				<entry key="cfdaService" > 
+					<ref bean="cfdaService" /> 
+				</entry>
+				<entry key="cfdaNotificationService"> 
+					<ref bean="cfdaNotificationService" /> 
+				</entry>
+				<entry key="parameterService"> 
+					<ref bean="parameterService" /> 
+				</entry>
+				<entry key="user" value= "${batchJobUserName}" />
+			</map>
+		</property>
+		<property name="quartzProperties">
+			<props>
+				<prop key="org.quartz.jobStore.tablePrefix">${kcQuartzDatabasePrefix}</prop>
+			</props>
+		</property>
+		<!-- Datasource is defined in RiceOverridesSpringbeans.xml -->
+		<property name="dataSource" ref="dataSource" />
+		<!-- This is set to true so that the tables are modified when the job is modified, otherwise
+		manual deletion of values from tables will be required every time job is changed-->
+	  	<property name="overwriteExistingJobs" value="true" />
+	 </bean>
+	<!-- Quartz configuration end -->
 	
 	<bean id="cfdaNumberServiceJavaExporter" class="org.kuali.rice.ksb.messaging.KSBExporter">
 		<property name="serviceDefinition">

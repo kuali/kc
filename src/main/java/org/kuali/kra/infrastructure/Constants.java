@@ -413,7 +413,8 @@ public interface Constants {
     public static final String CFDA_GOV_LOGIN_USERNAME = "anonymous";
     public static final String CFDA_CRON_START_TIME_PARAMETER = "CFDA_BATCH_JOB_CRON_START_TIME";
     public static final String CFDA_BATCH_JOB_CRON_EXPRESSION_PARAMETER = "CFDA_BATCH_JOB_CRON_EXPRESSION";
-    public static final String DEFAULT_CRON_EXPRESSION = "0 5 * * * ?";
+    public static final String DEFAULT_CRON_EXPRESSION = "0 0 5 * * ?";
+    public static final String CFDA_BATCH_NOTIFICATION_RECIPIENT_PARAMETER = "CFDA_BATCH_NOTIFICATION_RECIPIENT";
 
 
 
