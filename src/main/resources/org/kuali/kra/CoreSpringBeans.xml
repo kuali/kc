@@ -562,6 +562,11 @@
 		class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
 		<property name="serviceName" value="notificationService" />
 	</bean>
+	
+	<bean id="roleService"
+        class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="roleService" />
+    </bean>
 
 	<bean id="xmlObjectSerializerService"
 		class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
@@ -604,5 +609,17 @@
 			<ref bean="kcPersonService" />
 		</property>
 	</bean>
-
+	
+	<bean id="kcNotificationService" class="org.kuali.kra.common.notifications.service.impl.KcNotificationServiceImpl">
+        <property name="notificationService">
+            <ref bean="notificationService" />
+        </property>
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+        <property name="roleManagementService">
+            <ref bean="roleManagementService" />
+        </property>
+	</bean>
+	
 </beans>
