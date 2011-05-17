@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.award.budget.document;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -207,24 +206,20 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
         catch (WorkflowException e) {
             throw new RuntimeException( "Could not save award document on action  taken.");
         }
-    }
+    } 
     
     /**
-     * 
-     * @see org.kuali.kra.budget.document.BudgetDocument#buildListOfDeletionAwareLists()
+     * {@inheritDoc}
      */
     @Override
-    @SuppressWarnings("unchecked")
-    public List buildListOfDeletionAwareLists() {
-        //this is a workaround to an OJB bug. Typically this could just call
-        //super.buildList... but due to a bug in OJB related to caching and
-        //the way validation methods use the budgetdoc, the Budget object
-        //is loaded first into cache and then the Budget is returned
-        //instead of the AwardBudgetExt. Workaround by not including the budgets
-        //as a deletion list here.
-        List managedLists = new ArrayList();
-        managedLists.addAll(getBudget().buildListOfDeletionAwareLists());
-        return managedLists;
-    }    
+    public void prepareForSave() {
+        //force ojb to precache the budget as an AwardBudgetExt.
+        //without this it caches the budget as a Budget which causes problems
+        //when assuming it must be an awardbudgetext for an awardbudgetdocument
+        if (this.getBudget() != null) {
+            AwardBudgetExt budget = KraServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(AwardBudgetExt.class, this.getBudget().getBudgetId());
+        }
+        super.prepareForSave();
+    }
  
 }
