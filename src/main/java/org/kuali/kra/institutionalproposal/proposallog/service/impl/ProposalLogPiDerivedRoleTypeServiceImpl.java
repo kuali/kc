@@ -15,11 +15,18 @@
  */
 package org.kuali.kra.institutionalproposal.proposallog.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.KimRoleTypeService;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.service.DocumentService;
 
 /**
  * Performs matching logic for Principal Investigator derived role.
@@ -30,6 +37,21 @@ public class ProposalLogPiDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeS
     public boolean hasApplicationRole(String principalId, List<String> groupIds, String namespaceCode, String roleName, AttributeSet qualification) {
         String piId = qualification.get("piId");
         return piId != null && piId.equals(principalId);
+    }
+    
+    @Override
+    public List<RoleMembershipInfo> getRoleMembersFromApplicationRole( String namespaceCode, String roleName, AttributeSet qualification ) {
+        DocumentService docService = KraServiceLocator.getService(DocumentService.class);
+        List<RoleMembershipInfo> roleMembers = new ArrayList<RoleMembershipInfo>();
+        try {
+            MaintenanceDocument doc = (MaintenanceDocument) docService.getByDocumentHeaderId(qualification.get("documentNumber"));
+            ProposalLog pLog = (ProposalLog) doc.getDocumentBusinessObject();
+            RoleMembershipInfo rmi = new RoleMembershipInfo(null, null, pLog.getPerson().getUserName(), "P", null);
+            roleMembers.add(rmi);
+        } catch (WorkflowException ex) {
+            
+        }
+        return roleMembers;
     }
 
 }
