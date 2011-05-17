@@ -657,6 +657,8 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
             objectMap.clear();
             fixProperty(budgetDocument, "setVersionNumber", Integer.class, null, objectMap);
             objectMap.clear();
+            fixProperty(budgetDocument, "setAwardBudgetPeriodSummaryCalculatedAmountId", Long.class, null, objectMap);
+            objectMap.clear();
 //            budgetDocument = (BudgetDocument)getDeepCopyPostProcessor().processDeepCopyIgnoreAnnotation(budgetDocument);
 //            budget.setBudgetDocument(budgetDocument);
             ObjectUtils.materializeAllSubObjects(budgetDocument);
