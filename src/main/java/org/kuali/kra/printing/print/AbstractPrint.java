@@ -138,7 +138,7 @@ public abstract class AbstractPrint implements Printable {
         return null;
     }
 	/**
-	 * This methord for checking watermark is enable or disable
+	 * This method for checking watermark is enable or disable
 	 * @see org.kuali.kra.printing.Printable#isWatermarkEnabled()
 	 */
     public boolean isWatermarkEnabled(){
@@ -146,7 +146,8 @@ public abstract class AbstractPrint implements Printable {
     }
     /**
      * 
-     *This methord for getting the watermark object .
+     *This method for getting the watermark object 
+     *with respect to the appropriate document.
      */
     public Watermarkable getWatermarkable(){
         if(isWatermarkEnabled()){
