@@ -25,6 +25,7 @@
         <ref bean="Unit-organizationId" />
         <ref bean="Unit-organization.organizationName" />
         <ref bean="Unit-unitName" />
+        <ref bean="Unit-campusCode" />
         <ref bean="Unit-versionNumber" />
       </list>
     </property>
@@ -169,6 +170,12 @@
     <property name="summary" value="Unit Name" />
     <property name="description" value="Unit Name" />
   </bean>
+  <bean id="Unit-campusCode" parent="Unit-campusCode-parentBean"/>
+  
+  <bean id="Unit-campusCode-parentBean" abstract="true" parent="Campus-campusCode">
+    <property name="name" value="campusCode" />
+    <property name="required" value="false" />
+  </bean>
   <bean id="Unit-versionNumber" parent="Unit-versionNumber-parentBean" />
 
   <bean id="Unit-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
@@ -233,6 +240,7 @@
 
   <bean id="Unit-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Unit Lookup" />
+    <property name="lookupableID" value="unitLookupable" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 
     <property name="defaultSort" >
@@ -249,6 +257,8 @@
               p:attributeName="organizationId" />
         <bean parent="FieldDefinition"
               p:attributeName="unitName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="campusCode" />
       </list>
     </property>
     <property name="resultFields" >

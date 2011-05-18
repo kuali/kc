@@ -160,6 +160,7 @@
 				<value>lookupableHelperService</value>	
 				<value>s2sOpportunityLookupable</value>	
 				<value>customLookupable</value>	
+				<value>unitLookupable</value>
 				<value>nonOrganizationalRolodexLookupable</value>
 				<value>budgetExpenseLookupable</value>
 				<value>onOffCampusLookupable</value>

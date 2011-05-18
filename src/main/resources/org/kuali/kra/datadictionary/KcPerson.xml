@@ -62,6 +62,7 @@
         <ref bean="KcPerson-supportStaffFlag" />
         <ref bean="KcPerson-otherAcademicGroupFlag" />
         <ref bean="KcPerson-medicalStaffFlag" />
+        <ref bean="KcPerson-campusCode" />
         <ref bean="KcPerson-extendedAttributes.vacationAccrualFlag" />
         <ref bean="KcPerson-extendedAttributes.onSabbaticalFlag" />
         <ref bean="KcPerson-extendedAttributes.idProvided" />
@@ -596,6 +597,7 @@
     <property name="label" value="Home Unit" />
     <property name="shortLabel" value="Home Unit" />
   </bean>
+  
   <bean id="KcPerson-facultyFlag" parent="KcPerson-facultyFlag-parentBean" />
 
   <bean id="KcPerson-facultyFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
@@ -658,6 +660,12 @@
     <property name="shortLabel" value="Med Staff" />
     <property name="summary" value="Is Medical Staff" />
     <property name="description" value="Is Medical Staff" />
+  </bean>
+  <bean id="KcPerson-campusCode" parent="KcPerson-campusCode-parentBean"/>
+  
+  <bean id="KcPerson-campusCode-parentBean" abstract="true" parent="Campus-campusCode">
+    <property name="name" value="campusCode" />
+    <property name="required" value="false" />
   </bean>
   <bean id="KcPerson-extendedAttributes.vacationAccrualFlag" parent="KcPerson-extendedAttributes.vacationAccrualFlag-parentBean" />
 
@@ -996,6 +1004,7 @@
         <bean parent="FieldDefinition" p:attributeName="officePhone" />
         <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y" />
         <bean parent="FieldDefinition" p:attributeName="organizationIdentifier" />  
+        <bean parent="FieldDefinition" p:attributeName="campusCode" />
         <!-- these aren't searchable because they don't exist in the person search inside rice 
         <bean parent="FieldDefinition" p:attributeName="extendedAttributes.directoryTitle" />
         <bean parent="FieldDefinition" p:attributeName="facultyFlag" />
