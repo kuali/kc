@@ -18,6 +18,8 @@ package org.kuali.kra.proposaldevelopment.service;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.budget.core.BudgetService;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -28,6 +30,7 @@ import org.kuali.rice.kew.exception.WorkflowException;
 public class ProposalDevelopmentServiceTest extends KcUnitTestBase {
     
     private ProposalDevelopmentService proposalDevelopmentService;
+    private BudgetService budgetService;
     private ProposalDevelopmentDocument document;
     private DevelopmentProposal proposal;
     
@@ -35,6 +38,7 @@ public class ProposalDevelopmentServiceTest extends KcUnitTestBase {
     public void setUp() throws Exception {
         super.setUp();
         proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
+        budgetService = KraServiceLocator.getService(BudgetService.class);
         document = ProposalDevelopmentDocumentFixture.NORMAL_DOCUMENT.getDocument();
         proposal = document.getDevelopmentProposal();
     }
@@ -51,6 +55,23 @@ public class ProposalDevelopmentServiceTest extends KcUnitTestBase {
         document = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(document.getDocumentNumber());
         assertTrue(document.isProposalDeleted());
         assertTrue(document.getDevelopmentProposal().getTitle() == null);
+    }
+    
+    @Test
+    public void testDeleteProposalWithBudget() throws WorkflowException {
+        BudgetDocument<DevelopmentProposal> budget1 = budgetService.addBudgetVersion(document, "Ver1");
+        BudgetDocument<DevelopmentProposal> budget2 = budgetService.addBudgetVersion(document, "Ver2 With Long Name");
+        getDocumentService().saveDocument(document);
+        proposalDevelopmentService.deleteProposal(document);
+        document = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(document.getDocumentNumber());
+        assertTrue(document.isProposalDeleted());
+        assertTrue(document.getDevelopmentProposal().getTitle() == null);
+        budget1 = (BudgetDocument) getDocumentService().getByDocumentHeaderId(budget1.getDocumentNumber());
+        budget2 = (BudgetDocument) getDocumentService().getByDocumentHeaderId(budget2.getDocumentNumber());
+        assertTrue(budget1.isBudgetDeleted());
+        assertTrue(budget2.isBudgetDeleted());
+        assertTrue(budget1.getBudget().getName() == null);
+        assertTrue(budget2.getBudget().getName() == null);
     }
 
 }
