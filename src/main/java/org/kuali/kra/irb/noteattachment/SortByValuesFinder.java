@@ -36,8 +36,8 @@ public class SortByValuesFinder extends KeyValuesBase {
         
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", "None"));
+        keyValues.add(new KeyLabelPair("ATTP", new String("Attachment Type")));
         keyValues.add(new KeyLabelPair("DESC", new String("Description")));
-        keyValues.add(new KeyLabelPair("STAT", new String("Status")));
         keyValues.add(new KeyLabelPair("LAUP", new String("Last Updated")));
         keyValues.add(new KeyLabelPair("UPBY", new String("Last Updated By")));
         

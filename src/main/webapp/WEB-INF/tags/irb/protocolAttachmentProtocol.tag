@@ -241,27 +241,27 @@
           <!--  Display logic to show the correct attribute being sorted on in the attachment header -->
           <c:choose>
             <c:when test="${KualiForm.document.protocolList[0].protocolAttachmentFilter.sortBy eq 'UPBY'}">
-                <c:set var="sortDisplay" value="${attachmentProtocol.updateUserFullName}"/>
+                <c:set var="sortDisplay" value="- ${attachmentProtocol.updateUserFullName}"/>
             </c:when>
             <c:when test="${KualiForm.document.protocolList[0].protocolAttachmentFilter.sortBy eq 'LAUP'}">
                 <c:set var="sortDisplay">
-                    <fmt:formatDate value="${attachmentProtocol.updateTimestamp}" pattern="MM/dd/yyyy KK:mm a" />                      
+                    <fmt:formatDate value="${attachmentProtocol.updateTimestamp}" pattern="- MM/dd/yyyy KK:mm a" />                      
                 </c:set>
             </c:when>
             <c:when test="${KualiForm.document.protocolList[0].protocolAttachmentFilter.sortBy eq 'DESC'}">
                 <c:set var="sortDisplay" >
                     <c:choose>
                         <c:when test="${fn:length(attachmentProtocol.description) > 29}">
-                            <c:out value="${fn:substring(attachmentProtocol.description, 0, 29)}..." />
+                            <c:out value="- ${fn:substring(attachmentProtocol.description, 0, 29)}..." />
                         </c:when>
                         <c:otherwise>
-                            <c:out value="${attachmentProtocol.description}" />
+                            <c:out value="- ${attachmentProtocol.description}" />
                         </c:otherwise>
                     </c:choose>
                 </c:set>
             </c:when>                        
             <c:otherwise>
-                <c:set var="sortDisplay" value="${attachmentProtocol.status.description}"/>
+                <c:set var="sortDisplay" value="&nbsp;"/>
             </c:otherwise>
           </c:choose>	
           	
@@ -270,7 +270,7 @@
 		      <tr>
 		        <td>
 		             <c:set var="modify" value="${KualiForm.notesAttachmentsHelper.modifyAttachments and attachmentProtocol.documentStatusCode != '3' and (not KualiForm.document.protocolList[0].renewalWithoutAmendment or attachmentProtocol.documentStatusCode != '2')}" />
-		    			<kul:innerTab tabTitle="${attachmentProtocol.type.description} - ${sortDisplay}" parentTab="Protocol Attachments(${size})" defaultOpen="false" tabErrorKey="document.protocolList[0].attachmentProtocols[${itrStatus.index}]*,document.protocolList[0].attachmentProtocols[${itrStatus.index}]*" useCurrentTabIndexAsKey="true" tabAuditKey="document.protocolList[0].attachmentProtocols[${itrStatus.index}]*" auditCluster="NoteAndAttachmentAuditErrors">
+		    			<kul:innerTab tabTitle="${attachmentProtocol.type.description} ${sortDisplay}" parentTab="Protocol Attachments(${size})" defaultOpen="false" tabErrorKey="document.protocolList[0].attachmentProtocols[${itrStatus.index}]*,document.protocolList[0].attachmentProtocols[${itrStatus.index}]*" useCurrentTabIndexAsKey="true" tabAuditKey="document.protocolList[0].attachmentProtocols[${itrStatus.index}]*" auditCluster="NoteAndAttachmentAuditErrors">
 				<div class="innerTab-container" align="left">
             		<table class=tab cellpadding=0 cellspacing="0" summary="">
 						<tr>
