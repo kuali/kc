@@ -713,5 +713,9 @@ public interface Constants {
     public static final String PROTOCOL_QUESTIONNAIRE_KEY = "questionnaireHelper.answerHeaders[0].answers[0].answer";
 
     public static final String PRINT_LOGGING_ENABLE = "print.logging.enable";
+    
+    // Multi-Campus
+    public static final String USER_CAMPUS_CODE_KEY = "userCampusCode";
+    public static final String PARAMETER_MULTI_CAMPUS_ENABLED = "MULTI_CAMPUS_ENABLED";
 
 }

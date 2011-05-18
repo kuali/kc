@@ -29,6 +29,8 @@ public class Unit extends KraPersistableBusinessObjectBase {
     private String parentUnitNumber;
     private String organizationId;
     private String unitName;
+    private String campusCode;
+    
     private Unit parentUnit;
     private List<UnitAdministrator> unitAdministrators;
 
@@ -76,6 +78,13 @@ public class Unit extends KraPersistableBusinessObjectBase {
         this.unitName = unitName;
     }
 
+    public String getCampusCode() {
+        return campusCode;
+    }
+
+    public void setCampusCode(String campusCode) {
+        this.campusCode = campusCode;
+    }
 
     @SuppressWarnings("unchecked")
     @Override 
@@ -85,6 +94,7 @@ public class Unit extends KraPersistableBusinessObjectBase {
         hashMap.put("parentUnitNumber", getParentUnitNumber());
         hashMap.put("organizationId", getOrganizationId());
         hashMap.put("unitName", getUnitName());
+        hashMap.put("campusCode", getCampusCode());
         return hashMap;
     }
 
