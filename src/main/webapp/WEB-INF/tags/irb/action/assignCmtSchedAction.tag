@@ -35,7 +35,7 @@
 	                <td style="width : 150px">
                         <c:set target="${paramMap}" property="currentCommitteeId" value="${KualiForm.actionHelper.assignCmtSchedBean.committeeId}" />
                         <c:set target="${paramMap}" property="docRouteStatus" value="${KualiForm.document.documentHeader.workflowDocument.routeHeader.docRouteStatus}" />	                
-                        <html:select property="actionHelper.protocolSubmitAction.committeeId" onchange="onlyLoadScheduleDates('actionHelper.assignCmtSchedBean.committeeId', 'actionHelper.assignCmtSchedBean.scheduleId');" >                               
+                        <html:select property="actionHelper.assignCmtSchedBean.committeeId" onchange="onlyLoadScheduleDates('actionHelper.assignCmtSchedBean.committeeId', 'actionHelper.assignCmtSchedBean.scheduleId');" >                               
                             <c:forEach items="${krafn:getOptionList('org.kuali.kra.committee.lookup.keyvalue.CommitteeIdByUnitValuesFinder', paramMap)}" var="option" >
                                 <c:choose>                      
                                     <c:when test="${KualiForm.actionHelper.assignCmtSchedBean.committeeId == option.key}">
