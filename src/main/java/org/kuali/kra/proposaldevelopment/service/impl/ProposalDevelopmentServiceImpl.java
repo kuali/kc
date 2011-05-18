@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -414,8 +415,11 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
      * @see org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService#deleteProposal(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
      */
     public void deleteProposal(ProposalDevelopmentDocument proposalDocument) throws WorkflowException {
-        for (BudgetDocumentVersion budgetVersion : proposalDocument.getBudgetDocumentVersions()) {
-            deleteProposalBudget(budgetVersion.getDocumentNumber());
+        ListIterator<BudgetDocumentVersion> iter = proposalDocument.getBudgetDocumentVersions().listIterator();
+        while (iter.hasNext()) {
+            BudgetDocumentVersion budgetVersion = iter.next();
+            deleteProposalBudget(budgetVersion.getDocumentNumber(), proposalDocument);
+            iter.remove();
         }
         //remove budget statuses as they are not referenced via ojb, but there is a
         //database constraint that requires removing these first
@@ -432,11 +436,14 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         getDocumentService().cancelDocument(proposalDocument, "Delete Proposal");
     }
     
-    protected void deleteProposalBudget(String budgetDocumentNumber) {
+    protected void deleteProposalBudget(String budgetDocumentNumber, ProposalDevelopmentDocument parentDocument) {
         try {
             BudgetDocument document = 
                 (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocumentNumber);
             document.getBudgets().clear();
+            //make sure the budget points to this instance of the pdd as other deleted budgets
+            //must be removed so they don't fail document validation.
+            document.setParentDocument(parentDocument);
             document.setBudgetDeleted(true);
             getDocumentService().saveDocument(document);
         }
