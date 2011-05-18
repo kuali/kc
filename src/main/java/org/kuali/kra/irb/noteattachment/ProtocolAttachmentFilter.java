@@ -60,8 +60,8 @@ class ProtocolAttachmentComparatorFactory {
     public Comparator<ProtocolAttachmentProtocol> getProtocolAttachmentComparator(String sortBy) {
         if ("DESC".equalsIgnoreCase(sortBy)) {
             return new ProtocolAttachmentDescriptionComparator();
-        } else if ("STAT".equalsIgnoreCase(sortBy)) {
-            return new ProtocolAttachmentStatusComparator();
+        } else if ("ATTP".equalsIgnoreCase(sortBy)) {
+            return new ProtocolAttachmentAttachmentTypeComparator();
         } else if ("LAUP".equalsIgnoreCase(sortBy)) {
             return new ProtocolAttachmentLastUpdatedComparator();
         } else if ("UPBY".equalsIgnoreCase(sortBy)) {
@@ -81,11 +81,11 @@ class ProtocolAttachmentComparatorFactory {
         
     }
     
-    private class ProtocolAttachmentStatusComparator implements Comparator<ProtocolAttachmentProtocol>
+    private class ProtocolAttachmentAttachmentTypeComparator implements Comparator<ProtocolAttachmentProtocol>
     {
     
         public int compare(ProtocolAttachmentProtocol o1, ProtocolAttachmentProtocol o2) {
-            return o1.getStatusCode().compareTo(o2.getStatusCode());
+            return o1.getType().getDescription().compareTo(o2.getType().getDescription());
         }
         
     }
