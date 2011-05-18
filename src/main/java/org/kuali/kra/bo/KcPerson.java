@@ -871,6 +871,14 @@ public class KcPerson implements Contactable, BusinessObject {
     }
     
     /**
+     * Gets the campus code.
+     * @return the campus code
+     */
+    public String getCampusCode() {
+        return this.getCampusCode(true);
+    }
+    
+    /**
      * Gets the {@link BusinessObjectService BusinessObjectService}.
      * @return Gets the BusinessObjectService
      */
@@ -954,6 +962,19 @@ public class KcPerson implements Contactable, BusinessObject {
             public Boolean notFoundValue() { return Boolean.FALSE; }
             public Boolean select(KimEntityAffiliation a) { return Boolean.TRUE; }
             public boolean shouldSelect(KimEntityAffiliation a) { return affilTypeCode.equals(a.getAffiliationTypeCode()); }
+        });
+    }
+    
+    /**
+     * Gets the campus code matching the default indicator out of the KIM object.
+     * @param isDefault whether the campus code must be default
+     * @return the campus code
+     */
+    private String getCampusCode(final boolean isDefault) {
+        return selectSingleValue(this.entity.getAffiliations(), new Selector<KimEntityAffiliation, String>() {
+            public String notFoundValue() { return ""; }
+            public String select(KimEntityAffiliation a) { return a.getCampusCode(); }
+            public boolean shouldSelect(KimEntityAffiliation a) { return isDefault == a.isDefault(); }
         });
     }
     

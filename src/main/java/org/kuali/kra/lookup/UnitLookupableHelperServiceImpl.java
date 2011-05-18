@@ -15,30 +15,29 @@
  */
 package org.kuali.kra.lookup;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.service.KcPersonService;
+import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 
 /**
- * Lookup helper that retrieves KcPerson BOs.
+ * Unit lookup that accounts for the extra parameter {@code campusCode} and filters the search results if it is defined.
  */
-public class KcPersonLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-    
-    private static final long serialVersionUID = 1L;
+public class UnitLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+
+    private static final long serialVersionUID = -3661085880649722426L;
     
     private static final String CAMPUS_CODE_FIELD = "campusCode";
     private static final String CAMPUS_LOOKUPABLE_CLASS_NAME = "org.kuali.rice.kns.bo.CampusImpl";
 
-    private KcPersonService kcPersonService;
-    
     @Override
     public List<Row> getRows() {
         List<Row> rows = super.getRows();
@@ -68,18 +67,20 @@ public class KcPersonLookupableHelperServiceImpl extends KualiLookupableHelperSe
         return rows;
     }
 
-    /** {@inheritDoc} */
     @Override
-    public List<KcPerson> getSearchResults(Map<String, String> fieldValues) { 
-        return this.kcPersonService.getKcPersons(fieldValues);
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        String campusCode = fieldValues.remove(CAMPUS_CODE_FIELD);
+        List<? extends BusinessObject> searchResults = super.getSearchResults(fieldValues);
+        
+        List<Unit> filteredSearchResults = new ArrayList<Unit>();
+        for (BusinessObject searchResult : searchResults) {
+            Unit unit = (Unit) searchResult;
+            if (StringUtils.startsWith(unit.getUnitNumber(), campusCode)) {
+                filteredSearchResults.add(unit);
+            }
+        }
+
+        return filteredSearchResults;
     }
 
-    /**
-     * Sets the Kc Person Service.
-     * @param kcPersonService the Kc person Service.
-     */
-    public void setKcPersonService(KcPersonService kcPersonService) {
-        this.kcPersonService = kcPersonService;
-    }
-    
 }
