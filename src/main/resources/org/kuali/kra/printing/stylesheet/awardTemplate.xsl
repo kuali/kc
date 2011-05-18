@@ -391,6 +391,54 @@
 										</fo:block>
 									</fo:table-cell>
 									</fo:table-row>		
+									
+									<fo:table-row>
+										<fo:table-cell font-family="Arial" font-size="10pt" font-weight="bold" padding-left="20pt" padding="2pt" display-align="center">
+											<fo:block>
+												<fo:inline font-weight="bold">
+													<xsl:text>Invoice Instructions:</xsl:text>
+												</fo:inline>
+											</fo:block>
+										</fo:table-cell>
+										<fo:table-cell font-family="Arial" font-size="9pt" padding-left="20pt" padding="2pt" display-align="center">
+											<fo:block>
+												<xsl:for-each select="template">
+													<xsl:for-each select="comment">
+													<xsl:if test="Description = 'Invoice Instructions'">
+													    <xsl:for-each select="Comments">
+															<fo:inline-container>
+																<fo:block>
+																	<xsl:text>&#x2029;</xsl:text>
+																</fo:block>
+															</fo:inline-container>
+															<fo:block white-space="pre" white-space-collapse="false" margin="0pt">
+																<fo:block>
+																	<xsl:variable name="value-of-template">
+																		<xsl:apply-templates/>
+																	</xsl:variable>
+																	<xsl:choose>
+																		<xsl:when test="contains(string($value-of-template),'&#x2029;')">
+																			<fo:block>
+																				<xsl:copy-of select="$value-of-template"/>
+																			</fo:block>
+																		</xsl:when>
+																		<xsl:otherwise>
+																			<fo:inline>
+																				<xsl:copy-of select="$value-of-template"/>
+																			</fo:inline>
+																		</xsl:otherwise>
+																	</xsl:choose>
+																</fo:block>
+															</fo:block>
+														</xsl:for-each>
+													</xsl:if>
+													</xsl:for-each>
+												</xsl:for-each>
+											</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+									
+									
 								</fo:table-body>
 							</fo:table>									
 							
@@ -991,6 +1039,7 @@
 															<fo:table-column column-width="60%"/>
 															<fo:table-body start-indent="0pt">
 																<xsl:for-each select="comment">
+																	<xsl:if test="Description != 'Invoice Instructions'">				
 																	<fo:table-row>
 																		<fo:table-cell padding-bottom="5pt" padding-left="20pt" padding-top="0" padding="2pt" display-align="before">
 																			<fo:block>
@@ -1047,6 +1096,7 @@
 																			</fo:block>
 																		</fo:table-cell>
 																	</fo:table-row>
+																	</xsl:if>
 																</xsl:for-each>
 															</fo:table-body>
 														</fo:table>
