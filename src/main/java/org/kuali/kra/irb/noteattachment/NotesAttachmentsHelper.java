@@ -25,18 +25,22 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
+import org.eclipse.jetty.util.log.Log;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.util.CollectionUtil;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -55,6 +59,7 @@ public class NotesAttachmentsHelper {
     private final KraAuthorizationService kraAuthorizationService;
     private final DateTimeService dateTimeService;
     private final ProtocolNotepadService protocolNotepadService;
+    private final ParameterService parameterService;
     
     private final ProtocolAttachmentVersioningUtility versioningUtil;
     
@@ -87,6 +92,7 @@ public class NotesAttachmentsHelper {
                    KraServiceLocator.getService(KraAuthorizationService.class),
                    KraServiceLocator.getService(DateTimeService.class),
                    KraServiceLocator.getService(ProtocolNotepadService.class),
+                   KraServiceLocator.getService(ParameterService.class),
                    new ProtocolAttachmentVersioningUtility(form));
     }
     
@@ -104,6 +110,7 @@ public class NotesAttachmentsHelper {
                            final KraAuthorizationService kraAuthorizationService,
                            final DateTimeService dateTimeService,
                            final ProtocolNotepadService protocolNotepadService,
+                           final ParameterService parameterService,
                            final ProtocolAttachmentVersioningUtility versioningUtil) {
         
         if (form == null) {
@@ -130,6 +137,10 @@ public class NotesAttachmentsHelper {
             throw new IllegalArgumentException("the protocolNotepadService was null.");
         }
         
+        if (parameterService == null) {
+            throw new IllegalArgumentException("the parameterService was null.");
+        }
+        
         if (versioningUtil == null) {
             throw new IllegalArgumentException("the versioningUtil was null");
         }
@@ -140,6 +151,7 @@ public class NotesAttachmentsHelper {
         this.kraAuthorizationService = kraAuthorizationService;
         this.dateTimeService = dateTimeService;
         this.protocolNotepadService = protocolNotepadService;
+        this.parameterService = parameterService;
         this.versioningUtil = versioningUtil;
         this.FilesToDelete = new ArrayList<AttachmentFile>() ;
         this.manageNotesOpen = false;
@@ -484,7 +496,19 @@ public class NotesAttachmentsHelper {
      * initializes a new attachment filter
      */
     private void initAttachmentFilter() {
-        this.setNewAttachmentFilter(new ProtocolAttachmentFilter());
+        ProtocolAttachmentFilter paFilter = new ProtocolAttachmentFilter();
+        
+        //Lets see if there is a default set for the attachment sort
+        try {
+            String defaultSortBy = parameterService.getParameterValue(ProtocolDocument.class, Constants.PARAMETER_PROTOCOL_ATTACHMENT_DEFAULT_SORT);
+            if (StringUtils.isNotBlank(defaultSortBy)) {
+                paFilter.setSortBy(defaultSortBy);
+            }
+        } catch (Exception e) {
+            Log.info("No default attachment sorting parameter set.");
+        }
+
+        this.setNewAttachmentFilter(paFilter);
     }
     
     /** 
