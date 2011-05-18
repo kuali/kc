@@ -554,8 +554,15 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             HttpServletResponse response) throws Exception {
         ActionForward actionForward;
         save(mapping, form, request, response);
-        actionForward = super.blanketApprove(mapping, form, request, response); 
-        return actionForward;
+        actionForward = super.blanketApprove(mapping, form, request, response);      
+        //return actionForward;
+        
+        TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
+        Long routeHeaderId = Long.parseLong(timeAndMoneyForm.getDocument().getDocumentNumber());
+        String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_AWARD_TIME_AND_MONEY_PAGE, "TimeAndMoneyDocument");
+        ActionForward basicForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
+        return routeToHoldingPage(basicForward, actionForward, holdingPageForward, returnLocation);
     }
     
     
