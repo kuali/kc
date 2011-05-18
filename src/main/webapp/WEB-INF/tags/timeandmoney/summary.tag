@@ -17,7 +17,8 @@
 <c:set var="awardAttributes" value="${DataDictionary.Award.attributes}" />
 <c:set var="awardAmountInfoAttributes" value="${DataDictionary.AwardAmountInfo.attributes}" />
 
-<kul:tab tabTitle="Summary (${KualiForm.awardForSummaryPanelDisplay.awardNumber})" defaultOpen="false" tabErrorKey="">
+<kul:tab tabTitle="Summary (${KualiForm.awardForSummaryPanelDisplay.awardNumber})" 
+	defaultOpen="${KualiForm.inMultipleNodeHierarchy}" tabErrorKey="">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Summary</span>
