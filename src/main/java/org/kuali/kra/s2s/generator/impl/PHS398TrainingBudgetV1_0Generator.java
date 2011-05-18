@@ -681,7 +681,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
 
         BigDecimal cumPostDocDegTuition = checkNullCost(trainingBudgetType.getCumulativePostdocDegreeTuitionAndFeesRequested());
         BigDecimal cumPostDocNonDegStipends = checkNullCost(trainingBudgetType.getCumulativePostdocNonDegreeStipendsRequested());
-        BigDecimal cumPostDocNonDegTuition = checkNullCost(trainingBudgetType.getCumulativePostdocNonDegreeStipendsRequested());
+        BigDecimal cumPostDocNonDegTuition = checkNullCost(trainingBudgetType.getCumulativePostdocNonDegreeTuitionAndFeesRequested());
         BigDecimal cumPostDocTotalStipends = checkNullCost(trainingBudgetType.getCumulativePostdocTotalStipendsRequested());
         BigDecimal cumPostDocTotalTuition = checkNullCost(trainingBudgetType.getCumulativePostdocTotalTuitionAndFeesRequested());
         BigDecimal cumPreDocDualStipends = checkNullCost(trainingBudgetType.getCumulativePredocDualDegreeStipendsRequested());
@@ -704,13 +704,13 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
         cumUndergradTuition = cumUndergradTuition.add(phs398TrainingBudgetYearDataType.getUndergraduateTuitionAndFeesRequested());
         cumPreDocSingleTuition = cumPreDocSingleTuition.add(phs398TrainingBudgetYearDataType.getPredocSingleDegreeTuitionAndFeesRequested());
         cumPreDocDualTuition = cumPreDocDualTuition.add(phs398TrainingBudgetYearDataType.getPredocDualDegreeTuitionAndFeesRequested());
-
-        cumPostDocNonDegTuition =cumPostDocNonDegTuition.add( phs398TrainingBudgetYearDataType.getPostdocNonDegreeTuitionAndFeesRequested());
-        cumPostDocDegTuition  = cumPostDocDegTuition.add(phs398TrainingBudgetYearDataType.getPostdocDegreeTuitionAndFeesRequested());
+ 	    cumResearchTotalDirectCosts = cumResearchTotalDirectCosts.add(checkNullCost(phs398TrainingBudgetYearDataType.getResearchDirectCostsRequested()));
+		cumPostDocNonDegTuition = cumPostDocNonDegTuition.add(phs398TrainingBudgetYearDataType.getPostdocNonDegreeTuitionAndFeesRequested());
+    	cumPostDocDegTuition  = cumPostDocDegTuition.add(phs398TrainingBudgetYearDataType.getPostdocDegreeTuitionAndFeesRequested());
         cumPostDocTotalTuition  = cumPostDocNonDegTuition.add(cumPostDocDegTuition);
-        cumOtherTuition =cumOtherTuition.add(phs398TrainingBudgetYearDataType.getOtherTuitionAndFeesRequested());
+        cumOtherTuition = cumOtherTuition.add(phs398TrainingBudgetYearDataType.getOtherTuitionAndFeesRequested());
         cumTrainingCosts = cumTrainingCosts.add(phs398TrainingBudgetYearDataType.getTrainingRelatedExpensesRequested());
-        cumTravelCosts =  cumTravelCosts.add(phs398TrainingBudgetYearDataType.getTraineeTravelRequested());
+        cumTravelCosts = cumTravelCosts.add(phs398TrainingBudgetYearDataType.getTraineeTravelRequested());
         cumConsCosts = cumConsCosts.add(phs398TrainingBudgetYearDataType.getConsortiumTrainingCostsRequested());
         
         cumTotalIndCosts = cumTotalIndCosts.add(indirectCostFundsRequested1.add(indirectCostFundsRequested2));
@@ -730,15 +730,18 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
         trainingBudgetType.setCumulativePredocDualDegreeStipendsRequested(cumPreDocDualStipends);
         trainingBudgetType.setCumulativePredocDualDegreeTuitionAndFeesRequested(cumPreDocDualTuition);
         trainingBudgetType.setCumulativePredocSingleDegreeStipendsRequested(cumPreDocSingleStipends);
+        trainingBudgetType.setCumulativeResearchDirectCostsRequested(cumResearchTotalDirectCosts);
         trainingBudgetType.setCumulativePredocSingleDegreeTuitionAndFeesRequested(cumPreDocSingleTuition);
        	trainingBudgetType.setCumulativePredocTotalStipendsRequested(cumulativeStipendTotal);
-       	trainingBudgetType.setCumulativePredocTotalTuitionAndFeesRequested(cumulativeTuitionAndFeeTotal);
+       	trainingBudgetType.setCumulativePredocTotalTuitionAndFeesRequested(new BigDecimal(cumPreDocSingleTuition.floatValue()+cumPreDocDualTuition.floatValue()));
+        
+       	trainingBudgetType.setCumulativeTotalStipendsRequested(cumPostDocTotalStipends.add(cumulativeStipendTotal).add(
+               cumOtherStipends).add(cumUndergradStipends));
+    
+       	trainingBudgetType.setCumulativeTuitionAndFeesRequested(trainingBudgetType.getCumulativePostdocTotalTuitionAndFeesRequested().
+       	        add(trainingBudgetType.getCumulativePredocTotalTuitionAndFeesRequested()).
+       	        add(trainingBudgetType.getCumulativeOtherTuitionAndFeesRequested()).add(trainingBudgetType.getCumulativeUndergraduateTuitionAndFeesRequested()));
 
-        trainingBudgetType.setCumulativeTotalStipendsRequested(cumPostDocTotalStipends.add(cumulativeStipendTotal).add(
-                cumOtherStipends).add(cumUndergradStipends));
-
-        trainingBudgetType.setCumulativeTuitionAndFeesRequested(cumPostDocTotalTuition.add(cumulativeTuitionAndFeeTotal).add(
-                cumOtherTuition).add(cumUndergradTuition));
         trainingBudgetType.setCumulativeTotalStipendsAndTuitionFeesRequested( trainingBudgetType.getCumulativeTotalStipendsRequested().add(
                    trainingBudgetType.getCumulativeTuitionAndFeesRequested()));
     

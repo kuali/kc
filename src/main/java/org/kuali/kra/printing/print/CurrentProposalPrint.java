@@ -49,14 +49,14 @@ public class CurrentProposalPrint extends AbstractPrint {
 
 	/**
      * 
-     * This methord for checking watermark is enable or disable
+     * This method for checking watermark is enable or disable
      * for this document.
      */
      public boolean isWatermarkEnabled(){
          return false;
      }
      /**
-      * This methord for getting the watermark.
+      * This method for getting the watermark.
       * @see org.kuali.kra.printing.Printable#getWatermarkable()
       * return watermarkable
       */
