@@ -25,7 +25,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
-import org.eclipse.jetty.util.log.Log;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
@@ -505,7 +504,7 @@ public class NotesAttachmentsHelper {
                 paFilter.setSortBy(defaultSortBy);
             }
         } catch (Exception e) {
-            Log.info("No default attachment sorting parameter set.");
+            //No default found, do nothing.
         }
 
         this.setNewAttachmentFilter(paFilter);
