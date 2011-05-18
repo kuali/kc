@@ -481,11 +481,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             else {
                 answer.setParentAnswer(parentAnswers.get(answer.getQuestionnaireQuestion().getParentQuestionNumber()));
                 if (StringUtils.isBlank(answer.getQuestionnaireQuestion().getCondition())) {
-                    if (isParentNotDisplayed(parentAnswers.get(answer.getQuestionnaireQuestion().getParentQuestionNumber()))) {
-                        answer.setMatchedChild(NO);
-                    } else {
-                        answer.setMatchedChild(YES);
-                    }
+                    answer.setMatchedChild(NO);
                 }
                 else if (isParentNotDisplayed(parentAnswers.get(answer.getQuestionnaireQuestion().getParentQuestionNumber()))) {
                     answer.setMatchedChild(NO);
