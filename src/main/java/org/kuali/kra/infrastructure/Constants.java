@@ -45,6 +45,7 @@ public interface Constants {
     public static final String BIOSKETCH_ATTACHMENT_TYPE_CODE = "1";
     public static final int PHS_RESTRAININGPLAN_PILEADERSHIPPLAN_ATTACHMENT=121;
     public static final int PHS_RESEARCHPLAN_MULTIPLEPILEADERSHIPPLAN=46;
+    public static final int MENTORING_PLAN_ATTACHMENT_TYPE_CODE=8;
 
     public static final String MAPPING_BASIC = "basic";
     public static final String MAPPING_ERROR = "error";
