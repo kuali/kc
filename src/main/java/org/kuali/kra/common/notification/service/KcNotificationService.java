@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.common.notifications.service;
+package org.kuali.kra.common.notification.service;
 
 import java.util.List;
 
-import org.kuali.kra.common.notifications.bo.KcNotification;
+import org.kuali.kra.common.notification.bo.KcNotification;
 
 public interface KcNotificationService {
     
