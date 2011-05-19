@@ -26,6 +26,9 @@ import org.kuali.kra.budget.calculator.QueryList;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.calculator.query.Equals;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.CostElement;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 
 /**
@@ -87,42 +90,12 @@ public class AwardBudgetPeriodExt extends BudgetPeriod {
         }
         return fringeForCostElements;
     }
-    public void populateSummaryCalcAmounts() {
-        awardBudgetPeriodFringeAmounts.clear();
-        if(awardBudgetPeriodFringeAmounts.isEmpty()){
-            Budget budget = getBudget();
-            Map<String,List<BudgetDecimal>> objectCodePersonnelFringe = budget.getObjectCodePersonnelFringeTotals();
-            if(objectCodePersonnelFringe!=null){
-                Iterator<String> objectCodes = objectCodePersonnelFringe.keySet().iterator();
-                while (objectCodes.hasNext()) {
-                    String costElement = (String) objectCodes.next();
-                    List<BudgetDecimal> fringeTotals = objectCodePersonnelFringe.get(costElement);;
-                    AwardBudgetPeriodSummaryCalculatedAmount awardBudgetPeriodSummaryCalculatedAmount = 
-                        createNewAwardBudgetPeriodSummaryCalculatedAmount(costElement,RateClassType.EMPLOYEE_BENEFITS.getRateClassType(),
-                                            fringeTotals.get(getBudgetPeriod()-1));
-                    awardBudgetPeriodFringeAmounts.add(awardBudgetPeriodSummaryCalculatedAmount);
-                }
-            }
-            QueryList<AwardBudgetPeriodSummaryCalculatedAmount> ebCalculatedAmounts = filterEBRates();
-            setTotalFringeAmount(ebCalculatedAmounts.sumObjects("calculatedCost"));
-        }
-    }
-    private AwardBudgetPeriodSummaryCalculatedAmount createNewAwardBudgetPeriodSummaryCalculatedAmount(String costElement,String rateClassType,
-            BudgetDecimal calculatedCost) {
-        String[] costElementAndPersonId = costElement.split(",");
-        AwardBudgetPeriodSummaryCalculatedAmount awardBudgetPeriodSummaryCalculatedAmount = new AwardBudgetPeriodSummaryCalculatedAmount();
-        awardBudgetPeriodSummaryCalculatedAmount.setBudgetPeriodId(getBudgetPeriodId());
-        awardBudgetPeriodSummaryCalculatedAmount.setCalculatedCost(calculatedCost);
-        awardBudgetPeriodSummaryCalculatedAmount.setCostElement(costElementAndPersonId[0]);
-        awardBudgetPeriodSummaryCalculatedAmount.setRateClassType(rateClassType);
-        return awardBudgetPeriodSummaryCalculatedAmount;
-    }
     /**
      * Gets the totalFringeAmount attribute. 
      * @return Returns the totalFringeAmount.
      */
     public BudgetDecimal getTotalFringeAmount() {
-        return totalFringeAmount;
+        return totalFringeAmount==null?BudgetDecimal.ZERO:totalFringeAmount;
     }
     /**
      * Sets the totalFringeAmount attribute value.

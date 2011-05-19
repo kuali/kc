@@ -38,10 +38,12 @@ import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.calculator.QueryList;
+import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.calculator.query.Equals;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.core.BudgetService;
+import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
@@ -858,9 +860,9 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         Budget budget = budgetPeriod.getBudget();
         List<AwardBudgetPeriodSummaryCalculatedAmount> budgetPeriodSumamryCalcAmts= ((AwardBudgetPeriodExt)budgetPeriod).getAwardBudgetPeriodFringeAmounts();
         if(budgetPeriodSumamryCalcAmts.isEmpty()) 
-            return true;
+            return false;
         BudgetDecimal periodFringeTotal = getPeriodFringeTotal(budgetPeriod, budget);
-        return periodFringeTotal.equals(((AwardBudgetPeriodExt)budgetPeriod).getTotalFringeAmount());
+        return !periodFringeTotal.equals(((AwardBudgetPeriodExt)budgetPeriod).getTotalFringeAmount());
     }
 
     /**
@@ -896,6 +898,71 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         }
         setBudgetCostsFromPeriods(budget);
     }
+    
+    public void populateSummaryCalcAmounts(Budget budget,BudgetPeriod budgetPeriod) {
+        AwardBudgetPeriodExt awardBudgetPeriod = (AwardBudgetPeriodExt)budgetPeriod;
+        List<AwardBudgetPeriodSummaryCalculatedAmount> awardBudgetPeriodFringeAmounts = awardBudgetPeriod.getAwardBudgetPeriodFringeAmounts();
+        awardBudgetPeriodFringeAmounts.clear();
+        if(awardBudgetPeriodFringeAmounts.isEmpty()){
+            Map<String,List<BudgetDecimal>> objectCodePersonnelFringe = budget.getObjectCodePersonnelFringeTotals();
+            if(objectCodePersonnelFringe!=null){
+                Iterator<String> objectCodes = objectCodePersonnelFringe.keySet().iterator();
+                while (objectCodes.hasNext()) {
+                    String costElement =  objectCodes.next();
+                    String[] costElementAndPersonId = costElement.split(",");
+
+                    List<BudgetDecimal> fringeTotals = objectCodePersonnelFringe.get(costElement);;
+                    AwardBudgetPeriodSummaryCalculatedAmount oldAwardBudgetPeriodSummaryCalculatedAmount = 
+                            getSummaryCalculatedAmountFromList(awardBudgetPeriodFringeAmounts,costElementAndPersonId[0]);
+                    if(oldAwardBudgetPeriodSummaryCalculatedAmount==null){
+                        AwardBudgetPeriodSummaryCalculatedAmount awardBudgetPeriodSummaryCalculatedAmount = 
+                            createNewAwardBudgetPeriodSummaryCalculatedAmount(awardBudgetPeriod,costElementAndPersonId[0],RateClassType.EMPLOYEE_BENEFITS.getRateClassType(),
+                                                fringeTotals.get(budgetPeriod.getBudgetPeriod()-1));
+                        awardBudgetPeriodFringeAmounts.add(awardBudgetPeriodSummaryCalculatedAmount);
+                    }else{
+                        oldAwardBudgetPeriodSummaryCalculatedAmount.setCalculatedCost(
+                                oldAwardBudgetPeriodSummaryCalculatedAmount.getCalculatedCost().add(fringeTotals.get(budgetPeriod.getBudgetPeriod()-1)));
+                    }
+                }
+            }
+            QueryList<AwardBudgetPeriodSummaryCalculatedAmount> ebCalculatedAmounts = filterEBRates(awardBudgetPeriod);
+            awardBudgetPeriod.setTotalFringeAmount(ebCalculatedAmounts.sumObjects("calculatedCost"));
+        }
+    }
+    private AwardBudgetPeriodSummaryCalculatedAmount getSummaryCalculatedAmountFromList(List<AwardBudgetPeriodSummaryCalculatedAmount> awardBudgetPeriodFringeAmounts,
+                                                                                            String costElement) {
+        for (AwardBudgetPeriodSummaryCalculatedAmount awardBudgetPeriodSummaryCalculatedAmount : awardBudgetPeriodFringeAmounts) {
+            if(awardBudgetPeriodSummaryCalculatedAmount.getCostElement().equals(costElement)){
+                return awardBudgetPeriodSummaryCalculatedAmount;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * This method returns the query list after filtering all eb rates
+     * @param AwardBudgetPeriodSummaryCalculatedAmounts
+     * @return
+     */
+    private QueryList<AwardBudgetPeriodSummaryCalculatedAmount> filterEBRates(AwardBudgetPeriodExt budgetPeriod) {
+        QueryList<AwardBudgetPeriodSummaryCalculatedAmount> qlAwardBudgetPeriodSummaryCalculatedAmounts = 
+                                                        new QueryList<AwardBudgetPeriodSummaryCalculatedAmount>(budgetPeriod.getAwardBudgetPeriodFringeAmounts());
+        Equals ebClassType = new Equals("rateClassType",RateClassType.EMPLOYEE_BENEFITS.getRateClassType());
+        QueryList<AwardBudgetPeriodSummaryCalculatedAmount> ebCalculatedAmounts = qlAwardBudgetPeriodSummaryCalculatedAmounts.filter(ebClassType);
+        return ebCalculatedAmounts;
+    }
+    
+    private AwardBudgetPeriodSummaryCalculatedAmount createNewAwardBudgetPeriodSummaryCalculatedAmount(AwardBudgetPeriodExt budgetPeriodExt,
+                                            String costElement,String rateClassType,BudgetDecimal calculatedCost) {
+        AwardBudgetPeriodSummaryCalculatedAmount awardBudgetPeriodSummaryCalculatedAmount = new AwardBudgetPeriodSummaryCalculatedAmount();
+        awardBudgetPeriodSummaryCalculatedAmount.setBudgetPeriodId(budgetPeriodExt.getBudgetPeriodId());
+        awardBudgetPeriodSummaryCalculatedAmount.setCalculatedCost(calculatedCost);
+        awardBudgetPeriodSummaryCalculatedAmount.setCostElement(costElement);
+        awardBudgetPeriodSummaryCalculatedAmount.setRateClassType(rateClassType);
+        return awardBudgetPeriodSummaryCalculatedAmount;
+    }
+    
+    
     /**
      * 
      * This method sets the budget document's costs from the budget periods' costs.
