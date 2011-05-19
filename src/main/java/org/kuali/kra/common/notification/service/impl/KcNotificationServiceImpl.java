@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.common.notifications.service.impl;
+package org.kuali.kra.common.notification.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,10 +21,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.common.notification.bo.NotificationType;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
-import org.kuali.kra.common.notifications.bo.KcNotification;
-import org.kuali.kra.common.notifications.service.KcNotificationService;
+import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.rice.ken.bo.Notification;
 import org.kuali.rice.ken.bo.NotificationChannel;
 import org.kuali.rice.ken.bo.NotificationContentType;

@@ -53,7 +53,7 @@ This config file should only contain config locations not actual config properti
 		
 		Config location for the IU environment
 	-->
-	<param name="config.location">/opt/sa_forms/java/${environment}/kra/kc-config.xml</param>
+	<param name="config.location">${user.home}/kuali/main/dev/recipe-config.xml</param>
 	
 	<!--
 		KC's external config
