@@ -88,6 +88,7 @@ import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -246,6 +247,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         // set statuscode default
         setProtocolStatusCode(Constants.DEFAULT_PROTOCOL_STATUS_CODE);
         this.refreshReferenceObject(Constants.PROPERTY_PROTOCOL_STATUS);
+        initializeProtocolAttachmentFilter();
         
         // TODO : not sure why this method is here.  It looks like a temp method.  commented out to see if it is ok.
         // I had to remove the comment in front of the following statement. 
@@ -2067,6 +2069,25 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         }   
         
         return filteredAttachments;
+    }
+    
+    public void initializeProtocolAttachmentFilter() {
+        protocolAttachmentFilter = new ProtocolAttachmentFilter();
+        
+        //Lets see if there is a default set for the attachment sort
+        try {
+            String defaultSortBy = getParameterService().getParameterValue(ProtocolDocument.class, Constants.PARAMETER_PROTOCOL_ATTACHMENT_DEFAULT_SORT);
+            if (StringUtils.isNotBlank(defaultSortBy)) {
+                protocolAttachmentFilter.setSortBy(defaultSortBy);
+            }
+        } catch (Exception e) {
+            //No default found, do nothing.
+        }        
+    }
+    
+    public ParameterService getParameterService() {
+        return (ParameterService)KraServiceLocator.getService(ParameterService.class);
+
     }
 
     public void cleanupSpecialReviews(Protocol srcProtocol) {
