@@ -15,20 +15,24 @@
  */
 package org.kuali.kra.infrastructure;
 
+/**
+ * 
+ * This class manages enums for the following CitizenshipTypes: US_CITIZEN_OR_NONCITIZEN_NATIONAL, 
+ * PERMANENT_RESIDENT_OF_US, NON_US_CITIZEN_WITH_TEMPORARY_VISA, PERMANENT_RESIDENT_OF_US_PENDING.
+ */
 public enum CitizenshipTypes {
-	US_CITIZEN_OR_NONCITIZEN_NATIONAL("U.S. Citizen or noncitizen national"),
-	PERMANENT_RESIDENT_OF_US("Permanent Resident of U.S."),
-	NON_US_CITIZEN_WITH_TEMPORARY_VISA("Non-U.S. Citizen with temporary visa");
-	
-	 private String citizenShip;
-	 private CitizenshipTypes(String citizenShip){
-		this.citizenShip=citizenShip;	
-	 }
-	
-	 public String getCitizenShip() {
-	        return citizenShip;
-	 }  
-	
+    US_CITIZEN_OR_NONCITIZEN_NATIONAL("U.S. Citizen or noncitizen national"), 
+    PERMANENT_RESIDENT_OF_US("Permanent Resident of U.S."), 
+    NON_US_CITIZEN_WITH_TEMPORARY_VISA("Non-U.S. Citizen with temporary visa"),
+    PERMANENT_RESIDENT_OF_US_PENDING("Permanent resident of US pending");
 
+    private String citizenShip;
 
+    private CitizenshipTypes(String citizenShip) {
+        this.citizenShip = citizenShip;
+    }
+
+    public String getCitizenShip() {
+        return citizenShip;
+    }
 }
