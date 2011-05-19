@@ -618,7 +618,7 @@
 		</property>
 	</bean>
 	
-	<bean id="kcNotificationService" class="org.kuali.kra.common.notifications.service.impl.KcNotificationServiceImpl">
+	<bean id="kcNotificationService" class="org.kuali.kra.common.notification.service.impl.KcNotificationServiceImpl">
         <property name="notificationService">
             <ref bean="notificationService" />
         </property>
