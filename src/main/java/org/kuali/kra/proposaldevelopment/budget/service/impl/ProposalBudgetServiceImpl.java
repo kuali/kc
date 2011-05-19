@@ -175,5 +175,9 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
      */
     public void removeBudgetSummaryPeriodCalcAmounts(BudgetPeriod budgetPeriod) {
     }
+    public void populateSummaryCalcAmounts(Budget budget, BudgetPeriod budgetPeriod) {
+        // TODO Auto-generated method stub
+        
+    }
 
 }
