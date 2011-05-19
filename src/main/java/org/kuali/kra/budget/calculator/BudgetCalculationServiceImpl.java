@@ -673,20 +673,15 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     }
     private boolean isSummaryCalcAmountChanged(Budget budget,BudgetPeriod budgetPeriod){
         BudgetCommonService<BudgetParent> budgetService = getBudgetCommonService(budget);
-        return !budgetService.isBudgetSummaryPeriodCalcAmountChanged(budgetPeriod);
+        return budgetService.isBudgetSummaryPeriodCalcAmountChanged(budgetPeriod);
     }
     private void populateBudgetPeriodSummaryCalcAmounts(Budget budget) {
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
             if(!isSummaryCalcAmountChanged(budget,budgetPeriod)){
-                budgetPeriod.populateSummaryCalcAmounts();
-            }else{
-                removeAllPersonnelFringeLineItemTotals(budget,budgetPeriod);
+                getBudgetCommonService(budget).populateSummaryCalcAmounts(budget,budgetPeriod);
             }
         }
-    }
-    private void removeAllPersonnelFringeLineItemTotals(Budget budget, BudgetPeriod budgetPeriod) {
-        
     }
     protected void calculateNonPersonnelSummaryTotals(Budget budget) {
         for(BudgetCategoryType budgetCategoryType : budget.getObjectCodeListByBudgetCategoryType().keySet()) {

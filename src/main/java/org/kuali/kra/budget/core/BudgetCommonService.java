@@ -76,5 +76,7 @@ public interface BudgetCommonService<T extends BudgetParent> {
      * @param budgetPeriod
      */
     public void removeBudgetSummaryPeriodCalcAmounts(BudgetPeriod budgetPeriod);
+    
+    public void populateSummaryCalcAmounts(Budget budget,BudgetPeriod budgetPeriod);
 
 }
