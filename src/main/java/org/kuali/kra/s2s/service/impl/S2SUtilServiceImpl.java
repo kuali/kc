@@ -1091,6 +1091,9 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     	  else if(citizenShipCode.equals( parameterService.getParameterValue("KC-GEN","A","US_CITIZEN_OR_NONCITIZEN_NATIONAL_TYPE_CODE"))){
     		  return CitizenshipTypes.US_CITIZEN_OR_NONCITIZEN_NATIONAL;
     	  }
+    	  else if(citizenShipCode.equals( parameterService.getParameterValue("KC-GEN","A","PERMANENT_RESIDENT_OF_US_PENDING"))){
+              return CitizenshipTypes.PERMANENT_RESIDENT_OF_US_PENDING;
+          }
     	  else{
     		  throw new IllegalArgumentException("Invalid citizenship type provided");
     	  }
