@@ -76,20 +76,23 @@ public class CfdaServiceImpl implements CfdaService {
              
         SortedMap<String, CFDA> govMap = new TreeMap<String, CFDA>();
         createGovURL();
-        LOG.info("Getting government file: " + cfdaFileName + " for update");
+        LOG.info("Getting government file: " + cfdaFileName + " from URL " + govURL + " for update");
 
         InputStream inputStream = null;
         FTPClient ftp = new FTPClient();
         try {
-            ftp.connect(govURL);
+            ftp.connect(getGovURL());
+            // Entering passive mode to prevent firewall issues. The client will establish a  data transfer
+            // connection.
+            ftp.enterLocalPassiveMode();
             int reply = ftp.getReplyCode();
-
             if (!FTPReply.isPositiveCompletion(reply)) {
                 LOG.error("FTP connection to server not established.");
                 throw new IOException("FTP connection to server not established.");
             }
 
             boolean loggedIn = ftp.login(Constants.CFDA_GOV_LOGIN_USERNAME, "");
+            LOG.info("Logged in as " + Constants.CFDA_GOV_LOGIN_USERNAME);
             if (!loggedIn) {
                 LOG.error("Could not login as anonymous.");
                 throw new IOException("Could not login as anonymous.");
@@ -110,13 +113,13 @@ public class CfdaServiceImpl implements CfdaService {
                     cfda.setCfdaMaintenanceTypeId("A");
                     govMap.put(number, cfda);
                 }
-            } else { // If file name is incorrect
+            } else { 
+                // If file name is incorrect
                 throw new IOException("Input stream is null. The file " + cfdaFileName + " could not be retrieved from " + govURL);
             }
             ftp.logout();
             ftp.disconnect();
-        }
-        finally {
+        } finally {
             if (ftp.isConnected()) {
                 ftp.disconnect();
             }
