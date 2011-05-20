@@ -350,6 +350,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
             restoreOriginalAwardPropertiesAfterCopy(award, originalAwardNumber, originalSequenceNumber);
             award.setAwardDocument(document);
             copyAwardAmountDateInfo(award, newAward);
+            newAward.cleanupSpecialReviews(award);
             clearFilteredAttributes(newAward);
         } catch(Exception e) { 
             throw uncheckedException(e);
