@@ -965,8 +965,9 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
      */
 
     public void clearDocumentRelatedState(){
+        this.initialize();
         this.proposalUserRolesList = null;
-        this.setCopyCriteria(new ProposalCopyCriteria());
+        
     }
     
     /**

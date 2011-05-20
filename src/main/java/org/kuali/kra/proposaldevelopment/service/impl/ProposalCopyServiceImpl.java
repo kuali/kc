@@ -159,8 +159,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                                                    "ProposalStateTypeCode",
                                                    "ProposalState",
                                                    "ProposalDocument",
-                                                   "YnqGroupNames",
-                                                   "ProposalPersonYnqs"};
+                                                   "YnqGroupNames"};
     
     /**
      * Each property in the document that can be copied is represented
