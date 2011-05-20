@@ -532,6 +532,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         newDoc.getDevelopmentProposal().setHierarchyStatus(HierarchyStatusConstants.None.code());
         newDoc.getDevelopmentProposal().setHierarchyParentProposalNumber(null);
         newDoc.getDevelopmentProposal().setHierarchyLastSyncHashCode(null);
+        newDoc.getDevelopmentProposal().cleanupSpecialReviews(srcDoc.getDevelopmentProposal());
         
         //update timestamp on abstracts to match doc creation time
         for (ProposalAbstract curAbstract : newDoc.getDevelopmentProposal().getProposalAbstracts()) {
