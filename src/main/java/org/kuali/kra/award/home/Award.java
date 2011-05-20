@@ -16,6 +16,7 @@
 package org.kuali.kra.award.home;
 
 import java.sql.Date;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -3222,6 +3223,20 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
             }
         }
         return new AwardBudgetLimit(type);
+    }
+
+    public void cleanupSpecialReviews(Award srcAward) {
+        List<AwardSpecialReview> srcSpecialReviews = srcAward.getSpecialReviews();
+        List<AwardSpecialReview> dstSpecialReviews = getSpecialReviews();
+        for (int i=0; i < srcSpecialReviews.size(); i++) {
+            AwardSpecialReview srcSpecialReview = srcSpecialReviews.get(i);
+            AwardSpecialReview dstSpecialReview = dstSpecialReviews.get(i);
+            List<String> exemptionCodeCopy = new ArrayList<String>();
+            for (String s: srcSpecialReview.getExemptionTypeCodes()) {
+                exemptionCodeCopy.add(new String(s));
+            }
+            dstSpecialReview.setExemptionTypeCodes(exemptionCodeCopy);
+        }
     }
 
 }
