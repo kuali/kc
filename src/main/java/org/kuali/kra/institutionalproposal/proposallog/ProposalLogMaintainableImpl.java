@@ -26,16 +26,19 @@ import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements Maintainable {
 
     private static final long serialVersionUID = 4690638717398206040L;
     private static final String KIM_PERSON_LOOKUPABLE_REFRESH_CALLER = "kimPersonLookupable";
+    private static final String PROPOSAL_LOG_SEQUENCE = "SEQ_PROPOSAL_NUMBER";
     
     private static final int FISCAL_YEAR_OFFSET = 6;
     
     private transient DateTimeService dateTimeService;
+    private transient SequenceAccessorService sequenceAccessorService;
     
     /**
      * @see org.kuali.rice.kns.maintenance.Maintainable#refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document)
@@ -62,9 +65,11 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
         if (StringUtils.isBlank(proposalLog.getProposalNumber())) {
             // New record; set default values.
             setupDefaultValues(proposalLog);
+            populateAuditProperties(proposalLog);
+            proposalLog.setProposalNumber(getSequenceAccessorService().getNextAvailableSequenceNumber(PROPOSAL_LOG_SEQUENCE, ProposalLog.class).toString());
         }
     }
-    
+        
     @Override
     public void processAfterCopy(MaintenanceDocument document, Map<String,String[]> parameters) {
         ProposalLog proposalLog = (ProposalLog) document.getDocumentBusinessObject();
@@ -76,6 +81,9 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
         proposalLog.setFiscalYear(null);
         proposalLog.setLogStatus(ProposalLogUtils.getProposalLogPendingStatusCode());
         proposalLog.setProposalLogTypeCode(ProposalLogUtils.getProposalLogPermanentTypeCode());
+        
+        populateAuditProperties(proposalLog);
+        proposalLog.setProposalNumber(getSequenceAccessorService().getNextAvailableSequenceNumber(PROPOSAL_LOG_SEQUENCE, ProposalLog.class).toString());
     }
     
     /**
@@ -89,12 +97,7 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
         if (proposalLog.isLogTypeTemporary() && StringUtils.equalsIgnoreCase(proposalLog.getLogStatus(), ProposalLogUtils.getProposalLogPendingStatusCode())) {
             proposalLog.setLogStatus(ProposalLogUtils.getProposalLogTemporaryStatusCode());
         }
-        
-        // If this is the initial save, we need to set the fiscal year and month.
-        if (StringUtils.isBlank(proposalLog.getProposalNumber())) {
-            populateAuditProperties(proposalLog);
-        }
-        
+                
         // We need to set this here so it's in the stored XML
         proposalLog.setUpdateTimestamp(getDateTimeService().getCurrentTimestamp());
     }
@@ -128,6 +131,17 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
             dateTimeService = KraServiceLocator.getService(DateTimeService.class);
         }
         return this.dateTimeService;
+    }
+
+    protected SequenceAccessorService getSequenceAccessorService() {
+        if (sequenceAccessorService == null) {
+            sequenceAccessorService = KraServiceLocator.getService(SequenceAccessorService.class);
+        }
+        return sequenceAccessorService;
+    }
+
+    public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
+        this.sequenceAccessorService = sequenceAccessorService;
     }
 
 }
