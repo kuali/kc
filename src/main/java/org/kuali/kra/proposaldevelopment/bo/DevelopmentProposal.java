@@ -1953,4 +1953,19 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         }
         return statusString;
     }
+    
+    public void cleanupSpecialReviews(DevelopmentProposal srcProposal) {
+        List<ProposalSpecialReview> srcSpecialReviews = srcProposal.getPropSpecialReviews();
+        List<ProposalSpecialReview> dstSpecialReviews = getPropSpecialReviews();
+        for (int i=0; i < srcSpecialReviews.size(); i++) {
+            ProposalSpecialReview srcSpecialReview = srcSpecialReviews.get(i);
+            ProposalSpecialReview dstSpecialReview = dstSpecialReviews.get(i);
+            List<String> exemptionCodeCopy = new ArrayList<String>();
+            for (String s: srcSpecialReview.getExemptionTypeCodes()) {
+                exemptionCodeCopy.add(new String(s));
+            }
+            dstSpecialReview.setExemptionTypeCodes(exemptionCodeCopy);
+        }
+    }
+
 }
