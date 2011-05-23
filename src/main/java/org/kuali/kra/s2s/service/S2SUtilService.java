@@ -246,6 +246,14 @@ public interface S2SUtilService {
 	 * @return List of Questionnaire {@link Answer}.
 	 */
     public List<Answer> getQuestionnaireAnswers(DevelopmentProposal developmentProposal,String namespace,String formname);
+    /**
+     * 
+     * This method gets the answers from a questionnaire for a proposal person.
+     * @param pdDoc
+     * @param proposalPerson
+     * @return
+     */
+    public List<Answer> getQuestionnaireAnswersForPI(ProposalDevelopmentDocument pdDoc);
 	/**
 	 * Finds all the co-investigators associated with the provided pdDoc.
 	 * @param ProposalDevelopmentDocument
