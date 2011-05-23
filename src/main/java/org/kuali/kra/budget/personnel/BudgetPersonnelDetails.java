@@ -37,6 +37,7 @@ import org.kuali.kra.budget.parameters.BudgetPeriodType;
 import org.kuali.kra.infrastructure.DeepCopyIgnore;
 import org.kuali.kra.infrastructure.DeepCopyIgnoreScopes;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public class BudgetPersonnelDetails extends BudgetLineItemBase {
     
@@ -251,8 +252,8 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
         this.effdtAfterStartdtMsg = effdtAfterStartdtMsg;
     }
     
-    public BudgetDecimal getPersonMonths() {
-        BudgetDecimal result = null;
+    public KualiDecimal getPersonMonths() {
+        KualiDecimal result = null;
         
         if(getStartDate() != null &&  getEndDate() != null) {
             Calendar startDateCalendar = Calendar.getInstance();
@@ -278,8 +279,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
                 personMonths+=(noOfActualDays/noOfDaysInMonth);
             }
             
-            personMonths = personMonths * (getPercentEffort().divide(new BudgetDecimal(100))).doubleValue();
-            result = new BudgetDecimal(personMonths);
+            result = new KualiDecimal(new BudgetDecimal(personMonths).multiply(getPercentEffort()).divide(new BudgetDecimal(100)).bigDecimalValue());
         } 
         
         return result;
