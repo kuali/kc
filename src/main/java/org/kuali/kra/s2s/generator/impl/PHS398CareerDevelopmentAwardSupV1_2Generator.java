@@ -102,7 +102,9 @@ public class PHS398CareerDevelopmentAwardSupV1_2Generator extends
 				else if(citizenShip.getCitizenShip().trim().equals(CitizenshipDataType.U_S_CITIZEN_OR_NONCITIZEN_NATIONAL.toString())){
 					return CitizenshipDataType.U_S_CITIZEN_OR_NONCITIZEN_NATIONAL;
 				}
-				
+				else if(citizenShip.getCitizenShip().trim().equals(CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S_PENDING.toString())){
+				    return CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S_PENDING;
+                }
 				
 			}
 		}
