@@ -430,19 +430,13 @@
         <property name="attributeNames">
           <list>
           	<value>sponsorCode</value>
-   <!--          <value>updateTimestamp</value> -->
+  		 <!-- <value>updateTimestamp</value> -->
           </list>
         </property>
         <property name="sortAscending" value="false"/>
       </bean>
     </property>
-   
-    <!-- 
-    <property name="defaultSort" >
-      <bean parent="SortDefinition">
-      </bean>
-    </property>
-    -->
+    
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
