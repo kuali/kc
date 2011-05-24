@@ -66,6 +66,7 @@ public class CommitteeSchedule extends CommitteeAssociate implements Comparable<
     private Date agendaProdRevDate;
     private Integer maxProtocols;
     private String comments; 
+    private boolean availableToReviewers;
 	
 // TODO : recursive reference    
 	private Committee committee; 
@@ -246,7 +247,15 @@ public class CommitteeSchedule extends CommitteeAssociate implements Comparable<
 		this.comments = comments;
 	}
 
-	public Committee getCommittee() {
+	public boolean isAvailableToReviewers() {
+        return availableToReviewers;
+    }
+
+    public void setAvailableToReviewers(boolean availableToReviewers) {
+        this.availableToReviewers = availableToReviewers;
+    }
+
+    public Committee getCommittee() {
 		return committee;
 	}
 
@@ -420,6 +429,7 @@ public class CommitteeSchedule extends CommitteeAssociate implements Comparable<
 		hashMap.put("agendaProdRevDate", getAgendaProdRevDate());
 		hashMap.put("maxProtocols", getMaxProtocols());
 		hashMap.put("comments", getComments());
+		hashMap.put("availableToReviewers", isAvailableToReviewers());
 		return hashMap;
 	}
 	

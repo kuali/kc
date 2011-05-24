@@ -304,6 +304,14 @@ public class MeetingHelper implements Serializable {
         this.jsDisabled = jsDisabled;
     }
 
+    /*
+     * Utility method to check whether user has permission to view/modify schedule. This is needed if user enter here thru url not
+     * from the schedule 'maintain' button.
+     */
+    public boolean hasViewModifySchedulePermission() {
+        return this.canModifySchedule() || (this.canViewSchedule() && this.form.isReadOnly());
+    }
+    
     public boolean canModifySchedule() {
         CommitteeTask task = new CommitteeTask(TaskName.MODIFY_SCHEDULE, committeeSchedule.getCommittee());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
