@@ -266,7 +266,6 @@ public class AwardHomeAction extends AwardAction {
                 awardForm.getSpecialReviewHelper().syncProtocolFundingSourcesWithSpecialReviews();
             }
         }
-        defaultCostLimit(awardForm);
         
         ActionForward forward = super.save(mapping, form, request, response);
 //        if(GlobalVariables.getMessageMap().getErrorCount() == 0) {
