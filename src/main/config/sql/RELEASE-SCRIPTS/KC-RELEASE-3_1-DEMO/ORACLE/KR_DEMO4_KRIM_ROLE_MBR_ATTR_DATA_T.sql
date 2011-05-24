@@ -1,7 +1,16 @@
 INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID,ATTR_VAL,KIM_ATTR_DEFN_ID,KIM_TYP_ID,OBJ_ID,ROLE_MBR_ID,VER_NBR)
+  VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,'000001',
+(select kim_attr_defn_id from KRIM_ATTR_DEFN_T where NMSPC_CD = 'KC-SYS' AND nm = 'unitNumber'),
+(select kim_typ_id from KRIM_TYP_T where NMSPC_CD = 'KC-SYS' AND nm = 'UnitHierarchy'),SYS_GUID(),
+(select max(role_mbr_id) from KRIM_ROLE_MBR_T where ROLE_ID = (select role_id from krim_role_t where ROLE_NM = 'Application Administrator' and NMSPC_CD = 'KC-SYS')
+  AND MBR_ID = (select prncpl_id from krim_prncpl_t where prncpl_nm = 'quickstart')),1)
+/
+INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID,ATTR_VAL,KIM_ATTR_DEFN_ID,KIM_TYP_ID,OBJ_ID,ROLE_MBR_ID,VER_NBR)
   VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,'Y',
 (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where NMSPC_CD = 'KC-SYS' AND nm = 'subunits'),
-(select kim_typ_id from KRIM_TYP_T where NMSPC_CD = 'KC-SYS' AND nm = 'UnitHierarchy'),SYS_GUID(),'10000',1)
+(select kim_typ_id from KRIM_TYP_T where NMSPC_CD = 'KC-SYS' AND nm = 'UnitHierarchy'),SYS_GUID(),
+(select max(role_mbr_id) from KRIM_ROLE_MBR_T where ROLE_ID = (select role_id from krim_role_t where ROLE_NM = 'Application Administrator' and NMSPC_CD = 'KC-SYS')
+  AND MBR_ID = (select prncpl_id from krim_prncpl_t where prncpl_nm = 'quickstart')),1)
 /
 INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID,ATTR_VAL,KIM_ATTR_DEFN_ID,KIM_TYP_ID,OBJ_ID,ROLE_MBR_ID,VER_NBR)
   VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,'BL-IIDC',
