@@ -43,12 +43,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -775,5 +777,30 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     
     protected QuestionnairePrintingService getQuestionnairePrintingService() {
         return KraServiceLocator.getService(QuestionnairePrintingService.class);
+    }
+    
+    public ActionForward updateAnswerToNewVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument document = pdform.getDocument();
+        
+        final String formProperty = getFormProperty(request,"updateAnswerToNewVersion");
+        System.err.println("formProperty: " + formProperty);
+        
+        if (StringUtils.contains(formProperty, ".proposalPersonQuestionnaireHelpers[")) {
+            int selectedPersonIndex = Integer.parseInt(formProperty.substring(36, formProperty.length()-1));
+            
+            ProposalPerson person = document.getDevelopmentProposal().getProposalPerson(selectedPersonIndex);
+            ProposalPersonQuestionnaireHelper helper = new ProposalPersonQuestionnaireHelper(pdform, person);
+            
+            helper.updateQuestionnaireAnswer(getLineToDelete(request));
+            getBusinessObjectService().save(helper.getAnswerHeaders().get(getLineToDelete(request)));
+            
+            return this.reload(mapping, pdform, request, response);
+            
+        } else {
+            throw new RuntimeException(String.format("Do not know how to process updateAnswerToNewVersion for formProperty %s",formProperty));
+        }
     }
 }

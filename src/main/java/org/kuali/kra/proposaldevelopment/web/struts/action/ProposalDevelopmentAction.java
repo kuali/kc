@@ -934,6 +934,15 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         return getKualiRuleService().applyRules(event);
     }
     
+    protected String getFormProperty(HttpServletRequest request,String methodToCall) {
+        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String formProperty = "";
+        if (StringUtils.isNotBlank(parameterName)) {
+            formProperty = StringUtils.substringBetween(parameterName, "."+methodToCall, ".line");
+        }
+        return formProperty;
+    }
+    
     
     
 }
