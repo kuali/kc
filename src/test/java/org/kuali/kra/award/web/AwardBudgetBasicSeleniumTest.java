@@ -78,10 +78,9 @@ public class AwardBudgetBasicSeleniumTest extends KcSeleniumTestBase {
         
         submitBudget();
         
-        //unable to successfully logout and login - can't do this without that.
-        //approveBudget();
+        approveBudget();
         
-        //postBudget();
+        postBudget();
     }
     
     protected void populateBudget() {
@@ -100,8 +99,7 @@ public class AwardBudgetBasicSeleniumTest extends KcSeleniumTestBase {
     }
     
     protected void approveBudget() {
-        helper.logout();
-        helper.setLoginUser("jtester");
+        helper.login("jtester");
         helper.docSearch(awardDocNbr);
         helper.clickAwardBudgetVersionsPage();
         helper.click(AwardSeleniumHelper.OPEN_BUDGET_NAME + "0");
@@ -110,8 +108,7 @@ public class AwardBudgetBasicSeleniumTest extends KcSeleniumTestBase {
     }
     
     protected void postBudget() {
-        helper.logout();
-        helper.setLoginUser("quickstart");
+        helper.login("quickstart");
         helper.docSearch(awardDocNbr);
         helper.clickAwardBudgetVersionsPage();
         helper.click(AwardSeleniumHelper.OPEN_BUDGET_NAME + "0");
