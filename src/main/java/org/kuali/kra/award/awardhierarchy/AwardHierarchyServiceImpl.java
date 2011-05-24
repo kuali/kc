@@ -389,6 +389,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         
         newAward.getSyncChanges().clear();
         newAward.getSyncStatuses().clear();
+        newAward.getAwardBudgetLimits().clear();
     } 
 
     AwardHierarchy copyAwardAsChildOfAnotherNode(AwardHierarchy sourceNode, AwardHierarchy targetParentNode) {
