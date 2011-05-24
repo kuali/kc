@@ -72,38 +72,28 @@ public abstract class KcSeleniumHelper {
     private static final String SUBMIT_SUCCESS_MESSAGE = "Document was successfully approved";
     
     private WebDriver driver;
-    private String loginUser;
     
     protected KcSeleniumHelper(WebDriver driver) {
         this.driver = driver;
     }
     
-    public final String getLoginUser() {
-        return loginUser;
-    }
-    
-    public final void setLoginUser(String loginUser) {
-        this.loginUser = loginUser;
-    }
-    
     /**
-     * Checks for the Login web page and if it exists, logs the user in.
+     * Checks for the Login web page and if it exists, logs in as the default user.
      */
     public final void login() {
-        if (StringUtils.isBlank(loginUser)) {
-            setLoginUser(DEFAULT_USER);
-        }
-        
         if (StringUtils.equals(driver.getTitle(), "Login")) {
-            set("__login_user", getLoginUser());
+            set("__login_user", DEFAULT_USER);
             click("//input[@value='Login']");
         }
     }
     
     /**
-     * Checks for the Logout button and if it exists, logs the current user out.
+     * Logs in as the backdoor user {@code loginUser}.
      */
-    public void logout() {
+    public final void login(final String loginUser) {
+        clickResearcherTab();
+
+        set("backdoorId", loginUser);
         click("imageField");
     }
     
