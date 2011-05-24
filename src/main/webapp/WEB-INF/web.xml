@@ -168,6 +168,11 @@
       <listener-class>org.kuali.rice.core.web.listener.StandaloneInitializeListener</listener-class>
     </listener>
 -->
+
+    <listener>
+        <listener-class>org.kuali.rice.core.web.listener.BootstrapListener</listener-class>
+    </listener>
+
 	<listener>
 		<listener-class>org.kuali.rice.kns.web.listener.JstlConstantsInitListener</listener-class>
 	</listener>
