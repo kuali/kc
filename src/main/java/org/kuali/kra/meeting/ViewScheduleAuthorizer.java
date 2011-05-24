@@ -32,9 +32,11 @@ public class ViewScheduleAuthorizer extends CommitteeAuthorizer {
         Committee committee = task.getCommittee();
         if (task instanceof CommitteeScheduleTask) {
             hasPermission = hasPermission(username,((CommitteeScheduleTask)task).getCommitteeSchedule(),PermissionConstants.VIEW_SCHEDULE);
+            // now check if this schedule is flagged as available by admin
+            hasPermission = hasPermission && ((CommitteeScheduleTask)task).getCommitteeSchedule().isAvailableToReviewers();
         } else {
             hasPermission = hasPermission(username, committee, PermissionConstants.VIEW_SCHEDULE);
-        }
+        }        
         return hasPermission;
     }
 

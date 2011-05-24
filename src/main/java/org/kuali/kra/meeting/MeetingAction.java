@@ -75,7 +75,7 @@ public class MeetingAction extends KualiAction {
                 fieldValues);
         ((MeetingForm) form).setReadOnly("true".equals(request.getParameter("readOnly")));
         ((MeetingForm) form).getMeetingHelper().setCommitteeSchedule(commSchedule);
-        if (!hasViewModifySchedulePermission(form)) {
+        if ( !((MeetingForm) form).getMeetingHelper().hasViewModifySchedulePermission() ) {
             // same exception as of checkauthorization of kualiaction
             throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), "start", this
                     .getClass().getSimpleName());
@@ -106,15 +106,7 @@ public class MeetingAction extends KualiAction {
         return lineNumber;
     }
 
-    /*
-     * Utility method to check whether user has permission to view/modify schedule. This is needed if user enter here thru url not
-     * from the schedule 'maintain' button.
-     */
-    private boolean hasViewModifySchedulePermission(ActionForm form) {
-        MeetingForm meetingForm = (MeetingForm) form;
-        return meetingForm.getMeetingHelper().canModifySchedule()
-                || (meetingForm.getMeetingHelper().canViewSchedule() && meetingForm.isReadOnly());
-    }
+    
 
     /**
      * 

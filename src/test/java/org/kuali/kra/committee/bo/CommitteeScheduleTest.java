@@ -32,7 +32,7 @@ import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt.MERIDIEM;
 
 public class CommitteeScheduleTest extends BoAttributeTestBase<CommitteeSchedule> {
     
-    private static final int ATTRIBUTE_COUNT = 14;
+    private static final int ATTRIBUTE_COUNT = 15;
     
     private static final Date date = new Date(new java.util.Date().getTime());
     private static final Timestamp timestamp = new Timestamp(new java.util.Date().getTime());
@@ -76,6 +76,9 @@ public class CommitteeScheduleTest extends BoAttributeTestBase<CommitteeSchedule
     private static final String FIELD_COMMONTS = "comments";
     private static final String FIELD_COMMONTS_VALUE = "Some comment to test should go here";
     
+    private static final String FIELD_AVAILABLE_TO_REVIEWERS = "availableToReviewers";
+    private static final boolean FIELD_AVAILABLE_TO_REVIEWERS_VALUE = true;
+    
     private static CommitteeSchedule cm = new CommitteeSchedule();
 
     /**
@@ -108,6 +111,7 @@ public class CommitteeScheduleTest extends BoAttributeTestBase<CommitteeSchedule
         map.put(FIELD_AGENDAPRODREVDATE, FIELD_AGENDAPRODREVDATE_VALUE);
         map.put(FIELD_MAXPROTOCOLS, FIELD_MAXPROTOCOLS_VALUE);
         map.put(FIELD_COMMONTS, FIELD_COMMONTS_VALUE);
+        map.put(FIELD_AVAILABLE_TO_REVIEWERS, FIELD_AVAILABLE_TO_REVIEWERS_VALUE);
         return map;
     }
 
