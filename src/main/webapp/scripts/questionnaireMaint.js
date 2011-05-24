@@ -2293,6 +2293,7 @@ var subModuleCodes = new Array(8);
   subModuleCodes[7][1] = 'Amendment / Renewal';
   subModuleCodes[7][2] = 'Protocol Submission';
   subModuleCodes[3][2] = 'S2S Questionnaires';
+  subModuleCodes[3][3] = 'Proposal Person Certification';
 	  
 //var subModuleCodes = [ 'select', 'Proposal Budget', 'Amendment / Renewal', 'Protocol Submission'];
 var opArray = [ 'select', 'and', 'or' ];
