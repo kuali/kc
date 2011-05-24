@@ -59,6 +59,7 @@
 				<ref bean="CommSchedule-committee.committeeTypeCode" />
 				<ref bean="CommSchedule-protocolSubmissions.protocolNumber" />
 				<ref bean="CommSchedule-scheduleStatus.description" />
+				<ref bean="CommSchedule-availableToReviewers" />
 			</list>
 		</property>
 	</bean>
@@ -362,6 +363,15 @@
 		<property name="summary" value="End Time" />
 		<property name="description" value="End Time" />
 	</bean>
+	
+	<bean id="CommSchedule-availableToReviewers" parent="CommSchedule-availableToReviewers-parentBean" />
+    <bean id="CommSchedule-availableToReviewers-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+        <property name="name" value="availableToReviewers" />
+        <property name="label" value="Available to reviewers" />
+        <property name="shortLabel" value="Available to reviewers" />
+        <property name="summary" value="Available to reviewers" />
+        <property name="description" value="Available to reviewers" />
+    </bean>
 
 
 	<!-- Business Object Inquiry Definition -->
@@ -402,6 +412,8 @@
 								p:attributeName="agendaProdRevDate" />
 							<bean parent="FieldDefinition"
 								p:attributeName="maxProtocols" />
+							<bean parent="FieldDefinition"
+								p:attributeName="availableToReviewers" />
 							<bean parent="FieldDefinition"
 								p:attributeName="comments" />
 						</list>

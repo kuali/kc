@@ -125,6 +125,16 @@
                 </td>            
             </tr>
             <tr>
+            	<th align="right" valign="middle" width="115">
+                    <kul:htmlAttributeLabel attributeEntry="${committeeScheduleAttribute.availableToReviewers}" />
+                </th>
+                <td align="left" valign="middle" colspan="3">
+                    <kul:htmlControlAttribute property="meetingHelper.committeeSchedule.availableToReviewers" 
+                                              attributeEntry="${committeeScheduleAttribute.availableToReviewers}" /> 
+                </td>
+            	
+            </tr>            
+            <tr>
                 <th align="right" valign="middle" width="115">
                     <kul:htmlAttributeLabel attributeEntry="${committeeScheduleAttribute.comments}" />
                 </th>
