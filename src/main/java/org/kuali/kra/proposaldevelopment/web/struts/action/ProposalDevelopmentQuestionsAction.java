@@ -94,15 +94,6 @@ public class ProposalDevelopmentQuestionsAction extends ProposalDevelopmentActio
         return forward;
     }
     
-    protected String getFormProperty(HttpServletRequest request,String methodToCall) {
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
-        String formProperty = "";
-        if (StringUtils.isNotBlank(parameterName)) {
-            formProperty = StringUtils.substringBetween(parameterName, "."+methodToCall, ".line");
-        }
-        return formProperty;
-    }
-    
     //TODO: Fix for multiple modules
     public ActionForward printQuestionnaireAnswer(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
