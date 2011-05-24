@@ -425,10 +425,24 @@
     <property name="lookupableID" value="sponsorLookupable" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+          	<value>sponsorCode</value>
+   <!--          <value>updateTimestamp</value> -->
+          </list>
+        </property>
+        <property name="sortAscending" value="false"/>
+      </bean>
+    </property>
+   
+    <!-- 
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>
     </property>
+    -->
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
@@ -486,6 +500,8 @@
               p:attributeName="countryCode" />
       </list>
     </property>
-    <property name="resultSetLimit" value="50" />
+    
+    <property name="resultSetLimit" value="8000" />
+    
   </bean>
 </beans>
