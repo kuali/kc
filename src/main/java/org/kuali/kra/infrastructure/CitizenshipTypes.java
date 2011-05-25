@@ -24,7 +24,7 @@ public enum CitizenshipTypes {
     US_CITIZEN_OR_NONCITIZEN_NATIONAL("U.S. Citizen or noncitizen national"), 
     PERMANENT_RESIDENT_OF_US("Permanent Resident of U.S."), 
     NON_US_CITIZEN_WITH_TEMPORARY_VISA("Non-U.S. Citizen with temporary visa"),
-    PERMANENT_RESIDENT_OF_US_PENDING("Permanent resident of US pending");
+    PERMANENT_RESIDENT_OF_US_PENDING("Permanent Resident of U.S. Pending");
 
     private String citizenShip;
 

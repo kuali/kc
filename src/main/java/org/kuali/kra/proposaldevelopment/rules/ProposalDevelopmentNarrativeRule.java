@@ -181,8 +181,8 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
         List<Narrative> originalNarratives = saveNarrativesEvent.getOriginalNarratives();
         for (Narrative origNarrative : originalNarratives) {
             NarrativeUserRights userRights = getUserRights(userId, origNarrative);
-            if ((StringUtils.equals(userRights.getAccessType(), NarrativeRight.VIEW_NARRATIVE_RIGHT.getAccessType())) ||
-                (StringUtils.equals(userRights.getAccessType(), NarrativeRight.NO_NARRATIVE_RIGHT.getAccessType()))) {
+            if (userRights != null && ((StringUtils.equals(userRights.getAccessType(), NarrativeRight.VIEW_NARRATIVE_RIGHT.getAccessType())) ||
+                (StringUtils.equals(userRights.getAccessType(), NarrativeRight.NO_NARRATIVE_RIGHT.getAccessType())))) {
                 
                 Narrative narrative = findNarrative(narratives, origNarrative);
                 if (!origNarrative.equals(narrative)) {
