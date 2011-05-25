@@ -59,8 +59,9 @@ public interface S2SService {
 	 * @param opportunity
 	 * @return {@link List}of {@link S2sOppForms} which are included in the
 	 *         given {@link S2sOpportunity}
+	 * @throws S2SException 
 	 */
-	public List<S2sOppForms> parseOpportunityForms(S2sOpportunity opportunity);
+	public List<S2sOppForms> parseOpportunityForms(S2sOpportunity opportunity) throws S2SException;
 
 	/**
 	 * This method checks for the status of submission for the given

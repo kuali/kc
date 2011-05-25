@@ -102,54 +102,34 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         Boolean mandatoryFormNotAvailable = false;
         List<S2sOppForms> s2sOppForms = new ArrayList<S2sOppForms>();
         S2sOpportunity s2sOpportunity = proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity();
-        if(s2sOpportunity.getSchemaUrl()!=null){
-            String opportunityContent = getOpportunityContent(s2sOpportunity.getSchemaUrl());
-            s2sOpportunity.setOpportunity(opportunityContent);
-            s2sOppForms = KraServiceLocator.getService(S2SService.class).parseOpportunityForms(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity());
-            if(s2sOppForms!=null){
-                for(S2sOppForms s2sOppForm:s2sOppForms){
-                    if(s2sOppForm.getMandatory() && !s2sOppForm.getAvailable()){
-                        mandatoryFormNotAvailable = true;
-                        break;
+        try{
+            if(s2sOpportunity.getSchemaUrl()!=null){
+                s2sOppForms = KraServiceLocator.getService(S2SService.class).parseOpportunityForms(s2sOpportunity);
+                if(s2sOppForms!=null){
+                    for(S2sOppForms s2sOppForm:s2sOppForms){
+                        if(s2sOppForm.getMandatory() && !s2sOppForm.getAvailable()){
+                            mandatoryFormNotAvailable = true;
+                            break;
+                        }
                     }
                 }
+                if(!mandatoryFormNotAvailable){
+                    s2sOpportunity.setS2sOppForms(s2sOppForms);
+                    s2sOpportunity.setVersionNumber(proposalDevelopmentForm.getVersionNumberForS2sOpportunity());
+                    proposalDevelopmentForm.setVersionNumberForS2sOpportunity(null);                
+                }else{
+                    GlobalVariables.getErrorMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID,proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getOpportunityId());
+                    proposalDevelopmentDocument.getDevelopmentProposal().setS2sOpportunity(new S2sOpportunity());
+                }            
             }
-            if(!mandatoryFormNotAvailable){
-                s2sOpportunity.setS2sOppForms(s2sOppForms);
-                s2sOpportunity.setVersionNumber(proposalDevelopmentForm.getVersionNumberForS2sOpportunity());
-                proposalDevelopmentForm.setVersionNumberForS2sOpportunity(null);                
-            }else{
-                GlobalVariables.getErrorMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID,proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getOpportunityId());
-                proposalDevelopmentDocument.getDevelopmentProposal().setS2sOpportunity(new S2sOpportunity());
-            }            
+        }catch(S2SException ex){
+            GlobalVariables.getErrorMap().putError(Constants.NO_FIELD, ex.getErrorKey(),ex.getMessageWithParams());
+            proposalDevelopmentDocument.getDevelopmentProposal().setS2sOpportunity(new S2sOpportunity());
+            return mapping.findForward(Constants.MAPPING_BASIC);
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    private String getOpportunityContent(String schemaUrl) {
-        String opportunity = "";
-        InputStream is  = null;
-        BufferedInputStream br = null;
-        try{
-            URL url;
-            url = new URL(schemaUrl);
-            is = url.openConnection().getInputStream();
-            br = new BufferedInputStream(is);
-            byte bufContent[] = new byte[is.available()];
-            br.read(bufContent);
-            opportunity = new String(bufContent);
-        }catch (Exception e) {
-            LOG.error("Cannot parse opportinity schema", e);
-        }finally{
-                try {
-                    if(is!=null) is.close();
-                    if(br!=null) br.close();
-                }catch (IOException e) {
-                    LOG.error("Cannot close stream after fetching the content of opportinity schema", e);
-                }
-        }
-        return opportunity;
-    }
 
     /**
      * 
