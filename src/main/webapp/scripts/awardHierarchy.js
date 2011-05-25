@@ -207,7 +207,7 @@
         
       	var abc = "<table style=\"border: medium none ; width: " + tblWidth + "%; border-collapse: collapse;\"><tbody><tr><td align='left' style=\"border: medium none ; border-collapse: collapse; vertical-align: top;\">"+txtImage+"&nbsp;"+text1
       				+ "</td><td align='right' style='border: medium none ; border-collapse: collapse; vertical-align: top;'>"
-      				+ "<a href='awardHome.do?methodToCall=docHandler&docId=" + text19 + "&awardNumber=" + racode + "&command=displayDocSearchView' target='_blank'><img src='static/images/tinybutton-open.gif' /></a>"
+      				+ "<a href='awardHome.do?methodToCall=docHandler&docId=" + text19 + "&awardNumber=" + racode + "&command=displayDocSearchView&placeHolderAwardId=" + text18 + "' target='_blank'><img src='static/images/tinybutton-open.gif' /></a>"
       				+ "</td></tr></tbody></table>"; 
       	return abc; 
     }
