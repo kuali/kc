@@ -88,10 +88,7 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
     private static final String KEY_CFDA_NUMBER = "CFDANumber";
     private static final String KEY_SUBMISSION_TITLE = "SubmissionTitle";
     
-    private static final String KEYSTORE_LOCATION = "s2s.keystore.location";
     private static final String KEYSTORE_PASSWORD = "s2s.keystore.password";
-    private static final String TRUSTSTORE_LOCATION = "s2s.truststore.location";
-    private static final String TRUSTSTORE_PASSWORD = "s2s.truststore.password";
     public static final String GRANTS_GOV_HOST = "grants.gov.s2s.host";
     public static final String GRANTS_GOV_PORT = "grants.gov.s2s.port";
 
