@@ -26,6 +26,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingLoader;
@@ -46,6 +48,15 @@ import org.xml.sax.SAXException;
  */
 public class OpportunitySchemaParser {
 
+    private static final String SCHEMA_LOCATION = "schemaLocation";
+    private static final String NAMESPACE = "namespace";
+    private static final char CH_COLON = ':';
+    private static final String XMLNS = "xmlns:";
+    private static final String MIN_OCCURS = "minOccurs";
+    private static final String REF = "ref";
+    private static final String ELEMENT = "element";
+    private static final String ALL = "all";
+    private static final String IMPORT = "import";
     private static final String XSD_NS = "http://www.w3.org/2001/XMLSchema";
     private static final Log LOG = LogFactory.getLog(OpportunitySchemaParser.class);
 
@@ -55,7 +66,7 @@ public class OpportunitySchemaParser {
      * @param schema {@link String}
      * @return {@link HashMap} containing all form information
      */
-    public ArrayList<S2sOppForms> getForms(String schema) {
+    public ArrayList<S2sOppForms> getForms(String schema) throws S2SException{
         boolean mandatory;
         boolean available;
         DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
@@ -66,45 +77,40 @@ public class OpportunitySchemaParser {
         try {
             builder = domFactory.newDocumentBuilder();
             document = builder.parse(schema);
-        }
-        catch (ParserConfigurationException e) {
+        }catch (ParserConfigurationException e) {
             LOG.error(S2SConstants.ERROR_MESSAGE, e);
-            return schemaList;
-        }
-        catch (SAXException e) {
+            throw new S2SException(KeyConstants.ERROR_GRANTSGOV_FORM_PARSING,e.getMessage(),schema);
+        }catch (SAXException e) {
             LOG.error(S2SConstants.ERROR_MESSAGE, e);
-            return schemaList;
-        }
-        catch (IOException e) {
+            throw new S2SException(KeyConstants.ERROR_GRANTSGOV_FORM_PARSING_SAXEXCEPTION,e.getMessage(),schema);
+        }catch (IOException e) {
             LOG.error(S2SConstants.ERROR_MESSAGE, e);
-            return schemaList;
+            throw new S2SException(KeyConstants.ERROR_GRANTSGOV_FORM_SCHEMA_NOT_FOUND,e.getMessage(),schema);
         }
 
         Element schemaElement = document.getDocumentElement();
-        //FIXME Use constants instead literals throughout the method
-        NodeList importList = document.getElementsByTagNameNS(XSD_NS, "import");
-        Node allForms = document.getElementsByTagNameNS(XSD_NS, "all").item(0);
-        NodeList formsList = ((Element) allForms).getElementsByTagNameNS(XSD_NS, "element");
+        NodeList importList = document.getElementsByTagNameNS(XSD_NS, IMPORT);
+        Node allForms = document.getElementsByTagNameNS(XSD_NS, ALL).item(0);
+        NodeList formsList = ((Element) allForms).getElementsByTagNameNS(XSD_NS, ELEMENT);
         String[] formNames = new String[formsList.getLength()];
 
         for (int formIndex = 0; formIndex < formsList.getLength(); formIndex++) {
             Node form = formsList.item(formIndex);
-            String fullFormName = ((Element) form).getAttribute("ref");
-            String formName = fullFormName.substring(0, fullFormName.indexOf(':'));
-            String minOccurs = ((Element) form).getAttribute("minOccurs");
-            String nameSpace = schemaElement.getAttribute("xmlns:" + formName);
+            String fullFormName = ((Element) form).getAttribute(REF);
+            String formName = fullFormName.substring(0, fullFormName.indexOf(CH_COLON));
+            String minOccurs = ((Element) form).getAttribute(MIN_OCCURS);
+            String nameSpace = schemaElement.getAttribute(XMLNS + formName);
             FormMappingInfo info = null;
             try {
                 info = new FormMappingLoader().getFormInfo(nameSpace);
-            }
-            catch (S2SGeneratorNotFoundException e) {
+            }catch (S2SGeneratorNotFoundException e) {
             }
             String displayFormName = info==null?formName:info.getFormName();
             formNames[formIndex] = nameSpace;
             for (int impIndex = 0; impIndex < importList.getLength(); impIndex++) {
                 Node importNode = importList.item(impIndex);
-                if (((Element) importNode).getAttribute("namespace").equalsIgnoreCase(nameSpace)) {
-                    String schemaUrl = ((Element) importNode).getAttribute("schemaLocation");
+                if (((Element) importNode).getAttribute(NAMESPACE).equalsIgnoreCase(nameSpace)) {
+                    String schemaUrl = ((Element) importNode).getAttribute(SCHEMA_LOCATION);
                     S2sOppForms oppForm = new S2sOppForms();
                     oppForm.setFormName(displayFormName);
                     oppForm.setOppNameSpace(nameSpace);

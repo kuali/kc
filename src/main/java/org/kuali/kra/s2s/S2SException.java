@@ -79,6 +79,7 @@ public class S2SException extends java.lang.Exception {
         this.errorKey = errorKey;
         this.params = params;
     }
+    
     public S2SException(String msg, int messageType) {
         super();
         this.errorMessage = msg;
@@ -95,6 +96,19 @@ public class S2SException extends java.lang.Exception {
         return errorMessage;
     }
 
+    /**
+     * 
+     * This method returns message as first element followed by all params
+     * @return
+     */
+    public String[] getMessageWithParams() {
+        String[] messageWithParams = new String[getParams().length+1];
+        messageWithParams[0]=errorMessage;
+        for (int i = 1; i < messageWithParams.length; i++) {
+            messageWithParams[i]=params[i-1];
+        }
+        return messageWithParams;
+    }
     /**
      * Set Error Message
      * 
@@ -145,6 +159,22 @@ public class S2SException extends java.lang.Exception {
      */
     public void setErrorKey(String errorKey) {
         this.errorKey = errorKey;
+    }
+
+    /**
+     * Gets the params attribute. 
+     * @return Returns the params.
+     */
+    public String[] getParams() {
+        return params;
+    }
+
+    /**
+     * Sets the params attribute value.
+     * @param params The params to set.
+     */
+    public void setParams(String[] params) {
+        this.params = params;
     }
 
 }

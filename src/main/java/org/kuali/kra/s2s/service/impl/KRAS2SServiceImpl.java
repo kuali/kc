@@ -27,6 +27,10 @@ import gov.grants.apply.webservices.applicantintegrationservices_v1.GetOpportuni
 import gov.grants.apply.webservices.applicantintegrationservices_v1.OpportunityInformationType;
 import gov.grants.apply.webservices.applicantintegrationservices_v1.SubmitApplicationResponse;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,6 +51,7 @@ import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
@@ -131,10 +136,36 @@ public class KRAS2SServiceImpl implements S2SService {
 	 *         given {@link S2sOpportunity}
 	 * @see org.kuali.kra.s2s.service.S2SService#parseOpportunityForms(org.kuali.kra.s2s.bo.S2sOpportunity)
 	 */
-	public List<S2sOppForms> parseOpportunityForms(S2sOpportunity opportunity) {
-		return new OpportunitySchemaParser().getForms(opportunity
-				.getSchemaUrl());
+	public List<S2sOppForms> parseOpportunityForms(S2sOpportunity opportunity) throws S2SException{
+        String opportunityContent = getOpportunityContent(opportunity.getSchemaUrl());
+        opportunity.setOpportunity(opportunityContent);
+		return new OpportunitySchemaParser().getForms(opportunity.getSchemaUrl());
 	}
+    private String getOpportunityContent(String schemaUrl) throws S2SException{
+        String opportunity = "";
+        InputStream is  = null;
+        BufferedInputStream br = null;
+        try{
+            URL url;
+            url = new URL(schemaUrl);
+            is = url.openConnection().getInputStream();
+            br = new BufferedInputStream(is);
+            byte bufContent[] = new byte[is.available()];
+            br.read(bufContent);
+            opportunity = new String(bufContent);
+        }catch (Exception e) {
+            LOG.error(S2SConstants.ERROR_MESSAGE, e);
+            throw new S2SException(KeyConstants.ERROR_GRANTSGOV_FORM_SCHEMA_NOT_FOUND,e.getMessage(),schemaUrl);
+        }finally{
+                try {
+                    if(is!=null) is.close();
+                    if(br!=null) br.close();
+                }catch (IOException e) {
+                    LOG.error("Cannot close stream after fetching the content of opportinity schema", e);
+                }
+        }
+        return opportunity;
+    }
 
 	/**
 	 * This method checks for the status of submission for the given

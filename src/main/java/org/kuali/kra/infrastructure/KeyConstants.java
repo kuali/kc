@@ -222,6 +222,9 @@ public final class KeyConstants {
     public static final String ERROR_RESUBMISSION_OPPORTUNITY_IS_APPLICATION = "error.resubmission.s2sOpportunity.isApplication";
     public static final String ERROR_NOT_SELECTED_SUBMISSION_TYPE = "error.submissionType.notSelected";
     public static final String ERROR_IF_GRANTS_GOV_IS_DISABLED = "error.grantsgov.disabled";
+    public static final String ERROR_GRANTSGOV_FORM_PARSING = "error.grantsgov.form.parsing";
+    public static final String ERROR_GRANTSGOV_FORM_PARSING_SAXEXCEPTION = "error.grantsgov.form.xmlprocess";
+    public static final String ERROR_GRANTSGOV_FORM_SCHEMA_NOT_FOUND = "error.grantsgov.form.schema.server.down";
     
     public static final String ERROR_PRINTING_UNKNOWN = "error.printing.unknown";
     public static final String ERROR_IF_COMPETITION_ID_IS_INVALID="error.s2sopportunity.competitionIdInvalid";
@@ -919,6 +922,7 @@ public final class KeyConstants {
     public static final String NSF_SPONSOR_CODE = "NSF_SPONSOR_CODE";
     
     public static final String PROJECT_START_END_DATE_CHANGED = "error.project.start.end.date.changed";
+    
     /**
      * private utility class ctor.
      * @throws UnsupportedOperationException if called.
