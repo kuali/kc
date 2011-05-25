@@ -637,7 +637,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
                 }				
 			}
 		}
-		if (principalInvestigator != null) {
+		if (principalInvestigator != null && principalInvestigator.getSecondaryOfficePhone() != null) {
 			additionalInformation.setAlernatePhoneNumber(principalInvestigator.getSecondaryOfficePhone());
 		}
 		for (Answer questionnaireAnswer : s2sUtilService.getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), getNamespace(),getFormName())) {
