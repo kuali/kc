@@ -2096,11 +2096,16 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         for (int i=0; i < srcSpecialReviews.size(); i++) {
             ProtocolSpecialReview srcSpecialReview = srcSpecialReviews.get(i);
             ProtocolSpecialReview dstSpecialReview = dstSpecialReviews.get(i);
-            List<String> exemptionCodeCopy = new ArrayList<String>();
-            for (String s: srcSpecialReview.getExemptionTypeCodes()) {
-                exemptionCodeCopy.add(new String(s));
+            // copy exemption codes, since they are transient and ignored by deepCopy()
+            if (srcSpecialReview.getExemptionTypeCodes() != null) {
+                List<String> exemptionCodeCopy = new ArrayList<String>();
+                for (String s: srcSpecialReview.getExemptionTypeCodes()) {
+                    exemptionCodeCopy.add(new String(s));
+                }
+                dstSpecialReview.setExemptionTypeCodes(exemptionCodeCopy);
             }
-            dstSpecialReview.setExemptionTypeCodes(exemptionCodeCopy);
+            // force new table entry
+            dstSpecialReview.setProtocolSpecialReviewId(null);
         }
     }
 }
