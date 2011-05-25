@@ -1960,14 +1960,17 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         for (int i=0; i < srcSpecialReviews.size(); i++) {
             ProposalSpecialReview srcSpecialReview = srcSpecialReviews.get(i);
             ProposalSpecialReview dstSpecialReview = dstSpecialReviews.get(i);
-            List<String> exemptionCodeCopy = new ArrayList<String>();
+            // copy exemption codes, since they are transient and ignored by deepCopy()
             if (srcSpecialReview.getExemptionTypeCodes() != null) {
+                List<String> exemptionCodeCopy = new ArrayList<String>();
                 for (String s: srcSpecialReview.getExemptionTypeCodes()) {
                     exemptionCodeCopy.add(new String(s));
                 }
+                dstSpecialReview.setExemptionTypeCodes(exemptionCodeCopy);
             }
-            dstSpecialReview.setExemptionTypeCodes(exemptionCodeCopy);
+            // force new SQL table insert
+            dstSpecialReview.setProposalSpecialReviewId(null);
         }
     }
-
+   
 }
