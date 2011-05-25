@@ -310,7 +310,7 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
             List<KcPerson> persons = kraAuthorizationService.getPersonsInRole(srcDoc.getProtocol(), role.getRoleName());
             for (KcPerson person : persons) {
                 if (!StringUtils.equals(person.getPersonId(), userId)) {
-                    kraAuthorizationService.addRole(userId, role.getRoleName(), destDoc.getProtocol()); 
+                    kraAuthorizationService.addRole(person.getPersonId(), role.getRoleName(), destDoc.getProtocol()); 
                 }
             }
         }
