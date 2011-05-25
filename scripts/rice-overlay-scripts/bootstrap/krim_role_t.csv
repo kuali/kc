@@ -52,3 +52,4 @@
 "1242","Active Committee Member","KC-PROTOCOL","Role members are derived from active committee members on the systems current date.","10002","Y","4233ABBCE37D49D48BF5ABCE5C9F38DA","1"
 "1243","Active Committee Member On Scheduled Date","KC-PROTOCOL","Role members are derived from the active committee members on a particular schedule date.","10003","Y","FF5950B96024491593E633919583CE06","1"
 "1244","Time and Money Document Viewer","KC-AWARD","View a Time and Money document","1002","Y","92FE99B04579DDD5E040DC0A1F8A232C","1"
+"1245","Delete Proposal","KC-PD","Delete Proposal Permission","1001","Y","A0AF39860C7A371AE040DC0A1F8A7673","1"
