@@ -3232,10 +3232,15 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
             AwardSpecialReview srcSpecialReview = srcSpecialReviews.get(i);
             AwardSpecialReview dstSpecialReview = dstSpecialReviews.get(i);
             List<String> exemptionCodeCopy = new ArrayList<String>();
-            for (String s: srcSpecialReview.getExemptionTypeCodes()) {
-                exemptionCodeCopy.add(new String(s));
+            // copy exemption codes, since they are transient and ignored by deepCopy()
+            if (srcSpecialReview.getExemptionTypeCodes() != null) {
+                for (String s: srcSpecialReview.getExemptionTypeCodes()) {
+                    exemptionCodeCopy.add(new String(s));
+                }
+                dstSpecialReview.setExemptionTypeCodes(exemptionCodeCopy);
             }
-            dstSpecialReview.setExemptionTypeCodes(exemptionCodeCopy);
+            // force new SQL table insert
+            dstSpecialReview.setAwardSpecialReviewId(null);
         }
     }
 
