@@ -529,6 +529,10 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                 valid = true;
                 break;
             }
+            else if (YES.equals(answer.getMatchedChild())) {
+                valid = false;
+                break;
+            }
             else {
                 // if one of the parents answer is entered
                 valid = valid && StringUtils.isBlank(answer.getAnswer());

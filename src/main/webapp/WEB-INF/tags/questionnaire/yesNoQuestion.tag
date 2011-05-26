@@ -32,7 +32,8 @@
     
     	<c:set var="prop" value="${property}.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer"/>
         ${kfunc:registerEditableProperty(KualiForm, prop)}
-    
+                   <input type="hidden" name="checkboxToReset" value="${prop}"/> 
+ 
         <c:choose>
             <c:when test="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].answer eq 'Y'}" >
                 <input type="radio" class="QanswerYesNo" onClick = "answerChanged(this,'${property}')" style="border:none;" id="${property}.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" name="${property}.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" checked="checked" value="Y" />Yes
