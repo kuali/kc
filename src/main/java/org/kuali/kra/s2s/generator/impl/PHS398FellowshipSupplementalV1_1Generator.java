@@ -645,7 +645,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 			questionnaireQuestion = questionnaireAnswer.getQuestionnaireQuestion();
 			answerHeader = (AnswerHeader) questionnaireAnswer.getAnswerHeader();
 			   if(questionnaireAnswer.getQuestionnaireQuestion().getQuestion().getQuestionId().equals(STEMCELLLINES)){  
-			       List<Answer> answerList=getAnswers(questionnaireQuestion,answerHeader);                      
+			       List<Answer> answerList = getAnswers(questionnaireQuestion,answerHeader);                      
                    for (Answer questionnaireAnswerBO: answerList) {
                        String questionnaireSubAnswer =  questionnaireAnswerBO.getAnswer();
                        if(questionnaireSubAnswer!=null)
@@ -1065,16 +1065,17 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
         return "http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_1_1-V1.1";
     }
     private List<Answer> getAnswers(QuestionnaireQuestion questionnaireQuestion, AnswerHeader answerHeader) {
-        List<Answer> answers = answerHeader.getAnswers();
-        List<Answer> answerList=new ArrayList<Answer>();
-        for (Answer answer : answers) {
-            if(answer.getQuestionnaireQuestionsIdFk().equals(questionnaireQuestion.getQuestionnaireQuestionsId())){               
-                answerList.add(answer);
+        List<Answer> returnAnswers = new ArrayList<Answer>();
+        if (answerHeader != null) {
+            List<Answer> answers = answerHeader.getAnswers();
+            //List<Answer> answerList = new ArrayList<Answer>();
+            for (Answer answer : answers) {
+                if (answer.getQuestionnaireQuestionsIdFk().equals(questionnaireQuestion.getQuestionnaireQuestionsId())) {               
+                    returnAnswers.add(answer);
+                }
             }
         }
-        if(answerList!=null)
-            return answerList;        
-        return null;
+        return returnAnswers;
     }
     private List<AnswerHeader> findQuestionnaireWithAnswers(DevelopmentProposal developmentProposal) {
         ProposalDevelopmentS2sQuestionnaireService questionnaireAnswerService = getProposalDevelopmentS2sQuestionnaireService();
