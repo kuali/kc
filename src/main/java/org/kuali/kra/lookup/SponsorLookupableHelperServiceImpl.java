@@ -17,6 +17,7 @@ package org.kuali.kra.lookup;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -42,53 +43,61 @@ public class SponsorLookupableHelperServiceImpl  extends KualiLookupableHelperSe
      * This is primarily for multiple value lookup.  also need to take care of single value lookup
      */
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        List searchResults;
-        List searchResultsReturn = new ArrayList();
+     
+        List<Sponsor> searchResults;
+        List<Sponsor> searchResultsReturn = new ArrayList<Sponsor>();
         //searchResults = super.getSearchResults(fieldValues);
         KualiForm kualiForm = GlobalVariables.getKualiForm();
         if (kualiForm == null || !(kualiForm instanceof MultipleValueLookupForm)) {
             // not multiple value lookup
             return super.getSearchResults(fieldValues);
-        } else {
-            searchResults = super.getSearchResultsHelper(fieldValues, true);
-            
+        } else {         
+            searchResults = (List<Sponsor>)super.getSearchResultsHelper(fieldValues, true);
         }
+        
         //searchResults = (List)KraServiceLocator.getService(BusinessObjectService.class).findAll(Sponsor.class);
         Object hierarchyName = GlobalVariables.getUserSession().retrieveObject(HIERARCHY_NAME);
         Object selectedHierarchyName = GlobalVariables.getUserSession().retrieveObject(SELECTED_HIERARCHY_NAME);
-        String sponsors= null;
+        String sponsorsCodes= "";
         boolean isNewHierarchy = false;
         String existSponsors = (String)GlobalVariables.getUserSession().retrieveObject("sponsorCodes");
-        String[] existSponsorArray ;
-        List existSponsorList;
+        String[] existSponsorCodeArray ;
+        List<String> existSponsorCodeList;
+        
         if (existSponsors != null) {
-            existSponsorArray = existSponsors.split(";");
-            existSponsorList = Arrays.asList(existSponsorArray);            
-        } else {
-            existSponsorList = new ArrayList();
+            existSponsorCodeArray = existSponsors.split(";");
+            existSponsorCodeList = Arrays.asList(existSponsorCodeArray);            
+        } 
+        else {
+            existSponsorCodeList = new ArrayList<String>();
         }
+        
         if (selectedHierarchyName != null) {
-            sponsors = KraServiceLocator.getService(SponsorService.class).loadToSponsorHierachyMt(selectedHierarchyName.toString());
+            sponsorsCodes = KraServiceLocator.getService(SponsorService.class).loadToSponsorHierachyMt(selectedHierarchyName.toString());
             isNewHierarchy = true;
-        } else {
+        }
+        else {
             if (existSponsors == null) {
-                sponsors = KraServiceLocator.getService(SponsorService.class).loadToSponsorHierachyMt(hierarchyName.toString());
-            } else {
-                sponsors = existSponsors;
+                sponsorsCodes = KraServiceLocator.getService(SponsorService.class).loadToSponsorHierachyMt(hierarchyName.toString());
+            } 
+            else {
+                sponsorsCodes = existSponsors;
             }
         }
-        String[] sponsorArray = sponsors.split(";");
-        List sponsorList = Arrays.asList(sponsorArray);
+        
+        String[] sponsorArray = sponsorsCodes.split(";");
+        List<String> sponsorList = Arrays.asList(sponsorArray);
         int i = 0;
         Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(Sponsor.class);
-        for (Iterator iterator = searchResults.iterator(); iterator.hasNext();) {
-            Sponsor sponsor = (Sponsor)iterator.next();
+
+        for (Sponsor sponsor : searchResults) {
             if (isNewHierarchy) {
-                if (sponsorList.contains(sponsor.getSponsorCode()) && !existSponsorList.contains(sponsor.getSponsorCode())) {
+                if (!existSponsorCodeList.contains(sponsor.getSponsorCode())) {        
                     i++;
                     searchResultsReturn.add(sponsor);
                 }
-            } else {
+            }        
+            else {
                 if (!sponsorList.contains(sponsor.getSponsorCode())) {
                     i++;
                     searchResultsReturn.add(sponsor);
