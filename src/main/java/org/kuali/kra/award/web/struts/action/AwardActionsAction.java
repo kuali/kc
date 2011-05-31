@@ -47,6 +47,7 @@ import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.award.printing.service.AwardPrintingService;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.versioning.VersionHistory;
+import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -197,21 +198,24 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
             if(StringUtils.equalsIgnoreCase(radio, AWARD_COPY_NEW_OPTION)){
                 if(copyDescendants!=null && copyDescendants){
                     newRootNode = awardForm.getAwardHierarchyBean().copyAwardAndAllDescendantsAsNewHierarchy(targetNode.getAwardNumber());
+                    forward = prepareToForwardToNewFinalChildAward(mapping, awardForm, request, response, targetNode, newRootNode);
+
                 }else{
                     newRootNode = awardForm.getAwardHierarchyBean().copyAwardAsNewHierarchy(targetNode.getAwardNumber());
+                    forward = prepareToForwardToNewChildAward(mapping, awardForm, targetNode, newRootNode);
                 }
-                forward = prepareToForwardToNewChildAward(mapping, awardForm, targetNode, newRootNode);    
             }else if(StringUtils.equalsIgnoreCase(radio, AWARD_COPY_CHILD_OF_OPTION)){
                 String awardNumberOfNodeToBeParent = awardForm.getAwardHierarchyTempObjects().get(index).getCopyAwardPanelTargetAward();
                 if(!StringUtils.isEmpty(awardNumberOfNodeToBeParent)) {
                     if(copyDescendants!=null && copyDescendants){    
                         if(!StringUtils.isEmpty(awardNumberOfNodeToBeParent)) {
                             newRootNode = awardForm.getAwardHierarchyBean().copyAwardAndDescendantsAsChildOfAnotherAward(targetNode.getAwardNumber(), awardNumberOfNodeToBeParent);
+                            forward = prepareToForwardToNewFinalChildAward(mapping, awardForm, request, response, targetNode, newRootNode);
                         }
                     }else{
                         newRootNode = awardForm.getAwardHierarchyBean().copyAwardAsChildOfAnotherAward(targetNode.getAwardNumber(), awardNumberOfNodeToBeParent);
-                    }    
-                    forward = prepareToForwardToNewChildAward(mapping, awardForm, targetNode, newRootNode); 
+                        forward = prepareToForwardToNewChildAward(mapping, awardForm, targetNode, newRootNode);
+                    } 
                 }else{
                     GlobalVariables.getMessageMap().putError("awardHierarchyTempObject[" + index + "].copyAwardPanelTargetAward", KeyConstants.ERROR_COPY_AWARD_CHILDOF_AWARD_NOT_SELECTED, awardNumber);
                     awardForm.getFundingProposalBean().setAllAwardsForAwardNumber(null);
@@ -348,7 +352,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         }
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-
+    
     public ActionForward copyAwardAsAChildInCurrentHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         AwardHierarchy targetNode = findTargetNode(request, awardForm);
@@ -668,6 +672,29 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         return forward;
     }
     
+    private ActionForward prepareToForwardToNewFinalChildAward(ActionMapping mapping, AwardForm awardForm, HttpServletRequest request, HttpServletResponse response, AwardHierarchy targetNode,
+            AwardHierarchy newNodeToView) throws Exception {
+        ActionForward forward;
+        if(newNodeToView != null) {
+            awardForm.setCommand(KEWConstants.INITIATE_COMMAND);
+            createDocument(awardForm);
+            Award newChildAward = newNodeToView.getAward();
+            if(!newNodeToView.isRootNode()) {
+                setMultipleNodeHierarchyOnAwardFormTrue(newChildAward);  
+            }
+            awardForm.getAwardDocument().setAward(newChildAward);
+            awardForm.getAwardDocument().getDocumentHeader().setDocumentDescription("Copied Hierarchy");
+            awardForm.getAwardHierarchyBean().recordTargetNodeState(targetNode);
+            awardForm.getFundingProposalBean().setAllAwardsForAwardNumber(null);
+            super.save(mapping, (ActionForm) awardForm, request, response);
+            super.submitAward(mapping, (ActionForm) awardForm, request, response);
+            forward = mapping.findForward(Constants.MAPPING_AWARD_HOME_PAGE);
+        } else {
+            forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        }
+        return forward;
+    }
+    
     /**
      * Since a child award will always be part of a multiple award hierarchy, we need to set the boolean to true so that the anticipated
      * and obligated totals on Details & Dates tab will be uneditable on initial creation.  After the initial save of document
@@ -817,6 +844,10 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     
     protected InstitutionalProposalService getInstitutionalProposalService() {
         return KraServiceLocator.getService(InstitutionalProposalService.class);
+    }
+    
+    protected VersionHistoryService getVersionHistoryService() {
+        return KraServiceLocator.getService(VersionHistoryService.class);
     }
     
     /**
