@@ -19,7 +19,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -59,6 +58,7 @@ import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.kew.KraDocumentRejectionService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
@@ -77,8 +77,6 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
-import org.kuali.rice.kns.document.DocumentBase;
-import org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.rule.event.DocumentAuditEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -717,22 +715,32 @@ public class BudgetAction extends BudgetActionBase {
         Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
         String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
         String methodToCall = ((KualiForm) form).getMethodToCall();
+        final String questionText = "Are you sure you want to reject this document?";
         ActionForward forward;
-        if(question == null){
-            forward =  this.performQuestionWithInput(mapping, form, request, response, DOCUMENT_REJECT_QUESTION,"Are you sure you want to reject this document?" , KNSConstants.CONFIRMATION_QUESTION, methodToCall, "");
-         } 
-        else if((DOCUMENT_REJECT_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked))  {
+        if (question == null) {
+            forward =  this.performQuestionWithInput(mapping, form, request, response, DOCUMENT_REJECT_QUESTION,
+                    questionText , KNSConstants.CONFIRMATION_QUESTION, methodToCall, "");
+        } else if ((DOCUMENT_REJECT_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked))  {
             forward =  mapping.findForward(Constants.MAPPING_BASIC);
-        }
-        else
-        {
-            //reject the document using the service.
-            BudgetDocument document = ((BudgetForm)form).getDocument();
-            document.documentHasBeenRejected(reason);
-            KraServiceLocator.getService(KraDocumentRejectionService.class).reject(document.getDocumentNumber(), reason, GlobalVariables.getUserSession().getPrincipalId());
-            //tell the document it is being rejected and returned to the initial node.
-            
-            return super.returnToSender(request, mapping, kualiDocumentFormBase);
+        } else {
+            if (StringUtils.isEmpty(reason)) {
+                String context = "";
+                String errorKey = KeyConstants.ERROR_BUDGET_REJECT_NO_REASON;
+                String errorPropertyName = DOCUMENT_REJECT_QUESTION;
+                String errorParameter = "";
+                reason = reason == null ? "" : reason;
+                forward = this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, DOCUMENT_REJECT_QUESTION, 
+                        questionText, KNSConstants.CONFIRMATION_QUESTION, methodToCall, context, reason, errorKey, errorPropertyName, 
+                        errorParameter);
+            } else {
+                //reject the document using the service.
+                BudgetDocument document = ((BudgetForm)form).getDocument();
+                document.documentHasBeenRejected(reason);
+                KraServiceLocator.getService(KraDocumentRejectionService.class).reject(document.getDocumentNumber(), reason, 
+                        GlobalVariables.getUserSession().getPrincipalId());
+                //tell the document it is being rejected and returned to the initial node.
+                forward = super.returnToSender(request, mapping, kualiDocumentFormBase);
+            }
             
         }
         return forward;
