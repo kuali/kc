@@ -46,7 +46,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.bo.AttachmentData;
@@ -779,7 +781,16 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
                             .getHumanNameDataType(keyPerson));
                     if (isSponsorNIH(pdDoc)
                             && KEYPERSON_CO_PD_PI.equals(keyPerson.getRole())) {
-                        keyPersonDataType.setProjectRole(NID_PD_PI);
+                        DevelopmentProposal developmentProposal=pdDoc.getDevelopmentProposal();     
+                        
+                        for (ProposalPerson proposalPerson : developmentProposal.getInvestigators()) {                        
+                            if(keyPerson.getPersonId().equals(proposalPerson.getPersonId())){   
+                                if(proposalPerson.isMultiplePi())
+                                    keyPersonDataType.setProjectRole(NID_PD_PI);                               
+                                else 
+                                    keyPersonDataType.setProjectRole(NID_CO_PD_PI);                                                             
+                            }
+                        }       
                     } else if(keyPerson.getKeyPersonRole()!=null){
                         keyPersonDataType.setProjectRole(keyPerson.getKeyPersonRole());
                     } else {

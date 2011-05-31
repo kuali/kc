@@ -334,7 +334,7 @@
                             <xsl:for-each select="n1:Protocol">
                                 <xsl:for-each select="n1:Submissions">
                                     <xsl:for-each select="n1:Minutes">
-                                        <xsl:choose>
+<!--                                        <xsl:choose>-->
                                             <!--<xsl:when test="n1:PrivateCommentFlag = &apos;true&apos;">
                                                 <xsl:variable name="tablewidth3" select="$maxwidth * 1.00000" />
                                                 <xsl:variable name="sumcolumnwidths3" select="$tablewidth3 * 0.02000 + 0.04167 + $tablewidth3 * 0.95000 + 0.04167" />
@@ -377,8 +377,10 @@
                                                     </fo:table-body>
                                                 </fo:table>
                                             </xsl:when>
-                                            --><xsl:when test="n1:PrivateCommentFlag = &apos;false&apos;">
-                                                <xsl:variable name="tablewidth4" select="$maxwidth * 1.00000" />
+                                            -->
+<!--                                            <xsl:when test="n1:PrivateCommentFlag = &apos;false&apos;">                                           -->
+<!--                                        <xsl:when test="n1:PrivateCommentPermissionFlag = &apos;true&apos;">-->
+                                             	<xsl:variable name="tablewidth4" select="$maxwidth * 1.00000" />
                                                 <xsl:variable name="sumcolumnwidths4" select="$tablewidth4 * 0.02000 + 0.04167 + $tablewidth4 * 0.98000 + 0.04167" />
                                                 <xsl:variable name="factor4">
                                                     <xsl:choose>
@@ -418,8 +420,9 @@
                                                         </fo:table-row>
                                                     </fo:table-body>
                                                 </fo:table>
-                                            </xsl:when>
-                                        </xsl:choose>
+<!--                                         </xsl:when> 
+                                         </xsl:when>  
+                                      </xsl:choose> -->
                                     </xsl:for-each>
                                 </xsl:for-each>
                             </xsl:for-each>

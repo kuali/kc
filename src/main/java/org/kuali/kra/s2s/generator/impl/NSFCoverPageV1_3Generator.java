@@ -86,7 +86,10 @@ public class NSFCoverPageV1_3Generator extends NSFCoverPageBaseGenerator impleme
 		AttachmentGroupMin1Max100DataType attachmentGroup = AttachmentGroupMin1Max100DataType.Factory
 				.newInstance();
 		attachmentGroup.setAttachedFileArray(getAttachedFileDataTypes());
-		nsfCoverPage13.setSingleCopyDocuments(attachmentGroup);
+		
+		if(attachmentGroup.getAttachedFileArray().length > 0)
+			nsfCoverPage13.setSingleCopyDocuments(attachmentGroup);
+		
 		nsfCoverPage13Document.setNSFCoverPage13(nsfCoverPage13);
 		return nsfCoverPage13Document;
 	}
@@ -239,25 +242,26 @@ public class NSFCoverPageV1_3Generator extends NSFCoverPageBaseGenerator impleme
 	 /*
      * This method will get the list of Organization YNQ for given question id.
      */
-    private List<OrganizationYnq> getOrganizationYNQ(String questionId) {
-        OrganizationYnq organizationYnq = null;
-        Map<String, String> organizationYnqMap = new HashMap<String, String>();
-        organizationYnqMap.put(ORGANIZATION_ID_PARAMETER, questionId);
-        List<OrganizationYnq> organizationYnqs = (List<OrganizationYnq>) businessObjectService.findMatching(OrganizationYnq.class,
-                organizationYnqMap);
-        return organizationYnqs;
-    }
+	    private List<OrganizationYnq> getOrganizationYNQ(String questionId) {
+	        OrganizationYnq organizationYnq = null;
+	        Map<String, String> organizationYnqMap = new HashMap<String, String>();
+	        organizationYnqMap.put(ORGANIZATION_ID_PARAMETER, questionId);
+	        List<OrganizationYnq> organizationYnqs = (List<OrganizationYnq>) businessObjectService.findMatching(OrganizationYnq.class,
+	                organizationYnqMap);
+	        return organizationYnqs;
+	    }
 	/*
      * This method will get the Organization from the Development proposal.
      */
-    private Organization getOrganizationFromDevelopmentProposal(DevelopmentProposal developmentProposal) {
-        Organization organization = null;
-        ProposalSite proposalSite = developmentProposal.getApplicantOrganization();
-        if (proposalSite != null) {
-            organization = proposalSite.getOrganization();
-        }
-        return organization;
-    }
+	    private Organization getOrganizationFromDevelopmentProposal(DevelopmentProposal developmentProposal) {
+	        Organization organization = null;
+	        ProposalSite proposalSite = developmentProposal.getApplicantOrganization();
+	        if (proposalSite != null) {
+	            organization = proposalSite.getOrganization();
+	        }
+	        return organization;
+	    }
+   
 	/**
 	 * 
 	 * This method returns DivisionCode and ProgramCode information for the

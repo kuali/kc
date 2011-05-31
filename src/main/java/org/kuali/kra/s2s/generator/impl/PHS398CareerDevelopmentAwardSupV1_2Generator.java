@@ -88,10 +88,8 @@ public class PHS398CareerDevelopmentAwardSupV1_2Generator extends
 	}
 
 	private Enum getCitizenshipDataType() {
-	for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal()
-				.getProposalPersons()) {
+	    for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
 			if (proposalPerson.isInvestigator()) {
-					
 				CitizenshipTypes citizenShip=s2sUtilService.getCitizenship(proposalPerson);
 				if(citizenShip.getCitizenShip().trim().equals(CitizenshipDataType.NON_U_S_CITIZEN_WITH_TEMPORARY_VISA.toString())){
 					return CitizenshipDataType.NON_U_S_CITIZEN_WITH_TEMPORARY_VISA;
@@ -105,11 +103,11 @@ public class PHS398CareerDevelopmentAwardSupV1_2Generator extends
 				else if(citizenShip.getCitizenShip().trim().equals(CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S_PENDING.toString())){
 				    return CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S_PENDING;
                 }
-				
 			}
-		}
+	    }
 		return CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S;
 	}
+
 	
 	private ApplicationType getApplicationType() {
 		ApplicationType applicationType = ApplicationType.Factory.newInstance();

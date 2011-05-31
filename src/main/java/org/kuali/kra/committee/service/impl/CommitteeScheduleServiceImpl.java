@@ -36,7 +36,9 @@ import org.kuali.kra.committee.web.struts.form.schedule.MonthlyScheduleDetails;
 import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.committee.web.struts.form.schedule.StyleKey;
 import org.kuali.kra.committee.web.struts.form.schedule.YearlyScheduleDetails;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.scheduling.expr.util.CronSpecialChars;
 import org.kuali.kra.scheduling.sequence.DefaultScheduleSequence;
@@ -72,7 +74,13 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
     private static final String COMM_SCHEDULE_MINUTES_ID_PROPERTY = "commScheduleMinutesId";
     private BusinessObjectService businessObjectService;
 
-    private ScheduleService scheduleService;
+    private ScheduleService scheduleService;   
+
+
+    public ReviewCommentsService getReviewCommentsService() {
+         return  KraServiceLocator.getService(ReviewCommentsService.class);     
+     }
+ 
     
     /**
      * Set the Business Object Service.
@@ -317,11 +325,19 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
      */
     public List<CommitteeScheduleMinute> getMinutesBySchedule(Long scheduleId){
         Map<String, Object> fieldValues = new HashMap<String, Object>();
+        ArrayList<CommitteeScheduleMinute> permittedMinutes = new ArrayList<CommitteeScheduleMinute>();
         fieldValues.put(SCHEDULE_ID_FIELD, scheduleId);
         List<CommitteeScheduleMinute> minutes = (List<CommitteeScheduleMinute>)businessObjectService.findMatchingOrderBy(CommitteeScheduleMinute.class, fieldValues, ENTRY_NUMBER_FIELD, true);
-        return minutes;
+        for (CommitteeScheduleMinute minute : minutes) {
+                if(getReviewCommentsService().getReviewerCommentsView(minute)){
+                    permittedMinutes.add(minute);
+                }
+               
+        }
+        
+        return permittedMinutes;
     }
-    
+      
     /**
      * 
      * @see org.kuali.kra.committee.service.CommitteeScheduleService#getCommitteeScheduleMinute(java.lang.Long)
@@ -343,8 +359,16 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
      */
     public List<CommitteeScheduleMinute> getMinutesByProtocolSubmission(Long submissionID){
         Map<String, Object> fieldValues = new HashMap<String, Object>();
+        ArrayList<CommitteeScheduleMinute> permittedMinutes = new ArrayList<CommitteeScheduleMinute>();
         fieldValues.put(SUBMISSION_ID_FIELD, submissionID);
         List<CommitteeScheduleMinute> minutes = (List<CommitteeScheduleMinute>)businessObjectService.findMatchingOrderBy(CommitteeScheduleMinute.class, fieldValues, ENTRY_NUMBER_FIELD, true);
-        return minutes;
+        for (CommitteeScheduleMinute minute : minutes) {      
+          if(getReviewCommentsService().getReviewerCommentsView(minute)){
+              permittedMinutes.add(minute);
+          }
+        }
+        return permittedMinutes;
+                
+        
     }
 }

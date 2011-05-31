@@ -817,10 +817,8 @@ public abstract class AwardBaseStream implements XmlStream {
 		if (comemnts != null) {
 			awardIndirectCost.setComments(comemnts);
 		}
-		BudgetDocument budgetDocument = getBudgetDocument();
 		List<IndirectCostSharingItem> indirectCostSharingItems = new ArrayList<IndirectCostSharingItem>();
-		if (budgetDocument != null
-				&& award.getAwardFandaRate()!= null) {			    
+		if (award.getAwardFandaRate()!= null) {			    
             for (AwardFandaRate awardFandaRate : award.getAwardFandaRate()) {
                 IndirectCostSharingItem indirectCostSharingItem = IndirectCostSharingItem.Factory
                         .newInstance();

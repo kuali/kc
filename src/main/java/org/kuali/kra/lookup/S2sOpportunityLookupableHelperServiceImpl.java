@@ -79,20 +79,37 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHe
                 GlobalVariables.getErrorMap().putError(Constants.NO_FIELD, e.getErrorKey(),e.getMessage());
                 return new ArrayList<S2sOpportunity>();
             }
-            if (s2sOpportunity != null) {
+            if (s2sOpportunity != null && s2sOpportunity.size()!=0) {
                 return s2sOpportunity;
-            }else {
-                if (fieldValues.get(Constants.CFDA_NUMBER) != null
-                        && !StringUtils.equals(fieldValues.get(Constants.CFDA_NUMBER).trim(), "")) {
-                    GlobalVariables.getErrorMap().putError(Constants.CFDA_NUMBER, KeyConstants.ERROR_IF_CFDANUMBER_IS_INVALID);
+            }else if(fieldValues.get(Constants.CFDA_NUMBER) != null && !StringUtils.equals(fieldValues.get(Constants.CFDA_NUMBER)
+                        .trim(), "") && fieldValues.get(Constants.OPPORTUNITY_ID) != null && !StringUtils.equals(fieldValues.get(
+                        Constants.OPPORTUNITY_ID).trim(), "")){
+                try{
+                s2sOpportunity = s2SService.searchOpportunity(fieldValues.get(Constants.CFDA_NUMBER), "", "");
+                }catch (S2SException e) {
+                    LOG.error(e.getMessage(), e);
+                    GlobalVariables.getErrorMap().putError(Constants.NO_FIELD, e.getErrorKey(),e.getMessage());
+                    return new ArrayList<S2sOpportunity>();
                 }
-                if (fieldValues.get(Constants.OPPORTUNITY_ID) != null
-                        && !StringUtils.equals(fieldValues.get(Constants.OPPORTUNITY_ID).trim(), "")) {
-                    GlobalVariables.getErrorMap().putError(Constants.OPPORTUNITY_ID,
-                            KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID);
+                if (s2sOpportunity != null) {
+                    return s2sOpportunity;
+
+
                 }
-            }
-            return new ArrayList<S2sOpportunity>();
+                else{
+                    if (fieldValues.get(Constants.CFDA_NUMBER) != null
+                            && !StringUtils.equals(fieldValues.get(Constants.CFDA_NUMBER).trim(), "")) {
+                        GlobalVariables.getErrorMap().putError(Constants.CFDA_NUMBER, KeyConstants.ERROR_IF_CFDANUMBER_IS_INVALID);
+                    }
+                    if (fieldValues.get(Constants.OPPORTUNITY_ID) != null
+                            && !StringUtils.equals(fieldValues.get(Constants.OPPORTUNITY_ID).trim(), "")) {
+                        GlobalVariables.getErrorMap().putError(Constants.OPPORTUNITY_ID,
+                                KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID);
+                    }
+                }
+                return new ArrayList<S2sOpportunity>();
+                }
+             return new ArrayList<S2sOpportunity>();
         }
         else {
             GlobalVariables.getErrorMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_CFDANUMBER_AND_OPPORTUNITY_ID_IS_NULL);
@@ -114,8 +131,15 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHe
         ResultRow row;
         for (Iterator iter = resultTable.iterator(); iter.hasNext();) {
             row = (ResultRow) iter.next();
+                
             List<Column> columns = row.getColumns();
-
+            if(!lookupForm.getBackLocation().contains("proposalDevelopmentGrantsGov")){
+            String cfdaNumber=columns.get(0).getPropertyValue();
+            String oppurtunityId=columns.get(5).getPropertyValue();
+            String oppurtunityTitle=columns.get(6).getPropertyValue();
+            String createProposalUrl="<a href=/kc-dev/portal.do?channelTitle=CreateProposal&channelUrl=proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument&cfdaNumber="+cfdaNumber+"&oppurtunityId="+oppurtunityId+"&opportunityTitle="+oppurtunityTitle+">Create Proposal</a>";
+            row.setReturnUrl(createProposalUrl);
+            }
             for (Iterator iterator = columns.iterator(); iterator.hasNext();) {
                 Column col = (Column) iterator.next();
 

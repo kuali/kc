@@ -1207,6 +1207,8 @@ public class RRFedNonFedBudget10V1_1Generator extends RRFedNonFedBudgetBaseGener
 					.newInstance();
 			equipmentList.setFundsRequested(costInfo.getCost()
 					.bigDecimalValue());
+			equipmentList.setNonFederal(costInfo.getCostSharing().bigDecimalValue());
+            equipmentList.setTotalFedNonFed(costInfo.getCost().add(costInfo.getCostSharing()).bigDecimalValue()); 
 			equipmentList
 					.setEquipmentItem(costInfo.getDescription() != null ? costInfo
 							.getDescription()
