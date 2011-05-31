@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -45,30 +46,77 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class KcNotificationServiceImpl implements KcNotificationService {
     
-    protected NotificationChannel kcNotificationChannel;
-    protected NotificationProducer systemNotificationProducer;
+    private static final String ACTION_CODE = "actionCode";
+    private static final String NOTIFICATION_TYPE_ID = "notificationTypeId";
+    private static final String DOCUMENT_NUMBER = "documentNumber";
     
     private static final Log LOG = LogFactory.getLog(KcNotificationServiceImpl.class);
+    
+    protected NotificationChannel kcNotificationChannel;
+    protected NotificationProducer systemNotificationProducer;
     
     private BusinessObjectService businessObjectService;
     private NotificationService notificationService;
     private RoleManagementService roleManagementService;
     
-    public List<KcNotification> getNotifications(String actionCode, NotificationContext context) {
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.common.notification.service.KcNotificationService#createNotifications(java.lang.String, java.lang.String, 
+     *      org.kuali.kra.common.notification.NotificationContext)
+     */
+    @SuppressWarnings("unchecked")
+    public List<KcNotification> createNotifications(String documentNumber, String actionCode, NotificationContext context) {
+        List<KcNotification> notifications = new ArrayList<KcNotification>();
+        
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("actionCode", actionCode);
-        Collection<NotificationType> notificationTypes = businessObjectService.findMatching(NotificationType.class, fieldValues);
-        List<KcNotification> kcNotifications = new ArrayList<KcNotification>();
+        fieldValues.put(ACTION_CODE, actionCode);
+        Collection<NotificationType> notificationTypes = getBusinessObjectService().findMatching(NotificationType.class, fieldValues);
+        
         for (NotificationType notificationType : notificationTypes) {
             KcNotification notification = new KcNotification();
-            String instanceMessage = context.replaceContextVariables(notificationType.getMessage());
-            notification.setMessage(instanceMessage);
+            notification.setNotificationTypeId(notificationType.getNotificationTypeId());
+            notification.setDocumentNumber(documentNumber);
             String instanceSubject = context.replaceContextVariables(notificationType.getSubject());
             notification.setSubject(instanceSubject);
-            notification.setNotificationTypeRecipients(notificationType.getNotificationTypeRecipients());
-            kcNotifications.add(notification);
+            String instanceMessage = context.replaceContextVariables(notificationType.getMessage());
+            notification.setMessage(instanceMessage);
+            notification.setNotificationType(notificationType);
+            notifications.add(notification);
         }
-        return kcNotifications;
+        
+        return notifications;
+    }
+    
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.common.notification.service.KcNotificationService#saveNotifications(java.util.List)
+     */
+    public void saveNotifications(List<KcNotification> notifications) {
+        getBusinessObjectService().save(notifications);
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.common.notification.service.KcNotificationService#getNotifications(java.lang.String, java.util.Set)
+     */
+    @SuppressWarnings("unchecked")
+    public List<KcNotification> getNotifications(String documentNumber, Set<String> actionCodes) {
+        List<KcNotification> notifications = new ArrayList<KcNotification>();
+        
+        for (String actionCode : actionCodes) {
+            Map<String, String> notificationTypeFieldValues = new HashMap<String, String>();
+            notificationTypeFieldValues.put(ACTION_CODE, actionCode);
+            Collection<NotificationType> notificationTypes = getBusinessObjectService().findMatching(NotificationType.class, notificationTypeFieldValues);
+            
+            for (NotificationType notificationType : notificationTypes) {
+                Map<String, String> notificationFieldValues = new HashMap<String, String>();
+                notificationFieldValues.put(NOTIFICATION_TYPE_ID, notificationType.getNotificationTypeId().toString());
+                notificationFieldValues.put(DOCUMENT_NUMBER, documentNumber);
+                notifications.addAll(getBusinessObjectService().findMatching(KcNotification.class, notificationFieldValues));
+            }
+        }
+        
+        return notifications;
     }
     
     public void sendNotifications(List<KcNotification> kcNotifications, NotificationContext context) {
@@ -92,7 +140,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
             notification.setContent("<content>" + kcNotification.getMessage() + "</content>");
             notification.setDeliveryType(NotificationConstants.DELIVERY_TYPES.FYI);
             
-            for (NotificationTypeRecipient roleRecipient : kcNotification.getNotificationTypeRecipients()) {
+            for (NotificationTypeRecipient roleRecipient : kcNotification.getNotificationType().getNotificationTypeRecipients()) {
                 try {
                     context.populateRoleQualifiers(roleRecipient);
                     notification.getRecipients().addAll(resolveRoleRecipients(roleRecipient, context));
@@ -150,12 +198,24 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         return recipients;
     }
 
-    public void setNotificationService(NotificationService notificationService) {
-        this.notificationService = notificationService;
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
     }
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    public NotificationService getNotificationService() {
+        return notificationService;
+    }
+
+    public void setNotificationService(NotificationService notificationService) {
+        this.notificationService = notificationService;
+    }
+
+    public RoleManagementService getRoleManagementService() {
+        return roleManagementService;
     }
 
     public void setRoleManagementService(RoleManagementService roleManagementService) {

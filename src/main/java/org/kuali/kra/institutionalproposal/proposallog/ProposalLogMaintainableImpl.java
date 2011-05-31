@@ -107,9 +107,9 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
         // We need to set this here so it's in the stored XML
         proposalLog.setUpdateTimestamp(getDateTimeService().getCurrentTimestamp());
         
-     // Notify the PI he has been added
+        // Notify the PI he has been added
         KcNotificationService kcNotificationService = KraServiceLocator.getService(KcNotificationService.class);
-        List<KcNotification> notifications = kcNotificationService.getNotifications("plp", this);
+        List<KcNotification> notifications = kcNotificationService.createNotifications(documentNumber, "plp", this);
         kcNotificationService.sendNotifications(notifications, this);
     }
     
