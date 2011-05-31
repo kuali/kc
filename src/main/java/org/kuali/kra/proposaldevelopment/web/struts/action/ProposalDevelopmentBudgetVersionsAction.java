@@ -254,60 +254,66 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
      * {@inheritDoc}
      */
     @Override
-    public ActionForward save(ActionMapping mapping,
-        ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
 
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pdDoc = pdForm.getDocument();
-        // check audit rules.  If there is error, then budget can't have complete status
+        // check audit rules. If there is error, then budget can't have complete status
         boolean valid = true;
-        
+
         if (!(new ProposalHierarcyActionHelper()).checkParentChildStatusMatch(pdDoc)) {
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
-      
+
         if (pdForm.isSaveAfterCopy()) {
-            final List<BudgetDocumentVersion> overviews
-                = pdForm.getDocument().getBudgetDocumentVersions();
+            final List<BudgetDocumentVersion> overviews = pdForm.getDocument().getBudgetDocumentVersions();
             final BudgetDocumentVersion copiedDocumentOverview = overviews.get(overviews.size() - 1);
             BudgetVersionOverview copiedOverview = copiedDocumentOverview.getBudgetVersionOverview();
             final String copiedName = copiedOverview.getDocumentDescription();
             copiedOverview.setDocumentDescription("copied placeholder");
             BufferedLogger.debug("validating ", copiedName);
-            valid = getBudgetService().isBudgetVersionNameValid(
-                pdForm.getDocument(), copiedName);
+            valid = getBudgetService().isBudgetVersionNameValid(pdForm.getDocument(), copiedName);
             copiedOverview.setDocumentDescription(copiedName);
             pdForm.setSaveAfterCopy(!valid);
         }
 
-//        if(pdForm.isAuditActivated()) {
-        // A Budget cannot be marked 'Complete' if there are outstanding Audit Errors 
-            valid &= getBudgetService().validateBudgetAuditRuleBeforeSaveBudgetVersion(
-                pdForm.getDocument());
-    
-            if (!valid) {
-                // set up error message to go to validate panel
-                final int errorBudgetVersion = this.getTentativeFinalBudgetVersion(pdForm);
-                if(errorBudgetVersion != -1) {
-                    GlobalVariables.getErrorMap().putError("document.budgetDocumentVersion[" + (errorBudgetVersion-1) 
-                    		+"].budgetVersionOverview.budgetStatus",
+        // if(pdForm.isAuditActivated()) {
+        // A Budget cannot be marked 'Complete' if there are outstanding Audit Errors
+        valid &= getBudgetService().validateBudgetAuditRuleBeforeSaveBudgetVersion(pdForm.getDocument());
+
+        if (!valid) {
+            // set up error message to go to validate panel
+            final int errorBudgetVersion = this.getTentativeFinalBudgetVersion(pdForm);
+            if (errorBudgetVersion != -1) {
+                GlobalVariables.getErrorMap().putError(
+                        "document.budgetDocumentVersion[" + (errorBudgetVersion - 1) + "].budgetVersionOverview.budgetStatus",
                         KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
-                }
-                return mapping.findForward(Constants.MAPPING_BASIC);
             }
-//        }
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+        // }
 
         this.setBudgetParentStatus(pdForm.getDocument());
-        //this.setBudgetStatuses(pdForm.getDocument());
+        // this.setBudgetStatuses(pdForm.getDocument());
         final ActionForward forward = super.save(mapping, form, request, response);
-            
-            //Need to facilitate releasing the Budget locks if user is redirected to Actions page
-            if(forward != null && forward.getName().equalsIgnoreCase("actions")) {
-                pdForm.setMethodToCall("actions");
+
+        // Need to facilitate releasing the Budget locks if user is redirected to Actions page
+        if (forward != null && forward.getName().equalsIgnoreCase("actions")) {
+            pdForm.setMethodToCall("actions");
+            /**
+             * If we are in audit mode, when we get redirected back to the actions tab, there was error in that the error
+             * messages weren't being displayed correctly.  Clearing the AuditErrorMap "fixes" this problem. KRACOEUS-4746.
+             */
+            if (pdForm.isAuditActivated()) {
+                GlobalVariables.getAuditErrorMap().clear();
             }
-            
-            return forward;
+        }
+
+        return forward;
     }
+    
+    
     private int getTentativeFinalBudgetVersion(ProposalDevelopmentForm pdForm) {
         if(pdForm.getFinalBudgetVersion() != null) {
             return pdForm.getFinalBudgetVersion().intValue();
