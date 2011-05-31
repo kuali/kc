@@ -21,9 +21,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.common.notification.NotificationContext;
 import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.common.notification.bo.NotificationType;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
+import org.kuali.kra.common.notification.exception.UnknownRoleException;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.rice.ken.bo.Notification;
 import org.kuali.rice.ken.bo.NotificationChannel;
@@ -36,35 +40,38 @@ import org.kuali.rice.ken.util.NotificationConstants;
 import org.kuali.rice.kim.bo.role.dto.KimRoleInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class KcNotificationServiceImpl implements KcNotificationService {
     
+    protected NotificationChannel kcNotificationChannel;
+    protected NotificationProducer systemNotificationProducer;
+    
+    private static final Log LOG = LogFactory.getLog(KcNotificationServiceImpl.class);
+    
     private BusinessObjectService businessObjectService;
     private NotificationService notificationService;
     private RoleManagementService roleManagementService;
     
-    protected NotificationChannel kcNotificationChannel;
-    protected NotificationProducer systemNotificationProducer;
-    
-    public List<KcNotification> getNotifications(String actionCode) {
+    public List<KcNotification> getNotifications(String actionCode, NotificationContext context) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("actionCode", actionCode);
         Collection<NotificationType> notificationTypes = businessObjectService.findMatching(NotificationType.class, fieldValues);
         List<KcNotification> kcNotifications = new ArrayList<KcNotification>();
         for (NotificationType notificationType : notificationTypes) {
             KcNotification notification = new KcNotification();
-            notification.setMessage(notificationType.getMessage());
-            notification.setSubject(notificationType.getSubject());
+            String instanceMessage = context.replaceContextVariables(notificationType.getMessage());
+            notification.setMessage(instanceMessage);
+            String instanceSubject = context.replaceContextVariables(notificationType.getSubject());
+            notification.setSubject(instanceSubject);
             notification.setNotificationTypeRecipients(notificationType.getNotificationTypeRecipients());
             kcNotifications.add(notification);
         }
         return kcNotifications;
     }
     
-    public void sendNotifications(List<KcNotification> kcNotifications) {
+    public void sendNotifications(List<KcNotification> kcNotifications, NotificationContext context) {
         
         List<Notification> notifications = new ArrayList<Notification>();
         for (KcNotification kcNotification : kcNotifications) {
@@ -86,7 +93,14 @@ public class KcNotificationServiceImpl implements KcNotificationService {
             notification.setDeliveryType(NotificationConstants.DELIVERY_TYPES.FYI);
             
             for (NotificationTypeRecipient roleRecipient : kcNotification.getNotificationTypeRecipients()) {
-                notification.getRecipients().addAll(resolveRoleRecipients(roleRecipient));
+                try {
+                    context.populateRoleQualifiers(roleRecipient);
+                    notification.getRecipients().addAll(resolveRoleRecipients(roleRecipient, context));
+                } catch (UnknownRoleException e) {
+                    LOG.error("Role id " + e.getRoleId() + " not recognized for context " + e.getContext() + ". " +
+                    		"Notification will not be sent for notificationTypeRecipient" + roleRecipient.toString());
+                    e.printStackTrace();
+                }
             }
             
             notifications.add(notification);
@@ -95,7 +109,6 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         for (Notification notification : notifications) {
             notificationService.sendNotification(notification);
         }
-    
     }
     
     protected NotificationProducer getSystemNotificationProducer() {
@@ -119,10 +132,9 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         return kcNotificationChannel;
     }
     
-    protected List<NotificationRecipient> resolveRoleRecipients(NotificationTypeRecipient roleRecipient) {
+    protected List<NotificationRecipient> resolveRoleRecipients(NotificationTypeRecipient roleRecipient, NotificationContext context) {
         List<NotificationRecipient> recipients = new ArrayList<NotificationRecipient>();
         KimRoleInfo role = roleManagementService.getRole(roleRecipient.getRoleId());
-        // TODO Some error handling if the role is not found
         
         AttributeSet qualification = new AttributeSet();
         qualification.put(roleRecipient.getRoleQualifier(), roleRecipient.getQualifierValue());
