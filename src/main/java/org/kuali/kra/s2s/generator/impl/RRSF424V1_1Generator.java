@@ -90,7 +90,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 	 * @return rrSF424Document {@link XmlObject} of type RRSF424Document.
 	 */
 	private RRSF424Document getRRSF424() {
-		DevelopmentProposal devProp = pdDoc.getDevelopmentProposal();
+        DevelopmentProposal devProp = pdDoc.getDevelopmentProposal();
 
 		RRSF424Document rrSF424Document = RRSF424Document.Factory.newInstance();
 		RRSF424 rrsf424 = RRSF424.Factory.newInstance();
@@ -152,45 +152,45 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
                }
            rrsf424.setLocation(state);
         }
-		rrsf424.setProposedProjectPeriod(getProjectPeriod());
-		rrsf424.setCongressionalDistrict(getCongDistrict());
-		rrsf424.setPDPIContactInfo(getPDPI());
-		try {
-			rrsf424.setEstimatedProjectFunding(getProjectFunding());
-		} catch (S2SException e) {
-			LOG.error(e.getMessage(), e);
-			return rrSF424Document;
-		}
-		rrsf424.setStateReview(getStateReview());
-		// Value is hardcoded
-		rrsf424.setTrustAgree(YesNoDataType.Y_YES);
-		rrsf424.setAORInfo(getAORInfoType());
-		for (Narrative narrative : devProp.getNarratives()) {
+        rrsf424.setProposedProjectPeriod(getProjectPeriod());
+        rrsf424.setCongressionalDistrict(getCongDistrict());
+        rrsf424.setPDPIContactInfo(getPDPI());
+        try {
+            rrsf424.setEstimatedProjectFunding(getProjectFunding());
+        } catch (S2SException e) {
+            LOG.error(e.getMessage(), e);
+            return rrSF424Document;
+        }
+        rrsf424.setStateReview(getStateReview());
+        // Value is hardcoded
+        rrsf424.setTrustAgree(YesNoDataType.Y_YES);
+        rrsf424.setAORInfo(getAORInfoType());
+        for (Narrative narrative : devProp.getNarratives()) {
             AttachedFileDataType attachedFileDataType=null;
-		    switch(Integer.parseInt(narrative.getNarrativeTypeCode())){
-		        case(PRE_APPLICATION):
-		            attachedFileDataType = getAttachedFileType(narrative);
+            switch(Integer.parseInt(narrative.getNarrativeTypeCode())){
+                case(PRE_APPLICATION):
+                    attachedFileDataType = getAttachedFileType(narrative);
                     if(attachedFileDataType!=null) {
                         rrsf424.setPreApplicationAttachment(attachedFileDataType);
                     }
-		            break;
-		        case(ADDITIONAL_CONGRESSIONAL_DESTRICT):
-		            attachedFileDataType = getAttachedFileType(narrative);
-		            if(attachedFileDataType!=null) {
-		                rrsf424.setAdditionalCongressionalDistricts(attachedFileDataType);
-		            }
-		            break;
-		    }
-		}
-		if (departmentalPerson != null) {
-			rrsf424.setAORSignature(departmentalPerson.getFullName());
-		} else {
-			rrsf424.setAORSignature("");
-		}
-		rrsf424.setAORSignedDate(s2sUtilService.getCurrentCalendar());
-		rrSF424Document.setRRSF424(rrsf424);
-		return rrSF424Document;
-	}
+                    break;
+                case(ADDITIONAL_CONGRESSIONAL_DESTRICT):
+                    attachedFileDataType = getAttachedFileType(narrative);
+                    if(attachedFileDataType!=null) {
+                        rrsf424.setAdditionalCongressionalDistricts(attachedFileDataType);
+                    }
+                    break;
+            }
+        }
+        if (departmentalPerson != null) {
+            rrsf424.setAORSignature(departmentalPerson.getFullName());
+        } else {
+            rrsf424.setAORSignature("");
+        }
+        rrsf424.setAORSignedDate(s2sUtilService.getCurrentCalendar());
+        rrSF424Document.setRRSF424(rrsf424);
+        return rrSF424Document;
+    }
 
 	/**
 	 * 

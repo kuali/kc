@@ -69,6 +69,7 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
 	protected static final int ARRAY_LIMIT_IN_SCHEMA = 4;
 	protected static final String SPONSOR_GROUPS = "SPONSOR GROUPS";
 	protected static final String NID_PD_PI = "PD/PI";
+	protected static final String NID_CO_PD_PI = "CO-INVESTIGATOR";		
 	protected static final String KEYPERSON_CO_PD_PI = "CO-PD/PI";
 	
 	private static final String EXTRA_KEYPERSONS = "EXTRA_KEYPERSONS";

@@ -6411,22 +6411,7 @@ or ( ../PrintRequirement/SubcontractRequired  = 1  and  starts-with(  AwardDetai
 																											</xsl:choose>
 																										</xsl:for-each>
 																									</fo:block>
-																								</fo:table-cell>
-																								<fo:table-cell font-size="9pt"
-																									padding-bottom="0" padding-top="0" padding="2pt"
-																									display-align="before">
-																									<fo:block>
-																										<xsl:for-each select="UnderRecoveryAmount">
-																											<fo:inline>
-																												<xsl:text>$</xsl:text>
-																											</fo:inline>
-																											<fo:inline>
-																												<xsl:value-of
-																													select="format-number(number(string(.)), '#,###,###,##0.00')" />
-																											</fo:inline>
-																										</xsl:for-each>
-																									</fo:block>
-																								</fo:table-cell>
+																								</fo:table-cell>																								
 																								<fo:table-cell padding-bottom="0"
 																									padding-top="0" padding="2pt" display-align="before">
 																									<fo:block>
@@ -6494,6 +6479,21 @@ or ( ../PrintRequirement/SubcontractRequired  = 1  and  starts-with(  AwardDetai
 																													</xsl:choose>
 																												</fo:block>
 																											</fo:block>
+																										</xsl:for-each>
+																									</fo:block>
+																								</fo:table-cell>
+																								<fo:table-cell font-size="9pt"
+																									padding-bottom="0" padding-top="0" padding="2pt"
+																									display-align="before">
+																									<fo:block>
+																										<xsl:for-each select="UnderRecoveryAmount">
+																											<fo:inline>
+																												<xsl:text>$</xsl:text>
+																											</fo:inline>
+																											<fo:inline>
+																												<xsl:value-of
+																													select="format-number(number(string(.)), '#,###,###,##0.00')" />
+																											</fo:inline>
 																										</xsl:for-each>
 																									</fo:block>
 																								</fo:table-cell>
