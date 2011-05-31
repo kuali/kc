@@ -18,7 +18,9 @@ package org.kuali.kra.common.notification.bo;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * This class represents a document-specific instance of a Notification Type.
+ */
 public class KcNotification {
     
     private String subject;
