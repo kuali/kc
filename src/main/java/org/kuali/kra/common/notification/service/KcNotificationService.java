@@ -16,25 +16,40 @@
 package org.kuali.kra.common.notification.service;
 
 import java.util.List;
+import java.util.Set;
 
 import org.kuali.kra.common.notification.NotificationContext;
 import org.kuali.kra.common.notification.bo.KcNotification;
 
-/**
- * API for processing and sending KC Notifications.
- */
 public interface KcNotificationService {
     
     /**
-     * Get a list of KC Notifications based on an Action Code and Notification Context.
+     * Creates a list of KC Notifications based on an Action Code and Notification Context.
      * The Notification Types associated with the Action Code will be retrieved from persistent storage,
      * and translated into context-specific KC Notification instances based on the Notification Context.
      * 
+     * @param documentNumber
      * @param actionCode
      * @param notificationContext
      * @return The list of KC Notifications
      */
-    List<KcNotification> getNotifications(String actionCode, NotificationContext notificationContext);
+    List<KcNotification> createNotifications(String documentNumber, String actionCode, NotificationContext notificationContext);
+    
+    /**
+     * Saves a list of KC Notifications.
+     * 
+     * @param notifications
+     */
+    void saveNotifications(List<KcNotification> notifications);
+    
+    /**
+     * Retrieves a list of KC Notifications based on a Document Number and a set of Action Codes.
+     * 
+     * @param documentNumber
+     * @param actionCodes
+     * @return The list of KC Notifications
+     */
+    List<KcNotification> getNotifications(String documentNumber, Set<String> actionCodes);
     
     /**
      * Send the list of KC Notifications. The context is needed to populate context-specific role qualifiers
