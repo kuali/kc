@@ -15,37 +15,52 @@
  */
 package org.kuali.kra.common.notification.bo;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashMap;
 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 /**
- * This class represents a document-specific instance of a Notification Type.
+ * Defines a document-specific instance of a Notification Type.
  */
-public class KcNotification {
+public class KcNotification extends KraPersistableBusinessObjectBase {
+
+    private static final long serialVersionUID = 8649080269418978865L;
     
+    private Long notificationId;
+    private Long notificationTypeId;
+    private String documentNumber;
     private String subject;
     private String message;
-    private List<NotificationTypeRecipient> notificationTypeRecipients;
     
-    public List<NotificationTypeRecipient> getNotificationTypeRecipients() {
-        return notificationTypeRecipients;
+    private NotificationType notificationType;
+
+    public Long getNotificationId() {
+        return notificationId;
     }
 
-    public void setNotificationTypeRecipients(List<NotificationTypeRecipient> notificationTypeRecipients) {
-        this.notificationTypeRecipients = notificationTypeRecipients;
+    public void setNotificationId(Long notificationId) {
+        this.notificationId = notificationId;
     }
 
-    public KcNotification() {
-        init();
+    public Long getNotificationTypeId() {
+        return notificationTypeId;
+    }
+
+    public void setNotificationTypeId(Long notificationTypeId) {
+        this.notificationTypeId = notificationTypeId;
     }
     
-    protected void init() {
-        this.setNotificationTypeRecipients(new ArrayList<NotificationTypeRecipient>());
+    public String getDocumentNumber() {
+        return documentNumber;
     }
     
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
+    }
+
     public String getSubject() {
         return subject;
     }
+    
     public void setSubject(String subject) {
         this.subject = subject;
     }
@@ -53,8 +68,27 @@ public class KcNotification {
     public String getMessage() {
         return message;
     }
+    
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public NotificationType getNotificationType() {
+        return notificationType;
+    }
+
+    public void setNotificationType(NotificationType notificationType) {
+        this.notificationType = notificationType;
+    }
+
+    @Override
+    protected LinkedHashMap<String, Object> toStringMapper() {
+        LinkedHashMap<String, Object> propMap = new LinkedHashMap<String, Object>();
+        propMap.put("notificationId", getNotificationId());
+        propMap.put("notificationTypeId", getNotificationTypeId());
+        propMap.put("subject", getSubject());
+        propMap.put("message", getMessage());
+        return propMap;
     }
     
 }
