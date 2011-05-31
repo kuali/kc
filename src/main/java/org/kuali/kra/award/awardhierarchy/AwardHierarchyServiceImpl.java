@@ -82,6 +82,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         AwardHierarchy newRootNode = createBasicHierarchy(newRootAwardNumber);
         Award newRootAward = copyAward(targetNode.getAward(), newRootAwardNumber);
         newRootNode.setAward(newRootAward);
+        finalizeAward(newRootAward);
         for(AwardHierarchy childNode: targetNode.getChildren()) {
             copyNodeRecursively(childNode, newRootNode, newRootNode);
         }
