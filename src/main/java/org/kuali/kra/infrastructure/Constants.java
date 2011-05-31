@@ -43,9 +43,12 @@ public interface Constants {
     public static final String MULTIPLE_VALUE = "multipleValues";
     public static final String KEYWORD_PANEL_DISPLAY = "proposaldevelopment.displayKeywordPanel";
     public static final String BIOSKETCH_ATTACHMENT_TYPE_CODE = "1";
+
     public static final int PHS_RESTRAININGPLAN_PILEADERSHIPPLAN_ATTACHMENT=121;
     public static final int PHS_RESEARCHPLAN_MULTIPLEPILEADERSHIPPLAN=46;
     public static final int MENTORING_PLAN_ATTACHMENT_TYPE_CODE=8;
+    public static final String MENTORING_PLAN_ATTACHMENT="mentoringplan.pdf";
+
 
     public static final String MAPPING_BASIC = "basic";
     public static final String MAPPING_ERROR = "error";
@@ -516,6 +519,8 @@ public interface Constants {
     public static final String PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION = "IRB_COMM_SELECTION_DURING_SUBMISSION";
     public static final String PARAMETER_IRB_DISPLAY_REVIEWER_NAME = "IRB_DISPLAY_REVIEWER_NAME";
     public static final String PARAMETER_IRB_DISPLAY_REVIEWER_NAME_TO_PROTOCOL_PERSONNEL = "IRB_DISPLAY_REVIEWER_NAME_TO_PROTOCOL_PERSONNEL";
+    public static final String PARAMETER_IRB_DISPLAY_REVIEWER_NAME_TO_PI = "IRB_DISPLAY_REVIEWER_NAME_TO_PI";
+    public static final String PARAMETER_IRB_DISPLAY_REVIEWER_NAME_TO_OTHER_PROTOCOL_PERSONNEL = "IRB_DISPLAY_REVIEWER_NAME_TO_OTHER_PROTOCOL_PERSONNEL";
     public static final String PARAMETER_IRB_DISPLAY_REVIEWER_NAME_TO_REVIEWERS = "IRB_DISPLAY_REVIEWER_NAME_TO_REVIEWERS";
     public static final String PARAMETER_IRB_DISPLAY_REVIEWER_NAME_TO_ACTIVE_COMMITTEE_MEMBERS = "IRB_DISPLAY_REVIEWER_NAME_TO_ACTIVE_COMMITTEE_MEMBERS";
     

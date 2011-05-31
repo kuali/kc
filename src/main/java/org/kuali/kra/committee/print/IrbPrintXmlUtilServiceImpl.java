@@ -16,22 +16,34 @@
 package org.kuali.kra.committee.print;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem;
 import org.kuali.kra.irb.actions.submit.ProtocolExpeditedReviewCheckListItem;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.personnel.ProtocolPersonRolodex;
 import org.kuali.kra.meeting.CommScheduleActItem;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
+import org.kuali.rice.kim.service.RoleManagementService;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.kim.service.RoleManagementService;
+import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.GlobalVariables;
+
+
 
 import edu.mit.irb.irbnamespace.InvestigatorDocument.Investigator;
 import edu.mit.irb.irbnamespace.MinutesDocument.Minutes;
@@ -237,7 +249,10 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
                 if (protocol.getProtocolNumber().equals(protocolSubmission.getProtocolNumber())
                         && protocol.getProtocolSubmission() != null
                         && protocol.getProtocolSubmission().getSubmissionNumber().equals(protocolSubmission.getSubmissionNumber())) {
-                    addMinute(committeeSchedule, minuteEntryInfoBean, protocolSubmissionType.addNewMinutes());
+                    if (getReviewerCommentsView(minuteEntryInfoBean)){
+                        addMinute(committeeSchedule, minuteEntryInfoBean, protocolSubmissionType.addNewMinutes());
+                    }
+                    
                 }
             }
         }
@@ -252,12 +267,67 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
                 if (protocol.getProtocolNumber().equals(protocolSubmission.getProtocolNumber())
                         && protocol.getProtocolSubmission() != null
                         && protocol.getProtocolSubmission().getSubmissionNumber().equals(protocolSubmission.getSubmissionNumber())) {
-                    addMinute(committeeSchedule, minuteEntryInfoBean, submissionsType.addNewMinutes());
+                    if (getReviewerCommentsView(minuteEntryInfoBean)){
+                        addMinute(committeeSchedule, minuteEntryInfoBean, submissionsType.addNewMinutes());
+                    }
+                    
                 }
             }
         }
     }
-
+    /**
+     * Returns whether the current user can view this comment.
+     * 
+     * This is true either if 
+     *   1) The current user has the role IRB Administrator
+     *   2) The current user does not have the role IRB Administrator, but the current user is the comment creator
+     *   3) The current user does not have the role IRB Administrator, the current user is not the comment creator, but the comment is public and final
+     * @param CommitteeScheduleMinute minute
+    *  @return whether the current user can view this comment
+    */
+    public boolean getReviewerCommentsView(CommitteeScheduleMinute minute) {
+        String principalId = GlobalVariables.getUserSession().getPrincipalId();
+        String principalName = GlobalVariables.getUserSession().getPrincipalName();
+        return isIrbAdministrator(principalId) || StringUtils.equals(principalName, minute.getCreateUser()) || (isReviewer(minute,principalId)&& minute.isFinalFlag()) || (!minute.getPrivateCommentFlag()&& minute.isFinalFlag());
+    }
+    
+    private boolean isIrbAdministrator(String principalId) {
+        RoleService roleService = KraServiceLocator.getService(RoleManagementService.class);
+        Collection<String> ids = roleService.getRoleMemberPrincipalIds(RoleConstants.DEPARTMENT_ROLE_TYPE, RoleConstants.IRB_ADMINISTRATOR, null);
+        return ids.contains(principalId);
+    }
+    
+    private boolean isReviewer(CommitteeScheduleMinute reviewComment, String principalId) {
+        List<String> reviewerIds = getProtocolReviewerIds(reviewComment);
+        return !reviewerIds.isEmpty() && reviewerIds.contains(principalId);
+    }
+    
+   
+    /*
+     * get the reviewer ids for this submission
+     */
+    private List<String> getProtocolReviewerIds(CommitteeScheduleMinute reviewComment) {
+        List<String> reviewerIds = new ArrayList<String>();
+        if (reviewComment.getProtocolId() != null) {
+            // TODO : need to check if the submission number is ok to get this way
+            reviewerIds = getProtocolReviewerIds(reviewComment.getProtocolId(), reviewComment.getProtocol().getProtocolSubmission().getSubmissionNumber());
+        }
+        return reviewerIds;
+    }
+    /*
+     * retrieve reviewer ids from db based on protocolid and submissionnumber
+     */
+    private List<String> getProtocolReviewerIds(Long protocolId, int submissionNumber) {
+        Map fieldValues = new HashMap();
+        fieldValues.put("protocolIdFk", protocolId);
+        fieldValues.put("submissionNumber", submissionNumber);
+        List<String> reviewerPersonIds = new ArrayList<String>();
+        for (ProtocolReviewer reviewer : (List<ProtocolReviewer>)businessObjectService.findMatching(ProtocolReviewer.class, fieldValues)) {
+            reviewerPersonIds.add(reviewer.getPersonId());
+        }
+        return reviewerPersonIds;
+        
+    }
     /**
      * Sets the businessObjectService attribute value.
      * 

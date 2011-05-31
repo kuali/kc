@@ -58,10 +58,17 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule  implements Documen
              }
              i++;
             }
-            if(getSponsorService().isSponsorNihMultiplePi(proposalDevelopmentDocument.getDevelopmentProposal())){
-                boolean attachment = true;                 
+            if(getSponsorService().isSponsorNihMultiplePi(proposalDevelopmentDocument.getDevelopmentProposal())
+                    && proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity() != null){
+                boolean attachment = false;   
+                boolean hasPI= false;
+                
                 for( ProposalPerson proposalPerson: proposalDevelopmentDocument.getDevelopmentProposal().getInvestigators()){
+                    if(proposalPerson.getProposalPersonRoleId().equals(Constants.PRINCIPAL_INVESTIGATOR_ROLE))
+                        hasPI=true;
                     if(proposalPerson.isMultiplePi()){  
+                        attachment = true;
+                       
                         for (Narrative narrative : proposalDevelopmentDocument.getDevelopmentProposal().getNarratives()) {                                       
                              if(narrative.getNarrativeTypeCode() != null 
                                      &&  Integer.parseInt(narrative.getNarrativeTypeCode()) == Constants.PHS_RESTRAININGPLAN_PILEADERSHIPPLAN_ATTACHMENT
@@ -72,7 +79,7 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule  implements Documen
                          }
                     }
                 }   
-                if(attachment) {
+                if(attachment && hasPI) {
                     valid=false;
                     auditErrors.add(new AuditError("document.developmentProposalList[0].narrative", KeyConstants.ERROR_PROPOSAL_ATTACHMENT_NOT_FOUND, Constants.ATTACHMENTS_PAGE));
                 }
@@ -90,14 +97,15 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule  implements Documen
                 bdDoc = KraServiceLocator.getService(
                         S2SBudgetCalculatorService.class).getFinalBudgetVersion(
                         proposalDevelopmentDocument); 
-                
+                if(bdDoc != null && bdDoc.getBudget() != null 
+                        && bdDoc.getBudget().getBudgetPeriods() != null)
                 for (BudgetPeriod budgetPeriod : bdDoc.getBudget().getBudgetPeriods()){                   
                     for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()){
                         if(budgetLineItem.getCostElement().equals(budgetCostElement)){                       
                             for (Narrative narrative : proposalDevelopmentDocument.getDevelopmentProposal().getNarratives()) { 
                                 if(narrative.getNarrativeTypeCode() != null 
                                         &&  Integer.parseInt(narrative.getNarrativeTypeCode()) == Constants.MENTORING_PLAN_ATTACHMENT_TYPE_CODE
-                                        &&  narrative.getName().equalsIgnoreCase("mentoringplan.pdf")){                                   
+                                        &&  narrative.getName().equalsIgnoreCase(Constants.MENTORING_PLAN_ATTACHMENT)){                                   
                                     attachment=false;
                                     break;
                                 }
@@ -113,8 +121,7 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule  implements Documen
                 }    
             } 
             catch (Exception e) {
-                LOG.error("Unknown error while validating budget data", e);
-                e.printStackTrace();
+                LOG.error("Unknown error while validating budget data", e); 
             }
             
             if (auditErrors.size() > 0) {

@@ -58,6 +58,18 @@ public interface ReviewCommentsService {
     List<CommitteeScheduleMinute> getReviewerComments(String protocolNumber, int submissionNumber);
     
     /**
+     *     
+      * This method is to check whether the current user can view this comment.
+      * This is true either if 
+      *   1) The current user has the role IRB Administrator
+      *   2) The current user does not have the role IRB Administrator, but the current user is the comment creator
+      *   3) The current user does not have the role IRB Administrator, the current user is not the comment creator, but the comment is public and final
+      * @param CommitteeScheduleMinute minute
+     *  @return whether the current user can view this comment
+     */
+    boolean getReviewerCommentsView(CommitteeScheduleMinute minute);
+    
+    /**
      * 
      * This method is to get a list or protocol reviewers for this submission.
      * @param protocolNumber
