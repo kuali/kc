@@ -34,6 +34,7 @@ import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -47,6 +48,7 @@ import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.MinuteEntryType;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -142,7 +144,9 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
                     String minuteEntryTypeCode = minute.getMinuteEntryTypeCode();
                     // need to check current minute entry; otherwise may have minutes from previous version comittee
                     if ((MinuteEntryType.PROTOCOL.equals(minuteEntryTypeCode) || MinuteEntryType.PROTOCOL_REVIEWER_COMMENT.equals(minuteEntryTypeCode)) && isCurrentMinuteEntry(minute)) {
-                        reviewComments.add(minute);
+                        if(getReviewerCommentsView(minute)){
+                            reviewComments.add(minute);
+                        }
                     }
                 }
             }
@@ -280,6 +284,29 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
         }
     }
     
+    
+    /**
+     * Returns whether the current user can view this comment.
+     * 
+     * This is true either if 
+     *   1) The current user has the role IRB Administrator
+     *   2) The current user does not have the role IRB Administrator, but the current user is the comment creator
+     *   3) The current user does not have the role IRB Administrator, the current user is not the comment creator, but the comment is public and final
+     * @param CommitteeScheduleMinute minute
+    *  @return whether the current user can view this comment
+    */
+   public boolean getReviewerCommentsView(CommitteeScheduleMinute minute) {
+       String principalId = GlobalVariables.getUserSession().getPrincipalId();
+       String principalName = GlobalVariables.getUserSession().getPrincipalName();
+       return isIrbAdministrator(principalId) || StringUtils.equals(principalName, minute.getCreateUser()) || (!minute.getPrivateCommentFlag() && minute.isFinalFlag());
+   }
+   
+   private boolean isIrbAdministrator(String principalId) {
+       RoleService roleService = KraServiceLocator.getService(RoleManagementService.class);
+       Collection<String> ids = roleService.getRoleMemberPrincipalIds(RoleConstants.DEPARTMENT_ROLE_TYPE, RoleConstants.IRB_ADMINISTRATOR, null);
+       return ids.contains(principalId);
+   }
+  
     /**
      * Returns the index of the review comment just after to the one at index, where both of the review comments are in the same protocol.
      * 
@@ -667,5 +694,7 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
     public void setDisplayReviewerNameToActiveMembers(boolean displayReviewerNameToActiveMembers) {
         this.displayReviewerNameToActiveMembers = displayReviewerNameToActiveMembers;
     }
+
+   
 
 }

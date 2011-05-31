@@ -665,13 +665,13 @@ public class PHS398FellowshipSupplementalV1_2Generator extends
 	 * AdditionalInformation XMLObject from DevelopmentProposal, ProposalYnq
 	 */
 	private AdditionalInformation getAdditionalInformation() {
-		AdditionalInformation additionalInformation = AdditionalInformation.Factory.newInstance();
-		StemCells stemCells = StemCells.Factory.newInstance();
+        AdditionalInformation additionalInformation = AdditionalInformation.Factory.newInstance();
+        StemCells stemCells = StemCells.Factory.newInstance();
         additionalInformation.setAlernatePhoneNumber("None");
-		GraduateDegreeSought graduateDegreeSought = GraduateDegreeSought.Factory.newInstance();
-		boolean setGradDegree = false;
-		ArrayList<String> cellLinesList = new ArrayList<String>(Arrays.asList(stemCells.getCellLinesArray())); 
-       	additionalInformation.setConcurrentSupport(YesNoDataType.N_NO);  // default
+        GraduateDegreeSought graduateDegreeSought = GraduateDegreeSought.Factory.newInstance();
+        boolean setGradDegree = false;
+        ArrayList<String> cellLinesList = new ArrayList<String>(Arrays.asList(stemCells.getCellLinesArray())); 
+        additionalInformation.setConcurrentSupport(YesNoDataType.N_NO);  // default
         additionalInformation.setCurrentPriorNRSASupportIndicator(YesNoDataType.N_NO);
 		ProposalPerson principalInvestigator = s2sUtilService.getPrincipalInvestigator(pdDoc);
 		for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal()
@@ -705,36 +705,36 @@ public class PHS398FellowshipSupplementalV1_2Generator extends
 		        String answer = answerBO.getAnswer();
 		        Question question = questionnaireQuestion.getQuestion();	
 
-		        if(question.getQuestionId().equals(Q_STEMCELLLINES)){		            
-		            List<Answer> answerList=getAnswers(questionnaireQuestion,answerHeader);		                
+                if(question.getQuestionId().equals(Q_STEMCELLLINES)){                   
+                    List<Answer> answerList=getAnswers(questionnaireQuestion,answerHeader);                     
                          for (Answer questionnaireAnswerBO: answerList) {
                              String questionnaireAnswer=questionnaireAnswerBO.getAnswer();
                              if(questionnaireAnswer!=null)
                                cellLinesList.add(questionnaireAnswer);
                          }   
-		         }	    
-		         if (answer != null){
-		            switch (question.getQuestionId()) {
-		                case Q_STEMCELLS:
-		                    stemCells.setIsHumanStemCellsInvolved(answer.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)  
-		                                ? YesNoDataType.Y_YES
-	                                    : YesNoDataType.N_NO);
-		                    break;
-		                case Q_STEMCELLIND:
-		                    // NOTE: the following indicator is set backwards, i.e. question answered yes 
-		                    // gets set in form as No.  (Different wording of questions....) 
+                 }      
+                 if (answer != null){
+                    switch (question.getQuestionId()) {
+                        case Q_STEMCELLS:
+                            stemCells.setIsHumanStemCellsInvolved(answer.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)  
+                                        ? YesNoDataType.Y_YES
+                                        : YesNoDataType.N_NO);
+                            break;
+                        case Q_STEMCELLIND:
+                            // NOTE: the following indicator is set backwards, i.e. question answered yes 
+                            // gets set in form as No.  (Different wording of questions....) 
                             stemCells.setStemCellsIndicator(answer.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y) 
                                         ? YesNoDataType.N_NO
                                         : YesNoDataType.Y_YES);
-		                    break;
-		                case Q_DEGREE_SOUGHT:
-		                    setGradDegree = answer.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y);
                             break;
-		                case Q_DEGREE_DATE:
+                        case Q_DEGREE_SOUGHT:
+                            setGradDegree = answer.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y);
+                            break;
+                        case Q_DEGREE_DATE:
                             String temp = answer.substring(0,3) + answer.substring(6);  
-		                    graduateDegreeSought.setDegreeDate(temp);  // use just month and year
+                            graduateDegreeSought.setDegreeDate(temp);  // use just month and year
                             break;
-		                case Q_DEGREE_TYPE:
+                        case Q_DEGREE_TYPE:
                         case Q_DEGREE_TYPE2:
                             DegreeTypeDataType.Enum degreeSought = null;
                             try {
@@ -747,96 +747,96 @@ public class PHS398FellowshipSupplementalV1_2Generator extends
                                 // problem converting, so don't set degree type in form
                                 setGradDegree = false;
                             } else {
-		                        graduateDegreeSought.setDegreeType(degreeSought);
-		                        graduateDegreeSought.setOtherDegreeTypeText(answer);
+                                graduateDegreeSought.setDegreeType(degreeSought);
+                                graduateDegreeSought.setOtherDegreeTypeText(answer);
                             }
                             break;
-		                case Q_FIELD_OF_TRAINING:
-		                    FieldOfTrainingDataType.Enum fieldOfTraining = null;
-		                    try {
-		                        fieldOfTraining = fieldOfTraining.forString(answer);
-		                    } catch (Exception e) {
-		                    }
-		                    if (fieldOfTraining == null) {
-		                        fieldOfTraining = FieldOfTrainingDataType.X_8000_OTHER_PREDOMINANTLY_CLINICAL_RESEARCH_TRAINING;
-		                    }
-		                    additionalInformation.setFieldOfTraining(fieldOfTraining);
-		                    break;
+                        case Q_FIELD_OF_TRAINING:
+                            FieldOfTrainingDataType.Enum fieldOfTraining = null;
+                            try {
+                                fieldOfTraining = fieldOfTraining.forString(answer);
+                            } catch (Exception e) {
+                            }
+                            if (fieldOfTraining == null) {
+                                fieldOfTraining = FieldOfTrainingDataType.X_8000_OTHER_PREDOMINANTLY_CLINICAL_RESEARCH_TRAINING;
+                            }
+                            additionalInformation.setFieldOfTraining(fieldOfTraining);
+                            break;
                         case Q_CUR_PRIOR_NRSA:
                             additionalInformation.setCurrentPriorNRSASupportIndicator(answer.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y) 
                                         ? YesNoDataType.Y_YES
                                         : YesNoDataType.N_NO);
                             break;
                         case FORMER_INST:
-                        		additionalInformation.setFormerInstitution(answer);
-		                default:
-		                    break;
-	                    }
-	             }  //switch question id
-	        }   //for num questions
-		}
-		stemCells.setCellLinesArray((String[]) cellLinesList.toArray(new String[0]));
-		additionalInformation.setStemCells(stemCells);
-		if (setGradDegree) {
-		    additionalInformation.setGraduateDegreeSought(graduateDegreeSought);
-		}
-		additionalInformation.setCurrentPriorNRSASupportArray(getCurrentPriorNRSASupportArray());
-		additionalInformation.setConcurrentSupport(YesNoDataType.N_NO);
-		AttachedFileDataType attachedFileDataType = null;
-		for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-			if (narrative.getNarrativeTypeCode() != null) {
-				switch (Integer.parseInt(narrative.getNarrativeTypeCode())) {
-				case CONCURRENT_SUPPORT:
-	                attachedFileDataType = getAttachedFileType(narrative);
-	                if(attachedFileDataType == null){
-	                    continue;
-	                }
-					ConcurrentSupportDescription concurrentSupportDescription = ConcurrentSupportDescription.Factory
-							.newInstance();
-					concurrentSupportDescription.setAttFile(attachedFileDataType);
-					additionalInformation.setConcurrentSupport(YesNoDataType.Y_YES);
-					additionalInformation.setConcurrentSupportDescription(concurrentSupportDescription);
-					break;
-				case FELLOWSHIP:
-	                attachedFileDataType = getAttachedFileType(narrative);
-	                if(attachedFileDataType == null){
-	                    continue;
-	                }
-					FellowshipTrainingAndCareerGoals fellowshipTrainingAndCareerGoals = 
-					    FellowshipTrainingAndCareerGoals.Factory.newInstance();
-					fellowshipTrainingAndCareerGoals.setAttFile(attachedFileDataType);
-					additionalInformation.setFellowshipTrainingAndCareerGoals(fellowshipTrainingAndCareerGoals);
-					break;
-				case DISSERTATION:
-	                attachedFileDataType = getAttachedFileType(narrative);
-	                if(attachedFileDataType == null){
-	                    continue;
-	                }
-					DissertationAndResearchExperience dissertationAndResearchExperience = DissertationAndResearchExperience.Factory
-							.newInstance();
-					dissertationAndResearchExperience
-							.setAttFile(attachedFileDataType);
-					additionalInformation
-							.setDissertationAndResearchExperience(dissertationAndResearchExperience);
-					break;
-				case ACTIVITIES:
-	                attachedFileDataType = getAttachedFileType(narrative);
-	                if(attachedFileDataType == null){
-	                    continue;
-	                }
-					ActivitiesPlannedUnderThisAward activitiesPlannedUnderThisAward = 
-					    ActivitiesPlannedUnderThisAward.Factory	.newInstance();
-					activitiesPlannedUnderThisAward.setAttFile(attachedFileDataType);
-					additionalInformation.setActivitiesPlannedUnderThisAward(activitiesPlannedUnderThisAward);
-					break;
-				default:
-					break;
+                                additionalInformation.setFormerInstitution(answer);
+                        default:
+                            break;
+                        }
+                 }  //switch question id
+            }   //for num questions
+        }
+        stemCells.setCellLinesArray((String[]) cellLinesList.toArray(new String[0]));
+        additionalInformation.setStemCells(stemCells);
+        if (setGradDegree) {
+            additionalInformation.setGraduateDegreeSought(graduateDegreeSought);
+        }
+        additionalInformation.setCurrentPriorNRSASupportArray(getCurrentPriorNRSASupportArray());
+        additionalInformation.setConcurrentSupport(YesNoDataType.N_NO);
+        AttachedFileDataType attachedFileDataType = null;
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+            if (narrative.getNarrativeTypeCode() != null) {
+                switch (Integer.parseInt(narrative.getNarrativeTypeCode())) {
+                case CONCURRENT_SUPPORT:
+                    attachedFileDataType = getAttachedFileType(narrative);
+                    if(attachedFileDataType == null){
+                        continue;
+                    }
+                    ConcurrentSupportDescription concurrentSupportDescription = ConcurrentSupportDescription.Factory
+                            .newInstance();
+                    concurrentSupportDescription.setAttFile(attachedFileDataType);
+                    additionalInformation.setConcurrentSupport(YesNoDataType.Y_YES);
+                    additionalInformation.setConcurrentSupportDescription(concurrentSupportDescription);
+                    break;
+                case FELLOWSHIP:
+                    attachedFileDataType = getAttachedFileType(narrative);
+                    if(attachedFileDataType == null){
+                        continue;
+                    }
+                    FellowshipTrainingAndCareerGoals fellowshipTrainingAndCareerGoals = 
+                        FellowshipTrainingAndCareerGoals.Factory.newInstance();
+                    fellowshipTrainingAndCareerGoals.setAttFile(attachedFileDataType);
+                    additionalInformation.setFellowshipTrainingAndCareerGoals(fellowshipTrainingAndCareerGoals);
+                    break;
+                case DISSERTATION:
+                    attachedFileDataType = getAttachedFileType(narrative);
+                    if(attachedFileDataType == null){
+                        continue;
+                    }
+                    DissertationAndResearchExperience dissertationAndResearchExperience = DissertationAndResearchExperience.Factory
+                            .newInstance();
+                    dissertationAndResearchExperience
+                            .setAttFile(attachedFileDataType);
+                    additionalInformation
+                            .setDissertationAndResearchExperience(dissertationAndResearchExperience);
+                    break;
+                case ACTIVITIES:
+                    attachedFileDataType = getAttachedFileType(narrative);
+                    if(attachedFileDataType == null){
+                        continue;
+                    }
+                    ActivitiesPlannedUnderThisAward activitiesPlannedUnderThisAward = 
+                        ActivitiesPlannedUnderThisAward.Factory .newInstance();
+                    activitiesPlannedUnderThisAward.setAttFile(attachedFileDataType);
+                    additionalInformation.setActivitiesPlannedUnderThisAward(activitiesPlannedUnderThisAward);
+                    break;
+                default:
+                    break;
 
-				}
-			}
-		}
-		return additionalInformation;
-	}
+                }
+            }
+        }
+        return additionalInformation;
+    }
 
 	/*
 	 * This method is used to get Arrays of CurrentPriorNRSASupport XMLObject
