@@ -749,16 +749,16 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
         cumResearchTotalDirectCosts = CUM_DIRECTCOST;
         trainingBudgetType.setCumulativeResearchDirectCostsRequested(cumResearchTotalDirectCosts);
       
-        
-        CUM_TOTAL_DIRECT_OTHERCOSTS = cumTrainingCosts.add(cumTravelCosts).add(checkNullCost(cumResearchTotalDirectCosts)).add(cumConsCosts);
-        trainingBudgetType.setCumulativeTotalOtherDirectCostsRequested(CUM_TOTAL_DIRECT_OTHERCOSTS);//x
-        trainingBudgetType.setCumulativeTotalDirectCostsRequested(checkNullCost(trainingBudgetType.getCumulativeTotalOtherDirectCostsRequested()).add(checkNullCost(trainingBudgetType.getCumulativeTotalStipendsAndTuitionFeesRequested())));
-        
+        trainingBudgetType.setCumulativeTotalDirectCostsRequested(trainingBudgetType.getCumulativeTotalStipendsAndTuitionFeesRequested().add(
+                             checkNullCost(trainingBudgetType.getCumulativeTotalDirectCostsRequested()) ));//cumTotalOtherDirectCosts
         trainingBudgetType.setCumulativeTotalIndirectCostsRequested(cumTotalIndCosts);
-        trainingBudgetType.setCumulativeTotalDirectAndIndirectCostsRequested(trainingBudgetType.getCumulativeTotalDirectCostsRequested().add(cumTotalIndCosts));
+      trainingBudgetType.setCumulativeTotalDirectAndIndirectCostsRequested(trainingBudgetType.getCumulativeTotalDirectCostsRequested().add(cumTotalIndCosts));
         trainingBudgetType.setCumulativeTraineeTravelRequested(cumTravelCosts);
         trainingBudgetType.setCumulativeTrainingRelatedExpensesRequested(cumTrainingCosts);
-     
+       
+        CUM_TOTAL_DIRECT_OTHERCOSTS = cumTrainingCosts.add(cumTravelCosts).add(cumResearchTotalDirectCosts).add(cumConsCosts);
+        trainingBudgetType.setCumulativeTotalOtherDirectCostsRequested(CUM_TOTAL_DIRECT_OTHERCOSTS);//x
+        
     }
     private BigDecimal checkNullCost(BigDecimal cumulativeUndergraduateStipendsRequested) {
         return cumulativeUndergraduateStipendsRequested==null?BigDecimal.ZERO:cumulativeUndergraduateStipendsRequested;
