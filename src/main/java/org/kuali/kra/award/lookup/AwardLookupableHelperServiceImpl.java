@@ -114,9 +114,9 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
         AwardDocument document = ((Award) businessObject).getAwardDocument();
-        htmlDataList.add(getOpenLink((Award) businessObject, document.isPlaceHolderDocument() ? true : false));
-        htmlDataList.add(getCopyLink((Award) businessObject, document.isPlaceHolderDocument() ? true : false));
-        htmlDataList.add(getMedusaLink((Award) businessObject, document.isPlaceHolderDocument() ? true : false));
+        htmlDataList.add(getOpenLink((Award) businessObject, false));
+        htmlDataList.add(getCopyLink((Award) businessObject, false));
+        htmlDataList.add(getMedusaLink((Award) businessObject, false));
         return htmlDataList;
     }
 
