@@ -22,14 +22,18 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.bo.SpecialReviewUsage;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Provides a value finder for module-specific configuration of Special Review Types.
@@ -37,9 +41,11 @@ import org.kuali.rice.kns.service.KeyValuesService;
 public abstract class SpecialReviewTypeValuesFinder extends KeyValuesBase {
 
     private static final String MODULE_CODE_NAME = "moduleCode";
+    private static final String PERMISSION_NAME = "View Active Special Review Types";
     
     private KeyValuesService keyValuesService;
     private BusinessObjectService businessObjectService;
+    private IdentityManagementService identityManagementService;
     
     /**
      * {@inheritDoc}
@@ -66,6 +72,9 @@ public abstract class SpecialReviewTypeValuesFinder extends KeyValuesBase {
     private List<KeyLabelPair> filterActiveSpecialReviewUsageTypes(List<KeyLabelPair> unfilteredKeyValues) {
         final List<KeyLabelPair> filteredKeyValues = new ArrayList<KeyLabelPair>();
         
+        boolean canViewNonGlobalSpecialReviewTypes = getIdentityManagementService().hasPermission(
+                GlobalVariables.getUserSession().getPrincipalId(), KraAuthorizationConstants.KC_SYSTEM_NAMESPACE_CODE , PERMISSION_NAME, new AttributeSet());
+        
         Collection<SpecialReviewUsage> specialReviewUsages = getSpecialReviewUsages();
         for (KeyLabelPair item : unfilteredKeyValues) {
             SpecialReviewUsage itemSpecialReviewUsage = null;
@@ -76,7 +85,9 @@ public abstract class SpecialReviewTypeValuesFinder extends KeyValuesBase {
                 }
             }
             if (itemSpecialReviewUsage != null && itemSpecialReviewUsage.isActive()) {
-                filteredKeyValues.add(item);
+                if (itemSpecialReviewUsage.isGlobal() || canViewNonGlobalSpecialReviewTypes) {
+                    filteredKeyValues.add(item);
+                }
             }
         }
         
@@ -117,6 +128,17 @@ public abstract class SpecialReviewTypeValuesFinder extends KeyValuesBase {
     
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+    
+    public IdentityManagementService getIdentityManagementService() {
+        if (identityManagementService == null) {
+            identityManagementService = KraServiceLocator.getService(IdentityManagementService.class);
+        }
+        return identityManagementService;
+    }
+    
+    public void setIdentityManagementService(IdentityManagementService identityManagementService) {
+        this.identityManagementService = identityManagementService;
     }
 
 }
