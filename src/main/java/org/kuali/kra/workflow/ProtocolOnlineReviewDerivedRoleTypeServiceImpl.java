@@ -16,27 +16,35 @@
 package org.kuali.kra.workflow;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
+import org.kuali.kra.bo.Unit;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.kim.bo.KcKimAttributes;
+import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kim.bo.Role;
+import org.kuali.rice.kim.bo.role.dto.KimRoleInfo;
 import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
+/**
+ * 
+ * This class provides some workflow routing logic for the protocol online review documents
+ */
 public class ProtocolOnlineReviewDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
   
-    private static final Map<String, String> proposalRoleCodeConsants = new HashMap<String, String>();
     private ProtocolOnlineReviewService protocolOnlineReviewService;
     private BusinessObjectService businessObjectService;
+    private RoleManagementService roleManagementService;
     
 	protected WorkflowInfo workflowInfo = new WorkflowInfo();
     
@@ -46,6 +54,10 @@ public class ProtocolOnlineReviewDerivedRoleTypeServiceImpl extends KimDerivedRo
 		//requiredAttributes.add(KcKimAttributes.SUBMISSION_ID);
 	}
 	
+	/**
+	 * This method returns members for a given application role
+	 * @see org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase#getRoleMembersFromApplicationRole(java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
+	 */
 	@Override
     public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
 		validateRequiredAttributesAgainstReceived(qualification);
@@ -53,7 +65,9 @@ public class ProtocolOnlineReviewDerivedRoleTypeServiceImpl extends KimDerivedRo
 		List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>();
 		String qualificationSubmissionId = qualification.get("submissionId");
 		String qualificationReviewId = qualification.get("protocolOnlineReviewId");
+		String protocolLeadUnitNumber = qualification.get("protocolLeadUnitNumber");
 
+		//If the protocol has been submitted for review, get members with the appropriate role
 		if (NumberUtils.isNumber(qualificationSubmissionId) && NumberUtils.isNumber(qualificationReviewId)) {
     		Long submissionId = Long.parseLong(qualificationSubmissionId);
     		Long reviewId = Long.parseLong(qualificationReviewId);
@@ -63,11 +77,21 @@ public class ProtocolOnlineReviewDerivedRoleTypeServiceImpl extends KimDerivedRo
     		        members.add(new RoleMembershipInfo(null, null, pReview.getProtocolReviewer().getPersonId(), Role.PRINCIPAL_MEMBER_TYPE, null) );
     		    }
     		}
+		    
+		    //Per KCIRB-1376: Add IRB Admins as review comment approvers if they have a role qualifier that matches the protocol lead unit 
+		    List<RoleMembershipInfo> adminMembers = getIRBAdmins(protocolLeadUnitNumber);
+		    for(RoleMembershipInfo member : adminMembers) {
+                members.add(new RoleMembershipInfo(null, null, member.getMemberId(), member.getMemberTypeCode(), null) );
+		    }
 		}
 		    
 		return members;
 	}
 
+	/**
+	 * 
+	 * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#hasApplicationRole(java.lang.String, java.util.List, java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
+	 */
 	@Override
 	public boolean hasApplicationRole(
 	        String principalId, List<String> groupIds, String namespaceCode, String roleName, AttributeSet qualification){
@@ -98,12 +122,47 @@ public class ProtocolOnlineReviewDerivedRoleTypeServiceImpl extends KimDerivedRo
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
+    
     @Override
     public List<String> getQualifiersForExactMatch() {
         ArrayList<String> quals = new ArrayList<String>();
         quals.add("protocol");
         quals.add("protocolOnlineReview");
         return quals;
+    }
+    
+    /**
+     * 
+     * This method retrieves all members who have the role of IRB Administrator.
+     * It then compares their role qualifier (home unit) to the lead unit of the 
+     * protocol.  If their unit is at or above the protocol unit, they are a
+     * qualified member.
+     * @param qualification
+     * @return a list of qualifying role members
+     */
+    protected List<RoleMembershipInfo> getIRBAdmins(String leadUnitNumber) {     
+        KimRoleInfo roleInfo = getRoleManagementService().getRoleByName(RoleConstants.DEPARTMENT_ROLE_TYPE, RoleConstants.IRB_ADMINISTRATOR);
+        List<String> roleIds = new ArrayList<String>();
+        roleIds.add(roleInfo.getRoleId());
+        
+        AttributeSet attrSet = new AttributeSet();
+        attrSet.put(KcKimAttributes.UNIT_NUMBER, leadUnitNumber);
+        
+        return getRoleManagementService().getRoleMembers(roleIds, attrSet);
+    }  
+    
+    /**
+     * 
+     * This method is a convenience method for retrieving the role management service
+     * @return a reference to the role service
+     */
+    private RoleManagementService getRoleManagementService() {
+        return roleManagementService;
+
+    }
+
+    public void setRoleManagementService(RoleManagementService roleManagementService) {
+        this.roleManagementService = roleManagementService;
     }
     
 }
