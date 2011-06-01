@@ -314,7 +314,7 @@
 						<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.currentFundEffectiveDate}" /></div>
         			</th>
 		<c:choose>
-			<c:when test="${KualiForm.awardHasAssociatedTandMOrIsVersioned}">				
+			<c:when test="${KualiForm.awardHasAssociatedTandMOrIsVersioned or KualiForm.awardInMultipleNodeHierarchy}">				
         			
        				<td align="left" valign="middle">
        				<div align="left">
@@ -336,7 +336,7 @@
         			</th>
         			
         <c:choose>
-			<c:when test="${KualiForm.awardHasAssociatedTandMOrIsVersioned}">	
+			<c:when test="${KualiForm.awardHasAssociatedTandMOrIsVersioned or KualiForm.awardInMultipleNodeHierarchy}">	
         			<td align="left" valign="middle">
         			<div align="left">
         				<fmt:formatDate value="${KualiForm.document.awardList[0].awardAmountInfos[KualiForm.document.award.indexOfAwardAmountInfoForDisplay].finalExpirationDate}" pattern="MM/dd/yyyy" />
@@ -355,7 +355,7 @@
 			        </th>
 			        
 		<c:choose>
-			<c:when test="${KualiForm.awardHasAssociatedTandMOrIsVersioned}">		        
+			<c:when test="${KualiForm.awardHasAssociatedTandMOrIsVersioned or KualiForm.awardInMultipleNodeHierarchy}">		        
 			        <td align="left" valign="middle">
 			        <div align="left">
 			            <fmt:formatDate value="${KualiForm.document.awardList[0].awardAmountInfos[KualiForm.document.award.indexOfAwardAmountInfoForDisplay].obligationExpirationDate}" pattern="MM/dd/yyyy" />
@@ -386,7 +386,7 @@
 			        </td>
 			    </tr>
 			        <c:choose>
-						<c:when test="${KualiForm.awardHasAssociatedTandMOrIsVersioned}">
+						<c:when test="${KualiForm.awardHasAssociatedTandMOrIsVersioned or KualiForm.awardInMultipleNodeHierarchy}">
 							<c:choose>
 								<c:when test="${KualiForm.directIndirectViewEnabled == '1'}">
 									<tr>
