@@ -37,6 +37,7 @@
                 <ref bean="SpecialReviewUsage-specialReviewUsageId" />
                 <ref bean="SpecialReviewUsage-specialReviewTypeCode" />
                 <ref bean="SpecialReviewUsage-moduleCode" />
+                <ref bean="SpecialReviewUsage-global" />
                 <ref bean="SpecialReviewUsage-active" />
                 <ref bean="SpecialReviewUsage-versionNumber" />
             </list>
@@ -99,6 +100,15 @@
         <property name="description" value="Module Code" />
     </bean>
     
+    <bean id="SpecialReviewUsage-global" parent="SpecialReviewUsage-global-parentBean"/>
+    <bean id="SpecialReviewUsage-global-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="global"/>
+        <property name="label" value="Global"/>
+        <property name="shortLabel" value="Global"/>
+        <property name="summary" value="Global"/>
+        <property name="description" value="Global"/>
+    </bean>
+    
     <bean id="SpecialReviewUsage-active" parent="SpecialReviewUsage-active-parentBean"/>
     <bean id="SpecialReviewUsage-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
         <property name="name" value="active"/>
@@ -131,6 +141,8 @@
                             <bean parent="FieldDefinition" 
                                   p:attributeName="moduleCode" />
                             <bean parent="FieldDefinition"
+                                  p:attributeName="global" />
+                            <bean parent="FieldDefinition"
                                   p:attributeName="active" />
                         </list>
                     </property>
@@ -157,6 +169,8 @@
 	            <bean parent="FieldDefinition" 
 	                  p:attributeName="moduleCode" />
 	            <bean parent="FieldDefinition"
+                      p:attributeName="global" />
+	            <bean parent="FieldDefinition"
                       p:attributeName="active" />
             </list>
         </property>
@@ -169,6 +183,8 @@
 	                  p:attributeName="specialReviewTypeCode" />
 	            <bean parent="FieldDefinition" 
 	                  p:attributeName="moduleCode" />
+	            <bean parent="FieldDefinition"
+                      p:attributeName="global" />
                 <bean parent="FieldDefinition"
                       p:attributeName="active" />
             </list>

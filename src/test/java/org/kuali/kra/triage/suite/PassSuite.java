@@ -494,7 +494,8 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.common.notification.rules.NotificationTypeMaintenanceDocumentRuleTest.class,
     org.kuali.kra.lookup.KcPersonLookupableHelperServiceImplTest.class,
     org.kuali.kra.lookup.PersonLookupableHelperServiceImplTest.class,
-    org.kuali.kra.lookup.UnitLookupableHelperServiceImplTest.class
+    org.kuali.kra.lookup.UnitLookupableHelperServiceImplTest.class,
+    org.kuali.kra.common.specialreview.lookup.keyvalue.SpecialReviewTypeValuesFinderTest.class
 })
 /** these are all the test class where all the test methods are currently passing. */
 public class PassSuite {
