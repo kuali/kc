@@ -33,6 +33,7 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -337,6 +338,9 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase im
      * @return Returns the protocolReview.
      */
     public ProtocolOnlineReview getProtocolOnlineReview() {
+        if (protocolOnlineReview == null) {
+            protocolOnlineReview = getBusinessObjectService().findBySinglePrimaryKey(ProtocolOnlineReview.class, protocolOnlineReviewIdFk);
+        }
         return protocolOnlineReview;
     }
 
@@ -527,4 +531,7 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase im
         this.displayReviewerName = displayReviewerName;
     }
 
+    private BusinessObjectService getBusinessObjectService() {
+        return KraServiceLocator.getService(BusinessObjectService.class);
+    }
 }
