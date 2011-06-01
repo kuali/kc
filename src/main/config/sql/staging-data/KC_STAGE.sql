@@ -1,15 +1,10 @@
 set define off 
 @kc_sd_032_load_COMMITTEE_DOCUMENT.sql 
-@kc_sd_044_load_DOCUMENT_NEXTVALUE.sql 
 @kc_sd_073_load_KRNS_DOC_HDR_T.sql 
 @kc_sd_107_load_PERSON_EXT_T.sql 
-@kc_sd_127_load_PROTOCOL_DOCUMENT.sql 
-@kc_sd_130_load_PROTOCOL_ONLN_RVW_DOCUMENT.sql 
 @kc_sd_142_load_QUESTIONNAIRE.sql 
 @kc_sd_193_load_COMMITTEE.sql 
 @kc_sd_201_load_KRNS_MAINT_DOC_T.sql 
-@kc_sd_214_load_PROTOCOL.sql 
-@kc_sd_217_load_PROTOCOL_UNITS.sql 
 @kc_sd_222_load_QUESTIONNAIRE_QUESTIONS.sql 
 @kc_sd_223_load_QUESTIONNAIRE_USAGE.sql 
 @kc_sd_228_load_ROLODEX.sql 
@@ -17,17 +12,9 @@ set define off
 @kc_sd_258_load_COMM_MEMBERSHIPS.sql 
 @kc_sd_259_load_COMM_RESEARCH_AREAS.sql 
 @kc_sd_260_load_COMM_SCHEDULE.sql 
-@kc_sd_263_load_CUSTOM_ATTRIBUTE_DOC_VALUE.sql 
-@kc_sd_280_load_PROTOCOL_LOCATION.sql 
-@kc_sd_282_load_PROTOCOL_PERSONS.sql 
-@kc_sd_284_load_PROTOCOL_RESEARCH_AREAS.sql 
 @kc_sd_307_load_COMM_MEMBER_EXPERTISE.sql 
 @kc_sd_308_load_COMM_MEMBER_ROLES.sql 
 @kc_sd_309_load_COMM_SCHEDULE_ACT_ITEMS.sql 
 @kc_sd_310_load_COMM_SCHEDULE_ATTENDANCE.sql 
-@kc_sd_323_load_PROTOCOL_SUBMISSION.sql 
-@kc_sd_350_load_PROTOCOL_ACTIONS.sql 
-@kc_sd_353_load_PROTOCOL_REVIEWERS.sql 
-@kc_sd_365_load_PROTOCOL_ONLN_RVWS.sql 
 @kc_sd_371_load_COMM_SCHEDULE_MINUTES.sql 
 exit; 
