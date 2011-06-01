@@ -205,6 +205,7 @@
 			
 			<%-- Existing data --%>
         	<c:forEach var="committeeScheduleMinute" items="${KualiForm.meetingHelper.committeeSchedule.committeeScheduleMinutes}" varStatus="status">
+        	    <c:if test="${committeeScheduleMinute.protocolOnlineReview.protocolOnlineReviewStatusCode == 'F' }">
 	            <tr>
 					<th class="infoline">
 						<c:out value="${status.index+1}" />
@@ -271,6 +272,7 @@
 		                </td>
 		            </c:if>
 	            </tr>
+	            </c:if>
         	</c:forEach>
 				<%-- Existing data --%>
 			        				
