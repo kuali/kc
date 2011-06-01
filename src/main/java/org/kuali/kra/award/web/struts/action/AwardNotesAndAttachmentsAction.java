@@ -280,13 +280,13 @@ public class AwardNotesAndAttachmentsAction extends AwardAction {
         throws Exception {
         AwardForm awardForm = (AwardForm) form;
         //find specified comment
-        String awardCommentTypeCode = null;
+        String awardCommentIndex = null;
         String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {
-            awardCommentTypeCode = StringUtils.substringBetween(parameterName, ".awardCommentTypeCode", ".");
+            awardCommentIndex = StringUtils.substringBetween(parameterName, ".awardCommentIdx", ".");
         }
         //AwardComment comment = awardForm.getAwardDocument().getAward().getAwardCommentByType(awardCommentTypeCode, false, false);
-        AwardComment comment = awardForm.getAwardDocument().getAward().getAwardComment(Integer.parseInt(awardCommentTypeCode));
+        AwardComment comment = awardForm.getAwardDocument().getAward().getAwardComment(Integer.parseInt(awardCommentIndex));
         getAwardSyncCreationService().addAwardSyncChange(awardForm.getAwardDocument().getAward(), 
                 new AwardSyncPendingChangeBean(AwardSyncType.ADD_SYNC, comment, "awardComments"));
         return mapping.findForward(Constants.MAPPING_BASIC);
