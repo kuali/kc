@@ -22,11 +22,12 @@ import java.util.LinkedHashMap;
  */
 public class SpecialReviewUsage extends KraPersistableBusinessObjectBase {
 
-    private static final long serialVersionUID = -1117965759843696851L;
+    private static final long serialVersionUID = 1123437346869395158L;
     
     private Long specialReviewUsageId;
     private String specialReviewTypeCode;
     private String moduleCode;
+    private boolean global;
     private boolean active;
     
     private SpecialReviewType specialReviewType;
@@ -54,6 +55,14 @@ public class SpecialReviewUsage extends KraPersistableBusinessObjectBase {
 
     public void setModuleCode(String moduleCode) {
         this.moduleCode = moduleCode;
+    }
+    
+    public boolean isGlobal() {
+        return global;
+    }
+
+    public void setGlobal(boolean global) {
+        this.global = global;
     }
 
     public boolean isActive() {
@@ -86,6 +95,7 @@ public class SpecialReviewUsage extends KraPersistableBusinessObjectBase {
         propMap.put("specialReviewUsageId", getSpecialReviewUsageId());
         propMap.put("specialReviewTypeCode", getSpecialReviewTypeCode());
         propMap.put("moduleCode", getModuleCode());
+        propMap.put("global", isGlobal());
         propMap.put("active", isActive());
         propMap.put("updateTimestamp", getUpdateTimestamp());
         propMap.put("updateUser", getUpdateUser());
