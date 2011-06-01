@@ -24,4 +24,5 @@ set define off
 @kr_sd_168_load_KRIM_ENTITY_EMP_INFO_T.sql 
 @kr_sd_169_load_KRIM_ENTITY_PHONE_T.sql 
 @kr_sd_171_load_KRIM_ROLE_MBR_T.sql 
+@kr_sd_172_load_KRIM_GRP_MBR_T.sql
 exit; 
