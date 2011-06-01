@@ -1255,11 +1255,9 @@ public class AwardForm extends BudgetVersionFormBase
     
     public boolean getDisplayEditButton() {
         boolean displayEditButton = !isViewOnly();
-        if (isDocOpenedFromAwardSearch()) {
+        if (isDocOpenedFromAwardSearch() || getAwardDocument().isPlaceHolderDocument()) {
             displayEditButton = true;
-        }else {
-            displayEditButton = !isViewOnly();
-        } 
+        }
         
         VersionHistory activeVersion = getVersionHistoryService().findActiveVersion(Award.class, getDocument().getAward().getAwardNumber());
         if (activeVersion != null) {

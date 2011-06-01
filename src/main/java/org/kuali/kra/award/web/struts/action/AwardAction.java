@@ -205,6 +205,7 @@ public class AwardAction extends BudgetParentActionBase {
             if(currentAward != null) {
                 awardDocument.getAwardList().remove(currentAwardIndex);
                 awardDocument.getAwardList().add(0, currentAward);
+                form.setViewOnly(true);                
             }
         }
     }
