@@ -73,6 +73,17 @@ public class ProtocolOnlineReviewDocument extends ResearchDocumentBase implement
         protocolOnlineReviewList.add(newProtocolReview);
 	} 
 	
+    @Override
+    public String serializeDocumentToXml() {
+        for(ProtocolOnlineReview protocolOnlineReview: this.getProtocolOnlineReviewList()) {
+            Protocol protocol = protocolOnlineReview.getProtocol();
+            protocol.getLeadUnitNumber();
+        }
+        String xml = super.serializeDocumentToXml();
+        System.out.println(); 
+        return xml; 
+    }
+
     public void initialize() {
         super.initialize();
     }

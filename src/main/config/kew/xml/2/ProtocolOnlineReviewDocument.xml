@@ -88,7 +88,10 @@
 				<qualifier name="protocol">
 					<xPathExpression>//document/protocolOnlineReviewList[1]/org.kuali.kra.irb.onlinereview.ProtocolOnlineReview[1]/protocol/protocolNumber</xPathExpression>
 				</qualifier>
-				
+
+                <qualifier name="protocolLeadUnitNumber">
+                    <xPathExpression>//document/protocolOnlineReviewList[1]/org.kuali.kra.irb.onlinereview.ProtocolOnlineReview[1]/protocol/leadUnitNumber</xPathExpression>
+                </qualifier>				
 			</resolverConfig>
 		</ruleAttribute>
 
