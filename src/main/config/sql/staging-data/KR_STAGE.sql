@@ -16,9 +16,6 @@ set define off
 @kr_sd_138_load_KRIM_ENTITY_NM_T.sql 
 @kr_sd_144_load_KRIM_PRNCPL_T.sql 
 @kr_sd_145_load_KRIM_ROLE_MBR_ATTR_DATA_T.sql 
-@kr_sd_162_load_KREN_NTFCTN_MSG_DELIV_T.sql 
-@kr_sd_163_load_KREN_RECIP_T.sql 
-@kr_sd_164_load_KREN_SNDR_T.sql 
 @kr_sd_166_load_KRIM_ENTITY_ADDR_T.sql 
 @kr_sd_167_load_KRIM_ENTITY_EMAIL_T.sql 
 @kr_sd_168_load_KRIM_ENTITY_EMP_INFO_T.sql 
