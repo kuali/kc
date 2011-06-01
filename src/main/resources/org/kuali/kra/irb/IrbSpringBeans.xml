@@ -828,12 +828,9 @@
 
 	<bean id="protocolOnlineReviewRoleTypeService"
 			  class="org.kuali.kra.workflow.ProtocolOnlineReviewDerivedRoleTypeServiceImpl">
-		<property name="protocolOnlineReviewService">
-			<ref bean="protocolOnlineReviewService" />
-		</property>		
-		<property name="businessObjectService">
-			<ref bean="businessObjectService"/>
-		</property>
+		<property name="protocolOnlineReviewService" ref="protocolOnlineReviewService" />		
+		<property name="businessObjectService" ref="businessObjectService"/>
+		<property name="roleManagementService" ref="roleManagementService" />
 	</bean>
 	
 	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
