@@ -86,7 +86,6 @@ public class NSFCoverPageV1_3Generator extends NSFCoverPageBaseGenerator impleme
 		AttachmentGroupMin1Max100DataType attachmentGroup = AttachmentGroupMin1Max100DataType.Factory
 				.newInstance();
 		attachmentGroup.setAttachedFileArray(getAttachedFileDataTypes());
-		
 		if(attachmentGroup.getAttachedFileArray().length > 0)
 			nsfCoverPage13.setSingleCopyDocuments(attachmentGroup);
 		

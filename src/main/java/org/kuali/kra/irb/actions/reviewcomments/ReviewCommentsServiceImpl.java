@@ -298,7 +298,10 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
    public boolean getReviewerCommentsView(CommitteeScheduleMinute minute) {
        String principalId = GlobalVariables.getUserSession().getPrincipalId();
        String principalName = GlobalVariables.getUserSession().getPrincipalName();
-       return isIrbAdministrator(principalId) || StringUtils.equals(principalName, minute.getCreateUser()) || (!minute.getPrivateCommentFlag() && minute.isFinalFlag());
+       return isIrbAdministrator(principalId) || StringUtils.equals(principalName, minute.getCreateUser()) || 
+       (isReviewer(minute,principalId)&& minute.isFinalFlag()) || 
+       (!minute.getPrivateCommentFlag()&& minute.isFinalFlag());
+       
    }
    
    private boolean isIrbAdministrator(String principalId) {

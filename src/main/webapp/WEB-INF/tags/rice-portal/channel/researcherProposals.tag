@@ -20,6 +20,7 @@
 		<li><portal:portalLink displayTitle="false" title="Create Proposal" url="proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument">Create Proposal</portal:portalLink></li>
 		<li><portal:portalLink displayTitle="false" title="Proposals Enroute" url="${ConfigProperties.workflow.url}/DocumentSearch.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO&docTypeFullName=ProposalDevelopmentDocument&criteria.docRouteStatus=R">Proposals Enroute</portal:portalLink></li>
 		<li><portal:portalLink displayTitle="false" title='All My Proposals' url='${ConfigProperties.workflow.url}/DocumentSearch.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO&docTypeFullName=ProposalDevelopmentDocument&initiator=${UserSession.principalName}&searchCriteriaEnabled=false'>All My Proposals</portal:portalLink></li>
+		<li><portal:portalLink displayTitle="true" title="Create Proposal For Grants.gov Opportunity" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.s2s.bo.S2sOpportunity&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=false&docFormKey=88888888" /></li>
 	</ul>
 	<strong>Lists</strong>
 	<ul class="chan">
