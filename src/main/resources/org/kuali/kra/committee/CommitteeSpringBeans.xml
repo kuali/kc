@@ -50,6 +50,8 @@
 		class="org.kuali.kra.committee.print.IrbPrintXmlUtilServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="reviewCommentsService" ref="reviewCommentsService" />
+		
 	</bean>
 
 	<bean id="templatePrint" class="org.kuali.kra.committee.print.TemplatePrint"
@@ -209,6 +211,7 @@
 		class="org.kuali.kra.committee.service.impl.CommitteeScheduleServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="scheduleService" ref="scheduleService" />
+		<property name="reviewCommentsService" ref="reviewCommentsService" />
 	</bean>
 
 	<bean id="committeeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"

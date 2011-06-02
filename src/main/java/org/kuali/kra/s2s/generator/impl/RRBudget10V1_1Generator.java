@@ -798,6 +798,7 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
                     }
 
                     keyPersonDataType.setRequestedSalary(keyPerson.getRequestedSalary().bigDecimalValue());
+                    keyPersonDataType.setBaseSalary(keyPerson.getBaseSalary().bigDecimalValue());
                     keyPersonDataType.setFringeBenefits(keyPerson.getFringe().bigDecimalValue());
                     keyPersonDataType.setAcademicMonths(keyPerson.getAcademicMonths().bigDecimalValue());
                     keyPersonDataType.setCalendarMonths(keyPerson.getCalendarMonths().bigDecimalValue());

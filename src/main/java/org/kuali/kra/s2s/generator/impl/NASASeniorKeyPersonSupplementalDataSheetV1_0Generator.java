@@ -307,7 +307,7 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 				}
 			}
 		} else {
-			seniorKeyPerson.setNASACoItype(CoItypeDataType.CO_I);
+			seniorKeyPerson.setNASACoItype(CoItypeDataType.COLLABORATOR);
 		}
 		if (sponsorCode != null) {
 			FederalAgencyDataType.Enum federalAgency = getFederalAgencyDataType(sponsorCode);

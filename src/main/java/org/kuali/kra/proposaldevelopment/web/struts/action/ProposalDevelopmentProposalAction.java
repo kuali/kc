@@ -138,16 +138,6 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
                     .getDocumentNextValue(Constants.PROPOSAL_LOCATION_SEQUENCE_NUMBER));
             proposalDevelopmentDocument.getDevelopmentProposal().addPerformanceSite(propSite);
         }
-        String cfdaNumber=request.getParameter("cfdaNumber");
-        String opportunityId=request.getParameter("oppurtunityId");
-        String opportunityTitle=request.getParameter("opportunityTitle");
-        
-        if(cfdaNumber!=null)
-            proposalDevelopmentDocument.getDevelopmentProposal().setCfdaNumber(cfdaNumber);
-        if(opportunityId!=null)
-            proposalDevelopmentDocument.getDevelopmentProposal().setProgramAnnouncementNumber(opportunityId);
-        if(opportunityTitle!=null)
-            proposalDevelopmentDocument.getDevelopmentProposal().setProgramAnnouncementTitle(opportunityTitle);
         // populate the Prime Sponsor Name if we have the code
         // this is necessary since the name is only on the form not the document
         // and it is only populated by a lookup or through AJAX/DWR
