@@ -36,6 +36,7 @@ public class NotificationTypeMaintenanceDocumentRuleTest extends MaintenanceRule
     
     private static final String MODULE_CODE_FIELD_NAME = "moduleCode";
     private static final String ACTION_CODE_FIELD_NAME = "actionCode";
+    private static final String PROMPT_USER_FIELD_NAME = "promptUser";
     private static final String ROLE_QUALIFIER_FIELD_NAME = "notificationTypeRecipients[%d].roleQualifier";
     
     private static final Long NOTIFICATION_TYPE_ID_10000 = 10000L;
@@ -86,6 +87,23 @@ public class NotificationTypeMaintenanceDocumentRuleTest extends MaintenanceRule
     }
     
     @Test
+    public void testPromptUserSystemGeneratedBothNotTrue() throws Exception {
+        MaintenanceDocument notificationTypeMaintenanceDocument = getNotificationTypeMaintenanceDocument(NOTIFICATION_TYPE_ID_10001, MODULE_CODE_2, ACTION_CODE_102, true, false);
+        
+        assertTrue(rule.processCustomRouteDocumentBusinessRules(notificationTypeMaintenanceDocument));
+        assertTrue(rule.processCustomApproveDocumentBusinessRules(notificationTypeMaintenanceDocument));
+    }
+    
+    @Test
+    public void testPromptUserSystemGeneratedBothTrue() throws Exception {
+        MaintenanceDocument notificationTypeMaintenanceDocument = getNotificationTypeMaintenanceDocument(NOTIFICATION_TYPE_ID_10000, MODULE_CODE_1, ACTION_CODE_101, true, true);
+        
+        assertFalse(rule.processCustomRouteDocumentBusinessRules(notificationTypeMaintenanceDocument));
+        assertFalse(rule.processCustomApproveDocumentBusinessRules(notificationTypeMaintenanceDocument));
+        assertFieldErrorExists(PROMPT_USER_FIELD_NAME, KeyConstants.ERROR_NOTIFICATION_PROMPT_USER_SYSTEM_GENERATED_CANNOT_BOTH_BE_TRUE);
+    }
+    
+    @Test
     public void testNotificationTypeIdRoleIdRoleQualifierUnique() throws Exception {
         MaintenanceDocument notificationTypeMaintenanceDocument = getNotificationTypeMaintenanceDocument(NOTIFICATION_TYPE_ID_10001, MODULE_CODE_2, ACTION_CODE_102, ROLE_ID_2, ROLE_QUALIFIER_000002);
     
@@ -107,6 +125,17 @@ public class NotificationTypeMaintenanceDocumentRuleTest extends MaintenanceRule
         notificationType.setNotificationTypeId(notificationTypeId);
         notificationType.setModuleCode(moduleCode);
         notificationType.setActionCode(actionCode);
+        
+        return newMaintDoc(notificationType);
+    }
+    
+    private MaintenanceDocument getNotificationTypeMaintenanceDocument(Long notificationTypeId, String moduleCode, String actionCode, boolean promptUser, boolean systemGenerated) throws Exception {
+        NotificationType notificationType = new NotificationType();
+        notificationType.setNotificationTypeId(notificationTypeId);
+        notificationType.setModuleCode(moduleCode);
+        notificationType.setActionCode(actionCode);
+        notificationType.setPromptUser(promptUser);
+        notificationType.setSystemGenerated(systemGenerated);
         
         return newMaintDoc(notificationType);
     }
