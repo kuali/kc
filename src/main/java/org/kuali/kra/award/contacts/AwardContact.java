@@ -321,14 +321,14 @@ public abstract class AwardContact extends AwardAssociate {
         }
         
         this.person = person;
-        this.rolodex = null;
-        this.rolodexId = null;        
         if(person != null) {
+            this.rolodex = null;
+            this.rolodexId = null;        
             this.fullName =  person.getFullName();
             this.personId = person.getPersonId();
         } else {
-            this.fullName =  null;
-            this.personId = null;
+     //       this.fullName =  null;
+     //       this.personId = null;
         }
     }
     
@@ -363,15 +363,15 @@ public abstract class AwardContact extends AwardAssociate {
             rolodex = null;
         }
         
-        this.person = null;
-        this.personId = null;
         this.rolodex = rolodex;
         if(rolodex != null) {
+            this.person = null;
+            this.personId = null;
             this.fullName =  rolodex.getFullName();
             this.rolodexId = rolodex.getRolodexId();
         } else {
-            this.fullName =  null;
-            this.rolodexId = null;
+  //          this.fullName =  null;
+  //          this.rolodexId = null;
         }
     }
     

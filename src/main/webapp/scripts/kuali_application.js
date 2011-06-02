@@ -1040,10 +1040,137 @@ function loadPersonName(usernameFieldName, fullnameElementId,
 	}
 }
 
+
+/*
+ * Load the contact person's full name based on the person's username.
+ */
+function loadContactPersonName(usernameFieldName, fullnameElementId, 
+						unitNumberElementId, phoneNumberElementId, emailElementId , personIdElementId) {
+    if (document.getElementById(fullnameElementId) != null) {
+		var username = DWRUtil.getValue( usernameFieldName );
+		var fullNameElement = document.getElementById(fullnameElementId);
+		var unitNumberElement= document.getElementById(unitNumberElementId);
+		var phoneNumberElement = document.getElementById(phoneNumberElementId);
+		var emailElement = document.getElementById(emailElementId);
+		var personIdElement = document.getElementById(personIdElementId)
+
+		if (username == '') {
+			fullNameElement.innerHTML = "&nbsp;";
+		} else {
+			var dwrReply = {
+				callback:function(data) {
+					if ( data != null ) {
+						fullNameElement.innerHTML = data.fullName;
+						phoneNumberElement.innerHTML= data.phoneNumber;
+						emailElement.innerHTML= data.emailAddress;
+						personIdElement.value= data.personId;
+						unitNumberElement.innerHTML= data.unit['unitNumber']
+					} else {
+						fullNameElement.innerHTML = wrapError( "not found" );
+						phoneNumberElement.innerHTML= wrapError( "not found" );
+						emailElement.innerHTML= wrapError( "not found" );
+						unitNumberElement.innerHTML= wrapError( "not found" );
+					}
+				},
+				errorHandler:function( errorMessage ) {
+					window.status = errorMessage;
+					fullNameElement.innerHTML = wrapError( "not found!" );
+					phoneNumberElement.innerHTML= wrapError( "not found!" );
+					emailElement.innerHTML= wrapError( "not found!" );
+					unitNumberElement.innerHTML= wrapError( "not found" );
+				}
+			};
+			KraPersonService.getKcPersonByUserName(username, dwrReply);
+		}
+	}
+}
+
+	/*
+	 * Load the phone number and email address from rolodex info from rolodex id.
+	 */
+	function loadRolodexInfo(rolodexFieldName, fullnameElementId, 
+							 phoneNumberElementId, emailElementId, rolodexElementId) {
+	    if (document.getElementById(fullnameElementId) != null) {			
+	    var rolodexId = DWRUtil.getValue( rolodexFieldName );
+		var fullNameElement = document.getElementById(fullnameElementId);
+		var phoneNumberElement = document.getElementById(phoneNumberElementId);
+		var emailElement = document.getElementById(emailElementId);
+		var rolodexElement = document.getElementById(rolodexElementId);
+
+		if (rolodexId == '') {				
+			fullNameElement.innerHTML = "&nbsp;";
+		} else {
+			var dwrReply = {
+				callback:function(data) {
+					if ( data != null ) {
+						fullNameElement.innerHTML = data.organization;
+						phoneNumberElement.innerHTML= data.phoneNumber;
+						emailElement.innerHTML= data.emailAddress;
+						rolodexElement.value= data.rolodexId;
+					} else {
+						fullNameElement.innerHTML = wrapError( "not found" );
+						phoneNumberElement.innerHTML= wrapError( "not found" );
+						emailElement.innerHTML= wrapError( "not found" );
+					}
+				},
+				errorHandler:function( errorMessage ) {
+					window.status = errorMessage;
+					fullNameElement.innerHTML = wrapError( "not found" );
+					phoneNumberElement.innerHTML= wrapError( "not found" );
+					emailElement.innerHTML= wrapError( "not found" );
+				}
+			};
+			RolodexService.getRolodex(rolodexId, dwrReply);
+		}
+	}
+}
+	
+	
+	function loadRolodexInfo2(rolodexFieldName, fullnameElementId, 
+				unitNumberElementId, phoneNumberElementId, emailElementId, rolodexElementId) {
+		if (document.getElementById(fullnameElementId) != null) {			
+		var rolodexId = DWRUtil.getValue( rolodexFieldName );
+		var fullNameElement = document.getElementById(fullnameElementId);
+		var unitNumberElement= document.getElementById(unitNumberElementId);
+		var phoneNumberElement = document.getElementById(phoneNumberElementId);
+		var emailElement = document.getElementById(emailElementId);
+		var rolodexElement = document.getElementById(rolodexElementId);
+
+		if (rolodexId == '') {				
+			fullNameElement.innerHTML = "&nbsp;";
+		} else {
+			var dwrReply = {
+					callback:function(data) {
+						if ( data != null ) {
+							fullNameElement.innerHTML = data.fullName;
+							phoneNumberElement.innerHTML= data.phoneNumber;
+							emailElement.innerHTML= data.emailAddress;
+							rolodexElement.value= data.rolodexId;
+							unitNumberElement.innerHTML= data.unit['unitNumber']
+						} else {
+							fullNameElement.innerHTML = wrapError( "not found" );
+							phoneNumberElement.innerHTML= wrapError( "not found" );
+							emailElement.innerHTML= wrapError( "not found" );
+							unitNumberElement.innerHTML= wrapError( "not found" );
+						}
+					},
+					errorHandler:function( errorMessage ) {
+						window.status = errorMessage;
+						fullNameElement.innerHTML = wrapError( "not found" );
+						phoneNumberElement.innerHTML= wrapError( "not found" );
+						emailElement.innerHTML= wrapError( "not found" );
+						unitNumberElement.innerHTML= wrapError( "not found" );
+					}
+			};
+			RolodexService.getRolodex(rolodexId, dwrReply);
+		}
+	}
+}
+
+
 /*
  * functions for award template report term 
  */	
-  
  var reportTypeName;
  function updateReportType( reportClassField, callbackFunction ) {
 
