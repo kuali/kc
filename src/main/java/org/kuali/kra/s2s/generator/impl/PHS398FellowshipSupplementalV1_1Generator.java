@@ -352,8 +352,13 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 	private void setNarrativeDataForResearchTrainingPlan(
 			ResearchTrainingPlan researchTrainingPlan) {
 		AttachedFileDataType attachedFileDataType = null;
-		for (Narrative narrative : pdDoc.getDevelopmentProposal()
-				.getNarratives()) {
+        SpecificAims specificAims = SpecificAims.Factory.newInstance();
+        ResearchStrategy researchStrategy = ResearchStrategy.Factory.newInstance();
+        RespectiveContributions respectiveContributions = RespectiveContributions.Factory.newInstance();
+        SelectionOfSponsorAndInstitution selectionOfSponsorAndInstitution = SelectionOfSponsorAndInstitution.Factory.newInstance();
+        ResponsibleConductOfResearch responsibleConductOfResearch = ResponsibleConductOfResearch.Factory.newInstance();
+
+		for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
 			if (narrative.getNarrativeTypeCode() != null) {
 				switch (Integer.parseInt(narrative.getNarrativeTypeCode())) {
 				case INTRODUCTION_TO_APPLICATION:
@@ -372,10 +377,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 	                if(attachedFileDataType == null){
 	                    continue;
 	                }
-					SpecificAims specificAims = SpecificAims.Factory
-							.newInstance();
 					specificAims.setAttFile(attachedFileDataType);
-					researchTrainingPlan.setSpecificAims(specificAims);
 					break;
 
 				case INCLUSION_ENROLLMENT_REPORT:
@@ -484,51 +486,41 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 	                if(attachedFileDataType == null){
 	                    continue;
 	                }
-					RespectiveContributions respectiveContributions = RespectiveContributions.Factory
-							.newInstance();
 					respectiveContributions.setAttFile(attachedFileDataType);
-					researchTrainingPlan
-							.setRespectiveContributions(respectiveContributions);
 					break;
 				case SELECTION_OF_SPONSOR_AND_INSTITUTION:
 	                attachedFileDataType = getAttachedFileType(narrative);
 	                if(attachedFileDataType == null){
 	                    continue;
 	                }
-					SelectionOfSponsorAndInstitution selectionOfSponsorAndInstitution = SelectionOfSponsorAndInstitution.Factory
-							.newInstance();
 					selectionOfSponsorAndInstitution
 							.setAttFile(attachedFileDataType);
-					researchTrainingPlan
-							.setSelectionOfSponsorAndInstitution(selectionOfSponsorAndInstitution);
 					break;
 				case RESPONSIBLE_CONDUCT_OF_RESEARCH:
 	                attachedFileDataType = getAttachedFileType(narrative);
 	                if(attachedFileDataType == null){
 	                    continue;
 	                }
-					ResponsibleConductOfResearch responsibleConductOfResearch = ResponsibleConductOfResearch.Factory
-							.newInstance();
-					responsibleConductOfResearch
-							.setAttFile(attachedFileDataType);
-					researchTrainingPlan
-							.setResponsibleConductOfResearch(responsibleConductOfResearch);
+					responsibleConductOfResearch.setAttFile(attachedFileDataType);
 					break;
 				case RESEARCH_STRATEGY:
 	                attachedFileDataType = getAttachedFileType(narrative);
 	                if(attachedFileDataType == null){
 	                    continue;
 	                }
-					ResearchStrategy researchStrategy = ResearchStrategy.Factory
-							.newInstance();
 					researchStrategy.setAttFile(attachedFileDataType);
-					researchTrainingPlan.setResearchStrategy(researchStrategy);
 					break;
 				default:
 					break;
 				}
 			}
 		}
+        researchTrainingPlan.setSpecificAims(specificAims);
+        researchTrainingPlan.setResearchStrategy(researchStrategy);
+        researchTrainingPlan.setRespectiveContributions(respectiveContributions);
+        researchTrainingPlan.setSelectionOfSponsorAndInstitution(selectionOfSponsorAndInstitution);
+        researchTrainingPlan.setResponsibleConductOfResearch(responsibleConductOfResearch);
+
 	}
 
 	/**
@@ -613,6 +605,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 	 */
 	private AdditionalInformation getAdditionalInformation() {
         AdditionalInformation additionalInformation = AdditionalInformation.Factory.newInstance();
+        additionalInformation.setCitizenship(CitizenshipDataType.U_S_CITIZEN_OR_NONCITIZEN_NATIONAL);
         StemCells stemCells = StemCells.Factory.newInstance();
         stemCells.setIsHumanStemCellsInvolved(YesNoDataType.N_NO);
         stemCells.setStemCellsIndicator(YesNoDataType.N_NO);
@@ -646,15 +639,16 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 			String answer = questionnaireAnswer.getAnswer();
 			questionnaireQuestion = questionnaireAnswer.getQuestionnaireQuestion();
 			answerHeader = (AnswerHeader) questionnaireAnswer.getAnswerHeader();
-			   if(questionnaireAnswer.getQuestionnaireQuestion().getQuestion().getQuestionId().equals(STEMCELLLINES)){  
-			       List<Answer> answerList = getAnswers(questionnaireQuestion,answerHeader);                      
-                   for (Answer questionnaireAnswerBO: answerList) {
-                       String questionnaireSubAnswer =  questionnaireAnswerBO.getAnswer();
-                       if(questionnaireSubAnswer!=null)
-                         cellLinesList.add(questionnaireSubAnswer);
-                       stemCells.addCellLines(questionnaireSubAnswer);
+		   if(questionnaireAnswer.getQuestionnaireQuestion().getQuestion().getQuestionId().equals(STEMCELLLINES)){  
+		       List<Answer> answerList = getAnswers(questionnaireQuestion,answerHeader);                      
+               for (Answer questionnaireAnswerBO: answerList) {
+                   String questionnaireSubAnswer =  questionnaireAnswerBO.getAnswer();
+                   if(questionnaireSubAnswer!=null){
+                     cellLinesList.add(questionnaireSubAnswer);
+                     stemCells.addCellLines(questionnaireSubAnswer);
                    }
                }
+           }
                
             if (answer != null) {
                 switch (questionnaireAnswer.getQuestionnaireQuestion().getQuestion().getQuestionId()) {
@@ -719,6 +713,9 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
         additionalInformation
                 .setCurrentPriorNRSASupportArray(getCurrentPriorNRSASupportArray());
         additionalInformation.setConcurrentSupport(YesNoDataType.N_NO);
+        FellowshipTrainingAndCareerGoals fellowshipTrainingAndCareerGoals = FellowshipTrainingAndCareerGoals.Factory.newInstance();
+        ActivitiesPlannedUnderThisAward activitiesPlannedUnderThisAward = ActivitiesPlannedUnderThisAward.Factory.newInstance();
+
         AttachedFileDataType attachedFileDataType = null;
         for (Narrative narrative : pdDoc.getDevelopmentProposal()
                 .getNarratives()) {
@@ -743,12 +740,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
                     if(attachedFileDataType == null){
                         continue;
                     }
-                    FellowshipTrainingAndCareerGoals fellowshipTrainingAndCareerGoals = FellowshipTrainingAndCareerGoals.Factory
-                            .newInstance();
-                    fellowshipTrainingAndCareerGoals
-                            .setAttFile(attachedFileDataType);
-                    additionalInformation
-                            .setFellowshipTrainingAndCareerGoals(fellowshipTrainingAndCareerGoals);
+                    fellowshipTrainingAndCareerGoals.setAttFile(attachedFileDataType);
                     break;
                 case DISSERTATION:
                     attachedFileDataType = getAttachedFileType(narrative);
@@ -767,12 +759,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
                     if(attachedFileDataType == null){
                         continue;
                     }
-                    ActivitiesPlannedUnderThisAward activitiesPlannedUnderThisAward = ActivitiesPlannedUnderThisAward.Factory
-                            .newInstance();
-                    activitiesPlannedUnderThisAward
-                            .setAttFile(attachedFileDataType);
-                    additionalInformation
-                            .setActivitiesPlannedUnderThisAward(activitiesPlannedUnderThisAward);
+                    activitiesPlannedUnderThisAward.setAttFile(attachedFileDataType);
                     break;
                 default:
                     break;
@@ -780,6 +767,8 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
                 }
             }
         }
+        additionalInformation.setFellowshipTrainingAndCareerGoals(fellowshipTrainingAndCareerGoals);
+        additionalInformation.setActivitiesPlannedUnderThisAward(activitiesPlannedUnderThisAward);
         return additionalInformation;
     }
 
