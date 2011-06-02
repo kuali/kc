@@ -643,6 +643,10 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             }
             GlobalVariables.getUserSession().addObject(GlobalVariables.getUserSession().getKualiSessionId()+Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION, doc);
         }
+        //must reset the processed flag.
+        for(PendingTransaction transaction : doc.getPendingTransactions()) {
+            transaction.setProcessedFlag(false);
+        }
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
 
