@@ -134,10 +134,29 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         if (Constants.MAPPING_PROPOSAL_ACTIONS.equals(command)) {
             forward = actions(mapping, proposalDevelopmentForm, request, response);
         }
+        String createProposalFromGrantsGov=request.getParameter("createProposalFromGrantsGov");
+        
+        if(createProposalFromGrantsGov!=null && createProposalFromGrantsGov.equals("true")){
+            setOpportunityDetails(proposalDevelopmentForm,request);
+        }
         
         return forward;
     }
+    
+    protected void setOpportunityDetails(ProposalDevelopmentForm proposalDevelopmentForm, HttpServletRequest request){
 
+        String cfdaNumber=request.getParameter("cfdaNumber");
+        String opportunityId=request.getParameter("oppurtunityId");
+        String opportunityTitle=request.getParameter("opportunityTitle");
+        
+        if(cfdaNumber!=null)
+            proposalDevelopmentForm.getDocument().getDevelopmentProposal().setCfdaNumber(cfdaNumber);
+        if(opportunityId!=null)
+            proposalDevelopmentForm.getDocument().getDevelopmentProposal().setProgramAnnouncementNumber(opportunityId);
+        if(opportunityTitle!=null)
+            proposalDevelopmentForm.getDocument().getDevelopmentProposal().setProgramAnnouncementTitle(opportunityTitle);
+    }
+    
     protected ProposalHierarcyActionHelper getHierarchyHelper() {
         if (hierarchyHelper == null) {
             hierarchyHelper = new ProposalHierarcyActionHelper();
