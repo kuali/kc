@@ -15,6 +15,11 @@
 --%>
 <%-- member of AwardContacts.jsp --%>
 <script src="scripts/jquery/jquery.js"></script>
+<script type='text/javascript' src='/kc-dev/dwr/interface/KraPersonService.js'></script>
+<script type='text/javascript 'src='/kc-dev/dwr/interface/PersonService.js'></script>
+<script type='text/javascript' src='/kc-dev/dwr/interface/RolodexService.js'></script>
+<script type='text/javascript' src='/kc-dev/dwr/engine.js'></script>
+<script type='text/javascript' src='/kc-dev/dwr/util.js'></script>
 <script>
  $jq = jQuery.noConflict();
 </script>
@@ -25,6 +30,7 @@
 <c:set var="coiRoleConstant" value="<%=org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE%>" />
 
 <%-- kra:section permission="modifyAward" --%>
+				
 <kul:tab tabTitle="Key Personnel and Credit Split" tabItemCount="${KualiForm.projectPersonnelBean.projectPersonnelCount}" defaultOpen="false" 
 			 transparentBackground="true" useRiceAuditMode="true" innerTabErrorKey="document.awardList[0].projectPersons[*">
 	<div class="tab-container" align="center">
@@ -58,10 +64,37 @@
                             <td style="white-space:nowrap; border: none;">
                                 <kul:htmlControlAttribute property="projectPersonnelBean.newProjectPerson.person.fullName" 
                                             attributeEntry="${awardPersonAttributes.fullName}"
-                                            readOnly="true" />
+       										onblur="loadContactPersonName('projectPersonnelBean.newProjectPerson.person.fullName',
+	                               				 			'per.fullName.div',
+	                	        				     		'key.unitNumber',
+	                	        				  			'key.phoneNumber',
+           	        							  			'key.emailAddress',
+           	        							  			'key.personId');"
+											readOnly="${readOnly}" /> <c:if test="${!readOnly}">
               					<kul:lookup boClassName="org.kuali.kra.bo.KcPerson"
                                             fieldConversions="personId:projectPersonnelBean.personId" anchor="${tabKey}"
-      	 									lookupParameters="projectPersonnelBean.newProjectPerson.person.fullName:lastName"/>
+      	 									lookupParameters="projectPersonnelBean.newProjectPerson.person.fullName:lastName"/>				
+
+				</c:if> <c:if test="${readOnly}">
+					<html:hidden styleId ="per.fullName.div" property="projectPersonnelBean.newProjectPerson.person.fullName" />
+				</c:if>
+ 
+ 				<html:hidden styleId ="key.personId" property="projectPersonnelBean.personId" />
+				${kfunc:registerEditableProperty(KualiForm, "projectPersonnelBean.personId")}				
+ 
+				<div id="per.fullName.div">&nbsp; <c:if
+					test="${!empty KualiForm.projectPersonnelBean.newProjectPerson.person}">
+					<c:choose>
+						<c:when
+							test="${empty KualiForm.projectPersonnelBean.newProjectPerson.person}">
+							<span style='color: red;'>not found</span>
+						</c:when>
+						<c:otherwise>
+							<c:out
+								value="${KualiForm.projectPersonnelBean.newProjectPerson.person.fullName}" />
+						</c:otherwise>
+					</c:choose>
+				</c:if></div>
       	 					</td>
                         </tr><tr>
                             <td style="white-space:nowrap; border: none;">
@@ -70,18 +103,47 @@
                             <td style="white-space:nowrap; border: none;">
                                 <kul:htmlControlAttribute property="projectPersonnelBean.newProjectPerson.rolodex.fullName" 
                                                 attributeEntry="${awardPersonAttributes.fullName}"
-                                                readOnly="true" />
-          						<kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" fieldConversions="rolodexId:projectPersonnelBean.rolodexId" 
-          									anchor="${tabKey}"
-          									lookupParameters="projectPersonnelBean.rolodexId:rolodexId,projectPersonnelBean.newProjectPerson.rolodex.fullName:lastName"/>
-                            </td>
+                                                onblur="loadRolodexInfo2('projectPersonnelBean.newProjectPerson.rolodex.fullName',
+	                               							'rol.fullName.div',
+	                	        				     		'key.unitNumber',	                               							
+                      	        				  			'key.phoneNumber',
+           	        							  			'key.emailAddress',
+           	        							  			'key.rolodexId');"
+           	        							 readOnly="${readOnly}"/>
+ 					<c:if test="${!readOnly}">
+  					<kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" fieldConversions="rolodexId:projectPersonnelBean.rolodexId" 
+          			anchor="${tabKey}"
+          			lookupParameters="projectPersonnelBean.rolodexId:rolodexId,projectPersonnelBean.newProjectPerson.rolodex.fullName:lastName"/>																	
+  					</c:if>
+  			   <c:if test="${readOnly}">
+					<html:hidden styleId ="rol.fullName.div" property="projectPersonnelBean.newProjectPerson.rolodex.fullName" />
+				</c:if>
+
+				${kfunc:registerEditableProperty(KualiForm, "projectPersonnelBean.rolodexId")}
+				<html:hidden styleId ="key.rolodexId" property="projectPersonnelBean.rolodexId" />
+  
+				<div id="rol.fullName.div">&nbsp; <c:if
+					test="${!empty KualiForm.projectPersonnelBean.newAwardContact}">
+					<c:choose>
+						<c:when
+							test="${empty KualiForm.projectPersonnelBean.newAwardContact}">
+							<span style='color: red;'>not found</span>
+						</c:when>
+						<c:otherwise>
+							<c:out
+								value="${KualiForm.projectPersonnelBean.newAwardContact.contactOrganizationName}" />
+						</c:otherwise>
+					</c:choose>
+				</c:if></div>
+				</td>
                         </tr></table>
     	        	</td>
-    	        	<td class="infoline">
+    	        	<td id="key.unitNumber" class="infoline">
     	        		<div align="center">
     	        			<c:out value="${KualiForm.projectPersonnelBean.newAwardContact.contactOrganizationName}" />&nbsp;
     	        		</div>
     	        	</td>
+
     	        	<td class="infoline">
                         ${KualiForm.valueFinderResultDoNotCache}
     	        		<div align="center">
@@ -125,12 +187,12 @@
                         ${KualiForm.valueFinderResultCache}
                         </div>
     	        	</td>
-    	        	<td class="infoline">
-    	        		<div align="center">
+    	        	<td id="key.phoneNumber" class="infoline">
+    	        		<div  align="center">
     	        			<c:out value="${KualiForm.projectPersonnelBean.newAwardContact.contact.phoneNumber}" />&nbsp;
     	        		</div>
     	        	</td>
-    	        	<td class="infoline">
+    	        	<td id="key.emailAddress" class="infoline">
     	        		<div align="center">
     	        			<c:out value="${KualiForm.projectPersonnelBean.newAwardContact.contact.emailAddress}" />&nbsp;
     	        		</div>
