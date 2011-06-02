@@ -80,16 +80,16 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
     private static final int PHS_TRAINING_BUDGET_BUDGETJUSTIFICATION_130 = 130;
     
 
-//    private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD1 = { 2, 5, 8, 11, 53, 54, 56 };
-//    private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD2 = { 59, 60, 63, 66, 108, 109, 111 };
-//    private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD3 = { 114, 115, 118, 121, 164, 165, 167 };
-//    private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD4 = { 170, 171, 174, 177, 219, 220, 222 };
-//    private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD5 = { 225, 226, 229, 232, 274, 275, 277 };
-    private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD1 = { 72, 73, 74, 75, 77, 78, 79, 80, 95, 96, 97, 98 };
+    private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD1 = { 2, 5, 8, 11, 53, 54, 56 };
     private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD2 = { 59, 60, 63, 66, 108, 109, 111 };
     private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD3 = { 114, 115, 118, 121, 164, 165, 167 };
     private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD4 = { 170, 171, 174, 177, 219, 220, 222 };
     private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD5 = { 225, 226, 229, 232, 274, 275, 277 };
+//    private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD1 = { 72, 73, 74, 75, 77, 78, 79, 80, 95, 96, 97, 98 };
+//    private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD2 = { 59, 60, 63, 66, 108, 109, 111 };
+//    private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD3 = { 114, 115, 118, 121, 164, 165, 167 };
+//    private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD4 = { 170, 171, 174, 177, 219, 220, 222 };
+//    private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD5 = { 225, 226, 229, 232, 274, 275, 277 };
 
     private static final Integer[] POSTDOC_PARENT_QUESTION_IDS_PERIOD1 = { 17, 26, 35, 44 };
     private static final Integer[] POSTDOC_PARENT_QUESTION_IDS_PERIOD2 = { 72, 81, 90, 99 };
@@ -304,7 +304,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
                             }
                             catch (NumberFormatException ex) {
                             }
-//                            if (isPreDocParentQuestionFromPeriodExists(questionnaireQuestion, budgetPeriod)) {
+                            if (isPreDocParentQuestionFromPeriodExists(questionnaireQuestion, budgetPeriod)) {
                                 switch (question.getQuestionId()) {
                                     case 72:
                                         if (answer != null)
@@ -376,7 +376,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
                                             otherShortStipends = new BigDecimal(answer.toString());
                                         break;
                                 }
-//                            }
+                            }
                             if (isPostDocParentQuestionFromPeriodExists(questionnaireQuestion, budgetPeriod, FN_INDEX)) {
                                 switch (question.getQuestionId()) {
                                     case 86:
@@ -1084,9 +1084,9 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
     }
 
     private boolean isPreDocParentQuestionFromPeriodExists(QuestionnaireQuestion questionnaireQuestion, BudgetPeriod budgetPeriod) {
-        Integer parentQuestionId = getParentQuestionId(questionnaireQuestion.getParentQuestionNumber());
-        return parentQuestionId != null
-                && Arrays.asList(getPreDocParentQuestionsForPeriod(budgetPeriod)).contains(parentQuestionId);
+//        Integer parentQuestionId = getParentQuestionId(questionnaireQuestion.getParentQuestionNumber());
+//        return parentQuestionId != null &&
+          return Arrays.asList(getPreDocParentQuestionsForPeriod(budgetPeriod)).contains(questionnaireQuestion.getParentQuestionNumber());
     }
     private BigDecimal getStipendAmount(BudgetPeriod budgetPeriod, String careerLevel, int experienceLevel, int numPeople) {
         BudgetDecimal stipendCost = BudgetDecimal.ZERO;
