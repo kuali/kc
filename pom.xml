@@ -756,7 +756,7 @@
 		<dependency>
 			<groupId>org.kuali.rice</groupId>
 			<artifactId>rice-impl</artifactId>
-			<version>${rice.snapshot.impl.version}</version>
+			<version>${rice.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>com.oracle</groupId>
@@ -1089,7 +1089,7 @@
 										<artifactItem>
 											<groupId>org.kuali.rice</groupId>
 											<artifactId>rice-web</artifactId>
-											<version>${rice.snapshot.web.version}</version>
+											<version>${rice.version}</version>
 											<type>war</type>
 											<overWrite>false</overWrite>
 											<outputDirectory>src/main/webapp</outputDirectory>
@@ -1267,7 +1267,7 @@
 		          			<contextHandlers>
 		          				<contextHandler implementation="org.eclipse.jetty.webapp.WebAppContext">
 		          					<!-- this is kind of hacky not sure if there is a better way -->
-                   					<war>${settings.localRepository}/org/kuali/rice/rice-web/${rice.version}/rice-web-${rice.snapshot.web.version}.war</war>
+                   					<war>${settings.localRepository}/org/kuali/rice/rice-web/${rice.version}/rice-web-${rice.version}.war</war>
                    					<contextPath>/kr-dev</contextPath>
                					</contextHandler>
 		          			</contextHandlers>
@@ -1509,9 +1509,7 @@
 		<jstl.version>1.1.2</jstl.version>
 		<mysql.version>5.1.13</mysql.version>
 		<oracle.version>10.2.0.3.0</oracle.version>
-		<rice.version>1.0.3.2-SNAPSHOT</rice.version>
-		<rice.snapshot.impl.version>1.0.3.2-20110519.181532-21</rice.snapshot.impl.version>
-		<rice.snapshot.web.version>1.0.3.2-20110519.181626-19</rice.snapshot.web.version>
+		<rice.version>1.0.3.2-m3</rice.version>
 		<selenium.version>2.0b3</selenium.version>
 		<servlet.version>2.4</servlet.version>
 		<slf4j.version>1.6.1</slf4j.version>
