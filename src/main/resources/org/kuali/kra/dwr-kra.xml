@@ -28,12 +28,16 @@
 			<param name="include" value="jobCode" />
 		</convert>		
 		<convert converter="bean" match="org.kuali.kra.bo.KcPerson">
-			<param name="include" value="fullName,unit" />			
+			<param name="include" value="fullName,unit,phoneNumber,emailAddress,personId" />			
 		</convert>	
 		<convert converter="bean" match="org.kuali.kra.bo.Unit">
 			<param name="include" value="unitNumber,unitName" />			
 		</convert>	
-		
+		<convert converter="bean" match="org.kuali.kra.bo.Rolodex">
+			<param name="include" value="fullName,rolodexId,unit,emailAddress,phoneNumber,organization" />
+		</convert>
+
+						
 		<create creator="spring" javascript="SponsorService">
 			<param name="beanName" value="sponsorService" />
 			<include method="getSponsorName" />
@@ -54,6 +58,9 @@
 		<create creator="spring" javascript="KraPersonService">
 			<param name="beanName" value="kcPersonService" />
 			<include method="getKcPersonByUserName" />
+			<include method="getEmailAddress" />
+			<include method="getPhoneNumber" />
+			<include method="getPersonId" />			
 		</create>
 		<create creator="spring" javascript="CustomAttributeService">
 			<param name="beanName" value="customAttributeService" />
@@ -149,6 +156,14 @@
 		<create creator="spring" javascript="S2SService">
 			<param name="beanName" value="s2SService" />
 			<include method="getStatusDetails" />
+		</create>
+		<create creator="spring" javascript="RolodexService">
+			<param name="beanName" value="rolodexService" />
+			<include method="getRolodex" />
+			<include method="getRolodexId" />
+			<include method="getEmailAddress" />
+			<include method="getPhoneNumber" />
+			<include method="getOrganization" />
 		</create>
 	</allow>
 </dwr>
