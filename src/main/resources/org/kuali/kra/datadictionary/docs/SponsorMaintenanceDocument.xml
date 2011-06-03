@@ -23,6 +23,11 @@
     <property name="documentTypeName" value="SponsorMaintenanceDocument"/>
     <property name="businessRulesClass" value="org.kuali.kra.rules.SponsorMaintenanceDocumentRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    <property name="webScriptFiles">
+        <list>
+            <value>../dwr/interface/StateService.js</value>
+        </list>
+    </property>
     
     
   </bean>
@@ -41,7 +46,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="acronym"/>
         <bean parent="MaintainableFieldDefinition" p:name="auditReportSentForFy"/>
         <bean parent="MaintainableFieldDefinition" p:name="cageNumber"/>
-        <bean parent="MaintainableFieldDefinition" p:name="countryCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="countryCode" p:webUILeaveFieldFunction="updateStateFromCountry"/>
         <bean parent="MaintainableFieldDefinition" p:name="dodacNumber"/>
         <bean parent="MaintainableFieldDefinition" p:name="dunAndBradstreetNumber"/>
         <bean parent="MaintainableFieldDefinition" p:name="dunsPlusFourNumber"/>
