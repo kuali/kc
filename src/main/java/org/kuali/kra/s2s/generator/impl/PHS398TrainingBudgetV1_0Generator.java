@@ -235,18 +235,23 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
             BigDecimal totIndCosts = new BigDecimal("0");
             for (int i = 0; i < cvIndirectCost.size() & i < 2; i++) {
                 IndirectCostDetails indireCost = cvIndirectCost.get(i);
+                totIndCosts = totIndCosts.add(indireCost.getFunds().bigDecimalValue());
                 switch (i) {
                     case (0):
                         phs398TrainingBudgetYearDataType.setIndirectCostType1(indireCost.getCostType());
                         phs398TrainingBudgetYearDataType.setIndirectCostBase1(indireCost.getBase().bigDecimalValue());
                         phs398TrainingBudgetYearDataType.setIndirectCostFundsRequested1(indireCost.getFunds().bigDecimalValue());
                         phs398TrainingBudgetYearDataType.setIndirectCostRate1(indireCost.getRate().bigDecimalValue());
+                        totIndCosts = totIndCosts.add(phs398TrainingBudgetYearDataType.getIndirectCostFundsRequested1());
+                        cumTotalIndCosts1 =  cumTotalIndCosts1.add(phs398TrainingBudgetYearDataType.getIndirectCostFundsRequested1());
                         break;
                     case (1):
                         phs398TrainingBudgetYearDataType.setIndirectCostType1(indireCost.getCostType());
                         phs398TrainingBudgetYearDataType.setIndirectCostBase2(indireCost.getBase().bigDecimalValue());
                         phs398TrainingBudgetYearDataType.setIndirectCostFundsRequested2(indireCost.getFunds().bigDecimalValue());
                         phs398TrainingBudgetYearDataType.setIndirectCostRate2(indireCost.getRate().bigDecimalValue());
+                        totIndCosts = totIndCosts.add(phs398TrainingBudgetYearDataType.getIndirectCostFundsRequested2());
+                        cumTotalIndCosts2 =  cumTotalIndCosts2.add(phs398TrainingBudgetYearDataType.getIndirectCostFundsRequested2());
                         break;
                     default:
                         break;
