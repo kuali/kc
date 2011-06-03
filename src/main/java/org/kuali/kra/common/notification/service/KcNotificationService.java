@@ -24,16 +24,17 @@ import org.kuali.kra.common.notification.bo.KcNotification;
 public interface KcNotificationService {
     
     /**
-     * Creates a list of KC Notifications based on an Action Code and Notification Context.
-     * The Notification Types associated with the Action Code will be retrieved from persistent storage,
-     * and translated into context-specific KC Notification instances based on the Notification Context.
+     * Creates a list of KC Notifications based on a Module Code, Action Code, and Notification Context.  The Notification Types associated with the Module 
+     * Code and Action Code will be retrieved from persistent storage, and translated into context-specific KC Notification instances based on the Notification 
+     * Context.
      * 
      * @param documentNumber
+     * @param moduleCode
      * @param actionCode
      * @param notificationContext
      * @return The list of KC Notifications
      */
-    List<KcNotification> createNotifications(String documentNumber, String actionCode, NotificationContext notificationContext);
+    List<KcNotification> createNotifications(String documentNumber, String moduleCode, String actionCode, NotificationContext notificationContext);
     
     /**
      * Saves a list of KC Notifications.
@@ -43,13 +44,14 @@ public interface KcNotificationService {
     void saveNotifications(List<KcNotification> notifications);
     
     /**
-     * Retrieves a list of KC Notifications based on a Document Number and a set of Action Codes.
+     * Retrieves a list of KC Notifications based on a Document Number, a Module Code, and a set of Action Codes.
      * 
      * @param documentNumber
+     * @param moduleCode
      * @param actionCodes
      * @return The list of KC Notifications
      */
-    List<KcNotification> getNotifications(String documentNumber, Set<String> actionCodes);
+    List<KcNotification> getNotifications(String documentNumber, String moduleCode, Set<String> actionCodes);
     
     /**
      * Send the list of KC Notifications. The context is needed to populate context-specific role qualifiers
