@@ -17,8 +17,10 @@ package org.kuali.kra.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -134,7 +136,7 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
      * @see org.kuali.kra.service.UnitAuthorizationService#getUnits(java.lang.String, java.lang.String)
      */
     public List<Unit> getUnits(String userId, String namespaceCode, String permissionName) {
-        List<Unit> units = new ArrayList<Unit>();
+        Set<Unit> units = new LinkedHashSet<Unit>();
         // Start by getting all of the Qualified Roles that the person is in.  For each
         // qualified role that has the UNIT_NUMBER qualification, check to see if the role
         // has the required permission.  If so, add that unit to the list.  Also, if the
@@ -143,27 +145,28 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
         List<String> roleIds = new ArrayList<String>();
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put(KcKimAttributes.UNIT_NUMBER, "*");
+        AttributeSet qualification = new AttributeSet(qualifiedRoleAttributes);
         roleIds = systemAuthorizationService.getRoleIdsForPermission(permissionName, namespaceCode);
         
-        List<AttributeSet> qualifiers = roleManagementService.getRoleQualifiersForPrincipal(userId, roleIds, new AttributeSet(qualifiedRoleAttributes));
-        for(AttributeSet qualifier : qualifiers) {
+        List<AttributeSet> qualifiers = roleManagementService.getRoleQualifiersForPrincipalIncludingNested(userId, roleIds, qualification);
+        for (AttributeSet qualifier : qualifiers) {
             Unit unit = unitService.getUnit(qualifier.get(KcKimAttributes.UNIT_NUMBER));
-            if(unit != null) {
+            if (unit != null) {
                 units.add(unit);
-                if(unit != null && qualifier.containsKey(KcKimAttributes.SUBUNITS) && StringUtils.equalsIgnoreCase("Y", qualifier.get(KcKimAttributes.SUBUNITS))) {
+                if (qualifier.containsKey(KcKimAttributes.SUBUNITS) && StringUtils.equalsIgnoreCase("Y", qualifier.get(KcKimAttributes.SUBUNITS))) {
                     addDescendantUnits(unit, units);
                 }
             }
         }
         //the above line could potentially be a performance problem - need to revisit
-        return units;
+        return new ArrayList<Unit>(units);
     }
     
-    protected void addDescendantUnits(Unit parentUnit, List<Unit> units) { 
+    protected void addDescendantUnits(Unit parentUnit, Set<Unit> units) { 
         List<Unit> subunits = unitService.getSubUnits(parentUnit.getUnitNumber());
-        if(CollectionUtils.isNotEmpty(subunits)) {
+        if (CollectionUtils.isNotEmpty(subunits)) {
             units.addAll(subunits); 
-            for(Unit subunit : subunits) {
+            for (Unit subunit : subunits) {
                 addDescendantUnits(subunit, units);
             }
         }
