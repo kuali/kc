@@ -65,7 +65,7 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
     private String fileName;
     private String contentType;
     private byte[] attachmentContent;
-    private FormFile templateFile;
+    private transient FormFile templateFile;
     
     private List<PersonDegree> personDegrees = new TypedArrayList(PersonDegree.class);
     private List<PersonAppointment> personAppointments = new TypedArrayList(PersonAppointment.class);
