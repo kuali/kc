@@ -145,7 +145,7 @@ public abstract class KraPersistableBusinessObjectBase extends PersistableBusine
      * @param updateUser the user who updated this object
      */
     public void setUpdateUser(String updateUser) {
-        if (this instanceof VersionHistory || !KNSConstants.SYSTEM_USER.equals(updateUser)) {
+        if (!KNSConstants.SYSTEM_USER.equals(updateUser)) {
             this.updateUser = StringUtils.substring(updateUser, 0, UPDATE_USER_LENGTH);
         }
     }
