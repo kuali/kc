@@ -21,7 +21,11 @@
     
     <property name="documentTypeName" value="RolodexMaintenanceDocument"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
-    
+    <property name="webScriptFiles">
+        <list>
+            <value>../dwr/interface/StateService.js</value>
+        </list>
+    </property>
     
   </bean>
 
@@ -41,7 +45,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="addressLine3"/>
         <bean parent="MaintainableFieldDefinition" p:name="city"/>
         <bean parent="MaintainableFieldDefinition" p:name="comments"/>
-        <bean parent="MaintainableFieldDefinition" p:name="countryCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="countryCode" p:webUILeaveFieldFunction="updateStateFromCountry"/>
         <bean parent="MaintainableFieldDefinition" p:name="county"/>
         <bean parent="MaintainableFieldDefinition" p:name="deleteFlag"/>
         <bean parent="MaintainableFieldDefinition" p:name="emailAddress"/>
