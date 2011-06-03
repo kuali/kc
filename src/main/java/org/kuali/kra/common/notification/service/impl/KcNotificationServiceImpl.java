@@ -46,6 +46,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class KcNotificationServiceImpl implements KcNotificationService {
     
+    private static final String MODULE_CODE = "moduleCode";
     private static final String ACTION_CODE = "actionCode";
     private static final String NOTIFICATION_TYPE_ID = "notificationTypeId";
     private static final String DOCUMENT_NUMBER = "documentNumber";
@@ -61,14 +62,15 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.service.KcNotificationService#createNotifications(java.lang.String, java.lang.String, 
+     * @see org.kuali.kra.common.notification.service.KcNotificationService#createNotifications(java.lang.String, java.lang.String, java.lang.String, 
      *      org.kuali.kra.common.notification.NotificationContext)
      */
     @SuppressWarnings("unchecked")
-    public List<KcNotification> createNotifications(String documentNumber, String actionCode, NotificationContext context) {
+    public List<KcNotification> createNotifications(String documentNumber, String moduleCode, String actionCode, NotificationContext context) {
         List<KcNotification> notifications = new ArrayList<KcNotification>();
         
         Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(MODULE_CODE, moduleCode);
         fieldValues.put(ACTION_CODE, actionCode);
         Collection<NotificationType> notificationTypes = getBusinessObjectService().findMatching(NotificationType.class, fieldValues);
         
@@ -97,14 +99,15 @@ public class KcNotificationServiceImpl implements KcNotificationService {
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.service.KcNotificationService#getNotifications(java.lang.String, java.util.Set)
+     * @see org.kuali.kra.common.notification.service.KcNotificationService#getNotifications(java.lang.String, java.lang.String, java.util.Set)
      */
     @SuppressWarnings("unchecked")
-    public List<KcNotification> getNotifications(String documentNumber, Set<String> actionCodes) {
+    public List<KcNotification> getNotifications(String documentNumber, String moduleCode, Set<String> actionCodes) {
         List<KcNotification> notifications = new ArrayList<KcNotification>();
         
         for (String actionCode : actionCodes) {
             Map<String, String> notificationTypeFieldValues = new HashMap<String, String>();
+            notificationTypeFieldValues.put(MODULE_CODE, moduleCode);
             notificationTypeFieldValues.put(ACTION_CODE, actionCode);
             Collection<NotificationType> notificationTypes = getBusinessObjectService().findMatching(NotificationType.class, notificationTypeFieldValues);
             

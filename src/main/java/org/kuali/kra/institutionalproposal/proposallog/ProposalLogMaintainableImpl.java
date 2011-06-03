@@ -109,7 +109,7 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
         
         // Notify the PI he has been added
         KcNotificationService kcNotificationService = KraServiceLocator.getService(KcNotificationService.class);
-        List<KcNotification> notifications = kcNotificationService.createNotifications(documentNumber, "plp", this);
+        List<KcNotification> notifications = kcNotificationService.createNotifications(documentNumber, "2", "plp", this);
         kcNotificationService.sendNotifications(notifications, this);
     }
     
