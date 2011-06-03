@@ -2919,3 +2919,22 @@ function updateFringeTotal(budgetPeriod,calcAmontsCount){
 	changeObjectVisibility("personnelFringeCalc"+(budgetPeriod-1)+".div.object","none");
 	changeObjectVisibility("personnelFringeTotal.div.object","none");
 }
+
+function updateStateFromCountry() {
+	var countryCode = DWRUtil.getValue( 'document.newMaintainableObject.countryCode' );
+	
+	var dwrReply = {
+		callback:function(data) {
+			if ( data != null ) {
+				DWRUtil.removeAllOptions( 'document.newMaintainableObject.state' );
+				$('document.newMaintainableObject.state').options[0] = new Option('', '');
+				DWRUtil.addOptions( 'document.newMaintainableObject.state' , data, 'postalCountryCode', 'postalStateName' );
+			} 
+		},
+		errorHandler:function( errorMessage ) {
+			window.status = errorMessage;
+		}
+	};
+
+	StateService.findAllStatesByAltCountryCode(countryCode, dwrReply);
+}

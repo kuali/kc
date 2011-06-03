@@ -165,5 +165,12 @@
 			<include method="getPhoneNumber" />
 			<include method="getOrganization" />
 		</create>
+		<create creator="spring" javascript="StateService">
++            <param name="beanName" value="stateService" />
++            <include method="findAllStatesByAltCountryCode" />
++        </create>
++        <convert converter="bean" match="org.kuali.rice.kns.bo.State">
++            <param name="include" value="postalStateCode,postalStateName,codeAndDescription,postalCountryCode" />
++        </convert>
 	</allow>
 </dwr>
