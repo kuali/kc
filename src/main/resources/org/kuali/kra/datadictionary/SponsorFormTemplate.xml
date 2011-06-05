@@ -17,11 +17,13 @@
     </property>
     <property name="attributes" >
       <list>
+      	<ref bean="SponsorFormTemplate-sponsorFormTemplateId" />
+      	<ref bean="SponsorFormTemplate-sponsorFormId" />
         <ref bean="SponsorFormTemplate-templateFile" />
-        <ref bean="SponsorFormTemplate-packageNumber" />
         <ref bean="SponsorFormTemplate-pageDescription" />
         <ref bean="SponsorFormTemplate-pageNumber" />
-        <ref bean="SponsorFormTemplate-sponsorCode" />
+        <ref bean="SponsorFormTemplate-sponsorForms-sponsorCode" />
+        <ref bean="SponsorFormTemplate-sponsorForms-sponsorHierarchyName" />
         <ref bean="SponsorFormTemplate-versionNumber" />
       </list>
     </property>
@@ -55,6 +57,30 @@
     <property name="summary" value="Attachment" />
     <property name="description" value="Sponsor Form Template" />
   </bean>
+
+  <bean id="SponsorFormTemplate-sponsorFormTemplateId" parent="SponsorFormTemplate-sponsorFormTemplateId-parentBean" />
+  <bean id="SponsorFormTemplate-sponsorFormTemplateId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="sponsorFormTemplateId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Sponsor Form Template Id" />
+    <property name="shortLabel" value="Sponsor Form Template Id" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="Sponsor Form Template Id" />
+    <property name="description" value="Sponsor Form Template Id" />    
+  </bean>
+  
+  <bean id="SponsorFormTemplate-sponsorFormId" parent="SponsorFormTemplate-sponsorFormId-parentBean" />
+  <bean id="SponsorFormTemplate-sponsorFormId-parentBean" abstract="true" parent="SponsorForms-sponsorFormId">
+  </bean>
+  
   
   <bean id="SponsorFormTemplate-pageDescription" parent="SponsorFormTemplate-pageDescription-parentBean" />
 
@@ -89,14 +115,17 @@
     <property name="summary" value="Page Number" />
     <property name="description" value="Page Number" />
   </bean>
-  <bean id="SponsorFormTemplate-sponsorCode" parent="SponsorFormTemplate-sponsorCode-parentBean" />
-
-  <bean id="SponsorFormTemplate-sponsorCode-parentBean" abstract="true" parent="SponsorForms-sponsorCode">
+  
+  <bean id="SponsorFormTemplate-sponsorForms-sponsorCode" parent="SponsorFormTemplate-sponsorForms-sponsorCode-parentBean"/>
+  <bean id="SponsorFormTemplate-sponsorForms-sponsorCode-parentBean" abstract="true" parent="SponsorForms-sponsorCode">
+  	<property name="name" value="sponsorForms.sponsorCode"/>
   </bean>
-  <bean id="SponsorFormTemplate-packageNumber" parent="SponsorFormTemplate-packageNumber-parentBean" />
-
-  <bean id="SponsorFormTemplate-packageNumber-parentBean" abstract="true" parent="SponsorForms-packageNumber">
+  <bean id="SponsorFormTemplate-sponsorForms-sponsorHierarchyName" parent="SponsorFormTemplate-sponsorForms-sponsorHierarchyName-parentBean"/>
+  <bean id="SponsorFormTemplate-sponsorForms-sponsorHierarchyName-parentBean" abstract="true" parent="SponsorForms-sponsorHierarchyName">
+  	<property name="name" value="sponsorForms.sponsorHierarchyName"/>
   </bean>
+  
+
   <bean id="SponsorFormTemplate-versionNumber" parent="SponsorFormTemplate-versionNumber-parentBean" />
 
   <bean id="SponsorFormTemplate-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
@@ -117,13 +146,15 @@
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
-                    p:attributeName="packageNumber" />
+              		p:attributeName="sponsorFormId" />
               <bean parent="FieldDefinition"
                     p:attributeName="pageDescription" />
               <bean parent="FieldDefinition"
                     p:attributeName="pageNumber" />
               <bean parent="FieldDefinition"
-                    p:attributeName="sponsorCode" />
+                    p:attributeName="sponsorForms.sponsorCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="sponsorForms.sponsorHierarchyName" />                    
             </list>
           </property>
         </bean>
@@ -146,26 +177,26 @@
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="packageNumber" />
+		<bean parent="FieldDefinition"
+			  p:attributeName="sponsorFormId" />
         <bean parent="FieldDefinition"
               p:attributeName="pageDescription" />
         <bean parent="FieldDefinition"
               p:attributeName="pageNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="sponsorCode" />
       </list>
     </property>
     <property name="resultFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="packageNumber" />
+              p:attributeName="sponsorFormId" />
         <bean parent="FieldDefinition"
               p:attributeName="pageDescription" />
         <bean parent="FieldDefinition"
               p:attributeName="pageNumber" />
         <bean parent="FieldDefinition"
-              p:attributeName="sponsorCode" />
+              p:attributeName="sponsorForms.sponsorCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="sponsorForms.sponsorHierarchyName" />              
         <bean parent="FieldDefinition"
               p:attributeName="templateFile" />
       </list>

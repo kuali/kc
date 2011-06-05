@@ -18,19 +18,11 @@ package org.kuali.kra.bo;
 import java.util.LinkedHashMap;
 
 public abstract class AbstractSponsorFormTemplate extends KraPersistableBusinessObjectBase implements Comparable<AbstractSponsorFormTemplate>{
-	private Integer packageNumber;
+    private Long sponsorFormTemplateId;
+    private Long sponsorFormId;
 	private Integer pageNumber;
-	private String sponsorCode;
 	private String pageDescription;
     private SponsorForms sponsorForms;
-
-	public Integer getPackageNumber() {
-		return packageNumber;
-	}
-
-    public void setPackageNumber(Integer packageNumber) {
-		this.packageNumber = packageNumber;
-	}
 
 	public Integer getPageNumber() {
 		return pageNumber;
@@ -39,15 +31,6 @@ public abstract class AbstractSponsorFormTemplate extends KraPersistableBusiness
 	public void setPageNumber(Integer pageNumber) {
 		this.pageNumber = pageNumber;
 	}
-
-	public String getSponsorCode() {
-		return sponsorCode;
-	}
-
-	public void setSponsorCode(String sponsorCode) {
-		this.sponsorCode = sponsorCode;
-	}
-
 
 	public String getPageDescription() {
 		return pageDescription;
@@ -61,9 +44,9 @@ public abstract class AbstractSponsorFormTemplate extends KraPersistableBusiness
 	@Override 
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("packageNumber", getPackageNumber());
+		hashMap.put("sponsorFormTemplateId", getSponsorFormTemplateId());
+		hashMap.put("sponsorFormId", getSponsorFormId());
 		hashMap.put("pageNumber", getPageNumber());
-		hashMap.put("sponsorCode", getSponsorCode());
 		hashMap.put("pageDescription", getPageDescription());
 		return hashMap;
 	}
@@ -77,9 +60,25 @@ public abstract class AbstractSponsorFormTemplate extends KraPersistableBusiness
     }
     
     public int compareTo(AbstractSponsorFormTemplate abstractSponsorFormTemplate) {
-        int result = getPackageNumber().compareTo(abstractSponsorFormTemplate.getPackageNumber());
+        int result = getSponsorForms().getPackageNumber().compareTo(abstractSponsorFormTemplate.getSponsorForms().getPackageNumber());
         result = result != 0 ? result : getPageNumber().compareTo(abstractSponsorFormTemplate.getPageNumber());
         return result;
+    }
+
+    public Long getSponsorFormTemplateId() {
+        return sponsorFormTemplateId;
+    }
+
+    public void setSponsorFormTemplateId(Long sponsorFormTemplateId) {
+        this.sponsorFormTemplateId = sponsorFormTemplateId;
+    }
+
+    public Long getSponsorFormId() {
+        return sponsorFormId;
+    }
+
+    public void setSponsorFormId(Long sponsorFormId) {
+        this.sponsorFormId = sponsorFormId;
     }
     
 }

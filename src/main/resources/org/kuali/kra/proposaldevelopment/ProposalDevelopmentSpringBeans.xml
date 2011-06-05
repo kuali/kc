@@ -794,6 +794,7 @@
 		<property name="printingService" ref="printingService" />
 		<property name="s2SUtilService" ref="s2SUtilService" />
 		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="parameterService" ref="parameterService" />
 	</bean>
 
 	<bean id="proposalSubmissionXmlStream"

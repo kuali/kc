@@ -12,12 +12,12 @@
     </property>
     <property name="defaultExistenceChecks">
       <list>
-        <bean parent="ReferenceDefinition" p:attributeName="sponsorForms" p:attributeToHighlightOnFail="sponsorCode" p:displayFieldName="Sponsor Code and Package Number"/>
+        <bean parent="ReferenceDefinition" p:attributeName="sponsorForms" p:attributeToHighlightOnFail="pageNumber" p:displayFieldName="Sponsor Form Id and Page Number"/>
       </list>
     </property>
     <property name="lockingKeys">
       <list>
-        <value>packageNumber</value>
+        <value>sponsorFormTemplateId</value>
       </list>
     </property>
     
@@ -40,10 +40,10 @@
     <property name="title" value="Edit SponsorFormTemplates"/>
     <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition" p:name="packageNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="sponsorFormTemplateId" p:unconditionallyReadOnly="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="sponsorFormId" p:required="true" />
         <bean parent="MaintainableFieldDefinition" p:name="pageDescription" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="pageNumber" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="sponsorCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="templateFile"/>
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>
