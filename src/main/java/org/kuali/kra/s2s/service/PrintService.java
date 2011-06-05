@@ -29,31 +29,6 @@ import org.kuali.kra.s2s.S2SException;
  */
 public interface PrintService {
 	/**
-	 * 
-	 * This method is to get templates for generic sponsor code.
-	 * 
-	 * @param sponsorFormTemplates
-	 *            list of SponsorFormTemplateList.
-	 * @param sponsorCode
-	 *            code for the sponsor.
-	 */
-	public void populateSponsorForms(
-			List<SponsorFormTemplateList> sponsorFormTemplates,
-			String sponsorCode);
-
-	/**
-	 * 
-	 * This method is used to get the sponsor form template form template list.
-	 * 
-	 * @param sponsorFormTemplateLists
-	 *            list of SponsorFormTemplateList.
-	 * @return List<SponsorFormTemplate> list of SponsorFormTemplate
-	 *         corresponding to the SponsorFormTemplateList object.
-	 */
-	public List<SponsorFormTemplate> getSponsorFormTemplates(
-			List<SponsorFormTemplateList> sponsorFormTemplateLists);
-
-	/**
 	 * This method is used for the printing of forms in PDF format
 	 * 
 	 * @param pdDoc(ProposalDevelopmentDocument)

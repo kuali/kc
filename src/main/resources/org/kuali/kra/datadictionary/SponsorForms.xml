@@ -17,9 +17,11 @@
     </property>
     <property name="attributes" >
       <list>
+      	<ref bean="SponsorForms-sponsorFormId" />
         <ref bean="SponsorForms-packageName" />
         <ref bean="SponsorForms-packageNumber" />
         <ref bean="SponsorForms-sponsorCode" />
+        <ref bean="SponsorForms-sponsorHierarchyName" />
         <ref bean="SponsorForms-versionNumber" />
       </list>
     </property>
@@ -27,6 +29,24 @@
 
 <!-- Attribute Definitions -->
 
+  <bean id="SponsorForms-sponsorFormId" parent="SponsorForms-sponsorFormId-parentBean" />
+  <bean id="SponsorForms-sponsorFormId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="sponsorFormId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Sponsor Form Id" />
+    <property name="shortLabel" value="Sponsor Form Id" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="Sponsor Form Id" />
+    <property name="description" value="Sponsor Form Id" />    
+  </bean>
 
   <bean id="SponsorForms-packageName" parent="SponsorForms-packageName-parentBean" />
 
@@ -79,6 +99,25 @@
     <property name="summary" value="Sponsor Code" />
     <property name="description" value="Sponsor Code" />
   </bean>
+  <bean id="SponsorForms-sponsorHierarchyName" parent="SponsorForms-sponsorHierarchyName-parentBean" />
+
+  <bean id="SponsorForms-sponsorHierarchyName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="sponsorHierarchyName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Sponsor Hierarchy Group Name" />
+    <property name="shortLabel" value="Sponsor Hierarchy Group Name" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.PrintingHierarchyNameValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Sponsor Hierarchy Group Name" />
+    <property name="description" value="Sponsor Hierarchy Group Name" />
+  </bean>  
   <bean id="SponsorForms-versionNumber" parent="SponsorForms-versionNumber-parentBean" />
 
   <bean id="SponsorForms-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
@@ -104,6 +143,8 @@
                     p:attributeName="packageNumber" />
               <bean parent="FieldDefinition"
                     p:attributeName="sponsorCode" />
+              <bean parent="FieldDefinition"
+              		p:attributeName="sponsorHierarchyName" />
             </list>
           </property>
         </bean>
@@ -132,6 +173,8 @@
               p:attributeName="packageNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="sponsorCode" />
+        <bean parent="FieldDefinition"
+        	  p:attributeName="sponsorHierarchyName" />
       </list>
     </property>
     <property name="resultFields" >
@@ -142,6 +185,8 @@
               p:attributeName="packageNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="sponsorCode" />
+        <bean parent="FieldDefinition"
+        	  p:attributeName="sponsorHierarchyName" />              
       </list>
     </property>
   </bean>

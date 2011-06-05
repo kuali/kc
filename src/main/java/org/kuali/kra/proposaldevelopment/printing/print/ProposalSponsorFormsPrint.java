@@ -66,11 +66,8 @@ public class ProposalSponsorFormsPrint extends AbstractPrint {
 		Map<String,Source> sourceMap = new LinkedHashMap<String,Source>(); 
 		List<SponsorFormTemplate> printFormTemplates = (List<SponsorFormTemplate>)getReportParameters().get(ProposalDevelopmentPrintingServiceImpl.SELECTED_TEMPLATES);
 		for (SponsorFormTemplate sponsorFormTemplate : printFormTemplates) {
-		    Map<String,Object> htData = new HashMap<String,Object>();
-		    htData.put("sponsorCode", sponsorFormTemplate.getSponsorCode());
-		    htData.put("packageNumber", sponsorFormTemplate.getPackageNumber());
-		    htData.put("pageNumber", sponsorFormTemplate.getPageNumber());
-		    SponsorFormTemplate sponsorTemplate = (SponsorFormTemplate)getBusinessObjectService().findByPrimaryKey(SponsorFormTemplate.class, htData);
+		    SponsorFormTemplate sponsorTemplate = (SponsorFormTemplate) getBusinessObjectService().findBySinglePrimaryKey(SponsorFormTemplate.class, 
+		            sponsorFormTemplate.getSponsorFormTemplateId());
 		    sourceMap.put(sponsorFormTemplate.getPageDescription(),new StreamSource(new ByteArrayInputStream(sponsorTemplate.getAttachmentContent())));
         }
 		return sourceMap;

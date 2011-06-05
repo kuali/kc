@@ -535,4 +535,14 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         
         return matchingHierarchies > 0;
     }
+
+    /**
+     * 
+     * @see org.kuali.kra.service.SponsorService#getUniqueGroupingNames(java.lang.String, java.lang.Integer)
+     */
+    public List<String> getUniqueGroupingNames(String hierarchyName, Integer level) {
+       List<String> result = getSponsorHierarchyDao().getUniqueNamesAtLevel(hierarchyName, level);
+       Collections.sort(result);
+       return result;
+    }
 }

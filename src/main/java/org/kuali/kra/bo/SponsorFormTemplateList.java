@@ -23,9 +23,8 @@ public class SponsorFormTemplateList extends AbstractSponsorFormTemplate {
     @Override 
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("packageNumber", getPackageNumber());
+		hashMap.put("sponsorFormId", getSponsorFormId());
 		hashMap.put("pageNumber", getPageNumber());
-		hashMap.put("sponsorCode", getSponsorCode());
 		hashMap.put("pageDescription", getPageDescription());
 		return hashMap;
 	}
