@@ -15,23 +15,24 @@
  */
 package org.kuali.kra.bo;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.rice.kns.util.TypedArrayList;
-
 public class SponsorForms extends KraPersistableBusinessObjectBase {
 
+    private Long sponsorFormId;
 	private String packageName;
 	private Integer packageNumber;
 	private String sponsorCode;
+	private String sponsorHierarchyName;
 	private Sponsor sponsor;
-    private List<SponsorFormTemplate> sponsorFormTemplates;
+    private List<SponsorFormTemplateList> sponsorFormTemplates;
 
 
 	public SponsorForms(){
 		super();
-        sponsorFormTemplates = new TypedArrayList(SponsorFormTemplate.class);
+        sponsorFormTemplates = new ArrayList<SponsorFormTemplateList>();
 	}
 
 	public String getPackageName() {
@@ -62,9 +63,11 @@ public class SponsorForms extends KraPersistableBusinessObjectBase {
 	@Override 
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
+		hashMap.put("sponsorFormId", getSponsorFormId());
 		hashMap.put("packageName", getPackageName());
 		hashMap.put("packageNumber", getPackageNumber());
 		hashMap.put("sponsorCode", getSponsorCode());
+		hashMap.put("sponsorHierarchyName", getSponsorHierarchyName());
 		return hashMap;
 	}
 
@@ -76,12 +79,28 @@ public class SponsorForms extends KraPersistableBusinessObjectBase {
         this.sponsor = sponsor;
     }
 
-    public final List<SponsorFormTemplate> getSponsorFormTemplates() {
+    public final List<SponsorFormTemplateList> getSponsorFormTemplates() {
         return sponsorFormTemplates;
     }
 
-    public final void setSponsorFormTemplates(List<SponsorFormTemplate> sponsorFormTemplates) {
+    public final void setSponsorFormTemplates(List<SponsorFormTemplateList> sponsorFormTemplates) {
         this.sponsorFormTemplates = sponsorFormTemplates;
+    }
+
+    public Long getSponsorFormId() {
+        return sponsorFormId;
+    }
+
+    public void setSponsorFormId(Long sponsorFormId) {
+        this.sponsorFormId = sponsorFormId;
+    }
+
+    public String getSponsorHierarchyName() {
+        return sponsorHierarchyName;
+    }
+
+    public void setSponsorHierarchyName(String sponsorHierarchyName) {
+        this.sponsorHierarchyName = sponsorHierarchyName;
     }
 
 }

@@ -33,7 +33,7 @@ public class SponsorServiceImplTest extends KcUnitTestBase {
     private static final String TEST_SPONSOR_CODE = "005891";
     private static final String TEST_SPONSOR_NAME = "Baystate Medical Center";
     private static final String INVALID_SPONSOR_CODE = "XXXX";
-    private static final String TOP_SPONSOR_HIERARCHY = "Administering Activity;1;COI Disclosures;1;NIH Multiple PI;1;NIH Other Significant Contributor;1;Routing;1;Sponsor Groups";
+    private static final String TOP_SPONSOR_HIERARCHY = "Administering Activity;1;COI Disclosures;1;NIH Multiple PI;1;NIH Other Significant Contributor;1;Printing;1;Routing;1;Sponsor Groups";
     private SponsorService sponsorService;
     
     @Before

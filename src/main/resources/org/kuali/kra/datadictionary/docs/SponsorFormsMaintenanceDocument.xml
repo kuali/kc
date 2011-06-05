@@ -12,13 +12,13 @@
     </property>
     <property name="lockingKeys">
       <list>
-        <value>packageNumber</value>
+        <value>sponsorFormId</value>
       </list>
     </property>
     
     
     
-    
+    <property name="businessRulesClass" value="org.kuali.kra.rules.SponsorFormsMaintenanceDocumentRule"/>
     <property name="documentTypeName" value="SponsorFormsMaintenanceDocument"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
     
@@ -37,7 +37,8 @@
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="packageName" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="packageNumber" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="sponsorCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="sponsorCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="sponsorHierarchyName"/>
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>
     </property>
