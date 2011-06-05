@@ -15,15 +15,20 @@
  */
 package org.kuali.kra.dao.ojb;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.dao.SponsorHierarchyDao;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.util.OjbCollectionAware;
+import org.springframework.transaction.annotation.Transactional;
 
 public class SponsorHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, SponsorHierarchyDao {
     
@@ -52,4 +57,25 @@ public class SponsorHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements O
       return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
       
    }
+
+    /**
+     * Appears to need to be transactional when this is called during the maint doc page rendering.
+     * @see org.kuali.kra.dao.SponsorHierarchyDao#getUniqueNamesAtLevel(java.lang.String, int)
+     */
+    @Transactional
+    public List<String> getUniqueNamesAtLevel(String hierarchyName, int depth) {
+        Criteria criteriaID = new Criteria();
+        criteriaID.addEqualTo(Constants.HIERARCHY_NAME, hierarchyName);
+        ReportQueryByCriteria queryID = new ReportQueryByCriteria(SponsorHierarchy.class,criteriaID);
+        queryID.setAttributes(new String[] {"level" + depth});
+        queryID.setDistinct(true);
+        
+        Iterator iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
+        List<String> result = new ArrayList<String>();
+        while (iter.hasNext()) {
+            Object[] objects = (Object[]) iter.next();
+            result.add((String) objects[0]);
+        }
+        return result;
+    }
 }

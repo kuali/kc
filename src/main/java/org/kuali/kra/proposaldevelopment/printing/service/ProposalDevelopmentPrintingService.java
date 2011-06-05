@@ -44,9 +44,9 @@ public interface ProposalDevelopmentPrintingService {
 
     /**
 	 * This method generates the required report and returns the PDF stream as
-	 * {@link AttachmentDataSource}
+	 * {@link AttachmentDataSource}.
 	 * 
-	 * @param document
+	 * @param printableBusinessObject
 	 *            Document data using which report is generated
 	 * @param reportName
 	 *            report to be generated
@@ -57,27 +57,34 @@ public interface ProposalDevelopmentPrintingService {
 	 * @throws PrintingException
 	 *             if any errors occur during report generation
 	 */
-	public AttachmentDataSource printProposalDevelopmentReport(
+	AttachmentDataSource printProposalDevelopmentReport(
 			KraPersistableBusinessObjectBase printableBusinessObject, String reportName,
 			Map<String, Object> reportParameters) throws PrintingException;
-	
-	
+
     /**
      * 
      * This method is to get templates for generic sponsor code.
      * 
-     * @param sponsorFormTemplates list of SponsorFormTemplateList.
-     * @param sponsorCode code for the sponsor.
+     * @param sponsorFormTemplates
+     *            list of SponsorFormTemplateList.
+     * @param sponsorCode
+     *            code for the sponsor.
      */
-    public void populateSponsorForms(List<SponsorFormTemplateList> sponsorFormTemplates, String sponsorCode);
+    void populateSponsorForms(
+            List<SponsorFormTemplateList> sponsorFormTemplates,
+            String sponsorCode);
 
     /**
      * 
      * This method is used to get the sponsor form template form template list.
      * 
-     * @param sponsorFormTemplateLists list of SponsorFormTemplateList.
-     * @return List<SponsorFormTemplate> list of SponsorFormTemplate corresponding to the SponsorFormTemplateList object.
+     * @param sponsorFormTemplateLists
+     *            list of SponsorFormTemplateList.
+     * @return List<SponsorFormTemplate> list of SponsorFormTemplate
+     *         corresponding to the SponsorFormTemplateList object.
      */
-    public List<SponsorFormTemplate> getSponsorFormTemplates(List<SponsorFormTemplateList> sponsorFormTemplateLists);
-
+    List<SponsorFormTemplate> getSponsorFormTemplates(
+            List<SponsorFormTemplateList> sponsorFormTemplateLists);
+	
+	
 }

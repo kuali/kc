@@ -19,6 +19,7 @@ import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.web.struts.form.SponsorHierarchyForm;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface SponsorService {
     /**
@@ -167,4 +168,12 @@ public interface SponsorService {
      * Remove all previously queued actions
      */
     public void clearCurrentActions();
+    
+    /**
+     * Get the list of groupings at the specified level.
+     * @param hierarchyName
+     * @param level
+     * @return
+     */
+    List<String> getUniqueGroupingNames(String hierarchyName, Integer level);
 }

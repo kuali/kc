@@ -43,14 +43,13 @@ public class SponsorFormTemplateMaintenanceDocumentTest extends MaintenanceDocum
     public void testCreateNew() throws Exception {
         HtmlPage maintenancePage = getMaintenanceDocumentPage("Sponsor Form Templates",SponsorFormTemplate.class.getName(),"Kuali :: Sponsor Form Template");
         String documentNumber = getFieldValue(maintenancePage, "document.documentHeader.documentNumber");
-        assertContains(maintenancePage, "Edit SponsorFormTemplates New * Package Number: * Page Description: * Page Number: * Sponsor Code: Attachment: ");
+        assertContains(maintenancePage, "Edit SponsorFormTemplates New Sponsor Form Template Id: * Sponsor Form Id: * Page Description: * Page Number: Attachment: ");
         
         // set up required fields for organization
         setFieldValue(maintenancePage, "document.documentHeader.documentDescription", "SponsorFormTemplate Maint Doc - test");
-        setFieldValue(maintenancePage, "document.newMaintainableObject.packageNumber", "1");
+        setFieldValue(maintenancePage, "document.newMaintainableObject.sponsorFormId", "1");
         setFieldValue(maintenancePage, "document.newMaintainableObject.pageDescription", "test desc");
         setFieldValue(maintenancePage, "document.newMaintainableObject.pageNumber", PAGE_NUMBER);
-        setFieldValue(maintenancePage, "document.newMaintainableObject.sponsorCode", "009800");
         setFieldValue(maintenancePage, "document.newMaintainableObject.templateFile", getFilePath(SponsorFormTemplateMaintenanceDocumentTest.class));
        
         HtmlPage routedPage = clickOn(maintenancePage, "methodToCall.route", "Kuali :: Sponsor Form Template");
@@ -62,9 +61,9 @@ public class SponsorFormTemplateMaintenanceDocumentTest extends MaintenanceDocum
         assertNotNull(document.getDocumentHeader());
         assertEquals(document.getDocumentHeader().getDocumentNumber(),documentNumber);
         SponsorFormTemplate sft = (SponsorFormTemplate)document.getNewMaintainableObject().getBusinessObject();
-        assertEquals(sft.getPackageNumber(), Integer.valueOf(1));
+        assertEquals(sft.getSponsorForms().getPackageNumber(), Integer.valueOf(1));
         assertEquals(sft.getPageDescription(), "test desc");
         assertEquals(sft.getPageNumber(), Integer.valueOf(PAGE_NUMBER));
-        assertEquals(sft.getSponsorCode(), "009800");
+        assertEquals(sft.getSponsorForms().getSponsorCode(), "009800");
     }
 }

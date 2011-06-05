@@ -16,6 +16,7 @@
 package org.kuali.kra.dao;
 
 import java.util.Iterator;
+import java.util.List;
 
 public interface SponsorHierarchyDao {
     
@@ -34,6 +35,14 @@ public interface SponsorHierarchyDao {
      * @return
      */
     public Iterator getAllSponsors(String hierarchyName);
+    
+    /**
+     * Get the unique grouping names at specificed level in the specified hierarchy.
+     * @param hierarchyName
+     * @param depth
+     * @return
+     */
+    List<String> getUniqueNamesAtLevel(String hierarchyName, int depth);
 
 
 }
