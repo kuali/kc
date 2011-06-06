@@ -146,7 +146,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
             for (NotificationTypeRecipient roleRecipient : kcNotification.getNotificationType().getNotificationTypeRecipients()) {
                 try {
                     context.populateRoleQualifiers(roleRecipient);
-                    notification.getRecipients().addAll(resolveRoleRecipients(roleRecipient, context));
+                    notification.getRecipients().addAll(resolveRoleRecipients(roleRecipient));
                 } catch (UnknownRoleException e) {
                     LOG.error("Role id " + e.getRoleId() + " not recognized for context " + e.getContext() + ". " +
                     		"Notification will not be sent for notificationTypeRecipient" + roleRecipient.toString());
@@ -183,7 +183,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         return kcNotificationChannel;
     }
     
-    protected List<NotificationRecipient> resolveRoleRecipients(NotificationTypeRecipient roleRecipient, NotificationContext context) {
+    protected List<NotificationRecipient> resolveRoleRecipients(NotificationTypeRecipient roleRecipient) {
         List<NotificationRecipient> recipients = new ArrayList<NotificationRecipient>();
         KimRoleInfo role = roleManagementService.getRole(roleRecipient.getRoleId());
         
