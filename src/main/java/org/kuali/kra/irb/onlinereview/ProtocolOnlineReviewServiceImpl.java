@@ -258,8 +258,14 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
      * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#getProtocolReviewsForCurrentSubmission(java.lang.String)
      */
     public List<ProtocolOnlineReview> getProtocolReviews(String protocolNumber) {
-        Protocol protocol = protocolFinderDao.findCurrentProtocolByNumber(protocolNumber); 
-        return protocol.getProtocolSubmission().getProtocolOnlineReviews();
+        Protocol protocol = protocolFinderDao.findCurrentProtocolByNumber(protocolNumber);
+        List<ProtocolOnlineReview> reviews = null;
+        if (protocol != null && protocol.getProtocolSubmission() != null) {
+            reviews = protocol.getProtocolSubmission().getProtocolOnlineReviews();
+        } else {
+            reviews = new ArrayList<ProtocolOnlineReview>();
+        }
+        return reviews;
     }
     
     /**
