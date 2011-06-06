@@ -2928,7 +2928,7 @@ function updateStateFromCountry() {
 			if ( data != null ) {
 				DWRUtil.removeAllOptions( 'document.newMaintainableObject.state' );
 				$('document.newMaintainableObject.state').options[0] = new Option('', '');
-				DWRUtil.addOptions( 'document.newMaintainableObject.state' , data, 'postalCountryCode', 'postalStateName' );
+				DWRUtil.addOptions( 'document.newMaintainableObject.state', data, 'postalStateCode', 'postalStateName' );
 			} 
 		},
 		errorHandler:function( errorMessage ) {
