@@ -171,6 +171,7 @@ tbody tr:hover {
    		var subgroupNodes = ";";
         var timestampKey = document.getElementById("timestamp").value;
    		var numberPerGroup = document.getElementById("numberPerGroup").value;
+   		var printingHierarchy = ${SponsorHierarchyForm.printingHierarchy};
    	
    	var sponsorHierarchyReturn = sponsorHierarchy();
 
@@ -195,12 +196,15 @@ tbody tr:hover {
 				          "<INPUT TYPE=\"button\" SRC=\"button.gif\" VALUE=\"Add Sponsor\" ALT=\"Add Sponsor\" NAME=\"addsponsor\" onClick=\"addSponsor("+nodeKey+");return false;\" > " +
 				          "<INPUT TYPE=\"image\" src=\"${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif\" styleClass=\"tinybutton\" VALUE=\"Delete Group\" ALT=\"Delete Group\" NAME=\"deletenode\" onClick=\"deleteNode("+nodeKey+");return false;\" >  ";
          	} else {
-				return  "<INPUT TYPE=\"image\" src=\"${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif\" styleClass=\"tinybutton\" VALUE=\"Add SubGroup\" ALT=\"Add SubGroup\" NAME=\"addnode\" onClick=\"addNode("+nodeKey+");return false;\" > " +
-				          "<INPUT TYPE=\"image\" src=\"${ConfigProperties.kra.externalizable.images.url}tinybutton-edit1.gif\" styleClass=\"tinybutton\" VALUE=\"Edit Group Name\" ALT=\"Edit Group Name\" NAME=\"editnode\" onClick=\"editNodeLabel("+nodeKey+");return false;\" > " +
-				          "<INPUT TYPE=\"image\" src=\"${ConfigProperties.kra.externalizable.images.url}upArrow.png\" styleClass=\"tinybutton\"VALUE=\"Move up\" ALT=\"Move up\" NAME=\"moveup\" onClick=\"moveUp("+nodeKey+");return false;\" > " +
+				var buttons = "<INPUT TYPE=\"image\" src=\"${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif\" styleClass=\"tinybutton\" VALUE=\"Add SubGroup\" ALT=\"Add SubGroup\" NAME=\"addnode\" onClick=\"addNode("+nodeKey+");return false;\" > ";
+				if (!(printingHierarchy && parentNode.depth+1 == 1)) {
+					buttons += "<INPUT TYPE=\"image\" src=\"${ConfigProperties.kra.externalizable.images.url}tinybutton-edit1.gif\" styleClass=\"tinybutton\" VALUE=\"Edit Group Name\" ALT=\"Edit Group Name\" NAME=\"editnode\" onClick=\"editNodeLabel("+nodeKey+");return false;\" > ";
+				}
+				buttons += "<INPUT TYPE=\"image\" src=\"${ConfigProperties.kra.externalizable.images.url}upArrow.png\" styleClass=\"tinybutton\"VALUE=\"Move up\" ALT=\"Move up\" NAME=\"moveup\" onClick=\"moveUp("+nodeKey+");return false;\" > " +
 				          "<INPUT TYPE=\"image\" src=\"${ConfigProperties.kra.externalizable.images.url}downArrow.png\" styleClass=\"tinybutton\" VALUE=\"Move down\" ALT=\"Move down\" NAME=\"movedown\" onClick=\"moveDown("+nodeKey+");return false;\" > " +
 				          "<INPUT TYPE=\"button\" SRC=\"button.gif\" VALUE=\"Add Sponsor\" ALT=\"Add Sponsor\" NAME=\"addsponsor\" onClick=\"addSponsor("+nodeKey+");return false;\" > " +
 				          "<INPUT TYPE=\"image\" src=\"${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif\" styleClass=\"tinybutton\" VALUE=\"Delete Group\" ALT=\"Delete Group\" NAME=\"deletenode\" onClick=\"deleteNode("+nodeKey+");return false;\" >  ";
+		        return buttons;
          	}
        }
        
