@@ -21,16 +21,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.authorization.CommitteeScheduleTask;
 import org.kuali.kra.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class MeetingHelper implements Serializable {
@@ -441,5 +447,35 @@ public class MeetingHelper implements Serializable {
         this.hideReviewerName = hideReviewerName;
     }
     
-
+    public List<CommitteeScheduleMinute> getAcceptedCommitteeScheduleMinutes() {
+        List<CommitteeScheduleMinute> minutes = new ArrayList<CommitteeScheduleMinute>();
+        
+        try {
+            List<CommitteeScheduleMinute> allMinutes = committeeSchedule.getCommitteeScheduleMinutes();
+            if (CollectionUtils.isNotEmpty(allMinutes)) {
+                for (CommitteeScheduleMinute minute : allMinutes) {
+                    ProtocolOnlineReview protocolOnlineReview = getBusinessObjectService().findBySinglePrimaryKey(ProtocolOnlineReview.class, minute.getProtocolOnlineReviewIdFk());
+                    ProtocolOnlineReviewDocument porDoc = protocolOnlineReview.getProtocolOnlineReviewDocument();
+                    porDoc = (ProtocolOnlineReviewDocument)getDocumentService().getByDocumentHeaderId(porDoc.getDocumentHeader().getDocumentNumber());
+                    String routeStatus = porDoc.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
+                    if (StringUtils.equals(routeStatus, KEWConstants.ROUTE_HEADER_FINAL_CD)) {
+                        minutes.add(minute);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); //TODO: properly handle the exception
+        }
+        
+        return minutes;
+    }
+    
+    private BusinessObjectService getBusinessObjectService() {
+        return KraServiceLocator.getService(BusinessObjectService.class);
+    }
+    
+    private DocumentService getDocumentService() {
+        return KraServiceLocator.getService(DocumentService.class);
+        
+    }
 }

@@ -338,9 +338,6 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase im
      * @return Returns the protocolReview.
      */
     public ProtocolOnlineReview getProtocolOnlineReview() {
-        if (protocolOnlineReview == null) {
-            protocolOnlineReview = getBusinessObjectService().findBySinglePrimaryKey(ProtocolOnlineReview.class, protocolOnlineReviewIdFk);
-        }
         return protocolOnlineReview;
     }
 
@@ -531,7 +528,4 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase im
         this.displayReviewerName = displayReviewerName;
     }
 
-    private BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
-    }
 }
