@@ -103,7 +103,48 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 
 	private static final Log LOG = LogFactory
 			.getLog(PHS398FellowshipSupplementalV1_1Generator.class);
+    private static final int HUMAN = 1;
+    private static final int VERT = 4;
+    private static final int CLINICAL = 2;
+    private static final int PHASE3CLINICAL = 3;
+    private static final int STEMCELLS = 5;
+    private static final int KIRST_START_KNOWN = 43;
+    private static final int KIRST_END_KNOWN = 49;
+    private static final int KIRST_START_DT = 44;
+    private static final int KIRST_END_DT = 45;
+    private static final int KIRST_GRANT_KNOWN = 46;
+    private static final int KIRST_GRANT_NUM = 27;
+    private static final int PRE_OR_POST = 32;
+    private static final int IND_OR_INST = 33;
+    private static final int STEMCELLLINES = 7;
+    private static final int CELLLINEIND = 6;
+    private static final int  DEGREE_TYPE_SOUGHT =15;
+    private static final int DEG_EXP_COMP_DATE = 35;
+    private static final int NRSA_SUPPORT = 24;
+    private static final int FIELD_TRAINING = 22;
+    private static final int BROAD_TRAINING = 23;
+    private static final int OTHER_MASTERS=16;
+    private static final int  OTHER_DOCT=17;
+    private static final int  OTHER_DDOT=18;
+    private static final int OTHER_VDOT=19;
+    private static final int  OTHER_DBOTH=20;
+    private static final int   OTHER_MDOT=21;
+    private static final int SUBMITTED_DIFF_INST=28;
+    private static final int FORMER_INST=29;
+    private static final int SENIOR_FELL = 36;
+    private static final int SUPP_FUNDING_AMT = 38;
+    private static final int SUPP_MONTHS = 51;
+    private static final int  SUPP_SOURCE = 41;
+    private static final int  SUPP_TYPE = 40;
 
+    private static final int SALARY_MONTH = 50;
+    private static final int ACAD_PERIOD = 48;
+    private static final int BASE_SALARY = 47;
+    
+    private static final int APPENDIX = 96;
+
+    
+    
 	/*
 	 * This method is used to get PHSFellowshipSupplemental11 XMLObject and set
 	 * the data to it from DevelopmentProposal data.
@@ -133,8 +174,8 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 			String answer = questionnaireAnswer.getAnswer();
 			if (answer != null) {
 				switch (questionnaireAnswer.getQuestionNumber()) {
-				case SENIOR:
-					budgetMap.put(SENIOR, answer);
+				case SENIOR_FELL:
+					budgetMap.put(SENIOR_FELL, answer);
 					break;
 				case SUPP_SOURCE:
 					budgetMap.put(SUPP_SOURCE, answer);
@@ -231,8 +272,8 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 	private SupplementationFromOtherSources getSupplementationFromOtherSources(
 			Map<Integer, String> budgetMap) {
 	    SupplementationFromOtherSources supplementationFromOtherSources=null;
-		if (budgetMap.get(SENIOR) != null
-				&& budgetMap.get(SENIOR).toString().equals(
+		if (budgetMap.get(SENIOR_FELL) != null
+				&& budgetMap.get(SENIOR_FELL).toString().equals(
 						S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {
 	        supplementationFromOtherSources = SupplementationFromOtherSources.Factory.newInstance();
 			if (budgetMap.get(SUPP_SOURCE) != null) {
@@ -308,8 +349,8 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 	private InstitutionalBaseSalary getInstitutionalBaseSalary(
 			Map<Integer, String> budgetMap) {
 	    InstitutionalBaseSalary institutionalBaseSalary=null;
-		if (budgetMap.get(SENIOR) != null
-				&& budgetMap.get(SENIOR).toString().equals(
+		if (budgetMap.get(SENIOR_FELL) != null
+				&& budgetMap.get(SENIOR_FELL).toString().equals(
 						S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {
 	        institutionalBaseSalary = InstitutionalBaseSalary.Factory.newInstance();
 			if (budgetMap.get(BASE_SALARY) != null) {
@@ -652,6 +693,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
                
             if (answer != null) {
                 switch (questionnaireAnswer.getQuestionnaireQuestion().getQuestion().getQuestionId()) {
+                case BROAD_TRAINING:
                 case FIELD_TRAINING:
                     if (!answer.toUpperCase().equals(SUB_CATEGORY_NOT_FOUND)) {
                         FieldOfTrainingDataType.Enum e = FieldOfTrainingDataType.Enum.forString(answer);
@@ -686,19 +728,32 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
                     break;
             
                 case DEGREE_TYPE_SOUGHT:
-                    graduateDegreeSought.setDegreeType(DegreeTypeDataType.Enum
-                            .forString(answer));
+                    graduateDegreeSought.setDegreeType(DegreeTypeDataType.Enum.forString(answer));
                     break;
                 case DEG_EXP_COMP_DATE:
                     graduateDegreeSought.setDegreeDate(answer.substring(6, 10)
                             + STRING_SEPRATOR + answer.substring(0, 2));
                     break;
                 case OTHER_MASTERS:
+                    graduateDegreeSought.setOtherDegreeTypeText(answer);
+                    break;
                 case OTHER_DOCT:
+                    graduateDegreeSought.setOtherDegreeTypeText(answer);
+                    break;
                 case OTHER_DDOT:
+                    graduateDegreeSought.setDegreeType(DegreeTypeDataType.DDOT_OTHER_DOCTOR_OF_MEDICAL_DENTISTRY);
+                    graduateDegreeSought.setOtherDegreeTypeText(answer);
+                    break;
                 case OTHER_VDOT:
+                    graduateDegreeSought.setDegreeType(DegreeTypeDataType.VDOT_OTHER_DOCTOR_OF_VETERINARY_MEDICINE);
+                    graduateDegreeSought.setOtherDegreeTypeText(answer);
+                    break;
                 case OTHER_DBOTH:
+                    graduateDegreeSought.setDegreeType(DegreeTypeDataType.DBOTH_OTHER_DOUBLE_DEGREE_PROGRAM);
+                    graduateDegreeSought.setOtherDegreeTypeText(answer);
+                    break;
                 case OTHER_MDOT:
+                    graduateDegreeSought.setDegreeType(DegreeTypeDataType.MDOT_OTHER_DOCTOR_OF_MEDICINE);
                     graduateDegreeSought.setOtherDegreeTypeText(answer);
                     break;
                 default:

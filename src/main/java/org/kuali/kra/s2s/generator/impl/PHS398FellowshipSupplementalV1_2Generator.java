@@ -106,6 +106,26 @@ public class PHS398FellowshipSupplementalV1_2Generator extends
 
 	private static final Log LOG = LogFactory
 			.getLog(PHS398FellowshipSupplementalV1_2Generator.class);
+    private static final int APPENDIX = 96;
+    private static final int KIRST_START_KNOWN = 43;
+    private static final int KIRST_END_KNOWN = 49;
+    private static final int KIRST_START_DT = 44;
+    private static final int KIRST_END_DT = 45;
+    private static final int KIRST_GRANT_KNOWN = 46;
+    private static final int KIRST_GRANT_NUM = 27;
+    private static final int PRE_OR_POST = 32;
+    private static final int IND_OR_INST = 33;
+    private static final int NRSA_SUPPORT = 24;
+    private static final int FORMER_INST = 29;
+    private static final int SENIOR = 72;
+    private static final int SUPP_FUNDING_REQ = 73;
+    private static final int SUPP_FUNDING_AMT = 74;
+    private static final int SUPP_MONTHS = 75;
+    private static final int SUPP_SOURCE = 77;
+    private static final int SUPP_TYPE = 76;
+    private static final int SALARY_MONTH = 122;
+    private static final int ACAD_PERIOD = 121;
+    private static final int BASE_SALARY = 120;
 
     static final int Q_HUMANINDEF    = 1;
     static final int Q_CLINICAL      = 2;
@@ -123,7 +143,7 @@ public class PHS398FellowshipSupplementalV1_2Generator extends
     static final int Q_CUR_PRIOR_NRSA = 31;
     static final int Q_FIELD_OF_TRAINING = 22;
 
-    protected static final int SPONSOR_COSPONSOR = 134;
+    private static final int SPONSOR_COSPONSOR = 134;
 
     static final String TUITION_COST_ELEMENTS_RA = "422310";
     static final String TUITION_COST_ELEMENTS_Other = "420111";
