@@ -21,6 +21,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionMapping;
@@ -309,5 +310,12 @@ public class SponsorHierarchyForm extends KualiForm {
 
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
+    }
+    
+    public boolean isPrintingHierarchy() {
+        String printingHierarchyName = getParameterService().getParameterValue(
+                Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, 
+                Constants.SPONSOR_HIERARCHY_PRINTING_NAME_PARAM);
+        return StringUtils.equals(getHierarchyName(), printingHierarchyName);
     }
 }
