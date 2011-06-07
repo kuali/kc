@@ -55,15 +55,14 @@ public class SponsorFormTemplateMaintenanceDocumentTest extends MaintenanceDocum
         HtmlPage routedPage = clickOn(maintenancePage, "methodToCall.route", "Kuali :: Sponsor Form Template");
         
         assertContains(routedPage, "Document was successfully submitted.");
-        assertContains(routedPage,"Package Number: 1 Page Description: test desc Page Number: " + PAGE_NUMBER + " Sponsor Code: 009800 Attachment: SponsorFormTemplateMaintenanceDocumentTest.class ");
+        assertContains(routedPage,"Sponsor Form Id: 1 Page Description: test desc Page Number: " + PAGE_NUMBER + " Attachment: SponsorFormTemplateMaintenanceDocumentTest.class ");
         MaintenanceDocumentBase document = (MaintenanceDocumentBase) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(documentNumber);
         assertNotNull(document.getDocumentNumber());
         assertNotNull(document.getDocumentHeader());
         assertEquals(document.getDocumentHeader().getDocumentNumber(),documentNumber);
         SponsorFormTemplate sft = (SponsorFormTemplate)document.getNewMaintainableObject().getBusinessObject();
-        assertEquals(sft.getSponsorForms().getPackageNumber(), Integer.valueOf(1));
         assertEquals(sft.getPageDescription(), "test desc");
         assertEquals(sft.getPageNumber(), Integer.valueOf(PAGE_NUMBER));
-        assertEquals(sft.getSponsorForms().getSponsorCode(), "009800");
+        assertEquals(sft.getSponsorFormId(), Long.valueOf(1));
     }
 }
