@@ -326,7 +326,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         if (awardBudget.getTotalCostLimit().equals(BudgetDecimal.ZERO) && isPostedBudgetExist(parentDocument)) {
             rebudget = true;
         }
-        getAwardBudgetCalculationService().calculateBudget(awardBudgetDocument.getBudget());
+        recalculateBudget(awardBudgetDocument.getBudget());
         saveBudgetDocument(awardBudgetDocument,rebudget);
         awardBudgetDocument = (AwardBudgetDocument) documentService.getByDocumentHeaderId(awardBudgetDocument.getDocumentNumber());
         parentDocument.refreshBudgetDocumentVersions();
