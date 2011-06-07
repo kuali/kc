@@ -91,7 +91,7 @@ public abstract class KcSeleniumHelper {
      * Logs in as the backdoor user {@code loginUser}.
      */
     public final void login(final String loginUser) {
-        //clickResearcherTab();
+        clickResearcherTab();
 
         set("backdoorId", loginUser);
         click("imageField");
