@@ -39,6 +39,7 @@ import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionService;
+import org.kuali.kra.irb.actions.notification.BatchCorrespondenceEvent;
 import org.kuali.kra.irb.correspondence.BatchCorrespondence;
 import org.kuali.kra.irb.correspondence.BatchCorrespondenceDetail;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
@@ -49,6 +50,7 @@ import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.DateUtils;
 
 /**
@@ -112,8 +114,13 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
                     LOG.warn("Correspondence template \"" + protocolCorrespondenceType.getDescription() + "\" is missing.  Correspondence for protocol " 
                             + protocol.getProtocolNumber() + " has not been generated.  Add the missing template and regenerate correspondence.");
                 } else {
-                    committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().add(createBatchCorrespondenceDetail(committeeId, protocol, 
-                            protocolCorrespondenceType, committeeBatchCorrespondence.getCommitteeBatchCorrespondenceId(), protocolActionTypeCode));
+                    CommitteeBatchCorrespondenceDetail batchCorrespondenceDetail = createBatchCorrespondenceDetail(committeeId, protocol, 
+                            protocolCorrespondenceType, committeeBatchCorrespondence.getCommitteeBatchCorrespondenceId(), protocolActionTypeCode);
+                    committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().add(batchCorrespondenceDetail);
+                    BatchCorrespondenceEvent correspondenceEvent = new BatchCorrespondenceEvent(protocol);
+                    correspondenceEvent.setSubject(protocolCorrespondenceType.getDescription() + " for Protocol " + protocol.getProtocolNumber());
+                    correspondenceEvent.setDetailId(batchCorrespondenceDetail.getCommitteeBatchCorrespondenceDetailId());
+                    correspondenceEvent.sedNotification();
                 }
             }
         }
@@ -286,7 +293,9 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
         committeeBatchCorrespondenceDetail.setProtocolCorrespondence(createAndSaveProtocolCorrespondence(committeeId,
                 protocol, protocolCorrespondenceType, committeeBatchCorrespondenceDetail.getProtocolAction()));
         committeeBatchCorrespondenceDetail.setProtocolCorrespondenceId(committeeBatchCorrespondenceDetail.getProtocolCorrespondence().getId());
-        
+        committeeBatchCorrespondenceDetail.setCommitteeBatchCorrespondenceDetailId(KraServiceLocator.getService(SequenceAccessorService.class)
+                .getNextAvailableSequenceNumber("SEQ_COMMITTEE_ID"));
+
         return committeeBatchCorrespondenceDetail;
     }
 
