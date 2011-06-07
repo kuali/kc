@@ -139,5 +139,18 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
         }
         return true;
     }
+ 
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
+    public void resetPersistenceState() {
+        proposalSpecialReviewId = null;
+        for (ProposalSpecialReviewExemption exemption : getSpecialReviewExemptions()) {
+            exemption.setProposalSpecialReviewExemptionId(null);
+            exemption.setProposalSpecialReviewId(null);
+        }
+    }
     
+
 }

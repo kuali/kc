@@ -2105,7 +2105,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
                 dstSpecialReview.setExemptionTypeCodes(exemptionCodeCopy);
             }
             // force new table entry
-            dstSpecialReview.setProtocolSpecialReviewId(null);
+            dstSpecialReview.resetPersistenceState();
         }
     }
 }
