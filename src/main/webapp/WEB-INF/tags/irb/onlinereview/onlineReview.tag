@@ -50,6 +50,9 @@
   		<c:set var="headerFields" value="${kualiForm.docInfo}" />
   		<c:set var="fieldCounter" value="0" />
   	
+  	    <c:if test="${KualiForm.onlineReviewsActionHelper.protocolOnlineReviewDocuments[renderIndex].protocolOnlineReview.protocolOnlineReviewStatusCode != 'F'}">
+  	        <span style="color: red; font-weight: bold; text-align: left;">This online review has not yet been approved by the reviewer</span>
+  	    </c:if>
   		<kul:innerTab tabTitle="Document Overview" parentTab="" defaultOpen="false" tabErrorKey="" useCurrentTabIndexAsKey="true">	
 		    <table cellpadding="0" cellspacing="0" class="datatable" title="view/edit document overview information" summary="view/edit document overview information">
 				<c:forEach var="i" begin="1" end="${numberOfHeaderRows}" varStatus="status">
