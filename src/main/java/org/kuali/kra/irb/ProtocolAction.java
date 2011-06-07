@@ -26,10 +26,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.CoeusSubModule;
+import org.kuali.kra.committee.bo.CommitteeBatchCorrespondenceDetail;
 import org.kuali.kra.common.customattributes.CustomDataAction;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
@@ -39,6 +42,7 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolSubmissionBeanBase;
 import org.kuali.kra.irb.auth.ProtocolTask;
+import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.personnel.ProtocolPersonTrainingService;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelService;
@@ -67,9 +71,12 @@ import org.springframework.util.CollectionUtils;
  * all user requests for that particular tab (web page).
  */
 public abstract class ProtocolAction extends KraTransactionalDocumentActionBase {
+    private static final Log LOG = LogFactory.getLog(ProtocolAction.class);
     private static final String PROTOCOL_NUMBER = "protocolNumber";
     private static final String SUBMISSION_NUMBER = "submissionNumber";
     private static final String SUFFIX_T = "T";
+    private static final String NOT_FOUND_SELECTION = "The attachment was not found for selection ";
+    private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
    
     /** {@inheritDoc} */
     @Override
@@ -349,7 +356,16 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         String command = protocolForm.getCommand();
-
+        String detailId;
+       
+        if (command.startsWith(KEWConstants.DOCSEARCH_COMMAND+"detailId")) {
+            detailId = command.substring((KEWConstants.DOCSEARCH_COMMAND+"detailId").length());
+            protocolForm.setDetailId(detailId);
+            viewBatchCorrespondence(mapping, protocolForm, request, response);
+            return RESPONSE_ALREADY_HANDLED;
+//            protocolForm.setCommand(KEWConstants.DOCSEARCH_COMMAND);
+//            command = KEWConstants.DOCSEARCH_COMMAND;
+        }
         if (KEWConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
             String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
             Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
@@ -506,6 +522,32 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         return KraServiceLocator.getService(ProtocolFinderDao.class);
     }
 
+    private void viewBatchCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        Map primaryKeys = new HashMap();
+        primaryKeys.put("committeeBatchCorrespondenceDetailId", protocolForm.getDetailId());
+        CommitteeBatchCorrespondenceDetail batchCorrespondenceDetail = (CommitteeBatchCorrespondenceDetail) getBusinessObjectService()
+                .findByPrimaryKey(CommitteeBatchCorrespondenceDetail.class, primaryKeys);
+        primaryKeys.clear();
+        primaryKeys.put("id", batchCorrespondenceDetail.getProtocolCorrespondenceId());
+        ProtocolCorrespondence attachment = (ProtocolCorrespondence) getBusinessObjectService().findByPrimaryKey(
+                ProtocolCorrespondence.class, primaryKeys);
+
+        if (attachment == null) {
+            LOG.info(NOT_FOUND_SELECTION + "detailID: " + protocolForm.getDetailId());
+            // may want to tell the user the selection was invalid.
+            // return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+        else {
+
+            this.streamToResponse(attachment.getCorrespondence(), StringUtils.replace(attachment.getProtocolCorrespondenceType()
+                    .getDescription(), " ", "")
+                    + ".pdf", Constants.PDF_REPORT_CONTENT_TYPE, response);
+        }
+        // return RESPONSE_ALREADY_HANDLED;
+    }
 
     
 }

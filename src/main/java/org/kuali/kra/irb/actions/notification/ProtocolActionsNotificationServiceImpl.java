@@ -220,7 +220,7 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
     /*
      * call transformer to convert xml to html based on the xsl template
      */
-    protected String getTransFormData(Protocol protocol, StreamSource xsltSource) throws Exception {
+    public String getTransFormData(Protocol protocol, StreamSource xsltSource) throws Exception {
 
         String XML = protocolXmlStream.generateXmlStreamForNotification(protocol);
         XML = XML.replace("<Protocol xmlns=\"http://irb.mit.edu/irbnamespace\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">", "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Protocol xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">");
