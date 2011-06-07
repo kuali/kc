@@ -1968,8 +1968,8 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
                 }
                 dstSpecialReview.setExemptionTypeCodes(exemptionCodeCopy);
             }
-            // force new SQL table insert
-            dstSpecialReview.setProposalSpecialReviewId(null);
+            // force new SQL table inserts
+            dstSpecialReview.resetPersistenceState();
         }
     }
    

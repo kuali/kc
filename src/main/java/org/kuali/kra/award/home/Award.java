@@ -17,6 +17,7 @@ package org.kuali.kra.award.home;
 
 import java.sql.Date;
 
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -144,7 +145,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private Integer awardTransactionTypeCode;
     private Date noticeDate;
     private String currentActionComments;
-    private int indexOfLastAwardAmountInfo;
     private String financialAccountDocumentNumber;
     private Date financialAccountCreationDate;
     private static boolean newVersion;
@@ -3239,8 +3239,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
                 }
                 dstSpecialReview.setExemptionTypeCodes(exemptionCodeCopy);
             }
-            // force new SQL table insert
-            dstSpecialReview.setAwardSpecialReviewId(null);
         }
     }
 
