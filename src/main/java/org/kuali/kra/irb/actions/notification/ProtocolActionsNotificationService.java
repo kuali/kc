@@ -17,6 +17,8 @@ package org.kuali.kra.irb.actions.notification;
 
 import java.util.List;
 
+import javax.xml.transform.stream.StreamSource;
+
 import org.kuali.kra.irb.Protocol;
 import org.w3c.dom.Element;
 
@@ -61,5 +63,7 @@ public interface ProtocolActionsNotificationService {
      */
     void addReviewerToRecipients(Element recipients, Protocol protocol, List<String> userNames);
     
+
+    String getTransFormData(Protocol protocol, StreamSource xsltSource) throws Exception;
 
 }

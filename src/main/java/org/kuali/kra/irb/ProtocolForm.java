@@ -95,6 +95,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     
     private boolean javaScriptEnabled = true;
     
+    private String detailId;
     public ProtocolForm() throws Exception {
         super();
         initialize();
@@ -477,4 +478,13 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     public String getModuleCode() {
         return CoeusModule.IRB_MODULE_CODE;
     }
+
+    public String getDetailId() {
+        return detailId;
+    }
+
+    public void setDetailId(String detailId) {
+        this.detailId = detailId;
+    }
+    
 }
