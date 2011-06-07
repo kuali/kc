@@ -173,7 +173,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 		for (Answer questionnaireAnswer : s2sUtilService.getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(),getNamespace(),getFormName())) {
 			String answer = questionnaireAnswer.getAnswer();
 			if (answer != null) {
-				switch (questionnaireAnswer.getQuestionNumber()) {
+				switch (questionnaireAnswer.getQuestion().getQuestionId()) {
 				case SENIOR_FELL:
 					budgetMap.put(SENIOR_FELL, answer);
 					break;
