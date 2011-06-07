@@ -91,7 +91,7 @@ public abstract class KcSeleniumHelper {
      * Logs in as the backdoor user {@code loginUser}.
      */
     public final void login(final String loginUser) {
-        clickResearcherTab();
+        //clickResearcherTab();
 
         set("backdoorId", loginUser);
         click("imageField");
@@ -668,8 +668,7 @@ public abstract class KcSeleniumHelper {
         }
         
         click(CLOSE_BUTTON);
-        // TODO: this may or may not show up depending on the document, but getElement will never return null...
-        if (getElement("methodToCall.processAnswer.button1", true) != null) {
+        if (findElement("methodToCall.processAnswer.button1", true)) {
             click("methodToCall.processAnswer.button1");
         }
     }
@@ -1115,6 +1114,23 @@ public abstract class KcSeleniumHelper {
     }
     
     /**
+     * Finds an element in the web page and returns whether or not it exists.  To find the element, the following algorithm is used:
+     * <ol>
+     * <li>Search for an active element with an {@code id} attribute that matches {@code locator}</li>
+     * <li>If not found, search for the first active element with a {@code name} attribute that matches {@code locator} depending on the value of {@code exact}</li>
+     * <li>If not found, search for the first active element with a {@code title} attribute that matches {@code locator} depending on the value of {@code exact}</li>
+     * <li>If not found, search for the first active link element that matches {@code locator} depending on the value of {@code exact}</li>
+     * </ol>
+     *
+     * @param locator the id, name, title, or link name of the element to search for
+     * @param exact whether the name, title, or link name should match exactly
+     * @return true if it exists, false otherwise
+     */
+    private boolean findElement(final String locator, final boolean exact) {
+        return new ElementExistenceFinderWaiter().until(locateElementByAll(locator, exact));
+    }
+    
+    /**
      * Gets an element in the web page.  To find the element, the following algorithm is used:
      * <ol>
      * <li>Search for an active element with an {@code id} attribute that matches {@code locator}</li>
@@ -1128,25 +1144,40 @@ public abstract class KcSeleniumHelper {
      * @return the first matching element
      */
     private WebElement getElement(final String locator, final boolean exact) {
-        return new ElementExistsWaiter(locator + " not found").until(
-            new Function<WebDriver, WebElement>() {
-                public WebElement apply(WebDriver driver) {
-                    WebElement element = getElementById(locator);
-                    
+        return new ElementExistsWaiter(locator + " not found").until(locateElementByAll(locator, exact));
+    }
+    
+    /**
+     * Returns a function that locates an element.  To find the element, the following algorithm is used:
+     * <ol>
+     * <li>Search for an active element with an {@code id} attribute that matches {@code locator}</li>
+     * <li>If not found, search for the first active element with a {@code name} attribute that matches {@code locator} depending on the value of {@code exact}</li>
+     * <li>If not found, search for the first active element with a {@code title} attribute that matches {@code locator} depending on the value of {@code exact}</li>
+     * <li>If not found, search for the first active link element that matches {@code locator} depending on the value of {@code exact}</li>
+     * </ol>
+     *
+     * @param locator the id, name, title, or link name of the element to search for
+     * @param exact whether the name, title, or link name should match exactly
+     * @return a function that locates the first matching element
+     */
+    private Function<WebDriver, WebElement> locateElementByAll(final String locator, final boolean exact) {
+        return new Function<WebDriver, WebElement>() {
+            public WebElement apply(WebDriver driver) {
+                WebElement element = getElementById(locator);
+                
+                if (element == null) {
+                    element = getElementByName(locator, exact);
                     if (element == null) {
-                        element = getElementByName(locator, exact);
+                        element = getElementByTitle(locator, exact);
                         if (element == null) {
-                            element = getElementByTitle(locator, exact);
-                            if (element == null) {
-                                element = getElementByLinkText(locator, exact);
-                            }
+                            element = getElementByLinkText(locator, exact);
                         }
                     }
-                    
-                    return element;
                 }
+                
+                return element;
             }
-        );
+        };
     }
     
     /**
@@ -1683,6 +1714,51 @@ public abstract class KcSeleniumHelper {
             }
             
             return null;
+        }
+        
+        private void sleep() {
+            try {
+                Thread.sleep(sleepTimeOut);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+    
+    /**
+     * Mimics an {@code ElementExistsWaiter} to determine whether an element exists on the page or not.
+     *
+     * @see org.openqa.selenium.support.ui.WebDriverWait
+     */
+    private class ElementExistenceFinderWaiter {
+        
+        private final Clock clock = new SystemClock();
+        private final long testTimeOut = 1000;
+        private final long sleepTimeOut = 500;
+        
+        /**
+         * Mimics the {@code ElementExistsWaiter.until(..)} method and waits until the function evaluates to a value that is non-null. If the function becomes
+         * non-null within a certain time, then this method will return true, otherwise, it will return false.
+         *
+         * @param exists the function to evaluate
+         * 
+         * @see org.openqa.selenium.support.ui.Wait#until(com.google.common.base.Function)
+         */
+        public <T> boolean until(Function<WebDriver, T> exists) {
+            boolean isFound = false;
+            
+            long end = clock.laterBy(testTimeOut);
+            while (clock.isNowBefore(end)) {
+                T value = exists.apply(driver);
+                
+                if (value != null) {
+                    isFound = true;
+                }
+                
+                sleep();
+            }
+            
+            return isFound;
         }
         
         private void sleep() {

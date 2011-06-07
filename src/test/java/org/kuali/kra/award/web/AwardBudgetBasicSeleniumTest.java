@@ -20,7 +20,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.budget.web.BudgetSeleniumHelper;
 import org.kuali.kra.test.infrastructure.KcSeleniumTestBase;
-import org.openqa.selenium.support.ui.Select;
 
 public class AwardBudgetBasicSeleniumTest extends KcSeleniumTestBase {
     
@@ -34,7 +33,7 @@ public class AwardBudgetBasicSeleniumTest extends KcSeleniumTestBase {
     private static final String DEFAULT_LINE_ITEM_DESC2 = "Travel";
     private static final String DEFAULT_LINE_ITEM_QUANTITY2 = null;
     
-    private String awardDocNbr;
+    private String awardBudgetDocNbr;
     
     @Before
     public void setUp() throws Exception {
@@ -66,13 +65,13 @@ public class AwardBudgetBasicSeleniumTest extends KcSeleniumTestBase {
         helper.set(AwardSeleniumHelper.OBLIGATED_AMOUNT_ID, AMOUNT);
         
         helper.submit();
-        
-        awardDocNbr = helper.getDocumentNumber();
-        
+
         helper.clickAwardBudgetVersionsPage();
         helper.set(AwardSeleniumHelper.BUDGET_NAME_ID, "Ver1");
         helper.click(AwardSeleniumHelper.ADD_BUDGET_NAME);
         helper.click(AwardSeleniumHelper.OPEN_BUDGET_NAME + "0");
+        
+        awardBudgetDocNbr = helper.getDocumentNumber();
         
         populateBudget();
         
@@ -96,26 +95,23 @@ public class AwardBudgetBasicSeleniumTest extends KcSeleniumTestBase {
         budgetHelper.clickBudgetActionsTab();
         budgetHelper.routeDocument();
         budgetHelper.assertRoute();
+        budgetHelper.closeDocument();
     }
     
     protected void approveBudget() {
         helper.login("jtester");
-        helper.docSearch(awardDocNbr);
-        helper.clickAwardBudgetVersionsPage();
-        helper.click(AwardSeleniumHelper.OPEN_BUDGET_NAME + "0");
+        helper.docSearch(awardBudgetDocNbr);
         budgetHelper.clickBudgetActionsTab();
         budgetHelper.approveDocument();
     }
     
     protected void postBudget() {
         helper.login("quickstart");
-        helper.docSearch(awardDocNbr);
-        helper.clickAwardBudgetVersionsPage();
-        helper.click(AwardSeleniumHelper.OPEN_BUDGET_NAME + "0");
+        helper.docSearch(awardBudgetDocNbr);
         budgetHelper.clickBudgetActionsTab();
         budgetHelper.postBudget();
         budgetHelper.returnToAward();
         helper.clickAwardBudgetVersionsPage();
-        helper.assertElementContains("tr td", "Posted");
+        helper.assertSelectorContains("div.tab-container tr:nth-child(5) > td:nth-child(2)", "Posted");
     }
 }
