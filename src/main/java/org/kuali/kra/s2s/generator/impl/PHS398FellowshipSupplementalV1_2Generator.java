@@ -253,21 +253,21 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
                         case IND_OR_INST: 
                             if (questionId == KIRST_START_KNOWN) {
                                 if (answer.equals("N")) {
-                                    answer = "Unknown";
+                                    answer = S2SConstants.VALUE_UNKNOWN;
                                     questionId = KIRST_START_DT;
                                 }else
                                     break;
                             }
                             if (questionId == KIRST_END_KNOWN) {
                                 if (answer.equals("N")) {
-                                    answer = "Unknown";
+                                    answer = S2SConstants.VALUE_UNKNOWN;
                                     questionId = KIRST_END_DT;
                                 }else
                                     break;
                             }
                             if (questionId == KIRST_GRANT_KNOWN) {
                                 if (answer.equals("N")) {
-                                    answer = "Unknown";
+                                    answer = S2SConstants.VALUE_UNKNOWN;
                                     questionId = KIRST_GRANT_NUM;
                                 }else
                                     break;
@@ -335,7 +335,7 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
         KirschsteinBean kbBean5 = new KirschsteinBean();
 
         if (additionalInfoType.getCurrentPriorNRSASupportIndicator() != null) {
-            if (additionalInfoType.getCurrentPriorNRSASupportIndicator().equals("Y: Yes")) {
+            if (additionalInfoType.getCurrentPriorNRSASupportIndicator().equals(YesNoDataType.Y_YES)) {
                 KirschsteinBean kbBean = new KirschsteinBean();
                 cvKirsch.sort("questionNumber");
                 for (int i = 0; i < cvKirsch.size(); i++) {
@@ -372,8 +372,12 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
                     CurrentPriorNRSASupport nrsaSupportType = CurrentPriorNRSASupport.Factory.newInstance();
                     nrsaSupportType.setLevel(CurrentPriorNRSASupport.Level.Enum.forString(kbBean1.getAnswer()));
                     nrsaSupportType.setType(CurrentPriorNRSASupport.Type.Enum.forString(kbBean2.getAnswer()));
-                    nrsaSupportType.setStartDate(s2sUtilService.convertDateStringToCalendar(kbBean3.getAnswer()));
-                    nrsaSupportType.setEndDate(s2sUtilService.convertDateStringToCalendar(kbBean4.getAnswer().toString()));
+                    if(!kbBean3.getAnswer().equals(S2SConstants.VALUE_UNKNOWN)){
+                        nrsaSupportType.setStartDate(s2sUtilService.convertDateStringToCalendar(kbBean3.getAnswer()));
+                    }
+                    if(!kbBean4.getAnswer().equals(S2SConstants.VALUE_UNKNOWN)){
+                        nrsaSupportType.setEndDate(s2sUtilService.convertDateStringToCalendar(kbBean4.getAnswer().toString()));
+                    }
                     nrsaSupportType.setGrantNumber(kbBean5.getAnswer());
                     currentPriorNRSASupportList.add(nrsaSupportType);
                 }
