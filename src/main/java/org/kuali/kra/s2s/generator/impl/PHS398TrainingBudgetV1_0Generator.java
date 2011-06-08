@@ -85,11 +85,6 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
     private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD3 = { 114, 115, 118, 121, 164, 165, 167 };
     private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD4 = { 170, 171, 174, 177, 219, 220, 222 };
     private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD5 = { 225, 226, 229, 232, 274, 275, 277 };
-//    private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD1 = { 72, 73, 74, 75, 77, 78, 79, 80, 95, 96, 97, 98 };
-//    private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD2 = { 59, 60, 63, 66, 108, 109, 111 };
-//    private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD3 = { 114, 115, 118, 121, 164, 165, 167 };
-//    private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD4 = { 170, 171, 174, 177, 219, 220, 222 };
-//    private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD5 = { 225, 226, 229, 232, 274, 275, 277 };
 
     private static final Integer[] POSTDOC_PARENT_QUESTION_IDS_PERIOD1 = { 17, 26, 35, 44 };
     private static final Integer[] POSTDOC_PARENT_QUESTION_IDS_PERIOD2 = { 72, 81, 90, 99 };
@@ -242,7 +237,6 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
                         phs398TrainingBudgetYearDataType.setIndirectCostBase1(indireCost.getBase().bigDecimalValue());
                         phs398TrainingBudgetYearDataType.setIndirectCostFundsRequested1(indireCost.getFunds().bigDecimalValue());
                         phs398TrainingBudgetYearDataType.setIndirectCostRate1(indireCost.getRate().bigDecimalValue());
-                        totIndCosts = totIndCosts.add(phs398TrainingBudgetYearDataType.getIndirectCostFundsRequested1());
                         cumTotalIndCosts1 =  cumTotalIndCosts1.add(phs398TrainingBudgetYearDataType.getIndirectCostFundsRequested1());
                         break;
                     case (1):
@@ -250,7 +244,6 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
                         phs398TrainingBudgetYearDataType.setIndirectCostBase2(indireCost.getBase().bigDecimalValue());
                         phs398TrainingBudgetYearDataType.setIndirectCostFundsRequested2(indireCost.getFunds().bigDecimalValue());
                         phs398TrainingBudgetYearDataType.setIndirectCostRate2(indireCost.getRate().bigDecimalValue());
-                        totIndCosts = totIndCosts.add(phs398TrainingBudgetYearDataType.getIndirectCostFundsRequested2());
                         cumTotalIndCosts2 =  cumTotalIndCosts2.add(phs398TrainingBudgetYearDataType.getIndirectCostFundsRequested2());
                         break;
                     default:
@@ -476,8 +469,6 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
                                 }
                             }
                         }
-                        phs398TrainingBudgetYearDataType.setOtherStipendsRequested(otherFullStipends.add(otherShortStipends));
-                        cumOtherStipends = cumOtherStipends.add(phs398TrainingBudgetYearDataType.getOtherStipendsRequested());
                     }
                 }
             }
@@ -486,6 +477,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
             phs398TrainingBudgetYearDataType.setOtherStipendsRequested(otherShortStipends.add(otherFullStipends));
             phs398TrainingBudgetYearDataType.setPredocTotalNumShortTerm(preDocCountShort);
             phs398TrainingBudgetYearDataType.setPredocTotalNumFullTime(preDocCountFull);
+            cumOtherStipends = cumOtherStipends.add(phs398TrainingBudgetYearDataType.getOtherStipendsRequested());
 
 
             /***********************************************************
