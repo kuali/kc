@@ -24,6 +24,7 @@ import gov.grants.apply.forms.phsFellowshipSupplemental12V12.PHSFellowshipSupple
 import gov.grants.apply.forms.phsFellowshipSupplemental12V12.PHSFellowshipSupplemental12Document.PHSFellowshipSupplemental12.ApplicationType;
 import gov.grants.apply.forms.phsFellowshipSupplemental12V12.PHSFellowshipSupplemental12Document.PHSFellowshipSupplemental12.Budget;
 import gov.grants.apply.forms.phsFellowshipSupplemental12V12.PHSFellowshipSupplemental12Document.PHSFellowshipSupplemental12.ResearchTrainingPlan;
+import gov.grants.apply.forms.phsFellowshipSupplemental12V12.PHSFellowshipSupplemental12Document.PHSFellowshipSupplemental12.Sponsors;
 import gov.grants.apply.forms.phsFellowshipSupplemental12V12.PHSFellowshipSupplemental12Document.PHSFellowshipSupplemental12.AdditionalInformation.ActivitiesPlannedUnderThisAward;
 import gov.grants.apply.forms.phsFellowshipSupplemental12V12.PHSFellowshipSupplemental12Document.PHSFellowshipSupplemental12.AdditionalInformation.ConcurrentSupportDescription;
 import gov.grants.apply.forms.phsFellowshipSupplemental12V12.PHSFellowshipSupplemental12Document.PHSFellowshipSupplemental12.AdditionalInformation.CurrentPriorNRSASupport;
@@ -51,19 +52,15 @@ import gov.grants.apply.forms.phsFellowshipSupplemental12V12.PHSFellowshipSupple
 import gov.grants.apply.forms.phsFellowshipSupplemental12V12.PHSFellowshipSupplemental12Document.PHSFellowshipSupplemental12.ResearchTrainingPlan.SpecificAims;
 import gov.grants.apply.forms.phsFellowshipSupplemental12V12.PHSFellowshipSupplemental12Document.PHSFellowshipSupplemental12.ResearchTrainingPlan.TargetedPlannedEnrollment;
 import gov.grants.apply.forms.phsFellowshipSupplemental12V12.PHSFellowshipSupplemental12Document.PHSFellowshipSupplemental12.ResearchTrainingPlan.VertebrateAnimals;
-import gov.grants.apply.forms.phsFellowshipSupplemental12V12.PHSFellowshipSupplemental12Document.PHSFellowshipSupplemental12.Sponsors;
 import gov.grants.apply.forms.phsFellowshipSupplemental12V12.PHSFellowshipSupplemental12Document.PHSFellowshipSupplemental12.Sponsors.SponsorCosponsorInformation;
-
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin0Max100DataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
+import gov.grants.apply.system.globalLibraryV20.YesNoDataType.Enum;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -73,6 +70,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.calculator.QueryList;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
@@ -95,18 +93,21 @@ import org.kuali.kra.s2s.util.S2SConstants;
 
 /**
  * 
- * Class for generating the XML object for grants.gov
- * PHS398FellowshipSupplementalV1_1 Form is generated using XMLBean classes and
+ * Class for generating the XML object for grants.gov PHS398FellowshipSupplementalV1_1 Form is generated using XMLBean classes and
  * is based on PHS398FellowshipSupplementalV1_1 schema
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class PHS398FellowshipSupplementalV1_2Generator extends
-		PHS398FellowshipSupplementalBaseGenerator {
+public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipSupplementalBaseGenerator {
 
-	private static final Log LOG = LogFactory
-			.getLog(PHS398FellowshipSupplementalV1_2Generator.class);
-    private static final int APPENDIX = 96;
+
+    private static final Log LOG = LogFactory.getLog(PHS398FellowshipSupplementalV1_2Generator.class);
+
+    private static final int HUMAN = 1;
+    private static final int VERT = 4;
+    private static final int CLINICAL = 2;
+    private static final int PHASE3CLINICAL = 3;
+    private static final int STEMCELLS = 5;
     private static final int KIRST_START_KNOWN = 43;
     private static final int KIRST_END_KNOWN = 49;
     private static final int KIRST_START_DT = 44;
@@ -115,106 +116,290 @@ public class PHS398FellowshipSupplementalV1_2Generator extends
     private static final int KIRST_GRANT_NUM = 27;
     private static final int PRE_OR_POST = 32;
     private static final int IND_OR_INST = 33;
+    private static final int STEMCELLLINES = 7;
+    private static final int CELLLINEIND = 6;
+    private static final int DEGREE_TYPE_SOUGHT = 99;
+    private static final int DEG_EXP_COMP_DATE = 35;
     private static final int NRSA_SUPPORT = 24;
-    private static final int FORMER_INST = 29;
-    private static final int SENIOR = 72;
-    private static final int SUPP_FUNDING_REQ = 73;
-    private static final int SUPP_FUNDING_AMT = 74;
-    private static final int SUPP_MONTHS = 75;
-    private static final int SUPP_SOURCE = 77;
-    private static final int SUPP_TYPE = 76;
-    private static final int SALARY_MONTH = 122;
-    private static final int ACAD_PERIOD = 121;
-    private static final int BASE_SALARY = 120;
+    private static final int FIELD_TRAINING = 22;
+    private static final int BROAD_TRAINING = 23;
+    private static final int OTHER_MASTERS = 16;
+    private static final int OTHER_DOCT = 17;
+    private static final int OTHER_DDOT = 18;
+    private static final int OTHER_VDOT = 19;
+    private static final int OTHER_DBOTH = 100;
+    private static final int OTHER_MDOT = 21;
+    private static final int SUBMITTED_DIFF_INST = 28;
+    private static final int SENIOR_FELL = 36;
+    private static final int OTHER_SUPP_SOURCE = 37;
+    private static final int SUPP_FUNDING_AMT = 38;
+    private static final int SUPP_MONTHS = 51;
+    private static final int SUPP_SOURCE = 41;
+    private static final int SUPP_TYPE = 40;
+    private static final int BASE_SALARY = 47;
+    private static final int ACAD_PERIOD = 48;
+    private static final int SALARY_MONTHS = 50;
 
-    static final int Q_HUMANINDEF    = 1;
-    static final int Q_CLINICAL      = 2;
-    static final int Q_CLINICAL3     = 3;
-    static final int Q_VERTINDEF     = 4;
-    static final int Q_STEMCELLS     = 5;
-    static final int Q_STEMCELLIND   = 6;
-    static final int Q_STEMCELLLINES = 7;
-    static final int Q_HUMANSUBJ     = 10001;
-    static final int Q_VERTSUBJ      = 10002;
-    static final int Q_DEGREE_SOUGHT = 42;
-    static final int Q_DEGREE_DATE   = 35;
-    static final int Q_DEGREE_TYPE   = 15;
-    static final int Q_DEGREE_TYPE2  = 99;
-    static final int Q_CUR_PRIOR_NRSA = 31;
-    static final int Q_FIELD_OF_TRAINING = 22;
-
+    private static final int APPENDIX = 96;
     private static final int SPONSOR_COSPONSOR = 134;
 
-    static final String TUITION_COST_ELEMENTS_RA = "422310";
-    static final String TUITION_COST_ELEMENTS_Other = "420111";
-    
-	/*
-	 * This method is used to get PHSFellowshipSupplemental12 XMLObject and set
-	 * the data to it from DevelopmentProposal data.
-	 */
-	private PHSFellowshipSupplemental12Document getPHSFellowshipSupplemental12() {
-        PHSFellowshipSupplemental12Document phsFellowshipSupplementalDocument = PHSFellowshipSupplemental12Document.Factory.newInstance();
-        PHSFellowshipSupplemental12 phsFellowshipSupplemental = phsFellowshipSupplementalDocument.addNewPHSFellowshipSupplemental12();
-		phsFellowshipSupplemental.setFormVersion(S2SConstants.FORMVERSION_1_2);
-		phsFellowshipSupplemental.setApplicationType(getApplicationType());
-		phsFellowshipSupplemental.setAppendix(getAppendix());
-		phsFellowshipSupplemental.setSponsors(setSponsorsInfo());
-		phsFellowshipSupplemental.setAdditionalInformation(getAdditionalInformation());
-		phsFellowshipSupplemental.setResearchTrainingPlan(getResearchTrainingPlan());
-		phsFellowshipSupplemental.setBudget(getBudget());
-		return phsFellowshipSupplementalDocument;
-	}
-
     /*
-     * This method is used to get Budget XMLObject and set the data to it from
-     * ProposalYnq based on questionId and answers.
+     * This method is used to get PHSFellowshipSupplemental12 XMLObject and set the data to it from DevelopmentProposal data.
      */
-    private Budget getBudget() {
-        Budget budget = Budget.Factory.newInstance();
-        Map<Integer, String> budgetMap = new HashMap<Integer, String>();
+    private PHSFellowshipSupplemental12Document getPHSFellowshipSupplemental12() {
+        PHSFellowshipSupplemental12Document phsFellowshipSupplementalDocument = PHSFellowshipSupplemental12Document.Factory
+                .newInstance();
+        PHSFellowshipSupplemental12 phsFellowshipSupplemental = phsFellowshipSupplementalDocument
+                .addNewPHSFellowshipSupplemental12();
+        phsFellowshipSupplemental.setFormVersion(S2SConstants.FORMVERSION_1_2);
+        phsFellowshipSupplemental.setApplicationType(getApplicationType());
+        phsFellowshipSupplemental.setAppendix(getAppendix());
+        setQuestionnaireData(phsFellowshipSupplemental);
+        return phsFellowshipSupplementalDocument;
+    }
+
+    private void setQuestionnaireData(PHSFellowshipSupplemental12 phsFellowshipSupplemental) {
+        Map<Integer, String> hmBudgetQuestions = new HashMap<Integer, String>();
         List<AnswerHeader> answers = findQuestionnaireWithAnswers(pdDoc.getDevelopmentProposal());
+        ResearchTrainingPlan researchTrainingPlan = phsFellowshipSupplemental.addNewResearchTrainingPlan();
+        setHumanSubjectInvolvedAndVertebrateAnimalUsed(researchTrainingPlan);
+        setNarrativeDataForResearchTrainingPlan(phsFellowshipSupplemental, researchTrainingPlan);
+        AdditionalInformation additionalInfoType = phsFellowshipSupplemental.addNewAdditionalInformation();
+        GraduateDegreeSought graduateDegreeSought = GraduateDegreeSought.Factory.newInstance();
+        StemCells stemCellstype = StemCells.Factory.newInstance();
+        QueryList<KirschsteinBean> cvKirsch = new QueryList<KirschsteinBean>();
         for (AnswerHeader answerHeader : answers) {
             Questionnaire questionnaire = answerHeader.getQuestionnaire();
             List<QuestionnaireQuestion> questionnaireQuestions = questionnaire.getQuestionnaireQuestions();
             for (QuestionnaireQuestion questionnaireQuestion : questionnaireQuestions) {
-                Answer answerBO = getAnswer(questionnaireQuestion,answerHeader);
+                Answer answerBO = getAnswer(questionnaireQuestion, answerHeader);
                 String answer = answerBO.getAnswer();
                 Question question = questionnaireQuestion.getQuestion();
-                if (answer != null){
-                    switch (question.getQuestionId()) {
-                        case SENIOR:
-                            budgetMap.put(SENIOR, answer);
+                Integer questionNumber = questionnaireQuestion.getQuestionNumber();
+                Integer parentQuestionNumber = questionnaireQuestion.getParentQuestionNumber();
+                Integer questionId = question.getQuestionId();
+                if (answer != null) {
+                    switch (questionId) {
+                        case HUMAN:
+                            researchTrainingPlan.setHumanSubjectsIndefinite(getYesNoEnum(answer));
                             break;
-                        case SUPP_FUNDING_REQ:
-                            budgetMap.put(SUPP_FUNDING_REQ, answer);
+                        case VERT:
+                            // will the inclusion of vertebrate animals use be indefinite
+                            if (answer != null)
+                                researchTrainingPlan.setVertebrateAnimalsIndefinite(getYesNoEnum(answer));
+                            break;
+                        case CLINICAL:
+                            // clinical trial
+                            if (answer != null)
+                                researchTrainingPlan.setClinicalTrial(getYesNoEnum(answer));
+                            break;
+                        case PHASE3CLINICAL:
+                            // phase 3 clinical trial
+                            if (answer != null)
+                                researchTrainingPlan.setPhase3ClinicalTrial(getYesNoEnum(answer));
+                            break;
+                        case STEMCELLS:
+                            // stem cells used
+                            if (answer != null)
+                                stemCellstype.setIsHumanStemCellsInvolved(getYesNoEnum(answer));
+                            break;
+                        case CELLLINEIND:
+                            // stem cell line indicator
+                            if (answer != null)
+                                stemCellstype.setStemCellsIndicator(getYesNoEnum(answer));
+                            break;
+                        case STEMCELLLINES:
+                            stemCellstype.addCellLines(answer);
+                            break;
+
+                        case DEGREE_TYPE_SOUGHT:
+                            graduateDegreeSought.setDegreeType(DegreeTypeDataType.Enum.forString(answer));
+                            break;
+                        case DEG_EXP_COMP_DATE:
+                            graduateDegreeSought.setDegreeDate(answer.substring(6, 10) + STRING_SEPRATOR + answer.substring(0, 2));
+                            break;
+                        case OTHER_MASTERS:
+                            graduateDegreeSought.setOtherDegreeTypeText(answer);
+                            graduateDegreeSought.setOtherDegreeTypeText(answer);
+                            graduateDegreeSought.setOtherDegreeTypeText(answer);
+                            break;
+                        case OTHER_DDOT:
+                            graduateDegreeSought.setDegreeType(DegreeTypeDataType.DDOT_OTHER_DOCTOR_OF_MEDICAL_DENTISTRY);
+                            graduateDegreeSought.setOtherDegreeTypeText(answer);
+                            break;
+                        case OTHER_VDOT:
+                            graduateDegreeSought.setDegreeType(DegreeTypeDataType.VDOT_OTHER_DOCTOR_OF_VETERINARY_MEDICINE);
+                            graduateDegreeSought.setOtherDegreeTypeText(answer);
+                            break;
+                        case OTHER_MDOT:
+                            graduateDegreeSought.setDegreeType(DegreeTypeDataType.MDOT_OTHER_DOCTOR_OF_MEDICINE);
+                            graduateDegreeSought.setOtherDegreeTypeText(answer);
+                            break;
+                        case BROAD_TRAINING:
+                        case FIELD_TRAINING:
+                            if (!answer.toUpperCase().equals("SUB CATEGORY NOT FOUND"))
+                                additionalInfoType.setFieldOfTraining(FieldOfTrainingDataType.Enum.forString(answer));
+                            break;
+                        case NRSA_SUPPORT:
+                            additionalInfoType.setCurrentPriorNRSASupportIndicator(getYesNoEnum(answer));
+                            break;
+                        case KIRST_START_KNOWN: 
+                        case KIRST_END_KNOWN: 
+                        case KIRST_START_DT: 
+                        case KIRST_END_DT: 
+                        case KIRST_GRANT_KNOWN: 
+                        case KIRST_GRANT_NUM: 
+                        case PRE_OR_POST: 
+                        case IND_OR_INST: 
+                            if (questionId == KIRST_START_KNOWN) {
+                                if (answer.equals("N")) {
+                                    answer = "Unknown";
+                                    questionId = KIRST_START_DT;
+                                }else
+                                    break;
+                            }
+                            if (questionId == KIRST_END_KNOWN) {
+                                if (answer.equals("N")) {
+                                    answer = "Unknown";
+                                    questionId = KIRST_END_DT;
+                                }else
+                                    break;
+                            }
+                            if (questionId == KIRST_GRANT_KNOWN) {
+                                if (answer.equals("N")) {
+                                    answer = "Unknown";
+                                    questionId = KIRST_GRANT_NUM;
+                                }else
+                                    break;
+                            }
+                            KirschsteinBean cbKirschstein = new KirschsteinBean();
+                            cbKirschstein.setAnswer(answer);
+                            cbKirschstein.setQuestionId(questionId);
+                            cbKirschstein.setQuestionNumber(questionNumber);
+                            cbKirschstein.setParentQuestionNumber(parentQuestionNumber);
+                            cvKirsch.add(cbKirschstein);
+                            break;
+                        case SUBMITTED_DIFF_INST:
+                            additionalInfoType.setChangeOfInstitution(getYesNoEnum(answer));
+                            break;
+                        case 29:
+                            additionalInfoType.setFormerInstitution(answer);
+                            break;
+                        case SENIOR_FELL:
+                            hmBudgetQuestions.put(SENIOR_FELL, answer);
+                            break;
+                        case OTHER_SUPP_SOURCE:
+                            hmBudgetQuestions.put(OTHER_SUPP_SOURCE, answer);
                             break;
                         case SUPP_SOURCE:
-                            budgetMap.put(SUPP_SOURCE, answer);
+                            hmBudgetQuestions.put(SUPP_SOURCE, answer);
                             break;
                         case SUPP_FUNDING_AMT:
-                            budgetMap.put(SUPP_FUNDING_AMT, answer);
+                            hmBudgetQuestions.put(SUPP_FUNDING_AMT, answer);
                             break;
                         case SUPP_MONTHS:
-                            budgetMap.put(SUPP_MONTHS, answer);
+                            hmBudgetQuestions.put(SUPP_MONTHS, answer);
                             break;
                         case SUPP_TYPE:
-                            budgetMap.put(SUPP_TYPE, answer);
+                            hmBudgetQuestions.put(SUPP_TYPE, answer);
                             break;
-                        case SALARY_MONTH:
-                            budgetMap.put(SALARY_MONTH, answer);
+                        case SALARY_MONTHS:
+                            hmBudgetQuestions.put(SALARY_MONTHS, answer);
                             break;
                         case ACAD_PERIOD:
-                            budgetMap.put(ACAD_PERIOD, answer);
+                            hmBudgetQuestions.put(ACAD_PERIOD, answer);
                             break;
                         case BASE_SALARY:
-                            budgetMap.put(BASE_SALARY, answer);
+                            hmBudgetQuestions.put(BASE_SALARY, answer);
                             break;
                         default:
                             break;
+
                     }
                 }
             }
         }
+        if (stemCellstype != null)
+            additionalInfoType.setStemCells(stemCellstype);
+        if (graduateDegreeSought.getDegreeType() != null)
+            additionalInfoType.setGraduateDegreeSought(graduateDegreeSought);
+        QueryList<KirschsteinBean> cvType = new QueryList<KirschsteinBean>();
+        QueryList<KirschsteinBean> cvStart = new QueryList<KirschsteinBean>();
+        QueryList<KirschsteinBean> cvEnd = new QueryList<KirschsteinBean>();
+        QueryList<KirschsteinBean> cvLevel = new QueryList<KirschsteinBean>();
+        QueryList<KirschsteinBean> cvGrant = new QueryList<KirschsteinBean>();
+        KirschsteinBean kbBean1 = new KirschsteinBean();
+        KirschsteinBean kbBean2 = new KirschsteinBean();
+        KirschsteinBean kbBean3 = new KirschsteinBean();
+        KirschsteinBean kbBean4 = new KirschsteinBean();
+        KirschsteinBean kbBean5 = new KirschsteinBean();
+
+        if (additionalInfoType.getCurrentPriorNRSASupportIndicator() != null) {
+            if (additionalInfoType.getCurrentPriorNRSASupportIndicator().equals("Y: Yes")) {
+                KirschsteinBean kbBean = new KirschsteinBean();
+                cvKirsch.sort("questionNumber");
+                for (int i = 0; i < cvKirsch.size(); i++) {
+                    kbBean = (KirschsteinBean) cvKirsch.get(i);
+                    switch (kbBean.getQuestionId()) {
+                        case PRE_OR_POST:
+                            cvLevel.add(kbBean);
+                            break;
+                        case IND_OR_INST:
+                            cvType.add(kbBean);
+                            break;
+                        case KIRST_START_DT:
+                            cvStart.add(kbBean);
+                            break;
+                        case KIRST_END_DT:
+                            cvEnd.add(kbBean);
+                            break;
+                        case KIRST_GRANT_NUM:
+                            cvGrant.add(kbBean);
+                            break;
+                    }
+
+                }
+            }
+            List<CurrentPriorNRSASupport> currentPriorNRSASupportList = new ArrayList<CurrentPriorNRSASupport>();
+            int numberRepeats = cvLevel.size();
+            if (numberRepeats > 0) {
+                for (int j = 0; j < numberRepeats; j++) {
+                    kbBean1 = (KirschsteinBean) cvLevel.get(j);
+                    kbBean2 = (KirschsteinBean) cvType.get(j);
+                    kbBean3 = (KirschsteinBean) cvStart.get(j);
+                    kbBean4 = (KirschsteinBean) cvEnd.get(j);
+                    kbBean5 = (KirschsteinBean) cvGrant.get(j);
+                    CurrentPriorNRSASupport nrsaSupportType = CurrentPriorNRSASupport.Factory.newInstance();
+                    nrsaSupportType.setLevel(CurrentPriorNRSASupport.Level.Enum.forString(kbBean1.getAnswer()));
+                    nrsaSupportType.setType(CurrentPriorNRSASupport.Type.Enum.forString(kbBean2.getAnswer()));
+                    nrsaSupportType.setStartDate(s2sUtilService.convertDateStringToCalendar(kbBean3.getAnswer()));
+                    nrsaSupportType.setEndDate(s2sUtilService.convertDateStringToCalendar(kbBean4.getAnswer().toString()));
+                    nrsaSupportType.setGrantNumber(kbBean5.getAnswer());
+                    currentPriorNRSASupportList.add(nrsaSupportType);
+                }
+            }
+            additionalInfoType.setCurrentPriorNRSASupportArray(currentPriorNRSASupportList.toArray(new CurrentPriorNRSASupport[0]));
+        }
+        phsFellowshipSupplemental.setBudget(getBudget(hmBudgetQuestions));
+        setAdditionalInformation(additionalInfoType);
+    }
+
+
+    /**
+     * This method is to return YesNoDataType enum
+     * 
+     * @param answer
+     * @return
+     */
+    private Enum getYesNoEnum(String answer) {
+        return answer.equals("Y") ? YesNoDataType.Y_YES : YesNoDataType.N_NO;
+    }
+
+    /*
+     * This method is used to get Budget XMLObject and set the data to it from ProposalYnq based on questionId and answers.
+     */
+    private Budget getBudget(Map<Integer,String> budgetMap) {
+        Budget budget = Budget.Factory.newInstance();
         budget.setTuitionAndFeesRequested(YesNoDataType.N_NO);
         getInstitutionalBaseSalary(budget, budgetMap);
         getFederalStipendRequested(budget);
@@ -224,9 +409,8 @@ public class PHS398FellowshipSupplementalV1_2Generator extends
     }
 
     /*
-     * This method is used to get TuitionRequestedYears data to Budget XMLObject
-     * from List of BudgetLineItem based on CostElement value of
-     * TUITION_COST_ELEMENTS
+     * This method is used to get TuitionRequestedYears data to Budget XMLObject from List of BudgetLineItem based on CostElement
+     * value of TUITION_COST_ELEMENTS
      */
     private void setTuitionRequestedYears(Budget budget) {
         BudgetDocument budgetDoc = getBudgetDocument();
@@ -243,26 +427,26 @@ public class PHS398FellowshipSupplementalV1_2Generator extends
             }
             tuitionTotal = tuitionTotal.add(tuition);
             switch (budgetPeriod.getBudgetPeriod()) {
-            case 1:
-                budget.setTuitionRequestedYear1(tuition.bigDecimalValue());
-                break;
-            case 2:
-                budget.setTuitionRequestedYear2(tuition.bigDecimalValue());
-                break;
-            case 3:
-                budget.setTuitionRequestedYear3(tuition.bigDecimalValue());
-                break;
-            case 4:
-                budget.setTuitionRequestedYear4(tuition.bigDecimalValue());
-                break;
-            case 5:
-                budget.setTuitionRequestedYear5(tuition.bigDecimalValue());
-                break;
-            case 6:
-                budget.setTuitionRequestedYear6(tuition.bigDecimalValue());
-                break;
-            default:
-                break;
+                case 1:
+                    budget.setTuitionRequestedYear1(tuition.bigDecimalValue());
+                    break;
+                case 2:
+                    budget.setTuitionRequestedYear2(tuition.bigDecimalValue());
+                    break;
+                case 3:
+                    budget.setTuitionRequestedYear3(tuition.bigDecimalValue());
+                    break;
+                case 4:
+                    budget.setTuitionRequestedYear4(tuition.bigDecimalValue());
+                    break;
+                case 5:
+                    budget.setTuitionRequestedYear5(tuition.bigDecimalValue());
+                    break;
+                case 6:
+                    budget.setTuitionRequestedYear6(tuition.bigDecimalValue());
+                    break;
+                default:
+                    break;
             }
         }
         budget.setTuitionRequestedTotal(tuitionTotal.bigDecimalValue());
@@ -272,33 +456,31 @@ public class PHS398FellowshipSupplementalV1_2Generator extends
     }
 
     /*
-     * This method is used to set data to SupplementationFromOtherSources
-     * XMLObject from budgetMap data for Budget
+     * This method is used to set data to SupplementationFromOtherSources XMLObject from budgetMap data for Budget
      */
-    private void getSupplementationFromOtherSources(Budget budget, Map<Integer, String> budgetMap) {
-        if (budgetMap.get(SUPP_FUNDING_REQ) != null
-                && budgetMap.get(SUPP_FUNDING_REQ).toString().equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {
-            SupplementationFromOtherSources supplementationFromOtherSources = 
-                SupplementationFromOtherSources.Factory.newInstance();
-            if (budgetMap.get(SUPP_SOURCE) != null) {
-                supplementationFromOtherSources.setSource(budgetMap.get(SUPP_SOURCE).toString());
+    private void getSupplementationFromOtherSources(Budget budget, Map<Integer, String> hmBudgetQuestions) {
+
+        if (!hmBudgetQuestions.isEmpty()) {
+            if (hmBudgetQuestions.get(OTHER_SUPP_SOURCE) != null) {
+                if (hmBudgetQuestions.get(OTHER_SUPP_SOURCE).toString().toUpperCase().equals("Y")) {
+                    SupplementationFromOtherSources supplementationFromOtherSources = budget
+                            .addNewSupplementationFromOtherSources();
+                    if (hmBudgetQuestions.get(SUPP_SOURCE) != null) {
+                        supplementationFromOtherSources.setSource(hmBudgetQuestions.get(SUPP_SOURCE).toString());
+                        supplementationFromOtherSources.setAmount(new BigDecimal(hmBudgetQuestions.get(SUPP_FUNDING_AMT).toString()));
+                        try {
+                            supplementationFromOtherSources.setNumberOfMonths(new BigDecimal(hmBudgetQuestions.get(SUPP_MONTHS).toString()));
+                        }catch (Exception ex) {}
+                        supplementationFromOtherSources.setType(hmBudgetQuestions.get(SUPP_TYPE).toString());
+
+                    }
+                }
             }
-            if (budgetMap.get(SUPP_FUNDING_AMT) != null) {
-                supplementationFromOtherSources.setAmount(new BigDecimal(budgetMap.get(SUPP_FUNDING_AMT).toString()));
-            }
-            if (budgetMap.get(SUPP_MONTHS) != null) {
-                supplementationFromOtherSources.setNumberOfMonths(new BigDecimal(budgetMap.get(SUPP_MONTHS).toString()));
-            }
-            if (budgetMap.get(SUPP_TYPE) != null) {
-                supplementationFromOtherSources.setType(budgetMap.get(SUPP_TYPE).toString());
-            }
-            budget.setSupplementationFromOtherSources(supplementationFromOtherSources);
         }
     }
 
     /*
-     * This method is used to get FederalStipendRequested XMLObject and set
-     * additional information data to it.
+     * This method is used to get FederalStipendRequested XMLObject and set additional information data to it.
      */
     private void getFederalStipendRequested(Budget budget) {
         FederalStipendRequested federalStipendRequested = FederalStipendRequested.Factory.newInstance();
@@ -310,10 +492,11 @@ public class PHS398FellowshipSupplementalV1_2Generator extends
             for (BudgetPeriod budgetPeriod : pBudget.getBudgetPeriods()) {
                 if (budgetPeriod.getBudgetPeriod() == 1) {
                     for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-                            if (getCostElementsByParam(STIPEND_COST_ELEMENTS).contains(budgetLineItem.getCostElementBO().getCostElement())) {
+                        if (getCostElementsByParam(STIPEND_COST_ELEMENTS).contains(
+                                budgetLineItem.getCostElementBO().getCostElement())) {
                             sumOfLineItemCost = sumOfLineItemCost.add(budgetLineItem.getLineItemCost());
-                            numberOfMonths = numberOfMonths.add(getNumberOfMonths(
-                                    budgetLineItem.getStartDate(), budgetLineItem.getEndDate()));
+                            numberOfMonths = numberOfMonths.add(getNumberOfMonths(budgetLineItem.getStartDate(), budgetLineItem
+                                    .getEndDate()));
                         }
                     }
                 }
@@ -321,245 +504,210 @@ public class PHS398FellowshipSupplementalV1_2Generator extends
             federalStipendRequested.setAmount(sumOfLineItemCost.bigDecimalValue());
             federalStipendRequested.setNumberOfMonths(numberOfMonths.bigDecimalValue());
             budget.setFederalStipendRequested(federalStipendRequested);
-            
+
         }
     }
 
     /*
-     * This method is used to get final version of BudgetDocument from
-     * s2SBudgetCalculatorService using pdDoc
+     * This method is used to get final version of BudgetDocument from s2SBudgetCalculatorService using pdDoc
      */
     private BudgetDocument getBudgetDocument() {
         BudgetDocument budgetDoc = null;
         try {
             budgetDoc = s2SBudgetCalculatorService.getFinalBudgetVersion(pdDoc);
-        } catch (S2SException e) {
+        }
+        catch (S2SException e) {
             LOG.error("Error while getting Budget", e);
         }
         return budgetDoc;
     }
 
     /*
-     * This method is used to set data to InstitutionalBaseSalary XMLObject from
-     * budgetMap data for Budget
+     * This method is used to set data to InstitutionalBaseSalary XMLObject from budgetMap data for Budget
      */
     private void getInstitutionalBaseSalary(Budget budget, Map<Integer, String> budgetMap) {
         InstitutionalBaseSalary institutionalBaseSalary = InstitutionalBaseSalary.Factory.newInstance();
-        if (budgetMap.get(SENIOR) != null
-                && budgetMap.get(SENIOR).toString().equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {
+        if (budgetMap.get(SENIOR_FELL) != null && budgetMap.get(SENIOR_FELL).toString().equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {
             if (budgetMap.get(BASE_SALARY) != null) {
                 institutionalBaseSalary.setAmount(new BigDecimal(budgetMap.get(BASE_SALARY).toString()));
             }
             if (budgetMap.get(ACAD_PERIOD) != null) {
                 institutionalBaseSalary.setAcademicPeriod(AcademicPeriod.Enum.forString(budgetMap.get(ACAD_PERIOD).toString()));
             }
-            if (budgetMap.get(SALARY_MONTH) != null) {
-                institutionalBaseSalary.setNumberOfMonths(new BigDecimal(budgetMap.get(SALARY_MONTH).toString()));
+            if (budgetMap.get(SALARY_MONTHS) != null) {
+                institutionalBaseSalary.setNumberOfMonths(new BigDecimal(budgetMap.get(SALARY_MONTHS).toString()));
             }
             budget.setInstitutionalBaseSalary(institutionalBaseSalary);
         }
     }
 
-	/*
-	 * This method used to set data to ResearchTrainingPlan XMLObject from
-	 * DevelopmentProposal
-	 */
-	private ResearchTrainingPlan getResearchTrainingPlan() {
-		ResearchTrainingPlan researchTrainingPlan = ResearchTrainingPlan.Factory.newInstance();
-		setHumanSubjectInvolvedAndVertebrateAnimalUsed(researchTrainingPlan);
-		setNarrativeDataForResearchTrainingPlan(researchTrainingPlan);
-		return researchTrainingPlan;
-	}
-
-	/**
-	 * This method is used to set Narrative Data to ResearchTrainingPlan
-	 * XMLObject based on NarrativeTypeCode.
-	 * 
-	 * @param researchTrainingPlan
-	 */
-	private void setNarrativeDataForResearchTrainingPlan(
-			ResearchTrainingPlan researchTrainingPlan) {
-		AttachedFileDataType attachedFileDataType = null;
-		for (Narrative narrative : pdDoc.getDevelopmentProposal()
-				.getNarratives()) {
-			if (narrative.getNarrativeTypeCode() != null) {
-				switch (Integer.parseInt(narrative.getNarrativeTypeCode())) {
-				case INTRODUCTION_TO_APPLICATION:
-	                attachedFileDataType = getAttachedFileType(narrative);
-	                if(attachedFileDataType == null){
-	                    continue;
-	                }
-					IntroductionToApplication introductionToApplication = IntroductionToApplication.Factory
-							.newInstance();
-					introductionToApplication.setAttFile(attachedFileDataType);
-					researchTrainingPlan
-							.setIntroductionToApplication(introductionToApplication);
-					break;
-				case SPECIFIC_AIMS:
-	                attachedFileDataType = getAttachedFileType(narrative);
-	                if(attachedFileDataType == null){
-	                    continue;
-	                }
-					SpecificAims specificAims = SpecificAims.Factory
-							.newInstance();
-					specificAims.setAttFile(attachedFileDataType);
-					researchTrainingPlan.setSpecificAims(specificAims);
-					break;
-                case RESEARCH_STRATEGY:
-                    attachedFileDataType = getAttachedFileType(narrative);
-                    if(attachedFileDataType == null){
-                        continue;
-                    }
-                    ResearchStrategy researchStrategy = ResearchStrategy.Factory
-                            .newInstance();
-                    researchStrategy.setAttFile(attachedFileDataType);
-                    researchTrainingPlan.setResearchStrategy(researchStrategy);
-                    break;
-				case INCLUSION_ENROLLMENT_REPORT:
-	                attachedFileDataType = getAttachedFileType(narrative);
-	                if(attachedFileDataType == null){
-	                    continue;
-	                }
-					InclusionEnrollmentReport inclusionEnrollmentReport = InclusionEnrollmentReport.Factory
-							.newInstance();
-					inclusionEnrollmentReport.setAttFile(attachedFileDataType);
-					researchTrainingPlan
-							.setInclusionEnrollmentReport(inclusionEnrollmentReport);
-					break;
-				case PROGRESS_REPORT_PUBLICATION_LIST:
-	                attachedFileDataType = getAttachedFileType(narrative);
-	                if(attachedFileDataType == null){
-	                    continue;
-	                }
-					ProgressReportPublicationList progressReportPublicationList = ProgressReportPublicationList.Factory
-							.newInstance();
-					progressReportPublicationList
-							.setAttFile(attachedFileDataType);
-					researchTrainingPlan
-							.setProgressReportPublicationList(progressReportPublicationList);
-					break;
-				case PROTECTION_OF_HUMAN_SUBJECTS:
-	                attachedFileDataType = getAttachedFileType(narrative);
-	                if(attachedFileDataType == null){
-	                    continue;
-	                }
-					ProtectionOfHumanSubjects protectionOfHumanSubjects = ProtectionOfHumanSubjects.Factory
-							.newInstance();
-					protectionOfHumanSubjects.setAttFile(attachedFileDataType);
-					researchTrainingPlan
-							.setProtectionOfHumanSubjects(protectionOfHumanSubjects);
-					break;
-				case INCLUSION_OF_WOMEN_AND_MINORITIES:
-	                attachedFileDataType = getAttachedFileType(narrative);
-	                if(attachedFileDataType == null){
-	                    continue;
-	                }
-					InclusionOfWomenAndMinorities inclusionOfWomenAndMinorities = InclusionOfWomenAndMinorities.Factory
-							.newInstance();
-					inclusionOfWomenAndMinorities
-							.setAttFile(attachedFileDataType);
-					researchTrainingPlan
-							.setInclusionOfWomenAndMinorities(inclusionOfWomenAndMinorities);
-					break;
-				case TARGETED_PLANNED_ENROLLMENT:
-	                attachedFileDataType = getAttachedFileType(narrative);
-	                if(attachedFileDataType == null){
-	                    continue;
-	                }
-					TargetedPlannedEnrollment tarPlannedEnrollmentTable = TargetedPlannedEnrollment.Factory
-							.newInstance();
-					tarPlannedEnrollmentTable.setAttFile(attachedFileDataType);
-					researchTrainingPlan
-							.setTargetedPlannedEnrollment(tarPlannedEnrollmentTable);
-					break;
-				case INCLUSION_OF_CHILDREN:
-	                attachedFileDataType = getAttachedFileType(narrative);
-	                if(attachedFileDataType == null){
-	                    continue;
-	                }
-					InclusionOfChildren inclusionOfChildren = InclusionOfChildren.Factory
-							.newInstance();
-					inclusionOfChildren.setAttFile(attachedFileDataType);
-					researchTrainingPlan
-							.setInclusionOfChildren(inclusionOfChildren);
-					break;
-				case VERTEBRATE_ANIMALS:
-	                attachedFileDataType = getAttachedFileType(narrative);
-	                if(attachedFileDataType == null){
-	                    continue;
-	                }
-					VertebrateAnimals vertebrateAnimals = VertebrateAnimals.Factory
-							.newInstance();
-					vertebrateAnimals.setAttFile(attachedFileDataType);
-					researchTrainingPlan
-							.setVertebrateAnimals(vertebrateAnimals);
-					break;
-				case SELECT_AGENT_RESEARCH:
-	                attachedFileDataType = getAttachedFileType(narrative);
-	                if(attachedFileDataType == null){
-	                    continue;
-	                }
-					SelectAgentResearch selectAgentResearch = SelectAgentResearch.Factory
-							.newInstance();
-					selectAgentResearch.setAttFile(attachedFileDataType);
-					researchTrainingPlan
-							.setSelectAgentResearch(selectAgentResearch);
-					break;
-				case RESOURCE_SHARING_PLANS:
-	                attachedFileDataType = getAttachedFileType(narrative);
-	                if(attachedFileDataType == null){
-	                    continue;
-	                }
-					ResourceSharingPlan resourceSharingPlan = ResourceSharingPlan.Factory
-							.newInstance();
-					resourceSharingPlan.setAttFile(attachedFileDataType);
-					researchTrainingPlan
-							.setResourceSharingPlan(resourceSharingPlan);
-					break;
-				case RESPECTIVE_CONTRIBUTIONS:
-	                attachedFileDataType = getAttachedFileType(narrative);
-	                if(attachedFileDataType == null){
-	                    continue;
-	                }
-					RespectiveContributions respectiveContributions = RespectiveContributions.Factory
-							.newInstance();
-					respectiveContributions.setAttFile(attachedFileDataType);
-					researchTrainingPlan
-							.setRespectiveContributions(respectiveContributions);
-					break;
-				case SELECTION_OF_SPONSOR_AND_INSTITUTION:
-	                attachedFileDataType = getAttachedFileType(narrative);
-	                if(attachedFileDataType == null){
-	                    continue;
-	                }
-					SelectionOfSponsorAndInstitution selectionOfSponsorAndInstitution = SelectionOfSponsorAndInstitution.Factory
-							.newInstance();
-					selectionOfSponsorAndInstitution
-							.setAttFile(attachedFileDataType);
-					researchTrainingPlan
-							.setSelectionOfSponsorAndInstitution(selectionOfSponsorAndInstitution);
-					break;
-				case RESPONSIBLE_CONDUCT_OF_RESEARCH:
-	                attachedFileDataType = getAttachedFileType(narrative);
-	                if(attachedFileDataType == null){
-	                    continue;
-	                }
-					ResponsibleConductOfResearch responsibleConductOfResearch = ResponsibleConductOfResearch.Factory
-							.newInstance();
-					responsibleConductOfResearch
-							.setAttFile(attachedFileDataType);
-					researchTrainingPlan
-							.setResponsibleConductOfResearch(responsibleConductOfResearch);
-					break;
-				default:
-					break;
-				}
-			}
-		}
-	}
     /**
-     * This method is used to set Narrative Data to ResearchTrainingPlan
-     * XMLObject based on NarrativeTypeCode.
+     * This method is used to set Narrative Data to ResearchTrainingPlan XMLObject based on NarrativeTypeCode.
+     * 
+     * @param researchTrainingPlan
+     */
+    private void setNarrativeDataForResearchTrainingPlan(PHSFellowshipSupplemental12 phsFellowshipSupplemental,
+            ResearchTrainingPlan researchTrainingPlan) {
+        AttachedFileDataType attachedFileDataType = null;
+        SpecificAims specificAims = researchTrainingPlan.addNewSpecificAims();
+        Sponsors sponsors = phsFellowshipSupplemental.addNewSponsors();
+        SponsorCosponsorInformation sponsorCosponsorInfo = sponsors.addNewSponsorCosponsorInformation();
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+            if (narrative.getNarrativeTypeCode() != null) {
+                switch (Integer.parseInt(narrative.getNarrativeTypeCode())) {
+                    case INTRODUCTION_TO_APPLICATION:
+                        attachedFileDataType = getAttachedFileType(narrative);
+                        if (attachedFileDataType == null) {
+                            continue;
+                        }
+                        IntroductionToApplication introductionToApplication = IntroductionToApplication.Factory.newInstance();
+                        introductionToApplication.setAttFile(attachedFileDataType);
+                        researchTrainingPlan.setIntroductionToApplication(introductionToApplication);
+                        break;
+                    case SPECIFIC_AIMS:
+                        attachedFileDataType = getAttachedFileType(narrative);
+                        if (attachedFileDataType == null) {
+                            continue;
+                        }
+                        specificAims.setAttFile(attachedFileDataType);
+                        break;
+                    case RESEARCH_STRATEGY:
+                        attachedFileDataType = getAttachedFileType(narrative);
+                        if (attachedFileDataType == null) {
+                            continue;
+                        }
+                        ResearchStrategy researchStrategy = ResearchStrategy.Factory.newInstance();
+                        researchStrategy.setAttFile(attachedFileDataType);
+                        researchTrainingPlan.setResearchStrategy(researchStrategy);
+                        break;
+                    case INCLUSION_ENROLLMENT_REPORT:
+                        attachedFileDataType = getAttachedFileType(narrative);
+                        if (attachedFileDataType == null) {
+                            continue;
+                        }
+                        InclusionEnrollmentReport inclusionEnrollmentReport = InclusionEnrollmentReport.Factory.newInstance();
+                        inclusionEnrollmentReport.setAttFile(attachedFileDataType);
+                        researchTrainingPlan.setInclusionEnrollmentReport(inclusionEnrollmentReport);
+                        break;
+                    case PROGRESS_REPORT_PUBLICATION_LIST:
+                        attachedFileDataType = getAttachedFileType(narrative);
+                        if (attachedFileDataType == null) {
+                            continue;
+                        }
+                        ProgressReportPublicationList progressReportPublicationList = ProgressReportPublicationList.Factory
+                                .newInstance();
+                        progressReportPublicationList.setAttFile(attachedFileDataType);
+                        researchTrainingPlan.setProgressReportPublicationList(progressReportPublicationList);
+                        break;
+                    case PROTECTION_OF_HUMAN_SUBJECTS:
+                        attachedFileDataType = getAttachedFileType(narrative);
+                        if (attachedFileDataType == null) {
+                            continue;
+                        }
+                        ProtectionOfHumanSubjects protectionOfHumanSubjects = ProtectionOfHumanSubjects.Factory.newInstance();
+                        protectionOfHumanSubjects.setAttFile(attachedFileDataType);
+                        researchTrainingPlan.setProtectionOfHumanSubjects(protectionOfHumanSubjects);
+                        break;
+                    case INCLUSION_OF_WOMEN_AND_MINORITIES:
+                        attachedFileDataType = getAttachedFileType(narrative);
+                        if (attachedFileDataType == null) {
+                            continue;
+                        }
+                        InclusionOfWomenAndMinorities inclusionOfWomenAndMinorities = InclusionOfWomenAndMinorities.Factory
+                                .newInstance();
+                        inclusionOfWomenAndMinorities.setAttFile(attachedFileDataType);
+                        researchTrainingPlan.setInclusionOfWomenAndMinorities(inclusionOfWomenAndMinorities);
+                        break;
+                    case TARGETED_PLANNED_ENROLLMENT:
+                        attachedFileDataType = getAttachedFileType(narrative);
+                        if (attachedFileDataType == null) {
+                            continue;
+                        }
+                        TargetedPlannedEnrollment tarPlannedEnrollmentTable = TargetedPlannedEnrollment.Factory.newInstance();
+                        tarPlannedEnrollmentTable.setAttFile(attachedFileDataType);
+                        researchTrainingPlan.setTargetedPlannedEnrollment(tarPlannedEnrollmentTable);
+                        break;
+                    case INCLUSION_OF_CHILDREN:
+                        attachedFileDataType = getAttachedFileType(narrative);
+                        if (attachedFileDataType == null) {
+                            continue;
+                        }
+                        InclusionOfChildren inclusionOfChildren = InclusionOfChildren.Factory.newInstance();
+                        inclusionOfChildren.setAttFile(attachedFileDataType);
+                        researchTrainingPlan.setInclusionOfChildren(inclusionOfChildren);
+                        break;
+                    case VERTEBRATE_ANIMALS:
+                        attachedFileDataType = getAttachedFileType(narrative);
+                        if (attachedFileDataType == null) {
+                            continue;
+                        }
+                        VertebrateAnimals vertebrateAnimals = VertebrateAnimals.Factory.newInstance();
+                        vertebrateAnimals.setAttFile(attachedFileDataType);
+                        researchTrainingPlan.setVertebrateAnimals(vertebrateAnimals);
+                        break;
+                    case SELECT_AGENT_RESEARCH:
+                        attachedFileDataType = getAttachedFileType(narrative);
+                        if (attachedFileDataType == null) {
+                            continue;
+                        }
+                        SelectAgentResearch selectAgentResearch = SelectAgentResearch.Factory.newInstance();
+                        selectAgentResearch.setAttFile(attachedFileDataType);
+                        researchTrainingPlan.setSelectAgentResearch(selectAgentResearch);
+                        break;
+                    case RESOURCE_SHARING_PLANS:
+                        attachedFileDataType = getAttachedFileType(narrative);
+                        if (attachedFileDataType == null) {
+                            continue;
+                        }
+                        ResourceSharingPlan resourceSharingPlan = ResourceSharingPlan.Factory.newInstance();
+                        resourceSharingPlan.setAttFile(attachedFileDataType);
+                        researchTrainingPlan.setResourceSharingPlan(resourceSharingPlan);
+                        break;
+                    case RESPECTIVE_CONTRIBUTIONS:
+                        attachedFileDataType = getAttachedFileType(narrative);
+                        if (attachedFileDataType == null) {
+                            continue;
+                        }
+                        RespectiveContributions respectiveContributions = RespectiveContributions.Factory.newInstance();
+                        respectiveContributions.setAttFile(attachedFileDataType);
+                        researchTrainingPlan.setRespectiveContributions(respectiveContributions);
+                        break;
+                    case SELECTION_OF_SPONSOR_AND_INSTITUTION:
+                        attachedFileDataType = getAttachedFileType(narrative);
+                        if (attachedFileDataType == null) {
+                            continue;
+                        }
+                        SelectionOfSponsorAndInstitution selectionOfSponsorAndInstitution = SelectionOfSponsorAndInstitution.Factory
+                                .newInstance();
+                        selectionOfSponsorAndInstitution.setAttFile(attachedFileDataType);
+                        researchTrainingPlan.setSelectionOfSponsorAndInstitution(selectionOfSponsorAndInstitution);
+                        break;
+                    case RESPONSIBLE_CONDUCT_OF_RESEARCH:
+                        attachedFileDataType = getAttachedFileType(narrative);
+                        if (attachedFileDataType == null) {
+                            continue;
+                        }
+                        ResponsibleConductOfResearch responsibleConductOfResearch = ResponsibleConductOfResearch.Factory
+                                .newInstance();
+                        responsibleConductOfResearch.setAttFile(attachedFileDataType);
+                        researchTrainingPlan.setResponsibleConductOfResearch(responsibleConductOfResearch);
+                        break;
+                    case SPONSOR_COSPONSOR:
+                        attachedFileDataType = getAttachedFileType(narrative);
+                        if (attachedFileDataType == null) {
+                            continue;
+                        }
+                        sponsorCosponsorInfo.setAttFile(attachedFileDataType);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+
+    /**
+     * This method is used to set Narrative Data to ResearchTrainingPlan XMLObject based on NarrativeTypeCode.
      * 
      * @param researchTrainingPlan
      */
@@ -570,554 +718,281 @@ public class PHS398FellowshipSupplementalV1_2Generator extends
             int typeCode = Integer.parseInt(narrative.getNarrativeTypeCode());
             if ((narrative.getNarrativeTypeCode() != null) && (typeCode == SPONSOR_COSPONSOR)) {
                 attachedFileDataType = getAttachedFileType(narrative);
-                if(attachedFileDataType == null){
+                if (attachedFileDataType == null) {
                     continue;
                 }
                 SponsorCosponsorInformation sponsorCosponsorInfo = SponsorCosponsorInformation.Factory.newInstance();
                 sponsorCosponsorInfo.setAttFile(attachedFileDataType);
                 sponsors.setSponsorCosponsorInformation(sponsorCosponsorInfo);
-                break;  // done with loop, we found what we're looking for
+                break;
             }
         }
         return sponsors;
     }
 
 
-	/**
-	 * This method is used to set HumanSubjectInvoved and VertebrateAnimalUsed
-	 * XMLObject Data.
-	 * 
-	 * @param developmentProposal
-	 * @param researchTrainingPlan
-	 */
-	private void setHumanSubjectInvolvedAndVertebrateAnimalUsed(
-			ResearchTrainingPlan researchTrainingPlan) {
-		researchTrainingPlan.setHumanSubjectsInvolved(YesNoDataType.N_NO);
+    /**
+     * This method is used to set HumanSubjectInvoved and VertebrateAnimalUsed XMLObject Data.
+     * 
+     * @param developmentProposal
+     * @param researchTrainingPlan
+     */
+    private void setHumanSubjectInvolvedAndVertebrateAnimalUsed(ResearchTrainingPlan researchTrainingPlan) {
+        researchTrainingPlan.setHumanSubjectsInvolved(YesNoDataType.N_NO);
         researchTrainingPlan.setHumanSubjectsIndefinite(YesNoDataType.N_NO);
-		researchTrainingPlan.setVertebrateAnimalsUsed(YesNoDataType.N_NO);
+        researchTrainingPlan.setVertebrateAnimalsUsed(YesNoDataType.N_NO);
         researchTrainingPlan.setVertebrateAnimalsIndefinite(YesNoDataType.N_NO);
         researchTrainingPlan.setClinicalTrial(YesNoDataType.N_NO);
         researchTrainingPlan.setPhase3ClinicalTrial(YesNoDataType.N_NO);
-		List<AnswerHeader> answers = findQuestionnaireWithAnswers(pdDoc.getDevelopmentProposal());	
-		for (ProposalSpecialReview propSpecialReview : pdDoc
-                .getDevelopmentProposal().getPropSpecialReviews()) {
+        for (ProposalSpecialReview propSpecialReview : pdDoc.getDevelopmentProposal().getPropSpecialReviews()) {
             switch (Integer.parseInt(propSpecialReview.getSpecialReviewTypeCode())) {
-            case 1:
-                researchTrainingPlan.setHumanSubjectsInvolved(YesNoDataType.Y_YES);
-                break;
-            case 2:
-                researchTrainingPlan.setVertebrateAnimalsUsed(YesNoDataType.Y_YES);
-                break;
-            default:
-                break;
+                case 1:
+                    researchTrainingPlan.setHumanSubjectsInvolved(YesNoDataType.Y_YES);
+                    break;
+                case 2:
+                    researchTrainingPlan.setVertebrateAnimalsUsed(YesNoDataType.Y_YES);
+                    break;
+                default:
+                    break;
             }
-        }			
-        for (AnswerHeader answerHeader : answers) {
-            Questionnaire questionnaire = answerHeader.getQuestionnaire();
-            List<QuestionnaireQuestion> questionnaireQuestions = questionnaire.getQuestionnaireQuestions();
-            for (QuestionnaireQuestion questionnaireQuestion : questionnaireQuestions) {
-                Answer answerBO = getAnswer(questionnaireQuestion,answerHeader);
-                String answer = answerBO.getAnswer();
-                Question question = questionnaireQuestion.getQuestion();                               
-                if (answer != null){
-                    switch (question.getQuestionId()) {                       
-                        case Q_HUMANINDEF:
-                            if ("y".equals(answer.toLowerCase())) {
-                                researchTrainingPlan.setHumanSubjectsIndefinite(YesNoDataType.Y_YES);
-                            }
-                            break;                      
-                        case Q_VERTINDEF:
-                            if ("y".equals(answer.toLowerCase())) {
-                                researchTrainingPlan.setVertebrateAnimalsIndefinite(YesNoDataType.Y_YES);
-                            }
-                            break;
-                        case Q_CLINICAL:
-                            if ("y".equals(answer.toLowerCase())) {
-                                researchTrainingPlan.setClinicalTrial(YesNoDataType.Y_YES);
-                            }
-                            break;
-                        case Q_CLINICAL3:
-                            if ("y".equals(answer.toLowerCase())) {
-                                researchTrainingPlan.setPhase3ClinicalTrial(YesNoDataType.Y_YES);
-                            }
-                            break;
-                            
-                        default:
-                            break;
-                        }
-                    }
-             }  //switch question id
-        }   //for num questions
-	}
+        }
+    }
 
     private List<AnswerHeader> findQuestionnaireWithAnswers(DevelopmentProposal developmentProposal) {
         ProposalDevelopmentS2sQuestionnaireService questionnaireAnswerService = getProposalDevelopmentS2sQuestionnaireService();
-        return questionnaireAnswerService.getProposalAnswerHeaderForForm(developmentProposal, 
+        return questionnaireAnswerService.getProposalAnswerHeaderForForm(developmentProposal,
                 "http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_1_2-V1.2", "PHS_Fellowship_Supplemental_1_2-V1.2");
     }
+
     private ProposalDevelopmentS2sQuestionnaireService getProposalDevelopmentS2sQuestionnaireService() {
         return KraServiceLocator.getService(ProposalDevelopmentS2sQuestionnaireService.class);
     }
+
     private Answer getAnswer(QuestionnaireQuestion questionnaireQuestion, AnswerHeader answerHeader) {
         List<Answer> answers = answerHeader.getAnswers();
         for (Answer answer : answers) {
-            if(answer.getQuestionnaireQuestionsIdFk().equals(questionnaireQuestion.getQuestionnaireQuestionsId())){
+            if (answer.getQuestionnaireQuestionsIdFk().equals(questionnaireQuestion.getQuestionnaireQuestionsId())) {
                 return answer;
             }
         }
         return null;
-    }    
-    private List<Answer> getAnswers(QuestionnaireQuestion questionnaireQuestion, AnswerHeader answerHeader) {
-        List<Answer> answers = answerHeader.getAnswers();
-        List<Answer> answerList=new ArrayList<Answer>();
-        for (Answer answer : answers) {
-            if(answer.getQuestionnaireQuestionsIdFk().equals(questionnaireQuestion.getQuestionnaireQuestionsId())){               
-                answerList.add(answer);
+    }
+
+
+    /*
+     * This method is used to set additional information data to AdditionalInformation XMLObject from DevelopmentProposal,
+     * ProposalYnq
+     */
+    private void setAdditionalInformation(AdditionalInformation additionalInformation) {
+        additionalInformation.setAlernatePhoneNumber("None");
+        additionalInformation.setConcurrentSupport(YesNoDataType.N_NO); // default
+        additionalInformation.setCurrentPriorNRSASupportIndicator(YesNoDataType.N_NO);
+        additionalInformation.setCitizenship(CitizenshipDataType.U_S_CITIZEN_OR_NONCITIZEN_NATIONAL);
+        for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
+            if (proposalPerson.isInvestigator()) {
+
+                CitizenshipTypes citizenShip = s2sUtilService.getCitizenship(proposalPerson);
+                if (citizenShip.getCitizenShip().trim().equals(CitizenshipDataType.NON_U_S_CITIZEN_WITH_TEMPORARY_VISA.toString())) {
+                    additionalInformation.setCitizenship(CitizenshipDataType.NON_U_S_CITIZEN_WITH_TEMPORARY_VISA);
+                }
+                else if (citizenShip.getCitizenShip().trim().equals(CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S.toString())) {
+                    additionalInformation.setCitizenship(CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S);
+                }
+                else if (citizenShip.getCitizenShip().trim().equals(
+                        CitizenshipDataType.U_S_CITIZEN_OR_NONCITIZEN_NATIONAL.toString())) {
+                    additionalInformation.setCitizenship(CitizenshipDataType.U_S_CITIZEN_OR_NONCITIZEN_NATIONAL);
+                }
+                else if (citizenShip.getCitizenShip().trim().equals(
+                        CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S_PENDING.toString())) {
+                    additionalInformation.setCitizenship(CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S_PENDING);
+                }
+
+
             }
         }
-        if(answerList!=null)
-            return answerList;        
-        return null;
-    }
-	
-	/*
-	 * This method is used to set additional information data to
-	 * AdditionalInformation XMLObject from DevelopmentProposal, ProposalYnq
-	 */
-	private AdditionalInformation getAdditionalInformation() {
-        AdditionalInformation additionalInformation = AdditionalInformation.Factory.newInstance();
-        StemCells stemCells = StemCells.Factory.newInstance();
-        additionalInformation.setAlernatePhoneNumber("None");
-        GraduateDegreeSought graduateDegreeSought = GraduateDegreeSought.Factory.newInstance();
-        boolean setGradDegree = false;
-        ArrayList<String> cellLinesList = new ArrayList<String>(Arrays.asList(stemCells.getCellLinesArray())); 
-        additionalInformation.setConcurrentSupport(YesNoDataType.N_NO);  // default
-        additionalInformation.setCurrentPriorNRSASupportIndicator(YesNoDataType.N_NO);
-		ProposalPerson principalInvestigator = s2sUtilService.getPrincipalInvestigator(pdDoc);
-		for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal()
-					.getProposalPersons()) {
-				if (proposalPerson.isInvestigator()) {
-						
-					CitizenshipTypes citizenShip=s2sUtilService.getCitizenship(proposalPerson);
-					if(citizenShip.getCitizenShip().trim().equals(CitizenshipDataType.NON_U_S_CITIZEN_WITH_TEMPORARY_VISA.toString())){
-						additionalInformation.setCitizenship(CitizenshipDataType.NON_U_S_CITIZEN_WITH_TEMPORARY_VISA);
-					}
-					else if(citizenShip.getCitizenShip().trim().equals(CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S.toString())){
-						additionalInformation.setCitizenship(CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S);
-					}
-					else if(citizenShip.getCitizenShip().trim().equals(CitizenshipDataType.U_S_CITIZEN_OR_NONCITIZEN_NATIONAL.toString())){
-						additionalInformation.setCitizenship(CitizenshipDataType.U_S_CITIZEN_OR_NONCITIZEN_NATIONAL);
-					}
-					else if(citizenShip.getCitizenShip().trim().equals(CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S_PENDING.toString())){
-	                    additionalInformation.setCitizenship(CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S_PENDING);
-	                }
-					
-					
-				}
-			}
-		
-		List<AnswerHeader> answers = findQuestionnaireWithAnswers(pdDoc.getDevelopmentProposal());
-		for (AnswerHeader answerHeader : answers) {
-		    Questionnaire questionnaire = answerHeader.getQuestionnaire();
-		    List<QuestionnaireQuestion> questionnaireQuestions = questionnaire.getQuestionnaireQuestions();
-		    for (QuestionnaireQuestion questionnaireQuestion : questionnaireQuestions) {
-		        Answer answerBO = getAnswer(questionnaireQuestion,answerHeader);
-		        String answer = answerBO.getAnswer();
-		        Question question = questionnaireQuestion.getQuestion();	
 
-                if(question.getQuestionId().equals(Q_STEMCELLLINES)){                   
-                    List<Answer> answerList=getAnswers(questionnaireQuestion,answerHeader);                     
-                         for (Answer questionnaireAnswerBO: answerList) {
-                             String questionnaireAnswer=questionnaireAnswerBO.getAnswer();
-                             if(questionnaireAnswer!=null)
-                               cellLinesList.add(questionnaireAnswer);
-                         }   
-                 }      
-                 if (answer != null){
-                    switch (question.getQuestionId()) {
-                        case Q_STEMCELLS:
-                            stemCells.setIsHumanStemCellsInvolved(answer.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)  
-                                        ? YesNoDataType.Y_YES
-                                        : YesNoDataType.N_NO);
-                            break;
-                        case Q_STEMCELLIND:
-                            // NOTE: the following indicator is set backwards, i.e. question answered yes 
-                            // gets set in form as No.  (Different wording of questions....) 
-                            stemCells.setStemCellsIndicator(answer.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y) 
-                                        ? YesNoDataType.N_NO
-                                        : YesNoDataType.Y_YES);
-                            break;
-                        case Q_DEGREE_SOUGHT:
-                            setGradDegree = answer.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y);
-                            break;
-                        case Q_DEGREE_DATE:
-                            String temp = answer.substring(0,3) + answer.substring(6);  
-                            graduateDegreeSought.setDegreeDate(temp);  // use just month and year
-                            break;
-                        case Q_DEGREE_TYPE:
-                        case Q_DEGREE_TYPE2:
-                            DegreeTypeDataType.Enum degreeSought = null;
-                            try {
-                                degreeSought = degreeSought.forString("OTH: Other");
-                            }
-                            catch (Exception e) {
-                            }
-                            
-                            if (degreeSought == null) {
-                                // problem converting, so don't set degree type in form
-                                setGradDegree = false;
-                            } else {
-                                graduateDegreeSought.setDegreeType(degreeSought);
-                                graduateDegreeSought.setOtherDegreeTypeText(answer);
-                            }
-                            break;
-                        case Q_FIELD_OF_TRAINING:
-                            FieldOfTrainingDataType.Enum fieldOfTraining = null;
-                            try {
-                                fieldOfTraining = fieldOfTraining.forString(answer);
-                            } catch (Exception e) {
-                            }
-                            if (fieldOfTraining == null) {
-                                fieldOfTraining = FieldOfTrainingDataType.X_8000_OTHER_PREDOMINANTLY_CLINICAL_RESEARCH_TRAINING;
-                            }
-                            additionalInformation.setFieldOfTraining(fieldOfTraining);
-                            break;
-                        case Q_CUR_PRIOR_NRSA:
-                            additionalInformation.setCurrentPriorNRSASupportIndicator(answer.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y) 
-                                        ? YesNoDataType.Y_YES
-                                        : YesNoDataType.N_NO);
-                            break;
-                        case FORMER_INST:
-                                additionalInformation.setFormerInstitution(answer);
-                        default:
-                            break;
-                        }
-                 }  //switch question id
-            }   //for num questions
-        }
-        stemCells.setCellLinesArray((String[]) cellLinesList.toArray(new String[0]));
-        additionalInformation.setStemCells(stemCells);
-        if (setGradDegree) {
-            additionalInformation.setGraduateDegreeSought(graduateDegreeSought);
-        }
-        additionalInformation.setCurrentPriorNRSASupportArray(getCurrentPriorNRSASupportArray());
         additionalInformation.setConcurrentSupport(YesNoDataType.N_NO);
         AttachedFileDataType attachedFileDataType = null;
         for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null) {
                 switch (Integer.parseInt(narrative.getNarrativeTypeCode())) {
-                case CONCURRENT_SUPPORT:
-                    attachedFileDataType = getAttachedFileType(narrative);
-                    if(attachedFileDataType == null){
-                        continue;
-                    }
-                    ConcurrentSupportDescription concurrentSupportDescription = ConcurrentSupportDescription.Factory
-                            .newInstance();
-                    concurrentSupportDescription.setAttFile(attachedFileDataType);
-                    additionalInformation.setConcurrentSupport(YesNoDataType.Y_YES);
-                    additionalInformation.setConcurrentSupportDescription(concurrentSupportDescription);
-                    break;
-                case FELLOWSHIP:
-                    attachedFileDataType = getAttachedFileType(narrative);
-                    if(attachedFileDataType == null){
-                        continue;
-                    }
-                    FellowshipTrainingAndCareerGoals fellowshipTrainingAndCareerGoals = 
-                        FellowshipTrainingAndCareerGoals.Factory.newInstance();
-                    fellowshipTrainingAndCareerGoals.setAttFile(attachedFileDataType);
-                    additionalInformation.setFellowshipTrainingAndCareerGoals(fellowshipTrainingAndCareerGoals);
-                    break;
-                case DISSERTATION:
-                    attachedFileDataType = getAttachedFileType(narrative);
-                    if(attachedFileDataType == null){
-                        continue;
-                    }
-                    DissertationAndResearchExperience dissertationAndResearchExperience = DissertationAndResearchExperience.Factory
-                            .newInstance();
-                    dissertationAndResearchExperience
-                            .setAttFile(attachedFileDataType);
-                    additionalInformation
-                            .setDissertationAndResearchExperience(dissertationAndResearchExperience);
-                    break;
-                case ACTIVITIES:
-                    attachedFileDataType = getAttachedFileType(narrative);
-                    if(attachedFileDataType == null){
-                        continue;
-                    }
-                    ActivitiesPlannedUnderThisAward activitiesPlannedUnderThisAward = 
-                        ActivitiesPlannedUnderThisAward.Factory .newInstance();
-                    activitiesPlannedUnderThisAward.setAttFile(attachedFileDataType);
-                    additionalInformation.setActivitiesPlannedUnderThisAward(activitiesPlannedUnderThisAward);
-                    break;
-                default:
-                    break;
+                    case CONCURRENT_SUPPORT:
+                        attachedFileDataType = getAttachedFileType(narrative);
+                        if (attachedFileDataType == null) {
+                            continue;
+                        }
+                        ConcurrentSupportDescription concurrentSupportDescription = ConcurrentSupportDescription.Factory
+                                .newInstance();
+                        concurrentSupportDescription.setAttFile(attachedFileDataType);
+                        additionalInformation.setConcurrentSupport(YesNoDataType.Y_YES);
+                        additionalInformation.setConcurrentSupportDescription(concurrentSupportDescription);
+                        break;
+                    case FELLOWSHIP:
+                        attachedFileDataType = getAttachedFileType(narrative);
+                        if (attachedFileDataType == null) {
+                            continue;
+                        }
+                        FellowshipTrainingAndCareerGoals fellowshipTrainingAndCareerGoals = FellowshipTrainingAndCareerGoals.Factory
+                                .newInstance();
+                        fellowshipTrainingAndCareerGoals.setAttFile(attachedFileDataType);
+                        additionalInformation.setFellowshipTrainingAndCareerGoals(fellowshipTrainingAndCareerGoals);
+                        break;
+                    case DISSERTATION:
+                        attachedFileDataType = getAttachedFileType(narrative);
+                        if (attachedFileDataType == null) {
+                            continue;
+                        }
+                        DissertationAndResearchExperience dissertationAndResearchExperience = DissertationAndResearchExperience.Factory
+                                .newInstance();
+                        dissertationAndResearchExperience.setAttFile(attachedFileDataType);
+                        additionalInformation.setDissertationAndResearchExperience(dissertationAndResearchExperience);
+                        break;
+                    case ACTIVITIES:
+                        attachedFileDataType = getAttachedFileType(narrative);
+                        if (attachedFileDataType == null) {
+                            continue;
+                        }
+                        ActivitiesPlannedUnderThisAward activitiesPlannedUnderThisAward = ActivitiesPlannedUnderThisAward.Factory
+                                .newInstance();
+                        activitiesPlannedUnderThisAward.setAttFile(attachedFileDataType);
+                        additionalInformation.setActivitiesPlannedUnderThisAward(activitiesPlannedUnderThisAward);
+                        break;
+                    default:
+                        break;
 
                 }
             }
         }
-        return additionalInformation;
     }
 
-	/*
-	 * This method is used to get Arrays of CurrentPriorNRSASupport XMLObject
-	 * and set data to it from List of ProposalYnq
-	 */
-	private CurrentPriorNRSASupport[] getCurrentPriorNRSASupportArray() {
-		List<CurrentPriorNRSASupport> currentPriorNRSASupportList = new ArrayList<CurrentPriorNRSASupport>();
-		List<Answer> answerList = new ArrayList<Answer>();
-		String nsrSupport = null;
-		
-		List<AnswerHeader> answers = findQuestionnaireWithAnswers(pdDoc.getDevelopmentProposal());
-		for (AnswerHeader answerHeader : answers) {
-		    Questionnaire questionnaire = answerHeader.getQuestionnaire();
-		    List<QuestionnaireQuestion> questionnaireQuestions = questionnaire.getQuestionnaireQuestions();
-		    for (QuestionnaireQuestion questionnaireQuestion : questionnaireQuestions) {
-		        Answer answerBO = getAnswer(questionnaireQuestion,answerHeader);
-		        String answer = answerBO.getAnswer();
-		        Question question = questionnaireQuestion.getQuestion();
-		        int questionId = question.getQuestionId();
-		     	if (answer != null) {
-				switch (questionId) {
-				case KIRST_START_KNOWN:
-				case KIRST_END_KNOWN:
-				case KIRST_START_DT:
-				case KIRST_END_DT:
-				case KIRST_GRANT_KNOWN:
-				case KIRST_GRANT_NUM:
-				case PRE_OR_POST:
-				case IND_OR_INST:
-					if (questionId == KIRST_START_KNOWN) {
-						if (answer.equals(QUESTION_ANSWER_NO)) {
-							answer = S2SConstants.VALUE_UNKNOWN;
-							questionId = KIRST_START_DT;
-						} else {
-							break;
-						}
-					}
-						if (questionId == KIRST_END_KNOWN) {
-							if (answer.equals(QUESTION_ANSWER_NO)) {
-								answer = S2SConstants.VALUE_UNKNOWN;
-								questionId = KIRST_END_DT;
-							} else {
-								break;
-							}
-						}
-						if (questionId == KIRST_GRANT_KNOWN) {
-							if (answer.equals(QUESTION_ANSWER_NO)) {
-								answer = S2SConstants.VALUE_UNKNOWN;
-								questionId = KIRST_GRANT_NUM;
-							} else {
-								break;
-							}
-						}
-						Answer quesAnswer = new Answer();
-						quesAnswer.setAnswer(answer);
-						quesAnswer.setQuestionNumber(questionId);
-						answerList.add(quesAnswer);
 
-					break;
-				case NRSA_SUPPORT:
-					nsrSupport = answer
-							.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? NSR_SUPPORT_YES
-							: NSR_SUPPORT_NO;
-					break;
-				default:
-					break;
-				}
-			}
-		}
-	}
-		Collections.sort(answerList, new Comparator<Answer>() {
-			public int compare(Answer answer1, Answer answer2) {
-				return answer1.getQuestionNumber().compareTo(
-						answer2.getQuestionNumber());
-			}
+    /*
+     * This method is used to get AttachmentGroupMin0Max100DataType xmlObject and set data to it based on narrative type code
+     */
+    private AttachmentGroupMin0Max100DataType getAppendix() {
+        AttachmentGroupMin0Max100DataType attachmentGroupType = AttachmentGroupMin0Max100DataType.Factory.newInstance();
+        List<AttachedFileDataType> attachedFileDataTypeList = new ArrayList<AttachedFileDataType>();
+        AttachedFileDataType attachedFileDataType = null;
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+            if (narrative.getNarrativeTypeCode() != null && Integer.parseInt(narrative.getNarrativeTypeCode()) == APPENDIX) {
+                attachedFileDataType = getAttachedFileType(narrative);
+                if (attachedFileDataType != null) {
+                    attachedFileDataTypeList.add(attachedFileDataType);
+                }
+            }
+        }
+        attachmentGroupType.setAttachedFileArray(attachedFileDataTypeList.toArray(new AttachedFileDataType[attachedFileDataTypeList
+                .size()]));
+        return attachmentGroupType;
+    }
 
-		});
-		List<CurrentPriorNRSASupport.Level.Enum> levelList = new ArrayList<CurrentPriorNRSASupport.Level.Enum>();
-		List<CurrentPriorNRSASupport.Type.Enum> typeList = new ArrayList<CurrentPriorNRSASupport.Type.Enum>();
-		List<Calendar> startDateList = new ArrayList<Calendar>();
-		List<Calendar> endDateList = new ArrayList<Calendar>();
-		List<String> grantNumberList = new ArrayList<String>();
-		for (Answer questionnaireAnswer : answerList) {
-			if (nsrSupport != null && nsrSupport.equals(NSR_SUPPORT_YES)) {
-				if (questionnaireAnswer.getQuestionNumber() == PRE_OR_POST) {
-					levelList.add(CurrentPriorNRSASupport.Level.Enum
-							.forString(questionnaireAnswer.getAnswer()));
-				}
-				if (questionnaireAnswer.getQuestionNumber() == IND_OR_INST) {
-					typeList.add(CurrentPriorNRSASupport.Type.Enum
-							.forString(questionnaireAnswer.getAnswer()));
-				}
-				if (questionnaireAnswer.getQuestionNumber() == KIRST_START_DT) {
-					startDateList.add(s2sUtilService
-							.convertDateStringToCalendar(questionnaireAnswer
-									.getAnswer()));
-				}
-				if (questionnaireAnswer.getQuestionNumber() == KIRST_END_DT) {
-					endDateList.add(s2sUtilService
-							.convertDateStringToCalendar(questionnaireAnswer
-									.getAnswer()));
-				}
-				if (questionnaireAnswer.getQuestionNumber() == KIRST_GRANT_NUM) {
-					grantNumberList.add(questionnaireAnswer.getAnswer());
-				}
-			}
-		}
-		for (int index = 0; levelList.size() > index; index++) {
-			CurrentPriorNRSASupport currentPriorNRSASupport = CurrentPriorNRSASupport.Factory
-					.newInstance();
-			currentPriorNRSASupport.setLevel(levelList.get(index));
-			currentPriorNRSASupport.setType(typeList.get(index));
-			currentPriorNRSASupport.setStartDate(startDateList.get(index));
-			currentPriorNRSASupport.setEndDate(endDateList.get(index));
-			currentPriorNRSASupport.setGrantNumber(grantNumberList.get(index));
-			currentPriorNRSASupportList.add(currentPriorNRSASupport);
-		}
-		return currentPriorNRSASupportList
-				.toArray(new CurrentPriorNRSASupport[currentPriorNRSASupportList
-						.size()]);
-	}
+    /*
+     * This method is used to get ApplicationType XMLObject and set data to it from types of Application.
+     */
+    private ApplicationType getApplicationType() {
+        ApplicationType applicationType = ApplicationType.Factory.newInstance();
+        applicationType.setTypeOfApplication(getTypeOfApplication());
+        return applicationType;
+    }
 
-	/*
-	 * This method is used to get AttachmentGroupMin0Max100DataType xmlObject
-	 * and set data to it based on narrative type code
-	 */
-	private AttachmentGroupMin0Max100DataType getAppendix() {
-		AttachmentGroupMin0Max100DataType attachmentGroupType = AttachmentGroupMin0Max100DataType.Factory
-				.newInstance();
-		List<AttachedFileDataType> attachedFileDataTypeList = new ArrayList<AttachedFileDataType>();
-		AttachedFileDataType attachedFileDataType = null;
-		for (Narrative narrative : pdDoc.getDevelopmentProposal()
-				.getNarratives()) {
-			if (narrative.getNarrativeTypeCode() != null
-					&& Integer.parseInt(narrative.getNarrativeTypeCode()) == APPENDIX) {
-				attachedFileDataType = getAttachedFileType(narrative);
-				if(attachedFileDataType != null){
-					attachedFileDataTypeList.add(attachedFileDataType);
-				}
-			}
-		}
-		attachmentGroupType.setAttachedFileArray(attachedFileDataTypeList
-				.toArray(new AttachedFileDataType[attachedFileDataTypeList
-						.size()]));
-		return attachmentGroupType;
-	}
+    /*
+     * This method is used to get TypeOfApplication based on proposalTypeCode of DevelopmentProposal
+     */
+    private TypeOfApplication.Enum getTypeOfApplication() {
+        String proposalTypeCode = pdDoc.getDevelopmentProposal().getProposalTypeCode();
+        TypeOfApplication.Enum typeOfApplication = null;
+        if (proposalTypeCode != null) {
+            if (proposalTypeCode.equals(ProposalDevelopmentUtils
+                    .getProposalDevelopmentDocumentParameter(ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_NEW_PARM))) {
+                typeOfApplication = TypeOfApplication.NEW;
+            }
+            else if (proposalTypeCode.equals(ProposalDevelopmentUtils
+                    .getProposalDevelopmentDocumentParameter(ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_CONTINUATION_PARM))) {
+                typeOfApplication = TypeOfApplication.CONTINUATION;
+            }
+            else if (proposalTypeCode.equals(ProposalDevelopmentUtils
+                    .getProposalDevelopmentDocumentParameter(ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_REVISION_PARM))) {
+                typeOfApplication = TypeOfApplication.REVISION;
+            }
+            else if (proposalTypeCode.equals(ProposalDevelopmentUtils
+                    .getProposalDevelopmentDocumentParameter(ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RENEWAL_PARM))) {
+                typeOfApplication = TypeOfApplication.RENEWAL;
+            }
+            else if (proposalTypeCode.equals(ProposalDevelopmentUtils
+                    .getProposalDevelopmentDocumentParameter(ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RESUBMISSION_PARM))) {
+                typeOfApplication = TypeOfApplication.RESUBMISSION;
+            }
+            else if (proposalTypeCode.equals(PROPOSAL_TYPE_CODE_NEW7)) {
+                typeOfApplication = TypeOfApplication.NEW;
+            }
+        }
+        return typeOfApplication;
+    }
 
-	/*
-	 * This method is used to get ApplicationType XMLObject and set data to it
-	 * from types of Application.
-	 */
-	private ApplicationType getApplicationType() {
-		ApplicationType applicationType = ApplicationType.Factory.newInstance();
-		applicationType.setTypeOfApplication(getTypeOfApplication());
-		return applicationType;
-	}
+    /*
+     * 
+     * This method computes the number of months between any 2 given {@link Date} objects
+     * 
+     * @param dateStart starting date. @param dateEnd end date.
+     * 
+     * @return number of months between the start date and end date.
+     */
+    private BudgetDecimal getNumberOfMonths(Date dateStart, Date dateEnd) {
+        BudgetDecimal monthCount = BudgetDecimal.ZERO;
+        int fullMonthCount = 0;
 
-	/*
-	 * This method is used to get TypeOfApplication based on proposalTypeCode of
-	 * DevelopmentProposal
-	 */
-	private TypeOfApplication.Enum getTypeOfApplication() {
-		String proposalTypeCode = pdDoc.getDevelopmentProposal()
-				.getProposalTypeCode();
-		TypeOfApplication.Enum typeOfApplication = null;
-		if (proposalTypeCode != null) {
-			if (proposalTypeCode.equals(ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
-                    ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_NEW_PARM))) {
-				typeOfApplication = TypeOfApplication.NEW;
-			} else if (proposalTypeCode.equals(ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
-                    ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_CONTINUATION_PARM))) {
-				typeOfApplication = TypeOfApplication.CONTINUATION;
-			} else if (proposalTypeCode.equals(ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
-                    ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_REVISION_PARM))) {
-				typeOfApplication = TypeOfApplication.REVISION;
-			} else if (proposalTypeCode.equals(ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
-                    ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RENEWAL_PARM))) {
-				typeOfApplication = TypeOfApplication.RENEWAL;
-			} else if (proposalTypeCode.equals(ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
-                    ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RESUBMISSION_PARM))) {
-				typeOfApplication = TypeOfApplication.RESUBMISSION;
-			} else if (proposalTypeCode.equals(PROPOSAL_TYPE_CODE_NEW7)) {
-				typeOfApplication = TypeOfApplication.NEW;
-			}
-		}
-		return typeOfApplication;
-	}
+        Calendar startDate = Calendar.getInstance();
+        Calendar endDate = Calendar.getInstance();
+        startDate.setTime(dateStart);
+        endDate.setTime(dateEnd);
 
-	/*
-	 * 
-	 * This method computes the number of months between any 2 given
-	 * {@link Date} objects
-	 * 
-	 * @param dateStart starting date. @param dateEnd end date.
-	 * 
-	 * @return number of months between the start date and end date.
-	 */
-	private BudgetDecimal getNumberOfMonths(Date dateStart, Date dateEnd) {
-		BudgetDecimal monthCount = BudgetDecimal.ZERO;
-		int fullMonthCount = 0;
+        startDate.clear(Calendar.HOUR);
+        startDate.clear(Calendar.MINUTE);
+        startDate.clear(Calendar.SECOND);
+        startDate.clear(Calendar.MILLISECOND);
 
-		Calendar startDate = Calendar.getInstance();
-		Calendar endDate = Calendar.getInstance();
-		startDate.setTime(dateStart);
-		endDate.setTime(dateEnd);
+        endDate.clear(Calendar.HOUR);
+        endDate.clear(Calendar.MINUTE);
+        endDate.clear(Calendar.SECOND);
+        endDate.clear(Calendar.MILLISECOND);
 
-		startDate.clear(Calendar.HOUR);
-		startDate.clear(Calendar.MINUTE);
-		startDate.clear(Calendar.SECOND);
-		startDate.clear(Calendar.MILLISECOND);
+        if (startDate.after(endDate)) {
+            return BudgetDecimal.ZERO;
+        }
+        int startMonthDays = startDate.getActualMaximum(Calendar.DATE) - startDate.get(Calendar.DATE);
+        startMonthDays++;
+        int startMonthMaxDays = startDate.getActualMaximum(Calendar.DATE);
+        BudgetDecimal startMonthFraction = new BudgetDecimal(startMonthDays).divide(new BudgetDecimal(startMonthMaxDays));
 
-		endDate.clear(Calendar.HOUR);
-		endDate.clear(Calendar.MINUTE);
-		endDate.clear(Calendar.SECOND);
-		endDate.clear(Calendar.MILLISECOND);
+        int endMonthDays = endDate.get(Calendar.DATE);
+        int endMonthMaxDays = endDate.getActualMaximum(Calendar.DATE);
 
-		if (startDate.after(endDate)) {
-			return BudgetDecimal.ZERO;
-		}
-		int startMonthDays = startDate.getActualMaximum(Calendar.DATE)
-				- startDate.get(Calendar.DATE);
-		startMonthDays++;
-		int startMonthMaxDays = startDate.getActualMaximum(Calendar.DATE);
-		BudgetDecimal startMonthFraction = new BudgetDecimal(startMonthDays)
-				.divide(new BudgetDecimal(startMonthMaxDays));
+        BudgetDecimal endMonthFraction = new BudgetDecimal(endMonthDays).divide(new BudgetDecimal(endMonthMaxDays));
 
-		int endMonthDays = endDate.get(Calendar.DATE);
-		int endMonthMaxDays = endDate.getActualMaximum(Calendar.DATE);
+        startDate.set(Calendar.DATE, 1);
+        endDate.set(Calendar.DATE, 1);
 
-		BudgetDecimal endMonthFraction = new BudgetDecimal(endMonthDays)
-				.divide(new BudgetDecimal(endMonthMaxDays));
+        while (startDate.getTimeInMillis() < endDate.getTimeInMillis()) {
+            startDate.set(Calendar.MONTH, startDate.get(Calendar.MONTH) + 1);
+            fullMonthCount++;
+        }
+        fullMonthCount = fullMonthCount - 1;
+        monthCount = monthCount.add(new BudgetDecimal(fullMonthCount)).add(startMonthFraction).add(endMonthFraction);
+        return monthCount;
+    }
 
-		startDate.set(Calendar.DATE, 1);
-		endDate.set(Calendar.DATE, 1);
-
-		while (startDate.getTimeInMillis() < endDate.getTimeInMillis()) {
-			startDate.set(Calendar.MONTH, startDate.get(Calendar.MONTH) + 1);
-			fullMonthCount++;
-		}
-		fullMonthCount = fullMonthCount - 1;
-		monthCount = monthCount.add(new BudgetDecimal(fullMonthCount)).add(
-				startMonthFraction).add(endMonthFraction);
-		return monthCount;
-	}
-
-	/**
-	 * This method creates {@link XmlObject} of type
-	 * {@link PHSFellowshipSupplementalDocument} by populating data from the
-	 * given {@link ProposalDevelopmentDocument}
-	 * 
-	 * @param proposalDevelopmentDocument
-	 *            for which the {@link XmlObject} needs to be created
-	 * @return {@link XmlObject} which is generated using the given
-	 *         {@link ProposalDevelopmentDocument}
-	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
-	 */
-	public XmlObject getFormObject(
-			ProposalDevelopmentDocument proposalDevelopmentDocument) {
-		this.pdDoc = proposalDevelopmentDocument;
-		return getPHSFellowshipSupplemental12();
-	}
+    /**
+     * This method creates {@link XmlObject} of type {@link PHSFellowshipSupplementalDocument} by populating data from the given
+     * {@link ProposalDevelopmentDocument}
+     * 
+     * @param proposalDevelopmentDocument for which the {@link XmlObject} needs to be created
+     * @return {@link XmlObject} which is generated using the given {@link ProposalDevelopmentDocument}
+     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
+     */
+    public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        this.pdDoc = proposalDevelopmentDocument;
+        return getPHSFellowshipSupplemental12();
+    }
 
     public String getFormName() {
         return "PHS_Fellowship_Supplemental_1_2-V1.2";
@@ -1125,5 +1000,85 @@ public class PHS398FellowshipSupplementalV1_2Generator extends
 
     public String getNamespace() {
         return "http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_1_2-V1.2";
+    }
+
+    public class KirschsteinBean {
+        String answer;
+        Integer questionId;
+        Integer questionNumber;
+        Integer parentQuestionNumber;
+
+        /**
+         * Gets the answer attribute.
+         * 
+         * @return Returns the answer.
+         */
+        public String getAnswer() {
+            return answer;
+        }
+
+        /**
+         * Sets the answer attribute value.
+         * 
+         * @param answer The answer to set.
+         */
+        public void setAnswer(String answer) {
+            this.answer = answer;
+        }
+
+        /**
+         * Gets the questionId attribute.
+         * 
+         * @return Returns the questionId.
+         */
+        public Integer getQuestionId() {
+            return questionId;
+        }
+
+        /**
+         * Sets the questionId attribute value.
+         * 
+         * @param questionId The questionId to set.
+         */
+        public void setQuestionId(Integer questionId) {
+            this.questionId = questionId;
+        }
+
+        /**
+         * Gets the questionNumber attribute.
+         * 
+         * @return Returns the questionNumber.
+         */
+        public Integer getQuestionNumber() {
+            return questionNumber;
+        }
+
+        /**
+         * Sets the questionNumber attribute value.
+         * 
+         * @param questionNumber The questionNumber to set.
+         */
+        public void setQuestionNumber(Integer questionNumber) {
+            this.questionNumber = questionNumber;
+        }
+
+        /**
+         * Gets the parentQuestionNumber attribute.
+         * 
+         * @return Returns the parentQuestionNumber.
+         */
+        public Integer getParentQuestionNumber() {
+            return parentQuestionNumber;
+        }
+
+        /**
+         * Sets the parentQuestionNumber attribute value.
+         * 
+         * @param parentQuestionNumber The parentQuestionNumber to set.
+         */
+        public void setParentQuestionNumber(Integer parentQuestionNumber) {
+            this.parentQuestionNumber = parentQuestionNumber;
+        }
+
     }
 }
