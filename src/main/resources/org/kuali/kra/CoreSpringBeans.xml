@@ -628,6 +628,9 @@
         <property name="roleManagementService">
             <ref bean="roleManagementService" />
         </property>
+		<property name="kcPersonService">
+			<ref bean="kcPersonService" />
+		</property>
 	</bean>
 	
 </beans>
