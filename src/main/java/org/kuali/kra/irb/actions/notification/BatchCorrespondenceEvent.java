@@ -64,7 +64,7 @@ public class BatchCorrespondenceEvent extends NotificationEventBase implements N
     @Override
     public String getActionTypeCode() {
         // TODO : just give it a code for now.  may not need it when move to kc notification
-        return "199";
+        return "111";
     }
 
 
@@ -72,6 +72,8 @@ public class BatchCorrespondenceEvent extends NotificationEventBase implements N
         if (notificationRecipient.getRoleId().equals("1117")) {
             notificationRecipient.setRoleQualifier("protocol");
             notificationRecipient.setQualifierValue(getProtocol().getProtocolNumber());
+        } else if (notificationRecipient.getRoleId().equals("1119"))  {
+            notificationRecipient.setRoleQualifier(null);
         } else {
             throw new UnknownRoleException(notificationRecipient.getRoleId(), "BatchCorrespondence");
         }
@@ -80,18 +82,18 @@ public class BatchCorrespondenceEvent extends NotificationEventBase implements N
 
 
     public String replaceContextVariables(String text) {
-        ProtocolActionsNotificationService protocolActionsNotificationService = KraServiceLocator.getService(ProtocolActionsNotificationService.class);
+        ProtocolActionsNotificationService protocolActionsNotificationService = KraServiceLocator
+                .getService(ProtocolActionsNotificationService.class);
         try {
             if (text.contains("{MESSAGE_SUBJECT}")) {
                 return StringUtils.replace(text, "{MESSAGE_SUBJECT}", getSubject());
-            } else {
+            }
+            else {
                 String message = protocolActionsNotificationService.getTransFormData(getProtocol(), getTemplate());
                 message = message.replaceAll("\\$amp;", "&amp;");
-               // message = message.replace("$amp;", "&amp;");
-                message = message.replace("detailId", "detailId"+getDetailId());
-              //  message = message.replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", "");
-
-        return StringUtils.replace(text, "{MESSAGE_BODY}", message);
+                // message = message.replace("$amp;", "&amp;");
+                message = message.replace("detailId", "detailId" + getDetailId());
+                return StringUtils.replace(text, "{MESSAGE_BODY}", message);
             }
         } catch (Exception e) {
             return null;
@@ -100,7 +102,7 @@ public class BatchCorrespondenceEvent extends NotificationEventBase implements N
     
     public void sedNotification() {
         KcNotificationService kcNotificationService = KraServiceLocator.getService(KcNotificationService.class);
-        List<KcNotification> notifications = kcNotificationService.createNotifications(getProtocol().getProtocolDocument().getDocumentNumber(), Integer.toString(CoeusModule.IRB_MODULE_CODE_INT), "199", this);
+        List<KcNotification> notifications = kcNotificationService.createNotifications(getProtocol().getProtocolDocument().getDocumentNumber(), Integer.toString(CoeusModule.IRB_MODULE_CODE_INT), "111", this);
         kcNotificationService.sendNotifications(notifications, this);
 
     }
