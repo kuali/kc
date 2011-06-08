@@ -24,6 +24,7 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.After;
 import org.junit.Before;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
@@ -129,6 +130,13 @@ public abstract class ProtocolAuthorizerTestBase extends KcUnitTestBase {
         context.checking(new Expectations() {{
             allowing(service).hasPermission(USERNAME, protocolDocument.getProtocol(), permissionConstant); 
             will(returnValue(hasPermission));
+            if (PermissionConstants.CREATE_AMMENDMENT.equals(permissionConstant) && !hasPermission) {
+                allowing(service).hasPermission(USERNAME, protocolDocument.getProtocol(), PermissionConstants.CREATE_ANY_AMENDMENT); 
+                will(returnValue(hasPermission));
+            } else if (PermissionConstants.CREATE_RENEWAL.equals(permissionConstant) && !hasPermission) {
+                allowing(service).hasPermission(USERNAME, protocolDocument.getProtocol(), PermissionConstants.CREATE_ANY_RENEWAL); 
+                will(returnValue(hasPermission));
+            }
         }});
         
         return service;

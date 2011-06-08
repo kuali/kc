@@ -52,12 +52,12 @@ public interface PermissionConstants {
     public static final String ADD_PROTOCOL_NOTES = "Add Notes";
     public static final String CREATE_AMMENDMENT = "Create Ammendment";
     public static final String CREATE_RENEWAL = "Create Renewal";
-    public static final String MAINTAIN_PROTOCOL_RELATED_PROJ = "MAINTAIN_PROTOCOL_RELATED_PROJ";
+    public static final String MAINTAIN_PROTOCOL_RELATED_PROJ = "Maintain Protocol Related Proj";
     public static final String EDIT_PROTOCOL_BILLABLE = "Edit Protocol Billable";
     public static final String ADMINSTRATIVE_CORRECTION = "Administrative Correction";
     public static final String MAINTAIN_IRB_CORRESP_TEMPLATE = "MAINTAIN_IRB_CORRESP_TEMPLATE";
     public static final String MAINTAIN_PROTOCOL_SUBMISSIONS = "Maintain Protocol Submissions";
-    public static final String MAINTAIN_PROTO_REVIEW_COMMENTS = "MAINTAIN_PROTO_REVIEW_COMMENTS";
+    public static final String MAINTAIN_PROTO_REVIEW_COMMENTS = "Maintain Protocol Review Comments";
     public static final String PERFORM_IRB_ACTIONS_ON_PROTO = "Perform IRB Actions on a Protocol";
     public static final String VIEW_RESTRICTED_NOTES = "View Restricted Notes";
     public static final String ANSWER_PROTOCOL_QUESTIONNAIRE = "Answer Protocol Questionnaire";
@@ -65,6 +65,12 @@ public interface PermissionConstants {
     public static final String MODIFY_PROTOCOL_SUBMISSION = "Modify Protocol Submission";
     public static final String REVIEW_NOT_REQUIRED = "Protocol Review Not Required";
     public static final String MAINTAIN_NOTES = "Maintain Protocol Notes";
+    public static final String CREATE_ANY_AMENDMENT = "Create Any Amendment";
+    public static final String CREATE_ANY_RENEWAL = "Create Any Renewal";
+    public static final String SUBMIT_ANY_PROTOCOL = "Submit Any Protocol";
+    public static final String MAINTAIN_ANY_PROTOCOL_ACCESS = "Maintain Any Protocol Access";
+    public static final String ADD_ANY_PROTOCOL_NOTES = "Add Any Protocol Notes";
+
     /* IRB - Online Review Permissions */
     
     public static final String MODIFY_PROTOCOL_ONLINE_REVIEW = "Modify Protocol Online Review";
