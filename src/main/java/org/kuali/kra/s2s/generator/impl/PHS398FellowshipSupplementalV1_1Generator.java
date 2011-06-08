@@ -922,12 +922,12 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
                     typeList.add(CurrentPriorNRSASupport.Type.Enum
                             .forString(questionnaireAnswer.getAnswer()));
                 }
-                if (questionnaireAnswer.getQuestionNumber() == KIRST_START_DT) {
-                    startDateList.add(s2sUtilService
-                            .convertDateStringToCalendar(questionnaireAnswer
-                                    .getAnswer()));
+                if (questionnaireAnswer.getQuestionNumber() == KIRST_START_DT &&
+                        !questionnaireAnswer.getAnswer().equals(S2SConstants.VALUE_UNKNOWN)) {
+                    startDateList.add(s2sUtilService.convertDateStringToCalendar(questionnaireAnswer.getAnswer()));
                 }
-                if (questionnaireAnswer.getQuestionNumber() == KIRST_END_DT) {
+                if (questionnaireAnswer.getQuestionNumber() == KIRST_END_DT &&
+                        !questionnaireAnswer.getAnswer().equals(S2SConstants.VALUE_UNKNOWN)) {
                     endDateList.add(s2sUtilService
                             .convertDateStringToCalendar(questionnaireAnswer
                                     .getAnswer()));
@@ -942,14 +942,14 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
                     .newInstance();
             currentPriorNRSASupport.setLevel(levelList.get(index));
             currentPriorNRSASupport.setType(typeList.get(index));
-            currentPriorNRSASupport.setStartDate(startDateList.get(index));
-            currentPriorNRSASupport.setEndDate(endDateList.get(index));
+            if(!startDateList.isEmpty())
+                currentPriorNRSASupport.setStartDate(startDateList.get(index));
+            if(!endDateList.isEmpty())
+                currentPriorNRSASupport.setEndDate(endDateList.get(index));
             currentPriorNRSASupport.setGrantNumber(grantNumberList.get(index));
             currentPriorNRSASupportList.add(currentPriorNRSASupport);
         }
-        return currentPriorNRSASupportList
-                .toArray(new CurrentPriorNRSASupport[currentPriorNRSASupportList
-                        .size()]);
+        return currentPriorNRSASupportList.toArray(new CurrentPriorNRSASupport[currentPriorNRSASupportList.size()]);
     }
 	 private Answer getAnswer(QuestionnaireQuestion questionnaireQuestion, AnswerHeader answerHeader) {
 	        List<Answer> answers = answerHeader.getAnswers();
