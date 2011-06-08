@@ -458,6 +458,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                 
                 // Helper method to clear document form data.
                 proposalDevelopmentForm.clearDocumentRelatedState();
+                proposalDevelopmentForm.setViewOnly(false);
             
             }
         }

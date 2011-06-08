@@ -236,6 +236,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
             protocolForm.getProtocolHelper().prepareView();
             protocolForm.getActionHelper().prepareCommentsView();
+            protocolForm.setViewOnly(false);
 
             return mapping.findForward(PROTOCOL_TAB);
         }
