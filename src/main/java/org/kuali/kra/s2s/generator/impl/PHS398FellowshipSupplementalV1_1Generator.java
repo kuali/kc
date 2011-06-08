@@ -132,6 +132,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
     private static final int SUBMITTED_DIFF_INST=28;
     private static final int FORMER_INST=29;
     private static final int SENIOR_FELL = 36;
+    private static final int OTHER_SUPP_SOURCE = 37;
     private static final int SUPP_FUNDING_AMT = 38;
     private static final int SUPP_MONTHS = 51;
     private static final int  SUPP_SOURCE = 41;
@@ -177,6 +178,9 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 				case SENIOR_FELL:
 					budgetMap.put(SENIOR_FELL, answer);
 					break;
+                case OTHER_SUPP_SOURCE:
+                    budgetMap.put(OTHER_SUPP_SOURCE, answer);
+                    break;
 				case SUPP_SOURCE:
 					budgetMap.put(SUPP_SOURCE, answer);
 					break;
@@ -272,8 +276,8 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 	private SupplementationFromOtherSources getSupplementationFromOtherSources(
 			Map<Integer, String> budgetMap) {
 	    SupplementationFromOtherSources supplementationFromOtherSources=null;
-		if (budgetMap.get(SENIOR_FELL) != null
-				&& budgetMap.get(SENIOR_FELL).toString().equals(
+		if (budgetMap.get(OTHER_SUPP_SOURCE) != null
+				&& budgetMap.get(OTHER_SUPP_SOURCE).toString().equals(
 						S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {
 	        supplementationFromOtherSources = SupplementationFromOtherSources.Factory.newInstance();
 			if (budgetMap.get(SUPP_SOURCE) != null) {
