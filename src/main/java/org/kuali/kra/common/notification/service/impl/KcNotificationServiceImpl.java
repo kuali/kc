@@ -22,14 +22,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.notification.NotificationContext;
 import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.common.notification.bo.NotificationType;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.exception.UnknownRoleException;
 import org.kuali.kra.common.notification.service.KcNotificationService;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.ken.bo.Notification;
 import org.kuali.rice.ken.bo.NotificationChannel;
 import org.kuali.rice.ken.bo.NotificationContentType;
@@ -59,6 +63,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     private BusinessObjectService businessObjectService;
     private NotificationService notificationService;
     private RoleManagementService roleManagementService;
+    private KcPersonService kcPersonService;
     
     /**
      * {@inheritDoc}
@@ -140,7 +145,9 @@ public class KcNotificationServiceImpl implements KcNotificationService {
             notification.setChannel(getKcNotificationChannel());
             
             notification.setTitle(kcNotification.getSubject());
-            notification.setContent("<content>" + kcNotification.getMessage() + "</content>");
+//            notification.setContent("<content>" + kcNotification.getMessage() + "</content>");
+            notification.setContent(NotificationConstants.XML_MESSAGE_CONSTANTS.CONTENT_SIMPLE_OPEN
+                    + NotificationConstants.XML_MESSAGE_CONSTANTS.MESSAGE_OPEN + kcNotification.getMessage() + NotificationConstants.XML_MESSAGE_CONSTANTS.MESSAGE_CLOSE+ NotificationConstants.XML_MESSAGE_CONSTANTS.CONTENT_CLOSE);
             notification.setDeliveryType(NotificationConstants.DELIVERY_TYPES.FYI);
             
             for (NotificationTypeRecipient roleRecipient : kcNotification.getNotificationType().getNotificationTypeRecipients()) {
@@ -188,12 +195,15 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         KimRoleInfo role = roleManagementService.getRole(roleRecipient.getRoleId());
         
         AttributeSet qualification = new AttributeSet();
-        qualification.put(roleRecipient.getRoleQualifier(), roleRecipient.getQualifierValue());
+        if (StringUtils.isNotBlank(roleRecipient.getRoleQualifier())) {
+            qualification.put(roleRecipient.getRoleQualifier(), roleRecipient.getQualifierValue());
+        }
         
         Collection<String> roleMembers = roleManagementService.getRoleMemberPrincipalIds(role.getNamespaceCode(), role.getRoleName(), qualification);
         for (String roleMember : roleMembers) {
             NotificationRecipient recipient = new NotificationRecipient();
-            recipient.setRecipientId(roleMember);
+//            recipient.setRecipientId(roleMember);
+            recipient.setRecipientId(kcPersonService.getKcPersonByPersonId(roleMember).getUserName());
             recipient.setRecipientType(KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE);
             recipients.add(recipient);
         }
@@ -223,6 +233,10 @@ public class KcNotificationServiceImpl implements KcNotificationService {
 
     public void setRoleManagementService(RoleManagementService roleManagementService) {
         this.roleManagementService = roleManagementService;
+    }
+
+    public void setKcPersonService(KcPersonService kcPersonService) {
+        this.kcPersonService = kcPersonService;
     }
 
 }
