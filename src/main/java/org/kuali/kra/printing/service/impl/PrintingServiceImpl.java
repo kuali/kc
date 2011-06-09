@@ -49,7 +49,6 @@ import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.service.PrintingService;
@@ -226,32 +225,31 @@ public class PrintingServiceImpl implements PrintingService {
     public AttachmentDataSource print(List<Printable> printableArtifactList) throws PrintingException {
         return print(printableArtifactList, false);
     }
-	public AttachmentDataSource print(List<Printable> printableArtifactList, boolean headerFooterRequired)
-			throws PrintingException {
-		PrintableAttachment printablePdf = null;
-		List<String> bookmarksList = new ArrayList<String>();
-		List<byte[]> pdfBaosList = new ArrayList<byte[]>();
-		for (Printable printableArtifact : printableArtifactList) {
-			Map<String, byte[]> printBytes = getPrintBytes(printableArtifact);
-			for (String bookmark : printBytes.keySet()) {
-			    byte[] pdfBytes = printBytes.get(bookmark);
-			    if(isPdfGoodToMerge(pdfBytes)){
-			        bookmarksList.add(bookmark);
-			        pdfBaosList.add(pdfBytes);
-			    }
-			}
-		}
-		
-		printablePdf = new PrintableAttachment();
-		byte[] mergedPdfBytes = mergePdfBytes(pdfBaosList, bookmarksList,headerFooterRequired);
-		Printable printableArtifactObject;
-		if(printableArtifactList!=null && printableArtifactList.size()>0){
-		    printableArtifactObject = printableArtifactList.get(0);		
-    		try {  
-    		    if(printableArtifactObject.isWatermarkEnabled()){    
-        		     mergedPdfBytes = getWatermarkService().applyWatermark(mergedPdfBytes, printableArtifactObject.getWatermarkable().getWatermark());
-//        	    	 mergedPdfBytes = watermarkService.applyWatermark( mergedPdfBytes,watermark.getWatermarkable().getWatermark());
-    		    }
+    public AttachmentDataSource print(List<Printable> printableArtifactList, boolean headerFooterRequired)
+            throws PrintingException {
+        PrintableAttachment printablePdf = null;
+        List<String> bookmarksList = new ArrayList<String>();
+        List<byte[]> pdfBaosList = new ArrayList<byte[]>();
+        for (Printable printableArtifact : printableArtifactList) {
+            Map<String, byte[]> printBytes = getPrintBytes(printableArtifact);
+            for (String bookmark : printBytes.keySet()) {
+                byte[] pdfBytes = printBytes.get(bookmark);
+                if(isPdfGoodToMerge(pdfBytes)){
+                    bookmarksList.add(bookmark);
+                    pdfBaosList.add(pdfBytes);
+                }
+            }
+        }
+        
+        printablePdf = new PrintableAttachment();
+        byte[] mergedPdfBytes = mergePdfBytes(pdfBaosList, bookmarksList,headerFooterRequired);
+        Printable printableArtifactObject;
+        if(printableArtifactList!=null && printableArtifactList.size()>0){
+            printableArtifactObject = printableArtifactList.get(0);     
+            try {  
+                if(printableArtifactObject.isWatermarkEnabled()){    
+                   mergedPdfBytes = watermarkService.applyWatermark( mergedPdfBytes,printableArtifactObject.getWatermarkable().getWatermark());
+                }
              }
              catch (Exception e) {
                  LOG.error("Exception Occured in printServiceImpl. Water mark Exception: ",e);    

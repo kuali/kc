@@ -340,10 +340,10 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
      */
     protected boolean isBudgetCategoryParticipantPatient(BudgetLineItem budgetLineItem) {
         return 
-//        budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_OTHER)||
-//                budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_STIPENDS)
-//                || budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_SUBSISTANCE)
-//                || budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_TRAVEL) ||
+       budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_OTHER)||
+               budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_STIPENDS)  ||
+                budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_SUBSISTANCE) ||
+               budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_TRAVEL) ||
                 budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_INPATIENT)
                 || budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_OUTPATIENT);
     }
@@ -852,7 +852,14 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
                 participantType = ParticipantType.INPATIENT;
             }else if(budgetCategoryMap.getTargetCategoryCode().equals("90")){
                 participantType = ParticipantType.OUTPATIENT;
-            }else{
+            }else if(budgetCategoryMap.getTargetCategoryCode().equals("79")){//SUBSISTANCE
+                participantType = ParticipantType.SUBSISTENCE ;
+            }else if(budgetCategoryMap.getTargetCategoryCode().equals("77")){//TRAVEL
+                participantType = ParticipantType.TRAVEL ;
+            }else if(budgetCategoryMap.getTargetCategoryCode().equals("75")){//STIPENDS
+                participantType = ParticipantType.STIPENDS;
+            }
+            else{
                 participantType = ParticipantType.OTHER;
             }
         }else{
