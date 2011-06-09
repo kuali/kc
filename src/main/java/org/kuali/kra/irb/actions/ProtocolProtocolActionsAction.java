@@ -232,11 +232,12 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             // go to the Protocol tab web page.
 
             protocolForm.setDocId(newDocId);
+            protocolForm.setViewOnly(false);
             loadDocument(protocolForm);
+            protocolForm.getDocument().setViewOnly(protocolForm.isViewOnly());
             protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
             protocolForm.getProtocolHelper().prepareView();
             protocolForm.getActionHelper().prepareCommentsView();
-            protocolForm.setViewOnly(false);
 
             return mapping.findForward(PROTOCOL_TAB);
         }
