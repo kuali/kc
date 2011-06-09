@@ -157,7 +157,19 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
         setQuestionnaireData(phsFellowshipSupplemental);
         return phsFellowshipSupplementalDocument;
     }
-
+    private List<Answer> getAnswers(QuestionnaireQuestion questionnaireQuestion, AnswerHeader answerHeader) {
+        List<Answer> returnAnswers = new ArrayList<Answer>();
+        if (answerHeader != null) {
+            List<Answer> answers = answerHeader.getAnswers();
+            //List<Answer> answerList = new ArrayList<Answer>();
+            for (Answer answer : answers) {
+                if (answer.getQuestionnaireQuestionsIdFk().equals(questionnaireQuestion.getQuestionnaireQuestionsId())) {               
+                    returnAnswers.add(answer);
+                }
+            }
+        }
+        return returnAnswers;
+    }
     private void setQuestionnaireData(PHSFellowshipSupplemental12 phsFellowshipSupplemental) {
         Map<Integer, String> hmBudgetQuestions = new HashMap<Integer, String>();
         List<AnswerHeader> answers = findQuestionnaireWithAnswers(pdDoc.getDevelopmentProposal());
@@ -209,9 +221,14 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
                                 stemCellstype.setStemCellsIndicator(getYesNoEnum(answer));
                             break;
                         case STEMCELLLINES:
-                            stemCellstype.addCellLines(answer);
+                            List<Answer> answerList = getAnswers(questionnaireQuestion,answerHeader);                      
+                            for (Answer questionnaireAnswerBO: answerList) {
+                                String questionnaireSubAnswer =  questionnaireAnswerBO.getAnswer();
+                                if(questionnaireSubAnswer!=null){
+                                    stemCellstype.addCellLines(questionnaireAnswerBO.getAnswer());
+                                }
+                            }
                             break;
-
                         case DEGREE_TYPE_SOUGHT:
                             graduateDegreeSought.setDegreeType(DegreeTypeDataType.Enum.forString(answer));
                             break;
