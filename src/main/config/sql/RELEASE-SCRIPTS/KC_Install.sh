@@ -46,7 +46,7 @@ fi
 
 dbtype=`getChoice 'Enter Database Type' ORACLE MYSQL`
 
-version=`getChoice 'Enter Version' NEW 3.0 3.0.1 3.1M2`
+version=`getChoice 'Enter Version' NEW 3.0 3.0.1`
 
 un=`getAnswer 'Enter KC Database Username'`
 
@@ -69,7 +69,7 @@ else
 	fi
 fi
 
-if [ "${mode}" = "EMBED" ] && [ "${InstRice}" = "Y" ]
+if [ "${mode}" = "EMBED" ]
 then
 	Riceun=`getAnswer 'Enter Rice Database Username'`
 	Ricepw=`getAnswer 'Enter Rice Database Password'`
@@ -108,7 +108,9 @@ case "${dbtype}" in
 				then
 					if [ "${InstRice}" = "Y" ]
 					then
-						sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < oracle_server.sql
+						sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < oracle_server_full.sql
+					else
+						sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < oracle_server_kc.sql
 					fi
 					sqlplus "${un}"/"${pw}${DBSvrNm}" < oracle_client.sql
 				fi
@@ -121,6 +123,7 @@ case "${dbtype}" in
 		then
 			cd KC-RELEASE-3_0_1-SCRIPT
 			sqlplus "${un}"/"${pw}${DBSvrNm}" < KC-Release-3_0-3_0_1-Upgrade-Oracle-Install.sql
+			sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-Release-3_0-3_0_1-Upgrade-Oracle-Install.sql
 			mv *.log ../LOGS/
 			cd .. 
 		fi
@@ -134,32 +137,25 @@ case "${dbtype}" in
 		then
 			cd KC-RELEASE-3_1_SP1-SCRIPT
 			sqlplus "${un}"/"${pw}${DBSvrNm}" < KC-Release-3_0_1-3_1_S1-Upgrade-Oracle-Install.sql
+			sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-Release-3_0_1-3_1_S1-Upgrade-Oracle-Install.sql
 			if [ "${InstRice}" = "Y" ] || [ "${mode}" = "BUNDLE" ]
 			then
-				sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-Release-3_0_1-3_1_S1-Upgrade-Oracle-Install.sql
 				sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-Server-Release-1_0_3-1_0_3_1-Upgrade-Oracle-Install.sql
 			fi
 			mv *.log ../LOGS/
 			cd ..
 			
 			cd KC-RELEASE-3_1_SP2-SCRIPT
+			sqlplus "${un}"/"${pw}${DBSvrNm}" < KRC-RELEASE-3_1_SP2-Upgrade-ORACLE.sql
 			sqlplus "${un}"/"${pw}${DBSvrNm}" < KC-RELEASE-3_1_SP2-Upgrade-ORACLE.sql
-			if [ "${InstRice}" = "Y" ] || [ "${mode}" = "BUNDLE" ]
-			then
-				sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-RELEASE-3_1_SP2-Upgrade-ORACLE.sql
-			fi
+			sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-RELEASE-3_1_SP2-Upgrade-ORACLE.sql
 			mv *.log ../LOGS/
 			cd ..
-		fi 
-		
-		if [ "${version}" = "3.1M2" ] || [ "${version}" = "3.0.1" ] || [ "${version}" = "3.0" ] || [ "${version}" = "NEW" ]
-		then
+
 			cd KC-RELEASE-3_1_SP3-SCRIPT
+			sqlplus "${un}"/"${pw}${DBSvrNm}" < KRC-RELEASE-3_1_SP3-Upgrade-ORACLE.sql
 			sqlplus "${un}"/"${pw}${DBSvrNm}" < KC-RELEASE-3_1_SP3-Upgrade-ORACLE.sql
-			if [ "${InstRice}" = "Y" ] || [ "${mode}" = "BUNDLE" ]
-			then
-				sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-RELEASE-3_1_SP3-Upgrade-ORACLE.sql
-			fi
+			sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-RELEASE-3_1_SP3-Upgrade-ORACLE.sql
 			mv *.log ../LOGS/
 			cd ..
 		fi 
@@ -181,7 +177,9 @@ case "${dbtype}" in
 				then
 					if [ "${InstRice}" = "Y" ]
 					then
-						mysql -u ${Riceun} -p${Ricepw} -D ${RiceDBSvrNm} -s < mysql_server.sql
+						mysql -u ${Riceun} -p${Ricepw} -D ${RiceDBSvrNm} -s < mysql_server_full.sql
+				    else
+				        mysql -u ${Riceun} -p${Ricepw} -D ${RiceDBSvrNm} -s < mysql_server_kc.sql
 					fi
 					mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < mysql_client.sql
 				fi
@@ -228,6 +226,7 @@ case "${dbtype}" in
 		if [ "${version}" = "3.1M2" ] || [ "${version}" = "3.0.1" ] || [ "${version}" = "3.0" ] || [ "${version}" = "NEW" ]
 		then
             cd KC-RELEASE-3_1_SP3-SCRIPT
+            mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < KRC-RELEASE-3_1_SP3-Upgrade-MYSQL.sql > KRC-RELEASE-3_1_SP3-Upgrade-MYSQL-Install.log 2>&1
             mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < KC-RELEASE-3_1_SP3-Upgrade-MYSQL.sql > KC-RELEASE-3_1_SP3-Upgrade-MYSQL-Install.log 2>&1
             if [ "${InstRice}" = "Y" ] || [ "${mode}" = "BUNDLE" ]
             then
