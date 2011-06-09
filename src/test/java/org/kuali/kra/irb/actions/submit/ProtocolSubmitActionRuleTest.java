@@ -16,17 +16,27 @@
 package org.kuali.kra.irb.actions.submit;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -35,18 +45,20 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-//@PerSuiteUnitTestData(
-//        @UnitTestData(
-//            sqlFiles = {
-//                @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE.sql", delimiter = ";")
-//               ,@UnitTestFile(filename = "classpath:sql/dml/load_protocol_review_type.sql", delimiter = ";")
-//               ,@UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_REVIEWER_TYPE.sql", delimiter = ";")
-//               ,@UnitTestFile(filename = "classpath:sql/dml/load_EXEMPT_STUDIES_CHECKLIST.sql", delimiter = ";")
-//               ,@UnitTestFile(filename = "classpath:sql/dml/load_EXPEDITED_REVIEW_CHECKLIST.sql", delimiter = ";")
-//            }
-//        )
-//    )
+// @PerSuiteUnitTestData(
+// @UnitTestData(
+// sqlFiles = {
+// @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE.sql", delimiter = ";")
+// ,@UnitTestFile(filename = "classpath:sql/dml/load_protocol_review_type.sql", delimiter = ";")
+// ,@UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_REVIEWER_TYPE.sql", delimiter = ";")
+// ,@UnitTestFile(filename = "classpath:sql/dml/load_EXEMPT_STUDIES_CHECKLIST.sql", delimiter = ";")
+// ,@UnitTestFile(filename = "classpath:sql/dml/load_EXPEDITED_REVIEW_CHECKLIST.sql", delimiter = ";")
+// }
+// )
+// )
 public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
+
+    private Mockery context = new JUnit4Mockery();
 
     private ProtocolSubmitActionRule rule = null;
     private static final String VALID_SUBMISSION_TYPE = "100";
@@ -59,18 +71,25 @@ public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
     private static final String OPTIONAL = "O";
 
     private ParameterService parameterService;
-    
+
     @Before
     public void setUpServices() {
         this.parameterService = KraServiceLocator.getService(ParameterService.class);
         // If cache not cleared, causes OLE.
         this.parameterService.clearCache();
     }
-    
+
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        rule = new ProtocolSubmitActionRule();
+        // we create an anonymous rule class because for most test methods we want
+        // the spoofing check to be disabled i.e. always true
+        rule = new ProtocolSubmitActionRule(){
+            @Override
+            public boolean checkNoSpoofing(ProtocolSubmitAction submitAction) {
+                return true;
+            }
+        };
     }
 
     @After
@@ -81,6 +100,7 @@ public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
 
     /**
      * Test a valid submission.
+     * 
      * @throws Exception
      */
     @SuppressWarnings("deprecation")
@@ -96,6 +116,7 @@ public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
 
     /**
      * Test a empty submission type.
+     * 
      * @throws Exception
      */
     @Test
@@ -105,12 +126,13 @@ public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
         submitAction.setSubmissionTypeCode("");
         submitAction.setProtocolReviewTypeCode(VALID_REVIEW_TYPE);
         assertFalse(rule.processSubmitAction(document, submitAction));
-        assertError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".submissionTypeCode", 
-                    KeyConstants.ERROR_PROTOCOL_SUBMISSION_TYPE_NOT_SELECTED);
+        assertError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".submissionTypeCode",
+                KeyConstants.ERROR_PROTOCOL_SUBMISSION_TYPE_NOT_SELECTED);
     }
-    
+
     /**
      * Test a empty review type.
+     * 
      * @throws Exception
      */
     @Test
@@ -120,13 +142,14 @@ public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
         submitAction.setSubmissionTypeCode(VALID_SUBMISSION_TYPE);
         submitAction.setProtocolReviewTypeCode("");
         assertFalse(rule.processSubmitAction(document, submitAction));
-        assertError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".protocolReviewTypeCode", 
-                    KeyConstants.ERROR_PROTOCOL_REVIEW_TYPE_NOT_SELECTED);
+        assertError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".protocolReviewTypeCode",
+                KeyConstants.ERROR_PROTOCOL_REVIEW_TYPE_NOT_SELECTED);
     }
-    
-    
+
+
     /**
      * Test a invalid review type.
+     * 
      * @throws Exception
      */
     @Test
@@ -136,13 +159,12 @@ public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
         submitAction.setSubmissionTypeCode(VALID_SUBMISSION_TYPE);
         submitAction.setProtocolReviewTypeCode(INVALID_REVIEW_TYPE);
         assertFalse(rule.processSubmitAction(document, submitAction));
-        assertError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".protocolReviewTypeCode", 
-                    KeyConstants.ERROR_PROTOCOL_REVIEW_TYPE_INVALID);
+        assertError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".protocolReviewTypeCode",
+                KeyConstants.ERROR_PROTOCOL_REVIEW_TYPE_INVALID);
     }
-    
+
     /**
-     * Verify that for an exempt review type, the validation will
-     * pass if there is at least one check list item that is selected.
+     * Verify that for an exempt review type, the validation will pass if there is at least one check list item that is selected.
      */
     @SuppressWarnings("deprecation")
     @Test
@@ -159,10 +181,9 @@ public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
         assertTrue(rule.processSubmitAction(document, submitAction));
         assertEquals(GlobalVariables.getErrorMap().size(), 0);
     }
-    
+
     /**
-     * Verify that for an exempt review type, the validation will
-     * fail if there isn't any check list items selected.
+     * Verify that for an exempt review type, the validation will fail if there isn't any check list items selected.
      */
     @Test
     public void testExemptCheckListNone() throws WorkflowException {
@@ -175,13 +196,11 @@ public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
         item.setChecked(false);
         submitAction.setExemptStudiesCheckList(checkList);
         assertFalse(rule.processSubmitAction(document, submitAction));
-        assertError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY, 
-                    KeyConstants.ERROR_PROTOCOL_AT_LEAST_ONE_CHECKLIST_ITEM);
+        assertError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY, KeyConstants.ERROR_PROTOCOL_AT_LEAST_ONE_CHECKLIST_ITEM);
     }
-    
+
     /**
-     * Verify that for an expedited review type, the validation will
-     * pass if there is at least one check list item that is selected.
+     * Verify that for an expedited review type, the validation will pass if there is at least one check list item that is selected.
      */
     @SuppressWarnings("deprecation")
     @Test
@@ -198,10 +217,9 @@ public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
         assertTrue(rule.processSubmitAction(document, submitAction));
         assertEquals(GlobalVariables.getErrorMap().size(), 0);
     }
-    
+
     /**
-     * Verify that for an expedited review type, the validation will
-     * fail if there isn't any check list items selected.
+     * Verify that for an expedited review type, the validation will fail if there isn't any check list items selected.
      */
     @Test
     public void testExpeditedCheckListNone() throws WorkflowException {
@@ -214,13 +232,11 @@ public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
         item.setChecked(false);
         submitAction.setExpeditedReviewCheckList(checkList);
         assertFalse(rule.processSubmitAction(document, submitAction));
-        assertError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY, 
-                    KeyConstants.ERROR_PROTOCOL_AT_LEAST_ONE_CHECKLIST_ITEM);
+        assertError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY, KeyConstants.ERROR_PROTOCOL_AT_LEAST_ONE_CHECKLIST_ITEM);
     }
-    
+
     /**
-     * Test validation for a couple of reviewers.  
-     * There should be no errors.
+     * Test validation for a couple of reviewers. There should be no errors.
      */
     @SuppressWarnings("deprecation")
     @Test
@@ -238,7 +254,7 @@ public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
         assertTrue(rule.processSubmitAction(document, submitAction));
         assertEquals(GlobalVariables.getErrorMap().size(), 0);
     }
-    
+
     /**
      * Test a reviewer that has an invalid reviewer type.
      */
@@ -252,98 +268,182 @@ public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
         reviewer.setReviewerTypeCode("xx");
         submitAction.getReviewers().add(reviewer);
         assertFalse(rule.processSubmitAction(document, submitAction));
-        assertError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".reviewer[0].reviewerTypeCode", 
-                    KeyConstants.ERROR_PROTOCOL_REVIEWER_TYPE_INVALID);
+        assertError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".reviewer[0].reviewerTypeCode",
+                KeyConstants.ERROR_PROTOCOL_REVIEWER_TYPE_INVALID);
     }
-    
+
+
     /**
-     * If the mandatory flag has been set, we should get no
-     * error if all required fields have been set.
+     * Test the validation check that ensures all reviewers submitted are actually 
+     * available for a particular protocol, committee and schedule.
+     */
+    @Test
+    public void testNoSpoofing() throws WorkflowException {
+        // overwrite the pre-setup rule because we want spoofing check to be enabled now
+        rule = new ProtocolSubmitActionRule();
+        
+        
+        final List<CommitteeMembership> members = new ArrayList<CommitteeMembership>();
+        members.add(createMember("dn", "Don", null));
+        members.add(createMember("nncy", "Nancy", 1));
+        members.add(createMember(null, "Joe", 2));
+        members.add(createMember(null, "Joanna", 5));
+        final CommitteeService committeeService = context.mock(CommitteeService.class);
+        context.checking(new Expectations() {
+            {
+                allowing(committeeService).getAvailableMembers(COMMITTEE_ID, SCHEDULE_ID);
+                will(returnValue(members));
+            }
+        }); 
+       
+        rule.setCommitteeService(committeeService);
+
+        final Protocol protocol = new Protocol() {
+            private static final long serialVersionUID = -1273061983131550371L;
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {
+                // do nothing
+            }
+        };
+        
+        //Initially we will only have Don and Nancy in the protocol to test success, later we will add Joe and Joanna to test failure
+        protocol.getProtocolPersons().add(createProtocolPerson("dn", 10));
+        protocol.getProtocolPersons().add(createProtocolPerson("nncy", null));
+        
+        
+        
+        ProtocolSubmitAction submitAction = new ProtocolSubmitAction(null) {
+            @Override
+            public Protocol getProtocol() {
+                return protocol;
+            }
+        };     
+       
+        // we will use joe and joanna as the submitted reviewers 
+        submitAction.getReviewers().add(new ProtocolReviewerBean(createMember(null, "Joe", 2)));
+        submitAction.getReviewers().add(new ProtocolReviewerBean(createMember(null, "Joanna", 5)));
+        
+        submitAction.setCommitteeId(COMMITTEE_ID);
+        submitAction.setScheduleId(SCHEDULE_ID);
+        
+        assertTrue(rule.checkNoSpoofing(submitAction));
+        
+        // now add Joe to the protocol; that should fail the spoofing check with one error
+        protocol.getProtocolPersons().add(createProtocolPerson("", 2));
+        assertFalse(rule.checkNoSpoofing(submitAction));
+        assertError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".reviewer[0].reviewerUnavailable", KeyConstants.ERROR_PROTOCOL_REVIEWER_NOT_AVAILABLE);
+        
+        // now add Joanna also to the protocol; that should fail the spoofing check with another error
+        protocol.getProtocolPersons().add(createProtocolPerson(null, 5));
+        assertFalse(rule.checkNoSpoofing(submitAction));
+        assertError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".reviewer[1].reviewerUnavailable", KeyConstants.ERROR_PROTOCOL_REVIEWER_NOT_AVAILABLE);
+
+    }
+
+
+    private CommitteeMembership createMember(String personId, String personName, Integer rolodexId) {
+        CommitteeMembership member = new CommitteeMembership();
+        member.setPersonId(personId);
+        member.setPersonName(personName);
+        member.setRolodexId(rolodexId);
+        return member;
+    }
+
+    private ProtocolPerson createProtocolPerson(String personId, Integer rolodexId) {
+        ProtocolPerson pp = new ProtocolPerson();
+        pp.setPersonId(personId);
+        pp.setRolodexId(rolodexId);
+        return pp;
+    }
+
+
+    /**
+     * If the mandatory flag has been set, we should get no error if all required fields have been set.
+     * 
      * @throws WorkflowException
      */
     @SuppressWarnings("deprecation")
     @Test
     public void testMandatoryOK() throws WorkflowException {
         setParameter(MANDATORY);
-        
+
         ProtocolDocument document = getNewProtocolDocument();
         ProtocolSubmitAction submitAction = new ProtocolSubmitAction(null);
         submitAction.setSubmissionTypeCode(VALID_SUBMISSION_TYPE);
         submitAction.setProtocolReviewTypeCode(VALID_REVIEW_TYPE);
         submitAction.setCommitteeId(COMMITTEE_ID);
         submitAction.setScheduleId(SCHEDULE_ID);
-        
+
         assertTrue(rule.processSubmitAction(document, submitAction));
         assertEquals(0, GlobalVariables.getErrorMap().size());
-        
+
         setParameter(OPTIONAL);
     }
-    
+
     /**
-     * If the mandatory flag has been set, we should get an error message
-     * if the committee id has not been set.
+     * If the mandatory flag has been set, we should get an error message if the committee id has not been set.
+     * 
      * @throws WorkflowException
      */
     @Test
     public void testMandatoryCommittee() throws WorkflowException {
         setParameter(MANDATORY);
-        
+
         ProtocolDocument document = getNewProtocolDocument();
         ProtocolSubmitAction submitAction = new ProtocolSubmitAction(null);
         submitAction.setSubmissionTypeCode(VALID_SUBMISSION_TYPE);
         submitAction.setProtocolReviewTypeCode(VALID_REVIEW_TYPE);
         submitAction.setScheduleId(SCHEDULE_ID);
-        
+
         assertFalse(rule.processSubmitAction(document, submitAction));
-        assertError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".committeeId", 
-                    KeyConstants.ERROR_PROTOCOL_COMMITTEE_NOT_SELECTED);
-        
+        assertError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".committeeId",
+                KeyConstants.ERROR_PROTOCOL_COMMITTEE_NOT_SELECTED);
+
         setParameter(OPTIONAL);
     }
-    
+
     /**
-     * If the mandatory flag has been set, we should get an error message
-     * if the schedule id has not been set.
+     * If the mandatory flag has been set, we should get an error message if the schedule id has not been set.
+     * 
      * @throws WorkflowException
      */
     @Test
     public void testMandatorySchedule() throws WorkflowException {
         setParameter(MANDATORY);
-        
+
         ProtocolDocument document = getNewProtocolDocument();
         ProtocolSubmitAction submitAction = new ProtocolSubmitAction(null);
         submitAction.setSubmissionTypeCode(VALID_SUBMISSION_TYPE);
         submitAction.setProtocolReviewTypeCode(VALID_REVIEW_TYPE);
         submitAction.setCommitteeId(COMMITTEE_ID);
-        
+
         assertFalse(rule.processSubmitAction(document, submitAction));
-        assertError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".scheduleId", 
-                    KeyConstants.ERROR_PROTOCOL_SCHEDULE_NOT_SELECTED);
-        
+        assertError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".scheduleId",
+                KeyConstants.ERROR_PROTOCOL_SCHEDULE_NOT_SELECTED);
+
         setParameter(OPTIONAL);
     }
-    
+
     /*
-     * Set the IRB parameter for submission in order to make the committee/schedule
-     * either mandatory or optional.
+     * Set the IRB parameter for submission in order to make the committee/schedule either mandatory or optional.
      */
     private void setParameter(String value) {
         // the tranaction handling is not really saved to db.
         // it is ok for testMandatoryOK, but in testMandatoryCommittee, OLE was thrown.
         // so have to try this to force it to save to db.
-//        try {
-//            super.transactionalLifecycle.stop();
-//        }
-//        catch (Exception e) {
-//
-//        }
+        // try {
+        // super.transactionalLifecycle.stop();
+        // }
+        // catch (Exception e) {
+        //
+        // }
         this.parameterService.setParameterForTesting(ProtocolDocument.class,
                 Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION, value);
-//        try {
-//            super.transactionalLifecycle.start();
-//        }
-//        catch (Exception e) {
-//
-//        }
+        // try {
+        // super.transactionalLifecycle.start();
+        // }
+        // catch (Exception e) {
+        //
+        // }
     }
 }

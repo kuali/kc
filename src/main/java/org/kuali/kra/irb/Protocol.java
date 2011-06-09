@@ -2108,4 +2108,52 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
             dstSpecialReview.resetPersistenceState();
         }
     }
+    
+    
+    
+   
+    /**
+     * This method encapsulates the logic to decide if a committee member appears in the list of protocol personnel. 
+     * It will first try to match by personIds and if personIds are not available then it will try matching by rolodexIds.
+     * @param member
+     * @return
+     */
+    public boolean isMemberInProtocolPersonnel(CommitteeMembership member) {
+        boolean retValue = false;
+        for(ProtocolPerson protocolPerson: this.protocolPersons) {
+            if( StringUtils.isNotBlank(member.getPersonId()) && StringUtils.isNotBlank(protocolPerson.getPersonId()) ) {
+                if(member.getPersonId().equals(protocolPerson.getPersonId())){
+                    retValue = true;
+                    break;
+                }
+            }
+            else if( StringUtils.isBlank(member.getPersonId()) && StringUtils.isBlank(protocolPerson.getPersonId()) ) {
+                // in this case check rolodex id
+                if( (null != member.getRolodexId()) && (null != protocolPerson.getRolodexId()) ) {
+                    if(member.getRolodexId().equals(protocolPerson.getRolodexId())) {
+                        retValue = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return retValue;
+    }
+
+    /**
+     * This method will filter out this protocol's personnel from the given list of committee memberships
+     * @param members
+     * @return the filtered list of members
+     */
+    public List<CommitteeMembership> filterOutProtocolPersonnel(List<CommitteeMembership> members) {
+        List<CommitteeMembership> filteredMemebers = new ArrayList<CommitteeMembership>();
+        for (CommitteeMembership member : members) {
+            if(!isMemberInProtocolPersonnel(member)) {
+                filteredMemebers.add(member);
+            }
+        }
+        
+        return filteredMemebers;
+    }
+    
 }
