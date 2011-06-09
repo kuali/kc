@@ -51,7 +51,7 @@ public class ProtocolAssignReviewersBean extends ProtocolActionBean implements S
     
     /**
      * Create the list of reviewers based upon the current committee
-     * and schedule.
+     * and schedule, and assigns their reviewer types if any have been saved in the past
      */
     public void prepareView() {
         ProtocolSubmission submission = getProtocol().getProtocolSubmission();
@@ -64,19 +64,9 @@ public class ProtocolAssignReviewersBean extends ProtocolActionBean implements S
                 currentScheduleId = scheduleId;
                 reviewers.clear();
                 if (!StringUtils.isBlank(committeeId) && !StringUtils.isBlank(scheduleId)) {
-                    List<CommitteeMembership> members = getCommitteeService().getAvailableMembers(committeeId, scheduleId);
+                    List<CommitteeMembership> members = getProtocol().filterOutProtocolPersonnel(getCommitteeService().getAvailableMembers(committeeId, scheduleId));
                     for (CommitteeMembership member : members) {
-                        ProtocolReviewerBean reviewer = new ProtocolReviewerBean();
-                        if (!StringUtils.isBlank(member.getPersonId())) {
-                            reviewer.setPersonId(member.getPersonId());
-                            reviewer.setNonEmployeeFlag(false);
-                        }
-                        else {
-                            reviewer.setPersonId(member.getRolodexId().toString());
-                            reviewer.setNonEmployeeFlag(true);
-                        }
-                        reviewer.setFullName(member.getPersonName());
-                        reviewers.add(reviewer);
+                        reviewers.add(new ProtocolReviewerBean(member));
                     }
                     
                     for (ProtocolOnlineReview review : submission.getProtocolOnlineReviews()) {

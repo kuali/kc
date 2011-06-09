@@ -28,42 +28,48 @@ import org.kuali.kra.irb.actions.ProtocolActionBean;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
- * This class is really just a "form" for submitting a protocol for review
- * in the Submit for Review Action.
+ * This class is really just a "form" for submitting a protocol for review in the Submit for Review Action.
  */
 @SuppressWarnings("unchecked")
-public class ProtocolSubmitAction extends ProtocolActionBean implements Serializable{
+public class ProtocolSubmitAction extends ProtocolActionBean implements Serializable {
 
     private static final long serialVersionUID = -4712974868607781787L;
-    
+
     private String submissionTypeCode = "";
     private String protocolReviewTypeCode = "";
     private String submissionQualifierTypeCode = "";
     private String committeeId = "";
     private String scheduleId = "";
+    private boolean committeeIdChanged = false;
+    private boolean reviewerListAvailable = false;
+    private int numberOfReviewers = 0;
     
+
     /*
-     * We use a TypedArrayList because we need it to grow.  When JavaScript is enabled,
-     * it will display the list of reviewers.  When the form is submitted, this list
-     * will automatically grow to accommodate all of the reviewers.
+     * We use a TypedArrayList because we need it to grow. When JavaScript is enabled, it will display the list of reviewers. When
+     * the form is submitted, this list will automatically grow to accommodate all of the reviewers.
      */
     private List<ProtocolReviewerBean> reviewers = new TypedArrayList(ProtocolReviewerBean.class);
     private List<ExpeditedReviewCheckListItem> expeditedReviewCheckList = null;
     private List<ExemptStudiesCheckListItem> exemptStudiesCheckList = null;
     private String newCommitteeId = "";
     private String newScheduleId = "";
-    
+
     private int checkListItemDescriptionIndex = 0;
     private String selectedProtocolReviewTypeCode = null;
-    
+
+    private boolean javascriptEnabled = true;
+
+
     /**
      * Constructs a ProtocolSubmitAction.
+     * 
      * @param actionHelper Reference back to the action helper for this bean
      */
     public ProtocolSubmitAction(ActionHelper actionHelper) {
         super(actionHelper);
     }
-    
+
     /**
      * Prepare the Submit for Review for rendering with JSP.
      */
@@ -73,54 +79,47 @@ public class ProtocolSubmitAction extends ProtocolActionBean implements Serializ
             exemptStudiesCheckList = getCheckListService().getExemptStudiesCheckList();
         }
         
+
         /*
-         * The Submit for Review has to work with and without JavaScript.
-         * When JavaScript is enabled, the newly selected committee and schedule
-         * are what we want to continue to display.  When JavaScript is disabled,
-         * we have to change the schedule dates that we display if the committee
-         * has changed.
+         * The Submit for Review has to work with and without JavaScript. When JavaScript is enabled, the newly selected committee
+         * and schedule are what we want to continue to display. When JavaScript is disabled, we have to change the schedule dates
+         * that we display if the committee has changed.
          */
-        if (getActionHelper().getProtocolForm().isJavaScriptEnabled()) {
-            committeeId = newCommitteeId;
-            scheduleId = newScheduleId;
-        } 
-        else {
-            if (!StringUtils.equals(committeeId, newCommitteeId)) {
-                committeeId = newCommitteeId;
-                scheduleId = "";
-                buildReviewers();
-            }
-            else if (!StringUtils.equals(scheduleId, newScheduleId)) {
-                scheduleId = newScheduleId;
-                buildReviewers();
+        if (!this.getJavascriptEnabled()) {
+            reviewers.clear();
+            this.reviewerListAvailable = false;
+            if ((!StringUtils.isBlank(this.committeeId)) && (!this.committeeIdChanged)) {
+                if (!StringUtils.isBlank(this.scheduleId)) {
+                    buildReviewers();
+                }
             }
         }
+        else {
+            // use the numberOfReviewers property (sent in as a hidden input field) to truncate the reviewers collection if needed
+            this.reviewers.subList(this.numberOfReviewers, this.reviewers.size()).clear();            
+        }
     }
-    
+
+
     /**
-     * Create the list of reviewers based upon the currently selected committee
-     * and schedule.
+     * Create the list of reviewers based upon the currently selected committee and schedule.
      */
     private void buildReviewers() {
-        reviewers.clear();
-        if (!StringUtils.isBlank(scheduleId)) {
-            List<CommitteeMembership> members = getCommitteeService().getAvailableMembers(committeeId, scheduleId);
-            for (CommitteeMembership member : members) {
-                ProtocolReviewerBean reviewer = new ProtocolReviewerBean();
-                if (!StringUtils.isBlank(member.getPersonId())) {
-                    reviewer.setPersonId(member.getPersonId());
-                    reviewer.setNonEmployeeFlag(false);
-                }
-                else {
-                    reviewer.setPersonId(member.getRolodexId().toString());
-                    reviewer.setNonEmployeeFlag(true);
-                }
-                reviewer.setFullName(member.getPersonName());
-                reviewers.add(reviewer);
-            }
+        this.reviewerListAvailable = true;
+        List<CommitteeMembership> members = getProtocol().filterOutProtocolPersonnel(
+                getCommitteeService().getAvailableMembers(this.committeeId, this.scheduleId));
+        for (CommitteeMembership member : members) {
+            ProtocolReviewerBean reviewer = new ProtocolReviewerBean(member);
+            reviewers.add(reviewer);
         }
     }
     
+
+    public void setNumberOfReviewers(int numberOfReviewers) {
+        this.numberOfReviewers = numberOfReviewers;
+    }
+
+
     private CommitteeService getCommitteeService() {
         return KraServiceLocator.getService(CommitteeService.class);
     }
@@ -132,7 +131,7 @@ public class ProtocolSubmitAction extends ProtocolActionBean implements Serializ
     public void setSubmissionTypeCode(String submissionTypeCode) {
         this.submissionTypeCode = submissionTypeCode;
     }
-    
+
     public String getProtocolReviewTypeCode() {
         return protocolReviewTypeCode;
     }
@@ -140,7 +139,7 @@ public class ProtocolSubmitAction extends ProtocolActionBean implements Serializ
     public void setProtocolReviewTypeCode(String protocolReviewTypeCode) {
         this.protocolReviewTypeCode = protocolReviewTypeCode;
     }
-    
+
     public String getSubmissionQualifierTypeCode() {
         return submissionQualifierTypeCode;
     }
@@ -148,42 +147,63 @@ public class ProtocolSubmitAction extends ProtocolActionBean implements Serializ
     public void setSubmissionQualifierTypeCode(String submissionQualifierTypeCode) {
         this.submissionQualifierTypeCode = submissionQualifierTypeCode;
     }
-    
+
     public String getCommitteeId() {
         return committeeId;
     }
-    
+
     public void setCommitteeId(String committeeId) {
+        this.committeeIdChanged = true;
+        if (StringUtils.equals(this.committeeId, committeeId)) {
+            this.committeeIdChanged = false;
+        }
+        this.committeeId = committeeId;
+
+        // TODO: to be removed eventually
         this.newCommitteeId = committeeId;
     }
-    
+
+    // TODO: to be removed eventually deleted
+    public void setNewCommitteeId(String id) {
+        this.newCommitteeId = id;
+    }
+
+    // TODO: to be removed eventually with references renamed to getCommitteeId()
     public String getNewCommitteeId() {
         return newCommitteeId;
     }
-    
+
     public String getScheduleId() {
         return scheduleId;
     }
-    
+
     public void setScheduleId(String scheduleId) {
+        this.scheduleId = scheduleId;
+
+        // TODO: to be removed eventually
         this.newScheduleId = scheduleId;
     }
-    
+
+    // TODO: to be removed eventually with references renamed to getScheduleId()
     public String getNewScheduleId() {
         return newScheduleId;
     }
-    
+
+    public boolean isReviewerListAvailable() {
+        return reviewerListAvailable;
+    }
+
     public List<ProtocolReviewerBean> getReviewers() {
         return reviewers;
     }
-    
+
     public ProtocolReviewerBean getReviewer(int i) {
         return reviewers.get(i);
     }
-    
+
     /**
-     * We display the reviewers in two columns.  These are the
-     * reviewers in the left column.
+     * We display the reviewers in two columns. These are the reviewers in the left column.
+     * 
      * @return
      */
     public List<ProtocolReviewerBean> getLeftReviewers() {
@@ -193,10 +213,10 @@ public class ProtocolSubmitAction extends ProtocolActionBean implements Serializ
         }
         return leftReviewers;
     }
-    
+
     /**
-     * We display the reviewers in two columns.  These are the
-     * reviewers in the right column.
+     * We display the reviewers in two columns. These are the reviewers in the right column.
+     * 
      * @return
      */
     public List<ProtocolReviewerBean> getRightReviewers() {
@@ -206,42 +226,42 @@ public class ProtocolSubmitAction extends ProtocolActionBean implements Serializ
         }
         return rightReviewers;
     }
-    
-    public void setReviewers(List<ProtocolReviewerBean> reviewerBeans){
+
+    public void setReviewers(List<ProtocolReviewerBean> reviewerBeans) {
         this.reviewers = reviewerBeans;
     }
-    
+
     public void setExpeditedReviewCheckList(List<ExpeditedReviewCheckListItem> checkList) {
         this.expeditedReviewCheckList = checkList;
     }
-    
+
     public List<ExpeditedReviewCheckListItem> getExpeditedReviewCheckList() {
         return expeditedReviewCheckList;
     }
-    
+
     public void setExemptStudiesCheckList(List<ExemptStudiesCheckListItem> checkList) {
         this.exemptStudiesCheckList = checkList;
     }
-    
+
     public List<ExemptStudiesCheckListItem> getExemptStudiesCheckList() {
         return exemptStudiesCheckList;
     }
-    
+
     /**
-     * When a user wants to display the entire description of check list item,
-     * the currently selected protocol review type and the index of the check list
-     * item are stored here for later rendering.
+     * When a user wants to display the entire description of check list item, the currently selected protocol review type and the
+     * index of the check list item are stored here for later rendering.
+     * 
      * @param protocolReviewTypeCode
      * @param index
      */
     public void setCheckListItemDescriptionInfo(String protocolReviewTypeCode, int index) {
         this.selectedProtocolReviewTypeCode = protocolReviewTypeCode;
-        checkListItemDescriptionIndex = index;   
+        checkListItemDescriptionIndex = index;
     }
-    
+
     /**
-     * Get the description of the check list item that 
-     * was specified in setCheckListItemDescriptionInfo().
+     * Get the description of the check list item that was specified in setCheckListItemDescriptionInfo().
+     * 
      * @return
      */
     public String getCheckListItemDescription() {
@@ -253,8 +273,18 @@ public class ProtocolSubmitAction extends ProtocolActionBean implements Serializ
         }
         return "";
     }
-    
+
     private CheckListService getCheckListService() {
         return KraServiceLocator.getService(CheckListService.class);
     }
+
+    public boolean getJavascriptEnabled() {
+        return javascriptEnabled;
+    }
+
+    public void setJavascriptEnabled(boolean javascriptEnabled) {
+        this.javascriptEnabled = javascriptEnabled;
+    }
+
+
 }

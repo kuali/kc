@@ -16,11 +16,14 @@
 package org.kuali.kra.irb.actions.submit;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
+import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.core.util.KeyLabelPair;
 
@@ -28,23 +31,25 @@ public class ProtocolActionAjaxServiceImpl implements ProtocolActionAjaxService 
 
     private CommitteeService committeeService;
     private BusinessObjectService businessObjectService;
-    
+
     /**
      * Inject the Committee Service.
+     * 
      * @param committeeService the Committee Service
      */
     public void setCommitteeService(CommitteeService committeeService) {
         this.committeeService = committeeService;
     }
-    
+
     /**
      * Inject the Business Object Service.
+     * 
      * @param businessObjectService the Business Object Service
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
+
     /**
      * @see org.kuali.kra.irb.actions.submit.ProtocolActionAjaxService#getValidCommitteeDates(java.lang.String)
      */
@@ -60,20 +65,26 @@ public class ProtocolActionAjaxServiceImpl implements ProtocolActionAjaxService 
     /**
      * @see org.kuali.kra.irb.actions.submit.ProtocolActionAjaxService#getReviewers(java.lang.String, java.lang.String)
      */
-    public String getReviewers(String committeeId, String scheduleId) {
+    public String getReviewers(String protocolId, String committeeId, String scheduleId) {
         StringBuffer ajaxList = new StringBuffer();
-        List<CommitteeMembership> members = committeeService.getAvailableMembers(committeeId, scheduleId);
-        for (CommitteeMembership member : members) {
-            if (StringUtils.isNotBlank(member.getPersonId())) {
-                ajaxList.append(member.getPersonId() + ";" + member.getPersonName() + ";N;");
+        HashMap<String, String> hm = new HashMap<String, String>();
+        hm.put("protocolId", protocolId);
+        Protocol protocol = (Protocol) (this.businessObjectService.findMatching(Protocol.class, hm).toArray())[0];
+        // filter out the protocol personnel; they cannot be reviewers on their own protocol
+        List<CommitteeMembership> filteredMembers = protocol.filterOutProtocolPersonnel(committeeService.getAvailableMembers(committeeId, scheduleId));
+
+        for (CommitteeMembership filteredMember : filteredMembers) {
+            if (StringUtils.isNotBlank(filteredMember.getPersonId())) {
+                ajaxList.append(filteredMember.getPersonId() + ";" + filteredMember.getPersonName() + ";N;");
             }
             else {
-                ajaxList.append(member.getRolodexId() + ";" + member.getPersonName() + ";Y;");
+                ajaxList.append(filteredMember.getRolodexId() + ";" + filteredMember.getPersonName() + ";Y;");
             }
         }
         return clipLastChar(ajaxList);
     }
-    
+
+
     /**
      * @see org.kuali.kra.irb.actions.submit.ProtocolActionAjaxService#getReviewerTypes()
      */
@@ -88,16 +99,18 @@ public class ProtocolActionAjaxServiceImpl implements ProtocolActionAjaxService 
 
     /**
      * Get the Reviewer Types from the database.
+     * 
      * @return
      */
     @SuppressWarnings("unchecked")
     protected Collection<ProtocolReviewerType> getReviewerTypesFromDatabase() {
         return businessObjectService.findAll(ProtocolReviewerType.class);
     }
-    
+
     /**
-     * Clip the last character from the string buffer.  The last character,
-     * if there is one, is always a separator that must be removed.
+     * Clip the last character from the string buffer. The last character, if there is one, is always a separator that must be
+     * removed.
+     * 
      * @param ajaxList
      * @return
      */

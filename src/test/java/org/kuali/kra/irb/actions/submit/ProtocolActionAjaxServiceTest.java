@@ -18,7 +18,9 @@ package org.kuali.kra.irb.actions.submit;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 import org.jmock.Expectations;
@@ -30,6 +32,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
+import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.personnel.ProtocolPerson;
+import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.core.util.KeyLabelPair;
 
@@ -66,25 +71,102 @@ public class ProtocolActionAjaxServiceTest {
         assertEquals("0;dog;1;cat", s);
     }
     
+    
+    
     /*
-     * Verify that the returned string is formatted correctly.
+     * Verify that the protocol personnel are filtered out and the returned string is formatted correctly.
      */
     @Test
     public void testReviewers() {
         final List<CommitteeMembership> members = new ArrayList<CommitteeMembership>();
-        members.add(createMember("1", "Don"));
-        members.add(createMember("2", "Nancy"));
+        members.add(createMember("dn", "Don", null));
+        members.add(createMember("nncy", "Nancy", 1));
+        members.add(createMember(null, "Joe", 2));
+        members.add(createMember(null, "Joanna", 5));
+        
+        final HashMap<String, String> hm1 = new HashMap<String, String>();
+        hm1.put("protocolId", "p1");
+        
+        final HashMap<String, String> hm2 = new HashMap<String, String>();
+        hm2.put("protocolId", "p2");
+        
+        Protocol protocol1 = new Protocol() {
+
+            private static final long serialVersionUID = -1273061983131550371L;
+            
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {
+                //do nothing
+            }
+        };
+        
+        final List<Protocol> l1 = Arrays.asList(protocol1);
+       
+        
+        Protocol protocol2 = new Protocol() {
+
+            private static final long serialVersionUID = -1273061983131550372L;
+            
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {
+                //do nothing
+            }
+        };
+        
+        final List<Protocol> l2 = Arrays.asList(protocol2);
+        
+        
+        ProtocolPerson pp1 = createProtocolPerson("dn", 10);
+        ProtocolPerson pp2 = createProtocolPerson("nncy", null);
+        ProtocolPerson pp3 = createProtocolPerson(null, 1);
+        ProtocolPerson pp4 = createProtocolPerson("", 2);
+        ProtocolPerson pp5 = createProtocolPerson(null, 5);
+        
+        
+        protocol1.getProtocolPersons().add(pp1);
+        protocol1.getProtocolPersons().add(pp2);
+        
+        
+        protocol2.getProtocolPersons().add(pp3);
+        protocol2.getProtocolPersons().add(pp4);
+        protocol2.getProtocolPersons().add(pp5);
+       
         
         final CommitteeService committeeService = context.mock(CommitteeService.class);
         context.checking(new Expectations() {{
-            one(committeeService).getAvailableMembers("foo", "0"); will(returnValue(members));
+            allowing(committeeService).getAvailableMembers("foo", "0"); will(returnValue(members));
         }});
-        protocolActionAjaxService.setCommitteeService(committeeService);
         
-        String s = protocolActionAjaxService.getReviewers("foo", "0");
-        assertEquals("1;Don;N;2;Nancy;N", s);
+        final BusinessObjectService businessObjectService1 = context.mock(BusinessObjectService.class, "name1");
+        context.checking(new Expectations() {{
+            one(businessObjectService1).findMatching(Protocol.class, hm1); will(returnValue(l1));
+        }});
+        
+        final BusinessObjectService businessObjectService2 = context.mock(BusinessObjectService.class, "name2");
+        context.checking(new Expectations() {{
+            allowing(businessObjectService2).findMatching(Protocol.class, hm2); will(returnValue(l2));
+        }});
+        
+        protocolActionAjaxService.setCommitteeService(committeeService);
+        protocolActionAjaxService.setBusinessObjectService(businessObjectService1);
+        
+        String s = protocolActionAjaxService.getReviewers("p1", "foo", "0");
+        assertEquals("2;Joe;Y;5;Joanna;Y", s);
+        
+        protocolActionAjaxService.setBusinessObjectService(businessObjectService2);
+        
+        s = protocolActionAjaxService.getReviewers("p2", "foo", "0");
+        assertEquals("dn;Don;N;nncy;Nancy;N", s);
+        
+        // empty out the protocol personnel
+        protocol2.getProtocolPersons().clear();
+        s = protocolActionAjaxService.getReviewers("p2", "foo", "0");
+        assertEquals("dn;Don;N;nncy;Nancy;N;2;Joe;Y;5;Joanna;Y", s);
+        
     }
     
+   
+
     /*
      * Verify that the returned string is formatted correctly.
      */
@@ -112,10 +194,19 @@ public class ProtocolActionAjaxServiceTest {
         return reviewerType;
     }
 
-    private CommitteeMembership createMember(String personId, String personName) {
+    private CommitteeMembership createMember(String personId, String personName, Integer rolodexId) {
         CommitteeMembership member = new CommitteeMembership();
         member.setPersonId(personId);
         member.setPersonName(personName);
+        member.setRolodexId(rolodexId);
         return member;
     }
+    
+    private ProtocolPerson createProtocolPerson(String personId, Integer rolodexId) {
+        ProtocolPerson pp = new ProtocolPerson();
+        pp.setPersonId(personId);
+        pp.setRolodexId(rolodexId);
+        return pp;
+    }
+    
 }
