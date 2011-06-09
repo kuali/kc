@@ -5,7 +5,7 @@ main_dir=`basename $main_dir`
 release_version="${main_dir%-*}"
 base_version="${release_version#KC-*}"
 
-app_names='KC KR'
+app_names='KC KR KRC'
 db_types='ORACLE MYSQL'
 sql_dirs='SEQUENCES TABLES DML CONSTRAINTS VIEWS'
 

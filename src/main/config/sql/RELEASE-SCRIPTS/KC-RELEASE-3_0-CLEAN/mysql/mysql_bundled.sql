@@ -4,6 +4,8 @@ select "Running krrelease/datasql/KREN_CHNL_T.sql...";
 \. krrelease/datasql/KREN_CHNL_T.sql
 select "Running krrelease/datasql/KREN_CNTNT_TYP_T.sql..."; 
 \. krrelease/datasql/KREN_CNTNT_TYP_T.sql
+select "Running krrelease/datasql/KREN_PRODCR_T.sql...";
+\. krrelease/datasql/KREN_PRODCR_T.sql
 select "Running krrelease/datasql/KREN_PRIO_T.sql..."; 
 \. krrelease/datasql/KREN_PRIO_T.sql
 select "Running krrelease/datasql/KREW_DOC_TYP_ATTR_T.sql..."; 
@@ -128,6 +130,7 @@ select "Running krrelease/datasql/KR_COUNTRY_T.sql...";
 \. krrelease/datasql/KR_COUNTRY_T.sql
 select "Running krrelease/datasql/KR_STATE_T.sql..."; 
 \. krrelease/datasql/KR_STATE_T.sql
+\. mysql_server.sql
 select "Running kcrelease/datasql/ABSTRACT_TYPE.sql..."; 
 \. kcrelease/datasql/ABSTRACT_TYPE.sql
 select "Running kcrelease/datasql/ACCOUNT_TYPE.sql..."; 

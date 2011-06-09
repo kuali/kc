@@ -1,5 +1,6 @@
 set sqlblanklines on
 set define off
+spool KC-Release-3_0-Clean-Client-Oracle-Install.log
 @kcrelease/sql/schema.sql
 @kcrelease/datasql/ABSTRACT_TYPE.sql
 @kcrelease/datasql/ACCOUNT_TYPE.sql
