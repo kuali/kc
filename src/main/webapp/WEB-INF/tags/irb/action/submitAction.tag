@@ -21,6 +21,16 @@
 <c:set var="reviewerAttributes" value="${DataDictionary.ProtocolReviewerBean.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
 
+
+
+<noscript>
+${kfunc:registerEditableProperty(KualiForm, "actionHelper.protocolSubmitAction.javascriptEnabled")}
+<html:hidden styleId="javaScriptIndicator" property="actionHelper.protocolSubmitAction.javascriptEnabled" value="DISABLED"></html:hidden>
+</noscript>
+
+${kfunc:registerEditableProperty(KualiForm, "actionHelper.protocolSubmitAction.numberOfReviewers")}
+<html:hidden styleId="numberOfReviewers" property="actionHelper.protocolSubmitAction.numberOfReviewers" value="0"></html:hidden>
+
 <jsp:useBean id="paramMap" class="java.util.HashMap"/>
 
 <kra:permission value="${KualiForm.actionHelper.canSubmitProtocol}">
@@ -133,7 +143,7 @@
 		                            <c:when test="${KualiForm.actionHelper.showCommittee}">
 				                        <kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.scheduleId" 
 				                                                  attributeEntry="${attributes.scheduleId}"
-				                                                  onchange="displayReviewers()" />
+				                                                   onchange="displayReviewers(${KualiForm.document.protocol.protocolId})" />
 				                    </c:when>
 				                    <c:otherwise>
 				                        <kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.scheduleId" 

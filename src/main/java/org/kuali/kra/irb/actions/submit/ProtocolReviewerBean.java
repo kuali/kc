@@ -48,6 +48,7 @@ public class ProtocolReviewerBean extends BusinessObjectBase {
             this.setPersonId(member.getRolodexId().toString());
             this.setNonEmployeeFlag(true);
         }
+        this.setFullName(member.getPersonName());
     }
     
     public String getPersonId() {

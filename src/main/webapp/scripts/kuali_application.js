@@ -2224,9 +2224,11 @@ function protocolFundingSourcePop(name, docFormKey, sessionDocument, line, curre
  * Based upon the selected committee and scheduled date, display the list
  * reviewers.
  */
-function displayReviewers() {
+function displayReviewers(protocolId) {
+	
     var committeeId = DWRUtil.getValue('actionHelper.protocolSubmitAction.committeeId');
     var scheduleId = DWRUtil.getValue('actionHelper.protocolSubmitAction.scheduleId');
+    
     if (scheduleId == "select") {
     	document.getElementById("reviewers").style.display = 'none';
     }
@@ -2241,7 +2243,7 @@ function displayReviewers() {
 				window.status = errorMessage;
 			}
 		};
-		ProtocolActionAjaxService.getReviewers(committeeId, scheduleId, dwrReplyReviewers);
+		ProtocolActionAjaxService.getReviewers(protocolId, committeeId, scheduleId, dwrReplyReviewers);
 	}
 }
 
@@ -2277,6 +2279,8 @@ function updateReviewerHtml(reviewerData, reviewerTypesData) {
 	var reviewersTableRight = document.getElementById("reviewersTableRight");
 	setReviewers(reviewersArr, 0, 3*numRows, reviewerTypes, reviewersTableLeft);
 	setReviewers(reviewersArr, 3*numRows, 3*numReviewers, reviewerTypes, reviewersTableRight);
+	//finally set the number of reviewers for proper trucation
+	document.getElementById("numberOfReviewers").value = numReviewers;
 }
 
 /*
