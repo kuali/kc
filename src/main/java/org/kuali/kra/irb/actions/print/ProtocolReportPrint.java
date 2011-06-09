@@ -20,7 +20,6 @@ import java.util.List;
 
 import javax.xml.transform.Source;
 
-import org.kuali.kra.printing.WaterMarkable;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.util.watermark.Watermarkable;
@@ -29,41 +28,42 @@ import org.kuali.kra.util.watermark.Watermarkable;
  * 
  * This class is the abstract class for Protocol report printables
  */
-public abstract class ProtocolReportPrint extends AbstractPrint{
+public abstract class ProtocolReportPrint extends AbstractPrint {
 
     private static final long serialVersionUID = 2778568731674597840L;
 
     /**
      * 
      * This method is get the print type of the printable.
+     * 
      * @return
      */
     public abstract String getProtocolPrintType();
-    
+
     /**
-     * This method fetches the XSL style-sheets required for transforming the
-     * generated XML into PDF.
+     * This method fetches the XSL style-sheets required for transforming the generated XML into PDF.
      * 
-     * @return {@link ArrayList}} of {@link Source} XSLs
+     * @return {@link ArrayList} of {@link Source} XSLs
      */
     public List<Source> getXSLTemplates() {
-        ArrayList<Source> sourceList = PrintingUtils
-                .getXSLTforReport(getProtocolPrintType());
+        ArrayList<Source> sourceList = PrintingUtils.getXSLTforReport(getProtocolPrintType());
         return sourceList;
     }
+
     /**
-     * This method is to enable watermark.
-     *  Overriding AbstractPrint method isWatermarkEnabled()
-     *  @return boolean
+     * This method is to enable watermark. Overriding AbstractPrint method isWatermarkEnabled()
+     * 
+     * @return boolean
      */
     @Override
-    public boolean isWatermarkEnabled() {       
-        return true;         
+    public boolean isWatermarkEnabled() {
+        return true;
     }
+
     /**
-     * This method for getting watermark for protocol report printing.
-     *  Overriding AbstractPrint method getWatermarkable
-     *  @return prtocolPrintWatermark
+     * This method for getting watermark for protocol report printing. Overriding AbstractPrint method getWatermarkable
+     * 
+     * @return prtocolPrintWatermark
      */
     @Override
     public Watermarkable getWatermarkable() {
@@ -71,5 +71,4 @@ public abstract class ProtocolReportPrint extends AbstractPrint{
         prtocolPrintWatermark.setPersistableBusinessObject(getPrintableBusinessObject());
         return prtocolPrintWatermark;
     }
-
 }

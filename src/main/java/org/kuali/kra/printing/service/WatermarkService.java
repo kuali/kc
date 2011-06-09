@@ -20,13 +20,21 @@ import org.kuali.kra.util.watermark.WatermarkBean;
 
 /**
  * 
- * This method invokes the KC watermarkBean for reports,
- * docs. In this method the input pdfBytes are merged with 
- * watermark and returns the resultant pdf.
+ * This method invokes the KC watermarkBean for reports, docs. In this method the input pdfBytes are merged with watermark and
+ * returns the resultant pdf.
  * 
  */
 
 public interface WatermarkService {
-    public byte[] applyWatermark(byte[] pdfBytes,WatermarkBean  watermarkBean) throws Exception;
-    
+    /**
+     * 
+     * This method for applying watermark to the pdf.In this method the input pdfBytes are merged with watermark content and returns
+     * the resultant pdf.
+     * @param pdfBytes
+     * @param watermarkBean
+     * @return pdfFileData
+     * @throws Exception
+     */
+    byte[] applyWatermark(byte[] pdfBytes, WatermarkBean watermarkBean) throws Exception;
+
 }
