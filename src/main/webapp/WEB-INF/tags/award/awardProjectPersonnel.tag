@@ -15,11 +15,11 @@
 --%>
 <%-- member of AwardContacts.jsp --%>
 <script src="scripts/jquery/jquery.js"></script>
-<script type='text/javascript' src='/kc-dev/dwr/interface/KraPersonService.js'></script>
-<script type='text/javascript 'src='/kc-dev/dwr/interface/PersonService.js'></script>
-<script type='text/javascript' src='/kc-dev/dwr/interface/RolodexService.js'></script>
-<script type='text/javascript' src='/kc-dev/dwr/engine.js'></script>
-<script type='text/javascript' src='/kc-dev/dwr/util.js'></script>
+<script type='text/javascript' src='dwr/interface/KraPersonService.js'></script>
+<script type='text/javascript 'src='dwr/interface/PersonService.js'></script>
+<script type='text/javascript' src='dwr/interface/RolodexService.js'></script>
+<script type='text/javascript' src='dwr/engine.js'></script>
+<script type='text/javascript' src='dwr/util.js'></script>
 <script>
  $jq = jQuery.noConflict();
 </script>
