@@ -59,13 +59,12 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
     private String idProvided;
     private String idVerified;
     private String county;
-    private int citizenshipTypeCode;
+    private Integer citizenshipTypeCode;
     
     private String biosketchDescription;
     private String fileName;
     private String contentType;
     private byte[] attachmentContent;
-    private transient FormFile templateFile;
     
     private List<PersonDegree> personDegrees = new TypedArrayList(PersonDegree.class);
     private List<PersonAppointment> personAppointments = new TypedArrayList(PersonAppointment.class);
@@ -564,11 +563,11 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
     }
 
     public FormFile getTemplateFile() {
-        return templateFile;
+        return super.getAttachmentFile(); 
     }
 
     public void setTemplateFile(FormFile templateFile) {
-        this.templateFile = templateFile;
+        super.setAttachmentFile(templateFile);
     }
 
     public String getBiosketchDescription() {
@@ -579,11 +578,11 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
         this.biosketchDescription = biosketchDescription;
     }
     
-    public int getCitizenshipTypeCode() {
+    public Integer getCitizenshipTypeCode() { 
         return citizenshipTypeCode;
     }
 
-    public void setCitizenshipTypeCode(int citizenshipTypeCode) {
+    public void setCitizenshipTypeCode(Integer citizenshipTypeCode) {
         this.citizenshipTypeCode = citizenshipTypeCode;
     }
 
