@@ -35,6 +35,8 @@ import java.util.Map;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.bo.Sponsor;
+import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -77,6 +79,9 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 	private static final String ATTACHMENT_TYPE_BUDGET_DETAILS = "3";
 	private static final String ATTACHMENT_TYPE_STATEMENT_OF_COMMITMENT_DOC = "4";
 	protected static final int MAX_KEY_PERSON_COUNT = 8;
+    private static final String HIERARCHY_ADMINISTERING_ACTIVIUTY = "Administering Activity";
+    private static final String HIERARCHY_NAME = null;
+    private static final String SPONSOR_CODE = null;
 
 	List<ProposalPerson> extraPersons = new ArrayList<ProposalPerson>();
 
@@ -213,22 +218,19 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 	 */
 	private FederalAgencyDataType.Enum getFederalAgencyDataType(
 			String sponsorCode) {
-		FederalAgencyDataType.Enum federalAgencyDataType = null;
-		// Map<String, String> criteriaMap = new HashMap<String, String>();
-		// criteriaMap.put(HIERARCHY_NAME, HIERARCHY_ADMINISTERING_ACTIVIUTY);
-		// criteriaMap.put(SPONSOR_CODE, sponsorCode);
-		// List<SponsorHierarchy> sponsorHierarchyList = new
-		// ArrayList<SponsorHierarchy>(businessObjectService.findMatching(
-		// SponsorHierarchy.class, criteriaMap));
-		// if (sponsorHierarchyList.size() > 0) {
-		// federalAgencyDataType=FederalAgencyDataType.Enum.forString(sponsorHierarchyList.get(0).getLevel1());
-		// enum FederalAgencyDataType
-		// }
+//		FederalAgencyDataType.Enum federalAgencyDataType = null;
+//		Map<String, String> criteriaMap = new HashMap<String, String>();
+//		criteriaMap.put(HIERARCHY_NAME, HIERARCHY_ADMINISTERING_ACTIVIUTY);
+//		criteriaMap.put(SPONSOR_CODE, sponsorCode);
+//		List<SponsorHierarchy> sponsorHierarchyList = new
+//		ArrayList<SponsorHierarchy>(businessObjectService.findMatching(SponsorHierarchy.class, criteriaMap));
+//		if (sponsorHierarchyList.size() > 0) {
+//    		federalAgencyDataType=FederalAgencyDataType.Enum.forString(sponsorHierarchyList.get(0).getLevel1());
+//		}
 
 		// FIXME above line commented and value is hardcoded because values in
 		// column sponsor_Hierachy.LEVEL1 don't match with
-		federalAgencyDataType = FederalAgencyDataType.X_101_AGENCY_FOR_INTERNATIONAL_DEVELOPMENT;
-		return federalAgencyDataType;
+		return null;
 	}
 
 	/**
@@ -264,20 +266,12 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 				Rolodex rolodex = (Rolodex) businessObjectService
 						.findByPrimaryKey(Rolodex.class, conditionMap);
 				if (rolodex != null) {
-					if (rolodex.getSponsorCode() != null
-							&& rolodex.getSponsorCode().equals(
-									pdDoc.getDevelopmentProposal()
-											.getSponsorCode())) {
-						if (rolodex.getSponsor() != null
-								&& rolodex.getSponsor().getSponsorTypeCode() != null
-								&& Integer.parseInt(rolodex.getSponsor()
-										.getSponsorTypeCode()) == Integer
-										.parseInt(pdDoc
-												.getDevelopmentProposal()
-												.getSponsor()
-												.getSponsorTypeCode())) {
-							sponsortType = Integer.parseInt(rolodex
-									.getSponsor().getSponsorTypeCode());
+						Sponsor rolodexSponsor = rolodex.getSponsor();
+                        Sponsor proposalSponsor = pdDoc.getDevelopmentProposal().getSponsor();
+                        if (rolodexSponsor != null&& rolodexSponsor.getSponsorTypeCode() != null
+								    && rolodexSponsor.getSponsorTypeCode().equals(
+								            proposalSponsor.getSponsorTypeCode())) {
+							sponsortType = Integer.parseInt(rolodexSponsor.getSponsorTypeCode());
 							sponsorCode = rolodex.getSponsorCode();
 							if (sponsortType == 0) {
 								seniorKeyPerson
@@ -287,7 +281,6 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 										.setInternationalParticipation(YesNoDataType.Y_YES);
 							}
 						}
-					}
 					// if no sponsor in rolodex is found, then use person's
 					// country
 					if (sponsortType == -1
@@ -315,7 +308,7 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
                 && proposalPerson.getProjectRole().equalsIgnoreCase(COLLABORATOR)) {
             seniorKeyPerson.setNASACoItype(CoItypeDataType.COLLABORATOR);
         }		
-		if (sponsorCode != null) {
+		if (sponsorCode != null && sponsortType==0) {
 			FederalAgencyDataType.Enum federalAgency = getFederalAgencyDataType(sponsorCode);
 			if (federalAgency != null) {
 				seniorKeyPerson.setFederalAgency(federalAgency);
