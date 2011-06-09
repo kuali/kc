@@ -64,7 +64,7 @@
           <property name="headerTabDisplayName" value="Distribution &amp; Income"/>
           <property name="headerTabNavigateTo" value="distributionAndIncome"/>
         </bean>
-        <bean parent="HeaderNavigation">
+        <!--<bean parent="HeaderNavigation">
           <property name="helpDefinition">
             <bean parent="HelpDefinition" p:parameterNamespace="KC-B" p:parameterName="budgetModularBudgetHelp" p:parameterDetailType="Document"/>
           </property>
@@ -72,7 +72,7 @@
           <property name="headerTabNavigateTo" value="modularBudget"/>
         </bean>
         
-        <bean parent="HeaderNavigation">
+        --><bean parent="HeaderNavigation">
           <property name="helpDefinition">
             <bean parent="HelpDefinition" p:parameterNamespace="KC-B" p:parameterName="budgetBudgetHierarchyHelp" p:parameterDetailType="Document"/>
           </property>
