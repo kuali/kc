@@ -1,8 +1,9 @@
 #!/bin/sh
 
 main_dir=`pwd`
-main_dir=`basename $main_dir`
-demo_version="${main_dir%-*}"
+parent_dir_base=`dirname $main_dir`
+main_dir_base=`basename $parent_dir_base`
+demo_version="${main_dir_base%-*}"
 base_version="${demo_version#KC-*}"
 
 app_names='KR KRC KC'

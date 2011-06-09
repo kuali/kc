@@ -132,6 +132,7 @@ move *.log ../LOGS
 cd ..
 
 cd KC-RELEASE-3_1_SP2-SCRIPT
+sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KRC-RELEASE-3_1_SP2-Upgrade-ORACLE.sql
 sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-RELEASE-3_1_SP2-Upgrade-ORACLE.sql
 
 if /i "%mode%%InstRice%" == "EMBEDY" goto 3.1.SP2ORACLERICE
@@ -194,6 +195,7 @@ move *.log ../LOGS
 cd ..
 
 cd KC-RELEASE-3_1_SP2-SCRIPT
+mysql -u %un% -p%pw% -D %un% -s -f < KRC-RELEASE-3_1_SP2-Upgrade-MYSQL.sql > KRC-RELEASE-3_1_SP2-Upgrade-MYSQL-Install.log 2>&1
 mysql -u %un% -p%pw% -D %un% -s -f < KC-RELEASE-3_1_SP2-Upgrade-MYSQL.sql > KC-RELEASE-3_1_SP2-Upgrade-MYSQL-Install.log 2>&1
 
 if /i "%mode%%InstRice%" == "EMBEDY" goto 3.1.SP2MYSQLRICE

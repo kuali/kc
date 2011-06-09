@@ -1,9 +1,11 @@
 set sqlblanklines on
 set define off
+spool KC-Release-3_0-Clean-Bundled-Install.log
 @krrelease/sql/schema.sql
 @kcrelease/sql/schema.sql
 @krrelease/datasql/KREN_CHNL_T.sql
 @krrelease/datasql/KREN_CNTNT_TYP_T.sql
+@krrelease/datasql/KREN_PRODCR_T.sql
 @krrelease/datasql/KREN_PRIO_T.sql
 @krrelease/datasql/KREW_DOC_TYP_ATTR_T.sql
 @krrelease/datasql/KREW_DOC_TYP_PLCY_RELN_T.sql
@@ -66,6 +68,7 @@ set define off
 @krrelease/datasql/KRSB_SVC_DEF_T.sql
 @krrelease/datasql/KR_COUNTRY_T.sql
 @krrelease/datasql/KR_STATE_T.sql
+@oracle_server.sql
 @kcrelease/datasql/ABSTRACT_TYPE.sql
 @kcrelease/datasql/ACCOUNT_TYPE.sql
 @kcrelease/datasql/ACTIVITY_TYPE.sql

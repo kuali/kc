@@ -1,0 +1,1 @@
+delete from KRIM_ROLE_MBR_ATTR_DATA_T where ROLE_MBR_ID = (select ROLE_MBR_ID from KRIM_ROLE_MBR_T where MBR_ID = (select PRNCPL_ID from KRIM_PRNCPL_T  where PRNCPL_NM = 'cate') and ROLE_ID = (select ROLE_ID from KRIM_ROLE_T where ROLE_NM = 'IRB Administrator' and NMSPC_CD = 'KC-UNT'));
