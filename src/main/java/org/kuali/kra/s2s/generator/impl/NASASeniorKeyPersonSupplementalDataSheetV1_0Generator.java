@@ -79,9 +79,7 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 	private static final String ATTACHMENT_TYPE_BUDGET_DETAILS = "3";
 	private static final String ATTACHMENT_TYPE_STATEMENT_OF_COMMITMENT_DOC = "4";
 	protected static final int MAX_KEY_PERSON_COUNT = 8;
-    private static final String HIERARCHY_ADMINISTERING_ACTIVIUTY = "Administering Activity";
-    private static final String HIERARCHY_NAME = null;
-    private static final String SPONSOR_CODE = null;
+    private static final String HIERARCHY_GOVERNMENT_AGENCY = "GOVERNMENT AGENCY";
 
 	List<ProposalPerson> extraPersons = new ArrayList<ProposalPerson>();
 
@@ -220,8 +218,8 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 			String sponsorCode) {
 //		FederalAgencyDataType.Enum federalAgencyDataType = null;
 //		Map<String, String> criteriaMap = new HashMap<String, String>();
-//		criteriaMap.put(HIERARCHY_NAME, HIERARCHY_ADMINISTERING_ACTIVIUTY);
-//		criteriaMap.put(SPONSOR_CODE, sponsorCode);
+//		criteriaMap.put("hierachyName", HIERARCHY_GOVERNMENT_AGENCY);
+//		criteriaMap.put("sponsorCode", sponsorCode);
 //		List<SponsorHierarchy> sponsorHierarchyList = new
 //		ArrayList<SponsorHierarchy>(businessObjectService.findMatching(SponsorHierarchy.class, criteriaMap));
 //		if (sponsorHierarchyList.size() > 0) {
