@@ -80,6 +80,7 @@ public class ProtocolNotificationTemplateForm extends KualiForm {
         templates.add(getTemplate(ProtocolActionType.ASSIGN_TO_AGENDA, "AssignToAgendaReviewerNotification.xsl"));
         templates.add(getTemplate(ASSIGN_REVIEWER, "AssignReviewerNotification.xsl"));
         templates.add(getTemplate(REVIEW_COMPLETE, "ReviewCompleteNotification.xsl"));
+        templates.add(getTemplate(ProtocolActionType.RENEWAL_REMINDER_GENERATED, "BatchCorrespondenceNotification.xsl"));
 
         return templates;
     }
