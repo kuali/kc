@@ -69,9 +69,9 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
             // TODO : how should we handle, new addtion, existing, removed and even empty list
             // For example : do we send "removed" message.  Do we send message for existing reviewer again ?
             // this method also called by submittoirbforreview
-//            if (sendNotification && protocolSubmission.getCommitteeIdFk() != null && protocolSubmission.getScheduleIdFk() != null) {
-//                protocolActionsNotificationService.sendActionsNotification(protocolSubmission.getProtocol(), new AssignReviewerEvent(protocolSubmission.getProtocol()));
-//            }
+            if (sendNotification && protocolSubmission.getCommitteeIdFk() != null && protocolSubmission.getScheduleIdFk() != null) {
+                protocolActionsNotificationService.sendActionsNotification(protocolSubmission.getProtocol(), new AssignReviewerEvent(protocolSubmission.getProtocol()));
+            }
 
         }
     }
