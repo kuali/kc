@@ -15,7 +15,11 @@
  */
 package org.kuali.kra.util.watermark;
 
-
+/**
+ * 
+ * This class is an interface for fetching the appropriate watermark object.
+ *  
+ */
 public interface Watermarkable {
     /**
      * 

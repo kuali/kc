@@ -35,6 +35,7 @@ import java.util.Map;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonComparator;
@@ -309,6 +310,11 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 		} else {
 			seniorKeyPerson.setNASACoItype(CoItypeDataType.COLLABORATOR);
 		}
+		if (proposalPerson.getProposalPersonRoleId() != null
+                && proposalPerson.getProposalPersonRoleId().equals(Constants.KEY_PERSON_ROLE)
+                && proposalPerson.getProjectRole().equalsIgnoreCase(COLLABORATOR)) {
+            seniorKeyPerson.setNASACoItype(CoItypeDataType.COLLABORATOR);
+        }		
 		if (sponsorCode != null) {
 			FederalAgencyDataType.Enum federalAgency = getFederalAgencyDataType(sponsorCode);
 			if (federalAgency != null) {

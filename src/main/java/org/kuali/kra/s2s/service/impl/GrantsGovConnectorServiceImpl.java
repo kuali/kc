@@ -309,7 +309,7 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
      */
     protected void configureKeyStoreAndTrustStore(TLSClientParameters tlsConfig, String alias, boolean mulitCampusEnabled)
             throws S2SException {
-        KeyStore keyStore = S2SCertificateReader.getKeyStore();//KeyStore.getInstance(JKS_TYPE);
+        KeyStore keyStore = S2SCertificateReader.getKeyStore();
         KeyManagerFactory keyManagerFactory;
         try {
             keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
@@ -323,16 +323,11 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
                         s2SUtilService.getProperty(KEYSTORE_PASSWORD).toCharArray(), certificates);
                 keyManagerFactory.init(keyStoreAlias, 
                         s2SUtilService.getProperty(KEYSTORE_PASSWORD).toCharArray());
-            }
-            else {
+            }else {
                 keyManagerFactory.init(keyStore, s2SUtilService.getProperty(KEYSTORE_PASSWORD).toCharArray());
             }
             KeyManager[] km = keyManagerFactory.getKeyManagers();
             tlsConfig.setKeyManagers(km);
-            
-    //        KeyStore trustStore = KeyStore.getInstance(JKS_TYPE);
-    //        trustStore.load(new FileInputStream(s2SUtilService.getProperty(TRUSTSTORE_LOCATION)),
-    //                s2SUtilService.getProperty(TRUSTSTORE_PASSWORD).toCharArray());
             KeyStore trustStore = S2SCertificateReader.getTrustStore();
             TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
             trustManagerFactory.init(trustStore);

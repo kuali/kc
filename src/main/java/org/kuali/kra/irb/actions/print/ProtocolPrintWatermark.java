@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -32,142 +33,141 @@ import org.kuali.kra.util.watermark.Watermarkable;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 import com.lowagie.text.Image;
+
 /**
  * 
  * This class for setting watermark to the protocol related reports.
  */
 public class ProtocolPrintWatermark implements Watermarkable {
-    
+
     private KraPersistableBusinessObjectBase persistableBusinessObject;
     private static final Log LOG = LogFactory.getLog(ProtocolPrintWatermark.class);
-    private WatermarkBean watermarkBean;   
-    private BusinessObjectService businessObjectService;
-    
+    private WatermarkBean watermarkBean;
 
-    public BusinessObjectService getBusinessObjectService() {
-        return  KraServiceLocator.getService(BusinessObjectService.class);
+
+    private BusinessObjectService getBusinessObjectService() {
+        return KraServiceLocator.getService(BusinessObjectService.class);
     }
 
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-   
+
     /**
-     * This method is to return appropriate watermark
-     * with respect to the protocol document status.
+     * This method is to return appropriate watermark with respect to the protocol document status.
+     * 
      * @return waterMarkBean
      */
     public WatermarkBean getWatermark() {
-        Protocol protocol = (Protocol)getPersistableBusinessObject();
+        Protocol protocol = (Protocol) getPersistableBusinessObject();
         String protocolStatusCode = protocol.getProtocolStatusCode();
-        if(protocolStatusCode!=null){               
-            WatermarkBean waterMarkBean = null;         
+        if (protocolStatusCode != null) {
+            WatermarkBean waterMarkBean = null;
             try {
                 waterMarkBean = getProtocolWatermarkBeanObject(protocolStatusCode);
             }
             catch (Exception e) {
-                LOG.error("Exception Occured in (ProtocolPrintWatermark) :",e);               
+                LOG.error("Exception Occured in (ProtocolPrintWatermark) :", e);
             }
-            return waterMarkBean;              
-        }     
+            return waterMarkBean;
+        }
         return null;
     }
-    
-    
-   
-    
+
+
     /**
-     * This method for getting the watermark  from the database.
+     * This method for getting the watermark from the database.
+     * 
      * @param statusCode is the status of the protocol
-     * @return WatermarkBean     
-     * LOG Exception  
+     * @return WatermarkBean LOG Exception
      * @see org.kuali.kra.util.watermark.WatermarkDao#getProtocolWatermarkBeanObject(java.lang.String)
      */
     @SuppressWarnings("unchecked")
-    public WatermarkBean getProtocolWatermarkBeanObject(String protocolStatusCode){
-        WatermarkBean watermarkBean = new WatermarkBean();   
-        Watermark watermark = null;        
+    public WatermarkBean getProtocolWatermarkBeanObject(String protocolStatusCode) {
+        WatermarkBean watermarkBean = new WatermarkBean();
+        Watermark watermark = null;
         Map<String, Object> fields = new HashMap<String, Object>();
         fields.put("statusCode", protocolStatusCode);
         Collection<Watermark> watermarks = getBusinessObjectService().findMatching(Watermark.class, fields);
-        if (watermarks.size() == 1) {
+        if (watermarks != null && watermarks.size() > 0) {
             watermark = watermarks.iterator().next();
-        }           
-        if(watermark!=null && watermark.isWatermarkStatus())
-        {   
+        }
+        if (watermark != null && watermark.isWatermarkStatus()) {
             try {
-                String watermarkFontSize=watermark.getFontSize() == null ? WatermarkConstants.DEFAULT_FONT_SIZE_CHAR :watermark.getFontSize();
-                String watermarkFontColour=watermark.getFontColor() == null ? WatermarkConstants.FONT_COLOR :watermark.getFontColor();
-                watermarkBean.setType(watermark.getWatermarkType() == null ? WatermarkConstants.WATERMARK_TYPE_TEXT :watermark.getWatermarkType());
-               
-                watermarkBean.setFont(getWatermarkFont(WatermarkConstants.FONT,watermarkFontSize,watermarkFontColour));
-                watermarkBean.setText(watermark.getWatermarkText());  
-                if(watermarkBean.getType().equals(WatermarkConstants.WATERMARK_TYPE_IMAGE)){
+                String watermarkFontSize = watermark.getFontSize() == null ? WatermarkConstants.DEFAULT_FONT_SIZE_CHAR : watermark
+                        .getFontSize();
+                String watermarkFontColour = watermark.getFontColor() == null ? WatermarkConstants.FONT_COLOR : watermark
+                        .getFontColor();
+                watermarkBean.setType(watermark.getWatermarkType() == null ? WatermarkConstants.WATERMARK_TYPE_TEXT : watermark
+                        .getWatermarkType());
+
+                watermarkBean.setFont(getWatermarkFont(WatermarkConstants.FONT, watermarkFontSize, watermarkFontColour));
+                watermarkBean.setText(watermark.getWatermarkText());
+                if (watermarkBean.getType().equals(WatermarkConstants.WATERMARK_TYPE_IMAGE)) {
                     watermarkBean.setText(watermark.getFileName());
-                    byte[] imageData     = watermark.getAttachmentContent();
-                    if(imageData!=null){
-                        Image imageFile = Image.getInstance(imageData);                   
+                    byte[] imageData = watermark.getAttachmentContent();
+                    if (imageData != null) {
+                        Image imageFile = Image.getInstance(imageData);
                         watermarkBean.setFileImage(imageFile);
                     }
                 }
-               
-            }catch (Exception e) {
-                LOG.error("Exception Occured in (ProtocolPrintWatermark) :",e); }          
+
+            }
+            catch (Exception e) {
+                LOG.error("Exception Occured in (ProtocolPrintWatermark) :", e);
+            }
             return watermarkBean;
         }
-        return null; 
+        return null;
     }
-   
- 
+
+
     /**
      * 
      * This method for setting the font details to the watermark Object.
+     * 
      * @param watermarkFontName is default font
      * @param watermarkSize is the size of the font
      * @param watermarkColour is the colour of the font
      * @return Font
      */
-    private Font getWatermarkFont(String watermarkFontName,String watermarkSize,String watermarkColour ) {
-        Font watermarkFont =  new Font(WatermarkConstants.DEFAULT_FONT_SIZE);
-        String fontName, fontColour, fontSize;
-        fontName = watermarkFontName;
-        fontColour = watermarkColour;
-        fontSize = watermarkSize;
-        if(fontName != null || fontColour != null || fontSize != null) {
-            watermarkFont.setFont(fontName);           
-            if(fontSize != null && fontSize.trim().length() > 0) {
-                try{
-                    watermarkFont.setSize(Integer.parseInt(fontSize));
-                }catch (NumberFormatException numberFormatException) {
-                    watermarkFont.setSize(WatermarkConstants.DEFAULT_WATERMARK_FONT_SIZE);
-                    LOG.error("Exception Occuring. in (getFont:numberFormatException)");
-                }
-            }else {
+    private Font getWatermarkFont(String watermarkFontName, String watermarkSize, String watermarkColour) {
+        Font watermarkFont = new Font(WatermarkConstants.DEFAULT_FONT_SIZE);
+        watermarkFont.setFont(watermarkFontName);
+        if (StringUtils.isNotBlank(watermarkSize)) {
+            try {
+                watermarkFont.setSize(Integer.parseInt(watermarkSize));
+            }
+            catch (NumberFormatException numberFormatException) {
                 watermarkFont.setSize(WatermarkConstants.DEFAULT_WATERMARK_FONT_SIZE);
+                LOG.error("Exception Occuring in ProtocolPrintWatermark:(getFont:numberFormatException)");
             }
-            if(fontColour == null || fontColour.trim().length() == 0){
-                watermarkFont.setColor(WatermarkConstants.DEFAULT_WATERMARK_COLOR);
-            }else{
-                watermarkFont.setColor(fontColour);
-            }
+        }
+        else {
+            watermarkFont.setSize(WatermarkConstants.DEFAULT_WATERMARK_FONT_SIZE);
+        }
+        if (StringUtils.isNotBlank(watermarkColour)) {
+            watermarkFont.setColor(watermarkColour);
+        }
+        else {
+            watermarkFont.setColor(WatermarkConstants.DEFAULT_WATERMARK_COLOR);
+           
         }
         return watermarkFont;
     }
-    
+
     public WatermarkBean getWatermarkBean() {
         return watermarkBean;
     }
+
     public void setWatermarkBean(WatermarkBean watermarkBean) {
         this.watermarkBean = watermarkBean;
     }
+
     public KraPersistableBusinessObjectBase getPersistableBusinessObject() {
         return persistableBusinessObject;
     }
+
     public void setPersistableBusinessObject(KraPersistableBusinessObjectBase persistableBusinessObject) {
         this.persistableBusinessObject = persistableBusinessObject;
     }
-    
-      
-    
+
 
 }

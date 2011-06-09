@@ -15,7 +15,9 @@
  */
 package org.kuali.kra.meeting;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,7 +57,8 @@ public class MeetingAction extends KualiAction {
     private static final String LINE_NUMBER = "lineNum";
     private static final String REFRESH_CALLER = "refreshCaller";
     private static final String COMMITTEE_SCHEDULE_ERROR_PATH = "meetingHelper.committeeSchedule";
-   /**
+
+    /**
      * 
      * This method is for the initial load of meeting page. It is called when 'maintain' button of committee schedule is clicked.
      * 
@@ -71,8 +74,17 @@ public class MeetingAction extends KualiAction {
 
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("id", request.getParameter("scheduleId"));
+        List<CommitteeScheduleMinute> permittedMinutes = new ArrayList<CommitteeScheduleMinute>();
         CommitteeSchedule commSchedule = (CommitteeSchedule) getBusinessObjectService().findByPrimaryKey(CommitteeSchedule.class,
                 fieldValues);
+        List<CommitteeScheduleMinute> minutes = commSchedule.getCommitteeScheduleMinutes();
+        for (CommitteeScheduleMinute minute : minutes) {
+
+            if (getReviewerCommentsService().getReviewerCommentsView(minute)) {
+                permittedMinutes.add(minute);
+            }
+        }
+        commSchedule.setCommitteeScheduleMinutes(permittedMinutes);
         ((MeetingForm) form).setReadOnly("true".equals(request.getParameter("readOnly")));
         ((MeetingForm) form).getMeetingHelper().setCommitteeSchedule(commSchedule);
         if ( !((MeetingForm) form).getMeetingHelper().hasViewModifySchedulePermission() ) {
@@ -95,7 +107,8 @@ public class MeetingAction extends KualiAction {
         int lineNumber = 0;
         if (StringUtils.isNotBlank(request.getParameter(LINE_NUMBER))) {
             lineNumber = Integer.parseInt(request.getParameter(LINE_NUMBER));
-        } else {
+        }
+        else {
             for (CommitteeSchedule schedule : commSchedule.getCommittee().getCommitteeSchedules()) {
                 lineNumber++;
                 if (schedule.getId().equals(commSchedule.getId())) {
@@ -188,8 +201,8 @@ public class MeetingAction extends KualiAction {
      * @return
      * @throws Exception
      */
-    public ActionForward actions(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    public ActionForward actions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
         return mapping.findForward("actions");
     }
 
@@ -231,12 +244,13 @@ public class MeetingAction extends KualiAction {
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        MeetingForm meetingForm = (MeetingForm)form;
+        MeetingForm meetingForm = (MeetingForm) form;
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (question == null && meetingForm.getMeetingHelper().canModifySchedule()) {
             return performQuestionWithoutInput(mapping, form, request, response, CLOSE_QUESTION_ID, CLOSE_QUESTION,
                     KNSConstants.CONFIRMATION_QUESTION, ((MeetingForm) form).getMethodToCall(), "");
-        } else if (meetingForm.getMeetingHelper().canModifySchedule()) {
+        }
+        else if (meetingForm.getMeetingHelper().canModifySchedule()) {
             Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
             if ((CLOSE_QUESTION_ID.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
                 CommitteeSchedule committeeSchedule = meetingForm.getMeetingHelper().getCommitteeSchedule();
@@ -245,7 +259,8 @@ public class MeetingAction extends KualiAction {
                     getMeetingService().saveMeetingDetails(committeeSchedule,
                             ((MeetingForm) form).getMeetingHelper().getDeletedBos());
                     ((MeetingForm) form).getMeetingHelper().initDeletedList();
-                } else {
+                }
+                else {
                     return mapping.findForward(Constants.MAPPING_BASIC);
 
                 }
@@ -283,7 +298,8 @@ public class MeetingAction extends KualiAction {
         if (StringUtils.isNotBlank(request.getParameter(REFRESH_CALLER))) {
             if ("nonOrganizationalRolodexLookupable".equals(request.getParameter(REFRESH_CALLER))) {
                 ((MeetingForm) form).getMeetingHelper().getNewOtherPresentBean().getAttendance().setNonEmployeeFlag(true);
-            } else {
+            }
+            else {
                 ((MeetingForm) form).getMeetingHelper().getNewOtherPresentBean().getAttendance().setNonEmployeeFlag(false);
             }
         }
@@ -307,7 +323,9 @@ public class MeetingAction extends KualiAction {
         if (StringUtils.isNotBlank(command) && "viewProtocolSubmission".equals(command)) {
             forward = viewProtocolSubmission(mapping, form, request, response);
         }
-        ((MeetingForm) form).getMeetingHelper().setHideReviewerName(getReviewerCommentsService().setHideReviewerName(((MeetingForm) form).getMeetingHelper().getCommitteeSchedule().getCommitteeScheduleMinutes()));
+        ((MeetingForm) form).getMeetingHelper().setHideReviewerName(
+                getReviewerCommentsService().setHideReviewerName(
+                        ((MeetingForm) form).getMeetingHelper().getCommitteeSchedule().getCommitteeScheduleMinutes()));
 
         return forward;
     }
@@ -318,7 +336,8 @@ public class MeetingAction extends KualiAction {
 
     /**
      * 
-     * This method is to reload the meeting page.  Reload page when it is 'readOnly' and moving from page to page.
+     * This method is to reload the meeting page. Reload page when it is 'readOnly' and moving from page to page.
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -331,7 +350,7 @@ public class MeetingAction extends KualiAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    
+
     protected boolean applyRules(KualiDocumentEvent event) {
         return KraServiceLocator.getService(KualiRuleService.class).applyRules(event);
     }
@@ -339,6 +358,7 @@ public class MeetingAction extends KualiAction {
     protected MeetingService getMeetingService() {
         return KraServiceLocator.getService(MeetingService.class);
     }
+
 
     private ReviewCommentsService getReviewerCommentsService() {
         return KraServiceLocator.getService(ReviewCommentsService.class);
