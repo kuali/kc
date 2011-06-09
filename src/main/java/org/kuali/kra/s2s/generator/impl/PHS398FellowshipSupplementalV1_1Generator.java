@@ -922,15 +922,19 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
                     typeList.add(CurrentPriorNRSASupport.Type.Enum
                             .forString(questionnaireAnswer.getAnswer()));
                 }
-                if (questionnaireAnswer.getQuestionNumber() == KIRST_START_DT &&
-                        !questionnaireAnswer.getAnswer().equals(S2SConstants.VALUE_UNKNOWN)) {
-                    startDateList.add(s2sUtilService.convertDateStringToCalendar(questionnaireAnswer.getAnswer()));
+                if (questionnaireAnswer.getQuestionNumber() == KIRST_START_DT){
+                    if(questionnaireAnswer.getAnswer().equals(S2SConstants.VALUE_UNKNOWN)) {
+                        startDateList.add(null);
+                    }else{
+                        startDateList.add(s2sUtilService.convertDateStringToCalendar(questionnaireAnswer.getAnswer()));
+                    }
                 }
-                if (questionnaireAnswer.getQuestionNumber() == KIRST_END_DT &&
-                        !questionnaireAnswer.getAnswer().equals(S2SConstants.VALUE_UNKNOWN)) {
-                    endDateList.add(s2sUtilService
-                            .convertDateStringToCalendar(questionnaireAnswer
-                                    .getAnswer()));
+                if (questionnaireAnswer.getQuestionNumber() == KIRST_END_DT){
+                    if(questionnaireAnswer.getAnswer().equals(S2SConstants.VALUE_UNKNOWN)) {
+                        endDateList.add(null);
+                    }else{
+                        endDateList.add(s2sUtilService.convertDateStringToCalendar(questionnaireAnswer.getAnswer()));
+                    }
                 }
                 if (questionnaireAnswer.getQuestionNumber() == KIRST_GRANT_NUM) {
                     grantNumberList.add(questionnaireAnswer.getAnswer());
@@ -938,13 +942,12 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
             }
         }
         for (int index = 0; levelList.size() > index; index++) {
-            CurrentPriorNRSASupport currentPriorNRSASupport = CurrentPriorNRSASupport.Factory
-                    .newInstance();
+            CurrentPriorNRSASupport currentPriorNRSASupport = CurrentPriorNRSASupport.Factory.newInstance();
             currentPriorNRSASupport.setLevel(levelList.get(index));
             currentPriorNRSASupport.setType(typeList.get(index));
-            if(!startDateList.isEmpty())
+            if(!startDateList.isEmpty() && startDateList.get(index)!=null)
                 currentPriorNRSASupport.setStartDate(startDateList.get(index));
-            if(!endDateList.isEmpty())
+            if(!endDateList.isEmpty() && endDateList.get(index)!=null)
                 currentPriorNRSASupport.setEndDate(endDateList.get(index));
             currentPriorNRSASupport.setGrantNumber(grantNumberList.get(index));
             currentPriorNRSASupportList.add(currentPriorNRSASupport);
