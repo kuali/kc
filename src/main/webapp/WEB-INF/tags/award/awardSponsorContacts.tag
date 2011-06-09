@@ -16,9 +16,9 @@
 <%-- member of AwardContacts.jsp --%>
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<script type='text/javascript' src='/kc-dev/dwr/interface/RolodexService.js'></script>
-<script type='text/javascript' src='/kc-dev/dwr/engine.js'></script>
-<script type='text/javascript' src='/kc-dev/dwr/util.js'></script>
+<script type='text/javascript' src='dwr/interface/RolodexService.js'></script>
+<script type='text/javascript' src='dwr/engine.js'></script>
+<script type='text/javascript' src='dwr/util.js'></script>
 
 <c:set var="awardSponsorContactAttributes" value="${DataDictionary.AwardSponsorContact.attributes}" />
 <c:set var="awardContactAttributes" value="${DataDictionary.AwardContact.attributes}" />

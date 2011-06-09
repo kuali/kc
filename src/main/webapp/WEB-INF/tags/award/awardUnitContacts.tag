@@ -16,10 +16,10 @@
 <%-- member of AwardContacts.jsp --%>
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<script type='text/javascript' src='/kc-dev/dwr/interface/KraPersonService.js'></script>
-<script type='text/javascript' src='/kc-dev/dwr/interface/PersonService.js'></script>
-<script type='text/javascript' src='/kc-dev/dwr/engine.js'></script>
-<script type='text/javascript' src='/kc-dev/dwr/util.js'></script>
+<script type='text/javascript' src='dwr/interface/KraPersonService.js'></script>
+<script type='text/javascript' src='dwr/interface/PersonService.js'></script>
+<script type='text/javascript' src='dwr/engine.js'></script>
+<script type='text/javascript' src='dwr/util.js'></script>
 
 <c:set var="awardUnitContactAttributes"
 	value="${DataDictionary.AwardUnitContact.attributes}" />
