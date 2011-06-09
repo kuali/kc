@@ -211,11 +211,14 @@ public class BudgetSummaryXmlStream extends BudgetBaseStream {
 				for (BudgetPersonnelRateAndBase budgetPersRateAndBase : budgetPersDetails
 						.getBudgetPersonnelRateAndBaseList()) {
 					if (!(isRateAndBaseEBonLA(budgetPersRateAndBase)
-							|| isRateAndBaseVAonLA(budgetPersRateAndBase) || isRateAndBaseLASalary(budgetPersRateAndBase))) {
-						ReportTypeVO reportTypeVO = getReportTypeVOForBudgetSalarySummary(
+							|| isRateAndBaseVAonLA(budgetPersRateAndBase) || isRateAndBaseLASalary(budgetPersRateAndBase) )) {
+						
+						if(isRateAndBaseOfRateClassTypeEB(budgetPersRateAndBase)){
+					    	ReportTypeVO reportTypeVO = getReportTypeVOForBudgetSalarySummary(
 								budgetLineItem, budgetPersDetails,
 								budgetPersRateAndBase);
-						reportTypeVOList.add(reportTypeVO);
+							reportTypeVOList.add(reportTypeVO);
+						}
 					}
 				}
 			}

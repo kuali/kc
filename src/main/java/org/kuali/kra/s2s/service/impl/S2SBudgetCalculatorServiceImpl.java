@@ -1583,6 +1583,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 		BudgetDecimal totalEquipNonFund = BudgetDecimal.ZERO;
 		BudgetDecimal totalExtraEquipNonFund = BudgetDecimal.ZERO;
 		Map<String, CostInfo> costInfoMap = new HashMap<String, CostInfo>();
+		List<CostInfo> costInfos= new ArrayList<CostInfo>();
 		for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
 			for (BudgetCategoryMap budgetCategoryMap : budgetCategoryMapList) {
 				equipCostInfo = new CostInfo();
@@ -1642,11 +1643,11 @@ public class S2SBudgetCalculatorServiceImpl implements
 											lineItem.getCostSharingAmount()));
 						}
 						costInfoMap.put(key, equipCostInfo);
+						costInfos.add(equipCostInfo);
 					}
 				}
 			}
 		}
-		List<CostInfo> costInfos = new ArrayList<CostInfo>(costInfoMap.values());
 		EquipmentInfo equipmentInfo = new EquipmentInfo();
 
 		if (costInfos.size() > 10) {

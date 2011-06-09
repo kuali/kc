@@ -18,24 +18,38 @@ package org.kuali.kra.lookup.keyvalue;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kra.util.watermark.WatermarkConstants;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 
 /**
  * 
- * This class for storing the details of watermark type.
+ * This class for storing the details of watermark Color.
  */
-public class WatermarkTypeValuesFinder extends KeyValuesBase {
+public class WatermarkColorValuesFinder extends KeyValuesBase {
     /**
-     * This method for storing lookup keyvalues of watermark type.
-     * Watermark Type: TEXT , IMAGE.
+     * This method for storing lookup keyvalues of watermark font Color.
+     * 
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
+
     public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("TEXT", WatermarkConstants.WATERMARK_TYPE_TEXT));
-        keyValues.add(new KeyLabelPair("IMAGE", WatermarkConstants.WATERMARK_TYPE_IMAGE));
+        keyValues.add(new KeyLabelPair("LIGHT_GRAY", "LIGHT_GRAY"));
+        keyValues.add(new KeyLabelPair("BLACK", "BLACK"));
+        keyValues.add(new KeyLabelPair("BLUE", "BLUE"));
+        keyValues.add(new KeyLabelPair("MAGENTA", "MAGENTA"));
+        keyValues.add(new KeyLabelPair("CYAN", "CYAN"));
+        keyValues.add(new KeyLabelPair("ORANGE", "ORANGE"));
+        keyValues.add(new KeyLabelPair("DARKGRAY", "DARKGRAY"));
+        keyValues.add(new KeyLabelPair("PINK", "PINK"));
+        keyValues.add(new KeyLabelPair("GRAY", "GRAY"));
+        keyValues.add(new KeyLabelPair("RED", "RED"));
+        keyValues.add(new KeyLabelPair("GREEN", "GREEN"));
+        keyValues.add(new KeyLabelPair("WHITE", "WHITE"));
+        keyValues.add(new KeyLabelPair("YELLOW", "YELLOW"));
+
         return keyValues;
     }
+
+
 }

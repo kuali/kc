@@ -273,10 +273,12 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 							.getBudgetPersonnelRateAndBaseList()) {
 						if (!(isRateAndBaseEBonLA(budgetPersRateAndBase)
 								|| isRateAndBaseVAonLA(budgetPersRateAndBase) || isRateAndBaseLASalary(budgetPersRateAndBase))) {
-							ReportTypeVO reportTypeVO = getReportTypeVOForCumulativeBudgetSalary(
+						    if(isRateAndBaseOfRateClassTypeEB(budgetPersRateAndBase)){
+								ReportTypeVO reportTypeVO = getReportTypeVOForCumulativeBudgetSalary(
 									budgetLineItem, budgetPersDetails,
 									budgetPersRateAndBase);
-							reportTypeVOList.add(reportTypeVO);
+								reportTypeVOList.add(reportTypeVO);
+						    }
 						}
 					}
 				}
