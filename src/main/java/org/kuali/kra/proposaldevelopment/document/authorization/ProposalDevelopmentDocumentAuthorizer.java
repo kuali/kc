@@ -15,10 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorization;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.kuali.kra.authorization.ApplicationTask;
@@ -28,14 +26,12 @@ import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.kra.proposaldevelopment.bo.ProposalState;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.impl.KimAttributes;
-import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -71,7 +67,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
             }
         } 
         else {
-            if (canExecuteProposalTask(userId, proposalDoc, TaskName.MODIFY_PROPOSAL)) {  
+            if (canEdit(document, user)) {  
                 editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
                 setPermissions(userId, proposalDoc, editModes);
             }
@@ -223,8 +219,6 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
         TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(userId, task);
     }
-
-    
     
     public boolean canInitiate(String documentTypeName, Person user) {
         return canCreateProposal(user);
@@ -252,6 +246,10 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
     
     @Override
     public boolean canEdit(Document document, Person user) {
+        ProposalDevelopmentDocument proposalDocument = (ProposalDevelopmentDocument) document;
+        if (proposalDocument.getDevelopmentProposal().getProposalState().getStateTypeCode().equals(ProposalState.CANCELED)) {
+            return false;
+        }
         return canExecuteProposalTask(user.getPrincipalId(), (ProposalDevelopmentDocument) document, TaskName.MODIFY_PROPOSAL);
     }
     
