@@ -977,7 +977,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         getBusinessObjectService().save(awardForm.getAwardSyncBean().getParentAwardStatus());
 
         awardForm.getAwardDocument().getDocumentHeader().
-            getWorkflowDocument().returnToPreviousNode("Re-run Hierarchy Sync Validation", Constants.AWARD_RERUN_SYNC_VALIDATION_NODE_NAME);
+            getWorkflowDocument().returnToPreviousNode("Re-run Hierarchy Sync Validation", Constants.AWARD_SYNC_HAS_SYNC_NODE_NAME);
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
 }
