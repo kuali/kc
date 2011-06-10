@@ -328,7 +328,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.scheduling.quartz.KcCronTriggerBeanTest.class,
     org.kuali.kra.award.home.AwardTest.class,
     org.kuali.kra.budget.document.BudgetDocumentRuleTest.class,
-    org.kuali.kra.document.SponsorFormTemplateMaintenanceDocumentTest.class,
     org.kuali.kra.award.commitments.AwardCostShareAuditRuleTest.class,
     org.kuali.kra.award.home.AwardCommentFactoryTest.class,
     org.kuali.kra.irb.actions.request.ProtocolRequestRuleTest.class,
