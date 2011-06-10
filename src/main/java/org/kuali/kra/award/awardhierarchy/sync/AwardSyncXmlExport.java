@@ -23,6 +23,7 @@ import java.util.Map;
 public class AwardSyncXmlExport {
     private String className;
     private boolean addIfNotFound = true;
+    private boolean partOfObjectKey;
     private Map<String, Object> keys;
     private Map<String, Object> values;
     
@@ -52,5 +53,11 @@ public class AwardSyncXmlExport {
     }
     public void setValues(Map<String, Object> values) {
         this.values = values;
+    }
+    public boolean isPartOfObjectKey() {
+        return partOfObjectKey;
+    }
+    public void setPartOfObjectKey(boolean partOfObjectKey) {
+        this.partOfObjectKey = partOfObjectKey;
     }
 }

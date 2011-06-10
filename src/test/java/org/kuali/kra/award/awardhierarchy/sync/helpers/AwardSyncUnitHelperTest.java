@@ -57,8 +57,7 @@ public class AwardSyncUnitHelperTest extends AwardSyncPersonHelperTest {
     @Test
     public void testBuildXmlExport() throws Exception {
         AwardSyncXmlExport xmlExport = awardSyncHelper.buildXmlExport(unit, null);
-        List<AwardSyncXmlExport> unitExports = (List<AwardSyncXmlExport>) xmlExport.getValues().get("units");
-        AwardSyncXmlExport unitExport = unitExports.get(0);
+        AwardSyncXmlExport unitExport =  (AwardSyncXmlExport) xmlExport.getValues().get("units");
         assertNotNull(unitExport);
         assertFalse(unitExport.getKeys().isEmpty());
         assertFalse(unitExport.getValues().isEmpty());

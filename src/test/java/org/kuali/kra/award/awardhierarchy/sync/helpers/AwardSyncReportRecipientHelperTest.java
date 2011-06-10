@@ -49,8 +49,7 @@ public class AwardSyncReportRecipientHelperTest extends AwardSyncReportHelperTes
     @Test
     public void testBuildXmlExport() throws Exception {
         AwardSyncXmlExport xmlExport = awardSyncHelper.buildXmlExport(recipient, null);
-        List<AwardSyncXmlExport> recipientExports = (List<AwardSyncXmlExport>) xmlExport.getValues().get("awardReportTermRecipients");
-        AwardSyncXmlExport recipientExport = recipientExports.get(0);
+        AwardSyncXmlExport recipientExport = (AwardSyncXmlExport) xmlExport.getValues().get("awardReportTermRecipients");
         assertNotNull(recipientExport);
         assertFalse(recipientExport.getKeys().isEmpty());
         assertFalse(recipientExport.getValues().isEmpty());
