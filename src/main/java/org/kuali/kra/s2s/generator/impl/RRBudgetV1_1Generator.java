@@ -56,6 +56,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
@@ -1079,8 +1080,8 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
 							&& KEYPERSON_CO_PD_PI.equals(keyPerson.getRole())) {
 					    DevelopmentProposal developmentProposal=pdDoc.getDevelopmentProposal();		
 					    
-					    for (ProposalPerson proposalPerson : developmentProposal.getInvestigators()) {					      
-					        if(keyPerson.getPersonId().equals(proposalPerson.getPersonId())){	
+					    for (ProposalPerson proposalPerson : developmentProposal.getInvestigators()) {	
+					        if(isProposalPersonEqualsKeyPerson(proposalPerson,keyPerson)){	
 					            if(proposalPerson.isMultiplePi())
 					                keyPersonDataType.setProjectRole(NID_PD_PI); 					           
 					            else 
@@ -1158,7 +1159,8 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
 	}
 
 
-	/**
+
+    /**
 	 * This method gets KeyPersonCompensationDataType informations such as
 	 * AcademicMonths,CalendarMonths,FringeBenefits
 	 * SummerMonths,RequestedSalary,FundsRequested and BaseSalary based on

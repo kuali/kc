@@ -272,10 +272,10 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
 
         org.w3c.dom.Document document = domParser.parse(byteArrayInputStream);
         byteArrayInputStream.close();
-        
+        String namespace=null;
         if (document != null) {
             Node node;
-            String formName, namespace;
+            String formName;
             Element element = document.getDocumentElement();
             NamedNodeMap map = element.getAttributes();
             String namespaceHolder = element.getNodeName().substring(0, element.getNodeName().indexOf(':'));
@@ -294,13 +294,18 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         removeAllEmptyNodes(document,xpathEmptyNodes,0);
         changeDataTypeForNumberOfOtherPersons(document);
         
-        
+        List<String> fedNonFedSubAwardForms=getFedNonFedSubawardForms();
         NodeList budgetYearList =  XPathAPI.selectNodeList(document,"//*[local-name(.) = 'BudgetYear']");
         for(int i=0;i<budgetYearList.getLength();i++){
             Node bgtYearNode = budgetYearList.item(i);
             String period = getValue(XPathAPI.selectSingleNode(bgtYearNode,"BudgetPeriod"));
-            Element newBudgetYearElement = copyElementToName((Element)bgtYearNode,bgtYearNode.getNodeName()+period);
-            bgtYearNode.getParentNode().replaceChild(newBudgetYearElement,bgtYearNode);
+            if(fedNonFedSubAwardForms.contains(namespace)){
+                Element newBudgetYearElement = copyElementToName((Element)bgtYearNode,bgtYearNode.getNodeName());
+                bgtYearNode.getParentNode().replaceChild(newBudgetYearElement,bgtYearNode);
+            }else{
+                Element newBudgetYearElement = copyElementToName((Element)bgtYearNode,bgtYearNode.getNodeName()+period);
+                bgtYearNode.getParentNode().replaceChild(newBudgetYearElement,bgtYearNode);
+            }
         }
         
         Node oldroot = document.removeChild(document.getDocumentElement());
@@ -473,6 +478,11 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
              }
         }
         return textValue.trim();
+    }
+    private  List<String> getFedNonFedSubawardForms(){
+        List<String> forms=new ArrayList<String>();
+        forms.add("http://apply.grants.gov/forms/RR_FedNonFedBudget10-V1.1");
+        return forms;
     }
 
 }
