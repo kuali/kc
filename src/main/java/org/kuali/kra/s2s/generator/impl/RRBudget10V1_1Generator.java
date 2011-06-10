@@ -784,7 +784,7 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
                         DevelopmentProposal developmentProposal=pdDoc.getDevelopmentProposal();     
                         
                         for (ProposalPerson proposalPerson : developmentProposal.getInvestigators()) {                        
-                            if(keyPerson.getPersonId().equals(proposalPerson.getPersonId())){   
+                            if(isProposalPersonEqualsKeyPerson(proposalPerson, keyPerson)){   
                                 if(proposalPerson.isMultiplePi())
                                     keyPersonDataType.setProjectRole(NID_PD_PI);                               
                                 else 
