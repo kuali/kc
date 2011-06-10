@@ -1090,37 +1090,43 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      * @see org.kuali.kra.s2s.service.S2SUtilService#getCitizenship(org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
      * 
      */
-    public CitizenshipTypes getCitizenship(ProposalPerson proposalPerson){
-    String citizenSource = "1";
-	String piCitizenShipValue = getParameterValue(PI_CUSTOM_DATA);
-	if (piCitizenShipValue != null) {
-		citizenSource = piCitizenShipValue; 
-	}
-	  if (citizenSource.equals("0")) {
-		  CitizenshipTypes citizenShipType=citizenshipTypeService.getCitizenshipDataFromExternalSource();
-		  return  citizenShipType;
-      } else {
-    	  CitizenshipType citizenShip=proposalPerson.getPerson().getExtendedAttributes().getCitizenshipType();
-    	  CitizenshipTypes retVal = null;
-    	  String citizenShipCode=String.valueOf(citizenShip.getCitizenshipTypeCode());
-    	  if(citizenShipCode.equals(parameterService.getParameterValue("KC-GEN","A","NON_US_CITIZEN_WITH_TEMPORARY_VISA_TYPE_CODE"))){
-    		 return  CitizenshipTypes.NON_US_CITIZEN_WITH_TEMPORARY_VISA;
-    	  }
-    	  else if(citizenShipCode.equals(parameterService.getParameterValue("KC-GEN","A","PERMANENT_RESIDENT_OF_US_TYPE_CODE"))){
-    		  return CitizenshipTypes.PERMANENT_RESIDENT_OF_US;
-    	  }
-    	  else if(citizenShipCode.equals( parameterService.getParameterValue("KC-GEN","A","US_CITIZEN_OR_NONCITIZEN_NATIONAL_TYPE_CODE"))){
-    		  return CitizenshipTypes.US_CITIZEN_OR_NONCITIZEN_NATIONAL;
-    	  }
-    	  else if(citizenShipCode.equals( parameterService.getParameterValue("KC-GEN","A","PERMANENT_RESIDENT_OF_US_PENDING"))){
-              return CitizenshipTypes.PERMANENT_RESIDENT_OF_US_PENDING;
-          }
-    	  else{
-    		  throw new IllegalArgumentException("Invalid citizenship type provided");
-    	  }
+    public CitizenshipTypes getCitizenship(ProposalPerson proposalPerson) {
+        String citizenSource = "1";
+        String piCitizenShipValue = getParameterValue(PI_CUSTOM_DATA);
+        if (piCitizenShipValue != null) {
+            citizenSource = piCitizenShipValue;
+        } if (citizenSource.equals("0")) {
+            CitizenshipTypes citizenShipType = citizenshipTypeService.getCitizenshipDataFromExternalSource();
+            return citizenShipType;
+        } else {
+            CitizenshipType citizenShip;
+            String allowOverride = parameterService.getParameterValue("KC-GEN", "A", 
+                    "ALLOW_PROPOSAL_PERSON_TO_OVERRIDE_KC_PERSON_EXTENDED_ATTRIBUTES");
+            if ("Y".equals(allowOverride) && proposalPerson.getProposalPersonExtendedAttributes() != null) {
+                citizenShip = proposalPerson.getProposalPersonExtendedAttributes().getCitizenshipType();
+            } else {
+                citizenShip = proposalPerson.getPerson().getExtendedAttributes().getCitizenshipType();
+            }
+            CitizenshipTypes retVal = null;
+            String citizenShipCode = String.valueOf(citizenShip.getCitizenshipTypeCode());
+            if (citizenShipCode.equals(parameterService.getParameterValue("KC-GEN", "A",
+                    "NON_US_CITIZEN_WITH_TEMPORARY_VISA_TYPE_CODE"))) {
+                return CitizenshipTypes.NON_US_CITIZEN_WITH_TEMPORARY_VISA;
+            } else if (citizenShipCode
+                    .equals(parameterService.getParameterValue("KC-GEN", "A", "PERMANENT_RESIDENT_OF_US_TYPE_CODE"))) {
+                return CitizenshipTypes.PERMANENT_RESIDENT_OF_US;
+            } else if (citizenShipCode.equals(parameterService.getParameterValue("KC-GEN", "A",
+                    "US_CITIZEN_OR_NONCITIZEN_NATIONAL_TYPE_CODE"))) {
+                return CitizenshipTypes.US_CITIZEN_OR_NONCITIZEN_NATIONAL;
+            } else if (citizenShipCode.equals(parameterService.getParameterValue("KC-GEN", "A", "PERMANENT_RESIDENT_OF_US_PENDING"))) {
+                return CitizenshipTypes.PERMANENT_RESIDENT_OF_US_PENDING;
+            } else {
+                throw new IllegalArgumentException("Invalid citizenship type provided");
+            }
 
-      }
+        }
     }
+    
     /**
      * Gets the proposalDevelopmentS2sQuestionnaireService attribute. 
      * @return Returns the proposalDevelopmentS2sQuestionnaireService.
