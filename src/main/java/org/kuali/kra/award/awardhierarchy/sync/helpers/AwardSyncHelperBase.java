@@ -127,6 +127,12 @@ public abstract class AwardSyncHelperBase implements AwardSyncHelper {
         if (childExport != null) {
             xmlExport.getValues().put(childAttr, childExport);
         }
+        //if we should walk to parent nodes then the syncable BO is part of the 
+        //key to the original object because we are either on the actual synced BO or 
+        //walking up the object graph.
+        if (walkParents) {
+            xmlExport.setPartOfObjectKey(true);
+        }
         //loop through all properties on the bean and if the property is annotated as a syncable property
         //then export that property
         for (PropertyDescriptor propDescriptor : beanInfo.getPropertyDescriptors()) {
@@ -142,7 +148,7 @@ public abstract class AwardSyncHelperBase implements AwardSyncHelper {
                         Object mapValue = getValueForExport(propertyValue);
                         if (annotation.key()) {
                             xmlExport.getKeys().put(propDescriptor.getName(), mapValue);
-                        } else if (attrName == null || StringUtils.equals(attrName, propDescriptor.getName())
+                        } else if ((attrName == null || StringUtils.equals(attrName, propDescriptor.getName()))
                                 && childAttr == null) {
                             //if we don't have a specific attribute or this is the attribute we want to save
                             //and this is not a parent as we do not want to save parent values

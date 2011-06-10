@@ -20,6 +20,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ListIterator;
 import java.util.Map;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncPendingChangeBean;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
@@ -93,24 +94,35 @@ public class AwardSyncCreationServiceImpl implements AwardSyncCreationService {
         return StringUtils.equals(change1.getClassName(), change2.getClassName())
                 && StringUtils.equals(change1.getAttrName(), change2.getAttrName())
                 && StringUtils.equals(change1.getSyncType(), change2.getSyncType())
-                && doChangeKeysMatch(change1, change2);
+                && sameObject(getXmlExport(change1), getXmlExport(change2));
     }
-    
+
     /**
-     * Compares the keys specified in change1 and change2 for equality.
+     * The change is on the same object is all the AwardSyncXmlExport keys in the graph
+     * that are part of the object key are equal.
      * @param change1
      * @param change2
      * @return
      */
-    protected boolean doChangeKeysMatch(AwardSyncChange change1, AwardSyncChange change2) {
-        Map<String, Object> keys1 = getXmlExport(change1).getKeys();
-        Map<String, Object> keys2 = getXmlExport(change2).getKeys();
-        if (keys1 == null) {
-            return false;
+    protected boolean sameObject(AwardSyncXmlExport change1, AwardSyncXmlExport change2) {
+        if (StringUtils.equals(change1.getClassName(), change2.getClassName())
+                && ObjectUtils.equals(change1.getKeys(), change2.getKeys())) {
+            boolean result = true;
+            for (Map.Entry<String, Object> entry : change1.getValues().entrySet()) {
+                if (entry.getValue() instanceof AwardSyncXmlExport
+                        && ((AwardSyncXmlExport) entry.getValue()).isPartOfObjectKey()) {
+                    if (!(change2.getValues().get(entry.getKey()) instanceof AwardSyncXmlExport)
+                            || !sameObject((AwardSyncXmlExport) entry.getValue(), 
+                                (AwardSyncXmlExport) change2.getValues().get(entry.getKey()))) {
+                        result = false;
+                    }
+                }
+            }
+            return result;
         } else {
-            return keys1.equals(keys2);
+            return false;
         }
-    }   
+    }
     
     /**
      * Generates the XML for the change specified.
