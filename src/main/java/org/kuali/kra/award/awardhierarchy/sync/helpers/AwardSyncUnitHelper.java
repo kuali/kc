@@ -51,12 +51,23 @@ public class AwardSyncUnitHelper extends AwardSyncHelperBase {
             }
         } else {
             if (person != null) {
-                List<AwardSyncXmlExport> unitChanges = (List<AwardSyncXmlExport>) change.getXmlExport().getValues().get("units");
-                for (AwardSyncXmlExport unitChange : unitChanges) {
+                Object o = change.getXmlExport().getValues().get("units");
+                if (o instanceof List) {
+                    List<AwardSyncXmlExport> unitChanges = (List<AwardSyncXmlExport>) o;
+                    for (AwardSyncXmlExport unitChange : unitChanges) {
+                        AwardPersonUnit unit = (AwardPersonUnit) getAwardSyncUtilityService().findMatchingBo((Collection) person.getUnits(), unitChange.getKeys());
+                        if (unit != null) {
+                            person.getUnits().remove(unit);
+                        }
+                    }
+                } else if (o instanceof AwardSyncXmlExport) {
+                    AwardSyncXmlExport unitChange = (AwardSyncXmlExport) o;
                     AwardPersonUnit unit = (AwardPersonUnit) getAwardSyncUtilityService().findMatchingBo((Collection) person.getUnits(), unitChange.getKeys());
                     if (unit != null) {
                         person.getUnits().remove(unit);
                     }
+                } else {
+                    throw new AwardSyncException("Unrecognized data", false);
                 }
             } else {
                 throw new AwardSyncException("Not applicable", true);
