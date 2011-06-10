@@ -36,6 +36,7 @@ public class AwardSyncCreationServiceTest extends KcUnitTestBase {
     private AwardSyncCreationService awardSyncCreationService;
     private AwardPerson person;
     private AwardPersonUnit personUnit;
+    private AwardPersonUnit personUnit2;
     
     @Before
     public void setUp() throws Exception {
@@ -47,11 +48,22 @@ public class AwardSyncCreationServiceTest extends KcUnitTestBase {
         person.setRoleCode("PI");
         Unit unit = new Unit();
         unit.setUnitName("TestUnit");
+        unit.setUnitNumber("000001");
         personUnit = new AwardPersonUnit();
         personUnit.setAwardPerson(person);
         personUnit.setLeadUnit(true);
         personUnit.setUnit(unit);
+        
+        unit = new Unit();
+        unit.setUnitName("TestUnit2");
+        unit.setUnitNumber("BL-BL");
+        personUnit2 = new AwardPersonUnit();
+        personUnit2.setAwardPerson(person);
+        personUnit2.setLeadUnit(false);
+        personUnit2.setUnit(unit);
+
         person.add(personUnit);
+        person.add(personUnit2);
         award.add(person);
     }
 
@@ -94,4 +106,35 @@ public class AwardSyncCreationServiceTest extends KcUnitTestBase {
         AwardSyncXmlExport xmlExport = awardSyncCreationService.getXmlExport(change);
         assertNotNull(xmlExport);
     }
+    
+    @Test
+    public void testAddUniqueUnits() throws Exception {
+        AwardSyncPendingChangeBean pendingChange = 
+            new AwardSyncPendingChangeBean(AwardSyncType.DELETE_SYNC, personUnit, "projectPersons", null);
+        AwardSyncChange change = awardSyncCreationService.createAwardSyncChange(pendingChange);
+        awardSyncCreationService.addAwardSyncChange(award, change);
+        assertTrue(!award.getSyncChanges().isEmpty());
+        
+        pendingChange = 
+            new AwardSyncPendingChangeBean(AwardSyncType.DELETE_SYNC, personUnit2, "projectPersons", null);
+        change = awardSyncCreationService.createAwardSyncChange(pendingChange);
+        awardSyncCreationService.addAwardSyncChange(award, change);
+        assertEquals(2, award.getSyncChanges().size());
+    }
+    
+    @Test
+    public void testAddDuplicateUnits() throws Exception {
+        AwardSyncPendingChangeBean pendingChange = 
+            new AwardSyncPendingChangeBean(AwardSyncType.DELETE_SYNC, personUnit, "projectPersons", null);
+        AwardSyncChange change = awardSyncCreationService.createAwardSyncChange(pendingChange);
+        awardSyncCreationService.addAwardSyncChange(award, change);
+        assertTrue(!award.getSyncChanges().isEmpty());
+        
+        personUnit2.setUnit(personUnit.getUnit());
+        pendingChange = 
+            new AwardSyncPendingChangeBean(AwardSyncType.DELETE_SYNC, personUnit2, "projectPersons", null);
+        change = awardSyncCreationService.createAwardSyncChange(pendingChange);
+        awardSyncCreationService.addAwardSyncChange(award, change);
+        assertEquals(1, award.getSyncChanges().size());
+    }    
 }

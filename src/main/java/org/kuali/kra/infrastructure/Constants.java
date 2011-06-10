@@ -425,7 +425,7 @@ public interface Constants {
 
     //Award Hierarchy Sync
     public static final String AWARD_APPLY_SYNC_NODE_NAME = "ApplySync";
-    public static final String AWARD_RERUN_SYNC_VALIDATION_NODE_NAME = "hasSync";
+    public static final String AWARD_SYNC_HAS_SYNC_NODE_NAME = "hasSync";
     public static final String AWARD_SYNC_VALIDATION_NODE_NAME = "SyncValidationApproval";
     
   //Institutional Proposal

@@ -50,12 +50,23 @@ public class AwardSyncReportRecipientHelper extends AwardSyncHelperBase {
             }
         } else {
             if (report != null) {
-                List<AwardSyncXmlExport> recipientChanges = (List<AwardSyncXmlExport>) change.getXmlExport().getValues().get("awardReportTermRecipients");
-                for (AwardSyncXmlExport recipientChange : recipientChanges) {
+                Object o = change.getXmlExport().getValues().get("awardReportTermRecipients");
+                if (o instanceof List) {
+                    List<AwardSyncXmlExport> recipientChanges = (List<AwardSyncXmlExport>) o;
+                    for (AwardSyncXmlExport recipientChange : recipientChanges) {
+                        AwardReportTermRecipient recipient = (AwardReportTermRecipient) getAwardSyncUtilityService().findMatchingBo((Collection) report.getAwardReportTermRecipients(), recipientChange.getKeys());
+                        if (recipient != null) {
+                            report.getAwardReportTermRecipients().remove(recipient);
+                        }
+                    }
+                } else if (o instanceof AwardSyncXmlExport) {
+                    AwardSyncXmlExport recipientChange = (AwardSyncXmlExport) o;
                     AwardReportTermRecipient recipient = (AwardReportTermRecipient) getAwardSyncUtilityService().findMatchingBo((Collection) report.getAwardReportTermRecipients(), recipientChange.getKeys());
                     if (recipient != null) {
                         report.getAwardReportTermRecipients().remove(recipient);
                     }
+                } else {
+                    throw new AwardSyncException("Unrecognized data", false);
                 }
             } else {
                 throw new AwardSyncException("Not applicable", true);
