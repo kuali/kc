@@ -266,7 +266,8 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 				if (rolodex != null) {
 						Sponsor rolodexSponsor = rolodex.getSponsor();
                         Sponsor proposalSponsor = pdDoc.getDevelopmentProposal().getSponsor();
-                        if (rolodexSponsor != null&& rolodexSponsor.getSponsorTypeCode() != null
+                    if (rolodexSponsor != null && rolodexSponsor.equals(rolodexSponsor.getSponsorCode())) {
+                        if (rolodexSponsor.getSponsorTypeCode() != null
 								    && rolodexSponsor.getSponsorTypeCode().equals(
 								            proposalSponsor.getSponsorTypeCode())) {
 							sponsortType = Integer.parseInt(rolodexSponsor.getSponsorTypeCode());
@@ -279,15 +280,14 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 										.setInternationalParticipation(YesNoDataType.Y_YES);
 							}
 						}
+                    }
 					// if no sponsor in rolodex is found, then use person's
 					// country
 					if (sponsortType == -1
 							&& rolodex.getCountryCode() != null
-							&& ((rolodex.getCountryCode().equals(
-									COUNTRY_CODE_USA)
-									|| rolodex.getCountryCode().equals(
-											COUNTRY_CODE_PRI) || rolodex
-									.getCountryCode().equals(COUNTRY_CODE_VIR)))) {
+							&& ((rolodex.getCountryCode().equals(COUNTRY_CODE_USA)
+									|| rolodex.getCountryCode().equals(COUNTRY_CODE_PRI) 
+									|| rolodex.getCountryCode().equals(COUNTRY_CODE_VIR)))) {
 						seniorKeyPerson
 								.setNASACoItype(CoItypeDataType.CO_I_INSTITUTIONAL_PI);
 					} else {
@@ -299,7 +299,7 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 				}
 			}
 		} else {
-			seniorKeyPerson.setNASACoItype(CoItypeDataType.COLLABORATOR);
+			seniorKeyPerson.setNASACoItype(CoItypeDataType.CO_I);
 		}
 		if (proposalPerson.getProposalPersonRoleId() != null
                 && proposalPerson.getProposalPersonRoleId().equals(Constants.KEY_PERSON_ROLE)
