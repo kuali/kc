@@ -36,6 +36,7 @@ import org.kuali.kra.printing.print.GenericPrintable;
 import org.kuali.kra.printing.service.PrintingService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.BudgetPeriodInfo;
 import org.kuali.kra.s2s.generator.bo.CostInfo;
@@ -235,4 +236,13 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
 		}
 		return compensation;
 	}
+   protected boolean isProposalPersonEqualsKeyPerson(ProposalPerson proposalPerson, KeyPersonInfo keyPerson) {
+        if(keyPerson.getPersonId()!=null){
+            return keyPerson.getPersonId().equals(proposalPerson.getPersonId());
+        }else if(keyPerson.getRolodexId()!=null){
+            return keyPerson.getRolodexId().equals(proposalPerson.getRolodexId());
+        }
+        return false;
+    }
+
 }
