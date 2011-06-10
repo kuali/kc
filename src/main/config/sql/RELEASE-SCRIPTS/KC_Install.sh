@@ -158,6 +158,17 @@ case "${dbtype}" in
 			sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-RELEASE-3_1_SP3-Upgrade-ORACLE.sql
 			mv *.log ../LOGS/
 			cd ..
+			
+			cd KC-RELEASE-3_1_SP4-SCRIPT
+			sqlplus "${un}"/"${pw}${DBSvrNm}" < KRC-RELEASE-3_1_SP4-Upgrade-ORACLE.sql
+			sqlplus "${un}"/"${pw}${DBSvrNm}" < KC-RELEASE-3_1_SP4-Upgrade-ORACLE.sql
+			sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-RELEASE-3_1_SP4-Upgrade-ORACLE.sql
+			if [ "${InstRice}" = "Y" ] || [ "${mode}" = "BUNDLE" ]
+			then
+				sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-Server-Release-1_0_3_1-1_0_3_2-Upgrade-ORACLE.sql
+			fi
+			mv *.log ../LOGS/
+			cd ..
 		fi 
 		
 		cd INSTALL-SHARED/ORACLE
