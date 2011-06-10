@@ -24,7 +24,6 @@ public class SponsorFormTemplate extends AbstractSponsorFormTemplate implements 
     private String fileName;
     private String contentType;
     private byte[] attachmentContent;
-    private FormFile templateFile;
     private Boolean selectToPrint = Boolean.FALSE;
 
     public byte[] getAttachmentContent() {
@@ -36,11 +35,11 @@ public class SponsorFormTemplate extends AbstractSponsorFormTemplate implements 
     }
 
     public FormFile getTemplateFile() {
-        return templateFile;
+        return super.getAttachmentFile();
     }
     
     public void setTemplateFile(FormFile templateFile) {
-        this.templateFile = templateFile;
+        super.setAttachmentFile(templateFile);
     }
 
     public String getFileName() {
