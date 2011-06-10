@@ -19,6 +19,19 @@
 <c:if test="${!proposalBudgetFlag}">
 <script type="text/javascript" src="scripts/jquery/jquery.js"></script>
 <script language="javascript">
+  //well IE7 is super helpful and doesn't support Array.indexOf(used below) so here we implement
+  //our own if there isn't one.
+  if(!Array.indexOf){
+    Array.prototype.indexOf = function(obj){
+        for(var i=0; i<this.length; i++){
+            if(this[i]==obj){
+                return i;
+            }
+        }
+        return -1;
+    }
+  }
+  
   var $jq = jQuery.noConflict();
 
   function displayOfInactiveStatuses(checkbox) {
