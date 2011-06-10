@@ -14,6 +14,12 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/proposaldevelopment/proposalPerson.jsp"%>
+
+<c:set var="proposalPersonExtendedAttributes" value="${DataDictionary.ProposalPersonExtendedAttributes.attributes}" />
+<%--
+<c:set var="proposalPersonExtendedAttributes" value="${DataDictionary.ProposalPersonExtendedAttributes.attributes}" />
+ --%>
+ 
 <c:set var="readOnly" value="${not KualiForm.editingMode['modifyProposal']}" scope="request" /> 
 <c:set var="keypersonrole" value="<%=org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE%>" />
 <c:set var="coirole" value="<%=org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE%>" />
@@ -308,6 +314,280 @@
 </table></div>
 </kul:innerTab>
 </td></tr>
+
+<c:choose>
+	<c:when test="${KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].proposalPersonExtendedAttributes != null}">
+		<c:set var="personEA" value="document.developmentProposalList[0].proposalPersons[${personIndex}].proposalPersonExtendedAttributes" />
+		<tr>
+			<td colspan=4>
+				<kul:innerTab tabTitle="Extended Details" parentTab="${parentTabName}" defaultOpen="false">
+					<div class="innerTab-container" align="left">
+						<table class=tab cellpadding=0 cellspacing="0" summary="">
+							<tbody id="G2">
+								<tr>
+									<th nowrap="nowrap"><div align="right">
+										<kul:htmlAttributeLabel attributeEntry="${proposalPersonExtendedAttributes.ageByFiscalYear}"  />
+									</div></th>
+									<td align-"left">
+										<kul:htmlControlAttribute property="${personEA}.ageByFiscalYear" 
+                                          attributeEntry="${proposalPersonExtendedAttributes.ageByFiscalYear}" 
+                                                readOnly="${readOnly }" />
+									</td>
+									<th nowrap="nowrap"><div align="right">
+										<kul:htmlAttributeLabel attributeEntry="${proposalPersonExtendedAttributes.race}"  />
+									</div></th>
+									<td align="left">
+										<kul:htmlControlAttribute property="${personEA}.race" 
+                                          attributeEntry="${proposalPersonExtendedAttributes.race}" 
+                                                readOnly="${readOnly }" />
+									</td>
+								</tr>
+								<tr>
+									<th nowrap="nowrap"><div align="right">
+										<kul:htmlAttributeLabel attributeEntry="${proposalPersonExtendedAttributes.educationLevel}"  />
+									</div></th>
+									<td align-"left">
+										<kul:htmlControlAttribute property="${personEA}.educationLevel" 
+                                          attributeEntry="${proposalPersonExtendedAttributes.educationLevel}" 
+                                                readOnly="${readOnly }" />
+									</td>
+									<th nowrap="nowrap"><div align="right">
+										<kul:htmlAttributeLabel attributeEntry="${proposalPersonExtendedAttributes.degree}"  />
+									</div></th>
+									<td align="left">
+										<kul:htmlControlAttribute property="${personEA}.degree" 
+                                          attributeEntry="${proposalPersonExtendedAttributes.degree}" 
+                                                readOnly="${readOnly }" />
+									</td>
+								</tr>
+								<tr>
+									<th nowrap="nowrap"><div align="right">
+										<kul:htmlAttributeLabel attributeEntry="${proposalPersonExtendedAttributes.major}"  />
+									</div></th>
+									<td align-"left">
+										<kul:htmlControlAttribute property="${personEA}.major" 
+                                          attributeEntry="${proposalPersonExtendedAttributes.major}" 
+                                                readOnly="${readOnly }" />
+									</td>
+									<th nowrap="nowrap"><div align="right">
+										<kul:htmlAttributeLabel attributeEntry="${proposalPersonExtendedAttributes.personId}"  />
+									</div></th>
+									<td align="left">
+										<kul:htmlControlAttribute property="${personEA}.personId" 
+                                          attributeEntry="${proposalPersonExtendedAttributes.personId}" 
+                                                readOnly="${true }" />
+									</td>
+								</tr>
+								<tr>
+									<th nowrap="nowrap"><div align="right">
+										<kul:htmlAttributeLabel attributeEntry="${proposalPersonExtendedAttributes.handicappedFlag}"  />
+									</div></th>
+									<td align-"left">
+										<kul:htmlControlAttribute property="${personEA}.handicappedFlag" 
+                                          attributeEntry="${proposalPersonExtendedAttributes.handicappedFlag}" 
+                                                readOnly="${readOnly }" />
+									</td>
+									<th nowrap="nowrap"><div align="right">
+										<kul:htmlAttributeLabel attributeEntry="${proposalPersonExtendedAttributes.handicapType}"  />
+									</div></th>
+									<td align="left">
+										<kul:htmlControlAttribute property="${personEA}.handicapType" 
+                                          attributeEntry="${proposalPersonExtendedAttributes.handicapType}" 
+                                                readOnly="${readOnly }" />
+									</td>
+								</tr>
+								<tr>
+									<th nowrap="nowrap"><div align="right">
+										<kul:htmlAttributeLabel attributeEntry="${proposalPersonExtendedAttributes.veteranFlag}"  />
+									</div></th>
+									<td align-"left">
+										<kul:htmlControlAttribute property="${personEA}.veteranFlag" 
+                                          attributeEntry="${proposalPersonExtendedAttributes.veteranFlag}" 
+                                                readOnly="${readOnly }" />
+									</td>
+									<th nowrap="nowrap"><div align="right">
+										<kul:htmlAttributeLabel attributeEntry="${proposalPersonExtendedAttributes.veteranType}"  />
+									</div></th>
+									<td align="left">
+										<kul:htmlControlAttribute property="${personEA}.veteranType" 
+                                          attributeEntry="${proposalPersonExtendedAttributes.veteranType}" 
+                                                readOnly="${readOnly }" />
+									</td>
+								</tr>
+								<tr>
+									<th nowrap="nowrap"><div align="right">
+										<kul:htmlAttributeLabel attributeEntry="${proposalPersonExtendedAttributes.hasVisa}"  />
+									</div></th>
+									<td align-"left">
+										<kul:htmlControlAttribute property="${personEA}.hasVisa" 
+                                          attributeEntry="${proposalPersonExtendedAttributes.hasVisa}" 
+                                                readOnly="${readOnly }" />
+									</td>
+									<th nowrap="nowrap"><div align="right">
+										<kul:htmlAttributeLabel attributeEntry="${proposalPersonExtendedAttributes.visaCode}"  />
+									</div></th>
+									<td align="left">
+										<kul:htmlControlAttribute property="${personEA}.visaCode" 
+                                          attributeEntry="${proposalPersonExtendedAttributes.visaCode}" 
+                                                readOnly="${readOnly }" />
+									</td>
+								</tr>
+								<tr>
+									<th nowrap="nowrap"><div align="right">
+										<kul:htmlAttributeLabel attributeEntry="${proposalPersonExtendedAttributes.visaType}"  />
+									</div></th>
+									<td align-"left">
+										<kul:htmlControlAttribute property="${personEA}.visaType" 
+                                          attributeEntry="${proposalPersonExtendedAttributes.visaType}" 
+                                                readOnly="${readOnly }" />
+									</td>
+									<th nowrap="nowrap"><div align="right">
+										<kul:htmlAttributeLabel attributeEntry="${proposalPersonExtendedAttributes.visaRenewalDate}"  />
+									</div></th>
+									<td align="left">
+										<kul:htmlControlAttribute property="${personEA}.visaRenewalDate" 
+                                          attributeEntry="${proposalPersonExtendedAttributes.visaRenewalDate}" 
+                                                readOnly="${readOnly }" />
+									</td>
+								</tr>
+								<tr>
+									<th nowrap="nowrap"><div align="right">
+										<kul:htmlAttributeLabel attributeEntry="${proposalPersonExtendedAttributes.officeLocation}"  />
+									</div></th>
+									<td align-"left">
+										<kul:htmlControlAttribute property="${personEA}.officeLocation" 
+                                          attributeEntry="${proposalPersonExtendedAttributes.officeLocation}" 
+                                                readOnly="${readOnly }" />
+									</td>
+									<th nowrap="nowrap"><div align="right">
+										<kul:htmlAttributeLabel attributeEntry="${proposalPersonExtendedAttributes.secondaryOfficeLocation}"  />
+									</div></th>
+									<td align="left">
+										<kul:htmlControlAttribute property="${personEA}.secondaryOfficeLocation" 
+                                          attributeEntry="${proposalPersonExtendedAttributes.secondaryOfficeLocation}" 
+                                                readOnly="${readOnly }" />
+									</td>
+								</tr>
+								<tr>
+									<th nowrap="nowrap"><div align="right">
+										<kul:htmlAttributeLabel attributeEntry="${proposalPersonExtendedAttributes.school}"  />
+									</div></th>
+									<td align-"left">
+										<kul:htmlControlAttribute property="${personEA}.school" 
+                                          attributeEntry="${proposalPersonExtendedAttributes.school}" 
+                                                readOnly="${readOnly }" />
+									</td>
+									<th nowrap="nowrap"><div align="right">
+										<kul:htmlAttributeLabel attributeEntry="${proposalPersonExtendedAttributes.yearGraduated}"  />
+									</div></th>
+									<td align="left">
+										<kul:htmlControlAttribute property="${personEA}.yearGraduated" 
+                                          attributeEntry="${proposalPersonExtendedAttributes.yearGraduated}" 
+                                                readOnly="${readOnly }" />
+									</td>
+								</tr>
+								<tr>
+									<th nowrap="nowrap"><div align="right">
+										<kul:htmlAttributeLabel attributeEntry="${proposalPersonExtendedAttributes.directoryDepartment}"  />
+									</div></th>
+									<td align-"left">
+										<kul:htmlControlAttribute property="${personEA}.directoryDepartment" 
+                                          attributeEntry="${proposalPersonExtendedAttributes.directoryDepartment}" 
+                                                readOnly="${readOnly }" />
+									</td>
+									<th nowrap="nowrap"><div align="right">
+										<kul:htmlAttributeLabel attributeEntry="${proposalPersonExtendedAttributes.primaryTitle}"  />
+									</div></th>
+									<td align="left">
+										<kul:htmlControlAttribute property="${personEA}.primaryTitle" 
+                                          attributeEntry="${proposalPersonExtendedAttributes.primaryTitle}" 
+                                                readOnly="${readOnly }" />
+									</td>
+								</tr>
+								<tr>
+									<th nowrap="nowrap"><div align="right">
+										<kul:htmlAttributeLabel attributeEntry="${proposalPersonExtendedAttributes.directoryTitle}"  />
+									</div></th>
+									<td align-"left">
+										<kul:htmlControlAttribute property="${personEA}.directoryTitle" 
+                                          attributeEntry="${proposalPersonExtendedAttributes.directoryTitle}" 
+                                                readOnly="${readOnly }" />
+									</td>
+									<th nowrap="nowrap"><div align="right">
+										<kul:htmlAttributeLabel attributeEntry="${proposalPersonExtendedAttributes.vacationAccrualFlag}"  />
+									</div></th>
+									<td align="left">
+										<kul:htmlControlAttribute property="${personEA}.vacationAccrualFlag" 
+                                          attributeEntry="${proposalPersonExtendedAttributes.vacationAccrualFlag}" 
+                                                readOnly="${readOnly }" />
+									</td>
+								</tr>
+								<tr>
+									<th nowrap="nowrap"><div align="right">
+										<kul:htmlAttributeLabel attributeEntry="${proposalPersonExtendedAttributes.onSabbaticalFlag}"  />
+									</div></th>
+									<td align-"left">
+										<kul:htmlControlAttribute property="${personEA}.onSabbaticalFlag" 
+                                          attributeEntry="${proposalPersonExtendedAttributes.onSabbaticalFlag}" 
+                                                readOnly="${readOnly }" />
+									</td>
+									<th nowrap="nowrap"><div align="right">
+										<kul:htmlAttributeLabel attributeEntry="${proposalPersonExtendedAttributes.county}"  />
+									</div></th>
+									<td align="left">
+										<kul:htmlControlAttribute property="${personEA}.county" 
+                                          attributeEntry="${proposalPersonExtendedAttributes.county}" 
+                                                readOnly="${readOnly }" />
+									</td>
+								</tr>
+								<tr>
+									<th nowrap="nowrap"><div align="right">
+										<kul:htmlAttributeLabel attributeEntry="${proposalPersonExtendedAttributes.idProvided}"  />
+									</div></th>
+									<td align-"left">
+										<kul:htmlControlAttribute property="${personEA}.idProvided" 
+                                          attributeEntry="${proposalPersonExtendedAttributes.idProvided}" 
+                                                readOnly="${readOnly }" />
+									</td>
+									<th nowrap="nowrap"><div align="right">
+										<kul:htmlAttributeLabel attributeEntry="${proposalPersonExtendedAttributes.idVerified}"  />
+									</div></th>
+									<td align="left">
+										<kul:htmlControlAttribute property="${personEA}.idVerified" 
+                                          attributeEntry="${proposalPersonExtendedAttributes.idVerified}" 
+                                                readOnly="${readOnly }" />
+									</td>
+								</tr>
+								<tr>
+									<th nowrap="nowrap"><div align="right">
+										<kul:htmlAttributeLabel attributeEntry="${proposalPersonExtendedAttributes.versionNumber}"  />
+									</div></th>
+									<td align-"left">
+										<kul:htmlControlAttribute property="${personEA}.versionNumber" 
+                                          attributeEntry="${proposalPersonExtendedAttributes.versionNumber}" 
+                                                readOnly="${true }" />
+									</td>
+									<th nowrap="nowrap"><div align="right">
+										<kul:htmlAttributeLabel attributeEntry="${proposalPersonExtendedAttributes.citizenshipTypeCode}"  />
+									</div></th>
+									<td align="left">
+										<kul:htmlControlAttribute property="${personEA}.citizenshipTypeCode" 
+                                          attributeEntry="${proposalPersonExtendedAttributes.citizenshipTypeCode}" 
+                                                readOnly="${readOnly }" />
+									</td>
+								</tr>
+								
+								
+								 
+							</tbody>
+						</table>
+					</div>
+				</kul:innerTab>
+			</td>
+		</tr>
+	</c:when>
+</c:choose>
+
 <tr>
 <td colspan=4>
 <kul:innerTab tabTitle="Degrees" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="newProposalPersonDegree.*,newProposalPersonDegree[${personIndex}].graduationYear*,newProposalPersonDegree[${personIndex}].degree*,newProposalPersonDegree[${personIndex}].degreeCode*">

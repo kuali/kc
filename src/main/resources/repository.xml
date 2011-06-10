@@ -639,7 +639,72 @@
    	    <reference-descriptor name="developmentProposal" class-ref="org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal" auto-retrieve="true" auto-update="none" auto-delete="none">
 		   <foreignkey field-ref="proposalNumber" />
 	    </reference-descriptor>		
+	    
+	    <reference-descriptor name="proposalPersonExtendedAttributes" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPersonExtendedAttributes" auto-retrieve="true" auto-update="object" auto-delete="true">
+			<foreignkey field-ref="proposalNumber"/>
+			<foreignkey field-ref="proposalPersonNumber"/>
+			<foreignkey field-ref="proposalPersonRoleId"/>
+		</reference-descriptor>
+		 
     </class-descriptor>
+    
+    <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalPersonExtendedAttributes" table="EPS_PROP_PERSON_EXT">
+    	<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true" />
+        <field-descriptor name="proposalPersonNumber" column="PROP_PERSON_NUMBER" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="proposalPersonRoleId" column="PROP_PERSON_ROLE_ID" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="ageByFiscalYear" column="AGE_BY_FISCAL_YEAR" jdbc-type="INTEGER" />
+		<field-descriptor name="race" column="RACE" jdbc-type="VARCHAR" />
+		<field-descriptor name="educationLevel" column="EDUCATION_LEVEL" jdbc-type="VARCHAR" />
+		<field-descriptor name="degree" column="DEGREE" jdbc-type="VARCHAR" />
+		<field-descriptor name="major" column="MAJOR" jdbc-type="VARCHAR" />
+		<field-descriptor name="handicappedFlag" column="IS_HANDICAPPED" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+		<field-descriptor name="handicapType" column="HANDICAP_TYPE" jdbc-type="VARCHAR" />
+		<field-descriptor name="veteranFlag" column="IS_VETERAN" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+		<field-descriptor name="veteranType" column="VETERAN_TYPE" jdbc-type="VARCHAR" />
+		<field-descriptor name="visaCode" column="VISA_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="visaType" column="VISA_TYPE" jdbc-type="VARCHAR" />
+		<field-descriptor name="visaRenewalDate" column="VISA_RENEWAL_DATE" jdbc-type="DATE" />
+		<field-descriptor name="hasVisa" column="HAS_VISA" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+		<field-descriptor name="officeLocation" column="OFFICE_LOCATION" jdbc-type="VARCHAR" />
+		<field-descriptor name="secondaryOfficeLocation" column="SECONDRY_OFFICE_LOCATION" jdbc-type="VARCHAR" />
+		<field-descriptor name="school" column="SCHOOL" jdbc-type="VARCHAR" />
+		<field-descriptor name="yearGraduated" column="YEAR_GRADUATED" jdbc-type="VARCHAR" />
+		<field-descriptor name="directoryDepartment" column="DIRECTORY_DEPARTMENT" jdbc-type="VARCHAR" />
+		<field-descriptor name="primaryTitle" column="PRIMARY_TITLE" jdbc-type="VARCHAR" />
+		<field-descriptor name="directoryTitle" column="DIRECTORY_TITLE" jdbc-type="VARCHAR" />
+		<field-descriptor name="vacationAccrualFlag" column="VACATION_ACCURAL" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+		<field-descriptor name="onSabbaticalFlag" column="IS_ON_SABBATICAL" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+		<field-descriptor name="idProvided" column="ID_PROVIDED" jdbc-type="VARCHAR" />
+		<field-descriptor name="idVerified" column="ID_VERIFIED" jdbc-type="VARCHAR" />
+		<field-descriptor name="county" column="COUNTY" jdbc-type="VARCHAR" />
+		<field-descriptor name="biosketchDescription" column="BIOSKETCH_DESCRIPTION" jdbc-type="VARCHAR"/>
+        <field-descriptor name="fileName" column="BIOSKETCH_FILENAME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="contentType" column="BIOSKETCH_FILE_CONTENT_TYPE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="attachmentContent" column="BIOSKETCH_FILE" jdbc-type="LONGVARBINARY"/>
+        <field-descriptor name="citizenshipTypeCode" column="CITIZENSHIP_TYPE_CODE" jdbc-type="INTEGER"/>
+		
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+		
+		<reference-descriptor name="citizenshipType" class-ref="org.kuali.kra.bo.CitizenshipType" auto-retrieve="true" auto-update="object" auto-delete="none">
+			<foreignkey field-ref="citizenshipTypeCode"/>
+		</reference-descriptor>
+		
+		<reference-descriptor name="proposalPerson" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPerson" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="proposalPersonNumber"/> 
+			<foreignkey field-ref="proposalNumber"/> 
+		</reference-descriptor> 
+		<!-- 
+		<reference-descriptor name="proposalPerson" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPerson" auto-retrieve="true" auto-update="object" auto-delete="none">
+			<foreignkey field-ref="proposalNumber"/>
+			<foreignkey field-ref="proposalPersonNumber"/>
+			<foreignkey field-ref="proposalPersonRoleId"/>
+		</reference-descriptor>
+		 -->  
+	</class-descriptor>
 
     <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalInvestigatorCertification" table="PROPOSAL_INV_CERTIFICATION">
         <field-descriptor name="proposalPersonNumber" column="PROP_PERSON_NUMBER" jdbc-type="INTEGER" primarykey="true" />
