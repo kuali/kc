@@ -139,6 +139,8 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     private Boolean active = true;
     private Unit homeUnitRef;
     
+    private ProposalPersonExtendedAttributes proposalPersonExtendedAttributes;
+    
     private transient boolean moveDownAllowed;
     private transient boolean moveUpAllowed;
     private transient KcPersonService kcPersonService;
@@ -2094,6 +2096,14 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     }
     public String getInvestigatorRoleDescription() {
         return KraServiceLocator.getService(KeyPersonnelService.class).getPersonnelRoleDesc(this);
+    }
+    
+    public ProposalPersonExtendedAttributes getProposalPersonExtendedAttributes() {
+        return this.proposalPersonExtendedAttributes;
+    }
+    
+    public void setProposalPersonExtendedAttributes(ProposalPersonExtendedAttributes proposalPersonExtendedAttributes) {
+        this.proposalPersonExtendedAttributes = proposalPersonExtendedAttributes;
     }
     
     /**
