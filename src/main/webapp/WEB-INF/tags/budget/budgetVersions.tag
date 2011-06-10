@@ -47,7 +47,7 @@
 		  if (statuses.indexOf($jq(this).val()) != -1) {
 			  if ($jq(checkbox).is(':checked')) {
 			  	$jq(this).parent().parent().parent().parent().show();
-			  	if ($jq(this).parent().parent().parent().parent().prev().val() == 'OPEN') {
+			  	if ($jq(this).parent().parent().parent().parent().find('input[name*="tabStates"]').val() == 'OPEN') {
 			  		$jq(this).parent().parent().parent().parent().next().show();
 			  	}
 			  } else {
@@ -201,12 +201,12 @@
 				<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
 					<c:set var="displayStyle" value="display: none;"/>
 				</c:if>
-					<html:hidden property="tabStates(${versionTab})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
 					
 				<tbody>
           		<tr class="budgetline">
            			<td align="right" class="tab-subhead" scope="row">
            				<div align="center">
+           				    <html:hidden property="tabStates(${versionTab})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
            					<c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
                  				<html:image property="methodToCall.toggleTab.tab${versionTab}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" title="close ${tabTitle}" alt="close ${tabTitle}" styleClass="tinybutton"  styleId="tab-${versionTab}-imageToggle" onclick="javascript: return toggleTab(document, '${versionTab}'); " />
                				</c:if>
