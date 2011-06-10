@@ -635,7 +635,13 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         
         if (getDocumentHeader().hasWorkflowDocument()) {
             String docRouteStatus = getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
+            String docRouteNode = getDocumentHeader().getWorkflowDocument().getRouteHeader().getCurrentRouteNodeNames();
             if (KEWConstants.ROUTE_HEADER_FINAL_CD.equals(docRouteStatus)) {
+                isComplete = true;
+            } else if (!getAward().getSyncChanges().isEmpty() && getAward().getSyncStatuses().size() > 1) {
+                //if we are doing a sync(sync changes is not empty) and we have a sync status for an award
+                //other than the parent(> 1) then we are complete and should return to award actions page
+                //so they can see the award status.
                 isComplete = true;
             }
         }
