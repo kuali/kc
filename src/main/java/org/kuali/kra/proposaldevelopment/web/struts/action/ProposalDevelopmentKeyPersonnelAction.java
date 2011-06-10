@@ -47,6 +47,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.bo.CitizenshipType;
+import org.kuali.kra.bo.KcPersonExtendedAttributes;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -56,6 +58,7 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonComparator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonExtendedAttributes;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
@@ -102,15 +105,25 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
 
         List<ProposalPerson> keyPersonnel = ((ProposalDevelopmentForm) form).getDocument().getDevelopmentProposal().getProposalPersons();
         //setAnswerHeaders(keyPersonnel);
-        
         return retval;
     }
     
-    //private void setAnswerHeaders(List<ProposalPerson> proposalPersons) {
-      //  for (ProposalPerson person : proposalPersons) {
-        //    getProposalDevelopmentPersonQuestionnaireService().setAnswerHeaders(person);
-        //}
-    //}
+    public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        super.preSave(mapping, form, request, response);
+        List<ProposalPerson> keyPersonnel = ((ProposalDevelopmentForm) form).getDocument().getDevelopmentProposal().getProposalPersons();
+        for (ProposalPerson proposalPerson : keyPersonnel) {
+            if (proposalPerson.getProposalPersonExtendedAttributes() != null) {
+                int extendedAttributedCitizenshipTypeCode = proposalPerson.getProposalPersonExtendedAttributes().getCitizenshipTypeCode();
+                if (extendedAttributedCitizenshipTypeCode != proposalPerson.getProposalPersonExtendedAttributes().getCitizenshipType().getCitizenshipTypeCode()) {
+                    //the citizenship type has been changed, so now we need to account for that.
+                    Map params = new HashMap();
+                    params.put("citizenshipTypeCode", extendedAttributedCitizenshipTypeCode);
+                    CitizenshipType newCitizenshipType = (CitizenshipType) this.getBusinessObjectService().findByPrimaryKey(CitizenshipType.class, params);
+                    proposalPerson.getProposalPersonExtendedAttributes().setCitizenshipType(newCitizenshipType);
+                }
+            }
+        }
+    }
     
     public ActionForward moveDown(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         List<ProposalPerson> keyPersonnel = ((ProposalDevelopmentForm) form).getDocument().getDevelopmentProposal().getProposalPersons();
@@ -268,14 +281,12 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalDevelopmentDocument document = pdform.getDocument();
         GlobalVariables.getErrorMap().removeFromErrorPath("document.proposalPersons");
         
-        if ( isNotBlank(pdform.getNewProposalPerson().getProposalPersonRoleId())){
-            if(pdform.getNewProposalPerson().getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE) || pdform.getNewProposalPerson().equals(CO_INVESTIGATOR_ROLE))
-            {
+        if (isNotBlank(pdform.getNewProposalPerson().getProposalPersonRoleId())) {
+            if (pdform.getNewProposalPerson().getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE) || pdform.getNewProposalPerson().equals(CO_INVESTIGATOR_ROLE)) {
                 pdform.getNewProposalPerson().setOptInUnitStatus("Y");
                 pdform.getNewProposalPerson().setOptInCertificationStatus("Y");
                 pdform.setOptInCertificationStatus("Y");
-            }else
-            {
+            } else {
                 pdform.getNewProposalPerson().setOptInUnitStatus("N");
                 pdform.getNewProposalPerson().setOptInCertificationStatus("N");
                 pdform.setOptInCertificationStatus("N");
@@ -286,29 +297,39 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
 
         // if the rule evaluation passed, let's add it
         if (rulePassed) {
-            document.getDevelopmentProposal().addProposalPerson(pdform.getNewProposalPerson());
-            info(ADDED_PERSON_MSG, pdform.getNewProposalPerson().getProposalNumber(), pdform.getNewProposalPerson().getProposalPersonNumber());
+            
+            ProposalPerson proposalPerson = pdform.getNewProposalPerson();
+            
+            Map<String, String> keys = new HashMap<String, String>();
+            keys.put("personId", proposalPerson.getPersonId());
+            KcPersonExtendedAttributes kcPersonExtendedAttributes = (KcPersonExtendedAttributes) this.getBusinessObjectService().
+                findByPrimaryKey(KcPersonExtendedAttributes.class, keys);
+            ProposalPersonExtendedAttributes proposalPersonExtendedAttributes = new ProposalPersonExtendedAttributes(
+                    proposalPerson, kcPersonExtendedAttributes);
+            proposalPerson.setProposalPersonExtendedAttributes(proposalPersonExtendedAttributes);
+            document.getDevelopmentProposal().addProposalPerson(proposalPerson);
+            
+            info(ADDED_PERSON_MSG, pdform.getNewProposalPerson().getProposalNumber(), proposalPerson.getProposalPersonNumber());
             // handle lead unit for investigators respective to coi or pi
             if (getKeyPersonnelService().isPrincipalInvestigator(pdform.getNewProposalPerson())) {
-                getKeyPersonnelService().assignLeadUnit(pdform.getNewProposalPerson(), document.getDevelopmentProposal().getOwnedByUnitNumber());
-            }
-            else {
+                getKeyPersonnelService().assignLeadUnit(proposalPerson, document.getDevelopmentProposal().getOwnedByUnitNumber());
+            } else {
                 // Lead Unit information needs to be removed in case the person used to be a PI
-                ProposalPersonUnit unit =pdform.getNewProposalPerson().getUnit(document.getDevelopmentProposal().getOwnedByUnitNumber());
+                ProposalPersonUnit unit = proposalPerson.getUnit(document.getDevelopmentProposal().getOwnedByUnitNumber());
                 if (unit != null) {
                     unit.setLeadUnit(false);
                 }                
             }
-            if(pdform.getNewProposalPerson().getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE) || pdform.getNewProposalPerson().getProposalPersonRoleId().equals(CO_INVESTIGATOR_ROLE)){
-                if (isNotBlank(pdform.getNewProposalPerson().getHomeUnit()) && isValidHomeUnit(pdform.getNewProposalPerson(),pdform.getNewProposalPerson().getHomeUnit())){
-                    getKeyPersonnelService().addUnitToPerson(pdform.getNewProposalPerson(),getKeyPersonnelService().createProposalPersonUnit(pdform.getNewProposalPerson().getHomeUnit(), pdform.getNewProposalPerson()));
+            if (proposalPerson.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE) || proposalPerson.getProposalPersonRoleId().equals(CO_INVESTIGATOR_ROLE)) {
+                if (isNotBlank(proposalPerson.getHomeUnit()) && isValidHomeUnit(proposalPerson,pdform.getNewProposalPerson().getHomeUnit())){
+                    getKeyPersonnelService().addUnitToPerson(proposalPerson,getKeyPersonnelService().createProposalPersonUnit(proposalPerson.getHomeUnit(), proposalPerson));
                 }
             }
-            getKeyPersonnelService().populateProposalPerson(pdform.getNewProposalPerson(), document);
+            getKeyPersonnelService().populateProposalPerson(proposalPerson, document);
             sort(document.getDevelopmentProposal().getProposalPersons(), new ProposalPersonComparator());
             sort(document.getDevelopmentProposal().getInvestigators(), new ProposalPersonComparator());
             
-            ProposalPersonQuestionnaireHelper helper = new ProposalPersonQuestionnaireHelper(pdform, pdform.getNewProposalPerson());
+            ProposalPersonQuestionnaireHelper helper = new ProposalPersonQuestionnaireHelper(pdform, proposalPerson);
             pdform.getProposalPersonQuestionnaireHelpers().add(helper);
             sort(pdform.getProposalPersonQuestionnaireHelpers(), new ProposalPersonQuestionnaireHelperComparator());
             
