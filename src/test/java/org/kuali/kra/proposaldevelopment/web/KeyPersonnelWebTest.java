@@ -144,6 +144,7 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
         // assertEquals(getFieldValue(keyPersonnelPage, "newPersonId"), "");
         saveAndSearchDoc(keyPersonnelPage);
     }
+    /*
     @Test
     public void changeRole() throws Exception {
         HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.KcPerson", "personId", PERSON_ID);
@@ -195,7 +196,8 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
         keyPersonnelPage = clickOn(getElementByName(keyPersonnelPage, "methodToCall.deleteDegree.document.developmentProposalList[0].proposalPersons[0].line0", true));
         saveAndSearchDoc(keyPersonnelPage);        
     }
-
+    */
+    
     /**
      * Test the basic case of removing a unit from a proposal person
      */
@@ -218,6 +220,7 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
    /**
      * Test adding a principal investigator
      */
+    /*
     @Test
     public void addPrincipalInvestigator_Rolodex() throws Exception {
         HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.NonOrganizationalRolodex");
@@ -229,6 +232,7 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
         assertFalse(keyPersonnelPage.asText().contains(ERRORS_FOUND_ON_PAGE));
         saveAndSearchDoc(keyPersonnelPage);
     }
+    */
 
     /**
      * Test adding a Key Person
@@ -321,6 +325,7 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
      * for a Key Person.
      * @throws Exception
      */
+    /*
     @Test
     public void testNoOptInCertifyForViewer() throws Exception {
         HtmlPage keyPersonnelPage = addKeyPerson();
@@ -338,6 +343,7 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
         assertTrue(!keyPersonnelPage.asText().contains("You have the option to add Certification Questions for a key person"));
         assertTrue(!keyPersonnelPage.asText().contains("You have the option to add unit details for a key person"));
     }
+    */
     
     @Test @Ignore("Data needs to be loaded before this can run.")
     public void testNihSponsorPersonnelLabels() throws Exception {
