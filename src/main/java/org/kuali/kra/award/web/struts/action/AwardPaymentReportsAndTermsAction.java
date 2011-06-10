@@ -708,8 +708,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         AwardForm awardForm = (AwardForm) form;
         Award award = awardForm.getAwardDocument().getAward();
         AwardSponsorTerm awardSponsorTerm = award.getAwardSponsorTerms().get(getSelectedLine(request));
-        getAwardSyncCreationService().addAwardSyncChange(award, 
-                new AwardSyncPendingChangeBean(AwardSyncType.ADD_SYNC, awardSponsorTerm, "awardSponsorTerms"));
+        awardForm.getAwardSyncBean().addConfirmedPendingChange(AwardSyncType.ADD_SYNC, awardSponsorTerm, "awardSponsorTerms");
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
@@ -728,8 +727,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         Award award = awardForm.getAwardDocument().getAward();
         AwardReportTerm awardReportTerm = award.getAwardReportTermItems().get(getSelectedLine(request));
         awardReportTerm.refresh();
-        getAwardSyncCreationService().addAwardSyncChange(award, 
-                new AwardSyncPendingChangeBean(AwardSyncType.ADD_SYNC, awardReportTerm, AWARD_REPORT_TERM_PROPERTY));
+        awardForm.getAwardSyncBean().addConfirmedPendingChange(AwardSyncType.ADD_SYNC, awardReportTerm, AWARD_REPORT_TERM_PROPERTY);
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
@@ -748,8 +746,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         Award award = awardForm.getAwardDocument().getAward();
         AwardReportTermRecipient recipient = 
             award.getAwardReportTermItems().get(getAwardReportTermIndex(request)).getAwardReportTermRecipients().get(getSelectedLine(request));
-        getAwardSyncCreationService().addAwardSyncChange(award, 
-                new AwardSyncPendingChangeBean(AwardSyncType.ADD_SYNC, recipient, AWARD_REPORT_TERM_PROPERTY));
+        awardForm.getAwardSyncBean().addConfirmedPendingChange(AwardSyncType.ADD_SYNC, recipient, AWARD_REPORT_TERM_PROPERTY);
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }      
 }
