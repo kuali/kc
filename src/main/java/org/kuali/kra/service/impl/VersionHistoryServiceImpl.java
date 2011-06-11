@@ -66,6 +66,9 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
         if(!(pendingVersionHistory == null)) {
             pendingVersionHistory.setStatus(VersionStatus.ACTIVE);
             bos.save(pendingVersionHistory);
+        } else {
+            //create version history even if no pending version exists -- important for award sync
+            bos.save(createVersionHistory(sequenceOwner,versionStatus, userId));
         }
         return pendingVersionHistory;
     }
