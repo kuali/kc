@@ -82,8 +82,8 @@
 		    	</c:choose>
 	    	</tr>
 	    	<tr>
-	    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttribute.totalDirectCostLimit}" noColon="true" /></div></th>
-	    		<td width="25%"><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].totalDirectCostLimit" attributeEntry="${budgetPeriodAttribute.totalDirectCostLimit}" readOnly="true"/></div></td>
+	    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.totalDirectCostLimit}" noColon="true" /></div></th>
+	    		<td width="25%"><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].totalDirectCostLimit" attributeEntry="${budgetPeriodAttributes.totalDirectCostLimit}" readOnly="true"/></div></td>
 	    		<c:choose>
 					<c:when test="${proposalBudgetFlag}">
 			    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetDocumentAttributes.totalDirectCostLimit}" noColon="true" /></div></th>
