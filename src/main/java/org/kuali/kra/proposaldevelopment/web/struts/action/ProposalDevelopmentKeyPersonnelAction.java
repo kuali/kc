@@ -110,6 +110,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     
     public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.preSave(mapping, form, request, response);
+        /*
         List<ProposalPerson> keyPersonnel = ((ProposalDevelopmentForm) form).getDocument().getDevelopmentProposal().getProposalPersons();
         for (ProposalPerson proposalPerson : keyPersonnel) {
             if (proposalPerson.getProposalPersonExtendedAttributes() != null) {
@@ -123,6 +124,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
                 }
             }
         }
+        */
     }
     
     public ActionForward moveDown(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -304,9 +306,11 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             keys.put("personId", proposalPerson.getPersonId());
             KcPersonExtendedAttributes kcPersonExtendedAttributes = (KcPersonExtendedAttributes) this.getBusinessObjectService().
                 findByPrimaryKey(KcPersonExtendedAttributes.class, keys);
-            ProposalPersonExtendedAttributes proposalPersonExtendedAttributes = new ProposalPersonExtendedAttributes(
-                    proposalPerson, kcPersonExtendedAttributes);
-            proposalPerson.setProposalPersonExtendedAttributes(proposalPersonExtendedAttributes);
+            if (kcPersonExtendedAttributes != null) {
+                ProposalPersonExtendedAttributes proposalPersonExtendedAttributes = new ProposalPersonExtendedAttributes(
+                        proposalPerson, kcPersonExtendedAttributes);
+                //proposalPerson.setProposalPersonExtendedAttributes(proposalPersonExtendedAttributes);
+            }
             document.getDevelopmentProposal().addProposalPerson(proposalPerson);
             
             info(ADDED_PERSON_MSG, pdform.getNewProposalPerson().getProposalNumber(), proposalPerson.getProposalPersonNumber());

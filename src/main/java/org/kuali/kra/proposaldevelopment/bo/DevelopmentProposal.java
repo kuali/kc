@@ -1094,9 +1094,11 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
      */
     public void addProposalPerson(ProposalPerson p) {
         p.setProposalPersonNumber(this.getProposalDocument().getDocumentNextValue(Constants.PROPOSAL_PERSON_NUMBER));
+        /*
         if (p.getProposalPersonExtendedAttributes() != null && p.getProposalPersonExtendedAttributes().getProposalPersonNumber() == null) {
             p.getProposalPersonExtendedAttributes().setProposalPersonNumber(p.getProposalPersonNumber());
-        }    
+        } 
+        */   
         p.setDevelopmentProposal(this);
         getProposalPersons().add(p);
     }
