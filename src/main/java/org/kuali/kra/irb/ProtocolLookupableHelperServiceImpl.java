@@ -356,7 +356,7 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
         AnchorHtmlData htmlData = new AnchorHtmlData();
         htmlData.setDisplayText("perform action");
         Properties parameters = new Properties();
-        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, "protocolActions");
+        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, "performProtocolAction");
         parameters.put(KNSConstants.PARAMETER_COMMAND, KEWConstants.DOCSEARCH_COMMAND);
         parameters.put(KNSConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
         parameters.put("viewDocument", "false");
