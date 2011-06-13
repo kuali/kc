@@ -1100,12 +1100,12 @@ public class S2SUtilServiceImpl implements S2SUtilService {
             return citizenShipType;
         } else {
             CitizenshipType citizenShip;
-            //String allowOverride = parameterService.getParameterValue("KC-GEN", "A", "ALLOW_PROPOSAL_PERSON_TO_OVERRIDE_KC_PERSON_EXTENDED_ATTRIBUTES");
-           // if ("Y".equals(allowOverride) && proposalPerson.getProposalPersonExtendedAttributes() != null) {
-             //   citizenShip = proposalPerson.getProposalPersonExtendedAttributes().getCitizenshipType();
-            //} else {
+            String allowOverride = parameterService.getParameterValue("KC-GEN", "A", "ALLOW_PROPOSAL_PERSON_TO_OVERRIDE_KC_PERSON_EXTENDED_ATTRIBUTES");
+            if ("Y".equals(allowOverride) && proposalPerson.getProposalPersonExtendedAttributes() != null) {
+                citizenShip = proposalPerson.getProposalPersonExtendedAttributes().getCitizenshipType();
+            } else {
                 citizenShip = proposalPerson.getPerson().getExtendedAttributes().getCitizenshipType();
-            //}
+            }
             CitizenshipTypes retVal = null;
             String citizenShipCode = String.valueOf(citizenShip.getCitizenshipTypeCode());
             if (citizenShipCode.equals(parameterService.getParameterValue("KC-GEN", "A",

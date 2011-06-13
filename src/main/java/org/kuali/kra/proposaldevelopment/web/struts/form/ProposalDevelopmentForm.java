@@ -195,6 +195,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private ProposalDevelopmentS2sQuestionnaireHelper proposalDevelopmentS2sQuestionnaireHelper;
     private List<ProposalPersonQuestionnaireHelper> proposalPersonQuestionnaireHelpers;
     private List<AnswerHeader> answerHeadersToDelete;
+    private List<ProposalPerson> proposalPersonsToDelete;
 
    
     public ProposalDevelopmentForm() {
@@ -261,6 +262,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         }
         
         answerHeadersToDelete = new ArrayList<AnswerHeader>();
+        proposalPersonsToDelete = new ArrayList<ProposalPerson>();
     }
 
     /**
@@ -1746,6 +1748,14 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 
     public String getModuleCode() {
         return CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE;
+    }
+    
+    public List<ProposalPerson> getProposalPersonsToDelete() {
+        return this.proposalPersonsToDelete;
+    }
+    
+    public void setPropsoalPersonsToDelete(List<ProposalPerson> proposalPersonsToDelete) {
+        this.proposalPersonsToDelete = proposalPersonsToDelete;
     }
 
 
