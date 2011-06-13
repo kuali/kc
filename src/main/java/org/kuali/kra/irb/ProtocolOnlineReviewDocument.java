@@ -79,8 +79,7 @@ public class ProtocolOnlineReviewDocument extends ResearchDocumentBase implement
             Protocol protocol = protocolOnlineReview.getProtocol();
             protocol.getLeadUnitNumber();
         }
-        String xml = super.serializeDocumentToXml();
-        System.out.println(); 
+        String xml = super.serializeDocumentToXml(); 
         return xml; 
     }
 
@@ -190,18 +189,6 @@ public class ProtocolOnlineReviewDocument extends ResearchDocumentBase implement
     public void doActionTaken( ActionTakenEventDTO event ) {
         super.doActionTaken(event);
     }
-
-    private ProtocolVersionService getProtocolVersionService() {
-        return KraServiceLocator.getService(ProtocolVersionService.class);
-    }
-
-    private ProtocolFinderDao getProtocolFinder() {
-        return KraServiceLocator.getService(ProtocolFinderDao.class);
-    }
-    
-    private DocumentService getDocumentService() {
-        return KraServiceLocator.getService(DocumentService.class);
-    }
     
     private BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);
@@ -209,24 +196,6 @@ public class ProtocolOnlineReviewDocument extends ResearchDocumentBase implement
     
     private ReviewCommentsService getReviewerCommentsService() {
         return KraServiceLocator.getService(ReviewCommentsService.class);
-    }
-
-    /**
-     * Has the document entered the final state in workflow?
-     * @param statusChangeEvent
-     * @return
-     */
-    private boolean isFinal(DocumentRouteStatusChangeDTO statusChangeEvent) {
-        return StringUtils.equals(KEWConstants.ROUTE_HEADER_FINAL_CD, statusChangeEvent.getNewRouteStatus());
-    }
-    
-    /**
-     * Has the document entered the disapproval state in workflow?
-     * @param statusChangeEvent
-     * @return
-     */
-    private boolean isDisapproved(DocumentRouteStatusChangeDTO statusChangeEvent) {
-        return StringUtils.equals(KEWConstants.ROUTE_HEADER_DISAPPROVED_CD, statusChangeEvent.getNewRouteStatus());
     }
 
     @Override
