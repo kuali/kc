@@ -185,6 +185,7 @@ public class ProposalPersonExtendedAttributes extends KcPersonExtendedAttributes
      */
     protected LinkedHashMap<String, Object> toStringMapper() {
         final LinkedHashMap<String, Object> map = super.toStringMapper();
+        //final LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
 
         map.put("proposalNumber", this.proposalNumber);
         map.put("proposalPersonNumber", this.proposalPersonNumber);

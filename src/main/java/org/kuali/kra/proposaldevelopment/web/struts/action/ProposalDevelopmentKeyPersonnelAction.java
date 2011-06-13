@@ -110,21 +110,40 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     
     public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.preSave(mapping, form, request, response);
-        /*
-        List<ProposalPerson> keyPersonnel = ((ProposalDevelopmentForm) form).getDocument().getDevelopmentProposal().getProposalPersons();
+        ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
+        List<ProposalPerson> keyPersonnel = pdForm.getDocument().getDevelopmentProposal().getProposalPersons();
+        List<ProposalPerson> personsToDelete = pdForm.getProposalPersonsToDelete();
+        /**
+         * We are doing two things here.
+         * 
+         * 1) If the citizenship has been changed, we need to update the object record along with the ID field that user changed via the UI.
+         * 
+         * 2) There is a key constraint error the happens when the Propoal Person and the Proposal Person Extended attribute objects are saved
+         * at the same time.  In repository.xml the auto-update attribute is set to false on ProposalPerson.proposalPersonExtendedAttributes, 
+         * and we manually save them in correct order here. This may be a bug in how it's set up, but this works well, so we are going with it.  
+         * Please feel free to to fix if you like.
+         */
         for (ProposalPerson proposalPerson : keyPersonnel) {
+            //System.err.println(proposalPerson.toString());
+            this.getBusinessObjectService().save(proposalPerson);
             if (proposalPerson.getProposalPersonExtendedAttributes() != null) {
                 int extendedAttributedCitizenshipTypeCode = proposalPerson.getProposalPersonExtendedAttributes().getCitizenshipTypeCode();
                 if (extendedAttributedCitizenshipTypeCode != proposalPerson.getProposalPersonExtendedAttributes().getCitizenshipType().getCitizenshipTypeCode()) {
-                    //the citizenship type has been changed, so now we need to account for that.
                     Map params = new HashMap();
                     params.put("citizenshipTypeCode", extendedAttributedCitizenshipTypeCode);
                     CitizenshipType newCitizenshipType = (CitizenshipType) this.getBusinessObjectService().findByPrimaryKey(CitizenshipType.class, params);
                     proposalPerson.getProposalPersonExtendedAttributes().setCitizenshipType(newCitizenshipType);
                 }
+                this.getBusinessObjectService().save(proposalPerson.getProposalPersonExtendedAttributes());
             }
         }
-        */
+        
+        for (ProposalPerson person : personsToDelete) {
+            if (person.getProposalPersonExtendedAttributes() != null) {
+                this.getBusinessObjectService().delete(person.getProposalPersonExtendedAttributes());
+            }
+        }
+        pdForm.setPropsoalPersonsToDelete(new ArrayList<ProposalPerson>());
     }
     
     public ActionForward moveDown(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -309,7 +328,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             if (kcPersonExtendedAttributes != null) {
                 ProposalPersonExtendedAttributes proposalPersonExtendedAttributes = new ProposalPersonExtendedAttributes(
                         proposalPerson, kcPersonExtendedAttributes);
-                //proposalPerson.setProposalPersonExtendedAttributes(proposalPersonExtendedAttributes);
+                proposalPerson.setProposalPersonExtendedAttributes(proposalPersonExtendedAttributes);
             }
             document.getDevelopmentProposal().addProposalPerson(proposalPerson);
             
@@ -451,6 +470,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             for (Iterator<ProposalPerson> person_it = proposal.getProposalPersons().iterator(); person_it.hasNext(); index++) {
                 ProposalPerson person = person_it.next();
                 if (person.isDelete()) {
+                    pdform.getProposalPersonsToDelete().add(person);
                     if (parentPi != null && parentPi.equals(person)) {
                         GlobalVariables.getMessageMap().putError(String.format(ERROR_FIELD_REMOVE_HIERARCHY_PI, index), ERROR_REMOVE_HIERARCHY_PI, person.getFullName());                  
                     }
