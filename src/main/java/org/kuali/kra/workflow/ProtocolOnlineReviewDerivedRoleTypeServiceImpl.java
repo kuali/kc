@@ -20,13 +20,10 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
-import org.kuali.kra.bo.Unit;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kim.bo.Role;
 import org.kuali.rice.kim.bo.role.dto.KimRoleInfo;
@@ -140,10 +137,10 @@ public class ProtocolOnlineReviewDerivedRoleTypeServiceImpl extends KimDerivedRo
      * @param qualification
      * @return a list of qualifying role members
      */
-    protected List<RoleMembershipInfo> getIRBAdmins(String leadUnitNumber) {     
-        KimRoleInfo roleInfo = getRoleManagementService().getRoleByName(RoleConstants.DEPARTMENT_ROLE_TYPE, RoleConstants.IRB_ADMINISTRATOR);
+    private List<RoleMembershipInfo> getIRBAdmins(String leadUnitNumber) {    
         List<String> roleIds = new ArrayList<String>();
-        roleIds.add(roleInfo.getRoleId());
+        String roleId = getRoleManagementService().getRoleIdByName(RoleConstants.DEPARTMENT_ROLE_TYPE, RoleConstants.IRB_ADMINISTRATOR);
+        roleIds.add(roleId);
         
         AttributeSet attrSet = new AttributeSet();
         attrSet.put(KcKimAttributes.UNIT_NUMBER, leadUnitNumber);
