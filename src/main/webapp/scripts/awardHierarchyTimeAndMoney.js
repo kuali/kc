@@ -23,9 +23,8 @@
                     			function() {
                     				var id = $(this).attr("id");
                     			    var img1 =$("<img class='datepickerImage' src='kr/static/images/cal.gif' id='" + id +"_datepicker' style='cursor: pointer;'  title='Date selector' alt='Date selector' onmouseover=\"this.style.backgroundColor='red';\" onmouseout=\"this.style.backgroundColor='transparent';\"/>");
-                    			    var script1 =$(" <script class='datepickerScript' type='text/javascript'>	Calendar.setup({ inputField : '"+ id +"', ifFormat : '%m/%d/%Y',  button : '" + id + "_datepicker'});</script>");
                     			    img1.insertAfter($(this));
-                    			    script1.insertAfter(img1);
+                    			    Calendar.setup({ inputField : id, ifFormat : '%m/%d/%Y',  button : id + '_datepicker'});
                     			});
                     },
                 animated: "fast",
@@ -498,9 +497,8 @@
    			function() {
    				var id = $(this).attr("id");
    			    var img1 =$("<img class='datepickerImage' src='kr/static/images/cal.gif' id='" + id +"_datepicker' style='cursor: pointer;'  title='Date selector' alt='Date selector' onmouseover=\"this.style.backgroundColor='red';\" onmouseout=\"this.style.backgroundColor='transparent';\"/>");
-   			    var script1 =$(" <script class='datepickerScript' type='text/javascript'>	Calendar.setup({ inputField : '"+ id +"', ifFormat : '%m/%d/%Y',  button : '" + id + "_datepicker'});</script>");
    			    img1.insertAfter($(this));
-   			    script1.insertAfter(img1);
+   			    Calendar.setup({ inputField : id, ifFormat : '%m/%d/%Y',  button : id + '_datepicker'});   			    
    			});
    })
 
