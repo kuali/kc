@@ -169,7 +169,12 @@
 		  </c:if>   		    
    		</table>
    		
-   		<center style="margin-top: .5em; font-size: 1.3em; color: red;"><c:out value="${KualiForm.awardSyncBean.parentAwardStatus.status}"/></center>
+   		<div style="text-align: center; margin-top: .5em; font-size: 1.3em; color: red;"><c:out value="${KualiForm.awardSyncBean.parentAwardStatus.status}"/>
+   		  <c:if test="${fn:containsIgnoreCase(KualiForm.awardSyncBean.parentAwardStatus.status, 'in progress')}">
+   		   	<html:image property="methodToCall.reload"
+   		  		src="${ConfigProperties.kra.externalizable.images.url}tinybutton-refresh.gif" styleClass="tinybutton"/>
+   		  </c:if>
+   		</div>
    		<c:if test="${not empty KualiForm.awardSyncBean.awardStatuses}">
    		<div id="awardSyncLogs" style="width: 100%; border: 1px inset black; text-align: left;">
    		  <h3>Award Hierarchy Sync Validation Messages</h3>
