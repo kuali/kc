@@ -570,5 +570,12 @@ public class ProtocolProtocolAction extends ProtocolAction {
         
         return super.saveOnClose(mapping, form, request, response);
     }
+    
+    public ActionForward performProtocolAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        super.docHandler(mapping, form, request, response);
+        
+        return super.protocolActions(mapping, form, request, response);
+    }   
 
 }
