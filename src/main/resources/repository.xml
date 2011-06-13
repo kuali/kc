@@ -640,15 +640,13 @@
 		   <foreignkey field-ref="proposalNumber" />
 	    </reference-descriptor>		
 	    
-	    <!-- 
-	    <reference-descriptor name="proposalPersonExtendedAttributes" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPersonExtendedAttributes" auto-retrieve="true" auto-update="object" auto-delete="true">
+	    <reference-descriptor name="proposalPersonExtendedAttributes" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPersonExtendedAttributes" auto-retrieve="true" auto-update="false" auto-delete="true">
 			<foreignkey field-ref="proposalNumber"/>
 			<foreignkey field-ref="proposalPersonNumber"/>
 		</reference-descriptor>
-		 -->
 		 
     </class-descriptor>
-    <!-- 
+    
     <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalPersonExtendedAttributes" table="EPS_PROP_PERSON_EXT">
     	<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true" />
         <field-descriptor name="proposalPersonNumber" column="PROP_PERSON_NUMBER" jdbc-type="INTEGER" primarykey="true" />
@@ -699,7 +697,6 @@
 			<foreignkey field-ref="proposalNumber"/> 
 		</reference-descriptor> 
 	</class-descriptor>
-	 -->
 	 
     <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalInvestigatorCertification" table="PROPOSAL_INV_CERTIFICATION">
         <field-descriptor name="proposalPersonNumber" column="PROP_PERSON_NUMBER" jdbc-type="INTEGER" primarykey="true" />
