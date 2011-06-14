@@ -28,6 +28,7 @@ import org.kuali.kra.award.awardhierarchy.sync.AwardSyncXmlExport;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 
 /**
@@ -41,36 +42,39 @@ public class AwardSyncUnitHelper extends AwardSyncHelperBase {
         throws NoSuchFieldException, IntrospectionException, IllegalAccessException, InvocationTargetException, 
         ClassNotFoundException, NoSuchMethodException, InstantiationException, AwardSyncException {
         Collection awardPersons = award.getProjectPersons();
+        AwardSyncXmlExport unitExport = (AwardSyncXmlExport) change.getXmlExport().getValues().get("units");
         AwardPerson person = (AwardPerson) getAwardSyncUtilityService().findMatchingBo(awardPersons, change.getXmlExport().getKeys());
         if (StringUtils.equals(change.getSyncType(), AwardSyncType.ADD_SYNC.getSyncValue())) {
             if (person != null) {
-                this.setValuesOnSyncable(person, change.getXmlExport().getValues(), change);
+                checkAndFixLeadUnit(person, unitExport);
+                setValuesOnSyncable(person, change.getXmlExport().getValues(), change);
                 fixLeadUnit(award, person);
             } else {
-                throw new AwardSyncException("Not applicable", true);
+                throw new AwardSyncException(Constants.AWARD_SYNC_NOT_APPLICABLE, true);
             }
         } else {
             if (person != null) {
-                Object o = change.getXmlExport().getValues().get("units");
-                if (o instanceof List) {
-                    List<AwardSyncXmlExport> unitChanges = (List<AwardSyncXmlExport>) o;
-                    for (AwardSyncXmlExport unitChange : unitChanges) {
-                        AwardPersonUnit unit = (AwardPersonUnit) getAwardSyncUtilityService().findMatchingBo((Collection) person.getUnits(), unitChange.getKeys());
-                        if (unit != null) {
-                            person.getUnits().remove(unit);
-                        }
-                    }
-                } else if (o instanceof AwardSyncXmlExport) {
-                    AwardSyncXmlExport unitChange = (AwardSyncXmlExport) o;
-                    AwardPersonUnit unit = (AwardPersonUnit) getAwardSyncUtilityService().findMatchingBo((Collection) person.getUnits(), unitChange.getKeys());
-                    if (unit != null) {
-                        person.getUnits().remove(unit);
-                    }
-                } else {
-                    throw new AwardSyncException("Unrecognized data", false);
+                AwardPersonUnit unit = 
+                    (AwardPersonUnit) getAwardSyncUtilityService().findMatchingBo((Collection) person.getUnits(), unitExport.getKeys());
+                if (unit != null) {
+                    person.getUnits().remove(unit);
                 }
             } else {
-                throw new AwardSyncException("Not applicable", true);
+                throw new AwardSyncException(Constants.AWARD_SYNC_NOT_APPLICABLE, true);
+            }
+        }
+    }
+    
+    /**
+     * If the export is for a lead unit, then clear other lead unit identifiers.
+     * @param person
+     * @param export
+     */
+    protected void checkAndFixLeadUnit(AwardPerson person, AwardSyncXmlExport export) {
+        if ((Boolean) export.getValues().get("leadUnit")) {
+            //if we are syncing a lead unit, remove any other lead units
+            for (AwardPersonUnit unit : person.getUnits()) {
+                unit.setLeadUnit(false);
             }
         }
     }
