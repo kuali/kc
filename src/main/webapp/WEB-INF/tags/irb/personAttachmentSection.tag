@@ -98,10 +98,7 @@
                                         <%-- attachment description error handling logic start--%>				                	
 				                		<kul:htmlControlAttribute property="personnelHelper.newProtocolAttachmentPersonnels[${personIndex}].description" 
 				                		                          attributeEntry="${protocolAttachmentPersonnelAttributes.description}" />
-				                		                          
-                                        <c:if test="${hasErrors}">
-                                            <kul:fieldShowErrorIcon />
-                                        </c:if>				                		                          
+				                		                          				                		                          
 					            	</div>
 								</td>
 								<td align="left" valign="middle" class="infoline">
