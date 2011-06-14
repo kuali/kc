@@ -146,9 +146,8 @@ public class KRAS2SServiceImpl implements S2SService {
         InputStream is  = null;
         BufferedInputStream br = null;
         try{
-            URL url;
-            url = new URL(schemaUrl);
-            is = url.openConnection().getInputStream();
+            URL url = new URL(schemaUrl);
+            is = (InputStream)url.getContent();
             br = new BufferedInputStream(is);
             byte bufContent[] = new byte[is.available()];
             br.read(bufContent);

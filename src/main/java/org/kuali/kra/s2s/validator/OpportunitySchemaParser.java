@@ -17,6 +17,8 @@
 package org.kuali.kra.s2s.validator;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -76,7 +78,8 @@ public class OpportunitySchemaParser {
         Document document;
         try {
             builder = domFactory.newDocumentBuilder();
-            document = builder.parse(schema);
+            InputStream is = (InputStream)new URL(schema).getContent();
+            document = builder.parse(is);
         }catch (ParserConfigurationException e) {
             LOG.error(S2SConstants.ERROR_MESSAGE, e);
             throw new S2SException(KeyConstants.ERROR_GRANTSGOV_FORM_PARSING,e.getMessage(),schema);
