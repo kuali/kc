@@ -744,7 +744,16 @@ function getEditRow(name, id) {
 			}
 		} else {
 			raChanges.updateActiveIndicator(idx, raCode, 'false');
-		    $('input[id^=checkActive]', 'li#' + id).attr('checked', false);
+			$('input[id^=checkActive]', 'li#' + id).each(function() {
+				var idx1 = $(this).attr('id').substring(11);
+				var raCode1 = getResearchAreaCode($("#item" + idx1));
+				$(this).attr('checked', false);
+				if (idx != idx1) {
+					raChanges.updateActiveIndicator(idx1, raCode1, 'false');
+				}
+			});
+
+		   // $('input[id^=checkActive]', 'li#' + id).attr('checked', false);
 		    $('input[id^=activeflag]', 'li#' + id).val('false');
 		}
     });
