@@ -74,6 +74,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalBudgetStatus;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonExtendedAttributes;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardAttachment;
@@ -633,6 +634,14 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 if (newPerson.equals(principalInvestigator) && (firstIndex == -1 || !firstInstance.isInvestigator())) {
                     newPerson.setProposalPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
                 }
+                
+                if (person.getProposalPersonExtendedAttributes() != null) {
+                    ProposalPersonExtendedAttributes newPersonEA = (ProposalPersonExtendedAttributes) ObjectUtils.deepCopy(person.getProposalPersonExtendedAttributes());
+                    newPersonEA.setProposalNumber(hierarchyProposal.getProposalNumber());
+                    newPersonEA.setProposalPersonNumber(newPerson.getProposalPersonNumber());
+                    newPerson.setProposalPersonExtendedAttributes(newPersonEA);
+                }
+                
                 hierarchyProposal.addProposalPerson(newPerson);
             }
         }
@@ -1297,6 +1306,14 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     protected void finalizeHierarchySync(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException {
         businessObjectService.save(hierarchyProposal.getProposalDocument().getDocumentNextvalues());
         businessObjectService.save(hierarchyProposal);
+        /**
+         * now we need to save any properal person extended attribute objects
+         */
+        for (ProposalPerson person : hierarchyProposal.getProposalPersons() ){
+            if (person.getProposalPersonExtendedAttributes() != null) {
+                businessObjectService.save(person.getProposalPersonExtendedAttributes());                
+            }
+        }
     }
         
     protected void copyInitialAttachments(DevelopmentProposal srcProposal, DevelopmentProposal destProposal) {
