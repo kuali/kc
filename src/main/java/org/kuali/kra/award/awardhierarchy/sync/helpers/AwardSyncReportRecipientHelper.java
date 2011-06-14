@@ -28,6 +28,7 @@ import org.kuali.kra.award.awardhierarchy.sync.AwardSyncXmlExport;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 
 /**
@@ -46,7 +47,7 @@ public class AwardSyncReportRecipientHelper extends AwardSyncHelperBase {
             if (report != null) {
                 this.setValuesOnSyncable(report, change.getXmlExport().getValues(), change);
             } else {
-                throw new AwardSyncException("Not applicable", true);
+                throw new AwardSyncException(Constants.AWARD_SYNC_NOT_APPLICABLE, true);
             }
         } else {
             if (report != null) {
@@ -69,7 +70,7 @@ public class AwardSyncReportRecipientHelper extends AwardSyncHelperBase {
                     throw new AwardSyncException("Unrecognized data", false);
                 }
             } else {
-                throw new AwardSyncException("Not applicable", true);
+                throw new AwardSyncException(Constants.AWARD_SYNC_NOT_APPLICABLE, true);
             }
         }
     }
