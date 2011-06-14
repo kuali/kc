@@ -52,20 +52,33 @@ public class ProposalPersonExtendedAttributes extends KcPersonExtendedAttributes
     
     /**
      * 
-     * Constructs a ProposalPersonExtendedAttributes.java. This constructor will generally be used.
+     * Constructs a ProposalPersonExtendedAttributes.java.
      * @param person
-     * @param personExtendedAttributes
      */
-    public ProposalPersonExtendedAttributes(ProposalPerson person, KcPersonExtendedAttributes personExtendedAttributes) {
-        if (person == null || personExtendedAttributes == null) {
-            throw new IllegalArgumentException("Both ProposalPerson(" + (person != null) + ") and KcPersonExtendedAttributes(" 
-                    + (personExtendedAttributes != null) + ") must be valid.");
+    public ProposalPersonExtendedAttributes(ProposalPerson person) {
+        this();
+        if (person == null) {
+            throw new IllegalArgumentException("ProposalPerson must not be null!");
         }
         this.setProposalNumber(person.getProposalNumber());
         this.setProposalPersonNumber(person.getProposalPersonNumber());
         this.setProposalPersonRoleId(person.getProposalPersonRoleId());
         this.setProposalPerson(person);
+        this.setCitizenshipTypeCode(1);
         
+    }
+    
+    /**
+     * 
+     * Constructs a ProposalPersonExtendedAttributes.java. This constructor will generally be used.
+     * @param person
+     * @param personExtendedAttributes
+     */
+    public ProposalPersonExtendedAttributes(ProposalPerson person, KcPersonExtendedAttributes personExtendedAttributes) {
+        this(person);        
+        if (personExtendedAttributes == null) {
+            throw new IllegalArgumentException("KcPersonExtendedAttributes must not be null");
+        }       
         this.setPersonId(personExtendedAttributes.getPersonId());
         this.setAgeByFiscalYear(personExtendedAttributes.getAgeByFiscalYear());
         this.setRace(personExtendedAttributes.getRace());
