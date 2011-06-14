@@ -153,9 +153,6 @@
                             <%-- attachment type description handling logic start--%>
                             <kul:htmlControlAttribute property="notesAttachmentsHelper.newAttachmentProtocol.description" attributeEntry="${protocolAttachmentProtocolAttributes.description}"/>
                             
-                            <c:if test="${hasErrors}">
-                                <kul:fieldShowErrorIcon />
-                            </c:if>
                         </div>
 					</td>
 	         	</tr>
