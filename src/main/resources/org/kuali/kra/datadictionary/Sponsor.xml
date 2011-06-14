@@ -288,8 +288,8 @@
   <bean id="Sponsor-rolodexId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="rolodexId" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Rolodex Id" />
-    <property name="shortLabel" value="Rolodex Id" />
+    <property name="label" value="Address Book Id" />
+    <property name="shortLabel" value="Address Book Id" />
     <property name="maxLength" value="6" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
