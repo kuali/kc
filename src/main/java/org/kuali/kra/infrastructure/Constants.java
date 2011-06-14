@@ -427,6 +427,7 @@ public interface Constants {
     public static final String AWARD_APPLY_SYNC_NODE_NAME = "ApplySync";
     public static final String AWARD_SYNC_HAS_SYNC_NODE_NAME = "hasSync";
     public static final String AWARD_SYNC_VALIDATION_NODE_NAME = "SyncValidationApproval";
+    public static final String AWARD_SYNC_NOT_APPLICABLE = "Not applicable";
     
   //Institutional Proposal
     public static final String MAPPING_INSTITUTIONAL_PROPOSAL_BASIC = "basic";
