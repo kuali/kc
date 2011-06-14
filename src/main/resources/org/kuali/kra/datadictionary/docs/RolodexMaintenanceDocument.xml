@@ -35,8 +35,8 @@
   <bean id="RolodexMaintenanceDocument-EditRolodex" parent="RolodexMaintenanceDocument-EditRolodex-parentBean"/>
 
   <bean id="RolodexMaintenanceDocument-EditRolodex-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Rolodex"/>
-    <property name="title" value="Edit Rolodex"/>
+    <property name="id" value="Edit Address Book"/>
+    <property name="title" value="Edit Address Book"/>
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="rolodexId" p:required="true"/>

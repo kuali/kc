@@ -4,7 +4,7 @@
 		<documentType>
 			<name>RolodexMaintenanceDocument</name>
 			<description>Create/Edit a Rolodex entry</description>
-			<label>Rolodex</label>
+			<label>Address Book</label>
 			<parent>KcSharedMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	
