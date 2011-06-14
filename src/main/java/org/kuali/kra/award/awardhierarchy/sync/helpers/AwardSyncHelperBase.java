@@ -280,7 +280,7 @@ public abstract class AwardSyncHelperBase implements AwardSyncHelper {
             if (StringUtils.equals(change.getSyncType(), AwardSyncType.ADD_SYNC.getSyncValue())) {
                 if (matchedBo == null) {
                     if (xmlExport.isAddIfNotFound()) {
-                        matchedBo = createNewItem(xmlExport.getClassName(), change, xmlExport.getKeys(), xmlExport.getValues());
+                        matchedBo = createNewItem(change, xmlExport);
                         items.add(matchedBo);
                     }
                 } else {
@@ -292,7 +292,7 @@ public abstract class AwardSyncHelperBase implements AwardSyncHelper {
         } else if (StringUtils.equals(change.getSyncType(), AwardSyncType.ADD_SYNC.getSyncValue())) {
             if (propertyValue != null && !getAwardSyncUtilityService().doKeyValuesMatch((PersistableBusinessObject) propertyValue, xmlExport.getKeys())) {
                 if (xmlExport.isAddIfNotFound()) {
-                    Object newObject = createNewItem(xmlExport.getClassName(), change, xmlExport.getKeys(), xmlExport.getValues());
+                    Object newObject = createNewItem(change, xmlExport);
                     Method setter = getPropertyDescriptor(object, attrName).getWriteMethod();
                     setter.invoke(object, newObject);
                 }
@@ -326,7 +326,7 @@ public abstract class AwardSyncHelperBase implements AwardSyncHelper {
         Collection<Object> newCollection = new ArrayList<Object>();
         for (AwardSyncXmlExport xmlExport : xmlExports) {
             if (xmlExport.isAddIfNotFound()) {
-                Object newObject = createNewItem(xmlExport.getClassName(), change, xmlExport.getKeys(), xmlExport.getValues());
+                Object newObject = createNewItem(change, xmlExport);
                 newCollection.add(newObject);
             }
         } 
@@ -336,15 +336,11 @@ public abstract class AwardSyncHelperBase implements AwardSyncHelper {
     
     /**
      * Creates a new item based on the key values and values passed in.
-     * @param className
      * @param change
-     * @param keyValues
-     * @param values
+     * @param xmlExport
      * @return
      * @throws ClassNotFoundException
-     * @throws SecurityException
      * @throws NoSuchMethodException
-     * @throws IllegalArgumentException
      * @throws InstantiationException
      * @throws IllegalAccessException
      * @throws InvocationTargetException
@@ -352,10 +348,12 @@ public abstract class AwardSyncHelperBase implements AwardSyncHelper {
      * @throws IntrospectionException
      */
     @SuppressWarnings("unchecked")
-    protected PersistableBusinessObject createNewItem(String className, AwardSyncChange change, 
-            Map<String, Object> keyValues, Map<String, Object> values) 
+    protected PersistableBusinessObject createNewItem(AwardSyncChange change, AwardSyncXmlExport xmlExport)
         throws ClassNotFoundException, NoSuchMethodException, InstantiationException, 
             IllegalAccessException, InvocationTargetException, NoSuchFieldException, IntrospectionException {
+        String className = xmlExport.getClassName();
+        Map<String, Object> keyValues = xmlExport.getKeys();
+        Map<String, Object> values = xmlExport.getValues();
         Class subClazz = Class.forName(className);
         Constructor constructor = subClazz.getConstructor((Class[]) null);
         PersistableBusinessObject newObject = (PersistableBusinessObject) constructor.newInstance((Object[]) null);
