@@ -128,7 +128,8 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             this.getBusinessObjectService().save(proposalPerson);
             if (proposalPerson.getProposalPersonExtendedAttributes() != null) {
                 int extendedAttributedCitizenshipTypeCode = proposalPerson.getProposalPersonExtendedAttributes().getCitizenshipTypeCode();
-                if (extendedAttributedCitizenshipTypeCode != proposalPerson.getProposalPersonExtendedAttributes().getCitizenshipType().getCitizenshipTypeCode()) {
+                if (proposalPerson.getProposalPersonExtendedAttributes().getCitizenshipType() == null 
+                        || extendedAttributedCitizenshipTypeCode != proposalPerson.getProposalPersonExtendedAttributes().getCitizenshipType().getCitizenshipTypeCode()) {
                     Map params = new HashMap();
                     params.put("citizenshipTypeCode", extendedAttributedCitizenshipTypeCode);
                     CitizenshipType newCitizenshipType = (CitizenshipType) this.getBusinessObjectService().findByPrimaryKey(CitizenshipType.class, params);
@@ -328,6 +329,9 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             if (kcPersonExtendedAttributes != null) {
                 ProposalPersonExtendedAttributes proposalPersonExtendedAttributes = new ProposalPersonExtendedAttributes(
                         proposalPerson, kcPersonExtendedAttributes);
+                proposalPerson.setProposalPersonExtendedAttributes(proposalPersonExtendedAttributes);
+            } else {
+                ProposalPersonExtendedAttributes proposalPersonExtendedAttributes = new ProposalPersonExtendedAttributes(proposalPerson);
                 proposalPerson.setProposalPersonExtendedAttributes(proposalPersonExtendedAttributes);
             }
             document.getDevelopmentProposal().addProposalPerson(proposalPerson);
