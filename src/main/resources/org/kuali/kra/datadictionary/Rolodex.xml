@@ -85,8 +85,8 @@
   <bean abstract="true" id="Rolodex-rolodexId-parentBean" parent="AttributeDefinition">
     <property name="name" value="rolodexId"/>
     <property name="forceUppercase" value="false"/>
-    <property name="label" value="Rolodex Id"/>
-    <property name="shortLabel" value="Rolodex Id"/>
+    <property name="label" value="Address Book Id"/>
+    <property name="shortLabel" value="Address Book Id"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
       <bean parent="NumericValidationPattern"/>
@@ -471,7 +471,7 @@
     <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Rolodex"/>
+          <property name="title" value="Address Book"/>
           <property name="numberOfColumns" value="1"/>
           <property name="inquiryFields">
             <list>
@@ -514,7 +514,7 @@
   <bean id="Rolodex-lookupDefinition" parent="Rolodex-lookupDefinition-parentBean"/>
 
   <bean abstract="true" id="Rolodex-lookupDefinition-parentBean" parent="LookupDefinition">
-    <property name="title" value="Rolodex Lookup"/>
+    <property name="title" value="Address Book Lookup"/>
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
 
     <property name="defaultSort">
