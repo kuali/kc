@@ -124,7 +124,6 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
          * Please feel free to to fix if you like.
          */
         for (ProposalPerson proposalPerson : keyPersonnel) {
-            //System.err.println(proposalPerson.toString());
             this.getBusinessObjectService().save(proposalPerson);
             if (proposalPerson.getProposalPersonExtendedAttributes() != null) {
                 int extendedAttributedCitizenshipTypeCode = proposalPerson.getProposalPersonExtendedAttributes().getCitizenshipTypeCode();
