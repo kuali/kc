@@ -478,7 +478,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         String noticeDate;
         String transactionTypeDescription;
         String versionNumber;
-        if(awardAmountInfo == null) {
+        if(awardAmountInfo == null || awardAmountInfo.getOriginatingAwardVersion() == null) {
             versionNumber = award.getSequenceNumber().toString();
         }else {
             versionNumber = awardAmountInfo.getOriginatingAwardVersion().toString();
