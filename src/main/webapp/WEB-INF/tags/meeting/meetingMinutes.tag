@@ -204,14 +204,15 @@
 			<%-- New data --%>
 			
 			<%-- Existing data --%>
-        	<c:forEach var="committeeScheduleMinute" items="${KualiForm.meetingHelper.acceptedCommitteeScheduleMinutes}" varStatus="status">
+        	<c:forEach var="committeeScheduleMinute" items="${KualiForm.meetingHelper.committeeSchedule.committeeScheduleMinutes}" varStatus="status">
+        	    <c:if test="${committeeScheduleMinute.accepted}">
 	            <tr>
 					<th class="infoline">
-						<c:out value="${status.index+1}" />
+						<!-- <c:out value="${status.index+1}" /> -->
+						&nbsp;
 					</th>
 	                <td align="left" valign="middle">
 	                    ${committeeScheduleMinute.minuteEntryType.description}
-	               		<%-- <kul:htmlControlAttribute property="meetingHelper.committeeSchedule.committeeScheduleMinutes[${status.index}].minuteEntryTypeCode" attributeEntry="${committeeScheduleMinuteAttributes.minuteEntryTypeCode}" readOnly="false" /> --%>
 					</td>
 	                <td align="left" valign="middle">
 	                    <c:if test="${!empty committeeScheduleMinute.protocolIdFk}" >
@@ -221,7 +222,6 @@
 	                       ${committeeScheduleMinute.commScheduleActItem.scheduleActItemType.description}:
 	                       ${committeeScheduleMinute.commScheduleActItem.itemDescription}
 	                    </c:if>
-	               		<%--<kul:htmlControlAttribute property="meetingHelper.committeeSchedule.committeeScheduleMinutes[${status.index}].protocolIdFk" attributeEntry="${committeeScheduleMinuteAttributes.protocolIdFk}" readOnly="false" />--%>
 					</td>
 	                <td align="left" valign="middle" colspan="2">
 	               		  <kul:htmlControlAttribute property="meetingHelper.committeeSchedule.committeeScheduleMinutes[${status.index}].minuteEntry" attributeEntry="${committeeScheduleMinuteAttributes.minuteEntry}" />
@@ -271,6 +271,7 @@
 		                </td>
 		            </c:if>
 	            </tr>
+	            </c:if>
         	</c:forEach>
 				<%-- Existing data --%>
 			        				
