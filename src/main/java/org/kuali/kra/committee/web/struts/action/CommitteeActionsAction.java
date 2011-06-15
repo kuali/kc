@@ -216,7 +216,14 @@ public class CommitteeActionsAction extends CommitteeAction {
         
         return actionForward;
     }
-    
+
+    public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        ActionForward actionForward = super.reload(mapping, form, request, response);
+        ((CommitteeForm)form).getCommitteeHelper().prepareView();
+        return actionForward;
+    }
+
     /**
      * This method merged the pdf bytes without creating page numbers and dates.
      * 
