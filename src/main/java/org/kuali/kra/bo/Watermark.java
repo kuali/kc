@@ -20,28 +20,29 @@ import java.util.LinkedHashMap;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.rice.kns.bo.PersistableAttachment;
+
 /**
  * 
  * This class for fetching watermark object from database.
  */
-public class Watermark extends KraPersistableBusinessObjectBase implements PersistableAttachment{
+public class Watermark extends KraPersistableBusinessObjectBase implements PersistableAttachment {
     private static final long serialVersionUID = 7376543184312622270L;
-	
-	private Long watermarkId;
 
-	private String fileName;
+    private Long watermarkId;
+
+    private String fileName;
     private String contentType;
     private byte[] attachmentContent;
-	private String statusCode;	
+    private String statusCode;
     private String watermarkText;
-	private boolean watermarkStatus;
-	private String fontSize;
-	private String fontColor;
-	private String watermarkType;
-	private FormFile templateFile;
+    private boolean watermarkStatus;
+    private String fontSize;
+    private String fontColor;
+    private String watermarkType;
+    private FormFile templateFile;
 
-	    
-	public Long getWatermarkId() {
+
+    public Long getWatermarkId() {
         return watermarkId;
     }
 
@@ -50,12 +51,20 @@ public class Watermark extends KraPersistableBusinessObjectBase implements Persi
         this.watermarkId = watermarkId;
     }
 
-    public FormFile getTemplateFile() {
-        return templateFile;
+    public byte[] getAttachmentContent() {
+        return this.attachmentContent;
     }
-    
+
+    public void setAttachmentContent(byte[] attachmentContent) {
+        this.attachmentContent = attachmentContent;
+    }
+
+    public FormFile getTemplateFile() {
+        return super.getAttachmentFile();
+    }
+
     public void setTemplateFile(FormFile templateFile) {
-        this.templateFile = templateFile;
+        super.setAttachmentFile(templateFile);
     }
 
     public String getFontSize() {
@@ -92,11 +101,9 @@ public class Watermark extends KraPersistableBusinessObjectBase implements Persi
     }
 
 
-
     public void setStatusCode(String statusCode) {
         this.statusCode = statusCode;
     }
-
 
 
     public String getWatermarkText() {
@@ -104,27 +111,18 @@ public class Watermark extends KraPersistableBusinessObjectBase implements Persi
     }
 
 
-
     public void setWatermarkText(String watermarkText) {
         this.watermarkText = watermarkText;
     }
 
 
-	public boolean isWatermarkStatus() {
+    public boolean isWatermarkStatus() {
         return watermarkStatus;
     }
 
 
     public void setWatermarkStatus(boolean watermarkStatus) {
         this.watermarkStatus = watermarkStatus;
-    }
-
-    public byte[] getAttachmentContent() {
-        return this.attachmentContent;
-    }
-
-    public void setAttachmentContent(byte[] attachmentContent) {
-        this.attachmentContent = attachmentContent;
     }
 
 
@@ -143,22 +141,21 @@ public class Watermark extends KraPersistableBusinessObjectBase implements Persi
     public void setContentType(String contentType) {
         this.contentType = contentType;
     }
-  
+
     @Override
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap propMap = new LinkedHashMap();
-		propMap.put("watermarkId", this.getWatermarkId());
-		propMap.put("statusCode", this.getStatusCode());
-		propMap.put("watermarkText", this.getWatermarkText());
-		propMap.put("watermarkStatus", this.isWatermarkStatus());
-		propMap.put("watermarkType", this.getWatermarkType());
-		propMap.put("fontSize", this.getFontSize());
-		propMap.put("fontColor", this.getFontColor());
-		propMap.put("updateTimestamp", this.getUpdateTimestamp());
-		propMap.put("updateUser", this.getUpdateUser());
-		return propMap;
-	}
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap propMap = new LinkedHashMap();
+        propMap.put("watermarkId", this.getWatermarkId());
+        propMap.put("statusCode", this.getStatusCode());
+        propMap.put("watermarkText", this.getWatermarkText());
+        propMap.put("watermarkStatus", this.isWatermarkStatus());
+        propMap.put("watermarkType", this.getWatermarkType());
+        propMap.put("fontSize", this.getFontSize());
+        propMap.put("fontColor", this.getFontColor());
+        propMap.put("updateTimestamp", this.getUpdateTimestamp());
+        propMap.put("updateUser", this.getUpdateUser());
+        return propMap;
+    }
 
 
-  
 }
