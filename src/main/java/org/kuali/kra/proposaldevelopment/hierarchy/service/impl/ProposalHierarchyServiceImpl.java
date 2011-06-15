@@ -131,6 +131,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     private IdentityManagementService identityManagementService;
     private KualiConfigurationService configurationService;
     private KraDocumentRejectionService kraDocumentRejectionService;
+    private List<ProposalPersonExtendedAttributes> proposalPersonExtendedAttributesToDelete;
 
     //Setters for dependency injection
     public void setIdentityManagementService(IdentityManagementService identityManagerService) {
@@ -679,8 +680,10 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     }
     
     protected void syncProposalPersons(DevelopmentProposal childProposal, DevelopmentProposal hierarchyProposal, ProposalPerson pi, List<ProposalPerson> removedPersons) {
-
-
+        if (proposalPersonExtendedAttributesToDelete == null) {
+            proposalPersonExtendedAttributesToDelete = new ArrayList<ProposalPersonExtendedAttributes>();
+        }
+        
         //now remove any other attachments for the persons we removed
         for (ProposalPerson removedPerson : removedPersons) {
             List<ProposalPersonBiography> currentBiographies = hierarchyProposal.getPropPersonBios();
@@ -691,6 +694,10 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                         && removedPerson.getProposalPersonNumber().equals(bio.getProposalPersonNumber())) {
                     iter.remove();
                 }
+            }
+            
+            if (removedPerson.getProposalPersonExtendedAttributes() != null) {
+                proposalPersonExtendedAttributesToDelete.add(removedPerson.getProposalPersonExtendedAttributes());
             }
         }        
     }
@@ -1204,9 +1211,15 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     }
     
     protected void removeChildElements(DevelopmentProposal parentProposal, Budget parentBudget, String childProposalNumber) {
+        if (this.proposalPersonExtendedAttributesToDelete == null) {
+            this.proposalPersonExtendedAttributesToDelete = new ArrayList<ProposalPersonExtendedAttributes>();
+        }
         List<ProposalPerson> persons = parentProposal.getProposalPersons();
         for (int i=persons.size()-1; i>=0; i--) {
             if (StringUtils.equals(childProposalNumber, persons.get(i).getHierarchyProposalNumber())) {
+                if (persons.get(i).getProposalPersonExtendedAttributes() != null) {
+                    this.proposalPersonExtendedAttributesToDelete.add(persons.get(i).getProposalPersonExtendedAttributes());
+                }
                 persons.remove(i);
             }
         }
@@ -1304,6 +1317,10 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     }
     
     protected void finalizeHierarchySync(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException {
+        if (proposalPersonExtendedAttributesToDelete != null && !proposalPersonExtendedAttributesToDelete.isEmpty()) {
+            businessObjectService.delete(proposalPersonExtendedAttributesToDelete);
+            proposalPersonExtendedAttributesToDelete.clear();
+        }
         businessObjectService.save(hierarchyProposal.getProposalDocument().getDocumentNextvalues());
         businessObjectService.save(hierarchyProposal);
         /**
