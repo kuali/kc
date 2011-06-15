@@ -50,8 +50,13 @@ public interface RoleConstants {
     
     public static final String OSP_ADMINISTRATOR = "OSP Administrator";
     
+    public static final String AGGREGATOR_ONLY = "Aggregator Only";
+    public static final String BUDGET_CREATOR_ONLY = "Budget Creator Only";
+    
     public static final String KC_ADMIN_NAMESPACE = "KC-ADM";
     
+    
+    public static final String PI = "PI";
 }
 
 

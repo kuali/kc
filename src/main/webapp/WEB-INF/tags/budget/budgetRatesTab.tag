@@ -74,22 +74,7 @@
                     <td width="10%" class="${tdClass}">
                     	<div align=center>
                     	<span class="copy">
-                    	    <c:choose><c:when test="${proposalBudgetFlag}">
-							  <c:set var="nonEditableRateFlag" value="No" />
-                    	    </c:when><c:otherwise>
-                    		  <bean:define id="nonEditableRateFlag" name="KualiForm" property="${budgetRate}.nonEditableRateFlag"/>
-                    		</c:otherwise></c:choose>
-                    		<%--
-                    		<c:choose>
-							<c:when test="${nonEditableRateFlag == 'No'}">
-                				<kul:htmlControlAttribute property="${budgetRate}.applicableRate" attributeEntry="${budgetRatesAttributes.applicableRate}" styleClass="${styleClass}"/>
-							</c:when>
-                			<c:otherwise>
-		                    	<bean:write name="KualiForm" property="${budgetRate}.applicableRate"/>
-                			</c:otherwise>
-                			</c:choose>
-                			 --%>
-                				<kul:htmlControlAttribute property="${budgetRate}.applicableRate" attributeEntry="${budgetRatesAttributes.applicableRate}" styleClass="${styleClass}"/>
+                	    <kul:htmlControlAttribute property="${budgetRate}.applicableRate" attributeEntry="${budgetRatesAttributes.applicableRate}" readOnly="${not KualiForm.editingMode['modifyProposalBudgetRates']}" styleClass="${styleClass}"/>
                       	</span>
                       	</div>
                     </td>

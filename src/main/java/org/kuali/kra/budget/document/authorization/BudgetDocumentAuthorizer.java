@@ -47,7 +47,7 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
      */
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
         Set<String> editModes = new HashSet<String>();
-         
+                 
         BudgetDocument budgetDoc = (BudgetDocument) document;
         BudgetParentDocument parentDocument = budgetDoc.getParentDocument();
         String userId = user.getPrincipalId(); 
@@ -56,6 +56,9 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
             editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
             editModes.add("modifyBudgets");
             editModes.add("viewBudgets");
+            if (canExecuteBudgetTask(userId, budgetDoc, TaskName.MODIFY_PROPOSAL_RATE)) {
+                editModes.add("modifyProposalBudgetRates");
+            }
             setPermissions(userId, parentDocument, editModes);
         }
         else if (canExecuteBudgetTask(userId, budgetDoc, TaskName.VIEW_BUDGET)) {
@@ -142,7 +145,7 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
         reloadParentIfNoWorkflow(budgetDocument);
         String taskGroupName = getTaskGroupName();
         Task task = createNewBudgetTask(taskGroupName,taskName, budgetDocument);       
-        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class); 
         return taskAuthenticationService.isAuthorized(userId, task);
     }
     

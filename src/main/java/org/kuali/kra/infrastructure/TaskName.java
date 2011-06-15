@@ -62,8 +62,9 @@ public interface TaskName {
      * Budget Tasks.
      */
     public static final String MODIFY_BUDGET = "modifyBudget";
-    public static final String VIEW_BUDGET = "viewBudget";
+    public static final String VIEW_BUDGET = "viewBudget"; 
     public static final String MODIFY_PROPOSAL_BUDGET = "modifyProposalBudget";
+    public static final String MODIFY_PROPOSAL_RATE = "modifyProposalBudgetRates";
     
     /*
      * Protocol Tasks.
