@@ -240,10 +240,8 @@ public class S2SBudgetCalculatorServiceImpl implements
 					}
 					if (lineItemCalAmt.getRateClass().getRateClassType()
 							.equals(RATE_CLASS_TYPE_LAB_ALLOCATION_SALARIES)) {
-						budgetDetailsCost = budgetDetailsCost
-								.add(lineItemCalAmt.getCalculatedCost());
-						budgetDetailsCostSharingAmount = budgetDetailsCostSharingAmount
-								.add(lineItemCalAmt.getCalculatedCostSharing());
+						budgetDetailsCost = budgetDetailsCost.add(lineItemCalAmt.getCalculatedCost());
+						budgetDetailsCostSharingAmount = budgetDetailsCostSharingAmount.add(lineItemCalAmt.getCalculatedCostSharing());
 					}
 					if ((lineItemCalAmt.getRateClass().getRateClassType()
 							.equals(RATE_CLASS_TYPE_EMPLOYEE_BENEFITS) && lineItemCalAmt
@@ -254,11 +252,10 @@ public class S2SBudgetCalculatorServiceImpl implements
 											RATE_CLASS_TYPE_VACATION) && lineItemCalAmt
 									.getRateTypeCode().equals(
 											RATE_TYPE_ADMINISTRATIVE_SALARIES))) {
-						budgetDetailsFringeCost = budgetDetailsFringeCost
-								.add(lineItemCalAmt.getCalculatedCost());
+						budgetDetailsFringeCost = budgetDetailsFringeCost.add(lineItemCalAmt.getCalculatedCost());
+						budgetDetailsFringeCostSharingAmount = budgetDetailsFringeCostSharingAmount.add(lineItemCalAmt.getCalculatedCostSharing());
 					}
-					budgetDetailsFringeCostSharingAmount = budgetDetailsFringeCostSharingAmount
-							.add(lineItemCalAmt.getCalculatedCostSharing());
+					
 				}
 			}
 		}

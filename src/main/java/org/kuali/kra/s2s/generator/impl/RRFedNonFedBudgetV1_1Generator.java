@@ -66,6 +66,7 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.GenericPrintable;
@@ -195,14 +196,15 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
             if (periodInfo.getDirectCostsTotal() != null) {
                 summaryDirect.setFederalSummary(periodInfo.getDirectCostsTotal().bigDecimalValue());
             }
-            if (periodInfo.getTotalDirectCostSharing() != null) {
-                summaryDirect.setNonFederalSummary(periodInfo.getTotalDirectCostSharing().bigDecimalValue());
+            if (periodInfo.getCostSharingAmount() != null) {
+                BudgetDecimal totalDirectCostSharing = periodInfo.getTotalDirectCostSharing().subtract(
+                        periodInfo.getTotalIndirectCostSharing()==null?BudgetDecimal.ZERO:periodInfo.getTotalIndirectCostSharing());
+                summaryDirect.setNonFederalSummary(totalDirectCostSharing.bigDecimalValue());
                 if (periodInfo.getDirectCostsTotal() != null) {
-                    summaryDirect.setTotalFedNonFedSummary(periodInfo.getDirectCostsTotal().add(
-                            periodInfo.getTotalDirectCostSharing()).bigDecimalValue());
+                    summaryDirect.setTotalFedNonFedSummary(periodInfo.getDirectCostsTotal().add(totalDirectCostSharing).bigDecimalValue());
                 }
                 else {
-                    summaryDirect.setTotalFedNonFedSummary(periodInfo.getTotalDirectCostSharing().bigDecimalValue());
+                    summaryDirect.setTotalFedNonFedSummary(totalDirectCostSharing.bigDecimalValue());
                 }
             }
             budgetYear.setDirectCosts(summaryDirect);
@@ -735,15 +737,14 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
             if (periodInfo.getDirectCostsTotal() != null) {
                 summaryDirect.setFederalSummary(periodInfo.getDirectCostsTotal().bigDecimalValue());
             }
-            if (periodInfo.getTotalDirectCostSharing() != null) {
-                summaryDirect.setNonFederalSummary(periodInfo.getTotalDirectCostSharing().bigDecimalValue());
-                if (periodInfo.getDirectCostsTotal() != null) {
-                    summaryDirect.setTotalFedNonFedSummary(periodInfo.getDirectCostsTotal().add(
-                            periodInfo.getTotalDirectCostSharing()).bigDecimalValue());
-                }
-                else {
-                    summaryDirect.setTotalFedNonFedSummary(periodInfo.getTotalDirectCostSharing().bigDecimalValue());
-                }
+            BudgetDecimal totalDirectCostSharing = periodInfo.getTotalDirectCostSharing().subtract(
+                    periodInfo.getTotalIndirectCostSharing()==null?BudgetDecimal.ZERO:periodInfo.getTotalIndirectCostSharing());
+            summaryDirect.setNonFederalSummary(totalDirectCostSharing.bigDecimalValue());
+            if (periodInfo.getDirectCostsTotal() != null) {
+                summaryDirect.setTotalFedNonFedSummary(periodInfo.getDirectCostsTotal().add(totalDirectCostSharing).bigDecimalValue());
+            }
+            else {
+                summaryDirect.setTotalFedNonFedSummary(totalDirectCostSharing.bigDecimalValue());
             }
             budgetYear.setDirectCosts(summaryDirect);
             budgetYear.setIndirectCosts(getIndirectCosts(periodInfo));
