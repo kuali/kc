@@ -112,19 +112,10 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         super.preSave(mapping, form, request, response);
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         List<ProposalPerson> keyPersonnel = pdForm.getDocument().getDevelopmentProposal().getProposalPersons();
-        List<ProposalPerson> personsToDelete = pdForm.getProposalPersonsToDelete();
         /**
-         * We are doing two things here.
-         * 
          * 1) If the citizenship has been changed, we need to update the object record along with the ID field that user changed via the UI.
-         * 
-         * 2) There is a key constraint error the happens when the Propoal Person and the Proposal Person Extended attribute objects are saved
-         * at the same time.  In repository.xml the auto-update attribute is set to false on ProposalPerson.proposalPersonExtendedAttributes, 
-         * and we manually save them in correct order here. This may be a bug in how it's set up, but this works well, so we are going with it.  
-         * Please feel free to to fix if you like.
          */
         for (ProposalPerson proposalPerson : keyPersonnel) {
-            this.getBusinessObjectService().save(proposalPerson);
             if (proposalPerson.getProposalPersonExtendedAttributes() != null) {
                 int extendedAttributedCitizenshipTypeCode = proposalPerson.getProposalPersonExtendedAttributes().getCitizenshipTypeCode();
                 if (proposalPerson.getProposalPersonExtendedAttributes().getCitizenshipType() == null 
@@ -134,16 +125,8 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
                     CitizenshipType newCitizenshipType = (CitizenshipType) this.getBusinessObjectService().findByPrimaryKey(CitizenshipType.class, params);
                     proposalPerson.getProposalPersonExtendedAttributes().setCitizenshipType(newCitizenshipType);
                 }
-                this.getBusinessObjectService().save(proposalPerson.getProposalPersonExtendedAttributes());
             }
         }
-        
-        for (ProposalPerson person : personsToDelete) {
-            if (person.getProposalPersonExtendedAttributes() != null) {
-                this.getBusinessObjectService().delete(person.getProposalPersonExtendedAttributes());
-            }
-        }
-        pdForm.setPropsoalPersonsToDelete(new ArrayList<ProposalPerson>());
     }
     
     public ActionForward moveDown(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -592,6 +575,28 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
                 this.getBusinessObjectService().delete(freshHeaders);
                 pdform.getAnswerHeadersToDelete().clear();
             }
+            
+            List<ProposalPerson> keyPersonnel = pdform.getDocument().getDevelopmentProposal().getProposalPersons();
+            List<ProposalPerson> personsToDelete = pdform.getProposalPersonsToDelete();
+            /**
+             * There is a key constraint error the happens when the Propoal Person and the Proposal Person Extended attribute objects are saved
+             * at the same time.  In repository.xml the auto-update attribute is set to false on ProposalPerson.proposalPersonExtendedAttributes, 
+             * and we manually save them in correct order here. This may be a bug in how it's set up, but this works well, so we are going with it.  
+             * Please feel free to to fix if you like.
+             */
+            for (ProposalPerson proposalPerson : keyPersonnel) {
+                this.getBusinessObjectService().save(proposalPerson);
+                if (proposalPerson.getProposalPersonExtendedAttributes() != null) {
+                    this.getBusinessObjectService().save(proposalPerson.getProposalPersonExtendedAttributes());
+                }
+            }
+            
+            for (ProposalPerson person : personsToDelete) {
+                if (person.getProposalPersonExtendedAttributes() != null) {
+                    this.getBusinessObjectService().delete(person.getProposalPersonExtendedAttributes());
+                }
+            }
+            pdform.setPropsoalPersonsToDelete(new ArrayList<ProposalPerson>());
             
             return super.save(mapping, form, request, response);
         }
