@@ -16,11 +16,13 @@
 package org.kuali.kra.meeting;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
@@ -31,12 +33,17 @@ import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kim.service.RoleService;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -47,6 +54,8 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase im
 
     private static final long serialVersionUID = -2294619582524055884L;
     private static final String PERSON_NOT_FOUND_FORMAT_STRING = "%s (not found)";
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeScheduleMinute.class);
+
     
     private Long commScheduleMinutesId; 
     private Long scheduleIdFk; 
@@ -526,6 +535,47 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase im
 
     public void setDisplayReviewerName(boolean displayReviewerName) {
         this.displayReviewerName = displayReviewerName;
+    }
+    
+   
+    /**
+     * 
+     * This method is needed to determine whether schedule minute comments have been accepted by
+     * the irb admin.  Only online review comments are subject to approval, all other minute types
+     * are returned true by default.
+     * @return false if it is an online review comment and not accepted, true otherwise.
+     */
+    public boolean isAccepted() {
+        boolean accepted = false;
+         
+        //If the foreign key is not null, this is a online review comment
+        if (this.getProtocolOnlineReviewIdFk() != null) {
+            try {
+                ProtocolOnlineReview protocolOnlineReview = getBusinessObjectService().findBySinglePrimaryKey(ProtocolOnlineReview.class, getProtocolOnlineReviewIdFk());
+                ProtocolOnlineReviewDocument porDoc = protocolOnlineReview.getProtocolOnlineReviewDocument();
+                porDoc = (ProtocolOnlineReviewDocument)getDocumentService().getByDocumentHeaderId(porDoc.getDocumentHeader().getDocumentNumber());
+                String routeStatus = porDoc.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
+                if (StringUtils.equals(routeStatus, KEWConstants.ROUTE_HEADER_FINAL_CD)) {
+                    accepted = true;
+                }
+            } catch (WorkflowException e) {
+                LOG.warn("Failed to retrieve workflow document for ProtocolOnlineReviewDocument, cannot determine whether CommitteeScheduleMeeting is accepted, defaulting to false.", e);
+            }
+        } else {
+            accepted = true;
+        }
+        
+        return accepted;
+    }
+
+    
+    private BusinessObjectService getBusinessObjectService() {
+        return KraServiceLocator.getService(BusinessObjectService.class);
+    }
+    
+    private DocumentService getDocumentService() {
+        return KraServiceLocator.getService(DocumentService.class);
+        
     }
 
 }
