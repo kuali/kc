@@ -166,6 +166,10 @@ function RaChanges() {
 		if ((nextRaChangeProcessIdx >= 0) && (nextRaChangeProcessIdx < raArray.length)) {
 			raArray = raArray.slice(nextRaChangeProcessIdx, raArray.length);
 			nextRaChangeProcessIdx = 0;
+		} else {
+			// need to reinitialize raArray after last successful batch script save.
+			// otherwise, the residue may affect subsequent change & save.
+			raArray = new Array();
 		}
 	}
     
