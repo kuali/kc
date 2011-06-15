@@ -137,7 +137,7 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHe
                 String cfdaNumber=columns.get(0).getPropertyValue();
                 String oppurtunityId=columns.get(5).getPropertyValue();
                 String oppurtunityTitle=columns.get(6).getPropertyValue();
-                String createProposalUrl="<a href=/kc-dev/portal.do?channelTitle=CreateProposal&channelUrl=proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument&cfdaNumber="+cfdaNumber+"&oppurtunityId="+oppurtunityId+"&opportunityTitle="+oppurtunityTitle+"&createProposalFromGrantsGov=true>Create Proposal</a>";
+                String createProposalUrl="<a href="+lookupForm.getBackLocation()+"?channelTitle=CreateProposal&channelUrl=proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument&cfdaNumber="+cfdaNumber+"&oppurtunityId="+oppurtunityId+"&opportunityTitle="+oppurtunityTitle+"&createProposalFromGrantsGov=true>Create Proposal</a>";
                 row.setReturnUrl(createProposalUrl);
             }
             for (Iterator iterator = columns.iterator(); iterator.hasNext();) {
