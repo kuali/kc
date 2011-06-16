@@ -926,6 +926,8 @@ public final class KeyConstants {
     
     public static final String PROJECT_START_END_DATE_CHANGED = "error.project.start.end.date.changed";
     public static final String ERROR_WATERMARK_STATUS_CODE_EXIST = "error.watermark.statuscode.exists";
+    public static final String INSUFFICIENT_AMOUNT_TO_PERIOD_DIRECT_COST_LIMIT_SYNC = "insufficient.amount.to.period.direct.cost.limit.sync";
+    public static final String TOTAL_DIRECT_COST_ALREADY_IN_SYNC = "total.direct.cost.already.sync";
     /**
      * private utility class ctor.
      * @throws UnsupportedOperationException if called.
