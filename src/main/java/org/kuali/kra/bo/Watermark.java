@@ -18,7 +18,6 @@ package org.kuali.kra.bo;
 import java.util.LinkedHashMap;
 
 import org.apache.struts.upload.FormFile;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.rice.kns.bo.PersistableAttachment;
 
 /**
@@ -39,8 +38,7 @@ public class Watermark extends KraPersistableBusinessObjectBase implements Persi
     private String fontSize;
     private String fontColor;
     private String watermarkType;
-    private FormFile templateFile;
-
+    private transient FormFile templateFile;
 
     public Long getWatermarkId() {
         return watermarkId;
@@ -60,11 +58,11 @@ public class Watermark extends KraPersistableBusinessObjectBase implements Persi
     }
 
     public FormFile getTemplateFile() {
-        return super.getAttachmentFile();
+        return templateFile;
     }
 
     public void setTemplateFile(FormFile templateFile) {
-        super.setAttachmentFile(templateFile);
+        this.templateFile = templateFile;
     }
 
     public String getFontSize() {

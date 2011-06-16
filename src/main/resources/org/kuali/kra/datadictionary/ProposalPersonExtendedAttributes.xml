@@ -53,7 +53,6 @@
         <!-- 
         <ref bean="ProposalPersonExtendedAttributes-biosketchDescription"/>
         <ref bean="ProposalPersonExtendedAttributes-templateFile" />
-        <ref bean="ProposalPersonExtendedAttributes-biosketchAttachmentLink"/>
          -->
          
       </list>
@@ -236,8 +235,6 @@
   <bean id="ProposalPersonExtendedAttributes-templateFile-parentBean" abstract="true" parent="KcPersonExtendedAttributes-templateFile" >
   </bean>
   
-  <bean id="ProposalPersonExtendedAttributes-biosketchAttachmentLink" parent="ProposalPersonExtendedAttributes-biosketchAttachmentLink-parentBean" />
-  <bean id="ProposalPersonExtendedAttributes-biosketchAttachmentLink-parentBean" abstract="true" parent="KcPersonExtendedAttributes-biosketchAttachmentLink" >
   </bean>
    -->
 </beans>
