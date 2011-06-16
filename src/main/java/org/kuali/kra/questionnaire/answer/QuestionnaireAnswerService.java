@@ -123,4 +123,17 @@ public interface QuestionnaireAnswerService {
      * @return
      */
     public List<QuestionnaireUsage> getPublishedQuestionnaire(String coeusModule, String coeusSubModule, boolean finalDoc);
+    
+    
+    
+    /**
+     * This method checks if the latest questionnaire instance associated with the given questionnaire ID is active, and also
+     * has the given module and sub-module codes in one of its usages.
+     * 
+     * @param questionnaireId
+     * @param coeusModule
+     * @param coeusSubModule
+     * @return
+     */
+    public boolean checkIfQuestionnaireIsActiveForModule(Integer questionnaireId, String coeusModuleCode, String coeusSubModuleCode);
 }

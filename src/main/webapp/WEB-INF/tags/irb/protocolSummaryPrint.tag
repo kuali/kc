@@ -342,8 +342,10 @@
 		  
 	    <c:if test="${fn:length(KualiForm.actionHelper.questionnairesToPrints) > 0}">
             <h3 style="${h3BkColor}">
-                <span class="subhead-left-black"><a href="#" id ="questionnaireControl" class="printSubpanel"><img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a>
-                Questionnaires </span>
+                <span class="subhead-left-black">
+                	<a href="#" id ="questionnaireControl" class="printSubpanel"><img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a>
+                		Questionnaires
+                	</span>
             </h3>
 	        <div id="questionnaireContent" class="printSubpanelContent">   
 	            <c:set var="qid" value="0"/>
@@ -371,6 +373,9 @@
                             <td>
                                 <div align="left">
                                     ${KualiForm.actionHelper.questionnairesToPrints[status.index].label}
+                                    <c:if test="${not KualiForm.questionnaireHelper.answerHeaders[status.index].activeQuestionnaire}">
+            							-- This Questionnaire has been deactivated.
+        							</c:if>
                                 </div>
                             </td>
                             <td>
