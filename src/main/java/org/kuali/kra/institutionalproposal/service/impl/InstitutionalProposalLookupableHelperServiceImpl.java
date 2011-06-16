@@ -24,14 +24,19 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.document.authorization.AwardDocumentAuthorizer;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
+import org.kuali.kra.institutionalproposal.document.authorization.InstitutionalProposalDocumentAuthorizer;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kew.web.session.UserSession;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -105,10 +110,28 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
             filterApprovedPendingSubmitProposals(searchResults);
             filterInvalidProposalStatus(searchResults);
         }
-        
+
+        filterForPermissions(searchResults);
+
         return searchResults;
     }
 
+    /**
+     * This method filters results so that the person doing the lookup only gets back the documents he can view.
+     * @param searchResults
+     */
+    protected void filterForPermissions(List<? extends BusinessObject> searchResults) {
+        Person user = UserSession.getAuthenticatedUser().getPerson();
+        InstitutionalProposalDocumentAuthorizer authorizer = new InstitutionalProposalDocumentAuthorizer();
+        // check if the user has permission.
+        for (int j = 0; j < searchResults.size(); j++) {
+            InstitutionalProposal ip = (InstitutionalProposal) searchResults.get(j);
+            if (authorizer.canOpen(ip.getInstitutionalProposalDocument(), user)) {
+                ip.setShowReturnLink(false);
+            }
+        }
+    }
+    
     @SuppressWarnings("unchecked")
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
