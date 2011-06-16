@@ -68,7 +68,7 @@
         
     </bean>
 
-	<bean id="awardHierarchyUIService" class="org.kuali.kra.service.impl.AwardHierarchyUIServiceImpl">
+	<bean id="awardHierarchyUIService" class="org.kuali.kra.service.impl.AwardHierarchyUIServiceImpl" scope="prototype">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
