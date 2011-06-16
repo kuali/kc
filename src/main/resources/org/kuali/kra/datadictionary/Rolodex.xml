@@ -157,7 +157,7 @@
     <property name="shortLabel" value="Comments"/>
     <property name="maxLength" value="300"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
     </property>
     <property name="control">
       <bean p:size="40" parent="TextControlDefinition"/>
