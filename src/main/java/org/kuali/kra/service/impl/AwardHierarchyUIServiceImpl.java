@@ -184,9 +184,9 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
         if(tmDocFromSession == null) {
             return false;  
         }
-        Map<String, AwardHierarchyNode> awardHierarchyNodes = tmDocFromSession.getAwardHierarchyNodes();
-        if(awardHierarchyNodes != null && CollectionUtils.isNotEmpty(awardHierarchyNodes.keySet())) {
-            for(String tempAwardNumber : awardHierarchyNodes.keySet()){
+        Map<String, AwardHierarchyNode> tmpNodes = tmDocFromSession.getAwardHierarchyNodes();
+        if(tmpNodes != null && CollectionUtils.isNotEmpty(tmpNodes.keySet())) {
+            for(String tempAwardNumber : tmpNodes.keySet()){
                 prefix = tempAwardNumber.substring(0, tempAwardNumber.indexOf("-"));
                 if(!StringUtils.startsWithIgnoreCase(awardNumber, prefix)) {
                     return false;
