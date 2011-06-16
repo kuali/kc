@@ -46,14 +46,6 @@ public class ValidWatermarkStatusMaintenanceDocumentRule extends KraMaintenanceD
 
 
 
-    /**
-     * 
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
-     */
-    @Override
-    public boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
-        return isDocumentValidForSave(document);
-    }
 
     /**
      * 
@@ -83,8 +75,7 @@ public class ValidWatermarkStatusMaintenanceDocumentRule extends KraMaintenanceD
         final Watermark watermark = (Watermark) document.getNewMaintainableObject().getBusinessObject();
         if (!document.getNewMaintainableObject().getMaintenanceAction().equals(KNSConstants.MAINTENANCE_DELETE_ACTION)) {
             return validateWatermarkStatusCode(watermark.getStatusCode());
-        }
-        else {
+        }else {
             return true;
         }
 
