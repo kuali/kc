@@ -41,14 +41,35 @@ public class ValidWatermarkStatusMaintenanceDocumentRule extends KraMaintenanceD
      */
 
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-        final Watermark watermark = (Watermark) document.getNewMaintainableObject().getBusinessObject();
+        return isDocumentValidForSave(document);
+    }
 
+
+
+    /**
+     * 
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
+     */
+    @Override
+    public boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
+        return isDocumentValidForSave(document);
+    }
+
+    /**
+     * 
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#isDocumentValidForSave(org.kuali.rice.kns.document.MaintenanceDocument)
+     */
+    public boolean isDocumentValidForSave(MaintenanceDocument document) {
+        boolean result = super.isDocumentValidForSave(document);
+        final Watermark watermark = (Watermark) document.getNewMaintainableObject().getBusinessObject();
         if (!document.getNewMaintainableObject().getMaintenanceAction().equals(KNSConstants.MAINTENANCE_DELETE_ACTION)) {
-            return validateWatermarkStatusCode(watermark.getStatusCode());
+            result &= validateWatermarkStatusCode(watermark.getStatusCode());
         }
         else {
-            return true;
+            result = true;
         }
+
+        return result;
     }
     
     
@@ -95,5 +116,5 @@ public class ValidWatermarkStatusMaintenanceDocumentRule extends KraMaintenanceD
         return valid;
     }
 
-
+   
 }
