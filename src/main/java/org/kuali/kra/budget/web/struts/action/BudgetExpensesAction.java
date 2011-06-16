@@ -354,7 +354,7 @@ public class BudgetExpensesAction extends BudgetAction {
         Budget budget = budgetForm.getBudgetDocument().getBudget();        
         int sltdBudgetPeriod = budgetForm.getViewBudgetPeriod()-1;
         BudgetPeriod budgetPeriod = budget.getBudgetPeriod(sltdBudgetPeriod);
-        if(budgetPeriod.getTotalDirectCost().isGreaterThan(budgetPeriod.getTotalDirectCostLimit())) {
+        if(budgetPeriod.getTotalDirectCost().isGreaterThan(budgetPeriod.getDirectCostLimit())) {
             return confirm(buildParameterizedConfirmationQuestion(mapping, form, request, response, 
                         "syncDirectCostLimitYes", "confirmation.periodTotalDirectCost.greaterThan.costLimit"),
                         "syncDirectCostLimitYes","");

@@ -33,7 +33,7 @@
         <ref bean="BudgetPeriod-startDate" />
         <ref bean="BudgetPeriod-totalCost" />
         <ref bean="BudgetPeriod-totalCostLimit" />
-        <ref bean="BudgetPeriod-totalDirectCostLimit" />
+        <ref bean="BudgetPeriod-directCostLimit" />
         <ref bean="BudgetPeriod-totalDirectCost" />
         <ref bean="BudgetPeriod-totalIndirectCost" />
         <ref bean="BudgetPeriod-underrecoveryAmount" />
@@ -169,10 +169,10 @@
     <property name="summary" value="Cost Limit" />
     <property name="description" value="Cost Limit" />
   </bean>
-  <bean id="BudgetPeriod-totalDirectCostLimit" parent="BudgetPeriod-totalDirectCostLimit-parentBean" />
+  <bean id="BudgetPeriod-directCostLimit" parent="BudgetPeriod-directCostLimit-parentBean" />
 
-  <bean id="BudgetPeriod-totalDirectCostLimit-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
-    <property name="name" value="totalDirectCostLimit" />
+  <bean id="BudgetPeriod-directCostLimit-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
+    <property name="name" value="directCostLimit" />
     <property name="label" value="Direct Cost Limit" />
     <property name="shortLabel" value="Direct Cost Limit" />
     <property name="summary" value="Direct Cost Limit" />
@@ -270,7 +270,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="totalCostLimit" />
               <bean parent="FieldDefinition"
-                    p:attributeName="totalDirectCostLimit" />
+                    p:attributeName="directCostLimit" />
               <bean parent="FieldDefinition"
                     p:attributeName="totalDirectCost" />
               <bean parent="FieldDefinition"

@@ -41,6 +41,7 @@
 <c:if test="${fn:length(KualiForm.document.budget.budgetPeriods) > 0}">
 	<c:forEach var="budgetPeriodObj" items="${KualiForm.document.budget.budgetPeriods}" >
 		<c:set var="cumTotalCost" value="${cumTotalCost + krafn:getBigDecimal(budgetPeriodObj.totalCost)}" />
+		<c:set var="cumTotalDirectCost" value="${cumTotalCost + krafn:getBigDecimal(budgetPeriodObj.totalDirectCost)}" />
 	</c:forEach>
 </c:if>
 
@@ -54,6 +55,16 @@
 	<c:if test="${krafn:getBigDecimal(KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].totalCostLimit) > 0 && krafn:getBigDecimal(KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].totalCost) > krafn:getBigDecimal(KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].totalCostLimit) }" >		
     	<div align="left">
     	&nbsp;&nbsp;&nbsp;The Period Cost Limit has been exceeded.<br/><br/>
+    	</div>    	
+    </c:if>
+	<c:if test="${krafn:getBigDecimal(KualiForm.document.budget.totalDirectCostLimit) > 0 && cumTotalDirectCost > krafn:getBigDecimal(KualiForm.document.budget.totalDirectCostLimit) }" >		
+    	<div align="left">
+    	&nbsp;&nbsp;&nbsp;The Total Direct Cost Limit has been exceeded.<br/><br/>
+    	</div>    	
+    </c:if>
+	<c:if test="${krafn:getBigDecimal(KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].directCostLimit) > 0 && krafn:getBigDecimal(KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].totalDirectCost) > krafn:getBigDecimal(KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].directCostLimit) }" >		
+    	<div align="left">
+    	&nbsp;&nbsp;&nbsp;The Period Direct Cost Limit has been exceeded.<br/><br/>
     	</div>    	
     </c:if>
    	<h3>
@@ -82,34 +93,52 @@
 		    	</c:choose>
 	    	</tr>
 	    	<tr>
-	    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.totalDirectCostLimit}" noColon="true" /></div></th>
-	    		<td width="25%"><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].totalDirectCostLimit" attributeEntry="${budgetPeriodAttributes.totalDirectCostLimit}" readOnly="true"/></div></td>
-	    		<c:choose>
-					<c:when test="${proposalBudgetFlag}">
-			    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetDocumentAttributes.totalDirectCostLimit}" noColon="true" /></div></th>
-			    		<td><div align="left"><kul:htmlControlAttribute property="document.budget.totalDirectCostLimit" attributeEntry="${budgetDocumentAttributes.totalDirectCostLimit}" readOnly="true"/></div></td>
-		    		</c:when>
-		    		<c:otherwise>
-		    			<td colspan="2"/>
-		    		</c:otherwise>
-		    	</c:choose>
-	    	</tr>
-	    	<tr>
 				<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.totalDirectCost}" noColon="true" /></div></th>          		
 	    		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].totalDirectCost" attributeEntry="${budgetPeriodAttributes.totalDirectCost}" styleClass="amount" readOnly="true"/></div></td>
-	    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.underrecoveryAmount}" noColon="true" /></div></th>          		
-	    		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].underrecoveryAmount" attributeEntry="${budgetPeriodAttributes.underrecoveryAmount}" styleClass="amount" readOnly="true"/></div></td>
-	    	</tr>
-	    	<tr>
-	    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.totalIndirectCost}"noColon="true" /></div></th>
-	    		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].totalIndirectCost" attributeEntry="${budgetPeriodAttributes.totalIndirectCost}" styleClass="amount" readOnly="true"/></div></td>
-	    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.costSharingAmount}" noColon="true" /></div></th>	        		        		
-	    		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].costSharingAmount" attributeEntry="${budgetPeriodAttributes.costSharingAmount}" styleClass="amount" readOnly="true"/></div></td>
-	    	</tr>
-	    	<tr>
-	    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.totalCost}" noColon="true" /></div></th>
-	    		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].totalCost" attributeEntry="${budgetPeriodAttributes.totalCost}" readOnly="true"/></div></td>
-	    		<td colspan="2">&nbsp;</td>
+	    		<c:choose>
+					<c:when test="${proposalBudgetFlag}">
+			    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.directCostLimit}" noColon="true" /></div></th>
+			    		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].directCostLimit" attributeEntry="${budgetPeriodAttributes.directCostLimit}" readOnly="true"/></div></td>
+		    		</c:when>
+		    		<c:otherwise>
+			    		<th>&nbsp;</th><td>&nbsp;</td>
+		    		</c:otherwise>
+		    	</c:choose>
+	    		<c:choose>
+					<c:when test="${proposalBudgetFlag}">
+				    	<tr>
+				    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.totalIndirectCost}"noColon="true" /></div></th>
+				    		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].totalIndirectCost" attributeEntry="${budgetPeriodAttributes.totalIndirectCost}" styleClass="amount" readOnly="true"/></div></td>
+				    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetDocumentAttributes.totalDirectCostLimit}" noColon="true" /></div></th>
+				    		<td><div align="left"><kul:htmlControlAttribute property="document.budget.totalDirectCostLimit" attributeEntry="${budgetDocumentAttributes.totalDirectCostLimit}" readOnly="true"/></div></td>
+				    	</tr>
+				    	<tr>
+				    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.underrecoveryAmount}" noColon="true" /></div></th>          		
+				    		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].underrecoveryAmount" attributeEntry="${budgetPeriodAttributes.underrecoveryAmount}" styleClass="amount" readOnly="true"/></div></td>
+				    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.costSharingAmount}" noColon="true" /></div></th>	        		        		
+				    		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].costSharingAmount" attributeEntry="${budgetPeriodAttributes.costSharingAmount}" styleClass="amount" readOnly="true"/></div></td>
+				    	</tr>
+				    	<tr>
+				    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.totalCost}" noColon="true" /></div></th>
+				    		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].totalCost" attributeEntry="${budgetPeriodAttributes.totalCost}" readOnly="true"/></div></td>
+				    		<th>&nbsp;</th><td>&nbsp;</td>
+				    	</tr>
+		    		</c:when>
+		    		<c:otherwise>
+				    	<tr>
+				    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.totalIndirectCost}"noColon="true" /></div></th>
+				    		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].totalIndirectCost" attributeEntry="${budgetPeriodAttributes.totalIndirectCost}" styleClass="amount" readOnly="true"/></div></td>
+				    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.underrecoveryAmount}" noColon="true" /></div></th>          		
+				    		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].underrecoveryAmount" attributeEntry="${budgetPeriodAttributes.underrecoveryAmount}" styleClass="amount" readOnly="true"/></div></td>
+				    	</tr>
+				    	<tr>
+				    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.totalCost}" noColon="true" /></div></th>
+				    		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].totalCost" attributeEntry="${budgetPeriodAttributes.totalCost}" readOnly="true"/></div></td>
+				    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.costSharingAmount}" noColon="true" /></div></th>	        		        		
+				    		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].costSharingAmount" attributeEntry="${budgetPeriodAttributes.costSharingAmount}" styleClass="amount" readOnly="true"/></div></td>
+				    	</tr>
+		    		</c:otherwise>
+		    	</c:choose>
 	    	</tr>
     </table>
     </div>        
