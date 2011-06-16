@@ -25,9 +25,12 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardUnitContact;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.document.authorization.AwardDocumentAuthorizer;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
@@ -40,8 +43,9 @@ import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kew.web.session.UserSession;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -63,7 +67,8 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
     static final String USER_ID = "userId";
     static final String PI_NAME = "principalInvestigatorName";
     static final String OSP_ADMIN_NAME = "ospAdministratorName";
-  
+    private static final Log LOG = LogFactory.getLog(AwardLookupableHelperServiceImpl.class);
+
     private static final long serialVersionUID = 6304433555064511153L;
     
     private transient KcPersonService kcPersonService;
@@ -71,7 +76,8 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
 
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        super.setBackLocationDocFormKey(fieldValues);       // need to set backlocation & docformkey here. Otherwise, they are empty
+        // need to set backlocation & docformkey here. Otherwise, they are empty
+        super.setBackLocationDocFormKey(fieldValues);  
         if (this.getParameters().containsKey(USER_ID)) {
             fieldValues.put("projectPersons.personId", ((String[]) this.getParameters().get(USER_ID))[0]);
         }
@@ -93,6 +99,8 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
             fieldValues.put("awardUnitContacts.awardContactId", StringUtils.join(ids, '|'));
         }
         List<Award> unboundedResults = (List<Award>) super.getSearchResultsUnbounded(fieldValues);
+        
+       
         List<Award> returnResults = new ArrayList<Award>();
         try {
             returnResults = filterForActiveAwardsAndAwardWithActiveTimeAndMoney(unboundedResults);
@@ -101,10 +109,31 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-      
-        return returnResults;
+        List<Award> filteredResults = new ArrayList<Award>();
+        
+        filteredResults = (List<Award>) filterForPermissions(returnResults);
+
+        return filteredResults;
     }
 
+
+    /**
+     * This method filters results based so that the person doing the lookup only gets back the documents he has permission view.
+     * @param results
+     * @return
+     */
+    public List<Award> filterForPermissions(List<Award> results) {
+        Person user = UserSession.getAuthenticatedUser().getPerson();
+        AwardDocumentAuthorizer authorizer = new AwardDocumentAuthorizer();
+        List<Award> filteredResults = new ArrayList<Award>();
+        // if the user has permission.
+        for (Award award : results) {      
+            if (authorizer.canOpen(award.getAwardDocument(), user)) {
+                filteredResults.add(award);
+            }
+        }
+        return filteredResults;
+    }
     /**
      * add open, copy and medusa links to actions list
      * @see org.kuali.kra.lookup.KraLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
