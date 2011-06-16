@@ -65,6 +65,7 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
     private String fileName;
     private String contentType;
     private byte[] attachmentContent;
+    private transient FormFile templateFile;
     
     private List<PersonDegree> personDegrees = new TypedArrayList(PersonDegree.class);
     private List<PersonAppointment> personAppointments = new TypedArrayList(PersonAppointment.class);
@@ -563,11 +564,11 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
     }
 
     public FormFile getTemplateFile() {
-        return super.getAttachmentFile(); 
+        return templateFile;
     }
 
     public void setTemplateFile(FormFile templateFile) {
-        super.setAttachmentFile(templateFile);
+        this.templateFile = templateFile;
     }
 
     public String getBiosketchDescription() {
@@ -593,22 +594,4 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
     public void setCitizenshipType(CitizenshipType citizenshipType) {
         this.citizenshipType = citizenshipType;
     }
-
-    public String getBiosketchAttachmentLink() {
-        //getAttachment() is always return null.
-        if(attachmentContent == null){
-            return "";
-        }else{
-            Properties params = new Properties();
-            params.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, KNSConstants.DOWNLOAD_CUSTOM_BO_ATTACHMENT_METHOD);
-            params.put(KNSConstants.DOC_FORM_KEY, "88888888");
-            params.put(KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, this.getClass().getName());
-            params.put("personId", this.getPersonId());
-            params.put(KNSConstants.BO_ATTACHMENT_FILE_NAME, this.fileName);
-            params.put(KNSConstants.BO_ATTACHMENT_FILE_CONTENT_TYPE, this.contentType);
-            params.put(KNSConstants.BO_ATTACHMENT_FILE_CONTENT_FIELD, "attachmentContent");
-            return UrlFactory.parameterizeUrl(KNSConstants.INQUIRY_ACTION, params);
-        }
-    }     
-
 }
