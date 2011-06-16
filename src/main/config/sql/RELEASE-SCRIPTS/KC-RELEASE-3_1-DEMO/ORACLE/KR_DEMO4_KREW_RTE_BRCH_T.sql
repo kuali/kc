@@ -1,4 +1,4 @@
---REM INSERTING into KREW_RTE_BRCH_T
+-- Questionnaire Demo Data
 
 DECLARE brch_id NUMBER;
 BEGIN
