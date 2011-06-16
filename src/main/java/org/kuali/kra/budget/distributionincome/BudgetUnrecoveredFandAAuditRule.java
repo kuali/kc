@@ -26,6 +26,7 @@ import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.DocumentAuditRule;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
+import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -56,7 +57,7 @@ public class BudgetUnrecoveredFandAAuditRule implements DocumentAuditRule {
         boolean retval = true;
         
         // Forces full allocation of unrecovered f and a
-        if (budget.getUnallocatedUnrecoveredFandA().isNonZero() && budget.isUnrecoveredFandAEnforced()) {
+        if (budget.getUnallocatedUnrecoveredFandA().isGreaterThan(BudgetDecimal.ZERO) && budget.isUnrecoveredFandAEnforced()) {
             retval = false;
             if (unrecoveredFandAs.size() ==0) {
                 getAuditErrors().add(new AuditError("document.budget.budgetUnrecoveredFandA",
