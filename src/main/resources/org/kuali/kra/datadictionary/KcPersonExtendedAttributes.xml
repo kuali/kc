@@ -44,7 +44,6 @@
         <ref bean="KcPersonExtendedAttributes-idVerified"/>
         <ref bean="KcPersonExtendedAttributes-biosketchDescription"/>
         <ref bean="KcPersonExtendedAttributes-templateFile" />
-        <ref bean="KcPersonExtendedAttributes-biosketchAttachmentLink"/>
         <ref bean="KcPersonExtendedAttributes-county"/>
         <ref bean="KcPersonExtendedAttributes-versionNumber"/>
         <ref bean="KcPersonExtendedAttributes-citizenshipTypeCode"/>
@@ -422,17 +421,6 @@
     <property name="description" value="Biosketch" />
   </bean>  
   
-  <bean id="KcPersonExtendedAttributes-biosketchAttachmentLink" parent="KcPersonExtendedAttributes-biosketchAttachmentLink-parentBean" />
-  <bean id="KcPersonExtendedAttributes-biosketchAttachmentLink-parentBean" abstract="true" parent="AttributeDefinition">
-	<property name="name" value="biosketchAttachmentLink"/>
-	<property name="label" value="Attached Biosketch"/>
-    <property name="maxLength" value="1000"/>
-    <property name="required" value="false"/>    
-	<property name="control">
-		<bean parent="LinkControlDefinition" p:styleClass="globalLinks" p:target="_blank" p:hrefText="Download Attachment"/>
-	</property>
-  </bean>   
-  
   <bean id="KcPersonExtendedAttributes-citizenshipTypeCode" parent="KcPersonExtendedAttributes-citizenshipTypeCode-parentBean" />
 	<bean id="KcPersonExtendedAttributes-citizenshipTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="citizenshipTypeCode" />
@@ -494,7 +482,6 @@
               <bean p:attributeName="idProvided" parent="FieldDefinition"/>
               <bean p:attributeName="idVerified" parent="FieldDefinition"/>
               <bean p:attributeName="county" parent="FieldDefinition"/>
-              <bean p:attributeName="biosketchAttachmentLink" parent="FieldDefinition"/>   
               <bean p:attributeName="citizenshipTypeCode" parent="FieldDefinition"/>               
             </list>
           </property>

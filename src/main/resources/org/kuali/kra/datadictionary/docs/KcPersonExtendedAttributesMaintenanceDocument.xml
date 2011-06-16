@@ -62,7 +62,6 @@
         <bean parent="MaintainableFieldDefinition" p:name="idVerified"/>
         <bean parent="MaintainableFieldDefinition" p:name="biosketchDescription"/>
         <bean parent="MaintainableFieldDefinition" p:name="templateFile"/>
-        <bean parent="MaintainableFieldDefinition" p:name="biosketchAttachmentLink" p:unconditionallyReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="citizenshipTypeCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>
