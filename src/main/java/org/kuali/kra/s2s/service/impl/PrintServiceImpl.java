@@ -39,6 +39,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xpath.XPathAPI;
 import org.kuali.kra.bo.SponsorFormTemplate;
 import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.infrastructure.Constants;
@@ -65,10 +66,12 @@ import org.kuali.kra.s2s.service.PrintService;
 import org.kuali.kra.s2s.service.S2SFormGeneratorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.service.S2SValidatorService;
+import org.kuali.kra.s2s.util.XPathExecutor;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.w3c.dom.Element;
 
 /**
  * This class is implementation of PrintService. It provides the functionality
@@ -175,6 +178,8 @@ public class PrintServiceImpl implements PrintService {
 	protected List<Printable> getSubmittedPDFStream(
 			ProposalDevelopmentDocument pdDoc) throws S2SException {
 		GrantApplicationDocument submittedDocument;
+		String frmXpath = null;        
+        String frmAttXpath = null;
 		try {
 		    S2sAppSubmission s2sAppSubmission = getLatestS2SAppSubmission(pdDoc);
 		    String submittedApplication = findSubmittedXml(s2sAppSubmission);
@@ -197,9 +202,9 @@ public class PrintServiceImpl implements PrintService {
 			try {
 				info = new FormMappingLoader().getFormInfo(namespace);
 				formFragment = getFormObject(submittedDocument, info);
-				s2sFormGenerator = s2SFormGeneratorService.getS2SGenerator(info
-						.getNameSpace());
-			} catch (S2SGeneratorNotFoundException e) {
+				frmXpath = "//*[namespace-uri(.) = '"+namespace+"']";               
+                frmAttXpath = "//*[namespace-uri(.) = '"+namespace+"']//*[local-name(.) = 'FileLocation' and namespace-uri(.) = 'http://apply.grants.gov/system/Attachments-V1.0']";           
+           } catch (S2SGeneratorNotFoundException e) {
 				// Form generator not available for the namespace
 				continue;
 			}
@@ -225,9 +230,20 @@ public class PrintServiceImpl implements PrintService {
 				List<S2sAppAttachments> attachmentList = s2sApplciation.getS2sAppAttachmentList();
 
 				Map<String, byte[]> formAttachments = new LinkedHashMap<String, byte[]>();
-
-				if (attachmentList != null && !attachmentList.isEmpty()) {
+				
+		  try{
+		      XPathExecutor executer = new XPathExecutor(formFragment.toString());
+              org.w3c.dom.Node d = executer.getNode(frmXpath);                    
+              org.w3c.dom.NodeList attList = XPathAPI.selectNodeList(d, frmAttXpath); 
+              int attLen = attList.getLength();   
+              
+              for(int i=0;i<attLen;i++){
+                  org.w3c.dom.Node attNode = attList.item(i);
+                  String contentId = ((Element)attNode).getAttributeNS("http://apply.grants.gov/system/Attachments-V1.0","href"); 
+				
+                  if (attachmentList != null && !attachmentList.isEmpty()) {
 					for (S2sAppAttachments attAppAttachments : attachmentList) {
+					  if(attAppAttachments.getContentId().equals(contentId)){
 						ByteArrayOutputStream attStream = new ByteArrayOutputStream();
 						try {
 							attStream.write(getAttContent(pdDoc,
@@ -242,8 +258,14 @@ public class PrintServiceImpl implements PrintService {
 						formAttachments.put(attachment.toString(),
 								getAttContent(pdDoc, attAppAttachments
 										.getContentId()));
-					}
-				}
+					 }
+				    }
+                  }
+              }
+		    }
+		  catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+          }				
 				formPrintable.setAttachments(formAttachments);
 				formPrintables.add(formPrintable);
 //			}
