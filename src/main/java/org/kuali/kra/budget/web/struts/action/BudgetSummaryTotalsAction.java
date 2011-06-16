@@ -24,6 +24,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.core.Budget;
@@ -33,6 +34,7 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
 
 public class BudgetSummaryTotalsAction extends BudgetAction {
     private static final Log LOG = LogFactory.getLog(BudgetSummaryTotalsAction.class);
@@ -54,6 +56,10 @@ public class BudgetSummaryTotalsAction extends BudgetAction {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         Budget budget = getBudget(form);
+        //ugly hack to work around OJB bug, unsure how else to fix issue though
+        if (budget != null && budget instanceof ProposalDevelopmentBudgetExt) {
+            this.getBusinessObjectService().findBySinglePrimaryKey(ProposalDevelopmentBudgetExt.class, budget.getBudgetId());
+        }
         BudgetCommonService<BudgetParent> budgetService = getBudgetCommonService(((BudgetForm)form).getBudgetDocument().getParentDocument());
         budgetService.calculateBudgetOnSave(budget);
         return super.save(mapping, form, request, response);
