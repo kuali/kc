@@ -185,14 +185,13 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
                                         <a href="#" id ="qnhistory${status.index}" class="printQnSubpanel"><img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a>
                                                <b>Questionnaires(${protocolAction.answerHeadersCount})</b>
                                     </div>
-                            <%--    </td>
-                          <td> --%>
-	                   <div id ="qnhistory${status.index}Content" class="printQnSubpanelContent">
-							        <html:image property="viewQnhistory${status.index}"
-								        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
-									onclick="ajaxLoadQn('${printOption.itemKey}','${printOption.subItemKey}','${KualiForm.formKey}',' ${KualiForm.document.sessionDocument}', ${printOption.subItemCode != '2'}, ${status.index}); return false;"
-								        alt="View Questionnaire" />
-	                   </div>
+                            
+	                   				<div id ="qnhistory${status.index}Content" class="printQnSubpanelContent">
+							        	<html:image property="viewQnhistory${status.index}"
+								        	src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
+											onclick="ajaxLoadQn('${printOption.itemKey}','${printOption.subItemKey}','${KualiForm.formKey}',' ${KualiForm.document.sessionDocument}', ${printOption.subItemCode != '2'}, ${status.index}); return false;"
+								        	alt="View Questionnaire" />
+	                   				</div>
 	            			</td>
 	            			<%-- 
 	            		        <td> &nbsp;

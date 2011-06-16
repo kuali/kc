@@ -74,7 +74,30 @@ public abstract class QuestionnaireHelperBase implements Serializable {
         }
         return null;
     }
+    
+    
+    /**
+     * This method loops through the current list of answer headers, checking if the questionnaire for each is still active and 
+     * sets the status for each answer header accordingly. 
+     */
+    public void setQuestionnaireActiveStatuses() {
+        for (AnswerHeader answerHeader : answerHeaders) {
+            if(isQuestionnaireActive(answerHeader)){
+                answerHeader.setActiveQuestionnaire(true);
+            }
+            else{
+                answerHeader.setActiveQuestionnaire(false);
+            }
+        }
+    }
 
+
+    private boolean isQuestionnaireActive(AnswerHeader answerHeader) {        
+        Integer questionnaireId = answerHeader.getQuestionnaire().getQuestionnaireId();
+        String coeusModuleCode = answerHeader.getModuleItemCode();
+        String coeusSubModuleCode = answerHeader.getModuleSubItemCode(); 
+        return getQuestionnaireAnswerService().checkIfQuestionnaireIsActiveForModule(questionnaireId, coeusModuleCode, coeusSubModuleCode);
+    }
 
     /**
      * 

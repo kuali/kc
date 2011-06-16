@@ -419,6 +419,98 @@ public class QuestionnaireAnswerServiceTest {
         Assert.assertTrue(StringUtils.isBlank(answerHeaders.get(1).getAnswers().get(2).getAnswer()));
         Assert.assertTrue(StringUtils.isBlank(answerHeaders.get(1).getAnswers().get(3).getAnswer()));
     }
+    
+    
+    @Test
+    public void testcheckIfQuestionnaireIsActiveForModule() {
+        // define a questionnaire ID, module code and sub-module code
+        Integer questionnaireId = new Integer(4);
+        String CORRECT_MODULE_CODE = "correct_module_code";
+        String CORRECT_SUB_MODULE_CODE = "correct_sub_module_code";
+        
+        // define 'incorrect' module and sub-module codes
+        String INCORRECT_MODULE_CODE = "incorrect_module_code";
+        String INCORRECT_SUB_MODULE_CODE = "incorrect_sub_module_code";
+        
+        // create a questionnaire, don't care about id---does not matter in this test
+        Questionnaire questionnaire = new Questionnaire();
+        
+        // create four questionnaire usages
+        QuestionnaireUsage usage1 = new QuestionnaireUsage();
+        QuestionnaireUsage usage2 = new QuestionnaireUsage();
+        QuestionnaireUsage usage3 = new QuestionnaireUsage();
+        QuestionnaireUsage usage4 = new QuestionnaireUsage();
+        
+        // set the usages into the questionnaire
+        List<QuestionnaireUsage> usages = new ArrayList<QuestionnaireUsage>();
+        usages.add(usage1);
+        usages.add(usage2);
+        usages.add(usage3);
+        usages.add(usage4);
+        questionnaire.setQuestionnaireUsages(usages);
+        
+        // create the field values map for the mock service
+        final Map <String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("questionnaireId", questionnaireId.toString());
+                
+        // define the mock business object service
+        final Collection<Questionnaire> questionnaires = new ArrayList<Questionnaire>();
+        questionnaires.add(questionnaire);
+        
+        final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
+        context.checking(new Expectations() {{
+            atLeast(1).of(businessObjectService).findMatchingOrderBy(Questionnaire.class, fieldValues, "sequenceNumber", false); will(returnValue(questionnaires));
+        }});
+        
+        // create QuestionnaireAnswerServiceImpl instance and set the mock service
+        QuestionnaireAnswerServiceImpl questionnaireAnswerServiceImpl = new QuestionnaireAnswerServiceImpl();
+        questionnaireAnswerServiceImpl.setBusinessObjectService(businessObjectService);
+        
+        // case zero: set questionnaire isFinal to true and one particular usage (usage 3) to correct module code and sub-module code 
+        // (with all other usages set to incorrect codes)
+        questionnaire.setIsFinal(true);
+        usage1.setModuleItemCode(INCORRECT_MODULE_CODE);
+        usage1.setModuleSubItemCode(INCORRECT_SUB_MODULE_CODE);
+        
+        usage2.setModuleItemCode(INCORRECT_MODULE_CODE);
+        usage2.setModuleSubItemCode(INCORRECT_SUB_MODULE_CODE);
+        
+        usage3.setModuleItemCode(CORRECT_MODULE_CODE);
+        usage3.setModuleSubItemCode(CORRECT_SUB_MODULE_CODE);
+        
+        usage4.setModuleItemCode(INCORRECT_MODULE_CODE);
+        usage4.setModuleSubItemCode(INCORRECT_SUB_MODULE_CODE);
+        
+        Assert.assertTrue(questionnaireAnswerServiceImpl.checkIfQuestionnaireIsActiveForModule(questionnaireId, CORRECT_MODULE_CODE, CORRECT_SUB_MODULE_CODE));
+        Assert.assertFalse(questionnaireAnswerServiceImpl.checkIfQuestionnaireIsActiveForModule(questionnaireId, INCORRECT_MODULE_CODE, CORRECT_SUB_MODULE_CODE));
+        Assert.assertFalse(questionnaireAnswerServiceImpl.checkIfQuestionnaireIsActiveForModule(questionnaireId, CORRECT_MODULE_CODE, INCORRECT_SUB_MODULE_CODE));
+        
+        // case one: set questionnaire isFinal to false  
+        questionnaire.setIsFinal(false);
+        Assert.assertFalse(questionnaireAnswerServiceImpl.checkIfQuestionnaireIsActiveForModule(questionnaireId, CORRECT_MODULE_CODE, CORRECT_SUB_MODULE_CODE));
+        
+        // case two: set questionnaire isFinal to true and set the previously correct usage to incorrect module code (but correct sub-module code)
+        questionnaire.setIsFinal(true);
+        usage3.setModuleItemCode(INCORRECT_MODULE_CODE);
+        Assert.assertFalse(questionnaireAnswerServiceImpl.checkIfQuestionnaireIsActiveForModule(questionnaireId, CORRECT_MODULE_CODE, CORRECT_SUB_MODULE_CODE));
+        Assert.assertTrue(questionnaireAnswerServiceImpl.checkIfQuestionnaireIsActiveForModule(questionnaireId, INCORRECT_MODULE_CODE, CORRECT_SUB_MODULE_CODE));
+        
+        // case three: set (questionnaire isFinal to true and) the the previously correct usage to correct module code and incorrect sub-module code
+        usage3.setModuleItemCode(CORRECT_MODULE_CODE);
+        usage3.setModuleSubItemCode(INCORRECT_SUB_MODULE_CODE);
+        Assert.assertFalse(questionnaireAnswerServiceImpl.checkIfQuestionnaireIsActiveForModule(questionnaireId, CORRECT_MODULE_CODE, CORRECT_SUB_MODULE_CODE));
+        Assert.assertTrue(questionnaireAnswerServiceImpl.checkIfQuestionnaireIsActiveForModule(questionnaireId, CORRECT_MODULE_CODE, INCORRECT_SUB_MODULE_CODE));
+        
+        // case four, (rare case): return empty list from the mock service
+        questionnaire.setIsFinal(true);
+        usage3.setModuleItemCode(CORRECT_MODULE_CODE);
+        usage3.setModuleSubItemCode(CORRECT_SUB_MODULE_CODE);
+        questionnaires.clear();
+        Assert.assertFalse(questionnaireAnswerServiceImpl.checkIfQuestionnaireIsActiveForModule(questionnaireId, CORRECT_MODULE_CODE, CORRECT_SUB_MODULE_CODE));
+    }
+    
+    
+    
 
     /**
      * 
