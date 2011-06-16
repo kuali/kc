@@ -62,17 +62,17 @@
 	<c:set var="showWarnings" value="${(currentTotalCostLimit > 0 && cumTotalCost > currentTotalCostLimit) || (previousTotalCostLimit > 0 && previousTotalCost > previousTotalCostLimit)}" />
     
     <c:set var="currentTotalDirectCostLimit"  value="${krafn:getBigDecimal(KualiForm.document.budget.totalDirectCostLimit)}" />
-	<c:set var="previousTotalDirectCostLimit" value="${krafn:getBigDecimal(KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].totalDirectCostLimit)}" />
-	<c:set var="previousTotalDirectCost" value="${krafn:getBigDecimal(KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].totalDirectCost)}" />
-	<c:set var="showDirectCostLimitWarnings" value="${(currentTotalDirectCostLimit > 0 && cumDirectTotalCost > currentTotalDirectCostLimit) || (previousTotalDirectCostLimit > 0 && previousTotalDirectCost > previousTotalDirectCostLimit)}" />
+	<c:set var="periodDirectCostLimit" value="${krafn:getBigDecimal(KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].directCostLimit)}" />
+	<c:set var="periodDirectCost" value="${krafn:getBigDecimal(KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].totalDirectCost)}" />
+	<c:set var="showDirectCostLimitWarnings" value="${(currentTotalDirectCostLimit > 0 && cumDirectTotalCost > currentTotalDirectCostLimit) || (periodDirectCostLimit > 0 && periodDirectCost > periodDirectCostLimit)}" />
 	
 	<c:choose>
 	    <c:when test="${isTop}">
 	        <kul:tabTop tabTitle="Budget Overview (Period ${budgetPeriod})" 
 	                    defaultOpen="${showWarnings || showDirectCostLimitWarnings || defaultOpen}" 
-	                    tabErrorKey="document.budget.budgetPeriod[${budgetPeriod-1}].costSharingAmount,document.budget.budgetPeriod[${budgetPeriod-1}].totalDirectCost,document.budget.budgetPeriod[${budgetPeriod-1}].totalIndirectCost,document.budget.budgetPeriod[${budgetPeriod-1}].totalCost,document.budget.budgetPeriod[${budgetPeriod-1}].totalCostLimit,document.budget.budgetPeriod[${budgetPeriod-1}].totalDirectCostLimit,document.budget.budgetPeriod[${budgetPeriod-1}].underrecoveryAmount,document.budget.budgetPeriod[${budgetPeriod-1}].periodCostLimit," 
+	                    tabErrorKey="document.budget.budgetPeriod[${budgetPeriod-1}].costSharingAmount,document.budget.budgetPeriod[${budgetPeriod-1}].totalDirectCost,document.budget.budgetPeriod[${budgetPeriod-1}].totalIndirectCost,document.budget.budgetPeriod[${budgetPeriod-1}].totalCost,document.budget.budgetPeriod[${budgetPeriod-1}].totalCostLimit,document.budget.budgetPeriod[${budgetPeriod-1}].directCostLimit,document.budget.budgetPeriod[${budgetPeriod-1}].underrecoveryAmount,document.budget.budgetPeriod[${budgetPeriod-1}].periodCostLimit," 
 	                    auditCluster="${tabAuditCluster}" 
-	                    tabAuditKey="document.budget.budgetPeriod[${budgetPeriod-1}].totalCostLimit,document.budget.budgetPeriod[${budgetPeriod-1}].totalDirectCostLimit">    
+	                    tabAuditKey="document.budget.budgetPeriod[${budgetPeriod-1}].totalCostLimit,document.budget.budgetPeriod[${budgetPeriod-1}].directCostLimit">    
 	            <kra-b:budgetExpenseBudgetOverviewBody />
 	        </kul:tabTop>
 	    </c:when>
@@ -80,9 +80,9 @@
 	        <kul:tab tabTitle="Budget Overview (Period ${budgetPeriod})" 
 	                 transparentBackground="${transparentBackground}" 
 	                 defaultOpen="${showWarnings || showDirectCostLimitWarnings || defaultOpen}" 
-	                 tabErrorKey="document.budget.budgetPeriod[${budgetPeriod-1}].costSharingAmount,document.budget.budgetPeriod[${budgetPeriod-1}].totalDirectCost,document.budget.budgetPeriod[${budgetPeriod-1}].totalIndirectCost,document.budget.budgetPeriod[${budgetPeriod-1}].totalCost,document.budget.budgetPeriod[${budgetPeriod-1}].totalCostLimit,document.budget.budgetPeriod[${budgetPeriod-1}].totalDirectCostLimit,document.budget.budgetPeriod[${budgetPeriod-1}].underrecoveryAmount,document.budget.budgetPeriod[${budgetPeriod-1}].periodCostLimit," 
+	                 tabErrorKey="document.budget.budgetPeriod[${budgetPeriod-1}].costSharingAmount,document.budget.budgetPeriod[${budgetPeriod-1}].totalDirectCost,document.budget.budgetPeriod[${budgetPeriod-1}].totalIndirectCost,document.budget.budgetPeriod[${budgetPeriod-1}].totalCost,document.budget.budgetPeriod[${budgetPeriod-1}].totalCostLimit,document.budget.budgetPeriod[${budgetPeriod-1}].directCostLimit,document.budget.budgetPeriod[${budgetPeriod-1}].underrecoveryAmount,document.budget.budgetPeriod[${budgetPeriod-1}].periodCostLimit," 
 	                 auditCluster="${tabAuditCluster}" 
-	                 tabAuditKey="document.budget.budgetPeriod[${budgetPeriod-1}].totalCostLimit,document.budget.budgetPeriod[${budgetPeriod-1}].totalDirectCostLimit" 
+	                 tabAuditKey="document.budget.budgetPeriod[${budgetPeriod-1}].totalCostLimit,document.budget.budgetPeriod[${budgetPeriod-1}].directCostLimit" 
 	                 useRiceAuditMode="true">
 	            <kra-b:budgetExpenseBudgetOverviewBody />
 	        </kul:tab>
