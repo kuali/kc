@@ -34,7 +34,9 @@
             </list>
         </property>
         <property name="documentTypeName" value="WatermarkMaintenanceDocument" />
-        <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase" />
+        <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+        <property name="businessRulesClass" value="org.kuali.kra.irb.actions.submit.ValidWatermarkStatusMaintenanceDocumentRule"/>
+        
     </bean>
 
     <!-- Maintenance Section Definitions -->
@@ -56,7 +58,8 @@
                     p:name="watermarkStatus" 
                     p:required="true"  />               
                <bean parent="MaintainableFieldDefinition"
-                    p:name="watermarkType" />
+                    p:name="watermarkType" 
+                    p:required="true"  />      
                <bean parent="MaintainableFieldDefinition"
                     p:name="fontSize"  />
                <bean parent="MaintainableFieldDefinition"
