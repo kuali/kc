@@ -65,7 +65,7 @@ public class BudgetPeriod extends BudgetAssociate {
     private String institutionalProposalNumber;
     private Integer institutionalProposalVersion;
     
-    private BudgetDecimal totalDirectCostLimit;
+    private BudgetDecimal directCostLimit;
     
     // This is a BO and hence will not be shared between threads. dateFormatter here is thread safe.
     private SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
@@ -453,19 +453,19 @@ public class BudgetPeriod extends BudgetAssociate {
     }
 
     /**
-     * Gets the totalDirectCostLimit attribute. 
-     * @return Returns the totalDirectCostLimit.
+     * Gets the directCostLimit attribute. 
+     * @return Returns the directCostLimit.
      */
-    public BudgetDecimal getTotalDirectCostLimit() {
-        return totalDirectCostLimit == null ? BudgetDecimal.ZERO : totalDirectCostLimit;
+    public BudgetDecimal getDirectCostLimit() {
+        return directCostLimit == null ? BudgetDecimal.ZERO : directCostLimit;
     }
 
     /**
-     * Sets the totalDirectCostLimit attribute value.
-     * @param totalDirectCostLimit The totalDirectCostLimit to set.
+     * Sets the directCostLimit attribute value.
+     * @param directCostLimit The directCostLimit to set.
      */
-    public void setTotalDirectCostLimit(BudgetDecimal totalDirectCostLimit) {
-        this.totalDirectCostLimit = totalDirectCostLimit;
+    public void setDirectCostLimit(BudgetDecimal directCostLimit) {
+        this.directCostLimit = directCostLimit;
     }
 
     public void populateSummaryCalcAmounts() {

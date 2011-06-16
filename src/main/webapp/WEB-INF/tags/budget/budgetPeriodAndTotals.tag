@@ -40,7 +40,7 @@
           		<th width="10%"> <div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.underrecoveryAmount}" noColon="true" /></div></th>
           		<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.costSharingAmount}" noColon="true" /></div></th>
           		<th width="9%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.totalCostLimit}" noColon="true" /></div></th>
-          		<th width="9%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.totalDirectCostLimit}" noColon="true" /></div></th>
+          		<th width="9%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.directCostLimit}" noColon="true" /></div></th>
           		<th width="7%"><div align="center">Actions</div></th>
           	
           	</tr> 
@@ -93,7 +93,7 @@
                 </td>
                 <td width="9%" valign="middle" class="infoline">
                 	<div align="center">
- 	                <kul:htmlControlAttribute property="newBudgetPeriod.totalDirectCostLimit" attributeEntry="${budgetPeriodAttributes.totalDirectCostLimit}" styleClass="amount"/> 
+ 	                <kul:htmlControlAttribute property="newBudgetPeriod.directCostLimit" attributeEntry="${budgetPeriodAttributes.directCostLimit}" styleClass="amount"/> 
                 	</div>
                 </td>
 				<td class="infoline">
@@ -161,7 +161,7 @@
                 	</td>
 	                <td width="9%" valign="middle">
                 	<div align="center">
- 	                	<kul:htmlControlAttribute property="document.budget.budgetPeriods[${status.index}].totalDirectCostLimit" attributeEntry="${budgetPeriodAttributes.totalDirectCostLimit}" styleClass="amount" readOnly="${readOnly}"/>
+ 	                	<kul:htmlControlAttribute property="document.budget.budgetPeriods[${status.index}].directCostLimit" attributeEntry="${budgetPeriodAttributes.directCostLimit}" styleClass="amount" readOnly="${readOnly}"/>
                 	</div>
                 	</td>
 					<td width="7%">
