@@ -24,13 +24,20 @@
 
     <c:if test="${answerHeaderIndex == 0}">
       <c:set var="transparent" value="true" />
-    </c:if> 
+    </c:if>
+    
+    <c:set var="inactivate" value="" />
+    
+    <c:if test="${not bean.answerHeaders[answerHeaderIndex].activeQuestionnaire}">
+         <c:set var="inactivate" value="- This Questionnaire has been deactivated." />
+         <c:set var="readOnly" value="true" scope="request"/>
+	</c:if> 
     <c:choose>
     <c:when test="${bean.answerHeaders[answerHeaderIndex].completed}">
-     	<c:set var="tabTitle" value="${bean.headerLabels[answerHeaderIndex]} (Complete)" />
+     	<c:set var="tabTitle" value="${bean.headerLabels[answerHeaderIndex]} (Complete) ${inactivate}" />
     </c:when>
     <c:otherwise>
-     	<c:set var="tabTitle" value="${bean.headerLabels[answerHeaderIndex]} (Incomplete)" />
+     	<c:set var="tabTitle" value="${bean.headerLabels[answerHeaderIndex]} (Incomplete) ${inactivate}" />
     </c:otherwise> 
     </c:choose>
     <c:set var="showQuestions" value="false" />

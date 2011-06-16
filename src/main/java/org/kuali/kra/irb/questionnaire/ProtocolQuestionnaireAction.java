@@ -275,7 +275,9 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
                 getAnsweredQuestionnaire(protocolForm.getQuestionnaireHelper().getAnswerHeaders()));
         forward = mapping.findForward("ajaxQuestionnaire");
 
-        protocolForm.getQuestionnaireHelper().resetHeaderLabels();
+        protocolForm.getQuestionnaireHelper().resetHeaderLabels();        
+        protocolForm.getQuestionnaireHelper().setQuestionnaireActiveStatuses();
+        
         return forward;
     }
 
