@@ -165,7 +165,7 @@ case "${dbtype}" in
 			sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-RELEASE-3_1_SP4-Upgrade-ORACLE.sql
 			if [ "${InstRice}" = "Y" ] || [ "${mode}" = "BUNDLE" ]
 			then
-				sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-Server-Release-1_0_3_1-1_0_3_2-Upgrade-ORACLE.sql
+				sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < RICE-1_0_3_1-1_0_3_2-Upgrade-ORACLE.sql
 			fi
 			mv *.log ../LOGS/
 			cd ..
