@@ -20,8 +20,10 @@ set define off
 @kr_sd_167_load_KRIM_ENTITY_EMAIL_T.sql 
 @kr_sd_168_load_KRIM_ENTITY_EMP_INFO_T.sql 
 @kr_sd_169_load_KRIM_ENTITY_PHONE_T.sql 
+@kr_sd_170_load_KRIM_ROLE_T.sql
 @kr_sd_171_load_KRIM_ROLE_MBR_T.sql 
 @kr_sd_172_load_KRIM_GRP_MBR_T.sql
 @kr_sd_173_load_KRIM_ROLE_MBR_T.sql
 @kr_sd_174_load_KRIM_ROLE_MBR_ATTR_DATA_T.sql
+@kr_sd_175_load_KRIM_ROLE_PERM_T.sql
 exit; 
