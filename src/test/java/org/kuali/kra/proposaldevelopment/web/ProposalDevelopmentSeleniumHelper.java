@@ -221,7 +221,7 @@ public class ProposalDevelopmentSeleniumHelper extends KcSeleniumHelper {
         
         openTab(DEFAULT_PI_NAME);
         
-        openTab(4);
+        openTab(5);
         set(String.format(PERSON_YNQS_ID, 0), YES_RADIO_FIELD_VALUE);
         set(String.format(PERSON_YNQS_ID, 1), NO_RADIO_FIELD_VALUE);
         set(String.format(PERSON_YNQS_ID, 2), YES_RADIO_FIELD_VALUE);
