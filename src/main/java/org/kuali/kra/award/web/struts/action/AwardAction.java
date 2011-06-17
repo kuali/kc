@@ -684,15 +684,21 @@ public class AwardAction extends BudgetParentActionBase {
     public void setBooleanAwardHasTandMOrIsVersioned (Award award) {
         boolean previousVersionHasBeenEditedInTandMDocument = false;
         List<Award> awards = getAwardVersions(award.getAwardNumber());
-        for(Award awardVersion : awards) {
-            if(awardVersion.getSequenceNumber() == 1 && awardVersion.getAwardAmountInfos().size() > 2){
-                previousVersionHasBeenEditedInTandMDocument = true;
-                break;
-            }else if(awardVersion.getSequenceNumber() > 1 && awardVersion.getAwardAmountInfos().size() > 1){
-                previousVersionHasBeenEditedInTandMDocument = true;
-                break;
-            }
+        if(awards.size() > 1) {
+            previousVersionHasBeenEditedInTandMDocument = true;
+        }else if(awards.size() == 1 && awards.get(0).getAwardAmountInfos().size() > 1){
+            previousVersionHasBeenEditedInTandMDocument = true;
         }
+//        for(Award awardVersion : awards) {
+//            if(awardVersion.getSequenceNumber() == 1 && awardVersion.getAwardAmountInfos().size() > 2){
+//                previousVersionHasBeenEditedInTandMDocument = true;
+//                break;
+//            }else if(awardVersion.getSequenceNumber() > 1 && awardVersion.getAwardAmountInfos().size() > 1){
+//                previousVersionHasBeenEditedInTandMDocument = true;
+//                break;
+//            }
+//        }
+//        
         award.setAwardHasAssociatedTandMOrIsVersioned(previousVersionHasBeenEditedInTandMDocument);
     }
     
