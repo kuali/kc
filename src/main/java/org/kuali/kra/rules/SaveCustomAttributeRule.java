@@ -26,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDataType;
 import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -33,10 +34,12 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 import org.kuali.kra.service.CustomAttributeService;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.datadictionary.validation.ValidationPattern;
 import org.kuali.rice.kns.datadictionary.validation.charlevel.AnyCharacterValidationPattern;
 import org.kuali.rice.kns.datadictionary.validation.charlevel.NumericValidationPattern;
 import org.kuali.rice.kns.datadictionary.validation.fieldlevel.DateValidationPattern;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.RiceKeyConstants;
 
 /**
@@ -144,6 +147,52 @@ public class SaveCustomAttributeRule extends ResearchDocumentRuleBase implements
                 }
             }
         }
+        // validate BO data against the database contents 
+        String lookupClass = customAttribute.getLookupClass();
+        if (lookupClass != null && lookupClass.equals("org.kuali.kra.bo.KcPerson"))
+        {
+            if (customAttribute.getDataTypeCode().equals("1") && customAttribute.getLookupReturn().equals("userName"))
+            {
+                validFormat = getValidFormat(customAttributeDataType.getDescription());
+                KcPersonService kps = getKcPersonService();
+                KcPerson customPerson = kps.getKcPersonByUserName(customAttribute.getValue());
+                if (customPerson == null)
+                {
+                    GlobalVariables.getErrorMap().putError(errorKey, RiceKeyConstants.ERROR_EXISTENCE, 
+                        customAttribute.getLabel(), attributeValue, validFormat);
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                // can only validate for userName, if fullName, etc is used then a lookup
+                // is assumed that a lookup is being used, in which case validation 
+                // is not necessary
+                return true; 
+            }
+        }
+        else if (lookupClass != null)
+        {    
+            Class boClass = null;
+            try
+            {
+                boClass = Class.forName(lookupClass);
+            }
+            catch (ClassNotFoundException cnfE) {/* Do nothing, checked on input */ }
+
+            if (isInvalid(boClass, keyValue(customAttribute.getLookupReturn(), customAttribute.getValue() ) ) )         
+            {
+                validFormat = getValidFormat(customAttributeDataType.getDescription());
+                GlobalVariables.getErrorMap().putError(errorKey, RiceKeyConstants.ERROR_EXISTENCE, 
+                         customAttribute.getLabel(), attributeValue, validFormat);
+                return false;
+            }
+        }
+          
         return isValid;
     }
     
@@ -176,4 +225,14 @@ public class SaveCustomAttributeRule extends ResearchDocumentRuleBase implements
         this.customAttributeService = customAttributeService;
     }
 
+    /**
+     * 
+     * This method is a helper method to retrieve KcPersonService.
+     * @return
+     */
+    protected KcPersonService getKcPersonService() {
+        return KraServiceLocator.getService(KcPersonService.class);    
+    }
+
+    
 }
