@@ -12,7 +12,7 @@
 		</fo:layout-master-set>
 	</xsl:variable>
 	
-	<xsl:template match="/">
+	<xsl:template match="PHS398_TrainingSubawardBudget:PHS398_TrainingSubawardBudget">
 		<fo:root>
 			<xsl:copy-of select="$fo:layout-master-set"/>
 			  <fo:page-sequence master-reference="default-page" initial-page-number="1" format="1">
