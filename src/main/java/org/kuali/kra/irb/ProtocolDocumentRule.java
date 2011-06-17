@@ -28,6 +28,7 @@ import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.assigncmtsched.ExecuteProtocolAssignCmtSchedRule;
 import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedBean;
 import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedRule;
@@ -123,7 +124,11 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
 
         boolean valid = true;
-        valid &= processProtocolResearchAreaBusinessRules((ProtocolDocument) document);        
+        ProtocolDocument protocolDocument = (ProtocolDocument) document;
+        if ((protocolDocument.getDocumentHeader().getWorkflowDocument().stateIsInitiated() || protocolDocument.getDocumentHeader().getWorkflowDocument().stateIsSaved()) && ProtocolStatus.IN_PROGRESS.equals(protocolDocument.getProtocol().getProtocolStatusCode())
+                && StringUtils.isBlank(protocolDocument.getDocumentHeader().getDocumentTemplateNumber())) {
+            valid &= processProtocolResearchAreaBusinessRules((ProtocolDocument) document);
+        }
         valid &= processLeadUnitBusinessRules((ProtocolDocument) document);
         valid &= processProtocolLocationBusinessRules((ProtocolDocument) document);
         valid &= processProtocolPersonnelBusinessRules((ProtocolDocument) document);
