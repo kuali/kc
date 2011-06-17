@@ -11,7 +11,7 @@
 			</fo:simple-page-master>
 		</fo:layout-master-set>
 	</xsl:variable>
-	<xsl:template match="/">
+	<xsl:template match="PHS_Fellowship_Supplemental:PHS_Fellowship_Supplemental">
 		<fo:root>
 			<xsl:copy-of select="$fo:layout-master-set"/>
 			<fo:page-sequence master-reference="default-page" initial-page-number="1" format="1">
