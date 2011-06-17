@@ -18,4 +18,32 @@ delete from krns_parm_t where PARM_NM = 'AWARD_CREATE_ACCOUNT';
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, OBJ_ID) VALUES ('KC', 'KC-AWARD', 'Document', 'FIN_SYSTEM_INTEGRATION_ON', 1, 'CONFG', 'OFF', 'Parameter to set the financial system integration feature ON or OFF.', 'A', UUID());
   
-COMMIT;
+INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, OBJ_ID, VER_NBR) 
+  VALUES ('KUALI', 'KC-UNT', 'All', 'KIM_SHOW_BLANK_QUALIFIERS', 'CONFG', 'N', 'Whether to show the blank qualifiers in KIM Maintenance Screens', 'A', UUID(), 1);
+
+INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, OBJ_ID, VER_NBR) 
+  VALUES ('KUALI', 'KC-ADM', 'All', 'KIM_SHOW_BLANK_QUALIFIERS', 'CONFG', 'N', 'Whether to show the blank qualifiers in KIM Maintenance Screens', 'A', UUID(), 1);
+
+INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, OBJ_ID, VER_NBR) 
+  VALUES ('KUALI', 'KC-T', 'All', 'KIM_SHOW_BLANK_QUALIFIERS', 'CONFG', 'N', 'Whether to show the blank qualifiers in KIM Maintenance Screens', 'A', UUID(), 1);
+
+INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, OBJ_ID, VER_NBR) 
+  VALUES ('KUALI', 'KC-AWARD', 'All', 'KIM_SHOW_BLANK_QUALIFIERS', 'CONFG', 'N', 'Whether to show the blank qualifiers in KIM Maintenance Screens', 'A', UUID(), 1);
+
+INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, OBJ_ID, VER_NBR) 
+  VALUES ('KUALI', 'KC-PROTOCOL', 'All', 'KIM_SHOW_BLANK_QUALIFIERS', 'CONFG', 'N', 'Whether to show the blank qualifiers in KIM Maintenance Screens', 'A', UUID(), 1);
+
+INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, OBJ_ID, VER_NBR) 
+  VALUES ('KUALI', 'KC-PD', 'All', 'KIM_SHOW_BLANK_QUALIFIERS', 'CONFG', 'N', 'Whether to show the blank qualifiers in KIM Maintenance Screens', 'A', UUID(), 1);
+
+INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, OBJ_ID, VER_NBR) 
+  VALUES ('KUALI', 'KC-WKFLW', 'All', 'KIM_SHOW_BLANK_QUALIFIERS', 'CONFG', 'N', 'Whether to show the blank qualifiers in KIM Maintenance Screens', 'A', UUID(), 1);
+
+INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, OBJ_ID, VER_NBR) 
+  VALUES ('KUALI', 'KC-SYS', 'All', 'KIM_SHOW_BLANK_QUALIFIERS', 'CONFG', 'N', 'Whether to show the blank qualifiers in KIM Maintenance Screens', 'A', UUID(), 1);
+
+INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, OBJ_ID, VER_NBR) 
+  VALUES ('KUALI', 'KC-AB', 'All', 'KIM_SHOW_BLANK_QUALIFIERS', 'CONFG', 'N', 'Whether to show the blank qualifiers in KIM Maintenance Screens', 'A', UUID(), 1);
+
+INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, OBJ_ID, VER_NBR) 
+  VALUES ('KUALI', 'KC-IP', 'All', 'KIM_SHOW_BLANK_QUALIFIERS', 'CONFG', 'N', 'Whether to show the blank qualifiers in KIM Maintenance Screens', 'A', UUID(), 1);
