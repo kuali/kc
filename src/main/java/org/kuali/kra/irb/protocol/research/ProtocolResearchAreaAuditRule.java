@@ -18,6 +18,8 @@ package org.kuali.kra.irb.protocol.research;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -48,6 +50,7 @@ public class ProtocolResearchAreaAuditRule extends ResearchDocumentRuleBase impl
         if (!isValid) {
             addErrorToAuditErrors();
         }
+        isValid &= isResearchAreaActive(protocolDocument);
         reportAndCreateAuditCluster();
         
         return isValid;
@@ -64,6 +67,39 @@ public class ProtocolResearchAreaAuditRule extends ResearchDocumentRuleBase impl
         auditErrors.add(new AuditError(Constants.PROTOCOL_RESEARCH_AREA_KEY,
                                         KeyConstants.ERROR_PROTOCOL_RESEARCH_AREA_REQUIRED,
                                         stringBuilder.toString()));   
+    }
+
+    
+    private boolean isResearchAreaActive(ProtocolDocument document) {
+        boolean inactiveFound = false;
+        String inactiveResearchAreaCode = "";
+        
+        List<ProtocolResearchArea> pras = document.getProtocol().getProtocolResearchAreas();
+        // iterate over all the research areas for this protocol looking for inactive research areas
+        if(CollectionUtils.isNotEmpty(pras)) {
+            for (ProtocolResearchArea protocolResearchArea : pras) {
+                if(!(protocolResearchArea.getResearchAreas().isActive())) {
+                    inactiveFound = true;
+                    if (StringUtils.isBlank(inactiveResearchAreaCode)) {
+                        inactiveResearchAreaCode = protocolResearchArea.getResearchAreaCode();
+                    } else {
+                        inactiveResearchAreaCode = inactiveResearchAreaCode + ", " + protocolResearchArea.getResearchAreaCode();
+                    }
+                }
+            }
+        }
+        // if we found any inactive research areas in the above loop, report as a single error key suffixed by the list of indices of the inactive areas
+        if(inactiveFound) { 
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(Constants.PROTOCOL_PROTOCOL_PAGE);
+            stringBuilder.append(".");
+            stringBuilder.append(Constants.PROTOCOL_PROTOCOL_RESEARCH_AREA_PANEL_ANCHOR);
+            auditErrors.add(new AuditError(Constants.PROTOCOL_RESEARCH_AREA_KEY,
+                                            KeyConstants.ERROR_PROTOCOL_RESEARCH_AREA_NOT_ACTIVE,
+                                            stringBuilder.toString(), new String[] {inactiveResearchAreaCode}));   
+        }
+        
+        return !inactiveFound;
     }
 
     /**
