@@ -455,6 +455,18 @@
       
       name = name.substring(name.indexOf("%3A")+3, name.length).trim();
       var text13 = name.substring(0,name.indexOf("%3A")).trim();
+      
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text14 = name.substring(0,name.indexOf("%3A")).trim();
+      
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text15 = name.substring(0,name.indexOf("%3A")).trim();
+      
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text16 = name.substring(0,name.indexOf("%3A")).trim();
+      
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text17 = name.substring(0,name.indexOf("%3A")).trim();
     
     var idx = id.substring(4); 
     var tblWidth = 100-parseInt(level);
@@ -471,7 +483,7 @@
     var trTag = $('<tr></tr>');
     var thTag1=$('<th style="text-align:right;width:160px;"></th>').html('<b>Project Start Date</b>');
     trTag.html(thTag1);
-    var tdTag1=$('<td style="width:200px;"></td>').html(text12);
+    var tdTag1=$('<td style="width:200px;"></td>').html(text16);
     tdTag1.appendTo(trTag);
     var thTag2=$('<th style="text-align:right;width:160px;"></th>').html('<b>Obligation Start Date</b>');
     thTag2.appendTo(trTag);    
@@ -504,7 +516,7 @@
     var trTag3 = $('<tr></tr>');
     var thTag7=$('<th style="text-align:right;width:160px;"></th>').html('<b>Title</b>');
     trTag3.html(thTag7);
-    var tdTag7=$('<td colspan="3" ></td>').html(text13);
+    var tdTag7=$('<td colspan="3" ></td>').html(text17);
     tdTag7.appendTo(trTag3);
       
     trTag.appendTo(tblTag);
