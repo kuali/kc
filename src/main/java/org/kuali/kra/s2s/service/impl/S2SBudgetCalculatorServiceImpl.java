@@ -212,12 +212,10 @@ public class S2SBudgetCalculatorServiceImpl implements
 						.getBudgetLineItemCalculatedAmounts()) {
 					lineItemCalAmt.refreshReferenceObject("rateClass");
 					if (lineItemCalAmt.getRateClass().getRateClassType()
-							.equals(RATE_CLASS_TYPE_OTHER)) {
-						totalDirectCostSharing = totalDirectCostSharing
-								.add(lineItemCalAmt.getCalculatedCostSharing());
+							.equals(RateClassType.OVERHEAD.getRateClassType())) {
+                        totalIndirectCostSharing = totalIndirectCostSharing.add(lineItemCalAmt.getCalculatedCostSharing());
 					} else {
-						totalIndirectCostSharing = totalIndirectCostSharing
-								.add(lineItemCalAmt.getCalculatedCostSharing());
+                        totalDirectCostSharing = totalDirectCostSharing.add(lineItemCalAmt.getCalculatedCostSharing());
 					}
 					if ((lineItemCalAmt.getRateClassCode().equals(
 							RATE_CLASS_CODE_EMPLOYEE_BENEFITS) && !lineItemCalAmt
