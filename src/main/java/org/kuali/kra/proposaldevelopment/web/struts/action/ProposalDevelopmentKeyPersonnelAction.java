@@ -109,21 +109,27 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     }
     
     public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        super.preSave(mapping, form, request, response);
-        ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
-        List<ProposalPerson> keyPersonnel = pdForm.getDocument().getDevelopmentProposal().getProposalPersons();
-        /**
-         * 1) If the citizenship has been changed, we need to update the object record along with the ID field that user changed via the UI.
-         */
-        for (ProposalPerson proposalPerson : keyPersonnel) {
-            if (proposalPerson.getProposalPersonExtendedAttributes() != null) {
-                int extendedAttributedCitizenshipTypeCode = proposalPerson.getProposalPersonExtendedAttributes().getCitizenshipTypeCode();
-                if (proposalPerson.getProposalPersonExtendedAttributes().getCitizenshipType() == null 
-                        || extendedAttributedCitizenshipTypeCode != proposalPerson.getProposalPersonExtendedAttributes().getCitizenshipType().getCitizenshipTypeCode()) {
-                    Map params = new HashMap();
-                    params.put("citizenshipTypeCode", extendedAttributedCitizenshipTypeCode);
-                    CitizenshipType newCitizenshipType = (CitizenshipType) this.getBusinessObjectService().findByPrimaryKey(CitizenshipType.class, params);
-                    proposalPerson.getProposalPersonExtendedAttributes().setCitizenshipType(newCitizenshipType);
+        ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
+        boolean rulePassed = getKualiRuleService().applyRules(new SaveKeyPersonEvent(EMPTY_STRING, pdform.getDocument()));
+        if (rulePassed) {
+            super.preSave(mapping, form, request, response);
+            ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
+            List<ProposalPerson> keyPersonnel = pdForm.getDocument().getDevelopmentProposal().getProposalPersons();
+            /**
+             * 1) If the citizenship has been changed, we need to update the object record along with the ID field that user changed via the UI.
+             */
+            for (ProposalPerson proposalPerson : keyPersonnel) {
+                if (proposalPerson.getProposalPersonExtendedAttributes() != null) {
+                    System.err.println(proposalPerson.getProposalPersonExtendedAttributes());
+                    int extendedAttributedCitizenshipTypeCode = proposalPerson.getProposalPersonExtendedAttributes().getCitizenshipTypeCode();
+                    proposalPerson.getProposalPersonExtendedAttributes().setProposalPersonRoleId(proposalPerson.getProposalPersonRoleId());
+                    if (proposalPerson.getProposalPersonExtendedAttributes().getCitizenshipType() == null 
+                            || extendedAttributedCitizenshipTypeCode != proposalPerson.getProposalPersonExtendedAttributes().getCitizenshipType().getCitizenshipTypeCode()) {
+                        Map params = new HashMap();
+                        params.put("citizenshipTypeCode", extendedAttributedCitizenshipTypeCode);
+                        CitizenshipType newCitizenshipType = (CitizenshipType) this.getBusinessObjectService().findByPrimaryKey(CitizenshipType.class, params);
+                        proposalPerson.getProposalPersonExtendedAttributes().setCitizenshipType(newCitizenshipType);
+                    }
                 }
             }
         }
@@ -570,9 +576,14 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
                 for (AnswerHeader header : pdform.getAnswerHeadersToDelete()) {
                     Map primaryKeys = new HashMap();
                     primaryKeys.put("QUESTIONNAIRE_ANSWER_HEADER_ID", header.getAnswerHeaderId());
-                    freshHeaders.add((AnswerHeader) this.getBusinessObjectService().findByPrimaryKey(AnswerHeader.class, primaryKeys));
+                    AnswerHeader ah = (AnswerHeader) this.getBusinessObjectService().findByPrimaryKey(AnswerHeader.class, primaryKeys);
+                    if (ah != null) {
+                        freshHeaders.add(ah);
+                    }
                 }
-                this.getBusinessObjectService().delete(freshHeaders);
+                if (!freshHeaders.isEmpty()) {
+                    this.getBusinessObjectService().delete(freshHeaders);
+                }
                 pdform.getAnswerHeadersToDelete().clear();
             }
             
@@ -584,12 +595,16 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
              * and we manually save them in correct order here. This may be a bug in how it's set up, but this works well, so we are going with it.  
              * Please feel free to to fix if you like.
              */
+            List peropleObjectsToSave = new ArrayList();
             for (ProposalPerson proposalPerson : keyPersonnel) {
                 this.getBusinessObjectService().save(proposalPerson);
                 if (proposalPerson.getProposalPersonExtendedAttributes() != null) {
-                    this.getBusinessObjectService().save(proposalPerson.getProposalPersonExtendedAttributes());
+                    peropleObjectsToSave.add(proposalPerson);
+                    peropleObjectsToSave.add(proposalPerson.getProposalPersonExtendedAttributes());
+                    //this.getBusinessObjectService().save(proposalPerson.getProposalPersonExtendedAttributes());
                 }
             }
+            this.getBusinessObjectService().save(peropleObjectsToSave);
             
             for (ProposalPerson person : personsToDelete) {
                 if (person.getProposalPersonExtendedAttributes() != null) {

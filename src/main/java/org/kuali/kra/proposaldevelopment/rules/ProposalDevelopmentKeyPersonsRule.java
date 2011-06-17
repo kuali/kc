@@ -31,6 +31,7 @@ import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PERCENTAGE;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PROPOSAL_PERSON_EXISTS;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PROPOSAL_PERSON_EXISTS_WITH_ROLE;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_SELECT_UNIT;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_MISSING_CITIZENSHIP_TYPE;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.kra.logging.FormattedLogger.debug;
 import static org.kuali.kra.logging.FormattedLogger.info;
@@ -102,6 +103,14 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
             if (isPrincipalInvestigator(person)) {
                 pi_cnt++;
                  
+            }
+            
+            if (person.getProposalPersonExtendedAttributes() != null 
+                    && person.getProposalPersonExtendedAttributes().getCitizenshipTypeCode() == null) {
+                debug("error.noCitizenshipType");
+                //document.developmentProposalList[0].proposalPersons[0].proposalPersonExtendedAttributes.citizenshipTypeCode
+                reportError("document.developmentProposalList[0].proposalPersons[" + personIndex + "].proposalPersonExtendedAttributes.citizenshipTypeCode", ERROR_MISSING_CITIZENSHIP_TYPE);
+                retval = false;
             }
             
             if (isBlank(person.getProposalPersonRoleId()) && person.getRole() == null) { 
