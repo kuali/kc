@@ -1,0 +1,2 @@
+--The key isn't needed because of programatic constraints, and other DB constraints meet the critical needs, and this FK causes errorss
+ALTER TABLE EPS_PROP_PERSON_EXT DROP CONSTRAINT "EPS_PROP_PERSON_EXT_FK2"
