@@ -117,9 +117,13 @@ public class QuestionnaireHelper extends QuestionnaireHelperBase {
             } 
             if (!answerHeaders.isEmpty()) {
                 for (AnswerHeader answerHeader : answerHeaders) {
+                    // we now display inactive qnnrs after amendment
+                    /*
                     if (answerHeader.isActiveQuestionnaire()) {
                        getAnswerHeaders().add(answerHeader);
                     }
+                    */
+                    getAnswerHeaders().add(answerHeader);
                 }
                 resetHeaderLabels();
            }     
@@ -127,6 +131,7 @@ public class QuestionnaireHelper extends QuestionnaireHelperBase {
         } else {
             super.populateAnswers();
         }
+        setQuestionnaireActiveStatuses();
     }
 
     private ModuleQuestionnaireBean getAmendModuleBean() {

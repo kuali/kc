@@ -122,7 +122,7 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
         ((ProtocolForm)form).getQuestionnaireHelper().prepareView();
         ((ProtocolForm)form).getQuestionnaireHelper().setSubmissionActionTypeCode(submissionActionTypeCode);
         ((ProtocolForm)form).getQuestionnaireHelper().populateAnswers();
-        
+        ((ProtocolForm)form).getQuestionnaireHelper().setQuestionnaireActiveStatuses();
         return actionForward;
     }
     
@@ -202,6 +202,7 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
             forward =  mapping.findForward("viewQuestionnaire");
         }
         protocolForm.getQuestionnaireHelper().resetHeaderLabels();
+        protocolForm.getQuestionnaireHelper().setQuestionnaireActiveStatuses();
         return forward;
     }
 
@@ -222,6 +223,7 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
         forward = mapping.findForward("viewQuestionnaire");
 
         protocolForm.getQuestionnaireHelper().resetHeaderLabels();
+        protocolForm.getQuestionnaireHelper().setQuestionnaireActiveStatuses();
         return forward;
     }
 
@@ -246,6 +248,7 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
             forward =  mapping.findForward("ajaxQuestionnaire");
         }
         protocolForm.getQuestionnaireHelper().resetHeaderLabels();
+        protocolForm.getQuestionnaireHelper().setQuestionnaireActiveStatuses();
         return forward;
     }
 
