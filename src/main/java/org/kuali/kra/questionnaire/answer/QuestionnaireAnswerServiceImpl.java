@@ -277,11 +277,12 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         if(null != latestQnnrInstance && latestQnnrInstance.getIsFinal()) {
             List<QuestionnaireUsage> questionnaireUsages = latestQnnrInstance.getQuestionnaireUsages();
             for (QuestionnaireUsage questionnaireUsage : questionnaireUsages) {
-                if( StringUtils.equals(questionnaireUsage.getModuleItemCode(), coeusModuleCode) && StringUtils.equals(questionnaireUsage.getModuleSubItemCode(), coeusSubModuleCode) ) {
+                if( StringUtils.equals(questionnaireUsage.getModuleItemCode(), coeusModuleCode) ) {
+                    // TODO sub-module comparison removed, can be added back later if needed
                     isActive = true;
                     break;
                 }
-            }        
+            }
         }       
         return isActive;               
     }
