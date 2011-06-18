@@ -131,6 +131,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
                 ((ProtocolForm)form).getQuestionnaireHelper().setAnswerHeaders(submissionBean.getAnswerHeaders());
             }
         }
+        ((ProtocolForm)form).getQuestionnaireHelper().setQuestionnaireActiveStatuses();
         return mapping.findForward("questionnaire");
     }
     
