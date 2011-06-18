@@ -426,11 +426,12 @@ public class QuestionnaireAnswerServiceTest {
         // define a questionnaire ID, module code and sub-module code
         Integer questionnaireId = new Integer(4);
         String CORRECT_MODULE_CODE = "correct_module_code";
-        String CORRECT_SUB_MODULE_CODE = "correct_sub_module_code";
+        String DONT_CARE_SUB_MODULE_CODE = "dont_care_sub_module_code";
+        String DONT_CARE_SUB_MODULE_CODE_1 = "dont_care_sub_module_code_1";
         
         // define 'incorrect' module and sub-module codes
         String INCORRECT_MODULE_CODE = "incorrect_module_code";
-        String INCORRECT_SUB_MODULE_CODE = "incorrect_sub_module_code";
+      
         
         // create a questionnaire, don't care about id---does not matter in this test
         Questionnaire questionnaire = new Questionnaire();
@@ -470,43 +471,38 @@ public class QuestionnaireAnswerServiceTest {
         // (with all other usages set to incorrect codes)
         questionnaire.setIsFinal(true);
         usage1.setModuleItemCode(INCORRECT_MODULE_CODE);
-        usage1.setModuleSubItemCode(INCORRECT_SUB_MODULE_CODE);
+        usage1.setModuleSubItemCode(DONT_CARE_SUB_MODULE_CODE);
         
         usage2.setModuleItemCode(INCORRECT_MODULE_CODE);
-        usage2.setModuleSubItemCode(INCORRECT_SUB_MODULE_CODE);
+        usage2.setModuleSubItemCode(DONT_CARE_SUB_MODULE_CODE);
         
         usage3.setModuleItemCode(CORRECT_MODULE_CODE);
-        usage3.setModuleSubItemCode(CORRECT_SUB_MODULE_CODE);
+        usage3.setModuleSubItemCode(DONT_CARE_SUB_MODULE_CODE);
         
         usage4.setModuleItemCode(INCORRECT_MODULE_CODE);
-        usage4.setModuleSubItemCode(INCORRECT_SUB_MODULE_CODE);
+        usage4.setModuleSubItemCode(DONT_CARE_SUB_MODULE_CODE);
         
-        Assert.assertTrue(questionnaireAnswerServiceImpl.checkIfQuestionnaireIsActiveForModule(questionnaireId, CORRECT_MODULE_CODE, CORRECT_SUB_MODULE_CODE));
-        Assert.assertFalse(questionnaireAnswerServiceImpl.checkIfQuestionnaireIsActiveForModule(questionnaireId, INCORRECT_MODULE_CODE, CORRECT_SUB_MODULE_CODE));
-        Assert.assertFalse(questionnaireAnswerServiceImpl.checkIfQuestionnaireIsActiveForModule(questionnaireId, CORRECT_MODULE_CODE, INCORRECT_SUB_MODULE_CODE));
+        Assert.assertTrue(questionnaireAnswerServiceImpl.checkIfQuestionnaireIsActiveForModule(questionnaireId, CORRECT_MODULE_CODE, DONT_CARE_SUB_MODULE_CODE));
+        Assert.assertTrue(questionnaireAnswerServiceImpl.checkIfQuestionnaireIsActiveForModule(questionnaireId, CORRECT_MODULE_CODE, DONT_CARE_SUB_MODULE_CODE_1));
+        Assert.assertTrue(questionnaireAnswerServiceImpl.checkIfQuestionnaireIsActiveForModule(questionnaireId, CORRECT_MODULE_CODE, null));
+        
         
         // case one: set questionnaire isFinal to false  
         questionnaire.setIsFinal(false);
-        Assert.assertFalse(questionnaireAnswerServiceImpl.checkIfQuestionnaireIsActiveForModule(questionnaireId, CORRECT_MODULE_CODE, CORRECT_SUB_MODULE_CODE));
+        Assert.assertFalse(questionnaireAnswerServiceImpl.checkIfQuestionnaireIsActiveForModule(questionnaireId, CORRECT_MODULE_CODE, DONT_CARE_SUB_MODULE_CODE));
         
-        // case two: set questionnaire isFinal to true and set the previously correct usage to incorrect module code (but correct sub-module code)
+        // case two: set questionnaire isFinal to true and set the previously correct usage to incorrect module code 
         questionnaire.setIsFinal(true);
         usage3.setModuleItemCode(INCORRECT_MODULE_CODE);
-        Assert.assertFalse(questionnaireAnswerServiceImpl.checkIfQuestionnaireIsActiveForModule(questionnaireId, CORRECT_MODULE_CODE, CORRECT_SUB_MODULE_CODE));
-        Assert.assertTrue(questionnaireAnswerServiceImpl.checkIfQuestionnaireIsActiveForModule(questionnaireId, INCORRECT_MODULE_CODE, CORRECT_SUB_MODULE_CODE));
+        Assert.assertFalse(questionnaireAnswerServiceImpl.checkIfQuestionnaireIsActiveForModule(questionnaireId, CORRECT_MODULE_CODE, DONT_CARE_SUB_MODULE_CODE));
+        Assert.assertTrue(questionnaireAnswerServiceImpl.checkIfQuestionnaireIsActiveForModule(questionnaireId, INCORRECT_MODULE_CODE, DONT_CARE_SUB_MODULE_CODE));
         
-        // case three: set (questionnaire isFinal to true and) the the previously correct usage to correct module code and incorrect sub-module code
-        usage3.setModuleItemCode(CORRECT_MODULE_CODE);
-        usage3.setModuleSubItemCode(INCORRECT_SUB_MODULE_CODE);
-        Assert.assertFalse(questionnaireAnswerServiceImpl.checkIfQuestionnaireIsActiveForModule(questionnaireId, CORRECT_MODULE_CODE, CORRECT_SUB_MODULE_CODE));
-        Assert.assertTrue(questionnaireAnswerServiceImpl.checkIfQuestionnaireIsActiveForModule(questionnaireId, CORRECT_MODULE_CODE, INCORRECT_SUB_MODULE_CODE));
-        
-        // case four, (rare case): return empty list from the mock service
+        // case three, (rare case): return empty list from the mock service
         questionnaire.setIsFinal(true);
         usage3.setModuleItemCode(CORRECT_MODULE_CODE);
-        usage3.setModuleSubItemCode(CORRECT_SUB_MODULE_CODE);
+        usage3.setModuleSubItemCode(DONT_CARE_SUB_MODULE_CODE);
         questionnaires.clear();
-        Assert.assertFalse(questionnaireAnswerServiceImpl.checkIfQuestionnaireIsActiveForModule(questionnaireId, CORRECT_MODULE_CODE, CORRECT_SUB_MODULE_CODE));
+        Assert.assertFalse(questionnaireAnswerServiceImpl.checkIfQuestionnaireIsActiveForModule(questionnaireId, CORRECT_MODULE_CODE, DONT_CARE_SUB_MODULE_CODE));
     }
     
     
