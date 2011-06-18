@@ -1005,6 +1005,8 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="actionsPerformed" column="ACTIONS_PERFORMED" jdbc-type="VARCHAR" />
+        <field-descriptor name="reviewerApproved" column="REVIEWER_APPROVED" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+        <field-descriptor name="adminAccepted" column="ADMIN_ACCEPTED" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 
         <reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="protocolId"/>

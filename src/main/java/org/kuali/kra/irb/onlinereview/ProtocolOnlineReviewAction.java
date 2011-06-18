@@ -55,6 +55,7 @@ import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.DocumentService;
@@ -298,26 +299,14 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         
         if( validComments && getKraWorkflowService().isUserApprovalRequested(prDoc, GlobalVariables.getUserSession().getPrincipalId())) {
             //then the status must be final.
-//            if (prDoc.getProtocolOnlineReview().getProtocolReviewer().isPersonIdProtocolReviewer(GlobalVariables.getUserSession().getPrincipalId(),false) && !StringUtils.equals(prDoc.getProtocolOnlineReview().getProtocolOnlineReviewStatusCode(),ProtocolOnlineReviewStatus.FINAL_STATUS_CD)) {
-//                Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-//                Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
-//                String callerString = String.format("approveOnlineReview.%s.anchor%s",prDoc.getDocumentNumber(),0);
-//                if(question == null){
-//                   return this.performQuestionWithoutInput(mapping, form, request, response, UPDATE_REVIEW_STATUS_TO_FINAL,getKualiConfigurationService().getPropertyString(KeyConstants.QUESTION_CONFIRM_UPDATE_REVIEW_TO_FINAL), KNSConstants.CONFIRMATION_QUESTION, callerString, "");
-//                 } 
-//                else if((UPDATE_REVIEW_STATUS_TO_FINAL.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked))  {
-//                    //nothing to do.
-//                }
-//                else
-//                {
-                    prDoc.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.FINAL_STATUS_CD);
-                    getBusinessObjectService().save(prDoc.getProtocolOnlineReview());
-                    getDocumentService().saveDocument(prDoc);
-                    statusIsOk = true;
-//                }
-//            } else {
-//                statusIsOk = true;
-//            }
+                prDoc.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.FINAL_STATUS_CD);
+                prDoc.getProtocolOnlineReview().setReviewerApproved(true);
+                if (getKraWorkflowService().isDocumentOnNode(prDoc, Constants.ONLINE_REVIEW_ROUTE_NODE_ADMIN_REVIEW)) {
+                    prDoc.getProtocolOnlineReview().setAdminAccepted(true);
+                }
+                getBusinessObjectService().save(prDoc.getProtocolOnlineReview());
+                getDocumentService().saveDocument(prDoc);
+                statusIsOk = true;
         }
         
         if (!validComments || !statusIsOk) {
@@ -432,6 +421,8 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         {
             prDoc.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.SAVED_STATUS_CD);
             prDoc.getProtocolOnlineReview().addActionPerformed("Reject");
+            prDoc.getProtocolOnlineReview().setReviewerApproved(false);
+            prDoc.getProtocolOnlineReview().setAdminAccepted(false);
             getDocumentService().saveDocument(prDoc);
             getProtocolOnlineReviewService().returnProtocolOnlineReviewDocumentToReviewer(prDoc,reason,GlobalVariables.getUserSession().getPrincipalId());
             protocolForm.getOnlineReviewsActionHelper().init(true);
@@ -517,6 +508,8 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
                 doProcessingAfterPost( kualiDocumentFormBase, request );
                 ProtocolOnlineReviewDocument document = (ProtocolOnlineReviewDocument) kualiDocumentFormBase.getDocument();
                 document.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD);
+                document.getProtocolOnlineReview().setReviewerApproved(false);
+                document.getProtocolOnlineReview().setAdminAccepted(false);
                 getDocumentService().disapproveDocument(document, disapprovalNoteText);
                 GlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_ROUTE_DISAPPROVED);
                 kualiDocumentFormBase.setAnnotation("");

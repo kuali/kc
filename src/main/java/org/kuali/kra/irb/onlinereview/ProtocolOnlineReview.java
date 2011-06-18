@@ -59,6 +59,8 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
     private Date dateDue;
     private Date dateRequested;
     private String actionsPerformed;
+    private boolean reviewerApproved = false;
+    private boolean adminAccepted = false;
 
     private Protocol protocol;
     private ProtocolSubmission protocolSubmission;
@@ -324,6 +326,8 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
         hashMap.put( "protocolOnlineReviewDeterminationRecommendationCode", getProtocolOnlineReviewDeterminationRecommendationCode() );
         hashMap.put( "dateDue", getDateDue() );
         hashMap.put( "dateRequested", getDateRequested() );
+        hashMap.put( "reviewerApproved", isReviewerApproved() );
+        hashMap.put( "adminAccepted", isAdminAccepted() );
         return hashMap;
     }
 
@@ -586,6 +590,22 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
 //        return isStatusMatched(KEWConstants.ROUTE_HEADER_FINAL_CD);
 //    }
     
+    public boolean isReviewerApproved() {
+        return reviewerApproved;
+    }
+
+    public void setReviewerApproved(boolean reviewerApproved) {
+        this.reviewerApproved = reviewerApproved;
+    }
+
+    public boolean isAdminAccepted() {
+        return adminAccepted;
+    }
+
+    public void setAdminAccepted(boolean adminAccepted) {
+        this.adminAccepted = adminAccepted;
+    }
+
     /**
      * check if the OLR is reviewer or admin approved.  Then decided what's to do with the versioned
      * OLR doc
