@@ -18,7 +18,9 @@ package org.kuali.kra.irb.protocol;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Contactable;
@@ -26,6 +28,7 @@ import org.kuali.kra.bo.Unit;
 import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -41,11 +44,15 @@ import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceService;
 import org.kuali.kra.irb.protocol.location.ProtocolLocation;
 import org.kuali.kra.irb.protocol.participant.ProtocolParticipant;
+import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.RolodexService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kim.bo.role.dto.KimRoleInfo;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -684,4 +691,22 @@ public class ProtocolHelper implements Serializable {
             return true;
         }
     }
+    
+    public boolean isRoleIRBAdmin() {
+        KimRoleInfo roleInfo = getRoleManagementService().getRoleByName(RoleConstants.DEPARTMENT_ROLE_TYPE, RoleConstants.IRB_ADMINISTRATOR);
+        List<String> roleIds = new ArrayList<String>();
+        roleIds.add(roleInfo.getRoleId());
+        Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
+        qualifiedRoleAttributes.put(KcKimAttributes.UNIT_NUMBER, "*");
+        AttributeSet qualifications = new AttributeSet(qualifiedRoleAttributes);
+        return getRoleManagementService().principalHasRole(getUserIdentifier(), roleIds, qualifications);
+    }
+    
+    /**
+     * Quick method to get the RoleManagementService
+     * @return RoleManagementService reference
+     */
+    private RoleManagementService getRoleManagementService() {
+        return KraServiceLocator.getService(RoleManagementService.class);
+    }    
 }
