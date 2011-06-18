@@ -319,6 +319,14 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
             HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         Budget budget = budgetForm.getBudgetDocument().getBudget();
+        if(budgetForm.getSelectedToPrintComment()!=null && budgetForm.getSelectedBudgetPrintFormId()!=null){
+            String forms[]=budgetForm.getSelectedToPrintComment();
+            String selectedToPrint[]=budgetForm.getSelectedBudgetPrintFormId();
+            if(forms[0].equals(selectedToPrint[0])){
+                budget.setPrintBudgetCommentFlag("true");
+            }
+        }
+        budgetForm.setSelectedToPrintComment(null);
         BudgetPrintService budgetPrintService = KraServiceLocator
                 .getService(BudgetPrintService.class);
         ActionForward forward = mapping.findForward(MAPPING_BASIC);

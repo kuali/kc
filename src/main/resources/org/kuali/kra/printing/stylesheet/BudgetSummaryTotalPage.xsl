@@ -11117,6 +11117,9 @@
                                     <fo:block/>
                                 </fo:table-cell>
                             </fo:table-row>
+                            
+                             
+                                
                             <fo:table-row>
                                 <fo:table-cell font-family="Times New Roman" font-size="9pt" padding-bottom="0" padding-right="10pt" padding="2pt" text-align="right" display-align="before">
                                     <fo:block>
@@ -11161,6 +11164,47 @@
                                     <fo:block/>
                                 </fo:table-cell>
                             </fo:table-row>
+                            <fo:table-row>
+                               <fo:table-cell font-family="Times New Roman" font-size="9pt" padding-bottom="0" padding-right="10pt" padding="2pt" text-align="right" display-align="before">
+                                    <fo:block>
+                                        <fo:inline font-weight="bold">
+                                            <xsl:text>Comments:</xsl:text>
+                                        </fo:inline>
+                                    </fo:block>
+                                </fo:table-cell>
+                               <fo:table-cell font-family="Times New Roman" font-size="9pt" padding-bottom="0" padding-right="10pt" padding="2pt" text-align="left" display-align="before">
+                                     <fo:block>
+                                        <xsl:for-each select="budgetSalary">
+                                            <xsl:for-each select="Comments">
+                                                <xsl:variable name="value-of-template">
+                                                    <xsl:apply-templates/>
+                                                </xsl:variable>
+                                                <xsl:choose>
+                                                    <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                        <fo:block>
+                                                            <xsl:copy-of select="$value-of-template"/>
+                                                        </fo:block>
+                                                    </xsl:when>
+                                                    <xsl:otherwise>
+                                                        <fo:inline>
+                                                            <xsl:copy-of select="$value-of-template"/>
+                                                        </fo:inline>
+                                                    </xsl:otherwise>
+                                                </xsl:choose>
+                                            </xsl:for-each>
+                                        </xsl:for-each>
+                                    </fo:block>
+                                </fo:table-cell>
+                                
+                                      <fo:table-cell font-family="Times New Roman" font-size="9pt" padding-bottom="0" padding-right="10pt" padding="2pt" text-align="left" display-align="before">
+                                    <fo:block>
+                                    <xsl:value-of select="budgetSalary/ReportHeader/Period"/>
+                                       
+                                    </fo:block>
+                                </fo:table-cell>
+                                </fo:table-row>
+                                
+                                
                         </fo:table-body>
                     </fo:table>
                 </xsl:for-each>

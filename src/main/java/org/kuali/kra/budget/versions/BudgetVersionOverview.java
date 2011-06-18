@@ -73,6 +73,7 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     private Boolean modularBudgetFlag;
     private String urRateClassCode;
     private String onOffCampusFlag;
+    private String printBudgetCommentFlag;
     
     public Integer getBudgetVersionNumber() {
         return budgetVersionNumber;
@@ -560,6 +561,14 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
      */
     public void setTotalDirectCostLimit(BudgetDecimal totalDirectCostLimit) {
         this.totalDirectCostLimit = totalDirectCostLimit;
+    }
+
+    public void setPrintBudgetCommentFlag(String printBudgetCommentFlag) {
+        this.printBudgetCommentFlag = printBudgetCommentFlag;
+    }
+
+    public String getPrintBudgetCommentFlag() {
+        return printBudgetCommentFlag;
     }
     
 }
