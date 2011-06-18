@@ -1494,6 +1494,18 @@ CalculationMethodologyWithoutHeader.lay ## -->
                 <xsl:value-of select="ReportHeader/PeriodStartDate"/> - <xsl:value-of select="ReportHeader/PeriodEndDate"/>
             </fo:block>
         </fo:block-container>
+        
+        
+           <fo:block-container position="absolute" top="90pt" left="28pt" height="15.0pt" width="100.0pt" border-width="1.0pt" display-align="before">
+            <fo:block span="none" white-space-collapse="true" color="#000000"  font-size="10.0pt" font-weight="bold" text-align="start" position="relative" top="85pt" left="28pt" height="15.0pt" width="100.0pt">
+                <xsl:text>Comments:</xsl:text>
+            </fo:block>
+        </fo:block-container>
+        <fo:block-container position="absolute" top="90pt" left="140pt" height="15.0pt" width="500.0pt" border-width="1.0pt" display-align="before">
+            <fo:block span="none" white-space-collapse="true" color="#000000"  font-size="10.0pt" text-align="start" position="relative" top="60pt" left="140pt" height="15.0pt" width="500.0pt">
+                <xsl:value-of disable-output-escaping="no" select="ReportHeader/Comments"/>
+            </fo:block>
+        </fo:block-container>
         <!-- OFFSET = 2.0 -->
         <!--<fo:block-container  position="absolute" top="57pt" left="23pt" 
 
