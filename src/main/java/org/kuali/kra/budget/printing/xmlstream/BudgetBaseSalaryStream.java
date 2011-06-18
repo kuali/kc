@@ -79,7 +79,7 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 		if (proposal != null && proposal.getTitle() != null) {
 			budgetSalary.setTitle(proposal.getTitle());
 		}
-		return budgetSalary;
+	   return budgetSalary;
 	}
 
 	/*
@@ -100,6 +100,12 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 		if (budget.getBudgetPeriods() != null) {
 			budgetSalary.setTotalPeriod(budget.getBudgetPeriods().size());
 		}
+		if (budget.getComments() != null) {
+		    if(budget.getPrintBudgetCommentFlag()!=null && budget.getPrintBudgetCommentFlag().equals("true"))
+		    budgetSalary.setComments(budget.getComments());
+		    
+		}
+		budget.setPrintBudgetCommentFlag(null);
 	}
 
 	/*

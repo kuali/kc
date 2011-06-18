@@ -105,6 +105,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 	protected static final String DATE_FORMAT = "dd MMM yyyy";
 	protected static final String DATE_FORMAT_MMDDYY = "MM/dd/yy";
 	protected static final String BUDGET_PERIOD = "Period";
+	
 
 	private static final Log LOG = LogFactory.getLog(BudgetBaseStream.class);
 	private static final String BUDGET_CATEGORY_PERSONNEL = "P";
@@ -147,6 +148,13 @@ public abstract class BudgetBaseStream implements XmlStream {
 		}
 		reportHeaderType.setCreateDate(dateTimeService.getCurrentDate()
 				.toString());
+		if(budget.getComments()!=null){
+		    if(budget.getPrintBudgetCommentFlag()!=null && budget.getPrintBudgetCommentFlag().equals("true"))
+		        reportHeaderType.setComments(budget.getComments());
+		}
+		
+		budget.setPrintBudgetCommentFlag(null);
+		 
 		return reportHeaderType;
 	}
 

@@ -144,6 +144,26 @@
                                         </fo:block>
                                     </fo:table-cell>
                                 </fo:table-row>
+                                 <fo:table-row>
+                                    <fo:table-cell  padding-left="0pt" padding-right="0pt" padding-top="0pt" border-style="solid" border-width="1pt" border-color="white" width="235pt" padding-start="3pt" padding-end="3pt" padding-before="3pt"  display-align="center" text-align="start">
+                                        <fo:block>
+                                            <fo:inline font-size="9.5pt" font-weight="bold">Comments&#160; </fo:inline>
+                                        </fo:block>
+                                    </fo:table-cell>
+                                    <fo:table-cell  padding-left="0pt" padding-right="0pt" padding-top="0pt" border-style="solid" border-width="1pt" border-color="white" number-columns-spanned="3" padding-start="3pt" padding-end="3pt" padding-before="3pt"  display-align="center" text-align="start">
+                                        <fo:block>
+                                            <xsl:for-each select="BudgetSummaryReport">
+                                                <xsl:for-each select="ReportHeader">
+                                                    <xsl:for-each select="Comments">
+                                                        <fo:inline font-size="9.0pt">
+                                                            <xsl:apply-templates />
+                                                        </fo:inline>
+                                                    </xsl:for-each>
+                                                </xsl:for-each>
+                                            </xsl:for-each>
+                                        </fo:block>
+                                    </fo:table-cell>
+                                </fo:table-row>
                                 <fo:table-row>
                                     <fo:table-cell  padding-left="0pt" padding-right="0pt" padding-top="0pt" border-style="solid" border-width="1pt" border-color="white" height="22pt" number-columns-spanned="4" padding-start="3pt" padding-end="3pt" padding-before="3pt"  display-align="center" text-align="start">
                                         <fo:block>

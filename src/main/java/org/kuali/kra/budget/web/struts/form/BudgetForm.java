@@ -117,9 +117,29 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     
     private String newGroupName;
     
+    
+    private String[] selectedToPrintComment;
+    
+    /**
+     * Gets the selectedToPrintComment attribute. 
+     * @return Returns the selectedToPrintComment.
+     */
+    public String[] getSelectedToPrintComment() {
+        return selectedToPrintComment;
+    }
+
+    /**
+     * Sets the selectedToPrintComment attribute value.
+     * @param selectedToPrintComment The selectedToPrintComment to set.
+     */
+    public void setSelectedToPrintComment(String[] selectedToPrintComment) {
+        this.selectedToPrintComment = selectedToPrintComment;
+    }
+
     private List<HierarchyPersonnelSummary> hierarchyPersonnelSummaries;
     private List<HierarchyProposalSummary> hierarchyProposalSummaries;
     
+ 
     public List<HierarchyPersonnelSummary> getHierarchyPersonnelSummaries() {
         return hierarchyPersonnelSummaries;
     }
