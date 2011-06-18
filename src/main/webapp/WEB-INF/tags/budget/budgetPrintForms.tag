@@ -24,7 +24,16 @@
 	    </c:if>
 	</c:forEach>
 	<div class="tab-container" align="center">
-		<h3>Print Forms</h3>
+		<h3>
+		
+		<div style="float:left" >
+			<span align="left">Print Forms</span>
+		</div> 
+		<div style="float:left;margin-left:950px" >
+			<span align="right">Print Budget Comments</span>
+		</div> 
+		</h3>
+		  
 		<table cellspacing="0" cellpadding="0" summary="">
 			<tbody>
 		    	<c:forEach var="form" items="${KualiForm.document.budget.budgetPrintForms}" varStatus="status">
@@ -35,6 +44,7 @@
 		                <td align="left" valign="middle">
 		                	<c:out value="${KualiForm.document.budget.budgetPrintForms[status.index].budgetReportName}"/>
 						</td>
+						
 		                <td align="center" valign="middle">
 		                	<div align="center">
 		                	<c:choose>
@@ -43,15 +53,27 @@
 		                		</c:when>
 		                		<c:otherwise>
 <%--		                		<html:multibox property="selectedBudgetPrintFormId" value="${KualiForm.document.budget.budgetPrintForms[status.index].budgetReportId}" disabled="${disableBox}"/>--%>
-		                			<html:radio property="selectedBudgetPrintFormId" value="${KualiForm.document.budget.budgetPrintForms[status.index].budgetReportId}" disabled="${readOnly}"/>	
+		                			<html:radio property="selectedBudgetPrintFormId" value="${KualiForm.document.budget.budgetPrintForms[status.index].budgetReportId}" disabled="true"/>	
 		                		</c:otherwise>
+		                	</c:choose>			                	
+		                	</div>
+		                </td>	
+		                <td align="center" valign="middle" width="300">
+		                	<div align="center">
+		                	<c:choose>
+		                		<c:when test="${status.index < 6}">   		
+		                		<html:radio  property="selectedToPrintComment"  value="${KualiForm.document.budget.budgetPrintForms[status.index].budgetReportId}" />
+		                		</c:when>
+		                		<c:otherwise>
+		                		<html:radio  property="selectedToPrintComment"  value="${KualiForm.document.budget.budgetPrintForms[status.index].budgetReportId}" disabled="true" />
+						</c:otherwise>
 		                	</c:choose>			                	
 		                	</div>
 		                </td>			       
 		            </tr>    	
 		    	</c:forEach>		    	
 				<tr>
-					<td colspan="3" class="infoline">
+					<td colspan="4" class="infoline">
 						<div align="center">
 						<html:image property="methodToCall.printBudgetForm"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-printsel.gif' styleClass="tinybutton" alt="Print Selected Forms" onclick="excludeSubmitRestriction=true"/>
