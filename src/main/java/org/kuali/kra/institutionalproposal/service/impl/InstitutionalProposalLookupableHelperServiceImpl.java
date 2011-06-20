@@ -24,16 +24,16 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.award.document.authorization.AwardDocumentAuthorizer;
-import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
+import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.document.authorization.InstitutionalProposalDocumentAuthorizer;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.web.session.UserSession;
 import org.kuali.rice.kim.bo.Person;
@@ -42,6 +42,7 @@ import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.UrlFactory;
@@ -65,11 +66,15 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
     private boolean includeMainSearchCustomActionUrls;
     private boolean includeMergeCustomActionUrls;
     private BusinessObjectService businessObjectService;
+    private DocumentService documentService;
     
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
 
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
     /* 
      * Overriding this to only return the currently Active version of a proposal 
      */
@@ -104,33 +109,46 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
         }
         
         List<? extends BusinessObject> searchResults = super.getSearchResults(fieldValues);
-        
+      
         if (lookupIsFromAward(fieldValues)) {
             filterAlreadyLinkedProposals(searchResults, fieldValues);
             filterApprovedPendingSubmitProposals(searchResults);
             filterInvalidProposalStatus(searchResults);
         }
 
-        filterForPermissions(searchResults);
+        List<? extends BusinessObject> filteredResults = filterForPermissions(searchResults);
 
-        return searchResults;
+        return filteredResults;
     }
 
     /**
      * This method filters results so that the person doing the lookup only gets back the documents he can view.
      * @param searchResults
+     * @return
      */
-    protected void filterForPermissions(List<? extends BusinessObject> searchResults) {
+    protected List<? extends BusinessObject> filterForPermissions(List<? extends BusinessObject> searchResults) {
         Person user = UserSession.getAuthenticatedUser().getPerson();
         InstitutionalProposalDocumentAuthorizer authorizer = new InstitutionalProposalDocumentAuthorizer();
-        // check if the user has permission.
+        // check if the user has permission. 
         for (int j = 0; j < searchResults.size(); j++) {
-            InstitutionalProposal ip = (InstitutionalProposal) searchResults.get(j);
-            if (authorizer.canOpen(ip.getInstitutionalProposalDocument(), user)) {
-                ip.setShowReturnLink(false);
+            InstitutionalProposal ip = (InstitutionalProposal) searchResults.get(j);   
+            try {
+                InstitutionalProposalDocument ipDocument = (InstitutionalProposalDocument) documentService.
+                                                            getByDocumentHeaderId(ip.getInstitutionalProposalDocument().getDocumentNumber());
+                // if user not authorized to open document, do not display in search results. 
+                // Just setting return link to false does not makes sense since person cannot
+                // view document
+                if (!authorizer.canOpen(ipDocument, user)) {
+                    searchResults.remove(ip);               
+                }
+            } catch (WorkflowException e) {
+                // TODO Auto-generated catch block
+                LOG.warn("Cannot find Document with header id " + ip.getInstitutionalProposalDocument().getDocumentNumber());
             }
         }
+        return searchResults;
     }
+    
     
     @SuppressWarnings("unchecked")
     @Override
