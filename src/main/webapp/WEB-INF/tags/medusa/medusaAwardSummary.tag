@@ -94,7 +94,7 @@
       <th style="text-align: right;">Approved Foreign Travel?</th>
       <td>${not empty node.bo.approvedForeignTravelTrips ? "Yes" : "No"}</td>
       <th style="text-align: right;">Cost Share?</th>
-      <td>${node.bo.costSharingIndicator == 'Y' ? "Yes" : "No"}</td>
+      <td>${not empty node.bo.awardCostShares ? "Yes" : "No"}</td>
     </tr>
     <tr>
       <th style="text-align: right;">F&A?</th>
