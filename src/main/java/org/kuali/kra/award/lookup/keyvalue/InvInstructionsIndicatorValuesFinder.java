@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2010 The Kuali Foundation
+ * Copyright 2005-2011 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,10 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.award.home.InvInstructionsIndicatorConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * Values Finder for Invoice Instructions Indicator Values.
@@ -30,24 +28,15 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
  */
 public class InvInstructionsIndicatorValuesFinder extends KeyValuesBase {
     
-    private transient KualiConfigurationService configurationService;
     private List<KeyLabelPair> labels;
-    private static final String PROPERTY_PREFIX = "label.award.validBasisMethodPayment.invInstructionsIndicator.";
 
     public List<KeyLabelPair> getKeyValues() {
         if( labels!=null ) return labels;
         labels = new ArrayList<KeyLabelPair>();
         
         for( InvInstructionsIndicatorConstants inv : InvInstructionsIndicatorConstants.values() ) 
-            labels.add(new KeyLabelPair( inv.getCode(),  getConfigurationService().getPropertyString(PROPERTY_PREFIX+inv.getCode())));
+            labels.add(new KeyLabelPair( inv.getCode(),  inv.toString()));
         return labels;
-    }
-    
-    private KualiConfigurationService getConfigurationService() {
-        if( configurationService == null ) {
-            configurationService = KraServiceLocator.getService(KualiConfigurationService.class);
-        }
-        return configurationService;
     }
     
 }
