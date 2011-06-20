@@ -51,6 +51,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonExtendedAttributes;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq;
@@ -515,6 +516,22 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             proposalperson.setDevelopmentProposal(newDoc.getDevelopmentProposal());
             for (ProposalPersonUnit proposalPersonUnit : proposalperson.getUnits()) {
                 ObjectUtils.materializeObjects(proposalPersonUnit.getCreditSplits());
+            }
+            
+            /**
+             * Need to copy extended attributes KRACOEUS-4834
+             */
+            for (ProposalPerson srcProposalperson : srcDoc.getDevelopmentProposal().getProposalPersons()) {
+                if (StringUtils.equals(proposalperson.getFullName(), srcProposalperson.getFullName())
+                    && StringUtils.equals(proposalperson.getProposalPersonRoleId(), srcProposalperson.getProposalPersonRoleId())) {
+                    ProposalPersonExtendedAttributes ppea = 
+                        (ProposalPersonExtendedAttributes) ObjectUtils.deepCopy(srcProposalperson.getProposalPersonExtendedAttributes());
+                    ppea.setProposalPerson(proposalperson);
+                    ppea.setProposalNumber(proposalperson.getProposalNumber());
+                    ppea.setProposalPersonNumber(proposalperson.getProposalPersonNumber());
+                    ppea.setProposalPersonRoleId(proposalperson.getProposalPersonRoleId());
+                    proposalperson.setProposalPersonExtendedAttributes(ppea);
+                }
             }
         }
 
