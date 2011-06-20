@@ -1179,6 +1179,10 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                     documentActions.remove(KNSConstants.KUALI_ACTION_CAN_EDIT__DOCUMENT_OVERVIEW);
                 }
             }
+            //copy action is meaningless in T&M.
+            if (documentActions.contains((KNSConstants.KUALI_ACTION_CAN_COPY))) {
+                documentActions.remove(KNSConstants.KUALI_ACTION_CAN_COPY);
+            }
             formBase.setDocumentActions(convertSetToMap(documentActions));
             formBase.setEditingMode(editMode);
         }
