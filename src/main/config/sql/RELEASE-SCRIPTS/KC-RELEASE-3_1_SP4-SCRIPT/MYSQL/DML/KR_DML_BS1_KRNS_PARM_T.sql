@@ -17,6 +17,14 @@ INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, VER_
 delete from krns_parm_t where PARM_NM = 'AWARD_CREATE_ACCOUNT';
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, OBJ_ID) VALUES ('KC', 'KC-AWARD', 'Document', 'FIN_SYSTEM_INTEGRATION_ON', 1, 'CONFG', 'OFF', 'Parameter to set the financial system integration feature ON or OFF.', 'A', UUID());
+
+insert into krns_parm_t (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, OBJ_ID) values ('KC', 'KC-AWARD', 'Document', 'CFDA_BATCH_JOB_CRON_EXPRESSION', 1, 'CONFG', '0 0 6 * * ?', 'Parameter to set the cron expression for the CFDA batch job', 'A', UUID());
+
+insert into krns_parm_t (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, OBJ_ID) values ('KC', 'KC-AWARD', 'Document', 'CFDA_GOV_URL', 1, 'CONFG', 'ftp://ftp.cfda.gov/programs', 'Url of the CFDA FTP site for the CFDA batch job', 'A', UUID());
+
+insert into krns_parm_t (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, OBJ_ID) values ('KC', 'KC-AWARD', 'Document', 'CFDA_BATCH_NOTIFICATION_RECIPIENT', 1, 'CONFG', '', 'Principal name of the person that should receive notifications when the CFDA batch job runs', 'A', UUID());
+
+insert into krns_parm_t (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, OBJ_ID) values('KC', 'KC-AWARD', 'Document', 'CFDA_BATCH_JOB_CRON_START_TIME', 1, 'CONFG', '', 'Start time of the CFDA job', 'A', UUID());
   
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, OBJ_ID, VER_NBR) 
   VALUES ('KUALI', 'KC-UNT', 'All', 'KIM_SHOW_BLANK_QUALIFIERS', 'CONFG', 'N', 'Whether to show the blank qualifiers in KIM Maintenance Screens', 'A', UUID(), 1);
@@ -50,3 +58,5 @@ INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, OBJ_ID) 
   VALUES ('KC', 'KC-GEN', 'All', 'SPONSOR_HIERARCHY_FOR_PRINTING', 1, 'CONFG', 'Printing', 'The name of the Sponsor Hierarchy used for Sponsor Form selection.', 'A', UUID());
+
+insert into KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC','KC-GEN','A','POST_DOCTORAL_COSTELEMENT','CONFG','400390','PostDoctoral CostElement', 'A',uuid());
