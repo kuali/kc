@@ -163,7 +163,7 @@ end
 rule "WithDraw Protocol 1"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "303", protocolStatusCode not in ("102", "104"),  submissionNumber == null, submissionCountForWithdraw == true, submitForRevision == false)
+	protocolAction : ProtocolActionMapping(actionTypeCode == "303", protocolStatusCode not in ("102", "104"),  submissionNumber == null, submissionCountForWithdraw == true)
 then	
 	setAction(protocolAction, true);
 end
@@ -171,7 +171,7 @@ end
 rule "WithDraw Protocol 2"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "303", protocolStatusCode not in ("102", "104"), submissionNumber != null, submissionStatusCode in ("100","101","102","201","202"), submitForRevision == false)
+	protocolAction : ProtocolActionMapping(actionTypeCode == "303", protocolStatusCode not in ("102", "104"), submissionNumber != null, submissionStatusCode in ("100","101","102","201","202"))
 then	
 	setAction(protocolAction, true);
 end
