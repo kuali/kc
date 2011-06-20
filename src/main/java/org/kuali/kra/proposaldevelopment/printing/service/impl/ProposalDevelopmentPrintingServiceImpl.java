@@ -130,8 +130,8 @@ public class ProposalDevelopmentPrintingServiceImpl implements
         // check if sponsor forms isEmpty
         if (!sponsorFormTemplates.isEmpty()) {
             // if exists - check if sponsor code has changed
-            if (!sponsorCode.equalsIgnoreCase(sponsorFormTemplates.get(0).getSponsorForms()
-                    .getSponsorCode())) {
+            if (StringUtils.equalsIgnoreCase(sponsorCode, 
+                    sponsorFormTemplates.get(0).getSponsorForms().getSponsorCode())) {
                 sponsorFormTemplates.clear();
             }
         }
