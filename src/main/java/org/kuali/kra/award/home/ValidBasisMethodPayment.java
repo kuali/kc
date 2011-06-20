@@ -78,6 +78,15 @@ public class ValidBasisMethodPayment extends KraPersistableBusinessObjectBase {
         this.invInstructionsIndicator = invInstructionsIndicator;
     }
 
+    public String getInvInstructionsIndicatorName() {
+        InvInstructionsIndicatorConstants result = InvInstructionsIndicatorConstants.getByCode(invInstructionsIndicator);
+        if( result == null && invInstructionsIndicator!=null ) { 
+            LOG.warn(String.format( "ValidBasisMethodPayment with id = %s has invalid InvInstructionsIndicator value of %s", getValidBasisMethodPaymentId(), getInvInstructionsIndicator() ) );
+            return null;
+        }
+        return result.name();
+    }
+
     public AwardMethodOfPayment getMethodOfPayment() {
         return methodOfPayment;
     }
