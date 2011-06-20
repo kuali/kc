@@ -182,7 +182,7 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="methodOfPaymentCode" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="invInstructionsIndicator" />
+                    p:attributeName="invInstructionsIndicatorName" />
             </list>
         </property>
     </bean>
