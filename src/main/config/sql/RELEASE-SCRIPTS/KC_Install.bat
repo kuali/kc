@@ -21,10 +21,11 @@ echo Invalid Database Type <%dbtype%>
 goto dbtype
 
 :Version
-set /p Version="Enter Version (NEW, 3.0, 3.0.1) <%Version%>: "
+set /p Version="Enter Version (NEW, 3.0, 3.0.1, 3.1M3) <%Version%>: "
 if /i "%Version%" == "NEW" goto User
 if /i "%Version%" == "3.0" goto User
 if /i "%Version%" == "3.0.1" goto User
+if /i "%Version&" == "3.1M3" goto User
 echo Invalid Version <%Version%>
 goto Version
 
@@ -96,7 +97,10 @@ if /i "%mode%" == "BUNDLE" (
 sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < oracle_bundled.sql
 )
 if /i "%mode%%InstRice%" == "EMBEDY" (
-sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < oracle_server.sql
+sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < oracle_server_full.sql
+)
+if /i "%mode%%InstRice%" == "EMBEDN" (
+sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < oracle_server_kc.sql
 )
 if /i "%mode%" == "EMBED" (
 sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < oracle_client.sql
@@ -146,6 +150,38 @@ sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-3_1_SP2-Upgrade-ORACL
 move *.log ../LOGS
 cd ..
 
+cd KC-RELEASE-3_1_SP3-SCRIPT
+sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KRC-RELEASE-3_1_SP3-Upgrade-ORACLE.sql
+sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-RELEASE-3_1_SP3-Upgrade-ORACLE.sql
+
+if /i "%mode%%InstRice%" == "EMBEDY" goto 3.1.SP3ORACLERICE
+if /i "%mode%" == "BUNDLE" goto 3.1.SP3ORACLERICE
+goto 3.1.SP3ORACLEFINISH
+
+:3.1.SP3ORACLERICE
+sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-3_1_SP3-Upgrade-ORACLE.sql
+
+:3.1.SP3ORACLEFINISH
+move *.log ../LOGS
+cd ..
+
+:3.1M3ORACLE
+cd KC-RELEASE-3_1_SP4-SCRIPT
+sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KRC-RELEASE-3_1_SP4-Upgrade-ORACLE.sql
+sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-RELEASE-3_1_SP4-Upgrade-ORACLE.sql
+
+if /i "%mode%%InstRice%" == "EMBEDY" goto 3.1.SP4ORACLERICE
+if /i "%mode%" == "BUNDLE" goto 3.1.SP4ORACLERICE
+goto 3.1.SP4ORACLEFINISH
+
+:3.1.SP4ORACLERICE
+sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-3_1_SP4-Upgrade-ORACLE.sql
+sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < RICE-1_0_3_1-1_0_3_2-Upgrade-ORACLE.sql
+
+:3.1.SP4ORACLEFINISH
+move *.log ../LOGS
+cd ..
+
 cd INSTALL-SHARED/ORACLE
 sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR_CLEAN_SEQ_BS.sql
 move *.log ../../LOGS/
@@ -159,7 +195,10 @@ if /i "%mode%" == "BUNDLE" (
 mysql -u %un% -p%pw% -D %un% -s -f < mysql_bundled.sql
 )
 if /i "%mode%%InstRice%" == "EMBEDY" (
-mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s < mysql_server.sql
+mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s < mysql_server_full.sql
+)
+if /i "%mode%%InstRice%" == "EMBEDN" (
+mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s < mysql_server_kc.sql
 )
 if /i "%mode%" == "EMBED" (
 mysql -u %un% -p%pw% -D %un% -s -f < mysql_client.sql
@@ -209,6 +248,38 @@ mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s < KR-RELEASE-3_1_SP2-Upgrade-MYSQL.s
 move *.log ../LOGS
 cd ..
 
+cd KC-RELEASE-3_1_SP3-SCRIPT
+mysql -u %un% -p%pw% -D %un% -s -f < KRC-RELEASE-3_1_SP3-Upgrade-MYSQL.sql > KRC-RELEASE-3_1_SP3-Upgrade-MYSQL-Install.log 2>&1
+mysql -u %un% -p%pw% -D %un% -s -f < KC-RELEASE-3_1_SP3-Upgrade-MYSQL.sql > KC-RELEASE-3_1_SP3-Upgrade-MYSQL-Install.log 2>&1
+
+if /i "%mode%%InstRice%" == "EMBEDY" goto 3.1.SP3MYSQLRICE
+if /i "%mode%" == "BUNDLE" goto 3.1.SP3MYSQLRICE
+goto 3.1.SP3MYSQLFINISH
+
+:3.1.SP3MYSQLRICE
+mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s < KR-RELEASE-3_1_SP3-Upgrade-MYSQL.sql > KR-RELEASE-3_1_SP3-Upgrade-MYSQL-Install.log 2>&1
+
+:3.1.SP3MYSQLFINISH
+move *.log ../LOGS
+cd ..
+
+:3.1M3MYSQL
+cd KC-RELEASE-3_1_SP4-SCRIPT
+mysql -u %un% -p%pw% -D %un% -s -f < KRC-RELEASE-3_1_SP4-Upgrade-MYSQL.sql > KRC-RELEASE-3_1_SP4-Upgrade-MYSQL-Install.log 2>&1
+mysql -u %un% -p%pw% -D %un% -s -f < KC-RELEASE-3_1_SP4-Upgrade-MYSQL.sql > KC-RELEASE-3_1_SP4-Upgrade-MYSQL-Install.log 2>&1
+
+if /i "%mode%%InstRice%" == "EMBEDY" goto 3.1.SP4MYSQLRICE
+if /i "%mode%" == "BUNDLE" goto 3.1.SP4MYSQLRICE
+goto 3.1.SP4MYSQLFINISH
+
+:3.1.SP4MYSQLRICE
+mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s < KR-RELEASE-3_1_SP4-Upgrade-MYSQL.sql  > KR-RELEASE-3_1_SP4-Upgrade-MYSQL-Install.log 2>&1
+mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s < RICE-1_0_3_1-1_0_3_2-Upgrade-MYSQL.sql > RICE-1_0_3_1-1_0_3_2-Upgrade-MYSQL-Install.log 2>&1
+
+:3.1.SP4MYSQLFINISH
+move *.log ../LOGS
+cd ..
+
 cd INSTALL-SHARED/MYSQL
 mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s < KR_CLEAN_SEQ_BS.sql > KR_CLEAN_SEQ_BS-Mysql-Install.log 2>&1
 move *.log ../../LOGS/
@@ -231,10 +302,11 @@ Echo       - bundle = Rice installed with KC client tables
 Echo       - embed = Rice installed in a separate schema 
 Echo           - When installing in embedded mode, you will be asked to install embedded rice server.
 Echo    - DB_Type = Choose one: oracle, mysql
-Echo    - Ver = Choose one: new, 2.0, 3.0
+Echo    - Ver = Choose one: new, 3.0, 3.0.1 3.1M3
 Echo       - new = New install with an empty database schema
-Echo       - 2.0 = upgrading from 2.0 KC version
 Echo       - 3.0 = upgrading from 3.0 KC version
+Echo       - 3.0.1 = upgrading from 3.0.1 KC version
+Echo       - 3.1M3 = upgrading from 3.1M3 KC version
 Echo    - un = The kc Database schema name to install database scripts to (bundled rice goes here too).
 Echo    - pw = the password for username
 Echo    - DB_svr_name = the TNS name used to locate the database server where kc schema is located (Oracle Only)

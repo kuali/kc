@@ -46,7 +46,7 @@ fi
 
 dbtype=`getChoice 'Enter Database Type' ORACLE MYSQL`
 
-version=`getChoice 'Enter Version' NEW 3.0 3.0.1`
+version=`getChoice 'Enter Version' NEW 3.0 3.0.1 3.1M3`
 
 un=`getAnswer 'Enter KC Database Username'`
 
@@ -158,13 +158,16 @@ case "${dbtype}" in
 			sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-RELEASE-3_1_SP3-Upgrade-ORACLE.sql
 			mv *.log ../LOGS/
 			cd ..
-			
+	   fi
+	   
+	   if [ "${version}" = "3.1M3" ] || [ "${version}" = "3.0.1" ] || [ "${version}" = "3.0" ] || [ "${version}" = "NEW" ]
+       then
 			cd KC-RELEASE-3_1_SP4-SCRIPT
 			sqlplus "${un}"/"${pw}${DBSvrNm}" < KRC-RELEASE-3_1_SP4-Upgrade-ORACLE.sql
 			sqlplus "${un}"/"${pw}${DBSvrNm}" < KC-RELEASE-3_1_SP4-Upgrade-ORACLE.sql
-			sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-RELEASE-3_1_SP4-Upgrade-ORACLE.sql
 			if [ "${InstRice}" = "Y" ] || [ "${mode}" = "BUNDLE" ]
 			then
+			    sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-RELEASE-3_1_SP4-Upgrade-ORACLE.sql
 				sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < RICE-1_0_3_1-1_0_3_2-Upgrade-ORACLE.sql
 			fi
 			mv *.log ../LOGS/
@@ -232,10 +235,7 @@ case "${dbtype}" in
             fi
             mv *.log ../LOGS/
             cd ..
-		fi
-		
-		if [ "${version}" = "3.1M2" ] || [ "${version}" = "3.0.1" ] || [ "${version}" = "3.0" ] || [ "${version}" = "NEW" ]
-		then
+
             cd KC-RELEASE-3_1_SP3-SCRIPT
             mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < KRC-RELEASE-3_1_SP3-Upgrade-MYSQL.sql > KRC-RELEASE-3_1_SP3-Upgrade-MYSQL-Install.log 2>&1
             mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < KC-RELEASE-3_1_SP3-Upgrade-MYSQL.sql > KC-RELEASE-3_1_SP3-Upgrade-MYSQL-Install.log 2>&1
@@ -246,6 +246,20 @@ case "${dbtype}" in
             mv *.log ../LOGS/
             cd ..
 		fi
+
+        if [ "${version}" = "3.1M3" ] || [ "${version}" = "3.0.1" ] || [ "${version}" = "3.0" ] || [ "${version}" = "NEW" ]
+        then
+		    cd KC-RELEASE-3_1_SP4-SCRIPT
+            mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < KRC-RELEASE-3_1_SP4-Upgrade-MYSQL.sql > KRC-RELEASE-3_1_SP4-Upgrade-MYSQL-Install.log 2>&1
+            mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < KC-RELEASE-3_1_SP4-Upgrade-MYSQL.sql  > KC-RELEASE-3_1_SP4-Upgrade-MYSQL-Install.log 2>&1
+            if [ "${InstRice}" = "Y" ] || [ "${mode}" = "BUNDLE" ]
+            then
+                mysql -u ${Riceun} -p${Ricepw} -D ${RiceDBSvrNm} -s < KR-RELEASE-3_1_SP4-Upgrade-MYSQL.sql > KR-Release-3_1_SP4-Upgrade-MYSQL-Install.log 2>&1
+                mysql -u ${Riceun} -p${Ricepw} -D ${RiceDBSvrNm} -s < RICE-1_0_3_1-1_0_3_2-Upgrade-MYSQL.sql > RICE-1_0_3_1-1_0_3_2-Upgrade-MYSQL-Install.log 2>&1
+            fi
+            mv *.log ../LOGS/
+            cd ..
+        fi
 		
         cd INSTALL-SHARED/MYSQL
         mysql -u ${Riceun} -p${Ricepw} -D ${RiceDBSvrNm} -s < KR_CLEAN_SEQ_BS.sql > KR_CLEAN_SEQ_BS-Mysql-Install.log 2>&1
