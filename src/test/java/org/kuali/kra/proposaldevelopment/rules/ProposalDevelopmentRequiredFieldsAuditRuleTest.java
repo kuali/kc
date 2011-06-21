@@ -111,8 +111,11 @@ public class ProposalDevelopmentRequiredFieldsAuditRuleTest extends KcUnitTestBa
         GlobalVariables.getAuditErrorMap().clear();
         proposal.setSponsorProposalNumber(null);
         proposal.setContinuedFrom("1");
-        validateAuditRule(pdDoc, Constants.ORIGINAL_PROPOSAL_ID_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_ID_CHANGE_APP, "requiredFieldsAuditErrors", false);
+        //will report error as the instprop found won't be linked to a propdev
+        validateAuditRule(pdDoc, Constants.ORIGINAL_PROPOSAL_ID_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_ID_CHANGE_APP, "requiredFieldsAuditErrors", true);
         auditRule.setProposalDevelopmentService(null);
+        //not sure how to easily test the last use case where an IP must be linked to
+        //a propdev with a Grants.Gov submission with a gg tracking id.
     }
 
     /**
@@ -151,5 +154,4 @@ public class ProposalDevelopmentRequiredFieldsAuditRuleTest extends KcUnitTestBa
             }
         }
     }
-
 }
