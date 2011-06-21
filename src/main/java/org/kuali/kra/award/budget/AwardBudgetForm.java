@@ -16,8 +16,10 @@
 package org.kuali.kra.award.budget;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.budget.document.authorization.AwardBudgetTask;
 import org.kuali.kra.budget.document.authorization.BudgetTask;
@@ -26,6 +28,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -181,5 +184,25 @@ public class AwardBudgetForm extends BudgetForm {
             AwardBudgetPeriodSummaryCalculatedAmount awardBudgetPeriodSummaryCalculatedAmount) {
         this.awardBudgetPeriodSummaryCalculatedAmount = awardBudgetPeriodSummaryCalculatedAmount;
     }
+    /*
+     * Remove "Modular Budget" tab from award budget  
+     * */
+    @Override
+    public HeaderNavigation[] getHeaderNavigationTabs() {
+        HeaderNavigation[] navigation = super.getHeaderNavigationTabs();
+        List<HeaderNavigation> resultList = new ArrayList<HeaderNavigation>();
+ 
+        for (HeaderNavigation nav : navigation) {
+            if (StringUtils.equals(nav.getHeaderTabNavigateTo(),"modularBudget")) {
+           
+            } else {
+                resultList.add(nav);
+            }
+        }
+        HeaderNavigation[] result = new HeaderNavigation[resultList.size()];
+        resultList.toArray(result);
+        return result;
+    }
+
     
 }
