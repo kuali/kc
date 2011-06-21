@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.bo;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -37,43 +38,87 @@ public class KcPersonExtendedAttributesMaintainableImpl extends KraMaintainableI
     @Override
     public void prepareForSave() {
         KcPersonExtendedAttributes kcPersonExtendedAttributes = (KcPersonExtendedAttributes) this.businessObject;
-        
-        if( !isValidPrincipalId( kcPersonExtendedAttributes.getPersonId() )) {
-            reportInvalidPrincipalId( kcPersonExtendedAttributes );
+
+        if (!isValidPrincipalId(kcPersonExtendedAttributes.getPersonId())) {
+            reportInvalidPrincipalId(kcPersonExtendedAttributes);
         }
         
+        if (!isValidCitizenshipTypeCode(kcPersonExtendedAttributes)) {
+            reportInvalidCitizenshipTypeCode(kcPersonExtendedAttributes);
+        }
+
         super.prepareForSave();
     }
     
+    @Override
+    public void saveBusinessObject() {
+        KcPersonExtendedAttributes kcPersonExtendedAttributes = (KcPersonExtendedAttributes) this.businessObject;
+        Integer citizenshipType = kcPersonExtendedAttributes.getCitizenshipTypeCode();
+        Iterator citizenshipTypes = this.getBusinessObjectService().findAll(CitizenshipType.class).iterator();
+        while (citizenshipTypes.hasNext()) {
+            CitizenshipType type = (CitizenshipType) citizenshipTypes.next();
+            if (citizenshipType.equals(type.getCitizenshipTypeCode())) {
+                kcPersonExtendedAttributes.setCitizenshipType(type);
+            }
+        }
+        super.saveBusinessObject();
+    }
+
     private void reportInvalidPrincipalId(KcPersonExtendedAttributes kcPersonExtendedAttributes) {
         ErrorReporter errorReporter = new ErrorReporter();
-        errorReporter.reportError("document.newMaintainableObject.personId", 
-                        KeyConstants.PRINCIPALID_NOT_EXIST,
-                        "Principal ID does not exist.");
-      
+        errorReporter.reportError("document.newMaintainableObject.personId", KeyConstants.PRINCIPALID_NOT_EXIST,
+                "Principal ID does not exist.");
+
     }
-   
+
     private boolean isValidPrincipalId(String principalId) {
         boolean valid = true;
         org.kuali.rice.kim.service.PersonService personService = org.kuali.rice.kim.service.KIMServiceLocator.getPersonService();
 
-        if ( StringUtils.isEmpty(principalId) ) {
+        if (StringUtils.isEmpty(principalId)) {
             valid = false;
         } else {
-            if(personService.getPerson(principalId) == null) valid = false;
+            if (personService.getPerson(principalId) == null) {
+                valid = false;
+            }
         }
-        
+
         return valid;
+    }
+    
+    private void reportInvalidCitizenshipTypeCode(KcPersonExtendedAttributes kcPersonExtendedAttributes) {
+        ErrorReporter errorReporter = new ErrorReporter();
+        errorReporter.reportError("document.newMaintainableObject.citizenshipTypeCode", KeyConstants.ERROR_MISSING_CITIZENSHIP_TYPE,
+                "Please select a citizenship type.");
+
+    }
+    
+    private boolean isValidCitizenshipTypeCode(KcPersonExtendedAttributes kcPersonExtendedAttributes) {
+        Integer citizenshipType = kcPersonExtendedAttributes.getCitizenshipTypeCode();
+        return citizenshipType != null;
+        /*
+        if (citizenshipType != null) {
+            Iterator citizenshipTypes = this.getBusinessObjectService().findAll(CitizenshipType.class).iterator();
+            while (citizenshipTypes.hasNext()) {
+                CitizenshipType type = (CitizenshipType) citizenshipTypes.next();
+                if (citizenshipType.equals(type.getCitizenshipTypeCode())) {
+                    kcPersonExtendedAttributes.setCitizenshipType(type);
+                    return true;
+                }
+            }
+        }
+        return false;
+        */
     }
 
     @Override
     public List getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
         List<Section> sections = super.getSections(document, oldMaintainable);
-        
-        for(Section section : sections) {
-            for(Row row :section.getRows()) {
-                for(Field field : row.getFields()) {
-                    if(StringUtils.isNotEmpty(field.getPropertyName()) && field.getPropertyName().equalsIgnoreCase("personId")) {
+
+        for (Section section : sections) {
+            for (Row row : section.getRows()) {
+                for (Field field : row.getFields()) {
+                    if (StringUtils.isNotEmpty(field.getPropertyName()) && field.getPropertyName().equalsIgnoreCase("personId")) {
                         field.setFieldConversions("principalId:personId");
                         field.setQuickFinderClassNameImpl("org.kuali.rice.kim.bo.Person");
                         field.setFieldDirectInquiryEnabled(true);
@@ -83,8 +128,7 @@ public class KcPersonExtendedAttributesMaintainableImpl extends KraMaintainableI
                 }
             }
         }
-        
+
         return sections;
     }
-    
 }
