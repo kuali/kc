@@ -27,6 +27,7 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
+import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.DocumentAuditRule;
 import org.kuali.rice.kns.service.ParameterService;
@@ -59,17 +60,19 @@ public class ProposalDevelopmentProposalRequiredFieldsAuditRule implements Docum
         }
         InstitutionalProposal institutionalProposal = getProposalDevelopmentService().getProposalContinuedFromVersion(proposalDevelopmentDocument);
         String changeCorrectedType = getParameterService().getParameterValue(ProposalDevelopmentDocument.class, "s2s.submissiontype.changedCorrected");
-        if (proposal.getS2sOpportunity() != null) {
-            if (isProposalTypeNew(proposal.getProposalTypeCode())
-                    && StringUtils.equals(proposal.getS2sOpportunity().getS2sSubmissionTypeCode(), changeCorrectedType)
-                    && StringUtils.isBlank(proposal.getSponsorProposalNumber())
-                    && (institutionalProposal == null || StringUtils.isBlank(institutionalProposal.getSponsorProposalNumber()))) {
+        if (proposal.getS2sOpportunity() != null && isProposalTypeNew(proposal.getProposalTypeCode())
+                && StringUtils.equals(proposal.getS2sOpportunity().getS2sSubmissionTypeCode(), changeCorrectedType)) {
+            String ggTrackingId = null;
+            if (institutionalProposal != null) {
+                ggTrackingId = KraServiceLocator.getService(S2SUtilService.class).getGgTrackingIdFromProposal(institutionalProposal);
+            }
+            if (StringUtils.isBlank(proposal.getSponsorProposalNumber())
+                    && StringUtils.isBlank(ggTrackingId)) {
                 valid = false;
                 auditErrors.add(new AuditError(Constants.ORIGINAL_PROPOSAL_ID_KEY,
                         KeyConstants.ERROR_PROPOSAL_REQUIRE_ID_CHANGE_APP, Constants.PROPOSAL_PAGE + "." + Constants.REQUIRED_FIELDS_PANEL_ANCHOR));
             }
         }
-        
         
         if (auditErrors.size() > 0) {
             GlobalVariables.getAuditErrorMap().put("requiredFieldsAuditErrors", new AuditCluster(Constants.REQUIRED_FIELDS_PANEL_NAME, auditErrors, Constants.AUDIT_ERRORS));
