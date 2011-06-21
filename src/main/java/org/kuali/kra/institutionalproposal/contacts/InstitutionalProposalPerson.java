@@ -230,9 +230,7 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
     public void initializeDefaultCreditSplits() {
         List<InvestigatorCreditType> creditTypes = (List<InvestigatorCreditType>) this.getBusinessObjectService().findAll(InvestigatorCreditType.class);
         for (InvestigatorCreditType creditType : creditTypes) {
-            InstitutionalProposalPersonCreditSplit creditSplit = new InstitutionalProposalPersonCreditSplit();
-            creditSplit.setInvestigatorCreditType(creditType);
-            creditSplit.setCredit(new KualiDecimal(100));
+            InstitutionalProposalPersonCreditSplit creditSplit = new InstitutionalProposalPersonCreditSplit(creditType, new KualiDecimal(0));
             this.add(creditSplit);
         }
     }

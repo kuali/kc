@@ -210,6 +210,14 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
         return mapping.findForward(Constants.MAPPING_INSTITUTIONAL_PROPOSAL_CONTACTS_PAGE);
     }
     
+    /*
+     * Hacktacular.... sorry
+     */
+    public ActionForward Contacts(ActionMapping mapping, ActionForm form
+            , HttpServletRequest request, HttpServletResponse response) {        
+        return contacts(mapping, form, request, response);
+    }
+    
     /**
      * 
      * This method gets called upon navigation to Custom Data tab.
