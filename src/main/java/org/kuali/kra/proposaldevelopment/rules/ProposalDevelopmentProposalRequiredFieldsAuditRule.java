@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +42,7 @@ public class ProposalDevelopmentProposalRequiredFieldsAuditRule implements Docum
     
     private ParameterService parameterService;
     private ProposalDevelopmentService proposalDevelopmentService;
+    private S2SUtilService s2sUtilService;
     
     /**
      * @see org.kuali.rice.kns.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.kns.document.Document)
@@ -64,7 +64,7 @@ public class ProposalDevelopmentProposalRequiredFieldsAuditRule implements Docum
                 && StringUtils.equals(proposal.getS2sOpportunity().getS2sSubmissionTypeCode(), changeCorrectedType)) {
             String ggTrackingId = null;
             if (institutionalProposal != null) {
-                ggTrackingId = KraServiceLocator.getService(S2SUtilService.class).getGgTrackingIdFromProposal(institutionalProposal);
+                ggTrackingId = getS2sUtilService().getGgTrackingIdFromProposal(institutionalProposal);
             }
             if (StringUtils.isBlank(proposal.getSponsorProposalNumber())
                     && StringUtils.isBlank(ggTrackingId)) {
@@ -117,6 +117,17 @@ public class ProposalDevelopmentProposalRequiredFieldsAuditRule implements Docum
 
     public void setProposalDevelopmentService(ProposalDevelopmentService proposalDevelopmentService) {
         this.proposalDevelopmentService = proposalDevelopmentService;
+    }
+
+    protected S2SUtilService getS2sUtilService() {
+        if (s2sUtilService == null) {
+            s2sUtilService = KraServiceLocator.getService(S2SUtilService.class);
+        }
+        return s2sUtilService;
+    }
+
+    public void setS2sUtilService(S2SUtilService s2sUtilService) {
+        this.s2sUtilService = s2sUtilService;
     }
 
 }
