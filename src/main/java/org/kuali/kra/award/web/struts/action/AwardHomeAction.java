@@ -30,6 +30,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.AwardForm;
+import org.kuali.kra.award.contacts.AwardPerson;
+import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
@@ -266,6 +268,7 @@ public class AwardHomeAction extends AwardAction {
                 awardForm.getSpecialReviewHelper().syncProtocolFundingSourcesWithSpecialReviews();
             }
         }
+        awardForm.getProjectPersonnelBean().updateLeadUnit();
         
         ActionForward forward = super.save(mapping, form, request, response);
 //        if(GlobalVariables.getMessageMap().getErrorCount() == 0) {
