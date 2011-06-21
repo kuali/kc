@@ -25,7 +25,9 @@ import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.exception.UnknownRoleException;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.rice.kim.service.RoleManagementService;
 import org.w3c.dom.Element;
 
 public class BatchCorrespondenceEvent extends NotificationEventBase implements NotificationContext {
@@ -69,10 +71,10 @@ public class BatchCorrespondenceEvent extends NotificationEventBase implements N
 
 
     public void populateRoleQualifiers(NotificationTypeRecipient notificationRecipient) throws UnknownRoleException {
-        if (notificationRecipient.getRoleId().equals("1117")) {
+        if (notificationRecipient.getRoleId().equals(getRoleId(RoleConstants.PROTOCOL_ROLE_TYPE, RoleConstants.PROTOCOL_AGGREGATOR))) {
             notificationRecipient.setRoleQualifier("protocol");
             notificationRecipient.setQualifierValue(getProtocol().getProtocolNumber());
-        } else if (notificationRecipient.getRoleId().equals("1119"))  {
+        } else if (notificationRecipient.getRoleId().equals(getRoleId(RoleConstants.DEPARTMENT_ROLE_TYPE, RoleConstants.IRB_ADMINISTRATOR)))  {
             notificationRecipient.setRoleQualifier(null);
         } else {
             throw new UnknownRoleException(notificationRecipient.getRoleId(), "BatchCorrespondence");
@@ -80,7 +82,16 @@ public class BatchCorrespondenceEvent extends NotificationEventBase implements N
         
     }
 
+    private String getRoleId(String namespaceCode, String roleName) {
+        return getRoleManagementService().getRoleIdByName(namespaceCode, roleName);
 
+    }
+
+    private RoleManagementService getRoleManagementService() {
+        return KraServiceLocator.getService(RoleManagementService.class);
+    }    
+
+    
     public String replaceContextVariables(String text) {
         ProtocolActionsNotificationService protocolActionsNotificationService = KraServiceLocator
                 .getService(ProtocolActionsNotificationService.class);
