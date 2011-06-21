@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.kra.award.contacts.AwardPersonCreditSplitRuleEvent;
+import org.kuali.kra.institutionalproposal.rules.InstitutionalProposalCreditSplitAuditError;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -36,7 +36,7 @@ public class InstitutionalProposalPersonCreditSplitRuleImpl extends ResearchDocu
      * @see org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonCreditSplitRule#checkInstitutionalProposalPersonCreditSplitTotals(org.kuali.kra.nstitutionaliroposal.contacts.InstitutionalProposalPersonCreditSplitRuleEvent)
      */
     public boolean checkInstitutionalProposalPersonCreditSplitTotals(InstitutionalProposalPersonCreditSplitRuleEvent event) {
-        int errorCount = 0; 
+        boolean retval = true; 
         for(InvestigatorCreditType creditType: loadInvestigatorCreditTypes()) {
             if(creditType.addsToHundred()) {
                 KualiDecimal value = event.getTotalsByCreditSplitType().get(creditType.getInvCreditTypeCode());
@@ -44,13 +44,13 @@ public class InstitutionalProposalPersonCreditSplitRuleImpl extends ResearchDocu
                     break;   // value may not have been initialized yet, so we don't want to block save
                 }
                 if(!MAX_TOTAL_VALUE.subtract(value).isZero()) {
-                    reportError(PROPOSAL_CREDIT_SPLIT_LIST_ERROR_KEY, PROPOSAL_PERSON_CREDIT_SPLIT_ERROR_MSG_KEY, creditType.getDescription());
-                    errorCount++;
+                    InstitutionalProposalCreditSplitAuditError.addAuditError(PROPOSAL_PERSON_CREDIT_SPLIT_ERROR_MSG_KEY, creditType.getDescription());
+                    retval = false;
                 }
             }
         }
         
-        return errorCount == 0;
+        return retval;
         
     }
     
@@ -61,4 +61,6 @@ public class InstitutionalProposalPersonCreditSplitRuleImpl extends ResearchDocu
         return getBusinessObjectService().findMatching(InvestigatorCreditType.class, valueMap);
     }
 
+
+    
 }

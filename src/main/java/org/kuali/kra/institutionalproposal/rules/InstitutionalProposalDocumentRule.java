@@ -86,8 +86,9 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
         retval &= processInstitutionalProposalFinancialRules(document);
         retval &= processSpecialReviewBusinessRule(document);
         retval &= processInstitutionalProposalPersonBusinessRules(errorMap, document);
-        retval &= processInstitutionalProposalPersonCreditSplitBusinessRules(document);
-        retval &= processInstitutionalProposalPersonUnitCreditSplitBusinessRules(document);
+//        moved to processRunAuditBusinessRules()
+//        retval &= processInstitutionalProposalPersonCreditSplitBusinessRules(document);
+//        retval &= processInstitutionalProposalPersonUnitCreditSplitBusinessRules(document);
         retval &= processKeywordBusinessRule(document);
         retval &= processAccountIdBusinessRule(document);
         retval &= processCostShareRules(document);
@@ -157,6 +158,8 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
         //retval &= super.processRunAuditBusinessRules(document);
         retval &= new InstitutionalProposalCustomDataAuditRule().processRunAuditBusinessRules(document);
         retval &= new InstitutionalProposalPersonAuditRule().processRunAuditBusinessRules(document);
+        retval &= processInstitutionalProposalPersonCreditSplitBusinessRules(document);
+        retval &= processInstitutionalProposalPersonUnitCreditSplitBusinessRules(document);
         return retval;
         
         

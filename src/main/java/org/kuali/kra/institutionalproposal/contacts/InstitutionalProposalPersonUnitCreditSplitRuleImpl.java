@@ -19,9 +19,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.kra.award.contacts.AwardPerson;
-import org.kuali.kra.award.contacts.AwardPersonUnitCreditSplitRule;
-import org.kuali.kra.award.contacts.AwardPersonUnitCreditSplitRuleEvent;
+import org.kuali.kra.institutionalproposal.rules.InstitutionalProposalCreditSplitAuditError;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -36,7 +34,6 @@ private static final KualiDecimal MAX_TOTAL_VALUE = new KualiDecimal(100.00);
     
     public boolean checkInstitutionalProposalPersonUnitCreditSplitTotals(InstitutionalProposalPersonUnitCreditSplitRuleEvent event) {
         int errorCount = 0;
-        InstitutionalProposalPerson person = event.getProjectPerson();
         for(InvestigatorCreditType creditType: loadInvestigatorCreditTypes()) {
             if(creditType.addsToHundred()) {
                 KualiDecimal value = event.getTotalsByCreditSplitType().get(creditType.getInvCreditTypeCode());
@@ -44,8 +41,7 @@ private static final KualiDecimal MAX_TOTAL_VALUE = new KualiDecimal(100.00);
                     break;   // value may not have been initialized yet, so we don't want to block save
                 }
                 if(!MAX_TOTAL_VALUE.subtract(value).isZero()) {
-                    reportError(PROPOSAL_CREDIT_SPLIT_LIST_ERROR_KEY, PROPOSAL_PERSON_CREDIT_SPLIT_ERROR_MSG_KEY,
-                                creditType.getDescription(), person.getFullName());
+                    InstitutionalProposalCreditSplitAuditError.addAuditError(PROPOSAL_PERSON_CREDIT_SPLIT_ERROR_MSG_KEY, creditType.getDescription());
                     errorCount++;
                 }
             }

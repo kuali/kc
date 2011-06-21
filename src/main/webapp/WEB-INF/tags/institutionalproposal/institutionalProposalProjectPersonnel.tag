@@ -31,8 +31,9 @@
 <div id="workarea">
 <kul:tab tabTitle="Project Personnel" defaultOpen="false" alwaysOpen="false" tabItemCount="${KualiForm.projectPersonnelBean.projectPersonnelCount}" 
 			 tabErrorKey="document.institutionalProposalList[0].projectPerson*,projectPersonnelBean.contactRoleCode*,projectPersonnelBean.personId*"
-			 auditCluster="contactsAuditErrors" tabAuditKey="document.institutionalProposalList[0].projectPerson*"
-			 transparentBackground="true">
+			 auditCluster="contactsAuditErrors" tabAuditKey="document.institutionalProposalList[0].projectPersons.*"
+			 transparentBackground="true"
+			 useRiceAuditMode="true">
 	<div class="tab-container" align="center">
 		<h3>
 			<span class="subhead-left">Project Personnel</span>
