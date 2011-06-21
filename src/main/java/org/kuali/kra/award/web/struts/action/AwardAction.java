@@ -1770,4 +1770,21 @@ public class AwardAction extends BudgetParentActionBase {
         }
         return awardBudgetService;
     } 
+    
+    /**
+     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#populateAuthorizationFields(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
+     * If Award Infos or dates have been edited in a T&M document, then we want to suppress the cancel action.
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    protected void populateAuthorizationFields(KualiDocumentFormBase formBase) {
+        super.populateAuthorizationFields(formBase);
+        AwardForm awardForm = (AwardForm) formBase;
+        AwardDocument awardDocument = awardForm.getAwardDocument();
+        Award award = awardDocument.getAward();
+        Map documentActions = formBase.getDocumentActions();
+        if (award.getAwardAmountInfos().size() > 1 && documentActions.containsKey(KNSConstants.KUALI_ACTION_CAN_CANCEL)) {
+            documentActions.remove(KNSConstants.KUALI_ACTION_CAN_CANCEL);
+        }
+    }
 }
