@@ -294,7 +294,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         if (StringUtils.isNotBlank(proposalDevelopmentDocument.getDevelopmentProposal().getCurrentAwardNumber())) {
             if (proposalDevelopmentService.getProposalCurrentAwardVersion(proposalDevelopmentDocument) == null) {
                 valid = false;
-                errorMap.putError("developmentProposalList[0].currentAwardNumber", KeyConstants.ERROR_MISSING, 
+                errorMap.putError("currentAwardNumber", KeyConstants.ERROR_MISSING, 
                         dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "currentAwardNumber"));
             }
         }
@@ -302,7 +302,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         if (StringUtils.isNotBlank(proposalDevelopmentDocument.getDevelopmentProposal().getContinuedFrom())) {
             if (proposalDevelopmentService.getProposalContinuedFromVersion(proposalDevelopmentDocument) == null) {
                 valid = false;
-                errorMap.putError("developmentProposalList[0].continuedFrom", KeyConstants.ERROR_MISSING, 
+                errorMap.putError("continuedFrom", KeyConstants.ERROR_MISSING, 
                         dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "continuedFrom"));                
             }
         }
