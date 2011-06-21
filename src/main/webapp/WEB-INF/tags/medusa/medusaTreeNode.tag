@@ -3,6 +3,7 @@
 <%@ attribute name="node" required="true" type="org.kuali.kra.medusa.MedusaNode"%>
 <%@ attribute name="openned" required="true" type="java.lang.Boolean"%>
 
+
 <li class="open" style="text-align: left;">
 <c:set var="showOpen" value="1"/>
 <c:set var="currentDoc" value="false"/>
@@ -47,7 +48,9 @@
 <c:if test="${not empty node.childNodes}">
 <ul>
 <c:forEach items="${node.childNodes}" var="childNode">
-  <kra-m:medusaTreeNode node="${childNode}" openned="${openned}"/>
+  <c:set var="_node" value="${childNode}" scope="request" />
+  <c:set var="_openned" value="${openned}" scope="request" />
+  <c:import url="/WEB-INF/jsp/medusa/recurseTreeNode.jsp" />
 </c:forEach>
 </ul>
 </c:if>
