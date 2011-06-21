@@ -47,6 +47,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -63,6 +64,7 @@ import org.kuali.kra.questionnaire.QuestionnaireService;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
+import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
@@ -348,9 +350,15 @@ public class S2SUtilServiceImpl implements S2SUtilService {
             } else { 
                 return null;
             }
-        } else if (isProposalTypeNew(proposal.getProposalTypeCode()) && 
-                (proposal.getS2sOpportunity()!=null && isSubmissionTypeChangeCorrected(proposal.getS2sOpportunity().getS2sSubmissionTypeCode()))
-                || isProposalTypeResubmission(proposal.getProposalTypeCode())) {
+        } else if (isProposalTypeNew(proposal.getProposalTypeCode()) 
+                    && (proposal.getS2sOpportunity() != null 
+                            && isSubmissionTypeChangeCorrected(proposal.getS2sOpportunity().getS2sSubmissionTypeCode()))) {
+            if (!StringUtils.isBlank(proposal.getSponsorProposalNumber())) {
+                federalId = proposal.getSponsorProposalNumber();
+            } else if (institutionalProposal != null) {
+                federalId = getGgTrackingIdFromProposal(institutionalProposal);
+            }
+        } else if (isProposalTypeResubmission(proposal.getProposalTypeCode())) {
             if (!StringUtils.isBlank(proposal.getSponsorProposalNumber())) {
                 federalId = proposal.getSponsorProposalNumber();
             } else if (institutionalProposal != null && !StringUtils.isBlank(institutionalProposal.getSponsorProposalNumber())) {
@@ -367,6 +375,48 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         }
         return federalId;
     } 
+    
+    /**
+     * 
+     * @see org.kuali.kra.s2s.service.S2SUtilService#getGgTrackingIdFromProposal(org.kuali.kra.institutionalproposal.home.InstitutionalProposal)
+     */
+    public String getGgTrackingIdFromProposal(InstitutionalProposal proposal) {
+        DevelopmentProposal newestDevProp = getNewestDevPropFromInstProp(proposal);
+        if (newestDevProp != null && newestDevProp.getS2sOpportunity() != null) {
+            S2sAppSubmission appSubmission = null;
+            int submissionNo = 0;
+            for (S2sAppSubmission s2AppSubmission : newestDevProp.getS2sAppSubmission()) {
+                if (s2AppSubmission.getSubmissionNumber() > submissionNo && StringUtils.isNotBlank(s2AppSubmission.getGgTrackingId())) {
+                    appSubmission = s2AppSubmission;
+                    submissionNo = s2AppSubmission.getSubmissionNumber();
+                }
+            }
+            if (appSubmission != null) {
+                return appSubmission.getGgTrackingId();
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+
+    protected DevelopmentProposal getNewestDevPropFromInstProp(InstitutionalProposal instProp) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("proposalNumber", instProp.getProposalNumber());
+        List<InstitutionalProposal> instProps =
+            (List<InstitutionalProposal>) businessObjectService.findMatchingOrderBy(InstitutionalProposal.class, fieldValues, "sequenceNumber", false);
+        for (InstitutionalProposal curProp : instProps) {
+            Map<String, Object> detailFieldValues = new HashMap<String, Object>();
+            detailFieldValues.put("instProposalId", instProp.getProposalId());
+            List<ProposalAdminDetails> details = 
+                (List<ProposalAdminDetails>) businessObjectService.findMatching(ProposalAdminDetails.class, detailFieldValues);
+            for (ProposalAdminDetails curDetail : details) {
+                return curDetail.getDevelopmentProposal();
+            }
+        }
+        return null;
+    }
 
     /**
      * 

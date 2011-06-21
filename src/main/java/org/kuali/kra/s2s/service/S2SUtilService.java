@@ -31,6 +31,7 @@ import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.kra.infrastructure.CitizenshipTypes;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.bo.State;
 
@@ -107,6 +108,15 @@ public interface S2SUtilService {
 	 */
 	public String getFederalId(
 			ProposalDevelopmentDocument proposalDevelopmentDocument);
+	
+	/**
+	 * Get the tracking id from the newest development proposal linked to the
+	 * institutional proposal.
+	 * @param proposal
+	 * @return
+	 */
+	String getGgTrackingIdFromProposal(InstitutionalProposal proposal);
+	
 	/**
 	 * 
 	 * This method fetches system constant parameters
