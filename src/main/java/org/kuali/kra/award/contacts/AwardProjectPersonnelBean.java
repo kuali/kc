@@ -19,7 +19,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.AwardForm;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
@@ -258,6 +260,34 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
             for(AwardPersonUnit associatedUnit: awardPerson.getUnits()) {                
                 associatedUnit.setLeadUnit(unitName.equals(associatedUnit.getUnit().getUnitName()));
             }
+        }
+    }
+    
+    public void updateLeadUnit() {
+        Award award = awardForm.getAwardDocument().getAward();
+        AwardPerson pi = findPrincipalInvestigator();
+        if (pi == null) {
+            return;
+        }
+        String leadUnitNumber = award.getLeadUnitNumber();
+        boolean foundLeadUnit = false;
+        for (AwardPersonUnit curUnit : pi.getUnits()) {
+            if (StringUtils.equals(curUnit.getUnitNumber(), leadUnitNumber)) {
+                if (!curUnit.isLeadUnit()) {
+                    curUnit.setLeadUnit(true);
+                    award.refreshReferenceObject("leadUnit");
+                }
+                foundLeadUnit = true;
+            } else {
+                curUnit.setLeadUnit(false);
+            }
+        }
+        if (!foundLeadUnit) {
+            AwardPersonUnit newLeadUnit = new AwardPersonUnit();
+            newLeadUnit.setUnitNumber(leadUnitNumber);
+            newLeadUnit.setLeadUnit(true);
+            pi.add(newLeadUnit);
+            award.refreshReferenceObject("leadUnit");
         }
     }    
 }
