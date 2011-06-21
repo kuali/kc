@@ -127,9 +127,7 @@ public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjec
     public void initializeDefaultCreditSplits() {
         List<InvestigatorCreditType> creditTypes = (List<InvestigatorCreditType>) this.getBusinessObjectService().findAll(InvestigatorCreditType.class);
         for (InvestigatorCreditType creditType : creditTypes) {
-            InstitutionalProposalPersonUnitCreditSplit creditSplit = new InstitutionalProposalPersonUnitCreditSplit();
-            creditSplit.setInvestigatorCreditType(creditType);
-            creditSplit.setCredit(new KualiDecimal(100));
+            InstitutionalProposalPersonUnitCreditSplit creditSplit = new InstitutionalProposalPersonUnitCreditSplit(creditType, new KualiDecimal(0));
             this.add(creditSplit);
         }
     }
