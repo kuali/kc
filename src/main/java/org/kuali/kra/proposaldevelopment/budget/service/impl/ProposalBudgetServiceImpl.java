@@ -79,7 +79,7 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
         parentDocument.refreshBudgetDocumentVersions();
         return budgetDocument;
     }
-    public boolean isBudgetSummaryPeriodCalcAmountChanged(BudgetPeriod budgetPeriod){
+    public boolean isRateOverridden(BudgetPeriod budgetPeriod){
         return true;
     }
 
@@ -166,7 +166,7 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
     public void calculateBudgetOnSave(Budget budget) {
         budgetCalculationService.calculateBudget(budget);
     }
-    public boolean isBudgetSummaryCalcAmountsChanged(Budget budget) {
+    public boolean isRateOverridden(Budget budget) {
         return false;
     }
     /**

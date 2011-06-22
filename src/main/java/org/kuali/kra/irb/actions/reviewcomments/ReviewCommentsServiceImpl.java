@@ -542,6 +542,20 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
         }
         return PersonnelIds;
     }
+    /**
+     * Returns whether the current user can view this non Final Comments and Private Comment.
+     * 
+     * @param CommitteeScheduleMinute minute
+     * @return whether the current user can view this comment
+     */
+    public boolean getReviewerMinuteCommentsView(CommitteeScheduleMinute minute) {
+        String principalId = GlobalVariables.getUserSession().getPrincipalId();
+        String principalName = GlobalVariables.getUserSession().getPrincipalName();
+        return StringUtils.equals(principalName, minute.getCreateUser()) && minute.isFinalFlag()
+                || (isReviewer(minute, principalId) && minute.isFinalFlag())
+                || (!minute.getPrivateCommentFlag() && minute.isFinalFlag());
+    }
+
 
     
     private boolean isIrbAdmin(String principalId) {

@@ -44,6 +44,7 @@ public class AwardBudgetPeriodExt extends BudgetPeriod {
     private List<AwardBudgetPeriodSummaryCalculatedAmount> awardBudgetPeriodFringeAmounts;
     private List<AwardBudgetPeriodSummaryCalculatedAmount> awardBudgetPeriodFnAAmounts;
     private Map<String, BudgetDecimal> fringeForCostElements;
+    private boolean rateOverrideFlag;
     public AwardBudgetPeriodExt(){
         super();
         awardBudgetPeriodFringeAmounts = new ArrayList<AwardBudgetPeriodSummaryCalculatedAmount>();
@@ -131,6 +132,23 @@ public class AwardBudgetPeriodExt extends BudgetPeriod {
      */
     public void setAwardBudgetPeriodFnAAmounts(List<AwardBudgetPeriodSummaryCalculatedAmount> awardBudgetPeriodFnAAmounts) {
         this.awardBudgetPeriodFnAAmounts = awardBudgetPeriodFnAAmounts;
+    }
+    /**
+     * Sets the isSummaryCalcAmountsChanged attribute value.
+     * @param isSummaryCalcAmountsChanged The isSummaryCalcAmountsChanged to set.
+     */
+    public void setRateOverrideFlag(boolean rateOverrideFlag) {
+        this.rateOverrideFlag = rateOverrideFlag;
+    }
+    /**
+     * Gets the isSummaryCalcAmountsChanged attribute. 
+     * @return Returns the isSummaryCalcAmountsChanged.
+     */
+    public boolean getRateOverrideFlag() {
+        return rateOverrideFlag;
+    }
+    public boolean isRateOverrideFlag() {
+        return rateOverrideFlag;
     }
 
 }
