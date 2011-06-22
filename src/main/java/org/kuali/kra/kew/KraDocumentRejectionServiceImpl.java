@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.kew;
 
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.rice.kew.doctype.service.DocumentTypeService;
@@ -119,14 +119,7 @@ public class KraDocumentRejectionServiceImpl implements KraDocumentRejectionServ
      * @see org.kuali.kra.kew.KraDocumentRejectionService#isDocumentOnNode(org.kuali.rice.kns.document.Document, java.lang.String)
      */
     public boolean isDocumentOnNode(Document document,String nodeName) {
-        boolean result = false;
-        try {
-            result = document != null && ArrayUtils.contains(document.getDocumentHeader().getWorkflowDocument().getNodeNames(), nodeName);
-            return result;
-        } catch(WorkflowException we) {
-            LOG.error( String.format( "WorkflowException generated when trying to determine if document %s is on %s node.  Reason:%s", nodeName,document.getDocumentNumber(), we.getMessage()) );
-            throw new RuntimeException( String.format( "WorkflowException generated when trying determine if document %s is on %s route node.  Reason:%s", nodeName, document.getDocumentNumber(), we.getMessage()), we ); 
-        }
+        return document != null && StringUtils.contains(document.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames(), nodeName);
     }
 
     /**
