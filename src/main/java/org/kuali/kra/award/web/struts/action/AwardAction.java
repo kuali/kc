@@ -739,7 +739,7 @@ public class AwardAction extends BudgetParentActionBase {
 
 
     
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings({ "deprecation", "unchecked" })
     public ActionForward timeAndMoney(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception{
         AwardForm awardForm = (AwardForm) form;
         ActionForward actionForward;
@@ -775,10 +775,10 @@ public class AwardAction extends BudgetParentActionBase {
             
             Award rootAward = getWorkingAwardVersion(rootAwardNumber);   
             //this logic so we set Transaction Type on new T&M doc.  Defaults to "new" on first creation of T&M doc of a Root Award.
-            TimeAndMoneyDocument timeAndMoneyDocument = null;
-            if(timeAndMoneyDocuments.size() > 0) {
+            TimeAndMoneyDocument timeAndMoneyDocument = getLastFinalTandMDocument(timeAndMoneyDocuments);
+            //if timeAndMoneyDocument is null then either it is first creation or all the previous T&M docs have a route status of 'canceled'.
+            if(timeAndMoneyDocuments.size() > 0 && timeAndMoneyDocument != null) {
                 firstTimeAndMoneyDocCreation = Boolean.FALSE;
-                timeAndMoneyDocument = timeAndMoneyDocuments.get(timeAndMoneyDocuments.size() - 1);
             }
     
             if(firstTimeAndMoneyDocCreation){
@@ -805,10 +805,6 @@ public class AwardAction extends BudgetParentActionBase {
                 timeAndMoneyDocument.getAwardAmountTransactions().add(aat);
                 documentService.saveDocument(timeAndMoneyDocument);
                 getBusinessObjectService().save(transactionDetail);
-            }else {
-                //must call document service to retrieve doc with workflow data.
-                TimeAndMoneyDocument t = (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(timeAndMoneyDocument.getDocumentNumber());
-                timeAndMoneyDocument = t;
             }
             Long routeHeaderId = timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
             String forward = buildForwardUrl(routeHeaderId);
@@ -819,6 +815,22 @@ public class AwardAction extends BudgetParentActionBase {
         
         return actionForward;
 
+    }
+        
+    protected TimeAndMoneyDocument getLastFinalTandMDocument(List<TimeAndMoneyDocument> timeAndMoneyDocuments) throws WorkflowException {
+        TimeAndMoneyDocument returnVal = null;
+        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        while(timeAndMoneyDocuments.size() > 0) {
+            TimeAndMoneyDocument docWithWorkFlowData = 
+                (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(timeAndMoneyDocuments.get(timeAndMoneyDocuments.size() - 1).getDocumentNumber());
+            if(docWithWorkFlowData.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
+                timeAndMoneyDocuments.remove(timeAndMoneyDocuments.size() - 1);
+            }else {
+                returnVal = docWithWorkFlowData;
+                break;
+            }
+        }
+        return returnVal;
     }
     
     /*
