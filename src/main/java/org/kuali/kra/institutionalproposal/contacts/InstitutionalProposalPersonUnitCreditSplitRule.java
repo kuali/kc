@@ -22,7 +22,7 @@ package org.kuali.kra.institutionalproposal.contacts;
 public interface InstitutionalProposalPersonUnitCreditSplitRule {
 
     String PROPOSAL_CREDIT_SPLIT_LIST_ERROR_KEY = "document.institutionalProposalList[0].projectPersons.institutionalProposalPersonCreditSplits";
-    String PROPOSAL_PERSON_CREDIT_SPLIT_ERROR_MSG_KEY = "error.award.person.credit.split.error";
+    String PROPOSAL_PERSON_UNIT_CREDIT_SPLIT_ERROR_MSG_KEY = "error.award.person.unit.credit.split.error";
     
     /**
      * Check if the {@link InvestigatorCreditType} requires totals add to 100

@@ -16,6 +16,7 @@
 package org.kuali.kra.institutionalproposal.contacts;
 
 import java.util.Collection;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,7 +42,7 @@ private static final KualiDecimal MAX_TOTAL_VALUE = new KualiDecimal(100.00);
                     break;   // value may not have been initialized yet, so we don't want to block save
                 }
                 if(!MAX_TOTAL_VALUE.subtract(value).isZero()) {
-                    InstitutionalProposalCreditSplitAuditError.addAuditError(PROPOSAL_PERSON_CREDIT_SPLIT_ERROR_MSG_KEY, creditType.getDescription());
+                    InstitutionalProposalCreditSplitAuditError.addAuditError(PROPOSAL_PERSON_UNIT_CREDIT_SPLIT_ERROR_MSG_KEY, creditType.getDescription());
                     errorCount++;
                 }
             }
