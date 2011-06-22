@@ -16,6 +16,7 @@
 package org.kuali.kra.award.customdata;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -28,9 +29,11 @@ import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.lookup.keyvalue.ArgValueLookupValuesFinder;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.CustomAttributeService;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.datadictionary.validation.ValidationPattern;
 import org.kuali.rice.kns.datadictionary.validation.charlevel.RegexValidationPattern;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -165,6 +168,46 @@ public class AwardCustomDataRuleImpl extends ResearchDocumentRuleBase implements
                     // is not necessary
                     return true; 
                 }
+            }
+            else if (lookupClass != null && lookupClass.equals("org.kuali.kra.bo.ArgValueLookup"))
+            {
+                    ArgValueLookupValuesFinder finder = new  ArgValueLookupValuesFinder();
+                    finder.setArgName(customAttribute.getLookupReturn());
+                    List<KeyLabelPair> kv = finder.getKeyValues();
+                    Iterator<KeyLabelPair> i = kv.iterator();
+                    while (i.hasNext())
+                    {
+                        KeyLabelPair element = (KeyLabelPair) i.next();
+                        String label = element.getLabel().toLowerCase();
+                        if (label.equals(attributeValue.toLowerCase()))
+                        {
+                            return true;
+                        }      
+                    }
+                    validFormat = getValidFormat(customAttributeDataType.getDescription());
+                    GlobalVariables.getErrorMap().putError(errorKey, RiceKeyConstants.ERROR_EXISTENCE, 
+                          customAttribute.getLabel(), attributeValue, validFormat);
+                    return false;           
+            }
+            else if (lookupClass != null && lookupClass.equals("org.kuali.kra.bo.ArgValueLookup"))
+            {
+                    ArgValueLookupValuesFinder finder = new  ArgValueLookupValuesFinder();
+                    finder.setArgName(customAttribute.getLookupReturn());
+                    List<KeyLabelPair> kv = finder.getKeyValues();
+                    Iterator<KeyLabelPair> i = kv.iterator();
+                    while (i.hasNext())
+                    {
+                        KeyLabelPair element = (KeyLabelPair) i.next();
+                        String label = element.getLabel().toLowerCase();
+                        if (label.equals(attributeValue.toLowerCase()))
+                        {
+                            return true;
+                        }      
+                    }
+                    validFormat = getValidFormat(customAttributeDataType.getDescription());
+                    GlobalVariables.getErrorMap().putError(errorKey, RiceKeyConstants.ERROR_EXISTENCE, 
+                          customAttribute.getLabel(), attributeValue, validFormat);
+                    return false;           
             }
             else if (lookupClass != null)
             {    
