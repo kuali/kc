@@ -47,7 +47,7 @@ public interface BudgetCommonService<T extends BudgetParent> {
      * @param budgetPeriod
      * @return true if there is any change
      */
-    public boolean isBudgetSummaryPeriodCalcAmountChanged(BudgetPeriod budgetPeriod);
+    public boolean isRateOverridden(BudgetPeriod budgetPeriod);
     
     /**
      * 
@@ -68,7 +68,7 @@ public interface BudgetCommonService<T extends BudgetParent> {
      * @param budget
      * @return true if there is any change
      */
-    public boolean isBudgetSummaryCalcAmountsChanged(Budget budget);
+    public boolean isRateOverridden(Budget budget);
     
     /**
      * 

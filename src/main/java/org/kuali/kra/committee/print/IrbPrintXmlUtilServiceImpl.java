@@ -198,7 +198,10 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
             for (CommitteeScheduleMinute minuteEntryInfoBean : vecMinutes) {
                 if (!minuteEntryInfoBean.getMinuteEntryTypeCode().equals("3") && 
                         !minuteEntryInfoBean.getPrivateCommentFlag()) {
-                    addMinute(scheduleDetailsBean, minuteEntryInfoBean, schedule.addNewMinutes());
+                    if (reviewCommentsService.getReviewerCommentsView(minuteEntryInfoBean)){
+                        addMinute(scheduleDetailsBean, minuteEntryInfoBean, schedule.addNewMinutes());
+                    }
+                   
                 }
             }
         }
@@ -249,7 +252,7 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
                 if (protocol.getProtocolNumber().equals(protocolSubmission.getProtocolNumber())
                         && protocol.getProtocolSubmission() != null
                         && protocol.getProtocolSubmission().getSubmissionNumber().equals(protocolSubmission.getSubmissionNumber())) {
-                    if (reviewCommentsService.getReviewerCommentsView(minuteEntryInfoBean)){
+                    if (reviewCommentsService.getReviewerMinuteCommentsView(minuteEntryInfoBean)){
                         addMinute(committeeSchedule, minuteEntryInfoBean, protocolSubmissionType.addNewMinutes());
                     }
                     
@@ -265,16 +268,42 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
             Protocol protocol = minuteEntryInfoBean.getProtocol();
             if (protocol != null && protocol.getProtocolNumber() != null) {
                 if (protocol.getProtocolNumber().equals(protocolSubmission.getProtocolNumber())
-                        && protocol.getProtocolSubmission() != null
+                      && protocol.getProtocolSubmission() != null
                         && protocol.getProtocolSubmission().getSubmissionNumber().equals(protocolSubmission.getSubmissionNumber())) {
                     if (reviewCommentsService.getReviewerCommentsView(minuteEntryInfoBean)){
                         addMinute(committeeSchedule, minuteEntryInfoBean, submissionsType.addNewMinutes());
                     }
                     
                 }
-            }
+            }  
         }
     }
+    /**
+     * 
+     * This method for set the review Minute in Specific Minor Revision Letter.
+     * @param committeeSchedule
+     * @param protocolSubmission
+     * @param submissionsType
+     */
+    public void setProcotolReviewMinutes(CommitteeSchedule committeeSchedule,
+            org.kuali.kra.irb.actions.submit.ProtocolSubmission protocolSubmission, Submissions submissionsType) {
+        List<CommitteeScheduleMinute> minutes = committeeSchedule.getCommitteeScheduleMinutes();
+        for (CommitteeScheduleMinute minuteEntryInfoBean : minutes) {
+            Protocol protocol = minuteEntryInfoBean.getProtocol();
+            if (protocol != null && protocol.getProtocolNumber() != null) {
+                if (protocol.getProtocolNumber().equals(protocolSubmission.getProtocolNumber())
+                      && protocol.getProtocolSubmission() != null
+                        && protocol.getProtocolSubmission().getSubmissionNumber().equals(protocolSubmission.getSubmissionNumber())) {
+                    if (reviewCommentsService.getReviewerMinuteCommentsView(minuteEntryInfoBean)){
+                        addMinute(committeeSchedule, minuteEntryInfoBean, submissionsType.addNewMinutes());
+                    }
+                    
+                }
+            }  
+        }
+    }
+   
+        
     /**
      * Sets the businessObjectService attribute value.
      * 

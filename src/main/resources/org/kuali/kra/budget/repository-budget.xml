@@ -1155,6 +1155,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="rateOverrideFlag" column="RATE_OVERRIDE_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<reference-descriptor name="super" class-ref="org.kuali.kra.budget.parameters.BudgetPeriod">
 			<foreignkey field-ref="budgetPeriodId"/>
 		</reference-descriptor>
@@ -1252,7 +1253,7 @@
 		<field-descriptor name="awardBudgetPeriodSummaryCalculatedAmountId" column="AWD_BGT_PER_SUM_CALC_AMT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_BGT_SUM_PER_CALC_AMT_ID"/>
 		<field-descriptor name="budgetPeriodId" column="BUDGET_PERIOD_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="costElement" column="COST_ELEMENT" jdbc-type="VARCHAR" />
-		<field-descriptor name="onOffCampusFlag" column="ON_OFF_CAMPUS_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="onOffCampusFlag" column="ON_OFF_CAMPUS_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.kra.infrastructure.OjbOnOffCampusFlagFieldConversion"/>
 		<field-descriptor name="rateClassType" column="RATE_CLASS_TYPE" jdbc-type="VARCHAR" />
 		<field-descriptor name="calculatedCost" column="CALCULATED_COST" jdbc-type="DECIMAL"  conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="calculatedCostSharing" column="CALCULATED_COST_SHARING" jdbc-type="DECIMAL"  conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>

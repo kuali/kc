@@ -32,7 +32,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 
 public class BudgetValidationUnrecoveredFandARuleTest {
     private static final BudgetDecimal AMOUNT = new BudgetDecimal(100.00);
-    private static final RateDecimal APPLICABLE_RATE = new RateDecimal(19.875);
+    private static final BudgetDecimal APPLICABLE_RATE = new BudgetDecimal(19.87);
     private final String ON_CAMPUS = "Y";
     private static final int BUDGET_FISCAL_YEAR = 2008;
     private static final String SOURCE_ACCOUNT = "12345A";

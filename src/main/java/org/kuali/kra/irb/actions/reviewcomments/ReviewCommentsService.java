@@ -153,4 +153,13 @@ public interface ReviewCommentsService {
      * @return
      */
     boolean setHideReviewerName(List<CommitteeScheduleMinute> reviewComments);
+    /**
+     * 
+     * This method is to check whether the current user can view this minute comment.
+     * 
+     * @param CommitteeScheduleMinute minute
+     * @return whether the current user can view this comment
+     */
+    boolean getReviewerMinuteCommentsView(CommitteeScheduleMinute minute);
+    
 }
