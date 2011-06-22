@@ -168,7 +168,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private Sponsor sponsor;
     private Sponsor primeSponsor;
 
-    @AwardSyncableList(syncClass = AwardComment.class, syncSourceClass = AwardTemplateComment.class, scopes={AwardTemplateSyncScope.PAYMENTS_AND_INVOICES_TAB,AwardTemplateSyncScope.COMMENTS_TAB}, removeMissingListElementsFromTarget=false)
+    @AwardSyncableList(syncClass = AwardComment.class, syncSourceClass = AwardTemplateComment.class, scopes={AwardTemplateSyncScope.COST_SHARE,AwardTemplateSyncScope.PAYMENTS_AND_INVOICES_TAB,AwardTemplateSyncScope.COMMENTS_TAB}, removeMissingListElementsFromTarget=false)
     private List<AwardComment> awardComments;
     @AwardSyncableList(syncClass = AwardReportTerm.class, syncSourceClass = AwardTemplateReportTerm.class, scopes = {AwardTemplateSyncScope.PAYMENTS_AND_INVOICES_TAB,AwardTemplateSyncScope.REPORTS_TAB})
     private List<AwardReportTerm> awardReportTermItems;
