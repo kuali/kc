@@ -197,8 +197,7 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
                 summaryDirect.setFederalSummary(periodInfo.getDirectCostsTotal().bigDecimalValue());
             }
             if (periodInfo.getCostSharingAmount() != null) {
-                BudgetDecimal totalDirectCostSharing = periodInfo.getTotalDirectCostSharing().subtract(
-                        periodInfo.getTotalIndirectCostSharing()==null?BudgetDecimal.ZERO:periodInfo.getTotalIndirectCostSharing());
+                BudgetDecimal totalDirectCostSharing = periodInfo.getTotalDirectCostSharing();
                 summaryDirect.setNonFederalSummary(totalDirectCostSharing.bigDecimalValue());
                 if (periodInfo.getDirectCostsTotal() != null) {
                     summaryDirect.setTotalFedNonFedSummary(periodInfo.getDirectCostsTotal().add(totalDirectCostSharing).bigDecimalValue());
@@ -737,8 +736,7 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
             if (periodInfo.getDirectCostsTotal() != null) {
                 summaryDirect.setFederalSummary(periodInfo.getDirectCostsTotal().bigDecimalValue());
             }
-            BudgetDecimal totalDirectCostSharing = periodInfo.getTotalDirectCostSharing().subtract(
-                    periodInfo.getTotalIndirectCostSharing()==null?BudgetDecimal.ZERO:periodInfo.getTotalIndirectCostSharing());
+            BudgetDecimal totalDirectCostSharing = periodInfo.getTotalDirectCostSharing();
             summaryDirect.setNonFederalSummary(totalDirectCostSharing.bigDecimalValue());
             if (periodInfo.getDirectCostsTotal() != null) {
                 summaryDirect.setTotalFedNonFedSummary(periodInfo.getDirectCostsTotal().add(totalDirectCostSharing).bigDecimalValue());

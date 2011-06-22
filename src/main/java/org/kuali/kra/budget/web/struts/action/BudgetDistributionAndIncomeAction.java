@@ -27,7 +27,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.RateDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.AddBudgetCostShareEvent;
 import org.kuali.kra.budget.distributionincome.AddBudgetProjectIncomeEvent;
@@ -321,7 +320,7 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
             budgetUnrecoveredFandA.setAmount(shareAmount);
         }
         if(budgetUnrecoveredFandA.getApplicableRate() == null) {
-            budgetUnrecoveredFandA.setApplicableRate(RateDecimal.ZERO_RATE);
+            budgetUnrecoveredFandA.setApplicableRate(BudgetDecimal.ZERO);
         }
     }
 }

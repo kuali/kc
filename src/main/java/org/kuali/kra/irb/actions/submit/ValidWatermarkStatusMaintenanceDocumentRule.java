@@ -54,7 +54,7 @@ public class ValidWatermarkStatusMaintenanceDocumentRule extends KraMaintenanceD
     public boolean isDocumentValidForSave(MaintenanceDocument document) {
         boolean result = super.isDocumentValidForSave(document);
         final Watermark watermark = (Watermark) document.getNewMaintainableObject().getBusinessObject();
-        if (!document.getNewMaintainableObject().getMaintenanceAction().equals(KNSConstants.MAINTENANCE_DELETE_ACTION)) {
+        if (!document.getNewMaintainableObject().getMaintenanceAction().equals(KNSConstants.MAINTENANCE_DELETE_ACTION) && !document.getNewMaintainableObject().getMaintenanceAction().equals(KNSConstants.MAINTENANCE_EDIT_ACTION)) {
             result &= validateWatermarkStatusCode(watermark.getStatusCode());
         }
         else {

@@ -856,14 +856,17 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
     public void setBudgetCalculationService(BudgetCalculationService budgetCalculationService) {
         this.budgetCalculationService = budgetCalculationService;
     }
-    public boolean isBudgetSummaryPeriodCalcAmountChanged(BudgetPeriod budgetPeriod){
-        Budget budget = budgetPeriod.getBudget();
-        List<AwardBudgetPeriodSummaryCalculatedAmount> budgetPeriodSumamryCalcAmts= ((AwardBudgetPeriodExt)budgetPeriod).getAwardBudgetPeriodFringeAmounts();
-        if(budgetPeriodSumamryCalcAmts.isEmpty()) 
-            return false;
-        BudgetDecimal periodFringeTotal = getPeriodFringeTotal(budgetPeriod, budget);
-        return !periodFringeTotal.equals(((AwardBudgetPeriodExt)budgetPeriod).getTotalFringeAmount());
+    public boolean isRateOverridden(BudgetPeriod budgetPeriod){
+        return ((AwardBudgetPeriodExt)budgetPeriod).getRateOverrideFlag();
     }
+//    public boolean isSummaryPeriodCalcAmountChanged(BudgetPeriod budgetPeriod){
+//        Budget budget = budgetPeriod.getBudget();
+//        List<AwardBudgetPeriodSummaryCalculatedAmount> budgetPeriodSumamryCalcAmts= ((AwardBudgetPeriodExt)budgetPeriod).getAwardBudgetPeriodFringeAmounts();
+//        if(budgetPeriodSumamryCalcAmts.isEmpty()) 
+//            return false;
+//        BudgetDecimal periodFringeTotal = getPeriodFringeTotal(budgetPeriod, budget);
+//        return !periodFringeTotal.equals(((AwardBudgetPeriodExt)budgetPeriod).getTotalFringeAmount());
+//    }
 
     /**
      * This method...
@@ -887,8 +890,10 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
     }
 
     public void calculateBudgetOnSave(Budget budget) {
-//        budgetCalculationService.calculateBudget(budget);
-        budgetCalculationService.calculateBudgetSummaryTotals(budget);
+//        if(!isBudgetSummaryCalcAmountsChanged(budget)){
+            budgetCalculationService.calculateBudget(budget);
+            budgetCalculationService.calculateBudgetSummaryTotals(budget);
+//        }
         List<BudgetPeriod> awardBudgetPeriods = budget.getBudgetPeriods();
         for (BudgetPeriod awardBudgetPeriod : awardBudgetPeriods) {
             AwardBudgetPeriodExt budgetPeriod = (AwardBudgetPeriodExt)awardBudgetPeriod;
@@ -980,10 +985,10 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         budget.setCostSharingAmount(budget.getSumCostSharingAmountFromPeriods());
     }
 
-    public boolean isBudgetSummaryCalcAmountsChanged(Budget budget) {
+    public boolean isRateOverridden(Budget budget) {
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
-            if(isBudgetSummaryPeriodCalcAmountChanged(budgetPeriod)){
+            if(isRateOverridden(budgetPeriod)){
                 return true;
             }
         }
@@ -995,6 +1000,8 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         awardBudgetPeriod.setTotalFringeAmount(null);
         awardBudgetPeriod.getAwardBudgetPeriodFringeAmounts().clear();
         awardBudgetPeriod.getAwardBudgetPeriodFnAAmounts().clear();
+        awardBudgetPeriod.setRateOverrideFlag(false);
+        
 
     }
 }

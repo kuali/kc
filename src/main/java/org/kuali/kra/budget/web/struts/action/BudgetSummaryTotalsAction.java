@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.budget.web.struts.action;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,12 +27,14 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.budget.AwardBudgetExt;
+import org.kuali.kra.award.budget.AwardBudgetPeriodExt;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetCommonService;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -52,16 +56,27 @@ public class BudgetSummaryTotalsAction extends BudgetAction {
         getBudgetCommonService(budget.getBudgetDocument().getParentDocument()).recalculateBudget(budget);
         return actionForward;
     }
+
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         Budget budget = getBudget(form);
+        if(budget instanceof AwardBudgetExt){
+            List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
+            for (int i = 0; i < budgetPeriods.size(); i++) {
+                AwardBudgetPeriodExt awardBudgetPeriod = (AwardBudgetPeriodExt)budgetPeriods.get(i);
+                String val = request.getParameter("document.budget.budgetPeriods["+i+"].rateOverrideFlag");
+                awardBudgetPeriod.setRateOverrideFlag(Boolean.valueOf(val));
+            }
+        }
+        
         //ugly hack to work around OJB bug, unsure how else to fix issue though
         if (budget != null && budget instanceof ProposalDevelopmentBudgetExt) {
             this.getBusinessObjectService().findBySinglePrimaryKey(ProposalDevelopmentBudgetExt.class, budget.getBudgetId());
         }
         BudgetCommonService<BudgetParent> budgetService = getBudgetCommonService(((BudgetForm)form).getBudgetDocument().getParentDocument());
-        budgetService.calculateBudgetOnSave(budget);
+
+//        budgetService.calculateBudgetOnSave(budget);
         return super.save(mapping, form, request, response);
     }
     private AwardBudgetService getAwardBudgetService() {

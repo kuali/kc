@@ -117,5 +117,6 @@ public interface AwardBudgetService extends BudgetCommonService<Award> {
      * @return
      */
     Award getActiveOrNewestAward(String awardNumber);
-    
+
+//    public boolean isSummaryPeriodCalcAmountChanged(BudgetPeriod budgetPeriod);
 }

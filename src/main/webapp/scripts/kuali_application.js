@@ -2903,9 +2903,13 @@ function specialReviewProtocolPop(sessionDocument, action, methodToCall, line, d
 	    "specialReviewProtocolWindow", 
 		"width=800, height=750, scrollbars=yes, resizable=yes");   
 }
+function setRateOverrideFlag(){
+	DWRUtil.setValue("document.budget.budgetPeriods["+(budgetPeriod-1)+"].rateOverrideFlag","true");
+}
 function updateFringeCalcAmounts(budgetPeriodFringeTotal,budgetPeriod,calcAmontsCount){
 	var fringeTotal = DWRUtil.getValue("document.budget.budgetPeriods["+(budgetPeriod-1)+"].totalFringeAmount");
 	if(budgetPeriodFringeTotal!=fringeTotal){
+		setRateOverrideFlag();
 		for(var i= 0; i < calcAmontsCount; i++) {
 			DWRUtil.setValue("document.budget.budgetPeriods["+(budgetPeriod-1)+"].awardBudgetPeriodFringeAmounts["+i+"].calculatedCost","");
 		}
@@ -2919,6 +2923,7 @@ function updateFringeTotal(budgetPeriod,calcAmontsCount){
 		var fringeAmount = DWRUtil.getValue("document.budget.budgetPeriods["+(budgetPeriod-1)+"].awardBudgetPeriodFringeAmounts["+i+"].calculatedCost");
 		fringeTotal+=parseFloat(fringeAmount);
 	}
+	setRateOverrideFlag();
 	DWRUtil.setValue("document.budget.budgetPeriods["+(budgetPeriod-1)+"].totalFringeAmount",fringeTotal);
 	changeObjectVisibility("personnelFringeCalc"+(budgetPeriod-1)+".div.object","none");
 	changeObjectVisibility("personnelFringeTotal.div.object","none");
