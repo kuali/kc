@@ -223,7 +223,9 @@ public class AwardFundingProposalBean implements Serializable {
         new SponsorDataFeedCommand(award, proposal, mergeType).performDataFeed();
         new CommentsDataFeedCommand(award, proposal, mergeType).performDataFeed();
         new SpecialReviewDataFeedCommand(award, proposal, mergeType).performDataFeed();
+        proposal.refreshReferenceObject("institutionalProposalCostShares");
         new CostSharingDataFeedCommand(award, proposal, mergeType).performDataFeed();
+        proposal.refreshReferenceObject("institutionalProposalUnrecoveredFandAs");
         new FandARatesDataFeedCommand(award, proposal, mergeType).performDataFeed();
         new KeywordsDataFeedCommand(award, proposal, mergeType).performDataFeed();
         new LeadUnitDataFeedCommand(award, proposal, mergeType).performDataFeed();
