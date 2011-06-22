@@ -58,7 +58,6 @@ class FandARatesDataFeedCommand extends ProposalDataFeedCommandBase {
     void performDataFeed() {
         if (mergeType != FundingProposalMergeType.NOCHANGE) {
             int copyCount = 0;
-            proposal.refreshReferenceObject("institutionalProposalUnrecoveredFandAs");
             List<InstitutionalProposalUnrecoveredFandA> fAndAs = proposal.getInstitutionalProposalUnrecoveredFandAs();
             for (InstitutionalProposalUnrecoveredFandA ipUnrecoveredFandA : fAndAs) {
                 award.add(copyFandA(ipUnrecoveredFandA));
