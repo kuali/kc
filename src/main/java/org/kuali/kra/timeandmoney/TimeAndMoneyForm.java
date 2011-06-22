@@ -699,6 +699,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         return KraServiceLocator.getService(KraWorkflowService.class);
     }
     
+    @SuppressWarnings("unchecked")
     public boolean getDisplayEditButton() throws Exception {
         boolean displayEditButton = Boolean.FALSE;
         
@@ -706,21 +707,43 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         String rootAwardNumber = getTimeAndMoneyDocument().getRootAwardNumber();
         fieldValues.put("rootAwardNumber", rootAwardNumber);
-        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        //DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
         BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
 
         List<TimeAndMoneyDocument> timeAndMoneyDocuments = 
             (List<TimeAndMoneyDocument>)businessObjectService.findMatchingOrderBy(TimeAndMoneyDocument.class, fieldValues, "documentNumber", true);
         //BO service does not return workflow data, so we must call document service to retrieve the document to test if it is in workflow
-        TimeAndMoneyDocument t = timeAndMoneyDocuments.get(timeAndMoneyDocuments.size() -1);
-        TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(t.getDocumentNumber());
-        displayEditButton = (timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal() ||
-                            timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) && 
-                            timeAndMoneyDocument.getDocumentNumber().equals(this.getTimeAndMoneyDocument().getDocumentNumber());
+        //TimeAndMoneyDocument t = timeAndMoneyDocuments.get(timeAndMoneyDocuments.size() -1);
+        
+        TimeAndMoneyDocument lastFinalDoc = getLastFinalTandMDocument(timeAndMoneyDocuments);
+        if(lastFinalDoc != null) {
+            displayEditButton = (lastFinalDoc.getDocumentHeader().getWorkflowDocument().stateIsFinal() && 
+                    lastFinalDoc.getDocumentNumber().equals(this.getTimeAndMoneyDocument().getDocumentNumber()));
+        }
+        //TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(t.getDocumentNumber());
+//        displayEditButton = (timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal() ||
+//                            timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) && 
+//                            timeAndMoneyDocument.getDocumentNumber().equals(this.getTimeAndMoneyDocument().getDocumentNumber());
 //        if(!getKraWorkflowService().isInWorkflow(timeAndMoneyDocument)){
 //            displayEditButton = Boolean.FALSE;
 //        }
         return displayEditButton;
+    }
+    
+    protected TimeAndMoneyDocument getLastFinalTandMDocument(List<TimeAndMoneyDocument> timeAndMoneyDocuments) throws WorkflowException {
+        TimeAndMoneyDocument returnVal = null;
+        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        while(timeAndMoneyDocuments.size() > 0) {
+            TimeAndMoneyDocument docWithWorkFlowData = 
+                (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(timeAndMoneyDocuments.get(timeAndMoneyDocuments.size() - 1).getDocumentNumber());
+            if(docWithWorkFlowData.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
+                timeAndMoneyDocuments.remove(timeAndMoneyDocuments.size() - 1);
+            }else {
+                returnVal = docWithWorkFlowData;
+                break;
+            }
+        }
+        return returnVal;
     }
     
     @Override
