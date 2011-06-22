@@ -47,7 +47,6 @@ class CostSharingDataFeedCommand extends ProposalDataFeedCommandBase {
     void performDataFeed() {
         if (mergeType != FundingProposalMergeType.NOCHANGE) {
             int copyCount = 0;
-            proposal.refreshReferenceObject("institutionalProposalCostShares");
             List<InstitutionalProposalCostShare> costShares = proposal.getInstitutionalProposalCostShares();
             for (InstitutionalProposalCostShare ipCostShare : costShares) {
                 award.add(copyCostShare(ipCostShare));
