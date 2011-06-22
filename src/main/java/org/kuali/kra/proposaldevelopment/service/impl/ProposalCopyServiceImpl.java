@@ -233,6 +233,14 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                 questionnaireAnswerService.copyAnswerHeaders(moduleQuestionnaireBean, destModuleQuestionnaireBean);
             }
             
+            //save extended attributes
+            List<ProposalPerson> proposalPersons = newDoc.getDevelopmentProposal().getProposalPersons();
+            for (ProposalPerson person : proposalPersons) {
+                if (person.getProposalPersonExtendedAttributes() != null) {
+                    this.businessObjectService.save(person.getProposalPersonExtendedAttributes());
+                }
+            }
+            
             copyCustomData(doc, newDoc);
             
             newDocNbr = newDoc.getDocumentNumber();
@@ -524,13 +532,15 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             for (ProposalPerson srcProposalperson : srcDoc.getDevelopmentProposal().getProposalPersons()) {
                 if (StringUtils.equals(proposalperson.getFullName(), srcProposalperson.getFullName())
                     && StringUtils.equals(proposalperson.getProposalPersonRoleId(), srcProposalperson.getProposalPersonRoleId())) {
-                    ProposalPersonExtendedAttributes ppea = 
-                        (ProposalPersonExtendedAttributes) ObjectUtils.deepCopy(srcProposalperson.getProposalPersonExtendedAttributes());
-                    ppea.setProposalPerson(proposalperson);
-                    ppea.setProposalNumber(proposalperson.getProposalNumber());
-                    ppea.setProposalPersonNumber(proposalperson.getProposalPersonNumber());
-                    ppea.setProposalPersonRoleId(proposalperson.getProposalPersonRoleId());
-                    proposalperson.setProposalPersonExtendedAttributes(ppea);
+                    if (srcProposalperson.getProposalPersonExtendedAttributes() != null) {
+                        ProposalPersonExtendedAttributes ppea = 
+                            (ProposalPersonExtendedAttributes) ObjectUtils.deepCopy(srcProposalperson.getProposalPersonExtendedAttributes());
+                        ppea.setProposalPerson(proposalperson);
+                        ppea.setProposalNumber(proposalperson.getProposalNumber());
+                        ppea.setProposalPersonNumber(proposalperson.getProposalPersonNumber());
+                        ppea.setProposalPersonRoleId(proposalperson.getProposalPersonRoleId());
+                        proposalperson.setProposalPersonExtendedAttributes(ppea);
+                    }
                 }
             }
         }
