@@ -60,3 +60,5 @@ insert into krns_parm_t (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, VER_
 insert into krns_parm_t (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, OBJ_ID) values('KC', 'KC-AWARD', 'Document', 'CFDA_BATCH_JOB_CRON_START_TIME', 1, 'CONFG', '', 'Start time of the CFDA job', 'A', SYS_GUID());  
   
 insert into KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC','KC-GEN','A','POST_DOCTORAL_COSTELEMENT','CONFG','400390','PostDoctoral CostElement', 'A',sys_guid());
+
+update KRNS_PARM_T set TXT = '1' where parm_nm = 'scope.sync.PAYMENTS_AND_INVOICES_TAB.AwardComment.commentTypeCode' and nmspc_cd = 'KC-AWARD' and parm_dtl_typ_cd = 'Document';
