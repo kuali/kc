@@ -182,5 +182,11 @@
             	 </div>
             </td>
         </table>
+		<div align="center">
+		</br>
+		<c:if test = "${(!readOnly)}">
+			<kra-a:awardSyncButton  scopeNames="COST_SHARE" tabKey="${tabKey}"/>
+		</c:if>
+		</div>	        
     </div>
 </kul:tabTop>
