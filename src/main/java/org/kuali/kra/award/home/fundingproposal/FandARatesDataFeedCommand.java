@@ -58,10 +58,8 @@ class FandARatesDataFeedCommand extends ProposalDataFeedCommandBase {
     void performDataFeed() {
         if (mergeType != FundingProposalMergeType.NOCHANGE) {
             int copyCount = 0;
+            proposal.refreshReferenceObject("institutionalProposalUnrecoveredFandAs");
             List<InstitutionalProposalUnrecoveredFandA> fAndAs = proposal.getInstitutionalProposalUnrecoveredFandAs();
-            if (ObjectUtils.isNull(fAndAs) || fAndAs.isEmpty()) {
-                fAndAs = findUnrecoveredFandAs();
-            }
             for (InstitutionalProposalUnrecoveredFandA ipUnrecoveredFandA : fAndAs) {
                 award.add(copyFandA(ipUnrecoveredFandA));
                 copyCount++;
@@ -137,15 +135,6 @@ class FandARatesDataFeedCommand extends ProposalDataFeedCommandBase {
     
     private String readFiscalYearStartDate() {
         return this.getParameterService().getParameterValue(BudgetDocument.class, Constants.BUDGET_CURRENT_FISCAL_YEAR);
-    }
-    
-    // TODO This shouldn't be necessary, but for some reason OJB isn't retrieving this reference properly.
-    @SuppressWarnings("unchecked")
-    private List<InstitutionalProposalUnrecoveredFandA> findUnrecoveredFandAs() {
-        Map<String, Object> identifiers = new HashMap<String, Object>();
-        identifiers.put("proposalId", proposal.getProposalId());
-        return (List<InstitutionalProposalUnrecoveredFandA>) getBusinessObjectService().findMatching(
-                InstitutionalProposalUnrecoveredFandA.class, identifiers);
     }
     
     /**

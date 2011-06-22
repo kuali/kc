@@ -47,10 +47,8 @@ class CostSharingDataFeedCommand extends ProposalDataFeedCommandBase {
     void performDataFeed() {
         if (mergeType != FundingProposalMergeType.NOCHANGE) {
             int copyCount = 0;
+            proposal.refreshReferenceObject("institutionalProposalCostShares");
             List<InstitutionalProposalCostShare> costShares = proposal.getInstitutionalProposalCostShares();
-            if (ObjectUtils.isNull(costShares) || costShares.isEmpty()) {
-                costShares = findCostShares();
-            }
             for (InstitutionalProposalCostShare ipCostShare : costShares) {
                 award.add(copyCostShare(ipCostShare));
                 copyCount++;
@@ -82,15 +80,6 @@ class CostSharingDataFeedCommand extends ProposalDataFeedCommandBase {
         awardCostShare.setProjectPeriod(ipCostShare.getProjectPeriod());
         
         return awardCostShare;
-    }
-    
-    // TODO This shouldn't be necessary, but for some reason OJB isn't retrieving this reference properly.
-    @SuppressWarnings("unchecked")
-    private List<InstitutionalProposalCostShare> findCostShares() {
-        Map<String, Object> identifiers = new HashMap<String, Object>();
-        identifiers.put("proposalId", proposal.getProposalId());
-        return (List<InstitutionalProposalCostShare>) getBusinessObjectService().findMatching(
-                InstitutionalProposalCostShare.class, identifiers);
     }
     
     /**
