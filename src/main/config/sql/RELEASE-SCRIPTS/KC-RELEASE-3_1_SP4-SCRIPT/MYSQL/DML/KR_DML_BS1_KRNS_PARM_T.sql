@@ -60,3 +60,5 @@ INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, VER_
   VALUES ('KC', 'KC-GEN', 'All', 'SPONSOR_HIERARCHY_FOR_PRINTING', 1, 'CONFG', 'Printing', 'The name of the Sponsor Hierarchy used for Sponsor Form selection.', 'A', UUID());
 
 insert into KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC','KC-GEN','A','POST_DOCTORAL_COSTELEMENT','CONFG','400390','PostDoctoral CostElement', 'A',uuid());
+
+update KRNS_PARM_T set TXT = '1' where parm_nm = 'scope.sync.PAYMENTS_AND_INVOICES_TAB.AwardComment.commentTypeCode' and nmspc_cd = 'KC-AWARD' and parm_dtl_typ_cd = 'Document';
