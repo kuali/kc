@@ -16,7 +16,6 @@
 package org.kuali.kra.budget.distributionincome;
 
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.RateDecimal;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
 
 public class BudgetUnrecoveredFandA extends BudgetDistributionAndIncomeComponent implements HierarchyMaintainable {
@@ -25,7 +24,7 @@ public class BudgetUnrecoveredFandA extends BudgetDistributionAndIncomeComponent
     public static final String DOCUMENT_COMPONENT_ID_KEY = "BUDGET_UNRECOVERED_F_AND_A_KEY";
     
     private BudgetDecimal amount;
-    private RateDecimal applicableRate;
+    private BudgetDecimal applicableRate;
     private String onCampusFlag;
     private Integer fiscalYear;
     private String sourceAccount;
@@ -53,7 +52,7 @@ public class BudgetUnrecoveredFandA extends BudgetDistributionAndIncomeComponent
      * @param campus
      * @param sourceAccount
      */
-    public BudgetUnrecoveredFandA(Integer fiscalYear, BudgetDecimal amount, RateDecimal applicableRate, String campus, String sourceAccount) {
+    public BudgetUnrecoveredFandA(Integer fiscalYear, BudgetDecimal amount, BudgetDecimal applicableRate, String campus, String sourceAccount) {
        super();
        this.fiscalYear = fiscalYear;
        this.amount = amount;
@@ -122,7 +121,7 @@ public class BudgetUnrecoveredFandA extends BudgetDistributionAndIncomeComponent
      * This method...
      * @return
      */
-    public RateDecimal getApplicableRate() {
+    public BudgetDecimal getApplicableRate() {
         return applicableRate;
     }
 
@@ -183,7 +182,7 @@ public class BudgetUnrecoveredFandA extends BudgetDistributionAndIncomeComponent
      * This method...
      * @param applicableRate
      */
-    public void setApplicableRate(RateDecimal applicableRate) {
+    public void setApplicableRate(BudgetDecimal applicableRate) {
         this.applicableRate = applicableRate;
     }
 

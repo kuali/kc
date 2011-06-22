@@ -42,4 +42,14 @@ public interface IrbPrintXmlUtilService {
             org.kuali.kra.irb.actions.submit.ProtocolSubmission protocolSubmission, ProtocolSubmission protocolSubmissionType);
     public void setProcotolSubmissionMinutes(CommitteeSchedule committeeSchedule,
             org.kuali.kra.irb.actions.submit.ProtocolSubmission protocolSubmission, Submissions submissionsType);
+    /**
+     * 
+     * This method for setting the review minutes in SMR Letter.
+     * @param committeeSchedule
+     * @param protocolSubmission
+     * @param submissionsType
+     */
+    public void setProcotolReviewMinutes(CommitteeSchedule committeeSchedule,
+            org.kuali.kra.irb.actions.submit.ProtocolSubmission protocolSubmission, Submissions submissionsType);
+    
 }

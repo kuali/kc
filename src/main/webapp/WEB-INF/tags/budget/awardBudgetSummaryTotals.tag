@@ -260,6 +260,10 @@
                   <c:set var="fringeCalcAmountList" value="${KualiForm.document.budget.budgetPeriods[period.budgetPeriod-1].awardBudgetPeriodFringeAmounts}" />
 	              <c:if test="${status.index ge periodStartIndex and status.index le periodEndIndex }" >
 		          	<td class="tab-subhead" >
+		          		<input type="hidden" id="document.budget.budgetPeriods[${period.budgetPeriod-1}].rateOverrideFlag"} name="document.budget.budgetPeriods[${period.budgetPeriod-1}].rateOverrideFlag"}/>
+		          		<%--<html:hidden name="KualiForm" property="document.budget.budgetPeriods[${period.budgetPeriod-1}].rateOverrideFlag"/> 
+		          		<kul:htmlControlAttribute property="document.budget.budgetPeriods[${period.budgetPeriod-1}].rateOverrideFlag" 
+												attributeEntry="${awardBudgetPeriodAttributes.rateOverrideFlag}"/>--%>
 		          	  <div align="right">
 							<kul:htmlControlAttribute property="document.budget.budgetPeriods[${period.budgetPeriod-1}].totalFringeAmount" 
 												attributeEntry="${awardBudgetPeriodAttributes.totalFringeAmount}" 
@@ -712,7 +716,7 @@
   	    			<td class="infoline">
   	    				<div align="right">
   	    					<kul:htmlControlAttribute property="document.budget.budgetPeriods[${period.budgetPeriod-1}].totalIndirectCost" 
-								attributeEntry="${budgetPeriodAttributes.totalIndirectCost}"/>
+								attributeEntry="${budgetPeriodAttributes.totalIndirectCost}" onchange="setRateOverrideFlag();"/>
 						</div>
 					</td>
         	    	<c:set var="calculatedIndirectExpenseVar" value="calculatedIndirectExpense${status.index}" />

@@ -575,27 +575,30 @@ public class S2SBudgetCalculatorServiceImpl implements
 		for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
 			BudgetPeriodInfo bpData = new BudgetPeriodInfo();
 			BudgetDecimal totalCostSharing = BudgetDecimal.ZERO;
-			BudgetDecimal totalCalculatedCostSharing = BudgetDecimal.ZERO;
 			BudgetDecimal totalDirectCostSharing = BudgetDecimal.ZERO;
-
+			BudgetDecimal totalIndirectCostSharing = BudgetDecimal.ZERO;
 			bpData.setLineItemCount(budgetPeriod.getBudgetLineItems().size());
 			for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
 				totalCostSharing = totalCostSharing.add(lineItem
 						.getCostSharingAmount());
-				if (budget.getRateClass().getRateClassType().equals(
-						RATE_CLASS_TYPE_OTHER)) {
-					for (BudgetLineItemCalculatedAmount lineItemCalculatedAmt : lineItem
-							.getBudgetLineItemCalculatedAmounts()) {
-						totalCalculatedCostSharing = totalCalculatedCostSharing
-								.add(lineItemCalculatedAmt
-										.getCalculatedCostSharing());
-					}
+				for (BudgetLineItemCalculatedAmount lineItemCalculatedAmt : lineItem
+				        .getBudgetLineItemCalculatedAmounts()) {
+				    lineItemCalculatedAmt.refreshReferenceObject("rateClass");
+				    if (lineItemCalculatedAmt.getRateClass().getRateClassType()
+				            .equals(RateClassType.OVERHEAD.getRateClassType())) {
+
+				        totalIndirectCostSharing = totalIndirectCostSharing
+				        .add(lineItemCalculatedAmt
+				                .getCalculatedCostSharing());
+				    }else{
+				        totalDirectCostSharing  = totalDirectCostSharing
+                        .add(lineItemCalculatedAmt
+                                .getCalculatedCostSharing());
+				    }
 				}
 			}
 			totalDirectCostSharing = totalDirectCostSharing
 					.add(totalCostSharing);
-			totalDirectCostSharing = totalDirectCostSharing
-					.add(totalCalculatedCostSharing);
 
 			// populate the budgetPeriod data from the BudgetPeriod
 			bpData.setFinalVersionFlag(budget.getFinalVersionFlag().toString());
@@ -612,7 +615,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 			bpData.setTotalIndirectCost(budgetPeriod.getTotalIndirectCost());
 			bpData.setCostSharingAmount(budgetPeriod.getCostSharingAmount());
 			bpData.setTotalDirectCostSharing(totalDirectCostSharing);
-			bpData.setTotalIndirectCostSharing(totalCalculatedCostSharing);
+			bpData.setTotalIndirectCostSharing(totalIndirectCostSharing);
 			bpData.setCognizantFedAgency(s2SUtilService.getCognizantFedAgency(pdDoc.getDevelopmentProposal()));
 
 			bpData.setIndirectCosts(getIndirectCosts(budget, budgetPeriod));

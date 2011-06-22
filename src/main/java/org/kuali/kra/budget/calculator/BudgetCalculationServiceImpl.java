@@ -88,12 +88,12 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         BudgetForm form = getBudgetFormFromGlobalVariables();
 
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
-            if(isCalculationRequired(budget.isBudgetLineItemDeleted(),budgetPeriod)){
+            if(isCalculationRequired(budget,budgetPeriod)){
                 String workOhCode = null;
                 if(budget.getOhRateClassCode()!=null && form!=null && budget.getBudgetPeriods().size() > budgetPeriod.getBudgetPeriod()){
                     workOhCode = form.getOhRateClassCodePrevValue();
                 }
-                calculateBudgetPeriod(budget, budgetPeriod,false);
+                calculateBudgetPeriod(budget, budgetPeriod);
                 if(budget.getOhRateClassCode()!=null && form!=null && budget.getBudgetPeriods().size() > budgetPeriod.getBudgetPeriod()){
                         // this should be set at the last period, otherwise, only the first period will be updated properly because lots of places check prevohrateclass
                     ohRateClassCodePrevValue = form.getOhRateClassCodePrevValue();
@@ -118,9 +118,12 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
      * 
      * @return true if calculation is required false if not
      */
-    protected boolean isCalculationRequired(final boolean budgetLineItemDeleted, final BudgetPeriod budgetPeriod){
+    protected boolean isCalculationRequired(Budget budget, final BudgetPeriod budgetPeriod){
         assert budgetPeriod != null : "The budget period is null";
- 
+        boolean budgetLineItemDeleted = budget.isBudgetLineItemDeleted();
+        if(getBudgetCommonService(budget).isRateOverridden(budget)){
+            return false;
+        }
         if (StringUtils.equals(budgetPeriod.getBudget().getBudgetParent().getHierarchyStatus(), 
                 HierarchyStatusConstants.Parent.code())) {
             return true;
@@ -310,13 +313,10 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     }
 
     public void calculateBudgetPeriod(Budget budget, BudgetPeriod budgetPeriod){
-        calculateBudgetPeriod(budget, budgetPeriod,true);
-    }
-    public void calculateBudgetPeriod(Budget budget, BudgetPeriod budgetPeriod,boolean deleteSummaryCalcAmtsFlag){
-        if (isCalculationRequired(budget.isBudgetLineItemDeleted(), budgetPeriod)){
-            if(deleteSummaryCalcAmtsFlag){
-                getBudgetCommonService(budget).removeBudgetSummaryPeriodCalcAmounts(budgetPeriod);
-            }
+        if (isCalculationRequired(budget, budgetPeriod)){
+//            if(deleteSummaryCalcAmtsFlag){
+//                getBudgetCommonService(budget).removeBudgetSummaryPeriodCalcAmounts(budgetPeriod);
+//            }
             new BudgetPeriodCalculator().calculate(budget, budgetPeriod);
         }
     }
@@ -392,11 +392,11 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
      * @param budgetLineItemDeleted whether or not a budget line item has been deleted
      * @param currentPeriod the current period.
      */
-    protected void ensureBudgetPeriodHasSyncedCosts(final Budget document) {
-        assert document != null : "the document was null";
+    protected void ensureBudgetPeriodHasSyncedCosts(final Budget budget) {
+        assert budget != null : "the document was null";
         
-        for (final BudgetPeriod budgetPeriod : document.getBudgetPeriods()) {
-            if (this.isCalculationRequired(document.isBudgetLineItemDeleted(), budgetPeriod)) {
+        for (final BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
+            if (this.isCalculationRequired(budget, budgetPeriod)) {
                 this.setBudgetPeriodCostsFromLineItems(budgetPeriod);
             }
         }
@@ -671,14 +671,14 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     protected BudgetCommonService<BudgetParent> getBudgetCommonService(Budget budget) {
         return BudgetCommonServiceFactory.createInstance(budget.getBudgetDocument().getParentDocument());
     }
-    private boolean isSummaryCalcAmountChanged(Budget budget,BudgetPeriod budgetPeriod){
+    private boolean isRateOveridden(Budget budget,BudgetPeriod budgetPeriod){
         BudgetCommonService<BudgetParent> budgetService = getBudgetCommonService(budget);
-        return budgetService.isBudgetSummaryPeriodCalcAmountChanged(budgetPeriod);
+        return budgetService.isRateOverridden(budgetPeriod);
     }
     private void populateBudgetPeriodSummaryCalcAmounts(Budget budget) {
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
-            if(!isSummaryCalcAmountChanged(budget,budgetPeriod)){
+            if(!isRateOveridden(budget,budgetPeriod)){
                 getBudgetCommonService(budget).populateSummaryCalcAmounts(budget,budgetPeriod);
             }
         }

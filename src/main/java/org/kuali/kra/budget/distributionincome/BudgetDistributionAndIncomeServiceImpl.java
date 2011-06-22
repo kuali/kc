@@ -16,7 +16,6 @@
 package org.kuali.kra.budget.distributionincome;
 
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.RateDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.Budget.FiscalYearSummary;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -92,10 +91,10 @@ public class BudgetDistributionAndIncomeServiceImpl implements BudgetDistributio
        }
     }
     
-    protected RateDecimal findApplicableRatesForFiscalYearUFAndA(Budget budget, FiscalYearSummary fiscalYearSummary, boolean onCampus) {
+    protected BudgetDecimal findApplicableRatesForFiscalYearUFAndA(Budget budget, FiscalYearSummary fiscalYearSummary, boolean onCampus) {
         String unrecoveredFandARateClassCode = budget.getUrRateClassCode();
         if(unrecoveredFandARateClassCode == null || unrecoveredFandARateClassCode.trim().length() == 0) {
-            return RateDecimal.ZERO_RATE;
+            return BudgetDecimal.ZERO;
         } else {
             return findApplicableRateForRateClassCodeUFAndA(budget, fiscalYearSummary.getFiscalYear(), unrecoveredFandARateClassCode, onCampus);
         }
@@ -106,9 +105,9 @@ public class BudgetDistributionAndIncomeServiceImpl implements BudgetDistributio
      * Not sure to change it in 'Budget' because there are so many things unknow.
      * so create here just for UFAnd A
      */
-    protected RateDecimal findApplicableRateForRateClassCodeUFAndA(Budget budget, Integer fiscalYear,
+    protected BudgetDecimal findApplicableRateForRateClassCodeUFAndA(Budget budget, Integer fiscalYear,
             String unrecoveredFandARateClassCode, boolean findOnCampusRate) {
-        RateDecimal applicableRate = RateDecimal.ZERO_RATE;
+        BudgetDecimal applicableRate = BudgetDecimal.ZERO;
         BudgetRate appliedRate = null;
         for (BudgetRate budgetRate : budget.getBudgetRates()) {
             if (budgetRate.getRateClassCode().equalsIgnoreCase(unrecoveredFandARateClassCode)
@@ -124,7 +123,7 @@ public class BudgetDistributionAndIncomeServiceImpl implements BudgetDistributio
             }
         }
         if (appliedRate != null) {
-            applicableRate = new RateDecimal(appliedRate.getApplicableRate().bigDecimalValue());
+            applicableRate = new BudgetDecimal(appliedRate.getApplicableRate().bigDecimalValue());
         }
         return applicableRate;
     }
@@ -149,7 +148,7 @@ public class BudgetDistributionAndIncomeServiceImpl implements BudgetDistributio
      * @param onCampusFlag The on-Campus flag
      * @return
      */
-    protected BudgetUnrecoveredFandA createBudgetUnrecoveredFandA(FiscalYearSummary fiscalYearSummary, RateDecimal applicableRate, String onCampusFlag) {
+    protected BudgetUnrecoveredFandA createBudgetUnrecoveredFandA(FiscalYearSummary fiscalYearSummary, BudgetDecimal applicableRate, String onCampusFlag) {
         return new BudgetUnrecoveredFandA(fiscalYearSummary.getFiscalYear(), BudgetDecimal.ZERO, applicableRate, onCampusFlag, null);
     }
 }

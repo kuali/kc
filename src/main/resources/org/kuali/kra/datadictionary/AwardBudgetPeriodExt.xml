@@ -27,6 +27,7 @@
         <ref bean="AwardBudgetPeriodExt-totalCostLimit" />
         <ref bean="AwardBudgetPeriodExt-obligatedAmount" />
         <ref bean="AwardBudgetPeriodExt-totalFringeAmount" />
+        <ref bean="AwardBudgetPeriodExt-rateOverrideFlag" />
       </list>
     </property>
   </bean>
@@ -59,6 +60,19 @@
     <property name="shortLabel" value="Budget Amount" />
     <property name="summary" value="Budget Amount" />
     <property name="description" value="Budget Amount" />
+  </bean>
+  <bean id="AwardBudgetPeriodExt-rateOverrideFlag" parent="AwardBudgetPeriodExt-rateOverrideFlag-parentBean" />
+
+  <bean id="AwardBudgetPeriodExt-rateOverrideFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="rateOverrideFlag" />
+        <property name="label" value="Rate Override Flag" />
+        <property name="shortLabel" value="Rate Override Flag" />
+        <property name="summary" value="Rate Override Flag" />
+        <property name="description" value="Rate Override Flag" />
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
