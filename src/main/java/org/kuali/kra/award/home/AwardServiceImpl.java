@@ -100,7 +100,14 @@ public class AwardServiceImpl implements AwardService {
         newVersion.getSyncChanges().clear();
         newVersion.getSyncStatuses().clear();
         newVersion.setSyncChild(false);
+        newVersion.setAwardAmountInfos(minimizeAwardAmountInfoCollection(newVersion.getAwardAmountInfos()));
         return newAwardDocument;
+    }
+    
+    protected List<AwardAmountInfo> minimizeAwardAmountInfoCollection(List<AwardAmountInfo> awardAmountInfos) {
+        List<AwardAmountInfo> returnList = new ArrayList<AwardAmountInfo>();
+        returnList.add(awardAmountInfos.get(awardAmountInfos.size() - 1));
+        return returnList;
     }
 
     protected VersioningService getVersioningService() {
