@@ -146,6 +146,7 @@ public class AwardAction extends BudgetParentActionBase {
     
     private static final AwardTemplateSyncScope[] DEFAULT_AWARD_TEMPLATE_SYNC_SCOPES = new AwardTemplateSyncScope[] { 
         AwardTemplateSyncScope.AWARD_PAGE,
+        AwardTemplateSyncScope.COST_SHARE,
         AwardTemplateSyncScope.PAYMENTS_AND_INVOICES_TAB,
         AwardTemplateSyncScope.SPONSOR_CONTACTS_TAB,
         AwardTemplateSyncScope.TERMS_TAB,
