@@ -52,12 +52,12 @@ public class AwardSeleniumHelper extends KcSeleniumHelper {
     private static final String PRIME_SPONSOR_CODE_ID = LIST_PREFIX + "primeSponsorCode";
     private static final String SPONSOR_AWARD_NUMBER_ID = LIST_PREFIX + "sponsorAwardNumber";
     private static final String MODIFICATION_NUMBER_ID = LIST_PREFIX + "modificationNumber";
-    public static final String EFFECTIVE_DATE_ID = LIST_PREFIX + "awardEffectiveDate";
-    public static final String CURRENT_FUND_EFFECTIVE_DATE_ID = LIST_PREFIX + "awardAmountInfos[0].currentFundEffectiveDate";
-    public static final String FINAL_EXPIRATION_DATE_ID = LIST_PREFIX + "awardAmountInfos[0].finalExpirationDate";
-    public static final String OBLIGATION_EXPIRATION_DATE_ID = LIST_PREFIX + "awardAmountInfos[0].obligationExpirationDate";
-    public static final String ANTICIPATED_AMOUNT_ID = LIST_PREFIX + "awardAmountInfos[0].anticipatedTotalAmount";
-    public static final String OBLIGATED_AMOUNT_ID = LIST_PREFIX + "awardAmountInfos[0].amountObligatedToDate";
+    private static final String EFFECTIVE_DATE_ID = LIST_PREFIX + "awardEffectiveDate";
+    private static final String CURRENT_FUND_EFFECTIVE_DATE_ID = LIST_PREFIX + "awardAmountInfos[0].currentFundEffectiveDate";
+    private static final String FINAL_EXPIRATION_DATE_ID = LIST_PREFIX + "awardAmountInfos[0].finalExpirationDate";
+    private static final String OBLIGATION_EXPIRATION_DATE_ID = LIST_PREFIX + "awardAmountInfos[0].obligationExpirationDate";
+    private static final String ANTICIPATED_AMOUNT_ID = LIST_PREFIX + "awardAmountInfos[0].anticipatedTotalAmount";
+    private static final String OBLIGATED_AMOUNT_ID = LIST_PREFIX + "awardAmountInfos[0].amountObligatedToDate";
     private static final String TEMPLATE_CODE_TAG = "document.award.templateCode";
     private static final String PERSON_ID_TAG = "projectPersonnelBean.personId";
     private static final String TEMPLATE_CODE_ID = "templateCode";
@@ -67,10 +67,9 @@ public class AwardSeleniumHelper extends KcSeleniumHelper {
     private static final String UNIT_CREDIT_SPLITS_ID = "document.awardList[0].projectPersons[0].units[0].creditSplits[%d].credit";
     private static final String GRADUATE_STUDENT_COUNT_ID = "customDataHelper.customDataValues[3].value";
     private static final String BILLING_ELEMENT_ID = "customDataHelper.customDataValues[0].value";
-    
-    public static final String BUDGET_NAME_ID = "newBudgetVersionName";
-    public static final String ADD_BUDGET_NAME = "addBudgetVersion";
-    public static final String OPEN_BUDGET_NAME = "openBudgetVersion.line";
+    private static final String NEW_BUDGET_VERSION_NAME_ID = "newBudgetVersionName";
+    private static final String FINAL_VERSION_FLAG_ID = "document.budgetDocumentVersion[%d].budgetVersionOverview.finalVersionFlag";
+    private static final String BUDGET_VERSION_ID = "document.budgetDocumentVersion[%d].budgetVersionOverview.budgetStatus";
     
     private static final String DEFAULT_DOCUMENT_DESCRIPTION = "Award Development Web Test";
     private static final String DEFAULT_TRANSACTION_TYPE = "New";
@@ -84,13 +83,17 @@ public class AwardSeleniumHelper extends KcSeleniumHelper {
     private static final String DEFAULT_BEGIN_DATE = "03/01/2009";
     private static final String DEFAULT_MIDDLE_DATE = "04/01/2009";
     private static final String DEFAULT_END_DATE = "09/01/2010";
+    private static final String DEFAULT_AMOUNT = "10000.00";
     private static final String DEFAULT_SPONSOR_TEMPLATE_CODE = "1";
     private static final String DEFAULT_PI_PERSON_ID = "10000000004";
     private static final String DEFAULT_PI_CONTACT_ROLE = "Principal Investigator";
     private static final String DEFAULT_TOTAL_CREDIT_SPLIT = "100";
+    private static final String DEFAULT_BUDGET_VERSION_NAME = "Ver1";
+    private static final String DEFAULT_BUDGET_STATUS = "Complete";
     
-    private static final String YES_BUTTON = "methodToCall.processAnswer.button0";
     private static final String ADD_PERSON_BUTTON = "methodToCall.addProjectPerson";
+    private static final String ADD_NEW_BUDGET_BUTTON = "methodToCall.addBudgetVersion";
+    private static final String OPEN_BUDGET_BUTTON = "methodToCall.openBudgetVersion.line";
 
     private static AwardSeleniumHelper helper;
     
@@ -216,6 +219,8 @@ public class AwardSeleniumHelper extends KcSeleniumHelper {
         set(CURRENT_FUND_EFFECTIVE_DATE_ID, DEFAULT_BEGIN_DATE);
         set(FINAL_EXPIRATION_DATE_ID, DEFAULT_END_DATE);
         set(OBLIGATION_EXPIRATION_DATE_ID, DEFAULT_MIDDLE_DATE);
+        set(ANTICIPATED_AMOUNT_ID, DEFAULT_AMOUNT);
+        set(OBLIGATED_AMOUNT_ID, DEFAULT_AMOUNT);
     }
     
     /**
@@ -226,8 +231,8 @@ public class AwardSeleniumHelper extends KcSeleniumHelper {
         
         openTab("Sponsor Template");
         lookup(TEMPLATE_CODE_TAG, TEMPLATE_CODE_ID, DEFAULT_SPONSOR_TEMPLATE_CODE);
-        click(YES_BUTTON);
-        click(YES_BUTTON);
+        clickYesAnswer();
+        clickYesAnswer();
     }
     
     /**
@@ -258,6 +263,40 @@ public class AwardSeleniumHelper extends KcSeleniumHelper {
         
         openTab("asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf");
         set(BILLING_ELEMENT_ID, TestUtilities.BILLING_ELEMENT_VALUE);
+    }
+    
+    /**
+     * Adds a default Budget.
+     */
+    public void addBudget() {
+        clickAwardBudgetVersionsPage();
+        
+        set(NEW_BUDGET_VERSION_NAME_ID, DEFAULT_BUDGET_VERSION_NAME);
+        click(ADD_NEW_BUDGET_BUTTON);
+        assertSelectorContains(".budgetline td", DEFAULT_BUDGET_VERSION_NAME);
+    }
+    
+    /**
+     * Opens the Budget with the corresponding {@code budgetNumber}.
+     * 
+     * @param budgetNumber the index of the Budget to open
+     */
+    public void openBudget(int budgetNumber) {
+        clickAwardBudgetVersionsPage();
+        
+        click(OPEN_BUDGET_BUTTON + String.valueOf(budgetNumber));
+    }
+    
+    /**
+     * Finalizes the Budget with the corresponding {@code budgetNumber}.
+     * 
+     * @param budgetNumber the index of the Budget to finalize
+     */
+    public void finalizeBudget(int budgetNumber) {
+        clickAwardBudgetVersionsPage();
+        
+        click(String.format(FINAL_VERSION_FLAG_ID, budgetNumber));
+        set(String.format(BUDGET_VERSION_ID, budgetNumber), DEFAULT_BUDGET_STATUS);
     }
     
     /**

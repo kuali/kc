@@ -23,20 +23,20 @@ import org.kuali.kra.test.infrastructure.KcSeleniumTestBase;
 
 public class ProposalDevelopmentCompleteSeleniumTest extends KcSeleniumTestBase {
     
-    private ProposalDevelopmentSeleniumHelper proposalDevelopmentHelper;
+    private ProposalDevelopmentSeleniumHelper helper;
     private BudgetSeleniumHelper budgetHelper;
     
     @Before
     public void setUp() throws Exception {
         super.setUp();
         
-        proposalDevelopmentHelper = ProposalDevelopmentSeleniumHelper.instance(driver);
+        helper = ProposalDevelopmentSeleniumHelper.instance(driver);
         budgetHelper = BudgetSeleniumHelper.instance(driver);
     }
     
     @After
     public void tearDown() throws Exception {
-        proposalDevelopmentHelper = null;
+        helper = null;
         budgetHelper = null;
         
         super.tearDown();
@@ -44,24 +44,24 @@ public class ProposalDevelopmentCompleteSeleniumTest extends KcSeleniumTestBase 
 
     @Test
     public void testProposalDevelopmentComplete() throws Exception {
-        proposalDevelopmentHelper.createProposalDevelopment();
+        helper.createProposalDevelopment();
         
-        proposalDevelopmentHelper.addKeyPersonnel();
+        helper.addKeyPersonnel();
         
-        proposalDevelopmentHelper.addCustomData();
+        helper.addCustomData();
         
-        proposalDevelopmentHelper.addQuestions();
+        helper.addQuestions();
         
-        proposalDevelopmentHelper.addBudget();
-        proposalDevelopmentHelper.openBudget(0);
+        helper.addBudget();
+        helper.openBudget(0);
         budgetHelper.addPersonnel();
         budgetHelper.addNonPersonnel();
         budgetHelper.returnToProposal();
-        proposalDevelopmentHelper.finalizeBudget(0);
+        helper.finalizeBudget(0);
         
-        proposalDevelopmentHelper.addPermissions();
+        helper.addPermissions();
 
-        proposalDevelopmentHelper.submit();
+        helper.submit();
     }
 
 }

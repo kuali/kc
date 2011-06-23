@@ -87,7 +87,6 @@ public class ProposalDevelopmentSeleniumHelper extends KcSeleniumHelper {
     private static final String ADD_PROPOSAL_USER_BUTTON = "methodToCall.addProposalUser";
     private static final String ADD_NEW_BUDGET_BUTTON = "methodToCall.addBudgetVersion";
     private static final String OPEN_BUDGET_BUTTON = "methodToCall.openBudgetVersion.line";
-    private static final String YES_BUTTON = "methodToCall.processAnswer.button0";
     private static final String SUBMIT_TO_SPONSOR_BUTTON = "methodToCall.submitToSponsor";
     
     private static ProposalDevelopmentSeleniumHelper helper;
@@ -343,14 +342,14 @@ public class ProposalDevelopmentSeleniumHelper extends KcSeleniumHelper {
         clickProposalDevelopmentActionsPage();
 
         routeDocument();
-        click(YES_BUTTON);
+        clickYesAnswer();
         assertRoute();
         
         blanketApproveDocument();
         assertApprove();
         
         submitToSponsor();
-        click(YES_BUTTON);
+        clickYesAnswer();
     }
 
 }

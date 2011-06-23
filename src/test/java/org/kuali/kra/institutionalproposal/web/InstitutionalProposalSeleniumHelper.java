@@ -54,6 +54,8 @@ public class InstitutionalProposalSeleniumHelper extends KcSeleniumHelper {
     private static final String IP_PROPOSAL_TYPE_CODE_ID = IP_LIST_PREFIX + "proposalTypeCode";
     private static final String IP_TITLE_ID = IP_LIST_PREFIX + "title";
     private static final String IP_SPONSOR_CODE_ID = IP_LIST_PREFIX + "sponsorCode";
+    private static final String IP_CREDIT_SPLITS_ID = IP_LIST_PREFIX + "projectPersons[0].creditSplit[%d].credit";
+    private static final String IP_UNIT_CREDIT_SPLITS_ID = IP_LIST_PREFIX + "projectPersons[0].unit[0].creditSplit[%d].credit";
     private static final String IP_GRADUATE_STUDENT_COUNT_ID = "institutionalProposalCustomDataFormHelper.customDataValues[3].value";
     private static final String IP_BILLING_ELEMENT_ID = "institutionalProposalCustomDataFormHelper.customDataValues[0].value";
     
@@ -68,6 +70,7 @@ public class InstitutionalProposalSeleniumHelper extends KcSeleniumHelper {
     private static final String IP_DEFAULT_ACTIVITY_TYPE = "Instruction";
     private static final String IP_DEFAULT_PROJECT_TITLE = "Test Project";
     private static final String IP_DEFAULT_SPONSOR_CODE = "005891";
+    private static final String IP_DEFAULT_TOTAL_CREDIT_SPLIT = "100.00";
     
     private static InstitutionalProposalSeleniumHelper helper;
     
@@ -194,6 +197,20 @@ public class InstitutionalProposalSeleniumHelper extends KcSeleniumHelper {
         
         openTab("Sponsor Program Information");
         set(IP_SPONSOR_CODE_ID, IP_DEFAULT_SPONSOR_CODE);
+    }
+    
+    /**
+     * Modifies default Contact to have 100% total credit split.
+     */
+    public void addContacts() {
+        clickInstitutionalProposalContactsPage();
+        
+        openTab(0);
+        
+        for (int i = 0; i < 4; i++) {
+            set(String.format(IP_CREDIT_SPLITS_ID, i), IP_DEFAULT_TOTAL_CREDIT_SPLIT);
+            set(String.format(IP_UNIT_CREDIT_SPLITS_ID, i), IP_DEFAULT_TOTAL_CREDIT_SPLIT);
+        }
     }
     
     /**
