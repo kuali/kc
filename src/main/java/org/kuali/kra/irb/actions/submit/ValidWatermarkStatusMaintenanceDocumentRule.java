@@ -45,7 +45,22 @@ public class ValidWatermarkStatusMaintenanceDocumentRule extends KraMaintenanceD
     }
 
 
+    /**
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
+     */
+    @Override
+    public boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
+        return isDocumentValidForSave(document);
+    }
 
+    /**
+     * 
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
+     */
+    @Override
+    public boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
+        return isDocumentValidForSave(document);
+    }
 
     /**
      * 
@@ -54,31 +69,22 @@ public class ValidWatermarkStatusMaintenanceDocumentRule extends KraMaintenanceD
     public boolean isDocumentValidForSave(MaintenanceDocument document) {
         boolean result = super.isDocumentValidForSave(document);
         final Watermark watermark = (Watermark) document.getNewMaintainableObject().getBusinessObject();
-        if (!document.getNewMaintainableObject().getMaintenanceAction().equals(KNSConstants.MAINTENANCE_DELETE_ACTION) && !document.getNewMaintainableObject().getMaintenanceAction().equals(KNSConstants.MAINTENANCE_EDIT_ACTION)) {
-            result &= validateWatermarkStatusCode(watermark.getStatusCode());
+        if (!document.getNewMaintainableObject().getMaintenanceAction().equals(KNSConstants.MAINTENANCE_DELETE_ACTION)) {
+            if(document.getNewMaintainableObject().getMaintenanceAction().equals(KNSConstants.MAINTENANCE_EDIT_ACTION)) {
+                final Watermark oldWatermarkDocument = (Watermark) document.getOldMaintainableObject().getBusinessObject();
+                if(!oldWatermarkDocument.getStatusCode().equals(watermark.getStatusCode())){
+                    result &= validateWatermarkStatusCode(watermark.getStatusCode());
+                }
+            }else{
+                result &= validateWatermarkStatusCode(watermark.getStatusCode());
+            }
+           
         }
         else {
             result = true;
         }
 
         return result;
-    }
-    
-    
-    
-    /**
-     * 
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
-     */
-   
-    protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
-        final Watermark watermark = (Watermark) document.getNewMaintainableObject().getBusinessObject();
-        if (!document.getNewMaintainableObject().getMaintenanceAction().equals(KNSConstants.MAINTENANCE_DELETE_ACTION)) {
-            return validateWatermarkStatusCode(watermark.getStatusCode());
-        }else {
-            return true;
-        }
-
     }
 
 
