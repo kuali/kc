@@ -121,7 +121,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     protected boolean isCalculationRequired(Budget budget, final BudgetPeriod budgetPeriod){
         assert budgetPeriod != null : "The budget period is null";
         boolean budgetLineItemDeleted = budget.isBudgetLineItemDeleted();
-        if(getBudgetCommonService(budget).isRateOverridden(budget)){
+        if(getBudgetCommonService(budget).isRateOverridden(budgetPeriod)){
             return false;
         }
         if (StringUtils.equals(budgetPeriod.getBudget().getBudgetParent().getHierarchyStatus(), 
