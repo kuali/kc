@@ -127,7 +127,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
 
-        if ("TRUE".equals(pdForm.getEditingMode().get("modifyProposalBudget"))) {
+        if (StringUtils.equalsIgnoreCase("TRUE", (String) pdForm.getEditingMode().get("modifyProposalBudget"))) {
             save(mapping, form, request, response);
         }
         

@@ -179,5 +179,13 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
         // TODO Auto-generated method stub
         
     }
+    
+    /**
+     * 
+     * @see org.kuali.kra.budget.core.BudgetCommonService#validateAddingNewBudget(org.kuali.kra.budget.document.BudgetParentDocument)
+     */
+    public boolean validateAddingNewBudget(BudgetParentDocument<DevelopmentProposal> parentDocument) {
+        return true;
+    }
 
 }
