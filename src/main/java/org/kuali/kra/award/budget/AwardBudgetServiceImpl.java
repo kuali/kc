@@ -571,9 +571,6 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
 
     public BudgetDocument<Award> copyBudgetVersion(BudgetDocument<Award> budgetDocument) throws WorkflowException {
         
-        if (checkForOutstandingBudgets(budgetDocument.getParentDocument())) {
-            return null;
-        }
         //clear awardbudgetlimits before copy as they should always be copied from
         //award document
         ((AwardBudgetExt) budgetDocument.getBudget()).getAwardBudgetLimits().clear();
@@ -684,14 +681,8 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         return budgetPeriods;
     }
     
-    /**
-     * Checks for budgets that have not been posted, cancelled or rejected.
-     * @param event
-     * @param award
-     * @return true if any unfinalized budgets are found
-     * @throws WorkflowException
-     */
-    protected boolean checkForOutstandingBudgets(BudgetParentDocument parentDoc) throws WorkflowException {
+
+    public boolean checkForOutstandingBudgets(BudgetParentDocument parentDoc) {
         boolean result = false;
         
         for (BudgetDocumentVersion budgetVersion : parentDoc.getBudgetDocumentVersions()) {
@@ -1003,5 +994,13 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         awardBudgetPeriod.setRateOverrideFlag(false);
         
 
+    }
+
+    /**
+     * 
+     * @see org.kuali.kra.budget.core.BudgetCommonService#validateAddingNewBudget(org.kuali.kra.budget.document.BudgetParentDocument)
+     */
+    public boolean validateAddingNewBudget(BudgetParentDocument<Award> parentDocument) {
+        return !checkForOutstandingBudgets(parentDocument);
     }
 }

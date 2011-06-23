@@ -78,5 +78,14 @@ public interface BudgetCommonService<T extends BudgetParent> {
     public void removeBudgetSummaryPeriodCalcAmounts(BudgetPeriod budgetPeriod);
     
     public void populateSummaryCalcAmounts(Budget budget,BudgetPeriod budgetPeriod);
+    
+    /**
+     * Make sure its ok to add a new budget version. This is primarily used for the award budgets
+     * as the other budgets status affects whether a new budget may be created. This method
+     * should add error messages as to why the budget may not be created.
+     * @param parentDocument
+     * @return true if ok to add new budget, false otherwise
+     */
+    boolean validateAddingNewBudget(BudgetParentDocument<T> parentDocument);
 
 }

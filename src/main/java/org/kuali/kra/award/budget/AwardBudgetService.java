@@ -119,4 +119,14 @@ public interface AwardBudgetService extends BudgetCommonService<Award> {
     Award getActiveOrNewestAward(String awardNumber);
 
 //    public boolean isSummaryPeriodCalcAmountChanged(BudgetPeriod budgetPeriod);
+    /**
+     * Checks for budgets that have not been posted, cancelled or rejected.
+     * @param event
+     * @param award
+     * @return true if any unfinalized budgets are found
+     * @throws WorkflowException
+     */
+    boolean checkForOutstandingBudgets(BudgetParentDocument parentDoc);
+    
+    
 }
