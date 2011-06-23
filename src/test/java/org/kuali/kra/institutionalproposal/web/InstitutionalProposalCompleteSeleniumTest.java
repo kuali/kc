@@ -42,6 +42,8 @@ public class InstitutionalProposalCompleteSeleniumTest extends KcSeleniumTestBas
     public void testInstitutionalProposalComplete() {
         helper.createInstitutionalProposal();
         
+        helper.addContacts();
+        
         helper.addCustomData();
         
         helper.submit();

@@ -26,8 +26,6 @@ public class AwardBudgetBasicSeleniumTest extends KcSeleniumTestBase {
     private AwardSeleniumHelper helper;
     private BudgetSeleniumHelper budgetHelper;
     
-    public static final String AMOUNT = "10000.00";
-    
     private static final String DEFAULT_LINE_ITEM_DESC1 = "Equipment - Not MTDC";
     private static final String DEFAULT_LINE_ITEM_QUANTITY1 = "1";
     private static final String DEFAULT_LINE_ITEM_DESC2 = "Travel";
@@ -61,15 +59,11 @@ public class AwardBudgetBasicSeleniumTest extends KcSeleniumTestBase {
         helper.addCustomData();
         
         helper.clickAwardHomePage();
-        helper.set(AwardSeleniumHelper.ANTICIPATED_AMOUNT_ID, AMOUNT);
-        helper.set(AwardSeleniumHelper.OBLIGATED_AMOUNT_ID, AMOUNT);
         
         helper.submit();
 
-        helper.clickAwardBudgetVersionsPage();
-        helper.set(AwardSeleniumHelper.BUDGET_NAME_ID, "Ver1");
-        helper.click(AwardSeleniumHelper.ADD_BUDGET_NAME);
-        helper.click(AwardSeleniumHelper.OPEN_BUDGET_NAME + "0");
+        helper.addBudget();
+        helper.openBudget(0);
         
         awardBudgetDocNbr = helper.getDocumentNumber();
         
@@ -86,8 +80,8 @@ public class AwardBudgetBasicSeleniumTest extends KcSeleniumTestBase {
         budgetHelper.addPersonnel();
         budgetHelper.setPersonPercents(0, 0, 0, "35", "35");
         budgetHelper.clickBudgetNonPersonnelTab();
-        budgetHelper.addLineItem(0, DEFAULT_LINE_ITEM_DESC1, "1", "3.51");
-        budgetHelper.addLineItem(1, DEFAULT_LINE_ITEM_DESC2, null, "1,759.60");
+        budgetHelper.addLineItem(0, DEFAULT_LINE_ITEM_DESC1, DEFAULT_LINE_ITEM_QUANTITY1, "3.51");
+        budgetHelper.addLineItem(1, DEFAULT_LINE_ITEM_DESC2, DEFAULT_LINE_ITEM_QUANTITY2, "1,759.60");
         budgetHelper.saveDocument();
     }
     
