@@ -716,7 +716,7 @@
   	    			<td class="infoline">
   	    				<div align="right">
   	    					<kul:htmlControlAttribute property="document.budget.budgetPeriods[${period.budgetPeriod-1}].totalIndirectCost" 
-								attributeEntry="${budgetPeriodAttributes.totalIndirectCost}" onchange="setRateOverrideFlag();"/>
+								attributeEntry="${budgetPeriodAttributes.totalIndirectCost}" onchange="setRateOverrideFlag(${period.budgetPeriod});"/>
 						</div>
 					</td>
         	    	<c:set var="calculatedIndirectExpenseVar" value="calculatedIndirectExpense${status.index}" />
