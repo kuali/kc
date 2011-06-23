@@ -407,7 +407,7 @@
 
 		<field-descriptor name="fiscalYear" column="FISCAL_YEAR" jdbc-type="INTEGER" />
 		<field-descriptor name="amount" column="UNDERRECOVERY_OF_IDC" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="applicableRate" column="APPLICABLE_IDC_RATE" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbRateDecimalFieldConversion"/>
+		<field-descriptor name="applicableRate" column="APPLICABLE_IDC_RATE" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="onCampusFlag" column="ON_CAMPUS_FLAG" jdbc-type="CHAR" />		
 		<field-descriptor name="sourceAccount" column="SOURCE_ACCOUNT" jdbc-type="VARCHAR"/>		
 		
