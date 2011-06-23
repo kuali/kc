@@ -88,12 +88,6 @@ public class CommitteeCompleteSeleniumTest extends KcSeleniumTestBase {
         
         assertMembers();
         assertSchedule();
-        
-        String documentNumber = helper.getDocumentNumber();
-        helper.docSearch(documentNumber);
-        
-        assertMembers();
-        assertSchedule();
     }
 
     private void addMembers() {

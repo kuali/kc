@@ -25,7 +25,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kns.util.NumberUtils;
-import org.kuali.rice.test.web.HtmlUnitUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.RenderedWebElement;
 import org.openqa.selenium.WebDriver;
@@ -41,10 +40,6 @@ public abstract class KcSeleniumHelper {
     
     protected static final String DEFAULT_USER = "quickstart";
     
-    private static final String BROWSER_PROTOCOL = "http";
-    private static final String BROWSER_ADDRESS = "127.0.0.1";
-    private static final String PORTAL_ADDRESS = "kc-dev/portal.jsp";
-    
     private static final String RESEARCHER_TAB_TITLE = "Researcher";
     private static final String UNIT_TAB_TITLE = "Unit";
     private static final String CENTRAL_ADMIN_TAB_TITLE = "Central Admin";
@@ -59,6 +54,8 @@ public abstract class KcSeleniumHelper {
     private static final String SHOW_ALL_TABS_BUTTON = METHOD_TO_CALL_PREFIX + "showAllTabs";
     private static final String HIDE_ALL_TABS_BUTTON = METHOD_TO_CALL_PREFIX + "hideAllTabs";
     private static final String TOGGLE_TAB_BUTTON = METHOD_TO_CALL_PREFIX + "toggleTab";
+    private static final String YES_BUTTON = "methodToCall.processAnswer.button0";
+    private static final String NO_BUTTON = "methodToCall.processAnswer.button1";
     private static final String SAVE_BUTTON = METHOD_TO_CALL_PREFIX + "save";
     private static final String RELOAD_BUTTON = METHOD_TO_CALL_PREFIX + "reload";
     private static final String CLOSE_BUTTON = METHOD_TO_CALL_PREFIX + "close";
@@ -101,8 +98,6 @@ public abstract class KcSeleniumHelper {
      * Clicks the Researcher tab.
      */
     public final void clickResearcherTab() {
-        openPortalPage();
-        
         click(RESEARCHER_TAB_TITLE);
     }
     
@@ -110,8 +105,6 @@ public abstract class KcSeleniumHelper {
      * Clicks the Unit tab.
      */
     public final void clickUnitTab() {
-        openPortalPage();
-        
         click(UNIT_TAB_TITLE);
     }
     
@@ -119,8 +112,6 @@ public abstract class KcSeleniumHelper {
      * Clicks the Central Admin tab.
      */
     public final void clickCentralAdminTab() {
-        openPortalPage();
-        
         click(CENTRAL_ADMIN_TAB_TITLE);
     }
     
@@ -128,8 +119,6 @@ public abstract class KcSeleniumHelper {
      * Clicks the Maintenance tab.
      */
     public final void clickMaintenanceTab() {
-        openPortalPage();
-        
         click(MAINTENANCE_TAB_TITLE);
     }
     
@@ -137,8 +126,6 @@ public abstract class KcSeleniumHelper {
      * Click the System Admin tab.
      */
     public final void clickSystemAdminTab() {
-        openPortalPage();
-        
         click(SYSTEM_ADMIN_TAB_TITLE);
     }
     
@@ -313,6 +300,24 @@ public abstract class KcSeleniumHelper {
     }
     
     /**
+     * Clicks on the Yes answer in the web page, if it exists.
+     */
+    public final void clickYesAnswer() {
+        if (findElement(YES_BUTTON, true)) {
+            click(YES_BUTTON);
+        }
+    }
+    
+    /**
+     * Clicks on the No answer in the web page, if it exists.
+     */
+    public final void clickNoAnswer() {
+        if (findElement(NO_BUTTON, true)) {
+            click(NO_BUTTON);
+        }
+    }
+    
+    /**
      * Opens the tab with id containing {@code tabTitle} on the web page.  The {@code tabTitle} is similar to the display text of the tab but has all non-word
      * characters removed.  It is also used in the id of the element, where it is the text between "tab-" and "-imageToggle".  For formatting purposes, 
      * {@code tabTitle} can be separated with spaces which will be removed on search.
@@ -456,7 +461,6 @@ public abstract class KcSeleniumHelper {
     /**
      * Do a document search looking for the a specific document based upon its document number.  The following occurs on a Document Search:
      * <ol>
-     * <li>The Portal Page is opened</li>
      * <li>The Doc Search button is clicked on</li>
      * <li>In the Doc Search web page, the document number is filled in with the given value</li>
      * <li>The first item in the results is returned</li>
@@ -466,8 +470,6 @@ public abstract class KcSeleniumHelper {
      * @param documentNumber the document number to search for
      */
     public final void docSearch(final String documentNumber) {
-        openPortalPage();
-        
         click("Document Search");
         
         set("routeHeaderId", documentNumber);
@@ -668,9 +670,7 @@ public abstract class KcSeleniumHelper {
         }
         
         click(CLOSE_BUTTON);
-        if (findElement("methodToCall.processAnswer.button1", true)) {
-            click("methodToCall.processAnswer.button1");
-        }
+        clickNoAnswer();
     }
 
     /**
@@ -1084,13 +1084,6 @@ public abstract class KcSeleniumHelper {
         
         List<WebElement> errors = getErrors(panelId);
         assertEquals("Error count of " + errors.size() + " did not match the expected error count of " + expectedErrorCount, expectedErrorCount, errors.size());
-    }
-    
-    /**
-     * Opens the Portal Web Page. The portal page is the starting point for many web tests in order to simulate a user.
-     */
-    private void openPortalPage() {
-        driver.get(BROWSER_PROTOCOL + "://" + BROWSER_ADDRESS + ":" + HtmlUnitUtil.getPort().toString() + "/" + PORTAL_ADDRESS);
     }
     
     /**

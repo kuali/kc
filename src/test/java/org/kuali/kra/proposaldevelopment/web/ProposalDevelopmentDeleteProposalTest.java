@@ -50,7 +50,7 @@ public class ProposalDevelopmentDeleteProposalTest extends KcSeleniumTestBase {
         
         proposalDevelopmentHelper.clickProposalDevelopmentActionsPage();
         proposalDevelopmentHelper.click("deleteProposal");
-        proposalDevelopmentHelper.click("processAnswer.button0");
+        proposalDevelopmentHelper.clickYesAnswer();
         
         proposalDevelopmentHelper.docSearch(proposalDocumentNumber);
         proposalDevelopmentHelper.assertSelectorContains("div.topblurb table td", "The Development Proposal has been deleted.");

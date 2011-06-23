@@ -183,6 +183,7 @@ public class BudgetSeleniumHelper extends KcSeleniumHelper {
      */
     public void addPersonnel() {
         clickBudgetPersonnelTab();
+        clickYesAnswer();
         
         setPersonDetails(0, DEFAULT_JOB_CODE, DEFAULT_SALARY_AMOUNT);
         
