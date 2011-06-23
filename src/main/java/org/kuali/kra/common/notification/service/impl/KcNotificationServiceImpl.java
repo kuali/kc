@@ -25,14 +25,13 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.notification.NotificationContext;
 import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.common.notification.bo.NotificationType;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.exception.UnknownRoleException;
 import org.kuali.kra.common.notification.service.KcNotificationService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.ken.bo.Notification;
 import org.kuali.rice.ken.bo.NotificationChannel;
@@ -42,7 +41,6 @@ import org.kuali.rice.ken.bo.NotificationProducer;
 import org.kuali.rice.ken.bo.NotificationRecipient;
 import org.kuali.rice.ken.service.NotificationService;
 import org.kuali.rice.ken.util.NotificationConstants;
-import org.kuali.rice.kim.bo.role.dto.KimRoleInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kim.util.KimConstants;
@@ -192,14 +190,16 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     
     protected List<NotificationRecipient> resolveRoleRecipients(NotificationTypeRecipient roleRecipient) {
         List<NotificationRecipient> recipients = new ArrayList<NotificationRecipient>();
-        KimRoleInfo role = roleManagementService.getRole(roleRecipient.getRoleId());
+        
+        String roleNamespace = StringUtils.substringBefore(roleRecipient.getRoleName(), Constants.COLON);
+        String roleName = StringUtils.substringAfter(roleRecipient.getRoleName(), Constants.COLON);
         
         AttributeSet qualification = new AttributeSet();
         if (StringUtils.isNotBlank(roleRecipient.getRoleQualifier())) {
             qualification.put(roleRecipient.getRoleQualifier(), roleRecipient.getQualifierValue());
         }
         
-        Collection<String> roleMembers = roleManagementService.getRoleMemberPrincipalIds(role.getNamespaceCode(), role.getRoleName(), qualification);
+        Collection<String> roleMembers = roleManagementService.getRoleMemberPrincipalIds(roleNamespace, roleName, qualification);
         for (String roleMember : roleMembers) {
             NotificationRecipient recipient = new NotificationRecipient();
 //            recipient.setRecipientId(roleMember);
