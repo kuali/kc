@@ -36,7 +36,7 @@
             <list>
                 <ref bean="NotificationTypeRecipient-notificationTypeRecipientId" />
                 <ref bean="NotificationTypeRecipient-notificationTypeId" />
-                <ref bean="NotificationTypeRecipient-roleId" />
+                <ref bean="NotificationTypeRecipient-roleName" />
                 <ref bean="NotificationTypeRecipient-roleQualifier" />
                 <ref bean="NotificationTypeRecipient-toOrCC" />
                 <ref bean="NotificationTypeRecipient-versionNumber" />
@@ -82,25 +82,22 @@
         <property name="description" value="Notification Type Id" />
     </bean>
     
-    <bean id="NotificationTypeRecipient-roleId" parent="NotificationTypeRecipient-roleId-parentBean" />
-    <bean id="NotificationTypeRecipient-roleId-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="roleId" />
+    <bean id="NotificationTypeRecipient-roleName" parent="NotificationTypeRecipient-roleName-parentBean" />
+    <bean id="NotificationTypeRecipient-roleName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="roleName" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Role" />
         <property name="shortLabel" value="Role" />
         <property name="required" value="true" />
-        <property name="maxLength" value="40" />
+        <property name="maxLength" value="125" />
         <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
+            <bean parent="AnyCharacterValidationPattern" 
+                  p:allowWhitespace="true" />
         </property>
         <property name="control" >
             <bean parent="SelectControlDefinition"
-                  p:businessObjectClass="org.kuali.rice.kim.bo.impl.RoleImpl"
-                  p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-                  p:includeKeyInLabel="false"
-                  p:includeBlankRow="false"
-                  p:keyAttribute="roleId"
-                  p:labelAttribute="roleName" />
+                  p:valuesFinderClass="org.kuali.kra.common.notification.lookup.keyvalue.NotificationTypeRecipientRoleNameValuesFinder"
+                  p:includeKeyInLabel="false" />
         </property>
         <property name="summary" value="Role" />
         <property name="description" value="Role" />
@@ -165,7 +162,7 @@
                                   p:attributeName="notificationTypeId" 
                                   p:forceInquiry="true" />
                             <bean parent="FieldDefinition" 
-                                  p:attributeName="roleId" />
+                                  p:attributeName="roleName" />
                             <bean parent="FieldDefinition" 
                                   p:attributeName="roleQualifier" />
                         </list>
@@ -193,7 +190,7 @@
 	                  p:attributeName="notificationTypeId" 
 	                  p:forceLookup="true" />
 	            <bean parent="FieldDefinition" 
-	                  p:attributeName="roleId" />
+	                  p:attributeName="roleName" />
 	            <bean parent="FieldDefinition" 
 	                  p:attributeName="roleQualifier" />
             </list>
@@ -207,7 +204,7 @@
 	                  p:attributeName="notificationTypeId" 
 	                  p:forceInquiry="true" />
 	            <bean parent="FieldDefinition" 
-	                  p:attributeName="roleId" />
+	                  p:attributeName="roleName" />
 	            <bean parent="FieldDefinition" 
 	                  p:attributeName="roleQualifier" />
             </list>

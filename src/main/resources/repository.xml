@@ -2220,7 +2220,7 @@
     <class-descriptor class="org.kuali.kra.common.notification.bo.NotificationTypeRecipient" table="NOTIFICATION_TYPE_RECIPIENT">
         <field-descriptor name="notificationTypeRecipientId" column="NOTIFICATION_TYPE_RECIPIENT_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_NOTIFICATION_TYPE_ID" autoincrement="true" />
         <field-descriptor name="notificationTypeId" column="NOTIFICATION_TYPE_ID" jdbc-type="BIGINT" />
-        <field-descriptor name="roleId" column="ROLE_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="roleName" column="ROLE_NAME" jdbc-type="VARCHAR" />
         <field-descriptor name="roleQualifier" column="ROLE_QUALIFIER" jdbc-type="VARCHAR" />
         <field-descriptor name="toOrCC" column="TO_OR_CC" jdbc-type="VARCHAR" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />

@@ -37,7 +37,7 @@
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="notificationTypeId" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="roleId" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="roleName" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="roleQualifier" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="toOrCC" p:required="true"/>
       </list>
@@ -60,13 +60,13 @@
           <property name="summaryTitle" value="Notification Type Recipients"/>
           <property name="summaryFields">
             <list>
-              <bean parent="MaintainableFieldDefinition" p:name="roleId"/>
+              <bean parent="MaintainableFieldDefinition" p:name="roleName"/>
               <bean parent="MaintainableFieldDefinition" p:name="roleQualifier"/>
             </list>
           </property>
           <property name="maintainableFields">
             <list>
-	          <bean parent="MaintainableFieldDefinition" p:name="roleId" p:required="true"/>
+	          <bean parent="MaintainableFieldDefinition" p:name="roleName" p:required="true"/>
 	          <bean parent="MaintainableFieldDefinition" p:name="roleQualifier" p:required="true"/>
 	          <bean parent="MaintainableFieldDefinition" p:name="toOrCC" p:required="true"/>
             </list>
