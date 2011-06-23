@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -41,6 +42,7 @@ import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetCommonService;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -55,6 +57,7 @@ import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.logging.BufferedLogger;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarcyActionHelper;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
@@ -100,6 +103,25 @@ public class BudgetVersionsAction extends BudgetAction {
             final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
             tdcValidator.validateGeneratingWarnings(parentDocument);
         }
+   
+        //when this is an award budget even though the budget cannot be saved a budget can still
+        //be copied. By doing this here we make sure that it will still save
+        //new budgets names even though the document itself cannot be saved
+        if (!StringUtils.equals(budgetForm.getMethodToCall(), "save") && budgetForm.isSaveAfterCopy()) {
+            List<BudgetDocumentVersion> overviews = parentDocument.getBudgetDocumentVersions();
+            BudgetVersionOverview copiedOverview = overviews.get(overviews.size() - 1).getBudgetVersionOverview();
+            String copiedName = copiedOverview.getDocumentDescription();
+            copiedOverview.setDocumentDescription("copied placeholder");
+            debug("validating ", copiedName);
+            boolean valid = getBudgetService().isBudgetVersionNameValid(parentDocument, copiedName);
+            copiedOverview.setDocumentDescription(copiedName);
+            budgetForm.setSaveAfterCopy(!valid);
+            if (!valid) {
+                return mapping.findForward(Constants.MAPPING_BASIC);
+            } else {
+                budgetForm.getDocument().getParentDocument().updateDocumentDescriptions(overviews);
+            }
+        }        
         
         return super.execute(mapping, form, request, response);
     }
@@ -286,19 +308,25 @@ public class BudgetVersionsAction extends BudgetAction {
     public ActionForward copyBudgetVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
       BudgetForm budgetForm = (BudgetForm) form;
       BudgetVersionOverview versionToCopy = getSelectedVersion(budgetForm, request);
+      BudgetParentDocument parentDocument = budgetForm.getDocument().getParentDocument();
+      BudgetCommonService<BudgetParent> budgetService = getBudgetCommonService(parentDocument);
+      if (!budgetService.validateAddingNewBudget(parentDocument)) {
+          return mapping.findForward(Constants.MAPPING_BASIC);
+      }
       if (isNotBlank(request.getParameter(QUESTION_INST_ATTRIBUTE_NAME))) {
           Object buttonClicked = request.getParameter(QUESTION_CLICKED_BUTTON);
           if (CopyPeriodsQuestion.ONE.equals(buttonClicked)) {
+              budgetForm.setSaveAfterCopy(true);
               return copyBudgetPeriodOne(mapping, form, request, response);
           }
           else if (CopyPeriodsQuestion.ALL.equals(buttonClicked)) {
+              budgetForm.setSaveAfterCopy(true);
               return copyBudgetAllPeriods(mapping, form, request, response);
           } else {
               // URL hack, just return
               return mapping.findForward(Constants.MAPPING_BASIC);
           }
       }
-      budgetForm.setSaveAfterCopy(true);
       return performQuestionWithoutInput(mapping, form, request, response, COPY_BUDGET_PERIOD_QUESTION, QUESTION_TEXT + versionToCopy.getBudgetVersionNumber() + ".", QUESTION_TYPE, budgetForm.getMethodToCall(), "");
 
     }

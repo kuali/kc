@@ -90,9 +90,28 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        //since the award budget versions panel is usually(always??) only usable when the award is
+        //read only we need to make sure to perform post budget copy stuff here
+        if (!StringUtils.equals(awardForm.getMethodToCall(), "save") && awardForm.isSaveAfterCopy()) {
+            final List<BudgetDocumentVersion> overviews = awardForm.getAwardDocument().getBudgetDocumentVersions();
+            final BudgetDocumentVersion copiedDocumentOverview = overviews.get(overviews.size() - 1);
+            BudgetVersionOverview copiedOverview = copiedDocumentOverview.getBudgetVersionOverview();
+            final String copiedName = copiedOverview.getDocumentDescription();
+            copiedOverview.setDocumentDescription("copied placeholder");
+            BufferedLogger.debug("validating ", copiedName);
+            boolean valid = getBudgetService().isBudgetVersionNameValid(awardForm.getAwardDocument(), copiedName);
+            copiedOverview.setDocumentDescription(copiedName);
+            awardForm.setSaveAfterCopy(!valid);
+            if (!valid) {
+                return mapping.findForward(Constants.MAPPING_BASIC);
+            } else {
+                awardForm.getAwardDocument().updateDocumentDescriptions(awardForm.getAwardDocument().getBudgetDocumentVersions());
+            }
+        }
+        
         request.setAttribute("rateClassMap", getBudgetRatesService().getBudgetRateClassMap("O"));
         ActionForward ac = super.execute(mapping, form, request, response);
-        AwardForm awardForm = (AwardForm) form;
         getAwardBudgetService().populateBudgetLimitSummary(awardForm.getBudgetLimitSummary(), awardForm.getAwardDocument());
         return ac;
     }
@@ -267,12 +286,17 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
     public ActionForward copyBudgetVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm pdForm = (AwardForm) form;
         BudgetVersionOverview versionToCopy = getSelectedVersion(pdForm, request);
+        if (!getAwardBudgetService().validateAddingNewBudget(pdForm.getAwardDocument())) {
+            return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        }
         if (StringUtils.isNotBlank(request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME))) {
             Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
             if (CopyPeriodsQuestion.ONE.equals(buttonClicked)) {
+                pdForm.setSaveAfterCopy(true);
                 return copyBudgetPeriodOne(mapping, form, request, response);
             }
             else if (CopyPeriodsQuestion.ALL.equals(buttonClicked)) {
+                pdForm.setSaveAfterCopy(true);
                 return copyBudgetAllPeriods(mapping, form, request, response);
             } else {
                 // URL hack, just return
@@ -280,7 +304,6 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
             }
         }
         
-        pdForm.setSaveAfterCopy(true);
         return performQuestionWithoutInput(mapping, form, request, response, COPY_BUDGET_PERIOD_QUESTION, QUESTION_TEXT + versionToCopy.getBudgetVersionNumber() + ".", QUESTION_TYPE, pdForm.getMethodToCall(), "");
     }
     
