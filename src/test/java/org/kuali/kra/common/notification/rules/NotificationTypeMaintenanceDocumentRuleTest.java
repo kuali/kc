@@ -45,9 +45,9 @@ public class NotificationTypeMaintenanceDocumentRuleTest extends MaintenanceRule
     private static final String MODULE_CODE_2 = "2";
     private static final String ACTION_CODE_101 = "101";
     private static final String ACTION_CODE_102 = "102";
-    private static final String ROLE_ID_1 = "1";
+    private static final String ROLE_NAME_1 = "NMSPC-1:Role 1";
     private static final String ROLE_QUALIFIER_000001 = "000001";
-    private static final String ROLE_ID_2 = "2";
+    private static final String ROLE_NAME_2 = "NMSPC-1:Role 2";
     private static final String ROLE_QUALIFIER_000002 = "000002";
     
     private NotificationTypeMaintenanceDocumentRule rule;
@@ -105,7 +105,7 @@ public class NotificationTypeMaintenanceDocumentRuleTest extends MaintenanceRule
     
     @Test
     public void testNotificationTypeIdRoleIdRoleQualifierUnique() throws Exception {
-        MaintenanceDocument notificationTypeMaintenanceDocument = getNotificationTypeMaintenanceDocument(NOTIFICATION_TYPE_ID_10001, MODULE_CODE_2, ACTION_CODE_102, ROLE_ID_2, ROLE_QUALIFIER_000002);
+        MaintenanceDocument notificationTypeMaintenanceDocument = getNotificationTypeMaintenanceDocument(NOTIFICATION_TYPE_ID_10001, MODULE_CODE_2, ACTION_CODE_102, ROLE_NAME_2, ROLE_QUALIFIER_000002);
     
         assertTrue(rule.processCustomRouteDocumentBusinessRules(notificationTypeMaintenanceDocument));
         assertTrue(rule.processCustomApproveDocumentBusinessRules(notificationTypeMaintenanceDocument));
@@ -113,11 +113,11 @@ public class NotificationTypeMaintenanceDocumentRuleTest extends MaintenanceRule
     
     @Test
     public void testNotificationTypeIdRoleIdRoleQualifierNotUnique() throws Exception {
-        MaintenanceDocument notificationTypeMaintenanceDocument = getNotificationTypeMaintenanceDocument(NOTIFICATION_TYPE_ID_10001, MODULE_CODE_2, ACTION_CODE_102, ROLE_ID_1, ROLE_QUALIFIER_000001);
+        MaintenanceDocument notificationTypeMaintenanceDocument = getNotificationTypeMaintenanceDocument(NOTIFICATION_TYPE_ID_10001, MODULE_CODE_2, ACTION_CODE_102, ROLE_NAME_1, ROLE_QUALIFIER_000001);
     
         assertFalse(rule.processCustomRouteDocumentBusinessRules(notificationTypeMaintenanceDocument));
         assertFalse(rule.processCustomApproveDocumentBusinessRules(notificationTypeMaintenanceDocument));
-        assertFieldErrorExists(String.format(ROLE_QUALIFIER_FIELD_NAME, 1), KeyConstants.ERROR_NOTIFICATION_ROLE_ID_ROLE_QUALIFIER_COMBINATION_EXISTS);
+        assertFieldErrorExists(String.format(ROLE_QUALIFIER_FIELD_NAME, 1), KeyConstants.ERROR_NOTIFICATION_ROLE_NAME_ROLE_QUALIFIER_COMBINATION_EXISTS);
     }
     
     private MaintenanceDocument getNotificationTypeMaintenanceDocument(Long notificationTypeId, String moduleCode, String actionCode) throws Exception {
@@ -147,13 +147,13 @@ public class NotificationTypeMaintenanceDocumentRuleTest extends MaintenanceRule
         notificationType.setActionCode(actionCode);
         
         NotificationTypeRecipient notificationTypeRecipient1 = new NotificationTypeRecipient();
-        notificationTypeRecipient1.setRoleId(ROLE_ID_1);
+        notificationTypeRecipient1.setRoleName(ROLE_NAME_1);
         notificationTypeRecipient1.setRoleQualifier(ROLE_QUALIFIER_000001);
         
         notificationType.getNotificationTypeRecipients().add(notificationTypeRecipient1);
         
         NotificationTypeRecipient notificationTypeRecipient2 = new NotificationTypeRecipient();
-        notificationTypeRecipient2.setRoleId(roleId);
+        notificationTypeRecipient2.setRoleName(roleId);
         notificationTypeRecipient2.setRoleQualifier(roleQualifier);
         
         notificationType.getNotificationTypeRecipients().add(notificationTypeRecipient2);

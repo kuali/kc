@@ -26,6 +26,7 @@ import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.exception.UnknownRoleException;
 import org.kuali.kra.common.notification.service.KcNotificationService;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.rice.kim.util.KimConstants;
@@ -118,11 +119,14 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
     }
     
     public void populateRoleQualifiers(NotificationTypeRecipient recipient) throws UnknownRoleException {
-        if (recipient.getRoleId().equals("1140")) {
+        String roleNamespace = StringUtils.substringBefore(recipient.getRoleName(), Constants.COLON);
+        String roleName = StringUtils.substringAfter(recipient.getRoleName(), Constants.COLON);
+        
+        if (StringUtils.equals(roleNamespace, "KC-IP") && StringUtils.equals(roleName, "Proposal Log PI")) {
             recipient.setRoleQualifier("documentNumber");
             recipient.setQualifierValue(this.documentNumber);
         } else {
-            throw new UnknownRoleException(recipient.getRoleId(), "ProposalLog");
+            throw new UnknownRoleException(recipient.getRoleName(), "ProposalLog");
         }
     }
     

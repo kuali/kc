@@ -24,11 +24,11 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  */
 public class NotificationTypeRecipient extends KraPersistableBusinessObjectBase {
 
-    private static final long serialVersionUID = -3308211571463922313L;
+    private static final long serialVersionUID = -1455607096529901879L;
     
     private Long notificationTypeRecipientId;
     private Long notificationTypeId;
-    private String roleId;
+    private String roleName;
     private String roleQualifier;
     private String toOrCC;
     
@@ -52,12 +52,12 @@ public class NotificationTypeRecipient extends KraPersistableBusinessObjectBase 
         this.notificationTypeId = notificationTypeId;
     }
 
-    public String getRoleId() {
-        return roleId;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setRoleId(String roleId) {
-        this.roleId = roleId;
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
     public String getRoleQualifier() {
@@ -89,7 +89,7 @@ public class NotificationTypeRecipient extends KraPersistableBusinessObjectBase 
         LinkedHashMap<String, Object> propMap = new LinkedHashMap<String, Object>();
         propMap.put("notificationTypeRecipientId", getNotificationTypeRecipientId());
         propMap.put("notificationTypeId", getNotificationTypeId());
-        propMap.put("roleId", getRoleId());
+        propMap.put("roleName", getRoleName());
         propMap.put("roleQualifier", getRoleQualifier());
         propMap.put("toOrCC", getToOrCC());
         return propMap;
@@ -101,7 +101,7 @@ public class NotificationTypeRecipient extends KraPersistableBusinessObjectBase 
         int result = 1;
         result = prime * result + ((notificationTypeId == null) ? 0 : notificationTypeId.hashCode());
         result = prime * result + ((notificationTypeRecipientId == null) ? 0 : notificationTypeRecipientId.hashCode());
-        result = prime * result + ((roleId == null) ? 0 : roleId.hashCode());
+        result = prime * result + ((roleName == null) ? 0 : roleName.hashCode());
         result = prime * result + ((roleQualifier == null) ? 0 : roleQualifier.hashCode());
         return result;
     }
@@ -132,11 +132,11 @@ public class NotificationTypeRecipient extends KraPersistableBusinessObjectBase 
         } else if (!notificationTypeRecipientId.equals(other.notificationTypeRecipientId)) {
             return false;
         }
-        if (roleId == null) {
-            if (other.roleId != null) {
+        if (roleName == null) {
+            if (other.roleName != null) {
                 return false;
             }
-        } else if (!roleId.equals(other.roleId)) {
+        } else if (!roleName.equals(other.roleName)) {
             return false;
         }
         if (roleQualifier == null) {

@@ -24,10 +24,10 @@ import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.exception.UnknownRoleException;
 import org.kuali.kra.common.notification.service.KcNotificationService;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.rice.kim.service.RoleManagementService;
 import org.w3c.dom.Element;
 
 public class BatchCorrespondenceEvent extends NotificationEventBase implements NotificationContext {
@@ -71,26 +71,19 @@ public class BatchCorrespondenceEvent extends NotificationEventBase implements N
 
 
     public void populateRoleQualifiers(NotificationTypeRecipient notificationRecipient) throws UnknownRoleException {
-        if (notificationRecipient.getRoleId().equals(getRoleId(RoleConstants.PROTOCOL_ROLE_TYPE, RoleConstants.PROTOCOL_AGGREGATOR))) {
+        String roleNamespace = StringUtils.substringBefore(notificationRecipient.getRoleName(), Constants.COLON);
+        String roleName = StringUtils.substringAfter(notificationRecipient.getRoleName(), Constants.COLON);
+        
+        if (StringUtils.equals(roleNamespace, RoleConstants.PROTOCOL_ROLE_TYPE) && StringUtils.equals(roleName, RoleConstants.PROTOCOL_AGGREGATOR)) {
             notificationRecipient.setRoleQualifier("protocol");
             notificationRecipient.setQualifierValue(getProtocol().getProtocolNumber());
-        } else if (notificationRecipient.getRoleId().equals(getRoleId(RoleConstants.DEPARTMENT_ROLE_TYPE, RoleConstants.IRB_ADMINISTRATOR)))  {
+        } else if (StringUtils.equals(roleNamespace, RoleConstants.DEPARTMENT_ROLE_TYPE) && StringUtils.equals(roleName, RoleConstants.IRB_ADMINISTRATOR))  {
             notificationRecipient.setRoleQualifier(null);
         } else {
-            throw new UnknownRoleException(notificationRecipient.getRoleId(), "BatchCorrespondence");
+            throw new UnknownRoleException(notificationRecipient.getRoleName(), "BatchCorrespondence");
         }
         
-    }
-
-    private String getRoleId(String namespaceCode, String roleName) {
-        return getRoleManagementService().getRoleIdByName(namespaceCode, roleName);
-
-    }
-
-    private RoleManagementService getRoleManagementService() {
-        return KraServiceLocator.getService(RoleManagementService.class);
-    }    
-
+    }   
     
     public String replaceContextVariables(String text) {
         ProtocolActionsNotificationService protocolActionsNotificationService = KraServiceLocator
