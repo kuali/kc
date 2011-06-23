@@ -111,7 +111,7 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
         }
     }
 
-    protected void updateDocumentDescriptions(List<BudgetDocumentVersion> budgetVersionOverviews) {
+    public void updateDocumentDescriptions(List<BudgetDocumentVersion> budgetVersionOverviews) {
         BudgetService budgetService = this.getService(BudgetService.class);
         for (BudgetDocumentVersion budgetDocumentVersion: budgetVersionOverviews) {
             BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview();
