@@ -822,20 +822,43 @@ public abstract class AwardBaseStream implements XmlStream {
             for (AwardFandaRate awardFandaRate : award.getAwardFandaRate()) {
                 IndirectCostSharingItem indirectCostSharingItem = IndirectCostSharingItem.Factory
                         .newInstance();
-                indirectCostSharingItem.setSequenceNumber(award.getSequenceNumber());               
-                indirectCostSharingItem.setFiscalYear(String.valueOf(awardFandaRate.getFiscalYear()));              
+                indirectCostSharingItem.setSequenceNumber(award.getSequenceNumber());   
+                if(awardFandaRate.getFiscalYear()!=null){
+                    indirectCostSharingItem.setFiscalYear(String.valueOf(awardFandaRate.getFiscalYear())); 
+                }
+                if(awardFandaRate.getApplicableFandaRate()!=null){
                 indirectCostSharingItem
-                        .setApplicableRate(awardFandaRate.getApplicableFandaRate().bigDecimalValue());                               
+                        .setApplicableRate(awardFandaRate.getApplicableFandaRate().bigDecimalValue());    
+                }
+                else{
+                indirectCostSharingItem
+                    .setApplicableRate(KualiDecimal.ZERO.bigDecimalValue());  
+                }
                 boolean campus = (awardFandaRate.getOnCampusFlag() != null && awardFandaRate
                         .getOnCampusFlag().equals(ON_CAMPUS_FLAG_SET)) ? true: false;
                 indirectCostSharingItem.setCampus(campus);
-                indirectCostSharingItem.setSourceAccount(awardFandaRate.getSourceAccount());                
-                indirectCostSharingItem.setUnderRecoveryAmount(awardFandaRate.getUnderrecoveryOfIndirectCost().bigDecimalValue());
-                indirectCostSharingItem.setDestinationAccount(awardFandaRate.getDestinationAccount());
-                indirectCostSharingItem.setStartDate(dateTimeService.getCalendar(awardFandaRate.getStartDate()));
-                indirectCostSharingItem.setEndDate(dateTimeService.getCalendar(awardFandaRate.getEndDate()));                
+                if(awardFandaRate.getSourceAccount()!=null){
+                    indirectCostSharingItem.setSourceAccount(awardFandaRate.getSourceAccount());         
+                }
+                if(awardFandaRate.getUnderrecoveryOfIndirectCost()!=null){
+                    indirectCostSharingItem.setUnderRecoveryAmount(awardFandaRate.getUnderrecoveryOfIndirectCost().bigDecimalValue());
+                }
+                else{
+                    indirectCostSharingItem.setUnderRecoveryAmount(KualiDecimal.ZERO.bigDecimalValue());
+                }
+                if(awardFandaRate.getDestinationAccount()!=null){
+                    indirectCostSharingItem.setDestinationAccount(awardFandaRate.getDestinationAccount());
+                }
+                if(awardFandaRate.getStartDate()!=null){
+                    indirectCostSharingItem.setStartDate(dateTimeService.getCalendar(awardFandaRate.getStartDate()));
+                }
+                if(awardFandaRate.getEndDate()!=null){
+                    indirectCostSharingItem.setEndDate(dateTimeService.getCalendar(awardFandaRate.getEndDate()));  
+                }
+                if(awardFandaRate.getFandaRateType().getDescription()!=null){
+                    indirectCostSharingItem.setIDCRateDescription(awardFandaRate.getFandaRateType().getDescription());
+                }
                 indirectCostSharingItems.add(indirectCostSharingItem);
-                indirectCostSharingItem.setIDCRateDescription(awardFandaRate.getFandaRateType().getDescription());
             }
 		}
 		awardIndirectCost
