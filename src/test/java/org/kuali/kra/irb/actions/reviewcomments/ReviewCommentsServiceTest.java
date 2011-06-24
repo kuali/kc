@@ -29,6 +29,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.bo.Unit;
+import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
@@ -309,15 +314,30 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
     @Test
     public void testHideReviewerNameProtocolFalse() throws Exception {
         List<CommitteeScheduleMinute> reviewComments = new ArrayList<CommitteeScheduleMinute>();
-        
-        CommitteeScheduleMinute firstNewReviewComment = new CommitteeScheduleMinute();
+        CommitteeSchedule committeeSchedule = createCommitteeSchedule("10", createCommittee());
+
+        CommitteeScheduleMinute firstNewReviewComment = new CommitteeScheduleMinute() {
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {
+                // do nothing
+            }
+
+        };
+        firstNewReviewComment.setCommitteeSchedule(committeeSchedule);
         firstNewReviewComment.setCommScheduleMinutesId(1L);
         firstNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
         firstNewReviewComment.setMinuteEntry(FIRST_COMMENT);
         firstNewReviewComment.setCreateUser("majors");
         reviewComments.add(firstNewReviewComment);
         
-        CommitteeScheduleMinute secondNewReviewComment = new CommitteeScheduleMinute();
+        CommitteeScheduleMinute secondNewReviewComment = new CommitteeScheduleMinute() {
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {
+                // do nothing
+            }
+
+        };
+        secondNewReviewComment.setCommitteeSchedule(committeeSchedule);
         secondNewReviewComment.setCommScheduleMinutesId(2L);
         secondNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
         secondNewReviewComment.setMinuteEntry(SECOND_COMMENT);
@@ -326,6 +346,7 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
         
         service.setParameterService(getMockParameterService() );       
         service.setKimRoleManagementService(getMockRoleService());
+        service.setCommitteeService(getMockCommitteeService());
         
         service.setKcPersonService(getMockKcPersonService());
         Protocol protocol = new Protocol();
@@ -346,15 +367,30 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
     public void testHideReviewerNameProtocolTrue() throws Exception {
         GlobalVariables.setUserSession(new UserSession("jtester"));
         List<CommitteeScheduleMinute> reviewComments = new ArrayList<CommitteeScheduleMinute>();
-        
-        CommitteeScheduleMinute firstNewReviewComment = new CommitteeScheduleMinute();
+        CommitteeSchedule committeeSchedule = createCommitteeSchedule("10", createCommittee());
+
+        CommitteeScheduleMinute firstNewReviewComment = new CommitteeScheduleMinute() {
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {
+                // do nothing
+            }
+
+        };
+        firstNewReviewComment.setCommitteeSchedule(committeeSchedule);
         firstNewReviewComment.setCommScheduleMinutesId(1L);
         firstNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
         firstNewReviewComment.setMinuteEntry(FIRST_COMMENT);
         firstNewReviewComment.setCreateUser("majors");
         reviewComments.add(firstNewReviewComment);
         
-        CommitteeScheduleMinute secondNewReviewComment = new CommitteeScheduleMinute();
+        CommitteeScheduleMinute secondNewReviewComment = new CommitteeScheduleMinute() {
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {
+                // do nothing
+            }
+
+        };
+        secondNewReviewComment.setCommitteeSchedule(committeeSchedule);
         secondNewReviewComment.setCommScheduleMinutesId(2L);
         secondNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
         secondNewReviewComment.setMinuteEntry(SECOND_COMMENT);
@@ -363,6 +399,7 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
         
         service.setParameterService(getMockParameterService() );       
         service.setKimRoleManagementService(getMockRoleService1());
+        service.setCommitteeService(getMockCommitteeService());
         
         service.setKcPersonService(getMockKcPersonService());
         Protocol protocol = new Protocol();
@@ -383,15 +420,30 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
     public void testHideReviewerNameProtocolFalsePartial() throws Exception {
         GlobalVariables.setUserSession(new UserSession("majors"));
         List<CommitteeScheduleMinute> reviewComments = new ArrayList<CommitteeScheduleMinute>();
-        
-        CommitteeScheduleMinute firstNewReviewComment = new CommitteeScheduleMinute();
+        CommitteeSchedule committeeSchedule = createCommitteeSchedule("10", createCommittee());
+
+        CommitteeScheduleMinute firstNewReviewComment = new CommitteeScheduleMinute() {
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {
+                // do nothing
+            }
+
+        };
+        firstNewReviewComment.setCommitteeSchedule(committeeSchedule);
         firstNewReviewComment.setCommScheduleMinutesId(1L);
         firstNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
         firstNewReviewComment.setMinuteEntry(FIRST_COMMENT);
         firstNewReviewComment.setCreateUser("majors");
         reviewComments.add(firstNewReviewComment);
         
-        CommitteeScheduleMinute secondNewReviewComment = new CommitteeScheduleMinute();
+        CommitteeScheduleMinute secondNewReviewComment = new CommitteeScheduleMinute() {
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {
+                // do nothing
+            }
+
+        };
+        secondNewReviewComment.setCommitteeSchedule(committeeSchedule);
         secondNewReviewComment.setCommScheduleMinutesId(2L);
         secondNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
         secondNewReviewComment.setMinuteEntry(SECOND_COMMENT);
@@ -400,6 +452,7 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
         
         service.setParameterService(getMockParameterService() );       
         service.setKimRoleManagementService(getMockRoleService1());
+        service.setCommitteeService(getMockCommitteeService());
         
         service.setKcPersonService(getMockKcPersonService());
         Protocol protocol = new Protocol();
@@ -414,14 +467,29 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
     public void testHideReviewerNameFalse() throws Exception {
         List<CommitteeScheduleMinute> reviewComments = new ArrayList<CommitteeScheduleMinute>();
         
-        CommitteeScheduleMinute firstNewReviewComment = new CommitteeScheduleMinute();
+        CommitteeSchedule committeeSchedule = createCommitteeSchedule("10", createCommittee());
+        CommitteeScheduleMinute firstNewReviewComment = new CommitteeScheduleMinute() {
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {
+                // do nothing
+            }
+
+        };
+        firstNewReviewComment.setCommitteeSchedule(committeeSchedule);
         firstNewReviewComment.setCommScheduleMinutesId(1L);
         firstNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
         firstNewReviewComment.setMinuteEntry(FIRST_COMMENT);
         firstNewReviewComment.setCreateUser("majors");
         reviewComments.add(firstNewReviewComment);
         
-        CommitteeScheduleMinute secondNewReviewComment = new CommitteeScheduleMinute();
+        CommitteeScheduleMinute secondNewReviewComment = new CommitteeScheduleMinute() {
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {
+                // do nothing
+            }
+
+        };
+        secondNewReviewComment.setCommitteeSchedule(committeeSchedule);
         secondNewReviewComment.setCommScheduleMinutesId(2L);
         secondNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.ACTION_ITEM);
         secondNewReviewComment.setMinuteEntry(SECOND_COMMENT);
@@ -430,6 +498,7 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
         
         service.setParameterService(getMockParameterService() );       
         service.setKimRoleManagementService(getMockRoleService());
+        service.setCommitteeService(getMockCommitteeService());
         
         service.setKcPersonService(getMockKcPersonService());
         
@@ -447,15 +516,30 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
     public void testHideReviewerNameFalsePartial() throws Exception {
         GlobalVariables.setUserSession(new UserSession("majors"));
         List<CommitteeScheduleMinute> reviewComments = new ArrayList<CommitteeScheduleMinute>();
-        
-        CommitteeScheduleMinute firstNewReviewComment = new CommitteeScheduleMinute();
+        CommitteeSchedule committeeSchedule = createCommitteeSchedule("10", createCommittee());
+
+        CommitteeScheduleMinute firstNewReviewComment = new CommitteeScheduleMinute() {
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {
+                // do nothing
+            }
+
+        };
+        firstNewReviewComment.setCommitteeSchedule(committeeSchedule);        
         firstNewReviewComment.setCommScheduleMinutesId(1L);
         firstNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
         firstNewReviewComment.setMinuteEntry(FIRST_COMMENT);
         firstNewReviewComment.setCreateUser("majors");
         reviewComments.add(firstNewReviewComment);
         
-        CommitteeScheduleMinute secondNewReviewComment = new CommitteeScheduleMinute();
+        CommitteeScheduleMinute secondNewReviewComment = new CommitteeScheduleMinute() {
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {
+                // do nothing
+            }
+
+        };
+        secondNewReviewComment.setCommitteeSchedule(committeeSchedule);
         secondNewReviewComment.setCommScheduleMinutesId(2L);
         secondNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.ACTION_ITEM);
         secondNewReviewComment.setMinuteEntry(SECOND_COMMENT);
@@ -464,6 +548,7 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
         
         service.setParameterService(getMockParameterService() );       
         service.setKimRoleManagementService(getMockRoleService1());
+        service.setCommitteeService(getMockCommitteeService());
         
         service.setKcPersonService(getMockKcPersonService());
         
@@ -476,15 +561,30 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
     public void testHideReviewerNameTrue() throws Exception {
         GlobalVariables.setUserSession(new UserSession("jtester"));
         List<CommitteeScheduleMinute> reviewComments = new ArrayList<CommitteeScheduleMinute>();
-        
-        CommitteeScheduleMinute firstNewReviewComment = new CommitteeScheduleMinute();
+        CommitteeSchedule committeeSchedule = createCommitteeSchedule("10", createCommittee());
+
+        CommitteeScheduleMinute firstNewReviewComment = new CommitteeScheduleMinute() {
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {
+                // do nothing
+            }
+
+        };
+        firstNewReviewComment.setCommitteeSchedule(committeeSchedule);
         firstNewReviewComment.setCommScheduleMinutesId(1L);
         firstNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
         firstNewReviewComment.setMinuteEntry(FIRST_COMMENT);
         firstNewReviewComment.setCreateUser("majors");
         reviewComments.add(firstNewReviewComment);
         
-        CommitteeScheduleMinute secondNewReviewComment = new CommitteeScheduleMinute();
+        CommitteeScheduleMinute secondNewReviewComment = new CommitteeScheduleMinute() {
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {
+                // do nothing
+            }
+
+        };
+        secondNewReviewComment.setCommitteeSchedule(committeeSchedule);
         secondNewReviewComment.setCommScheduleMinutesId(2L);
         secondNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.ACTION_ITEM);
         secondNewReviewComment.setMinuteEntry(SECOND_COMMENT);
@@ -493,6 +593,7 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
         
         service.setParameterService(getMockParameterService() );       
         service.setKimRoleManagementService(getMockRoleService1());
+        service.setCommitteeService(getMockCommitteeService());
         
         service.setKcPersonService(getMockKcPersonService());
         
@@ -598,5 +699,39 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
         return protocolFinderDao;
     }
 
+    private CommitteeService getMockCommitteeService() {
+        final CommitteeService committeeService = context.mock(CommitteeService.class);
+        final List<CommitteeMembership> members = new ArrayList<CommitteeMembership>();
+        CommitteeMembership member = new CommitteeMembership();
+        member.setPersonId("10000000005");
+        member.setPersonName("chew");
+        members.add(member);
+   
+        final Committee committee = createCommittee();
+        context.checking(new Expectations() {{
+            allowing(committeeService).getAvailableMembers(with(any(String.class)), with(any(String.class)));
+            will(returnValue(members));
+            allowing(committeeService).getCommitteeById("KC001");
+            will(returnValue(committee));
 
+        }});
+        return committeeService;
+    }
+    
+    private Committee createCommittee() {
+        Committee committee = new Committee();
+        committee.setId(new Long("11111111"));
+        committee.setCommitteeId("KC001");
+        committee.setCommitteeName("KC IRB 1");
+        
+        return committee;
+    }
+    
+    private CommitteeSchedule createCommitteeSchedule(String id, Committee committee) {
+        CommitteeSchedule committeeSchedule = new CommitteeSchedule();
+        committeeSchedule.setCommittee(committee);
+        committeeSchedule.setScheduleId(id);
+        
+        return committeeSchedule;
+    }
 }
