@@ -120,6 +120,7 @@ public class BudgetAction extends BudgetActionBase {
         }
 
         if(budget.getOhRateClassCode()!=null && ((BudgetForm)GlobalVariables.getKualiForm())!=null){
+            ((BudgetForm)GlobalVariables.getKualiForm()).setOhRateClassCodePrevValue(budget.getOhRateClassCode());
         }        
         if(budget.getUrRateClassCode()!=null && ((BudgetForm)GlobalVariables.getKualiForm())!=null){
             ((BudgetForm)GlobalVariables.getKualiForm()).setUrRateClassCodePrevValue(budget.getUrRateClassCode());
