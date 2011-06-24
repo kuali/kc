@@ -28,6 +28,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.w3c.dom.Element;
 
 public class BatchCorrespondenceEvent extends NotificationEventBase implements NotificationContext {
@@ -78,7 +79,11 @@ public class BatchCorrespondenceEvent extends NotificationEventBase implements N
             notificationRecipient.setRoleQualifier("protocol");
             notificationRecipient.setQualifierValue(getProtocol().getProtocolNumber());
         } else if (StringUtils.equals(roleNamespace, RoleConstants.DEPARTMENT_ROLE_TYPE) && StringUtils.equals(roleName, RoleConstants.IRB_ADMINISTRATOR))  {
-            notificationRecipient.setRoleQualifier(null);
+            notificationRecipient.setRoleQualifier(KcKimAttributes.UNIT_NUMBER);
+            notificationRecipient.setQualifierValue(getProtocol().getLeadUnitNumber());
+//            notificationRecipient.setRoleQualifier(KcKimAttributes.SUBUNITS);
+//            notificationRecipient.setQualifierValue(getProtocol().getLeadUnitNumber());
+//            notificationRecipient.setRoleQualifier(null);
         } else {
             throw new UnknownRoleException(notificationRecipient.getRoleName(), "BatchCorrespondence");
         }
