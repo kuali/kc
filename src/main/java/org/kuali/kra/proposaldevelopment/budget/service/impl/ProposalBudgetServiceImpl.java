@@ -80,7 +80,7 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
         return budgetDocument;
     }
     public boolean isRateOverridden(BudgetPeriod budgetPeriod){
-        return true;
+        return false;
     }
 
     /**
