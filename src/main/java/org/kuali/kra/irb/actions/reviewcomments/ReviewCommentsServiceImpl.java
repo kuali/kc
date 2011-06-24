@@ -291,7 +291,9 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
      * This is true either if 
      *   1) The current user has the role IRB Administrator
      *   2) The current user does not have the role IRB Administrator, but the current user is the comment creator
-     *   3) The current user does not have the role IRB Administrator, the current user is not the comment creator, but the comment is public and final
+     *   3) The current user does not have the role IRB Administrator, but is a reviewer of the protocol, and not part of the protocol personnel, and the comment is final
+     *   4) The current user does not have the role IRB Administrator, but is an active committee member, and not part of the protocol personnel, and the comment is final
+     *   5) The comment is public and final
      * @param CommitteeScheduleMinute minute
     *  @return whether the current user can view this comment
     */
@@ -299,7 +301,8 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
        String principalId = GlobalVariables.getUserSession().getPrincipalId();
        String principalName = GlobalVariables.getUserSession().getPrincipalName();
        return isIrbAdministrator(principalId) || StringUtils.equals(principalName, minute.getCreateUser()) || 
-       (isReviewer(minute,principalId)&& minute.isFinalFlag()) || 
+       (isReviewer(minute,principalId) && !isProtocolPersonnelOrHasProtocolRole(minute)  && minute.isFinalFlag()) || 
+       (isActiveCommitteeMember(minute, principalId) && !isProtocolPersonnelOrHasProtocolRole(minute) && minute.isFinalFlag()) ||
        (!minute.getPrivateCommentFlag()&& minute.isFinalFlag());
        
    }
@@ -712,6 +715,27 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
         this.displayReviewerNameToActiveMembers = displayReviewerNameToActiveMembers;
     }
 
-   
+    /**
+     * 
+     * This method determines if the current user is an active committee member
+     * @param minute
+     * @param principalId
+     * @return true if and active committee member, false otherwise.
+     */
+    private boolean isActiveCommitteeMember(CommitteeScheduleMinute minute, String principalId) {
+        boolean result = false;       
+        List<CommitteeMembership> committeeMembers = 
+            committeeService.getAvailableMembers(minute.getCommitteeSchedule().getCommittee().getCommitteeId(),
+                                                 minute.getCommitteeSchedule().getScheduleId());
+        if (CollectionUtils.isNotEmpty(committeeMembers)) {
+            for (CommitteeMembership member : committeeMembers) {
+                if (member.isActive() && StringUtils.equals(principalId, member.getPerson().getIdentifier())) {
+                    result = true;
+                    break;
+                }
+            }
+        }
+        return result;
+    }   
 
 }

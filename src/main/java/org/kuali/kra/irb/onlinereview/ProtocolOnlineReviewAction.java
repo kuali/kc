@@ -303,6 +303,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
                 prDoc.getProtocolOnlineReview().setReviewerApproved(true);
                 if (getKraWorkflowService().isDocumentOnNode(prDoc, Constants.ONLINE_REVIEW_ROUTE_NODE_ADMIN_REVIEW)) {
                     prDoc.getProtocolOnlineReview().setAdminAccepted(true);
+                    setOnlineReviewCommentFinalFlags(prDoc.getProtocolOnlineReview(), true);
                 }
                 getBusinessObjectService().save(prDoc.getProtocolOnlineReview());
                 getDocumentService().saveDocument(prDoc);
@@ -423,6 +424,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
             prDoc.getProtocolOnlineReview().addActionPerformed("Reject");
             prDoc.getProtocolOnlineReview().setReviewerApproved(false);
             prDoc.getProtocolOnlineReview().setAdminAccepted(false);
+            setOnlineReviewCommentFinalFlags(prDoc.getProtocolOnlineReview(), false);
             getDocumentService().saveDocument(prDoc);
             getProtocolOnlineReviewService().returnProtocolOnlineReviewDocumentToReviewer(prDoc,reason,GlobalVariables.getUserSession().getPrincipalId());
             protocolForm.getOnlineReviewsActionHelper().init(true);
@@ -510,6 +512,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
                 document.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD);
                 document.getProtocolOnlineReview().setReviewerApproved(false);
                 document.getProtocolOnlineReview().setAdminAccepted(false);
+                getBusinessObjectService().save(document.getProtocolOnlineReview());
                 getDocumentService().disapproveDocument(document, disapprovalNoteText);
                 GlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_ROUTE_DISAPPROVED);
                 kualiDocumentFormBase.setAnnotation("");
@@ -760,5 +763,12 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
     protected void recordOnlineReviewActionSuccess(String onlineReviewActionName, ProtocolOnlineReviewDocument document) {
         String documentInfo = String.format("document number:%s, reviewer:%s", document.getDocumentNumber(), document.getProtocolOnlineReview().getProtocolReviewer().getFullName());
         GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_ONLINE_REVIEW_ACTION_SUCCESSFULLY_COMPLETED,onlineReviewActionName, documentInfo);
+    }
+    
+    private void setOnlineReviewCommentFinalFlags(ProtocolOnlineReview onlineReview, boolean flagValue) {
+        List<CommitteeScheduleMinute> minutes = onlineReview.getCommitteeScheduleMinutes();
+        for (CommitteeScheduleMinute minute : minutes) {
+            minute.setFinalFlag(flagValue);
+        }
     }
 }
