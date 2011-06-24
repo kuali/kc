@@ -753,11 +753,13 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         
+        AwardForm awardForm = (AwardForm) form;
+        Award award = awardForm.getAwardDocument().getAward();
         /*
          * We need to ensure the user didn't create a pending version of the linked proposal,
          * which, when processed, will overwrite any de-linking caused by the canceling of this Award version.
          */
-        Set<String> linkedPendingProposals = getLinkedPendingProposals(((AwardForm) form).getAwardDocument().getAward());
+        Set<String> linkedPendingProposals = getLinkedPendingProposals(award);
         if (!linkedPendingProposals.isEmpty()) {
             String proposalNumbers = StringUtils.join(linkedPendingProposals, ", ");
             GlobalVariables.getMessageMap().putError("noKey", 
@@ -784,6 +786,11 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
 
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         doProcessingAfterPost( kualiDocumentFormBase, request );
+        if (award.getSequenceNumber() == 1) {
+            AwardHierarchy hierarchy = getAwardHierarchyService().loadAwardHierarchy(award.getAwardNumber());
+            hierarchy.setActive(false);
+            getBusinessObjectService().save(hierarchy);
+        }
         getDocumentService().cancelDocument(kualiDocumentFormBase.getDocument(), kualiDocumentFormBase.getAnnotation());
         
         //add all award amount info objects to previous award version and save.
