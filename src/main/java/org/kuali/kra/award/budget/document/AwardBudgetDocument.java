@@ -19,12 +19,14 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.budget.AwardBudgetExt;
+import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.commitments.FandaRateType;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.infrastructure.Constants;
@@ -50,6 +52,8 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
     
     private BudgetDecimal obligatedTotal;
     private boolean budgetRateTypePopulated;
+    private transient BudgetParentDocument<Award> newestBudgetParentDocument;
+    private transient AwardBudgetService awardBudgetService;
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -62,6 +66,26 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
         awardBudget.setObligatedTotal(new BudgetDecimal(award.getBudgetTotalCostLimit().bigDecimalValue()));
         List<BudgetRate> budgetRates = awardBudget.getBudgetRates();
         populateBudgetRateTypes(awardBudget,budgetRates);
+    }
+    
+    /**
+     * Gets the parentDocument attribute. 
+     * @return Returns the parentDocument.
+     */
+    @Override
+    public BudgetParentDocument<Award> getParentDocument() {
+        if (newestBudgetParentDocument == null) {
+            BudgetParentDocument<Award> parent = super.getParentDocument();
+            if (parent == null) {
+                return null;
+            } else if (parent.getBudgetParent() == null) {
+                return parent;
+            } else {
+                Award currentAward = getAwardBudgetService().getActiveOrNewestAward(parent.getBudgetParent().getAwardNumber());
+                newestBudgetParentDocument = currentAward.getAwardDocument();
+            }
+        }
+        return newestBudgetParentDocument;
     }
     
     /**
@@ -220,6 +244,17 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
             AwardBudgetExt budget = KraServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(AwardBudgetExt.class, this.getBudget().getBudgetId());
         }
         super.prepareForSave();
+    }
+
+    protected AwardBudgetService getAwardBudgetService() {
+        if (awardBudgetService == null) {
+            awardBudgetService = KraServiceLocator.getService(AwardBudgetService.class);
+        }
+        return awardBudgetService;
+    }
+
+    public void setAwardBudgetService(AwardBudgetService awardBudgetService) {
+        this.awardBudgetService = awardBudgetService;
     }
  
 }
