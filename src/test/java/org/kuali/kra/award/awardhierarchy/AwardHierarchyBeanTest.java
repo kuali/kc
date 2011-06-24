@@ -101,7 +101,7 @@ public class AwardHierarchyBeanTest {
             one(service).findMatching(DocumentHeader.class, fieldValues);
             will(returnValue(new ArrayList<DocumentHeader>()));
             
-            Map<String, Object> primaryKeys = ServiceHelper.getInstance().buildCriteriaMap("awardNumber", ROOT_AWARD_NUMBER);
+            Map<String, Object> primaryKeys = ServiceHelper.getInstance().buildCriteriaMap(new String[]{"awardNumber", "active"}, new Object[]{ROOT_AWARD_NUMBER, Boolean.TRUE});
             allowing(service).findByPrimaryKey(AwardHierarchy.class, primaryKeys);
             will(returnValue(null));
         }});
