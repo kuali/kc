@@ -129,9 +129,9 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
             if (narrative.getNarrativeType().getAllowMultiple() != null
                     && narrative.getNarrativeType().getAllowMultiple().equals("Y") &&
                     StringUtils.isNotBlank(narrative.getModuleTitle())) {
-                retVal += "_" + narrative.getModuleTitle();
+                retVal += "_" + narrative.getModuleTitle().trim();
             }else{
-                retVal += "_" + narrative.getNarrativeType().getDescription();
+                retVal += "_" + narrative.getNarrativeType().getDescription().trim();
             }
         }
         int index = getIndexOfAttachmentAlreadyAdded(retVal);
@@ -160,9 +160,9 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
     public String createContentId(ProposalPersonBiography biography) {
         String retVal = "B-" + biography.getProposalPersonNumber() + "_" + biography.getBiographyNumber();
         if(biography.getPropPerDocType() != null) 
-            retVal += "_" + biography.getPropPerDocType().getDescription();
+            retVal += "_" + biography.getPropPerDocType().getDescription().trim();
         if (StringUtils.isNotBlank(biography.getDescription())) {
-            retVal += "_" + biography.getDescription();
+            retVal += "_" + biography.getDescription().trim();
         }
         int index = getIndexOfAttachmentAlreadyAdded(retVal);
         if(index > 0){
