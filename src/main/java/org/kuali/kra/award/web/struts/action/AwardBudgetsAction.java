@@ -185,14 +185,14 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         BudgetDocumentVersion budgetDocumentToOpen = awardDocument.getBudgetDocumentVersion(getSelectedLine(request));
         BudgetVersionOverview budgetToOpen = budgetDocumentToOpen.getBudgetVersionOverview();
         Collection<BudgetRate> allBudgetRates = budgetService.getSavedProposalRates(budgetToOpen);
-        BudgetParent budgetParent = awardDocument.getBudgetParent();
-        List<AwardFandaRate> fandaRates = awardForm.getAwardDocument().getAward().getAwardFandaRate();
+        Award newestAward = getAwardBudgetService().getActiveOrNewestAward(awardDocument.getAward().getAwardNumber());
+        List<AwardFandaRate> fandaRates = newestAward.getAwardFandaRate();
         List ebRates =new ArrayList();
-        if(awardForm.getAwardDocument().getAward().getSpecialEbRateOffCampus()!=null)
-        	ebRates.add(awardForm.getAwardDocument().getAward().getSpecialEbRateOffCampus());
-        if(awardForm.getAwardDocument().getAward().getSpecialEbRateOnCampus()!=null)
-        	ebRates.add(awardForm.getAwardDocument().getAward().getSpecialEbRateOnCampus());
-        if(budgetParent.getRequestedStartDateInitial()==null || budgetParent.getRequestedEndDateInitial()==null){
+        if(newestAward.getSpecialEbRateOffCampus()!=null)
+        	ebRates.add(newestAward.getSpecialEbRateOffCampus());
+        if(newestAward.getSpecialEbRateOnCampus()!=null)
+        	ebRates.add(newestAward.getSpecialEbRateOnCampus());
+        if(newestAward.getRequestedStartDateInitial()==null || newestAward.getRequestedEndDateInitial()==null){
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
         
@@ -209,7 +209,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         		 return mapping.findForward(Constants.MAPPING_BASIC);
         	 }
         }
-        if (budgetService.checkActivityTypeChange(allBudgetRates, budgetParent.getActivityTypeCode())) {
+        if (budgetService.checkActivityTypeChange(allBudgetRates, newestAward.getActivityTypeCode())) {
             return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
                     KeyConstants.QUESTION_SYNCH_BUDGET_RATE), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
         } else if(CollectionUtils.isEmpty(allBudgetRates)) {
@@ -222,8 +222,8 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
             Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
             Budget budget = budgetDocument.getBudget();
             String forward = buildForwardUrl(routeHeaderId);
-            if (!budget.getActivityTypeCode().equals(budgetParent.getActivityTypeCode()) || budget.isRateClassTypesReloaded()) {
-                budget.setActivityTypeCode(budgetParent.getActivityTypeCode());
+            if (!budget.getActivityTypeCode().equals(newestAward.getActivityTypeCode()) || budget.isRateClassTypesReloaded()) {
+                budget.setActivityTypeCode(newestAward.getActivityTypeCode());
                 forward = forward.replace("budgetParameters.do?", "awardBudgetParameters.do?syncBudgetRate=Y&");
             }
             if (awardForm.isAuditActivated()) {
