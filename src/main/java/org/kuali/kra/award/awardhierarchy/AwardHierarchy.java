@@ -41,6 +41,7 @@ public class AwardHierarchy extends KraPersistableBusinessObjectBase implements 
     private String originatingAwardNumber = Award.DEFAULT_AWARD_NUMBER;
     private AwardHierarchy root;
     private AwardHierarchy parent;
+    private Boolean active = true;
 
     private transient Award award;
     private transient List<AwardHierarchy> children;
@@ -434,7 +435,7 @@ public class AwardHierarchy extends KraPersistableBusinessObjectBase implements 
     }
 
     private AwardHierarchy findAwardHierarchyMatchingAwardNumber(String searchAwardNumber) {
-        Map map = ServiceHelper.getInstance().buildCriteriaMap("awardNumber", searchAwardNumber);
+        Map map = ServiceHelper.getInstance().buildCriteriaMap(new String[]{"awardNumber", "active"}, new Object[]{searchAwardNumber, Boolean.TRUE});
         Collection c = getBusinessObjectService().findMatching(AwardHierarchy.class, map);
         return c.size() == 1 ? (AwardHierarchy) c.iterator().next() : null;
     }
@@ -468,4 +469,11 @@ public class AwardHierarchy extends KraPersistableBusinessObjectBase implements 
         return copy;
       }
 
+    public Boolean isActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 }
