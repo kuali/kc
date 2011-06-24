@@ -658,6 +658,7 @@ public class AwardAction extends BudgetParentActionBase {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         String awardNumber = award.getAwardNumber();
         fieldValues.put("awardNumber", awardNumber);
+        fieldValues.put("active", Boolean.TRUE);
         BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
         List<AwardHierarchy> awardHierarchies = (ArrayList) businessObjectService.findMatching(AwardHierarchy.class, fieldValues);
         if (awardHierarchies.size() == 0) {
@@ -666,6 +667,7 @@ public class AwardAction extends BudgetParentActionBase {
             Map<String, Object> newFieldValues = new HashMap<String, Object>();
             String rootAwardNumber = awardHierarchies.get(0).getRootAwardNumber();
             newFieldValues.put("rootAwardNumber", rootAwardNumber);
+            newFieldValues.put("active", Boolean.TRUE);
             int matchingValues = businessObjectService.countMatching(AwardHierarchy.class, newFieldValues);
             if (matchingValues > 1) {
                 award.setAwardInMultipleNodeHierarchy(true);

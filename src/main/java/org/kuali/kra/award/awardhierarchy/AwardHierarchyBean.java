@@ -219,6 +219,12 @@ public class AwardHierarchyBean implements Serializable {
         GlobalVariables.setMessageList(messageList);
         return result;
     }
+    
+    public Integer getMaxAwardNumber() {
+        String nextAwardNumber = getRootNode().generateNextAwardNumberInSequence();
+        String[] parts = nextAwardNumber.split("-");
+        return Integer.valueOf(parts[1]);
+    }
 
     public AwardHierarchy getRootNode() {
         String currentAwardNumber = getAward().getAwardNumber();

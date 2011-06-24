@@ -172,6 +172,7 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
         List<AwardHierarchy> awardHierarchyList = new ArrayList<AwardHierarchy>();
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(FIELD_NAME_PARENT_AWARD_NUMBER, awardNumber);
+        fieldValues.put("active", Boolean.TRUE);
         awardHierarchyList.addAll(businessObjectService.findMatchingOrderBy(AwardHierarchy.class, fieldValues, FIELD_NAME_AWARD_NUMBER, true));
         return awardHierarchyList;
     }

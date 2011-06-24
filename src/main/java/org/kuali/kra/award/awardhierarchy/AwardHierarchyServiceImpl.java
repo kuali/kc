@@ -482,7 +482,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
      */
     @SuppressWarnings("unchecked")
     void recurseTree(AwardHierarchy branchNode) {
-        Map<String, Object> criteria = ServiceHelper.getInstance().buildCriteriaMap("parentAwardNumber", branchNode.getAwardNumber());
+        Map<String, Object> criteria = ServiceHelper.getInstance().buildCriteriaMap(new String[]{"parentAwardNumber", "active"}, new Object[]{branchNode.getAwardNumber(), Boolean.TRUE});
         Collection c = businessObjectService.findMatchingOrderBy(AwardHierarchy.class, criteria, AwardHierarchy.UNIQUE_IDENTIFIER_FIELD, true);
         branchNode.setChildren(new ArrayList<AwardHierarchy>(c));
         if(branchNode.hasChildren()) {
@@ -576,7 +576,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     }
 
     protected Map<String, Object> getAwardHierarchyCriteriaMap(String awardNumber) {
-        return ServiceHelper.getInstance().buildCriteriaMap(AwardHierarchy.UNIQUE_IDENTIFIER_FIELD, awardNumber);
+        return ServiceHelper.getInstance().buildCriteriaMap(new String[]{AwardHierarchy.UNIQUE_IDENTIFIER_FIELD, "active"}, new Object[]{awardNumber, Boolean.TRUE});
     }
 
     protected void restoreOriginalAwardPropertiesAfterCopy(Award award, String originalAwardNumber, Integer originalSequenceNumber) {
