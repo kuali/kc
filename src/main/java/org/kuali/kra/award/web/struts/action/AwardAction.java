@@ -1798,8 +1798,13 @@ public class AwardAction extends BudgetParentActionBase {
         AwardDocument awardDocument = awardForm.getAwardDocument();
         Award award = awardDocument.getAward();
         Map documentActions = formBase.getDocumentActions();
-        if (award.getAwardAmountInfos().size() > 1 && documentActions.containsKey(KNSConstants.KUALI_ACTION_CAN_CANCEL)) {
-            documentActions.remove(KNSConstants.KUALI_ACTION_CAN_CANCEL);
-        }
+        //if Award version has been edited in T&M doc then we suppress cancel action.
+        //workaround for copied awards.  On initial copy the Award has two entries in AAI table and originating award version of first entry is null.
+        if (award.getAwardAmountInfos().size() > 1) {
+                if(!(award.getAwardAmountInfos().size() == 2 && award.getAwardAmountInfos().get(0).getOriginatingAwardVersion() == null)
+                                && documentActions.containsKey(KNSConstants.KUALI_ACTION_CAN_CANCEL)) {
+                            documentActions.remove(KNSConstants.KUALI_ACTION_CAN_CANCEL);
+                }       
+        }   
     }
 }
