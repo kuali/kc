@@ -881,18 +881,16 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
     }
 
     public void calculateBudgetOnSave(Budget budget) {
-//        if(!isBudgetSummaryCalcAmountsChanged(budget)){
-            budgetCalculationService.calculateBudget(budget);
-            budgetCalculationService.calculateBudgetSummaryTotals(budget);
+        budgetCalculationService.calculateBudget(budget);
+//        budgetCalculationService.calculateBudgetSummaryTotals(budget);
+//        List<BudgetPeriod> awardBudgetPeriods = budget.getBudgetPeriods();
+//        for (BudgetPeriod awardBudgetPeriod : awardBudgetPeriods) {
+//            AwardBudgetPeriodExt budgetPeriod = (AwardBudgetPeriodExt)awardBudgetPeriod;
+//            BudgetDecimal periodFringeTotal = getPeriodFringeTotal(budgetPeriod, budget);
+//            budgetPeriod.setTotalDirectCost(budgetPeriod.getTotalDirectCost().subtract(periodFringeTotal).add(budgetPeriod.getTotalFringeAmount()));
+//            budgetPeriod.setTotalCost(budgetPeriod.getTotalDirectCost().add(budgetPeriod.getTotalIndirectCost()));
 //        }
-        List<BudgetPeriod> awardBudgetPeriods = budget.getBudgetPeriods();
-        for (BudgetPeriod awardBudgetPeriod : awardBudgetPeriods) {
-            AwardBudgetPeriodExt budgetPeriod = (AwardBudgetPeriodExt)awardBudgetPeriod;
-            BudgetDecimal periodFringeTotal = getPeriodFringeTotal(budgetPeriod, budget);
-            budgetPeriod.setTotalDirectCost(budgetPeriod.getTotalDirectCost().subtract(periodFringeTotal).add(budgetPeriod.getTotalFringeAmount()));
-            budgetPeriod.setTotalCost(budgetPeriod.getTotalDirectCost().add(budgetPeriod.getTotalIndirectCost()));
-        }
-        setBudgetCostsFromPeriods(budget);
+//        setBudgetCostsFromPeriods(budget);
     }
     
     public void populateSummaryCalcAmounts(Budget budget,BudgetPeriod budgetPeriod) {
