@@ -230,6 +230,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         List<CommitteeMembership> results = new ArrayList<CommitteeMembership>();
         
         ProtocolSubmission submission = protocol.getProtocolSubmission();
+        submission.refreshReferenceObject("protocolOnlineReviews");
         if (LOG.isDebugEnabled()) { 
             LOG.debug(String.format("Fetching available committee members for protocol %s, submission %s", protocol.getProtocolNumber(), 
                     submission.getSubmissionNumber()));
