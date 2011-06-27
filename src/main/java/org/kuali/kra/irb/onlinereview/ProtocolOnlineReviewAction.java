@@ -181,7 +181,8 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
             
             String principalId = bean.getPersonId();
             boolean nonEmployeeFlag = bean.getNonEmployeeFlag();
-            String reviewerTypeCode = StringUtils.isEmpty(bean.getReviewerTypeCode()) ? ProtocolReviewerType.PRIMARY : bean.getReviewerTypeCode();
+            //String reviewerTypeCode = StringUtils.isEmpty(bean.getReviewerTypeCode()) ? ProtocolReviewerType.PRIMARY : bean.getReviewerTypeCode();
+            String reviewerTypeCode = onlineReviewHelper.getNewReviewerTypeCode();
             ProtocolSubmission submission = protocolForm.getProtocolDocument().getProtocol().getProtocolSubmission();
             ProtocolReviewer reviewer = getProtocolOnlineReviewService().createProtocolReviewer(principalId, nonEmployeeFlag, reviewerTypeCode, submission);
             
