@@ -38,6 +38,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.bo.CitizenshipType;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.KcPerson;
@@ -288,7 +289,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 
     @Override
     public void populate(HttpServletRequest request) {
-       
+        System.err.println("got to populate");
         clearMultipleValueLookupResults();
         super.populate(request);
         ProposalDevelopmentDocument proposalDevelopmentDocument=getDocument();
@@ -299,6 +300,31 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         if (getActionFormUtilMap() instanceof ActionFormUtilMap) {
             ((ActionFormUtilMap) getActionFormUtilMap()).clear();
         }       
+        
+        /**
+         * For some reason citizenship type isn't being being saved to the POJO on form post, this is to correct that.
+         */
+        List<ProposalPerson> keyPersonnel = this.getDocument().getDevelopmentProposal().getProposalPersons();
+        int personCount = 0;
+        final String fieldStarter = "document.developmentProposalList[0].proposalPersons[";
+        final String fieldEnder = "].proposalPersonExtendedAttributes.citizenshipTypeCode";
+        for (ProposalPerson proposalPerson : keyPersonnel) {
+            //document.developmentProposalList[0].proposalPersons[0].proposalPersonExtendedAttributes.citizenshipTypeCode
+            String field = fieldStarter + personCount + fieldEnder;
+            if (request.getParameterMap().containsKey(field)) {
+                String citizenshipTypeCode = request.getParameter(field);
+                if (citizenshipTypeCode != null && StringUtils.isNotBlank(citizenshipTypeCode)) {
+                    Integer citizenshipTypeCodeInt = new Integer(citizenshipTypeCode);
+                    proposalPerson.getProposalPersonExtendedAttributes().setCitizenshipTypeCode(citizenshipTypeCodeInt);
+                    
+                    Map params = new HashMap();
+                    params.put("citizenshipTypeCode", citizenshipTypeCodeInt);
+                    CitizenshipType newCitizenshipType = (CitizenshipType) this.getBusinessObjectService().findByPrimaryKey(CitizenshipType.class, params);
+                    proposalPerson.getProposalPersonExtendedAttributes().setCitizenshipType(newCitizenshipType);
+                }
+            }   
+            personCount++;
+        }
     }
     
     /**
