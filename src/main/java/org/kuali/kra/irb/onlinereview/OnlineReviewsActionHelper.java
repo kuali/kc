@@ -379,6 +379,9 @@ public class OnlineReviewsActionHelper implements Serializable {
         if (protocolDocument==null) {
             throw new IllegalStateException(String.format("Document %s was not stored in the helper map.", documentNumber));
         }
+        if (protocolDocument.getProtocolOnlineReview().getDateRequested() == null) {
+            protocolDocument.getProtocolOnlineReview().setDateRequested(new Date((new java.util.Date()).getTime()));
+        }
         return protocolDocument;
     }
     
