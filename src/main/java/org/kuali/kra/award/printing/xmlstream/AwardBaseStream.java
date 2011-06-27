@@ -745,24 +745,13 @@ public abstract class AwardBaseStream implements XmlStream {
 			for (AwardCloseout awardCloseout:awardCloseoutItems ){
 				CloseOutDeadlines closeOutDeadline = CloseOutDeadlines.Factory.newInstance();		
 				
-				if (awardCloseout.getCloseoutReportType() != null) {
+				if (awardCloseout.getCloseoutReportName() != null) {
 					closeOutDeadline.setFinalReportType(awardCloseout.getCloseoutReportName());
 				}
 				if (awardCloseout.getDueDate() != null) {
 					Calendar closeoutDate = dateTimeService
 							.getCalendar(awardCloseout.getDueDate());
 					closeOutDeadline.setFinalDueDate(closeoutDate);
-
-
-
-
-
-
-
-
-
-
-
 				}
 				if (preAwardCloseout != null) {
 					String closeOutDateModified = getCloseOutDateModified(
@@ -811,27 +800,27 @@ public abstract class AwardBaseStream implements XmlStream {
 	 * @return returns Award IndirectCosts XmlObject
 	 */
 	protected AwardIndirectCosts getAwardIndirectCosts() {
-		AwardIndirectCosts awardIndirectCost = AwardIndirectCosts.Factory
-				.newInstance();
-		String comemnts = getIndirectCostComments();
-		if (comemnts != null) {
-			awardIndirectCost.setComments(comemnts);
-		}
-		List<IndirectCostSharingItem> indirectCostSharingItems = new ArrayList<IndirectCostSharingItem>();
-		if (award.getAwardFandaRate()!= null) {			    
-            for (AwardFandaRate awardFandaRate : award.getAwardFandaRate()) {
+        AwardIndirectCosts awardIndirectCost = AwardIndirectCosts.Factory
+                .newInstance();
+        String comemnts = getIndirectCostComments();
+        if (comemnts != null) {
+            awardIndirectCost.setComments(comemnts);
+        }
+        List<IndirectCostSharingItem> indirectCostSharingItems = new ArrayList<IndirectCostSharingItem>();
+        for (AwardFandaRate awardFandaRate : award.getAwardFandaRate()) {
+            if(awardFandaRate!=null){
                 IndirectCostSharingItem indirectCostSharingItem = IndirectCostSharingItem.Factory
-                        .newInstance();
+                .newInstance();
                 indirectCostSharingItem.setSequenceNumber(award.getSequenceNumber());   
                 if(awardFandaRate.getFiscalYear()!=null){
                     indirectCostSharingItem.setFiscalYear(String.valueOf(awardFandaRate.getFiscalYear())); 
                 }
                 if(awardFandaRate.getApplicableFandaRate()!=null){
-                indirectCostSharingItem
-                        .setApplicableRate(awardFandaRate.getApplicableFandaRate().bigDecimalValue());    
+                    indirectCostSharingItem
+                    .setApplicableRate(awardFandaRate.getApplicableFandaRate().bigDecimalValue());    
                 }
                 else{
-                indirectCostSharingItem
+                    indirectCostSharingItem
                     .setApplicableRate(KualiDecimal.ZERO.bigDecimalValue());  
                 }
                 boolean campus = (awardFandaRate.getOnCampusFlag() != null && awardFandaRate
@@ -855,17 +844,17 @@ public abstract class AwardBaseStream implements XmlStream {
                 if(awardFandaRate.getEndDate()!=null){
                     indirectCostSharingItem.setEndDate(dateTimeService.getCalendar(awardFandaRate.getEndDate()));  
                 }
-                if(awardFandaRate.getFandaRateType().getDescription()!=null){
+                if(awardFandaRate.getFandaRateType()!=null && awardFandaRate.getFandaRateType().getDescription()!=null){
                     indirectCostSharingItem.setIDCRateDescription(awardFandaRate.getFandaRateType().getDescription());
                 }
                 indirectCostSharingItems.add(indirectCostSharingItem);
             }
-		}
-		awardIndirectCost
-				.setIndirectCostSharingItemArray(indirectCostSharingItems
-						.toArray(new IndirectCostSharingItem[0]));
-		return awardIndirectCost;
-	}
+        }
+        awardIndirectCost
+                .setIndirectCostSharingItemArray(indirectCostSharingItems
+                        .toArray(new IndirectCostSharingItem[0]));
+        return awardIndirectCost;
+    }
 
 	/*
 	 * Fetch the BudgetDocument associated with Award
