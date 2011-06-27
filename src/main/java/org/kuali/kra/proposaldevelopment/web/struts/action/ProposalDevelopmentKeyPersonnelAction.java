@@ -113,25 +113,6 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         boolean rulePassed = getKualiRuleService().applyRules(new SaveKeyPersonEvent(EMPTY_STRING, pdform.getDocument()));
         if (rulePassed) {
             super.preSave(mapping, form, request, response);
-            ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
-            List<ProposalPerson> keyPersonnel = pdForm.getDocument().getDevelopmentProposal().getProposalPersons();
-            /**
-             * 1) If the citizenship has been changed, we need to update the object record along with the ID field that user changed via the UI.
-             */
-            for (ProposalPerson proposalPerson : keyPersonnel) {
-                if (proposalPerson.getProposalPersonExtendedAttributes() != null) {
-                    System.err.println(proposalPerson.getProposalPersonExtendedAttributes());
-                    int extendedAttributedCitizenshipTypeCode = proposalPerson.getProposalPersonExtendedAttributes().getCitizenshipTypeCode();
-                    proposalPerson.getProposalPersonExtendedAttributes().setProposalPersonRoleId(proposalPerson.getProposalPersonRoleId());
-                    if (proposalPerson.getProposalPersonExtendedAttributes().getCitizenshipType() == null 
-                            || extendedAttributedCitizenshipTypeCode != proposalPerson.getProposalPersonExtendedAttributes().getCitizenshipType().getCitizenshipTypeCode()) {
-                        Map params = new HashMap();
-                        params.put("citizenshipTypeCode", extendedAttributedCitizenshipTypeCode);
-                        CitizenshipType newCitizenshipType = (CitizenshipType) this.getBusinessObjectService().findByPrimaryKey(CitizenshipType.class, params);
-                        proposalPerson.getProposalPersonExtendedAttributes().setCitizenshipType(newCitizenshipType);
-                    }
-                }
-            }
         }
     }
     
