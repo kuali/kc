@@ -17,16 +17,9 @@ package org.kuali.kra.institutionalproposal.proposallog;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.notification.NotificationContext;
-import org.kuali.kra.common.notification.bo.KcNotification;
-import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
-import org.kuali.kra.common.notification.exception.UnknownRoleException;
-import org.kuali.kra.common.notification.service.KcNotificationService;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.rice.kim.util.KimConstants;
@@ -36,7 +29,7 @@ import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements Maintainable, NotificationContext {
+public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements Maintainable {
 
     private static final long serialVersionUID = 4690638717398206040L;
     private static final String KIM_PERSON_LOOKUPABLE_REFRESH_CALLER = "kimPersonLookupable";
@@ -107,27 +100,6 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
                 
         // We need to set this here so it's in the stored XML
         proposalLog.setUpdateTimestamp(getDateTimeService().getCurrentTimestamp());
-        
-        // Notify the PI he has been added
-        KcNotificationService kcNotificationService = KraServiceLocator.getService(KcNotificationService.class);
-        List<KcNotification> notifications = kcNotificationService.createNotifications(documentNumber, "2", "plp", this);
-        kcNotificationService.sendNotifications(notifications, this);
-    }
-    
-    public String replaceContextVariables(String text) {
-        return StringUtils.replace(text, "{PROPOSAL_NUMBER}", ((ProposalLog) this.getBusinessObject()).getProposalNumber());
-    }
-    
-    public void populateRoleQualifiers(NotificationTypeRecipient recipient) throws UnknownRoleException {
-        String roleNamespace = StringUtils.substringBefore(recipient.getRoleName(), Constants.COLON);
-        String roleName = StringUtils.substringAfter(recipient.getRoleName(), Constants.COLON);
-        
-        if (StringUtils.equals(roleNamespace, "KC-IP") && StringUtils.equals(roleName, "Proposal Log PI")) {
-            recipient.setRoleQualifier("documentNumber");
-            recipient.setQualifierValue(this.documentNumber);
-        } else {
-            throw new UnknownRoleException(recipient.getRoleName(), "ProposalLog");
-        }
     }
     
     private void setupDefaultValues(ProposalLog proposalLog) {
