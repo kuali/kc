@@ -389,9 +389,11 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
     protected Boolean isInValidInfosCollection(TimeAndMoneyDocument doc, List<AwardAmountInfo> validInfos) {
         Boolean valid = false;
         for(AwardAmountInfo awardAmountInfo : validInfos) {
-            if(awardAmountInfo.getTimeAndMoneyDocumentNumber().equals(doc.getDocumentNumber())) {
-                valid = true;
-                break;
+            if(!(awardAmountInfo.getTimeAndMoneyDocumentNumber() == null)){
+                if(awardAmountInfo.getTimeAndMoneyDocumentNumber().equals(doc.getDocumentNumber())) {
+                    valid = true;
+                    break;
+                }
             }
         }
         return valid;
