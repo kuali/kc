@@ -52,6 +52,10 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     private static final String ACTION_CODE = "actionCode";
     private static final String NOTIFICATION_TYPE_ID = "notificationTypeId";
     private static final String DOCUMENT_NUMBER = "documentNumber";
+    protected static final Long PRIORITY_NORMAL = new Long(1);
+    protected static final Long CONTENT_TYPE_SIMPLE = new Long(1);
+    protected static final Long SYSTEM_NOTIFICATION_PRODUCER = new Long(1);
+    protected static final Long KC_NOTIFICATION_CHANNEL = new Long(1000);
     
     private static final Log LOG = LogFactory.getLog(KcNotificationServiceImpl.class);
     
@@ -132,11 +136,11 @@ public class KcNotificationServiceImpl implements KcNotificationService {
             Notification notification = new Notification();
             
             NotificationPriority priority = new NotificationPriority();
-            priority.setId(new Long(1)); // TODO System param (normal priority)
+            priority.setId(PRIORITY_NORMAL);
             notification.setPriority(priority);
             
             NotificationContentType contentType = new NotificationContentType();
-            contentType.setId(new Long(1)); // TODO System param
+            contentType.setId(CONTENT_TYPE_SIMPLE);
             notification.setContentType(contentType);
             
             notification.setProducer(getSystemNotificationProducer());
@@ -170,7 +174,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     protected NotificationProducer getSystemNotificationProducer() {
         if (this.systemNotificationProducer == null) {
             NotificationProducer np = new NotificationProducer();
-            np.setId(new Long(1));
+            np.setId(SYSTEM_NOTIFICATION_PRODUCER);
             List<NotificationChannel> notificationChannels = new ArrayList<NotificationChannel>();
             notificationChannels.add(getKcNotificationChannel());
             np.setChannels(notificationChannels);
@@ -182,7 +186,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     protected NotificationChannel getKcNotificationChannel() {
         if (this.kcNotificationChannel == null) {
             NotificationChannel nc = new NotificationChannel();
-            nc.setId(new Long(1000)); // TODO sys parm
+            nc.setId(KC_NOTIFICATION_CHANNEL);
             this.kcNotificationChannel = nc;
         }
         return kcNotificationChannel;
