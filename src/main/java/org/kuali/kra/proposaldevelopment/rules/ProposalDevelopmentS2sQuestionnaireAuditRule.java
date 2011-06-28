@@ -24,6 +24,7 @@ import org.apache.batik.util.gui.MemoryMonitor.Usage;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentS2sQuestionnaireService;
 import org.kuali.kra.questionnaire.QuestionnaireUsage;
@@ -48,15 +49,15 @@ public class ProposalDevelopmentS2sQuestionnaireAuditRule extends ResearchDocume
         
         boolean valid = true;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)document;
-        S2sOpportunity opp = proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity();
+        DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
+        S2sOpportunity opp = developmentProposal.getS2sOpportunity();
         
-        if (opp!=null) {
-            
+        if (opp!=null && opp.getS2sOppForms()!=null) {
             for (S2sOppForms oppforms : opp.getS2sOppForms()) {
                 List<QuestionnaireUsage> usages = getProposalDevelopmentS2sQuestionnaireService().getQuestionnaireUsages(oppforms.getOppNameSpace(), oppforms.getFormName());
                 // if the returned usages list is empty, there are no Questionnaires for that opp form.
                 if (usages.size()>0) {
-                    List<AnswerHeader> headers = proposalDevelopmentS2sQuestionnaireService.getProposalAnswerHeaderForForm(proposalDevelopmentDocument.getDevelopmentProposal(),oppforms.getOppNameSpace(),oppforms.getFormName());
+                    List<AnswerHeader> headers = proposalDevelopmentS2sQuestionnaireService.getProposalAnswerHeaderForForm(developmentProposal,oppforms.getOppNameSpace(),oppforms.getFormName());
                     for (int i=0;i<headers.size();i++) {
                         AnswerHeader header = headers.get(i);
                         if (!header.getCompleted()) {
