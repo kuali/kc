@@ -205,7 +205,6 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
     }
     
     private boolean processAccountIdBusinessRule(Document document) {
-        System.err.println("Got to processAccountIdBusinessRule");
         boolean retVal = true;
         InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
         InstitutionalProposal institutionalProposal = institutionalProposalDocument.getInstitutionalProposal();
@@ -228,7 +227,6 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
                 }
             }
         }
-        System.err.println("About to return " + (retVal));
         return retVal;
     }
     
