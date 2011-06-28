@@ -29,6 +29,8 @@
     <c:if test="${answerHeaderIndex == 0 and !forceNonTransparent}">
       <c:set var="transparent" value="true" />
     </c:if> 
+        <%-- reset readonly, in case there is deactivated qn displayed before this one --%>
+        <c:set var="readOnly" value="${!bean.answerQuestionnaire}" scope = "request"/>
     	<c:if test="${not bean.answerHeaders[answerHeaderIndex].activeQuestionnaire}">
             <c:set var="inactivate" value="- This Questionnaire has been deactivated." />
             <c:set var="readOnly" value="true" scope="request"/>
