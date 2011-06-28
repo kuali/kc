@@ -21,11 +21,10 @@ echo Invalid Database Type <%dbtype%>
 goto dbtype
 
 :Version
-set /p Version="Enter Version (NEW, 3.0, 3.0.1, 3.1M3) <%Version%>: "
+set /p Version="Enter Version (NEW, 3.0, 3.0.1) <%Version%>: "
 if /i "%Version%" == "NEW" goto User
 if /i "%Version%" == "3.0" goto User
 if /i "%Version%" == "3.0.1" goto User
-if /i "%Version&" == "3.1M3" goto User
 echo Invalid Version <%Version%>
 goto Version
 
@@ -111,6 +110,7 @@ cd ../..
 :3.0ORACLE
 cd KC-RELEASE-3_0_1-SCRIPT
 sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-Release-3_0-3_0_1-Upgrade-Oracle-Install.sql
+sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-Release-3_0-3_0_1-Upgrade-Oracle-Install.sql
 move *.log ../LOGS
 cd ..
 
@@ -122,13 +122,13 @@ cd ../..
 :3.0.1ORACLE
 cd KC-RELEASE-3_1_SP1-SCRIPT
 sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-Release-3_0_1-3_1_S1-Upgrade-Oracle-Install.sql
+sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-Release-3_0_1-3_1_S1-Upgrade-Oracle-Install.sql
 
 if /i "%mode%%InstRice%" == "EMBEDY" goto 3.1.SP1ORACLERICE
 if /i "%mode%" == "BUNDLE" goto 3.1.SP1ORACLERICE
 goto 3.1.SP1ORACLEFINISH
 
 :3.1.SP1ORACLERICE
-sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-Release-3_0_1-3_1_S1-Upgrade-Oracle-Install.sql
 sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-Server-Release-1_0_3-1_0_3_1-Upgrade-Oracle-Install.sql
 
 :3.1.SP1ORACLEFINISH
@@ -138,44 +138,27 @@ cd ..
 cd KC-RELEASE-3_1_SP2-SCRIPT
 sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KRC-RELEASE-3_1_SP2-Upgrade-ORACLE.sql
 sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-RELEASE-3_1_SP2-Upgrade-ORACLE.sql
-
-if /i "%mode%%InstRice%" == "EMBEDY" goto 3.1.SP2ORACLERICE
-if /i "%mode%" == "BUNDLE" goto 3.1.SP2ORACLERICE
-goto 3.1.SP2ORACLEFINISH
-
-:3.1.SP2ORACLERICE
 sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-3_1_SP2-Upgrade-ORACLE.sql
-
-:3.1.SP2ORACLEFINISH
 move *.log ../LOGS
 cd ..
 
 cd KC-RELEASE-3_1_SP3-SCRIPT
 sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KRC-RELEASE-3_1_SP3-Upgrade-ORACLE.sql
 sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-RELEASE-3_1_SP3-Upgrade-ORACLE.sql
-
-if /i "%mode%%InstRice%" == "EMBEDY" goto 3.1.SP3ORACLERICE
-if /i "%mode%" == "BUNDLE" goto 3.1.SP3ORACLERICE
-goto 3.1.SP3ORACLEFINISH
-
-:3.1.SP3ORACLERICE
 sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-3_1_SP3-Upgrade-ORACLE.sql
-
-:3.1.SP3ORACLEFINISH
 move *.log ../LOGS
 cd ..
 
-:3.1M3ORACLE
 cd KC-RELEASE-3_1_SP4-SCRIPT
 sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KRC-RELEASE-3_1_SP4-Upgrade-ORACLE.sql
 sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-RELEASE-3_1_SP4-Upgrade-ORACLE.sql
+sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-3_1_SP4-Upgrade-ORACLE.sql
 
 if /i "%mode%%InstRice%" == "EMBEDY" goto 3.1.SP4ORACLERICE
 if /i "%mode%" == "BUNDLE" goto 3.1.SP4ORACLERICE
 goto 3.1.SP4ORACLEFINISH
 
 :3.1.SP4ORACLERICE
-sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-3_1_SP4-Upgrade-ORACLE.sql
 sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < RICE-1_0_3_1-1_0_3_2-Upgrade-ORACLE.sql
 
 :3.1.SP4ORACLEFINISH
@@ -209,25 +192,26 @@ cd ../..
 :3.0MYSQL
 cd KC-RELEASE-3_0_1-SCRIPT
 mysql -u %un% -p%pw% -D %un% -s -f < KC-Release-3_0-3_0_1-Upgrade-Mysql-Install.sql > KC-Release-3_0-3_0_1-Upgrade-Mysql-Install.log 2>&1
+mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-Release-3_0-3_0_1-Upgrade-Mysql-Install.sql > KR-Release-3_0-3_0_1-Upgrade-Mysql-Install.log 2>&1
 move *.log ../LOGS
 cd ..
 
 cd INSTALL-SHARED/MYSQL
-mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s < KR_SEQ_BS.sql > KR_SEQ_BS-Mysql-Install.log 2>&1
+mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR_SEQ_BS.sql > KR_SEQ_BS-Mysql-Install.log 2>&1
 move *.log ../../LOGS/
 cd ../..
 
 :3.0.1MYSQL
 cd KC-RELEASE-3_1_SP1-SCRIPT
 mysql -u %un% -p%pw% -D %un% -s -f < KC-Release-3_0_1-3_1_S1-Upgrade-Mysql-Install.sql > KC-Release-3_0_1-3_1_S1-Upgrade-Mysql-Install.log 2>&1
+mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-Release-3_0_1-3_1_S1-Upgrade-Mysql-Install.sql > KR-Release-3_0_1-3_1_S1-Upgrade-Mysql-Install.log 2>&1
 
 if /i "%mode%%InstRice%" == "EMBEDY" goto 3.1.SP1MYSQLRICE
 if /i "%mode%" == "BUNDLE" goto 3.1.SP1MYSQLRICE
 goto 3.1.SP1ORACLEFINISH
 
 :3.1.SP1MYSQLRICE
-mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s < KR-Release-3_0_1-3_1_S1-Upgrade-Mysql-Install.sql > KR-Release-3_0_1-3_1_S1-Upgrade-Mysql-Install.log 2>&1
-mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s < KR-Server-Release-1_0_3-1_0_3_1-Upgrade-Mysql-Install.sql > KR-Server-Release-1_0_3_1-Upgrade-Mysql-Install.log 2>&1
+mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-Server-Release-1_0_3-1_0_3_1-Upgrade-Mysql-Install.sql > KR-Server-Release-1_0_3_1-Upgrade-Mysql-Install.log 2>&1
 
 :3.1.SP1MYSQLFINISH
 move *.log ../LOGS
@@ -236,52 +220,35 @@ cd ..
 cd KC-RELEASE-3_1_SP2-SCRIPT
 mysql -u %un% -p%pw% -D %un% -s -f < KRC-RELEASE-3_1_SP2-Upgrade-MYSQL.sql > KRC-RELEASE-3_1_SP2-Upgrade-MYSQL-Install.log 2>&1
 mysql -u %un% -p%pw% -D %un% -s -f < KC-RELEASE-3_1_SP2-Upgrade-MYSQL.sql > KC-RELEASE-3_1_SP2-Upgrade-MYSQL-Install.log 2>&1
-
-if /i "%mode%%InstRice%" == "EMBEDY" goto 3.1.SP2MYSQLRICE
-if /i "%mode%" == "BUNDLE" goto 3.1.SP2MYSQLRICE
-goto 3.1.SP2MYSQLFINISH
-
-:3.1.SP2MYSQLRICE
 mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s < KR-RELEASE-3_1_SP2-Upgrade-MYSQL.sql > KR-RELEASE-3_1_SP2-Upgrade-MYSQL-Install.log 2>&1
-
-:3.1.SP2ORACLEFINISH
 move *.log ../LOGS
 cd ..
 
 cd KC-RELEASE-3_1_SP3-SCRIPT
 mysql -u %un% -p%pw% -D %un% -s -f < KRC-RELEASE-3_1_SP3-Upgrade-MYSQL.sql > KRC-RELEASE-3_1_SP3-Upgrade-MYSQL-Install.log 2>&1
 mysql -u %un% -p%pw% -D %un% -s -f < KC-RELEASE-3_1_SP3-Upgrade-MYSQL.sql > KC-RELEASE-3_1_SP3-Upgrade-MYSQL-Install.log 2>&1
-
-if /i "%mode%%InstRice%" == "EMBEDY" goto 3.1.SP3MYSQLRICE
-if /i "%mode%" == "BUNDLE" goto 3.1.SP3MYSQLRICE
-goto 3.1.SP3MYSQLFINISH
-
-:3.1.SP3MYSQLRICE
 mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s < KR-RELEASE-3_1_SP3-Upgrade-MYSQL.sql > KR-RELEASE-3_1_SP3-Upgrade-MYSQL-Install.log 2>&1
-
-:3.1.SP3MYSQLFINISH
 move *.log ../LOGS
 cd ..
 
-:3.1M3MYSQL
 cd KC-RELEASE-3_1_SP4-SCRIPT
 mysql -u %un% -p%pw% -D %un% -s -f < KRC-RELEASE-3_1_SP4-Upgrade-MYSQL.sql > KRC-RELEASE-3_1_SP4-Upgrade-MYSQL-Install.log 2>&1
 mysql -u %un% -p%pw% -D %un% -s -f < KC-RELEASE-3_1_SP4-Upgrade-MYSQL.sql > KC-RELEASE-3_1_SP4-Upgrade-MYSQL-Install.log 2>&1
+mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-RELEASE-3_1_SP4-Upgrade-MYSQL.sql  > KR-RELEASE-3_1_SP4-Upgrade-MYSQL-Install.log 2>&1
 
 if /i "%mode%%InstRice%" == "EMBEDY" goto 3.1.SP4MYSQLRICE
 if /i "%mode%" == "BUNDLE" goto 3.1.SP4MYSQLRICE
 goto 3.1.SP4MYSQLFINISH
 
 :3.1.SP4MYSQLRICE
-mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s < KR-RELEASE-3_1_SP4-Upgrade-MYSQL.sql  > KR-RELEASE-3_1_SP4-Upgrade-MYSQL-Install.log 2>&1
-mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s < RICE-1_0_3_1-1_0_3_2-Upgrade-MYSQL.sql > RICE-1_0_3_1-1_0_3_2-Upgrade-MYSQL-Install.log 2>&1
+mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < RICE-1_0_3_1-1_0_3_2-Upgrade-MYSQL.sql > RICE-1_0_3_1-1_0_3_2-Upgrade-MYSQL-Install.log 2>&1
 
 :3.1.SP4MYSQLFINISH
 move *.log ../LOGS
 cd ..
 
 cd INSTALL-SHARED/MYSQL
-mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s < KR_CLEAN_SEQ_BS.sql > KR_CLEAN_SEQ_BS-Mysql-Install.log 2>&1
+mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR_CLEAN_SEQ_BS.sql > KR_CLEAN_SEQ_BS-Mysql-Install.log 2>&1
 move *.log ../../LOGS/
 cd ../..
 
