@@ -102,6 +102,7 @@ public class AwardServiceImpl implements AwardService {
         newVersion.setSyncChild(false);
         newVersion.setAwardAmountInfos(minimizeAwardAmountInfoCollection(newVersion.getAwardAmountInfos()));
         newVersion.getAwardAmountInfos().get(0).setOriginatingAwardVersion(newVersion.getSequenceNumber());
+        newVersion.getAwardAmountInfos().get(0).setTimeAndMoneyDocumentNumber(null);
         return newAwardDocument;
     }
     
