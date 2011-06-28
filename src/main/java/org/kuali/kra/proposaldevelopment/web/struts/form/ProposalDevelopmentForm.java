@@ -289,7 +289,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 
     @Override
     public void populate(HttpServletRequest request) {
-        System.err.println("got to populate");
         clearMultipleValueLookupResults();
         super.populate(request);
         ProposalDevelopmentDocument proposalDevelopmentDocument=getDocument();
