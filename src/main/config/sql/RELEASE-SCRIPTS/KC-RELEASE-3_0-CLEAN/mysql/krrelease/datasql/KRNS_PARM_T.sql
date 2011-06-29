@@ -97,7 +97,7 @@ INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,CONS_CD,NMSPC_CD,OBJ_ID,PARM_DESC_TXT,PAR
   VALUES ('KUALI','A','KR-NS','5A689075D35B7AEBE0404F8189D80321','Time in milliseconds that the scheduleStep should wait between iterations.','ScheduleStep','STATUS_CHECK_INTERVAL','CONFG','30000',1)
 /
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,CONS_CD,NMSPC_CD,OBJ_ID,PARM_DESC_TXT,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,VER_NBR)
-  VALUES ('KUALI','A','KR-WKFLW','290E45BA032F4F4FB423CE5F78AC52E1','Flag to specify if clicking on a Document ID from the Action List will load the Document in a new window.','ActionList','ACTION_LIST_DOCUMENT_POPUP_IND','CONFG','Y',1)
+  VALUES ('KUALI','A','KR-WKFLW','290E45BA032F4F4FB423CE5F78AC52E1','Flag to specify if clicking on a Document ID from the Action List will load the Document in a new window.','ActionList','ACTION_LIST_DOCUMENT_POPUP_IND','CONFG','N',1)
 /
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,CONS_CD,NMSPC_CD,OBJ_ID,PARM_DESC_TXT,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,VER_NBR)
   VALUES ('KUALI','A','KR-WKFLW','967B0311A5E94F7191B2C544FA7DE095','Flag to specify if clicking on a Route Log from the Action List will load the Route Log in a new window.','ActionList','ACTION_LIST_ROUTE_LOG_POPUP_IND','CONFG','N',1)
@@ -124,7 +124,7 @@ INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,CONS_CD,NMSPC_CD,OBJ_ID,PARM_DESC_TXT,PAR
   VALUES ('KUALI','A','KR-WKFLW','9BD6785416434C4D9E5F05AF077DB9B7','Flag to show the backdoor login.','Backdoor','SHOW_BACK_DOOR_LOGIN_IND','CONFG','N',1)
 /
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,CONS_CD,NMSPC_CD,OBJ_ID,PARM_DESC_TXT,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,VER_NBR)
-  VALUES ('KUALI','A','KR-WKFLW','E78100F6F14C4932B54F7719FA5C27E9','Flag to specify if clicking on a Document ID from Document Search will load the Document in a new window.','DocSearchCriteriaDTO','DOCUMENT_SEARCH_POPUP_IND','CONFG','Y',1)
+  VALUES ('KUALI','A','KR-WKFLW','E78100F6F14C4932B54F7719FA5C27E9','Flag to specify if clicking on a Document ID from Document Search will load the Document in a new window.','DocSearchCriteriaDTO','DOCUMENT_SEARCH_POPUP_IND','CONFG','N',1)
 /
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,CONS_CD,NMSPC_CD,OBJ_ID,PARM_DESC_TXT,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,VER_NBR)
   VALUES ('KUALI','A','KR-WKFLW','632680DDE9A7478CBD379FAF90C7AE72','Flag to specify if clicking on a Route Log from Document Search will load the Route Log in a new window.','DocSearchCriteriaDTO','DOCUMENT_SEARCH_ROUTE_LOG_POPUP_IND','CONFG','N',1)
