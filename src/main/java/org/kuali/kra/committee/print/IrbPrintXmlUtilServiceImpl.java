@@ -294,7 +294,7 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
                 if (protocol.getProtocolNumber().equals(protocolSubmission.getProtocolNumber())
                       && protocol.getProtocolSubmission() != null
                         && protocol.getProtocolSubmission().getSubmissionNumber().equals(protocolSubmission.getSubmissionNumber())) {
-                    if (reviewCommentsService.getReviewerMinuteCommentsView(minuteEntryInfoBean)){
+                    if (reviewCommentsService.getReviewerAcceptedCommentsView(minuteEntryInfoBean)){
                         addMinute(committeeSchedule, minuteEntryInfoBean, submissionsType.addNewMinutes());
                     }
                     
