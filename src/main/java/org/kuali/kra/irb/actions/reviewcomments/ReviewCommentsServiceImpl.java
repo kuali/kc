@@ -737,5 +737,27 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
         }
         return result;
     }   
+    /**
+     * Returns whether the Reviewer can view this accepted minute Comments in print.
+     * 
+     * @param CommitteeScheduleMinute minute
+     * @return whether the current user can view this comment
+     */
+    public boolean getReviewerAcceptedCommentsView(CommitteeScheduleMinute minute) {
+        boolean viewAcceptedMinute = false; 
+        String principalId = GlobalVariables.getUserSession().getPrincipalId();
+        String principalName = GlobalVariables.getUserSession().getPrincipalName();
+        if (minute.getProtocolOnlineReviewIdFk() != null) {
+            ProtocolOnlineReview protocolOnlineReview =businessObjectService.findBySinglePrimaryKey(ProtocolOnlineReview.class, minute.getProtocolOnlineReviewIdFk());
+            if (protocolOnlineReview.isAdminAccepted()) {
+                viewAcceptedMinute = true;
+            }
+        } else {
+            viewAcceptedMinute = true;
+        }
+            return isIrbAdministrator(principalId) || (StringUtils.equals(principalName, minute.getCreateUser()) && viewAcceptedMinute)
+            || (isReviewer(minute, principalId) && minute.isFinalFlag() && viewAcceptedMinute)
+            || (!minute.getPrivateCommentFlag() && minute.isFinalFlag() && viewAcceptedMinute);
+    }
 
 }

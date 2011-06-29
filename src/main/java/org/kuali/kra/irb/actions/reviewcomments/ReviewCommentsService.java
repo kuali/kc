@@ -161,5 +161,14 @@ public interface ReviewCommentsService {
      * @return whether the current user can view this comment
      */
     boolean getReviewerMinuteCommentsView(CommitteeScheduleMinute minute);
+    /**
+     * 
+     * This method is to check whether the Reviewer can view Accepted minute comment.
+     * 
+     * @param CommitteeScheduleMinute minute
+     * @return whether the current user can view this comment
+     */
+    boolean getReviewerAcceptedCommentsView(CommitteeScheduleMinute minute);
+    
     
 }
