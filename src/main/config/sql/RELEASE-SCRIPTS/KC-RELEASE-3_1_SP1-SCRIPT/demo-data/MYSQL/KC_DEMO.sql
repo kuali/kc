@@ -1,3 +1,0 @@
-\. KC_SEQUENCE_RESET.sql
-
-COMMIT; 
