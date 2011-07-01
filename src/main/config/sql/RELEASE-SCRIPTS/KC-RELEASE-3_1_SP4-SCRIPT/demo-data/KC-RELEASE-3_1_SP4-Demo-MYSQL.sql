@@ -1,3 +1,0 @@
-\. MYSQL/KC_DEMO1_SPONSOR_HIERARCHY.sql
-commit;
-exit
