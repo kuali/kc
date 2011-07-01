@@ -1,3 +1,0 @@
-\. MYSQL/KC_DEMO1_SPONSOR_FORM_TEMPLATES.sql
-commit;
-exit
