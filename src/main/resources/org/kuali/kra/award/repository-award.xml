@@ -217,6 +217,10 @@
         <collection-descriptor name="awardBudgetLimits" proxy="true" element-class-ref="org.kuali.kra.award.budget.AwardBudgetLimit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="awardId"/>
         </collection-descriptor>
+             <collection-descriptor name="awardApprovedSubawards" proxy="true" element-class-ref="org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">				
+       		 <orderby name="organizationName" sort="ASC" />
+       	 	<inverse-foreignkey field-ref="awardId" />
+		</collection-descriptor>
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.award.contacts.AwardPerson" table="AWARD_PERSONS">

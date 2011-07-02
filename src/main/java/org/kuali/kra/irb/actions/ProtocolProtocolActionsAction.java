@@ -1967,9 +1967,11 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
         UndoLastActionBean undoLastActionBean = protocolForm.getActionHelper().getUndoLastActionBean();
         String lastActionType = undoLastActionBean.getLastPerformedAction().getProtocolActionTypeCode();
-
+        
         UndoLastActionService undoLastActionService = KraServiceLocator.getService(UndoLastActionService.class);
         ProtocolDocument updatedDocument = undoLastActionService.undoLastAction(protocolDocument, undoLastActionBean);
+       
+        
 
         recordProtocolActionSuccess("Undo Last Action");
 
@@ -1984,9 +1986,9 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             // undo SMR/SRR may need to create & route onln revw document,
             // this will need some time.   also, some change in db may not be viewable 
             // before document is routed.  so, add this holding page for undo SMR/SRR.
-//            protocolForm.setActionHelper(new ActionHelper(protocolForm));
-//
-//            protocolForm.getActionHelper().prepareView();
+            //            protocolForm.setActionHelper(new ActionHelper(protocolForm));
+            //
+            //            protocolForm.getActionHelper().prepareView();
             return routeProtocolToHoldingPage(mapping, protocolForm);
         }
 

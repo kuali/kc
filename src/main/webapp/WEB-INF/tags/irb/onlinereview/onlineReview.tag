@@ -187,12 +187,12 @@
                 </td>
                 <th width = "25%" class="grid">
            			<div align="right">
-                		<kul:htmlAttributeLabel attributeEntry="${protocolReviewerAttributes.reviewerTypeCode}" noColon="false" />
+                		<kul:htmlAttributeLabel attributeEntry="${onlineReviewAttributes.reviewerTypeCode}" noColon="false" />
                 	</div>
                 </th>
                 <td width = "25%" class="grid" >
                 	<kul:htmlControlAttribute property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].protocolOnlineReview.protocolReviewer.reviewerTypeCode"
-		                                                                                  attributeEntry="${protocolReviewerAttributes.reviewerTypeCode}" readOnly = "${readOnly || !kualiForm.irbAdminFieldsEditable}"/>
+		                                                                                  attributeEntry="${onlineReviewAttributes.reviewerTypeCode}" readOnly = "${readOnly || !kualiForm.irbAdminFieldsEditable}"/>
 				</td>
               </tr>
          	</table>
