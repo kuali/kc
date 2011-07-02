@@ -29,7 +29,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.protocolSubmitAction.j
 </noscript>
 
 ${kfunc:registerEditableProperty(KualiForm, "actionHelper.protocolSubmitAction.numberOfReviewers")}
-<html:hidden styleId="numberOfReviewers" property="actionHelper.protocolSubmitAction.numberOfReviewers" value="0"></html:hidden>
+<html:hidden styleId="numberOfReviewers" property="actionHelper.protocolSubmitAction.numberOfReviewers" value="${fn:length(KualiForm.actionHelper.protocolSubmitAction.reviewers)}"></html:hidden>
 
 <jsp:useBean id="paramMap" class="java.util.HashMap"/>
 

@@ -79,6 +79,8 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
     private transient String lookupReviewerPersonId;
     private transient KcPerson lookupReviewerPerson;
     private transient String lookupProtocolOnlineReviewStatusCode;
+    // to limit reviewertype drop down to primary/secondary on OLR
+    private transient String reviewerTypeCode;
     
     
     public ProtocolOnlineReview() {
@@ -650,6 +652,14 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
         } else {
             actionsPerformed = actionsPerformed.substring(0, idx);
         }
+    }
+
+    public String getReviewerTypeCode() {
+        return reviewerTypeCode;
+    }
+
+    public void setReviewerTypeCode(String reviewerTypeCode) {
+        this.reviewerTypeCode = reviewerTypeCode;
     }
 
 }

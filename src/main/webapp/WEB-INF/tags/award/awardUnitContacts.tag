@@ -185,7 +185,7 @@
 			<div align="center"><c:if test="${!readOnly}">
 				<html:image
 					property="methodToCall.syncDefaultUnitContactsToLeadUnit.anchor${tabKey}"
-					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-syncall.gif'
+					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-sync_lead_unit.jpg'
 					styleClass="tinybutton" />
 			</c:if> <c:if test="${readOnly}">&nbsp;</c:if></div>
 			</th>

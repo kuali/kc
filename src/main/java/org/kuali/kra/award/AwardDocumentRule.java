@@ -18,6 +18,7 @@ package org.kuali.kra.award;
 import static org.kuali.kra.infrastructure.KeyConstants.AWARD_ATTACHMENT_FILE_REQUIRED;
 import static org.kuali.kra.infrastructure.KeyConstants.AWARD_ATTACHMENT_TYPE_CODE_REQUIRED;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -840,23 +841,42 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         errorMap.addToErrorPath(AWARD_ERROR_PATH);
 
         boolean success = true;
-        if (award.getAwardEffectiveDate() != null 
-                && award.getAwardAmountInfos().get(award.getIndexOfLastAwardAmountInfo()).getFinalExpirationDate() != null) {
-            if (award.getAwardEffectiveDate().after(
-                    award.getAwardAmountInfos().get(award.getIndexOfLastAwardAmountInfo()).getFinalExpirationDate())) {
-                success = false;
-                errorMap.putError("awardAmountInfos["+award.getIndexOfLastAwardAmountInfo()+"].finalExpirationDate", KeyConstants.ERROR_END_DATE_PRIOR_START_DATE,
-                        new String[] {"Project End Date", "Project Start Date"});
-            }
+        int lastIndex = award.getIndexOfLastAwardAmountInfo();
+        // make sure start dates are before end dates
+        Date effStartDate = award.getAwardEffectiveDate(); 
+        Date effEndDate = award.getAwardAmountInfos().get(lastIndex).getFinalExpirationDate();
+        if (effStartDate != null && effEndDate != null && effStartDate.after(effEndDate))  {
+            success = false;
+            errorMap.putError("awardAmountInfos["+lastIndex+"].finalExpirationDate", KeyConstants.ERROR_END_DATE_PRIOR_START_DATE,
+                    new String[] {"Project End Date", "Project Start Date"});
         }
-        if (award.getAwardAmountInfos().get(award.getIndexOfLastAwardAmountInfo()).getCurrentFundEffectiveDate() != null 
-                && award.getAwardAmountInfos().get(award.getIndexOfLastAwardAmountInfo()).getObligationExpirationDate() != null) {
-            if (award.getAwardAmountInfos().get(award.getIndexOfLastAwardAmountInfo()).getCurrentFundEffectiveDate().after(
-                    award.getAwardAmountInfos().get(award.getIndexOfLastAwardAmountInfo()).getObligationExpirationDate())) {
-                success = false;
-                errorMap.putError("awardAmountInfos["+award.getIndexOfLastAwardAmountInfo()+"].obligationExpirationDate", KeyConstants.ERROR_END_DATE_PRIOR_START_DATE,
-                        new String[] {"Obligation End Date", "Obligation Start Date"});
-            }
+        Date oblStartDate = award.getAwardAmountInfos().get(lastIndex).getCurrentFundEffectiveDate(); 
+        Date oblEndDate = award.getAwardAmountInfos().get(lastIndex).getObligationExpirationDate();
+        if (oblStartDate != null && oblEndDate != null && oblStartDate.after(oblEndDate)) {
+            success = false;
+            errorMap.putError("awardAmountInfos["+lastIndex+"].obligationExpirationDate", KeyConstants.ERROR_END_DATE_PRIOR_START_DATE,
+                    new String[] {"Obligation End Date", "Obligation Start Date"});
+        }
+        // make sure obligation dates are within effective dates
+        if (oblStartDate != null && effStartDate != null && oblStartDate.before(effStartDate)) {
+            success = false;
+            errorMap.putError("awardAmountInfos["+lastIndex+"].currentFundEffectiveDate1", KeyConstants.ERROR_START_DATE_ON_OR_AFTER,
+                    new String[] {"Obligation Start Date", "Effective Start Date"});
+        }
+        if (oblEndDate != null && effStartDate != null && oblEndDate.before(effStartDate)) {
+            success = false;
+            errorMap.putError("awardAmountInfos["+lastIndex+"].obligationExpirationDate1", KeyConstants.ERROR_START_DATE_ON_OR_AFTER,
+                    new String[] {"Obligation End Date", "Effective Start Date"});
+        }
+        if (oblStartDate != null && effEndDate != null && oblStartDate.after(effEndDate)) {
+            success = false;
+            errorMap.putError("awardAmountInfos["+lastIndex+"].currentFundEffectiveDate2", KeyConstants.ERROR_START_DATE_ON_OR_BEFORE,
+                    new String[] {"Obligation Start Date", "Effective End Date"});
+        }
+        if (oblEndDate != null && effEndDate != null && oblEndDate.after(effEndDate)) {
+            success = false;
+            errorMap.putError("awardAmountInfos["+lastIndex+"].obligationExpirationDate2", KeyConstants.ERROR_START_DATE_ON_OR_BEFORE,
+                    new String[] {"Obligation End Date", "Effective End Date"});
         }
 
         errorMap.removeFromErrorPath(AWARD_ERROR_PATH);

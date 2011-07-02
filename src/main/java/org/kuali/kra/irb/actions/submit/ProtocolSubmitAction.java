@@ -41,6 +41,7 @@ public class ProtocolSubmitAction extends ProtocolActionBean implements Serializ
     private String committeeId = "";
     private String scheduleId = "";
     private boolean committeeIdChanged = false;
+    private boolean scheduleIdChanged = false;
     private boolean reviewerListAvailable = false;
     private int numberOfReviewers = 0;
     
@@ -86,12 +87,15 @@ public class ProtocolSubmitAction extends ProtocolActionBean implements Serializ
          * that we display if the committee has changed.
          */
         if (!this.getJavascriptEnabled()) {
-            reviewers.clear();
-            this.reviewerListAvailable = false;
-            if ((!StringUtils.isBlank(this.committeeId)) && (!this.committeeIdChanged)) {
-                if (!StringUtils.isBlank(this.scheduleId)) {
+            if ((!StringUtils.isBlank(this.committeeId)) && (!this.committeeIdChanged) && (!StringUtils.isBlank(this.scheduleId))) {
+                if (this.scheduleIdChanged) {
+                    reviewers.clear();
                     buildReviewers();
                 }
+            }
+            else {
+                reviewers.clear();
+                this.reviewerListAvailable = false;
             }
         }
         else {
@@ -178,8 +182,12 @@ public class ProtocolSubmitAction extends ProtocolActionBean implements Serializ
     }
 
     public void setScheduleId(String scheduleId) {
+        this.scheduleIdChanged = true;
+        if (StringUtils.equals(this.scheduleId, scheduleId)) {
+            this.scheduleIdChanged = false;
+        }
         this.scheduleId = scheduleId;
-
+        
         // TODO: to be removed eventually
         this.newScheduleId = scheduleId;
     }

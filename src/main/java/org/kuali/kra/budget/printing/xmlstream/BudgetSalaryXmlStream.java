@@ -16,26 +16,25 @@
 package org.kuali.kra.budget.printing.xmlstream;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import noNamespace.BudgetSalaryDocument;
-import noNamespace.SalaryType;
 import noNamespace.BudgetSalaryDocument.BudgetSalary;
+import noNamespace.SalaryType;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
-import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.budget.core.BudgetCategoryType;
+import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.printing.util.BudgetDataPeriodVO;
 import org.kuali.kra.budget.printing.util.SalaryTypeVO;
-import org.kuali.kra.document.ResearchDocumentBase;
 
 /**
  * This class generates XML that conforms with the XSD related to Budget Salary
@@ -48,6 +47,8 @@ import org.kuali.kra.document.ResearchDocumentBase;
 public class BudgetSalaryXmlStream extends BudgetBaseSalaryStream {
 
 	private static final String BUDGET_SALARY = "Budget Salary";
+	
+	private BudgetCalculationService budgetCalculationService;
 
 	/**
 	 * This method generates XML for Budget Salary Report. It uses data passed
@@ -75,15 +76,19 @@ public class BudgetSalaryXmlStream extends BudgetBaseSalaryStream {
 		return xmlObjectList;
 	}
 
-	/*
+	/**
 	 * This method will set the values to salary type attributes and finally
-	 * return the array of Salary type
+	 * return the array of Salary type.
 	 */
 	protected BudgetSalary getSalaryType() {
 		List<SalaryTypeVO> salaryTypeVoList = new ArrayList<SalaryTypeVO>();
-		List<String> lineItems = getListOfCostElements();
-		for (String costElemetDesc : lineItems) {
-			setSalaryTypesForCostElement(costElemetDesc, salaryTypeVoList);
+		getBudgetCalculationService().calculateBudgetSummaryTotals(budget);
+		for (Map.Entry<BudgetCategoryType, List<CostElement>> entry : budget.getObjectCodeListByBudgetCategoryType().entrySet()) {
+		    if (StringUtils.equals(entry.getKey().getBudgetCategoryTypeCode(), BUDGET_CATEGORY_TYPE_PERSONNEL)) {
+		        for (CostElement costElement : entry.getValue()) {
+		            addSalaryDataForCostElement(costElement, salaryTypeVoList);
+		        }
+		    }
 		}
 		boolean includeNonPersonnel = false;
 		setSalaryTypesForLineItemCalcuAmount(salaryTypeVoList,includeNonPersonnel);
@@ -92,148 +97,45 @@ public class BudgetSalaryXmlStream extends BudgetBaseSalaryStream {
 		budgetSalary.setSalaryArray(salaryTypeList.toArray(new SalaryType[0]));
 		return budgetSalary;
 	}
-
-	/*
-	 * This method will get the unique list of cost elements.It is iterates over
-	 * budget line items for each budget period of budget document and add the
-	 * cost element description to list if cost element description not found in
-	 * list
-	 * 
-	 */
-	private List<String> getListOfCostElements() {
-		List<String> lineItems = new ArrayList<String>();
-		for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
-			this.budgetPeriod = budgetPeriod;
-			for (BudgetLineItem budgetLineItem : budgetPeriod
-					.getBudgetLineItems()) {
-				for (BudgetPersonnelDetails budgetPersonnelDetail : budgetLineItem
-						.getBudgetPersonnelDetailsList()) {
-					addCostElementDescriptionToList(lineItems,
-							budgetPersonnelDetail, budgetLineItem);
-				}
-			}
-		}
-		return lineItems;
+	
+	private void addSalaryDataForCostElement(CostElement costElement, List<SalaryTypeVO> salaryTypeVoList) {
+        SalaryTypeVO groupVO = new SalaryTypeVO();
+        groupVO.setCostElement(costElement.getDescription());
+        salaryTypeVoList.add(groupVO);
+        for (BudgetPersonnelDetails details : budget.getObjectCodePersonnelList().get(costElement)) {
+            SalaryTypeVO salaryTypeVoPerPerson = new SalaryTypeVO();
+            salaryTypeVoPerPerson.setName(details.getBudgetPerson().getPersonName());
+            salaryTypeVoPerPerson.setBudgetPeriodVOs(getBudgetPeriodData(
+                    budget.getObjectCodePersonnelSalaryTotals().get(costElement.getCostElement() + "," + details.getPersonId())));
+            salaryTypeVoList.add(salaryTypeVoPerPerson);
+        }
+        if (budget.getObjectCodePersonnelSalaryTotals().get(costElement.getCostElement()) != null) {
+            SalaryTypeVO salaryTypeVoPerPerson = new SalaryTypeVO();
+            salaryTypeVoPerPerson.setName("Summary Line Item");
+            salaryTypeVoPerPerson.setBudgetPeriodVOs(
+                    getBudgetPeriodData(budget.getObjectCodePersonnelSalaryTotals().get(costElement.getCostElement())));
+            salaryTypeVoList.add(salaryTypeVoPerPerson);                        
+        }	    
 	}
-
-	/*
-	 * This method checks if cost element description not found in list then add
-	 * it to list.
-	 */
-	private void addCostElementDescriptionToList(List<String> lineItems,
-			BudgetPersonnelDetails budgetPersonnelDetail,
-			BudgetLineItem budgetLineItem) {
-		if (budgetLineItem.getCostElementBO() != null) {
-			String budgetLineItemCostEleDesc = budgetLineItem
-					.getCostElementBO().getDescription();
-			if (!lineItems.contains(budgetLineItemCostEleDesc)) {
-				lineItems.add(budgetLineItemCostEleDesc);
-			}
-		}
+	
+	private List<BudgetDataPeriodVO> getBudgetPeriodData(List<BudgetDecimal> costs) {
+        List<BudgetDataPeriodVO> budgetDataList = new ArrayList<BudgetDataPeriodVO>();
+        int budgetPeriodId = 1;
+        for (BudgetDecimal cost : costs) {
+            BudgetDataPeriodVO periodData = new BudgetDataPeriodVO();
+            periodData.setBudgetPeriodId(budgetPeriodId++);
+            periodData.setPeriodCost(cost);
+            budgetDataList.add(periodData);
+        }
+        return budgetDataList;
 	}
+	
 
-	/*
-	 * This method will return true if budget Personnel Cost Element Description
-	 * is equal to budget LineItem Cost Element Description otherwise false
-	 */
-	private boolean isEqualToCostElementDescription(
-			String budgetPeronnelCostEleDesc, String budgetLineItemCostEleDesc) {
-		boolean isCostElementDescEqual = false;
-		if (budgetPeronnelCostEleDesc != null
-				&& budgetLineItemCostEleDesc != null) {
-			isCostElementDescEqual = budgetPeronnelCostEleDesc
-					.equals(budgetLineItemCostEleDesc);
-		}
-		return isCostElementDescEqual;
-	}
+    protected BudgetCalculationService getBudgetCalculationService() {
+        return budgetCalculationService;
+    }
 
-	/*
-	 * This method set the values to salary type attributes and add to the
-	 * salary type list
-	 */
-	private void setSalaryTypesForCostElement(String costElementDesc,
-			List<SalaryTypeVO> salaryTypeVoList) {
-		Map<String, String> personMap = new HashMap<String, String>();
-		SalaryTypeVO salaryTypeVO = new SalaryTypeVO();
-		salaryTypeVO.setCostElement(costElementDesc);
-		salaryTypeVoList.add(salaryTypeVO);
-		List<String> persons = getPersonsForCostElementDescription(costElementDesc);
-		for (String personName : persons) {
-			if (personMap.containsKey(personName)) {
-				continue;
-			}
-			SalaryTypeVO salaryTypeVoPerPerson = new SalaryTypeVO();
-			salaryTypeVoPerPerson.setName(personName);
-			salaryTypeVoPerPerson.setBudgetPeriodVOs(getBudgetDataPeriodVOs(
-					costElementDesc, personName));
-			salaryTypeVoList.add(salaryTypeVoPerPerson);
-			personMap.put(personName, personName);
-		}
-	}
-
-	/*
-	 * This method will return the list budgetPeriod data for cost element and
-	 * person name
-	 */
-	private List<BudgetDataPeriodVO> getBudgetDataPeriodVOs(
-			String costElementDesc, String personName) {
-		List<BudgetDataPeriodVO> budgetPeriodDataList = new ArrayList<BudgetDataPeriodVO>();
-		int budgetPeriodDataId = 0;
-		for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
-			BudgetDataPeriodVO budgetPeriodVO = new BudgetDataPeriodVO();
-			budgetPeriodVO.setBudgetPeriodId(++budgetPeriodDataId);
-			BudgetDecimal periodCost = BudgetDecimal.ZERO;
-			for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
-				if (lineItem.getCostElementBO() != null
-						&& isEqualToCostElementDescription(lineItem
-								.getCostElementBO().getDescription(),
-								costElementDesc)) {
-					for (BudgetPersonnelDetails budgetPersonnelDetails : lineItem
-							.getBudgetPersonnelDetailsList()) {
-						budgetPersonnelDetails.refreshNonUpdateableReferences();
-						String budgetPersonName = budgetPersonnelDetails
-								.getBudgetPerson().getPersonName();
-						BudgetDecimal salaryRequested = budgetPersonnelDetails
-								.getSalaryRequested();
-						if (personName != null
-								&& personName.equals(budgetPersonName)
-								&& salaryRequested != null) {
-							periodCost = periodCost.add(salaryRequested);
-						}
-					}
-				}
-			}
-			budgetPeriodVO.setPeriodCost(periodCost);
-			budgetPeriodDataList.add(budgetPeriodVO);
-		}
-		return budgetPeriodDataList;
-	}
-
-	/*
-	 * This method will get the all persons belongs to this cost element. For
-	 * given cost element description get the list of persons have these cost
-	 * element by iterating over Budget Personnel Details of each budget period .
-	 */
-	private List<String> getPersonsForCostElementDescription(
-			String costElementDesc) {
-		List<String> persons = new ArrayList<String>();
-		for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
-			for (BudgetLineItem budgetLineItem : budgetPeriod
-					.getBudgetLineItems()) {
-				if (budgetLineItem.getCostElementBO() != null
-						&& isEqualToCostElementDescription(costElementDesc,
-								budgetLineItem.getCostElementBO()
-										.getDescription())) {
-					for (BudgetPersonnelDetails budgetPersonnelDetail : budgetLineItem
-							.getBudgetPersonnelDetailsList()) {
-						budgetPersonnelDetail.refreshNonUpdateableReferences();
-						String personName = budgetPersonnelDetail
-								.getBudgetPerson().getPersonName();
-						persons.add(personName);
-					}
-				}
-			}
-		}
-		return persons;
-	}
+    public void setBudgetCalculationService(BudgetCalculationService budgetCalculationService) {
+        this.budgetCalculationService = budgetCalculationService;
+    }
 }
