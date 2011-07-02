@@ -46,18 +46,22 @@ echo ------------------------
 goto Password
 )
 
-if /i "%dbtype%" == "MYSQL" goto RICE
 :DBSvrNm
-set /p DBSvrNm="Enter Database TNS Name <%DBSvrNm%>:"
+set /p DBSvrNm="Enter Database TNS/schema Name <%DBSvrNm%>:"
 if "%DBSvrNm%" == "" (   
 echo ---------------------------------
-echo Database TNS Name must be entered
+echo Database TNS/schema Name must be entered
 echo ---------------------------------
 goto DBSvrNm
 )
 
 :RICE
-if /i "%mode%" == "BUNDLE" goto INSTALL
+if /i "%mode%" == "BUNDLE" (
+set Riceun="%un%"
+set Ricepw="%pw%"
+set RiceDBSvrNm="%DBSvrNm%"
+goto INSTALL
+)
 :RiceUser
 set /p Riceun="Enter Rice DB Username <%Riceun%>: "
 if "%Riceun%" == "" (
@@ -76,12 +80,11 @@ echo -----------------------------
 goto RicePassword
 )
 
-if /i "%dbtype%" == "MYSQL" goto INSTALL
 :RiceDBSvrNm
-set /p RiceDBSvrNm="Enter Rice Database TNS Name <%RiceDBSvrNm%>:"
+set /p RiceDBSvrNm="Enter Rice Database TNS/schema Name <%RiceDBSvrNm%>:"
 if "%RiceDBSvrNm%" == "" (   
 echo --------------------------------------
-echo Rice Database TNS Name must be entered
+echo Rice Database TNS/schema Name must be entered
 echo --------------------------------------
 goto RiceDBSvrNm
 )
