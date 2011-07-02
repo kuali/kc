@@ -252,7 +252,7 @@ public class BudgetExpensesAction extends BudgetAction {
             AttachmentDataSource dataStream = budgetPrintService.readBudgetPrintStream(budget, BudgetPrintType.BUDGET_SALARY_REPORT.getBudgetPrintType());
             streamToResponse(dataStream,response);
         }catch(Exception ex){
-            LOG.error(ex);
+            LOG.error("Error getting salary report", ex);
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
         return null;

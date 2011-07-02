@@ -75,7 +75,7 @@ class FandARatesDataFeedCommand extends ProposalDataFeedCommandBase {
     }
     
     private void assignDates(AwardFandaRate awardFandA, Calendar calendar) {
-        awardFandA.setStartDate(new Date(calendar.getTimeInMillis()));
+        awardFandA.setStartDate(calculateFirstDayOfYear(calendar));
         awardFandA.setEndDate(calculateLastDayOfYear(calendar));
     }
 
@@ -101,6 +101,19 @@ class FandARatesDataFeedCommand extends ProposalDataFeedCommandBase {
         assignDates(awardFandA, calendar);
     }
 
+    /*
+     * note: method has side effect of changing parameter calendar
+     */
+    private Date calculateFirstDayOfYear(Calendar calendar) {
+        if (calendar.get(Calendar.DAY_OF_YEAR) != 1) {
+            calendar.add(Calendar.YEAR, -1);
+        }
+        return new Date(calendar.getTimeInMillis());
+    }
+    
+    /*
+     * note: method has side effect of changing parameter calendar
+     */
     private Date calculateLastDayOfYear(Calendar calendar) {
         calendar.add(Calendar.YEAR, 1);
         calendar.add(Calendar.DATE, -1);

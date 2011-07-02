@@ -123,4 +123,10 @@ public class UndoLastActionBean extends ProtocolActionBean implements Serializab
         }
         return false;
     }
+    
+    public void refreshActionsPerformed() {
+        if(null != this.getProtocol()) {
+            this.actionsPerformed = this.getProtocol().getProtocolActions();
+        }  
+    }
 }

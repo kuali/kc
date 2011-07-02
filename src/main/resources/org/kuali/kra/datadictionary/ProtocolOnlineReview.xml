@@ -50,6 +50,7 @@
 				<ref bean="ProtocolOnlineReview-protocolSubmission.protocolSubmissionType.description"/>
 				<ref bean="ProtocolOnlineReview-protocolSubmission.submissionStatus.description"/>
 				<ref bean="ProtocolOnlineReview-lookupProtocolOnlineReviewStatusCode"/>
+				<ref bean="ProtocolOnlineReview-reviewerTypeCode"/>
 				<ref bean="ProtocolOnlineReview-protocol.protocolNumber"/>
 				<ref bean="ProtocolOnlineReview-protocol.protocolStatus.description"/>
 				<!--  Result fields -->
@@ -495,6 +496,31 @@
     <bean id="ProtocolOnlineReview-protocol.protocolNumber-parentBean" abstract="true" parent="Protocol-protocolNumber" >
         <property name="name" value="protocol.protocolNumber" />
     </bean>
+
+	<bean id="ProtocolOnlineReview-reviewerTypeCode" parent="ProtocolOnlineReview-reviewerTypeCode-parentBean" />
+    <bean id="ProtocolOnlineReview-reviewerTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="name" value="reviewerTypeCode" />
+	    <property name="forceUppercase" value="false" />
+	    <property name="label" value="Reviewer Type" />
+	    <property name="shortLabel" value="Reviewer Type" />
+	    <property name="maxLength" value="3" />
+	    <property name="validationPattern" >
+	      <bean parent="AlphaNumericValidationPattern" />
+	    </property>
+	    <property name="required" value="false" />
+	    <property name="control" >
+	      <bean parent="SelectControlDefinition"
+	            p:businessObjectClass="org.kuali.kra.irb.actions.submit.ProtocolReviewerType"
+	            p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
+	            p:includeKeyInLabel="false"
+            	p:includeBlankRow="false"
+	            p:keyAttribute="reviewerTypeCode"
+	            p:labelAttribute="description" />
+	    </property>
+	    <property name="summary" value="Reviewer Type" />
+	    <property name="description" value="Reviewer Type" />
+    </bean>
+
 
     <bean id="ProtocolOnlineReview-protocol.protocolStatus.description" parent="ProtocolOnlineReview-protocol.protocolStatus.description-parentBean" />
     <bean id="ProtocolOnlineReview-protocol.protocolStatus.description-parentBean" abstract="true" parent="ProtocolStatus-description" >
