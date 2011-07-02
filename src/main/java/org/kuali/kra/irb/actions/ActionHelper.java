@@ -1509,6 +1509,9 @@ public class ActionHelper implements Serializable {
     }
     
     public UndoLastActionBean getUndoLastActionBean() {
+        if(null != undoLastActionBean) {
+            undoLastActionBean.refreshActionsPerformed();
+        }
         return undoLastActionBean;
     }
 

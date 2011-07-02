@@ -404,6 +404,9 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
+		<property name="budgetCalculationService">
+			<ref bean="budgetCalculationService"/>
+		</property>
 	</bean>
 	<bean id="budgetSalaryPrint"
 		class="org.kuali.kra.budget.printing.print.BudgetSalaryPrint" scope="prototype">

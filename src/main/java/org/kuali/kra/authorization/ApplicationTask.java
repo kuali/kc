@@ -19,7 +19,7 @@ import org.kuali.kra.infrastructure.TaskGroupName;
 
 /**
  * An Application Task is a task that is global to the application.
- * In other words, it doesn't correspond to any existing object
+ * In other words,it doesn't correspond to any existing object
  * in the system, such as a proposal.
  */
 public final class ApplicationTask extends Task {

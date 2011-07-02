@@ -432,6 +432,7 @@ public final class KeyConstants {
     
     //Award Cost Share Confirmation Questions
     public static final String QUESTION_SYNC_UNIT_CONTACTS = "document.question.syncUnitContacts.text";
+    public static final String QUESTION_SYNC_UNIT_DETAILS = "document.question.syncUnitDetails.text";
     
     public static final String QUESTION_SYNC_PANEL = "document.question.syncPanel.text";
     public static final String QUESTION_SYNC_FULL = "document.question.syncAll.text";
@@ -831,8 +832,6 @@ public final class KeyConstants {
     public static final String ERROR_DIRECT_INDIRECT_TRANSACTION = "error.direct.indirect.transaction";
     public static final String WARNING_TRANSACTION_OBLI_LESS_THAN_BUDGET_LIMIT = "warning.transaction.obligated.less.than.limit";
 
-
-    
     //Award Hierarchy
     public static final String ERROR_CREATE_NEW_CHILD_OTHER_AWARD_NOT_SELECTED = "error.create.new.child.other.award.not.selected";
     public static final String ERROR_CREATE_NEW_CHILD_NO_OPTION_SELECTED = "error.create.new.child.no.option.selected";
@@ -864,7 +863,6 @@ public final class KeyConstants {
     public static final String ERROR_S2S_TRUSTSTORE_NOT_FOUND = "error.s2s.truststore.not.found";
     public static final String ERROR_S2S_TRUSTSTORE_CANNOT_READ = "error.s2s.truststore.cannot.read";
 
-
     // Correspondence
     public static final String ERROR_CORRESPONDENCE_TEMPLATE_COMMITTEE_NOT_SPECIFIED = "error.correspondence.template.committee.not.specified";
     public static final String ERROR_CORRESPONDENCE_TEMPLATE_COMMITTEE_DUPLICATE = "error.correspondence.template.committee.duplicate";
@@ -893,6 +891,8 @@ public final class KeyConstants {
     public static final String AWARD_BUDGET_TYPE_REBUDGET = "awardBudgetTypeRebudget";
     
     public static final String ERROR_END_DATE_PRIOR_START_DATE = "error.end.date.prior.start.date";
+    public static final String ERROR_START_DATE_ON_OR_BEFORE = "error.start.date.on.or.before";
+    public static final String ERROR_START_DATE_ON_OR_AFTER = "error.start.date.on.or.after";
     public static final String ERROR_INVALID_UNITCONTACT_PERSON = "error.unitContact.invalid.person";
     public static final String ERROR_MISSING_UNITCONTACT_PERSON = "error.unitContact.missing.person";
    
