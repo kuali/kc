@@ -32,7 +32,7 @@ public class AwardAccountDTO implements Serializable {
     private String projectDirector;
     private String proposalNumber;
     private String sponsorName;
-    private boolean federalSponsor;
+    private boolean isFederalSponsor;
     private Long awardId;
     private String sponsorCode;
     private Long institutionalproposalId;
@@ -96,10 +96,10 @@ public class AwardAccountDTO implements Serializable {
         this.sponsorName = sponsorName;
     }
     public boolean isFederalSponsor() {
-        return federalSponsor;
+        return isFederalSponsor;
     }
-    public void setFederalSponsor(boolean federalSponsor) {
-        this.federalSponsor = federalSponsor;
+    public void setFederalSponsor(boolean isFederalSponsor) {
+        this.isFederalSponsor = isFederalSponsor;
     }
     public Long getAwardId() {
         return awardId;
