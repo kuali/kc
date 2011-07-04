@@ -42,39 +42,42 @@ public class AwardAccountServiceImpl implements AwardAccountService {
     private ParameterService parameterService;
 
     /**
+     * This method returns all the awards linked to a financial account number.
      * @see org.kuali.kra.external.award.AwardAccountService#getAwardAccount(java.lang.String)
      */
-    public AwardAccountDTO getAwardAccount(String financialAccountNumber) {
+    public List<AwardAccountDTO> getAwardAccount(String financialAccountNumber) {
         
-        Award award = getAward(financialAccountNumber); 
-        AwardAccountDTO awardAccountDTO = new AwardAccountDTO();
-        if (ObjectUtils.isNotNull(award)) {
-            awardAccountDTO.setProposalFederalPassThroughAgencyNumber(award.getSponsorCode());
-            //sponsor award id same as sponsor award number
-            awardAccountDTO.setGrantNumber(award.getSponsorAwardNumber());
-            // how to get IP id from award
-            awardAccountDTO.setInstitutionalproposalId(getProposalId(award));
-            awardAccountDTO.setAwardId(award.getAwardId());
-            awardAccountDTO.setProjectDirector(award.getPrincipalInvestigator().getPersonId());
-            // send the award number which is the proposal number on the KFS side
-            awardAccountDTO.setProposalNumber(award.getAwardNumber());
-            awardAccountDTO.setSponsorCode(award.getSponsorCode());
-            awardAccountDTO.setSponsorName(award.getSponsorName());
-            awardAccountDTO.setFederalSponsor(isFederalSponsor(award));
-            awardAccountDTO.setAwardTitle(award.getTitle());
-            awardAccountDTO.setPrimeSponsorCode(award.getPrimeSponsorCode());
-            // where is the prime sponsor agency number?
-            if(ObjectUtils.isNotNull(award.getPrimeSponsor())) {
-                awardAccountDTO.setPrimeSponsorName(award.getPrimeSponsor().getSponsorName());
-            }
-            else {
-                awardAccountDTO.setPrimeSponsorName("");
+        List<Award> awards = getAwards(financialAccountNumber);
+        List<AwardAccountDTO> awardDTOs = new ArrayList<AwardAccountDTO>();
+        if (ObjectUtils.isNotNull(awards)) {
+            for (Award award : awards) {
+                AwardAccountDTO awardAccountDTO = new AwardAccountDTO();
+                awardAccountDTO.setProposalFederalPassThroughAgencyNumber(award.getSponsorCode());
+                //sponsor award id same as sponsor award number
+                awardAccountDTO.setGrantNumber(award.getSponsorAwardNumber());
+                // how to get IP id from award
+                awardAccountDTO.setInstitutionalproposalId(getProposalId(award));
+                awardAccountDTO.setAwardId(award.getAwardId());
+                awardAccountDTO.setProjectDirector(award.getPrincipalInvestigator().getPersonId());
+                // send the award number which is the proposal number on the KFS side
+                awardAccountDTO.setProposalNumber(award.getAwardNumber());
+                awardAccountDTO.setSponsorCode(award.getSponsorCode());
+                awardAccountDTO.setSponsorName(award.getSponsorName());
+                awardAccountDTO.setFederalSponsor(isFederalSponsor(award));
+                awardAccountDTO.setAwardTitle(award.getTitle());
+                awardAccountDTO.setPrimeSponsorCode(award.getPrimeSponsorCode());
+            
+                // where is the prime sponsor agency number?
+                if (ObjectUtils.isNotNull(award.getPrimeSponsor())) {
+                    awardAccountDTO.setPrimeSponsorName(award.getPrimeSponsor().getSponsorName());
+                } else {
+                    awardAccountDTO.setPrimeSponsorName("");
+                }
+                awardDTOs.add(awardAccountDTO);
             }
             
-        } else {
-            awardAccountDTO.setErrorMessage("There is no award with the financial account number " + financialAccountNumber);
-        }
-        return awardAccountDTO;
+        } 
+        return awardDTOs;
     }
 
     /**
@@ -83,7 +86,7 @@ public class AwardAccountServiceImpl implements AwardAccountService {
      * @param award
      * @return
      */
-    public Long getProposalId(Award award) {
+    protected Long getProposalId(Award award) {
         String proposalNumber = award.getProposalNumber();
         List<InstitutionalProposal> proposals;
         HashMap<String, String> searchCriteria =  new HashMap<String, String>();
@@ -117,13 +120,13 @@ public class AwardAccountServiceImpl implements AwardAccountService {
      * @param financialAccountNumber
      * @return
      */
-    protected Award getAward(String financialAccountNumber) {
+    protected List<Award> getAwards(String financialAccountNumber) {
         List<Award> awards;
         HashMap<String, String> searchCriteria =  new HashMap<String, String>();
         searchCriteria.put("accountNumber", financialAccountNumber);  
         awards = new ArrayList<Award>(businessObjectService.findMatching(Award.class, searchCriteria));
         if (ObjectUtils.isNotNull(awards) && !awards.isEmpty()) {
-            return awards.get(0);
+            return awards;
         } else {
             LOG.warn("No award found for the corresponding account number.");
             return null;
