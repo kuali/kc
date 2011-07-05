@@ -27,10 +27,11 @@
 		<thead>
 			<tr>
 				<th align="left"
-					style="background: none repeat scroll 0% 0% rgb(147, 147, 147); height: 18px; color: rgb(255, 255, 255); text-align: left; padding-left: 4px;"><a
+					style="background: none repeat scroll 0% 0% rgb(147, 147, 147); height: 18px; color: rgb(255, 255, 255); text-align: left; padding-left: 4px;">
+					<%--<a
 					class="hidedetail" href="#"><img height="15" width="45"
 					border="0" align="absmiddle"
-					src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif"></a>${KualiForm.question.question}(${KualiForm.question.sequenceNumber})</th>
+					src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif"></a> --%>${KualiForm.question.question}(${KualiForm.question.sequenceNumber})</th>
 			</tr>
 		</thead>
 		<tbody>
