@@ -117,12 +117,12 @@ sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-Release-3_0-3_0_1-Upgrade-Ora
 move *.log ../LOGS
 cd ..
 
+:3.0.1ORACLE
 cd INSTALL-SHARED/ORACLE
 sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR_SEQ_BS.sql
 move *.log ../../LOGS/
 cd ../..
 
-:3.0.1ORACLE
 cd KC-RELEASE-3_1_SP1-SCRIPT
 sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-Release-3_0_1-3_1_S1-Upgrade-Oracle-Install.sql
 sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-Release-3_0_1-3_1_S1-Upgrade-Oracle-Install.sql
@@ -199,12 +199,12 @@ mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-Release-3_0-3_0_1-Upgrade-My
 move *.log ../LOGS
 cd ..
 
+:3.0.1MYSQL
 cd INSTALL-SHARED/MYSQL
 mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR_SEQ_BS.sql > KR_SEQ_BS-Mysql-Install.log 2>&1
 move *.log ../../LOGS/
 cd ../..
 
-:3.0.1MYSQL
 cd KC-RELEASE-3_1_SP1-SCRIPT
 mysql -u %un% -p%pw% -D %un% -s -f < KC-Release-3_0_1-3_1_S1-Upgrade-Mysql-Install.sql > KC-Release-3_0_1-3_1_S1-Upgrade-Mysql-Install.log 2>&1
 mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-Release-3_0_1-3_1_S1-Upgrade-Mysql-Install.sql > KR-Release-3_0_1-3_1_S1-Upgrade-Mysql-Install.log 2>&1
