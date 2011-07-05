@@ -62,6 +62,7 @@ function getQuestionNew(description, qtypeid, vers, dispans, ansmax, maxlength, 
 			//var vers = "1.00";
 			var divtmp = getMaintTable(description, qtypeid, vers, idx, childNode);
 			divtmp.appendTo($(this).parents('div:eq(0)'));
+			toggleHSControl(idx);
 			$("#listcontent" + idx).slideToggle(300);
 		}
 		$("#listcontent" + idx).slideToggle(300);
@@ -440,6 +441,7 @@ function clickMoveup(curidx) {
 
 		var divtmp = getMaintTable(splitq[0], splitq[1],splitq[2], nextidx, childNode);
 		divtmp.appendTo($(nextNode).children('div:eq(1)'));
+		toggleHSControl(nextidx);
 	}
 
 	
@@ -528,6 +530,7 @@ function clickMovedn(curidx) {
 		var splitq = $("#question"+nextidx).attr("value").split("#f#");
 		var divtmp = getMaintTable(splitq[0], splitq[1], splitq[2],nextidx, childNode);
 		divtmp.appendTo($(nextNode).children('div:eq(1)'));
+		toggleHSControl(nextidx);
 	}
 
 	var cloneNode = null;
@@ -1313,6 +1316,7 @@ function getMoveDownLink(curidx) {
 							var splitq = $("#question"+nextidx).attr("value").split("#f#");
 							var divtmp = getMaintTable(splitq[0], splitq[1], splitq[2],nextidx, childNode);
 							divtmp.appendTo($(nextNode).children('div:eq(1)'));
+							toggleHSControl(nextidx);
 						}
 
 						var cloneNode = null;
@@ -1401,6 +1405,7 @@ function getMoveUpLink(curidx) {
 
 						var divtmp = getMaintTable(splitq[0], splitq[1],splitq[2], nextidx, childNode);
 						divtmp.appendTo($(nextNode).children('div:eq(1)'));
+						toggleHSControl(nextidx);
 					}
 
 					
@@ -2945,5 +2950,34 @@ function moduleCodeChange(moduleCode) {
 		}
 	}); // end ajax
 
+}
+
+/*
+ * set up the toggle function for 'requirements' and 'response' tabs' show/hide
+ * This is done when the question is clicked for the first time and the maint table is retrieved by ajax call
+ */
+	function toggleHSControl(idx) {
+		$("#HScontrol" + idx).toggle(function() {
+			       var curidx = $(this).attr("id").substring(9);
+					$("#HSdiv"+curidx).slideDown(400);
+					$(this).attr("src", "kr/static/images/tinybutton-hide.gif");
+				}, function() {
+					var curidx = $(this).attr("id").substring(9);
+					$("#HSdiv"+curidx).slideUp(200);
+					$(this).attr("src", "kr/static/images/tinybutton-show.gif");
+				});
+		$("#HScontrol" + idx).click();
+		
+		$("#HSReqcontrol" + idx).toggle(function() {
+		       var curidx = $(this).attr("id").substring(12);
+				$("#HSReqdiv"+curidx).slideDown(400);
+				$(this).attr("src", "kr/static/images/tinybutton-hide.gif");
+			}, function() {
+				var curidx = $(this).attr("id").substring(12);
+				$("#HSReqdiv"+curidx).slideUp(200);
+				$(this).attr("src", "kr/static/images/tinybutton-show.gif");
+			});
+	    $("#HSReqcontrol" + idx).click();
 
 }
+
