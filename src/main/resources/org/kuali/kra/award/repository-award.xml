@@ -87,6 +87,7 @@
         <field-descriptor name="unitNumber" column="LEAD_UNIT_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="financialAccountDocumentNumber" column="FIN_ACCOUNT_DOC_NBR" jdbc-type="VARCHAR" />
     	<field-descriptor name="financialAccountCreationDate" column="FIN_ACCOUNT_CREATION_DATE" jdbc-type="DATE" />
+    	<field-descriptor name="financialChartOfAccountsCode" column="FIN_CHART_OF_ACCOUNTS_CODE" jdbc-type="DATE" />
     	<field-descriptor name="syncChild" column="HIERARCHY_SYNC_CHILD" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     	
     	<collection-descriptor name="awardComments" proxy="true" element-class-ref="org.kuali.kra.award.home.AwardComment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
