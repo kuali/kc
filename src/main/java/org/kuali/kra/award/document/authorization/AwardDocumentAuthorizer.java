@@ -56,7 +56,6 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
     
     private AwardHierarchyService awardHierarchyService;
-    
     /**
      * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer#getEditModes(
      * org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person, java.util.Set)
@@ -68,7 +67,10 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         
         if (awardDocument.getAward().getAwardId() == null) {
             if (canCreateAward(user.getPrincipalId())) {
-                editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);              
+                editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);         
+                if (canViewChartOfAccountsElement()) {
+                    editModes.add("viewChartOfAccountsElement");
+                }
             }
             else {
                 editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
@@ -106,7 +108,10 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
             }
             if (awardHasHierarchyChildren(document)) {
                 editModes.add("awardSync");
-            }            
+            }   
+            if (canViewChartOfAccountsElement()) {
+                editModes.add("viewChartOfAccountsElement");
+            }
         }
         
         return editModes;
@@ -131,21 +136,12 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         boolean hasPermission = false;
         String status = document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
         // if document is in processed or final state
-        if (status.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_PROCESSED_CD) 
-                || status.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_FINAL_CD)) {
-            String awardAccountParameter = getParameterService().getParameterValue(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, 
-                                                                                    Constants.FIN_SYSTEM_INTEGRATION_ON_OFF_PARAMETER);
+        if (status.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_PROCESSED_CD) || 
+            status.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_FINAL_CD)) {
+            
             // if the integration parameter is ON
-            if (awardAccountParameter.equalsIgnoreCase(Constants.FIN_SYSTEM_INTEGRATION_ON)) {
-                IdentityManagementService identityManagementService 
-                    = KraServiceLocator.getService(IdentityManagementService.class);
-                AttributeSet set = new AttributeSet();
-                set.put("documentTypeName", "AwardDocument");
-                set.put("documentAction", "Create award account");
-                // if the user has permission.
-                hasPermission = identityManagementService.hasPermission(
-                            UserSession.getAuthenticatedUser().getPrincipalId(), "KC-AWARD", "Create Award Account",set
-                );
+            if (isFinancialSystemIntegrationParameterOn()) {
+                hasPermission = hasCreateAccountPermission();
                 // only the OSP admin can create a financial account
                 // if account has already been created, anyone can see it
                 if (award.getFinancialAccountDocumentNumber() != null) {
@@ -156,6 +152,37 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         }
         return hasPermission;
     }
+    
+    protected boolean isFinancialSystemIntegrationParameterOn() {
+        String awardAccountParameter = getParameterService().getParameterValue (
+                                                                Constants.PARAMETER_MODULE_AWARD, 
+                                                                ParameterConstants.DOCUMENT_COMPONENT, 
+                                                                Constants.FIN_SYSTEM_INTEGRATION_ON_OFF_PARAMETER);
+        return awardAccountParameter.equalsIgnoreCase(Constants.FIN_SYSTEM_INTEGRATION_ON) ? true : false;
+    }
+    
+    public boolean hasCreateAccountPermission() {
+        boolean hasPermission = false;
+        IdentityManagementService identityManagementService = getIdentityManagementService();
+        AttributeSet set = new AttributeSet();
+        set.put("documentTypeName", "AwardDocument");
+        set.put("documentAction", "Create award account");
+        // if the user has permission.
+        hasPermission = identityManagementService.hasPermission(UserSession.getAuthenticatedUser().getPrincipalId(), 
+                                                                "KC-AWARD", "Create Award Account",set);
+        return hasPermission;    
+    }
+    
+    /*
+     * Same permissions for creating and linking accounts
+     */
+    public boolean canViewChartOfAccountsElement() {
+        if (hasCreateAccountPermission() && isFinancialSystemIntegrationParameterOn()) {
+            return true;
+        }
+        return false;
+    }
+    
     /**
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canOpen(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
      */

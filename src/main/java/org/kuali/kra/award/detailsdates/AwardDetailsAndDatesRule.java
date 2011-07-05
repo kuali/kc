@@ -40,4 +40,5 @@ public interface AwardDetailsAndDatesRule extends BusinessRule {
      * @return boolean
      */
     boolean processSaveAwardDetailsAndDates(AwardDetailsAndDatesSaveEvent awardDetailsAndDatesSaveEvent);
+    
 }

@@ -4,6 +4,43 @@
 <xs:schema elementFormDefault="unqualified" targetNamespace="KFS" version="1.0" xmlns:tns="KFS" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 <xs:element name="createAccount" type="tns:createAccount"/>
 <xs:element name="createAccountResponse" type="tns:createAccountResponse"/>
+<xs:element name="isValidAccount" type="tns:isValidAccount"/>
+<xs:element name="isValidAccountResponse" type="tns:isValidAccountResponse"/>
+<xs:element name="isValidChartAccount" type="tns:isValidChartAccount"/>
+<xs:element name="isValidChartAccountResponse" type="tns:isValidChartAccountResponse"/>
+<xs:element name="isValidChartCode" type="tns:isValidChartCode"/>
+<xs:element name="isValidChartCodeResponse" type="tns:isValidChartCodeResponse"/>
+<xs:complexType name="isValidChartAccount">
+<xs:sequence>
+<xs:element minOccurs="0" name="chartOfAccountCode" type="xs:string"/>
+<xs:element minOccurs="0" name="accountNumber" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="isValidChartAccountResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="isValidChartCode">
+<xs:sequence>
+<xs:element minOccurs="0" name="chartOfAccountsCode" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="isValidChartCodeResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="isValidAccount">
+<xs:sequence>
+<xs:element minOccurs="0" name="accountNumber" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="isValidAccountResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
 <xs:complexType name="createAccount">
 <xs:sequence>
 <xs:element minOccurs="0" name="accountParametersDTO" type="tns:accountParametersDTO"/>
@@ -55,15 +92,57 @@
 </xs:complexType>
 </xs:schema>
   </wsdl:types>
+  <wsdl:message name="isValidAccount">
+    <wsdl:part element="tns:isValidAccount" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="createAccountResponse">
     <wsdl:part element="tns:createAccountResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isValidAccountResponse">
+    <wsdl:part element="tns:isValidAccountResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isValidChartCode">
+    <wsdl:part element="tns:isValidChartCode" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isValidChartAccount">
+    <wsdl:part element="tns:isValidChartAccount" name="parameters">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="createAccount">
     <wsdl:part element="tns:createAccount" name="parameters">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="isValidChartCodeResponse">
+    <wsdl:part element="tns:isValidChartCodeResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isValidChartAccountResponse">
+    <wsdl:part element="tns:isValidChartAccountResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:portType name="accountCreationService">
+    <wsdl:operation name="isValidChartAccount">
+      <wsdl:input message="tns:isValidChartAccount" name="isValidChartAccount">
+    </wsdl:input>
+      <wsdl:output message="tns:isValidChartAccountResponse" name="isValidChartAccountResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="isValidChartCode">
+      <wsdl:input message="tns:isValidChartCode" name="isValidChartCode">
+    </wsdl:input>
+      <wsdl:output message="tns:isValidChartCodeResponse" name="isValidChartCodeResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="isValidAccount">
+      <wsdl:input message="tns:isValidAccount" name="isValidAccount">
+    </wsdl:input>
+      <wsdl:output message="tns:isValidAccountResponse" name="isValidAccountResponse">
+    </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="createAccount">
       <wsdl:input message="tns:createAccount" name="createAccount">
     </wsdl:input>
@@ -73,6 +152,33 @@
   </wsdl:portType>
   <wsdl:binding name="accountCreationServiceSOAPSoapBinding" type="tns:accountCreationService">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="isValidChartAccount">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="isValidChartAccount">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="isValidChartAccountResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="isValidChartCode">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="isValidChartCode">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="isValidChartCodeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="isValidAccount">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="isValidAccount">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="isValidAccountResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="createAccount">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="createAccount">
