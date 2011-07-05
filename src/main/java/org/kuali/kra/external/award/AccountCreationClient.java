@@ -32,4 +32,8 @@ public interface AccountCreationClient {
     void createAwardAccount(Award award)throws DatatypeConfigurationException, WorkflowException;
     
     void setDocumentService(DocumentService documentService);
+    
+    String isValidAccountNumber(String accountNumber);
+    
+    String isValidChartAccount(String chartOfAccountsCode, String accountNumber);
 }

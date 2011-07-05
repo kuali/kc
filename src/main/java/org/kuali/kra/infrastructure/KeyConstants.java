@@ -527,7 +527,10 @@ public final class KeyConstants {
     public static final String CURRENT_RATE_NOT_SPECIFIED = "error.award.createAccount.invalid.currentRate";
     public static final String AWARD_ACCOUNT_NUMBER_NOT_SPECIFIED = "error.award.createAccount.invalid.accountNumber";
     public static final String NO_PERMISSION_TO_CREATE_ACCOUNT = "error.award.createAccount.noPermission";
-    public static final String KFS_ACCOUNT_CREATION_ENDPOINT = "kfs.accountcreation.webservice.endpoint";
+    public static final String VALIDATION_DID_NOT_OCCUR = "error.award.account.number.not.validated";
+    public static final String AWARD_ACCOUNT_NUMER_NOT_VALID = "error.award.account.number.invalid";
+    public static final String AWARD_CHART_OF_ACCOUNTS_CODE_NOT_VALID = "error.award.chart.of.accounts.code.invalid";
+    public static final String NO_PERMISSION_TO_LINK_ACCOUNT = "error.award.link.account.no.permission";
     
     // award budget
     public static final String BUDGET_POSTED = "message.awardBudget.posted";

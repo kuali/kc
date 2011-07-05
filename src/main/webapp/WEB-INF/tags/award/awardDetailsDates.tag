@@ -20,7 +20,7 @@
 <c:set var="awardAttributes" value="${DataDictionary.Award.attributes}" />
 <c:set var="awardAmountInfoAttributes" value="${DataDictionary.AwardAmountInfo.attributes}" />
 <c:set var="awardCurrentActionCommentAttributes" value="${DataDictionary.AwardComment.attributes}" />
-<kul:tab tabTitle="Details & Dates" defaultOpen="true" tabErrorKey="document.awardList[0].awardTransactionTypeCode,document.award.version, document.awardList[0].statusCode,document.awardList[0].activityTypeCode,document.awardList[0].awardTypeCode,document.awardList[0].title,document.awardList[0].beginDate,document.awardList[0].awardAmountInfos[0].finalExpirationDate,document.awardList[0].awardEffectiveDate,document.awardList[0].awardExecutionDate,document.awardList[0].sponsorCode,document.awardList[0].unitNumber, detailsAndDatesFormHelper*,document.awardList[0].awardAmountInfos[${KualiForm.document.award.indexOfLastAwardAmountInfo}].*,document.awardList[0].modificationNumber,document.awardList[0].cfdaNumber">
+<kul:tab tabTitle="Details & Dates" defaultOpen="true" tabErrorKey="document.awardList[0].awardTransactionTypeCode,document.award.version, document.awardList[0].statusCode, document.awardList[0].activityTypeCode,document.awardList[0].awardTypeCode,document.awardList[0].financialChartOfAccountsCode,document.awardList[0].title,document.awardList[0].beginDate,document.awardList[0].awardAmountInfos[0].finalExpirationDate,document.awardList[0].awardEffectiveDate,document.awardList[0].awardExecutionDate,document.awardList[0].sponsorCode,document.awardList[0].unitNumber, detailsAndDatesFormHelper*,document.awardList[0].awardAmountInfos[${KualiForm.document.award.indexOfLastAwardAmountInfo}].*, document.awardList[0].modificationNumber,document.awardList[0].cfdaNumber">
 
 <!-- Institution -->
 <div class="tab-container" align="center">
@@ -53,7 +53,7 @@
 </table>
 </kul:innerTab>	
 
-<kul:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="true" tabTitle="Institution" tabErrorKey="" >
+<kul:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="true" tabTitle="Institution" tabErrorKey="document.awardList[0].accountNumber" >
 
 <table cellpAdding="0" cellspacing="0" summary="">
   	<tr>
@@ -97,6 +97,7 @@
     	<td align="left" valign="middle">
     		<kul:htmlControlAttribute property="document.awardList[0].accountNumber" attributeEntry="${awardAttributes.accountNumber}" />
     	</td>
+    	
     	<th>
     		<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.activityTypeCode}" /></div>
     	</th>
@@ -120,6 +121,20 @@
     		<kul:htmlControlAttribute property="document.awardList[0].awardTypeCode" attributeEntry="${awardAttributes.awardTypeCode}" readOnlyAlternateDisplay="${KualiForm.awardDocument.award.awardType.description}" />
       	</td>
   	</tr>
+  	
+  	<!-- Char of Accounts code element viewable only when the fin integration param is on -->
+    <kra:section permission="viewChartOfAccountsElement">
+    <tr>
+    	<th>
+    		<div align="right">
+        		<kul:htmlAttributeLabel attributeEntry="${awardAttributes.financialChartOfAccountsCode}" />
+      		</div>
+      	</th>
+    	<td colspan="3">
+    		<kul:htmlControlAttribute property="document.awardList[0].financialChartOfAccountsCode" attributeEntry="${awardAttributes.financialChartOfAccountsCode}" />
+      	</td>
+     </tr>
+    </kra:section>
   	<tr>
     	<th>
     		<div align="right">

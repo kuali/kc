@@ -64,4 +64,5 @@ public final class AccountCreationClientImpl extends AccountCreationClientBase {
         AccountCreationServiceSOAP ss = new AccountCreationServiceSOAP(WSDL_LOCATION, SERVICE_NAME);
         return ss.getAccountCreationServicePort();   
     }
+
 }

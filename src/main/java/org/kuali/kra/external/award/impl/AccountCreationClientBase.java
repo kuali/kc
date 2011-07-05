@@ -71,6 +71,36 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
     
     protected abstract AccountCreationService getServiceHandle();
     
+    public String isValidAccountNumber(String accountNumber) {
+        boolean isValidAccountNumber = false;
+        
+        try {
+            AccountCreationService port = getServiceHandle();   
+            LOG.info("Connecting to financial system...");
+            isValidAccountNumber = port.isValidAccount(accountNumber);
+        } catch (Exception e) {
+            String errorMessage = "Cannot connect to the service. The service may be down, please try again later.";
+            LOG.error(errorMessage + e.getMessage(), e);
+            return null;
+        }    
+        return isValidAccountNumber + "";
+    }
+    
+    public String isValidChartAccount(String chartOfAccountsCode, String accountNumber) {
+        boolean isValidChartOfAccountsCode = false;
+        
+        try {
+            AccountCreationService port = getServiceHandle();   
+            LOG.info("Connecting to financial system...");
+            isValidChartOfAccountsCode = port.isValidChartAccount(chartOfAccountsCode, accountNumber);
+        } catch (Exception e) {
+            String errorMessage = "Cannot connect to the service. The service may be down, please try again later.";
+            LOG.error(errorMessage + e.getMessage(), e);
+            return null;
+        }    
+        return isValidChartOfAccountsCode + "";
+    }
+    
     /**
      * This method calls the web service on KFS to create a C&G account.
      * @see org.kuali.kra.external.award.AccountCreationClient#createAwardAccount(org.kuali.kra.award.home.Award)
@@ -83,6 +113,7 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         
         try {
             AccountCreationService port = getServiceHandle();   
+            LOG.info("Connecting to financial system...");
             createAccountResult = port.createAccount(accountParameters);
         } catch (Exception e) {
             String errorMessage = "Cannot connect to the service. The service may be down, please try again later.";
@@ -91,7 +122,7 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         }
             
         // If the account did not get created display the errors
-        if(createAccountResult != null) {
+        if (createAccountResult != null) {
             if (!StringUtils.equalsIgnoreCase(createAccountResult.getStatus(), "success")) {
                 String completeErrorMessage = "";
                 List<String> errorMessages = createAccountResult.getErrorMessages();
@@ -111,6 +142,7 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
                     award.setFinancialAccountDocumentNumber(financialAccountDocumentNumber);
                     Calendar calendar = Calendar.getInstance();
                     award.setFinancialAccountCreationDate(new Date(calendar.getTime().getTime()));
+                    award.setFinancialChartOfAccountsCode(createAccountResult.getChartOfAccountsCode());
                     AwardDocument awardDocument = award.getAwardDocument();
                     documentService.saveDocument(awardDocument);
     
@@ -168,7 +200,6 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
 
         // unit number
         accountParameters.setUnit(award.getUnitNumber());
-       
         //Principal id
         //accountParameters.setPrincipalId(UserSession.getAuthenticatedUser().getPrincipalId());
         /* KFS and KC do not share a common db, so using khuntleys id
@@ -227,12 +258,12 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         if (principalInvestigator.getAddressLine3() != null) {
             streetAddress += principalInvestigator.getAddressLine3();
         }
-        
+
         accountParameters.setDefaultAddressStreetAddress(streetAddress);
         accountParameters.setDefaultAddressCityName(principalInvestigator.getCity());
         accountParameters.setDefaultAddressStateCode(principalInvestigator.getState());
         accountParameters.setDefaultAddressZipCode(principalInvestigator.getPostalCode());
-        
+       
     }
     
     /**

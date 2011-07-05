@@ -147,6 +147,9 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private String currentActionComments;
     private String financialAccountDocumentNumber;
     private Date financialAccountCreationDate;
+    private String financialChartOfAccountsCode;
+    
+
     private static boolean newVersion;
    
 
@@ -292,6 +295,14 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      */
     public Integer getTemplateCode() {
         return templateCode;
+    }
+    
+    public String getFinancialChartOfAccountsCode() {
+        return financialChartOfAccountsCode;
+    }
+
+    public void setFinancialChartOfAccountsCode(String financialChartOfAccountsCode) {
+        this.financialChartOfAccountsCode = financialChartOfAccountsCode;
     }
     
     /**
@@ -1065,9 +1076,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public void setAwardTypeCode(Integer awardTypeCode) {
         this.awardTypeCode = awardTypeCode;
     }
-
-
-
 
     /**
      * 
