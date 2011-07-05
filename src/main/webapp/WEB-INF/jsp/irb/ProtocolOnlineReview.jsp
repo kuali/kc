@@ -86,16 +86,4 @@
 
 <script language="javascript">enableJavaScript()</script>
 
-<script language="javascript">
-    		$j(document).ready(function(){
-        		// remove "select" option from reviewer type list.  Only keep primary/secondary
-    		    $j('select[id$=protocolReviewer\\.reviewerTypeCode]').each(
-    					function() {
-    			               $j(this).children('option:eq(0)').remove();
-    					});
-
-		});
-
- </script>
-
 </kul:documentPage>
