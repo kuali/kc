@@ -36,6 +36,7 @@ import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.kew.KraDocumentRejectionService;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.service.KraAuthorizationService;
@@ -247,7 +248,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
                     break;
                 }
             }
-            if (!found) {
+            if (!found && !isProtocolPersonnel(protocol, member)) {
                 results.add(member);
             }
         }
@@ -730,8 +731,23 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         }
         
     }
-
     
-
+    private List<String> getPersonnelIds(Protocol protocol) {
+        List<String> PersonnelIds = new ArrayList<String>();
+        for (ProtocolPerson person : protocol.getProtocolPersons()) {
+            if (StringUtils.isNotBlank(person.getPersonId())) {
+                PersonnelIds.add(person.getPersonId());
+            }
+            else {
+                PersonnelIds.add(person.getRolodexId().toString());
+            }
+        }
+        
+        return PersonnelIds;
+    }
+    
+    private boolean isProtocolPersonnel(Protocol protocol, CommitteeMembership member) {
+        return getPersonnelIds(protocol).contains(member.getPersonId());
+    }
 
 }
