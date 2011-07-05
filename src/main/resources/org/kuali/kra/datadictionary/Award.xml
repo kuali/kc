@@ -77,6 +77,7 @@
         <ref bean="Award-projectPersons.awardContactId" />    
         <ref bean="Award-financialAccountDocumentNumber" /> 
         <ref bean="Award-financialAccountCreationDate" />
+        <ref bean="Award-financialChartOfAccountsCode" />
       </list>
     </property>
         <property name="collections">
@@ -955,7 +956,30 @@
     	<property name="summary" value="Document number returned by financial service" />
     	<property name="description" value="Document number returned by financial service when an account is created." />
   	</bean>
-
+	
+	<bean id="Award-financialChartOfAccountsCode" parent="Award-financialChartOfAccountsCode-parentBean" /> 
+  	<bean id="Award-financialChartOfAccountsCode-parentBean" abstract="true"  parent="AttributeDefinition"> 
+  		<property name="name" value="financialChartOfAccountsCode" />
+  		<property name="forceUppercase" value="false" />
+  		<property name="label" value="Financial Chart Of Accounts Code" />
+  	 	<property name="shortLabel" value="Financial Chart Of Accounts Code" />
+    	<property name="maxLength" value="45" />
+    	<property name="validationPattern" >
+    		<bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="false" />
+    	</property>
+    	<property name="required" value="false" />
+    	<property name="control" >
+     	 	<bean parent="TextControlDefinition"
+           	 p:size="12" />
+    	</property>
+    	<property name="summary" value="Chart of accounts for a Financial Account" />
+    	<property name="description" value="Chart of accounts for a Financial Account." />
+  	</bean>
+  	
+	
+	
+	
     <bean id="Award-lookupOspAdministratorName" parent="Award-lookupOspAdministratorName-parentBean" />
     <bean id="Award-lookupOspAdministratorName-parentBean" abstract="true" parent="AwardContact-fullName">
         <property name="name" value="lookupOspAdministratorName" />
