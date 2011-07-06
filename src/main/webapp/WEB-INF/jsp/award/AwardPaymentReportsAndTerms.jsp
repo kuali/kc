@@ -45,6 +45,14 @@ var kualiElements = kualiForm.elements;
 <script language="javascript" src="dwr/interface/AwardReportsService.js" ></script>
 <script language="javascript" src="dwr/interface/AwardPaymentAndInvoicesService.js" ></script>
 <script language="javascript" src="scripts/awardApprovedForeignTravel.js"></script>
+<script type="text/javascript">
+  jQuery(document).ready(function($) {
+	  $('[name*="toggleTabReporting"]').each(function () {
+		  var id = $(this).attr('id');
+		  $(this).attr('id', id + '-noexpandall');
+	  });
+  });
+</script>
 
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true" />
 
