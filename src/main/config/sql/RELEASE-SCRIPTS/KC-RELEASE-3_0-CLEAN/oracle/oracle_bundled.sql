@@ -133,7 +133,6 @@ spool KC-Release-3_0-Clean-Bundled-Install.log
 @kcrelease/datasql/NARRATIVE_TYPE.sql
 @kcrelease/datasql/NOTICE_OF_OPPORTUNITY.sql
 @kcrelease/datasql/NSF_CODES.sql
-@kcrelease/datasql/ORGANIZATION.sql
 @kcrelease/datasql/ORGANIZATION_TYPE_LIST.sql
 @kcrelease/datasql/PERSON_EDITABLE_FIELDS.sql
 @kcrelease/datasql/PERSON_TRAINING.sql
