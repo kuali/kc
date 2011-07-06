@@ -47,6 +47,8 @@ import org.kuali.kra.irb.actions.submit.ProtocolReviewerType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.onlinereview.event.AddProtocolOnlineReviewCommentEvent;
+import org.kuali.kra.irb.onlinereview.event.DisapproveProtocolOnlineReviewCommentEvent;
+import org.kuali.kra.irb.onlinereview.event.RejectProtocolOnlineReviewCommentEvent;
 import org.kuali.kra.irb.onlinereview.event.RouteProtocolOnlineReviewEvent;
 import org.kuali.kra.irb.onlinereview.event.SaveProtocolOnlineReviewEvent;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
@@ -77,6 +79,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
     private static final String PROTOCOL_TAB = "protocol";
     private static final String DOCUMENT_REJECT_QUESTION="DocReject";
     private static final String UPDATE_REVIEW_STATUS_TO_FINAL="statusToFinal";
+    private static final String DOCUMENT_REJECT_REASON_MAXLENGTH = "2000";
     //Protocol Online Review Action Forwards
   
     
@@ -421,15 +424,27 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         }
         else
         {
-            prDoc.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.SAVED_STATUS_CD);
-            prDoc.getProtocolOnlineReview().addActionPerformed("Reject");
-            prDoc.getProtocolOnlineReview().setReviewerApproved(false);
-            prDoc.getProtocolOnlineReview().setAdminAccepted(false);
-            setOnlineReviewCommentFinalFlags(prDoc.getProtocolOnlineReview(), false);
-            getDocumentService().saveDocument(prDoc);
-            getProtocolOnlineReviewService().returnProtocolOnlineReviewDocumentToReviewer(prDoc,reason,GlobalVariables.getUserSession().getPrincipalId());
-            protocolForm.getOnlineReviewsActionHelper().init(true);
-            recordOnlineReviewActionSuccess("returned to reviewer", prDoc);
+            if (!this.applyRules(new RejectProtocolOnlineReviewCommentEvent(prDoc, reason, new Integer(DOCUMENT_REJECT_REASON_MAXLENGTH).intValue()))) {
+                if (reason == null) {
+                    reason = ""; //Prevents null pointer exception in performQuestion
+                }
+                return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, DOCUMENT_REJECT_QUESTION, "Are you sure you want to reject this document?", KNSConstants.CONFIRMATION_QUESTION, callerString, "", reason, KeyConstants.ERROR_ONLINE_REVIEW_REJECTED_REASON_REQUIRED, KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME, DOCUMENT_REJECT_REASON_MAXLENGTH);              
+            } else if (WebUtils.containsSensitiveDataPatternMatch(reason)) {
+                return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, 
+                        DOCUMENT_REJECT_QUESTION, "Are you sure you want to reject this document?", 
+                        KNSConstants.CONFIRMATION_QUESTION, callerString, "", reason, RiceKeyConstants.ERROR_DOCUMENT_FIELD_CONTAINS_POSSIBLE_SENSITIVE_DATA,
+                        KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME, "reason");
+            } else {
+                prDoc.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.SAVED_STATUS_CD);
+                prDoc.getProtocolOnlineReview().addActionPerformed("Reject");
+                prDoc.getProtocolOnlineReview().setReviewerApproved(false);
+                prDoc.getProtocolOnlineReview().setAdminAccepted(false);
+                setOnlineReviewCommentFinalFlags(prDoc.getProtocolOnlineReview(), false);
+                getDocumentService().saveDocument(prDoc);
+                getProtocolOnlineReviewService().returnProtocolOnlineReviewDocumentToReviewer(prDoc,reason,GlobalVariables.getUserSession().getPrincipalId());
+                protocolForm.getOnlineReviewsActionHelper().init(true);
+                recordOnlineReviewActionSuccess("returned to reviewer", prDoc);                
+            }
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }  
@@ -483,14 +498,13 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
 
                 // build out full message
                 disapprovalNoteText = introNoteMessage + reason;
-                int disapprovalNoteTextLength = disapprovalNoteText.length();
 
                 // get note text max length from DD
                 int noteTextMaxLength = getDataDictionaryService().getAttributeMaxLength(Note.class, KNSConstants.NOTE_TEXT_PROPERTY_NAME).intValue();
 
-                if (StringUtils.isBlank(reason) || (disapprovalNoteTextLength > noteTextMaxLength)) {
+                if (!this.applyRules(new DisapproveProtocolOnlineReviewCommentEvent(prDoc, reason, disapprovalNoteText, noteTextMaxLength))) {
                     // figure out exact number of characters that the user can enter
-                    int reasonLimit = noteTextMaxLength - disapprovalNoteTextLength;
+                    int reasonLimit = noteTextMaxLength - introNoteMessage.length();
 
                     if (reason == null) {
                         // prevent a NPE by setting the reason to a blank string

@@ -22,6 +22,8 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewStatus;
 import org.kuali.kra.irb.onlinereview.event.AddProtocolOnlineReviewCommentEvent;
+import org.kuali.kra.irb.onlinereview.event.DisapproveProtocolOnlineReviewCommentEvent;
+import org.kuali.kra.irb.onlinereview.event.RejectProtocolOnlineReviewCommentEvent;
 import org.kuali.kra.irb.onlinereview.event.RouteProtocolOnlineReviewEvent;
 import org.kuali.kra.irb.onlinereview.event.SaveProtocolOnlineReviewEvent;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
@@ -37,6 +39,8 @@ public class ProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase i
                                                                                          ,SaveProtocolOnlineReviewRule
                                                                                          ,BusinessRuleInterface 
                                                                                          ,RouteProtocolOnlineReviewRule
+                                                                                         ,DisapproveOnlineReviewCommentRule
+                                                                                         ,RejectOnlineReviewCommentRule
                                                                                          {
 
     private static final String ONLINE_REVIEW_COMMENTS_ERROR_PATH = "onlineReviewsActionHelper.reviewCommentsBeans[%s]";
@@ -129,6 +133,25 @@ public class ProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase i
         return valid;
     }
     
+    
+    public boolean processDisapproveOnlineReviewComment(DisapproveProtocolOnlineReviewCommentEvent event) {
+        boolean valid = true;
+        if (StringUtils.isBlank(event.getReason()) ||
+            event.getNoteText().length() > event.getMaxLength()) {
+            valid = false;
+        }
+        return valid;
+    }   
+
+    public boolean processRejectOnlineReviewComment(RejectProtocolOnlineReviewCommentEvent event) {
+        boolean valid = true;
+        if (StringUtils.isBlank(event.getReason()) ||
+            event.getReason().length() > event.getMaxLength()) {
+            valid = false;
+        }
+        return valid;
+    }    
+    
     private KraAuthorizationService getKraAuthorizationService() {
         KraAuthorizationService service;
         if (kraAuthorizationService==null) {
@@ -146,5 +169,8 @@ public class ProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase i
         }
         return kraWorkflowService;
     }
+
+
+
         
 }
