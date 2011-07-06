@@ -127,8 +127,6 @@ select "Running kcrelease/datasql/NOTICE_OF_OPPORTUNITY.sql...";
 \. kcrelease/datasql/NOTICE_OF_OPPORTUNITY.sql
 select "Running kcrelease/datasql/NSF_CODES.sql..."; 
 \. kcrelease/datasql/NSF_CODES.sql
-select "Running kcrelease/datasql/ORGANIZATION.sql..."; 
-\. kcrelease/datasql/ORGANIZATION.sql
 select "Running kcrelease/datasql/ORGANIZATION_TYPE_LIST.sql..."; 
 \. kcrelease/datasql/ORGANIZATION_TYPE_LIST.sql
 select "Running kcrelease/datasql/PERSON_EDITABLE_FIELDS.sql..."; 
