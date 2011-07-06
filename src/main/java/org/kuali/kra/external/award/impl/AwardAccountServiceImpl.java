@@ -58,7 +58,12 @@ public class AwardAccountServiceImpl implements AwardAccountService {
                 // how to get IP id from award
                 awardAccountDTO.setInstitutionalproposalId(getProposalId(award));
                 awardAccountDTO.setAwardId(award.getAwardId());
-                awardAccountDTO.setProjectDirector(award.getPrincipalInvestigator().getPersonId());
+                if (ObjectUtils.isNotNull(award.getPrincipalInvestigator())) {
+                    awardAccountDTO.setProjectDirector(award.getPrincipalInvestigator().getPersonId());
+                } else {
+                    awardAccountDTO.setProjectDirector(null);
+                }
+                
                 // send the award number which is the proposal number on the KFS side
                 awardAccountDTO.setProposalNumber(award.getAwardNumber());
                 awardAccountDTO.setSponsorCode(award.getSponsorCode());
@@ -71,7 +76,7 @@ public class AwardAccountServiceImpl implements AwardAccountService {
                 if (ObjectUtils.isNotNull(award.getPrimeSponsor())) {
                     awardAccountDTO.setPrimeSponsorName(award.getPrimeSponsor().getSponsorName());
                 } else {
-                    awardAccountDTO.setPrimeSponsorName("");
+                    awardAccountDTO.setPrimeSponsorName(null);
                 }
                 awardDTOs.add(awardAccountDTO);
             }
@@ -104,17 +109,39 @@ public class AwardAccountServiceImpl implements AwardAccountService {
     protected boolean isFederalSponsor(Award award) {
        
         String federalSponsorTypeCode = parameterService.getParameterValue(AwardDocument.class, Constants.FEDERAL_SPONSOR_TYPE_CODE);
-        String awardSponsorType = award.getSponsor().getSponsorTypeCode();
-            
         //If the sponsor type or prime sponsor type is federal, then document should be routed, return true.
-        if ((ObjectUtils.isNotNull(awardSponsorType) && awardSponsorType.equals(federalSponsorTypeCode)) 
-            || (ObjectUtils.isNotNull(award.getPrimeSponsor()) 
-            && award.getPrimeSponsor().getSponsorType().getSponsorTypeCode().equals(federalSponsorTypeCode))) {
-            return true;
-        }         
-        return false;
+        return isSponsorTypeFederal(award, federalSponsorTypeCode) || isPrimeSponsorFederal(award, federalSponsorTypeCode);
     }
 
+    /**
+     * This method checks if prime sponsor is federal
+     * @param award
+     * @param federalSponsorTypeCode
+     * @return
+     */
+    protected boolean isPrimeSponsorFederal(Award award, String federalSponsorTypeCode) {
+        if (ObjectUtils.isNotNull(award.getPrimeSponsor()) && ObjectUtils.isNotNull(award.getPrimeSponsor().getSponsorType()))  {
+            if (award.getPrimeSponsor().getSponsorType().getSponsorTypeCode().equals(federalSponsorTypeCode)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * This method checks if sponsor is federal.
+     * @param award
+     * @param federalSponsorTypeCode
+     * @return
+     */
+    protected boolean isSponsorTypeFederal(Award award, String federalSponsorTypeCode) {
+        if (ObjectUtils.isNotNull(award.getSponsor()) && ObjectUtils.isNotNull(award.getSponsor().getSponsorTypeCode())) {
+            if (award.getSponsor().getSponsorTypeCode().equals(federalSponsorTypeCode)) {
+                return true;
+            }
+        }
+        return false;
+    }
     /**
      * This helper method returns the award based on the financial account number.
      * @param financialAccountNumber
