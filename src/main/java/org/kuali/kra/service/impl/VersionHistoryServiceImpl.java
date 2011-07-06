@@ -181,6 +181,27 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
         return pendingVersionHistory;
     }
     
+    @SuppressWarnings("unchecked")
+    public VersionHistory findPendingVersion(Class<? extends SequenceOwner> klass, String versionName) {
+        VersionHistory pendingVersionHistory = null;
+        
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(SEQUENCE_OWNER_CLASS_NAME_FIELD, klass.getName());
+        fieldValues.put(SEQUENCE_OWNER_REFERENCE_VERSION_NAME, versionName);
+        fieldValues.put(VERSION_STATUS_FIELD, VersionStatus.PENDING.name());
+        
+        List<VersionHistory> histories = new ArrayList<VersionHistory>(bos.findMatching(VersionHistory.class, fieldValues));
+        if(CollectionUtils.isNotEmpty(histories)) {
+            pendingVersionHistory = histories.get(0);
+            String versionFieldName = pendingVersionHistory.getSequenceOwnerVersionNameField();
+            SequenceOwner<?> owner = findSequenceOwners(klass, versionFieldName, versionName).get(pendingVersionHistory.getSequenceOwnerSequenceNumber());
+            pendingVersionHistory.setSequenceOwner(owner);
+        }
+        
+        return pendingVersionHistory;
+    }
+    
+    
     /**
      * This method...
      * @param klass

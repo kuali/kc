@@ -99,4 +99,9 @@ public class AwardHierarchyServiceAdapter implements AwardHierarchyService {
         // TODO Auto-generated method stub
         
     }
+
+    public AwardHierarchyNode createAwardHierarchyNode(AwardHierarchy awardHierarchy, String currentAwardNumber,
+            String currentSequenceNumber) {
+        return null;
+    }
 }

@@ -52,8 +52,8 @@ http://www.osedu.org/licenses/ECL-2.0
 		</td>
 	</tr>
 	</tbody></table>	     
-    <div style = "background:#e4e4e4; margin: 2px 0pt 0pt; clear: left; height: 725px; overflow-y: scroll; overflow-x: scroll; overflow: scroll; position: relative;" >     
-  		<ul id="awardhierarchy" class="filetree stripeli treeview"  >
+    <div style = "background:#e4e4e4; margin: 2px 0pt 0pt; clear: left; height: 725px; overflow-y: auto; overflow-x: auto; position: relative;" >     
+  		<ul class="awardHierarchy" id="awardhierarchy" class="filetree stripeli treeview"  >
         <%-- <li><span class="folder">00000</span>
         </li> --%>
     	</ul>
@@ -102,6 +102,7 @@ http://www.osedu.org/licenses/ECL-2.0
 	<link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
 	<link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
 	<link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />
+	<link rel="stylesheet" href="css/award_hierarchy.css" type="text/css" />
 
 	<script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
 	<script type="text/javascript" src="scripts/awardHierarchy.js"></script>
