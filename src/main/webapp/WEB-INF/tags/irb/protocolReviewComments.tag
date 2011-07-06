@@ -40,7 +40,6 @@
                                       </tr>
                                     <c:forEach items="${KualiForm.actionHelper.reviewComments}" var="comment" varStatus="status">
                                       <%-- <c:if test="${comment.displayReviewerName}"> --%>
-                                            <c:if test="${comment.accepted || KualiForm.protocolHelper.roleIRBAdmin}"> 
                                             <c:set var="displayCount" value="${displayCount + 1}"/>
 	                                        <tr>
 	                                            <th class="infoline" align="right" >
@@ -106,7 +105,6 @@
 	                    </c:if>                        
 	                                        </tr>
 	                                  <%-- </c:if> --%>
-	                                  </c:if>
                                     </c:forEach>    
                                 </tbody>
                             </table>
