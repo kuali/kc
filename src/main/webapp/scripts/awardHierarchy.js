@@ -22,7 +22,7 @@
                      var tagId = "listcontrol"+idstr;
                      var divId = "listcontent"+idstr;
                  
-                     $(".hierarchydetail").slideUp(300); 
+                     $("div.awardHierarchy").slideUp(300); 
                      loadChildrenRA($("#itemText"+idstr).text(), tagId);
                     },
                 animated: "fast",
@@ -65,28 +65,15 @@
            var id = "item"+i;
            var tagId = "listcontrol"+i;
            var divId = "listcontent"+i;
-           
-          // NOTES : if use 'div', then FF will display the '+' and idDiv in
-			// separate lines. IE7 is fine
-          // But 'IE7 has problem with 'span'
-          
-          var idDiv;
-          if ( jQuery.browser.msie ) { 
-               idDiv = $('<div align="left"></div>').attr("id","itemText"+i).html(builduUi(item_text, racode, 1)); // for
-																					// later
-																					// change
-																					// RA
-																					// description
-          } else {
-               idDiv = $('<span style="text-align: left;">').attr("id","itemText"+i).html(builduUi(item_text, racode, 1)); // for
+                     
+          var idDiv = $('<div class="awardHierarchyLink">').attr("id","itemText"+i).html(builduUi(item_text, racode, 1)); // for
 																			// later
 																			// change
 																			// RA
 																			// description
-          }
                
-           var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(idDiv);
-           var div = $('<div  class="hierarchydetail" style="margin-top:2px;" align="left"></div>').attr("id",divId);
+           var tag = $('<a class="awardHierarchy" ></a>').attr("id",tagId).html(idDiv);
+           var div = $('<div  class="awardHierarchy"></div>').attr("id",divId);
        	   var hidracode = $('<input type="hidden" id = "racode" name = "racode" />').attr("id",
     			"racode" + i).attr("name", "racode" + i).attr("value",racode);
        	   hidracode.appendTo(div);
@@ -103,7 +90,7 @@
            ulTagId = "browser";
            div.appendTo(listitem);
            // need this ultag to force to display folder.
-           var childUlTag = $('<ul></ul>').attr("id","ul"+i);
+           var childUlTag = $('<ul class="awardHierarchy"></ul>').attr("id","ul"+i);
            childUlTag.appendTo(listitem);
            listitem.appendTo('ul#awardhierarchy');
            
@@ -203,12 +190,10 @@
         var index = racodereverse.indexOf("0");
         var i2 = 12 - index;
         var racode2 = racode.substring(i2,12);  
-        var tblWidth = 100-(parseInt(level)+1);
         
-      	var abc = "<table style=\"border: medium none ; width: " + tblWidth + "%; border-collapse: collapse;\"><tbody><tr><td align='left' style=\"border: medium none ; border-collapse: collapse; vertical-align: top;\">"+txtImage+"&nbsp;"+text1
-      				+ "</td><td align='right' style='border: medium none ; border-collapse: collapse; vertical-align: top;'>"
-      				+ "<a href='awardHome.do?methodToCall=docHandler&docId=" + text19 + "&awardNumber=" + racode + "&command=displayDocSearchView&placeHolderAwardId=" + text18 + "' target='_blank'><img src='static/images/tinybutton-open.gif' /></a>"
-      				+ "</td></tr></tbody></table>"; 
+      	var abc = "<span class='awardHierarchyLinkText'>" + txtImage + "&nbsp;" + text1 + "</span><span class='hierarchyOpenLink'>" 
+      		+ "<a href='awardHome.do?methodToCall=docHandler&docId=" + text19 + "&awardNumber=" + racode + "&command=displayDocSearchView&placeHolderAwardId=" + text18 + "' target='_blank'><img src='static/images/tinybutton-open.gif' /></a>"
+      		+ "</span><br clear='both'/>";
       	return abc; 
     }
   
@@ -221,9 +206,8 @@
       var index = text1reverse.indexOf("0");
       var i2 = 12 - index;
       var indexForHiddenField = text1.substring(i2,12);
-      var tblWidth = 100-parseInt(level);
       
-	  var tblTag = $('<table id="tbody2_1" style="border: 1px solid rgb(147, 147, 147); width: ' + tblWidth + '%; padding: 0px; border-collapse: collapse;"></table>')
+	  var tblTag = $('<table id="tbody2_1" style="border: 1px solid rgb(147, 147, 147); padding: 0px; border-collapse: collapse;"></table>')
 	    
 	  	var trTag0 = $('<tr></tr>');
 	    var thTag0 = $('<th colspan="5" style="border-style: solid; text-align:left; border-color: rgb(230, 230, 230) rgb(147, 147, 147) rgb(147, 147, 147); border-width: 1px; padding: 3px; border-collapse: collapse; background-color: rgb(184, 184, 184); background-image: none;"></th>').attr("id","raHeader"+id.substring(4)).html("Award Copy");
@@ -326,9 +310,9 @@
       var index = text1reverse.indexOf("0");
       var i2 = 12 - index;
       var indexForHiddenField = text1.substring(i2,12);
-      var tblWidth = 100-parseInt(level);
       
-	  var tblTag = $('<table id="tbody3_1" style="border: 1px solid rgb(147, 147, 147); width: ' + tblWidth + '%; padding: 0px; border-collapse: collapse;"></table>')
+      
+	  var tblTag = $('<table id="tbody3_1" style="border: 1px solid rgb(147, 147, 147); padding: 0px; border-collapse: collapse;"></table>')
 
 	    var trTag0 = $('<tr></tr>');
 	    var thTag0 = $('<th colspan="3" style="border-style: solid; text-align:left; border-color: rgb(230, 230, 230) rgb(147, 147, 147) rgb(147, 147, 147); border-width: 1px; padding: 3px; border-collapse: collapse; background-color: rgb(184, 184, 184); background-image: none;"></th>').attr("id","raHeader"+id.substring(4)).html("New Child");
@@ -469,8 +453,7 @@
       var text17 = name.substring(0,name.indexOf("%3A")).trim();
     
     var idx = id.substring(4); 
-    var tblWidth = 100-parseInt(level);
-    var tblTag = $('<table id="tbody1_1" style="border: 1px solid rgb(147, 147, 147); width: ' + tblWidth + '%; padding: 0px; border-collapse: collapse;"></table>')
+    var tblTag = $('<table id="tbody1_1" style="border: 1px solid rgb(147, 147, 147); padding: 0px; border-collapse: collapse;"></table>')
     
     var trTag0 = $('<tr></tr>');
 	var thTag0 = $('<th colspan="4" style="border-style: solid; text-align:left; border-color: rgb(230, 230, 230) rgb(147, 147, 147) rgb(147, 147, 147); border-width: 1px; padding: 3px; border-collapse: collapse; background-color: rgb(184, 184, 184); background-image: none;"></th>').attr("id","raHeader"+id.substring(4)).html("Detail: " + text1);
@@ -525,66 +508,10 @@
     trTag3.appendTo(tblTag);
     
     return tblTag;
-  }    
-  
-  /*
-	 * set up area of resear list tag. the main table detail is not set up
-	 * initially.
-	 */
-  function setupListItem(code, name) {
-            i++;
-            var id1 = "item"+i;
-            var tagId = "listcontrol"+i;
-            var divId = "listcontent"+i;
-            var idDiv;
-            if ( jQuery.browser.msie ) { 
-                idDiv = $('<div align="left"></div>').attr("id","itemText"+i).html(code +" : "+name); // for
-																				// later
-																				// change
-																				// RA
-																				// description
-            } else {
-                idDiv = $('<span style="text-align: left;">').attr("id","itemText"+i).html(code +" : "+name); // for
-																			// later
-																			// change
-																			// RA
-																			// description
-            }
-            var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(idDiv);
-            var detDiv = $('<div  class="hierarchydetail" style="margin-top:2px; " align="left"></div>').attr("id",divId);
-        	   var hidracode = $('<input type="hidden" id = "racode" name = "racode" />').attr("id",
-         			"racode" + i).attr("name", "racode" + i).attr("value",code);
-            	   hidracode.appendTo(detDiv);
-                   
-            $(tag).click(
-                    function()
-                    {
-                        $(".hierarchydetail:not(#"+divId+")").slideUp(300);
-                        if ($(this).siblings('div:eq(1)').children('table:eq(0)').size() == 0) {
-                            var idx = $(this).attr("id").substring(11);
-                            tbodyTag1(item_text, "item"+idx).appendTo($("#listcontent"+idx));
-                            tbodyTag2(item_text, "item"+idx).appendTo($("#listcontent"+idx));
-                            var docStatus = item_text.substring(item_text.length-6,item_text.length-5);
-                            if(docStatus == 'F') { 
-                          	  tbodyTag3(item_text, "item"+idx).appendTo($("#listcontent"+idx));
-                            }
-                            
-                            if ($("#"+divId).is(":hidden")) {
-                                $("#listcontent"+idx).show();
-                            }
-                        } else {   
-
-                            $("#"+divId).slideToggle(300);
-                        }  
-                    }
-                );
-            var listitem = $('<li class="closed"></li>').attr("id",id1).html(tag);
-            detDiv.appendTo(listitem);
-            return listitem;
-	}
+  }
  
   function linkOnclick(obj, item_text, divId, tagId) {
-      $(".hierarchydetail:not(#"+divId+")").slideUp(300);
+      $("div.awardHierarchy:not(#"+divId+")").slideUp(300);
       var idx = obj.attr("id").substring(11);
       var parentNode = $("#"+tagId); 
       var level = getNodeLevel(parentNode);
@@ -638,7 +565,7 @@
            success: function(xml){
               var ulTag ;
               if (liNode.children('ul').size() == 0) {
-                  ulTag = $('<ul class="filetree"></ul>').attr("id","ul"+i);
+                  ulTag = $('<ul class="filetree,awardHierarchy"></ul>').attr("id","ul"+i);
               } else {
                   ulTag = ulNode;
               }
@@ -648,75 +575,67 @@
               var inputtag = $('<input type="hidden"></input>').attr("id",loadedId);
               inputtag.appendTo(ulTag);
               $(xml).find('h3').each(function(){
-              var item_text = $(this).text();
-              i++;
-              var racode = item_text.substring(0,item_text.indexOf("%3A")).trim();
-              item_text = item_text.replace("%3A",":");
-              var id = "item"+i;
-              var tagId = "listcontrol"+i;
-              var divId = "listcontent"+i;
-              
-	          var idDiv;
-	          if ( jQuery.browser.msie ) { 
-	               idDiv = $('<div align="left"></div>').attr("id","itemText"+i).html(builduUi(item_text, racode, getNodeLevel(parentNode))); // for
-																						// later
-																						// change
-																						// RA
-																						// description
-	          } else {    
-	               idDiv = $('<span style="text-align: left;">').attr("id","itemText"+i).html(builduUi(item_text, racode, getNodeLevel(parentNode))); // for
-																				// later
-																				// change
-																				// RA
-																				// description
-	          }
-              var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(idDiv);
-              var detDiv = $('<div  class="hierarchydetail" style="margin-top:2px; " align="left" ></div>').attr("id",divId);
-         	  var hidracode = $('<input type="hidden" id = "racode" name = "racode" />').attr("id",
-              			"racode" + i).attr("name", "racode" + i).attr("value",racode);
-                 	   hidracode.appendTo(detDiv);
-                 	  
-                 	   tag.click(
-                              function(){ 
-                            	  linkOnclick($(this), item_text, divId, tagId);
-                          	  }
-                          );
-           	  detDiv.hide();
-              
-              var listitem = $('<li class="closed"></li>').attr("id",id).html(tag);
-              ulTagId = ulTag.attr("id");
-              detDiv.appendTo(listitem);
-              var childUlTag = $('<ul></ul>').attr("id","ul"+i);
-              childUlTag.appendTo(listitem);
-              listitem.appendTo(ulTag);
-              
-              if(racode == selectedAwardNumber) {
-            	  selectedNodeReached = true;
-            	  tag.trigger('click');
-            	  $("#"+id).parents('li').each(function(){
-            		  $(this).removeClass("closed");
-            		  $(this).addClass("open"); 
-            	  });
-              }
-              
-              var toLoad = (liNode.children('ul').size() == 0 || ulNode.children('input').size() == 0 );
-              while(selectedAwardNumber != null && selectedAwardNumber != '' && !selectedNodeReached && racode != selectedAwardNumber) {
-            	  loadChildrenRA(item_text, tagId);
-            	  if(!toLoad) {
-            		  liNode.removeClass("closed");
-            		  liNode.addClass("open"); 
-            		  liNode.children('ul').each(function(){
-                		  $(this).removeClass("closed");
-                		  $(this).addClass("open"); 
-                	  });
-            		  break;
-            	  }
-              }
+	              var item_text = $(this).text();
+	              i++;
+	              var racode = item_text.substring(0,item_text.indexOf("%3A")).trim();
+	              item_text = item_text.replace("%3A",":");
+	              var id = "item"+i;
+	              var tagId = "listcontrol"+i;
+	              var divId = "listcontent"+i;
 	              
-              // force to display folder icon
-              $("#awardhierarchy").treeview({
-                 add: listitem
-              });
+	              var idDiv = $('<div class="awardHierarchyLink">').attr("id","itemText"+i).html(builduUi(item_text, racode, 1)); // for
+					// later
+					// change
+					// RA
+					// description
+
+				var tag = $('<a class="awardHierarchy" ></a>').attr("id",tagId).html(idDiv);
+				var div = $('<div  class="awardHierarchy"></div>').attr("id",divId);
+				var hidracode = $('<input type="hidden" id = "racode" name = "racode" />').attr("id",
+				"racode" + i).attr("name", "racode" + i).attr("value",racode);
+				hidracode.appendTo(div);
+	                 	  
+	                 	   tag.click(
+	                              function(){ 
+	                            	  linkOnclick($(this), item_text, divId, tagId);
+	                          	  }
+	                          );
+	           	  div.hide();
+	              
+	              var listitem = $('<li class="closed"></li>').attr("id",id).html(tag);
+	              ulTagId = ulTag.attr("id");
+	              div.appendTo(listitem);
+	              var childUlTag = $('<ul class="awardHierarchy"></ul>').attr("id","ul"+i);
+	              childUlTag.appendTo(listitem);
+	              listitem.appendTo(ulTag);
+	              
+	              if(racode == selectedAwardNumber) {
+	            	  selectedNodeReached = true;
+	            	  tag.trigger('click');
+	            	  $("#"+id).parents('li').each(function(){
+	            		  $(this).removeClass("closed");
+	            		  $(this).addClass("open"); 
+	            	  });
+	              }
+	              
+	              var toLoad = (liNode.children('ul').size() == 0 || ulNode.children('input').size() == 0 );
+	              while(selectedAwardNumber != null && selectedAwardNumber != '' && !selectedNodeReached && racode != selectedAwardNumber) {
+	            	  loadChildrenRA(item_text, tagId);
+	            	  if(!toLoad) {
+	            		  liNode.removeClass("closed");
+	            		  liNode.addClass("open"); 
+	            		  liNode.children('ul').each(function(){
+	                		  $(this).removeClass("closed");
+	                		  $(this).addClass("open"); 
+	                	  });
+	            		  break;
+	            	  }
+	              }
+		              
+	              // force to display folder icon
+	              $("#awardhierarchy").treeview({
+	                 add: listitem
+	              });
               
               });
            }
@@ -734,19 +653,19 @@
   }
   
   <!-- initial state -->
-  $(".hierarchydetail").hide();
+  $("div.awardHierarchy").hide();
 <!-- hidedetail -->
   $(".hidedetail").toggle(
       function()
       {
-          $(".hierarchydetail").slideUp(300);
+          $("div.awardHierarchy").slideUp(300);
       }
   );
 <!-- listcontent00 -->
   $("#listcontrol00").click(
       function()
       {
-          $(".hierarchydetail:not(#listcontent00)").slideUp(300);
+          $("div.awardHierarchy:not(#listcontent00)").slideUp(300);
           $("#listcontent00").slideToggle(300);
       }
   );  

@@ -48,6 +48,10 @@ public class VersionHistoryServiceAdapter implements VersionHistoryService {
             VersionStatus versionStatus, String userId) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    public VersionHistory findPendingVersion(Class<? extends SequenceOwner> klass, String versionName) {
+        return null;
     }   
     
 }

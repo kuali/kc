@@ -20,6 +20,8 @@
 <c:set var="awardDocumentNumber" value="${KualiForm.document.documentNumber}"/>
 <c:set var="awardNumber" value="${KualiForm.document.awardList[0].awardNumber}"/>
 
+<link rel="stylesheet" href="css/award_hierarchy.css" type="text/css" />
+
 <input type="hidden" property="viewOnly" id="viewOnly" name="viewOnly" value="${readOnly}" />
 <input type="hidden" id = "canCreateAward" name="canCreateAward" value="${KualiForm.canCreateAward}" />
 
@@ -44,8 +46,8 @@
 		</td>
 	</tr>
 	</tbody></table>	     
-    <div style = "background:#e4e4e4; margin: 2px 0pt 0pt; clear: left; height: 285px; overflow-y: scroll; overflow-x: scroll; overflow: scroll; position: relative;" >     
-  		<ul id="awardhierarchy" class="filetree stripeli treeview"  >
+    <div style = "background:#e4e4e4; margin: 2px 0pt 0pt; clear: left; height: 285px; overflow-y: auto; overflow-x: auto; overflow: auto; position: relative;" >     
+  		<ul id="awardhierarchy" class="awardHierarchy" class="filetree stripeli treeview"  >
         <%-- <li><span class="folder">00000</span>
         </li> --%>
     	</ul>

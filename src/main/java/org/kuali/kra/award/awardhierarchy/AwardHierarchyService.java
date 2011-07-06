@@ -130,4 +130,15 @@ public interface AwardHierarchyService {
     public void populateAwardHierarchyNodes(Map<String, AwardHierarchy> awardHierarchyItems, Map<String, AwardHierarchyNode> awardHierarchyNodes, String currentAwardNumber, String currentSequenceNumber);
     public void populateAwardHierarchyNodesForTandMDoc(Map<String, AwardHierarchy> awardHierarchyItems, Map<String, AwardHierarchyNode> awardHierarchyNodes, String currentAwardNumber, String currentSequenceNumber, String docNum);
     public void createNodeMapsOnFormForSummaryPanel(Map<String, AwardHierarchyNode> awardHierarchyNodes, Map<String, String> previousNodeMap, Map<String, String> nextNodeMap);
+
+    /**
+     * Returns an AwardHierarchyNode for the awardHierarchy. If the awardHierarchy is for the currentAwardNumber,
+     * then will use the currentSequenceNumber if it is pending instead of the usual method for determining
+     * the current award.  
+     * @param awardHierarchy
+     * @param currentAwardNumber
+     * @param currentSequenceNumber
+     * @return
+     */
+    AwardHierarchyNode createAwardHierarchyNode(AwardHierarchy awardHierarchy, String currentAwardNumber, String currentSequenceNumber);
 }

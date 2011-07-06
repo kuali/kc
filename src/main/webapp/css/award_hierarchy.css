@@ -1,0 +1,46 @@
+div.awardHierarchyLink {
+  text-align: left;
+  list-style-type: none;
+}
+span.hierarchyOpenLink {
+  float: right;
+  width: 38px;
+  margin-right: 5px;
+  list-style: none;
+  display: inline;
+  background-color: blue;
+}
+span.awardHierarchyLinkText {
+  float: left;
+}
+a.awardHierarchy {
+  margin-left:0px;
+  width: 100%;
+  display: block;
+  text-align: left;
+}
+div.awardHierarchy {
+  margin-top:0px;
+  text-align: left;
+  list-style: none;
+  list-style-type: none;
+  width: 100%;
+}
+.treeview ul.awardHierarchy {
+  background-color:transparent;
+  list-style: none;
+  list-style-type: none;
+}
+.treeview ul.awardHierarchy li {
+  list-style: none;
+  list-style-type: none;
+}
+.treeview li, 
+.treeview td, 
+.treeview div, 
+.treeview th, 
+.treeview table, 
+.treeview span {
+  list-style: none;
+  list-style-type: none;
+}
