@@ -614,12 +614,10 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
             }
             
             if(StringUtils.isNotBlank(temp.getAwardNumber1())){
-                Map<String,AwardHierarchyNode> awardHierarchyNodes = new HashMap<String, AwardHierarchyNode>();
                 Map<String,AwardHierarchy> awardHierarchyItems = awardForm.getAwardHierarchyBean().getAwardHierarchy(temp.getAwardNumber1(), order);
-                getAwardHierarchyService().populateAwardHierarchyNodes(awardHierarchyItems, awardHierarchyNodes, currentAward.getAwardNumber(), currentAward.getSequenceNumber().toString());
                 StringBuilder sb = new StringBuilder();
                 for(String str:order){
-                    sb.append(awardHierarchyNodes.get(str).getAwardNumber());
+                    sb.append(awardHierarchyItems.get(str).getAwardNumber());
                     sb.append(KNSConstants.BLANK_SPACE).append("%3A");
                 }
                 temp.setSelectBox1(sb.toString());

@@ -81,6 +81,7 @@
 			<ref bean="awardAmountInfoService" />
 		</property>
 		<property name="personService" ref="personService"/>        
+		<property name="versionHistoryService" ref="versionHistoryService"/>
     </bean>
     
     <bean id="timeAndMoneyHistoryService" class="org.kuali.kra.timeandmoney.service.impl.TimeAndMoneyHistoryServiceImpl">

@@ -65,13 +65,15 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
      * @see org.kuali.kra.service.AwardHierarchyUIService#getRootAwardNode(java.lang.String)
      */
     public String getRootAwardNode(String awardNumber, String currentAwardNumber, String currentSequenceNumber) throws ParseException{
-        AwardHierarchyNode aNode = getAwardHierarchyNodes(awardNumber, currentAwardNumber, currentSequenceNumber).get(awardNumber);        
+        AwardHierarchy hierarchy = awardHierarchyService.loadAwardHierarchy(awardNumber);
+        AwardHierarchyNode aNode = awardHierarchyService.createAwardHierarchyNode(hierarchy, currentAwardNumber, currentSequenceNumber);        
         return TAG_H3_START + buildCompleteRecord(awardNumber, aNode) + TAG_H3_END; 
     }
 
     public AwardHierarchyNode getRootAwardNode(Award award) {
         String awardNumber = award.getAwardNumber();
-        AwardHierarchyNode awardNode = getAwardHierarchyNodes(awardNumber, awardNumber, award.getSequenceNumber().toString()).get(awardNumber);
+        AwardHierarchy hierarchy = awardHierarchyService.loadAwardHierarchy(awardNumber);
+        AwardHierarchyNode awardNode = awardHierarchyService.createAwardHierarchyNode(hierarchy, null, null);
         return awardNode;
     }
     
@@ -158,7 +160,7 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
      public String getSubAwardHierarchiesForTreeView(String awardNumber, String currentAwardNumber, String currentSequenceNumber) throws ParseException {
         String awardHierarchy = TAG_H3_START;        
         for (AwardHierarchy ah : getChildrenNodes(awardNumber)) {
-            AwardHierarchyNode aNode = getAwardHierarchyNodes(awardNumber, currentAwardNumber, currentSequenceNumber).get(ah.getAwardNumber());
+            AwardHierarchyNode aNode = getAwardHierarchyNode(ah.getAwardNumber(), currentAwardNumber, currentSequenceNumber);
             awardHierarchy = awardHierarchy + buildCompleteRecord(ah.getAwardNumber(), aNode) + TAG_H3_END + TAG_H3_START;
         }
         awardHierarchy = awardHierarchy.substring(0, awardHierarchy.length() - 4);        
@@ -196,6 +198,11 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
         }
         
         return true;
+    }
+    
+    protected AwardHierarchyNode getAwardHierarchyNode(String awardNumber, String currentAwardNumber, String currentSequenceNumber) {
+        AwardHierarchy hierarchy = awardHierarchyService.loadAwardHierarchy(awardNumber);
+        return awardHierarchyService.createAwardHierarchyNode(hierarchy, currentAwardNumber, currentSequenceNumber);
     }
     
     protected Map<String, AwardHierarchyNode> getAwardHierarchyNodes(String awardNumber, String currentAwardNumber, String currentSequenceNumber){

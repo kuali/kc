@@ -198,6 +198,7 @@ public class AwardForm extends BudgetVersionFormBase
     private BudgetLimitSummaryHelper budgetLimitSummary;
 
     private transient ParameterService parameterService;
+    private transient AwardHierarchyUIService awardHierarchyUIService;
 
 
     /**
@@ -917,7 +918,10 @@ public class AwardForm extends BudgetVersionFormBase
      * @return
      */
     private AwardHierarchyUIService getAwardHierarchyUIService() {
-        return KraServiceLocator.getService(AwardHierarchyUIService.class);
+        if (awardHierarchyUIService == null) {
+            awardHierarchyUIService = KraServiceLocator.getService(AwardHierarchyUIService.class);
+        }
+        return awardHierarchyUIService;
     }
 
     /**
@@ -1419,5 +1423,9 @@ public class AwardForm extends BudgetVersionFormBase
 
     public void setAwardBudgetLimitsBean(AwardBudgetLimitsBean awardBudgetLimitsBean) {
         this.awardBudgetLimitsBean = awardBudgetLimitsBean;
+    }
+    
+    public void setAwardHierarchyUIService(AwardHierarchyUIService awardHierarchyUIService) {
+        this.awardHierarchyUIService = awardHierarchyUIService;
     }
 }

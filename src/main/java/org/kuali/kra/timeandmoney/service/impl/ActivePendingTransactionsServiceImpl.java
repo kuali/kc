@@ -28,8 +28,8 @@ import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.bo.versioning.VersionHistory;
+import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
@@ -51,6 +51,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
     AwardAmountInfoService awardAmountInfoService;
     @SuppressWarnings("unchecked")
     private PersonService personService;
+    private VersionHistoryService versionHistoryService;
 
     /**
      * 
@@ -1242,11 +1243,12 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
     public Award getPendingAwardVersion(String goToAwardNumber) {
         
         Award award = null;
-        BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
-        List<Award> awards = (List<Award>)businessObjectService.findMatchingOrderBy(Award.class, getHashMapToFindActiveAward(goToAwardNumber), "sequenceNumber", true);  
-        award = awards.get(awards.size() - 1);              
-      
-        return award;
+        VersionHistory versionHistory = versionHistoryService.findPendingVersion(Award.class, goToAwardNumber);
+        if (versionHistory != null) {
+            return (Award) versionHistory.getSequenceOwner();
+        } else {
+            return null;
+        }
     }
     
     protected Map<String, String> getHashMapToFindActiveAward(String goToAwardNumber) {
@@ -1261,14 +1263,13 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
      */
     @SuppressWarnings("unchecked")
     public Award getActiveAwardVersion(String awardNumber) {
-        VersionHistoryService vhs = KraServiceLocator.getService(VersionHistoryService.class);  
-        VersionHistory vh = vhs.findActiveVersion(Award.class, awardNumber);
+          
+        VersionHistory vh = versionHistoryService.findActiveVersion(Award.class, awardNumber);
         Award award = null;
         
         if(vh!=null){
             award = (Award) vh.getSequenceOwner();
         }else{
-            BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
             List<Award> awards = (List<Award>) businessObjectService.findMatching(Award.class, getHashMap(awardNumber));     
             award = (CollectionUtils.isEmpty(awards) ? null : awards.get(0));
         }
@@ -1366,6 +1367,14 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
      */
     public void setAwardAmountInfoService(AwardAmountInfoService awardAmountInfoService) {
         this.awardAmountInfoService = awardAmountInfoService;
+    }
+
+    protected VersionHistoryService getVersionHistoryService() {
+        return versionHistoryService;
+    }
+
+    public void setVersionHistoryService(VersionHistoryService versionHistoryService) {
+        this.versionHistoryService = versionHistoryService;
     }
 
 }
