@@ -290,20 +290,37 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
      * 
      * This is true either if 
      *   1) The current user has the role IRB Administrator
-     *   2) The current user does not have the role IRB Administrator, but the current user is the comment creator
-     *   3) The current user does not have the role IRB Administrator, but is a reviewer of the protocol, and not part of the protocol personnel, and the comment is final
-     *   4) The current user does not have the role IRB Administrator, but is an active committee member, and not part of the protocol personnel, and the comment is final
-     *   5) The comment is public and final
+     *   2) The comment/minute has been accepted by an IRB Administrator and one of the following conditions is true:
+     *      3) The current user does not have the role IRB Administrator, but the current user is the comment creator
+     *      4) The current user does not have the role IRB Administrator, but is a reviewer of the protocol, and not part of the protocol personnel, and the comment is final
+     *      5) The current user does not have the role IRB Administrator, but is an active committee member, and not part of the protocol personnel, and the comment is final
+     *      6) The comment is public and final
      * @param CommitteeScheduleMinute minute
     *  @return whether the current user can view this comment
     */
    public boolean getReviewerCommentsView(CommitteeScheduleMinute minute) {
        String principalId = GlobalVariables.getUserSession().getPrincipalId();
        String principalName = GlobalVariables.getUserSession().getPrincipalName();
+       
+       if (isIrbAdministrator(principalId)) {
+           return true;
+       } else {
+           if (minute.isAccepted()) {
+               return StringUtils.equals(principalName, minute.getCreateUser()) || 
+               (isReviewer(minute,principalId) && !isProtocolPersonnelOrHasProtocolRole(minute)  && minute.isFinalFlag()) || 
+               (isActiveCommitteeMember(minute, principalId) && !isProtocolPersonnelOrHasProtocolRole(minute) && minute.isFinalFlag()) ||
+               (!minute.getPrivateCommentFlag()&& minute.isFinalFlag());
+           } else {
+               return false;
+           }
+       }
+       
+       /*
        return isIrbAdministrator(principalId) || StringUtils.equals(principalName, minute.getCreateUser()) || 
        (isReviewer(minute,principalId) && !isProtocolPersonnelOrHasProtocolRole(minute)  && minute.isFinalFlag()) || 
        (isActiveCommitteeMember(minute, principalId) && !isProtocolPersonnelOrHasProtocolRole(minute) && minute.isFinalFlag()) ||
        (!minute.getPrivateCommentFlag()&& minute.isFinalFlag());
+       */
        
    }
    
@@ -729,7 +746,7 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
                                                  minute.getCommitteeSchedule().getScheduleId());
         if (CollectionUtils.isNotEmpty(committeeMembers)) {
             for (CommitteeMembership member : committeeMembers) {
-                if (member.isActive() && StringUtils.equals(principalId, member.getPerson().getIdentifier())) {
+                if (StringUtils.equals(principalId, member.getPersonId())) {
                     result = true;
                     break;
                 }
