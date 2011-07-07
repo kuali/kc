@@ -120,7 +120,7 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
                     BatchCorrespondenceEvent correspondenceEvent = new BatchCorrespondenceEvent(protocol);
                     correspondenceEvent.setSubject(protocolCorrespondenceType.getDescription() + " for Protocol " + protocol.getProtocolNumber());
                     correspondenceEvent.setDetailId(batchCorrespondenceDetail.getCommitteeBatchCorrespondenceDetailId());
-                    correspondenceEvent.sedNotification();
+                    correspondenceEvent.sendNotification();
                 }
             }
         }
