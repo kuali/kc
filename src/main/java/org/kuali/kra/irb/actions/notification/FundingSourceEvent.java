@@ -88,7 +88,7 @@ public class FundingSourceEvent extends NotificationEventBase implements Notific
         String roleNamespace = StringUtils.substringBefore(notificationRecipient.getRoleName(), Constants.COLON);
         String roleName = StringUtils.substringAfter(notificationRecipient.getRoleName(), Constants.COLON);
         
-        if (StringUtils.equals(roleNamespace, RoleConstants.DEPARTMENT_ROLE_TYPE) && StringUtils.equals(roleName, RoleConstants.IRB_ADMINISTRATOR))  {
+        if (StringUtils.equals(roleNamespace, RoleConstants.DEPARTMENT_ROLE_TYPE) && StringUtils.equals(roleName, RoleConstants.FUNDING_SOURCE_MONITOR))  {
             notificationRecipient.setRoleQualifier(KcKimAttributes.UNIT_NUMBER);
             notificationRecipient.setQualifierValue(getProtocol().getLeadUnitNumber());
                 
