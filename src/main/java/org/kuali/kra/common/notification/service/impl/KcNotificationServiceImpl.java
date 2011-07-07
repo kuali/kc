@@ -17,6 +17,8 @@ package org.kuali.kra.common.notification.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +34,7 @@ import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.exception.UnknownRoleException;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.ken.bo.Notification;
 import org.kuali.rice.ken.bo.NotificationChannel;
@@ -151,24 +154,49 @@ public class KcNotificationServiceImpl implements KcNotificationService {
             notification.setContent(NotificationConstants.XML_MESSAGE_CONSTANTS.CONTENT_SIMPLE_OPEN
                     + NotificationConstants.XML_MESSAGE_CONSTANTS.MESSAGE_OPEN + kcNotification.getMessage() + NotificationConstants.XML_MESSAGE_CONSTANTS.MESSAGE_CLOSE+ NotificationConstants.XML_MESSAGE_CONSTANTS.CONTENT_CLOSE);
             notification.setDeliveryType(NotificationConstants.DELIVERY_TYPES.FYI);
-            
-            for (NotificationTypeRecipient roleRecipient : kcNotification.getNotificationType().getNotificationTypeRecipients()) {
-                try {
-                    context.populateRoleQualifiers(roleRecipient);
-                    notification.getRecipients().addAll(resolveRoleRecipients(roleRecipient));
-                } catch (UnknownRoleException e) {
-                    LOG.error("Role id " + e.getRoleId() + " not recognized for context " + e.getContext() + ". " +
-                    		"Notification will not be sent for notificationTypeRecipient" + roleRecipient.toString());
-                    e.printStackTrace();
-                }
-            }
-            
+            setupRecipients(kcNotification, notification, context);
             notifications.add(notification);
         }
         
         for (Notification notification : notifications) {
             notificationService.sendNotification(notification);
         }
+    }
+    
+    private void setupRecipients(KcNotification kcNotification, Notification notification, NotificationContext context) {
+        List<NotificationTypeRecipient> roleRecipients = new ArrayList<NotificationTypeRecipient>();
+        Collections.sort(kcNotification.getNotificationType().getNotificationTypeRecipients(), new Comparator<NotificationTypeRecipient>() {
+            public int compare(NotificationTypeRecipient roleRecipeient1, NotificationTypeRecipient roleRecipeient2) {
+                return roleRecipeient2.getRoleName().compareTo(roleRecipeient1.getRoleName());
+            }
+        });
+        String roleName = null;
+        for (NotificationTypeRecipient roleRecipient : kcNotification.getNotificationType().getNotificationTypeRecipients()) {
+            try {
+                if (StringUtils.isBlank(roleName) || roleName.equals(roleRecipient.getRoleName())) {
+                    context.populateRoleQualifiers(roleRecipient);
+                    roleRecipients.add(roleRecipient);
+                    if (StringUtils.isBlank(roleName)) {
+                        roleName = roleRecipient.getRoleName();
+                    }
+                } else {
+                    notification.getRecipients().addAll(resolveRoleRecipients(roleRecipients));
+                    roleRecipients = new ArrayList<NotificationTypeRecipient>();
+                    context.populateRoleQualifiers(roleRecipient);
+                    roleRecipients.add(roleRecipient);
+                    roleName = roleRecipient.getRoleName();
+
+                }
+                // notification.getRecipients().addAll(resolveRoleRecipients(roleRecipient));
+            } catch (UnknownRoleException e) {
+                LOG.error("Role id " + e.getRoleId() + " not recognized for context " + e.getContext() + ". "
+                        + "Notification will not be sent for notificationTypeRecipient" + roleRecipient.toString());
+                e.printStackTrace();
+            }
+        }
+        notification.getRecipients().addAll(resolveRoleRecipients(roleRecipients));
+
+
     }
     
     protected NotificationProducer getSystemNotificationProducer() {
@@ -192,17 +220,18 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         return kcNotificationChannel;
     }
     
-    protected List<NotificationRecipient> resolveRoleRecipients(NotificationTypeRecipient roleRecipient) {
+    protected List<NotificationRecipient> resolveRoleRecipients(List<NotificationTypeRecipient> roleRecipients) {
         List<NotificationRecipient> recipients = new ArrayList<NotificationRecipient>();
         
-        String roleNamespace = StringUtils.substringBefore(roleRecipient.getRoleName(), Constants.COLON);
-        String roleName = StringUtils.substringAfter(roleRecipient.getRoleName(), Constants.COLON);
+        String roleNamespace = StringUtils.substringBefore(roleRecipients.get(0).getRoleName(), Constants.COLON);
+        String roleName = StringUtils.substringAfter(roleRecipients.get(0).getRoleName(), Constants.COLON);
         
         AttributeSet qualification = new AttributeSet();
-        if (StringUtils.isNotBlank(roleRecipient.getRoleQualifier())) {
-            qualification.put(roleRecipient.getRoleQualifier(), roleRecipient.getQualifierValue());
+        for (NotificationTypeRecipient roleRecipient : roleRecipients) {
+            if (StringUtils.isNotBlank(roleRecipient.getRoleQualifier())) {
+                qualification.put(roleRecipient.getRoleQualifier(), roleRecipient.getQualifierValue());
+            }
         }
-        
         Collection<String> roleMembers = roleManagementService.getRoleMemberPrincipalIds(roleNamespace, roleName, qualification);
         for (String roleMember : roleMembers) {
             NotificationRecipient recipient = new NotificationRecipient();
