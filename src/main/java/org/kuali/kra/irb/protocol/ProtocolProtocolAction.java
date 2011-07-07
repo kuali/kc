@@ -17,6 +17,7 @@ package org.kuali.kra.irb.protocol;
 
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map.Entry;
@@ -37,6 +38,7 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolDocumentRule;
 import org.kuali.kra.irb.ProtocolEventBase;
 import org.kuali.kra.irb.ProtocolForm;
+import org.kuali.kra.irb.actions.notification.FundingSourceEvent;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.protocol.funding.AddProtocolFundingSourceEvent;
 import org.kuali.kra.irb.protocol.funding.LookupProtocolFundingSourceEvent;
@@ -59,6 +61,7 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**
@@ -537,28 +540,16 @@ public class ProtocolProtocolAction extends ProtocolAction {
     public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.preSave(mapping, form, request, response);
         
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolDocument protocolDocument = protocolForm.getDocument();
-        List<ProtocolFundingSource> protocolFundingSources = protocolDocument.getProtocol().getProtocolFundingSources();
-        List<ProtocolFundingSource> deletedProtocolFundingSources = protocolForm.getProtocolHelper().getDeletedProtocolFundingSources();
-        
-        protocolForm.getProtocolHelper().prepareRequiredFieldsForSave();
-        protocolForm.getProtocolHelper().createInitialProtocolAction();
-        
-        if (protocolDocument.getProtocol().isNew()) {
-            if (applyRules(new SaveProtocolFundingSourceLinkEvent(protocolDocument, protocolFundingSources, deletedProtocolFundingSources))) {
-                protocolForm.getProtocolHelper().syncSpecialReviewsWithFundingSources();
-            }
-        }
+        preSaveProtocol(form);        
     }
 
-    @Override
-    protected ActionForward saveOnClose(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    private void preSaveProtocol(ActionForm form)  throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolDocument protocolDocument = protocolForm.getDocument();
         List<ProtocolFundingSource> protocolFundingSources = protocolDocument.getProtocol().getProtocolFundingSources();
         List<ProtocolFundingSource> deletedProtocolFundingSources = protocolForm.getProtocolHelper().getDeletedProtocolFundingSources();
-        
+        protocolForm.getProtocolHelper().setNewProtocolFundingSources(protocolForm.getProtocolHelper().findNewFundingSources());
+        setDeletedFundingSource(form);
         protocolForm.getProtocolHelper().prepareRequiredFieldsForSave();
         protocolForm.getProtocolHelper().createInitialProtocolAction();
         
@@ -568,7 +559,27 @@ public class ProtocolProtocolAction extends ProtocolAction {
             }
         }
         
-        return super.saveOnClose(mapping, form, request, response);
+    }
+    
+    private void setDeletedFundingSource(ActionForm form) {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+       protocolForm.setDeletedProtocolFundingSources(new ArrayList<ProtocolFundingSource> ());
+        for (ProtocolFundingSource fundingSource : protocolForm.getProtocolHelper().getDeletedProtocolFundingSources()) {
+            if (fundingSource.getProtocolFundingSourceId() != null) {
+                protocolForm.getDeletedProtocolFundingSources().add(fundingSource);
+            }
+        }
+   }
+    @Override
+    protected ActionForward saveOnClose(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        preSaveProtocol(form);        
+        ActionForward forward = super.saveOnClose(mapping, form, request, response);
+        if (GlobalVariables.getMessageMap().hasNoErrors()) {
+            fundingSourceNotification(form);
+        }
+        return forward;
     }
     
     public ActionForward performProtocolAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -576,6 +587,39 @@ public class ProtocolProtocolAction extends ProtocolAction {
         super.docHandler(mapping, form, request, response);
         
         return super.protocolActions(mapping, form, request, response);
+    }
+
+    @Override
+    public void postSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        // TODO Auto-generated method stub
+        super.postSave(mapping, form, request, response);
+        fundingSourceNotification(form);
+
     }   
 
+    private void fundingSourceNotification(ActionForm form) {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        for (ProtocolFundingSource fundingSource : protocolForm.getProtocolHelper().getNewProtocolFundingSources()) {
+            FundingSourceEvent fundingSourceEvent = new FundingSourceEvent(protocolForm.getProtocolDocument().getProtocol());
+            fundingSourceEvent.setFundingType("'" + fundingSource.getFundingSourceType().getDescription() + "': " + fundingSource.getFundingSourceNumber());
+            fundingSourceEvent.setSubject("Funding source linked to Protocol "
+                    + protocolForm.getProtocolDocument().getProtocol().getProtocolNumber());
+            fundingSourceEvent.setAction("linked to");
+            fundingSourceEvent.sendNotification();
+
+        }
+        for (ProtocolFundingSource fundingSource : protocolForm.getDeletedProtocolFundingSources()) {
+            if (fundingSource.getProtocolFundingSourceId() != null) {
+                FundingSourceEvent fundingSourceEvent = new FundingSourceEvent(protocolForm.getProtocolDocument().getProtocol());
+                fundingSourceEvent.setFundingType("'" + fundingSource.getFundingSourceType().getDescription() + "': " + fundingSource.getFundingSourceNumber());
+                fundingSourceEvent.setSubject("Funding source removed from Protocol "
+                        + protocolForm.getProtocolDocument().getProtocol().getProtocolNumber());
+                fundingSourceEvent.setAction("removed from");
+                fundingSourceEvent.sendNotification();
+            }
+
+        }
+
+    }
 }
