@@ -109,7 +109,7 @@ public class BatchCorrespondenceEvent extends NotificationEventBase implements N
         }
     }
     
-    public void sedNotification() {
+    public void sendNotification() {
         KcNotificationService kcNotificationService = KraServiceLocator.getService(KcNotificationService.class);
         List<KcNotification> notifications = kcNotificationService.createNotifications(getProtocol().getProtocolDocument().getDocumentNumber(), Integer.toString(CoeusModule.IRB_MODULE_CODE_INT), "111", this);
         kcNotificationService.sendNotifications(notifications, this);
