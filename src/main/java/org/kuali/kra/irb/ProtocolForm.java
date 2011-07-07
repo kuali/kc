@@ -21,6 +21,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
@@ -40,14 +41,18 @@ import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.permission.PermissionsHelper;
 import org.kuali.kra.irb.personnel.PersonnelHelper;
 import org.kuali.kra.irb.protocol.ProtocolHelper;
+import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.irb.protocol.reference.ProtocolReferenceBean;
 import org.kuali.kra.irb.questionnaire.QuestionnaireHelper;
 import org.kuali.kra.irb.specialreview.SpecialReviewHelper;
+import org.kuali.kra.questionnaire.answer.Answer;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
+import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -96,6 +101,8 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     private boolean javaScriptEnabled = true;
     
     private String detailId;
+    // temp field : set in presave and then referenced in postsave
+    private transient List<ProtocolFundingSource> deletedProtocolFundingSources;
     public ProtocolForm() throws Exception {
         super();
         initialize();
@@ -212,11 +219,30 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     public void populate(HttpServletRequest request) { 
         initAnswerList(request);
         super.populate(request);
-        
+        resetNoQuestionAnswer();
         // Temporary hack for KRACOEUS-489
         if (getActionFormUtilMap() instanceof ActionFormUtilMap) {
             ((ActionFormUtilMap) getActionFormUtilMap()).clear();
         }
+    }
+    
+    /*
+     * if Y/N is not answered, it will be populated as "No", so reset it back to null
+     */
+    private void resetNoQuestionAnswer() {
+        if (CollectionUtils.isNotEmpty(getQuestionnaireHelper().getAnswerHeaders())) {
+            for (AnswerHeader answerHeader : getQuestionnaireHelper().getAnswerHeaders()) {
+                for (Answer answer : answerHeader.getAnswers()) {
+                    if ((answer.getQuestion().getQuestionTypeId() == 1 || answer.getQuestion().getQuestionTypeId() == 2) &&
+                            KimConstants.KIM_ATTRIBUTE_BOOLEAN_FALSE_STR_VALUE_DISPLAY.equals(answer.getAnswer())) {
+                        answer.setAnswer(null);
+                    }
+                    
+                }
+                
+            }
+        }
+       
     }
     
     /*
@@ -485,6 +511,14 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
 
     public void setDetailId(String detailId) {
         this.detailId = detailId;
+    }
+
+    public List<ProtocolFundingSource> getDeletedProtocolFundingSources() {
+        return deletedProtocolFundingSources;
+    }
+
+    public void setDeletedProtocolFundingSources(List<ProtocolFundingSource> deletedProtocolFundingSources) {
+        this.deletedProtocolFundingSources = deletedProtocolFundingSources;
     }
     
 }
