@@ -32,8 +32,6 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
 public class ProtocolNotificationTemplateForm extends KualiForm {
 
     private static final long serialVersionUID = 6043169784839779473L;
-    private static final String ASSIGN_REVIEWER = "901";
-    private static final String REVIEW_COMPLETE = "902";
 
     private List<ProtocolNotificationTemplate> notificationTemplates;
 
@@ -78,9 +76,11 @@ public class ProtocolNotificationTemplateForm extends KualiForm {
         templates.add(getTemplate(ProtocolActionType.IRB_ACKNOWLEDGEMENT, "IrbAcknowledgementNotification.xsl"));
         templates.add(getTemplate(ProtocolActionType.ABANDON_PROTOCOL, "AbandonProtocolNotification.xsl"));
         templates.add(getTemplate(ProtocolActionType.ASSIGN_TO_AGENDA, "AssignToAgendaReviewerNotification.xsl"));
-        templates.add(getTemplate(ASSIGN_REVIEWER, "AssignReviewerNotification.xsl"));
-        templates.add(getTemplate(REVIEW_COMPLETE, "ReviewCompleteNotification.xsl"));
+        templates.add(getTemplate(AssignReviewerEvent.ASSIGN_REVIEWER, "AssignReviewerNotification.xsl"));
+        templates.add(getTemplate(ReviewCompleteEvent.REVIEW_COMPLETE, "ReviewCompleteNotification.xsl"));
         templates.add(getTemplate(ProtocolActionType.RENEWAL_REMINDER_GENERATED, "BatchCorrespondenceNotification.xsl"));
+        templates.add(getTemplate(RejectReviewEvent.REVIEW_REJECTED, "RejectReviewNotification.xsl"));
+        templates.add(getTemplate(FundingSourceEvent.FUNDING_SOURCE, "FundingSourceNotification.xsl"));
 
         return templates;
     }
