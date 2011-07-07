@@ -105,6 +105,8 @@ public class ProtocolHelper implements Serializable {
     private transient RolodexService rolodexService;
     private transient ProtocolFundingSourceService protocolFundingSourceService;
     private transient SpecialReviewService specialReviewService;
+    private List<ProtocolFundingSource> newProtocolFundingSources;
+
     
     /**
      * Looks up and returns the ParameterService.
@@ -708,5 +710,25 @@ public class ProtocolHelper implements Serializable {
      */
     private RoleManagementService getRoleManagementService() {
         return KraServiceLocator.getService(RoleManagementService.class);
+    }
+
+    public List<ProtocolFundingSource> getNewProtocolFundingSources() {
+        return newProtocolFundingSources;
+    }
+
+    public void setNewProtocolFundingSources(List<ProtocolFundingSource> newProtocolFundingSources) {
+        this.newProtocolFundingSources = newProtocolFundingSources;
     }    
+
+    public List<ProtocolFundingSource> findNewFundingSources() {
+        List<ProtocolFundingSource> fundingSources = new ArrayList<ProtocolFundingSource>();
+        for (ProtocolFundingSource fundingSource : getProtocol().getProtocolFundingSources()) {
+            if (fundingSource.getProtocolFundingSourceId() == null) {
+                fundingSources.add(fundingSource);
+            }
+            
+        }
+        return fundingSources;
+    }
+
 }
