@@ -74,7 +74,8 @@
                     <td width="10%" class="${tdClass}">
                     	<div align=center>
                     	<span class="copy">
-                	    <kul:htmlControlAttribute property="${budgetRate}.applicableRate" attributeEntry="${budgetRatesAttributes.applicableRate}" readOnly="${not KualiForm.editingMode['modifyProposalBudgetRates']}" styleClass="${styleClass}"/>
+                    	<c:set var="budgetReadOnly" value="${not KualiForm.canModifyBudgetRates}" />
+                	    <kul:htmlControlAttribute property="${budgetRate}.applicableRate" attributeEntry="${budgetRatesAttributes.applicableRate}" readOnly="${budgetReadOnly}" styleClass="${styleClass}"/>
                       	</span>
                       	</div>
                     </td>
