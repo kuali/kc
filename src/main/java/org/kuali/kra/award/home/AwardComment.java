@@ -216,5 +216,7 @@ public class AwardComment extends AwardAssociate implements Comparable<AwardComm
         return awardCommentArg.getUpdateTimestamp().compareTo(this.getUpdateTimestamp());
     }
 
-
+    public boolean isEntered() {
+        return comments != null && comments.length() > 0;
+    }
 }
