@@ -56,7 +56,7 @@ public class RejectReviewEvent extends NotificationEventBase implements Notifica
      * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getTitle()
      */
     public String getTitle() {
-        return "Protocol " + getProtocol().getProtocolNumber() + " Review Rejected";
+        return "Protocol " + getProtocol().getProtocolNumber() + " Review returned to reviewer";
     }
 
     public String getTemplatePath() {

@@ -6,12 +6,11 @@
 			<xsl:value-of select="Protocol/ProtocolMasterData/DocumentNumber" />
 		</xsl:variable>
 
-        Review comments were rejected for 
+        Review comments for 
 		 protocol 
 		<a title="" target="_self"
 			href="../kew/DocHandler.do?command=displayDocSearchView$amp;docId={$documentNumber}">
-			<xsl:value-of select="Protocol/ProtocolMasterData/ProtocolNumber" />.
-		</a>
+			<xsl:value-of select="Protocol/ProtocolMasterData/ProtocolNumber" /></a> returned to reviewer.		
 		The reason is : {REASON}
 	</xsl:template>
 </xsl:stylesheet>

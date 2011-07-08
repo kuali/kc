@@ -416,7 +416,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
         String callerString = String.format("rejectOnlineReview.%s.anchor%s",prDoc.getDocumentNumber(),0);
         if(question == null){
-            return this.performQuestionWithInput(mapping, form, request, response, DOCUMENT_REJECT_QUESTION,"Are you sure you want to reject this document?" , KNSConstants.CONFIRMATION_QUESTION, callerString, "");
+            return this.performQuestionWithInput(mapping, form, request, response, DOCUMENT_REJECT_QUESTION,"Are you sure you want to return this document to reviewer ?" , KNSConstants.CONFIRMATION_QUESTION, callerString, "");
          } 
         else if((DOCUMENT_REJECT_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked))  {
             //nothing to do.
@@ -427,10 +427,10 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
                 if (reason == null) {
                     reason = ""; //Prevents null pointer exception in performQuestion
                 }
-                return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, DOCUMENT_REJECT_QUESTION, "Are you sure you want to reject this document?", KNSConstants.CONFIRMATION_QUESTION, callerString, "", reason, KeyConstants.ERROR_ONLINE_REVIEW_REJECTED_REASON_REQUIRED, KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME, DOCUMENT_REJECT_REASON_MAXLENGTH);              
+                return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, DOCUMENT_REJECT_QUESTION, "Are you sure you want to return this document to reviewer ?", KNSConstants.CONFIRMATION_QUESTION, callerString, "", reason, KeyConstants.ERROR_ONLINE_REVIEW_REJECTED_REASON_REQUIRED, KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME, DOCUMENT_REJECT_REASON_MAXLENGTH);              
             } else if (WebUtils.containsSensitiveDataPatternMatch(reason)) {
                 return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, 
-                        DOCUMENT_REJECT_QUESTION, "Are you sure you want to reject this document?", 
+                        DOCUMENT_REJECT_QUESTION, "Are you sure you want to return this document to reviewer ?", 
                         KNSConstants.CONFIRMATION_QUESTION, callerString, "", reason, RiceKeyConstants.ERROR_DOCUMENT_FIELD_CONTAINS_POSSIBLE_SENSITIVE_DATA,
                         KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME, "reason");
             } else {
