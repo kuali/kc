@@ -939,5 +939,16 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
         String label = KraServiceLocator.getService(CostShareService.class).getCostShareLabel(false);
         return label;
     }
+    
+    /**
+     * 
+     * This method determines if the budget rates are editable.  Note, this function should be overriden if this form
+     * gets extended.  Such as in the case of AwardBudgetForm, as that form has different requirements for editing budget rates.
+     * @return
+     */
+    public boolean getCanModifyBudgetRates() {
+        boolean retVal = this.getEditingMode().containsKey("modifyProposalBudgetRates");
+        return retVal;
+    }
 
 }
