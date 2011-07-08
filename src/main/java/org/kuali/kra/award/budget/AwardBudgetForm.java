@@ -204,6 +204,16 @@ public class AwardBudgetForm extends BudgetForm {
         resultList.toArray(result);
         return result;
     }
+    
+    /**
+     * 
+     * @see org.kuali.kra.budget.web.struts.form.BudgetForm#getCanModifyBudgetRates()
+     */
+    @Override
+    public boolean getCanModifyBudgetRates() {
+        boolean retVal = this.getEditingMode().containsKey("modifyBudgets");
+        return retVal;
+    }
 
     
 }
