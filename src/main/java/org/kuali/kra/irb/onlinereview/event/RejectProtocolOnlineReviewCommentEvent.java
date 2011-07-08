@@ -33,7 +33,7 @@ public class RejectProtocolOnlineReviewCommentEvent extends KraDocumentEventBase
     public RejectProtocolOnlineReviewCommentEvent(final ProtocolOnlineReviewDocument document,
                                                          final String rejectReason,
                                                          final int reasonMaxLength) {
-        super("reject protocol online review comment", "DocReject", document);
+        super("return protocol online review comment to reviewer", "DocReject", document);
         this.reason = rejectReason;
         this.maxLength = reasonMaxLength;
     }
