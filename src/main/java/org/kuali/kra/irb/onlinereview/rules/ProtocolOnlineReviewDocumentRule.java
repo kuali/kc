@@ -100,7 +100,7 @@ public class ProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase i
         }
         
         if( protocolOnlineReview.getDateRequested() != null && protocolOnlineReview.getDateDue() != null ) {
-            if (protocolOnlineReview.getDateDue().before(protocolOnlineReview.getDateRequested())) {
+            if (!protocolOnlineReview.getDateDue().after(protocolOnlineReview.getDateRequested())) {
                 valid=false;
                 GlobalVariables.getMessageMap().putError("protocolOnlineReviewDueDate", "error.protocol.onlinereview.create.dueDateAfterRequestedDate", new String[0]);
             }
