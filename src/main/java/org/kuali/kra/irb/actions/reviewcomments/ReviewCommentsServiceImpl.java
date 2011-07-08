@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -44,10 +45,12 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
+import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.MinuteEntryType;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -307,20 +310,13 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
        } else {
            if (minute.isAccepted()) {
                return StringUtils.equals(principalName, minute.getCreateUser()) || 
-               (isReviewer(minute,principalId) && !isProtocolPersonnelOrHasProtocolRole(minute)  && minute.isFinalFlag()) || 
-               (isActiveCommitteeMember(minute, principalId) && !isProtocolPersonnelOrHasProtocolRole(minute) && minute.isFinalFlag()) ||
+               (isReviewer(minute,principalId) && !isProtocolPersonnel(minute) && !hasProtocolPermission(minute) && minute.isFinalFlag()) || 
+               (isActiveCommitteeMember(minute, principalId) && !isProtocolPersonnel(minute) && !hasProtocolPermission(minute) && minute.isFinalFlag()) ||
                (!minute.getPrivateCommentFlag()&& minute.isFinalFlag());
            } else {
                return false;
            }
        }
-       
-       /*
-       return isIrbAdministrator(principalId) || StringUtils.equals(principalName, minute.getCreateUser()) || 
-       (isReviewer(minute,principalId) && !isProtocolPersonnelOrHasProtocolRole(minute)  && minute.isFinalFlag()) || 
-       (isActiveCommitteeMember(minute, principalId) && !isProtocolPersonnelOrHasProtocolRole(minute) && minute.isFinalFlag()) ||
-       (!minute.getPrivateCommentFlag()&& minute.isFinalFlag());
-       */
        
    }
    
@@ -523,6 +519,17 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
         return canViewName;
     }
     
+    private boolean hasProtocolPermission(CommitteeScheduleMinute reviewComment) {
+        Person person = GlobalVariables.getUserSession().getPerson();
+        return getProtocolAggregators(reviewComment).contains(person.getPrincipalId())
+               || getProtocolViewers(reviewComment).contains(person.getPrincipalId());
+    }
+    
+    private boolean isProtocolPersonnel(CommitteeScheduleMinute reviewComment) {
+        Person person = GlobalVariables.getUserSession().getPerson();
+        return getPersonnelIds(reviewComment).contains(person.getPrincipalId());        
+    }
+    
     /*
      * check if user is protocol personnel or has permission as aggregator or viewer
      */
@@ -658,6 +665,39 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
         return aggregatorIds;
         
     }
+    
+    private Set<String> getProtocolAggregators(CommitteeScheduleMinute minute) {
+        if (CollectionUtils.isEmpty(aggregatorIds) && minute != null) {
+            
+            aggregatorIds = new HashSet<String>();
+
+            if (StringUtils.isNotBlank(minute.getProtocol().getProtocolNumber())) {
+                Map<String, String> protocolAttr = new HashMap<String, String>();
+                protocolAttr.put(KcKimAttributes.PROTOCOL, minute.getProtocol().getProtocolNumber());
+                Set<String> protoResults = (Set<String>) kimRoleManagementService.getRoleMemberPrincipalIds("KC-PROTOCOL", RoleConstants.PROTOCOL_AGGREGATOR,
+                        new AttributeSet(protocolAttr));
+                
+                if (CollectionUtils.isNotEmpty(protoResults)) {
+                    aggregatorIds.addAll(protoResults);
+                }
+            }
+
+            if (StringUtils.isNotBlank(minute.getProtocol().getLeadUnitNumber())) {
+                Map<String, String> leadUnitAttr = new HashMap<String, String>();
+                leadUnitAttr.put(KcKimAttributes.UNIT_NUMBER, minute.getProtocol().getLeadUnitNumber());
+                Set<String> leadUnitResults = (Set<String>) kimRoleManagementService.getRoleMemberPrincipalIds("KC-PROTOCOL", RoleConstants.PROTOCOL_AGGREGATOR,
+                        new AttributeSet(leadUnitAttr));
+                
+                if (CollectionUtils.isNotEmpty(leadUnitResults)) {
+                    aggregatorIds.addAll(leadUnitResults);
+                }
+            }
+
+            
+        }
+        
+        return aggregatorIds;        
+    }
 
     private Set<String> getProtocolViewers() {
         if (CollectionUtils.isEmpty(viewerIds)) {
@@ -669,6 +709,37 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
         
     }
 
+    private Set<String> getProtocolViewers(CommitteeScheduleMinute minute) {
+        if (CollectionUtils.isEmpty(viewerIds) && minute != null) {
+            
+            viewerIds = new HashSet<String>();
+
+            if (StringUtils.isNotBlank(minute.getProtocol().getProtocolNumber())) {
+                Map<String, String> protocolAttr = new HashMap<String, String>();
+                protocolAttr.put(KcKimAttributes.PROTOCOL, minute.getProtocol().getProtocolNumber());
+                Set<String> protoResults = (Set<String>) kimRoleManagementService.getRoleMemberPrincipalIds("KC-PROTOCOL", RoleConstants.PROTOCOL_VIEWER,
+                        new AttributeSet(protocolAttr));
+                
+                if (CollectionUtils.isNotEmpty(protoResults)) {
+                    viewerIds.addAll(protoResults);
+                }
+            }
+
+            if (StringUtils.isNotBlank(minute.getProtocol().getLeadUnitNumber())) {
+                Map<String, String> leadUnitAttr = new HashMap<String, String>();
+                leadUnitAttr.put(KcKimAttributes.UNIT_NUMBER, minute.getProtocol().getLeadUnitNumber());
+                Set<String> leadUnitResults = (Set<String>) kimRoleManagementService.getRoleMemberPrincipalIds("KC-PROTOCOL", RoleConstants.PROTOCOL_VIEWER,
+                        new AttributeSet(leadUnitAttr));
+                
+                if (CollectionUtils.isNotEmpty(leadUnitResults)) {
+                    viewerIds.addAll(leadUnitResults);
+                }
+            }            
+        }
+        
+        return viewerIds;
+        
+    }
 
     public void setKimRoleManagementService(RoleService kimRoleManagementService) {
         this.kimRoleManagementService = kimRoleManagementService;
