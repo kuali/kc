@@ -71,12 +71,19 @@ public class AwardAccountServiceImpl implements AwardAccountService {
                 awardAccountDTO.setFederalSponsor(isFederalSponsor(award));
                 awardAccountDTO.setAwardTitle(award.getTitle());
                 awardAccountDTO.setPrimeSponsorCode(award.getPrimeSponsorCode());
-            
-                // where is the prime sponsor agency number?
+
                 if (ObjectUtils.isNotNull(award.getPrimeSponsor())) {
                     awardAccountDTO.setPrimeSponsorName(award.getPrimeSponsor().getSponsorName());
+                    awardAccountDTO.setPrimeSponsorTypeCode(award.getPrimeSponsor().getSponsorTypeCode());
                 } else {
+                    awardAccountDTO.setPrimeSponsorTypeCode(null);
                     awardAccountDTO.setPrimeSponsorName(null);
+                }
+                
+                if(ObjectUtils.isNotNull(award.getSponsor())) {
+                    awardAccountDTO.setSponsorTypeCode(award.getSponsor().getSponsorTypeCode());
+                } else {
+                    awardAccountDTO.setSponsorTypeCode(null);
                 }
                 awardDTOs.add(awardAccountDTO);
             }
@@ -127,6 +134,7 @@ public class AwardAccountServiceImpl implements AwardAccountService {
         }
         return false;
     }
+    
     
     /**
      * This method checks if sponsor is federal.
