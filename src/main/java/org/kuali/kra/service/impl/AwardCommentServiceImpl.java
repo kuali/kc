@@ -74,10 +74,11 @@ public class AwardCommentServiceImpl implements AwardCommentService {
         List<AwardComment> returnList = new ArrayList<AwardComment>();
         List<String> comments = new ArrayList<String>();
         for (AwardComment awardComment : results) {
-            if (sequenceNum >= awardComment.getSequenceNumber() 
-                    && !comments.contains(awardComment.getComments())) {
-                returnList.add(awardComment);
-                comments.add(awardComment.getComments());
+            if (sequenceNum >= awardComment.getSequenceNumber()) {
+                if (comments.isEmpty() || !comments.get(comments.size()-1).equals(awardComment.getComments())) {
+                    returnList.add(awardComment);
+                    comments.add(awardComment.getComments());
+                }
             }
         }
         Collections.sort(returnList);
