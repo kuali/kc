@@ -255,7 +255,7 @@ public class ProtocolXmlStream extends PrintBaseXmlStream {
             Submissions submission) {
         CommitteeSchedule committeeSchedule = submissionInfoBean.getCommitteeSchedule();
         if (committeeSchedule != null) {
-            getIrbPrintXmlUtilService().setProcotolReviewMinutes(committeeSchedule, submissionInfoBean, submission);
+            getIrbPrintXmlUtilService().setProtocolReviewMinutes(committeeSchedule, submissionInfoBean, submission);
         }
     }
 

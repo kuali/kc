@@ -49,6 +49,7 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonComparator;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.service.SponsorService;
@@ -199,6 +200,17 @@ public class RRKeyPersonExpandedV1_2Generator extends
 		}
 		if (PI.getYearGraduated() != null) {
 			profile.setDegreeYear(PI.getYearGraduated());
+		}		
+		if(PI.getDegree() == null && PI.getYearGraduated() == null ){		    
+		   if(PI.getProposalPersonDegrees() != null && PI.getProposalPersonDegrees().size() > 0){
+		       ProposalPersonDegree proposalPersonDegree = PI.getProposalPersonDegrees().get(0);
+		       if(proposalPersonDegree != null){  
+		           if(proposalPersonDegree.getDegreeType() != null && proposalPersonDegree.getDegreeType().getDescription()!= null)
+		               profile.setDegreeType(proposalPersonDegree.getDegreeType().getDescription());
+		           if(proposalPersonDegree.getGraduationYear() != null)
+		               profile.setDegreeYear(proposalPersonDegree.getGraduationYear());
+		       }		   
+		   }		
 		}
 		profile.setEmail(PI.getEmailAddress());
 		DevelopmentProposal developmentProposal = pdDoc
@@ -374,6 +386,17 @@ public class RRKeyPersonExpandedV1_2Generator extends
 		if (keyPerson.getYearGraduated() != null) {
 			profileKeyPerson.setDegreeYear(keyPerson.getYearGraduated());
 		}
+		if(keyPerson.getDegree() == null && keyPerson.getYearGraduated() == null ){
+	          if(keyPerson.getProposalPersonDegrees() != null && keyPerson.getProposalPersonDegrees().size() > 0){
+	              ProposalPersonDegree proposalPersonDegree = keyPerson.getProposalPersonDegrees().get(0);
+	              if(proposalPersonDegree != null){  
+	                  if(proposalPersonDegree.getDegreeType() != null &&proposalPersonDegree.getDegreeType().getDescription() != null)
+	                      profileKeyPerson.setDegreeType(proposalPersonDegree.getDegreeType().getDescription());
+	                  if(proposalPersonDegree.getGraduationYear() != null)
+	                      profileKeyPerson.setDegreeYear(proposalPersonDegree.getGraduationYear());
+	              }	            
+	          }  
+	     }
 		profileKeyPerson.setEmail(keyPerson.getEmailAddress());
 		DevelopmentProposal developmentProposal = pdDoc
 				.getDevelopmentProposal();
