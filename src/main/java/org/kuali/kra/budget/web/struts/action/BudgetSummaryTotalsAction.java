@@ -61,17 +61,16 @@ public class BudgetSummaryTotalsAction extends BudgetAction {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         Budget budget = getBudget(form);
-        /*
-         * Reverting back rateoverride for 3.1 release
-         */
-//        if(budget instanceof AwardBudgetExt){
-//            List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
-//            for (int i = 0; i < budgetPeriods.size(); i++) {
-//                AwardBudgetPeriodExt awardBudgetPeriod = (AwardBudgetPeriodExt)budgetPeriods.get(i);
-//                String val = request.getParameter("document.budget.budgetPeriods["+i+"].rateOverrideFlag");
-//                awardBudgetPeriod.setRateOverrideFlag(Boolean.valueOf(val));
-//            }
-//        }
+        if(budget instanceof AwardBudgetExt){
+            List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
+            for (int i = 0; i < budgetPeriods.size(); i++) {
+                AwardBudgetPeriodExt awardBudgetPeriod = (AwardBudgetPeriodExt)budgetPeriods.get(i);
+                String val = request.getParameter("document.budget.budgetPeriods["+i+"].rateOverrideFlag");
+                if(StringUtils.isNotBlank(val)){
+                    awardBudgetPeriod.setRateOverrideFlag(Boolean.valueOf(val));
+                }
+            }
+        }
         
         //ugly hack to work around OJB bug, unsure how else to fix issue though
         if (budget != null && budget instanceof ProposalDevelopmentBudgetExt) {

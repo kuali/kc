@@ -352,18 +352,6 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     }
     
     private ExtraButton configureReturnToParentTopButton() {
-//        ExtraButton returnToParentButton = new ExtraButton();
-//        if(AwardDocument.DOCUMENT_TYPE_CODE.equals(getBudgetDocument().getParentDocumentTypeCode())){
-//            returnToParentButton.setExtraButtonProperty(RETURN_TO_AWARD_METHOD_TO_CALL);
-//            returnToParentButton.setExtraButtonSource(buildExtraButtonSourceURI("tinybutton-retprop.gif"));
-//            returnToParentButton.setExtraButtonAltText(RETURN_TO_AWARD_ALT_TEXT);
-//        }else{
-//            returnToParentButton.setExtraButtonProperty(RETURN_TO_PROPOSAL_METHOD_TO_CALL);
-//            returnToParentButton.setExtraButtonSource(buildExtraButtonSourceURI("tinybutton-retprop.gif"));
-//            returnToParentButton.setExtraButtonAltText(RETURN_TO_AWARD_ALT_TEXT);
-//        }
-//
-//        return returnToParentButton;
         BudgetParentDocument budgetParentDocument = getDocument().getParentDocument();
         return budgetParentDocument!=null?getDocument().getParentDocument().configureReturnToParentTopButton():new ExtraButton();
     }

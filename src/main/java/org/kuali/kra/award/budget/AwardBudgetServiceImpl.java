@@ -850,14 +850,6 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
     public boolean isRateOverridden(BudgetPeriod budgetPeriod){
         return ((AwardBudgetPeriodExt)budgetPeriod).getRateOverrideFlag();
     }
-//    public boolean isSummaryPeriodCalcAmountChanged(BudgetPeriod budgetPeriod){
-//        Budget budget = budgetPeriod.getBudget();
-//        List<AwardBudgetPeriodSummaryCalculatedAmount> budgetPeriodSumamryCalcAmts= ((AwardBudgetPeriodExt)budgetPeriod).getAwardBudgetPeriodFringeAmounts();
-//        if(budgetPeriodSumamryCalcAmts.isEmpty()) 
-//            return false;
-//        BudgetDecimal periodFringeTotal = getPeriodFringeTotal(budgetPeriod, budget);
-//        return !periodFringeTotal.equals(((AwardBudgetPeriodExt)budgetPeriod).getTotalFringeAmount());
-//    }
 
     /**
      * This method...
@@ -882,15 +874,15 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
 
     public void calculateBudgetOnSave(Budget budget) {
         budgetCalculationService.calculateBudget(budget);
-//        budgetCalculationService.calculateBudgetSummaryTotals(budget);
-//        List<BudgetPeriod> awardBudgetPeriods = budget.getBudgetPeriods();
-//        for (BudgetPeriod awardBudgetPeriod : awardBudgetPeriods) {
-//            AwardBudgetPeriodExt budgetPeriod = (AwardBudgetPeriodExt)awardBudgetPeriod;
-//            BudgetDecimal periodFringeTotal = getPeriodFringeTotal(budgetPeriod, budget);
-//            budgetPeriod.setTotalDirectCost(budgetPeriod.getTotalDirectCost().subtract(periodFringeTotal).add(budgetPeriod.getTotalFringeAmount()));
-//            budgetPeriod.setTotalCost(budgetPeriod.getTotalDirectCost().add(budgetPeriod.getTotalIndirectCost()));
-//        }
-//        setBudgetCostsFromPeriods(budget);
+        budgetCalculationService.calculateBudgetSummaryTotals(budget);
+        List<BudgetPeriod> awardBudgetPeriods = budget.getBudgetPeriods();
+        for (BudgetPeriod awardBudgetPeriod : awardBudgetPeriods) {
+            AwardBudgetPeriodExt budgetPeriod = (AwardBudgetPeriodExt)awardBudgetPeriod;
+            BudgetDecimal periodFringeTotal = getPeriodFringeTotal(budgetPeriod, budget);
+            budgetPeriod.setTotalDirectCost(budgetPeriod.getTotalDirectCost().subtract(periodFringeTotal).add(budgetPeriod.getTotalFringeAmount()));
+            budgetPeriod.setTotalCost(budgetPeriod.getTotalDirectCost().add(budgetPeriod.getTotalIndirectCost()));
+        }
+        setBudgetCostsFromPeriods(budget);
     }
     
     public void populateSummaryCalcAmounts(Budget budget,BudgetPeriod budgetPeriod) {
