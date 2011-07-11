@@ -101,7 +101,6 @@
 	                	<kul:htmlControlAttribute property="newAwardFandaRate.underrecoveryOfIndirectCost" attributeEntry="${awardFandaRateAttributes.underrecoveryOfIndirectCost}" styleClass="amount"/>
 	                	</div>
 					</td>
-	
 					<td class="infoline">
 						<div width="10%" align="center">
 							<html:image property="methodToCall.addFandaRate.anchor${tabKey}"
