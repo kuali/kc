@@ -260,19 +260,17 @@
                   <c:set var="fringeCalcAmountList" value="${KualiForm.document.budget.budgetPeriods[period.budgetPeriod-1].awardBudgetPeriodFringeAmounts}" />
 	              <c:if test="${status.index ge periodStartIndex and status.index le periodEndIndex }" >
 		          	<td class="tab-subhead" >
-		          		<input type="hidden" id="document.budget.budgetPeriods[${period.budgetPeriod-1}].rateOverrideFlag"} name="document.budget.budgetPeriods[${period.budgetPeriod-1}].rateOverrideFlag"}/>
-		          		<%--<html:hidden name="KualiForm" property="document.budget.budgetPeriods[${period.budgetPeriod-1}].rateOverrideFlag"/> 
-		          		<kul:htmlControlAttribute property="document.budget.budgetPeriods[${period.budgetPeriod-1}].rateOverrideFlag" 
-												attributeEntry="${awardBudgetPeriodAttributes.rateOverrideFlag}"/>--%>
+		          		<input type="hidden" id="document.budget.budgetPeriods[${period.budgetPeriod-1}].rateOverrideFlag" name="document.budget.budgetPeriods[${period.budgetPeriod-1}].rateOverrideFlag"}/>
 		          	  <div align="right">
-							<kul:htmlControlAttribute property="document.budget.budgetPeriods[${period.budgetPeriod-1}].totalFringeAmount" 
+		          	  		<c:if test="${KualiForm.document.budget.budgetPeriods[period.budgetPeriod-1].rateOverrideFlag}">
+		          	  			<span class="fineprint">(Overridden amount)</span>
+		          	  		</c:if>
+							<kul:htmlControlAttribute styleClass="align-right" property="document.budget.budgetPeriods[${period.budgetPeriod-1}].totalFringeAmount" 
 												attributeEntry="${awardBudgetPeriodAttributes.totalFringeAmount}" 
 												onchange="updateFringeCalcAmounts('${KualiForm.document.budget.budgetPeriods[period.budgetPeriod-1].totalFringeAmount}','${period.budgetPeriod}','${fn:length(fringeCalcAmountList)}');"/>
-		          	  <%--<fmt:formatNumber value="${personnelFringeTotals[period.budgetPeriod-1]}" type="currency" currencySymbol="" maxFractionDigits="2" />--%>
 		           	  </div>
 		           	</td>
 		          </c:if>
-               	  <%--<c:set target="${personnelSubTotalsMap}" property="${periodTotalVar}" value="${personnelSubTotalsMap[periodTotalVar] + krafn:getBigDecimal(personnelFringeTotals[period.budgetPeriod-1])}" />--%>
                	  <c:set target="${personnelSubTotalsMap}" property="${periodTotalVar}" value="${personnelSubTotalsMap[periodTotalVar] + krafn:getBigDecimal(KualiForm.document.budget.budgetPeriods[period.budgetPeriod-1].totalFringeAmount)}" />
                	  
 		          <c:set var="personnelFringeCumulativeTotals" value = "${personnelFringeCumulativeTotals + krafn:getBigDecimal(KualiForm.document.budget.budgetPeriods[period.budgetPeriod-1].totalFringeAmount)}" />
@@ -295,7 +293,7 @@
 		        	 	<c:if test="${objStatus.index == 0}">
 		        	 		<td width="5%" rowspan="${firstCellRowSpan}">&nbsp;</td>
 		        	 	</c:if>
-		                <th colspan="2" width="25%"><div align="left"><strong>${personnelObjectCode.description}</strong></div></td>
+		                <td colspan="2" width="25%"><div align="left"><strong>${personnelObjectCode.description}</strong></div></td>
 		        	    
 		        	     <c:set var="personnelList" value="${KualiForm.document.budget.objectCodePersonnelList[personnelObjectCode]}" />
 						 <c:set var="personFringeCumulativeTotals" value="0.00" />
@@ -312,20 +310,23 @@
 									<c:set var="personFringeTotalsMapKey" value="${personnelObjectCode.costElement}" />
 									<c:set var="personFringeTotals" value="${KualiForm.document.budget.objectCodePersonnelFringeTotals[personFringeTotalsMapKey]}" />
 							 </c:if>
-						 	<th>
+						 	<td>
 						 	<div align="right">
 								 <c:if test="${status.index ge periodStartIndex and status.index le periodEndIndex and fn:length(fringeCalcAmountList) gt 0}" >
-									<kul:htmlControlAttribute property="document.budget.budgetPeriods[${period.budgetPeriod-1}].awardBudgetPeriodFringeAmounts[${objStatus.index}].calculatedCost" 
+								 	<c:if test="${KualiForm.document.budget.budgetPeriods[period.budgetPeriod-1].rateOverrideFlag}">
+		          	  					<span class="fineprint">(Overridden amount)</span>
+		          	  				</c:if>
+									<kul:htmlControlAttribute  styleClass="align-right" property="document.budget.budgetPeriods[${period.budgetPeriod-1}].awardBudgetPeriodFringeAmounts[${objStatus.index}].calculatedCost" 
 						 											attributeEntry="${awardBudgetPeriodSummCalcAttributes.calculatedCost}" 
 						 											onchange="updateFringeTotal('${period.budgetPeriod}','${fn:length(fringeCalcAmountList)}');"/>
 								 </c:if>
-							</div></th>
+							</div></td>
 							 
 							 <c:set var="periodFringeCumulativeTotals" value = "${periodFringeCumulativeTotals + KualiForm.document.budget.budgetPeriods[period.budgetPeriod-1].awardBudgetPeriodFringeAmounts[objStatus.index].calculatedCost}" />
 							 <c:set var="personFringeCumulativeTotals" value = "${personFringeCumulativeTotals + periodFringeCumulativeTotals }" />
 						 </c:forEach> 
 						 
-						 <th width="10%"><div align="right"><fmt:formatNumber value="${periodFringeCumulativeTotals}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;</div></th>
+						 <td width="10%"><div align="right"><strong><fmt:formatNumber value="${periodFringeCumulativeTotals}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;</strong></div></strong></td>
 		        	 </tr>
 	        	 
 	                 <c:set var="personnelList" value="${KualiForm.document.budget.objectCodePersonnelList[personnelObjectCode]}" />
@@ -347,11 +348,11 @@
 				                	
 				                	
 				                	<c:if test="${status.index ge periodStartIndex and status.index le periodEndIndex }" >
-					                  	<td>
-					                  		<div id="personnelFringeCalc${status.index}.div.object" align="right">&nbsp;
+					                  	<td align="right">
+					                  		<div id="personnelFringeCalc${status.index}.div.object" align="right">
 							       			<c:if test="${personnelFringeTotals[period.budgetPeriod-1] eq period.totalFringeAmount}">
 						                  		<fmt:formatNumber value="${personFringeTotals[period.budgetPeriod-1]}" type="currency" currencySymbol="" maxFractionDigits="2" />
-							                  	<c:set var="personFringeCumulativeTotals" value = "${personFringeCumulativeTotals + personFringeTotals[period.budgetPeriod-1] }" />
+							                  	<c:set var="personFringeCumulativeTotals" value = "${personFringeCumulativeTotals + personFringeTotals[period.budgetPeriod-1] }" />	
 											</c:if>
 					                  		</div>
 					                  	</td>
@@ -403,9 +404,7 @@
 				<c:set var="personnelCalculatedExpenseSummaryCumulativeTotals" value="0.00" />
               	<c:forEach var="period" items="${KualiForm.document.budget.budgetPeriods}" varStatus="status" >
                 	<c:set var="periodTotalVar" value="period${status.index}" />
-                	<c:set var="personnelCalculatedExpenseSummaryCumulativeTotals" value = "0.0"/>
                 	<c:set var="personnelCalculatedExpenseSummaryTotal" value="${personnelCalculatedExpenseSummaryTotals[period.budgetPeriod-1]}"/>
-                	<c:if test="${personnelCalculatedExpenseSummaryTotal>0}">
                		<c:set target="${personnelSubTotalsMap}" property="${periodTotalVar}" value="${personnelSubTotalsMap[periodTotalVar] + krafn:getBigDecimal(personnelCalculatedExpenseSummaryTotal)}" />
               		<c:if test="${status.index ge periodStartIndex and status.index le periodEndIndex }" >
 		           		<td class="tab-subhead" >
@@ -415,9 +414,8 @@
 		           		</td>
 		           	</c:if>
 	           		<c:set var="personnelCalculatedExpenseSummaryCumulativeTotals" value = "${personnelCalculatedExpenseSummaryCumulativeTotals + krafn:getBigDecimal(personnelCalculatedExpenseSummaryTotal) }" />
-	           		</c:if>
 	          	</c:forEach>
-				<td  align="right" class="tab-subhead">
+				<td align="right" class="tab-subhead">
 					<div align="right">
 						<strong><fmt:formatNumber value="${personnelCalculatedExpenseSummaryCumulativeTotals}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;</strong>
 					</div>
@@ -585,7 +583,7 @@
 		   <tr>
 				<td class="tab-subhead" width="5%">
 				<a id="A${anchorIndex}" onclick="rend(this, false)">
-				<img src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" alt="show" width=45 height=15 border=0 align=absmiddle id="F${anchorIndex}">
+				<img src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" alt="show" width="45" height="15" border="0" align="absmiddle" id="F${anchorIndex}">
 				</a>
 				</td>
 				<td colspan="2" class="tab-subhead" >Calculated Direct Costs</td>
@@ -715,19 +713,14 @@
         	    <c:forEach var="period" items="${KualiForm.document.budget.budgetPeriods}" varStatus="status" >
   	    			<td class="infoline">
   	    				<div align="right">
-  	    					<kul:htmlControlAttribute property="document.budget.budgetPeriods[${period.budgetPeriod-1}].totalIndirectCost" 
+	    					<c:if test="${KualiForm.document.budget.budgetPeriods[period.budgetPeriod-1].rateOverrideFlag}">
+		          	  			<span class="fineprint">(Overridden amount)</span>
+		          	  		</c:if>
+  	    					<kul:htmlControlAttribute styleClass="align-right" property="document.budget.budgetPeriods[${period.budgetPeriod-1}].totalIndirectCost" 
 								attributeEntry="${budgetPeriodAttributes.totalIndirectCost}" onchange="setRateOverrideFlag(${period.budgetPeriod});"/>
 						</div>
 					</td>
         	    	<c:set var="calculatedIndirectExpenseVar" value="calculatedIndirectExpense${status.index}" />
-        	    	<%--<c:if test="${status.index ge periodStartIndex and status.index le periodEndIndex }" >
-						<td class="infoline">
-						<div align="right">
-							<strong><fmt:formatNumber value="${indirectCostMap[calculatedIndirectExpenseVar]}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;</strong>
-						</div>
-						</td>
-					</c:if>
-					<c:set var="cumTotal" value = "${cumTotal + indirectCostMap[calculatedIndirectExpenseVar]}" />--%>
 					<c:set var="cumTotal" value = "${cumTotal + period.totalIndirectCost}" />
 				</c:forEach>    
                 <td class="infoline">
