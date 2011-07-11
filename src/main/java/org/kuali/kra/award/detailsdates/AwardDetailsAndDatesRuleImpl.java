@@ -112,69 +112,63 @@ public class AwardDetailsAndDatesRuleImpl extends ResearchDocumentRuleBase imple
         if (!isValidAccountNumber(award)) {
             valid &= false;
         }
-        if (!isValidChartOfAccountsCode(award)) {
-            valid &= false;
-        }
 
         return valid;
     }
     
+    /**
+     * This method checks if the account number is valid and if the chart of accounts code is present,
+     *  it checks if the combination of account number and chart code is valid.
+     * @param award
+     * @return
+     */
     protected boolean isValidAccountNumber(Award award) {
         boolean isValid = true;
         // Only if the financial system integration parameter is on,
         // use the financial system service to verify if the account number is valid,
         String accountNumber = award.getAccountNumber();
-
-        if (isIntegrationParameterOn() && ObjectUtils.isNotNull(accountNumber)) {
-            AccountCreationClient client = getAccountCreationClientService();
-            String isValidAccountNumber = client.isValidAccountNumber(accountNumber);
+        String financialDocNbr = award.getFinancialAccountDocumentNumber();
+        // If the financial doc nbr is present, it means the account number is present as a result of  
+        // creating a financial account. Need not check for valid account number of chart in this case.
+        // Because at this point if the account doc in KFS is only being saved and not routed then this will return
+        // false because the account does not exist yet on KFS.
+        if (isIntegrationParameterOn() && ObjectUtils.isNotNull(accountNumber) && ObjectUtils.isNull(financialDocNbr)) {
             AwardDocumentAuthorizer authorizer = new AwardDocumentAuthorizer();
-            
-            // also need to validate if person is authorized to link accounts 
-            // need to do this for account number field because this field always appears on the award
             if (!authorizer.hasCreateAccountPermission()) {
                 reportError(AWARD_ACCOUNT_NUMBER_PROPERTY_NAME, KeyConstants.NO_PERMISSION_TO_LINK_ACCOUNT);
-                isValid &= false;
-            }
-            if (ObjectUtils.isNull(isValidAccountNumber)) {
-                // Error if cannot connect to financial system service
-                reportError(AWARD_ACCOUNT_NUMBER_PROPERTY_NAME, KeyConstants.VALIDATION_DID_NOT_OCCUR);
-                isValid &= false;
-            }
-            if (StringUtils.equalsIgnoreCase(isValidAccountNumber, "false")) {
-                reportError(AWARD_ACCOUNT_NUMBER_PROPERTY_NAME, KeyConstants.AWARD_ACCOUNT_NUMER_NOT_VALID, award.getAccountNumber());
-                isValid &= false;
-            }
-        } 
-        return isValid;
-    }
-    
-   
-    /**
-     * This method checks if the combination of accountNUmber and 
-     * chatOfAccountsCode exists in the financial system.
-     * @param award
-     * @return
-     */
-    protected boolean isValidChartOfAccountsCode(Award award) {
-        boolean isValid = true;
-        String chartOfAccountsCode = award.getFinancialChartOfAccountsCode();
-        String accountNumber = award.getAccountNumber();
-        if (isIntegrationParameterOn() && ObjectUtils.isNotNull(chartOfAccountsCode)) {
-            AccountCreationClient client = getAccountCreationClientService();
-            String isValidChartAccount = client.isValidChartAccount(chartOfAccountsCode, accountNumber);
-            if (ObjectUtils.isNull(isValidChartAccount)) {
-                // Error if cannot connect to financial system service
-                reportError(AWARD_FIN_CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, KeyConstants.VALIDATION_DID_NOT_OCCUR);
-                isValid &= false; 
-            }
-            if (StringUtils.equalsIgnoreCase(isValidChartAccount, "false")) {
-                reportError(AWARD_FIN_CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, 
-                            KeyConstants.AWARD_CHART_OF_ACCOUNTS_CODE_NOT_VALID, 
-                            award.getFinancialChartOfAccountsCode());               
-                isValid &= false;
+                return false;
             }
             
+            AccountCreationClient client = getAccountCreationClientService();            
+            String chartOfAccountsCode = award.getFinancialChartOfAccountsCode();
+
+            // also need to validate if person is authorized to link accounts 
+            // need to do this for account number field because this field always appears on the award
+            if (ObjectUtils.isNull(chartOfAccountsCode)) {
+                String isValidAccountNumber = client.isValidAccountNumber(accountNumber);
+                if (ObjectUtils.isNull(isValidAccountNumber)) {
+                    // Error if cannot connect to financial system service
+                    reportError(AWARD_ACCOUNT_NUMBER_PROPERTY_NAME, KeyConstants.VALIDATION_DID_NOT_OCCUR);
+                    isValid &= false;
+                }
+                if (StringUtils.equalsIgnoreCase(isValidAccountNumber, "false")) {
+                    reportError(AWARD_ACCOUNT_NUMBER_PROPERTY_NAME, KeyConstants.AWARD_ACCOUNT_NUMER_NOT_VALID, award.getAccountNumber());
+                    isValid &= false;
+                }
+            } else {
+                String isValidChartAccount = client.isValidChartAccount(chartOfAccountsCode, accountNumber);
+                if (ObjectUtils.isNull(isValidChartAccount)) {
+                    // Error if cannot connect to financial system service
+                    reportError(AWARD_FIN_CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, KeyConstants.VALIDATION_DID_NOT_OCCUR);
+                    isValid &= false; 
+                }
+                if (StringUtils.equalsIgnoreCase(isValidChartAccount, "false")) {
+                    reportError(AWARD_FIN_CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, 
+                                KeyConstants.AWARD_CHART_OF_ACCOUNTS_CODE_NOT_VALID, 
+                                award.getFinancialChartOfAccountsCode());               
+                    isValid &= false;
+                }
+            }
         } 
         return isValid;
     }
