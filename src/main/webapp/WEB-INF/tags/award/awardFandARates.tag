@@ -24,7 +24,7 @@
 <c:set var="awardBenefitsRateCommentAttributes" value="${DataDictionary.AwardComment.attributes}" />
 <c:set var="action" value="awardTimeAndMoney" />
 <kul:tab tabTitle="Rates" defaultOpen="false" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
-    <kul:innerTab tabTitle="F&A Rates" parentTab="Rates" defaultOpen="false" tabErrorKey="newAwardFandaRate.*,document.awardList[0].awardFandaRate*">
+    <kul:innerTab tabTitle="F&A Rates" parentTab="Rates" defaultOpen="true" tabErrorKey="newAwardFandaRate.*,document.awardList[0].awardFandaRate*">
 		<div class="tab-container" align="right">
 	    	<h3>
 	    		<span class="subhead-left">F&A Rates</span>
@@ -44,9 +44,9 @@
 	          		<th width="9%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardFandaRateAttributes.startDate}" noColon="true" /></div></th>
 	          		<th width="9%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardFandaRateAttributes.endDate}" noColon="true" /></div></th>
 	          		<th width="9%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardFandaRateAttributes.onCampusFlag}" noColon="true" /></div></th>
-	          		<th width="9%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardFandaRateAttributes.underrecoveryOfIndirectCost}" noColon="true" /></div></th>
 	          		<th width="9%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardFandaRateAttributes.sourceAccount}" noColon="true" /></div></th>
 	          		<th width="9%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardFandaRateAttributes.destinationAccount}" noColon="true" /></div></th>          		
+	          		<th width="9%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardFandaRateAttributes.underrecoveryOfIndirectCost}" noColon="true" /></div></th>
 	          		<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
 	          	</tr>
 	          	
@@ -88,11 +88,6 @@
 					</td>
 					<td width="9%" valign="middle" class="infoline">
 	                	<div align="center">
-	                	<kul:htmlControlAttribute property="newAwardFandaRate.underrecoveryOfIndirectCost" attributeEntry="${awardFandaRateAttributes.underrecoveryOfIndirectCost}" styleClass="amount"/>
-	                	</div>
-					</td>
-					<td width="9%" valign="middle" class="infoline">
-	                	<div align="center">
 	                	<kul:htmlControlAttribute property="newAwardFandaRate.sourceAccount" attributeEntry="${awardFandaRateAttributes.sourceAccount}" />
 	                	</div>
 					</td>
@@ -101,6 +96,12 @@
 	                	<kul:htmlControlAttribute property="newAwardFandaRate.destinationAccount" attributeEntry="${awardFandaRateAttributes.destinationAccount}" />
 	                	</div>
 					</td>
+					<td width="9%" valign="middle" class="infoline">
+	                	<div align="center">
+	                	<kul:htmlControlAttribute property="newAwardFandaRate.underrecoveryOfIndirectCost" attributeEntry="${awardFandaRateAttributes.underrecoveryOfIndirectCost}" styleClass="amount"/>
+	                	</div>
+					</td>
+	
 					<td class="infoline">
 						<div width="10%" align="center">
 							<html:image property="methodToCall.addFandaRate.anchor${tabKey}"
@@ -147,17 +148,17 @@
 						</td>
 		                <td width="9%" valign="middle">
 						<div align="center">
-	                		<kul:htmlControlAttribute property="document.awardList[0].awardFandaRate[${status.index}].underrecoveryOfIndirectCost" attributeEntry="${awardFandaRateAttributes.underrecoveryOfIndirectCost}" styleClass="amount"/>
-						</div>
-						</td>
-		                <td width="9%" valign="middle">
-						<div align="center">
 	                		<kul:htmlControlAttribute property="document.awardList[0].awardFandaRate[${status.index}].sourceAccount" attributeEntry="${awardFandaRateAttributes.sourceAccount}" />
 						</div>
 						</td>
 		                <td width="9%" valign="middle">
 						<div align="center">
 	                		<kul:htmlControlAttribute property="document.awardList[0].awardFandaRate[${status.index}].destinationAccount" attributeEntry="${awardFandaRateAttributes.destinationAccount}" />
+						</div>
+						</td>
+		                <td width="9%" valign="middle">
+						<div align="center">
+	                		<kul:htmlControlAttribute property="document.awardList[0].awardFandaRate[${status.index}].underrecoveryOfIndirectCost" attributeEntry="${awardFandaRateAttributes.underrecoveryOfIndirectCost}" styleClass="amount"/>
 						</div>
 						</td>
 						<td width="10%" valign="middle">
