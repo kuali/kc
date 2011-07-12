@@ -23,6 +23,9 @@
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Sponsor Authorization</span>
+    		<span class="subhead-right">
+    			<kul:help parameterNamespace="KC-AWARD" parameterDetailType="Document" parameterName="awardSponsorAuthHelp" altText="help"/>
+			</span>
         </h3>
         <table id="Pre-Award-Authorizations" cellpadding="0" cellspacing="0" summary="Pre Award Authorizations">
         	<tr>
@@ -59,6 +62,9 @@
         </div>
     	<h3>
     		<span class="subhead-left">Institutional Authorization</span>
+    		<span class="subhead-right">
+    			<kul:help parameterNamespace="KC-AWARD" parameterDetailType="Document" parameterName="awardInstitutionalAuthHelp" altText="help"/>
+			</span>
         </h3>
         <table id="Pre-Award-Authorizations" cellpadding="0" cellspacing="0" summary="Pre Award Authorizations">
         	<tr>
