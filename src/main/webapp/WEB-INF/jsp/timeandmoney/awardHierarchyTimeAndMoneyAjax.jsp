@@ -19,43 +19,12 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <title>Unit Hierarchy</title>
-
-<style type="text/css">
-/*margin and padding on body element
-  can introduce errors in determining
-  element position and are not recommended;
-  we turn them off as a foundation for YUI
-  CSS treatments. */
-body {
-    margin:0;
-    padding:0;
-}
-</style>
-
-<script language="JavaScript" type="text/javascript" src="dwr/engine.js"></script>
-<script language="JavaScript" type="text/javascript" src="dwr/util.js"></script>
-<script language="javascript" src="dwr/interface/AwardHierarchyUIService.js" ></script>
-<script language="JavaScript" type="text/javascript" src="scripts/kuali_application.js"></script>
-<script type="text/javascript" src="scripts/researchareas_yui.js" ></script>
-
-
 </head>
-
-<body class=" yui-skin-sam">
-
-<!--  initial data here -->
-<%-- <input type="text" id = "researchAreas" name="researchAreas"   value="${ResearchAreasForm.researchAreas}"/> --%>
+<body>
 
 <div id="treeDiv1">
 ${TimeAndMoneyForm.awardHierarchy}
 </div>
 
-<script type="text/javascript">
-
-alert ("in researchareaload ");
-</script>
-
-
-<!--END SOURCE CODE =============================== -->
 </body>
 </html>

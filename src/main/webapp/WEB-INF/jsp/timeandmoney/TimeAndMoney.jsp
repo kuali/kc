@@ -15,6 +15,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
+
   <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="timeAndMoney"
@@ -27,6 +28,24 @@
   	extraTopButtons="${KualiForm.extraTopButtons}" >
   	
 <c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
+
+<script language="JavaScript" type="text/javascript" src="dwr/engine.js"></script>
+
+<script language="JavaScript" type="text/javascript" src="dwr/util.js"></script>
+	
+<script language="JavaScript" type="text/javascript" src="dwr/interface/AwardHierarchyUIService.js"></script>	
+
+<script type="text/javascript" src="scripts/jquery/jquery.js"></script>
+<link rel="stylesheet" href="css/jquery/screen.css" type="text/css" />
+<link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
+<link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
+<link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />
+	<script type="text/javascript" src="scripts/jquery/jquery.js"></script>
+	<link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
+	<link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
+	<link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />
+
+<script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
 	
 <div align="right"><kul:help documentTypeName="TimeAndMoneyDocument" pageName="Time And Money" /></div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
@@ -76,22 +95,3 @@ var kualiElements = kualiForm.elements;
 													extraButtonAlt="${extraButtonAlt}" />
 
 </kul:documentPage>
-
-<script language="JavaScript" type="text/javascript" src="dwr/engine.js"></script>
-
-<script language="JavaScript" type="text/javascript" src="dwr/util.js"></script>
-	
-<script language="JavaScript" type="text/javascript" src="dwr/interface/AwardHierarchyUIService.js"></script>	
-
-<script type="text/javascript" src="scripts/jquery/jquery.js"></script>
-<link rel="stylesheet" href="css/jquery/screen.css" type="text/css" />
-<link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
-<link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
-<link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />
-	<script type="text/javascript" src="scripts/jquery/jquery.js"></script>
-	<link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
-	<link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
-	<link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />
-
-<script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
-<script type="text/javascript" src="scripts/awardHierarchyTimeAndMoney.js"></script>
