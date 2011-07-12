@@ -33,8 +33,15 @@ public interface AwardCommentService {
     List<CommentType> retrieveCommentTypes();
     
     /**
+     * This method retrieves a list of Booleans that indicate whether or not to display the Show History
+     * button on the panel.  Each element should correspond to an element returned by retrieveCommentTypes() method.
+     * @return
+     */
+    List<String> retrieveCommentHistoryFlags(String awardId);
+    
+    /**
      * This method retrieves from the database all Award Comments with the give type code and Award ID for
-     * dispay in view history popup page.
+     * display in view history popup page.
      * @param awardCommentTypeCode
      * @param AwardId
      * @return

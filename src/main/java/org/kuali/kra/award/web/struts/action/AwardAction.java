@@ -1148,6 +1148,7 @@ public class AwardAction extends BudgetParentActionBase {
             , HttpServletRequest request, HttpServletResponse response) {
         AwardForm awardForm = (AwardForm) form;
         awardForm.getAwardCommentBean().setAwardCommentScreenDisplayTypesOnForm();
+        awardForm.getAwardCommentBean().setAwardCommentHistoryFlags();
         return mapping.findForward(Constants.MAPPING_AWARD_NOTES_AND_ATTACHMENTS_PAGE);
     }
     
