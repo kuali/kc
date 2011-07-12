@@ -54,6 +54,26 @@ public class AwardCommentServiceImpl implements AwardCommentService {
     }
     
     @SuppressWarnings("unchecked")
+    /**
+     * This method retrieves a list of award comment type codes that indicate whether or not to display the Show History
+     * button on the panel.  
+     * @return
+     */
+    public List<String> retrieveCommentHistoryFlags(String awardNumber) {
+        this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        Map<String, String> queryMap = new HashMap<String, String>();
+        queryMap.put("awardNumber", awardNumber);
+        List<AwardComment> rawList = (List<AwardComment>) getBusinessObjectService().findMatching(AwardComment.class, queryMap);
+        List<String> typeList = new ArrayList<String>();
+        for (AwardComment awardComment: rawList) {
+            if (!typeList.contains(awardComment.getCommentTypeCode()) && awardComment.isEntered()) {
+                typeList.add(awardComment.getCommentTypeCode());
+            }
+        }
+        return typeList;
+    }
+    
+    @SuppressWarnings("unchecked")
     public List<AwardComment> retrieveCommentHistoryByType(String awardCommentTypeCode, String awardId) {
         this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         Award award = getAward(awardId);
@@ -74,8 +94,9 @@ public class AwardCommentServiceImpl implements AwardCommentService {
         List<AwardComment> returnList = new ArrayList<AwardComment>();
         List<String> comments = new ArrayList<String>();
         for (AwardComment awardComment : results) {
-            if (sequenceNum >= awardComment.getSequenceNumber()) {
-                if (comments.isEmpty() || !comments.get(comments.size()-1).equals(awardComment.getComments())) {
+            if (sequenceNum >= awardComment.getSequenceNumber() && awardComment.isEntered()) {
+                // if we haven't saved any comments yet, or if comment is different from previous one
+                if (comments.isEmpty() || !awardComment.getComments().equals(comments.get(comments.size()-1))) {
                     returnList.add(awardComment);
                     comments.add(awardComment.getComments());
                 }

@@ -16,6 +16,7 @@
 package org.kuali.kra.award.notesandattachments.comments;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -112,6 +113,17 @@ public class AwardCommentBean implements Serializable {
         awardComment.setAwardNumber(form.getAwardDocument().getAward().getAwardNumber());
         form.getAwardDocument().getAward().getAwardComments().add(awardComment);
         
+    }
+    
+    public void setAwardCommentHistoryFlags() {
+        List<Boolean> results = new ArrayList<Boolean>();
+        List<AwardComment> comments = form.getAwardDocument().getAward().getAwardComments();
+        AwardCommentService awardCommentService = getAwardCommentService();
+        List<String>allAwardCommentTypes = awardCommentService.retrieveCommentHistoryFlags(form.getAwardDocument().getAward().getAwardNumber());
+        for (AwardComment comment : comments) {
+            results.add(new Boolean(allAwardCommentTypes.contains(comment.getCommentTypeCode())));
+        }
+        form.getAwardDocument().getAward().setAwardCommentHistoryFlags(results);
     }
     
     /**

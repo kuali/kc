@@ -181,6 +181,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private List<AwardSponsorContact> sponsorContacts;
 
     private List<AwardCustomData> awardCustomDataList;
+    private List<Boolean> awardCommentHistoryFlags;
     
     private Map<String, AwardComment> commentMap;
     private List<AwardCostShare> awardCostShares;
@@ -3232,6 +3233,14 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
             }
         }
         return new AwardBudgetLimit(type);
+    }
+
+    public List<Boolean> getAwardCommentHistoryFlags() {
+        return awardCommentHistoryFlags;
+    }
+
+    public void setAwardCommentHistoryFlags(List<Boolean> awardCommentHistoryFlags) {
+        this.awardCommentHistoryFlags = awardCommentHistoryFlags;
     }
 
     public void cleanupSpecialReviews(Award srcAward) {
