@@ -27,7 +27,7 @@
     <c:forEach var="awardDocument" items="${KualiForm.document.awardList[0].awardComments}" varStatus="status">
         <c:if test="${KualiForm.document.awardList[0].awardComments[status.index].commentTypeCode == commentTypeCode}">
         	<c:set var="commentIndex" value="${status.index}"/>
-			<c:if test="${KualiForm.document.awardList[0].awardComments[status.index].entered}">
+			<c:if test="${KualiForm.document.awardList[0].awardCommentHistoryFlags[status.index]}">
 				<c:set var="commentEntered" value="true"/>
 			</c:if>
         </c:if>
