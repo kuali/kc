@@ -8,7 +8,6 @@ span.hierarchyOpenLink {
   margin-right: 5px;
   list-style: none;
   display: inline;
-  background-color: blue;
 }
 span.awardHierarchyLinkText {
   float: left;
@@ -43,4 +42,13 @@ div.awardHierarchy {
 .treeview span {
   list-style: none;
   list-style-type: none;
+}
+
+#awardhierarchy td,
+#awardhierarchy ul {
+  background-color: transparent;
+}
+
+#awardhierarchy li.odd {
+  background-color: #fff;
 }
