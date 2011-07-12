@@ -318,6 +318,9 @@
 			<ref bean="businessObjectService" />
 		</property>
 	</bean>
+	
+	<bean id="researchAreaReferencesDao" parent="platformAwareDao"
+		class="org.kuali.kra.dao.ojb.ResearchAreaReferencesDaoOjb" />
 
 	<!-- the following are called by irb for now. move to irb -->
 	<bean id="organizationService" class="org.kuali.kra.service.impl.OrganizationServiceImpl">
