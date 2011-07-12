@@ -15,8 +15,11 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
+<script type="text/javascript" src="scripts/awardHierarchyTimeAndMoney.js"></script>
 <c:set var="awardHierarchyNodeAttributes" value="${DataDictionary.AwardHierarchyNode.attributes}" />
 <c:set var="awardAmountTransactionAttributes" value="${DataDictionary.AwardAmountTransaction.attributes}" />
+
+<link rel="stylesheet" href="css/award_hierarchy.css" type="text/css" />
 
 <kul:tab tabTitle="Award Hierarchy" defaultOpen="true" tabErrorKey="awardHierarchyNodeItems*,document.award.timeAndMoneyAwardAmountTransaction.newAwardAmountTransaction*,document.award.timeAndMoneyAwardDates*,totals*,timeAndMoneyTransaction*,newAwardAmountTransaction.transactionTypeCode" auditCluster="reportsAuditErrors" tabAuditKey="document.reportTermsAuditRules*" useRiceAuditMode="true">
 	<div class="tab-container" align="right">
@@ -158,8 +161,9 @@
                                                 &nbsp;&nbsp;&nbsp;&nbsp;<a title="Expand the entire tree below" href="#"><img src="static/images/jquery/plus.gif" /> Expand All</a>
                                             </div> --%>
 
-	
-     <div style = "background:#e4e4e4; margin: 10px 0px 10px 0px; clear: left; height: 285px; width: 100%; overflow-y: scroll; overflow-x: scroll; position: relative;" >
+
+     <div id="awardHierarchyScollable" style = "background:#e4e4e4; margin: 10px 0px 10px 0px; clear: left; height: 285px; width: 100%; overflow-y: scroll; overflow-x: scroll; position: relative;" >
+       <html:hidden property="awardHierarchyScrollPosition"/>
      <div class="divAHT"><div>
      	<c:forEach items="${KualiForm.awardHierarchyNodeItems}" var="tempNode" varStatus="status">
 			<c:set var="finalExpirationDateProperty" value="${tempNode.finalExpirationDate}" />  
@@ -310,4 +314,13 @@
 		</c:otherwise>
 	</c:choose>
     </div>
+    
+    <script>
+      <c:forEach items="${KualiForm.awardHierarchyToggle}" var="toggleEntry">
+        <c:if test="${toggleEntry.value[0] eq 'true'}">
+      	 	addOpenAward('${toggleEntry.key}');
+      	</c:if>
+      </c:forEach>
+      setScrollPosition(${KualiForm.awardHierarchyScrollPosition});
+    </script>
 </kul:tab>

@@ -1,130 +1,154 @@
-    
-    var i = 1;
-    var j = 1;
-    var ulTagId;
-    var loadedidx=0;
-      
-    $(document).ready(function(){
-      $.ajaxSettings.cache = false; 
-      $("#awardhierarchy").treeview({
-                 toggle: function() {
-                     var idstr=$(this).attr("id").substring(4);
-                     var tagId = "listcontrol"+idstr;
-                     var divId = "listcontent"+idstr;
-                 
-                     $(".hierarchydetail:not(#"+divId+")").slideUp(300);
-                     $("#"+divId).slideToggle(300);
-                     loadChildrenRA($("#itemText"+idstr).text(), tagId);
-                     //when loading children, we must remove all of the previous images and scripts.  Otherwise, there will be multiple
-                     //datepickers added to each cell depending on how deep we dig into the hierarchy and how many times we toggle.
-                     $('.datepickerImage').remove();
-     				 $('.datepickerScript').remove();
-                     $('.datepicker').each(
-                    			function() {
-                    				var id = $(this).attr("id");
-                    			    var img1 =$("<img class='datepickerImage' src='kr/static/images/cal.gif' id='" + id +"_datepicker' style='cursor: pointer;'  title='Date selector' alt='Date selector' onmouseover=\"this.style.backgroundColor='red';\" onmouseout=\"this.style.backgroundColor='transparent';\"/>");
-                    			    img1.insertAfter($(this));
-                    			    Calendar.setup({ inputField : id, ifFormat : '%m/%d/%Y',  button : id + '_datepicker'});
-                    			});
-                    },
-                animated: "fast",
-                collapsed: true,
-                control: "#treecontrol"
-                    
-                 
-              });
-      
-      $(document).ajaxStart(function(){
-         $("#loading").show();
-       });
-      $(document).ajaxComplete(function(){
-         $("#loading").hide();
-       });
-      
-    }); // $(document).ready
-     
+ 
 
-    /*
-	 * Load first level area of research when page is initially loaded
-	 */
-    function loadFirstLevel(){ 
-     
-      $.ajax({
-        url: 'awardHierarchyTimeAndMoneyAjax.do',
-        type: 'GET',
-        dataType: 'html',
-        cache: false,
-        data:'awardNumber=&addRA=N&document.rootAwardNumber=' + $("#document\\.rootAwardNumber").attr("value")  + '&currentAwardNumber='+ $("#currentAwardNumber").attr("value") + '&currentSeqNumber='+ $("#currentSeqNumber").attr("value"),
-        async:false,
-        timeout: 1000,
-        error: function(){
-           alert('Error loading XML document');
-        },
-        success: function(xml){
-           $(xml).find('h3').each(function(){
-           var item_text = $(this).text();
-           i++;
-           var racode = item_text.substring(0,item_text.indexOf("%3A")).trim();
-           item_text = item_text.replace("%3A",":");
-           var id = "item"+i;
-           var tagId = "listcontrol"+i;
-           var divId = "listcontent"+i;
-           
-          // NOTES : if use 'div', then FF will display the '+' and idDiv in
-			// separate lines. IE7 is fine
-          // But 'IE7 has problem with 'span'
-          
-//          var idDiv;
-//          if ( jQuery.browser.msie ) { 
-//               idDiv = $('<div></div>').attr("id","itemText"+i).html(builduUi(item_text, racode)); 
-//               // for later change RA description
-//          } else {
-//               idDiv = $('<span>').attr("id","itemText"+i).html(builduUi(item_text, racode));  
-//                //for later change RA description
-//          }
-           
-           var idDiv;
-           if ( jQuery.browser.msie ) { 
-        	   
-                idDiv = $('<div></div>').attr("id","itemText"+i).html(builduUi(item_text, racode)); 
-                // for later change RA description
-           } else {
-                idDiv = $('<div></div>').attr("id","itemText"+i).html(builduUi(item_text, racode));  
-                 //for later change RA description
-           }
-               
-           var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(idDiv);
-           var div = $('<div  class="hierarchydetail" style="margin-top:2px; "></div>').attr("id",divId);
-       	   var hidracode = $('<input type="hidden" id = "racode" name = "racode" />').attr("id",
-    			"racode" + i).attr("name", "racode" + i).attr("value",racode);
-       	   hidracode.appendTo(div);
-       	   
-           var listitem = $('<li class="closed"></li>').attr("id",id).html(tag);
-           
-           ulTagId = "browser";
-           div.appendTo(listitem);
-           // need this ultag to force to display folder.
-           var childUlTag = $('<ul></ul>').attr("id","ul"+i);
-           childUlTag.appendTo(listitem);
-           listitem.appendTo('ul#awardhierarchy');
-           // also need this to show 'folder' icon
-           $('#awardhierarchy').treeview({
-              add: listitem
-              
-           });
-       
-           });
-        }
-       });  
-    }  // generate
+var openAwards = [];
+var prevScrollPosition;
+function addOpenAward(award) {
+	openAwards.push(award);
+}
+function setScrollPosition(scrollPos) {
+	prevScrollPosition = scrollPos;
+}
+$(document).ready(function(){
+  $('#awardHierarchyScollable').scroll(function() {
+      $('input[name*=awardHierarchyScrollPosition]').attr('value', $(this).scrollTop());
+  });
+  $.ajaxSettings.cache = false; 
+  $("#awardhierarchy").treeview({
+             toggle: function() {
+	  			 loadChildren(this);
+                },
+            animated: "fast",
+            collapsed: true,
+            control: "#treecontrol"
+          });
+  
+  $(document).ajaxStart(function(){
+     $("#loading").show();
+   });
+  $(document).ajaxComplete(function(){
+     $("#loading").hide();
+   });
+  loadChildren(null);
+}); // $(document).ready
+
+function openPreviouslyOpenedAwards() {
+	if (openAwards.length > 0) {
+		for (var i = 0; i < openAwards.length; i++) {
+			var openAward = openAwards[i];
+			if ($('#li'+openAward).is('.expandable')) {
+				$('#li'+openAward).find('div.expandable-hitarea:first').click();
+				openAwards.splice(i, 1);
+				break;
+			}
+		}
+		if (openAwards.length == 0) { //we opened all previous awards
+			$('#awardHierarchyScollable').scrollTop(prevScrollPosition);
+		}
+	}
+}
+         
+function fixDatePickers() {
+    //when loading children, we must remove all of the previous images and scripts.  Otherwise, there will be multiple
+    //datepickers added to each cell depending on how deep we dig into the hierarchy and how many times we toggle.
+    $('.datepickerImage').remove();
+	 $('.datepickerScript').remove();
+    $('.datepicker').each(
+   			function() {
+   				var id = $(this).attr("id");
+   			    var img1 =$("<img class='datepickerImage' src='kr/static/images/cal.gif' id='" + id +"_datepicker' style='cursor: pointer;'  title='Date selector' alt='Date selector' onmouseover=\"this.style.backgroundColor='red';\" onmouseout=\"this.style.backgroundColor='transparent';\"/>");
+   			    img1.insertAfter($(this));
+   			    Calendar.setup({ inputField : id, ifFormat : '%m/%d/%Y',  button : id + '_datepicker'});
+   			});
+}
     
-    function revString(str) { 
-    	   var retStr = "";    	   
-    	   for (j=str.length - j ; j > - 1 ; j--){ 
-    	      retStr += str.substr(j,1); 
-    	   } 
-    	   return retStr; 
-    }
+    /*
+	 * load children area of research when parents RA is expanding.
+	 */
+  function loadChildren(item) {
+	  var liNode = null;
+	  var ulNode = $('ul#awardhierarchy');
+	  var awardNumber = '';
+	  var addRA = 'N';	  
+	  if (item != null) {
+		  var liNode = $(item);
+	      var ulNode = liNode.children('ul:eq(0)');
+	      var awardNumber = getAwardNumber(liNode);
+	      var addRA = 'E';
+	  } 
+	  
+      if (ulNode.children('li').size() == 0) {
+          $.ajax({
+           url: 'awardHierarchyTimeAndMoneyAjax.do',
+           type: 'GET',
+           dataType: 'html',
+           data:'awardNumber='+awardNumber+'&addRA=' + addRA + '&document.rootAwardNumber=' + $("#document\\.rootAwardNumber").attr("value") + '&currentAwardNumber='+ $("#currentAwardNumber").attr("value") + '&currentSeqNumber='+ $("#currentSeqNumber").attr("value"),
+           cache: false,
+           async: true,
+           timeout: 5000,
+           error: function(){
+              alert('Error loading XML document');
+              if (liNode != null) {
+            	  liNode.find('div.collapsable-hitarea:first').click();
+              }
+              openPreviouslyOpenedAwards();
+           },
+           success: function(xml){
+              $(xml).find('h3').each(function(){
+            	  addAwardToHierarchy(this, ulNode);
+              });
+              fixDatePickers();
+              openPreviouslyOpenedAwards();
+           }
+          });    
+      }
+      if (liNode != null) {
+    	  if ($(liNode).is('.collapsable')) {
+    	  	$(liNode).find("input[name*='awardHierarchyToggle']").attr('value', 'true');
+    	  } else {
+    		$(liNode).find("input[name*='awardHierarchyToggle']").attr('value', 'false');
+    	  }
+      }
+  } // end loadChildren 
+
+  
+  function addAwardToHierarchy(str, parent) {
+      var item_text = $(str).text();
+      var racode = item_text.substring(0,item_text.indexOf("%3A")).trim();
+      item_text = item_text.replace("%3A",":"); 
+      //build the line description - will include the award number, pi, lead unit and
+      //editable and/or summary fields for time and money.
+      var idDiv = $('<div class="awardHierarchy"></div>').html(builduUi(item_text, racode));
+      //add the div to the link
+      var tag = $('<a class="awardHierarchy"></a>').html(idDiv);
+
+      var listitem = $('<li class="closed awardhierarchy" id="li' + racode +'"></li>').html(tag);
+      
+      // need this ultag to force to display folder.
+      var childUlTag = $('<ul></ul>');
+      childUlTag.appendTo(listitem);
+      listitem.appendTo($(parent));
+      // also need this to show 'folder' icon
+      $('#awardhierarchy').treeview({
+         add: listitem
+         
+      });
+  }
+  
+  /*
+	 * Utility function to get code from 'code : description' This need to be
+	 * refined because if code contains ':', then this is not working correctly.
+	 */
+  function getAwardNumber(node) {
+	  var liNode = node;
+	  if (!$(liNode).is('li.awardhierarchy')) {
+		  liNode = $(node).parents('li.awardhierarchy:eq(0)');
+	  }
+      return $(liNode).attr('id').substring(2);
+  }
+  
+  function hasFormAlreadyBeenSubmitted() {
+      // return false;
+  }  
     
     function builduUi(item_text, racode) { 
     	var original_item_text = item_text;
@@ -194,15 +218,8 @@
         	var txtImage = "<img src=\"static/images/award_pending.gif\" alt=\"Hold\" title=\"Hold\" />";
         }
         
-        var racodereverse = revString(racode);
-        
-        var index = racodereverse.indexOf("0");
-        var i2 = 12 - index;
-        var racode2 = racode.substring(i2,12);
-        text2 = text2.trim();
-        if(text2 == ' '){
-        	text2 = '';
-        } 
+        var index = racode.indexOf("-");
+        var racode2 = parseInt(racode.substring(index+1), 10);
         
         if($("#cancelOrFinalStatus").attr("value") == 1){
         	
@@ -387,118 +404,8 @@
 		        	}
 		        }
         }
+        abc += '<input type="hidden" value="false" name="awardHierarchyToggle(' + racode + ')"/>';
  	   return abc; 
     }
-  
 
- 
-
-  /*
-	 * load children area of research when parents RA is expanding.
-	 */
-  function loadChildrenRA(nodeName, tagId) {
-      var parentNode = $("#"+tagId);
-      var liNode = parentNode.parents('li:eq(0)');
-      var ulNode = liNode.children('ul:eq(0)');
-      var inputNodev;
- 
-      if (liNode.children('ul').size() == 0 || ulNode.children('input').size() == 0 ) {
-          // alert(liNode.children('ul').size());
-          $.ajax({
-           url: 'awardHierarchyTimeAndMoneyAjax.do',
-           type: 'GET',
-           dataType: 'html',
-           data:'awardNumber='+getAwardNumber(liNode)+'&addRA=E' + '&currentAwardNumber='+ $("#currentAwardNumber").attr("value") + '&currentSeqNumber='+ $("#currentSeqNumber").attr("value"),
-           cache: false,
-           async: false,
-           timeout: 1000,
-           error: function(){
-              alert('Error loading XML document');
-           },
-           success: function(xml){
-              var ulTag ;
-              if (liNode.children('ul').size() == 0) {
-                  ulTag = $('<ul class="filetree"></ul>').attr("id","ul"+i);
-              } else {
-                  ulTag = ulNode;
-              }
-             
-              ulTag.appendTo(liNode);
-              var loadedId = "loaded"+i;
-              var inputtag = $('<input type="hidden"></input>').attr("id",loadedId);
-              inputtag.appendTo(ulTag);
-              $(xml).find('h3').each(function(){
-              var item_text = $(this).text();
-              i++;
-              var racode = item_text.substring(0,item_text.indexOf("%3A")).trim();
-              item_text = item_text.replace("%3A",":");
-              var id = "item"+i;
-              var tagId = "listcontrol"+i;
-              var divId = "listcontent"+i;
-              
-          var idDiv;
-          if ( jQuery.browser.msie ) { 
-               idDiv = $('<div></div>').attr("id","itemText"+i).html(builduUi(item_text, racode)); // for
-																					// later
-																					// change
-																					// RA
-																					// description
-          } else {    
-               idDiv = $('<span>').attr("id","itemText"+i).html(builduUi(item_text, racode)); // for
-																			// later
-																			// change
-																			// RA
-																			// description
-          }
-              var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(idDiv);
-              var detDiv = $('<div  class="hierarchydetail" style="margin-top:2px; "></div>').attr("id",divId);
-         	   var hidracode = $('<input type="hidden" id = "racode" name = "racode" />').attr("id",
-              			"racode" + i).attr("name", "racode" + i).attr("value",racode);
-                 	   hidracode.appendTo(detDiv);
-                 	   
-              var listitem = $('<li class="closed"></li>').attr("id",id).html(tag);
-              ulTagId = ulTag.attr("id");
-              detDiv.appendTo(listitem);
-              // need this ultag to force to display folder.
-              var childUlTag = $('<ul></ul>').attr("id","ul"+i);
-              childUlTag.appendTo(listitem);
-              listitem.appendTo(ulTag);
-              // force to display folder icon
-              $("#awardhierarchy").treeview({
-                 add: listitem
-              });
-              
-              });
-           }
-          });    
-      }
-      loadedidx=i;
-  } // end loadChildrenRA
-
-  /*
-	 * Utility function to get code from 'code : description' This need to be
-	 * refined because if code contains ':', then this is not working correctly.
-	 */
-  function getAwardNumber(node) {
-       // TODO : this maybe problemmatic because it makes the assumption that
-	   // areacode does not contain ":"
-       return $("#racode"+node.attr("id").substring(4)).attr("value");
-  }
-  
-  function hasFormAlreadyBeenSubmitted() {
-      // return false;
-  }
-
-  $(document).ready(function(){
-		  // performance test
-      loadFirstLevel();
-      loadedidx=i;
-      $('.datepicker').each(
-   			function() {
-   				var id = $(this).attr("id");
-   			    var img1 =$("<img class='datepickerImage' src='kr/static/images/cal.gif' id='" + id +"_datepicker' style='cursor: pointer;'  title='Date selector' alt='Date selector' onmouseover=\"this.style.backgroundColor='red';\" onmouseout=\"this.style.backgroundColor='transparent';\"/>");
-   			    img1.insertAfter($(this));
-   			    Calendar.setup({ inputField : id, ifFormat : '%m/%d/%Y',  button : id + '_datepicker'});   			    
-   			});
-   })
 

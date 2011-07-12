@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -85,6 +86,9 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
     private String currentAwardNumber;
     private String currentSeqNumber;
     
+    private Map<String, String> awardHierarchyToggle;
+    private String awardHierarchyScrollPosition;
+    
     public String getCurrentAwardNumber() {
         return currentAwardNumber;
     }
@@ -126,6 +130,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         setDirectIndirectViewEnabled(getParameterService().getParameterValue(Constants.PARAMETER_MODULE_AWARD, Constants.PARAMETER_COMPONENT_DOCUMENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST"));
         previousNodeMap = new HashMap<String, String>();
         nextNodeMap = new HashMap<String, String>();
+        awardHierarchyToggle = new TreeMap<String, String>();
     }
     
     /** {@inheritDoc} */
@@ -792,6 +797,22 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
     
     public int getIndexOfAwardAmountInfoForDisplay() throws WorkflowException {
         return awardForSummaryPanelDisplay.getIndexOfAwardAmountInfoForDisplayFromTimeAndMoneyDocNumber(getTimeAndMoneyDocument().getDocumentNumber());
+    }
+
+    public Map<String, String> getAwardHierarchyToggle() {
+        return awardHierarchyToggle;
+    }
+
+    public void setAwardHierarchyToggle(Map<String, String> awardHierarchyToggle) {
+        this.awardHierarchyToggle = awardHierarchyToggle;
+    }
+
+    public String getAwardHierarchyScrollPosition() {
+        return awardHierarchyScrollPosition;
+    }
+
+    public void setAwardHierarchyScrollPosition(String awardHierarchyScrollPosition) {
+        this.awardHierarchyScrollPosition = awardHierarchyScrollPosition;
     }
     
     
