@@ -38,6 +38,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class generates XML that conforms with the XSD related to Award Budget
@@ -234,30 +235,69 @@ public class AwardBudgetHistoryTransactionXmlStream extends AwardBudgetBaseStrea
 		if (awardAmount.getAnticipatedChange() != null) {
 			amountInfoType.setAnticipatedChange(awardAmount
 					.getAnticipatedChange().bigDecimalValue());
+		}else{
+		    amountInfoType.setAnticipatedChange(KualiDecimal.ZERO.bigDecimalValue());
 		}
 		if (awardAmount.getAnticipatedChangeDirect() != null) {
 			amountInfoType.setAnticipatedChangeDirect(awardAmount.getAnticipatedChangeDirect().bigDecimalValue());
+		}else{
+	          amountInfoType.setAnticipatedChangeDirect(KualiDecimal.ZERO.bigDecimalValue());
+
 		}
 		if (awardAmount.getAnticipatedChangeIndirect() != null) {
 			amountInfoType.setAnticipatedChangeIndirect(awardAmount.getAnticipatedChangeIndirect().bigDecimalValue());
+		}else{
+	          amountInfoType.setAnticipatedChangeIndirect(KualiDecimal.ZERO.bigDecimalValue());
 		}
 		if (awardAmount.getAntDistributableAmount() != null) {
 			amountInfoType.setAnticipatedDistributableAmt(awardAmount
 					.getAntDistributableAmount().bigDecimalValue());
+		}else{
+		    amountInfoType.setAnticipatedDistributableAmt(KualiDecimal.ZERO.bigDecimalValue());
 		}
 		if (awardAmount.getAnticipatedTotalAmount() != null) {
 			amountInfoType.setAnticipatedTotalAmt(awardAmount
 					.getAnticipatedTotalAmount().bigDecimalValue());
+		}else{
+		    amountInfoType.setAnticipatedTotalAmt(KualiDecimal.ZERO.bigDecimalValue());
 		}
 		if (awardAmount.getAnticipatedTotalDirect() != null) {
 			amountInfoType.setAnticipatedTotalDirect(awardAmount
 					.getAnticipatedTotalDirect().bigDecimalValue());
+		}else{
+		    amountInfoType.setAnticipatedTotalDirect(KualiDecimal.ZERO.bigDecimalValue());
 		}
 		if (awardAmount.getAnticipatedTotalIndirect() != null) {
 			amountInfoType.setAnticipatedTotalIndirect(awardAmount
 					.getAnticipatedTotalIndirect().bigDecimalValue());
+		}else{
+		    amountInfoType.setAnticipatedTotalIndirect(KualiDecimal.ZERO.bigDecimalValue());
 		}
 		amountInfoType.setAwardNumber(award.getAwardNumber());
+		if(awardAmount.getObligatedChange()!=null){
+		    amountInfoType.setObligatedChange(awardAmount.getObligatedChange().bigDecimalValue());
+		}else{
+		    amountInfoType.setObligatedChange(KualiDecimal.ZERO.bigDecimalValue());
+		}
+		if(awardAmount.getObligatedChangeDirect()!=null){
+		    amountInfoType.setObligatedChangeDirect(awardAmount.getObligatedChangeDirect().bigDecimalValue());
+        }else{
+            amountInfoType.setObligatedChangeDirect(KualiDecimal.ZERO.bigDecimalValue());
+        }
+		if(awardAmount.getObligatedChangeIndirect()!=null){
+		    amountInfoType.setObligatedChangeIndirect(awardAmount.getObligatedChangeIndirect().bigDecimalValue());
+        }else{
+            amountInfoType.setObligatedChangeIndirect(KualiDecimal.ZERO.bigDecimalValue());
+        }
+		if(awardAmount.getObliDistributableAmount()!=null){
+		    amountInfoType.setObligatedDistributableAmt(awardAmount.getObliDistributableAmount().bigDecimalValue());
+        }else{
+            amountInfoType.setObligatedDistributableAmt(KualiDecimal.ZERO.bigDecimalValue());
+        }
+		if (awardAmount.getFinalExpirationDate() != null) {
+		    amountInfoType.setFinalExpirationDate(dateTimeService.getCalendar(
+		            awardAmount.getFinalExpirationDate()));
+		}
 		if (awardAmount.getObligationExpirationDate() != null) {
 			amountInfoType.setObligationExpirationDate(dateTimeService
 					.getCalendar(awardAmount.getObligationExpirationDate()));

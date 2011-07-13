@@ -93,9 +93,6 @@
 																			</xsl:otherwise>
 																		</xsl:choose>
 																	</xsl:for-each>
-																	<fo:inline>
-																		<xsl:text>&#160;&#160;&#160;&#160;&#160;&#160;&#160; </xsl:text>
-																	</fo:inline>
 																	<xsl:for-each select="SequenceNumber">
 																		<xsl:variable name="value-of-template">
 																			<xsl:apply-templates/>
@@ -114,7 +111,7 @@
 																		</xsl:choose>
 																	</xsl:for-each>
 																	<fo:inline>
-																		<xsl:text>.</xsl:text>
+																		<xsl:text>:</xsl:text>
 																	</fo:inline>
 																	<xsl:for-each select="AmountSequenceNumber">
 																		<xsl:variable name="value-of-template">
