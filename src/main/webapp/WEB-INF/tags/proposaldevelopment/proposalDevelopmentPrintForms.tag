@@ -16,13 +16,13 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <kul:tab tabTitle="Print" defaultOpen="false" tabErrorKey="print*">
-         
+    
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Print</span>
         </h3>
         <kra-pd:proposalDevelopmentActionsPrintForms />
         <kra-pd:printProposalSponsorForms />
-	    <kra:printReports requestUri="/proposalDevelopmentActions.do"/>
+	    <kra:printReports requestUri="/proposalDevelopmentActions.do?docNum=${KualiForm.docId}&documentWebScope=session&formKey=${KualiForm.formKey}&docFormKey=${KualiForm.formKey}"/>
     </div> 
 </kul:tab>
