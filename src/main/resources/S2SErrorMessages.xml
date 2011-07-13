@@ -1336,7 +1336,12 @@
  		<MessageKey>/GrantApplication/Forms/PHS398_TrainingBudget/CumulativeTotalOtherDirectCostsRequested</MessageKey> 
  		<Message>Cumulative other direct costs invalid, a stipend budget line item is required equal to or greater than the trainee numbers and associated stipend levels indicated in the questionnaire. </Message> 
   		<FixLink>budgetVersions</FixLink> 
-	</Error>
+	</Error>	 
+	<Error>
+		<MessageKey>budget.training.narrative.budgetjustification</MessageKey> 
+   	    <Message>You must have a TrainingBudgetJustification with the proposal. Please attach the BudgetJustification in Abstracts and Attachments window</Message> 
+    	<FixLink>abstractsAttachments</FixLink> 
+   </Error> 
 <!--	Proposal RR_Budget10 BudgetSummary validation -->
 
 	<Error>

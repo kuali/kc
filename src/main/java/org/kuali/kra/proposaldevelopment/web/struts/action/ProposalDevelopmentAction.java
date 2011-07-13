@@ -67,7 +67,9 @@ import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalRoleTemplateService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sOppForms;
+import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.service.PrintService;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.service.KraAuthorizationService;
@@ -110,7 +112,11 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         String command = proposalDevelopmentForm.getCommand();
-        
+        String createProposalFromGrantsGov=request.getParameter("createProposalFromGrantsGov");
+        S2sOpportunity s2sOpportunity = new S2sOpportunity();
+        if(createProposalFromGrantsGov!=null && createProposalFromGrantsGov.equals("true")){
+        s2sOpportunity = proposalDevelopmentForm.getDocument().getDevelopmentProposal().getS2sOpportunity();
+        }
         if (KEWConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
             loadDocumentInForm(request, proposalDevelopmentForm);
             forward = mapping.findForward(Constants.MAPPING_COPY_PROPOSAL_PAGE);
@@ -135,27 +141,48 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         if (Constants.MAPPING_PROPOSAL_ACTIONS.equals(command)) {
             forward = actions(mapping, proposalDevelopmentForm, request, response);
         }
-        String createProposalFromGrantsGov=request.getParameter("createProposalFromGrantsGov");
-        
-        if(createProposalFromGrantsGov!=null && createProposalFromGrantsGov.equals("true")){
-            setOpportunityDetails(proposalDevelopmentForm,request);
+               
+        if(createProposalFromGrantsGov!=null && createProposalFromGrantsGov.equals("true") && s2sOpportunity!=null){
+            createS2sOpportunityDetails(proposalDevelopmentForm,s2sOpportunity);
+
         }
         
         return forward;
     }
     
-    protected void setOpportunityDetails(ProposalDevelopmentForm proposalDevelopmentForm, HttpServletRequest request){
+      private void createS2sOpportunityDetails(ProposalDevelopmentForm proposalDevelopmentForm,S2sOpportunity s2sOpportunity) throws S2SException {
 
-        String cfdaNumber=request.getParameter("cfdaNumber");
-        String opportunityId=request.getParameter("oppurtunityId");
-        String opportunityTitle=request.getParameter("opportunityTitle");
-        
-        if(cfdaNumber!=null)
-            proposalDevelopmentForm.getDocument().getDevelopmentProposal().setCfdaNumber(cfdaNumber);
-        if(opportunityId!=null)
-            proposalDevelopmentForm.getDocument().getDevelopmentProposal().setProgramAnnouncementNumber(opportunityId);
-        if(opportunityTitle!=null)
-            proposalDevelopmentForm.getDocument().getDevelopmentProposal().setProgramAnnouncementTitle(opportunityTitle);
+        Boolean mandatoryFormNotAvailable = false;
+        if(s2sOpportunity.getCfdaNumber()!=null){
+            proposalDevelopmentForm.getDocument().getDevelopmentProposal().setCfdaNumber(s2sOpportunity.getCfdaNumber());
+        }
+        if(s2sOpportunity.getOpportunityId()!=null){
+            proposalDevelopmentForm.getDocument().getDevelopmentProposal().setProgramAnnouncementNumber(s2sOpportunity.getOpportunityId());
+        }
+        if(s2sOpportunity.getOpportunityTitle()!=null){
+            proposalDevelopmentForm.getDocument().getDevelopmentProposal().setProgramAnnouncementTitle(s2sOpportunity.getOpportunityTitle());
+        }
+        List<S2sOppForms> s2sOppForms = new ArrayList<S2sOppForms>();
+        if(s2sOpportunity.getSchemaUrl()!=null){
+            s2sOppForms = KraServiceLocator.getService(S2SService.class).parseOpportunityForms(s2sOpportunity);
+            if(s2sOppForms!=null){
+                for(S2sOppForms s2sOppForm:s2sOppForms){
+                    if(s2sOppForm.getMandatory() && !s2sOppForm.getAvailable()){
+                        mandatoryFormNotAvailable = true;
+                        break;
+                    }
+                }
+            }
+            if(!mandatoryFormNotAvailable){
+                s2sOpportunity.setS2sOppForms(s2sOppForms);
+                s2sOpportunity.setVersionNumber(proposalDevelopmentForm.getVersionNumberForS2sOpportunity());
+                proposalDevelopmentForm.setVersionNumberForS2sOpportunity(null);
+                proposalDevelopmentForm.getDocument().getDevelopmentProposal().setS2sOpportunity(s2sOpportunity);
+            }else{
+                GlobalVariables.getErrorMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID,proposalDevelopmentForm.getDocument().getDevelopmentProposal().getS2sOpportunity().getOpportunityId());
+                proposalDevelopmentForm.getDocument().getDevelopmentProposal().setS2sOpportunity(new S2sOpportunity());
+            }
+        }
     }
     
     protected ProposalHierarcyActionHelper getHierarchyHelper() {
@@ -280,22 +307,28 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
 
         final ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         final ProposalDevelopmentDocument doc = proposalDevelopmentForm.getDocument();
-       
-		updateProposalDocument(proposalDevelopmentForm);
-		
-		preSave(mapping, proposalDevelopmentForm, request, response);
-		
+        S2sOpportunity s2sOpportunity= new S2sOpportunity();
+        s2sOpportunity = proposalDevelopmentForm.getDocument().getDevelopmentProposal().getS2sOpportunity();
+        if(s2sOpportunity!=null && s2sOpportunity.getProposalNumber()==null)
+            proposalDevelopmentForm.getDocument().getDevelopmentProposal().setS2sOpportunity(null);
+        updateProposalDocument(proposalDevelopmentForm);
+        
+        preSave(mapping, proposalDevelopmentForm, request, response);
+        
         ActionForward forward = super.save(mapping, form, request, response);
         // If validation is turned on, take the user to the proposal actions page (which contains the validation panel, which auto-expands)
         if (proposalDevelopmentForm.isAuditActivated()) {
             forward = mapping.findForward(Constants.MAPPING_PROPOSAL_ACTIONS);
         }
         
+        if(s2sOpportunity!=null)
+            doc.getDevelopmentProposal().setS2sOpportunity(s2sOpportunity);
+        
         doc.getDevelopmentProposal().updateProposalNumbers();
 
         proposalDevelopmentForm.setFinalBudgetVersion(getFinalBudgetVersion(doc.getBudgetDocumentVersions()));
         setBudgetStatuses(doc);
-
+        
         //if not on budget page
         if ("ProposalDevelopmentBudgetVersionsAction".equals(proposalDevelopmentForm.getActionName())) {
             GlobalVariables.getErrorMap().addToErrorPath(KNSConstants.DOCUMENT_PROPERTY_NAME + ".proposal");

@@ -1917,6 +1917,8 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         for (ProposalSite site: getProposalSites()) {
             site.setProposalNumber(proposalNumber);
         }
+        if(s2sOpportunity!=null)
+            s2sOpportunity.setProposalNumber(proposalNumber);
     }
 
     public String getDefaultBudgetStatusParameter() {
