@@ -176,8 +176,7 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
     public void removeBudgetSummaryPeriodCalcAmounts(BudgetPeriod budgetPeriod) {
     }
     public void populateSummaryCalcAmounts(Budget budget, BudgetPeriod budgetPeriod) {
-        // TODO Auto-generated method stub
-        
+        // DO NOTHING
     }
     
     /**
@@ -186,6 +185,9 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
      */
     public boolean validateAddingNewBudget(BudgetParentDocument<DevelopmentProposal> parentDocument) {
         return true;
+    }
+    public void recalculateBudgetPeriod(Budget budget, BudgetPeriod budgetPeriod) {
+        budgetCalculationService.calculateBudget(budget);
     }
 
 }

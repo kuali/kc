@@ -34,8 +34,10 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
+import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetCommonService;
+import org.kuali.kra.budget.core.BudgetCommonServiceFactory;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeService;
@@ -745,6 +747,32 @@ public class BudgetAction extends BudgetActionBase {
         }
         return forward;
     }
-   
-    
+    protected BudgetCommonService<BudgetParent> getBudgetCommonService(BudgetParentDocument parentBudgetDocument) {
+        return BudgetCommonServiceFactory.createInstance(parentBudgetDocument);
+    }
+    /**
+     * This method is to recalculate the budget period
+     * @param budgetForm
+     * @param budget
+     * @param budgetPeriod
+     */
+    protected void recalculateBudgetPeriod(BudgetForm budgetForm, Budget budget, BudgetPeriod budgetPeriod) {
+        getBudgetCommonService(budgetForm.getBudgetDocument().getParentDocument()).recalculateBudgetPeriod(budget, budgetPeriod);
+    }  
+    /**
+     * This method...
+     * @param budget
+     * @param budgetPeriod
+     */
+    protected void calculateBudgetPeriod(Budget budget, BudgetPeriod budgetPeriod) {
+        getCalculationService().calculateBudgetPeriod(budget, budgetPeriod);
+    }
+    /**
+     * Locates the {@link BudgetCalculationService]
+     *
+     * @return {@link BudgetCalculationService} singleton instance
+     */ 
+    protected BudgetCalculationService getCalculationService() {
+        return KraServiceLocator.getService(BudgetCalculationService.class);
+    }
 }
