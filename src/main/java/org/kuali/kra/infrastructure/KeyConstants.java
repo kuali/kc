@@ -463,6 +463,7 @@ public final class KeyConstants {
     public static final String ERROR_OVERLAPPING_DATE_RANGES = "error.awardDirectFandADistribution.date.ranges.overlap";
     public static final String ERROR_TARGET_START_DATE = "error.awardDirectFandADistribution.invalid.start.date";
     public static final String ERROR_TARGET_END_DATE = "error.awardDirectFandADistribution.invalid.end.date";
+    public static final String WARNING_AWARD_FANDA_DISTRIB_LIMITNOTEQUAL_ANTICIPATED = "waring.awardDirectFandADistribution.limitNotEqual.anticipated";
     
     //Award Indirect Cost Rate
     public static final String ERROR_REQUIRED_APPLICABLE_INDIRECT_COST_RATE = "error.required.applicable.indirect.cost.rate";
