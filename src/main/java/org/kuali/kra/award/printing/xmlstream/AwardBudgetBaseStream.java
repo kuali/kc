@@ -82,6 +82,7 @@ public abstract class AwardBudgetBaseStream implements XmlStream {
 				setAwardAmountTransaction(awardTransactionType,
 						awardAmountTransaction);
 				awardTransactionTypeList.add(awardTransactionType);
+				break;
 			}
 		}
 		awardTransactionInfo.setTransactionInfoArray(awardTransactionTypeList
@@ -108,7 +109,7 @@ public abstract class AwardBudgetBaseStream implements XmlStream {
 		}
 		if (awardAmountTransaction.getAuthorPersonName() != null) {
 			awardTransactionType.setTransactionTypeDesc(awardAmountTransaction
-					.getAuthorPersonName());
+					.getAwardTransactionType().getDescription());
 		}
 		if (awardAmountTransaction.getComments() != null) {
 			awardTransactionType.setComments(awardAmountTransaction

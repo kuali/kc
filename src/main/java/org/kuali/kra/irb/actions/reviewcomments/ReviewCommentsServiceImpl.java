@@ -843,9 +843,9 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
         } else {
             viewAcceptedMinute = true;
         }
-            return isIrbAdministrator(principalId) || (StringUtils.equals(principalName, minute.getCreateUser()) && viewAcceptedMinute)
-            || (isReviewer(minute, principalId) && minute.isFinalFlag() && viewAcceptedMinute)
-            || (!minute.getPrivateCommentFlag() && minute.isFinalFlag() && viewAcceptedMinute);
+        return (StringUtils.equals(principalName, minute.getCreateUser()) && viewAcceptedMinute)
+        || (isReviewer(minute, principalId) && minute.isFinalFlag() && viewAcceptedMinute)
+        || (!minute.getPrivateCommentFlag() && minute.isFinalFlag() && viewAcceptedMinute);
     }
 
 }
