@@ -47,6 +47,10 @@ var kualiForm = document.forms['KualiForm'];
 var kualiElements = kualiForm.elements;
 </SCRIPT>
 <script language="javascript" src="scripts/kuali_application.js"></script>
+<script type="text/javascript" src="scripts/jquery/jquery.js"></script>
+<script>
+  $j = jQuery.noConflict();
+</script>
 <script language="javascript" src="dwr/interface/SponsorService.js"></script>
 
 <c:if test="${readOnly && KualiForm.document.canModify && KualiForm.displayEditButton}">
