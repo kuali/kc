@@ -220,11 +220,6 @@ public class AwardAction extends BudgetParentActionBase {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm)form;
-        //KCAWD-494: If the user just performed a sponsor template lookup and the code has changed, then forward on to the
-        //full synchronization of the template to the award.
-        if( !ObjectUtils.equals(awardForm.getOldTemplateCode(), awardForm.getAwardDocument().getAward().getTemplateCode() ) && awardForm.isTemplateLookup()) {
-            return fullSyncToAwardTemplate(mapping, form, request, response);
-        }
         
         ActionForward actionForward = super.execute(mapping, form, request, response);
         
@@ -1417,6 +1412,8 @@ public class AwardAction extends BudgetParentActionBase {
             awardForm.setOldTemplateCode(null);
             awardForm.setTemplateLookup(false);
             return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        } else {
+            awardDocument.getAward().refreshReferenceObject("awardTemplate");
         }
         
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);

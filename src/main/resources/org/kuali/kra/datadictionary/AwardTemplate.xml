@@ -123,7 +123,7 @@
 	</bean>
 
 	<bean id="AwardTemplate-statusCodeDescription" parent="AwardTemplate-statusCodeDescription-parentBean" />
-	<bean id="AwardTemplate-statusCodeDescription-parentBean" abstract="true" parent="AttributeDefinition" >
+	<bean id="AwardTemplate-statusCodeDescription-parentBean" abstract="true" parent="AwardStatus-description" >
 		<property name="name" value="awardTemplateStatus.description" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Sponsor Template Status" />
