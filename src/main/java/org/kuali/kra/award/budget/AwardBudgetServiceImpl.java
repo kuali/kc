@@ -871,6 +871,10 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         budgetCalculationService.calculateBudget(budget);
         budgetCalculationService.calculateBudgetSummaryTotals(budget);
     }
+    public void recalculateBudgetPeriod(Budget budget,BudgetPeriod budgetPeriod) {
+        removeBudgetSummaryPeriodCalcAmounts(budgetPeriod);
+        budgetCalculationService.calculateBudgetPeriod(budget,budgetPeriod);
+    }
 
     public void calculateBudgetOnSave(Budget budget) {
         budgetCalculationService.calculateBudget(budget);
@@ -993,4 +997,5 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
     public boolean validateAddingNewBudget(BudgetParentDocument<Award> parentDocument) {
         return !checkForOutstandingBudgets(parentDocument);
     }
+
 }
