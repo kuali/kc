@@ -40,6 +40,7 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
     private static final String OVERLAPPING_DATE_RANGES = ".overlappingDateRanges";
     private static final String INVALID_TARGET_START_DATE = ".invalidStartDate";
     private static final String INVALID_TARGET_END_DATE = ".invalidEndDate";
+    private static final String WARNING_AWARD_DIRECT_FNA_DISTRIBUTION_ANTICIPATED_MISMATCH = ".mismatchAnticipated";
     AwardDirectFandADistribution awardDirectFandADistribution;
     List<AwardDirectFandADistribution> awardDirectFandADistributions;
     transient AwardAmountInfoService awardAmountInfoService;
@@ -53,6 +54,7 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
         boolean validStartDate = true;
         boolean validEndDate = true;
         boolean validAmounts = existingAmountsAreValid(awardDirectFandADistributions);
+        boolean validTotalAnticipated =  doTotalAnticipatedAmountValidOnExistingDistribution(awardDirectFandADistributions);
         if(awardDirectFandADistributions.size() > 0) {
             this.awardDirectFandADistribution = awardDirectFandADistributions.get(0);
             validStartDate = isTargetStartAfterProjectStartDate(awardDirectFandADistributionRuleEvent);
@@ -68,7 +70,6 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
      * (org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRuleEvent)
      */
     public boolean processAddAwardDirectFandADistributionBusinessRules(AwardDirectFandADistributionRuleEvent awardDirectFandADistributionRuleEvent) {
-        
         this.awardDirectFandADistribution = awardDirectFandADistributionRuleEvent.getAwardDirectFandADistributionForValidation();
         List<AwardDirectFandADistribution> thisAwardDirectFandADistributions = 
                                                 awardDirectFandADistributionRuleEvent.getTimeAndMoneyDocument().getAward().getAwardDirectFandADistributions();
@@ -221,6 +222,24 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
         return valid;
     }
     
+    private boolean doTotalAnticipatedAmountValidOnExistingDistribution(List<AwardDirectFandADistribution> thisAwardDirectFandADistributions){    
+        boolean valid = false;
+        KualiDecimal awardAnticipatedTotal = KualiDecimal.ZERO;
+        KualiDecimal calculatedAnticipatedAmount = KualiDecimal.ZERO;
+        if(awardDirectFandADistributions.size() > 0){
+            awardAnticipatedTotal = awardDirectFandADistributions.get(0).getAward().getAnticipatedTotal();
+            for (AwardDirectFandADistribution awardDirectFandADistribution : thisAwardDirectFandADistributions) {
+                calculatedAnticipatedAmount = calculatedAnticipatedAmount.add(awardDirectFandADistribution.getDirectCost().add(awardDirectFandADistribution.getIndirectCost()));
+            }
+            if(awardAnticipatedTotal.equals(calculatedAnticipatedAmount))
+                valid = true;
+            else{}
+            reportWarning(WARNING_AWARD_DIRECT_FNA_DISTRIBUTION_ANTICIPATED_MISMATCH, 
+                    KeyConstants.WARNING_AWARD_FANDA_DISTRIB_LIMITNOTEQUAL_ANTICIPATED, 
+                    new String[]{awardDirectFandADistributions.get(0).getAward().getAwardNumber()});
+        }
+        return valid;
+    }
     /**
      * This method checks whether the user provided a valid Indirect Cost amount
      * @return
