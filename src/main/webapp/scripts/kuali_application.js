@@ -2818,34 +2818,41 @@ function closeQuestionnairePop() {
 }
 
 
+function callAjax(methodToCall, codeValue, successCallback, errorCallback) {
+	$j.ajax( {
+		url : 'jqueryAjax.do',
+		type : 'POST',
+		dataType : 'html',
+		data : 'methodToCall='+methodToCall+'&code=' + codeValue,
+		cache : false,
+		async : false,
+		timeout : 5000,
+		error : errorCallback,
+		success : successCallback
+	});
+}
 
 function ajaxLoad(methodToCall, codeField, fieldToUpdate) {
 	//codeField = codeField.replace(/\./g, "\\.");
 	codeField = codeField.replace(/([ #;&,.+*~\':"!^$[\]()=>|\/@])/g, "\\$1");
 	//fieldToUpdate = fieldToUpdate.replace(/\./g, "\\.");
 	fieldToUpdate = fieldToUpdate.replace(/([ #;&,.+*~\':"!^$[\]()=>|\/@])/g, "\\$1");
-	$j.ajax( {
-		url : 'jqueryAjax.do',
-		type : 'POST',
-		dataType : 'html',
-		data : 'methodToCall='+methodToCall+'&code=' + $j("#"+codeField).attr("value"),
-		cache : false,
-		async : false,
-		timeout : 1000,
-		error : function() {
+	callAjax(methodToCall, $j("#"+codeField).attr("value"),
+		//success callback
+	  function(xml) {
+		$j(xml).find('#ret_value').each(function() {
+			$j('#'+fieldToUpdate+'\\.div').html($j(this).html());
+
+			});
+		$j(xml).find('#code_value').each(function() {
+			$j('#'+ codeField).val($j(this).html());
+
+			});
+	  },
+	  //error callback
+	  function() {
 			alert('Error loading XML document');
-		},
-		success : function(xml) {
-			$j(xml).find('#ret_value').each(function() {
-				$j('#'+fieldToUpdate+'\\.div').html($j(this).html());
-
-				});
-			$j(xml).find('#code_value').each(function() {
-				$j('#'+ codeField).val($j(this).html());
-
-				});
-		}
-	}); // end ajax
+	  }); //end callAjax method call.
 
     return false;
 }

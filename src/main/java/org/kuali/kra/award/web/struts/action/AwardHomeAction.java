@@ -25,6 +25,7 @@ import java.sql.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -588,5 +589,10 @@ public class AwardHomeAction extends AwardAction {
             forward = null;
         }
         return forward;
+    }
+    
+    public ActionForward applySponsorTemplate(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        return fullSyncToAwardTemplate(mapping, form, request, response);
     }
 }

@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.award.home.AwardTemplate;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -68,5 +69,28 @@ public class JqueryAjaxAction extends KualiDocumentActionBase {
     
     private UnitService getUnitService() {
         return KraServiceLocator.getService(UnitService.class);
+    }
+    
+    /**
+     * Get and return the template description for ajax queries.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward getSponsorTemplateDescription(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response)
+        throws Exception {
+        JqueryAjaxForm ajaxForm = (JqueryAjaxForm) form;
+        AwardTemplate template = getBusinessObjectService().findBySinglePrimaryKey(AwardTemplate.class, ajaxForm.getCode());
+        if (template != null) {
+            ajaxForm.setReturnVal(template.getDescription());
+        } else {
+            ajaxForm.setReturnVal("<span style='color: red;'>not found</span>");
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+        
     }
 }
