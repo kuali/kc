@@ -87,5 +87,6 @@ public interface BudgetCommonService<T extends BudgetParent> {
      * @return true if ok to add new budget, false otherwise
      */
     boolean validateAddingNewBudget(BudgetParentDocument<T> parentDocument);
+    public void recalculateBudgetPeriod(Budget budget, BudgetPeriod budgetPeriod);
 
 }
