@@ -198,7 +198,7 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
             for (CommitteeScheduleMinute minuteEntryInfoBean : vecMinutes) {
                 if (!minuteEntryInfoBean.getMinuteEntryTypeCode().equals("3") && 
                         !minuteEntryInfoBean.getPrivateCommentFlag()) {
-                    if (reviewCommentsService.getReviewerCommentsView(minuteEntryInfoBean)){
+                    if (reviewCommentsService.getReviewerAcceptedCommentsView(minuteEntryInfoBean)){
                         addMinute(scheduleDetailsBean, minuteEntryInfoBean, schedule.addNewMinutes());
                     }
                    
@@ -252,7 +252,7 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
                 if (protocol.getProtocolNumber().equals(protocolSubmission.getProtocolNumber())
                         && protocol.getProtocolSubmission() != null
                         && protocol.getProtocolSubmission().getSubmissionNumber().equals(protocolSubmission.getSubmissionNumber())) {
-                    if (reviewCommentsService.getReviewerMinuteCommentsView(minuteEntryInfoBean)){
+                    if (reviewCommentsService.getReviewerAcceptedCommentsView(minuteEntryInfoBean)){
                         addMinute(committeeSchedule, minuteEntryInfoBean, protocolSubmissionType.addNewMinutes());
                     }
                     
@@ -280,7 +280,7 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
     }
     /**
      * 
-     * This method for set the review Minute in Specific Minor Revision Letter.
+     * This method for set the review minute in correspondence Letter.
      * @param committeeSchedule
      * @param protocolSubmission
      * @param submissionsType

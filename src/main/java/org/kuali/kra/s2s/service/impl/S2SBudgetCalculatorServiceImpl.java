@@ -18,6 +18,7 @@ package org.kuali.kra.s2s.service.impl;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -763,8 +764,8 @@ public class S2SBudgetCalculatorServiceImpl implements
 		cvOtherPersonnel.add(getOtherPersonnelDetails(budgetPeriod, pdDoc,
 				CATEGORY_01_OTHER, PERSONNEL_TYPE_OTHER, ROLE_GRADUATE_OTHER));
 		cvOtherPersonnel.add(getOtherPersonnelDetails(budgetPeriod, pdDoc,
-				CATEGORY_01_OTHER_PROFS, PERSONNEL_TYPE_OTHER_PROFESSIONALS,
-				ROLE_GRADUATE_OTHET_PROFESSIONALS));
+                CATEGORY_01_OTHER_PROFS, PERSONNEL_TYPE_OTHER_PROFESSIONALS,
+                ROLE_GRADUATE_OTHET_PROFESSIONALS));
 		cvOtherPersonnel.add(getOtherPersonnelDetails(budgetPeriod, pdDoc,
 				LASALARIES, PERSONNEL_TYPE_ALLOCATED_ADMIN_SUPPORT,
 				ROLE_GRADUATE_ALLOCATED_ADMIN_SUPPORT));
@@ -848,7 +849,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 								// get sum of salary of other personnel, but
 								// exclude the key persons and investigators
 								for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
-									if (budgetPersonId.equals(proposalPerson.getPersonId())) {
+									if (budgetPersonId.equals(proposalPerson.getPersonId()) ||(proposalPerson.getRolodexId()!=null && budgetPersonId.equals(proposalPerson.getRolodexId().toString()))) {
 										personExistsAsProposalPerson = true;
 										break;
 									}
@@ -1658,6 +1659,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 						.add(extraCostInfo.getCostSharing());
 				costInfos.remove(j);
 			}
+			Collections.reverse(cvExtraEquipment);
 			equipmentInfo.setExtraEquipmentList(cvExtraEquipment);
 			equipmentInfo.setTotalExtraNonFund(totalExtraEquipNonFund);
 		}
@@ -1758,15 +1760,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 		List<BudgetCategoryMapping> budgetCategoryList = getBudgetCategoryMappings(categoryMap);
 
 		for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
-			boolean lineItemIsSeniorPersonnel = false;
-			for (BudgetCategoryMapping categoryMapping : budgetCategoryList) {
-				if (categoryMapping.getBudgetCategoryCode().equals(
-						lineItem.getBudgetCategoryCode())) {
-					lineItemIsSeniorPersonnel = true;
-					break;
-				}
-			}
-			if (lineItemIsSeniorPersonnel) {
+		
 				for (BudgetPersonnelDetails budgetPersonnelDetails : lineItem
 						.getBudgetPersonnelDetailsList()) {
 
@@ -1800,7 +1794,10 @@ public class S2SBudgetCalculatorServiceImpl implements
     							keyPerson.setMiddleName(rolodexPerson.getMiddleName());
     							keyPerson.setRole(StringUtils.isNotBlank(rolodexPerson.getTitle()) ? rolodexPerson.getTitle() : KEYPERSON_OTHER);
     							keyPerson.setNonMITPersonFlag(true);
-    							keyPersons.add(keyPerson);
+                                
+                                if(isSeniorLineItem(keyPerson.getRole(),budgetCategoryList,lineItem.getBudgetCategoryCode())){
+                                    keyPersons.add(keyPerson);
+                                }
 						    } else if (StringUtils.isNotBlank(budgetPersonnelDetails.getBudgetPerson().getTbnId())) {
 	                            Map<String, String> searchMap = new HashMap<String, String>();
 	                            searchMap.put("tbnId", budgetPersonnelDetails.getBudgetPerson().getTbnId());
@@ -1816,7 +1813,11 @@ public class S2SBudgetCalculatorServiceImpl implements
 	                                keyPerson.setLastName(tbnNames.length >= 2 ? tbnNames[nameIndex++] : S2SConstants.VALUE_UNKNOWN);
 	                                keyPerson.setRole(tbnPerson.getPersonName());
 	                                keyPerson.setNonMITPersonFlag(false);
-	                                keyPersons.add(keyPerson);
+
+                                    if(isSeniorLineItem(keyPerson.getRole(),budgetCategoryList,lineItem.getBudgetCategoryCode())){
+                                        keyPersons.add(keyPerson);
+                                    }
+                                        
 	                            }
 	                        }							
 						} else {
@@ -1840,13 +1841,17 @@ public class S2SBudgetCalculatorServiceImpl implements
 								keyPerson.setMiddleName(kcPerson.getMiddleName());
 								keyPerson.setNonMITPersonFlag(false);
 								keyPerson.setRole(KEYPERSON_OTHER);
-								keyPersons.add(keyPerson);
+
+                                if(isSeniorLineItem(keyPerson.getRole(),budgetCategoryList,lineItem.getBudgetCategoryCode())){
+                                        keyPersons.add(keyPerson);
+                                }
+                                
 							}
 						} 
 					}
 				}
 
-			}
+			
 		}
 
 		List<KeyPersonInfo> allPersons = new ArrayList<KeyPersonInfo>();
@@ -1911,7 +1916,19 @@ public class S2SBudgetCalculatorServiceImpl implements
 		listKeyPersons.add(extraPersons);
 		return listKeyPersons;
 	}
-
+        private boolean isSeniorLineItem(String keyPersonRole, List<BudgetCategoryMapping> budgetCategoryList, String budgetCategoryCode) {
+            boolean isSeniorLineItem = false;
+            if(keyPersonRole.equalsIgnoreCase(KEYPERSON_OTHER)){
+                for (BudgetCategoryMapping categoryMapping : budgetCategoryList) {
+                if (categoryMapping.getBudgetCategoryCode().equals(
+                        budgetCategoryCode)) {
+                    isSeniorLineItem = true;
+                }}
+                }else{
+                    isSeniorLineItem = true;
+                }
+            return isSeniorLineItem;
+        }
 	protected boolean budgetPersonExistInProposalPersons(
 			BudgetPerson budgetPerson, List<ProposalPerson> propPersons) {
 		for (ProposalPerson propPerson:propPersons) {
