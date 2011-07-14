@@ -32,9 +32,10 @@
     <c:if test="${answerHeaderIndex == 0 and !forceNonTransparent}">
       <c:set var="transparent" value="true" />
     </c:if> 
+    <c:set var="questReadOnly" value="${readOnly}"/>
     	<c:if test="${not bean.answerHeaders[answerHeaderIndex].activeQuestionnaire}">
             <c:set var="inactivate" value="- This Questionnaire has been deactivated." />
-            <c:set var="readOnly" value="true" scope="request"/>
+            <c:set var="questReadOnly" value="true"/>
         </c:if>
     
     <c:choose>
@@ -62,7 +63,7 @@
 			         parentTab="${parentTabName}">
 			         
 	<div class="tab-container" align="center">
-	    <c:if test="${bean.answerHeaders[answerHeaderIndex].newerVersionPublished and not readOnly}">
+	    <c:if test="${bean.answerHeaders[answerHeaderIndex].newerVersionPublished and not questReadOnly}">
                 <kra-questionnaire:updateQuestionnaireAnswer  answerHeaderIndex="${answerHeaderIndex}" bean = "${bean}" property = "${property}"/>        
         </c:if>
 	
@@ -83,19 +84,22 @@
         </h3>
         <div id="questionpanelcontent:${property}:${answerHeaderIndex}">
             <c:set var="questionid" value="" />
+            <c:set var="addFooter" value="false" />
             <c:forEach items="${bean.answerHeaders[answerHeaderIndex].answers}" var="answer" varStatus="status">   
 
                 <c:if test="${questionid ne answer.questionNumber}" >
                 <%-- This 'if' block displays tab header for each question. if question has multiple answers
                      This is only displayed once when the 1st answer of this question is displayed --%>
-                    <c:if test="${!empty questionid}" >
+                    <c:if test="${addFooter}" >
                     <%-- close tags for each question --%>
                                     </div>
                                 </td>
                             </tr>
                         </table>
+                        <c:set var="addFooter" value="false"/>
                     </c:if>
 
+					<c:set var="addFooter" value="true"/>
                     <c:set var="tableId" value="table-${answerHeaderIndex}-${status.index}" />   
                     <c:if test="${answer.questionnaireQuestion.parentQuestionNumber != 0}" >
                         <c:set var="tableId" value="table-parent-${answerHeaderIndex}-${answer.questionnaireQuestion.parentQuestionNumber}-${status.index}"/>   
@@ -120,7 +124,7 @@
 				
                 <c:choose>
                     <%-- decide whether it is readonly mode --%>
-                    <c:when test = "${readOnly}" >
+                    <c:when test = "${questReadOnly}" >
                         
                         <c:set var="prop" value="childDisplay-${answerHeaderIndex}-${answer.questionNumber}"/>
                         ${kfunc:registerEditableProperty(KualiForm, prop)}
@@ -165,10 +169,12 @@
             <c:set var="questionid" value="${answer.questionNumber}" />
 
            <%-- following 4 tags is to close the last question's display tag --%>
+             <c:if test="${addFooter}" >
                                 </div>
                             </td>
                         </tr>
                     </table>
+			 </c:if>                    
 
 
         </div>
