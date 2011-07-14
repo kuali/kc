@@ -94,6 +94,7 @@ public class AwardSeleniumHelper extends KcSeleniumHelper {
     private static final String ADD_PERSON_BUTTON = "methodToCall.addProjectPerson";
     private static final String ADD_NEW_BUDGET_BUTTON = "methodToCall.addBudgetVersion";
     private static final String OPEN_BUDGET_BUTTON = "methodToCall.openBudgetVersion.line";
+    private static final String APPLY_AWARD_TEMPLATE_BUTTON = "methodToCall.applySponsorTemplate";
 
     private static AwardSeleniumHelper helper;
     
@@ -230,7 +231,8 @@ public class AwardSeleniumHelper extends KcSeleniumHelper {
         clickAwardHomePage();
         
         openTab("Sponsor Template");
-        lookup(TEMPLATE_CODE_TAG, TEMPLATE_CODE_ID, DEFAULT_SPONSOR_TEMPLATE_CODE);
+        set(TEMPLATE_CODE_TAG, DEFAULT_SPONSOR_TEMPLATE_CODE);
+        click(APPLY_AWARD_TEMPLATE_BUTTON);
         clickYesAnswer();
         clickYesAnswer();
     }
