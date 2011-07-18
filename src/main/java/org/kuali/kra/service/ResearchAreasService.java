@@ -19,6 +19,7 @@ import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.kuali.kra.bo.ResearchArea;
 import org.xml.sax.SAXException;
 
 
@@ -41,6 +42,22 @@ public interface ResearchAreasService {
      * @return
      */
     boolean isResearchAreaExist(String researchAreaCode, String researchAreas);
+    
+    
+    /**
+     * This method checks in a depth-first recursive fashion that neither the given research area nor 
+     * any of its descendants are referenced by any committee, committee member or protocol.       * 
+     * @param researchAreaCode
+     * @return
+     */
+    boolean checkResearchAreaAndDescendantsNotReferenced(String researchAreaCode);
+    
+    
+    /**
+     * This method will delete the research area that has the given <code>researchAreaCode</code>
+     * @param researchAreaCode
+     */
+    public void deleteResearchArea(String researchAreaCode) throws Exception;
 
     /**
      * 
