@@ -28,6 +28,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.ResearchArea;
+import org.kuali.kra.dao.ResearchAreaReferencesDao;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.ResearchAreasService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -38,6 +40,9 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+/**
+ * This class...
+ */
 public class ResearchAreasServiceImpl implements ResearchAreasService {
 
     private static final String COLUMN_CODE_1 = "%3A";
@@ -56,7 +61,9 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
     private static final String PARENT_RESEARCH_AREA_CODE = "parentResearchAreaCode";
     private static final String NEW_PARENT = "NewParent";
     private BusinessObjectService businessObjectService;
+    private ResearchAreaReferencesDao researchAreaReferencesDao;
     
+   
     /**
      * 
      * @see org.kuali.kra.service.ResearchAreasService#getSubResearchAreasForTreeView(java.lang.String)
@@ -109,6 +116,111 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
         }
         return isExist;
     }
+    
+    
+    /**
+     * @see org.kuali.kra.service.ResearchAreasService#checkResearchAreaAndDescendantsNotReferenced(java.lang.String)
+     * TODO: optimize by checking only active descendants? Could use the getSubResearchAreas method above
+     */  
+    public boolean checkResearchAreaAndDescendantsNotReferenced(String researchAreaCode) {
+        boolean retValue = true;
+        ResearchArea researchArea = getBusinessObjectService().findBySinglePrimaryKey(ResearchArea.class, researchAreaCode);
+        if ( (researchArea != null)) {
+            retValue = checkResearchAreaTree(researchArea);
+        }
+        else {
+            // TODO throw exception? 
+        }
+        return retValue;
+    }
+    
+    
+    
+    // recursive method to check the tree in depth-first fashion
+    @SuppressWarnings("unchecked")
+    private boolean checkResearchAreaTree(ResearchArea researchArea) {
+        boolean retValue = true;
+        String researchAreaCode = researchArea.getResearchAreaCode();
+        if(  (this.getResearchAreaReferencesDao().isResearchAreaReferencedByAnyCommittee(researchAreaCode)) || 
+             (this.getResearchAreaReferencesDao().isResearchAreaReferencedByAnyCommitteeMember(researchAreaCode)) ||
+             (this.getResearchAreaReferencesDao().isResearchAreaReferencedByAnyProtocol(researchAreaCode))  ) {
+            retValue = false;            
+        }
+        else {
+            // get the children of this research area
+            Map<String, String> fieldValues = new HashMap<String, String>();
+            fieldValues.put(PARENT_RESEARCH_AREA_CODE, researchAreaCode);
+            List<ResearchArea> subResearchAreas = (List<ResearchArea>) getBusinessObjectService().findMatching(ResearchArea.class, fieldValues);
+            for (ResearchArea subResearchArea: subResearchAreas) {
+                // recursive call
+                if(false == checkResearchAreaTree(subResearchArea)) {
+                    // no need to check remaining children
+                    retValue = false;
+                    break;
+                }
+            } 
+        }
+        return retValue;
+    }
+    
+    
+    
+    /**
+     * @see org.kuali.kra.service.ResearchAreasService#deleteResearchArea(java.lang.String)
+     */
+    public void deleteResearchArea(String researchAreaCode) {
+        ResearchArea researchArea = getBusinessObjectService().findBySinglePrimaryKey(ResearchArea.class, researchAreaCode);
+        if ( (researchArea != null)) {
+            getBusinessObjectService().delete(researchArea);
+            deleteChildrenResearchAreas(researchAreaCode);
+            updateHasChildrenFlag(researchArea.getParentResearchAreaCode());
+        }
+    }
+    
+    /**
+     * This method recursively deletes all child research areas.
+     * @param parentResearchAreaCode
+     */
+    @SuppressWarnings("unchecked")
+    private void deleteChildrenResearchAreas(String parentResearchAreaCode) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(PARENT_RESEARCH_AREA_CODE, parentResearchAreaCode);
+        List<ResearchArea> researchAreas = (List<ResearchArea>) businessObjectService.findMatching(ResearchArea.class, fieldValues);
+        for (ResearchArea researchArea: researchAreas) {
+            deleteChildrenResearchAreas(researchArea.getResearchAreaCode());
+            businessObjectService.delete(researchArea);
+        }
+    }
+    
+    /**
+     * This method determines if the hasChildrenFlag needs to be set or cleared.
+     * @param researchAreaCode
+     */
+    private void updateHasChildrenFlag(String researchAreaCode) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(PARENT_RESEARCH_AREA_CODE, researchAreaCode);
+        if (businessObjectService.countMatching(ResearchArea.class, fieldValues) > 0) {
+            setHasChildrenFlag(researchAreaCode, true);
+        } else {
+            setHasChildrenFlag(researchAreaCode, false);
+        }
+    }
+    
+    /**
+     * This method sets the hasChildrenFlag to a specific value.
+     * @param researchAreaCode
+     * @param hasChildrenFlag
+     */
+    private void setHasChildrenFlag(String researchAreaCode, boolean hasChildrenFlag) {
+        ResearchArea researchArea = businessObjectService.findBySinglePrimaryKey(ResearchArea.class, researchAreaCode);
+        if (researchArea.getHasChildrenFlag() != hasChildrenFlag) {
+            researchArea.setHasChildrenFlag(hasChildrenFlag);
+            businessObjectService.save(researchArea);
+        }
+    }
+    
+    
+    
 
     /*
      * This method is a recursive call to check whether the new 'researchAreaCode' matched
@@ -175,15 +287,20 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
         List<Element> raChanges = getRaChanges(raChangesDocument);
         for (Element raChange : raChanges) {
             Map<String, Map<String, String>> details = getRaChangeDetails(raChange);
+            /*
             // delete before create to allow a research area code to be deleted and reused for a new entry.
             if (details.containsKey(DELETE_RESEARCH_AREA)) {
                 ResearchArea researchArea = businessObjectService.findBySinglePrimaryKey(ResearchArea.class, details.get(DELETE_RESEARCH_AREA).get(CODE));
-                if (researchArea != null) {
+                if ( (researchArea != null) && checkResearchAreaAndDescendantsNotReferenced(researchArea) ) {
                     businessObjectService.delete(researchArea);
                     deleteChildrenResearchAreas(details.get(DELETE_RESEARCH_AREA).get(CODE));
                     updateHasChildrenFlag(researchArea.getParentResearchAreaCode());
                 }
+                else if(researchArea != null) {
+                    throw new IOException("Research area cannot be deleted because it or one of its descendants are referenced elsewhere"); 
+                }
             }
+            */
             if (details.containsKey(CREATE_RESEARCH_AREA)) {
                 boolean active = StringUtils.equalsIgnoreCase(details.get(CREATE_RESEARCH_AREA).get(ACTIVE), TRUE) ? true : false;
                 ResearchArea researchArea = new ResearchArea(details.get(CREATE_RESEARCH_AREA).get(CODE), details.get(CREATE_RESEARCH_AREA)
@@ -214,20 +331,9 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
         }
     }
     
-    /**
-     * This method recursively deletes all child research areas.
-     * @param parentResearchAreaCode
-     */
-    @SuppressWarnings("unchecked")
-    private void deleteChildrenResearchAreas(String parentResearchAreaCode) {
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put(PARENT_RESEARCH_AREA_CODE, parentResearchAreaCode);
-        List<ResearchArea> researchAreas = (List<ResearchArea>) businessObjectService.findMatching(ResearchArea.class, fieldValues);
-        for (ResearchArea researchArea: researchAreas) {
-            deleteChildrenResearchAreas(researchArea.getResearchAreaCode());
-            businessObjectService.delete(researchArea);
-        }
-    }
+    
+   
+    
     
     /**
      * This method recursively inactivates all child research areas.
@@ -245,32 +351,7 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
         }
     }
     
-    /**
-     * This method determines if the hasChildrenFlag needs to be set or cleared.
-     * @param researchAreaCode
-     */
-    private void updateHasChildrenFlag(String researchAreaCode) {
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put(PARENT_RESEARCH_AREA_CODE, researchAreaCode);
-        if (businessObjectService.countMatching(ResearchArea.class, fieldValues) > 0) {
-            setHasChildrenFlag(researchAreaCode, true);
-        } else {
-            setHasChildrenFlag(researchAreaCode, false);
-        }
-    }
     
-    /**
-     * This method sets the hasChildrenFlag to a specific value.
-     * @param researchAreaCode
-     * @param hasChildrenFlag
-     */
-    private void setHasChildrenFlag(String researchAreaCode, boolean hasChildrenFlag) {
-        ResearchArea researchArea = businessObjectService.findBySinglePrimaryKey(ResearchArea.class, researchAreaCode);
-        if (researchArea.getHasChildrenFlag() != hasChildrenFlag) {
-            researchArea.setHasChildrenFlag(hasChildrenFlag);
-            businessObjectService.save(researchArea);
-        }
-    }
     
     List<Element> getRaChanges(Document doc) {
         List<Element> elements = new ArrayList<Element>();
@@ -327,5 +408,17 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
+    
+    public ResearchAreaReferencesDao getResearchAreaReferencesDao() {
+        if(null == this.researchAreaReferencesDao) {
+            this.setResearchAreaReferencesDao(KraServiceLocator.getService(ResearchAreaReferencesDao.class));
+        }
+        return researchAreaReferencesDao;
+    }
+
+    public void setResearchAreaReferencesDao(ResearchAreaReferencesDao researchAreaReferencesDao) {
+        this.researchAreaReferencesDao = researchAreaReferencesDao;
+    }
+
 
 }

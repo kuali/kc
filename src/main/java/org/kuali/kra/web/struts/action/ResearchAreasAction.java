@@ -84,27 +84,58 @@ public class ResearchAreasAction extends KualiAction {
         if (StringUtils.isNotBlank(researchAreaForm.getAddRA()) && researchAreaForm.getAddRA().equals("Y")) {
             if (KraServiceLocator.getService(ResearchAreasService.class).isResearchAreaExist(researchAreaForm.getResearchAreaCode(), researchAreaForm.getDeletedRas())) {
                 researchAreaForm.setResearchAreas("<h3>true</h3>");
-            }else {
+            }
+            else {
                 researchAreaForm.setResearchAreas("<h3>false</h3>");
             }
-        } else if (StringUtils.isNotBlank(researchAreaForm.getAddRA()) && researchAreaForm.getAddRA().equals("S")) {
+        }
+        else if (StringUtils.isNotBlank(researchAreaForm.getAddRA()) && researchAreaForm.getAddRA().equals("S")) {
             try {
                 KraServiceLocator.getService(ResearchAreasService.class).saveResearchAreas(researchAreaForm.getSqlScripts());
                 String error = (String) GlobalVariables.getUserSession().retrieveObject("raError");
                 if (StringUtils.isNotBlank(error)) {
                     researchAreaForm.setResearchAreas("<h3>" + error + "</h3>");
                     GlobalVariables.getUserSession().addObject("raError", (Object) null);
-                } else {
+                }
+                else {
                     researchAreaForm.setResearchAreas("<h3>Success</h3>");
                 }
             }
             catch (Exception e) {
                 e.printStackTrace();
             }
-        } else if (StringUtils.isNotBlank(researchAreaForm.getAddRA()) && researchAreaForm.getAddRA().equals("A")) {
+        }
+        else if (StringUtils.isNotBlank(researchAreaForm.getAddRA()) && researchAreaForm.getAddRA().equals("A")) {
             researchAreaForm.setResearchAreas(KraServiceLocator.getService(ResearchAreasService.class).getSubResearchAreasForTreeView(
                     researchAreaForm.getResearchAreaCode(), true));
-        } else {
+        }
+        else if (StringUtils.isNotBlank(researchAreaForm.getAddRA()) && researchAreaForm.getAddRA().equals("D")) {
+            try {
+                // check if RA is being referenced
+                if (KraServiceLocator.getService(ResearchAreasService.class).checkResearchAreaAndDescendantsNotReferenced(researchAreaForm.getResearchAreaCode()) ) {
+                    // its not being referenced, go ahead and delete it
+                    KraServiceLocator.getService(ResearchAreasService.class).deleteResearchArea(researchAreaForm.getResearchAreaCode());
+                    String error = (String) GlobalVariables.getUserSession().retrieveObject("raError");
+                    if (StringUtils.isNotBlank(error)) {
+                        researchAreaForm.setResearchAreas("<h3>" + error + "</h3>");
+                        GlobalVariables.getUserSession().addObject("raError", (Object) null);
+                    }
+                    else {
+                        researchAreaForm.setResearchAreas("<h3>Success</h3>");
+                    }
+                }
+                else {
+                    // let user know about that the research area could not be deleted because it was being referenced
+                    // TODO add code here for appropriate error message
+                    researchAreaForm.setResearchAreas("<h3>" + "Research area or descendants are (were) being referenced in a current (past) version of committee, committee member or protocol" + "</h3>");
+                    GlobalVariables.getUserSession().addObject("raError", (Object) null);
+                }
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        else {
             researchAreaForm.setResearchAreas(KraServiceLocator.getService(ResearchAreasService.class).getSubResearchAreasForTreeView(
                     researchAreaForm.getResearchAreaCode(), false));
         }
