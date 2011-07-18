@@ -78,3 +78,10 @@ span.subhead-left-black
 	font-weight: bold;
 	color: #000000;
 }
+
+.left-errmsg-tab
+{
+	text-align: left;
+	padding-left: 20px;
+	width: auto;
+}
