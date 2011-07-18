@@ -82,13 +82,15 @@ function RaChanges() {
 	 * This public method marks the research area as deleted.
 	 * @param idx - html element id index of the research area to be deleted
 	 * @param code - the research area code of the research area to be deleted
-	 */
+	 * 
+	 * TODO remove this
 	this.markDeleted = function(idx, code) {
 		// just in case - the nextRaChangeProcessIdx array is cleared to ensure that no change is missed.
 		nextRaChangeProcessIdx = 0;
 
 		getRaChangesElement(idx, code).deleteIndicator = "DELETE";
 	}
+	*/
 	
 	/**
 	 * This public method checks if more change data exists that can be 
@@ -199,7 +201,7 @@ function RaChanges() {
 
     /**
      * Private container class which holds all changes for a specific research area.
-     * @parm code - the research area code of the research area to which the changes belong
+     * @param code - the research area code of the research area to which the changes belong
      */
 	function RaChangesElement(code) {
 		this.code = code;
@@ -572,6 +574,9 @@ function tbodyTag(name, id) {
 			.attr("id", "remove" + idx).click(
 					function() {
 						var liId = "li#" + id;
+						deleteResearchArea(liId);
+						/*
+						 * TODO remove this
 						var parentRACode;
 						if ($(liId).parents('li:eq(0)').size() == 0) {
 							parentRACode = '000001';
@@ -579,6 +584,7 @@ function tbodyTag(name, id) {
 							parentRACode = getResearchAreaCode($(liId).parents(
 									'li:eq(0)'));
 						}
+						
 						raChanges.markDeleted(idx, getResearchAreaCode($(liId)));
 						if (deletedNodes == '') {
 							deletedNodes = getResearchAreaCode($(liId));
@@ -587,8 +593,10 @@ function tbodyTag(name, id) {
 									+ getResearchAreaCode($(liId));
 						}
 						deleteChild(id);
+						
 						$(liId).remove();
 						cutNode = null;
+						*/
 						return false; // eliminate page jumping
 					});
 	tag.html(image);
@@ -1220,6 +1228,67 @@ function researchAreaExistsOnServer(researchAreaCode, ignoreNodes){
 }
 
 /**
+ * This method submits the request to delete a research area to server. 
+ * It first checks to see that there are no pending changes that need to be persisted, and submits only if so. 
+ * If there are pending changes then it will simply ask the user to either save or abandon the changes. 
+ */
+function deleteResearchArea(liId) {
+	if(raChanges.moreChangeData()) {
+		if(confirm('You must save (or abandon) all outstanding changes before attempting a delete. Do you want to save changes to Research Area Hierarchy?')) {
+			save();
+		}
+		
+		$("#researcharea").empty();
+		raChanges = new RaChanges();
+		nextRaChangeProcessIdx = 0;
+		cutNode = null;
+		deletedNodes = "";
+		newNodes = ";";
+		icur = 1;
+		
+		loadFirstLevel();
+		$("#listcontent00").show();
+		return false;
+	}
+	else {
+		var researchAreaCode = getResearchAreaCode($(liId));
+		// alert("RAcode is " + researchAreaCode);
+		$("#headermsg").html(""); 
+		$.ajax( {
+			url : 'researchAreaAjax.do',
+			type : 'POST',
+			dataType : 'html',
+			data : 'researchAreaCode='
+					+ researchAreaCode
+					+ '&addRA=D',
+			cache : false,
+			async : false,
+			timeout : 1000,
+			error : function() {
+				alert('This research area cannot be deleted (perhaps due to archival reasons), but you could try deactivating it.');
+			},
+			success : function(xml) {
+				$(xml).find('h3').each(function() {
+					retmsg = $(this).text();
+					});
+				if (retmsg == 'Success') {
+					// alert("removing node now");
+					$(liId).remove();
+					cutNode = null;
+					$('<span id="msg"/>').css("color", "black").html("Research area deleted successfully").appendTo($("#headermsg"));
+					$('<br/>').appendTo($("#headermsg"));
+				} else {
+					$('<span id="msg"/>').css("color", "red").html("Research area could not be deleted.<br/>" + retmsg).appendTo($("#headermsg"))
+					$('<br/>').appendTo($("#headermsg"));
+					alert('This research area cannot be deleted (perhaps due to archival reasons), but you could try deactivating it.');
+				}
+			}
+		}); // end ajax
+		return false;
+	}
+}
+
+/**
  * This Method submits the research area changes to the server in order to save them.
  */
 function save() {
@@ -1308,6 +1377,7 @@ $("#paste0").click(
  * 01->01.1->01.1.1. 01.1 & 01.1.1 are new. remove 01.1 will also remove 01.1.1.
  * This function will remove both the newnodes list.
  */
+/* TODO remove this
 function deleteChild(childid) {
 
 	var childrenli = $("#" + childid).children('ul:eq(0)').children('li');
@@ -1326,3 +1396,4 @@ function deleteChild(childid) {
 	}
 
 }
+*/

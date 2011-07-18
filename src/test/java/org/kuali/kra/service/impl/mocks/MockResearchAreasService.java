@@ -58,4 +58,14 @@ public class MockResearchAreasService implements ResearchAreasService {
         
     }
 
+    public boolean checkResearchAreaAndDescendantsNotReferenced(String researchAreaCode) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    public void deleteResearchArea(String researchAreaCode) throws Exception {
+        // TODO Auto-generated method stub
+        
+    }
+
 }
