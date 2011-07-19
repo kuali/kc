@@ -37,7 +37,7 @@ public class AwardBudgeCostTotalAuditRule implements DocumentAuditRule {
 
         boolean valid = true;
         String[] params = { "Budget Overview Cost Total" };
-        if (!budget.getTotalCost().isLessEqual(budget.getTotalCostLimit())) {
+        if (!budget.getTotalCost().equals(budget.getTotalCostLimit())) {
             getAuditErrors().add(new AuditError("document.budget.totalCost",
                     KeyConstants.AUDIT_ERROR_TOTAL_COST,
                     Constants.BUDGET_PERIOD_PAGE + "." + "BudgetPeriodsTotals",
