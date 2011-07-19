@@ -468,6 +468,7 @@ public final class KeyConstants {
     //Award Indirect Cost Rate
     public static final String ERROR_REQUIRED_APPLICABLE_INDIRECT_COST_RATE = "error.required.applicable.indirect.cost.rate";
     public static final String ERROR_APPLICABLE_INDIRECT_COST_RATE_CAN_NOT_BE_NEGATIVE = "error.applicable.indirect.cost.rate.can.not.be.negative";
+    public static final String ERROR_APPLICABLE_INDIRECT_COST_RATE_OUT_OF_RANGE = "error.applicable.indirect.cost.rate.out.of.range";
     public static final String ERROR_REQUIRED_INDIRECT_RATE_TYPE_CODE = "error.required.indirect.rate.type.code";
     public static final String ERROR_REQUIRED_FISCAL_YEAR = "error.required.fiscal.year";
     public static final String ERROR_REQUIRED_START_DATE= "error.required.start.date";
