@@ -18,6 +18,8 @@ package org.kuali.kra.award.paymentreports.awardreports;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -126,12 +128,41 @@ public class AwardReportTerm extends AwardAssociate implements GenericAwardRepor
         return hashMap;
     }
 
+    
+    class ARTRComparator implements Comparator
+    {    
+        public int compare(Object artr1, Object artr2)
+        {    
+            try
+            {
+                String artr1Desc = ((AwardReportTermRecipient)artr1).getRolodex().getLastName();        
+                String artr2Desc = ((AwardReportTermRecipient)artr2).getRolodex().getLastName();
+                if (artr1Desc == null)
+                {
+                    artr1Desc = "";
+                }
+                if (artr2Desc == null)
+                {
+                    artr2Desc = "";
+                }
+                return artr1Desc.compareTo(artr2Desc);  
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }
+        }
+        
+    }
+    
+    
     /**
      * 
      * 
      * @return
      */
     public List<AwardReportTermRecipient> getAwardReportTermRecipients() {
+        Collections.sort(awardReportTermRecipients, new ARTRComparator());
         return awardReportTermRecipients;
     }
 
