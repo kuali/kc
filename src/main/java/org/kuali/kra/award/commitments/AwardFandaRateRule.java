@@ -29,7 +29,8 @@ public class AwardFandaRateRule  extends ResearchDocumentRuleBase implements Add
     private static final String FISCAL_YEAR_STRING = ".fiscalYear";
     private static final String NEW_AWARD_FANDA_RATE = "newAwardFandaRate";
     private static final String AWARD_FANDA_RATES_ARRAY = "document.awardList[0].awardFandaRate";
-
+    private static final KualiDecimal KualiDecimal_THOUSAND = new KualiDecimal(1000);
+    
     /**
      * 
      * @see org.kuali.kra.award.commitments.AddFandaRateRule
@@ -70,21 +71,23 @@ public class AwardFandaRateRule  extends ResearchDocumentRuleBase implements Add
      * @return
      */
     protected boolean evaluateRuleForApplicableFandaRate(AwardFandaRate awardFandaRate, String propertyPrefix){        
-        boolean rulePassed = awardFandaRate.getApplicableFandaRate()!=null 
-                                && !StringUtils.isBlank(awardFandaRate.getApplicableFandaRate().toString());
-        
-        if(!rulePassed){            
-            reportError(propertyPrefix+".applicableFandaRate"
-                    , KeyConstants.ERROR_REQUIRED_APPLICABLE_INDIRECT_COST_RATE);
-        }else{
-            rulePassed = awardFandaRate.getApplicableFandaRate().isGreaterEqual(KualiDecimal.ZERO) ? true:false;
-            if(!rulePassed){
-                reportError(propertyPrefix+".applicableFandaRate"
-                        , KeyConstants.ERROR_APPLICABLE_INDIRECT_COST_RATE_CAN_NOT_BE_NEGATIVE);
-            }
+        String brokenRule = null;
+        if (awardFandaRate.getApplicableFandaRate() == null || 
+                StringUtils.isBlank(awardFandaRate.getApplicableFandaRate().toString())) {
+            brokenRule =  KeyConstants.ERROR_REQUIRED_APPLICABLE_INDIRECT_COST_RATE;
         }
-        
-        return rulePassed;
+        if (awardFandaRate.getApplicableFandaRate().isLessThan(KualiDecimal.ZERO)) {
+            brokenRule = KeyConstants.ERROR_APPLICABLE_INDIRECT_COST_RATE_CAN_NOT_BE_NEGATIVE;
+        }
+        if (awardFandaRate.getApplicableFandaRate().isGreaterEqual(KualiDecimal_THOUSAND)) {
+            brokenRule = KeyConstants.ERROR_APPLICABLE_INDIRECT_COST_RATE_OUT_OF_RANGE;
+        }
+            
+        if(brokenRule != null) {
+            reportError(propertyPrefix+".applicableFandaRate", brokenRule);
+            return false;
+        }
+        return true;
     }
     
     /**
