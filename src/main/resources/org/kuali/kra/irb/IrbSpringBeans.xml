@@ -947,6 +947,17 @@
        <property name="documentService" ref="documentService" />
     </bean>
     
+    <bean id="activeCommitteeMemberOnProtocolDerivedRoleTypeService"
+          class="org.kuali.kra.kim.service.impl.ActiveCommitteeMemberOnProtocolDerivedRoleTypeServiceImpl">
+    </bean>
+    
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+      <property name="serviceDefinition">
+            <bean parent="kcService" p:service-ref="activeCommitteeMemberOnProtocolDerivedRoleTypeService"
+          p:localServiceName="activeCommitteeMemberOnProtocolDerivedRoleTypeService" />
+      </property>
+    </bean>
+    
 
 </beans>
 
