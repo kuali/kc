@@ -27,6 +27,9 @@
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Notes</span>
+    		<span class="subhead-right">
+    			<kul:help parameterNamespace="KC-AWARD" parameterDetailType="Document" parameterName="awardNotesHelp" altText="help"/>
+			</span>
         </h3>
         <table id="cost-share-table" cellpadding="0" cellspacing="0" summary="Cost Share">
 			<tr>
