@@ -51,11 +51,11 @@
     </tr>
     <tr>
       <th style="text-align: right;">Sponsor:</th>
-      <td colspan="3"><c:out value="${node.bo.sponsorCode}"/></td>
+      <td colspan="3"><c:out value="${node.bo.sponsorCode} ${node.bo.sponsorName}"/></td>
     </tr>
     <tr>
       <th style="text-align: right;">Prime Sponsor:</th>
-      <td colspan="3"><c:out value="${node.bo.primeSponsorCode}"/></td>
+      <td colspan="3"><c:out value="${node.bo.primeSponsorCode} ${node.bo.primeSponsor.sponsorName}"/></td>
     </tr>
     <tr>
       <th style="text-align: right;">Sponsor Proposal No:</th>
