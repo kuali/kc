@@ -422,12 +422,10 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
                         errorMap.putError("budgetPeriod[" + i +"].budgetLineItems[" + j + "].budgetPersonnelDetailsList[" + k + "].endDate",KeyConstants.ERROR_PERSONNELBUDGETLINEITEM_ENDDATE_AFTER_LINEITEM_ENDDATE);
                         valid = false;
                     }                    
-                    if(budgetPersonnelDetails.getPercentEffort().isLessThan(new BudgetDecimal(0)) 
-                            || budgetPersonnelDetails.getPercentEffort().isGreaterThan(new BudgetDecimal(100))){
+                    if(budgetPersonnelDetails.getPercentEffort().isGreaterThan(new BudgetDecimal(100))){
                         errorMap.putError("budgetPeriod[" + i +"].budgetLineItems[" + j + "].budgetPersonnelDetailsList[" + k + "].percentEffort",KeyConstants.ERROR_PERCENTAGE, Constants.PERCENT_EFFORT_FIELD);
                     }
-                    if(budgetPersonnelDetails.getPercentCharged().isLessThan(new BudgetDecimal(0)) 
-                            || budgetPersonnelDetails.getPercentCharged().isGreaterThan(new BudgetDecimal(100))){
+                    if(budgetPersonnelDetails.getPercentCharged().isGreaterThan(new BudgetDecimal(100))){
                         errorMap.putError("budgetPeriod[" + i +"].budgetLineItems[" + j + "].budgetPersonnelDetailsList[" + k + "].percentCharged",KeyConstants.ERROR_PERCENTAGE, Constants.PERCENT_CHARGED_FIELD);
                     }
                     if(budgetPersonnelDetails.getPercentCharged().isGreaterThan(budgetPersonnelDetails.getPercentEffort())){
