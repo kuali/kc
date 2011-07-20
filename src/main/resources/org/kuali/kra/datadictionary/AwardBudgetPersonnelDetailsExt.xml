@@ -35,6 +35,8 @@
                 <ref bean="AwardBudgetPersonnelDetailsExt-budgetPersonnelLineItemId" />
                 <ref bean="AwardBudgetPersonnelDetailsExt-obligatedAmount" />
                 <ref bean="AwardBudgetPersonnelDetailsExt-versionNumber" />
+                <ref bean="AwardBudgetPersonnelDetailsExt-percentCharged" />
+                <ref bean="AwardBudgetPersonnelDetailsExt-percentEffort" />
             </list>
         </property>
     </bean>
@@ -71,6 +73,37 @@
     <bean id="AwardBudgetPersonnelDetailsExt-versionNumber" parent="AwardBudgetPersonnelDetailsExt-versionNumber-parentBean" />
     <bean id="AwardBudgetPersonnelDetailsExt-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
     </bean>
+    
+  <bean id="AwardBudgetPersonnelDetailsExt-percentCharged" parent="AwardBudgetPersonnelDetailsExt-percentCharged-parentBean"/>
+
+  <bean id="AwardBudgetPersonnelDetailsExt-percentCharged-parentBean" abstract="true" parent="BudgetPersonnelDetails-percentCharged-parentBean">
+  	<property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="FixedPointValidationPattern"
+	            p:precision="6"
+	            p:scale="2"
+	            p:allowNegative="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+  </bean>
+  <bean id="AwardBudgetPersonnelDetailsExt-percentEffort" parent="AwardBudgetPersonnelDetailsExt-percentEffort-parentBean"/>
+
+  <bean id="AwardBudgetPersonnelDetailsExt-percentEffort-parentBean" abstract="true" parent="BudgetPersonnelDetails-percentEffort-parentBean">
+  	<property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="FixedPointValidationPattern"
+	            p:precision="6"
+	            p:scale="2"
+	            p:allowNegative="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+  </bean>
 
     <!-- Business Object Inquiry Definition -->
     <bean id="AwardBudgetPersonnelDetailsExt-inquiryDefinition" parent="AwardBudgetPersonnelDetailsExt-inquiryDefinition-parentBean" />
