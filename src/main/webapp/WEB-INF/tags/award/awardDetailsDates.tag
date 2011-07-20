@@ -24,6 +24,12 @@
 
 <!-- Institution -->
 <div class="tab-container" align="center">
+	<h3>
+   		<span class="subhead-left">Details and Dates</span>
+   		<span class="subhead-right">
+   			<kul:help parameterNamespace="KC-AWARD" parameterDetailType="Document" parameterName="awardDetailsDatesHelp" altText="help"/>
+		</span>
+    </h3>
 
 <kul:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="true" tabTitle="Current Action" tabErrorKey="" >
 

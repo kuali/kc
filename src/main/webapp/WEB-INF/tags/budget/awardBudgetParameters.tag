@@ -34,7 +34,12 @@
  <c:set var="useRiceAuditMode" value="true" scope="request" />
 <kul:tabTop tabTitle="Budget Overview" defaultOpen="true" tabErrorKey="budgetParameters*,document.budget.totalCostLimit,document.budget.comments" auditCluster="budgetParametersOverviewWarnings,awardBudgetTypeAuditErrors" tabAuditKey="document.budget.totalCostLimit,document.budget.comments">
 	<div class="tab-container" align="center">
-    	<h3>Budget Overview</h3>
+    	<h3>
+    		<span class="subhead-left">Buddddget Overview</span>
+    		<span class="subhead-right">
+    			<kul:help parameterNamespace="KC-AWARD" parameterDetailType="Document" parameterName="awardBudgetOverviewHelp" altText="help"/>
+			</span>
+        </h3>
         <table cellpadding=0 cellspacing=0 summary="">
         	<tr>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.accountNumber}" /></div></th>

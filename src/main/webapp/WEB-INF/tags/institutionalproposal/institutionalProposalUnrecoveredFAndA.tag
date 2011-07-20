@@ -30,6 +30,9 @@
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Unrecovered F&A Distribution List</span>
+   			<span class="subhead-right">
+   				<kul:help parameterNamespace="KC-IP" parameterDetailType="Document" parameterName="ipDistUnrecoveredFandAHelp" altText="help"/>
+			</span>
         </h3>
         <table id="unrecovered-fanda-table" cellpadding="0" cellspacing="0" summary="Unrecovered F&A">
 			<tr>

@@ -34,6 +34,9 @@ function loadSponsorDesc(field) {
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Sponsor Template</span>
+    		<span class="subhead-right">
+    			<kul:help parameterNamespace="KC-AWARD" parameterDetailType="Document" parameterName="awardSponsorTemplateHelp" altText="help"/>
+			</span>
         </h3>
         <table id="sponsor-template-table" cellpadding="0" cellspacing="0" summary="Sponsor Template">
 			<tr>
