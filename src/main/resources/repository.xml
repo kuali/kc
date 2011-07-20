@@ -175,6 +175,10 @@
 		<reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="sponsorCode"/>
 		</reference-descriptor>
+		
+	 <reference-descriptor name="primeSponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="primeSponsorCode" />
+        </reference-descriptor>
 
       <reference-descriptor name="ownedByUnit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
           <foreignkey field-ref="ownedByUnitNumber" />
