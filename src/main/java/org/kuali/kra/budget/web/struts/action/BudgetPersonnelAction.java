@@ -380,13 +380,11 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
             errorFound=true;
         }
         
-        if(budgetPersonnelDetails.getPercentEffort().isLessThan(new BudgetDecimal(0)) 
-                || budgetPersonnelDetails.getPercentEffort().isGreaterThan(new BudgetDecimal(100))){
+        if(budgetPersonnelDetails.getPercentEffort().isGreaterThan(new BudgetDecimal(100))){
             GlobalVariables.getErrorMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex   +"].budgetLineItem[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + selectedPersonnelIndex + "].percentEffort", KeyConstants.ERROR_PERCENTAGE, Constants.PERCENT_EFFORT_FIELD);
             errorFound=true;
         }
-        if(budgetPersonnelDetails.getPercentCharged().isLessThan(new BudgetDecimal(0)) 
-                || budgetPersonnelDetails.getPercentCharged().isGreaterThan(new BudgetDecimal(100))){
+        if(budgetPersonnelDetails.getPercentCharged().isGreaterThan(new BudgetDecimal(100))){
             GlobalVariables.getErrorMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex +"].budgetLineItem[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + selectedPersonnelIndex + "].percentCharged", KeyConstants.ERROR_PERCENTAGE, Constants.PERCENT_CHARGED_FIELD);
             errorFound=true;
         }

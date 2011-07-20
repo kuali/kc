@@ -272,7 +272,10 @@
     <property name="shortLabel" value="% Charged" />
     <property name="maxLength" value="6" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+      <bean parent="FixedPointValidationPattern"
+	            p:precision="5"
+	            p:scale="2"
+	            p:allowNegative="false" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -290,7 +293,10 @@
     <property name="shortLabel" value="% Effort" />
     <property name="maxLength" value="6" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+      <bean parent="FixedPointValidationPattern"
+	            p:precision="5"
+	            p:scale="2"
+	            p:allowNegative="false" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
