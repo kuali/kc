@@ -82,13 +82,11 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
         BudgetPersonnelDetails newBudgetPersonnelDetails = budgetForm.getNewBudgetPersonnelDetails();
         
         boolean errorFound = false;
-        if(newBudgetPersonnelDetails.getPercentEffort().isLessThan(new BudgetDecimal(0)) 
-                || newBudgetPersonnelDetails.getPercentEffort().isGreaterThan(new BudgetDecimal(100))){
+        if(newBudgetPersonnelDetails.getPercentEffort().isGreaterThan(new BudgetDecimal(100))){
             GlobalVariables.getErrorMap().putError("newBudgetPersonnelDetails.percentEffort",KeyConstants.ERROR_PERCENTAGE, Constants.PERCENT_EFFORT_FIELD);
             errorFound=true;
         }
-        if(newBudgetPersonnelDetails.getPercentCharged().isLessThan(new BudgetDecimal(0)) 
-                || newBudgetPersonnelDetails.getPercentCharged().isGreaterThan(new BudgetDecimal(100))){
+        if(newBudgetPersonnelDetails.getPercentCharged().isGreaterThan(new BudgetDecimal(100))){
             GlobalVariables.getErrorMap().putError("newBudgetPersonnelDetails.percentCharged",KeyConstants.ERROR_PERCENTAGE, Constants.PERCENT_CHARGED_FIELD);
             errorFound=true;
         }
@@ -228,13 +226,11 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
         boolean errorFound = false;
         GlobalVariables.getErrorMap().addToErrorPath("document");
         for(BudgetPersonnelDetails budgetPersonnelDetails: selectedBudgetLineItem.getBudgetPersonnelDetailsList()){
-            if(budgetPersonnelDetails.getPercentEffort().isLessThan(new BudgetDecimal(0)) 
-                    || budgetPersonnelDetails.getPercentEffort().isGreaterThan(new BudgetDecimal(100))){
+            if(budgetPersonnelDetails.getPercentEffort().isGreaterThan(new BudgetDecimal(100))){
                 GlobalVariables.getErrorMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex +"].budgetLineItems[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + k + "].percentEffort",KeyConstants.ERROR_PERCENTAGE, Constants.PERCENT_EFFORT_FIELD);
                 errorFound=true;
             }
-            if(budgetPersonnelDetails.getPercentCharged().isLessThan(new BudgetDecimal(0)) 
-                    || budgetPersonnelDetails.getPercentCharged().isGreaterThan(new BudgetDecimal(100))){
+            if(budgetPersonnelDetails.getPercentCharged().isGreaterThan(new BudgetDecimal(100))){
                 GlobalVariables.getErrorMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex +"].budgetLineItems[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + k + "].percentCharged",KeyConstants.ERROR_PERCENTAGE, Constants.PERCENT_CHARGED_FIELD);
                 errorFound=true;
             }
@@ -270,13 +266,11 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
         BudgetPersonnelDetails budgetPersonnelDetails = selectedBudgetLineItem.getBudgetPersonnelDetailsList().get(getLineToDelete(request));
         boolean errorFound = false;
         GlobalVariables.getErrorMap().addToErrorPath("document");
-        if(budgetPersonnelDetails.getPercentEffort().isLessThan(new BudgetDecimal(0)) 
-                || budgetPersonnelDetails.getPercentEffort().isGreaterThan(new BudgetDecimal(100))){
+        if(budgetPersonnelDetails.getPercentEffort().isGreaterThan(new BudgetDecimal(100))){
             GlobalVariables.getErrorMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex   +"].budgetLineItems[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + getLineToDelete(request) + "].percentEffort",KeyConstants.ERROR_PERCENTAGE, Constants.PERCENT_EFFORT_FIELD);
             errorFound=true;
         }
-        if(budgetPersonnelDetails.getPercentCharged().isLessThan(new BudgetDecimal(0)) 
-                || budgetPersonnelDetails.getPercentCharged().isGreaterThan(new BudgetDecimal(100))){
+        if(budgetPersonnelDetails.getPercentCharged().isGreaterThan(new BudgetDecimal(100))){
             GlobalVariables.getErrorMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex +"].budgetLineItems[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + getLineToDelete(request) + "].percentCharged",KeyConstants.ERROR_PERCENTAGE, Constants.PERCENT_CHARGED_FIELD);
             errorFound=true;
         }
