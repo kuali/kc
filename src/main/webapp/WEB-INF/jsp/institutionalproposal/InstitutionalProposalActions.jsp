@@ -15,8 +15,6 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="readOnly" value="${KualiForm.editingMode['viewOnly']}" scope="request" />
-
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="institutionalProposalActions"
@@ -28,6 +26,8 @@
   	headerTabActive="actions">
   	
   	<div align="right"><kul:help documentTypeName="${KualiForm.documentTypeName}" pageName="Institutional Proposal Actions" /></div>
+
+<c:set var="readOnly" value="${KualiForm.editingMode['viewOnly']}" scope="request" />
 
 <kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="true"/>
 <kra-ip:institutionalProposalFundedAwards />

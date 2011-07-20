@@ -27,7 +27,12 @@
 	<div class="tab-container" align="right">
 	
         <c:if test="${!readOnly}">
-			<h3><span class="subhead-left">Add Funding Proposals</span></h3>
+			<h3>
+				<span class="subhead-left">Add Funding Proposals</span>
+	    		<span class="subhead-right">
+    				<kul:help parameterNamespace="KC-AWARD" parameterDetailType="Document" parameterName="awardAddFundingProposalsHelp" altText="help"/>
+				</span>
+			</h3>
 			<table id="fundingProposalAddTable" cellpadding="0" cellspacing="0" summary="Add Funding Proposal">
 				<tr>
 			    	<th align="center" scope="row">
@@ -64,7 +69,12 @@
 		  	</table>
         </c:if>
         
-		<h3><span class="subhead-left">Current Funding Proposals</span></h3>
+		<h3>
+			<span class="subhead-left">Current Funding Proposals</span>
+			<span class="subhead-right">
+    			<kul:help parameterNamespace="KC-AWARD" parameterDetailType="Document" parameterName="awardCurrentFundingProposalsHelp" altText="help"/>
+			</span>
+		</h3>		
 		
 		<table id="currentFundingProposalsTable" cellpadding="0" cellspacing="0" summary="Current Funding Proposals">
 			<tr>
