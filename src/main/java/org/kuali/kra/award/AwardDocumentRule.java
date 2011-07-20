@@ -847,15 +847,15 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         Date effEndDate = award.getAwardAmountInfos().get(lastIndex).getFinalExpirationDate();
         if (effStartDate != null && effEndDate != null && effStartDate.after(effEndDate))  {
             success = false;
-            errorMap.putError("awardAmountInfos["+lastIndex+"].finalExpirationDate", KeyConstants.ERROR_END_DATE_PRIOR_START_DATE,
-                    new String[] {"Project End Date", "Project Start Date"});
+            errorMap.putError("awardAmountInfos["+lastIndex+"].finalExpirationDate", KeyConstants.ERROR_START_DATE_ON_OR_BEFORE,
+                    new String[] {"Project Start Date", "Project End Date"});
         }
         Date oblStartDate = award.getAwardAmountInfos().get(lastIndex).getCurrentFundEffectiveDate(); 
         Date oblEndDate = award.getAwardAmountInfos().get(lastIndex).getObligationExpirationDate();
         if (oblStartDate != null && oblEndDate != null && oblStartDate.after(oblEndDate)) {
             success = false;
-            errorMap.putError("awardAmountInfos["+lastIndex+"].obligationExpirationDate", KeyConstants.ERROR_END_DATE_PRIOR_START_DATE,
-                    new String[] {"Obligation End Date", "Obligation Start Date"});
+            errorMap.putError("awardAmountInfos["+lastIndex+"].obligationExpirationDate", KeyConstants.ERROR_START_DATE_ON_OR_BEFORE,
+                    new String[] {"Obligation Start Date", "Obligation End Date"});
         }
         // make sure obligation dates are within effective dates
         if (oblStartDate != null && effStartDate != null && oblStartDate.before(effStartDate)) {
