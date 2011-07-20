@@ -289,10 +289,6 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
             BudgetDocument<Award> postedBudgetDocument = (AwardBudgetDocument)previousPostedBudget.getBudgetDocument();
             awardBudgetDocument =  (AwardBudgetDocument)copyBudgetVersion(postedBudgetDocument);
             copyObligatedAmountToLineItems(awardBudgetDocument,obligatedChangeAmount);
-//            saveBudgetDocument(awardBudgetDocument,false);
-//            awardBudgetDocument = (AwardBudgetDocument) documentService.getByDocumentHeaderId(awardBudgetDocument.getDocumentNumber());
-//            parentDocument.refreshReferenceObject("budgetDocumentVersions");
-
         }else{
             awardBudgetDocument = (AwardBudgetDocument) documentService.getNewDocument(AwardBudgetDocument.class);
         }
@@ -323,8 +319,13 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
 
         awardBudget.setRateClassTypesReloaded(true);
         setBudgetLimits(awardBudgetDocument, parentDocument);
-        if (awardBudget.getTotalCostLimit().equals(BudgetDecimal.ZERO) && isPostedBudgetExist(parentDocument)) {
-            rebudget = true;
+        if (isPostedBudgetExist(parentDocument) ) {
+            if(awardBudget.getTotalCostLimit().equals(BudgetDecimal.ZERO)){
+                rebudget = true;
+            }else{
+                Budget budget = awardBudgetDocument.getBudget();
+                budget.getBudgetPeriods().clear();
+            }
         }
         recalculateBudget(awardBudgetDocument.getBudget());
         saveBudgetDocument(awardBudgetDocument,rebudget);
