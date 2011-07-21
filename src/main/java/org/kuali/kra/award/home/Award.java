@@ -96,6 +96,10 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
 
     private static final String NO_FLAG = "N";
     private static final int TOTAL_STATIC_REPORTS = 4;
+    public static final String CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT = "1";
+    public static final String CLOSE_OUT_REPORT_TYPE_TECHNICAL = "4";
+    public static final String CLOSE_OUT_REPORT_TYPE_PATENT = "3";
+    public static final String CLOSE_OUT_REPORT_TYPE_PROPERTY = "2";
     private static final int MAX_NBR_AWD_HIERARCHY_TEMP_OBJECTS = 100;
     private static final String DEFAULT_GROUP_CODE_FOR_CENTRAL_ADMIN_CONTACTS = "C";
 
@@ -203,6 +207,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private List<AwardTransferringSponsor> awardTransferringSponsors;
     private List<AwardAmountInfo> awardAmountInfos;
     private List<AwardCloseout> awardCloseoutItems;
+    private List<AwardCloseout> awardCloseoutNewItems;
     private List<AwardNotepad> awardNotepads;
     private List<AwardAttachment> awardAttachments;
     private List<AwardSyncChange> syncChanges;
@@ -1948,7 +1953,25 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
 
     public void add(AwardCloseout awardCloseoutItem) {
-        awardCloseoutItems.add(TOTAL_STATIC_REPORTS, awardCloseoutItem);
+        awardCloseoutNewItems.clear();
+        if(awardCloseoutItems != null && awardCloseoutItems.size() > TOTAL_STATIC_REPORTS){
+            for(int i = TOTAL_STATIC_REPORTS ;i < awardCloseoutItems.size() ; i++){
+                awardCloseoutNewItems.add(awardCloseoutItems.get(i));
+            }
+        }
+        awardCloseoutItems.removeAll(awardCloseoutNewItems);
+        awardCloseoutNewItems.add(awardCloseoutItem);
+        Collections.sort(awardCloseoutNewItems, new Comparator(){
+            public int compare(Object o1, Object o2) {
+                if(o1 instanceof AwardCloseout && o2 instanceof AwardCloseout) {
+                    AwardCloseout awardCloseout1 = (AwardCloseout)o1;
+                    AwardCloseout awardCloseout2 = (AwardCloseout)o2;
+                   
+                    return awardCloseout1.getCloseoutReportName().compareTo(awardCloseout2.getCloseoutReportName());
+                }
+                return 0;
+              }});
+        awardCloseoutItems.addAll(TOTAL_STATIC_REPORTS, awardCloseoutNewItems);
         awardCloseoutItem.setAward(this);
     }
 
@@ -2028,6 +2051,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         awardDirectFandADistributions = new ArrayList<AwardDirectFandADistribution>();
         awardCustomDataList = new ArrayList<AwardCustomData>();
         awardCloseoutItems = new ArrayList<AwardCloseout>();
+        awardCloseoutNewItems = new ArrayList<AwardCloseout>();
         awardNotepads = new ArrayList<AwardNotepad>();
         initializeAwardAmountInfoObjects();
         projectPersons = new ArrayList<AwardPerson>();
@@ -2686,9 +2710,42 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      * @param awardCloseoutItems The awardCloseoutItems to set.
      */
     public void setAwardCloseoutItems(List<AwardCloseout> awardCloseoutItems) {
+        if(awardCloseoutItems != null && awardCloseoutItems.size() > TOTAL_STATIC_REPORTS){
+            awardCloseoutNewItems.clear();
+            for(int i = TOTAL_STATIC_REPORTS ;i < awardCloseoutItems.size() ; i++){
+                awardCloseoutNewItems.add(awardCloseoutItems.get(i));
+            }
+            awardCloseoutItems.removeAll(awardCloseoutNewItems);
+            Collections.sort(awardCloseoutNewItems, new Comparator(){
+              public int compare(Object o1, Object o2) {
+                  if(o1 instanceof AwardCloseout && o2 instanceof AwardCloseout) {
+                      AwardCloseout awardCloseout1 = (AwardCloseout)o1;
+                      AwardCloseout awardCloseout2 = (AwardCloseout)o2;
+                     
+                      return awardCloseout1.getCloseoutReportName().compareTo(awardCloseout2.getCloseoutReportName());
+                  }
+                  return 0;
+                }});
+            awardCloseoutItems.addAll(TOTAL_STATIC_REPORTS, awardCloseoutNewItems);
+        }
         this.awardCloseoutItems = awardCloseoutItems;
     }
 
+    /**
+     * Gets the awardCloseoutNewItems attribute. 
+     * @return Returns the awardCloseoutNewItems.
+     */
+    public List<AwardCloseout> getAwardCloseoutNewItems() {
+        return awardCloseoutNewItems;
+    }
+
+    /**
+     * Sets the awardCloseoutNewItems attribute value.
+     * @param awardCloseoutNewItems The awardCloseoutNewItems to set.
+     */
+    public void setAwardCloseoutNewItems(List<AwardCloseout> awardCloseoutNewItems) {
+        this.awardCloseoutNewItems = awardCloseoutNewItems;
+    }
 
     /**
      * Sets the templateCode attribute value.
@@ -3290,5 +3347,32 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
             }
         }
     }
-
+    public void orderStaticCloseOutReportItems(List<AwardCloseout> awardCloseoutItems) {
+        if(awardCloseoutItems != null && awardCloseoutItems.size() == TOTAL_STATIC_REPORTS){
+            awardCloseoutNewItems.clear();
+            List<AwardCloseout> staticCloseoutItems = new ArrayList<AwardCloseout>();
+            for(int i = 0; i < TOTAL_STATIC_REPORTS ; i++){
+                staticCloseoutItems.add(awardCloseoutItems.get(i));
+                awardCloseoutNewItems.add(awardCloseoutItems.get(i));
+            }
+            awardCloseoutItems.removeAll(staticCloseoutItems);
+            
+            for(AwardCloseout awardCloseout : staticCloseoutItems){
+                if(awardCloseout.getCloseoutReportCode() != null && awardCloseout.getCloseoutReportCode().equalsIgnoreCase(CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT)){
+                    awardCloseoutNewItems.remove(awardCloseout);
+                    awardCloseoutNewItems.add(0,awardCloseout);
+                }else if(awardCloseout.getCloseoutReportCode() != null && awardCloseout.getCloseoutReportCode().equalsIgnoreCase(CLOSE_OUT_REPORT_TYPE_TECHNICAL)){
+                    awardCloseoutNewItems.remove(awardCloseout);
+                    awardCloseoutNewItems.add(1,awardCloseout);
+                }else if(awardCloseout.getCloseoutReportCode() != null && awardCloseout.getCloseoutReportCode().equalsIgnoreCase(CLOSE_OUT_REPORT_TYPE_PATENT)){
+                    awardCloseoutNewItems.remove(awardCloseout);
+                    awardCloseoutNewItems.add(2,awardCloseout);
+                }else if(awardCloseout.getCloseoutReportCode() != null && awardCloseout.getCloseoutReportCode().equalsIgnoreCase(CLOSE_OUT_REPORT_TYPE_PROPERTY)){
+                    awardCloseoutNewItems.remove(awardCloseout);
+                    awardCloseoutNewItems.add(3,awardCloseout);
+                }
+            }
+            awardCloseoutItems.addAll(0,awardCloseoutNewItems);
+        }
+    }
 }
