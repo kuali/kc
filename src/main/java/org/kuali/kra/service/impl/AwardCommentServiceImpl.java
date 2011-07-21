@@ -56,7 +56,7 @@ public class AwardCommentServiceImpl implements AwardCommentService {
     @SuppressWarnings("unchecked")
     /**
      * This method retrieves a list of award comment type codes that indicate whether or not to display the Show History
-     * button on the panel.  
+     * button on the panel.   
      * @return
      */
     public List<String> retrieveCommentHistoryFlags(String awardNumber) {
@@ -64,13 +64,45 @@ public class AwardCommentServiceImpl implements AwardCommentService {
         Map<String, String> queryMap = new HashMap<String, String>();
         queryMap.put("awardNumber", awardNumber);
         List<AwardComment> rawList = (List<AwardComment>) getBusinessObjectService().findMatching(AwardComment.class, queryMap);
-        List<String> typeList = new ArrayList<String>();
+        // create map to hold AwardComment objects (sorted into lists of each comment type)
+        Map<String, List<AwardComment>>rawMap = new HashMap<String,List<AwardComment>>();
+        String tempCode = null;
         for (AwardComment awardComment: rawList) {
-            if (!typeList.contains(awardComment.getCommentTypeCode()) && awardComment.isEntered()) {
-                typeList.add(awardComment.getCommentTypeCode());
+            tempCode = awardComment.getCommentTypeCode();
+            List<AwardComment> commentList = (List<AwardComment>)rawMap.get(tempCode);
+            if (commentList == null) {
+                commentList = new ArrayList<AwardComment>();
+                rawMap.put(tempCode, commentList);
+            }
+            if ((commentList.size() == 0) || (!awardComment.sameText(commentList.get(commentList.size()-1)))) {
+                commentList.add(awardComment);
             }
         }
-        return typeList;
+
+        List<String> resultList = new ArrayList<String>();
+        for (java.util.Iterator<String> commentIter=rawMap.keySet().iterator(); commentIter.hasNext(); ) {
+            tempCode = commentIter.next();                
+            List<AwardComment> awardCommentList = rawMap.get(tempCode);
+            String lastComment = null;
+            for (AwardComment awardComment: awardCommentList) {
+                String tempComment = awardComment.getComments();
+                if (awardComment.isEntered()) {
+                    if (lastComment == null) {
+                        lastComment = awardComment.getComments();
+                    } else if (!lastComment.equals(tempComment) && !resultList.contains(tempComment)) {
+                        // add to list because comment has changed
+                        resultList.add(tempCode);
+                        break;
+                    }
+                } else if ((lastComment != null) && !resultList.contains(tempComment)) {
+                    // add to list because comment has been erased
+                    resultList.add(tempCode);
+                    break;
+                }
+                lastComment = (awardComment.isEntered() ? tempComment : null);
+            } 
+        }
+        return resultList;
     }
     
     @SuppressWarnings("unchecked")
