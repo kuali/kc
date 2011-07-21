@@ -126,6 +126,19 @@ public class AwardComment extends AwardAssociate implements Comparable<AwardComm
         return true;
     }
 
+    public boolean sameText(AwardComment compare) {
+        if (this.getComments() == compare.getComments()) {
+            return true;
+        }
+        if (!this.isEntered() && !compare.isEntered()) {
+            return true;
+        }
+        if (!this.isEntered() || !compare.isEntered()) {
+            return false;
+        }
+        return comments.equals(compare.getComments());
+    }
+    
     /**
      * Gets the commentTypeCode attribute. 
      * @return Returns the commentTypeCode.
