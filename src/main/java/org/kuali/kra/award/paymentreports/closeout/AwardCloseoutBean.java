@@ -70,6 +70,7 @@ public class AwardCloseoutBean implements Serializable {
         setCloseoutReportTypeTechnical(getParameterService().getParameterValue(AwardDocument.class, KeyConstants.CLOSE_OUT_REPORT_TYPE_TECHNICAL));
         setCloseoutReportTypePatent(getParameterService().getParameterValue(AwardDocument.class, KeyConstants.CLOSE_OUT_REPORT_TYPE_PATENT));
         setCloseoutReportTypeProperty(getParameterService().getParameterValue(AwardDocument.class, KeyConstants.CLOSE_OUT_REPORT_TYPE_PROPERTY));
+        getAward().setAwardCloseoutItems(getAward().getAwardCloseoutItems());
     }
     
     /**
@@ -115,6 +116,7 @@ public class AwardCloseoutBean implements Serializable {
             getAward().addStaticCloseout(awardCloseout);
             awardCloseout = new AwardCloseout();
         }
+        getAward().orderStaticCloseOutReportItems(getAward().getAwardCloseoutItems());
     }
     
     /*
