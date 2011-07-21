@@ -75,11 +75,9 @@ public class AwardFandaRateRule  extends ResearchDocumentRuleBase implements Add
         if (awardFandaRate.getApplicableFandaRate() == null || 
                 StringUtils.isBlank(awardFandaRate.getApplicableFandaRate().toString())) {
             brokenRule =  KeyConstants.ERROR_REQUIRED_APPLICABLE_INDIRECT_COST_RATE;
-        }
-        if (awardFandaRate.getApplicableFandaRate().isLessThan(KualiDecimal.ZERO)) {
+        } else if (awardFandaRate.getApplicableFandaRate().isLessThan(KualiDecimal.ZERO)) {
             brokenRule = KeyConstants.ERROR_APPLICABLE_INDIRECT_COST_RATE_CAN_NOT_BE_NEGATIVE;
-        }
-        if (awardFandaRate.getApplicableFandaRate().isGreaterEqual(KualiDecimal_THOUSAND)) {
+        } else if (awardFandaRate.getApplicableFandaRate().isGreaterEqual(KualiDecimal_THOUSAND)) {
             brokenRule = KeyConstants.ERROR_APPLICABLE_INDIRECT_COST_RATE_OUT_OF_RANGE;
         }
             
