@@ -109,6 +109,8 @@ public class Budget extends BudgetVersionOverview {
     private String activityTypeCode="x";
     private boolean budgetLineItemDeleted;
     private boolean rateClassTypesReloaded = false ;
+    private String budgetAdjustmentDocumentNumber;
+   
 
     private List<BudgetPersonnelDetails> budgetPersonnelDetailsList;
     private List<BudgetPerson> budgetPersons;
@@ -214,6 +216,14 @@ public class Budget extends BudgetVersionOverview {
         }
         
         return false;
+    }
+    
+    public String getBudgetAdjustmentDocumentNumber() {
+        return budgetAdjustmentDocumentNumber;
+    }
+
+    public void setBudgetAdjustmentDocumentNumber(String budgetAdjustmentDocumentNumber) {
+        this.budgetAdjustmentDocumentNumber = budgetAdjustmentDocumentNumber;
     }
     
     /**

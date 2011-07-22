@@ -512,6 +512,17 @@
  		scope="prototype" parent="lookupableHelperService"> 
  		<property name="awardBudgetService" ref="awardBudgetService"/>
   	</bean>		
+  	
+  	<!-- Budget adjustment client -->
+  	<bean id="budgetAdjustmentClient" class= "org.kuali.kra.external.budget.BudgetAdjustmentClientFactoryBean">
+  			  <property name="sharedRice" value="${shared.rice}" />
+              <property name="documentService" ref="documentService" />
+              <property name="parameterService" ref="parameterService" />
+              <property name="businessObjectService" ref="businessObjectService" />
+              <property name="budgetCalculationService" ref= "budgetCalculationService" />
+              <property name="institutionalUnitService" ref="institutionalUnitService" />
+    </bean>
+  	
     <bean id="budgetCategoryService"
 		class="org.kuali.kra.external.budget.service.impl.BudgetCategoryServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
