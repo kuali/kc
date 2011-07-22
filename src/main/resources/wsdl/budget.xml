@@ -2,7 +2,7 @@
     <jaxws:package name="org.kuali.kfs.integration.cg.budgetService"/>
     <jaxws:bindings node="wsdl:definitions/wsdl:types/xsd:schema">
         <jaxb:schemaBindings>
-            <jaxb:package name="org.kuali.kfs.integration.cg.dto.budget"/>
+            <jaxb:package name="org.kuali.kfs.integration.cg.budgetDto"/>
         </jaxb:schemaBindings>
     </jaxws:bindings>
     <jaxb:bindings node="wsdl:definitions/wsdl:service">
