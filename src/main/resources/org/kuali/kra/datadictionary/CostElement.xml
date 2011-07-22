@@ -23,6 +23,7 @@
         <ref bean="CostElement-description" />
         <ref bean="CostElement-onOffCampusFlag" />
         <ref bean="CostElement-budgetCategoryTypeCode" />
+        <ref bean="CostElement-financialObjectCode" />
         <ref bean="CostElement-versionNumber" />
         <ref bean="CostElement-activeFlag"/>
       </list>
@@ -90,6 +91,25 @@
     <property name="description" value="Budget Category Code" />
   </bean>
 
+  <bean id="CostElement-financialObjectCode" parent="CostElement-financialObjectCode-parentBean" />
+
+  <bean id="CostElement-financialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialObjectCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Financial Object Code" />
+    <property name="shortLabel" value="Financial Object Code" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Financial Object Code" />
+    <property name="description" value="Financial Object Code" />
+  </bean>
+  
   <bean id="CostElement-budgetCategory.description" parent="CostElement-budgetCategory.description-parentBean" />
   <bean id="CostElement-budgetCategory.description-parentBean" abstract="true" parent="BudgetCategory-description">
     <property name="name" value="budgetCategory.description" />
@@ -180,6 +200,8 @@
                     p:attributeName="onOffCampusFlag" />
               <bean parent="FieldDefinition"
                     p:attributeName="activeFlag" />
+              <bean parent="FieldDefinition"
+              		p:attributeName="financialObjectCode" />
             </list>
           </property>
         </bean>
@@ -214,6 +236,8 @@
               p:attributeName="budgetCategoryTypeCode" />
         <bean parent="FieldDefinition"
               p:attributeName="activeFlag" />
+        <bean parent="FieldDefinition"
+        	  p:attributeName="financialObjectCode" />
       </list>
     </property>
     <property name="resultFields" >
@@ -229,6 +253,8 @@
               p:attributeName="onOffCampusFlag" />
         <bean parent="FieldDefinition"
               p:attributeName="activeFlag" />
+        <bean parent="FieldDefinition"
+        	  p:attributeName="financialObjectCode" />
       </list>
     </property>
   </bean>

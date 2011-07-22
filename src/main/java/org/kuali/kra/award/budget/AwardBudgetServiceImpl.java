@@ -316,7 +316,9 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         awardBudget.setUrRateClassCode(this.parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_DEFAULT_UNDERRECOVERY_RATE_CODE));
         awardBudget.setModularBudgetFlag(this.parameterService.getIndicatorParameter(BudgetDocument.class, Constants.BUDGET_DEFAULT_MODULAR_FLAG));
         awardBudget.setBudgetStatus(this.parameterService.getParameterValue(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_STATUS_IN_PROGRESS));
-
+        // do not want the Budget adjustment doc number to be copied over to the new budget.
+        // this should be null so the budget can be posted again to the financial system.
+        awardBudget.setBudgetAdjustmentDocumentNumber("");
         awardBudget.setRateClassTypesReloaded(true);
         setBudgetLimits(awardBudgetDocument, parentDocument);
         if (isPostedBudgetExist(parentDocument) ) {

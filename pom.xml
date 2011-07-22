@@ -110,6 +110,34 @@
 							<goal>wsdl2java</goal>
 						</goals>
 					</execution>
+					<execution>
+						<id>budget-adjustment-service</id>
+						<phase>generate-sources</phase>
+						<inherited>false</inherited>
+						<configuration>
+							<!-- maven 3 conventions - works with current m2Eclipse -->
+							<sourceRoot>${project.build.directory}/generated/cxf/main/java</sourceRoot>
+							<disableDirectoryScan>true</disableDirectoryScan>
+							<wsdlOptions>
+								<wsdlOption>
+								    <noAddressBinding>true</noAddressBinding>
+									<wsdl>${gg.wsdl.location}/BudgetAdjustmentService.wsdl</wsdl>
+									<bindingFiles>
+                          				<bindingFile>${basedir}/src/main/resources/wsdl/budget_jaxb.xml</bindingFile>
+                        			</bindingFiles>
+									<extraargs>
+								    	<extraarg>-verbose</extraarg>
+								    	<extraarg>-validate</extraarg>
+								    	<extraarg>-wsdlLocation</extraarg>
+								    	<extraarg>${budget.wsdl.packaged.location}</extraarg>
+								    </extraargs>
+								</wsdlOption>
+							</wsdlOptions>
+						</configuration>
+						<goals>
+							<goal>wsdl2java</goal>
+						</goals>
+					</execution>
 				</executions>
 				<dependencies>
                     <dependency>
@@ -1568,5 +1596,7 @@
     	<gg.wsdl.location>${basedir}/src/main/resources/wsdl</gg.wsdl.location>
     	<gg.schema.dir>${basedir}/src/main/resources/wsdl/schema</gg.schema.dir>
     	<account.wsdl.packaged.location>wsdl/AccountCreationService.wsdl</account.wsdl.packaged.location>  
+    	<budget.wsdl.packaged.location>wsdl/BudgetAdjustmentService.wsdl</budget.wsdl.packaged.location>  
+    	
 	</properties>
 </project>
