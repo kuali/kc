@@ -31,8 +31,17 @@ public class CostElement extends KraPersistableBusinessObjectBase implements Com
     private Boolean activeFlag;
 	private List<ValidCeRateType> validCeRateTypes;
 	private BudgetCategory budgetCategory;
+	private String financialObjectCode;
 	
-	public CostElement(){
+	public String getFinancialObjectCode() {
+        return financialObjectCode;
+    }
+	
+    public void setFinancialObjectCode(String financialObjectCode) {
+        this.financialObjectCode = financialObjectCode;
+    }
+    
+    public CostElement(){
 	    validCeRateTypes = new ArrayList<ValidCeRateType>();
 	}
 	public String getCostElement() {
@@ -81,6 +90,7 @@ public class CostElement extends KraPersistableBusinessObjectBase implements Com
 		LinkedHashMap hashMap = new LinkedHashMap();
 		hashMap.put("costElement", getCostElement());
 		hashMap.put("budgetCategoryCode", getBudgetCategoryCode());
+		hashMap.put("financialObjectCode", getFinancialObjectCode());
 		hashMap.put("description", getDescription());
 		hashMap.put("onOffCampusFlag", getOnOffCampusFlag());
         hashMap.put("activeFlag", getActiveFlag());
