@@ -59,10 +59,6 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
     private int columnNumber = 0;
 
     public void addMultipleValueLookupResults(MaintenanceDocument document, String collectionName, Collection<PersistableBusinessObject> rawValues, boolean needsBlank, PersistableBusinessObject bo) {
-        Collection maintCollection = (Collection) ObjectUtils.getPropertyValue(bo, collectionName);
-        String docTypeName = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
-        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        
         
         if( StringUtils.equals( collectionName, "templateTerms") ) {
             for (PersistableBusinessObject nextBo : rawValues) {
@@ -71,7 +67,6 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
             }
         }
         super.addMultipleValueLookupResults(document, collectionName, rawValues, needsBlank, bo);
-        
     }
     
     /**
@@ -97,7 +92,6 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
     @Override
     public void addNewLineToCollection(String collectionName) {
         if (collectionName.equals("templateReportTerms")) {
-            ErrorReporter errorReporter = new ErrorReporter();
             AwardTemplateReportTerm awardTemplateReportTerm = (AwardTemplateReportTerm) newCollectionLines.get(collectionName);
             if (awardTemplateReportTerm != null) {
                 if (isValid(awardTemplateReportTerm)) {
@@ -267,4 +261,9 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
         return result;
     }
    
+    @Override
+    public void processAfterCopy(MaintenanceDocument document, Map<String,String[]> parameters) {
+        AwardTemplate template = (AwardTemplate) document.getDocumentBusinessObject();
+        template.processAfterCopy();
+    }
 }
