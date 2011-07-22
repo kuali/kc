@@ -6,7 +6,7 @@
 
     <jaxws:bindings node="wsdl:definitions/wsdl:types/xs:schema[@targetNamespace='KFS']">
         <jaxb:schemaBindings>
-            <jaxb:package name="org.kuali.kfs.integration.cg.dto.budget"/>
+            <jaxb:package name="org.kuali.kfs.integration.cg.budgetDto"/>
         </jaxb:schemaBindings>
     </jaxws:bindings>
 </jaxws:bindings>
