@@ -341,7 +341,21 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase{
         managedLists.add(rcpts);
         return managedLists;
     }
-  
-    
+
+    public void processAfterCopy() {
+        this.setTemplateCode(null);
+        for (AwardTemplateReportTerm tempReportTerm : getTemplateReportTerms()) {
+            tempReportTerm.setTemplateReportTermId(null);
+        }
+        for (AwardTemplateComment tempComment : getTemplateComments()) {
+            tempComment.setTemplateCommentsId(null);
+        }
+        for (AwardTemplateContact tempContact : getTemplateContacts()) {
+            tempContact.setTemplateContactId(null);
+        }
+        for (AwardTemplateTerm tempTerm : getTemplateTerms()) {;
+            tempTerm.setAwardTemplateTermId(null);
+        }
+    }
     
 }
