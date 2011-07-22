@@ -42,6 +42,8 @@ import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.BudgetException;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.external.budget.BudgetAdjustmentClient;
+
 import org.kuali.kra.budget.nonpersonnel.BudgetJustificationService;
 import org.kuali.kra.budget.nonpersonnel.BudgetJustificationServiceImpl;
 import org.kuali.kra.budget.nonpersonnel.BudgetJustificationWrapper;
@@ -63,6 +65,7 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
@@ -77,7 +80,8 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
     private static final String UPDATE_COST_LIMITS_QUESTION = "UpdateCostLimitsQuestion";
     private BudgetJustificationService budgetJustificationService;
     private static final Log LOG = LogFactory.getLog(BudgetActionsAction.class);
-    
+    private BudgetAdjustmentClient budgetAdjustmentClient = null;
+
     
 
     /**
@@ -504,30 +508,72 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
     }
 
     /**
+     * If the financial system integration param is ON, then this method calls 
+     * the budgetAdjustmentClient to create a Budget adjustment document on the financial system.
      * route the document using the document service
-     *
      * @param mapping
      * @param form
      * @param request
      * @param response
-     * @return ActionForward
+     * @return
      * @throws Exception
      */
     public ActionForward postAwardBudget(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AwardBudgetDocument awardBudgetDocument = ((AwardBudgetForm)form).getAwardBudgetDocument();
-        boolean success = isValidForPost(awardBudgetDocument);
-        getAwardBudgetService().post(awardBudgetDocument);   
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        AwardBudgetDocument awardBudgetDocument = ((AwardBudgetForm) form).getAwardBudgetDocument();
+   
+        if (isFinancialIntegrationOn(awardBudgetDocument)) {
+            if (isValidForPostingToFinancialSystem(awardBudgetDocument)) {
+                BudgetAdjustmentClient client = getBudgetAdjustmentClient();
+                client.setAwardBudgetDocument(awardBudgetDocument);
+                client.createBudgetAdjustmentDocument();
+                if (!isValidForPostingToFinancialSystem(awardBudgetDocument)) {
+                    getAwardBudgetService().post(awardBudgetDocument);
+                    String docNumber = awardBudgetDocument.getBudget().getBudgetAdjustmentDocumentNumber();
+                    GlobalVariables.getMessageList().add(KeyConstants.BUDGET_POSTED, docNumber);
+                }
+            }
+        } else {
+            getAwardBudgetService().post(awardBudgetDocument);   
+        }
+
+        return mapping.findForward(Constants.BUDGET_ACTIONS_PAGE);
     }
 
+    private BudgetAdjustmentClient getBudgetAdjustmentClient() {
+        if (budgetAdjustmentClient == null) {
+            budgetAdjustmentClient = KraServiceLocator.getService("budgetAdjustmentClient");
+        }
+        return budgetAdjustmentClient;
+    }
+
+    /**
+     * This method checks if the budget adjustment document has alredy been created and if the integration parameters is on.
+     * @param awardBudgetDocument
+     * @return
+     */
+    protected boolean isValidForPostingToFinancialSystem(AwardBudgetDocument awardBudgetDocument) {
+        //check if budget adjustment doc nbr has been created here, if so do not post
+        String budgetAdjustmentDocumentNumber = awardBudgetDocument.getBudget().getBudgetAdjustmentDocumentNumber();
+        if (ObjectUtils.isNull(budgetAdjustmentDocumentNumber)) {
+           return true;
+        }
+        
+        return false;
+    }
+    
+    protected boolean isFinancialIntegrationOn(AwardBudgetDocument awardBudgetDocument) {
+        String parameterValue = getParameterService().getParameterValue(Constants.MODULE_NAMESPACE_AWARD, 
+                Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.FIN_SYSTEM_INTEGRATION_ON_OFF_PARAMETER);
+        if (StringUtils.containsIgnoreCase(parameterValue, Constants.FIN_SYSTEM_INTEGRATION_ON)) {
+            return true;
+        }
+        return false;
+    }
+    
     public ActionForward toggleAwardBudgetStatus(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardBudgetDocument awardBudgetDocument = ((AwardBudgetForm)form).getAwardBudgetDocument();
         getAwardBudgetService().toggleStatus(awardBudgetDocument);   
         return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-
-    private boolean isValidForPost(AwardBudgetDocument awardBudgetDocument) {
-        return false;
     }
     
     /** {@inheritDoc} */
