@@ -29,12 +29,22 @@ public class FinancialObjectCodeMapping extends KraPersistableBusinessObjectBase
     private String unitNumber;
     private String financialObjectCode;
     private String activityTypeCode;
-    
+    private Long mappingId;
+
     private ActivityType activityType;
     private RateClass rateClass;
     private RateType rateType;
     private Unit unit;
    
+    
+    public Long getMappingId() {
+        return mappingId;
+    }
+
+    public void setMappingId(Long mappingId) {
+        this.mappingId = mappingId;
+    }
+
     public String getActivityTypeCode() {
         return activityTypeCode;
     }
