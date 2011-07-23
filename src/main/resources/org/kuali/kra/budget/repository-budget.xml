@@ -694,11 +694,12 @@
 	</class-descriptor>
 	<!-- Mapping table for the  -->
 	<class-descriptor class="org.kuali.kra.external.budget.FinancialObjectCodeMapping" table="FIN_OBJECT_CODE_MAPPING">
+		<field-descriptor name="mappingId" column="MAPPING_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_FIN_OBJECT_CODE_MAPPING_ID"/>
 		<field-descriptor name="activityTypeCode" column="ACTIVITY_TYPE_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="financialObjectCode" column="FIN_OBJECT_CODE" jdbc-type="VARCHAR"/>
-		<field-descriptor name="rateClassCode" column="RATE_CLASS_CODE" jdbc-type="VARCHAR" primarykey="true"/>
-		<field-descriptor name="rateTypeCode" column="RATE_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
-		<field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="rateClassCode" column="RATE_CLASS_CODE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="rateTypeCode" column="RATE_TYPE_CODE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<reference-descriptor name="rateType" class-ref="org.kuali.kra.budget.rates.RateType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="rateClassCode"/> 
