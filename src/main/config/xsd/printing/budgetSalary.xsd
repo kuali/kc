@@ -17,6 +17,7 @@
 				<xs:element name="Title" type="xs:string" minOccurs="0"/>
 				<xs:element name="PIName" type="xs:string" minOccurs="0"/>
 				<xs:element name="HeaderTitle" type="xs:string" minOccurs="0"/>
+				<xs:element name="Comments" type="xs:string" minOccurs="0"/>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
