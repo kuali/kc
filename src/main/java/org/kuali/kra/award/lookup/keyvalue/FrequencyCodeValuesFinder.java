@@ -17,12 +17,15 @@ package org.kuali.kra.award.lookup.keyvalue;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.paymentreports.ValidClassReportFrequency;
+import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
@@ -160,6 +163,32 @@ public class FrequencyCodeValuesFinder extends KeyValuesBase {
         return uniqueRelevantFrequencyCodes;
     }
     
+    class FrequenceComparator implements Comparator
+    {    
+        public int compare(Object kv1, Object kv2 )
+        {    
+            try
+            {
+                String desc1 = ((KeyLabelPair)kv1).getLabel();
+                String desc2 = ((KeyLabelPair)kv2).getLabel();
+                if (desc1 == null)
+                {
+                    desc1 = "";
+                }
+                if (desc2 == null)
+                {
+                    desc2 = "";
+                }
+                return desc1.compareTo(desc2);  
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }
+        }
+        
+    }
+    
     /**
      * 
      * This method browses through set and creates the keylabelpair list from it.
@@ -172,7 +201,6 @@ public class FrequencyCodeValuesFinder extends KeyValuesBase {
         
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         ValidClassReportFrequency validClassReportFrequency = new ValidClassReportFrequency();
-        keyValues.add(new KeyLabelPair("","select"));
         for(String frequencyCode: uniqueValidClassReportFrequencies){
             if(frequencyCode!=null){
                 validClassReportFrequency.setFrequencyCode(frequencyCode);
@@ -181,6 +209,8 @@ public class FrequencyCodeValuesFinder extends KeyValuesBase {
                         , validClassReportFrequency.getFrequency().getDescription()));    
             }
         }
+        Collections.sort(keyValues, new FrequenceComparator());
+        keyValues.add(0, new KeyLabelPair("","select"));
         GlobalVariables.getUserSession().addObject("awfreqr"+getReportClassCode()+"c"+getReportCode(), keyValues);
         return keyValues;
     }

@@ -17,6 +17,8 @@ package org.kuali.kra.award.lookup.keyvalue;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -134,6 +136,33 @@ public class FrequencyBaseCodeValuesFinder extends KeyValuesBase {
         return uniqueRelevantFrequencyBaseCodes;
     }
     
+    class FrequenceBaseComparator implements Comparator
+    {    
+        public int compare(Object kv1, Object kv2 )
+        {    
+            try
+            {
+                String desc1 = ((KeyLabelPair)kv1).getLabel();
+                String desc2 = ((KeyLabelPair)kv2).getLabel();
+                if (desc1 == null)
+                {
+                    desc1 = "";
+                }
+                if (desc2 == null)
+                {
+                    desc2 = "";
+                }
+                return desc1.compareTo(desc2);  
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }
+        }
+        
+    }
+    
+    
     /**
      * 
      * This method browses through set and creates the keylabelpair list from it.
@@ -146,13 +175,14 @@ public class FrequencyBaseCodeValuesFinder extends KeyValuesBase {
         
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         ValidFrequencyBase validFrequencyBase = new ValidFrequencyBase();
-        keyValues.add(new KeyLabelPair("","select"));
         for(String frequencyBaseCode: uniqueValidFrequencyBases){
             validFrequencyBase.setFrequencyBaseCode(frequencyBaseCode);
             validFrequencyBase.refreshReferenceObject("frequencyBase");            
             keyValues.add(new KeyLabelPair(validFrequencyBase.getFrequencyBaseCode()
                     , validFrequencyBase.getFrequencyBase().getDescription()));
         }
+        Collections.sort(keyValues, new FrequenceBaseComparator());
+        keyValues.add(0, new KeyLabelPair("","select"));
         GlobalVariables.getUserSession().addObject("awfreqbase"+getFrequencyCode(), keyValues);
         
         return keyValues;
