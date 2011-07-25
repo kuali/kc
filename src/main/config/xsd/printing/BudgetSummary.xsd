@@ -45,6 +45,7 @@
 			<xsd:element name="PeriodEndDate" type="xsd:string"/>
 			<xsd:element name="Period" type="xsd:int" minOccurs="0"/>
 			<xsd:element name="CreateDate" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Comments" type="xsd:string" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="GroupsType">
