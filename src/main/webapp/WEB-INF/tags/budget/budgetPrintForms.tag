@@ -48,7 +48,7 @@
 		                <td align="center" valign="middle">
 		                	<div align="center">
 		                	<c:choose>
-		                		<c:when test="${status.index < 6}">   							
+		                		<c:when test="${status.index < 8}">   							
 									<html:radio property="selectedBudgetPrintFormId" value="${KualiForm.document.budget.budgetPrintForms[status.index].budgetReportId}"/>
 		                		</c:when>
 		                		<c:otherwise>
@@ -61,7 +61,7 @@
 		                <td align="center" valign="middle" width="300">
 		                	<div align="center">
 		                	<c:choose>
-		                		<c:when test="${status.index < 6}">   		
+		                		<c:when test="${status.index < 8}">   		
 		                		<html:radio  property="selectedToPrintComment"  value="${KualiForm.document.budget.budgetPrintForms[status.index].budgetReportId}" />
 		                		</c:when>
 		                		<c:otherwise>
