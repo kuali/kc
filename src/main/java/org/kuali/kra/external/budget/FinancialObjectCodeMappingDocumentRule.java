@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.external.budget;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,6 +33,9 @@ import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.MessageMap;
 
 public class FinancialObjectCodeMappingDocumentRule extends KraMaintenanceDocumentRuleBase {
+    
+    private BusinessObjectService businessObjectService;
+
     /**
      * 
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
@@ -69,13 +73,13 @@ public class FinancialObjectCodeMappingDocumentRule extends KraMaintenanceDocume
         if (!document.getNewMaintainableObject().getMaintenanceAction().equals(KNSConstants.MAINTENANCE_DELETE_ACTION)) {
             if (document.getNewMaintainableObject().getMaintenanceAction().equals(KNSConstants.MAINTENANCE_EDIT_ACTION)) {
                 final FinancialObjectCodeMapping oldDocument = (FinancialObjectCodeMapping) document.getOldMaintainableObject().getBusinessObject();
-                if (!oldDocument.getUnitNumber().equals(mapping.getUnitNumber())){
+                if (!oldDocument.getUnitNumber().equals(mapping.getUnitNumber())) {
 
-                    result &= validateUniqueEntry(mapping.getActivityTypeCode(), mapping.getRateClassCode(), mapping.getRateTypeCode(), mapping.getUnitNumber());
+                    result &= validateUniqueEntry(mapping);
                     result &= checkExistence(mapping);
                 }
             } else {
-                result &= validateUniqueEntry(mapping.getActivityTypeCode(), mapping.getRateClassCode(), mapping.getRateTypeCode(), mapping.getUnitNumber());
+                result &= validateUniqueEntry(mapping);
                 result &= checkExistence(mapping);
             }
         }   else {
@@ -88,12 +92,11 @@ public class FinancialObjectCodeMappingDocumentRule extends KraMaintenanceDocume
     private boolean checkExistence(FinancialObjectCodeMapping newMapping) {
 
         boolean valid = true;
-
         if (StringUtils.isNotBlank(newMapping.getRateClassCode()) && StringUtils.isNotBlank(newMapping.getRateTypeCode())) {
             Map<String, String> pkMap = new HashMap<String, String>();
             pkMap.put("rateClassCode", newMapping.getRateClassCode());
             pkMap.put("rateTypeCode", newMapping.getRateTypeCode());
-            RateType rateType = (RateType)KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(RateType.class, pkMap);
+            RateType rateType = (RateType) getBusinessObjectService().findByPrimaryKey(RateType.class, pkMap);
             if (rateType == null) {
                 GlobalVariables.getErrorMap().putError("document.newMaintainableObject.rateTypeCode", KeyConstants.ERROR_RATE_TYPE_NOT_EXIST,
                         new String[] {newMapping.getRateClassCode(), newMapping.getRateTypeCode() });
@@ -106,40 +109,56 @@ public class FinancialObjectCodeMappingDocumentRule extends KraMaintenanceDocume
         pkMap.put("unitNumber", newMapping.getUnitNumber());
         valid &= checkExistenceFromTable(Unit.class,pkMap,"unitNumber", "Unit Number");
         
-        if (StringUtils.isNotEmpty(((FinancialObjectCodeMapping)newMapping).getActivityTypeCode())) {
+        if (StringUtils.isNotEmpty(((FinancialObjectCodeMapping) newMapping).getActivityTypeCode())) {
             if (newMapping instanceof FinancialObjectCodeMapping) {
                 Map<String, String> pkMap1 = new HashMap<String, String>();
-                pkMap1.put("activityTypeCode", ((FinancialObjectCodeMapping)newMapping).getActivityTypeCode());
+                pkMap1.put("activityTypeCode", ((FinancialObjectCodeMapping) newMapping).getActivityTypeCode());
                 valid &= checkExistenceFromTable(ActivityType.class,pkMap1,"activityTypeCode", "Activity Type");
             }
         }
         return valid;
 
     }
-    private boolean validateUniqueEntry(final String activityTypeCode, final String rateClass, final String rateType, final String unitNumber) {
+    
+    private boolean validateUniqueEntry(FinancialObjectCodeMapping mapping) {
+        String activityTypeCode = mapping.getActivityTypeCode();
+        String rateClass = mapping.getRateClassCode();
+        String rateType = mapping.getRateTypeCode();
+        String unitNumber = mapping.getUnitNumber();
         boolean valid = true;
-        if (rateClass != null && StringUtils.isNotBlank(rateClass) &&
-            rateType != null && StringUtils.isNotBlank(rateType) &&
-            unitNumber != null && StringUtils.isNotBlank(unitNumber)) {
+        if (rateClass != null && StringUtils.isNotBlank(rateClass) 
+            && rateType != null && StringUtils.isNotBlank(rateType) 
+            && unitNumber != null && StringUtils.isNotBlank(unitNumber)) {
             final Map<String, String> map = new HashMap<String, String>();
-            if (StringUtils.isNotEmpty(activityTypeCode)) {
-                map.put("activityTypeCode", activityTypeCode);
-            }
+          
             map.put("rateClassCode", rateClass);
             map.put("rateTypeCode", rateType);
             map.put("unitNumber", unitNumber);
-            final int count = KraServiceLocator.getService(BusinessObjectService.class).countMatching(
-                    FinancialObjectCodeMapping.class, map);
 
-            if (count > 0) {
-                final MessageMap errorMap = GlobalVariables.getMessageMap();
-                String error = "ActivityTypeCode: " + activityTypeCode + " RateClassCode: " + rateClass + " RateTypeCode: " + rateType + " UnitNumber: " + unitNumber;
-                errorMap.putError("document.newMaintainableObject.financialObjectCode", KeyConstants.FINANCIAL_OBJECT_CODE_MAPPING_EXISTS, error);
-                valid = false;
-            }
+            final Collection<FinancialObjectCodeMapping> results = getBusinessObjectService().findMatching(FinancialObjectCodeMapping.class, map);
+
+            if (results.size() > 0) {
+                
+                for (FinancialObjectCodeMapping result : results) {
+                    if (StringUtils.equalsIgnoreCase(result.getActivityTypeCode(), activityTypeCode)) {
+                        valid = false;
+                        final MessageMap errorMap = GlobalVariables.getMessageMap();
+                        String error = "ActivityTypeCode: " + activityTypeCode + " RateClassCode: " + rateClass + 
+                                       " RateTypeCode: " + rateType + " UnitNumber: " + unitNumber;
+                        errorMap.putError("document.newMaintainableObject.financialObjectCode", KeyConstants.FINANCIAL_OBJECT_CODE_MAPPING_EXISTS, error);
+                    }
+                }
+                
+            } 
         }
         return valid;
     }
 
+    protected BusinessObjectService getBusinessObjectService() {
+        if (businessObjectService == null) {
+            businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        }
+        return businessObjectService;
+    }
    
 }
