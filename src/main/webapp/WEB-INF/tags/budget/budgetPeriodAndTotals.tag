@@ -337,12 +337,13 @@
           	    <td  class="infoline">
           	    &nbsp;
           	    </td>
+          	    <td  class="infoline">
+          	    &nbsp;
+          	    </td>
           	
           	</tr>
           	    
-         </c:if>  	
-          	
-          	
+          </c:if>  	
         </table>
     </div> 
 </kul:tab>
