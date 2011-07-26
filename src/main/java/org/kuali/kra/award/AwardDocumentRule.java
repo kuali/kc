@@ -861,22 +861,22 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         if (oblStartDate != null && effStartDate != null && oblStartDate.before(effStartDate)) {
             success = false;
             errorMap.putError("awardAmountInfos["+lastIndex+"].currentFundEffectiveDate1", KeyConstants.ERROR_START_DATE_ON_OR_AFTER,
-                    new String[] {"Obligation Start Date", "Effective Start Date"});
+                    new String[] {"Obligation Start Date", "Project Start Date"});
         }
         if (oblEndDate != null && effStartDate != null && oblEndDate.before(effStartDate)) {
             success = false;
             errorMap.putError("awardAmountInfos["+lastIndex+"].obligationExpirationDate1", KeyConstants.ERROR_START_DATE_ON_OR_AFTER,
-                    new String[] {"Obligation End Date", "Effective Start Date"});
+                    new String[] {"Obligation End Date", "Project Start Date"});
         }
         if (oblStartDate != null && effEndDate != null && oblStartDate.after(effEndDate)) {
             success = false;
             errorMap.putError("awardAmountInfos["+lastIndex+"].currentFundEffectiveDate2", KeyConstants.ERROR_START_DATE_ON_OR_BEFORE,
-                    new String[] {"Obligation Start Date", "Effective End Date"});
+                    new String[] {"Obligation Start Date", "Project End Date"});
         }
         if (oblEndDate != null && effEndDate != null && oblEndDate.after(effEndDate)) {
             success = false;
             errorMap.putError("awardAmountInfos["+lastIndex+"].obligationExpirationDate2", KeyConstants.ERROR_START_DATE_ON_OR_BEFORE,
-                    new String[] {"Obligation End Date", "Effective End Date"});
+                    new String[] {"Obligation End Date", "Project End Date"});
         }
 
         errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
