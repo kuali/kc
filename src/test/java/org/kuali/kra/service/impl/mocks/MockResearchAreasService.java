@@ -19,6 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.bo.ResearchArea;
+import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.service.ResearchAreaCurrentReferencerHolder;
 import org.kuali.kra.service.ResearchAreasService;
 
 public class MockResearchAreasService implements ResearchAreasService {
@@ -64,6 +68,36 @@ public class MockResearchAreasService implements ResearchAreasService {
     }
 
     public void deleteResearchArea(String researchAreaCode) throws Exception {
+        // TODO Auto-generated method stub
+        
+    }
+
+    public ResearchAreaCurrentReferencerHolder getAnyCurrentReferencerForResearchAreaOrDescendant(String researchAreaCode) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public Protocol getCurrentProtocolReferencingResearchArea(String researchAreaCode) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public Committee getCurrentCommitteeReferencingResearchArea(String researchAreaCode) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public CommitteeMembership getCurrentCommitteeMembershipReferencingResearchArea(String researchAreaCode) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public void deactivateResearchAreaAndDescendants(String researchAreaCode) throws Exception {
+        // TODO Auto-generated method stub
+        
+    }
+
+    public void deleteResearchAreaAndDescendants(String researchAreaCode) throws Exception {
         // TODO Auto-generated method stub
         
     }
