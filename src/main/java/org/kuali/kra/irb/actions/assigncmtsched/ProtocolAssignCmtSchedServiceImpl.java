@@ -29,6 +29,7 @@ import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -41,6 +42,7 @@ public class ProtocolAssignCmtSchedServiceImpl implements ProtocolAssignCmtSched
     private static final String NEXT_ACTION_ID_KEY = "actionId";
     private BusinessObjectService businessObjectService;
     private CommitteeService committeeService;
+    private ProtocolOnlineReviewService protocolOnlineReviewService;
     
     /**
      * Set the Business Object Service.
@@ -56,6 +58,14 @@ public class ProtocolAssignCmtSchedServiceImpl implements ProtocolAssignCmtSched
      */
     public void setCommitteeService(CommitteeService committeeService) {
         this.committeeService = committeeService;
+    }
+    
+    /**
+     * Set the Protocol Online Review Service
+     * @param protocolOnlineReviewService
+     */
+    public void setProtocolOnlineReviewService(ProtocolOnlineReviewService protocolOnlineReviewService) {
+        this.protocolOnlineReviewService = protocolOnlineReviewService;
     }
     
     /**
@@ -86,9 +96,17 @@ public class ProtocolAssignCmtSchedServiceImpl implements ProtocolAssignCmtSched
     public void assignToCommitteeAndSchedule(Protocol protocol, ProtocolAssignCmtSchedBean actionBean) throws Exception {
         ProtocolSubmission submission = findSubmission(protocol);
         if (submission != null) {
+
             setSchedule(submission, actionBean.getNewCommitteeId(), actionBean.getNewScheduleId());
             submission.setSubmissionStatusCode(ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
             protocol.refreshReferenceObject("protocolStatus");
+            //Lets migrate the review comments
+            if (actionBean.scheduleHasChanged() && 
+                protocolOnlineReviewService.getProtocolReviewDocumentsForCurrentSubmission(protocol).size()>0) {
+                ProtocolSubmission tmpSubmission = new ProtocolSubmission();
+                tmpSubmission.setProtocolOnlineReviews(submission.getProtocolOnlineReviews());
+                protocolOnlineReviewService.moveOnlineReviews(tmpSubmission, submission);
+            }           
         } else if (ProtocolActionType.NOTIFIED_COMMITTEE.equals(protocol.getLastProtocolAction().getFollowupActionCode())) {
             // followup action
             updateSubmission(protocol, actionBean);
