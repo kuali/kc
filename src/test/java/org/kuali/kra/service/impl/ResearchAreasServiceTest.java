@@ -29,7 +29,11 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.kra.bo.ResearchArea;
+import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.dao.ResearchAreaReferencesDao;
+import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.service.ResearchAreaCurrentReferencerHolder;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 @RunWith(JMock.class)
@@ -203,7 +207,7 @@ public class ResearchAreasServiceTest {
                 "<RaChangesElement>" +
                     "<RaUpdateActiveIndicator>" +
                         "<Code>05.12</Code>" +
-                        "<Active>false</Active>" +
+                        "<Active>true</Active>" +
                     "</RaUpdateActiveIndicator>" +
                 "</RaChangesElement>" +
             "</RaChanges>";
@@ -211,17 +215,19 @@ public class ResearchAreasServiceTest {
         ResearchAreasServiceImpl researchAreasService = new ResearchAreasServiceImpl();
         final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
         context.checking(new Expectations() {{
-            final ResearchArea updateActiveResearchArea = new ResearchArea("05.12", "05.", "Sample research area", true);
+            final ResearchArea updateActiveResearchArea = new ResearchArea("05.12", "05.", "Sample research area", false);
             oneOf(businessObjectService).findBySinglePrimaryKey(ResearchArea.class, "05.12");
             will(returnValue(updateActiveResearchArea));
             
-            updateActiveResearchArea.setActive(false);
+            updateActiveResearchArea.setActive(true);
             oneOf(businessObjectService).save(updateActiveResearchArea);
-            
+            /*
+             * TODO remove this
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put("parentResearchAreaCode", "05.12");
             oneOf(businessObjectService).findMatching(ResearchArea.class, fieldValues);
             will(returnValue(new ArrayList()));
+            */
         }});
         researchAreasService.setBusinessObjectService(businessObjectService);
 
@@ -462,30 +468,383 @@ public class ResearchAreasServiceTest {
 
     
     
-    @Test 
-    public void testDeleteResearchArea() throws Exception {
-        /*
-         * TODO remove this
-        String raChangeXML =
-            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
-            "<RaChanges>" +
-                "<RaChangesElement>" +
-                    "<RaDelete>" +
-                        "<Code>07.88</Code>" +
-                    "</RaDelete>" +
-                "</RaChangesElement>" +
-            "</RaChanges>";
-         */
-        ResearchAreasServiceImpl researchAreasService = new ResearchAreasServiceImpl() {
-            @Override
-            public boolean checkResearchAreaAndDescendantsNotReferenced(String researchAreaCode) {
-                //always return true for this test
-                return true;                
-            }
-        };
+    /**
+     * 
+     * This test method will mock the following tree hierarchy of research areas
+     *                           0
+     *                        /  |  \
+     *                      0.0  0.1  0.2
+     *                     /    /   \        
+     *                 0.0.0  0.1.0  0.1.1
+     *                         
+     * @throws Exception
+     */
+    @Test
+    public void testGetAnyCurrentReferencerForResearchAreaOrDescendant() throws Exception{
+        //define the nodes of the tree
+        final ResearchArea researchArea_0 = new ResearchArea("0", "", "", true);
+        final ArrayList<ResearchArea> childrenOf_0 = new ArrayList<ResearchArea>();
+        
+        final ResearchArea researchArea_0_0 = new ResearchArea("0.0", "", "", true);
+        final ArrayList<ResearchArea>  childrenOf_0_0 = new ArrayList<ResearchArea>();
+        
+        final ResearchArea researchArea_0_1 = new ResearchArea("0.1", "", "", true);
+        final ArrayList<ResearchArea> childrenOf_0_1 = new ArrayList<ResearchArea>();
+        
+        final ResearchArea researchArea_0_2 = new ResearchArea("0.2", "", "", true);
+        final ArrayList<ResearchArea> childrenOf_0_2 = new ArrayList<ResearchArea>();
+        
+        final ResearchArea researchArea_0_0_0 = new ResearchArea("0.0.0", "", "", true);
+        final ArrayList<ResearchArea> childrenOf_0_0_0 = new ArrayList<ResearchArea>();
+        
+        final ResearchArea researchArea_0_1_0 = new ResearchArea("0.1.0", "", "", true);
+        final ArrayList<ResearchArea> childrenOf_0_1_0 = new ArrayList<ResearchArea>();
+        
+        final ResearchArea researchArea_0_1_1 = new ResearchArea("0.1.1", "", "", true);
+        final ArrayList<ResearchArea> childrenOf_0_1_1 = new ArrayList<ResearchArea>();
+        
+        
+        // set up the relationships between the nodes
+        childrenOf_0.add(researchArea_0_0);
+        childrenOf_0.add(researchArea_0_1);
+        childrenOf_0.add(researchArea_0_2);           
+        
+        childrenOf_0_0.add(researchArea_0_0_0);
+        
+        childrenOf_0_1.add(researchArea_0_1_0);
+        childrenOf_0_1.add(researchArea_0_1_1);
+        
+        // finally mock the BO service to simulate the tree hierarchy
         final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
         context.checking(new Expectations() {{
-            final ResearchArea deleteResearchArea = new ResearchArea("07.88", "07.", "Sample research area", true);
+            
+            Map<String, Object> fieldValues_0 = new HashMap<String, Object>();
+            fieldValues_0.put("parentResearchAreaCode", researchArea_0.getResearchAreaCode());
+            fieldValues_0.put("active", true);
+            allowing(businessObjectService).findMatching(ResearchArea.class, fieldValues_0);
+            will(returnValue(childrenOf_0));
+           
+            
+            Map<String, Object> fieldValues_0_0 = new HashMap<String, Object>();
+            fieldValues_0_0.put("parentResearchAreaCode", researchArea_0_0.getResearchAreaCode());
+            fieldValues_0_0.put("active", true);
+            allowing(businessObjectService).findMatching(ResearchArea.class, fieldValues_0_0);
+            will(returnValue(childrenOf_0_0));
+            
+            Map<String, Object> fieldValues_0_0_0 = new HashMap<String, Object>();
+            fieldValues_0_0_0.put("parentResearchAreaCode", researchArea_0_0_0.getResearchAreaCode());
+            fieldValues_0_0_0.put("active", true);
+            allowing(businessObjectService).findMatching(ResearchArea.class, fieldValues_0_0_0);
+            will(returnValue(childrenOf_0_0_0));
+            
+            Map<String, Object> fieldValues_0_1 = new HashMap<String, Object>();
+            fieldValues_0_1.put("parentResearchAreaCode", researchArea_0_1.getResearchAreaCode());
+            fieldValues_0_1.put("active", true);
+            allowing(businessObjectService).findMatching(ResearchArea.class, fieldValues_0_1);
+            will(returnValue(childrenOf_0_1));
+            
+            Map<String, Object> fieldValues_0_1_0 = new HashMap<String, Object>();
+            fieldValues_0_1_0.put("parentResearchAreaCode", researchArea_0_1_0.getResearchAreaCode());
+            fieldValues_0_1_0.put("active", true);
+            allowing(businessObjectService).findMatching(ResearchArea.class, fieldValues_0_1_0);
+            will(returnValue(childrenOf_0_1_0));
+            
+            Map<String, Object> fieldValues_0_1_1 = new HashMap<String, Object>();
+            fieldValues_0_1_1.put("parentResearchAreaCode", researchArea_0_1_1.getResearchAreaCode());
+            fieldValues_0_1_1.put("active", true);
+            allowing(businessObjectService).findMatching(ResearchArea.class, fieldValues_0_1_1);
+            will(returnValue(childrenOf_0_1_1));
+             
+            Map<String, Object> fieldValues_0_2 = new HashMap<String, Object>();
+            fieldValues_0_2.put("parentResearchAreaCode", researchArea_0_2.getResearchAreaCode());
+            fieldValues_0_2.put("active", true);
+            allowing(businessObjectService).findMatching(ResearchArea.class, fieldValues_0_2);
+            will(returnValue(childrenOf_0_2));
+            
+            
+        }});
+        // At this point the research area tree hierarchy is ready, now define various test cases 
+        
+        // case: no references
+        ResearchAreasServiceImpl researchAreasService = new ResearchAreasServiceImpl() {
+            
+            public Protocol getCurrentProtocolReferencingResearchArea(String researchAreaCode) {
+                return null;
+            }
+            
+            public Committee getCurrentCommitteeReferencingResearchArea(String researchAreaCode) {
+                return null;
+            }
+
+            public CommitteeMembership getCurrentCommitteeMembershipReferencingResearchArea(String researchAreaCode) {
+                return null;
+            }
+
+        };
+        researchAreasService.setBusinessObjectService(businessObjectService);
+        Assert.assertTrue(researchAreasService.getAnyCurrentReferencerForResearchAreaOrDescendant(researchArea_0.getResearchAreaCode()) == ResearchAreaCurrentReferencerHolder.NO_REFERENCER);
+        
+        
+        // case: an RA is referenced by a protocol
+        final Protocol p1 = new Protocol() {
+
+            private static final long serialVersionUID = -1273061983131550371L;
+            
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {
+                //do nothing
+            }
+        };
+        p1.setProtocolNumber("abcdef");
+        
+        researchAreasService = new ResearchAreasServiceImpl() {           
+            public Protocol getCurrentProtocolReferencingResearchArea(String researchAreaCode) {
+                if(researchAreaCode.equals(researchArea_0_1_1.getResearchAreaCode())) {
+                    return p1;
+                }
+                else {
+                    return null;
+                }
+            }
+            
+            public Committee getCurrentCommitteeReferencingResearchArea(String researchAreaCode) {
+                return null;
+            }
+
+            public CommitteeMembership getCurrentCommitteeMembershipReferencingResearchArea(String researchAreaCode) {
+                return null;
+            }
+        };
+        researchAreasService.setBusinessObjectService(businessObjectService);        
+        ResearchAreaCurrentReferencerHolder referencer = researchAreasService.getAnyCurrentReferencerForResearchAreaOrDescendant(researchArea_0.getResearchAreaCode());
+        Assert.assertTrue(referencer.getResearchAreaCode().equals(researchArea_0_1_1.getResearchAreaCode()));
+        Assert.assertTrue(referencer.getCurrentReferencingProtocol() == p1);
+        Assert.assertTrue(referencer.getCurrentReferencingCommittee() == null);
+        Assert.assertTrue(referencer.getCurrentReferencingCommitteeMembership() == null);
+        Assert.assertTrue(referencer.getMessage().equals( "Research area " + researchArea_0_1_1.getResearchAreaCode() + " is referenced by current version of protocol with number " + p1.getProtocolNumber()));
+        
+        Assert.assertTrue(researchAreasService.getAnyCurrentReferencerForResearchAreaOrDescendant(researchArea_0_0.getResearchAreaCode()) == ResearchAreaCurrentReferencerHolder.NO_REFERENCER);
+        Assert.assertTrue(researchAreasService.getAnyCurrentReferencerForResearchAreaOrDescendant(researchArea_0_2.getResearchAreaCode()) == ResearchAreaCurrentReferencerHolder.NO_REFERENCER);
+        
+        
+        // case: An RA is referenced by a committee (and another one down-the-line is referenced by a protocol). Check that the RAs following the one referenced by the committee (in depth-first order) are not checked, instead the recursion simply unwinds from that point. 
+        // This is specified by the 'never' in the invocation count of the expectations below
+        final Committee c1 = new Committee();
+        c1.setCommitteeId("444");
+        researchAreasService = new ResearchAreasServiceImpl() {           
+            public Protocol getCurrentProtocolReferencingResearchArea(String researchAreaCode) {
+                if(researchAreaCode.equals(researchArea_0_1_1.getResearchAreaCode())) {
+                    return p1;
+                }
+                else {
+                    return null;
+                }
+            }
+            
+            public Committee getCurrentCommitteeReferencingResearchArea(String researchAreaCode) {
+                if(researchAreaCode.equals(researchArea_0_0_0.getResearchAreaCode())) {
+                    return c1;
+                }
+                else {
+                    return null;
+                }
+            }
+
+            public CommitteeMembership getCurrentCommitteeMembershipReferencingResearchArea(String researchAreaCode) {
+                return null;
+            }
+        };
+     
+        final BusinessObjectService businessObjectServiceNew = context.mock(BusinessObjectService.class, "new");
+        context.checking(new Expectations() {{
+            
+            Map<String, Object> fieldValues_0 = new HashMap<String, Object>();
+            fieldValues_0.put("parentResearchAreaCode", researchArea_0.getResearchAreaCode());
+            fieldValues_0.put("active", true);
+            oneOf(businessObjectServiceNew).findMatching(ResearchArea.class, fieldValues_0);
+            will(returnValue(childrenOf_0));
+           
+            
+            Map<String, Object> fieldValues_0_0 = new HashMap<String, Object>();
+            fieldValues_0_0.put("parentResearchAreaCode", researchArea_0_0.getResearchAreaCode());
+            fieldValues_0_0.put("active", true);
+            oneOf(businessObjectServiceNew).findMatching(ResearchArea.class, fieldValues_0_0);
+            will(returnValue(childrenOf_0_0));
+            
+            Map<String, Object> fieldValues_0_0_0 = new HashMap<String, Object>();
+            fieldValues_0_0_0.put("parentResearchAreaCode", researchArea_0_0_0.getResearchAreaCode());
+            fieldValues_0_0_0.put("active", true);
+            never(businessObjectServiceNew).findMatching(ResearchArea.class, fieldValues_0_0_0);
+            
+            Map<String, Object> fieldValues_0_1 = new HashMap<String, Object>();
+            fieldValues_0_1.put("parentResearchAreaCode", researchArea_0_1.getResearchAreaCode());
+            fieldValues_0_1.put("active", true);
+            never(businessObjectServiceNew).findMatching(ResearchArea.class, fieldValues_0_1);
+            
+            
+            Map<String, Object> fieldValues_0_1_0 = new HashMap<String, Object>();
+            fieldValues_0_1_0.put("parentResearchAreaCode", researchArea_0_1_0.getResearchAreaCode());
+            fieldValues_0_1_0.put("active", true);
+            never(businessObjectServiceNew).findMatching(ResearchArea.class, fieldValues_0_1_0);
+            
+            Map<String, Object> fieldValues_0_1_1 = new HashMap<String, Object>();
+            fieldValues_0_1_1.put("parentResearchAreaCode", researchArea_0_1_1.getResearchAreaCode());
+            fieldValues_0_1_1.put("active", true);
+            never(businessObjectServiceNew).findMatching(ResearchArea.class, fieldValues_0_1_1);
+             
+            Map<String, Object> fieldValues_0_2 = new HashMap<String, Object>();
+            fieldValues_0_2.put("parentResearchAreaCode", researchArea_0_2.getResearchAreaCode());
+            fieldValues_0_2.put("active", true);
+            never(businessObjectServiceNew).findMatching(ResearchArea.class, fieldValues_0_2);
+                       
+        }});
+        
+        researchAreasService.setBusinessObjectService(businessObjectServiceNew);        
+        referencer = researchAreasService.getAnyCurrentReferencerForResearchAreaOrDescendant(researchArea_0.getResearchAreaCode());
+        Assert.assertTrue(referencer.getResearchAreaCode().equals(researchArea_0_0_0.getResearchAreaCode()));
+        Assert.assertTrue(referencer.getCurrentReferencingProtocol() == null);
+        Assert.assertTrue(referencer.getCurrentReferencingCommittee() == c1);
+        Assert.assertTrue(referencer.getCurrentReferencingCommitteeMembership() == null);
+        Assert.assertTrue(referencer.getMessage().equals("Research area " + researchArea_0_0_0.getResearchAreaCode() + " is referenced by current version of committee with ID " + c1.getCommitteeId()));
+        
+        //TODO case: check committee membership and parent committee
+    }
+   
+    
+    
+    /**
+     * 
+     * This test method will mock the following tree hierarchy of research areas
+     *                           0
+     *                        /  |  \
+     *                      0.0  0.1  0.2
+     *                     /    /   \        
+     *                 0.0.0  0.1.0  0.1.1
+     *                         
+     * @throws Exception
+     */
+    @Test 
+    public void testDeactivateResearchAreaAndDescendants() throws Exception {
+      //define the nodes of the tree
+        final ResearchArea researchArea_0 = new ResearchArea("0", "", "", true);
+        final ArrayList<ResearchArea> childrenOf_0 = new ArrayList<ResearchArea>();
+        
+        final ResearchArea researchArea_0_0 = new ResearchArea("0.0", "", "", true);
+        final ArrayList<ResearchArea>  childrenOf_0_0 = new ArrayList<ResearchArea>();
+        
+        final ResearchArea researchArea_0_1 = new ResearchArea("0.1", "", "", true);
+        final ArrayList<ResearchArea> childrenOf_0_1 = new ArrayList<ResearchArea>();
+        
+        final ResearchArea researchArea_0_2 = new ResearchArea("0.2", "", "", true);
+        final ArrayList<ResearchArea> childrenOf_0_2 = new ArrayList<ResearchArea>();
+        
+        final ResearchArea researchArea_0_0_0 = new ResearchArea("0.0.0", "", "", true);
+        final ArrayList<ResearchArea> childrenOf_0_0_0 = new ArrayList<ResearchArea>();
+        
+        final ResearchArea researchArea_0_1_0 = new ResearchArea("0.1.0", "", "", true);
+        final ArrayList<ResearchArea> childrenOf_0_1_0 = new ArrayList<ResearchArea>();
+        
+        final ResearchArea researchArea_0_1_1 = new ResearchArea("0.1.1", "", "", true);
+        final ArrayList<ResearchArea> childrenOf_0_1_1 = new ArrayList<ResearchArea>();
+        
+        
+        // set up the relationships between the nodes
+        childrenOf_0.add(researchArea_0_0);
+        childrenOf_0.add(researchArea_0_1);
+        childrenOf_0.add(researchArea_0_2);           
+        
+        childrenOf_0_0.add(researchArea_0_0_0);
+        
+        childrenOf_0_1.add(researchArea_0_1_0);
+        childrenOf_0_1.add(researchArea_0_1_1);
+               
+        
+        
+        ResearchAreasServiceImpl researchAreasService = new ResearchAreasServiceImpl();
+        // finally mock the BO service to simulate the tree hierarchy and also to specify the invocations of various BOservice methods
+        final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
+        context.checking(new Expectations() {{
+            
+            Map<String, String> fieldValues_0 = new HashMap<String, String>();
+            fieldValues_0.put("parentResearchAreaCode", researchArea_0.getResearchAreaCode());
+            oneOf(businessObjectService).findMatching(ResearchArea.class, fieldValues_0);
+            will(returnValue(childrenOf_0));
+            oneOf(businessObjectService).save(researchArea_0);
+            oneOf(businessObjectService).findBySinglePrimaryKey(ResearchArea.class, researchArea_0.getResearchAreaCode());
+            will(returnValue(researchArea_0));
+            
+            Map<String, String> fieldValues_0_0 = new HashMap<String, String>();
+            fieldValues_0_0.put("parentResearchAreaCode", researchArea_0_0.getResearchAreaCode());
+            oneOf(businessObjectService).findMatching(ResearchArea.class, fieldValues_0_0);
+            will(returnValue(childrenOf_0_0));
+            oneOf(businessObjectService).save(researchArea_0_0);
+            
+            Map<String, String> fieldValues_0_0_0 = new HashMap<String, String>();
+            fieldValues_0_0_0.put("parentResearchAreaCode", researchArea_0_0_0.getResearchAreaCode());
+            oneOf(businessObjectService).findMatching(ResearchArea.class, fieldValues_0_0_0);
+            will(returnValue(childrenOf_0_0_0));
+            oneOf(businessObjectService).save(researchArea_0_0_0);            
+            
+            Map<String, String> fieldValues_0_1 = new HashMap<String, String>();
+            fieldValues_0_1.put("parentResearchAreaCode", researchArea_0_1.getResearchAreaCode());
+            oneOf(businessObjectService).findMatching(ResearchArea.class, fieldValues_0_1);
+            will(returnValue(childrenOf_0_1));
+            oneOf(businessObjectService).save(researchArea_0_1);            
+            
+            Map<String, String> fieldValues_0_1_0 = new HashMap<String, String>();
+            fieldValues_0_1_0.put("parentResearchAreaCode", researchArea_0_1_0.getResearchAreaCode());
+            oneOf(businessObjectService).findMatching(ResearchArea.class, fieldValues_0_1_0);
+            will(returnValue(childrenOf_0_1_0));
+            oneOf(businessObjectService).save(researchArea_0_1_0);            
+            
+            Map<String, String> fieldValues_0_1_1 = new HashMap<String, String>();
+            fieldValues_0_1_1.put("parentResearchAreaCode", researchArea_0_1_1.getResearchAreaCode());
+            oneOf(businessObjectService).findMatching(ResearchArea.class, fieldValues_0_1_1);
+            will(returnValue(childrenOf_0_1_1));
+            oneOf(businessObjectService).save(researchArea_0_1_1);
+            
+            Map<String, String> fieldValues_0_2 = new HashMap<String, String>();
+            fieldValues_0_2.put("parentResearchAreaCode", researchArea_0_2.getResearchAreaCode());
+            oneOf(businessObjectService).findMatching(ResearchArea.class, fieldValues_0_2);
+            will(returnValue(childrenOf_0_2));
+            oneOf(businessObjectService).save(researchArea_0_2);
+                        
+        }});
+        researchAreasService.setBusinessObjectService(businessObjectService);        
+        
+        
+        Assert.assertTrue(researchArea_0.isActive());
+        Assert.assertTrue(researchArea_0_0.isActive());
+        Assert.assertTrue(researchArea_0_0_0.isActive());
+        Assert.assertTrue(researchArea_0_1.isActive());
+        Assert.assertTrue(researchArea_0_1_0.isActive());
+        Assert.assertTrue(researchArea_0_1_1.isActive());
+        Assert.assertTrue(researchArea_0_2.isActive());
+        
+        researchAreasService.deactivateResearchAreaAndDescendants(researchArea_0.getResearchAreaCode());
+        
+        Assert.assertFalse(researchArea_0.isActive());
+        Assert.assertFalse(researchArea_0_0.isActive());
+        Assert.assertFalse(researchArea_0_0_0.isActive());
+        Assert.assertFalse(researchArea_0_1.isActive());
+        Assert.assertFalse(researchArea_0_1_0.isActive());
+        Assert.assertFalse(researchArea_0_1_1.isActive());
+        Assert.assertFalse(researchArea_0_2.isActive());
+                
+    }
+    
+    
+    
+    
+    @Test 
+    public void testDeleteResearchAreaAndDescendants() throws Exception {
+        ResearchAreasServiceImpl researchAreasService = new ResearchAreasServiceImpl();
+        final ResearchArea deleteResearchArea = new ResearchArea("07.88", "07.", "Sample research area", true);
+        final ResearchArea parentResearchArea = new ResearchArea("07.", "", "Parent", true);
+        parentResearchArea.setHasChildrenFlag(true);
+        
+        final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
+        context.checking(new Expectations() {{
             oneOf(businessObjectService).findBySinglePrimaryKey(ResearchArea.class, "07.88");
             will(returnValue(deleteResearchArea));
             oneOf(businessObjectService).delete(deleteResearchArea);
@@ -495,13 +854,11 @@ public class ResearchAreasServiceTest {
             oneOf(businessObjectService).findMatching(ResearchArea.class, fieldValues);
             will(returnValue(new ArrayList()));
             
-            final Map<String, String> fieldValues2 = new HashMap<String, String>();
+            Map<String, String> fieldValues2 = new HashMap<String, String>();
             fieldValues2.put("parentResearchAreaCode", "07.");
             oneOf(businessObjectService).countMatching(ResearchArea.class, fieldValues2);
-            will(returnValue(0));
+            will(returnValue(0));           
             
-            final ResearchArea parentResearchArea = new ResearchArea("07.", "", "Parent", true);
-            parentResearchArea.setHasChildrenFlag(true);
             oneOf(businessObjectService).findBySinglePrimaryKey(ResearchArea.class, "07.");
             will(returnValue(parentResearchArea));
             
@@ -509,7 +866,8 @@ public class ResearchAreasServiceTest {
         }});
         researchAreasService.setBusinessObjectService(businessObjectService);
 
-        researchAreasService.deleteResearchArea("07.88");
+        researchAreasService.deleteResearchAreaAndDescendants("07.88");
+        Assert.assertFalse(parentResearchArea.getHasChildrenFlag());
     }
     
 
@@ -533,7 +891,7 @@ public class ResearchAreasServiceTest {
                     "</RaUpdateDescription>" +
                     "<RaUpdateActiveIndicator>" +
                         "<Code>05.12</Code>" +
-                        "<Active>false</Active>" +
+                        "<Active>true</Active>" +
                     "</RaUpdateActiveIndicator>" +
                 "</RaChangesElement>" +
                 "<RaChangesElement>" +
@@ -543,13 +901,6 @@ public class ResearchAreasServiceTest {
                         "<NewParent>07.</NewParent>" +
                     "</RaUpdateParent>" +
                 "</RaChangesElement>" +
-                /* TODO Remove this
-                "<RaChangesElement>" +
-                    "<RaDelete>" +
-                        "<Code>07.88</Code>" +
-                    "</RaDelete>" +
-                "</RaChangesElement>" +
-                */
             "</RaChanges>";
         
         ResearchAreasServiceImpl researchAreasService = new ResearchAreasServiceImpl();
@@ -566,26 +917,20 @@ public class ResearchAreasServiceTest {
             oneOf(businessObjectService).save(parentResearchArea2);
 
             // description
-            final ResearchArea updateDescriptionResearchArea = new ResearchArea("05.12", "05.", "Sample research area", true);
+            final ResearchArea updateResearchArea = new ResearchArea("05.12", "05.", "Sample research area", false);
             oneOf(businessObjectService).findBySinglePrimaryKey(ResearchArea.class, "05.12");
-            will(returnValue(updateDescriptionResearchArea));
+            will(returnValue(updateResearchArea));
             
-            updateDescriptionResearchArea.setDescription("new description");
-            oneOf(businessObjectService).save(updateDescriptionResearchArea);
+            updateResearchArea.setDescription("new description");
+            oneOf(businessObjectService).save(updateResearchArea);
 
             // active
-            final ResearchArea updateActiveResearchArea = new ResearchArea("05.12", "05.", "Sample research area", true);
             oneOf(businessObjectService).findBySinglePrimaryKey(ResearchArea.class, "05.12");
-            will(returnValue(updateActiveResearchArea));
+            will(returnValue(updateResearchArea));
             
-            updateActiveResearchArea.setActive(false);
-            oneOf(businessObjectService).save(updateActiveResearchArea);
-
-            Map<String, String> fieldValues = new HashMap<String, String>();
-            fieldValues.put("parentResearchAreaCode", "05.12");
-            oneOf(businessObjectService).findMatching(ResearchArea.class, fieldValues);
-            will(returnValue(new ArrayList()));
-
+            updateResearchArea.setActive(true);
+            oneOf(businessObjectService).save(updateResearchArea);
+            
             // parent
             final ResearchArea updateParentResearchArea = new ResearchArea("03.24", "03.", "Sample research area", true);
             oneOf(businessObjectService).findBySinglePrimaryKey(ResearchArea.class, "03.24");
@@ -612,32 +957,6 @@ public class ResearchAreasServiceTest {
             will(returnValue(oldParentResearchArea));
             
             oneOf(businessObjectService).save(oldParentResearchArea);
-
-            /*
-            TODO Remove this
-            // delete
-            final ResearchArea deleteResearchArea = new ResearchArea("07.88", "07.", "Sample research area", true);
-            oneOf(businessObjectService).findBySinglePrimaryKey(ResearchArea.class, "07.88");
-            will(returnValue(deleteResearchArea));
-            oneOf(businessObjectService).delete(deleteResearchArea);
-           
-            Map<String, String> fieldValues4 = new HashMap<String, String>();
-            fieldValues4.put("parentResearchAreaCode", "07.88");
-            oneOf(businessObjectService).findMatching(ResearchArea.class, fieldValues4);
-            will(returnValue(new ArrayList()));
-            
-            final Map<String, String> fieldValues3 = new HashMap<String, String>();
-            fieldValues3.put("parentResearchAreaCode", "07.");
-            oneOf(businessObjectService).countMatching(ResearchArea.class, fieldValues3);
-            will(returnValue(0));
-            
-            final ResearchArea parentResearchArea = new ResearchArea("07.", "", "Parent", true);
-            parentResearchArea.setHasChildrenFlag(true);
-            oneOf(businessObjectService).findBySinglePrimaryKey(ResearchArea.class, "07.");
-            will(returnValue(parentResearchArea));
-          
-            oneOf(businessObjectService).save(parentResearchArea);
-            */
 
         }});
         researchAreasService.setBusinessObjectService(businessObjectService);
