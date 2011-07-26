@@ -73,8 +73,7 @@ public class ResearchAreaReferencesDaoOjbTest extends KcUnitTestBase {
         super.tearDown();
     }
     
-    private void createandSaveCommittee(String researchAreaCode) throws WorkflowException {
-        
+    private void createandSaveCommittee(String researchAreaCode) throws WorkflowException {        
         ResearchArea researchArea = new ResearchArea(researchAreaCode, "000001", "Sample research area", true);
         this.businessObjectService.save(researchArea);
         List<ResearchArea> researchAreas = new ArrayList<ResearchArea>();

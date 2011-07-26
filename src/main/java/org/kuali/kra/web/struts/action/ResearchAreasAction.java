@@ -23,6 +23,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.ResearchAreaCurrentReferencerHolder;
 import org.kuali.kra.service.ResearchAreasService;
 import org.kuali.kra.web.struts.form.ResearchAreasForm;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -109,12 +110,40 @@ public class ResearchAreasAction extends KualiAction {
             researchAreaForm.setResearchAreas(KraServiceLocator.getService(ResearchAreasService.class).getSubResearchAreasForTreeView(
                     researchAreaForm.getResearchAreaCode(), true));
         }
+        else if (StringUtils.isNotBlank(researchAreaForm.getAddRA()) && researchAreaForm.getAddRA().equals("I")) {
+            try {
+                // check if RA is being referenced by any current protocol or committee or cmt membership
+                ResearchAreasService researchAreaService = KraServiceLocator.getService(ResearchAreasService.class);
+                String researchAreaCode = researchAreaForm.getResearchAreaCode();
+                ResearchAreaCurrentReferencerHolder referenceHolder = researchAreaService.getAnyCurrentReferencerForResearchAreaOrDescendant(researchAreaCode);
+                if(referenceHolder != ResearchAreaCurrentReferencerHolder.NO_REFERENCER) {
+                    // let user know about that the research area could not be deactivated because it was being referenced
+                    researchAreaForm.setResearchAreas("<h3>" + referenceHolder.getMessage() + "</h3>");
+                    GlobalVariables.getUserSession().addObject("raError", (Object) null);
+                }                                
+                else {
+                    // its not being referenced, go ahead and deactivate it
+                    researchAreaService.deactivateResearchAreaAndDescendants(researchAreaCode);
+                    String error = (String) GlobalVariables.getUserSession().retrieveObject("raError");
+                    if (StringUtils.isNotBlank(error)) {
+                        researchAreaForm.setResearchAreas("<h3>" + error + "</h3>");
+                        GlobalVariables.getUserSession().addObject("raError", (Object) null);
+                    }
+                    else {
+                        researchAreaForm.setResearchAreas("<h3>Success</h3>");
+                    }
+                }
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         else if (StringUtils.isNotBlank(researchAreaForm.getAddRA()) && researchAreaForm.getAddRA().equals("D")) {
             try {
                 // check if RA is being referenced
                 if (KraServiceLocator.getService(ResearchAreasService.class).checkResearchAreaAndDescendantsNotReferenced(researchAreaForm.getResearchAreaCode()) ) {
                     // its not being referenced, go ahead and delete it
-                    KraServiceLocator.getService(ResearchAreasService.class).deleteResearchArea(researchAreaForm.getResearchAreaCode());
+                    KraServiceLocator.getService(ResearchAreasService.class).deleteResearchAreaAndDescendants(researchAreaForm.getResearchAreaCode());
                     String error = (String) GlobalVariables.getUserSession().retrieveObject("raError");
                     if (StringUtils.isNotBlank(error)) {
                         researchAreaForm.setResearchAreas("<h3>" + error + "</h3>");

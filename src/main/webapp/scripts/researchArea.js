@@ -755,18 +755,7 @@ function getEditRow(name, id) {
 				alert('Parent node must be active');
 			}
 		} else {
-			raChanges.updateActiveIndicator(idx, raCode, 'false');
-			$('input[id^=checkActive]', 'li#' + id).each(function() {
-				var idx1 = $(this).attr('id').substring(11);
-				var raCode1 = getResearchAreaCode($("#item" + idx1));
-				$(this).attr('checked', false);
-				if (idx != idx1) {
-					raChanges.updateActiveIndicator(idx1, raCode1, 'false');
-				}
-			});
-
-		   // $('input[id^=checkActive]', 'li#' + id).attr('checked', false);
-		    $('input[id^=activeflag]', 'li#' + id).val('false');
+			return deactivateResearchArea(id);
 		}
     });
 	tdTag1.appendTo(trTag1);
@@ -1228,6 +1217,76 @@ function researchAreaExistsOnServer(researchAreaCode, ignoreNodes){
 }
 
 /**
+ * This method submits the request to deactivate a research area to server. 
+ * It first checks to see that there are no pending changes that need to be persisted, and submits only if so. 
+ * If there are pending changes then it will simply ask the user to either save or abandon the changes. 
+ */
+function deactivateResearchArea(id) {
+	if(raChanges.moreChangeData()) {
+		if(confirm('You must save (or abandon) all outstanding changes before attempting a deactivation. Do you want to save changes to Research Area Hierarchy?')) {
+			save();
+		}
+		
+		$("#researcharea").empty();
+		raChanges = new RaChanges();
+		nextRaChangeProcessIdx = 0;
+		cutNode = null;
+		deletedNodes = "";
+		newNodes = ";";
+		icur = 1;
+		
+		loadFirstLevel();
+		$("#listcontent00").show();
+		return false;
+	}
+	else {
+		var researchAreaCode = getResearchAreaCode($("#" + id));
+		// alert("RAcode is " + researchAreaCode);
+		var retValue = false;
+		// alert("retvalue before ajax" + retValue);
+		$("#headermsg").html(""); 
+		$.ajax( {
+			url : 'researchAreaAjax.do',
+			type : 'POST',
+			dataType : 'html',
+			data : 'researchAreaCode='
+					+ researchAreaCode
+					+ '&addRA=I',
+			cache : false,
+			async : false,
+			timeout : 1000,
+			error : function() {
+				alert('This research area cannot be deactivated because it (or one of its descendants) is being currently referenced.');
+				retValue = false;
+			},
+			success : function(xml) {
+				$(xml).find('h3').each(function() {
+					retmsg = $(this).text();
+					});
+				if (retmsg == 'Success') {										
+					$('<span id="msg"/>').css("color", "black").html("Research area deactivated successfully").appendTo($("#headermsg"));
+					$('<br/>').appendTo($("#headermsg"));
+					
+					$('input[id^=checkActive]', 'li#' + id).each(function() {
+						$(this).attr('checked', false);
+					});					
+				    $('input[id^=activeflag]', 'li#' + id).val('false');
+				    
+					retValue = true;
+				} else {
+					alert('This research area cannot be deactivated because it (or one of its descendants) is being currently referenced.');
+					$('<span id="msg"/>').css("color", "red").html("Research area could not be deactivated.<br/>" + retmsg).appendTo($("#headermsg"))
+					$('<br/>').appendTo($("#headermsg"));					
+					retValue = false;
+				}
+			}
+		}); // end ajax
+		// alert("retvalue before returning" + retValue);
+		return retValue;
+	}
+}
+
+/**
  * This method submits the request to delete a research area to server. 
  * It first checks to see that there are no pending changes that need to be persisted, and submits only if so. 
  * If there are pending changes then it will simply ask the user to either save or abandon the changes. 
@@ -1371,29 +1430,3 @@ $("#paste0").click(
 			}
 			return false; // eliminate page jumping
 		});
-
-/*
- * To keep newnodes list up-to-date. This will prevent cases like add
- * 01->01.1->01.1.1. 01.1 & 01.1.1 are new. remove 01.1 will also remove 01.1.1.
- * This function will remove both the newnodes list.
- */
-/* TODO remove this
-function deleteChild(childid) {
-
-	var childrenli = $("#" + childid).children('ul:eq(0)').children('li');
-	if (newNodes != ";"
-			&& newNodes.indexOf(";" + getResearchAreaCode($("#" + childid))
-					+ ";") > -1) {
-		newNodes = newNodes.replace(";" + getResearchAreaCode($("#" + childid))
-				+ ";", ";");
-	}
-
-	if (childrenli.size() > 0) {
-
-		childrenli.each(function() {
-			deleteChild($(this).attr("id"));
-		});
-	}
-
-}
-*/
