@@ -1214,19 +1214,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                     boolean performAssignment = false;
                     Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
                     Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
-                
-                    if ((CONFIRM_REMOVE_EXISTING_REVIEWS_KEY.equals(question) || actionBean.scheduleHasChanged() && getProtocolOnlineReviewService().getProtocolReviewDocumentsForCurrentSubmission(protocolForm.getProtocolDocument().getProtocol()).size()>0)) {
-                        //There are existing reviews and we are changing schedules
-                        //need to verify with the user that they want to remove the existing reviews before proceeding.
-                        if (question==null || !CONFIRM_REMOVE_EXISTING_REVIEWS_KEY.equals(question)) {
-                            return performQuestionWithoutInput(mapping, form, request, response, CONFIRM_REMOVE_EXISTING_REVIEWS_KEY,
-                                    getKualiConfigurationService().getPropertyString(KeyConstants.QUESTION_CONFIRM_SCHEDULE_CHANGE_REMOVE_EXISTING_REVIEWS), KNSConstants.CONFIRMATION_QUESTION, callerString, "" );
-                        } else if (ConfirmationQuestion.YES.equals(buttonClicked)) {
-                               getProtocolOnlineReviewService().removeOnlineReviews(protocolForm.getProtocolDocument().getProtocol().getProtocolSubmission(),SCHEDULE_CHANGE_REMOVE_ONLINE_REVIEW_ANNOTATION);
-                        } else {
-                            return mapping.findForward(Constants.MAPPING_BASIC);
-                        }
-                    }
+
                 
                     if (isCommitteeMeetingAssignedMaxProtocols(actionBean.getNewCommitteeId(), actionBean.getNewScheduleId())) {
                         //There are existing reviews and we are changing schedules
