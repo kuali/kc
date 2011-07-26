@@ -96,7 +96,9 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
      *      org.kuali.kra.irb.actions.submit.ProtocolSubmission)
      */
     public boolean canViewOnlineReviewerComments(String principalId, ProtocolSubmission protocolSubmission) {
-        return isIrbAdminOrOnlineReviewer(principalId, protocolSubmission) || hasSubmissionCompleteStatus(protocolSubmission);
+        return isIrbAdminOrOnlineReviewer(principalId, protocolSubmission) || 
+               hasSubmissionCompleteStatus(protocolSubmission) ||
+               isActiveCommitteeMember(protocolSubmission, principalId);
     }
     
     /**
@@ -825,6 +827,33 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
         }
         return result;
     }   
+
+    /**
+     * 
+     * This method determines if the current user is an active committee member
+     * @param minute
+     * @param principalId
+     * @return true if and active committee member, false otherwise.
+     */    
+    private boolean isActiveCommitteeMember(ProtocolSubmission submission, String principalId) {
+        boolean result = false;
+        
+        List<CommitteeMembership> committeeMembers = 
+            committeeService.getAvailableMembers(submission.getCommitteeId(),
+                                                 submission.getScheduleId());
+        if (CollectionUtils.isNotEmpty(committeeMembers)) {
+            for (CommitteeMembership member : committeeMembers) {
+                if (StringUtils.equals(principalId, member.getPersonId())) {
+                    result = true;
+                    break;
+                }
+            }
+        }        
+        
+        return result;
+    }
+    
+    
     /**
      * Returns whether the Reviewer can view this accepted minute Comments in print.
      * 
