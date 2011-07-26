@@ -17,6 +17,7 @@ package org.kuali.kra.service.impl;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,8 +29,12 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.ResearchArea;
+import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.dao.ResearchAreaReferencesDao;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.service.ResearchAreaCurrentReferencerHolder;
 import org.kuali.kra.service.ResearchAreasService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -81,6 +86,7 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
     /*
      * call businessobjectservice to get a list of sub research areas of 'researchareacode'
      */
+    @SuppressWarnings("unchecked")
     protected List<ResearchArea> getSubResearchAreas(String researchAreaCode, boolean activeOnly) {
         List<ResearchArea> researchAreasList = new ArrayList<ResearchArea>();
         Map<String, Object> fieldValues = new HashMap<String, Object>();
@@ -165,12 +171,13 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
     
     
     
+    
     /**
-     * @see org.kuali.kra.service.ResearchAreasService#deleteResearchArea(java.lang.String)
+     * @see org.kuali.kra.service.ResearchAreasService#deleteResearchAreaAndDescendants(java.lang.String)
      */
-    public void deleteResearchArea(String researchAreaCode) {
+    public void deleteResearchAreaAndDescendants(String researchAreaCode) {
         ResearchArea researchArea = getBusinessObjectService().findBySinglePrimaryKey(ResearchArea.class, researchAreaCode);
-        if ( (researchArea != null)) {
+        if (researchArea != null) {
             getBusinessObjectService().delete(researchArea);
             deleteChildrenResearchAreas(researchAreaCode);
             updateHasChildrenFlag(researchArea.getParentResearchAreaCode());
@@ -287,20 +294,6 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
         List<Element> raChanges = getRaChanges(raChangesDocument);
         for (Element raChange : raChanges) {
             Map<String, Map<String, String>> details = getRaChangeDetails(raChange);
-            /*
-            // delete before create to allow a research area code to be deleted and reused for a new entry.
-            if (details.containsKey(DELETE_RESEARCH_AREA)) {
-                ResearchArea researchArea = businessObjectService.findBySinglePrimaryKey(ResearchArea.class, details.get(DELETE_RESEARCH_AREA).get(CODE));
-                if ( (researchArea != null) && checkResearchAreaAndDescendantsNotReferenced(researchArea) ) {
-                    businessObjectService.delete(researchArea);
-                    deleteChildrenResearchAreas(details.get(DELETE_RESEARCH_AREA).get(CODE));
-                    updateHasChildrenFlag(researchArea.getParentResearchAreaCode());
-                }
-                else if(researchArea != null) {
-                    throw new IOException("Research area cannot be deleted because it or one of its descendants are referenced elsewhere"); 
-                }
-            }
-            */
             if (details.containsKey(CREATE_RESEARCH_AREA)) {
                 boolean active = StringUtils.equalsIgnoreCase(details.get(CREATE_RESEARCH_AREA).get(ACTIVE), TRUE) ? true : false;
                 ResearchArea researchArea = new ResearchArea(details.get(CREATE_RESEARCH_AREA).get(CODE), details.get(CREATE_RESEARCH_AREA)
@@ -315,11 +308,12 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
                 businessObjectService.save(researchArea);
             }
             if (details.containsKey(UPDATE_RESEARCH_AREA_ACTIVE_FLAG)) {
-                boolean active = StringUtils.equalsIgnoreCase(details.get(UPDATE_RESEARCH_AREA_ACTIVE_FLAG).get(ACTIVE), TRUE) ? true : false;
+                // with kcirb-1424's changes, the 'update' will now always be an activation (deactivations are carried out seperately).
+                // boolean active = StringUtils.equalsIgnoreCase(details.get(UPDATE_RESEARCH_AREA_ACTIVE_FLAG).get(ACTIVE), TRUE) ? true : false;
                 ResearchArea researchArea = businessObjectService.findBySinglePrimaryKey(ResearchArea.class, details.get(UPDATE_RESEARCH_AREA_ACTIVE_FLAG).get(CODE));
-                researchArea.setActive(active);
+                researchArea.setActive(true);
                 businessObjectService.save(researchArea);
-                inactivateChildrenResearchAreas(details.get(UPDATE_RESEARCH_AREA_ACTIVE_FLAG).get(CODE));
+                // inactivateChildrenResearchAreas(details.get(UPDATE_RESEARCH_AREA_ACTIVE_FLAG).get(CODE));
             }
             if (details.containsKey(UPDATE_PARENT_RESEARCH_AREA)) {
                 ResearchArea researchArea = businessObjectService.findBySinglePrimaryKey(ResearchArea.class, details.get(UPDATE_PARENT_RESEARCH_AREA).get(CODE));
@@ -331,25 +325,6 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
         }
     }
     
-    
-   
-    
-    
-    /**
-     * This method recursively inactivates all child research areas.
-     * @param parentResearchAreaCode
-     */
-    @SuppressWarnings("unchecked")
-    private void inactivateChildrenResearchAreas(String parentResearchAreaCode) {
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put(PARENT_RESEARCH_AREA_CODE, parentResearchAreaCode);
-        List<ResearchArea> researchAreas = (List<ResearchArea>) businessObjectService.findMatching(ResearchArea.class, fieldValues);
-        for (ResearchArea researchArea: researchAreas) {
-            inactivateChildrenResearchAreas(researchArea.getResearchAreaCode());
-            researchArea.setActive(false);
-            businessObjectService.save(researchArea);
-        }
-    }
     
     
     
@@ -400,6 +375,105 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
         return raChangeAttributes;
     }
 
+    
+
+    /**
+     * @see org.kuali.kra.service.ResearchAreasService#getCurrentProtocolReferencingResearchArea(java.lang.String)
+     */
+    public Protocol getCurrentProtocolReferencingResearchArea(String researchAreaCode) {
+        // TODO test code, remove after testing
+        return null;
+    }
+
+    /**
+     * @see org.kuali.kra.service.ResearchAreasService#getCurrentCommitteeReferencingResearchArea(java.lang.String)
+     */
+    public Committee getCurrentCommitteeReferencingResearchArea(String researchAreaCode) {
+        // TODO test code, remove after testing
+        return null;
+    }
+
+    /**
+     * @see org.kuali.kra.service.ResearchAreasService#getCurrentCommitteeMembershipReferencingResearchArea(java.lang.String)
+     */
+    public CommitteeMembership getCurrentCommitteeMembershipReferencingResearchArea(String researchAreaCode) {
+        // TODO test code, remove after testing
+        return null;
+    }
+
+    
+    /**
+     * This method recursively inactivates all child research areas.
+     * @param parentResearchAreaCode
+     */
+    @SuppressWarnings("unchecked")
+    private void inactivateChildrenResearchAreas(String parentResearchAreaCode) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(PARENT_RESEARCH_AREA_CODE, parentResearchAreaCode);
+        List<ResearchArea> researchAreas = (List<ResearchArea>) businessObjectService.findMatching(ResearchArea.class, fieldValues);
+        for (ResearchArea researchArea: researchAreas) {
+            inactivateChildrenResearchAreas(researchArea.getResearchAreaCode());
+            researchArea.setActive(false);
+            businessObjectService.save(researchArea);
+        }
+    }
+    
+    /**
+     * @see org.kuali.kra.service.ResearchAreasService#deactivateResearchAreaAndDescendants(java.lang.String)
+     */
+    public void deactivateResearchAreaAndDescendants(String researchAreaCode) throws Exception {
+        ResearchArea researchArea = businessObjectService.findBySinglePrimaryKey(ResearchArea.class, researchAreaCode);
+        if (researchArea != null) {
+            researchArea.setActive(false);
+            businessObjectService.save(researchArea);
+            inactivateChildrenResearchAreas(researchAreaCode);
+        }
+    }
+
+    /**
+     * @see org.kuali.kra.service.ResearchAreasService#getAnyCurrentReferencerForResearchAreaOrDescendant(java.lang.String)
+     */
+    @SuppressWarnings("unchecked")
+    public ResearchAreaCurrentReferencerHolder getAnyCurrentReferencerForResearchAreaOrDescendant(String researchAreaCode) {
+        ResearchAreaCurrentReferencerHolder retValue = ResearchAreaCurrentReferencerHolder.NO_REFERENCER;
+        Protocol referencingProtocol = this.getCurrentProtocolReferencingResearchArea(researchAreaCode);
+        if(null != referencingProtocol) {
+            retValue = new ResearchAreaCurrentReferencerHolder(researchAreaCode, referencingProtocol, null, null);
+        }
+        else {
+            Committee referencingCommittee = this.getCurrentCommitteeReferencingResearchArea(researchAreaCode);
+            if(null != referencingCommittee) {
+                retValue = new ResearchAreaCurrentReferencerHolder(researchAreaCode, null, referencingCommittee, null);
+            }
+            else {
+                CommitteeMembership referencingCommitteeMembership = this.getCurrentCommitteeMembershipReferencingResearchArea(researchAreaCode);
+                if(null != referencingCommitteeMembership) {
+                    // TODO perhaps retrieve parent committee BO here and put in the return value
+                    Committee parentCommittee = this.getBusinessObjectService().findBySinglePrimaryKey(Committee.class, referencingCommitteeMembership.getCommitteeIdFk());
+                    retValue = new ResearchAreaCurrentReferencerHolder(researchAreaCode, null, parentCommittee, referencingCommitteeMembership);
+                }              
+                else {
+                    // if we came here, then this RA is not referenced, so check its active descendants recursively
+                    Map<String, Object> fieldValues = new HashMap<String, Object>();
+                    fieldValues.put(PARENT_RESEARCH_AREA_CODE, researchAreaCode);
+                    fieldValues.put("active", true);
+                    List<ResearchArea> subResearchAreas = (List<ResearchArea>) getBusinessObjectService().findMatching(ResearchArea.class, fieldValues);
+                    
+                    for (ResearchArea subResearchArea: subResearchAreas) {
+                        // recursive call
+                        retValue = getAnyCurrentReferencerForResearchAreaOrDescendant(subResearchArea.getResearchAreaCode());
+                        if(retValue != ResearchAreaCurrentReferencerHolder.NO_REFERENCER) {
+                            // no need to check remaining children
+                            break;
+                        }
+                    } 
+                }
+            }
+        }
+        return retValue;   
+    }
+    
+    
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
@@ -419,6 +493,5 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
     public void setResearchAreaReferencesDao(ResearchAreaReferencesDao researchAreaReferencesDao) {
         this.researchAreaReferencesDao = researchAreaReferencesDao;
     }
-
 
 }
