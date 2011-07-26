@@ -706,6 +706,7 @@
     <bean id="protocolAssignCmtSchedService" class="org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="committeeService" ref="committeeService" />
+        <property name="protocolOnlineReviewService" ref="protocolOnlineReviewService" />
     </bean>
     
     <bean id="protocolRiskLevelService" class="org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelServiceImpl" />

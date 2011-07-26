@@ -219,6 +219,9 @@ public class CommitteeDecisionServiceTest extends KcUnitTestBase {
             
             allowing(bean).getNewScheduleId();
             will(returnValue(Constants.EMPTY_STRING));
+            
+            allowing(bean).scheduleHasChanged();
+            will(returnValue(false));
         }});
         
         return bean;
