@@ -15,11 +15,14 @@
  */
 package org.kuali.kra.costshare;
 
-import org.kuali.kra.award.commitments.AwardCostShare;
+import java.util.List;
+
+import org.kuali.kra.budget.distributionincome.BudgetCostShare;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.rice.kns.util.AuditError;
 
 /**
  * 
@@ -48,12 +51,12 @@ public abstract class CostShareRuleResearchDocumentBase extends ResearchDocument
                         valid = false;
                         reportError(projectPeriodField, KeyConstants.ERROR_FISCAL_YEAR_RANGE, getProjectPeriodLabel());
                     }
-                } else if (validateAsProjectPeriod() && numberOfProjectPeriods > -1) {
-                    if (projectPeriodInt <= 0 || projectPeriodInt > numberOfProjectPeriods) {
-                        valid = false;
-                        String[] params = {getProjectPeriodLabel(), String.valueOf(numberOfProjectPeriods)};
-                        reportError(projectPeriodField, KeyConstants.ERROR_PROJECT_PERIOD_RANGE, params);
-                    }
+              } else if (validateAsProjectPeriod() && numberOfProjectPeriods > -1) {
+                  if (projectPeriodInt <= 0) {
+                      valid = false;
+                      String[] params = {getProjectPeriodLabel(), String.valueOf(numberOfProjectPeriods)};
+                      reportError(projectPeriodField, KeyConstants.ERROR_PROJECT_PERIOD_RANGE, params);
+                  }
                 } else {
                     //the project period is not a project period nor is it a fiscal year, no validation requirements at this time.
                 }
@@ -79,7 +82,23 @@ public abstract class CostShareRuleResearchDocumentBase extends ResearchDocument
         return validateProjectPeriod(projectPeriod, projectPeriodField, -1);
     }
     
-    private CostShareService getCostShareService() {
+    public boolean validatePeriodNumber(BudgetCostShare costShare, String projectPeriodField, int numberOfProjectPeriods, List<AuditError> auditErrors) {
+
+        int projectPeriodInt = Integer.parseInt(costShare.getProjectPeriod().toString().trim());
+        if (projectPeriodInt <= 0 || projectPeriodInt > numberOfProjectPeriods) {
+            AuditError auditError = new AuditError(projectPeriodField, KeyConstants.ERROR_PROJECT_PERIOD_RANGE,
+                    Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_COST_SHARE_PANEL_ANCHOR,
+                    new String[] {Integer.toString(projectPeriodInt), Integer.toString(numberOfProjectPeriods), Integer.toString(numberOfProjectPeriods)});
+            auditErrors.add(auditError);
+            return false;
+        }
+        return true;
+    }
+
+
+    
+    
+    protected CostShareService getCostShareService() {
         if (costShareService == null) {
             costShareService = KraServiceLocator.getService(CostShareService.class);
         }
