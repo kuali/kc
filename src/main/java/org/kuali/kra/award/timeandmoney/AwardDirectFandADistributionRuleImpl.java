@@ -22,7 +22,10 @@ import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.kra.service.AwardDirectFandADistributionService;
 import org.kuali.rice.kns.util.KualiDecimal;
+
+import org.apache.commons.lang.time.DateUtils;
 
 /**
  * This class contains all rule methods for actions on Award Direct F and A Distribution tab.
@@ -41,6 +44,7 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
     private static final String INVALID_TARGET_START_DATE = ".invalidStartDate";
     private static final String INVALID_TARGET_END_DATE = ".invalidEndDate";
     private static final String WARNING_AWARD_DIRECT_FNA_DISTRIBUTION_ANTICIPATED_MISMATCH = ".mismatchAnticipated";
+    private static final String WARNING_BREAK_DATE_RANGE = ".breakDateRanges";
     AwardDirectFandADistribution awardDirectFandADistribution;
     List<AwardDirectFandADistribution> awardDirectFandADistributions;
     transient AwardAmountInfoService awardAmountInfoService;
@@ -55,6 +59,7 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
         boolean validEndDate = true;
         boolean validAmounts = existingAmountsAreValid(awardDirectFandADistributions);
         boolean validTotalAnticipated =  doTotalAnticipatedAmountValidOnExistingDistribution(awardDirectFandADistributions);
+        boolean validConsecutiveDateRange = existingDirectFandADistributionsDatesNoBreak(awardDirectFandADistributions);
         if(awardDirectFandADistributions.size() > 0) {
             this.awardDirectFandADistribution = awardDirectFandADistributions.get(0);
             validStartDate = isTargetStartAfterProjectStartDate(awardDirectFandADistributionRuleEvent);
@@ -129,6 +134,26 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
     }
     
     /**
+     * This method tests for break in date ranges of existing AwardDirectFandADistribution list on the Award.
+     * @param awardDirectFandADistributions
+     * @return
+     */
+    boolean existingDirectFandADistributionsDatesNoBreak(List<AwardDirectFandADistribution> thisAwardDirectFandADistributions) {
+        boolean valid = true;
+        int currentIndex = 0;
+        for(AwardDirectFandADistribution thisAwardDirectFandADistribution : thisAwardDirectFandADistributions) {
+            if(currentIndex < thisAwardDirectFandADistributions.size()-1 ){
+                AwardDirectFandADistribution nextAwardDirectFandADistribution = thisAwardDirectFandADistributions.get(++currentIndex);
+                if(DateUtils.addDays(thisAwardDirectFandADistribution.getEndDate(), 1).before(nextAwardDirectFandADistribution.getStartDate())) {
+                    reportWarning(WARNING_BREAK_DATE_RANGE, KeyConstants.WARNING_AWARD_FANDA_DISTRIB_BREAKS);
+                    valid = false;
+                }
+            }
+        }
+        return valid;
+    }
+    
+    /**
      * This is a helper method for doExistingFandADistributionDatesOverlap.
      * @param awardDirectFandADistribution
      * @param awardDirectFandADistributions
@@ -159,8 +184,7 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
         }
         return invalid;
     }
-    
-    
+        
     /**
      * This method checks whether the user provided a start date
      * @return
