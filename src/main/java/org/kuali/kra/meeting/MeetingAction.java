@@ -80,7 +80,7 @@ public class MeetingAction extends KualiAction {
         List<CommitteeScheduleMinute> minutes = commSchedule.getCommitteeScheduleMinutes();
         for (CommitteeScheduleMinute minute : minutes) {
 
-            if (getReviewerCommentsService().getReviewerAcceptedCommentsView(minute)) {
+            if (getReviewerCommentsService().getReviewerCommentsView(minute)) {
                 permittedMinutes.add(minute);
             }
         }
