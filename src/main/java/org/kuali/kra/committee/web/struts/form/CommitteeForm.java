@@ -16,6 +16,8 @@
 package org.kuali.kra.committee.web.struts.form;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +27,8 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -222,6 +226,33 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
         } else {
             return super.isPropertyEditable(propertyName);
         }
+    }
+    
+    /**
+     * We need to remove the "Actions" tab when the committee is in edit mode, as
+     * actions are only supposed to be taken by the admin when viewing.
+     * 
+     * @see org.kuali.rice.kns.web.struts.form.KualiForm#getHeaderNavigationTabs()
+     */
+    @Override
+    public HeaderNavigation[] getHeaderNavigationTabs() {
+
+        HeaderNavigation[] navigation = super.getHeaderNavigationTabs();
+        List<HeaderNavigation> resultList = new ArrayList<HeaderNavigation>();
+        for (int i = 0; i < navigation.length; i++) {
+            if (!StringUtils.equals("Actions", navigation[i].getHeaderTabDisplayName())) {
+                resultList.add(navigation[i]);
+            } else {
+                if (!StringUtils.equals(KEWConstants.INITIATE_COMMAND, this.getCommand())) {
+                    resultList.add(navigation[i]);
+                }
+            }
+        }
+        
+        HeaderNavigation[] result = new HeaderNavigation[resultList.size()];
+        resultList.toArray(result);
+        
+        return result;
     }
 }
 
