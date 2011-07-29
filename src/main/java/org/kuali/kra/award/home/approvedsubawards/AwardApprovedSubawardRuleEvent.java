@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.award.home.approvedsubawards;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -66,12 +68,40 @@ public class AwardApprovedSubawardRuleEvent extends KraDocumentEventBase {
         return awardApprovedSubaward;
     }
     
-
+    
+    class SubAwardComparator implements Comparator
+    {    
+        public int compare(Object kv1, Object kv2 )
+        {    
+            try
+            {
+                String orgName1 = ((AwardApprovedSubaward)kv1).getOrganizationName();
+                String orgName2 = ((AwardApprovedSubaward)kv2).getOrganizationName();
+                if (orgName1 == null)
+                {
+                    orgName1 = "";
+                }
+                if (orgName2 == null)
+                {
+                    orgName2 = "";
+                }
+                return orgName1.compareTo(orgName2);  
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }
+        }
+        
+    }
+    
     /**
      * Gets the awardApprovedSubawards attribute. 
      * @return Returns the awardApprovedSubawards.
      */
     public List<AwardApprovedSubaward> getAwardApprovedSubawards() {
+        
+        Collections.sort(awardApprovedSubawards, new SubAwardComparator());
         return awardApprovedSubawards;
     }
 
