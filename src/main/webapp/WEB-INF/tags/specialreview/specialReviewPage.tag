@@ -41,7 +41,7 @@
         <table id="specialReviewTableId" cellpadding="0" cellspacing="0" summary="">
           	<tr>
           		<th><div align="left">&nbsp;</div></th> 
-          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${attributes.specialReviewTypeCode}" noColon="true" /></div></th>
+          		<th><div align="center" class="fixed-size-270-div"><kul:htmlAttributeLabel attributeEntry="${attributes.specialReviewTypeCode}" noColon="true" /></div></th>
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${attributes.approvalTypeCode}" noColon="true" /></div></th>
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${attributes.protocolNumber}" noColon="true" /></nobr></div></th>
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${attributes.applicationDate}" noColon="true" /></div></th>
@@ -68,9 +68,9 @@
 					<th class="infoline" rowspan="2">
 						Add:
 					</th>
-	                <td align="left" valign="middle" class="infoline"><div align="center">
+	                <td align="left" valign="middle" class="infoline"><div align="center" class="fixed-size-270-div">
 	                   <kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.specialReviewTypeCode" 
-		                                         attributeEntry="${attributes.specialReviewTypeCode}" styleClass="fixed-size-select"
+		                                         attributeEntry="${attributes.specialReviewTypeCode}" styleClass="fixed-size-250-select"
 		                                         onchange="showHideSpecialReviewProtocolLink(this, 'specialReviewHelper.newSpecialReview');return false"/>
 					</div></td>
 	                <td class="infoline"><div align="center">
@@ -147,13 +147,13 @@
 					<th class="infoline" rowspan="2">
 					   <c:out value="${status.index+1}" />
 					</th>
-                    <td align="left" valign="middle"><div align="center">
+                    <td align="left" valign="middle"><div align="center" class="fixed-size-270-div">
                         <kul:htmlControlAttribute property="${collectionProperty}[${status.index}].specialReviewTypeCode" 
 	                                              attributeEntry="${attributes.specialReviewTypeCode}"  
 	                                              readOnly="${not canModify}"
 	                                              readOnlyAlternateDisplay="${specialReview.specialReviewType.description}" 
 	                                              onchange="showHideSpecialReviewProtocolLink(this, '${collectionProperty}[${status.index}]');return false"
-	                                              styleClass="fixed-size-select" />
+	                                              styleClass="fixed-size-250-select" />
 					</div></td>
                     <td><div align="center">
                         <kra:dynamicHtmlControlAttribute property="${collectionProperty}[${status.index}].approvalTypeCode" 
