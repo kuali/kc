@@ -31,6 +31,14 @@ select.fixed-size-200-select {
 width:200px;
 }
 
+select.fixed-size-250-select {
+	width: 250px;
+}
+
+div.fixed-size-270-div {
+	width: 270px;
+}
+
 div.same-line{
 	float: left; 
 	text-align: left;
