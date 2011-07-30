@@ -18,6 +18,7 @@ package org.kuali.kra.dao.ojb;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
 import org.kuali.kra.committee.bo.CommitteeResearchArea;
 import org.kuali.kra.dao.ResearchAreaReferencesDao;
@@ -59,6 +60,25 @@ public class ResearchAreaReferencesDaoOjb extends PlatformAwareDaoBaseOjb implem
         int count = getPersistenceBrokerTemplate().getCount(q);
         if(count > 0){
             retVal = true;
+        }
+        return retVal;
+    }
+
+
+    // this method can be used as a replacement for the helper method of the same name in the ResearchServiceImpl, if efficiency 
+    // of execution of that method ever becomes a issue. This method's code is more efficient because it uses a counting 
+    // query rather than retrieving an actual business object from the database. The down-side is that it is tied to OJB.
+    public boolean isCurrentVersion(Committee committee) {
+        boolean retVal = true;
+        Criteria crit = new Criteria();
+        crit.addEqualTo("committeeId", committee.getCommitteeId());
+        Criteria andCrit = new Criteria();
+        andCrit.addGreaterThan("sequenceNumber", committee.getSequenceNumber());
+        crit.addAndCriteria(andCrit);
+        QueryByCriteria q = QueryFactory.newQuery(Committee.class, crit);
+        int count = getPersistenceBrokerTemplate().getCount(q);
+        if(count > 0){
+            retVal = false;
         }
         return retVal;
     }
