@@ -16,6 +16,7 @@
 package org.kuali.kra.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,8 +32,11 @@ import org.junit.runner.RunWith;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
+import org.kuali.kra.committee.bo.CommitteeResearchArea;
 import org.kuali.kra.dao.ResearchAreaReferencesDao;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
 import org.kuali.kra.service.ResearchAreaCurrentReferencerHolder;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
@@ -465,8 +469,270 @@ public class ResearchAreasServiceTest {
         researchAreasService.setResearchAreaReferencesDao(only_0_0_0_references_Dao);
         Assert.assertFalse(researchAreasService.checkResearchAreaAndDescendantsNotReferenced(researchArea_0.getResearchAreaCode()));
     }
-
     
+    
+    
+    @Test
+    public void testGetCurrentProtocolReferencingResearchArea() throws Exception {
+        // create 4 dummy protocols that will be returned by the mock business object service
+        final Protocol p1 = new Protocol() {
+
+            private static final long serialVersionUID = -1273061983131550371L;
+            
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {
+                //do nothing
+            }
+        };
+        p1.setProtocolNumber("--p1--");
+        p1.setActive(false);
+        ProtocolResearchArea pra1 = new ProtocolResearchArea();
+        pra1.setProtocol(p1);
+        
+        
+        final Protocol p2 = new Protocol() {
+
+            private static final long serialVersionUID = -1273061983131550372L;
+            
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {
+                //do nothing
+            }
+        };
+        p2.setProtocolNumber("--p2--");
+        p2.setActive(false);
+        ProtocolResearchArea pra2 = new ProtocolResearchArea();
+        pra2.setProtocol(p2);
+        
+        
+        final Protocol p3 = new Protocol() {
+
+            private static final long serialVersionUID = -1273061983131550373L;
+            
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {
+                //do nothing
+            }
+        };
+        p3.setProtocolNumber("--p3--");
+        p3.setActive(true);
+        ProtocolResearchArea pra3 = new ProtocolResearchArea();
+        pra3.setProtocol(p3);
+        
+        
+        final Protocol p4 = new Protocol() {
+
+            private static final long serialVersionUID = -1273061983131550374L;
+            
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {
+                //do nothing
+            }
+        };
+        p4.setProtocolNumber("--p4--");
+        p4.setActive(true);
+        ProtocolResearchArea pra4 = new ProtocolResearchArea();
+        pra4.setProtocol(p4);
+        
+        final List<ProtocolResearchArea> protocolResearchAreaList = Arrays.asList(pra1, pra2, pra3, pra4);
+        
+        final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
+        context.checking(new Expectations() {{
+            Map<String, String> fieldValues = new HashMap<String, String>();
+            fieldValues.put("researchAreaCode", "TEST");
+            one(businessObjectService).findMatching(ProtocolResearchArea.class, fieldValues); will(returnValue(protocolResearchAreaList));
+        }});
+        
+        ResearchAreasServiceImpl researchAreasService = new ResearchAreasServiceImpl();
+        researchAreasService.setBusinessObjectService(businessObjectService);
+        
+        Assert.assertTrue(researchAreasService.getCurrentProtocolReferencingResearchArea("TEST") == p3);
+    }
+    
+    
+    
+    
+    @Test
+    public void testGetCurrentCommitteeReferencingResearchArea() {
+        
+        CommitteeResearchArea cra1 = new CommitteeResearchArea();
+        cra1.setCommitteeIdFk(1L);
+        
+        CommitteeResearchArea cra2 = new CommitteeResearchArea();
+        cra2.setCommitteeIdFk(2L);
+        
+        CommitteeResearchArea cra3 = new CommitteeResearchArea();
+        cra3.setCommitteeIdFk(3L);
+        
+        CommitteeResearchArea cra4 = new CommitteeResearchArea();
+        cra4.setCommitteeIdFk(4L);
+        
+        final Committee c1 = new Committee();
+        c1.setSequenceNumber(1);
+        c1.setCommitteeId("c1");
+        
+        final Committee c2 = new Committee();
+        c2.setSequenceNumber(2);
+        c2.setCommitteeId("c2");
+        
+        final Committee c3 = new Committee();
+        c3.setSequenceNumber(3);
+        c3.setCommitteeId("c3");
+        
+        final Committee c4 = new Committee();
+        c4.setSequenceNumber(4);
+        c4.setCommitteeId("c4");
+        
+        final List<CommitteeResearchArea> committeeResearchAreaList = Arrays.asList(cra1, cra2, cra3, cra4);
+        
+        final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
+        context.checking(new Expectations() {{
+            Map<String, String> fieldValues = new HashMap<String, String>();
+            fieldValues.put("researchAreaCode", "TEST");
+            one(businessObjectService).findMatching(CommitteeResearchArea.class, fieldValues); will(returnValue(committeeResearchAreaList));
+        }});
+        
+        context.checking(new Expectations() {{
+            one(businessObjectService).findBySinglePrimaryKey(Committee.class, 1L); will(returnValue(c1));
+            one(businessObjectService).findBySinglePrimaryKey(Committee.class, 2L); will(returnValue(c2));
+            one(businessObjectService).findBySinglePrimaryKey(Committee.class, 3L); will(returnValue(c3));
+            never(businessObjectService).findBySinglePrimaryKey(Committee.class, 4L);
+        }});
+        
+        context.checking(new Expectations() {{
+            Map<String, String> fieldValues1 = new HashMap<String, String>();
+            fieldValues1.put("committeeId", "c1");
+            oneOf(businessObjectService).findMatchingOrderBy(Committee.class, fieldValues1, "sequenceNumber", false); will(returnValue(Arrays.asList(c2,c1))); // not current
+            
+            Map<String, String> fieldValues2 = new HashMap<String, String>();
+            fieldValues2.put("committeeId", "c2");
+            oneOf(businessObjectService).findMatchingOrderBy(Committee.class, fieldValues2, "sequenceNumber", false); will(returnValue(Arrays.asList())); // not current
+            
+            Map<String, String> fieldValues3 = new HashMap<String, String>();
+            fieldValues3.put("committeeId", "c3");
+            oneOf(businessObjectService).findMatchingOrderBy(Committee.class, fieldValues3, "sequenceNumber", false); will(returnValue(Arrays.asList(c3,c2,c1))); // current
+            
+            Map<String, String> fieldValues4 = new HashMap<String, String>();
+            fieldValues4.put("committeeId", "c4");
+            never(businessObjectService).findMatchingOrderBy(Committee.class, fieldValues4, "sequenceNumber", false); // because c3 being current will break the loop           
+        }});
+        
+        ResearchAreasServiceImpl researchAreasService = new ResearchAreasServiceImpl();
+        researchAreasService.setBusinessObjectService(businessObjectService);
+       
+        Assert.assertTrue(researchAreasService.getCurrentCommitteeReferencingResearchArea("TEST") == c3);
+        
+    }
+    
+    
+    @SuppressWarnings("serial")
+    @Test
+    public void testGetCurrentCommitteeMembershipReferencingResearchArea() {
+        CommitteeMembershipExpertise cme1 = new CommitteeMembershipExpertise();
+        cme1.setCommitteeMembershipIdFk(1L);
+        
+        CommitteeMembershipExpertise cme2 = new CommitteeMembershipExpertise();
+        cme2.setCommitteeMembershipIdFk(2L);
+        
+        CommitteeMembershipExpertise cme3 = new CommitteeMembershipExpertise();
+        cme3.setCommitteeMembershipIdFk(3L); 
+        
+        CommitteeMembershipExpertise cme4 = new CommitteeMembershipExpertise();
+        cme4.setCommitteeMembershipIdFk(4L);
+        
+        final List<CommitteeMembershipExpertise> committeeMembershipExpertiseList = Arrays.asList(cme1, cme2, cme3, cme4);
+        
+        
+        final CommitteeMembership cm1 = new CommitteeMembership() {
+            public boolean isActive() {
+                return true;
+            }
+        };
+        cm1.setCommitteeIdFk(11L);
+        
+        final CommitteeMembership cm2 = new CommitteeMembership() {
+            public boolean isActive() {
+                return false;
+            }
+        };
+        cm2.setCommitteeIdFk(22L);
+        
+        final CommitteeMembership cm3 = new CommitteeMembership() {
+            public boolean isActive() {
+                return true;
+            }
+        };
+        cm3.setCommitteeIdFk(33L);
+        
+        final CommitteeMembership cm4 = new CommitteeMembership() {
+            public boolean isActive() {
+                return true;
+            }
+        };
+        cm4.setCommitteeIdFk(44L);
+        
+        
+        final Committee c1 = new Committee();
+        c1.setSequenceNumber(1);
+        c1.setCommitteeId("c1");
+        
+        final Committee c2 = new Committee();
+        c2.setSequenceNumber(2);
+        c2.setCommitteeId("c2");
+        
+        final Committee c3 = new Committee();
+        c3.setSequenceNumber(3);
+        c3.setCommitteeId("c3");
+        
+        final Committee c4 = new Committee();
+        c4.setSequenceNumber(4);
+        c4.setCommitteeId("c4");
+        
+        
+        final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
+        context.checking(new Expectations() {{
+            Map<String, String> fieldValues = new HashMap<String, String>();
+            fieldValues.put("researchAreaCode", "TEST");
+            one(businessObjectService).findMatching(CommitteeMembershipExpertise.class, fieldValues); will(returnValue(committeeMembershipExpertiseList));
+        }});
+        
+        context.checking(new Expectations() {{
+            one(businessObjectService).findBySinglePrimaryKey(CommitteeMembership.class, 1L); will(returnValue(cm1));
+            one(businessObjectService).findBySinglePrimaryKey(CommitteeMembership.class, 2L); will(returnValue(cm2));
+            one(businessObjectService).findBySinglePrimaryKey(CommitteeMembership.class, 3L); will(returnValue(cm3));
+            never(businessObjectService).findBySinglePrimaryKey(CommitteeMembership.class, 4L);
+        }});        
+        
+        context.checking(new Expectations() {{
+            one(businessObjectService).findBySinglePrimaryKey(Committee.class, 11L); will(returnValue(c1));
+            never(businessObjectService).findBySinglePrimaryKey(Committee.class, 22L); // cm2 is not active
+            one(businessObjectService).findBySinglePrimaryKey(Committee.class, 33L); will(returnValue(c3));
+            never(businessObjectService).findBySinglePrimaryKey(Committee.class, 44L);
+        }});
+        
+        context.checking(new Expectations() {{
+            Map<String, String> fieldValues1 = new HashMap<String, String>();
+            fieldValues1.put("committeeId", "c1");
+            oneOf(businessObjectService).findMatchingOrderBy(Committee.class, fieldValues1, "sequenceNumber", false); will(returnValue(Arrays.asList(c2,c1))); // not current
+            
+            Map<String, String> fieldValues2 = new HashMap<String, String>();
+            fieldValues2.put("committeeId", "c2");
+            never(businessObjectService).findMatchingOrderBy(Committee.class, fieldValues2, "sequenceNumber", false); // because cm2 is not active
+            
+            Map<String, String> fieldValues3 = new HashMap<String, String>();
+            fieldValues3.put("committeeId", "c3");
+            oneOf(businessObjectService).findMatchingOrderBy(Committee.class, fieldValues3, "sequenceNumber", false); will(returnValue(Arrays.asList(c3,c2,c1))); // current
+            
+            Map<String, String> fieldValues4 = new HashMap<String, String>();
+            fieldValues4.put("committeeId", "c4");
+            never(businessObjectService).findMatchingOrderBy(Committee.class, fieldValues4, "sequenceNumber", false); // because c3 being current will break the loop           
+        }});
+        
+        ResearchAreasServiceImpl researchAreasService = new ResearchAreasServiceImpl();
+        researchAreasService.setBusinessObjectService(businessObjectService);
+        
+        Assert.assertTrue(researchAreasService.getCurrentCommitteeMembershipReferencingResearchArea("TEST") == cm3);
+    }
     
     /**
      * 

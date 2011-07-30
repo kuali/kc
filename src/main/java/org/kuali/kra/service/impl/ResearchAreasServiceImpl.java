@@ -31,9 +31,12 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
+import org.kuali.kra.committee.bo.CommitteeResearchArea;
 import org.kuali.kra.dao.ResearchAreaReferencesDao;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
 import org.kuali.kra.service.ResearchAreaCurrentReferencerHolder;
 import org.kuali.kra.service.ResearchAreasService;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -52,12 +55,13 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
 
     private static final String COLUMN_CODE_1 = "%3A";
     private static final String COLUMN_CODE_2 = "%4A";
-    private static final String DELETE_RESEARCH_AREA = "RaDelete";
     private static final String CREATE_RESEARCH_AREA = "RaCreate";
     private static final String UPDATE_PARENT_RESEARCH_AREA = "RaUpdateParent";
     private static final String UPDATE_RESEARCH_AREA_ACTIVE_FLAG = "RaUpdateActiveIndicator";
     private static final String UPDATE_RESEARCH_AREA_DESCRIPTION = "RaUpdateDescription";
     private static final String RESEARCH_AREA_CODE = "researchAreaCode";
+    private static final String COMMITTEE_ID = "committeeId";
+    private static final String SEQUENCE_NUMBER = "sequenceNumber";
     private static final String CODE = "Code";
     private static final String TRUE = "true";
     private static final String ACTIVE = "Active";
@@ -381,24 +385,92 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
      * @see org.kuali.kra.service.ResearchAreasService#getCurrentProtocolReferencingResearchArea(java.lang.String)
      */
     public Protocol getCurrentProtocolReferencingResearchArea(String researchAreaCode) {
-        // TODO test code, remove after testing
-        return null;
+        Protocol retValue = null;
+        // get the collection of all ProtocolResearchArea instances that have the given research area code
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(RESEARCH_AREA_CODE, researchAreaCode);
+        @SuppressWarnings("unchecked")
+        List<ProtocolResearchArea> pras = (List<ProtocolResearchArea>) this.getBusinessObjectService().findMatching(ProtocolResearchArea.class, fieldValues);
+        // loop through the collection checking the parent protocol of each instance for 'currentness'
+        for(ProtocolResearchArea pra:pras) {
+            // get the parent protocol instance via getter (it is populated because of auto-retrieve in repository)
+            Protocol parentProtocol = pra.getProtocol();
+            //check if protocol is active
+            if( (null != parentProtocol) && parentProtocol.isActive()) {
+                retValue = parentProtocol;
+                break;
+            }
+        }
+        return retValue;
+    }
+    
+    // helper method that checks that the given committee instance has the highest sequence number of all other 
+    // committee instances in the database with the same committee id.
+    // note: See replacement for this method in ResearchAreaReferencesDaoOjb if efficiency becomes a concern
+    private boolean isCurrentVersion(Committee committee) {
+        boolean retValue = false;
+        // get the list of all Committee instances that have the same id as the argument instance, 
+        // sorted in descending order of their sequence numbers
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(COMMITTEE_ID, committee.getCommitteeId());
+        @SuppressWarnings("unchecked")
+        List<Committee> committees = (List<Committee>) this.getBusinessObjectService().findMatchingOrderBy(Committee.class, fieldValues, SEQUENCE_NUMBER, false);
+        // check the first element's sequence number with the argument's sequence number
+        if( (committees != null) && (!committees.isEmpty()) && (committees.get(0).getSequenceNumber().equals(committee.getSequenceNumber())) ) {
+            retValue = true;
+        }  
+        return retValue;
     }
 
     /**
      * @see org.kuali.kra.service.ResearchAreasService#getCurrentCommitteeReferencingResearchArea(java.lang.String)
      */
     public Committee getCurrentCommitteeReferencingResearchArea(String researchAreaCode) {
-        // TODO test code, remove after testing
-        return null;
+        Committee retValue = null;
+        // get the collection of all CommitteeResearchArea instances that have the given research area code
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(RESEARCH_AREA_CODE, researchAreaCode);
+        @SuppressWarnings("unchecked")
+        List<CommitteeResearchArea> cras = (List<CommitteeResearchArea>) this.getBusinessObjectService().findMatching(CommitteeResearchArea.class, fieldValues);
+        // loop through the collection checking the parent committee of each instance for currentness
+        for(CommitteeResearchArea cra:cras) {
+            // get the parent committee using the FK (auto-retrieve is false in the repository)
+            Committee parentCommittee = this.getBusinessObjectService().findBySinglePrimaryKey(Committee.class, cra.getCommitteeIdFk());
+            // check if the committee is the current version
+            if( (null != parentCommittee) && this.isCurrentVersion(parentCommittee) ) {
+                retValue = parentCommittee;
+                break;
+            }
+        }
+        return retValue;
     }
 
     /**
      * @see org.kuali.kra.service.ResearchAreasService#getCurrentCommitteeMembershipReferencingResearchArea(java.lang.String)
      */
     public CommitteeMembership getCurrentCommitteeMembershipReferencingResearchArea(String researchAreaCode) {
-        // TODO test code, remove after testing
-        return null;
+        CommitteeMembership retValue = null;
+        // get the collection of all CommitteeMembershipExpertise instances that have the given research area code
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(RESEARCH_AREA_CODE, researchAreaCode);
+        @SuppressWarnings("unchecked")
+        List<CommitteeMembershipExpertise> cmes = (List<CommitteeMembershipExpertise>) this.getBusinessObjectService().findMatching(CommitteeMembershipExpertise.class, fieldValues);
+        // loop through the collection checking the parent committee of each instance for currentness
+        for(CommitteeMembershipExpertise cme:cmes) {
+            // first get the parent committee membership using the FK
+            CommitteeMembership parentCommitteeMembership = this.getBusinessObjectService().findBySinglePrimaryKey(CommitteeMembership.class, cme.getCommitteeMembershipIdFk());
+            // check if the parent committee membership is still active
+            if(null != parentCommitteeMembership && parentCommitteeMembership.isActive()) {
+                // then get the parent committee using the FK
+                Committee parentCommittee = this.getBusinessObjectService().findBySinglePrimaryKey(Committee.class, parentCommitteeMembership.getCommitteeIdFk());
+                // check if the committee is the current version
+                if( (null != parentCommittee) && this.isCurrentVersion(parentCommittee) ) {
+                    retValue = parentCommitteeMembership;
+                    break;
+                }
+            }
+        }
+        return retValue;
     }
 
     
@@ -448,7 +520,6 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
             else {
                 CommitteeMembership referencingCommitteeMembership = this.getCurrentCommitteeMembershipReferencingResearchArea(researchAreaCode);
                 if(null != referencingCommitteeMembership) {
-                    // TODO perhaps retrieve parent committee BO here and put in the return value
                     Committee parentCommittee = this.getBusinessObjectService().findBySinglePrimaryKey(Committee.class, referencingCommitteeMembership.getCommitteeIdFk());
                     retValue = new ResearchAreaCurrentReferencerHolder(researchAreaCode, null, parentCommittee, referencingCommitteeMembership);
                 }              
