@@ -79,16 +79,17 @@ public class ResearchAreaCurrentReferencerHolder {
         else if(null != this.currentReferencingProtocol) {
             retValue = "Research area " + this.researchAreaCode + " is referenced by current version of protocol with number " + this.currentReferencingProtocol.getProtocolNumber();
         }
-        else if(null != this.currentReferencingCommittee) {
-            retValue = "Research area " + this.researchAreaCode + " is referenced by current version of committee with ID " + this.currentReferencingCommittee.getCommitteeId();
-        }
         else if(null != this.currentReferencingCommitteeMembership) {
-            //TODO make this message better by traversing the object graph
+            //TODO make this message better?
             retValue = "Research area " + this.researchAreaCode + " is referenced by current version of committee membership named " + this.currentReferencingCommitteeMembership.getPersonName();
             if(null != this.currentReferencingCommittee) {
                 retValue = retValue + " in committee with ID " + this.currentReferencingCommittee.getCommitteeId();
             }
         }
+        else if(null != this.currentReferencingCommittee) {
+            retValue = "Research area " + this.researchAreaCode + " is referenced by current version of committee with ID " + this.currentReferencingCommittee.getCommitteeId();
+        }
+        
         return retValue;
     }
 
