@@ -98,11 +98,13 @@
   	</tr>
   	<tr>
     	<th>
-    		<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.accountNumber}" /></div>
+    		<div align="right">
+        		<kul:htmlAttributeLabel attributeEntry="${awardAttributes.statusCode}" />
+      		</div>
       	</th>
-    	<td align="left" valign="middle">
-    		<kul:htmlControlAttribute property="document.awardList[0].accountNumber" attributeEntry="${awardAttributes.accountNumber}" />
-    	</td>
+    	<td>
+    		<kul:htmlControlAttribute property="document.awardList[0].statusCode" attributeEntry="${awardAttributes.statusCode}" readOnlyAlternateDisplay="${KualiForm.awardDocument.award.awardStatus.description}" />
+      	</td>
     	
     	<th>
     		<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.activityTypeCode}" /></div>
@@ -112,14 +114,13 @@
 		</td>
   	</tr>
   	<tr>
-    	<th>
-    		<div align="right">
-        		<kul:htmlAttributeLabel attributeEntry="${awardAttributes.statusCode}" />
-      		</div>
+    	
+      	<th>
+    		<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.accountNumber}" /></div>
       	</th>
-    	<td>
-    		<kul:htmlControlAttribute property="document.awardList[0].statusCode" attributeEntry="${awardAttributes.statusCode}" readOnlyAlternateDisplay="${KualiForm.awardDocument.award.awardStatus.description}" />
-      	</td>
+    	<td align="left" valign="middle">
+    		<kul:htmlControlAttribute property="document.awardList[0].accountNumber" attributeEntry="${awardAttributes.accountNumber}" />
+    	</td>
     	<th>
     		<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.awardTypeCode}" /></div>
       	</th>
