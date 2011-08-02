@@ -103,4 +103,18 @@ public interface InstitutionalProposalService {
      * @return List<InstitutionalProposal> The new Pending versions.
      */
     List<InstitutionalProposal> defundInstitutionalProposals(Set<String> proposalNumbers, String awardNumber, Integer awardSequence);
+    
+    /**
+     * Get all versions of a proposal.
+     * @param proposalNumber
+     * @return
+     */
+    List<InstitutionalProposal> getProposalsForProposalNumber(String proposalNumber);
+    
+    /**
+     * Return all Development Proposals linked to any version of the institutional proposal identified by proposalNumber.
+     * @param proposalNumber
+     * @return
+     */
+    List<DevelopmentProposal> getAllLinkedDevelopmentProposals(String proposalNumber);    
 }

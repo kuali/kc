@@ -18,10 +18,20 @@ package org.kuali.kra.award.contacts;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardService;
+import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.DocumentAuditRule;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -33,12 +43,20 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class AwardProjectPersonsAuditRule implements DocumentAuditRule {
 
     private static final String CONTACTS_AUDIT_ERRORS = "contactsAuditErrors";
+    private static final String CONTACTS_AUDIT_WARNINGS = "contactsAuditWarnings";    
+    private static final String AWARD_UNCERTIFIED_PARAM = "awardUncertifiedKeyPersonnel";
     private List<AuditError> auditErrors;
+    private List<AuditError> auditWarnings;
     public static final String AWARD_PROJECT_PERSON_LIST_ERROR_KEY = "document.awardList[0].projectPerson.auditErrors";
     public static final String ERROR_AWARD_PROJECT_PERSON_NO_PI = "error.awardProjectPerson.no.pi.exists";
     public static final String ERROR_AWARD_PROJECT_PERSON_MULTIPLE_PI_EXISTS = "error.awardProjectPerson.pi.exists";
     public static final String ERROR_AWARD_PROJECT_PERSON_UNIT_DETAILS_REQUIRED = "error.awardProjectPerson.unit.details.required";
     public static final String ERROR_AWARD_PROJECT_PERSON_LEAD_UNIT_REQUIRED = "error.awardProjectPerson.lead.unit.required";
+    public static final String ERROR_AWARD_PROJECT_PERSON_UNCERTIFIED = "error.awardProjectPerson.uncertified";
+    
+    private ParameterService parameterService;
+    private AwardService awardService;
+    private InstitutionalProposalService institutionalProposalService;
     
     /**
      * 
@@ -47,6 +65,7 @@ public class AwardProjectPersonsAuditRule implements DocumentAuditRule {
      */
     public AwardProjectPersonsAuditRule() {
         auditErrors = new ArrayList<AuditError>();
+        auditWarnings = new ArrayList<AuditError>();
     }
     
     /**
@@ -56,10 +75,12 @@ public class AwardProjectPersonsAuditRule implements DocumentAuditRule {
         boolean valid = true;
         AwardDocument awardDocument = (AwardDocument)document;
         auditErrors = new ArrayList<AuditError>();
+        auditWarnings = new ArrayList<AuditError>();        
         
         valid &= checkPrincipalInvestigators(awardDocument.getAward().getProjectPersons());
         valid &= checkUnits(awardDocument.getAward().getProjectPersons());
         valid &= checkLeadUnits(awardDocument.getAward().getProjectPersons());
+        valid &= checkCertifiedInvestigators(awardDocument.getAward());
         
          
         reportAndCreateAuditCluster();
@@ -75,6 +96,10 @@ public class AwardProjectPersonsAuditRule implements DocumentAuditRule {
         if (auditErrors.size() > 0) {
             GlobalVariables.getAuditErrorMap().put(CONTACTS_AUDIT_ERRORS, new AuditCluster(Constants.CONTACTS_PANEL_NAME,
                                                                                           auditErrors, Constants.AUDIT_ERRORS));
+        }
+        if (auditWarnings.size() > 0) {
+            GlobalVariables.getAuditErrorMap().put(CONTACTS_AUDIT_WARNINGS, new AuditCluster(Constants.CONTACTS_PANEL_NAME,
+                    auditWarnings, Constants.AUDIT_WARNINGS));            
         }
     }
     
@@ -150,5 +175,87 @@ public class AwardProjectPersonsAuditRule implements DocumentAuditRule {
         }
         return units; 
     }
+    
+    protected boolean checkCertifiedInvestigators(Award award) {
+        boolean retval = true;
+        String parmVal = getParameterService().getParameterValue(AwardDocument.class, AWARD_UNCERTIFIED_PARAM);
+        if (StringUtils.equals(parmVal, "0")) { //do not validate uncertified investigators
+            return retval;
+        }
+        boolean error = StringUtils.equals(parmVal, "2");
+        List<DevelopmentProposal> devProposals = new ArrayList<DevelopmentProposal>();
+        List<Award> awards = getAwardService().findAwardsForAwardNumber(award.getAwardNumber());
+        for (Award curAward : awards) {
+            List<AwardFundingProposal> fundingProposals = curAward.getFundingProposals();
+            for (AwardFundingProposal fundingProposal : fundingProposals) {
+                devProposals.addAll(getInstitutionalProposalService().getAllLinkedDevelopmentProposals(fundingProposal.getProposal().getProposalNumber()));
+            }
+        }
+        for (AwardPerson person : award.getProjectPersons()) {
+            boolean personFound = false;
+            for (DevelopmentProposal proposal : devProposals) {
+                for (ProposalPerson propPerson : proposal.getProposalPersons()) {
+                    if ((person != null && StringUtils.equals(person.getPersonId(), propPerson.getPersonId()))
+                            || (person.getRolodexId() != null && ObjectUtils.equals(person.getRolodexId(), propPerson.getRolodexId()))) {
+                        if (StringUtils.equals(propPerson.getProposalPersonRoleId(), Constants.CO_INVESTIGATOR_ROLE)
+                                || StringUtils.equals(propPerson.getProposalPersonRoleId(), Constants.PRINCIPAL_INVESTIGATOR_ROLE)
+                                || StringUtils.equals(propPerson.getOptInCertificationStatus(), "Y")) {
+                            personFound = true;
+                            break;
+                        } //otherwise they are not certified
+                    }
+                }
+            }
+            if (!personFound) {
+                retval = false;
+                //if the parm says to add an error and the person is not a key person(as they do not require certification)
+                if (error && !person.isKeyPerson()) {
+                    auditErrors.add(new AuditError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY, ERROR_AWARD_PROJECT_PERSON_UNCERTIFIED,
+                            Constants.MAPPING_AWARD_CONTACTS_PAGE + "." + Constants.CONTACTS_PANEL_ANCHOR, new String[]{person.getFullName()}));
+                } else {
+                    auditWarnings.add(new AuditError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY, ERROR_AWARD_PROJECT_PERSON_UNCERTIFIED,
+                            Constants.MAPPING_AWARD_CONTACTS_PAGE + "." + Constants.CONTACTS_PANEL_ANCHOR, new String[]{person.getFullName()}));
+                }
+            }
+        }
+        
+        
+        return retval;
+    }
+
+    public ParameterService getParameterService() {
+        if (parameterService == null) {
+            parameterService = KraServiceLocator.getService(ParameterService.class);
+        }
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    public AwardService getAwardService() {
+        if (awardService == null) {
+            awardService = KraServiceLocator.getService(AwardService.class);
+        }
+        return awardService;
+    }
+
+    public void setAwardService(AwardService awardService) {
+        this.awardService = awardService;
+    }
+
+    public InstitutionalProposalService getInstitutionalProposalService() {
+        if (institutionalProposalService == null) {
+            institutionalProposalService = KraServiceLocator.getService(InstitutionalProposalService.class);
+        }
+        return institutionalProposalService;
+    }
+
+    public void setInstitutionalProposalService(InstitutionalProposalService institutionalProposalService) {
+        this.institutionalProposalService = institutionalProposalService;
+    }
+    
+    
 
 }
