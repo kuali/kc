@@ -4001,11 +4001,14 @@
 												</fo:table-row>
 											</fo:table-body>
 										</fo:table>
-										<xsl:if	test="../PrintRequirement/SpecialReviewRequired = &quot;1&quot; and  starts-with(  AwardDetails/SpecialReviewIndicator  , &quot;P&quot;)">
+										<xsl:if	test="../PrintRequirement/SpecialReviewRequired = &quot;1&quot;">
 											<fo:inline font-family="Arial" font-size="12pt"
 												font-weight="bold">
+												<fo:block>
 												<xsl:text>Special Review:</xsl:text>
+												</fo:block>
 											</fo:inline>
+											<xsl:if	test=" starts-with(  AwardDetails/SpecialReviewIndicator  , &quot;P&quot;)">
 											<fo:block />
 											<xsl:for-each select="AwardSpecialReviews">
 												<fo:inline-container>
@@ -4257,10 +4260,10 @@
 												</xsl:if>
 											</xsl:for-each>
 										</xsl:if>
-																				<xsl:if
-											test="(../PrintRequirement/EquipmentRequired =&quot;1&quot;  and  starts-with( AwardDetails/ApprvdEquipmentIndicator , &quot;P&quot; ) )  
-or  (../PrintRequirement/ForeignTravelRequired = 1  and  starts-with(  AwardDetails/ApprvdForeginTripIndicator , &quot;P&quot; ) )
-or ( ../PrintRequirement/SubcontractRequired  = 1  and  starts-with(  AwardDetails/ApprvdSubcontractIndicator , &quot;P&quot; ) )">
+									</xsl:if>
+									<xsl:if test="(../PrintRequirement/EquipmentRequired =1 )
+													or  (../PrintRequirement/ForeignTravelRequired = 1 )
+													or ( ../PrintRequirement/SubcontractRequired  = 1 )">
 											<fo:inline font-family="Arial" font-size="12pt"
 												font-weight="bold">
 												<xsl:text>Approved Special Items:</xsl:text>
@@ -4278,11 +4281,13 @@ or ( ../PrintRequirement/SubcontractRequired  = 1  and  starts-with(  AwardDetai
 														<fo:table-cell padding="2pt" display-align="center">
 															<fo:block>
 																<xsl:if
-																	test="../PrintRequirement/EquipmentRequired = 1 and  starts-with( AwardDetails/ApprvdEquipmentIndicator , &quot;P&quot; )">
+																	test="(../PrintRequirement/EquipmentRequired = 1 )">
 																	<fo:inline font-family="Arial" font-size="9pt"
 																		font-weight="bold">
 																		<xsl:text>Equipment:</xsl:text>
 																	</fo:inline>
+																	<xsl:if
+																	test="starts-with( AwardDetails/ApprvdEquipmentIndicator , &quot;P&quot; )">
 																	<fo:block />
 																	<xsl:for-each select="AwardSpecialItems">
 																		<fo:inline-container>
@@ -4473,6 +4478,7 @@ or ( ../PrintRequirement/SubcontractRequired  = 1  and  starts-with(  AwardDetai
 																		</xsl:if>
 																	</xsl:for-each>
 																</xsl:if>
+																</xsl:if>
 															</fo:block>
 														</fo:table-cell>
 													</fo:table-row>
@@ -4480,11 +4486,13 @@ or ( ../PrintRequirement/SubcontractRequired  = 1  and  starts-with(  AwardDetai
 														<fo:table-cell padding="2pt" display-align="center">
 															<fo:block>
 																<xsl:if
-																	test="(../PrintRequirement/ForeignTravelRequired = &quot;1&quot;  and  starts-with(  AwardDetails/ApprvdForeginTripIndicator , &quot;P&quot; ) )">
+																	test="../PrintRequirement/ForeignTravelRequired = &quot;1&quot;">
 																	<fo:inline font-family="Arial" font-size="9pt"
 																		font-weight="bold">
 																		<xsl:text>Foreign Travel:</xsl:text>
 																	</fo:inline>
+																	<xsl:if
+																	test="starts-with(  AwardDetails/ApprvdForeginTripIndicator , &quot;P&quot; )">
 																	<fo:block />
 																	<xsl:for-each select="AwardSpecialItems">
 																		<fo:inline-container>
@@ -4683,6 +4691,7 @@ or ( ../PrintRequirement/SubcontractRequired  = 1  and  starts-with(  AwardDetai
 																		</xsl:if>
 																	</xsl:for-each>
 																</xsl:if>
+																</xsl:if>
 															</fo:block>
 														</fo:table-cell>
 													</fo:table-row>
@@ -4691,10 +4700,12 @@ or ( ../PrintRequirement/SubcontractRequired  = 1  and  starts-with(  AwardDetai
 														<fo:table-cell padding="2pt" display-align="center">
 															<fo:block>
 																<xsl:if
-																	test="( ../PrintRequirement/SubcontractRequired  =&quot;1&quot; and  starts-with(  AwardDetails/ApprvdSubcontractIndicator , &quot;P&quot; ) )">
+																	test="( ../PrintRequirement/SubcontractRequired  =&quot;1&quot; )">
 																	<fo:inline font-weight="bold">
 																		<xsl:text>Subcontracts:</xsl:text>
 																	</fo:inline>
+																	<xsl:if
+																	test="(starts-with(  AwardDetails/ApprvdSubcontractIndicator , &quot;P&quot; ) )">
 																	<fo:block />
 																	<xsl:for-each select="AwardSpecialItems">
 																		<fo:inline-container>
@@ -4797,18 +4808,23 @@ or ( ../PrintRequirement/SubcontractRequired  = 1  and  starts-with(  AwardDetai
 																		</xsl:if>
 																	</xsl:for-each>
 																</xsl:if>
+																</xsl:if>
 															</fo:block>
 														</fo:table-cell>
 													</fo:table-row>
 												</fo:table-body>
 											</fo:table>
 										</xsl:if>
-																				<xsl:if
-											test="../PrintRequirement/CostSharingRequired   = &quot;1&quot; and  count(  AwardCostSharing  ) &gt; 0 and not (starts-with( AwardDetails/CostSharingIndicator , &quot;N&quot; )  and   string-length(AwardCostSharing/Comments) &lt;= 1  )">
+										<xsl:if	test="../PrintRequirement/CostSharingRequired   = &quot;1&quot; ">
 											<fo:inline font-family="Arial" font-size="12pt"
 												font-weight="bold">
+												<fo:block>
 												<xsl:text>Cost Sharing:</xsl:text>
+												</fo:block>
 											</fo:inline>
+											<xsl:if	test="count(  AwardCostSharing  ) &gt; 0 
+															and not (starts-with( AwardDetails/CostSharingIndicator , &quot;N&quot; )  
+															and   string-length(AwardCostSharing/Comments) &lt;= 1  )">
 											<fo:block />
 											<xsl:for-each select="AwardCostSharing">
 												<fo:inline-container>
@@ -5114,7 +5130,8 @@ or ( ../PrintRequirement/SubcontractRequired  = 1  and  starts-with(  AwardDetai
 												</fo:table>
 											</xsl:for-each>
 										</xsl:if>
-																				<xsl:if
+										</xsl:if>
+										<xsl:if
 											test="../PrintRequirement/IndirectCostRequired = &quot;1&quot;and  count(  AwardIndirectCosts  )  &gt; 0">
 											    <fo:inline font-family="Arial" font-size="12pt"
 													font-weight="bold">													
@@ -5723,12 +5740,14 @@ or ( ../PrintRequirement/SubcontractRequired  = 1  and  starts-with(  AwardDetai
 												</xsl:if>
 											</xsl:if>
 										</xsl:if>
-																				<xsl:if
-											test="../PrintRequirement/FlowThruRequired = &quot;1&quot; and   not ( (starts-with( AwardDetails/TransferSponsorIndicator , &quot;N&quot; ) and  string-length(AwardDetails/OtherHeaderDetails/PrimeSponsorCode) &lt;= 0 ))">
+										<xsl:if test="../PrintRequirement/FlowThruRequired = &quot;1&quot; ">
 											<fo:inline font-family="Arial" font-size="12pt"
 												font-weight="bold" padding-top="10pt">
+												<fo:block>
 												<xsl:text>Flow Thru:</xsl:text>
+												</fo:block>
 											</fo:inline>
+											<xsl:if test="not ( (starts-with( AwardDetails/TransferSponsorIndicator , &quot;N&quot; ) and  string-length(AwardDetails/OtherHeaderDetails/PrimeSponsorCode) &lt;= 0 ))">
 											<fo:block />
 											<xsl:if
 												test="string-length(AwardDetails/OtherHeaderDetails/PrimeSponsorCode) &gt; 0">
@@ -5972,6 +5991,7 @@ or ( ../PrintRequirement/SubcontractRequired  = 1  and  starts-with(  AwardDetai
 													</fo:table-row>
 												</fo:table-body>
 											</fo:table>
+											</xsl:if>
 										</xsl:if>
 										<fo:inline-container>
 											<fo:block>
@@ -5990,13 +6010,13 @@ or ( ../PrintRequirement/SubcontractRequired  = 1  and  starts-with(  AwardDetai
 											</fo:table-body>
 										</fo:table>
 										<xsl:if test="../PrintRequirement/CommentsRequired = &quot;1&quot;">
-											<xsl:if
-												test="count(  AwardComments/Comment [CommentDetails/CommentCode  &gt; 0  and  string-length(CommentDetails/Comments ) &gt;= 1] )  &gt; 0">
 												<fo:inline font-family="Arial" font-size="12pt"
 													font-weight="bold">
 													<xsl:text>Comments:</xsl:text>
 												</fo:inline>
 												<fo:block />
+												<xsl:if
+												test="count(  AwardComments/Comment [CommentDetails/CommentCode  &gt; 0  and  string-length(CommentDetails/Comments ) &gt;= 1] )  &gt; 0">
 												<xsl:for-each select="AwardComments">
 													<fo:block />
 													<xsl:for-each select="Comment">
@@ -6087,7 +6107,7 @@ or ( ../PrintRequirement/SubcontractRequired  = 1  and  starts-with(  AwardDetai
 												</xsl:for-each>
 											</xsl:if>
 										</xsl:if>
-																				<xsl:if
+										<xsl:if
 											test="../PrintRequirement/FundingSummaryRequired  = &quot;1&quot;">
 											<fo:inline font-family="Arial" font-size="12pt"
 												font-weight="bold">
@@ -6501,14 +6521,13 @@ or ( ../PrintRequirement/SubcontractRequired  = 1  and  starts-with(  AwardDetai
 												</fo:block>
 											</xsl:for-each>
 										</xsl:if>	
-																				<xsl:if
-											test="../PrintRequirement/HierarchyInfoRequired   = &quot;1&quot;">
-											<xsl:if test="count(    ChildAwardDetails/ChildAward )  &gt; 0">
+										<xsl:if	test="../PrintRequirement/HierarchyInfoRequired   = &quot;1&quot;">
 												<fo:inline font-family="Arial" font-size="12pt"
 													font-weight="bold">
 													<xsl:text>Hierarchy Distributions:</xsl:text>
 												</fo:inline>
 												<fo:block />
+												<xsl:if test="count(    ChildAwardDetails/ChildAward )  &gt; 0">
 												<xsl:for-each select="ChildAwardDetails">
 													<fo:inline-container>
 														<fo:block>
@@ -6771,14 +6790,12 @@ or ( ../PrintRequirement/SubcontractRequired  = 1  and  starts-with(  AwardDetai
 											</fo:table-body>
 										</fo:table>
 										<fo:block />
-										<xsl:if
-											test="../PrintRequirement/TechnicalReportingRequired = &quot;1&quot;">
-											<xsl:if
-												test="AwardReportingDetails/ReportDetails/ReportTermDetails/ReportClassCode = 4">
+										<xsl:if	test="../PrintRequirement/TechnicalReportingRequired = &quot;1&quot;">
 												<fo:inline font-family="Arial" font-size="12pt"
 													font-weight="bold">
 													<xsl:text>Technical Reporting Requirements:</xsl:text>
 												</fo:inline>
+												<xsl:if	test="AwardReportingDetails/ReportDetails/ReportTermDetails/ReportClassCode = 4">
 												<xsl:for-each select="AwardReportingDetails">
 													<xsl:for-each select="ReportDetails">
 														<xsl:for-each select="ReportTermDetails">
@@ -7438,11 +7455,14 @@ or ( ../PrintRequirement/SubcontractRequired  = 1  and  starts-with(  AwardDetai
 														font-weight="bold" padding="2pt" display-align="center">
 														<fo:block>
 															<xsl:if
-																test="(../PrintRequirement/ReportingRequired = 1 and AwardReportingDetails/ReportDetails/ReportTermDetails/ReportClassCode  != 4)">
+																test="../PrintRequirement/ReportingRequired = 1 ">
 																<fo:inline font-family="Arial" font-size="12pt"
 																	font-weight="bold">
 																	<xsl:text>Reporting:</xsl:text>
 																</fo:inline>
+																<xsl:if
+																test="AwardReportingDetails/ReportDetails/ReportTermDetails/ReportClassCode  != 4">
+																
 																<xsl:for-each select="AwardReportingDetails">
 																	<fo:inline-container>
 																		<fo:block>
@@ -7917,6 +7937,7 @@ or ( ../PrintRequirement/SubcontractRequired  = 1  and  starts-with(  AwardDetai
 																		</fo:table>
 																	</xsl:if>
 																</xsl:for-each>
+															</xsl:if>
 															</xsl:if>
 														</fo:block>
 													</fo:table-cell>
@@ -10201,15 +10222,13 @@ or ( ../PrintRequirement/SubcontractRequired  = 1  and  starts-with(  AwardDetai
 												</xsl:for-each>
 											</xsl:for-each>
 										</xsl:if>
-																				<xsl:if
-											test="../PrintRequirement/ScienceCodeRequired  = &quot;1&quot;">
-											<xsl:if
-												test="starts-with(AwardDetails/ScienceCodeIndicator , &quot;P&quot; )">
+										<xsl:if	test="../PrintRequirement/ScienceCodeRequired  = &quot;1&quot;">
 												<fo:inline font-family="Arial" font-size="12pt"
 													font-weight="bold">
 													<xsl:text>Science Code:</xsl:text>
 												</fo:inline>
 												<fo:block />
+												<xsl:if	test="starts-with(AwardDetails/ScienceCodeIndicator , &quot;P&quot; )">
 												<xsl:for-each select="AwardScienceCodes">
 													<fo:inline-container>
 														<fo:block>
