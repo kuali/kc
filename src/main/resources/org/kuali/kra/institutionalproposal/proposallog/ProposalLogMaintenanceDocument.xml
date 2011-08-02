@@ -90,6 +90,8 @@
                 <bean parent="MaintainableFieldDefinition"
                     p:name="sponsorCode" />
                 <bean parent="MaintainableFieldDefinition"
+                    p:name="sponsorName" />
+                <bean parent="MaintainableFieldDefinition"
                     p:name="comments" />
                 <bean parent="MaintainableFieldDefinition"
                     p:name="deadlineDate" />
