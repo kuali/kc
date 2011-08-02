@@ -41,6 +41,10 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
+/**
+ * This class is a helper that does all the required calculation for setting the accounting line amounts
+ * for the Budget Adjustment Service.
+ */
 public class BudgetAdjustmentServiceHelper {
     
     private Budget currentBudget;
@@ -49,13 +53,19 @@ public class BudgetAdjustmentServiceHelper {
 
     private static final Log LOG = LogFactory.getLog(BudgetAdjustmentServiceHelper.class);
 
+    /**
+     * Constructs a BudgetAdjustmentServiceHelper.java.
+     * @param currentBudget
+     * @param previousBudget
+     */
     public BudgetAdjustmentServiceHelper(Budget currentBudget, AwardBudgetExt previousBudget) {
         this.currentBudget = currentBudget;
         this.previousBudget = previousBudget;
     }
-    
-    /*
-     * In order to decrease or increase, the change amount is used, so this can be sent as is
+  
+    /**
+     * In order to decrease or increase, the change amount is used, so this can be sent as is.
+     * @return
      */
     public HashMap<String, BudgetDecimal> getNonPersonnelCost() {        
         HashMap<String, BudgetDecimal> netCost = new HashMap<String, BudgetDecimal>();
@@ -73,7 +83,7 @@ public class BudgetAdjustmentServiceHelper {
     }
     
     /*
-     * 
+     * Returns the non personnel calculated direct cost.
      */
     public SortedMap<RateType, BudgetDecimal> getNonPersonnelCalculatedDirectCost() {
         SortedMap<RateType, List<BudgetDecimal>> currentNonPersonnelCalcDirectCost = currentBudget.getNonPersonnelCalculatedExpenseTotals();
@@ -108,6 +118,10 @@ public class BudgetAdjustmentServiceHelper {
         return netNonPersonnelCalculatedDirectCost;
     }
     
+    /**
+     * This method returns the indirect cost for the accounting line.
+     * @return
+     */
     public Map<RateClassRateType, BudgetDecimal> getIndirectCost() {
         List<BudgetLineItem> currentLineItems = currentBudget.getBudgetPeriods().get(0).getBudgetLineItems();
         List<BudgetLineItem> prevLineItems = new ArrayList<BudgetLineItem>();
@@ -128,7 +142,7 @@ public class BudgetAdjustmentServiceHelper {
                         } else {
                             prevIndirectTotals.put(currentKey, lineItemCalculatedAmount.getCalculatedCost());
                         }                   
-                     }
+                    }
                 }
             }
         }   
@@ -145,7 +159,7 @@ public class BudgetAdjustmentServiceHelper {
                     } else {
                         currentIndirectTotals.put(currentKey, lineItemCalculatedAmount.getCalculatedCost());
                     }                   
-                 }
+                }
             }
         }
         
@@ -155,7 +169,6 @@ public class BudgetAdjustmentServiceHelper {
             if (prevIndirectTotals.containsKey(rate)) {
                 netIndirectTotals.put(rate, currentIndirectTotals.get(rate).subtract(prevIndirectTotals.get(rate)));
                 prev.add(rate);
-                //prevIndirectTotals.remove(rate);
             } else {
                 netIndirectTotals.put(rate, currentIndirectTotals.get(rate));
             }
@@ -170,6 +183,10 @@ public class BudgetAdjustmentServiceHelper {
        return netIndirectTotals;
     }
     
+    /**
+     * This method returns the personnel calculated direct cost.
+     * @return
+     */
     public Map<RateClassRateType, BudgetDecimal> getPersonnelCalculatedDirectCost() {
         SortedMap<RateType, List<BudgetDecimal>> currentTotals = currentBudget.getPersonnelCalculatedExpenseTotals();
         SortedMap<RateType, List<BudgetDecimal>> prevTotals = new TreeMap<RateType, List<BudgetDecimal>>();
@@ -252,6 +269,12 @@ public class BudgetAdjustmentServiceHelper {
         return netFringeTotals;
     }
     
+    /**
+     * This method returns the fringe totals.
+     * @param currentPersonnelObjectCodes
+     * @param budget
+     * @return
+     */
     protected Map<RateClassRateType, BudgetDecimal> getFringeTotals(List<CostElement> currentPersonnelObjectCodes, Budget budget) {
         /*
          * Things like Animal care and Travel also have a rateClassType of E so need to filter that
@@ -286,6 +309,12 @@ public class BudgetAdjustmentServiceHelper {
         return fringeTotals;
     }
     
+    /**
+     * This method returns the personnel line items.
+     * @param budgetPeriod
+     * @param personnelCostElement
+     * @return
+     */
     protected List<BudgetLineItem> getPersonnelLineItems(BudgetPeriod budgetPeriod, CostElement personnelCostElement) {
         QueryList lineItemQueryList = new QueryList();
         lineItemQueryList.addAll(budgetPeriod.getBudgetLineItems());
@@ -295,6 +324,10 @@ public class BudgetAdjustmentServiceHelper {
     }
     
     
+    /**
+     * This method returns the business object service.
+     * @return
+     */
     public BusinessObjectService getBusinessObjectService() {
         if (businessObjectservice == null) {
            businessObjectservice = KraServiceLocator.getService(BusinessObjectService.class);
@@ -302,12 +335,21 @@ public class BudgetAdjustmentServiceHelper {
        return businessObjectservice; 
     }
     
+    /**
+     * This method returns the budget category type with type code "P".
+     * @return
+     */
     protected BudgetCategoryType getPersonnelCategoryType() {
         final Map<String, String> primaryKeys = new HashMap<String, String>();
         primaryKeys.put("budgetCategoryTypeCode", "P");
         return (BudgetCategoryType) this.getBusinessObjectService().findByPrimaryKey(BudgetCategoryType.class, primaryKeys);
     }
     
+    /**
+     * This method returns the personnel salary cost.
+     * @return
+     * @throws Exception
+     */
     public SortedMap<String, BudgetDecimal> getPersonnelSalaryCost() throws Exception {
         SortedMap<String, List<BudgetDecimal>> currentSalaryTotals = currentBudget.getObjectCodePersonnelSalaryTotals();
         SortedMap<String, List<BudgetDecimal>> prevSalaryTotals = new TreeMap<String, List<BudgetDecimal>>();
@@ -352,6 +394,12 @@ public class BudgetAdjustmentServiceHelper {
         return netSalary;
     }
     
+    /**
+     * This method...
+     * @param person
+     * @return
+     * @throws Exception
+     */
     protected String[] getElements(String person) throws Exception {
         if (person.contains(",")) {
                 String[] personElements = person.split(",");
