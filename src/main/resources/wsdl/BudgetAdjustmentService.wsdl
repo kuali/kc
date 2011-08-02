@@ -15,7 +15,6 @@
 <xs:element maxOccurs="unbounded" minOccurs="0" name="details" nillable="true" type="tns:details"/>
 <xs:element minOccurs="0" name="explanation" type="xs:string"/>
 <xs:element minOccurs="0" name="orgDocNumber" type="xs:string"/>
-<xs:element minOccurs="0" name="postingFiscalYear" type="xs:string"/>
 <xs:element minOccurs="0" name="principalId" type="xs:string"/>
 <xs:element minOccurs="0" name="sponsorType" type="xs:string"/>
 </xs:sequence>

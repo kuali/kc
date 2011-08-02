@@ -87,13 +87,10 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
     private DocumentService documentService;
     private ParameterService parameterService;
     private BudgetCalculationService budgetCalculationService;
-    private DateTimeService dateTimeService;
 
-    private static final int JULY_INDEXING = 5;
     protected static final QName SERVICE_NAME = new QName("KFS", "budgetAdjustmentServiceSOAP");
 
     private static final Log LOG = LogFactory.getLog(BudgetAdjustmentClientBase.class);
-    private Calendar calendar = Calendar.getInstance();
     AwardBudgetDocument awardBudgetDocument;
     Budget previousBudget;
     BudgetAdjustmentParametersDTO budgetAdjustmentParametersDTO;
@@ -103,14 +100,19 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
     private BusinessObjectService businessObjectService;
     private InstitutionalUnitService institutionalUnitService;
     
-    /*
-     * gets the 
+    /**
+     * This method gets either the SOAP handle or the KSB handle depending on the configuration. 
+     * @return
      */
     protected abstract BudgetAdjustmentService getServiceHandle();
+    
 
+    /**
+     * @see org.kuali.kra.external.budget.BudgetAdjustmentClient#createBudgetAdjustmentDocument()
+     */
     public void createBudgetAdjustmentDocument() throws Exception {
         setAwardBudgetDocument(awardBudgetDocument);
-        boolean complete = setBudgetAdjustmentParameters();     
+        boolean complete = setBudgetAdjustmentParameters();    
         if (complete) {           
             try {
                 BudgetAdjustmentService port = getServiceHandle();            
@@ -144,6 +146,11 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
         } 
     }
    
+    /**
+     * This method adds the accounting lines to the DTO
+     * @return
+     * @throws Exception
+     */
     public boolean setBudgetAdjustmentParameters() throws Exception {
         boolean complete = true;    
         complete &= createBudgetAdjustmentDocumentHeader();
@@ -174,6 +181,10 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
     }
    
     
+    /**
+     * Sets PersonnelCalculatedDirect cost
+     * @return
+     */
     private boolean setPersonnnelCalculatedDirectCost() {
         boolean complete = true;
         Map<RateClassRateType, BudgetDecimal> netPersonnelCalculatedDirectCost = getHelper().getPersonnelCalculatedDirectCost();
@@ -197,6 +208,10 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
         return complete;
     }
 
+    /**
+     * This method sets the indirect cost.
+     * @return
+     */
     protected boolean setIndirectCostAccountingLine() {
         boolean complete = true;
         Map<RateClassRateType, BudgetDecimal> netIndirectCost = getHelper().getIndirectCost();  
@@ -205,7 +220,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
             details.setCurrentAmount(netIndirectCost.get(rate).toString());
             String financialObjectCode = getFinancialObjectCode(rate.getRateClass(), rate.getRateType());
             if (ObjectUtils.isNull(financialObjectCode)) {
-               complete &= false; 
+                complete &= false; 
             } else {
                 if (!accountingLines.containsKey(financialObjectCode)) {
                     accountingLines.put(financialObjectCode, netIndirectCost.get(rate));
@@ -213,13 +228,18 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
                     accountingLines.put(financialObjectCode, 
                                         accountingLines.get(financialObjectCode).add(netIndirectCost.get(rate)));
                 }
-                LOG.info("IndirectCost OC: " + financialObjectCode + "RateClassRateType: " + rate + " Amount: " + accountingLines.get(financialObjectCode));
+                LOG.info("IndirectCost OC: " + financialObjectCode + "RateClassRateType: " 
+                          + rate + " Amount: " + accountingLines.get(financialObjectCode));
 
             }
         }
         return complete;
     }
     
+    /**
+     * This method sets the fringe line.
+     * @return
+     */
     protected boolean setPersonnelFringeAccountingLines() {
         boolean complete = true;
         Map<RateClassRateType, BudgetDecimal> netFringeCost = getHelper().getPersonnelFringeCost();
@@ -235,13 +255,19 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
                     accountingLines.put(financialObjectCode, 
                                         accountingLines.get(financialObjectCode).add(netFringeCost.get(rate)));
                 }
-                LOG.info("PersonnelFringeCost OC: " + financialObjectCode + "RateClassRateType: " + rate + " Amount: " + accountingLines.get(financialObjectCode));
+                LOG.info("PersonnelFringeCost OC: " + financialObjectCode + "RateClassRateType: " 
+                         + rate + " Amount: " + accountingLines.get(financialObjectCode));
 
             }
         }
         return complete;
     }
     
+    /**
+     * This method sets the personnel salary accounting line.
+     * @return
+     * @throws Exception
+     */
     protected boolean  setPersonnelSalaryAccountingLines() throws Exception {
         boolean complete = true;
         SortedMap<String, BudgetDecimal> netCost = getHelper().getPersonnelSalaryCost();
@@ -261,10 +287,16 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
                 LOG.info("PersonnelSalary OC: " + financialObjectCode + "Name:  " + name + " Amount: " + accountingLines.get(financialObjectCode));
 
             }
-         }    
+        }    
         return complete;
     }   
     
+    /**
+     * This method splits the string into object code and person id.
+     * @param person
+     * @return
+     * @throws Exception
+     */
     protected String[] getElements(String person) throws Exception {
         if (person.contains(",")) {
             String[] personElements = person.split(",");
@@ -274,6 +306,10 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
         throw new Exception("The string " + person + "is not in the format objectCode,personId  . Unable to retrieve object code.");
     }
     
+    /**
+     * This method sets the non personnel calculated direct cost.
+     * @return
+     */
     protected boolean setNonPersonnelCalculatedDirectCostAccountingLines() {
         boolean complete = true;
         SortedMap<RateType, BudgetDecimal> netExpense = getHelper().getNonPersonnelCalculatedDirectCost();
@@ -298,7 +334,8 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
                         accountingLines.put(financialObjectCode, 
                                             accountingLines.get(financialObjectCode).add(netExpense.get(rateType)));
                     }
-                    LOG.info("NonPersonnelCalculatedDirectCost OC: " + financialObjectCode + "RateClassRateType: " + rateType + " Amount: " + accountingLines.get(financialObjectCode));
+                    LOG.info("NonPersonnelCalculatedDirectCost OC: " + financialObjectCode 
+                             + "RateClassRateType: " + rateType + " Amount: " + accountingLines.get(financialObjectCode));
                 }
 
             }
@@ -308,7 +345,11 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
     }
     
 
-    private boolean setNonPersonnelAccountingLines() {
+    /**
+     * This method sets the no personnel accounting line.
+     * @return
+     */
+    protected boolean setNonPersonnelAccountingLines() {
         HashMap<String, BudgetDecimal> nonPersonnelCost = getHelper().getNonPersonnelCost();
         boolean complete = true;
         for (String costElement : nonPersonnelCost.keySet()) {
@@ -328,17 +369,22 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
                 }
             } else {
                 // remove this when code is fixed
-                GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, KeyConstants.FINANCIAL_OBJECT_CODE_MAPPING_NOT_FOUND, "Object Code: " + costElement); 
-                LOG.error("No financial system object code mapped to object code" + costElement + "" );
+                GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, 
+                                                         KeyConstants.FINANCIAL_OBJECT_CODE_MAPPING_NOT_FOUND, 
+                                                         "Object Code: " + costElement); 
                 complete &= false;
             }
         } 
         return complete;
     }
     
+    /**
+     * This method returns the previous version of the award budget.
+     * @return
+     */
     protected AwardBudgetExt getPrevBudget() {
         int currentVersionNumber = awardBudgetDocument.getBudget().getBudgetVersionNumber();
-        AwardBudgetExt prevBudget = getPreviousBudget(getAwardBudgetDocument().getParentDocument().getBudgetParent().getAwardDocument());
+        AwardBudgetExt prevBudget = getPrevBudget(getAwardBudgetDocument().getParentDocument().getBudgetParent().getAwardDocument());
         if (ObjectUtils.isNotNull(prevBudget.getBudgetVersionNumber()) && prevBudget.getBudgetVersionNumber() < currentVersionNumber) {
             budgetCalculationService.calculateBudgetSummaryTotals(prevBudget);
             return prevBudget;
@@ -354,7 +400,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
         return getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_POSTED);
     }
     
-    protected AwardBudgetExt getPreviousBudget(AwardDocument awardDocument) {
+    protected AwardBudgetExt getPrevBudget(AwardDocument awardDocument) {
         return getNewestBudgetByStatus(awardDocument, Arrays.asList(new String[]{getPostedBudgetStatus()}));
     }         
     
@@ -378,19 +424,10 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
         return result;        
     }
 
-    protected String getIncomeObjectCode() {
-        Budget awardBudget = getAwardBudgetDocument().getAwardBudget();
-        Award award = awardBudgetDocument.getParentDocument().getBudgetParent();
-        //return getParameterValue(INCOME_OBJECT_CODE_PARAMETER, award.getSponsorCode());
-        return "4479";
-    }
-    
-    protected BudgetDecimal getBudgetChangeCostLimit() {
-        Budget awardBudget = getAwardBudgetDocument().getAwardBudget();
-        return awardBudget.getTotalCostLimit();
-        
-    }
-
+    /**
+     * This method sets the budget adjustment document header.
+     * @return
+     */
     protected boolean createBudgetAdjustmentDocumentHeader() {
         budgetAdjustmentParametersDTO = new BudgetAdjustmentParametersDTO();
         // TODO Auto-generated method stub
@@ -399,45 +436,26 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
         // budget version number
         Award award = awardBudgetDocument.getParentDocument().getBudgetParent();
         budgetAdjustmentParametersDTO.setSponsorType(award.getSponsor().getSponsorTypeCode());
-        budgetAdjustmentParametersDTO.setDescription("Test");
         //Just logging message - creating a new budget adjustment document from KC
         String COMMENT = "Automatically generated from posted Award document " 
                          + awardBudgetDocument.getDocumentNumber();
+        budgetAdjustmentParametersDTO.setDescription(COMMENT);
 
-        // posting year  
-        budgetAdjustmentParametersDTO.setPostingFiscalYear(getPostingYear());
         // KFS is not able to authenticate this person now. So until the databases are merged, 
         // use khuntley as principal id
         //budgetAdjustmentParametersDTO.setPrincipalId(UserSession.getAuthenticatedUser().getPrincipalId());
         // khuntley principal id 
         budgetAdjustmentParametersDTO.setPrincipalId("6162502038");
-        // posting period code
         return true;
     }
 
-    protected String getPostingYear() {
-        // TODO Auto-generated method stub
-        // need to check with Renee how to do this.
-        return "2012";
-    }
-
-    protected String getPostingPeriodCode() {
-        // TODO Auto-generated method stub
-        // posting period code
-        // indexing starts at July
-        Integer month = calendar.get(Calendar.MONTH) - JULY_INDEXING;
-
-        if (month.toString().length() < 2) {
-            return "0" + month;
-        } else {
-            return month.toString();
-        }
-    }
-
+    /**
+     * This method creates the accounting lines for the BA
+     */
     protected void createAccountingLines() {
         // TODO Auto-generated method stub
-        LOG.info("PostingYear: " + budgetAdjustmentParametersDTO.getPostingFiscalYear()
-                + "PrincipalId: " + budgetAdjustmentParametersDTO.getPrincipalId());
+        LOG.info(
+                 "PrincipalId: " + budgetAdjustmentParametersDTO.getPrincipalId());
         for (String objectCode : accountingLines.keySet()) {
             if (accountingLines.get(objectCode).isNonZero()) {
                 Details details = new Details();
@@ -460,7 +478,6 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
      * @param parameterName
      * @param kcCode
      * @return
-     * @throws ParseException 
      */
     protected String getParameterValue(String parameterName, String key) {
         List<String> parameterValues = parameterService.getParameterValues(
@@ -485,6 +502,11 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
     }
   
     
+    /**
+     * This method returns the chart of accounts code associated with the account.
+     * @param awardBudgetDocument
+     * @return
+     */
     protected String getAwardChart(AwardBudgetDocument awardBudgetDocument) {
         Award award = awardBudgetDocument.getParentDocument().getBudgetParent();
         return award.getFinancialChartOfAccountsCode();
@@ -493,13 +515,14 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
     protected String getProjectCode() {
         return "";    
     }
-    
-
-    /*
+   
+    /**
      * This is obtained using the mapping table.
+     * @param rateClassCode
+     * @param rateTypeCode
+     * @return
      */
     protected String getFinancialObjectCode(String rateClassCode, String rateTypeCode) {
-       // criteria.put("activityTypeCode", activityTypeCode);
         // Do not use activity type in criteria, it is not required.
         Award award = awardBudgetDocument.getParentDocument().getBudgetParent();
         String activityTypeCode = award.getActivityTypeCode();
@@ -512,23 +535,23 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
             for (String currentUnitNumber : parentUnits) {                
                 List<FinancialObjectCodeMapping> parentUnitResults = getFinancialObjectCodesFromMappingTable(
                                                                         rateClassCode, rateTypeCode, currentUnitNumber
-                                                                        );
+                                                                     );
                 if (!parentUnitResults.isEmpty()) {
                     return parentUnitResults.get(0).getFinancialObjectCode();
                 }
             }
            
             GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS,  KeyConstants.FINANCIAL_OBJECT_CODE_MAPPING_NOT_FOUND, 
-                                                    " Rate Class Code: " + rateClassCode + " Rate Type Code: " + rateTypeCode +
-                                                    " Unit: " + award.getUnitNumber() + " Activity Type: " + award.getActivityTypeCode()); 
+                                                    " Rate Class Code: " + rateClassCode + " Rate Type Code: " + rateTypeCode 
+                                                    + " Unit: " + award.getUnitNumber() + " Activity Type: " + award.getActivityTypeCode()); 
 
-            LOG.error("Mapping not found for rateClasssCode: " +rateClassCode + "rateTypeCode: " + rateTypeCode + "unitnumber: " );
+            LOG.error("Mapping not found for rateClasssCode: " + rateClassCode + "rateTypeCode: " + rateTypeCode + "unitnumber: ");
             return null;
         } else {
             // if results were returned, check if award activityType is in it
             for (FinancialObjectCodeMapping result : results) {
-                if (ObjectUtils.isNotNull(result.getActivityTypeCode()) && 
-                    result.getActivityTypeCode().equalsIgnoreCase(activityTypeCode)) {
+                if (ObjectUtils.isNotNull(result.getActivityTypeCode()) 
+                    && result.getActivityTypeCode().equalsIgnoreCase(activityTypeCode)) {
                     return result.getFinancialObjectCode();
                 }
             }
@@ -538,20 +561,31 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
         }
     }
     
-    /*
-     * This is obtained from the cost element table itself
+    /**
+     * This is obtained from the cost element table.
+     * @param costElementName
+     * @return
      */
     protected String getFinancialObjectCode(String costElementName) {
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("costElement", costElementName);
         CostElement costElement = (CostElement) getBusinessObjectService().findByPrimaryKey(CostElement.class, criteria);
         if (ObjectUtils.isNull(costElement.getFinancialObjectCode())) {
-            GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, KeyConstants.FINANCIAL_OBJECT_CODE_MAPPING_NOT_FOUND, "Object Code: " + costElementName);
-            LOG.error("No financial system object code mapped to object code " + costElementName + " ." );
+            GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, 
+                                                     KeyConstants.FINANCIAL_OBJECT_CODE_MAPPING_NOT_FOUND, 
+                                                     "Object Code: " + costElementName);
+            LOG.error("No financial system object code mapped to object code " + costElementName + " .");
         }
         return costElement.getFinancialObjectCode();
     }
     
+    /**
+     * This method gets the KFs object code from the mapping table.
+     * @param rateClassCode
+     * @param rateTypeCode
+     * @param unitNumber
+     * @return
+     */
     protected List<FinancialObjectCodeMapping> getFinancialObjectCodesFromMappingTable(String rateClassCode, String rateTypeCode, String unitNumber) {
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("rateClassCode", rateClassCode);
@@ -563,6 +597,11 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
         return results;
     }
     
+    /**
+     * This method returns the award account number.
+     * @param awardBudgetDocument
+     * @return
+     */
     protected String getAwardAccount(AwardBudgetDocument awardBudgetDocument) {
         Award award = awardBudgetDocument.getParentDocument().getBudgetParent();
         return award.getAccountNumber();
