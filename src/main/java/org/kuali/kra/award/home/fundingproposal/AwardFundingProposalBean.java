@@ -79,8 +79,9 @@ public class AwardFundingProposalBean implements Serializable {
             if (validateForAdd()) {
                 getAward().add(newFundingProposal);                
                 performDataFeeds(getAward(), newFundingProposal);
-                createNewFundingProposal();
             }
+            // regardless of whether proposal is valid or not, reset back to step 1
+            createNewFundingProposal();
         }
     }
 
