@@ -61,7 +61,9 @@
 	                        <c:if test="${!empty KualiForm.protocolHelper.newProtocolLocation.organizationId}">
 	            				<c:choose>
 								    <c:when test="${empty KualiForm.protocolHelper.newProtocolLocation.organization}">
-		                    			<span style='color: red;'>not found</span>
+								        <script type="text/javascript">
+								            loadOrganizationName('protocolHelper.newProtocolLocation.organizationId', 'protocolHelper.organizationName');
+								        </script>
 		               				</c:when>
 		                  			<c:otherwise>
 											<c:out value="${KualiForm.protocolHelper.newProtocolLocation.organization.organizationName}" />
