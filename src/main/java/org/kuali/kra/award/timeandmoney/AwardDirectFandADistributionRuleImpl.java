@@ -249,15 +249,17 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
     private boolean doTotalAnticipatedAmountValidOnExistingDistribution(List<AwardDirectFandADistribution> thisAwardDirectFandADistributions){    
         boolean valid = false;
         KualiDecimal awardAnticipatedTotal = KualiDecimal.ZERO;
-        KualiDecimal calculatedAnticipatedAmount = KualiDecimal.ZERO;
+        KualiDecimal calculatedFNAAmount = KualiDecimal.ZERO;
+        KualiDecimal calculatedDirAmount = KualiDecimal.ZERO;
         if(awardDirectFandADistributions.size() > 0){
             awardAnticipatedTotal = awardDirectFandADistributions.get(0).getAward().getAnticipatedTotal();
             for (AwardDirectFandADistribution awardDirectFandADistribution : thisAwardDirectFandADistributions) {
-                calculatedAnticipatedAmount = calculatedAnticipatedAmount.add(awardDirectFandADistribution.getDirectCost().add(awardDirectFandADistribution.getIndirectCost()));
+                calculatedFNAAmount = calculatedFNAAmount.add(awardDirectFandADistribution.getDirectCost());
+                calculatedDirAmount = calculatedDirAmount.add(awardDirectFandADistribution.getIndirectCost());  
             }
-            if(awardAnticipatedTotal.equals(calculatedAnticipatedAmount))
+            if(awardAnticipatedTotal.equals(calculatedFNAAmount.add(calculatedDirAmount)))
                 valid = true;
-            else{}
+            else
             reportWarning(WARNING_AWARD_DIRECT_FNA_DISTRIBUTION_ANTICIPATED_MISMATCH, 
                     KeyConstants.WARNING_AWARD_FANDA_DISTRIB_LIMITNOTEQUAL_ANTICIPATED, 
                     new String[]{awardDirectFandADistributions.get(0).getAward().getAwardNumber()});
