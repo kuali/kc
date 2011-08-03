@@ -92,13 +92,17 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
         
         boolean validFunds = false;
         boolean validDates = false;
+        boolean validSourceAwardDestinationAward = false;
         if(requiredFieldsComplete){
-            validFunds = validateAnticipatedGreaterThanObligated (event);
-            validDates = validateObligatedDateIsSet(event);
+            validSourceAwardDestinationAward = processCommonValidations(event);
+            if(validSourceAwardDestinationAward){
+                validFunds = validateAnticipatedGreaterThanObligated (event);
+                validDates = validateObligatedDateIsSet(event);
+            }
         }
         
-        return requiredFieldsComplete && processCommonValidations(event) && validObligatedFunds  
-            && validAnticipatedFunds && validFunds && validDates && validTotalCostLimit;        
+        return requiredFieldsComplete && validSourceAwardDestinationAward && validObligatedFunds  
+            && validAnticipatedFunds && validFunds && validDates && validTotalCostLimit ;        
     }
     
     /**
@@ -263,7 +267,7 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
         return true;
         
     }
-    
+
     private boolean processCommonValidations(TransactionRuleEvent event) {
         PendingTransaction pendingTransactionItem = event.getPendingTransactionItemForValidation();
         List<PendingTransaction> items = event.getTimeAndMoneyDocument().getPendingTransactions();
