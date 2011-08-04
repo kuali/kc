@@ -215,7 +215,7 @@ function fixDatePickers() {
         }else if(text11 == 5){
         	var txtImage = "<img src=\"static/images/award_inactive.gif\" alt=\"Closed\" title=\"Closed\" />";
         }else if(text11 == 6){
-        	var txtImage = "<img src=\"static/images/award_pending.gif\" alt=\"Hold\" title=\"Hold\" />";
+        	var txtImage = "<img src=\"static/images/award_holding.gif\" alt=\"Hold\" title=\"Hold\" />";
         }
         
         var index = racode.indexOf("-");
