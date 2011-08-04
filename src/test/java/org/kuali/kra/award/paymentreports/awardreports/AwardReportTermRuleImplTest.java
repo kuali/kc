@@ -35,7 +35,7 @@ public class AwardReportTermRuleImplTest {
     @Before
     public void setUp() throws Exception {
         awardReportTermRule = new AwardReportTermRuleImpl();
-        awardReportTerm = new AwardReportTerm();
+        awardReportTerm = buildAwardReportTerm();
         awardReportTermItems = new ArrayList<AwardReportTerm>();
         GlobalVariables.setErrorMap(new ErrorMap());
     }
@@ -45,6 +45,15 @@ public class AwardReportTermRuleImplTest {
         awardReportTermRule = null;
         awardReportTerm = null;
         awardReportTermItems = null;
+    }
+    
+    private AwardReportTerm buildAwardReportTerm() {
+        AwardReportTerm awardReportTerm = new AwardReportTerm();
+        awardReportTerm.setReportCode("5");
+        awardReportTerm.setFrequencyCode("5");
+        awardReportTerm.setFrequencyBaseCode("5");
+        awardReportTerm.setOspDistributionCode("5");
+        return awardReportTerm;
     }
     
     @Test
@@ -80,39 +89,34 @@ public class AwardReportTermRuleImplTest {
         awardReportTermItem.setDueDate(new Date(10000332));
         Assert.assertTrue(awardReportTermRule.isUnique(awardReportTermItems, awardReportTermItem));
     }
+    
+    @Test
+    public final void testValidAwardReportTerm(){
+        Assert.assertTrue(awardReportTermRule.validateRequiredFields(awardReportTerm, ""));
+    }
 
     @Test
     public final void testEvaluateRuleForReportCode() {
-        awardReportTerm.setReportCode("5");
-        Assert.assertTrue(awardReportTermRule.isReportCodeFieldComplete(awardReportTerm));
         awardReportTerm.setReportCode(null);
-        Assert.assertFalse(awardReportTermRule.isReportCodeFieldComplete(awardReportTerm));        
+        Assert.assertFalse(awardReportTermRule.validateRequiredFields(awardReportTerm, ""));        
     }
 
     @Test
     public final void testEvaluateRuleForFrequency() {
-        awardReportTerm.setFrequencyCode("5");
-        Assert.assertTrue(awardReportTermRule.isFrequencyCodeFieldComplete(awardReportTerm));
         awardReportTerm.setFrequencyCode(null);
-        Assert.assertFalse(awardReportTermRule.isFrequencyCodeFieldComplete(awardReportTerm));
+        Assert.assertFalse(awardReportTermRule.validateRequiredFields(awardReportTerm, ""));
     }
 
     @Test
     public final void testEvaluateRuleForFrequencyBase() {
-        awardReportTerm.setFrequencyBaseCode("5");
-        Assert.assertTrue(awardReportTermRule.isFrequencyBaseCodeFieldComplete(awardReportTerm));
         awardReportTerm.setFrequencyBaseCode(null);
-        Assert.assertFalse(awardReportTermRule.isFrequencyBaseCodeFieldComplete(awardReportTerm));
+        Assert.assertFalse(awardReportTermRule.validateRequiredFields(awardReportTerm, ""));
     }
 
     @Test
     public final void testEvaluateRuleForDistribution() {
-        awardReportTerm.setFrequencyBaseCode("5");
-        awardReportTerm.setFrequencyCode("5");
-        awardReportTerm.setOspDistributionCode("5");
-        Assert.assertTrue(awardReportTermRule.isDistributionFieldComplete(awardReportTerm));
         awardReportTerm.setOspDistributionCode(null);
-        Assert.assertFalse(awardReportTermRule.isDistributionFieldComplete(awardReportTerm));
+        Assert.assertFalse(awardReportTermRule.validateRequiredFields(awardReportTerm, ""));
     }
 
 }
