@@ -575,30 +575,28 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         return new AwardFandaRateRule().processSaveFandaRateBusinessRules(awardFandaRateSaveEvent);
     }
     
+    /**
+     * 
+     * This method...
+     * @param document
+     * @return
+     */
     public boolean processAwardReportTermBusinessRules(Document document) {
-        boolean retval = true;
-        
-        int i=0;
-        
-        GlobalVariables.getErrorMap().addToErrorPath(DOCUMENT_ERROR_PATH);
-        GlobalVariables.getErrorMap().addToErrorPath(AWARD_ERROR_PATH);        
-        
         AwardDocument awardDocument = (AwardDocument) document;
-        for (AwardReportTerm awardReportTerm : awardDocument.getAward().getAwardReportTermItems()) {
-            retval &= evaluateBusinessRuleForReportCodeField(awardReportTerm, i);
-            if (StringUtils.isNotBlank(awardReportTerm.getFrequencyCode())) {
-                retval &= evaluateBusinessRuleForFrequencyCodeField(awardReportTerm, i);
-                retval &= evaluateBusinessRuleForFrequencyBaseCodeField(awardReportTerm, i);
-            }
-            retval &= evaluateBusinessRuleForRecipients(awardReportTerm, i);
-            i++;
-        }
-        
-        GlobalVariables.getErrorMap().removeFromErrorPath(AWARD_ERROR_PATH);
-        GlobalVariables.getErrorMap().removeFromErrorPath(DOCUMENT_ERROR_PATH);
-        
-        return retval;
+        AwardReportTerm awardReportTermItem = awardDocument.getAward().getAwardReportTermItems().isEmpty() ? null : awardDocument.getAward().getAwardReportTermItems().get(0);
+        AwardReportTermRuleEvent event = new AwardReportTermRuleEvent(AWARD_ERROR_PATH_PREFIX, awardDocument, awardDocument.getAward(), awardReportTermItem);
+        return processAwardReportTermBusinessRules(event);
     }
+    
+    /**
+     * 
+     * @see org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRule#processAwardReportTermBusinessRules(
+     *          org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRuleEvent)
+     */
+    public boolean processAwardReportTermBusinessRules(AwardReportTermRuleEvent event){
+        return new AwardReportTermRuleImpl().processAwardReportTermBusinessRules(event);
+    }
+    
     
     protected boolean evaluateBusinessRuleForReportCodeField(AwardReportTerm awardReportTerm, int index){
         boolean retval = isValidReportCode(awardReportTerm, getReportCodes(awardReportTerm.getReportClassCode()));
@@ -712,14 +710,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         return frequencyBaseCodeValuesFinder.getKeyValues();
     }
     
-    /**
-     * 
-     * @see org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRule#processAwardReportTermBusinessRules(
-     *          org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRuleEvent)
-     */
-    public boolean processAwardReportTermBusinessRules(AwardReportTermRuleEvent event){
-        return new AwardReportTermRuleImpl().processAwardReportTermBusinessRules(event);
-    }
+    
     
     /**
      * 
@@ -764,10 +755,10 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      * This method...
      * @param event
      * @return
-     */
+     
     public boolean processAwardReportTermEvent(AwardReportTermRuleEvent event){
         return new AwardReportTermRuleImpl().processAwardReportTermBusinessRules(event);
-    }
+    }*/
     
     /**
      * 

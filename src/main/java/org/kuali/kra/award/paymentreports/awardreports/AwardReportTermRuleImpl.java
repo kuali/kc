@@ -23,7 +23,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
- * The AwardPaymentScheduleRuleImpl
+ * The AwardPaymentScheduleRuleImpl.
  */
 public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase 
                                             implements AwardReportTermRule {
@@ -47,7 +47,16 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
      *          org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRuleEvent)
      */
     public boolean processAwardReportTermBusinessRules(AwardReportTermRuleEvent event) {
-        return processCommonValidations(event);        
+        boolean validFields = true;
+        //document.awardList[0].awardReportTermItems[0].
+        String fieldStarter = "document.awardList[0].awardReportTermItems[";
+        String fieldEnder = "].";
+        int counter = 0;
+        for (AwardReportTerm awardReportTermItem : event.getAward().getAwardReportTermItems()) {
+            validFields = validateRequiredFields(awardReportTermItem, fieldStarter + counter + fieldEnder) && validFields;
+            counter++;
+        }
+        return processCommonValidations(event) && validFields;        
     }
     /**
      * 
@@ -57,7 +66,7 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
      * @return
      */
     public boolean processAddAwardReportTermBusinessRules(AddAwardReportTermRuleEvent event) {
-        return areRequiredFieldsComplete(event.getAwardReportTermItemForValidation()) && processCommonValidations(event);        
+        return validateRequiredFields(event.getAwardReportTermItemForValidation(), "") && processCommonValidations(event);        
     }
     
     private boolean processCommonValidations(AwardReportTermRuleEvent event) {
@@ -67,116 +76,60 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
         return isUnique(items, awardReportTermItem);
     }
     
-    /*
+    /**
+     * 
      * An award report term item is unique if no other matching items are in the collection
      * To know if this is a new add or an edit of an existing equipment item, we check 
      * the identifier for nullity. If null, this is an add; otherwise, it's an update
      * If an update, then we expect to find one match in the collection (itself). If an add, 
-     * we expect to find no matches in the collection 
+     * we expect to find no matches in the collection.
      * @param awardReportTermItems
      * @param awardReportTermItem
      * @return
      */
     protected boolean isUnique(List<? extends GenericAwardReportTerm> awardReportTermItems, GenericAwardReportTerm awardReportTermItem) {
         boolean duplicateFound = false;
-        for(GenericAwardReportTerm listItem: awardReportTermItems) {
+        for (GenericAwardReportTerm listItem : awardReportTermItems) {
             duplicateFound = awardReportTermItem != listItem && listItem.equalsInitialFields(awardReportTermItem);
-            if(duplicateFound) {
+            if (duplicateFound) {
                 break;
             }
         }
         
-        if(duplicateFound) {
-            if(!hasDuplicateErrorBeenReported()) {
+        if (duplicateFound) {
+            if (!GlobalVariables.getErrorMap().containsMessageKey(KeyConstants.ERROR_AWARD_REPORT_TERM_ITEM_NOT_UNIQUE)) {
                 reportError("awardReportTerm", KeyConstants.ERROR_AWARD_REPORT_TERM_ITEM_NOT_UNIQUE);
             }
         }
         return !duplicateFound;
     }
-
-    /*
-     * Validate required fields present
-     * @param equipmentItem
-     * @return
-     */
-    protected boolean areRequiredFieldsComplete(GenericAwardReportTerm awardReportTermItem) {
-        
-        boolean itemValid = isReportCodeFieldComplete(awardReportTermItem);
-        itemValid &= isDistributionFieldComplete(awardReportTermItem);
-        itemValid &= isFrequencyManadatory(awardReportTermItem);
-        return itemValid;
-    }
     
-    private boolean hasDuplicateErrorBeenReported() {
-        return GlobalVariables.getErrorMap().containsMessageKey(KeyConstants.ERROR_AWARD_REPORT_TERM_ITEM_NOT_UNIQUE);
-    }
-    
-    /*
+    /**
      * 
-     * This is a convenience method for evaluating the rule for reportCode field.
-     * @param awardReportTerm
+     * This method validates that all the required fields have values.  It is protected so that it can be unit tested easily.
+     * @param awardReportTermItem
+     * @param fieldPrePend
      * @return
      */
-    protected boolean isReportCodeFieldComplete(GenericAwardReportTerm awardReportTermItem){
-        boolean itemValid = awardReportTermItem.getReportCode() != null;
-        
-        if(!itemValid) {            
-            reportError(AWARD_REPORT_TERM_REPORT_CODE_PROPERTY, KeyConstants.ERROR_REQUIRED, REPORT_CODE_ERROR_PARM);
+    protected boolean validateRequiredFields(GenericAwardReportTerm awardReportTermItem, String fieldPrePend) {
+        boolean retVal = true;
+        if (StringUtils.isBlank(awardReportTermItem.getReportCode())) {
+            retVal = false;
+            reportError(fieldPrePend + AWARD_REPORT_TERM_REPORT_CODE_PROPERTY, KeyConstants.ERROR_REQUIRED, REPORT_CODE_ERROR_PARM);
         }
-        
-        return itemValid;
-    }
-    
-    protected boolean isFrequencyCodeFieldComplete(GenericAwardReportTerm awardReportTermItem){
-        boolean itemValid = awardReportTermItem.getFrequencyCode() != null;
-        
-        if(!itemValid) {            
-            reportError(AWARD_REPORT_TERM_FREQUENCY_CODE_PROPERTY, KeyConstants.ERROR_REQUIRED, FREQUENCY_CODE_ERROR_PARM);
+        if (StringUtils.isBlank(awardReportTermItem.getFrequencyCode())) {
+            retVal = false;
+            reportError(fieldPrePend + AWARD_REPORT_TERM_FREQUENCY_CODE_PROPERTY, KeyConstants.ERROR_REQUIRED, FREQUENCY_CODE_ERROR_PARM);
         }
-        
-        return itemValid;
-        
-    }
-    
-    protected boolean isFrequencyBaseCodeFieldComplete(GenericAwardReportTerm awardReportTermItem){
-        boolean itemValid = awardReportTermItem.getFrequencyBaseCode() != null;
-        
-        if(!itemValid) {            
-            reportError(AWARD_REPORT_TERM_FREQUENCY_BASE_CODE_PROPERTY, KeyConstants.ERROR_REQUIRED, FREQUENCY_BASE_CODE_ERROR_PARM);
+        if (StringUtils.isBlank(awardReportTermItem.getFrequencyBaseCode())) {
+            retVal = false;
+            reportError(fieldPrePend + AWARD_REPORT_TERM_FREQUENCY_BASE_CODE_PROPERTY, KeyConstants.ERROR_REQUIRED, FREQUENCY_BASE_CODE_ERROR_PARM);
         }
-        
-        return itemValid;
-    }
-    
-    protected boolean isDistributionFieldComplete(GenericAwardReportTerm awardReportTermItem) {
-        boolean itemValid = true;
-        if (StringUtils.isBlank(awardReportTermItem.getOspDistributionCode()) && frequencyExist(awardReportTermItem)
-                && frequencyBaseExist(awardReportTermItem)) {
-            reportError(AWARD_REPORT_TERM_DISTRIBUTION_PROPERTY, KeyConstants.ERROR_REQUIRED, DISTRIBUTION_ERROR_PARM);
-            itemValid = false;
+        if (StringUtils.isBlank(awardReportTermItem.getOspDistributionCode())) {
+            reportError(fieldPrePend + AWARD_REPORT_TERM_DISTRIBUTION_PROPERTY, KeyConstants.ERROR_REQUIRED, DISTRIBUTION_ERROR_PARM);
+            retVal = false;
         }
-
-        return itemValid;
-    }
-      
-    private boolean frequencyExist(GenericAwardReportTerm awardReportTermItem) {
-        return StringUtils.isNotBlank(awardReportTermItem.getFrequencyCode()) 
-            && !EMPTY_CODE.equals(awardReportTermItem.getFrequencyCode());
-    }
- 
-    private boolean frequencyBaseExist(GenericAwardReportTerm awardReportTermItem) {
-        return StringUtils.isNotBlank(awardReportTermItem.getFrequencyBaseCode()) 
-            && !EMPTY_CODE.equals(awardReportTermItem.getFrequencyBaseCode());
-    }
-
-    protected boolean isFrequencyManadatory(GenericAwardReportTerm awardReportTermItem) {
-        boolean itemValid = true;
-        if (StringUtils.isNotBlank(awardReportTermItem.getOspDistributionCode()) && !frequencyExist(awardReportTermItem)) {
-            reportError(AWARD_REPORT_TERM_FREQUENCY_CODE_PROPERTY, KeyConstants.ERROR_REQUIRED, FREQUENCY_CODE_ERROR_PARM);
-            itemValid = false;
-        }
-
-        return itemValid;
+        return retVal;
     }
     
     /**
@@ -189,7 +142,7 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
      */
     public boolean processAwardReportTermBusinessRules(GenericAwardReportTerm awardReportTerm,
             List<? extends GenericAwardReportTerm> existingItems) {
-        return areRequiredFieldsComplete(awardReportTerm) && isUnique(existingItems, awardReportTerm);
+        return validateRequiredFields(awardReportTerm, "") && isUnique(existingItems, awardReportTerm);
     }
 
 }
