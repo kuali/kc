@@ -85,8 +85,8 @@ public class CfdaBatchJob extends QuartzJobBean {
                 cfdaNotificationService.setTitle(title);
                 cfdaNotificationService.setSender(user);
                 cfdaNotificationService.setMessage(message.toString());
-                cfdaNotificationService.sendNotification();
                 cfdaNotificationService.setRecipient(recipient);
+                cfdaNotificationService.sendNotification();
             } catch (ParserConfigurationException e) {
                 e.printStackTrace();
             } catch (IOException e) {

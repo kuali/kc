@@ -51,6 +51,7 @@ public class CfdaServiceImpl implements CfdaService {
     private ParameterService parameterService;
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
+    private String ftpPrefix = "ftp://";
     private String cfdaFileName;
     private String govURL;
     
@@ -67,6 +68,7 @@ public class CfdaServiceImpl implements CfdaService {
         };
     }
     
+   
     /**
      * This method retrieves cfda codes from the government site
      * @return
@@ -79,6 +81,39 @@ public class CfdaServiceImpl implements CfdaService {
         LOG.info("Getting government file: " + cfdaFileName + " from URL " + govURL + " for update");
 
         InputStream inputStream = null;
+        FTPClient ftp = connect(getGovURL());
+        try {
+            inputStream = ftp.retrieveFileStream(cfdaFileName);
+            if (inputStream != null) {
+                LOG.info("reading input stream");
+                InputStreamReader screenReader = new InputStreamReader(inputStream);                
+                CSVReader csvReader = new CSVReader(screenReader, ',', '"', 1);
+                List<String[]> lines = csvReader.readAll();
+                for (String[] line : lines) {
+                    String title = line[0];
+                    String number = line[1];
+                    CFDA cfda = new CFDA();
+                    cfda.setCfdaNumber(number);
+                    cfda.setCfdaProgramTitleName(title);
+                    cfda.setCfdaMaintenanceTypeId(Constants.CFDA_MAINT_TYP_ID_AUTOMATIC);
+                    govMap.put(number, cfda);
+                }
+            } else { 
+                // If file name is incorrect
+                throw new IOException("Input stream is null. The file " + cfdaFileName + " could not be retrieved from " + govURL);
+            }
+        } finally {
+            disconnect(ftp);
+        }
+        return govMap;
+    }
+    
+    /**
+     * This method connects to the FTP server.
+     * @param url
+     * @return ftp
+     */
+    public FTPClient connect(String url) {
         FTPClient ftp = new FTPClient();
         try {
             ftp.connect(getGovURL());
@@ -98,35 +133,23 @@ public class CfdaServiceImpl implements CfdaService {
                 throw new IOException("Could not login as anonymous.");
             }
 
-            inputStream = ftp.retrieveFileStream(cfdaFileName);
-            if (inputStream != null) {
-                LOG.info("reading input stream");
-                InputStreamReader screenReader = new InputStreamReader(inputStream);                
-                CSVReader csvReader = new CSVReader(screenReader, ',', '"', 1);
-                List<String[]> lines = csvReader.readAll();
-                for (String[] line : lines) {
-                    String title = line[0];
-                    String number = line[1];
-                    CFDA cfda = new CFDA();
-                    cfda.setCfdaNumber(number);
-                    cfda.setCfdaProgramTitleName(title);
-                    cfda.setCfdaMaintenanceTypeId("A");
-                    govMap.put(number, cfda);
-                }
-            } else { 
-                // If file name is incorrect
-                throw new IOException("Input stream is null. The file " + cfdaFileName + " could not be retrieved from " + govURL);
-            }
-            ftp.logout();
-            ftp.disconnect();
-        } finally {
-            if (ftp.isConnected()) {
-                ftp.disconnect();
-            }
+        } catch(IOException io) {
+            LOG.error(io.getMessage());
         }
-        return govMap;
+        return ftp;
     }
     
+    /**
+     * This method disconnects from server.
+     * @param ftp
+     * @throws IOException
+     */
+    public void disconnect(FTPClient ftp) throws IOException {
+        ftp.logout();
+        if (ftp.isConnected()) {
+            ftp.disconnect();
+        }
+    }
     
     /**
      * This method gets the url from the parameter and creates the fileName and 
@@ -139,8 +162,8 @@ public class CfdaServiceImpl implements CfdaService {
         String fileName = StringUtils.substringAfterLast(url, "/");
         url = StringUtils.substringBeforeLast(url, "/");
        
-        if (StringUtils.contains(url, "ftp://")) {
-            url = StringUtils.remove(url, "ftp://");
+        if (StringUtils.contains(url, ftpPrefix)) {
+            url = StringUtils.remove(url, ftpPrefix);
         }
         
         Calendar calendar = dateTimeService.getCurrentCalendar();
