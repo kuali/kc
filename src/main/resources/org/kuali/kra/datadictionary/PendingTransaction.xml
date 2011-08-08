@@ -86,7 +86,7 @@
         <property name="required" value="true" />
         <property name="control" >			
 	        <bean parent="SelectControlDefinition"
-            	p:valuesFinderClass="org.kuali.kra.timeandmoney.AwardValuesFinder"
+            	p:valuesFinderClass="org.kuali.kra.timeandmoney.PendingTransactionAwardValuesFinder"
             	p:includeKeyInLabel="false" />    
 		</property>
         <property name="summary" value="Source Award" />
@@ -108,7 +108,7 @@
     	</property>
         <property name="control" >			
 	        <bean parent="SelectControlDefinition"
-            	p:valuesFinderClass="org.kuali.kra.timeandmoney.AwardValuesFinder"
+            	p:valuesFinderClass="org.kuali.kra.timeandmoney.PendingTransactionAwardValuesFinder"
             	p:includeKeyInLabel="false" />    
 		</property>
         <property name="summary" value="Destination Award" />
