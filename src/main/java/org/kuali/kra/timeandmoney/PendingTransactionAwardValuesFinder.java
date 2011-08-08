@@ -31,33 +31,13 @@ import org.kuali.rice.core.util.KeyLabelPair;
 
 import java.util.Arrays;
 
-public class AwardValuesFinder extends KeyValuesBase{
+public class PendingTransactionAwardValuesFinder extends AwardValuesFinder {
     
     public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) GlobalVariables.getKualiForm();        
-        TimeAndMoneyDocument document = timeAndMoneyForm.getTimeAndMoneyDocument();
-        
-        document.setAwardHierarchyItems(((TimeAndMoneyDocument)GlobalVariables.getUserSession().retrieveObject(
-                GlobalVariables.getUserSession().getKualiSessionId() + Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION)).getAwardHierarchyItems());    
-        
-        if(document.getAwardHierarchyItems()!=null && document.getAwardHierarchyItems().size()!=0){
-            Object[] keyset = document.getAwardHierarchyItems().keySet().toArray();
-            Arrays.sort(keyset);
-            for(Object awardNumber : keyset) {
-                keyValues.add(new KeyLabelPair((String) awardNumber, document.getAwardHierarchyItems().get(awardNumber).getAwardNumber()));
-            }
-        }
-        
+        keyValues.add(new KeyLabelPair("", "select:"));
+        keyValues.add(new KeyLabelPair(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT, "External"));
+        keyValues.addAll(super.getKeyValues());
         return keyValues;
     }
-    
-    public AwardHierarchyService getAwardHierarchyService(){        
-        return (AwardHierarchyService) KraServiceLocator.getService(AwardHierarchyService.class);
-    }
-    
-    public AwardHierarchyUIService getAwardHierarchyUIService(){        
-        return (AwardHierarchyUIService) KraServiceLocator.getService(AwardHierarchyUIService.class);
-    }
-
 }
