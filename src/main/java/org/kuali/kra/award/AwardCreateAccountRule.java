@@ -24,6 +24,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class checks if any of the required fields for account creation
@@ -50,6 +51,7 @@ public class AwardCreateAccountRule {
      */
     public boolean processAwardCreateAccountRules(Award award) {
         boolean rulePassed = true;
+       
         rulePassed &= isValidEffectiveDate(award);
         rulePassed &= isValidExpenseGuidelineText(award);
         rulePassed &= isValidExpirationDate(award);
@@ -57,47 +59,37 @@ public class AwardCreateAccountRule {
         rulePassed &= isValidPaymentBasis(award);
         rulePassed &= isValidPaymentMethod(award);
         rulePassed &= isValidAddress(award);
-        rulePassed &= isValidFandarate(award);
-        rulePassed &= isValidAccountNumber(award);
+        rulePassed &= isValidFandarate(award);        
         
         return rulePassed;
     }
-    
-    /**
-     * This method checks the account number
-     * @param award
-     * @return 
-     */
-    private boolean isValidAccountNumber(Award award) {
-        if (award.getAccountNumber() == null) {
-            GlobalVariables.getMessageMap().putError(AWARD_ACCOUNT_NUMBER_NOT_SPECIFIED, 
-                    KeyConstants.AWARD_ACCOUNT_NUMBER_NOT_SPECIFIED);
-            return false;
-        }
-        return true;
-    }
-    
    
     /**
-     * This method check if the default address (PI address) is present
+     * This method check if the default address (PI address) is present.
      * @param award
      * @return isValid
      */
-    private boolean isValidAddress(Award award) {
+    protected boolean isValidAddress(Award award) {
        
         boolean isValid = true;
-        if (award.getPrincipalInvestigator() == null) {
+        if (ObjectUtils.isNull(award.getPrincipalInvestigator())) {
             GlobalVariables.getMessageMap().putError(AWARD_PI_NOT_SPECIFIED, 
                     KeyConstants.AWARD_PI_NOT_SPECIFIED);
             isValid = false;
         } else {
             KcPerson principalInvestigator = award.getPrincipalInvestigator().getPerson();
-            String streetAddress = principalInvestigator.getAddressLine1();
-            String cityName = principalInvestigator.getCity();
-            String stateCode = principalInvestigator.getState();
-            String postalCode = principalInvestigator.getPostalCode();
-            if (StringUtils.isBlank(streetAddress) || StringUtils.isBlank(cityName)
-                || StringUtils.isBlank(stateCode) || StringUtils.isBlank(postalCode))  {
+            if (ObjectUtils.isNotNull(principalInvestigator)) {
+                String streetAddress = principalInvestigator.getAddressLine1();
+                String cityName = principalInvestigator.getCity();
+                String stateCode = principalInvestigator.getState();
+                String postalCode = principalInvestigator.getPostalCode();
+                if (StringUtils.isBlank(streetAddress) || StringUtils.isBlank(cityName)
+                    || StringUtils.isBlank(stateCode) || StringUtils.isBlank(postalCode))  {
+                    GlobalVariables.getMessageMap().putError(AWARD_ADDRESS_NOT_COMPLETE, 
+                            KeyConstants.AWARD_ADDRESS_NOT_COMPLETE);
+                    isValid = false;
+                }
+            } else {
                 GlobalVariables.getMessageMap().putError(AWARD_ADDRESS_NOT_COMPLETE, 
                         KeyConstants.AWARD_ADDRESS_NOT_COMPLETE);
                 isValid = false;
@@ -114,11 +106,11 @@ public class AwardCreateAccountRule {
      * @param award
      * @return isValid
      */
-    private boolean isValidFandarate(Award award) {
+    protected boolean isValidFandarate(Award award) {
         List<AwardFandaRate> rates = award.getAwardFandaRate();
         boolean isValid = true;
         boolean currentYearRate = false;
-        if (rates.size() == 0) {
+        if (ObjectUtils.isNull(rates) || rates.size() == 0) {
             GlobalVariables.getMessageMap().putError(AWARD_F_AND_A_RATE_NOT_SPECIFIED, 
                                                     KeyConstants.AWARD_F_AND_A_RATE_NOT_SPECIFIED);
             isValid = false;
@@ -141,7 +133,7 @@ public class AwardCreateAccountRule {
         return isValid;
     }
     
-    private boolean isValidPaymentBasis(Award award) {
+    protected boolean isValidPaymentBasis(Award award) {
         if (award.getBasisOfPaymentCode() == null) {
             GlobalVariables.getMessageMap().putError(AWARD_PAYMENT_BASIS_NOT_SPECIFIED, 
                                                     KeyConstants.AWARD_PAYMENT_BASIS_NOT_SPECIFIED);
@@ -150,7 +142,7 @@ public class AwardCreateAccountRule {
         return true;
     }
     
-    private boolean isValidPaymentMethod(Award award) {
+    protected boolean isValidPaymentMethod(Award award) {
         if (award.getMethodOfPaymentCode() == null) {
             GlobalVariables.getMessageMap().putError(AWARD_PAYMENT_METHOD_NOT_SPECIFIED, 
                                                     KeyConstants.AWARD_PAYMENT_METHOD_NOT_SPECIFIED);
@@ -159,7 +151,7 @@ public class AwardCreateAccountRule {
         return true;
     }
     
-    private boolean isValidHigherEducationCode(Award award) {
+    protected boolean isValidHigherEducationCode(Award award) {
         if (award.getActivityTypeCode() == null) {
             GlobalVariables.getMessageMap().putError(AWARD_ACTIVITY_TYPE_CODE, 
                                                     KeyConstants.AWARD_ACTIVITY_TYPE_CODE);
@@ -174,7 +166,7 @@ public class AwardCreateAccountRule {
      * @param award
      * @return
      */
-    private boolean isValidEffectiveDate(Award award) {
+    protected boolean isValidEffectiveDate(Award award) {
         if (award.getAwardEffectiveDate() == null) {
             GlobalVariables.getMessageMap().putError(AWARD_EFFECTIVE_DATE_NOT_SPECIFIED, 
                                                     KeyConstants.AWARD_NO_VALID_EFFECTIVE_DATE);
@@ -189,7 +181,7 @@ public class AwardCreateAccountRule {
      * @param award
      * @return
      */
-    private boolean isValidExpenseGuidelineText(Award award) { 
+    protected boolean isValidExpenseGuidelineText(Award award) { 
         if (award.getAwardId() == null) {
             GlobalVariables.getMessageMap().putError(AWARD_ID_NOT_SPECIFIED, 
                                                     KeyConstants.AWARD_ID_NOT_SPECIFIED);
@@ -204,7 +196,7 @@ public class AwardCreateAccountRule {
      * @param award
      * @return
      */
-    private boolean isValidExpirationDate(Award award) {
+    protected boolean isValidExpirationDate(Award award) {
         if (award.getProjectEndDate() == null) {
             GlobalVariables.getMessageMap().putError(AWARD_END_DATE_NOT_SPECIFIED, 
                                                     KeyConstants.AWARD_END_DATE_NOT_SPECIFIED);
