@@ -18,6 +18,7 @@ package org.kuali.kra.budget;
 import java.math.BigDecimal;
 
 import org.kuali.rice.kns.util.AbstractKualiDecimal;
+import org.mvel2.util.ThisLiteral;
 
 /**
  * This class is a wrapper around java.math.BigDecimal. It exposes the only the
@@ -132,5 +133,14 @@ public class BudgetDecimal extends AbstractKualiDecimal<BudgetDecimal> {
      */
     public static BudgetDecimal returnZeroIfNull(BudgetDecimal value){
         return value==null?BudgetDecimal.ZERO:value;
+    }
+    
+    /**
+     * 
+     * This method calls the floatValue() funciton.  It is needed so the TAGs can call this function.
+     * @return
+     */
+    public float getFloatValue() {
+        return this.floatValue();
     }
 }
