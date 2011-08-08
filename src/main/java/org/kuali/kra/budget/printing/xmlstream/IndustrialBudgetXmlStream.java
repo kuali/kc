@@ -43,6 +43,7 @@ import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.nonpersonnel.AbstractBudgetRateAndBase;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase;
@@ -202,66 +203,24 @@ public class IndustrialBudgetXmlStream extends BudgetBaseStream {
 	 */
 	private void setReportTypeForIndustrialBudgetSalary(
 			List<ReportType> reportTypeList) {
-		List<ReportTypeVO> reportTypeVOList = new ArrayList<ReportTypeVO>();
-		for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-			for (BudgetPersonnelDetails budgetPersDetails : budgetLineItem
-					.getBudgetPersonnelDetailsList()) {
-				for (BudgetPersonnelRateAndBase budgetPersRateAndBase : budgetPersDetails
-						.getBudgetPersonnelRateAndBaseList()) {
-					if (!(isRateAndBaseOfRateClassTypeEB(budgetPersRateAndBase) || isRateAndBaseOfRateClassTypeVacation(budgetPersRateAndBase) 
-					        || isRateAndBaseOfRateClassTypeLAwithEBVA(budgetPersRateAndBase))) {
-						ReportTypeVO reportTypeVO = getReportTypeVOForIndustrialBudgetSalary(
-								budgetLineItem, budgetPersDetails,
-								budgetPersRateAndBase);
-						reportTypeVOList.add(reportTypeVO);
-					}
-				}
-			}
-		}
 		setReportTypeListFromReportTypeVOListForIndustrialBudgetSalary(
-				reportTypeList, reportTypeVOList);
+				reportTypeList, getReportTypeVOList(budgetPeriod));
 	}
-
-	/*
-	 * This method gets reportTypeVO for BudgetSalarySummaryFrom by setting data
-	 * to reportTypeVO from budgetLineItem, budgetPersDetails and
-	 * budgetPersRateAndBase
+	
+	@Override
+	/**
+	 * Overridden method from BudgetBaseStream to filter for different rates.
 	 */
-	private ReportTypeVO getReportTypeVOForIndustrialBudgetSalary(
-			BudgetLineItem budgetLineItem,
-			BudgetPersonnelDetails budgetPersDetails,
-			BudgetPersonnelRateAndBase budgetPersRateAndBase) {
-		ReportTypeVO reportTypeVO = new ReportTypeVO();
-		budgetPersDetails.refreshNonUpdateableReferences();
-		reportTypeVO.setStartDate(budgetPersRateAndBase.getStartDate());
-		reportTypeVO.setEndDate(budgetPersRateAndBase.getEndDate());
-		reportTypeVO
-				.setBudgetCategoryDesc(getBudgetCategoryDescForSalarySummary(
-						budgetPersDetails, budgetPersRateAndBase));
-		reportTypeVO.setPersonName(getPersonNameFromBudgetPersonByRateAndBase(
-				budgetPersDetails.getBudgetPerson(), budgetPersRateAndBase,
-				budgetLineItem.getQuantity()));
-		reportTypeVO
-				.setPercentEffort(getPercentEffortForBudgetPersonnelRateBase(
-						budgetLineItem, budgetPersDetails,
-						budgetPersRateAndBase));
-		reportTypeVO
-				.setPercentCharged(getPercentChargedForBudgetPersonnelRateBase(
-						budgetLineItem, budgetPersDetails,
-						budgetPersRateAndBase));
-		reportTypeVO
-				.setBudgetCategoryCode(getBudgetCategoryCodeFroBudgetSalarySummary(
-						budgetPersRateAndBase, budgetPersDetails));
-		reportTypeVO
-				.setCalculatedCost(getCalculatedForIndustrialBudgetSalary(budgetPersRateAndBase));
-		reportTypeVO.setSalaryRequested(budgetPersRateAndBase
-				.getSalaryRequested());
-		reportTypeVO
-				.setInvestigatorFlag(getInvestigatorFlag(budgetPersRateAndBase));
-		reportTypeVO.setCostElementDesc(budgetPersDetails.getCostElementBO()
-				.getDescription());
-		return reportTypeVO;
-	}
+    protected List<AbstractBudgetRateAndBase> getRatesApplicableToVOList(List<? extends AbstractBudgetRateAndBase> rates) {
+        List<AbstractBudgetRateAndBase> result = new ArrayList<AbstractBudgetRateAndBase>();
+        for (AbstractBudgetRateAndBase rate : rates) {
+            if (!(isRateAndBaseOfRateClassTypeEB(rate) || isRateAndBaseOfRateClassTypeVacation(rate) 
+                    || isRateAndBaseOfRateClassTypeLAwithEBVA(rate))) {
+                result.add(rate);
+            }
+        }
+        return result;
+    }	
 
 	/*
 	 * This method sets reportTypeVO and add it to reportTypeVOList from list of
@@ -347,8 +306,8 @@ public class IndustrialBudgetXmlStream extends BudgetBaseStream {
 		reportType.setEndDate(DateFormatUtils.format(reportTypeVO.getEndDate(), DATE_FORMAT_MMDDYY));
 		reportType.setBudgetCategoryDescription(reportTypeVO.getBudgetCategoryDesc());
 		reportType.setPersonName(reportTypeVO.getPersonName());
-		reportType.setPercentEffort(reportTypeVO.getPercentEffort().doubleValue());
-		reportType.setPercentCharged(reportTypeVO.getPercentCharged().doubleValue());
+        reportType.setPercentEffort(reportTypeVO.getPercentEffort() != null ? reportTypeVO.getPercentEffort().doubleValue() : 0.00);
+        reportType.setPercentCharged(reportTypeVO.getPercentCharged() != null ? reportTypeVO.getPercentCharged().doubleValue() : 0.00);
 		if (reportTypeVO.getBudgetCategoryCode() != null) {
 			reportType.setBudgetCategoryCode(Integer.parseInt(reportTypeVO.getBudgetCategoryCode()));
 		}
@@ -373,22 +332,6 @@ public class IndustrialBudgetXmlStream extends BudgetBaseStream {
 				reportTypeVO.getBudgetCategoryCode()).append(
 				reportTypeVO.getBudgetCategoryDesc());
 		return key.toString();
-	}
-
-	/*
-	 * This method gets Calculated For IndustrialBudgetSalary based on
-	 * EMPLOYEE_BENEFITS , OVERHEAD and VACATION rateClassType by
-	 * BudgetPersonnelRateAndBase
-	 */
-	private BudgetDecimal getCalculatedForIndustrialBudgetSalary(
-			BudgetPersonnelRateAndBase budgetPersRateAndBase) {
-		BudgetDecimal calculatedCost = BudgetDecimal.ZERO;
-		if (isRateAndBaseEBonLA(budgetPersRateAndBase)
-				|| isRateAndBaseVAonLA(budgetPersRateAndBase)
-				|| isRateAndBaseOfRateClassTypeOverhead(budgetPersRateAndBase)) {
-			calculatedCost = budgetPersRateAndBase.getCalculatedCost();
-		}
-		return calculatedCost;
 	}
 
 	/*

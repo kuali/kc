@@ -40,13 +40,9 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
-import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
-import org.kuali.kra.budget.personnel.BudgetPersonnelRateAndBase;
 import org.kuali.kra.budget.printing.util.ReportTypeVO;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
@@ -204,78 +200,11 @@ public class BudgetSummaryXmlStream extends BudgetBaseStream {
 	 */
 	private void setReportTypeForBudgetSalarySummary(
 			List<ReportType> reportTypeList) {
-		List<ReportTypeVO> reportTypeVOList = new ArrayList<ReportTypeVO>();
-		for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-			for (BudgetPersonnelDetails budgetPersDetails : budgetLineItem
-					.getBudgetPersonnelDetailsList()) {
-				for (BudgetPersonnelRateAndBase budgetPersRateAndBase : budgetPersDetails
-						.getBudgetPersonnelRateAndBaseList()) {
-					if (!(isRateAndBaseEBonLA(budgetPersRateAndBase)
-							|| isRateAndBaseVAonLA(budgetPersRateAndBase) || isRateAndBaseLASalary(budgetPersRateAndBase) )) {
-						
-						if(isRateAndBaseOfRateClassTypeEB(budgetPersRateAndBase)){
-					    	ReportTypeVO reportTypeVO = getReportTypeVOForBudgetSalarySummary(
-								budgetLineItem, budgetPersDetails,
-								budgetPersRateAndBase);
-							reportTypeVOList.add(reportTypeVO);
-						}
-					}
-				}
-			}
-		}
+
 		setReportTypeListFromReportTypeVOListForBudgetSalarySummary(
-				reportTypeList, reportTypeVOList);
+				reportTypeList, getReportTypeVOList(budgetPeriod));
 	}
-
-	/*
-	 * This method gets reportTypeVO for BudgetSalarySummary by setting data to
-	 * reportTypeVO from budgetLineItem, budgetPersDetails and
-	 * budgetPersRateAndBase
-	 */
-	private ReportTypeVO getReportTypeVOForBudgetSalarySummary(
-			BudgetLineItem budgetLineItem,
-			BudgetPersonnelDetails budgetPersDetails,
-			BudgetPersonnelRateAndBase budgetPersRateAndBase) {
-		ReportTypeVO reportTypeVO = new ReportTypeVO();
-		budgetPersDetails.refreshNonUpdateableReferences();
-		reportTypeVO.setStartDate(budgetPersRateAndBase.getStartDate());
-		reportTypeVO.setEndDate(budgetPersRateAndBase.getEndDate());
-		reportTypeVO
-				.setBudgetCategoryDesc(getBudgetCategoryDescForSalarySummary(
-						budgetPersDetails, budgetPersRateAndBase));
-		reportTypeVO.setPersonName(getPersonNameFromBudgetPersonByRateAndBase(
-				budgetPersDetails.getBudgetPerson(), budgetPersRateAndBase,
-				budgetLineItem.getQuantity()));
-		reportTypeVO
-				.setPercentEffort(getPercentEffortForBudgetPersonnelRateBase(
-						budgetLineItem, budgetPersDetails,
-						budgetPersRateAndBase));
-		reportTypeVO
-				.setPercentCharged(getPercentChargedForBudgetPersonnelRateBase(
-						budgetLineItem, budgetPersDetails,
-						budgetPersRateAndBase));
-		reportTypeVO
-				.setVacationRate(getVacationAppliedRateForPersonnel(budgetPersRateAndBase));
-		reportTypeVO
-				.setEmployeeBenefitRate(getEmpBenefitAppliedRateForPersonnel(budgetPersRateAndBase));
-		reportTypeVO.setCostSharingAmount(budgetPersRateAndBase
-				.getCalculatedCostSharing());
-		reportTypeVO
-				.setCalculatedCost(getFringeCostSharingForBudgetSalarySummary(budgetPersRateAndBase));
-		reportTypeVO
-				.setFringe(getFringeForBudgetSalarySummaryFromPersonnelRateAndBase(budgetPersRateAndBase));
-		reportTypeVO.setCostElementDesc(budgetPersDetails.getCostElementBO()
-				.getDescription());
-		reportTypeVO
-				.setInvestigatorFlag(getInvestigatorFlag(budgetPersRateAndBase));
-		reportTypeVO
-				.setBudgetCategoryCode(getBudgetCategoryCodeFroBudgetSalarySummary(
-						budgetPersRateAndBase, budgetPersDetails));
-		reportTypeVO.setSalaryRequested(budgetPersRateAndBase
-				.getSalaryRequested());
-		return reportTypeVO;
-
-	}
+	
 
 	/*
 	 * This method sets reportTypeVO to ReportTypeList for BudgetSalarySummary
@@ -335,10 +264,8 @@ public class BudgetSummaryXmlStream extends BudgetBaseStream {
 		reportType.setBudgetCategoryDescription( reportTypeVO
 				.getBudgetCategoryDesc());
 		reportType.setPersonName(reportTypeVO.getPersonName());
-		reportType.setPercentEffort(reportTypeVO.getPercentEffort()
-				.doubleValue());
-		reportType.setPercentCharged(reportTypeVO.getPercentCharged()
-				.doubleValue());
+		reportType.setPercentEffort(reportTypeVO.getPercentEffort() != null ? reportTypeVO.getPercentEffort().doubleValue() : 0.00);
+		reportType.setPercentCharged(reportTypeVO.getPercentCharged() != null ? reportTypeVO.getPercentCharged().doubleValue() : 0.00);
 		reportType.setVacationRate(vacationRate.toString().concat(PERCENTAGE));
 		reportType.setEmployeeBenefitRate(empBenefitRate.toString().concat(
 				PERCENTAGE));
@@ -355,22 +282,6 @@ public class BudgetSummaryXmlStream extends BudgetBaseStream {
 		reportType.setSalaryRequested(reportTypeVO.getSalaryRequested()
 				.doubleValue());
 		return reportType;
-	}
-
-	/*
-	 * This method gets fringeCostSharing for BudgetSalarySummary based on
-	 * EMPLOYEE_BENEFITS and VACATION rateClassType by
-	 * BudgetPersonnelRateAndBase
-	 */
-	private BudgetDecimal getFringeCostSharingForBudgetSalarySummary(
-			BudgetPersonnelRateAndBase budgetPersRateAndBase) {
-		BudgetDecimal fringeCostSharing = BudgetDecimal.ZERO;
-		if (isRateAndBaseOfRateClassTypeEB(budgetPersRateAndBase)
-				|| isRateAndBaseOfRateClassTypeVacation(budgetPersRateAndBase)) {
-			fringeCostSharing = budgetPersRateAndBase
-					.getCalculatedCostSharing();
-		}
-		return fringeCostSharing;
 	}
 
 	/*
