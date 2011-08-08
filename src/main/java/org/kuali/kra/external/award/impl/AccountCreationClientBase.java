@@ -39,12 +39,14 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.bo.UnitAdministratorType;
 import org.kuali.kra.external.award.AccountCreationClient;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 
 
@@ -230,14 +232,15 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         final int ACCOUNT_NAME_LENGTH = 40;
         // Account name
         String accountName = award.getSponsor().getAcronym() 
-        // sponsor award id?
-                            + "-" + award.getSponsorAwardNumber();  //award.getAwardNumber();
-        if (award.getPrincipalInvestigatorName() != null) {
+            + "-" + award.getSponsorAwardNumber();
+        if (ObjectUtils.isNotNull(award.getPrincipalInvestigator()) 
+            && ObjectUtils.isNotNull(award.getPrincipalInvestigator().getPerson())) {
             accountName += "-" + award.getPrincipalInvestigator().getPerson().getFirstName()
                                + award.getPrincipalInvestigator().getPerson().getLastName();
         }
+            
         // Trimming the name 
-        if (accountName.length() > ACCOUNT_NAME_LENGTH) {
+        if (ObjectUtils.isNotNull(accountName) && accountName.length() > ACCOUNT_NAME_LENGTH) {
             accountName = accountName.substring(0, ACCOUNT_NAME_LENGTH - 1);
         }
         accountParameters.setAccountName(accountName);
@@ -250,20 +253,21 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
     protected void setDefaultAddress(Award award) {
         //default address is the PI address
         KcPerson principalInvestigator = award.getPrincipalInvestigator().getPerson();
-        String streetAddress = principalInvestigator.getAddressLine1();
-        if (principalInvestigator.getAddressLine2() != null) {
-            streetAddress += principalInvestigator.getAddressLine2();
-        }
+        if (ObjectUtils.isNotNull(principalInvestigator)) {
+            String streetAddress = principalInvestigator.getAddressLine1();
+            if (principalInvestigator.getAddressLine2() != null) {
+                streetAddress += principalInvestigator.getAddressLine2();
+            }
             
-        if (principalInvestigator.getAddressLine3() != null) {
-            streetAddress += principalInvestigator.getAddressLine3();
+            if (principalInvestigator.getAddressLine3() != null) {
+                streetAddress += principalInvestigator.getAddressLine3();
+            }
+        
+            accountParameters.setDefaultAddressStreetAddress(streetAddress);
+            accountParameters.setDefaultAddressCityName(principalInvestigator.getCity());
+            accountParameters.setDefaultAddressStateCode(principalInvestigator.getState());
+            accountParameters.setDefaultAddressZipCode(principalInvestigator.getPostalCode());
         }
-
-        accountParameters.setDefaultAddressStreetAddress(streetAddress);
-        accountParameters.setDefaultAddressCityName(principalInvestigator.getCity());
-        accountParameters.setDefaultAddressStateCode(principalInvestigator.getState());
-        accountParameters.setDefaultAddressZipCode(principalInvestigator.getPostalCode());
-       
     }
     
     /**
@@ -275,23 +279,26 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         for (AwardUnitContact contact : unitContacts) {
             contact.refreshReferenceObject("unitAdministratorType");
             // Send the address of the administrative contact
-            if ("Administrative Contact".equals(contact.getUnitAdministratorType().getDescription())) {
+            UnitAdministratorType adminType = contact.getUnitAdministratorType();
+            if (ObjectUtils.isNotNull(adminType) 
+                && "Administrative Contact".equals(adminType.getDescription())) {
                 KcPerson adminPerson = contact.getPerson();
-                
-                String adminStreetAddress = adminPerson.getAddressLine1();
-                if (adminPerson.getAddressLine2() != null) {
-                    adminStreetAddress += adminPerson.getAddressLine2();
-                }
+                if (ObjectUtils.isNotNull(adminPerson)) {
+                    String adminStreetAddress = adminPerson.getAddressLine1();
+                    if (adminPerson.getAddressLine2() != null) {
+                        adminStreetAddress += adminPerson.getAddressLine2();
+                    }
                     
-                if (adminPerson.getAddressLine3() != null) {
-                    adminStreetAddress += adminPerson.getAddressLine3();
-                }
+                    if (adminPerson.getAddressLine3() != null) {
+                        adminStreetAddress += adminPerson.getAddressLine3();
+                    }
              
-                accountParameters.setAdminContactAddressStreetAddress(adminStreetAddress);
-                accountParameters.setAdminContactAddressStreetAddress(adminPerson.getAddressLine1());
-                accountParameters.setAdminContactAddressCityName(adminPerson.getCity());
-                accountParameters.setAdminContactAddressStateCode(adminPerson.getState());
-                accountParameters.setAdminContactAddressZipCode(adminPerson.getPostalCode());
+                    accountParameters.setAdminContactAddressStreetAddress(adminStreetAddress);
+                    accountParameters.setAdminContactAddressStreetAddress(adminPerson.getAddressLine1());
+                    accountParameters.setAdminContactAddressCityName(adminPerson.getCity());
+                    accountParameters.setAdminContactAddressStateCode(adminPerson.getState());
+                    accountParameters.setAdminContactAddressZipCode(adminPerson.getPostalCode());
+                }
             }
         }
     }
@@ -306,7 +313,7 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         for (AwardReportTerm item : items) {
             List<AwardReportTermRecipient> recipients = item.getAwardReportTermRecipients();
             // send any one of the recipients addresses
-            if (recipients.size() != 0) {
+            if (ObjectUtils.isNotNull(recipients) && recipients.size() != 0) {
                 String paymentStreetAddress = recipients.get(0).getRolodex().getAddressLine1();
                 if (recipients.get(0).getRolodex().getAddressLine2() != null) {
                     paymentStreetAddress += recipients.get(0).getRolodex().getAddressLine2();
