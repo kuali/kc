@@ -21,7 +21,7 @@
 
 <link rel="stylesheet" href="css/award_hierarchy.css" type="text/css" />
 
-<kul:tab tabTitle="Award Hierarchy" defaultOpen="true" tabErrorKey="awardHierarchyNodeItems*,document.award.timeAndMoneyAwardAmountTransaction.newAwardAmountTransaction*,document.award.timeAndMoneyAwardDates*,totals*,timeAndMoneyTransaction*,newAwardAmountTransaction.transactionTypeCode" auditCluster="reportsAuditErrors" tabAuditKey="document.reportTermsAuditRules*" useRiceAuditMode="true">
+<kul:tab tabTitle="Award Hierarchy" defaultOpen="true" tabErrorKey="awardHierarchyNodeItems*,document.award.timeAndMoneyAwardAmountTransaction.newAwardAmountTransaction*,document.award.timeAndMoneyAwardDates*,totals*,timeAndMoneyTransaction*,newAwardAmountTransaction.transactionTypeCode,goToAwardNumber" auditCluster="reportsAuditErrors" tabAuditKey="document.reportTermsAuditRules*" useRiceAuditMode="true">
 	<div class="tab-container" align="right">
 		<h3>
     		<span class="subhead-left">Award Hierarchy</span>
@@ -82,7 +82,18 @@
 				<th>
 					<div align="left">
 						Go To:
-						<html:text property="goToAwardNumber" size="12" maxlength="12" />
+						<html:select property="goToAwardNumber">
+		                    <c:forEach items="${krafn:getOptionList('org.kuali.kra.timeandmoney.AwardValuesFinder', null)}" var="option">
+		                    <c:choose>
+		                        <c:when test="${KualiForm.goToAwardNumber == option.key}">
+		                        <option value="${option.key}" selected="">${option.label}</option>
+		                        </c:when>
+		                        <c:otherwise>
+		                        <option value="${option.key}">${option.label}</option>
+		                        </c:otherwise>
+		                    </c:choose>
+		                    </c:forEach>
+						</html:select> 
 						<html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-go.gif" styleClass="globalbuttons" alt="Go" property="methodToCall.switchAward" />
 					</div>
 				</th>
