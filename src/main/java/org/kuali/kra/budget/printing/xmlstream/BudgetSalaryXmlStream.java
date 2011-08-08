@@ -84,7 +84,7 @@ public class BudgetSalaryXmlStream extends BudgetBaseSalaryStream {
 		List<SalaryTypeVO> salaryTypeVoList = new ArrayList<SalaryTypeVO>();
 		getBudgetCalculationService().calculateBudgetSummaryTotals(budget);
 		for (Map.Entry<BudgetCategoryType, List<CostElement>> entry : budget.getObjectCodeListByBudgetCategoryType().entrySet()) {
-		    if (StringUtils.equals(entry.getKey().getBudgetCategoryTypeCode(), BUDGET_CATEGORY_TYPE_PERSONNEL)) {
+		    if (isPersonnel(entry.getKey().getBudgetCategoryTypeCode())) {
 		        for (CostElement costElement : entry.getValue()) {
 		            addSalaryDataForCostElement(costElement, salaryTypeVoList);
 		        }
