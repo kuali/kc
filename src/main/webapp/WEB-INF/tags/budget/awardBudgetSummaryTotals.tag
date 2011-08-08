@@ -721,12 +721,13 @@
 						</div>
 					</td>
         	    	<c:set var="calculatedIndirectExpenseVar" value="calculatedIndirectExpense${status.index}" />
-					<c:set var="cumTotal" value = "${cumTotal + period.totalIndirectCost}" />
+					<c:set var="cumTotal" value = "${cumTotal + period.totalIndirectCost.floatValue}" />
 				</c:forEach>    
                 <td class="infoline">
                 	<div align="right">  	
                       <strong>
-                		<fmt:formatNumber value="${KualiForm.document.budget.totalIndirectCost}" type="currency" currencySymbol="" maxFractionDigits="2" />
+                		<fmt:formatNumber value="${KualiForm.document.budget.totalIndirectCost.floatValue}" 
+                			type="currency" currencySymbol="" maxFractionDigits="2" />
                       </strong>
                 	</div>
                 </td>
@@ -739,9 +740,11 @@
         	    	<c:set var="periodTotalVar" value="period${status.index}" />
         	    	<c:set var="calculatedIndirectExpenseVar" value="calculatedIndirectExpense${status.index}" />
         	    	<c:if test="${status.index ge periodStartIndex and status.index le periodEndIndex }" >
-						<td class="infoline"><div align="right"><strong><fmt:formatNumber value="${personnelSubTotalsMap[periodTotalVar] + nonPersonnelSubTotalsMap[periodTotalVar] + period.totalIndirectCost}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;</strong></div></td>
+						<td class="infoline"><div align="right"><strong>
+							<fmt:formatNumber value="${personnelSubTotalsMap[periodTotalVar] + nonPersonnelSubTotalsMap[periodTotalVar] + period.totalIndirectCost.floatValue}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;
+						</strong></div></td>
 					</c:if>
-					<c:set var="cumTotal" value = "${cumTotal + personnelSubTotalsMap[periodTotalVar] + nonPersonnelSubTotalsMap[periodTotalVar] + period.totalIndirectCost}" />
+					<c:set var="cumTotal" value = "${cumTotal + personnelSubTotalsMap[periodTotalVar] + nonPersonnelSubTotalsMap[periodTotalVar] + period.totalIndirectCost.floatValue}" />
 				</c:forEach>    
                 <td class="infoline">
                 	<div align="right">  	
