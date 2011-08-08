@@ -39,14 +39,12 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.personnel.BudgetPersonnelRateAndBase;
 import org.kuali.kra.budget.printing.util.ReportTypeVO;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
@@ -272,24 +270,7 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 
 		List<ReportTypeVO> reportTypeVOList = new ArrayList<ReportTypeVO>();
 		for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
-			for (BudgetLineItem budgetLineItem : budgetPeriod
-					.getBudgetLineItems()) {
-				for (BudgetPersonnelDetails budgetPersDetails : budgetLineItem
-						.getBudgetPersonnelDetailsList()) {
-					for (BudgetPersonnelRateAndBase budgetPersRateAndBase : budgetPersDetails
-							.getBudgetPersonnelRateAndBaseList()) {
-						if (!(isRateAndBaseEBonLA(budgetPersRateAndBase)
-								|| isRateAndBaseVAonLA(budgetPersRateAndBase) || isRateAndBaseLASalary(budgetPersRateAndBase))) {
-						    if(isRateAndBaseOfRateClassTypeEB(budgetPersRateAndBase)){
-								ReportTypeVO reportTypeVO = getReportTypeVOForCumulativeBudgetSalary(
-									budgetLineItem, budgetPersDetails,
-									budgetPersRateAndBase);
-								reportTypeVOList.add(reportTypeVO);
-						    }
-						}
-					}
-				}
-			}
+		    reportTypeVOList.addAll(getReportTypeVOList(budgetPeriod));
 		}
 		setReportTypeListFromReportTypeVoListForCumulativeBudgetSalary(
 				reportTypeList, reportTypeVOList);
@@ -326,44 +307,6 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 			}
 		}
 		setReportTypeBudgetLASalary(reportTypeList, reportTypeVOList);
-	}
-
-	/*
-	 * This method gets reportTypeVO for CumulativeBudgetSalary by setting data
-	 * to reportTypeVO from budgetLineItem, budgetPersDetails and
-	 * budgetPersRateAndBase
-	 */
-	private ReportTypeVO getReportTypeVOForCumulativeBudgetSalary(
-			BudgetLineItem budgetLineItem,
-			BudgetPersonnelDetails budgetPersDetails,
-			BudgetPersonnelRateAndBase budgetPersRateAndBase) {
-		ReportTypeVO reportTypeVO;
-		reportTypeVO = new ReportTypeVO();
-		budgetPersDetails.refreshNonUpdateableReferences();
-		reportTypeVO.setStartDate(budgetPersRateAndBase.getStartDate());
-		reportTypeVO.setEndDate(budgetPersRateAndBase.getEndDate());
-		reportTypeVO
-				.setBudgetCategoryDesc(getBudgetCategoryDescForSalarySummary(
-						budgetPersDetails, budgetPersRateAndBase));
-		reportTypeVO.setPersonName(getPersonNameFromBudgetPersonByRateAndBase(
-				budgetPersDetails.getBudgetPerson(), budgetPersRateAndBase,
-				budgetLineItem.getQuantity()));
-		reportTypeVO
-				.setVacationRate(getVacationAppliedRateForPersonnel(budgetPersRateAndBase));
-		reportTypeVO
-				.setEmployeeBenefitRate(getEmpBenefitAppliedRateForPersonnel(budgetPersRateAndBase));
-		reportTypeVO
-				.setFringe(getFringeForBudgetSalarySummaryFromPersonnelRateAndBase(budgetPersRateAndBase));
-		reportTypeVO.setCostElementDesc(budgetPersDetails.getCostElementBO()
-				.getDescription());
-		reportTypeVO
-				.setInvestigatorFlag(getInvestigatorFlag(budgetPersRateAndBase));
-		reportTypeVO
-				.setBudgetCategoryCode(getBudgetCategoryCodeFroBudgetSalarySummary(
-						budgetPersRateAndBase, budgetPersDetails));
-		reportTypeVO.setSalaryRequested(budgetPersRateAndBase
-				.getSalaryRequested());
-		return reportTypeVO;
 	}
 
 	/*

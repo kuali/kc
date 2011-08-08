@@ -48,7 +48,6 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
  * @author
  */
 public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
-	protected static final String BUDGET_CATEGORY_TYPE_PERSONNEL = "P";
 	protected static final String SEPARATER_STRING = " - ";
 	protected static final String OVERHEAD_RATE_PREFIX = "OH - ";
 	protected static final String EMPTY_STRING = "";
@@ -327,9 +326,9 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 	 * This method will determine whether given budgetcategory type is personnel
 	 * or not
 	 */
-	private boolean isPersonnel(String budgetCategoryType) {
+	protected boolean isPersonnel(String budgetCategoryType) {
 		boolean personnelFound = false;
-		if (budgetCategoryType.equalsIgnoreCase(BUDGET_CATEGORY_TYPE_PERSONNEL)) {
+		if (budgetCategoryType.equalsIgnoreCase(BUDGET_CATEGORY_PERSONNEL)) {
 			personnelFound = true;
 		}
 		return personnelFound;
