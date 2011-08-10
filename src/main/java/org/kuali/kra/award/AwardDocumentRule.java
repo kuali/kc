@@ -836,6 +836,8 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         // make sure start dates are before end dates
         Date effStartDate = award.getAwardEffectiveDate(); 
         Date effEndDate = award.getAwardAmountInfos().get(lastIndex).getFinalExpirationDate();
+        
+        // make sure Project Start Date <= Obligation Start Date <= Obligation End Date <= Project Start Date
         if (effStartDate != null && effEndDate != null && effStartDate.after(effEndDate))  {
             success = false;
             errorMap.putError("awardAmountInfos["+lastIndex+"].finalExpirationDate", KeyConstants.ERROR_START_DATE_ON_OR_BEFORE,
@@ -851,13 +853,13 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         // make sure obligation dates are within effective dates
         if (oblStartDate != null && effStartDate != null && oblStartDate.before(effStartDate)) {
             success = false;
-            errorMap.putError("awardAmountInfos["+lastIndex+"].currentFundEffectiveDate1", KeyConstants.ERROR_START_DATE_ON_OR_AFTER,
-                    new String[] {"Obligation Start Date", "Project Start Date"});
+            errorMap.putError("awardAmountInfos["+lastIndex+"].currentFundEffectiveDate1", KeyConstants.ERROR_START_DATE_ON_OR_BEFORE,
+                    new String[] {"Project Start Date","Obligation Start Date"});
         }
         if (oblEndDate != null && effStartDate != null && oblEndDate.before(effStartDate)) {
             success = false;
-            errorMap.putError("awardAmountInfos["+lastIndex+"].obligationExpirationDate1", KeyConstants.ERROR_START_DATE_ON_OR_AFTER,
-                    new String[] {"Obligation End Date", "Project Start Date"});
+            errorMap.putError("awardAmountInfos["+lastIndex+"].obligationExpirationDate1", KeyConstants.ERROR_START_DATE_ON_OR_BEFORE,
+                    new String[] {"Project Start Date","Obligation End Date"});
         }
         if (oblStartDate != null && effEndDate != null && oblStartDate.after(effEndDate)) {
             success = false;
