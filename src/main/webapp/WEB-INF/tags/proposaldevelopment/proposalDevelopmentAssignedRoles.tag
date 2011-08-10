@@ -16,6 +16,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="action" value="proposalDevelopmentPermissions" />
+<c:set var="name" value="proposalDevelopment" />
 
 <kul:tabTop tabTitle="Assigned Roles" defaultOpen="true"  
             tabErrorKey="document.developmentProposalList[0].proposalPermissionRole">
@@ -23,7 +24,9 @@
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Assigned Roles</span>
-    		<span class="subhead-right">&nbsp;</span>
+    		<span class="subhead-right"><html:image property="methodToCall.getPermissionsRoleRights"
+                	src='${ConfigProperties.kra.externalizable.images.url}tinybutton-viewpermissions.gif' styleClass="tinybutton" alt="View Rights"
+                	 onclick="permissionsRoleRightsPop('${name}','${KualiForm.formKey}',' ${KualiForm.document.sessionDocument}'); return false;"/></span>
         </h3>
         
         <table cellpadding="0" cellspacing="0" summary="">
