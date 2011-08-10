@@ -358,14 +358,14 @@
     <property name="summary" value="Prior Name" />
     <property name="description" value="Prior Name" />
   </bean>
+  
   <bean id="KcPerson-userName" parent="KcPerson-userName-parentBean" />
-
   <bean id="KcPerson-userName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="userName" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="User Name" />
     <property name="shortLabel" value="User Name" />
-    <property name="maxLength" value="10" />
+    <property name="maxLength" value="100" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="10" />
@@ -373,8 +373,8 @@
     <property name="summary" value="User Name" />
     <property name="description" value="User Name" />
   </bean>
+  
   <bean id="KcPerson-emailAddress" parent="KcPerson-emailAddress-parentBean" />
-
   <bean id="KcPerson-emailAddress-parentBean" abstract="true" parent="KraAttributeReferenceDummy-emailAddress">
   </bean>
   <bean id="KcPerson-dateOfBirth" parent="KcPerson-dateOfBirth-parentBean" />
