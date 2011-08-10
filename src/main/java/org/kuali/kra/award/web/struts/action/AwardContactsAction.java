@@ -66,6 +66,7 @@ public class AwardContactsAction extends AwardAction {
     private static final String LINE_SUFFIX = ".line";
     private static final String CONFIRM_SYNC_UNIT_CONTACTS = "confirmSyncUnitContacts";
     private static final String CONFIRM_SYNC_UNIT_DETAILS = "confirmSyncUnitDetails";
+    private static final String ADD_SYNC_UNIT_DETAILS = "addSyncUnitDetails";
     private static final String CONFIRM_SYNC_UNIT_CONTACTS_KEY = "confirmSyncUnitContactsKey";
 
 
@@ -139,7 +140,7 @@ public class AwardContactsAction extends AwardAction {
         } else {
             return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }*/
-        return confirm(buildSyncUnitDetailsConfirmationQuestion(mapping, form, request, response), CONFIRM_SYNC_UNIT_DETAILS, "");
+        return confirm(buildSyncUnitDetailsConfirmationQuestion(mapping, form, request, response), CONFIRM_SYNC_UNIT_DETAILS, ADD_SYNC_UNIT_DETAILS);
     }
     
     /**
@@ -156,7 +157,7 @@ public class AwardContactsAction extends AwardAction {
             HttpServletRequest request, HttpServletResponse response) throws Exception {        
             
         return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_SYNC_UNIT_CONTACTS_KEY,
-                KeyConstants.QUESTION_SYNC_UNIT_DETAILS);
+                KeyConstants.QUESTION_SYNC_UNIT_CONTACTS);
         
     }
     /**
@@ -171,9 +172,34 @@ public class AwardContactsAction extends AwardAction {
      */
     public ActionForward confirmSyncUnitDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        
         AwardPersonUnit unit = getProjectPersonnelBean(form).addNewProjectPersonUnit(getSelectedLine(request));
         if (unit != null) {
+            AwardForm awardForm = (AwardForm) form;
+            getUnitContactsBean(awardForm).syncAwardUnitContactsToLeadUnitContacts();
+            getAward(form).initCentralAdminContacts();
+            return confirmSyncAction(mapping, form, request, response, AwardSyncType.ADD_SYNC, unit, "projectPersons", null, mapping.findForward(Constants.MAPPING_AWARD_BASIC));       
+        } else {
+            return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        }
+        
+    }
+    /**
+     * This method is called if the user clicks 'No' in confirmation question.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return mapping forward
+     * @throws Exception
+     */
+    public ActionForward addSyncUnitDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        AwardForm awardForm = (AwardForm)form;
+        AwardPersonUnit unit = getProjectPersonnelBean(form).addNewProjectPersonUnit(getSelectedLine(request));
+        if (unit != null) {
+            getAward(awardForm).initCentralAdminContacts();
             return confirmSyncAction(mapping, form, request, response, AwardSyncType.ADD_SYNC, unit, "projectPersons", null, mapping.findForward(Constants.MAPPING_AWARD_BASIC));       
         } else {
             return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
@@ -365,6 +391,7 @@ public class AwardContactsAction extends AwardAction {
             HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         getUnitContactsBean(awardForm).syncAwardUnitContactsToLeadUnitContacts();
+        getAward(awardForm).initCentralAdminContacts();
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
