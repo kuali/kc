@@ -65,9 +65,16 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
      * @see org.kuali.kra.service.AwardHierarchyUIService#getRootAwardNode(java.lang.String)
      */
     public String getRootAwardNode(String awardNumber, String currentAwardNumber, String currentSequenceNumber) throws ParseException{
-        AwardHierarchy hierarchy = awardHierarchyService.loadAwardHierarchy(awardNumber);
-        AwardHierarchyNode aNode = awardHierarchyService.createAwardHierarchyNode(hierarchy, currentAwardNumber, currentSequenceNumber);        
-        return TAG_H3_START + buildCompleteRecord(awardNumber, aNode) + TAG_H3_END; 
+        AwardHierarchyNode awardNode;
+        if(canUseExistingTMSessionObject(awardNumber)){ 
+            awardHierarchyNodes = ((TimeAndMoneyDocument)GlobalVariables.getUserSession().retrieveObject(
+                    GlobalVariables.getUserSession().getKualiSessionId() + Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION)).getAwardHierarchyNodes();
+            awardNode = awardHierarchyNodes.get(awardNumber);
+        }else{
+            AwardHierarchy hierarchy = awardHierarchyService.loadAwardHierarchy(awardNumber);
+            awardNode = awardHierarchyService.createAwardHierarchyNode(hierarchy, currentAwardNumber, currentSequenceNumber); 
+        }
+        return TAG_H3_START + buildCompleteRecord(awardNumber, awardNode) + TAG_H3_END; 
     }
 
     public AwardHierarchyNode getRootAwardNode(Award award) {
@@ -166,6 +173,17 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
         awardHierarchy = awardHierarchy.substring(0, awardHierarchy.length() - 4);        
         return awardHierarchy;        
     }
+     
+     public String getSubAwardHierarchiesForTreeViewTandM(String awardNumber, String currentAwardNumber, String currentSequenceNumber) throws ParseException {
+         String awardHierarchy = TAG_H3_START;  
+         Map<String, AwardHierarchyNode> awarHierarchyNodes = getAwardHierarchyNodes(awardNumber, currentAwardNumber, currentSequenceNumber);
+         for (AwardHierarchy ah : getChildrenNodes(awardNumber)) {
+             AwardHierarchyNode aNode = awarHierarchyNodes.get(ah.getAwardNumber());
+             awardHierarchy = awardHierarchy + buildCompleteRecord(ah.getAwardNumber(), aNode) + TAG_H3_END + TAG_H3_START;
+         }
+         awardHierarchy = awardHierarchy.substring(0, awardHierarchy.length() - 4);        
+         return awardHierarchy;        
+     }
     
     /*
      * call businessobjectservice to get a list of children award nodes 'awardNumber'
