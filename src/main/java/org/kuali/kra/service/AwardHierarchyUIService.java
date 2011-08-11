@@ -46,6 +46,14 @@ public interface AwardHierarchyUIService {
      */
     public String getSubAwardHierarchiesForTreeView(String awardNumber, String currentAwardNumber, String currentSequenceNumber) throws ParseException;
     
+    /**
+     * 
+     * This service is used to populate the all the non-root nodes of award hierarchy UI.
+     * 
+     * @param researchAreaCode
+     * @return
+     */
+    public String getSubAwardHierarchiesForTreeViewTandM(String awardNumber, String currentAwardNumber, String currentSequenceNumber) throws ParseException;
     
     /**
      * 

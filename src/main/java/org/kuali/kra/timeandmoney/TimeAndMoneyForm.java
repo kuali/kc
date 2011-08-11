@@ -549,7 +549,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         }
         
         if (awardNumber!=null && StringUtils.isNotBlank(addRA) && addRA.equals("E")){
-            setAwardHierarchy(getAwardHierarchyUIService().getSubAwardHierarchiesForTreeView(awardNumber, currentAwardNumber, currentSeqNumber));
+            setAwardHierarchy(getAwardHierarchyUIService().getSubAwardHierarchiesForTreeViewTandM(awardNumber, currentAwardNumber, currentSeqNumber));
         } else if (awardNumber!=null && StringUtils.isNotBlank(addRA) && addRA.equals("N")){
             setAwardHierarchy(getAwardHierarchyUIService().getRootAwardNode(awardNumber, currentAwardNumber, currentSeqNumber));
         }
