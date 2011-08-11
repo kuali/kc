@@ -1,1 +1,0 @@
-\. krrelease/sql/schema-constraints.sql
