@@ -136,7 +136,7 @@ VALUES ((SELECT MAX(ID) FROM KRIM_ROLE_PERM_ID_BS_S), uuid(), 1, (select role_id
 INSERT INTO KRIM_ROLE_PERM_ID_BS_S VALUES (NULL);
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 VALUES ((SELECT MAX(ID) FROM KRIM_ROLE_PERM_ID_BS_S), uuid(), 1, (select role_id from krim_role_t where ROLE_NM = 'Application Administrator' and NMSPC_CD = 'KC-SYS'),
-    (select PERM_ID from KRIM_PERM_T where NM='Modify Entity' and nmspc_cd = 'KR-SYS'), 'Y');
+    (select PERM_ID from KRIM_PERM_T where NM='Modify Entity' and nmspc_cd = 'KR-IDM'), 'Y');
 
 -- assign populate group permission to Application Administrator role
 INSERT INTO KRIM_ROLE_PERM_ID_BS_S VALUES (NULL);
@@ -154,7 +154,7 @@ VALUES ((SELECT MAX(ID) FROM KRIM_ROLE_PERM_ID_BS_S), uuid(), 1, (select role_id
 INSERT INTO KRIM_ROLE_PERM_ID_BS_S VALUES (NULL);
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 VALUES ((SELECT MAX(ID) FROM KRIM_ROLE_PERM_ID_BS_S), uuid(), 1, (select role_id from krim_role_t where ROLE_NM = 'Application Administrator' and NMSPC_CD = 'KC-SYS'),
-    (select PERM_ID from KRIM_PERM_T where NM='Copy Document'and nmspc_cd = 'KUALI'), 'Y');
+    (select PERM_ID from KRIM_PERM_T where NM='Copy Document'and nmspc_cd = 'KR-SYS'), 'Y');
 
 -- assign edit document permission to Application Administrator role
 INSERT INTO KRIM_ROLE_PERM_ID_BS_S VALUES (NULL);

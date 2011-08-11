@@ -52,7 +52,7 @@ public class ValidCeRateTypeMaintenanceDocumentRuleTest extends MaintenanceRuleT
         
         validCeRateType.setRateClassCode("10");
         validCeRateType.setRateTypeCode("1");
-        validCeRateType.setCostElement("420111");
+        validCeRateType.setCostElement("422311");
         MaintenanceDocument validCeRateTypeDocument = newMaintDoc(validCeRateType);
         assertTrue(rule.processCustomRouteDocumentBusinessRules(validCeRateTypeDocument));
         assertTrue(rule.processCustomApproveDocumentBusinessRules(validCeRateTypeDocument));

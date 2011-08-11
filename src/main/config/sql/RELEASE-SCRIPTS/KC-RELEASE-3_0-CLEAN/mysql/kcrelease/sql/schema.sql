@@ -9286,30 +9286,6 @@ CREATE TABLE SP_REV_APPROVAL_TYPE
 
 
 # -----------------------------------------------------------------------
-# STATE_CODE
-# -----------------------------------------------------------------------
-drop table if exists STATE_CODE
-/
-
-CREATE TABLE STATE_CODE
-(
-      COUNTRY_CODE CHAR(3)
-        , STATE_CODE VARCHAR(15)
-        , DESCRIPTION VARCHAR(200) NOT NULL
-        , UPDATE_TIMESTAMP DATETIME NOT NULL
-        , UPDATE_USER VARCHAR(60) NOT NULL
-        , VER_NBR DECIMAL(8) default 1 NOT NULL
-        , OBJ_ID VARCHAR(36)
-    
-    , CONSTRAINT STATE_CODEP1 PRIMARY KEY(COUNTRY_CODE,STATE_CODE)
-
-
-
-) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
-/
-
-
-# -----------------------------------------------------------------------
 # SUBMISSION_STATUS
 # -----------------------------------------------------------------------
 drop table if exists SUBMISSION_STATUS
@@ -9597,24 +9573,6 @@ CREATE TABLE USER_ROLES
         , OBJ_ID VARCHAR(36)
     
     , CONSTRAINT USER_ROLESP1 PRIMARY KEY(USER_ID,ROLE_ID,UNIT_NUMBER)
-
-
-
-) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
-/
-
-
-# -----------------------------------------------------------------------
-# USER_TABLES_TEMP
-# -----------------------------------------------------------------------
-drop table if exists USER_TABLES_TEMP
-/
-
-CREATE TABLE USER_TABLES_TEMP
-(
-      TABLE_NAME VARCHAR(30) NOT NULL
-        , USER_KEY CHAR(1)
-    
 
 
 
@@ -10260,7 +10218,7 @@ CREATE TABLE SEQUENCE_NSF_CODES
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE SEQUENCE_NSF_CODES auto_increment = 39
+ALTER TABLE SEQUENCE_NSF_CODES auto_increment = 1
 /
 
 # -----------------------------------------------------------------------
@@ -11268,7 +11226,7 @@ CREATE TABLE SEQ_PROTO_CORRESP_TEMPL
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE SEQ_PROTO_CORRESP_TEMPL auto_increment = 18
+ALTER TABLE SEQ_PROTO_CORRESP_TEMPL auto_increment = 1
 /
 
 # -----------------------------------------------------------------------
@@ -11632,7 +11590,7 @@ CREATE TABLE SEQ_VALID_BASIS_METHOD_PMT_ID
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE SEQ_VALID_BASIS_METHOD_PMT_ID auto_increment = 28
+ALTER TABLE SEQ_VALID_BASIS_METHOD_PMT_ID auto_increment = 1
 /
 
 # -----------------------------------------------------------------------
@@ -11646,7 +11604,7 @@ CREATE TABLE SEQ_VALID_CLASS_REPORT_FREQ
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE SEQ_VALID_CLASS_REPORT_FREQ auto_increment = 521
+ALTER TABLE SEQ_VALID_CLASS_REPORT_FREQ auto_increment = 1
 /
 
 # -----------------------------------------------------------------------
@@ -11660,7 +11618,7 @@ CREATE TABLE SEQ_VALID_NARR_FORMS_ID
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE SEQ_VALID_NARR_FORMS_ID auto_increment = 283
+ALTER TABLE SEQ_VALID_NARR_FORMS_ID auto_increment = 1
 /
 
 # -----------------------------------------------------------------------
@@ -11674,7 +11632,7 @@ CREATE TABLE SEQ_VALID_SUBM_REVW_TYPE_QUAL
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE SEQ_VALID_SUBM_REVW_TYPE_QUAL auto_increment = 93
+ALTER TABLE SEQ_VALID_SUBM_REVW_TYPE_QUAL auto_increment = 1
 /
 
 # -----------------------------------------------------------------------

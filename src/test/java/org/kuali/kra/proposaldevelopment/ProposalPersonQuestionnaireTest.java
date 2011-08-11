@@ -148,7 +148,7 @@ public class ProposalPersonQuestionnaireTest extends KcUnitTestBase {
     public void testProposalReady() throws WorkflowException {
         assertEquals(1, proposal.getProposalPersons().size());
         assertEquals("project title", proposal.getTitle());
-        assertEquals("quickstart", getPerson().getLastName());
+        assertEquals("McGregor", getPerson().getLastName());
         assertTrue(proposal.getProposalDocument().getDocumentHeader().hasWorkflowDocument());
         assertEquals(proposal.getProposalNumber(), getPerson().getProposalNumber());
         

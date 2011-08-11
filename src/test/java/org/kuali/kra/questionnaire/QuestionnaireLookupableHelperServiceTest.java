@@ -21,6 +21,7 @@ import java.util.List;
 
 import junit.framework.Assert;
 
+import org.apache.commons.lang.StringUtils;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -31,7 +32,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -80,22 +80,28 @@ public class QuestionnaireLookupableHelperServiceTest extends KcUnitTestBase {
         maintDocument.getDocumentHeader().setDocumentDescription("test 2"); 
         maintDocument.getNewMaintainableObject().setBusinessObject(createQuestionnaire("test2", "desc 2"));
         documentService.routeDocument(maintDocument, null, null);
-        List<? extends BusinessObject> searchResults = questionnaireLookupableHelperServiceImpl.getSearchResults(new HashMap());
-        //Assert.assertEquals(searchResults.size(), 2);
-        // only the current. 
-        assertEquals(36, searchResults.size());
-        // newer one will be at the top
-        Questionnaire questionnaire = (Questionnaire)searchResults.get(0);
-        Assert.assertEquals(questionnaire.getName(), "test2");
-        Assert.assertEquals(questionnaire.getDescription(), "desc 2");
-        //Assert.assertEquals(questionnaire.getQuestionnaireQuestions().size(), 1);
-        assertEquals(0, questionnaire.getQuestionnaireQuestions().size());
+        List<Questionnaire> searchResults = (List<Questionnaire>) questionnaireLookupableHelperServiceImpl.getSearchResults(new HashMap());
+        assertEquals(9, searchResults.size());
         
-        questionnaire = (Questionnaire)searchResults.get(1);
-        Assert.assertEquals(questionnaire.getName(), "test1");
-        Assert.assertEquals(questionnaire.getDescription(), "desc 1");
-        //Assert.assertEquals(questionnaire.getQuestionnaireQuestions().size(), 1);
-        assertEquals(0, questionnaire.getQuestionnaireQuestions().size());
+        Questionnaire test1 = null;
+        Questionnaire test2 = null;
+        for (Questionnaire questionnaire : searchResults) {
+            if (StringUtils.equals(questionnaire.getName(), "test1")) {
+                test1 = questionnaire;
+            } else if (StringUtils.equals(questionnaire.getName(), "test2")) {
+                test2 = questionnaire;
+            }
+        }
+        
+        assertNotNull(test1);
+        assertEquals(test1.getName(), "test1");
+        assertEquals(test1.getDescription(), "desc 1");
+        assertEquals(0, test1.getQuestionnaireQuestions().size());
+
+        assertNotNull(test2);
+        assertEquals(test2.getName(), "test2");
+        assertEquals(test2.getDescription(), "desc 2");
+        assertEquals(0, test2.getQuestionnaireQuestions().size());
     }
     
     

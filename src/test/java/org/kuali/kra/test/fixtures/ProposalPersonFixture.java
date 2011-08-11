@@ -70,7 +70,7 @@ public enum ProposalPersonFixture {
     /**
      * Fully valid Principal Investigator with valid credit splits adding to a hundred and invalid lead unit
      */
-    INVESTIGATOR_UNIT_NOT_TO_ONE_HUNDRED("10000000060", PRINCIPAL_INVESTIGATOR_ROLE) {
+    INVESTIGATOR_UNIT_NOT_TO_ONE_HUNDRED("admin", PRINCIPAL_INVESTIGATOR_ROLE) {
         
         /**
          * Use a normally valid <code>{@link ProposalPerson}</code> instance. Set all credit splits up to be valid except for units. 
