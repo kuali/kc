@@ -32,8 +32,8 @@ INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,CONS_CD,NMSPC_CD,OBJ_ID,PARM_DESC_TXT,PAR
   VALUES ('KUALI','A','KR-NS','53680C68F59DAD9BE0404F8189D80A6C','Maximum file upload size for the application. Used by PojoFormBase. Must be an integer, optionally followed by "K", "M", or "G". Only used if no other upload limits are in effect.','All','MAX_FILE_SIZE_DEFAULT_UPLOAD','CONFG','5M',1)
 /
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,CONS_CD,NMSPC_CD,OBJ_ID,PARM_DESC_TXT,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,VER_NBR)
-  VALUES ('KUALI','A','KR-NS','5a5fbe94-846f-102c-8db0-c405cae621f3','A semi-colon delimted list of regular expressions that identify
-potentially sensitive data in strings.  These patterns will be matched
+  VALUES ('KUALI','A','KR-NS','5a5fbe94-846f-102c-8db0-c405cae621f3','A semi-colon delimted list of regular expressions that identify 
+potentially sensitive data in strings.  These patterns will be matched 
 against notes, document explanations, and routing annotations.','All','SENSITIVE_DATA_PATTERNS','CONFG','[0-9]{9};[0-9]{3}-[0-9]{2}-[0-9]{4}',1)
 /
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,CONS_CD,NMSPC_CD,OBJ_ID,PARM_DESC_TXT,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,VER_NBR)
@@ -97,7 +97,7 @@ INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,CONS_CD,NMSPC_CD,OBJ_ID,PARM_DESC_TXT,PAR
   VALUES ('KUALI','A','KR-NS','5A689075D35B7AEBE0404F8189D80321','Time in milliseconds that the scheduleStep should wait between iterations.','ScheduleStep','STATUS_CHECK_INTERVAL','CONFG','30000',1)
 /
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,CONS_CD,NMSPC_CD,OBJ_ID,PARM_DESC_TXT,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,VER_NBR)
-  VALUES ('KUALI','A','KR-WKFLW','290E45BA032F4F4FB423CE5F78AC52E1','Flag to specify if clicking on a Document ID from the Action List will load the Document in a new window.','ActionList','ACTION_LIST_DOCUMENT_POPUP_IND','CONFG','N',1)
+  VALUES ('KUALI','A','KR-WKFLW','290E45BA032F4F4FB423CE5F78AC52E1','Flag to specify if clicking on a Document ID from the Action List will load the Document in a new window.','ActionList','ACTION_LIST_DOCUMENT_POPUP_IND','CONFG','Y',1)
 /
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,CONS_CD,NMSPC_CD,OBJ_ID,PARM_DESC_TXT,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,VER_NBR)
   VALUES ('KUALI','A','KR-WKFLW','967B0311A5E94F7191B2C544FA7DE095','Flag to specify if clicking on a Route Log from the Action List will load the Route Log in a new window.','ActionList','ACTION_LIST_ROUTE_LOG_POPUP_IND','CONFG','N',1)
@@ -121,10 +121,10 @@ INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,CONS_CD,NMSPC_CD,OBJ_ID,PARM_DESC_TXT,PAR
   VALUES ('KUALI','A','KR-WKFLW','8A37388A2D7A46EF9E6BF3FA8D08A03A','Flag to specify whether or not a file upload box is displayed for KEW notes which allows for uploading of an attachment with the note.','All','SHOW_ATTACHMENTS_IND','CONFG','Y',1)
 /
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,CONS_CD,NMSPC_CD,OBJ_ID,PARM_DESC_TXT,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,VER_NBR)
-  VALUES ('KUALI','A','KR-WKFLW','9BD6785416434C4D9E5F05AF077DB9B7','Flag to show the backdoor login.','Backdoor','SHOW_BACK_DOOR_LOGIN_IND','CONFG','N',1)
+  VALUES ('KUALI','A','KR-WKFLW','9BD6785416434C4D9E5F05AF077DB9B7','Flag to show the backdoor login.','Backdoor','SHOW_BACK_DOOR_LOGIN_IND','CONFG','Y',1)
 /
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,CONS_CD,NMSPC_CD,OBJ_ID,PARM_DESC_TXT,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,VER_NBR)
-  VALUES ('KUALI','A','KR-WKFLW','E78100F6F14C4932B54F7719FA5C27E9','Flag to specify if clicking on a Document ID from Document Search will load the Document in a new window.','DocSearchCriteriaDTO','DOCUMENT_SEARCH_POPUP_IND','CONFG','N',1)
+  VALUES ('KUALI','A','KR-WKFLW','E78100F6F14C4932B54F7719FA5C27E9','Flag to specify if clicking on a Document ID from Document Search will load the Document in a new window.','DocSearchCriteriaDTO','DOCUMENT_SEARCH_POPUP_IND','CONFG','Y',1)
 /
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,CONS_CD,NMSPC_CD,OBJ_ID,PARM_DESC_TXT,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,VER_NBR)
   VALUES ('KUALI','A','KR-WKFLW','632680DDE9A7478CBD379FAF90C7AE72','Flag to specify if clicking on a Route Log from Document Search will load the Route Log in a new window.','DocSearchCriteriaDTO','DOCUMENT_SEARCH_ROUTE_LOG_POPUP_IND','CONFG','N',1)

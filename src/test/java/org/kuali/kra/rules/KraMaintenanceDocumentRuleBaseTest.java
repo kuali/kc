@@ -47,7 +47,7 @@ public class KraMaintenanceDocumentRuleBaseTest extends MaintenanceRuleTestBase 
 
         
         Map pkMap = new HashMap();
-        pkMap.put("costElement", "420111");
+        pkMap.put("costElement", "422311");
         assertTrue(rule.checkExistenceFromTable(CostElement.class, pkMap, "costElement", "Cost Element"));
     }
 

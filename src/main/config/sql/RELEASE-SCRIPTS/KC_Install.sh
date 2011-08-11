@@ -97,27 +97,34 @@ fi
 
 case "${dbtype}" in
 	"ORACLE")
+        cd KC-RELEASE-3_0-CLEAN/oracle
+		
 		if [ "${version}" = "NEW" ]
 		then
-			cd KC-RELEASE-3_0-CLEAN/oracle
 			if [ "${mode}" = "BUNDLE" ]
 			then
-				sqlplus "${un}"/"${pw}${DBSvrNm}" < oracle_bundled.sql
+				sqlplus "${un}"/"${pw}${DBSvrNm}" < oracle_server_rice.sql
 			else
 				if [ "${mode}" = "EMBED" ]
 				then
 					if [ "${InstRice}" = "Y" ]
 					then
-						sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < oracle_server_full.sql
-					else
-						sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < oracle_server_kc.sql
+						sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < oracle_server_rice.sql
 					fi
-					sqlplus "${un}"/"${pw}${DBSvrNm}" < oracle_client.sql
 				fi
 			fi
-			mv *.log ../../LOGS/
-			cd ../..
 		fi
+		
+		sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < krrelease/datasql/KR_00_SEQ_BS.sql
+	    
+	    if [ "${version}" = "NEW" ]
+        then
+    		sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < oracle_server.sql
+            sqlplus "${un}"/"${pw}${DBSvrNm}" < oracle_client.sql
+        fi
+        
+        mv *.log ../../LOGS/
+        cd ../..
 
 		if [ "${version}" = "3.0" ] || [ "${version}" = "NEW" ]
 		then
@@ -127,11 +134,6 @@ case "${dbtype}" in
 			mv *.log ../LOGS/
 			cd .. 
 		fi
-		
-		cd INSTALL-SHARED/ORACLE
-		sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR_SEQ_BS.sql
-		mv *.log ../../LOGS/
-		cd ../..
 		
 		if [ "${version}" = "3.0.1" ] || [ "${version}" = "3.0" ] || [ "${version}" = "NEW" ]
 		then
@@ -171,33 +173,40 @@ case "${dbtype}" in
             cd ..
         fi
 		
-		cd INSTALL-SHARED/ORACLE
-		sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR_CLEAN_SEQ_BS.sql
-		mv *.log ../../LOGS/
-		cd ../.. ;;
+		cd KC-RELEASE-3_0-CLEAN/oracle
+		sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < krrelease/datasql/KR_00_CLEAN_SEQ_BS.sql
+        mv *.log ../../LOGS/
+        cd ../.. ;;
 		
 	"MYSQL")
+        cd KC-RELEASE-3_0-CLEAN/mysql
+        
 		if [ "${version}" = "NEW" ]
 		then
-			cd KC-RELEASE-3_0-CLEAN/mysql
 			if [ "${mode}" = "BUNDLE" ]
 			then
-				mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < mysql_bundled.sql
+				mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < mysql_server_rice.sql > KC-Release-3_0-Clean-Server-Rice-Mysql-Install.log 2>&1
 			else 
 				if [ "${mode}" = "EMBED" ]
 				then
 					if [ "${InstRice}" = "Y" ]
 					then
-						mysql -u ${Riceun} -p${Ricepw} -D ${RiceDBSvrNm} -s -f < mysql_server_full.sql
-				    else
-				        mysql -u ${Riceun} -p${Ricepw} -D ${RiceDBSvrNm} -s -f < mysql_server_kc.sql
+						mysql -u ${Riceun} -p${Ricepw} -D ${RiceDBSvrNm} -s -f < mysql_server_rice.sql > KC-Release-3_0-Clean-Server-Rice-Mysql-Install.log 2>&1
 					fi
-					mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < mysql_client.sql
 				fi
 			fi
-            mv *.log ../../LOGS/
-            cd ../..
 		fi
+		
+        mysql -u ${Riceun} -p${Ricepw} -D ${RiceDBSvrNm} -s -f < krrelease/datasql/KR_00_SEQ_BS.sql > KR_SEQ_BS-Mysql-Install.log 2>&1
+        
+        if [ "${version}" = "NEW" ]
+        then
+            mysql -u ${Riceun} -p${Ricepw} -D ${RiceDBSvrNm} -s -f < mysql_server.sql > KC-Release-3_0-Clean-Server-Mysql-Install.log 2>&1
+            mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < mysql_client.sql > KC-Release-3_0-Clean-Client-Mysql-Install.log 2>&1
+        fi
+        
+        mv *.log ../../LOGS/
+        cd ../..
 		
 		if [ "${version}" = "3.0" ] || [ "${version}" = "NEW" ]
         then
@@ -207,11 +216,6 @@ case "${dbtype}" in
             mv *.log ../LOGS/
             cd .. 
         fi
-        
-        cd INSTALL-SHARED/MYSQL
-        mysql -u ${Riceun} -p${Ricepw} -D ${RiceDBSvrNm} -s -f < KR_SEQ_BS.sql > KR_SEQ_BS-Mysql-Install.log 2>&1
-        mv *.log ../../LOGS/
-        cd ../..
 
 		if [ "${version}" = "3.0.1" ] || [ "${version}" = "3.0" ] || [ "${version}" = "NEW" ]
 		then
@@ -251,8 +255,8 @@ case "${dbtype}" in
             cd ..
         fi
 		
-        cd INSTALL-SHARED/MYSQL
-        mysql -u ${Riceun} -p${Ricepw} -D ${RiceDBSvrNm} -s -f < KR_CLEAN_SEQ_BS.sql > KR_CLEAN_SEQ_BS-Mysql-Install.log 2>&1
+        cd KC-RELEASE-3_0-CLEAN/mysql
+        mysql -u ${Riceun} -p${Ricepw} -D ${RiceDBSvrNm} -s -f < krrelease/datasql/KR_00_CLEAN_SEQ_BS.sql > KR_CLEAN_SEQ_BS-Mysql-Install.log 2>&1
         mv *.log ../../LOGS/
         cd ../.. ;;
 esac
