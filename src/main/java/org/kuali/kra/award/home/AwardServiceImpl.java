@@ -15,36 +15,22 @@
  */
 package org.kuali.kra.award.home;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kra.award.budget.AwardBudgetExt;
-import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
-import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.document.BudgetParentDocument;
-import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.budget.summary.BudgetSummaryService;
-import org.kuali.kra.budget.versions.BudgetDocumentVersion;
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.service.ServiceHelper;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ObjectUtils;
 
 /** {@inheritDoc} */
 public class AwardServiceImpl implements AwardService {
@@ -91,6 +77,7 @@ public class AwardServiceImpl implements AwardService {
 
     public AwardDocument createNewAwardVersion(AwardDocument awardDocument) throws VersionException, WorkflowException {
         Award newVersion = getVersioningService().createNewVersion(awardDocument.getAward());
+        incrementVersionNumberIfCanceledVersionsExist(newVersion);//Canceled versions retain their own version number.
         newVersion.getFundingProposals().clear();
         AwardDocument newAwardDocument = (AwardDocument) getDocumentService().getNewDocument(AwardDocument.class);
         newAwardDocument.getDocumentHeader().setDocumentDescription(awardDocument.getDocumentHeader().getDocumentDescription());
@@ -104,6 +91,17 @@ public class AwardServiceImpl implements AwardService {
         newVersion.getAwardAmountInfos().get(0).setOriginatingAwardVersion(newVersion.getSequenceNumber());
         newVersion.getAwardAmountInfos().get(0).setTimeAndMoneyDocumentNumber(null);
         return newAwardDocument;
+    }
+    
+    protected void incrementVersionNumberIfCanceledVersionsExist(Award award) {
+        List<VersionHistory> versionHistory = (List<VersionHistory>) businessObjectService.findMatching(VersionHistory.class, getHashMap(award.getAwardNumber()));
+        award.setSequenceNumber(versionHistory.size() + 1);
+    }
+    
+    protected Map<String, String> getHashMap(String awardNumber) {
+        Map<String, String> map = new HashMap<String,String>();
+        map.put("sequenceOwnerVersionNameValue", awardNumber);
+        return map;
     }
     
     protected List<AwardAmountInfo> minimizeAwardAmountInfoCollection(List<AwardAmountInfo> awardAmountInfos) {
