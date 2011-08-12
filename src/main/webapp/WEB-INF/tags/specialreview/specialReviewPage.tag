@@ -70,7 +70,7 @@
 					</th>
 	                <td align="left" valign="middle" class="infoline"><div align="center" class="fixed-size-270-div">
 	                   <kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.specialReviewTypeCode" 
-		                                         attributeEntry="${attributes.specialReviewTypeCode}" styleClass="fixed-size-250-select"
+		                                         attributeEntry="${attributes.specialReviewTypeCode}"
 		                                         onchange="showHideSpecialReviewProtocolLink(this, 'specialReviewHelper.newSpecialReview');return false"/>
 					</div></td>
 	                <td class="infoline"><div align="center">
@@ -152,8 +152,7 @@
 	                                              attributeEntry="${attributes.specialReviewTypeCode}"  
 	                                              readOnly="${not canModify}"
 	                                              readOnlyAlternateDisplay="${specialReview.specialReviewType.description}" 
-	                                              onchange="showHideSpecialReviewProtocolLink(this, '${collectionProperty}[${status.index}]');return false"
-	                                              styleClass="fixed-size-250-select" />
+	                                              onchange="showHideSpecialReviewProtocolLink(this, '${collectionProperty}[${status.index}]');return false" />
 					</div></td>
                     <td><div align="center">
                         <kra:dynamicHtmlControlAttribute property="${collectionProperty}[${status.index}].approvalTypeCode" 
