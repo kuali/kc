@@ -40,6 +40,7 @@ public class ProposalDevelopmentServiceTest extends KcUnitTestBase {
         proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
         budgetService = KraServiceLocator.getService(BudgetService.class);
         document = ProposalDevelopmentDocumentFixture.NORMAL_DOCUMENT.getDocument();
+        document.getDevelopmentProposal().setPrimeSponsorCode("000120");
         proposal = document.getDevelopmentProposal();
     }
     

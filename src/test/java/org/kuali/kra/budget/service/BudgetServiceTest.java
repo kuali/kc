@@ -133,6 +133,7 @@ public class BudgetServiceTest extends KcUnitTestBase {
         pdDocument.getDevelopmentProposal().setSponsorCode("005770");
         pdDocument.getDevelopmentProposal().setRequestedStartDateInitial(new Date(1/1/2008));
         pdDocument.getDevelopmentProposal().setRequestedEndDateInitial(new Date(12/31/2008));
+        pdDocument.getDevelopmentProposal().setPrimeSponsorCode("000120");
         
         proposalDevelopmentService.initializeUnitOrganizationLocation(pdDocument);
         proposalDevelopmentService.initializeProposalSiteNumbers(pdDocument);

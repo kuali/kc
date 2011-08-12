@@ -236,7 +236,7 @@ public class CustomAttributeServiceImplTest extends KcUnitTestBase {
         Date requestedStartDateInitial = new Date(System.currentTimeMillis());
         Date requestedEndDateInitial = new Date(System.currentTimeMillis());
 
-        setBaseDocumentFields(document, "ProposalDevelopmentDocumentTest test doc", "005770", "project title", requestedStartDateInitial, requestedEndDateInitial, "1", "1", "000001");
+        setBaseDocumentFields(document, "ProposalDevelopmentDocumentTest test doc", "005770", "project title", requestedStartDateInitial, requestedEndDateInitial, "1", "1", "000001", "000120");
 
         documentService.saveDocument(document);
 
@@ -255,7 +255,7 @@ public class CustomAttributeServiceImplTest extends KcUnitTestBase {
      * @param proposalTypeCode String proposal type code to set
      * @param ownedByUnit String owned-by unit to set
      */
-    private void setBaseDocumentFields(ProposalDevelopmentDocument document, String description, String sponsorCode, String title, Date requestedStartDateInitial, Date requestedEndDateInitial, String activityTypeCode, String proposalTypeCode, String ownedByUnit) {
+    private void setBaseDocumentFields(ProposalDevelopmentDocument document, String description, String sponsorCode, String title, Date requestedStartDateInitial, Date requestedEndDateInitial, String activityTypeCode, String proposalTypeCode, String ownedByUnit, String primeSponsorCode) {
         document.getDocumentHeader().setDocumentDescription(description);
         document.getDevelopmentProposal().setSponsorCode(sponsorCode);
         document.getDevelopmentProposal().setTitle(title);
@@ -264,6 +264,7 @@ public class CustomAttributeServiceImplTest extends KcUnitTestBase {
         document.getDevelopmentProposal().setActivityTypeCode(activityTypeCode);
         document.getDevelopmentProposal().setProposalTypeCode(proposalTypeCode);
         document.getDevelopmentProposal().setOwnedByUnitNumber(ownedByUnit);
+        document.getDevelopmentProposal().setPrimeSponsorCode(primeSponsorCode);
 
         proposalDevelopmentService.initializeUnitOrganizationLocation(document);
         proposalDevelopmentService.initializeProposalSiteNumbers(document);
