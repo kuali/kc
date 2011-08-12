@@ -78,6 +78,7 @@ import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -375,6 +376,21 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
                     proposalDevelopmentDocument.getDevelopmentProposal().getCfdaNumber() });
             valid = false;
          }
+ 
+        SponsorService sponsorService = KraServiceLocator.getService(SponsorService.class);
+         String sponsorCode = proposalDevelopmentDocument.getDevelopmentProposal().getPrimeSponsorCode();
+   
+         if (sponsorCode != null)
+         {
+             String sponsorName = sponsorService.getSponsorName(sponsorCode);
+             if (sponsorName == null)
+             {
+                 errorMap.putError("developmentProposalList[0].primeSponsorCode", RiceKeyConstants.ERROR_EXISTENCE, new String[] {
+                         dataDictionaryService.getAttributeLabel(DevelopmentProposal.class, "primeSponsorCode") });
+                 valid = false;
+             }
+         }
+ 
         return valid;
     }
     

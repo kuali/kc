@@ -92,6 +92,7 @@ public abstract class S2STestBase<T> extends KcUnitTestBase {
 
     private DevelopmentProposal initializeDevelopmentProposal(ProposalDevelopmentDocument pd) {
         DevelopmentProposal developmentProposal = pd.getDevelopmentProposal();
+        developmentProposal.setPrimeSponsorCode("000120");
         developmentProposal.setActivityTypeCode("1");
         developmentProposal.refreshReferenceObject("activityType");
         developmentProposal.setSponsorCode("000162");
