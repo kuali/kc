@@ -826,6 +826,9 @@
         <collection-descriptor name="committeeScheduleMinutes" element-class-ref="org.kuali.kra.meeting.CommitteeScheduleMinute" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <inverse-foreignkey field-ref="submissionIdFk"/>
         </collection-descriptor>
+        <collection-descriptor name="reviewAttachments" element-class-ref="org.kuali.kra.irb.onlinereview.ProtocolReviewAttachment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <inverse-foreignkey field-ref="submissionIdFk"/>
+        </collection-descriptor>
     </class-descriptor>
 
     <class-descriptor class="org.kuali.kra.irb.correspondence.ProtocolCorrespondence" table="PROTOCOL_CORRESPONDENCE">
@@ -1037,6 +1040,11 @@
         	<orderby name="entryNumber" sort="ASC" />
     	</collection-descriptor>
         
+         <collection-descriptor name="reviewAttachments" proxy="true" element-class-ref="org.kuali.kra.irb.onlinereview.ProtocolReviewAttachment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        	<inverse-foreignkey field-ref="protocolOnlineReviewIdFk" />
+        	<orderby name="attachmentId" sort="ASC" />
+    	</collection-descriptor>
+        
     </class-descriptor> 
 	
 	<class-descriptor class = "org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewStatus" table = "PROTOCOL_ONLN_RVW_STATUS">
@@ -1056,6 +1064,37 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor> 
+
+	<class-descriptor class="org.kuali.kra.irb.onlinereview.ProtocolReviewAttachment" table="REVIEWER_ATTACHMENTS">
+        <field-descriptor name="reviewerAttachmentId" column="REVIEWER_ATTACHMENT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROTOCOL_ID"/>
+        <field-descriptor name="protocolOnlineReviewIdFk" column="PROTOCOL_ONLN_RVW_FK" jdbc-type = "BIGINT"/>
+		<field-descriptor name="protocolIdFk" column="PROTOCOL_ID_FK" jdbc-type="BIGINT" />
+        <field-descriptor name="submissionIdFk" column="SUBMISSION_ID_FK" jdbc-type = "BIGINT"/>
+	    <field-descriptor name="attachmentId" column="ATTACHMENT_ID" jdbc-type="INTEGER" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="fileId" column="FILE_ID" jdbc-type="BIGINT"/>
+        <field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+	    <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="createUser" column="CREATE_USER" jdbc-type="VARCHAR"/>
+	    <field-descriptor name="createTimestamp" column="CREATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="privateFlag" column="PRIVATE_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="protocolPersonCanView" column="PROTOCOL_PERSON_CAN_VIEW_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+        <reference-descriptor name="file" proxy="true" class-ref="org.kuali.kra.bo.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="none"> 
+            <foreignkey field-ref="fileId"/>
+         </reference-descriptor>
+		 <reference-descriptor name="protocolOnlineReview" class-ref="org.kuali.kra.irb.onlinereview.ProtocolOnlineReview" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="protocolOnlineReviewIdFk"/>
+		 </reference-descriptor>       
+		 <reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="protocolIdFk"/>
+		 </reference-descriptor>
+        <reference-descriptor name="protocolSubmission" class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmission" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="submissionIdFk"/>
+        </reference-descriptor>
+    </class-descriptor> 
 
     <class-descriptor class="org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewal" table="PROTO_AMEND_RENEWAL">
         <field-descriptor name="id" column="PROTO_AMEND_RENEWAL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>

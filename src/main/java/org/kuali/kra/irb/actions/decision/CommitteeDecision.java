@@ -30,6 +30,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.ProtocolActionBean;
 import org.kuali.kra.irb.actions.ProtocolOnlineReviewCommentable;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewAttachmentsBean;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.meeting.ProtocolVoteAbstainee;
@@ -265,6 +266,11 @@ public class CommitteeDecision extends ProtocolActionBean implements ProtocolOnl
 
     public void setReviewCommentsBean(ReviewCommentsBean reviewCommentsBean) {
         this.reviewCommentsBean = reviewCommentsBean;
+    }
+
+    public ReviewAttachmentsBean getReviewAttachmentsBean() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

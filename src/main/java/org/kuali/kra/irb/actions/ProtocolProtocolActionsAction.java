@@ -17,6 +17,7 @@ package org.kuali.kra.irb.actions;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,7 @@ import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
+import org.kuali.kra.bo.Watermark;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeService;
@@ -99,7 +101,10 @@ import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
 import org.kuali.kra.irb.actions.request.ProtocolRequestEvent;
 import org.kuali.kra.irb.actions.request.ProtocolRequestRule;
 import org.kuali.kra.irb.actions.request.ProtocolRequestService;
+import org.kuali.kra.irb.actions.reviewcomments.ProtocolAddReviewAttachmentEvent;
 import org.kuali.kra.irb.actions.reviewcomments.ProtocolAddReviewCommentEvent;
+import org.kuali.kra.irb.actions.reviewcomments.ProtocolManageReviewAttachmentEvent;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewAttachmentsBean;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.irb.actions.risklevel.ProtocolAddRiskLevelEvent;
@@ -127,6 +132,7 @@ import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentService;
 import org.kuali.kra.irb.noteattachment.ProtocolNotepad;
+import org.kuali.kra.irb.onlinereview.ProtocolReviewAttachment;
 import org.kuali.kra.irb.questionnaire.ProtocolQuestionnaireAuditRule;
 import org.kuali.kra.irb.summary.AttachmentSummary;
 import org.kuali.kra.irb.summary.ProtocolSummary;
@@ -134,12 +140,16 @@ import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.MinuteEntryType;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.print.AbstractPrint;
+import org.kuali.kra.printing.service.WatermarkService;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.kra.util.watermark.Font;
+import org.kuali.kra.util.watermark.WatermarkBean;
+import org.kuali.kra.util.watermark.WatermarkConstants;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
@@ -149,6 +159,8 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 import org.springframework.util.CollectionUtils;
+
+import com.lowagie.text.Image;
 
 /**
  * The set of actions for the Protocol Actions tab.
@@ -922,9 +934,76 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 
         final AttachmentFile file = attachment.getFile();
         this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
+//        byte[] watermarkedFile = KraServiceLocator.getService(WatermarkService.class).applyWatermark( file.getData(),getProtocolWatermarkBeanObject("199"));
+//        this.streamToResponse(watermarkedFile, getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
 
         return RESPONSE_ALREADY_HANDLED;
     }
+
+
+    private WatermarkBean getProtocolWatermarkBeanObject(String protocolStatusCode) {
+        WatermarkBean watermarkBean = new WatermarkBean();
+        Watermark watermark = null;
+        Map<String, Object> fields = new HashMap<String, Object>();
+        fields.put("statusCode", protocolStatusCode);
+        Collection<Watermark> watermarks = getBusinessObjectService().findMatching(Watermark.class, fields);
+        if (watermarks != null && watermarks.size() > 0) {
+            watermark = watermarks.iterator().next();
+        }
+        if (watermark != null && watermark.isWatermarkStatus()) {
+            try {
+                String watermarkFontSize = watermark.getFontSize() == null ? WatermarkConstants.DEFAULT_FONT_SIZE_CHAR : watermark
+                        .getFontSize();
+                String watermarkFontColour = watermark.getFontColor() == null ? WatermarkConstants.FONT_COLOR : watermark
+                        .getFontColor();
+                watermarkBean.setType(watermark.getWatermarkType() == null ? WatermarkConstants.WATERMARK_TYPE_TEXT : watermark
+                        .getWatermarkType());
+
+                watermarkBean.setFont(getWatermarkFont(WatermarkConstants.FONT, watermarkFontSize, watermarkFontColour));
+                watermarkBean.setText(watermark.getWatermarkText());
+                if (watermarkBean.getType().equals(WatermarkConstants.WATERMARK_TYPE_IMAGE)) {
+                    watermarkBean.setText(watermark.getFileName());
+                    byte[] imageData = watermark.getAttachmentContent();
+                    if (imageData != null) {
+                        Image imageFile = Image.getInstance(imageData);
+                        watermarkBean.setFileImage(imageFile);
+                    }
+                }
+
+            }
+            catch (Exception e) {
+                LOG.error("Exception Occured in (ProtocolPrintWatermark) :", e);
+            }
+            return watermarkBean;
+        }
+        return null;
+    }
+
+    private Font getWatermarkFont(String watermarkFontName, String watermarkSize, String watermarkColour) {
+        Font watermarkFont = new Font(WatermarkConstants.DEFAULT_FONT_SIZE);
+        watermarkFont.setFont(watermarkFontName);
+        if (StringUtils.isNotBlank(watermarkSize)) {
+            try {
+                watermarkFont.setSize(Integer.parseInt(watermarkSize));
+            }
+            catch (NumberFormatException numberFormatException) {
+                watermarkFont.setSize(WatermarkConstants.DEFAULT_WATERMARK_FONT_SIZE);
+                LOG.error("Exception Occuring in ProtocolPrintWatermark:(getFont:numberFormatException)");
+            }
+        }
+        else {
+            watermarkFont.setSize(WatermarkConstants.DEFAULT_WATERMARK_FONT_SIZE);
+        }
+        if (StringUtils.isNotBlank(watermarkColour)) {
+            watermarkFont.setColor(watermarkColour);
+        }
+        else {
+            watermarkFont.setColor(WatermarkConstants.DEFAULT_WATERMARK_COLOR);
+           
+        }
+        return watermarkFont;
+    }
+
 
     /**
      * Filters the actions shown in the History sub-panel, first validating the dates before filtering and refreshing the page.
@@ -2868,6 +2947,172 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     }
     private FollowupActionService getFollowupActionService() {
         return KraServiceLocator.getService(FollowupActionService.class);
+    }
+
+    /**
+     * 
+     * This method is to view review attachment
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward viewReviewAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        // TODO : refactor methods related with review attachment to see if they are sharable with
+        // online review action
+        ReviewAttachmentsBean reviewAttachmentsBean = getReviewAttachmentsBean(mapping, form, request, response);
+
+        if (reviewAttachmentsBean != null) {
+            return streamReviewAttachment(mapping, request, response, reviewAttachmentsBean.getReviewAttachments());
+        } else {
+            return RESPONSE_ALREADY_HANDLED;
+        }
+    }
+    
+    /**
+     * 
+     * This method is to view review attachment from submission detail sub panel
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward viewSubmissionReviewAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        // TODO : refactor methods related with review attachment to see if they are sharable with 
+        // online review action
+          return streamReviewAttachment(mapping, request, response, ((ProtocolForm)form).getActionHelper().getReviewAttachments());
+    }
+    
+    private ActionForward streamReviewAttachment (ActionMapping mapping, HttpServletRequest request, HttpServletResponse response, List<ProtocolReviewAttachment> reviewAttachments) throws Exception {
+
+        int lineNumber = getLineToDelete(request);
+        final ProtocolReviewAttachment attachment = reviewAttachments.get(lineNumber);
+        
+        if (attachment == null) {
+            LOG.info(NOT_FOUND_SELECTION + lineNumber);
+            //may want to tell the user the selection was invalid.
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+        
+        final AttachmentFile file = attachment.getFile();
+        this.streamToResponse(file.getData(), getValidHeaderString(file.getName()),  getValidHeaderString(file.getType()), response);
+        return RESPONSE_ALREADY_HANDLED;
+    }
+    
+    /**
+     * 
+     * This method is to delete the review attachment from manage review attachment
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
+    public ActionForward deleteReviewAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ReviewAttachmentsBean reviewAttachmentsBean = getReviewAttachmentsBean(mapping, form, request, response);
+        
+        if (reviewAttachmentsBean != null) {
+            List<ProtocolReviewAttachment> reviewAttachments = reviewAttachmentsBean.getReviewAttachments();
+            int lineNumber = getLineToDelete(request);
+            List<ProtocolReviewAttachment> deletedReviewAttachments = reviewAttachmentsBean.getDeletedReviewAttachments();
+            
+            getReviewCommentsService().deleteReviewAttachment(reviewAttachments, lineNumber, deletedReviewAttachments);
+            if (reviewAttachments.isEmpty()) {
+                reviewAttachmentsBean.setHideReviewerName(true);
+            } else {
+                reviewAttachmentsBean.setHideReviewerName(getReviewCommentsService().setHideReviewerName(reviewAttachmentsBean.getReviewAttachments()));
+            }
+       }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    /*
+     * get the protocol manage review attachment bean
+     */
+    private ReviewAttachmentsBean getReviewAttachmentsBean(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ReviewAttachmentsBean reviewAttachmentsBean = null;
+        
+        ProtocolActionBean protocolActionBean = getActionBean(form, request);
+        if (protocolActionBean != null && protocolActionBean instanceof ProtocolOnlineReviewCommentable) {
+            reviewAttachmentsBean = ((ProtocolOnlineReviewCommentable) protocolActionBean).getReviewAttachmentsBean();
+        }
+        
+        return reviewAttachmentsBean;
+    }
+
+    /**
+     * 
+     * This method is for the submission of manage review attachment
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward manageAttachments(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        if (hasPermission(TaskName.PROTOCOL_MANAGE_REVIEW_COMMENTS, protocolForm.getProtocolDocument().getProtocol())) {
+            if (applyRules(new ProtocolManageReviewAttachmentEvent(protocolForm.getDocument(),
+                "actionHelper.protocolManageReviewCommentsBean.reviewAttachmentsBean.", protocolForm.getActionHelper()
+                        .getProtocolManageReviewCommentsBean().getReviewAttachmentsBean().getReviewAttachments()))) {
+                ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolManageReviewCommentsBean();
+                saveReviewAttachments(protocolForm, actionBean.getReviewAttachmentsBean());
+
+                recordProtocolActionSuccess("Manage Review Attachments");
+            }
+        }
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /*
+     * this method is to save review attachment when manage review attachment is submitted
+     */
+    private void saveReviewAttachments(ProtocolForm protocolForm, ReviewAttachmentsBean actionBean) throws Exception { 
+        getReviewCommentsService().saveReviewAttachments(actionBean.getReviewAttachments(), actionBean.getDeletedReviewAttachments());           
+        actionBean.setDeletedReviewAttachments(new ArrayList<ProtocolReviewAttachment>());
+        protocolForm.getActionHelper().prepareCommentsView();
+    }
+
+    /**
+     * 
+     * This method is for adding new review attachment in manage review attachment
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
+    public ActionForward addReviewAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument document = protocolForm.getProtocolDocument();
+        ReviewAttachmentsBean reviewAttachmentsBean = getReviewAttachmentsBean(mapping, form, request, response);
+        
+        if (reviewAttachmentsBean != null) {
+            String errorPropertyName = reviewAttachmentsBean.getErrorPropertyName();
+            ProtocolReviewAttachment newReviewAttachment = reviewAttachmentsBean.getNewReviewAttachment();
+            List<ProtocolReviewAttachment> reviewAttachments = reviewAttachmentsBean.getReviewAttachments();
+            Protocol protocol = document.getProtocol();
+            
+            if (applyRules(new ProtocolAddReviewAttachmentEvent(document, errorPropertyName, newReviewAttachment))) {
+                getReviewCommentsService().addReviewAttachment(newReviewAttachment, reviewAttachments, protocol);
+                
+                reviewAttachmentsBean.setNewReviewAttachment(new ProtocolReviewAttachment());
+            }
+            reviewAttachmentsBean.setHideReviewerName(getReviewCommentsService().setHideReviewerName(reviewAttachmentsBean.getReviewAttachments()));            
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
 }

@@ -206,6 +206,13 @@
        										  property="onlineReviewsActionHelper.reviewCommentsBeans[${renderIndex}]"
        										  reviewIndex = "${renderIndex}" readOnly="${readOnly}"></kra-irb-olr:onlineReviewComments>
 		
+			<kra-irb-olr:onlineReviewAttachments bean="${KualiForm.onlineReviewsActionHelper.reviewAttachmentsBeans[renderIndex]}"
+       										  documentNumber = "${documentNumber}" 
+       										  allowReadOnly="${readOnly}" 
+       										  action="Online" 
+       										  property="onlineReviewsActionHelper.reviewAttachmentsBeans[${renderIndex}]"
+       										  reviewIndex = "${renderIndex}" readOnly="${readOnly}"></kra-irb-olr:onlineReviewAttachments>
+		
 
 			<kul:innerTab tabTitle="Protocol Review Actions" parentTab="" defaultOpen="true" tabErrorKey="" useCurrentTabIndexAsKey="true">
 				 <table cellpadding="0" cellspacing="0" class="datatable">

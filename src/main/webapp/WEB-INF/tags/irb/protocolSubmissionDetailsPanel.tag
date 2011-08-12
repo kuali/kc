@@ -54,6 +54,7 @@
 		    <kra-irb:voteSummary />
 		    <kra-irb:checklistItems />
 		    <kra-irb:protocolReviewComments />
+		    <kra-irb:protocolReviewAttachments />
 		    <%-- kcirb-1016 : not to display it here.  it will be shown at print panel
 		    <c:if test="${KualiForm.actionHelper.submissionQuestionnaireExist}">
 		        <kra-irb:viewSubmissionQuestionnaire />
