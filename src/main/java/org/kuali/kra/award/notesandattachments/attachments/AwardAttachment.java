@@ -17,6 +17,8 @@ package org.kuali.kra.award.notesandattachments.attachments;
 
 import java.util.LinkedHashMap;
 
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerException;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.home.Award;
@@ -306,5 +308,17 @@ public class AwardAttachment extends AwardAssociate {
             return false;
         }
         return true;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.bo.KraPersistableBusinessObjectBase#beforeUpdate(org.apache.ojb.broker.PersistenceBroker)
+     */
+    @Override
+    public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+        beforeUpdate();
+        if (this.getVersionNumber() == null) {
+            this.setVersionNumber(new Long(0));
+        }
     }
 }
