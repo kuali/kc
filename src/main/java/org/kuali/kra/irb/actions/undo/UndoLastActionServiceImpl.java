@@ -39,6 +39,7 @@ import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewStatus;
+import org.kuali.kra.irb.onlinereview.ProtocolReviewAttachment;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
@@ -303,6 +304,13 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
             for (CommitteeScheduleMinute comment : copiedReview.getCommitteeScheduleMinutes()) {
                 comment.setProtocolIdFk(protocol.getProtocolId());
                 comment.setProtocolOnlineReviewIdFk(null);
+            }
+        }       
+        if (CollectionUtils.isNotEmpty(copiedReview.getReviewAttachments())) {
+            for (ProtocolReviewAttachment reviewAttachment : copiedReview.getReviewAttachments()) {
+                reviewAttachment.setProtocolIdFk(protocol.getProtocolId());
+                reviewAttachment.setProtocolOnlineReviewIdFk(null);
+                reviewAttachment.setSubmissionIdFk(protocolSubmission.getSubmissionId());
             }
         }       
     }

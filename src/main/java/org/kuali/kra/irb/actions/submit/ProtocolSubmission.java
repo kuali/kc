@@ -27,6 +27,7 @@ import org.kuali.kra.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.irb.ProtocolAssociate;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.irb.onlinereview.ProtocolReviewAttachment;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.ProtocolVoteAbstainee;
 import org.kuali.kra.meeting.ProtocolVoteRecused;
@@ -81,6 +82,8 @@ public class ProtocolSubmission extends ProtocolAssociate {
     
     @SkipVersioning
     private transient List<CommitteeScheduleMinute> committeeScheduleMinutes;
+    @SkipVersioning
+    private transient List<ProtocolReviewAttachment> reviewAttachments;
     
     private ProtocolReviewType protocolReviewType;
     
@@ -496,5 +499,13 @@ public class ProtocolSubmission extends ProtocolAssociate {
 
     public void setBillable(boolean billable) {
         this.billable = billable;
+    }
+
+    public List<ProtocolReviewAttachment> getReviewAttachments() {
+        return reviewAttachments;
+    }
+
+    public void setReviewAttachments(List<ProtocolReviewAttachment> reviewAttachments) {
+        this.reviewAttachments = reviewAttachments;
     }
 }

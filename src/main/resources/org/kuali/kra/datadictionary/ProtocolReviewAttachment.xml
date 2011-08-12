@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+ Copyright 2005-2010 The Kuali Foundation
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+--><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="ProtocolReviewAttachment" parent="ProtocolReviewAttachment-parentBean"/>
+	<bean abstract="true" id="ProtocolReviewAttachment-parentBean" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.irb.onlinereview.ProtocolReviewAttachment"/>
+		<property name="objectLabel" value="Protocol Review Attachment"/>
+		<property name="inquiryDefinition">
+			<ref bean="ProtocolReviewAttachment-inquiryDefinition"/>
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="ProtocolReviewAttachment-lookupDefinition"/>
+		</property>
+		<property name="titleAttribute" value="statusCode"/>
+		<property name="attributes">
+			<list>
+				<ref bean="ProtocolReviewAttachment-reviewerAttachmentId"/>
+				<ref bean="ProtocolReviewAttachment-fileId"/>
+				<ref bean="ProtocolReviewAttachment-personId"/>
+				<ref bean="ProtocolReviewAttachment-description"/>
+				<ref bean="ProtocolReviewAttachment-protocolOnlineReviewIdFk"/>
+				<ref bean="ProtocolReviewAttachment-createUser"/>
+				<ref bean="ProtocolReviewAttachment-createTimestamp"/>
+				<ref bean="ProtocolReviewAttachment-privateFlag" />
+				<ref bean="ProtocolReviewAttachment-protocolPersonCanView" />
+				<ref bean="ProtocolReviewAttachment-protocolIdFk" />
+				<ref bean="ProtocolReviewAttachment-submissionIdFk" />
+				
+			</list>
+		</property>
+		 
+		
+	</bean>
+	<!-- Attribute Definitions -->
+	
+	<bean id="ProtocolReviewAttachment-reviewerAttachmentId" parent="ProtocolReviewAttachment-reviewerAttachmentId-parentBean"/>
+	<bean abstract="true" id="ProtocolReviewAttachment-reviewerAttachmentId-parentBean" parent="AttributeDefinition">
+		<property name="name" value="reviewerAttachmentId"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Id"/>
+		<property name="shortLabel" value="Id"/>
+		<property name="maxLength" value="10"/>
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern"/>
+		</property>
+		<property name="control">
+			<bean p:size="10" parent="TextControlDefinition"/>
+		</property>
+		<property name="summary" value="Id"/>
+		<property name="description" value="Id"/>
+	</bean>
+
+	<bean id="ProtocolReviewAttachment-description" parent="ProtocolReviewAttachment-description-parentBean" />
+	<bean id="ProtocolReviewAttachment-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+	    <property name="required" value="true" />	
+		<property name="control" >
+			<bean parent="TextareaControlDefinition"
+	            p:rows="3"
+	            p:cols="40"/> 
+        </property>
+	</bean>
+
+	<bean id="ProtocolReviewAttachment-fileId" parent="ProtocolReviewAttachment-fileId-parentBean" />
+	<bean id="ProtocolReviewAttachment-fileId-parentBean" abstract="true" parent="AttachmentFile-id">
+		<property name="name" value="fileId" />
+		<property name="label" value="File Name" />
+		<property name="shortLabel" value="File Name" />
+		<property name="summary" value="File Name" />
+		<property name="description" value="File Name" />
+		<!-- <property name="required" value="true" />-->
+	</bean>
+
+	<bean id="ProtocolReviewAttachment-protocolOnlineReviewIdFk" parent="ProtocolReviewAttachment-protocolOnlineReviewIdFk-parentBean"/>
+	<bean abstract="true" id="ProtocolReviewAttachment-protocolOnlineReviewIdFk-parentBean" parent="ProtocolOnlineReview-protocolOnlineReviewId">
+		<property name="name" value="protocolOnlineReviewIdFk"/>
+	</bean>
+	
+	<bean id="ProtocolReviewAttachment-createUser" parent="ProtocolReviewAttachment-createUser-parentBean" />
+	<bean id="ProtocolReviewAttachment-createUser-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="createUser" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Create User" />
+        <property name="shortLabel" value="Create User" />
+        <property name="maxLength" value="80" />
+        <property name="required" value="false" />
+        <property name="control">
+			<bean parent="TextControlDefinition" p:size="40" />
+		</property>
+        <property name="summary" value="Create User" />
+        <property name="description" value="Create User" />
+	
+	</bean>
+
+	<bean id="ProtocolReviewAttachment-createTimestamp" parent="ProtocolReviewAttachment-createTimestamp-parentBean" />
+
+  	<bean id="ProtocolReviewAttachment-createTimestamp-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    	<property name="name" value="createTimestamp" />
+    	<property name="label" value="Created Time" />
+    	<property name="shortLabel" value="Created Time" />
+    	<property name="summary" value="Created Time" />
+	    <property name="description" value="Created Time" />
+  	</bean>
+ 
+	<bean id="ProtocolReviewAttachment-privateFlag" parent="ProtocolReviewAttachment-privateFlag-parentBean" />
+	<bean id="ProtocolReviewAttachment-privateFlag-parentBean"
+		abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+		<property name="name" value="privateFlag" />
+		<property name="label" value="Protocol personnel can view" />
+		<property name="shortLabel" value="Protocol personnel can view" />
+		<property name="summary" value="Private Attachment Flag" />
+		<property name="description" value="Private Attachment Flag" />
+	</bean>
+	
+	<bean id="ProtocolReviewAttachment-protocolPersonCanView" parent="ProtocolReviewAttachment-protocolPersonCanView-parentBean" />
+	<bean id="ProtocolReviewAttachment-protocolPersonCanView-parentBean"
+		abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+		<property name="name" value="protocolPersonCanView" />
+		<property name="label" value="Protocol personnel can view" />
+		<property name="shortLabel" value="Protocol personnel can view" />
+		<property name="summary" value="Protocol personnel can view Flag" />
+		<property name="description" value="Protocol personnel can view Flag" />
+	</bean>
+
+	<bean id="ProtocolReviewAttachment-protocolIdFk" parent="ProtocolReviewAttachment-protocolIdFk-parentBean" />
+	<bean id="ProtocolReviewAttachment-protocolIdFk-parentBean"
+		abstract="true" parent="Protocol-protocolId">
+		<property name="name" value="protocolIdFk" />
+		<property name="summary" value="Protocol Id Fk" />
+		<property name="description" value="Protocol Id Fk" />
+	</bean>
+
+
+	<bean id="ProtocolReviewAttachment-submissionIdFk" parent="ProtocolReviewAttachment-submissionIdFk-parentBean" />
+	<bean id="ProtocolReviewAttachment-submissionIdFk-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="submissionIdFk" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Submission Id Fk" />
+		<property name="shortLabel" value="Submission Id Fk" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="summary" value="Submission Id Fk" />
+		<property name="description" value="Submission Id Fk" />
+	</bean>
+
+	<bean id="ProtocolReviewAttachment-personId" parent="ProtocolReviewAttachment-personId-parentBean" />
+	<bean id="ProtocolReviewAttachment-personId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="personId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Person Id" />
+		<property name="shortLabel" value="Person Id" />
+		<property name="maxLength" value="40" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="9" />
+		</property>
+		<property name="summary" value="Person Id" />
+		<property name="description" value="Person Id" />
+	</bean>
+
+
+	<bean id="ProtocolReviewAttachment-versionNumber" parent="ProtocolReviewAttachment-versionNumber-parentBean"/>
+	<bean abstract="true" id="ProtocolReviewAttachment-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
+	</bean>
+
+	<bean id="ProtocolReviewAttachment-inquiryDefinition" parent="ProtocolReviewAttachment-inquiryDefinition-parentBean" />
+	<bean id="ProtocolReviewAttachment-inquiryDefinition-parentBean"
+		abstract="true" parent="InquiryDefinition">
+		<property name="title" value="reviewerAttachmentId" />
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="reviewerAttachmentId" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="reviewerAttachmentId"
+								p:forceInquiry="true" />
+							<bean parent="FieldDefinition" p:attributeName="protocolOnlineReviewIdFk" />
+							<bean parent="FieldDefinition" p:attributeName="description" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+
+	<!-- Business Object Lookup Definition -->
+	<bean id="ProtocolReviewAttachment-lookupDefinition" parent="ProtocolReviewAttachment-lookupDefinition-parentBean"/>
+	<bean abstract="true" id="ProtocolReviewAttachment-lookupDefinition-parentBean" parent="LookupDefinition">
+		<property name="title" value="Protocol Review Attachment Lookup"/>
+		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+		</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean p:attributeName="reviewerAttachmentId" parent = "FieldDefinition"/>
+				<bean p:attributeName="createUser" parent="FieldDefinition"/>
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean p:attributeName="reviewerAttachmentId" parent="FieldDefinition"/>
+				<bean p:attributeName="description" parent="FieldDefinition"/>
+			</list>
+		</property>
+	</bean>
+</beans>

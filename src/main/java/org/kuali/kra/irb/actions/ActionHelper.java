@@ -76,6 +76,7 @@ import org.kuali.kra.irb.actions.undo.UndoLastActionBean;
 import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawBean;
 import org.kuali.kra.irb.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.irb.auth.ProtocolTask;
+import org.kuali.kra.irb.onlinereview.ProtocolReviewAttachment;
 import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.kra.irb.summary.ProtocolSummary;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
@@ -294,6 +295,7 @@ public class ActionHelper implements Serializable {
     // additional properties for Submission Details
     private ProtocolSubmission selectedSubmission;
     private List<CommitteeScheduleMinute> reviewComments;        
+    private List<ProtocolReviewAttachment> reviewAttachments;        
     private List<ProtocolVoteAbstainee> abstainees;        
     private List<ProtocolVoteRecused> recusers;        
     private List<ProtocolReviewer> protocolReviewers;        
@@ -321,6 +323,7 @@ public class ActionHelper implements Serializable {
     private boolean summaryQuestionnaireExist;
     private boolean hideReviewerName;
     private boolean hideSubmissionReviewerName;
+    private boolean hideReviewerNameForAttachment;
 
     /**
      * Constructs an ActionHelper.
@@ -387,6 +390,11 @@ public class ActionHelper implements Serializable {
         protocolReviewNotRequiredBean = new ProtocolReviewNotRequiredBean(this);
         protocolManageReviewCommentsBean = buildProtocolGenericActionBean(ProtocolActionType.MANAGE_REVIEW_COMMENTS, 
                 Constants.PROTOCOL_MANAGE_REVIEW_COMMENTS_KEY);
+        getProtocol().getProtocolSubmission().refreshReferenceObject("reviewAttachments");
+        protocolManageReviewCommentsBean.getReviewAttachmentsBean().setReviewAttachments(getProtocol().getProtocolSubmission().getReviewAttachments());
+        if (CollectionUtils.isNotEmpty(protocolManageReviewCommentsBean.getReviewAttachmentsBean().getReviewAttachments())) {
+            protocolManageReviewCommentsBean.getReviewAttachmentsBean().setHideReviewerName(getReviewerCommentsService().setHideReviewerName(protocolManageReviewCommentsBean.getReviewAttachmentsBean().getReviewAttachments()));
+        }
         protocolCloseRequestBean = new ProtocolRequestBean(this, ProtocolActionType.REQUEST_TO_CLOSE, 
                 ProtocolSubmissionType.REQUEST_TO_CLOSE, "protocolCloseRequestBean");
         protocolSuspendRequestBean = new ProtocolRequestBean(this, ProtocolActionType.REQUEST_FOR_SUSPENSION, 
@@ -489,6 +497,7 @@ public class ActionHelper implements Serializable {
         ProtocolApproveBean bean = new ProtocolApproveBean(this, errorPropertyKey);
         
         bean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+//        bean.getReviewAttachmentsBean().setReviewAttachments(getProtocol().getProtocolSubmission().getReviewAttachments());
 //        bean.getReviewCommentsBean().setHideReviewerName(getReviewCommentsService().setHideReviewerName(bean.getReviewCommentsBean().getReviewComments()));            
        ProtocolAction protocolAction = findProtocolAction(actionTypeCode, getProtocol().getProtocolActions(), getProtocol().getProtocolSubmission());
         if (protocolAction != null) {
@@ -829,7 +838,8 @@ public class ActionHelper implements Serializable {
         canAddSuspendReviewerComments = hasSuspendRequestLastAction();
         canAddTerminateReviewerComments = hasTerminateRequestLastAction();
         hideReviewerName = checkToHideReviewName();
-        
+//        undoLastActionBean = createUndoLastActionBean(getProtocol());
+     
         initSummaryDetails();
         initSubmissionDetails();
         initFilterDatesView();
@@ -862,6 +872,11 @@ public class ActionHelper implements Serializable {
 //        committeeDecision.getReviewCommentsBean().setHideReviewerName(getReviewCommentsService().setHideReviewerName(committeeDecision.getReviewCommentsBean().getReviewComments()));            
         protocolDeferBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         protocolManageReviewCommentsBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        getProtocol().getProtocolSubmission().refreshReferenceObject("reviewAttachments");
+        protocolManageReviewCommentsBean.getReviewAttachmentsBean().setReviewAttachments(getProtocol().getProtocolSubmission().getReviewAttachments());
+        if (CollectionUtils.isNotEmpty(protocolManageReviewCommentsBean.getReviewAttachmentsBean().getReviewAttachments())) {
+            protocolManageReviewCommentsBean.getReviewAttachmentsBean().setHideReviewerName(getReviewerCommentsService().setHideReviewerName(protocolManageReviewCommentsBean.getReviewAttachmentsBean().getReviewAttachments()));
+        }
     }
     
     private List<CommitteeScheduleMinute> getCopiedReviewComments() {
@@ -876,7 +891,7 @@ public class ActionHelper implements Serializable {
         
         return clonedMinutes;
     }
-    
+        
     private CommitteeScheduleService getCommitteeScheduleService() {
         if (committeeScheduleService == null) {
             committeeScheduleService = KraServiceLocator.getService(CommitteeScheduleService.class);        
@@ -2278,6 +2293,14 @@ public class ActionHelper implements Serializable {
         }
         setReviewComments(getReviewerCommentsService().getReviewerComments(getProtocol().getProtocolNumber(),
                 currentSubmissionNumber));
+        setReviewAttachments(getReviewerCommentsService().getReviewerAttachments(getProtocol().getProtocolNumber(),
+                currentSubmissionNumber));
+        if (CollectionUtils.isNotEmpty(getReviewAttachments())) {
+            hideReviewerNameForAttachment = getReviewerCommentsService().setHideReviewerName(getReviewAttachments());
+            getReviewerCommentsService().setHideViewButton(getReviewAttachments());
+        }
+        getProtocol().getProtocolSubmission().refreshReferenceObject("reviewAttachments");
+//        setReviewAttachments(getProtocol().getProtocolSubmission().getReviewAttachments());
         hideSubmissionReviewerName = checkToHideSubmissionReviewerName();
 
         setProtocolReviewers(getReviewerCommentsService().getProtocolReviewers(getProtocol().getProtocolNumber(),
@@ -2829,4 +2852,21 @@ public class ActionHelper implements Serializable {
     public void setHideSubmissionReviewerName(boolean hideSubmissionReviewerName) {
         this.hideSubmissionReviewerName = hideSubmissionReviewerName;
     }
+
+    public List<ProtocolReviewAttachment> getReviewAttachments() {
+        return reviewAttachments;
+    }
+
+    public void setReviewAttachments(List<ProtocolReviewAttachment> reviewAttachments) {
+        this.reviewAttachments = reviewAttachments;
+    }
+
+    public boolean isHideReviewerNameForAttachment() {
+        return hideReviewerNameForAttachment;
+    }
+
+    public void setHideReviewerNameForAttachment(boolean hideReviewerNameForAttachment) {
+        this.hideReviewerNameForAttachment = hideReviewerNameForAttachment;
+    }
+
 }
