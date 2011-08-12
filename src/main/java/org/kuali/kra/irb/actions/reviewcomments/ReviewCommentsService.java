@@ -22,6 +22,8 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.irb.onlinereview.ProtocolReviewAttachment;
+import org.kuali.kra.irb.onlinereview.ProtocolReviewable;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 
 public interface ReviewCommentsService {
@@ -67,7 +69,7 @@ public interface ReviewCommentsService {
       * @param CommitteeScheduleMinute minute
      *  @return whether the current user can view this comment
      */
-    boolean getReviewerCommentsView(CommitteeScheduleMinute minute);
+    boolean getReviewerCommentsView(ProtocolReviewable minute);
     
     /**
      * 
@@ -152,7 +154,7 @@ public interface ReviewCommentsService {
      * @param reviewComments
      * @return
      */
-    boolean setHideReviewerName(List<CommitteeScheduleMinute> reviewComments);
+    boolean setHideReviewerName(List<? extends ProtocolReviewable> reviewComments);
     /**
      * 
      * This method is to check whether the current user can view this minute comment.
@@ -170,5 +172,46 @@ public interface ReviewCommentsService {
      */
     boolean getReviewerAcceptedCommentsView(CommitteeScheduleMinute minute);
     
-    
+    /**
+     * 
+     * This method is to delete a review attachment.
+     * @param reviewAttachments
+     * @param index
+     * @param deletedReviewAttachments
+     */
+    void deleteReviewAttachment(List<ProtocolReviewAttachment> reviewAttachments, int index, List<ProtocolReviewAttachment> deletedReviewAttachments);
+
+    /**
+     * 
+     * This method is to save review attachments in OLR or manage review attachment
+     * @param reviewAttachments
+     * @param deletedReviewAttachments
+     */
+    void saveReviewAttachments(List<ProtocolReviewAttachment> reviewAttachments, List<ProtocolReviewAttachment> deletedReviewAttachments);
+
+    /**
+     * 
+     * This method is to add review attachment in OLR or manage review attachment
+     * @param newReviewAttachment
+     * @param reviewAttachments
+     * @param protocol
+     */
+    void addReviewAttachment(ProtocolReviewAttachment newReviewAttachment, List<ProtocolReviewAttachment> reviewAttachments, Protocol protocol);
+
+    /**
+     * 
+     * This method is to get review attachments for submission detail
+     * @param protocolNumber
+     * @param submissionNumber
+     * @return
+     */
+    List<ProtocolReviewAttachment> getReviewerAttachments(String protocolNumber, int submissionNumber);
+
+    /**
+     * 
+     * This method is to check to show 'view' button for protocol personnel
+     * @param reviewAttachments
+     * @return
+     */
+    boolean setHideViewButton(List<ProtocolReviewAttachment> reviewAttachments);
 }

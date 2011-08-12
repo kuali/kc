@@ -33,7 +33,7 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
-
+import org.kuali.kra.irb.onlinereview.ProtocolReviewable;
 import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -43,7 +43,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * 
  * This is BO class for committee schedule minute. 
  */
-public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase implements Cloneable { 
+public class CommitteeScheduleMinute extends ProtocolReviewable implements Cloneable { 
 
     private static final long serialVersionUID = -2294619582524055884L;
     private static final String PERSON_NOT_FOUND_FORMAT_STRING = "%s (not found)";
@@ -538,24 +538,39 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase im
      * are returned true by default.
      * @return false if it is an online review comment and not accepted, true otherwise.
      */
-    public boolean isAccepted() {
-        boolean accepted = false;
-         
-        if (getProtocolOnlineReviewIdFk() != null) {
-            ProtocolOnlineReview protocolOnlineReview = getBusinessObjectService().findBySinglePrimaryKey(ProtocolOnlineReview.class, getProtocolOnlineReviewIdFk());
-            if (protocolOnlineReview.isAdminAccepted()) {
-                accepted = true;
-            }
-        } else {
-            accepted = true;
-        }
-        
-        return accepted;
-    }
+//    public boolean isAccepted() {
+//        boolean accepted = false;
+//         
+//        if (getProtocolOnlineReviewIdFk() != null) {
+//            ProtocolOnlineReview protocolOnlineReview = getBusinessObjectService().findBySinglePrimaryKey(ProtocolOnlineReview.class, getProtocolOnlineReviewIdFk());
+//            if (protocolOnlineReview.isAdminAccepted()) {
+//                accepted = true;
+//            }
+//        } else {
+//            accepted = true;
+//        }
+//        
+//        return accepted;
+//    }
 
     
-    private BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
+//    private BusinessObjectService getBusinessObjectService() {
+//        return KraServiceLocator.getService(BusinessObjectService.class);
+//    }
+
+    public boolean isReviewComment() {
+        // TODO Auto-generated method stub
+        return true;
+    }
+
+    @Override
+    public boolean isFinal() {
+        return isFinalFlag();
+    }
+
+    @Override
+    public boolean isPrivate() {
+        return getPrivateCommentFlag();
     }
 
 

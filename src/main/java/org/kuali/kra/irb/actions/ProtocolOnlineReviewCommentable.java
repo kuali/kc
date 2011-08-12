@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.actions;
 
+import org.kuali.kra.irb.actions.reviewcomments.ReviewAttachmentsBean;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
 
 /**
@@ -27,5 +28,12 @@ public interface ProtocolOnlineReviewCommentable {
      * @return the <code>ReviewCommentsBean</code>
      */
     ReviewCommentsBean getReviewCommentsBean();
+    
+    /**
+     * 
+     * This method is to get the review attachment bean for OLR
+     * @return the <code>ReviewAttachmentsBean</code>
+     */
+    ReviewAttachmentsBean getReviewAttachmentsBean();
 
 }

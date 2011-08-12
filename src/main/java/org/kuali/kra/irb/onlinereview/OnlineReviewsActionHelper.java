@@ -35,6 +35,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewAttachmentsBean;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
@@ -56,6 +57,7 @@ import org.kuali.rice.kns.util.KNSConstants;
 public class OnlineReviewsActionHelper implements Serializable {
 
     public static final String REVIEWER_COMMENTS_MAP_KEY = "reviewerComments";
+    public static final String REVIEWER_ATTACHMENTS_MAP_KEY = "reviewerAttachments";
     public static final String DOCUMENT_MAP_KEY = "document";
     //public static final String REVIEWER_PERSON_MAP_KEY = "reviewerPerson";
     public static final String FORM_MAP_KEY = "kualiForm";
@@ -76,6 +78,7 @@ public class OnlineReviewsActionHelper implements Serializable {
     private Map<String,Map<String,Object>> documentHelperMap;
     private List<ProtocolOnlineReviewDocument> protocolOnlineReviewDocuments;
     private List<ReviewCommentsBean> reviewCommentsBeans;
+    private List<ReviewAttachmentsBean> reviewAttachmentsBeans;
     //private List<Object> reviewerPersons;
     private boolean initComplete = false;
 
@@ -84,6 +87,7 @@ public class OnlineReviewsActionHelper implements Serializable {
     private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(OnlineReviewsActionHelper.class);
     private static final String REVIEW_DOCUMENT_DESCRIPTION_FORMAT = "Review Protocol:%s, PI:%s";
     private boolean hideReviewerName;
+    private boolean hideReviewerNameForAttachment;
     
     /**
      * Constructs a OnlineReviewActionHelper.java.
@@ -107,6 +111,7 @@ public class OnlineReviewsActionHelper implements Serializable {
                 this.protocolOnlineReviewDocuments = getProtocolOnlineReviewService()
                 .getProtocolReviewDocumentsForCurrentSubmission(protocolDocument.getProtocol()); 
                 this.reviewCommentsBeans = new ArrayList<ReviewCommentsBean>();
+                this.reviewAttachmentsBeans = new ArrayList<ReviewAttachmentsBean>();
                 this.documentHelperMap = new LinkedHashMap<String,Map<String,Object>>();
 
                 if (principalInvestigator != null ) {
@@ -136,6 +141,11 @@ public class OnlineReviewsActionHelper implements Serializable {
                     pDocMap.put(REVIEWER_COMMENTS_MAP_KEY, commentsBean);
                     reviewCommentsBeans.add(commentsBean);
                     
+                    ReviewAttachmentsBean attachmentsBean = new ReviewAttachmentsBean("onlineReviewsActionHelper");
+                    attachmentsBean.setReviewAttachments(pDoc.getProtocolOnlineReview().getReviewAttachments());
+                  //  commentsBean.setHideReviewerName(getReviewerCommentsService().setHideReviewerName(commentsBean.getReviewComments()));
+                    pDocMap.put(REVIEWER_ATTACHMENTS_MAP_KEY, attachmentsBean);
+                    reviewAttachmentsBeans.add(attachmentsBean);
                 }
                 initComplete = true;
             }
@@ -143,6 +153,9 @@ public class OnlineReviewsActionHelper implements Serializable {
         }
         for (ReviewCommentsBean commentsBean : reviewCommentsBeans) {
             commentsBean.setHideReviewerName(getReviewerCommentsService().setHideReviewerName(commentsBean.getReviewComments()));            
+        }
+        for (ReviewAttachmentsBean attachmentsBean : reviewAttachmentsBeans) {
+            attachmentsBean.setHideReviewerName(getReviewerCommentsService().setHideReviewerName(attachmentsBean.getReviewAttachments()));            
         }
  
     }
@@ -393,6 +406,14 @@ public class OnlineReviewsActionHelper implements Serializable {
         return bean;
     }
 
+    public ReviewAttachmentsBean getReviewAttachmentsBeanFromHelperMap(String documentNumber) {
+        ReviewAttachmentsBean bean = (ReviewAttachmentsBean) getHelperMapByDocumentNumber(documentNumber).get(REVIEWER_ATTACHMENTS_MAP_KEY);
+        if (bean == null) {
+            throw new IllegalStateException(String.format("ReviewAttachmentsBean for document %s was not stored in the helper map.", documentNumber));
+        }
+        return bean;
+    }
+
     public int getDocumentIndexByReviewer(String personId, boolean nonEmployeeFlag) {
         int idx = 0;
         for (ProtocolOnlineReviewDocument reviewDocument : protocolOnlineReviewDocuments ) {
@@ -532,6 +553,22 @@ public class OnlineReviewsActionHelper implements Serializable {
 
     public void setHideReviewerName(boolean hideReviewerName) {
         this.hideReviewerName = hideReviewerName;
+    }
+
+    public List<ReviewAttachmentsBean> getReviewAttachmentsBeans() {
+        return reviewAttachmentsBeans;
+    }
+
+    public void setReviewAttachmentsBeans(List<ReviewAttachmentsBean> reviewAttachmentsBeans) {
+        this.reviewAttachmentsBeans = reviewAttachmentsBeans;
+    }
+
+    public boolean isHideReviewerNameForAttachment() {
+        return hideReviewerNameForAttachment;
+    }
+
+    public void setHideReviewerNameForAttachment(boolean hideReviewerNameForAttachment) {
+        this.hideReviewerNameForAttachment = hideReviewerNameForAttachment;
     }
     
 }

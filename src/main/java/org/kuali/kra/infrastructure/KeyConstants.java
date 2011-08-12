@@ -630,7 +630,7 @@ public final class KeyConstants {
     public static final String ERROR_ONLINE_REVIEW_ALL_COMMENTS_NOT_FINAL = "error.protocol.onlinereview.all.comments.not.final";
     public static final String ERROR_ONLINE_REVIEW_STATUS_REQUIRED = "error.protocol.onlinereview.status.required";
     public static final String ERROR_ONLINE_REVIEW_REJECTED_REASON_REQUIRED = "error.protocol.onlinereview.comment.rejected";
-    
+    public static final String ERROR_ONLINE_REVIEW_ATTACHMENT_DESCRIPTION_REQUIRED = "error.protocol.onlinereview.attachment.description.required";
     //  Committee Messages
     public static final String ERROR_COMMITTEE_DUPLICATE_ID = "error.committee.duplicateId";
     public static final String ERROR_COMMITTEE_DUPLICATE_NAME = "error.committee.duplicateName";
