@@ -554,8 +554,10 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
     protected boolean isValidForPostingToFinancialSystem(AwardBudgetDocument awardBudgetDocument) {
         //check if budget adjustment doc nbr has been created here, if so do not post
         String budgetAdjustmentDocumentNumber = awardBudgetDocument.getBudget().getBudgetAdjustmentDocumentNumber();
-        if (ObjectUtils.isNull(budgetAdjustmentDocumentNumber)) {
-           return true;
+        // Need to check empty string also because of KCINFR-363. MySQL treats '' and null different and awardBudget documents 
+        // initially seem to store the BA doc nbr as ''.
+        if (ObjectUtils.isNull(budgetAdjustmentDocumentNumber) || StringUtils.isEmpty(budgetAdjustmentDocumentNumber)) {
+            return true;
         }
         
         return false;
