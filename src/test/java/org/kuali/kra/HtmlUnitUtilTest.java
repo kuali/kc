@@ -92,7 +92,7 @@ public class HtmlUnitUtilTest extends KcWebTestBase {
               Date requestedStartDateInitial = new Date(System.currentTimeMillis());
               Date requestedEndDateInitial = new Date(System.currentTimeMillis());
               setBaseDocumentFields(document, PROPOSAL_DOCUMENT_DESC, "005770", "project title",
-                      requestedStartDateInitial, requestedEndDateInitial, "1", "1", "000001");
+                      requestedStartDateInitial, requestedEndDateInitial, "1", "1", "000001", "000120");
               proposalDevelopmentService.initializeUnitOrganizationLocation(document);
               proposalDevelopmentService.initializeProposalSiteNumbers(document);
               
@@ -107,7 +107,7 @@ public class HtmlUnitUtilTest extends KcWebTestBase {
           return document;
       }
     
-    private void setBaseDocumentFields(ProposalDevelopmentDocument document, String description, String sponsorCode, String title, Date requestedStartDateInitial, Date requestedEndDateInitial, String activityTypeCode, String proposalTypeCode, String ownedByUnit) {
+    private void setBaseDocumentFields(ProposalDevelopmentDocument document, String description, String sponsorCode, String title, Date requestedStartDateInitial, Date requestedEndDateInitial, String activityTypeCode, String proposalTypeCode, String ownedByUnit, String primeSponsorCode) {
         document.getDocumentHeader().setDocumentDescription(description);
         document.getDevelopmentProposal().setSponsorCode(sponsorCode);
         document.getDevelopmentProposal().setTitle(title);
@@ -116,6 +116,7 @@ public class HtmlUnitUtilTest extends KcWebTestBase {
         document.getDevelopmentProposal().setActivityTypeCode(activityTypeCode);
         document.getDevelopmentProposal().setProposalTypeCode(proposalTypeCode);
         document.getDevelopmentProposal().setOwnedByUnitNumber(ownedByUnit);
+        document.getDevelopmentProposal().setPrimeSponsorCode(primeSponsorCode);
     }
 
     private void initializeAuthorization(ProposalDevelopmentDocument doc) {

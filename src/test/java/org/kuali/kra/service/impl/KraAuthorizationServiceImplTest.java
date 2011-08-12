@@ -251,6 +251,7 @@ public class KraAuthorizationServiceImplTest extends KcUnitTestBase {
         document.getDevelopmentProposal().setActivityTypeCode("1");
         document.getDevelopmentProposal().setProposalTypeCode("1");
         document.getDevelopmentProposal().setOwnedByUnitNumber(leadUnitNumber);
+        document.getDevelopmentProposal().setPrimeSponsorCode("000120");
 
         proposalDevelopmentService.initializeUnitOrganizationLocation(document);
         proposalDevelopmentService.initializeProposalSiteNumbers(document);
