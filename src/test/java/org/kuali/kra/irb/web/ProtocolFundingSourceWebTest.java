@@ -17,7 +17,6 @@ package org.kuali.kra.irb.web;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.kuali.kra.irb.ProtocolDocument;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
@@ -185,7 +184,6 @@ public class ProtocolFundingSourceWebTest extends ProtocolWebTestBase {
     @Test
     public void testAddDeleteFundingSourcePage() throws Exception {
         HtmlPage protocolPage = getProtocolSavedRequiredFieldsPage();
-        String documentNumber = getDocNbr(protocolPage);
         
         setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_NUMBER_FIELD, SPONSOR_FUNDINGSOURCE_ID);
         setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_NAME_FIELD, SPONSOR_FUNDINGSOURCE_NAME);
@@ -207,10 +205,6 @@ public class ProtocolFundingSourceWebTest extends ProtocolWebTestBase {
         assertContains(protocolPage, SPONSOR_FUNDINGSOURCE_NAME);
         assertDoesNotContain(protocolPage, UNIT_FUNDINGSOURCE_ID);
         assertDoesNotContain(protocolPage, UNIT_FUNDINGSOURCE_NAME);
-       
-        ProtocolDocument doc = (ProtocolDocument) getDocument(documentNumber);
-        assertNotNull(doc);
-        assertEquals(SPONSOR_FUNDINGSOURCE_NAME, doc.getProtocol().getProtocolFundingSources().get(0).getFundingSourceName() );
      }
 
 }
