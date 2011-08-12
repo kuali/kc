@@ -29,6 +29,7 @@ import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocumen
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.document.Document;
@@ -87,7 +88,7 @@ public class KraHoldingPageAction extends KualiAction {
     private boolean isPessimisticallyLocked(Document document) {
         boolean isPessimisticallyLocked = false;
         
-        Person pessimisticLockHolder = getPersonService().getPersonByPrincipalName("kr");
+        Person pessimisticLockHolder = getPersonService().getPersonByPrincipalName(KEWConstants.SYSTEM_USER);
         for (PessimisticLock pessimisticLock : document.getPessimisticLocks()) {
             if (pessimisticLock.isOwnedByUser(pessimisticLockHolder)) {
                 isPessimisticallyLocked = true;
