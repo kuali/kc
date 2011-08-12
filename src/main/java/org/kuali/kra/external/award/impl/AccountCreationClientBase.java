@@ -235,8 +235,8 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
             + "-" + award.getSponsorAwardNumber();
         if (ObjectUtils.isNotNull(award.getPrincipalInvestigator()) 
             && ObjectUtils.isNotNull(award.getPrincipalInvestigator().getPerson())) {
-            accountName += "-" + award.getPrincipalInvestigator().getPerson().getFirstName()
-                               + award.getPrincipalInvestigator().getPerson().getLastName();
+            accountName += "-" + award.getPrincipalInvestigator().getPerson().getLastName()
+                               + award.getPrincipalInvestigator().getPerson().getFirstName();
         }
             
         // Trimming the name 
