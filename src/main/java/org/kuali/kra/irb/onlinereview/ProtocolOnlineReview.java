@@ -69,6 +69,7 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
     private ProtocolOnlineReviewDeterminationRecommendation protocolOnlineReviewDeterminationRecommendation;
     
     private List<CommitteeScheduleMinute> committeeScheduleMinutes;
+    private List<ProtocolReviewAttachment> reviewAttachments;
     private ProtocolOnlineReviewDocument protocolOnlineReviewDocument;
     
     //lookup fields
@@ -660,6 +661,14 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
 
     public void setReviewerTypeCode(String reviewerTypeCode) {
         this.reviewerTypeCode = reviewerTypeCode;
+    }
+
+    public List<ProtocolReviewAttachment> getReviewAttachments() {
+        return reviewAttachments;
+    }
+
+    public void setReviewAttachments(List<ProtocolReviewAttachment> reviewAttachments) {
+        this.reviewAttachments = reviewAttachments;
     }
 
 }

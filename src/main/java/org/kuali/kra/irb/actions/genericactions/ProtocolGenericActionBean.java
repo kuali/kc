@@ -21,6 +21,7 @@ import java.sql.Date;
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.ProtocolActionBean;
 import org.kuali.kra.irb.actions.ProtocolOnlineReviewCommentable;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewAttachmentsBean;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
 
 /**
@@ -36,6 +37,7 @@ public class ProtocolGenericActionBean extends ProtocolActionBean implements Pro
     private String errorPropertyKey;
     
     private ReviewCommentsBean reviewCommentsBean;
+    private ReviewAttachmentsBean reviewAttachmentsBean;
     
     /**
      * Constructs a ProtocolGenericActionBean.
@@ -46,6 +48,7 @@ public class ProtocolGenericActionBean extends ProtocolActionBean implements Pro
         
         this.errorPropertyKey = errorPropertyKey;
         reviewCommentsBean = new ReviewCommentsBean(errorPropertyKey);
+        reviewAttachmentsBean = new ReviewAttachmentsBean(errorPropertyKey);
     }
 
     public String getComments() {
@@ -70,6 +73,14 @@ public class ProtocolGenericActionBean extends ProtocolActionBean implements Pro
 
     public ReviewCommentsBean getReviewCommentsBean() {
         return reviewCommentsBean;
+    }
+
+    public ReviewAttachmentsBean getReviewAttachmentsBean() {
+        return reviewAttachmentsBean;
+    }
+
+    public void setReviewAttachmentsBean(ReviewAttachmentsBean reviewAttachmentsBean) {
+        this.reviewAttachmentsBean = reviewAttachmentsBean;
     }
     
 }

@@ -20,6 +20,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
+import org.kuali.kra.irb.onlinereview.ProtocolReviewAttachment;
 import org.kuali.kra.irb.onlinereview.rules.SaveProtocolOnlineReviewRule;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
@@ -31,6 +32,7 @@ public class SaveProtocolOnlineReviewEvent extends KraDocumentEventBase {
     
     private static final Log LOG = LogFactory.getLog(SaveProtocolOnlineReviewEvent.class);
     private final List<CommitteeScheduleMinute> minutes;
+    private List<ProtocolReviewAttachment> reviewAttachments;
     private final long onlineReviewIndex;
   
     /**
@@ -51,6 +53,7 @@ public class SaveProtocolOnlineReviewEvent extends KraDocumentEventBase {
         }
         
         this.minutes = minutes;
+        this.reviewAttachments =document.getProtocolOnlineReview().getReviewAttachments();
     }
   
     
@@ -91,6 +94,11 @@ public class SaveProtocolOnlineReviewEvent extends KraDocumentEventBase {
      */
     public List<CommitteeScheduleMinute> getMinutes() {
         return minutes;
+    }
+
+
+    public List<ProtocolReviewAttachment> getReviewAttachments() {
+        return reviewAttachments;
     }
     
 }
