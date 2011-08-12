@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardComment;
+import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardCommentService;
@@ -37,6 +38,8 @@ import java.util.Collections;
 public class AwardCommentServiceImpl implements AwardCommentService {
     
     private BusinessObjectService businessObjectService;
+    private AwardService awardService;
+    
     private String AWARD_COMMENT_SCREEN_FLAG = "awardCommentScreenFlag";
     private String AWARD_COMMENT_TYPE_CODE = "commentTypeCode";
     private String AWARD_ID = "awardId";
@@ -112,7 +115,7 @@ public class AwardCommentServiceImpl implements AwardCommentService {
         Map<String, String> queryMap = new HashMap<String, String>();
         queryMap.put(AWARD_COMMENT_TYPE_CODE, awardCommentTypeCode);
         queryMap.put("awardNumber", award.getAwardNumber());
-        return filterAwardComment((List<AwardComment>) getBusinessObjectService().findMatching(AwardComment.class, queryMap), award.getSequenceNumber());
+        return filterAwardComment((List<AwardComment>) getBusinessObjectService().findMatching(AwardComment.class, queryMap), award.getAwardNumber(), award.getSequenceNumber());
     }
 
     protected Award getAward(String awardId) {
@@ -122,11 +125,14 @@ public class AwardCommentServiceImpl implements AwardCommentService {
         
     }
     
-    protected List<AwardComment> filterAwardComment(List<AwardComment> results, Integer sequenceNum) {
+    protected List<AwardComment> filterAwardComment(List<AwardComment> results, String awardNumber, Integer sequenceNum) {
         List<AwardComment> returnList = new ArrayList<AwardComment>();
         List<String> comments = new ArrayList<String>();
+
         for (AwardComment awardComment : results) {
-            if (sequenceNum >= awardComment.getSequenceNumber() && awardComment.isEntered()) {
+            if (sequenceNum >= awardComment.getSequenceNumber() && 
+                    awardComment.isEntered() && 
+                    !awardComment.isDisabled()) {
                 // if we haven't saved any comments yet, or if comment is different from previous one
                 if (comments.isEmpty() || !awardComment.getComments().equals(comments.get(comments.size()-1))) {
                     returnList.add(awardComment);
@@ -156,6 +162,20 @@ public class AwardCommentServiceImpl implements AwardCommentService {
         return this.businessObjectService;
     }
 
+    /**
+     * Accessor for <code>{@link AwardService}</code>
+     *
+     * @return AwardService
+     */
+    public void setAwardService(AwardService awardService) {
+        this.awardService = awardService;
+    }
     
+    public AwardService getAwardService() {
+        if (awardService == null) {
+            awardService = KraServiceLocator.getService(AwardService.class);
+        }
+        return awardService;
+    }
 
 }
