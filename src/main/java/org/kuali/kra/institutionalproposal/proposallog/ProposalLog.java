@@ -405,6 +405,9 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
             if (this.getSponsor()!= null) {
                 sponsorName = this.getSponsor().getSponsorName();
             }
+            else {
+                sponsorName = null;
+            }
         }
     }
     
