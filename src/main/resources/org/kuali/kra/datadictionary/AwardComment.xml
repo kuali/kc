@@ -20,6 +20,7 @@
       <list>
         <ref bean="AwardComment-awardCommentId" />
         <ref bean="AwardComment-awardNumber" />
+        <ref bean="AwardComment-awardId" />
         <ref bean="AwardComment-sequenceNumber" />
         <ref bean="AwardComment-checklistPrintFlag" />
         <ref bean="AwardComment-comments" />  
@@ -52,6 +53,11 @@
   <bean id="AwardComment-awardNumber" parent="AwardComment-awardNumber-parentBean" />
 
   <bean id="AwardComment-awardNumber-parentBean" abstract="true" parent="Award-awardNumber">
+  </bean>
+  
+  <bean id="AwardComment-awardId" parent="AwardComment-awardId-parentBean" />
+
+  <bean id="AwardComment-awardId-parentBean" abstract="true" parent="Award-awardId">
   </bean>
   
   <bean id="AwardComment-sequenceNumber" parent="AwardComment-sequenceNumber-parentBean" />

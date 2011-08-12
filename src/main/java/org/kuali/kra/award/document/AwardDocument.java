@@ -32,6 +32,7 @@ import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.document.authorization.AwardTask;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardComment;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
@@ -248,6 +249,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         }
         if (newStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_CANCEL_CD) || newStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
             revertFundedProposals();
+            disableAwardComments();
             //getVersionHistoryService().createVersionHistory(getAward(), VersionStatus.CANCELED, GlobalVariables.getUserSession().getPrincipalName());
             getVersionHistoryService().updateVersionHistoryOnCancel(getAward(), VersionStatus.CANCELED, GlobalVariables.getUserSession().getPrincipalName());
         }
@@ -623,6 +625,14 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
                 this.getAward().getAwardNumber(), this.getAward().getSequenceNumber());
     }
     
+    /*
+     * Mark award comments tied to this award as invalid, so they don't show up in History
+     */
+    private void disableAwardComments() {
+        for (AwardComment awardComment : this.getAward().getAwardComments()) {
+            awardComment.disableComment();
+        }
+    }
     /**
      * This method is to check whether rice async routing is ok now.   
      * Close to hack.  called by holdingpageaction
