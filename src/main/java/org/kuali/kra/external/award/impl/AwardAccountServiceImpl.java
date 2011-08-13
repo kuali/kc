@@ -40,15 +40,23 @@ public class AwardAccountServiceImpl implements AwardAccountService {
     private BusinessObjectService businessObjectService;
     private static final Log LOG = LogFactory.getLog(AwardAccountServiceImpl.class);
     private ParameterService parameterService;
-
+   
     /**
-     * This method returns all the awards linked to a financial account number.
+     * This method returns all the awards linked to a financial account number and the chart
      * @see org.kuali.kra.external.award.AwardAccountService#getAwardAccount(java.lang.String)
      */
-    public List<AwardAccountDTO> getAwardAccount(String financialAccountNumber) {
-        
-        List<Award> awards = getAwards(financialAccountNumber);
+    public List<AwardAccountDTO> getAwardAccounts(String financialAccountNumber, String chartOfAccounts) {
+        if (ObjectUtils.isNull(financialAccountNumber) || ObjectUtils.isNull(chartOfAccounts)) {
+            LOG.warn("One or both of the criteria sent was null.");
+            return null;
+        }
+        List<Award> awards = getAwards(financialAccountNumber, chartOfAccounts);
+        return getAwardAccountDTOs(awards); 
+    }
+    
+    protected List<AwardAccountDTO> getAwardAccountDTOs(List<Award> awards) {
         List<AwardAccountDTO> awardDTOs = new ArrayList<AwardAccountDTO>();
+
         if (ObjectUtils.isNotNull(awards)) {
             for (Award award : awards) {
                 AwardAccountDTO awardAccountDTO = new AwardAccountDTO();
@@ -71,7 +79,7 @@ public class AwardAccountServiceImpl implements AwardAccountService {
                 awardAccountDTO.setFederalSponsor(isFederalSponsor(award));
                 awardAccountDTO.setAwardTitle(award.getTitle());
                 awardAccountDTO.setPrimeSponsorCode(award.getPrimeSponsorCode());
-
+                
                 if (ObjectUtils.isNotNull(award.getPrimeSponsor())) {
                     awardAccountDTO.setPrimeSponsorName(award.getPrimeSponsor().getSponsorName());
                     awardAccountDTO.setPrimeSponsorTypeCode(award.getPrimeSponsor().getSponsorTypeCode());
@@ -92,6 +100,7 @@ public class AwardAccountServiceImpl implements AwardAccountService {
         return awardDTOs;
     }
 
+ 
     /**
      * This method returns the proposal ID related to an award
      * Can award have multiple P IDs?
@@ -104,7 +113,10 @@ public class AwardAccountServiceImpl implements AwardAccountService {
         HashMap<String, String> searchCriteria =  new HashMap<String, String>();
         searchCriteria.put("proposalNumber", proposalNumber);  
         proposals = new ArrayList<InstitutionalProposal>(businessObjectService.findMatching(InstitutionalProposal.class, searchCriteria));
-        return proposals.isEmpty() ? null : proposals.get(0).getProposalId();
+        if (ObjectUtils.isNotNull(proposals)) {
+            return proposals.isEmpty() ? null : proposals.get(0).getProposalId();
+        }
+        return null;
     }
     
     /**
@@ -150,23 +162,27 @@ public class AwardAccountServiceImpl implements AwardAccountService {
         }
         return false;
     }
+   
     /**
-     * This helper method returns the award based on the financial account number.
+     * This method returns awards based on the account number and chart of account
      * @param financialAccountNumber
+     * @param chartOfAccounts
      * @return
      */
-    protected List<Award> getAwards(String financialAccountNumber) {
+    protected List<Award> getAwards(String financialAccountNumber, String chartOfAccounts) {
         List<Award> awards;
         HashMap<String, String> searchCriteria =  new HashMap<String, String>();
         searchCriteria.put("accountNumber", financialAccountNumber);  
+        searchCriteria.put("financialChartOfAccountsCode", chartOfAccounts);
         awards = new ArrayList<Award>(businessObjectService.findMatching(Award.class, searchCriteria));
         if (ObjectUtils.isNotNull(awards) && !awards.isEmpty()) {
             return awards;
         } else {
-            LOG.warn("No award found for the corresponding account number.");
+            LOG.warn("No award found for the account number " + financialAccountNumber + " and chart " + "chartOfAccounts");            
             return null;
         }   
     }
+
     
     /**
      * Sets the businessObjectService attribute value. Injected by Spring.
@@ -185,5 +201,5 @@ public class AwardAccountServiceImpl implements AwardAccountService {
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
- 
+
 }
