@@ -27,10 +27,15 @@ public interface AwardAccountService {
 
     
     /**
-     * This method returns all the awards linked to a financial account number.
+     * This method returns all the awards linked to a financial account number
+     * and the chart code
      * @param financialAccountNumber
      * @return
-     */
-    List<AwardAccountDTO> getAwardAccount(@WebParam(name= "financialAccountNumber") String financialAccountNumber);
+     */    
+    List<AwardAccountDTO> getAwardAccounts(
+                                          @WebParam(name= "financialAccountNumber") 
+                                          String financialAccountNumber,
+                                          @WebParam(name="chartOfAccounts")
+                                          String chartOfAccounts);
     
 }
