@@ -15,12 +15,15 @@
  */
 package org.kuali.kra.award.detailsdates;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.document.authorization.AwardDocumentAuthorizer;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardTransferringSponsor;
+import org.kuali.kra.award.home.CFDA;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.external.award.AccountCreationClient;
 import org.kuali.kra.infrastructure.Constants;
@@ -112,8 +115,26 @@ public class AwardDetailsAndDatesRuleImpl extends ResearchDocumentRuleBase imple
         if (!isValidAccountNumber(award)) {
             valid &= false;
         }
-
+        
+        if (!isValidCfdaNumber(award)) {
+            valid &= false; 
+            reportError(Constants.CFDA_NUMBER, KeyConstants.ERROR_INVALID_CFDA, award.getCfdaNumber());
+        }
         return valid;
+    }
+    
+    /*
+     * This check is only done if the integration parameter is on, otherwise the regular checks 
+     * are used
+     */
+    protected boolean isValidCfdaNumber(Award award) {
+        if (isIntegrationParameterOn() && StringUtils.isNotEmpty(award.getCfdaNumber())) {
+            Map<String, String> criteria = new HashMap<String, String>();
+            criteria.put("cfdaNumber", award.getCfdaNumber());
+            CFDA cfdaNumber = (CFDA) getBusinessObjectService().findByPrimaryKey(CFDA.class, criteria);
+            return ObjectUtils.isNotNull(cfdaNumber) ? true : false;
+        } 
+        return true;
     }
     
     /**
