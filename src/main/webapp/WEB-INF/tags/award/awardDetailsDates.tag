@@ -234,6 +234,15 @@
         </th>
         <td>
             <kul:htmlControlAttribute property="document.awardList[0].cfdaNumber" attributeEntry="${awardAttributes.cfdaNumber}" />
+            <!-- Char of Accounts code element viewable only when the fin integration param is on -->
+    		<kra:section permission="viewChartOfAccountsElement">
+            <c:if test="${!readOnly}">
+    			<kul:lookup boClassName="org.kuali.kra.award.home.CFDA" fieldConversions="cfdaNumber:document.awardList[0].cfdaNumber" anchor="${tabKey}" />
+    		</c:if>
+    		<c:if test="${!readOnly or !empty KualiForm.document.awardList[0].cfdaNumber}">
+    			<kul:directInquiry boClassName="org.kuali.kra.award.home.CFDA" inquiryParameters="document.awardList[0].cfdaNumber:cfdaNumber" anchor="${tabKey}" />
+    		</c:if>
+    		</kra:section>
 		</td>
     </tr>
     <tr>
