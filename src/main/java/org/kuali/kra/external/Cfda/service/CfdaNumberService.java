@@ -15,9 +15,15 @@
  */
 package org.kuali.kra.external.Cfda.service;
 
+import java.util.List;
+
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
+
+import org.kuali.kra.external.HashMapElement;
+import org.kuali.kra.external.Cfda.CfdaDTO;
+import org.kuali.kra.external.unit.UnitDTO;
 
 /**
  * This is the external service that is published to the service bus for
@@ -29,7 +35,25 @@ import javax.jws.soap.SOAPBinding;
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface CfdaNumberService {
     
-    public String getCfdaNumber(@WebParam(name = "financialAccountNumber") String financialAccountNumber);
+    /**
+     * This method returns the cfda numbers of the awards that are linked to
+     * the financial account number and chart.
+     * @param financialAccountNumber
+     * @param chartOfAccounts
+     * @return
+     */
+    public List<CfdaDTO> getCfdaNumber( @WebParam(name= "financialAccountNumber") 
+                                  String financialAccountNumber,
+                                  @WebParam(name="chartOfAccounts")
+                                  String chartOfAccounts);
+    
+    /**
+     * Lookup units based on the search criteria. 
+     * @param criteria
+     * @return
+     */
+    List<CfdaDTO> lookupCfda( @WebParam(name="searchCriteria") List<HashMapElement> criteria);
+
 }
 
 
