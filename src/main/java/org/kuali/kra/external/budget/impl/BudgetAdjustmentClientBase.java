@@ -49,6 +49,7 @@ import org.kuali.kra.external.budget.RateClassRateType;
 import org.kuali.kra.external.unit.service.InstitutionalUnitService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.rice.kew.web.session.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -424,11 +425,8 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
                          + awardBudgetDocument.getDocumentNumber();
         budgetAdjustmentParametersDTO.setDescription(COMMENT);
 
-        // KFS is not able to authenticate this person now. So until the databases are merged, 
-        // use khuntley as principal id
-        //budgetAdjustmentParametersDTO.setPrincipalId(UserSession.getAuthenticatedUser().getPrincipalId());
-        // khuntley principal id 
-        budgetAdjustmentParametersDTO.setPrincipalId("6162502038");
+        budgetAdjustmentParametersDTO.setPrincipalId(UserSession.getAuthenticatedUser().getPrincipalId());
+     
         return true;
     }
 

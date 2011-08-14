@@ -43,6 +43,7 @@ import org.kuali.kra.bo.UnitAdministratorType;
 import org.kuali.kra.external.award.AccountCreationClient;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.web.session.UserSession;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -203,14 +204,9 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         // unit number
         accountParameters.setUnit(award.getUnitNumber());
         //Principal id
-        //accountParameters.setPrincipalId(UserSession.getAuthenticatedUser().getPrincipalId());
-        /* KFS and KC do not share a common db, so using khuntleys id
-         so it will pass KFS authentication.*/
-        String KHUNTLEY_ID = "6162502038";
-        accountParameters.setPrincipalId(KHUNTLEY_ID);
+        accountParameters.setPrincipalId(UserSession.getAuthenticatedUser().getPrincipalId());
         // get the current FandaRate
-        AwardFandaRate currentFandaRate = getCurrentFandaRate(award);
-        
+        AwardFandaRate currentFandaRate = getCurrentFandaRate(award);       
         //campus on/off indicator
         accountParameters.setOffCampusIndicator(!currentFandaRate.getOnOffCampusFlag()); 
         //indirect cost rate
