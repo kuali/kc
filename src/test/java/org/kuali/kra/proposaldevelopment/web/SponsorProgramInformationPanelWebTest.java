@@ -57,7 +57,7 @@ public class SponsorProgramInformationPanelWebTest extends ProposalDevelopmentWe
         HtmlPage proposalPage = getProposalDevelopmentPage();
 
         //setRequiredFields(proposalPage, DEFAULT_DOCUMENT_DESCRIPTION, "000659", DEFAULT_PROPOSAL_TITLE, "08/14/2007", "08/21/2007", DEFAULT_PROPOSAL_ACTIVITY_TYPE, DEFAULT_PROPOSAL_TYPE_CODE, DEFAULT_PROPOSAL_OWNED_BY_UNIT);
-        setRequiredFields(proposalPage, DEFAULT_DOCUMENT_DESCRIPTION, "000661", DEFAULT_PROPOSAL_TITLE, "08/14/2007", "08/21/2007", DEFAULT_PROPOSAL_ACTIVITY_TYPE, DEFAULT_PROPOSAL_TYPE_CODE, DEFAULT_PROPOSAL_OWNED_BY_UNIT);
+        setRequiredFields(proposalPage, DEFAULT_DOCUMENT_DESCRIPTION, "000661", DEFAULT_PROPOSAL_TITLE, "08/14/2007", "08/21/2007", DEFAULT_PROPOSAL_ACTIVITY_TYPE, DEFAULT_PROPOSAL_TYPE_CODE, DEFAULT_PROPOSAL_OWNED_BY_UNIT, PRIME_SPONSOR_CODE);
         DateFormat dateFormat= new SimpleDateFormat("MM/dd/yyyy");
         java.util.Date date = new java.util.Date();
         String currentDate= dateFormat.format(date);
@@ -92,7 +92,7 @@ public class SponsorProgramInformationPanelWebTest extends ProposalDevelopmentWe
                 DEFAULT_PROPOSAL_OWNED_BY_UNIT, 
                 DEFAULT_DOCUMENT_DESCRIPTION, "000661", 
                 DEFAULT_PROPOSAL_TITLE, "2007-08-14", "2007-08-21",
-                DEFAULT_PROPOSAL_TYPE_CODE);
+                DEFAULT_PROPOSAL_TYPE_CODE, "000659");
 
         // check sponsor program info fields
         assertEquals("P", doc.getDevelopmentProposal().getDeadlineType());
@@ -152,7 +152,7 @@ public class SponsorProgramInformationPanelWebTest extends ProposalDevelopmentWe
         setRequiredFields(proposalPage, DEFAULT_DOCUMENT_DESCRIPTION, "005891", 
                 DEFAULT_PROPOSAL_TITLE, "08/14/2007", "08/21/2007", 
                 DEFAULT_PROPOSAL_ACTIVITY_TYPE, DEFAULT_PROPOSAL_TYPE_CODE, 
-                DEFAULT_PROPOSAL_OWNED_BY_UNIT);
+                DEFAULT_PROPOSAL_OWNED_BY_UNIT, "000659");
 
         setFieldValue(proposalPage, PRIME_SPONSOR_CODE, "000659");
 
@@ -168,7 +168,7 @@ public class SponsorProgramInformationPanelWebTest extends ProposalDevelopmentWe
 
         verifySavedRequiredFields(doc, DEFAULT_PROPOSAL_ACTIVITY_TYPE, DEFAULT_PROPOSAL_OWNED_BY_UNIT, 
                 DEFAULT_DOCUMENT_DESCRIPTION, "005891", DEFAULT_PROPOSAL_TITLE, "2007-08-14", 
-                "2007-08-21", DEFAULT_PROPOSAL_TYPE_CODE);
+                "2007-08-21", DEFAULT_PROPOSAL_TYPE_CODE, "000659");
 
         // check sponsor program info fields
         assertEquals("000659", doc.getDevelopmentProposal().getPrimeSponsorCode());
