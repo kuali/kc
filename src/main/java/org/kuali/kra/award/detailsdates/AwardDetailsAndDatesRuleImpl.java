@@ -205,8 +205,10 @@ public class AwardDetailsAndDatesRuleImpl extends ResearchDocumentRuleBase imple
             if (ObjectUtils.isNotNull(awardStored)) {
                 String accountNumberStored = awardStored.getAccountNumber(); 
                 String chartStored = awardStored.getFinancialChartOfAccountsCode();
-               
-                if (accountNumberStored.equalsIgnoreCase(award.getAccountNumber()) 
+                if (ObjectUtils.isNull(award.getAccountNumber()) || ObjectUtils.isNull(award.getFinancialChartOfAccountsCode())) {
+                    return true;
+                }
+                if (award.getAccountNumber().equalsIgnoreCase(accountNumberStored)
                     && chartStored.equalsIgnoreCase(award.getFinancialChartOfAccountsCode())) {
                     isRequired &= false;
                 }
