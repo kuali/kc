@@ -223,9 +223,10 @@
 <!-- KC MODIFICATION START -->
 		<servlet-class>org.kuali.kra.web.servlet.KraDWRServlet</servlet-class>
 <!-- KC MODIFICATION END --> 
+<!-- kcinfr-368 : disable test mode to prevent route map being accessed by public.  Developer can turn on this by change it to 'true' -->
 		<init-param>
 			<param-name>debug</param-name>
-			<param-value>true</param-value>
+			<param-value>false</param-value>
 		</init-param>
 		<init-param>
 			<param-name>springpath</param-name>
