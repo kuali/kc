@@ -41,6 +41,7 @@ public class ProposalYnqWebTest extends ProposalDevelopmentWebTestBase{
     private static final String DEFAULT_PROPOSAL_ACTIVITY_TYPE = "1";
     private static final String DEFAULT_PROPOSAL_TYPE_CODE = "1";
     private static final String DEFAULT_PROPOSAL_OWNED_BY_UNIT = "IN-CARD";
+    private static final String DEFAULT_PROPOSAL_PRIME_SPONSOR_CODE = "000120";
 
     private static final String QUESTIONS_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.questions";
     private static final String RADIO_FIELD_VALUE = "Y"; // answer Yes to all questions
@@ -113,7 +114,8 @@ public class ProposalYnqWebTest extends ProposalDevelopmentWebTestBase{
                 DEFAULT_PROPOSAL_REQUESTED_END_DATE,
                 DEFAULT_PROPOSAL_ACTIVITY_TYPE,
                 DEFAULT_PROPOSAL_TYPE_CODE,
-                DEFAULT_PROPOSAL_OWNED_BY_UNIT);
+                DEFAULT_PROPOSAL_OWNED_BY_UNIT,
+                DEFAULT_PROPOSAL_PRIME_SPONSOR_CODE);
 
         /* Save with basic/mandatory data and verify data saved */
         proposalPage = clickOn(proposalPage, BUTTON_SAVE);

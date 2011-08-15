@@ -39,7 +39,8 @@ public abstract class BudgetWebTestBase extends ProposalDevelopmentWebTestBase {
                 DEFAULT_PROPOSAL_REQUESTED_END_DATE,
                 DEFAULT_PROPOSAL_ACTIVITY_TYPE,
                 DEFAULT_PROPOSAL_TYPE_CODE,
-                DEFAULT_PROPOSAL_OWNED_BY_UNIT);
+                DEFAULT_PROPOSAL_OWNED_BY_UNIT,
+                DEFAULT_PROPOSAL_PRIME_SPONSOR_CODE);
         HtmlPage budgetVersionsPage = clickOn(proposalPage, PDDOC_BUDGET_VERSIONS_LINK_NAME);
         return budgetVersionsPage;
     }
