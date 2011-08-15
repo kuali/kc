@@ -15,6 +15,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
+<script type="text/javascript" src="scripts/awardHierarchyShared.js"></script>
 <script type="text/javascript" src="scripts/awardHierarchyTimeAndMoney.js"></script>
 <c:set var="awardHierarchyNodeAttributes" value="${DataDictionary.AwardHierarchyNode.attributes}" />
 <c:set var="awardAmountTransactionAttributes" value="${DataDictionary.AwardAmountTransaction.attributes}" />
@@ -172,8 +173,10 @@
                                                 &nbsp;&nbsp;&nbsp;&nbsp;<a title="Expand the entire tree below" href="#"><img src="static/images/jquery/plus.gif" /> Expand All</a>
                                             </div> --%>
 
-
-     <div id="awardHierarchyScollable" style = "background:#e4e4e4; margin: 10px 0px 10px 0px; clear: left; height: 285px; width: 100%; overflow-y: scroll; overflow-x: scroll; position: relative;" >
+	<div style="position: relative; margin: 2px 0pt 0pt;">
+	  <div style="position:absolute; left:0px; height=285px; width:100%; text-align: center; z-index:100; display:none;" id="loading"><img style="margin-top: 90px;" src="static/images/awardHierarchy-loading.gif" alt="loading"/><span class="statusMessage"></span>
+	  </div>	
+     <div id="awardHierarchyScrollable" style = "background:#e4e4e4; margin: 10px 0px 10px 0px; clear: left; height: 285px; width: 100%; overflow-y: auto; overflow-x: auto; position: relative;" >
        <html:hidden property="awardHierarchyScrollPosition"/>
      <div class="divAHT"><div>
      	<c:forEach items="${KualiForm.awardHierarchyNodeItems}" var="tempNode" varStatus="status">
@@ -199,11 +202,15 @@
 		<table style="border: medium none ; width: 100%; border-collapse: collapse;">
 		<tbody><tr>
 		<td style="border: medium none ; border-collapse: collapse; background-color: rgb(234, 233, 234);">
-		<span style="display: inline;" id="treecontrol">
-		${fn:length(KualiForm.order)} Nodes: 
-		<a href="#" title="Collapse the entire tree below"><img src="static/images/jquery/minus.gif" /> Collapse All</a>
-		<a href="#" title="Expand the entire tree below"><img src="static/images/jquery/plus.gif" /> Expand All</a>
+		<span style="display: inline;" id="showntreecontrol">
+		${fn:length(KualiForm.order)} Nodes:
+		<a href="#" title="Collapse the entire tree below" id="shownCollapseLink"><img src="static/images/jquery/minus.gif" /> Collapse All</a>
+		<a href="#" title="Expand the entire tree below" id="shownExpandLink"><img src="static/images/jquery/plus.gif" /> Expand All</a>
 		</span>
+		<span style="display: none;" id="treecontrol">
+		<a href="#" title="Collapse the entire tree below">Collapse All</a>
+		<a href="#" title="Expand the entire tree below">Expand All</a>
+		</span>				
 		</td>
 		<%--<c:if test="${KualiForm.controlForAwardHierarchyView == 0}" >
 			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 1100px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
@@ -325,6 +332,7 @@
 		</c:otherwise>
 	</c:choose>
     </div>
+	<div id="debugLog" style="position: relative; overflow-y: auto; height: 15em; display:none; text-align: left; width:100%;"><a href="javascript: $('#loading').hide(); return false;" style="position: absolute; top: 0; right: 0;">Hide Loading</a></div>
     
     <script>
       <c:forEach items="${KualiForm.awardHierarchyToggle}" var="toggleEntry">
@@ -332,6 +340,6 @@
       	 	addOpenAward('${toggleEntry.key}');
       	</c:if>
       </c:forEach>
-      setScrollPosition(${KualiForm.awardHierarchyScrollPosition});
+      setScrollPosition('${KualiForm.awardHierarchyScrollPosition}');
     </script>
 </kul:tab>
