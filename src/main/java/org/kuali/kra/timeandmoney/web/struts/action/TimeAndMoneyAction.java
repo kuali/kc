@@ -1063,7 +1063,8 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         }
         
         AwardDocument awardDocument = timeAndMoneyDocument.getAward().getAwardDocument();
-                
+        //reload document to make sure we have a valid workflow document
+        awardDocument = (AwardDocument) getDocumentService().getByDocumentHeaderId(awardDocument.getDocumentNumber());       
         Long routeHeaderId = awardDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
 
         String forward = buildForwardUrl(routeHeaderId);
