@@ -62,4 +62,5 @@
 
 </kul:documentPage>
 
+<script type="text/javascript" src="scripts/awardHierarchyShared.js"></script>
 	<script type="text/javascript" src="scripts/awardHierarchy.js"></script>		

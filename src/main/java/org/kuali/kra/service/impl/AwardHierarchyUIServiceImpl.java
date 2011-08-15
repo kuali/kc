@@ -74,7 +74,7 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
             AwardHierarchy hierarchy = awardHierarchyService.loadAwardHierarchy(awardNumber);
             awardNode = awardHierarchyService.createAwardHierarchyNode(hierarchy, currentAwardNumber, currentSequenceNumber); 
         }
-        return TAG_H3_START + buildCompleteRecord(awardNumber, awardNode) + TAG_H3_END; 
+        return "[" + buildJavascriptRecord(awardNumber, awardNode) + "]"; 
     }
 
     public AwardHierarchyNode getRootAwardNode(Award award) {
@@ -82,6 +82,60 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
         AwardHierarchy hierarchy = awardHierarchyService.loadAwardHierarchy(awardNumber);
         AwardHierarchyNode awardNode = awardHierarchyService.createAwardHierarchyNode(hierarchy, null, null);
         return awardNode;
+    }
+    
+    protected String buildJavascriptRecord(String awardNumber, AwardHierarchyNode aNode) {
+        StringBuilder sb = new StringBuilder();
+        SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT_MM_DD_YYYY);
+        Formatter formatter = Formatter.getFormatter(KualiDecimal.class);
+        sb.append("{");
+        appendJson(sb, "awardNumber", awardNumber);
+        sb.append(",");
+        appendJson(sb, "accountNumber", aNode.getAccountNumber());
+        sb.append(",");
+        appendJson(sb, "principalInvestigatorName", aNode.getPrincipalInvestigatorName());
+        sb.append(",");
+        appendJson(sb, "leadUnitName", aNode.getLeadUnitName());
+        sb.append(",");
+        appendJson(sb, "title", aNode.getTitle());
+        sb.append(",");
+        appendJson(sb, "awardId", aNode.getAwardId().toString());
+        sb.append(",");
+        appendJson(sb, "awardDocumentNumber", aNode.getAwardDocumentNumber());
+        sb.append(",");
+        appendJson(sb, "awardDocumentFinalStatus", aNode.isAwardDocumentFinalStatus());
+        sb.append(",");            
+        appendJson(sb, "projectStartDate", df.format(aNode.getProjectStartDate()));
+        sb.append(",");
+        appendJson(sb, "currentFundEffectiveDate", df.format(aNode.getCurrentFundEffectiveDate()));
+        sb.append(",");
+        appendJson(sb, "obligationExpirationDate", df.format(aNode.getObligationExpirationDate()));
+        sb.append(",");
+        appendJson(sb, "finalExpirationDate", df.format(aNode.getFinalExpirationDate()));
+        sb.append(",");
+        appendJson(sb, "amountObligatedToDate", (String)formatter.format(aNode.getAmountObligatedToDate()));
+        sb.append(",");
+        appendJson(sb, "anticipatedTotalAmount", (String)formatter.format(aNode.getAnticipatedTotalAmount()));
+        sb.append(",");
+        appendJson(sb, "obliDistributableAmount", (String)formatter.format(aNode.getObliDistributableAmount()));
+        sb.append(",");
+        appendJson(sb, "antDistributableAmount", (String)formatter.format(aNode.getAntDistributableAmount()));
+        sb.append(",");
+        appendJson(sb, "distributedObligatedAmount", (String)formatter.format(aNode.getAmountObligatedToDate().subtract(aNode.getObliDistributableAmount())));
+        sb.append(",");
+        appendJson(sb, "distributedAnticipatedAmount", (String)formatter.format(aNode.getAnticipatedTotalAmount().subtract(aNode.getAntDistributableAmount())));
+        sb.append(",");
+        appendJson(sb, "awardStatusCode", aNode.getAwardStatusCode().toString());
+        sb.append(",");
+        appendJson(sb, "obligatedTotalDirect", (String)formatter.format(aNode.getObligatedTotalDirect()));
+        sb.append(",");
+        appendJson(sb, "obligatedTotalIndirect", (String)formatter.format(aNode.getObligatedTotalIndirect()));
+        sb.append(",");
+        appendJson(sb, "anticipatedTotalDirect", (String)formatter.format(aNode.getAnticipatedTotalDirect()));
+        sb.append(",");
+        appendJson(sb, "anticipatedTotalIndirect", (String)formatter.format(aNode.getAnticipatedTotalIndirect()));
+        sb.append("}");
+        return sb.toString();
     }
     
     /*
@@ -93,6 +147,9 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
         StringBuilder sb = new StringBuilder();
         
         if(aNode!=null){
+            SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT_MM_DD_YYYY);
+            Formatter formatter = Formatter.getFormatter(KualiDecimal.class);       
+            
             sb.append(awardNumber);
             appendString(aNode.getAccountNumber(), sb, COLUMN_CODE);
             appendString(aNode.getPrincipalInvestigatorName(), sb, Constants.COLON);
@@ -100,7 +157,7 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
             appendDate(aNode.getCurrentFundEffectiveDate(), sb);
             appendDate(aNode.getObligationExpirationDate(), sb);
             appendDate(aNode.getFinalExpirationDate(), sb);
-            Formatter formatter = Formatter.getFormatter(KualiDecimal.class);
+
             sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(formatter.format(aNode.getAmountObligatedToDate()));//5
             sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(formatter.format(aNode.getAnticipatedTotalAmount()));  //6         
             sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(formatter.format(aNode.getObliDistributableAmount()));//Distributable amount needs to be updated
@@ -150,6 +207,29 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
             sb.append(KNSConstants.BLANK_SPACE).append(delimiter).append(KNSConstants.BLANK_SPACE).append(KNSConstants.EMPTY_STRING);
         }
     }
+    
+    protected void appendJson(StringBuilder sb, String key, String value) {
+        sb.append("\"");
+        sb.append(key);
+        sb.append("\":\"");
+        if (value == null) {
+            sb.append("");
+        } else {
+            sb.append(value);
+        }
+        sb.append("\"");
+    }
+    
+    protected void appendJson(StringBuilder sb, String key, Boolean value) {
+        sb.append("\"");
+        sb.append(key);
+        sb.append("\":");
+        if (value == null) {
+            sb.append(Boolean.FALSE.toString());
+        } else {
+            sb.append(value.toString());
+        }
+    }    
 
     /*
      * This method formats and appends a date field to stringbuffer object for view.
@@ -164,26 +244,39 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
         }
     }
     
-     public String getSubAwardHierarchiesForTreeView(String awardNumber, String currentAwardNumber, String currentSequenceNumber) throws ParseException {
-        String awardHierarchy = TAG_H3_START;        
+    public String getSubAwardHierarchiesForTreeView(String awardNumber, String currentAwardNumber, String currentSequenceNumber) throws ParseException {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
         for (AwardHierarchy ah : getChildrenNodes(awardNumber)) {
             AwardHierarchyNode aNode = getAwardHierarchyNode(ah.getAwardNumber(), currentAwardNumber, currentSequenceNumber);
-            awardHierarchy = awardHierarchy + buildCompleteRecord(ah.getAwardNumber(), aNode) + TAG_H3_END + TAG_H3_START;
+            sb.append(buildJavascriptRecord(ah.getAwardNumber(), aNode));
+            sb.append(",");
         }
-        awardHierarchy = awardHierarchy.substring(0, awardHierarchy.length() - 4);        
-        return awardHierarchy;        
+        //removing trailing ,
+        if (sb.charAt(sb.length() - 1) == ',') {
+            sb.deleteCharAt(sb.length() - 1);
+        }
+        sb.append("]");
+        return sb.toString();      
     }
      
-     public String getSubAwardHierarchiesForTreeViewTandM(String awardNumber, String currentAwardNumber, String currentSequenceNumber) throws ParseException {
-         String awardHierarchy = TAG_H3_START;  
-         Map<String, AwardHierarchyNode> awarHierarchyNodes = getAwardHierarchyNodes(awardNumber, currentAwardNumber, currentSequenceNumber);
-         for (AwardHierarchy ah : getChildrenNodes(awardNumber)) {
-             AwardHierarchyNode aNode = awarHierarchyNodes.get(ah.getAwardNumber());
-             awardHierarchy = awardHierarchy + buildCompleteRecord(ah.getAwardNumber(), aNode) + TAG_H3_END + TAG_H3_START;
-         }
-         awardHierarchy = awardHierarchy.substring(0, awardHierarchy.length() - 4);        
-         return awardHierarchy;        
-     }
+    public String getSubAwardHierarchiesForTreeViewTandM(String awardNumber, String currentAwardNumber, String currentSequenceNumber) throws ParseException {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        Map<String, AwardHierarchyNode> awarHierarchyNodes = getAwardHierarchyNodes(awardNumber, currentAwardNumber, currentSequenceNumber);
+        for (AwardHierarchy ah : getChildrenNodes(awardNumber)) {
+            AwardHierarchyNode aNode = awarHierarchyNodes.get(ah.getAwardNumber());
+            sb.append(buildJavascriptRecord(ah.getAwardNumber(), aNode));
+            sb.append(",");
+        }
+        //removing trailing ,
+        if (sb.charAt(sb.length() - 1) == ',') {
+            sb.deleteCharAt(sb.length() - 1);
+        }
+        sb.append("]");
+        return sb.toString();
+        
+    }
     
     /*
      * call businessobjectservice to get a list of children award nodes 'awardNumber'
