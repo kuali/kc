@@ -149,49 +149,70 @@ public class AwardDetailsAndDatesRuleImpl extends ResearchDocumentRuleBase imple
         // use the financial system service to verify if the account number is valid,
         String accountNumber = award.getAccountNumber();
         String financialDocNbr = award.getFinancialAccountDocumentNumber();
+        String chartOfAccountsCode = award.getFinancialChartOfAccountsCode();
+
         // If the financial doc nbr is present, it means the account number is present as a result of  
         // creating a financial account. Need not check for valid account number of chart in this case.
         // Because at this point if the account doc in KFS is only being saved and not routed then this will return
         // false because the account does not exist yet on KFS.
-        if (isIntegrationParameterOn() && ObjectUtils.isNotNull(accountNumber) && ObjectUtils.isNull(financialDocNbr)) {
-            AwardDocumentAuthorizer authorizer = new AwardDocumentAuthorizer();
-            if (!authorizer.hasCreateAccountPermission()) {
-                reportError(AWARD_ACCOUNT_NUMBER_PROPERTY_NAME, KeyConstants.NO_PERMISSION_TO_LINK_ACCOUNT);
-                return false;
-            }
+        if (isIntegrationParameterOn() && StringUtils.isEmpty(financialDocNbr) && validationRequired(award)) { 
+            if (ObjectUtils.isNotNull(accountNumber) || ObjectUtils.isNotNull(chartOfAccountsCode)) {
+                // check is user is authorized to link accounts
+                AwardDocumentAuthorizer authorizer = new AwardDocumentAuthorizer();
+                if (!authorizer.hasCreateAccountPermission()) {
+                    reportError(AWARD_ACCOUNT_NUMBER_PROPERTY_NAME, KeyConstants.NO_PERMISSION_TO_LINK_ACCOUNT);
+                    return false;
+                }
             
-            AccountCreationClient client = getAccountCreationClientService();            
-            String chartOfAccountsCode = award.getFinancialChartOfAccountsCode();
+                AccountCreationClient client = getAccountCreationClientService();            
 
-            // also need to validate if person is authorized to link accounts 
-            // need to do this for account number field because this field always appears on the award
-            if (ObjectUtils.isNull(chartOfAccountsCode)) {
-                String isValidAccountNumber = client.isValidAccountNumber(accountNumber);
-                if (ObjectUtils.isNull(isValidAccountNumber)) {
-                    // Error if cannot connect to financial system service
-                    reportError(AWARD_ACCOUNT_NUMBER_PROPERTY_NAME, KeyConstants.VALIDATION_DID_NOT_OCCUR);
+                if (ObjectUtils.isNull(chartOfAccountsCode) || ObjectUtils.isNull(accountNumber)) {
                     isValid &= false;
+                   //report error
+                    reportError(AWARD_ACCOUNT_NUMBER_PROPERTY_NAME, KeyConstants.BOTH_ACCOUNT_AND_CHART_REQUIRED);
+                } else {
+                    String isValidChartAccount = client.isValidChartAccount(chartOfAccountsCode, accountNumber);
+                    if (ObjectUtils.isNull(isValidChartAccount)) {
+                        // Error if cannot connect to financial system service
+                        reportError(AWARD_FIN_CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, KeyConstants.VALIDATION_DID_NOT_OCCUR);
+                        isValid &= false; 
+                    }
+                    if (StringUtils.equalsIgnoreCase(isValidChartAccount, "false")) {
+                        reportError(AWARD_ACCOUNT_NUMBER_PROPERTY_NAME, 
+                                    KeyConstants.AWARD_CHART_OF_ACCOUNTS_CODE_NOT_VALID, 
+                                    award.getAccountNumber(), award.getFinancialChartOfAccountsCode());               
+                        isValid &= false;
+                    }
                 }
-                if (StringUtils.equalsIgnoreCase(isValidAccountNumber, "false")) {
-                    reportError(AWARD_ACCOUNT_NUMBER_PROPERTY_NAME, KeyConstants.AWARD_ACCOUNT_NUMER_NOT_VALID, award.getAccountNumber());
-                    isValid &= false;
-                }
-            } else {
-                String isValidChartAccount = client.isValidChartAccount(chartOfAccountsCode, accountNumber);
-                if (ObjectUtils.isNull(isValidChartAccount)) {
-                    // Error if cannot connect to financial system service
-                    reportError(AWARD_FIN_CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, KeyConstants.VALIDATION_DID_NOT_OCCUR);
-                    isValid &= false; 
-                }
-                if (StringUtils.equalsIgnoreCase(isValidChartAccount, "false")) {
-                    reportError(AWARD_FIN_CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, 
-                                KeyConstants.AWARD_CHART_OF_ACCOUNTS_CODE_NOT_VALID, 
-                                award.getFinancialChartOfAccountsCode());               
-                    isValid &= false;
-                }
-            }
+            }   
         } 
         return isValid;
+    }
+    
+    /**
+     * If the award account number and the chart did not change, validation is
+     * not required.
+     * @param award
+     * @return
+     */
+    protected boolean validationRequired(Award award) {
+        boolean isRequired = true;
+        // If awardId is null, new award is being created, so validation required
+        if (ObjectUtils.isNotNull(award.getAwardId())) {
+            Map<String, String> criteria = new HashMap<String, String>();
+            criteria.put("awardId", award.getAwardId() + "");
+            Award awardStored = (Award) getBusinessObjectService().findByPrimaryKey(Award.class, criteria);
+            if (ObjectUtils.isNotNull(awardStored)) {
+                String accountNumberStored = awardStored.getAccountNumber(); 
+                String chartStored = awardStored.getFinancialChartOfAccountsCode();
+               
+                if (accountNumberStored.equalsIgnoreCase(award.getAccountNumber()) 
+                    && chartStored.equalsIgnoreCase(award.getFinancialChartOfAccountsCode())) {
+                    isRequired &= false;
+                }
+            }
+        }
+        return isRequired;
     }
     
     protected AccountCreationClient getAccountCreationClientService() {
