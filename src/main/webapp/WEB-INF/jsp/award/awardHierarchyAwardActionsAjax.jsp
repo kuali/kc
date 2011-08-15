@@ -48,8 +48,8 @@ body {
 <!--  initial data here -->
 <%-- <input type="text" id = "researchAreas" name="researchAreas"   value="${ResearchAreasForm.researchAreas}"/> --%>
 
-<div id="treeDiv1">
-${AwardForm.awardHierarchy}
+<div id="json">
+${KualiForm.awardHierarchy}
 </div>
 
 <script type="text/javascript">
