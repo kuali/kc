@@ -52,6 +52,7 @@ public abstract class ProposalDevelopmentWebTestBase extends KcWebTestBase {
     protected static final String PROPOSAL_ACTIVITY_TYPE_CODE_ID = "document.developmentProposalList[0].activityTypeCode";
     protected static final String PROPOSAL_TYPE_CODE_ID = "document.developmentProposalList[0].proposalTypeCode";
     protected static final String PROPOSAL_OWNED_BY_UNIT_ID = "document.developmentProposalList[0].ownedByUnitNumber";
+    protected static final String PROPOSAL_PRIME_SPONSOR_CODE_ID ="document.developmentProposalList[0].primeSponsorCode";
     
     protected static final String DEFAULT_DOCUMENT_DESCRIPTION = "Proposal Development Web Test";
     protected static final String DEFAULT_PROPOSAL_SPONSOR_CODE = "005770";
@@ -61,8 +62,9 @@ public abstract class ProposalDevelopmentWebTestBase extends KcWebTestBase {
     protected static final String DEFAULT_PROPOSAL_ACTIVITY_TYPE = "2"; // Dept Research
     protected static final String DEFAULT_PROPOSAL_TYPE_CODE = "1"; // New
     protected static final String DEFAULT_PROPOSAL_OWNED_BY_UNIT = "000001";
+    protected static final String DEFAULT_PROPOSAL_PRIME_SPONSOR_CODE ="000120";
     protected static final String PROPOSAL_DEVOPMENT_DOCUMENT_NAME = "Kuali :: Proposal Development Document";
-    
+      
     private HtmlPage proposalDevelopmentPage;
     //private HtmlPage portalPage;
     
@@ -135,7 +137,8 @@ public abstract class ProposalDevelopmentWebTestBase extends KcWebTestBase {
                                 DEFAULT_PROPOSAL_REQUESTED_END_DATE,
                                 DEFAULT_PROPOSAL_ACTIVITY_TYPE,
                                 DEFAULT_PROPOSAL_TYPE_CODE,
-                                DEFAULT_PROPOSAL_OWNED_BY_UNIT);
+                                DEFAULT_PROPOSAL_OWNED_BY_UNIT,
+                                DEFAULT_PROPOSAL_PRIME_SPONSOR_CODE);
     }
     
     /**
@@ -151,7 +154,7 @@ public abstract class ProposalDevelopmentWebTestBase extends KcWebTestBase {
      * @param proposalType the value for the proposal type code.
      * @param ownedByUnit the value for the owned by unit field.
      */
-    protected void setRequiredFields(HtmlPage page, String description, String sponsorCode, String title, String startDate, String endDate, String activityType, String proposalType, String ownedByUnit) {
+    protected void setRequiredFields(HtmlPage page, String description, String sponsorCode, String title, String startDate, String endDate, String activityType, String proposalType, String ownedByUnit, String primeSponsorCodeId) {
         setFieldValue(page, DOCUMENT_DESCRIPTION_ID, description);
         setFieldValue(page, PROPOSAL_SPONSOR_CODE_ID, sponsorCode);
         setFieldValue(page, PROPOSAL_TITLE_ID, title);
@@ -160,6 +163,7 @@ public abstract class ProposalDevelopmentWebTestBase extends KcWebTestBase {
         setFieldValue(page, PROPOSAL_ACTIVITY_TYPE_CODE_ID, activityType);
         setFieldValue(page, PROPOSAL_TYPE_CODE_ID, proposalType);
         setFieldValue(page, PROPOSAL_OWNED_BY_UNIT_ID, ownedByUnit);
+        setFieldValue(page, PROPOSAL_PRIME_SPONSOR_CODE_ID, primeSponsorCodeId);
     }
     /**
      * 
@@ -275,7 +279,7 @@ public abstract class ProposalDevelopmentWebTestBase extends KcWebTestBase {
      * @param proposalTypeCode to check
      * @throws WorkflowException
      */
-    protected void verifySavedRequiredFields(ProposalDevelopmentDocument doc, String activityType, String ownedByUnitNumber, String description, String sponsorCode, String title, String requestedStartDateInitial, String requestedEndDateInitial, String proposalTypeCode) throws WorkflowException {
+    protected void verifySavedRequiredFields(ProposalDevelopmentDocument doc, String activityType, String ownedByUnitNumber, String description, String sponsorCode, String title, String requestedStartDateInitial, String requestedEndDateInitial, String proposalTypeCode, String primeSponsorCode) throws WorkflowException {
         assertEquals(activityType, doc.getDevelopmentProposal().getActivityTypeCode());
         assertEquals(ownedByUnitNumber, doc.getDevelopmentProposal().getOwnedByUnitNumber());
         assertEquals(description, doc.getDocumentHeader().getDocumentDescription());
@@ -284,6 +288,7 @@ public abstract class ProposalDevelopmentWebTestBase extends KcWebTestBase {
         assertEquals(requestedStartDateInitial, doc.getDevelopmentProposal().getRequestedStartDateInitial().toString());
         assertEquals(requestedEndDateInitial, doc.getDevelopmentProposal().getRequestedEndDateInitial().toString());
         assertEquals(proposalTypeCode, doc.getDevelopmentProposal().getProposalTypeCode());
+        assertEquals(primeSponsorCode, doc.getDevelopmentProposal().getPrimeSponsorCode());
     }
 
 }
