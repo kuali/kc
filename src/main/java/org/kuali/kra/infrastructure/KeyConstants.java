@@ -534,7 +534,7 @@ public final class KeyConstants {
     public static final String AWARD_ACCOUNT_NUMER_NOT_VALID = "error.award.account.number.invalid";
     public static final String AWARD_CHART_OF_ACCOUNTS_CODE_NOT_VALID = "error.award.chart.of.accounts.code.invalid";
     public static final String NO_PERMISSION_TO_LINK_ACCOUNT = "error.award.link.account.no.permission";
-    
+    public static final String BOTH_ACCOUNT_AND_CHART_REQUIRED = "error.award.account.number.and.chart.required";
     
     // award budget
     public static final String BUDGET_POSTED = "message.award.budget.adjustment.budget.posted";
