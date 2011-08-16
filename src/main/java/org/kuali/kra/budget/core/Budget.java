@@ -81,6 +81,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public class Budget extends BudgetVersionOverview {
 
+    private static final String PARAM_VALUE_ENABLED = "1";
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -1796,6 +1797,9 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
         return new BudgetPersonnelDetails();
     }
     
+    public boolean isCostSharingSubmissionEnabled(){
+        return getParameterService().getParameterValue(BudgetDocument.class, Constants.ENABLE_COST_SHARE_SUBMIT).equals(PARAM_VALUE_ENABLED);
+    }
 }
 
 class RateClassTypeComparator implements Comparator<RateClassType>, Serializable {

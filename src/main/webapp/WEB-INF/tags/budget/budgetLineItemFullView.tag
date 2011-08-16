@@ -70,9 +70,23 @@
 
 						    	</div>
 		         		    </td>
+		         		    <c:choose>				        		
+				        		<c:when test="${KualiForm.document.budget.costSharingSubmissionEnabled}">
+							    	<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.submitCostSharingFlag}" noColon="true" /></div></th>
+							        <td width="25%">
+							        	<div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].submitCostSharingFlag" attributeEntry="${budgetLineItemAttributes.submitCostSharingFlag}" readOnly="${!KualiForm.document.budget.submitCostSharingFlag or budgetExpensePanelReadOnlyIfBudgetVersionIsFinal}"/>
+							        	</div>
+				        			</td>
+				        		</c:when>
+				        		<c:otherwise>
+				        			<td colspan="2">&nbsp;</td>
+				        		</c:otherwise>
+				        	</c:choose>
+				        </tr>
+			        	<tr>
 							<c:set var="textAreaFieldNameJustification" value="document.budget.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetJustification" />
 					    	<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.budgetJustification}" noColon="true" /></div></th>
-					        <td width="25%">
+					        <td colspan="3">
 					        	<div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetJustification" attributeEntry="${budgetLineItemAttributes.budgetJustification}" readOnly="${budgetExpensePanelReadOnlyIfBudgetVersionIsFinal}"/>
 					        	</div>
 		        			</td>
