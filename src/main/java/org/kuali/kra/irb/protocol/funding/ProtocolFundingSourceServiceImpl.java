@@ -18,8 +18,8 @@ package org.kuali.kra.irb.protocol.funding;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
@@ -31,6 +31,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.protocol.ProtocolProtocolAction;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.LookupableDevelopmentProposal;
@@ -45,6 +46,7 @@ import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**
@@ -184,24 +186,67 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
      * {@inheritDoc}
      * @see org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceService#updateProtocolFundingSource(java.lang.String, java.lang.String, java.lang.String)
      */
-    public ProtocolFundingSource updateProtocolFundingSource(String fundingSourceTypeCode, String fundingSourceNumber, String fundingSourceName) {
+    public ProtocolFundingSource updateProtocolFundingSource(String fundingSourceTypeCode, String fundingSourceNumber,
+            String fundingSourceName) {
         ProtocolFundingSource protocolFundingSource = null;
-
-        if (FundingSourceType.SPONSOR.equals(fundingSourceTypeCode)) {
-            protocolFundingSource = buildSponsorFundingSource(fundingSourceNumber);
-        } else if (FundingSourceType.UNIT.equals(fundingSourceTypeCode)) {
-            protocolFundingSource = buildUnitFundingSource(fundingSourceNumber);
-        } else if (FundingSourceType.PROPOSAL_DEVELOPMENT.equals(fundingSourceTypeCode) && isDevelopmentProposalLinkEnabled()) {
-            protocolFundingSource = buildProposalDevelopmentFundingSource(fundingSourceNumber, fundingSourceName);
-        } else if (FundingSourceType.INSTITUTIONAL_PROPOSAL.equals(fundingSourceTypeCode) && isInstitionalProposalLinkEnabled()) {
-            protocolFundingSource = buildInstitutionalProposalFundingSource(fundingSourceNumber, fundingSourceName);
-        } else if (FundingSourceType.AWARD.equals(fundingSourceTypeCode) && isAwardLinkEnabled()) {
-            protocolFundingSource = buildAwardFundingSource(fundingSourceNumber, fundingSourceName);
-        } else {
-            protocolFundingSource = buildOtherFundingSource(fundingSourceTypeCode, fundingSourceNumber, fundingSourceName);
+        if (StringUtils.isBlank(fundingSourceTypeCode) || isAuthorizedToAccess(fundingSourceTypeCode)) {
+            if (StringUtils.isNotBlank(fundingSourceTypeCode) && fundingSourceTypeCode.contains(Constants.COLON)) {
+                fundingSourceTypeCode = StringUtils.split(fundingSourceTypeCode, Constants.COLON)[0];
+            }
+            if (FundingSourceType.SPONSOR.equals(fundingSourceTypeCode)) {
+                protocolFundingSource = buildSponsorFundingSource(fundingSourceNumber);
+            }
+            else if (FundingSourceType.UNIT.equals(fundingSourceTypeCode)) {
+                protocolFundingSource = buildUnitFundingSource(fundingSourceNumber);
+            }
+            else if (FundingSourceType.PROPOSAL_DEVELOPMENT.equals(fundingSourceTypeCode) && isDevelopmentProposalLinkEnabled()) {
+                protocolFundingSource = buildProposalDevelopmentFundingSource(fundingSourceNumber, fundingSourceName);
+            }
+            else if (FundingSourceType.INSTITUTIONAL_PROPOSAL.equals(fundingSourceTypeCode) && isInstitionalProposalLinkEnabled()) {
+                protocolFundingSource = buildInstitutionalProposalFundingSource(fundingSourceNumber, fundingSourceName);
+            }
+            else if (FundingSourceType.AWARD.equals(fundingSourceTypeCode) && isAwardLinkEnabled()) {
+                protocolFundingSource = buildAwardFundingSource(fundingSourceNumber, fundingSourceName);
+            }
+            else {
+                protocolFundingSource = buildOtherFundingSource(fundingSourceTypeCode, fundingSourceNumber, fundingSourceName);
+            }
         }
-        
         return protocolFundingSource;
+    }
+    
+    /*
+     * a utility method to check if dwr/ajax call really has authorization
+     * 'updateProtocolFundingSource' also accessed by non ajax call
+     */
+    private boolean isAuthorizedToAccess(String fundingSourceTypeCode) {
+        boolean isAuthorized = GlobalVariables.getUserSession() != null;
+        if (isAuthorized) {
+            // TODO : this is a quick hack for KC 3.1.1 to provide authorization check for dwr/ajax call. dwr/ajax will be replaced by
+            // jquery/ajax in rice 2.0
+            // if this is ajax call, then formkey will be included in fundingsourcetypecode as 'fundingsourcetypecode:forKey'
+            if (fundingSourceTypeCode.contains(Constants.COLON)) {
+                String[] invalues = StringUtils.split(fundingSourceTypeCode, Constants.COLON);
+                String formKey = invalues[1];
+                fundingSourceTypeCode = invalues[0];
+                if (StringUtils.isBlank(formKey)) {
+                    isAuthorized = false;
+                } else {
+                    Object formObj = GlobalVariables.getUserSession().retrieveObject(formKey);
+                    if (formObj == null || !(formObj instanceof ProtocolForm)) {
+                        isAuthorized = false;
+                    } else {
+                        ProtocolForm protocolForm = (ProtocolForm) formObj;
+                        isAuthorized = protocolForm.getProtocolHelper().getModifyProtocol()
+                                && protocolForm.getProtocolHelper().getModifyFundingSource();
+
+                    }
+
+                }
+            }
+        }
+        return isAuthorized;
+
     }
     
     /**

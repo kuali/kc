@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -27,36 +25,62 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolForm;
+import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
-import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Test the ProtocolActionAjaxService implementation.
  */
-@RunWith(JMock.class)
-public class ProtocolActionAjaxServiceTest {
+//@RunWith(JMock.class)
+public class ProtocolActionAjaxServiceTest extends KcUnitTestBase {
 
     private ProtocolActionAjaxServiceImpl protocolActionAjaxService;
     private Mockery context = new JUnit4Mockery();
+    private static final String DOC_FORM_KEY = "1";
     
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
+        super.setUp();
         protocolActionAjaxService = new ProtocolActionAjaxServiceImpl();
+        ProtocolForm protocolForm = new ProtocolForm() {
+            ActionHelper actionHelper1 = new ActionHelper(this) {
+                public boolean getCanSubmitProtocol() {
+                    return true;
+                }
+               
+            };
+            public ActionHelper getActionHelper() {
+                return actionHelper1;
+            }
+            
+        };
+        GlobalVariables.getUserSession().addObject(DOC_FORM_KEY, protocolForm);
+     }
+    
+    @After
+    public void tearDown() throws Exception {
+        super.tearDown();
+        GlobalVariables.getUserSession().removeObject(DOC_FORM_KEY);
     }
     
     /*
      * Verify that the returned string is formatted correctly.
      */
     @Test
-    public void testValidCommitteeDates() {
+    public void testValidCommitteeDates() throws Exception{
+       //       GlobalVariables.setUserSession(new UserSession("quickstart"));
         final List<KeyLabelPair> list = new ArrayList<KeyLabelPair>();
         list.add(new KeyLabelPair("0", "dog"));
         list.add(new KeyLabelPair("1", "cat"));
@@ -67,7 +91,7 @@ public class ProtocolActionAjaxServiceTest {
         }});
         protocolActionAjaxService.setCommitteeService(committeeService);
         
-        String s = protocolActionAjaxService.getValidCommitteeDates("foo");
+        String s = protocolActionAjaxService.getValidCommitteeDates("foo", DOC_FORM_KEY);
         assertEquals("0;dog;1;cat", s);
     }
     
@@ -150,17 +174,17 @@ public class ProtocolActionAjaxServiceTest {
         protocolActionAjaxService.setCommitteeService(committeeService);
         protocolActionAjaxService.setBusinessObjectService(businessObjectService1);
         
-        String s = protocolActionAjaxService.getReviewers("p1", "foo", "0");
+        String s = protocolActionAjaxService.getReviewers("p1", "foo", "0", DOC_FORM_KEY);
         assertEquals("2;Joe;Y;5;Joanna;Y", s);
         
         protocolActionAjaxService.setBusinessObjectService(businessObjectService2);
         
-        s = protocolActionAjaxService.getReviewers("p2", "foo", "0");
+        s = protocolActionAjaxService.getReviewers("p2", "foo", "0", DOC_FORM_KEY);
         assertEquals("dn;Don;N;nncy;Nancy;N", s);
         
         // empty out the protocol personnel
         protocol2.getProtocolPersons().clear();
-        s = protocolActionAjaxService.getReviewers("p2", "foo", "0");
+        s = protocolActionAjaxService.getReviewers("p2", "foo", "0", DOC_FORM_KEY);
         assertEquals("dn;Don;N;nncy;Nancy;N;2;Joe;Y;5;Joanna;Y", s);
         
     }
