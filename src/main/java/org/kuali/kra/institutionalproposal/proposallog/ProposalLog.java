@@ -197,9 +197,7 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
     }
 
     public void setSponsorName(String sponsorName) {
-        if (!isEmpty(sponsorName)) {
-            this.sponsorName = sponsorName;
-        }
+        this.sponsorName = sponsorName;
     }
 
     public String getLogStatus() {
