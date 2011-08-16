@@ -153,6 +153,11 @@ import org.kuali.kra.util.watermark.WatermarkConstants;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.authorization.PessimisticLock;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -427,17 +432,23 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_WITHDRAW, protocolForm.getProtocolDocument().getProtocol());
-        if (isAuthorized(task)) {
-            ProtocolDocument pd = getProtocolWithdrawService().withdraw(protocolForm.getProtocolDocument().getProtocol(),
-                    protocolForm.getActionHelper().getProtocolWithdrawBean());
-
-            protocolForm.setDocId(pd.getDocumentNumber());
-            loadDocument(protocolForm);
-            protocolForm.getProtocolHelper().prepareView();
-            
-            recordProtocolActionSuccess("Withdraw");
-
-            return mapping.findForward(PROTOCOL_TAB);
+        
+        if (!hasDocumentStateChanged(protocolForm)) {
+            if (isAuthorized(task)) {
+                ProtocolDocument pd = getProtocolWithdrawService().withdraw(protocolForm.getProtocolDocument().getProtocol(),
+                        protocolForm.getActionHelper().getProtocolWithdrawBean());
+    
+                protocolForm.setDocId(pd.getDocumentNumber());
+                loadDocument(protocolForm);
+                protocolForm.getProtocolHelper().prepareView();
+                
+                recordProtocolActionSuccess("Withdraw");
+    
+                return mapping.findForward(PROTOCOL_TAB);
+            }
+        } else {
+            GlobalVariables.getMessageMap().clearErrorMessages();
+            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
         }
 
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -1238,19 +1249,23 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
 
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolTask task = new ProtocolTask(TaskName.ASSIGN_TO_AGENDA, protocolForm.getProtocolDocument().getProtocol());
-        
-        if (isAuthorized(task)) {
-            ProtocolAssignToAgendaBean actionBean = protocolForm.getActionHelper().getAssignToAgendaBean();
-            if (applyRules(new ProtocolAssignToAgendaEvent(protocolForm.getProtocolDocument(), actionBean))) {               
-                getProtocolAssignToAgendaService().assignToAgenda(protocolForm.getProtocolDocument().getProtocol(), actionBean);
-                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-                if (actionBean.isProtocolAssigned()) {
-                    recordProtocolActionSuccess("Assign to Agenda");
+       
+        if (!hasDocumentStateChanged(protocolForm)) {
+            ProtocolTask task = new ProtocolTask(TaskName.ASSIGN_TO_AGENDA, protocolForm.getProtocolDocument().getProtocol());
+            if (isAuthorized(task)) {
+                ProtocolAssignToAgendaBean actionBean = protocolForm.getActionHelper().getAssignToAgendaBean();
+                if (applyRules(new ProtocolAssignToAgendaEvent(protocolForm.getProtocolDocument(), actionBean))) {               
+                    getProtocolAssignToAgendaService().assignToAgenda(protocolForm.getProtocolDocument().getProtocol(), actionBean);
+                    saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
+                    if (actionBean.isProtocolAssigned()) {
+                        recordProtocolActionSuccess("Assign to Agenda");
+                    }
                 }
             }
+        } else {
+            GlobalVariables.getMessageMap().clearErrorMessages();
+            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
         }
-
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -1284,39 +1299,44 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolForm protocolForm = (ProtocolForm) form;
         final String callerString = "assignCommitteeSchedule";
         ProtocolTask task = new ProtocolTask(TaskName.ASSIGN_TO_COMMITTEE_SCHEDULE, protocolForm.getProtocolDocument().getProtocol());
-       
-        if (isAuthorized(task)) {
-            ProtocolAssignCmtSchedBean actionBean = protocolForm.getActionHelper().getAssignCmtSchedBean();
-            if (applyRules(new ProtocolAssignCmtSchedEvent(protocolForm.getProtocolDocument(), actionBean))) {
-                
-                if( protocolForm.getProtocolDocument().getProtocol().getProtocolSubmission() != null) {
-                    boolean performAssignment = false;
-                    Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-                    Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
-
-                
-                    if (isCommitteeMeetingAssignedMaxProtocols(actionBean.getNewCommitteeId(), actionBean.getNewScheduleId())) {
-                        //There are existing reviews and we are changing schedules
-                        //need to verify with the user that they want to remove the existing reviews before proceeding.
-                        if (question==null || !CONFIRM_ASSIGN_CMT_SCHED_KEY.equals(question)) {
-                            return performQuestionWithoutInput(mapping, form, request, response, CONFIRM_ASSIGN_CMT_SCHED_KEY,
-                                    getKualiConfigurationService().getPropertyString(KeyConstants.QUESTION_PROTOCOL_CONFIRM_SUBMIT_FOR_REVIEW), KNSConstants.CONFIRMATION_QUESTION, callerString, "" );
-                        } else if (ConfirmationQuestion.YES.equals(buttonClicked)) {
-                            performAssignment = true;
-                        } else {
-                            //nothing to do, answered no.
-                        }
-                    } else {
-                        performAssignment = true;
-                    }
+        
+        if (!hasDocumentStateChanged(protocolForm)) {
+            if (isAuthorized(task)) {
+                ProtocolAssignCmtSchedBean actionBean = protocolForm.getActionHelper().getAssignCmtSchedBean();
+                if (applyRules(new ProtocolAssignCmtSchedEvent(protocolForm.getProtocolDocument(), actionBean))) {
+                    
+                    if( protocolForm.getProtocolDocument().getProtocol().getProtocolSubmission() != null) {
+                        boolean performAssignment = false;
+                        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+                        Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
     
-                    if (performAssignment) {
-                        getProtocolAssignCmtSchedService().assignToCommitteeAndSchedule(protocolForm.getProtocolDocument().getProtocol(), actionBean);
-                        recordProtocolActionSuccess("Assign to Committee and Schedule");
+                    
+                        if (isCommitteeMeetingAssignedMaxProtocols(actionBean.getNewCommitteeId(), actionBean.getNewScheduleId())) {
+                            //There are existing reviews and we are changing schedules
+                            //need to verify with the user that they want to remove the existing reviews before proceeding.
+                            if (question==null || !CONFIRM_ASSIGN_CMT_SCHED_KEY.equals(question)) {
+                                return performQuestionWithoutInput(mapping, form, request, response, CONFIRM_ASSIGN_CMT_SCHED_KEY,
+                                        getKualiConfigurationService().getPropertyString(KeyConstants.QUESTION_PROTOCOL_CONFIRM_SUBMIT_FOR_REVIEW), KNSConstants.CONFIRMATION_QUESTION, callerString, "" );
+                            } else if (ConfirmationQuestion.YES.equals(buttonClicked)) {
+                                performAssignment = true;
+                            } else {
+                                //nothing to do, answered no.
+                            }
+                        } else {
+                            performAssignment = true;
+                        }
+        
+                        if (performAssignment) {
+                            getProtocolAssignCmtSchedService().assignToCommitteeAndSchedule(protocolForm.getProtocolDocument().getProtocol(), actionBean);
+                            recordProtocolActionSuccess("Assign to Committee and Schedule");
+                        }
+                        ((ProtocolForm)form).getActionHelper().prepareView();
                     }
-                    ((ProtocolForm)form).getActionHelper().prepareView();
                 }
             }
+        } else {
+            GlobalVariables.getMessageMap().clearErrorMessages();
+            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
         }
 
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -1368,47 +1388,52 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         String callerString = String.format("assignReviewers");
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         
-        if (isAuthorized(task)) {
-            ProtocolAssignReviewersBean actionBean = protocolForm.getActionHelper().getProtocolAssignReviewersBean();
-            if (applyRules(new ProtocolAssignReviewersEvent(protocolForm.getProtocolDocument(), actionBean))) {
-                boolean processRequest = true;
-                
-                if (GlobalVariables.getMessageMap().hasWarnings()) {
-                    if (question == null) {
-                        // ask question if not already asked
-                        forward = performQuestionWithoutInput(mapping, form, request, response, 
-                                                                CONIFRM_REMOVE_REVIEWER_KEY, 
-                                                                getKualiConfigurationService().getPropertyString(KeyConstants.MESSAGE_REMOVE_REVIEWERS_WITH_COMMENTS), 
-                                                                KNSConstants.CONFIRMATION_QUESTION, 
-                                                                callerString, 
-                                                                "");
-                        processRequest = false;
-                    }
-                    else {
-                        Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
-                        if ((KNSConstants.DOCUMENT_DISAPPROVE_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
-                            // if no button clicked just reload the doc
+        if (!hasDocumentStateChanged(protocolForm)) {
+            if (isAuthorized(task)) {
+                ProtocolAssignReviewersBean actionBean = protocolForm.getActionHelper().getProtocolAssignReviewersBean();
+                if (applyRules(new ProtocolAssignReviewersEvent(protocolForm.getProtocolDocument(), actionBean))) {
+                    boolean processRequest = true;
+                    
+                    if (GlobalVariables.getMessageMap().hasWarnings()) {
+                        if (question == null) {
+                            // ask question if not already asked
+                            forward = performQuestionWithoutInput(mapping, form, request, response, 
+                                                                    CONIFRM_REMOVE_REVIEWER_KEY, 
+                                                                    getKualiConfigurationService().getPropertyString(KeyConstants.MESSAGE_REMOVE_REVIEWERS_WITH_COMMENTS), 
+                                                                    KNSConstants.CONFIRMATION_QUESTION, 
+                                                                    callerString, 
+                                                                    "");
                             processRequest = false;
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug("User declined to confirm the request, not processing.");
+                        }
+                        else {
+                            Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+                            if ((KNSConstants.DOCUMENT_DISAPPROVE_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
+                                // if no button clicked just reload the doc
+                                processRequest = false;
+                                if (LOG.isDebugEnabled()) {
+                                    LOG.debug("User declined to confirm the request, not processing.");
+                                }
                             }
                         }
-                    }
-                
-                }
-                
-                if (processRequest) {
-                    ProtocolSubmission submission = protocolForm.getProtocolDocument().getProtocol().getProtocolSubmission();
-                    List<ProtocolReviewerBean> beans = actionBean.getReviewers();
-                    getProtocolAssignReviewersService().assignReviewers(submission, beans);
-                    //clear the warnings before rendering the page.
-                    GlobalVariables.getMessageMap().getWarningMessages().clear();
                     
-                    recordProtocolActionSuccess("Assign Reviewers");
+                    }
+                    
+                    if (processRequest) {
+                        ProtocolSubmission submission = protocolForm.getProtocolDocument().getProtocol().getProtocolSubmission();
+                        List<ProtocolReviewerBean> beans = actionBean.getReviewers();
+                        getProtocolAssignReviewersService().assignReviewers(submission, beans);
+                        //clear the warnings before rendering the page.
+                        GlobalVariables.getMessageMap().getWarningMessages().clear();
+                        
+                        recordProtocolActionSuccess("Assign Reviewers");
+                    }
                 }
             }
+        } else {
+            GlobalVariables.getMessageMap().clearErrorMessages();
+            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
         }
-
+            
         return forward;
     }
     
@@ -1670,19 +1695,24 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         Protocol protocol = document.getProtocol();
         ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolDeferBean();
         
-        if (hasPermission(TaskName.DEFER_PROTOCOL, protocol)) {
-            if (applyRules(new ProtocolGenericActionEvent(document, actionBean))) {
-                ProtocolDocument newDocument = getProtocolGenericActionService().defer(protocol, actionBean);
-                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-                
-                protocolForm.setDocId(newDocument.getDocumentNumber());
-                loadDocument(protocolForm);
-                protocolForm.getProtocolHelper().prepareView();
-                
-                recordProtocolActionSuccess("Defer");
-                
-                forward = mapping.findForward(PROTOCOL_TAB);
+        if (!hasDocumentStateChanged(protocolForm)) {
+            if (hasPermission(TaskName.DEFER_PROTOCOL, protocol)) {
+                if (applyRules(new ProtocolGenericActionEvent(document, actionBean))) {
+                    ProtocolDocument newDocument = getProtocolGenericActionService().defer(protocol, actionBean);
+                    saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
+                    
+                    protocolForm.setDocId(newDocument.getDocumentNumber());
+                    loadDocument(protocolForm);
+                    protocolForm.getProtocolHelper().prepareView();
+                    
+                    recordProtocolActionSuccess("Defer");
+                    
+                    forward = mapping.findForward(PROTOCOL_TAB);
+                }
             }
+        } else {
+            GlobalVariables.getMessageMap().clearErrorMessages();
+            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
         }
         
         return forward;
@@ -1979,13 +2009,17 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        if (hasPermission(TaskName.PROTOCOL_MANAGE_REVIEW_COMMENTS, protocolForm.getProtocolDocument().getProtocol())) {
-            ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolManageReviewCommentsBean();
-            saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-            
-            recordProtocolActionSuccess("Manage Review Comments");
-        }
-        
+        if (!hasDocumentStateChanged(protocolForm)) {
+            if (hasPermission(TaskName.PROTOCOL_MANAGE_REVIEW_COMMENTS, protocolForm.getProtocolDocument().getProtocol())) {
+                ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolManageReviewCommentsBean();
+                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
+                
+                recordProtocolActionSuccess("Manage Review Comments");
+            }
+        } else {
+            GlobalVariables.getMessageMap().clearErrorMessages();
+            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
+        }        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -2007,23 +2041,28 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         
         ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_ADMIN_CORRECTION, protocolDocument.getProtocol());
-        if (isAuthorized(task)) {
-            if (applyRules(new ProtocolAdminCorrectionEvent(protocolDocument, protocolForm.getActionHelper()
-                        .getProtocolAdminCorrectionBean()))) {
-                protocolDocument.getProtocol().setCorrectionMode(true); 
-                protocolForm.getProtocolHelper().prepareView();
-
-                AdminCorrectionBean adminCorrectionBean = protocolForm.getActionHelper().getProtocolAdminCorrectionBean();
-                protocolDocument.updateProtocolStatus(ProtocolActionType.ADMINISTRATIVE_CORRECTION, adminCorrectionBean.getComments());
-
-                AdminCorrectionService adminCorrectionService = KraServiceLocator.getService(AdminCorrectionService.class);
-                adminCorrectionService.sendCorrectionNotification(protocolDocument.getProtocol(), adminCorrectionBean);
-
-                recordProtocolActionSuccess("Make Administrative Correction");
-                
-                return mapping.findForward(PROTOCOL_TAB);
+        if (!hasDocumentStateChanged(protocolForm)) {
+            if (isAuthorized(task)) {
+                if (applyRules(new ProtocolAdminCorrectionEvent(protocolDocument, protocolForm.getActionHelper()
+                            .getProtocolAdminCorrectionBean()))) {
+                    protocolDocument.getProtocol().setCorrectionMode(true); 
+                    protocolForm.getProtocolHelper().prepareView();
+    
+                    AdminCorrectionBean adminCorrectionBean = protocolForm.getActionHelper().getProtocolAdminCorrectionBean();
+                    protocolDocument.updateProtocolStatus(ProtocolActionType.ADMINISTRATIVE_CORRECTION, adminCorrectionBean.getComments());
+    
+                    AdminCorrectionService adminCorrectionService = KraServiceLocator.getService(AdminCorrectionService.class);
+                    adminCorrectionService.sendCorrectionNotification(protocolDocument.getProtocol(), adminCorrectionBean);
+    
+                    recordProtocolActionSuccess("Make Administrative Correction");
+                    
+                    return mapping.findForward(PROTOCOL_TAB);
+                }
             }
-        }
+        } else {
+            GlobalVariables.getMessageMap().clearErrorMessages();
+            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
+        } 
         
         return forward;  
     }
@@ -2032,34 +2071,38 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
 
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
-        UndoLastActionBean undoLastActionBean = protocolForm.getActionHelper().getUndoLastActionBean();
-        String lastActionType = undoLastActionBean.getLastPerformedAction().getProtocolActionTypeCode();
         
-        UndoLastActionService undoLastActionService = KraServiceLocator.getService(UndoLastActionService.class);
-        ProtocolDocument updatedDocument = undoLastActionService.undoLastAction(protocolDocument, undoLastActionBean);
-       
-        
-
-        recordProtocolActionSuccess("Undo Last Action");
-
-        if (!updatedDocument.getDocumentNumber().equals(protocolForm.getDocId())) {
-            protocolForm.setDocId(updatedDocument.getDocumentNumber());
-            loadDocument(protocolForm);
-            protocolForm.getProtocolHelper().prepareView();
-            return mapping.findForward(PROTOCOL_TAB);
+        if (!hasDocumentStateChanged(protocolForm)) {
+            ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
+            UndoLastActionBean undoLastActionBean = protocolForm.getActionHelper().getUndoLastActionBean();
+            String lastActionType = undoLastActionBean.getLastPerformedAction().getProtocolActionTypeCode();
+            
+            UndoLastActionService undoLastActionService = KraServiceLocator.getService(UndoLastActionService.class);
+            ProtocolDocument updatedDocument = undoLastActionService.undoLastAction(protocolDocument, undoLastActionBean);
+                       
+    
+            recordProtocolActionSuccess("Undo Last Action");
+    
+            if (!updatedDocument.getDocumentNumber().equals(protocolForm.getDocId())) {
+                protocolForm.setDocId(updatedDocument.getDocumentNumber());
+                loadDocument(protocolForm);
+                protocolForm.getProtocolHelper().prepareView();
+                return mapping.findForward(PROTOCOL_TAB);
+            }
+            if (ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED.equals(lastActionType)
+                    || ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED.equals(lastActionType)) {
+                // undo SMR/SRR may need to create & route onln revw document,
+                // this will need some time.   also, some change in db may not be viewable 
+                // before document is routed.  so, add this holding page for undo SMR/SRR.
+                //            protocolForm.setActionHelper(new ActionHelper(protocolForm));
+                //
+                //            protocolForm.getActionHelper().prepareView();
+                return routeProtocolToHoldingPage(mapping, protocolForm);
+            }
+        } else {
+            GlobalVariables.getMessageMap().clearErrorMessages();
+            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
         }
-        if (ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED.equals(lastActionType)
-                || ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED.equals(lastActionType)) {
-            // undo SMR/SRR may need to create & route onln revw document,
-            // this will need some time.   also, some change in db may not be viewable 
-            // before document is routed.  so, add this holding page for undo SMR/SRR.
-            //            protocolForm.setActionHelper(new ActionHelper(protocolForm));
-            //
-            //            protocolForm.getActionHelper().prepareView();
-            return routeProtocolToHoldingPage(mapping, protocolForm);
-        }
-
         return mapping.findForward(Constants.MAPPING_BASIC);
 
     }
@@ -2068,14 +2111,18 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        if (applyRules(new CommitteeDecisionEvent(protocolForm.getProtocolDocument(), protocolForm.getActionHelper().getCommitteeDecision()))){
-            CommitteeDecision actionBean = protocolForm.getActionHelper().getCommitteeDecision();
-            getCommitteeDecisionService().processCommitteeDecision(protocolForm.getProtocolDocument().getProtocol(), actionBean);
-            saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-
-            recordProtocolActionSuccess("Record Committee Decision");
+        if (!hasDocumentStateChanged(protocolForm)) {
+            if (applyRules(new CommitteeDecisionEvent(protocolForm.getProtocolDocument(), protocolForm.getActionHelper().getCommitteeDecision()))){
+                CommitteeDecision actionBean = protocolForm.getActionHelper().getCommitteeDecision();
+                getCommitteeDecisionService().processCommitteeDecision(protocolForm.getProtocolDocument().getProtocol(), actionBean);
+                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
+    
+                recordProtocolActionSuccess("Record Committee Decision");
+            }
+        } else {
+            GlobalVariables.getMessageMap().clearErrorMessages();
+            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
         }
-        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -2123,11 +2170,17 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     public ActionForward modifySubmsionAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolModifySubmissionBean bean = protocolForm.getActionHelper().getProtocolModifySubmissionBean();
-        if (applyRules(new ProtocolModifySubmissionEvent(protocolForm.getProtocolDocument(), bean))) {
-            KraServiceLocator.getService(ProtocolModifySubmissionService.class).modifySubmisison(protocolForm.getProtocolDocument(), bean);
         
-            recordProtocolActionSuccess("Modify Submission Request");
+        if (!hasDocumentStateChanged(protocolForm)) {
+            ProtocolModifySubmissionBean bean = protocolForm.getActionHelper().getProtocolModifySubmissionBean();
+            if (applyRules(new ProtocolModifySubmissionEvent(protocolForm.getProtocolDocument(), bean))) {
+                KraServiceLocator.getService(ProtocolModifySubmissionService.class).modifySubmisison(protocolForm.getProtocolDocument(), bean);
+            
+                recordProtocolActionSuccess("Modify Submission Request");
+            }
+        } else {
+            GlobalVariables.getMessageMap().clearErrorMessages();
+            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
         }
         return mapping.findForward(Constants.MAPPING_BASIC);        
     }
@@ -2839,34 +2892,40 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolForm protocolForm = (ProtocolForm) form;
         Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
             
-        if (protocolForm.getActionHelper().getCanManageNotes()) {
-            
-            final AddProtocolNotepadRule rule = new AddProtocolNotepadRuleImpl();
+        if (!hasDocumentStateChanged(protocolForm)) {
+            if (protocolForm.getActionHelper().getCanManageNotes()) {
                 
-            //final AddProtocolNotepadEvent event = new AddProtocolNotepadEvent(this.form.getDocument(), this.newProtocolNotepad);
-            boolean validNotes = true;
-            //validate all of them first
-            for (ProtocolNotepad note : protocol.getNotepads()) {
-                if (note.isEditable()) {
-                    AddProtocolNotepadEvent event = new AddProtocolNotepadEvent(protocol.getProtocolDocument(), note);
-                    if (!rule.processAddProtocolNotepadRules(event)) {
-                        validNotes = false;
-                    }
-                }
-            }
-            
-            if (validNotes) {
+                final AddProtocolNotepadRule rule = new AddProtocolNotepadRuleImpl();
+                    
+                //final AddProtocolNotepadEvent event = new AddProtocolNotepadEvent(this.form.getDocument(), this.newProtocolNotepad);
+                boolean validNotes = true;
+                //validate all of them first
                 for (ProtocolNotepad note : protocol.getNotepads()) {
-                    if (StringUtils.isBlank(note.getUpdateUserFullName())) {
-                        note.setUpdateUserFullName(GlobalVariables.getUserSession().getPerson().getName());
-                        note.setUpdateTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
+                    if (note.isEditable()) {
+                        AddProtocolNotepadEvent event = new AddProtocolNotepadEvent(protocol.getProtocolDocument(), note);
+                        if (!rule.processAddProtocolNotepadRules(event)) {
+                            validNotes = false;
+                        }
                     }
-                    note.setEditable(false);
                 }
-                getBusinessObjectService().save(protocol.getNotepads());
-                recordProtocolActionSuccess("Manage Notes");
+                
+                if (validNotes) {
+                    for (ProtocolNotepad note : protocol.getNotepads()) {
+                        if (StringUtils.isBlank(note.getUpdateUserFullName())) {
+                            note.setUpdateUserFullName(GlobalVariables.getUserSession().getPerson().getName());
+                            note.setUpdateTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
+                        }
+                        note.setEditable(false);
+                    }
+                    getBusinessObjectService().save(protocol.getNotepads());
+                    recordProtocolActionSuccess("Manage Notes");
+                }
             }
+        } else {
+            GlobalVariables.getMessageMap().clearErrorMessages();
+            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
         }
+        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
        
@@ -3061,17 +3120,22 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
 
         ProtocolForm protocolForm = (ProtocolForm) form;
-        if (hasPermission(TaskName.PROTOCOL_MANAGE_REVIEW_COMMENTS, protocolForm.getProtocolDocument().getProtocol())) {
-            if (applyRules(new ProtocolManageReviewAttachmentEvent(protocolForm.getDocument(),
-                "actionHelper.protocolManageReviewCommentsBean.reviewAttachmentsBean.", protocolForm.getActionHelper()
-                        .getProtocolManageReviewCommentsBean().getReviewAttachmentsBean().getReviewAttachments()))) {
-                ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolManageReviewCommentsBean();
-                saveReviewAttachments(protocolForm, actionBean.getReviewAttachmentsBean());
-
-                recordProtocolActionSuccess("Manage Review Attachments");
+        if(!hasDocumentStateChanged(protocolForm)) {
+            if (hasPermission(TaskName.PROTOCOL_MANAGE_REVIEW_COMMENTS, protocolForm.getProtocolDocument().getProtocol())) {
+                if (applyRules(new ProtocolManageReviewAttachmentEvent(protocolForm.getDocument(),
+                    "actionHelper.protocolManageReviewCommentsBean.reviewAttachmentsBean.", protocolForm.getActionHelper()
+                            .getProtocolManageReviewCommentsBean().getReviewAttachmentsBean().getReviewAttachments()))) {
+                    ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolManageReviewCommentsBean();
+                    saveReviewAttachments(protocolForm, actionBean.getReviewAttachmentsBean());
+    
+                    recordProtocolActionSuccess("Manage Review Attachments");
+                }
             }
+        } else {
+            GlobalVariables.getMessageMap().clearErrorMessages();
+            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
         }
-
+        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -3115,4 +3179,63 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    
+    /**
+     * 
+     * This method checks the document state to see if something has changed between the time the user
+     * loaded the document to when they clicked on an action.
+     * @param protocolForm
+     */
+    private boolean hasDocumentStateChanged(ProtocolForm protocolForm) {
+        boolean result = false;
+        
+        Map<String,Object> primaryKeys = new HashMap<String, Object>();
+        primaryKeys.put("protocolId", protocolForm.getProtocolDocument().getProtocol().getProtocolId());
+        Protocol dbProtocol = (Protocol)getBusinessObjectService().findByPrimaryKey(Protocol.class, primaryKeys);
+        
+        //First lets check the protocol status & submission status
+        if (dbProtocol != null) {
+            if (!StringUtils.equals(dbProtocol.getProtocolStatusCode(), 
+                    protocolForm.getProtocolDocument().getProtocol().getProtocolStatusCode())) {
+                result = true;
+            }
+            
+            if (dbProtocol.getProtocolSubmission() != null && 
+                    protocolForm.getProtocolDocument().getProtocol().getProtocolSubmission().getSubmissionStatusCode() != null) {
+                if (!StringUtils.equals(dbProtocol.getProtocolSubmission().getSubmissionStatusCode(), 
+                        protocolForm.getProtocolDocument().getProtocol().getProtocolSubmission().getSubmissionStatusCode())) {
+                    result = true;
+                }
+            }
+        }
+        
+        //If no changes in the protocol, lets check the document for workflow changes
+        if (!result) {
+           result = !isDocumentPostprocessingComplete(protocolForm.getProtocolDocument());
+        }
+        
+        return result;
+    }
+    
+    private boolean isDocumentPostprocessingComplete(ProtocolDocument document) {
+        return document.getDocumentHeader().hasWorkflowDocument() && !isPessimisticallyLocked(document);
+    }
+    
+    private boolean isPessimisticallyLocked(Document document) {
+        boolean isPessimisticallyLocked = false;
+        
+        Person pessimisticLockHolder = getPersonService().getPersonByPrincipalName(KEWConstants.SYSTEM_USER);
+        for (PessimisticLock pessimisticLock : document.getPessimisticLocks()) {
+            if (pessimisticLock.isOwnedByUser(pessimisticLockHolder)) {
+                isPessimisticallyLocked = true;
+                break;
+            }
+        }
+        
+        return isPessimisticallyLocked;
+    }
+    
+    protected PersonService<Person> getPersonService() {
+        return KraServiceLocator.getService(PersonService.class);
+    }
 }
