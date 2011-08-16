@@ -491,38 +491,6 @@
 	<bean id="awardTemplateLookupableHelperServiceImpl" class="org.kuali.kra.award.lookup.AwardTemplateLookupableHelperServiceImpl" parent="lookupableHelperService" scope="prototype">
   	</bean>
 	
-	<bean id="effortReportingServiceJavaExporter" class="org.kuali.rice.ksb.messaging.KSBExporter">
-		<property name="serviceDefinition">
-			<bean class="org.kuali.rice.ksb.messaging.JavaServiceDefinition">
-				<property name="service" ref="effortReportingService" />
-				<property name="serviceNameSpaceURI" value="KC" />
-				<property name="localServiceName" value="effortReportingService" />
-				<property name="serviceInterface"
-					value="org.kuali.kra.external.unit.service.effortReportingService" />
-				<property name="busSecurity" value="false" />
-				<property name="retryAttempts" value="1" />
-			</bean>
-		</property>
-	</bean>
-
- 	<bean id="effortReportingServiceSoapExporter" class="org.kuali.rice.ksb.messaging.KSBExporter">
-		<property name="serviceDefinition">
-			<bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
-				<property name="service" ref="effortReportingService" />
-				<property name="serviceNameSpaceURI" value="KC" />
-				<property name="localServiceName" value="effortReportingServiceSoapService" />
-				<property name="busSecurity" value="false" />
-				<property name="jaxWsService" value="true" />
-			</bean>
-		</property>
-	</bean> 
-	
-	<bean id="effortReportingService"
-		class="org.kuali.kra.external.effortReporting.impl.EffortReportingServiceImpl">
-		<property name="businessObjectService" ref="businessObjectService" />
-		<property name="parameterService" ref="parameterService"/>
-	</bean>
-	
 	<!-- Exposing java awardAccountService -->
 	<bean id="awardAccountServiceJavaExporter" class="org.kuali.rice.ksb.messaging.KSBExporter">
 		<property name="serviceDefinition">
