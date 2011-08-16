@@ -25,6 +25,7 @@ import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.infrastructure.DeepCopyIgnore;
 import org.kuali.kra.infrastructure.DeepCopyIgnoreScopes;
@@ -74,6 +75,8 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     private String urRateClassCode;
     private String onOffCampusFlag;
     private String printBudgetCommentFlag;
+
+    private Boolean submitCostSharingFlag=Boolean.TRUE;
     
     public Integer getBudgetVersionNumber() {
         return budgetVersionNumber;
@@ -570,5 +573,21 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     public String getPrintBudgetCommentFlag() {
         return printBudgetCommentFlag;
     }
-    
+
+    /**
+     * Gets the submitCostSharingFlag attribute. 
+     * @return Returns the submitCostSharingFlag.
+     */
+    public Boolean getSubmitCostSharingFlag() {
+        return submitCostSharingFlag;
+    }
+
+    /**
+     * Sets the submitCostSharingFlag attribute value.
+     * @param submitCostSharingFlag The submitCostSharingFlag to set.
+     */
+    public void setSubmitCostSharingFlag(Boolean submitCostSharingFlag) {
+        this.submitCostSharingFlag = submitCostSharingFlag;
+    }
+
 }

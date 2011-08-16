@@ -131,12 +131,14 @@ public class BudgetExpensesAction extends BudgetAction {
             newBudgetCategory.setBudgetCategoryTypeCode(getSelectedBudgetCategoryType(request));
             newBudgetCategory.refreshNonUpdateableReferences();
             newBudgetLineItem.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
+            newBudgetLineItem.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
             newBudgetLineItem.setBudgetCategory(newBudgetCategory);
             newBudgetLineItem.setStartDate(budget.getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1).getStartDate());
             newBudgetLineItem.setEndDate(budget.getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1).getEndDate());
             newBudgetLineItem.setBudgetId(budget.getBudgetId());
             newBudgetLineItem.setLineItemNumber(budgetDocument.getHackedDocumentNextValue(Constants.BUDGET_LINEITEM_NUMBER));
             newBudgetLineItem.setApplyInRateFlag(true);
+            newBudgetLineItem.setSubmitCostSharingFlag(budget.getSubmitCostSharingFlag());
             newBudgetLineItem.refreshReferenceObject("costElementBO");
             
             // on/off campus flag enhancement

@@ -42,6 +42,7 @@
         <ref bean="BudgetLineItem-quantity" />
         <ref bean="BudgetLineItem-startDate" />
         <ref bean="BudgetLineItem-underrecoveryAmount" />
+        <ref bean="BudgetLineItem-submitCostSharingFlag" />
       </list>
     </property>
   </bean>
@@ -348,6 +349,16 @@
     <property name="shortLabel" value="Unrecovered F&amp;A" />
     <property name="summary" value="Unrecovered F&amp;A" />
     <property name="description" value="Unrecovered F&amp;A" />
+  </bean>
+
+  <bean id="BudgetLineItem-submitCostSharingFlag" parent="BudgetLineItem-submitCostSharingFlag-parentBean"/>
+
+  <bean id="BudgetLineItem-submitCostSharingFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="submitCostSharingFlag"/>
+    <property name="label" value="Submit Cost Sharing?"/>
+    <property name="shortLabel" value="Submit Cost Sharing?"/>
+    <property name="summary" value="Submit Cost Sharing"/>
+    <property name="description" value="Submit Cost Sharing Flag"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
