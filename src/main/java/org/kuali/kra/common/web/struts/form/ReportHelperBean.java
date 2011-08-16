@@ -42,7 +42,10 @@ public class ReportHelperBean implements Serializable {
             proposalNumber = findProposalNumberFromDevelopmentProposal();
         }
     }
-
+    public ReportHelperBean() {
+        setTargetPerson(new KcPerson());
+        
+    }
     public String getPersonId() {
         return personId;
     }
