@@ -44,6 +44,7 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.service.FundingSourceTypeService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.UnitService;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -53,7 +54,7 @@ import org.kuali.rice.kns.util.KNSConstants;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolFundingSourceServiceTest {
+public class ProtocolFundingSourceServiceTest extends KcUnitTestBase {
 
     private Mockery context = new JUnit4Mockery();
 

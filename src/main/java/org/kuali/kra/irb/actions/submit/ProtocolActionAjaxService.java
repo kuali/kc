@@ -26,7 +26,7 @@ public interface ProtocolActionAjaxService {
      * @param committeeId the committee's unique id
      * @return the string representation of schedule dates
      */
-    public String getValidCommitteeDates(String committeeId);
+    public String getValidCommitteeDates(String committeeId, String docFormKey);
     
     /**
      * Get the reviewers for a protocol based upon a committee and schedule.
@@ -38,7 +38,7 @@ public interface ProtocolActionAjaxService {
      * @param scheduleId the schedule's id
      * @return
      */
-    public String getReviewers(String protocolId, String committeeId, String scheduleId);
+    public String getReviewers(String protocolId, String committeeId, String scheduleId, String docFormKey);
     
     /**
      * Get the reviewer types.  This method is used exclusively by DWR. 
