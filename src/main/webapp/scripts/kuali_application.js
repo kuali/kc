@@ -64,7 +64,8 @@ function loadFundingSourceNameTitle(fundingSourceTypeCodeField, fundingSourceNum
 	var fundingSourceNumber = DWRUtil.getValue ( fundingSourceNumberFieldName );
 	var fundingSourceName = DWRUtil.getValue( fundingSourceNameFieldName );
 	var fundingSourceTitle = DWRUtil.getValue( fundingSourceTitleFieldName );
-	
+	var docFormKey = DWRUtil.getValue( "docFormKey" );
+
 	changeObjectVisibility( fundingSourceNumberFieldName + ".lookup.div", "inline" );
 	if (fundingSourceTypeCode != '') {
 		var dwrReply = {
@@ -116,7 +117,7 @@ function loadFundingSourceNameTitle(fundingSourceTypeCodeField, fundingSourceNum
 				changeObjectVisibility( fundingSourceNameFieldName + ".error.div", "block" );
 			}
 		};
-		ProtocolFundingSourceService.updateProtocolFundingSource(fundingSourceTypeCode, fundingSourceNumber, fundingSourceName, dwrReply);
+		ProtocolFundingSourceService.updateProtocolFundingSource(fundingSourceTypeCode+":"+docFormKey, fundingSourceNumber, fundingSourceName, dwrReply);
 		
 	}
 }
@@ -2121,6 +2122,7 @@ function loadScheduleDates(committeeElementId, scheduleElementId) {
 function onlyLoadScheduleDates(committeeElementId, scheduleElementId) {
 	var committeeId = DWRUtil.getValue(committeeElementId);
 	var scheduleElement = document.getElementsByName(scheduleElementId);
+	var docFormKey = DWRUtil.getValue( "docFormKey" );
 	var dwrReply = {
 		callback:function(data) {
 			if ( data == null ) {
@@ -2146,7 +2148,7 @@ function onlyLoadScheduleDates(committeeElementId, scheduleElementId) {
 			scheduleElement[0].innerHTML = "";	
 		}
 	};
-	ProtocolActionAjaxService.getValidCommitteeDates(committeeId, dwrReply);
+	ProtocolActionAjaxService.getValidCommitteeDates(committeeId, docFormKey, dwrReply);
 }
 
 var protocolCheckListItemDescriptionWindow = null;
@@ -2228,6 +2230,7 @@ function displayReviewers(protocolId) {
 	
     var committeeId = DWRUtil.getValue('actionHelper.protocolSubmitAction.committeeId');
     var scheduleId = DWRUtil.getValue('actionHelper.protocolSubmitAction.scheduleId');
+	var docFormKey = DWRUtil.getValue( "docFormKey" );
     
     if (scheduleId == "select") {
     	document.getElementById("reviewers").style.display = 'none';
@@ -2243,7 +2246,7 @@ function displayReviewers(protocolId) {
 				window.status = errorMessage;
 			}
 		};
-		ProtocolActionAjaxService.getReviewers(protocolId, committeeId, scheduleId, dwrReplyReviewers);
+		ProtocolActionAjaxService.getReviewers(protocolId, committeeId, scheduleId,docFormKey, dwrReplyReviewers);
 	}
 }
 

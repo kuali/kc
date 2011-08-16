@@ -23,9 +23,11 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.personnel.ProtocolPerson;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.kra.irb.ProtocolForm;
+import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class ProtocolActionAjaxServiceImpl implements ProtocolActionAjaxService {
 
@@ -53,32 +55,65 @@ public class ProtocolActionAjaxServiceImpl implements ProtocolActionAjaxService 
     /**
      * @see org.kuali.kra.irb.actions.submit.ProtocolActionAjaxService#getValidCommitteeDates(java.lang.String)
      */
-    public String getValidCommitteeDates(String committeeId) {
+    public String getValidCommitteeDates(String committeeId, String docFormKey) {
         StringBuffer ajaxList = new StringBuffer();
-        List<KeyLabelPair> dates = committeeService.getAvailableCommitteeDates(committeeId);
-        for (KeyLabelPair date : dates) {
-            ajaxList.append(date.getKey() + ";" + date.getLabel() + ";");
+        if (isAuthorizedToAccess(docFormKey)) {
+            List<KeyLabelPair> dates = committeeService.getAvailableCommitteeDates(committeeId);
+            for (KeyLabelPair date : dates) {
+                ajaxList.append(date.getKey() + ";" + date.getLabel() + ";");
+            }
         }
         return clipLastChar(ajaxList);
+    }
+
+    
+    /*
+     * a utility method to check if dwr/ajax call really has authorization
+     */
+    private boolean isAuthorizedToAccess(String docFormKey) {
+        boolean isAuthorized = GlobalVariables.getUserSession() != null;
+        if (isAuthorized) {
+            // TODO : this is a quick hack for KC 3.1.1 to provide authorization check for dwr/ajax call. dwr/ajax will be replaced by
+            // jquery/ajax in rice 2.0
+                 if (StringUtils.isBlank(docFormKey)) {
+                    isAuthorized = false;
+                } else {
+                    Object formObj = GlobalVariables.getUserSession().retrieveObject(docFormKey);
+                    if (formObj == null || !(formObj instanceof ProtocolForm)) {
+                        isAuthorized = false;
+                    } else {
+                        ActionHelper actionHelper = ((ProtocolForm) formObj).getActionHelper();
+                        isAuthorized = actionHelper.getCanAssignCmtSched()
+                                || actionHelper.getCanSubmitProtocol() || actionHelper.getCanAssignReviewers();
+
+                    }
+
+                }
+            
+        }
+        return isAuthorized;
+
     }
 
     /**
      * @see org.kuali.kra.irb.actions.submit.ProtocolActionAjaxService#getReviewers(java.lang.String, java.lang.String)
      */
-    public String getReviewers(String protocolId, String committeeId, String scheduleId) {
+    public String getReviewers(String protocolId, String committeeId, String scheduleId, String docFormKey) {
         StringBuffer ajaxList = new StringBuffer();
-        HashMap<String, String> hm = new HashMap<String, String>();
-        hm.put("protocolId", protocolId);
-        Protocol protocol = (Protocol) (this.businessObjectService.findMatching(Protocol.class, hm).toArray())[0];
-        // filter out the protocol personnel; they cannot be reviewers on their own protocol
-        List<CommitteeMembership> filteredMembers = protocol.filterOutProtocolPersonnel(committeeService.getAvailableMembers(committeeId, scheduleId));
+        if (isAuthorizedToAccess(docFormKey)) {
+            HashMap<String, String> hm = new HashMap<String, String>();
+            hm.put("protocolId", protocolId);
+            Protocol protocol = (Protocol) (this.businessObjectService.findMatching(Protocol.class, hm).toArray())[0];
+            // filter out the protocol personnel; they cannot be reviewers on their own protocol
+            List<CommitteeMembership> filteredMembers = protocol.filterOutProtocolPersonnel(committeeService.getAvailableMembers(
+                    committeeId, scheduleId));
 
-        for (CommitteeMembership filteredMember : filteredMembers) {
-            if (StringUtils.isNotBlank(filteredMember.getPersonId())) {
-                ajaxList.append(filteredMember.getPersonId() + ";" + filteredMember.getPersonName() + ";N;");
-            }
-            else {
-                ajaxList.append(filteredMember.getRolodexId() + ";" + filteredMember.getPersonName() + ";Y;");
+            for (CommitteeMembership filteredMember : filteredMembers) {
+                if (StringUtils.isNotBlank(filteredMember.getPersonId())) {
+                    ajaxList.append(filteredMember.getPersonId() + ";" + filteredMember.getPersonName() + ";N;");
+                } else {
+                    ajaxList.append(filteredMember.getRolodexId() + ";" + filteredMember.getPersonName() + ";Y;");
+                }
             }
         }
         return clipLastChar(ajaxList);
