@@ -321,10 +321,9 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         awardBudget.setBudgetAdjustmentDocumentNumber("");
         awardBudget.setRateClassTypesReloaded(true);
         setBudgetLimits(awardBudgetDocument, parentDocument);
-        if (isPostedBudgetExist(parentDocument) ) {
-            if(awardBudget.getTotalCostLimit().equals(BudgetDecimal.ZERO)){
-                rebudget = true;
-            }else{
+        if (isPostedBudgetExist(parentDocument)) {
+            rebudget = true;
+            if (!awardBudget.getTotalCostLimit().equals(BudgetDecimal.ZERO)) {
                 Budget budget = awardBudgetDocument.getBudget();
                 budget.getBudgetPeriods().clear();
             }
@@ -500,16 +499,16 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
      * @throws WorkflowException
      */
     protected void saveBudgetDocument(BudgetDocument<Award> budgetDocument,boolean rebudget) throws WorkflowException {
-        AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument)budgetDocument;
+        AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument) budgetDocument;
         Budget budget = budgetDocument.getBudget();
-        AwardBudgetExt budgetExt = (AwardBudgetExt)budget;
-        budgetExt.setAwardBudgetTypeCode(getParameterValue(rebudget?KeyConstants.AWARD_BUDGET_TYPE_REBUDGET:
-            KeyConstants.AWARD_BUDGET_TYPE_NEW));
-        if(rebudget){
-            AwardBudgetType awardBudgetType=getBusinessObjectService().findBySinglePrimaryKey(AwardBudgetType.class, 
-                    budgetExt.getAwardBudgetTypeCode()); 
-            budgetExt.setDescription(awardBudgetType.getDescription());
-        }
+        AwardBudgetExt budgetExt = (AwardBudgetExt) budget;
+
+        String awardBudgetTypeID = getParameterValue(rebudget ? KeyConstants.AWARD_BUDGET_TYPE_REBUDGET : KeyConstants.AWARD_BUDGET_TYPE_NEW);
+        AwardBudgetType awardBudgetType = getBusinessObjectService().findBySinglePrimaryKey(AwardBudgetType.class, awardBudgetTypeID);
+        budgetExt.setAwardBudgetTypeCode(awardBudgetType.getAwardBudgetTypeCode());
+        budgetExt.setDescription(awardBudgetType.getDescription());
+        budgetExt.setAwardBudgetType(awardBudgetType);
+        
         processStatusChange(awardBudgetDocument, KeyConstants.AWARD_BUDGET_STATUS_IN_PROGRESS);
         saveDocument(awardBudgetDocument);
     }
