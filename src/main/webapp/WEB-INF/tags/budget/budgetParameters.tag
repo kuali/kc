@@ -136,16 +136,10 @@
            		</td>
            		<kra-b:swapProposalDevelopmentEditModes/>
      		</tr>     	
-        	<tr>
-				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.comments}" /></div></th>
-                <td colspan="3">
-                	<kul:htmlControlAttribute property="document.budget.comments" attributeEntry="${budgetAttributes.comments}"/>
-                </td>
-     		</tr>
     		<tr>
 		        <input type="hidden" name="prevOnOffCampusFlag" value="${KualiForm.document.budget.onOffCampusFlag}">
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.onOffCampusFlag}" /></div></th>
-                <td colspan="3">
+                <td>
                 	<kul:htmlControlAttribute 
                 		property="document.budget.onOffCampusFlag" 
                 		attributeEntry="${budgetAttributes.onOffCampusFlag}" 
@@ -165,8 +159,24 @@
                     	}
                 	}
                 </script>          		
+       		    <c:choose>				        		
+	        		<c:when test="${KualiForm.document.budget.costSharingSubmissionEnabled}">
+						<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.submitCostSharingFlag}" noColon="true" /></div></th>
+		                <td>
+		                	<kul:htmlControlAttribute property="document.budget.submitCostSharingFlag" attributeEntry="${budgetAttributes.submitCostSharingFlag}"/>
+		                </td>
+	                </c:when>
+	                <c:otherwise>
+	        			<td colspan="2">&nbsp;</td>
+	                </c:otherwise>
+                </c:choose>
      		</tr>
-
+        	<tr>
+				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.comments}" /></div></th>
+                <td colspan="3">
+                	<kul:htmlControlAttribute property="document.budget.comments" attributeEntry="${budgetAttributes.comments}"/>
+                </td>
+     		</tr>
         </table>
     </div>
 </kul:tabTop>
