@@ -41,6 +41,7 @@
         <form-bean name="ProtocolOnlineReviewForm" type="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewForm"/> 
         <form-bean name="ProtocolNotificationTemplateForm" type="org.kuali.kra.irb.actions.notification.ProtocolNotificationTemplateForm" />
         <form-bean name="JqueryAjaxForm" type="org.kuali.kra.jqueryajax.JqueryAjaxForm"/>
+        <form-bean name="CurrentOrPendingReportForm" type="org.kuali.kra.proposaldevelopment.web.struts.form.CurrentOrPendingReportForm" />
     </form-beans>
 
 <!-- Rice content Start -->
@@ -408,7 +409,10 @@
  		<action path="/jqueryAjax" name="JqueryAjaxForm" type="org.kuali.kra.jqueryajax.JqueryAjaxAction" attribute="KualiForm">
             <forward name="basic" path="/WEB-INF/jsp/jqueryajax/JqueryAjax.jsp" />
         </action>
-
+		<action path="/currentOrPendingReport" name="CurrentOrPendingReportForm" input="/WEB-INF/jsp/currentOrPendingReport.jsp" type="org.kuali.kra.proposaldevelopment.web.struts.action.CurrentOrPendingReportAction"
+          scope="session" parameter="methodToCall"  validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/currentOrPendingReport.jsp" />
+     </action>
     </action-mappings>
 
     <controller processorClass="org.kuali.kra.web.struts.action.KraRequestProcessor" />

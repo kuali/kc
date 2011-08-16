@@ -19,7 +19,7 @@
 <div class="body">
   <ul class="chan">
     <li>Degree Information</li>
-    <li>Current &amp; Pending Support</li>
+   <li><portal:portalLink displayTitle="false" title="Current & Pending Support" url="currentOrPendingReport.do">Current &amp; Pending Support</portal:portalLink></li>
     <li>Bio-sketches</li>
     <li>All my Training</li>
   </ul>
