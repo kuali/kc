@@ -24,6 +24,7 @@ import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.budget.core.BudgetCategory;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.core.CostElement;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.DeepCopyIgnore;
 import org.kuali.kra.infrastructure.DeepCopyIgnoreScopes;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -57,6 +58,8 @@ public abstract class BudgetLineItemBase extends BudgetAssociate {
 	private BudgetDecimal indirectCost;
     private BudgetCategory budgetCategory;
     private Integer lineItemSequence;
+
+    private Boolean submitCostSharingFlag=Boolean.TRUE;
 	
 	private CostElement costElementBO;
 
@@ -64,6 +67,7 @@ public abstract class BudgetLineItemBase extends BudgetAssociate {
     private boolean validToApplyInRate;
     private String groupName;
     
+    private BudgetPeriod budgetPeriodBO;
 	public String getGroupName() {
         return groupName;
     }
@@ -323,6 +327,40 @@ public abstract class BudgetLineItemBase extends BudgetAssociate {
      */
     public void setBudgetLineItemId(Long budgetLineItemId) {
         this.budgetLineItemId = budgetLineItemId;
+    }
+
+    /**
+     * Sets the submitCostSharingFlag attribute value.
+     * @param submitCostSharingFlag The submitCostSharingFlag to set.
+     */
+    public void setSubmitCostSharingFlag(Boolean submitCostSharingFlag) {
+        this.submitCostSharingFlag = submitCostSharingFlag;
+    }
+
+    /**
+     * Gets the submitCostSharingFlag attribute. 
+     * @return Returns the submitCostSharingFlag.
+     */
+    public Boolean getSubmitCostSharingFlag() {
+        if(getBudgetPeriodBO()==null)
+            refreshReferenceObject("budgetPeriodBO");
+        return getBudgetPeriodBO().getBudget().getSubmitCostSharingFlag()?submitCostSharingFlag:false;
+    }
+
+    /**
+     * Gets the budgetPeriodBO attribute. 
+     * @return Returns the budgetPeriodBO.
+     */
+    public BudgetPeriod getBudgetPeriodBO() {
+        return budgetPeriodBO;
+    }
+
+    /**
+     * Sets the budgetPeriodBO attribute value.
+     * @param budgetPeriodBO The budgetPeriodBO to set.
+     */
+    public void setBudgetPeriodBO(BudgetPeriod budgetPeriodBO) {
+        this.budgetPeriodBO = budgetPeriodBO;
     }
 
 }

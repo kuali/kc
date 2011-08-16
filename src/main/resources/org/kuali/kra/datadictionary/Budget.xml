@@ -41,6 +41,7 @@
         <ref bean="Budget-budgetVersionNumber"/>
         <ref bean="Budget-onOffCampusFlag"/>
         <ref bean="Budget-versionNumber"/>
+        <ref bean="Budget-submitCostSharingFlag"/>
       </list>
     </property>
   </bean>
@@ -81,6 +82,16 @@
     <property name="shortLabel" value="Modular Budget?"/>
     <property name="summary" value="Modular Budget Flag"/>
     <property name="description" value="Modular Budget Flag"/>
+  </bean>
+
+  <bean id="Budget-submitCostSharingFlag" parent="Budget-submitCostSharingFlag-parentBean"/>
+
+  <bean id="Budget-submitCostSharingFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="submitCostSharingFlag"/>
+    <property name="label" value="Submit Cost Sharing?"/>
+    <property name="shortLabel" value="Submit Cost Sharing?"/>
+    <property name="summary" value="Submit Cost Sharing"/>
+    <property name="description" value="Submit Cost Sharing Flag"/>
   </bean>
   <bean id="Budget-ohRateClassCode" parent="Budget-ohRateClassCode-parentBean"/>
 
