@@ -105,13 +105,13 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
         sb.append(",");
         appendJson(sb, "awardDocumentFinalStatus", aNode.isAwardDocumentFinalStatus());
         sb.append(",");            
-        appendJson(sb, "projectStartDate", df.format(aNode.getProjectStartDate()));
+        appendJson(sb, "projectStartDate", aNode.getProjectStartDate(), df);
         sb.append(",");
-        appendJson(sb, "currentFundEffectiveDate", df.format(aNode.getCurrentFundEffectiveDate()));
+        appendJson(sb, "currentFundEffectiveDate", aNode.getCurrentFundEffectiveDate(), df);
         sb.append(",");
-        appendJson(sb, "obligationExpirationDate", df.format(aNode.getObligationExpirationDate()));
+        appendJson(sb, "obligationExpirationDate", aNode.getObligationExpirationDate(), df);
         sb.append(",");
-        appendJson(sb, "finalExpirationDate", df.format(aNode.getFinalExpirationDate()));
+        appendJson(sb, "finalExpirationDate", aNode.getFinalExpirationDate(), df);
         sb.append(",");
         appendJson(sb, "amountObligatedToDate", (String)formatter.format(aNode.getAmountObligatedToDate()));
         sb.append(",");
@@ -229,7 +229,18 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
         } else {
             sb.append(value.toString());
         }
-    }    
+    }
+    
+    protected void appendJson(StringBuilder sb, String key, Date value, SimpleDateFormat formater) {
+        sb.append("\"");
+        sb.append(key);
+        sb.append("\":\"");
+        if (value != null) {
+            sb.append(formater.format(value));
+        }
+        sb.append("\"");
+    }
+    
 
     /*
      * This method formats and appends a date field to stringbuffer object for view.
