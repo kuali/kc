@@ -536,6 +536,7 @@ public final class KeyConstants {
     public static final String NO_PERMISSION_TO_LINK_ACCOUNT = "error.award.link.account.no.permission";
     public static final String BOTH_ACCOUNT_AND_CHART_REQUIRED = "error.award.account.number.and.chart.required";
     
+    
     // award budget
     public static final String BUDGET_POSTED = "message.award.budget.adjustment.budget.posted";
     public static final String BUDGET_ADJUSTMENT_DOCUMENT_NOT_CREATED = "error.award.budget.adjustment.document.not.created";
@@ -621,6 +622,7 @@ public final class KeyConstants {
     public static final String ERROR_PROTOCOL_RECORD_COMMITEE_VOTE_MOTION_MISMATCH = "error.protocol.recordcommittee.vote.count.motion.mismatch";
     public static final String ERROR_PROTOCOL_RECORD_COMMITEE_NO_SMR_SRR_REVIEWER_COMMENTS = "error.protocol.recordcommittee.no.smrssr.reviewer.comments";
     public static final String ERROR_PROTOCOL_ASSIGN_TO_AGENDA_NO_ACTION_DATE = "error.protocol.actiondate.required";
+    public static final String ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED = "error.protocol.document.state.changed";
     
     public static final String MESSAGE_PROTOCOL_ACTION_SUCCESSFULLY_COMPLETED = "message.protocol.action.successfully.completed";
     public static final String MESSAGE_ONLINE_REVIEW_ACTION_SUCCESSFULLY_COMPLETED = "message.protocol.onlinereview.document.action.successfully.completed";
