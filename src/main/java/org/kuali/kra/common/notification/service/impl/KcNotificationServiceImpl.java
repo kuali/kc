@@ -34,7 +34,6 @@ import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.exception.UnknownRoleException;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.ken.bo.Notification;
 import org.kuali.rice.ken.bo.NotificationChannel;
@@ -48,6 +47,7 @@ import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.ParameterService;
 
 public class KcNotificationServiceImpl implements KcNotificationService {
     
@@ -55,10 +55,6 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     private static final String ACTION_CODE = "actionCode";
     private static final String NOTIFICATION_TYPE_ID = "notificationTypeId";
     private static final String DOCUMENT_NUMBER = "documentNumber";
-    protected static final Long PRIORITY_NORMAL = new Long(1);
-    protected static final Long CONTENT_TYPE_SIMPLE = new Long(1);
-    protected static final Long SYSTEM_NOTIFICATION_PRODUCER = new Long(1);
-    protected static final Long KC_NOTIFICATION_CHANNEL = new Long(1000);
     
     private static final Log LOG = LogFactory.getLog(KcNotificationServiceImpl.class);
     
@@ -69,6 +65,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     private NotificationService notificationService;
     private RoleManagementService roleManagementService;
     private KcPersonService kcPersonService;
+    private ParameterService parameterService;
     
     /**
      * {@inheritDoc}
@@ -139,18 +136,17 @@ public class KcNotificationServiceImpl implements KcNotificationService {
             Notification notification = new Notification();
             
             NotificationPriority priority = new NotificationPriority();
-            priority.setId(PRIORITY_NORMAL);
+            priority.setId(getNotificationParameter("NORMAL_NOTIFICATION_PRIORITY_ID"));
             notification.setPriority(priority);
             
             NotificationContentType contentType = new NotificationContentType();
-            contentType.setId(CONTENT_TYPE_SIMPLE);
+            contentType.setId(getNotificationParameter("SIMPLE_NOTIFICATION_CONTENT_TYPE_ID"));
             notification.setContentType(contentType);
             
             notification.setProducer(getSystemNotificationProducer());
             notification.setChannel(getKcNotificationChannel());
             
             notification.setTitle(kcNotification.getSubject());
-//            notification.setContent("<content>" + kcNotification.getMessage() + "</content>");
             notification.setContent(NotificationConstants.XML_MESSAGE_CONSTANTS.CONTENT_SIMPLE_OPEN
                     + NotificationConstants.XML_MESSAGE_CONSTANTS.MESSAGE_OPEN + kcNotification.getMessage() + NotificationConstants.XML_MESSAGE_CONSTANTS.MESSAGE_CLOSE+ NotificationConstants.XML_MESSAGE_CONSTANTS.CONTENT_CLOSE);
             notification.setDeliveryType(NotificationConstants.DELIVERY_TYPES.FYI);
@@ -201,8 +197,8 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     
     protected NotificationProducer getSystemNotificationProducer() {
         if (this.systemNotificationProducer == null) {
-            NotificationProducer np = new NotificationProducer();
-            np.setId(SYSTEM_NOTIFICATION_PRODUCER);
+            NotificationProducer np = NotificationConstants.NOTIFICATION_PRODUCERS.NOTIFICATION_SYSTEM_PRODUCER;
+            np.setId(getNotificationParameter("SYSTEM_NOTIFICATION_PRODUCER_ID"));
             List<NotificationChannel> notificationChannels = new ArrayList<NotificationChannel>();
             notificationChannels.add(getKcNotificationChannel());
             np.setChannels(notificationChannels);
@@ -214,7 +210,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     protected NotificationChannel getKcNotificationChannel() {
         if (this.kcNotificationChannel == null) {
             NotificationChannel nc = new NotificationChannel();
-            nc.setId(KC_NOTIFICATION_CHANNEL);
+            nc.setId(getNotificationParameter("KC_NOTIFICATION_CHANNEL_ID"));
             this.kcNotificationChannel = nc;
         }
         return kcNotificationChannel;
@@ -243,6 +239,13 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         
         return recipients;
     }
+    
+    protected Long getNotificationParameter(String parameterName) {
+        String parameterValue = parameterService.getParameterValue(
+                Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, 
+                parameterName);
+        return new Long(parameterValue);
+    }
 
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
@@ -270,6 +273,10 @@ public class KcNotificationServiceImpl implements KcNotificationService {
 
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;
+    }
+    
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 
 }
