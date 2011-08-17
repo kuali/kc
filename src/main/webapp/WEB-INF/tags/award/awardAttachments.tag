@@ -126,7 +126,7 @@
 					</td>
 	         		<td align="left" valign="middle">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="document.awardList[0].awardAttachments[${itrStatus.index}].updateUser" attributeEntry="${awardAttachmentAttributes.updateUser}" readOnly="true"/>
+	                		<kul:htmlControlAttribute property="document.awardList[0].awardAttachments[${itrStatus.index}].updateUserName" attributeEntry="${awardAttachmentAttributes.updateUser}" readOnly="true"/>
 		            	</div>
 					</td>
 	         		<td align="left" valign="middle">
