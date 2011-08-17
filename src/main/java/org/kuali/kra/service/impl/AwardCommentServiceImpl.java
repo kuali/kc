@@ -89,20 +89,22 @@ public class AwardCommentServiceImpl implements AwardCommentService {
             String lastComment = null;
             for (AwardComment awardComment: awardCommentList) {
                 String tempComment = awardComment.getComments();
-                if (awardComment.isEntered()) {
-                    if (lastComment == null) {
-                        lastComment = awardComment.getComments();
-                    } else if (!lastComment.equals(tempComment) && !resultList.contains(tempComment)) {
-                        // add to list because comment has changed
+                if (!awardComment.isDisabled()) {
+                    if (awardComment.isEntered() && !awardComment.isDisabled()) {
+                        if (lastComment == null) {
+                            lastComment = awardComment.getComments();
+                        } else if (!lastComment.equals(tempComment) && !resultList.contains(tempComment)) {
+                            // add to list because comment has changed
+                            resultList.add(tempCode);
+                            break;
+                        }
+                    } else if ((lastComment != null) && !resultList.contains(tempComment)) {
+                        // add to list because comment has been erased
                         resultList.add(tempCode);
                         break;
                     }
-                } else if ((lastComment != null) && !resultList.contains(tempComment)) {
-                    // add to list because comment has been erased
-                    resultList.add(tempCode);
-                    break;
-                }
-                lastComment = (awardComment.isEntered() ? tempComment : null);
+                    lastComment = (awardComment.isEntered() ? tempComment : null);
+                } 
             } 
         }
         return resultList;
