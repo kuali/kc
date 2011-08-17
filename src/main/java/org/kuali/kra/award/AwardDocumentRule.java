@@ -853,22 +853,22 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         // make sure obligation dates are within effective dates
         if (oblStartDate != null && effStartDate != null && oblStartDate.before(effStartDate)) {
             success = false;
-            errorMap.putError("awardAmountInfos["+lastIndex+"].currentFundEffectiveDate1", KeyConstants.ERROR_START_DATE_ON_OR_BEFORE,
+            errorMap.putError("awardAmountInfos["+lastIndex+"].currentFundEffectiveDate", KeyConstants.ERROR_START_DATE_ON_OR_BEFORE,
                     new String[] {"Project Start Date","Obligation Start Date"});
         }
         if (oblEndDate != null && effStartDate != null && oblEndDate.before(effStartDate)) {
             success = false;
-            errorMap.putError("awardAmountInfos["+lastIndex+"].obligationExpirationDate1", KeyConstants.ERROR_START_DATE_ON_OR_BEFORE,
+            errorMap.putError("awardAmountInfos["+lastIndex+"].obligationExpirationDate", KeyConstants.ERROR_START_DATE_ON_OR_BEFORE,
                     new String[] {"Project Start Date","Obligation End Date"});
         }
         if (oblStartDate != null && effEndDate != null && oblStartDate.after(effEndDate)) {
             success = false;
-            errorMap.putError("awardAmountInfos["+lastIndex+"].currentFundEffectiveDate2", KeyConstants.ERROR_START_DATE_ON_OR_BEFORE,
+            errorMap.putError("awardAmountInfos["+lastIndex+"].currentFundEffectiveDate", KeyConstants.ERROR_START_DATE_ON_OR_BEFORE,
                     new String[] {"Obligation Start Date", "Project End Date"});
         }
         if (oblEndDate != null && effEndDate != null && oblEndDate.after(effEndDate)) {
             success = false;
-            errorMap.putError("awardAmountInfos["+lastIndex+"].obligationExpirationDate2", KeyConstants.ERROR_START_DATE_ON_OR_BEFORE,
+            errorMap.putError("awardAmountInfos["+lastIndex+"].obligationExpirationDate", KeyConstants.ERROR_START_DATE_ON_OR_BEFORE,
                     new String[] {"Obligation End Date", "Project End Date"});
         }
 
