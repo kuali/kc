@@ -17,6 +17,7 @@ package org.kuali.kra.meeting;
 
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -88,6 +89,29 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
     @SkipVersioning
     private transient String updateUserFullName;
     private transient boolean displayReviewerName;
+    
+    /*
+     * This comparator orders CommitteeScheduleMinute by entry type first and then by entry type detail (if available)
+     */
+    public static final Comparator<CommitteeScheduleMinute> entryTypeComparator = new Comparator<CommitteeScheduleMinute>() {
+
+        public int compare(CommitteeScheduleMinute csm1, CommitteeScheduleMinute csm2) {
+            int retVal = csm1.getMinuteEntryType().compareTo(csm2.getMinuteEntryType());
+            if (retVal == 0) {
+                // same entry type, then sort by protocol number if possible
+                if ((csm1.getProtocolIdFk() != null) && (csm2.getProtocolIdFk() != null)) {
+                    retVal = csm1.getProtocol().getProtocolNumber().compareTo(csm2.getProtocol().getProtocolNumber());
+                }
+                // if not protocol then try 'other business' item type
+                else if ((csm1.getCommScheduleActItemsIdFk() != null) && (csm2.getCommScheduleActItemsIdFk() != null)) {
+                    retVal = csm1.getCommScheduleActItem().getScheduleActItemType().getScheduleActItemTypeCode()
+                            .compareTo(csm2.getCommScheduleActItem().getScheduleActItemType().getScheduleActItemTypeCode());
+                }
+            }
+            return retVal;
+        }
+
+    }; 
 
     /**
      * Constructs a CommitteeScheduleMinute.
