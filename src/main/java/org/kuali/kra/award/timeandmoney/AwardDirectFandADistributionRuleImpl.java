@@ -23,6 +23,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.AwardDirectFandADistributionService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 import org.apache.commons.lang.time.DateUtils;
@@ -45,6 +46,7 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
     private static final String INVALID_TARGET_END_DATE = ".invalidEndDate";
     private static final String WARNING_AWARD_DIRECT_FNA_DISTRIBUTION_ANTICIPATED_MISMATCH = ".mismatchAnticipated";
     private static final String WARNING_BREAK_DATE_RANGE = ".breakDateRanges";
+    private static final String WARNING_MESSAGE="There are warnings in Direct/F&A Funds Distribution section";
     AwardDirectFandADistribution awardDirectFandADistribution;
     List<AwardDirectFandADistribution> awardDirectFandADistributions;
     transient AwardAmountInfoService awardAmountInfoService;
@@ -146,6 +148,7 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
                 AwardDirectFandADistribution nextAwardDirectFandADistribution = thisAwardDirectFandADistributions.get(++currentIndex);
                 if(DateUtils.addDays(thisAwardDirectFandADistribution.getEndDate(), 1).before(nextAwardDirectFandADistribution.getStartDate())) {
                     reportWarning(WARNING_BREAK_DATE_RANGE, KeyConstants.WARNING_AWARD_FANDA_DISTRIB_BREAKS);
+                    GlobalVariables.getMessageList().add(KeyConstants.WARNING_AWARD_FANDA_DISTRIB_EXISTS, "");
                     valid = false;
                 }
             }
@@ -246,7 +249,7 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
         return valid;
     }
     
-    private boolean doTotalAnticipatedAmountValidOnExistingDistribution(List<AwardDirectFandADistribution> thisAwardDirectFandADistributions){    
+    private boolean doTotalAnticipatedAmountValidOnExistingDistribution(List<AwardDirectFandADistribution> thisAwardDirectFandADistributions){            
         boolean valid = false;
         KualiDecimal awardAnticipatedTotal = KualiDecimal.ZERO;
         KualiDecimal calculatedFNAAmount = KualiDecimal.ZERO;
@@ -259,10 +262,12 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
             }
             if(awardAnticipatedTotal.equals(calculatedFNAAmount.add(calculatedDirAmount)))
                 valid = true;
-            else
+            else{
             reportWarning(WARNING_AWARD_DIRECT_FNA_DISTRIBUTION_ANTICIPATED_MISMATCH, 
                     KeyConstants.WARNING_AWARD_FANDA_DISTRIB_LIMITNOTEQUAL_ANTICIPATED, 
                     new String[]{awardDirectFandADistributions.get(0).getAward().getAwardNumber()});
+            GlobalVariables.getMessageList().add(KeyConstants.WARNING_AWARD_FANDA_DISTRIB_EXISTS, "");
+            }
         }
         return valid;
     }
