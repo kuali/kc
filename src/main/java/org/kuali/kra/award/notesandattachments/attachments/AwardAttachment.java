@@ -23,6 +23,9 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.AttachmentFile;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 
 /**
  * This class...
@@ -320,5 +323,10 @@ public class AwardAttachment extends AwardAssociate {
         if (this.getVersionNumber() == null) {
             this.setVersionNumber(new Long(0));
         }
+    }
+    
+    public String getUpdateUserName() {
+        Person updateUser = KraServiceLocator.getService(PersonService.class).getPersonByPrincipalName(this.getUpdateUser());
+        return updateUser!=null ? updateUser.getName() : this.getUpdateUser();
     }
 }
