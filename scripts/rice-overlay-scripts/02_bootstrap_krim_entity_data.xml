@@ -19,12 +19,12 @@
 			</delete>
 		</rollback>
     </changeSet>
-    
+
 	<changeSet context="bootstrap,demo" author="kc" id="KC_LOAD_KRIM_ENTITY_T">
 		<loadData tableName="KRIM_ENTITY_T" file="bootstrap/krim_entity_t.csv" />
 		<rollback>
 			<delete tableName="KRIM_ENTITY_T">
-				<where><![CDATA[ENTITY ID > 10001 AND ENTITY ID <= 1265]]></where>
+				<where><![CDATA[ENTITY ID > 10000 AND ENTITY ID < 10083]]></where>
 			</delete>
 		</rollback>
     </changeSet>
@@ -32,7 +32,7 @@
 		<loadData tableName="KRIM_PRNCPL_T" file="bootstrap/krim_prncpl_t.csv" />
 		<rollback>
 			<delete tableName="KRIM_PRNCPL_T">
-				<where><![CDATA[ENTITY ID > 10001 AND ENTITY ID <= 1265]]></where>
+				<where><![CDATA[ENTITY ID > 10000 AND ENTITY ID < 10083]]></where>
 			</delete>
 		</rollback>
     </changeSet>
@@ -40,7 +40,7 @@
 		<loadData tableName="KRIM_ENTITY_ENT_TYP_T" file="bootstrap/krim_entity_ent_typ_t.csv" />
 		<rollback>
 			<delete tableName="KRIM_ENTITY_ENT_TYP_T">
-				<where><![CDATA[ENTITY ID > 10001 AND ENTITY ID <= 1265]]></where>
+				<where><![CDATA[ENTITY ID > 10000 AND ENTITY ID < 10083]]></where>
 			</delete>
 		</rollback>
     </changeSet>
@@ -48,7 +48,7 @@
 		<loadData tableName="KRIM_ENTITY_NM_T" file="bootstrap/krim_entity_nm_t.csv" />
 		<rollback>
 			<delete tableName="KRIM_ENTITY_NM_T">
-				<where><![CDATA[ENTITY ID > 10001 AND ENTITY ID <= 1265]]></where>
+				<where><![CDATA[ENTITY ID > 10000 AND ENTITY ID < 10083]]></where>
 			</delete>
 		</rollback>
     </changeSet>
@@ -57,7 +57,7 @@
 		<loadData tableName="KRIM_ENTITY_ADDR_T" file="bootstrap/krim_entity_addr_t.csv" />
 		<rollback>
 			<delete tableName="KRIM_ENTITY_ADDR_T">
-				<where><![CDATA[ENTITY ID > 10001 AND ENTITY ID <= 1265]]></where>
+				<where><![CDATA[ENTITY ID > 10000 AND ENTITY ID < 10083]]></where>
 			</delete>
 		</rollback>
     </changeSet>
@@ -66,7 +66,7 @@
 		<loadData tableName="KRIM_ENTITY_AFLTN_T" file="bootstrap/krim_entity_afltn_t.csv" />
 		<rollback>
 			<delete tableName="KRIM_ENTITY_AFLTN_T">
-				<where><![CDATA[ENTITY ID > 10001 AND ENTITY ID <= 10082]]></where>
+				<where><![CDATA[ENTITY ID > 10000 AND ENTITY ID < 10083]]></where>
 			</delete>
 		</rollback>
     </changeSet>
@@ -75,7 +75,7 @@
 		<loadData tableName="KRIM_ENTITY_EMP_INFO_T" file="bootstrap/krim_entity_emp_info_t.csv" />
 		<rollback>
 			<delete tableName="KRIM_ENTITY_EMP_INFO_T">
-				<where><![CDATA[ENTITY ID > 10001 AND ENTITY ID <= 10082]]></where>
+				<where><![CDATA[ENTITY ID > 10000 AND ENTITY ID < 10083]]></where>
 			</delete>
 		</rollback>
     </changeSet>
@@ -84,7 +84,7 @@
 		<loadData tableName="KRIM_ENTITY_EMAIL_T" file="bootstrap/krim_entity_email_t.csv" />
 		<rollback>
 			<delete tableName="KRIM_ENTITY_EMAIL_T">
-				<where><![CDATA[ENTITY ID > 10001 AND ENTITY ID <= 10082]]></where>
+				<where><![CDATA[ENTITY ID > 10000 AND ENTITY ID < 10083]]></where>
 			</delete>
 		</rollback>
     </changeSet>
@@ -93,7 +93,7 @@
 		<loadData tableName="KRIM_ENTITY_PHONE_T" file="bootstrap/krim_entity_phone_t.csv" />
 		<rollback>
 			<delete tableName="KRIM_ENTITY_PHONE_T">
-				<where><![CDATA[ENTITY ID > 10001 AND ENTITY ID <= 10082]]></where>
+				<where><![CDATA[ENTITY ID > 10000 AND ENTITY ID < 10083]]></where>
 			</delete>
 		</rollback>
     </changeSet>
