@@ -20,17 +20,21 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.ActionHelper;
+import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceServiceImpl;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class ProtocolActionAjaxServiceImpl implements ProtocolActionAjaxService {
 
+    private static final Log LOG = LogFactory.getLog(ProtocolActionAjaxServiceImpl.class);
     private CommitteeService committeeService;
     private BusinessObjectService businessObjectService;
 
@@ -71,8 +75,8 @@ public class ProtocolActionAjaxServiceImpl implements ProtocolActionAjaxService 
      * a utility method to check if dwr/ajax call really has authorization
      */
     private boolean isAuthorizedToAccess(String docFormKey) {
-        boolean isAuthorized = GlobalVariables.getUserSession() != null;
-        if (isAuthorized) {
+        boolean isAuthorized = true;
+        if (GlobalVariables.getUserSession() != null) {
             // TODO : this is a quick hack for KC 3.1.1 to provide authorization check for dwr/ajax call. dwr/ajax will be replaced by
             // jquery/ajax in rice 2.0
                  if (StringUtils.isBlank(docFormKey)) {
@@ -90,6 +94,9 @@ public class ProtocolActionAjaxServiceImpl implements ProtocolActionAjaxService 
 
                 }
             
+        } else {
+            // TODO : it seemed that tomcat has this issue intermittently ?
+            LOG.info("dwr/ajax does not have session ");
         }
         return isAuthorized;
 
