@@ -22,6 +22,8 @@ import java.util.Properties;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.bo.FundingSourceType;
@@ -67,6 +69,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
     private static final String AWARD_NUMBER = "awardNumber";
     
     private static final String MAINT_DOC_LOOKUP_URL_PREFIX = "${kuali.docHandler.url.prefix}/kr/";
+    private static final Log LOG = LogFactory.getLog(ProtocolFundingSourceServiceImpl.class);
 
     private FundingSourceTypeService fundingSourceTypeService;
     private SponsorService sponsorService;
@@ -220,22 +223,24 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
      * 'updateProtocolFundingSource' also accessed by non ajax call
      */
     private boolean isAuthorizedToAccess(String fundingSourceTypeCode) {
-        boolean isAuthorized = GlobalVariables.getUserSession() != null;
-        if (isAuthorized) {
-            // TODO : this is a quick hack for KC 3.1.1 to provide authorization check for dwr/ajax call. dwr/ajax will be replaced by
-            // jquery/ajax in rice 2.0
-            // if this is ajax call, then formkey will be included in fundingsourcetypecode as 'fundingsourcetypecode:forKey'
-            if (fundingSourceTypeCode.contains(Constants.COLON)) {
+        boolean isAuthorized = true;
+        // TODO : this is a quick hack for KC 3.1.1 to provide authorization check for dwr/ajax call. dwr/ajax will be replaced by
+        // jquery/ajax in rice 2.0
+        // if this is ajax call, then formkey will be included in fundingsourcetypecode as 'fundingsourcetypecode:forKey'
+        if (fundingSourceTypeCode.contains(Constants.COLON)) {
+            if (GlobalVariables.getUserSession() != null) {
                 String[] invalues = StringUtils.split(fundingSourceTypeCode, Constants.COLON);
                 String formKey = invalues[1];
                 fundingSourceTypeCode = invalues[0];
                 if (StringUtils.isBlank(formKey)) {
                     isAuthorized = false;
-                } else {
+                }
+                else {
                     Object formObj = GlobalVariables.getUserSession().retrieveObject(formKey);
                     if (formObj == null || !(formObj instanceof ProtocolForm)) {
                         isAuthorized = false;
-                    } else {
+                    }
+                    else {
                         ProtocolForm protocolForm = (ProtocolForm) formObj;
                         isAuthorized = protocolForm.getProtocolHelper().getModifyProtocol()
                                 && protocolForm.getProtocolHelper().getModifyFundingSource();
@@ -243,6 +248,9 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
                     }
 
                 }
+            } else {
+                // TODO : it seemed that tomcat has this issue intermittently ?
+                LOG.info("dwr/ajax does not have session ");
             }
         }
         return isAuthorized;
