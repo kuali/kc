@@ -10,6 +10,15 @@
 			</delete>
 		</rollback>
     </changeSet>
+	<changeSet context="bootstrap,demo" author="kc" id="KC_LOAD_KREN_PRODCR_T">
+		<loadData tableName="KREN_PRODCR_T" file="bootstrap/kren_prodcr_t.csv">
+		</loadData>
+		<rollback>
+			<delete tableName="KREN_PRODCR_T">
+				<where>NM LIKE 'KC%'</where>
+			</delete>
+		</rollback>
+    </changeSet>
 	<changeSet context="bootstrap,demo" author="kc" id="KC_LOAD_KREN_CHNL_PRODCR_T">
 		<loadData tableName="KREN_CHNL_PRODCR_T" file="bootstrap/kren_chnl_prodcr_t.csv">
 		</loadData>
