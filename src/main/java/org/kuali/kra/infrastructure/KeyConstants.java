@@ -944,6 +944,9 @@ public final class KeyConstants {
     public static final String ERROR_WATERMARK_STATUS_CODE_EXIST = "error.watermark.statuscode.exists";
     public static final String INSUFFICIENT_AMOUNT_TO_PERIOD_DIRECT_COST_LIMIT_SYNC = "insufficient.amount.to.period.direct.cost.limit.sync";
     public static final String TOTAL_DIRECT_COST_ALREADY_IN_SYNC = "total.direct.cost.already.sync";
+    
+    //negotiations
+    public static final String NEGOTIATION_STATUS_USED = "error.negotiations.codeAlreadyUsed";
     /**
      * private utility class ctor.
      * @throws UnsupportedOperationException if called.
