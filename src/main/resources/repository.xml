@@ -2247,5 +2247,38 @@
             <foreignkey field-ref="notificationTypeId"/>
         </reference-descriptor>
     </class-descriptor>
+    
+    <class-descriptor class="org.kuali.kra.negotiations.bo.NegotiationStatus" table="NEGOTIATION_STATUS">
+        <field-descriptor name="id" column="NEGOTIATION_STATUS_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="NEGOTIATION_STATUS_S" autoincrement="true" />
+        <field-descriptor name="code" column="NEGOTIATION_STATUS_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="active" column="ACTV_IND" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>
+    
+    <class-descriptor class="org.kuali.kra.negotiations.bo.NegotiationAgreementType" table="NEGOTIATION_AGREEMENT_TYPE">
+        <field-descriptor name="id" column="NEGOTIATION_AGRMNT_TYPE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="NEGOTIATION_AGREEMENT_TYPE_S" autoincrement="true" />
+        <field-descriptor name="code" column="NEGOTIATION_AGRMNT_TYPE_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="active" column="ACTV_IND" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>
+    
+    <class-descriptor class="org.kuali.kra.negotiations.bo.NegotiationAssociationType" table="NEGOTIATION_ASSOCIATION_TYPE">
+        <field-descriptor name="id" column="NEGOTIATION_ASSC_TYPE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="NEGOTIATION_ASSOCIATION_TYPE_S" autoincrement="true" />
+        <field-descriptor name="code" column="NEGOTIATION_ASSC_TYPE_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="active" column="ACTV_IND" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>
 	
 </descriptor-repository>
