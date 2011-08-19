@@ -46,7 +46,7 @@
 				--><role name="AwardBudgetOSPApproval">
 					<qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
                     <activationType>S</activationType>
-                    <finalApproval>true</finalApproval>
+                    <finalApproval>false</finalApproval>
 	            </role>
 			</routeNodes>
 		</documentType>
