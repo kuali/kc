@@ -1,7 +1,6 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">	
-			
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 	<changeSet context="bootstrap,demo" author="kc" id="KC_LOAD_KRIM_ATTR_DEFN_T">
 		<loadData tableName="KRIM_ATTR_DEFN_T" file="bootstrap/krim_attr_defn_t.csv" />
 		<rollback>
@@ -102,6 +101,7 @@
 			</delete>
 		</rollback>		
     </changeSet>
+
 	<changeSet context="bootstrap,demo" author="kc" id="KC_LOAD_KRIM_GRP_MBR_T">
 		<loadData tableName="KRIM_GRP_MBR_T" file="bootstrap/krim_grp_mbr_t.csv" />
 		<rollback>
@@ -135,6 +135,5 @@
 			</delete>
 		</rollback>		
     </changeSet>
-
 </databaseChangeLog>   
       
