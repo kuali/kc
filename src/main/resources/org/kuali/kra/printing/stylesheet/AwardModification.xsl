@@ -8563,35 +8563,11 @@ or ( ../PrintRequirement/CloseoutRequired = 1 and  count(  CloseOutDeadlines  ) 
 									padding-bottom="0" padding="2pt" text-align="left"
 									display-align="before">
 									<fo:block>
-										<xsl:for-each select="AwardNotice">
-											<xsl:for-each select="SchoolInfo">
-												<xsl:for-each select="Acronym">
-													<xsl:variable name="value-of-template">
-														<xsl:apply-templates />
-													</xsl:variable>
-													<xsl:choose>
-														<xsl:when
-															test="contains(string($value-of-template),'&#x2029;')">
-															<fo:block font-family="Arial" font-size="9pt"
-																font-weight="bold">
-																<xsl:copy-of select="$value-of-template" />
-															</fo:block>
-														</xsl:when>
-														<xsl:otherwise>
-															<fo:inline font-family="Arial" font-size="9pt"
-																font-weight="bold">
-																<xsl:copy-of select="$value-of-template" />
-															</fo:inline>
-														</xsl:otherwise>
-													</xsl:choose>
-												</xsl:for-each>
-											</xsl:for-each>
-										</xsl:for-each>
-										
-										
+													
+									
 										<fo:inline font-family="Arial" font-size="9pt"
 													font-weight="bold">
-													<xsl:text> Account Number:</xsl:text>
+													<xsl:text> Award ID: Account : </xsl:text>
 										</fo:inline>
 									</fo:block>
 								</fo:table-cell>
@@ -8603,6 +8579,29 @@ or ( ../PrintRequirement/CloseoutRequired = 1 and  count(  CloseOutDeadlines  ) 
 											<xsl:for-each select="Award">
 												<xsl:for-each select="AwardDetails">
 													<xsl:for-each select="AwardHeader">
+													<xsl:for-each select="AwardNumber">
+																		<xsl:variable name="value-of-template">
+																			<xsl:apply-templates />
+																		</xsl:variable>
+																		<xsl:choose>
+																			<xsl:when
+																				test="contains(string($value-of-template),'&#x2029;')">
+																				<fo:block font-family="Arial" font-size="9pt">
+																					<xsl:copy-of select="$value-of-template" />
+																				</fo:block>
+																			</xsl:when>
+																			<xsl:otherwise>
+																				<fo:inline font-family="Arial" font-size="9pt">
+																					<xsl:copy-of select="$value-of-template" />
+																				</fo:inline>
+																			</xsl:otherwise>
+																		</xsl:choose>
+															</xsl:for-each>   
+													
+										<fo:inline font-family="Arial" font-size="9pt"
+											font-weight="bold">
+											<xsl:text> : </xsl:text>
+										</fo:inline>
 														<xsl:for-each select="AccountNumber">
 															<xsl:if test=". != 0">
 																<xsl:variable name="value-of-template">
