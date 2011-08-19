@@ -17,4 +17,4 @@
 "KC83","IRBApprover-Nested","protocolApproverRoleTypeService","Y","KC-SYS","AA3F29ECA6C777DAE040DC0A1F8A01CC","1"
 "KC84","Derived Role: Active Committee Member","activeCommitteeMemberDerivedRoleTypeService","Y","KC-WKFLW","AA3F29ECA6C877DAE040DC0A1F8A01CC","1"
 "KC85","Derived Role: Active Committee Member on Scheduled Date","activeCommitteeMemberOnScheduledDateDerivedRoleTypeService","Y","KC-WKFLW","AA3F29ECA6C977DAE040DC0A1F8A01CC","1"
-"KC86","Derived Role: Active Committee Member On Protocol","activeCommitteeMemberOnProtocolDerivedRoleTypeService","Y","KC-PROTOCOL","AAB8503124041B41E040DC0A1F8A7174","1"
+"KC86","Derived Role: Active Committee Member On Protocol","activeCommitteeMemberOnProtocolDerivedRoleTypeService","Y","KC-PROTOCOL","AAE016CCF8B25107E040DC0A1F8A7C64","1"
