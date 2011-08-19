@@ -169,17 +169,17 @@ public class AwardBudgetHistoryTransactionXmlStream extends AwardBudgetBaseStrea
 				amountInfoType
 						.setAnticipatedDistributableAmtModified(AWARD_AMOUNT_INFO_MODIFIED_VALUE);
 			}
-			if (!prevAwardAmount.getObligationExpirationDate().equals(
+			if (prevAwardAmount.getObligationExpirationDate()!=null && !prevAwardAmount.getObligationExpirationDate().equals(
 					awrdAmountInfo.getObligationExpirationDate())) {
 				amountInfoType
 						.setObligationExpDateModified(AWARD_AMOUNT_INFO_MODIFIED_VALUE);
 			}
-			if (!prevAwardAmount.getCurrentFundEffectiveDate().equals(
+			if (prevAwardAmount.getCurrentFundEffectiveDate()!=null && !prevAwardAmount.getCurrentFundEffectiveDate().equals(
 					awrdAmountInfo.getCurrentFundEffectiveDate())) {
 				amountInfoType
 						.setCurrentFundEffectiveDateModified(AWARD_AMOUNT_INFO_MODIFIED_VALUE);
 			}
-			if (!prevAwardAmount.getFinalExpirationDate().equals(
+			if (prevAwardAmount.getFinalExpirationDate()!=null && !prevAwardAmount.getFinalExpirationDate().equals(
 					awrdAmountInfo.getFinalExpirationDate())) {
 				amountInfoType
 						.setFinalExpDateModified(AWARD_AMOUNT_INFO_MODIFIED_VALUE);
