@@ -29,7 +29,7 @@
 			<param name="db.changelog.file" value="${krns.changelog.file}"/>
 		</antcall>
 		<antcall target="update-rice-tables" inheritRefs="true">
-			<param name="db.changelog.file" value="${krim.entity.changelog.file}"/>
+			<param name="db.changelog.file" value="${krim.entity.changelog.file}"/> 
 		</antcall>
 		<antcall target="update-rice-tables" inheritRefs="true">
 			<param name="db.changelog.file" value="${krim.role.changelog.file}"/>
@@ -37,9 +37,9 @@
 		<antcall target="update-rice-tables" inheritRefs="true">
 			<param name="db.changelog.file" value="${kren.changelog.file}"/>
 		</antcall>
-	</target>
+ 	</target>
 	
-	<target name="update-rice-tables" >
+	<target name="update-rice-tables" > 
 		<fail unless="db.changelog.file">db.changelog.file not passed in</fail>
 		
 	    <updateDatabase
