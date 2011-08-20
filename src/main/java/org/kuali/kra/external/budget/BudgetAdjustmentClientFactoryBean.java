@@ -35,6 +35,7 @@ public class BudgetAdjustmentClientFactoryBean implements FactoryBean {
     private InstitutionalUnitService institutionalUnitService;
     private BusinessObjectService businessObjectService;
     private BudgetCalculationService budgetCalculationService;
+    private BudgetAdjustmentServiceHelper budgetAdjustmentServiceHelper;
 
     public Object getObject() throws Exception {
         BudgetAdjustmentClient object = null; 
@@ -48,6 +49,7 @@ public class BudgetAdjustmentClientFactoryBean implements FactoryBean {
         object.setBusinessObjectService(businessObjectService);
         object.setInstitutionalUnitService(institutionalUnitService);
         object.setBudgetCalculationService(budgetCalculationService);
+        object.setBudgetAdjustmentServiceHelper(budgetAdjustmentServiceHelper);
         return object;
     }
     
@@ -68,6 +70,10 @@ public class BudgetAdjustmentClientFactoryBean implements FactoryBean {
     
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+    
+    public void setBudgetAdjustmentServiceHelper(BudgetAdjustmentServiceHelper budgetAdjustmentServiceHelper) {
+        this.budgetAdjustmentServiceHelper = budgetAdjustmentServiceHelper;
     }
     
     public void setInstitutionalUnitService(InstitutionalUnitService institutionalUnitService) {

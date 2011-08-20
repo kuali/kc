@@ -33,7 +33,18 @@ public interface AccountCreationClient {
     
     void setDocumentService(DocumentService documentService);
     
+    /**
+     * This method checks if the financial account number is valid.
+     * @param accountNumber
+     * @return
+     */
     String isValidAccountNumber(String accountNumber);
     
+    /**
+     * This method checks if the combination of account number and chart is valid.
+     * @param chartOfAccountsCode
+     * @param accountNumber
+     * @return
+     */
     String isValidChartAccount(String chartOfAccountsCode, String accountNumber);
 }
