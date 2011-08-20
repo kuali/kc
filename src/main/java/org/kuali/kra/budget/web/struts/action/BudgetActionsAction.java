@@ -524,8 +524,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         if (isFinancialIntegrationOn(awardBudgetDocument)) {
             if (isValidForPostingToFinancialSystem(awardBudgetDocument)) {
                 BudgetAdjustmentClient client = getBudgetAdjustmentClient();
-                client.setAwardBudgetDocument(awardBudgetDocument);
-                client.createBudgetAdjustmentDocument();
+                client.createBudgetAdjustmentDocument(awardBudgetDocument);
                 if (!isValidForPostingToFinancialSystem(awardBudgetDocument)) {
                     getAwardBudgetService().post(awardBudgetDocument);
                     String docNumber = awardBudgetDocument.getBudget().getBudgetAdjustmentDocumentNumber();

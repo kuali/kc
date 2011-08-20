@@ -70,18 +70,13 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
     private DocumentService documentService;
     private ParameterService parameterService;
     private BudgetCalculationService budgetCalculationService;
+    private BusinessObjectService businessObjectService;
+    private InstitutionalUnitService institutionalUnitService;
+    private BudgetAdjustmentServiceHelper budgetAdjustmentServiceHelper;
 
     protected static final QName SERVICE_NAME = new QName("KFS", "budgetAdjustmentServiceSOAP");
 
-    private static final Log LOG = LogFactory.getLog(BudgetAdjustmentClientBase.class);
-    AwardBudgetDocument awardBudgetDocument;
-    Budget previousBudget;
-    BudgetAdjustmentParametersDTO budgetAdjustmentParametersDTO;
-
-    Map<String, BudgetDecimal> accountingLines;
-    BudgetAdjustmentServiceHelper helper;
-    private BusinessObjectService businessObjectService;
-    private InstitutionalUnitService institutionalUnitService;
+    private static final Log LOG = LogFactory.getLog(BudgetAdjustmentClientBase.class);    
     
     /**
      * This method gets either the SOAP handle or the KSB handle depending on the configuration. 
@@ -93,16 +88,28 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
     /**
      * @see org.kuali.kra.external.budget.BudgetAdjustmentClient#createBudgetAdjustmentDocument()
      */
-    public void createBudgetAdjustmentDocument() throws Exception {
-        setAwardBudgetDocument(awardBudgetDocument);
-        boolean complete = setBudgetAdjustmentParameters();    
+    public void createBudgetAdjustmentDocument(AwardBudgetDocument awardBudgetDocument) throws Exception {
+        BudgetAdjustmentParametersDTO parametersDTO = new BudgetAdjustmentParametersDTO();
+        boolean complete = setBudgetAdjustmentParameters(awardBudgetDocument, parametersDTO);    
         if (complete) {           
             try {
                 BudgetAdjustmentService port = getServiceHandle();            
                 LOG.info("Invoking createBudgetAdjustment...");           
-                BudgetAdjustmentCreationStatusDTO budgetAdjustmentStatus = port.createBudgetAdjustment(budgetAdjustmentParametersDTO);
+                BudgetAdjustmentCreationStatusDTO budgetAdjustmentStatus = port.createBudgetAdjustment(parametersDTO);
             
                 if (budgetAdjustmentStatus.getStatus().equalsIgnoreCase("success")) {
+                  //if there are error messages but the document was saved in KFS
+                    if (ObjectUtils.isNotNull(budgetAdjustmentStatus.getErrorMessages()) 
+                        && !budgetAdjustmentStatus.getErrorMessages().isEmpty()) {
+                        String completeErrorMessage = "";
+                        List<String> errorMessages = budgetAdjustmentStatus.getErrorMessages();
+                        for (String errorMessage : errorMessages) {
+                            completeErrorMessage += errorMessage;
+                        }
+                        GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, 
+                                                                 KeyConstants.DOCUMENT_SAVED_WITH_ERRORS,
+                                                                 completeErrorMessage);
+                    }
                     // This should never happen.
                     if (budgetAdjustmentStatus.getDocumentNumber() == null) {
                         GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_MESSAGES, KeyConstants.DOCUMENT_NUMBER_NULL);
@@ -135,34 +142,35 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
    
     /**
      * This method adds the accounting lines to the DTO
+     * @param parametersDTO 
      * @return
      * @throws Exception
      */
-    public boolean setBudgetAdjustmentParameters() throws Exception {
+    public boolean setBudgetAdjustmentParameters(AwardBudgetDocument awardBudgetDocument, BudgetAdjustmentParametersDTO parametersDTO) throws Exception {
         boolean complete = true;    
-        complete &= createBudgetAdjustmentDocumentHeader();
+        complete &= createBudgetAdjustmentDocumentHeader(awardBudgetDocument, parametersDTO);
                        
-        budgetCalculationService.calculateBudgetSummaryTotals(getAwardBudgetDocument().getAwardBudget());
-        accountingLines = new HashMap<String, BudgetDecimal>();
+        budgetCalculationService.calculateBudgetSummaryTotals(awardBudgetDocument.getAwardBudget());
+        Map<String, BudgetDecimal> accountingLines = new HashMap<String, BudgetDecimal>();  
         
-        complete &= setNonPersonnelAccountingLines();
+        complete &= setNonPersonnelAccountingLines(awardBudgetDocument, accountingLines);
         
         // non personnel calculated direct cost
-        complete &= setNonPersonnelCalculatedDirectCostAccountingLines();
+        complete &= setNonPersonnelCalculatedDirectCostAccountingLines(awardBudgetDocument, accountingLines);
         
         // salary
-        complete &= setPersonnelSalaryAccountingLines();
+        complete &= setPersonnelSalaryAccountingLines(awardBudgetDocument, accountingLines);
        
         // calculated direct cost
-        complete &= setPersonnnelCalculatedDirectCost();
+        complete &= setPersonnnelCalculatedDirectCost(awardBudgetDocument, accountingLines);
         
         // Indirect cost 
-        complete &= setIndirectCostAccountingLine();    
+        complete &= setIndirectCostAccountingLine(awardBudgetDocument, accountingLines);    
                 
         // fringe
-        complete &= setPersonnelFringeAccountingLines();
+        complete &= setPersonnelFringeAccountingLines(awardBudgetDocument, accountingLines);
         
-        createAccountingLines();
+        createAccountingLines(accountingLines, awardBudgetDocument, parametersDTO);
 
         return complete;
     }
@@ -170,15 +178,19 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
     
     /**
      * Sets PersonnelCalculatedDirect cost
+     * @param accountingLines 
      * @return
      */
-    private boolean setPersonnnelCalculatedDirectCost() {
+    protected boolean setPersonnnelCalculatedDirectCost(AwardBudgetDocument awardBudgetDocument, Map<String, BudgetDecimal> accountingLines) {
+        Budget currentBudget = awardBudgetDocument.getBudget();
+        AwardBudgetExt previousBudget = getPrevBudget(awardBudgetDocument);
         boolean complete = true;
-        Map<RateClassRateType, BudgetDecimal> netPersonnelCalculatedDirectCost = getHelper().getPersonnelCalculatedDirectCost();
+        Map<RateClassRateType, BudgetDecimal> netPersonnelCalculatedDirectCost = 
+            getBudgetAdjustmentServiceHelper().getPersonnelCalculatedDirectCost(currentBudget, previousBudget);
 
         for (RateClassRateType rate : netPersonnelCalculatedDirectCost.keySet()) {
            
-            String financialObjectCode = getFinancialObjectCode(rate.getRateClass(), rate.getRateType());
+            String financialObjectCode = getFinancialObjectCode(awardBudgetDocument, rate.getRateClass(), rate.getRateType());
             if (ObjectUtils.isNull(financialObjectCode)) {
                 complete &= false;
             } else {
@@ -188,7 +200,8 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
                     accountingLines.put(financialObjectCode, 
                                         accountingLines.get(financialObjectCode).add(netPersonnelCalculatedDirectCost.get(rate)));
                 }
-                LOG.info("PersonnelCalculatedDirectCost OC: " + financialObjectCode + "RateClassRateType: " + rate + " Amount: " + accountingLines.get(financialObjectCode));
+                LOG.info("PersonnelCalculatedDirectCost OC: " + financialObjectCode + "RateClassRateType: " + 
+                         rate + " Amount: " + accountingLines.get(financialObjectCode));
 
             }
         }
@@ -197,15 +210,18 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
 
     /**
      * This method sets the indirect cost.
+     * @param accountingLines 
      * @return
      */
-    protected boolean setIndirectCostAccountingLine() {
+    protected boolean setIndirectCostAccountingLine(AwardBudgetDocument awardBudgetDocument, Map<String, BudgetDecimal> accountingLines) {
+        Budget currentBudget = awardBudgetDocument.getBudget();
+        AwardBudgetExt previousBudget = getPrevBudget(awardBudgetDocument);
         boolean complete = true;
-        Map<RateClassRateType, BudgetDecimal> netIndirectCost = getHelper().getIndirectCost();  
+        Map<RateClassRateType, BudgetDecimal> netIndirectCost = getBudgetAdjustmentServiceHelper().getIndirectCost(currentBudget, previousBudget);  
         for (RateClassRateType rate : netIndirectCost.keySet()) {
             Details details = new Details();
             details.setCurrentAmount(netIndirectCost.get(rate).toString());
-            String financialObjectCode = getFinancialObjectCode(rate.getRateClass(), rate.getRateType());
+            String financialObjectCode = getFinancialObjectCode(awardBudgetDocument, rate.getRateClass(), rate.getRateType());
             if (ObjectUtils.isNull(financialObjectCode)) {
                 complete &= false; 
             } else {
@@ -225,14 +241,17 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
     
     /**
      * This method sets the fringe line.
+     * @param accountingLines 
      * @return
      */
-    protected boolean setPersonnelFringeAccountingLines() {
+    protected boolean setPersonnelFringeAccountingLines(AwardBudgetDocument awardBudgetDocument, Map<String, BudgetDecimal> accountingLines) {
+        Budget currentBudget = awardBudgetDocument.getBudget();
+        AwardBudgetExt previousBudget = getPrevBudget(awardBudgetDocument);
         boolean complete = true;
-        Map<RateClassRateType, BudgetDecimal> netFringeCost = getHelper().getPersonnelFringeCost();
+        Map<RateClassRateType, BudgetDecimal> netFringeCost = getBudgetAdjustmentServiceHelper().getPersonnelFringeCost(currentBudget, previousBudget);
         for (RateClassRateType rate : netFringeCost.keySet()) {
            
-            String financialObjectCode = getFinancialObjectCode(rate.getRateClass(), rate.getRateType());
+            String financialObjectCode = getFinancialObjectCode(awardBudgetDocument, rate.getRateClass(), rate.getRateType());
             if (ObjectUtils.isNull(financialObjectCode)) {
                 complete &= false;
             } else {
@@ -252,12 +271,15 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
     
     /**
      * This method sets the personnel salary accounting line.
+     * @param accountingLines 
      * @return
      * @throws Exception
      */
-    protected boolean  setPersonnelSalaryAccountingLines() throws Exception {
+    protected boolean  setPersonnelSalaryAccountingLines(AwardBudgetDocument awardBudgetDocument, Map<String, BudgetDecimal> accountingLines) throws Exception {
+        Budget currentBudget = awardBudgetDocument.getBudget();
+        AwardBudgetExt previousBudget = getPrevBudget(awardBudgetDocument);
         boolean complete = true;
-        SortedMap<String, BudgetDecimal> netCost = getHelper().getPersonnelSalaryCost();
+        SortedMap<String, BudgetDecimal> netCost = getBudgetAdjustmentServiceHelper().getPersonnelSalaryCost(currentBudget, previousBudget);
         for (String name : netCost.keySet()) {
             String financialObjectCode = getFinancialObjectCode(name);
             if (ObjectUtils.isNull(financialObjectCode)) {
@@ -293,24 +315,26 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
     
     /**
      * This method sets the non personnel calculated direct cost.
+     * @param accountingLines 
      * @return
      */
-    protected boolean setNonPersonnelCalculatedDirectCostAccountingLines() {
+    protected boolean setNonPersonnelCalculatedDirectCostAccountingLines(AwardBudgetDocument awardBudgetDocument, Map<String, BudgetDecimal> accountingLines) {
         boolean complete = true;
-        SortedMap<RateType, BudgetDecimal> netExpense = getHelper().getNonPersonnelCalculatedDirectCost();
-        SortedMap<RateType, List<BudgetDecimal>> currentNonPersonnelCalcDirectCost = getAwardBudgetDocument().
+        Budget currentBudget = awardBudgetDocument.getBudget();
+        AwardBudgetExt previousBudget = getPrevBudget(awardBudgetDocument);
+        SortedMap<RateType, BudgetDecimal> netExpense = getBudgetAdjustmentServiceHelper().getNonPersonnelCalculatedDirectCost(currentBudget, previousBudget);
+        SortedMap<RateType, List<BudgetDecimal>> currentNonPersonnelCalcDirectCost = awardBudgetDocument.
                                                                                      getAwardBudget().
                                                                                      getNonPersonnelCalculatedExpenseTotals();
         
         for (RateType rateType : netExpense.keySet()) {
             // check if rate class type is O instead
             if (!rateType.getRateClass().getRateClassType().equalsIgnoreCase("O")) {
-           // if (!rateType.getDescription().equalsIgnoreCase("MTDC")) {
                 List<BudgetDecimal> expenses = currentNonPersonnelCalcDirectCost.get(rateType); 
                 Details details = new Details();
                 details.setCurrentAmount(netExpense.get(rateType).toString());
                 // only need abs value of amount
-                String financialObjectCode = getFinancialObjectCode(rateType.getRateClassCode(), rateType.getRateTypeCode());
+                String financialObjectCode = getFinancialObjectCode(awardBudgetDocument, rateType.getRateClassCode(), rateType.getRateTypeCode());
                 if (ObjectUtils.isNull(financialObjectCode)) {
                     complete &= false;
                 } else {
@@ -333,10 +357,13 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
 
     /**
      * This method sets the no personnel accounting line.
+     * @param accountingLines 
      * @return
      */
-    protected boolean setNonPersonnelAccountingLines() {
-        HashMap<String, BudgetDecimal> nonPersonnelCost = getHelper().getNonPersonnelCost();
+    protected boolean setNonPersonnelAccountingLines(AwardBudgetDocument awardBudgetDocument, Map<String, BudgetDecimal> accountingLines) {
+        Budget currentBudget = awardBudgetDocument.getBudget();
+        AwardBudgetExt previousBudget = getPrevBudget(awardBudgetDocument);
+        HashMap<String, BudgetDecimal> nonPersonnelCost = getBudgetAdjustmentServiceHelper().getNonPersonnelCost(currentBudget, previousBudget);
         boolean complete = true;
         for (String costElement : nonPersonnelCost.keySet()) {
             if (ObjectUtils.isNotNull(getFinancialObjectCode(costElement))) {
@@ -367,9 +394,9 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
      * This method returns the previous version of the award budget.
      * @return
      */
-    protected AwardBudgetExt getPrevBudget() {
+    protected AwardBudgetExt getPrevBudget(AwardBudgetDocument awardBudgetDocument) {
         int currentVersionNumber = awardBudgetDocument.getBudget().getBudgetVersionNumber();
-        AwardBudgetExt prevBudget = getPrevBudget(getAwardBudgetDocument().getParentDocument().getBudgetParent().getAwardDocument());
+        AwardBudgetExt prevBudget = getPrevBudget(awardBudgetDocument.getParentDocument().getBudgetParent().getAwardDocument());
         if (ObjectUtils.isNotNull(prevBudget.getBudgetVersionNumber()) && prevBudget.getBudgetVersionNumber() < currentVersionNumber) {
             budgetCalculationService.calculateBudgetSummaryTotals(prevBudget);
             return prevBudget;
@@ -385,10 +412,21 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
         return getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_POSTED);
     }
     
+    /**
+     * This method returns previous budget
+     * @param awardDocument
+     * @return
+     */
     protected AwardBudgetExt getPrevBudget(AwardDocument awardDocument) {
         return getNewestBudgetByStatus(awardDocument, Arrays.asList(new String[]{getPostedBudgetStatus()}));
     }         
     
+    /**
+     * This method returns the newest budget by status
+     * @param awardDocument
+     * @param statuses
+     * @return
+     */
     protected AwardBudgetExt getNewestBudgetByStatus(AwardDocument awardDocument, List<String> statuses) { 
         AwardBudgetVersionOverviewExt budgetVersion = null;
         for (BudgetDocumentVersion version : awardDocument.getBudgetDocumentVersions()) {
@@ -413,39 +451,38 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
      * This method sets the budget adjustment document header.
      * @return
      */
-    protected boolean createBudgetAdjustmentDocumentHeader() {
-        budgetAdjustmentParametersDTO = new BudgetAdjustmentParametersDTO();
+    protected boolean createBudgetAdjustmentDocumentHeader(AwardBudgetDocument awardBudgetDocument, BudgetAdjustmentParametersDTO parametersDTO) {
         //use award doc number
-        budgetAdjustmentParametersDTO.setOrgDocNumber("");   
+        parametersDTO.setOrgDocNumber("");   
         // budget version number
         Award award = awardBudgetDocument.getParentDocument().getBudgetParent();
-        budgetAdjustmentParametersDTO.setSponsorType(award.getSponsor().getSponsorTypeCode());
+        parametersDTO.setSponsorType(award.getSponsor().getSponsorTypeCode());
         //Just logging message - creating a new budget adjustment document from KC
         String COMMENT = "Generated from award budget -" 
                          + awardBudgetDocument.getDocumentNumber();
-        budgetAdjustmentParametersDTO.setDescription(COMMENT);
+        parametersDTO.setDescription(COMMENT);
 
-        budgetAdjustmentParametersDTO.setPrincipalId(UserSession.getAuthenticatedUser().getPrincipalId());
+        parametersDTO.setPrincipalId(UserSession.getAuthenticatedUser().getPrincipalId());
      
         return true;
     }
 
     /**
-     * This method creates the accounting lines for the BA
+     * This method creates the accounting lines for the BA.
      */
-    protected void createAccountingLines() {
+    protected void createAccountingLines(Map<String, BudgetDecimal> accountingLines, AwardBudgetDocument awardBudgetDocument, BudgetAdjustmentParametersDTO parametersDTO) {
         LOG.info(
-                 "PrincipalId: " + budgetAdjustmentParametersDTO.getPrincipalId());
+                 "PrincipalId: " + parametersDTO.getPrincipalId());
         for (String objectCode : accountingLines.keySet()) {
             if (accountingLines.get(objectCode).isNonZero()) {
                 Details details = new Details();
                 details.setCurrentAmount(accountingLines.get(objectCode).toString());
                 details.setObjectCode(objectCode);
-                details.setChart(getAwardChart(getAwardBudgetDocument()));
-                details.setAccount(getAwardAccount(getAwardBudgetDocument()));
+                details.setChart(getAwardChart(awardBudgetDocument));
+                details.setAccount(getAwardAccount(awardBudgetDocument));
                 details.setProjectCode("");
                 details.setSubAccount("");
-                budgetAdjustmentParametersDTO.getDetails().add(details);
+                parametersDTO.getDetails().add(details);
                 LOG.info("ObjectCode: " + objectCode + "Amount: " + accountingLines.get(objectCode));
             }
         }
@@ -502,7 +539,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
      * @param rateTypeCode
      * @return
      */
-    protected String getFinancialObjectCode(String rateClassCode, String rateTypeCode) {
+    protected String getFinancialObjectCode(AwardBudgetDocument awardBudgetDocument, String rateClassCode, String rateTypeCode) {
         // Do not use activity type in criteria, it is not required.
         Award award = awardBudgetDocument.getParentDocument().getBudgetParent();
         String activityTypeCode = award.getActivityTypeCode();
@@ -514,8 +551,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
             List<String> parentUnits = institutionalUnitService.getParentUnits(awardUnitNumber);
             for (String currentUnitNumber : parentUnits) {                
                 List<FinancialObjectCodeMapping> parentUnitResults = getFinancialObjectCodesFromMappingTable(
-                                                                        rateClassCode, rateTypeCode, currentUnitNumber
-                                                                     );
+                                                                        rateClassCode, rateTypeCode, currentUnitNumber);
                 if (!parentUnitResults.isEmpty()) {
                     return parentUnitResults.get(0).getFinancialObjectCode();
                 }
@@ -577,6 +613,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
         return results;
     }
     
+   
     /**
      * This method returns the award account number.
      * @param awardBudgetDocument
@@ -587,23 +624,12 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
         return award.getAccountNumber();
     }
     
-    protected BudgetAdjustmentServiceHelper getHelper() {
-        if (helper != null) {
-            return helper;
-        }
-        return new BudgetAdjustmentServiceHelper(getAwardBudgetDocument().getAwardBudget(), getPrevBudget());
+    protected BudgetAdjustmentServiceHelper getBudgetAdjustmentServiceHelper() {
+        return budgetAdjustmentServiceHelper;
     }
     
-    public void setAwardBudgetDocument(AwardBudgetDocument awardBudgetDocument) {
-        this.awardBudgetDocument = awardBudgetDocument;
-    }
-    
-    protected AwardBudgetDocument getAwardBudgetDocument() {
-        return awardBudgetDocument;
-    }
-    
-    public BudgetAdjustmentParametersDTO getBudgetAdjustmentParameters() {
-        return budgetAdjustmentParametersDTO;
+    public void setBudgetAdjustmentServiceHelper(BudgetAdjustmentServiceHelper budgetAdjustmentServiceHelper) {
+        this.budgetAdjustmentServiceHelper = budgetAdjustmentServiceHelper;
     }
     
     public void setInstitutionalUnitService(InstitutionalUnitService institutionalUnitService) {

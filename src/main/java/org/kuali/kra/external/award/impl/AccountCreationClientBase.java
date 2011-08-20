@@ -67,13 +67,15 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
     private DocumentService documentService;
     
     private static final Log LOG = LogFactory.getLog(AccountCreationClientBase.class);
-    private static final String CREATE_ACCOUNT_SERVICE_ERRORS = "error.award.createAccount.serviceErrors";
-    protected static final String CANNOT_CONNECT_TO_SERVICE = "error.award.createAccount.cannotConnect";
-    private static final String DOCUMENT_NUMBER_NULL = "error.award.createAccount.nullDocumentNumber";
     protected static final QName SERVICE_NAME = new QName("KFS", "accountCreationServiceSOAP");
+    private static final String ERROR_MESSAGE = "Cannot connect to the service. The service may be down, please try again later.";
+
     
     protected abstract AccountCreationService getServiceHandle();
     
+    /**
+     * @see org.kuali.kra.external.award.AccountCreationClient#isValidAccountNumber(java.lang.String)
+     */
     public String isValidAccountNumber(String accountNumber) {
         boolean isValidAccountNumber = false;
         
@@ -82,13 +84,15 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
             LOG.info("Connecting to financial system...");
             isValidAccountNumber = port.isValidAccount(accountNumber);
         } catch (Exception e) {
-            String errorMessage = "Cannot connect to the service. The service may be down, please try again later.";
-            LOG.error(errorMessage + e.getMessage(), e);
+            LOG.error(ERROR_MESSAGE + e.getMessage(), e);
             return null;
         }    
         return isValidAccountNumber + "";
     }
     
+    /**
+     * @see org.kuali.kra.external.award.AccountCreationClient#isValidChartAccount(java.lang.String, java.lang.String)
+     */
     public String isValidChartAccount(String chartOfAccountsCode, String accountNumber) {
         boolean isValidChartOfAccountsCode = false;
         
@@ -97,8 +101,7 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
             LOG.info("Connecting to financial system...");
             isValidChartOfAccountsCode = port.isValidChartAccount(chartOfAccountsCode, accountNumber);
         } catch (Exception e) {
-            String errorMessage = "Cannot connect to the service. The service may be down, please try again later.";
-            LOG.error(errorMessage + e.getMessage(), e);
+            LOG.error(ERROR_MESSAGE + e.getMessage(), e);
             return null;
         }    
         return isValidChartOfAccountsCode + "";
@@ -119,27 +122,40 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
             LOG.info("Connecting to financial system...");
             createAccountResult = port.createAccount(accountParameters);
         } catch (Exception e) {
-            String errorMessage = "Cannot connect to the service. The service may be down, please try again later.";
-            LOG.error(errorMessage + e.getMessage(), e);
-            GlobalVariables.getMessageMap().putError(CANNOT_CONNECT_TO_SERVICE, KeyConstants.CANNOT_CONNECT_TO_SERVICE);
+            LOG.error(ERROR_MESSAGE + e.getMessage(), e);
+            GlobalVariables.getMessageMap().putError(KeyConstants.CANNOT_CONNECT_TO_SERVICE, KeyConstants.CANNOT_CONNECT_TO_SERVICE);
         }
             
         // If the account did not get created display the errors
+        // the result should never be null if the client connects to the financial system.
         if (createAccountResult != null) {
+            // if failure status
             if (!StringUtils.equalsIgnoreCase(createAccountResult.getStatus(), "success")) {
                 String completeErrorMessage = "";
                 List<String> errorMessages = createAccountResult.getErrorMessages();
                 for (String errorMessage : errorMessages) {
                     completeErrorMessage += errorMessage;
                 }
-                GlobalVariables.getMessageMap().putError(CREATE_ACCOUNT_SERVICE_ERRORS, 
+                GlobalVariables.getMessageMap().putError(KeyConstants.CREATE_ACCOUNT_SERVICE_ERRORS, 
                                                      KeyConstants.CREATE_ACCOUNT_SERVICE_ERRORS, 
                                                      completeErrorMessage);
             } else {
-                /* if account created successfully, then update the award table with the document number and date*/
+                // if account created successfully, then update the award table with the document number and date
+                //if there are error messages but the document was saved in KFS
+                if (ObjectUtils.isNotNull(createAccountResult.getErrorMessages()) 
+                    && !createAccountResult.getErrorMessages().isEmpty()) {
+                    String completeErrorMessage = "";
+                    List<String> errorMessages = createAccountResult.getErrorMessages();
+                    for (String errorMessage : errorMessages) {
+                        completeErrorMessage += errorMessage;
+                    }
+                    GlobalVariables.getMessageMap().putError(KeyConstants.DOCUMENT_SAVED_WITH_ERRORS, 
+                                                             KeyConstants.DOCUMENT_SAVED_WITH_ERRORS,
+                                                             completeErrorMessage);
+                }
                 String financialAccountDocumentNumber = createAccountResult.getDocumentNumber();
                 if (financialAccountDocumentNumber == null) {
-                    GlobalVariables.getMessageMap().putError(DOCUMENT_NUMBER_NULL, KeyConstants.DOCUMENT_NUMBER_NULL);
+                    GlobalVariables.getMessageMap().putError(KeyConstants.DOCUMENT_NUMBER_NULL, KeyConstants.DOCUMENT_NUMBER_NULL);
                     LOG.warn("Document number returned from KFS account creation service is null.");
                 } else {
                     award.setFinancialAccountDocumentNumber(financialAccountDocumentNumber);
@@ -258,7 +274,7 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
             if (principalInvestigator.getAddressLine3() != null) {
                 streetAddress += principalInvestigator.getAddressLine3();
             }
-        
+     
             accountParameters.setDefaultAddressStreetAddress(streetAddress);
             accountParameters.setDefaultAddressCityName(principalInvestigator.getCity());
             accountParameters.setDefaultAddressStateCode(principalInvestigator.getState());
