@@ -198,4 +198,11 @@ public interface TaskName {
     public static final String POST_AWARD_BUDGET = "postAwardBudget";
     public static final String TOGGLE_AWARD_BUDGET_STATUS = "toggleAwardBudgetStatus";
 
+    /*
+     * COI tasks
+     */
+    public static final String CREATE_COI_DISCLOSURE = "createCoiDisclosure";
+    public static final String MODIFY_COI_DISCLOSURE = "modifyCoiDisclosure";
+    public static final String VIEW_COI_DISCLOSURE = "viewCoiDisclosure";
+
 }

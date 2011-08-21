@@ -15,5 +15,6 @@
 	<import resource="org/kuali/kra/award/AwardSpringBeans.xml" /> 
 	<import resource="org/kuali/kra/budget/BudgetSpringBeans.xml" /> 
 	<import resource="org/kuali/kra/common/specialreview/SpecialReviewSpringBeans.xml" />
+	<import resource="org/kuali/kra/coi/CoiSpringBeans.xml" /> 
 
 </beans>

@@ -1,0 +1,14 @@
+<!--
+	This contains the forwards for Protocol.
+	This fragment is included in the struts-config.xml file so that the protocol
+	forwards within different actions do not have to be duplicated.
+	
+	This duplication occurs as a result of our "repackaging by unit-of-work" effort.  Since
+	I couldn't find a struts solution for this problem, this is what I came up with :-)
+ -->
+<forward name="disclosure" path="/WEB-INF/jsp/coi/CoiDisclosure.jsp" />
+<forward name="committee" path="/WEB-INF/jsp/coi/CoiCommittee.jsp" />
+<forward name="financialInterests" path="/WEB-INF/jsp/coi/CoiFinancialInterests.jsp" />
+<forward name="certification" path="/WEB-INF/jsp/coi/CoiCertification.jsp" />
+<forward name="noteAndAttachment" path="/WEB-INF/jsp/coi/CoiNoteAndAttachment.jsp" />
+<forward name="disclosureActions" path="/WEB-INF/jsp/coi/CoiDisclosureActions.jsp" />
