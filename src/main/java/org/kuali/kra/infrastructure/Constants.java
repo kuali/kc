@@ -726,4 +726,7 @@ public interface Constants {
     public static final String PARAMETER_MULTI_CAMPUS_ENABLED = "MULTI_CAMPUS_ENABLED";
     public static final String ENABLE_COST_SHARE_SUBMIT = "ENABLE_COST_SHARE_SUBMIT";
 
+    // coi
+    public static final String MODULE_NAMESPACE_COIDISCLOSURE = "KC-COIDISCLOSURE"; 
+
 }
