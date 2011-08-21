@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd" [
 	<!ENTITY protocol_forwards SYSTEM "struts_protocol_forwards.xml">
+	<!ENTITY coi_forwards SYSTEM "struts_coi_forwards.xml">
 	]>
 
 <struts-config>
@@ -42,6 +43,7 @@
         <form-bean name="ProtocolNotificationTemplateForm" type="org.kuali.kra.irb.actions.notification.ProtocolNotificationTemplateForm" />
         <form-bean name="JqueryAjaxForm" type="org.kuali.kra.jqueryajax.JqueryAjaxForm"/>
         <form-bean name="CurrentOrPendingReportForm" type="org.kuali.kra.proposaldevelopment.web.struts.form.CurrentOrPendingReportForm" />
+		<form-bean name="CoiDisclosureForm" type="org.kuali.kra.coi.CoiDisclosureForm" />
     </form-beans>
 
 <!-- Rice content Start -->
@@ -413,7 +415,43 @@
           scope="session" parameter="methodToCall"  validate="true" attribute="KualiForm">
           <forward name="basic" path="/WEB-INF/jsp/currentOrPendingReport.jsp" />
      </action>
+     
+     <action path="/coi*" name="CoiDisclosureForm" input="/WEB-INF/jsp/coi/Coi{1}.jsp" type="org.kuali.kra.committee.web.struts.action.Committee{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/committee/Committee{1}.jsp" />
+          <forward name="committee" path="/WEB-INF/jsp/committee/CommitteeCommittee.jsp" />
+          <forward name="committeeMembership" path="/WEB-INF/jsp/committee/CommitteeMembership.jsp" />
+          <forward name="committeeSchedule" path="/WEB-INF/jsp/committee/CommitteeSchedule.jsp" />
+          <forward name="committeeActions" path="/WEB-INF/jsp/committee/CommitteeActions.jsp" />
+          <forward name="maintainSchedule" path="/WEB-INF/jsp/meeting/meetingManagement.jsp" />
+      </action>
+      <action path="/coiDisclosure" name="CoiDisclosureForm" input="/WEB-INF/jsp/coi/CoiDisclosure.jsp" type="org.kuali.kra.coi.disclosure.CoiDisclosureAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/coi/CoiDisclosure.jsp" />
+          &coi_forwards;
+       </action>
+      <action path="/coiCommittee" name="CoiDisclosureForm" input="/WEB-INF/jsp/coi/CoiCommittee.jsp" type="org.kuali.kra.coi.committee.CoiCommitteeAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/coi/CoiCommittee.jsp" />
+          &coi_forwards;
+       </action>
+      <action path="/coiFinancialInterests" name="CoiDisclosureForm" input="/WEB-INF/jsp/coi/CoiFinancialInterests.jsp" type="org.kuali.kra.coi.financialinterests.CoiFinancialInterestsAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/coi/CoiFinancialInterests.jsp" />
+          &coi_forwards;
+       </action>
+       <action path="/coiDisclosureActions" name="CoiDisclosureForm" input="/WEB-INF/jsp/coi/CoiDisclosure.jsp" type="org.kuali.kra.coi.actions.CoiDisclosureActionsAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/coi/CoiDisclosureActions.jsp" />
+          &coi_forwards;
+       </action>
+       <action path="/coiNoteAndAttachment" name="CoiDisclosureForm" input="/WEB-INF/jsp/coi/CoiDisclosure.jsp" type="org.kuali.kra.coi.noteandattachment.CoiNoteAndAttachmentAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/coi/CoiNoteAndAttachment.jsp" />
+          &coi_forwards;
+       </action>
+       <action path="/coiCertification" name="CoiDisclosureForm" input="/WEB-INF/jsp/coi/CoiCertification.jsp" type="org.kuali.kra.coi.certification.CoiCertificationAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/coi/CoiCertification.jsp" />
+          &coi_forwards;
+       </action>
+     
     </action-mappings>
+
+
 
     <controller processorClass="org.kuali.kra.web.struts.action.KraRequestProcessor" />
     <message-resources factory="org.kuali.rice.kns.web.struts.action.KualiPropertyMessageResourcesFactory" parameter="" /> 
