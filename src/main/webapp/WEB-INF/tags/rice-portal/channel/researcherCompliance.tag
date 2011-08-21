@@ -18,7 +18,7 @@
 <channel:portalChannelTop channelTitle="Compliance" />
 <div class="body">
   <ul class="chan">
-    <li>Create Disclosure</li>
+    <li><portal:portalLink displayTitle="false" title="Create Disclosure" url="coiDisclosure.do?methodToCall=docHandler&command=initiate&docTypeName=CoiDisclosureDocument">Create Disclosure</portal:portalLink></li>
     <li>Review Final Entities</li>
     <li>Pending Disclosures</li>
     <li>All my Disclosures</li>
