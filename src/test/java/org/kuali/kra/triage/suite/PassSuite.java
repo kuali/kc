@@ -240,8 +240,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.budget.bo.BudgetProjectIncomeTest.class,
     org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentYNQRuleTest.class,
     org.kuali.kra.service.impl.KcPessimisticLockServiceImplTest.class,
-    //disabling CustomAttributeServiceImplTest till it gets fixed
-    //org.kuali.kra.service.impl.CustomAttributeServiceImplTest.class,
+    org.kuali.kra.service.impl.CustomAttributeServiceImplTest.class,
     org.kuali.kra.committee.rules.CommitteeScheduleFilterDatesRuleTest.class,
     org.kuali.kra.award.paymentreports.closeout.AwardCloseoutServiceImplTest.class,
     org.kuali.kra.budget.bo.BudgetCostShareTest.class,
