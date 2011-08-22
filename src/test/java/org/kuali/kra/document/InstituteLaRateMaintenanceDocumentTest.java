@@ -27,6 +27,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class InstituteLaRateMaintenanceDocumentTest extends MaintenanceDocumentTestBase {
+    private static final String LOOKUP_PAGE_TITLE = "Institute La Rate";
+    private static final String MAINTENANCE_PAGE_TITLE = "Kuali :: Institute La Rates Maintenance Document";
 
     private static final String DOCTYPE = "InstituteLaRateMaintenanceDocument";
     @Override
@@ -48,7 +50,7 @@ public class InstituteLaRateMaintenanceDocumentTest extends MaintenanceDocumentT
     @Test
     @Ignore
     public void testCopyInstituteLaRateMaintenanceDocument() throws Exception {
-        HtmlPage instituteLaRateMaintenanceLookupPage = getMaintenanceDocumentLookupPage("Institute La Rate");
+        HtmlPage instituteLaRateMaintenanceLookupPage = getMaintenanceDocumentLookupPage(LOOKUP_PAGE_TITLE);
         setFieldValue(instituteLaRateMaintenanceLookupPage,"rateClassCode", "12");
         setFieldValue(instituteLaRateMaintenanceLookupPage,"rateTypeCode", "1");
         setFieldValue(instituteLaRateMaintenanceLookupPage,"fiscalYear", "2003");
@@ -57,7 +59,7 @@ public class InstituteLaRateMaintenanceDocumentTest extends MaintenanceDocumentT
         HtmlPage searchPage = clickOn(instituteLaRateMaintenanceLookupPage, "search");
         
         HtmlAnchor copyLink = searchPage.getAnchorByHref(getAnchorName(searchPage, "copy"));
-        HtmlPage instituteLaRateMaintenanceDocumentMaintenanceCopyPage = clickOn(copyLink, "Kuali :: Institute La Rates Maintenance Document");
+        HtmlPage instituteLaRateMaintenanceDocumentMaintenanceCopyPage = clickOn(copyLink, MAINTENANCE_PAGE_TITLE);
         String documentNumber = getFieldValue(instituteLaRateMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.documentNumber");
 
         setFieldValue(instituteLaRateMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.documentDescription", "Institute La Rate - copy test");
@@ -72,7 +74,7 @@ public class InstituteLaRateMaintenanceDocumentTest extends MaintenanceDocumentT
         setFieldValue(instituteLaRateMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.instituteRate", "9.9");
 
                 
-        HtmlPage routedPage = clickOn(instituteLaRateMaintenanceDocumentMaintenanceCopyPage, "methodToCall.route", "Kuali :: Institute La Rates Maintenance Document");        
+        HtmlPage routedPage = clickOn(instituteLaRateMaintenanceDocumentMaintenanceCopyPage, "methodToCall.route", MAINTENANCE_PAGE_TITLE);        
 
         assertDoesNotContain(routedPage,"error(s) found on page");
         assertContains(routedPage, "Document was successfully submitted.");
@@ -94,7 +96,7 @@ public class InstituteLaRateMaintenanceDocumentTest extends MaintenanceDocumentT
 
     @Test
     public void testEditInstituteLaRateMaintenanceDocument() throws Exception {
-        HtmlPage instituteLaRateMaintenanceLookupPage = getMaintenanceDocumentLookupPage("Institute La Rate");
+        HtmlPage instituteLaRateMaintenanceLookupPage = getMaintenanceDocumentLookupPage(LOOKUP_PAGE_TITLE);
         setFieldValue(instituteLaRateMaintenanceLookupPage,"rateClassCode", "12");
         setFieldValue(instituteLaRateMaintenanceLookupPage,"rateTypeCode", "1");
         setFieldValue(instituteLaRateMaintenanceLookupPage,"fiscalYear", "2003");
@@ -103,14 +105,14 @@ public class InstituteLaRateMaintenanceDocumentTest extends MaintenanceDocumentT
         HtmlPage searchPage = clickOn(instituteLaRateMaintenanceLookupPage, "search");
         
         HtmlAnchor editLink = searchPage.getAnchorByHref(getAnchorName(searchPage, "edit"));
-        HtmlPage instituteLaRateMaintenanceDocumentMaintenanceEditPage = clickOn(editLink, "Kuali :: Institute La Rates Maintenance Document");
+        HtmlPage instituteLaRateMaintenanceDocumentMaintenanceEditPage = clickOn(editLink, MAINTENANCE_PAGE_TITLE);
         String documentNumber = getFieldValue(instituteLaRateMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.documentNumber");
 
         setFieldValue(instituteLaRateMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.documentDescription", "Institute La Rates - edit test");
         setFieldValue(instituteLaRateMaintenanceDocumentMaintenanceEditPage, "document.newMaintainableObject.instituteRate", "9.9");
 
                 
-        HtmlPage routedPage = clickOn(instituteLaRateMaintenanceDocumentMaintenanceEditPage, "methodToCall.route", "Kuali :: Institute La Rates Maintenance Document");
+        HtmlPage routedPage = clickOn(instituteLaRateMaintenanceDocumentMaintenanceEditPage, "methodToCall.route", MAINTENANCE_PAGE_TITLE);
         
         assertDoesNotContain(routedPage,"error(s) found on page");
         assertContains(routedPage, "Document was successfully submitted.");
@@ -133,7 +135,7 @@ public class InstituteLaRateMaintenanceDocumentTest extends MaintenanceDocumentT
     @Test
     @Ignore
     public void testCreateNewInstituteLaRate() throws Exception {
-        HtmlPage instituteLaRateMaintenancePage = getMaintenanceDocumentPage("Institute La Rate","org.kuali.kra.bo.InstituteLaRate","Kuali :: Institute La Rates Maintenance Document");
+        HtmlPage instituteLaRateMaintenancePage = getMaintenanceDocumentPage(LOOKUP_PAGE_TITLE,"org.kuali.kra.bo.InstituteLaRate",MAINTENANCE_PAGE_TITLE);
         String documentNumber = getFieldValue(instituteLaRateMaintenancePage, "document.documentHeader.documentNumber");
         assertContains(instituteLaRateMaintenancePage,"Edit Institute La Rates New * Fiscal Year: * On/Off Campus Flag: unchecked * Rate Class Code: * Rate Type Code: * Start Date: * Unit Number: * Rate: ");
         setFieldValue(instituteLaRateMaintenancePage, "document.documentHeader.documentDescription", "Institute La Rates - test");
@@ -144,7 +146,7 @@ public class InstituteLaRateMaintenanceDocumentTest extends MaintenanceDocumentT
         setFieldValue(instituteLaRateMaintenancePage, "document.newMaintainableObject.onOffCampusFlag", "on");
         setFieldValue(instituteLaRateMaintenancePage, "document.newMaintainableObject.unitNumber", "000001");
         setFieldValue(instituteLaRateMaintenancePage, "document.newMaintainableObject.instituteRate", "9.9");
-        HtmlPage routedInstituteLaRateMaintenanceDocumentPage = clickOn(instituteLaRateMaintenancePage, "methodToCall.route", "Kuali :: Institute La Rates Maintenance Document");
+        HtmlPage routedInstituteLaRateMaintenanceDocumentPage = clickOn(instituteLaRateMaintenancePage, "methodToCall.route", MAINTENANCE_PAGE_TITLE);
         
         assertDoesNotContain(routedInstituteLaRateMaintenanceDocumentPage,"error(s) found on page");
         assertContains(routedInstituteLaRateMaintenanceDocumentPage, "Document was successfully submitted.");
