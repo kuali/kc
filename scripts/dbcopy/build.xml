@@ -20,6 +20,7 @@
 	-->
 
 	<!-- globally used properties -->
+	<property name="db.version" value="DATABASE VERSION"/>
 	<property name="bun.username" value="BUNDLE DB USERID"/>
 	<property name="bun.password" value="BUNDLE DB PASSWORD"/>
 	<property name="tst.username" value="UNIT DB USERID"/>
@@ -44,10 +45,10 @@
 	<target name="oracle-init">
         <copy todir="." flatten="true">
             <resources>
-                <url url="http://db.kc.kuali.org/public/extracts/devdb_oracle.zip"/>
+                <url url="http://db.kc.kuali.org:8089/public/extracts/devdb_oracle_${db.version}.zip"/>
             </resources>
         </copy>
-        <unzip src="devdb_oracle.zip" dest="."/>
+        <unzip src="devdb_oracle_${db.version}.zip" dest="."/>
     </target>
 	
 	<target name="oracle-embedded" depends="oracle-embedded-client, oracle-embedded-server" description="updates the embedded client and server databases"/>
@@ -87,10 +88,10 @@
 	<target name="mysql-init">
         <copy todir="." flatten="true">
             <resources>
-                <url url="http://db.kc.kuali.org/public/extracts/devdb_mysql.zip"/>
+                <url url="http://db.kc.kuali.org:8089/public/extracts/devdb_mysql_${db.version}.zip"/>
             </resources>
         </copy>
-        <unzip src="devdb_mysql.zip" dest="."/>
+        <unzip src="devdb_mysql_${db.version}.zip" dest="."/>
     </target>
 	
 	<target name="mysql-embedded" depends="mysql-embedded-client, mysql-embedded-server" description="updates the embedded client and server databases"/>
