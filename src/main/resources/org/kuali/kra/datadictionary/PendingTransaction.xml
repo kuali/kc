@@ -163,8 +163,8 @@
     <bean id="PendingTransaction-obligatedIndirectAmount-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="obligatedIndirectAmount" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Obligated Indirect" />
-        <property name="shortLabel" value="Obligated Indirect" />
+        <property name="label" value="Obligated F&amp;A" />
+        <property name="shortLabel" value="Obligated F&amp;A" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
       <bean parent="FixedPointValidationPattern"
@@ -177,8 +177,8 @@
             p:formattedMaxLength="22"
             p:size="16" />
     </property>
-        <property name="summary" value="Obligated Indirect" />
-        <property name="description" value="Obligated Indirect" />
+        <property name="summary" value="Obligated F&amp;A" />
+        <property name="description" value="Obligated F&amp;A" />
     </bean>
 
     <bean id="PendingTransaction-anticipatedAmount" parent="PendingTransaction-anticipatedAmount-parentBean" />
@@ -229,8 +229,8 @@
     <bean id="PendingTransaction-anticipatedIndirectAmount-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
         <property name="name" value="anticipatedIndirectAmount" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Anticipated Indirect" />
-        <property name="shortLabel" value="Anticipated Indirect" />
+        <property name="label" value="Anticipated F&amp;A" />
+        <property name="shortLabel" value="Anticipated F&amp;A" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
       <bean parent="FixedPointValidationPattern"
@@ -243,8 +243,8 @@
             p:formattedMaxLength="22"
             p:size="16" />
     </property>
-        <property name="summary" value="Anticipated Indirect" />
-        <property name="description" value="Anticipated Indirect" />
+        <property name="summary" value="Anticipated F&amp;A" />
+        <property name="description" value="Anticipated F&amp;A" />
     </bean>
 
     <bean id="PendingTransaction-comments" parent="PendingTransaction-comments-parentBean" />
