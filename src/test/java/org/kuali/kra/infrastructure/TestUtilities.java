@@ -350,6 +350,8 @@ public class TestUtilities {
 	private static final String BUILD_PROPERTIES = "build.properties";
 	private static final String TEST_PLATFORM = "test.platform";
 
+    private static final String GROUP_NAME_4 = "Other";
+
     /**
      * Attempts to derive the database "platform" to use for unit tests by
      * inspected Ant build.properties files in typical locations.
@@ -488,6 +490,10 @@ public class TestUtilities {
         customAttributeDocument = buildCustomAttributeDocument("PRDV", false, customAttribute);
         customAttributeDocuments.put("8", customAttributeDocument);
 
+        customAttribute = buildCustomAttribute(11, "ARRA_FUNDING", "ARRA Funding", "1", new Integer(3), GROUP_NAME_4,"org.kuali.kra.bo.ArgValueLookup","yes_no_flag");
+        customAttributeDocument = buildCustomAttributeDocument("PRDV", false, customAttribute);
+        customAttributeDocuments.put("9", customAttributeDocument);
+        
         return customAttributeDocuments;
     }
 
