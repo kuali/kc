@@ -203,10 +203,12 @@ public class CommitteeServiceImpl implements CommitteeService {
         Committee committee = getCommitteeById(committeeId);
         if (committee != null) {
             CommitteeSchedule schedule = getCommitteeSchedule(committee, scheduleId);
-            List <CommitteeMembership> members = committee.getCommitteeMemberships();
-            for (CommitteeMembership member : members) {
-                if (isMemberAvailable(member, schedule.getScheduledDate())) {
-                    availableMembers.add(member);
+            if (schedule != null) {
+                List<CommitteeMembership> members = committee.getCommitteeMemberships();
+                for (CommitteeMembership member : members) {
+                    if (isMemberAvailable(member, schedule.getScheduledDate())) {
+                        availableMembers.add(member);
+                    }
                 }
             }
         }
