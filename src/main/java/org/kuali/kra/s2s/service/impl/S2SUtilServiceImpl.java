@@ -27,10 +27,13 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.james.mime4j.field.DateTimeField;
+import org.apache.tools.ant.types.selectors.DateSelector;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.CitizenshipType;
@@ -1192,5 +1195,13 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     public void setProposalDevelopmentS2sQuestionnaireService(
             ProposalDevelopmentS2sQuestionnaireService proposalDevelopmentS2sQuestionnaireService) {
         this.proposalDevelopmentS2sQuestionnaireService = proposalDevelopmentS2sQuestionnaireService;
+    }
+
+    public String removeTimezoneFactor(String applicationXmlText) {
+        SimpleDateFormat timeFormat = new SimpleDateFormat("Z");
+        String offset = timeFormat.format(dateTimeService.getCurrentDate());
+        String offsetString = offset.substring(0,3) +":"+offset.substring(3);
+        String filteredApplicationStr = StringUtils.remove(applicationXmlText, offsetString);
+        return filteredApplicationStr;
     }
 }
