@@ -98,7 +98,7 @@
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.cfdaNumber}" /></div></th>
                 <td>
                 	<kul:htmlControlAttribute property="document.institutionalProposal.cfdaNumber" readOnly="${readOnly}" attributeEntry="${institutionalProposalAttributes.cfdaNumber}" styleClass="fixed-size-200-select"/>
-            	<c:if test="canViewCfdaLookup">
+            	<c:if test="${canViewCfdaLookup}"> 
             		<c:if test="${!readOnly}">
     					<kul:lookup boClassName="org.kuali.kra.award.home.CFDA" fieldConversions="cfdaNumber:document.institutionalProposal.cfdaNumber" anchor="${tabKey}" />
     				</c:if>
