@@ -79,7 +79,7 @@
     
     <target name="oracle-clean" description="deletes build artifacts">
         <delete dir="oracle"/>
-        <delete file="devdb_oracle.zip"/>
+        <delete file="devdb_oracle_${db.version}.zip"/>
     </target>
     
     <!--mysql targets-->
@@ -138,6 +138,6 @@
     
     <target name="mysql-clean" description="deletes build artifacts">
         <delete dir="mysql"/>
-        <delete file="devdb_mysql.zip"/>
+        <delete file="devdb_mysql_${db.version}.zip"/>
     </target>   
 </project>
