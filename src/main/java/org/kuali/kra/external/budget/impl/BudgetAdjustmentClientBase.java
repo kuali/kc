@@ -98,18 +98,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
                 BudgetAdjustmentCreationStatusDTO budgetAdjustmentStatus = port.createBudgetAdjustment(parametersDTO);
             
                 if (budgetAdjustmentStatus.getStatus().equalsIgnoreCase("success")) {
-                  //if there are error messages but the document was saved in KFS
-                    if (ObjectUtils.isNotNull(budgetAdjustmentStatus.getErrorMessages()) 
-                        && !budgetAdjustmentStatus.getErrorMessages().isEmpty()) {
-                        String completeErrorMessage = "";
-                        List<String> errorMessages = budgetAdjustmentStatus.getErrorMessages();
-                        for (String errorMessage : errorMessages) {
-                            completeErrorMessage += errorMessage;
-                        }
-                        GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, 
-                                                                 KeyConstants.DOCUMENT_SAVED_WITH_ERRORS,
-                                                                 completeErrorMessage);
-                    }
+                 
                     // This should never happen.
                     if (budgetAdjustmentStatus.getDocumentNumber() == null) {
                         GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_MESSAGES, KeyConstants.DOCUMENT_NUMBER_NULL);
@@ -122,6 +111,18 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
                     } else {
                         awardBudgetDocument.getBudget().setBudgetAdjustmentDocumentNumber(budgetAdjustmentStatus.getDocumentNumber());
                         documentService.saveDocument(awardBudgetDocument);
+                    }
+                    //if there are error messages but the document was saved in KFS
+                    if (ObjectUtils.isNotNull(budgetAdjustmentStatus.getErrorMessages()) 
+                        && !budgetAdjustmentStatus.getErrorMessages().isEmpty()) {
+                        String completeErrorMessage = "";
+                        List<String> errorMessages = budgetAdjustmentStatus.getErrorMessages();
+                        for (String errorMessage : errorMessages) {
+                            completeErrorMessage += errorMessage;
+                        }
+                        GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, 
+                                                                 KeyConstants.DOCUMENT_SAVED_WITH_ERRORS,
+                                                                 completeErrorMessage);
                     }
                 } else {
                     String completeErrorMessage = "";
@@ -201,7 +202,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
                                         accountingLines.get(financialObjectCode).add(netPersonnelCalculatedDirectCost.get(rate)));
                 }
                 LOG.info("PersonnelCalculatedDirectCost OC: " + financialObjectCode + "RateClassRateType: " + 
-                         rate + " Amount: " + accountingLines.get(financialObjectCode));
+                         rate.getRateClass() + "-" +  rate.getRateType() + " =" + accountingLines.get(financialObjectCode));
 
             }
         }
@@ -232,7 +233,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
                                         accountingLines.get(financialObjectCode).add(netIndirectCost.get(rate)));
                 }
                 LOG.info("IndirectCost OC: " + financialObjectCode + "RateClassRateType: " 
-                          + rate + " Amount: " + accountingLines.get(financialObjectCode));
+                          + rate.getRateClass() + "-" + rate.getRateType() + " = " + accountingLines.get(financialObjectCode));
 
             }
         }
@@ -262,7 +263,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
                                         accountingLines.get(financialObjectCode).add(netFringeCost.get(rate)));
                 }
                 LOG.info("PersonnelFringeCost OC: " + financialObjectCode + "RateClassRateType: " 
-                         + rate + " Amount: " + accountingLines.get(financialObjectCode));
+                         + rate.getRateClass() + "-" + rate.getRateType() + " = " + accountingLines.get(financialObjectCode));
 
             }
         }
@@ -292,7 +293,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
                                         accountingLines.get(financialObjectCode).add(netCost.get(name)));
                 }
                 LOG.info("PersonnelSalary OC: " + financialObjectCode + "Name:  " + name 
-                         + " Amount: " + accountingLines.get(financialObjectCode));
+                         + " = " + accountingLines.get(financialObjectCode));
             }
         }    
         return complete;
@@ -345,7 +346,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
                                             accountingLines.get(financialObjectCode).add(netExpense.get(rateType)));
                     }
                     LOG.info("NonPersonnelCalculatedDirectCost OC: " + financialObjectCode 
-                             + "RateClassRateType: " + rateType + " Amount: " + accountingLines.get(financialObjectCode));
+                             + "RateClassRateType: " + rateType.getRateClassCode() + "-" + rateType.getRateTypeCode() +  " = " + accountingLines.get(financialObjectCode));
                 }
 
             }
@@ -378,7 +379,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
                         accountingLines.put(financialObjectCode, 
                                             accountingLines.get(financialObjectCode).add(nonPersonnelCost.get(costElement)));
                     }
-                    LOG.info("PersonnelCalculatedDirectCost OC: " + financialObjectCode + " Amount: " + accountingLines.get(financialObjectCode));
+                    LOG.info("PersonnelCalculatedDirectCost OC: " + financialObjectCode + " = " + accountingLines.get(financialObjectCode));
                 }
             } else {
                 GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, 
@@ -463,7 +464,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
         parametersDTO.setDescription(COMMENT);
 
         parametersDTO.setPrincipalId(UserSession.getAuthenticatedUser().getPrincipalId());
-     
+
         return true;
     }
 
