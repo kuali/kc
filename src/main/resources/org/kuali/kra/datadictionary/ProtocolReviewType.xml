@@ -34,6 +34,7 @@
 			<list>
 				<ref bean="ProtocolReviewType-protocolReviewTypeCode" />
 				<ref bean="ProtocolReviewType-description" />
+				<ref bean="ProtocolReviewType-globalFlag" />
 				<ref bean="ProtocolReviewType-versionNumber" />
 			</list>
 		</property>
@@ -62,6 +63,15 @@
     <bean id="ProtocolReviewType-description" parent="ProtocolReviewType-description-parentBean" />
     <bean id="ProtocolReviewType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description" />
 
+    <bean id="ProtocolReviewType-globalFlag" parent="ProtocolReviewType-globalFlag-parentBean"/>
+    <bean id="ProtocolReviewType-globalFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="globalFlag"/>
+        <property name="label" value="Global Flag"/>
+        <property name="shortLabel" value="Global Flag"/>
+        <property name="summary" value="Global Flag"/>
+        <property name="description" value="Global Flag"/>
+    </bean>
+    
 	<bean id="ProtocolReviewType-versionNumber" parent="ProtocolReviewType-versionNumber-parentBean" />
 	<bean id="ProtocolReviewType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
 	</bean>
@@ -82,6 +92,8 @@
 								p:forceInquiry="true" />
 							<bean parent="FieldDefinition"
 								p:attributeName="description" />
+							<bean parent="FieldDefinition"
+								p:attributeName="globalFlag" />
 						</list>
 					</property>
 				</bean>
@@ -106,6 +118,8 @@
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
 					p:attributeName="description" />
+				<bean parent="FieldDefinition"
+					p:attributeName="globalFlag" />
 			</list>
 		</property>
 		<property name="resultFields" >
@@ -115,6 +129,8 @@
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
 					p:attributeName="description" />
+				<bean parent="FieldDefinition"
+					p:attributeName="globalFlag" />
 			</list>
 		</property>
 	</bean>
