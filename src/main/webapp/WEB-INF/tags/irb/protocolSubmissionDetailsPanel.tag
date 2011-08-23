@@ -52,6 +52,9 @@
 		    <kra-irb:submissionDetails />
  		    <kra-irb:reviewers />
 		    <kra-irb:voteSummary />
+		    <c:if test="${KualiForm.protocolDocument.amendment}" >
+		      <kra-irb:amendmentSummary />
+		    </c:if>
 		    <kra-irb:checklistItems />
 		    <kra-irb:protocolReviewComments />
 		    <kra-irb:protocolReviewAttachments />
