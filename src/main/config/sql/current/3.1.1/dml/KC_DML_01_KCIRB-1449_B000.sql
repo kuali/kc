@@ -1,5 +1,5 @@
 INSERT INTO PROTOCOL_ACTION_TYPE (PROTOCOL_ACTION_TYPE_CODE, DESCRIPTION, TRIGGER_SUBMISSION, TRIGGER_CORRESPONDENCE, FINAL_ACTION_FOR_BATCH_CORRESP, UPDATE_TIMESTAMP,UPDATE_USER, obj_id) 
-VALUES ('904', 'Funding Source', 'N', 'N', 'N', TO_DATE('09/21/2010', 'MM/DD/YYYY'), 'admin', sys_guid())
+VALUES ('904', 'Funding Source', 'N', 'N', 'N', sysdate, 'admin', sys_guid())
 /
 
 insert into notification_type
