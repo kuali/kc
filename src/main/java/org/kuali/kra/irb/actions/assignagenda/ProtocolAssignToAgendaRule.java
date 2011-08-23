@@ -27,6 +27,7 @@ public class ProtocolAssignToAgendaRule extends ResearchDocumentRuleBase impleme
 
     private static final String COMMITTEE_ID_FIELD = "committeeId";
     private static final String ACTION_DATE_FIELD = "actionDate";
+    private static final String PROTOCOL_ASSIGNED = "protocolAssigned";
     
     /**
      * {@inheritDoc}
@@ -45,6 +46,10 @@ public class ProtocolAssignToAgendaRule extends ResearchDocumentRuleBase impleme
             reportError(ACTION_DATE_FIELD, KeyConstants.ERROR_PROTOCOL_ASSIGN_TO_AGENDA_NO_ACTION_DATE);
         }
         
+        if (!event.getProtocolAssignToAgendaBean().isProtocolAssigned()) {
+            isValid = false;
+            reportError(PROTOCOL_ASSIGNED, KeyConstants.ERROR_PROTOCOL_ASSIGN_TO_AGENDA_NOT_SELECTED);
+        }
         return isValid;
     }
     

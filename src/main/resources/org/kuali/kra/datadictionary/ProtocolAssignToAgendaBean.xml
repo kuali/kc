@@ -69,7 +69,7 @@
 		<property name="label" value="Assign this protocol to an agenda" />
 		<property name="shortLabel" value="assign agenda" />
 		<property name="maxLength" value="10" />
-		<property name="required" value="false" />
+		<property name="required" value="true" />
 		<property name="control" >
       		<bean parent="CheckboxControlDefinition" />
 		</property>
