@@ -19,23 +19,69 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.IrbActionsKeyValuesBase;
+import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Assembles the Protocol Review Types to display in the drop-down menu when
  * submitting a protocol to the IRB office for review.
  */
 public class ProtocolReviewTypeValuesFinder extends IrbActionsKeyValuesBase {
-    
-    @SuppressWarnings("unchecked")
-    public List<KeyLabelPair> getKeyValues() {
-        Collection<ProtocolReviewType> protocolReviewTypes = this.getKeyValuesService().findAll(ProtocolReviewType.class);
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "select"));
-        for (ProtocolReviewType protocolReviewType : protocolReviewTypes) {
-            keyValues.add(new KeyLabelPair(protocolReviewType.getReviewTypeCode(), protocolReviewType.getDescription()));
-        }
+
+    private static final String PERMISSION_NAME = "View Active Protocol Review Types";
+
+    private IdentityManagementService identityManagementService;
+
+    private static List<ProtocolReviewType>allReviewTypes = null;
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     */
+    public List<?> getKeyValues() {
+        List<KeyLabelPair> keyValues = filterActiveProtocolReviewTypes();
+        keyValues.add(0, new KeyLabelPair(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
         return keyValues;
     }
+    
+    private List<KeyLabelPair> filterActiveProtocolReviewTypes() {
+        final List<KeyLabelPair> filteredKeyValues = new ArrayList<KeyLabelPair>();
+        
+        boolean canViewNonGlobalReviewTypes = getIdentityManagementService().hasPermission(
+                GlobalVariables.getUserSession().getPrincipalId(), KraAuthorizationConstants.KC_SYSTEM_NAMESPACE_CODE , PERMISSION_NAME, new AttributeSet());
+        
+        for (ProtocolReviewType item : getAllReviewTypes()) {
+            if (item.isGlobalFlag() || canViewNonGlobalReviewTypes) {
+                filteredKeyValues.add(new KeyLabelPair(item.getReviewTypeCode(), item.getDescription()));
+            }
+        }
+        
+        return filteredKeyValues;
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<ProtocolReviewType> getAllReviewTypes() {
+        if (allReviewTypes == null) {
+            allReviewTypes = new ArrayList<ProtocolReviewType>();
+            Collection<ProtocolReviewType> prTypes = this.getKeyValuesService().findAll(ProtocolReviewType.class);
+            for (ProtocolReviewType protocolReviewType : prTypes) {
+                allReviewTypes.add(protocolReviewType);
+            }
+        }
+        return allReviewTypes;
+    }
+
+    public IdentityManagementService getIdentityManagementService() {
+        if (identityManagementService == null) {
+            identityManagementService = KraServiceLocator.getService(IdentityManagementService.class);
+        }
+        return identityManagementService;
+    }
+    
+
 }
