@@ -250,10 +250,12 @@
 	            <bean parent="FieldDefinition" 
 	                  p:attributeName="notificationTypeId" 
 	                  p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                      p:attributeName="description" />                                 
 	            <bean parent="FieldDefinition" 
 	                  p:attributeName="moduleCode" />
 	            <bean parent="FieldDefinition" 
-	                  p:attributeName="actionCode" />
+	                  p:attributeName="actionCode" />	            
             </list>
         </property>
     </bean>
