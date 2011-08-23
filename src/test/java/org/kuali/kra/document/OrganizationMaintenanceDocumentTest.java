@@ -26,6 +26,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTestBase {
+    private static final String LOOKUP_PAGE_TITLE = "Organization";
+    private static final String MAINTENANCE_PAGE_TITLE = "Kuali :: Organization Maintenance Document";
 
     private static final String DOCTYPE = "OrganizationMaintenanceDocument";
     private static final String ORG_ID_ORIG = "000425";
@@ -39,13 +41,13 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
 
     @Test
     public void testCopyOrganization() throws Exception {
-        HtmlPage organizationMaintenanceLookupPage = getMaintenanceDocumentLookupPage("Organization");
+        HtmlPage organizationMaintenanceLookupPage = getMaintenanceDocumentLookupPage(LOOKUP_PAGE_TITLE);
         setFieldValue(organizationMaintenanceLookupPage,"organizationId",ORG_ID_ORIG);
         HtmlPage searchPage = clickOn(organizationMaintenanceLookupPage, "search");
         assertContains(searchPage, "251 Town and Country Village Palo Alto");
         
         HtmlAnchor copyLink = searchPage.getAnchorByHref(getAnchorName(searchPage, "copy"));
-        HtmlPage organizationMaintenancePage = clickOn(copyLink, "Kuali :: Organization Maintenance Document");
+        HtmlPage organizationMaintenancePage = clickOn(copyLink, MAINTENANCE_PAGE_TITLE);
         String documentNumber = getFieldValue(organizationMaintenancePage, "document.documentHeader.documentNumber");
 
         setFieldValue(organizationMaintenancePage, "document.documentHeader.documentDescription", "Organization Maint Doc - copy test");
@@ -54,7 +56,7 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
 
         organizationMaintenancePage = setupOrganizationCollections(organizationMaintenancePage, 12);
                 
-        HtmlPage routedOrganizationPage = clickOn(organizationMaintenancePage, "methodToCall.route", "Kuali :: Organization Maintenance Document");
+        HtmlPage routedOrganizationPage = clickOn(organizationMaintenancePage, "methodToCall.route", MAINTENANCE_PAGE_TITLE);
         
         assertContains(routedOrganizationPage, "Document was successfully submitted.");
         //assertContains(routedOrganizationPage,"New Id: 999 Data Length: 8 Data Type Code: String Default Value: Group Name: test group Label: Test 99 Lookup Class: User Roles Lookup Return: Role Id Name: test99");
@@ -77,21 +79,21 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
     
     @Test
     public void testEditOrganization() throws Exception {
-        HtmlPage organizationMaintenanceLookupPage = getMaintenanceDocumentLookupPage("Organization");
+        HtmlPage organizationMaintenanceLookupPage = getMaintenanceDocumentLookupPage(LOOKUP_PAGE_TITLE);
 
         setFieldValue(organizationMaintenanceLookupPage,"organizationId",ORG_ID_ORIG);
         HtmlPage searchPage = clickOn(organizationMaintenanceLookupPage, "search");
         assertContains(searchPage, "251 Town and Country Village Palo Alto");
         
         HtmlAnchor editLink = searchPage.getAnchorByHref(getAnchorName(searchPage, "edit"));
-        HtmlPage organizationMaintenancePage = clickOn(editLink, "Kuali :: Organization Maintenance Document");
+        HtmlPage organizationMaintenancePage = clickOn(editLink, MAINTENANCE_PAGE_TITLE);
         String documentNumber = getFieldValue(organizationMaintenancePage, "document.documentHeader.documentNumber");
         setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.contactAddressId", "1741");
         setFieldValue(organizationMaintenancePage, "document.documentHeader.documentDescription", "Organization Maint Doc - edit test");
 
         organizationMaintenancePage = setupOrganizationCollections(organizationMaintenancePage, 12);
                 
-        HtmlPage routedOrganizationPage = clickOn(organizationMaintenancePage, "methodToCall.route", "Kuali :: Organization Maintenance Document");
+        HtmlPage routedOrganizationPage = clickOn(organizationMaintenancePage, "methodToCall.route", MAINTENANCE_PAGE_TITLE);
         
         assertContains(routedOrganizationPage, "Document was successfully submitted.");
         MaintenanceDocumentBase document = (MaintenanceDocumentBase) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(documentNumber);
@@ -117,7 +119,7 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
      */
     @Test
     public void testCreateNewOrganization() throws Exception {
-        HtmlPage organizationMaintenancePage = getMaintenanceDocumentPage("Organization",Organization.class.getName(),"Kuali :: Organization Maintenance Document");
+        HtmlPage organizationMaintenancePage = getMaintenanceDocumentPage(LOOKUP_PAGE_TITLE,Organization.class.getName(),MAINTENANCE_PAGE_TITLE);
         String documentNumber = getFieldValue(organizationMaintenancePage, "document.documentHeader.documentNumber");
         assertContains(organizationMaintenancePage,"Edit Organization New * Organization Id: Address: Agency Symbol: Animal Welfare Assurance: ");
         
@@ -129,7 +131,7 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
         
         organizationMaintenancePage = setupOrganizationCollections(organizationMaintenancePage, 11);
                 
-        HtmlPage routedOrganizationPage = clickOn(organizationMaintenancePage, "methodToCall.route", "Kuali :: Organization Maintenance Document");
+        HtmlPage routedOrganizationPage = clickOn(organizationMaintenancePage, "methodToCall.route", MAINTENANCE_PAGE_TITLE);
         
         assertContains(routedOrganizationPage, "Document was successfully submitted.");
         //assertContains(routedOrganizationPage,"New Id: 999 Data Length: 8 Data Type Code: String Default Value: Group Name: test group Label: Test 99 Lookup Class: User Roles Lookup Return: Role Id Name: test99");
@@ -175,11 +177,11 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
         setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.add.organizationTypes.organizationTypeCode", "1");
         // in 'edit', there is a hidden fiels with same tag name, so the tag name is longer than 'create new'
         // hidden field is "methodToCall.addLine.organizationTypes.(!!org.kuali.kra.bo.OrganizationType!!)"
-        organizationMaintenancePage = clickOn(organizationMaintenancePage, getImageTagName(organizationMaintenancePage,"methodToCall.addLine.organizationTypes.(!!org.kuali.kra.bo.OrganizationType!!)."), "Kuali :: Organization Maintenance Document");
+        organizationMaintenancePage = clickOn(organizationMaintenancePage, getImageTagName(organizationMaintenancePage,"methodToCall.addLine.organizationTypes.(!!org.kuali.kra.bo.OrganizationType!!)."), MAINTENANCE_PAGE_TITLE);
   
         // set up audit
         setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.add.organizationAudits.fiscalYear", "2008");
-        organizationMaintenancePage = clickOn(organizationMaintenancePage, getImageTagName(organizationMaintenancePage,"methodToCall.addLine.organizationAudits.(!!org.kuali.kra.bo.OrganizationAudit!!)."), "Kuali :: Organization Maintenance Document");
+        organizationMaintenancePage = clickOn(organizationMaintenancePage, getImageTagName(organizationMaintenancePage,"methodToCall.addLine.organizationAudits.(!!org.kuali.kra.bo.OrganizationAudit!!)."), MAINTENANCE_PAGE_TITLE);
         
         // set up idc
         setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.add.organizationIdcs.idcNumber", "1");
@@ -188,7 +190,7 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
         setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.add.organizationIdcs.startDate", "01/01/2008");
         setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.add.organizationIdcs.requestedDate", "01/01/2008");
         setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.add.organizationIdcs.idcRateTypeCode", "1");
-        organizationMaintenancePage = clickOn(organizationMaintenancePage, getImageTagName(organizationMaintenancePage,"methodToCall.addLine.organizationIdcs.(!!org.kuali.kra.bo.OrganizationIndirectcost!!)."), "Kuali :: Organization Maintenance Document");
+        organizationMaintenancePage = clickOn(organizationMaintenancePage, getImageTagName(organizationMaintenancePage,"methodToCall.addLine.organizationIdcs.(!!org.kuali.kra.bo.OrganizationIndirectcost!!)."), MAINTENANCE_PAGE_TITLE);
 
         return organizationMaintenancePage;
     }
