@@ -142,17 +142,7 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
             } else {
                 // if account created successfully, then update the award table with the document number and date
                 //if there are error messages but the document was saved in KFS
-                if (ObjectUtils.isNotNull(createAccountResult.getErrorMessages()) 
-                    && !createAccountResult.getErrorMessages().isEmpty()) {
-                    String completeErrorMessage = "";
-                    List<String> errorMessages = createAccountResult.getErrorMessages();
-                    for (String errorMessage : errorMessages) {
-                        completeErrorMessage += errorMessage;
-                    }
-                    GlobalVariables.getMessageMap().putError(KeyConstants.DOCUMENT_SAVED_WITH_ERRORS, 
-                                                             KeyConstants.DOCUMENT_SAVED_WITH_ERRORS,
-                                                             completeErrorMessage);
-                }
+               
                 String financialAccountDocumentNumber = createAccountResult.getDocumentNumber();
                 if (financialAccountDocumentNumber == null) {
                     GlobalVariables.getMessageMap().putError(KeyConstants.DOCUMENT_NUMBER_NULL, KeyConstants.DOCUMENT_NUMBER_NULL);
@@ -165,7 +155,18 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
                     AwardDocument awardDocument = award.getAwardDocument();
                     documentService.saveDocument(awardDocument);
     
-                }
+                }      
+                if (ObjectUtils.isNotNull(createAccountResult.getErrorMessages()) 
+                        && !createAccountResult.getErrorMessages().isEmpty()) {
+                        String completeErrorMessage = "";
+                        List<String> errorMessages = createAccountResult.getErrorMessages();
+                        for (String errorMessage : errorMessages) {
+                            completeErrorMessage += errorMessage;
+                        }
+                        GlobalVariables.getMessageMap().putError(KeyConstants.DOCUMENT_SAVED_WITH_ERRORS, 
+                                                                 KeyConstants.DOCUMENT_SAVED_WITH_ERRORS,
+                                                                 completeErrorMessage);
+                    }
             }  
         }
     }
@@ -227,6 +228,7 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         accountParameters.setOffCampusIndicator(!currentFandaRate.getOnOffCampusFlag()); 
         //indirect cost rate
         accountParameters.setIndirectCostRate(currentFandaRate.getApplicableFandaRate() + "");
+        
         // indirect cost type code
         accountParameters.setIndirectCostTypeCode(currentFandaRate.getFandaRateTypeCode() + "");
         
@@ -243,11 +245,15 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         
         final int ACCOUNT_NAME_LENGTH = 40;
         // Account name
-        String accountName = award.getSponsor().getAcronym() 
-            + "-" + award.getSponsorAwardNumber();
+        String accountName = "";
+        if (ObjectUtils.isNotNull(award.getSponsor().getAcronym())) {
+            accountName += award.getSponsor().getAcronym() + "-";
+        }
+        if (ObjectUtils.isNotNull(award.getSponsorAwardNumber())) { accountName += award.getSponsorAwardNumber() + "-"; }
+        
         if (ObjectUtils.isNotNull(award.getPrincipalInvestigator()) 
             && ObjectUtils.isNotNull(award.getPrincipalInvestigator().getPerson())) {
-            accountName += "-" + award.getPrincipalInvestigator().getPerson().getLastName()
+            accountName +=  award.getPrincipalInvestigator().getPerson().getLastName()
                                + award.getPrincipalInvestigator().getPerson().getFirstName();
         }
             
@@ -266,17 +272,21 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         //default address is the PI address
         KcPerson principalInvestigator = award.getPrincipalInvestigator().getPerson();
         if (ObjectUtils.isNotNull(principalInvestigator)) {
-            String streetAddress = principalInvestigator.getAddressLine1();
+            
+            String streetAddress = "";
+            if (principalInvestigator.getAddressLine1() != null) {
+                streetAddress += principalInvestigator.getAddressLine1();
+            }
             if (principalInvestigator.getAddressLine2() != null) {
                 streetAddress += principalInvestigator.getAddressLine2();
             }
             
             if (principalInvestigator.getAddressLine3() != null) {
                 streetAddress += principalInvestigator.getAddressLine3();
-            }
-     
+            } 
             accountParameters.setDefaultAddressStreetAddress(streetAddress);
             accountParameters.setDefaultAddressCityName(principalInvestigator.getCity());
+            // getState returns state code
             accountParameters.setDefaultAddressStateCode(principalInvestigator.getState());
             accountParameters.setDefaultAddressZipCode(principalInvestigator.getPostalCode());
         }
@@ -296,7 +306,10 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
                 && "Administrative Contact".equals(adminType.getDescription())) {
                 KcPerson adminPerson = contact.getPerson();
                 if (ObjectUtils.isNotNull(adminPerson)) {
-                    String adminStreetAddress = adminPerson.getAddressLine1();
+                    String adminStreetAddress = "";
+                    if (adminPerson.getAddressLine1() != null) {
+                        adminStreetAddress += adminPerson.getAddressLine1();
+                    }
                     if (adminPerson.getAddressLine2() != null) {
                         adminStreetAddress += adminPerson.getAddressLine2();
                     }
