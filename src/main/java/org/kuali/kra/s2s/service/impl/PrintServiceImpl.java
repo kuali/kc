@@ -182,8 +182,8 @@ public class PrintServiceImpl implements PrintService {
         String frmAttXpath = null;
 		try {
 		    S2sAppSubmission s2sAppSubmission = getLatestS2SAppSubmission(pdDoc);
-		    String submittedApplication = findSubmittedXml(s2sAppSubmission);
-		    
+		    String submittedApplicationXml = findSubmittedXml(s2sAppSubmission);
+		    String submittedApplication = getS2SUtilService().removeTimezoneFactor(submittedApplicationXml);
 			submittedDocument = GrantApplicationDocument.Factory.parse(submittedApplication);
 		} catch (XmlException e) {
 			LOG.error(e.getMessage(), e);
@@ -312,8 +312,9 @@ public class PrintServiceImpl implements PrintService {
 			s2sFormGenerator.setAttachments(new ArrayList<AttachmentData>());
 			XmlObject formObject = s2sFormGenerator.getFormObject(pdDoc);
 			if (s2SValidatorService.validate(formObject, errors)) {
-
-				byte[] formXmlBytes = formObject.xmlText(s2SFormGeneratorService.getXmlOptionsPrefixes()).getBytes();
+			    String applicationXml = formObject.xmlText(s2SFormGeneratorService.getXmlOptionsPrefixes());
+			    String filteredApplicationXml = getS2SUtilService().removeTimezoneFactor(applicationXml);
+				byte[] formXmlBytes = filteredApplicationXml.getBytes();
 				S2SFormPrint formPrintable = new S2SFormPrint();
 
 				// Linkedhashmap is used to preserve the order of entry.
