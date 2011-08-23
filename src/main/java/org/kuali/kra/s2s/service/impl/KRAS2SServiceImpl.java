@@ -420,8 +420,9 @@ public class KRAS2SServiceImpl implements S2SService {
 			appSubmission.setComments(S2SConstants.GRANTS_GOV_COMMENTS_MESSAGE);
 			SubmitApplicationResponse response = null;
 
-			String applicationXml = grantApplicationDocument
+			String applicationXmlText = grantApplicationDocument
 					.xmlText(s2SFormGeneratorService.getXmlOptionsPrefixes());
+	        String applicationXml = s2SUtilService.removeTimezoneFactor(applicationXmlText);
 			response = grantsGovConnectorService.submitApplication(
 					applicationXml, attachments, pdDoc
 							.getDevelopmentProposal().getProposalNumber());
