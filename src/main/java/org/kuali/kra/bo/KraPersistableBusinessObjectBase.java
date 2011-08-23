@@ -123,6 +123,9 @@ public abstract class KraPersistableBusinessObjectBase extends PersistableBusine
             }
             
             setUpdateUser(principalName);
+            if (this.getUpdateUser() == null) {
+                this.updateUser = "admin";
+            }
         }
         setUpdateTimestamp(((DateTimeService) KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
     }
