@@ -27,7 +27,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class ValidCalcTypeMaintenanceDocumentTest extends MaintenanceDocumentTestBase {
-
+    private static final String LOOKUP_PAGE_TITLE = "Valid Calculation Type";
+    private static final String MAINTENANCE_PAGE_TITLE = "Kuali :: Valid Calc Types Maintenance Document"; 
     private static final String DOCTYPE = "ValidCalcTypeMaintenanceDocument";
     @Override
     public void tearDown() throws Exception {
@@ -48,7 +49,7 @@ public class ValidCalcTypeMaintenanceDocumentTest extends MaintenanceDocumentTes
     @Test
     @Ignore
     public void testCopyValidCalcTypeMaintenanceDocument() throws Exception {
-        HtmlPage validCalcTypeMaintenanceLookupPage = getMaintenanceDocumentLookupPage("Valid Calculation Type");
+        HtmlPage validCalcTypeMaintenanceLookupPage = getMaintenanceDocumentLookupPage(LOOKUP_PAGE_TITLE);
         setFieldValue(validCalcTypeMaintenanceLookupPage, "calcTypeId", "1");
         setFieldValue(validCalcTypeMaintenanceLookupPage, "rateClassCode", "5");
         setFieldValue(validCalcTypeMaintenanceLookupPage, "rateTypeCode", "3");
@@ -58,7 +59,7 @@ public class ValidCalcTypeMaintenanceDocumentTest extends MaintenanceDocumentTes
 
         HtmlAnchor copyLink = searchPage.getAnchorByHref(getAnchorName(searchPage, "copy"));
         HtmlPage validCalcTypeMaintenanceDocumentMaintenanceCopyPage = clickOn(copyLink,
-                "Kuali :: Valid Calc Types Maintenance Document");
+                MAINTENANCE_PAGE_TITLE);
         String documentNumber = getFieldValue(validCalcTypeMaintenanceDocumentMaintenanceCopyPage,
                 "document.documentHeader.documentNumber");
 
@@ -75,7 +76,7 @@ public class ValidCalcTypeMaintenanceDocumentTest extends MaintenanceDocumentTes
 
 
         HtmlPage routedPage = clickOn(validCalcTypeMaintenanceDocumentMaintenanceCopyPage, "methodToCall.route",
-                "Kuali :: Valid Calc Types Maintenance Document");
+                MAINTENANCE_PAGE_TITLE);
 
         assertContains(routedPage, "Document was successfully submitted.");
         MaintenanceDocumentBase document = (MaintenanceDocumentBase) KraServiceLocator.getService(DocumentService.class)
@@ -97,7 +98,7 @@ public class ValidCalcTypeMaintenanceDocumentTest extends MaintenanceDocumentTes
     @Test
     @Ignore
     public void testEditValidCalcTypeMaintenanceDocument() throws Exception {
-        HtmlPage validCalcTypeMaintenanceLookupPage = getMaintenanceDocumentLookupPage("Valid Calculation Type");
+        HtmlPage validCalcTypeMaintenanceLookupPage = getMaintenanceDocumentLookupPage(LOOKUP_PAGE_TITLE);
         setFieldValue(validCalcTypeMaintenanceLookupPage, "calcTypeId", "1");
         setFieldValue(validCalcTypeMaintenanceLookupPage, "rateClassCode", "5");
         setFieldValue(validCalcTypeMaintenanceLookupPage, "rateTypeCode", "3");
@@ -107,7 +108,7 @@ public class ValidCalcTypeMaintenanceDocumentTest extends MaintenanceDocumentTes
 
         HtmlAnchor editLink = searchPage.getAnchorByHref(getAnchorName(searchPage, "edit"));
         HtmlPage validCalcTypeMaintenanceDocumentMaintenanceEditPage = clickOn(editLink,
-                "Kuali :: Valid Calc Types Maintenance Document");
+                MAINTENANCE_PAGE_TITLE);
         String documentNumber = getFieldValue(validCalcTypeMaintenanceDocumentMaintenanceEditPage,
                 "document.documentHeader.documentNumber");
 
@@ -118,7 +119,7 @@ public class ValidCalcTypeMaintenanceDocumentTest extends MaintenanceDocumentTes
 
 
         HtmlPage routedPage = clickOn(validCalcTypeMaintenanceDocumentMaintenanceEditPage, "methodToCall.route",
-                "Kuali :: Valid Calc Types Maintenance Document");
+                MAINTENANCE_PAGE_TITLE);
 
         assertContains(routedPage, "Document was successfully submitted.");
         MaintenanceDocumentBase document = (MaintenanceDocumentBase) KraServiceLocator.getService(DocumentService.class)
@@ -140,8 +141,8 @@ public class ValidCalcTypeMaintenanceDocumentTest extends MaintenanceDocumentTes
     @Test
     @Ignore
     public void testCreateNewValidCalcTypeMaintenanceDocument() throws Exception {
-        HtmlPage validCalcTypeMaintenancePage = getMaintenanceDocumentPage("Valid Calculation Type",
-                "org.kuali.kra.budget.calculator.ValidCalcType", "Kuali :: Valid Calc Types Maintenance Document");
+        HtmlPage validCalcTypeMaintenancePage = getMaintenanceDocumentPage(LOOKUP_PAGE_TITLE,
+                "org.kuali.kra.budget.calculator.ValidCalcType", MAINTENANCE_PAGE_TITLE);
         String documentNumber = getFieldValue(validCalcTypeMaintenancePage, "document.documentHeader.documentNumber");
         assertContains(
                 validCalcTypeMaintenancePage,
@@ -155,7 +156,7 @@ public class ValidCalcTypeMaintenanceDocumentTest extends MaintenanceDocumentTes
         setFieldValue(validCalcTypeMaintenancePage, "document.newMaintainableObject.dependentRateClassType", "X");
         setFieldValue(validCalcTypeMaintenancePage, "document.newMaintainableObject.dependentSeqNumber", "1");
         HtmlPage routedValidCalcTypeMaintenanceDocumentPage = clickOn(validCalcTypeMaintenancePage, "methodToCall.route",
-                "Kuali :: Valid Calc Types Maintenance Document");
+                MAINTENANCE_PAGE_TITLE);
 
         assertContains(routedValidCalcTypeMaintenanceDocumentPage, "Document was successfully submitted.");
         assertContains(

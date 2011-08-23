@@ -22,13 +22,13 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.MaintenanceDocumentTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class CustomAttributeMaintenanceDocumentTest extends MaintenanceDocumentTestBase {
-
+    private static final String LOOKUP_PAGE_TITLE = "Custom Attribute";
+    private static final String MAINTENANCE_PAGE_TITLE = "Kuali :: CustomAttribute Maintenance Document";
     private static final String DOCTYPE = "CustomAttributeMaintenanceDocument";
     private static final String ID_1 = Long.toString(System.currentTimeMillis()%1000000);
     private static final String ID_2 = Long.toString((System.currentTimeMillis()+1)%1000000);
@@ -39,19 +39,19 @@ public class CustomAttributeMaintenanceDocumentTest extends MaintenanceDocumentT
 
     @Test
     public void testCopyCustomAttribute() throws Exception {
-        HtmlPage customAttributeMaintenanceLookupPage = getMaintenanceDocumentLookupPage("Custom Attribute");
+        HtmlPage customAttributeMaintenanceLookupPage = getMaintenanceDocumentLookupPage(LOOKUP_PAGE_TITLE);
         setFieldValue(customAttributeMaintenanceLookupPage,"id","7");
         HtmlPage searchPage = clickOn(customAttributeMaintenanceLookupPage, "search");
         
         HtmlAnchor copyLink = searchPage.getAnchorByHref(getAnchorName(searchPage, "copy"));
-        HtmlPage customAttributeMaintenanceCopyPage = clickOn(copyLink, "Kuali :: CustomAttribute Maintenance Document");
+        HtmlPage customAttributeMaintenanceCopyPage = clickOn(copyLink, MAINTENANCE_PAGE_TITLE);
         String documentNumber = getFieldValue(customAttributeMaintenanceCopyPage, "document.documentHeader.documentNumber");
 
         setFieldValue(customAttributeMaintenanceCopyPage, "document.documentHeader.documentDescription", "Custom Attribute - copy test");
 
         setFieldValue(customAttributeMaintenanceCopyPage, "document.newMaintainableObject.id", ID_1);
                 
-        HtmlPage routedPage = clickOn(customAttributeMaintenanceCopyPage, "methodToCall.route", "Kuali :: CustomAttribute Maintenance Document");
+        HtmlPage routedPage = clickOn(customAttributeMaintenanceCopyPage, "methodToCall.route", MAINTENANCE_PAGE_TITLE);
         
         assertContains(routedPage, "Document was successfully submitted.");
         MaintenanceDocumentBase document = (MaintenanceDocumentBase) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(documentNumber);
@@ -71,19 +71,19 @@ public class CustomAttributeMaintenanceDocumentTest extends MaintenanceDocumentT
 
     @Test
     public void testEditCustomAttribute() throws Exception {
-        HtmlPage customAttributeMaintenanceLookupPage = getMaintenanceDocumentLookupPage("Custom Attribute");
+        HtmlPage customAttributeMaintenanceLookupPage = getMaintenanceDocumentLookupPage(LOOKUP_PAGE_TITLE);
         setFieldValue(customAttributeMaintenanceLookupPage,"id","7");
         HtmlPage searchPage = clickOn(customAttributeMaintenanceLookupPage, "search");
         
         HtmlAnchor editLink = searchPage.getAnchorByHref(getAnchorName(searchPage, "edit"));
-        HtmlPage customAttributeMaintenanceEditPage = clickOn(editLink, "Kuali :: CustomAttribute Maintenance Document");
+        HtmlPage customAttributeMaintenanceEditPage = clickOn(editLink, MAINTENANCE_PAGE_TITLE);
         String documentNumber = getFieldValue(customAttributeMaintenanceEditPage, "document.documentHeader.documentNumber");
 
         setFieldValue(customAttributeMaintenanceEditPage, "document.documentHeader.documentDescription", "Custom Attribute - edit test");
 
         setFieldValue(customAttributeMaintenanceEditPage, "document.newMaintainableObject.dataLength", "35");
                 
-        HtmlPage routedPage = clickOn(customAttributeMaintenanceEditPage, "methodToCall.route", "Kuali :: CustomAttribute Maintenance Document");
+        HtmlPage routedPage = clickOn(customAttributeMaintenanceEditPage, "methodToCall.route", MAINTENANCE_PAGE_TITLE);
         
         assertContains(routedPage, "Document was successfully submitted.");
         MaintenanceDocumentBase document = (MaintenanceDocumentBase) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(documentNumber);
@@ -100,19 +100,19 @@ public class CustomAttributeMaintenanceDocumentTest extends MaintenanceDocumentT
 
         
         // reset the length value back, otherwise it may affect customattributeserviceimpltest
-        customAttributeMaintenanceLookupPage = getMaintenanceDocumentLookupPage("Custom Attribute");
+        customAttributeMaintenanceLookupPage = getMaintenanceDocumentLookupPage(LOOKUP_PAGE_TITLE);
         setFieldValue(customAttributeMaintenanceLookupPage,"id","7");
         searchPage = clickOn(customAttributeMaintenanceLookupPage, "search");
         
         editLink = searchPage.getAnchorByHref(getAnchorName(searchPage, "edit"));
-        customAttributeMaintenanceEditPage = clickOn(editLink, "Kuali :: CustomAttribute Maintenance Document");
+        customAttributeMaintenanceEditPage = clickOn(editLink, MAINTENANCE_PAGE_TITLE);
         documentNumber = getFieldValue(customAttributeMaintenanceEditPage, "document.documentHeader.documentNumber");
 
         setFieldValue(customAttributeMaintenanceEditPage, "document.documentHeader.documentDescription", "Custom Attribute - edit test");
 
         setFieldValue(customAttributeMaintenanceEditPage, "document.newMaintainableObject.dataLength", "30");
                 
-        routedPage = clickOn(customAttributeMaintenanceEditPage, "methodToCall.route", "Kuali :: CustomAttribute Maintenance Document");
+        routedPage = clickOn(customAttributeMaintenanceEditPage, "methodToCall.route", MAINTENANCE_PAGE_TITLE);
         
         assertContains(routedPage, "Document was successfully submitted.");
 
@@ -120,7 +120,7 @@ public class CustomAttributeMaintenanceDocumentTest extends MaintenanceDocumentT
 
     @Test
     public void testCreateNewCustomAttribute() throws Exception {
-        HtmlPage customAttributeMaintenancePage = getMaintenanceDocumentPage("Custom Attribute","org.kuali.kra.bo.CustomAttribute","Kuali :: CustomAttribute Maintenance Document");
+        HtmlPage customAttributeMaintenancePage = getMaintenanceDocumentPage(LOOKUP_PAGE_TITLE,"org.kuali.kra.bo.CustomAttribute",MAINTENANCE_PAGE_TITLE);
         String documentNumber = getFieldValue(customAttributeMaintenancePage, "document.documentHeader.documentNumber");
         
         assertContains(customAttributeMaintenancePage,"CustomAttribute New * Id: Data Length: * Data Type Code: select Default Value:");
@@ -139,13 +139,13 @@ public class CustomAttributeMaintenanceDocumentTest extends MaintenanceDocumentT
         webClient.setJavaScriptEnabled(true);
         // can't set lookup return here bc ajax is not working, so it's empty
         //setFieldValue(customAttributeMaintenancePage, "document.newMaintainableObject.lookupReturn", "roleId");
-        HtmlPage routeErrorCustomDataPage = clickOn(customAttributeMaintenancePage, "methodToCall.route", "Kuali :: CustomAttribute Maintenance Document");        
+        HtmlPage routeErrorCustomDataPage = clickOn(customAttributeMaintenancePage, "methodToCall.route", MAINTENANCE_PAGE_TITLE);        
         assertContains(routeErrorCustomDataPage, "1 error(s) found on page");
         assertContains(routeErrorCustomDataPage, "Errors found in this Section: Lookup Return is a required field");
 
         // lookupreturn should be loaded during page reload
         setFieldValue(routeErrorCustomDataPage, Constants.DOCUMENT_NEWMAINTAINABLEOBJECT_LOOKUPRETURN, "degreeCode");
-        HtmlPage routedCustomDataPage = clickOn(routeErrorCustomDataPage, "methodToCall.route", "Kuali :: CustomAttribute Maintenance Document");
+        HtmlPage routedCustomDataPage = clickOn(routeErrorCustomDataPage, "methodToCall.route", MAINTENANCE_PAGE_TITLE);
         
         assertContains(routedCustomDataPage, "Document was successfully submitted.");
         assertContains(routedCustomDataPage,"New Id: "+ID_2+" Data Length: 8 Data Type Code: String Default Value: Group Name: test group Label: Test 99 Lookup Class: Degree Type Lookup Return: Degree Code Name: test99");

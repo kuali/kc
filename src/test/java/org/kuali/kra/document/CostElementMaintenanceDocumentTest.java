@@ -28,7 +28,9 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class CostElementMaintenanceDocumentTest extends MaintenanceDocumentTestBase {
 
     private static final String DOCTYPE = "CostElementMaintenanceDocument";
-    private static final String CE_MAINT_TITLE = "Object Code";
+    private static final String LOOKUP_PAGE_TITLE = "Object Code";
+    private static final String MAINTENANCE_PAGE_TITLE = "Kuali :: Cost Element Maintenance Document";
+    
     private static final String COST_ELEMENT_1 = Long.toString(System.currentTimeMillis()%1000000);
     private static final String COST_ELEMENT_2 = Long.toString((System.currentTimeMillis()+1)%1000000);
     
@@ -50,14 +52,14 @@ public class CostElementMaintenanceDocumentTest extends MaintenanceDocumentTestB
 
     @Test
     public void testCopyCostElementMaintenanceDocument() throws Exception {
-        HtmlPage costElementMaintenanceLookupPage = getMaintenanceDocumentLookupPage(CE_MAINT_TITLE);
+        HtmlPage costElementMaintenanceLookupPage = getMaintenanceDocumentLookupPage(LOOKUP_PAGE_TITLE);
         setFieldValue(costElementMaintenanceLookupPage,"costElement","420310");
         setFieldValue(costElementMaintenanceLookupPage,"budgetCategoryCode","3");
         setFieldValue(costElementMaintenanceLookupPage,"onOffCampusFlag","N");
         HtmlPage searchPage = clickOn(costElementMaintenanceLookupPage, "search");
         
         HtmlAnchor copyLink = searchPage.getAnchorByHref(getAnchorName(searchPage, "copy"));
-        HtmlPage costElementMaintenanceDocumentMaintenanceCopyPage = clickOn(copyLink, "Kuali :: Cost Element Maintenance Document");
+        HtmlPage costElementMaintenanceDocumentMaintenanceCopyPage = clickOn(copyLink, MAINTENANCE_PAGE_TITLE);
         String documentNumber = getFieldValue(costElementMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.documentNumber");
 
         setFieldValue(costElementMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.documentDescription", "Cost Element - copy test");
@@ -68,7 +70,7 @@ public class CostElementMaintenanceDocumentTest extends MaintenanceDocumentTestB
         // This is actually for on campus
         setFieldValue(costElementMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.onOffCampusFlag", "on");
 
-        HtmlPage routedPage = clickOn(costElementMaintenanceDocumentMaintenanceCopyPage, "methodToCall.route", "Kuali :: Cost Element Maintenance Document");
+        HtmlPage routedPage = clickOn(costElementMaintenanceDocumentMaintenanceCopyPage, "methodToCall.route", MAINTENANCE_PAGE_TITLE);
         
         assertContains(routedPage, "Document was successfully submitted.");
         MaintenanceDocumentBase document = (MaintenanceDocumentBase) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(documentNumber);
@@ -91,21 +93,21 @@ public class CostElementMaintenanceDocumentTest extends MaintenanceDocumentTestB
      */
     @Test
     public void testEditCostElementMaintenanceDocument() throws Exception {
-        HtmlPage costElementMaintenanceLookupPage = getMaintenanceDocumentLookupPage(CE_MAINT_TITLE);
+        HtmlPage costElementMaintenanceLookupPage = getMaintenanceDocumentLookupPage(LOOKUP_PAGE_TITLE);
         setFieldValue(costElementMaintenanceLookupPage,"costElement","420310");
         setFieldValue(costElementMaintenanceLookupPage,"budgetCategoryCode","3");
         setFieldValue(costElementMaintenanceLookupPage,"onOffCampusFlag","N");
         HtmlPage searchPage = clickOn(costElementMaintenanceLookupPage, "search");
         
         HtmlAnchor editLink = searchPage.getAnchorByHref(getAnchorName(searchPage, "edit"));
-        HtmlPage costElementMaintenanceDocumentMaintenanceEditPage = clickOn(editLink, "Kuali :: Cost Element Maintenance Document");
+        HtmlPage costElementMaintenanceDocumentMaintenanceEditPage = clickOn(editLink, MAINTENANCE_PAGE_TITLE);
         String documentNumber = getFieldValue(costElementMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.documentNumber");
 
         setFieldValue(costElementMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.documentDescription", "Cost Element - edit test");
         setFieldValue(costElementMaintenanceDocumentMaintenanceEditPage, "document.newMaintainableObject.description", "test edit cost element");
         setFieldValue(costElementMaintenanceDocumentMaintenanceEditPage, "document.newMaintainableObject.onOffCampusFlag", "on");
 
-        HtmlPage routedPage = clickOn(costElementMaintenanceDocumentMaintenanceEditPage, "methodToCall.route", "Kuali :: Cost Element Maintenance Document");
+        HtmlPage routedPage = clickOn(costElementMaintenanceDocumentMaintenanceEditPage, "methodToCall.route", MAINTENANCE_PAGE_TITLE);
         
         assertContains(routedPage, "Document was successfully submitted.");
         MaintenanceDocumentBase document = (MaintenanceDocumentBase) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(documentNumber);
@@ -123,7 +125,7 @@ public class CostElementMaintenanceDocumentTest extends MaintenanceDocumentTestB
 
     @Test
     public void testCreateNewCostElementMaintenanceDocument() throws Exception {
-        HtmlPage costElementMaintenancePage = getMaintenanceDocumentPage(CE_MAINT_TITLE, "org.kuali.kra.budget.core.CostElement", "Kuali :: Cost Element Maintenance Document");
+        HtmlPage costElementMaintenancePage = getMaintenanceDocumentPage(LOOKUP_PAGE_TITLE, "org.kuali.kra.budget.core.CostElement", MAINTENANCE_PAGE_TITLE);
         String documentNumber = getFieldValue(costElementMaintenancePage, "document.documentHeader.documentNumber");
         assertContains(costElementMaintenancePage,"Edit Cost Element New * Object Code Name: Budget Category Code: * Description: * On/Off Campus Flag: unchecked");
         setFieldValue(costElementMaintenancePage, "document.documentHeader.documentDescription", "Cost Element - test");
@@ -131,7 +133,7 @@ public class CostElementMaintenanceDocumentTest extends MaintenanceDocumentTestB
         setFieldValue(costElementMaintenancePage, "document.newMaintainableObject.description", "test new cost element");
         setFieldValue(costElementMaintenancePage, "document.newMaintainableObject.costElement", COST_ELEMENT_2);
         setFieldValue(costElementMaintenancePage, "document.newMaintainableObject.onOffCampusFlag", "on");
-        HtmlPage routedCostElementMaintenanceDocumentPage = clickOn(costElementMaintenancePage, "methodToCall.route", "Kuali :: Cost Element Maintenance Document");
+        HtmlPage routedCostElementMaintenanceDocumentPage = clickOn(costElementMaintenancePage, "methodToCall.route", MAINTENANCE_PAGE_TITLE);
         
         assertContains(routedCostElementMaintenanceDocumentPage, "Document was successfully submitted.");
         assertContains(routedCostElementMaintenanceDocumentPage,"New Object Code Name: " + COST_ELEMENT_2 + " Budget Category Code: 3 Description: test new cost element On/Off Campus Flag: Yes");
