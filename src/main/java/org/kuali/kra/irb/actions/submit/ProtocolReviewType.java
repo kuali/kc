@@ -34,6 +34,7 @@ public class ProtocolReviewType extends KraPersistableBusinessObjectBase {
 
     private String reviewTypeCode;
     private String description;
+    private boolean globalFlag;
     
     /**
      * Constructs a ProtocolReviewType.
@@ -56,6 +57,14 @@ public class ProtocolReviewType extends KraPersistableBusinessObjectBase {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isGlobalFlag() {
+        return globalFlag;
+    }
+
+    public void setGlobalFlag(boolean globalFlag) {
+        this.globalFlag = globalFlag;
     }
 
     @SuppressWarnings("unchecked")
