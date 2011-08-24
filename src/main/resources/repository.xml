@@ -2280,5 +2280,66 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     </class-descriptor>
-	
+    
+    <class-descriptor class="org.kuali.kra.negotiations.bo.Negotiation" table="NEGOTIATION">
+        <field-descriptor name="negotiationId" column="NEGOTIATION_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="NEGOTIATION_S" autoincrement="true" />
+        <field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="negotiationStatusId" column="NEGOTATION_STATUS_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="negotiationAgreementTypeId" column="NEGOTIATION_AGREEMENT_TYPE_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="negotiationAssociationTypeId" column="NEGOTIATION_ASSC_TYPE_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="negotiatorPersonId" column="NEGOTIATOR_PERSON_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="negotiationStartDate" column="NEGOTIATION_START_DATE" jdbc-type="DATE" />
+        <field-descriptor name="negotiationEndDate" column="NEGOTIATION_END_DATE" jdbc-type="DATE" />
+        <field-descriptor name="anticipatedAwardDate" column="ANTICIPATED_AWARD_DATE" jdbc-type="DATE" />
+        <field-descriptor name="documentFolder" column="DOCUMENT_FOLDER" jdbc-type="VARCHAR" />
+        <field-descriptor name="associatedDocumentId" column="ASSOCIATED_DOCUMENT_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+         
+        <reference-descriptor name="negotiationStatus" class-ref="org.kuali.kra.negotiations.bo.NegotiationStatus" auto-retrieve="true" auto-update="object" auto-delete="none"> 
+            <foreignkey field-ref="negotiationStatusId"/>
+        </reference-descriptor>
+        <reference-descriptor name="negotiationAgreementType" class-ref="org.kuali.kra.negotiations.bo.NegotiationAgreementType" auto-retrieve="true" auto-update="object" auto-delete="none"> 
+            <foreignkey field-ref="negotiationAgreementTypeId"/>
+        </reference-descriptor>
+        <reference-descriptor name="negotiationAssociationType" class-ref="org.kuali.kra.negotiations.bo.NegotiationAssociationType" auto-retrieve="true" auto-update="object" auto-delete="none"> 
+            <foreignkey field-ref="negotiationAssociationTypeId"/>
+        </reference-descriptor>
+    </class-descriptor>
+    
+    <class-descriptor class="org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail" table="NEGOTIATION_UNASSOC_DETAIL">
+    	<field-descriptor name="negotiationUnassociatedDetailId" column="NEGOTIATION_UNASSOC_DETAIL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="NEGOTIATION_UNASSOC_DETAIL_S" autoincrement="true" />
+    	<field-descriptor name="negotiationId" column="NEGOTIATION_ID" jdbc-type="BIGINT" />
+    	<field-descriptor name="title" column="TITLE" jdbc-type="VARCHAR" />
+    	<field-descriptor name="piPersonId" column="PI_PERSON_ID" jdbc-type="VARCHAR" />
+    	<field-descriptor name="piRolodexId" column="PI_ROLODEX_ID" jdbc-type="VARCHAR" />
+    	<field-descriptor name="leadUnitNumber" column="LEAD_UNIT" jdbc-type="VARCHAR" />
+    	<field-descriptor name="sponsorCode" column="SPONSOR_CODE" jdbc-type="VARCHAR" />
+    	<field-descriptor name="primeSponsorCode" column="PRIME_SPONSOR_CODE" jdbc-type="VARCHAR" />
+    	<field-descriptor name="sponsorAwardNumber" column="SPONSOR_AWARD_NUMBER" jdbc-type="VARCHAR" />
+    	<field-descriptor name="contactAdminPersonId" column="CONTACT_ADMIN_PERSON_ID" jdbc-type="VARCHAR" />
+    	<field-descriptor name="subAwardOrganizationId" column="SUBAWARD_ORG" jdbc-type="VARCHAR" />
+    	 
+    	<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <reference-descriptor name="negotiation" class-ref="org.kuali.kra.negotiations.bo.Negotiation" auto-retrieve="true" auto-update="object" auto-delete="none"> 
+            <foreignkey field-ref="negotiationId"/>
+        </reference-descriptor>
+        <reference-descriptor name="leadUnit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="object" auto-delete="none"> 
+            <foreignkey field-ref="leadUnitNumber"/>
+        </reference-descriptor>
+        <reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="object" auto-delete="none"> 
+            <foreignkey field-ref="sponsorCode"/>
+        </reference-descriptor>
+        <reference-descriptor name="primeSponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="object" auto-delete="none"> 
+            <foreignkey field-ref="primeSponsorCode"/>
+        </reference-descriptor>
+        <reference-descriptor name="subAwardOrganization" class-ref="org.kuali.kra.bo.Organization" auto-retrieve="true" auto-update="object" auto-delete="none"> 
+            <foreignkey field-ref="subAwardOrganizationId"/>
+        </reference-descriptor>
+    </class-descriptor>
 </descriptor-repository>
