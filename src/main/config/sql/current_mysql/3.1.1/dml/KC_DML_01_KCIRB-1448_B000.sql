@@ -1,3 +1,5 @@
+DELIMITER /
+
 INSERT INTO PROTOCOL_ACTION_TYPE (PROTOCOL_ACTION_TYPE_CODE, DESCRIPTION, TRIGGER_SUBMISSION, TRIGGER_CORRESPONDENCE, FINAL_ACTION_FOR_BATCH_CORRESP, UPDATE_TIMESTAMP,UPDATE_USER, obj_id) 
 VALUES ('903', 'Return to Reviewer', 'N', 'N', 'N', str_to_date('09/21/2010','%m/%d/%Y'), 'admin', UUID())
 /
@@ -34,3 +36,6 @@ NOTIFICATION_TYPE_RECIPIENT_ID,NOTIFICATION_TYPE_ID,ROLE_name,ROLE_QUALIFIER,TO_
 values(last_insert_id(),(select NOTIFICATION_TYPE_ID from notification_type where DESCRIPTION = 'Reject Review'),'KC-PROTOCOL:IRB Online Reviewer','protocolLeadUnitNumber', 'T','admin',NOW(),1, 
 UUID())
 /
+
+DELIMITER ;
+
