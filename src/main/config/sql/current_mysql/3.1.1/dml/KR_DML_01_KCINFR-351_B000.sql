@@ -59,3 +59,4 @@ CALL p ()
 /
 DROP PROCEDURE IF EXISTS p
 /
+delimiter ;
