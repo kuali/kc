@@ -24,17 +24,31 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.ProtocolForm;
+import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceServiceImpl;
+import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 import java.util.Collections;
 
 public class AwardTransactionLookupServiceImpl implements AwardTransactionLookupService {
 
     private BusinessObjectService businessObjectService;
+    private static final Log LOG = LogFactory.getLog(AwardTransactionLookupServiceImpl.class);
     
     /**
      * 
@@ -42,43 +56,50 @@ public class AwardTransactionLookupServiceImpl implements AwardTransactionLookup
      */
     @SuppressWarnings("unchecked")
     public Map<Integer, String> getApplicableTransactionIds(String awardNumber, Integer sequenceNumber) {
-        List<Long> transactionIds = new ArrayList<Long>();
-        Map<String, String> awardValues = new HashMap<String, String>();
-        awardValues.put("awardNumber", awardNumber);
-        Collection<Award> awards = getBusinessObjectService().findMatchingOrderBy(Award.class, awardValues, "sequenceNumber", true);
-        List<Long> excludedTransactionIds = new ArrayList<Long>();
-        for (Award award : awards) {
-            if (award.getSequenceNumber() < sequenceNumber.intValue()) {
-                for (AwardAmountInfo amountInfo : award.getAwardAmountInfos()) {
-                    if (amountInfo.getTransactionId() != null) {
-                        excludedTransactionIds.add(amountInfo.getTransactionId());
+        if(isAuthorizedToAccess(awardNumber)){
+            if (StringUtils.isNotBlank(awardNumber) && awardNumber.contains(Constants.COLON)) {
+                awardNumber = StringUtils.split(awardNumber, Constants.COLON)[0];
+            }
+            List<Long> transactionIds = new ArrayList<Long>();
+            Map<String, String> awardValues = new HashMap<String, String>();
+            awardValues.put("awardNumber", awardNumber);
+            Collection<Award> awards = getBusinessObjectService().findMatchingOrderBy(Award.class, awardValues, "sequenceNumber", true);
+            List<Long> excludedTransactionIds = new ArrayList<Long>();
+            for (Award award : awards) {
+                if (award.getSequenceNumber() < sequenceNumber.intValue()) {
+                    for (AwardAmountInfo amountInfo : award.getAwardAmountInfos()) {
+                        if (amountInfo.getTransactionId() != null) {
+                            excludedTransactionIds.add(amountInfo.getTransactionId());
+                        }
+                    }
+                } else if (award.getSequenceNumber() == sequenceNumber.intValue()){
+                    for (AwardAmountInfo amountInfo : award.getAwardAmountInfos()) {
+                        if (amountInfo.getTransactionId() != null) {
+                            transactionIds.add(amountInfo.getTransactionId());
+                        }
                     }
                 }
-            } else if (award.getSequenceNumber() == sequenceNumber.intValue()){
-                for (AwardAmountInfo amountInfo : award.getAwardAmountInfos()) {
-                    if (amountInfo.getTransactionId() != null) {
-                        transactionIds.add(amountInfo.getTransactionId());
-                    }
+            }
+            Award currentAward = getAwardVersion(awardNumber, sequenceNumber);
+            transactionIds.removeAll(excludedTransactionIds);
+            Map<Integer, String> retval = new TreeMap<Integer, String>(new Comparator<Integer>(){
+                public int compare(Integer o1, Integer o2) {
+                    //sort in descending order instead of ascending
+                    return o1.compareTo(o2) * -1;
+                }
+            });
+            for (Long id : transactionIds) {
+                if (id != null) {
+                    retval.put(getAwardAmountInfoIndex(currentAward, id), id.toString());
                 }
             }
-        }
-        Award currentAward = getAwardVersion(awardNumber, sequenceNumber);
-        transactionIds.removeAll(excludedTransactionIds);
-        Map<Integer, String> retval = new TreeMap<Integer, String>(new Comparator<Integer>(){
-            public int compare(Integer o1, Integer o2) {
-                //sort in descending order instead of ascending
-                return o1.compareTo(o2) * -1;
+            if (sequenceNumber == 1) {
+                retval.put(0, "Initial");
             }
-        });
-        for (Long id : transactionIds) {
-            if (id != null) {
-                retval.put(getAwardAmountInfoIndex(currentAward, id), id.toString());
-            }
+            return retval;
         }
-        if (sequenceNumber == 1) {
-            retval.put(0, "Initial");
-        }
-        return retval;
+        else
+            return new TreeMap<Integer, String>();
     }
     
     protected int getAwardAmountInfoIndex(Award award, Long transactionId) {
@@ -105,5 +126,37 @@ public class AwardTransactionLookupServiceImpl implements AwardTransactionLookup
     protected BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
-
+    
+    /*
+     * a utility method to check if dwr/ajax call really has authorization
+     * 'updateProtocolFundingSource' also accessed by non ajax call
+     */
+    
+    private boolean isAuthorizedToAccess(String awardNumber) {
+        boolean isAuthorized = true;
+        if(awardNumber.contains(Constants.COLON)){
+            if (GlobalVariables.getUserSession() != null) {
+                // TODO : this is a quick hack for KC 3.1.1 to provide authorization check for dwr/ajax call. dwr/ajax will be replaced by
+                // jquery/ajax in rice 2.0
+                String[] invalues = StringUtils.split(awardNumber, Constants.COLON);
+                String docFormKey = invalues[1];
+                if (StringUtils.isBlank(docFormKey)) {
+                    isAuthorized = false;
+                } else {
+                    Object formObj = GlobalVariables.getUserSession().retrieveObject(docFormKey);
+                    if (formObj == null || !(formObj instanceof AwardForm)) {
+                        isAuthorized = false;
+                    } else {
+                        Map<String, String> editModes = ((AwardForm)formObj).getEditingMode();
+                        isAuthorized = BooleanUtils.toBoolean(editModes.get(AuthorizationConstants.EditMode.FULL_ENTRY))
+                        || BooleanUtils.toBoolean(editModes.get(AuthorizationConstants.EditMode.VIEW_ONLY));
+                    }
+                }
+            } else {
+                // TODO : it seemed that tomcat has this issue intermittently ?
+                LOG.info("dwr/ajax does not have session ");
+            }
+        }
+        return isAuthorized;
+    }
 }
