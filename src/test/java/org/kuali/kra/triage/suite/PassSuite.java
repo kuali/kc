@@ -497,7 +497,8 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.common.specialreview.lookup.keyvalue.SpecialReviewTypeValuesFinderTest.class,
     org.kuali.kra.dao.ResearchAreaReferencesDaoOjbTest.class,
     org.kuali.kra.kim.service.impl.ActiveCommitteeMemberOnProtocolDerivedRoleTypeServiceTest.class,
-    org.kuali.kra.meeting.CommitteeScheduleMinuteTest.class
+    org.kuali.kra.meeting.CommitteeScheduleMinuteTest.class,
+    org.kuali.kra.negotiations.bo.NegotiationBasicTests.class
 })
 /** these are all the test class where all the test methods are currently passing. */
 public class PassSuite {
