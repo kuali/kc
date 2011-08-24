@@ -37,7 +37,6 @@ make_file()
 		echo "set define off"
 		echo "set sqlblanklines on"
 		echo "spool ${logFile}"
-		echo "delimiter /"
 		base_dir="../../current/${current_version}"
 	else
 		base_dir="./../../current_mysql/${current_version}"
@@ -74,7 +73,6 @@ make_file()
 			hadFiles='true'
 		done
 	done
-	echo "delimiter ;"
 	echo "commit;"
 	echo "exit"
 	if [ "${hadFiles}" = 'false' ]

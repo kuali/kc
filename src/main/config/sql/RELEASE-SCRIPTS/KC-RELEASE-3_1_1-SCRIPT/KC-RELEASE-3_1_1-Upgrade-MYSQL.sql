@@ -17,6 +17,5 @@
 \. ./../../current_mysql/3.1.1/constraints/KC_FK_FIN_OBJECT_CODE_MAPPING.sql
 \. ./../../current_mysql/3.1.1/constraints/KC_PK_REVIEWER_ATTACHMENTS.sql
 \. ./../../current_mysql/3.1.1/constraints/KC_UQ_FIN_OBJECT_CODE_MAPPING.sql
-delimiter ;
 commit;
 exit

@@ -12,6 +12,5 @@
 \. ./../../current_mysql/3.1.1/dml/KR_DML_01_KRACOEUS-4876_B000.sql
 \. ./../../current_mysql/3.1.1/dml/KR_DML_01_KRACOEUS-4927_B000.sql
 \. ./../../current_mysql/3.1.1/dml/KR_DML_02_KRACOEUS-4414_B000.sql
-delimiter ;
 commit;
 exit

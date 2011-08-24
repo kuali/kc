@@ -1,7 +1,6 @@
 set define off
 set sqlblanklines on
 spool KC-RELEASE-3_1_1-Upgrade-ORACLE-Install.log
-delimiter /
 @../../current/3.1.1/sequences/KC_SEQ_ALL.sql
 @../../current/3.1.1/tables/KC_TBL_AWARD.sql
 @../../current/3.1.1/tables/KC_TBL_BUDGET.sql
@@ -21,6 +20,5 @@ delimiter /
 @../../current/3.1.1/constraints/KC_FK_FIN_OBJECT_CODE_MAPPING.sql
 @../../current/3.1.1/constraints/KC_PK_REVIEWER_ATTACHMENTS.sql
 @../../current/3.1.1/constraints/KC_UQ_FIN_OBJECT_CODE_MAPPING.sql
-delimiter ;
 commit;
 exit
