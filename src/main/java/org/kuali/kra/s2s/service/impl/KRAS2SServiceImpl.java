@@ -44,12 +44,14 @@ import java.util.Map;
 import javax.activation.DataHandler;
 import javax.mail.util.ByteArrayDataSource;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
+import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
@@ -57,6 +59,7 @@ import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sAppAttachments;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
@@ -78,6 +81,7 @@ import org.kuali.kra.s2s.service.S2SValidatorService;
 import org.kuali.kra.s2s.util.GrantApplicationHash;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.s2s.validator.OpportunitySchemaParser;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.AuditCluster;
@@ -117,14 +121,20 @@ public class KRAS2SServiceImpl implements S2SService {
 	 */
 	public String getStatusDetails(String ggTrackingId, String proposalNumber)
 			throws S2SException {
-		Object statusDetail = null;
-		GetApplicationStatusDetailResponse applicationStatusDetailResponse;
-		applicationStatusDetailResponse = grantsGovConnectorService
-				.getApplicationStatusDetail(ggTrackingId, proposalNumber);
-		if (applicationStatusDetailResponse != null) {
-			statusDetail = applicationStatusDetailResponse.getDetailedStatus();
-		}
-		return statusDetail.toString();
+	    if(isAuthorizedToAccess(proposalNumber)){
+	        if (StringUtils.isNotBlank(proposalNumber) && proposalNumber.contains(Constants.COLON)) {
+	            proposalNumber = StringUtils.split(proposalNumber, Constants.COLON)[0];
+	        }
+	        Object statusDetail = null;
+	        GetApplicationStatusDetailResponse applicationStatusDetailResponse;
+	        applicationStatusDetailResponse = grantsGovConnectorService
+	        .getApplicationStatusDetail(ggTrackingId, proposalNumber);
+	        if (applicationStatusDetailResponse != null) {
+	            statusDetail = applicationStatusDetailResponse.getDetailedStatus();
+	        }
+	        return statusDetail.toString();
+	    }
+	    return StringUtils.EMPTY;
 	}
 
 	/**
@@ -920,4 +930,39 @@ public class KRAS2SServiceImpl implements S2SService {
 		s2SValidatorService = validatorService;
 	}
 
+    /*
+     * a utility method to check if dwr/ajax call really has authorization
+     * 'updateProtocolFundingSource' also accessed by non ajax call
+     */
+    
+    private boolean isAuthorizedToAccess(String proposalNumber) {
+        boolean isAuthorized = true;
+        if(proposalNumber.contains(Constants.COLON)){
+            if (GlobalVariables.getUserSession() != null) {
+                // TODO : this is a quick hack for KC 3.1.1 to provide authorization check for dwr/ajax call. dwr/ajax will be replaced by
+                // jquery/ajax in rice 2.0
+                String[] invalues = StringUtils.split(proposalNumber, Constants.COLON);
+                String docFormKey = invalues[1];
+                if (StringUtils.isBlank(docFormKey)) {
+                    isAuthorized = false;
+                } else {
+                    Object formObj = GlobalVariables.getUserSession().retrieveObject(docFormKey);
+                    if (formObj == null || !(formObj instanceof ProposalDevelopmentForm)) {
+                        isAuthorized = false;
+                    } else {
+                        Map<String, String> editModes = ((ProposalDevelopmentForm)formObj).getEditingMode();
+                        isAuthorized = (BooleanUtils.toBoolean(editModes.get(AuthorizationConstants.EditMode.FULL_ENTRY))
+                        || BooleanUtils.toBoolean(editModes.get(AuthorizationConstants.EditMode.VIEW_ONLY))
+                        || BooleanUtils.toBoolean(editModes.get("modifyProposal")))
+                        && BooleanUtils.toBoolean(editModes.get("submitToSponsor"));
+                    }
+                }
+            } else {
+                // TODO : it seemed that tomcat has this issue intermittently ?
+                LOG.info("dwr/ajax does not have session ");
+            }
+        }
+        return isAuthorized;
+    }
 }
+
