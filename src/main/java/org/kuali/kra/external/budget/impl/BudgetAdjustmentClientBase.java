@@ -190,7 +190,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
             getBudgetAdjustmentServiceHelper().getPersonnelCalculatedDirectCost(currentBudget, previousBudget);
 
         for (RateClassRateType rate : netPersonnelCalculatedDirectCost.keySet()) {
-           
+           LOG.info("Personnel calculated direct cost: " + rate.getRateType() + "-" + rate.getRateClass() + " = " + netPersonnelCalculatedDirectCost.get(rate));
             String financialObjectCode = getFinancialObjectCode(awardBudgetDocument, rate.getRateClass(), rate.getRateType());
             if (ObjectUtils.isNull(financialObjectCode)) {
                 complete &= false;
@@ -201,9 +201,6 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
                     accountingLines.put(financialObjectCode, 
                                         accountingLines.get(financialObjectCode).add(netPersonnelCalculatedDirectCost.get(rate)));
                 }
-                LOG.info("PersonnelCalculatedDirectCost OC: " + financialObjectCode + "RateClassRateType: " + 
-                         rate.getRateClass() + "-" +  rate.getRateType() + " =" + accountingLines.get(financialObjectCode));
-
             }
         }
         return complete;
@@ -222,6 +219,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
         for (RateClassRateType rate : netIndirectCost.keySet()) {
             Details details = new Details();
             details.setCurrentAmount(netIndirectCost.get(rate).toString());
+            LOG.info("Indirect cost: " + rate.getRateType() + "-" + rate.getRateClass() + " = " + netIndirectCost.get(rate));
             String financialObjectCode = getFinancialObjectCode(awardBudgetDocument, rate.getRateClass(), rate.getRateType());
             if (ObjectUtils.isNull(financialObjectCode)) {
                 complete &= false; 
@@ -232,9 +230,6 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
                     accountingLines.put(financialObjectCode, 
                                         accountingLines.get(financialObjectCode).add(netIndirectCost.get(rate)));
                 }
-                LOG.info("IndirectCost OC: " + financialObjectCode + "RateClassRateType: " 
-                          + rate.getRateClass() + "-" + rate.getRateType() + " = " + accountingLines.get(financialObjectCode));
-
             }
         }
         return complete;
@@ -251,7 +246,8 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
         boolean complete = true;
         Map<RateClassRateType, BudgetDecimal> netFringeCost = getBudgetAdjustmentServiceHelper().getPersonnelFringeCost(currentBudget, previousBudget);
         for (RateClassRateType rate : netFringeCost.keySet()) {
-           
+            LOG.info("Personnel fringe cost: " + rate.getRateType() + "-" + rate.getRateClass() + " = " + netFringeCost.get(rate));
+
             String financialObjectCode = getFinancialObjectCode(awardBudgetDocument, rate.getRateClass(), rate.getRateType());
             if (ObjectUtils.isNull(financialObjectCode)) {
                 complete &= false;
@@ -262,9 +258,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
                     accountingLines.put(financialObjectCode, 
                                         accountingLines.get(financialObjectCode).add(netFringeCost.get(rate)));
                 }
-                LOG.info("PersonnelFringeCost OC: " + financialObjectCode + "RateClassRateType: " 
-                         + rate.getRateClass() + "-" + rate.getRateType() + " = " + accountingLines.get(financialObjectCode));
-
+              
             }
         }
         return complete;
@@ -292,8 +286,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
                     accountingLines.put(financialObjectCode, 
                                         accountingLines.get(financialObjectCode).add(netCost.get(name)));
                 }
-                LOG.info("PersonnelSalary OC: " + financialObjectCode + "Name:  " + name 
-                         + " = " + accountingLines.get(financialObjectCode));
+              
             }
         }    
         return complete;
@@ -329,6 +322,8 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
                                                                                      getNonPersonnelCalculatedExpenseTotals();
         
         for (RateType rateType : netExpense.keySet()) {
+            LOG.info("NonPersonnel calculated direct cost: " + rateType.getRateTypeCode() + "-" + rateType.getRateClassCode() + " = " + netExpense.get(rateType));
+
             // check if rate class type is O instead
             if (!rateType.getRateClass().getRateClassType().equalsIgnoreCase("O")) {
                 List<BudgetDecimal> expenses = currentNonPersonnelCalcDirectCost.get(rateType); 
@@ -345,8 +340,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
                         accountingLines.put(financialObjectCode, 
                                             accountingLines.get(financialObjectCode).add(netExpense.get(rateType)));
                     }
-                    LOG.info("NonPersonnelCalculatedDirectCost OC: " + financialObjectCode 
-                             + "RateClassRateType: " + rateType.getRateClassCode() + "-" + rateType.getRateTypeCode() +  " = " + accountingLines.get(financialObjectCode));
+                  
                 }
 
             }
@@ -546,7 +540,6 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
         String activityTypeCode = award.getActivityTypeCode();
         String awardUnitNumber = award.getUnitNumber();
         List<FinancialObjectCodeMapping> results = getFinancialObjectCodesFromMappingTable(rateClassCode, rateTypeCode, awardUnitNumber);
-        
         if (results.isEmpty()) {
             //if not, go up the unit hierarchy and check to see if something is listed there
             List<String> parentUnits = institutionalUnitService.getParentUnits(awardUnitNumber);
@@ -574,6 +567,8 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
             }
             // if the correct activity type was not in it, just send any one 
             // (there should really just be one result for the combination)
+            
+            LOG.info("Returning" + results.get(0).getFinancialObjectCode());
             return results.get(0).getFinancialObjectCode();
         }
     }
@@ -604,10 +599,11 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
      * @return
      */
     protected List<FinancialObjectCodeMapping> getFinancialObjectCodesFromMappingTable(String rateClassCode, String rateTypeCode, String unitNumber) {
-        Map<String, String> criteria = new HashMap<String, String>();
+        Map criteria = new HashMap();
         criteria.put("rateClassCode", rateClassCode);
         criteria.put("rateTypeCode", rateTypeCode);
         criteria.put("unitNumber", unitNumber);
+
         // Do not use activity type in criteria, it is not required.
         List<FinancialObjectCodeMapping> results = new ArrayList<FinancialObjectCodeMapping>(
                 businessObjectService.findMatching(FinancialObjectCodeMapping.class, criteria));
