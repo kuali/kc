@@ -90,7 +90,7 @@ fi
 
 case "${dbtype}" in
 	"ORACLE")
-        cd KC-RELEASE-3_1-DEMO
+        cd KC-RELEASE-3_1-SCRIPT
 		sqlplus "${un}"/"${pw}${DBSvrNm}" < KRC-RELEASE-3_1-Demo-ORACLE.sql		
 		sqlplus "${un}"/"${pw}${DBSvrNm}" < KC-RELEASE-3_1-Demo-ORACLE.sql
 		sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-RELEASE-3_1-Demo-ORACLE.sql
@@ -99,7 +99,7 @@ case "${dbtype}" in
         cd .. ;;
 		
 	"MYSQL")
-        cd KC-RELEASE-3_1-DEMO
+        cd KC-RELEASE-3_1-SCRIPT
 		mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < KRC-RELEASE-3_1-Demo-MYSQL.sql > KRC-RELEASE-3_1-Demo-MYSQL-Install.log 2>&1
 		mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < KC-RELEASE-3_1-Demo-MYSQL.sql > KC-RELEASE-3_1-Demo-MYSQL-Install.log 2>&1		
         mysql -u ${Riceun} -p${Ricepw} -D ${RiceDBSvrNm} -s -f < KR-RELEASE-3_1-Demo-MYSQL.sql > KR-RELEASE-3_1-Demo-MYSQL-Install.log 2>&1
