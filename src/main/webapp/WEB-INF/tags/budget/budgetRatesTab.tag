@@ -67,7 +67,10 @@
                     <td width="10%" class="${tdClass}">
                     	<div align=center>
                     	<span class="copy">
-	                    	<bean:write name="KualiForm" property="${budgetRate}.instituteRate"/>
+	                    	<!-- bean:write name="KualiForm" property="${budgetRate}.instituteRate"/-->
+	                    	<c:set var="budgetReadOnly" value="${not KualiForm.canModifyBudgetRates}" />
+                	    	<kul:htmlControlAttribute property="${budgetRate}.instituteRate" attributeEntry="${budgetRatesAttributes.instituteRate}" readOnly="${budgetReadOnly}" styleClass="${styleClass}"/>
+                      	
                       	</span>
                       	</div>
                     </td>
