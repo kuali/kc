@@ -490,16 +490,14 @@ public class KRAS2SServiceImpl implements S2SService {
         // set closing date unless null
         Date closingDate = s2sOpportunity.getClosingDate();
         if (closingDate != null) {
-            Calendar calClosingDate = Calendar.getInstance();
-            calClosingDate.setTime(closingDate);
+            Calendar calClosingDate = getDateTimeService().getCalendar(closingDate);
             grantSubmissionHeader.setClosingDate(calClosingDate);
         }
         
 		// set opening date unless null
 		Date openingDate = s2sOpportunity.getOpeningDate();
 		if (openingDate != null) {
-	        Calendar calOpeningDate = Calendar.getInstance();
-		    calOpeningDate.setTime(openingDate);
+	        Calendar calOpeningDate = getDateTimeService().getCalendar(openingDate);
 	        grantSubmissionHeader.setOpeningDate(calOpeningDate);
 		}
 		
