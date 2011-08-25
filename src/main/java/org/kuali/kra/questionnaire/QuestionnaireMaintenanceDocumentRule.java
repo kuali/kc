@@ -82,6 +82,12 @@ public class QuestionnaireMaintenanceDocumentRule extends MaintenanceDocumentRul
 
         }
         
+        if (StringUtils.isNotBlank(newQuestionnaire.getFileName()) && 
+            !StringUtils.endsWithIgnoreCase(newQuestionnaire.getFileName(), ".xsl")) {
+            errorMap.putError("document.newMaintainableObject.businessObject.fileName", KeyConstants.ERROR_QUESTIONNAIRE_FILENAME_INVALID);
+            valid = false;
+        }
+        
         for (QuestionnaireQuestion questionnaireQuestion : newQuestionnaire.getQuestionnaireQuestions()) {
             if ((questionnaireQuestion.getQuestion() != null) && ("I".equals(questionnaireQuestion.getQuestion().getStatus()))) {
                 errorMap.putError("document.newMaintainableObject.businessObject.question" 
