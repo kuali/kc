@@ -158,15 +158,15 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
                 }      
                 if (ObjectUtils.isNotNull(createAccountResult.getErrorMessages()) 
                         && !createAccountResult.getErrorMessages().isEmpty()) {
-                        String completeErrorMessage = "";
-                        List<String> errorMessages = createAccountResult.getErrorMessages();
-                        for (String errorMessage : errorMessages) {
-                            completeErrorMessage += errorMessage;
-                        }
-                        GlobalVariables.getMessageMap().putError(KeyConstants.DOCUMENT_SAVED_WITH_ERRORS, 
+                    String completeErrorMessage = "";
+                    List<String> errorMessages = createAccountResult.getErrorMessages();
+                    for (String errorMessage : errorMessages) {
+                        completeErrorMessage += errorMessage;
+                    }
+                    GlobalVariables.getMessageMap().putError(KeyConstants.DOCUMENT_SAVED_WITH_ERRORS, 
                                                                  KeyConstants.DOCUMENT_SAVED_WITH_ERRORS,
                                                                  completeErrorMessage);
-                    }
+                }
             }  
         }
     }
@@ -187,7 +187,6 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         accountParameters.setAccountNumber(award.getAccountNumber());
         setDefaultAddress(award);
         setAdminAddress(award);       
-        setPaymentAddress(award);
         
         //cfdaNumber
         String cfdaNumber = award.getCfdaNumber();
@@ -222,6 +221,7 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         accountParameters.setUnit(award.getUnitNumber());
         //Principal id
         accountParameters.setPrincipalId(UserSession.getAuthenticatedUser().getPrincipalId());
+
         // get the current FandaRate
         AwardFandaRate currentFandaRate = getCurrentFandaRate(award);       
         //campus on/off indicator
@@ -329,35 +329,6 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
     }
     
     /**
-     * This method sets the payment address.
-     * @param award
-     */
-    protected void setPaymentAddress(Award award) {
-      //payment contact address
-        List<AwardReportTerm> items = award.getAwardReportTermItems();
-        for (AwardReportTerm item : items) {
-            List<AwardReportTermRecipient> recipients = item.getAwardReportTermRecipients();
-            // send any one of the recipients addresses
-            if (ObjectUtils.isNotNull(recipients) && recipients.size() != 0) {
-                String paymentStreetAddress = recipients.get(0).getRolodex().getAddressLine1();
-                if (recipients.get(0).getRolodex().getAddressLine2() != null) {
-                    paymentStreetAddress += recipients.get(0).getRolodex().getAddressLine2();
-                }
-                    
-                if (recipients.get(0).getRolodex().getAddressLine3() != null) {
-                    paymentStreetAddress += recipients.get(0).getRolodex().getAddressLine3();
-                }
-                
-                accountParameters.setPaymentAddressStreetAddress(paymentStreetAddress);
-                accountParameters.setPaymentAddressCityName(recipients.get(0).getRolodex().getCity());
-                accountParameters.setPaymentAddressStateCode(recipients.get(0).getRolodex().getState());
-                accountParameters.setPaymentAddressZipCode(recipients.get(0).getRolodex().getPostalCode());
-            }
-           
-        }
-    }
-    
-    /**
      * This method sets the income guideline text.
      * @param award
      */
@@ -370,7 +341,7 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         
         String incomeGuidelineText = ""; 
         if (paymentBasis != null) {
-            incomeGuidelineText += " " + paymentBasis;
+            incomeGuidelineText += paymentBasis;
         }
         if (paymentMethod != null) {
             incomeGuidelineText += " " + paymentMethod;
