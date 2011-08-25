@@ -2,12 +2,8 @@ DELIMITER /
 INSERT INTO SEQ_SPONSOR_FORM_TEMPLATES VALUES(NULL)
 /
 INSERT INTO SPONSOR_FORM_TEMPLATES (SPONSOR_FORM_TEMPLATE_ID,SPONSOR_FORM_ID,PAGE_NUMBER,PAGE_DESCRIPTION,FILE_NAME,CONTENT_TYPE,FORM_TEMPLATE,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID,VER_NBR) 
-VALUES ((SELECT (MAX(ID)) FROM SEQ_SPONSOR_FORM_TEMPLATES),(SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NIH 2590 package (Coeus 4.0)'),3,'Budget Justification','Budget Justification.xslt','text/xml',EMPTY_CLOB(),'admin',NOW(),UUID(),1)
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NIH 2590 package (Coeus 4.0)') AND PAGE_NUMBER = 3 FOR UPDATE;
-buffer := '<?xml version="1.0" encoding="UTF-8"?>
+VALUES ((SELECT (MAX(ID)) FROM SEQ_SPONSOR_FORM_TEMPLATES),(SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NIH 2590 package (Coeus 4.0)'),3,'Budget Justification','Budget Justification.xslt','text/xml',
+'<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:n1="http://era.nih.gov/Projectmgmt/SBIR/CGAP/nihspecific.namespace" xmlns:phs398="http://era.nih.gov/Projectmgmt/SBIR/CGAP/phs398.namespace" xmlns:rar="http://era.nih.gov/Projectmgmt/SBIR/CGAP/researchandrelated.namespace" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 <xsl:variable name="fo:layout-master-set">
 <fo:layout-master-set>
@@ -52,14 +48,7 @@ buffer := '<?xml version="1.0" encoding="UTF-8"?>
 </fo:table-cell>
 <fo:table-cell border-style="solid" border-width="1pt" border-color="white" text-align="right" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center">
 <fo:block>
-<fo:inlin';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NIH 2590 package (Coeus 4.0)') AND PAGE_NUMBER = 3 FOR UPDATE;
-buffer := 'e font-size="9pt" font-weight="bold">Form Page 3</fo:inline>
+<fo:inline font-size="9pt" font-weight="bold">Form Page 3</fo:inline>
 </fo:block>
 </fo:table-cell>
 </fo:table-row>
@@ -113,14 +102,7 @@ buffer := 'e font-size="9pt" font-weight="bold">Form Page 3</fo:inline>
 <fo:table-cell border-bottom-style="none" border-left-style="none" border-right-style="none" font-size="10pt" font-weight="bold" border-style="solid" border-width="1pt" border-color="black" padding-start="0pt" padding-end="0pt" padding-before="0pt" padding-after="0pt" display-align="center" text-align="center" width="5in">
 <fo:block>BUDGET JUSTIFICATION</fo:block>
 </fo:table-cell>
-<fo:table-cell border-bottom-style="none" border-left-style="solid" border-right-style="none" font-size="9pt" border-style="solid" border-width="1pt" border-color="black" padding-start="0pt" pad';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NIH 2590 package (Coeus 4.0)') AND PAGE_NUMBER = 3 FOR UPDATE;
-buffer := 'ding-end="0pt" padding-before="0pt" padding-after="0pt" display-align="before" text-align="left" width="2.5in">
+<fo:table-cell border-bottom-style="none" border-left-style="solid" border-right-style="none" font-size="9pt" border-style="solid" border-width="1pt" border-color="black" padding-start="0pt" padding-end="0pt" padding-before="0pt" padding-after="0pt" display-align="before" text-align="left" width="2.5in">
 <fo:block>
 <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
 <fo:block>
@@ -166,14 +148,7 @@ buffer := 'ding-end="0pt" padding-before="0pt" padding-after="0pt" display-align
 <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
 <fo:block>FROM</fo:block>
 </fo:block>
-<xsl:for-each sel';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NIH 2590 package (Coeus 4.0)') AND PAGE_NUMBER = 3 FOR UPDATE;
-buffer := 'ect="n1:ResearchAndRelatedProject">
+<xsl:for-each select="n1:ResearchAndRelatedProject">
 <xsl:for-each select="n1:ResearchCoverPage">
 <xsl:for-each select="ProjectDates">
 <xsl:for-each select="ProjectStartDate">
@@ -213,14 +188,7 @@ buffer := 'ect="n1:ResearchAndRelatedProject">
 <fo:table-cell border-bottom-style="none" border-left-style="none" border-right-style="none" font-size="8pt" border-style="solid" border-width="1pt" border-color="black" display-align="before" height="3in" number-columns-spanned="3" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
 <fo:block>Explain any estimated unobligated balance (including prior year carryover) that is greater than 25% of the current year&apos;s total budget.</fo:block>
 </fo:table-cell>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NIH 2590 package (Coeus 4.0)') AND PAGE_NUMBER = 3 FOR UPDATE;
-buffer := ' </fo:table-row>
+</fo:table-row>
 </fo:table-body>
 </fo:table>
 <fo:block>
@@ -231,9 +199,6 @@ buffer := ' </fo:table-row>
 </fo:page-sequence>
 </fo:root>
 </xsl:template>
-</xsl:stylesheet>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
+</xsl:stylesheet>','admin',NOW(),UUID(),1)
 /
 DELIMITER ;

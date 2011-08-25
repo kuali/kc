@@ -2,12 +2,8 @@ DELIMITER /
 INSERT INTO SEQ_SPONSOR_FORM_TEMPLATES VALUES(NULL)
 /
 INSERT INTO SPONSOR_FORM_TEMPLATES (SPONSOR_FORM_TEMPLATE_ID,SPONSOR_FORM_ID,PAGE_NUMBER,PAGE_DESCRIPTION,FILE_NAME,CONTENT_TYPE,FORM_TEMPLATE,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID,VER_NBR) 
-VALUES ((SELECT (MAX(ID)) FROM SEQ_SPONSOR_FORM_TEMPLATES),(SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NIH 2590 package (Coeus 4.0)'),4,'Progress Summary','Progress Summary.xslt','text/xml',EMPTY_CLOB(),'admin',NOW(),UUID(),1)
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NIH 2590 package (Coeus 4.0)') AND PAGE_NUMBER = 4 FOR UPDATE;
-buffer := '<?xml version="1.0" encoding="UTF-8"?>
+VALUES ((SELECT (MAX(ID)) FROM SEQ_SPONSOR_FORM_TEMPLATES),(SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NIH 2590 package (Coeus 4.0)'),4,'Progress Summary','Progress Summary.xslt','text/xml',
+'<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:n1="http://era.nih.gov/Projectmgmt/SBIR/CGAP/nihspecific.namespace" xmlns:phs398="http://era.nih.gov/Projectmgmt/SBIR/CGAP/phs398.namespace" xmlns:rar="http://era.nih.gov/Projectmgmt/SBIR/CGAP/researchandrelated.namespace" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 <xsl:variable name="fo:layout-master-set">
 <fo:layout-master-set>
@@ -49,14 +45,7 @@ buffer := '<?xml version="1.0" encoding="UTF-8"?>
 <fo:inline font-size="9pt">PHS 2590 (Rev. 11/07)</fo:inline>
 </fo:block>
 </fo:table-cell>
-<fo:table-cell font-size="7pt" padding-bottom="0pt" padding-left="0pt" padding-right="0pt" padding-top="0pt" border-style="solid" border-width="1pt" border-color="white" tex';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NIH 2590 package (Coeus 4.0)') AND PAGE_NUMBER = 4 FOR UPDATE;
-buffer := 't-align="left" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center">
+<fo:table-cell font-size="7pt" padding-bottom="0pt" padding-left="0pt" padding-right="0pt" padding-top="0pt" border-style="solid" border-width="1pt" border-color="white" text-align="left" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center">
 <fo:block>
 <fo:inline font-size="9pt">Page: </fo:inline>
 </fo:block>
@@ -104,14 +93,7 @@ buffer := 't-align="left" padding-start="3pt" padding-end="3pt" padding-before="
 </xsl:for-each>
 <fo:inline font-size="9pt">, </fo:inline>
 <xsl:for-each select="FirstName">
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NIH 2590 package (Coeus 4.0)') AND PAGE_NUMBER = 4 FOR UPDATE;
-buffer := ' <fo:inline font-size="9pt">
+<fo:inline font-size="9pt">
 <xsl:apply-templates />
 </fo:inline>
 </xsl:for-each>
@@ -153,14 +135,7 @@ buffer := ' <fo:inline font-size="9pt">
 </xsl:for-each>
 </fo:block>
 </fo:table-cell>
-<fo:table-cell border-right-style="none" font-size="9pt" border-style="solid" border-width="1pt" border-color="black" padding-start="0pt" padding-end="0pt" padding-before="0pt" padding-af';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NIH 2590 package (Coeus 4.0)') AND PAGE_NUMBER = 4 FOR UPDATE;
-buffer := 'ter="0pt" number-columns-spanned="2" width="1in" display-align="center" text-align="start">
+<fo:table-cell border-right-style="none" font-size="9pt" border-style="solid" border-width="1pt" border-color="black" padding-start="0pt" padding-end="0pt" padding-before="0pt" padding-after="0pt" number-columns-spanned="2" width="1in" display-align="center" text-align="start">
 <fo:block />
 </fo:table-cell>
 </fo:table-row>
@@ -200,14 +175,7 @@ buffer := 'ter="0pt" number-columns-spanned="2" width="1in" display-align="cente
 <fo:inline font-size="9pt">&#160;</fo:inline>
 <xsl:for-each select="MiddleName">
 <fo:inline font-size="9pt">
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NIH 2590 package (Coeus 4.0)') AND PAGE_NUMBER = 4 FOR UPDATE;
-buffer := ' <xsl:apply-templates />
+<xsl:apply-templates />
 </fo:inline>
 </xsl:for-each>
 <fo:inline font-size="9pt">&#160;</fo:inline>
@@ -249,14 +217,7 @@ buffer := ' <xsl:apply-templates />
 </fo:block>
 </fo:block>
 </fo:table-cell>
-<fo:table-cell border-right-style="none" font-size="9pt" border-style="solid" border-width="1pt" border-color="black" padding-start="0pt" pad';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NIH 2590 package (Coeus 4.0)') AND PAGE_NUMBER = 4 FOR UPDATE;
-buffer := 'ding-end="0pt" padding-before="0pt" padding-after="0pt" display-align="before" width="1.5in" text-align="start">
+<fo:table-cell border-right-style="none" font-size="9pt" border-style="solid" border-width="1pt" border-color="black" padding-start="0pt" padding-end="0pt" padding-before="0pt" padding-after="0pt" display-align="before" width="1.5in" text-align="start">
 <fo:block>
 <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
 <fo:block>
@@ -298,14 +259,7 @@ buffer := 'ding-end="0pt" padding-before="0pt" padding-after="0pt" display-align
 </xsl:for-each>
 </xsl:for-each>
 </xsl:for-each>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NIH 2590 package (Coeus 4.0)') AND PAGE_NUMBER = 4 FOR UPDATE;
-buffer := ' </fo:block>
+</fo:block>
 </fo:block>
 </fo:block>
 </fo:table-cell>
@@ -344,14 +298,7 @@ buffer := ' </fo:block>
 <fo:table-body>
 <fo:table-row>
 <fo:table-cell border-right-style="none" font-size="9pt" padding-left="5pt" border-style="solid" border-width="1pt" border-color="white" number-columns-spanned="2" width="40%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
-<fo:block>A. Human Subjects (Complete Item 6 on Face Page)</';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NIH 2590 package (Coeus 4.0)') AND PAGE_NUMBER = 4 FOR UPDATE;
-buffer := 'fo:block>
+<fo:block>A. Human Subjects (Complete Item 6 on Face Page)</fo:block>
 </fo:table-cell>
 <fo:table-cell border-right-style="none" font-size="9pt" padding-left="5pt" border-style="solid" border-width="1pt" border-color="white" width="20%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
 <fo:block />
@@ -379,14 +326,7 @@ buffer := 'fo:block>
 <fo:table-row>
 <fo:table-cell border-right-style="none" font-size="9pt" padding-left="15pt" border-style="solid" border-width="1pt" border-color="white" width="40%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
 <fo:block>Use of Vertebrate Animals</fo:block>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NIH 2590 package (Coeus 4.0)') AND PAGE_NUMBER = 4 FOR UPDATE;
-buffer := ' </fo:table-cell>
+</fo:table-cell>
 <fo:table-cell border-right-style="none" font-size="9pt" padding-left="5pt" border-style="solid" border-width="1pt" border-color="white" width="40%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
 <fo:block>___No Change Since Previous Submission</fo:block>
 </fo:table-cell>
@@ -412,14 +352,7 @@ buffer := ' </fo:table-cell>
 <fo:table-cell border-right-style="none" font-size="9pt" padding-left="5pt" border-style="solid" border-width="1pt" border-color="white" width="40%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
 <fo:block>___No Change Since Previous Submission</fo:block>
 </fo:table-cell>
-<fo:table-cell border-right-style="';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NIH 2590 package (Coeus 4.0)') AND PAGE_NUMBER = 4 FOR UPDATE;
-buffer := 'none" font-size="9pt" padding-left="5pt" border-style="solid" border-width="1pt" border-color="white" width="20%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
+<fo:table-cell border-right-style="none" font-size="9pt" padding-left="5pt" border-style="solid" border-width="1pt" border-color="white" width="20%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
 <fo:block>___Change</fo:block>
 </fo:table-cell>
 </fo:table-row>
@@ -456,9 +389,6 @@ buffer := 'none" font-size="9pt" padding-left="5pt" border-style="solid" border-
 </fo:page-sequence>
 </fo:root>
 </xsl:template>
-</xsl:stylesheet>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
+</xsl:stylesheet>','admin',NOW(),UUID(),1)
 /
 DELIMITER ;
