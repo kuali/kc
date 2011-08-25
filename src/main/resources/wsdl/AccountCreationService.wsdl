@@ -2,6 +2,8 @@
 <wsdl:definitions name="accountCreationServiceSOAP" targetNamespace="KFS" xmlns:ns1="http://cxf.apache.org/bindings/xformat" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="KFS" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <wsdl:types>
 <xs:schema elementFormDefault="unqualified" targetNamespace="KFS" version="1.0" xmlns:tns="KFS" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:element name="accountsCanCrossCharts" type="tns:accountsCanCrossCharts"/>
+<xs:element name="accountsCanCrossChartsResponse" type="tns:accountsCanCrossChartsResponse"/>
 <xs:element name="createAccount" type="tns:createAccount"/>
 <xs:element name="createAccountResponse" type="tns:createAccountResponse"/>
 <xs:element name="isValidAccount" type="tns:isValidAccount"/>
@@ -67,10 +69,6 @@
 <xs:element minOccurs="0" name="indirectCostRate" type="xs:string"/>
 <xs:element minOccurs="0" name="indirectCostTypeCode" type="xs:string"/>
 <xs:element name="offCampusIndicator" type="xs:boolean"/>
-<xs:element minOccurs="0" name="paymentAddressCityName" type="xs:string"/>
-<xs:element minOccurs="0" name="paymentAddressStateCode" type="xs:string"/>
-<xs:element minOccurs="0" name="paymentAddressStreetAddress" type="xs:string"/>
-<xs:element minOccurs="0" name="paymentAddressZipCode" type="xs:string"/>
 <xs:element minOccurs="0" name="principalId" type="xs:string"/>
 <xs:element minOccurs="0" name="purposeText" type="xs:string"/>
 <xs:element minOccurs="0" name="unit" type="xs:string"/>
@@ -90,8 +88,20 @@
 <xs:element minOccurs="0" name="status" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
+<xs:complexType name="accountsCanCrossCharts">
+<xs:sequence/>
+</xs:complexType>
+<xs:complexType name="accountsCanCrossChartsResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
 </xs:schema>
   </wsdl:types>
+  <wsdl:message name="accountsCanCrossCharts">
+    <wsdl:part element="tns:accountsCanCrossCharts" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="isValidAccount">
     <wsdl:part element="tns:isValidAccount" name="parameters">
     </wsdl:part>
@@ -118,6 +128,10 @@
   </wsdl:message>
   <wsdl:message name="isValidChartCodeResponse">
     <wsdl:part element="tns:isValidChartCodeResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="accountsCanCrossChartsResponse">
+    <wsdl:part element="tns:accountsCanCrossChartsResponse" name="parameters">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="isValidChartAccountResponse">
@@ -147,6 +161,12 @@
       <wsdl:input message="tns:createAccount" name="createAccount">
     </wsdl:input>
       <wsdl:output message="tns:createAccountResponse" name="createAccountResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="accountsCanCrossCharts">
+      <wsdl:input message="tns:accountsCanCrossCharts" name="accountsCanCrossCharts">
+    </wsdl:input>
+      <wsdl:output message="tns:accountsCanCrossChartsResponse" name="accountsCanCrossChartsResponse">
     </wsdl:output>
     </wsdl:operation>
   </wsdl:portType>
@@ -185,6 +205,15 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="createAccountResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="accountsCanCrossCharts">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="accountsCanCrossCharts">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="accountsCanCrossChartsResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
