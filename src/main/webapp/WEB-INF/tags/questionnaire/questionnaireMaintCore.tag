@@ -60,9 +60,11 @@
                 </c:if>
                     <td align="left" valign="middle">
                         <div id = "templateFileDiv" class="addsection" style="${addStyle}">
-	                        <html:file property="templateFile" size="50" onchange="showViewFile(this)"/>
+	                        <html:file styleId="templateFile" property="templateFile" size="50" onchange="showViewFile(this)" accept="text/xsl"/>
 	                    </div>
+	                    <html:hidden styleId="templateFileNameHidden" property="document.newMaintainableObject.businessObject.fileName" value="${KualiForm.document.newMaintainableObject.businessObject.fileName}"/>
                         <div id = "fileNameDiv" class="viewsection" style="${viewStyle}">
+                            
 	                         ${KualiForm.document.newMaintainableObject.businessObject.fileName}
 	                    </div>
                     </td>

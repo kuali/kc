@@ -820,6 +820,7 @@ public final class KeyConstants {
     public static final String ERROR_QUESTION_LOOKUP_RETURN_NOT_SPECIFIED = "error.question.lookup.return.not.specified";
     public static final String ERROR_QUESTION_LOOKUP_RETURN_INVALID = "error.question.lookup.return.invalid";
     public static final String ERROR_QUESTIONNAIRE_NAME_EXIST = "error.questionnaire.name.exist";
+    public static final String ERROR_QUESTIONNAIRE_FILENAME_INVALID = "error.questionnaire.filename.invalid";    
     public static final String ERROR_QUESTIONNAIRE_QUESTION_INACTIVE = "error.questionnaire.question_inactive";
     
     // meeting
