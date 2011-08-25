@@ -77,7 +77,7 @@ public class CommitteeScheduleMinuteTest extends KcUnitTestBase {
         csm1.getProtocol().setProtocolNumber("bbb");
         csm2.getProtocol().setProtocolNumber("aaa");        
         // check that entry type gets precedence in sorting
-        Assert.assertTrue(CommitteeScheduleMinute.entryTypeComparator.compare(csm1, csm2) < 0); 
+        Assert.assertTrue(CommitteeScheduleMinute.entryTypeComparator.compare(csm1, csm2) > 0); 
         
         // test case 3
         csm1.getMinuteEntryType().setSortId(4);
