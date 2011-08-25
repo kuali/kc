@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>DepartmentApprovalAttribute</name>
+      <className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+      <label>DepartmentApprovalAttribute</label>
+      <description>DepartmentApprovalAttribute</description>
+      <type>RuleXmlAttribute</type>
+      <serviceNamespace>KC</serviceNamespace>
+      <routingConfig>
+        <fieldDef name="leadUnitNumber" title="Lead Unit" workflowType="RULE">
+          <display>
+            <type>text</type>
+          </display>
+          <validation required="false" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/developmentProposalList[1]/org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal/ownedByUnitNumber')= wf:ruledata('leadUnitNumber')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </routingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>
