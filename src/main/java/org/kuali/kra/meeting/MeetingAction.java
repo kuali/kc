@@ -332,6 +332,9 @@ public class MeetingAction extends KualiAction {
                 getReviewerCommentsService().setHideReviewerName(
                         ((MeetingForm) form).getMeetingHelper().getCommitteeSchedule().getCommitteeScheduleMinutes()));
 
+        // use the entry type comparator to sort the minutes 
+        Collections.sort(((MeetingForm) form).getMeetingHelper().getCommitteeSchedule().getCommitteeScheduleMinutes(), CommitteeScheduleMinute.entryTypeComparator);
+
         return forward;
     }
 
