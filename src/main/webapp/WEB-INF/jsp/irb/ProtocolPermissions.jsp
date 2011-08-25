@@ -25,6 +25,6 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="permissions">
   	
-  	<kra-permissions:permissionsPage name="${KualiForm.actionName}" documentTypeName="${KualiForm.docTypeName}" />
+  	<kra-irb:protocolPermissionsPage name="${KualiForm.actionName}" documentTypeName="${KualiForm.docTypeName}" />
   	
 </kul:documentPage>

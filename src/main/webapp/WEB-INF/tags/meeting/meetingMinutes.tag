@@ -63,8 +63,8 @@
         		<th>
                     <div align="center" id ="meetingHelper.newCommitteeScheduleMinute.defaultHeaderDiv" style="${defaultHeaderDivStyle}">Entry Type Detail</div>
                     <div align="center" id ="meetingHelper.newCommitteeScheduleMinute.genAttHeaderDiv" style="${genAttHeaderDivStyle}">Generate Attendance</div>
-                    <div align="center" id ="meetingHelper.newCommitteeScheduleMinute.pcHeaderDiv" style="${pcHeaderDivStyle}">Protocol</div>
-                    <div align="center" id ="meetingHelper.newCommitteeScheduleMinute.actionItemHeaderDiv" style="${actionItemHeaderDivStyle}">Other Action</div>
+                    <div align="center" id ="meetingHelper.newCommitteeScheduleMinute.pcHeaderDiv" style="${pcHeaderDivStyle}"><font color="">*&nbsp;</font>Protocol</div>
+                    <div align="center" id ="meetingHelper.newCommitteeScheduleMinute.actionItemHeaderDiv" style="${actionItemHeaderDivStyle}"><font color="">*&nbsp;</font>Other Action</div>
                 </th> 
 				<kul:htmlAttributeHeaderCell attributeEntry="${committeeScheduleMinuteAttributes.minuteEntry}" scope="col" />
 				<kul:htmlAttributeHeaderCell literalLabel="Standard Review Comment" scope="col" />
