@@ -2,12 +2,8 @@ DELIMITER /
 INSERT INTO SEQ_SPONSOR_FORM_TEMPLATES VALUES(NULL)
 /
 INSERT INTO SPONSOR_FORM_TEMPLATES (SPONSOR_FORM_TEMPLATE_ID,SPONSOR_FORM_ID,PAGE_NUMBER,PAGE_DESCRIPTION,FILE_NAME,CONTENT_TYPE,FORM_TEMPLATE,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID,VER_NBR) 
-VALUES ((SELECT (MAX(ID)) FROM SEQ_SPONSOR_FORM_TEMPLATES),(SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)'),1,'CoverPage','CoverPage.xslt','text/xml',EMPTY_CLOB(),'admin',NOW(),UUID(),1)
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)') AND PAGE_NUMBER = 1 FOR UPDATE;
-buffer := '<?xml version="1.0" encoding="UTF-8"?>
+VALUES ((SELECT (MAX(ID)) FROM SEQ_SPONSOR_FORM_TEMPLATES),(SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)'),1,'CoverPage','CoverPage.xslt','text/xml',
+'<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:n1="http://era.nih.gov/Projectmgmt/SBIR/CGAP/nihspecific.namespace" xmlns:n2="http://era.nih.gov/Projectmgmt/SBIR/CGAP/phs398.namespace" xmlns:n3="http://era.nih.gov/Projectmgmt/SBIR/CGAP/researchandrelated.namespace">
 <xsl:variable name="fo:layout-master-set">
 <fo:layout-master-set>
@@ -55,14 +51,7 @@ buffer := '<?xml version="1.0" encoding="UTF-8"?>
 <fo:table-cell text-align="center" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" border-style="solid" border-width="1pt" border-color="white">
 <fo:block>
 <fo:inline font-size="10pt" font-weight="bold">COVER SHEET FOR PROPOSAL TO SPONSOR</fo:inline>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)') AND PAGE_NUMBER = 1 FOR UPDATE;
-buffer := ' </fo:block>
+</fo:block>
 </fo:table-cell>
 </fo:table-row>
 </fo:table-body>
@@ -105,14 +94,7 @@ buffer := ' </fo:block>
 </xsl:for-each>
 </fo:block>
 </fo:table-cell>
-<fo:table-cell background-color="g';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)') AND PAGE_NUMBER = 1 FOR UPDATE;
-buffer := 'ray" display-align="before" number-columns-spanned="2" text-align="center" width="1.75in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" border-style="solid" border-width="1pt" border-color="black">
+<fo:table-cell background-color="gray" display-align="before" number-columns-spanned="2" text-align="center" width="1.75in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" border-style="solid" border-width="1pt" border-color="black">
 <fo:block>
 <fo:inline font-size="8pt">FOR SPONSOR USE ONLY</fo:inline>
 </fo:block>
@@ -146,14 +128,7 @@ buffer := 'ray" display-align="before" number-columns-spanned="2" text-align="ce
 </fo:table-row>
 <fo:table-row>
 <fo:table-cell width="1.1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="black">
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)') AND PAGE_NUMBER = 1 FOR UPDATE;
-buffer := ' <fo:block>
+<fo:block>
 <fo:inline font-size="8pt">DATE RECEIVED</fo:inline>
 </fo:block>
 </fo:table-cell>
@@ -188,14 +163,7 @@ buffer := ' <fo:block>
 </fo:inline>
 </xsl:for-each>
 </xsl:for-each>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)') AND PAGE_NUMBER = 1 FOR UPDATE;
-buffer := ' </xsl:for-each>
+</xsl:for-each>
 </xsl:for-each>
 </fo:block>
 </fo:table-cell>
@@ -235,14 +203,7 @@ buffer := ' </xsl:for-each>
 </xsl:for-each>
 </fo:block>
 </fo:table-cell>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)') AND PAGE_NUMBER = 1 FOR UPDATE;
-buffer := ' <fo:table-cell display-align="before" width="2.25in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="black">
+<fo:table-cell display-align="before" width="2.25in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="black">
 <fo:block>
 <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
 <fo:block>
@@ -272,14 +233,7 @@ buffer := ' <fo:table-cell display-align="before" width="2.25in" padding-start="
 </xsl:otherwise>
 </xsl:choose>
 </fo:inline>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)') AND PAGE_NUMBER = 1 FOR UPDATE;
-buffer := ' </fo:inline>
+</fo:inline>
 </xsl:for-each>
 </xsl:for-each>
 </xsl:for-each>
@@ -313,14 +267,7 @@ buffer := ' </fo:inline>
 </xsl:for-each>
 </xsl:for-each>
 </fo:inline>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)') AND PAGE_NUMBER = 1 FOR UPDATE;
-buffer := ' </xsl:for-each>
+</xsl:for-each>
 <fo:inline font-size="8pt">An Accomplishment Based Renewal</fo:inline>
 <fo:block>
 <fo:leader leader-pattern="space" />
@@ -351,14 +298,7 @@ buffer := ' </xsl:for-each>
 <xsl:otherwise>
 <fo:inline text-decoration="underline" color="black">
 <fo:leader leader-length="8pt" leader-pattern="rule" />
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)') AND PAGE_NUMBER = 1 FOR UPDATE;
-buffer := ' </fo:inline>
+</fo:inline>
 </xsl:otherwise>
 </xsl:choose>
 </fo:inline>
@@ -389,14 +329,7 @@ buffer := ' </fo:inline>
 </xsl:otherwise>
 </xsl:choose>
 </fo:inline>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)') AND PAGE_NUMBER = 1 FOR UPDATE;
-buffer := ' </fo:inline>
+</fo:inline>
 </xsl:for-each>
 </xsl:for-each>
 </xsl:for-each>
@@ -435,14 +368,7 @@ buffer := ' </fo:inline>
 </fo:block>
 <xsl:for-each select="n1:ResearchAndRelatedProject">
 <xsl:for-each select="n1:ResearchCoverPage">
-<xs';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)') AND PAGE_NUMBER = 1 FOR UPDATE;
-buffer := 'l:for-each select="ApplicantOrganization">
+<xsl:for-each select="ApplicantOrganization">
 <xsl:for-each select="OrganizationName">
 <fo:inline font-size="8pt">
 <xsl:apply-templates />
@@ -478,14 +404,7 @@ buffer := 'l:for-each select="ApplicantOrganization">
 <xsl:apply-templates />
 </fo:inline>
 </xsl:for-each>
-<fo:block space-before.optimum="1p';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)') AND PAGE_NUMBER = 1 FOR UPDATE;
-buffer := 't" space-after.optimum="2pt">
+<fo:block space-before.optimum="1pt" space-after.optimum="2pt">
 <fo:block>
 <xsl:for-each select="City">
 <fo:inline font-size="8pt">
@@ -522,14 +441,7 @@ buffer := 't" space-after.optimum="2pt">
 </fo:table-row>
 <fo:table-row>
 <fo:table-cell font-size="8pt" width="4in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="black">
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)') AND PAGE_NUMBER = 1 FOR UPDATE;
-buffer := ' <fo:block>
+<fo:block>
 <fo:inline font-size="8pt">NAME OF PERFORMING ORGANIZATION, IF DIFFERENT FROM ABOVE</fo:inline>
 <xsl:for-each select="n1:ResearchAndRelatedProject">
 <xsl:for-each select="n1:ResearchCoverPage">
@@ -561,14 +473,7 @@ buffer := ' <fo:block>
 <fo:block>
 <xsl:apply-templates />
 </fo:block>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)') AND PAGE_NUMBER = 1 FOR UPDATE;
-buffer := ' </fo:block>
+</fo:block>
 </xsl:for-each>
 <xsl:for-each select="City">
 <xsl:apply-templates />
@@ -607,14 +512,7 @@ buffer := ' </fo:block>
 <fo:block>
 <fo:inline font-size="8pt">IS AWARDEE ORGANIZATION (Check all that apply)</fo:inline>
 </fo:block>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)') AND PAGE_NUMBER = 1 FOR UPDATE;
-buffer := ' </fo:block>
+</fo:block>
 <fo:inline font-size="8pt">(See GPG II.D.1 for Definitions)&#160; __FOR-PROFIT ORGANIZATION&#160;&#160; </fo:inline>
 <xsl:for-each select="n1:ResearchAndRelatedProject">
 <fo:inline font-size="8pt">
@@ -646,14 +544,7 @@ buffer := ' </fo:block>
 <fo:inline font-size="8pt">&#160; __SMALL BUSINESS&#160;&#160;&#160;&#160; __MINORITY BUSINESS&#160;&#160;&#160; </fo:inline>
 <xsl:for-each select="n3:OrgAssurances">
 <xsl:for-each select="n3:SBIRSurvey">
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)') AND PAGE_NUMBER = 1 FOR UPDATE;
-buffer := ' <xsl:for-each select="WomenOwnedQuestion">
+<xsl:for-each select="WomenOwnedQuestion">
 <fo:inline padding-before="-3pt" padding-after="-2pt" text-decoration="underline" color="black">
 <fo:inline>
 <xsl:choose>
@@ -687,14 +578,7 @@ buffer := ' <xsl:for-each select="WomenOwnedQuestion">
 <xsl:for-each select="ProjectTitle">
 <fo:inline font-size="8pt">
 <xsl:apply-templates />
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)') AND PAGE_NUMBER = 1 FOR UPDATE;
-buffer := ' </fo:inline>
+</fo:inline>
 </xsl:for-each>
 </xsl:for-each>
 </xsl:for-each>
@@ -732,14 +616,7 @@ buffer := ' </fo:inline>
 <xsl:apply-templates />
 </fo:inline>
 </xsl:for-each>
-</xsl:for-e';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)') AND PAGE_NUMBER = 1 FOR UPDATE;
-buffer := 'ach> months</fo:block>
+</xsl:for-each> months</fo:block>
 </fo:table-cell>
 <fo:table-cell display-align="before" width="2in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="black">
 <fo:block>
@@ -774,14 +651,7 @@ buffer := 'ach> months</fo:block>
 <fo:inline font-size="8pt">SHOW RELATED PROPOSAL NO., IF APPLICABLE</fo:inline>
 </fo:block>
 </fo:block>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)') AND PAGE_NUMBER = 1 FOR UPDATE;
-buffer := ' </fo:block>
+</fo:block>
 </fo:table-cell>
 </fo:table-row>
 <fo:table-row>
@@ -812,14 +682,7 @@ buffer := ' </fo:block>
 <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
 <fo:block>
 <xsl:for-each select="n1:ResearchAndRelatedProject">
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)') AND PAGE_NUMBER = 1 FOR UPDATE;
-buffer := ' <fo:inline font-size="8pt">
+<fo:inline font-size="8pt">
 <xsl:for-each select="n1:ProjectDescription">
 <xsl:for-each select="n3:ProjectSurvey">
 <xsl:for-each select="NSFbeginningInvestQuestion">
@@ -845,14 +708,7 @@ buffer := ' <fo:inline font-size="8pt">
 </xsl:for-each>
 </fo:inline>
 </xsl:for-each>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)') AND PAGE_NUMBER = 1 FOR UPDATE;
-buffer := ' <fo:inline font-size="8pt">BEGINNING INVESTIGATOR (GPG I.A)</fo:inline>
+<fo:inline font-size="8pt">BEGINNING INVESTIGATOR (GPG I.A)</fo:inline>
 </fo:block>
 </fo:block>
 <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
@@ -879,14 +735,7 @@ buffer := ' <fo:inline font-size="8pt">BEGINNING INVESTIGATOR (GPG I.A)</fo:inli
 </fo:inline>
 </fo:inline>
 </xsl:for-each>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)') AND PAGE_NUMBER = 1 FOR UPDATE;
-buffer := ' </xsl:for-each>
+</xsl:for-each>
 </xsl:for-each>
 </xsl:for-each>
 <fo:inline font-size="8pt">DISCLOSURE OF LOBBYING ACTIVITIES (GPG I.A)</fo:inline>
@@ -913,14 +762,7 @@ buffer := ' </xsl:for-each>
 <fo:leader leader-length="8pt" leader-pattern="rule" />
 </fo:inline>
 </xsl:otherwise>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)') AND PAGE_NUMBER = 1 FOR UPDATE;
-buffer := ' </xsl:choose>
+</xsl:choose>
 </fo:inline>
 </fo:inline>
 </xsl:for-each>
@@ -947,14 +789,7 @@ buffer := ' </xsl:choose>
 <xsl:when test=".=''1''">
 <fo:inline white-space-collapse="false" font-family="ZapfDingbats" font-size="10pt" padding-start="1pt" padding-end="1pt">&#x2714;</fo:inline>
 </xsl:when>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)') AND PAGE_NUMBER = 1 FOR UPDATE;
-buffer := ' <xsl:otherwise>
+<xsl:otherwise>
 <fo:inline text-decoration="underline" color="black">
 <fo:leader leader-length="8pt" leader-pattern="rule" />
 </fo:inline>
@@ -982,14 +817,7 @@ buffer := ' <xsl:otherwise>
 <xsl:choose>
 <xsl:when test=".=''true''">
 <fo:inline white-space-collapse="false" font-family="ZapfDingbats" font-size="10pt" padding-start="1pt" padding-end="1pt">&#x2714;</fo:inline>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)') AND PAGE_NUMBER = 1 FOR UPDATE;
-buffer := ' </xsl:when>
+</xsl:when>
 <xsl:when test=".=''1''">
 <fo:inline white-space-collapse="false" font-family="ZapfDingbats" font-size="10pt" padding-start="1pt" padding-end="1pt">&#x2714;</fo:inline>
 </xsl:when>
@@ -1017,14 +845,7 @@ buffer := ' </xsl:when>
 <fo:inline padding-before="-3pt" padding-after="-2pt" text-decoration="underline" color="black">
 <fo:inline>
 <xsl:choose>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)') AND PAGE_NUMBER = 1 FOR UPDATE;
-buffer := '<xsl:when test=".=''true''">
+<xsl:when test=".=''true''">
 <fo:inline white-space-collapse="false" font-family="ZapfDingbats" font-size="10pt" padding-start="1pt" padding-end="1pt">&#x2714;</fo:inline>
 </xsl:when>
 <xsl:when test=".=''1''">
@@ -1052,14 +873,7 @@ buffer := '<xsl:when test=".=''true''">
 <xsl:value-of select="format-number(substring(., 6, 2), ''00'')" />
 <xsl:text>/</xsl:text>
 <xsl:value-of select="format-number(substring(., 9, 2), ''00'')" />
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)') AND PAGE_NUMBER = 1 FOR UPDATE;
-buffer := ' <xsl:text>/</xsl:text>
+<xsl:text>/</xsl:text>
 <xsl:value-of select="format-number(substring(., 1, 4), ''0000'')" />
 </xsl:for-each>
 </xsl:for-each>
@@ -1086,14 +900,7 @@ buffer := ' <xsl:text>/</xsl:text>
 <fo:inline white-space-collapse="false" font-family="ZapfDingbats" font-size="10pt" padding-start="1pt" padding-end="1pt">&#x2714;</fo:inline>
 </xsl:when>
 <xsl:otherwise>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)') AND PAGE_NUMBER = 1 FOR UPDATE;
-buffer := ' <fo:inline text-decoration="underline" color="black">
+<fo:inline text-decoration="underline" color="black">
 <fo:leader leader-length="8pt" leader-pattern="rule" />
 </fo:inline>
 </xsl:otherwise>
@@ -1122,14 +929,7 @@ buffer := ' <fo:inline text-decoration="underline" color="black">
 <xsl:value-of select="format-number(substring(., 1, 4), ''0000'')" />
 </xsl:for-each>
 </xsl:for-each>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)') AND PAGE_NUMBER = 1 FOR UPDATE;
-buffer := ' </xsl:for-each>
+</xsl:for-each>
 </xsl:for-each>
 </fo:block>
 </fo:block>
@@ -1157,14 +957,7 @@ buffer := ' </xsl:for-each>
 </fo:inline>
 </xsl:for-each>
 </xsl:for-each>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)') AND PAGE_NUMBER = 1 FOR UPDATE;
-buffer := ' </xsl:for-each>
+</xsl:for-each>
 </fo:inline>
 </xsl:for-each>
 <fo:inline font-size="8pt">INTERNATIONAL COOPERATIVE ACTIVITIES: COUNTRY/COUNTRIES&#160;&#160; </fo:inline>
@@ -1202,14 +995,7 @@ buffer := ' </xsl:for-each>
 <fo:inline font-size="8pt">PI/PD DEPARTMENT&#160; </fo:inline>
 <xsl:for-each select="n1:ResearchAndRelatedProject">
 <fo:inline font-size="8pt">
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)') AND PAGE_NUMBER = 1 FOR UPDATE;
-buffer := ' <xsl:for-each select="KeyPerson">
+<xsl:for-each select="KeyPerson">
 <xsl:if test="n1:AccountIdentifier = ../n1:ResearchCoverPage/n1:ProgramDirectorPrincipalInvestigator/n1:AccountIdentifier">
 <xsl:for-each select="OrganizationDepartment">
 <xsl:apply-templates />
@@ -1243,14 +1029,7 @@ buffer := ' <xsl:for-each select="KeyPerson">
 </fo:block>
 <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
 <fo:block>
-<xsl:for-each select="MailStopCo';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)') AND PAGE_NUMBER = 1 FOR UPDATE;
-buffer := 'de">
+<xsl:for-each select="MailStopCode">
 <fo:inline font-size="8pt">
 <xsl:apply-templates />
 </fo:inline>
@@ -1287,14 +1066,7 @@ buffer := 'de">
 <xsl:for-each select="n1:ResearchAndRelatedProject">
 <fo:inline font-size="8pt">
 <xsl:for-each select="n1:ResearchCoverPage">
-<xsl:f';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)') AND PAGE_NUMBER = 1 FOR UPDATE;
-buffer := 'or-each select="n1:ProgramDirectorPrincipalInvestigator">
+<xsl:for-each select="n1:ProgramDirectorPrincipalInvestigator">
 <xsl:for-each select="ContactInformation">
 <xsl:for-each select="FaxNumber">
 <xsl:apply-templates />
@@ -1327,14 +1099,7 @@ buffer := 'or-each select="n1:ProgramDirectorPrincipalInvestigator">
 <fo:block>Name</fo:block>
 </fo:table-cell>
 <fo:table-cell border-before-style="none" font-size="8pt" width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="black">
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)') AND PAGE_NUMBER = 1 FOR UPDATE;
-buffer := ' <fo:block>High Degree</fo:block>
+<fo:block>High Degree</fo:block>
 </fo:table-cell>
 <fo:table-cell border-before-style="none" font-size="8pt" width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="black">
 <fo:block>Yr of Degree</fo:block>
@@ -1359,14 +1124,7 @@ buffer := ' <fo:block>High Degree</fo:block>
 </xsl:if>
 <xsl:if test="ProjectRole =&apos;Co-PI/PD&apos;">
 <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
-<fo:block border-after-style="';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)') AND PAGE_NUMBER = 1 FOR UPDATE;
-buffer := 'none">CO-PI/PD NAME</fo:block>
+<fo:block border-after-style="none">CO-PI/PD NAME</fo:block>
 </fo:block>
 </xsl:if>
 <xsl:if test="ProjectRole =&apos;PI/PD&apos; or ProjectRole=&apos;Co-PI/PD&apos;">
@@ -1395,14 +1153,7 @@ buffer := 'none">CO-PI/PD NAME</fo:block>
 </fo:table-cell>
 <fo:table-cell border-after-style="none" font-size="8pt" width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="black">
 <fo:block />
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)') AND PAGE_NUMBER = 1 FOR UPDATE;
-buffer := ' </fo:table-cell>
+</fo:table-cell>
 <fo:table-cell border-after-style="none" font-size="8pt" width="1.25in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="black">
 <fo:block>
 <xsl:if test="ProjectRole =&apos;PI/PD&apos; or ProjectRole=&apos;Co-PI/PD&apos;">
@@ -1434,14 +1185,7 @@ buffer := ' </fo:table-cell>
 </fo:table-row>
 <fo:table-row height="1pt">
 <fo:table-cell border-after-style="none" border-end-style="none" border-start-style="none" font-size="8pt" height="1pt" display-align="before" width="2.75in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="black">
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'Generic Printing Forms (Coeus 4.x)') AND PAGE_NUMBER = 1 FOR UPDATE;
-buffer := ' <fo:block>
+<fo:block>
 <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
 <fo:block border-after-style="none" border-end-style="none" border-start-style="none" font-size="8pt" height="1pt" />
 </fo:block>
@@ -1476,8 +1220,6 @@ buffer := ' <fo:block>
 </fo:root>
 </xsl:template>
 </xsl:stylesheet>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
+','admin',NOW(),UUID(),1)
 /
 DELIMITER ;

@@ -2,12 +2,8 @@ DELIMITER /
 INSERT INTO SEQ_SPONSOR_FORM_TEMPLATES VALUES(NULL)
 /
 INSERT INTO SPONSOR_FORM_TEMPLATES (SPONSOR_FORM_TEMPLATE_ID,SPONSOR_FORM_ID,PAGE_NUMBER,PAGE_DESCRIPTION,FILE_NAME,CONTENT_TYPE,FORM_TEMPLATE,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID,VER_NBR) 
-VALUES ((SELECT (MAX(ID)) FROM SEQ_SPONSOR_FORM_TEMPLATES),(SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NIH 2590 package (Coeus 4.0)'),6,'Face Page - continued','Face Page - continued.xslt','text/xml',EMPTY_CLOB(),'admin',NOW(),UUID(),1)
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NIH 2590 package (Coeus 4.0)') AND PAGE_NUMBER = 6 FOR UPDATE;
-buffer := '<?xml version="1.0" encoding="UTF-8"?>
+VALUES ((SELECT (MAX(ID)) FROM SEQ_SPONSOR_FORM_TEMPLATES),(SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NIH 2590 package (Coeus 4.0)'),6,'Face Page - continued','Face Page - continued.xslt','text/xml',
+'<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:common="http://era.nih.gov/Projectmgmt/SBIR/CGAP/common.namespace" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:nih="http://era.nih.gov/Projectmgmt/SBIR/CGAP/nihspecific.namespace" xmlns:phs398="http://era.nih.gov/Projectmgmt/SBIR/CGAP/phs398.namespace" xmlns:rar="http://era.nih.gov/Projectmgmt/SBIR/CGAP/researchandrelated.namespace" xmlns:xdt="http://www.w3.org/2005/xpath-datatypes" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:fo="http://www.w3.org/1999/XSL/Format">
 <xsl:output version="1.0" method="xml" encoding="UTF-8" indent="no"/>
 <xsl:param name="SV_OutputFormat" select="''PDF''"/>
@@ -78,14 +74,7 @@ buffer := '<?xml version="1.0" encoding="UTF-8"?>
 <fo:block/>
 <xsl:if test="keyPersonFlag/keyPersonFlagDesc = &apos;PI&apos;">
 <xsl:for-each select="Name">
-<x';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NIH 2590 package (Coeus 4.0)') AND PAGE_NUMBER = 6 FOR UPDATE;
-buffer := 'sl:for-each select="LastName">
+<xsl:for-each select="LastName">
 <xsl:variable name="value-of-template">
 <xsl:apply-templates/>
 </xsl:variable>
@@ -169,14 +158,7 @@ buffer := 'sl:for-each select="LastName">
 </fo:inline>
 </xsl:otherwise>
 </xsl:choose>
-</xs';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NIH 2590 package (Coeus 4.0)') AND PAGE_NUMBER = 6 FOR UPDATE;
-buffer := 'l:for-each>
+</xsl:for-each>
 </xsl:if>
 </fo:block>
 </fo:table-cell>
@@ -261,14 +243,7 @@ buffer := 'l:for-each>
 </fo:inline>
 </xsl:otherwise>
 </xsl:choose>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NIH 2590 package (Coeus 4.0)') AND PAGE_NUMBER = 6 FOR UPDATE;
-buffer := ' </xsl:for-each>
+</xsl:for-each>
 <fo:block>
 <fo:leader leader-pattern="space"/>
 </fo:block>
@@ -354,14 +329,6 @@ buffer := ' </xsl:for-each>
 <fo:block>
 <fo:inline font-family="Verdana" font-size="8pt">
 <xsl:text>E-MAIL ADDRESS:</xsl:text>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NIH 2590 package (Coeus 4.0)') AND PAGE_NUMBER = 6 FOR UPDATE;
-buffer := '
 </fo:inline>
 <fo:block/>
 <xsl:if test="keyPersonFlag/keyPersonFlagDesc = &apos;PI&apos;">
@@ -451,14 +418,7 @@ buffer := '
 <fo:table-row>
 <fo:table-cell font-family="Verdana" font-size="8pt" line-height="9pt" border="solid 1pt gray" padding="2pt" text-align="left" display-align="before">
 <fo:block>
-<fo:inline font-family="Verdan';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NIH 2590 package (Coeus 4.0)') AND PAGE_NUMBER = 6 FOR UPDATE;
-buffer := 'a" font-size="8pt">
+<fo:inline font-family="Verdana" font-size="8pt">
 <xsl:text>TEL: </xsl:text>
 </fo:inline>
 <xsl:if test="keyPersonFlag/keyPersonFlagDesc = &apos;PI&apos;">
@@ -556,14 +516,7 @@ buffer := 'a" font-size="8pt">
 </fo:block>
 </fo:table-cell>
 </fo:table-row>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NIH 2590 package (Coeus 4.0)') AND PAGE_NUMBER = 6 FOR UPDATE;
-buffer := ' <fo:table-row color="white">
+<fo:table-row color="white">
 <fo:table-cell padding="0" number-columns-spanned="2" height="30" display-align="center">
 <fo:block>
 <fo:inline>
@@ -660,7 +613,7 @@ buffer := ' <fo:table-row color="white">
 <xsl:when test="$text-after-bs-length = 0">
 <xsl:choose>
 <xsl:when test="substring($text, $text-length) = ''''">
-<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\'')"/>
+<xsl:value-of select="concat(substring($text,1,$text-length - 1), \'\'\\\'\')"/>
 </xsl:when>
 <xsl:otherwise>
 <xsl:value-of select="$text"/>
@@ -668,14 +621,7 @@ buffer := ' <fo:table-row color="white">
 </xsl:choose>
 </xsl:when>
 <xsl:otherwise>
-<xsl:value-of select="concat(substring($text,1,$text-length - $text-aft';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NIH 2590 package (Coeus 4.0)') AND PAGE_NUMBER = 6 FOR UPDATE;
-buffer := 'er-bs-length - 1), ''\'')"/>
+<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), \'\'\\\'\')"/>
 <xsl:call-template name="double-backslash">
 <xsl:with-param name="text" select="$text-after-bs"/>
 <xsl:with-param name="text-length" select="$text-after-bs-length"/>
@@ -683,9 +629,6 @@ buffer := 'er-bs-length - 1), ''\'')"/>
 </xsl:otherwise>
 </xsl:choose>
 </xsl:template>
-</xsl:stylesheet>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
+</xsl:stylesheet>','admin',NOW(),UUID(),1)
 /
 DELIMITER ;

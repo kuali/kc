@@ -2,12 +2,8 @@ DELIMITER /
 INSERT INTO SEQ_SPONSOR_FORM_TEMPLATES VALUES(NULL)
 /
 INSERT INTO SPONSOR_FORM_TEMPLATES (SPONSOR_FORM_TEMPLATE_ID,SPONSOR_FORM_ID,PAGE_NUMBER,PAGE_DESCRIPTION,FILE_NAME,CONTENT_TYPE,FORM_TEMPLATE,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID,VER_NBR) 
-VALUES ((SELECT (MAX(ID)) FROM SEQ_SPONSOR_FORM_TEMPLATES),(SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)'),7,'Budget Summary Total','Budget Summary Total..xslt','text/xml',EMPTY_CLOB(),'admin',NOW(),UUID(),1)
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := '<?xml version="1.0" encoding="UTF-8"?>
+VALUES ((SELECT (MAX(ID)) FROM SEQ_SPONSOR_FORM_TEMPLATES),(SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)'),7,'Budget Summary Total','Budget Summary Total..xslt','text/xml',
+'<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:nih="http://era.nih.gov/Projectmgmt/SBIR/CGAP/nihspecific.namespace" xmlns:phs398="http://era.nih.gov/Projectmgmt/SBIR/CGAP/phs398.namespace" xmlns:rar="http://era.nih.gov/Projectmgmt/SBIR/CGAP/researchandrelated.namespace" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 <xsl:variable name="fo:layout-master-set">
 <fo:layout-master-set>
@@ -54,14 +50,7 @@ buffer := '<?xml version="1.0" encoding="UTF-8"?>
 <fo:table-column column-width="4in" />
 <fo:table-column column-width=".5in" />
 <fo:table-column column-width=".5in" />
-<';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := 'fo:table-column column-width=".5in" />
+<fo:table-column column-width=".5in" />
 <fo:table-column column-width=".5in" />
 <fo:table-column column-width="1in" />
 <fo:table-column column-width="1in" />
@@ -90,14 +79,7 @@ buffer := 'fo:table-column column-width=".5in" />
 </fo:table-cell>
 </fo:table-row>
 <fo:table-row>
-<fo:table-cell border-after-style="none" border-before-style="none" border-end-style="none" border-start-style="none" number-columns-spanned="2" text-align="center" width=".5in" padding-start="3pt" padding-end="3pt" padding-before="3pt" paddin';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := 'g-after="3pt" display-align="center" border-style="solid" border-width="1pt" border-color="black">
+<fo:table-cell border-after-style="none" border-before-style="none" border-end-style="none" border-start-style="none" number-columns-spanned="2" text-align="center" width=".5in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" border-style="solid" border-width="1pt" border-color="black">
 <fo:block>
 <fo:inline font-size="9pt" font-weight="bold">SUMMARY PROPOSAL BUDGET</fo:inline>
 </fo:block>
@@ -131,14 +113,7 @@ buffer := 'g-after="3pt" display-align="center" border-style="solid" border-widt
 <xsl:for-each select="ApplicantOrganization">
 <xsl:for-each select="OrganizationName">
 <fo:inline font-size="9pt">
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := ' <xsl:apply-templates />
+<xsl:apply-templates />
 </fo:inline>
 </xsl:for-each>
 </xsl:for-each>
@@ -178,14 +153,7 @@ buffer := ' <xsl:apply-templates />
 <fo:inline font-size="7pt">PRINCIPAL INVESTIGATOR/PROJECT DIRECTOR&#160; </fo:inline>
 <xsl:for-each select="nih:ResearchAndRelatedProject">
 <fo:inline font-size="7pt">
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := ' <xsl:for-each select="nih:ResearchCoverPage">
+<xsl:for-each select="nih:ResearchCoverPage">
 <xsl:for-each select="nih:ProgramDirectorPrincipalInvestigator">
 <xsl:for-each select="Name">
 <xsl:for-each select="LastName">
@@ -226,14 +194,7 @@ buffer := ' <xsl:for-each select="nih:ResearchCoverPage">
 <fo:table-cell background-color="gray" text-align="right" width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" border-style="solid" border-width="1pt" border-color="black">
 <fo:block />
 </fo:table-cell>
-<fo:table-cell background-color="gray" width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := '" border-style="solid" border-width="1pt" border-color="black">
+<fo:table-cell background-color="gray" width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="black">
 <fo:block />
 </fo:table-cell>
 </fo:table-row>
@@ -278,14 +239,7 @@ buffer := '" border-style="solid" border-width="1pt" border-color="black">
 <fo:inline font-size="7pt">Proposer</fo:inline>
 </fo:block>
 </fo:table-cell>
-<';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := 'fo:table-cell number-rows-spanned="2" text-align="center" width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" border-style="solid" border-width="1pt" border-color="black">
+<fo:table-cell number-rows-spanned="2" text-align="center" width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" border-style="solid" border-width="1pt" border-color="black">
 <fo:block>
 <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
 <fo:block>
@@ -329,14 +283,7 @@ buffer := 'fo:table-cell number-rows-spanned="2" text-align="center" width="1in"
 <xsl:for-each select="BudgetSummary">
 <xsl:for-each select="NSFSeniorPersonnel">
 <xsl:if test="Rownumber=0">
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := ' <xsl:for-each select="FullName">
+ <xsl:for-each select="FullName">
 <xsl:apply-templates />
 </xsl:for-each>
 </xsl:if>
@@ -382,14 +329,7 @@ buffer := ' <xsl:for-each select="FullName">
 <xsl:for-each select="NSFSeniorPersonnel">
 <xsl:if test="Rownumber=0">
 <xsl:for-each select="SummerMonthsFunded">
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := ' <xsl:apply-templates />
+<xsl:apply-templates />
 </xsl:for-each>
 </xsl:if>
 </xsl:for-each>
@@ -434,14 +374,7 @@ buffer := ' <xsl:apply-templates />
 </fo:table-cell>
 <fo:table-cell font-size="7pt" text-align="center" width=".5in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" border-style="solid" border-width="1pt" border-color="black">
 <fo:block>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := ' <xsl:for-each select="nih:ResearchAndRelatedProject">
+<xsl:for-each select="nih:ResearchAndRelatedProject">
 <xsl:for-each select="BudgetSummary">
 <xsl:for-each select="NSFSeniorPersonnel">
 <xsl:if test="Rownumber=1">
@@ -487,14 +420,7 @@ buffer := ' <xsl:for-each select="nih:ResearchAndRelatedProject">
 <fo:table-cell font-size="7pt" text-align="right" width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" border-style="solid" border-width="1pt" border-color="black">
 <fo:block>
 <xsl:for-each select="nih:ResearchAndRelatedProject">
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := ' <xsl:for-each select="BudgetSummary">
+<xsl:for-each select="BudgetSummary">
 <xsl:for-each select="NSFSeniorPersonnel">
 <xsl:if test="Rownumber=1">
 <xsl:for-each select="FundsRequested">$<xsl:value-of select="format-number(., ''#,###,###,##0.00'')" />
@@ -540,14 +466,7 @@ buffer := ' <xsl:for-each select="BudgetSummary">
 </xsl:for-each>
 </xsl:for-each>
 </fo:block>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := ' </fo:table-cell>
+</fo:table-cell>
 <fo:table-cell font-size="7pt" text-align="center" width=".5in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" border-style="solid" border-width="1pt" border-color="black">
 <fo:block>
 <xsl:for-each select="nih:ResearchAndRelatedProject">
@@ -592,14 +511,7 @@ buffer := ' </fo:table-cell>
 </xsl:for-each>
 </fo:block>
 </fo:table-cell>
-<fo:table-cell width="1in" padding-start="';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := '3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="black">
+<fo:table-cell width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="black">
 <fo:block />
 </fo:table-cell>
 </fo:table-row>
@@ -643,14 +555,7 @@ buffer := '3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" displ
 <xsl:if test="Rownumber=3">
 <xsl:for-each select="AcademicMonthsFunded">
 <xsl:apply-templates />
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := ' </xsl:for-each>
+</xsl:for-each>
 </xsl:if>
 </xsl:for-each>
 </xsl:for-each>
@@ -695,14 +600,7 @@ buffer := ' </xsl:for-each>
 <fo:block>
 <fo:inline font-size="7pt">5. </fo:inline>
 <xsl:for-each select="nih:ResearchAndRelatedProject">
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := ' <xsl:for-each select="BudgetSummary">
+<xsl:for-each select="BudgetSummary">
 <xsl:for-each select="NSFSeniorPersonnel">
 <xsl:if test="Rownumber=4">
 <xsl:for-each select="FullName">
@@ -748,14 +646,7 @@ buffer := ' <xsl:for-each select="BudgetSummary">
 <fo:block>
 <xsl:for-each select="nih:ResearchAndRelatedProject">
 <xsl:for-each select="BudgetSummary">
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := ' <xsl:for-each select="NSFSeniorPersonnel">
+<xsl:for-each select="NSFSeniorPersonnel">
 <xsl:if test="Rownumber=4">
 <xsl:for-each select="SummerMonthsFunded">
 <xsl:apply-templates />
@@ -798,14 +689,7 @@ buffer := ' <xsl:for-each select="NSFSeniorPersonnel">
 </fo:table-cell>
 <fo:table-cell font-size="7pt" text-align="center" width=".5in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" border-style="solid" border-width="1pt" border-color="black">
 <fo:block>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := ' <xsl:value-of select="sum(nih:ResearchAndRelatedProject/BudgetSummary/NSFSeniorPersonnel[Rownumber&gt;4]/CalendarMonthsFunded )" />
+<xsl:value-of select="sum(nih:ResearchAndRelatedProject/BudgetSummary/NSFSeniorPersonnel[Rownumber&gt;4]/CalendarMonthsFunded )" />
 </fo:block>
 </fo:table-cell>
 <fo:table-cell font-size="7pt" text-align="center" width=".5in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" border-style="solid" border-width="1pt" border-color="black">
@@ -841,14 +725,7 @@ buffer := ' <xsl:value-of select="sum(nih:ResearchAndRelatedProject/BudgetSummar
 <xsl:value-of select="format-number(sum(nih:ResearchAndRelatedProject/BudgetSummary/NSFSeniorPersonnel/CalendarMonthsFunded ), ''#0.#'')" />
 </fo:block>
 </fo:table-cell>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := ' <fo:table-cell font-size="7pt" text-align="center" width=".5in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" border-style="solid" border-width="1pt" border-color="black">
+<fo:table-cell font-size="7pt" text-align="center" width=".5in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" border-style="solid" border-width="1pt" border-color="black">
 <fo:block>
 <xsl:value-of select="format-number(sum(nih:ResearchAndRelatedProject/BudgetSummary/NSFSeniorPersonnel/AcademicMonthsFunded ), ''#0.#'')" />
 </fo:block>
@@ -883,14 +760,7 @@ buffer := ' <fo:table-cell font-size="7pt" text-align="center" width=".5in" padd
 <fo:inline font-size="7pt">
 <xsl:value-of select="sum( nih:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod/NSFOtherPersonnel/PostDocCount )" />
 </fo:inline>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := ' <fo:inline font-size="7pt"> )&#160; POSTDOCTORAL</fo:inline>
+<fo:inline font-size="7pt"> )&#160; POSTDOCTORAL</fo:inline>
 </fo:block>
 </fo:table-cell>
 <fo:table-cell font-size="7pt" text-align="left" width=".5in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" border-style="solid" border-width="1pt" border-color="black">
@@ -924,14 +794,7 @@ buffer := ' <fo:inline font-size="7pt"> )&#160; POSTDOCTORAL</fo:inline>
 <fo:block />
 </fo:table-cell>
 <fo:table-cell font-size="7pt" text-align="right" width=".5in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" border-style="solid" border-width="1pt" border-color="black">
-<fo:block>$<xsl:v';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := 'alue-of select="format-number(sum(nih:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod/NSFOtherPersonnel/OtherProfFunds ), ''#,###,###,##0.00'')" />
+<fo:block>$<xsl:value-of select="format-number(sum(nih:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod/NSFOtherPersonnel/OtherProfFunds ), ''#,###,###,##0.00'')" />
 </fo:block>
 </fo:table-cell>
 <fo:table-cell width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="black">
@@ -967,14 +830,7 @@ buffer := 'alue-of select="format-number(sum(nih:ResearchAndRelatedProject/Budge
 </fo:block>
 </fo:table-cell>
 <fo:table-cell font-size="7pt" text-align="right" width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" border-style="solid" border-width="1pt" border-color="black">
-<fo:block>$<xsl:value-of select="format-number(sum(nih:ResearchAndRelatedProject';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := '/BudgetSummary/BudgetPeriod/NSFOtherPersonnel/UnderGradFunds ), ''#,###,###,##0.00'')" />
+<fo:block>$<xsl:value-of select="format-number(sum(nih:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod/NSFOtherPersonnel/UnderGradFunds ), ''#,###,###,##0.00'')" />
 </fo:block>
 </fo:table-cell>
 <fo:table-cell width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="black">
@@ -1009,14 +865,7 @@ buffer := '/BudgetSummary/BudgetPeriod/NSFOtherPersonnel/UnderGradFunds ), ''#,#
 <fo:inline font-size="7pt"> ) OTHER&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; (PERSONNEL LAB ALLOCATION: </fo:inline>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; $<fo:inline font-size="7pt" />
 <xsl:value-of select="format-number(sum(nih:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod/NSFOtherPersonnel/OtherLAFunds ), ''#,###,###,##0.00'')" />
 <fo:inline font-size="7pt">&#160;&#160; ) </fo:inline>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := ' </fo:block>
+</fo:block>
 </fo:table-cell>
 <fo:table-cell font-size="7pt" text-align="right" width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" border-style="solid" border-width="1pt" border-color="black">
 <fo:block>$<xsl:value-of select="format-number(sum( nih:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod/NSFOtherPersonnel/OtherLAFunds ) + sum( nih:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod/NSFOtherPersonnel/OtherFunds ), ''#,###,###,##0.00'')" />
@@ -1051,14 +900,7 @@ sum( nih:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod/NSFOtherPersonnel/
 <fo:block>
 <fo:inline font-size="7pt">C. FRINGE BEN</fo:inline>
 <fo:inline font-size="7pt">EFITS (IF </fo:inline>
-<fo:inline font-size';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := '="7pt">CHARGED AS DIRECT COSTS)</fo:inline>
+<fo:inline font-size="7pt">CHARGED AS DIRECT COSTS)</fo:inline>
 </fo:block>
 </fo:table-cell>
 <fo:table-cell font-size="7pt" text-align="right" width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" border-style="solid" border-width="1pt" border-color="black">
@@ -1098,14 +940,7 @@ nih:ResearchAndRelatedProject/BudgetSummary/TotalFringe, ''#,###,###,##0.00'')" 
 </fo:table-cell>
 <fo:table-cell width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="black">
 <fo:block />
-</fo:';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := 'table-cell>
+</fo:table-cell>
 </fo:table-row>
 <fo:table-row>
 <fo:table-cell border-after-style="none" font-size="7pt" padding-start="6pt" number-columns-spanned="5" width=".5in" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="black">
@@ -1143,14 +978,7 @@ buffer := 'table-cell>
 <fo:table-row>
 <fo:table-cell font-size="7pt" padding-start="6pt" number-columns-spanned="5" width=".5in" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="black">
 <fo:block>
-<fo:inline font-size="7pt">E. TRAVEL&#160;&#160;&#160;&#16';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := '0;&#160;&#160;&#160;&#160; </fo:inline>
+<fo:inline font-size="7pt">E. TRAVEL&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; </fo:inline>
 <fo:inline font-size="7pt">&#160; 1. DOMESTIC (INCL. CANADA, MEXICO AND U.S. POSSESSIONS)&#160;&#160;&#160;&#160; </fo:inline>
 </fo:block>
 </fo:table-cell>
@@ -1183,14 +1011,7 @@ buffer := '0;&#160;&#160;&#160;&#160; </fo:inline>
 <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
 <fo:block font-size="7pt">
 <fo:inline font-size="7pt">&#160;&#160;&#160;&#160; 1. STIPENDS&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; $</fo:inline>
-<xsl:value-of select="format-number(sum(nih:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod/rar:ParticipantPatientCosts[Type=&a';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := 'pos;Participant Stipends&apos;]/Cost ), ''#,###,###,##0.00'')" />
+<xsl:value-of select="format-number(sum(nih:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod/rar:ParticipantPatientCosts[Type=&apos;Participant Stipends&apos;]/Cost ), ''#,###,###,##0.00'')" />
 </fo:block>
 </fo:block>
 <fo:inline font-size="7pt">&#160;&#160;&#160;&#160; 2. TRAVEL&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; $</fo:inline>
@@ -1222,14 +1043,7 @@ buffer := 'pos;Participant Stipends&apos;]/Cost ), ''#,###,###,##0.00'')" />
 <fo:block>$<xsl:value-of select="format-number(sum(nih:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod/ParticipantPatientTotal ), ''#,###,###,##0.00'')" />
 </fo:block>
 </fo:table-cell>
-<fo:table-cell width="1in" pad';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := 'ding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="black">
+<fo:table-cell width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="black">
 <fo:block />
 </fo:table-cell>
 </fo:table-row>
@@ -1266,14 +1080,7 @@ buffer := 'ding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after
 <fo:inline font-size="7pt">2. PUBLICATION/DOCUMENTATION/DISSEMINATION</fo:inline>
 </fo:block>
 </fo:table-cell>
-<fo:table-cell font-size="7pt" t';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := 'ext-align="right" width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" border-style="solid" border-width="1pt" border-color="black">
+<fo:table-cell font-size="7pt" text-align="right" width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" border-style="solid" border-width="1pt" border-color="black">
 <fo:block>$<xsl:value-of select="format-number(sum(nih:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod/rar:OtherDirectCosts[Type=&apos;Publication Costs&apos;]/Cost ), ''#,###,###,##0.00'')" />
 </fo:block>
 </fo:table-cell>
@@ -1306,14 +1113,7 @@ buffer := 'ext-align="right" width="1in" padding-start="3pt" padding-end="3pt" p
 </fo:block>
 </fo:table-cell>
 <fo:table-cell width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="black">
-<';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := 'fo:block />
+<fo:block />
 </fo:table-cell>
 </fo:table-row>
 <fo:table-row>
@@ -1346,14 +1146,7 @@ buffer := 'fo:block />
 </fo:table-cell>
 <fo:table-cell width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="black">
 <fo:block />
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := ' </fo:table-cell>
+</fo:table-cell>
 </fo:table-row>
 <fo:table-row>
 <fo:table-cell padding-start="9pt" number-columns-spanned="5" width=".5in" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="black">
@@ -1384,14 +1177,7 @@ buffer := ' </fo:table-cell>
 <fo:table-cell font-size="7pt" text-align="right" width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" border-style="solid" border-width="1pt" border-color="black">
 <fo:block>$<xsl:value-of select="format-number(sum( nih:ResearchAndRelatedProject/BudgetSummary/NSFSeniorPersonnel/FundsRequested ) + 
 sum(nih:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod/NSFOtherPersonnel/PostDocFunds ) +
-sum(nih:ResearchAndRelatedProject/BudgetSummary';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := '/BudgetPeriod/NSFOtherPersonnel/OtherProfFunds ) +
+sum(nih:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod/NSFOtherPersonnel/OtherProfFunds ) +
 sum(nih:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod/NSFOtherPersonnel/GradFunds ) +
 sum(nih:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod/NSFOtherPersonnel/UnderGradFunds ) +
 sum(nih:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod/NSFOtherPersonnel/ClericalFunds) +
@@ -1429,14 +1215,7 @@ sum(nih:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod/rar:OtherDirectCost
 </fo:table-cell>
 </fo:table-row>
 <fo:table-row>
-<fo:table-cell border-before-style="none" padding-start="6pt" number-columns-spanned="5" ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := 'width=".5in" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="black">
+<fo:table-cell border-before-style="none" padding-start="6pt" number-columns-spanned="5" width=".5in" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="black">
 <fo:block>
 <fo:inline font-size="7pt">T</fo:inline>
 <fo:inline font-size="7pt">OTAL INDIR</fo:inline>
@@ -1475,14 +1254,7 @@ sum(nih:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod/NSFOtherPersonnel/U
 sum(nih:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod/NSFOtherPersonnel/ClericalFunds ) +
 sum( nih:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod/NSFOtherPersonnel/OtherLAFunds ) +
 sum( nih:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod/NSFOtherPersonnel/OtherFunds ) +
-nih:ResearchAndRelatedProject/BudgetSummary/TotalFringe';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := ' +
+nih:ResearchAndRelatedProject/BudgetSummary/TotalFringe +
 sum( nih:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod/rar:EquipmentCosts/Cost) +
 sum(nih:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod/rar:TravelCosts[Type=&apos;Foreign Travel&apos;]/Cost ) +
 sum(nih:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod/rar:TravelCosts[Type=&apos;Domestic Travel&apos;]/Cost) +
@@ -1523,14 +1295,7 @@ sum(nih:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod/rar:OtherDirectCost
 <fo:inline font-size="7pt">L. AMOUNT OF THIS REQUEST (J MINUS K)</fo:inline>
 </fo:block>
 </fo:table-cell>
-<fo:table-cell font-size="7pt" text-align="right" width="1in" padding-start="3pt" padding-end=';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := '"3pt" padding-before="3pt" padding-after="3pt" display-align="center" border-style="solid" border-width="1pt" border-color="black">
+<fo:table-cell font-size="7pt" text-align="right" width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" border-style="solid" border-width="1pt" border-color="black">
 <fo:block>$<xsl:value-of select="format-number(sum( nih:ResearchAndRelatedProject/BudgetSummary/NSFSeniorPersonnel/FundsRequested ) + 
 sum(nih:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod/NSFOtherPersonnel/PostDocFunds ) +
 sum(nih:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod/NSFOtherPersonnel/OtherProfFunds ) +
@@ -1569,14 +1334,7 @@ sum(nih:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod/rar:OtherDirectCost
 <fo:inline font-size="7pt">&#160; </fo:inline>
 </fo:block>
 </fo:table-cell>
-<fo:table-cell number-columns-spanned="6" width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := 'style="solid" border-width="1pt" border-color="black">
+<fo:table-cell number-columns-spanned="6" width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="black">
 <fo:block>
 <fo:inline font-size="7pt">AGREED LEVEL IF DIFFERENT: $</fo:inline>
 </fo:block>
@@ -1619,14 +1377,7 @@ buffer := 'style="solid" border-width="1pt" border-color="black">
 <xsl:if test="SignatureAuthentication != unknown">
 <xsl:for-each select="SignatureAuthentication">
 <fo:inline font-size="7pt">
-<xsl:apply-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := 'templates />
+<xsl:apply-templates />
 </fo:inline>
 </xsl:for-each>
 </xsl:if>
@@ -1668,14 +1419,7 @@ buffer := 'templates />
 </fo:table-cell>
 </fo:table-row>
 <fo:table-row>
-<fo:table-cell background-color="gray" number-columns-spanned="4" width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" b';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := 'order-color="black">
+<fo:table-cell background-color="gray" number-columns-spanned="4" width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="black">
 <fo:block>
 <fo:inline font-size="7pt">INDIRECT COST RATE VERIFICATION</fo:inline>
 </fo:block>
@@ -1721,14 +1465,7 @@ buffer := 'order-color="black">
 <fo:leader leader-pattern="space" />
 </fo:block>
 </xsl:for-each>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := ' <fo:inline font-size="7pt">&#160;&#160;&#160;&#160; </fo:inline>
+<fo:inline font-size="7pt">&#160;&#160;&#160;&#160; </fo:inline>
 <xsl:for-each select="OrganizationalOfficialSignature">
 <xsl:if test="SignatureAuthentication !=unknown">
 <xsl:for-each select="SignatureAuthentication">
@@ -1770,14 +1507,7 @@ buffer := ' <fo:inline font-size="7pt">&#160;&#160;&#160;&#160; </fo:inline>
 <fo:block>
 <fo:inline font-size="7pt">Date Checked</fo:inline>
 </fo:block>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := ' </fo:table-cell>
+</fo:table-cell>
 <fo:table-cell background-color="gray" text-align="right" width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" border-style="solid" border-width="1pt" border-color="black">
 <fo:block>
 <fo:inline font-size="7pt">Date </fo:inline>
@@ -1807,14 +1537,7 @@ buffer := ' </fo:table-cell>
 <fo:table-cell border-after-style="none" border-before-style="none" border-end-style="none" border-start-style="none" height="1pt" width=".5in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="black">
 <fo:block />
 </fo:table-cell>
-<fo:table-cell border-after-style="none" border-before-style="none" border-end-style="none" border-start-style="none" height="1pt" text-align="right" width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-al';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := 'ign="center" border-style="solid" border-width="1pt" border-color="black">
+<fo:table-cell border-after-style="none" border-before-style="none" border-end-style="none" border-start-style="none" height="1pt" text-align="right" width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" border-style="solid" border-width="1pt" border-color="black">
 <fo:block />
 </fo:table-cell>
 <fo:table-cell border-after-style="none" border-before-style="none" border-end-style="none" border-start-style="none" height="1pt" width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="black">
@@ -1828,9 +1551,6 @@ buffer := 'ign="center" border-style="solid" border-width="1pt" border-color="bl
 </fo:page-sequence>
 </fo:root>
 </xsl:template>
-</xsl:stylesheet>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
+</xsl:stylesheet>','admin',NOW(),UUID(),1)
 /
 DELIMITER ;
