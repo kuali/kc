@@ -2601,6 +2601,8 @@ function checkBeforeSubmit() {
 	var docstatus = $('#docStatus').attr("value");
 	var qdescription = $('#document\\.newMaintainableObject\\.businessObject\\.description').attr("value");
 	var qisfinal = $('#document\\.newMaintainableObject\\.businessObject\\.isFinal').attr("checked");
+	var qtemplate = $('#templateFileNameHidden').val();
+
 	var retval = false;
 	//if ($('#newQuestionnaire\\.questionnaireId').attr("value") == '0') {
 	//	// TODO : temp hack for 'edit', the first time to save,it will based on this to version
@@ -2613,6 +2615,8 @@ function checkBeforeSubmit() {
 			alert("Questionnaire description is required");
 		} else if ($("#example").children('li').size() == 0) {
 			alert("No question is added");	
+		} else if ((qtemplate != '') && (!qtemplate.match(/\.xsl$/))) {
+			alert("Template files must be of type: text/xsl");
 		} else {
 			
 			    retval = true;
@@ -2919,6 +2923,7 @@ function showViewFile(template) {
        $('#viewTemplate').show();
        $('#fileNameDiv').show();
 	}
+	$('#templateFileNameHidden').val($(template).val());
 	$('#fileNameDiv').html($(template).val());
 }
 function replaceTemplate(image) {
