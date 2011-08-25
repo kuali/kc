@@ -93,6 +93,9 @@ public class ProtocolAssignToAgendaRuleTest extends ProtocolRuleTestBase {
            
            allowing(bean).getActionDate();
            will(returnValue(ACTION_DATE));
+           
+           allowing(bean).isProtocolAssigned();
+           will(returnValue(true));
         }});
         
         return bean;
