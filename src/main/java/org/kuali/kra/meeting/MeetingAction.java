@@ -17,7 +17,6 @@ package org.kuali.kra.meeting;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -331,7 +330,7 @@ public class MeetingAction extends KualiAction {
         ((MeetingForm) form).getMeetingHelper().setHideReviewerName(
                 getReviewerCommentsService().setHideReviewerName(
                         ((MeetingForm) form).getMeetingHelper().getCommitteeSchedule().getCommitteeScheduleMinutes()));
-
+        
         // use the entry type comparator to sort the minutes 
         Collections.sort(((MeetingForm) form).getMeetingHelper().getCommitteeSchedule().getCommitteeScheduleMinutes(), CommitteeScheduleMinute.entryTypeComparator);
 

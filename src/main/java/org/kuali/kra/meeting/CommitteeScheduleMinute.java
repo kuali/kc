@@ -104,7 +104,7 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
                 if (csm2.getProtocolIdFk() != null) {
                     retVal = -1;  // null should come before actual protocol
                 }
-                else {
+                else if (csm2.getProtocolIdFk() != null){
                     retVal = 1;   // protocol comes after null
                 }
             }
