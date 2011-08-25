@@ -397,45 +397,57 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
         }
     }
 
+    /*
+     * beforeUpdate - only do actual update if a change has been made to the comment.
+     */
     @Override
     public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        setUpdateUserIfModified();
-        super.beforeUpdate(persistenceBroker);
+        if (setUpdateIfModified()) {
+            super.beforeUpdate(persistenceBroker);
+        }
     }
     
-    private void setUpdateUserIfModified() {
+    private boolean setUpdateIfModified() {
+        boolean result = false;
         String updateUser = GlobalVariables.getUserSession().getPrincipalName();
         if (getCommScheduleMinutesId() != null) {
             HashMap <String, String> pkMap = new HashMap<String, String>();
             pkMap.put("commScheduleMinutesId", getCommScheduleMinutesId().toString());
             CommitteeScheduleMinute committeeScheduleMinute = (CommitteeScheduleMinute)KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(this.getClass(), pkMap);
-            if (!updateUser.equals(committeeScheduleMinute.getUpdateUser())) {
+//            if (!updateUser.equals(committeeScheduleMinute.getUpdateUser())) {
                 if (!StringUtils.equals(getMinuteEntry(), committeeScheduleMinute.getMinuteEntry())
                         || privateCommentFlag != committeeScheduleMinute.getPrivateCommentFlag()
                         || finalFlag != committeeScheduleMinute.isFinalFlag()
                         || isProtocolFieldChanged(committeeScheduleMinute)
                 ) {
                     this.setUpdateUser(updateUser);
+                    result = true;
                 }                                    
-            }
+//            }
         } else {
-            this.setUpdateUser(updateUser);            
+            this.setUpdateUser(updateUser);
+            result = true;
         }
         setUpdateUserSet(true);
+        return result;
     }
     
     private boolean isProtocolFieldChanged(CommitteeScheduleMinute committeeScheduleMinute) {
         boolean isChanged = false;
-        if (protocolIdFk != null && committeeScheduleMinute.getProtocolIdFk() != null) {
-            if (protocolContingencyCode != null && committeeScheduleMinute.getProtocolContingencyCode() !=null
-                    && !protocolContingencyCode.equals(committeeScheduleMinute.getProtocolContingencyCode())) {
-                isChanged = true;
-            } else if (!(protocolContingencyCode == null && committeeScheduleMinute.getProtocolContingencyCode() == null)) {
-                isChanged = true;
+        // check for identical objects or both being null
+        if (protocolIdFk != committeeScheduleMinute.getProtocolIdFk()) { 
+            if (protocolIdFk != null) {
+                isChanged &= !protocolIdFk.equals(committeeScheduleMinute.getProtocolIdFk());
+            } else {
+                isChanged &= !committeeScheduleMinute.getProtocolIdFk().equals(protocolIdFk);
             }
-            
-        } else if (!(protocolIdFk == null && committeeScheduleMinute.getProtocolIdFk() == null)) {
-            isChanged = true;
+        }
+        if (protocolContingencyCode != committeeScheduleMinute.getProtocolContingencyCode()) { 
+            if (protocolContingencyCode != null) {
+                isChanged &= !protocolContingencyCode.equals(committeeScheduleMinute.getProtocolContingencyCode());
+            } else {
+                isChanged &= !committeeScheduleMinute.getProtocolContingencyCode().equals(protocolContingencyCode);
+            }
         }
         return isChanged;
     }
@@ -596,6 +608,5 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
     public boolean isPrivate() {
         return getPrivateCommentFlag();
     }
-
 
 }
