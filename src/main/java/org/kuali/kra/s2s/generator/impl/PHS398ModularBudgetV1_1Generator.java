@@ -330,7 +330,7 @@ public class PHS398ModularBudgetV1_1Generator extends
 							.bigDecimalValue());
 				}
 				if (budgetModularIdc.getDescription() != null) {
-					costType = budgetModularIdc.getRateClass().getDescription();
+				    costType = budgetModularIdc.getDescription();
 					indirectCostItems.setIndirectCostTypeDescription(costType);
 				}
 				indirectCostItemsList.add(indirectCostItems);
