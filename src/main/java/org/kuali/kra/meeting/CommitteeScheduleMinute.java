@@ -96,21 +96,29 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
     public static final Comparator<CommitteeScheduleMinute> entryTypeComparator = new Comparator<CommitteeScheduleMinute>() {
 
         public int compare(CommitteeScheduleMinute csm1, CommitteeScheduleMinute csm2) {
-            int retVal = csm1.getMinuteEntryType().compareTo(csm2.getMinuteEntryType());
-            if (retVal == 0) {
-                // same entry type, then sort by protocol number if possible
-                if ((csm1.getProtocolIdFk() != null) && (csm2.getProtocolIdFk() != null)) {
-                    retVal = csm1.getProtocol().getProtocolNumber().compareTo(csm2.getProtocol().getProtocolNumber());
+            int retVal = 0;
+            // first sort by protocol number if possible
+            if ((csm1.getProtocolIdFk() != null) && (csm2.getProtocolIdFk() != null)) {
+                retVal = csm1.getProtocol().getProtocolNumber().compareTo(csm2.getProtocol().getProtocolNumber());
+            } else if (csm1.getProtocolIdFk() == null) {
+                if (csm2.getProtocolIdFk() != null) {
+                    retVal = -1;  // null should come before actual protocol
                 }
-                // if not protocol then try 'other business' item type
-                else if ((csm1.getCommScheduleActItemsIdFk() != null) && (csm2.getCommScheduleActItemsIdFk() != null)) {
-                    retVal = csm1.getCommScheduleActItem().getScheduleActItemType().getScheduleActItemTypeCode()
-                            .compareTo(csm2.getCommScheduleActItem().getScheduleActItemType().getScheduleActItemTypeCode());
+                else {
+                    retVal = 1;   // protocol comes after null
+                }
+            }
+            
+            // if still same, check entry type then timestamps
+            if (retVal == 0) {
+                retVal = csm1.getMinuteEntryType().compareTo(csm2.getMinuteEntryType());
+                // if not entry type then try time of entries
+                if (retVal == 0) {
+                    retVal = csm1.getUpdateTimestamp().compareTo(csm2.getUpdateTimestamp());
                 }
             }
             return retVal;
         }
-
     }; 
 
     /**
