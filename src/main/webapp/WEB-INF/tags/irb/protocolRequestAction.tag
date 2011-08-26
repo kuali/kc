@@ -237,8 +237,7 @@
                                                                  Protocol status must not be Specific Minor Revisions Required or Substantive 
                                                                  Revisions Required.
                                                                  <p>
-                                                                 Protocol submission status must be Submitted To Committee, In Agenda, Pending, 
-                                                                 Substantive Revision Required, or Specific Minor Revisions Required.
+                                                                 Protocol submission status must be Submitted To Committee, In Agenda, or Pending.
                                                                  <p>
                                                                  Protocol must be enroute in workflow." />
 	            <kra-irb-action:genericUnavailableAction tabTitle="Modify Submission Request"
