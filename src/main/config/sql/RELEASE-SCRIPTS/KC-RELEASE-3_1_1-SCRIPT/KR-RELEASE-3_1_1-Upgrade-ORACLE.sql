@@ -12,6 +12,7 @@ spool KR-RELEASE-3_1_1-Upgrade-ORACLE-Install.log
 @../../current/3.1.1/dml/KR_DML_01_KCIRB-1472_B000.sql
 @../../current/3.1.1/dml/KR_DML_01_KRACOEUS-4349_B000.sql
 @../../current/3.1.1/dml/KR_DML_01_KRACOEUS-4358_B000.sql
+@../../current/3.1.1/dml/KR_DML_01_KRACOEUS-4367_B000.sql
 @../../current/3.1.1/dml/KR_DML_01_KRACOEUS-4876_B000.sql
 @../../current/3.1.1/dml/KR_DML_01_KRACOEUS-4927_B000.sql
 @../../current/3.1.1/dml/KR_DML_02_KRACOEUS-4414_B000.sql
