@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.notesandattachments.attachments;
 
+import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import org.apache.ojb.broker.PersistenceBroker;
@@ -30,7 +31,7 @@ import org.kuali.rice.kim.service.PersonService;
 /**
  * This class...
  */
-public class AwardAttachment extends AwardAssociate {
+public class AwardAttachment extends AwardAssociate implements Comparable<AwardAttachment> {
 
 /**
      * Comment for <code>serialVersionUID</code>
@@ -325,8 +326,32 @@ public class AwardAttachment extends AwardAssociate {
         }
     }
     
+    /**
+     * 
+     * This method returns the full name of the update user.
+     * @return
+     */
     public String getUpdateUserName() {
         Person updateUser = KraServiceLocator.getService(PersonService.class).getPersonByPrincipalName(this.getUpdateUser());
-        return updateUser!=null ? updateUser.getName() : this.getUpdateUser();
+        return updateUser != null ? updateUser.getName() : this.getUpdateUser();
+    }
+    
+    /**
+     * This sets the update time stamp only if it hasn't already been set.
+     * @see org.kuali.kra.bo.KraPersistableBusinessObjectBase#setUpdateTimestamp(java.sql.Timestamp)
+     */
+    @Override
+    public void setUpdateTimestamp(Timestamp updateTimestamp) {
+        if (getUpdateTimestamp() == null) {
+            super.setUpdateTimestamp(updateTimestamp);
+        }
+    }
+    
+    /**
+     * Implements comparable based on the awardAttachmentId.
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
+    public int compareTo(AwardAttachment o) {
+        return this.getAwardAttachmentId().compareTo(o.getAwardAttachmentId());
     }
 }

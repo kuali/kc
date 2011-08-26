@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.notesandattachments.attachments.AwardAttachment;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.budget.summary.BudgetSummaryService;
 import org.kuali.kra.service.ServiceHelper;
@@ -77,6 +78,14 @@ public class AwardServiceImpl implements AwardService {
 
     public AwardDocument createNewAwardVersion(AwardDocument awardDocument) throws VersionException, WorkflowException {
         Award newVersion = getVersioningService().createNewVersion(awardDocument.getAward());
+        
+        for (AwardAttachment attach : newVersion.getAwardAttachments()) {
+            AwardAttachment orignalAttachment = findMatchingAwardAttachment(awardDocument.getAward().getAwardAttachments(), attach.getFileId());
+            attach.setUpdateUser(orignalAttachment.getUpdateUser());
+            attach.setUpdateTimestamp(orignalAttachment.getUpdateTimestamp());
+            attach.setUpdateUserSet(true);
+        }
+        
         incrementVersionNumberIfCanceledVersionsExist(newVersion);//Canceled versions retain their own version number.
         newVersion.getFundingProposals().clear();
         AwardDocument newAwardDocument = (AwardDocument) getDocumentService().getNewDocument(AwardDocument.class);
@@ -91,6 +100,15 @@ public class AwardServiceImpl implements AwardService {
         newVersion.getAwardAmountInfos().get(0).setOriginatingAwardVersion(newVersion.getSequenceNumber());
         newVersion.getAwardAmountInfos().get(0).setTimeAndMoneyDocumentNumber(null);
         return newAwardDocument;
+    }
+    
+    private AwardAttachment findMatchingAwardAttachment(List<AwardAttachment> originalAwardList, Long currentFileId) throws VersionException {
+        for (AwardAttachment attach : originalAwardList) {
+            if (attach.getFileId().equals(currentFileId)) {
+                return attach;
+            }
+        }
+        throw new VersionException("Unable to find matching attachment.");
     }
     
     protected void incrementVersionNumberIfCanceledVersionsExist(Award award) {
