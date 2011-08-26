@@ -116,7 +116,7 @@ public class CommitteeScheduleMinuteTest extends KcUnitTestBase {
         // test case 5
         csm1.setProtocolIdFk(null);
         csm2.setProtocolIdFk(null);   
-        Assert.assertTrue(CommitteeScheduleMinute.entryTypeComparator.compare(csm1, csm2) > 0);
+        Assert.assertTrue(CommitteeScheduleMinute.entryTypeComparator.compare(csm1, csm2) == 0);
         
         csm1.getCommScheduleActItem().getScheduleActItemType().setScheduleActItemTypeCode("aaa");
         csm2.getCommScheduleActItem().getScheduleActItemType().setScheduleActItemTypeCode("aaa");
