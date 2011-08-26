@@ -739,12 +739,12 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      */
     public ActionForward viewProtocolAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
-        
+                
         ProtocolForm protocolForm = (ProtocolForm) form;
+        Printable printableArtifact = getProtocolPrintingService().getProtocolPrintArtifacts(protocolForm.getProtocolDocument().getProtocol());
         int selected = getSelectedLine(request);
         ProtocolAttachmentProtocol attachment = protocolForm.getProtocolDocument().getProtocol().getActiveAttachmentProtocols().get(selected);
-        return printAttachmentProtocol(mapping, response, attachment);
-
+        return printAttachmentProtocol(mapping, response, attachment,printableArtifact);
     }
     
     /**
@@ -935,19 +935,30 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     }
     
     /*
-     * This is to view attachment if attachment is seleccted in print panel.
+     * This is to view attachment if attachment is selected in print panel.
      */
-    private ActionForward printAttachmentProtocol(ActionMapping mapping, HttpServletResponse response, ProtocolAttachmentBase attachment) throws Exception {
+    private ActionForward printAttachmentProtocol(ActionMapping mapping, HttpServletResponse response, ProtocolAttachmentBase attachment,Printable printable) throws Exception {
 
         if (attachment == null) {
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
-
         final AttachmentFile file = attachment.getFile();
+        if(file.getType().equalsIgnoreCase(WatermarkConstants.ATTACHMENT_TYPE_PDF)){  
+           byte[] attachmentFile =null;
+           try {  
+              if(printable.isWatermarkEnabled()){    
+                  attachmentFile = getWatermarkService().applyWatermark(file.getData(),printable.getWatermarkable().getWatermark());}
+           }
+           catch (Exception e) {
+               LOG.error("Exception Occured in ProtocolNoteAndAttachmentAction. : ",e);    
+           }
+           if(attachmentFile!=null){
+               this.streamToResponse(attachmentFile, getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);    }
+           else{
+               this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);    }
+           return RESPONSE_ALREADY_HANDLED;
+        }
         this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
-//        byte[] watermarkedFile = KraServiceLocator.getService(WatermarkService.class).applyWatermark( file.getData(),getProtocolWatermarkBeanObject("199"));
-//        this.streamToResponse(watermarkedFile, getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
-
         return RESPONSE_ALREADY_HANDLED;
     }
 
@@ -3006,6 +3017,12 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     }
     private FollowupActionService getFollowupActionService() {
         return KraServiceLocator.getService(FollowupActionService.class);
+    }
+    /**
+     * This method is to get Watermark Service. 
+     */
+    private WatermarkService getWatermarkService() {
+        return  KraServiceLocator.getService(WatermarkService.class);  
     }
 
     /**

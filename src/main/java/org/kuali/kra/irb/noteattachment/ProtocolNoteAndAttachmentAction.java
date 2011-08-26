@@ -28,9 +28,14 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolForm;
+import org.kuali.kra.irb.actions.print.ProtocolPrintingService;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
+import org.kuali.kra.printing.Printable;
+import org.kuali.kra.printing.service.WatermarkService;
+import org.kuali.kra.util.watermark.WatermarkConstants;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -266,15 +271,28 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
         final int selection = this.getSelectedLine(request);
         final ProtocolAttachmentBase attachment = form.getNotesAttachmentsHelper().retrieveExistingAttachmentByType(selection, attachmentType);
         
+        Printable printableArtifacts= getProtocolPrintingService().getProtocolPrintArtifacts(form.getProtocolDocument().getProtocol());
+        
         if (attachment == null) {
             LOG.info(NOT_FOUND_SELECTION + selection);
-            //may want to tell the user the selection was invalid.
             return mapping.findForward(Constants.MAPPING_BASIC);
-        }
-        
+        }        
         final AttachmentFile file = attachment.getFile();
+        byte[] attachmentFile =null;
+        if(file.getType().equalsIgnoreCase(WatermarkConstants.ATTACHMENT_TYPE_PDF)){
+
+             try {  
+                if(printableArtifacts.isWatermarkEnabled()){    
+                    attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());}
+             }
+             catch (Exception e) {
+                 LOG.error("Exception Occured in ProtocolNoteAndAttachmentAction. : ",e);    
+             }
+             if(attachmentFile!=null){
+                 this.streamToResponse(attachmentFile, getValidHeaderString(file.getName()),  getValidHeaderString(file.getType()), response);}
+            return RESPONSE_ALREADY_HANDLED;
+        }        
         this.streamToResponse(file.getData(), getValidHeaderString(file.getName()),  getValidHeaderString(file.getType()), response);
-        
         return RESPONSE_ALREADY_HANDLED;
     }
     
@@ -358,4 +376,18 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }    
     
+    /**
+     * This method is to get protocol printing service.
+     * 
+     */
+    private ProtocolPrintingService getProtocolPrintingService() {
+        return KraServiceLocator.getService(ProtocolPrintingService.class);
+    }
+    
+    /**
+     * This method is to get Watermark Service. 
+     */
+    private WatermarkService getWatermarkService() {
+        return  KraServiceLocator.getService(WatermarkService.class);  
+    }
 }

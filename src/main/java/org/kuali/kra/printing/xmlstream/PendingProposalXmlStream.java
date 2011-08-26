@@ -1,23 +1,24 @@
 package org.kuali.kra.printing.xmlstream;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import noNamespace.CurrentAndPendingSupportDocument;
 import noNamespace.CurrentAndPendingSupportDocument.CurrentAndPendingSupport;
+import noNamespace.CurrentAndPendingSupportDocument.CurrentAndPendingSupport.PendingReportCEColumnNames;
 import noNamespace.CurrentAndPendingSupportDocument.CurrentAndPendingSupport.PendingSupport;
+import noNamespace.CurrentAndPendingSupportDocument.CurrentAndPendingSupport.PendingSupport.PendingReportCEColomnValues;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.common.printing.CurrentReportBean;
 import org.kuali.kra.common.printing.PendingReportBean;
 import org.kuali.kra.document.ResearchDocumentBase;
-import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
+import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.institutionalproposal.printing.InstitutionalProposalPrintType;
 import org.kuali.kra.institutionalproposal.printing.service.InstitutionalProposalPersonService;
 import org.kuali.kra.printing.service.CurrentAndPendingReportService;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -31,7 +32,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  */
 public class PendingProposalXmlStream extends CurrentAndPendingBaseStream {
 	private InstitutionalProposalPersonService institutionalProposalPersonService;
-
+	private ArrayList columsList;
 	/**
 	 * This method generates XML for Pending Proposal Report. It uses data
 	 * passed in {@link ResearchDocumentBase} for populating the XML nodes. The
@@ -50,14 +51,67 @@ public class PendingProposalXmlStream extends CurrentAndPendingBaseStream {
 		CurrentAndPendingSupport currentAndPendingSupport = CurrentAndPendingSupport.Factory
 				.newInstance();
 		List<PendingReportBean> pendingReportBeans = (List<PendingReportBean>)reportParameters.get(CurrentAndPendingReportService.PENDING_REPORT_BEANS_KEY);
+       
+        PendingReportCEColumnNames pendingReportCEColumnNames =getPendingSupportCustomColumnName(pendingReportBeans);
+        
         PendingSupport[] pendingSupports = getPendingSupportInformation(pendingReportBeans);
+        
         currentAndPendingSupport.setPersonName((String)reportParameters.get(CurrentAndPendingReportService.REPORT_PERSON_NAME_KEY));
         currentAndPendingSupport.setPendingSupportArray(pendingSupports);
+        currentAndPendingSupport.setPendingReportCEColumnNames(pendingReportCEColumnNames);
         currentAndPendingSupportDocument.setCurrentAndPendingSupport(currentAndPendingSupport);
         xmlObjectList.put(CurrentAndPendingReportService.PENDING_REPORT_TYPE, currentAndPendingSupportDocument);
 		return xmlObjectList;
 	}
 
+	private PendingReportCEColumnNames getPendingSupportCustomColumnName(List<PendingReportBean> pendingReportBeans){
+	    PendingReportCEColumnNames pendingReportCEColumnNames =  PendingReportCEColumnNames.Factory.newInstance();
+	    columsList=new ArrayList<String>();
+        String columName ="";
+        for (PendingReportBean bean : pendingReportBeans) {
+            if(bean.getInstitutionalProposalCustomDataList() !=null){
+                    for(InstitutionalProposalCustomData institutionalProposalCustomData :bean.getInstitutionalProposalCustomDataList()) {
+                        if(institutionalProposalCustomData.getCustomAttribute()!=null)
+                             columName = institutionalProposalCustomData.getCustomAttribute().getLabel();
+                        if(!columsList.contains(columName))
+                            columsList.add(columName);
+                    }
+            }
+        }
+        for(int columnLabelIndex=0;columnLabelIndex<columsList.size();columnLabelIndex++){
+            if(columnLabelIndex == 0)
+                pendingReportCEColumnNames.setCEColumnName1(columsList.get(columnLabelIndex).toString());
+            
+            if(columnLabelIndex == 1)
+                pendingReportCEColumnNames.setCEColumnName2(columsList.get(columnLabelIndex).toString());
+          
+            if(columnLabelIndex == 2)
+                pendingReportCEColumnNames.setCEColumnName3(columsList.get(columnLabelIndex).toString());
+          
+            if(columnLabelIndex == 3)
+                pendingReportCEColumnNames.setCEColumnName4(columsList.get(columnLabelIndex).toString());
+          
+            if(columnLabelIndex == 4)
+                pendingReportCEColumnNames.setCEColumnName5(columsList.get(columnLabelIndex).toString());
+            
+            if(columnLabelIndex == 5)
+                pendingReportCEColumnNames.setCEColumnName6(columsList.get(columnLabelIndex).toString());
+            
+            if(columnLabelIndex == 6)
+                pendingReportCEColumnNames.setCEColumnName7(columsList.get(columnLabelIndex).toString());
+            
+            if(columnLabelIndex == 7)
+                pendingReportCEColumnNames.setCEColumnName8(columsList.get(columnLabelIndex).toString());
+            
+            if(columnLabelIndex == 8)
+                pendingReportCEColumnNames.setCEColumnName9(columsList.get(columnLabelIndex).toString());
+            
+            if(columnLabelIndex == 9)
+                pendingReportCEColumnNames.setCEColumnName10(columsList.get(columnLabelIndex).toString());
+          
+        }
+        return pendingReportCEColumnNames;
+	}
 	/*
 	 * This method set the values to pending support xml object attributes and
 	 * finally returns the Pending support xml object.
@@ -120,6 +174,7 @@ public class PendingProposalXmlStream extends CurrentAndPendingBaseStream {
 	    List<PendingSupport> pendingSupports = new ArrayList<PendingSupport>();
 	    for (PendingReportBean bean : pendingReportBeans) {
 	        PendingSupport pendingSupport = PendingSupport.Factory.newInstance();
+	        Map<String,String> cutomDataValueMap = new HashMap<String,String>();
 	        pendingSupports.add(pendingSupport);
 	        if (bean.getProposalTitle() != null) {
 	            pendingSupport.setTitle(bean.getProposalTitle());
@@ -164,6 +219,24 @@ public class PendingProposalXmlStream extends CurrentAndPendingBaseStream {
             }
             if (bean.getSummerEffort() != null) {
                 pendingSupport.setSummerYearEffort(bean.getSummerEffort().bigDecimalValue());
+            }
+            if(bean.getInstitutionalProposalCustomDataList() !=null){
+                List<PendingReportCEColomnValues> pendingReportCEColomnValues = new ArrayList<PendingReportCEColomnValues>();
+                for(InstitutionalProposalCustomData institutionalProposalCustomData :bean.getInstitutionalProposalCustomDataList()) {
+                    if(institutionalProposalCustomData.getCustomAttribute()!=null && institutionalProposalCustomData.getValue()!=null && institutionalProposalCustomData.getCustomAttribute().getLabel()!=null){
+                        cutomDataValueMap.put(institutionalProposalCustomData.getCustomAttribute().getLabel(), institutionalProposalCustomData.getValue());
+                    }
+                }
+                for(int columnLabelIndex=0;columnLabelIndex<columsList.size();columnLabelIndex++){
+                    PendingReportCEColomnValues pendingReportCEColomnValue = PendingReportCEColomnValues.Factory.newInstance();
+                    if(cutomDataValueMap.get(columsList.get(columnLabelIndex))!=null)
+                        pendingReportCEColomnValue.setPendingReportCEColumnValue(cutomDataValueMap.get(columsList.get(columnLabelIndex)).toString());
+                    else{
+                        pendingReportCEColomnValue.setPendingReportCEColumnValue("");
+                    }
+                    pendingReportCEColomnValues.add(pendingReportCEColomnValue);
+                }
+                pendingSupport.setPendingReportCEColomnValuesArray(pendingReportCEColomnValues.toArray(new PendingReportCEColomnValues[0]));
             }
 	    }
 	    return pendingSupports.toArray(new PendingSupport[0]);
