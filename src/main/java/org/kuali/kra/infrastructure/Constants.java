@@ -122,6 +122,7 @@ public interface Constants {
     public static final String AUDIT_WARNINGS = "Warnings";
     public static final String GRANTSGOV_ERRORS= "Grants.Gov Errors";
     
+    public static final String CURRENT_PENDING_REPORT_GROUP_NAME = "CURRENT_PENDING_REPORT_GROUP_NAME";
     //public static final String PROPOSAL_ACTIONS_PAGE = "proposalActions";
     //public static final String ABSTRACTS_AND_ATTACHMENTS_PAGE = "abstractsAttachments";
     public static final String PROPOSAL_PAGE = "proposal";

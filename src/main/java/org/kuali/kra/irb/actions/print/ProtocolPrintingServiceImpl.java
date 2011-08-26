@@ -17,8 +17,10 @@ package org.kuali.kra.irb.actions.print;
 
 import java.util.List;
 
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
+import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.service.impl.PrintingServiceImpl;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 
@@ -61,6 +63,18 @@ public class ProtocolPrintingServiceImpl extends PrintingServiceImpl implements 
         return printable;
     }
     
+    /**
+     * 
+     * @see org.kuali.kra.irb.actions.print.ProtocolPrintingService#getProtocolPrintArtifacts(org.kuali.kra.irb.Protocol)
+     */
+     public Printable getProtocolPrintArtifacts(Protocol protocol) { 
+         
+         ProtocolPrintType printType = ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT;
+         AbstractPrint printable = (AbstractPrint)getProtocolPrintable(printType);
+         printable.setPrintableBusinessObject(protocol);
+         return printable;
+     }
+        
     public ProtocolFullProtocolPrint getProtocolFullProtocolPrint() {
         return protocolFullProtocolPrint;
     }
