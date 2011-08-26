@@ -8,7 +8,7 @@ begin
   declare l_new_seq INT;
 
   select ifnull(max(cast(QUESTION_ID as SIGNED)),'1') + 1 into l_new_seq from QUESTION;
-  set @create_seq := 'CREATE TABLE SEQ_QUESTION_ID (id bigint(19) not null auto_increment, primary key (id)) ENGINE MyISAM';
+  set @create_seq := 'CREATE TABLE IF NOT EXISTS SEQ_QUESTION_ID (id bigint(19) not null auto_increment, primary key (id)) ENGINE MyISAM';
   prepare create_seq_stmt from @create_seq;
   execute create_seq_stmt;
   deallocate prepare create_seq_stmt;
@@ -18,7 +18,7 @@ begin
   deallocate prepare alter_seq_stmt;
   
   select ifnull(max(cast(QUESTIONNAIRE_ID as SIGNED)),'1') + 1 into l_new_seq from QUESTIONNAIRE;
-  set @create_seq := 'CREATE TABLE SEQ_QUESTIONNAIRE_ID (id bigint(19) not null auto_increment, primary key (id)) ENGINE MyISAM';
+  set @create_seq := 'CREATE TABLE IF NOT EXISTS SEQ_QUESTIONNAIRE_ID (id bigint(19) not null auto_increment, primary key (id)) ENGINE MyISAM';
   prepare create_seq_stmt from @create_seq;
   execute create_seq_stmt;
   deallocate prepare create_seq_stmt;
@@ -35,7 +35,7 @@ begin
       union select max(cast(QUESTIONNAIRE_REF_ID as SIGNED)) as ID from QUESTIONNAIRE
       union select max(cast(QUESTIONNAIRE_QUESTIONS_ID as SIGNED)) as ID from QUESTIONNAIRE_QUESTIONS
       union select max(cast(QUESTIONNAIRE_USAGE_ID as SIGNED)) as ID from QUESTIONNAIRE_USAGE) as t1;
-  set @create_seq := 'CREATE TABLE SEQ_QUESTIONNAIRE_REF_ID (id bigint(19) not null auto_increment, primary key (id)) ENGINE MyISAM';
+  set @create_seq := 'CREATE TABLE IF NOT EXISTS SEQ_QUESTIONNAIRE_REF_ID (id bigint(19) not null auto_increment, primary key (id)) ENGINE MyISAM';
   prepare create_seq_stmt from @create_seq;
   execute create_seq_stmt;
   deallocate prepare create_seq_stmt;
