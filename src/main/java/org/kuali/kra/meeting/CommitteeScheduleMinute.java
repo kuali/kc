@@ -113,7 +113,7 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
             if (retVal == 0) {
                 retVal = csm1.getMinuteEntryType().compareTo(csm2.getMinuteEntryType());
                 // if not entry type then try time of entries
-                if (retVal == 0) {
+                if ((retVal == 0) && (csm1.getUpdateTimestamp() != null) && (csm2.getUpdateTimestamp() != null)) {
                     retVal = csm1.getUpdateTimestamp().compareTo(csm2.getUpdateTimestamp());
                 }
             }
