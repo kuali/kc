@@ -475,6 +475,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         return new AwardCommentsRuleImpl().processAwardCommentsBusinessRules(ruleEvent);
     }
     
+      
     private boolean processBenefitsRatesBusinessRules(Document document) {
         boolean valid = true;
         ErrorMap errorMap = GlobalVariables.getErrorMap();
@@ -485,8 +486,13 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         if(StringUtils.equalsIgnoreCase(
                 getKualiConfigurationService().getParameterValue(Constants.PARAMETER_MODULE_AWARD, 
                         ParameterConstants.DOCUMENT_COMPONENT,
-                        KeyConstants.MIT_IDC_VALIDATION_ENABLED),
-                        KeyConstants.MIT_IDC_VALIDATION_ENABLED_VALUE_FOR_COMPARISON)){
+                        KeyConstants.ENABLE_AWARD_FNA_VALIDATION),
+                        KeyConstants.ENABLED_PARAMETER_VALUE_ONE) || 
+                        StringUtils.equalsIgnoreCase(
+                                getKualiConfigurationService().getParameterValue(Constants.PARAMETER_MODULE_AWARD, 
+                                        ParameterConstants.DOCUMENT_COMPONENT,
+                                        KeyConstants.ENABLE_AWARD_FNA_VALIDATION),
+                                        KeyConstants.ENABLED_PARAMETER_VALUE_TWO)){
             String errorPath = "benefitsRates.rates";
             errorMap.addToErrorPath(errorPath);
             AwardBenefitsRatesRuleEvent event = new AwardBenefitsRatesRuleEvent(errorPath, 
@@ -500,7 +506,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
         return valid;
     }
-    
     
     /**
     *

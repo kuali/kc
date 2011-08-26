@@ -56,8 +56,8 @@ public class AwardFandARateAuditRule implements DocumentAuditRule {
         AwardDocument awardDocument = (AwardDocument) document;
         if(StringUtils.equalsIgnoreCase(
                 this.getParameterService().getParameterValue(AwardDocument.class,
-                        KeyConstants.MIT_IDC_VALIDATION_ENABLED),
-                        KeyConstants.MIT_IDC_VALIDATION_ENABLED_VALUE_FOR_COMPARISON)){
+                        KeyConstants.ENABLE_AWARD_FNA_VALIDATION),
+                        KeyConstants.ENABLED_PARAMETER_VALUE_ONE)){
             retval = isFandaRateInputInPairs(awardDocument.getAward().getAwardFandaRate());
         }        
         return retval;

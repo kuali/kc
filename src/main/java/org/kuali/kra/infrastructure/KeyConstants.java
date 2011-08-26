@@ -451,6 +451,8 @@ public final class KeyConstants {
 
     
     //Award Direc F and A Distribution
+    public static final String ERROR_AWARD_FANDA_INVALID_RTAES = "error.awardDirectFandADistribution.invalid.rate";
+    public static final String ERROR_AWARD_FANDA_INVALID_RTAES_FOR_SINGLE_RATE = "error.awardDirectFandADistribution.invalid.rate.for.single.rate";
     public static final String ERROR_AWARD_FANDA_DISTRIB_START_DATE_REQUIRED = "error.awardDirectFandADistribution.start.date.required";
     public static final String ERROR_AWARD_FANDA_DISTRIB_END_DATE_REQUIRED = "error.awardDirectFandADistribution.end.date.required";
     public static final String ERROR_AWARD_FANDA_DISTRIB_DIRECT_COST_REQUIRED = "error.awardDirectFandADistribution.direct.cost.required";
@@ -488,8 +490,12 @@ public final class KeyConstants {
     public static final String ERROR_BOTH_SPONSOR_AND_ROLODEX_ARE_NOT_SELECTED = "error.both.sponsor.and.rolodex.are.not.selected";
     public static final String ERROR_REQUIRED_ORGANIZATION_FIELD = "error.organizasion.required";
     //Award System Parameters    
-    public static final String MIT_IDC_VALIDATION_ENABLED = "mit.idc.validation.enabled";
-    public static final String MIT_IDC_VALIDATION_ENABLED_VALUE_FOR_COMPARISON = "1";
+    public static final String ENABLE_AWARD_FNA_VALIDATION = "enable.award.FnA.validation";
+    public static final String OPTION_WARNING_ERROR_AWARD_FANDA_VALIDATION = "option.warning.error.award.FnA.validation";
+    public static final String ENABLED_PARAMETER_VALUE_ONE = "1";
+    public static final String ENABLED_PARAMETER_VALUE_TWO = "2";
+    public static final String WARNING = "W";
+    public static final String ERROR = "E";
     public static final String REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES = "reportClassForPaymentsAndInvoices";
     public static final String PERIOD_IN_YEARS_WHEN_FREQUENCY_BASE_IS_FINAL_EXPIRATION_DATE
         = "scheduleGenerationPeriodInYearsWhenFrequencyBaseCodeIsFinalExpirationDate";

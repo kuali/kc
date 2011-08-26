@@ -42,6 +42,7 @@ public class AwardCommitmentsAction extends AwardAction {
   
     private static final String CONFIRM_DELETE_COST_SHARE = "confirmDeleteCostShare";
     private static final String CONFIRM_DELETE_COST_SHARE_KEY = "confirmDeleteCostShareKey";
+   
     
     private CostShareActionHelper costShareActionHelper;
     
@@ -62,15 +63,13 @@ public class AwardCommitmentsAction extends AwardAction {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         boolean isValid = true;
         AwardForm awardForm = (AwardForm)form;
-        
         List<AwardFandaRate> fandaRates = awardForm.getAwardDocument().getAward().getAwardFandaRate();
         for (int i=0; i<fandaRates.size(); i++) {
             if (!getKualiRuleService().applyRules(new AwardFandaRateSaveEvent(Constants.EMPTY_STRING, awardForm.getAwardDocument(), i))) {
                 isValid = false;
-                break;
+                //break;
             }
         }
-
         if (isValid) {
             return super.save(mapping, form, request, response);
         }
