@@ -26,7 +26,7 @@
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Users</span>
-    		<span class="subhead-right"><kul:help parameterNamespace="KC-PROTOCOL" parameterDetailType="Document" parameterName="protocolPermissionsHelp" altText="help"/></span>
+    		<span class="subhead-right"><kul:help parameterNamespace="KC-PROTOCOL" parameterDetailType="Document" parameterName="protocolPermissionsUsersHelp" altText="help"/></span>
         </h3>
         
         <table id="user-roles" cellpadding="0" cellspacing="0" summary="">
