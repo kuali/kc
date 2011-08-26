@@ -180,6 +180,7 @@
 		</collection-descriptor>
 		<collection-descriptor name="awardAttachments" proxy="true" element-class-ref="org.kuali.kra.award.notesandattachments.attachments.AwardAttachment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="awardId"/>
+			<orderby name="awardAttachmentId" sort="ASC" />
 		</collection-descriptor>
         <reference-descriptor name="awardTemplate" class-ref="org.kuali.kra.award.home.AwardTemplate" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="templateCode" />
