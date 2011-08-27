@@ -149,9 +149,9 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
      */
     public boolean setBudgetAdjustmentParameters(AwardBudgetDocument awardBudgetDocument, BudgetAdjustmentParametersDTO parametersDTO) throws Exception {
         boolean complete = true;    
-        complete &= createBudgetAdjustmentDocumentHeader(awardBudgetDocument, parametersDTO);
-                       
+        complete &= createBudgetAdjustmentDocumentHeader(awardBudgetDocument, parametersDTO);                  
         budgetCalculationService.calculateBudgetSummaryTotals(awardBudgetDocument.getAwardBudget());
+        
         Map<String, BudgetDecimal> accountingLines = new HashMap<String, BudgetDecimal>();  
         
         complete &= setNonPersonnelAccountingLines(awardBudgetDocument, accountingLines);
@@ -173,6 +173,12 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
         
         createAccountingLines(accountingLines, awardBudgetDocument, parametersDTO);
 
+        if (accountingLines.isEmpty()) {
+            int period = awardBudgetDocument.getBudget().getBudgetPeriods().size();
+            GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, KeyConstants.EMPTY_ACCOUNTING_LINES, period + "");
+            complete &= false;
+        }
+        
         return complete;
     }
    
@@ -373,7 +379,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
                         accountingLines.put(financialObjectCode, 
                                             accountingLines.get(financialObjectCode).add(nonPersonnelCost.get(costElement)));
                     }
-                    LOG.info("PersonnelCalculatedDirectCost OC: " + financialObjectCode + " = " + accountingLines.get(financialObjectCode));
+                    LOG.info("NonPersonnelCalculatedDirectCost OC: " + financialObjectCode + " = " + accountingLines.get(financialObjectCode));
                 }
             } else {
                 GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, 
@@ -466,8 +472,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
      * This method creates the accounting lines for the BA.
      */
     protected void createAccountingLines(Map<String, BudgetDecimal> accountingLines, AwardBudgetDocument awardBudgetDocument, BudgetAdjustmentParametersDTO parametersDTO) {
-        LOG.info(
-                 "PrincipalId: " + parametersDTO.getPrincipalId());
+        
         for (String objectCode : accountingLines.keySet()) {
             if (accountingLines.get(objectCode).isNonZero()) {
                 Details details = new Details();
