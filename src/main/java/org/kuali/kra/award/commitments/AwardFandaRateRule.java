@@ -73,6 +73,7 @@ public class AwardFandaRateRule  extends ResearchDocumentRuleBase implements Add
         rulePassed &= evaluateRuleForFandaRateTypeCode(awardFandaRate, NEW_AWARD_FANDA_RATE);
         rulePassed &= evaluateRuleForFiscalYear(awardFandaRate, NEW_AWARD_FANDA_RATE);
         rulePassed &= evaluateRuleForStartAndEndDates(awardFandaRate, NEW_AWARD_FANDA_RATE);
+        rulePassed &= checkValidFandARate(awardFandaRate,NEW_AWARD_FANDA_RATE);
 
         return rulePassed;
     }
@@ -86,6 +87,7 @@ public class AwardFandaRateRule  extends ResearchDocumentRuleBase implements Add
         rulePassed &= evaluateRuleForFandaRateTypeCode(awardFandaRate, propertyPrefix);
         rulePassed &= evaluateRuleForFiscalYear(awardFandaRate, propertyPrefix);
         rulePassed &= evaluateRuleForStartAndEndDates(awardFandaRate, propertyPrefix);
+        rulePassed &= checkValidFandARate(awardFandaRate,propertyPrefix);
         
         if(rulePassed){
             if(StringUtils.equalsIgnoreCase(
@@ -97,7 +99,7 @@ public class AwardFandaRateRule  extends ResearchDocumentRuleBase implements Add
                    rulePassed = isFandaRateInputInPairs(awardDocument.getAward().getAwardFandaRate());
                 }
                           
-            }else if(StringUtils.equalsIgnoreCase(
+            } else if(StringUtils.equalsIgnoreCase(
                     getKualiConfigurationService().getParameterValue(Constants.PARAMETER_MODULE_AWARD, 
                             ParameterConstants.DOCUMENT_COMPONENT,
                             KeyConstants.ENABLE_AWARD_FNA_VALIDATION),
@@ -213,24 +215,31 @@ public class AwardFandaRateRule  extends ResearchDocumentRuleBase implements Add
     public boolean checkValidFandARate(AwardFandaRate awardFandaRate,String propertyPrefix){
         boolean valid = true;
         Collection<ValidRates> validRates = null;
+
         String onOFFCampusRate = null;
-        if(awardFandaRate.getOnCampusFlag().equalsIgnoreCase("N")){
+        if (awardFandaRate.getOnCampusFlag().equalsIgnoreCase("N")) {
             onOFFCampusRate = ON_CAMPUS;
             validRates =  getValidRatesForFandA(ON_CAMPUS_RATE, awardFandaRate.getApplicableFandaRate());
-        }else{
+        } else {
             validRates =  getValidRatesForFandA(OFF_CAMPUS_RATE, awardFandaRate.getApplicableFandaRate());
             onOFFCampusRate = OFF_CAMPUS;
         }
-        if(validRates.size() == 0){
+        System.err.println("validRates.size(): " + validRates.size());
+        if (validRates.size() == 0) {
             valid = false;
-            if(StringUtils.equalsIgnoreCase(
-                  this.getParameterService().getParameterValue(AwardDocument.class,
-                   KeyConstants.OPTION_WARNING_ERROR_AWARD_FANDA_VALIDATION),
-                       KeyConstants.ERROR)){
-                reportError(propertyPrefix+".applicableFandaRate", KeyConstants.ERROR_AWARD_FANDA_INVALID_RTAES_FOR_SINGLE_RATE,awardFandaRate.getApplicableFandaRate().toString(),onOFFCampusRate);
-            }else{
+            if (StringUtils.equalsIgnoreCase(
+                    this.getParameterService().getParameterValue(AwardDocument.class, KeyConstants.OPTION_WARNING_ERROR_AWARD_FANDA_VALIDATION),
+                    KeyConstants.ERROR)) {
+                System.err.println("first condition");
+                reportError(propertyPrefix + ".applicableFandaRate", 
+                        KeyConstants.ERROR_AWARD_FANDA_INVALID_RTAES_FOR_SINGLE_RATE,
+                        awardFandaRate.getApplicableFandaRate().toString(),onOFFCampusRate);
+            } else {
+                System.err.println("second condition");
                 valid = true;
-                reportWarning(propertyPrefix+".applicableFandaRate", KeyConstants.ERROR_AWARD_FANDA_INVALID_RTAES_FOR_SINGLE_RATE,awardFandaRate.getApplicableFandaRate().toString(),onOFFCampusRate);
+                reportWarning(propertyPrefix + ".applicableFandaRate", 
+                        KeyConstants.ERROR_AWARD_FANDA_INVALID_RTAES_FOR_SINGLE_RATE,
+                        awardFandaRate.getApplicableFandaRate().toString(),onOFFCampusRate);
             }
         }
         return valid;
@@ -241,7 +250,7 @@ public class AwardFandaRateRule  extends ResearchDocumentRuleBase implements Add
      * @return
      */
     @SuppressWarnings("unchecked")
-    Collection<ValidRates> getValidRatesForFandA(String rateTypeOnOrOff, KualiDecimal rate){
+    private Collection<ValidRates> getValidRatesForFandA(String rateTypeOnOrOff, KualiDecimal rate){
         Map<String, Object> rateValues = new HashMap<String, Object>();
         rateValues.put(rateTypeOnOrOff, rate);
         rateValues.put(RATE_CLASS_TYPE, FANDA_RATE_CLASS_TYPE);
