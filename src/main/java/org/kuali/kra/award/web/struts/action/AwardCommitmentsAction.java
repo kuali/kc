@@ -27,6 +27,7 @@ import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.commitments.AddAwardFandaRateEvent;
 import org.kuali.kra.award.commitments.AwardCostShare;
 import org.kuali.kra.award.commitments.AwardFandaRate;
+import org.kuali.kra.award.commitments.AwardFandaRateRule;
 import org.kuali.kra.award.commitments.AwardFandaRateSaveEvent;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -208,8 +209,8 @@ public class AwardCommitmentsAction extends AwardAction {
             , HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         AwardFandaRate newAwardFandaRate = awardForm.getNewAwardFandaRate();
-        if(getKualiRuleService().applyRules(new AddAwardFandaRateEvent(Constants.EMPTY_STRING, 
-                awardForm.getAwardDocument(), newAwardFandaRate))){
+        AwardFandaRateRule rule = new AwardFandaRateRule();
+        if (rule.processAddFandaRateBusinessRules(new AddAwardFandaRateEvent(Constants.EMPTY_STRING,awardForm.getAwardDocument(), newAwardFandaRate))) {
             addFandaRateToAward(awardForm.getAwardDocument().getAward(),newAwardFandaRate);            
             awardForm.setNewAwardFandaRate(new AwardFandaRate());
         }
