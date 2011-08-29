@@ -125,9 +125,10 @@ public class QuestionLookupableHelperServiceTest extends KcUnitTestBase {
         List pkNames = new ArrayList();
         pkNames.add("questionRefId");
         
+        String docNumber = maintDocument.getDocumentNumber();
         List<HtmlData> htmldata = questionLookupableHelperServiceImpl.getCustomActionUrls(maintDocument.getNewMaintainableObject().getBusinessObject(), pkNames);
         Assert.assertEquals(htmldata.size(), 1);
-        Assert.assertEquals(((AnchorHtmlData)htmldata.get(0)).getHref(), "../maintenanceQ.do?questionRefId="+question.getQuestionRefId()+"&businessObjectClassName=org.kuali.kra.questionnaire.question.Question&methodToCall=edit&readOnly=true");
+        Assert.assertEquals(((AnchorHtmlData)htmldata.get(0)).getHref(), "http://127.0.0.1:9925/kc-dev/kew/DocHandler.do?command=displayDocSearchView&readOnly=true&docId="+docNumber);
     }
     
     /**
@@ -155,11 +156,12 @@ public class QuestionLookupableHelperServiceTest extends KcUnitTestBase {
         List pkNames = new ArrayList();
         pkNames.add("questionRefId");
         
+        String docNumber = maintDocument.getDocumentNumber();
         List<HtmlData> htmldata = questionLookupableHelperServiceImpl.getCustomActionUrls(maintDocument.getNewMaintainableObject().getBusinessObject(), pkNames);
         Assert.assertEquals(htmldata.size(), 3);
         Assert.assertEquals(((AnchorHtmlData)htmldata.get(0)).getHref(), "../maintenanceQ.do?questionRefId="+question.getQuestionRefId()+"&businessObjectClassName=org.kuali.kra.questionnaire.question.Question&methodToCall=edit");
         Assert.assertEquals(((AnchorHtmlData)htmldata.get(1)).getHref(), "../maintenanceQ.do?questionRefId="+question.getQuestionRefId()+"&businessObjectClassName=org.kuali.kra.questionnaire.question.Question&methodToCall=copy");
-        Assert.assertEquals(((AnchorHtmlData)htmldata.get(2)).getHref(), "../maintenanceQ.do?questionRefId="+question.getQuestionRefId()+"&businessObjectClassName=org.kuali.kra.questionnaire.question.Question&methodToCall=edit&readOnly=true");
+        Assert.assertEquals(((AnchorHtmlData)htmldata.get(2)).getHref(), "http://127.0.0.1:9925/kc-dev/kew/DocHandler.do?command=displayDocSearchView&readOnly=true&docId="+docNumber);
     }
 
     /**

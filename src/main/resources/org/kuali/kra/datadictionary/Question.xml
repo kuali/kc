@@ -36,6 +36,7 @@
         <property name="attributes" >
             <list>
                 <ref bean="Question-questionRefId" />
+                <ref bean="Question-documentNumber" />
                 <ref bean="Question-questionId" />
                 <ref bean="Question-sequenceNumber" />
                 <ref bean="Question-question" />
@@ -76,6 +77,24 @@
         </property>
         <property name="summary" value="Question Ref Id" />
         <property name="description" value="Question Ref Id" />
+    </bean>
+
+    <bean id="Question-documentNumber" parent="Question-documentNumber-parentBean" />
+    <bean id="Question-documentNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="documentNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Document Number" />
+        <property name="shortLabel" value="Document Number" />
+        <property name="maxLength" value="10" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Document Number" />
+        <property name="description" value="Document Number" />
     </bean>
 
     <bean id="Question-questionId" parent="Question-questionId-parentBean" />
