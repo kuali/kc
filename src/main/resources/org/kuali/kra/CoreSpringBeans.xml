@@ -532,6 +532,7 @@
 		class="org.kuali.kra.external.award.AccountCreationClientFactoryBean">
 		<property name="sharedRice" value="${shared.rice}" />
 		<property name="documentService" ref="documentService" />
+		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 
 	<bean id="institutionalUnitServiceJavaExporter" class="org.kuali.rice.ksb.messaging.KSBExporter">

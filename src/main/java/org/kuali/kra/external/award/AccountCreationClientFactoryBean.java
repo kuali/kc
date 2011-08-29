@@ -17,6 +17,7 @@ package org.kuali.kra.external.award;
 
 import org.kuali.kra.external.award.impl.AccountCreationClientImpl;
 import org.kuali.kra.external.award.impl.AccountCreationKSBClientImpl;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.springframework.beans.factory.FactoryBean;
 
@@ -24,6 +25,7 @@ public class AccountCreationClientFactoryBean implements FactoryBean {
 
 	private boolean sharedRice;
 	private DocumentService documentService;
+    private BusinessObjectService businessObjectService;
 
 	public Object getObject() throws Exception {
 	    AccountCreationClient object = null; 
@@ -33,6 +35,7 @@ public class AccountCreationClientFactoryBean implements FactoryBean {
 		    object = (AccountCreationClient) (AccountCreationClientImpl.getInstance());
 		
 		object.setDocumentService(documentService);
+		object.setBusinessObjectService(businessObjectService);
 		return object;
 	}
 
@@ -54,5 +57,9 @@ public class AccountCreationClientFactoryBean implements FactoryBean {
 
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
+    }
+    
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }
