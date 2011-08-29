@@ -24,12 +24,8 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
-import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.questionnaire.QuestionnaireQuestion;
-import org.kuali.kra.questionnaire.QuestionnaireUsage;
-import org.kuali.kra.questionnaire.question.QuestionExplanation;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectExtension;
@@ -41,14 +37,14 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public abstract class KraPersistableBusinessObjectBase extends PersistableBusinessObjectBase {
     
     private static final int UPDATE_USER_LENGTH = 60;
-    
-    private static final String EXTENSION_OBJECT_KEY = "extensionObjectKey";
 
     private transient KcPersonService kcPersonService;
     
     private String updateUser;
     private Timestamp updateTimestamp;
     private boolean updateUserSet;
+    
+    private transient PersistableBusinessObjectExtension temporaryExtension;
 
     /**
      * {@inheritDoc}
@@ -61,8 +57,8 @@ public abstract class KraPersistableBusinessObjectBase extends PersistableBusine
         setUpdateFields();
 
         if (extension != null) {
-            GlobalVariables.getUserSession().addObject(EXTENSION_OBJECT_KEY, extension);
-            setExtension(null);
+            temporaryExtension = extension;
+            extension = null;
         }
     }
     
@@ -73,26 +69,26 @@ public abstract class KraPersistableBusinessObjectBase extends PersistableBusine
     @Override
     @SuppressWarnings("unchecked")
     public void afterInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        PersistableBusinessObjectExtension newExtension 
-            = (PersistableBusinessObjectExtension) GlobalVariables.getUserSession().retrieveObject(EXTENSION_OBJECT_KEY);
-        
-        if (newExtension != null) {
-            List<String> primaryKeyFieldNames = getPersistenceStructureService().listPrimaryKeyFieldNames(getClass());
-            for (String primaryKeyFieldName : primaryKeyFieldNames) {
-                try {
-                    Method thisPrimaryKeyGetter = PropertyUtils.getReadMethod(PropertyUtils.getPropertyDescriptor(this, primaryKeyFieldName));
-                    Method extensionPrimaryKeySetter = PropertyUtils.getWriteMethod(PropertyUtils.getPropertyDescriptor(newExtension, primaryKeyFieldName));
-                    extensionPrimaryKeySetter.invoke(newExtension, thisPrimaryKeyGetter.invoke(this));
-                } catch (NoSuchMethodException nsme) {
-                    throw new PersistenceBrokerException("Could not find accessor for " + primaryKeyFieldName + " in an extension object", nsme);
-                } catch (InvocationTargetException ite) {
-                    throw new PersistenceBrokerException("Could not invoke accessor for " + primaryKeyFieldName + " on an extension object", ite);
-                } catch (IllegalAccessException iae) {
-                    throw new PersistenceBrokerException("Illegal access when invoking " + primaryKeyFieldName + " accessor on an extension object", iae);
+        if (temporaryExtension != null) {
+            List<String> fieldNames = getPersistenceStructureService().listPrimaryKeyFieldNames(getClass());
+            try {
+                for (String fieldName : fieldNames) {
+                    try {
+                        Method thisGetter = PropertyUtils.getReadMethod(PropertyUtils.getPropertyDescriptor(this, fieldName));
+                        Method extensionSetter = PropertyUtils.getWriteMethod(PropertyUtils.getPropertyDescriptor(temporaryExtension, fieldName));
+                        extensionSetter.invoke(temporaryExtension, thisGetter.invoke(this));
+                    } catch (NoSuchMethodException nsme) {
+                        throw new PersistenceBrokerException("Could not find accessor for " + fieldName + " in an extension object", nsme);
+                    } catch (InvocationTargetException ite) {
+                        throw new PersistenceBrokerException("Could not invoke accessor for " + fieldName + " on an extension object", ite);
+                    } catch (IllegalAccessException iae) {
+                        throw new PersistenceBrokerException("Illegal access when invoking " + fieldName + " accessor on an extension object", iae);
+                    }
                 }
+            } finally {
+                extension = temporaryExtension;
+                temporaryExtension = null;
             }
-            extension = newExtension;
-            GlobalVariables.getUserSession().removeObject(EXTENSION_OBJECT_KEY);
         }
     }
 
