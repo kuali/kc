@@ -70,7 +70,7 @@
 			<inverse-foreignkey field-ref="coiDisclosureId"/>
 		</collection-descriptor>
 		<collection-descriptor name="coiNotepad" proxy="true" element-class-ref="org.kuali.kra.bo.CoiNotepad" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
-			<inverse-foreignkey field-ref="coiDisclosureId"/>
+			<inverse-foreignkey field-ref="coiDisclosureId"/>00
 		</collection-descriptor>
 		<collection-descriptor name="coiUserRoles" proxy="true" element-class-ref="org.kuali.kra.bo.CoiUserRoles" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="coiDisclosureId"/>
@@ -84,4 +84,168 @@
  -->		
 	</class-descriptor>
 
+<!--  Person financial interests -->
+	<class-descriptor class="org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure" table="PERSON_FIN_INT_DISCLOSURE">
+		<field-descriptor name="personFinIntDisclosureId" column="PERSON_FIN_INT_DISCLOSURE_ID" jdbc-type="BIGINT" sequence-name="SEQ_PERSON_FIN_INT_DISCL_ID" primarykey="true"  autoincrement="true" />
+		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="entityNumber" column="ENTITY_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="statusCode" column="STATUS_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="statusDescription" column="STATUS_DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="entityName" column="ENTITY_NAME" jdbc-type="VARCHAR" />
+		<field-descriptor name="entityTypeCode" column="ENTITY_TYPE_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="entityOwnershipType" column="ENTITY_OWNERSHIP_TYPE" jdbc-type="VARCHAR" />
+		<field-descriptor name="relationshipTypeCode" column="RELATIONSHIP_TYPE_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="relationshipDescription" column="RELATIONSHIP_DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="relatedToOrganizationFlag" column="RELATED_TO_ORG_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+        <field-descriptor name="currentFlag" column="CURRENT_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="orgRelationDescription" column="ORG_RELATION_DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="sponsorCode" column="SPONSOR_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<collection-descriptor name="invCoiDiscDetails" proxy="true" element-class-ref="org.kuali.kra.coi.personfinancialentity.InvCoiDiscDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+			<inverse-foreignkey field-ref="personFinIntDisclosureId"/>
+		</collection-descriptor>
+		<collection-descriptor name="finIntEntityYnqs" proxy="true" element-class-ref="org.kuali.kra.coi.personfinancialentity.FinIntEntityYnq" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+			<inverse-foreignkey field-ref="personFinIntDisclosureId"/>
+		</collection-descriptor>
+		<reference-descriptor name="finIntEntityRelType" class-ref="org.kuali.kra.coi.personfinancialentity.FinIntEntityRelType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="relationshipTypeCode"/>
+		</reference-descriptor>
+		<reference-descriptor name="finIntEntityStatus" class-ref="org.kuali.kra.coi.personfinancialentity.FinIntEntityStatus" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="statusCode"/>
+		</reference-descriptor>
+		<reference-descriptor name="organizationTypeList" class-ref="org.kuali.kra.bo.OrganizationTypeList" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="entityTypeCode"/>
+		</reference-descriptor>
+		<reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="sponsorCode"/>
+		</reference-descriptor>
+	</class-descriptor>
+
+	<class-descriptor class="org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclDet" table="PER_FIN_INT_DISCL_DET">
+		<field-descriptor name="perFinIntDisclDetId" column="PER_FIN_INT_DISCL_DET_ID" jdbc-type="BIGINT" sequence-name="SEQ_PER_FIN_INT_DISCL_DET_ID" primarykey="true"  autoincrement="true" />
+		<field-descriptor name="personFinIntDisclosureId" column="PERSON_FIN_INT_DISCLOSURE_ID" />
+		<field-descriptor name="entityNumber" column="ENTITY_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="columnName" column="COLUMN_NAME" jdbc-type="VARCHAR" />
+		<field-descriptor name="columnValue" column="COLUMN_VALUE" jdbc-type="VARCHAR" />
+		<field-descriptor name="relationshipTypeCode" column="RELATIONSHIP_TYPE_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="finEntitiesDataMatrix" class-ref="org.kuali.kra.coi.personfinancialentity.FinEntitiesDataMatrix" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="columnName"/>
+		</reference-descriptor>
+		<reference-descriptor name="personFinIntDisclosure" class-ref="org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="personFinIntDisclosureId"/>
+		</reference-descriptor>
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.coi.personfinancialentity.InvCoiDiscDetail" table="INV_COI_DISC_DETAILS">
+		<field-descriptor name="invCoiDiscDetailsId" column="INV_COI_DISC_DETAILS_ID" jdbc-type="BIGINT" sequence-name="SEQ_INV_COI_DISC_DETAILS_ID" primarykey="true"  autoincrement="true" />
+		<field-descriptor name="personFinIntDisclosureId" column="PERSON_FIN_INT_DISCLOSURE_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="coiDisclosureNumber" column="COI_DISCLOSURE_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="entityNumber" column="ENTITY_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="entitySequenceNumber" column="ENTITY_SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="coiStatusCode" column="COI_STATUS_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="coiReviewerCode" column="COI_REVIEWER_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="personFinIntDisclosure" class-ref="org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="personFinIntDisclosureId"/>
+		</reference-descriptor>
+		<!-- 
+		<reference-descriptor name="coiReviewer" class-ref="org.kuali.kra.coi.personfinancialentity.CoiReviewer" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="coiReviewerCode"/>
+		</reference-descriptor>
+		 -->
+	</class-descriptor>	
+	
+	<class-descriptor class="org.kuali.kra.coi.personfinancialentity.FinIntEntityYnq" table="FIN_INT_ENTITY_YNQ">
+		<field-descriptor name="finIntEntityYnqId" column="FIN_INT_ENTITY_YNQ_ID" jdbc-type="BIGINT" sequence-name="SEQ_FIN_INT_ENTITY_YNQ_ID" primarykey="true"  autoincrement="true" />
+		<field-descriptor name="personFinIntDisclosureId" column="PERSON_FIN_INT_DISCLOSURE_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="entityNumber" column="ENTITY_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="questionId" column="QUESTION_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="answer" column="ANSWER" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="explanation" column="EXPLANATION" jdbc-type="VARCHAR" />
+		<field-descriptor name="reviewDate" column="REVIEW_DATE" jdbc-type="DATE" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="personFinIntDisclosure" class-ref="org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="personFinIntDisclosureId"/>
+		</reference-descriptor>
+		<reference-descriptor name="ynq" class-ref="org.kuali.kra.bo.Ynq" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="questionId"/>
+		</reference-descriptor>
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.coi.personfinancialentity.FinIntEntityStatus" table="FIN_INT_ENTITY_STATUS">
+		<field-descriptor name="statusCode" column="STATUS_CODE" jdbc-type="INTEGER" primarykey="true" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<collection-descriptor name="personFinIntDisclosures" proxy="true" element-class-ref="org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+			<inverse-foreignkey field-ref="statusCode"/>
+		</collection-descriptor>
+	</class-descriptor>	
+	
+	<class-descriptor class="org.kuali.kra.coi.personfinancialentity.FinIntEntityRelType" table="FIN_INT_ENTITY_REL_TYPE">
+		<field-descriptor name="relationshipTypeCode" column="RELATIONSHIP_TYPE_CODE" jdbc-type="INTEGER" primarykey="true" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<collection-descriptor name="personFinIntDisclosure" proxy="true" element-class-ref="org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+			<inverse-foreignkey field-ref="relationshipTypeCode"/>
+		</collection-descriptor>
+	</class-descriptor>	
+	
+	<class-descriptor class="org.kuali.kra.coi.personfinancialentity.FinEntitiesDataMatrix" table="FIN_ENTITIES_DATA_MATRIX">
+		<field-descriptor name="columnName" column="COLUMN_NAME" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="columnLabel" column="COLUMN_LABEL" jdbc-type="VARCHAR" />
+		<field-descriptor name="guiType" column="GUI_TYPE" jdbc-type="VARCHAR" />
+		<field-descriptor name="lookupArgument" column="LOOKUP_ARGUMENT" jdbc-type="VARCHAR" />
+		<field-descriptor name="dataGroupId" column="DATA_GROUP_ID" jdbc-type="INTEGER" />
+		<field-descriptor name="statusFlag" column="STATUS_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="columnSortId" column="COLUMN_SORT_ID" jdbc-type="INTEGER" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<collection-descriptor name="perFinIntDisclDet" proxy="true" element-class-ref="org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclDet" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+			<inverse-foreignkey field-ref="columnName"/>
+		</collection-descriptor>
+		<reference-descriptor name="finEntitiesDataGroup" class-ref="org.kuali.kra.coi.personfinancialentity.FinEntitiesDataGroup" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="dataGroupId"/>
+		</reference-descriptor>
+	</class-descriptor>	
+	
+	<class-descriptor class="org.kuali.kra.coi.personfinancialentity.FinEntitiesDataGroup" table="FIN_ENTITIES_DATA_GROUPS">
+		<field-descriptor name="dataGroupId" column="DATA_GROUP_ID" jdbc-type="INTEGER" primarykey="true" />
+		<field-descriptor name="dataGroupName" column="DATA_GROUP_NAME" jdbc-type="VARCHAR" />
+		<field-descriptor name="dataGroupSortId" column="DATA_GROUP_SORT_ID" jdbc-type="INTEGER" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<collection-descriptor name="finEntitiesDataMatrixs" proxy="true" element-class-ref="org.kuali.kra.coi.personfinancialentity.FinEntitiesDataMatrix" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+			<inverse-foreignkey field-ref="dataGroupId"/>
+		</collection-descriptor>
+	</class-descriptor>	
 </descriptor-repository>

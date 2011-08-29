@@ -1840,9 +1840,9 @@
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" nullable="false" />
-		<!--  tempary commented out
-		<collection-descriptor name="personFinIntDisclosure" proxy="true" element-class-ref="org.kuali.kra.bo.PersonFinIntDisclosure" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
-			<inverse-foreignkey field-ref="organizationTypeCode"/>
+		<!--  tempary commented out 
+		<collection-descriptor name="personFinIntDisclosures" proxy="true" element-class-ref="org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+			<inverse-foreignkey field-ref="entityTypeCode"/>
 		</collection-descriptor>
 		-->
 	</class-descriptor>
