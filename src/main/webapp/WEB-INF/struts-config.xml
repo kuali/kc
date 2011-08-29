@@ -44,6 +44,7 @@
         <form-bean name="JqueryAjaxForm" type="org.kuali.kra.jqueryajax.JqueryAjaxForm"/>
         <form-bean name="CurrentOrPendingReportForm" type="org.kuali.kra.proposaldevelopment.web.struts.form.CurrentOrPendingReportForm" />
 		<form-bean name="CoiDisclosureForm" type="org.kuali.kra.coi.CoiDisclosureForm" />
+		<form-bean name="FinancialEntityForm" type="org.kuali.kra.coi.personfinancialentity.FinancialEntityForm" />
     </form-beans>
 
 <!-- Rice content Start -->
@@ -448,6 +449,11 @@
           <forward name="basic" path="/WEB-INF/jsp/coi/CoiCertification.jsp" />
           &coi_forwards;
        </action>
+          <action path="/financialEntityManagement" name="FinancialEntityForm" type="org.kuali.kra.coi.personfinancialentity.FinancialEntityAction" input="/WEB-INF/jsp/coi/FinancialEntityManagement.jsp" attribute="KualiForm">
+            <forward name="basic" path="/WEB-INF/jsp/coi/FinancialEntityManagement.jsp" />
+            <forward name="management" path="/WEB-INF/jsp/coi/FinancialEntityManagement.jsp" />
+     </action>
+     
      
     </action-mappings>
 
