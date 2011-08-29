@@ -8,7 +8,7 @@
   <bean id="Negotiation-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.negotiations.bo.Negotiation" />
 		<property name="objectLabel" value="Negotiation" />
-    <property name="titleAttribute" value="NegotiationAgreementType" />
+    <property name="titleAttribute" value="negotiationId" />
     <property name="attributes" >
       <list>
         <ref bean="Negotiation-negotiationId" />
