@@ -51,16 +51,20 @@ public class QuestionMaintainableImpl extends KraMaintainableImpl {
         super.prepareForSave();
        
         if ((businessObject != null) && (businessObject instanceof KraPersistableBusinessObjectBase)) {
-           // This is a solution to enable the lookreturn have a proper dropdown list
-            if (businessObject instanceof Question && StringUtils.isNotBlank(((Question) businessObject).getLookupClass())) {
-                GlobalVariables.getUserSession().addObject(Constants.LOOKUP_CLASS_NAME, (Object) ((Question) businessObject).getLookupClass());
-            }
+            // This is a solution to enable the lookreturn have a proper dropdown list
+            if (businessObject instanceof Question) {
+                Question question = (Question)businessObject;
+                question.setDocumentNumber(this.documentNumber);
+                if (StringUtils.isNotBlank(((Question) businessObject).getLookupClass())) {
+                    GlobalVariables.getUserSession().addObject(Constants.LOOKUP_CLASS_NAME, (Object) question.getLookupClass());
+                }
        
-            // In order for the questionId to be displayed after a submission of a new question we need to manually create it. 
-            if (businessObject instanceof Question && (((Question) businessObject).getQuestionId() == null)) {
-                Long newQuestionId = KraServiceLocator.getService(SequenceAccessorService.class)
-                       .getNextAvailableSequenceNumber("SEQ_QUESTION_ID");
-                ((Question) businessObject).setQuestionId(newQuestionId.intValue());
+                // In order for the questionId to be displayed after a submission of a new question we need to manually create it. 
+                if (question.getQuestionId() == null) {
+                    Long newQuestionId = KraServiceLocator.getService(SequenceAccessorService.class)
+                            .getNextAvailableSequenceNumber("SEQ_QUESTION_ID");
+                    question.setQuestionId(newQuestionId.intValue());
+                }
             }
         }
     }

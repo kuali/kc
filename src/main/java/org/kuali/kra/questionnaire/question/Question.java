@@ -35,6 +35,7 @@ public class Question extends KraPersistableBusinessObjectBase implements Compar
     
     private static final String SEQUENCE_STATUS_CURRENT = "C";
 
+    private String documentNumber;
     private Long questionRefId;
     private Integer questionId;
     private Integer sequenceNumber;
@@ -59,6 +60,14 @@ public class Question extends KraPersistableBusinessObjectBase implements Compar
         this.setSequenceStatus(SEQUENCE_STATUS_CURRENT);
         this.setQuestionExplanations(new ArrayList<QuestionExplanation>());
     } 
+
+    public String getDocumentNumber() {
+        return documentNumber;
+    }
+
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
+    }
 
     public Long getQuestionRefId() {
         return questionRefId;
