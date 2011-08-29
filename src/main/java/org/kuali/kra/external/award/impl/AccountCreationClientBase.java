@@ -19,7 +19,9 @@ package org.kuali.kra.external.award.impl;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
@@ -36,6 +38,7 @@ import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.contacts.AwardUnitContact;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.ValidRates;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.bo.KcPerson;
@@ -44,6 +47,7 @@ import org.kuali.kra.external.award.AccountCreationClient;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.web.session.UserSession;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -65,6 +69,7 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
 
     private AccountParametersDTO accountParameters;
     private DocumentService documentService;
+    private BusinessObjectService businessObjectService;
     
     private static final Log LOG = LogFactory.getLog(AccountCreationClientBase.class);
     protected static final QName SERVICE_NAME = new QName("KFS", "accountCreationServiceSOAP");
@@ -223,11 +228,13 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         accountParameters.setPrincipalId(UserSession.getAuthenticatedUser().getPrincipalId());
 
         // get the current FandaRate
-        AwardFandaRate currentFandaRate = getCurrentFandaRate(award);       
+        AwardFandaRate currentFandaRate = getCurrentFandaRate(award);    
+        
         //campus on/off indicator
         accountParameters.setOffCampusIndicator(!currentFandaRate.getOnOffCampusFlag()); 
         //indirect cost rate
-        accountParameters.setIndirectCostRate(currentFandaRate.getApplicableFandaRate() + "");
+        String icrRateCode = getIcrRateCode(currentFandaRate);
+        accountParameters.setIndirectCostRate(icrRateCode);
         
         // indirect cost type code
         accountParameters.setIndirectCostTypeCode(currentFandaRate.getFandaRateTypeCode() + "");
@@ -237,6 +244,25 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         
     }
    
+    private String getIcrRateCode(AwardFandaRate currentFandaRate) {
+        String icrRateCode = "";
+        Map <String, Object> criteria = new HashMap<String, Object>();
+        if (currentFandaRate.getOnCampusFlag().equalsIgnoreCase("N")) {
+            criteria.put("onCampusRate", currentFandaRate.getApplicableFandaRate());
+        } else {
+            criteria.put("offCampusRate", currentFandaRate.getApplicableFandaRate());
+        }
+        // TODO Auto-generated method stub
+        List<ValidRates> rates = (List<ValidRates>) businessObjectService.findMatching(ValidRates.class, criteria);
+        
+        // you should only find one rate that matches this criteria, this check happens in the award
+        //business rules
+        if (ObjectUtils.isNotNull(rates) && !rates.isEmpty()) {
+            icrRateCode = rates.get(0).getIcrRateCode();
+        } 
+        return icrRateCode;
+    }
+
     /**
      * This method sets the name.
      * @param award
@@ -391,5 +417,9 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
      */
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
+    }
+    
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }
