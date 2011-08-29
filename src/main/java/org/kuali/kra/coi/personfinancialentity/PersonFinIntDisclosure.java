@@ -18,6 +18,7 @@ package org.kuali.kra.coi.personfinancialentity;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.OrganizationTypeList;
 import org.kuali.kra.bo.Sponsor;
@@ -220,6 +221,9 @@ public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase {
     }
 
     public Sponsor getSponsor() {
+        if (StringUtils.isNotBlank(sponsorCode) && sponsor == null) {
+            this.refreshReferenceObject("sponsor");
+        }
         return sponsor;
     }
 
