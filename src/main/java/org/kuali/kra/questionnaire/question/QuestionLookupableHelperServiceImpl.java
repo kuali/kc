@@ -39,6 +39,7 @@ public class QuestionLookupableHelperServiceImpl extends KualiLookupableHelperSe
     private static final String NEW_MAINTENANCE = "../maintenanceQ";
     private static final String VIEW = "view";
     private static final String SEQUENCE_STATUS_CURRENT = "C";
+    private static final String DOCHANDLER_LINK = "%s/DocHandler.do?command=displayDocSearchView&docId=%s";
 
     
     private transient QuestionAuthorizationService questionAuthorizationService;
@@ -92,7 +93,9 @@ public class QuestionLookupableHelperServiceImpl extends KualiLookupableHelperSe
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
-        if(questionAuthorizationService.hasPermission(PermissionConstants.MODIFY_QUESTION)) {
+        boolean hasModifyPermission = questionAuthorizationService.hasPermission(PermissionConstants.MODIFY_QUESTION);
+        boolean hasViewPermission = hasModifyPermission || questionAuthorizationService.hasPermission(PermissionConstants.VIEW_QUESTION);
+        if (hasModifyPermission) {
             AnchorHtmlData htmlData = getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
             htmlData.setHref(htmlData.getHref().replace(MAINTENANCE, NEW_MAINTENANCE));
             htmlDataList.add(htmlData);
@@ -100,17 +103,20 @@ public class QuestionLookupableHelperServiceImpl extends KualiLookupableHelperSe
             AnchorHtmlData htmlData1 = getUrlData(businessObject, KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
             htmlData1.setHref(htmlData1.getHref().replace(MAINTENANCE, NEW_MAINTENANCE));
             htmlDataList.add(htmlData1);
-
-            AnchorHtmlData htmlData2 = getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
-            htmlData2.setHref(htmlData2.getHref().replace(MAINTENANCE, NEW_MAINTENANCE) + "&readOnly=true");
+        } 
+        // if user can view question, then if doc number exists, use doc service to view, otherwise open for editing in read-only mode
+        if (hasViewPermission) {
+            AnchorHtmlData htmlData2 = new AnchorHtmlData();
+            if (((Question)businessObject).getDocumentNumber() != null) {
+                String workflowUrl = getKualiConfigurationService().getPropertyString(KNSConstants.WORKFLOW_URL_KEY);
+                htmlData2.setHref(String.format(DOCHANDLER_LINK, workflowUrl, ((Question) businessObject).getDocumentNumber()).replace("&docId", "&readOnly=true&docId"));
+            }
+            else {
+                htmlData2 = getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
+                htmlData2.setHref(htmlData2.getHref().replace(MAINTENANCE, NEW_MAINTENANCE) + "&readOnly=true");
+            }
             htmlData2.setDisplayText(VIEW);
             htmlDataList.add(htmlData2);
-        } 
-        if (questionAuthorizationService.hasPermission(PermissionConstants.VIEW_QUESTION)) {
-            AnchorHtmlData htmlData = getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
-            htmlData.setHref(htmlData.getHref().replace(MAINTENANCE, NEW_MAINTENANCE) + "&readOnly=true");
-            htmlData.setDisplayText(VIEW);
-            htmlDataList.add(htmlData);
         }
         return htmlDataList;
     }
