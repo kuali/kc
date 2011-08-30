@@ -26,7 +26,6 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kns.util.NumberUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.RenderedWebElement;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Clock;
@@ -161,7 +160,7 @@ public abstract class KcSeleniumHelper {
      * @return the value of the element
      */
     public final String get(final String locator, final boolean exact) {
-        return getElement(locator, exact).getValue();
+        return getElement(locator, exact).getAttribute("value");
     }
     
     /**
@@ -213,7 +212,7 @@ public abstract class KcSeleniumHelper {
                     WebElement inputElement = null;
                     
                     for (WebElement radio : getElementsByName(locator, exact)) {
-                        String radioValue = radio.getValue();
+                        String radioValue = radio.getAttribute("value");
                         if (StringUtils.equals(radioValue, value)) {
                             inputElement = radio;
                             break;
@@ -251,7 +250,7 @@ public abstract class KcSeleniumHelper {
                 }
             }
         );
-        option.setSelected();
+        option.click();
     }
 
     /**
@@ -751,7 +750,7 @@ public abstract class KcSeleniumHelper {
         clickExpandAll();
 
         WebElement element = getElement(locator, exact);
-        assertTrue("Element " + locator + " does not contain " + value, StringUtils.contains(element.getValue(), value)); 
+        assertTrue("Element " + locator + " does not contain " + value, StringUtils.contains(element.getAttribute("value"), value)); 
     }
     
     /**
@@ -775,7 +774,7 @@ public abstract class KcSeleniumHelper {
         clickExpandAll();
         
         WebElement element = getElement(locator, exact);
-        assertFalse("Element " + locator + " contains " + value, StringUtils.contains(element.getValue(), value)); 
+        assertFalse("Element " + locator + " contains " + value, StringUtils.contains(element.getAttribute("value"), value)); 
     }
     
     /**
@@ -1016,7 +1015,7 @@ public abstract class KcSeleniumHelper {
             new Function<WebDriver, Boolean>() {
                 public Boolean apply(WebDriver driver) {
                     WebElement cell = getElementByXPath(locator);
-                    return cell != null && StringUtils.equals(text, cell.getText());
+                    return cell != null && StringUtils.equals(text, StringUtils.stripToEmpty(cell.getText()));
                 }
             }
         );
@@ -1067,7 +1066,7 @@ public abstract class KcSeleniumHelper {
         
         List<String> errorValues = new ArrayList<String>();
         for (WebElement error : getErrors(panelId)) {
-            errorValues.add(error.getValue());
+            errorValues.add(error.getAttribute("value"));
         }
         
         assertTrue("Errors in " + panelId + " do not contain " + expectedText, errorValues.contains(expectedText));
@@ -1306,8 +1305,10 @@ public abstract class KcSeleniumHelper {
         
         List<WebElement> elements = getActiveElementsById(id);
         
-        if (switchToIFramePortlet()) {
-            elements.addAll(getActiveElementsById(id));
+        if (elements.isEmpty()) {
+            if (switchToIFramePortlet()) {
+                elements.addAll(getActiveElementsById(id));
+            }
         }
         
         return elements;
@@ -1323,7 +1324,7 @@ public abstract class KcSeleniumHelper {
         List<WebElement> elements = new ArrayList<WebElement>();
 
         for (WebElement element : driver.findElements(By.id(id))) {
-            if (((RenderedWebElement) element).isDisplayed()) {
+            if (element.isDisplayed()) {
                 elements.add(element);
             }
         }
@@ -1343,8 +1344,10 @@ public abstract class KcSeleniumHelper {
         
         List<WebElement> elements = getActiveElementsByName(name, exact);
         
-        if (switchToIFramePortlet()) {
-            elements.addAll(getActiveElementsByName(name, exact));
+        if (elements.isEmpty()) {
+            if (switchToIFramePortlet()) {
+                elements.addAll(getActiveElementsByName(name, exact));
+            }
         }
         
         return elements;
@@ -1368,7 +1371,7 @@ public abstract class KcSeleniumHelper {
         }
 
         for (WebElement element : elements) {
-            if (((RenderedWebElement) element).isDisplayed()) {
+            if (element.isDisplayed()) {
                 activeElements.add(element);
             }
         }
@@ -1388,8 +1391,10 @@ public abstract class KcSeleniumHelper {
         
         List<WebElement> elements = getActiveElementsByTitle(title, exact);
         
-        if (switchToIFramePortlet()) {
-            elements.addAll(getActiveElementsByTitle(title, exact));
+        if (elements.isEmpty()) {
+            if (switchToIFramePortlet()) {
+                elements.addAll(getActiveElementsByTitle(title, exact));
+            }
         }
         
         return elements;
@@ -1413,7 +1418,7 @@ public abstract class KcSeleniumHelper {
         }
 
         for (WebElement element : elements) {
-            if (((RenderedWebElement) element).isDisplayed()) {
+            if (element.isDisplayed()) {
                 activeElements.add(element);
             }
         }
@@ -1433,8 +1438,10 @@ public abstract class KcSeleniumHelper {
         
         List<WebElement> elements = getActiveElementsByLinkText(linkText, exact);
         
-        if (switchToIFramePortlet()) {
-            elements.addAll(getActiveElementsByLinkText(linkText, exact));
+        if (elements.isEmpty()) {
+            if (switchToIFramePortlet()) {
+                elements.addAll(getActiveElementsByLinkText(linkText, exact));
+            }
         }
         
         return elements;
@@ -1458,7 +1465,7 @@ public abstract class KcSeleniumHelper {
         }
 
         for (WebElement element : elements) {
-            if (((RenderedWebElement) element).isDisplayed()) {
+            if (element.isDisplayed()) {
                 activeElements.add(element);
             }
         }
@@ -1477,8 +1484,10 @@ public abstract class KcSeleniumHelper {
         
         List<WebElement> elements = getActiveElementsByXPath(xPath);
         
-        if (switchToIFramePortlet()) {
-            elements.addAll(getActiveElementsByXPath(xPath));
+        if (elements.isEmpty()) {
+            if (switchToIFramePortlet()) {
+                elements.addAll(getActiveElementsByXPath(xPath));
+            }
         }
         
         return elements;
@@ -1494,7 +1503,7 @@ public abstract class KcSeleniumHelper {
         List<WebElement> elements = new ArrayList<WebElement>();
 
         for (WebElement element : driver.findElements(By.xpath(xPath))) {
-            if (((RenderedWebElement) element).isDisplayed()) {
+            if (element.isDisplayed()) {
                 elements.add(element);
             }
         }
@@ -1513,8 +1522,10 @@ public abstract class KcSeleniumHelper {
         
         List<WebElement> elements = getActiveElementsByCssSelector(cssSelector);
         
-        if (switchToIFramePortlet()) {
-            elements.addAll(getActiveElementsByCssSelector(cssSelector));
+        if (elements.isEmpty()) {
+            if (switchToIFramePortlet()) {
+                elements.addAll(getActiveElementsByCssSelector(cssSelector));
+            }
         }
         
         return elements;
@@ -1530,7 +1541,7 @@ public abstract class KcSeleniumHelper {
         List<WebElement> elements = new ArrayList<WebElement>();
         
         for (WebElement element : driver.findElements(By.cssSelector(cssSelector))) {
-            if (((RenderedWebElement) element).isDisplayed()) {
+            if (element.isDisplayed()) {
                 elements.add(element);
             }
         }
@@ -1549,8 +1560,10 @@ public abstract class KcSeleniumHelper {
         
         List<WebElement> elements = getActiveElementsByText(text);
         
-        if (switchToIFramePortlet()) {
-            elements.addAll(getActiveElementsByText(text));
+        if (elements.isEmpty()) {
+            if (switchToIFramePortlet()) {
+                elements.addAll(getActiveElementsByText(text));
+            }
         }
         
         return elements;
@@ -1566,7 +1579,7 @@ public abstract class KcSeleniumHelper {
         List<WebElement> elements = new ArrayList<WebElement>();
 
         for (WebElement element : driver.findElements(By.xpath("//*[contains(text(), '" + text + "')]"))) {
-            if (((RenderedWebElement) element).isDisplayed()) {
+            if (element.isDisplayed()) {
                 elements.add(element);
             }
         }
@@ -1635,7 +1648,7 @@ public abstract class KcSeleniumHelper {
          * {@inheritDoc}
          * @see org.openqa.selenium.support.ui.Wait#until(com.google.common.base.Function)
          */
-        public <T> T until(Function<WebDriver, T> exists) {
+        public <T> T until(Function<? super WebDriver, T> exists) {
             long end = clock.laterBy(testTimeOut);
             while (clock.isNowBefore(end)) {
                 T value = exists.apply(driver);
@@ -1688,7 +1701,7 @@ public abstract class KcSeleniumHelper {
          * {@inheritDoc}
          * @see org.openqa.selenium.support.ui.Wait#until(com.google.common.base.Function)
          */
-        public <T> T until(Function<WebDriver, T> exists) {
+        public <T> T until(Function<? super WebDriver, T> exists) {
             long end = clock.laterBy(testTimeOut);
             while (clock.isNowBefore(end)) {
                 T value = exists.apply(driver);
