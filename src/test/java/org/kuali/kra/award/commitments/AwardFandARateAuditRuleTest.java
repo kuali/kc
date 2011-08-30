@@ -41,7 +41,7 @@ public class AwardFandARateAuditRuleTest {
         rule.setFinder(new ExtendedPersistableBusinessObjectValuesFinder() {
             @Override
             public String getKeyLabel(Object key) {
-                return ((Integer) key).intValue() == 5 ? "A" : "B";
+                return key.equals("5") ? "A" : "B";
             }            
         });
         
