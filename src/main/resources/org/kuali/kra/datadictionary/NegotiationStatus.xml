@@ -119,13 +119,8 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="id"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="code" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="description" />
+              <bean parent="FieldDefinition" p:attributeName="code" p:forceInquiry="true" />
+              <bean parent="FieldDefinition" p:attributeName="description" />
             </list>
           </property>
         </bean>
@@ -139,34 +134,23 @@
   <bean id="NegotiationStatus-lookupDefinition" parent="NegotiationStatus-lookupDefinition-parentBean" />
   <bean id="NegotiationStatus-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Negotiation Status Lookup" />
-    <!-- <property name="lookupableID" value="budgetExpenseLookupable" /> -->
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
     <property name="defaultSort" >
-      <bean parent="SortDefinition">
+      <bean parent="SortDefinition" >
       </bean>
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="id" />
-        <bean parent="FieldDefinition"
-              p:attributeName="code" />
-        <bean parent="FieldDefinition"
-              p:attributeName="description" />
+        <bean parent="FieldDefinition" p:attributeName="code" />
+        <bean parent="FieldDefinition" p:attributeName="description" />
+        <bean parent="FieldDefinition" p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="id"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="code" />
-        <bean parent="FieldDefinition"
-              p:attributeName="description" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="code" p:forceInquiry="true" />
+        <bean parent="FieldDefinition" p:attributeName="description" />
+        <bean parent="FieldDefinition" p:attributeName="active" />
       </list>
     </property>
   </bean>
