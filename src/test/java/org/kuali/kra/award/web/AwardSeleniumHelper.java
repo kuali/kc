@@ -59,9 +59,7 @@ public class AwardSeleniumHelper extends KcSeleniumHelper {
     private static final String ANTICIPATED_AMOUNT_ID = LIST_PREFIX + "awardAmountInfos[0].anticipatedTotalAmount";
     private static final String OBLIGATED_AMOUNT_ID = LIST_PREFIX + "awardAmountInfos[0].amountObligatedToDate";
     private static final String TEMPLATE_CODE_TAG = "document.award.templateCode";
-    private static final String PERSON_ID_TAG = "projectPersonnelBean.personId";
-    private static final String TEMPLATE_CODE_ID = "templateCode";
-    private static final String PERSON_ID_ID = "personId";
+    private static final String PERSON_NAME_TAG = "projectPersonnelBean.newProjectPerson.person.fullName";
     private static final String CONTACT_ROLE_CODE_ID = "projectPersonnelBean.contactRoleCode";
     private static final String CREDIT_SPLITS_ID = "document.awardList[0].projectPersons[0].creditSplits[%d].credit";
     private static final String UNIT_CREDIT_SPLITS_ID = "document.awardList[0].projectPersons[0].units[0].creditSplits[%d].credit";
@@ -85,7 +83,7 @@ public class AwardSeleniumHelper extends KcSeleniumHelper {
     private static final String DEFAULT_END_DATE = "09/01/2010";
     private static final String DEFAULT_AMOUNT = "10000.00";
     private static final String DEFAULT_SPONSOR_TEMPLATE_CODE = "1";
-    private static final String DEFAULT_PI_PERSON_ID = "10000000004";
+    private static final String DEFAULT_PI_PERSON_NAME = "majors";
     private static final String DEFAULT_PI_CONTACT_ROLE = "Principal Investigator";
     private static final String DEFAULT_TOTAL_CREDIT_SPLIT = "100";
     private static final String DEFAULT_BUDGET_VERSION_NAME = "Ver1";
@@ -244,7 +242,7 @@ public class AwardSeleniumHelper extends KcSeleniumHelper {
         clickAwardContactsPage();
 
         openTab("Key Personnel and Credit Split");
-        lookup(PERSON_ID_TAG, PERSON_ID_ID, DEFAULT_PI_PERSON_ID);
+        set(PERSON_NAME_TAG, DEFAULT_PI_PERSON_NAME);
         set(CONTACT_ROLE_CODE_ID, DEFAULT_PI_CONTACT_ROLE);
         click(ADD_PERSON_BUTTON);
 
