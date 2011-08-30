@@ -119,13 +119,8 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="id"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="code" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="description" />
+              <bean parent="FieldDefinition" p:attributeName="code" p:forceInquiry="true" />
+              <bean parent="FieldDefinition" p:attributeName="description" />
             </list>
           </property>
         </bean>
@@ -147,25 +142,16 @@
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="id" />
-        <bean parent="FieldDefinition"
-              p:attributeName="code" />
-        <bean parent="FieldDefinition"
-              p:attributeName="description" />
+        <bean parent="FieldDefinition" p:attributeName="code" />
+        <bean parent="FieldDefinition" p:attributeName="description" />
+        <bean parent="FieldDefinition" p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="id"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="code" />
-        <bean parent="FieldDefinition"
-              p:attributeName="description" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="code" p:forceInquiry="true" />
+        <bean parent="FieldDefinition" p:attributeName="description" />
+        <bean parent="FieldDefinition" p:attributeName="active" />
       </list>
     </property>
   </bean>
