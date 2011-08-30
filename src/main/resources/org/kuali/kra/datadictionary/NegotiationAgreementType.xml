@@ -51,8 +51,8 @@
   <bean id="NegotiationAgreementType-code-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="code" />
     <property name="forceUppercase" value="TRUE" />
-    <property name="label" value="Status Code" />
-    <property name="shortLabel" value="Status Code" />
+    <property name="label" value="Agreement Type Code" />
+    <property name="shortLabel" value="Agreement Type Code" />
     <property name="maxLength" value="3" />
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
@@ -61,8 +61,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="Status Code" />
-    <property name="description" value="Status Code" />
+    <property name="summary" value="Agreement Type Code" />
+    <property name="description" value="Agreement Type Code" />
   </bean>
 
   <bean id="NegotiationAgreementType-description" parent="NegotiationAgreementType-description-parentBean" />
