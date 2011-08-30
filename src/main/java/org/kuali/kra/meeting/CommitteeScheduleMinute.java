@@ -100,13 +100,10 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
             // first sort by protocol number if possible
             if ((csm1.getProtocolIdFk() != null) && (csm2.getProtocolIdFk() != null)) {
                 retVal = csm1.getProtocol().getProtocolNumber().compareTo(csm2.getProtocol().getProtocolNumber());
-            } else if (csm1.getProtocolIdFk() == null) {
-                if (csm2.getProtocolIdFk() != null) {
-                    retVal = -1;  // null should come before actual protocol
-                }
-                else if (csm2.getProtocolIdFk() != null){
-                    retVal = 1;   // protocol comes after null
-                }
+            } else if ((csm1.getProtocolIdFk() == null) && (csm2.getProtocolIdFk() != null)) {
+                retVal = -1;  // null should come before actual protocol
+            } else if ((csm1.getProtocolIdFk() != null) && (csm2.getProtocolIdFk() == null)) {
+                retVal = 1;   // protocol comes after null
             }
             
             // if still same, check entry type then timestamps
