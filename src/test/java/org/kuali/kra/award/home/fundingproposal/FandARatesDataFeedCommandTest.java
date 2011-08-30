@@ -79,7 +79,7 @@ public class FandARatesDataFeedCommandTest extends BaseDataFeedCommandTest {
     protected AwardFandaRate createAwardFandA(String fiscalYear) {
         AwardFandaRate retval = new AwardFandaRate();
         retval.setApplicableFandaRate(new KualiDecimal(0.02));
-        retval.setFandaRateTypeCode(idcRateType.getIndirectcostRateTypeCode());
+        retval.setFandaRateTypeCode(idcRateType.getIndirectcostRateTypeCode()==null?null:idcRateType.getIndirectcostRateTypeCode().toString());
         retval.setFiscalYear(fiscalYear);
         retval.setOnCampusFlag("N");
         retval.setSourceAccount("abc123");

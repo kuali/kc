@@ -139,8 +139,7 @@ public class AwardBudgetForm extends BudgetForm {
      * @return true if any FnA rates defined in award
      */
     public String getFnARateFlagEditable(){
-        //Making OH rate type alwz editable
-        return "true";//Boolean.toString(getAwardBudgetDocument().getParentDocument().getBudgetParent().getAwardFandaRate().isEmpty());
+        return Boolean.toString(!getAwardBudgetDocument().getAwardBudget().getOhRatesNonEditable());
     }
 
     /*

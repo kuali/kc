@@ -224,10 +224,10 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
             String forward = buildForwardUrl(routeHeaderId);
             if (!budget.getActivityTypeCode().equals(newestAward.getActivityTypeCode()) || budget.isRateClassTypesReloaded()) {
                 budget.setActivityTypeCode(newestAward.getActivityTypeCode());
-                forward = forward.replace("budgetParameters.do?", "awardBudgetParameters.do?syncBudgetRate=Y&");
+                forward = forward.replace("awardBudgetParameters.do?", "awardBudgetParameters.do?syncBudgetRate=Y&");
             }
             if (awardForm.isAuditActivated()) {
-                forward = StringUtils.replace(forward, "budgetParameters.do?", "awardBudgetParameters.do?auditActivated=true&");
+                forward = StringUtils.replace(forward, "awardBudgetParameters.do?", "awardBudgetParameters.do?auditActivated=true&");
             }
             //add in the showAllBudgetVersions flag so it will be persisted until they leave the documents.
             forward = StringUtils.replace(forward, "Parameters.do?", "Parameters.do?showAllBudgetVersions=" + awardForm.isShowAllBudgetVersions() + "&");

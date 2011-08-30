@@ -70,10 +70,10 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
     
     private Collection<InstituteRate> syncRatesIfAward(BudgetDocument<T> budgetDocument, Collection<InstituteRate> institueRates) {
         Award award = (Award)budgetDocument.getParentDocument().getBudgetParent();
-        return filterInstituteRatesForAward(award,institueRates);
+        return filterInstituteRatesForAward(budgetDocument,award,institueRates);
     }
 
-    private Collection<InstituteRate> filterInstituteRatesForAward(Award award, Collection<InstituteRate> instituteRates) {
+    private Collection<InstituteRate> filterInstituteRatesForAward(BudgetDocument<T> budgetDocument,Award award, Collection<InstituteRate> instituteRates) {
         List<AwardFandaRate> awardFnARates = award.getAwardFandaRate();
         Collection<InstituteRate> instituteRatesForAward = new ArrayList<InstituteRate>();  
         List<InstituteRate> awardEbRates = createAwardEBInstituteRates(award);
@@ -82,6 +82,7 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
         for (AwardFandaRate awardFnARate : awardFnARates) {
             InstituteRate awardRate = createAwardFnAInstitueRate(awardFnARate,award);
             instituteRatesForAward.add(awardRate);
+            budgetDocument.getBudget().setOhRateClassCode(awardRate.getRateClassCode());
         }
         if(!instituteRatesForAward.isEmpty()){
             QueryList<InstituteRate> qlInstituteRates = new QueryList<InstituteRate>(instituteRatesForAward);
@@ -158,9 +159,8 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
         awardInstituteRate.setUnitNumber(award.getUnitNumber());
         String awardFnArateTypeCode = awardFnARate.getFandaRateTypeCode().toString();
         awardInstituteRate.setRateTypeCode(awardFnArateTypeCode);
-        awardFnARate.refreshReferenceObject("fandaRateType");
-        awardInstituteRate.setRateType(createRateType(getDefaultFnARateClassCode(),awardFnArateTypeCode,awardFnARate.getFandaRateType().getDescription()));
-        awardInstituteRate.setRateClassCode(getDefaultFnARateClassCode());
+        awardInstituteRate.setRateType(awardFnARate.getFandaRateType());
+        awardInstituteRate.setRateClassCode(awardFnARate.getFandaRateType().getRateClassCode());
         Boolean onCampusFlag = new Boolean(awardFnARate.getOnCampusFlag().equals("N"));
         awardInstituteRate.setOnOffCampusFlag(onCampusFlag);
         awardInstituteRate.setNonEditableRateFlag(true);

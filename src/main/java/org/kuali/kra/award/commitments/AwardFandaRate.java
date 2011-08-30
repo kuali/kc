@@ -17,10 +17,18 @@
 package org.kuali.kra.award.commitments;
 
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.kuali.kra.award.AwardAssociate;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.budget.rates.BudgetRate;
+import org.kuali.kra.budget.rates.RateType;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -35,7 +43,7 @@ public class AwardFandaRate extends AwardAssociate {
     private static final long serialVersionUID = 1L;
     private Long awardFandaRateId;
     private KualiDecimal applicableFandaRate; 
-    private Integer fandaRateTypeCode; 
+    private String fandaRateTypeCode; 
     private String fiscalYear; 
     private String onCampusFlag; 
     private KualiDecimal underrecoveryOfIndirectCost; 
@@ -43,7 +51,6 @@ public class AwardFandaRate extends AwardAssociate {
     private String destinationAccount; 
     private Date startDate; 
     private Date endDate;
-    private FandaRateType fandaRateType;
     
     /**
      * 
@@ -101,7 +108,7 @@ public class AwardFandaRate extends AwardAssociate {
      * This method...
      * @return
      */
-    public Integer getFandaRateTypeCode() {
+    public String getFandaRateTypeCode() {
         return fandaRateTypeCode;
     }
 
@@ -110,7 +117,7 @@ public class AwardFandaRate extends AwardAssociate {
      * This method...
      * @param fandaRateTypeCode
      */
-    public void setFandaRateTypeCode(Integer fandaRateTypeCode) {
+    public void setFandaRateTypeCode(String fandaRateTypeCode) {
         this.fandaRateTypeCode = fandaRateTypeCode;
     }
 
@@ -418,15 +425,13 @@ public class AwardFandaRate extends AwardAssociate {
      * Gets the fandaRateType attribute. 
      * @return Returns the fandaRateType.
      */
-    public FandaRateType getFandaRateType() {
-        return fandaRateType;
+    public RateType getFandaRateType() {
+        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        ParameterService parameterService = KraServiceLocator.getService(ParameterService.class);
+        String rateClassCode = parameterService.getParameterValue(AwardBudgetDocument.class, Constants.AWARD_BUDGET_DEFAULT_FNA_RATE_CLASS_CODE);
+        Map<String, String> qMap = new HashMap<String,String>();
+        qMap.put("rateClassCode", rateClassCode);
+        qMap.put("rateTypeCode", getFandaRateTypeCode());
+        return (RateType)businessObjectService.findByPrimaryKey(RateType.class, qMap);
     }
-
-    /**
-     * Sets the fandaRateType attribute value.
-     * @param fandaRateType The fandaRateType to set.
-     */
-    public void setFandaRateType(FandaRateType fandaRateType) {
-        this.fandaRateType = fandaRateType;
-    }    
 }
