@@ -505,6 +505,7 @@ public final class KeyConstants {
     public static final String CLOSE_OUT_REPORT_TYPE_TECHNICAL = "closeoutReportTypeTechnical";
     public static final String CLOSE_OUT_REPORT_TYPE_PATENT = "closeoutReportTypePatent";
     public static final String CLOSE_OUT_REPORT_TYPE_PROPERTY = "closeoutReportTypeProperty";
+    public static final String CLOSE_OUT_REPORT_TYPE_INVOICE = "closeoutReportTypeInvoice";
     public static final String AWARD_ACTIVE_STATUS_CODES_PARM = "AWARD_ACTIVE_STATUS_CODES";
     public static final String AWARD_COST_SHARING_PARM = "AWARD_COST_SHARING";
     public static final String AWARD_FABRICATED_EQUPIMENT_PARM = "AWARD_FABRICATED_EQUIPMENT";
