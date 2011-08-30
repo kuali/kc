@@ -889,21 +889,13 @@
 		</dependency>
 		<dependency>
 		    <groupId>org.seleniumhq.selenium</groupId>
-		    <artifactId>selenium</artifactId>
+		    <artifactId>selenium-firefox-driver</artifactId>
 		    <version>${selenium.version}</version>
-		    <type>pom</type>
 		    <exclusions>
-                <exclusion>
+		        <exclusion>
                     <groupId>org.testng</groupId>
                     <artifactId>testng</artifactId>
                 </exclusion>
-            </exclusions>
-		</dependency>
-		<dependency>
-		    <groupId>org.seleniumhq.selenium</groupId>
-		    <artifactId>selenium-server</artifactId>
-		    <version>${selenium.version}</version>
-		    <exclusions>
 		        <exclusion>
 		            <groupId>org.mortbay.jetty</groupId>
 		            <artifactId>servlet-api-2.5</artifactId>
@@ -914,6 +906,11 @@
 		        </exclusion>
 		    </exclusions>
 		</dependency>
+	    <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-support</artifactId>
+            <version>${selenium.version}</version>
+        </dependency>
 		<dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-beans</artifactId>
@@ -1538,7 +1535,7 @@
 		<mysql.version>5.1.13</mysql.version>
 		<oracle.version>10.2.0.3.0</oracle.version>
 		<rice.version>1.0.3.3-m1</rice.version>
-		<selenium.version>2.0b3</selenium.version>
+		<selenium.version>2.5.0</selenium.version>
 		<servlet.version>2.4</servlet.version>
 		<slf4j.version>1.6.1</slf4j.version>
 		<springframework.version>2.5.6</springframework.version>

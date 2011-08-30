@@ -308,6 +308,7 @@ public class AwardSeleniumHelper extends KcSeleniumHelper {
         clickAwardActionsPage();
         
         routeDocument();
+        clickYesAnswer();
         assertRoute();
     }
 
