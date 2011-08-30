@@ -287,8 +287,8 @@ public class AwardFandaRateRule  extends ResearchDocumentRuleBase implements Add
  */
 protected boolean isFandaRateInputInPairs(List<AwardFandaRate> awardFandaRateList){
     
-    HashMap<Integer,String> a1 = new HashMap<Integer,String>();
-    HashMap<Integer,String> b1 = new HashMap<Integer,String>();
+    HashMap<String,String> a1 = new HashMap<String,String>();
+    HashMap<String,String> b1 = new HashMap<String,String>();
     
     DateFormat dateFormat = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT_PATTERN);
     createHashMapsForRuleEvaluation(awardFandaRateList,a1,b1);
@@ -334,7 +334,7 @@ protected boolean isFandaRateInputInPairs(List<AwardFandaRate> awardFandaRateLis
  * @param b1
  */
 protected void createHashMapsForRuleEvaluation(List<AwardFandaRate> awardFandaRateList,
-        HashMap<Integer,String> a1, HashMap<Integer,String> b1){
+        HashMap<String,String> a1, HashMap<String,String> b1){
     
     for(AwardFandaRate awardFandaRate : awardFandaRateList){
         if(StringUtils.equalsIgnoreCase(awardFandaRate.getOnCampusFlag(),"N")){
@@ -351,7 +351,7 @@ protected void createHashMapsForRuleEvaluation(List<AwardFandaRate> awardFandaRa
  * @param b1
  * @return
  */
-protected boolean evaluateRule(List<AwardFandaRate> awardFandaRateList, HashMap<Integer,String> a1, HashMap<Integer,String> b1){
+protected boolean evaluateRule(List<AwardFandaRate> awardFandaRateList, HashMap<String,String> a1, HashMap<String,String> b1){
     boolean valid = true;
     DateFormat dateFormat = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT_PATTERN);
      for(AwardFandaRate awardFandaRate : awardFandaRateList){            
@@ -367,7 +367,7 @@ protected boolean evaluateRule(List<AwardFandaRate> awardFandaRateList, HashMap<
     return valid;
 }
 
-private String getFandACodeTypeDescription(Integer rateTypeCode){
+private String getFandACodeTypeDescription(String rateTypeCode){
     String description = Constants.EMPTY_STRING;
     if(rateTypeCode != null){
         Map<String, Object> rateValues = new HashMap<String, Object>();

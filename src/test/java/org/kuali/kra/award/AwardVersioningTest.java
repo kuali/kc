@@ -239,7 +239,7 @@ public class AwardVersioningTest extends KcUnitTestBase {
     private AwardFandaRate createAwardFandaRate(String onOffCampusFlag) {
         AwardFandaRate rate = new AwardFandaRate();
         rate.setApplicableFandaRate(new KualiDecimal(5.0));
-        rate.setFandaRateTypeCode(1);
+        rate.setFandaRateTypeCode("1");
         rate.setFiscalYear("2008");
         rate.setStartDate(new Date(new GregorianCalendar(2007, Calendar.JULY, 1).getTimeInMillis()));
         rate.setStartDate(new Date(new GregorianCalendar(2008, Calendar.JUNE, 30).getTimeInMillis()));

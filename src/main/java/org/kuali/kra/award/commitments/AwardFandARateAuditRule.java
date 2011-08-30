@@ -74,8 +74,8 @@ public class AwardFandARateAuditRule implements DocumentAuditRule {
      */
     protected boolean isFandaRateInputInPairs(List<AwardFandaRate> awardFandaRateList){
         
-        HashMap<Integer,String> a1 = new HashMap<Integer,String>();
-        HashMap<Integer,String> b1 = new HashMap<Integer,String>();
+        HashMap<String,String> a1 = new HashMap<String,String>();
+        HashMap<String,String> b1 = new HashMap<String,String>();
         
         createHashMapsForRuleEvaluation(awardFandaRateList,a1,b1);
         boolean valid = evaluateRule(awardFandaRateList,a1,b1);
@@ -95,7 +95,7 @@ public class AwardFandARateAuditRule implements DocumentAuditRule {
      * @param b1
      */
     protected void createHashMapsForRuleEvaluation(List<AwardFandaRate> awardFandaRateList,
-            HashMap<Integer,String> a1, HashMap<Integer,String> b1){
+            HashMap<String,String> a1, HashMap<String,String> b1){
         
         for(AwardFandaRate awardFandaRate : awardFandaRateList){
             if(StringUtils.equalsIgnoreCase(awardFandaRate.getOnCampusFlag(),"N")){
@@ -113,7 +113,7 @@ public class AwardFandARateAuditRule implements DocumentAuditRule {
      * @param b1
      * @return
      */
-    protected boolean evaluateRule(List<AwardFandaRate> awardFandaRateList, HashMap<Integer,String> a1, HashMap<Integer,String> b1){
+    protected boolean evaluateRule(List<AwardFandaRate> awardFandaRateList, HashMap<String,String> a1, HashMap<String,String> b1){
         boolean valid = true;
         for(AwardFandaRate awardFandaRate : awardFandaRateList){            
             if((a1.containsKey(awardFandaRate.getFandaRateTypeCode()) 
