@@ -528,7 +528,7 @@ public abstract class KcSeleniumHelper {
 
         assertTableCellValue("row", 0, 0, "return value");
         
-        click("return value");
+        click("return value", true);
     }
 
     /**
