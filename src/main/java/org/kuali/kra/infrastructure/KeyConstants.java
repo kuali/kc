@@ -550,6 +550,7 @@ public final class KeyConstants {
     // award budget
     public static final String BUDGET_POSTED = "message.award.budget.adjustment.budget.posted";
     public static final String BUDGET_ADJUSTMENT_DOCUMENT_NOT_CREATED = "error.award.budget.adjustment.document.not.created";
+    public static final String BUDGET_ADJUSTMENT_DOC_EXISTS = "error.award.budget.adjustment.document.exists";
     public static final String EMPTY_ACCOUNTING_LINES = "error.award.budget.adjustment.empty.accounting.lines";
     public static final String FINANCIAL_OBJECT_CODE_MAPPING_NOT_FOUND = "error.award.budget.adjustment.financial.objectCode.mapping.not.found";
     public static final String FINANCIAL_OBJECT_CODE_MAPPING_EXISTS = "error.award.budget.financial.objectCode.mapping.exists";
