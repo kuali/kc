@@ -128,7 +128,7 @@ public class QuestionLookupableHelperServiceTest extends KcUnitTestBase {
         String docNumber = maintDocument.getDocumentNumber();
         List<HtmlData> htmldata = questionLookupableHelperServiceImpl.getCustomActionUrls(maintDocument.getNewMaintainableObject().getBusinessObject(), pkNames);
         Assert.assertEquals(htmldata.size(), 1);
-        Assert.assertEquals(((AnchorHtmlData)htmldata.get(0)).getHref(), "http://127.0.0.1:9925/kc-dev/kew/DocHandler.do?command=displayDocSearchView&readOnly=true&docId="+docNumber);
+        Assert.assertEquals(getTailOfUrl(((AnchorHtmlData)htmldata.get(0)).getHref()), "DocHandler.do?command=displayDocSearchView&readOnly=true&docId="+docNumber);
     }
     
     /**
@@ -161,9 +161,13 @@ public class QuestionLookupableHelperServiceTest extends KcUnitTestBase {
         Assert.assertEquals(htmldata.size(), 3);
         Assert.assertEquals(((AnchorHtmlData)htmldata.get(0)).getHref(), "../maintenanceQ.do?questionRefId="+question.getQuestionRefId()+"&businessObjectClassName=org.kuali.kra.questionnaire.question.Question&methodToCall=edit");
         Assert.assertEquals(((AnchorHtmlData)htmldata.get(1)).getHref(), "../maintenanceQ.do?questionRefId="+question.getQuestionRefId()+"&businessObjectClassName=org.kuali.kra.questionnaire.question.Question&methodToCall=copy");
-        Assert.assertEquals(((AnchorHtmlData)htmldata.get(2)).getHref(), "http://127.0.0.1:9925/kc-dev/kew/DocHandler.do?command=displayDocSearchView&readOnly=true&docId="+docNumber);
+        Assert.assertEquals(getTailOfUrl(((AnchorHtmlData)htmldata.get(2)).getHref()), "DocHandler.do?command=displayDocSearchView&readOnly=true&docId="+docNumber);
     }
 
+    private String getTailOfUrl(String url) {
+        int inx = url.indexOf("kew");
+        return url.substring(inx+4);
+    }
     /**
      * 
      * This method tests getCustomActionUrls with no permissions
