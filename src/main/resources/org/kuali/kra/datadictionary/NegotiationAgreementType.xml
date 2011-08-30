@@ -69,8 +69,8 @@
   <bean id="NegotiationAgreementType-description-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="description" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="description" />
-    <property name="shortLabel" value="description" />
+    <property name="label" value="Description" />
+    <property name="shortLabel" value="Description" />
     <property name="maxLength" value="30" />
     <!-- 
     <property name="validationPattern" >
@@ -81,8 +81,8 @@
       <bean parent="TextControlDefinition"
             p:size="30" />
     </property>
-    <property name="summary" value="description" />
-    <property name="description" value="description" />
+    <property name="summary" value="Description" />
+    <property name="description" value="Description" />
   </bean>
 
   <bean id="NegotiationAgreementType-active" parent="NegotiationAgreementType-active-parentBean" />
