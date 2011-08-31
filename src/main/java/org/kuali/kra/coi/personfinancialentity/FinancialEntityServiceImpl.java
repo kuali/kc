@@ -22,11 +22,19 @@ import java.util.Map;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * 
+ * This class is to implement the detail of methods declared in FinancialENtityService
+ */
 @Transactional
 public class FinancialEntityServiceImpl implements FinancialEntityService {
 
     private BusinessObjectService businessObjectService;
 
+    /**
+     * 
+     * @see org.kuali.kra.coi.personfinancialentity.FinancialEntityService#getFinancialEntities(java.lang.String, boolean)
+     */
     public List<PersonFinIntDisclosure> getFinancialEntities(String personId, boolean active) {
         Map fieldValues = new HashMap();
         fieldValues.put("personId", personId);

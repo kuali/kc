@@ -15,9 +15,7 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,9 +25,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.meeting.MeetingHelper;
-import org.kuali.kra.meeting.MeetingSaveEvent;
-import org.kuali.kra.meeting.MeetingEventBase.ErrorType;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
@@ -37,10 +32,24 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 
+/**
+ * 
+ * This class is the struts action for financial entity maintenance
+ */
 public class FinancialEntityAction extends KualiAction {
 
     private static final String NEW_FINANCIAL_ENTITY = "financialEntityHelper.newPersonFinancialEntity";
 
+    /**
+     * 
+     * This method is called when user open the financial entity maintenance page
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward management(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
@@ -49,6 +58,16 @@ public class FinancialEntityAction extends KualiAction {
         return mapping.findForward("management");
     }
 
+    /**
+     * 
+     * This method to handle the submit action for new or edited financial entity
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward submit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
@@ -73,6 +92,17 @@ public class FinancialEntityAction extends KualiAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    /**
+     * 
+     * This method is called when 'edit' button is clicked for an active financial entity.  It will set up the
+     * index, so ui will display the financial entity panel for editing.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward editFinancialEntity(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
@@ -84,6 +114,9 @@ public class FinancialEntityAction extends KualiAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    /*
+     * Utility method to save financial entity when 'submit' is clicked.  also, retrieve the new list of active/inactive financial entities
+     */
     private void saveFinancialEntity(ActionForm form, PersonFinIntDisclosure personFinIntDisclosure) {
         getBusinessObjectService().save(personFinIntDisclosure);
         ((FinancialEntityForm) form).getFinancialEntityHelper().setActiveFinancialEntities(getFinancialEntities(true));
@@ -91,6 +124,16 @@ public class FinancialEntityAction extends KualiAction {
         
     }
     
+    /**
+     * 
+     * This method to inactive the selected financial entity
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward inactivateFinancialEntity(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
@@ -104,6 +147,16 @@ public class FinancialEntityAction extends KualiAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    /**
+     * 
+     * This method to active the selected financial entity
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward activateFinancialEntity(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
@@ -117,6 +170,9 @@ public class FinancialEntityAction extends KualiAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    /*
+     * utility method to set up the new financial entity for save
+     */
     private void saveNewFinancialEntity(ActionForm form) {
         PersonFinIntDisclosure personFinIntDisclosure = ((FinancialEntityForm) form).getFinancialEntityHelper()
                 .getNewPersonFinancialEntity();
@@ -130,6 +186,9 @@ public class FinancialEntityAction extends KualiAction {
         ((FinancialEntityForm) form).getFinancialEntityHelper().getNewPersonFinancialEntity().setCurrentFlag(true);
     }
 
+    /*
+     * check if financial is valid for save
+     */
     private boolean isValidToSave(PersonFinIntDisclosure personFinIntDisclosure, String errorPath) {
 
         // TODO : may need to add save event rule
@@ -156,6 +215,9 @@ public class FinancialEntityAction extends KualiAction {
         return KraServiceLocator.getService(SequenceAccessorService.class);
     }
 
+    /*
+     * utility method to get active/inactive financial entities.
+     */
     private List<PersonFinIntDisclosure> getFinancialEntities(boolean active) {
         return getFinancialEntityService().getFinancialEntities(GlobalVariables.getUserSession().getPrincipalId(), active);
     }
