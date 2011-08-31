@@ -1396,6 +1396,17 @@
 	        </plugins>
 	      </build>
 	    </profile>
+	    
+        <!-- 
+            This profile defines the dependencies required for selenium to run properly on CI
+         -->
+        <profile>
+            <id>selenium-old-ci</id>
+            <properties>
+                <!-- overriding property to change versions of libraries-->
+                <selenium.version>2.0rc3</selenium.version>
+            </properties>
+        </profile>
 	</profiles>
 
 	<repositories>
