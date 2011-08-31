@@ -29,6 +29,8 @@ import org.kuali.rice.kns.util.KNSConstants;
  * This class holds all the objects required for a negotiation web object.
  */
 public class NegotiationForm extends KraTransactionalDocumentFormBase {
+    
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(NegotiationForm.class);
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -54,7 +56,6 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
 
     @Override
     protected String getDefaultDocumentTypeName() {
-        // TODO Auto-generated method stub
         return "NegotiationDocument";
     }
 
