@@ -22,6 +22,10 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
+/**
+ * 
+ * This class is the struts form for financial entity maintenance
+ */
 public class FinancialEntityForm  extends KualiForm {
     private static final long serialVersionUID = -7825455832928793712L;
     private FinancialEntityHelper financialEntityHelper;

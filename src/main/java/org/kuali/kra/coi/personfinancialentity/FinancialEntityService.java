@@ -17,7 +17,19 @@ package org.kuali.kra.coi.personfinancialentity;
 
 import java.util.List;
 
+/**
+ * 
+ * This is an interface for declaration of methods related to financial entity maintenance
+ */
 public interface FinancialEntityService {
     
+    /**
+     * 
+     * This method to get a list of active or inactive financial entities of this personid
+     * only return the last version, ie, current one.
+     * @param personId
+     * @param active
+     * @return
+     */
     List<PersonFinIntDisclosure> getFinancialEntities(String personId, boolean active);
 }
