@@ -43,7 +43,9 @@ import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.UnitAdministratorType;
+import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.external.award.AccountCreationClient;
+import org.kuali.kra.external.award.FinancialIndirectCostTypeCode;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.web.session.UserSession;
@@ -226,10 +228,12 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         accountParameters.setUnit(award.getUnitNumber());
         //Principal id
         accountParameters.setPrincipalId(UserSession.getAuthenticatedUser().getPrincipalId());
-
         // get the current FandaRate
         AwardFandaRate currentFandaRate = getCurrentFandaRate(award);    
         
+        String rateClassCode = currentFandaRate.getFandaRateType().getRateClassCode();
+        String rateTypeCode = currentFandaRate.getFandaRateType().getRateTypeCode();
+        String idcTypeCode = getIndirectCostTypeCode(rateClassCode, rateTypeCode);
         //campus on/off indicator
         accountParameters.setOffCampusIndicator(!currentFandaRate.getOnOffCampusFlag()); 
         //indirect cost rate
@@ -237,14 +241,22 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         accountParameters.setIndirectCostRate(icrRateCode);
         
         // indirect cost type code
-        accountParameters.setIndirectCostTypeCode(currentFandaRate.getFandaRateTypeCode() + "");
+        accountParameters.setIndirectCostTypeCode(idcTypeCode + "");
         
         //higher education function code
         accountParameters.setHigherEdFunctionCode(award.getActivityType().getHigherEducationFunctionCode());
         
     }
    
-    private String getIcrRateCode(AwardFandaRate currentFandaRate) {
+    protected String getIndirectCostTypeCode(String rateClassCode, String rateTypeCode) {
+        Map <String, Object> criteria = new HashMap<String, Object>();
+        criteria.put("rateClassCode", rateClassCode);
+        criteria.put("rateTypeCode", rateTypeCode);
+        FinancialIndirectCostTypeCode icrCostTypeCode= (FinancialIndirectCostTypeCode) businessObjectService.findByPrimaryKey(FinancialIndirectCostTypeCode.class, criteria);
+        return icrCostTypeCode.getIdcRateTypeCode();
+    }
+
+    protected String getIcrRateCode(AwardFandaRate currentFandaRate) { 
         String icrRateCode = "";
         Map <String, Object> criteria = new HashMap<String, Object>();
         if (currentFandaRate.getOnCampusFlag().equalsIgnoreCase("N")) {
@@ -392,7 +404,8 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         }
         
         AwardFandaRate currentFandaRate;
-        
+        // when both On and Off campus rates are in, send the higher one. Ideally only one should be there
+        // the single rate validation parameter needs to be set on award
         KualiDecimal currentRateValue = new KualiDecimal(0.0);
         currentFandaRate = rates.get(0);
         for (AwardFandaRate rate : rates) {

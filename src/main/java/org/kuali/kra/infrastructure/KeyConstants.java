@@ -529,6 +529,8 @@ public final class KeyConstants {
     public static final String AWARD_PAYMENT_METHOD_NOT_SPECIFIED = "error.award.createAccount.invalid.paymentMethod";
     public static final String AWARD_PI_NOT_SPECIFIED = "error.award.createAccount.invalid.pi";
     public static final String AWARD_F_AND_A_RATE_NOT_SPECIFIED = "error.award.createAccount.invalid.rate";
+    public static final String AWARD_ICR_RATE_TYPE_CODE_EMPTY = "error.award.createAccount.icr.rate.type.code.empty";
+    public static final String AWARD_ICR_RATE_CODE_EMPTY = "error.award.createAccount.icr.rate.code.empty";
     public static final String AWARD_ADDRESS_NOT_COMPLETE = "error.award.createAccount.invalid.piAddress";
     public static final String ACCOUNT_ALREADY_CREATED = "error.award.createAccount.account.already.created";
     public static final String AWARD_ACCOUNT_INVALID_WSDL_URL = "error.award.createAccount.invalid.wsdlurl";

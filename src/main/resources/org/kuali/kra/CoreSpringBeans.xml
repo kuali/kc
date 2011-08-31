@@ -535,6 +535,10 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 
+	<bean id="awardAccountValidationService" class="org.kuali.kra.external.award.impl.AwardAccountValidationServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
+
 	<bean id="institutionalUnitServiceJavaExporter" class="org.kuali.rice.ksb.messaging.KSBExporter">
 		<property name="serviceDefinition">
 			<bean class="org.kuali.rice.ksb.messaging.JavaServiceDefinition">

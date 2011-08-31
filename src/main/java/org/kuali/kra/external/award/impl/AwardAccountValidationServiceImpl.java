@@ -13,24 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award;
+package org.kuali.kra.external.award.impl;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.ValidRates;
 import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.external.award.AwardAccountValidationService;
+import org.kuali.kra.external.award.FinancialIndirectCostTypeCode;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
-/**
- * This class checks if any of the required fields for account creation
- * are null.
- */
-public class AwardCreateAccountRule {
+public class AwardAccountValidationServiceImpl implements AwardAccountValidationService {
 
     private static final String AWARD_EFFECTIVE_DATE_NOT_SPECIFIED = "error.award.createAccount.invalid.effectiveDate";
     private static final String AWARD_ID_NOT_SPECIFIED = "error.award.createAccount.invalid.awardId";
@@ -43,15 +46,11 @@ public class AwardCreateAccountRule {
     private static final String AWARD_F_AND_A_RATE_NOT_SPECIFIED = "error.award.createAccount.invalid.rate";
     private static final String CURRENT_RATE_NOT_SPECIFIED = "error.award.createAccount.invalid.currentRate";
     private static final String AWARD_ACCOUNT_NUMBER_NOT_SPECIFIED = "error.award.createAccount.invalid.accountNumber";
+    private BusinessObjectService businessObjectService;
     
-    /**
-     * This method validates the data required to create an award account.
-     * @param award
-     * @return rulePassed
-     */
-    public boolean processAwardCreateAccountRules(Award award) {
+    public boolean validateAwardAccountDetails(Award award) {
         boolean rulePassed = true;
-       
+        
         rulePassed &= isValidEffectiveDate(award);
         rulePassed &= isValidExpenseGuidelineText(award);
         rulePassed &= isValidExpirationDate(award);
@@ -60,10 +59,14 @@ public class AwardCreateAccountRule {
         rulePassed &= isValidPaymentMethod(award);
         rulePassed &= isValidAddress(award);
         rulePassed &= isValidFandarate(award);        
-        
+        /*
+         * Not sure if this is a required field, commenting it out for now
+         */
+        //rulePassed &= isValidIdcRate(award);
         return rulePassed;
     }
-   
+
+
     /**
      * This method check if the default address (PI address) is present.
      * @param award
@@ -110,13 +113,14 @@ public class AwardCreateAccountRule {
         List<AwardFandaRate> rates = award.getAwardFandaRate();
         boolean isValid = true;
         boolean currentYearRate = false;
+        Calendar calendar = Calendar.getInstance();
+        int currentYear = calendar.get(Calendar.YEAR);
+
         if (ObjectUtils.isNull(rates) || rates.size() == 0) {
             GlobalVariables.getMessageMap().putError(AWARD_F_AND_A_RATE_NOT_SPECIFIED, 
                                                     KeyConstants.AWARD_F_AND_A_RATE_NOT_SPECIFIED);
             isValid = false;
         } else {
-            Calendar calendar = Calendar.getInstance();
-            int currentYear = calendar.get(Calendar.YEAR);
             for (AwardFandaRate rate : rates) {
                 if (Integer.parseInt(rate.getFiscalYear()) == currentYear) {
                     currentYearRate = true;
@@ -126,11 +130,63 @@ public class AwardCreateAccountRule {
         
         if (!currentYearRate) {
             GlobalVariables.getMessageMap().putError(CURRENT_RATE_NOT_SPECIFIED, 
-                                                    KeyConstants.CURRENT_RATE_NOT_SPECIFIED);
+                                                    KeyConstants.CURRENT_RATE_NOT_SPECIFIED, currentYear+"");
             isValid = false;
         }
-        
         return isValid;
+    }
+    
+    protected boolean isValidIdcRate(Award award) {
+        List<AwardFandaRate> rates = award.getAwardFandaRate();
+        boolean isValid = true;
+        if (ObjectUtils.isNull(rates) || rates.size() == 0) {
+            GlobalVariables.getMessageMap().putError(AWARD_F_AND_A_RATE_NOT_SPECIFIED, 
+                                                    KeyConstants.AWARD_F_AND_A_RATE_NOT_SPECIFIED);
+            isValid = false;
+        } else {
+            for (AwardFandaRate rate : rates) {
+                String rateClassCode = rate.getFandaRateType().getRateClassCode();
+                String rateTypeCode = rate.getFandaRateType().getRateTypeCode();
+                FinancialIndirectCostTypeCode icrCostTypeCode = getIndirectCostTypeCode(rateClassCode, rateTypeCode);
+                String icrRateCode = getIcrRateCode(rate);
+                if (ObjectUtils.isNull(icrCostTypeCode) || StringUtils.isEmpty(icrCostTypeCode.getIdcRateTypeCode())) {
+                    String errorParameter = "(" + rateClassCode + ", " + rateTypeCode + ")";
+                    GlobalVariables.getMessageMap().putError(AWARD_F_AND_A_RATE_NOT_SPECIFIED, KeyConstants.AWARD_ICR_RATE_TYPE_CODE_EMPTY, errorParameter);
+                    isValid &= false;
+                }
+                if (ObjectUtils.isNull(icrRateCode) || StringUtils.isEmpty(icrRateCode)) {
+                    GlobalVariables.getMessageMap().putError(AWARD_F_AND_A_RATE_NOT_SPECIFIED, KeyConstants.AWARD_ICR_RATE_CODE_EMPTY, rate.getApplicableFandaRate()+"");
+                }
+            }
+        }
+        return isValid;
+    }
+    
+    protected FinancialIndirectCostTypeCode getIndirectCostTypeCode(String rateClassCode, String rateTypeCode) {
+        Map <String, Object> criteria = new HashMap<String, Object>();
+        criteria.put("rateClassCode", rateClassCode);
+        criteria.put("rateTypeCode", rateTypeCode);
+        FinancialIndirectCostTypeCode icrCostTypeCode= (FinancialIndirectCostTypeCode) businessObjectService.findByPrimaryKey(FinancialIndirectCostTypeCode.class, criteria);
+        return icrCostTypeCode;
+    }
+    
+    protected String getIcrRateCode(AwardFandaRate currentFandaRate) { 
+        String icrRateCode = "";
+        Map <String, Object> criteria = new HashMap<String, Object>();
+        if (currentFandaRate.getOnCampusFlag().equalsIgnoreCase("N")) {
+            criteria.put("onCampusRate", currentFandaRate.getApplicableFandaRate());
+        } else {
+            criteria.put("offCampusRate", currentFandaRate.getApplicableFandaRate());
+        }
+        // TODO Auto-generated method stub
+        List<ValidRates> rates = (List<ValidRates>) businessObjectService.findMatching(ValidRates.class, criteria);
+        
+        // you should only find one rate that matches this criteria, this check happens in the award
+        //business rules
+        if (ObjectUtils.isNotNull(rates) && !rates.isEmpty()) {
+            icrRateCode = rates.get(0).getIcrRateCode();
+        } 
+        return icrRateCode;
     }
     
     protected boolean isValidPaymentBasis(Award award) {
@@ -205,4 +261,7 @@ public class AwardCreateAccountRule {
         return true;
     }
     
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
 }
