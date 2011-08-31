@@ -35,6 +35,7 @@ public class KraAuthorizationConstants {
     public static final String LOCK_DESCRIPTOR_COMMITTEE = "COMMITTEE";
     public static final String LOCK_DESCRIPTOR_INSTITUTIONAL_PROPOSAL = "INSTITUTIONAL_PROPOSAL";
     public static final String LOCK_DESCRIPTOR_COIDISCLOSURE = "COIDISCLOSURE";
+    public static final String LOCK_NEGOTIATION = "NEGOTIATION";
 
     public static final String KC_AWARD_NAMESPACE = "KC-AWARD";
     public static final String PERMISSION_MODIFY_AWARD = "Modify Award";
