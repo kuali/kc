@@ -191,7 +191,6 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
                 // Be sure not to call super.edit a second time when evaluating the user response.  Doing so will
                 // cause the form data to be overridden and the desired question will not be edited.
                 super.edit(mapping, form, request, response);
-
                 // Version if a Question is selected for editing
                 specialHandlingOfQuestion(questionMaintenanceForm, request);
 
@@ -229,18 +228,40 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
     @Override
     protected void populateAuthorizationFields(KualiDocumentFormBase formBase){
         QuestionMaintenanceForm questionMaintenanceForm = (QuestionMaintenanceForm) formBase;
-        
-        boolean isReadOnly = questionMaintenanceForm.isReadOnly();
+        // kcirb-1502 : not sure why is retail isreadonly here.  the readonly is reset when calling
+        // super.populateAuthorizationFields.
+        // rewrite this way seems to  work.  
+//        boolean isReadOnly = questionMaintenanceForm.isReadOnly();
 
         // populateAuthorizationFields will override the isReadOnly property of the form.
         super.populateAuthorizationFields(formBase);
         
-        if (isReadOnly && formBase.getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_CLOSE)) {
+        if (questionMaintenanceForm.isReadOnly() && formBase.getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_CLOSE)) {
             Map<String, String> documentActions = new HashMap<String, String>();
             documentActions.put(KNSConstants.KUALI_ACTION_CAN_CLOSE, "TRUE");
             questionMaintenanceForm.setDocumentActions(documentActions);
             
-            questionMaintenanceForm.setReadOnly(isReadOnly);
+           // questionMaintenanceForm.setReadOnly(isReadOnly);
         }
     }
+
+    @Override
+    public ActionForward copy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        // TODO Auto-generated method stub
+        ActionForward forward = super.copy(mapping, form, request, response);
+        MaintenanceDocumentBase maintenanceDocumentBase = (MaintenanceDocumentBase) ((QuestionMaintenanceForm) form).getDocument();
+        QuestionMaintainableImpl newMaintainableObject = (QuestionMaintainableImpl) maintenanceDocumentBase
+                .getNewMaintainableObject();
+        Question newQuestion = (Question) newMaintainableObject.getBusinessObject();
+        newQuestion.setQuestionId(null);
+        newQuestion.setSequenceNumber(1);
+        for (QuestionExplanation questionExplanation : newQuestion.getQuestionExplanations()) {
+            questionExplanation.setQuestionExplanationId(null);
+            questionExplanation.setQuestionRefIdFk(null);
+        }
+        return forward;
+
+    }
+    
 }
