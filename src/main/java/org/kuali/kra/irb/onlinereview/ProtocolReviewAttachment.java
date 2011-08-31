@@ -18,6 +18,8 @@ package org.kuali.kra.irb.onlinereview;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerException;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.AttachmentFile;
@@ -61,6 +63,7 @@ public class ProtocolReviewAttachment extends ProtocolReviewable {
     private transient String updateUserFullName;
     private transient boolean displayReviewerName;
     private transient boolean displayViewButton;
+    private transient boolean shouldBeSaved = false;
 
     public Long getReviewerAttachmentId() {
         return reviewerAttachmentId;
@@ -99,6 +102,9 @@ public class ProtocolReviewAttachment extends ProtocolReviewable {
     }
 
     public void setDescription(String description) {
+        if (description != null && !description.equals(getDescription())) {
+            shouldBeSaved = true;
+        }
         this.description = description;
     }
 
@@ -130,6 +136,9 @@ public class ProtocolReviewAttachment extends ProtocolReviewable {
      * @param file the Protocol Attachment Base File
      */
     public void setFile(AttachmentFile file) {
+        if (file != null && !file.equals(getFile())) {
+            shouldBeSaved = true;
+        }
         this.file = file;
     }
 
@@ -138,6 +147,9 @@ public class ProtocolReviewAttachment extends ProtocolReviewable {
     }
 
     public void setProtocolOnlineReview(ProtocolOnlineReview protocolOnlineReview) {
+        if (protocolOnlineReview != null && !protocolOnlineReview.equals(getProtocolOnlineReview())) {
+            shouldBeSaved = true;
+        }
         this.protocolOnlineReview = protocolOnlineReview;
     }
 
@@ -152,6 +164,9 @@ public class ProtocolReviewAttachment extends ProtocolReviewable {
     }
 
     public void setPrivateFlag(boolean privateFlag) {
+        if (privateFlag != isPrivateFlag()) {
+            shouldBeSaved = true;
+        }
         this.privateFlag = privateFlag;
     }
 
@@ -266,7 +281,6 @@ public class ProtocolReviewAttachment extends ProtocolReviewable {
     }
 
     public CommitteeSchedule getCommitteeSchedule() {
-        // TODO Auto-generated method stub
         if (getProtocolSubmission()!= null) {
             if (getProtocolSubmission().getScheduleIdFk() != null && getProtocolSubmission().getCommitteeSchedule() == null) {
                 getProtocolSubmission().refreshReferenceObject("committeeSchedule");
@@ -304,9 +318,21 @@ public class ProtocolReviewAttachment extends ProtocolReviewable {
 
     @Override
     public boolean isPrivate() {
-        // TODO Auto-generated method stub
         return isPrivateFlag();
     }
 
+    /*
+     * beforeUpdate - only do actual update if a change has been made to the comment.
+     */
+    @Override
+    public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+        if (isShouldBeSaved()) {
+            super.beforeUpdate(persistenceBroker);
+        }
+    }
+    
+    public boolean isShouldBeSaved() {
+        return shouldBeSaved;
+    }
 
 }
