@@ -19,6 +19,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 
+ * This class is form helper class for financial entity
+ */
 public class FinancialEntityHelper implements Serializable {
 
     private static final long serialVersionUID = -5837128667442140384L;
