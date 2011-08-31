@@ -19,6 +19,7 @@
 <div class="body">
   <ul class="chan">
     <li>All My Negotiations</li>
+    <li><portal:portalLink displayTitle="false" title="Create Negotiation" url="negotiationNegotiation.do?methodToCall=docHandler&command=initiate&docTypeName=NegotiationDocument">Create a Negotiation (In development, not ready to test!)</portal:portalLink></li>
   </ul>
 </div>
 <channel:portalChannelBottom />
