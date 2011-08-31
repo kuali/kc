@@ -52,7 +52,16 @@ public class NegotiationDocument extends ResearchDocumentBase implements Seriali
     public NegotiationDocument() {
         Negotiation neg = new Negotiation();
         this.setNegotiation(neg);
-    }    
+    }  
+    
+    /**
+     * 
+     * This method returns a new instance of NegotiationDocument.
+     * @return
+     */
+    public NegotiationDocument newInstance() {
+        return new NegotiationDocument();
+    }
     
     /**
      * 
