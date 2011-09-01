@@ -1404,7 +1404,7 @@
             <id>selenium-old-ci</id>
             <properties>
                 <!-- overriding property to change versions of libraries-->
-                <selenium.version>2.1.0</selenium.version>
+                <selenium.version>2.0.0</selenium.version>
             </properties>
         </profile>
 	</profiles>
