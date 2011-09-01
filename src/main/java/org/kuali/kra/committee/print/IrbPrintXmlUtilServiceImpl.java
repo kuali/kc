@@ -198,7 +198,7 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
             for (CommitteeScheduleMinute minuteEntryInfoBean : vecMinutes) {
                 if (!minuteEntryInfoBean.getMinuteEntryTypeCode().equals("3") && 
                         !minuteEntryInfoBean.getPrivateCommentFlag()) {
-                    if (reviewCommentsService.getReviewerAcceptedCommentsView(minuteEntryInfoBean)){
+                    if (reviewCommentsService.getReviewerCommentsView(minuteEntryInfoBean)){
                         addMinute(scheduleDetailsBean, minuteEntryInfoBean, schedule.addNewMinutes());
                     }
                    
@@ -252,7 +252,7 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
                 if (protocol.getProtocolNumber().equals(protocolSubmission.getProtocolNumber())
                         && protocol.getProtocolSubmission() != null
                         && protocol.getProtocolSubmission().getSubmissionNumber().equals(protocolSubmission.getSubmissionNumber())) {
-                    if (reviewCommentsService.getReviewerAcceptedCommentsView(minuteEntryInfoBean)){
+                    if (reviewCommentsService.getReviewerCommentsView(minuteEntryInfoBean)){
                         addMinute(committeeSchedule, minuteEntryInfoBean, protocolSubmissionType.addNewMinutes());
                     }
                     
@@ -294,7 +294,7 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
                 if (protocol.getProtocolNumber().equals(protocolSubmission.getProtocolNumber())
                       && protocol.getProtocolSubmission() != null
                         && protocol.getProtocolSubmission().getSubmissionNumber().equals(protocolSubmission.getSubmissionNumber())) {
-                    if (reviewCommentsService.getReviewerAcceptedCommentsView(minuteEntryInfoBean)){
+                    if (reviewCommentsService.getReviewerCommentsView(minuteEntryInfoBean)){
                         addMinute(committeeSchedule, minuteEntryInfoBean, submissionsType.addNewMinutes());
                     }
                     
