@@ -106,34 +106,21 @@ public class CommitteeCompleteSeleniumTest extends KcSeleniumTestBase {
         }
         
         helper.click(ADD_MEMBERSHIP_BUTTON);
-        int tabidx = index * 5;
-        
-        helper.openTab(tabidx);
-        helper.openTab(tabidx + 1);
+
+        helper.openTab(0);
+        helper.openTab(1);
         helper.set(String.format(MEMBERSHIP_TYPE_CODE_ID, index), VOTING_CHAIR_MEMBERSHIP_TYPE);
         helper.set(String.format(TERM_START_DATE_ID, index), startDate);
         helper.set(String.format(TERM_END_DATE_ID, index), endDate);
         
-        helper.openTab(tabidx + 3);
+        helper.openTab(3);
         helper.set(String.format(MEMBERSHIP_ROLE_CODE_ID, index), role);
         helper.set(String.format(START_DATE_ID, index), startDate);
         helper.set(String.format(END_DATE_ID, index), endDate);
         helper.click(String.format(ADD_MEMBERSHIP_ROLE_BUTTON, index, index));
 
-        helper.openTab(tabidx + 4);
-        if (index > 1) {
-            helper.closeTab(9);
-        } 
-        if (index > 0) {
-            helper.closeTab(4);
-        }
+        helper.openTab(4);
         helper.multiLookup(RESEARCH_AREAS_TAG, RESEARCH_AREA_CODE_ID, researchAreaCode);
-        if (index > 1) {
-            helper.openTab(9);
-        } 
-        if (index > 0) {
-            helper.openTab(4);
-        }
         
         helper.saveDocument();
         helper.assertSave();
