@@ -16,6 +16,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <channel:portalChannelTop channelTitle="Awards" />
+<c:set var="financialIntegration" value="${kfunc:getKNSParameterValue('KC-AWARD', 'Document', 'FIN_SYSTEM_INTEGRATION_ON')}" />
 <div class="body">
   <ul class="chan">
     <li><portal:portalLink displayTitle="true" title="Account Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.AccountType&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
@@ -27,11 +28,15 @@
     <li><portal:portalLink displayTitle="true" title="Valid Class Report Frequency" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.paymentreports.ValidClassReportFrequency&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
     <li><portal:portalLink displayTitle="true" title="Valid Frequency Base" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.paymentreports.ValidFrequencyBase&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
     <li><portal:portalLink displayTitle="true" title="Valid Basis and Method of Payment" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.home.ValidBasisMethodPayment&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
-    <li><portal:portalLink displayTitle="true" title="CFDA" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.home.CFDA&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+    <c:if test="${financialIntegration == 'ON'}">
+        <li><portal:portalLink displayTitle="true" title="CFDA" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.home.CFDA&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+    </c:if>
     <li><portal:portalLink displayTitle="true" title="Contact Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.home.ContactType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     <li><portal:portalLink displayTitle="true" title="Distribution" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.home.Distribution&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     <li><portal:portalLink displayTitle="true" title="Financial Indirect Cost Recovery Type Code" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.external.award.FinancialIndirectCostRecoveryTypeCode&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-    <li><portal:portalLink displayTitle="true" title="Financial Object Code Mapping" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.external.budget.FinancialObjectCodeMapping&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+    <c:if test="${financialIntegration == 'ON'}">
+        <li><portal:portalLink displayTitle="true" title="Financial Object Code Mapping" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.external.budget.FinancialObjectCodeMapping&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+    </c:if>
     <li><portal:portalLink displayTitle="true" title="Frequency" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.paymentreports.Frequency&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     <li><portal:portalLink displayTitle="true" title="Frequency Base" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.paymentreports.FrequencyBase&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     <li><portal:portalLink displayTitle="true" title="Method of Payment" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.home.AwardMethodOfPayment&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
