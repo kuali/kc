@@ -53,6 +53,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.onlinereview.event.AddProtocolOnlineReviewAttachmentEvent;
 import org.kuali.kra.irb.onlinereview.event.AddProtocolOnlineReviewCommentEvent;
+import org.kuali.kra.irb.onlinereview.event.DeleteProtocolOnlineReviewEvent;
 import org.kuali.kra.irb.onlinereview.event.DisapproveProtocolOnlineReviewCommentEvent;
 import org.kuali.kra.irb.onlinereview.event.RejectProtocolOnlineReviewCommentEvent;
 import org.kuali.kra.irb.onlinereview.event.RouteProtocolOnlineReviewEvent;
@@ -84,8 +85,10 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
 
     private static final String PROTOCOL_TAB = "protocol";
     private static final String DOCUMENT_REJECT_QUESTION="DocReject";
+    private static final String DOCUMENT_DELETE_QUESTION="ProtocolDocDelete";
     private static final String UPDATE_REVIEW_STATUS_TO_FINAL="statusToFinal";
     private static final String DOCUMENT_REJECT_REASON_MAXLENGTH = "2000";
+    private static final String ERROR_DOCUMENT_DELETE_REASON_REQUIRED = "You must enter a reason for this deletion.  The reason must be no more than {0} characters long.";
     //Protocol Online Review Action Forwards
   
     private static final String NOT_FOUND_SELECTION = "the attachment was not found for selection ";
@@ -565,6 +568,98 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         return mapping.findForward(Constants.MAPPING_BASIC);
        
   
+    }
+
+    /**
+     * 
+     * @param mapping the mapping associated with this action.
+     * @param form the Protocol form.
+     * @param request the HTTP request
+     * @param response the HTTP response
+     * @return the name of the HTML page to display
+     * @throws Exception if something bad happens
+     */
+    public ActionForward deleteOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+         
+        String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber(
+                (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE),
+                "deleteOnlineReview");
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolOnlineReviewDocument prDoc = (ProtocolOnlineReviewDocument) protocolForm.getOnlineReviewsActionHelper()
+            .getDocumentHelperMap().get(onlineReviewDocumentNumber).get("document");
+        ReviewCommentsBean reviewCommentsBean = protocolForm.getOnlineReviewsActionHelper().getReviewCommentsBeanFromHelperMap(onlineReviewDocumentNumber);
+        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
+        String deleteNoteText = "";
+        String callerString = String.format("disapproveOnlineReview.%s.anchor%s",prDoc.getDocumentNumber(),0);
+       
+        //the data gets saved here, need to validate the save ok.
+        if (!this.applyRules(new SaveProtocolOnlineReviewEvent(prDoc, reviewCommentsBean.getReviewComments(), protocolForm.getOnlineReviewsActionHelper().getIndexByDocumentNumber(onlineReviewDocumentNumber)))) {
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+        
+        
+        // start in logic for confirming the disapproval
+        if (question == null) {
+            // ask question if not already asked
+            return performQuestionWithInput(mapping, form, request, response, DOCUMENT_DELETE_QUESTION, "Are you sure you want to delete this document?", KNSConstants.CONFIRMATION_QUESTION, callerString, "");
+        } else {
+            Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+            if ((DOCUMENT_DELETE_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
+                // if no button clicked just reload the doc
+                return mapping.findForward(Constants.MAPPING_BASIC);
+            } else {
+                // have to check length on value entered
+                String introNoteMessage = "Deletion reason -" + KNSConstants.BLANK_SPACE;
+
+                // build out full message
+                deleteNoteText = introNoteMessage + reason;
+
+                // get note text max length from DD
+                int noteTextMaxLength = getDataDictionaryService().getAttributeMaxLength(Note.class, KNSConstants.NOTE_TEXT_PROPERTY_NAME).intValue();
+
+                if (!this.applyRules(new DeleteProtocolOnlineReviewEvent(prDoc, reason, deleteNoteText, noteTextMaxLength))) {
+                    // figure out exact number of characters that the user can enter
+                    int reasonLimit = noteTextMaxLength - introNoteMessage.length();
+
+                    if (reason == null) {
+                        // prevent a NPE by setting the reason to a blank string
+                        reason = "";
+                    }
+                    return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, DOCUMENT_DELETE_QUESTION, "Are you sure you want to delete this document?", KNSConstants.CONFIRMATION_QUESTION, callerString, "", reason, ERROR_DOCUMENT_DELETE_REASON_REQUIRED, KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME, new Integer(reasonLimit).toString());
+                } 
+                
+                if (WebUtils.containsSensitiveDataPatternMatch(deleteNoteText)) {
+                    return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, 
+                            DOCUMENT_DELETE_QUESTION, "Are you sure you want to delete this document?", 
+                            KNSConstants.CONFIRMATION_QUESTION, callerString, "", reason, RiceKeyConstants.ERROR_DOCUMENT_FIELD_CONTAINS_POSSIBLE_SENSITIVE_DATA,
+                            KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME, "reason");
+                } 
+                
+                prDoc.getProtocolOnlineReview().addActionPerformed("Delete");
+                KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase)protocolForm.getOnlineReviewsActionHelper().getDocumentHelperMap().get(onlineReviewDocumentNumber).get(OnlineReviewsActionHelper.FORM_MAP_KEY);
+                doProcessingAfterPost( kualiDocumentFormBase, request );
+                ProtocolOnlineReviewDocument document = (ProtocolOnlineReviewDocument) kualiDocumentFormBase.getDocument();
+                document.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD);
+                document.getProtocolOnlineReview().setReviewerApproved(false);
+                document.getProtocolOnlineReview().setAdminAccepted(false);
+                getBusinessObjectService().save(document.getProtocolOnlineReview());
+                getDocumentService().disapproveDocument(document, deleteNoteText);
+                GlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_ROUTE_DISAPPROVED);
+                kualiDocumentFormBase.setAnnotation("");
+                protocolForm.getOnlineReviewsActionHelper().init(true);
+                recordOnlineReviewActionSuccess("deleted", prDoc);
+                
+                if (!protocolForm.getEditingMode().containsKey("maintainProtocolOnlineReviews")) {
+                    return mapping.findForward(KNSConstants.MAPPING_PORTAL);
+                }
+                
+                
+            }
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     /**
