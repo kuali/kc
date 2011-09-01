@@ -559,6 +559,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
             if (CollectionUtils.isNotEmpty(review.getCommitteeScheduleMinutes())) {
                 for (CommitteeScheduleMinute comment : review.getCommitteeScheduleMinutes()) {
                     comment.setProtocolIdFk(review.getProtocolId());
+                    comment.setScheduleIdFk(newSubmission.getScheduleIdFk());
                 }
             }
             newSubmission.getProtocolOnlineReviews().add(review);
