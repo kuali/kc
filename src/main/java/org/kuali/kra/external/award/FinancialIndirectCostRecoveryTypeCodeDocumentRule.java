@@ -21,7 +21,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.rates.RateType;
-import org.kuali.kra.external.budget.FinancialObjectCodeMapping;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
@@ -30,8 +29,9 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.MessageMap;
+import org.kuali.kra.external.award.FinancialIndirectCostRecoveryTypeCode;
 
-public class FinancialIndirectCostTypeCodeDocumentRule extends KraMaintenanceDocumentRuleBase{
+public class FinancialIndirectCostRecoveryTypeCodeDocumentRule extends KraMaintenanceDocumentRuleBase{
     private BusinessObjectService businessObjectService;
 
     /**
@@ -67,7 +67,7 @@ public class FinancialIndirectCostTypeCodeDocumentRule extends KraMaintenanceDoc
      */
     public boolean isDocumentValidForSave(MaintenanceDocument document) {
         boolean result = super.isDocumentValidForSave(document);
-        final FinancialIndirectCostTypeCode mapping = (FinancialIndirectCostTypeCode) document.getNewMaintainableObject().getBusinessObject();
+        final FinancialIndirectCostRecoveryTypeCode mapping = (FinancialIndirectCostRecoveryTypeCode) document.getNewMaintainableObject().getBusinessObject();
         if (!document.getNewMaintainableObject().getMaintenanceAction().equals(KNSConstants.MAINTENANCE_DELETE_ACTION)) {
             if (document.getNewMaintainableObject().getMaintenanceAction().equals(KNSConstants.MAINTENANCE_EDIT_ACTION)) { 
                 result &= validateUniqueEntry(mapping);
@@ -80,7 +80,7 @@ public class FinancialIndirectCostTypeCodeDocumentRule extends KraMaintenanceDoc
     }
 
 
-    private boolean checkExistence(FinancialIndirectCostTypeCode newMapping) {
+    private boolean checkExistence(FinancialIndirectCostRecoveryTypeCode newMapping) {
 
         boolean valid = true;
         if (StringUtils.isNotBlank(newMapping.getRateClassCode()) && StringUtils.isNotBlank(newMapping.getRateTypeCode())) {
@@ -98,7 +98,7 @@ public class FinancialIndirectCostTypeCodeDocumentRule extends KraMaintenanceDoc
 
     }
     
-    private boolean validateUniqueEntry(FinancialIndirectCostTypeCode mapping) {
+    private boolean validateUniqueEntry(FinancialIndirectCostRecoveryTypeCode mapping) {
         String rateClass = mapping.getRateClassCode();
         String rateType = mapping.getRateTypeCode();
         boolean valid = true;
@@ -110,7 +110,7 @@ public class FinancialIndirectCostTypeCodeDocumentRule extends KraMaintenanceDoc
             map.put("rateClassCode", rateClass);
             map.put("rateTypeCode", rateType);
 
-            final Collection<FinancialObjectCodeMapping> results = getBusinessObjectService().findMatching(FinancialObjectCodeMapping.class, map);
+            final Collection<FinancialIndirectCostRecoveryTypeCode> results = getBusinessObjectService().findMatching(FinancialIndirectCostRecoveryTypeCode.class, map);
 
             if (results.size() > 0) {
                 final MessageMap errorMap = GlobalVariables.getMessageMap();

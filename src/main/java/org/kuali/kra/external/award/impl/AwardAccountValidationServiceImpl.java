@@ -26,9 +26,8 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ValidRates;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.external.award.AwardAccountValidationService;
-import org.kuali.kra.external.award.FinancialIndirectCostTypeCode;
+import org.kuali.kra.external.award.FinancialIndirectCostRecoveryTypeCode;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -147,9 +146,9 @@ public class AwardAccountValidationServiceImpl implements AwardAccountValidation
             for (AwardFandaRate rate : rates) {
                 String rateClassCode = rate.getFandaRateType().getRateClassCode();
                 String rateTypeCode = rate.getFandaRateType().getRateTypeCode();
-                FinancialIndirectCostTypeCode icrCostTypeCode = getIndirectCostTypeCode(rateClassCode, rateTypeCode);
+                FinancialIndirectCostRecoveryTypeCode icrCostTypeCode = getIndirectCostRecoveryTypeCode(rateClassCode, rateTypeCode);
                 String icrRateCode = getIcrRateCode(rate);
-                if (ObjectUtils.isNull(icrCostTypeCode) || StringUtils.isEmpty(icrCostTypeCode.getIdcRateTypeCode())) {
+                if (ObjectUtils.isNull(icrCostTypeCode) || StringUtils.isEmpty(icrCostTypeCode.getIcrTypeCode())) {
                     String errorParameter = "(" + rateClassCode + ", " + rateTypeCode + ")";
                     GlobalVariables.getMessageMap().putError(AWARD_F_AND_A_RATE_NOT_SPECIFIED, KeyConstants.AWARD_ICR_RATE_TYPE_CODE_EMPTY, errorParameter);
                     isValid &= false;
@@ -162,11 +161,11 @@ public class AwardAccountValidationServiceImpl implements AwardAccountValidation
         return isValid;
     }
     
-    protected FinancialIndirectCostTypeCode getIndirectCostTypeCode(String rateClassCode, String rateTypeCode) {
+    protected FinancialIndirectCostRecoveryTypeCode getIndirectCostRecoveryTypeCode(String rateClassCode, String rateTypeCode) {
         Map <String, Object> criteria = new HashMap<String, Object>();
         criteria.put("rateClassCode", rateClassCode);
         criteria.put("rateTypeCode", rateTypeCode);
-        FinancialIndirectCostTypeCode icrCostTypeCode= (FinancialIndirectCostTypeCode) businessObjectService.findByPrimaryKey(FinancialIndirectCostTypeCode.class, criteria);
+        FinancialIndirectCostRecoveryTypeCode icrCostTypeCode= (FinancialIndirectCostRecoveryTypeCode) businessObjectService.findByPrimaryKey(FinancialIndirectCostRecoveryTypeCode.class, criteria);
         return icrCostTypeCode;
     }
     
