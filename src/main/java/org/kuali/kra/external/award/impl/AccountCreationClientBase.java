@@ -45,7 +45,7 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.UnitAdministratorType;
 import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.external.award.AccountCreationClient;
-import org.kuali.kra.external.award.FinancialIndirectCostTypeCode;
+import org.kuali.kra.external.award.FinancialIndirectCostRecoveryTypeCode;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.web.session.UserSession;
@@ -228,12 +228,13 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         accountParameters.setUnit(award.getUnitNumber());
         //Principal id
         accountParameters.setPrincipalId(UserSession.getAuthenticatedUser().getPrincipalId());
+
         // get the current FandaRate
         AwardFandaRate currentFandaRate = getCurrentFandaRate(award);    
         
         String rateClassCode = currentFandaRate.getFandaRateType().getRateClassCode();
         String rateTypeCode = currentFandaRate.getFandaRateType().getRateTypeCode();
-        String idcTypeCode = getIndirectCostTypeCode(rateClassCode, rateTypeCode);
+        String icrTypeCode = getIndirectCostTypeCode(rateClassCode, rateTypeCode);
         //campus on/off indicator
         accountParameters.setOffCampusIndicator(!currentFandaRate.getOnOffCampusFlag()); 
         //indirect cost rate
@@ -241,7 +242,7 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         accountParameters.setIndirectCostRate(icrRateCode);
         
         // indirect cost type code
-        accountParameters.setIndirectCostTypeCode(idcTypeCode + "");
+        accountParameters.setIndirectCostTypeCode(icrTypeCode + "");
         
         //higher education function code
         accountParameters.setHigherEdFunctionCode(award.getActivityType().getHigherEducationFunctionCode());
@@ -252,8 +253,8 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         Map <String, Object> criteria = new HashMap<String, Object>();
         criteria.put("rateClassCode", rateClassCode);
         criteria.put("rateTypeCode", rateTypeCode);
-        FinancialIndirectCostTypeCode icrCostTypeCode= (FinancialIndirectCostTypeCode) businessObjectService.findByPrimaryKey(FinancialIndirectCostTypeCode.class, criteria);
-        return icrCostTypeCode.getIdcRateTypeCode();
+        FinancialIndirectCostRecoveryTypeCode icrCostTypeCode= (FinancialIndirectCostRecoveryTypeCode) businessObjectService.findByPrimaryKey(FinancialIndirectCostRecoveryTypeCode.class, criteria);
+        return ObjectUtils.isNotNull(icrCostTypeCode)? icrCostTypeCode.getIcrTypeCode() : "";
     }
 
     protected String getIcrRateCode(AwardFandaRate currentFandaRate) { 
