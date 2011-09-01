@@ -20,7 +20,7 @@
     
     <property name="documentTypeName" value="FinancialIndirectCostRecoveryTypeCodeMaintenanceDocument"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
- <!--  <property name="businessRulesClass" value="org.kuali.kra.external.budget.FinancialObjectCodeMappingDocumentRule"/>-->
+ 	<property name="businessRulesClass" value="org.kuali.kra.external.award.FinancialIndirectCostRecoveryTypeCodeDocumentRule"/>
     
     
   </bean>
