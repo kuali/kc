@@ -69,7 +69,7 @@ public class FinancialIndirectCostRecoveryTypeCodeDocumentRule extends KraMainte
         boolean result = super.isDocumentValidForSave(document);
         final FinancialIndirectCostRecoveryTypeCode mapping = (FinancialIndirectCostRecoveryTypeCode) document.getNewMaintainableObject().getBusinessObject();
         if (!document.getNewMaintainableObject().getMaintenanceAction().equals(KNSConstants.MAINTENANCE_DELETE_ACTION)) {
-            if (document.getNewMaintainableObject().getMaintenanceAction().equals(KNSConstants.MAINTENANCE_EDIT_ACTION)) { 
+            if (!document.getNewMaintainableObject().getMaintenanceAction().equals(KNSConstants.MAINTENANCE_EDIT_ACTION)) {
                 result &= validateUniqueEntry(mapping);
                 result &= checkExistence(mapping);
             }
@@ -115,7 +115,7 @@ public class FinancialIndirectCostRecoveryTypeCodeDocumentRule extends KraMainte
             if (results.size() > 0) {
                 final MessageMap errorMap = GlobalVariables.getMessageMap();
                 String error = " RateClassCode: " + rateClass + " RateTypeCode: " + rateType;
-                errorMap.putError("document.newMaintainableObject.financialObjectCode", KeyConstants.FINANCIAL_OBJECT_CODE_MAPPING_EXISTS, error);
+                errorMap.putError("document.newMaintainableObject.icrTypeCode", KeyConstants.ICR_TYPE_CODE_MAPPING_EXISTS, error);
             }
                 
         }
