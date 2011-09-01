@@ -50,8 +50,8 @@
   		<c:set var="headerFields" value="${kualiForm.docInfo}" />
   		<c:set var="fieldCounter" value="0" />
   	
-  	    <c:if test="${ !empty KualiForm.onlineReviewsActionHelper.protocolOnlineReviewDocuments[renderIndex].protocolOnlineReview.committeeScheduleMinutes}">
-	  	    <c:if test="${KualiForm.onlineReviewsActionHelper.protocolOnlineReviewDocuments[renderIndex].protocolOnlineReview.protocolOnlineReviewStatusCode != 'F'}">
+  	    <c:if test="${ !empty KualiForm.onlineReviewsActionHelper.protocolOnlineReviewDocuments[renderIndex].protocolOnlineReview.committeeScheduleMinutes or !empty KualiForm.onlineReviewsActionHelper.protocolOnlineReviewDocuments[renderIndex].protocolOnlineReview.reviewAttachments }">
+	  	    <c:if test="${!KualiForm.onlineReviewsActionHelper.protocolOnlineReviewDocuments[renderIndex].protocolOnlineReview.reviewerApproved}">
 	  	        <span style="color: red; font-weight: bold; text-align: left;">This online review has not yet been approved by the reviewer</span>
 	  	    </c:if>
   	    </c:if>
@@ -235,6 +235,9 @@
 	            			<c:if test="${!empty kualiForm.documentActions[Constants.KUALI_ACTION_CAN_DISAPPROVE] and not suppressRoutingControls}">
 	            				<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_disapprove.gif" styleClass="globalbuttons" property="methodToCall.disapproveOnlineReview.${documentNumber}.anchor${tabKey}" title="disapprove" alt="disapprove"/>
 	            			</c:if>
+                            <c:if test="${!empty kualiForm.documentActions[Constants.KUALI_ACTION_CAN_DISAPPROVE] and not suppressRoutingControls}">
+                                <html:image src="static/images/buttonsmall_delete_review.gif" styleClass="globalbuttons" property="methodToCall.deleteOnlineReview.${documentNumber}.anchor${tabKey}" title="delete" alt="delete"/>
+                            </c:if>	            			
 	            			<c:if test="${!empty kualiForm.documentActions[Constants.KUALI_ACTION_CAN_CANCEL] and not suppressCancelButton}">
 	            				<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" styleClass="globalbuttons" property="methodToCall.cancelOnlineReview.${documentNumber}.anchor${tabKey}" title="cancel" alt="cancel"/>
 	            			</c:if>
