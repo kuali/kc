@@ -21,6 +21,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.onlinereview.ProtocolReviewAttachment;
 import org.kuali.kra.irb.onlinereview.event.AddProtocolOnlineReviewCommentEvent;
+import org.kuali.kra.irb.onlinereview.event.DeleteProtocolOnlineReviewEvent;
 import org.kuali.kra.irb.onlinereview.event.DisapproveProtocolOnlineReviewCommentEvent;
 import org.kuali.kra.irb.onlinereview.event.RejectProtocolOnlineReviewCommentEvent;
 import org.kuali.kra.irb.onlinereview.event.RouteProtocolOnlineReviewEvent;
@@ -40,6 +41,7 @@ public class ProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase i
                                                                                          ,RouteProtocolOnlineReviewRule
                                                                                          ,DisapproveOnlineReviewCommentRule
                                                                                          ,RejectOnlineReviewCommentRule
+                                                                                         ,DeleteOnlineReviewRule
                                                                                          {
 
     private static final String ONLINE_REVIEW_COMMENTS_ERROR_PATH = "onlineReviewsActionHelper.reviewCommentsBeans[%s]";
@@ -167,6 +169,15 @@ public class ProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase i
         }
         return valid;
     }    
+
+    public boolean processDeleteOnlineReview(DeleteProtocolOnlineReviewEvent event) {
+        boolean valid = true;
+        if (StringUtils.isBlank(event.getReason()) ||
+            event.getNoteText().length() > event.getMaxLength()) {
+            valid = false;
+        }
+        return valid;        
+    }
     
     private KraAuthorizationService getKraAuthorizationService() {
         KraAuthorizationService service;
