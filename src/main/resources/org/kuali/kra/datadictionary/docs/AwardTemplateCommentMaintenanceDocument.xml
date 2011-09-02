@@ -54,7 +54,7 @@
 					p:name="templateCode"
 					p:required="true" />-->
 				<bean parent="MaintainableFieldDefinition" p:name="commentTypeCode" p:required="true"/>
-				<bean parent="MaintainableFieldDefinition" p:name="checklistPrintFlag" p:required="true"/>
+				<!-- bean parent="MaintainableFieldDefinition" p:name="checklistPrintFlag" p:required="true"/-->
 				<bean parent="MaintainableFieldDefinition" p:name="comments"/>
 				<bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
 			</list>
@@ -63,9 +63,7 @@
 	<bean id="AwardTemplateCommentMaintenanceDocument-EditListAwardTemplateComment" parent="AwardTemplateCommentMaintenanceDocument-EditListAwardTemplateComment-parentBean"/>
 	<bean id="AwardTemplateCommentMaintenanceDocument-EditListAwardTemplateComment-parentBean" abstract="true" parent="MaintainableSectionDefinition">
 		<property name="id" value="Edit Award Template Comments"/>
-		<property name="title" value="Edit Sponsor Template Comments"/>
-		
-		
+		<property name="title" value="Edit Sponsor Template Comments"/>		
 		<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableCollectionDefinition">
@@ -91,7 +89,7 @@
 					<property name="maintainableFields">
 						<list>
 							<bean parent="MaintainableFieldDefinition" p:name="commentTypeCode" p:required="true"/>
-							<bean parent="MaintainableFieldDefinition" p:name="checklistPrintFlag" p:required="true"/>
+							<!-- bean parent="MaintainableFieldDefinition" p:name="checklistPrintFlag" p:required="true"/-->
 							<bean parent="MaintainableFieldDefinition" p:name="comments"/>
 							<bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
 						</list>
