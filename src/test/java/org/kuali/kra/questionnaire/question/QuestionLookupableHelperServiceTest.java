@@ -207,7 +207,7 @@ public class QuestionLookupableHelperServiceTest extends KcUnitTestBase {
     private Question createQuestion(int questionRefId, String sequenceStatus) {
         Question question = new Question();
         question.setQuestionRefId(Long.valueOf(questionRefId));
-        question.setQuestionId(questionRefId);
+        question.setQuestionIdFromInteger(questionRefId);
         question.setSequenceStatus(sequenceStatus);
         question.setQuestion("test" + questionRefId);
         question.setStatus("A");

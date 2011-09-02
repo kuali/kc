@@ -73,8 +73,8 @@ public class NSFApplicationChecklistV1_3GeneratorTest extends
 
 	private Questionnaire getQuestionire(ProposalDevelopmentDocument document) {
 		Questionnaire questionnaire=new Questionnaire();
-		questionnaire.setQuestionnaireId(1025);
-		questionnaire.setQuestionnaireRefId(100L);
+		questionnaire.setQuestionnaireIdFromInteger(1025);
+		questionnaire.setQuestionnaireRefIdFromLong(100L);
 		
 		AnswerHeader answerHeader=new AnswerHeader();
 		answerHeader.setModuleItemKey(document.getDevelopmentProposal().getProposalNumber());
@@ -82,7 +82,7 @@ public class NSFApplicationChecklistV1_3GeneratorTest extends
 		answerHeader.setModuleItemCode("3");
 		answerHeader.setModuleSubItemCode("0");
 		answerHeader.setModuleSubItemKey("0");
-		answerHeader.setQuestionnaireRefIdFk(100L);
+		answerHeader.setQuestionnaireRefIdFk("100");
 		answerHeader.setAnswers(getQuestionireAnswers());
 		return questionnaire;
 	}

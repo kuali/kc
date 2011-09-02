@@ -55,7 +55,7 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
     private QuestionnaireAuthorizationService questionnaireAuthorizationService;
     private List<MaintenanceDocumentBase> questionnaireMaintenanceDocs;
     private List<MaintenanceDocumentBase> newQuestionnaireDocs;
-    private List<Integer> questionnaireIds;
+    private List<String> questionnaireIds;
     private String isActive;
 
     @Override
@@ -77,8 +77,8 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
         List<Questionnaire> questionnaires = new ArrayList<Questionnaire>();
         int qId = 0;
         for (BusinessObject questionnaire : searchResults) {
-            if (qId != ((Questionnaire) questionnaire).getQuestionnaireId()) {
-                qId = ((Questionnaire) questionnaire).getQuestionnaireId();
+            if (qId != ((Questionnaire) questionnaire).getQuestionnaireIdAsInteger()) {
+                qId = ((Questionnaire) questionnaire).getQuestionnaireIdAsInteger();
                 if (isCurrent((Questionnaire) questionnaire)) {
                     questionnaires.add((Questionnaire) questionnaire);
                 }
@@ -103,13 +103,12 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
     }
     
     // TODO : Maybe we need a versioning history for Questionnaire, so we don't have to do this.
-    protected Questionnaire getQuestionnaireById(Integer questionnaireId) {
+    protected Questionnaire getQuestionnaireById(String questionnaireId) {
         Questionnaire questionnaire = null;
         if (questionnaireId != null) {
             Map<String, Object> fieldValues = new HashMap<String, Object>();
             fieldValues.put(QUESTIONNAIRE_ID, questionnaireId);
-            Collection<Questionnaire> questionnaires = getBusinessObjectService().findMatching(
-                    Questionnaire.class, fieldValues);
+            Collection<Questionnaire> questionnaires = getBusinessObjectService().findMatching(Questionnaire.class, fieldValues);
             if (questionnaires.size() > 0) {
                 questionnaire = (Questionnaire) Collections.max(questionnaires);
             }
@@ -194,7 +193,7 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
         questionnaireMaintenanceDocs = new ArrayList<MaintenanceDocumentBase>();
         newQuestionnaireDocs = new ArrayList<MaintenanceDocumentBase>();
         Map<String, Object> fieldValues = new HashMap<String, Object>();
-        questionnaireIds = new ArrayList<Integer>();
+        questionnaireIds = new ArrayList<String>();
 
         fieldValues.put(KEWPropertyConstants.NAME, getMaintenanceDocumentDictionaryService().getDocumentTypeName(
                 Questionnaire.class));

@@ -303,7 +303,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
                             catch (NumberFormatException ex) {
                             }
                             if (isPreDocParentQuestionFromPeriodExists(questionnaireQuestion, budgetPeriod)) {
-                                switch (question.getQuestionId()) {
+                                switch (question.getQuestionIdAsInteger()) {
                                     case 72:
                                         if (answer != null)
                                             phs398TrainingBudgetYearDataType.setUndergraduateNumFullTime(answerIntVal);
@@ -376,7 +376,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
                                 }
                             }
                             if (isPostDocParentQuestionFromPeriodExists(questionnaireQuestion, budgetPeriod, FN_INDEX)) {
-                                switch (question.getQuestionId()) {
+                                switch (question.getQuestionIdAsInteger()) {
                                     case 86:
                                         // trainees at stipend level 0
                                         if (answer != null)
@@ -422,7 +422,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
                                 }
                             }
                             if (isPostDocParentQuestionFromPeriodExists(questionnaireQuestion, budgetPeriod, SN_INDEX)) {
-                                switch (question.getQuestionId()) {
+                                switch (question.getQuestionIdAsInteger()) {
                                     case 86:
                                         // trainees at stipend level 0
                                         if (answer != null)
@@ -571,7 +571,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
                             int answerIntVal = 0;
                             try {answerIntVal = Integer.parseInt(answer);}catch (NumberFormatException ex) {}
                             if (isPostDocParentQuestionFromPeriodExists(questionnaireQuestion, budgetPeriod, FD_INDEX)) {
-                                switch (question.getQuestionId()) {
+                                switch (question.getQuestionIdAsInteger()) {
                                     case 86:
                                         // trainees at stipend level 0
                                         if (answer != null)
@@ -618,7 +618,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
                                 }
                             }
                             if (isPostDocParentQuestionFromPeriodExists(questionnaireQuestion, budgetPeriod, SD_INDEX)) {
-                                switch (question.getQuestionId()) {
+                                switch (question.getQuestionIdAsInteger()) {
                                     case 86:
                                         // trainees at stipend level 0
                                         if (answer != null)
@@ -1077,7 +1077,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
         Map<String, Object> qMap = new HashMap<String, Object>();
         qMap.put("questionNumber", parentQuestionNumber);
         List<QuestionnaireQuestion> parentQuestionnaireQuestions = (List) businessObjectService.findMatching(QuestionnaireQuestion.class, qMap);
-        return parentQuestionnaireQuestions.isEmpty() ? null : parentQuestionnaireQuestions.get(0).getQuestion().getQuestionId();
+        return parentQuestionnaireQuestions.isEmpty() ? null : parentQuestionnaireQuestions.get(0).getQuestion().getQuestionIdAsInteger();
     }
 
     private boolean isPreDocParentQuestionFromPeriodExists(QuestionnaireQuestion questionnaireQuestion, BudgetPeriod budgetPeriod) {

@@ -105,8 +105,8 @@ public class QuestionnaireAnswerServiceTest {
      */
     private Questionnaire getQuestionnaire(Integer questionnaireId,Integer sequenceNumber, Long id) {
         Questionnaire questionnaire = new Questionnaire();
-        questionnaire.setQuestionnaireId(questionnaireId);
-        questionnaire.setQuestionnaireRefId(id);
+        questionnaire.setQuestionnaireIdFromInteger(questionnaireId);
+        questionnaire.setQuestionnaireRefIdFromLong(id);
         questionnaire.setIsFinal(true);
         questionnaire.setSequenceNumber(sequenceNumber);
         List<QuestionnaireQuestion> questionnaireQuestions = new ArrayList<QuestionnaireQuestion>();
@@ -155,7 +155,7 @@ public class QuestionnaireAnswerServiceTest {
     private Question createQuestion(Long questionRefId, Integer questionId) {
         Question question = new Question();
         question.setQuestionRefId(questionRefId);
-        question.setQuestionId(questionId); 
+        question.setQuestionIdFromInteger(questionId); 
         question.setMaxAnswers(1);
         return question;
         
@@ -168,7 +168,7 @@ public class QuestionnaireAnswerServiceTest {
         QuestionnaireUsage questionnaireUsage = new QuestionnaireUsage();
         questionnaireUsage.setModuleItemCode(CoeusModule.IRB_MODULE_CODE);
         questionnaireUsage.setModuleSubItemCode("0");
-            questionnaireUsage.setQuestionnaireRefIdFk(questionnaireRefId);
+        questionnaireUsage.setQuestionnaireRefIdFk(questionnaireRefId.toString());
         questionnaireUsage.setQuestionnaireLabel(label);
         return questionnaireUsage;
         
@@ -245,7 +245,7 @@ public class QuestionnaireAnswerServiceTest {
         answerHeader.setModuleItemCode(CoeusModule.IRB_MODULE_CODE);
         answerHeader.setModuleItemKey(moduleItemKey);
         answerHeader.setModuleSubItemKey(moduleSubItemKey);
-        answerHeader.setQuestionnaireRefIdFk(questionnaireRefId);
+        answerHeader.setQuestionnaireRefIdFk(questionnaireRefId.toString());
         answerHeader.setAnswers(new ArrayList<Answer>());
         Answer answer = createAnswer(1,"Y");
         answer.setQuestionNumber(1);

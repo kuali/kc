@@ -172,7 +172,7 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
                         question.setQuestionnaireQuestionsId(Long.parseLong(splitstr[0]));
                     }
                     if (StringUtils.isNotBlank(splitstr[1])) {
-                        question.setQuestionnaireRefIdFk(Long.parseLong(splitstr[1]));
+                        question.setQuestionnaireRefIdFk(splitstr[1]);
                     }
                     question.setQuestionRefIdFk(Long.parseLong(splitstr[2]));
                     question.setQuestionNumber(Integer.parseInt(splitstr[3]));

@@ -67,7 +67,7 @@ public class QuestionServiceImpl implements QuestionService {
      * @see org.kuali.kra.questionnaire.question.QuestionService#getQuestionById(java.lang.String)
      */
     @SuppressWarnings("unchecked")
-    public Question getQuestionById(Integer questionId) {
+    public Question getQuestionById(String questionId) {
         Question question = null;
         if (questionId != null) {
             Map<String, Object> fieldValues = new HashMap<String, Object>();
@@ -84,12 +84,12 @@ public class QuestionServiceImpl implements QuestionService {
         return question;
     }
 
+    
     /**
-     * 
-     * @see org.kuali.kra.questionnaire.question.QuestionService#isQuestionUsed(java.lang.Integer)
+     * @see org.kuali.kra.questionnaire.question.QuestionService#isQuestionUsed(java.lang.String)
      */
     @SuppressWarnings("unchecked")
-    public boolean isQuestionUsed(Integer questionId) {
+    public boolean isQuestionUsed(String questionId) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(QUESTION_QUESTION_ID, questionId);
         List<Questionnaire> questionnaires = (List<Questionnaire>) businessObjectService.findMatching(Questionnaire.class,
