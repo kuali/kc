@@ -189,7 +189,7 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
                 Question question = questionnaireQuestion.getQuestion();
                 Integer questionNumber = questionnaireQuestion.getQuestionNumber();
                 Integer parentQuestionNumber = questionnaireQuestion.getParentQuestionNumber();
-                Integer questionId = question.getQuestionId();
+                Integer questionId = question.getQuestionIdAsInteger();
                 if (answer != null) {
                     switch (questionId) {
                         case HUMAN:

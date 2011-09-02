@@ -28,7 +28,7 @@ public class QuestionnaireUsage extends KraPersistableBusinessObjectBase impleme
     private Long questionnaireUsageId; 
     private String moduleItemCode; 
     private String moduleSubItemCode; 
-    private Long questionnaireRefIdFk; 
+    private String questionnaireRefIdFk; 
     private Integer ruleId; 
     private String questionnaireLabel; 
     private Integer questionnaireSequenceNumber;
@@ -67,11 +67,11 @@ public class QuestionnaireUsage extends KraPersistableBusinessObjectBase impleme
         this.moduleSubItemCode = moduleSubItemCode;
     }
 
-    public Long getQuestionnaireRefIdFk() {
+    public String getQuestionnaireRefIdFk() {
         return questionnaireRefIdFk;
     }
 
-    public void setQuestionnaireRefIdFk(Long questionnaireRefIdFk) {
+    public void setQuestionnaireRefIdFk(String questionnaireRefIdFk) {
         this.questionnaireRefIdFk = questionnaireRefIdFk;
     }
 
@@ -146,8 +146,7 @@ public class QuestionnaireUsage extends KraPersistableBusinessObjectBase impleme
     }
 
     public int compareTo(QuestionnaireUsage argQuestionnaireUsage) {
-        if (ObjectUtils.equals(this.getQuestionnaire().getQuestionnaireId(), argQuestionnaireUsage.getQuestionnaire()
-                .getQuestionnaireId())) {
+        if (ObjectUtils.equals(this.getQuestionnaire().getQuestionnaireId(), argQuestionnaireUsage.getQuestionnaire().getQuestionnaireId())) {
             if (ObjectUtils.equals(this.getQuestionnaireRefIdFk(), argQuestionnaireUsage.getQuestionnaireRefIdFk())) {
                 return argQuestionnaireUsage.getQuestionnaireSequenceNumber().compareTo(this.getQuestionnaireSequenceNumber());
             }
@@ -156,7 +155,7 @@ public class QuestionnaireUsage extends KraPersistableBusinessObjectBase impleme
             }
         }
         else {
-            return this.getQuestionnaire().getQuestionnaireId().compareTo(argQuestionnaireUsage.getQuestionnaire().getQuestionnaireId());
+            return this.getQuestionnaire().getQuestionnaireIdAsInteger().compareTo(argQuestionnaireUsage.getQuestionnaire().getQuestionnaireIdAsInteger());
         }
     }
 

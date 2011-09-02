@@ -63,7 +63,7 @@ public class QuestionMaintainableImpl extends KraMaintainableImpl {
                 if (question.getQuestionId() == null) {
                     Long newQuestionId = KraServiceLocator.getService(SequenceAccessorService.class)
                             .getNextAvailableSequenceNumber("SEQ_QUESTION_ID");
-                    question.setQuestionId(newQuestionId.intValue());
+                    question.setQuestionIdFromInteger(newQuestionId.intValue());
                 }
             }
         }

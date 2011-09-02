@@ -77,30 +77,30 @@ public class QuestionnaireServiceTest  extends KcUnitTestBase {
 
         private Questionnaire setupSourceQuestionnaire() {
             Questionnaire questionnaire = new Questionnaire();
-            questionnaire.setQuestionnaireRefId(1L);
+            questionnaire.setQuestionnaireRefIdFromLong(1L);
             
             QuestionnaireQuestion questionnaireQuestion = new QuestionnaireQuestion();
-            questionnaireQuestion.setQuestionnaireRefIdFk(1L);
+            questionnaireQuestion.setQuestionnaireRefIdFk("1");
             questionnaireQuestion.setQuestionRefIdFk(1L);
             questionnaireQuestion.setQuestionnaireQuestionsId(1L);
             questionnaireQuestion.setQuestionRefIdFk(1000L);
             questionnaire.getQuestionnaireQuestions().add(questionnaireQuestion);
             
             questionnaireQuestion = new QuestionnaireQuestion();
-            questionnaireQuestion.setQuestionnaireRefIdFk(1L);
+            questionnaireQuestion.setQuestionnaireRefIdFk("1");
             questionnaireQuestion.setQuestionRefIdFk(2L);
             questionnaireQuestion.setQuestionnaireQuestionsId(2L);
             questionnaireQuestion.setQuestionRefIdFk(1001L);
             questionnaire.getQuestionnaireQuestions().add(questionnaireQuestion);
             
             QuestionnaireUsage questionnaireUsage = new QuestionnaireUsage();
-            questionnaireUsage.setQuestionnaireRefIdFk(1L);
+            questionnaireUsage.setQuestionnaireRefIdFk("1");
             questionnaireUsage.setQuestionnaireLabel("test 1");
             questionnaireUsage.setQuestionnaireUsageId(1L);
             questionnaire.getQuestionnaireUsages().add(questionnaireUsage);
             
             questionnaireUsage = new QuestionnaireUsage();
-            questionnaireUsage.setQuestionnaireRefIdFk(1L);
+            questionnaireUsage.setQuestionnaireRefIdFk("1");
             questionnaireUsage.setQuestionnaireLabel("test 2");
             questionnaireUsage.setQuestionnaireUsageId(2L);
             questionnaire.getQuestionnaireUsages().add(questionnaireUsage);
@@ -141,7 +141,7 @@ public class QuestionnaireServiceTest  extends KcUnitTestBase {
             final QuestionnaireServiceImpl questionnaireService = new QuestionnaireServiceImpl();
             questionnaireService.setBusinessObjectService(businessObjectService);
             final Questionnaire questionnaire = new Questionnaire();
-            questionnaire.setQuestionnaireId(1);
+            questionnaire.setQuestionnaireId("1");
             questionnaire.setName("exist name");
             final List<Questionnaire> questionnaires = new ArrayList<Questionnaire>();
             questionnaires.add(questionnaire);
@@ -165,7 +165,7 @@ public class QuestionnaireServiceTest  extends KcUnitTestBase {
             final QuestionnaireServiceImpl questionnaireService = new QuestionnaireServiceImpl();
             questionnaireService.setBusinessObjectService(businessObjectService);
             final Questionnaire questionnaire = new Questionnaire();
-            questionnaire.setQuestionnaireId(1);
+            questionnaire.setQuestionnaireId("1");
             questionnaire.setName("exist name");
             final List<Questionnaire> questionnaires = new ArrayList<Questionnaire>();
             questionnaires.add(questionnaire);
@@ -176,7 +176,7 @@ public class QuestionnaireServiceTest  extends KcUnitTestBase {
                 will(returnValue(questionnaires));
             }});
 
-            assertTrue(!questionnaireService.isQuestionnaireNameExist(1, "exist name"));
+            assertTrue(!questionnaireService.isQuestionnaireNameExist("1", "exist name"));
 
             context.assertIsSatisfied();
                         
@@ -196,7 +196,7 @@ public class QuestionnaireServiceTest  extends KcUnitTestBase {
                 will(returnValue(questionnaires));
             }});
 
-            assertTrue(!questionnaireService.isQuestionnaireNameExist(1, "not exist name"));
+            assertTrue(!questionnaireService.isQuestionnaireNameExist("1", "not exist name"));
 
             context.assertIsSatisfied();
                         

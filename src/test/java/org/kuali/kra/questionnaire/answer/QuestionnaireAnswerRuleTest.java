@@ -95,7 +95,7 @@ public class QuestionnaireAnswerRuleTest extends KcUnitTestBase {
         answerHeader.setModuleItemCode(CoeusModule.IRB_MODULE_CODE);
         answerHeader.setModuleItemKey(moduleItemKey);
         answerHeader.setModuleSubItemKey(moduleSubItemKey);
-        answerHeader.setQuestionnaireRefIdFk(questionnaireRefId);
+        answerHeader.setQuestionnaireRefIdFk(questionnaireRefId.toString());
         answerHeader.setAnswers(new ArrayList<Answer>());
         Answer answer = createAnswer(1,"Y");
         answer.setQuestionNumber(1);
@@ -149,7 +149,7 @@ public class QuestionnaireAnswerRuleTest extends KcUnitTestBase {
     private Question createQuestion(Long questionRefId, Integer questionId, Integer questionTypeId) {
         Question question = new Question();
         question.setQuestionRefId(questionRefId);
-        question.setQuestionId(questionId); 
+        question.setQuestionIdFromInteger(questionId); 
         question.setQuestionTypeId(questionTypeId);
         question.setMaxAnswers(1);
         return question;

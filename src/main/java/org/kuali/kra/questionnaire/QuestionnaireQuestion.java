@@ -25,7 +25,7 @@ public class QuestionnaireQuestion extends KraPersistableBusinessObjectBase impl
     
     private static final long serialVersionUID = 1699439856326521334L;
     private Long questionnaireQuestionsId; 
-    private Long questionnaireRefIdFk; 
+    private String questionnaireRefIdFk; 
     private Long questionRefIdFk; 
     private Integer questionNumber; 
     private Integer parentQuestionNumber; 
@@ -51,11 +51,11 @@ public class QuestionnaireQuestion extends KraPersistableBusinessObjectBase impl
         this.questionnaireQuestionsId = questionnaireQuestionsId;
     }
 
-    public Long getQuestionnaireRefIdFk() {
+    public String getQuestionnaireRefIdFk() {
         return questionnaireRefIdFk;
     }
 
-    public void setQuestionnaireRefIdFk(Long questionnaireRefIdFk) {
+    public void setQuestionnaireRefIdFk(String questionnaireRefIdFk) {
         this.questionnaireRefIdFk = questionnaireRefIdFk;
     }
 

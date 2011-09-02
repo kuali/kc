@@ -37,7 +37,7 @@ public class Question extends KraPersistableBusinessObjectBase implements Compar
 
     private String documentNumber;
     private Long questionRefId;
-    private Integer questionId;
+    private String questionId;
     private Integer sequenceNumber;
     private String sequenceStatus;
     private String question;
@@ -77,12 +77,29 @@ public class Question extends KraPersistableBusinessObjectBase implements Compar
         this.questionRefId = questionRefId;
     }
 
-    public Integer getQuestionId() {
+    public String getQuestionId() {
         return questionId;
     }
+    
+    public Integer getQuestionIdAsInteger() {
+        Integer retVal = null;
+        if(this.questionId != null) {
+            retVal = Integer.valueOf(this.questionId);
+        }
+        return retVal;        
+    }
 
-    public void setQuestionId(Integer questionId) {
+    public void setQuestionId(String questionId) {
         this.questionId = questionId;
+    }
+    
+    public void setQuestionIdFromInteger(Integer questionIdAsInteger) {
+        if(questionIdAsInteger != null) {
+            this.questionId = questionIdAsInteger.toString();
+        }
+        else {
+            this.questionId = null;
+        }        
     }
 
     public Integer getSequenceNumber() {
@@ -344,10 +361,10 @@ public class Question extends KraPersistableBusinessObjectBase implements Compar
      *         & sequenceNumber pair that is greater than the argument Question.
      */
     public int compareTo(Question argQuestion) {
-        if (ObjectUtils.equals(this.getQuestionId(), argQuestion.getQuestionId())) {
+        if (ObjectUtils.equals(this.getQuestionIdAsInteger(), argQuestion.getQuestionIdAsInteger())) {
             return this.getSequenceNumber().compareTo(argQuestion.getSequenceNumber());
         } else {
-            return this.getQuestionId().compareTo(argQuestion.getQuestionId());
+            return this.getQuestionIdAsInteger().compareTo(argQuestion.getQuestionIdAsInteger());
         }
     }
     /** {@inheritDoc} */

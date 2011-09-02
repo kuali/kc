@@ -99,7 +99,7 @@ public class NSFApplicationChecklistV1_3Generator extends NSFApplicationChecklis
 			ProjectNarrative projectNarrative) {
 		List<Answer> answers = s2sUtilService.getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(),getNamespace(),getFormName());
 		for (Answer answer : answers) {
-			switch (answer.getQuestion().getQuestionId()) {
+			switch (answer.getQuestion().getQuestionIdAsInteger()) {
 			case PRELIMINARY:
 				YesNoNotApplicableDataType.Enum yesNoNotApplicableDataType = YesNoNotApplicableDataType.N_NO;
 				if (QUESTIONNAIRE_ANSWER_YES.equals(answer.getAnswer())) {

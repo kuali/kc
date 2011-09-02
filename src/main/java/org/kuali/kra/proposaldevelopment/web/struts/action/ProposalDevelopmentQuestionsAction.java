@@ -107,11 +107,11 @@ public class ProposalDevelopmentQuestionsAction extends ProposalDevelopmentActio
         // for release 3 : if questionnaire questions has answer, then print answer. 
        
         if (StringUtils.equals(formProperty, ".questionnaireHelper")) {
-            reportParameters.put("questionnaireId", proposalDevelopmentForm.getQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getQuestionnaireId());
+            reportParameters.put("questionnaireId", proposalDevelopmentForm.getQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getQuestionnaireIdAsInteger());
             reportParameters.put("template", proposalDevelopmentForm.getQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getTemplate());
             reportParameters.put("coeusModuleSubItemCode", CoeusSubModule.ZERO_SUBMODULE);
         } else if (StringUtils.equals(formProperty, ".s2sQuestionnaireHelper")) { 
-            reportParameters.put("questionnaireId", proposalDevelopmentForm.getS2sQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getQuestionnaireId());
+            reportParameters.put("questionnaireId", proposalDevelopmentForm.getS2sQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getQuestionnaireIdAsInteger());
             reportParameters.put("template", proposalDevelopmentForm.getS2sQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getTemplate());
             reportParameters.put("coeusModuleSubItemCode", CoeusSubModule.PROPOSAL_S2S_SUBMODULE);
         } else {

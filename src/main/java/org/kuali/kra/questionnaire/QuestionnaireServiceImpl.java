@@ -63,7 +63,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
      * @see org.kuali.kra.questionnaire.QuestionnaireService#isQuestionnaireNameExist(java.lang.Integer, java.lang.String)
      */
     @SuppressWarnings("unchecked")
-    public boolean isQuestionnaireNameExist(Integer questionnaireId, String name) {
+    public boolean isQuestionnaireNameExist(String questionnaireId, String name) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("name", name);
         boolean isExist = false;

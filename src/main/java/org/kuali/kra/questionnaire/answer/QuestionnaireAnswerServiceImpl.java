@@ -64,7 +64,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         fieldValues.put(MODULE_SUB_ITEM_CODE, coeusSubModule);
 
         List<QuestionnaireUsage> usages = new ArrayList<QuestionnaireUsage>();
-        List<Integer> questionnaireIds = new ArrayList<Integer>();
+        List<String> questionnaireIds = new ArrayList<String>();
         List<QuestionnaireUsage> questionnaireUsages = (List<QuestionnaireUsage>) businessObjectService.findMatching(
                 QuestionnaireUsage.class, fieldValues);
 
@@ -92,16 +92,14 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     /*
      * set up answer headers for the initial load of module questionnaire answers
      */
-    protected List<AnswerHeader> initAnswerHeaders(ModuleQuestionnaireBean moduleQuestionnaireBean,
-            Map<Integer, AnswerHeader> answerHeaderMap, boolean finalDoc) {
+    protected List<AnswerHeader> initAnswerHeaders(ModuleQuestionnaireBean moduleQuestionnaireBean, Map<String, AnswerHeader> answerHeaderMap, boolean finalDoc) {
         List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
         for (QuestionnaireUsage questionnaireUsage : getPublishedQuestionnaire(moduleQuestionnaireBean.getModuleItemCode(),
                 moduleQuestionnaireBean.getModuleSubItemCode(), finalDoc)) {
-            Integer questionnaireId = questionnaireUsage.getQuestionnaire().getQuestionnaireId();
+            String questionnaireId = questionnaireUsage.getQuestionnaire().getQuestionnaireId();
             if (answerHeaderMap.containsKey(questionnaireId)) {
                 answerHeaders.add(answerHeaderMap.get(questionnaireId));
-                if (!questionnaireUsage.getQuestionnaire().getQuestionnaireRefId()
-                        .equals(answerHeaderMap.get(questionnaireId).getQuestionnaireRefIdFk())) {
+                if (!questionnaireUsage.getQuestionnaire().getQuestionnaireRefIdAsLong().equals(answerHeaderMap.get(questionnaireId).getQuestionnaireRefIdFk())) {
                     // the current qnaire is "Active"
                     if (questionnaireUsage.getQuestionnaire().getIsFinal()) {
                         answerHeaderMap.get(questionnaireId).setNewerVersionPublished(true);
@@ -149,7 +147,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     public List<AnswerHeader> versioningQuestionnaireAnswer(ModuleQuestionnaireBean moduleQuestionnaireBean,
             Integer newSequenceNumber) {
         List<AnswerHeader> newAnswerHeaders = new ArrayList<AnswerHeader>();
-        List<Integer> questionnaireIds = getAssociateedQuestionnaireIds(moduleQuestionnaireBean);
+        List<String> questionnaireIds = getAssociateedQuestionnaireIds(moduleQuestionnaireBean);
         for (AnswerHeader answerHeader : retrieveAnswerHeaders(moduleQuestionnaireBean)) {
             if (questionnaireIds.contains(answerHeader.getQuestionnaire().getQuestionnaireId())) {
                 AnswerHeader copiedAnswerHeader = (AnswerHeader) ObjectUtils.deepCopy(answerHeader);
@@ -177,7 +175,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             ModuleQuestionnaireBean destModuleQuestionnaireBean) {
 
         List<AnswerHeader> newAnswerHeaders = new ArrayList<AnswerHeader>();
-        List<Integer> questionnaireIds = getAssociateedQuestionnaireIds(srcModuleQuestionnaireBean);
+        List<String> questionnaireIds = getAssociateedQuestionnaireIds(srcModuleQuestionnaireBean);
         for (AnswerHeader answerHeader : retrieveAnswerHeaders(srcModuleQuestionnaireBean)) {
             if (questionnaireIds.contains(answerHeader.getQuestionnaire().getQuestionnaireId())) {
                 AnswerHeader copiedAnswerHeader = (AnswerHeader) ObjectUtils.deepCopy(answerHeader);
@@ -198,12 +196,12 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
      * @see org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#getQuestionnaireAnswer(org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean)
      */
     public List<AnswerHeader> getQuestionnaireAnswer(ModuleQuestionnaireBean moduleQuestionnaireBean) {
-        Map<Integer, AnswerHeader> answerHeaderMap = new HashMap<Integer, AnswerHeader>();
+        Map<String, AnswerHeader> answerHeaderMap = new HashMap<String, AnswerHeader>();
         List<AnswerHeader> answers = retrieveAnswerHeaders(moduleQuestionnaireBean);
         for (AnswerHeader answerHeader : answers) {
             if (!answerHeaderMap.containsKey(answerHeader.getQuestionnaire().getQuestionnaireId())
-                    || answerHeaderMap.get(answerHeader.getQuestionnaire().getQuestionnaireId()).getQuestionnaireRefIdFk() < answerHeader
-                            .getQuestionnaireRefIdFk()) {
+                    || Long.parseLong(answerHeaderMap.get(answerHeader.getQuestionnaire().getQuestionnaireId()).getQuestionnaireRefIdFk()) 
+                            < Long.parseLong(answerHeader.getQuestionnaireRefIdFk())) {
                 setupChildAnswerIndicator(answerHeader.getAnswers());
                 answerHeaderMap.put(answerHeader.getQuestionnaire().getQuestionnaireId(), answerHeader);
             }
@@ -227,8 +225,8 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         return (List<AnswerHeader>) businessObjectService.findMatching(AnswerHeader.class, fieldValues);
     }
 
-    protected List<Integer> getAssociateedQuestionnaireIds(ModuleQuestionnaireBean moduleQuestionnaireBean) {
-        List<Integer> questionnaireIds = new ArrayList<Integer>();
+    protected List<String> getAssociateedQuestionnaireIds(ModuleQuestionnaireBean moduleQuestionnaireBean) {
+        List<String> questionnaireIds = new ArrayList<String>();
         for (QuestionnaireUsage questionnaireUsage : getPublishedQuestionnaire(moduleQuestionnaireBean.getModuleItemCode(),
                 moduleQuestionnaireBean.getModuleSubItemCode(), moduleQuestionnaireBean.isFinalDoc())) {
             questionnaireIds.add(questionnaireUsage.getQuestionnaire().getQuestionnaireId());
@@ -239,9 +237,8 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 
     protected boolean isCurrentQuestionnaire(Questionnaire questionnaire) {
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("questionnaireId", questionnaire.getQuestionnaireId().toString());
-        List<Questionnaire> questionnaires = (List<Questionnaire>) businessObjectService.findMatchingOrderBy(Questionnaire.class,
-                fieldValues, "sequenceNumber", false);
+        fieldValues.put("questionnaireId", questionnaire.getQuestionnaireId());
+        List<Questionnaire> questionnaires = (List<Questionnaire>) businessObjectService.findMatchingOrderBy(Questionnaire.class, fieldValues, "sequenceNumber", false);
         // "isFinal" is used to check whether the questionnaire is 'Active' or not.
         return questionnaire.getQuestionnaireRefId().equals(questionnaires.get(0).getQuestionnaireRefId());
         // && questionnaire.getIsFinal();
@@ -454,7 +451,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
      * initialize answer fields based on question
      */
     protected AnswerHeader setupAnswerForQuestionnaire(Questionnaire questionnaire, ModuleQuestionnaireBean moduleQuestionnaireBean) {
-        AnswerHeader answerHeader = new AnswerHeader(moduleQuestionnaireBean, questionnaire.getQuestionnaireRefId());
+        AnswerHeader answerHeader = new AnswerHeader(moduleQuestionnaireBean, questionnaire.getQuestionnaireRefIdAsLong());
         answerHeader.setQuestionnaire(questionnaire);
         List<Answer> answers = new ArrayList<Answer>();
         for (QuestionnaireQuestion question : questionnaire.getQuestionnaireQuestions()) {
