@@ -64,7 +64,7 @@ public class QuestionVersioningTest {
     
     private Question createQuestion(Integer questionId, String questionText) {
         Question question = new Question();
-        question.setQuestionId(questionId);
+        question.setQuestionIdFromInteger(questionId);
         question.setQuestion(questionText);
         return question;
     }

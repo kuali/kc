@@ -75,8 +75,7 @@ public class QuestionnaireMaintenanceDocumentRule extends MaintenanceDocumentRul
             valid = false;
         }
 
-        if (getQuestionnaireService().isQuestionnaireNameExist(
-                newQuestionnaire.getQuestionnaireId(), newQuestionnaire.getName())) {
+        if (getQuestionnaireService().isQuestionnaireNameExist(newQuestionnaire.getQuestionnaireId(), newQuestionnaire.getName())) {
             errorMap.putError("document.newMaintainableObject.businessObject.name", KeyConstants.ERROR_QUESTIONNAIRE_NAME_EXIST);
             valid = false;
 

@@ -27,8 +27,8 @@ import org.kuali.rice.kns.util.TypedArrayList;
 public class Questionnaire extends KraPersistableBusinessObjectBase implements Comparable<Questionnaire>,SequenceOwner<Questionnaire> { 
     
     private static final long serialVersionUID = 8679896046435777084L;
-    private Long questionnaireRefId;
-    private Integer questionnaireId; 
+    private String questionnaireRefId;
+    private String questionnaireId; 
     private String name; 
     private String description; 
     private boolean isFinal; 
@@ -49,12 +49,29 @@ public class Questionnaire extends KraPersistableBusinessObjectBase implements C
 
     } 
     
-    public Integer getQuestionnaireId() {
+    public String getQuestionnaireId() {
         return questionnaireId;
     }
+    
+    public Integer getQuestionnaireIdAsInteger() {
+        Integer retVal = null;
+        if(this.questionnaireId != null) {
+            retVal = Integer.valueOf(this.questionnaireId);
+        }
+        return retVal;        
+    }
 
-    public void setQuestionnaireId(Integer questionnaireId) {
+    public void setQuestionnaireId(String questionnaireId) {
         this.questionnaireId = questionnaireId;
+    }
+    
+    public void setQuestionnaireIdFromInteger(Integer questionnaireIdAsInteger) {
+        if(questionnaireIdAsInteger != null) {
+            this.questionnaireId = questionnaireIdAsInteger.toString();
+        }
+        else {
+            this.questionnaireId = null;
+        }        
     }
 
     public String getName() {
@@ -159,12 +176,30 @@ public class Questionnaire extends KraPersistableBusinessObjectBase implements C
         this.sequenceNumber = sequenceNumber;
     }
 
-    public Long getQuestionnaireRefId() {
+    public Long getQuestionnaireRefIdAsLong() {
+        Long retVal = null;
+        if(this.questionnaireRefId != null) {
+            retVal = Long.valueOf(this.questionnaireRefId);
+        }
+        return retVal;        
+    }
+    
+    public String getQuestionnaireRefId() {
         return questionnaireRefId;
     }
 
-    public void setQuestionnaireRefId(Long questionnaireRefId) {
+    public void setQuestionnaireRefId(String questionnaireRefId) {
         this.questionnaireRefId = questionnaireRefId;
+    }    
+        
+    public void setQuestionnaireRefIdFromLong(Long questionnaireRefIdAsLong) {
+        if(questionnaireRefIdAsLong != null) {
+            this.questionnaireRefId = questionnaireRefIdAsLong.toString();
+        }
+        else {
+            this.questionnaireRefId = null;
+        }
+        
     }
 
     public String getDocumentNumber() {
@@ -179,7 +214,7 @@ public class Questionnaire extends KraPersistableBusinessObjectBase implements C
         if (ObjectUtils.equals(this.getQuestionnaireId(), argQuestionnaire.getQuestionnaireId())) {
             return this.getSequenceNumber().compareTo(argQuestionnaire.getSequenceNumber());
         } else {
-            return this.getQuestionnaireId().compareTo(argQuestionnaire.getQuestionnaireId());
+            return this.getQuestionnaireIdAsInteger().compareTo(argQuestionnaire.getQuestionnaireIdAsInteger());
         }
     }
 

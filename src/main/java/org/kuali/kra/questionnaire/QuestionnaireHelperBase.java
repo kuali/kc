@@ -93,7 +93,7 @@ public abstract class QuestionnaireHelperBase implements Serializable {
 
 
     private boolean isQuestionnaireActive(AnswerHeader answerHeader) {        
-        Integer questionnaireId = answerHeader.getQuestionnaire().getQuestionnaireId();
+        Integer questionnaireId = answerHeader.getQuestionnaire().getQuestionnaireIdAsInteger();
         String coeusModuleCode = answerHeader.getModuleItemCode();
         String coeusSubModuleCode = answerHeader.getModuleSubItemCode(); 
         return getQuestionnaireAnswerService().checkIfQuestionnaireIsActiveForModule(questionnaireId, coeusModuleCode, coeusSubModuleCode);

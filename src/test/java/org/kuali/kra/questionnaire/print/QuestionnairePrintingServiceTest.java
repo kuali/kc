@@ -116,7 +116,7 @@ public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
     }
     private Question createQuestion(Integer questionId, String questionText) {
         Question question = new Question();
-        question.setQuestionId(questionId);
+        question.setQuestionIdFromInteger(questionId);
         question.setQuestion(questionText);
         return question;
     }
@@ -166,8 +166,8 @@ public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
         pkMap.put("questionnaireRefId", 1L);
         try {
             final Questionnaire questionnaire = new Questionnaire();
-            questionnaire.setQuestionnaireId(1);
-            questionnaire.setQuestionnaireRefId(1L);
+            questionnaire.setQuestionnaireId("1");
+            questionnaire.setQuestionnaireRefIdFromLong(1L);
             ProtocolDocument document = new ProtocolDocument();
             final List<Protocol>protocols = new ArrayList<Protocol>(); 
             protocols.add(document.getProtocol());
@@ -188,7 +188,7 @@ public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
             List<Printable> printables = qnPrintingServiceImpl.getQuestionnairePtintable(document.getProtocol(), questionnairesToPrints);
             // FIXME Writing PDF to disk for testing purpose only.
             assertEquals(printables.size(),1);
-            assertEquals(((AbstractPrint)printables.get(0)).getReportParameters().get("questionnaireId"), new Integer(1));
+            assertEquals(((AbstractPrint)printables.get(0)).getReportParameters().get("questionnaireId"), "1");
         } catch (Exception e) {
             e.printStackTrace();
             //assert false;

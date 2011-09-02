@@ -35,7 +35,7 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
     private String moduleItemKey;
     private String moduleSubItemCode;
     private String moduleSubItemKey;
-    private Long questionnaireRefIdFk;
+    private String questionnaireRefIdFk;
     private Questionnaire questionnaire;
     private boolean completed = false;
 
@@ -57,7 +57,7 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
         this.moduleSubItemCode = moduleQuestionnaireBean.getModuleSubItemCode();
         this.moduleItemKey = moduleQuestionnaireBean.getModuleItemKey();
         this.moduleSubItemKey = moduleQuestionnaireBean.getModuleSubItemKey();
-        this.questionnaireRefIdFk = questionnaireRefIdFk;
+        this.questionnaireRefIdFk = questionnaireRefIdFk.toString();
         // current coeus is setting this to 0
  //       this.moduleSubItemCode = "0";
         answers = new ArrayList<Answer>();
@@ -149,7 +149,7 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
      * 
      * @return Returns the questionnaireRefId.
      */
-    public Long getQuestionnaireRefIdFk() {
+    public String getQuestionnaireRefIdFk() {
         return this.questionnaireRefIdFk;
     }
 
@@ -158,7 +158,7 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
      * 
      * @param questionnaireRefIdFk The questionnaireRefIdFk to set.
      */
-    public void setQuestionnaireRefIdFk(Long questionnaireRefIdFk) {
+    public void setQuestionnaireRefIdFk(String questionnaireRefIdFk) {
         this.questionnaireRefIdFk = questionnaireRefIdFk;
     }
 

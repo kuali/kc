@@ -107,7 +107,7 @@ public class QuestionServiceTest {
              * found.
              */
             final Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put("questionId", 999);
+            fieldValues.put("questionId", "999");
             
             final Collection<Question> questions = new ArrayList<Question>();
             Question question = new Question();
@@ -119,7 +119,7 @@ public class QuestionServiceTest {
             }});
             questionService.setBusinessObjectService(businessObjectService);
             
-            assertEquals(question, questionService.getQuestionById(999));
+            assertEquals(question, questionService.getQuestionById("999"));
         }
         
         /**
@@ -138,7 +138,7 @@ public class QuestionServiceTest {
              * is returned if the question is not in the database.
              */
             final Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put("questionId", 999);
+            fieldValues.put("questionId", "999");
             
             final Collection<Question> questions = new ArrayList<Question>();
             
@@ -148,7 +148,7 @@ public class QuestionServiceTest {
             }});
             questionService.setBusinessObjectService(businessObjectService);
             
-            assertEquals(null, questionService.getQuestionById(999));
+            assertEquals(null, questionService.getQuestionById("999"));
         }
 
     }
