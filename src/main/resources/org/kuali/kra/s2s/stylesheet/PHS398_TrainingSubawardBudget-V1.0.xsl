@@ -48,7 +48,12 @@
 					<fo:table width="100%">
 						<fo:table-column/>
 						<fo:table-body>
-					<xsl:if test="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT1!=''">
+						 <fo:table-row>
+							<fo:table-cell>
+							<fo:block>&#160;</fo:block>
+							</fo:table-cell>
+						</fo:table-row>						
+					<xsl:if test="//n1:PHS398_TrainingSubawardBudget/n1:ATT1!=''">
 					<fo:table-row>
 						<fo:table-cell>
 						<fo:table width="100%">
@@ -69,7 +74,7 @@
 										<xsl:attribute name="hyphenate">true</xsl:attribute>
 										<xsl:attribute name="font-size">8pt</xsl:attribute>
 										<fo:block>
-											<xsl:value-of select="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT1" />
+											<xsl:value-of select="//n1:PHS398_TrainingSubawardBudget/n1:ATT1" />
 										</fo:block>
 									</fo:table-cell>
 								</fo:table-row>
@@ -78,7 +83,7 @@
 						</fo:table-cell>
 						</fo:table-row>
 					</xsl:if>
-					<xsl:if test="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT2!=''">
+					<xsl:if test="//n1:PHS398_TrainingSubawardBudget/n1:ATT2!=''">
 					<fo:table-row>
 						<fo:table-cell>
 						<fo:table width="100%">
@@ -99,7 +104,7 @@
 										<xsl:attribute name="hyphenate">true</xsl:attribute>
 										<xsl:attribute name="font-size">8pt</xsl:attribute>
 										<fo:block>
-											<xsl:value-of select="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT2" />
+											<xsl:value-of select="//n1:PHS398_TrainingSubawardBudget/n1:ATT2" />
 										</fo:block>
 									</fo:table-cell>
 								</fo:table-row>
@@ -108,7 +113,7 @@
 						</fo:table-cell>
 						</fo:table-row>
 					</xsl:if>
-					<xsl:if test="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT3!=''">
+					<xsl:if test="//n1:PHS398_TrainingSubawardBudget/n1:ATT3!=''">
 					<fo:table-row>
 						<fo:table-cell>
 						<fo:table width="100%">
@@ -129,7 +134,7 @@
 										<xsl:attribute name="hyphenate">true</xsl:attribute>
 										<xsl:attribute name="font-size">8pt</xsl:attribute>
 										<fo:block>
-											<xsl:value-of select="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT3" />
+											<xsl:value-of select="//n1:PHS398_TrainingSubawardBudget/n1:ATT3" />
 										</fo:block>
 									</fo:table-cell>
 								</fo:table-row>
@@ -138,7 +143,7 @@
 						</fo:table-cell>
 						</fo:table-row>
 					</xsl:if>
-					<xsl:if test="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT4!=''">
+					<xsl:if test="//n1:PHS398_TrainingSubawardBudget/n1:ATT4!=''">
 					<fo:table-row>
 						<fo:table-cell>
 						<fo:table width="100%">
@@ -159,7 +164,7 @@
 										<xsl:attribute name="hyphenate">true</xsl:attribute>
 										<xsl:attribute name="font-size">8pt</xsl:attribute>
 										<fo:block>
-											<xsl:value-of select="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT4" />
+											<xsl:value-of select="//n1:PHS398_TrainingSubawardBudget/n1:ATT4" />
 										</fo:block>
 									</fo:table-cell>
 								</fo:table-row>
@@ -168,7 +173,7 @@
 						</fo:table-cell>
 						</fo:table-row>
 					</xsl:if>
-					<xsl:if test="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT5!=''">
+					<xsl:if test="//n1:PHS398_TrainingSubawardBudget/n1:ATT5!=''">
 					<fo:table-row>
 						<fo:table-cell>
 						<fo:table width="100%">
@@ -189,7 +194,7 @@
 										<xsl:attribute name="hyphenate">true</xsl:attribute>
 										<xsl:attribute name="font-size">8pt</xsl:attribute>
 										<fo:block>
-											<xsl:value-of select="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT5" />
+											<xsl:value-of select="//n1:PHS398_TrainingSubawardBudget/n1:ATT5" />
 										</fo:block>
 									</fo:table-cell>
 								</fo:table-row>
@@ -198,7 +203,7 @@
 						</fo:table-cell>
 						</fo:table-row>
 					</xsl:if>
-					<xsl:if test="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT6!=''">
+					<xsl:if test="//n1:PHS398_TrainingSubawardBudget/n1:ATT6!=''">
 					<fo:table-row>
 						<fo:table-cell>
 						<fo:table width="100%">
@@ -218,7 +223,7 @@
 										<xsl:attribute name="hyphenate">true</xsl:attribute>
 										<xsl:attribute name="font-size">8pt</xsl:attribute>
 										<fo:block>
-											<xsl:value-of select="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT6" />
+											<xsl:value-of select="//n1:PHS398_TrainingSubawardBudget/n1:ATT6" />
 										</fo:block>
 									</fo:table-cell>
 								</fo:table-row>
@@ -227,7 +232,7 @@
 						</fo:table-cell>
 						</fo:table-row>
 					</xsl:if>
-					<xsl:if test="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT7!=''">
+					<xsl:if test="//n1:PHS398_TrainingSubawardBudget/n1:ATT7!=''">
 					<fo:table-row>
 						<fo:table-cell>
 						<fo:table width="100%">
@@ -247,7 +252,7 @@
 										<xsl:attribute name="hyphenate">true</xsl:attribute>
 										<xsl:attribute name="font-size">8pt</xsl:attribute>
 										<fo:block>
-											<xsl:value-of select="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT7" />
+											<xsl:value-of select="//n1:PHS398_TrainingSubawardBudget/n1:ATT7" />
 										</fo:block>
 									</fo:table-cell>
 								</fo:table-row>
@@ -256,7 +261,7 @@
 						</fo:table-cell>
 						</fo:table-row>
 					</xsl:if>
-					<xsl:if test="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT8!=''">
+					<xsl:if test="//n1:PHS398_TrainingSubawardBudget/n1:ATT8!=''">
 					<fo:table-row>
 						<fo:table-cell>
 						<fo:table width="100%">
@@ -276,7 +281,7 @@
 										<xsl:attribute name="hyphenate">true</xsl:attribute>
 										<xsl:attribute name="font-size">8pt</xsl:attribute>
 										<fo:block>
-											<xsl:value-of select="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT8" />
+											<xsl:value-of select="//n1:PHS398_TrainingSubawardBudget/n1:ATT8" />
 										</fo:block>
 									</fo:table-cell>
 								</fo:table-row>
@@ -285,7 +290,7 @@
 						</fo:table-cell>
 						</fo:table-row>
 					</xsl:if>
-					<xsl:if test="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT9!=''">
+					<xsl:if test="//n1:PHS398_TrainingSubawardBudget/n1:ATT9!=''">
 					<fo:table-row>
 						<fo:table-cell>
 						<fo:table width="100%">
@@ -305,7 +310,7 @@
 										<xsl:attribute name="hyphenate">true</xsl:attribute>
 										<xsl:attribute name="font-size">8pt</xsl:attribute>
 										<fo:block>
-											<xsl:value-of select="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT9" />
+											<xsl:value-of select="//n1:PHS398_TrainingSubawardBudget/n1:ATT9" />
 										</fo:block>
 									</fo:table-cell>
 								</fo:table-row>
@@ -314,7 +319,7 @@
 						</fo:table-cell>
 						</fo:table-row>
 					</xsl:if>
-					<xsl:if test="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT10!=''">
+					<xsl:if test="//n1:PHS398_TrainingSubawardBudget/n1:ATT10!=''">
 						<fo:table-row>
 						<fo:table-cell>
 						<fo:table width="100%">
@@ -334,7 +339,7 @@
 										<xsl:attribute name="hyphenate">true</xsl:attribute>
 										<xsl:attribute name="font-size">8pt</xsl:attribute>
 										<fo:block>
-											<xsl:value-of select="$XML/n1:PHS398_TrainingSubawardBudget/n1:ATT10" />
+											<xsl:value-of select="//n1:PHS398_TrainingSubawardBudget/n1:ATT10" />
 										</fo:block>
 									</fo:table-cell>
 								</fo:table-row>
@@ -355,12 +360,17 @@
 								<xsl:text>&#x2029;</xsl:text>
 							</fo:block>
 						</fo:inline-container>
-						<xsl:if test="$XML/n1:PHS398_TrainingSubawardBudget/n1:BudgetAttachments/PHS398_TrainingBudget:PHS398_TrainingBudget">
+						<xsl:if test="//n1:PHS398_TrainingSubawardBudget/n1:BudgetAttachments/PHS398_TrainingBudget:PHS398_TrainingBudget">
 							<fo:table table-layout="fixed" width="100%" border-spacing="0">
 								<fo:table-column column-width="proportional-column-width(1)"/>
 								<fo:table-body start-indent="0pt">
+									<fo:table-row>
+										<fo:table-cell>
+											<fo:block>&#160;</fo:block>
+										</fo:table-cell>
+									</fo:table-row>					
 									<xsl:for-each select="$XML">
-										<xsl:for-each select="n1:PHS398_TrainingSubawardBudget">
+										<xsl:for-each select="//n1:PHS398_TrainingSubawardBudget">
 											<xsl:for-each select="n1:BudgetAttachments">
 												<xsl:for-each select="PHS398_TrainingBudget:PHS398_TrainingBudget">
 													<fo:table-row>
