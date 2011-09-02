@@ -261,7 +261,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         
         String results = "N";
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("questionId", qnQuestion.getQuestion().getQuestionId().toString());
+        fieldValues.put("questionId", qnQuestion.getQuestion().getQuestionId());
         Question question = ((List<Question>)getBusinessObjectService().findMatchingOrderBy(Question.class, fieldValues, "sequenceNumber", false)).get(0);
         if (!question.getSequenceNumber().equals(qnQuestion.getQuestion().getSequenceNumber())) {
             results = question.getQuestionRefId().toString();
@@ -300,10 +300,10 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         versionQuestionnaire(questionnaire, oldQuestionnaire);
         Long questionnaireRefId = KraServiceLocator.getService(SequenceAccessorService.class).getNextAvailableSequenceNumber(
                 "SEQ_QUESTIONNAIRE_REF_ID");
-        questionnaire.setQuestionnaireRefId(questionnaireRefId);
+        questionnaire.setQuestionnaireRefIdFromLong(questionnaireRefId);
         // inherit from previous version when start editing
 //        questionnaire.setIsFinal(false);
-        oldQuestionnaire.setQuestionnaireRefId(questionnaireRefId);
+        oldQuestionnaire.setQuestionnaireRefIdFromLong(questionnaireRefId);
         String questions = assembleQuestions(qnForm);
         String usages = assembleUsages(((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject()
                 .getBusinessObject()));

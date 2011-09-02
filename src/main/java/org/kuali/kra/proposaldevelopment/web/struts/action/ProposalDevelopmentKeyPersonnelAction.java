@@ -812,7 +812,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         // for release 3 : if questionnaire questions has answer, then print answer. 
         
         
-        reportParameters.put("questionnaireId", header.getQuestionnaire().getQuestionnaireId());
+        reportParameters.put("questionnaireId", header.getQuestionnaire().getQuestionnaireIdAsInteger());
         reportParameters.put("template", header.getQuestionnaire().getTemplate());
 
         AttachmentDataSource dataStream = getQuestionnairePrintingService().printQuestionnaireAnswer(person, reportParameters);

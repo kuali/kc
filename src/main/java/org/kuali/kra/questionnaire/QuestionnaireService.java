@@ -33,7 +33,7 @@ public interface QuestionnaireService {
      * @param name
      * @return
      */
-    public boolean isQuestionnaireNameExist(Integer questionnaireId, String name);
+    public boolean isQuestionnaireNameExist(String questionnaireId, String name);
     /**
      * 
      * This method the modules code that the user has permission to associate to questionnaire

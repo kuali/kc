@@ -470,7 +470,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         Map<String, Object> reportParameters = new HashMap<String, Object>();
         AnswerHeader answerHeader = getAnswerHeader(request);
         // for release 3 : if questionnaire questions has answer, then print answer.
-        reportParameters.put("questionnaireId", answerHeader.getQuestionnaire().getQuestionnaireId());
+        reportParameters.put("questionnaireId", answerHeader.getQuestionnaire().getQuestionnaireIdAsInteger());
         reportParameters.put("template", answerHeader.getQuestionnaire().getTemplate());
         Protocol protocol;
         if (CoeusSubModule.PROTOCOL_SUBMISSION.equals(answerHeader.getModuleSubItemCode())) {

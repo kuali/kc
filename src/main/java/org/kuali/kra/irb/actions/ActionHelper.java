@@ -2631,8 +2631,8 @@ public class ActionHelper implements Serializable {
 //                            .getModuleSubItemKey().equals(getProtocol().getSequenceNumber().toString()))
                     || isCurrentAmendRenewalQn(answerHeader)) {
                 QuestionnairePrintOption printOption = new QuestionnairePrintOption();
-                printOption.setQuestionnaireRefId(answerHeader.getQuestionnaire().getQuestionnaireRefId());
-                printOption.setQuestionnaireId(answerHeader.getQuestionnaire().getQuestionnaireId());
+                printOption.setQuestionnaireRefId(answerHeader.getQuestionnaire().getQuestionnaireRefIdAsLong());
+                printOption.setQuestionnaireId(answerHeader.getQuestionnaire().getQuestionnaireIdAsInteger());
                 printOption.setSelected(true);
                 printOption.setQuestionnaireName(answerHeader.getQuestionnaire().getName());
                 printOption.setLabel(getQuestionnaireLabel(answerHeader));

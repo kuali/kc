@@ -165,7 +165,7 @@ public class QuestionnaireXmlStream implements XmlStream {
         questionnaireCompletionFlag = questionnaireCompletionFlag==null?Boolean.FALSE:questionnaireCompletionFlag;
         ModuleQuestionnaireBean moduleQuestionnaireBean = getQuestionnaireAnswerHeaderBean(printableBusinessObject, params);
         if(questionnaire != null) {
-            Integer questId = questionnaire.getQuestionnaireId();
+            Integer questId = questionnaire.getQuestionnaireIdAsInteger();
             if(questId!=null){
                 questionnaireType.setQuestionnaireId(questId);
             }

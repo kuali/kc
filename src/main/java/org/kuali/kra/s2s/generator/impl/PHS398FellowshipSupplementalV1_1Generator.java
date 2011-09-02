@@ -174,7 +174,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 		for (Answer questionnaireAnswer : s2sUtilService.getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(),getNamespace(),getFormName())) {
 			String answer = questionnaireAnswer.getAnswer();
 			if (answer != null) {
-				switch (questionnaireAnswer.getQuestion().getQuestionId()) {
+				switch (questionnaireAnswer.getQuestion().getQuestionIdAsInteger()) {
 				case SENIOR_FELL:
 					budgetMap.put(SENIOR_FELL, answer);
 					break;
@@ -584,7 +584,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 		for (Answer questionnaireAnswer : s2sUtilService.getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), getNamespace(),getFormName())) {
 			String answer = questionnaireAnswer.getAnswer();
 			if (answer != null) {
-				switch (questionnaireAnswer.getQuestionnaireQuestion().getQuestion().getQuestionId()) {
+				switch (questionnaireAnswer.getQuestionnaireQuestion().getQuestion().getQuestionIdAsInteger()) {
 				case HUMAN:
 					researchTrainingPlan
 							.setHumanSubjectsIndefinite(answer
@@ -684,7 +684,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 			String answer = questionnaireAnswer.getAnswer();
 			questionnaireQuestion = questionnaireAnswer.getQuestionnaireQuestion();
 			answerHeader = (AnswerHeader) questionnaireAnswer.getAnswerHeader();
-		   if(questionnaireAnswer.getQuestionnaireQuestion().getQuestion().getQuestionId().equals(STEMCELLLINES)){  
+		   if(questionnaireAnswer.getQuestionnaireQuestion().getQuestion().getQuestionIdAsInteger().equals(STEMCELLLINES)){  
 		       List<Answer> answerList = getAnswers(questionnaireQuestion,answerHeader);                      
                for (Answer questionnaireAnswerBO: answerList) {
                    String questionnaireSubAnswer =  questionnaireAnswerBO.getAnswer();
@@ -696,7 +696,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
            }
                
             if (answer != null) {
-                switch (questionnaireAnswer.getQuestionnaireQuestion().getQuestion().getQuestionId()) {
+                switch (questionnaireAnswer.getQuestionnaireQuestion().getQuestion().getQuestionIdAsInteger()) {
                 case BROAD_TRAINING:
                 case FIELD_TRAINING:
                     if (!answer.toUpperCase().equals(SUB_CATEGORY_NOT_FOUND)) {
@@ -848,7 +848,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
                 Answer answerBO = getAnswer(questionnaireQuestion,answerHeader);
                 String answer = answerBO.getAnswer();
                 Question question = questionnaireQuestion.getQuestion();
-                int questionId = question.getQuestionId();
+                int questionId = question.getQuestionIdAsInteger();
                 if (answer != null) {
                 switch (questionId) {
                 case KIRST_START_KNOWN:
