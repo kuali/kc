@@ -32,6 +32,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.committee.bo.CommitteeResearchArea;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
@@ -47,6 +48,7 @@ import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.action.KualiMaintenanceDocumentAction;
+import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 
 /*
  * Big issue is that questionnairequestions and usages can't be included in xmldoccontent because maintframework - questions &
@@ -67,6 +69,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
     private static final String PUP = "#u#";
     private static final String PFP = "#f#";
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
+    private static final String DOCUMENT_NUMBER = "documentNumber";
 
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -109,6 +112,17 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
 
         permissionCheckForDocHandler(form);
         ActionForward forward = super.docHandler(mapping, form, request, response);
+        // check if we can read qnnr data from db
+        QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(DOCUMENT_NUMBER, qnForm.getDocument().getDocumentNumber());
+        @SuppressWarnings("unchecked")
+        List<Questionnaire> qnnrs = (List<Questionnaire>) this.getBusinessObjectService().findMatching(Questionnaire.class, fieldValues);
+        if( !(qnnrs.isEmpty()) ) {
+            // we are responding to a 'view' action for an approved questionnaire
+            Questionnaire approvedQnnr = qnnrs.get(0);
+            ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().setBusinessObject(approvedQnnr);
+        }        
         setupQuestionAndUsage(form);
         return forward;
     }
