@@ -16,6 +16,7 @@
 package org.kuali.kra.coi.personfinancialentity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,10 +28,15 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.bo.Unit;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class FinancialEntityServiceTest {
-    private static final String  PERSON_ID = "000001";
+    private static final String  PERSON_ID = "1000000001";
+    private static final String  UNIT_NUMBER = "000001";
+    private static final String  UNIT_NAME = "000001";
     Mockery context = new JUnit4Mockery();
 
     @Before
@@ -102,5 +108,73 @@ public class FinancialEntityServiceTest {
         Assert.assertEquals(entities.get(0).isCurrentFlag(), true);
 
     }
+     
+     @Test
+    public void testGetFinancialEntityReporter() throws Exception {
+        FinancialEntityServiceImpl financialEntityService = new FinancialEntityServiceImpl();
+        final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
+        FinancialEntityReporter reporter = new FinancialEntityReporter();
+        reporter.setPersonId(PERSON_ID);
+        reporter.setReporterRoleId("FER");
+        reporter.setFinancialEntityUnits(new ArrayList<FinancialEntityUnit>());
+        FinancialEntityUnit financialEntityUnit = new FinancialEntityUnit();
+        financialEntityUnit.setUnitNumber(UNIT_NUMBER);
+        financialEntityUnit.setUnitName(UNIT_NAME);
+        financialEntityUnit.setLeadUnitFlag(true);
+        reporter.getFinancialEntityUnits().add(financialEntityUnit);
+
+        
+        final List<FinancialEntityReporter> reporters = new ArrayList<FinancialEntityReporter>();
+        reporters.add(reporter);
+        context.checking(new Expectations() {
+            {
+                Map fieldValues = new HashMap();
+                fieldValues.put("personId", PERSON_ID);
+                fieldValues.put("reporterRoleId", "FER");     
+                one(businessObjectService).findMatching(FinancialEntityReporter.class, fieldValues);
+                will(returnValue(reporters));
+
+
+            }
+        });
+        financialEntityService.setBusinessObjectService(businessObjectService);
+//        financialEntityService.setKcPersonService(getMockKcPersonService());
+        
+        FinancialEntityReporter financialEntityReporter = financialEntityService.getFinancialEntityReporter(PERSON_ID);
+        Assert.assertEquals(financialEntityReporter.getFinancialEntityUnits().size(), 1);
+        Assert.assertEquals(financialEntityReporter.getPersonId(), PERSON_ID);
+        Assert.assertEquals(financialEntityReporter.getReporterRoleId(), "FER");
+        Assert.assertEquals(financialEntityReporter.getFinancialEntityUnits().get(0).getUnitNumber(), UNIT_NUMBER);
+        Assert.assertEquals(financialEntityReporter.getFinancialEntityUnits().get(0).getUnitName(), UNIT_NAME);
+
+    }
+     
+  
+     private KcPersonService getMockKcPersonService() {
+         // not really referenced yet
+         final KcPersonService kcPersonService = context.mock(KcPersonService.class);
+         final KcPerson kcPerson = new KcPerson() {
+             public String getUserName() {
+                 
+                 return "quickstart";
+             }
+             public Unit getUnit() {
+                 final Unit unit = new Unit();
+                 unit.setUnitNumber(UNIT_NUMBER);
+                 unit.setUnitName(UNIT_NAME);
+                 
+                 return unit;
+             }
+
+         };
+        // kcPerson.setPersonId(PERSON_ID);
+         
+         context.checking(new Expectations() {{
+             allowing(kcPersonService).getKcPersonByPersonId(PERSON_ID);
+             will(returnValue(kcPerson));
+         }});
+         return kcPersonService;
+     }
+
 
 }
