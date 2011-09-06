@@ -2314,13 +2314,13 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
          
-        <reference-descriptor name="negotiationStatus" class-ref="org.kuali.kra.negotiations.bo.NegotiationStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="negotiationStatus" class-ref="org.kuali.kra.negotiations.bo.NegotiationStatus" auto-retrieve="true" auto-update="object" auto-delete="none"> 
             <foreignkey field-ref="negotiationStatusId"/>
         </reference-descriptor>
-        <reference-descriptor name="negotiationAgreementType" class-ref="org.kuali.kra.negotiations.bo.NegotiationAgreementType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="negotiationAgreementType" class-ref="org.kuali.kra.negotiations.bo.NegotiationAgreementType" auto-retrieve="true" auto-update="object" auto-delete="none"> 
             <foreignkey field-ref="negotiationAgreementTypeId"/>
         </reference-descriptor>
-        <reference-descriptor name="negotiationAssociationType" class-ref="org.kuali.kra.negotiations.bo.NegotiationAssociationType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="negotiationAssociationType" class-ref="org.kuali.kra.negotiations.bo.NegotiationAssociationType" auto-retrieve="true" auto-update="object" auto-delete="none"> 
             <foreignkey field-ref="negotiationAssociationTypeId"/>
         </reference-descriptor>
     </class-descriptor>

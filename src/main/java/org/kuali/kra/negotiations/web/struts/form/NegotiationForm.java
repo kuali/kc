@@ -19,7 +19,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -73,5 +75,32 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
+    }
+    
+    private boolean isAssocitationType(String typeCode) {
+        if (this.getNegotiationDocument().getNegotiation().getNegotiationAssociationType() != null) {
+            return StringUtils.equalsIgnoreCase(typeCode, this.getNegotiationDocument().getNegotiation().getNegotiationAssociationType().getCode());
+        }
+        return false;
+    }
+    
+    public boolean getDisplayUnAssociatedDetail() {
+        return isAssocitationType(NegotiationAssociationType.NONE_ASSOCIATION);
+    }
+    
+    public boolean getDisplayProposalLog() {
+        return isAssocitationType(NegotiationAssociationType.PROPOSAL_LOG_ASSOCIATION);
+    }
+    
+    public boolean getDisplayInstitutionalProposal() {
+        return isAssocitationType(NegotiationAssociationType.INSTITUATIONAL_PROPOSAL_ASSOCIATION);
+    }
+    
+    public boolean getDisplayAward() {
+        return isAssocitationType(NegotiationAssociationType.AWARD_ASSOCIATION);
+    }
+    
+    public boolean getDisplaySubAward() {
+        return isAssocitationType(NegotiationAssociationType.SUB_AWARD_ASSOCIATION);
     }
 }
