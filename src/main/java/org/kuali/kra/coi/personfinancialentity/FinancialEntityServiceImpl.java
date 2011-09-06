@@ -87,7 +87,7 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
             leadUnit = new FinancialEntityUnit();
             leadUnit.setLeadUnitFlag(true);
             leadUnit.setUnitNumber(kcPerson.getUnit().getUnitNumber());
-            leadUnit.setUnitName(kcPerson.getUnit().getUnitNumber());
+            leadUnit.setUnitName(kcPerson.getUnit().getUnitName());
             leadUnit.setPersonId(personId);
         }
         return leadUnit;
