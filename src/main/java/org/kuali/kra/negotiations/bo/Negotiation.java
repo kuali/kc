@@ -16,6 +16,7 @@
 package org.kuali.kra.negotiations.bo;
 
 import java.sql.Date;
+import java.util.Calendar;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KcPerson;
@@ -27,6 +28,8 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  */
 public class Negotiation extends KraPersistableBusinessObjectBase {
 
+    private static final long MILLISECS_PER_DAY = 24*60*60*1000;
+    
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -43,13 +46,14 @@ public class Negotiation extends KraPersistableBusinessObjectBase {
     private Date anticipatedAwardDate;
     private String documentFolder;
     
+    private NegotiationUnassociatedDetail unAssociatedDetail;
+    
     /**
      * Long awardId - award
      * String proposalNumber -developmentProposal
      * Long proposalId - institutionalProposal
      */
     private String associatedDocumentId;
-    
     
     private NegotiationStatus negotiationStatus;
     private NegotiationAgreementType negotiationAgreementType;
@@ -59,7 +63,21 @@ public class Negotiation extends KraPersistableBusinessObjectBase {
         super();
     }
     
-    
+    public String getNegotiationAge() {
+        if (getNegotiationStartDate() == null) {
+            return "";
+        } else {
+            long start = getNegotiationStartDate().getTime();
+            long end = 0L;
+            if (getNegotiationEndDate() == null) {
+                end = Calendar.getInstance().getTimeInMillis();
+            } else {
+                end = getNegotiationEndDate().getTime();
+            }
+            
+            return ((end - start) / MILLISECS_PER_DAY) + " days";
+        }
+    }
     
     public Long getNegotiationId() {
         return negotiationId;
@@ -130,8 +148,15 @@ public class Negotiation extends KraPersistableBusinessObjectBase {
     public void setNegotiatorPersonId(String negotiatorPersonId) {
         this.negotiatorPersonId = negotiatorPersonId;
     }
-
-
+    
+    public KcPerson getNegotiator() {
+        if (this.getNegotiatorPersonId() == null) {
+            return null;
+        }
+        else {
+            return getKcPersonService().getKcPersonByPersonId(this.getNegotiatorPersonId());
+        }
+    }
 
     public Date getNegotiationStartDate() {
         return negotiationStartDate;
@@ -227,6 +252,13 @@ public class Negotiation extends KraPersistableBusinessObjectBase {
         this.negotiationAssociationType = negotiationAssociationType;
     }
 
+    public NegotiationUnassociatedDetail getUnAssociatedDetail() {
+        return unAssociatedDetail;
+    }
+
+    public void setUnAssociatedDetail(NegotiationUnassociatedDetail unAssociatedDetail) {
+        this.unAssociatedDetail = unAssociatedDetail;
+    }
 
 
     @Override
@@ -235,5 +267,4 @@ public class Negotiation extends KraPersistableBusinessObjectBase {
         map.put("negotiationId", this.getNegotiationId());
         return map;
     }
-
 }
