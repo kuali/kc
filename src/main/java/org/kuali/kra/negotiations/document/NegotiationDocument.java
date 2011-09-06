@@ -16,17 +16,14 @@
 package org.kuali.kra.negotiations.document;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.negotiations.bo.Negotiation;
-import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.document.Copyable;
-import org.kuali.rice.kns.document.SessionDocument;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -41,17 +38,17 @@ public class NegotiationDocument extends ResearchDocumentBase implements Seriali
 
     private static final String DOCUMENT_TYPE_CODE = "NGT";
     
-    private Negotiation negotiation;
-    private NegotiationUnassociatedDetail unAssociatedDetail;
+    private List<Negotiation> negotiationList;
     private String docStatusCode;
+    
     
     /**
      * 
      * Constructs a NegotiationDocument.java.
      */
     public NegotiationDocument() {
-        Negotiation neg = new Negotiation();
-        this.setNegotiation(neg);
+        negotiationList = new ArrayList<Negotiation>();
+        negotiationList.add(new Negotiation());
     }  
     
     /**
@@ -73,19 +70,10 @@ public class NegotiationDocument extends ResearchDocumentBase implements Seriali
     }
     
     public Negotiation getNegotiation() {
-        return negotiation;
-    }
-
-    public void setNegotiation(Negotiation negotiation) {
-        this.negotiation = negotiation;
-    }
-
-    public NegotiationUnassociatedDetail getUnAssociatedDetail() {
-        return unAssociatedDetail;
-    }
-
-    public void setUnAssociatedDetail(NegotiationUnassociatedDetail unAssociatedDetail) {
-        this.unAssociatedDetail = unAssociatedDetail;
+        if (getNegotiationList().isEmpty()) {
+            getNegotiationList().add(new Negotiation());
+        }
+        return getNegotiationList().get(0);
     }
     
     public String getDocStatusCode() {
@@ -146,6 +134,14 @@ public class NegotiationDocument extends ResearchDocumentBase implements Seriali
         }
            
         return isComplete;
+    }
+
+    public List<Negotiation> getNegotiationList() {
+        return negotiationList;
+    }
+
+    public void setNegotiationList(List<Negotiation> negotiationList) {
+        this.negotiationList = negotiationList;
     }
 
 }

@@ -2281,6 +2281,22 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     </class-descriptor>
     
+	<class-descriptor class="org.kuali.kra.negotiations.document.NegotiationDocument" table="NEGOTIATION_DOCUMENT">
+		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" primarykey="true" />
+    	<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+
+		<collection-descriptor name="negotiationList" proxy="true" element-class-ref="org.kuali.kra.negotiations.bo.Negotiation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        	<inverse-foreignkey field-ref="documentNumber" />
+		</collection-descriptor>
+		
+    	<reference-descriptor name="documentHeader" class-ref="org.kuali.rice.kns.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
+        	<foreignkey field-ref="documentNumber" />
+    	</reference-descriptor>		
+	</class-descriptor>
+		    
     <class-descriptor class="org.kuali.kra.negotiations.bo.Negotiation" table="NEGOTIATION">
         <field-descriptor name="negotiationId" column="NEGOTIATION_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="NEGOTIATION_S" autoincrement="true" />
         <field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" />
@@ -2298,13 +2314,13 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
          
-        <reference-descriptor name="negotiationStatus" class-ref="org.kuali.kra.negotiations.bo.NegotiationStatus" auto-retrieve="true" auto-update="object" auto-delete="none"> 
+        <reference-descriptor name="negotiationStatus" class-ref="org.kuali.kra.negotiations.bo.NegotiationStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="negotiationStatusId"/>
         </reference-descriptor>
-        <reference-descriptor name="negotiationAgreementType" class-ref="org.kuali.kra.negotiations.bo.NegotiationAgreementType" auto-retrieve="true" auto-update="object" auto-delete="none"> 
+        <reference-descriptor name="negotiationAgreementType" class-ref="org.kuali.kra.negotiations.bo.NegotiationAgreementType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="negotiationAgreementTypeId"/>
         </reference-descriptor>
-        <reference-descriptor name="negotiationAssociationType" class-ref="org.kuali.kra.negotiations.bo.NegotiationAssociationType" auto-retrieve="true" auto-update="object" auto-delete="none"> 
+        <reference-descriptor name="negotiationAssociationType" class-ref="org.kuali.kra.negotiations.bo.NegotiationAssociationType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="negotiationAssociationTypeId"/>
         </reference-descriptor>
     </class-descriptor>
