@@ -17,6 +17,8 @@
         <ref bean="Negotiation-negotiationAgreementTypeId"/>
         <ref bean="Negotiation-negotiationAssociationTypeId"/>
         <ref bean="Negotiation-negotiatorPersonId"/>
+        <ref bean="Negotiation-negotiator.userName"/>
+        <ref bean="Negotiation-negotiator.fullName"/>
         <ref bean="Negotiation-negotiationStartDate"/> 
         <ref bean="Negotiation-negotiationEndDate"/>
         <ref bean="Negotiation-anticipatedAwardDate"/>
@@ -70,8 +72,8 @@
   <bean id="Negotiation-negotiationStatusId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="negotiationStatusId" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="negotiationStatusId" />
-    <property name="shortLabel" value="negotiationStatusId" />
+    <property name="label" value="Negotiation Status" />
+    <property name="shortLabel" value="Negotiation Status" />
     <property name="maxLength" value="22" />
     <property name="required" value="true" />
     <property name="validationPattern" >
@@ -82,20 +84,20 @@
             p:businessObjectClass="org.kuali.kra.negotiations.bo.NegotiationStatus"
             p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="false"
-            p:includeBlankRow="true"
+            p:includeBlankRow="false"
             p:keyAttribute="id"
             p:labelAttribute="description" />
     </property>
-    <property name="summary" value="negotiationStatusId" />
-    <property name="description" value="negotiationStatusId" />
+    <property name="summary" value="Negotiation Status" />
+    <property name="description" value="Negotiation Status" />
   </bean>
   
   <bean id="Negotiation-negotiationAgreementTypeId" parent="Negotiation-negotiationAgreementTypeId-parentBean" />
   <bean id="Negotiation-negotiationAgreementTypeId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="negotiationAgreementTypeId" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="negotiationAgreementTypeId" />
-    <property name="shortLabel" value="negotiationAgreementTypeId" />
+    <property name="label" value="Agreement Type" />
+    <property name="shortLabel" value="Agreement Type" />
     <property name="maxLength" value="22" />
     <property name="required" value="true" />
     <property name="validationPattern" >
@@ -106,20 +108,20 @@
             p:businessObjectClass="org.kuali.kra.negotiations.bo.NegotiationAgreementType"
             p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="false"
-            p:includeBlankRow="true"
+            p:includeBlankRow="false"
             p:keyAttribute="id"
             p:labelAttribute="description" />
     </property>
-    <property name="summary" value="negotiationAgreementTypeId" />
-    <property name="description" value="negotiationAgreementTypeId" />
+    <property name="summary" value="Agreement Type" />
+    <property name="description" value="Agreement Type" />
   </bean>
   
   <bean id="Negotiation-negotiationAssociationTypeId" parent="Negotiation-negotiationAssociationTypeId-parentBean" />
   <bean id="Negotiation-negotiationAssociationTypeId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="negotiationAssociationTypeId" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="negotiationAssociationTypeId" />
-    <property name="shortLabel" value="negotiationAssociationTypeId" />
+    <property name="label" value="Negotiation Assocation Type" />
+    <property name="shortLabel" value="Negotiation Assocation Type" />
     <property name="maxLength" value="22" />
     <property name="required" value="true" />
     <property name="validationPattern" >
@@ -130,32 +132,43 @@
             p:businessObjectClass="org.kuali.kra.negotiations.bo.NegotiationAssociationType"
             p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="false"
-            p:includeBlankRow="true"
+            p:includeBlankRow="false"
             p:keyAttribute="id"
             p:labelAttribute="description" />
     </property>
-    <property name="summary" value="negotiationAssociationTypeId" />
-    <property name="description" value="negotiationAssociationTypeId" />
+    <property name="summary" value="Negotiation Assocation Type" />
+    <property name="description" value="Negotiation Assocation Type" />
   </bean>
   
   <bean id="Negotiation-negotiatorPersonId" parent="Negotiation-negotiatorPersonId-parentBean" />
-  <bean id="Negotiation-negotiatorPersonId-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Negotiation-negotiatorPersonId-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="negotiatorPersonId" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="person ID" />
-    <property name="shortLabel" value="person ID" />
-    <property name="maxLength" value="40" />
+    <property name="label" value="Negotiator" />
+    <property name="shortLabel" value="Negotiator" />
     <property name="required" value="false" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="summary" value="Negotiator" />
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
-    </property>
-    <property name="summary" value="person ID" />
-    <property name="description" value="person ID" />
+    <property name="description" value="Negotiator" />
   </bean>
+
+  <bean id="Negotiation-negotiator.userName" parent="Negotiation-negotiator.userName-parentBean" />
+  <bean id="Negotiation-negotiator.userName-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="negotiator.userName" />
+    <property name="label" value="Negotiator Username" />
+    <property name="shortLabel" value="Negotiator Username" />
+    <property name="required" value="false" />
+    <property name="summary" value="Negotiator Username" />
+    <property name="description" value="Negotiator's Username" />
+  </bean>
+  
+  <bean id="Negotiation-negotiator.fullName" parent="Negotiation-negotiator.fullName-parentBean" />
+    <bean id="Negotiation-negotiator.fullName-parentBean" abstract="true" parent="KcPerson-fullName">
+        <property name="name" value="negotiator.fullName" />
+        <property name="label" value="Negotiator Full Name" />
+        <property name="shortLabel" value="Negotiator Full Name" />
+    </bean>  
   
   <bean id="Negotiation-negotiationStartDate" parent="Negotiation-negotiationStartDate-parentBean" />
   <bean id="Negotiation-negotiationStartDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
@@ -186,14 +199,14 @@
   <bean id="Negotiation-anticipatedAwardDate" parent="Negotiation-anticipatedAwardDate-parentBean" />
   <bean id="Negotiation-anticipatedAwardDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
     <property name="name" value="anticipatedAwardDate" />
-    <property name="label" value="Award Date" />
-    <property name="shortLabel" value="Award Date" />
+    <property name="label" value="Anticipated Award Date" />
+    <property name="shortLabel" value="Anticipated Award Date" />
     <property name="required" value="false" />
     <property name="validationPattern" >
 		<bean parent="DateValidationPattern" />
 	</property>
-    <property name="summary" value="Award Date" />
-    <property name="description" value="Award Date" />
+    <property name="summary" value="Anticipated Award Date" />
+    <property name="description" value="Anticipated Award Date" />
   </bean>
   
   <bean id="Negotiation-documentFolder" parent="Negotiation-documentFolder-parentBean" />
@@ -208,7 +221,7 @@
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
     </property>
     <property name="control" >
-		<bean parent="TextareaControlDefinition" p:rows="3" p:cols="80" />
+		<bean parent="TextControlDefinition" p:size="120" />
     </property>
     <property name="summary" value="Document Folder" />
     <property name="description" value="Document Folder" />
@@ -218,7 +231,7 @@
   <bean id="Negotiation-associatedDocumentId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="associatedDocumentId" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Associated Document Id" />
+    <property name="label" value="Negotiation Assocation ID" />
     <property name="shortLabel" value="Assoc Doc Id" />
     <property name="maxLength" value="25" />
     <property name="required" value="true" />
@@ -229,8 +242,8 @@
       <bean parent="TextControlDefinition"
             p:size="25" />
     </property>
-    <property name="summary" value="Associated Document Id" />
-    <property name="description" value="Associated Document Id" />
+    <property name="summary" value="Negotiation Assocation ID" />
+    <property name="description" value="Negotiation Assocation ID" />
   </bean>
 
 </beans>
