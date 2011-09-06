@@ -76,13 +76,63 @@
 		<h3>Negotiation Attributes:</h3>
 		<table cellpadding="4" cellspacing="0" summary="">
             <tr>
-		        <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${negotiationAttributes.negotiationAssociationTypeId}" /></div></th>
+		        <th><div align="right">
+		        	<kul:htmlAttributeLabel attributeEntry="${negotiationAttributes.negotiationAssociationTypeId}" />
+		        </div></th>
                 <td>
-                	<kul:htmlControlAttribute property="document.negotiation.negotiationAssociationTypeId" attributeEntry="${negotiationAttributes.negotiationAssociationTypeId}" readOnly="${readOnly}"/>
+                
+                	<kul:htmlControlAttribute property="document.negotiation.negotiationAssociationTypeId" 
+                		attributeEntry="${negotiationAttributes.negotiationAssociationTypeId}" readOnly="${readOnly}"
+                		onchange="getElementsByName('methodToCall.changeAssociation')[0].click();"/>                		
+                		<html:image property="methodToCall.changeAssociation"
+					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton" style="display:none"/>
+					
                 </td>
-                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${negotiationAttributes.associatedDocumentId}" /></div></th>
+                <th>
+                	<div align="right">
+                		<c:choose>
+                			<c:when test="${KualiForm.displayAward}">
+					        	Award: 
+					      	</c:when>
+					      	<c:when test="${KualiForm.displaySubAward}">
+					        	Sub Award: 
+					      	</c:when>
+					      	<c:when test="${KualiForm.displayProposalLog}">
+					        	Proposal Log: 
+					      	</c:when>
+					      	<c:when test="${KualiForm.displayInstitutionalProposal}">
+					        	Institutional Proposal: 
+					      	</c:when>
+					      	<c:when test="${KualiForm.displayUnAssociatedDetail}">
+					        	<kul:htmlAttributeLabel attributeEntry="${negotiationAttributes.associatedDocumentId}" /> 
+					      	</c:when>
+					      	<c:otherwise>
+					        	<kul:htmlAttributeLabel attributeEntry="${negotiationAttributes.associatedDocumentId}" />
+					      	</c:otherwise>
+					    </c:choose>
+                	</div>
+                </th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.negotiation.associatedDocumentId" attributeEntry="${negotiationAttributes.associatedDocumentId}" readOnly="true"/>
+                	<c:if test="${!readOnly}">
+                		${kfunc:registerEditableProperty(KualiForm, "document.negotiation.associatedDocumentId")}
+	                	<c:choose>
+                			<c:when test="${KualiForm.displayAward}">
+                				<kul:lookup boClassName="org.kuali.kra.award.home.Award" 
+                					fieldConversions="awardId:document.negotiation.associatedDocumentId" />
+					      	</c:when>
+					      	<c:when test="${KualiForm.displaySubAward}">
+					      	</c:when>
+					      	<c:when test="${KualiForm.displayProposalLog}">
+					        	<kul:lookup boClassName="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" 
+					        		fieldConversions="proposalNumber:document.negotiation.associatedDocumentId" />  
+					      	</c:when>
+					      	<c:when test="${KualiForm.displayInstitutionalProposal}">
+					        	<kul:lookup boClassName="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" 
+					        		fieldConversions="proposalId:document.negotiation.associatedDocumentId" /> 
+					      	</c:when>
+						</c:choose>
+					</c:if>
                 </td>
             </tr>
 		</table>
