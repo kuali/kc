@@ -139,11 +139,13 @@
                   
                   
                             <div id="globalbuttons" class="globalbuttons"> 
-                                <c:if test="${!readOnly}">
+                          <!--
     	                        <input type="image" name="methodToCall.save" src="kr/static/images/buttonsmall_save.gif"  class="globalbuttons" title="save" alt="save">
+                          -->
 			                        <input type="image" name="methodToCall.close" src="kr/static/images/buttonsmall_close.gif" class="globalbuttons" title="close" alt="close">
-                                </c:if>
+                            <!--    
 			                    <input type="image" name="methodToCall.cancel" src="kr/static/images/buttonsmall_cancel.gif" class="globalbuttons" title="cancel" alt="cancel">
+			                    -->
                             </div>
                         </div><%-- end aligncenter --%>
                     </td>
