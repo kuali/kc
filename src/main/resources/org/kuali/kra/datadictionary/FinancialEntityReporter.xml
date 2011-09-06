@@ -1,0 +1,163 @@
+<!--
+/*
+ * Copyright 2005-2010 The Kuali Foundation
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.osedu.org/licenses/ECL-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="FinancialEntityReporter" parent="FinancialEntityReporter-parentBean" />
+    <bean id="FinancialEntityReporter-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.coi.personfinancialentity.FinancialEntityReporter" />
+        <property name="objectLabel" value="Financial Entity Reporter" />
+        <property name="inquiryDefinition" >
+            <ref bean="FinancialEntityReporter-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="FinancialEntityReporter-lookupDefinition" />
+        </property>
+        <property name="titleAttribute" value="financialEntityReporterId" />
+        <property name="attributes" >
+            <list>
+                <ref bean="FinancialEntityReporter-financialEntityReporterId" />
+                <ref bean="FinancialEntityReporter-reporterRoleId" />
+                <ref bean="FinancialEntityReporter-personId" />
+                <ref bean="FinancialEntityReporter-versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    
+    <bean id="FinancialEntityReporter-financialEntityReporterId" parent="FinancialEntityReporter-financialEntityReporterId-parentBean" />
+    <bean id="FinancialEntityReporter-financialEntityReporterId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="financialEntityReporterId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Financial entity reporter Id" />
+        <property name="shortLabel" value="Financial entity reporter Id" />
+        <property name="maxLength" value="12" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="12" />
+        </property>
+        <property name="summary" value="Financial entity reporter Id" />
+        <property name="description" value="Financial entity reporter Id" />
+    </bean>
+
+    <bean id="FinancialEntityReporter-reporterRoleId" parent="FinancialEntityReporter-reporterRoleId-parentBean" />
+    <bean id="FinancialEntityReporter-reporterRoleId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="reporterRoleId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Role Id" />
+        <property name="shortLabel" value="Role Id" />
+        <property name="maxLength" value="12" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="12" />
+        </property>
+        <property name="summary" value="Role Id" />
+        <property name="description" value="Role Id" />
+    </bean>
+
+    <bean id="FinancialEntityReporter-personId" parent="FinancialEntityReporter-personId-parentBean" />
+    <bean id="FinancialEntityReporter-personId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="personId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Person Id" />
+        <property name="shortLabel" value="Person Id" />
+        <property name="maxLength" value="40" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Person Id" />
+        <property name="description" value="Person Id" />
+    </bean>
+
+    <bean id="FinancialEntityReporter-versionNumber" parent="FinancialEntityReporter-versionNumber-parentBean" />
+    <bean id="FinancialEntityReporter-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="FinancialEntityReporter-inquiryDefinition" parent="FinancialEntityReporter-inquiryDefinition-parentBean" />
+    <bean id="FinancialEntityReporter-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Financial Entity Reporter Id" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Financial Entity Reporter Id" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+                            <bean parent="FieldDefinition"
+                                p:attributeName="financialEntityReporterId" 
+                                p:forceInquiry="true" />
+                             <bean parent="FieldDefinition"
+                                p:attributeName="reporterRoleId" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="personId" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="FinancialEntityReporter-lookupDefinition" parent="FinancialEntityReporter-lookupDefinition-parentBean" />
+    <bean id="FinancialEntityReporter-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Financial Entity Reporters Lookup" />
+        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+        <property name="defaultSort" >
+            <bean parent="SortDefinition" >
+        </bean>
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="financialEntityReporterId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="reporterRoleId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="personId" />
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="financialEntityReporterId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="reporterRoleId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="personId" />
+            </list>
+        </property>
+    </bean>
+</beans>

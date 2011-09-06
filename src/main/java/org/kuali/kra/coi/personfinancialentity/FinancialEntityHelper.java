@@ -19,6 +19,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.util.GlobalVariables;
+
 /**
  * 
  * This class is form helper class for financial entity
@@ -28,15 +31,24 @@ public class FinancialEntityHelper implements Serializable {
     private static final long serialVersionUID = -5837128667442140384L;
     private FinancialEntityForm form;
     private PersonFinIntDisclosure newPersonFinancialEntity;
+    private FinancialEntityUnit newFinancialEntityUnit;
+    private FinancialEntityReporter financialEntityReporter;
     private List<PersonFinIntDisclosure> activeFinancialEntities;
     private List<PersonFinIntDisclosure> inactiveFinancialEntities;
+    private List<FinancialEntityUnit> deletedUnits;
+    
     private int editEntityIndex;
     
     public FinancialEntityHelper(FinancialEntityForm form) {
         newPersonFinancialEntity = new PersonFinIntDisclosure();
         newPersonFinancialEntity.setCurrentFlag(true);
+        financialEntityReporter = new FinancialEntityReporter();
+        newPersonFinancialEntity.setPersonId(GlobalVariables.getUserSession().getPrincipalId());
+        newPersonFinancialEntity.setFinancialEntityReporterId(financialEntityReporter.getFinancialEntityReporterId());
+        setNewFinancialEntityUnit(new FinancialEntityUnit());
         activeFinancialEntities = new ArrayList<PersonFinIntDisclosure>();
         inactiveFinancialEntities = new ArrayList<PersonFinIntDisclosure>();
+        deletedUnits = new ArrayList<FinancialEntityUnit>(); 
         editEntityIndex = -1;
         this.form = form;
     }
@@ -88,6 +100,48 @@ public class FinancialEntityHelper implements Serializable {
 
     public void setInactiveFinancialEntities(List<PersonFinIntDisclosure> inactiveFinancialEntities) {
         this.inactiveFinancialEntities = inactiveFinancialEntities;
+    }
+
+
+    public FinancialEntityUnit getNewFinancialEntityUnit() {
+        return newFinancialEntityUnit;
+    }
+
+
+    public void setNewFinancialEntityUnit(FinancialEntityUnit newFinancialEntityUnit) {
+        this.newFinancialEntityUnit = newFinancialEntityUnit;
+        this.newFinancialEntityUnit.setFinancialEntityReporterId(financialEntityReporter.getFinancialEntityReporterId());
+        this.newFinancialEntityUnit.setFinancialEntityReporter(financialEntityReporter);
+        this.newFinancialEntityUnit.setPersonId(financialEntityReporter.getPersonId());
+
+    }
+    
+    private FinancialEntityService getFinancialEntityService() {
+        return KraServiceLocator.getService(FinancialEntityService.class);
+    }
+
+
+    public FinancialEntityReporter getFinancialEntityReporter() {
+        return financialEntityReporter;
+    }
+    
+    public void refreshFinancialEntityReporter() {
+        financialEntityReporter = getFinancialEntityService().getFinancialEntityReporter(GlobalVariables.getUserSession().getPrincipalId());
+    }
+
+
+    public void setFinancialEntityReporter(FinancialEntityReporter financialEntityReporter) {
+        this.financialEntityReporter = financialEntityReporter;
+    }
+
+
+    public List<FinancialEntityUnit> getDeletedUnits() {
+        return deletedUnits;
+    }
+
+
+    public void setDeletedUnits(List<FinancialEntityUnit> deletedUnits) {
+        this.deletedUnits = deletedUnits;
     }
 
 }
