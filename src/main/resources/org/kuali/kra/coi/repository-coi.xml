@@ -87,6 +87,7 @@
 <!--  Person financial interests -->
 	<class-descriptor class="org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure" table="PERSON_FIN_INT_DISCLOSURE">
 		<field-descriptor name="personFinIntDisclosureId" column="PERSON_FIN_INT_DISCLOSURE_ID" jdbc-type="BIGINT" sequence-name="SEQ_PERSON_FIN_INT_DISCL_ID" primarykey="true"  autoincrement="true" />
+        <field-descriptor name="financialEntityReporterId" column="FINANCIAL_ENTITY_REPORTER_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="entityNumber" column="ENTITY_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
@@ -108,10 +109,10 @@
 		<collection-descriptor name="invCoiDiscDetails" proxy="true" element-class-ref="org.kuali.kra.coi.personfinancialentity.InvCoiDiscDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="personFinIntDisclosureId"/>
 		</collection-descriptor>
-		<collection-descriptor name="finIntEntityYnqs" proxy="true" element-class-ref="org.kuali.kra.coi.personfinancialentity.FinIntEntityYnq" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
-			<inverse-foreignkey field-ref="personFinIntDisclosureId"/>
-		</collection-descriptor>
-		<reference-descriptor name="finIntEntityRelType" class-ref="org.kuali.kra.coi.personfinancialentity.FinIntEntityRelType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+        <collection-descriptor name="finIntEntityYnqs" proxy="true" element-class-ref="org.kuali.kra.coi.personfinancialentity.FinIntEntityYnq" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+            <inverse-foreignkey field-ref="personFinIntDisclosureId"/>
+        </collection-descriptor>
+ 		<reference-descriptor name="finIntEntityRelType" class-ref="org.kuali.kra.coi.personfinancialentity.FinIntEntityRelType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="relationshipTypeCode"/>
 		</reference-descriptor>
 		<reference-descriptor name="finIntEntityStatus" class-ref="org.kuali.kra.coi.personfinancialentity.FinIntEntityStatus" auto-retrieve="false" auto-update="none" auto-delete="none"> 
@@ -123,6 +124,9 @@
 		<reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="sponsorCode"/>
 		</reference-descriptor>
+        <reference-descriptor name="financialEntityReporter" class-ref="org.kuali.kra.coi.personfinancialentity.FinancialEntityReporter" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="financialEntityReporterId"/>
+        </reference-descriptor>
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclDet" table="PER_FIN_INT_DISCL_DET">
@@ -248,4 +252,42 @@
 			<inverse-foreignkey field-ref="dataGroupId"/>
 		</collection-descriptor>
 	</class-descriptor>	
+	
+    <class-descriptor class="org.kuali.kra.coi.personfinancialentity.FinancialEntityUnit" table="FINANCIAL_ENTITY_UNITS">
+        <field-descriptor name="financialEntityUnitsId" column="FINANCIAL_ENTITY_UNITS_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_FIN_ENTITY_UNIT_ID" />
+        <field-descriptor name="financialEntityReporterId" column="FINANCIAL_ENTITY_REPORTER_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="leadUnitFlag" column="LEAD_UNIT_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+        <field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <reference-descriptor name="financialEntityReporter" class-ref="org.kuali.kra.coi.personfinancialentity.FinancialEntityReporter" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="financialEntityReporterId"/>
+        </reference-descriptor>
+        <reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="unitNumber"/>
+        </reference-descriptor>
+        
+    </class-descriptor>
+    <class-descriptor class="org.kuali.kra.coi.personfinancialentity.FinancialEntityReporter" table="FINANCIAL_ENTITY_REPORTER">
+        <field-descriptor name="financialEntityReporterId" column="FINANCIAL_ENTITY_REPORTER_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_FIN_ENTITY_REPORTER_ID" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+       <!--  <field-descriptor name="personName" column="PERSON_NAME" jdbc-type="VARCHAR" /> -->
+        <field-descriptor name="reporterRoleId" column="REPORTER_ROLE_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <!-- disclosures will be updated separately  -->
+       <collection-descriptor name="personFinIntDisclosures" proxy="true" element-class-ref="org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <inverse-foreignkey field-ref="financialEntityReporterId"/>
+        </collection-descriptor>
+       <collection-descriptor name="financialEntityUnits" proxy="true" element-class-ref="org.kuali.kra.coi.personfinancialentity.FinancialEntityUnit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+            <inverse-foreignkey field-ref="financialEntityReporterId"/>
+        </collection-descriptor>
+        
+    </class-descriptor>
+	
 </descriptor-repository>

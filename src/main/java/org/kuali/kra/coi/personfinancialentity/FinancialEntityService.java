@@ -32,4 +32,7 @@ public interface FinancialEntityService {
      * @return
      */
     List<PersonFinIntDisclosure> getFinancialEntities(String personId, boolean active);
+    
+    FinancialEntityReporter getFinancialEntityReporter(String personId);
+    
 }
