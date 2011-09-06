@@ -35,4 +35,10 @@ public interface FinancialEntityService {
     
     FinancialEntityReporter getFinancialEntityReporter(String personId);
     
+    void addFinancialEntityUnit(FinancialEntityReporter financialEntityReporter, FinancialEntityUnit newFinancialEntityUnit);
+
+    void deleteFinancialEntityUnit(FinancialEntityReporter financialEntityReporter,List<FinancialEntityUnit> deletedUnits, int unitIndex);
+
+    void resetLeadUnit(FinancialEntityReporter financialEntityReporter);
+
 }

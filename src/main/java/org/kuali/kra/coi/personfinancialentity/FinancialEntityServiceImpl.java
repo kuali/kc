@@ -75,10 +75,56 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
             }
             businessObjectService.save(reporter);
             return reporter;
+        } else {
+            int i = 0;
+            for (FinancialEntityUnit financialEntityUnit : reporters.get(0).getFinancialEntityUnits()) {
+                if (financialEntityUnit.isLeadUnitFlag()) {
+                    reporters.get(0).setSelectedUnit(i);
+                    break;
+                }
+                i++;
+            }
         }
         return reporters.get(0);
     }
 
+    public void addFinancialEntityUnit(FinancialEntityReporter financialEntityReporter , FinancialEntityUnit newFinancialEntityUnit) {
+        
+        List<FinancialEntityUnit> financialEntityUnits = financialEntityReporter.getFinancialEntityUnits();
+        if (newFinancialEntityUnit.isLeadUnitFlag()) {
+            resetLeadUnit(financialEntityUnits);
+            financialEntityReporter.setSelectedUnit(financialEntityUnits.size());
+        }
+        financialEntityUnits.add(newFinancialEntityUnit);
+    }
+
+    public void deleteFinancialEntityUnit(FinancialEntityReporter financialEntityReporter,List<FinancialEntityUnit> deletedUnits, int unitIndex) {
+        
+        List<FinancialEntityUnit> financialEntityUnits = financialEntityReporter.getFinancialEntityUnits();
+        FinancialEntityUnit deletedUnit = financialEntityUnits.get(unitIndex);
+        if (deletedUnit.getFinancialEntityUnitsId() != null) {
+            deletedUnits.add(deletedUnit);
+        }
+        financialEntityUnits.remove(unitIndex);
+        if (deletedUnit.isLeadUnitFlag() && !financialEntityUnits.isEmpty()) {
+            financialEntityUnits.get(0).setLeadUnitFlag(true);
+            financialEntityReporter.setSelectedUnit(0);
+        }
+    }
+
+    public void resetLeadUnit(FinancialEntityReporter financialEntityReporter) {
+        List<FinancialEntityUnit> financialEntityUnits = financialEntityReporter.getFinancialEntityUnits();
+        resetLeadUnit(financialEntityUnits);
+        financialEntityUnits.get(financialEntityReporter.getSelectedUnit()).setLeadUnitFlag(true);
+    }
+
+    private void resetLeadUnit(List<FinancialEntityUnit> financialEntityUnits) {
+        for (FinancialEntityUnit  financialEntityUnit : financialEntityUnits) {
+            financialEntityUnit.setLeadUnitFlag(false);
+        }
+        
+    }
+    
     private FinancialEntityUnit createLeadUnit(String personId) {
 
         FinancialEntityUnit leadUnit = null;

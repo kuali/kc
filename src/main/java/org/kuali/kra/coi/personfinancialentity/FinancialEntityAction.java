@@ -197,9 +197,11 @@ public class FinancialEntityAction extends KualiAction {
             HttpServletResponse response) throws Exception {
 
         FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
-        if (checkRule(new AddFinancialEntityUnitEvent("financialEntityHelper", financialEntityHelper.getNewFinancialEntityUnit(), financialEntityHelper.getFinancialEntityReporter().getFinancialEntityUnits()))) {
-            financialEntityHelper.getFinancialEntityReporter().getFinancialEntityUnits()
-                    .add(financialEntityHelper.getNewFinancialEntityUnit());
+        if (checkRule(new AddFinancialEntityUnitEvent("financialEntityHelper", financialEntityHelper.getNewFinancialEntityUnit(),
+            financialEntityHelper.getFinancialEntityReporter().getFinancialEntityUnits()))) {
+            getFinancialEntityService().addFinancialEntityUnit(
+                    financialEntityHelper.getFinancialEntityReporter(),
+                    financialEntityHelper.getNewFinancialEntityUnit());
             financialEntityHelper.setNewFinancialEntityUnit(new FinancialEntityUnit());
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -214,11 +216,7 @@ public class FinancialEntityAction extends KualiAction {
 
         int unitIndex = getSelectedLine(request);
         FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
-        FinancialEntityUnit deletedUnit = financialEntityHelper.getFinancialEntityReporter().getFinancialEntityUnits().get(unitIndex);
-        if (deletedUnit.getFinancialEntityUnitsId() != null) {
-            financialEntityHelper.getDeletedUnits().add(deletedUnit);
-        }
-        financialEntityHelper.getFinancialEntityReporter().getFinancialEntityUnits().remove(unitIndex);
+        getFinancialEntityService().deleteFinancialEntityUnit(financialEntityHelper.getFinancialEntityReporter(), financialEntityHelper.getDeletedUnits(), getSelectedLine(request));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -226,6 +224,7 @@ public class FinancialEntityAction extends KualiAction {
             HttpServletResponse response) throws Exception {
 
         FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
+        getFinancialEntityService().resetLeadUnit(financialEntityHelper.getFinancialEntityReporter());
         if (checkRule(new SaveFinancialEntityUnitEvent("financialEntityHelper",
             financialEntityHelper.getFinancialEntityReporter().getFinancialEntityUnits()))) {
             if (!financialEntityHelper.getDeletedUnits().isEmpty()) {
@@ -236,6 +235,12 @@ public class FinancialEntityAction extends KualiAction {
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+    
+    public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        return mapping.findForward(KNSConstants.MAPPING_PORTAL);
+    }
+
     
     /*
      * check if financial is valid for save
