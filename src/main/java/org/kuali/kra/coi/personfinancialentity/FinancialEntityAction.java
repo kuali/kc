@@ -58,6 +58,7 @@ public class FinancialEntityAction extends KualiAction {
         ((FinancialEntityForm) form).getFinancialEntityHelper().setActiveFinancialEntities(getFinancialEntities(true));
         ((FinancialEntityForm) form).getFinancialEntityHelper().setInactiveFinancialEntities(getFinancialEntities(false));
         ((FinancialEntityForm) form).getFinancialEntityHelper().refreshFinancialEntityReporter();
+        ((FinancialEntityForm) form).getFinancialEntityHelper().setNewFinancialEntityUnit(new FinancialEntityUnit());
         return mapping.findForward("management");
     }
 
