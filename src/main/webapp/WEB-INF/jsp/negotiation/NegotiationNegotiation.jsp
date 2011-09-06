@@ -16,7 +16,7 @@
 <%@ page import="org.kuali.kra.infrastructure.Constants"%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="committeeAttributes" value="${DataDictionary.NegotiationDocument.attributes}" />
+<c:set var="negotiationAttributes" value="${DataDictionary.NegotiationDocument.attributes}" />
 
 <kul:documentPage
 	showDocumentInfo="true"
@@ -36,7 +36,7 @@
 <kul:panelFooter />
 	<kul:documentControls 
 		transactionalDocument="false"
-		suppressRoutingControls="false"
+		suppressRoutingControls="true"
 		extraButtonSource="${extraButtonSource}"
 		extraButtonProperty="${extraButtonProperty}"
 		extraButtonAlt="${extraButtonAlt}"
@@ -47,17 +47,6 @@
 
 <script src="scripts/jquery/jquery.js"></script>
 <script type="text/javascript">
-   var $j = jQuery.noConflict();
-</script>
-
-<SCRIPT type="text/javascript">
-var kualiForm = document.forms['KualiForm'];
-var kualiElements = kualiForm.elements;
-</SCRIPT>
-
-<script language="javascript" src="scripts/kuali_application.js"></script>
-<script language="javascript" src="dwr/interface/UnitService.js"></script>
-<script>
-loadUnitNameTo('document.committeeList[0].homeUnitNumber','document.committee.homeUnitName');
+   var $jq = jQuery.noConflict();
 </script>
 </kul:documentPage>

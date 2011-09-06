@@ -1061,24 +1061,24 @@ function loadContactPersonName(usernameFieldName, fullnameElementId,
 			var dwrReply = {
 				callback:function(data) {
 					if ( data != null ) {
-						fullNameElement.innerHTML = data.fullName;
-						phoneNumberElement.innerHTML= data.phoneNumber;
-						emailElement.innerHTML= data.emailAddress;
-						personIdElement.value= data.personId;
-						unitNumberElement.innerHTML= data.unit['unitNumber']
+						if (fullNameElement != null) fullNameElement.innerHTML = data.fullName;
+						if (phoneNumberElement != null) phoneNumberElement.innerHTML= data.phoneNumber;
+						if (emailElement != null) emailElement.innerHTML= data.emailAddress;
+						if (personIdElement != null) personIdElement.value= data.personId;
+						if (unitNumberElement != null) unitNumberElement.innerHTML= data.unit['unitNumber']
 					} else {
-						fullNameElement.innerHTML = wrapError( "not found" );
-						phoneNumberElement.innerHTML= wrapError( "not found" );
-						emailElement.innerHTML= wrapError( "not found" );
-						unitNumberElement.innerHTML= wrapError( "not found" );
+						if (fullNameElement != null) fullNameElement.innerHTML = wrapError( "not found" );
+						if (phoneNumberElement != null) phoneNumberElement.innerHTML= wrapError( "not found" );
+						if (emailElement != null) emailElement.innerHTML= wrapError( "not found" );
+						if (unitNumberElement != null) unitNumberElement.innerHTML= wrapError( "not found" );
 					}
 				},
 				errorHandler:function( errorMessage ) {
 					window.status = errorMessage;
-					fullNameElement.innerHTML = wrapError( "not found!" );
-					phoneNumberElement.innerHTML= wrapError( "not found!" );
-					emailElement.innerHTML= wrapError( "not found!" );
-					unitNumberElement.innerHTML= wrapError( "not found" );
+					if (fullNameElement != null) fullNameElement.innerHTML = wrapError( "not found!" );
+					if (phoneNumberElement != null) phoneNumberElement.innerHTML= wrapError( "not found!" );
+					if (emailElement != null) emailElement.innerHTML= wrapError( "not found!" );
+					if (unitNumberElement != null) unitNumberElement.innerHTML= wrapError( "not found" );
 				}
 			};
 			KraPersonService.getKcPersonByUserName(username, dwrReply);
