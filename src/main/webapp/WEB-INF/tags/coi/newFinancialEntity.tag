@@ -2,7 +2,7 @@
 
 <c:set var="personFinIntDisclAttribute" value="${DataDictionary.PersonFinIntDisclosure.attributes}" />
 
-<kul:tab defaultOpen="true" tabTitle="New Financial Entity " transparentBackground="true"
+<kul:tab defaultOpen="false" tabTitle="New Financial Entity " transparentBackground="false"
     tabErrorKey="financialEntityHelper.newPersonFinancialEntity.*" >
 
     <div class="tab-container" align="center">

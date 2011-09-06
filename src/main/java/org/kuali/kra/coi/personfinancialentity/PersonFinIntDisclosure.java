@@ -18,16 +18,23 @@ package org.kuali.kra.coi.personfinancialentity;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import javax.persistence.Transient;
+
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.OrganizationTypeList;
 import org.kuali.kra.bo.Sponsor;
+import org.kuali.kra.bo.Unit;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.KcPersonService;
 
 public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase { 
     
     private static final long serialVersionUID = 1L;
 
     private Long personFinIntDisclosureId; 
+    private Long financialEntityReporterId;
     private String personId; 
     private String entityNumber; 
     private Integer sequenceNumber; 
@@ -48,21 +55,17 @@ public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase {
     private OrganizationTypeList organizationTypeList; 
     private List<InvCoiDiscDetail> invCoiDiscDetails; 
     private List<FinIntEntityYnq> finIntEntityYnqs; 
-
+    
     private Sponsor sponsor;
     
+//    @SkipVersioning
+    private FinancialEntityReporter financialReportReporter; 
+
+
     public PersonFinIntDisclosure() { 
 
     } 
     
-    public Long getPersonFinIntDisclosureId() {
-        return personFinIntDisclosureId;
-    }
-
-    public void setPersonFinIntDisclosureId(Long personFinIntDisclosureId) {
-        this.personFinIntDisclosureId = personFinIntDisclosureId;
-    }
-
     public String getPersonId() {
         return personId;
     }
@@ -195,7 +198,6 @@ public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase {
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("personFinIntDisclosureId", this.getPersonFinIntDisclosureId());
         hashMap.put("personId", this.getPersonId());
         hashMap.put("entityNumber", this.getEntityNumber());
         hashMap.put("sequenceNumber", this.getSequenceNumber());
@@ -245,5 +247,30 @@ public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase {
     public void setCurrentFlag(boolean currentFlag) {
         this.currentFlag = currentFlag;
     }
- 
+
+
+    public FinancialEntityReporter getFinancialReportReporter() {
+        return financialReportReporter;
+    }
+
+    public void setFinancialReportReporter(FinancialEntityReporter financialReportReporter) {
+        this.financialReportReporter = financialReportReporter;
+    }
+
+    public Long getFinancialEntityReporterId() {
+        return financialEntityReporterId;
+    }
+
+    public void setFinancialEntityReporterId(Long financialEntityReporterId) {
+        this.financialEntityReporterId = financialEntityReporterId;
+    }
+
+    public Long getPersonFinIntDisclosureId() {
+        return personFinIntDisclosureId;
+    }
+
+    public void setPersonFinIntDisclosureId(Long personFinIntDisclosureId) {
+        this.personFinIntDisclosureId = personFinIntDisclosureId;
+    }
+
 }

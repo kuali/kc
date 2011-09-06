@@ -114,6 +114,8 @@
                         <div  align="center">
                             <div id="workarea">
                 
+            <!-- Tabbed Panel Head: reporter -->            
+                                <kra-coi:financialEntityReporter />
             <!-- Tabbed Panel Head: new financial entity -->            
                                 <kra-coi:newFinancialEntity />
             <!-- Tabbed Panel Head: financial entities -->            

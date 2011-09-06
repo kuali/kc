@@ -949,6 +949,9 @@ public final class KeyConstants {
     
     //negotiations
     public static final String NEGOTIATION_STATUS_USED = "error.negotiations.codeAlreadyUsed";
+    
+    public static final String ERROR_UNIT_NUMBER_REQUIRED = "error.unitnumber.required";
+    
     /**
      * private utility class ctor.
      * @throws UnsupportedOperationException if called.
