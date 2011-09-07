@@ -18,7 +18,7 @@
     </c:otherwise>
 </c:choose>
 
-<table cellpadding=0 cellspacing=0 summary="">
+<table border="0" cellpadding="0" cellspacing="0" summary="">
     <tr>
         <td>
             <kul:innerTab tabTitle="Contact Information" 
@@ -27,7 +27,7 @@
                           useCurrentTabIndexAsKey="true" 
                           tabErrorKey="">
                 <div class="innerTab-container" align="left">
-                    <table class=tab cellpadding=0 cellspacing="0" summary="">
+                    <table border="0" class=tab cellpadding="0" cellspacing="0" summary="">
                         <tr>
                             <th> 
                                 <div align="right">
