@@ -74,7 +74,6 @@ convert_file()
 	then
 		echo 'DELIMITER ;' >> ${mysqlFile}
 	fi
-	#sed -i -e s/SYS_GUID/UUID/ig -e s/SYSDATE/NOW\(\)/ig -e 's/to_date(\([^,]*\)[^)]*)/\1/ig' ${mysqlFile}
 	sed -i -e s/SYS_GUID/UUID/ig -e s/SYSDATE/NOW\(\)/ig -e 's/to_date(/STR_TO_DATE(/ig' -e 's/YYYYMMDD/%Y%m%d/ig' -e 's/HH24MI/%H%i/ig' ${mysqlFile}
 	if [ `grep -ci '.NEXTVAL' ${mysqlFile}` -gt 0 ]
 	then
