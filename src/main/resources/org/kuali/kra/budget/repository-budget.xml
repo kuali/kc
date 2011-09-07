@@ -30,7 +30,7 @@
 							auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="parentDocumentKey"/>
 	    </reference-descriptor>
-    	<collection-descriptor name="budgets" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    	<collection-descriptor name="budgets" proxy="false" element-class-ref="org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="documentNumber" />
     	</collection-descriptor>
 		<!-- GENERATE NEXT VALUE -->
