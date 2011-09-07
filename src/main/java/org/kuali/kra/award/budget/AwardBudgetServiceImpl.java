@@ -522,7 +522,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         List awardBudgetLineItems = awardBudgetPeriod.getBudgetLineItems();
         List<BudgetLineItem> lineItems = proposalBudgetPeriod.getBudgetLineItems();
         for (BudgetLineItem budgetLineItem : lineItems) {
-            String[] ignoreProperties = {"budgetId","budgetLineItemId","budgetPeriodId",
+            String[] ignoreProperties = {"budgetId","budgetLineItemId","budgetPeriodId","submitCostSharingFlag",
                         "budgetLineItemCalculatedAmounts","budgetPersonnelDetailsList","budgetRateAndBaseList"};
             AwardBudgetLineItemExt awardBudgetLineItem = new AwardBudgetLineItemExt(); 
             BeanUtils.copyProperties(budgetLineItem, awardBudgetLineItem, ignoreProperties);
@@ -536,8 +536,8 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
                 budgetPersonnelDetails.setBudgetLineItemId(budgetLineItem.getBudgetLineItemId());
                 AwardBudgetPersonnelDetailsExt awardBudgetPerDetails = new AwardBudgetPersonnelDetailsExt();
                 BeanUtils.copyProperties(budgetPersonnelDetails, awardBudgetPerDetails, 
-                        new String[]{"budgetPersonnelLineItemId","budgetLineItemId","budgetId",
-                        "budgetPersonnelCalculatedAmounts","budgetPersonnelRateAndBaseList", "validToApplyInRate"});
+                        new String[]{"budgetPersonnelLineItemId","budgetLineItemId","budgetId","submitCostSharingFlag",
+                        "budgetPersonnelCalculatedAmounts","budgetPersonnelRateAndBaseList","validToApplyInRate"});
                 awardBudgetPerDetails.setPersonNumber(awardBudgetPeriod.getBudget().getHackedDocumentNextValue(Constants.BUDGET_PERSON_LINE_NUMBER));
                 BudgetPerson oldBudgetPerson = budgetPersonnelDetails.getBudgetPerson();
                 BudgetPerson currentBudgetPerson = findMatchingPersonInBudget(awardBudgetPeriod.getBudget(), 
