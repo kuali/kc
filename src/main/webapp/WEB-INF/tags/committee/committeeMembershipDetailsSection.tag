@@ -2,7 +2,7 @@
 
 <c:set var="action" value="committeeMembership" />
 
-<table cellpadding=0 cellspacing=0 summary="">
+<table border="0" cellpadding="0" cellspacing="0" summary="">
     <tr>
         <td>
             <kul:innerTab tabTitle="Person Details" 
@@ -11,7 +11,7 @@
                           useCurrentTabIndexAsKey="true" 
                           tabErrorKey="document.committeeList[0].committeeMemberships[${memberIndex}].membershipTypeCode,document.committeeList[0].committeeMemberships[${memberIndex}].termStartDate,document.committeeList[0].committeeMemberships[${memberIndex}].termEndDate">
                 <div class="innerTab-container" align="left">
-                    <table class=tab cellpadding=0 cellspacing="0" summary=""> 
+                    <table border="0" class=tab cellpadding="0" cellspacing="0" summary=""> 
                         <tr>
                             <th>
                                 <div align="right">
@@ -63,6 +63,7 @@
                                                           
                                                           readOnly="${readOnly}" />
                             </td>
+                        </tr>
                         <tr>
                             <th>
                                 <div align="right">
