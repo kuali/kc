@@ -182,6 +182,7 @@
   <bean id="CostElement-inquiryDefinition" parent="CostElement-inquiryDefinition-parentBean" />
   <bean id="CostElement-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Object Code" />
+    <property name="inquirableClass" value="org.kuali.kra.budget.core.CostElementInquirableImpl" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
@@ -200,8 +201,16 @@
                     p:attributeName="onOffCampusFlag" />
               <bean parent="FieldDefinition"
                     p:attributeName="activeFlag" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Object Code KFS Options" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
               <bean parent="FieldDefinition"
-              		p:attributeName="financialObjectCode" />
+                    p:attributeName="financialObjectCode" />
             </list>
           </property>
         </bean>
