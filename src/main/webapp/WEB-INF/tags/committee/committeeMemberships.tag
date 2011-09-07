@@ -88,20 +88,16 @@
                  defaultOpen="false"
                  useCurrentTabIndexAsKey="true" 
                  transparentBackground="${transparent}">
-                 <div class="tab-container" align="center">
-                     <div id="workarea">
-                         <div class="tab-container" align="center" id="G100">
-                             <h3>
-                                 <span class="subhead-left"><bean:write name="KualiForm" property="${committeeMembershipProperty}.personName" /></span>
-                                 <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.committee.bo.CommitteeMembership" altText="help" /></span>
-                             </h3>
-                             <kra-committee:committeeMembershipDetailsSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" parentTabValue="${tabTitleValue}"  readOnly="${readOnly}" />
-                             <kra-committee:committeeMembershipContactInformationSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" parentTabValue="${tabTitleValue}"  readOnly="${readOnly}" />
-                             <kra-committee:committeeMembershipRolesSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" parentTabValue="${tabTitleValue}"  readOnly="${readOnly}" />
-                             <kra-committee:committeeMembershipExpertiseSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" parentTabValue="${tabTitleValue}" readOnly="${readOnly}" />
-                         </div>
-                     </div>
-                 </div>
+            <div class="tab-container" align="center" id="G100">
+              <h3>
+                <span class="subhead-left"><bean:write name="KualiForm" property="${committeeMembershipProperty}.personName" /></span>
+                <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.committee.bo.CommitteeMembership" altText="help" /></span>
+              </h3>
+              <kra-committee:committeeMembershipDetailsSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" parentTabValue="${tabTitleValue}"  readOnly="${readOnly}" />
+              <kra-committee:committeeMembershipContactInformationSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" parentTabValue="${tabTitleValue}"  readOnly="${readOnly}" />
+              <kra-committee:committeeMembershipRolesSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" parentTabValue="${tabTitleValue}"  readOnly="${readOnly}" />
+              <kra-committee:committeeMembershipExpertiseSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" parentTabValue="${tabTitleValue}" readOnly="${readOnly}" />
+            </div>
         </kul:tab>
     </c:if>
  </c:forEach>

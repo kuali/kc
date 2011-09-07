@@ -2,7 +2,7 @@
 
 <c:set var="membershipRoleAttributes" value="${DataDictionary.CommitteeMembershipRole.attributes}" />
 
-<table cellpadding=0 cellspacing=0 summary="">
+<table border="0" cellpadding="0" cellspacing="0" summary="">
     <tr>
         <td>
             <kul:innerTab tabTitle="Roles" 
@@ -11,7 +11,7 @@
                           useCurrentTabIndexAsKey="true" 
                           tabErrorKey="committeeHelper.newCommitteeMembershipRoles[${memberIndex}].*,document.committeeList[0].committeeMemberships[${memberIndex}].membershipRoles*">
                 <div class="innerTab-container" align="left">
-                    <table id="membership-role-table-${memberIndex}" cellpadding=0 cellspacing=0 class="datatable" summary="View/edit committee membership roles">
+                    <table border="0" id="membership-role-table-${memberIndex}" cellpadding="0" cellspacing="0" class="datatable" summary="View/edit committee membership roles">
                     
                         <%-- Header --%>
                         <tr>

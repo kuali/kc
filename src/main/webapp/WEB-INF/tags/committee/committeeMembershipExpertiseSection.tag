@@ -2,7 +2,7 @@
 
 <c:set var="membershipExpertiseAttributes" value="${DataDictionary.CommitteeMembershipExpertise.attributes}" />
 
-<table cellpadding=0 cellspacing=0 summary="">
+<table border="0" cellpadding="0" cellspacing="0" summary="">
     <tr>
         <td>
             <kul:innerTab tabTitle="Expertise" 
@@ -11,7 +11,7 @@
                           useCurrentTabIndexAsKey="true" 
                           tabErrorKey="committeeHelper.newCommitteeMembershipExpertise[${memberIndex}].*,document.committeeList[0].committeeMemberships[${memberIndex}].areasOfExpertise.inactive.*,document.committeeList[0].committeeMemberships[${memberIndex}].membershipExpertise*">
                 <div class="innerTab-container" align="left">
-                    <table id="membership-expertise-table-${memberIndex}" cellpadding=0 cellspacing=0 class="datatable" summary="View/edit committee membership expertise">
+                    <table border="0" id="membership-expertise-table-${memberIndex}" cellpadding="0" cellspacing="0" class="datatable" summary="View/edit committee membership expertise">
                     
                         <%-- Header --%>
                         <tr>
