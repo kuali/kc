@@ -28,6 +28,9 @@ import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.web.ui.Column;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.Row;
 import org.springframework.transaction.annotation.Transactional;
 /**
  * 
@@ -35,6 +38,59 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class BudgetExpenseLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+    
+    private static final String KFS_ON_PARM_NMSPC_CD = "KC-AWARD";
+    private static final String KFS_ON_PARM_DTL_TYP_CD = "Document";
+    private static final String KFS_ON_PARM_NM = "FIN_SYSTEM_INTEGRATION_ON";
+    private static final String KFS_ON_OFF_VALUE = "OFF";
+    private static final String KFS_FIELD_NAME = "financialObjectCode";
+ 
+
+    @Override
+    public List<Row> getRows() {
+        List<Row> oldRows = super.getRows();
+        
+        String kfsOnParameterValue = getParameterService().getParameterValue(KFS_ON_PARM_NMSPC_CD, KFS_ON_PARM_DTL_TYP_CD, KFS_ON_PARM_NM);
+        
+        List<Row> rows = new ArrayList<Row>();
+        if (!StringUtils.equals(kfsOnParameterValue, KFS_ON_OFF_VALUE)) {
+            rows.addAll(oldRows);
+        } else {
+            for (Row oldRow : oldRows) {
+                Row row = new Row();
+                List<Field> fields = new ArrayList<Field>();
+                for (Field oldField : oldRow.getFields()) {
+                    if (!StringUtils.equals(oldField.getPropertyName(), KFS_FIELD_NAME)) {
+                        fields.add(oldField);
+                    }
+                }
+                row.setFields(fields);
+                rows.add(row);
+            }
+        }
+        
+        return rows;
+    }
+
+    @Override
+    public List<Column> getColumns() {
+        List<Column> oldColumns = super.getColumns();
+        
+        String kfsOnParameterValue = getParameterService().getParameterValue(KFS_ON_PARM_NMSPC_CD, KFS_ON_PARM_DTL_TYP_CD, KFS_ON_PARM_NM);
+        
+        List<Column> columns = new ArrayList<Column>();
+        if (!StringUtils.equals(kfsOnParameterValue, KFS_ON_OFF_VALUE)) {
+            columns.addAll(oldColumns);
+        } else {
+            for (Column oldColumn : oldColumns) {
+                if (!StringUtils.equals(oldColumn.getPropertyName(), KFS_FIELD_NAME)) {
+                    columns.add(oldColumn);
+                }
+            }
+        }
+        
+        return columns;
+    }
     
     /**
      * 
