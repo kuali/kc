@@ -27,7 +27,6 @@ import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.ActionHelper;
-import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceServiceImpl;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -66,8 +65,11 @@ public class ProtocolActionAjaxServiceImpl implements ProtocolActionAjaxService 
             for (KeyLabelPair date : dates) {
                 ajaxList.append(date.getKey() + ";" + date.getLabel() + ";");
             }
+            return clipLastChar(ajaxList);
         }
-        return clipLastChar(ajaxList);
+        else {
+            return ";Not Authorized;";
+        }
     }
 
     
@@ -81,22 +83,26 @@ public class ProtocolActionAjaxServiceImpl implements ProtocolActionAjaxService 
             // jquery/ajax in rice 2.0
                  if (StringUtils.isBlank(docFormKey)) {
                     isAuthorized = false;
+                    LOG.info("Attention: docFormKey is blank ");
                 } else {
                     Object formObj = GlobalVariables.getUserSession().retrieveObject(docFormKey);
                     if (formObj == null || !(formObj instanceof ProtocolForm)) {
                         isAuthorized = false;
+                        LOG.info("Attention: formObj is incorrect format = " + formObj);
                     } else {
                         ActionHelper actionHelper = ((ProtocolForm) formObj).getActionHelper();
                         isAuthorized = actionHelper.getCanAssignCmtSched()
                                 || actionHelper.getCanSubmitProtocol() || actionHelper.getCanAssignReviewers();
-
+                        if (!isAuthorized) {
+                            LOG.info("Attention: isAuthorized is false!");
+                        }
                     }
 
                 }
             
         } else {
             // TODO : it seemed that tomcat has this issue intermittently ?
-            LOG.info("dwr/ajax does not have session ");
+            LOG.info("Attention: dwr/ajax STILL does not have session ");
         }
         return isAuthorized;
 
