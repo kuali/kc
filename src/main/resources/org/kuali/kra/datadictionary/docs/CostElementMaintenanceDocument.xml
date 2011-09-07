@@ -3,10 +3,11 @@
   <bean id="CostElementMaintenanceDocument" parent="CostElementMaintenanceDocument-parentBean"/>
   <bean id="CostElementMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kra.budget.core.CostElement"/>
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableClass" value="org.kuali.kra.budget.core.CostElementMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
         <ref bean="CostElementMaintenanceDocument-EditCostElement"/>
+        <ref bean="CostElementMaintenanceDocument-EditCostElementKFSOptionList"/>
       </list>
     </property>
     <property name="lockingKeys">
@@ -32,9 +33,19 @@
         <bean parent="MaintainableFieldDefinition" p:name="budgetCategoryCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="onOffCampusFlag" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" p:required="false" />
         <bean parent="MaintainableFieldDefinition" p:name="activeFlag" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="CostElementMaintenanceDocument-EditCostElementKFSOptionList" parent="CostElementMaintenanceDocument-EditCostElementKFSOptionList-parentBean"/>
+  <bean id="CostElementMaintenanceDocument-EditCostElementKFSOptionList-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Cost Element KFS Option List"/>
+    <property name="title" value="Edit Cost Element KFS Option List"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" p:required="false" />
       </list>
     </property>
   </bean>
