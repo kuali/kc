@@ -15,15 +15,20 @@
  */
 package org.kuali.kra.negotiations.web.struts.form;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
+import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**
@@ -39,12 +44,15 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
      */
     private static final long serialVersionUID = -3641922366447898075L;
     
+    private boolean deleteNegotiationUnassociatedDetail;
+    
     /**
      * 
      * Constructs a NegotiationForm.java.
      */
     public NegotiationForm() {
         super();
+        this.deleteNegotiationUnassociatedDetail = false;
     }
     
     public NegotiationDocument getNegotiationDocument() {
@@ -54,6 +62,14 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
     @Override
     public NegotiationDocument getDocument() {
         return (NegotiationDocument) super.getDocument();
+    }
+    
+    public boolean isDeleteNegotiationUnassociatedDetail() {
+        return deleteNegotiationUnassociatedDetail;
+    }
+
+    public void setDeleteNegotiationUnassociatedDetail(boolean deleteNegotiationUnassociatedDetail) {
+        this.deleteNegotiationUnassociatedDetail = deleteNegotiationUnassociatedDetail;
     }
 
     @Override
@@ -75,6 +91,10 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
+    }
+    
+    public BusinessObjectService getBusinessObjectService() {
+        return KraServiceLocator.getService(BusinessObjectService.class);
     }
     
     private boolean isAssocitationType(String typeCode) {

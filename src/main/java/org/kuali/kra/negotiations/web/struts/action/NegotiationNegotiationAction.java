@@ -26,7 +26,11 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.negotiations.bo.Negotiation;
+import org.kuali.kra.negotiations.bo.NegotiationAgreementType;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
+import org.kuali.kra.negotiations.bo.NegotiationStatus;
+import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
 import org.kuali.kra.negotiations.web.struts.form.NegotiationForm;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 
@@ -40,22 +44,97 @@ public class NegotiationNegotiationAction extends NegotiationAction {
     
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward actionForward = super.execute(mapping, form, request, response); 
+        ActionForward actionForward = super.execute(mapping, form, request, response);
+        NegotiationForm negotiationForm = (NegotiationForm) form;
+        loadCodeObjects(negotiationForm.getNegotiationDocument().getNegotiation());
+        findAndLoadNegotiationUnassociatedDetail(negotiationForm.getNegotiationDocument().getNegotiation(), false);
         return actionForward;
     }
     
     @Override
-    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward actionForward = super.save(mapping, form, request, response);
+    public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward actionForward = super.reload(mapping, form, request, response);
         NegotiationForm negotiationForm = (NegotiationForm) form;
-        negotiationForm.getNegotiationDocument().getNegotiation().refresh();
+        loadCodeObjects(negotiationForm.getNegotiationDocument().getNegotiation());
+        findAndLoadNegotiationUnassociatedDetail(negotiationForm.getNegotiationDocument().getNegotiation(), true);
         return actionForward;
+    }
+    
+    
+    private void findAndLoadNegotiationUnassociatedDetail(Negotiation negotiation, boolean reload) {
+        if (negotiation.getNegotiationAssociationType() != null 
+                && StringUtils.equalsIgnoreCase(negotiation.getNegotiationAssociationType().getCode(), NegotiationAssociationType.NONE_ASSOCIATION) 
+                && StringUtils.isNotEmpty(negotiation.getAssociatedDocumentId())) {
+            if (reload || negotiation.getUnAssociatedDetail() == null) {
+                Map params = new HashMap();
+                params.put("NEGOTIATION_UNASSOC_DETAIL_ID", negotiation.getAssociatedDocumentId());
+                NegotiationUnassociatedDetail unAssociatedDetail = (NegotiationUnassociatedDetail) 
+                        this.getBusinessObjectService().findByPrimaryKey(NegotiationUnassociatedDetail.class, params);
+                negotiation.setUnAssociatedDetail(unAssociatedDetail);
+            }
+        }
+    }
+    
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        System.err.println("step 1");
+        NegotiationForm negotiationForm = (NegotiationForm) form;
+        loadCodeObjects(negotiationForm.getNegotiationDocument().getNegotiation());
+        ActionForward actionForward = super.save(mapping, form, request, response);
+        System.err.println("step 2");
+        if (negotiationForm.getNegotiationDocument().getNegotiation().getUnAssociatedDetail() != null) {
+            System.err.println("step 3");
+            Negotiation negotiation = negotiationForm.getNegotiationDocument().getNegotiation();
+            if (negotiation.getUnAssociatedDetail().getNegotiationId() == null) {
+                negotiation.getUnAssociatedDetail().setNegotiationId(negotiation.getNegotiationId());
+                System.err.println("step 4a");
+            }
+            System.err.println("step 4b");
+            NegotiationUnassociatedDetail detail = negotiation.getUnAssociatedDetail();
+            this.getBusinessObjectService().save(detail);
+            System.err.println("step 5");
+            negotiation.setAssociatedDocumentId(negotiation.getUnAssociatedDetail().getNegotiationUnassociatedDetailId().toString());
+            this.getBusinessObjectService().save(negotiation);
+            System.err.println("step 6");
+        }
+
+        negotiationForm.getNegotiationDocument().getNegotiation().refresh();
+        System.err.println("step 7");
+        return actionForward;
+    }
+    
+    private void loadCodeObjects(Negotiation negotiation) {
+        Map primaryKeys = new HashMap();
+        if (negotiation.getNegotiationAgreementTypeId() != null) {
+            primaryKeys.put("NEGOTIATION_AGRMNT_TYPE_ID", negotiation.getNegotiationAgreementTypeId());
+            NegotiationAgreementType type = (NegotiationAgreementType) 
+                this.getBusinessObjectService().findByPrimaryKey(NegotiationAgreementType.class, primaryKeys);
+            negotiation.setNegotiationAgreementType(type);
+        }
+        
+        if (negotiation.getNegotiationAssociationTypeId() != null) {
+            primaryKeys = new HashMap();
+            primaryKeys.put("NEGOTIATION_ASSC_TYPE_ID", negotiation.getNegotiationAssociationTypeId());
+            NegotiationAssociationType type = (NegotiationAssociationType) 
+                this.getBusinessObjectService().findByPrimaryKey(NegotiationAssociationType.class, primaryKeys);
+            negotiation.setNegotiationAssociationType(type);
+        }
+        
+        if (negotiation.getNegotiationStatusId() != null) {
+            primaryKeys = new HashMap();
+            primaryKeys.put("NEGOTIATION_STATUS_ID", negotiation.getNegotiationStatusId());
+            NegotiationStatus status = (NegotiationStatus) 
+                this.getBusinessObjectService().findByPrimaryKey(NegotiationStatus.class, primaryKeys);
+            negotiation.setNegotiationStatus(status);
+        }
     }
     
     public ActionForward changeAssociation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         NegotiationForm negotiationForm = (NegotiationForm) form;
-        if (StringUtils.equalsIgnoreCase(NegotiationAssociationType.NONE_ASSOCIATION, 
-                negotiationForm.getNegotiationDocument().getNegotiation().getNegotiationAssociationType().getCode())) {
+        if (negotiationForm.getNegotiationDocument().getNegotiation().getNegotiationAssociationType() != null 
+                && StringUtils.equalsIgnoreCase(NegotiationAssociationType.NONE_ASSOCIATION, 
+                        negotiationForm.getNegotiationDocument().getNegotiation().getNegotiationAssociationType().getCode())) {
             String questionId = "foo";
             String configurationId = "negotiation.message.changeAssociationType";
             String params = "";
