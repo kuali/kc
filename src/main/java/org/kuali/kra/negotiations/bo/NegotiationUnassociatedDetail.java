@@ -17,10 +17,14 @@ package org.kuali.kra.negotiations.bo;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Organization;
+import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.RolodexService;
 
 /**
  * 
@@ -257,6 +261,37 @@ public class NegotiationUnassociatedDetail extends KraPersistableBusinessObjectB
         LinkedHashMap map = new LinkedHashMap();
         map.put("NegotiationUnassociatedDetailId", this.getNegotiationUnassociatedDetailId());
         return map;
+    }
+    
+    public KcPerson getPIEmployee() {
+        if (this.getPiPersonId() == null) {
+            return null;
+        }
+        else {
+            return getKcPersonService().getKcPersonByPersonId(this.getPiPersonId());
+        }
+    }
+/*    
+    public Rolodex getPINonEmployee() {
+        if (this.getPiRolodexId() == null) {
+            return null;
+        }
+        else {
+            return getRolodexService().getRolodex(Integer.getInteger(this.getPiRolodexId()));
+        }
+    }
+    
+    protected RolodexService getRolodexService() {
+            return KraServiceLocator.getService(RolodexService.class);        
+    }
+  */  
+    public KcPerson getContactAdmin() {
+        if (this.getContactAdminPersonId() == null) {
+            return null;
+        }
+        else {
+            return getKcPersonService().getKcPersonByPersonId(this.getContactAdminPersonId());
+        }
     }
 
 }

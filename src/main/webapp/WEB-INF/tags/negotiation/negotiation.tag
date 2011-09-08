@@ -1,6 +1,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="negotiationAttributes" value="${DataDictionary.Negotiation.attributes}" />
+<c:set var="negotiationUnassociatedDetailAttributes" value="${DataDictionary.NegotiationUnassociatedDetail.attributes}" />
 <c:set var="action" value="negotiationNegotiation" />
 <c:set var="className" value="org.kuali.kra.negotiations.document.NegotiationDocument" />
 <c:set var="readOnly" value="${false}" scope="request" />
@@ -135,6 +136,167 @@
 					</c:if>
                 </td>
             </tr>
+            <c:if test="${KualiForm.displayUnAssociatedDetail}">
+            	<tr>
+            		<th>
+            			<div align="right">
+            				<kul:htmlAttributeLabel attributeEntry="${negotiationUnassociatedDetailAttributes.title}" />
+            			</div>
+            		</th>
+                	<td>
+                		<kul:htmlControlAttribute property="document.negotiation.unAssociatedDetail.title" 
+                			attributeEntry="${negotiationUnassociatedDetailAttributes.title}" readOnly="${readOnly}"/>
+                	</td>
+                	<th>
+                		<div align="right">
+            				<kul:htmlAttributeLabel attributeEntry="${negotiationUnassociatedDetailAttributes.leadUnitNumber}" />
+            			</div>
+                	</th>
+                	<td>
+                		<kul:htmlControlAttribute property="document.negotiation.unAssociatedDetail.leadUnitNumber" 
+                			attributeEntry="${negotiationUnassociatedDetailAttributes.leadUnitNumber}" readOnly="${readOnly}"/>
+                		<c:if test="${!readOnly}">
+	                		${kfunc:registerEditableProperty(KualiForm, "document.negotiation.unAssociatedDetail.leadUnitNumber")}
+	                		<kul:lookup boClassName="org.kuali.kra.bo.Unit" 
+						        		fieldConversions="unitNumber:document.negotiation.unAssociatedDetail.leadUnitNumber" />
+					    </c:if> 
+                	</td>
+            	</tr>
+            	
+            	<tr>
+            		<th>
+                		<div align="right">
+            				<kul:htmlAttributeLabel attributeEntry="${negotiationUnassociatedDetailAttributes.piPersonId}" />
+            			</div>
+                	</th>
+                	<td>
+                		<html:text property="document.negotiation.unAssociatedDetail.PIEmployee.userName" 
+							onblur="loadContactPersonName('document.negotiation.unAssociatedDetail.PIEmployee.userName',
+										'PIEmployee.fullName',
+										'na',
+										'na',
+										'na',
+										'document.negotiation.unAssociatedDetail.piPersonId');"
+	                    	readonly="${readOnly}"/>
+	                    <c:if test="${!readOnly}">
+	                        ${kfunc:registerEditableProperty(KualiForm, "document.negotiation.unAssociatedDetail.piPersonId")}
+		                    <html:hidden property="document.negotiation.unAssociatedDetail.piPersonId" styleId="document.negotiation.unAssociatedDetail.piPersonId"/>
+		                	<kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
+		                                fieldConversions="personId:document.negotiation.unAssociatedDetail.piPersonId" />
+	                    </c:if>
+	                    <br/><span id="PIEmployee.fullName"><c:out value="${KualiForm.document.negotiation.unAssociatedDetail.PIEmployee.fullName}"/></span>
+	                </td>
+	                <th>
+	                	<div align="right">
+            				<kul:htmlAttributeLabel attributeEntry="${negotiationUnassociatedDetailAttributes.piRolodexId}" />
+            			</div>
+	                </th>
+	                <td>
+	                	<kul:htmlControlAttribute property="document.negotiation.unAssociatedDetail.piRolodexId" 
+                			attributeEntry="${negotiationUnassociatedDetailAttributes.piRolodexId}" readOnly="${readOnly}"/>
+                		<c:if test="${!readOnly}">
+	                		${kfunc:registerEditableProperty(KualiForm, "document.negotiation.unAssociatedDetail.piRolodexId")}
+	                		<kul:lookup boClassName="org.kuali.kra.bo.Rolodex" 
+						        		fieldConversions="rolodexId:document.negotiation.unAssociatedDetail.piRolodexId" />
+					    </c:if> 
+	                	<%--
+	                	<html:text property="document.negotiation.unAssociatedDetail.PINonEmployee.userName" readonly="${readOnly}"/>
+	                    <c:if test="${!readOnly}">
+	                        ${kfunc:registerEditableProperty(KualiForm, "document.negotiation.unAssociatedDetail.piRolodexId")}
+		                    <html:hidden property="document.negotiation.unAssociatedDetail.piRolodexId" styleId="document.negotiation.unAssociatedDetail.piRolodexId"/>
+		                	<kul:lookup boClassName="org.kuali.kra.bo.Rolodex" 
+		                                fieldConversions="rolodexId:document.negotiation.unAssociatedDetail.piRolodexId" />
+	                    </c:if>
+	                    <br/><span id="PINonEmployee.fullName"><c:out value="${KualiForm.document.negotiation.unAssociatedDetail.PINonEmployee.fullName}"/></span>
+	                     --%>
+	                </td>
+            	</tr>
+            	
+            	<tr>
+            		<th>
+	                	<div align="right">
+            				<kul:htmlAttributeLabel attributeEntry="${negotiationUnassociatedDetailAttributes.contactAdminPersonId}" />
+            			</div>
+	                </th>
+	                <td>
+	                	<html:text property="document.negotiation.unAssociatedDetail.contactAdmin.userName" 
+							onblur="loadContactPersonName('document.negotiation.unAssociatedDetail.contactAdmin.userName',
+										'PINonEmployee.fullName',
+										'na',
+										'na',
+										'na',
+										'document.negotiation.unAssociatedDetail.contactAdminPersonId');"
+	                    	readonly="${readOnly}"/>
+	                    <c:if test="${!readOnly}">
+	                        ${kfunc:registerEditableProperty(KualiForm, "document.negotiation.unAssociatedDetail.contactAdminPersonId")}
+		                    <html:hidden property="document.negotiation.unAssociatedDetail.contactAdminPersonId" styleId="document.negotiation.unAssociatedDetail.contactAdminPersonId"/>
+		                	<kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
+		                                fieldConversions="personId:document.negotiation.unAssociatedDetail.contactAdminPersonId" />
+	                    </c:if>
+	                    <br/><span id="contactAdmin.fullName"><c:out value="${KualiForm.document.negotiation.unAssociatedDetail.contactAdmin.fullName}"/></span>
+	                </td>
+	                <th></th>
+	                <td></td>
+            	</tr>
+            	            	
+            	<tr>
+            		<th>
+            			<div align="right">
+            				<kul:htmlAttributeLabel attributeEntry="${negotiationUnassociatedDetailAttributes.sponsorCode}" />
+            			</div>
+            		</th>
+                	<td>
+                		<kul:htmlControlAttribute property="document.negotiation.unAssociatedDetail.sponsorCode" 
+                			attributeEntry="${negotiationUnassociatedDetailAttributes.sponsorCode}" readOnly="${readOnly}"/>
+                		<c:if test="${!readOnly}">
+	                		${kfunc:registerEditableProperty(KualiForm, "document.negotiation.unAssociatedDetail.sponsorCode")}
+	                		<kul:lookup boClassName="org.kuali.kra.bo.Sponsor" 
+						        		fieldConversions="sponsorCode:document.negotiation.unAssociatedDetail.sponsorCode" />
+					    </c:if>
+                	</td>
+                	<th>
+                		<div align="right">
+            				<kul:htmlAttributeLabel attributeEntry="${negotiationUnassociatedDetailAttributes.primeSponsorCode}" />
+            			</div>
+                	</th>
+                	<td>
+                		<kul:htmlControlAttribute property="document.negotiation.unAssociatedDetail.primeSponsorCode" 
+                			attributeEntry="${negotiationUnassociatedDetailAttributes.primeSponsorCode}" readOnly="${readOnly}"/>
+                		<c:if test="${!readOnly}">
+	                		${kfunc:registerEditableProperty(KualiForm, "document.negotiation.unAssociatedDetail.primeSponsorCode")}
+	                		<kul:lookup boClassName="org.kuali.kra.bo.Sponsor" 
+						        		fieldConversions="sponsorCode:document.negotiation.unAssociatedDetail.primeSponsorCode" />
+					    </c:if> 
+                	</td>
+            	</tr>
+            	
+            	<tr>
+            		<th>
+            			<div align="right">
+            				<kul:htmlAttributeLabel attributeEntry="${negotiationUnassociatedDetailAttributes.sponsorAwardNumber}" />
+            			</div>
+            		</th>
+                	<td>
+                		<kul:htmlControlAttribute property="document.negotiation.unAssociatedDetail.sponsorAwardNumber" 
+                			attributeEntry="${negotiationUnassociatedDetailAttributes.sponsorAwardNumber}" readOnly="${readOnly}"/>
+                	</td>
+                	<th>
+                		<div align="right">
+            				<kul:htmlAttributeLabel attributeEntry="${negotiationUnassociatedDetailAttributes.subAwardOrganizationId}" />
+            			</div>
+                	</th>
+                	<td>
+                		<kul:htmlControlAttribute property="document.negotiation.unAssociatedDetail.subAwardOrganizationId" 
+                			attributeEntry="${negotiationUnassociatedDetailAttributes.subAwardOrganizationId}" readOnly="${readOnly}"/>
+                		<c:if test="${!readOnly}">
+	                		${kfunc:registerEditableProperty(KualiForm, "document.negotiation.unAssociatedDetail.subAwardOrganizationId")}
+	                		<kul:lookup boClassName="org.kuali.kra.bo.Organization" 
+						        		fieldConversions="organizationId:document.negotiation.unAssociatedDetail.subAwardOrganizationId" />
+					    </c:if> 
+                	</td>
+            	</tr>
+            	
+            </c:if>
 		</table>
 	</div>	
 </kul:tab>
