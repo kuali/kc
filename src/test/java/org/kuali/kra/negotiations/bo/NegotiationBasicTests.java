@@ -138,6 +138,7 @@ public class NegotiationBasicTests extends KcUnitTestBase {
         detail.setNegotiation(dbNegotation);
         detail.setLeadUnit(unit);
         detail.setSponsor(sponsor);
+        detail.setSponsorCode(sponsor.getSponsorCode());
         detail.setPrimeSponsor(sponsor);
         detail.setSubAwardOrganization(org);
         detail.setTitle("super awesome title");
