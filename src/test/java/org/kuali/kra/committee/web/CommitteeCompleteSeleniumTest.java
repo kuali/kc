@@ -94,7 +94,9 @@ public class CommitteeCompleteSeleniumTest extends KcSeleniumTestBase {
         helper.clickCommitteeMembersPage();
         
         addMember(0, true, NICHOLAS_MAJORS_PERSON_ID, CHAIR_MEMBERSHIP_ROLE, PERSONAL_CULINARY_SERVICES_OTHER_RESEARCH_AREA_CODE);
+        helper.clickCollapseAll();
         addMember(1, true, ALLYSON_CATE_PERSON_ID, IRB_ADMINISTRATOR_MEMBERSHIP_ROLE, AGRICULTURAL_PRODUCTION_OPERATIONS_RESEARCH_AREA_CODE);        
+        helper.clickCollapseAll();
         addMember(2, false, LEE_VAN_LENTEN_PERSON_ID, ALTERNATE_MEMBERSHIP_ROLE, GENERAL_EDUCATION_RESEARCH_AREA_CODE);
     }
     
@@ -107,19 +109,19 @@ public class CommitteeCompleteSeleniumTest extends KcSeleniumTestBase {
         
         helper.click(ADD_MEMBERSHIP_BUTTON);
 
-        helper.openTab(0);
-        helper.openTab(1);
+        helper.openTab(index);
+        helper.openTab(index + 1);
         helper.set(String.format(MEMBERSHIP_TYPE_CODE_ID, index), VOTING_CHAIR_MEMBERSHIP_TYPE);
         helper.set(String.format(TERM_START_DATE_ID, index), startDate);
         helper.set(String.format(TERM_END_DATE_ID, index), endDate);
         
-        helper.openTab(3);
+        helper.openTab(index + 3);
         helper.set(String.format(MEMBERSHIP_ROLE_CODE_ID, index), role);
         helper.set(String.format(START_DATE_ID, index), startDate);
         helper.set(String.format(END_DATE_ID, index), endDate);
         helper.click(String.format(ADD_MEMBERSHIP_ROLE_BUTTON, index, index));
 
-        helper.openTab(4);
+        helper.openTab(index + 4);
         helper.multiLookup(RESEARCH_AREAS_TAG, RESEARCH_AREA_CODE_ID, researchAreaCode);
         
         helper.saveDocument();
