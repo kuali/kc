@@ -30,11 +30,11 @@ import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.rice.kns.document.Document;
 
-public class AddFinancialEntityUnitEvent  extends KraDocumentEventBaseExtension {
+public class AddFinancialEntityReporterUnitEvent  extends KraDocumentEventBaseExtension {
     
     private String propertyName;
-    private FinancialEntityUnit financialEntityUnit;
-    private List<FinancialEntityUnit> financialEntityUnits;
+    private FinancialEntityReporterUnit financialEntityReporterUnit;
+    private List<FinancialEntityReporterUnit> financialEntityReporterUnits;
     /**
      * Constructs a ProtocolAddReviewAttachmentEvent.
      * 
@@ -42,11 +42,11 @@ public class AddFinancialEntityUnitEvent  extends KraDocumentEventBaseExtension 
      * @param propertyName The error path property prefix
      * @param reviewAttachment The added Reviewer Attachment
      */
-    public AddFinancialEntityUnitEvent(String propertyName, FinancialEntityUnit financialEntityUnit, List<FinancialEntityUnit> financialEntityUnits) {
+    public AddFinancialEntityReporterUnitEvent(String propertyName, FinancialEntityReporterUnit financialEntityReporterUnit, List<FinancialEntityReporterUnit> financialEntityReporterUnits) {
         super("Add financial entity unit", "", null);
         this.propertyName = propertyName;
-        this.financialEntityUnit = financialEntityUnit;
-        this.financialEntityUnits = financialEntityUnits;
+        this.financialEntityReporterUnit = financialEntityReporterUnit;
+        this.financialEntityReporterUnits = financialEntityReporterUnits;
         
     }
         
@@ -58,23 +58,23 @@ public class AddFinancialEntityUnitEvent  extends KraDocumentEventBaseExtension 
     @Override
     @SuppressWarnings("unchecked")
     public BusinessRuleInterface getRule() {
-        return new AddFinancialEntityUnitRule();
+        return new AddFinancialEntityReporterUnitRule();
     }
 
-    public FinancialEntityUnit getFinancialEntityUnit() {
-        return financialEntityUnit;
+    public FinancialEntityReporterUnit getFinancialEntityReporterUnit() {
+        return financialEntityReporterUnit;
     }
 
-    public void setFinancialEntityUnit(FinancialEntityUnit financialEntityUnit) {
-        this.financialEntityUnit = financialEntityUnit;
+    public void setFinancialEntityReporterUnit(FinancialEntityReporterUnit financialEntityReporterUnit) {
+        this.financialEntityReporterUnit = financialEntityReporterUnit;
     }
 
-    public List<FinancialEntityUnit> getFinancialEntityUnits() {
-        return financialEntityUnits;
+    public List<FinancialEntityReporterUnit> getFinancialEntityReporterUnits() {
+        return financialEntityReporterUnits;
     }
 
-    public void setFinancialEntityUnits(List<FinancialEntityUnit> financialEntityUnits) {
-        this.financialEntityUnits = financialEntityUnits;
+    public void setFinancialEntityReporterUnits(List<FinancialEntityReporterUnit> financialEntityReporterUnits) {
+        this.financialEntityReporterUnits = financialEntityReporterUnits;
     }
 
 }

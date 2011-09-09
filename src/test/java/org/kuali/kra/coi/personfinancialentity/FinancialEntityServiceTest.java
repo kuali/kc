@@ -116,12 +116,12 @@ public class FinancialEntityServiceTest {
         FinancialEntityReporter reporter = new FinancialEntityReporter();
         reporter.setPersonId(PERSON_ID);
         reporter.setReporterRoleId("FER");
-        reporter.setFinancialEntityUnits(new ArrayList<FinancialEntityUnit>());
-        FinancialEntityUnit financialEntityUnit = new FinancialEntityUnit();
-        financialEntityUnit.setUnitNumber(UNIT_NUMBER);
-        financialEntityUnit.setUnitName(UNIT_NAME);
-        financialEntityUnit.setLeadUnitFlag(true);
-        reporter.getFinancialEntityUnits().add(financialEntityUnit);
+        reporter.setFinancialEntityReporterUnits(new ArrayList<FinancialEntityReporterUnit>());
+        FinancialEntityReporterUnit financialEntityReporterUnit = new FinancialEntityReporterUnit();
+        financialEntityReporterUnit.setUnitNumber(UNIT_NUMBER);
+        financialEntityReporterUnit.setUnitName(UNIT_NAME);
+        financialEntityReporterUnit.setLeadUnitFlag(true);
+        reporter.getFinancialEntityReporterUnits().add(financialEntityReporterUnit);
 
         
         final List<FinancialEntityReporter> reporters = new ArrayList<FinancialEntityReporter>();
@@ -141,11 +141,11 @@ public class FinancialEntityServiceTest {
 //        financialEntityService.setKcPersonService(getMockKcPersonService());
         
         FinancialEntityReporter financialEntityReporter = financialEntityService.getFinancialEntityReporter(PERSON_ID);
-        Assert.assertEquals(financialEntityReporter.getFinancialEntityUnits().size(), 1);
+        Assert.assertEquals(financialEntityReporter.getFinancialEntityReporterUnits().size(), 1);
         Assert.assertEquals(financialEntityReporter.getPersonId(), PERSON_ID);
         Assert.assertEquals(financialEntityReporter.getReporterRoleId(), "FER");
-        Assert.assertEquals(financialEntityReporter.getFinancialEntityUnits().get(0).getUnitNumber(), UNIT_NUMBER);
-        Assert.assertEquals(financialEntityReporter.getFinancialEntityUnits().get(0).getUnitName(), UNIT_NAME);
+        Assert.assertEquals(financialEntityReporter.getFinancialEntityReporterUnits().get(0).getUnitNumber(), UNIT_NUMBER);
+        Assert.assertEquals(financialEntityReporter.getFinancialEntityReporterUnits().get(0).getUnitName(), UNIT_NAME);
 
     }
      

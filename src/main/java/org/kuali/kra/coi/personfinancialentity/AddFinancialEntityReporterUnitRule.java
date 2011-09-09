@@ -22,26 +22,26 @@ import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class AddFinancialEntityUnitRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<AddFinancialEntityUnitEvent> {
+public class AddFinancialEntityReporterUnitRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<AddFinancialEntityReporterUnitEvent> {
     
     /**
      * {@inheritDoc}
      * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
      */
-    public boolean processRules(AddFinancialEntityUnitEvent event) {
+    public boolean processRules(AddFinancialEntityReporterUnitEvent event) {
         boolean isValid = true;
 
-        String errorPathKey = event.getPropertyName() + ".newFinancialEntityUnit";
+        String errorPathKey = event.getPropertyName() + ".newFinancialEntityReporterUnit";
         GlobalVariables.getMessageMap().addToErrorPath(errorPathKey);
-        if (StringUtils.isBlank(event.getFinancialEntityUnit().getUnitNumber())) {
+        if (StringUtils.isBlank(event.getFinancialEntityReporterUnit().getUnitNumber())) {
             GlobalVariables.getMessageMap().putError("unitNumber", KeyConstants.ERROR_UNIT_NUMBER_REQUIRED);
 
         }
         else {
-            if (!CollectionUtils.isEmpty(event.getFinancialEntityUnits())) {
+            if (!CollectionUtils.isEmpty(event.getFinancialEntityReporterUnits())) {
                 boolean duplicateUnitNumber = false;
-                for (FinancialEntityUnit unit : event.getFinancialEntityUnits()) {
-                    if (StringUtils.equals(unit.getUnitNumber(), event.getFinancialEntityUnit().getUnitNumber())) {
+                for (FinancialEntityReporterUnit unit : event.getFinancialEntityReporterUnits()) {
+                    if (StringUtils.equals(unit.getUnitNumber(), event.getFinancialEntityReporterUnit().getUnitNumber())) {
                         duplicateUnitNumber = true;
                         break;
                     }

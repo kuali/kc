@@ -36,18 +36,18 @@ public class FinancialEntityReporter extends KraPersistableBusinessObjectBase {
     private String personId;
 //    private String personName;
     private String reporterRoleId;
-    private List<FinancialEntityUnit> financialEntityUnits; 
+    private List<FinancialEntityReporterUnit> financialEntityReporterUnits; 
     private List<PersonFinIntDisclosure> personFinIntDisclosures; 
     private int selectedUnit;
     @Transient
-    private KcPersonService kcPersonService;
+    private transient KcPersonService kcPersonService;
     @Transient
-    private KcPerson reporter;
+    private transient KcPerson reporter;
     
 
     
     public FinancialEntityReporter() {
-        this.financialEntityUnits = new ArrayList<FinancialEntityUnit>();
+        this.financialEntityReporterUnits = new ArrayList<FinancialEntityReporterUnit>();
         this.personFinIntDisclosures = new ArrayList<PersonFinIntDisclosure>();
         this.reporterRoleId = "FER";
     }
@@ -100,13 +100,13 @@ public class FinancialEntityReporter extends KraPersistableBusinessObjectBase {
     }
 
 
-    public List<FinancialEntityUnit> getFinancialEntityUnits() {
-        return financialEntityUnits;
+    public List<FinancialEntityReporterUnit> getFinancialEntityReporterUnits() {
+        return financialEntityReporterUnits;
     }
 
 
-    public void setFinancialEntityUnits(List<FinancialEntityUnit> financialEntityUnits) {
-        this.financialEntityUnits = financialEntityUnits;
+    public void setFinancialEntityReporterUnits(List<FinancialEntityReporterUnit> financialEntityReporterUnits) {
+        this.financialEntityReporterUnits = financialEntityReporterUnits;
     }
 
 

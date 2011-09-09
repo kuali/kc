@@ -15,15 +15,15 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="financialEntityUnitsAttributes" value="${DataDictionary.FinancialEntityUnit.attributes}" />
+<c:set var="financialEntityReporterUnitsAttributes" value="${DataDictionary.FinancialEntityReporterUnit.attributes}" />
 <c:set var="financialEntityReporter" value="financialEntityHelper.financialEntityReporter" />
 <c:set var="unitAttributes" value="${DataDictionary.Unit.attributes}" />
-<bean:define id="financialEntityUnits" name="KualiForm" property="financialEntityHelper.financialEntityReporter.financialEntityUnits" />
+<bean:define id="financialEntityReporterUnits" name="KualiForm" property="financialEntityHelper.financialEntityReporter.financialEntityReporterUnits" />
 <%-- c:set var="readOnly" value="${!KualiForm.personnelHelper.modifyPersonnel}" / --%>
 <table cellpadding=0 cellspacing=0 summary="">
     <tr>
         <td>
-            <kul:innerTab tabTitle="Unit Details" parentTab="Reporter" defaultOpen="false" tabErrorKey="financialEntityHelper.newFinancialEntityUnit.*,financialEntityHelper.financialEntityReporter*" useCurrentTabIndexAsKey="false">
+            <kul:innerTab tabTitle="Unit Details" parentTab="Reporter" defaultOpen="false" tabErrorKey="financialEntityHelper.newFinancialEntityReporterUnit.*,financialEntityHelper.financialEntityReporter*" useCurrentTabIndexAsKey="false">
                 <div class="innerTab-container" align="left">
                     <table class=tab cellpadding="0" cellspacing="0" summary="">
                         <tbody id="G3">
@@ -31,8 +31,8 @@
                         <tr>
                             <kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" /> 
                             <kul:htmlAttributeHeaderCell attributeEntry="${unitAttributes.unitName}" scope="col" align="center"/>
-                            <kul:htmlAttributeHeaderCell attributeEntry="${financialEntityUnitsAttributes.unitNumber}" scope="col" align="center"/>
-                            <kul:htmlAttributeHeaderCell attributeEntry="${financialEntityUnitsAttributes.leadUnitFlag}" scope="col" align="center"/>
+                            <kul:htmlAttributeHeaderCell attributeEntry="${financialEntityReporterUnitsAttributes.unitNumber}" scope="col" align="center"/>
+                            <kul:htmlAttributeHeaderCell attributeEntry="${financialEntityReporterUnitsAttributes.leadUnitFlag}" scope="col" align="center"/>
                             <c:if test="${!readOnly}">
                                 <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" align="center"/>
                             </c:if>
@@ -46,36 +46,36 @@
                                     <c:out value="Add:" />
                                 </th>
                                 <td align="left" valign="middle" class="infoline">
-                                    <div id="financialEntityHelper.newFinancialEntityUnit.unitName.div" class="same-line">
-                                        <kul:htmlControlAttribute property="financialEntityHelper.newFinancialEntityUnit.unitName"
+                                    <div id="financialEntityHelper.newFinancialEntityReporterUnit.unitName.div" class="same-line">
+                                        <kul:htmlControlAttribute property="financialEntityHelper.newFinancialEntityReporterUnit.unitName"
                                                                   attributeEntry="${unitAttributes.unitName}" readOnly="true"
-                                                                  readOnlyBody="${empty KualiForm.financialEntityHelper.newFinancialEntityUnit.unitName}">
+                                                                  readOnlyBody="${empty KualiForm.financialEntityHelper.newFinancialEntityReporterUnit.unitName}">
                                             (select)
                                         </kul:htmlControlAttribute>
                                     </div>
                                     &nbsp;
-                                    <kul:lookup boClassName="org.kuali.kra.bo.Unit" fieldConversions="unitNumber:financialEntityHelper.newFinancialEntityUnit.unitNumber,unitName:financialEntityHelper.newFinancialEntityUnit.unitName" />
+                                    <kul:lookup boClassName="org.kuali.kra.bo.Unit" fieldConversions="unitNumber:financialEntityHelper.newFinancialEntityReporterUnit.unitNumber,unitName:financialEntityHelper.newFinancialEntityReporterUnit.unitName" />
                                     <span class="fineprint"></span> 
                                 </td>
                                 <td align="left" valign="middle" class="infoline">
                                     <div align=left>
-                                        <kul:htmlControlAttribute property="financialEntityHelper.newFinancialEntityUnit.unitNumber"
+                                        <kul:htmlControlAttribute property="financialEntityHelper.newFinancialEntityReporterUnit.unitNumber"
                                             attributeEntry="${unitAttributes.unitNumber}" 
-                                            onblur="ajaxLoad('getUnitName','financialEntityHelper.newFinancialEntityUnit.unitNumber', 'financialEntityHelper.newFinancialEntityUnit.unitName');" 
+                                            onblur="ajaxLoad('getUnitName','financialEntityHelper.newFinancialEntityReporterUnit.unitNumber', 'financialEntityHelper.newFinancialEntityReporterUnit.unitName');" 
                                         />
-                                        <%--   onblur="loadUnitNameTo('financialEntityHelper.newFinancialEntityUnit.unitNumber','financialEntityHelper.newFinancialEntityUnit.unitName');" />  --%>
+                                        <%--   onblur="loadUnitNameTo('financialEntityHelper.newFinancialEntityReporterUnit.unitNumber','financialEntityHelper.newFinancialEntityReporterUnit.unitName');" />  --%>
                                     </div>
                                     <span class="fineprint"></span> 
                                 </td>
                                     <td align="left" valign="middle" class="infoline">
                                         <div align=center>
-                                            <bean:define id="leadFlag" name="KualiForm" property="financialEntityHelper.newFinancialEntityUnit.leadUnitFlag" />
-                                            <html:radio property="financialEntityHelper.newFinancialEntityUnit.leadUnitFlag" value="true"/>
+                                            <bean:define id="leadFlag" name="KualiForm" property="financialEntityHelper.newFinancialEntityReporterUnit.leadUnitFlag" />
+                                            <html:radio property="financialEntityHelper.newFinancialEntityReporterUnit.leadUnitFlag" value="true"/>
                                         </div>
                                     </td>
                                 <td class="infoline">
                                     <div align=center>
-                                        <html:image property="methodToCall.addFinancialEntityUnit.line${status.index}" 
+                                        <html:image property="methodToCall.addFinancialEntityReporterUnit.line${status.index}" 
                                         src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Unit" alt="Add Unit" styleClass="tinybutton"/></div>
                                 </td>
                             </tr>
@@ -83,19 +83,19 @@
                         <%-- New data --%>
                         
                         <%-- Existing data --%>
-                        <c:forEach var="financialEntityUnit" items="${financialEntityUnits}" varStatus="status">
+                        <c:forEach var="financialEntityReporterUnit" items="${financialEntityReporterUnits}" varStatus="status">
                              <tr>
                                 <th class="infoline">
                                     <c:out value="${status.index+1}" />
                                 </th>
                               <td align="left" valign="middle">
                                 <div align="left">
-                                    <kul:htmlControlAttribute property="${financialEntityReporter}.financialEntityUnits[${status.index}].unit.unitName" attributeEntry="${unitAttributes.unitName}"  readOnly="true" />
+                                    <kul:htmlControlAttribute property="${financialEntityReporter}.financialEntityReporterUnits[${status.index}].unit.unitName" attributeEntry="${unitAttributes.unitName}"  readOnly="true" />
                                 </div>
                               </td>
                               <td align="left" valign="middle">
                                 <div align="left">
-                                    <kul:htmlControlAttribute property="${financialEntityReporter}.financialEntityUnits[${status.index}].unitNumber" attributeEntry="${unitAttributes.unitNumber}"  readOnly="true" />
+                                    <kul:htmlControlAttribute property="${financialEntityReporter}.financialEntityReporterUnits[${status.index}].unitNumber" attributeEntry="${unitAttributes.unitNumber}"  readOnly="true" />
                                 </div>
                               </td>
                                   <td align="left" valign="middle">
@@ -106,7 +106,7 @@
                               <c:if test="${!readOnly}">
                                   <td class="infoline">
                                     <div align="center">
-                                        <html:image property="methodToCall.deleteFinancialEntityUnit.${financialEntityReporter}.line${status.index}"
+                                        <html:image property="methodToCall.deleteFinancialEntityReporterUnit.${financialEntityReporter}.line${status.index}"
                                         src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
                                     </div>
                                   </td>
@@ -118,7 +118,7 @@
                 <tr>
                     <td align="center" colspan="5">
                         <div align="center">
-                            <html:image property="methodToCall.saveFinancialEntityUnits.anchor${tabKey}"
+                            <html:image property="methodToCall.saveFinancialEntityReporterUnits.anchor${tabKey}"
                                         src='${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif' styleClass="tinybutton"/>
                         </div>
                     </td>
