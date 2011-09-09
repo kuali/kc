@@ -16,7 +16,10 @@
 package org.kuali.kra.coi;
 
 import org.kuali.kra.coi.disclosure.DisclosurePersonUnit;
+import org.kuali.kra.coi.disclosure.SaveDisclosureReporterUnitEvent;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.irb.personnel.SaveProtocolPersonnelEvent;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
@@ -59,32 +62,8 @@ public class CoiDisclosureDocumentRule extends ResearchDocumentRuleBase implemen
 
 
     public boolean processReporterUnitRules(CoiDisclosureDocument document) {
-        boolean isValid = true;
-
-        GlobalVariables.getMessageMap().addToErrorPath("document.coiDisclosureList[0].disclosurePersons[0]");
-        if (org.apache.commons.collections.CollectionUtils.isEmpty(document.getCoiDisclosure().getDisclosureReporter()
-                .getDisclosurePersonUnits())) {
-            GlobalVariables.getMessageMap().putError("unitNumber", KeyConstants.ERROR_ONE_UNIT, "Disclosure Reporter");
-
-        }
-        else {
-            boolean leadUnitFound = false;
-            for (DisclosurePersonUnit unit : document.getCoiDisclosure().getDisclosureReporter().getDisclosurePersonUnits()) {
-                if (unit.isLeadUnitFlag()) {
-                    leadUnitFound = true;
-                    break;
-                }
-            }
-            if (!leadUnitFound) {
-                GlobalVariables.getMessageMap().putError("unitNumber", KeyConstants.ERROR_LEAD_UNIT_REQUIRED);
-
-            }
-
-        }
-        isValid &= GlobalVariables.getMessageMap().hasNoErrors();
-        GlobalVariables.getMessageMap().removeFromErrorPath("document.coiDisclosureList[0].disclosurePersons[0]");
-        
-        return isValid;
+        return processRules(new SaveDisclosureReporterUnitEvent("document.coiDisclosureList[0].disclosurePersons[0]",
+                document.getCoiDisclosure().getDisclosureReporter().getDisclosurePersonUnits()));
     }
 
     /**

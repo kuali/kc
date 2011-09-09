@@ -39,8 +39,6 @@ public class FinancialEntityReporter extends DisclosureReporter {
     private String reporterRoleId;
     private List<FinancialEntityReporterUnit> financialEntityReporterUnits; 
     private List<PersonFinIntDisclosure> personFinIntDisclosures; 
-    private int selectedUnit;
-    
 
     
     public FinancialEntityReporter() {
@@ -116,17 +114,6 @@ public class FinancialEntityReporter extends DisclosureReporter {
         this.personFinIntDisclosures = personFinIntDisclosures;
     }
     
-
-    public int getSelectedUnit() {
-        return selectedUnit;
-    }
-
-
-    public void setSelectedUnit(int selectedUnit) {
-        this.selectedUnit = selectedUnit;
-    }
-
-
     @Override
     public List<? extends DisclosureReporterUnit> getDisclosureReporterUnits() {
        return getFinancialEntityReporterUnits();
