@@ -10,7 +10,8 @@
 	<param name="datasource.password">ask your team</param>
 	<param name="datasource.ojb.platform">Oracle9i</param>
 
-	<!-- For Embedded Mode
+	<!-- For Embedded Mode -- up to S2S Configuration -->
+	<!--
 	<param name="rice.app.url">http://127.0.0.1:8080/kr-dev</param>
 
 	<param name="kim.runmode">embedded</param>
@@ -19,9 +20,11 @@
 	<param name="ken.runmode">embedded</param>
 	
 	<param name="dev.mode">false</param>
+	-->
 	
 	<!-- Rice Server DB -->
 	<!-- Should be the same as KC Client DB when running bundled mode -->
+	<!--
 	<param name="server.datasource.url">jdbc:oracle:thin:@127.0.0.1:1521:KUALI</param>
 	<param name="server.datasource.username">KRDEV</param>
 	<param name="server.datasource.password">ask your team</param>
