@@ -34,7 +34,7 @@ import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class FinancialEntityServiceTest {
-    private static final String  PERSON_ID = "1000000001";
+    private static final String  PERSON_ID = "10000000001";
     private static final String  UNIT_NUMBER = "000001";
     private static final String  UNIT_NAME = "000001";
     Mockery context = new JUnit4Mockery();
