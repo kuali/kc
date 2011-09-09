@@ -46,11 +46,16 @@
         </property>
     </bean>
 
-	 <bean id="financialEntityService" class="org.kuali.kra.coi.personfinancialentity.FinancialEntityServiceImpl">
+     <bean id="financialEntityService" class="org.kuali.kra.coi.personfinancialentity.FinancialEntityServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="kcPersonService" ref="kcPersonService" />
     </bean>
-	
+    
+     <bean id="coiDisclosureService" class="org.kuali.kra.coi.disclosure.CoiDisclosureServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="kcPersonService" ref="kcPersonService" />
+    </bean>
+    
 
 </beans>
 

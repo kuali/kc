@@ -1,194 +1,274 @@
+ <%--
+ Copyright 2005-2010 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+--%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="coiDisclosureDocumentAttributes" value="${DataDictionary.CoiDisclosureDocument.attributes}" />
-<c:set var="coiDisclosureAttributes" value="${DataDictionary.CoiDisclosure.attributes}" />
-<c:set var="action" value="coiDisclosure" />
-<c:set var="nonEmpFlag" value="false" />
-<c:set var="readOnly" value="${!KualiForm.coiDisclosureHelper.modifyReporter}" scope = "request"/>
+<c:set var="personAttributes" value="${DataDictionary.KcPerson.attributes}" />
+<c:set var="reporter" value = "document.coiDisclosureList[0].disclosurePersons[0].reporter" />
+<kul:tab defaultOpen="true" tabTitle="Reporter" transparentBackground="false"
+    tabErrorKey="" >
 
-<kul:tab tabTitle="Reporter" defaultOpen="true" tabErrorKey="document.coiDisclosureList[0].principalInvestigatorId,document.coiDisclosureList[0].protocolTypeCode,document.coiDisclosureList[0].title,document.coiDisclosureList[0].leadUnitNumber,document.protocolHelper.personId,document.coiDisclosureList[0].protocolTypeCode*,principalInvestigator*,protocolHelper.principalInvestigator*,document.coiDisclosureList[0].title*,protocolHelper.leadUnitNumber*,document.ProtocolTypeCode*,document.activityTypeCode*,document.title" >
-	<div class="tab-container" align="center">
-    	<h3>
-    		<span class="subhead-left">Required Fields for Saving Document</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.coiDisclosure.coiDisclosureType" altText="help"/></span>
+    <div class="tab-container" align="center">
+        <h3>
+            <span class="subhead-left"> Contact Information </span>
+            <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.coi.disclosure.DisclosurePerson" altText="help"/> </span>
         </h3>
-		
-		<table cellpadding=4 cellspacing=0 summary="">
-            <tr>
-            	<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${coiDisclosureAttributes.coiDisclosureTypeCode}" /></div></th>
-                <td align="left" valign="center">
-                    <kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclosureTypeCode" readOnly="${readOnly}" attributeEntry="${coiDisclosureAttributes.coiDisclosureTypeCode}" />
-                </td>
-				
-				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${coiDisclosureAttributes.principalInvestigatorId}" /></div></th>
-                <td align="left" valign="top">
-                <div id="principalInvestigator.div" property="principalInvestigator" >
-                        <c:if test="${empty KualiForm.coiDisclosureHelper.principalInvestigatorName}">                                                 
-                            
-                            ${kfunc:registerEditableProperty(KualiForm, "coiDisclosureHelper.principalInvestigatorName")}
-                            <input type="hidden" name="coiDisclosureHelper.principalInvestigatorName" value=""/>
-                                          
-                        </c:if>
-                        <c:if test="${empty KualiForm.coiDisclosureHelper.personId}">
-                        
-                        	${kfunc:registerEditableProperty(KualiForm, "coiDisclosureHelper.personId")}       					                	
-                	    	<input type="hidden" name="coiDisclosureHelper.personId" value=""/>
-                	    	
-                	    </c:if>       
-                	    <c:if test="${empty KualiForm.coiDisclosureHelper.rolodexId}">
-                	    	
-                	    	${kfunc:registerEditableProperty(KualiForm, "coiDisclosureHelper.rolodexId")}  				                	
-                            <input type="hidden" name="coiDisclosureHelper.rolodexId" value=""/>
-                                
-                	    </c:if>   	
-                	    <c:if test="${empty KualiForm.coiDisclosureHelper.principalInvestigatorId}">
-                	    
-                	    	${kfunc:registerEditableProperty(KualiForm, "coiDisclosureHelper.principalInvestigatorId")}     					                	
-                            <input type="hidden" name="coiDisclosureHelper.principalInvestigatorId" value=""/>
-                            
-                            ${kfunc:registerEditableProperty(KualiForm, "document.coiDisclosureList[0].principalInvestigatorId")}               
-                            <input type="hidden" name="document.coiDisclosureList[0].principalInvestigatorId" value=""/>
-                                          
-                	    </c:if>   	
-                	    <table width="100%" border="0" style="border: medium none ;">
-                	    <tbody>
-						<c:if test="${empty KualiForm.document.coiDisclosureList[0].coiDisclosureId}">  
-						<tr>
-						<td style="border: medium none ;">        					
-							<label> Employee Search</label>
-						</td>
-						<td width="40" valign="middle" style="border: medium none ;">
-							<label>
-							<kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
-	                         fieldConversions="personId:coiDisclosureHelper.personId,fullName:coiDisclosureHelper.principalInvestigatorName,unit.unitNumber:coiDisclosureHelper.lookupUnitNumber,unit.unitName:coiDisclosureHelper.lookupUnitName" 
-	                         /></label>
-                         </td>
-                         </tr>
-                        <tr>
-                        <td style="border: medium none ;">   
-							<label>Non-employee Search</label> 
-						</td>
-            	        <kul:checkErrors keyMatch="document.coiDisclosureList[0].principalInvestigatorId" auditMatch="document.coiDisclosureList[0].principalInvestigatorId"/>
-                        <td width="40" valign="middle" style="border: medium none ;">	
-							<label>
-							<kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" 
-	                         fieldConversions="rolodexId:coiDisclosureHelper.rolodexId,unit.unitNumber:coiDisclosureHelper.lookupUnitNumber,unit.unitName:coiDisclosureHelper.lookupUnitName,fullName:coiDisclosureHelper.principalInvestigatorName"  
-	                         />   
-							</label>
-	               			<c:if test="${hasErrors}">
-                    	 		<kul:fieldShowErrorIcon />
-                            </c:if>
-						 </td>
-                         </tr>	
-						</c:if>
+        <table id="response-table" width="100%" cellpadding="0" cellspacing="0" class="datatable">
+        <tr>
+        <td>
+                    <table class=tab cellpadding=0 cellspacing="0" summary=""> 
+                        <tbody id="G2">
+                            <tr>
+                                <th> 
+                                    <div align="right">
+                                        <kul:htmlAttributeLabel attributeEntry="${personAttributes.fullName}"/>
+                                    </div>
+                                </th>
+                                <td>
+                                    <kul:htmlControlAttribute property="${reporter}.fullName" 
+                                                              attributeEntry="${personAttributes.fullName}" 
+                                                              readOnly="true"/> 
+                                </td>
+                                <th width="15%">
+                                    <div align="right">
+                                        <kul:htmlAttributeLabel attributeEntry="${personAttributes.userName}"/>
+                                    </div>
+                                </th>
+                                <td align="left" width="30%">
+                                    <kul:htmlControlAttribute property="${reporter}.userName" 
+                                    attributeEntry="${personAttributes.userName}" readOnly="true"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th nowrap="nowrap"> 
+                                    <div align="right">
+                                        <kul:htmlAttributeLabel attributeEntry="${personAttributes.emailAddress}"/>
+                                    </div>
+                                </th>
+                                <td>
+                                    <kul:htmlControlAttribute property="${reporter}.emailAddress" 
+                                                              attributeEntry="${personAttributes.emailAddress}" 
+                                                              readOnly="true"/> 
+                                </td>
+                                <th width="15%">
+                                    <div align="right">
+                                        <kul:htmlAttributeLabel attributeEntry="${personAttributes.officePhone}"/>
+                                    </div>
+                                </th>
+                                <td align="left" width="30%">
+                                    <kul:htmlControlAttribute property="${reporter}.officePhone" 
+                                    attributeEntry="${personAttributes.officePhone}" readOnly="true"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th nowrap="nowrap"> 
+                                    <div align="right">
+                                        <kul:htmlAttributeLabel attributeEntry="${personAttributes['extendedAttributes.primaryTitle']}"/>
+                                    </div>
+                                </th>
+                                <td>
+                                    <kul:htmlControlAttribute property="${reporter}.primaryTitle" 
+                                                              attributeEntry="${personAttributes['extendedAttributes.primaryTitle']}" 
+                                                              readOnly="true"/> 
+                                </td>
+                                <th width="15%">
+                                    <div align="right">
+                                        <kul:htmlAttributeLabel attributeEntry="${personAttributes['extendedAttributes.directoryTitle']}"/>
+                                    </div>
+                                </th>
+                                <td width="30%">
+                                    <kul:htmlControlAttribute property="${reporter}.directoryTitle" 
+                                    attributeEntry="${personAttributes['extendedAttributes.directoryTitle']}" readOnly="true"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th nowrap="nowrap"> 
+                                    <div align="right">
+                                        <kul:htmlAttributeLabel attributeEntry="${personAttributes.organizationIdentifier}"/>
+                                    </div>
+                                </th>
+                                <td>
+                                    <kul:htmlControlAttribute property="${reporter}.organizationIdentifier" 
+                                                              attributeEntry="${personAttributes.organizationIdentifier}" 
+                                                              readOnly="true"/> 
+                                </td>
+                                <th width="15%">
+                                    <div align="right">
+                                        <kul:htmlAttributeLabel attributeEntry="${personAttributes['extendedAttributes.school']}"/>
+                                    </div>
+                                </th>
+                                <td align="left" width="30%">
+                                    <kul:htmlControlAttribute property="${reporter}.school" 
+                                    attributeEntry="${personAttributes['extendedAttributes.school']}" readOnly="true"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th> 
+                                    <div align="right">
+                                        <kul:htmlAttributeLabel attributeEntry="${personAttributes.eraCommonsUserName}"/>
+                                    </div>
+                                </th>
+                                <td>
+                                    <kul:htmlControlAttribute property="${reporter}.eraCommonsUserName" 
+                                                              attributeEntry="${personAttributes.eraCommonsUserName}" 
+                                                              readOnly="true"/> 
+                                </td>
+                                <th width="15%">
+                                    <div align="right">
+                                        <kul:htmlAttributeLabel attributeEntry="${personAttributes.faxNumber}"/>
+                                    </div>
+                                </th>
+                                <td align="left" width="30%">
+                                    <kul:htmlControlAttribute property="${reporter}.faxNumber" 
+                                    attributeEntry="${personAttributes.faxNumber}" readOnly="true"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th> 
+                                    <div align="right">
+                                        <kul:htmlAttributeLabel attributeEntry="${personAttributes.pagerNumber}"/>
+                                    </div>
+                                </th>
+                                <td>
+                                    <kul:htmlControlAttribute property="${reporter}.pagerNumber" 
+                                                              attributeEntry="${personAttributes.pagerNumber}" 
+                                                              readOnly="true"/> 
+                                </td>
+                                <th width="15%">
+                                    <div align="right">
+                                        <kul:htmlAttributeLabel attributeEntry="${personAttributes.mobilePhoneNumber}"/>
+                                    </div>
+                                </th>
+                                <td align="left" width="30%">
+                                    <kul:htmlControlAttribute property="${reporter}.mobilePhoneNumber" 
+                                    attributeEntry="${personAttributes.mobilePhoneNumber}" readOnly="true"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th> 
+                                    <div align="right">
+                                        <kul:htmlAttributeLabel attributeEntry="${personAttributes['extendedAttributes.officeLocation']}"/>
+                                    </div>
+                                </th>
+                                <td>
+                                    <kul:htmlControlAttribute property="${reporter}.officeLocation" 
+                                                              attributeEntry="${personAttributes['extendedAttributes.officeLocation']}" 
+                                                              readOnly="true"/> 
+                                </td>
+                                <th width="15%">
+                                    <div align="right">
+                                        <kul:htmlAttributeLabel attributeEntry="${personAttributes['extendedAttributes.secondaryOfficeLocation']}"/>
+                                    </div>
+                                </th>
+                                <td align="left" width="30%">
+                                    <kul:htmlControlAttribute property="${reporter}.secondaryOfficeLocation" 
+                                    attributeEntry="${personAttributes['extendedAttributes.secondaryOfficeLocation']}" readOnly="true"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th> 
+                                    <div align="right">
+                                        <kul:htmlAttributeLabel attributeEntry="${personAttributes.addressLine1}"/>
+                                    </div>
+                                </th>
+                                <td>
+                                    <kul:htmlControlAttribute property="${reporter}.addressLine1" 
+                                                              attributeEntry="${personAttributes.addressLine1}" 
+                                                              readOnly="true"/> 
+                                </td>
+                                <th> 
+                                    <div align="right">
+                                        <kul:htmlAttributeLabel attributeEntry="${personAttributes.addressLine2}"/>
+                                    </div>
+                                </th>
+                                <td>
+                                    <kul:htmlControlAttribute property="${reporter}.addressLine2" 
+                                                              attributeEntry="${personAttributes.addressLine2}" 
+                                                              readOnly="true"/> 
+                                </td>
+                            </tr>
+                            <tr>
+                                <th> 
+                                    <div align="right">
+                                        <kul:htmlAttributeLabel attributeEntry="${personAttributes.addressLine3}"/>
+                                    </div>
+                                </th>
+                                <td>
+                                    <kul:htmlControlAttribute property="${reporter}.addressLine3" 
+                                                              attributeEntry="${personAttributes.addressLine3}" 
+                                                              readOnly="true"/> 
+                                </td>
+                                <th width="15%">
+                                    <div align="right">
+                                        <kul:htmlAttributeLabel attributeEntry="${personAttributes.city}"/>
+                                    </div>
+                                </th>
+                                <td align="left" width="30%">
+                                    <kul:htmlControlAttribute property="${reporter}.city" 
+                                    attributeEntry="${personAttributes.city}" readOnly="true"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th width="15%">
+                                    <div align="right">
+                                        <kul:htmlAttributeLabel attributeEntry="${personAttributes['extendedAttributes.county']}"/>
+                                    </div>
+                                </th>
+                                <td align="left" width="30%">
+                                    <kul:htmlControlAttribute property="${reporter}.county" 
+                                    attributeEntry="${personAttributes['extendedAttributes.county']}" readOnly="true"/>
+                                </td>
+                                <th width="15%">
+                                    <div align="right">
+                                        <kul:htmlAttributeLabel attributeEntry="${personAttributes.state}"/>
+                                    </div>
+                                </th>
+                                <td align="left" width="30%">
+                                    <kul:htmlControlAttribute property="${reporter}.state" 
+                                    attributeEntry="${personAttributes.state}" readOnly="true"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th> 
+                                    <div align="right">
+                                        <kul:htmlAttributeLabel attributeEntry="${personAttributes.postalCode}"/>
+                                    </div>
+                                </th>
+                                <td>
+                                    <kul:htmlControlAttribute property="${reporter}.postalCode" 
+                                                              attributeEntry="${personAttributes.postalCode}" 
+                                                              readOnly="true"/> 
+                                </td>
+                                <th width="15%">
+                                    <div align="right">
+                                        <kul:htmlAttributeLabel attributeEntry="${personAttributes.countryCode}"/>
+                                    </div>
+                                </th>
+                                <td align="left" width="30%">
+                                    <kul:htmlControlAttribute property="${reporter}.countryCode" 
+                                    attributeEntry="${personAttributes.countryCode}" readOnly="true"/>
+                                </td>
+                            </tr>
 
-							
-				    <tr>
-                    <td style="border: medium none ;">  		
-					<div id="principalInvestigatorName.div" >
-                        <c:if test="${!empty KualiForm.coiDisclosureHelper.principalInvestigatorId}">
-                        
-                        ${kfunc:registerEditableProperty(KualiForm, "document.coiDisclosureList[0].principalInvestigatorId")}
-                        <input type="hidden" name="document.coiDisclosureList[0].principalInvestigatorId" value="${KualiForm.coiDisclosureHelper.principalInvestigatorId}"/>
-                                      
-            				<c:choose>
-							    <c:when test="${empty KualiForm.coiDisclosureHelper.principalInvestigatorName}">
-	                    			<span style='color: red;'>not found</span><br>
-	               				</c:when>
-	                  			<c:otherwise>
-										<c:out value="${KualiForm.coiDisclosureHelper.principalInvestigatorName}" />
-								<br>
-								</c:otherwise>  
-							</c:choose>                        
-                        </c:if>
-                        
-					</td>
-                    </tr>  
-                    </tbody>
+                        </tbody>
                     </table>
-                    </div>
-                </td>
-				</div>
+                </div>
+        </td>
+    </tr>
+</table>
+    </div>
+ <kra-coi:disclosureReporterUnits />
+</kul:tab>
 
-
-            </tr>
-            <tr>
-                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${coiDisclosureAttributes.title}" /></div></th>
-                <td align="left" valign="top">
-                	<kul:htmlControlAttribute property="document.coiDisclosureList[0].title" attributeEntry="${coiDisclosureAttributes.title}" readOnly="${readOnly}" />
-                </td>
-                
-                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${coiDisclosureAttributes.leadUnitNumber}" /></div></th>            
-                <td align="left" valign="center">
-                
-                <table width="100%" border="0" style="border: medium none ;">
-                <tbody>
-                <tr>
-                <td style="border: medium none ;">   
-                        
-                    <c:if test="${empty KualiForm.document.coiDisclosureList[0].coiDisclosureId}">
-                    	<kul:htmlControlAttribute property="coiDisclosureHelper.leadUnitNumber" 
-						 attributeEntry="${coiDisclosureAttributes.leadUnitNumber}"  
-						 onblur="ajaxLoad('getUnitName','coiDisclosureHelper.leadUnitNumber', 'coiDisclosureHelper.leadUnitName');"/> 
-						<%--   onblur="loadUnitNameTo('coiDisclosureHelper.leadUnitNumber','coiDisclosureHelper.leadUnitName');"/> --%>
-				
-				</td>
-                <td width="40" valign="middle" style="border: medium none ;">
-            	        <kul:checkErrors keyMatch="document.coiDisclosureList[0].leadUnitNumber" auditMatch="document.coiDisclosureList[0].leadUnitNumber"/>
-                        		 						                  
-	                    <kul:lookup boClassName="org.kuali.kra.bo.Unit" 
-	                     fieldConversions="unitNumber:coiDisclosureHelper.leadUnitNumber,unitName:coiDisclosureHelper.leadUnitName" />
-                    
-	                    <kul:directInquiry boClassName="org.kuali.kra.bo.Unit" 
-	                     inquiryParameters="coiDisclosureHelper.leadUnitNumber:unitNumber" 
-	                     anchor="${tabKey}" />
-                    </label>
-	               	<c:if test="${hasErrors}">
-                    	 <kul:fieldShowErrorIcon />
-                    </c:if>
-                    <br>
-                    </c:if>
-                 
-                 </td>
-                 </tr>   
-                 <tr>
-                 <td style="border: medium none ;">  					
-				
-                    <div id="coiDisclosureHelper.leadUnitName.div" align="left">         
-                        <c:if test="${!empty KualiForm.coiDisclosureHelper.leadUnitNumber}">
-                            <c:if test="${!empty KualiForm.document.coiDisclosureList[0].coiDisclosureId}">
-                                ${KualiForm.document.coiDisclosureList[0].leadUnit.unitName}
-	                            <br/>
-	                            - ${KualiForm.document.coiDisclosureList[0].leadUnit.unitNumber}
-                            </c:if>
-                            
-            				<c:choose>
-								<c:when test="${empty KualiForm.coiDisclosureHelper.leadUnitName}">
-		                    		<span style='color: red;'>not found</span><br>
-		               			</c:when>
-		                  		<c:otherwise>
-		                  		   <kul:htmlControlAttribute property="coiDisclosureHelper.leadUnitName"
-	                                                         attributeEntry="${coiDisclosureAttributes.leadUnitName}" 
-	                                                         readOnly="true" />       
-	                         	</c:otherwise>  
-							</c:choose>                        
-                        </c:if>
-					</div>
-					
-                    
-                    </td>
-                    </tr>  
-                    </tbody>
-                    </table>
-                    
-				</td>
-                
-                
-				
-                
-				
-				
-            </tr>
-		</table>
-	</div>	
-</kul:tab>		

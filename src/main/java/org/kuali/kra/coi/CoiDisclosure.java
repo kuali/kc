@@ -16,9 +16,21 @@
 package org.kuali.kra.coi;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.coi.disclosure.CoiDisclosureService;
+import org.kuali.kra.coi.disclosure.DisclosurePerson;
+import org.kuali.kra.coi.disclosure.DisclosurePersonUnit;
+import org.kuali.kra.coi.personfinancialentity.FinancialEntityUnit;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.specialreview.ProtocolSpecialReviewExemption;
+import org.kuali.rice.kns.service.SequenceAccessorService;
+import org.kuali.rice.kns.util.DateUtils;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * 
@@ -26,8 +38,14 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  */
 public class CoiDisclosure extends KraPersistableBusinessObjectBase { 
     
-    private static final long serialVersionUID = 1L;
 
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 1056040995591476518L;
+    private static final String DISPOSITION_PENDING = "3";
+    private static final String DISCLOSURE_PENDING = "100";
+ 
     private Long coiDisclosureId; 
     private String coiDisclosureNumber; 
     private Integer sequenceNumber; 
@@ -42,6 +60,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase {
     private String reviewStatusCode; 
     private Integer discActiveStatus; 
     private CoiDisclosureDocument coiDisclosureDocument;
+    private List<DisclosurePerson> disclosurePersons;
     
 //    private CoiStatus coiStatus; 
 //    private CoiDispositionStatus coiDispositionStatus; 
@@ -52,6 +71,11 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase {
 //    private CoiUserRoles coiUserRoles; 
     
     public CoiDisclosure() { 
+//        disclosurePersons = new ArrayList<DisclosurePerson>();
+//        DisclosurePerson newDisclosurePerson = new DisclosurePerson();
+//        newDisclosurePerson.setCoiDisclosure(this);
+//        disclosurePersons.add(newDisclosurePerson);
+        getDisclosureReporter();
 
     } 
     
@@ -242,5 +266,65 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase {
     public void setCoiDisclosureDocument(CoiDisclosureDocument coiDisclosureDocument) {
         this.coiDisclosureDocument = coiDisclosureDocument;
     }
+
+    public List<DisclosurePerson> getDisclosurePersons() {
+        return disclosurePersons;
+    }
+
+    public void setDisclosurePersons(List<DisclosurePerson> disclosurePersons) {
+        this.disclosurePersons = disclosurePersons;
+    }
     
+    public DisclosurePerson getDisclosureReporter() {
+        // TODO : what if the list is empty, then need to initialize
+        if (CollectionUtils.isEmpty(disclosurePersons)) {
+            disclosurePersons = new ArrayList<DisclosurePerson>();
+            disclosurePersons.add(getCoiDisclosureService().getDisclosureReporter(GlobalVariables.getUserSession().getPrincipalId(), this.getCoiDisclosureId()));
+        }
+
+        return disclosurePersons.get(0);
+    }
+    
+    public void initSelectedUnit() {
+        int i = 0;
+        for (DisclosurePersonUnit disclosurePersonUnit : disclosurePersons.get(0).getDisclosurePersonUnits()) {
+            if (disclosurePersonUnit.isLeadUnitFlag()) {
+                disclosurePersons.get(0).setSelectedUnit(i);
+                break;
+            }
+            i++;
+        }
+
+    }
+    
+    private CoiDisclosureService getCoiDisclosureService() {
+        return KraServiceLocator.getService(CoiDisclosureService.class);    
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List managedLists = super.buildListOfDeletionAwareLists();
+        List<DisclosurePersonUnit> disclosurePersonUnits = new ArrayList<DisclosurePersonUnit>();
+        
+        for (DisclosurePerson disclosurePerson : getDisclosurePersons()) {
+            disclosurePersonUnits.addAll(disclosurePerson.getDisclosurePersonUnits());
+        }
+        managedLists.add(disclosurePersonUnits);
+        managedLists.add(getDisclosurePersons());
+        return managedLists;
+    }
+
+
+    public void initRequiredFields() {
+        this.setDisclosureDispositionCode(DISPOSITION_PENDING);
+        this.setDisclosureStatusCode(DISCLOSURE_PENDING);
+        this.setSequenceNumber(1);
+        this.setPersonId(this.getDisclosureReporter().getPersonId());
+        // TODO : not sure about disclosurenumber & expirationdate
+        Long nextNumber = KraServiceLocator.getService(SequenceAccessorService.class).getNextAvailableSequenceNumber("SEQ_DISCLOSURE_ID");
+        this.setCoiDisclosureNumber(nextNumber.toString());
+        this.setExpirationDate(new Date(DateUtils.addDays(new Date(System.currentTimeMillis()), 365).getTime()));
+
+    }
 }
