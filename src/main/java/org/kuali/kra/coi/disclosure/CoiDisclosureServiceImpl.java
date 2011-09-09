@@ -22,8 +22,6 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.coi.personfinancialentity.FinancialEntityReporter;
-import org.kuali.kra.coi.personfinancialentity.FinancialEntityUnit;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 

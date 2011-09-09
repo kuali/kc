@@ -25,6 +25,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -58,7 +59,7 @@ public class FinancialEntityAction extends KualiAction {
         ((FinancialEntityForm) form).getFinancialEntityHelper().setActiveFinancialEntities(getFinancialEntities(true));
         ((FinancialEntityForm) form).getFinancialEntityHelper().setInactiveFinancialEntities(getFinancialEntities(false));
         ((FinancialEntityForm) form).getFinancialEntityHelper().refreshFinancialEntityReporter();
-        ((FinancialEntityForm) form).getFinancialEntityHelper().setNewFinancialEntityUnit(new FinancialEntityUnit());
+        ((FinancialEntityForm) form).getFinancialEntityHelper().setNewFinancialEntityReporterUnit(new FinancialEntityReporterUnit());
         return mapping.findForward("management");
     }
 
@@ -91,6 +92,7 @@ public class FinancialEntityAction extends KualiAction {
             ((FinancialEntityForm) form).getFinancialEntityHelper().setEditEntityIndex(entityIndex);
 
         }
+
 //        ((FinancialEntityForm) form).getFinancialEntityHelper().setActiveFinancialEntities(getFinancialEntities(true));
 //        ((FinancialEntityForm) form).getFinancialEntityHelper().setInactiveFinancialEntities(getFinancialEntities(false));
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -125,6 +127,7 @@ public class FinancialEntityAction extends KualiAction {
         getBusinessObjectService().save(personFinIntDisclosure);
         ((FinancialEntityForm) form).getFinancialEntityHelper().setActiveFinancialEntities(getFinancialEntities(true));
         ((FinancialEntityForm) form).getFinancialEntityHelper().setInactiveFinancialEntities(getFinancialEntities(false));
+        recordSubmitActionSuccess("Financial Entity save ");
         
     }
     
@@ -193,16 +196,16 @@ public class FinancialEntityAction extends KualiAction {
         financialEntityHelper.getNewPersonFinancialEntity().setFinancialEntityReporterId(financialEntityHelper.getFinancialEntityReporter().getFinancialEntityReporterId());
     }
 
-    public ActionForward addFinancialEntityUnit(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    public ActionForward addFinancialEntityReporterUnit(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
         FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
-        if (checkRule(new AddFinancialEntityUnitEvent("financialEntityHelper", financialEntityHelper.getNewFinancialEntityUnit(),
-            financialEntityHelper.getFinancialEntityReporter().getFinancialEntityUnits()))) {
-            getFinancialEntityService().addFinancialEntityUnit(
+        if (checkRule(new AddFinancialEntityReporterUnitEvent("financialEntityHelper", financialEntityHelper.getNewFinancialEntityReporterUnit(),
+            financialEntityHelper.getFinancialEntityReporter().getFinancialEntityReporterUnits()))) {
+            getFinancialEntityService().addFinancialEntityReporterUnit(
                     financialEntityHelper.getFinancialEntityReporter(),
-                    financialEntityHelper.getNewFinancialEntityUnit());
-            financialEntityHelper.setNewFinancialEntityUnit(new FinancialEntityUnit());
+                    financialEntityHelper.getNewFinancialEntityReporterUnit());
+            financialEntityHelper.setNewFinancialEntityReporterUnit(new FinancialEntityReporterUnit());
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -211,27 +214,28 @@ public class FinancialEntityAction extends KualiAction {
         return event.getRule().processRules(event);
     }
     
-    public ActionForward deleteFinancialEntityUnit(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    public ActionForward deleteFinancialEntityReporterUnit(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
         int unitIndex = getSelectedLine(request);
         FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
-        getFinancialEntityService().deleteFinancialEntityUnit(financialEntityHelper.getFinancialEntityReporter(), financialEntityHelper.getDeletedUnits(), getSelectedLine(request));
+        getFinancialEntityService().deleteFinancialEntityReporterUnit(financialEntityHelper.getFinancialEntityReporter(), financialEntityHelper.getDeletedUnits(), getSelectedLine(request));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    public ActionForward saveFinancialEntityUnits(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    public ActionForward saveFinancialEntityReporterUnits(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
         FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
         getFinancialEntityService().resetLeadUnit(financialEntityHelper.getFinancialEntityReporter());
-        if (checkRule(new SaveFinancialEntityUnitEvent("financialEntityHelper",
-            financialEntityHelper.getFinancialEntityReporter().getFinancialEntityUnits()))) {
+        if (checkRule(new SaveFinancialEntityReporterUnitEvent("financialEntityHelper",
+            financialEntityHelper.getFinancialEntityReporter().getFinancialEntityReporterUnits()))) {
             if (!financialEntityHelper.getDeletedUnits().isEmpty()) {
                 getBusinessObjectService().delete(financialEntityHelper.getDeletedUnits());
-                financialEntityHelper.setDeletedUnits(new ArrayList<FinancialEntityUnit>());
+                financialEntityHelper.setDeletedUnits(new ArrayList<FinancialEntityReporterUnit>());
             }
-            getBusinessObjectService().save(financialEntityHelper.getFinancialEntityReporter().getFinancialEntityUnits());
+            getBusinessObjectService().save(financialEntityHelper.getFinancialEntityReporter().getFinancialEntityReporterUnits());
+            recordSubmitActionSuccess("Reporter Units save ");
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -277,4 +281,9 @@ public class FinancialEntityAction extends KualiAction {
     private List<PersonFinIntDisclosure> getFinancialEntities(boolean active) {
         return getFinancialEntityService().getFinancialEntities(GlobalVariables.getUserSession().getPrincipalId(), active);
     }
+    
+    private void recordSubmitActionSuccess(String submitAction) {
+        GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_FINANCIAL_ENTITY_ACTION_COMPLETE, submitAction);
+    }
+
 }

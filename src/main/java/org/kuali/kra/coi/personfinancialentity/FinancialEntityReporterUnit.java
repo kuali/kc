@@ -22,10 +22,10 @@ import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
 
-public class FinancialEntityUnit extends KraPersistableBusinessObjectBase {
+public class FinancialEntityReporterUnit extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -1254443328656115963L;
-    private Long financialEntityUnitsId; 
+    private Long financialEntityReporterUnitsId; 
     private Long financialEntityReporterId;
     private String unitNumber; 
     private boolean leadUnitFlag; 
@@ -38,7 +38,7 @@ public class FinancialEntityUnit extends KraPersistableBusinessObjectBase {
     private FinancialEntityReporter financialEntityReporter; 
        
 
-    public FinancialEntityUnit() { 
+    public FinancialEntityReporterUnit() { 
         setLeadUnitFlag(false);
     }
 
@@ -48,12 +48,12 @@ public class FinancialEntityUnit extends KraPersistableBusinessObjectBase {
         return null;
     }
 
-    public Long getFinancialEntityUnitsId() {
-        return financialEntityUnitsId;
+    public Long getFinancialEntityReporterUnitsId() {
+        return financialEntityReporterUnitsId;
     }
 
-    public void setFinancialEntityUnitsId(Long financialEntityUnitsId) {
-        this.financialEntityUnitsId = financialEntityUnitsId;
+    public void setFinancialEntityReporterUnitsId(Long financialEntityReporterUnitsId) {
+        this.financialEntityReporterUnitsId = financialEntityReporterUnitsId;
     }
 
     public String getUnitNumber() {

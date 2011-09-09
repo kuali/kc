@@ -66,19 +66,19 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
                 FinancialEntityReporter.class, fieldValues);
         if (reporters.isEmpty()) {
             FinancialEntityReporter reporter = new FinancialEntityReporter();
-            reporter.setFinancialEntityUnits(new ArrayList<FinancialEntityUnit>());
+            reporter.setFinancialEntityReporterUnits(new ArrayList<FinancialEntityReporterUnit>());
             reporter.setPersonId(personId);
             reporter.setReporterRoleId("FER");
-            FinancialEntityUnit leadUnit = createLeadUnit(personId);
+            FinancialEntityReporterUnit leadUnit = createLeadUnit(personId);
             if (leadUnit != null) {
-                reporter.getFinancialEntityUnits().add(leadUnit);
+                reporter.getFinancialEntityReporterUnits().add(leadUnit);
             }
             businessObjectService.save(reporter);
             return reporter;
         } else {
             int i = 0;
-            for (FinancialEntityUnit financialEntityUnit : reporters.get(0).getFinancialEntityUnits()) {
-                if (financialEntityUnit.isLeadUnitFlag()) {
+            for (FinancialEntityReporterUnit financialEntityReporterUnit : reporters.get(0).getFinancialEntityReporterUnits()) {
+                if (financialEntityReporterUnit.isLeadUnitFlag()) {
                     reporters.get(0).setSelectedUnit(i);
                     break;
                 }
@@ -88,49 +88,49 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
         return reporters.get(0);
     }
 
-    public void addFinancialEntityUnit(FinancialEntityReporter financialEntityReporter , FinancialEntityUnit newFinancialEntityUnit) {
+    public void addFinancialEntityReporterUnit(FinancialEntityReporter financialEntityReporter , FinancialEntityReporterUnit newFinancialEntityReporterUnit) {
         
-        List<FinancialEntityUnit> financialEntityUnits = financialEntityReporter.getFinancialEntityUnits();
-        if (newFinancialEntityUnit.isLeadUnitFlag()) {
-            resetLeadUnit(financialEntityUnits);
-            financialEntityReporter.setSelectedUnit(financialEntityUnits.size());
+        List<FinancialEntityReporterUnit> financialEntityReporterUnits = financialEntityReporter.getFinancialEntityReporterUnits();
+        if (newFinancialEntityReporterUnit.isLeadUnitFlag()) {
+            resetLeadUnit(financialEntityReporterUnits);
+            financialEntityReporter.setSelectedUnit(financialEntityReporterUnits.size());
         }
-        financialEntityUnits.add(newFinancialEntityUnit);
+        financialEntityReporterUnits.add(newFinancialEntityReporterUnit);
     }
 
-    public void deleteFinancialEntityUnit(FinancialEntityReporter financialEntityReporter,List<FinancialEntityUnit> deletedUnits, int unitIndex) {
+    public void deleteFinancialEntityReporterUnit(FinancialEntityReporter financialEntityReporter,List<FinancialEntityReporterUnit> deletedUnits, int unitIndex) {
         
-        List<FinancialEntityUnit> financialEntityUnits = financialEntityReporter.getFinancialEntityUnits();
-        FinancialEntityUnit deletedUnit = financialEntityUnits.get(unitIndex);
-        if (deletedUnit.getFinancialEntityUnitsId() != null) {
+        List<FinancialEntityReporterUnit> financialEntityReporterUnits = financialEntityReporter.getFinancialEntityReporterUnits();
+        FinancialEntityReporterUnit deletedUnit = financialEntityReporterUnits.get(unitIndex);
+        if (deletedUnit.getFinancialEntityReporterUnitsId() != null) {
             deletedUnits.add(deletedUnit);
         }
-        financialEntityUnits.remove(unitIndex);
-        if (deletedUnit.isLeadUnitFlag() && !financialEntityUnits.isEmpty()) {
-            financialEntityUnits.get(0).setLeadUnitFlag(true);
+        financialEntityReporterUnits.remove(unitIndex);
+        if (deletedUnit.isLeadUnitFlag() && !financialEntityReporterUnits.isEmpty()) {
+            financialEntityReporterUnits.get(0).setLeadUnitFlag(true);
             financialEntityReporter.setSelectedUnit(0);
         }
     }
 
     public void resetLeadUnit(FinancialEntityReporter financialEntityReporter) {
-        List<FinancialEntityUnit> financialEntityUnits = financialEntityReporter.getFinancialEntityUnits();
-        resetLeadUnit(financialEntityUnits);
-        financialEntityUnits.get(financialEntityReporter.getSelectedUnit()).setLeadUnitFlag(true);
+        List<FinancialEntityReporterUnit> financialEntityReporterUnits = financialEntityReporter.getFinancialEntityReporterUnits();
+        resetLeadUnit(financialEntityReporterUnits);
+        financialEntityReporterUnits.get(financialEntityReporter.getSelectedUnit()).setLeadUnitFlag(true);
     }
 
-    private void resetLeadUnit(List<FinancialEntityUnit> financialEntityUnits) {
-        for (FinancialEntityUnit  financialEntityUnit : financialEntityUnits) {
-            financialEntityUnit.setLeadUnitFlag(false);
+    private void resetLeadUnit(List<FinancialEntityReporterUnit> financialEntityReporterUnits) {
+        for (FinancialEntityReporterUnit  financialEntityReporterUnit : financialEntityReporterUnits) {
+            financialEntityReporterUnit.setLeadUnitFlag(false);
         }
         
     }
     
-    private FinancialEntityUnit createLeadUnit(String personId) {
+    private FinancialEntityReporterUnit createLeadUnit(String personId) {
 
-        FinancialEntityUnit leadUnit = null;
+        FinancialEntityReporterUnit leadUnit = null;
         KcPerson kcPerson = kcPersonService.getKcPersonByPersonId(personId);
         if (kcPerson != null && kcPerson.getUnit() != null) {
-            leadUnit = new FinancialEntityUnit();
+            leadUnit = new FinancialEntityReporterUnit();
             leadUnit.setLeadUnitFlag(true);
             leadUnit.setUnitNumber(kcPerson.getUnit().getUnitNumber());
             leadUnit.setUnitName(kcPerson.getUnit().getUnitName());

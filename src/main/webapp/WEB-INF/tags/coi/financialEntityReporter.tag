@@ -269,6 +269,6 @@
     </tr>
 </table>
     </div>
- <kra-coi:financialEntityUnits />
+ <kra-coi:financialEntityReporterUnits />
 </kul:tab>
 
