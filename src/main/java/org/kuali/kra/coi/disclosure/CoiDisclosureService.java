@@ -17,12 +17,15 @@ package org.kuali.kra.coi.disclosure;
 
 import java.util.List;
 
+import org.kuali.kra.coi.DisclosureReporter;
+import org.kuali.kra.coi.DisclosureReporterUnit;
+
 public interface CoiDisclosureService {
     // TODO : refactor financialentityservice and this service to share many very similar methods
     DisclosurePerson getDisclosureReporter(String personId, Long coiDisclosureId);
 
-    void addDisclosurePersonUnit(DisclosurePerson disclosurePerson , DisclosurePersonUnit newDisclosurePersonUnit);
-    void deleteDisclosurePersonUnit(DisclosurePerson disclosurePerson,List<DisclosurePersonUnit> deletedUnits, int unitIndex);
-
-    void resetLeadUnit(DisclosurePerson disclosurePerson);
+    void addDisclosureReporterUnit(DisclosureReporter disclosureReporter , DisclosureReporterUnit newDisclosureReporterUnit);
+    void deleteDisclosureReporterUnit(DisclosureReporter disclosureReporter,List<? extends DisclosureReporterUnit> deletedUnits, int unitIndex);
+    void resetLeadUnit(DisclosureReporter disclosureReporter);
+   
 }
