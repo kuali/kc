@@ -13,17 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.coi.personfinancialentity;
+package org.kuali.kra.coi.disclosure;
 
 import java.util.List;
 
+import org.kuali.kra.coi.DisclosureReporterUnit;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 
-public class SaveFinancialEntityReporterUnitEvent  extends KraDocumentEventBaseExtension {
+public class SaveDisclosureReporterUnitEvent  extends KraDocumentEventBaseExtension {
     
     private String propertyName;
-    private List<FinancialEntityReporterUnit> financialEntityReporterUnits;
+    private List<? extends DisclosureReporterUnit> disclosureReporterUnits;
     /**
      * Constructs a ProtocolAddReviewAttachmentEvent.
      * 
@@ -31,10 +32,10 @@ public class SaveFinancialEntityReporterUnitEvent  extends KraDocumentEventBaseE
      * @param propertyName The error path property prefix
      * @param reviewAttachment The added Reviewer Attachment
      */
-    public SaveFinancialEntityReporterUnitEvent(String propertyName, List<FinancialEntityReporterUnit> financialEntityReporterUnits) {
-        super("Add financial entity unit", "", null);
+    public SaveDisclosureReporterUnitEvent(String propertyName, List<? extends DisclosureReporterUnit> disclosureReporterUnits) {
+        super("Save reporter unit", "", null);
         this.propertyName = propertyName;
-        this.financialEntityReporterUnits = financialEntityReporterUnits;
+        this.disclosureReporterUnits = disclosureReporterUnits;
     }
         
     public String getPropertyName() {
@@ -45,16 +46,17 @@ public class SaveFinancialEntityReporterUnitEvent  extends KraDocumentEventBaseE
     @Override
     @SuppressWarnings("unchecked")
     public BusinessRuleInterface getRule() {
-        return new SaveFinancialEntityReporterUnitRule();
+        return new SaveDisclosureReporterUnitRule();
     }
 
-    public List<FinancialEntityReporterUnit> getFinancialEntityReporterUnits() {
-        return financialEntityReporterUnits;
+    public List<? extends DisclosureReporterUnit> getDisclosureReporterUnits() {
+        return disclosureReporterUnits;
     }
 
-    public void setFinancialEntityReporterUnits(List<FinancialEntityReporterUnit> financialEntityReporterUnits) {
-        this.financialEntityReporterUnits = financialEntityReporterUnits;
+    public void setDisclosureReporterUnits(List<? extends DisclosureReporterUnit> disclosureReporterUnits) {
+        this.disclosureReporterUnits = disclosureReporterUnits;
     }
+
 
 
 }

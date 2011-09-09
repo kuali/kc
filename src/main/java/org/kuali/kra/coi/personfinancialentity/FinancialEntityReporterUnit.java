@@ -90,6 +90,12 @@ public class FinancialEntityReporterUnit extends DisclosureReporterUnit {
 
     public void setFinancialEntityReporter(FinancialEntityReporter financialEntityReporter) {
         this.financialEntityReporter = financialEntityReporter;
+    }
+
+    @Override
+    public Long getReporterUnitId() {
+        // TODO Auto-generated method stub
+        return getFinancialEntityReporterUnitsId();
     } 
 
 }
