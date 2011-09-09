@@ -7,15 +7,15 @@
 <c:set var="readOnly" value="${false}" scope="request" />
 <script type='text/javascript' src='dwr/interface/KraPersonService.js'></script>
 
-<kul:tab tabTitle="Negotiation" defaultOpen="true" tabErrorKey="document.negotiation.*" 
+<kul:tab tabTitle="Negotiation" defaultOpen="true" tabErrorKey="document.negotiationList[0].*,document.negotiationList*" 
 					auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.title" useRiceAuditMode="true">
 					
 	<div class="tab-container" align="center">
     	<h3>
-    	    <c:choose><c:when test="${empty KualiForm.document.negotiation.negotiationId}">
+    	    <c:choose><c:when test="${empty KualiForm.document.negotiationList[0].negotiationId}">
     		<span class="subhead-left">New Negotiation</span>
     		</c:when><c:otherwise>
-    		<span class="subhead-left">Negotiation ${KualiForm.document.negotiation.negotiationId}</span>
+    		<span class="subhead-left">Negotiation ${KualiForm.document.negotiationList[0].negotiationId}</span>
     		</c:otherwise></c:choose>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.negotiations.bo.Negotiation" altText="help"/></span>
         </h3>
@@ -24,52 +24,52 @@
             <tr>
 		        <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${negotiationAttributes.negotiationStatusId}" /></div></th>
                 <td>
-                	<kul:htmlControlAttribute property="document.negotiation.negotiationStatusId" attributeEntry="${negotiationAttributes.negotiationStatusId}" readOnly="${readOnly}"/>
+                	<kul:htmlControlAttribute property="document.negotiationList[0].negotiationStatusId" attributeEntry="${negotiationAttributes.negotiationStatusId}" readOnly="${readOnly}"/>
                 </td>
                 <th><div align="right">Negotiation Dates:</div></th>
                 <td align="left" valign="middle">
-                	Start: <kul:htmlControlAttribute property="document.negotiation.negotiationStartDate" attributeEntry="${negotiationAttributes.negotiationStartDate}" readOnly="${readOnly}"/>
-                	End: <kul:htmlControlAttribute property="document.negotiation.negotiationEndDate" attributeEntry="${negotiationAttributes.negotiationEndDate}" readOnly="${readOnly}"/>
+                	Start: <kul:htmlControlAttribute property="document.negotiationList[0].negotiationStartDate" attributeEntry="${negotiationAttributes.negotiationStartDate}" readOnly="${readOnly}"/>
+                	End: <kul:htmlControlAttribute property="document.negotiationList[0].negotiationEndDate" attributeEntry="${negotiationAttributes.negotiationEndDate}" readOnly="${readOnly}"/>
                 </td>
             </tr>
             <tr>
 		        <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${negotiationAttributes.negotiatorPersonId}" /></div></th>
                 <td>
-                    <html:text property="document.negotiation.negotiator.userName" 
-						onblur="loadContactPersonName('document.negotiation.negotiator.userName',
+                    <html:text property="document.negotiationList[0].negotiator.userName" 
+						onblur="loadContactPersonName('document.negotiationList[0].negotiator.userName',
 									'negotiator.fullName',
 									'na',
 									'na',
 									'na',
-									'document.negotiation.negotiatorPersonId');"
+									'document.negotiationList[0].negotiatorPersonId');"
                     	readonly="${readOnly}"/>
                     <c:if test="${!readOnly}">
-                        ${kfunc:registerEditableProperty(KualiForm, "document.negotiation.negotiatorPersonId")}
-	                    <html:hidden property="document.negotiation.negotiatorPersonId" styleId="document.negotiation.negotiatorPersonId"/>
+                        ${kfunc:registerEditableProperty(KualiForm, "document.negotiationList[0].negotiatorPersonId")}
+	                    <html:hidden property="document.negotiationList[0].negotiatorPersonId" styleId="document.negotiationList[0].negotiatorPersonId"/>
 	                	<kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
-	                                fieldConversions="personId:document.negotiation.negotiatorPersonId" />
+	                                fieldConversions="personId:document.negotiationList[0].negotiatorPersonId" />
                     </c:if>
-                    <br/><span id="negotiator.fullName"><c:out value="${KualiForm.document.negotiation.negotiator.fullName}"/></span>
+                    <br/><span id="negotiator.fullName"><c:out value="${KualiForm.document.negotiationList[0].negotiator.fullName}"/></span>
                 </td>
                 <th><div align="right">Negotiation Age:</div></th>
                 <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.negotiation.negotiationAge" attributeEntry="${negotiationAttributes.negotiationAge}" readOnly="true"/>
+                	<kul:htmlControlAttribute property="document.negotiationList[0].negotiationAge" attributeEntry="${negotiationAttributes.negotiationAge}" readOnly="true"/>
                 </td>
             </tr>
             <tr>
 		        <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${negotiationAttributes.negotiationAgreementTypeId}" /></div></th>
                 <td>
-                	<kul:htmlControlAttribute property="document.negotiation.negotiationAgreementTypeId" attributeEntry="${negotiationAttributes.negotiationAgreementTypeId}" readOnly="${readOnly}"/>
+                	<kul:htmlControlAttribute property="document.negotiationList[0].negotiationAgreementTypeId" attributeEntry="${negotiationAttributes.negotiationAgreementTypeId}" readOnly="${readOnly}"/>
                 </td>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${negotiationAttributes.anticipatedAwardDate}" /></div></th>
                 <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.negotiation.anticipatedAwardDate" attributeEntry="${negotiationAttributes.anticipatedAwardDate}" readOnly="${readOnly}"/>
+                	<kul:htmlControlAttribute property="document.negotiationList[0].anticipatedAwardDate" attributeEntry="${negotiationAttributes.anticipatedAwardDate}" readOnly="${readOnly}"/>
                 </td>
             </tr>  
             <tr>
 		        <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${negotiationAttributes.documentFolder}" /></div></th>
                 <td colspan="3">
-                	<kul:htmlControlAttribute property="document.negotiation.documentFolder" attributeEntry="${negotiationAttributes.documentFolder}" readOnly="${readOnly}"/>
+                	<kul:htmlControlAttribute property="document.negotiationList[0].documentFolder" attributeEntry="${negotiationAttributes.documentFolder}" readOnly="${readOnly}"/>
                 </td>
             </tr>  
             
@@ -82,7 +82,7 @@
 		        </div></th>
                 <td>
                 
-                	<kul:htmlControlAttribute property="document.negotiation.negotiationAssociationTypeId" 
+                	<kul:htmlControlAttribute property="document.negotiationList[0].negotiationAssociationTypeId" 
                 		attributeEntry="${negotiationAttributes.negotiationAssociationTypeId}" readOnly="${readOnly}"
                 		onchange="getElementsByName('methodToCall.changeAssociation')[0].click();"/>                		
                 		<html:image property="methodToCall.changeAssociation"
@@ -114,23 +114,23 @@
                 	</div>
                 </th>
                 <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.negotiation.associatedDocumentId" attributeEntry="${negotiationAttributes.associatedDocumentId}" readOnly="true"/>
+                	<kul:htmlControlAttribute property="document.negotiationList[0].associatedDocumentId" attributeEntry="${negotiationAttributes.associatedDocumentId}" readOnly="true"/>
                 	<c:if test="${!readOnly}">
-                		${kfunc:registerEditableProperty(KualiForm, "document.negotiation.associatedDocumentId")}
+                		${kfunc:registerEditableProperty(KualiForm, "document.negotiationList[0].associatedDocumentId")}
 	                	<c:choose>
                 			<c:when test="${KualiForm.displayAward}">
                 				<kul:lookup boClassName="org.kuali.kra.award.home.Award" 
-                					fieldConversions="awardId:document.negotiation.associatedDocumentId" />
+                					fieldConversions="awardId:document.negotiationList[0].associatedDocumentId" />
 					      	</c:when>
 					      	<c:when test="${KualiForm.displaySubAward}">
 					      	</c:when>
 					      	<c:when test="${KualiForm.displayProposalLog}">
 					        	<kul:lookup boClassName="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" 
-					        		fieldConversions="proposalNumber:document.negotiation.associatedDocumentId" />  
+					        		fieldConversions="proposalNumber:document.negotiationList[0].associatedDocumentId" />  
 					      	</c:when>
 					      	<c:when test="${KualiForm.displayInstitutionalProposal}">
 					        	<kul:lookup boClassName="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" 
-					        		fieldConversions="proposalId:document.negotiation.associatedDocumentId" /> 
+					        		fieldConversions="proposalId:document.negotiationList[0].associatedDocumentId" /> 
 					      	</c:when>
 						</c:choose>
 					</c:if>
