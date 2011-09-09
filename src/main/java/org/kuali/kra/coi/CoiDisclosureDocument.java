@@ -79,4 +79,18 @@ public class CoiDisclosureDocument extends ResearchDocumentBase implements Copya
     }
 
  
+    /**
+     * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List managedLists = super.buildListOfDeletionAwareLists();
+        if (getCoiDisclosure() != null) {
+            managedLists.addAll(getCoiDisclosure().buildListOfDeletionAwareLists());
+        }
+        managedLists.add(coiDisclosureList);
+        return managedLists;
+    }
+
 }

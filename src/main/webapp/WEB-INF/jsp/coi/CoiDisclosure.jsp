@@ -17,6 +17,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 
+
 <script src="scripts/jquery/jquery.js"></script>
 <script type="text/javascript">
    var $j = jQuery.noConflict();
@@ -32,7 +33,10 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="disclosure">
   	
-Disclosure TO BE Implemented
+<%-- --%>
+<div align="right"><kul:help documentTypeName="CoiDisclosureDocument" pageName="CoiDisclosure" /></div>
+<kul:documentOverview editingMode="${KualiForm.editingMode}" />
+<kra-coi:disclosureReporter />
 
 <kul:panelFooter />
 	<kul:documentControls 

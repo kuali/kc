@@ -61,15 +61,15 @@ public abstract class CoiAction extends KraTransactionalDocumentActionBase {
         return mapping.findForward("disclosureActions");
     }
 
-    @Override
-    public final ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-        throws Exception {
-        
-        ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
-        // TODO : fill in detail here
-        //actionForward = super.save(mapping, form, request, response);
-        
-        return actionForward;
-    }
+//    @Override
+//    public final ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+//        throws Exception {
+//        
+//        ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
+//        // TODO : fill in detail here
+//        actionForward = super.save(mapping, form, request, response);
+//        
+//        return actionForward;
+//    }
 
 }
