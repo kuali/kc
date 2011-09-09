@@ -25,6 +25,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.bo.Organization;
+import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationAgreementType;
@@ -120,6 +122,28 @@ public class NegotiationNegotiationAction extends NegotiationAction {
                 this.getBusinessObjectService().findByPrimaryKey(NegotiationStatus.class, primaryKeys);
             negotiation.setNegotiationStatus(status);
         }
+        
+        if (negotiation.getUnAssociatedDetail() != null) {
+            if (StringUtils.isNotBlank(negotiation.getUnAssociatedDetail().getSponsorCode())) {
+                primaryKeys = new HashMap();
+                primaryKeys.put("SPONSOR_CODE", negotiation.getUnAssociatedDetail().getSponsorCode());
+                Sponsor sponsor = (Sponsor) this.getBusinessObjectService().findByPrimaryKey(Sponsor.class, primaryKeys);
+                negotiation.getUnAssociatedDetail().setSponsor(sponsor);
+            }
+            if (StringUtils.isNotBlank(negotiation.getUnAssociatedDetail().getPrimeSponsorCode())) {
+                primaryKeys = new HashMap();
+                primaryKeys.put("SPONSOR_CODE", negotiation.getUnAssociatedDetail().getPrimeSponsorCode());
+                Sponsor sponsor = (Sponsor) this.getBusinessObjectService().findByPrimaryKey(Sponsor.class, primaryKeys);
+                negotiation.getUnAssociatedDetail().setPrimeSponsor(sponsor);
+            }
+            if (StringUtils.isNotBlank(negotiation.getUnAssociatedDetail().getSubAwardOrganizationId())) {
+                primaryKeys = new HashMap();
+                primaryKeys.put("ORGANIZATION_ID", negotiation.getUnAssociatedDetail().getSubAwardOrganizationId());
+                Organization org = (Organization) this.getBusinessObjectService().findByPrimaryKey(Organization.class, primaryKeys);
+                negotiation.getUnAssociatedDetail().setSubAwardOrganization(org);
+            }
+        }
+        
     }
     
     public ActionForward changeAssociation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
