@@ -12,45 +12,45 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
---><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+--><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <bean id="ProtocolSubmissionStatusMaintenanceDocument" parent="ProtocolSubmissionStatusMaintenanceDocument-parentBean"/>
-    <bean id="ProtocolSubmissionStatusMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus"/>
-        <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
-        <property name="maintainableSections">
-            <list>
-                <ref bean="ProtocolSubmissionStatusMaintenanceDocument-EditProtocolSubmissionStatus"/>
-            </list>
-        </property>
-        <property name="lockingKeys">
-            <list>
-                <value>ProtocolSubmissionStatusCode</value>
-            </list>
-        </property>
-        
-        
-        
-        
-        
-        <property name="documentTypeName" value="Submission Status Maintenance Document"/>
-        <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
-        
-        
-    </bean>
+	<bean id="ProtocolSubmissionStatusMaintenanceDocument" parent="ProtocolSubmissionStatusMaintenanceDocument-parentBean"/>
+	<bean id="ProtocolSubmissionStatusMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus"/>
+		<property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
+		<property name="maintainableSections">
+			<list>
+				<ref bean="ProtocolSubmissionStatusMaintenanceDocument-EditProtocolSubmissionStatus"/>
+			</list>
+		</property>
+		<property name="lockingKeys">
+			<list>
+				<value>protocolSubmissionStatusCode</value>
+			</list>
+		</property>
+		
+		
+		
+		
+		
+		<property name="documentTypeName" value="ProtocolSubmissionStatusMaintenanceDocument"/>
+		<property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+		
+		
+	</bean>
 
-    <!-- Maintenance Section Definitions -->
-    
-    <bean id="ProtocolSubmissionStatusMaintenanceDocument-EditProtocolSubmissionStatus" parent="ProtocolSubmissionStatusMaintenanceDocument-EditProtocolSubmissionStatus-parentBean"/>
-    <bean id="ProtocolSubmissionStatusMaintenanceDocument-EditProtocolSubmissionStatus-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-        <property name="id" value="Edit Submission Status"/>
-        <property name="title" value="Edit Submission Status"/>
-        <property name="maintainableItems">
-            <list>
-                <bean parent="MaintainableFieldDefinition" p:name="ProtocolSubmissionStatusCode" p:required="true"/>
-                <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
-                <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
-            </list>
-        </property>
-    </bean>
+	<!-- Maintenance Section Definitions -->
+	
+	<bean id="ProtocolSubmissionStatusMaintenanceDocument-EditProtocolSubmissionStatus" parent="ProtocolSubmissionStatusMaintenanceDocument-EditProtocolSubmissionStatus-parentBean"/>
+	<bean id="ProtocolSubmissionStatusMaintenanceDocument-EditProtocolSubmissionStatus-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="Edit Protocol Submission Status"/>
+		<property name="title" value="Edit Protocol Submission Status"/>
+		<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableFieldDefinition" p:name="protocolSubmissionStatusCode" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
+			</list>
+		</property>
+	</bean>
 </beans>
