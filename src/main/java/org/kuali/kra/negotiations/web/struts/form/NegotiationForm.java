@@ -15,7 +15,9 @@
  */
 package org.kuali.kra.negotiations.web.struts.form;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,7 +46,7 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
      */
     private static final long serialVersionUID = -3641922366447898075L;
     
-    private boolean deleteNegotiationUnassociatedDetail;
+    private List<NegotiationUnassociatedDetail> negotiationUnassociatedDetailsToDelete;
     
     /**
      * 
@@ -52,7 +54,7 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
      */
     public NegotiationForm() {
         super();
-        this.deleteNegotiationUnassociatedDetail = false;
+        negotiationUnassociatedDetailsToDelete = new ArrayList<NegotiationUnassociatedDetail>();
     }
     
     public NegotiationDocument getNegotiationDocument() {
@@ -63,13 +65,9 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
     public NegotiationDocument getDocument() {
         return (NegotiationDocument) super.getDocument();
     }
-    
-    public boolean isDeleteNegotiationUnassociatedDetail() {
-        return deleteNegotiationUnassociatedDetail;
-    }
 
-    public void setDeleteNegotiationUnassociatedDetail(boolean deleteNegotiationUnassociatedDetail) {
-        this.deleteNegotiationUnassociatedDetail = deleteNegotiationUnassociatedDetail;
+    public List<NegotiationUnassociatedDetail> getNegotiationUnassociatedDetailsToDelete() {
+        return negotiationUnassociatedDetailsToDelete;
     }
 
     @Override
