@@ -271,20 +271,19 @@ public class NegotiationUnassociatedDetail extends KraPersistableBusinessObjectB
             return getKcPersonService().getKcPersonByPersonId(this.getPiPersonId());
         }
     }
-/*    
+    
     public Rolodex getPINonEmployee() {
         if (this.getPiRolodexId() == null) {
             return null;
-        }
-        else {
-            return getRolodexService().getRolodex(Integer.getInteger(this.getPiRolodexId()));
+        } else {
+            return getRolodexService().getRolodex(Integer.parseInt(this.getPiRolodexId()));
         }
     }
     
     protected RolodexService getRolodexService() {
             return KraServiceLocator.getService(RolodexService.class);        
     }
-  */  
+    
     public KcPerson getContactAdmin() {
         if (this.getContactAdminPersonId() == null) {
             return null;
