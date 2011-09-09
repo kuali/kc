@@ -194,21 +194,15 @@
 	                <td>
 	                	<kul:htmlControlAttribute property="document.negotiation.unAssociatedDetail.piRolodexId" 
                 			attributeEntry="${negotiationUnassociatedDetailAttributes.piRolodexId}" readOnly="${readOnly}"/>
+                		
+                		
                 		<c:if test="${!readOnly}">
 	                		${kfunc:registerEditableProperty(KualiForm, "document.negotiation.unAssociatedDetail.piRolodexId")}
 	                		<kul:lookup boClassName="org.kuali.kra.bo.Rolodex" 
 						        		fieldConversions="rolodexId:document.negotiation.unAssociatedDetail.piRolodexId" />
 					    </c:if> 
-	                	<%--
-	                	<html:text property="document.negotiation.unAssociatedDetail.PINonEmployee.userName" readonly="${readOnly}"/>
-	                    <c:if test="${!readOnly}">
-	                        ${kfunc:registerEditableProperty(KualiForm, "document.negotiation.unAssociatedDetail.piRolodexId")}
-		                    <html:hidden property="document.negotiation.unAssociatedDetail.piRolodexId" styleId="document.negotiation.unAssociatedDetail.piRolodexId"/>
-		                	<kul:lookup boClassName="org.kuali.kra.bo.Rolodex" 
-		                                fieldConversions="rolodexId:document.negotiation.unAssociatedDetail.piRolodexId" />
-	                    </c:if>
-	                    <br/><span id="PINonEmployee.fullName"><c:out value="${KualiForm.document.negotiation.unAssociatedDetail.PINonEmployee.fullName}"/></span>
-	                     --%>
+					    <Br/>
+					    <c:out value="${KualiForm.document.negotiation.unAssociatedDetail.PINonEmployee.organization}"/>
 	                </td>
             	</tr>
             	
@@ -253,6 +247,8 @@
 	                		<kul:lookup boClassName="org.kuali.kra.bo.Sponsor" 
 						        		fieldConversions="sponsorCode:document.negotiation.unAssociatedDetail.sponsorCode" />
 					    </c:if>
+					    <Br/>
+					    <c:out value="${KualiForm.document.negotiation.unAssociatedDetail.sponsor.sponsorName}"/>
                 	</td>
                 	<th>
                 		<div align="right">
@@ -267,6 +263,8 @@
 	                		<kul:lookup boClassName="org.kuali.kra.bo.Sponsor" 
 						        		fieldConversions="sponsorCode:document.negotiation.unAssociatedDetail.primeSponsorCode" />
 					    </c:if> 
+					    <Br/>
+					    <c:out value="${KualiForm.document.negotiation.unAssociatedDetail.primeSponsor.sponsorName}"/>
                 	</td>
             	</tr>
             	
@@ -293,6 +291,8 @@
 	                		<kul:lookup boClassName="org.kuali.kra.bo.Organization" 
 						        		fieldConversions="organizationId:document.negotiation.unAssociatedDetail.subAwardOrganizationId" />
 					    </c:if> 
+					    <Br/>
+					    <c:out value="${KualiForm.document.negotiation.unAssociatedDetail.subAwardOrganization.organizationName}"/>
                 	</td>
             	</tr>
             	
