@@ -18,15 +18,14 @@ package org.kuali.kra.coi.disclosure;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import javax.persistence.Transient;
-
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.CoiDisclosure;
+import org.kuali.kra.coi.DisclosureReporter;
+import org.kuali.kra.coi.DisclosureReporterUnit;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 
-public class DisclosurePerson extends KraPersistableBusinessObjectBase {
+public class DisclosurePerson extends DisclosureReporter {
     /**
      * TODO : not sure about this table. 1. should we combine this with coi reporter/correspondent, 2. personRoleId do we need it
      **/
@@ -122,6 +121,12 @@ public class DisclosurePerson extends KraPersistableBusinessObjectBase {
         }
 
         return this.kcPersonService;
+    }
+
+    @Override
+    public List<? extends DisclosureReporterUnit> getDisclosureReporterUnits() {
+        // TODO Auto-generated method stub
+        return getDisclosurePersonUnits();
     }
 
 
