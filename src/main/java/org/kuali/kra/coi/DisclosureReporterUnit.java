@@ -15,6 +15,54 @@
  */
 package org.kuali.kra.coi;
 
-public interface DisclosureReporterUnit {
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.Unit;
+
+public abstract class DisclosureReporterUnit extends KraPersistableBusinessObjectBase {
+    private String unitName;
+    private Unit unit; 
+    
+    public abstract String getUnitNumber();
+    public abstract void setUnitNumber(String unitNumber);
+    public abstract boolean isLeadUnitFlag();
+
+//    public abstract void setLeadUnitFlag(boolean leadUnitFlag);
+
+//    public abstract String getPersonId();
+
+ 
+    public String getUnitName() {
+        if (StringUtils.isNotBlank(getUnitNumber())) {
+            this.refreshReferenceObject("unit");
+        } else {
+            unit = null;
+        }
+        if (unit != null) {
+            unitName = unit.getUnitName();
+        }
+        else {
+            unitName = "not found";
+        }
+        return unitName;
+    }
+
+    public void setUnitName(String unitName) {
+        this.unitName = unitName;
+    }
+
+    public Unit getUnit() {
+        //if (StringUtils.isNotBlank(getUnitNumber()) && unit == null) {
+        if (StringUtils.isNotBlank(getUnitNumber())) {
+            this.refreshReferenceObject("unit");
+        } else {
+            unit = null;
+        }
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
 
 }

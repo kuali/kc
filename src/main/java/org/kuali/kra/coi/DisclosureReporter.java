@@ -15,6 +15,41 @@
  */
 package org.kuali.kra.coi;
 
-public interface DisclosureReporter {
+import java.util.List;
+
+import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.KcPersonService;
+
+public  abstract class DisclosureReporter extends KraPersistableBusinessObjectBase {
+
+    private transient KcPersonService kcPersonService;
+    private transient KcPerson reporter;
+
+    
+    public abstract String getPersonId();
+ //   public abstract void setPersonId(String personId);
+    public abstract List<? extends DisclosureReporterUnit> getDisclosureReporterUnits();
+
+    public KcPerson getReporter() {
+        if (reporter == null && getPersonId() != null) {
+            reporter = getKcPersonService().getKcPersonByPersonId(getPersonId());
+        }
+        return reporter;
+    }
+
+    /**
+     * Gets the KC Person Service.
+     * 
+     * @return KC Person Service.
+     */
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+
+        return this.kcPersonService;
+    }
 
 }

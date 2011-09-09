@@ -18,19 +18,16 @@ package org.kuali.kra.coi.disclosure;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.coi.DisclosureReporterUnit;
 
-public class DisclosurePersonUnit  extends KraPersistableBusinessObjectBase {
+public class DisclosurePersonUnit  extends DisclosureReporterUnit {
 
     private Long disclosurePersonUnitsId; 
     private Long disclosurePersonId;
     private String unitNumber; 
     private boolean leadUnitFlag; 
     private String personId; 
-    private String unitName;
-
-    private Unit unit; 
     
 //    @SkipVersioning
     private DisclosurePerson disclosurePerson;
@@ -79,29 +76,6 @@ public String getPersonId() {
 
 public void setPersonId(String personId) {
     this.personId = personId;
-}
-
-public String getUnitName() {
-    if (StringUtils.isNotBlank(unitNumber) && StringUtils.isBlank(unitName)) {
-        this.refreshReferenceObject("unit");
-        unitName = unit.getUnitName();
-    }
-    return unitName;
-}
-
-public void setUnitName(String unitName) {
-    this.unitName = unitName;
-}
-
-public Unit getUnit() {
-    if (StringUtils.isNotBlank(unitNumber) && unit == null) {
-        this.refreshReferenceObject("unit");
-    }
-    return unit;
-}
-
-public void setUnit(Unit unit) {
-    this.unit = unit;
 }
 
 public DisclosurePerson getDisclosurePerson() {

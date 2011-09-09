@@ -18,11 +18,10 @@ package org.kuali.kra.coi.personfinancialentity;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.SkipVersioning;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.coi.DisclosureReporterUnit;
 
-public class FinancialEntityReporterUnit extends KraPersistableBusinessObjectBase {
+public class FinancialEntityReporterUnit extends DisclosureReporterUnit {
 
     private static final long serialVersionUID = -1254443328656115963L;
     private Long financialEntityReporterUnitsId; 
@@ -30,9 +29,6 @@ public class FinancialEntityReporterUnit extends KraPersistableBusinessObjectBas
     private String unitNumber; 
     private boolean leadUnitFlag; 
     private String personId; 
-    private String unitName;
-
-    private Unit unit; 
     
 //    @SkipVersioning
     private FinancialEntityReporter financialEntityReporter; 
@@ -78,29 +74,6 @@ public class FinancialEntityReporterUnit extends KraPersistableBusinessObjectBas
 
     public void setPersonId(String personId) {
         this.personId = personId;
-    }
-
-    public Unit getUnit() {
-        if (StringUtils.isNotBlank(unitNumber) && unit == null) {
-            this.refreshReferenceObject("unit");
-        }
-        return unit;
-    }
-
-    public void setUnit(Unit unit) {
-        this.unit = unit;
-    }
-
-    public String getUnitName() {
-        if (StringUtils.isNotBlank(unitNumber) && StringUtils.isBlank(unitName)) {
-            this.refreshReferenceObject("unit");
-            unitName = unit.getUnitName();
-        }
-        return unitName;
-    }
-
-    public void setUnitName(String unitName) {
-        this.unitName = unitName;
     }
 
     public Long getFinancialEntityReporterId() {
