@@ -14,24 +14,26 @@
  limitations under the License.
 --><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="ScheduleStatusMaintenanceDocument" parent="ScheduleStatusMaintenanceDocument-parentBean"/>
-	<bean id="ScheduleStatusMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.committee.bo.ScheduleStatus"/>
+	<bean id="ProtocolSubmissionTypeMaintenanceDocument" parent="ProtocolSubmissionTypeMaintenanceDocument-parentBean"/>
+	<bean id="ProtocolSubmissionTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.irb.actions.submit.ProtocolSubmissionType"/>
 		<property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
 		<property name="maintainableSections">
 			<list>
-				<ref bean="ScheduleStatusMaintenanceDocument-EditScheduleStatus"/>
+				<ref bean="ProtocolSubmissionTypeMaintenanceDocument-EditProtocolSubmissionType"/>
 			</list>
 		</property>
 		<property name="lockingKeys">
 			<list>
-				<value>scheduleStatusCode</value>
+				<value>submissionTypeCode</value>
 			</list>
 		</property>
 		
 		
 		
-		<property name="documentTypeName" value="ScheduleStatusMaintenanceDocument"/>
+		
+		
+		<property name="documentTypeName" value="ProtocolSubmissionTypeMaintenanceDocument"/>
 		<property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
 		
 		
@@ -39,13 +41,13 @@
 
 	<!-- Maintenance Section Definitions -->
 	
-	<bean id="ScheduleStatusMaintenanceDocument-EditScheduleStatus" parent="ScheduleStatusMaintenanceDocument-EditScheduleStatus-parentBean"/>
-	<bean id="ScheduleStatusMaintenanceDocument-EditScheduleStatus-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="Edit Schedule Status"/>
-		<property name="title" value="Edit Schedule Status"/>
+	<bean id="ProtocolSubmissionTypeMaintenanceDocument-EditProtocolSubmissionType" parent="ProtocolSubmissionTypeMaintenanceDocument-EditProtocolSubmissionType-parentBean"/>
+	<bean id="ProtocolSubmissionTypeMaintenanceDocument-EditProtocolSubmissionType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="Edit Protocol Submission Type"/>
+		<property name="title" value="Edit Protocol Submission Type"/>
 		<property name="maintainableItems">
 			<list>
-				<bean parent="MaintainableFieldDefinition" p:name="scheduleStatusCode" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="submissionTypeCode" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
 			</list>
