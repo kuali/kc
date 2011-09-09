@@ -78,29 +78,21 @@ public class NegotiationNegotiationAction extends NegotiationAction {
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        System.err.println("step 1");
         NegotiationForm negotiationForm = (NegotiationForm) form;
         loadCodeObjects(negotiationForm.getNegotiationDocument().getNegotiation());
         ActionForward actionForward = super.save(mapping, form, request, response);
-        System.err.println("step 2");
         if (negotiationForm.getNegotiationDocument().getNegotiation().getUnAssociatedDetail() != null) {
-            System.err.println("step 3");
             Negotiation negotiation = negotiationForm.getNegotiationDocument().getNegotiation();
             if (negotiation.getUnAssociatedDetail().getNegotiationId() == null) {
                 negotiation.getUnAssociatedDetail().setNegotiationId(negotiation.getNegotiationId());
-                System.err.println("step 4a");
             }
-            System.err.println("step 4b");
             NegotiationUnassociatedDetail detail = negotiation.getUnAssociatedDetail();
             this.getBusinessObjectService().save(detail);
-            System.err.println("step 5");
             negotiation.setAssociatedDocumentId(negotiation.getUnAssociatedDetail().getNegotiationUnassociatedDetailId().toString());
             this.getBusinessObjectService().save(negotiation);
-            System.err.println("step 6");
+            detail.refresh();
         }
-
         negotiationForm.getNegotiationDocument().getNegotiation().refresh();
-        System.err.println("step 7");
         return actionForward;
     }
     
