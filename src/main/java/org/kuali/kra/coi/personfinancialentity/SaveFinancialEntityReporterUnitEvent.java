@@ -20,10 +20,10 @@ import java.util.List;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 
-public class SaveFinancialEntityUnitEvent  extends KraDocumentEventBaseExtension {
+public class SaveFinancialEntityReporterUnitEvent  extends KraDocumentEventBaseExtension {
     
     private String propertyName;
-    private List<FinancialEntityUnit> financialEntityUnits;
+    private List<FinancialEntityReporterUnit> financialEntityReporterUnits;
     /**
      * Constructs a ProtocolAddReviewAttachmentEvent.
      * 
@@ -31,10 +31,10 @@ public class SaveFinancialEntityUnitEvent  extends KraDocumentEventBaseExtension
      * @param propertyName The error path property prefix
      * @param reviewAttachment The added Reviewer Attachment
      */
-    public SaveFinancialEntityUnitEvent(String propertyName, List<FinancialEntityUnit> financialEntityUnits) {
+    public SaveFinancialEntityReporterUnitEvent(String propertyName, List<FinancialEntityReporterUnit> financialEntityReporterUnits) {
         super("Add financial entity unit", "", null);
         this.propertyName = propertyName;
-        this.financialEntityUnits = financialEntityUnits;
+        this.financialEntityReporterUnits = financialEntityReporterUnits;
     }
         
     public String getPropertyName() {
@@ -45,15 +45,15 @@ public class SaveFinancialEntityUnitEvent  extends KraDocumentEventBaseExtension
     @Override
     @SuppressWarnings("unchecked")
     public BusinessRuleInterface getRule() {
-        return new SaveFinancialEntityUnitRule();
+        return new SaveFinancialEntityReporterUnitRule();
     }
 
-    public List<FinancialEntityUnit> getFinancialEntityUnits() {
-        return financialEntityUnits;
+    public List<FinancialEntityReporterUnit> getFinancialEntityReporterUnits() {
+        return financialEntityReporterUnits;
     }
 
-    public void setFinancialEntityUnits(List<FinancialEntityUnit> financialEntityUnits) {
-        this.financialEntityUnits = financialEntityUnits;
+    public void setFinancialEntityReporterUnits(List<FinancialEntityReporterUnit> financialEntityReporterUnits) {
+        this.financialEntityReporterUnits = financialEntityReporterUnits;
     }
 
 

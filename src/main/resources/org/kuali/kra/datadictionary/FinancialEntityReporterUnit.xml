@@ -21,34 +21,34 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <bean id="FinancialEntityUnit" parent="FinancialEntityUnit-parentBean" />
-    <bean id="FinancialEntityUnit-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.coi.personfinancialentity.FinancialEntityUnit" />
+    <bean id="FinancialEntityReporterUnit" parent="FinancialEntityReporterUnit-parentBean" />
+    <bean id="FinancialEntityReporterUnit-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.coi.personfinancialentity.FinancialEntityReporterUnit" />
         <property name="objectLabel" value="Financial Entity Unit" />
         <property name="inquiryDefinition" >
-            <ref bean="FinancialEntityUnit-inquiryDefinition" />
+            <ref bean="FinancialEntityReporterUnit-inquiryDefinition" />
         </property>
         <property name="lookupDefinition" >
-            <ref bean="FinancialEntityUnit-lookupDefinition" />
+            <ref bean="FinancialEntityReporterUnit-lookupDefinition" />
         </property>
-        <property name="titleAttribute" value="financialEntityUnitsId" />
+        <property name="titleAttribute" value="financialEntityReporterUnitsId" />
         <property name="attributes" >
             <list>
-                <ref bean="FinancialEntityUnit-financialEntityUnitsId" />
-                <ref bean="FinancialEntityUnit-financialEntityReporterId" />
-                <ref bean="FinancialEntityUnit-unitNumber" />
-                <ref bean="FinancialEntityUnit-leadUnitFlag" />
-                <ref bean="FinancialEntityUnit-personId" />
-                <ref bean="FinancialEntityUnit-versionNumber" />
+                <ref bean="FinancialEntityReporterUnit-financialEntityReporterUnitsId" />
+                <ref bean="FinancialEntityReporterUnit-financialEntityReporterId" />
+                <ref bean="FinancialEntityReporterUnit-unitNumber" />
+                <ref bean="FinancialEntityReporterUnit-leadUnitFlag" />
+                <ref bean="FinancialEntityReporterUnit-personId" />
+                <ref bean="FinancialEntityReporterUnit-versionNumber" />
             </list>
         </property>
     </bean>
 
     <!-- Attribute Definitions -->
     
-    <bean id="FinancialEntityUnit-financialEntityUnitsId" parent="FinancialEntityUnit-financialEntityUnitsId-parentBean" />
-    <bean id="FinancialEntityUnit-financialEntityUnitsId-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="financialEntityUnitsId" />
+    <bean id="FinancialEntityReporterUnit-financialEntityReporterUnitsId" parent="FinancialEntityReporterUnit-financialEntityReporterUnitsId-parentBean" />
+    <bean id="FinancialEntityReporterUnit-financialEntityReporterUnitsId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="financialEntityReporterUnitsId" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Financial Entity Units Id" />
         <property name="shortLabel" value="Financial Entity Units Id" />
@@ -64,8 +64,8 @@
         <property name="description" value="Financial Entity Units Id" />
     </bean>
 
-    <bean id="FinancialEntityUnit-financialEntityReporterId" parent="FinancialEntityUnit-financialEntityReporterId-parentBean" />
-    <bean id="FinancialEntityUnit-financialEntityReporterId-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="FinancialEntityReporterUnit-financialEntityReporterId" parent="FinancialEntityReporterUnit-financialEntityReporterId-parentBean" />
+    <bean id="FinancialEntityReporterUnit-financialEntityReporterId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="financialEntityReporterId" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Financial entity disclosure Id" />
@@ -82,8 +82,8 @@
         <property name="description" value="Financial entity disclosure Id" />
     </bean>
 
-    <bean id="FinancialEntityUnit-unitNumber" parent="FinancialEntityUnit-unitNumber-parentBean" />
-    <bean id="FinancialEntityUnit-unitNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="FinancialEntityReporterUnit-unitNumber" parent="FinancialEntityReporterUnit-unitNumber-parentBean" />
+    <bean id="FinancialEntityReporterUnit-unitNumber-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="unitNumber" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Unit Number" />
@@ -100,8 +100,8 @@
         <property name="description" value="Unit Number" />
     </bean>
 
-    <bean id="FinancialEntityUnit-leadUnitFlag" parent="FinancialEntityUnit-leadUnitFlag-parentBean" />
-    <bean id="FinancialEntityUnit-leadUnitFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+    <bean id="FinancialEntityReporterUnit-leadUnitFlag" parent="FinancialEntityReporterUnit-leadUnitFlag-parentBean" />
+    <bean id="FinancialEntityReporterUnit-leadUnitFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
         <property name="name" value="leadUnitFlag" />
         <property name="label" value="Lead" />
         <property name="shortLabel" value="Lead" />
@@ -109,8 +109,8 @@
         <property name="description" value="Lead Unit Flag" />
     </bean>
 
-    <bean id="FinancialEntityUnit-personId" parent="FinancialEntityUnit-personId-parentBean" />
-    <bean id="FinancialEntityUnit-personId-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="FinancialEntityReporterUnit-personId" parent="FinancialEntityReporterUnit-personId-parentBean" />
+    <bean id="FinancialEntityReporterUnit-personId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="personId" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Person Id" />
@@ -127,13 +127,13 @@
         <property name="description" value="Person Id" />
     </bean>
 
-    <bean id="FinancialEntityUnit-versionNumber" parent="FinancialEntityUnit-versionNumber-parentBean" />
-    <bean id="FinancialEntityUnit-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    <bean id="FinancialEntityReporterUnit-versionNumber" parent="FinancialEntityReporterUnit-versionNumber-parentBean" />
+    <bean id="FinancialEntityReporterUnit-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
     </bean>
 
     <!-- Business Object Inquiry Definition -->
-    <bean id="FinancialEntityUnit-inquiryDefinition" parent="FinancialEntityUnit-inquiryDefinition-parentBean" />
-    <bean id="FinancialEntityUnit-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <bean id="FinancialEntityReporterUnit-inquiryDefinition" parent="FinancialEntityReporterUnit-inquiryDefinition-parentBean" />
+    <bean id="FinancialEntityReporterUnit-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Financial Entity Units Id" />
         <property name="inquirySections" >
             <list>
@@ -143,7 +143,7 @@
                     <property name="inquiryFields" >
                         <list>
                             <bean parent="FieldDefinition"
-                                p:attributeName="financialEntityUnitsId" 
+                                p:attributeName="financialEntityReporterUnitsId" 
                                 p:forceInquiry="true" />
                              <bean parent="FieldDefinition"
                                 p:attributeName="unitNumber" />
@@ -159,8 +159,8 @@
     </bean>
 
     <!-- Business Object Lookup Definition -->
-    <bean id="FinancialEntityUnit-lookupDefinition" parent="FinancialEntityUnit-lookupDefinition-parentBean" />
-    <bean id="FinancialEntityUnit-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <bean id="FinancialEntityReporterUnit-lookupDefinition" parent="FinancialEntityReporterUnit-lookupDefinition-parentBean" />
+    <bean id="FinancialEntityReporterUnit-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Financial Entity Units Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 
@@ -171,7 +171,7 @@
         <property name="lookupFields" >
             <list>
                 <bean parent="FieldDefinition"
-                    p:attributeName="financialEntityUnitsId" 
+                    p:attributeName="financialEntityReporterUnitsId" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
                     p:attributeName="unitNumber" />
@@ -184,7 +184,7 @@
         <property name="resultFields" >
             <list>
                 <bean parent="FieldDefinition"
-                    p:attributeName="financialEntityUnitsId" 
+                    p:attributeName="financialEntityReporterUnitsId" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
                     p:attributeName="unitNumber" />

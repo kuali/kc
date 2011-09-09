@@ -31,11 +31,11 @@ public class FinancialEntityHelper implements Serializable {
     private static final long serialVersionUID = -5837128667442140384L;
     private FinancialEntityForm form;
     private PersonFinIntDisclosure newPersonFinancialEntity;
-    private FinancialEntityUnit newFinancialEntityUnit;
+    private FinancialEntityReporterUnit newFinancialEntityReporterUnit;
     private FinancialEntityReporter financialEntityReporter;
     private List<PersonFinIntDisclosure> activeFinancialEntities;
     private List<PersonFinIntDisclosure> inactiveFinancialEntities;
-    private List<FinancialEntityUnit> deletedUnits;
+    private List<FinancialEntityReporterUnit> deletedUnits;
     
     private int editEntityIndex;
     
@@ -45,10 +45,10 @@ public class FinancialEntityHelper implements Serializable {
         financialEntityReporter = new FinancialEntityReporter();
         newPersonFinancialEntity.setPersonId(GlobalVariables.getUserSession().getPrincipalId());
         newPersonFinancialEntity.setFinancialEntityReporterId(financialEntityReporter.getFinancialEntityReporterId());
-        setNewFinancialEntityUnit(new FinancialEntityUnit());
+        setNewFinancialEntityReporterUnit(new FinancialEntityReporterUnit());
         activeFinancialEntities = new ArrayList<PersonFinIntDisclosure>();
         inactiveFinancialEntities = new ArrayList<PersonFinIntDisclosure>();
-        deletedUnits = new ArrayList<FinancialEntityUnit>(); 
+        deletedUnits = new ArrayList<FinancialEntityReporterUnit>(); 
         editEntityIndex = -1;
         this.form = form;
     }
@@ -103,16 +103,16 @@ public class FinancialEntityHelper implements Serializable {
     }
 
 
-    public FinancialEntityUnit getNewFinancialEntityUnit() {
-        return newFinancialEntityUnit;
+    public FinancialEntityReporterUnit getNewFinancialEntityReporterUnit() {
+        return newFinancialEntityReporterUnit;
     }
 
 
-    public void setNewFinancialEntityUnit(FinancialEntityUnit newFinancialEntityUnit) {
-        this.newFinancialEntityUnit = newFinancialEntityUnit;
-        this.newFinancialEntityUnit.setFinancialEntityReporterId(financialEntityReporter.getFinancialEntityReporterId());
-        this.newFinancialEntityUnit.setFinancialEntityReporter(financialEntityReporter);
-        this.newFinancialEntityUnit.setPersonId(financialEntityReporter.getPersonId());
+    public void setNewFinancialEntityReporterUnit(FinancialEntityReporterUnit newFinancialEntityReporterUnit) {
+        this.newFinancialEntityReporterUnit = newFinancialEntityReporterUnit;
+        this.newFinancialEntityReporterUnit.setFinancialEntityReporterId(financialEntityReporter.getFinancialEntityReporterId());
+        this.newFinancialEntityReporterUnit.setFinancialEntityReporter(financialEntityReporter);
+        this.newFinancialEntityReporterUnit.setPersonId(financialEntityReporter.getPersonId());
 
     }
     
@@ -126,7 +126,9 @@ public class FinancialEntityHelper implements Serializable {
     }
     
     public void refreshFinancialEntityReporter() {
-        financialEntityReporter = getFinancialEntityService().getFinancialEntityReporter(GlobalVariables.getUserSession().getPrincipalId());
+        financialEntityReporter = getFinancialEntityService().getFinancialEntityReporter(
+                GlobalVariables.getUserSession().getPrincipalId());
+        newPersonFinancialEntity.setFinancialEntityReporterId(financialEntityReporter.getFinancialEntityReporterId());
     }
 
 
@@ -135,12 +137,12 @@ public class FinancialEntityHelper implements Serializable {
     }
 
 
-    public List<FinancialEntityUnit> getDeletedUnits() {
+    public List<FinancialEntityReporterUnit> getDeletedUnits() {
         return deletedUnits;
     }
 
 
-    public void setDeletedUnits(List<FinancialEntityUnit> deletedUnits) {
+    public void setDeletedUnits(List<FinancialEntityReporterUnit> deletedUnits) {
         this.deletedUnits = deletedUnits;
     }
 

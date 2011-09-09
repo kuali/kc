@@ -59,7 +59,7 @@ public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase {
     private Sponsor sponsor;
     
 //    @SkipVersioning
-    private FinancialEntityReporter financialReportReporter; 
+    private FinancialEntityReporter financialEntityReporter; 
 
 
     public PersonFinIntDisclosure() { 
@@ -249,14 +249,6 @@ public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase {
     }
 
 
-    public FinancialEntityReporter getFinancialReportReporter() {
-        return financialReportReporter;
-    }
-
-    public void setFinancialReportReporter(FinancialEntityReporter financialReportReporter) {
-        this.financialReportReporter = financialReportReporter;
-    }
-
     public Long getFinancialEntityReporterId() {
         return financialEntityReporterId;
     }
@@ -271,6 +263,14 @@ public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase {
 
     public void setPersonFinIntDisclosureId(Long personFinIntDisclosureId) {
         this.personFinIntDisclosureId = personFinIntDisclosureId;
+    }
+
+    public FinancialEntityReporter getFinancialEntityReporter() {
+        return financialEntityReporter;
+    }
+
+    public void setFinancialEntityReporter(FinancialEntityReporter financialEntityReporter) {
+        this.financialEntityReporter = financialEntityReporter;
     }
 
 }

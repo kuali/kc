@@ -26,24 +26,24 @@ import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class SaveFinancialEntityUnitRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<SaveFinancialEntityUnitEvent> {
+public class SaveFinancialEntityReporterUnitRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<SaveFinancialEntityReporterUnitEvent> {
     
     /**
      * {@inheritDoc}
      * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
      */
-    public boolean processRules(SaveFinancialEntityUnitEvent event) {
+    public boolean processRules(SaveFinancialEntityReporterUnitEvent event) {
         boolean isValid = true;
         
         String errorPathKey = event.getPropertyName() + ".financialEntityReporter";
         GlobalVariables.getMessageMap().addToErrorPath(errorPathKey);
-        if (org.apache.commons.collections.CollectionUtils.isEmpty(event.getFinancialEntityUnits())) {
+        if (org.apache.commons.collections.CollectionUtils.isEmpty(event.getFinancialEntityReporterUnits())) {
             GlobalVariables.getMessageMap().putError("unitNumber",
             KeyConstants.ERROR_ONE_UNIT, "Financial Entity");
             
         } else {
             boolean leadUnitFound = false;
-            for (FinancialEntityUnit unit : event.getFinancialEntityUnits()) {
+            for (FinancialEntityReporterUnit unit : event.getFinancialEntityReporterUnits()) {
                 if (unit.isLeadUnitFlag()) {
                     leadUnitFound = true;
                     break;
