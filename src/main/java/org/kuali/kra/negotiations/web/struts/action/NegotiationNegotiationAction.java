@@ -94,6 +94,9 @@ public class NegotiationNegotiationAction extends NegotiationAction {
             this.getBusinessObjectService().save(negotiation);
             detail.refresh();
         }
+        if(!negotiationForm.getNegotiationUnassociatedDetailsToDelete().isEmpty()) {
+            this.getBusinessObjectService().delete(negotiationForm.getNegotiationUnassociatedDetailsToDelete());
+        }
         negotiationForm.getNegotiationDocument().getNegotiation().refresh();
         return actionForward;
     }
@@ -172,6 +175,16 @@ public class NegotiationNegotiationAction extends NegotiationAction {
             this.getBusinessObjectService().findByPrimaryKey(NegotiationAssociationType.class, params);
         negotiationForm.getNegotiationDocument().getNegotiation().setNegotiationAssociationType(asscType);
         negotiationForm.getNegotiationDocument().getNegotiation().setAssociatedDocumentId("");
+        
+        if (StringUtils.equalsIgnoreCase(asscType.getCode(), NegotiationAssociationType.NONE_ASSOCIATION)) {
+            negotiationForm.getNegotiationDocument().getNegotiation().setUnAssociatedDetail(new NegotiationUnassociatedDetail());
+        } else {
+            if (negotiationForm.getNegotiationDocument().getNegotiation().getUnAssociatedDetail() != null) {
+                negotiationForm.getNegotiationUnassociatedDetailsToDelete().add(
+                        negotiationForm.getNegotiationDocument().getNegotiation().getUnAssociatedDetail());
+                negotiationForm.getNegotiationDocument().getNegotiation().setUnAssociatedDetail(null);
+            }
+        }
         
         return actionForward;
     }
