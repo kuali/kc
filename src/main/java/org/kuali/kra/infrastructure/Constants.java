@@ -728,5 +728,8 @@ public interface Constants {
 
     // coi
     public static final String MODULE_NAMESPACE_COIDISCLOSURE = "KC-COIDISCLOSURE"; 
+    
+    //negotiation
+    public static final String MODULE_NAMESPACE_NEGOTIATION = "KC-NEGOTIATION";
 
 }

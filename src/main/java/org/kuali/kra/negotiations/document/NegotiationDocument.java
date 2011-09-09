@@ -21,14 +21,20 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.service.ParameterConstants;
+import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
+import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class...
  */
+@NAMESPACE(namespace=Constants.MODULE_NAMESPACE_NEGOTIATION)
+@COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
 public class NegotiationDocument extends ResearchDocumentBase implements Serializable {
     
     /**
