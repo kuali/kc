@@ -22,11 +22,12 @@ import java.util.List;
 import javax.persistence.Transient;
 
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.coi.DisclosureReporter;
+import org.kuali.kra.coi.DisclosureReporterUnit;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 
-public class FinancialEntityReporter extends KraPersistableBusinessObjectBase {
+public class FinancialEntityReporter extends DisclosureReporter {
     /** TODO : not sure about this table.  
      * 1. should we combine this with coi reporter/correspondent, 
      * 2. personRoleId do we need it 
@@ -39,10 +40,6 @@ public class FinancialEntityReporter extends KraPersistableBusinessObjectBase {
     private List<FinancialEntityReporterUnit> financialEntityReporterUnits; 
     private List<PersonFinIntDisclosure> personFinIntDisclosures; 
     private int selectedUnit;
-    @Transient
-    private transient KcPersonService kcPersonService;
-    @Transient
-    private transient KcPerson reporter;
     
 
     
@@ -119,26 +116,6 @@ public class FinancialEntityReporter extends KraPersistableBusinessObjectBase {
         this.personFinIntDisclosures = personFinIntDisclosures;
     }
     
-    public KcPerson getReporter() {
-        if (reporter == null && this.personId != null) {
-            reporter = getKcPersonService().getKcPersonByPersonId(this.personId);
-        }
-        return reporter;
-    }
-
-    /**
-     * Gets the KC Person Service.
-     * 
-     * @return KC Person Service.
-     */
-    protected KcPersonService getKcPersonService() {
-        if (this.kcPersonService == null) {
-            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
-        }
-
-        return this.kcPersonService;
-    }
-
 
     public int getSelectedUnit() {
         return selectedUnit;
@@ -147,6 +124,12 @@ public class FinancialEntityReporter extends KraPersistableBusinessObjectBase {
 
     public void setSelectedUnit(int selectedUnit) {
         this.selectedUnit = selectedUnit;
+    }
+
+
+    @Override
+    public List<? extends DisclosureReporterUnit> getDisclosureReporterUnits() {
+       return getFinancialEntityReporterUnits();
     }
 
 

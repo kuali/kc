@@ -36,7 +36,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 public class FinancialEntityServiceTest {
     private static final String  PERSON_ID = "10000000001";
     private static final String  UNIT_NUMBER = "000001";
-    private static final String  UNIT_NAME = "000001";
+    private static final String  UNIT_NAME = "University";
     Mockery context = new JUnit4Mockery();
 
     @Before
@@ -117,7 +117,11 @@ public class FinancialEntityServiceTest {
         reporter.setPersonId(PERSON_ID);
         reporter.setReporterRoleId("FER");
         reporter.setFinancialEntityReporterUnits(new ArrayList<FinancialEntityReporterUnit>());
-        FinancialEntityReporterUnit financialEntityReporterUnit = new FinancialEntityReporterUnit();
+        FinancialEntityReporterUnit financialEntityReporterUnit = new FinancialEntityReporterUnit() {
+            public String getUnitName() {
+                return UNIT_NAME;
+            }
+        };
         financialEntityReporterUnit.setUnitNumber(UNIT_NUMBER);
         financialEntityReporterUnit.setUnitName(UNIT_NAME);
         financialEntityReporterUnit.setLeadUnitFlag(true);

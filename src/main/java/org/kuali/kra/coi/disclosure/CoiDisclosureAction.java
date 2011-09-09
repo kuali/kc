@@ -42,7 +42,7 @@ public class CoiDisclosureAction extends CoiAction {
 
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
         DisclosureHelper disclosureHelper = coiDisclosureForm.getDisclosureHelper();
-        if (checkRule(new AddDisclosurePersonUnitEvent("disclosureHelper", disclosureHelper.getNewDisclosurePersonUnit(),
+        if (checkRule(new AddDisclosureReporterUnitEvent("disclosureHelper.newDisclosurePersonUnit", disclosureHelper.getNewDisclosurePersonUnit(),
                 ((CoiDisclosureDocument)coiDisclosureForm.getDocument()).getCoiDisclosure().getDisclosureReporter().getDisclosurePersonUnits()))) {
             getCoiDisclosureService().addDisclosurePersonUnit(
                     ((CoiDisclosureDocument)coiDisclosureForm.getDocument()).getCoiDisclosure().getDisclosureReporter(),
