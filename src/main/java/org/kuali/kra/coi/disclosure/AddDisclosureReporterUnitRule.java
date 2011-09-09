@@ -17,31 +17,32 @@ package org.kuali.kra.coi.disclosure;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.coi.DisclosureReporterUnit;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class AddDisclosurePersonUnitRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<AddDisclosurePersonUnitEvent> {
+public class AddDisclosureReporterUnitRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<AddDisclosureReporterUnitEvent> {
     
     /**
      * {@inheritDoc}
      * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
      */
-    public boolean processRules(AddDisclosurePersonUnitEvent event) {
+    public boolean processRules(AddDisclosureReporterUnitEvent event) {
         boolean isValid = true;
 
-        String errorPathKey = event.getPropertyName() + ".newDisclosurePersonUnit";
-        GlobalVariables.getMessageMap().addToErrorPath(errorPathKey);
-        if (StringUtils.isBlank(event.getDisclosurePersonUnit().getUnitNumber())) {
+//        String errorPathKey = event.getPropertyName() + ".newDisclosurePersonUnit";
+        GlobalVariables.getMessageMap().addToErrorPath(event.getPropertyName());
+        if (StringUtils.isBlank(event.getDisclosureReporterUnit().getUnitNumber())) {
             GlobalVariables.getMessageMap().putError("unitNumber", KeyConstants.ERROR_UNIT_NUMBER_REQUIRED);
 
         }
         else {
-            if (!CollectionUtils.isEmpty(event.getDisclosurePersonUnits())) {
+            if (!CollectionUtils.isEmpty(event.getDisclosureReporterUnits())) {
                 boolean duplicateUnitNumber = false;
-                for (DisclosurePersonUnit unit : event.getDisclosurePersonUnits()) {
-                    if (StringUtils.equals(unit.getUnitNumber(), event.getDisclosurePersonUnit().getUnitNumber())) {
+                for (DisclosureReporterUnit unit : event.getDisclosureReporterUnits()) {
+                    if (StringUtils.equals(unit.getUnitNumber(), event.getDisclosureReporterUnit().getUnitNumber())) {
                         duplicateUnitNumber = true;
                         break;
                     }
@@ -52,10 +53,13 @@ public class AddDisclosurePersonUnitRule extends ResearchDocumentRuleBase implem
                 }
 
             }
+            if (event.getDisclosureReporterUnit().getUnit() == null) {
+                GlobalVariables.getMessageMap().putError("unitNumber", KeyConstants.ERROR_INVALID_UNIT, event.getDisclosureReporterUnit().getUnitNumber());                
+            }
         }
 
         isValid &= GlobalVariables.getMessageMap().hasNoErrors();
-        GlobalVariables.getMessageMap().removeFromErrorPath(errorPathKey);
+        GlobalVariables.getMessageMap().removeFromErrorPath(event.getPropertyName());
         return isValid;
     }
 

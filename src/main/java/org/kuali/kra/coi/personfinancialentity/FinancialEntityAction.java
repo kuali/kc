@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.coi.disclosure.AddDisclosureReporterUnitEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -200,8 +201,8 @@ public class FinancialEntityAction extends KualiAction {
             HttpServletResponse response) throws Exception {
 
         FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
-        if (checkRule(new AddFinancialEntityReporterUnitEvent("financialEntityHelper", financialEntityHelper.getNewFinancialEntityReporterUnit(),
-            financialEntityHelper.getFinancialEntityReporter().getFinancialEntityReporterUnits()))) {
+        if (checkRule(new AddDisclosureReporterUnitEvent("financialEntityHelper.newFinancialEntityReporterUnit", financialEntityHelper.getNewFinancialEntityReporterUnit(),
+            financialEntityHelper.getFinancialEntityReporter().getDisclosureReporterUnits()))) {
             getFinancialEntityService().addFinancialEntityReporterUnit(
                     financialEntityHelper.getFinancialEntityReporter(),
                     financialEntityHelper.getNewFinancialEntityReporterUnit());
