@@ -23,7 +23,7 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
- * ]
+ * 
  * This class handles the negotiation BO.
  */
 public class Negotiation extends KraPersistableBusinessObjectBase {
