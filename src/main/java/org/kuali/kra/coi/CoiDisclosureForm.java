@@ -18,12 +18,31 @@ package org.kuali.kra.coi;
 import java.util.Map;
 
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.coi.disclosure.DisclosureHelper;
+import org.kuali.kra.coi.personfinancialentity.FinancialEntityHelper;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 
 public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implements Auditable  {
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -5620344612882618024L;
+    private DisclosureHelper disclosureHelper;
 
-    @Override
+    public CoiDisclosureForm() {
+        super();
+        initialize();
+    }
+
+    /**
+     * This method initialize all form variables
+     */
+    public void initialize() {
+       setDisclosureHelper(new DisclosureHelper(this));
+    }
+    
+   @Override
     protected String getDefaultDocumentTypeName() {
         // TODO Auto-generated method stub
         return "CoiDisclosureDocument";
@@ -48,6 +67,14 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
     public void setAuditActivated(boolean auditActivated) {
         // TODO Auto-generated method stub
         
+    }
+
+    public DisclosureHelper getDisclosureHelper() {
+        return disclosureHelper;
+    }
+
+    public void setDisclosureHelper(DisclosureHelper disclosureHelper) {
+        this.disclosureHelper = disclosureHelper;
     }
 
 }
