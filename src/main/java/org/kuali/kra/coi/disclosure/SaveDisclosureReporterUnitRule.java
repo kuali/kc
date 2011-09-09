@@ -13,37 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.coi.personfinancialentity;
+package org.kuali.kra.coi.disclosure;
 
-import java.util.List;
-
-import net.sf.cglib.core.CollectionUtils;
-
-import org.apache.commons.lang.StringUtils;
-import org.displaytag.util.CollectionUtil;
+import org.kuali.kra.coi.DisclosureReporterUnit;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class SaveFinancialEntityReporterUnitRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<SaveFinancialEntityReporterUnitEvent> {
+public class SaveDisclosureReporterUnitRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<SaveDisclosureReporterUnitEvent> {
     
     /**
      * {@inheritDoc}
      * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
      */
-    public boolean processRules(SaveFinancialEntityReporterUnitEvent event) {
+    public boolean processRules(SaveDisclosureReporterUnitEvent event) {
         boolean isValid = true;
         
-        String errorPathKey = event.getPropertyName() + ".financialEntityReporter";
-        GlobalVariables.getMessageMap().addToErrorPath(errorPathKey);
-        if (org.apache.commons.collections.CollectionUtils.isEmpty(event.getFinancialEntityReporterUnits())) {
+//        String errorPathKey = event.getPropertyName() + ".financialEntityReporter";
+        GlobalVariables.getMessageMap().addToErrorPath(event.getPropertyName());
+        if (org.apache.commons.collections.CollectionUtils.isEmpty(event.getDisclosureReporterUnits())) {
             GlobalVariables.getMessageMap().putError("unitNumber",
-            KeyConstants.ERROR_ONE_UNIT, "Financial Entity");
+            KeyConstants.ERROR_ONE_UNIT, "Reporter");
             
         } else {
             boolean leadUnitFound = false;
-            for (FinancialEntityReporterUnit unit : event.getFinancialEntityReporterUnits()) {
+            for (DisclosureReporterUnit unit : event.getDisclosureReporterUnits()) {
                 if (unit.isLeadUnitFlag()) {
                     leadUnitFound = true;
                     break;
@@ -57,7 +52,7 @@ public class SaveFinancialEntityReporterUnitRule extends ResearchDocumentRuleBas
             
         }
         isValid &= GlobalVariables.getMessageMap().hasNoErrors();
-        GlobalVariables.getMessageMap().removeFromErrorPath(errorPathKey);
+        GlobalVariables.getMessageMap().removeFromErrorPath(event.getPropertyName());
         
         return isValid;
     }

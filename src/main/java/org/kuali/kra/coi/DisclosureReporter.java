@@ -26,6 +26,7 @@ public  abstract class DisclosureReporter extends KraPersistableBusinessObjectBa
 
     private transient KcPersonService kcPersonService;
     private transient KcPerson reporter;
+    private int selectedUnit;
 
     
     public abstract String getPersonId();
@@ -50,6 +51,14 @@ public  abstract class DisclosureReporter extends KraPersistableBusinessObjectBa
         }
 
         return this.kcPersonService;
+    }
+
+    public int getSelectedUnit() {
+        return selectedUnit;
+    }
+
+    public void setSelectedUnit(int selectedUnit) {
+        this.selectedUnit = selectedUnit;
     }
 
 }

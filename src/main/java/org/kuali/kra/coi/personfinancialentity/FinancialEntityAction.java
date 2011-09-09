@@ -25,6 +25,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.coi.disclosure.AddDisclosureReporterUnitEvent;
+import org.kuali.kra.coi.disclosure.CoiDisclosureService;
+import org.kuali.kra.coi.disclosure.SaveDisclosureReporterUnitEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -203,7 +205,7 @@ public class FinancialEntityAction extends KualiAction {
         FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
         if (checkRule(new AddDisclosureReporterUnitEvent("financialEntityHelper.newFinancialEntityReporterUnit", financialEntityHelper.getNewFinancialEntityReporterUnit(),
             financialEntityHelper.getFinancialEntityReporter().getDisclosureReporterUnits()))) {
-            getFinancialEntityService().addFinancialEntityReporterUnit(
+            getCoiDisclosureService().addDisclosureReporterUnit(
                     financialEntityHelper.getFinancialEntityReporter(),
                     financialEntityHelper.getNewFinancialEntityReporterUnit());
             financialEntityHelper.setNewFinancialEntityReporterUnit(new FinancialEntityReporterUnit());
@@ -220,7 +222,7 @@ public class FinancialEntityAction extends KualiAction {
 
         int unitIndex = getSelectedLine(request);
         FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
-        getFinancialEntityService().deleteFinancialEntityReporterUnit(financialEntityHelper.getFinancialEntityReporter(), financialEntityHelper.getDeletedUnits(), getSelectedLine(request));
+        getCoiDisclosureService().deleteDisclosureReporterUnit(financialEntityHelper.getFinancialEntityReporter(), financialEntityHelper.getDeletedUnits(), getSelectedLine(request));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -228,8 +230,8 @@ public class FinancialEntityAction extends KualiAction {
             HttpServletResponse response) throws Exception {
 
         FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
-        getFinancialEntityService().resetLeadUnit(financialEntityHelper.getFinancialEntityReporter());
-        if (checkRule(new SaveFinancialEntityReporterUnitEvent("financialEntityHelper",
+        getCoiDisclosureService().resetLeadUnit(financialEntityHelper.getFinancialEntityReporter());
+        if (checkRule(new SaveDisclosureReporterUnitEvent("financialEntityHelper.financialEntityReporter",
             financialEntityHelper.getFinancialEntityReporter().getFinancialEntityReporterUnits()))) {
             if (!financialEntityHelper.getDeletedUnits().isEmpty()) {
                 getBusinessObjectService().delete(financialEntityHelper.getDeletedUnits());
@@ -270,6 +272,9 @@ public class FinancialEntityAction extends KualiAction {
 
     private FinancialEntityService getFinancialEntityService() {
         return KraServiceLocator.getService(FinancialEntityService.class);
+    }
+    private CoiDisclosureService getCoiDisclosureService() {
+        return KraServiceLocator.getService(CoiDisclosureService.class);
     }
 
     private SequenceAccessorService getSequenceAccessorService() {

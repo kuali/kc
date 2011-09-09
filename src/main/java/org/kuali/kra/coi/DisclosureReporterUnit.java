@@ -18,31 +18,34 @@ package org.kuali.kra.coi;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
+import org.kuali.rice.kns.util.KNSConstants;
 
 public abstract class DisclosureReporterUnit extends KraPersistableBusinessObjectBase {
     private String unitName;
     private Unit unit; 
     
     public abstract String getUnitNumber();
+    public abstract Long getReporterUnitId();
     public abstract void setUnitNumber(String unitNumber);
     public abstract boolean isLeadUnitFlag();
 
-//    public abstract void setLeadUnitFlag(boolean leadUnitFlag);
+    public abstract void setLeadUnitFlag(boolean leadUnitFlag);
 
 //    public abstract String getPersonId();
 
  
     public String getUnitName() {
-        if (StringUtils.isNotBlank(getUnitNumber())) {
-            this.refreshReferenceObject("unit");
-        } else {
-            unit = null;
-        }
-        if (unit != null) {
+        // first use getUnit(0 to see if unit needs to be refreshed
+        if (getUnit() != null) {
             unitName = unit.getUnitName();
         }
         else {
-            unitName = "not found";
+            if (StringUtils.isNotBlank(getUnitNumber())) {
+                unitName = "not found";
+            }
+            else {
+                unitName = KNSConstants.EMPTY_STRING;
+            }
         }
         return unitName;
     }
@@ -52,9 +55,12 @@ public abstract class DisclosureReporterUnit extends KraPersistableBusinessObjec
     }
 
     public Unit getUnit() {
-        //if (StringUtils.isNotBlank(getUnitNumber()) && unit == null) {
         if (StringUtils.isNotBlank(getUnitNumber())) {
-            this.refreshReferenceObject("unit");
+            if (this.getReporterUnitId() == null) {
+                this.refreshReferenceObject("unit");
+            } else if (unit == null) {
+                this.refreshReferenceObject("unit");
+            }
         } else {
             unit = null;
         }

@@ -37,9 +37,6 @@ public class DisclosurePerson extends DisclosureReporter {
     private String personRoleId;
     private List<DisclosurePersonUnit> disclosurePersonUnits;
     private CoiDisclosure coiDisclosure;
-    private int selectedUnit;
-    private transient KcPersonService kcPersonService;
-    private transient KcPerson reporter;
 
     @Override
     protected LinkedHashMap toStringMapper() {
@@ -95,33 +92,6 @@ public class DisclosurePerson extends DisclosureReporter {
         this.coiDisclosure = coiDisclosure;
     }
 
-    public int getSelectedUnit() {
-        return selectedUnit;
-    }
-
-    public void setSelectedUnit(int selectedUnit) {
-        this.selectedUnit = selectedUnit;
-    }
-
-    public KcPerson getReporter() {
-        if (reporter == null && this.personId != null) {
-            reporter = getKcPersonService().getKcPersonByPersonId(this.personId);
-        }
-        return reporter;
-    }
-
-    /**
-     * Gets the KC Person Service.
-     * 
-     * @return KC Person Service.
-     */
-    protected KcPersonService getKcPersonService() {
-        if (this.kcPersonService == null) {
-            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
-        }
-
-        return this.kcPersonService;
-    }
 
     @Override
     public List<? extends DisclosureReporterUnit> getDisclosureReporterUnits() {

@@ -13,20 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.coi.personfinancialentity;
+package org.kuali.kra.coi.disclosure;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
+import org.kuali.kra.coi.disclosure.SaveDisclosureReporterUnitEvent;
+import org.kuali.kra.coi.disclosure.SaveDisclosureReporterUnitRule;
+import org.kuali.kra.coi.personfinancialentity.FinancialEntityReporterUnit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.TemplateRuleTest;
 
-public class SaveFinancialEntityReporterUnitRuleTest {
+public class SaveDisclosureReporterUnitRuleTest {
 
     @Test
     public void testSaveFinancialEntityReporterUnitOK() {
-        new TemplateRuleTest<SaveFinancialEntityReporterUnitEvent, SaveFinancialEntityReporterUnitRule>() {
+        new TemplateRuleTest<SaveDisclosureReporterUnitEvent, SaveDisclosureReporterUnitRule>() {
             @Override
             protected void prerequisite() {
                 List<FinancialEntityReporterUnit> financialEntityReporterUnits = new ArrayList<FinancialEntityReporterUnit>();
@@ -37,8 +40,8 @@ public class SaveFinancialEntityReporterUnitRuleTest {
                 FinancialEntityReporterUnit financialEntityReporterUnit1 = new FinancialEntityReporterUnit();
                 financialEntityReporterUnit1.setUnitNumber("2");
                 financialEntityReporterUnits.add(financialEntityReporterUnit1);
-                event = new SaveFinancialEntityReporterUnitEvent(Constants.EMPTY_STRING, financialEntityReporterUnits);
-                rule = new SaveFinancialEntityReporterUnitRule();
+                event = new SaveDisclosureReporterUnitEvent(Constants.EMPTY_STRING, financialEntityReporterUnits);
+                rule = new SaveDisclosureReporterUnitRule();
                 expectedReturnValue = true;
             }
         };
@@ -46,12 +49,12 @@ public class SaveFinancialEntityReporterUnitRuleTest {
 
     @Test
     public void testNoFinancialEntityReporterUnit() {
-        new TemplateRuleTest<SaveFinancialEntityReporterUnitEvent, SaveFinancialEntityReporterUnitRule>() {
+        new TemplateRuleTest<SaveDisclosureReporterUnitEvent, SaveDisclosureReporterUnitRule>() {
             @Override
             protected void prerequisite() {
                 List<FinancialEntityReporterUnit> financialEntityReporterUnits = new ArrayList<FinancialEntityReporterUnit>();
-                event = new SaveFinancialEntityReporterUnitEvent(Constants.EMPTY_STRING, financialEntityReporterUnits);
-                rule = new SaveFinancialEntityReporterUnitRule();
+                event = new SaveDisclosureReporterUnitEvent(Constants.EMPTY_STRING, financialEntityReporterUnits);
+                rule = new SaveDisclosureReporterUnitRule();
                 expectedReturnValue = false;
             }
         };
@@ -59,7 +62,7 @@ public class SaveFinancialEntityReporterUnitRuleTest {
 
     @Test
     public void testNoLeadUnit() {
-        new TemplateRuleTest<SaveFinancialEntityReporterUnitEvent, SaveFinancialEntityReporterUnitRule>() {
+        new TemplateRuleTest<SaveDisclosureReporterUnitEvent, SaveDisclosureReporterUnitRule>() {
             @Override
             protected void prerequisite() {
                 List<FinancialEntityReporterUnit> financialEntityReporterUnits = new ArrayList<FinancialEntityReporterUnit>();
@@ -69,8 +72,8 @@ public class SaveFinancialEntityReporterUnitRuleTest {
                 FinancialEntityReporterUnit financialEntityReporterUnit1 = new FinancialEntityReporterUnit();
                 financialEntityReporterUnit1.setUnitNumber("2");
                 financialEntityReporterUnits.add(financialEntityReporterUnit1);
-                event = new SaveFinancialEntityReporterUnitEvent(Constants.EMPTY_STRING, financialEntityReporterUnits);
-                rule = new SaveFinancialEntityReporterUnitRule();
+                event = new SaveDisclosureReporterUnitEvent(Constants.EMPTY_STRING, financialEntityReporterUnits);
+                rule = new SaveDisclosureReporterUnitRule();
                 expectedReturnValue = false;
             }
         };

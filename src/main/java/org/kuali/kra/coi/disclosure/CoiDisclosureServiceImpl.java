@@ -22,6 +22,8 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.coi.DisclosureReporter;
+import org.kuali.kra.coi.DisclosureReporterUnit;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
@@ -65,42 +67,42 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         return reporters.get(0);
     }
 
-    public void addDisclosurePersonUnit(DisclosurePerson disclosurePerson , DisclosurePersonUnit newDisclosurePersonUnit) {
+    public void addDisclosureReporterUnit(DisclosureReporter disclosureReporter , DisclosureReporterUnit newDisclosureReporterUnit) {
         
-        List<DisclosurePersonUnit> disclosurePersonUnits = disclosurePerson.getDisclosurePersonUnits();
-        if (newDisclosurePersonUnit.isLeadUnitFlag()) {
-            resetLeadUnit(disclosurePersonUnits);
-            disclosurePerson.setSelectedUnit(disclosurePersonUnits.size());
+        List<DisclosureReporterUnit> disclosureReporterUnits = (List<DisclosureReporterUnit>)disclosureReporter.getDisclosureReporterUnits();
+        if (newDisclosureReporterUnit.isLeadUnitFlag()) {
+            resetLeadUnit(disclosureReporterUnits);
+            disclosureReporter.setSelectedUnit(disclosureReporterUnits.size());
         }
-        disclosurePersonUnits.add(newDisclosurePersonUnit);
+        disclosureReporterUnits.add(newDisclosureReporterUnit);
     }
 
-    public void deleteDisclosurePersonUnit(DisclosurePerson disclosurePerson,List<DisclosurePersonUnit> deletedUnits, int unitIndex) {
+    public void deleteDisclosureReporterUnit(DisclosureReporter disclosureReporter,List<? extends DisclosureReporterUnit> deletedUnits, int unitIndex) {
         
-        List<DisclosurePersonUnit> disclosurePersonUnits = disclosurePerson.getDisclosurePersonUnits();
-        DisclosurePersonUnit deletedUnit = disclosurePersonUnits.get(unitIndex);
-        if (deletedUnit.getDisclosurePersonUnitsId() != null) {
-            deletedUnits.add(deletedUnit);
+        List<DisclosureReporterUnit> disclosureReporterUnits = (List<DisclosureReporterUnit>)disclosureReporter.getDisclosureReporterUnits();
+        DisclosureReporterUnit deletedUnit = disclosureReporterUnits.get(unitIndex);
+        if (deletedUnit.getReporterUnitId() != null) {
+            ((List<DisclosureReporterUnit>)deletedUnits).add(deletedUnit);
         }
-        disclosurePersonUnits.remove(unitIndex);
-        if (deletedUnit.isLeadUnitFlag() && !disclosurePersonUnits.isEmpty()) {
-            disclosurePersonUnits.get(0).setLeadUnitFlag(true);
-            disclosurePerson.setSelectedUnit(0);
-        }
-    }
-
-    public void resetLeadUnit(DisclosurePerson disclosurePerson) {
-        List<DisclosurePersonUnit> disclosurePersonUnits = disclosurePerson.getDisclosurePersonUnits();
-        if (CollectionUtils.isNotEmpty(disclosurePersonUnits)) {
-            resetLeadUnit(disclosurePersonUnits);
-            disclosurePersonUnits.get(disclosurePerson.getSelectedUnit()).setLeadUnitFlag(true);
+        disclosureReporterUnits.remove(unitIndex);
+        if (deletedUnit.isLeadUnitFlag() && !disclosureReporterUnits.isEmpty()) {
+            disclosureReporterUnits.get(0).setLeadUnitFlag(true);
+            disclosureReporter.setSelectedUnit(0);
         }
     }
 
+    public void resetLeadUnit(DisclosureReporter disclosureReporter) {
+        List<? extends DisclosureReporterUnit> disclosureReporterUnits = disclosureReporter.getDisclosureReporterUnits();
+        if (CollectionUtils.isNotEmpty(disclosureReporterUnits)) {
+            resetLeadUnit(disclosureReporterUnits);
+            disclosureReporterUnits.get(disclosureReporter.getSelectedUnit()).setLeadUnitFlag(true);
+        }
+    }
 
-    private void resetLeadUnit(List<DisclosurePersonUnit> disclosurePersonUnits) {
-        for (DisclosurePersonUnit  disclosurePersonUnit : disclosurePersonUnits) {
-            disclosurePersonUnit.setLeadUnitFlag(false);
+
+    private void resetLeadUnit(List<? extends DisclosureReporterUnit> disclosureReporterUnits) {
+        for (DisclosureReporterUnit  disclosureReporterUnit : disclosureReporterUnits) {
+            disclosureReporterUnit.setLeadUnitFlag(false);
         }
         
     }

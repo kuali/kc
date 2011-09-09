@@ -84,6 +84,12 @@ public DisclosurePerson getDisclosurePerson() {
 
 public void setDisclosurePerson(DisclosurePerson disclosurePerson) {
     this.disclosurePerson = disclosurePerson;
+}
+
+@Override
+public Long getReporterUnitId() {
+    // TODO Auto-generated method stub
+    return getDisclosurePersonUnitsId();
 } 
        
 

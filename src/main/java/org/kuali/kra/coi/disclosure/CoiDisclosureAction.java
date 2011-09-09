@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.coi.disclosure;
 
-import java.sql.Date;
-import java.util.Calendar;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -28,11 +25,11 @@ import org.kuali.kra.coi.CoiAction;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureForm;
+import org.kuali.kra.coi.DisclosureReporter;
+import org.kuali.kra.coi.DisclosureReporterUnit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
-import org.kuali.rice.kns.service.SequenceAccessorService;
-import org.kuali.rice.kns.util.DateUtils;
 
 public class CoiDisclosureAction extends CoiAction {
 
@@ -44,9 +41,9 @@ public class CoiDisclosureAction extends CoiAction {
         DisclosureHelper disclosureHelper = coiDisclosureForm.getDisclosureHelper();
         if (checkRule(new AddDisclosureReporterUnitEvent("disclosureHelper.newDisclosurePersonUnit", disclosureHelper.getNewDisclosurePersonUnit(),
                 ((CoiDisclosureDocument)coiDisclosureForm.getDocument()).getCoiDisclosure().getDisclosureReporter().getDisclosurePersonUnits()))) {
-            getCoiDisclosureService().addDisclosurePersonUnit(
-                    ((CoiDisclosureDocument)coiDisclosureForm.getDocument()).getCoiDisclosure().getDisclosureReporter(),
-                    disclosureHelper.getNewDisclosurePersonUnit());
+            getCoiDisclosureService().addDisclosureReporterUnit(
+                   ((CoiDisclosureDocument)coiDisclosureForm.getDocument()).getCoiDisclosure().getDisclosureReporter(),
+                   disclosureHelper.getNewDisclosurePersonUnit());
             disclosureHelper.setNewDisclosurePersonUnit(new DisclosurePersonUnit());
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -57,7 +54,7 @@ public class CoiDisclosureAction extends CoiAction {
 
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
         DisclosureHelper disclosureHelper = coiDisclosureForm.getDisclosureHelper();
-        getCoiDisclosureService().deleteDisclosurePersonUnit(((CoiDisclosureDocument)coiDisclosureForm.getDocument()).getCoiDisclosure().getDisclosureReporter(), disclosureHelper.getDeletedUnits(), getSelectedLine(request));
+        getCoiDisclosureService().deleteDisclosureReporterUnit(((CoiDisclosureDocument)coiDisclosureForm.getDocument()).getCoiDisclosure().getDisclosureReporter(), disclosureHelper.getDeletedUnits(), getSelectedLine(request));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
