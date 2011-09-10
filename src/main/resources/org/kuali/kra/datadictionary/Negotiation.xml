@@ -17,7 +17,7 @@
         <ref bean="Negotiation-negotiationAgreementTypeId"/>
         <ref bean="Negotiation-negotiationAssociationTypeId"/>
         <ref bean="Negotiation-negotiatorPersonId"/>
-        <ref bean="Negotiation-negotiator.userName"/>
+        <ref bean="Negotiation-negotiatorUserName"/>
         <ref bean="Negotiation-negotiator.fullName"/>
         <ref bean="Negotiation-negotiationStartDate"/> 
         <ref bean="Negotiation-negotiationEndDate"/>
@@ -153,9 +153,9 @@
     <property name="description" value="Negotiator" />
   </bean>
 
-  <bean id="Negotiation-negotiator.userName" parent="Negotiation-negotiator.userName-parentBean" />
-  <bean id="Negotiation-negotiator.userName-parentBean" abstract="true" parent="PersonImpl-principalName">
-    <property name="name" value="negotiator.userName" />
+  <bean id="Negotiation-negotiatorUserName" parent="Negotiation-negotiatorUserName-parentBean" />
+  <bean id="Negotiation-negotiatorUserName-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="negotiatorUserName" />
     <property name="label" value="Negotiator Username" />
     <property name="shortLabel" value="Negotiator Username" />
     <property name="required" value="false" />

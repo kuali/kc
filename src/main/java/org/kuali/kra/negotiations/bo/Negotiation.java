@@ -46,6 +46,9 @@ public class Negotiation extends KraPersistableBusinessObjectBase {
     private Date anticipatedAwardDate;
     private String documentFolder;
     
+    //transient
+    private String negotiatorUserName;
+    
     private NegotiationUnassociatedDetail unAssociatedDetail;
     
     /**
@@ -152,9 +155,32 @@ public class Negotiation extends KraPersistableBusinessObjectBase {
     public KcPerson getNegotiator() {
         if (this.getNegotiatorPersonId() == null) {
             return null;
-        }
-        else {
+        } else {
             return getKcPersonService().getKcPersonByPersonId(this.getNegotiatorPersonId());
+        }
+    }
+    
+    public String getNegotiatorUserName() {
+        KcPerson negotiator = getNegotiator();
+        if (negotiator == null) {
+            return negotiatorUserName;
+        } else {
+            return negotiator.getUserName();
+        }
+    }
+
+    public void setNegotiatorUserName(String negotiatorUserName) {
+        this.negotiatorUserName = negotiatorUserName;
+        KcPerson negotiator = null;
+        try {
+            negotiator = getKcPersonService().getKcPersonByUserName(negotiatorUserName);
+        } catch (IllegalArgumentException e) {
+            //invalid username, will be caught by validation routines
+        }
+        if (negotiator != null) {
+            setNegotiatorPersonId(negotiator.getPersonId());
+        } else {
+            setNegotiatorPersonId(null);
         }
     }
 
