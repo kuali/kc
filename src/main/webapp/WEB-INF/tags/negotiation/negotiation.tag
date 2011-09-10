@@ -35,21 +35,20 @@
             <tr>
 		        <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${negotiationAttributes.negotiatorPersonId}" /></div></th>
                 <td>
-                    <html:text property="document.negotiationList[0].negotiator.userName" 
-						onblur="loadContactPersonName('document.negotiationList[0].negotiator.userName',
+                    <html:text property="document.negotiationList[0].negotiatorUserName" 
+						onblur="loadContactPersonName('document.negotiationList[0].negotiatorUserName',
 									'negotiator.fullName',
 									'na',
 									'na',
 									'na',
-									'document.negotiationList[0].negotiatorPersonId');"
+									'na');"
                     	readonly="${readOnly}"/>
                     <c:if test="${!readOnly}">
                         ${kfunc:registerEditableProperty(KualiForm, "document.negotiationList[0].negotiatorPersonId")}
-	                    <html:hidden property="document.negotiationList[0].negotiatorPersonId" styleId="document.negotiationList[0].negotiatorPersonId"/>
 	                	<kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
-	                                fieldConversions="personId:document.negotiationList[0].negotiatorPersonId" />
+	                                fieldConversions="userName:document.negotiationList[0].negotiatorUserName" />
                     </c:if>
-                    <br/><span id="negotiator.fullName"><c:out value="${KualiForm.document.negotiationList[0].negotiator.fullName}"/></span>
+                    <br/><span id="negotiator.fullName"><c:out value="${KualiForm.document.negotiationList[0].negotiator.fullName}"/>&nbsp;</span>
                 </td>
                 <th><div align="right">Negotiation Age:</div></th>
                 <td align="left" valign="middle">
