@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.negotiations.rules;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.negotiations.bo.Negotiation;
@@ -32,6 +33,7 @@ public class NegotiationDocumentRule extends ResearchDocumentRuleBase {
     
     private static final String NEGOTIATION_ERROR_PATH = "document.negotiationList[0]";
     private static final String END_DATE_PROPERTY = "negotiationEndDate";
+    private static final String NEGOTIATOR_USERNAME_PROPERTY = "negotiator.userName";
     
     private NegotiationService negotiationService;
     
@@ -61,6 +63,8 @@ public class NegotiationDocumentRule extends ResearchDocumentRuleBase {
         boolean result = true;
         
         result &= validateEndDate(negotiation);
+        result &= validateNegotiator(negotiation);
+        
         GlobalVariables.getMessageMap().removeFromErrorPath(NEGOTIATION_ERROR_PATH);
         
         return result;
@@ -84,6 +88,16 @@ public class NegotiationDocumentRule extends ResearchDocumentRuleBase {
                 && negotiation.getNegotiationEndDate().compareTo(negotiation.getNegotiationStartDate()) < 0) {
             result = false;
             getErrorReporter().reportError(END_DATE_PROPERTY, KeyConstants.NEGOTIATION_ERROR_END_DATE_GREATER_THAN_START);
+        }
+        return result;
+    }
+    
+    public boolean validateNegotiator(Negotiation negotiation) {
+        boolean result = true;
+        if (StringUtils.isBlank(negotiation.getNegotiatorPersonId())
+                || negotiation.getNegotiator() == null) {
+            result = false;
+            getErrorReporter().reportError(NEGOTIATOR_USERNAME_PROPERTY, KeyConstants.NEGOTIATION_ERROR_NEGOTIATOR);
         }
         return result;
     }
