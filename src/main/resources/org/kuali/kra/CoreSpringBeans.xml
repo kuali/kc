@@ -642,6 +642,9 @@
 	<bean id="negotiationService" class="org.kuali.kra.negotiations.service.NegotiationServiceImpl">
         <property name="parameterService">
             <ref bean="parameterService" />
+        </property>
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
         </property>        
 	</bean>
 	
