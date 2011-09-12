@@ -99,7 +99,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             String questionnaireId = questionnaireUsage.getQuestionnaire().getQuestionnaireId();
             if (answerHeaderMap.containsKey(questionnaireId)) {
                 answerHeaders.add(answerHeaderMap.get(questionnaireId));
-                if (!questionnaireUsage.getQuestionnaire().getQuestionnaireRefIdAsLong().equals(answerHeaderMap.get(questionnaireId).getQuestionnaireRefIdFk())) {
+                if (!questionnaireUsage.getQuestionnaire().getQuestionnaireRefId().equals(answerHeaderMap.get(questionnaireId).getQuestionnaireRefIdFk())) {
                     // the current qnaire is "Active"
                     if (questionnaireUsage.getQuestionnaire().getIsFinal()) {
                         answerHeaderMap.get(questionnaireId).setNewerVersionPublished(true);
