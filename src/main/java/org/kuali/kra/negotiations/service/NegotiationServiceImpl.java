@@ -16,9 +16,19 @@
 package org.kuali.kra.negotiations.service;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
+import org.kuali.kra.negotiations.bo.Negotiation;
+import org.kuali.kra.negotiations.bo.NegotiationAssociatedDetailBean;
+import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 
 /**
@@ -29,6 +39,8 @@ public class NegotiationServiceImpl implements NegotiationService {
     private static final String PARAMETER_DELIMITER = ",";
     
     private ParameterService parameterService;
+    
+    private BusinessObjectService businessObjectService;
     
     /**
      * Return the negotiationInProgressStatusCodes as a list of strings.
@@ -47,6 +59,44 @@ public class NegotiationServiceImpl implements NegotiationService {
         String value = getParameterService().getParameterValue(NegotiationDocument.class, "negotiationCompletedStatusCodes");
         return Arrays.asList(value.split(PARAMETER_DELIMITER));        
     }
+    
+    /**
+     * 
+     * @see org.kuali.kra.negotiations.service.NegotiationService#buildNegotiationAssociatedDetailBean(org.kuali.kra.negotiations.bo.Negotiation)
+     */
+    public NegotiationAssociatedDetailBean buildNegotiationAssociatedDetailBean(Negotiation negotiation) {        
+        if (negotiation.getNegotiationAssociationType() != null) {
+            Map<String, String> primaryKeys = new HashMap<String, String>();
+            NegotiationAssociatedDetailBean bean;
+            if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), NegotiationAssociationType.AWARD_ASSOCIATION)) {
+                primaryKeys.put("AWARD_ID", negotiation.getAssociatedDocumentId());
+                bean = new NegotiationAssociatedDetailBean((Award) this.getBusinessObjectService().findByPrimaryKey(Award.class, primaryKeys));
+            } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), 
+                    NegotiationAssociationType.INSTITUATIONAL_PROPOSAL_ASSOCIATION)) {
+                primaryKeys = new HashMap<String, String>();
+                primaryKeys.put("PROPOSAL_ID", negotiation.getAssociatedDocumentId());
+                bean = new NegotiationAssociatedDetailBean((InstitutionalProposal) this.getBusinessObjectService().findByPrimaryKey(
+                        InstitutionalProposal.class, primaryKeys));
+               
+            } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), 
+                    NegotiationAssociationType.NONE_ASSOCIATION)) {
+                bean = new NegotiationAssociatedDetailBean(negotiation.getUnAssociatedDetail());
+            } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), 
+                    NegotiationAssociationType.PROPOSAL_LOG_ASSOCIATION)) {
+                primaryKeys = new HashMap<String, String>();
+                primaryKeys.put("PROPOSAL_NUMBER", negotiation.getAssociatedDocumentId());
+                bean = new NegotiationAssociatedDetailBean((ProposalLog) this.getBusinessObjectService().findByPrimaryKey(ProposalLog.class, primaryKeys));
+            } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), 
+                    NegotiationAssociationType.SUB_AWARD_ASSOCIATION)) {
+                throw new IllegalArgumentException("Sub Awards not implemented yet");
+            } else {
+                throw new IllegalArgumentException(negotiation.getNegotiationAssociationType().getCode() + " is an invalid code, should never gete here!");
+            }
+            return bean;
+        } else {
+            throw new IllegalArgumentException("Negotiation Association Type is not set, it must be!");
+        }
+    }
 
     protected ParameterService getParameterService() {
         return parameterService;
@@ -54,6 +104,14 @@ public class NegotiationServiceImpl implements NegotiationService {
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
 }
