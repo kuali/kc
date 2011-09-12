@@ -2292,7 +2292,7 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     </class-descriptor>    
 
-    <class-descriptor class="org.kuali.kra.negotiations.bo.NegotiationLocation" table="NEGOTIATION_Location">
+    <class-descriptor class="org.kuali.kra.negotiations.bo.NegotiationLocation" table="NEGOTIATION_LOCATION">
         <field-descriptor name="id" column="NEGOTIATION_LOCATION_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="NEGOTIATION_LOCATION_S" autoincrement="true" />
         <field-descriptor name="code" column="NEGOTIATION_LOCATION_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
