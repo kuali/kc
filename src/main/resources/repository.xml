@@ -2281,6 +2281,28 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     </class-descriptor>
     
+    <class-descriptor class="org.kuali.kra.negotiations.bo.NegotiationActivityType" table="NEGOTIATION_ACTIVITY_TYPE">
+        <field-descriptor name="id" column="NEGOTIATION_ACTIVITY_TYPE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="NEGOTIATION_ACTIVITY_TYPE_S" autoincrement="true" />
+        <field-descriptor name="code" column="NEGOTIATION_ACTIVITY_TYPE_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="active" column="ACTV_IND" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>    
+
+    <class-descriptor class="org.kuali.kra.negotiations.bo.NegotiationLocation" table="NEGOTIATION_Location">
+        <field-descriptor name="id" column="NEGOTIATION_LOCATION_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="NEGOTIATION_LOCATION_S" autoincrement="true" />
+        <field-descriptor name="code" column="NEGOTIATION_LOCATION_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="active" column="ACTV_IND" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>     
+    
 	<class-descriptor class="org.kuali.kra.negotiations.document.NegotiationDocument" table="NEGOTIATION_DOCUMENT">
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" primarykey="true" />
     	<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />

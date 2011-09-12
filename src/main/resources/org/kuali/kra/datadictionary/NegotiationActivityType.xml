@@ -1,0 +1,158 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="NegotiationActivityType" parent="NegotiationActivityType-parentBean" />
+  <bean id="NegotiationActivityType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.negotiations.bo.NegotiationActivityType" />
+		<property name="objectLabel" value="Negotiation Activity Type" />
+    <property name="inquiryDefinition" >
+      <ref bean="NegotiationActivityType-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="NegotiationActivityType-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="NegotiationActivityType" />
+    <property name="attributes" >
+      <list>
+        <ref bean="NegotiationActivityType-id" />
+        <ref bean="NegotiationActivityType-code" />
+        <ref bean="NegotiationActivityType-description" />
+        <ref bean="NegotiationActivityType-versionNumber" />
+        <ref bean="NegotiationActivityType-active"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="NegotiationActivityType-id" parent="NegotiationActivityType-id-parentBean" />
+  <bean id="NegotiationActivityType-id-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="id" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Id" />
+    <property name="shortLabel" value="Id" />
+    <property name="maxLength" value="22" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Id" />
+    <property name="description" value="Id" />
+  </bean>
+
+  <bean id="NegotiationActivityType-code" parent="NegotiationActivityType-code-parentBean" />
+  <bean id="NegotiationActivityType-code-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="code" />
+    <property name="forceUppercase" value="TRUE" />
+    <property name="label" value="Activity Type Code" />
+    <property name="shortLabel" value="Activity Type Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Activity Type Code" />
+    <property name="description" value="Activity Type Code" />
+  </bean>
+
+  <bean id="NegotiationActivityType-description" parent="NegotiationActivityType-description-parentBean" />
+  <bean id="NegotiationActivityType-description-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="description" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="30" />
+    <!-- 
+    <property name="validationPattern" >
+      <bean parent="AnycharacterValidationPattern" />
+    </property>
+     -->
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="30" />
+    </property>
+    <property name="summary" value="Description" />
+    <property name="description" value="Description" />
+  </bean>
+
+  <bean id="NegotiationActivityType-active" parent="NegotiationActivityType-active-parentBean" />
+  <bean id="NegotiationActivityType-active-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="active" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Active" />
+    <property name="shortLabel" value="Active" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="Active" />
+    <property name="description" value="Active" />
+  </bean>
+  
+  <bean id="NegotiationActivityType-versionNumber" parent="NegotiationActivityType-versionNumber-parentBean" />
+  <bean id="NegotiationActivityType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="NegotiationActivityType-inquiryDefinition" parent="NegotiationActivityType-inquiryDefinition-parentBean" />
+  <bean id="NegotiationActivityType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Negotiation Activity Type" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Negotiation Activity Type" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="code" p:forceInquiry="true" />
+              <bean parent="FieldDefinition" p:attributeName="description" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="NegotiationActivityType-lookupDefinition" parent="NegotiationActivityType-lookupDefinition-parentBean" />
+  <bean id="NegotiationActivityType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Negotiation Activity Type Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="code" />
+        <bean parent="FieldDefinition" p:attributeName="description" />
+        <bean parent="FieldDefinition" p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="code" p:forceInquiry="true" />
+        <bean parent="FieldDefinition" p:attributeName="description" />
+        <bean parent="FieldDefinition" p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>
