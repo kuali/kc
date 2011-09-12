@@ -22,7 +22,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kns.util.NumberUtils;
 import org.openqa.selenium.By;
@@ -48,7 +51,7 @@ public abstract class KcSeleniumHelper {
     private static final String HELP_PAGE_TITLE = "Kuali Research Administration Online Help";
     
     private static final String CREATE_MAINTENANCE_DOCUMENT_LINK = "maintenance.do?businessObjectClassName=%s&methodToCall=start";
-    
+
     private static final String METHOD_TO_CALL_PREFIX = "methodToCall.";
     private static final String SHOW_ALL_TABS_BUTTON = METHOD_TO_CALL_PREFIX + "showAllTabs";
     private static final String HIDE_ALL_TABS_BUTTON = METHOD_TO_CALL_PREFIX + "hideAllTabs";
@@ -186,7 +189,7 @@ public abstract class KcSeleniumHelper {
         String elementType = element.getAttribute("type");
         
         if (StringUtils.equals(tagName, "input") && StringUtils.equals(elementType, "checkbox")) {
-            element.click();
+            setCheckbox(element, value);
         } else if (StringUtils.equals(tagName, "input") && StringUtils.equals(elementType, "radio")) {
             setRadio(locator, exact, value);
         } else if (StringUtils.equals(tagName, "select")) {
@@ -196,6 +199,19 @@ public abstract class KcSeleniumHelper {
             element.sendKeys(value);
         }
         
+    }
+    
+    /**
+     * Sets the value of a checkbox.
+     * 
+     * @param element the located parent element
+     * @param value the new value of the element
+     */
+    private final void setCheckbox(final WebElement element, final String value) {
+        boolean booleanValue = BooleanUtils.toBoolean(value);
+        if ((booleanValue && !element.isSelected()) || (!booleanValue && element.isSelected())) {
+            element.click();
+        }
     }
     
     /**
@@ -614,7 +630,7 @@ public abstract class KcSeleniumHelper {
      * @param className the BO class name of this maintenance document
      * @param nextPageTitle the title of the maintenance document on the next page
      */
-    public final void createNewMaintenanceDocument(String className, String nextPageTitle) {
+    public final void createNewMaintenanceDocument(final String className, final String nextPageTitle) {
         final String locator = "//a[@href = '" + String.format(CREATE_MAINTENANCE_DOCUMENT_LINK, className) + "']";
         
         WebElement createNewButton = new ElementExistsWaiter(locator + " not found").until(
@@ -627,7 +643,49 @@ public abstract class KcSeleniumHelper {
         
         createNewButton.click();
         
-        login();
+        if (nextPageTitle != null) {
+            assertTitleContains(nextPageTitle);
+        }
+    }
+    
+    /**
+     * Edits an existing maintenance document based on {@code className} and {@code searchValues} and verifies that the next page has the title 
+     * {@code nextPageTitle}.
+     * 
+     * @param className the BO class name of this maintenance document
+     * @param searchValues the search values of the maintenance document to copy
+     * @param nextPageTitle the title of the maintenance document on the next page
+     */
+    public final void editExistingMaintenanceDocument(final String className, final Map<String, String> searchValues, final String nextPageTitle) {
+        for (Entry<String, String> searchValue : searchValues.entrySet()) {
+            set(searchValue.getKey(), searchValue.getValue());
+        }
+        
+        click("methodToCall.search");
+        
+        click("edit");
+        
+        if (nextPageTitle != null) {
+            assertTitleContains(nextPageTitle);
+        }
+    }
+    
+    /**
+     * Copies an existing maintenance document based on {@code className} and {@code searchValues} and verifies that the next page has the title 
+     * {@code nextPageTitle}.
+     * 
+     * @param className the BO class name of this maintenance document
+     * @param searchValues the search values of the maintenance document to copy
+     * @param nextPageTitle the title of the maintenance document on the next page
+     */
+    public final void copyExistingMaintenanceDocument(final String className, final Map<String, String> searchValues, final String nextPageTitle) {
+        for (Entry<String, String> searchValue : searchValues.entrySet()) {
+            set(searchValue.getKey(), searchValue.getValue());
+        }
+        
+        click("methodToCall.search");
+        
+        click("copy");
         
         if (nextPageTitle != null) {
             assertTitleContains(nextPageTitle);

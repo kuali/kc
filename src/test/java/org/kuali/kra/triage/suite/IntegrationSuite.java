@@ -21,21 +21,39 @@ import org.junit.runners.Suite.SuiteClasses;
 import org.kuali.kra.SeleniumUnitTest;
 import org.kuali.kra.award.web.AwardBudgetBasicSeleniumTest;
 import org.kuali.kra.award.web.AwardCompleteSeleniumTest;
+import org.kuali.kra.bo.web.CustomAttributeMaintenanceDocumentSeleniumTest;
+import org.kuali.kra.bo.web.InstituteLaRateMaintenanceDocumentSeleniumTest;
+import org.kuali.kra.bo.web.InstituteRateMaintenanceDocumentSeleniumTest;
+import org.kuali.kra.bo.web.OrganizationMaintenanceDocumentSeleniumTest;
+import org.kuali.kra.bo.web.SponsorFormMaintenanceDocumentSeleniumTest;
+import org.kuali.kra.budget.web.BudgetCategoryMaintenanceDocumentSeleniumTest;
+import org.kuali.kra.budget.web.CostElementMaintenanceDocumentSeleniumTest;
+import org.kuali.kra.budget.web.ValidCalcTypeMaintenanceDocumentSeleniumTest;
 import org.kuali.kra.committee.web.CommitteeCompleteSeleniumTest;
 import org.kuali.kra.institutionalproposal.web.InstitutionalProposalCompleteSeleniumTest;
 import org.kuali.kra.irb.web.ProtocolCompleteSeleniumTest;
+import org.kuali.kra.proposaldevelopment.web.ActivityTypeMaintenanceDocumentSeleniumTest;
 import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentCompleteSeleniumTest;
 import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentDeleteProposalTest;
 
 @RunWith(Suite.class)
 @SuiteClasses(  {
     SeleniumUnitTest.class,
+    ActivityTypeMaintenanceDocumentSeleniumTest.class,
+    AwardBudgetBasicSeleniumTest.class,
     AwardCompleteSeleniumTest.class,
+    BudgetCategoryMaintenanceDocumentSeleniumTest.class,
     CommitteeCompleteSeleniumTest.class,
+    CostElementMaintenanceDocumentSeleniumTest.class,
+    CustomAttributeMaintenanceDocumentSeleniumTest.class,
+    InstituteLaRateMaintenanceDocumentSeleniumTest.class,
+    InstituteRateMaintenanceDocumentSeleniumTest.class,
     InstitutionalProposalCompleteSeleniumTest.class,
+    OrganizationMaintenanceDocumentSeleniumTest.class,
     ProposalDevelopmentCompleteSeleniumTest.class,
     ProtocolCompleteSeleniumTest.class,
     ProposalDevelopmentDeleteProposalTest.class,
-    AwardBudgetBasicSeleniumTest.class
+    SponsorFormMaintenanceDocumentSeleniumTest.class,
+    ValidCalcTypeMaintenanceDocumentSeleniumTest.class
 })
 public class IntegrationSuite {}
