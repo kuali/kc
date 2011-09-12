@@ -17,6 +17,9 @@ package org.kuali.kra.negotiations.service;
 
 import java.util.List;
 
+import org.kuali.kra.negotiations.bo.Negotiation;
+import org.kuali.kra.negotiations.bo.NegotiationAssociatedDetailBean;
+
 /**
  * Service to help with Negotiation and working with Negotiations.
  */
@@ -33,5 +36,14 @@ public interface NegotiationService {
      * @return
      */
     List<String> getCompletedStatusCodes();
+    
+    /**
+     * 
+     * This method gets the award, proposal log, institutional proposal or sub award from the negotiation's associated doc ID, and
+     * create a NegotiationAssociatedDetailBean to pass back;
+     * @param negotiation
+     * @return
+     */
+    NegotiationAssociatedDetailBean buildNegotiationAssociatedDetailBean(Negotiation negotiation);
 
 }
