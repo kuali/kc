@@ -296,6 +296,98 @@
             	</tr>
             	
             </c:if>
+            
+            
+            <c:if test="${KualiForm.dispayAssociatedDetailPanel}">
+            	<tr>
+            		<th>
+            			<div align="right">
+            				<kul:htmlAttributeLabel attributeEntry="${negotiationUnassociatedDetailAttributes.title}" />
+            			</div>
+            		</th>
+                	<td>
+                		<c:out value="${KualiForm.negotiationAssociatedDetailBean.title}"/>
+                	</td>
+                	<th>
+                		<div align="right">
+            				<kul:htmlAttributeLabel attributeEntry="${negotiationUnassociatedDetailAttributes.leadUnitNumber}" />
+            			</div>
+                	</th>
+                	<td>
+                		<c:out value="${KualiForm.negotiationAssociatedDetailBean.leadUnit}"/> 
+                	</td>
+            	</tr>
+            	
+            	<tr>
+            		<th>
+                		<div align="right">
+            				<kul:htmlAttributeLabel attributeEntry="${negotiationUnassociatedDetailAttributes.piPersonId}" />
+            			</div>
+                	</th>
+                	<td>
+                		<c:out value="${KualiForm.negotiationAssociatedDetailBean.piEmployee}"/>
+	                </td>
+	                <th>
+	                	<div align="right">
+            				<kul:htmlAttributeLabel attributeEntry="${negotiationUnassociatedDetailAttributes.piRolodexId}" />
+            			</div>
+	                </th>
+	                <td>
+	                	<c:out value="${KualiForm.negotiationAssociatedDetailBean.piNonEmployee}"/>
+	                </td>
+            	</tr>
+            	
+            	<tr>
+            		<th>
+	                	<div align="right">
+            				<kul:htmlAttributeLabel attributeEntry="${negotiationUnassociatedDetailAttributes.contactAdminPersonId}" />
+            			</div>
+	                </th>
+	                <td>
+	                	<c:out value="${KualiForm.negotiationAssociatedDetailBean.adminPerson}"/>
+	                </td>
+	                <th></th>
+	                <td></td>
+            	</tr>
+            	            	
+            	<tr>
+            		<th>
+            			<div align="right">
+            				<kul:htmlAttributeLabel attributeEntry="${negotiationUnassociatedDetailAttributes.sponsorCode}" />
+            			</div>
+            		</th>
+                	<td>
+                		<c:out value="${KualiForm.negotiationAssociatedDetailBean.sponsor}"/>
+                	</td>
+                	<th>
+                		<div align="right">
+            				<kul:htmlAttributeLabel attributeEntry="${negotiationUnassociatedDetailAttributes.primeSponsorCode}" />
+            			</div>
+                	</th>
+                	<td>
+                		<c:out value="${KualiForm.negotiationAssociatedDetailBean.primeSponsor}"/>
+                	</td>
+            	</tr>
+            	
+            	<tr>
+            		<th>
+            			<div align="right">
+            				<kul:htmlAttributeLabel attributeEntry="${negotiationUnassociatedDetailAttributes.sponsorAwardNumber}" />
+            			</div>
+            		</th>
+                	<td>
+                		<c:out value="${KualiForm.negotiationAssociatedDetailBean.sponsorAward}"/>
+                	</td>
+                	<th>
+                		<div align="right">
+            				<kul:htmlAttributeLabel attributeEntry="${negotiationUnassociatedDetailAttributes.subAwardOrganizationId}" />
+            			</div>
+                	</th>
+                	<td>
+                		<c:out value="${KualiForm.negotiationAssociatedDetailBean.subAwardOrganization}"/>
+                	</td>
+            	</tr>
+            </c:if>
 		</table>
 	</div>	
 </kul:tab>

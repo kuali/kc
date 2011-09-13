@@ -185,15 +185,22 @@ public class NegotiationNegotiationAction extends NegotiationAction {
                 negotiationForm.getNegotiationDocument().getNegotiation().setUnAssociatedDetail(null);
             }
         }
-        
+        negotiationForm.populate(request);
         return actionForward;
     }
     
     public ActionForward resetChangeAssociationType(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         NegotiationForm negotiationForm = (NegotiationForm) form;
-        negotiationForm.getNegotiationDocument().getNegotiation().setNegotiationAssociationTypeId(
-                negotiationForm.getNegotiationDocument().getNegotiation().getNegotiationAssociationType().getId());
+        
+        Negotiation negotiation =  negotiationForm.getNegotiationDocument().getNegotiation();
+        Map params = new HashMap();
+        params.put("NEGOTIATION_ID", negotiation.getNegotiationId());
+        
+        Negotiation dbNegotiation = (Negotiation) this.getBusinessObjectService().findByPrimaryKey(Negotiation.class, params);
+        
+        negotiation.setNegotiationAssociationTypeId(dbNegotiation.getNegotiationAssociationType().getId());
+        negotiation.setNegotiationAssociationType(dbNegotiation.getNegotiationAssociationType());
         return actionForward;
     }
 }
