@@ -10,7 +10,7 @@
 <body>
 <html:form styleId="kualiForm" method="post"
     action="/maintenanceQn.do" enctype="">
-    <input type="hidden" id="questionId" name="questionId" value="${KualiForm.question.questionId}"/>
+    <input type="hidden" id="questionId" name="questionId" value="${KualiForm.question.questionRefId}"/>
     <input type="hidden" id="question" name="question" value="${KualiForm.question.question}"/>
     <input type="hidden" id="questionTypeId" name="questionTypeId" value="${KualiForm.question.questionTypeId}"/>
     <input type="hidden" id="questionSequence" name="questionSequence" value="${KualiForm.question.sequenceNumber}"/>
