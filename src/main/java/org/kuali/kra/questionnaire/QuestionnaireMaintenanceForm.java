@@ -342,10 +342,11 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
 
         // readOnly is changing several times during load.  so better with this approach
         if (this.isReadOnly() && workflowDocument.stateIsInitiated()) {
-            getDocInfo().get(1).setDisplayValue("FINAL");
-            getDocInfo().get(2).setLookupAware(false);
-            getDocInfo().get(2).setDisplayValue("admin");
-            getDocInfo().get(3).setDisplayValue("00:00 AM 01/01/2010");
+//            getDocInfo().get(1).setDisplayValue("FINAL");
+//            getDocInfo().get(2).setLookupAware(false);
+//            getDocInfo().get(2).setDisplayValue("admin");
+//            getDocInfo().get(3).setDisplayValue("00:00 AM 01/01/2010");
+            getDocInfo().clear();
         }
 
     }
