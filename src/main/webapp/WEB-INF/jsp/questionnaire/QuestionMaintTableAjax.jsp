@@ -67,6 +67,10 @@
 								    <img height="15" width="79" border="0" title="Paste your previously cut node structure under this node"
 								        alt="Paste Node" src="static/images/tinybutton-pastenode.gif">
 								</a>
+                                <a href="#" id="modify${qidx}" onClick="clickModify(${qidx})">
+                                    <img height="15" width="79" border="0" title="Modify the current contents of this node"
+                                        alt="Modify Node" src="static/images/tinybutton-modifynode.gif">
+                                </a>								
 						    </td>
 							<th style="text-align: right;">Add Question:</th>
 							<td>
