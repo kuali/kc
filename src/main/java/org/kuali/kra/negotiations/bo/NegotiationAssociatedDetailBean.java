@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.negotiations.bo;
 
+import java.io.Serializable;
+
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
@@ -23,7 +25,12 @@ import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
  * 
  * This class consolidates Award, Proposal Log, Institutional Proposal, and Sub Awards into one viewable bean for the Negotiation's page. 
  */
-public class NegotiationAssociatedDetailBean {
+public class NegotiationAssociatedDetailBean implements Serializable {
+    
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -5451290930492370203L;
     
     public static final String MODE_AWARD = "AWD";
     public static final String MODE_PROPOSAL_LOG = "PL";
