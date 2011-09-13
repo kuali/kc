@@ -157,7 +157,7 @@ function getMaintTable(description, qtypeid, vers, idx, childNode) {
 		dataType : 'html',
 		data : 'methodToCall=getQuestionMaintainTable&qidx=' + idx +'&questionId='+$('#qid'+idx).attr('value')
 		       + '&moveup=' + $("#qnaireid" + idx).prev().size()+ '&movedn=' + $("#qnaireid" + idx).next().size()
-		       + '&childNode=' + childNode + '&response=' + response+ '&value=' + value,
+		       + '&childNode=' + childNode + '&response=' + response+ '&value=' + value + '&readOnly=' + $("#readOnly").attr("value"),
 		cache : false,
 		async : false,
 		timeout : 1000,
@@ -2585,6 +2585,38 @@ $(document).ready(function() {
 	  }	
 		return retval;  
     }); // #add template
+    // hide routelog for view because it is using edit to create new doc for view
+   // alert($("#readOnly").attr("value") +  $("#docStatus").attr("value") )
+   if ($("#readOnly").attr("value") == 'true' && $("#docStatus").attr("value") == 'I') {    
+       // option 1 : simply hide it
+        $("#tab-RouteLog-div").hide();
+        $("#tab-RouteLog-div").prev().hide();
+       
+       // option 2 : display message on route log tab
+       /*
+        var routemsg = $('<div class="tab-container">')
+            .attr("id", "noroutelog");
+        
+        var tbltmp = $('<table width="100%" width="100%" cellpadding="0" cellspacing="0" class="datatable" />');
+ 
+        var tbodytmp = $('<tbody/>');
+        var tr1 = $('<tr></tr>');
+        var td1 = $('<td class="subelementcontent"></td>');
+        td1.html("Route log is not available for Bootstrap data");
+        tr1.html(td1);
+        tbodytmp.html(tr1);
+        tbltmp.html(tbodytmp);
+        routemsg.html(tbltmp);
+        routemsg.insertAfter($("#tab-RouteLog-div").children('div:eq(0)'));
+        
+        $("#tab-RouteLog-div").children('div:eq(0)').hide();
+       */ 
+     //   $("#tab-RouteLog-div").find('[class^=tab-container]').each(
+     //   function() {       
+     //        $(this).hide(); 
+     //           });
+   }
+   
 
 }); // document.ready
 

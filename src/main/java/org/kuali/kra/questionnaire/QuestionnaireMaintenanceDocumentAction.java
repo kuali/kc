@@ -32,7 +32,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.committee.bo.CommitteeResearchArea;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
@@ -48,7 +47,7 @@ import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.action.KualiMaintenanceDocumentAction;
-import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /*
  * Big issue is that questionnairequestions and usages can't be included in xmldoccontent because maintframework - questions &
@@ -112,17 +111,6 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
 
         permissionCheckForDocHandler(form);
         ActionForward forward = super.docHandler(mapping, form, request, response);
-        // check if we can read qnnr data from db
-        QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put(DOCUMENT_NUMBER, qnForm.getDocument().getDocumentNumber());
-        @SuppressWarnings("unchecked")
-        List<Questionnaire> qnnrs = (List<Questionnaire>) this.getBusinessObjectService().findMatching(Questionnaire.class, fieldValues);
-        if( !(qnnrs.isEmpty()) ) {
-            // we are responding to a 'view' action for an approved questionnaire
-            Questionnaire approvedQnnr = qnnrs.get(0);
-            ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().setBusinessObject(approvedQnnr);
-        }        
         setupQuestionAndUsage(form);
         return forward;
     }
@@ -307,6 +295,13 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
             throws Exception {
         ActionForward forward = super.edit(mapping, form, request, response);
         QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
+        if (qnForm.isReadOnly()) {
+        //    if (!(qnnrs.isEmpty()) && !KraServiceLocator.getService(DocumentService.class).documentExists(request.getParameter("docId"))) {
+            // we are responding to a 'view' action for an approved questionnaire
+//            qnForm.getDocInfo().get(1).setDisplayValue("Final");
+            //docStatus.setDisplayValue("Final");
+            qnForm.getDocument().getDocumentHeader().setDocumentDescription("questionnaire - bootstrap data");
+         } 
         Questionnaire questionnaire = (Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject()
                 .getBusinessObject();
         Questionnaire oldQuestionnaire = (Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
@@ -544,6 +539,26 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
     
     private QuestionnairePrintingService getQuestionnairePrintingService() {
         return KraServiceLocator.getService(QuestionnairePrintingService.class);
+    }
+
+    @Override
+    protected void populateAuthorizationFields(KualiDocumentFormBase formBase){
+        QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) formBase;
+        // for 'view' questionnaire.  which is using 'edit. 
+        boolean isReadOnly = qnForm.isReadOnly();
+
+        // populateAuthorizationFields will override the isReadOnly property of the form. if it is 'view'
+        super.populateAuthorizationFields(formBase);
+        if (isReadOnly && StringUtils.equals(qnForm.getMethodToCall(), "edit")) {
+            qnForm.setReadOnly(isReadOnly);
+        }
+        
+        if (qnForm.isReadOnly() && formBase.getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_CLOSE)) {
+            Map<String, String> documentActions = new HashMap<String, String>();
+            documentActions.put(KNSConstants.KUALI_ACTION_CAN_CLOSE, "TRUE");
+            qnForm.setDocumentActions(documentActions);
+            
+        }
     }
 
 }
