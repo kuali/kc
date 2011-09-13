@@ -7,6 +7,7 @@ var removedNode;
 var maxCopyNodeIdx = 0;
 var cutNode;
 var copyNode;
+var replaceNode;
 var sqlScripts = "createnew";
 //var jsContextPath = "${pageContext.request.contextPath}";
 var sqls = [];
@@ -47,8 +48,8 @@ var initucount = 0;
  */
 function getQuestionNew(description, qtypeid, vers, dispans, ansmax, maxlength, childNode) {
 
-	//alert (" set up "+vers+"-"+dispans+"-"+ansmax+"-"+maxlength)
-	var qnaireid = "qnaireid" + i
+	//alert (" set up "+description+"-"+qtypeid+"-"+vers+"-"+dispans+"-"+ansmax+"-"+maxlength);
+	var qnaireid = "qnaireid" + i;
 	var question = $('<li class="closed expandable"></li>').attr("id", qnaireid);
 	var divId = "listcontent" + i;
 
@@ -81,6 +82,16 @@ function getQuestionNew(description, qtypeid, vers, dispans, ansmax, maxlength, 
 	    	                               "_blank", "width=640, height=600, scrollbars=yes");
 	    });
 	    linkNewQ.appendTo(div62);
+	    
+/*
+	    var linkUpdateQ = $(';nbsp;nbsp<a style="margin-left:2px;"></a>').attr("id",
+			"updateqn" + i).attr("name","updateqn" + i).html("(Update to current version)");
+	    linkUpdateQ.click(function() {
+		    var idx = $(this).attr("id").substring(8);
+		    clickUpdateQuestionVersion(idx);
+	    });
+    	linkUpdateQ.appendTo(div62);
+*/
 	}
 
 	div62.appendTo(question);
@@ -414,7 +425,7 @@ function clickCopy(curidx) {
 }
 
 function clickCut(curidx) {
-//	alert("Cut node" +curidx);
+	//alert("Cut node" +curidx);
 	var liId = "li#qnaireid" + curidx;
 	cutNode = $(liId);
 	//removedNode = null; // remove & cutNode should not co-exist
@@ -593,6 +604,13 @@ function clickMovedn(curidx) {
 function clickRemove(curidx) {
 	//alert("remove node" +curidx);
 	var liId = "li#qnaireid" + curidx;
+	
+	//per kcirb-1486 a node cannot be deleted if it has child nodes
+	//due to FE in Coeus
+	if (hasChildren(liId)) {
+		alert("Child Node exists, Can't delete");
+		return false;
+	}
 	// TODO : IE problem , clone does not clone child node
 		// removedNode = $(liId).clone(true);
 		// removedNode = $(liId);
@@ -754,6 +772,7 @@ function clickPaste(curidx) {
 	return false;  // so when clicked, the page will not jump
 
 }
+
 /*
  * Questionnaire question maintenance table set up.
  * This function is usually called when question is clicked the first time.
@@ -1117,7 +1136,14 @@ function getQuestionActionSubTable(qnaireid) {
 
 				});
 	image.appendTo(thtmp);
-
+	image = $(
+	'<a href="#"><img src="static/images/jquery/tinybutton-pastenode.gif" width="79" height="15" border="0" alt="Modify Node" title="Modify the question in this node.)"></a>&nbsp')
+	.attr("id", "modify" + curidx).click(function() {
+		 alert("Modify node");
+		return false;  // so when clicked, the page will not jump
+	});
+	image.appendTo(thtmp);
+	
 	thtmp.appendTo(trtmp);
 	$('<th style="text-align:right;">Add Question:</th>').appendTo(trtmp);
 
@@ -1930,10 +1956,12 @@ function checkToAddQn(nodeIndex) {
 	var lookupType;
 	if (nodeIndex == -1) {
 		lookupType = "multivalue";
+	} else if (nodeIndex == -2) {
+		lookupType = "replace";
 	} else {
 		lookupType = "single";
 	}
-//	alert("nodeidx "+nodeIndex)
+	//alert("nodeidx "+nodeIndex)
 	var winPop = window.open(extractUrl + "/questionLookup.do?nodeIndex="
 			+ nodeIndex + "&lookupType=" + lookupType + "&anchor=topOfForm",
 			"_blank", "width=1000, height=800, scrollbars=yes");
@@ -2617,7 +2645,7 @@ $(document).ready(function() {
      //           });
    }
    
-
+  
 }); // document.ready
 
 
@@ -3016,5 +3044,224 @@ function moduleCodeChange(moduleCode) {
 			});
 	    $("#HSReqcontrol" + idx).click();
 
+}
+	
+function hasChildren(element) {
+	var $childrenCount = 0;
+	$(element).children("ul").each(function() {
+		$childrenCount += $(this).children().size();		
+	});
+	
+	if ($childrenCount > 0) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+function clickModify(curidx) {
+	//alert(curidx);
+	replaceNode = curidx;
+	checkToAddQn(-2);	
+	return false;
+}
+
+function replaceQuestion(newQuestionId, newQuestion, newQuestionTypeId,newQuestionSequence,displayedAnswers,maxAnswers,answerMaxLength
+		,nodeIndex) {
+
+	$("#repqid").attr("value", newQuestionId);
+	$("#repqdesc").attr("value", newQuestion);
+	$("#repqtypeid").attr("value", newQuestionTypeId);
+	$("#repqvers").attr("value", newQuestionSequence);
+	$("#repqdispans").attr("value", displayedAnswers);
+	$("#repqmaxans").attr("value", maxAnswers);
+	$("#repqmaxlength").attr("value", answerMaxLength);
+	
+	addForReplace(replaceNode);
+}
+
+
+function addForReplace(curidx) {
+	//alert("replace question "+curidx);
+	var idx = curidx;
+	var addQn = "#addQn"+curidx
+	//alert($("#repqdesc").attr("value")+"-"+$("#repqdispans").attr("value"))
+		if ($("#repqdesc").attr("value") == ''
+				|| $("#repqtypeid").attr("value") == '') {
+			alert("Please select a question to add");
+		} else {
+			i++;
+
+			var radioVal = 'sibling';
+			var childNode = 'false';
+
+			//alert($("#repqdesc").attr("value"));
+			var listitem = getQuestionNew(
+					$("#repqdesc").attr("value"),
+					$("#repqtypeid").attr("value"),
+					$("#repqvers").attr("value"),
+					$("#repqdispans").attr("value"),
+					$("#repqmaxans").attr("value"),
+					$("#repqmaxlength").attr("value"),
+					childNode);
+			var ultag = $('<ul></ul>');
+			ultag.appendTo(listitem);
+			var idx = listitem.attr("id").substring(8);
+			//alert(idx);
+			if (radioVal == 'sibling') {
+				// alert('sibling');
+				var parentUl = $(addQn).parents('li:eq(0)').parents(
+						'ul:eq(0)');
+				listitem.insertAfter($(addQn).parents('li:eq(0)'));
+				$("#movedn" + idx).hide();
+				$("#movedn" + listitem.prev().attr("id")
+									  .substring(8)).show();
+				// TODO trying to group
+				alert("parent u"+parentUl.attr("id"));
+				if (parentUl.attr("id") == 'example') {
+					// insert after, so assume current group 
+					// TODO : need to adjust group to 20/page ?
+					$(listitem).attr("class", "group" + curgroup);
+					if ($(".group"+curgroup).size() > 20) {
+						adjustGroupDown(); 
+					}	
+					//addToGroup(listitem);
+					if (curgroup == groupid) {
+						$("#nextGroup").hide();
+					} else if (curgroup > 0) {
+						$("#prevGroup").show();
+					} else if (groupid > 0) {
+						$("#nextGroup").show();
+					}
+				}
+			}
+
+			// also need this to show 'folder' icon
+			$('#example').treeview( {
+				add : listitem
+			});
+
+
+			// TODO : set up for insert
+			/*
+			 * questionnairenumber from #questionnairenumber
+			 * questionId from #qid sequenceNumber from
+			 * $(this).parents('li:eq(0)').siblings().size() ?
+			 */
+			// $(listitem).parents('ul:eq(0)').parents('li:eq(0)').size()
+			// == 0 : check whetehr it is at the top level
+			var parentNum;
+			if ($(listitem).parents('ul:eq(0)').parents('li:eq(0)')
+					.size() == 0) {
+				parentNum = 0;
+			} else {
+				// alert("parents li
+				// "+$(listitem).parents('ul:eq(0)').parents('li:eq(0)').attr("id"));
+				parentNum = $(
+						"#qnum"
+								+ $(listitem).parents('ul:eq(0)')
+										.parents('li:eq(0)').attr(
+												"id").substring(8))
+						.attr("value");
+			}
+			//alert(parentNum);
+			alert($("#questionNumber").attr("value"));
+			$("#qnum" + $(listitem).attr("id").substring(8)).attr(
+					"value", $("#questionNumber").attr("value"));
+			var qid = $("#repqid").attr("value");
+			$("#qid" + $(listitem).attr("id").substring(8)).attr(
+					"value", qid);
+
+			var seqnum = Number($(listitem).siblings().size()) + 1;
+			if (radioVal == 'sibling') {
+				//var num = Number($("#qseq"+$(this).attr("id").substring(5)).attr("value"))+1;
+				
+			    seqnum = Number($("#qseq"+$(addQn).attr("id").substring(5)).attr("value"))+1;
+			   // seqnum = num;
+				//alert(seqnum+"-"+$(this).attr("id"));
+			    var nextseq = seqnum +1;
+			    var nextitem = $(listitem).next();
+			    // update seq for the siblings after the new node
+			    while (nextitem.size() > 0) {
+					var splitq = $("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").attr("value").split("#f#");
+				    var tmpstr = splitq[0] +"#f#" +splitq[1] 
+			        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
+			        splitq[7] +"#f#" +nextseq +"#f#" +splitq[9] +"#f#" +splitq[10] ;
+				$("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").attr("value",tmpstr);
+//				    $("#"+jqprefix + nextitem.attr("id").substring(8) + "\\]\\.questionSeqNumber").attr("value",nextseq);
+			    	$("#qseq" + nextitem.attr("id").substring(8)).attr("value", nextseq++);	
+			    	nextitem = nextitem.next();
+			    }	
+			}    
+			
+			var qnum = $("#questionNumber").attr("value");
+			$("#qseq" + $(listitem).attr("id").substring(8)).attr("value", seqnum);
+			$("#questionNumber").attr("value",
+					Number($("#questionNumber").attr("value")) + 1);
+
+			idx = $(listitem).attr("id").substring(8);		
+            var tmpstr = "" +"#f#" +$('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value") 
+               +"#f#" +qid +"#f#" +qnum +"#f#" +parentNum +"#f#" +"N" +"#f#" +"" +"#f#" +
+               "" +"#f#" +seqnum +"#f#" +"1" +"#f#" +"N" ;
+            $("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+
+					
+		}
+	
+	    //Let's move any children to this node now
+	    var liId = "li#qnaireid" + curidx;
+		$(liId).children("ul").children("li").each(function() {
+			var tmpIdx = $(this).attr("id").substring(8);
+			//alert(tmpIdx);
+			clickCut(tmpIdx);
+			clickPaste(idx);
+		});
+		
+		//Lets remove the original node
+	    clickRemove(curidx);
+	    
+		return false;
+	
+}
+
+
+function clickUpdateQuestionVersion(curidx) {
+	//alert(curidx);
+	$.ajax( {
+		url : 'maintenanceQn.do',
+		type : 'POST',
+		dataType : 'html',
+		data : 'methodToCall=getQuestionCurrentVersion&qidx=' + curidx +'&questionId='+$('#qid'+curidx).attr('value'),
+		cache : false,
+		async : false,
+		timeout : 1000,
+		error : function() {
+			alert('Error loading XML document');
+		},
+		success : function(xml) {
+			$(xml).find('input').each(function() {
+			    //alert($(this).attr('id') +":" + $(this).attr('value'));
+			    if ($(this).attr('id') == 'questionId') {
+					$("#repqid").attr("value", $(this).attr('value'));
+			    } else if ($(this).attr('id') == 'question') {
+					$("#repqdesc").attr("value", $(this).attr('value'));
+			    } else if ($(this).attr('id') == 'questionTypeId') {
+					$("#repqtypeid").attr("value", $(this).attr('value'));
+			    } else if ($(this).attr('id') == 'questionSequence') {
+					$("#repqvers").attr("value", $(this).attr('value'));
+			    } else if ($(this).attr('id') == 'displayedAnswers') {
+					$("#repqdispans").attr("value", $(this).attr('value'));
+			    } else if ($(this).attr('id') == 'maxAnswers') {
+					$("#repqmaxans").attr("value", $(this).attr('value'));
+			    } else if ($(this).attr('id') == 'answerMaxLength') {
+					$("#repqmaxlength").attr("value", $(this).attr('value'));
+			    }
+			});
+			replaceNode = curidx;
+			addForReplace(curidx);
+		}
+	}); // end ajax
+	
+	return false;
 }
 

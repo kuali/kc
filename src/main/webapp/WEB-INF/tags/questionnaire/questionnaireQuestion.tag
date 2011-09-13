@@ -90,6 +90,15 @@ Content </span> <span class="subhead-right">
    <div id="hiddiv">
    </div>
     <input type="hidden" id="qncount" value="${index}" />
+    
+    <!--  required by modify question -->
+    <input type="hidden" id="repqid" value=""/>
+    <input type="hidden" id="repqdesc" value=""/>
+    <input type="hidden" id="repqtypeid" value=""/>
+    <input type="hidden" id="repqvers" value=""/>
+    <input type="hidden" id="repqdispans" value=""/>
+    <input type="hidden" id="repqmaxans" value=""/>
+    <input type="hidden" id="repqmaxlength" value=""/>
 </table>
 </div>
 </div>

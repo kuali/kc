@@ -26,6 +26,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -531,6 +532,25 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
             qnForm.setQuestion((Question)getBusinessObjectService().findByPrimaryKey(Question.class, pkMap));
         }
         return mapping.findForward("ajaxQuestionMaintainTable");
+    }
+    
+    public ActionForward getQuestionCurrentVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
+        if (StringUtils.isNotBlank(qnForm.getQuestionId())) {
+            Map pkMap = new HashMap();
+            pkMap.put("questionRefId", qnForm.getQuestionId());
+            Question oldQ = (Question)getBusinessObjectService().findByPrimaryKey(Question.class, pkMap);
+            if (oldQ != null) {
+                pkMap.clear();
+                pkMap.put("questionId", oldQ.getQuestionId());
+                List<Question> questions = ((List<Question>)getBusinessObjectService().findMatchingOrderBy(Question.class, pkMap, "sequenceNumber", false));
+                if (CollectionUtils.isNotEmpty(questions)) {
+                    qnForm.setQuestion(questions.get(0));
+                }
+            }
+        }
+        return mapping.findForward("ajaxQuestionCurrentVersion");
     }
     
     private QuestionnaireAuthorizationService getQuestionnaireAuthorizationService() {
